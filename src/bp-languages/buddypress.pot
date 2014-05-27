@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress 2.1-alpha\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/buddypress\n"
-"POT-Creation-Date: 2014-05-27 05:05:17+00:00\n"
+"POT-Creation-Date: 2014-05-27 16:38:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -158,8 +158,8 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:467
 #: bp-core/admin/bp-core-functions.php:486
 #: bp-core/admin/bp-core-functions.php:505 bp-groups/bp-groups-admin.php:111
-#: bp-groups/bp-groups-admin.php:146 bp-members/bp-members-admin.php:660
-#: bp-members/bp-members-admin.php:1236
+#: bp-groups/bp-groups-admin.php:146 bp-members/bp-members-admin.php:666
+#: bp-members/bp-members-admin.php:1242
 msgid "Overview"
 msgstr ""
 
@@ -223,8 +223,8 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:473
 #: bp-core/admin/bp-core-functions.php:492
 #: bp-core/admin/bp-core-functions.php:511 bp-groups/bp-groups-admin.php:119
-#: bp-groups/bp-groups-admin.php:162 bp-members/bp-members-admin.php:669
-#: bp-members/bp-members-admin.php:1257
+#: bp-groups/bp-groups-admin.php:162 bp-members/bp-members-admin.php:675
+#: bp-members/bp-members-admin.php:1263
 msgid "For more information:"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgstr ""
 #: bp-core/admin/bp-core-functions.php:475
 #: bp-core/admin/bp-core-functions.php:494
 #: bp-core/admin/bp-core-functions.php:513 bp-groups/bp-groups-admin.php:163
-#: bp-members/bp-members-admin.php:671 bp-members/bp-members-admin.php:1258
+#: bp-members/bp-members-admin.php:677 bp-members/bp-members-admin.php:1264
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -315,8 +315,8 @@ msgstr ""
 msgid "Spam"
 msgstr ""
 
-#: bp-activity/bp-activity-admin.php:669 bp-members/bp-members-admin.php:912
-#: bp-members/bp-members-admin.php:974
+#: bp-activity/bp-activity-admin.php:669 bp-members/bp-members-admin.php:918
+#: bp-members/bp-members-admin.php:980
 #. translators: Publish box date format, see http:php.net/date
 msgid "M j, Y @ G:i"
 msgstr ""
@@ -411,7 +411,7 @@ msgid "Activity related to ID #%s"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:910 bp-groups/bp-groups-admin.php:645
-#: bp-members/bp-members-admin.php:1652
+#: bp-members/bp-members-admin.php:1658
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
@@ -424,7 +424,7 @@ msgid "Reply to Activity"
 msgstr ""
 
 #: bp-activity/bp-activity-admin.php:938 bp-groups/bp-groups-admin.php:599
-#: bp-members/bp-members-admin.php:1783
+#: bp-members/bp-members-admin.php:1789
 #: bp-templates/bp-legacy/buddypress/activity/entry.php:102
 #: bp-templates/bp-legacy/buddypress/forums/index.php:116
 #: bp-themes/bp-default/forums/index.php:134
@@ -1484,7 +1484,7 @@ msgid "Add to Menu"
 msgstr ""
 
 #: bp-core/admin/bp-core-functions.php:885 bp-members/bp-members-actions.php:54
-#: bp-members/bp-members-admin.php:290
+#: bp-members/bp-members-admin.php:293
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
@@ -2220,8 +2220,8 @@ msgstr[1] ""
 msgid "Not recently active"
 msgstr ""
 
-#: bp-core/bp-core-loader.php:233 bp-members/bp-members-admin.php:606
-#: bp-members/bp-members-admin.php:765 bp-members/bp-members-loader.php:213
+#: bp-core/bp-core-loader.php:233 bp-members/bp-members-admin.php:612
+#: bp-members/bp-members-admin.php:771 bp-members/bp-members-loader.php:213
 #: bp-xprofile/bp-xprofile-loader.php:164
 #: bp-xprofile/bp-xprofile-loader.php:225
 #: bp-xprofile/bp-xprofile-loader.php:257
@@ -2318,7 +2318,7 @@ msgstr ""
 #: bp-core/bp-core-widgets.php:200 bp-core/bp-core-widgets.php:298
 #: bp-friends/bp-friends-widgets.php:99 bp-friends/bp-friends-widgets.php:187
 #: bp-groups/bp-groups-widgets.php:66 bp-groups/bp-groups-widgets.php:147
-#: bp-members/bp-members-admin.php:902
+#: bp-members/bp-members-admin.php:908
 msgid "Active"
 msgstr ""
 
@@ -3213,7 +3213,7 @@ msgstr ""
 msgid "You are about to delete the following groups:"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:596 bp-members/bp-members-admin.php:1778
+#: bp-groups/bp-groups-admin.php:596 bp-members/bp-members-admin.php:1784
 msgid "This action cannot be undone."
 msgstr ""
 
@@ -3313,7 +3313,7 @@ msgstr ""
 msgid "Moderator"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:818 bp-members/bp-members-admin.php:698
+#: bp-groups/bp-groups-admin.php:818 bp-members/bp-members-admin.php:704
 msgid "Member"
 msgstr ""
 
@@ -3321,7 +3321,7 @@ msgstr ""
 msgid "Banned"
 msgstr ""
 
-#: bp-groups/bp-groups-admin.php:823 bp-members/bp-members-admin.php:1246
+#: bp-groups/bp-groups-admin.php:823 bp-members/bp-members-admin.php:1252
 #: bp-templates/bp-legacy/buddypress/members/single/notifications/notifications-loop.php:7
 #: bp-themes/bp-default/members/single/notifications/notifications-loop.php:7
 msgid "Actions"
@@ -3856,7 +3856,7 @@ msgstr ""
 msgid "Your avatar was deleted successfully!"
 msgstr ""
 
-#: bp-groups/bp-groups-screens.php:651 bp-members/bp-members-admin.php:308
+#: bp-groups/bp-groups-screens.php:651 bp-members/bp-members-admin.php:311
 #: bp-xprofile/bp-xprofile-actions.php:41
 msgid "There was a problem deleting that avatar, please try again."
 msgstr ""
@@ -4258,7 +4258,7 @@ msgstr ""
 msgid "Registration is disabled. %s"
 msgstr ""
 
-#: bp-members/bp-members-actions.php:56 bp-members/bp-members-admin.php:284
+#: bp-members/bp-members-actions.php:56 bp-members/bp-members-admin.php:287
 msgid "User removed as spammer."
 msgstr ""
 
@@ -4270,238 +4270,238 @@ msgstr ""
 msgid "There was an error deleting %s from the system. Please try again."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:278
+#: bp-members/bp-members-admin.php:281
 msgid "Avatar was deleted successfully!"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:296
+#: bp-members/bp-members-admin.php:299
 msgid "Profile updated."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:314
+#: bp-members/bp-members-admin.php:317
 msgid "User could not be removed as spammer."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:320
+#: bp-members/bp-members-admin.php:323
 msgid "User could not be marked as spammer."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:326
+#: bp-members/bp-members-admin.php:329
 msgid "An error occured while trying to update the profile."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:332 bp-xprofile/bp-xprofile-screens.php:96
+#: bp-members/bp-members-admin.php:335 bp-xprofile/bp-xprofile-screens.php:96
 msgid ""
 "Please make sure you fill in all required fields in this profile field "
 "group before saving."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:338 bp-xprofile/bp-xprofile-screens.php:138
+#: bp-members/bp-members-admin.php:341 bp-xprofile/bp-xprofile-screens.php:138
 msgid ""
 "There was a problem updating some of your profile information, please try "
 "again."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:363 bp-members/bp-members-admin.php:364
-#: bp-members/bp-members-admin.php:402 bp-members/bp-members-admin.php:403
+#: bp-members/bp-members-admin.php:366 bp-members/bp-members-admin.php:367
+#: bp-members/bp-members-admin.php:405 bp-members/bp-members-admin.php:406
 #: bp-members/bp-members-adminbar.php:100
 #: bp-xprofile/bp-xprofile-template.php:688
 #: bp-xprofile/bp-xprofile-template.php:689
 msgid "Edit Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:414 bp-members/bp-members-admin.php:415
+#: bp-members/bp-members-admin.php:417 bp-members/bp-members-admin.php:418
 msgid "Manage Signups"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:610
+#: bp-members/bp-members-admin.php:616
 msgid "Extended Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:633
+#: bp-members/bp-members-admin.php:639
 msgid "You cannot edit the requested user."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:662
+#: bp-members/bp-members-admin.php:668
 msgid "This is the admin view of a user&#39;s profile."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:663
+#: bp-members/bp-members-admin.php:669
 msgid ""
 "In the main column, you can edit the fields of the user&#39;s extended "
 "profile."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:664
+#: bp-members/bp-members-admin.php:670
 msgid ""
 "In the right-hand column, you can update the user&#39;s status, delete the "
 "user&#39;s avatar, and view recent statistics."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:670
+#: bp-members/bp-members-admin.php:676
 msgid ""
 "<a "
 "href=\"http://codex.buddypress.org/buddypress-site-administration/managing-"
 "user-profiles/\">Managing Profiles</a>"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:767
+#: bp-members/bp-members-admin.php:773
 msgid "Edit User"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:789
+#: bp-members/bp-members-admin.php:795
 msgid "&larr; Back to Users"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:847
+#: bp-members/bp-members-admin.php:853
 msgid "No user found with this ID. <a href=\"%s\">Go back and try again</a>."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:877
+#: bp-members/bp-members-admin.php:883
 msgid "User account has not yet been activated"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:903
+#: bp-members/bp-members-admin.php:909
 msgid "Spammer"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:915
+#: bp-members/bp-members-admin.php:921
 msgid "Registered on: <strong>%1$s</strong>"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:925
+#: bp-members/bp-members-admin.php:931
 msgid "View Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:926
+#: bp-members/bp-members-admin.php:932
 msgid "Update Profile"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:946 bp-xprofile/bp-xprofile-admin.php:803
+#: bp-members/bp-members-admin.php:952 bp-xprofile/bp-xprofile-admin.php:803
 msgid ""
 "%s has been marked as a spammer. All BuddyPress data associated with the "
 "user has been removed"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:978
+#: bp-members/bp-members-admin.php:984
 msgid "Last active: %1$s"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1024
+#: bp-members/bp-members-admin.php:1030
 msgid "Extended"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1238
+#: bp-members/bp-members-admin.php:1244
 msgid "This is the admininistration screen for pending accounts on your site."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1239
+#: bp-members/bp-members-admin.php:1245
 msgid ""
 "From the screen options, you can customize the displayed columns and the "
 "pagination of this screen."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1240
+#: bp-members/bp-members-admin.php:1246
 msgid ""
 "You can reorder the list of your pending accounts by clicking on the "
 "Username, Email or Registered column headers."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1241
+#: bp-members/bp-members-admin.php:1247
 msgid ""
 "Using the search form, you can find pending accounts more easily. The "
 "Username and Email fields will be included in the search."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1248
+#: bp-members/bp-members-admin.php:1254
 msgid ""
 "Hovering over a row in the pending accounts list will display action links "
 "that allow you to manage pending accounts. You can perform the following "
 "actions:"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1249
+#: bp-members/bp-members-admin.php:1255
 msgid ""
 "\"Email\" takes you to the confirmation screen before being able to send "
 "the activation link to the desired pending account. You can only send the "
 "activation email once per day."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1250
+#: bp-members/bp-members-admin.php:1256
 msgid ""
 "\"Delete\" allows you to delete a pending account from your site. You will "
 "be asked to confirm this deletion."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1251
+#: bp-members/bp-members-admin.php:1257
 msgid ""
 "By clicking on a Username you will be able to activate a pending account "
 "from the confirmation screen."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1252
+#: bp-members/bp-members-admin.php:1258
 msgid "Bulk actions allow you to perform these 3 actions for the selected rows."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1508
+#: bp-members/bp-members-admin.php:1514
 msgid "There was a problem sending the activation emails, please try again."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1515
+#: bp-members/bp-members-admin.php:1521
 msgid "There was a problem activating accounts, please try again."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1522
+#: bp-members/bp-members-admin.php:1528
 msgid "There was a problem deleting sign-ups, please try again."
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1639
+#: bp-members/bp-members-admin.php:1645
 msgid "Users"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1663
+#: bp-members/bp-members-admin.php:1669
 msgid "Search Pending Users"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1709
+#: bp-members/bp-members-admin.php:1715
 msgid "Delete Pending Accounts"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1710
+#: bp-members/bp-members-admin.php:1716
 msgid "You are about to delete the following account:"
 msgid_plural "You are about to delete the following accounts:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1714
+#: bp-members/bp-members-admin.php:1720
 msgid "Activate Pending Accounts"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1715
+#: bp-members/bp-members-admin.php:1721
 msgid "You are about to activate the following account:"
 msgid_plural "You are about to activate the following accounts:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1719
+#: bp-members/bp-members-admin.php:1725
 msgid "Resend Activation Emails"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1720
+#: bp-members/bp-members-admin.php:1726
 msgid "You are about to resend an activation email to the following account:"
 msgid_plural "You are about to resend activation emails to the following accounts:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1760
+#: bp-members/bp-members-admin.php:1766
 msgid "Last notified: %s"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1764
+#: bp-members/bp-members-admin.php:1770
 msgid "(less than 24 hours ago)"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1782
+#: bp-members/bp-members-admin.php:1788
 msgid "Confirm"
 msgstr ""
 
@@ -7353,7 +7353,7 @@ msgstr ""
 
 #: bp-members/admin/bp-members-classes.php:100
 #: bp-members/admin/bp-members-classes.php:428
-#: bp-members/bp-members-admin.php:1169
+#: bp-members/bp-members-admin.php:1175
 msgctxt "signup users"
 msgid "Pending %s"
 msgstr ""
@@ -7370,67 +7370,67 @@ msgctxt "Pending signup action"
 msgid "Email"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:677
+#: bp-members/bp-members-admin.php:683
 msgctxt "members user-admin edit screen"
 msgid "Status"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:704
+#: bp-members/bp-members-admin.php:710
 msgctxt "members user-admin edit screen"
 msgid "%s's Stats"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:805 bp-members/bp-members-admin.php:1643
+#: bp-members/bp-members-admin.php:811 bp-members/bp-members-admin.php:1649
 msgctxt "user"
 msgid "Add New"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:809 bp-members/bp-members-admin.php:1647
+#: bp-members/bp-members-admin.php:815 bp-members/bp-members-admin.php:1653
 msgctxt "user"
 msgid "Add Existing"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1232
+#: bp-members/bp-members-admin.php:1238
 msgctxt "Pending Accounts per page (screen options)"
 msgid "Pending Accounts"
 msgstr ""
 
-#: bp-members/bp-members-admin.php:1406
+#: bp-members/bp-members-admin.php:1412
 msgctxt "signup resent"
 msgid "%s activation email successfully sent! "
 msgid_plural "%s activation emails successfully sent! "
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1440
+#: bp-members/bp-members-admin.php:1446
 msgctxt "signup resent"
 msgid "%s account successfully activated! "
 msgid_plural "%s accounts successfully activated! "
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1417
+#: bp-members/bp-members-admin.php:1423
 msgctxt "signup notsent"
 msgid "%s activation email was not sent."
 msgid_plural "%s activation emails were not sent."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1451
+#: bp-members/bp-members-admin.php:1457
 msgctxt "signup notsent"
 msgid "%s account was not activated."
 msgid_plural "%s accounts were not activated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1474
+#: bp-members/bp-members-admin.php:1480
 msgctxt "signup deleted"
 msgid "%s sign-up successfully deleted!"
 msgid_plural "%s sign-ups successfully deleted!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bp-members/bp-members-admin.php:1485
+#: bp-members/bp-members-admin.php:1491
 msgctxt "signup notdeleted"
 msgid "%s sign-up was not deleted."
 msgid_plural "%s sign-ups were not deleted."
