@@ -7,11 +7,14 @@
 /* User's Lists
 ------------------------------------------------------------------------------*/
 
+body.site-users-php th#role,
 body.users-php th#role,
 body.users_page_bp-signups th#count_sent {
 	width: 10%;
 }
 
+body.site-users-php th#name,
+body.site-users-php th#email,
 body.users-php th#name,
 body.users-php th#registered,
 body.users-php th#email,
