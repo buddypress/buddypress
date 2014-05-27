@@ -10,6 +10,38 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Register scripts commonly used by BuddyPress plugins and themes.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_core_register_common_scripts() {
+
+	// Whether or not to use minified versions
+	$min  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
+
+	// Get the version for busting caches
+	$ver  = bp_get_version();
+
+	// Get the common core JS URL
+	$url  = buddypress()->plugin_url . 'bp-core/js/';
+	
+	// Array of common scripts
+	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
+		'bp-confirm'          => 'confirm',
+		'bp-widget-members'   => 'widget-members',
+		'bp-jquery-query'     => 'jquery-query',
+		'bp-jquery-cookie'    => 'jquery-cookie',
+		'bp-jquery-scroll-to' => 'jquery-scroll-to',
+	) );
+
+	// Register scripts commonly used by BuddyPress themes
+	foreach ( $scripts as $id => $file ) {
+		wp_register_script( $id, $url . $file . $min, array( 'jquery' ), $ver );
+	}
+}
+add_action( 'bp_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
+
+/**
  * Load the JS for "Are you sure?" .confirm links.
  */
 function bp_core_confirmation_js() {
@@ -17,15 +49,14 @@ function bp_core_confirmation_js() {
 		return false;
 	}
 
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	wp_enqueue_script( 'bp-confirm', buddypress()->plugin_url . "bp-core/js/confirm{$min}.js", array( 'jquery' ), bp_get_version() );
+	wp_enqueue_script( 'bp-confirm' );
 
 	wp_localize_script( 'bp-confirm', 'BP_Confirm', array(
 		'are_you_sure' => __( 'Are you sure?', 'buddypress' ),
 	) );
 
 }
-add_action( 'wp_enqueue_scripts',    'bp_core_confirmation_js' );
+add_action( 'bp_enqueue_scripts',    'bp_core_confirmation_js' );
 add_action( 'admin_enqueue_scripts', 'bp_core_confirmation_js' );
 
 /**
@@ -69,7 +100,6 @@ function bp_core_add_cropper_inline_js() {
 		jQuery(window).load( function(){
 			jQuery('#avatar-to-crop').Jcrop({
 				onChange: showPreview,
-				onSelect: showPreview,
 				onSelect: updateCoords,
 				aspectRatio: <?php echo $aspect_ratio; ?>,
 				setSelect: [ <?php echo $crop_left; ?>, <?php echo $crop_top; ?>, <?php echo $crop_right; ?>, <?php echo $crop_bottom; ?> ]
@@ -152,4 +182,24 @@ add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
  */
 function bp_core_ajax_url() {
 	return apply_filters( 'bp_core_ajax_url', admin_url( 'admin-ajax.php', is_ssl() ? 'admin' : 'http' ) );
+}
+
+/**
+ * Get the javascript dependencies for buddypress.js.
+ *
+ * @since BuddyPress (2.0.0)
+ *
+ * @uses apply_filters() to allow other component to load extra dependencies
+ *
+ * @return array The javascript dependencies.
+ */
+function bp_core_get_js_dependencies() {
+	return apply_filters( 'bp_core_get_js_dependencies', array(
+		'jquery',
+		'bp-confirm',
+		'bp-widget-members',
+		'bp-jquery-query',
+		'bp-jquery-cookie',
+		'bp-jquery-scroll-to'
+	) );
 }
