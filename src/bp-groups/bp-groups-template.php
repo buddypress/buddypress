@@ -1514,10 +1514,11 @@ function bp_group_member_remove_link( $user_id = 0 ) {
 	}
 
 function bp_group_admin_tabs( $group = false ) {
-	global $bp, $groups_template;
+	global $groups_template;
 
-	if ( empty( $group ) )
-		$group = ( $groups_template->group ) ? $groups_template->group : $bp->groups->current_group;
+	if ( empty( $group ) ) {
+		$group = ( $groups_template->group ) ? $groups_template->group : groups_get_current_group();
+	}
 
 	$current_tab = bp_get_group_current_admin_tab();
 
@@ -3446,9 +3447,9 @@ function bp_group_has_invites( $args = '' ) {
 	) );
 
 	if ( empty( $r['group_id'] ) ) {
-		if ( ! empty( buddypress()->groups->current_group ) ) {
+		if ( groups_get_current_group() ) {
 			$r['group_id'] = bp_get_current_group_id();
-		} else if ( ! empty( buddypress()->groups->new_group_id ) ) {
+		} elseif ( ! empty( buddypress()->groups->new_group_id ) ) {
 			$r['group_id'] = buddypress()->groups->new_group_id;
 		}
 	}
@@ -3600,9 +3601,7 @@ function bp_group_activity_feed_link() {
 	echo bp_get_group_activity_feed_link();
 }
 	function bp_get_group_activity_feed_link() {
-		global $bp;
-
-		return apply_filters( 'bp_get_group_activity_feed_link', bp_get_group_permalink( $bp->groups->current_group ) . 'feed/' );
+		return apply_filters( 'bp_get_group_activity_feed_link', bp_get_group_permalink( groups_get_current_group() ) . 'feed/' );
 	}
 
 /**
@@ -3624,8 +3623,7 @@ function bp_current_group_id() {
 	 * @return int $current_group_id The id of the current group, if there is one
 	 */
 	function bp_get_current_group_id() {
-		$current_group = groups_get_current_group();
-
+		$current_group    = groups_get_current_group();
 		$current_group_id = isset( $current_group->id ) ? (int) $current_group->id : 0;
 
 		return apply_filters( 'bp_get_current_group_id', $current_group_id, $current_group );
@@ -3650,8 +3648,7 @@ function bp_current_group_slug() {
 	 * @return string $current_group_slug The slug of the current group, if there is one
 	 */
 	function bp_get_current_group_slug() {
-		$current_group = groups_get_current_group();
-
+		$current_group      = groups_get_current_group();
 		$current_group_slug = isset( $current_group->slug ) ? $current_group->slug : '';
 
 		return apply_filters( 'bp_get_current_group_slug', $current_group_slug, $current_group );
@@ -3675,44 +3672,96 @@ function bp_current_group_name() {
 	 * @return string The name of the current group, if there is one
 	 */
 	function bp_get_current_group_name() {
-		global $bp;
+		$current_group      = groups_get_current_group();
+		$current_group_name = isset( $current_group->name ) ? $current_group->name : '';
+		$name               = apply_filters( 'bp_get_group_name', $current_group_name );
 
-		$name = apply_filters( 'bp_get_group_name', $bp->groups->current_group->name );
-		return apply_filters( 'bp_get_current_group_name', $name );
+		return apply_filters( 'bp_get_current_group_name', $name, $current_group );
 	}
 
+/**
+ * Echoes the output of bp_get_current_group_description()
+ *
+ * @package BuddyPress
+ * @since BuddyPress (2.1.0)
+ */
+function bp_current_group_description() {
+	echo bp_get_current_group_description();
+}
+	/**
+	 * Returns the description of the current group
+	 *
+	 * @package BuddyPress
+	 * @since BuddyPress (2.1.0)
+	 * @uses apply_filters() Filter bp_get_current_group_description to modify
+	 *                       this output
+	 *
+	 * @return string The description of the current group, if there is one
+	 */
+	function bp_get_current_group_description() {
+		$current_group      = groups_get_current_group();
+		$current_group_desc = isset( $current_group->description ) ? $current_group->description : '';
+		$desc               = apply_filters( 'bp_get_group_description', $current_group_desc );
+
+		return apply_filters( 'bp_get_current_group_description', $desc );
+	}
+
+/**
+ * Output a URL for a group component action
+ *
+ * @since BuddyPress (1.2)
+ *
+ * @param string $action
+ * @param string $query_args
+ * @param bool $nonce
+ * @return string
+ */
 function bp_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
 	echo bp_get_groups_action_link( $action, $query_args, $nonce );
 }
+	/**
+	 * Get a URL for a group component action
+	 *
+	 * @since BuddyPress (1.2)
+	 *
+	 * @param string $action
+	 * @param string $query_args
+	 * @param bool $nonce
+	 * @return string
+	 */
 	function bp_get_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
-		global $bp;
+
+		$current_group = groups_get_current_group();
+		$url           = '';
 
 		// Must be a group
-		if ( empty( $bp->groups->current_group->id ) )
-			return;
+		if ( ! empty( $current_group->id ) ) {
 
-		// Append $action to $url if provided
-		if ( !empty( $action ) )
-			$url = bp_get_group_permalink( groups_get_current_group() ) . $action;
-		else
-			$url = bp_get_group_permalink( groups_get_current_group() );
+			// Append $action to $url if provided
+			if ( !empty( $action ) ) {
+				$url = bp_get_group_permalink( $current_group ) . $action;
+			} else {
+				$url = bp_get_group_permalink( $current_group );
+			}
 
-		// Add a slash at the end of our user url
-		$url = trailingslashit( $url );
+			// Add a slash at the end of our user url
+			$url = trailingslashit( $url );
 
-		// Add possible query arg
-		if ( !empty( $query_args ) && is_array( $query_args ) )
-			$url = add_query_arg( $query_args, $url );
+			// Add possible query args
+			if ( !empty( $query_args ) && is_array( $query_args ) ) {
+				$url = add_query_arg( $query_args, $url );
+			}
 
-		// To nonce, or not to nonce...
-		if ( true === $nonce )
-			$url = wp_nonce_url( $url );
-		elseif ( is_string( $nonce ) )
-			$url = wp_nonce_url( $url, $nonce );
+			// To nonce, or not to nonce...
+			if ( true === $nonce ) {
+				$url = wp_nonce_url( $url );
+			} elseif ( is_string( $nonce ) ) {
+				$url = wp_nonce_url( $url, $nonce );
+			}
+		}
 
-		// Return the url, if there is one
-		if ( !empty( $url ) )
-			return $url;
+		// Return the url
+		return apply_filters( 'bp_get_groups_action_link', $url, $action, $query_args, $nonce );
 	}
 
 /** Stats **********************************************************************/
