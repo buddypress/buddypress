@@ -162,8 +162,16 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
 function bp_deregister_template_stack( $location_callback = '', $priority = 10 ) {
 
 	// Bail if no location, or function does not exist
-	if ( empty( $location_callback ) || ! function_exists( $location_callback ) )
+	if ( empty( $location_callback ) ) {
 		return false;
+	}
+
+	// Bail if callback function does not exist
+	if ( ! is_array( $location_callback ) ) {
+		if ( ! function_exists( $location_callback ) ) {
+			return false;
+		}
+	}
 
 	// Add location callback to template stack
 	return remove_filter( 'bp_template_stack', $location_callback, (int) $priority );
