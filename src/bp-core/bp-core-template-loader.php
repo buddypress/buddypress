@@ -124,7 +124,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
  *
  * @todo Make 'callable' instead of 'function'.
  *
- * @param string $location Callback function that returns the stack location.
+ * @param string $location_callback Callback function that returns the stack location.
  * @param int $priority Optional. The priority parameter as passed to
  *        add_filter(). Default: 10.
  * @return bool See {@link add_filter()}.
@@ -132,8 +132,16 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
 
 	// Bail if no location, or function does not exist
-	if ( empty( $location_callback ) || ! function_exists( $location_callback ) )
+	if ( empty( $location_callback ) ) {
 		return false;
+	}
+
+	// Bail if callback function does not exist
+	if ( ! is_array( $location_callback ) ) {
+		if ( ! function_exists( $location_callback ) ) {
+			return false;
+		}
+	}
 
 	// Add location callback to template stack
 	return add_filter( 'bp_template_stack', $location_callback, (int) $priority );
@@ -146,7 +154,7 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  *
  * @see bp_register_template_stack()
  *
- * @param string $location Callback function that returns the stack location.
+ * @param string $location_callback Callback function that returns the stack location.
  * @param int $priority Optional. The priority parameter passed to
  *        {@link bp_register_template_stack()}. Default: 10.
  * @return bool See {@link remove_filter()}.
