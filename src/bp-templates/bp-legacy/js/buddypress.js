@@ -843,8 +843,8 @@ jq(document).ready( function() {
 			}
 
 			scope = css_id[1];
-			filter = jq('#" + object + "-order-select select').val();
-			search_terms = jq('#" + object + "_search').val();
+			filter = jq('#' + object + '-order-select select').val();
+			search_terms = jq('#' + object + '_search').val();
 
 			bp_filter_request( object, filter, scope, 'div.' + object, search_terms, 1, jq.cookie('bp-' + object + '-extras') );
 
