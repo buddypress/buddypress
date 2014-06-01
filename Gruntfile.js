@@ -127,10 +127,10 @@ module.exports = function( grunt ) {
 		makepot: {
 			target: {
 				options: {
-					cwd: SOURCE_DIR,
+					cwd: BUILD_DIR,
 					domainPath: '.',
 					mainFile: 'bp-loader.php',
-					potFilename: 'bp-languages/buddypress.pot',
+					potFilename: 'buddypress.pot',
 					processPot: function( pot ) {
 						pot.headers['report-msgid-bugs-to'] = 'https://buddypress.trac.wordpress.org';
 						pot.headers['last-translator'] = 'JOHN JAMES JACOBY <jjj@buddypress.org>';
@@ -267,7 +267,7 @@ module.exports = function( grunt ) {
 	 */
 
 	grunt.registerTask( 'build',         ['jshint', 'cssjanus:core'] );
-	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'makepot', 'imagemin'] );
+	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'exec:bbpress', /*'exec:bpdefault',*/ 'test'] );
 
 
