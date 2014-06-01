@@ -38,6 +38,7 @@ module.exports = function( grunt ) {
 
 
 	grunt.initConfig( {
+		pkg: grunt.file.readJSON('package.json'),
 		jshint: {
 			options: grunt.file.readJSON( '.jshintrc' ),
 			grunt: {
@@ -131,7 +132,9 @@ module.exports = function( grunt ) {
 					mainFile: 'bp-loader.php',
 					potFilename: 'bp-languages/buddypress.pot',
 					processPot: function( pot ) {
-						pot.headers['report-msgid-bugs-to'] = 'https://wordpress.org/support/plugin/buddypress';
+						pot.headers['report-msgid-bugs-to'] = 'https://buddypress.trac.wordpress.org';
+						pot.headers['last-translator'] = 'JOHN JAMES JACOBY <jjj@buddypress.org>';
+						pot.headers['language-team'] = 'ENGLISH <jjj@buddypress.org>';
 						return pot;
 					},
 					type: 'wp-plugin'
@@ -184,7 +187,11 @@ module.exports = function( grunt ) {
 				ext: '.min.js',
 				src: BP_JS
 			},
-			options: { banner: '/*! https://wordpress.org/plugins/buddypress/ */' }
+			options: {
+				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+				'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
+				'https://wordpress.org/plugins/buddypress/ */\n'
+			}
 		},
 		cssmin: {
 			ltr: {
@@ -193,7 +200,11 @@ module.exports = function( grunt ) {
 				expand: true,
 				ext: '.min.css',
 				src: BP_CSS,
-				options: { banner: '/*! https://wordpress.org/plugins/buddypress/ */' }
+				options: {
+					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+					'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
+					'https://wordpress.org/plugins/buddypress/ */'
+				}
 			},
 			rtl: {
 				cwd: BUILD_DIR,
@@ -203,7 +214,11 @@ module.exports = function( grunt ) {
 				src: BP_CSS.map( function( filename ) {
 					return filename.replace( '.css', '-rtl.css' );
 				}),
-				options: { banner: '/*! https://wordpress.org/plugins/buddypress/ */' }
+				options: {
+					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+					'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
+					'https://wordpress.org/plugins/buddypress/ */'
+				}
 			}
 		},
 
