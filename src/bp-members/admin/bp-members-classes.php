@@ -334,6 +334,18 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	public function column_count_sent( $signup_object = null ) {
 		echo absint( $signup_object->count_sent );
 	}
+
+	/**
+	 * Allow plugins to add their costum column.
+	 *
+	 * @since BuddyPress 2.1.0
+	 *
+	 * @param object $signup_object The signup data object.
+	 * @param string the column name.
+	 */
+	function column_default( $signup_object = null, $column_name = '' ) {
+		return apply_filters( 'bp_members_signup_custom_column', '', $column_name, $signup_object );
+	}
 }
 
 endif;
@@ -658,6 +670,18 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 */
 	public function column_count_sent( $signup_object = null ) {
 		echo absint( $signup_object->count_sent );
+	}
+
+	/**
+	 * Allow plugins to add their costum column.
+	 *
+	 * @since BuddyPress 2.1.0
+	 *
+	 * @param object $signup_object The signup data object.
+	 * @param string the column name.
+	 */
+	function column_default( $signup_object = null, $column_name = '' ) {
+		return apply_filters( 'bp_members_ms_signup_custom_column', '', $column_name, $signup_object );
 	}
 }
 
