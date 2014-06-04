@@ -1139,10 +1139,11 @@ function bp_activity_user_link() {
 	function bp_get_activity_user_link() {
 		global $activities_template;
 
-		if ( empty( $activities_template->activity->user_id ) )
+		if ( empty( $activities_template->activity->user_id ) || empty( $activities_template->activity->user_nicename ) || empty( $activities_template->activity->user_login ) ) {
 			$link = $activities_template->activity->primary_link;
-		else
+		} else {
 			$link = bp_core_get_user_domain( $activities_template->activity->user_id, $activities_template->activity->user_nicename, $activities_template->activity->user_login );
+		}
 
 		return apply_filters( 'bp_get_activity_user_link', $link );
 	}
