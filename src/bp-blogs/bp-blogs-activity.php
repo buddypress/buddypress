@@ -269,8 +269,9 @@ function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
 
 	// Bail if activity is not active
-	if ( ! bp_is_active( 'activity' ) )
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
 	$defaults = array(
 		'user_id'           => bp_loggedin_user_id(),
@@ -289,14 +290,17 @@ function bp_blogs_record_activity( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	// Remove large images and replace them with just one image thumbnail
- 	if ( !empty( $content ) )
+	if ( ! empty( $content ) ) {
 		$content = bp_activity_thumbnail_content_images( $content, $primary_link, $r );
+	}
 
-	if ( !empty( $action ) )
+	if ( ! empty( $action ) ) {
 		$action = apply_filters( 'bp_blogs_record_activity_action', $action );
+	}
 
-	if ( !empty( $content ) )
+	if ( ! empty( $content ) ) {
 		$content = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $content ), $content, $r );
+	}
 
 	// Check for an existing entry and update if one exists.
 	$id = bp_activity_get_activity_id( array(
