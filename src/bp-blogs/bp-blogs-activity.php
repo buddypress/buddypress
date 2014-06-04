@@ -296,7 +296,7 @@ function bp_blogs_record_activity( $args = '' ) {
 		$action = apply_filters( 'bp_blogs_record_activity_action', $action );
 
 	if ( !empty( $content ) )
-		$content = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $content ), $content );
+		$content = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $content ), $content, $r );
 
 	// Check for an existing entry and update if one exists.
 	$id = bp_activity_get_activity_id( array(
