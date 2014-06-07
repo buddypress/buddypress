@@ -15,6 +15,27 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Create a new message.
+ *
+ * @param array $args {
+ *     Array of arguments.
+ *     @type int $sender_id Optional. ID of the user who is sending the
+ *           message. Default: ID of the logged-in user.
+ *     @type int $thread_id Optional. ID of the parent thread. Leave blank to
+ *           create a new thread for the message.
+ *     @type array $recipients IDs or usernames of message recipients. If this
+ *           is an existing thread, it is unnecessary to pass a $recipients
+ *           argument - existing thread recipients will be assumed.
+ *     @type string $subject Optional. Subject line for the message. For
+ *           existing threads, the existing subject will be used. For new
+ *           threads, 'No Subject' will be used if no $subject is provided.
+ *     @type string $content Content of the message. Cannot be empty.
+ *     @type string $date_sent Date sent, in 'Y-m-d H:i:s' format. Default:
+ *           current date/time.
+ * }
+ * @return int|bool ID of the message thread on success, false on failure.
+ */
 function messages_new_message( $args = '' ) {
 
 	$defaults = array (
@@ -122,7 +143,13 @@ function messages_new_message( $args = '' ) {
 	return false;
 }
 
-
+/**
+ * Send a notice.
+ *
+ * @param string $subject Subject of the notice.
+ * @param string $message Content of the notice.
+ * @return bool True on success, false on failure.
+ */
 function messages_send_notice( $subject, $message ) {
 	if ( !bp_current_user_can( 'bp_moderate' ) || empty( $subject ) || empty( $message ) ) {
 		return false;
@@ -142,6 +169,12 @@ function messages_send_notice( $subject, $message ) {
 	}
 }
 
+/**
+ * Delete message thread(s).
+ *
+ * @param int|array Thread ID or array of thread IDs.
+ * @return bool True on success, false on failure.
+ */
 function messages_delete_thread( $thread_ids ) {
 	do_action( 'messages_before_delete_thread', $thread_ids );
 
@@ -169,6 +202,14 @@ function messages_delete_thread( $thread_ids ) {
 	}
 }
 
+/**
+ * Check whether a user has access to a thread.
+ *
+ * @param int $thread_id ID of the thread.
+ * @param int $user_id Optional. ID of the user. Default: ID of the logged-in
+ *        user.
+ * @return int|null Message ID if the user has access, otherwise null.
+ */
 function messages_check_thread_access( $thread_id, $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
@@ -176,26 +217,63 @@ function messages_check_thread_access( $thread_id, $user_id = 0 ) {
 	return BP_Messages_Thread::check_access( $thread_id, $user_id );
 }
 
+/**
+ * Mark a thread as read.
+ *
+ * Wrapper for {@link BP_Messages_Thread::mark_as_read()}.
+ *
+ * @param int $thread_id ID of the thread.
+ */
 function messages_mark_thread_read( $thread_id ) {
 	return BP_Messages_Thread::mark_as_read( $thread_id );
 }
 
+/**
+ * Mark a thread as unread.
+ *
+ * Wrapper for {@link BP_Messages_Thread::mark_as_unread()}.
+ *
+ * @param int $thread_id ID of the thread.
+ */
 function messages_mark_thread_unread( $thread_id ) {
 	return BP_Messages_Thread::mark_as_unread( $thread_id );
 }
 
+/**
+ * Set messages-related cookies.
+ *
+ * Saves the 'bp_messages_send_to', 'bp_messages_subject', and
+ * 'bp_messages_content' cookies, which are used when setting up the default
+ * values on the messages page.
+ *
+ * @param string $recipients Comma-separated list of recipient usernames.
+ * @param string $subject Subject of the message.
+ * @param string $content Content of the message.
+ */
 function messages_add_callback_values( $recipients, $subject, $content ) {
 	@setcookie( 'bp_messages_send_to', $recipients, time() + 60 * 60 * 24, COOKIEPATH );
 	@setcookie( 'bp_messages_subject', $subject,    time() + 60 * 60 * 24, COOKIEPATH );
 	@setcookie( 'bp_messages_content', $content,    time() + 60 * 60 * 24, COOKIEPATH );
 }
 
+/**
+ * Unset messages-related cookies.
+ *
+ * @see messages_add_callback_values()
+ */
 function messages_remove_callback_values() {
 	@setcookie( 'bp_messages_send_to', false, time() - 1000, COOKIEPATH );
 	@setcookie( 'bp_messages_subject', false, time() - 1000, COOKIEPATH );
 	@setcookie( 'bp_messages_content', false, time() - 1000, COOKIEPATH );
 }
 
+/**
+ * Get the unread messages count for a user.
+ *
+ * @param int $user_id Optional. ID of the user. Default: ID of the
+ *        logged-in user.
+ * @return int
+ */
 function messages_get_unread_count( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
@@ -203,14 +281,34 @@ function messages_get_unread_count( $user_id = 0 ) {
 	return BP_Messages_Thread::get_inbox_count( $user_id );
 }
 
+/**
+ * Check whether a user is the sender of a message.
+ *
+ * @param int $user_id ID of the user.
+ * @param int $message_id ID of the message.
+ * @return int|null Returns the ID of the message if the user is the
+ *         sender, otherwise null.
+ */
 function messages_is_user_sender( $user_id, $message_id ) {
 	return BP_Messages_Message::is_user_sender( $user_id, $message_id );
 }
 
+/**
+ * Get the ID of the sender of a message.
+ *
+ * @param int $message_id ID of the message.
+ * @return int|null The ID of the sender if found, otherwise null.
+ */
 function messages_get_message_sender( $message_id ) {
 	return BP_Messages_Message::get_message_sender( $message_id );
 }
 
+/**
+ * Check whether a message thread exists.
+ *
+ * @param int $thread_id ID of the thread.
+ * @return int|null The message thread ID on success, null on failure.
+ */
 function messages_is_valid_thread( $thread_id ) {
 	return BP_Messages_Thread::is_valid( $thread_id );
 }
