@@ -749,10 +749,9 @@ class BP_XProfile_Field {
 
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE parent_id = %d AND group_id = %d $sort_sql", $parent_id, $this->group_id );
 
-		if ( !$children = $wpdb->get_results( $sql ) )
-			return false;
+		$children = $wpdb->get_results( $sql );
 
-		return apply_filters( 'bp_xprofile_field_get_children', $children );
+		return apply_filters( 'bp_xprofile_field_get_children', $children, $for_editing );
 	}
 
 	public function delete_children() {
