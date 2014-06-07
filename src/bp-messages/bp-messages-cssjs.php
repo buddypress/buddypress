@@ -3,8 +3,6 @@
 /**
  * BuddyPress Messages CSS and JS
  *
- * Apply WordPress defined filters to private messages
- *
  * @package BuddyPress
  * @subpackage MessagesScripts
  */
@@ -12,6 +10,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Enqueue the JS for messages autocomplete.
+ */
 function messages_add_autocomplete_js() {
 
 	// Include the autocomplete JS for composing a message.
@@ -28,6 +29,11 @@ function messages_add_autocomplete_js() {
 }
 add_action( 'bp_actions', 'messages_add_autocomplete_js' );
 
+/**
+ * Enqueue the CSS for messages autocomplete.
+ *
+ * @todo Why do we call wp_print_styles()?
+ */
 function messages_add_autocomplete_css() {
 
 	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
@@ -39,6 +45,11 @@ function messages_add_autocomplete_css() {
 }
 add_action( 'wp_head', 'messages_add_autocomplete_css' );
 
+/**
+ * Print inline JS for initializing the messages autocomplete.
+ *
+ * @todo Why is this here and not in a properly enqueued file?
+ */
 function messages_autocomplete_init_jsblock() {
 ?>
 

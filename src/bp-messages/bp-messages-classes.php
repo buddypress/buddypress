@@ -520,16 +520,64 @@ class BP_Messages_Thread {
 	}
 }
 
+/**
+ * Single message class.
+ */
 class BP_Messages_Message {
+	/**
+	 * ID of the message.
+	 *
+	 * @var int
+	 */
 	public $id;
+
+	/**
+	 * ID of the message thread.
+	 *
+	 * @var int
+	 */
 	public $thread_id;
+
+	/**
+	 * ID of the sender.
+	 *
+	 * @var int
+	 */
 	public $sender_id;
+
+	/**
+	 * Subject line of the message.
+	 *
+	 * @var string
+	 */
 	public $subject;
+
+	/**
+	 * Content of the message.
+	 *
+	 * @var string
+	 */
 	public $message;
+
+	/**
+	 * Date the message was sent.
+	 *
+	 * @var string
+	 */
 	public $date_sent;
 
+	/**
+	 * Message recipients.
+	 *
+	 * @var bool|array
+	 */
 	public $recipients = false;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param int $id Optional. ID of the message.
+	 */
 	public function __construct( $id = null ) {
 		$this->date_sent = bp_core_current_time();
 		$this->sender_id = bp_loggedin_user_id();
@@ -539,6 +587,11 @@ class BP_Messages_Message {
 		}
 	}
 
+	/**
+	 * Set up data related to a specific message object.
+	 *
+	 * @param int $id ID of the message.
+	 */
 	public function populate( $id ) {
 		global $wpdb, $bp;
 
@@ -552,6 +605,12 @@ class BP_Messages_Message {
 		}
 	}
 
+	/**
+	 * Send a message.
+	 *
+	 * @return int|bool ID of the newly created message on success, false
+	 *         on failure.
+	 */
 	public function send() {
 		global $wpdb, $bp;
 
@@ -605,13 +664,24 @@ class BP_Messages_Message {
 		return $this->id;
 	}
 
+	/**
+	 * Get a list of recipients for a message.
+	 *
+	 * @return array
+	 */
 	public function get_recipients() {
 		global $bp, $wpdb;
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
 	}
 
-	/** Static Functions ******************************************************/
+	/** Static Functions **************************************************/
 
+	/**
+	 * Get list of recipient IDs from their usernames.
+	 *
+	 * @param array $recipient_usernames Usernames of recipients.
+	 * @return array
+	 */
 	public static function get_recipient_ids( $recipient_usernames ) {
 		if ( !$recipient_usernames )
 			return false;
@@ -627,16 +697,36 @@ class BP_Messages_Message {
 		return $recipient_ids;
 	}
 
+	/**
+	 * Get the ID of the message last sent by the logged-in user for a given thread.
+	 *
+	 * @param int $thread_id ID of the thread.
+	 * @return int|null ID of the message if found, otherwise null.
+	 */
 	public static function get_last_sent_for_user( $thread_id ) {
 		global $wpdb, $bp;
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND thread_id = %d ORDER BY date_sent DESC LIMIT 1", bp_loggedin_user_id(), $thread_id ) );
 	}
 
+	/**
+	 * Check whether a user is the sender of a message.
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param int $message_id ID of the message.
+	 * @return int|null Returns the ID of the message if the user is the
+	 *         sender, otherwise null.
+	 */
 	public static function is_user_sender( $user_id, $message_id ) {
 		global $wpdb, $bp;
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND id = %d", $user_id, $message_id ) );
 	}
 
+	/**
+	 * Get the ID of the sender of a message.
+	 *
+	 * @param int $message_id ID of the message.
+	 * @return int|null The ID of the sender if found, otherwise null.
+	 */
 	public static function get_message_sender( $message_id ) {
 		global $wpdb, $bp;
 		return $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE id = %d", $message_id ) );
