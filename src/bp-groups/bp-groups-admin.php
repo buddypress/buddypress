@@ -1206,8 +1206,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.7.0)
 	*/
 	public function display() {
-		extract( $this->_args );
-
 		$this->display_tablenav( 'top' ); ?>
 
 		<table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
