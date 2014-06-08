@@ -16,7 +16,7 @@ function bp_messages_register_widgets() {
 }
 add_action( 'bp_register_widgets', 'bp_messages_register_widgets' );
 
-/** Sitewide Notices widget *************************************************/
+/** Sitewide Notices widget ***************************************************/
 
 /**
  * A widget that displays sitewide notices.
