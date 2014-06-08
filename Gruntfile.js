@@ -34,7 +34,8 @@ module.exports = function( grunt ) {
 		'!bp-themes/bp-default/_inc/*.js'
 	];
 
-	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
+	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
+	grunt.util = require( 'grunt-legacy-util' );
 
 
 	grunt.initConfig( {
