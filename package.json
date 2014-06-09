@@ -20,7 +20,7 @@
     "grunt-legacy-util": "^0.2.0",
     "grunt-patch-wordpress": "~0.2.1",
     "grunt-phpunit": "~0.3.3",
-    "grunt-wp-i18n": "~0.4.4",
+    "grunt-wp-i18n": "~0.4.5",
     "matchdep": "~0.3.0"
   },
   "keywords": [
