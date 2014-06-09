@@ -731,7 +731,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 
 					<?php echo $r['before_radio']; ?>
 
-					<label for="<?php esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>">
+					<label for="<?php echo esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>">
 						<input type="radio" id="<?php echo esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] . '_visibility' ); ?>" value="<?php echo esc_attr( $level['id'] ); ?>" <?php checked( $level['id'], bp_get_the_profile_field_visibility_level() ); ?> />
 						<span class="field-visibility-text"><?php echo esc_html( $level['label'] ); ?></span>
 					</label>
