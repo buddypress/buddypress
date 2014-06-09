@@ -98,6 +98,14 @@ class BP_Activity_Template {
 
 	var $in_the_loop;
 
+	/**
+	 * URL parameter key for activity pagination. Default: 'acpage'.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var string
+	 */
+	var $pag_arg;
+
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
@@ -178,7 +186,8 @@ class BP_Activity_Template {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
 
-		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
+		$this->pag_arg  = $r['page_arg'];
+		$this->pag_page = isset( $_REQUEST[ $this->pag_arg ] ) ? intval( $_REQUEST[ $this->pag_arg ] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		// Check if blog/forum replies are disabled
@@ -220,10 +229,17 @@ class BP_Activity_Template {
 			) );
 		}
 
-		if ( !$max || $max >= (int) $this->activities['total'] )
-			$this->total_activity_count = (int) $this->activities['total'];
-		else
-			$this->total_activity_count = (int) $max;
+		// The total_activity_count property will be set only if a
+		// 'count_total' query has taken place
+		if ( ! is_null( $this->activities['total'] ) ) {
+			if ( ! $max || $max >= (int) $this->activities['total'] ) {
+				$this->total_activity_count = (int) $this->activities['total'];
+			} else {
+				$this->total_activity_count = (int) $max;
+			}
+		}
+
+		$this->has_more_items = $this->activities['has_more_items'];
 
 		$this->activities = $this->activities['activities'];
 
@@ -706,6 +722,23 @@ function bp_the_activity() {
 }
 
 /**
+ * Output the URL for the Load More link.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_activity_load_more_link() {
+	echo bp_get_activity_load_more_link();
+}
+	function bp_get_activity_load_more_link() {
+		global $activities_template;
+
+		$link = bp_get_requested_url();
+		$link = add_query_arg( $activities_template->pag_arg, $activities_template->pag_page + 1, $link );
+
+		return apply_filters( 'bp_get_activity_load_more_link', $link );
+	}
+
+/**
  * Output the activity pagination count.
  *
  * @since BuddyPress (1.0)
@@ -778,13 +811,17 @@ function bp_activity_pagination_links() {
 function bp_activity_has_more_items() {
 	global $activities_template;
 
-	$remaining_pages = 0;
+	if ( ! empty( $activities_template->has_more_items )  ) {
+		$has_more_items = true;
+	} else {
+		$remaining_pages = 0;
 
-	if ( ! empty( $activities_template->pag_page ) ) {
-		$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) );
+		if ( ! empty( $activities_template->pag_page ) ) {
+			$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) );
+		}
+
+		$has_more_items = (int) $remaining_pages > 0;
 	}
-
-	$has_more_items  = (int) $remaining_pages ? true : false;
 
 	return apply_filters( 'bp_activity_has_more_items', $has_more_items );
 }

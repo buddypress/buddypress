@@ -104,6 +104,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 				'object' => buddypress()->profile->id,
 				'action' => 'updated_profile',
 			),
+			'count_total' => 'count_query',
 		) );
 
 		$this->assertEquals( 1, $existing['total'] );
@@ -138,6 +139,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 				'object' => buddypress()->profile->id,
 				'action' => 'updated_profile',
 			),
+			'count_total' => 'count_query',
 		) );
 
 		$this->assertEquals( 1, $existing['total'] );

@@ -375,4 +375,84 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		update_option( 'thread_comments_depth', $tcd );
 		$activities_template = null;
 	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_no_count_total_false() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => false,
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertFalse( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_no_count_total_true() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		$a3 = $this->factory->activity->create();
+		$a4 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => false,
+			'per_page' => 2,
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertTrue( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_count_total_false() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		$a3 = $this->factory->activity->create();
+		$a4 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => 'count_query',
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertFalse( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_count_total_true() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		$a3 = $this->factory->activity->create();
+		$a4 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => 'count_query',
+			'per_page' => 2,
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertTrue( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
 }
