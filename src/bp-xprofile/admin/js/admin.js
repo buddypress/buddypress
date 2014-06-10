@@ -1,5 +1,6 @@
 /* exported add_option, show_options, hide, fixHelper */
 /* jshint scripturl: true */
+/* global XProfileAdmin */
 
 function add_option(forWhat) {
 	var holder  = document.getElementById(forWhat + '_more'),
