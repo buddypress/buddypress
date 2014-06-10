@@ -136,6 +136,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @expectedDeprecated like_escape
 	 */
 	public function test_get_normal_search() {
 		$g1 = $this->factory->group->create( array(
@@ -154,6 +155,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @expectedDeprecated like_escape
 	 */
 	public function test_get_search_with_underscores() {
 		$g1 = $this->factory->group->create( array(
@@ -172,6 +174,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @expectedDeprecated like_escape
 	 */
 	public function test_get_search_with_percent_sign() {
 		$g1 = $this->factory->group->create( array(
@@ -190,6 +193,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @expectedDeprecated like_escape
 	 */
 	public function test_get_search_with_quotes() {
 		$g1 = $this->factory->group->create( array(
@@ -456,6 +460,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ), _BP_Groups_Group::_convert_orderby_to_order_by_term( 'I am a bad boy' ) );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_filter_user_groups_normal_search() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -471,6 +478,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_filter_user_groups_search_with_underscores() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -488,6 +498,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_filter_user_groups_search_with_percent_sign() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -505,6 +518,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_filter_user_groups_search_with_quotes() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -524,6 +540,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		//$this->assertEquals( array( $g1->id ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_search_groups_normal_search() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -537,6 +556,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_search_groups_search_with_underscores() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -550,6 +572,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_search_groups_search_with_percent_sign() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -563,6 +588,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_search_groups_search_with_quotes() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',
@@ -577,6 +605,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_get_by_letter_with_exclude() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Awesome Cool Group',
@@ -595,6 +626,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_get_by_letter_starts_with_apostrophe() {
 		$g1 = $this->factory->group->create( array(
 			'name' => "'Tis Sweet",
@@ -626,6 +660,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g2 ), $found );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_get_random_with_search_terms() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Bodacious',

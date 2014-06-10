@@ -93,6 +93,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @expectedDeprecated like_escape
 	 */
 	public function test_get_with_usersearch() {
 		$s1 = $this->factory->signup->create( array(

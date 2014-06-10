@@ -18,6 +18,9 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->set_current_user( $this->old_current_user );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_search_friends() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
@@ -49,6 +52,9 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u1, $u3, $u2 ), $friend_ids );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_search_users() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
@@ -63,6 +69,9 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2 ), $friends );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_search_users_count() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();

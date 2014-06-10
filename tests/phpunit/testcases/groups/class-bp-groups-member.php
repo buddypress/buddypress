@@ -25,6 +25,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		return $invite->id;
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_get_recently_joined_with_filter() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Tab',
@@ -43,6 +46,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_get_is_admin_of_with_filter() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'RC Cola',
@@ -66,6 +72,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
+	/**
+	 * @expectedDeprecated like_escape
+	 */
 	public function test_get_is_mod_of_with_filter() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'RC Cola',
