@@ -61,26 +61,16 @@ function add_option(forWhat) {
 	document.getElementById(forWhat + '_option_number').value = theId;
 }
 
-function show_options(forWhat) {
-	document.getElementById( 'radio'          ).style.display = 'none';
-	document.getElementById( 'selectbox'      ).style.display = 'none';
-	document.getElementById( 'multiselectbox' ).style.display = 'none';
-	document.getElementById( 'checkbox'       ).style.display = 'none';
-
-	if ( forWhat === 'radio' ) {
-		document.getElementById( 'radio' ).style.display = '';
+/**
+ * Hide all "options" sections, and show the options section for the forWhat type.
+ */
+function show_options( forWhat ) {
+	for ( var i = 0; i < XProfileAdmin.supports_options_field_types.length; i++ ) {
+		document.getElementById( XProfileAdmin.supports_options_field_types[i] ).style.display = 'none';
 	}
 
-	if ( forWhat === 'selectbox' ) {
-		document.getElementById( 'selectbox' ).style.display = '';
-	}
-
-	if ( forWhat === 'multiselectbox' ) {
-		document.getElementById( 'multiselectbox' ).style.display = '';
-	}
-
-	if ( forWhat === 'checkbox' ) {
-		document.getElementById( 'checkbox' ).style.display = '';
+	if ( XProfileAdmin.supports_options_field_types.indexOf( forWhat ) >= 0 ) {
+		document.getElementById( forWhat ).style.display = '';
 	}
 }
 
