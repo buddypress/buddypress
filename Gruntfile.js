@@ -234,12 +234,12 @@ module.exports = function( grunt ) {
 		},
 		exec: {
 			bbpress: {
-				command: 'svn export https://bbpress.svn.wordpress.org/tags/1.2 bbpress',
+				command: 'svn export --force https://bbpress.svn.wordpress.org/tags/1.2 bbpress',
 				cwd: BUILD_DIR + 'bp-forums',
 				stdout: false
 			},
 			bpdefault: {
-				command: 'svn export https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
+				command: 'svn export --force https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
 				cwd: BUILD_DIR,
 				stdout: false
 			}
