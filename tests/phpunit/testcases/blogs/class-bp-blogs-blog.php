@@ -12,9 +12,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @expectedDeprecated like_escape
-	 */
 	public function test_get_with_search_terms() {
 		if ( ! is_multisite() ) {
 			return;
@@ -41,9 +38,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->set_current_user( $old_user );
 	}
 
-	/**
-	 * @expectedDeprecated like_escape
-	 */
 	public function test_search_blogs() {
 		if ( ! is_multisite() ) {
 			return;

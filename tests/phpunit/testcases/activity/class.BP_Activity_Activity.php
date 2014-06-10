@@ -145,7 +145,6 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 	/**
 	 * @group get
-	 * @expectedDeprecated like_escape
 	 */
 	public function test_get_with_search_terms() {
 		$a1 = $this->factory->activity->create( array(
