@@ -30,8 +30,7 @@ module.exports = function( grunt ) {
 	],
 
 	BP_EXCLUDED_JS = [
-		'!bp-templates/bp-legacy/js/*.js',
-		'!bp-themes/bp-default/_inc/*.js'
+		'!bp-templates/bp-legacy/js/*.js'
 	];
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
@@ -240,8 +239,8 @@ module.exports = function( grunt ) {
 				stdout: false
 			},
 			bpdefault: {
-				command: 'svn export https://themes.svn.wordpress.org/bp-default/1.9 bp-default',
-				cwd: BUILD_DIR + 'bp-themes',
+				command: 'svn export https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
+				cwd: BUILD_DIR,
 				stdout: false
 			}
 		},
@@ -269,7 +268,7 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'build',         ['jshint', 'cssjanus:core'] );
 	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'imagemin'] );
-	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'makepot', 'exec:bbpress', /*'exec:bpdefault',*/ 'test'] );
+	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'makepot', 'exec:bbpress', 'exec:bpdefault', 'test'] );
 
 
 	// Testing tasks.
