@@ -292,79 +292,103 @@ class BP_Groups_Template {
 /**
  * Start the Groups Template Loop
  *
- * See the $defaults definition below for a description of parameters.
+ * @since BuddyPress (1.0.0)
  *
- * Note that the 'type' parameter overrides 'order' and 'orderby'. See
- * BP_Groups_Group::get() for more details.
+ * @param array $args {
+ *     Array of parameters. All items are optional.
+ *     @type string $type Optional. Shorthand for certain orderby/
+ *           order combinations. 'newest', 'active', 'popular',
+ *           'alphabetical', 'random'. When present, will override
+ *           orderby and order params. Default: null.
+ *     @type string $orderby Optional. Property to sort by.
+ *           'date_created', 'last_activity', 'total_member_count',
+ *           'name', 'random'. Default: 'date_created'.
+ *     @type string $order Optional. Sort order. 'ASC' or 'DESC'.
+ *           Default: 'DESC'.
+ *     @type int $per_page Optional. Number of items to return per page
+ *           of results. Default: null (no limit).
+ *     @type int $page Optional. Page offset of results to return.
+ *           Default: null (no limit).
+ *     @type int $user_id Optional. If provided, results will be limited
+ *           to groups of which the specified user is a member. Default:
+ *           null.
+ *     @type string $search_terms Optional. If provided, only groups
+ *           whose names or descriptions match the search terms will be
+ *           returned. Default: false.
+ *     @type array $meta_query Optional. An array of meta_query
+ *           conditions. See {@link WP_Meta_Query::queries} for
+ *           description.
+ *     @type array|string Optional. Array or comma-separated list of
+ *           group IDs. Results will be limited to groups within the
+ *           list. Default: false.
+ *     @type bool $populate_extras Whether to fetch additional
+ *           information (such as member count) about groups. Default:
+ *           true.
+ *     @type array|string Optional. Array or comma-separated list of
+ *           group IDs. Results will exclude the listed groups.
+ *           Default: false.
+ *     @type bool $show_hidden Whether to include hidden groups in
+ *           results. Default: false.
+ * }
  *
- * @param array $args
  * @return bool True if there are groups to display that match the params
  */
 function bp_has_groups( $args = '' ) {
-	global $groups_template, $bp;
+	global $groups_template;
 
 	/***
-	 * Set the defaults based on the current page. Any of these will be overridden
-	 * if arguments are directly passed into the loop. Custom plugins should always
-	 * pass their parameters directly to the loop.
+	 * Defaults based on the current page & overridden by parsed $args
 	 */
-	$slug    = false;
-	$type    = '';
-	$user_id = 0;
-	$order   = '';
+	$slug         = false;
+	$type         = '';
+	$search_terms = false;
 
-	// User filtering
-	if ( bp_displayed_user_id() )
-		$user_id = bp_displayed_user_id();
-
-	// Type
-	// @todo What is $order? At some point it was removed incompletely?
+	// When looking your own groups, check for two action variables
 	if ( bp_is_current_action( 'my-groups' ) ) {
-		if ( 'most-popular' == $order ) {
+		if ( bp_is_action_variable( 'most-popular', 0 ) ) {
 			$type = 'popular';
-		} elseif ( 'alphabetically' == $order ) {
+		} elseif ( bp_is_action_variable( 'alphabetically', 0 ) ) {
 			$type = 'alphabetical';
 		}
+
+	// When looking at invites, set type to invites
 	} elseif ( bp_is_current_action( 'invites' ) ) {
 		$type = 'invites';
-	} elseif ( isset( $bp->groups->current_group->slug ) && $bp->groups->current_group->slug ) {
+
+	// When looking at a single group, set the type and slug
+	} elseif ( bp_get_current_group_slug() ) {
 		$type = 'single-group';
-		$slug = $bp->groups->current_group->slug;
+		$slug = bp_get_current_group_slug();
 	}
 
-	// Default search string
+	// Default search string (too soon to escape here)
 	if ( ! empty( $_REQUEST['group-filter-box'] ) ) {
 		$search_terms = $_REQUEST['group-filter-box'];
-	} elseif ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) ) {
+	} elseif ( !empty( $_REQUEST['s'] ) ) {
 		$search_terms = $_REQUEST['s'];
-	} else {
-		$search_terms = false;
 	}
 
-	$defaults = array(
-		'type'              => $type, // 'type' is an override for 'order' and 'orderby'. See docblock.
+	// Parse defaults and requested arguments
+	$r = bp_parse_args( $args, array(
+		'type'              => $type,
 		'order'             => 'DESC',
 		'orderby'           => 'last_activity',
 		'page'              => 1,
 		'per_page'          => 20,
 		'max'               => false,
 		'show_hidden'       => false,
-
-		'page_arg'          => 'grpage', // See https://buddypress.trac.wordpress.org/ticket/3679
-
-		'user_id'           => $user_id, // Pass a user ID to limit to groups this user has joined
-		'slug'              => $slug,    // Pass a group slug to only return that group
-		'search_terms'      => $search_terms, // Pass search terms to return only matching groups
-		'meta_query'        => false,    // Filter by groupmeta. See WP_Meta_Query for format
-		'include'           => false,    // Pass comma separated list or array of group ID's to return only these groups
-		'exclude'           => false,    // Pass comma separated list or array of group ID's to exclude these groups
-
-		'populate_extras'   => true,     // Get extra meta - is_member, is_banned
+		'page_arg'          => 'grpage',
+		'user_id'           => bp_displayed_user_id(),
+		'slug'              => $slug,
+		'search_terms'      => $search_terms,
+		'meta_query'        => false,
+		'include'           => false,
+		'exclude'           => false,
+		'populate_extras'   => true,
 		'update_meta_cache' => true,
-	);
+	), 'has_groups' );
 
-	$r = bp_parse_args( $args, $defaults, 'has_groups' );
-
+	// Setup the Groups template global
 	$groups_template = new BP_Groups_Template( array(
 		'type'              => $r['type'],
 		'order'             => $r['order'],
@@ -384,6 +408,7 @@ function bp_has_groups( $args = '' ) {
 		'update_meta_cache' => (bool) $r['update_meta_cache'],
 	) );
 
+	// Filter and return whether or not the groups loop has groups in it
 	return apply_filters( 'bp_has_groups', $groups_template->has_groups(), $groups_template, $r );
 }
 
