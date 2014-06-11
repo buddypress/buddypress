@@ -25,12 +25,12 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	define( 'WP_ROOT_DIR', WP_TESTS_DIR );
 
 // Support WP_DEVELOP_DIR, as used by some plugins
-} elseif ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+} else if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 	define( 'WP_ROOT_DIR', getenv( 'WP_DEVELOP_DIR' ) );
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 
 // Support Travis CI TRAVIS, as used by some plugins
-{ elseif ( false !== getenv( 'TRAVIS' ) ) {
+} else if ( false !== getenv( 'TRAVIS' ) ) {
 	define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) );
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 	var_dump(WP_ROOT_DIR);
