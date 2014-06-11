@@ -33,7 +33,8 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 }
-
+	var_dump(WP_TESTS_DIR);
+	var_dump(WP_ROOT_DIR);
 // Based on the tests directory, look for a config file
 if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	echo "1 - The file exists";
