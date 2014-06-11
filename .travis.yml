@@ -33,6 +33,7 @@ matrix:
   fast_finish: true
 
 before_script:
+    - set -x
     # setup WP_DEVELOP_DIR (needed for BuddyPress to bootstrap WP PHPUnit tests)
     - WP_DEVELOP_DIR=/tmp/wordpress
     # clone the WordPress develop repo
@@ -43,13 +44,9 @@ before_script:
     - mysql -e "CREATE DATABASE wordpress_test;" -uroot
     # setub wp-config
     - cp wp-tests-config-sample.php wp-tests-config.php
-    - pwd
-    - cat wp-tests-config-sample.php
-    - cat wp-tests-config.php
     - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
-    - cat wp-tests-config.php
     # prepare for running BuddyPress' tests
     - BP_DEVELOP_DIR=$WP_DEVELOP_DIR/src/wp-content/plugins/buddypress
     - cd $BP_DEVELOP_DIR
