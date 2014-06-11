@@ -1,3 +1,6 @@
+# Travis CI Configuration File
+
+# Tell Travis CI we're using PHP
 language: php
 
 php:
@@ -12,12 +15,17 @@ env:
     - WP_VERSION=tags/3.8.3
     - WP_VERSION=tags/3.7.3
 
+# Build matrix options
 matrix:
   include:
     - php: 5.6
       env: WP_VERSION=trunk
+    - php: hhvm
+      env: WP_VERSION=trunk
   allow_failures:
     - php: 5.6
+    - php: hhvm
+  fast_finish: true
 
 before_script:
     # set up WP install
