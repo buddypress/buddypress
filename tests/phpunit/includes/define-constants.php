@@ -34,6 +34,8 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 }
 
+$foo ="wp-tests-config.php";
+$bar ="/wp-tests-config.php";
 // Based on the tests directory, look for a config file
 if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	echo "1 - The file exists";
@@ -53,6 +55,54 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 
 } else if ( file_exists( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-tests-config.php' ) ) {
 	echo "4 - The file exists";
+	// Environment variable exists and points to tests/phpunit of
+	// develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( dirname( dirname( BP_PLUGIN_DIR ) ) ) ) . '/wp-tests-config.php' );
+
+// Test foo
+// Based on the tests directory, look for a config file
+} elseif ( file_exists( WP_ROOT_DIR . $foo ) ) {
+	echo "1foo - The file exists";
+	// Standard develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
+
+} else if ( file_exists( WP_TESTS_DIR . $foo ) ) {
+	echo "2foo - The file exists";
+	// Legacy unit-test.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
+
+} else if ( file_exists( dirname( dirname( WP_TESTS_DIR ) ) . $foo ) ) {
+	echo "3foo - The file exists";
+	// Environment variable exists and points to tests/phpunit of
+	// develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . $foo );
+
+} else if ( file_exists( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . $foo ) ) {
+	echo "4foo - The file exists";
+	// Environment variable exists and points to tests/phpunit of
+	// develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( dirname( dirname( BP_PLUGIN_DIR ) ) ) ) . '/wp-tests-config.php' );
+
+// Test bar
+// Based on the tests directory, look for a config file
+} elseif ( file_exists( WP_ROOT_DIR . $bar ) ) {
+	echo "1bar - The file exists";
+	// Standard develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
+
+} else if ( file_exists( WP_TESTS_DIR . $bar ) ) {
+	echo "2bar - The file exists";
+	// Legacy unit-test.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
+
+} else if ( file_exists( dirname( dirname( WP_TESTS_DIR ) ) . $bar ) ) {
+	echo "3bar - The file exists";
+	// Environment variable exists and points to tests/phpunit of
+	// develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . $bar );
+
+} else if ( file_exists( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . $bar ) ) {
+	echo "4bar - The file exists";
 	// Environment variable exists and points to tests/phpunit of
 	// develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( dirname( dirname( BP_PLUGIN_DIR ) ) ) ) . '/wp-tests-config.php' );
