@@ -55,5 +55,6 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	var_dump(WP_ROOT_DIR);
 	var_dump(WP_DEVELOP_DIR);
 	var_dump(WP_TESTS_DIR);
+	var_dump(WP_TESTS_CONFIG_PATH);
 	die( "wp-tests-config.php could not be found.\n" );
 }
