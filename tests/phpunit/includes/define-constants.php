@@ -29,23 +29,18 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 		define( 'WP_ROOT_DIR', getenv( 'WP_DEVELOP_DIR' ) );
 	} else {
 		define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) ) ) );
+		var_dump(HELLO_ELSE);
+		var_dump(WP_ROOT_DIR);
 	}
 
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 }
-	var_dump(WP_TESTS_DIR);
-	var_dump(WP_ROOT_DIR);
+
 // Based on the tests directory, look for a config file
 if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	echo "1 - The file exists";
 	// Standard develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
-
-// Based on the tests directory, look for a config file
-} elseif ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
-	echo "1a - The file exists";
-	// Standard develop.svn.wordpress.org setup
-	define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
 
 } else if ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
 	echo "2 - The file exists";
@@ -58,12 +53,6 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	// develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' );
 
-} else if ( file_exists( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-tests-config.php' ) ) {
-	echo "4 - The file exists";
-	// Environment variable exists and points to tests/phpunit of
-	// develop.svn.wordpress.org setup
-	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( dirname( dirname( BP_PLUGIN_DIR ) ) ) ) . '/wp-tests-config.php' );
-
 } else {
 	var_dump(BP_PLUGIN_DIR);
 	var_dump(BP_TESTS_DIR);
@@ -71,13 +60,5 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	var_dump(WP_ROOT_DIR);
 	var_dump(WP_DEVELOP_DIR);
 	var_dump(WP_TESTS_CONFIG_PATH);
-	// die( "wp-tests-config.php could not be found.\n" );
-	define( 'WP_TESTS_CONFIG_PATH', '/tmp/wordpress/wp-tests-config.php' );
+	die( "wp-tests-config.php could not be found.\n" );
 }
-	var_dump(BP_PLUGIN_DIR);
-	var_dump(BP_TESTS_DIR);
-	var_dump(WP_TESTS_DIR);
-	var_dump(WP_ROOT_DIR);
-	var_dump(WP_DEVELOP_DIR);
-	var_dump(WP_TESTS_CONFIG_PATH);
-
