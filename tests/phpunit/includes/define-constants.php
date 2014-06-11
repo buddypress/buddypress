@@ -23,16 +23,21 @@ if ( ! defined( 'BP_TESTS_DIR' ) ) {
 if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	define( 'WP_TESTS_DIR', getenv( 'WP_TESTS_DIR' ) );
 	define( 'WP_ROOT_DIR', WP_TESTS_DIR );
-} else {
-	// Support WP_DEVELOP_DIR, as used by some plugins
-	if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
-		define( 'WP_ROOT_DIR', getenv( 'WP_DEVELOP_DIR' ) );
-	} else {
-		define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) );
-		var_dump(HELLO_ELSE);
-		var_dump(WP_ROOT_DIR);
-	}
 
+// Support WP_DEVELOP_DIR, as used by some plugins
+} elseif ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+	define( 'WP_ROOT_DIR', getenv( 'WP_DEVELOP_DIR' ) );
+	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
+
+// Support Travis CI TRAVIS, as used by some plugins
+{ elseif ( false !== getenv( 'TRAVIS' ) ) {
+	define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) );
+	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
+	var_dump(WP_ROOT_DIR);
+	var_dump(WP_TESTS_DIR);
+
+} else {
+	define( 'WP_ROOT_DIR', dirname( dirname( dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) ) ) );
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 }
 
