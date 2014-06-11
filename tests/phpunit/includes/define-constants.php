@@ -49,5 +49,11 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' );
 
 } else {
+	var_dump(BP_PLUGIN_DIR);
+	var_dump(BP_TESTS_DIR);
+	var_dump(WP_TESTS_DIR);
+	var_dump(WP_ROOT_DIR);
+	var_dump(WP_DEVELOP_DIR);
+	var_dump(WP_TESTS_DIR);
 	die( "wp-tests-config.php could not be found.\n" );
 }
