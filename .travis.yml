@@ -24,9 +24,6 @@ matrix:
       env: WP_VERSION=master
     - php: hhvm
       env: WP_VERSION=master
-  exclude:
-    - php: 5.5
-      env: WP_VERSION=3.7
   allow_failures:
     - php: 5.6
     - php: hhvm
@@ -47,6 +44,7 @@ before_script:
     - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
+    - if [ "$TRAVIS_PHP_VERSION" == "5.5" ] && [ "$WP_VERSION" == "3.7" ]; then sed -i "s:define( 'WP_DEBUG://define( 'WP_DEBUG:" wp-tests-config.php; fi;
     # prepare for running BuddyPress' tests
     - BP_DEVELOP_DIR=$WP_DEVELOP_DIR/src/wp-content/plugins/buddypress
     - cd $BP_DEVELOP_DIR
