@@ -51,6 +51,12 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	// develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' );
 
+} else if ( file_exists( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-tests-config.php' ) ) {
+	echo "4 - The file exists";
+	// Environment variable exists and points to tests/phpunit of
+	// develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( dirname( dirname( BP_PLUGIN_DIR ) ) ) ) . '/wp-tests-config.php' );
+
 } else {
 	var_dump(BP_PLUGIN_DIR);
 	var_dump(BP_TESTS_DIR);
