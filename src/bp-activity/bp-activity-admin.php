@@ -1057,6 +1057,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'display_comments' => 'stream',
 			'show_hidden'      => true,
 			'spam'             => 'spam_only',
+			'count_total'      => 'count_query',
 		) );
 		$this->spam_count = $spams['total'];
 		unset( $spams );
@@ -1072,6 +1073,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'show_hidden'      => true,
 			//'sort'             => $sort,
 			'spam'             => $spam,
+			'count_total'      => 'count_query',
 		) );
 
 		// If we're viewing a specific activity, flatten all activites into a single array.
@@ -1138,8 +1140,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.6.0)
 	*/
 	function display() {
-		extract( $this->_args );
-
 		$this->display_tablenav( 'top' ); ?>
 
 		<table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">

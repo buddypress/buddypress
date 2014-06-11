@@ -267,6 +267,9 @@ class BP_Activity_Activity {
 	 *     @type string $spam Spam status. Default: 'ham_only'.
 	 *     @type bool $update_meta_cache Whether to pre-fetch metadata for
 	 *           queried activity items. Default: true.
+	 *     @type string|bool $count_total If true, an additional DB query
+	 *           is run to count the total activity items for the query.
+	 *           Default: false.
 	 * }
 	 * @return array The array returned has two keys:
 	 *     - 'total' is the count of located activities
@@ -311,6 +314,7 @@ class BP_Activity_Activity {
 			'show_hidden'       => false,      // Show items marked hide_sitewide
 			'spam'              => 'ham_only', // Spam status
 			'update_meta_cache' => true,
+			'count_total'       => false,
 		);
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
@@ -411,6 +415,12 @@ class BP_Activity_Activity {
 		$page     = absint( $page     );
 		$per_page = absint( $per_page );
 
+		$retval = array(
+			'activities'     => null,
+			'total'          => null,
+			'has_more_items' => null,
+		);
+
 		// Filter and return true to use the legacy query structure (not recommended)
 		if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
@@ -431,17 +441,25 @@ class BP_Activity_Activity {
 			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}";
 
 			if ( ! empty( $per_page ) && ! empty( $page ) ) {
-				$activity_ids_sql .= $wpdb->prepare( " LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
+				// We query for $per_page + 1 items in order to
+				// populate the has_more_items flag
+				$activity_ids_sql .= $wpdb->prepare( " LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page + 1 );
 			}
 
 			$activity_ids_sql = apply_filters( 'bp_activity_paged_activities_sql', $activity_ids_sql, $r );
 
 			$activity_ids = $wpdb->get_col( $activity_ids_sql );
-			$activities   = self::get_activity_data( $activity_ids );
-		}
 
-		$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
-		$total_activities     = $wpdb->get_var( $total_activities_sql );
+			$retval['has_more_items'] = ! empty( $per_page ) && count( $activity_ids ) > $per_page;
+
+			// If we've fetched more than the $per_page value, we
+			// can discard the extra now
+			if ( ! empty( $per_page ) && count( $activity_ids ) === $per_page + 1 ) {
+				array_pop( $activity_ids );
+			}
+
+			$activities = self::get_activity_data( $activity_ids );
+		}
 
 		// Get the fullnames of users so we don't have to query in the loop
 		$activities = self::append_user_fullnames( $activities );
@@ -465,13 +483,23 @@ class BP_Activity_Activity {
 		// Generate action strings
 		$activities = BP_Activity_Activity::generate_action_strings( $activities );
 
+		$retval['activities'] = $activities;
+
 		// If $max is set, only return up to the max results
-		if ( !empty( $max ) ) {
-			if ( (int) $total_activities > (int) $max )
-				$total_activities = $max;
+		if ( ! empty( $r['count_total'] ) ) {
+
+			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
+			$total_activities     = $wpdb->get_var( $total_activities_sql );
+
+			if ( !empty( $max ) ) {
+				if ( (int) $total_activities > (int) $max )
+					$total_activities = $max;
+			}
+
+			$retval['total'] = $total_activities;
 		}
 
-		return array( 'activities' => $activities, 'total' => (int) $total_activities );
+		return $retval;
 	}
 
 	/**

@@ -5,17 +5,11 @@
 		<?php do_action( 'bp_group_activity_syndication_options' ); ?>
 
 		<li id="activity-filter-select" class="last">
-			<label for="activity-filter-by"><?php _e( 'Show:', 'buddypress' ); ?></label> 
+			<label for="activity-filter-by"><?php _e( 'Show:', 'buddypress' ); ?></label>
 			<select id="activity-filter-by">
-				<option value="-1"><?php _e( 'Everything', 'buddypress' ); ?></option>
-				<option value="activity_update"><?php _e( 'Updates', 'buddypress' ); ?></option>
+				<option value="-1"><?php _e( '&mdash; Everything &mdash;', 'buddypress' ); ?></option>
 
-				<?php if ( bp_is_active( 'forums' ) ) : ?>
-					<option value="new_forum_topic"><?php _e( 'Forum Topics', 'buddypress' ); ?></option>
-					<option value="new_forum_post"><?php _e( 'Forum Replies', 'buddypress' ); ?></option>
-				<?php endif; ?>
-
-				<option value="joined_group"><?php _e( 'Group Memberships', 'buddypress' ); ?></option>
+				<?php bp_activity_show_filters( 'group' ); ?>
 
 				<?php do_action( 'bp_group_activity_filter_options' ); ?>
 			</select>

@@ -13,10 +13,17 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /** Email *********************************************************************/
 
 /**
- * Email message recipients to alert them of a new unread private message
+ * Email message recipients to alert them of a new unread private message.
  *
- * @since BuddyPress (1.0)
- * @param array $raw_args
+ * @since BuddyPress (1.0.0)
+ *
+ * @param array|BP_Messages_Message $raw_args {
+ *     Array of arguments. Also accepts a BP_Messages_Message object.
+ *     @type array $recipients User IDs of recipients.
+ *     @type string $email_subject Subject line of message.
+ *     @type string $email_content Content of message.
+ *     @type int $sender_id User ID of sender.
+ * }
  */
 function messages_notification_new_message( $raw_args = array() ) {
 
@@ -86,9 +93,9 @@ To view and read your messages please log in and visit: %4$s
 			}
 
 			// Send the message
-			$email_to      = apply_filters( 'messages_notification_new_message_to',      $email_to );
-			$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name );
-			$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link, $settings_link );
+			$email_to      = apply_filters( 'messages_notification_new_message_to',      $email_to, $ud );
+			$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name, $ud );
+			$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link, $settings_link, $ud );
 
 			wp_mail( $email_to, $email_subject, $email_content );
 		}
@@ -101,14 +108,18 @@ add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
 /** Notifications *************************************************************/
 
 /**
- * Format the BuddyBar/Toolbar notifications for the Messages component
+ * Format the BuddyBar/Toolbar notifications for the Messages component.
  *
- * @since BuddyPress (1.0)
- * @param string $action The kind of notification being rendered
- * @param int $item_id The primary item id
- * @param int $secondary_item_id The secondary item id
- * @param int $total_items The total number of messaging-related notifications waiting for the user
- * @param string $format 'string' for BuddyBar-compatible notifications; 'array' for WP Toolbar
+ * @since BuddyPress (1.0.0)
+ *
+ * @param string $action The kind of notification being rendered.
+ * @param int $item_id The primary item id.
+ * @param int $secondary_item_id The secondary item id.
+ * @param int $total_items The total number of messaging-related notifications
+ *        waiting for the user
+ * @param string $format Return value format. 'string' for BuddyBar-compatible
+ *        notifications; 'array' for WP Toolbar. Default: 'string'.
+ * @return string|array Formatted notifications.
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 
@@ -150,10 +161,11 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 }
 
 /**
- * Send notifications to message recipients
+ * Send notifications to message recipients.
  *
  * @since BuddyPress (1.9.0)
- * @param obj $message
+ *
+ * @param BP_Messages_Message $message Message object.
  */
 function bp_messages_message_sent_add_notification( $message ) {
 	if ( bp_is_active( 'notifications' ) && ! empty( $message->recipients ) ) {

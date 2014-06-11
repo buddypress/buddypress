@@ -3,9 +3,9 @@
 /**
  * BuddyPress Messages Screens
  *
- * Screen functions are the controllers of BuddyPress. They will execute when their
- * specific URL is caught. They will first save or manipulate data using business
- * functions, then pass on the user to a template file.
+ * Screen functions are the controllers of BuddyPress. They will execute when
+ * their specific URL is caught. They will first save or manipulate data using
+ * business functions, then pass on the user to a template file.
  *
  * @package BuddyPress
  * @subpackage MessagesScreens
@@ -14,6 +14,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Load the Messages > Inbox screen.
+ */
 function messages_screen_inbox() {
 	if ( bp_action_variables() ) {
 		bp_do_404();
@@ -24,6 +27,9 @@ function messages_screen_inbox() {
 	bp_core_load_template( apply_filters( 'messages_template_inbox', 'members/single/home' ) );
 }
 
+/**
+ * Load the Messages > Sent screen.
+ */
 function messages_screen_sentbox() {
 	if ( bp_action_variables() ) {
 		bp_do_404();
@@ -34,6 +40,9 @@ function messages_screen_sentbox() {
 	bp_core_load_template( apply_filters( 'messages_template_sentbox', 'members/single/home' ) );
 }
 
+/**
+ * Load the Messages > Compose screen.
+ */
 function messages_screen_compose() {
 	global $bp;
 
@@ -86,6 +95,11 @@ function messages_screen_compose() {
 	bp_core_load_template( apply_filters( 'messages_template_compose', 'members/single/home' ) );
 }
 
+/**
+ * Load an individual conversation screen.
+ *
+ * @return bool|null False on failure.
+ */
 function messages_screen_conversation() {
 
 	// Bail if not viewing a single message
@@ -109,6 +123,11 @@ function messages_screen_conversation() {
 }
 add_action( 'bp_screens', 'messages_screen_conversation' );
 
+/**
+ * Load the Messages > Notices screen.
+ *
+ * @return false|null False on failure.
+ */
 function messages_screen_notices() {
 	global $notice_id;
 
@@ -152,6 +171,9 @@ function messages_screen_notices() {
 	bp_core_load_template( apply_filters( 'messages_template_notices', 'members/single/home' ) );
 }
 
+/**
+ * Render the markup for the Messages section of Settings > Notifications.
+ */
 function messages_screen_notification_settings() {
 	if ( bp_action_variables() ) {
 		bp_do_404();

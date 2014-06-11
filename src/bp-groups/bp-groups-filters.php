@@ -33,12 +33,12 @@ add_filter( 'bp_get_group_description_excerpt', 'wpautop' );
 add_filter( 'bp_get_group_description',         'make_clickable', 9 );
 add_filter( 'bp_get_group_description_excerpt', 'make_clickable', 9 );
 
-add_filter( 'bp_get_group_name',                    'wp_filter_kses', 1 );
-add_filter( 'bp_get_group_permalink',               'wp_filter_kses', 1 );
+add_filter( 'bp_get_group_name',                    'wp_filter_kses',        1 );
+add_filter( 'bp_get_group_permalink',               'wp_filter_kses',        1 );
 add_filter( 'bp_get_group_description',             'bp_groups_filter_kses', 1 );
-add_filter( 'bp_get_group_description_excerpt',     'wp_filter_kses', 1 );
-add_filter( 'groups_group_name_before_save',        'wp_filter_kses', 1 );
-add_filter( 'groups_group_description_before_save', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_group_description_excerpt',     'wp_filter_kses',        1 );
+add_filter( 'groups_group_name_before_save',        'wp_filter_kses',        1 );
+add_filter( 'groups_group_description_before_save', 'wp_filter_kses',        1 );
 
 add_filter( 'bp_get_group_description',         'stripslashes' );
 add_filter( 'bp_get_group_description_excerpt', 'stripslashes' );
@@ -65,23 +65,49 @@ add_filter( 'bp_get_total_group_count',      'bp_core_number_format' );
 add_filter( 'bp_get_group_total_for_member', 'bp_core_number_format' );
 add_filter( 'bp_get_group_total_members',    'bp_core_number_format' );
 
-function bp_groups_filter_kses( $content ) {
-	global $allowedtags;
+/**
+ * Filter output of Group Description through WordPress's KSES API.
+ *
+ * @since BuddyPress (1.1.0)
+ *
+ * @param string $content
+ * @return string
+ */
+function bp_groups_filter_kses( $content = '' ) {
 
-	$groups_allowedtags                  = $allowedtags;
-	$groups_allowedtags['a']['class']    = array();
-	$groups_allowedtags['img']           = array();
-	$groups_allowedtags['img']['src']    = array();
-	$groups_allowedtags['img']['alt']    = array();
-	$groups_allowedtags['img']['class']  = array();
-	$groups_allowedtags['img']['width']  = array();
-	$groups_allowedtags['img']['height'] = array();
-	$groups_allowedtags['img']['class']  = array();
-	$groups_allowedtags['img']['id']     = array();
-	$groups_allowedtags['code']          = array();
-	$groups_allowedtags = apply_filters( 'bp_groups_filter_kses', $groups_allowedtags );
+	/**
+	 * Note that we don't immediately bail if $content is empty. This is because
+	 * WordPress's KSES API calls several other filters that might be relevant
+	 * to someone's workflow (like `pre_kses`)
+	 */
 
-	return wp_kses( $content, $groups_allowedtags );
+	// Get allowed tags using core WordPress API allowing third party plugins
+	// to target the specific `buddypress-groups` context.
+	$allowed_tags = wp_kses_allowed_html( 'buddypress-groups' );
+
+	// Add our own tags allowed in group descriptions
+	$allowed_tags['a']['class']    = array();
+	$allowed_tags['img']           = array();
+	$allowed_tags['img']['src']    = array();
+	$allowed_tags['img']['alt']    = array();
+	$allowed_tags['img']['class']  = array();
+	$allowed_tags['img']['width']  = array();
+	$allowed_tags['img']['height'] = array();
+	$allowed_tags['img']['class']  = array();
+	$allowed_tags['img']['id']     = array();
+	$allowed_tags['code']          = array();
+
+	/**
+	 * Filter HTML elements allowed for a given context.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param string $allowed_tags Allowed tags, attributes, and/or entities.
+	 */
+	$tags = apply_filters( 'bp_groups_filter_kses', $allowed_tags );
+
+	// Return KSES'ed content, allowing the above tags
+	return wp_kses( $content, $tags );
 }
 
 /** Group forums **************************************************************/

@@ -135,6 +135,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 					'value' => 'barry',
 				),
 			),
+			'count_total' => 'count_query',
 		) );
 
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
@@ -308,6 +309,49 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		) );
 		$ids = wp_list_pluck( $activity['activities'], 'id' );
 		$this->assertEquals( array( $a3, $a2 ), $ids );
+	}
+
+	/**
+	 * @group get
+	 * @group count_total
+	 */
+	public function test_get_with_count_total() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+
+		$activity = BP_Activity_Activity::get( array(
+			'count_total' => 'count_query',
+		) );
+
+		$this->assertEquals( 2, $activity['total'] );
+	}
+
+	/**
+	 * @group get
+	 * @group count_total
+	 */
+	public function test_get_with_count_total_false() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+
+		$activity = BP_Activity_Activity::get( array(
+			'count_total' => false,
+		) );
+
+		$this->assertSame( null, $activity['total'] );
+	}
+
+	/**
+	 * @group get
+	 * @group count_total
+	 */
+	public function test_get_with_count_total_default_to_false() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+
+		$activity = BP_Activity_Activity::get();
+
+		$this->assertSame( null, $activity['total'] );
 	}
 
 	/**

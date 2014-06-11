@@ -402,6 +402,172 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group type
+	 * @group group_activity
+	 */
+	public function test_get_with_type_group_activity_with_activity_component_disabled() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$u3 = $this->create_user();
+		$c = buddypress()->groups->id;
+		$time = time();
+
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 500 ),
+		) );
+
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 400 ),
+		) );
+
+		$this->add_user_to_group( $u3, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 300 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u3,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 250 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u1,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 200 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u2,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+
+		// Deactivate activity component
+		$activity_active = isset( buddypress()->active_components['activity'] );
+		if ( $activity_active ) {
+			unset( buddypress()->active_components['activity'] );
+		}
+
+		$query_members1 = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'type' => 'group_activity',
+		) );
+
+		$query_members2 = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'type' => 'last_joined',
+		) );
+
+		if ( $activity_active ) {
+			buddypress()->active_components['activity'] = '1';
+		}
+
+		$this->assertSame( wp_list_pluck( $query_members2->results, 'ID' ), wp_list_pluck( $query_members1->results, 'ID' ) );
+	}
+
+	/**
+	 * @group type
+	 * @group group_activity
+	 */
+	public function test_get_with_type_group_activity() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$u3 = $this->create_user();
+		$c = buddypress()->groups->id;
+		$time = time();
+
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 500 ),
+		) );
+
+		$this->add_user_to_group( $u2, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 400 ),
+		) );
+
+		$this->add_user_to_group( $u3, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 300 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u3,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 250 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u1,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 200 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u2,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'type' => 'group_activity',
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u2, $u1, $u3 ), $ids );
+	}
+
+	/**
+	 * @group type
+	 * @group group_activity
+	 */
+	public function test_get_with_type_group_activity_no_dupes() {
+		$g = $this->factory->group->create();
+		$u1 = $this->create_user();
+		$c = buddypress()->groups->id;
+		$time = time();
+
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 500 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u1,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 250 ),
+		) );
+
+		$this->factory->activity->create( array(
+			'component' => $c,
+			'type' => 'activity_update',
+			'user_id' => $u1,
+			'item_id' => $g,
+			'recorded_time' => gmdate( 'Y-m-d H:i:s', $time - 200 ),
+		) );
+
+		$query_members = new BP_Group_Member_Query( array(
+			'group_id' => $g,
+			'type' => 'group_activity',
+		) );
+
+		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
+		$this->assertEquals( array( $u1, ), $ids );
+	}
+	/**
+	 * @group type
 	 */
 	public function test_get_with_type_alphabetical() {
 		$g = $this->factory->group->create();

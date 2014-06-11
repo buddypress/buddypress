@@ -32,7 +32,8 @@ function bp_blogs_register_activity_actions() {
 			$bp->blogs->id,
 			'new_blog',
 			__( 'New site created', 'buddypress' ),
-			'bp_blogs_format_activity_action_new_blog'
+			'bp_blogs_format_activity_action_new_blog',
+			__( 'New Sites', 'buddypress' )
 		);
 	}
 
@@ -40,14 +41,18 @@ function bp_blogs_register_activity_actions() {
 		$bp->blogs->id,
 		'new_blog_post',
 		__( 'New post published', 'buddypress' ),
-		'bp_blogs_format_activity_action_new_blog_post'
+		'bp_blogs_format_activity_action_new_blog_post',
+		__( 'Posts', 'buddypress' ),
+		array( 'activity', 'member' )
 	);
 
 	bp_activity_set_action(
 		$bp->blogs->id,
 		'new_blog_comment',
 		__( 'New post comment posted', 'buddypress' ),
-		'bp_blogs_format_activity_action_new_blog_comment'
+		'bp_blogs_format_activity_action_new_blog_comment',
+		__( 'Comments', 'buddypress' ),
+		array( 'activity', 'member' )
 	);
 
 	do_action( 'bp_blogs_register_activity_actions' );
@@ -264,8 +269,9 @@ function bp_blogs_record_activity( $args = '' ) {
 	global $bp;
 
 	// Bail if activity is not active
-	if ( ! bp_is_active( 'activity' ) )
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
 	$defaults = array(
 		'user_id'           => bp_loggedin_user_id(),
@@ -281,28 +287,30 @@ function bp_blogs_record_activity( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
 	// Remove large images and replace them with just one image thumbnail
- 	if ( !empty( $content ) )
-		$content = bp_activity_thumbnail_content_images( $content, $primary_link, $r );
+	if ( ! empty( $r['content'] ) ) {
+		$r['content'] = bp_activity_thumbnail_content_images( $r['content'], $r['primary_link'], $r );
+	}
 
-	if ( !empty( $action ) )
-		$action = apply_filters( 'bp_blogs_record_activity_action', $action );
+	if ( ! empty( $r['action'] ) ) {
+		$r['action'] = apply_filters( 'bp_blogs_record_activity_action', $r['action'] );
+	}
 
-	if ( !empty( $content ) )
-		$content = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $content ), $content );
+	if ( ! empty( $r['content'] ) ) {
+		$r['content'] = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $r['content'] ), $r['content'], $r );
+	}
 
 	// Check for an existing entry and update if one exists.
 	$id = bp_activity_get_activity_id( array(
-		'user_id'           => $user_id,
-		'component'         => $component,
-		'type'              => $type,
-		'item_id'           => $item_id,
-		'secondary_item_id' => $secondary_item_id
+		'user_id'           => $r['user_id'],
+		'component'         => $r['component'],
+		'type'              => $r['type'],
+		'item_id'           => $r['item_id'],
+		'secondary_item_id' => $r['secondary_item_id'],
 	) );
 
-	return bp_activity_add( array( 'id' => $id, 'user_id' => $user_id, 'action' => $action, 'content' => $content, 'primary_link' => $primary_link, 'component' => $component, 'type' => $type, 'item_id' => $item_id, 'secondary_item_id' => $secondary_item_id, 'recorded_time' => $recorded_time, 'hide_sitewide' => $hide_sitewide ) );
+	return bp_activity_add( array( 'id' => $id, 'user_id' => $r['user_id'], 'action' => $r['action'], 'content' => $r['content'], 'primary_link' => $r['primary_link'], 'component' => $r['component'], 'type' => $r['type'], 'item_id' => $r['item_id'], 'secondary_item_id' => $r['secondary_item_id'], 'recorded_time' => $r['recorded_time'], 'hide_sitewide' => $r['hide_sitewide'] ) );
 }
 
 /**

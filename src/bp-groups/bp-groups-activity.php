@@ -27,22 +27,41 @@ function groups_register_activity_actions() {
 		$bp->groups->id,
 		'created_group',
 		__( 'Created a group', 'buddypress' ),
-		'bp_groups_format_activity_action_created_group'
+		'bp_groups_format_activity_action_created_group',
+		__( 'New Groups', 'buddypress' ),
+		array( 'activity', 'member', 'member_groups' )
 	);
 
 	bp_activity_set_action(
 		$bp->groups->id,
 		'joined_group',
 		__( 'Joined a group', 'buddypress' ),
-		'bp_groups_format_activity_action_joined_group'
+		'bp_groups_format_activity_action_joined_group',
+		__( 'Group Memberships', 'buddypress' ),
+		array( 'activity', 'group', 'member', 'member_groups' )
 	);
 
 	// These actions are for the legacy forums
 	// Since the bbPress plugin also shares the same 'forums' identifier, we also
 	// check for the legacy forums loader class to be extra cautious
 	if ( bp_is_active( 'forums' ) && class_exists( 'BP_Forums_Component' ) ) {
-		bp_activity_set_action( $bp->groups->id, 'new_forum_topic', __( 'New group forum topic', 'buddypress' ) );
-		bp_activity_set_action( $bp->groups->id, 'new_forum_post',  __( 'New group forum post',  'buddypress' ) );
+		bp_activity_set_action(
+			$bp->groups->id,
+			'new_forum_topic',
+			__( 'New group forum topic', 'buddypress' ),
+			false,
+			__( 'Forum Topics', 'buddypress' ),
+			array( 'activity', 'group', 'member', 'member_groups' )
+		);
+
+		bp_activity_set_action(
+			$bp->groups->id,
+			'new_forum_post',
+			__( 'New group forum post',  'buddypress' ),
+			false,
+			__( 'Forum Replies', 'buddypress' ),
+			array( 'activity', 'group', 'member', 'member_groups' )
+		);
 	}
 
 	do_action( 'groups_register_activity_actions' );

@@ -98,6 +98,14 @@ class BP_Activity_Template {
 
 	var $in_the_loop;
 
+	/**
+	 * URL parameter key for activity pagination. Default: 'acpage'.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var string
+	 */
+	var $pag_arg;
+
 	var $pag_page;
 	var $pag_num;
 	var $pag_links;
@@ -178,7 +186,8 @@ class BP_Activity_Template {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
 
-		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
+		$this->pag_arg  = $r['page_arg'];
+		$this->pag_page = isset( $_REQUEST[ $this->pag_arg ] ) ? intval( $_REQUEST[ $this->pag_arg ] ) : $page;
 		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
 
 		// Check if blog/forum replies are disabled
@@ -220,10 +229,17 @@ class BP_Activity_Template {
 			) );
 		}
 
-		if ( !$max || $max >= (int) $this->activities['total'] )
-			$this->total_activity_count = (int) $this->activities['total'];
-		else
-			$this->total_activity_count = (int) $max;
+		// The total_activity_count property will be set only if a
+		// 'count_total' query has taken place
+		if ( ! is_null( $this->activities['total'] ) ) {
+			if ( ! $max || $max >= (int) $this->activities['total'] ) {
+				$this->total_activity_count = (int) $this->activities['total'];
+			} else {
+				$this->total_activity_count = (int) $max;
+			}
+		}
+
+		$this->has_more_items = $this->activities['has_more_items'];
 
 		$this->activities = $this->activities['activities'];
 
@@ -507,8 +523,9 @@ function bp_has_activities( $args = '' ) {
 		$object = $bp->groups->id;
 		$primary_id = $bp->groups->current_group->id;
 
-		if ( ( 'public' != $bp->groups->current_group->status ) && ( groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) || bp_current_user_can( 'bp_moderate' ) ) )
+		if ( groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) || bp_current_user_can( 'bp_moderate' ) ) {
 			$show_hidden = true;
+		}
 	}
 
 	// The default scope should recognize custom slugs
@@ -705,6 +722,23 @@ function bp_the_activity() {
 }
 
 /**
+ * Output the URL for the Load More link.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_activity_load_more_link() {
+	echo bp_get_activity_load_more_link();
+}
+	function bp_get_activity_load_more_link() {
+		global $activities_template;
+
+		$link = bp_get_requested_url();
+		$link = add_query_arg( $activities_template->pag_arg, $activities_template->pag_page + 1, $link );
+
+		return apply_filters( 'bp_get_activity_load_more_link', $link );
+	}
+
+/**
  * Output the activity pagination count.
  *
  * @since BuddyPress (1.0)
@@ -777,13 +811,17 @@ function bp_activity_pagination_links() {
 function bp_activity_has_more_items() {
 	global $activities_template;
 
-	$remaining_pages = 0;
+	if ( ! empty( $activities_template->has_more_items )  ) {
+		$has_more_items = true;
+	} else {
+		$remaining_pages = 0;
 
-	if ( ! empty( $activities_template->pag_page ) ) {
-		$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) );
+		if ( ! empty( $activities_template->pag_page ) ) {
+			$remaining_pages = floor( ( $activities_template->total_activity_count - 1 ) / ( $activities_template->pag_num * $activities_template->pag_page ) );
+		}
+
+		$has_more_items = (int) $remaining_pages > 0;
 	}
-
-	$has_more_items  = (int) $remaining_pages ? true : false;
 
 	return apply_filters( 'bp_activity_has_more_items', $has_more_items );
 }
@@ -1138,10 +1176,11 @@ function bp_activity_user_link() {
 	function bp_get_activity_user_link() {
 		global $activities_template;
 
-		if ( empty( $activities_template->activity->user_id ) )
+		if ( empty( $activities_template->activity->user_id ) || empty( $activities_template->activity->user_nicename ) || empty( $activities_template->activity->user_login ) ) {
 			$link = $activities_template->activity->primary_link;
-		else
+		} else {
 			$link = bp_core_get_user_domain( $activities_template->activity->user_id, $activities_template->activity->user_nicename, $activities_template->activity->user_login );
+		}
 
 		return apply_filters( 'bp_get_activity_user_link', $link );
 	}
@@ -2656,21 +2695,29 @@ function bp_activity_can_comment() {
 }
 
 /**
- * Determine if a comment can be made on an activity reply item.
+ * Determine whether a comment can be made on an activity reply item.
  *
- * Defaults to true, but can be modified by plugins.
- *
- * @since BuddyPress (1.5)
- *
- * @uses apply_filters() To call the 'bp_activity_can_comment_reply' hook
+ * @since BuddyPress (1.5.0)
  *
  * @param object $comment Activity comment.
- * @return bool $can_comment True if comment can receive comments.
+ * @return bool $can_comment True if comment can receive comments, otherwise
+ *         false.
  */
 function bp_activity_can_comment_reply( $comment ) {
 	$can_comment = true;
 
-	if ( get_option( 'thread_comments' ) && bp_activity_get_comment_depth() >= get_option( 'thread_comments_depth' ) ) {
+	// Fall back on current comment in activity loop
+	$comment_depth = 0;
+	if ( isset( $comment->depth ) ) {
+		$comment_depth = intval( $comment->depth );
+	} else {
+		$comment_depth = bp_activity_get_comment_depth();
+	}
+
+	if ( get_option( 'thread_comments' ) ) {
+		$can_comment = $comment_depth < get_option( 'thread_comments_depth' );
+	} else {
+		// No threading for comment replies if no threading for comments
 		$can_comment = false;
 	}
 
@@ -3362,3 +3409,91 @@ function bp_activity_sitewide_feed() {
 <?php
 }
 add_action( 'bp_head', 'bp_activity_sitewide_feed' );
+
+/**
+ * Display available filters depending on the scope.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param string $context The current context. 'activity', 'member',
+ *	  'member_groups', 'group'.
+ * @uses bp_get_activity_show_filters()
+ */
+function bp_activity_show_filters( $context = '' ) {
+	echo bp_get_activity_show_filters( $context );
+}
+	/**
+	 * Get available filters depending on the scope.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param string $context The current context. 'activity', 'member',
+	 *	  'member_groups', 'group'
+	 * @return string HTML for <option> values.
+	 */
+	function bp_get_activity_show_filters( $context = '' ) {
+		// Set default context based on current page
+		if ( empty( $context ) ) {
+
+			// On member pages, default to 'member', unless this
+			// is a user's Groups activity
+			if ( bp_is_user() ) {
+				if ( bp_is_active( 'groups' ) && bp_is_current_action( bp_get_groups_slug() ) ) {
+					$context = 'member_groups';
+				} else {
+					$context = 'member';
+				}
+
+			// On individual group pages, default to 'group'
+			} else if ( bp_is_active( 'groups' ) && bp_is_group() ) {
+				$context = 'group';
+
+			// 'activity' everywhere else
+			} else {
+				$context = 'activity';
+			}
+		}
+
+		$filters = array();
+
+		// Walk through the registered actions, and prepare an the
+		// select box options.
+		foreach ( buddypress()->activity->actions as $actions ) {
+			foreach ( $actions as $action ) {
+				if ( ! in_array( $context, (array) $action['context'] ) ) {
+					continue;
+				}
+
+				// Friends activity collapses two filters into one
+				if ( in_array( $action['key'], array( 'friendship_accepted', 'friendship_created' ) ) ) {
+					$action['key'] = 'friendship_accepted,friendship_created';
+				}
+
+				$filters[ $action['key'] ] = $action['label'];
+			}
+		}
+
+		/**
+		 * Modify the filter options available in the activity filter dropdown.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param array $filters Array of filter options for the given
+		 *        context, in the following format:
+		 *            $option_value => $option_name
+		 * @param string $context Context for the filter. 'activity'
+		 *        'member', 'member_groups', 'group'.
+		 */
+		$filters = apply_filters( 'bp_get_activity_show_filters', $filters, $context );
+
+		// Build the options output
+		$output = '';
+
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $value => $filter ) {
+				$output .= '<option value="' . esc_attr( $value ) . '">' . esc_html( $filter ) . '</option>' . "\n";
+			}
+		}
+
+		return apply_filters( 'bp_get_activity_show_filters', $output, $filters, $context );
+	}

@@ -7,7 +7,6 @@
  * actions throughout BuddyPress.
  *
  * @package BuddyPress
- * @subpackage SettingsLoader
  */
 
 // Exit if accessed directly
@@ -24,7 +23,7 @@ add_action( 'messages_screen_sentbox', 'bp_core_clear_cache' );
 add_action( 'messages_screen_inbox',   'bp_core_clear_cache' );
 
 /**
- * Clears unread count cache for each recipient after a message is sent.
+ * Clear unread count cache for each recipient after a message is sent.
  *
  * @since BuddyPress (2.0.0)
  *
@@ -38,7 +37,7 @@ function bp_messages_clear_unread_count_cache_on_message_save( BP_Messages_Messa
 add_action( 'messages_message_after_save', 'bp_messages_clear_unread_count_cache_on_message_save' );
 
 /**
- * Clears unread count cache for the logged-in user after a message is deleted.
+ * Clear unread count cache for the logged-in user after a message is deleted.
  *
  * @since BuddyPress (2.0.0)
  *
@@ -51,8 +50,8 @@ function bp_messages_clear_unread_count_cache_on_message_delete( $thread_ids ) {
 add_action( 'messages_before_delete_thread', 'bp_messages_clear_unread_count_cache_on_message_delete' );
 
 /**
- * Invalidates cache for notices.
- * 
+ * Invalidate cache for notices.
+ *
  * Currently, invalidates active notice cache.
  *
  * @since BuddyPress (2.0.0)

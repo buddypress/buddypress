@@ -30,14 +30,15 @@ module.exports = function( grunt ) {
 	],
 
 	BP_EXCLUDED_JS = [
-		'!bp-templates/bp-legacy/js/*.js',
-		'!bp-themes/bp-default/_inc/*.js'
+		'!bp-templates/bp-legacy/js/*.js'
 	];
 
-	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
+	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
+	grunt.util = require( 'grunt-legacy-util' );
 
 
 	grunt.initConfig( {
+		pkg: grunt.file.readJSON('package.json'),
 		jshint: {
 			options: grunt.file.readJSON( '.jshintrc' ),
 			grunt: {
@@ -126,12 +127,14 @@ module.exports = function( grunt ) {
 		makepot: {
 			target: {
 				options: {
-					cwd: SOURCE_DIR,
+					cwd: BUILD_DIR,
 					domainPath: '.',
 					mainFile: 'bp-loader.php',
-					potFilename: 'bp-languages/buddypress.pot',
+					potFilename: 'buddypress.pot',
 					processPot: function( pot ) {
-						pot.headers['report-msgid-bugs-to'] = 'https://wordpress.org/support/plugin/buddypress';
+						pot.headers['report-msgid-bugs-to'] = 'https://buddypress.trac.wordpress.org';
+						pot.headers['last-translator'] = 'JOHN JAMES JACOBY <jjj@buddypress.org>';
+						pot.headers['language-team'] = 'ENGLISH <jjj@buddypress.org>';
 						return pot;
 					},
 					type: 'wp-plugin'
@@ -184,7 +187,11 @@ module.exports = function( grunt ) {
 				ext: '.min.js',
 				src: BP_JS
 			},
-			options: { banner: '/*! https://wordpress.org/plugins/buddypress/ */' }
+			options: {
+				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+				'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
+				'https://wordpress.org/plugins/buddypress/ */\n'
+			}
 		},
 		cssmin: {
 			ltr: {
@@ -193,7 +200,11 @@ module.exports = function( grunt ) {
 				expand: true,
 				ext: '.min.css',
 				src: BP_CSS,
-				options: { banner: '/*! https://wordpress.org/plugins/buddypress/ */' }
+				options: {
+					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+					'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
+					'https://wordpress.org/plugins/buddypress/ */'
+				}
 			},
 			rtl: {
 				cwd: BUILD_DIR,
@@ -203,7 +214,11 @@ module.exports = function( grunt ) {
 				src: BP_CSS.map( function( filename ) {
 					return filename.replace( '.css', '-rtl.css' );
 				}),
-				options: { banner: '/*! https://wordpress.org/plugins/buddypress/ */' }
+				options: {
+					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+					'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
+					'https://wordpress.org/plugins/buddypress/ */'
+				}
 			}
 		},
 
@@ -219,13 +234,13 @@ module.exports = function( grunt ) {
 		},
 		exec: {
 			bbpress: {
-				command: 'svn export https://bbpress.svn.wordpress.org/tags/1.2 bbpress',
+				command: 'svn export --force https://bbpress.svn.wordpress.org/tags/1.2 bbpress',
 				cwd: BUILD_DIR + 'bp-forums',
 				stdout: false
 			},
 			bpdefault: {
-				command: 'svn export https://themes.svn.wordpress.org/bp-default/1.9 bp-default',
-				cwd: BUILD_DIR + 'bp-themes',
+				command: 'svn export --force https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
+				cwd: BUILD_DIR,
 				stdout: false
 			}
 		},
@@ -252,8 +267,8 @@ module.exports = function( grunt ) {
 	 */
 
 	grunt.registerTask( 'build',         ['jshint', 'cssjanus:core'] );
-	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'makepot', 'imagemin'] );
-	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'exec:bbpress', /*'exec:bpdefault',*/ 'test'] );
+	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'imagemin'] );
+	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'makepot', 'exec:bbpress', 'exec:bpdefault', 'test'] );
 
 
 	// Testing tasks.

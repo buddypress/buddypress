@@ -2,14 +2,6 @@
 
 <?php if ( bp_has_activities( bp_ajax_querystring( 'activity' ) ) ) : ?>
 
-	<?php /* Show pagination if JS is not enabled, since the "Load More" link will do nothing */ ?>
-	<noscript>
-		<div class="pagination">
-			<div class="pag-count"><?php bp_activity_pagination_count(); ?></div>
-			<div class="pagination-links"><?php bp_activity_pagination_links(); ?></div>
-		</div>
-	</noscript>
-
 	<?php if ( empty( $_POST['page'] ) ) : ?>
 
 		<ul id="activity-stream" class="activity-list item-list">
@@ -25,7 +17,7 @@
 	<?php if ( bp_activity_has_more_items() ) : ?>
 
 		<li class="load-more">
-			<a href="#more"><?php _e( 'Load More', 'buddypress' ); ?></a>
+			<a href="<?php bp_activity_load_more_link() ?>"><?php _e( 'Load More', 'buddypress' ); ?></a>
 		</li>
 
 	<?php endif; ?>

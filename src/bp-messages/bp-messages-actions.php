@@ -3,9 +3,9 @@
 /**
  * BuddyPress Messages Actions
  *
- * Action functions are exactly the same as screen functions, however they do not
- * have a template screen associated with them. Usually they will send the user
- * back to the default screen after execution.
+ * Action functions are exactly the same as screen functions, however they do
+ * not have a template screen associated with them. Usually they will send the
+ * user back to the default screen after execution.
  *
  * @package BuddyPress
  * @subpackage MessagesActions
@@ -14,6 +14,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Process a request to view a single message thread.
+ */
 function messages_action_conversation() {
 
 	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) )
@@ -47,6 +50,11 @@ function messages_action_conversation() {
 }
 add_action( 'bp_actions', 'messages_action_conversation' );
 
+/**
+ * Process a request to delete a message.
+ *
+ * @return bool False on failure.
+ */
 function messages_action_delete_message() {
 
 	if ( !bp_is_messages_component() || bp_is_current_action( 'notices' ) || !bp_is_action_variable( 'delete', 0 ) )
@@ -71,6 +79,11 @@ function messages_action_delete_message() {
 }
 add_action( 'bp_actions', 'messages_action_delete_message' );
 
+/**
+ * Process a request to bulk delete messages.
+ *
+ * @return bool False on failure.
+ */
 function messages_action_bulk_delete() {
 
 	if ( !bp_is_messages_component() || !bp_is_action_variable( 'bulk-delete', 0 ) )

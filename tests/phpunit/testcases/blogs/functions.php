@@ -402,6 +402,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			'secondary_item_id' => $post_id,
 		) );
 
-		return ! empty( $a['total'] );
+		return ! empty( $a['activities'] );
 	}
 }

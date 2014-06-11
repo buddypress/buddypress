@@ -30,7 +30,13 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	}
 
 	private function rrmdir( $dir ) {
-		foreach ( glob( $dir . '/*' ) as $file ) {
+		$d = glob( $dir . '/*' );
+
+		if ( empty( $d ) ) {
+			return;
+		}
+
+		foreach ( $d as $file ) {
 			if ( is_dir( $file ) ) {
 				$this->rrmdir( $file );
 			} else {

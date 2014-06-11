@@ -307,4 +307,152 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->assertNotEmpty( wp_cache_get( $a1, 'activity_meta' ) );
 		$this->assertNotEmpty( wp_cache_get( $a2, 'activity_meta' ) );
 	}
+
+	/**
+	 * @group bp_activity_can_comment_reply
+	 */
+	public function test_bp_activity_can_comment_reply_thread_comments_on() {
+		$tc = get_option( 'thread_comments' );
+		update_option( 'thread_comments', '1' );
+
+		$tcd = get_option( 'thread_comments_depth' );
+		update_option( 'thread_comments_depth', '4' );
+
+		// Fake the global
+		global $activities_template;
+		$activities_template = new stdClass;
+		$activities_template->activity = new stdClass;
+		$activities_template->activity->current_comment = new stdClass;
+
+		$comment = new stdClass;
+		$comment->item_id = 4;
+
+		$activities_template->activity->current_comment->depth = 1;
+		$this->assertTrue( bp_activity_can_comment_reply( $comment ) );
+
+		$activities_template->activity->current_comment->depth = 3;
+		$this->assertTrue( bp_activity_can_comment_reply( $comment ) );
+
+		$activities_template->activity->current_comment->depth = 4;
+		$this->assertFalse( bp_activity_can_comment_reply( $comment ) );
+
+		$activities_template->activity->current_comment->depth = 5;
+		$this->assertFalse( bp_activity_can_comment_reply( $comment ) );
+
+		// Set right what once went wrong
+		update_option( 'thread_comments', $tc );
+		update_option( 'thread_comments_depth', $tcd );
+		$activities_template = null;
+	}
+
+	/**
+	 * @group bp_activity_can_comment_reply
+	 */
+	public function test_bp_activity_can_comment_reply_thread_comments_off() {
+		$tc = get_option( 'thread_comments' );
+		update_option( 'thread_comments', '0' );
+
+		$tcd = get_option( 'thread_comments_depth' );
+		update_option( 'thread_comments_depth', '4' );
+
+		// Fake the global
+		global $activities_template;
+		$activities_template = new stdClass;
+		$activities_template->activity = new stdClass;
+		$activities_template->activity->current_comment = new stdClass;
+
+		$comment = new stdClass;
+		$comment->item_id = 4;
+
+		$activities_template->activity->current_comment->depth = 1;
+		$this->assertFalse( bp_activity_can_comment_reply( $comment ) );
+
+		$activities_template->activity->current_comment->depth = 2;
+		$this->assertFalse( bp_activity_can_comment_reply( $comment ) );
+
+		// Set right what once went wrong
+		update_option( 'thread_comments', $tc );
+		update_option( 'thread_comments_depth', $tcd );
+		$activities_template = null;
+	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_no_count_total_false() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => false,
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertFalse( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_no_count_total_true() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		$a3 = $this->factory->activity->create();
+		$a4 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => false,
+			'per_page' => 2,
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertTrue( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_count_total_false() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		$a3 = $this->factory->activity->create();
+		$a4 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => 'count_query',
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertFalse( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
+
+	/**
+	 * @group bp_activity_has_more_items
+	 */
+	public function test_bp_activity_has_more_items_count_total_true() {
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create();
+		$a3 = $this->factory->activity->create();
+		$a4 = $this->factory->activity->create();
+
+		$args = array(
+			'count_total' => 'count_query',
+			'per_page' => 2,
+		);
+
+		if ( bp_has_activities( $args ) ) {
+			global $activities_template;
+			$this->assertTrue( bp_activity_has_more_items() );
+			$activities_template = null;
+		}
+	}
 }

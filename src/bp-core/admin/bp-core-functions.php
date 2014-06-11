@@ -802,17 +802,37 @@ function bp_admin_wp_nav_menu_restrict_items() {
  */
 function bp_core_admin_user_row_actions( $actions, $user_object ) {
 
-	if ( current_user_can( 'edit_user', $user_object->ID ) && bp_loggedin_user_id() != $user_object->ID ) {
+	// Setup the $user_id variable from the current user object
+	$user_id = 0;
+	if ( !empty( $user_object->ID ) ) {
+		$user_id = absint( $user_object->ID );
+	}
 
+	// Bail early if user cannot perform this action, or is looking at themselves
+	if ( current_user_can( 'edit_user', $user_id ) && ( bp_loggedin_user_id() !== $user_id ) ) {
+
+		// Admin URL could be single site or network
 		$url = bp_get_admin_url( 'users.php' );
 
-		if ( bp_is_user_spammer( $user_object->ID ) ) {
-			$actions['ham'] = "<a href='" . wp_nonce_url( $url . "?action=ham&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Not Spam', 'buddypress' ) . "</a>";
+		// If spammed, create unspam link
+		if ( bp_is_user_spammer( $user_id ) ) {
+			$url             = add_query_arg( array( 'action' => 'ham', 'user' => $user_id ), $url );
+			$unspam_link     = wp_nonce_url( $url, 'bp-spam-user' );
+			$actions['ham']  = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $unspam_link ), esc_html__( 'Not Spam', 'buddypress' ) );
+
+		// If not already spammed, create spam link
 		} else {
-			$actions['spam'] = "<a class='submitdelete' href='" . wp_nonce_url( $url . "?action=spam&amp;user=$user_object->ID", 'bp-spam-user' ) . "'>" . __( 'Mark as Spam', 'buddypress' ) . "</a>";
+			$url             = add_query_arg( array( 'action' => 'spam', 'user' => $user_id ), $url );
+			$spam_link       = wp_nonce_url( $url, 'bp-spam-user' );
+			$actions['spam'] = sprintf( '<a class="submitdelete" href="%1$s">%2$s</a>', esc_url( $spam_link ), esc_html__( 'Spam', 'buddypress' ) );
 		}
 	}
 
+	// Create a "View" link
+	$url             = bp_core_get_user_domain( $user_id );
+	$actions['view'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), esc_html__( 'View', 'buddypress' ) );
+
+	// Return new actions
 	return $actions;
 }
 

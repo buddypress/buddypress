@@ -5,58 +5,39 @@ div#profile-page.wrap form#your-profile {
 }
 
 div#profile-page.wrap form#your-profile h3:first-of-type {
-	margin-top:6em;
+	margin-top:5em;
 }
 
-div#profile-page.wrap form#your-profile ul#profile-nav {
-	position:absolute;
-	top:-6em;
-	border-bottom:solid 1px #ccc;
-	width:100%;
+div#profile-page.wrap form#your-profile #profile-nav {
+	position: absolute;
+	top: -3.65em;
+	width: 97%;
 }
 
-div#community-profile-page ul#profile-nav {
-	border-bottom:solid 1px #ccc;
-	width:100%;
-	margin-top:1em;
-	margin-bottom:1em;
-	padding:1em 0;
-	padding-bottom: 0;
-	height:2.4em;
+div#community-profile-page #profile-nav {
+	margin-bottom: 1em;
 }
 
-form#your-profile ul#profile-nav li,
-div#community-profile-page ul#profile-nav li {
-	margin-left:0.4em;
-	float:left;
-	font-weight: bold;
-	font-size: 15px;
-	line-height: 24px;
+#bp_members_admin_user_stats ul {
+	margin-bottom: 0;
 }
-
-form#your-profile ul#profile-nav li a,
-div#community-profile-page ul#profile-nav li a {
-	text-decoration: none;
-	color:#888;
-}
-
-form#your-profile ul#profile-nav li a:hover,
-form#your-profile ul#profile-nav li.nav-tab-active a,
-div#community-profile-page ul#profile-nav li a:hover,
-div#community-profile-page ul#profile-nav li.nav-tab-active a {
-	text-decoration: none;
-	color:#000;
-}
-
 div#community-profile-page li.bp-members-profile-stats:before,
 div#community-profile-page li.bp-friends-profile-stats:before,
 div#community-profile-page li.bp-groups-profile-stats:before,
 div#community-profile-page li.bp-blogs-profile-stats:before,
 div#community-profile-page a.bp-xprofile-avatar-user-admin:before {
-	font-family: 'dashicons';
-	font-size: 18px;
-	vertical-align: bottom;
-	margin-right:5px;
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	display: inline-block;
+	padding: 0 2px 0 0;
+	top: 0;
+	left: -1px;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #888;
 }
 
 div#community-profile-page li.bp-members-profile-stats:before {

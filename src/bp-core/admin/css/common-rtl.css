@@ -4,6 +4,37 @@
  * @since BuddyPress (1.6)
  */
 
+/* User's Lists
+------------------------------------------------------------------------------*/
+
+body.site-users-php th#role,
+body.users-php th#role,
+body.users_page_bp-signups th#count_sent {
+	width: 10%;
+}
+
+body.site-users-php th#name,
+body.site-users-php th#email,
+body.users-php th#name,
+body.users-php th#registered,
+body.users-php th#email,
+body.users_page_bp-signups th#name,
+body.users_page_bp-signups th#registered,
+body.users_page_bp-signups th#email,
+body.users_page_bp-signups th#date_sent {
+	width: 15%;
+}
+
+body.users-php th#blogs,
+body.users_page_bp-signups th#blogs {
+	width: 20%;
+}
+
+body.users_page_bp-signups th.column-count_sent,
+body.users_page_bp-signups td.count_sent {
+	text-align: center;
+}
+
 /* Icon 32's
 ------------------------------------------------------------------------------*/
 
@@ -94,28 +125,6 @@ body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-s
 /* Tools */
 #adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
     content: "";
-}
-
-th.column-gid {
-	width: 60px;
-}
-td.column-gid {
-	vertical-align: middle;
-}
-table.bp-group-members th,
-table.bp-group-members td {
-	padding: 5px 0;
-}
-table.bp-group-members .uid-column {
-	padding-right: 20px;
-	padding-left: 20px;
-}
-table.bp-group-members .uname-column {
-	width: 70%;
-}
-table.bp-group-members .urole-column {
-	padding-right: 20px;
-	padding-left: 20px;
 }
 
 /* Components

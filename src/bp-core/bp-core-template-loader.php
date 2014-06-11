@@ -122,18 +122,17 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
  *
  * @since BuddyPress (1.7.0)
  *
- * @todo Make 'callable' instead of 'function'.
- *
- * @param string $location Callback function that returns the stack location.
+ * @param string $location_callback Callback function that returns the stack location.
  * @param int $priority Optional. The priority parameter as passed to
  *        add_filter(). Default: 10.
  * @return bool See {@link add_filter()}.
  */
 function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
 
-	// Bail if no location, or function does not exist
-	if ( empty( $location_callback ) || ! function_exists( $location_callback ) )
+	// Bail if no location, or function/method is not callable
+	if ( empty( $location_callback ) || ! is_callable( $location_callback ) ) {
 		return false;
+	}
 
 	// Add location callback to template stack
 	return add_filter( 'bp_template_stack', $location_callback, (int) $priority );
@@ -146,16 +145,17 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  *
  * @see bp_register_template_stack()
  *
- * @param string $location Callback function that returns the stack location.
+ * @param string $location_callback Callback function that returns the stack location.
  * @param int $priority Optional. The priority parameter passed to
  *        {@link bp_register_template_stack()}. Default: 10.
  * @return bool See {@link remove_filter()}.
  */
 function bp_deregister_template_stack( $location_callback = '', $priority = 10 ) {
 
-	// Bail if no location, or function does not exist
-	if ( empty( $location_callback ) || ! function_exists( $location_callback ) )
+	// Bail if no location, or function/method is not callable
+	if ( empty( $location_callback ) || ! is_callable( $location_callback ) ) {
 		return false;
+	}
 
 	// Add location callback to template stack
 	return remove_filter( 'bp_template_stack', $location_callback, (int) $priority );

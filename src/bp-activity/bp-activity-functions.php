@@ -275,9 +275,13 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
  * @param string $type The action type.
  * @param string $description The action description.
  * @param callable $format_callback Callback for formatting the action string.
+ * @param string $label String to describe this action in the activity stream
+ *        filter dropdown.
+ * @param array $context Activity stream contexts where the filter should appear.
+ *        'activity', 'member', 'member_groups', 'group'
  * @return bool False if any param is empty, otherwise true.
  */
-function bp_activity_set_action( $component_id, $type, $description, $format_callback = false ) {
+function bp_activity_set_action( $component_id, $type, $description, $format_callback = false, $label = false, $context = array() ) {
 	$bp = buddypress();
 
 	// Return false if any of the above values are not set
@@ -303,7 +307,9 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 		'key'             => $type,
 		'value'           => $description,
 		'format_callback' => $format_callback,
-	), $component_id, $type, $description, $format_callback );
+		'label'           => $label,
+		'context'         => $context,
+	), $component_id, $type, $description, $format_callback, $label, $context );
 
 	return true;
 }
@@ -835,14 +841,17 @@ function bp_activity_register_activity_actions() {
 		$bp->activity->id,
 		'activity_update',
 		__( 'Posted a status update', 'buddypress' ),
-		'bp_activity_format_activity_action_activity_update'
+		'bp_activity_format_activity_action_activity_update',
+		__( 'Updates', 'buddypress' ),
+		array( 'activity', 'group', 'member', 'member_groups' )
 	);
 
 	bp_activity_set_action(
 		$bp->activity->id,
 		'activity_comment',
 		__( 'Replied to a status update', 'buddypress' ),
-		'bp_activity_format_activity_action_activity_comment'
+		'bp_activity_format_activity_action_activity_comment',
+		__( 'Activity Comments', 'buddypress' )
 	);
 
 	do_action( 'bp_activity_register_activity_actions' );
@@ -954,6 +963,7 @@ function bp_activity_get( $args = '' ) {
 		'in'                => false,        // Comma-separated list or array of activity IDs to which you want to limit the query
 		'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
 		'update_meta_cache' => true,
+		'count_total'       => false,
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -985,6 +995,7 @@ function bp_activity_get( $args = '' ) {
 				'show_hidden'       => $show_hidden,
 				'spam'              => $spam,
 				'update_meta_cache' => $update_meta_cache,
+				'count_total'       => $count_total,
 			);
 			$activity = BP_Activity_Activity::get( $args );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
@@ -1003,7 +1014,8 @@ function bp_activity_get( $args = '' ) {
 			'show_hidden'      => $show_hidden,
 			'exclude'          => $exclude,
 			'in'               => $in,
-			'spam'             => $spam
+			'spam'             => $spam,
+			'count_total'      => $count_total,
 		);
 		$activity = BP_Activity_Activity::get( $args );
 	}

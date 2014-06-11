@@ -340,7 +340,8 @@ function bp_rewind_blogs() {
  *	     'active', 'alphabetical', 'newest', or 'random'.
  *     @type array $include_blog_ids Array of blog IDs to limit results to.
  *     @type string $sort 'ASC' or 'DESC'. Default: 'DESC'.
- *     @type string $search_terms Limit results by a search term. Default: null.
+ *     @type string $search_terms Limit results by a search term. Default: the
+ *           value of $_REQUEST['s'], if present.
  *     @type int $user_id The ID of the user whose blogs should be retrieved.
  *           When viewing a user profile page, 'user_id' defaults to the ID of
  *           the displayed user. Otherwise the default is false.
@@ -351,17 +352,22 @@ function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
 	/***
-	 * Set the defaults based on the current page. Any of these will be overridden
-	 * if arguments are directly passed into the loop. Custom plugins should always
-	 * pass their parameters directly to the loop.
+	 * Set the defaults based on the current page. Any of these will be
+	 * overridden if arguments are directly passed into the loop. Custom
+	 * plugins should always pass their parameters directly to the loop.
 	 */
-	$type         = 'active';
-	$user_id      = 0;
-	$search_terms = null;
+	$type    = 'active';
+	$user_id = 0;
 
 	// User filtering
 	if ( bp_displayed_user_id() )
 		$user_id = bp_displayed_user_id();
+
+	if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) ) {
+		$search_terms = $_REQUEST['s'];
+	} else {
+		$search_terms = false;
+	}
 
 	$defaults = array(
 		'type'              => $type,
@@ -378,23 +384,15 @@ function bp_has_blogs( $args = '' ) {
 	);
 
 	$r = bp_parse_args( $args, $defaults, 'has_blogs' );
-	extract( $r );
 
-	if ( is_null( $search_terms ) ) {
-		if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) )
-			$search_terms = $_REQUEST['s'];
-		else
-			$search_terms = false;
-	}
-
-	if ( $max ) {
-		if ( $per_page > $max ) {
-			$per_page = $max;
+	if ( $r['max'] ) {
+		if ( $r['per_page'] > $r['max'] ) {
+			$r['per_page'] = $r['max'];
 		}
 	}
 
-	$blogs_template = new BP_Blogs_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg, $update_meta_cache, $include_blog_ids );
-	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template );
+	$blogs_template = new BP_Blogs_Template( $r['type'], $r['page'], $r['per_page'], $r['max'], $r['user_id'], $r['search_terms'], $r['page_arg'], $r['update_meta_cache'], $r['include_blog_ids'] );
+	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template, $r );
 }
 
 /**
@@ -633,39 +631,77 @@ function bp_blog_class() {
 
 /**
  * Output the last active date of the current blog in the loop.
+ *
+ * @param array $args See {@link bp_get_blog_last_active()}.
  */
-function bp_blog_last_active() {
-	echo bp_get_blog_last_active();
+function bp_blog_last_active( $args = array() ) {
+	echo bp_get_blog_last_active( $args );
 }
 	/**
 	 * Return the last active date of the current blog in the loop.
 	 *
+	 * @param array $args {
+	 *     Array of optional arguments.
+	 *     @type bool $active_format If true, formatted "Active 5 minutes
+	 *           ago". If false, formatted "5 minutes ago". Default: true.
+	 * }
 	 * @return string Last active date.
 	 */
-	function bp_get_blog_last_active() {
+	function bp_get_blog_last_active( $args = array() ) {
 		global $blogs_template;
 
-		return apply_filters( 'bp_blog_last_active', bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s', 'buddypress' ) ) );
+		$r = wp_parse_args( $args, array(
+			'active_format' => true,
+		) );
+
+		if ( isset( $blogs_template->blog->last_activity ) ) {
+			if ( ! empty( $r['active_format'] ) ) {
+				$last_activity = bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s', 'buddypress' ) );
+			} else {
+				$last_activity = bp_core_time_since( $blogs_template->blog->last_activity );
+			}
+		} else {
+			$last_activity = __( 'Never active', 'buddypress' );
+		}
+
+		return apply_filters( 'bp_blog_last_active', $last_activity, $r );
 	}
 
 /**
  * Output the latest post from the current blog in the loop.
+ *
+ * @param array $args See {@link bp_get_blog_latest_post()}.
  */
-function bp_blog_latest_post() {
-	echo bp_get_blog_latest_post();
+function bp_blog_latest_post( $args = array() ) {
+	echo bp_get_blog_latest_post( $args );
 }
 	/**
 	 * Return the latest post from the current blog in the loop.
 	 *
+	 * @param array $args {
+	 *     Array of optional arguments.
+	 *     @type bool $latest_format If true, formatted "Latest post:
+	 *           [link to post]". If false, formatted "[link to post]".
+	 *           Default: true.
+	 * }
 	 * @return string $retval String of the form 'Latest Post: [link to post]'.
 	 */
-	function bp_get_blog_latest_post() {
+	function bp_get_blog_latest_post( $args = array() ) {
 		global $blogs_template;
+
+		$r = wp_parse_args( $args, array(
+			'latest_format' => true,
+		) );
 
 		$retval = bp_get_blog_latest_post_title();
 
-		if ( ! empty( $retval ) )
-			$retval = sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>' );
+		if ( ! empty( $retval ) ) {
+			if ( ! empty( $r['latest_format'] ) ) {
+				$retval = sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>' );
+			} else {
+				$retval = '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>';
+			}
+		}
 
 		return apply_filters( 'bp_get_blog_latest_post', $retval );
 	}

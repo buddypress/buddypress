@@ -1519,7 +1519,7 @@ function bp_is_current_component_core() {
  * Is the current page the activity directory ?
  *
  * @since BuddyPress (2.0.0)
- * 
+ *
  * @return True if the current page is the activity directory.
  */
 function bp_is_activity_directory() {
@@ -1547,7 +1547,7 @@ function bp_is_single_activity() {
  * Is the current page the members directory ?
  *
  * @since BuddyPress (2.0.0)
- * 
+ *
  * @return True if the current page is the members directory.
  */
 function bp_is_members_directory() {
@@ -1918,7 +1918,7 @@ function bp_is_user_settings_profile() {
  * Is the current page the groups directory ?
  *
  * @since BuddyPress (2.0.0)
- * 
+ *
  * @return True if the current page is the groups directory.
  */
 function bp_is_groups_directory() {
@@ -2138,7 +2138,7 @@ function bp_is_create_blog() {
  * Is the current page the blogs directory ?
  *
  * @since BuddyPress (2.0.0)
- * 
+ *
  * @return True if the current page is the blogs directory.
  */
 function bp_is_blogs_directory() {
