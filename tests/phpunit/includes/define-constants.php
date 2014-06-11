@@ -36,14 +36,17 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 
 // Based on the tests directory, look for a config file
 if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
+	echo "1 - The file exists";
 	// Standard develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
 
 } else if ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
+	echo "2 - The file exists";
 	// Legacy unit-test.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
 
 } else if ( file_exists( dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' ) ) {
+	echo "3 - The file exists";
 	// Environment variable exists and points to tests/phpunit of
 	// develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' );
@@ -54,7 +57,13 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	var_dump(WP_TESTS_DIR);
 	var_dump(WP_ROOT_DIR);
 	var_dump(WP_DEVELOP_DIR);
-	var_dump(WP_TESTS_DIR);
 	var_dump(WP_TESTS_CONFIG_PATH);
 	die( "wp-tests-config.php could not be found.\n" );
 }
+	var_dump(BP_PLUGIN_DIR);
+	var_dump(BP_TESTS_DIR);
+	var_dump(WP_TESTS_DIR);
+	var_dump(WP_ROOT_DIR);
+	var_dump(WP_DEVELOP_DIR);
+	var_dump(WP_TESTS_CONFIG_PATH);
+
