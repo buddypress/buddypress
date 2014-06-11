@@ -40,6 +40,12 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	// Standard develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
 
+// Based on the tests directory, look for a config file
+} elseif ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
+	echo "1a - The file exists";
+	// Standard develop.svn.wordpress.org setup
+	define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
+
 } else if ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
 	echo "2 - The file exists";
 	// Legacy unit-test.svn.wordpress.org setup
