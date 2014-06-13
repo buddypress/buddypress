@@ -246,4 +246,37 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$actual = wp_list_pluck( $n, 'id' );
 		$this->assertEquals( $expected, $actual );
 	}
+
+	/**
+	 * @group get
+	 * @group search_terms
+	 */
+	public function test_get_with_search_terms() {
+		$u = $this->create_user();
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'friends',
+			'user_id' => $u,
+			'is_new' => false,
+		) );
+		$n2 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+		$n3 = $this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id' => $u,
+			'is_new' => true,
+		) );
+
+		$n = BP_Notifications_Notification::get( array(
+			'user_id' => $u,
+			'search_terms' => 'roup',
+		) );
+
+		// Check that the correct items are pulled up
+		$expected = array( $n2 );
+		$actual = wp_list_pluck( $n, 'id' );
+		$this->assertEquals( $expected, $actual );
+	}
 }
