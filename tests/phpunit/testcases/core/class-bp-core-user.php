@@ -124,6 +124,40 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2, $u1 ), $found );
 	}
 
+	/**
+	 * @group get_users_by_letter
+	 */
+	public function test_get_users_by_letter() {
+		$u1 = $this->create_user( array(
+			'display_name' => 'foo',
+		) );
+		$u2 = $this->create_user( array(
+			'display_name' => 'bar',
+		) );
+
+		$q = BP_Core_User::get_users_by_letter( 'b' );
+		$found = array_map( 'intval', wp_list_pluck( $q['users'], 'id' ) );
+
+		$this->assertEquals( array( $u2 ), $found );
+	}
+
+	/**
+	 * @group search_users
+	 */
+	public function test_search_users() {
+		$u1 = $this->create_user( array(
+			'display_name' => 'foo',
+		) );
+		$u2 = $this->create_user( array(
+			'display_name' => 'bar',
+		) );
+
+		$q = BP_Core_User::search_users( 'ar' );
+		$found = array_map( 'intval', wp_list_pluck( $q['users'], 'id' ) );
+
+		$this->assertEquals( array( $u2 ), $found );
+	}
+
 	public function test_get_specific_users() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
