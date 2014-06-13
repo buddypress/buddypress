@@ -1860,6 +1860,7 @@ function bp_dtheme_embed_read_more( $activity ) {
 	add_action( 'bp_embed_update_cache',    'bp_embed_activity_save_cache', 10, 3 );
 }
 add_action( 'bp_dtheme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
+add_action( 'bp_legacy_theme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
 
 /**
  * Clean up 'embed_post_id' filter after comment recursion.
