@@ -1,54 +1,66 @@
+# Travis CI Configuration File
+
+# Tell Travis CI we're using PHP
 language: php
 
+# PHP version used in first build configuration.
 php:
     - 5.2
     - 5.3
     - 5.4
     - 5.5
 
+# WordPress versions uses Git 'develop' repo branches
 env:
-    - WP_VERSION=trunk
-    - WP_VERSION=tags/3.9
-    - WP_VERSION=tags/3.8.3
-    - WP_VERSION=tags/3.7.3
+    - WP_VERSION=master # Git equivalent of SVN /trunk
+    - WP_VERSION=3.9    # Includes latest 3.9.x release
+    - WP_VERSION=3.8    # Includes latest 3.8.x release
+    - WP_VERSION=3.7    # Includes latest 3.7.x release
 
+# Build matrix options
 matrix:
   include:
     - php: 5.6
-      env: WP_VERSION=trunk
+      env: WP_VERSION=master
+    - php: hhvm
+      env: WP_VERSION=master
   allow_failures:
     - php: 5.6
+    - php: hhvm
+  fast_finish: true
 
-before_script:
-    # set up WP install
-    - WP_CORE_DIR=/tmp/wordpress/
-    - mkdir -p $WP_CORE_DIR
-    - svn co --ignore-externals https://develop.svn.wordpress.org/$WP_VERSION $WP_CORE_DIR
-    - plugin_slug=$(basename $(pwd))
-    - plugin_dir=$WP_CORE_DIR/src/wp-content/plugins/$plugin_slug
-    - cd ..
-    - mv $plugin_slug $plugin_dir
-    # set up tests config
-    - cd $WP_CORE_DIR
+# Before install, failures in this section will result in build status 'errored'
+before_install:
+    - set -x
+    # setup WP_DEVELOP_DIR (needed for BuddyPress to bootstrap WP PHPUnit tests)
+    - WP_DEVELOP_DIR=/tmp/wordpress
+    # clone the WordPress develop repo
+    - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ $WP_DEVELOP_DIR
+    - mv $TRAVIS_BUILD_DIR /tmp/wordpress/src/wp-content/plugins/buddypress
+    - cd $WP_DEVELOP_DIR
+    # setub db
+    - mysql -e "CREATE DATABASE wordpress_test;" -uroot
+    # setub wp-config
     - cp wp-tests-config-sample.php wp-tests-config.php
     - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
-    # disable WP_DEBUG for PHP 5.5 due to ext/mysqli E_DEPRECATED errors
-    - if [[ "$TRAVIS_PHP_VERSION" == 5.5* ]] ; then sed -i "s:define( 'WP_DEBUG://define( 'WP_DEBUG:" wp-tests-config.php; fi;
-    # set up database
-    - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
-    # prepare for running the tests
-    - cd $plugin_dir
+    - if [ "$TRAVIS_PHP_VERSION" == "5.5" ] && [ "$WP_VERSION" == "3.7" ]; then sed -i "s:define( 'WP_DEBUG://define( 'WP_DEBUG:" wp-tests-config.php; fi;
+    # prepare for running BuddyPress' tests
+    - BP_DEVELOP_DIR=$WP_DEVELOP_DIR/src/wp-content/plugins/buddypress
+    - cd $BP_DEVELOP_DIR
     - npm install -g grunt-cli
+
+# Before script, failures in this section will result in build status 'failed'
+before_script:
     - npm install
+    - grunt build
 
 script: grunt travis
 
 notifications:
     email: false
-
-    irc:
+        irc:
         channels:
             - "irc.freenode.net#buddypress-dev"
         template:
