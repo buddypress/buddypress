@@ -7,6 +7,7 @@ class BP_UnitTest_Factory extends WP_UnitTest_Factory {
 
 		$this->activity = new BP_UnitTest_Factory_For_Activity( $this );
 		$this->group = new BP_UnitTest_Factory_For_Group( $this );
+		$this->message = new BP_UnitTest_Factory_For_Message( $this );
 		$this->xprofile_group = new BP_UnitTest_Factory_For_XProfileGroup( $this );
 		$this->xprofile_field = new BP_UnitTest_Factory_For_XProfileField( $this );
 		$this->notification = new BP_UnitTest_Factory_For_Notification( $this );
@@ -96,6 +97,35 @@ class BP_UnitTest_Factory_For_Group extends WP_UnitTest_Factory_For_Thing {
 
 	function get_object_by_id( $group_id ) {
 		return new BP_Groups_Group( $group_id );
+	}
+}
+
+class BP_UnitTest_Factory_For_Message extends WP_UnitTest_Factory_For_Thing {
+
+	function __construct( $factory = null ) {
+		parent::__construct( $factory );
+
+		$this->default_generation_definitions = array(
+			'sender_id'  => get_current_user_id(),
+			'thread_id'  => 0,
+			'recipients' => array(),
+			'subject'    => new WP_UnitTest_Generator_Sequence( 'Message subject %s' ),
+			'content'    => new WP_UnitTest_Generator_Sequence( 'Message content %s' ),
+			'date_sent'  => bp_core_current_time(),
+		);
+	}
+
+	function create_object( $args ) {
+		$message_id = messages_new_message( $args );
+		return $message_id;
+	}
+
+	function update_object( $group_id, $fields ) {
+		// todo
+	}
+
+	function get_object_by_id( $group_id ) {
+		// todo
 	}
 }
 
