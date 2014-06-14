@@ -195,13 +195,28 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
 /**
  * Get the friendship status of two friends.
  *
- * Will return 'is_friends', 'not_friends', or 'pending'.
+ * Will return 'is_friends', 'not_friends', 'pending' or 'awaiting_response'.
  *
  * @param int $user_id ID of the first user.
  * @param int $possible_friend_id ID of the other user.
  * @return string Friend status of the two users.
  */
 function friends_check_friendship_status( $user_id, $possible_friend_id ) {
+	global $members_template;
+
+	// check the BP_User_Query first
+	// @see bp_friends_filter_user_query_populate_extras()
+	if ( ! empty( $members_template->in_the_loop ) ) {
+		if ( isset( $members_template->member->friendship_status ) ) {
+			return $members_template->member->friendship_status;
+
+		// make sure that the friends BP_User_Query was registered before assuming
+		// status as 'not_friends'
+		} elseif ( has_filter( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_populate_extras' ) ) {
+			return 'not_friends';
+		}
+	}
+
 	return BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id );
 }
 
