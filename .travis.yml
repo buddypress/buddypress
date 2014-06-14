@@ -6,16 +6,18 @@ php:
     - 5.4
     - 5.5
 
+# WordPress comes from the Git mirror, where 'master' mirrors svn 'trunk' and
+# x.y mirrors the latest from the x.y branch
 env:
-    - WP_VERSION=trunk
-    - WP_VERSION=tags/3.9
-    - WP_VERSION=tags/3.8.3
-    - WP_VERSION=tags/3.7.3
+    - WP_VERSION=master
+    - WP_VERSION=3.9
+    - WP_VERSION=3.8
+    - WP_VERSION=3.7
 
 matrix:
   include:
     - php: 5.6
-      env: WP_VERSION=trunk
+      env: WP_VERSION=master
   allow_failures:
     - php: 5.6
 
@@ -23,7 +25,7 @@ before_script:
     # set up WP install
     - WP_CORE_DIR=/tmp/wordpress/
     - mkdir -p $WP_CORE_DIR
-    - svn co --ignore-externals https://develop.svn.wordpress.org/$WP_VERSION $WP_CORE_DIR
+    - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ $WP_CORE_DIR
     - plugin_slug=$(basename $(pwd))
     - plugin_dir=$WP_CORE_DIR/src/wp-content/plugins/$plugin_slug
     - cd ..
