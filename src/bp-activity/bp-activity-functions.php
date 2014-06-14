@@ -978,24 +978,23 @@ function bp_activity_get( $args = '' ) {
 		'filter' => array()
 	);
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
 	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( 1 == (int) $page && empty( $max ) && empty( $search_terms ) && empty( $meta_query ) && empty( $filter ) && empty( $exclude ) && empty( $in ) && 'DESC' == $sort && empty( $exclude ) && 'ham_only' == $spam ) {
+	if ( 1 == (int) $r['page'] && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['filter'] ) && empty( $r['exclude'] ) && empty( $r['in'] ) && 'DESC' == $r['sort'] && empty( $r['exclude'] ) && 'ham_only' == $r['spam'] ) {
 		if ( !$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' ) ) {
 			$args = array(
-				'page'              => $page,
-				'per_page'          => $per_page,
-				'max'               => $max,
-				'sort'              => $sort,
-				'search_terms'      => $search_terms,
-				'meta_query'        => $meta_query,
-				'filter'            => $filter,
-				'display_comments'  => $display_comments,
-				'show_hidden'       => $show_hidden,
-				'spam'              => $spam,
-				'update_meta_cache' => $update_meta_cache,
-				'count_total'       => $count_total,
+				'page'              => $r['page'],
+				'per_page'          => $r['per_page'],
+				'max'               => $r['max'],
+				'sort'              => $r['sort'],
+				'search_terms'      => $r['search_terms'],
+				'meta_query'        => $r['meta_query'],
+				'filter'            => $r['filter'],
+				'display_comments'  => $r['display_comments'],
+				'show_hidden'       => $r['show_hidden'],
+				'spam'              => $r['spam'],
+				'update_meta_cache' => $r['update_meta_cache'],
+				'count_total'       => $r['count_total'],
 			);
 			$activity = BP_Activity_Activity::get( $args );
 			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
@@ -1003,19 +1002,19 @@ function bp_activity_get( $args = '' ) {
 
 	} else {
 		$args = array(
-			'page'             => $page,
-			'per_page'         => $per_page,
-			'max'              => $max,
-			'sort'             => $sort,
-			'search_terms'     => $search_terms,
-			'meta_query'       => $meta_query,
-			'filter'           => $filter,
-			'display_comments' => $display_comments,
-			'show_hidden'      => $show_hidden,
-			'exclude'          => $exclude,
-			'in'               => $in,
-			'spam'             => $spam,
-			'count_total'      => $count_total,
+			'page'             => $r['page'],
+			'per_page'         => $r['per_page'],
+			'max'              => $r['max'],
+			'sort'             => $r['sort'],
+			'search_terms'     => $r['search_terms'],
+			'meta_query'       => $r['meta_query'],
+			'filter'           => $r['filter'],
+			'display_comments' => $r['display_comments'],
+			'show_hidden'      => $r['show_hidden'],
+			'exclude'          => $r['exclude'],
+			'in'               => $r['in'],
+			'spam'             => $r['spam'],
+			'count_total'      => $r['count_total'],
 		);
 		$activity = BP_Activity_Activity::get( $args );
 	}
