@@ -1702,6 +1702,25 @@ function bp_core_print_generation_time() {
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
 
+/**
+ * Remove "prev" and "next" relational links from <head> on BuddyPress pages.
+ *
+ * WordPress automatically generates these relational links to the current
+ * page.  However, BuddyPress doesn't adhere to these links.  In this
+ * function, we remove these links when on a BuddyPress page.  This also
+ * prevents additional, unnecessary queries from running.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_remove_adjacent_posts_rel_link() {
+	if ( ! is_buddypress() ) {
+		return;
+	}
+
+	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+}
+add_action( 'bp_init', 'bp_remove_adjacent_posts_rel_link' );
+
 /** Nav Menu ******************************************************************/
 
 /**
