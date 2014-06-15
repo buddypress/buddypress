@@ -1668,36 +1668,57 @@ function bp_group_is_invited( $group = false ) {
 }
 
 /**
- * Checks if a user is banned from a group.
+ * Check if a user is banned from a group.
  *
- * If this function is invoked inside the groups template loop (e.g. the group directory), then
- * check $groups_template->group->is_banned instead of making another SQL query.
- * However, if used in a single group's pages, we must use groups_is_user_banned().
+ * If this function is invoked inside the groups template loop, then we check
+ * $groups_template->group->is_banned instead of using {@link groups_is_user_banned()}
+ * and making another SQL query.
+ *
+ * In BuddyPress 2.1, to standardize this function, we are defaulting the
+ * return value to a boolean.  In previous versions, using this function would
+ * return either a string of the integer (0 or 1) or null if a result couldn't
+ * be found from the database.  If the logged-in user had the 'bp_moderate'
+ * capability, the return value would be boolean false.
+ *
+ * @since BuddyPress (1.5.0)
  *
  * @global BP_Groups_Template $groups_template Group template loop object
- * @param object $group Group to check if user is banned from the group
- * @param int $user_id
- * @return bool If user is banned from the group or not
- * @since BuddyPress (1.5)
+ * @param BP_Groups_Group $group Group to check if user is banned
+ * @param int $user_id The user ID to check
+ * @return bool True if user is banned.  False if user isn't banned.
  */
 function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
 	global $groups_template;
 
 	// Site admins always have access
-	if ( bp_current_user_can( 'bp_moderate' ) )
+	if ( bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
-
-	if ( empty( $group ) ) {
-		$group =& $groups_template->group;
-
-		if ( !$user_id && isset( $group->is_banned ) )
-			return apply_filters( 'bp_group_is_user_banned', $group->is_banned );
 	}
 
-	if ( !$user_id )
-		$user_id = bp_loggedin_user_id();
+	// check groups loop first
+	// @see BP_Groups_Group::get_group_extras()
+	if ( ! empty( $groups_template->in_the_loop ) && isset( $groups_template->group->is_banned ) ) {
+		$retval = $groups_template->group->is_banned;
 
-	return apply_filters( 'bp_group_is_user_banned', groups_is_user_banned( $user_id, $group->id ) );
+	// not in loop
+	} else {
+		// Default to not banned
+		$retval = false;
+
+		if ( empty( $group ) ) {
+			$group = $groups_template->group;
+		}
+	
+		if ( empty( $user_id ) ) {
+			$user_id = bp_loggedin_user_id();
+		}
+
+		if ( ! empty( $user_id ) && ! empty( $group->id ) ) {
+			$retval = groups_is_user_banned( $user_id, $group->id );
+		}
+	}
+
+	return (bool) apply_filters( 'bp_group_is_user_banned', $retval );
 }
 
 function bp_group_accept_invite_link() {

@@ -689,4 +689,73 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			$this->assertEquals( $v, $requests_template->requests[0]->{$k} );
 		}
 	}
+
+	/**
+	 * @group bp_group_is_user_banned
+	 */
+	public function test_bp_group_is_user_banned_in_groups_loop() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u2 ) );
+		groups_join_group( $g1, $u2 );
+		groups_join_group( $g2, $u2 );
+		groups_join_group( $g2, $u1 );
+
+		// Ban user 1 from group 2
+		// Fool the admin check
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u2 );
+		buddypress()->is_item_admin = true;
+		groups_ban_member( $u1, $g2 );
+
+		// Start the groups loop
+		$this->set_current_user( $u1 );
+		if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group();
+			$found[] = bp_group_is_user_banned();
+		endwhile; endif;
+
+		// Assert
+		$expected = array( 0, 1 );
+		$this->assertEquals( $expected, $found );
+
+		// Clean up
+		$GLOBALS['groups_template'] = null;
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_group_is_user_banned
+	 */
+	public function test_bp_group_is_user_banned_not_in_groups_loop() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u2 ) );
+		groups_join_group( $g1, $u2 );
+		groups_join_group( $g2, $u2 );
+		groups_join_group( $g2, $u1 );
+
+		// Ban user 1 from group 2
+		// Fool the admin check
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u2 );
+		buddypress()->is_item_admin = true;
+		groups_ban_member( $u1, $g2 );
+
+		// Do group ban checks
+		$group1 = new BP_Groups_Group( $g1 );
+		$group2 = new BP_Groups_Group( $g2 );
+
+		$found = array();
+		$found[] = bp_group_is_user_banned( $group1, $u1 );
+		$found[] = bp_group_is_user_banned( $group2, $u1 );
+
+		// Assert
+		$expected = array( 0, 1 );
+		$this->assertEquals( $expected, $found );
+
+		// Clean up
+		$this->set_current_user( $old_user );
+	}
 }
