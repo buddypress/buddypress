@@ -1131,29 +1131,28 @@ function bp_activity_add( $args = '' ) {
 		'hide_sitewide'     => false, // Should this be hidden on the sitewide activity stream?
 		'is_spam'           => false, // Is this activity item to be marked as spam?
 	);
-	$params = wp_parse_args( $args, $defaults );
-	extract( $params, EXTR_SKIP );
+	$r = wp_parse_args( $args, $defaults );
 
 	// Make sure we are backwards compatible
-	if ( empty( $component ) && !empty( $component_name ) )
-		$component = $component_name;
+	if ( empty( $r['component'] ) && !empty( $r['component_name'] ) )
+		$r['component'] = $r['component_name'];
 
-	if ( empty( $type ) && !empty( $component_action ) )
-		$type = $component_action;
+	if ( empty( $r['type'] ) && !empty( $r['component_action'] ) )
+		$r['type'] = $r['component_action'];
 
 	// Setup activity to be added
-	$activity                    = new BP_Activity_Activity( $id );
-	$activity->user_id           = $user_id;
-	$activity->component         = $component;
-	$activity->type              = $type;
-	$activity->content           = $content;
-	$activity->primary_link      = $primary_link;
-	$activity->item_id           = $item_id;
-	$activity->secondary_item_id = $secondary_item_id;
-	$activity->date_recorded     = $recorded_time;
-	$activity->hide_sitewide     = $hide_sitewide;
-	$activity->is_spam           = $is_spam;
-	$activity->action            = ! empty( $action ) ? $action : bp_activity_generate_action_string( $activity );
+	$activity                    = new BP_Activity_Activity( $r['id'] );
+	$activity->user_id           = $r['user_id'];
+	$activity->component         = $r['component'];
+	$activity->type              = $r['type'];
+	$activity->content           = $r['content'];
+	$activity->primary_link      = $r['primary_link'];
+	$activity->item_id           = $r['item_id'];
+	$activity->secondary_item_id = $r['secondary_item_id'];
+	$activity->date_recorded     = $r['recorded_time'];
+	$activity->hide_sitewide     = $r['hide_sitewide'];
+	$activity->is_spam           = $r['is_spam'];
+	$activity->action            = ! empty( $r['action'] ) ? $r['action'] : bp_activity_generate_action_string( $activity );
 
 	if ( !$activity->save() )
 		return false;
@@ -1163,7 +1162,7 @@ function bp_activity_add( $args = '' ) {
 		BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
 
 	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
-	do_action( 'bp_activity_add', $params );
+	do_action( 'bp_activity_add', $r );
 
 	return $activity->id;
 }
