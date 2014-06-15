@@ -1198,34 +1198,33 @@ function bp_activity_post_update( $args = '' ) {
 		'user_id' => bp_loggedin_user_id()
 	);
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
-	if ( empty( $content ) || !strlen( trim( $content ) ) )
+	if ( empty( $r['content'] ) || !strlen( trim( $r['content'] ) ) )
 		return false;
 
-	if ( bp_is_user_inactive( $user_id ) )
+	if ( bp_is_user_inactive( $r['user_id'] ) )
 		return false;
 
 	// Record this on the user's profile
-	$from_user_link   = bp_core_get_userlink( $user_id );
-	$activity_content = $content;
-	$primary_link     = bp_core_get_userlink( $user_id, false, true );
+	$from_user_link   = bp_core_get_userlink( $r['user_id'] );
+	$activity_content = $r['content'];
+	$primary_link     = bp_core_get_userlink( $r['user_id'], false, true );
 
 	// Now write the values
 	$activity_id = bp_activity_add( array(
-		'user_id'      => $user_id,
+		'user_id'      => $r['user_id'],
 		'content'      => apply_filters( 'bp_activity_new_update_content', $activity_content ),
 		'primary_link' => apply_filters( 'bp_activity_new_update_primary_link', $primary_link ),
 		'component'    => $bp->activity->id,
 		'type'         => 'activity_update',
 	) );
 
-	$activity_content = apply_filters( 'bp_activity_latest_update_content', $content, $activity_content );
+	$activity_content = apply_filters( 'bp_activity_latest_update_content', $r['content'], $activity_content );
 
 	// Add this update to the "latest update" usermeta so it can be fetched anywhere.
 	bp_update_user_meta( bp_loggedin_user_id(), 'bp_latest_update', array( 'id' => $activity_id, 'content' => $activity_content ) );
 
-	do_action( 'bp_activity_posted_update', $content, $user_id, $activity_id );
+	do_action( 'bp_activity_posted_update', $r['content'], $r['user_id'], $activity_id );
 
 	return $activity_id;
 }
