@@ -1258,7 +1258,7 @@ function bp_activity_post_update( $args = '' ) {
  */
 function bp_activity_new_comment( $args = '' ) {
 
-	$params = wp_parse_args( $args, array(
+	$r = wp_parse_args( $args, array(
 		'id'          => false,
 		'content'     => false,
 		'user_id'     => bp_loggedin_user_id(),
@@ -1266,17 +1266,17 @@ function bp_activity_new_comment( $args = '' ) {
 		'parent_id'   => false  // ID of a parent comment (optional)
 	) );
 
-	extract( $params, EXTR_SKIP );
-
 	// Bail if missing necessary data
-	if ( empty( $content ) || empty( $user_id ) || empty( $activity_id ) ) {
+	if ( empty( $r['content'] ) || empty( $r['user_id'] ) || empty( $r['activity_id'] ) ) {
 		return false;
 	}
 
 	// Maybe set current activity ID as the parent
-	if ( empty( $parent_id ) ) {
-		$parent_id = $activity_id;
+	if ( empty( $r['parent_id'] ) ) {
+		$r['parent_id'] = $r['activity_id'];
 	}
+
+	$activity_id = $r['activity_id'];
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
 	$activity  = new BP_Activity_Activity( $activity_id );
@@ -1284,13 +1284,13 @@ function bp_activity_new_comment( $args = '' ) {
 
 	// Insert the activity comment
 	$comment_id = bp_activity_add( array(
-		'id'                => $id,
-		'content'           => apply_filters( 'bp_activity_comment_content', $content ),
+		'id'                => $r['id'],
+		'content'           => apply_filters( 'bp_activity_comment_content', $r['content'] ),
 		'component'         => buddypress()->activity->id,
 		'type'              => 'activity_comment',
-		'user_id'           => $user_id,
+		'user_id'           => $r['user_id'],
 		'item_id'           => $activity_id,
-		'secondary_item_id' => $parent_id,
+		'secondary_item_id' => $r['parent_id'],
 		'hide_sitewide'     => $is_hidden
 	) );
 
@@ -1298,7 +1298,7 @@ function bp_activity_new_comment( $args = '' ) {
 	wp_cache_delete( $activity_id, 'bp_activity_comments' );
 
 	// Walk the tree to clear caches for all parent items
-	$clear_id = $parent_id;
+	$clear_id = $r['parent_id'];
 	while ( $clear_id != $activity_id ) {
 		$clear_object = new BP_Activity_Activity( $clear_id );
 		wp_cache_delete( $clear_id, 'bp_activity' );
@@ -1306,7 +1306,7 @@ function bp_activity_new_comment( $args = '' ) {
 	}
 	wp_cache_delete( $activity_id, 'bp_activity' );
 
-	do_action( 'bp_activity_comment_posted', $comment_id, $params, $activity );
+	do_action( 'bp_activity_comment_posted', $comment_id, $r, $activity );
 
 	return $comment_id;
 }
