@@ -568,4 +568,26 @@ Bar!';
 
 		$this->assertEquals( 0, xprofile_get_field_data( 'Pens', $u ) );
 	}
+
+	/**
+	 * @group xprofile_insert_field
+	 */
+	public function test_xprofile_insert_field_type_option() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'field_order' => 5,
+		) );
+
+		$this->assertNotEmpty( $f );
+	}
 }

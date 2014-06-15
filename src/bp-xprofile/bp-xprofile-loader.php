@@ -102,6 +102,11 @@ class BP_XProfile_Component extends BP_Component {
 		// Set the support field type ids
 		$this->field_types = apply_filters( 'xprofile_field_types', array_keys( bp_xprofile_get_field_types() ) );
 
+		// 'option' is a special case. It is not a top-level field, so
+		// does not have an associated BP_XProfile_Field_Type class,
+		// but it must be whitelisted
+		$this->field_types[] = 'option';
+
 		// Register the visibility levels. See bp_xprofile_get_visibility_levels() to filter
 		$this->visibility_levels = array(
 			'public' => array(
