@@ -1337,9 +1337,8 @@ function bp_activity_get_activity_id( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
- 	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) );
+	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $r['user_id'], $r['component'], $r['type'], $r['item_id'], $r['secondary_item_id'], $r['action'], $r['content'], $r['date_recorded'] ) );
 }
 
 /**
