@@ -737,6 +737,37 @@ Bar!';
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
 	}
 
+	/**
+	 * @group bp_activity_post_update
+	 */
+	public function test_bp_activity_post_update_empty_content() {
+		$this->assertFalse( bp_activity_post_update( array( 'user_id' => 3, ) ) );
+	}
+
+	/**
+	 * @group bp_activity_post_update
+	 */
+	public function test_bp_activity_post_update_inactive_user() {
+		$this->assertFalse( bp_activity_post_update( array(
+			'user_id' => 3456,
+			'content' => 'foo',
+		) ) );
+	}
+
+	/**
+	 * @group bp_activity_post_update
+	 */
+	public function test_bp_activity_post_update_success() {
+		$u = $this->create_user();
+
+		$a = bp_activity_post_update( array(
+			'user_id' => $u,
+			'content' => 'foo',
+		) );
+
+		$this->assertNotEmpty( $a );
+	}
+
 	public function check_activity_caches() {
 		foreach ( $this->acaches as $k => $v ) {
 			$this->acaches[ $k ] = wp_cache_get( $k, 'bp_activity' );
