@@ -1447,9 +1447,8 @@ function bp_activity_delete( $args = '' ) {
 			'secondary_item_id' => false
 		);
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
 
-		return bp_activity_delete( array( 'item_id' => $item_id, 'component' => $component, 'type' => $type, 'user_id' => $user_id, 'secondary_item_id' => $secondary_item_id ) );
+		return bp_activity_delete( array( 'item_id' => $r['item_id'], 'component' => $r['component'], 'type' => $r['type'], 'user_id' => $r['user_id'], 'secondary_item_id' => $r['secondary_item_id'] ) );
 	}
 
 	/**
