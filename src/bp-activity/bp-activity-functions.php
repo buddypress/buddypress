@@ -1053,18 +1053,17 @@ function bp_activity_get_specific( $args = '' ) {
 		'update_meta_cache' => true,
 	);
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
 	$get_args = array(
-		'page'              => $page,
-		'per_page'          => $per_page,
-		'max'               => $max,
-		'sort'              => $sort,
-		'display_comments'  => $display_comments,
-		'show_hidden'       => $show_hidden,
-		'in'                => $activity_ids,
-		'spam'              => $spam,
-		'update_meta_cache' => $update_meta_cache,
+		'page'              => $r['page'],
+		'per_page'          => $r['per_page'],
+		'max'               => $r['max'],
+		'sort'              => $r['sort'],
+		'display_comments'  => $r['display_comments'],
+		'show_hidden'       => $r['show_hidden'],
+		'in'                => $r['activity_ids'],
+		'spam'              => $r['spam'],
+		'update_meta_cache' => $r['update_meta_cache'],
 	);
 	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $get_args ), $args, $get_args );
 }
