@@ -195,37 +195,39 @@ function bp_core_get_displayed_userid( $user_login ) {
 }
 
 /**
- * Return the user_id for a user based on their user_login.
+ * Return the user ID based on a user's user_login.
  *
- * @todo Refactor to check relevant WP caches, or to use get_user_by()
+ * @since BuddyPress (1.0.0)
  *
- * @param string $username Username to check.
- * @return int|bool The ID of the matched user, or false.
+ * @param string $username user_login to check.
+ * @return int|null The ID of the matched user on success, null on failure.
  */
 function bp_core_get_userid( $username ) {
-	global $wpdb;
-
-	if ( empty( $username ) )
+	if ( empty( $username ) ) {
 		return false;
+	}
 
-	return apply_filters( 'bp_core_get_userid', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->users} WHERE user_login = %s", $username ) ), $username );
+	$user = get_user_by( 'login', $username );
+
+	return apply_filters( 'bp_core_get_userid', ! empty( $user->ID ) ? $user->ID : NULL, $username );
 }
 
 /**
- * Returns the user_id for a user based on their user_nicename.
+ * Return the user ID based on a user's user_nicename.
  *
- * @todo Refactor to check relevant WP caches, or to use get_user_by()
+ * @since BuddyPress (1.2.3)
  *
- * @param string $username Username to check.
- * @return int|bool The ID of the matched user, or false.
+ * @param string $user_nicename user_nicename to check.
+ * @return int|null The ID of the matched user on success, null on failure.
  */
 function bp_core_get_userid_from_nicename( $user_nicename ) {
-	global $wpdb;
-
-	if ( empty( $user_nicename ) )
+	if ( empty( $user_nicename ) ) {
 		return false;
+	}
 
-	return apply_filters( 'bp_core_get_userid_from_nicename', $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->users} WHERE user_nicename = %s", $user_nicename ) ), $user_nicename );
+	$user = get_user_by( 'slug', $user_nicename );
+
+	return apply_filters( 'bp_core_get_userid_from_nicename', ! empty( $user->ID ) ? $user->ID : NULL, $user_nicename );
 }
 
 /**

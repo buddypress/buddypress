@@ -399,4 +399,11 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( $expected, $found );
 	}
+
+	/**
+	 * @group bp_core_get_userid_from_nicename
+	 */
+	public function test_bp_core_get_userid_from_nicename_failure() {
+		$this->assertSame( NULL, bp_core_get_userid_from_nicename( 'non_existent_user' ) );
+	}
 }
