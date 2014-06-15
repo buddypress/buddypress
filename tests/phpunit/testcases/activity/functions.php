@@ -785,6 +785,29 @@ Bar!';
 		$this->assertEquals( $a, bp_activity_get_activity_id( $args ) );
 	}
 
+	/**
+	 * @group bp_activity_delete_by_item_id
+	 */
+	public function test_bp_activity_delete_by_item_id() {
+		$args = array(
+			'user_id' => 5,
+			'component' => 'foo',
+			'type' => 'bar',
+			'item_id' => 12,
+			'secondary_item_id' => 44,
+		);
+
+		$a = $this->factory->activity->create( $args );
+
+		$this->assertTrue( bp_activity_delete_by_item_id( $args ) );
+
+		$found = bp_activity_get_specific( array(
+			'activity_ids' => array( $a ),
+		) );
+
+		$this->assertSame( array(), $found['activities'] );
+	}
+
 	public function check_activity_caches() {
 		foreach ( $this->acaches as $k => $v ) {
 			$this->acaches[ $k ] = wp_cache_get( $k, 'bp_activity' );
