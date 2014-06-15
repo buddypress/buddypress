@@ -25,11 +25,11 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Assume you want to load from build
-$bp_loader = __DIR__ . '/build/bp-loader.php';
+$bp_loader = dirname( __FILE__ ) . '/build/bp-loader.php';
 
 // Load from source if no build exists
 if ( ! file_exists( $bp_loader ) || defined( 'BP_LOAD_SOURCE' ) ) {
-	$bp_loader = __DIR__ . '/src/bp-loader.php';
+	$bp_loader = dirname( __FILE__ ) . '/src/bp-loader.php';
 }
 
 // Include BuddyPress
