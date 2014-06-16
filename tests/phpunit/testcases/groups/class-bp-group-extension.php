@@ -222,4 +222,128 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$c = "<p>Foo bar</p><input type='text' name='awesome' /><input name='save' type='submit' id='saverrrr' />sweet";
 		$this->assertTrue( BP_Group_Extension::has_submit_button( $c ) );
 	}
+
+	/**
+	 * @group enable_nav_item
+	 */
+	public function test_enable_nav_item_true() {
+		$old_options_nav = buddypress()->bp_options_nav;
+
+		$g = $this->factory->group->create();
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$class_name = 'BPTest_Group_Extension_Enable_Nav_Item_True';
+		$e = new $class_name();
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e->_register();
+
+		$this->assertTrue( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
+
+		// Clean up
+		buddypress()->bp_options_nav = $old_options_nav;
+	}
+
+	/**
+	 * @group enable_nav_item
+	 */
+	public function test_enable_nav_item_false() {
+		$old_options_nav = buddypress()->bp_options_nav;
+
+		$g = $this->factory->group->create();
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$class_name = 'BPTest_Group_Extension_Enable_Nav_Item_False';
+		$e = new $class_name();
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e->_register();
+
+		$this->assertFalse( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
+
+		// Clean up
+		buddypress()->bp_options_nav = $old_options_nav;
+	}
+
+	/**
+	 * @group visibility
+	 */
+	public function test_visibility_private() {
+		$old_options_nav = buddypress()->bp_options_nav;
+		$old_current_user = get_current_user_id();
+
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$class_name = 'BPTest_Group_Extension_Visibility_Private';
+		$e = new $class_name();
+
+		// Test as non-logged-in user
+		$this->set_current_user( 0 );
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$e->_register();
+		$this->assertFalse( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
+
+		// Clean up
+		buddypress()->bp_options_nav = $old_options_nav;
+
+		// Test as group member
+		$u = $this->create_user();
+		$this->set_current_user( $u );
+		$this->add_user_to_group( $u, $g );
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$e->_register();
+		$this->assertTrue( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
+
+		// Clean up
+		buddypress()->bp_options_nav = $old_options_nav;
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group visibility
+	 *
+	 * visibility=public + status=private results in adding the item to
+	 * the nav. However, BP_Groups_Component::setup_globals() bounces the
+	 * user away from this page on a regular pageload (BP 2.0 and under)
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/4785
+	 */
+	public function test_visibility_public() {
+		$old_options_nav = buddypress()->bp_options_nav;
+		$old_current_user = get_current_user_id();
+
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$class_name = 'BPTest_Group_Extension_Visibility_Public';
+		$e = new $class_name();
+
+		// Test as non-logged-in user
+		$this->set_current_user( 0 );
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$e->_register();
+		$this->assertTrue( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
+
+		// Clean up
+		buddypress()->bp_options_nav = $old_options_nav;
+
+		// Test as group member
+		$u = $this->create_user();
+		$this->set_current_user( $u );
+		$this->add_user_to_group( $u, $g );
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$e->_register();
+		$this->assertTrue( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
+
+		// Clean up
+		buddypress()->bp_options_nav = $old_options_nav;
+		$this->set_current_user( $old_current_user );
+	}
 }

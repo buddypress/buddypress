@@ -146,3 +146,59 @@ class BPTest_Group_Extension_Get_Screen_Callback_Fallbacks extends BP_Group_Exte
 	function edit_screen( $group_id = null ) {}
 	function edit_screen_save( $group_id = null ) {}
 }
+
+class BPTest_Group_Extension_Enable_Nav_Item_True extends BP_Group_Extension {
+	public function __construct() {
+		$class_name = get_class( $this );
+
+		$args = array(
+			'name' => $class_name,
+			'slug' => sanitize_title( $class_name ),
+			'enable_nav_item' => true,
+		);
+
+		parent::init( $args );
+	}
+}
+
+class BPTest_Group_Extension_Enable_Nav_Item_False extends BP_Group_Extension {
+	public function __construct() {
+		$class_name = get_class( $this );
+
+		$args = array(
+			'name' => $class_name,
+			'slug' => sanitize_title( $class_name ),
+			'enable_nav_item' => false,
+		);
+
+		parent::init( $args );
+	}
+}
+
+class BPTest_Group_Extension_Visibility_Private extends BP_Group_Extension {
+	public function __construct() {
+		$class_name = get_class( $this );
+
+		$args = array(
+			'name' => $class_name,
+			'slug' => sanitize_title( $class_name ),
+			'visibility' => 'private',
+		);
+
+		parent::init( $args );
+	}
+}
+
+class BPTest_Group_Extension_Visibility_Public extends BP_Group_Extension {
+	public function __construct() {
+		$class_name = get_class( $this );
+
+		$args = array(
+			'name' => $class_name,
+			'slug' => sanitize_title( $class_name ),
+			'visibility' => 'public',
+		);
+
+		parent::init( $args );
+	}
+}
