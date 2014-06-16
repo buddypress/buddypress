@@ -120,7 +120,7 @@ function bp_xprofile_create_field_type( $type ) {
  *           the field. Default: false.
  *     @type bool $can_delete Optional. Whether admins can delete this field in
  *           the Dashboard interface. Generally this is true only for the Name
- *           field, which is required throughout BP. Default: false.
+ *           field, which is required throughout BP. Default: true.
  *     @type string $order_by Optional. For field types that support options
  *           (such as 'radio'), this flag determines whether the sort order of
  *           the options will be 'default' (order created) or 'custom'.
@@ -135,53 +135,78 @@ function bp_xprofile_create_field_type( $type ) {
 function xprofile_insert_field( $args = '' ) {
 	global $bp;
 
-	extract( $args );
+	$r = wp_parse_args( $args, array(
+		'field_id' => null,
+		'field_group_id' => null,
+		'parent_id' => null,
+		'type' => '',
+		'name' => '',
+		'description' => '',
+		'is_required' => false,
+		'can_delete' => true,
+		'order_by' => '',
+		'is_default_option' => false,
+		'option_order' => null,
+	) );
 
-	// Check we have the minimum details
-	if ( empty( $field_group_id ) )
+	// field_group_id is required
+	if ( empty( $r['field_group_id'] ) ) {
 		return false;
+	}
 
 	// Check this is a valid field type
-	if ( !in_array( $type, (array) $bp->profile->field_types ) )
+	if ( ! in_array( $r['type'], (array) $bp->profile->field_types ) ) {
 		return false;
+	}
 
 	// Instantiate a new field object
-	if ( !empty( $field_id ) )
-		$field = new BP_XProfile_Field( $field_id );
-	else
+	if ( ! empty( $r['field_id'] ) ) {
+		$field = new BP_XProfile_Field( $r['field_id'] );
+	} else {
 		$field = new BP_XProfile_Field;
+	}
 
-	$field->group_id = $field_group_id;
+	$field->group_id = $r['field_group_id'];
 
-	if ( !empty( $parent_id ) )
-		$field->parent_id = $parent_id;
+	if ( ! empty( $r['parent_id'] ) ) {
+		$field->parent_id = $r['parent_id'];
+	}
 
-	if ( !empty( $type ) )
-		$field->type = $type;
+	if ( ! empty( $r['type'] ) ) {
+		$field->type = $r['type'];
+	}
 
-	if ( !empty( $name ) )
-		$field->name = $name;
+	if ( ! empty( $r['name'] ) ) {
+		$field->name = $r['name'];
+	}
 
-	if ( !empty( $description ) )
-		$field->description = $description;
+	if ( ! empty( $r['description'] ) ) {
+		$field->description = $r['description'];
+	}
 
-	if ( !empty( $is_required ) )
-		$field->is_required = $is_required;
+	if ( ! empty( $r['is_required'] ) ) {
+		$field->is_required = $r['is_required'];
+	}
 
-	if ( !empty( $can_delete ) )
-		$field->can_delete = $can_delete;
+	if ( ! empty( $r['can_delete'] ) ) {
+		$field->can_delete = $r['can_delete'];
+	}
 
-	if ( !empty( $field_order ) )
-		$field->field_order = $field_order;
+	if ( ! empty( $r['field_order'] ) ) {
+		$field->field_order = $r['field_order'];
+	}
 
-	if ( !empty( $order_by ) )
-		$field->order_by = $order_by;
+	if ( ! empty( $r['order_by'] ) ) {
+		$field->order_by = $r['order_by'];
+	}
 
-	if ( !empty( $is_default_option ) )
-		$field->is_default_option = $is_default_option;
+	if ( ! empty( $r['is_default_option'] ) ) {
+		$field->is_default_option = $r['is_default_option'];
+	}
 
-	if ( !empty( $option_order ) )
-		$field->option_order = $option_order;
+	if ( ! empty( $r['option_order'] ) ) {
+		$field->option_order = $r['option_order'];
+	}
 
 	return $field->save();
 }
