@@ -104,26 +104,38 @@ function bp_xprofile_create_field_type( $type ) {
 	}
 }
 
+/**
+ * Insert an xprofile field.
+ *
+ * @param array $args {
+ *     Array of arguments.
+ *     @type int $field_id Optional. Pass the ID of an existing field to edit
+ *           that field.
+ *     @type int $field_group_id ID of the associated field group.
+ *     @type int $parent_id Optional. ID of the parent field.
+ *     @type string $type Field type. Checked against a field_types whitelist.
+ *     @type string $name Name of the new field.
+ *     @type string $description Optional. Descriptive text for the field.
+ *     @type bool $is_required Optional. Whether users must provide a value for
+ *           the field. Default: false.
+ *     @type bool $can_delete Optional. Whether admins can delete this field in
+ *           the Dashboard interface. Generally this is true only for the Name
+ *           field, which is required throughout BP. Default: false.
+ *     @type string $order_by Optional. For field types that support options
+ *           (such as 'radio'), this flag determines whether the sort order of
+ *           the options will be 'default' (order created) or 'custom'.
+ *     @type bool $is_default_option Optional. For the 'option' field type,
+ *           setting this value to true means that it'll be the default value
+ *           for the parent field when the user has not yet overridden.
+ *     @type int $option_order Optional. For the 'option' field type, this
+ *           determines the order in which the options appear.
+ * }
+ * @return bool|int False on failure, ID of new field on success.
+ */
 function xprofile_insert_field( $args = '' ) {
 	global $bp;
 
 	extract( $args );
-
-	/**
-	 * Possible parameters (pass as assoc array):
-	 *	'field_id'
-	 *	'field_group_id'
-	 *	'parent_id'
-	 *	'type'
-	 *	'name'
-	 *	'description'
-	 *	'is_required'
-	 *	'can_delete'
-	 *	'field_order'
-	 *	'order_by'
-	 *	'is_default_option'
-	 *	'option_order'
-	 */
 
 	// Check we have the minimum details
 	if ( empty( $field_group_id ) )
