@@ -173,6 +173,35 @@ add_action( 'groups_unban_member',  'groups_clear_group_user_object_cache', 10, 
 add_action( 'groups_uninvite_user', 'groups_clear_group_user_object_cache', 10, 2 );
 add_action( 'groups_remove_member', 'groups_clear_group_user_object_cache', 10, 2 );
 
+/**
+ * Clear group administrator cache.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param int $group_id The group ID.
+ */
+function groups_clear_group_administrator_cache( $group_id ) {
+	wp_cache_delete( $group_id, 'bp_group_admins' );
+}
+add_action( 'groups_promote_member', 'groups_clear_group_administrator_cache' );
+add_action( 'groups_demote_member',  'groups_clear_group_administrator_cache' );
+add_action( 'groups_delete_group',   'groups_clear_group_administrator_cache' );
+
+/**
+ * Clear group administrator cache when a group member is saved.
+ *
+ * This accounts for situations where group administrators are added manually
+ * using {@link BP_Groups_Member::save()}.  Usually via a plugin.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param BP_Groups_Member $member
+ */
+function groups_clear_group_administrator_cache_on_member_save( BP_Groups_Member $member ) {
+	groups_clear_group_administrator_cache( $member->group_id );
+}
+add_action( 'groups_member_after_save', 'groups_clear_group_administrator_cache_on_member_save' );
+
 /* List actions to clear super cached pages on, if super cache is installed */
 add_action( 'groups_join_group',                 'bp_core_clear_cache' );
 add_action( 'groups_leave_group',                'bp_core_clear_cache' );

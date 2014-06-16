@@ -2626,7 +2626,15 @@ class BP_Groups_Member {
 	public static function get_group_administrator_ids( $group_id ) {
 		global $bp, $wpdb;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
+		$group_admins = wp_cache_get( $group_id, 'bp_group_admins' );
+
+		if ( false === $group_admins ) {
+			$group_admins = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
+
+			wp_cache_set( $group_id, $group_admins, 'bp_group_admins' );
+		}
+
+		return $group_admins;
 	}
 
 	/**
