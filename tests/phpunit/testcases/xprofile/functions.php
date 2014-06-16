@@ -590,4 +590,28 @@ Bar!';
 
 		$this->assertNotEmpty( $f );
 	}
+
+	/**
+	 * @group xprofile_insert_field
+	 */
+	public function test_xprofile_insert_field_type_option_option_order() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'option_order' => 5,
+		) );
+
+		$field = new BP_XProfile_Field( $f );
+
+		$this->assertEquals( 5, $field->option_order );
+	}
 }
