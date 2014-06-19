@@ -259,7 +259,7 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
 function bp_core_new_subnav_item( $args = '' ) {
 	global $bp;
 
-	$defaults = array(
+	$r = wp_parse_args( $args, array(
 		'name'            => false, // Display name for the nav item
 		'slug'            => false, // URL slug for the nav item
 		'parent_slug'     => false, // URL slug of the parent nav item
@@ -270,9 +270,8 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'position'        => 90,    // Index of where this nav item should be positioned
 		'screen_function' => false, // The name of the function to run when clicked
 		'link'            => ''     // The link for the subnav item; optional, not usually required.
-	);
+	) );
 
-	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
 	// If we don't have the required info we need, don't create this subnav item
