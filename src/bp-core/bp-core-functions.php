@@ -265,6 +265,32 @@ function bp_esc_sql_order( $order = '' ) {
 }
 
 /**
+ * Escape special characters in a SQL LIKE clause.
+ *
+ * In WordPress 4.0, like_escape() was deprecated, due to incorrect
+ * documentation and improper sanitization leading to a history of misuse. To
+ * maintain compatibility with versions of WP before 4.0, we duplicate the
+ * logic of the replacement, wpdb::esc_like().
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @see wpdb::esc_like() for more details on proper use.
+ *
+ * @param string $text The raw text to be escaped.
+ * @return string Text in the form of a LIKE phrase. Not SQL safe. Run through
+ *         wpdb::prepare() before use.
+ */
+function bp_esc_like( $text ) {
+	global $wpdb;
+
+	if ( method_exists( $wpdb, 'esc_like' ) ) {
+		return $wpdb->esc_like( $text );
+	} else {
+		return addcslashes( $text, '_%\\' );
+	}
+}
+
+/**
  * Are we running username compatibility mode?
  *
  * @since BuddyPress (1.5.0)

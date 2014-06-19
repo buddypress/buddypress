@@ -364,8 +364,8 @@ class BP_User_Query {
 		// 'search_terms' searches user_login and user_nicename
 		// xprofile field matches happen in bp_xprofile_bp_user_query_search()
 		if ( false !== $search_terms ) {
-			$search_terms_clean = esc_sql( esc_sql( $search_terms ) );
-			$sql['where']['search'] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE '%{$search_terms_clean}%' OR user_nicename LIKE '%{$search_terms_clean}%' ) )";
+			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+			$sql['where']['search'] = $wpdb->prepare( "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE %s OR user_nicename LIKE %s ) )", $search_terms_like, $search_terms_like );
 		}
 
 		// 'meta_key', 'meta_value' allow usermeta search
@@ -967,8 +967,8 @@ class BP_Core_User {
 		}
 
 		if ( !empty( $search_terms ) && bp_is_active( 'xprofile' ) ) {
-			$search_terms             = esc_sql( like_escape( $search_terms ) );
-			$sql['where_searchterms'] = "AND spd.value LIKE '%%$search_terms%%'";
+			$search_terms_like        = '%' . bp_esc_like( $search_terms ) . '%';
+			$sql['where_searchterms'] = $wpdb->prepare( "AND spd.value LIKE %s", $search_terms_like );
 		}
 
 		if ( !empty( $meta_key ) ) {
@@ -1085,8 +1085,8 @@ class BP_Core_User {
 			}
 		}
 
-		$letter     = esc_sql( like_escape( $letter ) );
-		$status_sql = bp_core_get_status_sql( 'u.' );
+		$letter_like = bp_esc_like( $letter ) . '%';
+		$status_sql  = bp_core_get_status_sql( 'u.' );
 
 		if ( !empty( $exclude ) ) {
 			$exclude     = implode( ',', wp_parse_id_list( $r['exclude'] ) );
@@ -1095,8 +1095,8 @@ class BP_Core_User {
 			$exclude_sql = '';
 		}
 
-		$total_users_sql = apply_filters( 'bp_core_users_by_letter_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE '{$letter}%%'  ORDER BY pd.value ASC", bp_xprofile_fullname_field_name() ) );
-		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE '{$letter}%%' ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name() ) );
+		$total_users_sql = apply_filters( 'bp_core_users_by_letter_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", bp_xprofile_fullname_field_name(), $letter_like ) );
+		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name(), $letter_like ) );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
@@ -1184,11 +1184,11 @@ class BP_Core_User {
 		$user_ids = array();
 		$pag_sql  = $limit && $page ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) ) : '';
 
-		$search_terms = esc_sql( like_escape( $search_terms ) );
-		$status_sql   = bp_core_get_status_sql( 'u.' );
+		$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+		$status_sql        = bp_core_get_status_sql( 'u.' );
 
-		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE '%%{$search_terms}%%' ORDER BY pd.value ASC", $search_terms );
-		$paged_users_sql = apply_filters( 'bp_core_search_users_sql',       "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE '%%{$search_terms}%%' ORDER BY pd.value ASC{$pag_sql}", $search_terms, $pag_sql );
+		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", $search_terms_like ), $search_terms );
+		$paged_users_sql = apply_filters( 'bp_core_search_users_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", $search_terms_like ), $search_terms, $pag_sql );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );

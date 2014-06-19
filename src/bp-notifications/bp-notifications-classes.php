@@ -327,8 +327,8 @@ class BP_Notifications_Notification {
 
 		// search_terms
 		if ( ! empty( $args['search_terms'] ) ) {
-			$search_terms = like_escape( esc_sql( $args['search_terms'] ) );
-			$where_conditions['search_terms'] = "( component_name LIKE '%%$search_terms%%' OR component_action LIKE '%%$search_terms%%' )";
+			$search_terms_like = '%' . bp_esc_like( $args['search_terms'] ) . '%';
+			$where_conditions['search_terms'] = $wpdb->prepare( "( component_name LIKE %s OR component_action LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		// Custom WHERE

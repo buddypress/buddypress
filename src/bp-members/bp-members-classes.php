@@ -150,9 +150,8 @@ class BP_Signup {
 
 			// Search terms
 			if ( ! empty( $r['usersearch'] ) ) {
-				$search_terms_clean = esc_sql( esc_sql( $r['usersearch'] ) );
-				$search_terms_clean = like_escape( $search_terms_clean );
-				$sql['where'][]     = "( user_login LIKE '%" . $search_terms_clean . "%' OR user_email LIKE '%" . $search_terms_clean . "%' OR meta LIKE '%" . $search_terms_clean . "%' )";
+				$search_terms_like = '%' . bp_esc_like( $r['usersearch'] ) . '%';
+				$sql['where'][]    = $wpdb->prepare( "( user_login LIKE %s OR user_email LIKE %s OR meta LIKE %s )", $search_terms_like, $search_terms_like, $search_terms_like );
 			}
 
 			// Activation key
@@ -208,7 +207,7 @@ class BP_Signup {
 			$diff    = $now - $sent_at;
 
 			/**
-			 * add a boolean in case the last time an activation link 
+			 * add a boolean in case the last time an activation link
 			 * has been sent happened less than a day ago
 			 */
 			if ( $diff < 1 * DAY_IN_SECONDS ) {

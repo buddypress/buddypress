@@ -337,8 +337,8 @@ class BP_Activity_Activity {
 
 		// Searching
 		if ( $search_terms ) {
-			$search_terms = esc_sql( $search_terms );
-			$where_conditions['search_sql'] = "a.content LIKE '%%" . esc_sql( like_escape( $search_terms ) ) . "%%'";
+			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+			$where_conditions['search_sql'] = $wpdb->prepare( 'a.content LIKE %s', $search_terms_like );
 		}
 
 		// Filtering
