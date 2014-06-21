@@ -822,7 +822,11 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 
 	// If passed an object, assume $user->user_id
 	if ( is_object( $user ) ) {
-		$id = $user->user_id;
+		if ( isset( $user->user_id ) ) {
+			$id = $user->user_id;
+		} else {
+			$id = $user->ID;
+		}
 
 	// If passed a number, assume it was a $user_id
 	} else if ( is_numeric( $user ) ) {
