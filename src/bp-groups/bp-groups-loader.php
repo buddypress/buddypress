@@ -129,7 +129,7 @@ class BP_Groups_Component extends BP_Component {
 		if ( !defined( 'BP_GROUPS_SLUG' ) )
 			define( 'BP_GROUPS_SLUG', $this->id );
 
-		// Global tables for messaging component
+		// Global tables for groups component
 		$global_tables = array(
 			'table_name'           => $bp->table_prefix . 'bp_groups',
 			'table_name_members'   => $bp->table_prefix . 'bp_groups_members',
