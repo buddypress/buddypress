@@ -295,7 +295,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 	if ( empty( $item_css_id ) )
 		$item_css_id = $slug;
 
-	$bp->bp_options_nav[$parent_slug][$slug] = array(
+	$subnav_item = array(
 		'name'            => $name,
 		'link'            => trailingslashit( $link ),
 		'slug'            => $slug,
@@ -304,6 +304,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'user_has_access' => $user_has_access,
 		'screen_function' => &$screen_function
 	);
+	$bp->bp_options_nav[$parent_slug][$slug] = $subnav_item;
 
 	/**
 	 * The last step is to hook the screen function for the added subnav item. But this only
@@ -329,46 +330,88 @@ function bp_core_new_subnav_item( $args = '' ) {
 	// If we *do* meet condition (2), then the added subnav item is currently being requested
 	if ( ( bp_current_action() && bp_is_current_action( $slug ) ) || ( bp_is_user() && ! bp_current_action() && ( $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) ) {
 
-		// Before hooking the screen function, check user access
-		if ( !empty( $user_has_access ) ) {
-			// Add our screen hook if screen function is callable
-			if ( is_callable( $screen_function ) ) {
-				add_action( 'bp_screens', $screen_function, 3 );
-			}
-		} else {
+		$hooked = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 
-			// When the content is off-limits, we handle the situation
-			// differently depending on whether the current user is logged in
-			if ( is_user_logged_in() ) {
-				if ( !bp_is_my_profile() && empty( $bp->bp_nav[$bp->default_component]['show_for_displayed_user'] ) ) {
-
-					// This covers the edge case where the default component is
-					// a non-public tab, like 'messages'
-					if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
-						$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() );
-					} else {
-						$redirect_to = trailingslashit( bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id ) );
-					}
-
-					$message     = '';
-				} else {
-					$message     = __( 'You do not have access to this page.', 'buddypress' );
-					$redirect_to = bp_displayed_user_domain();
-				}
-
-				// Off-limits to this user. Throw an error and redirect to the displayed user's domain
-				bp_core_no_access( array(
-					'message'  => $message,
-					'root'     => $redirect_to,
-					'redirect' => false
-				) );
-
-			// Not logged in. Allow the user to log in, and attempt to redirect
-			} else {
-				bp_core_no_access();
-			}
+		// If redirect args have been returned, perform the redirect now
+		if ( ! empty( $hooked['status'] ) && 'failure' === $hooked['status'] && isset( $hooked['redirect_args'] ) ) {
+			bp_core_no_access( $hooked['redirect_args'] );
 		}
 	}
+}
+
+/**
+ * For a given subnav item, either hook the screen function or generate redirect arguments, as necessary.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param array $subnav_item The subnav array added to bp_options_nav in
+ *        bp_core_new_subnav_item().
+ * @return array
+ */
+function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) {
+	$retval = array(
+		'status' => '',
+	);
+
+	// User has access, so let's try to hook the display callback
+	if ( ! empty( $subnav_item['user_has_access'] ) ) {
+
+		// Screen function is invalid
+		if ( ! is_callable( $subnav_item['screen_function'] ) ) {
+			$retval['status'] = 'failure';
+
+		// Success - hook to bp_screens
+		} else {
+			add_action( 'bp_screens', $subnav_item['screen_function'], 3 );
+			$retval['status'] = 'success';
+		}
+
+	// User doesn't have access. Determine redirect arguments based on
+	// user status
+	} else {
+		$retval['status'] = 'failure';
+
+		if ( is_user_logged_in() ) {
+
+			$bp = buddypress();
+
+			// Redirect to the displayed user's default component
+			// If the displayed user is different from the logged-
+			// in user, we first check to ensure that the user has
+			// access to the default component
+			if ( bp_is_my_profile() || ! empty( $bp->bp_nav[ $bp->default_component ]['show_for_displayed_user'] ) ) {
+				$message     = __( 'You do not have access to this page.', 'buddypress' );
+				$redirect_to = bp_displayed_user_domain();
+
+			// In some cases, the default tab is not accessible to
+			// the logged-in user. So we look for a fallback.
+			} else {
+				// Try 'activity' first
+				if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
+					$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() );
+				// Then try 'profile'
+				} else {
+					$redirect_to = trailingslashit( bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id ) );
+				}
+
+				$message     = '';
+			}
+
+			$retval['redirect_args'] = array(
+				'message'  => $message,
+				'root'     => $redirect_to,
+				'redirect' => false,
+			);
+
+		} else {
+			// When the user is logged out, pass an empty array
+			// This indicates that the default arguments should be
+			// used in bp_core_no_access()
+			$retval['redirect_args'] = array();
+		}
+	}
+
+	return $retval;
 }
 
 /**
