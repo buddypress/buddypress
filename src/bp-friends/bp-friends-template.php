@@ -187,17 +187,12 @@ function bp_friend_search_form() {
 }
 
 /**
- * Output the Add Friend button in member directories.
+ * Output the "Add Friend" button in the member loop.
+ *
+ * @since BuddyPress (1.2.6)
  */
 function bp_member_add_friend_button() {
-	global $members_template;
-
-	if ( !isset( $members_template->member->is_friend ) || null === $members_template->member->is_friend )
-		$friend_status = 'not_friends';
-	else
-		$friend_status = ( 0 == $members_template->member->is_friend ) ? 'pending' : 'is_friend';
-
-	echo bp_get_add_friend_button( $members_template->member->id, $friend_status );
+	bp_add_friend_button( bp_get_member_user_id() );
 }
 add_action( 'bp_directory_members_actions', 'bp_member_add_friend_button' );
 
