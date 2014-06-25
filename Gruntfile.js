@@ -245,15 +245,6 @@ module.exports = function( grunt ) {
 			}
 		},
 
-		watch: {
-			css: {
-				files: BP_CSS,
-				tasks: ['less:core'],
-				options: {
-					spawn: false
-				}
-			}
-		},
 		patch: {
 			options: {
 				tracUrl: 'buddypress.trac.wordpress.org'
