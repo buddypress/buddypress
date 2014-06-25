@@ -245,6 +245,19 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		jsvalidate:{
+			options:{
+				globals: {},
+				esprimaOptions:{},
+				verbose: false
+			},
+			build: {
+				files: {
+					src: [BUILD_DIR + '/**/js/*.js', BUILD_DIR + '/**/admin/js/*.js']
+				}
+			}
+		},
+
 		patch: {
 			options: {
 				tracUrl: 'buddypress.trac.wordpress.org'
@@ -256,11 +269,9 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-
-	grunt.registerTask( 'build',         ['jshint', 'cssjanus:core'] );
+	grunt.registerTask( 'build',         ['jsvalidate:build', 'jshint', 'cssjanus:core'] );
 	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'makepot', 'exec:bbpress', 'exec:bpdefault', 'test'] );
-
 
 	// Testing tasks.
 	grunt.registerMultiTask( 'phpunit', 'Runs PHPUnit tests, including the ajax and multisite tests.', function() {
@@ -270,17 +281,19 @@ module.exports = function( grunt ) {
 			opts: { stdio: 'inherit' }
 		}, this.async() );
 	});
-	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit'] );
-	grunt.registerTask( 'travis', ['jshint', 'test'] );
 
+	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit'] );
+
+	grunt.registerTask( 'jstest', 'Runs all javascript tasks.', [ 'jsvalidate', 'jshint' ] );
+
+	// Travis CI Task
+	grunt.registerTask( 'travis', ['jshint', 'test'] );
 
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );
 
-
 	// Default task.
 	grunt.registerTask( 'default', ['build'] );
-
 
 	/**
 	 * Add a listener to the watch task.
