@@ -34,10 +34,6 @@
 			margin-right: 5px;
 		}
 
-.ac_loading {
-	background : url('../../../bp-themes/bp-default/_inc/images/ajax-loader.gif') right center no-repeat;
-}
-
 .ac_odd {
 	background-color: #f0f0f0;
 }
