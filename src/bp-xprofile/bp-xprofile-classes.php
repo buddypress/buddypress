@@ -1695,6 +1695,28 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
+
+	/**
+	 * Format Date values for display.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param string $field_value The date value, as saved in the database.
+	 *        Typically, this is a MySQL-formatted date string (Y-m-d H:i:s).
+	 * @return string Date formatted by bp_format_time().
+	 */
+	public static function display_filter( $field_value ) {
+		// If Unix timestamp
+		if ( is_numeric( $field_value ) ) {
+			$field_value = bp_format_time( $field_value, true, false );
+
+		// If MySQL timestamp
+		} else {
+			$field_value = bp_format_time( strtotime( $field_value ), true, false );
+		}
+
+		return $field_value;
+	}
 }
 
 /**
@@ -2851,6 +2873,21 @@ abstract class BP_XProfile_Field_Type {
 		<?php
 	}
 
+	/**
+	 * Allow field types to modify the appearance of their values.
+	 *
+	 * By default, this is a pass-through method that does nothing. Only
+	 * override in your own field type if you need to provide custom
+	 * filtering for output values.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param mixed $field_value Field value.
+	 * @return mixed
+	 */
+	public static function display_filter( $field_value ) {
+		return $field_value;
+	}
 
 	/**
 	 * Internal protected/private helper methods past this point.

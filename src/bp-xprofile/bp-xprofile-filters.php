@@ -49,6 +49,8 @@ add_filter( 'xprofile_get_field_data',                  'stripslashes' );
 
 add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'bp_get_the_site_member_profile_data',      'xprofile_filter_format_field_value', 1, 2 );
+add_filter( 'xprofile_get_field_data',                  'xprofile_filter_format_field_value_by_field_id', 5, 2 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value_by_type', 5, 2 );
 add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',  9, 2 );
 
 add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 2 );
@@ -116,40 +118,59 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $re
 }
 
 /**
- * xprofile_filter_format_field_value()
+ * Runs stripslashes on XProfile fields.
  *
- * Runs stripslashes on XProfile fields. If is field_type is 'datebox'
- * then the date will be formatted by bp_format_time().
- *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @param string $field_value XProfile field_value to be filtered.
  * @param string $field_type XProfile field_type to be filtered.
- *
- * @uses bp_format_time()
- *
  * @return string $field_value Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 	if ( !isset( $field_value ) || empty( $field_value ) )
 		return false;
 
-	if ( 'datebox' == $field_type ) {
-
-		// If Unix timestamp
-		if ( is_numeric( $field_value ) ) {
-			$field_value = bp_format_time( $field_value, true, false );
-
-		// If MySQL timestamp
-		} else {
-			$field_value = bp_format_time( strtotime( $field_value ), true, false );
-		}
-
-	} else {
+	if ( 'datebox' != $field_type ) {
 		$field_value = str_replace(']]>', ']]&gt;', $field_value );
 	}
 
 	return stripslashes( $field_value );
+}
+
+/**
+ * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched inside a bp_has_profile() loop.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param mixed $field_value Field value.
+ * @param string $field_type Field type.
+ * @return mixed
+ */
+function xprofile_filter_format_field_value_by_type( $field_value, $field_type = '' ) {
+	foreach ( bp_xprofile_get_field_types() as $type => $class ) {
+		if ( $type !== $field_type ) {
+			continue;
+		}
+
+		if ( method_exists( $class, 'display_filter' ) ) {
+			$field_value = call_user_func( array( $class, 'display_filter' ), $field_value );
+		}
+	}
+
+	return $field_value;
+}
+
+/**
+ * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched by xprofile_get_field_data().
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param mixed $field_value Field value.
+ * @param int $field_id Field type.
+ */
+function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id ) {
+	$field = new BP_XProfile_Field( $field_id );
+	return xprofile_filter_format_field_value_by_type( $field_value, $field->type );
 }
 
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
