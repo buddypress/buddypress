@@ -701,13 +701,26 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_is_user_banned
 	 */
 	public function test_bp_group_is_user_banned_in_groups_loop() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$now = time();
+		$u1 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 		$g2 = $this->factory->group->create( array( 'creator_id' => $u2 ) );
-		groups_join_group( $g1, $u2 );
-		groups_join_group( $g2, $u2 );
-		groups_join_group( $g2, $u1 );
+
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+		$this->add_user_to_group( $u2, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 500 ),
+		) );
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
 
 		// Ban user 1 from group 2
 		// Fool the admin check
@@ -723,7 +736,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		endwhile; endif;
 
 		// Assert
-		$expected = array( 0, 1 );
+		$expected = array( false, true );
 		$this->assertEquals( $expected, $found );
 
 		// Clean up
@@ -735,13 +748,25 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_is_user_banned
 	 */
 	public function test_bp_group_is_user_banned_not_in_groups_loop() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$now = time();
+		$u1 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 		$g2 = $this->factory->group->create( array( 'creator_id' => $u2 ) );
-		groups_join_group( $g1, $u2 );
-		groups_join_group( $g2, $u2 );
-		groups_join_group( $g2, $u1 );
+
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+		$this->add_user_to_group( $u2, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 500 ),
+		) );
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
 
 		// Ban user 1 from group 2
 		// Fool the admin check
@@ -759,7 +784,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$found[] = bp_group_is_user_banned( $group2, $u1 );
 
 		// Assert
-		$expected = array( 0, 1 );
+		$expected = array( false, true );
 		$this->assertEquals( $expected, $found );
 
 		// Clean up
