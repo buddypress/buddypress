@@ -436,7 +436,7 @@ function bp_core_get_root_options() {
  *        Default: true.
  * @return bool True if profile sync is enabled, otherwise false.
  */
-function bp_disable_profile_sync( $default = true ) {
+function bp_disable_profile_sync( $default = false ) {
 	return (bool) apply_filters( 'bp_disable_profile_sync', (bool) bp_get_option( 'bp-disable-profile-sync', $default ) );
 }
 
