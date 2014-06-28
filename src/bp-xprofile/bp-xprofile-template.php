@@ -142,9 +142,14 @@ class BP_XProfile_Data_Template {
 
 		$field = $this->next_field();
 
-		$value = !empty( $field->data ) && !empty( $field->data->value ) ? maybe_unserialize( $field->data->value ) : false;
+		// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
+		if ( ! empty( $field->data ) && ( ! empty( $field->data->value ) || '0' == $field->data->value ) ) {
+			$value = maybe_unserialize( $field->data->value );
+		} else {
+			$value = false;
+		}
 
-		if ( !empty( $value ) ) {
+		if ( ! empty( $value ) || '0' == $value ) {
 			$this->field_has_data = true;
 		} else {
 			$this->field_has_data = false;

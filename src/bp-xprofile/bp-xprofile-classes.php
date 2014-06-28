@@ -227,7 +227,10 @@ class BP_XProfile_Group {
 
 					// Empty fields may contain a serialized empty array
 					$maybe_value = maybe_unserialize( $data->value );
-					if ( !empty( $maybe_value ) && false !== $key = array_search( $data->field_id, $field_ids ) ) {
+
+					// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
+					if ( ( ! empty( $maybe_value ) || '0' == $maybe_value ) && false !== $key = array_search( $data->field_id, $field_ids ) ) {
+
 						// Fields that have data get removed from the list
 						unset( $field_ids[$key] );
 					}
