@@ -284,4 +284,61 @@ class BP_Tests_Core_Nav extends BP_UnitTestCase {
 		buddypress()->default_component = $old_default_component;
 		buddypress()->bp_nav = $old_bp_nav;
 	}
+
+	/**
+	 * @group bp_core_maybe_hook_new_subnav_screen_function
+	 */
+	public function test_maybe_hook_new_subnav_screen_function_user_has_access_false_user_logged_in_group() {
+		$u = $this->create_user();
+		$g = $this->factory->group->create();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$group = groups_get_group( array(
+			'group_id' => $g,
+		) );
+
+		$this->go_to( bp_get_group_permalink( $group ) );
+
+		$subnav_item = array(
+			'user_has_access' => false,
+			'no_access_url' => bp_get_group_permalink( $group ),
+		);
+
+		// Just test relevant info
+		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
+		$this->assertSame( 'failure', $found['status'] );
+		$this->assertSame( bp_get_group_permalink( $group ), $found['redirect_args']['root'] );
+
+		// Clean up
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group bp_core_maybe_hook_new_subnav_screen_function
+	 */
+	public function test_maybe_hook_new_subnav_screen_function_user_has_access_false_user_logged_in_group_no_redirect_url_provided() {
+		$u = $this->create_user();
+		$g = $this->factory->group->create();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$group = groups_get_group( array(
+			'group_id' => $g,
+		) );
+
+		$this->go_to( bp_get_group_permalink( $group ) );
+
+		$subnav_item = array(
+			'user_has_access' => false,
+		);
+
+		// Just test relevant info
+		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
+		$this->assertSame( 'failure', $found['status'] );
+		$this->assertSame( bp_get_root_domain(), $found['redirect_args']['root'] );
+
+		// Clean up
+		$this->set_current_user( $old_current_user );
+	}
 }

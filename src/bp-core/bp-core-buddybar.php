@@ -266,6 +266,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'parent_url'      => false, // URL of the parent item
 		'item_css_id'     => false, // The CSS ID to apply to the HTML of the nav item
 		'user_has_access' => true,  // Can the logged in user see this nav item?
+		'no_access_url'   => '',
 		'site_admin_only' => false, // Can only site admins see this nav item?
 		'position'        => 90,    // Index of where this nav item should be positioned
 		'screen_function' => false, // The name of the function to run when clicked
@@ -302,6 +303,7 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'css_id'          => $item_css_id,
 		'position'        => $position,
 		'user_has_access' => $user_has_access,
+		'no_access_url'   => $no_access_url,
 		'screen_function' => &$screen_function
 	);
 	$bp->bp_options_nav[$parent_slug][$slug] = $subnav_item;
@@ -375,26 +377,42 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) {
 
 			$bp = buddypress();
 
-			// Redirect to the displayed user's default component
-			// If the displayed user is different from the logged-
-			// in user, we first check to ensure that the user has
-			// access to the default component
-			if ( bp_is_my_profile() || ! empty( $bp->bp_nav[ $bp->default_component ]['show_for_displayed_user'] ) ) {
+			// If a redirect URL has been passed to the subnav
+			// item, respect it
+			if ( ! empty( $subnav_item['no_access_url'] ) ) {
 				$message     = __( 'You do not have access to this page.', 'buddypress' );
-				$redirect_to = bp_displayed_user_domain();
+				$redirect_to = trailingslashit( $subnav_item['no_access_url'] );
 
-			// In some cases, the default tab is not accessible to
-			// the logged-in user. So we look for a fallback.
-			} else {
-				// Try 'activity' first
-				if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
-					$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() );
-				// Then try 'profile'
+			// In the case of a user page, we try to assume a
+			// redirect URL
+			} else if ( bp_is_user() ) {
+
+				// Redirect to the displayed user's default
+				// component, as long as that component is
+				// publicly accessible.
+				if ( bp_is_my_profile() || ! empty( $bp->bp_nav[ $bp->default_component ]['show_for_displayed_user'] ) ) {
+					$message     = __( 'You do not have access to this page.', 'buddypress' );
+					$redirect_to = bp_displayed_user_domain();
+
+				// In some cases, the default tab is not accessible to
+				// the logged-in user. So we fall back on a tab that we
+				// know will be accessible.
 				} else {
-					$redirect_to = trailingslashit( bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id ) );
+					// Try 'activity' first
+					if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
+						$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() );
+					// Then try 'profile'
+					} else {
+						$redirect_to = trailingslashit( bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id ) );
+					}
+
+					$message     = '';
 				}
 
-				$message     = '';
+			// Fall back to the home page
+			} else {
+				$message     = __( 'You do not have access to this page.', 'buddypress' );
+				$redirect_to = bp_get_root_domain();
 			}
 
 			$retval['redirect_args'] = array(
