@@ -984,41 +984,38 @@ function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
 function bp_groups_admin_autocomplete_handler() {
 
 	// Bail if user user shouldn't be here, or is a large network
-	if ( ! current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) )
+	if ( ! current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) ) {
 		wp_die( -1 );
-
-	$return = array();
-
-	// Exclude current group members
-	$group_id = isset( $_GET['group_id'] ) ? wp_parse_id_list( $_GET['group_id'] ) : array();
-	$group_member_query = new BP_Group_Member_Query( array(
-		'group_id'        => $group_id,
-		'per_page'        => 0, // show all
-		'group_role'      => array( 'member', 'mod', 'admin', ),
-		'populate_extras' => false,
-		'count_total'     => false,
-	) );
-
-	$group_members = ! empty( $group_member_query->results ) ? wp_list_pluck( $group_member_query->results, 'ID' ) : array();
-
-	$terms = isset( $_GET['term'] ) ? $_GET['term'] : '';
-	$users = bp_core_get_users( array(
-		'type'            => 'alphabetical',
-		'search_terms'    => $terms,
-		'exclude'         => $group_members,
-		'per_page'        => 10,
-		'populate_extras' => false
-	) );
-
-	foreach ( (array) $users['users'] as $user ) {
-		$return[] = array(
-			/* translators: 1: user_login, 2: user_email */
-			'label' => sprintf( __( '%1$s (%2$s)', 'buddypress' ), bp_is_username_compatibility_mode() ? $user->user_login : $user->user_nicename, $user->user_email ),
-			'value' => $user->user_nicename,
-		);
 	}
 
-	wp_die( json_encode( $return ) );
+	$term     = isset( $_GET['term'] )     ? sanitize_text_field( $_GET['term'] ) : '';
+	$group_id = isset( $_GET['group_id'] ) ? absint( $_GET['group_id'] )          : 0;
+
+	if ( ! $term || ! $group_id ) {
+		wp_die( -1 );
+	}
+
+	$suggestions = bp_core_get_suggestions( array(
+		'group_id' => -$group_id,  // A negative value will exclude this group's members from the suggestions.
+		'limit'    => 10,
+		'term'     => $term,
+		'type'     => 'members',
+	) );
+
+	$matches = array();
+
+	if ( $suggestions && ! is_wp_error( $suggestions ) ) {
+		foreach ( $suggestions as $user ) {
+
+			$matches[] = array(
+				// translators: 1: user_login, 2: user_email
+				'label' => sprintf( __( '%1$s (%2$s)', 'buddypress' ), $user->name, $user->ID ),
+				'value' => $user->ID,
+			);
+		}
+	}
+
+	wp_die( json_encode( $matches ) );
 }
 add_action( 'wp_ajax_bp_group_admin_member_autocomplete', 'bp_groups_admin_autocomplete_handler' );
 

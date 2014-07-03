@@ -1921,3 +1921,53 @@ function bp_nav_menu_get_item_url( $slug ) {
 
 	return $nav_item_url;
 }
+
+/** Suggestions***************************************************************/
+
+/**
+ * BuddyPress Suggestions API for types of at-mentions.
+ *
+ * This is used to power BuddyPress' at-mentions suggestions, but it is flexible enough to be used
+ * for similar kinds of future requirements, or those implemented by third-party developers.
+ *
+ * @param array $args
+ * @return array|WP_Error Array of results. If there were any problems, returns a WP_Error object.
+ * @since BuddyPress (2.1.0)
+ */
+function bp_core_get_suggestions( $args ) {
+	$args = wp_parse_args( $args );
+
+	if ( ! $args['type'] ) {
+		return new WP_Error( 'missing_parameter' );
+	}
+
+	// Members @name suggestions.
+	if ( $args['type'] === 'members' ) {
+		$class = 'BP_Members_Suggestions';
+
+		// Members @name suggestions for users in a specific Group.
+		if ( isset( $args['group_id'] ) ) {
+			$class = 'BP_Groups_Member_Suggestions';
+		}
+
+	} else {
+		// If you've built a custom suggestions service, use this to tell BP the name of your class.
+		$class = apply_filters( 'bp_suggestions_services', '', $args );
+	}
+
+	if ( ! $class || ! class_exists( $class ) ) {
+		return new WP_Error( 'missing_parameter' );
+	}
+
+
+	$suggestions = new $class( $args );
+	$validation  = $suggestions->validate();
+
+	if ( is_wp_error( $validation ) ) {
+		$retval = $validation;
+	} else {
+		$retval = $suggestions->get_suggestions();
+	}
+
+	return apply_filters( 'bp_core_get_suggestions', $retval, $args );
+}

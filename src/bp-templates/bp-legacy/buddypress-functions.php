@@ -1383,70 +1383,34 @@ function bp_legacy_theme_ajax_messages_delete() {
  * @return string HTML.
  */
 function bp_legacy_theme_ajax_messages_autocomplete_results() {
-
+	$limit = isset( $_GET['limit'] ) ? absint( $_GET['limit'] )          : (int) apply_filters( 'bp_autocomplete_max_results', 10 );
+	$term  = isset( $_GET['q'] )     ? sanitize_text_field( $_GET['q'] ) : '';
+	
 	// Include everyone in the autocomplete, or just friends?
-	if ( bp_is_current_component( bp_get_messages_slug() ) )
-		$autocomplete_all = buddypress()->messages->autocomplete_all;
-
-	$pag_page     = 1;
-	$limit        = (int) $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
-	$search_terms = isset( $_GET['q'] ) ? $_GET['q'] : '';
-
-	$user_query_args = array(
-		'search_terms' => $search_terms,
-		'page'         => intval( $pag_page ),
-		'per_page'     => intval( $limit ),
-	);
-
-	// If only matching against friends, get an $include param for
-	// BP_User_Query
-	if ( ! $autocomplete_all && bp_is_active( 'friends' ) ) {
-		$include = BP_Friends_Friendship::get_friend_user_ids( bp_loggedin_user_id() );
-
-		// Ensure zero matches if no friends are found
-		if ( empty( $include ) ) {
-			$include = array( 0 );
-		}
-
-		$user_query_args['include'] = $include;
+	if ( bp_is_current_component( bp_get_messages_slug() ) ) {
+		$only_friends = ( buddypress()->messages->autocomplete_all === false );
+	} else {
+		$only_friends = true;
 	}
 
-	$user_query = new BP_User_Query( $user_query_args );
+	$suggestions = bp_core_get_suggestions( array(
+		'limit'        => $limit,
+		'only_friends' => $only_friends,
+		'term'         => $term,
+		'type'         => 'members',
+	) );
 
-	// Backward compatibility - if a plugin is expecting a legacy
-	// filter, pass the IDs through the filter and requery (groan)
-	if ( has_filter( 'bp_core_autocomplete_ids' ) || has_filter( 'bp_friends_autocomplete_ids' ) ) {
-		$found_user_ids = wp_list_pluck( $user_query->results, 'ID' );
-
-		if ( $autocomplete_all ) {
-			$found_user_ids = apply_filters( 'bp_core_autocomplete_ids', $found_user_ids );
-		} else {
-			$found_user_ids = apply_filters( 'bp_friends_autocomplete_ids', $found_user_ids );
-		}
-
-		if ( empty( $found_user_ids ) ) {
-			$found_user_ids = array( 0 );
-		}
-
-		// Repopulate the $user_query variable
-		$user_query = new BP_User_Query( array(
-			'include' => $found_user_ids,
-		) );
-	}
-
-	if ( ! empty( $user_query->results ) ) {
-		foreach ( $user_query->results as $user ) {
-			if ( bp_is_username_compatibility_mode() ) {
-				// Sanitize for spaces. Use urlencode() rather
-				// than rawurlencode() because %20 breaks JS
-				$username = urlencode( $user->user_login );
-			} else {
-				$username = $user->user_nicename;
-			}
+	if ( $suggestions && ! is_wp_error( $suggestions ) ) {
+		foreach ( $suggestions as $user ) {
 
 			// Note that the final line break acts as a delimiter for the
 			// autocomplete javascript and thus should not be removed
-			echo '<span id="link-' . esc_attr( $username ) . '" href="' . bp_core_get_user_domain( $user->ID ) . '"></span>' . bp_core_fetch_avatar( array( 'item_id' => $user->ID, 'type' => 'thumb', 'width' => 15, 'height' => 15, 'alt' => $user->display_name ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user->ID ) . ' (' . esc_html( $username ) . ')' . "\n";
+			printf( '<span id="%s" href="#"></span><img src="%s" style="width: 15px"> &nbsp; %s (%s)' . "\n",
+				esc_attr( 'link-' . $user->ID ),
+				esc_url( $user->image ),
+				esc_html( $user->name ),
+				esc_html( $user->ID )
+			);
 		}
 	}
 
