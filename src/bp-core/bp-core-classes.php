@@ -1089,7 +1089,7 @@ class BP_Core_User {
 		$status_sql  = bp_core_get_status_sql( 'u.' );
 
 		if ( !empty( $exclude ) ) {
-			$exclude     = implode( ',', wp_parse_id_list( $r['exclude'] ) );
+			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
 			$exclude_sql = " AND u.id NOT IN ({$exclude})";
 		} else {
 			$exclude_sql = '';
