@@ -31,7 +31,6 @@ function bp_core_register_common_scripts() {
 		'bp-widget-members'   => 'widget-members',
 		'bp-jquery-query'     => 'jquery-query',
 		'bp-jquery-cookie'    => 'jquery-cookie',
-		'bp-jquery-scroll-to' => 'jquery-scroll-to',
 	) );
 
 	// Register scripts commonly used by BuddyPress themes

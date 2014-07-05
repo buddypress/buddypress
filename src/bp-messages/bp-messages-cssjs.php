@@ -19,12 +19,10 @@ function messages_add_autocomplete_js() {
 	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
 		add_action( 'wp_head', 'messages_autocomplete_init_jsblock' );
 
-		$bp  = buddypress();
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_script( 'bp-jquery-autocomplete',    $bp->plugin_url . "bp-messages/js/autocomplete/jquery.autocomplete{$min}.js",   array( 'jquery' ), bp_get_version() );
-		wp_enqueue_script( 'bp-jquery-autocomplete-fb', $bp->plugin_url . "bp-messages/js/autocomplete/jquery.autocompletefb{$min}.js", array(),           bp_get_version() );
-		wp_enqueue_script( 'bp-jquery-bgiframe',        $bp->plugin_url . "bp-messages/js/autocomplete/jquery.bgiframe{$min}.js",       array(),           bp_get_version() );
-		wp_enqueue_script( 'bp-jquery-dimensions',      $bp->plugin_url . "bp-messages/js/autocomplete/jquery.dimensions{$min}.js",     array(),           bp_get_version() );
+		wp_enqueue_script( 'bp-jquery-autocomplete' );
+		wp_enqueue_script( 'bp-jquery-autocomplete-fb' );
+		wp_enqueue_script( 'bp-jquery-bgiframe' );
+		wp_enqueue_script( 'bp-jquery-dimensions' );
 	}
 }
 add_action( 'bp_actions', 'messages_add_autocomplete_js' );
@@ -35,11 +33,8 @@ add_action( 'bp_actions', 'messages_add_autocomplete_js' );
  * @todo Why do we call wp_print_styles()?
  */
 function messages_add_autocomplete_css() {
-
 	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_style( 'bp-messages-autocomplete', buddypress()->plugin_url . "bp-messages/css/autocomplete/jquery.autocompletefb{$min}.css", array(), bp_get_version() );
-
+		wp_enqueue_style( 'bp-messages-autocomplete' );
 		wp_print_styles();
 	}
 }
