@@ -223,6 +223,13 @@ function bp_field_css_class( $class = false ) {
 		// Set a class with the field name (sanitized)
 		$css_classes[] = 'field_' . sanitize_title( $profile_template->field->name );
 
+		// Set a class indicating whether the field is required or optional
+		if ( ! empty( $profile_template->field->is_required ) ) {
+			$css_classes[] = 'required-field';
+		} else {
+			$css_classes[] = 'optional-field';
+		}
+
 		if ( $profile_template->current_field % 2 == 1 )
 			$css_classes[] = 'alt';
 
