@@ -292,34 +292,33 @@ class BP_Component {
 	public function includes( $includes = array() ) {
 
 		// Bail if no files to include
-		if ( empty( $includes ) )
-			return;
+		if ( ! empty( $includes ) ) {
+			$slashed_path = trailingslashit( $this->path );
 
-		$slashed_path = trailingslashit( $this->path );
+			// Loop through files to be included
+			foreach ( (array) $includes as $file ) {
 
-		// Loop through files to be included
-		foreach ( (array) $includes as $file ) {
+				$paths = array(
 
-			$paths = array(
+					// Passed with no extension
+					'bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php',
+					'bp-' . $this->id . '-' . $file . '.php',
+					'bp-' . $this->id . '/' . $file . '.php',
 
-				// Passed with no extension
-				'bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php',
-				'bp-' . $this->id . '-' . $file . '.php',
-				'bp-' . $this->id . '/' . $file . '.php',
+					// Passed with extension
+					$file,
+					'bp-' . $this->id . '-' . $file,
+					'bp-' . $this->id . '/' . $file,
+				);
 
-				// Passed with extension
-				$file,
-				'bp-' . $this->id . '-' . $file,
-				'bp-' . $this->id . '/' . $file,
-			);
-
-			foreach ( $paths as $path ) {
-				if ( @is_file( $slashed_path . $path ) ) {
-					require( $slashed_path . $path );
-					break;
+				foreach ( $paths as $path ) {
+					if ( @is_file( $slashed_path . $path ) ) {
+						require( $slashed_path . $path );
+						break;
+					}
 				}
 			}
-		}
+	}
 
 		// Call action
 		do_action( 'bp_' . $this->id . '_includes' );
@@ -426,12 +425,14 @@ class BP_Component {
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
 		// Bail if this is an ajax request
-		if ( defined( 'DOING_AJAX' ) )
+		if ( defined( 'DOING_AJAX' ) ) {
 			return;
+		}
 
 		// Do not proceed if BP_USE_WP_ADMIN_BAR constant is not set or is false
-		if ( !bp_use_wp_admin_bar() )
+		if ( ! bp_use_wp_admin_bar() ) {
 			return;
+		}
 
 		// Filter the passed admin nav
 		$wp_admin_nav = apply_filters( 'bp_' . $this->id . '_admin_nav', $wp_admin_nav );
