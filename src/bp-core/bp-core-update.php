@@ -163,8 +163,9 @@ function bp_version_bump() {
 function bp_setup_updater() {
 
 	// Are we running an outdated version of BuddyPress?
-	if ( ! bp_is_update() )
+	if ( ! bp_is_update() ) {
 		return;
+	}
 
 	bp_version_updater();
 }
@@ -400,8 +401,9 @@ function bp_update_to_2_0_1() {
 function bp_add_activation_redirect() {
 
 	// Bail if activating from network, or bulk
-	if ( isset( $_GET['activate-multi'] ) )
+	if ( isset( $_GET['activate-multi'] ) ) {
 		return;
+	}
 
 	// Record that this is a new installation, so we show the right
 	// welcome message
