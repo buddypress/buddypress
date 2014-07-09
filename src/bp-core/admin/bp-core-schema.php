@@ -491,6 +491,11 @@ function bp_core_install_signups() {
 function bp_core_upgrade_signups() {
 	global $wpdb;
 
+	// Bail if global tables should not be upgraded
+	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+		return;
+	}
+
 	// Never use bp_core_get_table_prefix() for any global users tables
 	$wpdb->signups = $wpdb->base_prefix . 'signups';
 

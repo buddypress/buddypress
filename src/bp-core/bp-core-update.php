@@ -425,12 +425,6 @@ function bp_add_activation_redirect() {
  * @return bool If signups table exists
  */
 function bp_core_maybe_install_signups() {
-
-	// Bail if we are explicitly not upgrading global tables
-	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
-		return false;
-	}
-
 	global $wpdb;
 
 	// The table to run queries against
