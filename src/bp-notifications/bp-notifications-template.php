@@ -307,11 +307,11 @@ class BP_Notifications_Template {
 			$this->total_notification_count = 0;
 
 		} else {
-			if ( ! empty( $max ) ) {
-				if ( $max >= count( $this->notifications ) ) {
+			if ( ! empty( $r['max'] ) ) {
+				if ( $r['max'] >= count( $this->notifications ) ) {
 					$this->notification_count = count( $this->notifications );
 				} else {
-					$this->notification_count = (int) $max;
+					$this->notification_count = (int) $r['max'];
 				}
 			} else {
 				$this->notification_count = count( $this->notifications );
