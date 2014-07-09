@@ -93,7 +93,6 @@ class BP_Blogs_Component extends BP_Component {
 			'filters',
 			'activity',
 			'functions',
-			'buddybar'
 		);
 
 		if ( is_multisite() )

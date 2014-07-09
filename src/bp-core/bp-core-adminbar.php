@@ -70,6 +70,7 @@ function bp_core_load_admin_bar() {
 
 	// Hide the WordPress Toolbar and show the BuddyBar
 	if ( ! bp_use_wp_admin_bar() ) {
+		_doing_it_wrong( __FUNCTION__, __( 'The BuddyBar is no longer supported. Please migrate to the WordPress toolbar as soon as possible.', 'buddypress' ), '2.1.0' );
 
 		// Keep the WP Toolbar from loading
 		show_admin_bar( false );

@@ -108,7 +108,7 @@ add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
 /** Notifications *************************************************************/
 
 /**
- * Format the BuddyBar/Toolbar notifications for the Messages component.
+ * Format notifications for the Messages component.
  *
  * @since BuddyPress (1.0.0)
  *

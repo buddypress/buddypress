@@ -64,7 +64,7 @@ class BP_Settings_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup BuddyBar navigation
+	 * Set up navigation.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 

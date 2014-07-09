@@ -46,7 +46,6 @@ class BP_Notifications_Component extends BP_Component {
 			'classes',
 			'screens',
 			'adminbar',
-			'buddybar',
 			'template',
 			'functions',
 			'cache',

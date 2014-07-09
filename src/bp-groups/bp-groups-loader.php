@@ -102,7 +102,6 @@ class BP_Groups_Component extends BP_Component {
 			'widgets',
 			'activity',
 			'template',
-			'buddybar',
 			'adminbar',
 			'functions',
 			'notifications'
@@ -350,7 +349,7 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup BuddyBar navigation
+	 * Set up navigation.
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */

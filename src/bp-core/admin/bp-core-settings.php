@@ -49,21 +49,6 @@ function bp_admin_setting_callback_account_deletion() {
 <?php
 }
 
-/**
- * If user has upgraded to 1.6 and chose to retain their BuddyBar, offer then a switch to change over
- * to the WP Toolbar.
- *
- * @since BuddyPress (1.6)
- */
-function bp_admin_setting_callback_force_buddybar() {
-?>
-
-	<input id="_bp_force_buddybar" name="_bp_force_buddybar" type="checkbox" value="1" <?php checked( ! bp_force_buddybar( true ) ); ?> />
-	<label for="_bp_force_buddybar"><?php _e( 'Switch to WordPress Toolbar', 'buddypress' ); ?></label>
-
-<?php
-}
-
 /** Activity *******************************************************************/
 
 /**
@@ -115,20 +100,6 @@ function bp_admin_setting_callback_heartbeat() {
 	<label for="_bp_enable_heartbeat_refresh"><?php _e( 'Automatically check for new items while viewing the activity stream', 'buddypress' ); ?></label>
 
 <?php
-}
-
-/**
- * Sanitization for _bp_force_buddyvar
- *
- * If upgraded to 1.6 and you chose to keep the BuddyBar, a checkbox asks if you want to switch to
- * the WP Toolbar. The option we store is 1 if the BuddyBar is forced on, so we use this function
- * to flip the boolean before saving the intval.
- *
- * @since BuddyPress (1.6)
- * @access Private
- */
-function bp_admin_sanitize_callback_force_buddybar( $value = false ) {
-	return $value ? 0 : 1;
 }
 
 /**

@@ -309,7 +309,7 @@ To view %5$s\'s profile visit: %6$s
 /** Notifications *************************************************************/
 
 /**
- * Format the BuddyBar/Toolbar notifications for the Groups component
+ * Format notifications for the Groups component.
  *
  * @since BuddyPress (1.0)
  * @param string $action The kind of notification being rendered

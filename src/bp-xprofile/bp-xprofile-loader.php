@@ -63,7 +63,6 @@ class BP_XProfile_Component extends BP_Component {
 			'filters',
 			'settings',
 			'template',
-			'buddybar',
 			'functions',
 		);
 
@@ -156,7 +155,7 @@ class BP_XProfile_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup BuddyBar navigation
+	 * Set up navigation.
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
