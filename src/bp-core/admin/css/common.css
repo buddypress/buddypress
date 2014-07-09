@@ -433,10 +433,4 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 		background-image: url('../images/menu-2x.png') !important;
 		background-size: 209px 64px;
 	}
-
-	/* Badge */
-	.bp-badge {
-		background-image: url('../images/badge-2x.png');
-		background-size: 173px 194px;
-	}
 }
