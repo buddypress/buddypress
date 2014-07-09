@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /** Emails ********************************************************************/
 
 /**
- * Send an email to all group members when a group is updated
+ * Notify all group members when a group is updated
  *
  * @since BuddyPress (1.0.0)
  *
@@ -68,7 +68,7 @@ To view the group: %2$s
 }
 
 /**
- * Send email to group admin about membership request
+ * Notify group admin about new membership request
  *
  * @since BuddyPress (1.0.0)
  *
@@ -144,7 +144,7 @@ To view %4$s\'s profile: %5$s
 }
 
 /**
- * Send email to member about their group membership request
+ * Notify member about their group membership request
  *
  * @since BuddyPress (1.0.0)
  *
@@ -223,7 +223,8 @@ add_action( 'groups_membership_accepted', 'groups_notification_membership_reques
 add_action( 'groups_membership_rejected', 'groups_notification_membership_request_completed', 10, 3 );
 
 /**
- * 
+ * Notify group member they have been promoted
+ *
  * @since BuddyPress (1.0.0)
  *
  * @param int $user_id
@@ -290,7 +291,8 @@ To view the group please visit: %3$s
 add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
 
 /**
- * 
+ * Notify a member they have been invitated to a group
+ *
  * @since BuddyPress (1.0.0)
  *
  * @param object $group
@@ -370,7 +372,8 @@ To view %5$s\'s profile visit: %6$s
 /**
  * Format notifications for the Groups component.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
+ *
  * @param string $action The kind of notification being rendered
  * @param int $item_id The primary item id
  * @param int $secondary_item_id The secondary item id
