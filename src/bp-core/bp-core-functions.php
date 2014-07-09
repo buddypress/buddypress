@@ -507,13 +507,20 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
 	// Create the pages
 	foreach ( $pages_to_create as $component_name => $page_name ) {
-		$pages[ $component_name ] = wp_insert_post( array(
-			'comment_status' => 'closed',
-			'ping_status'    => 'closed',
-			'post_status'    => 'publish',
-			'post_title'     => $page_name,
-			'post_type'      => 'page',
-		) );
+		$exists = get_page_by_path( $component_name );
+
+		// If page already exists, use it
+		if ( ! empty( $exists ) ) {
+			$pages[ $component_name ] = $exists->ID;
+		} else {
+			$pages[ $component_name ] = wp_insert_post( array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_status'    => 'publish',
+				'post_title'     => $page_name,
+				'post_type'      => 'page',
+			) );
+		}
 	}
 
 	// Save the page mapping
