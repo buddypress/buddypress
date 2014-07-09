@@ -315,21 +315,23 @@ function bp_is_username_compatibility_mode() {
  *
  * @uses apply_filters() Filter 'bp_use_wp_admin_bar' to alter.
  *
- * @return bool False when WP Toolbar support is disabled, true when enabled.
- *        Default: true.
+ * @return bool Default: true. False when WP Toolbar support is disabled.
  */
 function bp_use_wp_admin_bar() {
+
+	// Default to true (to avoid loading deprecated BuddyBar code)
 	$use_admin_bar = true;
 
-	// Has the WP Toolbar constant been explicity set?
-	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && ! BP_USE_WP_ADMIN_BAR )
-		$use_admin_bar = false;
+	// Has the WP Toolbar constant been explicity opted into?
+	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
+		$use_admin_bar = (bool) BP_USE_WP_ADMIN_BAR;
 
-	// Has the admin chosen to use the BuddyBar during an upgrade?
-	elseif ( (bool) bp_get_option( '_bp_force_buddybar', false ) )
+	// ...or is the old BuddyBar being forced back into use?
+	} elseif ( bp_force_buddybar( false ) ) {
 		$use_admin_bar = false;
+	}
 
-	return apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
+	return (bool) apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
 }
 
 /** Directory *****************************************************************/
