@@ -112,7 +112,7 @@ function bp_notifications_delete_notification( $id ) {
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $user_id ID of the user whose notifications are being deleted.
+ * @param int $id ID of the user whose notifications are being deleted.
  * @param int $is_new 0 for read, 1 for unread
  * @return bool True on success, false on failure.
  */
@@ -332,7 +332,7 @@ function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $user_id ID of the user whose notifications are being deleted.
+ * @param int $item_id ID of the user whose notifications are being deleted.
  * @param string $component_name Name of the associated component.
  * @param string $component_action Optional. Name of the associated action.
  * @param int $secondary_item_id Optional. ID of the secondary associated item.
