@@ -318,7 +318,7 @@ class BP_Component {
 					}
 				}
 			}
-	}
+		}
 
 		// Call action
 		do_action( 'bp_' . $this->id . '_includes' );
