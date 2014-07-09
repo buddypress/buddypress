@@ -454,14 +454,16 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 		return;
 	}
 
-	// Make sure that the pages are created on the root blog no matter which Dashboard the setup is being run on
-	if ( ! bp_is_root_blog() )
+	// Make sure that the pages are created on the root blog no matter which
+	// dashboard the setup is being run on.
+	if ( ! bp_is_root_blog() ) {
 		switch_to_blog( bp_get_root_blog_id() );
+	}
 
 	$pages = bp_core_get_directory_page_ids();
 
 	// Delete any existing pages
-	if ( 'delete' == $existing ) {
+	if ( 'delete' === $existing ) {
 		foreach ( (array) $pages as $page_id ) {
 			wp_delete_post( $page_id, true );
 		}
@@ -470,11 +472,11 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	}
 
 	$page_titles = array(
-		'activity' => _x( 'Activity', 'Page title for the Activity directory.', 'buddypress' ),
-		'groups'   => _x( 'Groups', 'Page title for the Groups directory.', 'buddypress' ),
-		'sites'    => _x( 'Sites', 'Page title for the Sites directory.', 'buddypress' ),
-		'activate' => _x( 'Activate', 'Page title for the user account activation screen.', 'buddypress' ),
-		'members'  => _x( 'Members', 'Page title for the Members directory.', 'buddypress' ),
+		'activity' => _x( 'Activity', 'Page title for the Activity directory.',       'buddypress' ),
+		'groups'   => _x( 'Groups',   'Page title for the Groups directory.',         'buddypress' ),
+		'sites'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
+		'members'  => _x( 'Members',  'Page title for the Members directory.',        'buddypress' ),
+		'activate' => _x( 'Activate', 'Page title for the user activation screen.',   'buddypress' ),
 		'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
 	);
 
@@ -527,8 +529,9 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	bp_update_option( 'bp-pages', $pages );
 
 	// If we had to switch_to_blog, go back to the original site.
-	if ( ! bp_is_root_blog() )
+	if ( ! bp_is_root_blog() ) {
 		restore_current_blog();
+	}
 }
 
 /**
