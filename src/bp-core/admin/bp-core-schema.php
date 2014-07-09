@@ -265,7 +265,7 @@ function bp_core_install_groups() {
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()
  */
-function bp_core_install_messages() {
+function bp_core_install_private_messaging() {
 	$sql             = array();
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
