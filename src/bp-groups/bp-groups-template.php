@@ -2257,7 +2257,9 @@ class BP_Groups_Group_Members_Template {
  *     @type string $type Optional. Sort order of results. 'last_joined',
  *           'first_joined', or any of the $type params available in
  *           {@link BP_User_Query}. Default: 'last_joined'.
- *     @type string $search_terms Optional. Search terms to match.
+ *     @type string $search_terms Optional. Search terms to match. Pass an
+ *           empty string to force-disable search, even in the presence of
+ *           $_REQUEST['s']. Default: null.
  * }
  */
 function bp_group_has_members( $args = '' ) {
@@ -2278,12 +2280,13 @@ function bp_group_has_members( $args = '' ) {
 		'exclude_admins_mods' => $exclude_admins_mods,
 		'exclude_banned'      => 1,
 		'group_role'          => false,
-		'search_terms'        => false,
+		'search_terms'        => null,
 		'type'                => 'last_joined',
 	) );
 
-	if ( empty( $r['search_terms'] ) && ! empty( $_REQUEST['s'] ) )
+	if ( is_null( $r['search_terms'] ) && ! empty( $_REQUEST['s'] ) ) {
 		$r['search_terms'] = $_REQUEST['s'];
+	}
 
 	$members_template = new BP_Groups_Group_Members_Template( $r );
 	return apply_filters( 'bp_group_has_members', $members_template->has_members(), $members_template );
