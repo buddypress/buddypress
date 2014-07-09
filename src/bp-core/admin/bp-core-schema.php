@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BuddyPress DB schema
  *
@@ -9,82 +10,121 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Get the DB schema to use for BuddyPress components
+ *
+ * @since BuddyPress (1.1.0)
+ *
+ * @global $wpdb $wpdb
+ * @return string The default database character-set, if set
+ */
 function bp_core_set_charset() {
 	global $wpdb;
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	// BuddyPress component DB schema
 	return !empty( $wpdb->charset ) ? "DEFAULT CHARACTER SET {$wpdb->charset}" : '';
 }
 
+/**
+ * Main installer
+ *
+ * Can be passed an optional array of components to explicitly run installation
+ * routines on, typically the first time a component is activated in Settings.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param array $active_components Components to install
+ */
 function bp_core_install( $active_components = false ) {
 
-	if ( empty( $active_components ) )
+	// If no components passed, get all the active components from the main site
+	if ( empty( $active_components ) ) {
 		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
+	}
 
-	// Activity Streams
-	// Install tables even when inactive, to store last_activity data
+	// Install Activity Streams even when inactive (to store last_activity data)
 	bp_core_install_activity_streams();
-
-	// Notifications
-	if ( !empty( $active_components['notifications'] ) )
-		bp_core_install_notifications();
-
-	// Friend Connections
-	if ( !empty( $active_components['friends'] ) )
-		bp_core_install_friends();
-
-	// Extensible Groups
-	if ( !empty( $active_components['groups'] ) )
-		bp_core_install_groups();
-
-	// Private Messaging
-	if ( !empty( $active_components['messages'] ) )
-		bp_core_install_private_messaging();
-
-	// Extended Profiles
-	if ( !empty( $active_components['xprofile'] ) )
-		bp_core_install_extended_profiles();
-
-	// Blog tracking
-	if ( !empty( $active_components['blogs'] ) )
-		bp_core_install_blog_tracking();
 
 	// Install the signups table
 	bp_core_maybe_install_signups();
 
+	// Notifications
+	if ( !empty( $active_components['notifications'] ) ) {
+		bp_core_install_notifications();
+	}
+
+	// Friend Connections
+	if ( !empty( $active_components['friends'] ) ) {
+		bp_core_install_friends();
+	}
+
+	// Extensible Groups
+	if ( !empty( $active_components['groups'] ) ) {
+		bp_core_install_groups();
+	}
+
+	// Private Messaging
+	if ( !empty( $active_components['messages'] ) ) {
+		bp_core_install_private_messaging();
+	}
+
+	// Extended Profiles
+	if ( !empty( $active_components['xprofile'] ) ) {
+		bp_core_install_extended_profiles();
+	}
+
+	// Blog tracking
+	if ( !empty( $active_components['blogs'] ) ) {
+		bp_core_install_blog_tracking();
+	}
 }
 
+/**
+ * Install database tables for the Notifications component
+ *
+ * @since BuddyPress (1.0.0)
+ * 
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
 function bp_core_install_notifications() {
-
 	$sql             = array();
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_notifications (
-	  		    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			    user_id bigint(20) NOT NULL,
-			    item_id bigint(20) NOT NULL,
-			    secondary_item_id bigint(20),
-	  		    component_name varchar(75) NOT NULL,
-			    component_action varchar(75) NOT NULL,
-	  		    date_notified datetime NOT NULL,
-			    is_new bool NOT NULL DEFAULT 0,
-		        KEY item_id (item_id),
-			    KEY secondary_item_id (secondary_item_id),
-			    KEY user_id (user_id),
-			    KEY is_new (is_new),
-			    KEY component_name (component_name),
-	 	   	    KEY component_action (component_action),
-			    KEY useritem (user_id,is_new)
-		       ) {$charset_collate};";
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				item_id bigint(20) NOT NULL,
+				secondary_item_id bigint(20),
+				component_name varchar(75) NOT NULL,
+				component_action varchar(75) NOT NULL,
+				date_notified datetime NOT NULL,
+				is_new bool NOT NULL DEFAULT 0,
+				KEY item_id (item_id),
+				KEY secondary_item_id (secondary_item_id),
+				KEY user_id (user_id),
+				KEY is_new (is_new),
+				KEY component_name (component_name),
+				KEY component_action (component_action),
+				KEY useritem (user_id,is_new)
+			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
+/**
+ * Install database tables for the Activity component
+ *
+ * @since BuddyPress (1.0.0)
+ * 
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
 function bp_core_install_activity_streams() {
-
 	$sql             = array();
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
@@ -123,52 +163,68 @@ function bp_core_install_activity_streams() {
 				meta_value longtext DEFAULT NULL,
 				KEY activity_id (activity_id),
 				KEY meta_key (meta_key)
-		   	   ) {$charset_collate};";
+			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
+/**
+ * Install database tables for the Notifications component
+ *
+ * @since BuddyPress (1.0.0)
+ * 
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
 function bp_core_install_friends() {
-
 	$sql             = array();
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_friends (
-	  		    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	  		    initiator_user_id bigint(20) NOT NULL,
-	  		    friend_user_id bigint(20) NOT NULL,
-	  		    is_confirmed bool DEFAULT 0,
-			    is_limited bool DEFAULT 0,
-	  		    date_created datetime NOT NULL,
-		        KEY initiator_user_id (initiator_user_id),
-		        KEY friend_user_id (friend_user_id)
-	 	       ) {$charset_collate};";
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				initiator_user_id bigint(20) NOT NULL,
+				friend_user_id bigint(20) NOT NULL,
+				is_confirmed bool DEFAULT 0,
+				is_limited bool DEFAULT 0,
+				date_created datetime NOT NULL,
+				KEY initiator_user_id (initiator_user_id),
+				KEY friend_user_id (friend_user_id)
+			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
+/**
+ * Install database tables for the Groups component
+ *
+ * @since BuddyPress (1.0.0)
+ * 
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
 function bp_core_install_groups() {
-
 	$sql             = array();
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_groups (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				creator_id bigint(20) NOT NULL,
-		  		name varchar(100) NOT NULL,
-		  		slug varchar(200) NOT NULL,
-		  		description longtext NOT NULL,
+				name varchar(100) NOT NULL,
+				slug varchar(200) NOT NULL,
+				description longtext NOT NULL,
 				status varchar(10) NOT NULL DEFAULT 'public',
 				enable_forum tinyint(1) NOT NULL DEFAULT '1',
 				date_created datetime NOT NULL,
-			    KEY creator_id (creator_id),
-			    KEY status (status)
-		 	   ) {$charset_collate};";
+				KEY creator_id (creator_id),
+				KEY status (status)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_groups_members (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				group_id bigint(20) NOT NULL,
 				user_id bigint(20) NOT NULL,
 				inviter_id bigint(20) NOT NULL,
@@ -183,10 +239,10 @@ function bp_core_install_groups() {
 				KEY group_id (group_id),
 				KEY is_admin (is_admin),
 				KEY is_mod (is_mod),
-			 	KEY user_id (user_id),
+				KEY user_id (user_id),
 				KEY inviter_id (inviter_id),
 				KEY is_confirmed (is_confirmed)
-		 	   ) {$charset_collate};";
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_groups_groupmeta (
 				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -195,54 +251,71 @@ function bp_core_install_groups() {
 				meta_value longtext DEFAULT NULL,
 				KEY group_id (group_id),
 				KEY meta_key (meta_key)
-			   ) {$charset_collate};";
+			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
-function bp_core_install_private_messaging() {
-
+/**
+ * Install database tables for the Messsages component
+ *
+ * @since BuddyPress (1.0.0)
+ * 
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
+function bp_core_install_messages() {
 	$sql             = array();
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_messages (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		thread_id bigint(20) NOT NULL,
-		  		sender_id bigint(20) NOT NULL,
-		  		subject varchar(200) NOT NULL,
-		  		message longtext NOT NULL,
-		  		date_sent datetime NOT NULL,
-			    KEY sender_id (sender_id),
-			    KEY thread_id (thread_id)
-		 	   ) {$charset_collate};";
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				thread_id bigint(20) NOT NULL,
+				sender_id bigint(20) NOT NULL,
+				subject varchar(200) NOT NULL,
+				message longtext NOT NULL,
+				date_sent datetime NOT NULL,
+				KEY sender_id (sender_id),
+				KEY thread_id (thread_id)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_recipients (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		user_id bigint(20) NOT NULL,
-		  		thread_id bigint(20) NOT NULL,
-		  		unread_count int(10) NOT NULL DEFAULT '0',
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				thread_id bigint(20) NOT NULL,
+				unread_count int(10) NOT NULL DEFAULT '0',
 				sender_only tinyint(1) NOT NULL DEFAULT '0',
 				is_deleted tinyint(1) NOT NULL DEFAULT '0',
-			    KEY user_id (user_id),
-			    KEY thread_id (thread_id),
+				KEY user_id (user_id),
+				KEY thread_id (thread_id),
 				KEY is_deleted (is_deleted),
 				KEY sender_only (sender_only),
-			    KEY unread_count (unread_count)
-		 	   ) {$charset_collate};";
+				KEY unread_count (unread_count)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_notices (
-		  		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  		subject varchar(200) NOT NULL,
-		  		message longtext NOT NULL,
-		  		date_sent datetime NOT NULL,
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				subject varchar(200) NOT NULL,
+				message longtext NOT NULL,
+				date_sent datetime NOT NULL,
 				is_active tinyint(1) NOT NULL DEFAULT '0',
-			    KEY is_active (is_active)
-		 	   ) {$charset_collate};";
+				KEY is_active (is_active)
+			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
+/**
+ * Install database tables for the Profiles component
+ *
+ * @since BuddyPress (1.0.0)
+ * 
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
 function bp_core_install_extended_profiles() {
 	global $wpdb;
 
@@ -260,43 +333,43 @@ function bp_core_install_extended_profiles() {
 	}
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_xprofile_groups (
-			    id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			    name varchar(150) NOT NULL,
-			    description mediumtext NOT NULL,
-			    group_order bigint(20) NOT NULL DEFAULT '0',
-			    can_delete tinyint(1) NOT NULL,
-			    KEY can_delete (can_delete)
-			   ) {$charset_collate};";
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				name varchar(150) NOT NULL,
+				description mediumtext NOT NULL,
+				group_order bigint(20) NOT NULL DEFAULT '0',
+				can_delete tinyint(1) NOT NULL,
+				KEY can_delete (can_delete)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_xprofile_fields (
-			    id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			    group_id bigint(20) unsigned NOT NULL,
-			    parent_id bigint(20) unsigned NOT NULL,
-			    type varchar(150) NOT NULL,
-			    name varchar(150) NOT NULL,
-			    description longtext NOT NULL,
-			    is_required tinyint(1) NOT NULL DEFAULT '0',
-			    is_default_option tinyint(1) NOT NULL DEFAULT '0',
-			    field_order bigint(20) NOT NULL DEFAULT '0',
-			    option_order bigint(20) NOT NULL DEFAULT '0',
-			    order_by varchar(15) NOT NULL DEFAULT '',
-			    can_delete tinyint(1) NOT NULL DEFAULT '1',
-			    KEY group_id (group_id),
-			    KEY parent_id (parent_id),
-			    KEY field_order (field_order),
-			    KEY can_delete (can_delete),
-			    KEY is_required (is_required)
-			   ) {$charset_collate};";
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				group_id bigint(20) unsigned NOT NULL,
+				parent_id bigint(20) unsigned NOT NULL,
+				type varchar(150) NOT NULL,
+				name varchar(150) NOT NULL,
+				description longtext NOT NULL,
+				is_required tinyint(1) NOT NULL DEFAULT '0',
+				is_default_option tinyint(1) NOT NULL DEFAULT '0',
+				field_order bigint(20) NOT NULL DEFAULT '0',
+				option_order bigint(20) NOT NULL DEFAULT '0',
+				order_by varchar(15) NOT NULL DEFAULT '',
+				can_delete tinyint(1) NOT NULL DEFAULT '1',
+				KEY group_id (group_id),
+				KEY parent_id (parent_id),
+				KEY field_order (field_order),
+				KEY can_delete (can_delete),
+				KEY is_required (is_required)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_xprofile_data (
-			    id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			    field_id bigint(20) unsigned NOT NULL,
-			    user_id bigint(20) unsigned NOT NULL,
-			    value longtext NOT NULL,
-			    last_updated datetime NOT NULL,
-			    KEY field_id (field_id),
-			    KEY user_id (user_id)
-			   ) {$charset_collate};";
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				field_id bigint(20) unsigned NOT NULL,
+				user_id bigint(20) unsigned NOT NULL,
+				value longtext NOT NULL,
+				last_updated datetime NOT NULL,
+				KEY field_id (field_id),
+				KEY user_id (user_id)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_xprofile_meta (
 				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -306,35 +379,45 @@ function bp_core_install_extended_profiles() {
 				meta_value longtext DEFAULT NULL,
 				KEY object_id (object_id),
 				KEY meta_key (meta_key)
-		   	   ) {$charset_collate};";
+			) {$charset_collate};";
 
 	dbDelta( $sql );
 
 	// Insert the default group and fields
 	$insert_sql = array();
 
-	if ( !$wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_groups WHERE id = 1" ) )
+	if ( ! $wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_groups WHERE id = 1" ) ) {
 		$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_groups ( name, description, can_delete ) VALUES ( " . $wpdb->prepare( '%s', stripslashes( bp_get_option( 'bp-xprofile-base-group-name' ) ) ) . ", '', 0 );";
+	}
 
-	if ( !$wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE id = 1" ) )
+	if ( ! $wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE id = 1" ) ) {
 		$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_fields ( group_id, parent_id, type, name, description, is_required, can_delete ) VALUES ( 1, 0, 'textbox', " . $wpdb->prepare( '%s', stripslashes( bp_get_option( 'bp-xprofile-fullname-field-name' ) ) ) . ", '', 1, 0 );";
+	}
 
 	dbDelta( $insert_sql );
 }
 
+/**
+ * Install database tables for the Sites component
+ *
+ * @since BuddyPress (1.0.0)
+ * 
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
 function bp_core_install_blog_tracking() {
-
 	$sql             = array();
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_user_blogs (
-	  		    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			    user_id bigint(20) NOT NULL,
-			    blog_id bigint(20) NOT NULL,
-			    KEY user_id (user_id),
-			    KEY blog_id (blog_id)
-		       ) {$charset_collate};";
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				user_id bigint(20) NOT NULL,
+				blog_id bigint(20) NOT NULL,
+				KEY user_id (user_id),
+				KEY blog_id (blog_id)
+			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_user_blogs_blogmeta (
 				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -343,7 +426,7 @@ function bp_core_install_blog_tracking() {
 				meta_value longtext DEFAULT NULL,
 				KEY blog_id (blog_id),
 				KEY meta_key (meta_key)
-		       ) {$charset_collate};";
+			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
