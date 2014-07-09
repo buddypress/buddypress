@@ -18,7 +18,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->old_user_id  = get_current_user_id();
 		$this->current_user = $this->create_user( array(
 			'display_name' => 'Katie Parker',
-			'user_login'   => 'admin',
+			'user_login'   => 'katie',
 		) );
 
 		$this->set_current_user( $this->current_user );
@@ -162,7 +162,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
 		$this->assertEquals( 1, count( $suggestions ) );
-		$this->assertSame( 'admin', $suggestions[0]->ID );
+		$this->assertSame( 'katie', $suggestions[0]->ID );
 	}
 
 
