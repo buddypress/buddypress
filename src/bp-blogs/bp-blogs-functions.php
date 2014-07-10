@@ -97,18 +97,36 @@ function bp_blogs_record_existing_blogs() {
 	$wpdb->query( "TRUNCATE {$bp->blogs->table_name}"          );
 	$wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
 
-	// Loop through users of blogs and record them
-	foreach( (array) $blog_ids as $blog_id ) {
-		$users       = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ID' ) );
-		$subscribers = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ID', 'role' => 'subscriber' ) );
+	// Loop through users of blogs and record the relationship
+	foreach ( (array) $blog_ids as $blog_id ) {
+		
+		// Get all users
+		$all_users = get_users( array(
+			'blog_id' => $blog_id,
+			'fields'  => 'ID'
+		) );
+		
+		// Get subscribers
+		$subscribers = get_users( array(
+			'blog_id' => $blog_id,
+			'fields'  => 'ID',
+			'role'    => 'subscriber'
+		) );
 
-		if ( !empty( $users ) ) {
-			foreach ( (array) $users as $user ) {
-				// Don't record blogs for subscribers
-				if ( !in_array( $user, $subscribers ) ) {
-					bp_blogs_record_blog( $blog_id, $user, true );
-				}
-			}
+		// Remove subscribers from users (for some legacy/wpcom reason?)
+		$users = array_values( array_diff( $all_users, $subscribers ) );
+
+		// Reclaim some memory in the event there are many users
+		unset( $all_users, $subscribers );
+
+		// Continue on if no users exist for this site (how did this happen?)
+		if ( empty( $users ) ) {
+			continue;
+		}
+
+		// Loop through users and record their relationship to this blog
+		foreach ( $users as $user ) {
+			bp_blogs_record_blog( $blog_id, $user, true );
 		}
 	}
 }
