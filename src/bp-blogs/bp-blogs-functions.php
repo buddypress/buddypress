@@ -125,7 +125,7 @@ function bp_blogs_record_existing_blogs() {
 		}
 
 		// Loop through users and record their relationship to this blog
-		foreach ( $users as $user ) {
+		foreach ( (array) $users as $user ) {
 			bp_blogs_record_blog( $blog_id, $user, true );
 		}
 	}
