@@ -132,6 +132,16 @@ function bp_admin_repair_list() {
 		);
 	}
 
+	// Blogs:
+	// - user blog count
+	if ( bp_is_active( 'blogs' ) ) {
+		$repair_list[90] = array(
+			'bp-blog-records',
+			__( 'Repopulate blogs records', 'buddypress' ),
+			'bp_admin_repair_blog_records',
+		);
+	}
+
 	ksort( $repair_list );
 
 	return (array) apply_filters( 'bp_repair_list', $repair_list );
@@ -239,6 +249,38 @@ function bp_admin_repair_group_count() {
 }
 
 /**
+ * Recalculate user-to-blog relationships and useful blog meta data
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @return array
+ */
+function bp_admin_repair_blog_records() {
+
+	// Description of this tool, dispalyed to the user
+	$statement = __( 'Repopulating Blogs records&hellip; %s', 'buddypress' );
+
+	// Default to failure text
+	$result    = __( 'Failed!',   'buddypress' );
+
+	// Default to unrepaired
+	$repair    = false;
+
+	// Run function if blogs component is active
+	if ( bp_is_active( 'blogs' ) ) {
+		$repair = bp_blogs_record_existing_blogs();
+	}
+
+	// Setup success/fail messaging
+	if ( true === $repair ) {
+		$result = __( 'Complete!', 'buddypress' );
+	}
+
+	// All done!
+	return array( 0, sprintf( $statement, $result ) );
+}
+
+/**
  * Recalculate the total number of active site members.
  *
  * @since BuddyPress (2.0.0)
@@ -281,7 +323,6 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 		switch ( count( $errors ) ) {
 			case 0:
 				return false;
-				break;
 
 			case 1:
 				$message = '<p>' . $errors[0] . '</p>';

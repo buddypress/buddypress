@@ -78,6 +78,11 @@ function bp_blogs_record_existing_blogs() {
 		if ( ! wp_is_large_network() ) {
 			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $wpdb->siteid ) );
 
+			// If error running this query, set blog ID's to false
+			if ( is_wp_error( $blog_ids ) ) {
+				$blog_ids = false;
+			}
+
 		// Large networks are not currently supported
 		} else {
 			$blog_ids = false;
@@ -90,12 +95,20 @@ function bp_blogs_record_existing_blogs() {
 
 	// Bail if there are no blogs in the network
 	if ( empty( $blog_ids ) ) {
-		return;
+		return false;
 	}
 
-	// Truncate user blogs table and re-record.
-	$wpdb->query( "TRUNCATE {$bp->blogs->table_name}"          );
-	$wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
+	// Truncate user blogs table
+	$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name}" );
+	if ( is_wp_error( $truncate ) ) {
+		return false;
+	}
+
+	// Truncate user blogsmeta table
+	$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
+	if ( is_wp_error( $truncate ) ) {
+		return false;
+	}
 
 	// Loop through users of blogs and record the relationship
 	foreach ( (array) $blog_ids as $blog_id ) {
@@ -129,6 +142,9 @@ function bp_blogs_record_existing_blogs() {
 			bp_blogs_record_blog( $blog_id, $user, true );
 		}
 	}
+
+	// No errors
+	return true;
 }
 
 /**
