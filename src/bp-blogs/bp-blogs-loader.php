@@ -45,8 +45,9 @@ class BP_Blogs_Component extends BP_Component {
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
 
-		if ( !defined( 'BP_BLOGS_SLUG' ) )
+		if ( ! defined( 'BP_BLOGS_SLUG' ) ) {
 			define ( 'BP_BLOGS_SLUG', $this->id );
+		}
 
 		// Global tables for messaging component
 		$global_tables = array(
@@ -58,8 +59,7 @@ class BP_Blogs_Component extends BP_Component {
 			'blog' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
 		);
 
-		// All globals for messaging component.
-		// Note that global_tables is included in this array.
+		// All globals for blogs component.
 		$args = array(
 			'slug'                  => BP_BLOGS_SLUG,
 			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG,
@@ -83,6 +83,7 @@ class BP_Blogs_Component extends BP_Component {
 	 * @param array $includes See {@link BP_Component::includes()}.
 	 */
 	public function includes( $includes = array() ) {
+
 		// Files to include
 		$includes = array(
 			'cache',
@@ -95,8 +96,9 @@ class BP_Blogs_Component extends BP_Component {
 			'functions',
 		);
 
-		if ( is_multisite() )
+		if ( is_multisite() ) {
 			$includes[] = 'widgets';
+		}
 
 		// Include the files
 		parent::includes( $includes );
@@ -120,8 +122,9 @@ class BP_Blogs_Component extends BP_Component {
 		 * Although comments and posts made by users will still show on their
 		 * activity stream.
 		 */
-		if ( !is_multisite() )
+		if ( ! is_multisite() ) {
 			return false;
+		}
 
 		// Add 'Sites' to the main navigation
 		$main_nav =  array(
@@ -172,11 +175,12 @@ class BP_Blogs_Component extends BP_Component {
 
 		/**
 		 * Site/post/comment menus should not appear on single WordPress setups.
-		 * Although comments and posts made by users will still show on their
-		 * activity stream.
+		 *
+		 * Comments and posts made by users will still show in their activity.
 		 */
-		if ( !is_multisite() )
+		if ( ! is_multisite() ) {
 			return false;
+		}
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
