@@ -74,8 +74,19 @@ function bp_blogs_record_existing_blogs() {
 	// Truncate user blogs table and re-record.
 	$wpdb->query( "DELETE FROM {$bp->blogs->table_name} WHERE 1=1" );
 
+	// Query for all sites in network
 	if ( is_multisite() ) {
-		$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $wpdb->siteid ) );
+
+		// Get blog ID's if not a large network
+		if ( ! wp_is_large_network() ) {
+			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $wpdb->siteid ) );
+
+		// Large networks are not currently supported
+		} else {
+			$blog_ids = false;
+		}
+
+	// Record a single site
 	} else {
 		$blog_ids = 1;
 	}
