@@ -85,7 +85,7 @@ function bp_blogs_record_existing_blogs() {
 
 	// Record a single site
 	} else {
-		$blog_ids = 1;
+		$blog_ids = $wpdb->blogid;
 	}
 
 	// Bail if there are no blogs in the network
