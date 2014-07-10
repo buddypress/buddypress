@@ -71,9 +71,6 @@ function bp_blogs_get_blogs( $args = '' ) {
 function bp_blogs_record_existing_blogs() {
 	global $bp, $wpdb;
 
-	// Truncate user blogs table and re-record.
-	$wpdb->query( "DELETE FROM {$bp->blogs->table_name} WHERE 1=1" );
-
 	// Query for all sites in network
 	if ( is_multisite() ) {
 
@@ -95,6 +92,10 @@ function bp_blogs_record_existing_blogs() {
 	if ( empty( $blog_ids ) ) {
 		return;
 	}
+
+	// Truncate user blogs table and re-record.
+	$wpdb->query( "TRUNCATE {$bp->blogs->table_name}"          );
+	$wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
 
 	// Loop through users of blogs and record them
 	foreach( (array) $blog_ids as $blog_id ) {
