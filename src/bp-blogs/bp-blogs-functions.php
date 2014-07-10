@@ -80,17 +80,21 @@ function bp_blogs_record_existing_blogs() {
 		$blog_ids = 1;
 	}
 
-	if ( !empty( $blog_ids ) ) {
-		foreach( (array) $blog_ids as $blog_id ) {
-			$users       = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ID' ) );
-			$subscribers = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ID', 'role' => 'subscriber' ) );
+	// Bail if there are no blogs in the network
+	if ( empty( $blog_ids ) ) {
+		return;
+	}
 
-			if ( !empty( $users ) ) {
-				foreach ( (array) $users as $user ) {
-					// Don't record blogs for subscribers
-					if ( !in_array( $user, $subscribers ) ) {
-						bp_blogs_record_blog( $blog_id, $user, true );
-					}
+	// Loop through users of blogs and record them
+	foreach( (array) $blog_ids as $blog_id ) {
+		$users       = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ID' ) );
+		$subscribers = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ID', 'role' => 'subscriber' ) );
+
+		if ( !empty( $users ) ) {
+			foreach ( (array) $users as $user ) {
+				// Don't record blogs for subscribers
+				if ( !in_array( $user, $subscribers ) ) {
+					bp_blogs_record_blog( $blog_id, $user, true );
 				}
 			}
 		}
