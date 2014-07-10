@@ -1130,21 +1130,26 @@ class BP_Members_Admin {
 		global $wpdb;
 
 		// Bail if this is an ajax request
-		if ( defined( 'DOING_AJAX' ) )
+		if ( defined( 'DOING_AJAX' ) ) {
 			return;
+		}
 
+		// Bail if updating BuddyPress
 		if ( bp_is_update() ) {
 			return;
 		}
 
-		if ( ! function_exists( 'get_current_screen' ) ) {
+		// Bail if there is no current admin screen
+		if ( ! function_exists( 'get_current_screen' ) || ! get_current_screen() ) {
 			return;
 		}
 
-		if ( $this->users_page != get_current_screen()->id ) {
+		// Bail if not on a users page
+		if ( $this->users_page !== get_current_screen()->id ) {
 			return;
 		}
 
+		// Bail if already querying by an existing role
 		if ( ! empty( $query->query_vars['role'] ) ) {
 			return;
 		}
