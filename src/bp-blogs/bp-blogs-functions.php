@@ -122,7 +122,10 @@ function bp_blogs_record_existing_blogs() {
 
 	// Loop through users of blogs and record the relationship
 	foreach ( (array) $blog_ids as $blog_id ) {
-		
+
+		// Ensure that the cache is clear after the table TRUNCATE above
+		wp_cache_delete( $blog_id, 'blog_meta' );
+
 		// Get all users
 		$all_users = get_users( array(
 			'blog_id' => $blog_id,
