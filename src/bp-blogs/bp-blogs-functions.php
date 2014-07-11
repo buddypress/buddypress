@@ -780,23 +780,44 @@ add_action( 'edit_comment', 'bp_blogs_record_comment', 10    );
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb;
 
+	// If no blog ID was passed, use the root blog ID
 	if ( empty( $blog_id ) ) {
 		$blog_id = isset( $wpdb->blogid ) ? $wpdb->blogid : bp_get_root_blog_id();
 	}
 
+	// If no role was passed, try to find the blog role
 	if ( empty( $role ) ) {
-		$key = $wpdb->get_blog_prefix( $blog_id ). 'capabilities';
 
-		$roles = bp_get_user_meta( $user_id, $key, true );
+		// Get user capabilities
+		$key        = $wpdb->get_blog_prefix( $blog_id ). 'capabilities';
+		$user_roles = bp_get_user_meta( $user_id, $key, true );
 
-		if ( is_array( $roles ) )
-			$role = array_search( 1, $roles );
-		else
-			return false;
+		// User has roles so lets
+		if ( ! empty( $user_roles ) ) {
+
+			// Look for blog only roles
+			$blog_roles = array_intersect(
+				array_keys( $user_roles ),
+				array_keys( get_editable_roles() )
+			);
+
+			// If there's a role in the array, use the first one. This isn't
+			// very smart, but since roles aren't exactly hierarchical, and
+			// WordPress does not yet have a UI for multiple user roles, it's
+			// fine for now.
+			if ( ! empty( $blog_roles ) ) {
+				$role = array_shift( $blog_roles );
+			}
+		}
 	}
 
-	if ( $role != 'subscriber' )
-		bp_blogs_record_blog( $blog_id, $user_id, true );
+	// Bail if no role was found or user is a subscriber
+	if ( empty( $role ) || ( $role === 'subscriber' ) ) {
+		return false;
+	}
+
+	// Record the blog activity for this user being added to this blog
+	bp_blogs_record_blog( $blog_id, $user_id, true );
 }
 add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
 add_action( 'profile_update',   'bp_blogs_add_user_to_blog'        );
@@ -811,8 +832,9 @@ add_action( 'user_register',    'bp_blogs_add_user_to_blog'        );
 function bp_blogs_remove_user_from_blog( $user_id, $blog_id = 0 ) {
 	global $wpdb;
 
-	if ( empty( $blog_id ) )
+	if ( empty( $blog_id ) ) {
 		$blog_id = $wpdb->blogid;
+	}
 
 	bp_blogs_remove_blog_for_user( $user_id, $blog_id );
 }
