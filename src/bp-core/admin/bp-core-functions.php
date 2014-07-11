@@ -200,17 +200,20 @@ function bp_core_add_admin_notice( $notice = '' ) {
  * @since BuddyPress (1.2)
  */
 function bp_core_activation_notice() {
-	global $wpdb, $wp_rewrite;
-
-	$bp = buddypress();
+	global $wp_rewrite;
 
 	// Only the super admin gets warnings
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
 	}
 
+	// Bail in user admin
+	if ( is_user_admin() ) {
+		return;
+	}
+
 	// On multisite installs, don't load on a non-root blog, unless do_network_admin is overridden
-	if ( is_multisite() && bp_core_do_network_admin() && !bp_is_root_blog() ) {
+	if ( is_multisite() && bp_core_do_network_admin() && ! bp_is_root_blog() ) {
 		return;
 	}
 
@@ -219,34 +222,13 @@ function bp_core_activation_notice() {
 		return;
 	}
 
-	// Bail in network admin
-	if ( is_user_admin() ) {
-		return;
-	}
-
-	/**
-	 * Check to make sure that the blog setup routine has run. This can't happen during the
-	 * wizard because of the order which the components are loaded. We check for multisite here
-	 * on the off chance that someone has activated the blogs component and then disabled MS
-	 */
-	if ( bp_is_active( 'blogs' ) ) {
-		$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$bp->blogs->table_name}" );
-
-		if ( empty( $count ) ) {
-			bp_blogs_record_existing_blogs();
-		}
-	}
-
-	/**
-	 * Are pretty permalinks enabled?
-	 */
-	if ( isset( $_POST['permalink_structure'] ) ) {
-		return;
-	}
-
+	// Add notice if no rewrite rules are enabled
 	if ( empty( $wp_rewrite->permalink_structure ) ) {
 		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) );
 	}
+
+	// Get BuddyPress instance
+	$bp = buddypress();
 
 	/**
 	 * Check for orphaned BP components (BP component is enabled, no WP page exists)
