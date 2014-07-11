@@ -70,7 +70,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$blog_id = $this->factory->blog->create( array(
 			'user_id' => $this->administrator,
 			'title'   => 'Test Title',
-			'path'    => '/path' . time() . '/',
+			'path'    => '/path' . rand() . time() . '/',
 		) );
 
 		// emulate a page load on the new sub-site

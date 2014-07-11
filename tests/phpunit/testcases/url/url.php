@@ -49,7 +49,7 @@ class BP_Tests_URL extends BP_UnitTestCase {
 		if ( is_multisite() ) {
 			$original_root_blog = bp_get_root_blog_id();
 			$blog_id = $this->factory->blog->create( array(
-				'path' => '/path' . time() . '/',
+				'path' => '/path' . rand() . time() . '/',
 			) );
 			buddypress()->root_blog_id = $blog_id;
 
