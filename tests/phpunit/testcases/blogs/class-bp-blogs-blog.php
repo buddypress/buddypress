@@ -51,6 +51,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$b = $this->factory->blog->create( array(
 			'title' => 'The Foo Bar Blog',
 			'user_id' => $u,
+			'path' => __METHOD__ . time(),
 		) );
 		bp_blogs_record_existing_blogs();
 
@@ -80,6 +81,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$b = $this->factory->blog->create( array(
 			'title' => 'Foo Bar Blog',
 			'user_id' => $u,
+			'path' => __METHOD__ . time(),
 		) );
 		bp_blogs_record_existing_blogs();
 
