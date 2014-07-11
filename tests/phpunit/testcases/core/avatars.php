@@ -69,7 +69,8 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		// create new subsite
 		$blog_id = $this->factory->blog->create( array(
 			'user_id' => $this->administrator,
-			'title'   => 'Test Title'
+			'title'   => 'Test Title',
+			'path'    => '/path' . time() . '/',
 		) );
 
 		// emulate a page load on the new sub-site

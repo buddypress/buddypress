@@ -48,7 +48,9 @@ class BP_Tests_URL extends BP_UnitTestCase {
 		// (3) Multisite, root blog other than 1
 		if ( is_multisite() ) {
 			$original_root_blog = bp_get_root_blog_id();
-			$blog_id = $this->factory->blog->create();
+			$blog_id = $this->factory->blog->create( array(
+				'path' => '/path' . time() . '/',
+			) );
 			buddypress()->root_blog_id = $blog_id;
 
 			$blog_url = get_blog_option( $blog_id, 'siteurl' );
