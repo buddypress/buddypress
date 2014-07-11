@@ -73,13 +73,14 @@ function bp_blogs_get_blogs( $args = '' ) {
 /**
  * Populate the BP blogs table with existing blogs.
  *
- * @global object $bp BuddyPress global settings
+ * @since BuddyPress (1.0.0)
+ *
  * @global object $wpdb WordPress database object
  * @uses get_users()
  * @uses bp_blogs_record_blog()
  */
 function bp_blogs_record_existing_blogs() {
-	global $bp, $wpdb;
+	global $wpdb;
 
 	// Query for all sites in network
 	if ( is_multisite() ) {
@@ -108,6 +109,9 @@ function bp_blogs_record_existing_blogs() {
 		return false;
 	}
 
+	// Get BuddyPress
+	$bp = buddypress();
+
 	// Truncate user blogs table
 	$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name}" );
 	if ( is_wp_error( $truncate ) ) {
@@ -127,23 +131,9 @@ function bp_blogs_record_existing_blogs() {
 		wp_cache_delete( $blog_id, 'blog_meta' );
 
 		// Get all users
-		$all_users = get_users( array(
-			'blog_id' => $blog_id,
-			'fields'  => 'ID'
+		$users = get_users( array(
+			'blog_id' => $blog_id
 		) );
-		
-		// Get subscribers
-		$subscribers = get_users( array(
-			'blog_id' => $blog_id,
-			'fields'  => 'ID',
-			'role'    => 'subscriber'
-		) );
-
-		// Remove subscribers from users (for some legacy/wpcom reason?)
-		$users = array_values( array_diff( $all_users, $subscribers ) );
-
-		// Reclaim some memory in the event there are many users
-		unset( $all_users, $subscribers );
 
 		// Continue on if no users exist for this site (how did this happen?)
 		if ( empty( $users ) ) {
@@ -152,7 +142,7 @@ function bp_blogs_record_existing_blogs() {
 
 		// Loop through users and record their relationship to this blog
 		foreach ( (array) $users as $user ) {
-			bp_blogs_record_blog( $blog_id, $user, true );
+			bp_blogs_add_user_to_blog( $user->ID, false, $blog_id );
 		}
 	}
 
