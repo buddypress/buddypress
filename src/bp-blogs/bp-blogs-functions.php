@@ -44,20 +44,30 @@ function bp_blogs_has_directory() {
  */
 function bp_blogs_get_blogs( $args = '' ) {
 
-	$defaults = array(
-		'type'              => 'active', // active, alphabetical, newest, or random
-		'user_id'           => false,    // Pass a user_id to limit to only blogs that this user has privilages higher than subscriber on
-		'include_blog_ids'  => false,
-		'search_terms'      => false,    // Limit to blogs that match these search terms
+	// Parse query arguments
+	$r = bp_parse_args( $args, array(
+		'type'              => 'active', // 'active', 'alphabetical', 'newest', or 'random'
+		'include_blog_ids'  => false,    // Array of blog IDs to include
+		'user_id'           => false,    // Limit to blogs this user can post to
+		'search_terms'      => false,    // Limit to blogs matching these search terms
 		'per_page'          => 20,       // The number of results to return per page
 		'page'              => 1,        // The page to return if limiting per page
-		'update_meta_cache' => true,
+		'update_meta_cache' => true      // Whether to pre-fetch blogmeta
+	), 'blogs_get_blogs' );
+
+	// Get the blogs
+	$blogs = BP_Blogs_Blog::get(
+		$r['type'],
+		$r['per_page'],
+		$r['page'],
+		$r['user_id'],
+		$r['search_terms'],
+		$r['update_meta_cache'],
+		$r['include_blog_ids']
 	);
 
-	$params = wp_parse_args( $args, $defaults );
-	extract( $params, EXTR_SKIP );
-
-	return apply_filters( 'bp_blogs_get_blogs', BP_Blogs_Blog::get( $type, $per_page, $page, $user_id, $search_terms, $update_meta_cache, $include_blog_ids ), $params );
+	// Filter and return
+	return apply_filters( 'bp_blogs_get_blogs', $blogs, $r );
 }
 
 /**
