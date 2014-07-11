@@ -785,11 +785,17 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 		// User has roles so lets
 		if ( ! empty( $user_roles ) ) {
 
+			// Switch to this blog so roles are re-init'ed
+			switch_to_blog( $blog_id );
+
 			// Look for blog only roles
 			$blog_roles = array_intersect(
 				array_keys( $user_roles ),
 				array_keys( get_editable_roles() )
 			);
+
+			// Come back to the current blog
+			restore_current_blog();
 
 			// If there's a role in the array, use the first one. This isn't
 			// very smart, but since roles aren't exactly hierarchical, and
