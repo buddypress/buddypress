@@ -1891,13 +1891,22 @@ class BP_Button {
 		if ( true == $this->must_be_logged_in && ! is_user_logged_in() )
 			return false;
 
-		// No button if viewing your own profile
-		if ( true == $this->block_self && bp_is_my_profile() )
-			return false;
+		// block_self
+		if ( true == $this->block_self ) {
+			// No button if you are the current user in a members loop
+			// This condition takes precedence, because members loops
+			// can be found on user profiles
+			if ( bp_get_member_user_id() ) {
+				if ( is_user_logged_in() && bp_loggedin_user_id() == bp_get_member_user_id() ) {
+					return false;
+				}
 
-		// No button if you are the current user in a loop
-		if ( true === $this->block_self && is_user_logged_in() && bp_loggedin_user_id() === bp_get_member_user_id() )
-			return false;
+			// No button if viewing your own profile (and not in
+			// a members loop)
+			} else if ( bp_is_my_profile() ) {
+				return false;
+			}
+		}
 
 		// Wrapper properties
 		if ( false !== $this->wrapper ) {
