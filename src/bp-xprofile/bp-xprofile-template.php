@@ -723,7 +723,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 			'field_id'     => bp_get_the_profile_field_id(),
 			'before'       => '<ul class="radio">',
 			'after'        => '</ul>',
-			'before_radio' => '<li>',
+			'before_radio' => '<li class="%s">',
 			'after_radio'  => '</li>',
 			'class'        => 'bp-xprofile-visibility'
 		), 'xprofile_visibility_radio_buttons' );
@@ -744,7 +744,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 
 				<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
-					<?php echo $r['before_radio']; ?>
+					<?php printf( $r['before_radio'], esc_attr( $level['id'] ) ); ?>
 
 					<label for="<?php echo esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>">
 						<input type="radio" id="<?php echo esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] . '_visibility' ); ?>" value="<?php echo esc_attr( $level['id'] ); ?>" <?php checked( $level['id'], bp_get_the_profile_field_visibility_level() ); ?> />
