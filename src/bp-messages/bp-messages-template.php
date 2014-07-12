@@ -1513,6 +1513,42 @@ function bp_the_thread_message_id() {
 	}
 
 /**
+ * Output the CSS classes for messages within a single thread.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_the_thread_message_css_class() {
+	echo bp_get_the_thread_message_css_class();
+}
+	/**
+	 * Generate the CSS classes for messages within a single thread.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_thread_message_css_class() {
+		global $thread_template;
+
+		$classes = array();
+
+		// Zebra-striping
+		$classes[] = bp_get_the_thread_message_alt_class();
+
+		// ID of the sender
+		$classes[] = 'sent-by-' . intval( $thread_template->message->sender_id );
+
+		// Whether the sender is the same as the logged-in user
+		if ( bp_loggedin_user_id() == $thread_template->message->sender_id ) {
+			$classes[] = 'sent-by-me';
+		}
+
+		$classes = apply_filters( 'bp_get_the_thread_message_css_class', $classes );
+
+		return implode( ' ', $classes );
+	}
+
+/**
  * Output the CSS class used for message zebra striping.
  */
 function bp_the_thread_message_alt_class() {
