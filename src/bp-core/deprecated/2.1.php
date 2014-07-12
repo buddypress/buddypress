@@ -361,22 +361,6 @@ function bp_core_load_buddybar_css() {
 add_action( 'bp_init', 'bp_core_load_buddybar_css' );
 
 /**
- * Should the old BuddyBar be forced in place of the WP admin bar?
- *
- * @since BuddyPress (1.6.0)
- * @deprecated BuddyPress (2.1.0)
- *
- * @uses bp_get_option() To get the BuddyBar option.
- *
- * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
- * @return bool True if the BuddyBar should be forced on, otherwise false.
- */
-function bp_force_buddybar( $default = true ) {
-	return (bool) apply_filters( 'bp_force_buddybar', (bool) bp_get_option( '_bp_force_buddybar', $default ) );
-}
-
-/**
  * Add menu items to the BuddyBar.
  *
  * @since BuddyPress (1.0.0)

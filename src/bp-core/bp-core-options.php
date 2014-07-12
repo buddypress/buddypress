@@ -521,6 +521,21 @@ function bp_restrict_group_creation( $default = true ) {
 }
 
 /**
+ * Should the old BuddyBar be forced in place of the WP admin bar?
+ *
+ * @since BuddyPress (1.6.0)
+ *
+ * @uses bp_get_option() To get the BuddyBar option.
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *        Default: true.
+ * @return bool True if the BuddyBar should be forced on, otherwise false.
+ */
+function bp_force_buddybar( $default = true ) {
+	return (bool) apply_filters( 'bp_force_buddybar', (bool) bp_get_option( '_bp_force_buddybar', $default ) );
+}
+
+/**
  * Output the group forums root parent forum id.
  *
  * @since BuddyPress (1.6.0)
