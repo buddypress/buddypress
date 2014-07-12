@@ -1106,13 +1106,16 @@ function bp_is_current_component( $component ) {
 	// Page template fallback check if $bp->current_component is empty
 	} elseif ( !is_admin() && is_a( $wp_query, 'WP_Query' ) && is_page() ) {
 		global $wp_query;
-		$page          = $wp_query->get_queried_object();
-		$custom_fields = get_post_custom_values( '_wp_page_template', $page->ID );
-		$page_template = $custom_fields[0];
 
-		// Component name is in the page template name
-		if ( !empty( $page_template ) && strstr( strtolower( $page_template ), strtolower( $component ) ) ) {
-			$is_current_component = true;
+		$page = $wp_query->get_queried_object();
+		if ( isset( $page->ID ) ) {
+			$custom_fields = get_post_custom_values( '_wp_page_template', $page->ID );
+			$page_template = $custom_fields[0];
+
+			// Component name is in the page template name
+			if ( !empty( $page_template ) && strstr( strtolower( $page_template ), strtolower( $component ) ) ) {
+				$is_current_component = true;
+			}
 		}
 	}
 
