@@ -240,34 +240,6 @@ class BP_Groups_Component extends BP_Component {
 			return;
 		}
 
-		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
-
-			$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
-
-			if ( !bp_current_action() ) {
-				$bp->current_action = $this->default_extension;
-			}
-
-			// Prepare for a redirect to the canonical URL
-			$bp->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
-
-			if ( bp_current_action() ) {
-				$bp->canonical_stack['action'] = bp_current_action();
-			}
-
-			if ( !empty( $bp->action_variables ) ) {
-				$bp->canonical_stack['action_variables'] = bp_action_variables();
-			}
-
-			// When viewing the default extension, the canonical URL should not have
-			// that extension's slug, unless more has been tacked onto the URL via
-			// action variables
-			if ( bp_is_current_action( $this->default_extension ) && empty( $bp->action_variables ) )  {
-				unset( $bp->canonical_stack['action'] );
-			}
-
-		}
-
 		// Preconfigured group creation steps
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
 			'group-details'  => array(
@@ -305,6 +277,46 @@ class BP_Groups_Component extends BP_Component {
 
 		// Auto join group when non group member performs group activity
 		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) && BP_DISABLE_AUTO_GROUP_JOIN ? false : true;
+	}
+
+	/**
+	 * Set up canonical stack for this component.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function setup_canonical_stack() {
+		if ( ! bp_is_groups_component() ) {
+			return;
+		}
+
+		if ( empty( $this->current_group ) ) {
+			return;
+		}
+
+
+		$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
+
+		if ( !bp_current_action() ) {
+			buddypress()->current_action = $this->default_extension;
+		}
+
+		// Prepare for a redirect to the canonical URL
+		buddypress()->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
+
+		if ( bp_current_action() ) {
+			buddypress()->canonical_stack['action'] = bp_current_action();
+		}
+
+		if ( !empty( buddypress()->action_variables ) ) {
+			buddypress()->canonical_stack['action_variables'] = bp_action_variables();
+		}
+
+		// When viewing the default extension, the canonical URL should not have
+		// that extension's slug, unless more has been tacked onto the URL via
+		// action variables
+		if ( bp_is_current_action( $this->default_extension ) && empty( buddypress()->action_variables ) )  {
+			unset( buddypress()->canonical_stack['action'] );
+		}
 	}
 
 	/**

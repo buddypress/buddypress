@@ -263,4 +263,4 @@ class BP_Core extends BP_Component {
 function bp_setup_core() {
 	buddypress()->core = new BP_Core();
 }
-add_action( 'bp_setup_components', 'bp_setup_core', 2 );
+add_action( 'bp_loaded', 'bp_setup_core', 0 );

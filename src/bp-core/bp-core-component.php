@@ -337,6 +337,9 @@ class BP_Component {
 		// Setup globals
 		add_action( 'bp_setup_globals',          array( $this, 'setup_globals'          ), 10 );
 
+		// Set up canonical stack
+		add_action( 'bp_setup_canonical_stack',  array( $this, 'setup_canonical_stack'  ), 10 );
+
 		// Include required files. Called early to ensure that BP core
 		// components are loaded before plugins that hook their loader functions
 		// to bp_include with the default priority of 10. This is for backwards
@@ -377,6 +380,13 @@ class BP_Component {
 		// Additional actions can be attached here
 		do_action( 'bp_' . $this->id . '_setup_actions' );
 	}
+
+	/**
+	 * Set up the canonical URL stack for this component.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function setup_canonical_stack() {}
 
 	/**
 	 * Set up component navigation.

@@ -497,6 +497,35 @@ function xprofile_update_field_position( $field_id, $position, $field_group_id )
 }
 
 /**
+ * Replace the displayed and logged-in userss fullnames with the xprofile name, if required.
+ *
+ * The Members component uses the logged-in user's display_name to set the
+ * value of buddypress()->loggedin_user->fullname. However, in cases where
+ * profile sync is disabled, display_name may diverge from the xprofile
+ * fullname field value, and the xprofile field should take precedence.
+ *
+ * Runs at bp_setup_globals:100 to ensure that all components have loaded their
+ * globals before attempting any overrides.
+ *
+ * @since BuddyPress (2.0.0)
+ */
+function xprofile_override_user_fullnames() {
+	// If sync is enabled, the two names will match. No need to continue.
+	if ( ! bp_disable_profile_sync() ) {
+		return;
+	}
+
+	if ( bp_loggedin_user_id() ) {
+		buddypress()->loggedin_user->fullname = bp_core_get_user_displayname( bp_loggedin_user_id() );
+	}
+
+	if ( bp_displayed_user_id() ) {
+		buddypress()->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
+	}
+}
+add_action( 'bp_setup_globals', 'xprofile_override_user_fullnames', 100 );
+
+/**
  * Setup the avatar upload directory for a user.
  *
  * @package BuddyPress Core

@@ -218,25 +218,47 @@ class BP_XProfile_Component extends BP_Component {
 			);
 		}
 
-		// Privacy Settings
-		if ( bp_is_active( 'settings' ) ) {
-
-			// Get the settings slug
-			$settings_slug = bp_get_settings_slug();
-
-			// Add the sub-navigation
-			$sub_nav[] = array(
-				'name'            => __( 'Profile', 'buddypress' ),
-				'slug'            => 'profile',
-				'parent_url'      => trailingslashit( $user_domain . $settings_slug ),
-				'parent_slug'     => $settings_slug,
-				'screen_function' => 'bp_xprofile_screen_settings',
-				'position'        => 30,
-				'user_has_access' => bp_core_can_edit_settings()
-			);
-		}
+		// The Settings > Profile nav item can only be set up after
+		// the Settings component has run its own nav routine
+		add_action( 'bp_settings_setup_nav', array( $this, 'setup_settings_nav' ) );
 
 		parent::setup_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Set up the Settings > Profile nav item.
+	 *
+	 * Loaded in a separate method because the Settings component may not
+	 * be loaded in time for BP_XProfile_Component::setup_nav().
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function setup_settings_nav() {
+		if ( ! bp_is_active( 'settings' ) ) {
+			return;
+		}
+
+		// Determine user to use
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			return;
+		}
+
+		// Get the settings slug
+		$settings_slug = bp_get_settings_slug();
+
+		bp_core_new_subnav_item( array(
+			'name'            => __( 'Profile', 'buddypress' ),
+			'slug'            => 'profile',
+			'parent_url'      => trailingslashit( $user_domain . $settings_slug ),
+			'parent_slug'     => $settings_slug,
+			'screen_function' => 'bp_xprofile_screen_settings',
+			'position'        => 30,
+			'user_has_access' => bp_core_can_edit_settings()
+		) );
 	}
 
 	/**
@@ -354,4 +376,4 @@ function bp_setup_xprofile() {
 	if ( !isset( $bp->profile->id ) )
 		$bp->profile = new BP_XProfile_Component();
 }
-add_action( 'bp_setup_components', 'bp_setup_xprofile', 6 );
+add_action( 'bp_setup_components', 'bp_setup_xprofile', 2 );
