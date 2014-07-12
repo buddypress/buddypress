@@ -230,6 +230,9 @@ function bp_field_css_class( $class = false ) {
 			$css_classes[] = 'optional-field';
 		}
 
+		// Add the field visibility level
+		$css_classes[] = 'visibility-' . esc_attr( bp_get_the_profile_field_visibility_level() );
+
 		if ( $profile_template->current_field % 2 == 1 )
 			$css_classes[] = 'alt';
 
