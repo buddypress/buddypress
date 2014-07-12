@@ -2880,6 +2880,14 @@ class BP_Group_Extension {
 	public $params = array();
 
 	/**
+	 * Raw config params, as passed by the extending class.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var array
+	 */
+	public $params_raw = array();
+
+	/**
 	 * The ID of the current group.
 	 *
 	 * @since BuddyPress (1.8.0)
@@ -2921,6 +2929,22 @@ class BP_Group_Extension {
 	 * @var bool
 	 */
 	public $enable_nav_item = true;
+
+	/**
+	 * Whether the current user should see the navigation item.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var bool
+	 */
+	public $user_can_see_nav_item;
+
+	/**
+	 * Whether the current user can visit the tab.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var bool
+	 */
+	public $user_can_visit;
 
 	/**
 	 * The text of the nav item. Defaults to self::name.
@@ -3060,6 +3084,8 @@ class BP_Group_Extension {
 	 * }
 	 */
 	public function init( $args = array() ) {
+		// Store the raw arguments
+		$this->params_raw = $args;
 
 		// Before this init() method was introduced, plugins were
 		// encouraged to set their config directly. For backward
@@ -3080,6 +3106,8 @@ class BP_Group_Extension {
 			'display_hook'      => $this->display_hook,
 			'template_file'     => $this->template_file,
 			'screens'           => $this->get_default_screens(),
+			'access'            => null,
+			'show_tab'          => null,
 		) );
 
 		$this->initialized = true;
@@ -3122,6 +3150,9 @@ class BP_Group_Extension {
 
 		// Configure 'screens': create, admin, and edit contexts
 		$this->setup_screens();
+
+		// Configure access-related settings
+		$this->setup_access_settings();
 
 		// Mirror configuration data so it's accessible to plugins
 		// that look for it in its old locations
@@ -3241,6 +3272,143 @@ class BP_Group_Extension {
 		}
 	}
 
+	/**
+	 * Set up access-related settings for this extension.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	protected function setup_access_settings() {
+		// Backward compatibility
+		if ( isset( $this->params['enable_nav_item'] ) ) {
+			$this->enable_nav_item = (bool) $this->params['enable_nav_item'];
+		}
+
+		// Tab Access
+		$this->user_can_visit = false;
+
+		// Backward compatibility for components that do not provide
+		// explicit 'access' parameter
+		if ( empty( $this->params['access'] ) ) {
+			if ( false === $this->enable_nav_item ) {
+				$this->params['access'] = 'noone';
+			} else {
+				$group = groups_get_group( array(
+					'group_id' => $this->group_id,
+				) );
+
+				if ( ! empty( $group->status ) && 'public' === $group->status ) {
+					// Tabs in public groups are accessible to anyone by default
+					$this->params['access'] = 'anyone';
+				} else {
+					// All other groups have members-only as the default
+					$this->params['access'] = 'member';
+				}
+			}
+		}
+
+		// Parse multiple access conditions into an array
+		$access_conditions = $this->params['access'];
+		if ( ! is_array( $access_conditions ) ) {
+			$access_conditions = explode( ',', $access_conditions );
+		}
+
+		// If the current user meets at least one condition, the
+		// get access
+		foreach ( $access_conditions as $access_condition ) {
+			if ( $this->user_meets_access_condition( $access_condition ) ) {
+				$this->user_can_visit = true;
+				break;
+			}
+		}
+
+		// Tab Visibility
+		$this->user_can_see_nav_item = false;
+
+		// Backward compatibility for components that do not provide
+		// explicit 'show_tab' parameter
+		if ( empty( $this->params['show_tab'] ) ) {
+			if ( false === $this->params['enable_nav_item'] ) {
+				// enable_nav_item is only false if it's been
+				// defined explicitly as such in the
+				// constructor. So we always trust this value
+				$this->params['show_tab'] = 'noone';
+
+			} else if ( isset( $this->params_raw['enable_nav_item'] ) || isset( $this->params_raw['visibility'] ) ) {
+				// If enable_nav_item or visibility is passed,
+				// we assume this  is a legacy extension.
+				// Legacy behavior is that enable_nav_item=true +
+				// visibility=private implies members-only
+				if ( 'public' !== $this->visibility ) {
+					$this->params['show_tab'] = 'member';
+				} else {
+					$this->params['show_tab'] = 'anyone';
+				}
+
+			} else {
+				// No show_tab or enable_nav_item value is
+				// available, so match the value of 'access'
+				$this->params['show_tab'] = $this->params['access'];
+			}
+		}
+
+		// Parse multiple access conditions into an array
+		$access_conditions = $this->params['show_tab'];
+		if ( ! is_array( $access_conditions ) ) {
+			$access_conditions = explode( ',', $access_conditions );
+		}
+
+		// If the current user meets at least one condition, the
+		// get access
+		foreach ( $access_conditions as $access_condition ) {
+			if ( $this->user_meets_access_condition( $access_condition ) ) {
+				$this->user_can_see_nav_item = true;
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Check whether the current user meets an access condition.
+	 *
+	 * @param string $access_condition 'anyone', 'loggedin', 'member',
+	 *        'mod', 'admin' or 'noone'.
+	 * @return bool
+	 */
+	protected function user_meets_access_condition( $access_condition ) {
+		$group = groups_get_group( array(
+			'group_id' => $this->group_id,
+		) );
+
+		switch ( $access_condition ) {
+			case 'admin' :
+				$meets_condition = groups_is_user_admin( bp_loggedin_user_id(), $this->group_id );
+				break;
+
+			case 'mod' :
+				$meets_condition = groups_is_user_mod( bp_loggedin_user_id(), $this->group_id );
+				break;
+
+			case 'member' :
+				$meets_condition = groups_is_user_member( bp_loggedin_user_id(), $this->group_id );
+				break;
+
+			case 'loggedin' :
+				$meets_condition = is_user_logged_in();
+				break;
+
+			case 'noone' :
+				$meets_condition = false;
+				break;
+
+			case 'anyone' :
+			default :
+				$meets_condition = true;
+				break;
+		}
+
+		return $meets_condition;
+	}
+
 	/** Display ***********************************************************/
 
 	/**
@@ -3255,25 +3423,31 @@ class BP_Group_Extension {
 			return;
 		}
 
-		// Bail if the current user doesn't have access
+		// Backward compatibility only
 		if ( ( 'public' !== $this->visibility ) && ! buddypress()->groups->current_group->user_has_access ) {
 			return;
 		}
 
-		if ( true === $this->enable_nav_item ) {
+		$user_can_see_nav_item = $this->user_can_see_nav_item();
+
+		if ( $user_can_see_nav_item ) {
+			$group_permalink = bp_get_group_permalink( groups_get_current_group() );
+
 			bp_core_new_subnav_item( array(
 				'name'            => ! $this->nav_item_name ? $this->name : $this->nav_item_name,
 				'slug'            => $this->slug,
 				'parent_slug'     => bp_get_current_group_slug(),
-				'parent_url'      => bp_get_group_permalink( groups_get_current_group() ),
+				'parent_url'      => $group_permalink,
 				'position'        => $this->nav_item_position,
 				'item_css_id'     => 'nav-' . $this->slug,
 				'screen_function' => array( &$this, '_display_hook' ),
-				'user_has_access' => $this->enable_nav_item
+				'user_has_access' => $user_can_see_nav_item,
+				'no_access_url'   => $group_permalink,
 			) );
 
 			// When we are viewing the extension display page, set the title and options title
 			if ( bp_is_current_action( $this->slug ) ) {
+				add_filter( 'bp_group_user_has_access',   array( $this, 'group_access_protection' ), 10, 2 );
 				add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 				add_action( 'bp_template_title',          create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 			}
@@ -3292,6 +3466,69 @@ class BP_Group_Extension {
 		add_action( 'bp_template_content', array( &$this, 'display' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', $this->template_file ) );
 	}
+
+	/**
+	 * Determine whether the current user should see this nav tab.
+	 *
+	 * Note that this controls only the display of the navigation item.
+	 * Access to the tab is controlled by the user_can_visit() check.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return bool
+	 */
+	public function user_can_see_nav_item( $user_can_see_nav_item = false ) {
+		if ( 'noone' !== $this->params['show_tab'] && current_user_can( 'bp_moderate' ) ) {
+			return true;
+		}
+
+		return $this->user_can_see_nav_item;
+	}
+
+	/**
+	 * Determine whether the current user has access to visit this tab.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return bool
+	 */
+	public function user_can_visit( $user_can_visit = false ) {
+		if ( 'noone' !== $this->params['access'] && current_user_can( 'bp_moderate' ) ) {
+			return true;
+		}
+
+		return $this->user_can_visit;
+	}
+
+	/**
+	 * Filter the access check in bp_groups_group_access_protection() for this extension.
+	 *
+	 * Note that $no_access_args is passed by reference, as there are some
+	 * circumstances where the bp_core_no_access() arguments need to be
+	 * modified before the redirect takes place.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool $user_can_visit
+	 * @param array $no_access_args
+	 * @return bool
+	 */
+	public function group_access_protection( $user_can_visit, &$no_access_args ) {
+		$user_can_visit = $this->user_can_visit();
+
+		if ( ! $user_can_visit && is_user_logged_in() ) {
+			$current_group = groups_get_group( array(
+				'group_id' => $this->group_id,
+			) );
+
+			$no_access_args['message'] = __( 'You do not have access to this content.', 'buddypress' );
+			$no_access_args['root'] = bp_get_group_permalink( $current_group ) . 'home/';
+			$no_access_args['redirect'] = false;
+		}
+
+		return $user_can_visit;
+	}
+
 
 	/** Create ************************************************************/
 

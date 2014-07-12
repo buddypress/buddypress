@@ -268,47 +268,6 @@ class BP_Groups_Component extends BP_Component {
 
 		}
 
-		// Group access control
-		if ( bp_is_groups_component() && !empty( $this->current_group ) ) {
-			if ( !$this->current_group->user_has_access ) {
-
-				// Hidden groups should return a 404 for non-members.
-				// Unset the current group so that you're not redirected
-				// to the default group tab
-				if ( 'hidden' == $this->current_group->status ) {
-					$this->current_group = 0;
-					$bp->is_single_item  = false;
-					bp_do_404();
-					return;
-
-				// Skip the no_access check on home and membership request pages
-				} elseif ( !bp_is_current_action( 'home' ) && !bp_is_current_action( 'request-membership' ) ) {
-
-					// Off-limits to this user. Throw an error and redirect to the group's home page
-					if ( is_user_logged_in() ) {
-						bp_core_no_access( array(
-							'message'  => __( 'You do not have access to this group.', 'buddypress' ),
-							'root'     => bp_get_group_permalink( $bp->groups->current_group ) . 'home/',
-							'redirect' => false
-						) );
-
-					// User does not have access, and does not get a message
-					} else {
-						bp_core_no_access();
-					}
-				}
-			}
-
-			// Protect the admin tab from non-admins
-			if ( bp_is_current_action( 'admin' ) && !bp_is_item_admin() ) {
-				bp_core_no_access( array(
-					'message'  => __( 'You are not an admin of this group.', 'buddypress' ),
-					'root'     => bp_get_group_permalink( $bp->groups->current_group ),
-					'redirect' => false
-				) );
-			}
-		}
-
 		// Preconfigured group creation steps
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
 			'group-details'  => array(
@@ -481,7 +440,8 @@ class BP_Groups_Component extends BP_Component {
 				'screen_function' => 'groups_screen_group_members',
 				'position'        => 60,
 				'user_has_access' => $this->current_group->user_has_access,
-				'item_css_id'     => 'members'
+				'item_css_id'     => 'members',
+				'no_access_url'   => $group_link,
 			);
 
 			if ( bp_is_active( 'friends' ) && bp_groups_user_can_send_invites() ) {
@@ -493,7 +453,8 @@ class BP_Groups_Component extends BP_Component {
 					'screen_function' => 'groups_screen_group_invite',
 					'item_css_id'     => 'invite',
 					'position'        => 70,
-					'user_has_access' => $this->current_group->user_has_access
+					'user_has_access' => $this->current_group->user_has_access,
+					'no_access_url'   => $group_link,
 				);
 			}
 
@@ -507,7 +468,8 @@ class BP_Groups_Component extends BP_Component {
 					'screen_function' => 'groups_screen_group_admin',
 					'position'        => 1000,
 					'user_has_access' => true,
-					'item_css_id'     => 'admin'
+					'item_css_id'     => 'admin',
+					'no_access_url'   => $group_link,
 				);
 			}
 

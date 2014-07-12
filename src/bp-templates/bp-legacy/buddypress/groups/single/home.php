@@ -33,24 +33,35 @@
 		 * @todo A real template hierarchy? Gasp!
 		 */
 
-		// Group is visible
-		if ( bp_group_is_visible() ) : 
-
 			// Looking at home location
 			if ( bp_is_group_home() ) :
 
-				// Use custom front if one exists
-				$custom_front = bp_locate_template( array( 'groups/single/front.php' ), false, true );
-				if     ( ! empty( $custom_front   ) ) : load_template( $custom_front, true );
+				if ( bp_group_is_visible() ) {
 
-				// Default to activity
-				elseif ( bp_is_active( 'activity' ) ) : bp_get_template_part( 'groups/single/activity' );
+					// Use custom front if one exists
+					$custom_front = bp_locate_template( array( 'groups/single/front.php' ), false, true );
+					if     ( ! empty( $custom_front   ) ) : load_template( $custom_front, true );
 
-				// Otherwise show members
-				elseif ( bp_is_active( 'members'  ) ) : bp_groups_members_template_part();
+					// Default to activity
+					elseif ( bp_is_active( 'activity' ) ) : bp_get_template_part( 'groups/single/activity' );
 
-				endif;
-				
+					// Otherwise show members
+					elseif ( bp_is_active( 'members'  ) ) : bp_groups_members_template_part();
+
+					endif;
+
+				} else {
+
+					do_action( 'bp_before_group_status_message' ); ?>
+
+					<div id="message" class="info">
+						<p><?php bp_group_status_message(); ?></p>
+					</div>
+
+					<?php do_action( 'bp_after_group_status_message' );
+
+				}
+
 			// Not looking at home
 			else :
 
@@ -76,28 +87,8 @@
 				else                                : bp_get_template_part( 'groups/single/plugins'      );
 
 				endif;
-			endif;
-
-		// Group is not visible
-		elseif ( ! bp_group_is_visible() ) :
-
-			// Membership request
-			if ( bp_is_group_membership_request() ) :
-				bp_get_template_part( 'groups/single/request-membership' );
-
-			// The group is not visible, show the status message
-			else :
-
-				do_action( 'bp_before_group_status_message' ); ?>
-
-				<div id="message" class="info">
-					<p><?php bp_group_status_message(); ?></p>
-				</div>
-
-				<?php do_action( 'bp_after_group_status_message' );
 
 			endif;
-		endif;
 
 		do_action( 'bp_after_group_body' ); ?>
 

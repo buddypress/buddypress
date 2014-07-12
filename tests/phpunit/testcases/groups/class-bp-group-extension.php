@@ -346,4 +346,507 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		buddypress()->bp_options_nav = $old_options_nav;
 		$this->set_current_user( $old_current_user );
 	}
+
+	/**
+	 * @group user_can_visit
+	 */
+	public function test_user_can_visit_inferred_from_enable_nav_item() {
+		$old_current_user = get_current_user_id();
+
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$this->set_current_user( 0 );
+
+		$e = new BPTest_Group_Extension_Inferred_Access_Settings_EnableNavItem_True();
+		$e->_register();
+		$this->assertTrue( $e->user_can_visit() );
+
+		$e2 = new BPTest_Group_Extension_Inferred_Access_Settings_EnableNavItem_False();
+		$e2->_register();
+		$this->assertFalse( $e2->user_can_visit() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_visit
+	 */
+	public function test_user_can_visit_explicit_for_logged_out_user() {
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( 0 );
+
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_Access_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_visit() );
+
+		$e2 = new BPTest_Group_Extension_Access_Loggedin();
+		$e2->_register();
+		$this->assertFalse( $e2->user_can_visit() );
+
+		$e3 = new BPTest_Group_Extension_Access_Member();
+		$e3->_register();
+		$this->assertFalse( $e3->user_can_visit() );
+
+		$e4 = new BPTest_Group_Extension_Access_AdminMod();
+		$e4->_register();
+		$this->assertFalse( $e4->user_can_visit() );
+
+		$e5 = new BPTest_Group_Extension_Access_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_visit() );
+
+		$e6 = new BPTest_Group_Extension_Access_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_visit() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_visit
+	 */
+	public function test_user_can_visit_explicit_for_logged_in_user() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_Access_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_visit() );
+
+		$e2 = new BPTest_Group_Extension_Access_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_visit() );
+
+		$e3 = new BPTest_Group_Extension_Access_Member();
+		$e3->_register();
+		$this->assertFalse( $e3->user_can_visit() );
+
+		$e4 = new BPTest_Group_Extension_Access_AdminMod();
+		$e4->_register();
+		$this->assertFalse( $e4->user_can_visit() );
+
+		$e5 = new BPTest_Group_Extension_Access_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_visit() );
+
+		$e6 = new BPTest_Group_Extension_Access_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_visit() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_visit
+	 */
+	public function test_user_can_visit_explicit_for_group_member() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->add_user_to_group( $u, $g );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_Access_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_visit() );
+
+		$e2 = new BPTest_Group_Extension_Access_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_visit() );
+
+		$e3 = new BPTest_Group_Extension_Access_Member();
+		$e3->_register();
+		$this->assertTrue( $e3->user_can_visit() );
+
+		$e4 = new BPTest_Group_Extension_Access_AdminMod();
+		$e4->_register();
+		$this->assertFalse( $e4->user_can_visit() );
+
+		$e5 = new BPTest_Group_Extension_Access_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_visit() );
+
+		$e6 = new BPTest_Group_Extension_Access_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_visit() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_visit
+	 */
+	public function test_user_can_visit_explicit_for_group_mod() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$m = $this->add_user_to_group( $u, $g );
+		$gm = new BP_Groups_Member( $u, $g );
+		$gm->promote( 'mod' );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_Access_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_visit() );
+
+		$e2 = new BPTest_Group_Extension_Access_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_visit() );
+
+		$e3 = new BPTest_Group_Extension_Access_Member();
+		$e3->_register();
+		$this->assertTrue( $e3->user_can_visit() );
+
+		$e4 = new BPTest_Group_Extension_Access_AdminMod();
+		$e4->_register();
+		$this->assertTrue( $e4->user_can_visit() );
+
+		$e5 = new BPTest_Group_Extension_Access_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_visit() );
+
+		$e6 = new BPTest_Group_Extension_Access_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_visit() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_visit
+	 */
+	public function test_user_can_visit_explicit_for_group_admin() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$m = $this->add_user_to_group( $u, $g );
+		$gm = new BP_Groups_Member( $u, $g );
+		$gm->promote( 'admin' );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_Access_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_visit() );
+
+		$e2 = new BPTest_Group_Extension_Access_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_visit() );
+
+		$e3 = new BPTest_Group_Extension_Access_Member();
+		$e3->_register();
+		$this->assertTrue( $e3->user_can_visit() );
+
+		$e4 = new BPTest_Group_Extension_Access_AdminMod();
+		$e4->_register();
+		$this->assertTrue( $e4->user_can_visit() );
+
+		$e5 = new BPTest_Group_Extension_Access_Admin();
+		$e5->_register();
+		$this->assertTrue( $e5->user_can_visit() );
+
+		$e6 = new BPTest_Group_Extension_Access_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_visit() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_see_nav_item
+	 */
+	public function test_user_can_see_nav_item_implied() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( 0 );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_Access_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_see_nav_item() );
+
+		$e2 = new BPTest_Group_Extension_Access_Loggedin();
+		$e2->_register();
+		$this->assertFalse( $e2->user_can_see_nav_item() );
+
+		$e3 = new BPTest_Group_Extension_Access_Member();
+		$e3->_register();
+		$this->assertFalse( $e3->user_can_see_nav_item() );
+
+		$e4 = new BPTest_Group_Extension_Access_AdminMod();
+		$e4->_register();
+		$this->assertFalse( $e4->user_can_see_nav_item() );
+
+		$e5 = new BPTest_Group_Extension_Access_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_see_nav_item() );
+
+		$e6 = new BPTest_Group_Extension_Access_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_visit() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_see_nav_item
+	 */
+	public function test_user_can_see_nav_item_explicit_for_logged_out_user() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( 0 );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_see_nav_item() );
+
+		$e2 = new BPTest_Group_Extension_ShowTab_Loggedin();
+		$e2->_register();
+		$this->assertFalse( $e2->user_can_see_nav_item() );
+
+		$e3 = new BPTest_Group_Extension_ShowTab_Member();
+		$e3->_register();
+		$this->assertFalse( $e3->user_can_see_nav_item() );
+
+		$e4 = new BPTest_Group_Extension_ShowTab_AdminMod();
+		$e4->_register();
+		$this->assertFalse( $e4->user_can_see_nav_item() );
+
+		$e5 = new BPTest_Group_Extension_ShowTab_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_see_nav_item() );
+
+		$e6 = new BPTest_Group_Extension_ShowTab_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_see_nav_item() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_see_nav_item
+	 */
+	public function test_user_can_see_nav_item_explicit_for_logged_in_user() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_see_nav_item() );
+
+		$e2 = new BPTest_Group_Extension_ShowTab_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_see_nav_item() );
+
+		$e3 = new BPTest_Group_Extension_ShowTab_Member();
+		$e3->_register();
+		$this->assertFalse( $e3->user_can_see_nav_item() );
+
+		$e4 = new BPTest_Group_Extension_ShowTab_AdminMod();
+		$e4->_register();
+		$this->assertFalse( $e4->user_can_see_nav_item() );
+
+		$e5 = new BPTest_Group_Extension_ShowTab_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_see_nav_item() );
+
+		$e6 = new BPTest_Group_Extension_ShowTab_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_see_nav_item() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_see_nav_item
+	 */
+	public function test_user_can_see_nav_item_explicit_for_group_member() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->add_user_to_group( $u, $g );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_see_nav_item() );
+
+		$e2 = new BPTest_Group_Extension_ShowTab_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_see_nav_item() );
+
+		$e3 = new BPTest_Group_Extension_ShowTab_Member();
+		$e3->_register();
+		$this->assertTrue( $e3->user_can_see_nav_item() );
+
+		$e4 = new BPTest_Group_Extension_ShowTab_AdminMod();
+		$e4->_register();
+		$this->assertFalse( $e4->user_can_see_nav_item() );
+
+		$e5 = new BPTest_Group_Extension_ShowTab_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_see_nav_item() );
+
+		$e6 = new BPTest_Group_Extension_ShowTab_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_see_nav_item() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_see_nav_item
+	 */
+	public function test_user_can_see_nav_item_explicit_for_group_mod() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->add_user_to_group( $u, $g );
+		$gm = new BP_Groups_Member( $u, $g );
+		$gm->promote( 'mod' );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_see_nav_item() );
+
+		$e2 = new BPTest_Group_Extension_ShowTab_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_see_nav_item() );
+
+		$e3 = new BPTest_Group_Extension_ShowTab_Member();
+		$e3->_register();
+		$this->assertTrue( $e3->user_can_see_nav_item() );
+
+		$e4 = new BPTest_Group_Extension_ShowTab_AdminMod();
+		$e4->_register();
+		$this->assertTrue( $e4->user_can_see_nav_item() );
+
+		$e5 = new BPTest_Group_Extension_ShowTab_Admin();
+		$e5->_register();
+		$this->assertFalse( $e5->user_can_see_nav_item() );
+
+		$e6 = new BPTest_Group_Extension_ShowTab_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_see_nav_item() );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group user_can_see_nav_item
+	 */
+	public function test_user_can_see_nav_item_explicit_for_group_admin() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$u = $this->create_user();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u );
+
+		$this->add_user_to_group( $u, $g );
+		$gm = new BP_Groups_Member( $u, $g );
+		$gm->promote( 'admin' );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
+		$e1->_register();
+		$this->assertTrue( $e1->user_can_see_nav_item() );
+
+		$e2 = new BPTest_Group_Extension_ShowTab_Loggedin();
+		$e2->_register();
+		$this->assertTrue( $e2->user_can_see_nav_item() );
+
+		$e3 = new BPTest_Group_Extension_ShowTab_Member();
+		$e3->_register();
+		$this->assertTrue( $e3->user_can_see_nav_item() );
+
+		$e4 = new BPTest_Group_Extension_ShowTab_AdminMod();
+		$e4->_register();
+		$this->assertTrue( $e4->user_can_see_nav_item() );
+
+		$e5 = new BPTest_Group_Extension_ShowTab_Admin();
+		$e5->_register();
+		$this->assertTrue( $e5->user_can_see_nav_item() );
+
+		$e6 = new BPTest_Group_Extension_ShowTab_Noone();
+		$e6->_register();
+		$this->assertFalse( $e6->user_can_see_nav_item() );
+
+		$this->set_current_user( $old_current_user );
+	}
 }
