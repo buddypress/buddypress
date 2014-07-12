@@ -2437,7 +2437,7 @@ abstract class BP_Suggestions {
 
 	/**
 	 * Default arguments common to all suggestions services.
-	 * 
+	 *
 	 * If your custom service requires further defaults, add them here.
 	 *
 	 * @since BuddyPress (2.1.0)
