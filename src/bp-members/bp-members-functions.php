@@ -997,13 +997,13 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
  * @param string $meta_key Meta key being fetched.
  */
 function _bp_get_user_meta_last_activity_warning( $retval, $object_id, $meta_key ) {
-	static $warned;
+	static $warned = false;
 
 	if ( 'last_activity' === $meta_key ) {
 		// Don't send the warning more than once per pageload
-		if ( empty( $warned ) ) {
+		if ( false === $warned ) {
 			_doing_it_wrong( 'get_user_meta( $user_id, \'last_activity\' )', __( 'User last_activity data is no longer stored in usermeta. Use bp_get_user_last_activity() instead.', 'buddypress' ), '2.0.0' );
-			$warned = 1;
+			$warned = true;
 		}
 
 		return bp_get_user_last_activity( $object_id );
