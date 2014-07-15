@@ -97,7 +97,7 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
 function bp_core_get_users( $args = '' ) {
 
 	// Parse the user query arguments
-	$params = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'type'            => 'active',     // active, newest, alphabetical, random or popular
 		'user_id'         => false,        // Pass a user_id to limit to only friend connections for this user
 		'exclude'         => false,        // Users to exclude from results
@@ -109,18 +109,28 @@ function bp_core_get_users( $args = '' ) {
 		'page'            => 1,            // The page to return if limiting per page
 		'populate_extras' => true,         // Fetch the last active, where the user is a friend, total friend count, latest update
 		'count_total'     => 'count_query' // What kind of total user count to do, if any. 'count_query', 'sql_calc_found_rows', or false
-	) );
+	), 'core_get_users' );
 
 	// For legacy users. Use of BP_Core_User::get_users() is deprecated.
-	if ( apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, $params ) ) {
-		extract( $params, EXTR_SKIP );
-		$retval = BP_Core_User::get_users( $type, $per_page, $page, $user_id, $include, $search_terms, $populate_extras, $exclude, $meta_key, $meta_value );
+	if ( apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, $r ) ) {
+		$retval = BP_Core_User::get_users(
+			$r['type'],
+			$r['per_page'],
+			$r['page'],
+			$r['user_id'],
+			$r['include'],
+			$r['search_terms'],
+			$r['populate_extras'],
+			$r['exclude'],
+			$r['meta_key'],
+			$r['meta_value']
+		);
 
 	// Default behavior as of BuddyPress 1.7
 	} else {
 
 		// Get users like we were asked to do...
-		$users = new BP_User_Query( $params );
+		$users = new BP_User_Query( $r );
 
 		// ...but reformat the results to match bp_core_get_users() behavior.
 		$retval = array(
@@ -129,7 +139,7 @@ function bp_core_get_users( $args = '' ) {
 		);
 	}
 
-	return apply_filters( 'bp_core_get_users', $retval, $params );
+	return apply_filters( 'bp_core_get_users', $retval, $r );
 }
 
 /**
