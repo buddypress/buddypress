@@ -10,32 +10,23 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Register scripts commonly used by BuddyPress plugins and themes.
+ * Register scripts commonly used by BuddyPress.
  *
  * @since BuddyPress (2.1.0)
  */
 function bp_core_register_common_scripts() {
-
-	// Whether or not to use minified versions
-	$min  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
-
-	// Get the version for busting caches
-	$ver  = bp_get_version();
-
-	// Get the common core JS URL
-	$url  = buddypress()->plugin_url . 'bp-core/js/';
+	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
+	$url = buddypress()->plugin_url . 'bp-core/js/';
 	
-	// Array of common scripts
 	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
-		'bp-confirm'          => 'confirm',
-		'bp-widget-members'   => 'widget-members',
-		'bp-jquery-query'     => 'jquery-query',
-		'bp-jquery-cookie'    => 'jquery-cookie',
+		'bp-confirm'        => array( 'file' => "{$url}confirm{$ext}",        'dependencies' => array( 'jquery' ) ),
+		'bp-widget-members' => array( 'file' => "{$url}widget-members{$ext}", 'dependencies' => array( 'jquery' ) ),
+		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$ext}",   'dependencies' => array( 'jquery' ) ),
+		'bp-jquery-cookie'  => array( 'file' => "{$url}jquery-cookie{$ext}",  'dependencies' => array( 'jquery' ) ),
 	) );
 
-	// Register scripts commonly used by BuddyPress themes
-	foreach ( $scripts as $id => $file ) {
-		wp_register_script( $id, $url . $file . $min, array( 'jquery' ), $ver );
+	foreach ( $scripts as $id => $script ) {
+		wp_register_script( $id, $script['file'], $script['dependencies'], bp_get_version() );
 	}
 }
 add_action( 'bp_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
