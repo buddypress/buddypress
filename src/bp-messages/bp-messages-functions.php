@@ -200,20 +200,22 @@ function messages_delete_thread( $thread_ids ) {
 	if ( is_array( $thread_ids ) ) {
 		$error = 0;
 		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
-			if ( !$status = BP_Messages_Thread::delete( $thread_ids[$i]) ) {
+			if ( ! BP_Messages_Thread::delete( $thread_ids[$i] ) ) {
 				$error = 1;
 			}
 		}
 
-		if ( !empty( $error ) )
+		if ( ! empty( $error ) ) {
 			return false;
+		}
 
 		do_action( 'messages_delete_thread', $thread_ids );
 
 		return true;
 	} else {
-		if ( !BP_Messages_Thread::delete( $thread_ids ) )
+		if ( ! BP_Messages_Thread::delete( $thread_ids ) ) {
 			return false;
+		}
 
 		do_action( 'messages_delete_thread', $thread_ids );
 
@@ -230,8 +232,9 @@ function messages_delete_thread( $thread_ids ) {
  * @return int|null Message ID if the user has access, otherwise null.
  */
 function messages_check_thread_access( $thread_id, $user_id = 0 ) {
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	return BP_Messages_Thread::check_access( $thread_id, $user_id );
 }
@@ -294,8 +297,9 @@ function messages_remove_callback_values() {
  * @return int
  */
 function messages_get_unread_count( $user_id = 0 ) {
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	return BP_Messages_Thread::get_inbox_count( $user_id );
 }
