@@ -38,64 +38,76 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function messages_new_message( $args = '' ) {
 
-	$defaults = array (
+	// Parse the default arguments
+	$r = bp_parse_args( $args, array(
 		'sender_id'  => bp_loggedin_user_id(),
-		'thread_id'  => false, // false for a new message, thread id for a reply to a thread.
-		'recipients' => false, // Can be an array of usernames, user_ids or mixed.
+		'thread_id'  => false,   // false for a new message, thread id for a reply to a thread.
+		'recipients' => array(), // Can be an array of usernames, user_ids or mixed.
 		'subject'    => false,
 		'content'    => false,
 		'date_sent'  => bp_core_current_time()
-	);
+	), 'messages_new_message' );
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( empty( $sender_id ) || empty( $content ) )
+	// Bail if no sender or no content
+	if ( empty( $r['sender_id'] ) || empty( $r['content'] ) ) {
 		return false;
+	}
 
 	// Create a new message object
 	$message            = new BP_Messages_Message;
-	$message->thread_id = $thread_id;
-	$message->sender_id = $sender_id;
-	$message->subject   = $subject;
-	$message->message   = $content;
-	$message->date_sent = $date_sent;
+	$message->thread_id = $r['thread_id'];
+	$message->sender_id = $r['sender_id'];
+	$message->subject   = $r['subject'];
+	$message->message   = $r['content'];
+	$message->date_sent = $r['date_sent'];
 
-	// If we have a thread ID, use the existing recipients, otherwise use the recipients passed
-	if ( !empty( $thread_id ) ) {
-		$thread = new BP_Messages_Thread( $thread_id );
+	// If we have a thread ID...
+	if ( ! empty( $r['thread_id'] ) ) {
+
+		// ...use the existing recipients
+		$thread              = new BP_Messages_Thread( $r['thread_id'] );
 		$message->recipients = $thread->get_recipients();
 
-		// Strip the sender from the recipient list if they exist
-		if ( isset( $message->recipients[$sender_id] ) )
-			unset( $message->recipients[$sender_id] );
+		// Strip the sender from the recipient list, and unset them if they are
+		// not alone. If they are alone, let them talk to themselves.
+		if ( isset( $message->recipients[ $r['sender_id'] ] ) && ( count( $message->recipients ) > 1 ) ) {
+			unset( $message->recipients[ $r['sender_id'] ] );
+		}
 
-		if ( empty( $message->subject ) )
+		// Set a default reply subject if none was sent
+		if ( empty( $message->subject ) ) {
 			$message->subject = sprintf( __( 'Re: %s', 'buddypress' ), $thread->messages[0]->subject );
+		}
 
-	// No thread ID, so make some adjustments
+	// ...otherwise use the recipients passed
 	} else {
-		if ( empty( $recipients ) )
+
+		// Bail if no recipients
+		if ( empty( $r['recipients'] ) ) {
 			return false;
+		}
 
-		if ( empty( $message->subject ) )
+		// Set a default subject if none exists
+		if ( empty( $message->subject ) ) {
 			$message->subject = __( 'No Subject', 'buddypress' );
+		}
 
+		// Setup the recipients array
 		$recipient_ids 	    = array();
 
 		// Invalid recipients are added to an array, for future enhancements
 		$invalid_recipients = array();
 
 		// Loop the recipients and convert all usernames to user_ids where needed
-		foreach( (array) $recipients as $recipient ) {
+		foreach( (array) $r['recipients'] as $recipient ) {
+
+			// Trim spaces and skip if empty
 			$recipient = trim( $recipient );
-
-			if ( empty( $recipient ) )
+			if ( empty( $recipient ) ) {
 				continue;
+			}
 
-			$recipient_id = false;
-
-			// check user_login / nicename columns first
+			// Check user_login / nicename columns first
 			// @see http://buddypress.trac.wordpress.org/ticket/5151
 			if ( bp_is_username_compatibility_mode() ) {
 				$recipient_id = bp_core_get_userid( urldecode( $recipient ) );
@@ -103,29 +115,33 @@ function messages_new_message( $args = '' ) {
 				$recipient_id = bp_core_get_userid_from_nicename( $recipient );
 			}
 
-			// check against user ID column if no match and if passed recipient is numeric
-			if ( ! $recipient_id && is_numeric( $recipient ) ) {
+			// Check against user ID column if no match and if passed recipient is numeric
+			if ( empty( $recipient_id ) && is_numeric( $recipient ) ) {
 				if ( bp_core_get_core_userdata( (int) $recipient ) ) {
 					$recipient_id = (int) $recipient;
 				}
 			}
 
-			if ( ! $recipient_id ) {
+			// Decide which group to add this recipient to
+			if ( empty( $recipient_id ) ) {
 				$invalid_recipients[] = $recipient;
 			} else {
 				$recipient_ids[] = (int) $recipient_id;
 			}
 		}
 
-		// Strip the sender from the recipient list if they exist
-		if ( $key = array_search( $sender_id, (array) $recipient_ids ) )
-			unset( $recipient_ids[$key] );
+		// Strip the sender from the recipient list, and unset them if they are
+		// not alone. If they are alone, let them talk to themselves.
+		$self_send = array_search( $r['sender_id'], $recipient_ids );
+		if ( ! empty( $self_send ) && ( count( $recipient_ids ) > 1 ) ) {
+			unset( $recipient_ids[ $self_send ] );
+		}
 
-		// Remove duplicates
-		$recipient_ids = array_unique( (array) $recipient_ids );
-
-		if ( empty( $recipient_ids ) )
+		// Remove duplicates & bail if no recipients
+		$recipient_ids = array_unique( $recipient_ids );
+		if ( empty( $recipient_ids ) ) {
 			return false;
+		}
 
 		// Format this to match existing recipients
 		foreach( (array) $recipient_ids as $i => $recipient_id ) {
@@ -134,13 +150,16 @@ function messages_new_message( $args = '' ) {
 		}
 	}
 
-	if ( $message->send() ) {
-		do_action_ref_array( 'messages_message_sent', array( &$message ) );
-
-		return $message->thread_id;
+	// Bail if message failed to send
+	if ( ! $message->send() ) {
+		return false;
 	}
 
-	return false;
+	// Allow additional actions when a message is sent successfully
+	do_action_ref_array( 'messages_message_sent', array( &$message ) );
+
+	// Return the thread ID
+	return $message->thread_id;
 }
 
 /**
