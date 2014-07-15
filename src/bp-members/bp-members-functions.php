@@ -35,11 +35,9 @@ function bp_members_has_directory() {
  *
  * In general, fallback values are only used during initial BP page creation,
  * when no slugs have been explicitly defined.
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_define_slugs() {
-	global $bp;
+	$bp = buddypress();
 
 	// No custom members slug
 	if ( !defined( 'BP_MEMBERS_SLUG' ) ) {
@@ -141,7 +139,7 @@ function bp_core_get_users( $args = '' ) {
  * @param string $user_nicename Optional. user_nicename of the user.
  * @param string $user_login Optional. user_login of the user.
  */
-function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login = false ) {
+function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_login = false ) {
 
 	if ( empty( $user_id ) ) {
 		return;
@@ -169,9 +167,10 @@ function bp_core_get_user_domain( $user_id, $user_nicename = false, $user_login 
  * @param int $user_id The ID of the user.
  * @return array
  */
-function bp_core_get_core_userdata( $user_id ) {
-	if ( empty( $user_id ) )
+function bp_core_get_core_userdata( $user_id = 0 ) {
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
 	if ( !$userdata = wp_cache_get( 'bp_core_userdata_' . $user_id, 'bp' ) ) {
 		$userdata = BP_Core_User::get_core_userdata( $user_id );
@@ -318,7 +317,7 @@ function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login
  * @return string|bool The username of the matched user, or false.
  */
 function bp_members_get_user_nicename( $user_id ) {
-	global $bp;
+	$bp = buddypress();
 
 	if ( !$user_nicename = wp_cache_get( 'bp_members_user_nicename_' . $user_id, 'bp' ) ) {
 		$update_cache = true;
@@ -354,8 +353,9 @@ function bp_members_get_user_nicename( $user_id ) {
 	}
 
 	// Add this to cache
-	if ( true == $update_cache && !empty( $user_nicename ) )
+	if ( true == $update_cache && !empty( $user_nicename ) ) {
 		wp_cache_set( 'bp_members_user_nicename_' . $user_id, $user_nicename, 'bp' );
+	}
 
 	return apply_filters( 'bp_members_get_user_nicename', $user_nicename );
 }
@@ -370,13 +370,16 @@ function bp_members_get_user_nicename( $user_id ) {
 function bp_core_get_user_email( $uid ) {
 
 	if ( !$email = wp_cache_get( 'bp_user_email_' . $uid, 'bp' ) ) {
+
 		// User exists
-		if ( $ud = bp_core_get_core_userdata( $uid ) )
+		$ud = bp_core_get_core_userdata( $uid );
+		if ( ! empty( $ud ) ) {
 			$email = $ud->user_email;
 
 		// User was deleted
-		else
+		} else {
 			$email = '';
+		}
 
 		wp_cache_set( 'bp_user_email_' . $uid, $email, 'bp' );
 	}
@@ -402,17 +405,21 @@ function bp_core_get_user_email( $uid ) {
 function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false ) {
 	$display_name = bp_core_get_user_displayname( $user_id );
 
-	if ( empty( $display_name ) )
+	if ( empty( $display_name ) ) {
 		return false;
+	}
 
-	if ( $no_anchor )
+	if ( ! empty( $no_anchor ) ) {
 		return $display_name;
+	}
 
-	if ( !$url = bp_core_get_user_domain( $user_id ) )
+	if ( !$url = bp_core_get_user_domain( $user_id ) ) {
 		return false;
+	}
 
-	if ( $just_link )
+	if ( ! empty( $just_link ) ) {
 		return $url;
+	}
 
 	return apply_filters( 'bp_core_get_userlink', '<a href="' . $url . '" title="' . $display_name . '">' . $display_name . '</a>', $user_id );
 }
@@ -508,7 +515,6 @@ function bp_core_get_user_displaynames( $user_ids ) {
  *         user not found.
  */
 function bp_core_get_user_displayname( $user_id_or_username ) {
-	global $bp;
 
 	$fullname = '';
 
@@ -560,10 +566,11 @@ function bp_core_get_userlink_by_email( $email ) {
  * @return string|bool The link to the user's domain, false on no match.
  */
 function bp_core_get_userlink_by_username( $username ) {
-	if ( bp_is_username_compatibility_mode() )
+	if ( bp_is_username_compatibility_mode() ) {
 		$user_id = bp_core_get_userid( $username );
-	else
+	} else {
 		$user_id = bp_core_get_userid_from_nicename( $username );
+	}
 
 	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
 }
@@ -640,12 +647,14 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 	global $wpdb;
 
 	// Bail if no user ID
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return;
+	}
 
 	// Bail if user ID is super admin
-	if ( is_super_admin( $user_id ) )
+	if ( is_super_admin( $user_id ) ) {
 		return;
+	}
 
 	// Get the functions file
 	if ( is_multisite() ) {
@@ -670,7 +679,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 		// Get the blogs for the user
 		$blogs = get_blogs_of_user( $user_id, true );
 
-		foreach ( (array) $blogs as $key => $details ) {
+		foreach ( (array) array_values( $blogs ) as $details ) {
 
 			// Do not mark the main or current root blog as spam
 			if ( 1 == $details->userblog_id || bp_get_root_blog_id() == $details->userblog_id ) {
@@ -748,8 +757,9 @@ add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
 function bp_is_user_spammer( $user_id = 0 ) {
 
 	// No user to check
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
 	$bp = buddypress();
 
@@ -783,11 +793,13 @@ function bp_is_user_spammer( $user_id = 0 ) {
 	} else {
 
 		// Check if spam
-		if ( !empty( $user->spam ) )
+		if ( !empty( $user->spam ) ) {
 			$is_spammer = true;
+		}
 
-		if ( 1 == $user->user_status )
+		if ( 1 == $user->user_status ) {
 			$is_spammer = true;
+		}
 	}
 
 	return apply_filters( 'bp_is_user_spammer', (bool) $is_spammer );
@@ -802,8 +814,9 @@ function bp_is_user_spammer( $user_id = 0 ) {
 function bp_is_user_deleted( $user_id = 0 ) {
 
 	// No user to check
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
 	$bp = buddypress();
 
@@ -837,12 +850,13 @@ function bp_is_user_deleted( $user_id = 0 ) {
 	} else {
 
 		// Check if deleted
-		if ( !empty( $user->deleted ) )
+		if ( !empty( $user->deleted ) ) {
 			$is_deleted = true;
+		}
 
-		if ( 2 == $user->user_status )
+		if ( 2 == $user->user_status ) {
 			$is_deleted = true;
-
+		}
 	}
 
 	return apply_filters( 'bp_is_user_deleted', (bool) $is_deleted );
@@ -864,20 +878,24 @@ function bp_is_user_deleted( $user_id = 0 ) {
 function bp_is_user_active( $user_id = 0 ) {
 
 	// Default to current user
-	if ( empty( $user_id ) && is_user_logged_in() )
+	if ( empty( $user_id ) && is_user_logged_in() ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	// No user to check
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
 	// Check spam
-	if ( bp_is_user_spammer( $user_id ) )
+	if ( bp_is_user_spammer( $user_id ) ) {
 		return false;
+	}
 
 	// Check deleted
-	if ( bp_is_user_deleted( $user_id ) )
+	if ( bp_is_user_deleted( $user_id ) ) {
 		return false;
+	}
 
 	// Assume true if not spam or deleted
 	return true;
@@ -901,12 +919,14 @@ function bp_is_user_active( $user_id = 0 ) {
 function bp_is_user_inactive( $user_id = 0 ) {
 
 	// Default to current user
-	if ( empty( $user_id ) && is_user_logged_in() )
+	if ( empty( $user_id ) && is_user_logged_in() ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	// No user to check
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
 	// Return the inverse of active
 	return !bp_is_user_active( $user_id );
@@ -922,6 +942,7 @@ function bp_is_user_inactive( $user_id = 0 ) {
  * @return bool True on success, false on failure.
  */
 function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
+
 	// Fall back on current user
 	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
@@ -1066,8 +1087,9 @@ function bp_last_activity_migrate() {
 function bp_core_get_all_posts_for_user( $user_id = 0 ) {
 	global $wpdb;
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_displayed_user_id();
+	}
 
 	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
 }
@@ -1084,12 +1106,14 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
 function bp_core_delete_account( $user_id = 0 ) {
 
 	// Use logged in user ID if none is passed
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	// Site admins cannot be deleted
-	if ( is_super_admin( $user_id ) )
+	if ( is_super_admin( $user_id ) ) {
 		return false;
+	}
 
 	// Extra checks if user is not deleting themselves
 	if ( bp_loggedin_user_id() !== absint( $user_id ) ) {
@@ -1173,14 +1197,17 @@ function bp_core_ucfirst( $str ) {
  *         object. Otherwise a new WP_Error object.
  */
 function bp_core_boot_spammer( $user ) {
+
 	// check to see if the $user has already failed logging in, if so return $user as-is
-	if ( is_wp_error( $user ) || empty( $user ) )
+	if ( is_wp_error( $user ) || empty( $user ) ) {
 		return $user;
+	}
 
 	// the user exists; now do a check to see if the user is a spammer
 	// if the user is a spammer, stop them in their tracks!
-	if ( is_a( $user, 'WP_User' ) && ( ( is_multisite() && (int) $user->spam ) || 1 == $user->user_status ) )
+	if ( is_a( $user, 'WP_User' ) && ( ( is_multisite() && (int) $user->spam ) || 1 == $user->user_status ) ) {
 		return new WP_Error( 'invalid_username', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
+	}
 
 	// user is good to go!
 	return $user;
@@ -1210,15 +1237,17 @@ add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
  * @return bool True if editing is allowed, otherwise false.
  */
 function bp_core_can_edit_settings() {
-	if ( bp_is_my_profile() )
+	if ( bp_is_my_profile() ) {
 		return true;
+	}
 
 	if ( is_super_admin( bp_displayed_user_id() ) && ! is_super_admin() ) {
 		return false;
 	}
 
-	if ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'edit_users' ) )
+	if ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'edit_users' ) ) {
 		return true;
+	}
 
 	return false;
 }
@@ -1325,13 +1354,15 @@ function bp_core_validate_email_address( $user_email ) {
 	$user_email = sanitize_email( $user_email );
 
 	// Is the email well-formed?
-	if ( ! is_email( $user_email ) )
+	if ( ! is_email( $user_email ) ) {
 		$errors['invalid'] = 1;
+	}
 
 	// Is the email on the Banned Email Domains list?
 	// Note: This check only works on Multisite
-	if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) )
+	if ( function_exists( 'is_email_address_unsafe' ) && is_email_address_unsafe( $user_email ) ) {
 		$errors['domain_banned'] = 1;
+	}
 
 	// Is the email on the Limited Email Domains list?
 	// Note: This check only works on Multisite
@@ -1344,8 +1375,9 @@ function bp_core_validate_email_address( $user_email ) {
 	}
 
 	// Is the email alreday in use?
-	if ( email_exists( $user_email ) )
+	if ( email_exists( $user_email ) ) {
 		$errors['in_use'] = 1;
+	}
 
 	$retval = ! empty( $errors ) ? $errors : true;
 
@@ -1368,17 +1400,21 @@ function bp_core_validate_email_address( $user_email ) {
  *        like bp_core_validate_email_address().
  */
 function bp_core_add_validation_error_messages( WP_Error $errors, $validation_results ) {
-	if ( ! empty( $validation_results['invalid'] ) )
+	if ( ! empty( $validation_results['invalid'] ) ) {
 		$errors->add( 'user_email', __( 'Please check your email address.', 'buddypress' ) );
+	}
 
-	if ( ! empty( $validation_results['domain_banned'] ) )
+	if ( ! empty( $validation_results['domain_banned'] ) ) {
 		$errors->add( 'user_email',  __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
+	}
 
-	if ( ! empty( $validation_results['domain_not_allowed'] ) )
+	if ( ! empty( $validation_results['domain_not_allowed'] ) ) {
 		$errors->add( 'user_email', __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
+	}
 
-	if ( ! empty( $validation_results['in_use'] ) )
+	if ( ! empty( $validation_results['in_use'] ) ) {
 		$errors->add( 'user_email', __( 'Sorry, that email address is already used!', 'buddypress' ) );
+	}
 }
 
 /**
@@ -1481,8 +1517,9 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
  * @return array
  */
 function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
-	if ( !is_multisite() || !function_exists( 'wpmu_validate_blog_signup' ) )
+	if ( ! is_multisite() || ! function_exists( 'wpmu_validate_blog_signup' ) ) {
 		return false;
+	}
 
 	return apply_filters( 'bp_core_validate_blog_signup', wpmu_validate_blog_signup( $blog_url, $blog_title ) );
 }
@@ -1500,7 +1537,7 @@ function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
  * @return bool|WP_Error True on success, WP_Error on failure.
  */
 function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
-	global $bp;
+	$bp = buddypress();
 
 	// We need to cast $user_id to pass to the filters
 	$user_id = false;
@@ -1571,8 +1608,9 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
  * @param string $usermeta Miscellaneous metadata for the user.
  */
 function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) {
-	if ( !is_multisite() || !function_exists( 'wpmu_signup_blog' ) )
+	if ( ! is_multisite() || ! function_exists( 'wpmu_signup_blog' ) ) {
 		return false;
+	}
 
 	return apply_filters( 'bp_core_signup_blog', wpmu_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) );
 }
@@ -1688,8 +1726,9 @@ function bp_core_activate_signup( $key ) {
 			foreach( (array) $profile_field_ids as $field_id ) {
 				$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
 
-				if ( !empty( $current_field ) )
+				if ( !empty( $current_field ) ) {
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
+				}
 
 				// Save the visibility level
 				$visibility_level = ! empty( $user['meta']['field_' . $field_id . '_visibility'] ) ? $user['meta']['field_' . $field_id . '_visibility'] : 'public';
@@ -1801,18 +1840,19 @@ function bp_members_migrate_signups() {
  * @param array $user Array of userdata passed to bp_core_activated_user hook.
  */
 function bp_core_new_user_activity( $user ) {
-	if ( empty( $user ) || !bp_is_active( 'activity' ) )
+	if ( empty( $user ) || ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	if ( is_array( $user ) )
+	if ( is_array( $user ) ) {
 		$user_id = $user['user_id'];
-	else
+	} else {
 		$user_id = $user;
+	}
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return false;
-
-	$userlink = bp_core_get_userlink( $user_id );
+	}
 
 	bp_activity_add( array(
 		'user_id'   => $user_id,
@@ -1833,8 +1873,9 @@ add_action( 'bp_core_activated_user', 'bp_core_new_user_activity' );
 function bp_core_map_user_registration( $user_id ) {
 
 	// Only map data when the site admin is adding users, not on registration.
-	if ( !is_admin() )
+	if ( ! is_admin() ) {
 		return false;
+	}
 
 	// Add the user's fullname to Xprofile
 	if ( bp_is_active( 'xprofile' ) ) {
@@ -1842,8 +1883,9 @@ function bp_core_map_user_registration( $user_id ) {
 		$lastname = ' ' . bp_get_user_meta( $user_id, 'last_name', true );
 		$name = $firstname . $lastname;
 
-		if ( empty( $name ) || ' ' == $name )
+		if ( empty( $name ) || ' ' == $name ) {
 			$name = bp_get_user_meta( $user_id, 'nickname', true );
+		}
 
 		xprofile_set_field_data( 1, $user_id, $name );
 	}
@@ -1856,22 +1898,31 @@ add_action( 'user_register', 'bp_core_map_user_registration' );
  * @return string|bool Directory path on success, false on failure.
  */
 function bp_core_signup_avatar_upload_dir() {
-	global $bp;
+	$bp = buddypress();
 
-	if ( !$bp->signup->avatar_dir )
+	if ( empty( $bp->signup->avatar_dir ) ) {
 		return false;
+	}
 
 	$path  = bp_core_avatar_upload_path() . '/avatars/signups/' . $bp->signup->avatar_dir;
 	$newbdir = $path;
 
-	if ( !file_exists( $path ) )
+	if ( ! file_exists( $path ) ) {
 		@wp_mkdir_p( $path );
+	}
 
 	$newurl = bp_core_avatar_url() . '/avatars/signups/' . $bp->signup->avatar_dir;
 	$newburl = $newurl;
 	$newsubdir = '/avatars/signups/' . $bp->signup->avatar_dir;
 
-	return apply_filters( 'bp_core_signup_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
+	return apply_filters( 'bp_core_signup_avatar_upload_dir', array(
+		'path'    => $path,
+		'url'     => $newurl,
+		'subdir'  => $newsubdir,
+		'basedir' => $newbdir,
+		'baseurl' => $newburl,
+		'error' => false
+	) );
 }
 
 /**
@@ -1998,14 +2049,16 @@ add_action( 'login_form_bp-resend-activation', 'bp_members_login_resend_activati
 function bp_core_wpsignup_redirect() {
 
 	// Bail in admin or if custom signup page is broken
-	if ( is_admin() || ! bp_has_custom_signup_page() )
+	if ( is_admin() || ! bp_has_custom_signup_page() ) {
 		return;
+	}
 
 	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
 	// Not at the WP core signup page and action is not register
-	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) )
+	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) ) {
 		return;
+	}
 
 	bp_core_redirect( bp_get_signup_page() );
 }
