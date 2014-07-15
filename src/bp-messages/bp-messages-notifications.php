@@ -128,14 +128,15 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		$title = __( 'Inbox', 'buddypress' );
 
 		if ( (int) $total_items > 1 ) {
-			$text   = sprintf( __('You have %d new messages', 'buddypress' ), (int) $total_items );
+			$text   = sprintf( __( 'You have %d new messages', 'buddypress' ), (int) $total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';
 		} else {
 			// get message thread ID
 			$message   = new BP_Messages_Message( $item_id );
 			$thread_id = $message->thread_id;
-
-			$link = bp_get_message_thread_view_link( $thread_id );
+			$link      = ( ! empty( $thread_id ) )
+				? bp_get_message_thread_view_link( $thread_id )
+				: false;
 
 			if ( ! empty( $secondary_item_id ) ) {
 				$text = sprintf( __( '%s sent you a new private message', 'buddypress' ), bp_core_get_user_displayname( $secondary_item_id ) );
@@ -147,7 +148,12 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	}
 
 	if ( 'string' === $format ) {
-		$return = apply_filters( $filter, '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $title ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $text, $link, $item_id, $secondary_item_id );
+		if ( ! empty( $link ) ) {
+			$retval = '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $title ) . '">' . esc_html( $text ) . '</a>';
+		} else {
+			$retval = esc_html( $text );
+		}
+		$return = apply_filters( $filter, $retval, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
 	} else {
 		$return = apply_filters( $filter, array(
 			'text' => $text,
