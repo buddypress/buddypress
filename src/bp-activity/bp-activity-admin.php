@@ -1272,23 +1272,36 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @param string $which 'top' or 'bottom'.
 	 */
 	function extra_tablenav( $which ) {
-		if ( 'bottom' == $which )
+
+		// Bail on bottom table nav
+		if ( 'bottom' === $which ) {
 			return;
+		}
 
-		$selected = !empty( $_REQUEST['activity_type'] ) ? $_REQUEST['activity_type'] : '';
+		// Is any filter currently selected?
+		$selected = ( ! empty( $_REQUEST['activity_type'] ) ) ? $_REQUEST['activity_type'] : '';
 
-		// Get all types of activities, and sort alphabetically.
-		$actions  = bp_activity_get_types();
-		natsort( $actions );
-	?>
+		// Get the actions
+		$activity_actions = buddypress()->activity->actions; ?>
 
 		<div class="alignleft actions">
 			<select name="activity_type">
-				<option value="" <?php selected( !$selected ); ?>><?php _e( 'Show all activity types', 'buddypress' ); ?></option>
+				<option value="" <?php selected( ! $selected ); ?>><?php _e( 'View all actions', 'buddypress' ); ?></option>
 
-				<?php foreach ( $actions as $k => $v ) : ?>
-					<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k,  $selected ); ?>><?php echo esc_html( $v ); ?></option>
+				<?php foreach ( $activity_actions as $component => $actions ) : ?>
+
+					<optgroup label="<?php echo ucfirst( $component ); ?>">
+
+						<?php foreach ( $actions as $action_key => $action_values ) : ?>
+
+							<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key,  $selected ); ?>><?php echo esc_html( $action_values[ 'value' ] ); ?></option>
+
+						<?php endforeach; ?>
+
+					</optgroup>
+
 				<?php endforeach; ?>
+
 			</select>
 
 			<?php submit_button( __( 'Filter', 'buddypress' ), 'secondary', false, false, array( 'id' => 'post-query-submit' ) ); ?>
