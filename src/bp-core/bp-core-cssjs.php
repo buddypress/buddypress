@@ -66,10 +66,11 @@ function bp_core_add_cropper_inline_js() {
 
 	// Bail if no image was uploaded
 	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( bp_core_avatar_upload_path() . buddypress()->avatar_admin->image->dir ) );
-	if ( empty( $image ) )
+	if ( empty( $image ) ) {
 		return;
+	}
 
-	//
+	// Get avatar full width and height
 	$full_height = bp_core_avatar_full_height();
 	$full_width  = bp_core_avatar_full_width();
 
@@ -91,10 +92,10 @@ function bp_core_add_cropper_inline_js() {
 			jQuery('#avatar-to-crop').Jcrop({
 				onChange: showPreview,
 				onSelect: updateCoords,
-				aspectRatio: <?php echo $aspect_ratio; ?>,
-				setSelect: [ <?php echo $crop_left; ?>, <?php echo $crop_top; ?>, <?php echo $crop_right; ?>, <?php echo $crop_bottom; ?> ]
+				aspectRatio: <?php echo (int) $aspect_ratio; ?>,
+				setSelect: [ <?php echo (int) $crop_left; ?>, <?php echo (int) $crop_top; ?>, <?php echo (int) $crop_right; ?>, <?php echo (int) $crop_bottom; ?> ]
 			});
-			updateCoords({x: <?php echo $crop_left; ?>, y: <?php echo $crop_top; ?>, w: <?php echo $crop_right; ?>, h: <?php echo $crop_bottom; ?>});
+			updateCoords({x: <?php echo (int) $crop_left; ?>, y: <?php echo (int) $crop_top; ?>, w: <?php echo (int) $crop_right; ?>, h: <?php echo (int) $crop_bottom; ?>});
 		});
 
 		function updateCoords(c) {
@@ -106,14 +107,14 @@ function bp_core_add_cropper_inline_js() {
 
 		function showPreview(coords) {
 			if ( parseInt(coords.w) > 0 ) {
-				var fw = <?php echo $full_width; ?>;
-				var fh = <?php echo $full_height; ?>;
+				var fw = <?php echo (int) $full_width; ?>;
+				var fh = <?php echo (int) $full_height; ?>;
 				var rx = fw / coords.w;
 				var ry = fh / coords.h;
 
 				jQuery( '#avatar-crop-preview' ).css({
-					width: Math.round(rx * <?php echo $image[0]; ?>) + 'px',
-					height: Math.round(ry * <?php echo $image[1]; ?>) + 'px',
+					width: Math.round(rx * <?php echo (int) $image[0]; ?>) + 'px',
+					height: Math.round(ry * <?php echo (int) $image[1]; ?>) + 'px',
 					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
 				});
