@@ -45,8 +45,7 @@ class BP_Members_Component extends BP_Component {
 			'screens',
 			'template',
 			'adminbar',
-			'functions',
-			'notifications',
+			'functions'
 		);
 
 		// Include these only if in admin
