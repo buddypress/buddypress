@@ -521,7 +521,7 @@ function bp_message_thread_view_link( $thread_id = 0 ) {
 
 		if ( empty( $messages_template ) && (int) $thread_id > 0 ) {
 			$thread_id = (int) $thread_id;
-		} else {
+		} elseif ( ! empty( $messages_template->thread->thread_id ) ) {
 			$thread_id = $messages_template->thread->thread_id;
 		}
 
