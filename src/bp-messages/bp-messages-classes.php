@@ -445,8 +445,15 @@ class BP_Messages_Thread {
 	 * @param int $thread_id The message thread ID.
 	 * @return int The message thread ID on success.
 	 */
-	public static function is_valid( $thread_id ) {
-		global $wpdb, $bp;
+	public static function is_valid( $thread_id = 0 ) {
+		global $wpdb;
+
+		// Bail if no thread ID is passed
+		if ( empty( $thread_id ) ) {
+			return false;
+		}
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT thread_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d LIMIT 1", $thread_id ) );
 	}
