@@ -709,8 +709,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
-		$g2 = $this->factory->group->create( array( 'creator_id' => $u2 ) );
+		$g1 = $this->factory->group->create( array(
+			'creator_id' => $u1,
+			'last_activity' => $now - 100,
+		) );
+		$g2 = $this->factory->group->create( array(
+			'creator_id' => $u2,
+			'last_activity' => $now - 200,
+		) );
 
 		$this->add_user_to_group( $u1, $g2, array(
 			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
