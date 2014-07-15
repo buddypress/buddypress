@@ -202,7 +202,7 @@ function bp_core_get_displayed_userid( $user_login ) {
  * @param string $username user_login to check.
  * @return int|null The ID of the matched user on success, null on failure.
  */
-function bp_core_get_userid( $username ) {
+function bp_core_get_userid( $username = '' ) {
 	if ( empty( $username ) ) {
 		return false;
 	}
@@ -220,7 +220,7 @@ function bp_core_get_userid( $username ) {
  * @param string $user_nicename user_nicename to check.
  * @return int|null The ID of the matched user on success, null on failure.
  */
-function bp_core_get_userid_from_nicename( $user_nicename ) {
+function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
 	if ( empty( $user_nicename ) ) {
 		return false;
 	}
