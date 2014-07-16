@@ -117,19 +117,22 @@ function xprofile_screen_edit_profile() {
 					'value'      => xprofile_get_field_data( $field_id, bp_displayed_user_id() ),
 					'visibility' => xprofile_get_field_visibility_level( $field_id, bp_displayed_user_id() ),
 				);
+
+				// Update the field data and visibility level
+				xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );
+				$field_updated = xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[ $field_id ] );
+				$value         = xprofile_get_field_data( $field_id, bp_displayed_user_id() );
+
 				$new_values[ $field_id ] = array(
 					'value'      => $value,
-					'visibility' => $visibility_level,
+					'visibility' => xprofile_get_field_visibility_level( $field_id, bp_displayed_user_id() ),
 				);
 
-				if ( !xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[$field_id] ) ) {
+				if ( ! $field_updated ) {
 					$errors = true;
 				} else {
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
 				}
-
-				// Save the visibility level
-				xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );
 			}
 
 			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors, $old_values, $new_values );
