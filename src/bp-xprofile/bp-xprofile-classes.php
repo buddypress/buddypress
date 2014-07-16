@@ -486,8 +486,8 @@ class BP_XProfile_Group {
 						<div id="post-body-content">
 							<div id="titlediv">
 								<div id="titlewrap">
-									<label class="screen-reader-text" id="title-prompt-text" for=​"title">​<?php _e( 'Field Group Title', 'buddypress') ?></label>
-									<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" placeholder="<?php esc_attr_e( 'Field Group Title', 'buddypress' ); ?>" />
+									<label class="screen-reader-text" id="title-prompt-text" for="title"><?php esc_html_e( 'Field Group Title', 'buddypress') ?></label>
+									<input type="text" name="group_name" autocomplete="off" id="title" value="<?php echo esc_attr( $this->name ); ?>" />
 								</div>
 							</div>
 
@@ -1455,6 +1455,8 @@ class BP_XProfile_ProfileData {
 	}
 }
 
+/** Field Types ***************************************************************/
+
 /**
  * Datebox xprofile field type.
  *
@@ -1473,7 +1475,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$this->category = _x( 'Single Fields', 'xprofile field type category', 'buddypress' );
 		$this->name     = _x( 'Date Selector', 'xprofile field type', 'buddypress' );
 
-		$this->set_format( '/^\d{4}-\d{1,2}-\d{1,2} 00:00:00$/', 'replace' );  // "Y-m-d 00:00:00"
+		$this->set_format( '/^\d{4}-\d{1,2}-\d{1,2} 00:00:00$/', 'replace' ); // "Y-m-d 00:00:00"
+
 		do_action( 'bp_xprofile_field_type_datebox', $this );
 	}
 
@@ -1486,53 +1489,55 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
-		$user_id = bp_displayed_user_id();
 
-		// user_id is a special optional parameter that we pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that we pass to
+		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
 			unset( $raw_properties['user_id'] );
+		} else {
+			$user_id = bp_displayed_user_id();
 		}
 
-		$day_html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'id'   => bp_get_the_profile_field_input_name() . '_day',
-				'name' => bp_get_the_profile_field_input_name() . '_day',
-			),
-			$raw_properties
+		$day_r = bp_parse_args( $raw_properties, array(
+			'id'   => bp_get_the_profile_field_input_name() . '_day',
+			'name' => bp_get_the_profile_field_input_name() . '_day'
 		) );
 
-		$month_html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'id'   => bp_get_the_profile_field_input_name() . '_month',
-				'name' => bp_get_the_profile_field_input_name() . '_month',
-			),
-			$raw_properties
+		$month_r = bp_parse_args( $raw_properties, array(
+			'id'   => bp_get_the_profile_field_input_name() . '_month',
+			'name' => bp_get_the_profile_field_input_name() . '_month'
 		) );
 
-		$year_html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'id'   => bp_get_the_profile_field_input_name() . '_year',
-				'name' => bp_get_the_profile_field_input_name() . '_year',
-			),
-			$raw_properties
-		) );
-	?>
+		$year_r = bp_parse_args( $raw_properties, array(
+			'id'   => bp_get_the_profile_field_input_name() . '_year',
+			'name' => bp_get_the_profile_field_input_name() . '_year'
+		) ); ?>
+
 		<div class="datebox">
 
 			<label for="<?php bp_the_profile_field_input_name(); ?>_day"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
 			<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-			<select <?php echo $day_html; ?>>
-				<?php bp_the_profile_field_options( array( 'type' => 'day', 'user_id' => $user_id ) ); ?>
+			<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
+				<?php bp_the_profile_field_options( array(
+					'type'    => 'day',
+					'user_id' => $user_id
+				) ); ?>
 			</select>
 
-			<select <?php echo $month_html; ?>>
-				<?php bp_the_profile_field_options( array( 'type' => 'month', 'user_id' => $user_id ) ); ?>
+			<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
+				<?php bp_the_profile_field_options( array(
+					'type'    => 'month',
+					'user_id' => $user_id
+				) ); ?>
 			</select>
 
-			<select <?php echo $year_html; ?>>
-				<?php bp_the_profile_field_options( array( 'type' => 'year', 'user_id' => $user_id ) ); ?>
+			<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
+				<?php bp_the_profile_field_options( array(
+					'type'    => 'year',
+					'user_id' => $user_id
+				) ); ?>
 			</select>
 
 		</div>
@@ -1554,9 +1559,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_options_html( array $args = array() ) {
-		$options = $this->field_obj->get_children();
-		$date    = BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] );
 
+		$date  = BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] );
 		$day   = 0;
 		$month = 0;
 		$year  = 0;
@@ -1579,7 +1583,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			}
 		}
 
-		// Check for updated posted values, and errors preventing them from being saved first time.
+		// Check for updated posted values, and errors preventing them from
+		// being saved first time.
 		if ( ! empty( $_POST['field_' . $this->field_obj->id . '_day'] ) ) {
 			$new_day = (int) $_POST['field_' . $this->field_obj->id . '_day'];
 			$day     = ( $day != $new_day ) ? $new_day : $day;
@@ -1609,18 +1614,18 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
 
 				$months = array(
-					__( 'January', 'buddypress' ),
-					__( 'February', 'buddypress' ),
-					__( 'March', 'buddypress' ),
-					__( 'April', 'buddypress' ),
-					__( 'May', 'buddypress' ),
-					__( 'June', 'buddypress' ),
-					__( 'July', 'buddypress' ),
-					__( 'August', 'buddypress' ),
+					__( 'January',   'buddypress' ),
+					__( 'February',  'buddypress' ),
+					__( 'March',     'buddypress' ),
+					__( 'April',     'buddypress' ),
+					__( 'May',       'buddypress' ),
+					__( 'June',      'buddypress' ),
+					__( 'July',      'buddypress' ),
+					__( 'August',    'buddypress' ),
 					__( 'September', 'buddypress' ),
-					__( 'October', 'buddypress' ),
-					__( 'November', 'buddypress' ),
-					__( 'December', 'buddypress' )
+					__( 'October',   'buddypress' ),
+					__( 'November',  'buddypress' ),
+					__( 'December',  'buddypress' )
 				);
 
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $month, 0, false ), /* translators: no option picked in select box */ __( '----', 'buddypress' ) );
@@ -1651,41 +1656,34 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$day_html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'id'   => bp_get_the_profile_field_input_name() . '_day',
-				'name' => bp_get_the_profile_field_input_name() . '_day',
-			),
-			$raw_properties
+
+		$day_r = bp_parse_args( $raw_properties, array(
+			'id'   => bp_get_the_profile_field_input_name() . '_day',
+			'name' => bp_get_the_profile_field_input_name() . '_day'
 		) );
 
-		$month_html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'id'   => bp_get_the_profile_field_input_name() . '_month',
-				'name' => bp_get_the_profile_field_input_name() . '_month',
-			),
-			$raw_properties
+		$month_r = bp_parse_args( $raw_properties, array(
+			'id'   => bp_get_the_profile_field_input_name() . '_month',
+			'name' => bp_get_the_profile_field_input_name() . '_month'
 		) );
 
-		$year_html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'id'   => bp_get_the_profile_field_input_name() . '_year',
-				'name' => bp_get_the_profile_field_input_name() . '_year',
-			),
-			$raw_properties
-		) );
-	?>
-		<select <?php echo $day_html; ?>>
-			<?php bp_the_profile_field_options( 'type=day' ); ?>
+		$year_r = bp_parse_args( $raw_properties, array(
+			'id'   => bp_get_the_profile_field_input_name() . '_year',
+			'name' => bp_get_the_profile_field_input_name() . '_year'
+		) ); ?>
+
+		<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
+			<?php bp_the_profile_field_options( array( 'type' => 'day' ) ); ?>
 		</select>
 
-		<select <?php echo $month_html; ?>>
-			<?php bp_the_profile_field_options( 'type=month' ); ?>
+		<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
+			<?php bp_the_profile_field_options( array( 'type' => 'month' ) ); ?>
 		</select>
 
-		<select <?php echo $year_html; ?>>
-			<?php bp_the_profile_field_options( 'type=year' ); ?>
+		<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
+			<?php bp_the_profile_field_options( array( 'type' => 'year' ) ); ?>
 		</select>
+
 	<?php
 	}
 
@@ -1709,16 +1707,13 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @return string Date formatted by bp_format_time().
 	 */
 	public static function display_filter( $field_value ) {
-		// If Unix timestamp
-		if ( is_numeric( $field_value ) ) {
-			$field_value = bp_format_time( $field_value, true, false );
 
-		// If MySQL timestamp
-		} else {
-			$field_value = bp_format_time( strtotime( $field_value ), true, false );
+		// If Unix timestamp
+		if ( ! is_numeric( $field_value ) ) {
+			$field_value = strtotime( $field_value );
 		}
 
-		return $field_value;
+		return bp_format_time( $field_value, true, false );
 	}
 }
 
@@ -1757,21 +1752,32 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
-		$user_id = bp_displayed_user_id();
 
-		// user_id is a special optional parameter that we pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that we pass to
+		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
 			unset( $raw_properties['user_id'] );
-		}
-	?>
-		<div class="checkbox">
+		} else {
+			$user_id = bp_displayed_user_id();
+		} ?>
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<div class="checkbox">
+			<label for="<?php bp_the_profile_field_input_name(); ?>">
+				<?php bp_the_profile_field_name(); ?>
+				<?php if ( bp_get_the_profile_field_is_required() ) : ?>
+					<?php esc_html_e( '(required)', 'buddypress' ); ?>
+				<?php endif; ?>
+			</label>
+
 			<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
-			<?php bp_the_profile_field_options( "user_id={$user_id}" ); ?>
+
+			<?php bp_the_profile_field_options( array(
+				'user_id' => $user_id
+			) ); ?>
 
 		</div>
+
 		<?php
 	}
 
@@ -1796,7 +1802,8 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 
 		$html = '';
 
-		// Check for updated posted values, but errors preventing them from being saved first time
+		// Check for updated posted values, but errors preventing them from
+		// being saved first time
 		if ( isset( $_POST['field_' . $this->field_obj->id] ) && $option_values != maybe_serialize( $_POST['field_' . $this->field_obj->id] ) ) {
 			if ( ! empty( $_POST['field_' . $this->field_obj->id] ) ) {
 				$option_values = array_map( 'sanitize_text_field', $_POST['field_' . $this->field_obj->id] );
@@ -1809,7 +1816,8 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			// First, check to see whether the user's saved values match the option
 			for ( $j = 0, $count_values = count( $option_values ); $j < $count_values; ++$j ) {
 
-				// Run the allowed option name through the before_save filter, so we'll be sure to get a match
+				// Run the allowed option name through the before_save filter,
+				// so we'll be sure to get a match
 				$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
 				if ( $option_values[$j] === $allowed_options || in_array( $allowed_options, $option_values ) ) {
@@ -1818,7 +1826,8 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 				}
 			}
 
-			// If the user has not yet supplied a value for this field, check to see whether there is a default value available
+			// If the user has not yet supplied a value for this field, check to
+			// see whether there is a default value available
 			if ( ! is_array( $option_values ) && empty( $option_values ) && empty( $selected ) && ! empty( $options[$k]->is_default_option ) ) {
 				$selected = ' checked="checked"';
 			}
@@ -1895,25 +1904,39 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
-		$user_id = bp_displayed_user_id();
 
-		// user_id is a special optional parameter that we pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that we pass to
+		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
 			unset( $raw_properties['user_id'] );
-		}
-	?>
+		} else {
+			$user_id = bp_displayed_user_id();
+		} ?>
+
 		<div class="radio">
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+			<label for="<?php bp_the_profile_field_input_name(); ?>">
+				<?php bp_the_profile_field_name(); ?>
+				<?php if ( bp_get_the_profile_field_is_required() ) : ?>
+					<?php esc_html_e( '(required)', 'buddypress' ); ?>
+				<?php endif; ?>
+			</label>
+
 			<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
-			<?php bp_the_profile_field_options( "user_id={$user_id}" );
+
+			<?php bp_the_profile_field_options( array( 'user_id' => $user_id ) );
 
 			if ( ! bp_get_the_profile_field_is_required() ) : ?>
-				<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>' );"><?php esc_html_e( 'Clear', 'buddypress' ); ?></a>
+
+				<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>' );">
+					<?php esc_html_e( 'Clear', 'buddypress' ); ?>
+				</a>
+
 			<?php endif; ?>
 
 		</div>
+
 		<?php
 	}
 
@@ -1939,14 +1962,16 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 
-			// Check for updated posted values, but errors preventing them from being saved first time
+			// Check for updated posted values, but errors preventing them from
+			// being saved first time
 			if ( isset( $_POST['field_' . $this->field_obj->id] ) && $option_value != $_POST['field_' . $this->field_obj->id] ) {
 				if ( ! empty( $_POST['field_' . $this->field_obj->id] ) ) {
 					$option_value = sanitize_text_field( $_POST['field_' . $this->field_obj->id] );
 				}
 			}
 
-			// Run the allowed option name through the before_save filter, so we'll be sure to get a match
+			// Run the allowed option name through the before_save filter, so
+			// we'll be sure to get a match
 			$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 			$selected        = '';
 
@@ -1978,10 +2003,15 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	public function admin_field_html( array $raw_properties = array() ) {
 		bp_the_profile_field_options();
 
-		if ( ! bp_get_the_profile_field_is_required() ) : ?>
-			<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>' );"><?php esc_html_e( 'Clear', 'buddypress' ); ?></a>
-		<?php endif; ?>
-	<?php
+		if ( bp_get_the_profile_field_is_required() ) {
+			return;
+		} ?>
+
+		<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>' );">
+			<?php esc_html_e( 'Clear', 'buddypress' ); ?>
+		</a>
+
+		<?php
 	}
 
 	/**
@@ -2033,31 +2063,38 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
-		$user_id = bp_displayed_user_id();
 
-		// user_id is a special optional parameter that we pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that we pass to
+		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
 			unset( $raw_properties['user_id'] );
+		} else {
+			$user_id = bp_displayed_user_id();
 		}
 
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'multiple' => 'multiple',
-				'id'       => bp_get_the_profile_field_input_name() . '[]',
-				'name'     => bp_get_the_profile_field_input_name() . '[]',
-			),
-			$raw_properties
-		) );
-	?>
+		$r = bp_parse_args( $raw_properties, array(
+			'multiple' => 'multiple',
+			'id'       => bp_get_the_profile_field_input_name() . '[]',
+			'name'     => bp_get_the_profile_field_input_name() . '[]',
+		) ); ?>
+
 		<label for="<?php bp_the_profile_field_input_name(); ?>[]"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+
 		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
-		<select <?php echo $html; ?>>
-			<?php bp_the_profile_field_options( "user_id={$user_id}" ); ?>
+
+		<select <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+			<?php bp_the_profile_field_options( array(
+				'user_id' => $user_id
+			) ); ?>
 		</select>
 
 		<?php if ( ! bp_get_the_profile_field_is_required() ) : ?>
-			<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>[]' );"><?php esc_html_e( 'Clear', 'buddypress' ); ?></a>
+
+			<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>[]' );">
+				<?php esc_html_e( 'Clear', 'buddypress' ); ?>
+			</a>
+
 		<?php endif; ?>
 	<?php
 	}
@@ -2090,7 +2127,8 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 			$selected = '';
 
-			// Check for updated posted values, but errors preventing them from being saved first time
+			// Check for updated posted values, but errors preventing them from
+			// being saved first time
 			foreach( $option_values as $i => $option_value ) {
 				if ( isset( $_POST['field_' . $this->field_obj->id] ) && $_POST['field_' . $this->field_obj->id][$i] != $option_value ) {
 					if ( ! empty( $_POST['field_' . $this->field_obj->id][$i] ) ) {
@@ -2099,7 +2137,8 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 				}
 			}
 
-			// Run the allowed option name through the before_save filter, so we'll be sure to get a match
+			// Run the allowed option name through the before_save filter, so
+			// we'll be sure to get a match
 			$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
 			// First, check to see whether the user-entered value matches
@@ -2127,15 +2166,15 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array( 'multiple' => 'multiple' ),
-			$raw_properties
-		) );
-	?>
-		<select <?php echo $html; ?>>
+		$r = bp_parse_args( $raw_properties, array(
+			'multiple' => 'multiple'
+		) ); ?>
+
+		<select <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>
-	<?php
+
+		<?php
 	}
 
 	/**
@@ -2185,22 +2224,30 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
-		$user_id = bp_displayed_user_id();
 
-		// user_id is a special optional parameter that we pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that we pass to
+		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
 			unset( $raw_properties['user_id'] );
-		}
+		} else {
+			$user_id = bp_displayed_user_id();
+		} ?>
 
-		$html = $this->get_edit_field_html_elements( $raw_properties );
-	?>
-		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>">
+			<?php bp_the_profile_field_name(); ?>
+			<?php if ( bp_get_the_profile_field_is_required() ) : ?>
+				<?php esc_html_e( '(required)', 'buddypress' ); ?>
+			<?php endif; ?>
+		</label>
+
 		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
-		<select <?php echo $html; ?>>
-			<?php bp_the_profile_field_options( "user_id={$user_id}" ); ?>
+
+		<select <?php echo $this->get_edit_field_html_elements( $raw_properties ); ?>>
+			<?php bp_the_profile_field_options( array( 'user_id' => $user_id ) ); ?>
 		</select>
-	<?php
+
+		<?php
 	}
 
 	/**
@@ -2221,7 +2268,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 		$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] ) );
 
 		$options = $this->field_obj->get_children();
-		$html     = '<option value="">' . /* translators: no option picked in select box */ esc_html__( '----', 'buddypress' ) . '</option>';
+		$html    = '<option value="">' . /* translators: no option picked in select box */ esc_html__( '----', 'buddypress' ) . '</option>';
 
 		if ( empty( $original_option_values ) && !empty( $_POST['field_' . $this->field_obj->id] ) ) {
 			$original_option_values = sanitize_text_field(  $_POST['field_' . $this->field_obj->id] );
@@ -2231,7 +2278,8 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 			$selected = '';
 
-			// Check for updated posted values, but errors preventing them from being saved first time
+			// Check for updated posted values, but errors preventing them from
+			// being saved first time
 			foreach( $option_values as $i => $option_value ) {
 				if ( isset( $_POST['field_' . $this->field_obj->id] ) && $_POST['field_' . $this->field_obj->id] != $option_value ) {
 					if ( ! empty( $_POST['field_' . $this->field_obj->id] ) ) {
@@ -2240,7 +2288,8 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 				}
 			}
 
-			// Run the allowed option name through the before_save filter, so we'll be sure to get a match
+			// Run the allowed option name through the before_save filter, so
+			// we'll be sure to get a match
 			$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
 			// First, check to see whether the user-entered value matches
@@ -2268,12 +2317,13 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$html = $this->get_edit_field_html_elements( $raw_properties );
-	?>
-		<select <?php echo $html; ?>>
+		?>
+
+		<select <?php echo $this->get_edit_field_html_elements( $raw_properties ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>
-	<?php
+
+		<?php
 	}
 
 	/**
@@ -2322,23 +2372,31 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that certain other fields types pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that certain other fields
+		// types pass to {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			unset( $raw_properties['user_id'] );
 		}
 
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'cols' => 40,
-				'rows' => 5,
-			),
-			$raw_properties
-		) );
-	?>
-		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		$r = bp_parse_args( $raw_properties, array(
+			'cols' => 40,
+			'rows' => 5,
+		) ); ?>
+
+		<label for="<?php bp_the_profile_field_input_name(); ?>">
+			<?php bp_the_profile_field_name(); ?>
+			<?php if ( bp_get_the_profile_field_is_required() ) : ?>
+				<?php esc_html_e( '(required)', 'buddypress' ); ?>
+			<?php endif; ?>
+		</label>
+
 		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
-		<textarea <?php echo $html; ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
-	<?php
+
+		<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+			<?php bp_the_profile_field_edit_value(); ?>
+		</textarea>
+
+		<?php
 	}
 
 	/**
@@ -2350,16 +2408,14 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'cols' => 40,
-				'rows' => 5,
-			),
-			$raw_properties
-		) );
-	?>
-		<textarea <?php echo $html; ?>></textarea>
-	<?php
+		$r = bp_parse_args( $raw_properties, array(
+			'cols' => 40,
+			'rows' => 5,
+		) ); ?>
+
+		<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>></textarea>
+
+		<?php
 	}
 
 	/**
@@ -2405,23 +2461,29 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that certain other fields types pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that certain other fields
+		// types pass to {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			unset( $raw_properties['user_id'] );
 		}
 
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'type'  => 'text',
-				'value' => bp_get_the_profile_field_edit_value(),
-			),
-			$raw_properties
-		) );
-	?>
-		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		$r = bp_parse_args( $raw_properties, array(
+			'type'  => 'text',
+			'value' => bp_get_the_profile_field_edit_value(),
+		) ); ?>
+
+		<label for="<?php bp_the_profile_field_input_name(); ?>">
+			<?php bp_the_profile_field_name(); ?>
+			<?php if ( bp_get_the_profile_field_is_required() ) : ?>
+				<?php esc_html_e( '(required)', 'buddypress' ); ?>
+			<?php endif; ?>
+		</label>
+
 		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
-		<input <?php echo $html; ?>>
-	<?php
+
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+
+		<?php
 	}
 
 	/**
@@ -2433,13 +2495,14 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array( 'type' => 'text' ),
-			$raw_properties
-		) );
-	?>
-		<input <?php echo $html; ?>>
-	<?php
+
+		$r = bp_parse_args( $raw_properties, array(
+			'type' => 'text'
+		) ); ?>
+
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+
+		<?php
 	}
 
 	/**
@@ -2485,23 +2548,29 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that certain other fields types pass to {@link bp_the_profile_field_options()}.
+		// user_id is a special optional parameter that certain other fields
+		// types pass to {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			unset( $raw_properties['user_id'] );
 		}
 
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array(
-				'type'  => 'number',
-				'value' =>  bp_get_the_profile_field_edit_value(),
-			),
-			$raw_properties
-		) );
-	?>
-		<label for="<?php bp_the_profile_field_input_name(); ?>"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		$r = bp_parse_args( $raw_properties, array(
+			'type'  => 'number',
+			'value' =>  bp_get_the_profile_field_edit_value()
+		) ); ?>
+
+		<label for="<?php bp_the_profile_field_input_name(); ?>">
+			<?php bp_the_profile_field_name(); ?>
+			<?php if ( bp_get_the_profile_field_is_required() ) : ?>
+				<?php esc_html_e( '(required)', 'buddypress' ); ?>
+			<?php endif; ?>
+		</label>
+
 		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
-		<input <?php echo $html; ?>>
-	<?php
+
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+
+		<?php
 	}
 
 	/**
@@ -2513,12 +2582,11 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$html = $this->get_edit_field_html_elements( array_merge(
-			array( 'type' => 'number' ),
-			$raw_properties
-		) );
-	?>
-		<input <?php echo $html; ?>>
+		$r = bp_parse_args( $raw_properties, array(
+			'type' => 'number'
+		) ); ?>
+
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 	<?php
 	}
 
@@ -2531,6 +2599,113 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
+}
+
+/**
+ * URL xprofile field type.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
+
+	/**
+	 * Constructor for the URL field type
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function __construct() {
+		parent::__construct();
+
+		$this->category = _x( 'Single Fields', 'xprofile field type category', 'buddypress' );
+		$this->name     = _x( 'URL', 'xprofile field type', 'buddypress' );
+
+		$this->set_format( '_^(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$_iuS', 'replace' );
+
+		do_action( 'bp_xprofile_field_type_url', $this );
+	}
+
+	/**
+	 * Output the edit field HTML for this field type.
+	 *
+	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *        {@link http://dev.w3.org/html5/markup/input.number.html permitted attributes}
+	 *        that you want to add.
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function edit_field_html( array $raw_properties = array() ) {
+
+		// `user_id` is a special optional parameter that certain other
+		// fields types pass to {@link bp_the_profile_field_options()}.
+		if ( isset( $raw_properties['user_id'] ) ) {
+			unset( $raw_properties['user_id'] );
+		}
+
+		$r = bp_parse_args( $raw_properties, array(
+			'type'  => 'url',
+			'value' =>  esc_url( bp_get_the_profile_field_edit_value() ),
+		) ); ?>
+
+		<label for="<?php bp_the_profile_field_input_name(); ?>">
+			<?php bp_the_profile_field_name(); ?>
+			<?php if ( bp_get_the_profile_field_is_required() ) : ?>
+				<?php esc_html_e( '(required)', 'buddypress' ); ?>
+			<?php endif; ?>
+		</label>
+
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+
+		<?php
+	}
+
+	/**
+	 * Output HTML for this field type on the wp-admin Profile Fields screen.
+	 *
+	 * Must be used inside the {@link bp_profile_fields()} template loop.
+	 *
+	 * @param array $raw_properties Optional key/value array of permitted
+	 *        attributes that you want to add.
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function admin_field_html( array $raw_properties = array() ) {
+
+		$r = bp_parse_args( $raw_properties, array(
+			'type' => 'url'
+		) ); ?>
+
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+
+		<?php
+	}
+
+	/**
+	 * This method usually outputs HTML for this field type's children options
+	 * on the wp-admin Profile Fields "Add Field" and "Edit Field" screens, but
+	 * for this field type, we don't want it, so it's stubbed out.
+	 *
+	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
+	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
+	
+	/**
+	 * Format Date values for display.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param string $field_value The date value, as saved in the database.
+	 *        Typically, this is a MySQL-formatted date string (Y-m-d H:i:s).
+	 * @return string Date formatted by bp_format_time().
+	 */
+	public static function display_filter( $field_value ) {
+		$link      = strip_tags( $field_value );
+		$no_scheme = preg_replace( '#^https?://#', '', rtrim( $link, '/' ) );
+		$url_text  = str_replace( $link, $no_scheme, $field_value );
+		$retval    = '<a href="' . esc_url( $field_value ) . '" rel="nofollow">' . esc_html( $url_text ) . '</a>';
+		return $field_value;
+	}
 }
 
 /**
@@ -2717,13 +2892,12 @@ abstract class BP_XProfile_Field_Type {
 		}
 
 		// Handle field types with accepts_null_value set if $values is an empty array
-		if ( ! $validated && is_array( $values ) && empty( $values ) && $this->accepts_null_value ) {
+		if ( ( false === $validated ) && is_array( $values ) && empty( $values ) && $this->accepts_null_value ) {
 			$validated = true;
 		}
 
 		// If there's a whitelist set, also check the $value.
-		if ( $validated && ! empty( $values ) && ! empty( $this->validation_whitelist ) ) {
-
+		if ( ( true === $validated ) && ! empty( $values ) && ! empty( $this->validation_whitelist ) ) {
 			foreach ( (array) $values as $value ) {
 				$validated = in_array( $value, $this->validation_whitelist, true );
 			}
@@ -2805,10 +2979,13 @@ abstract class BP_XProfile_Field_Type {
 				</p>
 
 				<?php
+				
+				// Does option have children?
 				$options = $current_field->get_children( true );
 
-				// If no children options exists for this field, check in $_POST for a submitted form (e.g. on the "new field" screen).
-				if ( ! $options ) {
+				// If no children options exists for this field, check in $_POST
+				// for a submitted form (e.g. on the "new field" screen).
+				if ( empty( $options ) ) {
 
 					$options = array();
 					$i       = 1;
@@ -2835,7 +3012,7 @@ abstract class BP_XProfile_Field_Type {
 					}
 
 					// If there are still no children options set, this must be the "new field" screen, so add one new/empty option.
-					if ( ! $options ) {
+					if ( empty( $options ) ) {
 						$options[] = (object) array(
 							'id'                => -1,
 							'is_default_option' => false,
@@ -2892,9 +3069,7 @@ abstract class BP_XProfile_Field_Type {
 		return $field_value;
 	}
 
-	/**
-	 * Internal protected/private helper methods past this point.
-	 */
+	/** Protected *************************************************************/
 
 	/**
 	 * Get a sanitised and escaped string of the edit field's HTML elements and attributes.
@@ -2908,19 +3083,19 @@ abstract class BP_XProfile_Field_Type {
 	 */
 	protected function get_edit_field_html_elements( array $properties = array() ) {
 
-		$properties = array_merge( array(
+		$r = bp_parse_args( $properties, array(
 			'id'   => bp_get_the_profile_field_input_name(),
 			'name' => bp_get_the_profile_field_input_name(),
-		), $properties );
+		) );
 
 		if ( bp_get_the_profile_field_is_required() ) {
-			$properties['aria-required'] = 'true';
+			$r['aria-required'] = 'true';
 		}
 
-		$html       = '';
-		$properties = (array) apply_filters( 'bp_xprofile_field_edit_html_elements', $properties, get_class( $this ) );
+		$html = '';
+		$r    = (array) apply_filters( 'bp_xprofile_field_edit_html_elements', $r, get_class( $this ) );
 
-		foreach ( $properties as $name => $value ) {
+		foreach ( $r as $name => $value ) {
 			$html .= sprintf( '%s="%s" ', sanitize_key( $name ), esc_attr( $value ) );
 		}
 
