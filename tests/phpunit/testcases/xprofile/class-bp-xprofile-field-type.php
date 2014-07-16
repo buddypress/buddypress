@@ -155,6 +155,27 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group url
+	 */
+	public function test_url_validate_url() {
+		$field = bp_xprofile_create_field_type( 'url' );
+
+		$this->assertTrue( $field->is_valid( 'http://foo.com' ) );
+		$this->assertTrue( $field->is_valid( 'https://foo.com' ) );
+		$this->assertTrue( $field->is_valid( 'http://foo.bar.com' ) );
+		$this->assertTrue( $field->is_valid( 'http://foo.bar.com/' ) );
+		$this->assertTrue( $field->is_valid( 'http://foo.com/bar' ) );
+		$this->assertTrue( $field->is_valid( 'http://foo.com/index.php' ) );
+		$this->assertTrue( $field->is_valid( 'http://foo.com/?bar=baz' ) );
+
+		$this->assertFalse( $field->is_valid( 'htp://foo.com' ) );
+		$this->assertFalse( $field->is_valid( 'http:/foo.com' ) );
+		$this->assertFalse( $field->is_valid( 'http//foo.com' ) );
+		$this->assertFalse( $field->is_valid( 'http://foo' ) );
+		$this->assertFalse( $field->is_valid( 'foo.com' ) );
+	}
+
+	/**
 	 * @group BP_XProfile_Field_Group_Type_Placeholder
 	 */
 	public function test_placeholder_validate_any_value() {
