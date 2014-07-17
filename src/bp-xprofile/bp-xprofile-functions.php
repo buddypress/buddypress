@@ -72,6 +72,7 @@ function bp_xprofile_get_field_types() {
 		'datebox'        => 'BP_XProfile_Field_Type_Datebox',
 		'multiselectbox' => 'BP_XProfile_Field_Type_Multiselectbox',
 		'number'         => 'BP_XProfile_Field_Type_Number',
+		'url'            => 'BP_XProfile_Field_Type_URL',
 		'radio'          => 'BP_XProfile_Field_Type_Radiobutton',
 		'selectbox'      => 'BP_XProfile_Field_Type_Selectbox',
 		'textarea'       => 'BP_XProfile_Field_Type_Textarea',
