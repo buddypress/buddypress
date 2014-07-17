@@ -1,9 +1,8 @@
 /* Profile field group main admin page */
 #tabs-bottom {
-	background: #f9f9f9;
+	background: #f5f5f5;
 	height: 32px;
-	border: 1px solid #dfdfdf;
-	border-radius: 0 0 3px 3px;
+	border: 1px solid #dedede;
 }
 
 #tabs {
@@ -30,7 +29,7 @@
 			background-color: #fafafa;
 		}
 		ul#field-group-tabs li.ui-state-hover a.ui-tab {
-			border-color: #dfdfdf #dfdfdf #f9f9f9 #dfdfdf;
+			border-color: #dedede #dedede #f5f5f5 #dedede;
 			color: #d54e21;
 		}
 		ul#field-group-tabs li.ui-state-acceptable a.ui-tab {
@@ -39,7 +38,7 @@
 			background-color: #efe;
 		}
 			ul#field-group-tabs li.ui-state-active.ui-state-acceptable a.ui-tab {
-				background-color: #f9f9f9;
+				background-color: #f5f5f5;
 			}
 		ul#field-group-tabs li.drop-candidate a.ui-tab {
 			background-color: #ffc;
@@ -51,32 +50,30 @@
 			display: block;
 			margin-top: 3px;
 			padding: 5px 10px 5px;
-			border: 1px solid #dfdfdf;
+			border: 1px solid #dedede;
 			border-bottom: none;
-			border-radius: 3px 3px 0 0;
 			text-decoration: none;
-			color: #aaa;
+			color: #000;
 		}
 
 		/* Selected tab */
 		ul#field-group-tabs li.ui-state-active a.ui-tab {
-			background-color: #f9f9f9;
+			background-color: #f5f5f5;
 			margin-top: -1px;
 			padding: 7px 10px 7px;
-			border: 1px solid #dfdfdf;
+			border: 1px solid #dedede;
 			border-bottom: 1px solid transparent;
 			color: #000;
 		}
 
 	/* Toolbar */
 	.tab-toolbar {
-		background: #f9f9f9;
+		background: #f5f5f5;
 		border-width: 1px 1px 0;
-		border-radius: 3px 3px 0 0;
 		margin: -20px -21px 20px -21px;
 		clear: right;
 		padding: 10px;
-		border: 1px solid #dfdfdf;
+		border: 1px solid #dedede;
 	}
 
 	.field-wrapper a.deletion,
@@ -88,18 +85,22 @@
 		padding: 0;
 		margin: -2px 5px 0 0;
 	}
-		
+
+	div.actions div.delete-button {
+		float: right;
+		line-height: 28px;
+	}
+
 	div.tab-toolbar a.button-primary {
 		color: #fff !important; /* Overriding a WP !important */
 	}
 
 	div.tab-wrapper {
 		background-color: #fff;
-		clear: right;
+		clear: left;
 		padding: 20px;
-		border-right: 1px solid #ccc;
 		border-left: 1px solid #ccc;
-		border-radius: 3px 3px 0 0;
+		border-right: 1px solid #ccc;
 	}
 
 	.tab-wrapper fieldset {
@@ -108,7 +109,6 @@
 		background: inherit;
 		}
 		.tab-wrapper fieldset legend {
-			padding-bottom: 15px;
 			font-weight: bold;
 		}
 	.tab-wrapper .xprofile-field {
@@ -117,10 +117,9 @@
 	.tab-wrapper fieldset fieldset {
 		position: relative;
 		border: 1px solid #ddd;
-		border-radius: 3px;
 		margin: 10px 0 0 0;
 		cursor: move !important;
-		background: #f9f9f9;
+		background: #f5f5f5;
 	}
 	.tab-wrapper fieldset fieldset legend {
 		position: absolute !important;
@@ -167,7 +166,7 @@
 	}
 	.field-group fieldset.ui-sortable-placeholder {
 		border: 1px dashed #999;
-		background-color: #eee;
+		background-color: #fafafa;
 		visibility: visible !important;
 	}
 
@@ -233,10 +232,6 @@ div.options-box {
 th a {
 	background: #fff;
 	padding: 2px 5px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	top: -2px;
 }
 
@@ -245,4 +240,3 @@ textarea#group_description {
 	border: 1px solid #ddd;
 	width: 100%;
 }
-
