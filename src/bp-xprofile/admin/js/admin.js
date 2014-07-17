@@ -2,20 +2,24 @@
 /* jshint scripturl: true */
 /* global XProfileAdmin */
 
+/**
+ * Add option for the forWhat type.
+ *
+ * @param {string} forWhat Value of the field to show options for
+ */
 function add_option(forWhat) {
-	var holder  = document.getElementById(forWhat + '_more'),
-		theId     = document.getElementById(forWhat + '_option_number').value,
-		newDiv    = document.createElement('p'),
-		newOption = document.createElement('input'),
-		span      = document.createElement( 'span' ),
-		txt       = document.createTextNode( '\u00A0\u039E\u00A0' ),
-		isDefault = document.createElement( 'input' ),
-		span1     = document.createElement( 'span' ),
-		txt1      = document.createTextNode( ' Default Value ' ),
+	var holder       = document.getElementById(forWhat + '_more'),
+		theId        = document.getElementById(forWhat + '_option_number').value,
+		newDiv       = document.createElement('p'),
+		newOption    = document.createElement('input'),
+		span         = document.createElement( 'span' ),
+		txt          = document.createTextNode( '\u00A0\u039E\u00A0' ),
+		isDefault    = document.createElement( 'input' ),
+		span1        = document.createElement( 'span' ),
+		txt1         = document.createTextNode( ' Default Value ' ),
 
 		toDelete     = document.createElement( 'a' ),
 		toDeleteText = document.createTextNode( '[x]' );
-
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
 	newDiv.setAttribute('class', 'sortable');
@@ -37,7 +41,6 @@ function add_option(forWhat) {
 	isDefault.setAttribute( 'value', theId );
 
 	span1.appendChild( txt1 );
-
 
 	toDelete.setAttribute( 'href', 'javascript:hide("' + forWhat + '_div' + theId + '")' );
 	toDelete.setAttribute( 'class', 'delete' );
@@ -132,7 +135,7 @@ jQuery( document ).ready( function() {
 		function() {} );
 	} );
 
-	//
+	// Set up the sort order change actions
 	jQuery( '[id^="sort_order_"]' ).change(function() {
 		if ( jQuery( this ).val() !== 'custom' ) {
 			destroySortableFieldOptions();
