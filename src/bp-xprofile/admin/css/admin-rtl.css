@@ -76,23 +76,19 @@
 		border: 1px solid #dedede;
 	}
 
+	.bp-option a.delete,
 	.field-wrapper a.deletion,
 	.tab-toolbar a.deletion {
 		color: #f00;
 		border-bottom: 1px solid #f00;
-		font-size: 12px;
 		text-decoration: none;
 		padding: 0;
-		margin: -2px 5px 0 0;
 	}
 
-	div.actions div.delete-button {
+	div.delete-button {
 		float: right;
 		line-height: 28px;
-	}
-
-	div.tab-toolbar a.button-primary {
-		color: #fff !important; /* Overriding a WP !important */
+		margin: 0 10px 0 0;
 	}
 
 	div.tab-wrapper {
@@ -105,8 +101,8 @@
 
 	.tab-wrapper fieldset {
 		position: relative;
-		cursor: default !important;
-		}
+		cursor: default;
+	}
 		.tab-wrapper fieldset legend {
 			font-weight: bold;
 		}
@@ -117,7 +113,7 @@
 		position: relative;
 		border: 1px solid #ddd;
 		margin: 10px 0;
-		cursor: move !important;
+		cursor: move;
 		background: #fafafa;
 		padding: 10px 0 0 ;
 	}
@@ -155,6 +151,7 @@
 	.field-group fieldset:hover div.actions {
 		display: block;
 	}
+	.bp-options-box .ui-sortable-placeholder,
 	.field-group fieldset.ui-sortable-placeholder {
 		border: 1px dashed #999;
 		background-color: #fff;
@@ -193,11 +190,6 @@
 		color: #555;
 	}
 
-	select.multi-select {
-		width:90%;
-		height:10em !important;
-	}
-
 ul.multi-checkbox {
 	margin: 0 0 0 5px;
 	padding: .5em .9em;
@@ -213,11 +205,33 @@ ul.multi-checkbox li {
 	margin: 0;
 }
 
-div.options-box {
-	margin-right: 20px !important;
-	margin-left: 10px !important;
-	border-right: 4px solid #EAF3FA;
-	padding-right: 15px;
+p.bp-option {
+	background: #fafafa;
+	border: 1px solid #dfdfdf;
+	margin: 10px 0;
+	padding: 10px 5px;
+}
+
+p.bp-option:hover {
+	border: 1px solid #999;
+}
+
+.bp-option-icon {
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	display: inline-block;
+	padding: 0 2px 0 0;
+	top: 5px;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #888;
+}
+
+p.bp-option .grabber:before {
+	content: "\f329";
 }
 
 th a {

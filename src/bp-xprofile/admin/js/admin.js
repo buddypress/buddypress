@@ -11,24 +11,23 @@ function add_option(forWhat) {
 	var holder       = document.getElementById(forWhat + '_more'),
 		theId        = document.getElementById(forWhat + '_option_number').value,
 		newDiv       = document.createElement('p'),
-		newOption    = document.createElement('input'),
-		span         = document.createElement( 'span' ),
-		txt          = document.createTextNode( '\u00A0\u039E\u00A0' ),
+		grabber      = document.createElement( 'span' ),
+		newOption    = document.createElement( 'input' ),
+		label        = document.createElement( 'label' ),
 		isDefault    = document.createElement( 'input' ),
-		span1        = document.createElement( 'span' ),
-		txt1         = document.createTextNode( ' Default Value ' ),
-
-		toDelete     = document.createElement( 'a' ),
-		toDeleteText = document.createTextNode( '[x]' );
+		txt1         = document.createTextNode( 'Default Value' ),
+		toDeleteText = document.createTextNode( 'Delete' ),
+		toDeleteWrap = document.createElement( 'div' );
+		toDelete     = document.createElement( 'a' );
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
-	newDiv.setAttribute('class', 'sortable');
+	newDiv.setAttribute('class', 'bp-option sortable');
+
+	grabber.setAttribute( 'class', 'bp-option-icon grabber');
 
 	newOption.setAttribute( 'type', 'text' );
 	newOption.setAttribute( 'name', forWhat + '_option[' + theId + ']' );
 	newOption.setAttribute( 'id', forWhat + '_option' + theId );
-
-	span.appendChild( txt );
 
 	if ( forWhat === 'checkbox' || forWhat === 'multiselectbox' ) {
 		isDefault.setAttribute( 'type', 'checkbox' );
@@ -40,18 +39,24 @@ function add_option(forWhat) {
 
 	isDefault.setAttribute( 'value', theId );
 
-	span1.appendChild( txt1 );
-
 	toDelete.setAttribute( 'href', 'javascript:hide("' + forWhat + '_div' + theId + '")' );
 	toDelete.setAttribute( 'class', 'delete' );
 	toDelete.appendChild( toDeleteText );
 
-	newDiv.appendChild( span );
-	newDiv.appendChild( newOption );
+	toDeleteWrap.setAttribute( 'class', 'delete-button' );
+	toDeleteWrap.appendChild( toDelete );
+
+	label.appendChild( document.createTextNode( ' ' ) );
+	label.appendChild( isDefault );
+	label.appendChild( document.createTextNode( ' ' ) );
+	label.appendChild( txt1 );
+	label.appendChild( document.createTextNode( ' ' ) );
+
+	newDiv.appendChild( grabber );
 	newDiv.appendChild( document.createTextNode( ' ' ) );
-	newDiv.appendChild( isDefault );
-	newDiv.appendChild( span1 );
-	newDiv.appendChild( toDelete );
+	newDiv.appendChild( newOption );
+	newDiv.appendChild( label );
+	newDiv.appendChild( toDeleteWrap );
 	holder.appendChild( newDiv );
 
 	// re-initialize the sorable ui
@@ -99,21 +104,19 @@ var fixHelper = function(e, ui) {
 };
 
 function enableSortableFieldOptions( forWhat ) {
-	if ( jQuery( '#' + forWhat + ' p.sortable' ).length > 1 ) {
-		jQuery( '.bp-options-box' ).sortable( {
-			items: 'p.sortable',
-			tolerance: 'pointer',
-			axis: 'y',
-			handle: 'span'
-		});
+	jQuery( '.bp-options-box' ).sortable( {
+		cursor: 'move',
+		items: 'p.sortable',
+		tolerance: 'intersect',
+		axis: 'y'
+	});
 
-		jQuery( '.sortable span' ).css( 'cursor', 'move' );
-	}
+	jQuery( '.sortable, .sortable span' ).css( 'cursor', 'move' );
 }
 
 function destroySortableFieldOptions() {
 	jQuery( '.bp-options-box' ).sortable( 'destroy' );
-	jQuery( '.sortable span' ).css( 'cursor', 'default' );
+	jQuery( '.sortable, .sortable span' ).css( 'cursor', 'default' );
 }
 
 jQuery( document ).ready( function() {
