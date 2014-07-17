@@ -2703,8 +2703,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 		$link      = strip_tags( $field_value );
 		$no_scheme = preg_replace( '#^https?://#', '', rtrim( $link, '/' ) );
 		$url_text  = str_replace( $link, $no_scheme, $field_value );
-		$retval    = '<a href="' . esc_url( $field_value ) . '" rel="nofollow">' . esc_html( $url_text ) . '</a>';
-		return $field_value;
+		return '<a href="' . esc_url( $field_value ) . '" rel="nofollow">' . esc_html( $url_text ) . '</a>';
 	}
 }
 
@@ -3034,12 +3033,22 @@ abstract class BP_XProfile_Field_Type {
 						}
 						?>
 
-						<p class="sortable">
-							<span>&nbsp;&Xi;&nbsp;</span>
+						<div id="<?php echo esc_attr( "{$type}_div{$j}" ); ?>" class="bp-option sortable">
+							<span class="bp-option-icon grabber"></span>
 							<input type="text" name="<?php echo esc_attr( "{$type}_option[{$j}]" ); ?>" id="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" value="<?php echo esc_attr( $options[$i]->name ); ?>" />
-							<input type="<?php echo esc_attr( $control_type ); ?>" name="<?php echo esc_attr( "isDefault_{$type}_option{$default_name}" ); ?>" <?php checked( $options[$i]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
-							<span><?php _e( 'Default Value', 'buddypress' ); ?></span>
-						</p>
+							<label>
+								<input type="<?php echo esc_attr( $control_type ); ?>" name="<?php echo esc_attr( "isDefault_{$type}_option{$default_name}" ); ?>" <?php checked( $options[$i]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
+								<?php _e( 'Default Value', 'buddypress' ); ?>
+							</label>
+
+							<?php if ( 1 !== $j ) : ?>
+								<div class ="delete-button">
+									<a href='javascript:hide("<?php echo esc_attr( "{$type}_div{$j}" ); ?>")' class="delete"><?php esc_html_e( 'Delete', 'buddypress' ); ?></a>
+								</div>
+							<?php endif; ?>
+
+						</div>
+
 					<?php endfor; ?>
 
 					<input type="hidden" name="<?php echo esc_attr( "{$type}_option_number" ); ?>" id="<?php echo esc_attr( "{$type}_option_number" ); ?>" value="<?php echo esc_attr( $j + 1 ); ?>" />

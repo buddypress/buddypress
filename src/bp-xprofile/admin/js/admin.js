@@ -10,14 +10,14 @@
 function add_option(forWhat) {
 	var holder       = document.getElementById(forWhat + '_more'),
 		theId        = document.getElementById(forWhat + '_option_number').value,
-		newDiv       = document.createElement('p'),
+		newDiv       = document.createElement( 'div' ),
 		grabber      = document.createElement( 'span' ),
 		newOption    = document.createElement( 'input' ),
 		label        = document.createElement( 'label' ),
 		isDefault    = document.createElement( 'input' ),
 		txt1         = document.createTextNode( 'Default Value' ),
 		toDeleteText = document.createTextNode( 'Delete' ),
-		toDeleteWrap = document.createElement( 'div' );
+		toDeleteWrap = document.createElement( 'div' ),
 		toDelete     = document.createElement( 'a' );
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
@@ -106,7 +106,7 @@ var fixHelper = function(e, ui) {
 function enableSortableFieldOptions( forWhat ) {
 	jQuery( '.bp-options-box' ).sortable( {
 		cursor: 'move',
-		items: 'p.sortable',
+		items: 'div.sortable',
 		tolerance: 'intersect',
 		axis: 'y'
 	});
