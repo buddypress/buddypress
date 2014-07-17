@@ -9,7 +9,7 @@
 	position: relative;
 	}
 	p.nofields {
-		margin-top: 20px;
+		margin: 10px 0;
 	}
 
 	/* Field group tabs */
@@ -70,8 +70,8 @@
 	.tab-toolbar {
 		background: #f5f5f5;
 		border-width: 1px 1px 0;
-		margin: -20px -21px 20px -21px;
-		clear: right;
+		margin: -20px -21px 10px -21px;
+		clear: left;
 		padding: 10px;
 		border: 1px solid #dedede;
 	}
@@ -98,7 +98,7 @@
 	div.tab-wrapper {
 		background-color: #fff;
 		clear: left;
-		padding: 20px;
+		padding: 20px 20px 10px 20px;
 		border-left: 1px solid #ccc;
 		border-right: 1px solid #ccc;
 	}
@@ -106,7 +106,6 @@
 	.tab-wrapper fieldset {
 		position: relative;
 		cursor: default !important;
-		background: inherit;
 		}
 		.tab-wrapper fieldset legend {
 			font-weight: bold;
@@ -117,30 +116,22 @@
 	.tab-wrapper fieldset fieldset {
 		position: relative;
 		border: 1px solid #ddd;
-		margin: 10px 0 0 0;
+		margin: 10px 0;
 		cursor: move !important;
-		background: #f5f5f5;
+		background: #fafafa;
+		padding: 10px 0 0 ;
 	}
 	.tab-wrapper fieldset fieldset legend {
-		position: absolute !important;
-		top: 0;
-		right: 0;
-		width: 80%;
-		padding: 30px;
-	}
-	.tab-wrapper fieldset fieldset legend span {
 		position: absolute;
-		top: 6px;
+		top: 10px;
 		right: 10px;
-		font-weight: bold;
-		width: 100%;
+		padding: 0;
 	}
 		.field-group fieldset:hover {
-			background-color: #fafafa;
-			border-color: #ccc;
+			border-color: #999;
 		}
 		fieldset div.field-wrapper {
-			padding: 40px 10px 10px;
+			padding: 25px 10px 10px;
 		}
 	fieldset.radio div div label,
 	fieldset.checkbox div label {
@@ -153,7 +144,7 @@
 	.field-group div.actions {
 		float: none;
 		border-top: 1px solid #ddd;
-		margin: 20px 0 0;
+		margin: 10px 0 0;
 		padding-top: 10px;
 	}
 	.field-group div.actions a,
@@ -166,7 +157,7 @@
 	}
 	.field-group fieldset.ui-sortable-placeholder {
 		border: 1px dashed #999;
-		background-color: #fafafa;
+		background-color: #fff;
 		visibility: visible !important;
 	}
 

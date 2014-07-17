@@ -64,6 +64,8 @@ function add_option(forWhat) {
 
 /**
  * Hide all "options" sections, and show the options section for the forWhat type.
+ *
+ * @param {string} forWhat Value of the field to show options for
  */
 function show_options( forWhat ) {
 	for ( var i = 0; i < XProfileAdmin.supports_options_field_types.length; i++ ) {
@@ -146,9 +148,9 @@ jQuery( document ).ready( function() {
 	jQuery( 'ul#field-group-tabs' ).sortable( {
 		cursor: 'move',
 		axis: 'x',
-		opacity: 0.6,
+		opacity: 1,
 		items: 'li',
-		tolerance: 'pointer',
+		tolerance: 'intersect',
 
 		update: function() {
 			jQuery.post( ajaxurl, {
@@ -164,9 +166,9 @@ jQuery( document ).ready( function() {
 	// Allow reordering of fields within groups
 	jQuery( 'fieldset.field-group' ).sortable({
 		cursor: 'move',
-		opacity: 0.3,
+		opacity: 1,
 		items: 'fieldset',
-		tolerance: 'pointer',
+		tolerance: 'ponter',
 
 		update: function() {
 			jQuery.post( ajaxurl, {
@@ -205,8 +207,8 @@ jQuery( document ).ready( function() {
 
 			// When field is dropped on tab
 			drop: function( ev, ui ) {
-				var $item = jQuery(this),  // The tab
-					$list   = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );  // The tab body
+				var $item = jQuery(this), // The tab
+					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' ); // The tab body
 
 				// Remove helper class
 				jQuery($item).removeClass( 'drop-candidate' );
