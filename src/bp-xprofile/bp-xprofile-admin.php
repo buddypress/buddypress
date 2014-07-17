@@ -403,7 +403,9 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 				<?php if ( $field->can_delete ) : ?>
 
-					<a class="confirm submit-delete deletion" href="users.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
+					<div class="delete-button">
+						<a class="confirm submit-delete deletion" href="users.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
+					</div>
 
 				<?php endif; ?>
 			</div>
