@@ -2689,7 +2689,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @since BuddyPress (2.1.0)
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
-	
+
 	/**
 	 * Format Date values for display.
 	 *
@@ -2979,7 +2979,7 @@ abstract class BP_XProfile_Field_Type {
 				</p>
 
 				<?php
-				
+
 				// Does option have children?
 				$options = $current_field->get_children( true );
 
