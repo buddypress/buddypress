@@ -26,6 +26,9 @@ add_filter( 'bp_get_the_profile_field_value',           'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_value',           'make_clickable'     );
 add_filter( 'bp_get_the_profile_field_value',           'esc_html',        8 );
 add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 9 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value',         1, 2 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value_by_type', 8, 2 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',          9, 2 );
 
 add_filter( 'bp_get_the_profile_field_edit_value',      'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_edit_value',      'esc_html'           );
@@ -46,12 +49,7 @@ add_filter( 'xprofile_field_name_before_save',          'force_balance_tags' );
 add_filter( 'xprofile_field_description_before_save',   'force_balance_tags' );
 
 add_filter( 'xprofile_get_field_data',                  'stripslashes' );
-
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value', 1, 2 );
-add_filter( 'bp_get_the_site_member_profile_data',      'xprofile_filter_format_field_value', 1, 2 );
 add_filter( 'xprofile_get_field_data',                  'xprofile_filter_format_field_value_by_field_id', 5, 2 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value_by_type', 8, 2 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',  9, 2 );
 
 add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 2 );
 add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
@@ -82,7 +80,7 @@ function xprofile_filter_kses( $content ) {
  * @param bool $reserialize Whether to reserialize arrays before returning. Defaults to true
  * @return string
  */
-function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $reserialize = true ) {
+function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, $reserialize = true ) {
 
 	// Return if empty
 	if ( empty( $field_value ) ) {
@@ -108,10 +106,11 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $re
 
 		}
 
-		if ( !empty( $reserialize ) )
+		if ( !empty( $reserialize ) ) {
 			$filtered_field_value = serialize( $filtered_values );
-		else
+		} else {
 			$filtered_field_value = $filtered_values;
+		}
 	}
 
 	return $filtered_field_value;
@@ -127,12 +126,14 @@ function xprofile_sanitize_data_value_before_save ( $field_value, $field_id, $re
  * @return string $field_value Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
-	// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
- 	if ( ! isset( $field_value ) || empty( $field_value ) && '0' != $field_value )
-		return false;
 
-	if ( 'datebox' != $field_type ) {
-		$field_value = str_replace(']]>', ']]&gt;', $field_value );
+	// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
+ 	if ( ! isset( $field_value ) || empty( $field_value ) && ( '0' !== $field_value ) ) {
+		return false;
+	}
+
+	if ( 'datebox' !== $field_type ) {
+		$field_value = str_replace( ']]>', ']]&gt;', $field_value );
 	}
 
 	return stripslashes( $field_value );
@@ -175,11 +176,14 @@ function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id
 }
 
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
-	if ( 'datebox' == $field_type )
-		return $field_value;
 
-	if ( !strpos( $field_value, ',' ) && ( count( explode( ' ', $field_value ) ) > 5 ) )
+	if ( 'datebox' === $field_type ) {
 		return $field_value;
+	}
+
+	if ( !strpos( $field_value, ',' ) && ( count( explode( ' ', $field_value ) ) > 5 ) ) {
+		return $field_value;
+	}
 
 	$values = explode( ',', $field_value );
 
@@ -222,7 +226,8 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
  * @param int $post_id
  * @return array $comments
  */
-function xprofile_filter_comments( $comments, $post_id ) {
+function xprofile_filter_comments( $comments, $post_id = 0 ) {
+
 	// Locate comment authors with WP accounts
 	foreach( (array) $comments as $comment ) {
 		if ( $comment->user_id ) {
@@ -260,13 +265,10 @@ add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
  *
  * @since BuddyPress (1.7)
  *
- * @global BuddyPress $bp
- * @global WPDB $wpdb
  * @param BP_User_Query $user_query
  * @param string $user_ids_sql
  */
-function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql ) {
-	global $bp, $wpdb;
+function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql = '' ) {
 
 	if ( ! bp_is_active( 'xprofile' ) ) {
 		return;
