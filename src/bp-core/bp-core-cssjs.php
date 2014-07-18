@@ -29,7 +29,8 @@ function bp_core_register_common_scripts() {
 		wp_register_script( $id, $script['file'], $script['dependencies'], bp_get_version() );
 	}
 }
-add_action( 'bp_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
+add_action( 'bp_enqueue_scripts',       'bp_core_register_common_scripts', 1 );
+add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
 
 /**
  * Load the JS for "Are you sure?" .confirm links.
