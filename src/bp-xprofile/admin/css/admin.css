@@ -9,7 +9,7 @@
 	position: relative;
 	}
 	p.nofields {
-		margin: 10px 0;
+		margin: 20px 20px 0;
 	}
 
 	/* Field group tabs */
@@ -21,9 +21,8 @@
 	}
 		ul#field-group-tabs li {
 			float: left;
-			margin-bottom: -1px;
-			background-color: transparent;
 			margin-right: 8px;
+			margin-bottom: -1px;
 		}
 		ul#field-group-tabs li.ui-state-hover a {
 			background-color: #fafafa;
@@ -37,9 +36,6 @@
 			color: #8a8;
 			background-color: #efe;
 		}
-			ul#field-group-tabs li.ui-state-active.ui-state-acceptable a.ui-tab {
-				background-color: #f5f5f5;
-			}
 		ul#field-group-tabs li.drop-candidate a.ui-tab {
 			background-color: #ffc;
 			border-color: #aa5 #aa5 #ccc #aa5;
@@ -52,8 +48,10 @@
 			padding: 5px 10px 5px;
 			border: 1px solid #dedede;
 			border-bottom: none;
+			background-color: #f5f5f5;
 			text-decoration: none;
 			color: #000;
+			outline: none;
 		}
 
 		/* Selected tab */
@@ -69,11 +67,10 @@
 	/* Toolbar */
 	.tab-toolbar {
 		background: #f5f5f5;
-		border-width: 1px 1px 0;
-		margin: -20px -21px 10px -21px;
-		clear: left;
+		border-width: 0 0 1px;
+		border-color: #dedede;
+		border-style: solid;
 		padding: 10px;
-		border: 1px solid #dedede;
 	}
 
 	.bp-option a.delete,
@@ -93,10 +90,10 @@
 
 	div.tab-wrapper {
 		background-color: #fff;
+		border: 1px solid #dedede;
+		border-bottom: none;
 		clear: left;
-		padding: 20px 20px 10px 20px;
-		border-left: 1px solid #ccc;
-		border-right: 1px solid #ccc;
+		padding-bottom: 20px;
 	}
 
 	.tab-wrapper fieldset {
@@ -112,7 +109,7 @@
 	.tab-wrapper fieldset fieldset {
 		position: relative;
 		border: 1px solid #ddd;
-		margin: 10px 0;
+		margin: 20px 20px 0;
 		cursor: move;
 		background: #fafafa;
 		padding: 10px 0 0 ;
@@ -151,11 +148,19 @@
 	.field-group fieldset:hover div.actions {
 		display: block;
 	}
+
 	.bp-options-box .ui-sortable-placeholder,
+	#field-group-tabs .ui-sortable-placeholder,
 	.field-group fieldset.ui-sortable-placeholder {
 		border: 1px dashed #999;
 		background-color: #fff;
 		visibility: visible !important;
+	}
+	
+	#field-group-tabs .ui-sortable-placeholder {
+		background: transparent;
+		border-bottom: none;
+		margin: -1px 6px -1px 0;
 	}
 
 	ul.forTab {
@@ -166,7 +171,6 @@
 		ul.forTab li {
 			margin: 0 0 1em 0;
 		}
-
 			ul.forTab li label {
 				display: block;
 			}
