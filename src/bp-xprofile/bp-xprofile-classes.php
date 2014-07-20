@@ -1560,11 +1560,12 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 
-		$date  = BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] );
-		$day   = 0;
-		$month = 0;
-		$year  = 0;
-		$html  = '';
+		$date       = BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] );
+		$day        = 0;
+		$month      = 0;
+		$year       = 0;
+		$html       = '';
+		$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
 
 		// Set day, month, year defaults
 		if ( ! empty( $date ) ) {
@@ -1591,12 +1592,17 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		}
 
 		if ( ! empty( $_POST['field_' . $this->field_obj->id . '_month'] ) ) {
-			$new_month = (int) $_POST['field_' . $this->field_obj->id . '_month'];
-			$month     = ( $month != $new_month ) ? $new_month : $month;
+			if ( in_array( $_POST['field_' . $this->field_obj->id . '_month'], $eng_months ) ) {
+				$new_month = $_POST['field_' . $this->field_obj->id . '_month'];
+			} else {
+				$new_month = $month;
+			}
+
+			$month = ( $month !== $new_month ) ? $new_month : $month;
 		}
 
 		if ( ! empty( $_POST['field_' . $this->field_obj->id . '_year'] ) ) {
-			$new_year = date( 'j', (int) $_POST['field_' . $this->field_obj->id . '_year'] );
+			$new_year = (int) $_POST['field_' . $this->field_obj->id . '_year'];
 			$year     = ( $year != $new_year ) ? $new_year : $year;
 		}
 
@@ -1611,8 +1617,6 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			break;
 
 			case 'month':
-				$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
-
 				$months = array(
 					__( 'January',   'buddypress' ),
 					__( 'February',  'buddypress' ),
