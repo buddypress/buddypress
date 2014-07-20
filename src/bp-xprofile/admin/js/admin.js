@@ -103,7 +103,7 @@ var fixHelper = function(e, ui) {
 	return ui;
 };
 
-function enableSortableFieldOptions( forWhat ) {
+function enableSortableFieldOptions() {
 	jQuery( '.bp-options-box' ).sortable( {
 		cursor: 'move',
 		items: 'div.sortable',
