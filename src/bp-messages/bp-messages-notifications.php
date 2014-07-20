@@ -122,13 +122,14 @@ add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
  * @return string|array Formatted notifications.
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
+	$total_items = (int) $total_items;
 
 	if ( 'new_message' === $action ) {
 		$link  = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox' );
 		$title = __( 'Inbox', 'buddypress' );
 
-		if ( (int) $total_items > 1 ) {
-			$text   = sprintf( __( 'You have %d new messages', 'buddypress' ), (int) $total_items );
+		if ( $total_items > 1 ) {
+			$text   = sprintf( __( 'You have %d new messages', 'buddypress' ), $total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';
 		} else {
 			// get message thread ID
@@ -141,7 +142,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 			if ( ! empty( $secondary_item_id ) ) {
 				$text = sprintf( __( '%s sent you a new private message', 'buddypress' ), bp_core_get_user_displayname( $secondary_item_id ) );
 			} else {
-				$text = sprintf( __( 'You have %d new private messages', 'buddypress' ), (int) $total_items );
+				$text = sprintf( _n( 'You have %s new private message', 'You have %s new private messages', $total_items, 'buddypress' ), bp_core_number_format( $total_items ) );
 			}
 			$filter = 'bp_messages_single_new_message_notification';
 		}
