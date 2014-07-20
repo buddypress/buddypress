@@ -2048,7 +2048,7 @@ function bp_members_login_resend_activation_email() {
 	if ( ! empty( $resend['errors'] ) ) {
 		$error = __( '<strong>ERROR</strong>: Your account has already been activated.', 'buddypress' );
 	} else {
-		$error = __( 'Activation email resent!  Please check your inbox or spam folder.', 'buddypress' );
+		$error = __( 'Activation email resent! Please check your inbox or spam folder.', 'buddypress' );
 	}
 }
 add_action( 'login_form_bp-resend-activation', 'bp_members_login_resend_activation_email' );
