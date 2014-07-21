@@ -2396,9 +2396,7 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-		<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>>
-			<?php bp_the_profile_field_edit_value(); ?>
-		</textarea>
+		<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
 
 		<?php
 	}
