@@ -40,7 +40,7 @@ add_action( 'bp_screens', 'bp_members_screen_index' );
 function bp_core_screen_signup() {
 	global $bp;
 
-	if ( !bp_is_current_component( 'register' ) )
+	if ( ! bp_is_current_component( 'register' ) || bp_current_action() )
 		return;
 
 	// Not a directory
