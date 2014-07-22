@@ -810,6 +810,38 @@ function bp_the_notification_delete_link() {
 	 */
 	function bp_get_the_notification_delete_link() {
 
+		// Start the output buffer
+		ob_start(); ?>
+
+		<a href="<?php bp_the_notification_delete_url(); ?>" class="delete secondary confirm"><?php _e( 'Delete', 'buddypress' ); ?></a>
+
+		<?php $retval = ob_get_clean();
+
+		return apply_filters( 'bp_get_the_notification_delete_link', $retval );
+	}
+
+/**
+ * Output the URL used for deleting a single notification
+ *
+ * Since this function directly outputs a URL, it is escaped.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @uses esc_url()
+ * @uses bp_get_the_notification_delete_url()
+ */
+function bp_the_notification_delete_url() {
+	echo esc_url( bp_get_the_notification_delete_url() );
+}
+	/**
+	 * Return the URL used for deleting a single notification
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_notification_delete_url() {
+
 		// URL to add nonce to
 		if ( bp_is_current_action( 'unread' ) ) {
 			$link = bp_get_notifications_unread_permalink();
@@ -817,17 +849,20 @@ function bp_the_notification_delete_link() {
 			$link = bp_get_notifications_read_permalink();
 		}
 
-		// Get the URL with nonce, action, and id
-		$url = wp_nonce_url( add_query_arg( array( 'action' => 'delete', 'notification_id' => bp_get_the_notification_id() ), $link ), 'bp_notification_delete_' . bp_get_the_notification_id() );
+		// Args to add to the link
+		$args = array(
+			'action'          => 'delete',
+			'notification_id' => bp_get_the_notification_id()
+		);
 
-		// Start the output buffer
-		ob_start(); ?>
+		// Add the args
+		$url = add_query_arg( $args, $link );
 
-		<a href="<?php echo esc_url( $url ); ?>" class="delete secondary confirm"><?php _e( 'Delete', 'buddypress' ); ?></a>
+		// Add the nonce
+		$url = wp_nonce_url( $url, 'bp_notification_delete_' . bp_get_the_notification_id() );
 
-		<?php $retval = ob_get_clean();
-
-		return apply_filters( 'bp_get_the_notification_delete_link', $retval );
+		// Filter and return
+		return apply_filters( 'bp_get_the_notification_delete_url', $url );
 	}
 
 /**
