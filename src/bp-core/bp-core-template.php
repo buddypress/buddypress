@@ -2515,7 +2515,7 @@ function bp_get_nav_menu_items() {
 
 			// Add this menu
 			$menu         = new stdClass;
-			$menu->class  = array();
+			$menu->class  = array( 'menu-child' );
 			$menu->css_id = $sub_nav['css_id'];
 			$menu->link   = $sub_nav['link'];
 			$menu->name   = $sub_nav['name'];
@@ -2523,7 +2523,7 @@ function bp_get_nav_menu_items() {
 
 			// If we're viewing this item's screen, record that we need to mark its parent menu to be selected
 			if ( $sub_nav['slug'] == bp_current_action() ) {
-				$menu->class      = array( 'current-menu-item' );
+				$menu->class[]    = 'current-menu-item';
 				$selected_menus[] = $parent_menu;
 			}
 
@@ -2547,7 +2547,7 @@ function bp_get_nav_menu_items() {
 
 		// Add this menu
 		$menu         = new stdClass;
-		$menu->class  = array();
+		$menu->class  = array( 'menu-parent' );
 		$menu->css_id = $nav['css_id'];
 		$menu->link   = $link;
 		$menu->name   = $nav['name'];
@@ -2555,7 +2555,7 @@ function bp_get_nav_menu_items() {
 
 		// Check if we need to mark this menu as selected
 		if ( in_array( $nav['css_id'], $selected_menus ) )
-			$menu->class = array( 'current-menu-parent' );
+			$menu->class[] = 'current-menu-parent';
 
 		$menus[] = $menu;
 	}
