@@ -113,7 +113,7 @@ class BP_Members_Component extends BP_Component {
 		$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
 
 		// Fetch the full name displayed user
-		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->fullname ) ? $bp->displayed_user->userdata->fullname : '';
+		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
 
 		// The domain for the user currently being displayed
 		$bp->displayed_user->domain   = bp_core_get_user_domain( bp_displayed_user_id() );
