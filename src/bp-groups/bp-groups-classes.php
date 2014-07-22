@@ -738,7 +738,7 @@ class BP_Groups_Group {
 		// If a 'type' parameter was passed, parse it and overwrite
 		// 'order' and 'orderby' params passed to the function
 		if (  ! empty( $r['type'] ) ) {
-			$order_orderby = self::convert_type_to_order_orderby( $r['type'] );
+			$order_orderby = apply_filters( 'bp_groups_get_orderby', self::convert_type_to_order_orderby( $r['type'] ), $r['type'] );
 
 			// If an invalid type is passed, $order_orderby will be
 			// an array with empty values. In this case, we stick
@@ -756,7 +756,7 @@ class BP_Groups_Group {
 		$order = bp_esc_sql_order( $order );
 
 		// Convert 'orderby' into the proper ORDER BY term
-		$orderby = self::convert_orderby_to_order_by_term( $orderby );
+		$orderby = apply_filters( 'bp_groups_get_orderby_converted_by_term', self::convert_orderby_to_order_by_term( $orderby ), $orderby, $r['type'] );
 
 		// Random order is a special case
 		if ( 'rand()' === $orderby ) {
