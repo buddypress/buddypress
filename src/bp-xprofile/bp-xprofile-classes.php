@@ -1097,7 +1097,7 @@ class BP_XProfile_ProfileData {
 
 		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save',      $this->user_id,         $this->id );
 		$this->field_id     = apply_filters( 'xprofile_data_field_id_before_save',     $this->field_id,        $this->id );
-		$this->value        = apply_filters( 'xprofile_data_value_before_save',        $this->value,           $this->id );
+		$this->value        = apply_filters( 'xprofile_data_value_before_save',        $this->value,           $this->id, true, $this );
 		$this->last_updated = apply_filters( 'xprofile_data_last_updated_before_save', bp_core_current_time(), $this->id );
 
 		do_action_ref_array( 'xprofile_data_before_save', array( $this ) );
