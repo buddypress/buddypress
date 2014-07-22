@@ -437,7 +437,7 @@ function bp_activity_action_sitewide_feed() {
 		'id'            => 'sitewide',
 
 		/* translators: Sitewide activity RSS title - "[Site Name] | Site Wide Activity" */
-		'title'         => sprintf( __( '%s | Site Wide Activity', 'buddypress' ), bp_get_site_name() ),
+		'title'         => sprintf( __( '%s | Site-Wide Activity', 'buddypress' ), bp_get_site_name() ),
 
 		'link'          => bp_get_activity_directory_permalink(),
 		'description'   => __( 'Activity feed for the entire site.', 'buddypress' ),
@@ -540,7 +540,7 @@ function bp_activity_action_my_groups_feed() {
 		'title'         => sprintf( __( '%1$s | %2$s | Group Activity', 'buddypress' ), bp_get_site_name(), bp_get_displayed_user_fullname() ),
 
 		'link'          => trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() ),
-		'description'   => sprintf( __( "Public group activity feed of which %s is a member of.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+		'description'   => sprintf( __( "Public group activity feed of which %s is a member.", 'buddypress' ), bp_get_displayed_user_fullname() ),
 		'activity_args' => array(
 			'object'           => buddypress()->groups->id,
 			'primary_id'       => $group_ids,

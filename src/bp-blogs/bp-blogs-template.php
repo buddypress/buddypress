@@ -948,7 +948,7 @@ function bp_show_blog_signup_form($blogname = '', $blog_title = '', $errors = ''
 		$errors = $filtered_results['errors'];
 
 		if ( $errors->get_error_code() ) {
-			echo "<p>" . __('There was a problem, please correct the form below and try again.', 'buddypress') . "</p>";
+			echo "<p>" . __('There was a problem; please correct the form below and try again.', 'buddypress') . "</p>";
 		}
 		?>
 		<p><?php printf(__("By filling out the form below, you can <strong>add a site to your account</strong>. There is no limit to the number of sites that you can have, so create to your heart's content, but blog responsibly!", 'buddypress'), $current_user->display_name) ?></p>

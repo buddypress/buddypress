@@ -305,7 +305,7 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 	// Don't let single admins leave the group.
 	if ( count( groups_get_group_admins( $group_id ) ) < 2 ) {
 		if ( groups_is_user_admin( $user_id, $group_id ) ) {
-			bp_core_add_message( __( 'As the only Admin, you cannot leave the group.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'As the only admin, you cannot leave the group.', 'buddypress' ), 'error' );
 			return false;
 		}
 	}

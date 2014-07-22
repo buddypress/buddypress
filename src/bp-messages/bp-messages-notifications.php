@@ -89,7 +89,7 @@ To view and read your messages please log in and visit: %4$s
 
 			// Only show the disable notifications line if the settings component is enabled
 			if ( bp_is_active( 'settings' ) ) {
-				$email_content .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
+				$email_content .= sprintf( __( 'To disable these notifications, please log in and go to: %s', 'buddypress' ), $settings_link );
 			}
 
 			// Send the message

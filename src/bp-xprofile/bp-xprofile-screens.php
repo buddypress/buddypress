@@ -139,7 +139,7 @@ function xprofile_screen_edit_profile() {
 
 			// Set the feedback messages
 			if ( !empty( $errors ) ) {
-				bp_core_add_message( __( 'There was a problem updating some of your profile information, please try again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was a problem updating some of your profile information; please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Changes saved.', 'buddypress' ) );
 			}

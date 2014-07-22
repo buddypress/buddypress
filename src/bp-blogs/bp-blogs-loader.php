@@ -24,7 +24,7 @@ class BP_Blogs_Component extends BP_Component {
 	public function __construct() {
 		parent::start(
 			'blogs',
-			__( 'Site Tracking', 'buddypress' ),
+			__( 'Site Directory', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 30
