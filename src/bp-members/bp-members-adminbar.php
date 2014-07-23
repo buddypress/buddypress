@@ -51,7 +51,7 @@ function bp_members_admin_bar_my_account_menu() {
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'bp-login',
 			'title' => __( 'Log in', 'buddypress' ),
-			'href'  => wp_login_url( wp_guess_url() )
+			'href'  => wp_login_url( bp_get_requested_url() )
 		) );
 
 		// Sign up

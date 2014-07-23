@@ -69,7 +69,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 			<div class="bp-login-widget-user-links">
 				<div class="bp-login-widget-user-link"><?php echo bp_core_get_userlink( bp_loggedin_user_id() ); ?></div>
-				<div class="bp-login-widget-user-logout"><a class="logout" href="<?php echo wp_logout_url( wp_guess_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a></div>
+				<div class="bp-login-widget-user-logout"><a class="logout" href="<?php echo wp_logout_url( bp_get_requested_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a></div>
 			</div>
 
 			<?php do_action( 'bp_after_login_widget_loggedin' ); ?>

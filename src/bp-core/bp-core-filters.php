@@ -503,7 +503,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 			if ( is_user_logged_in() ) {
 				$menu_item->_invalid = true;
 			} else {
-				$menu_item->url = wp_login_url( wp_guess_url() );
+				$menu_item->url = wp_login_url( bp_get_requested_url() );
 			}
 
 			break;
@@ -512,7 +512,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 			if ( ! is_user_logged_in() ) {
 				$menu_item->_invalid = true;
 			} else {
-				$menu_item->url = wp_logout_url( wp_guess_url() );
+				$menu_item->url = wp_logout_url( bp_get_requested_url() );
 			}
 
 			break;
