@@ -1139,8 +1139,13 @@ class BP_Members_Admin {
 			return;
 		}
 
+		// Bail if there is no current admin screen
+		if ( ! function_exists( 'get_current_screen' ) || ! get_current_screen() ) {
+			return;
+		}
+
 		// Bail if not on a users page
-		if ( get_current_screen() && ( $this->users_page !== get_current_screen()->id ) ) {
+		if ( $this->users_page !== get_current_screen()->id ) {
 			return;
 		}
 
