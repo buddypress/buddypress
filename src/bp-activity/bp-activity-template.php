@@ -1789,7 +1789,7 @@ function bp_activity_is_favorite() {
 	function bp_get_activity_is_favorite() {
 		global $activities_template;
 
- 		return apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs ) );
+ 		return (bool) apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs ) );
 	}
 
 /**
@@ -2505,19 +2505,61 @@ function bp_activity_delete_link() {
 	 *         if on single activity page.
 	 */
 	function bp_get_activity_delete_link() {
-		global $activities_template;
 
-		$url   = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . $activities_template->activity->id;
+		$url   = bp_get_activity_delete_url();
 		$class = 'delete-activity';
 
 		// Determine if we're on a single activity page, and customize accordingly
 		if ( bp_is_activity_component() && is_numeric( bp_current_action() ) ) {
-			$url   = add_query_arg( array( 'redirect_to' => wp_get_referer() ), $url );
 			$class = 'delete-activity-single';
 		}
 
-		$link = '<a href="' . wp_nonce_url( $url, 'bp_activity_delete_link' ) . '" class="button item-button bp-secondary-action ' . $class . ' confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
+		$link = '<a href="' . esc_url( $url ) . '" class="button item-button bp-secondary-action ' . $class . ' confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
+
 		return apply_filters( 'bp_get_activity_delete_link', $link );
+	}
+
+/**
+ * Output the URL to delete a single activity stream item
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @uses bp_get_activity_delete_link()
+ */
+function bp_activity_delete_url() {
+	echo esc_url( bp_get_activity_delete_url() );
+}
+	/**
+	 * Return the URL to delete a single activity item
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @uses bp_get_root_domain()
+	 * @uses bp_get_activity_root_slug()
+	 * @uses bp_is_activity_component()
+	 * @uses bp_current_action()
+	 * @uses add_query_arg()
+	 * @uses wp_get_referer()
+	 * @uses wp_nonce_url()
+	 * @uses apply_filters() To call the 'bp_get_activity_delete_link' hook.
+	 *
+	 * @return string $link Activity delete link. Contains $redirect_to arg
+	 *         if on single activity page.
+	 */
+	function bp_get_activity_delete_url() {
+		global $activities_template;
+
+		$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . $activities_template->activity->id );
+
+		// Determine if we're on a single activity page, and customize accordingly
+		if ( bp_is_activity_component() && is_numeric( bp_current_action() ) ) {
+			$url = add_query_arg( array( 'redirect_to' => wp_get_referer() ), $url );
+		}
+
+		$url = wp_nonce_url( $url, 'bp_activity_delete_link' );
+				
+		return apply_filters( 'bp_get_activity_delete_url', $url );
 	}
 
 /**
