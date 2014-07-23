@@ -771,11 +771,13 @@ function bp_core_get_site_path() {
  * @since BuddyPress (1.2.6)
  *
  * @param bool $gmt True to use GMT (rather than local) time. Default: true.
+ * @param string $type See the 'type' parameter in {@link current_time()}.
+          Default: 'mysql'.
  * @return string Current time in 'Y-m-d h:i:s' format.
  */
-function bp_core_current_time( $gmt = true ) {
-	// Get current time in MYSQL format
-	$current_time = current_time( 'mysql', $gmt );
+function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
+	// Get current time
+	$current_time = current_time( $type, $gmt );
 
 	return apply_filters( 'bp_core_current_time', $current_time );
 }
@@ -840,7 +842,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 * a date and the current time. $newer_date will have a value if we want to
 	 * work out time elapsed between two known dates.
 	 */
-	$newer_date = ( !$newer_date ) ? strtotime( bp_core_current_time() ) : $newer_date;
+	$newer_date = ( !$newer_date ) ? bp_core_current_time( true, 'timestamp' ) : $newer_date;
 
 	// Difference in seconds
 	$since = $newer_date - $older_date;

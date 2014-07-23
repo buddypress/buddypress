@@ -345,4 +345,42 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertTrue( buddypress()->foo->has_directory );
 		$this->assertNotEmpty( buddypress()->loaded_components['foo'] );
 	}
+
+	/**
+	 * @group bp_core_time_since
+	 * @group bp_core_current_time
+	 */
+	public function test_bp_core_time_since_timezone_right_now() {
+		// backup timezone
+		$tz_backup = date_default_timezone_get();
+
+		// set timezone to something other than UTC
+		date_default_timezone_set( 'Europe/Paris' );
+
+		$this->assertSame( 'right now', bp_core_time_since( time() ) );
+
+		// revert timezone back to normal
+		if ( $tz_backup ) {
+			date_default_timezone_set( $tz_backup );
+		}
+	}
+
+	/**
+	 * @group bp_core_time_since
+	 * @group bp_core_current_time
+	 */
+	public function test_bp_core_time_since_timezone() {
+		// backup timezone
+		$tz_backup = date_default_timezone_get();
+
+		// set timezone to something other than UTC
+		date_default_timezone_set( 'Europe/Paris' );
+
+		$this->assertSame( '1 hour ago', bp_core_time_since( time() - 60*60 ) );
+
+		// revert timezone back to normal
+		if ( $tz_backup ) {
+			date_default_timezone_set( $tz_backup );
+		}
+	}
 }
