@@ -323,21 +323,6 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 		$field_type_obj->set_whitelist_values( wp_list_pluck( $field->get_children(), 'name' ) );
 	}
 
-	/**
-	 * If the field type is a URL and doesn't appear to contain a scheme,
-	 * we presume it needs http:// appended (unless a relative link starting
-	 * with / or a php file).
-	 */
-	if ( 'url' === $field_type ) {
-		if (   ( strpos( $value, ':'  ) === false )
-			&& ( substr( $value, 0, 1 ) !== '/' )
-			&& ( substr( $value, 0, 1 ) !== '#' )
-			&& ! preg_match( '/^[a-z0-9-]+?\.php/i', $value )
-		) {
-			$value = 'http://' . $value;
-		}
-	}
-
 	// Check the value is in an accepted format for this form field.
 	if ( ! $field_type_obj->is_valid( $value ) ) {
 		return false;
