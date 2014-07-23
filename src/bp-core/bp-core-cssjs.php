@@ -83,10 +83,42 @@ function bp_core_add_cropper_inline_js() {
 	}
 
 	// Default cropper coordinates
-	$crop_left   = round( $image[0] / 4 );
-	$crop_top    = round( $image[1] / 4 );
-	$crop_right  = $image[0] - $crop_left;
-	$crop_bottom = $image[1] - $crop_top; ?>
+
+	// Smaller than full-width: cropper defaults to entire image
+	if ( $image[0] < $full_width ) {
+		$crop_left  = 0;
+		$crop_right = $image[0];
+
+	// Less than 2x full-width: cropper defaults to full-width
+	} else if ( $image[0] < ( $full_width * 2 ) ) {
+		$padding_w  = round( ( $image[0] - $full_width ) / 2 );
+		$crop_left  = $padding_w;
+		$crop_right = $image[0] - $padding_w;
+
+	// Larger than 2x full-width: cropper defaults to 1/2 image width
+	} else {
+		$crop_left  = round( $image[0] / 4 );
+		$crop_right = $image[0] - $crop_left;
+	}
+
+	// Smaller than full-height: cropper defaults to entire image
+	if ( $image[1] < $full_height ) {
+		$crop_top    = 0;
+		$crop_bottom = $image[1];
+
+	// Less than double full-height: cropper defaults to full-height
+	} else if ( $image[1] < ( $full_height * 2 ) ) {
+		$padding_h   = round( ( $image[1] - $full_height ) / 2 );
+		$crop_top    = $padding_h;
+		$crop_bottom = $image[1] - $padding_h;
+
+	// Larger than 2x full-height: cropper defaults to 1/2 image height
+	} else {
+		$crop_top    = round( $image[1] / 4 );
+		$crop_bottom = $image[1] - $crop_top;
+	}
+
+	?>
 
 	<script type="text/javascript">
 		jQuery(window).load( function(){

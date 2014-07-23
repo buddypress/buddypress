@@ -670,6 +670,15 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		return false;
 	}
 
+	// If the uploaded image is smaller than the "full" dimensions, throw
+	// a warning
+	$uploaded_image = @getimagesize( bp_core_avatar_upload_path() . buddypress()->avatar_admin->image->dir );
+	$full_width     = bp_core_avatar_full_width();
+	$full_height    = bp_core_avatar_full_height();
+	if ( isset( $uploaded_image[0] ) && $uploaded_image[0] < $full_width || $uploaded_image[1] < $full_height ) {
+		bp_core_add_message( sprintf( __( 'You have selected an image that is smaller than recommended. For best results, upload a picture larger than %d x %d pixels.', 'buddypress' ), $full_width, $full_height ), 'error' );
+	}
+
 	// Set the url value for the image
 	$bp->avatar_admin->image->url = bp_core_avatar_url() . $bp->avatar_admin->image->dir;
 
