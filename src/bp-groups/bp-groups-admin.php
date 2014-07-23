@@ -560,8 +560,9 @@ function bp_groups_admin_edit() {
  */
 function bp_groups_admin_delete() {
 
-	if ( ! is_super_admin() )
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		die( '-1' );
+	}
 
 	$group_ids = isset( $_REQUEST['gid'] ) ? $_REQUEST['gid'] : 0;
 	if ( ! is_array( $group_ids ) ) {
