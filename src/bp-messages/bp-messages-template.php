@@ -1572,6 +1572,31 @@ function bp_the_thread_message_alt_class() {
 	}
 
 /**
+ * Output the ID for message sender within a single thread
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_the_thread_message_sender_id() {
+	echo bp_get_the_thread_message_sender_id();
+}
+	/**
+	 * Return the ID for message sender within a single thread
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_thread_message_sender_id() {
+		global $thread_template;
+
+		$user_id = ! empty( $thread_template->message->sender_id )
+			? $thread_template->message->sender_id
+			: 0;
+
+		return (int) apply_filters( 'bp_get_the_thread_message_css_class', (int) $user_id );
+	}
+
+/**
  * Output the avatar for the current message sender.
  *
  * @param array $args See {@link bp_get_the_thread_message_sender_avatar_thumb()}
