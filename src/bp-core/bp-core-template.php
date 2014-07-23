@@ -2461,6 +2461,67 @@ function bp_the_body_class() {
 	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 );
 
 /**
+ * Customizes the post CSS class according to BuddyPress content.
+ *
+ * Hooked to the 'post_class' filter.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param array $wp_classes The post classes coming from WordPress.
+ * @return array
+ */
+function bp_get_the_post_class( $wp_classes = array() ) {
+	// don't do anything if we're not on a BP page
+	if ( ! is_buddypress() ) {
+		return $wp_classes;
+	}
+
+	$bp_classes = array();
+
+	if ( bp_is_user() || bp_is_single_activity() ) {
+		$bp_classes[] = 'bp_members';
+
+	} elseif ( bp_is_group() ) {
+		$bp_classes[] = 'bp_group';
+
+	} elseif ( bp_is_activity_component() ) {
+		$bp_classes[] = 'bp_activity';
+
+	} elseif ( bp_is_blogs_component() ) {
+		$bp_classes[] = 'bp_blogs';
+
+	} elseif ( bp_is_register_page() ) {
+		$bp_classes[] = 'bp_register';
+
+	} elseif ( bp_is_activation_page() ) {
+		$bp_classes[] = 'bp_activate';
+
+	} elseif ( bp_is_forums_component() && bp_is_directory() ) {
+		$bp_classes[] = 'bp_forum';
+	}
+
+	if ( empty( $bp_classes ) ) {
+		return $wp_classes;
+	}
+
+	// emulate post type css class
+	foreach ( $bp_classes as $bp_class ) {
+		$bp_classes[] = "type-{$bp_class}";
+	}
+
+	// removes the 'page' and 'type-page' post classes
+	// we need to remove these classes since they did not exist before we switched
+	// theme compat to use the 'page' post type
+	$page_key      = array_search( 'page',      $wp_classes );
+	$page_type_key = array_search( 'type-page', $wp_classes );
+	unset( $wp_classes[$page_key], $wp_classes[$page_type_key] );
+
+	// okay let's merge!
+	return array_unique( array_merge( $bp_classes, $wp_classes ) );
+}
+add_filter( 'post_class', 'bp_get_the_post_class' );
+
+/**
  * Sort BuddyPress nav menu items by their position property.
  *
  * This is an internal convenience function and it will probably be removed in
