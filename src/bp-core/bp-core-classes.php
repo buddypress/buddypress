@@ -30,6 +30,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *     @type string|bool $search_terms Terms to search by. Search happens
  *           across xprofile fields. Requires XProfile component.
  *           Default: false.
+ *     @type string $search_wildcard When searching with $search_terms,
+ *           set where wildcards around the term should be positioned.
+ *           Default: 'both'. Other values: 'left', 'right'.
  *     @type array|string|bool $include An array or comma-separated list of
  *           user IDs to which query should be limited.
  *           Default: false.
@@ -153,6 +156,7 @@ class BP_User_Query {
 				'page'            => 1,
 				'user_id'         => 0,
 				'search_terms'    => false,
+				'search_wildcard' => 'both',
 				'include'         => false,
 				'exclude'         => false,
 				'user_ids'        => false,
@@ -364,7 +368,16 @@ class BP_User_Query {
 		// 'search_terms' searches user_login and user_nicename
 		// xprofile field matches happen in bp_xprofile_bp_user_query_search()
 		if ( false !== $search_terms ) {
-			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+			$search_terms_like = bp_esc_like( $search_terms );
+
+			if ( $search_wildcard === 'left' ) {
+				$search_terms_like = '%' . $search_terms_like;
+			} elseif ( $search_wildcard === 'right' ) {
+				$search_terms_like = $search_terms_like . '%';
+			} else {
+				$search_terms_like = '%' . $search_terms_like . '%';
+			}
+
 			$sql['where']['search'] = $wpdb->prepare( "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE %s OR user_nicename LIKE %s ) )", $search_terms_like, $search_terms_like );
 		}
 

@@ -219,6 +219,40 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$this->assertEquals( $user_id, $found_user_id );
 	}
+
+	public function test_bp_user_query_search_wildcards() {
+		$u1 = $this->create_user( array(
+			'user_login' => 'xfoo',
+		) );
+		xprofile_set_field_data( 1, $u1, "Bar" );
+		$q1 = new BP_User_Query( array( 'search_terms' => 'foo', 'search_wildcard' => 'left' ) );
+
+		$u2 = $this->create_user( array(
+			'user_login' => 'foox',
+		) );
+		xprofile_set_field_data( 1, $u2, "Bar" );
+		$q2 = new BP_User_Query( array( 'search_terms' => 'foo', 'search_wildcard' => 'right' ) );
+
+		$u3 = $this->create_user( array(
+			'user_login' => 'xfoox',
+		) );
+		xprofile_set_field_data( 1, $u3, "Bar" );
+		$q3 = new BP_User_Query( array( 'search_terms' => 'foo', 'search_wildcard' => 'both' ) );
+
+		$this->assertNotEmpty( $q1->results );
+		$q1 = array_pop( $q1->results );
+		$this->assertEquals( $u1, $q1->ID );
+
+		$this->assertNotEmpty( $q2->results );
+		$q2 = array_pop( $q2->results );
+		$this->assertEquals( $u2, $q2->ID );
+
+		$this->assertNotEmpty( $q3->results );
+		foreach ( $q3->results as $user ) {
+			$this->assertTrue( in_array( $user->ID, array( $u1, $u2, $u3 ) ) );
+		}
+	}
+
 	/**
 	 * @group exclude
 	 */

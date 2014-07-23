@@ -595,10 +595,18 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 
 	$search_terms_clean = esc_sql( esc_sql( $query->query_vars['search_terms'] ) );
 
+	if ( $query->query_vars['search_wildcard'] === 'left' ) {
+		$search_terms_clean = '%' . $search_terms_clean;
+	} elseif ( $query->query_vars['search_wildcard'] === 'right' ) {
+		$search_terms_clean = $search_terms_clean . '%';
+	} else {
+		$search_terms_clean = '%' . $search_terms_clean . '%';
+	}
+
 	// Combine the core search (against wp_users) into a single OR clause
 	// with the xprofile_data search
 	$search_core     = $sql['where']['search'];
-	$search_xprofile = "u.{$query->uid_name} IN ( SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE '%{$search_terms_clean}%' )";
+	$search_xprofile = "u.{$query->uid_name} IN ( SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE '{$search_terms_clean}' )";
 	$search_combined = "( {$search_xprofile} OR {$search_core} )";
 
 	$sql['where']['search'] = $search_combined;
