@@ -1043,27 +1043,6 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 }
 
 /**
- * Output the base URL for subdomain installations of WordPress Multisite.
- *
- * @since BuddyPress (1.6.0)
- */
-function bp_blogs_subdomain_base() {
-	echo bp_blogs_get_subdomain_base();
-}
-	/**
-	 * Return the base URL for subdomain installations of WordPress Multisite.
-	 *
-	 * @since BuddyPress (1.6.0)
-	 *
-	 * @return string The base URL - eg, 'example.com' for site_url() example.com or www.example.com.
-	 */
-	function bp_blogs_get_subdomain_base() {
-		global $current_site;
-
-		return apply_filters( 'bp_blogs_subdomain_base', preg_replace( '|^www\.|', '', $current_site->domain ) . $current_site->path );
-	}
-
-/**
  * Process a blog registration submission.
  *
  * Passes submitted values to {@link wpmu_create_blog()}.

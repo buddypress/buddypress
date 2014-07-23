@@ -570,3 +570,29 @@ function bp_notifications_buddybar_menu() {
 	echo '</li>';
 }
 add_action( 'bp_adminbar_menus', 'bp_adminbar_notifications_menu', 8 );
+
+/**
+ * Output the base URL for subdomain installations of WordPress Multisite.
+ *
+ * @since BuddyPress (1.6.0)
+ *
+ * @deprecated BuddyPress (2.1.0)
+ */
+function bp_blogs_subdomain_base() {
+	_deprecated_function( __FUNCTION__, '2.1', 'bp_signup_subdomain_base()' );
+	echo bp_signup_get_subdomain_base();
+}
+
+/**
+ * Return the base URL for subdomain installations of WordPress Multisite.
+ *
+ * @since BuddyPress (1.6.0)
+ *
+ * @return string The base URL - eg, 'example.com' for site_url() example.com or www.example.com.
+ *
+ * @deprecated BuddyPress (2.1.0)
+ */
+function bp_blogs_get_subdomain_base() {
+	_deprecated_function( __FUNCTION__, '2.1', 'bp_signup_get_subdomain_base()' );
+	return bp_signup_get_subdomain_base();
+}

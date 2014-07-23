@@ -1573,6 +1573,32 @@ function bp_signup_blog_url_value() {
 	}
 
 /**
+ * Output the base URL for subdomain installations of WordPress Multisite.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_signup_subdomain_base() {
+	echo bp_signup_get_subdomain_base();
+}
+	/**
+	 * Return the base URL for subdomain installations of WordPress Multisite.
+	 *
+	 * Replaces bp_blogs_get_subdomain_base()
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return string The base URL - eg, 'example.com' for site_url() example.com or www.example.com.
+	 */
+	function bp_signup_get_subdomain_base() {
+		global $current_site;
+
+		// In case plugins are still using this filter
+		$subdomain_base = apply_filters( 'bp_blogs_subdomain_base', preg_replace( '|^www\.|', '', $current_site->domain ) . $current_site->path );
+
+		return apply_filters( 'bp_signup_subdomain_base', $subdomain_base );
+	}
+
+/**
  * Output the 'signup_blog_titl' value submitted at signup.
  */
 function bp_signup_blog_title_value() {
