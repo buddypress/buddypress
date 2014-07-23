@@ -293,14 +293,28 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	if ( empty( $field_id ) )
 		return false;
 
+	$field          = new BP_XProfile_Field( $field_id );
+	$field_type     = BP_XProfile_Field::get_type( $field_id );
+	$field_type_obj = bp_xprofile_create_field_type( $field_type );
+
+	/**
+	 * Filter the raw submitted profile field value.
+	 *
+	 * Use this filter to modify the values submitted by users before
+	 * doing field-type-specific validation.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param mixed $value Value passed to xprofile_set_field_data()
+	 * @param BP_XProfile_Field $field Field object.
+	 * @param BP_XProfile_Field_Type $field_type_obj Field type object.
+	 */
+	$value = apply_filters( 'bp_xprofile_set_field_data_pre_validate', $value, $field, $field_type_obj );
+
 	// Special-case support for integer 0 for the number field type
 	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) {
 		return false;
 	}
-
-	$field          = new BP_XProfile_Field( $field_id );
-	$field_type     = BP_XProfile_Field::get_type( $field_id );
-	$field_type_obj = bp_xprofile_create_field_type( $field_type );
 
 	/**
 	 * Certain types of fields (checkboxes, multiselects) may come through empty.

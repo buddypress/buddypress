@@ -51,6 +51,7 @@ add_filter( 'xprofile_field_description_before_save',   'force_balance_tags' );
 add_filter( 'xprofile_get_field_data',                  'stripslashes' );
 add_filter( 'xprofile_get_field_data',                  'xprofile_filter_format_field_value_by_field_id', 5, 2 );
 
+add_filter( 'bp_xprofile_set_field_data_pre_validate',  'xprofile_filter_pre_validate_value_by_field_type', 10, 3 );
 add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 4 );
 add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
 
@@ -175,6 +176,25 @@ function xprofile_filter_format_field_value_by_type( $field_value, $field_type =
 function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id ) {
 	$field = new BP_XProfile_Field( $field_id );
 	return xprofile_filter_format_field_value_by_type( $field_value, $field->type );
+}
+
+/**
+ * Apply pre_validate_filter() filters as defined by the BP_XProfile_Field_Type classes before validating.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param mixed $value Value passed to the bp_xprofile_set_field_data_pre_validate
+ *        filter.
+ * @param BP_XProfile_Field $field Field object.
+ * @param BP_XProfile_Field_Type Field type object.
+ * @return mixed
+ */
+function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $field_type_obj ) {
+	if ( method_exists( $field_type_obj, 'pre_validate_filter' ) ) {
+		$value = call_user_func( array( $field_type_obj, 'pre_validate_filter' ), $value );
+	}
+
+	return $value;
 }
 
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
