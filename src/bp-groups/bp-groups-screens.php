@@ -646,9 +646,9 @@ function groups_screen_group_admin_avatar() {
 		check_admin_referer( 'bp_group_avatar_delete' );
 
 		if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group' ) ) ) {
-			bp_core_add_message( __( 'Your avatar was deleted successfully!', 'buddypress' ) );
+			bp_core_add_message( __( 'The group profile photo was deleted successfully!', 'buddypress' ) );
 		} else {
-			bp_core_add_message( __( 'There was a problem deleting that avatar; please try again.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was a problem deleting the group profile photo; please try again.', 'buddypress' ), 'error' );
 		}
 	}
 
@@ -691,9 +691,9 @@ function groups_screen_group_admin_avatar() {
 		);
 
 		if ( !bp_core_avatar_handle_crop( $args ) ) {
-			bp_core_add_message( __( 'There was a problem cropping the avatar.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was a problem cropping the group profile photo.', 'buddypress' ), 'error' );
 		} else {
-			bp_core_add_message( __( 'The new group avatar was uploaded successfully.', 'buddypress' ) );
+			bp_core_add_message( __( 'The new group profile photo was uploaded successfully.', 'buddypress' ) );
 		}
 	}
 
