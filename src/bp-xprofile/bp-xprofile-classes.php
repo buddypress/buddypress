@@ -2693,13 +2693,12 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
 
 	/**
-	 * Format Date values for display.
+	 * Format URL values for display.
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
-	 * @param string $field_value The date value, as saved in the database.
-	 *        Typically, this is a MySQL-formatted date string (Y-m-d H:i:s).
-	 * @return string Date formatted by bp_format_time().
+	 * @param string $field_value The URL value, as saved in the database.
+	 * @return string URL converted to a link.
 	 */
 	public static function display_filter( $field_value ) {
 		$link      = strip_tags( $field_value );
