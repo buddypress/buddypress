@@ -300,7 +300,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// Get a fallback for the 'alt' parameter
 	if ( empty( $alt ) )
-		$alt = __( 'Avatar Image', 'buddypress' );
+		$alt = __( 'Profile Photo', 'buddypress' );
 
 	$html_alt = ' alt="' . esc_attr( $alt ) . '"';
 
@@ -853,7 +853,7 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 
 	// Image alt tag
 	if ( empty( $alt ) ) {
-		$alt = sprintf( __( 'Avatar of %s', 'buddypress' ), bp_core_get_user_displayname( $id ) );
+		$alt = sprintf( __( 'Profile photo of %s', 'buddypress' ), bp_core_get_user_displayname( $id ) );
 	}
 
 	// Use the 'thumb' type, unless the requested width is bigger than

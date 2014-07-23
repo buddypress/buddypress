@@ -24,7 +24,7 @@ function xprofile_register_activity_actions() {
 		'new_avatar',
 		__( 'Member changed profile picture', 'buddypress' ),
 		'bp_xprofile_format_activity_action_new_avatar',
-		__( 'Updated Avatars', 'buddypress' )
+		__( 'Updated Profile Photos', 'buddypress' )
 	);
 
 	bp_activity_set_action(

@@ -396,7 +396,7 @@ class BP_Admin {
 
 		if ( ! empty( $avatar_setting ) ) {
 		    // Allow avatar uploads
-		    add_settings_field( 'bp-disable-avatar-uploads', __( 'Avatar Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', $avatar_setting );
+		    add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', $avatar_setting );
 		    register_setting  ( 'buddypress',         'bp-disable-avatar-uploads',   'intval'                                                                                    );
 		}
 	}

@@ -154,12 +154,12 @@
 
 				<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
 
-					<h4><?php _e( 'Crop Group Avatar', 'buddypress' ); ?></h4>
+					<h4><?php _e( 'Crop Group Profile Photo', 'buddypress' ); ?></h4>
 
-					<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Avatar to crop', 'buddypress' ); ?>" />
+					<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Profile photo to crop', 'buddypress' ); ?>" />
 
 					<div id="avatar-crop-pane">
-						<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-crop-preview" class="avatar" alt="<?php esc_attr_e( 'Avatar preview', 'buddypress' ); ?>" />
+						<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-crop-preview" class="avatar" alt="<?php esc_attr_e( 'Profile photo preview', 'buddypress' ); ?>" />
 					</div>
 
 					<input type="submit" name="avatar-crop-submit" id="avatar-crop-submit" value="<?php esc_attr_e( 'Crop Image', 'buddypress' ); ?>" />

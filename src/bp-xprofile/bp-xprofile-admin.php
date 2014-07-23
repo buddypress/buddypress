@@ -583,7 +583,7 @@ class BP_XProfile_User_Admin {
 		// Avatar Metabox
 		add_meta_box(
 			'bp_xprofile_user_admin_avatar',
-			_x( 'Avatar', 'xprofile user-admin edit screen', 'buddypress' ),
+			_x( 'Profile Photo', 'xprofile user-admin edit screen', 'buddypress' ),
 			array( $this, 'user_admin_avatar_metabox' ),
 			$screen_id,
 			'side',
@@ -843,7 +843,7 @@ class BP_XProfile_User_Admin {
 				$community_url = add_query_arg( $query_args, buddypress()->members->admin->edit_profile_url );
 				$delete_link   = wp_nonce_url( $community_url, 'delete_avatar' ); ?>
 
-				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Avatar', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Avatar', 'buddypress' ); ?></a></li>
+				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a></li>
 
 			<?php endif; ?>
 

@@ -1690,7 +1690,7 @@ function bp_signup_avatar( $args = '' ) {
 		$defaults = array(
 			'size' => bp_core_avatar_full_width(),
 			'class' => 'avatar',
-			'alt' => __( 'Your Avatar', 'buddypress' )
+			'alt' => __( 'Your Profile Photo', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );

@@ -255,7 +255,7 @@ class BP_Groups_Component extends BP_Component {
 		// If avatar uploads are not disabled, add avatar option
 		if ( ! (int) buddypress()->site_options['bp-disable-avatar-uploads'] ) {
 			$this->group_creation_steps['group-avatar'] = array(
-				'name'     => __( 'Avatar',   'buddypress' ),
+				'name'     => __( 'Profile Photo',   'buddypress' ),
 				'position' => 20
 			);
 		}
@@ -584,11 +584,11 @@ class BP_Groups_Component extends BP_Component {
 					'object'     => 'group',
 					'type'       => 'thumb',
 					'avatar_dir' => 'group-avatars',
-					'alt'        => __( 'Group Avatar', 'buddypress' )
+					'alt'        => __( 'Group Profile Photo', 'buddypress' )
 				) );
 
 				if ( empty( $bp->bp_options_avatar ) ) {
-					$bp->bp_options_avatar = '<img src="' . esc_url( bp_core_avatar_default_thumb() ) . '" alt="' . esc_attr__( 'No Group Avatar', 'buddypress' ) . '" class="avatar" />';
+					$bp->bp_options_avatar = '<img src="' . esc_url( bp_core_avatar_default_thumb() ) . '" alt="' . esc_attr__( 'No Group Profile Photo', 'buddypress' ) . '" class="avatar" />';
 				}
 			}
 		}

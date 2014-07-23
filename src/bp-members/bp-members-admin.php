@@ -278,7 +278,7 @@ class BP_Members_Admin {
 			case 'avatar':
 				$notice = array(
 					'class'   => 'updated',
-					'message' => __( 'Avatar was deleted successfully!', 'buddypress' )
+					'message' => __( 'Profile photo was deleted.', 'buddypress' )
 				);
 				break;
 			case 'ham' :

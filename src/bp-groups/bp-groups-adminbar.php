@@ -61,7 +61,7 @@ function bp_groups_group_admin_menu() {
 		$wp_admin_bar->add_menu( array(
 			'parent' => $bp->group_admin_menu_id,
 			'id'     => 'group-avatar',
-			'title'  => __( 'Edit Avatar', 'buddypress' ),
+			'title'  => __( 'Edit Profile Photo', 'buddypress' ),
 			'href'   =>  bp_get_groups_action_link( 'admin/group-avatar' )
 		) );
 	}

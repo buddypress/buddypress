@@ -389,7 +389,7 @@ function bp_groups_adminbar_admin_menu() {
 
 			<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
-				<li><a href="<?php bp_groups_action_link( 'admin/group-avatar' ); ?>"><?php _e( 'Group Avatar', 'buddypress' ); ?></a></li>
+				<li><a href="<?php bp_groups_action_link( 'admin/group-avatar' ); ?>"><?php _e( 'Group Profile Photo', 'buddypress' ); ?></a></li>
 
 			<?php endif; ?>
 
@@ -512,7 +512,7 @@ function bp_members_adminbar_admin_menu() {
 
 			<?php endif ?>
 
-			<li><a href="<?php bp_members_component_link( 'profile', 'change-avatar' ); ?>"><?php printf( __( "Edit %s's Avatar", 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) ) ?></a></li>
+			<li><a href="<?php bp_members_component_link( 'profile', 'change-avatar' ); ?>"><?php printf( __( "Edit %s's Profile Photo", 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) ) ?></a></li>
 
 			<li><a href="<?php bp_members_component_link( 'settings', 'capabilities' ); ?>"><?php _e( 'User Capabilities', 'buddypress' ); ?></a></li>
 
