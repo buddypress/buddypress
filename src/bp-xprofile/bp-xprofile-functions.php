@@ -488,7 +488,6 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
  * @package BuddyPress Core
  * @param string $field_type The type of field: datebox, selectbox, textbox etc
  * @param string $field_value The actual value
- * @uses bp_format_time() Formats a time value based on the WordPress date format setting
  * @return string|bool The formatted value, or false if value is empty
  */
 function xprofile_format_profile_field( $field_type, $field_value ) {
@@ -497,14 +496,12 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 
 	$field_value = bp_unserialize_profile_field( $field_value );
 
-	if ( 'datebox' == $field_type ) {
-		$field_value = bp_format_time( $field_value, true );
-	} else {
+	if ( 'datebox' != $field_type ) {
 		$content = $field_value;
 		$field_value = str_replace( ']]>', ']]&gt;', $content );
 	}
 
-	return stripslashes_deep( $field_value );
+	return xprofile_filter_format_field_value_by_type( stripslashes_deep( $field_value ), $field_type );
 }
 
 function xprofile_update_field_position( $field_id, $position, $field_group_id ) {
