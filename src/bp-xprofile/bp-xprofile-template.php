@@ -589,13 +589,45 @@ function bp_profile_field_data( $args = '' ) {
 		return apply_filters( 'bp_get_profile_field_data', xprofile_get_field_data( $field, $user_id ) );
 	}
 
-function bp_profile_group_tabs() {
-	global $bp, $group_name;
+/**
+ * Get all profile field groups.
+ *
+ * @since  BuddyPress (2.1.0)
+ *
+ * @return object $groups
+ */
+function bp_profile_get_field_groups() {
+	$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' );
 
-	if ( !$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' ) ) {
+	if ( empty( $groups ) ) {
 		$groups = BP_XProfile_Group::get( array( 'fetch_fields' => true ) );
 		wp_cache_set( 'xprofile_groups_inc_empty', $groups, 'bp' );
 	}
+
+	return apply_filters( 'bp_profile_get_field_groups', $groups );
+}
+
+/**
+ * Check if there is more than one group of fields for the profile being edited.
+ *
+ * @since  BuddyPress (2.1.0)
+ *
+ * @return bool True if there is more than one profile field group.
+ */
+function bp_profile_has_multiple_groups() {
+	$has_multiple_groups = count( (array) bp_profile_get_field_groups() ) > 1;
+	return (bool) apply_filters( 'bp_profile_has_multiple_groups', $has_multiple_groups );
+}
+
+/**
+ * Output the tabs to switch between profile field groups.
+ *
+ * @return string Field group tabs markup.
+ */
+function bp_profile_group_tabs() {
+	global $bp, $group_name;
+
+	$groups = bp_profile_get_field_groups();
 
 	if ( empty( $group_name ) )
 		$group_name = bp_profile_group_name(false);
