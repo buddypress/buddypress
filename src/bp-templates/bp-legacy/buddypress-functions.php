@@ -253,6 +253,21 @@ class BP_Legacy extends BP_Theme_Compat {
 		if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
 		}
+
+		// Maybe enqueue password verify JS (register page or user settings page)
+		if ( bp_is_register_page() || ( function_exists( 'bp_is_user_settings_general' ) && bp_is_user_settings_general() ) ) {
+			$min      = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			$filename = "password-verify{$min}.js";
+
+			// Locate the Register Page JS file
+			$asset = $this->locate_asset_in_stack( $filename, 'js' );
+
+			// Enqueue script
+			$dependencies = array_merge( bp_core_get_js_dependencies(), array(
+				'password-strength-meter',
+			) );
+			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version);
+		}
 	}
 
 	/**

@@ -39,11 +39,12 @@
 
 				<label for="signup_password"><?php _e( 'Choose a Password', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 				<?php do_action( 'bp_signup_password_errors' ); ?>
-				<input type="password" name="signup_password" id="signup_password" value="" />
+				<input type="password" name="signup_password" id="signup_password" value="" class="password-entry" />
+				<div id="pass-strength-result"></div>
 
 				<label for="signup_password_confirm"><?php _e( 'Confirm Password', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 				<?php do_action( 'bp_signup_password_confirm_errors' ); ?>
-				<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" />
+				<input type="password" name="signup_password_confirm" id="signup_password_confirm" value="" class="password-entry-confirm" />
 
 				<?php do_action( 'bp_account_details_fields' ); ?>
 

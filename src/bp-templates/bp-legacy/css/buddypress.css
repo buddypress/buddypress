@@ -530,6 +530,41 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	border: 1px solid #591;
 	color: #250;
 }
+#buddypress #pass-strength-result {
+	background-color: #eee;
+	border-color: #ddd;
+	border-style: solid;
+	border-width: 1px;
+	display: none;
+	margin: 5px 5px 5px 0;
+	padding: 5px;
+	text-align: center;
+	width: 150px;
+}
+#buddypress .standard-form #basic-details-section #pass-strength-result {
+	width: 35%;
+}
+#buddypress #pass-strength-result.error,
+#buddypress #pass-strength-result.bad {
+	background-color: #ffb78c;
+	border-color: #ff853c !important;
+	display: block;
+}
+#buddypress #pass-strength-result.good {
+	background-color: #ffec8b;
+	border-color: #fc0 !important;
+	display: block;
+}
+#buddypress #pass-strength-result.short {
+	background-color: #ffa0a0;
+	border-color: #f04040 !important;
+	display: block;
+}
+#buddypress #pass-strength-result.strong {
+	background-color: #c3ff88;
+	border-color: #8dff1c !important;
+	display: block;
+}
 #buddypress .standard-form#signup_form div div.error {
 	background: #faa;
 	color: #a00;
