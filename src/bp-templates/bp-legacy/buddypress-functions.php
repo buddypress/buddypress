@@ -1400,7 +1400,7 @@ function bp_legacy_theme_ajax_messages_delete() {
 function bp_legacy_theme_ajax_messages_autocomplete_results() {
 	$limit = isset( $_GET['limit'] ) ? absint( $_GET['limit'] )          : (int) apply_filters( 'bp_autocomplete_max_results', 10 );
 	$term  = isset( $_GET['q'] )     ? sanitize_text_field( $_GET['q'] ) : '';
-	
+
 	// Include everyone in the autocomplete, or just friends?
 	if ( bp_is_current_component( bp_get_messages_slug() ) ) {
 		$only_friends = ( buddypress()->messages->autocomplete_all === false );
