@@ -1700,9 +1700,29 @@ function bp_the_thread_message_time_since() {
 	 * @return string
 	 */
 	function bp_get_the_thread_message_time_since() {
+		return apply_filters( 'bp_get_the_thread_message_time_since', sprintf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_get_the_thread_message_date_sent() ) ) );
+	}
+
+/**
+ * Output the timestamp for the current message.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_the_thread_message_date_sent() {
+	echo bp_get_the_thread_message_date_sent();
+}
+	/**
+	 * Generate the 'Sent x hours ago' string for the current message.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @uses strtotime() To convert the message string into a usable timestamp
+	 * @return int
+	 */
+	function bp_get_the_thread_message_date_sent() {
 		global $thread_template;
 
-		return apply_filters( 'bp_get_the_thread_message_time_since', sprintf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( strtotime( $thread_template->message->date_sent ) ) ) );
+		return apply_filters( 'bp_get_the_thread_message_date_sent', strtotime( $thread_template->message->date_sent ) );
 	}
 
 /**
