@@ -377,7 +377,12 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		// Create an existing entry in last_activity to test no dupes
 		global $wpdb, $bp;
-		$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->members->table_name_last_activity} (`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) VALUES ( %d, %s, %s, %s, %s, %s, %d, %s )", $u2, $bp->members->id, 'last_activity', '', '', 0, $t1 ) );
+		$wpdb->query( $wpdb->prepare(
+			"INSERT INTO {$bp->members->table_name_last_activity}
+				(`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) VALUES
+				( %d, %s, %s, %s, %s, %s, %d, %s )",
+			$u2, $bp->members->id, 'last_activity', '', '', '', 0, $t1
+		) );
 
 		bp_last_activity_migrate();
 
