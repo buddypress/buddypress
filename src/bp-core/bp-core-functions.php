@@ -704,13 +704,14 @@ function bp_core_get_root_domain() {
  * @param int $status Optional. The numeric code to give in the redirect
  *        headers. Default: 302.
  */
-function bp_core_redirect( $location, $status = 302 ) {
+function bp_core_redirect( $location = '', $status = 302 ) {
 
 	// On some setups, passing the value of wp_get_referer() may result in an
 	// empty value for $location, which results in an error. Ensure that we
 	// have a valid URL.
-	if ( empty( $location ) )
+	if ( empty( $location ) ) {
 		$location = bp_get_root_domain();
+	}
 
 	// Make sure we don't call status_header() in bp_core_do_catch_uri() as this
 	// conflicts with wp_redirect() and wp_safe_redirect().
@@ -741,23 +742,24 @@ function bp_core_referrer() {
 function bp_core_get_site_path() {
 	global $current_site;
 
-	if ( is_multisite() )
+	if ( is_multisite() ) {
 		$site_path = $current_site->path;
-	else {
+	} else {
 		$site_path = (array) explode( '/', home_url() );
 
-		if ( count( $site_path ) < 2 )
+		if ( count( $site_path ) < 2 ) {
 			$site_path = '/';
-		else {
+		} else {
 			// Unset the first three segments (http(s)://domain.com part)
 			unset( $site_path[0] );
 			unset( $site_path[1] );
 			unset( $site_path[2] );
 
-			if ( !count( $site_path ) )
+			if ( !count( $site_path ) ) {
 				$site_path = '/';
-			else
+			} else {
 				$site_path = '/' . implode( '/', $site_path ) . '/';
+			}
 		}
 	}
 
@@ -777,10 +779,7 @@ function bp_core_get_site_path() {
  * @return string Current time in 'Y-m-d h:i:s' format.
  */
 function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
-	// Get current time
-	$current_time = current_time( $type, $gmt );
-
-	return apply_filters( 'bp_core_current_time', $current_time );
+	return apply_filters( 'bp_core_current_time', current_time( $type, $gmt ) );
 }
 
 /**
@@ -812,7 +811,8 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
 	// Use this filter to bypass BuddyPress's time_since calculations
-	if ( $pre_value = apply_filters( 'bp_core_time_since_pre', false, $older_date, $newer_date ) ) {
+	$pre_value = apply_filters( 'bp_core_time_since_pre', false, $older_date, $newer_date );
+	if ( false !== $pre_value ) {
 		return $pre_value;
 	}
 
