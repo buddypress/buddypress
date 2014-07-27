@@ -146,11 +146,12 @@ function bp_alpha_sort_by_key( $items, $key ) {
  * @param bool $decimals Whether to use decimals. See {@link number_format_i18n()}.
  * @return string The formatted number.
  */
-function bp_core_number_format( $number, $decimals = false ) {
+function bp_core_number_format( $number = 0, $decimals = false ) {
 
 	// Force number to 0 if needed
-	if ( empty( $number ) )
+	if ( ! is_numeric( $number ) ) {
 		$number = 0;
+	}
 
 	return apply_filters( 'bp_core_number_format', number_format_i18n( $number, $decimals ), $number, $decimals );
 }
