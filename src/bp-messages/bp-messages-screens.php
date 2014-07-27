@@ -103,13 +103,15 @@ function messages_screen_compose() {
 function messages_screen_conversation() {
 
 	// Bail if not viewing a single message
-	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) )
+	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) ) {
 		return false;
+	}
 
 	$thread_id = (int) bp_action_variable( 0 );
 
-	if ( empty( $thread_id ) || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !bp_current_user_can( 'bp_moderate' ) ) )
+	if ( empty( $thread_id ) || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !bp_current_user_can( 'bp_moderate' ) ) ) {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
+	}
 
 	// Load up BuddyPress one time
 	$bp = buddypress();
@@ -131,8 +133,9 @@ add_action( 'bp_screens', 'messages_screen_conversation' );
 function messages_screen_notices() {
 	global $notice_id;
 
-	if ( !bp_current_user_can( 'bp_moderate' ) )
+	if ( !bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
+	}
 
 	$notice_id = (int)bp_action_variable( 1 );
 
@@ -180,8 +183,9 @@ function messages_screen_notification_settings() {
 		return;
 	}
 
-	if ( !$new_messages = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_message', true ) )
-		$new_messages = 'yes'; ?>
+	if ( !$new_messages = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_message', true ) ) {
+		$new_messages = 'yes';
+	} ?>
 
 	<table class="notification-settings" id="messages-notification-settings">
 		<thead>
