@@ -1635,24 +1635,41 @@ function bp_insert_activity_meta( $content ) {
 function bp_activity_user_can_delete( $activity = false ) {
 	global $activities_template;
 
-	if ( !$activity )
+	// Try to use current activity if none was passed
+	if ( empty( $activity ) && ! empty( $activities_template->activity ) ) {
 		$activity = $activities_template->activity;
+	}
 
-	if ( isset( $activity->current_comment ) )
+	// If current_comment is set, we'll use that in place of the main activity
+	if ( isset( $activity->current_comment ) ) {
 		$activity = $activity->current_comment;
+	}
 
+	// Assume the user cannot delete the activity item
 	$can_delete = false;
 
-	if ( bp_current_user_can( 'bp_moderate' ) )
-		$can_delete = true;
+	// Only logged in users can delete activity
+	if ( is_user_logged_in() ) {
 
-	if ( is_user_logged_in() && $activity->user_id == bp_loggedin_user_id() )
-		$can_delete = true;
+		// Community moderators can always delete activity (at least for now)
+		if ( bp_current_user_can( 'bp_moderate' ) ) {
+			$can_delete = true;
+		}
 
-	if ( bp_is_item_admin() && bp_is_single_item() )
-		$can_delete = true;
+		// Users are allowed to delete their own activity. This is actually
+		// quite powerful, because doing so also deletes all comments to that
+		// activity item. We should revisit this eventually.
+		if ( $activity->user_id === bp_loggedin_user_id() ) {
+			$can_delete = true;
+		}
 
-	return apply_filters( 'bp_activity_user_can_delete', $can_delete, $activity );
+		// Viewing a single item, and this user is an admin of that item
+		if ( bp_is_single_item() && bp_is_item_admin() ) {
+			$can_delete = true;
+		}
+	}
+
+	return (bool) apply_filters( 'bp_activity_user_can_delete', $can_delete, $activity );
 }
 
 /**
