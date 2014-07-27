@@ -44,7 +44,6 @@ function messages_screen_sentbox() {
  * Load the Messages > Compose screen.
  */
 function messages_screen_compose() {
-	global $bp;
 
 	if ( bp_action_variables() ) {
 		bp_do_404();
@@ -68,7 +67,7 @@ function messages_screen_compose() {
 			if ( isset( $_POST['send-notice'] ) ) {
 				if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
 					bp_core_add_message( __( 'Notice sent successfully!', 'buddypress' ) );
-					bp_core_redirect( bp_loggedin_user_domain() . $bp->messages->slug . '/inbox/' );
+					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox/' );
 				} else {
 					bp_core_add_message( __( 'There was an error sending that notice, please try again', 'buddypress' ), 'error' );
 				}
@@ -87,7 +86,7 @@ function messages_screen_compose() {
 				// Send the message
 				if ( ! empty( $thread_id ) ) {
 					bp_core_add_message( __( 'Message sent successfully!', 'buddypress' ) );
-					bp_core_redirect( bp_loggedin_user_domain() . $bp->messages->slug . '/view/' . $thread_id . '/' );
+					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id . '/' );
 				} else {
 					bp_core_add_message( __( 'There was an error sending that message, please try again', 'buddypress' ), 'error' );
 				}
