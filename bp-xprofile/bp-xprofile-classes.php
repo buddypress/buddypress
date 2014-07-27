@@ -1189,10 +1189,12 @@ class BP_XProfile_ProfileData {
 				// If no value was found, cache an empty item
 				// to avoid future cache misses
 				} else {
-					$d           = new stdClass;
-					$d->id       = '';
-					$d->field_id = $field_id;
-					$d->value    = '';
+					$d               = new stdClass;
+					$d->id           = '';
+					$d->user_id      = '';
+					$d->field_id     = $field_id;
+					$d->value        = '';
+					$d->last_updated = '';
 
 					wp_cache_set( $field_id, $d, $cache_group );
 				}
