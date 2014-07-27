@@ -29,8 +29,8 @@ function bp_activity_add_admin_menu() {
 
 	// Add our screen
 	$hook = add_menu_page(
-		__( 'Activity', 'buddypress' ),
-		__( 'Activity', 'buddypress' ),
+		_x( 'Activity', 'Admin Dashbord SWA page title', 'buddypress' ),
+		_x( 'Activity', 'Admin Dashbord SWA menu', 'buddypress' ),
 		'bp_moderate',
 		'bp-activity',
 		'bp_activity_admin',
@@ -903,7 +903,7 @@ function bp_activity_admin_index() {
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
 				<?php printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>
 			<?php else : ?>
-				<?php _e( 'Activity', 'buddypress' ); ?>
+				<?php _x( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
 			<?php endif; ?>
 
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
@@ -1238,10 +1238,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function get_columns() {
 		return array(
 			'cb'       => '<input name type="checkbox" />',
-			'author'   => __( 'Author', 'buddypress' ),
-			'comment'  => __( 'Activity', 'buddypress' ),
-			'action'   => __( 'Action', 'buddypress' ),
-			'response' => __( 'In Response To', 'buddypress' ),
+			'author'   => _x('Author', 'Admin SWA column header', 'buddypress' ),
+			'comment'  => _x( 'Activity', 'Admin SWA column header', 'buddypress' ),
+			'action'   => _x( 'Action', 'Admin SWA column header', 'buddypress' ),
+			'response' => _x( 'In Response To', 'Admin SWA column header', 'buddypress' ),
 		);
 	}
 

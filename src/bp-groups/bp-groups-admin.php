@@ -29,8 +29,8 @@ function bp_groups_add_admin_menu() {
 
 	// Add our screen
 	$hook = add_menu_page(
-		__( 'Groups', 'buddypress' ),
-		__( 'Groups', 'buddypress' ),
+		_x( 'Groups', 'Admin Groups page title', 'buddypress' ),
+		_x( 'Groups', 'Admin Groups menu', 'buddypress' ),
 		'bp_moderate',
 		'bp-groups',
 		'bp_groups_admin',

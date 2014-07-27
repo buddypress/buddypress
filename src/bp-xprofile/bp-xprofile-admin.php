@@ -24,7 +24,7 @@ function xprofile_add_admin_menu() {
 	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
-	add_users_page( __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
+	add_users_page( _x( 'Profile Fields', 'xProfile admin page title', 'buddypress' ), _x( 'Profile Fields', 'Admin Users menu', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
 }
 add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
 
@@ -68,7 +68,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		<?php screen_icon( 'users' ); ?>
 
 		<h2>
-			<?php _e( 'Profile Fields', 'buddypress'); ?>
+			<?php _ex( 'Profile Fields', 'Settings page header', 'buddypress'); ?>
 			<a id="add_group" class="add-new-h2" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
 		</h2>
 

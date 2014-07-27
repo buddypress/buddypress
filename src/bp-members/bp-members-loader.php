@@ -217,7 +217,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Setup the main navigation
 		$main_nav = array(
-			'name'                => __( 'Profile', 'buddypress' ),
+			'name'                => _x( 'Profile', 'Member profile main navigation', 'buddypress' ),
 			'slug'                => $bp->profile->slug,
 			'position'            => 20,
 			'screen_function'     => 'bp_members_screen_display_profile',
@@ -231,7 +231,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Setup the subnav items for the member profile
 		$sub_nav[] = array(
-			'name'            => __( 'View', 'buddypress' ),
+			'name'            => _x( 'View', 'Member profile view', 'buddypress' ),
 			'slug'            => 'public',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $bp->profile->slug,

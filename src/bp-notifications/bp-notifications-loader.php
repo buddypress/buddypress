@@ -23,7 +23,7 @@ class BP_Notifications_Component extends BP_Component {
 	public function __construct() {
 		parent::start(
 			'notifications',
-			__( 'Notifications', 'buddypress' ),
+			_x( 'Notifications', 'Page <title>', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 30
@@ -107,9 +107,9 @@ class BP_Notifications_Component extends BP_Component {
 		if ( bp_is_user() && bp_user_has_access() ) {
 			$count    = bp_notifications_get_unread_notification_count( bp_displayed_user_id() );
 			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf( __( 'Notifications <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) );
+			$nav_name = sprintf( _x( 'Notifications <span class="%s">%s</span>', 'Profile screen nav', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) );
 		} else {
-			$nav_name = __( 'Notifications', 'buddypress' );
+			$nav_name = _x( 'Notifications', 'Profile screen nav', 'buddypress' );
 		}
 
 		// Add 'Notifications' to the main navigation
@@ -136,7 +136,7 @@ class BP_Notifications_Component extends BP_Component {
 
 		// Add the subnav items to the notifications nav item
 		$sub_nav[] = array(
-			'name'            => __( 'Unread', 'buddypress' ),
+			'name'            => _x( 'Unread', 'Notification screen nav', 'buddypress' ),
 			'slug'            => 'unread',
 			'parent_url'      => $notifications_link,
 			'parent_slug'     => bp_get_notifications_slug(),
@@ -147,7 +147,7 @@ class BP_Notifications_Component extends BP_Component {
 		);
 
 		$sub_nav[] = array(
-			'name'            => __( 'Read',   'buddypress' ),
+			'name'            => _x( 'Read', 'Notification screen nav', 'buddypress' ),
 			'slug'            => 'read',
 			'parent_url'      => $notifications_link,
 			'parent_slug'     => bp_get_notifications_slug(),
@@ -181,11 +181,11 @@ class BP_Notifications_Component extends BP_Component {
 			// Pending notification requests
 			$count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
 			if ( ! empty( $count ) ) {
-				$title  = sprintf( __( 'Notifications <span class="count">%s</span>', 'buddypress' ), number_format_i18n( $count ) );
-				$unread = sprintf( __( 'Unread <span class="count">%s</span>',        'buddypress' ), number_format_i18n( $count ) );
+				$title  = sprintf( _x( 'Notifications <span class="count">%s</span>', 'My Account Notification pending', 'buddypress' ), number_format_i18n( $count ) );
+				$unread = sprintf( _x( 'Unread <span class="count">%s</span>', 'My Account Notification pending', 'buddypress' ), number_format_i18n( $count ) );
 			} else {
-				$title  = __( 'Notifications', 'buddypress' );
-				$unread = __( 'Unread',        'buddypress' );
+				$title  = _x( 'Notifications', 'My Account Notification', 'buddypress' );
+				$unread = _x( 'Unread', 'My Account Notification sub nav', 'buddypress' );
 			}
 
 			// Add the "My Account" sub menus

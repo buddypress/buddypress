@@ -377,25 +377,25 @@ function bp_search_form_type_select() {
 	$options = array();
 
 	if ( bp_is_active( 'xprofile' ) ) {
-		$options['members'] = __( 'Members', 'buddypress' );
+		$options['members'] = _x( 'Members', 'search form', 'buddypress' );
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
-		$options['groups']  = __( 'Groups',  'buddypress' );
+		$options['groups']  = _x( 'Groups', 'search form', 'buddypress' );
 	}
 
 	if ( bp_is_active( 'blogs' ) && is_multisite() ) {
-		$options['blogs']   = __( 'Blogs',   'buddypress' );
+		$options['blogs']   = _x( 'Blogs', 'search form', 'buddypress' );
 	}
 
 	if ( bp_is_active( 'forums' ) && bp_forums_is_installed_correctly() && bp_forums_has_directory() ) {
-		$options['forums']  = __( 'Forums',  'buddypress' );
+		$options['forums']  = _x( 'Forums', 'search form', 'buddypress' );
 	}
 
-	$options['posts'] = __( 'Posts', 'buddypress' );
+	$options['posts'] = _x( 'Posts', 'search form', 'buddypress' );
 
 	// Eventually this won't be needed and a page will be built to integrate all search results.
-	$selection_box  = '<label for="search-which" class="accessibly-hidden">' . __( 'Search these:', 'buddypress' ) . '</label>';
+	$selection_box  = '<label for="search-which" class="accessibly-hidden">' . _x( 'Search these:', 'search form', 'buddypress' ) . '</label>';
 	$selection_box .= '<select name="search-which" id="search-which" style="width: auto">';
 
 	$options = apply_filters( 'bp_search_form_type_select_options', $options );
