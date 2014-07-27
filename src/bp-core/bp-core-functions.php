@@ -1108,16 +1108,22 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  *       representation of the time elapsed.
  *
  * @param int|string $last_activity_date The date of last activity.
- * @param string $string A sprintf()-able statement of the form '% ago'.
+ * @param string $string A sprintf()-able statement of the form 'active %s'
  * @return string $last_active A string of the form '3 years ago'.
  */
-function bp_core_get_last_activity( $last_activity_date, $string ) {
+function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 
-	if ( empty( $last_activity_date ) )
-		$last_active = __( 'Not recently active', 'buddypress' );
-	else
-		$last_active = sprintf( $string, bp_core_time_since( $last_activity_date ) );
+	// Setup a default string if none was passed
+	$string = empty( $string )
+		? __( '%s', 'buddypress' )
+		: $string;
 
+	// Use the string if a last activity date was passed
+	$last_active = empty( $last_activity_date )
+		? __( 'Not recently active', 'buddypress' )
+		: sprintf( $string, bp_core_time_since( $last_activity_date ) );
+
+	// Filter and return
 	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );
 }
 
@@ -1346,8 +1352,9 @@ function bp_core_do_network_admin() {
 	// Default
 	$retval = bp_is_network_activated();
 
-	if ( bp_is_multiblog_mode() )
+	if ( bp_is_multiblog_mode() ) {
 		$retval = false;
+	}
 
 	return (bool) apply_filters( 'bp_core_do_network_admin', $retval );
 }
@@ -1386,12 +1393,14 @@ function bp_is_root_blog( $blog_id = 0 ) {
 	$is_root_blog = false;
 
 	// Use current blog if no ID is passed
-	if ( empty( $blog_id ) )
+	if ( empty( $blog_id ) ) {
 		$blog_id = get_current_blog_id();
+	}
 
 	// Compare to root blog ID
-	if ( $blog_id == bp_get_root_blog_id() )
+	if ( $blog_id == bp_get_root_blog_id() ) {
 		$is_root_blog = true;
+	}
 
 	return (bool) apply_filters( 'bp_is_root_blog', (bool) $is_root_blog );
 }
@@ -1483,8 +1492,9 @@ function bp_is_network_activated() {
 	$plugins = get_site_option( 'active_sitewide_plugins' );
 
 	// Override is_multisite() if not network activated
-	if ( ! is_array( $plugins ) || ! isset( $plugins[$base] ) )
+	if ( ! is_array( $plugins ) || ! isset( $plugins[ $base ] ) ) {
 		$retval = false;
+	}
 
 	return (bool) apply_filters( 'bp_is_network_activated', $retval );
 }
@@ -1682,8 +1692,9 @@ add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
  */
 function bp_core_action_search_site( $slug = '' ) {
 
-	if ( !bp_is_current_component( bp_get_search_slug() ) )
+	if ( ! bp_is_current_component( bp_get_search_slug() ) ) {
 		return;
+	}
 
 	if ( empty( $_POST['search-terms'] ) ) {
 		bp_core_redirect( bp_get_root_domain() );
