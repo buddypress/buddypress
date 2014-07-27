@@ -23,7 +23,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * The function will also analyze the current action for the current component
  * to determine whether or not to highlight a particular sub nav item.
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently
  *       viewed user.
  */
@@ -103,7 +102,7 @@ function bp_get_directory_title( $component = '' ) {
 		$title = buddypress()->{$component}->directory_title;
 
 	// If none is found, concatenate
-	} else if ( isset( buddypress()->{$component}->name ) ) {
+	} elseif ( isset( buddypress()->{$component}->name ) ) {
 		$title = sprintf( __( '%s Directory', 'buddypress' ), buddypress()->{$component}->name );
 	}
 
@@ -539,29 +538,29 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	// Backward compatibility. The third argument used to be a boolean $filter_shortcodes
 	$filter_shortcodes_default = is_bool( $options ) ? $options : true;
 
-	$r = wp_parse_args( $options, array(
+	$r = bp_parse_args( $options, array(
 		'ending'            => __( ' [&hellip;]', 'buddypress' ),
 		'exact'             => false,
 		'html'              => true,
 		'filter_shortcodes' => $filter_shortcodes_default
-	) );
-	extract( $r );
+	), 'create_excerpt' );
 
 	// Save the original text, to be passed along to the filter
 	$original_text = $text;
 
 	// Allow plugins to modify these values globally
-	$length = apply_filters( 'bp_excerpt_length', $length );
-	$ending = apply_filters( 'bp_excerpt_append_text', $ending );
+	$length = apply_filters( 'bp_excerpt_length',      $length      );
+	$ending = apply_filters( 'bp_excerpt_append_text', $r['ending'] );
 
 	// Remove shortcodes if necessary
-	if ( ! empty( $filter_shortcodes ) ) {
+	if ( ! empty( $r['filter_shortcodes'] ) ) {
 		$text = strip_shortcodes( $text );
 	}
 
 	// When $html is true, the excerpt should be created without including HTML tags in the
 	// excerpt length
-	if ( ! empty( $html ) ) {
+	if ( ! empty( $r['html'] ) ) {
+
 		// The text is short enough. No need to truncate
 		if ( mb_strlen( preg_replace( '/<.*?>/', '', $text ) ) <= $length ) {
 			return $text;
@@ -574,20 +573,22 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		// Find all the tags and put them in a stack for later use
 		preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
 		foreach ( $tags as $tag ) {
+
 			// Process tags that need to be closed
 			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s',  $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
 					array_unshift( $openTags, $tag[2] );
-				} else if ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
+				} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
 					$pos = array_search( $closeTag[1], $openTags );
 					if ( $pos !== false ) {
 						array_splice( $openTags, $pos, 1 );
 					}
 				}
 			}
-			$truncate .= $tag[1];
 
+			$truncate     .= $tag[1];
 			$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
+
 			if ( $contentLength + $totalLength > $length ) {
 				$left = $length - $totalLength;
 				$entitiesLength = 0;
@@ -621,10 +622,10 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	}
 
 	// If $exact is false, we can't break on words
-	if ( empty( $exact ) ) {
+	if ( empty( $r['exact'] ) ) {
 		$spacepos = mb_strrpos( $truncate, ' ' );
 		if ( isset( $spacepos ) ) {
-			if ( $html ) {
+			if ( $r['html'] ) {
 				$bits = mb_substr( $truncate, $spacepos );
 				preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
 				if ( !empty( $droppedTags ) ) {
@@ -640,16 +641,15 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	}
 	$truncate .= $ending;
 
-	if ( $html ) {
+	if ( !empty( $r['html'] ) ) {
 		foreach ( $openTags as $tag ) {
 			$truncate .= '</' . $tag . '>';
 		}
 	}
 
 	return apply_filters( 'bp_create_excerpt', $truncate, $original_text, $length, $options );
-
 }
-add_filter( 'bp_create_excerpt', 'stripslashes_deep' );
+add_filter( 'bp_create_excerpt', 'stripslashes_deep'  );
 add_filter( 'bp_create_excerpt', 'force_balance_tags' );
 
 /**
@@ -804,7 +804,10 @@ function bp_ajax_querystring( $object = false ) {
  */
 function bp_current_component() {
 	$bp                = buddypress();
-	$current_component = !empty( $bp->current_component ) ? $bp->current_component : false;
+	$current_component = !empty( $bp->current_component )
+		? $bp->current_component
+		: false;
+
 	return apply_filters( 'bp_current_component', $current_component );
 }
 
@@ -814,8 +817,11 @@ function bp_current_component() {
  * @return string Action name.
  */
 function bp_current_action() {
-	$bp            = buddypress();
-	$current_action = !empty( $bp->current_action ) ? $bp->current_action : '';
+	$bp             = buddypress();
+	$current_action = !empty( $bp->current_action )
+		? $bp->current_action
+		: '';
+
 	return apply_filters( 'bp_current_action', $current_action );
 }
 
@@ -826,7 +832,10 @@ function bp_current_action() {
  */
 function bp_current_item() {
 	$bp           = buddypress();
-	$current_item = !empty( $bp->current_item ) ? $bp->current_item : false;
+	$current_item = !empty( $bp->current_item )
+		? $bp->current_item
+		: false;
+
 	return apply_filters( 'bp_current_item', $current_item );
 }
 
@@ -838,7 +847,10 @@ function bp_current_item() {
  */
 function bp_action_variables() {
 	$bp               = buddypress();
-	$action_variables = !empty( $bp->action_variables ) ? $bp->action_variables : false;
+	$action_variables = !empty( $bp->action_variables )
+		? $bp->action_variables
+		: false;
+
 	return apply_filters( 'bp_action_variables', $action_variables );
 }
 
@@ -853,7 +865,9 @@ function bp_action_variables() {
  */
 function bp_action_variable( $position = 0 ) {
 	$action_variables = bp_action_variables();
-	$action_variable  = isset( $action_variables[$position] ) ? $action_variables[$position] : false;
+	$action_variable  = isset( $action_variables[ $position ] )
+		? $action_variables[ $position ]
+		: false;
 
 	return apply_filters( 'bp_action_variable', $action_variable, $position );
 }
@@ -872,7 +886,7 @@ function bp_root_domain() {
 	function bp_get_root_domain() {
 		$bp = buddypress();
 
-		if ( isset( $bp->root_domain ) && !empty( $bp->root_domain ) ) {
+		if ( ! empty( $bp->root_domain ) ) {
 			$domain = $bp->root_domain;
 		} else {
 			$domain          = bp_core_get_root_domain();
@@ -919,8 +933,6 @@ function bp_root_slug( $component = '' ) {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @param string $component Optional. Defaults to the current component.
 	 * @return string $root_slug The root slug.
 	 */
@@ -934,13 +946,16 @@ function bp_root_slug( $component = '' ) {
 		}
 
 		// Component is active
-		if ( !empty( $bp->active_components[$component] ) ) {
+		if ( ! empty( $bp->active_components[ $component ] ) ) {
+
 			// Backward compatibility: in legacy plugins, the canonical component id
 			// was stored as an array value in $bp->active_components
-			$component_name = '1' == $bp->active_components[$component] ? $component : $bp->active_components[$component];
+			$component_name = ( '1' == $bp->active_components[ $component ] )
+				? $component
+				: $bp->active_components[$component];
 
 			// Component has specific root slug
-			if ( !empty( $bp->{$component_name}->root_slug ) ) {
+			if ( ! empty( $bp->{$component_name}->root_slug ) ) {
 				$root_slug = $bp->{$component_name}->root_slug;
 			}
 		}
@@ -957,8 +972,6 @@ function bp_root_slug( $component = '' ) {
  * Return the component name based on a root slug.
  *
  * @since BuddyPress (1.5.0)
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $root_slug Needle to our active component haystack.
  * @return mixed False if none found, component name if found.
@@ -978,7 +991,7 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 
 	// Loop through active components and look for a match
 	foreach ( array_keys( $bp->active_components ) as $component ) {
-		if ( ( !empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug == $root_slug ) ) || ( !empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug == $root_slug ) ) ) {
+		if ( ( ! empty( $bp->{$component}->slug ) && ( $bp->{$component}->slug == $root_slug ) ) || ( ! empty( $bp->{$component}->root_slug ) && ( $bp->{$component}->root_slug === $root_slug ) ) ) {
 			return $bp->{$component}->name;
 		}
 	}
@@ -987,9 +1000,11 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 }
 
 function bp_user_has_access() {
-	$has_access = ( bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile() ) ? true : false;
+	$has_access = ( bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile() )
+		? true
+		: false;
 
-	return apply_filters( 'bp_user_has_access', $has_access );
+	return (bool) apply_filters( 'bp_user_has_access', $has_access );
 }
 
 /**
@@ -1022,7 +1037,9 @@ function bp_search_slug() {
  */
 function bp_displayed_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->displayed_user->id ) ? $bp->displayed_user->id : 0;
+	$id = !empty( $bp->displayed_user->id )
+		? $bp->displayed_user->id
+		: 0;
 
 	return (int) apply_filters( 'bp_displayed_user_id', $id );
 }
@@ -1036,7 +1053,9 @@ function bp_displayed_user_id() {
  */
 function bp_loggedin_user_id() {
 	$bp = buddypress();
-	$id = !empty( $bp->loggedin_user->id ) ? $bp->loggedin_user->id : 0;
+	$id = !empty( $bp->loggedin_user->id )
+		? $bp->loggedin_user->id
+		: 0;
 
 	return (int) apply_filters( 'bp_loggedin_user_id', $id );
 }
@@ -1058,7 +1077,7 @@ function bp_loggedin_user_id() {
  * @return bool Returns true if the component matches, or else false.
  */
 function bp_is_current_component( $component ) {
-	global $bp, $wp_query;
+	global $wp_query;
 
 	$is_current_component = false;
 
@@ -1071,6 +1090,8 @@ function bp_is_current_component( $component ) {
 	if ( 'xprofile' === $component ) {
 		$component = 'profile';
 	}
+
+	$bp = buddypress();
 
 	if ( ! empty( $bp->current_component ) ) {
 
@@ -1091,7 +1112,7 @@ function bp_is_current_component( $component ) {
 		// Next, check to see whether $component is a canonical,
 		// non-translatable component name. If so, we can return its
 		// corresponding slug from $bp->active_components.
-		} else if ( $key = array_search( $component, $bp->active_components ) ) {
+		} elseif ( $key = array_search( $component, $bp->active_components ) ) {
 			if ( strstr( $bp->current_component, $key ) ) {
 				$is_current_component = true;
 			}
@@ -1150,11 +1171,7 @@ function bp_is_current_component( $component ) {
  * @return bool True if the current action matches $action.
  */
 function bp_is_current_action( $action = '' ) {
-	if ( $action === bp_current_action() ) {
-		return true;
-	}
-
-	return false;
+	return (bool) ( $action === bp_current_action() );
 }
 
 /**
@@ -1448,10 +1465,7 @@ function bp_is_activity_component() {
  * @return bool True if the current page is part of the Blogs component.
  */
 function bp_is_blogs_component() {
-	if ( is_multisite() && bp_is_current_component( 'blogs' ) )
-		return true;
-
-	return false;
+	return (bool) ( is_multisite() && bp_is_current_component( 'blogs' ) );
 }
 
 /**
