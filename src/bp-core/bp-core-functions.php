@@ -1065,18 +1065,26 @@ function bp_core_render_message() {
  */
 function bp_core_record_activity() {
 
-	if ( !is_user_logged_in() )
+	// Bail if user is not logged in
+	if ( ! is_user_logged_in() ) {
 		return false;
+	}
 
+	// Get the user ID
 	$user_id = bp_loggedin_user_id();
 
-	if ( bp_is_user_inactive( $user_id ) )
+	// Bail if user is not active
+	if ( bp_is_user_inactive( $user_id ) ) {
 		return false;
+	}
 
+	// Get the user's last activity
 	$activity = bp_get_user_last_activity( $user_id );
 
-	if ( !is_numeric( $activity ) )
+	// Make sure it's numeric
+	if ( ! is_numeric( $activity ) ) {
 		$activity = strtotime( $activity );
+	}
 
 	// Get current time
 	$current_time = bp_core_current_time();
@@ -1086,7 +1094,8 @@ function bp_core_record_activity() {
 		do_action( 'bp_first_activity_for_member', $user_id );
 	}
 
-	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) ) {
+	// If it's been more than 5 minutes, record a newer last-activity time
+	if ( empty( $activity ) || ( strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) ) ) {
 		bp_update_user_last_activity( $user_id, $current_time );
 	}
 }
