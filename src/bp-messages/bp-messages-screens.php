@@ -78,9 +78,14 @@ function messages_screen_compose() {
 				$typed_recipients        = explode( ' ', $_POST['send_to_usernames'] );
 				$recipients              = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
 				$recipients              = apply_filters( 'bp_messages_recipients', $recipients );
+				$thread_id               = messages_new_message( array(
+					'recipients' => $recipients,
+					'subject'    => $_POST['subject'],
+					'content'    => $_POST['content']
+				) );
 
 				// Send the message
-				if ( $thread_id = messages_new_message( array( 'recipients' => $recipients, 'subject' => $_POST['subject'], 'content' => $_POST['content'] ) ) ) {
+				if ( ! empty( $thread_id ) ) {
 					bp_core_add_message( __( 'Message sent successfully!', 'buddypress' ) );
 					bp_core_redirect( bp_loggedin_user_domain() . $bp->messages->slug . '/view/' . $thread_id . '/' );
 				} else {
