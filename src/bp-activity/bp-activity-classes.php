@@ -146,10 +146,10 @@ class BP_Activity_Activity {
 		}
 
 		if ( ! empty( $row ) ) {
-			$this->id                = $row->id;
-			$this->item_id           = $row->item_id;
-			$this->secondary_item_id = $row->secondary_item_id;
-			$this->user_id           = $row->user_id;
+			$this->id                = (int) $row->id;
+			$this->item_id           = (int) $row->item_id;
+			$this->secondary_item_id = (int) $row->secondary_item_id;
+			$this->user_id           = (int) $row->user_id;
 			$this->primary_link      = $row->primary_link;
 			$this->component         = $row->component;
 			$this->type              = $row->type;
@@ -157,8 +157,8 @@ class BP_Activity_Activity {
 			$this->content           = $row->content;
 			$this->date_recorded     = $row->date_recorded;
 			$this->hide_sitewide     = $row->hide_sitewide;
-			$this->mptt_left         = $row->mptt_left;
-			$this->mptt_right        = $row->mptt_right;
+			$this->mptt_left         = (int) $row->mptt_left;
+			$this->mptt_right        = (int) $row->mptt_right;
 			$this->is_spam           = $row->is_spam;
 		}
 
