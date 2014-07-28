@@ -792,7 +792,7 @@ function bp_the_notification_mark_unread_link() {
 		// Start the output buffer
 		ob_start(); ?>
 
-		<a href="<?php bp_the_notification_mark_unread_url(); ?>" class="mark-unread primary"><?php _x( 'Unread',  'Notification screen action', 'buddypress' ); ?></a>
+		<a href="<?php bp_the_notification_mark_unread_url(); ?>" class="mark-unread primary"><?php _ex( 'Unread',  'Notification screen action', 'buddypress' ); ?></a>
 
 		<?php $retval = ob_get_clean();
 

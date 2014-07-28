@@ -903,7 +903,7 @@ function bp_activity_admin_index() {
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
 				<?php printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>
 			<?php else : ?>
-				<?php _x( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
+				<?php _ex( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
 			<?php endif; ?>
 
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>

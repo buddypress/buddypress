@@ -826,15 +826,15 @@ function bp_messages_options() {
 
 	<select name="message-type-select" id="message-type-select">
 		<option value=""></option>
-		<option value="read"><?php _x('Read', 'Message dropdown filter', 'buddypress') ?></option>
-		<option value="unread"><?php _x('Unread', 'Message dropdown filter', 'buddypress') ?></option>
-		<option value="all"><?php _x('All', 'Message dropdown filter', 'buddypress') ?></option>
+		<option value="read"><?php _ex('Read', 'Message dropdown filter', 'buddypress') ?></option>
+		<option value="unread"><?php _ex('Unread', 'Message dropdown filter', 'buddypress') ?></option>
+		<option value="all"><?php _ex('All', 'Message dropdown filter', 'buddypress') ?></option>
 	</select> &nbsp;
 
 	<?php if ( ! bp_is_current_action( 'sentbox' ) && bp_is_current_action( 'notices' ) ) : ?>
 
-		<a href="#" id="mark_as_read"><?php _x('Mark as Read', 'Message management markup', 'buddypress') ?></a> &nbsp;
-		<a href="#" id="mark_as_unread"><?php _x('Mark as Unread', 'Message management markup', 'buddypress') ?></a> &nbsp;
+		<a href="#" id="mark_as_read"><?php _ex('Mark as Read', 'Message management markup', 'buddypress') ?></a> &nbsp;
+		<a href="#" id="mark_as_unread"><?php _ex('Mark as Unread', 'Message management markup', 'buddypress') ?></a> &nbsp;
 
 	<?php endif; ?>
 
