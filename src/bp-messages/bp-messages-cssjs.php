@@ -25,7 +25,7 @@ function messages_add_autocomplete_js() {
 		wp_enqueue_script( 'bp-jquery-dimensions' );
 	}
 }
-add_action( 'bp_actions', 'messages_add_autocomplete_js' );
+add_action( 'bp_enqueue_scripts', 'messages_add_autocomplete_js' );
 
 /**
  * Enqueue the CSS for messages autocomplete.
