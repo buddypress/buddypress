@@ -1115,7 +1115,7 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 
 	// Setup a default string if none was passed
 	$string = empty( $string )
-		? __( '%s', 'buddypress' )
+		? '%s'     // Gettext placeholder
 		: $string;
 
 	// Use the string if a last activity date was passed
