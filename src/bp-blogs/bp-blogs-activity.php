@@ -329,31 +329,22 @@ function bp_blogs_record_activity( $args = '' ) {
  * }
  * @return bool True on success, false on failure.
  */
-function bp_blogs_delete_activity( $args = true ) {
-	global $bp;
+function bp_blogs_delete_activity( $args = '' ) {
 
 	// Bail if activity is not active
-	if ( ! bp_is_active( 'activity' ) )
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	$defaults = array(
+	$r = bp_parse_args( $args, array(
 		'item_id'           => false,
-		'component'         => $bp->blogs->id,
+		'component'         => buddypress()->blogs->id,
 		'type'              => false,
 		'user_id'           => false,
 		'secondary_item_id' => false
-	);
-
-	$params = wp_parse_args( $args, $defaults );
-	extract( $params, EXTR_SKIP );
-
-	bp_activity_delete_by_item_id( array(
-		'item_id'           => $item_id,
-		'component'         => $component,
-		'type'              => $type,
-		'user_id'           => $user_id,
-		'secondary_item_id' => $secondary_item_id
 	) );
+
+	bp_activity_delete_by_item_id( $r );
 }
 
 /**
