@@ -3129,10 +3129,12 @@ function bp_activity_comments_user_avatars( $args = array() ) {
  * @return bool|array An array of IDs, or false if none are found.
  */
 function bp_activity_get_comments_user_ids() {
-	if ( empty( $GLOBALS['activities_template']->activity ) || empty( $GLOBALS['activities_template']->activity->children ) )
-		return false;
+	global $activities_template;
 
-	$user_ids = (array) bp_activity_recurse_comments_user_ids( $GLOBALS['activities_template']->activity->children );
+	$user_ids = ! empty( $activities_template->activity->children )
+		? (array) bp_activity_recurse_comments_user_ids( $activities_template->activity->children )
+		: array();
+
 	return apply_filters( 'bp_activity_get_comments_user_ids', array_unique( $user_ids ) );
 }
 
