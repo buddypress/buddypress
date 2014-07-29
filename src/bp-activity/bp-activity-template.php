@@ -3361,19 +3361,22 @@ function bp_activity_feed_item_title() {
 	function bp_get_activity_feed_item_title() {
 		global $activities_template;
 
-		if ( !empty( $activities_template->activity->action ) )
+		if ( !empty( $activities_template->activity->action ) ) {
 			$content = $activities_template->activity->action;
-		else
+		} else {
 			$content = $activities_template->activity->content;
+		}
 
 		$content = explode( '<span', $content );
-		$title = strip_tags( ent2ncr( trim( convert_chars( $content[0] ) ) ) );
+		$title   = strip_tags( ent2ncr( trim( convert_chars( $content[0] ) ) ) );
 
-		if ( ':' == substr( $title, -1 ) )
+		if ( ':' === substr( $title, -1 ) ) {
 			$title = substr( $title, 0, -1 );
+		}
 
-		if ( 'activity_update' == $activities_template->activity->type )
+		if ( 'activity_update' === $activities_template->activity->type ) {
 			$title .= ': ' . strip_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, array( 'ending' => " [&#133;]" ) ) ) ) ) );
+		}
 
 		return apply_filters( 'bp_get_activity_feed_item_title', $title );
 	}
@@ -3402,7 +3405,11 @@ function bp_activity_feed_item_link() {
 	function bp_get_activity_feed_item_link() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_feed_item_link', $activities_template->activity->primary_link );
+		$retval = ! empty( $activities_template->activity->primary_link )
+			? $activities_template->activity->primary_link
+			: '';
+
+		return apply_filters( 'bp_get_activity_feed_item_link', $retval );
 	}
 
 /**
@@ -3429,7 +3436,11 @@ function bp_activity_feed_item_date() {
 	function bp_get_activity_feed_item_date() {
 		global $activities_template;
 
-		return apply_filters( 'bp_get_activity_feed_item_date', $activities_template->activity->date_recorded );
+		$retval = ! empty( $activities_template->activity->date_recorded )
+			? $activities_template->activity->date_recorded
+			: '';
+
+		return apply_filters( 'bp_get_activity_feed_item_date', $retval );
 	}
 
 /**
