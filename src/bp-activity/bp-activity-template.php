@@ -2873,11 +2873,18 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 	 * @return int The total mention count for the specified user.
 	 */
 	function bp_get_total_mention_count_for_user( $user_id = 0 ) {
-		if ( ! $user_id ) {
-			$user_id = bp_displayed_user_id();
-		}
 
-		return apply_filters( 'bp_get_total_mention_count_for_user', bp_get_user_meta( $user_id, 'bp_new_mention_count', true ) );
+		// Default to displayed user if none is passed
+		$user_id = empty( $user_id )
+			? bp_displayed_user_id()
+			: $user_id;
+
+		// Get user meta if user ID exists
+		$retval = ! empty( $user_id )
+			? bp_get_user_meta( $user_id, 'bp_new_mention_count', true )
+			: false;
+
+		return apply_filters( 'bp_get_total_mention_count_for_user', $retval );
 	}
 
 /**
