@@ -850,10 +850,16 @@ add_filter( 'bp_activity_can_comment_reply', 'bp_blogs_can_comment_reply', 10, 2
  * @param string $retval The activity comment permalink
  * @return string
  */
-function bp_blogs_activity_comment_permalink( $retval ) {
+function bp_blogs_activity_comment_permalink( $retval = '' ) {
 	global $activities_template;
 
-	if ( isset( buddypress()->blogs->allow_comments[$activities_template->activity->current_comment->item_id] ) ){
+	// Get the current comment ID
+	$item_id = isset( $activities_template->activity->current_comment->item_id )
+		? $activities_template->activity->current_comment->item_id
+		: false;
+
+	// Maybe adjust the link if item ID exists
+	if ( ( false !== $item_id ) && isset( buddypress()->blogs->allow_comments[ $item_id ] ) ) {
 		$retval = $activities_template->activity->current_comment->primary_link;
 	}
 
