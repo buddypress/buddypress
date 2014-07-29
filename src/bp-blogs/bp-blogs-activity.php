@@ -319,7 +319,6 @@ function bp_blogs_record_activity( $args = '' ) {
  * @since BuddyPress (1.0.0)
  *
  * @see bp_activity_delete() for description of parameters.
- * @global object $bp The BuddyPress global settings object.
  *
  * @param array $args {
  *     See {@link bp_activity_delete()} for complete description of arguments.
