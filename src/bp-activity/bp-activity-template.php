@@ -3274,18 +3274,30 @@ function bp_activities_member_rss_link() { echo bp_get_member_activity_feed_link
 	 */
 	function bp_get_member_activity_feed_link() {
 
-		if ( bp_is_profile_component() || bp_is_current_action( 'just-me' ) )
+		// Single member activity feed link
+		if ( bp_is_profile_component() || bp_is_current_action( 'just-me' ) ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/feed/';
-		elseif ( bp_is_active( 'friends' ) && bp_is_current_action( bp_get_friends_slug() ) )
+			
+		// Friend feed link
+		} elseif ( bp_is_active( 'friends' ) && bp_is_current_action( bp_get_friends_slug() ) ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/feed/';
-		elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) )
+			
+		// Group feed link
+		} elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) ) { 
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() . '/feed/';
-		elseif ( 'favorites' == bp_current_action() )
+
+		// Favorites activity feed link
+		} elseif ( 'favorites' === bp_current_action() ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/favorites/feed/';
-		elseif ( 'mentions' == bp_current_action() && bp_activity_do_mentions() )
+			
+		// Mentions activity feed link
+		} elseif ( ( 'mentions' === bp_current_action() ) && bp_activity_do_mentions() ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions/feed/';
-		else
+
+		// No feed link
+		} else {
 			$link = '';
+		}
 
 		return apply_filters( 'bp_get_activities_member_rss_link', $link );
 	}
