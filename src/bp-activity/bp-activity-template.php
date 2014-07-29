@@ -2146,63 +2146,65 @@ function bp_activity_comment_count() {
 }
 
 	/**
-	 * Return the content of the activity comment currently being displayed.
-	 *
-	 * The content is run through two filters. 'bp_get_activity_content'
-	 * will apply all filters applied to activity items in general. Use
-	 * 'bp_activity_comment_content' to modify the content of activity
-	 * comments only.
+	 * Return the comment count of an activity item.
 	 *
 	 * @since BuddyPress (1.2)
 	 *
 	 * @global object $activities_template {@link BP_Activity_Template}
 	 * @uses bp_activity_recurse_comment_count()
 	 * @uses apply_filters() To call the 'bp_activity_get_comment_count' hook.
-	 * @todo deprecate $args
 	 *
-	 * @param array $args Deprecated.
+	 * @param array $deprecated Deprecated.
+	 *
 	 * @return int $count The activity comment count.
 	 */
-	function bp_activity_get_comment_count( $args = '' ) {
+	function bp_activity_get_comment_count( $deprecated = null ) {
 		global $activities_template;
 
-		if ( !isset( $activities_template->activity->children ) || !$activities_template->activity->children )
-			return 0;
+		// Deprecated notice about $args
+		if ( ! empty( $deprecated ) ) {
+			_deprecated_argument( __FUNCTION__, '1.2', sprintf( __( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ), __FUNCTION__, __FILE__ ) );
+		}
 
-		$count = bp_activity_recurse_comment_count( $activities_template->activity );
+		// Get the count using the purpose-built recursive function
+		$count = ! empty( $activities_template->activity->children )
+			? bp_activity_recurse_comment_count( $activities_template->activity )
+			: 0;
 
 		return apply_filters( 'bp_activity_get_comment_count', (int) $count );
 	}
 
 		/**
-		 * Return the content of the activity comment currently being displayed.
+		 * Return the total number of comments to the current comment.
 		 *
-		 * The content is run through two filters. 'bp_get_activity_content'
-		 * will apply all filters applied to activity items in general.
-		 * Use bp_activity_comment_content to modify the content of
-		 * activity comments only.
+		 * This function recursively adds the total number of comments each
+		 * activity child has, and returns them.
 		 *
 		 * @since BuddyPress (1.2)
 		 *
 		 * @uses bp_activity_recurse_comment_count()
-		 * @uses apply_filters() To call the 'bp_activity_get_comment_count' hook
-		 * @todo investigate why bp_activity_recurse_comment_count() is used while being declared
+		 * @uses apply_filters() To call the 'bp_activity_recurse_comment_count' hook
 		 *
 		 * @param object $comment Activity comment object.
 		 * @param int $count The current iteration count.
+		 *
 		 * @return int $count The activity comment count.
 		 */
 		function bp_activity_recurse_comment_count( $comment, $count = 0 ) {
 
-			if ( empty( $comment->children ) )
-				return $count;
+			// Copy the count
+			$new_count = $count;
 
-			foreach ( (array) $comment->children as $comment ) {
-				$count++;
-				$count = bp_activity_recurse_comment_count( $comment, $count );
+			// Loop through children and recursively count comments
+			if ( ! empty( $comment->children ) ) {
+				foreach ( (array) $comment->children as $comment ) {
+					$new_count++;
+					$new_count = bp_activity_recurse_comment_count( $comment, $new_count );
+				}
 			}
 
-			return $count;
+			// Filter and return
+			return apply_filters( 'bp_activity_recurse_comment_count', $new_count, $comment, $count );
 		}
 
 /**
