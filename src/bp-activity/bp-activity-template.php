@@ -2776,20 +2776,21 @@ function bp_activity_can_comment() {
  *         false.
  */
 function bp_activity_can_comment_reply( $comment ) {
+
+	// Assume activity can be commented on
 	$can_comment = true;
 
 	// Fall back on current comment in activity loop
-	$comment_depth = 0;
-	if ( isset( $comment->depth ) ) {
-		$comment_depth = intval( $comment->depth );
-	} else {
-		$comment_depth = bp_activity_get_comment_depth();
-	}
+	$comment_depth = isset( $comment->depth )
+		? intval( $comment->depth )
+		: bp_activity_get_comment_depth();
 
+	// Threading is turned on, so check the depth
 	if ( get_option( 'thread_comments' ) ) {
-		$can_comment = $comment_depth < get_option( 'thread_comments_depth' );
+		$can_comment = (bool) ( $comment_depth < get_option( 'thread_comments_depth' ) );
+
+	// No threading for comment replies if no threading for comments
 	} else {
-		// No threading for comment replies if no threading for comments
 		$can_comment = false;
 	}
 
