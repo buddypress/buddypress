@@ -3121,22 +3121,33 @@ function bp_activity_get_comments_user_ids() {
 	 * @param array $comments Array of {@link BP_Activity_Activity} items.
 	 * @return array Array of user IDs.
 	 */
-	function bp_activity_recurse_comments_user_ids( array $comments ) {
+	function bp_activity_recurse_comments_user_ids( array $comments = array() ) {
+		
+		// Default user ID's array
 		$user_ids = array();
 
-		foreach ( $comments as $comment ) {
-			// If a user is a spammer, their activity items will have been automatically marked as spam. Skip these.
-			if ( $comment->is_spam )
-				continue;
+		// Loop through comments and try to get user ID's
+		if ( ! empty( $comments ) ) {
+			foreach ( $comments as $comment ) {
 
-			$user_ids[] = $comment->user_id;
+				// If a user is a spammer, their activity items will have been
+				// automatically marked as spam. Skip these.
+				if ( ! empty( $comment->is_spam ) ) {
+					continue;
+				}
 
-			// Check for commentception
-			if ( ! empty( $comment->children ) )
-				$user_ids = array_merge( $user_ids, bp_activity_recurse_comments_user_ids( $comment->children ) );
+				// Add user ID to array
+				$user_ids[] = $comment->user_id;
+
+				// Check for commentception
+				if ( ! empty( $comment->children ) ) {
+					$user_ids = array_merge( $user_ids, bp_activity_recurse_comments_user_ids( $comment->children ) );
+				}
+			}
 		}
 
-		return $user_ids;
+		// Filter and return
+		return apply_filters( 'bp_activity_recurse_comments_user_ids', $user_ids, $comments );
 	}
 
 /**
