@@ -3074,28 +3074,52 @@ function bp_activity_post_form_action() {
  * @param array $args See {@link bp_core_fetch_avatar()}.
  */
 function bp_activity_comments_user_avatars( $args = array() ) {
-	$defaults = array(
+
+	$r = bp_parse_args( $args, array(
 		'height' => false,
 		'html'   => true,
 		'type'   => 'thumb',
 		'width'  => false,
-	);
-
-	$args = wp_parse_args( $args, $defaults );
-	extract( $args, EXTR_SKIP );
+	) );
 
 	// Get the user IDs of everyone who has left a comment to the current activity item
 	$user_ids = bp_activity_get_comments_user_ids();
+	$output   = array();
+	$retval   = '';
 
-	$output = array();
-	foreach ( (array) $user_ids as $user_id ) {
-		$profile_link = bp_core_get_user_domain( $user_id );
-		$image_html   = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'height' => $height, 'html' => $html, 'type' => $type, 'width' => $width, ) );
+	if ( ! empty( $user_ids ) ) {
+		foreach ( (array) $user_ids as $user_id ) {
 
-		$output[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $profile_link ), $image_html );
+			// Skip an empty user ID
+			if ( empty( $user_id ) ) {
+				continue;
+			}
+
+			// Get profile link for this user
+			$profile_link = bp_core_get_user_domain( $user_id );
+
+			// Get avatar for this user
+			$image_html   = bp_core_fetch_avatar( array(
+				'item_id' => $user_id,
+				'height'  => $r['height'],
+				'html'    => $r['html'],
+				'type'    => $r['type'],
+				'width'   => $r['width']
+			) );
+
+			// If user has link & avatar, add them to the output array
+			if ( ! empty( $profile_link ) && ! empty( $image_html ) ) {
+				$output[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $profile_link ), $image_html );
+			}
+		}
+
+		// If output array is not empty, wrap everything in some list items
+		if ( ! empty( $output ) ) {
+			$retval = '<li>' . implode( '</li><li>', $output ) . '</li>';
+		}
 	}
 
-	echo apply_filters( 'bp_activity_comments_user_avatars', '<li>' . implode( '</li><li>', $output ) . '</li>', $args, $output );
+	echo apply_filters( 'bp_activity_comments_user_avatars', $retval, $args, $output );
 }
 
 /**
