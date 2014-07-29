@@ -2839,11 +2839,18 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
 	 * @return int The total favorite count for the specified user.
 	 */
 	function bp_get_total_favorite_count_for_user( $user_id = 0 ) {
-		if ( ! $user_id ) {
-			$user_id = bp_displayed_user_id();
-		}
 
-		return apply_filters( 'bp_get_total_favorite_count_for_user', bp_activity_total_favorites_for_user( $user_id ) );
+		// Default to displayed user if none is passed
+		$user_id = empty( $user_id )
+			? bp_displayed_user_id()
+			: $user_id;
+
+		// Get user meta if user ID exists
+		$retval = ! empty( $user_id )
+			? bp_activity_total_favorites_for_user( $user_id )
+			: false;
+
+		return apply_filters( 'bp_get_total_favorite_count_for_user', $retval );
 	}
 	
 
