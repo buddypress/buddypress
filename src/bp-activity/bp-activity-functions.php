@@ -17,14 +17,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @since BuddyPress (1.5.0)
  *
- * @global object $bp BuddyPress global settings
- *
  * @return bool True if activity directory page is found, otherwise false.
  */
 function bp_activity_has_directory() {
-	global $bp;
-
-	return (bool) !empty( $bp->pages->activity->id );
+	return (bool) !empty( buddypress()->pages->activity->id );
 }
 
 /**
@@ -78,12 +74,12 @@ function bp_activity_find_mentions( $content ) {
 	$mentioned_users = array();
 
 	// We've found some mentions! Check to see if users exist
-	foreach( (array) $usernames as $key => $username ) {
+	foreach( (array) array_values( $usernames ) as $username ) {
 		$user_id = bp_activity_get_userid_from_mentionname( $username );
 
 		// user ID exists, so let's add it to our array
 		if ( ! empty( $user_id ) ) {
-			$mentioned_users[$user_id] = $username;
+			$mentioned_users[ $user_id ] = $username;
 		}
 	}
 
@@ -143,7 +139,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	}
 
 	// Increment mention count foreach mentioned user
-	foreach( (array) $usernames as $user_id => $username ) {
+	foreach( (array) array_keys( $usernames ) as $user_id ) {
 		bp_activity_update_mention_count_for_user( $user_id, $activity_id, $action );
 	}
 }
@@ -1201,13 +1197,16 @@ function bp_activity_add( $args = '' ) {
 	$activity->date_recorded     = $r['recorded_time'];
 	$activity->hide_sitewide     = $r['hide_sitewide'];
 	$activity->is_spam           = $r['is_spam'];
-	$activity->action            = ! empty( $r['action'] ) ? $r['action'] : bp_activity_generate_action_string( $activity );
+	$activity->action            = ! empty( $r['action'] )
+										? $r['action']
+										: bp_activity_generate_action_string( $activity );
 
-	if ( !$activity->save() )
+	if ( ! $activity->save() ) {
 		return false;
+	}
 
 	// If this is an activity comment, rebuild the tree
-	if ( 'activity_comment' == $activity->type ) {
+	if ( 'activity_comment' === $activity->type ) {
 		BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
 	}
 
@@ -1626,14 +1625,24 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	 *        comment's oldest ancestor.
 	 * @param int $comment_id The ID of the comment to be deleted.
 	 */
-	function bp_activity_delete_children( $activity_id, $comment_id) {
+	function bp_activity_delete_children( $activity_id, $comment_id ) {
+
+		// Get activity children to delete
+		$children = BP_Activity_Activity::get_child_comments( $comment_id );
+
 		// Recursively delete all children of this comment.
-		if ( $children = BP_Activity_Activity::get_child_comments( $comment_id ) ) {
+		if ( ! empty( $children ) ) {
 			foreach( (array) $children as $child ) {
 				bp_activity_delete_children( $activity_id, $child->id );
 			}
 		}
-		bp_activity_delete( array( 'secondary_item_id' => $comment_id, 'type' => 'activity_comment', 'item_id' => $activity_id ) );
+		
+		// Delete the comment itself
+		bp_activity_delete( array(
+			'secondary_item_id' => $comment_id,
+			'type'              => 'activity_comment',
+			'item_id'           => $activity_id
+		) );
 	}
 
 /**
@@ -1709,7 +1718,7 @@ function bp_activity_hide_user_activity( $user_id ) {
  * @param string $content The content of the activity item.
  * @param string $link Optional. The unescaped URL that the image should link
  *        to. If absent, the image will not be a link.
- * @param array $activity_args Optional. The args passed to the activity
+ * @param array $args Optional. The args passed to the activity
  *        creation function (eg bp_blogs_record_activity()).
  * @return string $content The content with images stripped and replaced with a
  *         single thumb.
@@ -1722,6 +1731,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 	$content = preg_replace('|(\[caption(.*?)\])?<img[^>]*>([^\[\[]*\[\/caption\])?|', '', $content );
 
 	if ( !empty( $matches ) && !empty( $matches[0] ) ) {
+
 		// Get the SRC value
 		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $src );
 
