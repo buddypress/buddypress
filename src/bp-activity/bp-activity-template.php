@@ -3173,11 +3173,11 @@ function bp_displayed_user_mentionname() {
  * }
  */
 function bp_activity_types_list( $output = 'select', $args = '' ) {
-	$defaults = array(
+
+	$args = bp_parse_args( $args, array(
 		'checkbox_name' => 'bp_activity_types',
 		'selected'      => array(),
-	);
-	$args = wp_parse_args( $args, $defaults );
+	) );
 
 	$activities = bp_activity_get_types();
 	natsort( $activities );
@@ -3189,19 +3189,24 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 		$checked  = checked(  true, in_array( $type, (array) $args['selected'] ), false );
 		$selected = selected( true, in_array( $type, (array) $args['selected'] ), false );
 
-		if ( 'select' == $output )
-			printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $type ), $selected, esc_html( $description ) );
-
-		elseif ( 'checkbox' == $output )
-			printf( '<label style="">%1$s<input type="checkbox" name="%2$s[]" value="%3$s" %4$s/></label>', esc_html( $description ), esc_attr( $args['checkbox_name'] ), esc_attr( $type ), $checked );
+		// Switch output based on the element
+		switch ( $output ) {
+			case 'select' :
+				printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $type ), $selected, esc_html( $description ) );
+				break;
+			case 'checkbox' :
+				printf( '<label style="">%1$s<input type="checkbox" name="%2$s[]" value="%3$s" %4$s/></label>', esc_html( $description ), esc_attr( $args['checkbox_name'] ), esc_attr( $type ), $checked );
+				break;
+		}
 
 		// Allow custom markup
 		do_action( 'bp_activity_types_list_' . $output, $args, $type, $description );
 	}
 
 	// Backpat with BP-Default for dropdown boxes only
-	if ( 'select' == $output )
+	if ( 'select' === $output ) {
 		do_action( 'bp_activity_filter_options' );
+	}
 }
 
 
