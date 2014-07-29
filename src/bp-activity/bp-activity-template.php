@@ -2753,17 +2753,30 @@ function bp_activity_filter_links( $args = false ) {
 function bp_activity_can_comment() {
 	global $activities_template;
 
+	// Assume activity can be commented on
 	$can_comment = true;
 
-	if ( false === $activities_template->disable_blogforum_replies || (int) $activities_template->disable_blogforum_replies ) {
-		if ( 'new_blog_post' == bp_get_activity_action_name() || 'new_blog_comment' == bp_get_activity_action_name() || 'new_forum_topic' == bp_get_activity_action_name() || 'new_forum_post' == bp_get_activity_action_name() )
+	// Determine ability to comment based on activity action name
+	$activity_action = bp_get_activity_action_name();
+	switch ( $activity_action ) {
+		
+		// Maybe turn off for blog and forum updates
+		case 'new_blog_post'    :
+		case 'new_blog_comment' :
+		case 'new_forum_topic'  :
+		case 'new_forum_post'   :
+			if ( ! empty( $activities_template->disable_blogforum_replies ) ) {
+				$can_comment = false;
+			}
+			break;
+
+		// Turn off for activity comments
+		case 'activity_comment' :
 			$can_comment = false;
+			break;
 	}
 
-	if ( 'activity_comment' == bp_get_activity_action_name() )
-		$can_comment = false;
-
-	return apply_filters( 'bp_activity_can_comment', $can_comment );
+	return apply_filters( 'bp_activity_can_comment', $can_comment, $activity_action );
 }
 
 /**
