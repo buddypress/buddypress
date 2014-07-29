@@ -2805,12 +2805,10 @@ function bp_activity_can_comment_reply( $comment ) {
  *
  * @uses apply_filters() To call the 'bp_activity_can_favorite' hook.
  *
- * @return bool $can_favorite True if comment can receive comments.
+ * @return bool True if comment can receive comments.
  */
 function bp_activity_can_favorite() {
-	$can_favorite = true;
-
-	return apply_filters( 'bp_activity_can_favorite', $can_favorite );
+	return apply_filters( 'bp_activity_can_favorite', true );
 }
 
 /**
