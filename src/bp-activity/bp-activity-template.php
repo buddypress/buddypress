@@ -2908,10 +2908,16 @@ function bp_send_public_message_link() {
 	 */
 	function bp_get_send_public_message_link() {
 
-		if ( ! is_user_logged_in() || ! bp_is_user() || bp_is_my_profile() )
-			return false;
+		// No link if not logged in, not looking at someone else's profile
+		if ( ! is_user_logged_in() || ! bp_is_user() || bp_is_my_profile() ) {
+			$retval = '';
+		} else {
+			$args   = array( 'r' => bp_get_displayed_user_mentionname() );
+			$url    = add_query_arg( $args, bp_get_activity_directory_permalink() );
+			$retval = wp_nonce_url( $url );
+		}
 
-		return apply_filters( 'bp_get_send_public_message_link', wp_nonce_url( bp_get_activity_directory_permalink() . '?r=' . bp_get_displayed_user_mentionname() ) );
+		return apply_filters( 'bp_get_send_public_message_link', $retval );
 	}
 
 /**
