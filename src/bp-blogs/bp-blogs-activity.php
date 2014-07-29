@@ -644,12 +644,14 @@ add_action( 'bp_activity_before_save', 'bp_blogs_sync_activity_edit_to_post_comm
  * @since BuddyPress (2.0.0)
  *
  * @param int $post_id The post ID
- * @param array $statuses Array of comment statuses. The key is comment ID, the
+ * @param array $comments Array of comment statuses. The key is comment ID, the
  *        value is the $comment->comment_approved value.
  */
-function bp_blogs_remove_activity_meta_for_trashed_comments( $post_id, $statuses ) {
-	foreach ( $statuses as $comment_id => $comment_approved ) {
-		delete_comment_meta( $comment_id, 'bp_activity_comment_id' );
+function bp_blogs_remove_activity_meta_for_trashed_comments( $post_id = 0, $comments = array() ) {
+	if ( ! empty( $comments ) ) {
+		foreach ( array_keys( $comments ) as $comment_id ) {
+			delete_comment_meta( $comment_id, 'bp_activity_comment_id' );
+		}
 	}
 }
 add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_comments', 10, 2 );
