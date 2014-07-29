@@ -2845,7 +2845,7 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
 
 		return apply_filters( 'bp_get_total_favorite_count_for_user', bp_activity_total_favorites_for_user( $user_id ) );
 	}
-	add_filter( 'bp_get_total_favorite_count_for_user', 'bp_core_number_format' );
+	
 
 /**
  * Output the total mention count for a specified user.
@@ -2879,7 +2879,6 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 
 		return apply_filters( 'bp_get_total_mention_count_for_user', bp_get_user_meta( $user_id, 'bp_new_mention_count', true ) );
 	}
-	add_filter( 'bp_get_total_mention_count_for_user', 'bp_core_number_format' );
 
 /**
  * Output the public message link for displayed user.
