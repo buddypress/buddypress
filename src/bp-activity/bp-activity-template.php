@@ -2951,7 +2951,7 @@ function bp_activity_recurse_comments_activity_ids( $activity = array(), $activi
  *
  * @param int|string $user_id_or_username See {@link bp_get_mentioned_user_display_name()}.
  */
-function bp_mentioned_user_display_name( $user_id_or_username ) {
+function bp_mentioned_user_display_name( $user_id_or_username = false ) {
 	echo bp_get_mentioned_user_display_name( $user_id_or_username );
 }
 
@@ -2966,9 +2966,15 @@ function bp_mentioned_user_display_name( $user_id_or_username ) {
 	 * @param int|string User ID or username.
 	 * @return string The mentioned user's display name.
 	 */
-	function bp_get_mentioned_user_display_name( $user_id_or_username ) {
-		if ( !$name = bp_core_get_user_displayname( $user_id_or_username ) )
+	function bp_get_mentioned_user_display_name( $user_id_or_username = false ) {
+
+		// Get user display name
+		$name = bp_core_get_user_displayname( $user_id_or_username );
+
+		// If user somehow has no name, return this really lame string
+		if ( empty( $name ) ) {
 			$name = __( 'a user', 'buddypress' );
+		}
 
 		return apply_filters( 'bp_get_mentioned_user_display_name', $name, $user_id_or_username );
 	}
