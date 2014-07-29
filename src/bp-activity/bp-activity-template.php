@@ -3015,7 +3015,8 @@ function bp_send_public_message_button( $args = '' ) {
 	 * @return string The button for sending a public message.
 	 */
 	function bp_get_send_public_message_button( $args = '' ) {
-		$defaults = array(
+
+		$r = bp_parse_args( $args, array(
 			'id'                => 'public_message',
 			'component'         => 'activity',
 			'must_be_logged_in' => true,
@@ -3025,12 +3026,10 @@ function bp_send_public_message_button( $args = '' ) {
 			'link_title'        => __( 'Send a public message on your activity stream.', 'buddypress' ),
 			'link_text'         => __( 'Public Message', 'buddypress' ),
 			'link_class'        => 'activity-button mention'
-		);
-
-		$button = wp_parse_args( $args, $defaults );
+		) );
 
 		// Filter and return the HTML button
-		return bp_get_button( apply_filters( 'bp_get_send_public_message_button', $button ) );
+		return bp_get_button( apply_filters( 'bp_get_send_public_message_button', $r ) );
 	}
 
 /**
