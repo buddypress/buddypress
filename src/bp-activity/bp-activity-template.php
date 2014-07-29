@@ -3119,7 +3119,7 @@ function bp_activity_comments_user_avatars( $args = array() ) {
 		}
 	}
 
-	echo apply_filters( 'bp_activity_comments_user_avatars', $retval, $args, $output );
+	echo apply_filters( 'bp_activity_comments_user_avatars', $retval, $r, $output );
 }
 
 /**
