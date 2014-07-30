@@ -362,6 +362,7 @@ function bp_core_load_template( $templates ) {
 	if ( !empty( $object_id ) ) {
 		$wp_query->queried_object    = get_post( $object_id );
 		$wp_query->queried_object_id = $object_id;
+		$wp_query->post              = $wp_query->queried_object;
 		$post                        = $wp_query->queried_object;
 	}
 
