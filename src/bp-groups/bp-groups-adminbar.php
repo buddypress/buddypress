@@ -57,7 +57,7 @@ function bp_groups_group_admin_menu() {
 	) );
 
 	// Group Admin > Group avatar
-	if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) {
+	if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) && $bp->avatar->show_avatars ) {
 		$wp_admin_bar->add_menu( array(
 			'parent' => $bp->group_admin_menu_id,
 			'id'     => 'group-avatar',

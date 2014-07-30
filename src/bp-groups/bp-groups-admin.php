@@ -1404,16 +1404,20 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$actions = apply_filters( 'bp_groups_admin_comment_row_actions', array_filter( $actions ), $item );
 
 		// Get group name and avatar
-		$avatar  = bp_core_fetch_avatar( array(
-			'item_id'    => $item['id'],
-			'object'     => 'group',
-			'type'       => 'thumb',
-			'avatar_dir' => 'group-avatars',
-			'alt'        => sprintf( __( 'Group logo of %s', 'buddypress' ), $group_name ),
-			'width'      => '32',
-			'height'     => '32',
-			'title'      => $group_name
-		) );
+		$avatar = '';
+
+		if ( buddypress()->avatar->show_avatars ) {
+			$avatar  = bp_core_fetch_avatar( array(
+				'item_id'    => $item['id'],
+				'object'     => 'group',
+				'type'       => 'thumb',
+				'avatar_dir' => 'group-avatars',
+				'alt'        => sprintf( __( 'Group logo of %s', 'buddypress' ), $group_name ),
+				'width'      => '32',
+				'height'     => '32',
+				'title'      => $group_name
+			) );
+		}
 
 		$content = sprintf( '<strong><a href="%s">%s</a></strong>', esc_url( $edit_url ), $group_name );
 

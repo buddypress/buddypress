@@ -387,7 +387,7 @@ function bp_groups_adminbar_admin_menu() {
 
 			<li><a href="<?php bp_groups_action_link( 'admin/group-settings' );  ?>"><?php _e( 'Group Settings', 'buddypress' ); ?></a></li>
 
-			<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
+			<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) && $bp->avatar->show_avatars ) : ?>
 
 				<li><a href="<?php bp_groups_action_link( 'admin/group-avatar' ); ?>"><?php _e( 'Group Profile Photo', 'buddypress' ); ?></a></li>
 

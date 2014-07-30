@@ -555,6 +555,10 @@ function bp_group_avatar( $args = '' ) {
 	function bp_get_group_avatar( $args = '' ) {
 		global $bp, $groups_template;
 
+		if ( ! buddypress()->avatar->show_avatars ) {
+			return false;
+		}
+
 		$defaults = array(
 			'type'   => 'full',
 			'width'  => false,
@@ -1558,7 +1562,7 @@ function bp_group_admin_tabs( $group = false ) {
 
 	<li<?php if ( 'group-settings' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/group-settings' ) ?>"><?php _e( 'Settings', 'buddypress' ); ?></a></li>
 
-	<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
+	<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) && buddypress()->avatar->show_avatars ) : ?>
 
 		<li<?php if ( 'group-avatar'   == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/group-avatar' ) ?>"><?php _e( 'Profile Photo', 'buddypress' ); ?></a></li>
 
@@ -1708,7 +1712,7 @@ function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
 		if ( empty( $group ) ) {
 			$group = $groups_template->group;
 		}
-	
+
 		if ( empty( $user_id ) ) {
 			$user_id = bp_loggedin_user_id();
 		}
