@@ -227,17 +227,16 @@ class BuddyPress {
 
 		// Path and URL
 		if ( ! defined( 'BP_PLUGIN_DIR' ) ) {
-			define( 'BP_PLUGIN_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+			define( 'BP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 		}
 
 		if ( ! defined( 'BP_PLUGIN_URL' ) ) {
-			$plugin_url = plugin_dir_url( __FILE__ );
+			define( 'BP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+		}
 
-			// If we're using https, update the protocol. Workaround for WP13941, WP15928, WP19037.
-			if ( is_ssl() )
-				$plugin_url = str_replace( 'http://', 'https://', $plugin_url );
-
-			define( 'BP_PLUGIN_URL', $plugin_url );
+		// Only applicable to those running trunk
+		if ( ! defined( 'BP_SOURCE_SUBDIRECTORY' ) ) {
+			define( 'BP_SOURCE_SUBDIRECTORY', '' );
 		}
 
 		// Define on which blog ID BuddyPress should run
@@ -260,7 +259,7 @@ class BuddyPress {
 					$plugins = get_site_option( 'active_sitewide_plugins');
 
 					// basename
-					$basename = str_replace( array( 'build/', 'src/' ), '', plugin_basename( constant( 'BP_PLUGIN_DIR' ) . 'bp-loader.php' ) );
+					$basename = basename( constant( 'BP_PLUGIN_DIR' ) ) . '/bp-loader.php';
 
 					// plugin is network-activated; use main site ID instead
 					if ( isset( $plugins[ $basename ] ) ) {
@@ -358,10 +357,10 @@ class BuddyPress {
 		/** Paths**************************************************************/
 
 		// BuddyPress root directory
-		$this->file           = __FILE__;
-		$this->basename       = str_replace( array( 'build/', 'src/' ), '', plugin_basename( $this->file ) );
-		$this->plugin_dir     = BP_PLUGIN_DIR;
-		$this->plugin_url     = BP_PLUGIN_URL;
+		$this->file           = constant( 'BP_PLUGIN_DIR' ) . 'bp-loader.php';
+		$this->basename       = basename( constant( 'BP_PLUGIN_DIR' ) ) . '/bp-loader.php';
+		$this->plugin_dir     = trailingslashit( constant( 'BP_PLUGIN_DIR' ) . constant( 'BP_SOURCE_SUBDIRECTORY' ) );
+		$this->plugin_url     = trailingslashit( constant( 'BP_PLUGIN_URL' ) . constant( 'BP_SOURCE_SUBDIRECTORY' ) );
 
 		// Languages
 		$this->lang_dir       = $this->plugin_dir . 'bp-languages';

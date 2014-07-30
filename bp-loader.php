@@ -30,6 +30,21 @@ $bp_loader = dirname( __FILE__ ) . '/build/bp-loader.php';
 // Load from source if no build exists
 if ( ! file_exists( $bp_loader ) || defined( 'BP_LOAD_SOURCE' ) ) {
 	$bp_loader = dirname( __FILE__ ) . '/src/bp-loader.php';
+	$subdir = 'src';
+} else {
+	$subdir = 'build';
+}
+
+// Set source subdirectory
+define( 'BP_SOURCE_SUBDIRECTORY', $subdir );
+
+// Define overrides - only applicable to those running trunk
+if ( ! defined( 'BP_PLUGIN_DIR' ) ) {
+	define( 'BP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+}
+if ( ! defined( 'BP_PLUGIN_URL' ) ) {
+	// Be nice to symlinked directories
+	define( 'BP_PLUGIN_URL', plugins_url( trailingslashit( basename( constant( 'BP_PLUGIN_DIR' ) ) ) ) );
 }
 
 // Include BuddyPress
