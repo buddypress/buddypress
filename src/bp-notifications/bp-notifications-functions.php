@@ -222,7 +222,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 					);
 
 					// Create the object to be returned
-					$notification_object = new stdClass;
+					$notification_object = $component_action_items[0];
 
 					// Minimal backpat with non-compatible notification
 					// callback functions
@@ -234,8 +234,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 						$notification_object->href    = $content['link'];
 					}
 
-					$notification_object->id = $component_action_items[0]->id;
-					$renderable[]            = $notification_object;
+					$renderable[] = $notification_object;
 
 				// Return an array of content strings
 				} else {
@@ -266,7 +265,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 					$content = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
 
 					// Create the object to be returned
-					$notification_object = new stdClass;
+					$notification_object = $component_action_items[0];
 
 					// Minimal backpat with non-compatible notification
 					// callback functions
@@ -278,8 +277,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 						$notification_object->href    = $content['link'];
 					}
 
-					$notification_object->id = $component_action_items[0]->id;
-					$renderable[]            = $notification_object;
+					$renderable[] = $notification_object;
 
 				// Return an array of content strings
 				} else {
