@@ -128,6 +128,34 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
 }
 
 /**
+ * Get all notifications for a user and cache them
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param int $user_id 
+ * @return array
+ */
+function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
+
+	// Default to displayed user if no ID is passed
+	if ( empty( $user_id ) ) {
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+	}
+
+	// Get notifications out of the cache, or query if necessary
+	$notifications = wp_cache_get( 'all_for_user_' . $user_id, 'bp_notifications' );
+	if ( false === $notifications ) {
+		$notifications = BP_Notifications_Notification::get( array(
+			'user_id' => $user_id
+		) );
+		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
+	}
+
+	// Filter and return
+	return apply_filters( 'bp_notifications_get_all_notifications_for_user', $notifications, $user_id );
+}
+
+/**
  * Get notifications for a specific user.
  *
  * @since BuddyPress (1.9.0)
@@ -142,15 +170,8 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 	// Setup local variables
 	$bp = buddypress();
 
-	// Get notifications out of the cache, or query if necessary
-	$notifications = wp_cache_get( 'all_for_user_' . $user_id, 'bp_notifications' );
-	if ( false === $notifications ) {
-		$notifications = BP_Notifications_Notification::get( array(
-			'user_id' => $user_id
-		) );
-		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
-	}
-
+	// Get notifications (out of the cache, or query if necessary)
+	$notifications         = bp_notifications_get_all_notifications_for_user( $user_id );
 	$grouped_notifications = array(); // Notification groups
 	$renderable            = array(); // Renderable notifications
 
@@ -518,24 +539,10 @@ function bp_notifications_check_notification_access( $user_id, $notification_id 
  * @return int Unread notification count.
  */
 function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
+	$notifications = bp_notifications_get_all_notifications_for_user( $user_id );
+	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
 
-	// Default to displayed user if no ID is passed
-	if ( empty( $user_id ) ) {
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
-	}
-
-	// Get the notifications, and count them
-	$notifications = wp_cache_get( 'all_for_user_' . $user_id, 'bp_notifications' );
-	if ( false === $notifications ) {
-		$notifications = BP_Notifications_Notification::get( array(
-			'user_id' => $user_id,
-		) );
-		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
-	}
-
-	$count = ! empty( $notifications ) ? count( $notifications ) : 0;
-
-	return apply_filters( 'bp_notifications_get_total_notification_count', $count );
+	return apply_filters( 'bp_notifications_get_total_notification_count', (int) $count );
 }
 
 /**
