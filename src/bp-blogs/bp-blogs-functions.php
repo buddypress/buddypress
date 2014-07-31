@@ -770,6 +770,8 @@ add_action( 'edit_comment', 'bp_blogs_record_comment', 10    );
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb;
 
+	require_once( ABSPATH . '/wp-admin/includes/user.php' );
+
 	// If no blog ID was passed, use the root blog ID
 	if ( empty( $blog_id ) ) {
 		$blog_id = isset( $wpdb->blogid ) ? $wpdb->blogid : bp_get_root_blog_id();
