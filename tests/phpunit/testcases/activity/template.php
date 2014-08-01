@@ -309,6 +309,63 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_with_type_new_blog_comments() {
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'component' => 'blogs',
+			'type' => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'component' => 'blogs',
+			'type' => 'new_blog_comment',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		// This one will show up in the stream because it's a comment
+		// on a blog post
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 200 ),
+		) );
+
+		$a4 = $this->factory->activity->create( array(
+			'content' => 'Life Rulez',
+			'component' => 'activity',
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 300 ),
+		) );
+
+		// This one should not show up in the stream because it's a
+		// comment on an activity item
+		$a5 = bp_activity_new_comment( array(
+			'activity_id' => $a4,
+			'content' => 'Candy is great',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 400 ),
+		) );
+		global $activities_template;
+
+		// prime
+		bp_has_activities( array(
+			'component' => 'blogs',
+			'action' => 'new_blog_comment',
+		) );
+
+		$this->assertEquals( array( $a3, $a2 ), wp_parse_id_list( wp_list_pluck( $activities_template->activities, 'id' ) ) );
+
+		// Clean up
+		$activities_template = null;
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+	}
+
+	/**
 	 * @group bp_activity_can_comment_reply
 	 */
 	public function test_bp_activity_can_comment_reply_thread_comments_on() {

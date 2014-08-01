@@ -657,6 +657,74 @@ function bp_blogs_remove_activity_meta_for_trashed_comments( $post_id = 0, $comm
 add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_comments', 10, 2 );
 
 /**
+ * Filter 'new_blog_comment' bp_has_activities() loop to include new- and old-style blog activity comment items.
+ *
+ * In BuddyPress 2.0, the schema for storing activity items related to blog
+ * posts changed. Instead creating new top-level 'new_blog_comment' activity
+ * items, blog comments are recorded in the activity stream as comments on the
+ * 'new_blog_post' activity items corresponding to the parent post. This filter
+ * ensures that the 'new_blog_comment' filter in bp_has_activities() (which
+ * powers the 'Comments' filter in the activity directory dropdown) includes
+ * both old-style and new-style activity comments.
+ *
+ * This implementation involves filtering the activity queries directly, and
+ * should be considered a stopgap. The proper solution would involve enabling
+ * multiple query condition clauses, connected by an OR, in the bp_has_activities()
+ * API.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param array $args Arguments passed from bp_parse_args() in bp_has_activities().
+ * @return array $args
+ */
+function bp_blogs_new_blog_comment_query_backpat( $args ) {
+	// Bail if this is not a 'new_blog_comment' query
+	if ( 'new_blog_comment' !== $args['action'] ) {
+		return $args;
+	}
+
+	// display_comments=stream is required to show new-style
+	// 'activity_comment' items inline
+	$args['display_comments'] = 'stream';
+
+	// For the remaining clauses, we filter the SQL query directly
+	add_filter( 'bp_activity_paged_activities_sql', '_bp_blogs_new_blog_comment_query_backpat_filter' );
+	add_filter( 'bp_activity_total_activities_sql', '_bp_blogs_new_blog_comment_query_backpat_filter' );
+
+	// Return the original arguments
+	return $args;
+}
+add_filter( 'bp_after_has_activities_parse_args', 'bp_blogs_new_blog_comment_query_backpat' );
+
+/**
+ * Filter activity SQL to include new- and old-style 'new_blog_comment' activity items.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @access private
+ * @see bp_blogs_new_blog_comment_query_backpat()
+ *
+ * @param string $query SQL query as assembled in BP_Activity_Activity::get().
+ * @return string $query Modified SQL query.
+ */
+function _bp_blogs_new_blog_comment_query_backpat_filter( $query ) {
+	$bp = buddypress();
+
+	// The query passed to the filter is for old-style 'new_blog_comment'
+	// items. We include new-style 'activity_comment' items by running a
+	// subquery inside of a large OR clause.
+	$activity_comment_subquery = "SELECT a.id FROM {$bp->activity->table_name} a INNER JOIN {$bp->activity->table_name_meta} am ON (a.id = am.activity_id) WHERE am.meta_key = 'bp_blogs_post_comment_id' AND a.type = 'activity_comment'";
+
+	// WHERE ( [original WHERE clauses] OR a.id IN (activity_comment subquery) )
+	$query = preg_replace( '|WHERE (.*?) ORDER|', 'WHERE ( ( $1 ) OR ( a.id IN ( ' . $activity_comment_subquery . ' ) ) ) ORDER', $query );
+
+	// Don't run this on future queries
+	remove_filter( current_filter(), '_bp_blogs_new_blog_comment_query_backpat_filter' );
+
+	return $query;
+}
+
+/**
  * Utility function to set up some variables for use in the activity loop.
  *
  * Grabs the blog's comment depth and the post's open comment status options
