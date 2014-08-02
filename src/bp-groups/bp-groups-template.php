@@ -2308,31 +2308,97 @@ function bp_group_the_member() {
 	return $members_template->the_member();
 }
 
-function bp_group_member_avatar() {
-	echo bp_get_group_member_avatar();
+/**
+ * Output the group member avatar while in the groups members loop.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param array $args {@see bp_core_fetch_avatar()}
+ */
+function bp_group_member_avatar( $args = '' ) {
+	echo bp_get_group_member_avatar( $args );
 }
-	function bp_get_group_member_avatar() {
+	/**
+	 * Return the group member avatar while in the groups members loop.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param array $args {@see bp_core_fetch_avatar()}
+	 */
+	function bp_get_group_member_avatar( $args = '' ) {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'full', 'email' => $members_template->member->user_email, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name ) ) ) );
+		$r = bp_parse_args( $args, array(
+			'item_id' => $members_template->member->user_id,
+			'type'    => 'full',
+			'email'   => $members_template->member->user_email,
+			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name )
+		) );
+
+		return apply_filters( 'bp_get_group_member_avatar', bp_core_fetch_avatar( $r ), $r );
 	}
 
-function bp_group_member_avatar_thumb() {
-	echo bp_get_group_member_avatar_thumb();
+/**
+ * Output the group member avatar while in the groups members loop.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param array $args {@see bp_core_fetch_avatar()}
+ */
+
+function bp_group_member_avatar_thumb( $args = '' ) {
+	echo bp_get_group_member_avatar_thumb( $args );
 }
-	function bp_get_group_member_avatar_thumb() {
+	/**
+	 * Return the group member avatar while in the groups members loop.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param array $args {@see bp_core_fetch_avatar()}
+	 */
+	function bp_get_group_member_avatar_thumb( $args = '' ) {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'email' => $members_template->member->user_email, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name ) ) ) );
+		$r = bp_parse_args( $args, array(
+			'item_id' => $members_template->member->user_id,
+			'type'    => 'thumb',
+			'email'   => $members_template->member->user_email,
+			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name )
+		) );
+
+		return apply_filters( 'bp_get_group_member_avatar_thumb', bp_core_fetch_avatar( $r ), $r );
 	}
 
+/**
+ * Output the group member avatar while in the groups members loop.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param array $args {@see bp_core_fetch_avatar()}
+ */
 function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	echo bp_get_group_member_avatar_mini( $width, $height );
 }
+	/**
+	 * Output the group member avatar while in the groups members loop.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param array $args {@see bp_core_fetch_avatar()}
+	 */
 	function bp_get_group_member_avatar_mini( $width = 30, $height = 30 ) {
 		global $members_template;
 
-		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->user_id, 'type' => 'thumb', 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name ) ) ) );
+		$r = bp_parse_args( array(), array(
+			'item_id' => $members_template->member->user_id,
+			'type'    => 'thumb',
+			'email'   => $members_template->member->user_email,
+			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name ),
+			'width'   => absint( $width ),
+			'height'  => absint( $height )
+		) );
+
+		return apply_filters( 'bp_get_group_member_avatar_mini', bp_core_fetch_avatar( $r ), $r );
 	}
 
 function bp_group_member_name() {
