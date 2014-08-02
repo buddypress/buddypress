@@ -794,29 +794,40 @@ function bp_member_last_active( $args = array() ) {
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
-	 *     @type bool $active_format If true, formatted "Active 5 minutes
-	 *           ago". If false, formatted "5 minutes ago". Default: true.
+	 *     @type mixed $active_format If true, formatted "active 5 minutes
+	 *           ago". If false, formatted "5 minutes ago". If string, should
+	 *           be sprintf'able like 'last seen %s ago'.
 	 * }
 	 * @return string
 	 */
 	function bp_get_member_last_active( $args = array() ) {
 		global $members_template;
 
-		$r = wp_parse_args( $args, array(
-			'active_format' => true,
+		// Parse the activy format
+		$r = bp_parse_args( $args, array(
+			'active_format' => true
 		) );
 
+		// Backwards compatibilty for anyone forcing a 'true' active_format
+		if ( true === $r['active_format'] ) {
+			$r['active_format'] = __( 'active %s', 'buddypress' );
+		}
+
+		// Member has logged in at least one time
 		if ( isset( $members_template->member->last_activity ) ) {
-			if ( ! empty( $r['active_format'] ) ) {
-				$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s', 'buddypress' ) );
-			} else {
-				$last_activity = bp_core_time_since( $members_template->member->last_activity );
-			}
+
+			// Backwards compatibility for pre 1.5 'ago' strings
+			$last_activity = ! empty( $r['active_format'] )
+				? bp_core_get_last_activity( $members_template->member->last_activity, $r['active_format'] )
+				: bp_core_time_since( $members_template->member->last_activity );
+
+		// Member has never logged in or been active
 		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
 		}
 
-		return apply_filters( 'bp_member_last_active', $last_activity );
+		// Filter and return
+		return apply_filters( 'bp_member_last_active', $last_activity, $r );
 	}
 
 /**
