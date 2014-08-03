@@ -549,33 +549,62 @@ function bp_group_status( $group = false ) {
 		return apply_filters( 'bp_get_group_status', $group->status );
 	}
 
+/**
+ * Output the group avatar while in the groups loop.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param array $args {@see bp_core_fetch_avatar()}
+ */
 function bp_group_avatar( $args = '' ) {
 	echo bp_get_group_avatar( $args );
 }
+	/**
+	 * Return the group avatar while in the groups loop.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param array $args {@see bp_core_fetch_avatar()}
+	 */
 	function bp_get_group_avatar( $args = '' ) {
-		global $bp, $groups_template;
+		global $groups_template;
 
+		// Bail if avatars are turned off
+		// @todo Should we maybe still filter this?
 		if ( ! buddypress()->avatar->show_avatars ) {
 			return false;
 		}
 
-		$defaults = array(
+		// Parse the arguments
+		$r = bp_parse_args( $args, array(
 			'type'   => 'full',
 			'width'  => false,
 			'height' => false,
 			'class'  => 'avatar',
 			'id'     => false,
 			'alt'    => sprintf( __( 'Group logo of %s', 'buddypress' ), $groups_template->group->name )
-		);
+		) );
 
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		// Fetch the avatar from the folder
+		$avatar = bp_core_fetch_avatar( array(
+			'item_id'    => $groups_template->group->id,
+			'title'      => $groups_template->group->name,
+			'avatar_dir' => 'group-avatars',
+			'object'     => 'group',
+			'type'       => $r['type'],
+			'alt'        => $r['alt'],
+			'css_id'     => $r['id'],
+			'class'      => $r['class'],
+			'width'      => $r['width'],
+			'height'     => $r['height']
+		) );
 
-		/* Fetch the avatar from the folder, if not provide backwards compat. */
-		if ( !$avatar = bp_core_fetch_avatar( array( 'item_id' => $groups_template->group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height, 'title' => $groups_template->group->name, 'alt' => $alt ) ) )
+		// If No avatar found, provide some backwards compatibility
+		if ( empty( $avatar ) ) {
 			$avatar = '<img src="' . esc_url( $groups_template->group->avatar_thumb ) . '" class="avatar" alt="' . esc_attr( $groups_template->group->name ) . '" />';
+		}
 
-		return apply_filters( 'bp_get_group_avatar', $avatar );
+		return apply_filters( 'bp_get_group_avatar', $avatar, $r );
 	}
 
 function bp_group_avatar_thumb( $group = false ) {
