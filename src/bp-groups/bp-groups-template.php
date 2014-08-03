@@ -607,18 +607,54 @@ function bp_group_avatar( $args = '' ) {
 		return apply_filters( 'bp_get_group_avatar', $avatar, $r );
 	}
 
+/**
+ * Output the group avatar thumbnail while in the groups loop.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param object $group Single group object
+ */
 function bp_group_avatar_thumb( $group = false ) {
 	echo bp_get_group_avatar_thumb( $group );
 }
+	/**
+	 * Return the group avatar thumbnail while in the groups loop.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param object $group Single group object
+	 */
 	function bp_get_group_avatar_thumb( $group = false ) {
-		return bp_get_group_avatar( 'type=thumb' );
+		return bp_get_group_avatar( array(
+			'type' => 'thumb',
+			'id'   => ! empty( $group->id ) ? $group->id : false
+		) );
 	}
 
+/**
+ * Output the miniature group avatar thumbnail while in the groups loop.
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param object $group Single group object
+ */
 function bp_group_avatar_mini( $group = false ) {
 	echo bp_get_group_avatar_mini( $group );
 }
+	/**
+	 * Return the miniature group avatar thumbnail while in the groups loop.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param object $group Single group object
+	 */
 	function bp_get_group_avatar_mini( $group = false ) {
-		return bp_get_group_avatar( 'type=thumb&width=30&height=30' );
+		return bp_get_group_avatar( array(
+			'type'   => 'thumb',
+			'width'  => 30,
+			'height' => 30,
+			'id'     => ! empty( $group->id ) ? $group->id : false
+		) );
 	}
 
 function bp_group_last_active( $group = false ) {
