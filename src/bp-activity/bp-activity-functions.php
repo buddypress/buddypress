@@ -49,6 +49,22 @@ function bp_activity_do_mentions() {
 }
 
 /**
+ * Should BuddyPress load the mentions scripts and related assets, including results to prime the
+ * mentions suggestions?
+ *
+ * @return bool True if mentions scripts should be loaded.
+ * @since BuddyPress (2.1.0)
+ */
+function bp_activity_maybe_load_mentions_scripts() {
+	$retval =
+		bp_activity_do_mentions() &&
+		bp_is_user_active() &&
+		( bp_is_activity_component() || bp_is_blog_page() && is_singular() && comments_open() || is_admin() );
+
+	return (bool) apply_filters( 'bp_activity_maybe_load_mentions_scripts', $retval );
+}
+
+/**
  * Locate usernames in an activity content string, as designated by an @ sign.
  *
  * @since BuddyPress (1.5.0)

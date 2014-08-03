@@ -47,6 +47,7 @@ class BP_Activity_Component extends BP_Component {
 	public function includes( $includes = array() ) {
 		// Files to include
 		$includes = array(
+			'cssjs',
 			'actions',
 			'screens',
 			'filters',

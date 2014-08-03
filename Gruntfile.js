@@ -6,6 +6,7 @@ module.exports = function( grunt ) {
 	BUILD_DIR  = 'build/',
 
 	BP_CSS = [
+		'bp-activity/css/*.css',
 		'bp-activity/admin/css/*.css',
 		'bp-core/admin/css/*.css',
 		'bp-core/css/*.css',
@@ -18,6 +19,7 @@ module.exports = function( grunt ) {
 	],
 
 	BP_JS = [
+		'bp-activity/js/*.js',
 		'bp-activity/admin/js/*.js',
 		'bp-core/js/*.js',
 		'bp-friends/js/*.js',
@@ -30,6 +32,8 @@ module.exports = function( grunt ) {
 	],
 
 	BP_EXCLUDED_JS = [
+		'!bp-core/js/jquery.atwho.js',
+		'!bp-core/js/jquery.caret.js',
 		'!bp-templates/bp-legacy/js/*.js'
 	];
 

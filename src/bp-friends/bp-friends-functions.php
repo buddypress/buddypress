@@ -566,3 +566,41 @@ function friends_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user',  'friends_remove_data' );
 add_action( 'delete_user',       'friends_remove_data' );
 add_action( 'bp_make_spam_user', 'friends_remove_data' );
+
+/**
+ * Used by the Activity component's @mentions to print a JSON list of the current user's friends.
+ *
+ * This is intended to speed up @mentions lookups for a majority of use cases.
+ *
+ * @see bp_activity_mentions_script()
+ */
+function bp_friends_prime_mentions_results() {
+	if ( ! bp_activity_maybe_load_mentions_scripts() ) {
+		return;
+	}
+
+	$friends_query = array(
+		'count_total'     => '',                    // Prevents total count
+		'populate_extras' => false,
+
+		'type'            => 'alphabetical',
+		'user_id'         => get_current_user_id(),
+	);
+
+	$friends_query = new BP_User_Query( $friends_query );
+	$results       = array();
+
+	foreach ( $friends_query->results as $user ) {
+		$result        = new stdClass();
+		$result->ID    = $user->user_nicename;
+		$result->image = bp_core_fetch_avatar( array( 'html' => false, 'item_id' => $user->ID ) );
+		$result->name  = bp_core_get_user_displayname( $user->ID );
+
+		$results[] = $result;
+	}
+
+	wp_localize_script( 'bp-mentions', 'BP_Suggestions', array(
+		'friends' => $results,
+	) );
+}
+add_action( 'bp_activity_mentions_prime_results', 'bp_friends_prime_mentions_results' );
