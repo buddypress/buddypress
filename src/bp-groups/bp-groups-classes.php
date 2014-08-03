@@ -4387,6 +4387,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 			'page'            => 1,
 			'per_page'        => $this->args['limit'],
 			'search_terms'    => $this->args['term'],
+			'search_wildcard' => 'right',
 		);
 
 		// Only return matches of friends of this user.
