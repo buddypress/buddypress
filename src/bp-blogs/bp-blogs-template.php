@@ -478,25 +478,37 @@ function bp_blog_avatar( $args = '' ) {
 	 *     @type int|bool $width Default: false.
 	 *     @type int|bool $height Default: false.
 	 *     @type bool $id Currently unused.
-	 *     @type bool $no_grav Default: false.
+	 *     @type bool $no_grav Default: true.
 	 * }
 	 * @return string User avatar string.
 	 */
 	function bp_get_blog_avatar( $args = '' ) {
 		global $blogs_template;
 
-		$defaults = array(
+		// Parse the arguments
+		$r = bp_parse_args( $args, array(
 			'type'    => 'full',
 			'width'   => false,
 			'height'  => false,
 			'class'   => 'avatar',
 			'id'      => false,
 			'alt'     => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), bp_core_get_user_displayname( $blogs_template->blog->admin_user_id ) ),
-			'no_grav' => true
-		);
+			'no_grav' => true,
+		) );
 
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		// Fetch the avatar
+		$avatar = bp_core_fetch_avatar( array(
+			'item_id'    => $blogs_template->blog->admin_user_id,
+			'title'      => $blogs_template->blog->admin_user_email,
+			//'avatar_dir' => 'blog-avatars',
+			//'object'     => 'blog',
+			'type'       => $r['type'],
+			'alt'        => $r['alt'],
+			'css_id'     => $r['id'],
+			'class'      => $r['class'],
+			'width'      => $r['width'],
+			'height'     => $r['height']
+		) );
 
 		/***
 		 * In future BuddyPress versions you will be able to set the avatar for a blog.
@@ -506,9 +518,9 @@ function bp_blog_avatar( $args = '' ) {
 		 * This filter is deprecated as of BuddyPress 1.5 and may be removed in a future version.
 		 * Use the 'bp_get_blog_avatar' filter instead.
 		 */
-		$avatar = apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, bp_core_fetch_avatar( array( 'item_id' => $blogs_template->blog->admin_user_id, 'type' => $type, 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'email' => $blogs_template->blog->admin_user_email ) ) );
+		$avatar = apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, $avatar );
 
-		return apply_filters( 'bp_get_blog_avatar', $avatar, $blogs_template->blog->blog_id, array( 'item_id' => $blogs_template->blog->admin_user_id, 'type' => $type, 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'email' => $blogs_template->blog->admin_user_email ) );
+		return apply_filters( 'bp_get_blog_avatar', $avatar, $blogs_template->blog->blog_id, $r );
 	}
 
 function bp_blog_permalink() {
