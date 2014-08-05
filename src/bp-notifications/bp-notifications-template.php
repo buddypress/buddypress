@@ -220,87 +220,69 @@ class BP_Notifications_Template {
 	/**
 	 * Constructor method.
 	 *
+	 * @see bp_has_notifications() For information on the array format.
+	 *
 	 * @since BuddyPress (1.9.0)
 	 *
 	 * @param array $args {
-	 *     @type int $user_id ID of the user to whom the displayed
-	 *           notifications belong.
-	 *     @type bool $is_new Whether to limit the query to unread
-	 *           notifications. Default: true.
-	 *     @type int $page Number of the page of results to return.
-	 *           Will be overridden by URL parameter. Default: 1.
-	 *     @type int $per_page Number of results to return per page.
-	 *           Will be overridden by URL parameter. Default: 25.
-	 *     @type int $max Optional. Max results to display.
-	 *     @type string $search_terms Optional. Term to match against
-	 *           component_name and component_action.
-	 *     @type string $page_arg URL argument to use for pagination.
-	 *           Default: 'npage'.
+	 *     An array of arguments. See {@link bp_has_notifications()}
+	 *     for more details.
 	 * }
 	 */
 	public function __construct( $args = array() ) {
 
 		// Parse arguments
 		$r = wp_parse_args( $args, array(
-			'user_id'      => 0,
-			'is_new'       => true,
-			'page'         => 1,
-			'per_page'     => 25,
-			'order_by'     => 'date_notified',
-			'sort_order'   => 'DESC',
-			'max'          => null,
-			'search_terms' => '',
-			'page_arg'     => 'npage',
+			'id'                => false,
+			'user_id'           => 0,
+			'secondary_item_id' => false,
+			'component_name'    => bp_notifications_get_registered_components(),
+			'component_action'  => false,
+			'is_new'            => true,
+			'search_terms'      => '',
+			'order_by'          => 'date_notified',
+			'sort_order'        => 'DESC',
+			'page'              => 1,
+			'per_page'          => 25,
+			'max'               => null,
+			'page_arg'          => 'npage',
 		) );
 
 		// Overrides
 
 		// Set which pagination page
 		if ( isset( $_GET[ $r['page_arg'] ] ) ) {
-			$pag_page = intval( $_GET[ $r['page_arg'] ] );
-		} else {
-			$pag_page = $r['page'];
+			$r['page'] = intval( $_GET[ $r['page_arg'] ] );
 		}
 
 		// Set the number to show per page
 		if ( isset( $_GET['num'] ) ) {
-			$pag_num = intval( $_GET['num'] );
+			$r['per_page'] = intval( $_GET['num'] );
 		} else {
-			$pag_num = intval( $r['per_page'] );
+			$r['per_page'] = intval( $r['per_page'] );
 		}
 
 		// Sort order direction
 		$orders = array( 'ASC', 'DESC' );
 		if ( ! empty( $_GET['sort_order'] ) && in_array( $_GET['sort_order'], $orders ) ) {
-			$sort_order = $_GET['sort_order'];
+			$r['sort_order'] = $_GET['sort_order'];
 		} else {
-			$sort_order = in_array( $r['sort_order'], $orders ) ? $r['sort_order'] : 'DESC';
+			$r['sort_order'] = in_array( $r['sort_order'], $orders ) ? $r['sort_order'] : 'DESC';
 		}
 
 		// Setup variables
-		$this->pag_page     = $pag_page;
-		$this->pag_num      = $pag_num;
+		$this->pag_page     = $r['page'];
+		$this->pag_num      = $r['per_page'];
 		$this->user_id      = $r['user_id'];
 		$this->is_new       = $r['is_new'];
 		$this->search_terms = $r['search_terms'];
 		$this->page_arg     = $r['page_arg'];
 		$this->order_by     = $r['order_by'];
-		$this->sort_order   = $sort_order;
-
-		// Get the notifications
-		$notifications      = BP_Notifications_Notification::get_current_notifications_for_user( array(
-			'user_id'      => $this->user_id,
-			'is_new'       => $this->is_new,
-			'page'         => $this->pag_page,
-			'per_page'     => $this->pag_num,
-			'search_terms' => $this->search_terms,
-			'order_by'     => $this->order_by,
-			'sort_order'   => $this->sort_order,
-		) );
+		$this->sort_order   = $r['sort_order'];
 
 		// Setup the notifications to loop through
-		$this->notifications            = $notifications['notifications'];
-		$this->total_notification_count = $notifications['total'];
+		$this->notifications            = BP_Notifications_Notification::get( $r );
+		$this->total_notification_count = BP_Notifications_Notification::get_total_count( $r );
 
 		if ( empty( $this->notifications ) ) {
 			$this->notification_count       = 0;
@@ -447,16 +429,11 @@ class BP_Notifications_Template {
  * @param array $args {
  *     Arguments for limiting the contents of the notifications loop. Can be
  *     passed as an associative array, or as a URL query string.
- *     @type int $user_id ID of the user to whom notifications belong. Default:
- *           ID of the logged-in user.
- *     @type bool $is_new Whether to limit query to unread notifications.
- *           Default: when viewing the 'unread' tab, defaults to true; when
- *           viewing the 'read' tab, defaults to false.
- *     @type int $page The page of notifications being fetched. Default: 1.
- *     @type int $per_page Number of items to display on a page. Default: 25.
+ *
+ *     See {@link BP_Notifications_Notification::get()} for detailed
+ *     information on the arguments.  In addition, also supports:
+ *
  *     @type int $max Optional. Max items to display. Default: false.
- *     @type string $search_terms Optional. Term to match against
- *           component_name and component_action.
  *     @type string $page_arg URL argument to use for pagination.
  *           Default: 'npage'.
  * }
@@ -468,6 +445,10 @@ function bp_has_notifications( $args = '' ) {
 		$is_new = 1;
 	} elseif ( bp_is_current_action( 'read' ) ) {
 		$is_new = 0;
+
+	// not on a notifications page? default to fetch new notifications
+	} else {
+		$is_new = 1;
 	}
 
 	// Get the user ID
@@ -479,13 +460,22 @@ function bp_has_notifications( $args = '' ) {
 
 	// Parse the args
 	$r = bp_parse_args( $args, array(
-		'user_id'      => $user_id,
-		'is_new'       => $is_new,
-		'page'         => 1,
-		'per_page'     => 25,
-		'max'          => false,
-		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
-		'page_arg'     => 'npage',
+		'id'                => false,
+		'user_id'           => $user_id,
+		'secondary_item_id' => false,
+		'component_name'    => bp_notifications_get_registered_components(),
+		'component_action'  => false,
+		'is_new'            => $is_new,
+		'search_terms'      => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
+		'order_by'          => 'date_notified',
+		'sort_order'        => 'DESC',
+		'page'              => 1,
+		'per_page'          => 25,
+
+		// these are additional arguments that are not available in
+		// BP_Notifications_Notification::get()
+		'max'               => false,
+		'page_arg'          => 'npage',
 	), 'has_notifications' );
 
 	// Get the notifications

@@ -542,6 +542,8 @@ class BP_Notifications_Notification {
 	 *           notifications. 'both' returns all. Default: true.
 	 *     @type string $search_terms Term to match against component_name
 	 *           or component_action fields.
+	 *     @type string $order_by Database column to order notifications by.
+	 *     @type string $sort_order Either 'ASC' or 'DESC'.
 	 *     @type string $order_by Field to order results by.
 	 *     @type string $sort_order ASC or DESC.
 	 *     @type int $page Number of the current page of results. Default:

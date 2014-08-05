@@ -120,4 +120,48 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		// assert
 		$this->assertEquals( 0, $n );
 	}
+
+	/**
+	 * @group bp_has_notifications
+	 */
+	public function test_bp_has_notifications_filtering() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		// create a mixture of different notifications
+		$n1 = $this->factory->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u2,
+			'secondary_item_id' => $u1,
+			'is_new'            => true,
+		) );
+
+		$n2 = $this->factory->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 99,
+			'user_id'           => $u2,
+			'secondary_item_id' => $u1,
+			'is_new'            => true,
+		) );
+
+		$n3 = $this->factory->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 100,
+			'user_id'           => $u2,
+			'secondary_item_id' => $u1,
+			'is_new'            => true,
+		) );
+
+		// now fetch only activity notifications
+		bp_has_notifications( array(
+			'component_name' => 'activity',
+		) );
+
+		// assert
+		$this->assertEquals( 2, buddypress()->notifications->query_loop->total_notification_count );
+	}
 }
