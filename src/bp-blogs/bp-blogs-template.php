@@ -485,6 +485,12 @@ function bp_blog_avatar( $args = '' ) {
 	function bp_get_blog_avatar( $args = '' ) {
 		global $blogs_template;
 
+		// Bail if avatars are turned off
+		// @todo Should we maybe still filter this?
+		if ( ! buddypress()->avatar->show_avatars ) {
+			return false;
+		}
+
 		// Parse the arguments
 		$r = bp_parse_args( $args, array(
 			'type'    => 'full',
