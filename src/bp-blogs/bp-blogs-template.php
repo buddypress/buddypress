@@ -90,7 +90,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $current_blog = -1;
+	public $current_blog = -1;
 
 	/**
 	 * The number of blogs returned by the paged query.
@@ -98,7 +98,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $blog_count;
+	public $blog_count = 0;
 
 	/**
 	 * Array of blogs located by the query..
@@ -106,7 +106,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var array
 	 */
-	var $blogs;
+	public $blogs = array();
 
 	/**
 	 * The blog object currently being iterated on.
@@ -114,7 +114,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var object
 	 */
-	var $blog;
+	public $blog;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
@@ -122,7 +122,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var bool
 	 */
-	var $in_the_loop;
+	public $in_the_loop = false;
 
 	/**
 	 * The page number being requested.
@@ -130,7 +130,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var public
 	 */
-	var $pag_page;
+	public $pag_page = 1;
 
 	/**
 	 * The number of items being requested per page.
@@ -138,7 +138,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var public
 	 */
-	var $pag_num;
+	public $pag_num = 20;
 
 	/**
 	 * An HTML string containing pagination links.
@@ -146,7 +146,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $pag_links;
+	public $pag_links = '';
 
 	/**
 	 * The total number of blogs matching the query parameters.
@@ -154,7 +154,7 @@ class BP_Blogs_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $total_blog_count;
+	public $total_blog_count = 0;
 
 	/**
 	 * Constructor method.
@@ -173,13 +173,16 @@ class BP_Blogs_Template {
 	 *        queried blogs.
 	 * @param array $include_blog_ids Array of blog IDs to include.
 	 */
-	function __construct( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg = 'bpage', $update_meta_cache = true, $include_blog_ids = false ) {
+	public function __construct( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg = 'bpage', $update_meta_cache = true, $include_blog_ids = false ) {
 
-		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
-		$this->pag_num = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->pag_page = isset( $_REQUEST[ $page_arg ] ) ? intval( $_REQUEST[ $page_arg ] ) : $page;
+		$this->pag_num  = isset( $_REQUEST['num']       ) ? intval( $_REQUEST['num']       ) : $per_page;
 
-		if ( isset( $_REQUEST['letter'] ) && '' != $_REQUEST['letter'] ) {
+		// Backwards compatibility support for blogs by first letter
+		if ( ! empty( $_REQUEST['letter'] ) ) {
 			$this->blogs = BP_Blogs_Blog::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
+
+		// Typical blogs query
 		} else {
 			$this->blogs = bp_blogs_get_blogs( array(
 				'type'              => $type,
@@ -192,31 +195,35 @@ class BP_Blogs_Template {
 			) );
 		}
 
-		if ( !$max || $max >= (int) $this->blogs['total'] )
+		// Set the total blog count
+		if ( empty( $max ) || ( $max >= (int) $this->blogs['total'] ) ) {
 			$this->total_blog_count = (int) $this->blogs['total'];
-		else
-			$this->total_blog_count = (int) $max;
-
-		$this->blogs = $this->blogs['blogs'];
-
-		if ( $max ) {
-			if ( $max >= count($this->blogs) ) {
-				$this->blog_count = count( $this->blogs );
-			} else {
-				$this->blog_count = (int) $max;
-			}
 		} else {
-			$this->blog_count = count( $this->blogs );
+			$this->total_blog_count = (int) $max;
 		}
 
-		if ( (int) $this->total_blog_count && (int) $this->pag_num ) {
+		// Set the blogs array (to loop through later
+		$this->blogs = $this->blogs['blogs'];
+
+		// Get the current blog count to compare maximum against
+		$blog_count = count( $this->blogs );
+
+		// Set the current blog count
+		if ( empty( $max ) || ( $max >= (int) $blog_count ) ) {
+			$this->blog_count = (int) $blog_count;
+		} else {
+			$this->blog_count = (int) $max;
+		}
+
+		// Build pagination links based on total blogs and current page number
+		if ( ! empty( $this->total_blog_count ) && ! empty( $this->pag_num ) ) {
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( $page_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_blog_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Blog pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Blog pagination next text', 'buddypress' ),
+				'next_text' => _x( '&rarr;', 'Blog pagination next text',     'buddypress' ),
 				'mid_size'  => 1
 			) );
 		}
@@ -229,11 +236,8 @@ class BP_Blogs_Template {
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
-	function has_blogs() {
-		if ( $this->blog_count )
-			return true;
-
-		return false;
+	public function has_blogs() {
+		return (bool) ! empty( $this->blog_count );
 	}
 
 	/**
@@ -241,9 +245,9 @@ class BP_Blogs_Template {
 	 *
 	 * @return object The next blog to iterate over.
 	 */
-	function next_blog() {
+	public function next_blog() {
 		$this->current_blog++;
-		$this->blog = $this->blogs[$this->current_blog];
+		$this->blog = $this->blogs[ $this->current_blog ];
 
 		return $this->blog;
 	}
@@ -251,7 +255,7 @@ class BP_Blogs_Template {
 	/**
 	 * Rewind the blogs and reset blog index.
 	 */
-	function rewind_blogs() {
+	public function rewind_blogs() {
 		$this->current_blog = -1;
 		if ( $this->blog_count > 0 ) {
 			$this->blog = $this->blogs[0];
@@ -269,11 +273,11 @@ class BP_Blogs_Template {
 	 *
 	 * @return bool True if there are more blogs to show, otherwise false.
 	 */
-	function blogs() {
-		if ( $this->current_blog + 1 < $this->blog_count ) {
+	public function blogs() {
+		if ( ( $this->current_blog + 1 ) < $this->blog_count ) {
 			return true;
-		} elseif ( $this->current_blog + 1 == $this->blog_count ) {
-			do_action('blog_loop_end');
+		} elseif ( ( $this->current_blog + 1 ) === $this->blog_count ) {
+			do_action( 'blog_loop_end' );
 			// Do some cleaning up after the loop
 			$this->rewind_blogs();
 		}
@@ -291,13 +295,15 @@ class BP_Blogs_Template {
 	 *
 	 * @see bp_the_blog()
 	 */
-	function the_blog() {
+	public function the_blog() {
 
 		$this->in_the_loop = true;
 		$this->blog        = $this->next_blog();
 
-		if ( 0 == $this->current_blog ) // loop has just started
-			do_action('blog_loop_start');
+		// loop has just started
+		if ( 0 === $this->current_blog ) {
+			do_action( 'blog_loop_start' );
+		}
 	}
 }
 
