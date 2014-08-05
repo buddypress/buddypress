@@ -351,47 +351,33 @@ function bp_rewind_blogs() {
 function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
-	/***
-	 * Set the defaults based on the current page. Any of these will be
-	 * overridden if arguments are directly passed into the loop. Custom
-	 * plugins should always pass their parameters directly to the loop.
-	 */
-	$type    = 'active';
-	$user_id = 0;
+	// Checkfor and use search terms
+	$search_terms = ! empty( $_REQUEST['s'] )
+		? $_REQUEST['s']
+		: false;
 
-	// User filtering
-	if ( bp_displayed_user_id() )
-		$user_id = bp_displayed_user_id();
-
-	if ( isset( $_REQUEST['s'] ) && !empty( $_REQUEST['s'] ) ) {
-		$search_terms = $_REQUEST['s'];
-	} else {
-		$search_terms = false;
-	}
-
-	$defaults = array(
-		'type'              => $type,
+	// Parse arguments
+	$r = bp_parse_args( $args, array(
+		'type'              => 'active',
+		'page_arg'          => 'bpage',                // See https://buddypress.trac.wordpress.org/ticket/3679
 		'page'              => 1,
 		'per_page'          => 20,
 		'max'               => false,
-
-		'page_arg'          => 'bpage',        // See https://buddypress.trac.wordpress.org/ticket/3679
-
-		'user_id'           => $user_id,       // Pass a user_id to limit to only blogs this user has higher than subscriber access to
+		'user_id'           => bp_displayed_user_id(), // Pass a user_id to limit to only blogs this user has higher than subscriber access to
 		'include_blog_ids'  => false,
-		'search_terms'      => $search_terms,  // Pass search terms to filter on the blog title or description.
-		'update_meta_cache' => true,
-	);
+		'search_terms'      => $search_terms,          // Pass search terms to filter on the blog title or description.
+		'update_meta_cache' => true
+	), 'has_blogs' );
 
-	$r = bp_parse_args( $args, $defaults, 'has_blogs' );
-
-	if ( $r['max'] ) {
-		if ( $r['per_page'] > $r['max'] ) {
-			$r['per_page'] = $r['max'];
-		}
+	// Set per_page to maximum if max is enforced
+	if ( ! empty( $r['max'] ) && ( (int) $r['per_page'] > (int) $r['max'] ) ) {
+		$r['per_page'] = (int) $r['max'];
 	}
 
+	// Get the blogs
 	$blogs_template = new BP_Blogs_Template( $r['type'], $r['page'], $r['per_page'], $r['max'], $r['user_id'], $r['search_terms'], $r['page_arg'], $r['update_meta_cache'], $r['include_blog_ids'] );
+
+	// Filter and return
 	return apply_filters( 'bp_has_blogs', $blogs_template->has_blogs(), $blogs_template, $r );
 }
 
