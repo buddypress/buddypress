@@ -348,7 +348,7 @@ add_action( 'update_option_close_comments_for_old_posts', 'bp_blogs_update_optio
  *        unused here.
  * @param string $newvalue Value to change meta to.
  */
-function bp_blogs_update_option_close_close_comments_days_old( $oldvalue, $newvalue ) {
+function bp_blogs_update_option_close_comments_days_old( $oldvalue, $newvalue ) {
 	global $wpdb;
 
 	bp_blogs_update_blogmeta( $wpdb->blogid, 'close_comments_days_old', $newvalue );
