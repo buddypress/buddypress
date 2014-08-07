@@ -19,6 +19,7 @@ function bp_core_register_common_scripts() {
 	$url = buddypress()->plugin_url . 'bp-core/js/';
 	
 	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
+
 		// Legacy
 		'bp-confirm'        => array( 'file' => "{$url}confirm{$ext}",        'dependencies' => array( 'jquery' ) ),
 		'bp-widget-members' => array( 'file' => "{$url}widget-members{$ext}", 'dependencies' => array( 'jquery' ) ),
@@ -30,8 +31,9 @@ function bp_core_register_common_scripts() {
 		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$ext}", 'dependencies' => array( 'jquery', 'jquery-caret' ) ),
 	) );
 
+	$version = bp_get_version();
 	foreach ( $scripts as $id => $script ) {
-		wp_register_script( $id, $script['file'], $script['dependencies'], bp_get_version() );
+		wp_register_script( $id, $script['file'], $script['dependencies'], $version );
 	}
 }
 add_action( 'bp_enqueue_scripts',       'bp_core_register_common_scripts', 1 );
@@ -53,9 +55,8 @@ function bp_core_register_common_styles() {
 		)
 	) );
 
-	$version = bp_get_version();
 	foreach ( $styles as $id => $style ) {
-		wp_register_style( $id, $style['file'], $style['dependencies'], $version );
+		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
 	}
 }
 add_action( 'bp_enqueue_scripts',       'bp_core_register_common_styles', 1 );
