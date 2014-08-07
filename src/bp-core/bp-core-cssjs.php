@@ -38,6 +38,30 @@ add_action( 'bp_enqueue_scripts',       'bp_core_register_common_scripts', 1 );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
 
 /**
+ * Register styles commonly used by BuddyPress.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_core_register_common_styles() {
+	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.css' : '.min.css';
+	$url = buddypress()->plugin_url . 'bp-core/css/';
+
+	$styles = apply_filters( 'bp_core_register_common_styles', array(
+		'bp-admin-bar' => array(
+			'file'         => apply_filters( 'bp_core_admin_bar_css', "{$url}admin-bar{$ext}" ),
+			'dependencies' => array( 'admin-bar' )
+		)
+	) );
+
+	$version = bp_get_version();
+	foreach ( $styles as $id => $style ) {
+		wp_register_style( $id, $style['file'], $style['dependencies'], $version );
+	}
+}
+add_action( 'bp_enqueue_scripts',       'bp_core_register_common_styles', 1 );
+add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_styles', 1 );
+
+/**
  * Load the JS for "Are you sure?" .confirm links.
  */
 function bp_core_confirmation_js() {
