@@ -749,6 +749,12 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/WCUADD/">WCUADD</a>,
 				<a href="https://profiles.wordpress.org/wolfhoundjesse/">wolfhoundjesse</a>.
 			</p>
+
+			<h4 class="wp-people-group"><?php _e( 'External Libraries', 'buddypress' ); ?></h4>
+			<p class="wp-credits-list">
+				<a href="https://github.com/ichord/At.js">At.js</a>,
+				<a href="https://github.com/ichord/Caret.js">Caret.js</a>,
+				<a href="https://github.com/carhartl/jquery-cookie">jquery.cookie</a>.
 			</p>
 
 			<?php if ( current_user_can( $this->capability ) ) :?>
