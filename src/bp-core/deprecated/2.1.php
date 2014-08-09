@@ -43,15 +43,19 @@ add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_scripts', 1 );
  */
 function bp_core_register_deprecated_styles() {
 	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.css' : '.min.css';
+	$rtl = is_rtl() ? '-rtl' : '';
 	$url = buddypress()->plugin_url . 'bp-core/deprecated/css/';
 
 	$styles = apply_filters( 'bp_core_register_deprecated_styles', array(
 		// Messages
-		'bp-messages-autocomplete' => 'autocomplete/jquery.autocompletefb',
+		'bp-messages-autocomplete' => array(
+			'file'         => "{$url}autocomplete/jquery.autocompletefb{$rtl}{$ext}",
+			'dependencies' => array(),
+		)
 	) );
 
-	foreach ( $styles as $id => $file ) {
-		wp_register_style( $id, $url . $file . $ext, array(), bp_get_version() );
+	foreach ( $styles as $id => $style ) {
+		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
 	}
 }
 add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_styles', 1 );

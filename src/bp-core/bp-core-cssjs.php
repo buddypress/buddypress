@@ -46,11 +46,12 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
  */
 function bp_core_register_common_styles() {
 	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.css' : '.min.css';
+	$rtl = is_rtl() ? '-rtl' : '';
 	$url = buddypress()->plugin_url . 'bp-core/css/';
 
 	$styles = apply_filters( 'bp_core_register_common_styles', array(
 		'bp-admin-bar' => array(
-			'file'         => apply_filters( 'bp_core_admin_bar_css', "{$url}admin-bar{$ext}" ),
+			'file'         => apply_filters( 'bp_core_admin_bar_css', "{$url}admin-bar{$rtl}{$ext}" ),
 			'dependencies' => array( 'admin-bar' )
 		)
 	) );
