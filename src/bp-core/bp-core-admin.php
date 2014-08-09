@@ -651,6 +651,16 @@ class BP_Admin {
 				<?php endif; ?>
 			</div>
 
+			<div class="bp-badge"></div>
+
+			<h2 class="nav-tab-wrapper">
+				<a class="nav-tab" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>">
+					<?php _e( 'What&#8217;s New', 'buddypress' ); ?>
+				</a><a class="nav-tab nav-tab-active" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'index.php' ) ) ); ?>">
+					<?php _e( 'Credits', 'buddypress' ); ?>
+				</a>
+			</h2>
+
 			<p class="about-description"><?php _e( 'BuddyPress is created by a worldwide network of friendly folks.', 'buddypress' ); ?></p>
 
 			<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h4>
