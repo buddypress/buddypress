@@ -548,7 +548,6 @@ class BP_Admin {
 
 			<div class="changelog">
 				<h2 class="about-headline-callout"><?php _e( 'Performance Improvements', 'buddypress' ); ?></h2>
-				<img class="about-overview-img" src="<?php echo $image_base ?>performance.png" alt="Performance improvements in BP 2.0" />
 				<p><?php esc_html_e( 'Whether your community has tens of members or tens of thousands, we think the performance improvements in BuddyPress 2.0 will knock your socks off. We&#8217;ve slashed our memory footprint and query overhead across the board, with a special focus on the Activity and Members components.', 'buddypress' ) ?></p>
 			</div>
 
@@ -561,13 +560,11 @@ class BP_Admin {
 					<div class="col-1">
 						<h4><?php esc_html_e( 'Extended Profiles in Admin', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Site administrators can edit members&#8217; xProfile data at Dashboard > Users > Extended Profiles.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>admin-xprofile.jpg" style="width:95%" />
 					</div>
 
 					<div class="col-2 last-feature">
 						<h4><?php esc_html_e( 'Registration Management', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Perform common tasks with pending signups - including resending activation emails and manually activating accounts - on the new Pending tab of Dashboard > Users.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>users-pending.jpg" style="width:95%" />
 					</div>
 				</div>
 
@@ -575,13 +572,11 @@ class BP_Admin {
 					<div class="col-1">
 						<h4><?php esc_html_e( 'BuddyPress Repair Tools', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Dashboard > Tools > BuddyPress contains a number of tools for correcting data that occasionally gets out of sync on BP installs.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>tools-buddypress.jpg" style="width:95%" />
 					</div>
 
 					<div class="col-2 last-feature">
 						<h4><?php esc_html_e( 'Mark Spammers in Admin', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Admins on non-Multisite installations can now perform spam actions from Dashboard > Users > All Users.', 'buddypress' ); ?></p>
-						<img src="<?php echo $image_base ?>user-mark-spam.jpg" style="width:95%" />
 					</div>
 				</div>
 
@@ -601,7 +596,6 @@ class BP_Admin {
 					</div>
 
 					<div class="col-2 last-feature">
-						<img src="<?php echo $image_base ?>load-newest.jpg" />
 					</div>
 				</div>
 			</div>
