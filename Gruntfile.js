@@ -242,7 +242,7 @@ module.exports = function( grunt ) {
 			},
 			build: {
 				files: {
-					src: [BUILD_DIR + '/**/js/*.js', BUILD_DIR + '/**/admin/js/*.js']
+					src: [BUILD_DIR + '/**/*.{min.js,js}' ]
 				}
 			}
 		},
