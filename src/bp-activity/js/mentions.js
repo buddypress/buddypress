@@ -77,15 +77,15 @@
 				 */
 				before_reposition: function( offset ) {
 					var $view = $( '#atwho-ground-' + this.id + ' .atwho-view' ),
-					caret     = this.$inputor.caret( 'offset', { iframe: $( '#content_ifr' )[0] } ).left,
-					move;
+						caret = this.$inputor.caret( 'offset', { iframe: $( '#content_ifr' )[0] } ).left,
+						move;
 
 					// If the caret is past horizontal half, then flip it, yo.
 					if ( caret > ( $( 'body' ).width() / 2 ) ) {
-						$view.addClass( 'flip' );
+						$view.addClass( 'right' );
 						move = caret - offset.left - this.view.$el.width();
 					} else {
-						$view.removeClass( 'flip' );
+						$view.removeClass( 'right' );
 						move = caret - offset.left + 1;
 					}
 
