@@ -11,22 +11,17 @@ module.exports = function( grunt ) {
 	],
 
 	BP_JS = [
-		'bp-activity/js/*.js',
-		'bp-activity/admin/js/*.js',
-		'bp-core/js/*.js',
-		'bp-friends/js/*.js',
-		'bp-groups/admin/js/*.js',
-		'bp-groups/js/*.js',
-		'bp-members/admin/js/*.js',
-		'bp-messages/js/*.js',
-		'bp-templates/bp-legacy/js/*.js',
-		'bp-xprofile/admin/js/*.js'
-	],
+		'**/*.js',
 
-	BP_EXCLUDED_JS = [
+		// Exclude third-party libraries.
 		'!bp-core/js/jquery.atwho.js',
 		'!bp-core/js/jquery.caret.js',
-		'!bp-templates/bp-legacy/js/*.js'
+
+		// Exclude legacy templates.
+		'!bp-templates/**/*.js',
+
+		// Exclude anything in any deprecated folders.
+		'!**/deprecated/**/*.js'
 	];
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
@@ -43,9 +38,7 @@ module.exports = function( grunt ) {
 			core: {
 				expand: true,
 				cwd: SOURCE_DIR,
-
-				// Exclude known bad JS from jshint for now; see #5613.
-				src: BP_JS.concat( BP_EXCLUDED_JS ),
+				src: BP_JS,
 
 				/**
 				 * Limit JSHint's run to a single specified file: grunt jshint:core --file=filename.js
