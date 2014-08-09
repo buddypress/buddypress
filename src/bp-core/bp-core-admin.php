@@ -466,12 +466,16 @@ class BP_Admin {
 	 * @since BuddyPress (1.6.0)
 	 */
 	public function enqueue_scripts() {
-
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		$file = $this->css_url . "common{$min}.css";
 		$file = apply_filters( 'bp_core_admin_common_css', $file );
 		wp_enqueue_style( 'bp-admin-common-css', $file, array(), bp_get_version() );
+
+		wp_style_add_data( 'bp-admin-common-css', 'rtl', true );
+		if ( $min ) {
+			wp_style_add_data( 'bp-admin-common-css', 'suffix', $min );
+		}
 	}
 
 	/** About *****************************************************************/

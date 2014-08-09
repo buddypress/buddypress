@@ -548,10 +548,15 @@ class BP_Members_Admin {
 		}
 
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 		$css = $this->css_url . "admin{$min}.css";
 		$css = apply_filters( 'bp_members_admin_css', $css );
+
 		wp_enqueue_style( 'bp-members-css', $css, array(), bp_get_version() );
+
+		wp_style_add_data( 'bp-members-css', 'rtl', true );
+		if ( $min ) {
+			wp_style_add_data( 'bp-members-css', 'suffix', $min );
+		}
 
 		// Only load javascript for BuddyPress profile
 		if ( get_current_screen()->id == $this->user_page ) {

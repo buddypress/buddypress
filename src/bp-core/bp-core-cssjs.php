@@ -45,19 +45,23 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
  * @since BuddyPress (2.1.0)
  */
 function bp_core_register_common_styles() {
-	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.css' : '.min.css';
-	$rtl = is_rtl() ? '-rtl' : '';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	$url = buddypress()->plugin_url . 'bp-core/css/';
 
 	$styles = apply_filters( 'bp_core_register_common_styles', array(
 		'bp-admin-bar' => array(
-			'file'         => apply_filters( 'bp_core_admin_bar_css', "{$url}admin-bar{$rtl}{$ext}" ),
+			'file'         => apply_filters( 'bp_core_admin_bar_css', "{$url}admin-bar{$min}.css" ),
 			'dependencies' => array( 'admin-bar' )
 		)
 	) );
 
 	foreach ( $styles as $id => $style ) {
 		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
+
+		wp_style_add_data( $id, 'rtl', true );
+		if ( $min ) {
+			wp_style_add_data( $id, 'suffix', $min );
+		}
 	}
 }
 add_action( 'bp_enqueue_scripts',       'bp_core_register_common_styles', 1 );

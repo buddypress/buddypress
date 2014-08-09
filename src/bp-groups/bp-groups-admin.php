@@ -168,12 +168,17 @@ function bp_groups_admin_load() {
 
 	// Enqueue CSS and JavaScript
 	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin.{$min}js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
-	wp_enqueue_style( 'bp_groups_admin_css', $bp->plugin_url . "bp-groups/admin/css/admin.{$min}css", array(), bp_get_version() );
-
 	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
 		'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' ),
 		'warn_on_leave'          => __( 'If you leave this page, you will lose any unsaved changes you have made to the group.', 'buddypress' ),
 	) );
+	wp_enqueue_style( 'bp_groups_admin_css', $bp->plugin_url . "bp-groups/admin/css/admin.{$min}css", array(), bp_get_version() );
+
+	wp_style_add_data( 'bp_groups_admin_css', 'rtl', true );
+	if ( $min ) {
+		wp_style_add_data( 'bp_groups_admin_css', 'suffix', $min );
+	}
+
 
 	if ( $doaction && 'save' == $doaction ) {
 		// Get group ID

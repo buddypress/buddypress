@@ -199,16 +199,19 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @uses wp_enqueue_style() To enqueue the styles
 	 */
 	public function enqueue_styles() {
-
-		// LTR or RTL
-		$file = is_rtl() ? 'buddypress-rtl.css' : 'buddypress.css';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Locate the BP stylesheet
-		$asset = $this->locate_asset_in_stack( $file, 'css' );
+		$asset = $this->locate_asset_in_stack( 'buddypress.css', 'css' );
 
 		// Enqueue BuddyPress-specific styling, if found
 		if ( isset( $asset['location'], $asset['handle'] ) ) {
 			wp_enqueue_style( $asset['handle'], $asset['location'], array(), $this->version, 'screen' );
+
+			wp_style_add_data( $asset['handle'], 'rtl', true );
+			if ( $min ) {
+				wp_style_add_data( $asset['handle'], 'suffix', $min );
+			}
 		}
 	}
 

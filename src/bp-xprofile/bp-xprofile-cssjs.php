@@ -18,7 +18,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function xprofile_add_admin_css() {
 	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
 		wp_enqueue_style( 'xprofile-admin-css', buddypress()->plugin_url . "bp-xprofile/admin/css/admin{$min}.css", array(), bp_get_version() );
+
+		wp_style_add_data( 'xprofile-admin-css', 'rtl', true );
+		if ( $min ) {
+			wp_style_add_data( 'xprofile-admin-css', 'suffix', $min );
+		}
 	}
 }
 add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_css' );

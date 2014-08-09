@@ -42,20 +42,24 @@ add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_scripts', 1 );
  * @since BuddyPress (2.1.0)
  */
 function bp_core_register_deprecated_styles() {
-	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.css' : '.min.css';
-	$rtl = is_rtl() ? '-rtl' : '';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	$url = buddypress()->plugin_url . 'bp-core/deprecated/css/';
 
 	$styles = apply_filters( 'bp_core_register_deprecated_styles', array(
 		// Messages
 		'bp-messages-autocomplete' => array(
-			'file'         => "{$url}autocomplete/jquery.autocompletefb{$rtl}{$ext}",
+			'file'         => "{$url}autocomplete/jquery.autocompletefb{$min}.css",
 			'dependencies' => array(),
 		)
 	) );
 
 	foreach ( $styles as $id => $style ) {
 		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
+
+		wp_style_add_data( $id, 'rtl', true );
+		if ( $min ) {
+			wp_style_add_data( $id, 'suffix', $min );
+		}
 	}
 }
 add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_styles', 1 );
@@ -344,8 +348,6 @@ function bp_adminbar_random_menu() {
  * @deprecated BuddyPress (2.1.0)
  */
 function bp_core_load_buddybar_css() {
-	global $wp_styles;
-
 	if ( bp_use_wp_admin_bar() || ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) || ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR ) )
 		return;
 
@@ -358,9 +360,11 @@ function bp_core_load_buddybar_css() {
 	}
 
 	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array(), bp_get_version() );
-	$wp_styles->add_data( 'bp-admin-bar', 'rtl', true );
-	if ( $min )
-		$wp_styles->add_data( 'bp-admin-bar', 'suffix', $min );
+
+	wp_style_add_data( 'bp-admin-bar', 'rtl', true );
+	if ( $min ) {
+		wp_style_add_data( 'bp-admin-bar', 'suffix', $min );
+	}
 }
 add_action( 'bp_init', 'bp_core_load_buddybar_css' );
 
