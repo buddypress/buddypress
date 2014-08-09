@@ -202,7 +202,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Locate the BP stylesheet
-		$asset = $this->locate_asset_in_stack( 'buddypress.css', 'css' );
+		$asset = $this->locate_asset_in_stack( "buddypress{$min}.css", 'css' );
 
 		// Enqueue BuddyPress-specific styling, if found
 		if ( isset( $asset['location'], $asset['handle'] ) ) {
@@ -221,11 +221,10 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function enqueue_scripts() {
-
-		$file = 'buddypress.js';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Locate the BP JS file
-		$asset = $this->locate_asset_in_stack( $file, 'js' );
+		$asset = $this->locate_asset_in_stack( "buddypress{$min}.js", 'js' );
 
 		// Enqueue the global JS, if found - AJAX will not work
 		// without it
@@ -259,16 +258,15 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		// Maybe enqueue password verify JS (register page or user settings page)
 		if ( bp_is_register_page() || ( function_exists( 'bp_is_user_settings_general' ) && bp_is_user_settings_general() ) ) {
-			$min      = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			$filename = "password-verify{$min}.js";
 
 			// Locate the Register Page JS file
-			$asset = $this->locate_asset_in_stack( $filename, 'js' );
+			$asset = $this->locate_asset_in_stack( "password-verify{$min}.js", 'js' );
 
-			// Enqueue script
 			$dependencies = array_merge( bp_core_get_js_dependencies(), array(
 				'password-strength-meter',
 			) );
+
+			// Enqueue script
 			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version);
 		}
 	}

@@ -15,20 +15,20 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since BuddyPress (2.1.0)
  */
 function bp_core_register_common_scripts() {
-	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	$url = buddypress()->plugin_url . 'bp-core/js/';
 	
 	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
 
 		// Legacy
-		'bp-confirm'        => array( 'file' => "{$url}confirm{$ext}",        'dependencies' => array( 'jquery' ) ),
-		'bp-widget-members' => array( 'file' => "{$url}widget-members{$ext}", 'dependencies' => array( 'jquery' ) ),
-		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$ext}",   'dependencies' => array( 'jquery' ) ),
-		'bp-jquery-cookie'  => array( 'file' => "{$url}jquery-cookie{$ext}",  'dependencies' => array( 'jquery' ) ),
+		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js",        'dependencies' => array( 'jquery' ) ),
+		'bp-widget-members' => array( 'file' => "{$url}widget-members{$min}.js", 'dependencies' => array( 'jquery' ) ),
+		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js",   'dependencies' => array( 'jquery' ) ),
+		'bp-jquery-cookie'  => array( 'file' => "{$url}jquery-cookie{$min}.js",  'dependencies' => array( 'jquery' ) ),
 
 		// 2.1
-		'jquery-caret' => array( 'file' => "{$url}jquery.caret{$ext}", 'dependencies' => array( 'jquery' ) ),
-		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$ext}", 'dependencies' => array( 'jquery', 'jquery-caret' ) ),
+		'jquery-caret' => array( 'file' => "{$url}jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ) ),
+		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ) ),
 	) );
 
 	$version = bp_get_version();

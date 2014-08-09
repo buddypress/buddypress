@@ -16,22 +16,41 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @since BuddyPress (2.1.0)
  */
 function bp_core_register_deprecated_scripts() {
-	$ext = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 	$url = buddypress()->plugin_url . 'bp-core/deprecated/js/';
 
 	$scripts = apply_filters( 'bp_core_register_deprecated_scripts', array(
+
 		// Core
-		'bp-jquery-scroll-to' => 'jquery-scroll-to',
+		'bp-jquery-scroll-to' => array(
+			'file'         => "{$url}jquery-scroll-to{$min}.js",
+			'dependencies' => array( 'jquery' ),
+		),
 
 		// Messages
-		'bp-jquery-autocomplete'    => 'autocomplete/jquery.autocomplete',
-		'bp-jquery-autocomplete-fb' => 'autocomplete/jquery.autocompletefb',
-		'bp-jquery-bgiframe'        => 'autocomplete/jquery.bgiframe',
-		'bp-jquery-dimensions'      => 'autocomplete/jquery.dimensions',
+		'bp-jquery-autocomplete'    => array(
+			'file'          => "{$url}autocomplete/jquery.autocomplete{$min}.js",
+			'dependencies' => array( 'jquery' ),
+		),
+
+		'bp-jquery-autocomplete-fb' => array(
+			'file'         => "{$url}autocomplete/jquery.autocompletefb{$min}.js",
+			'dependencies' => array( 'jquery' ),
+		),
+
+		'bp-jquery-bgiframe' => array(
+			'file'         => "{$url}autocomplete/jquery.bgiframe{$min}.js",
+			'dependencies' => array( 'jquery' ),
+		),
+
+		'bp-jquery-dimensions' => array(
+			'file'         => "{$url}autocomplete/jquery.dimensions{$min}.js",
+			'dependencies' => array( 'jquery' ),
+		),
 	) );
 
-	foreach ( $scripts as $id => $file ) {
-		wp_register_script( $id, $url . $file . $ext, array( 'jquery' ), bp_get_version(), true );
+	foreach ( $scripts as $id => $script ) {
+		wp_register_script( $id, $script['file'], $script['dependencies'], bp_get_version(), true );
 	}
 }
 add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_scripts', 1 );
