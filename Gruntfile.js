@@ -6,15 +6,7 @@ module.exports = function( grunt ) {
 	BUILD_DIR  = 'build/',
 
 	BP_CSS = [
-		'bp-activity/css/*.css',
-		'bp-activity/admin/css/*.css',
-		'bp-core/admin/css/*.css',
-		'bp-core/css/*.css',
-		'bp-groups/admin/css/*.css',
-		'bp-members/admin/css/*.css',
-		'bp-messages/css/*.css',
-		'bp-templates/bp-legacy/css/*.css',
-		'bp-xprofile/admin/css/*.css',
+		'**/*.css',
 		'!**/*-rtl.css'  // Exclude RTL files
 	],
 
