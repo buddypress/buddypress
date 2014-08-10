@@ -1088,7 +1088,7 @@ function bp_groups_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $groups_template->total_group_count );
 
-		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing group %1$s to %2$s (of %3$s group)', 'Viewing group %1$s to %2$s (of %3$s groups)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing 1', 'Viewing %1$s - %2$s of %3$s groups', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
 function bp_groups_auto_join() {
@@ -2586,7 +2586,7 @@ function bp_group_member_pagination_count() {
 		$to_num = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
 		$total = bp_core_number_format( $members_template->total_member_count );
 
-		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member)', 'Viewing members %1$s to %2$s (of %3$s members)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( _n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
 function bp_group_member_admin_pagination() {
@@ -3464,7 +3464,7 @@ function bp_group_requests_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $requests_template->pag_num - 1 ) > $requests_template->total_request_count ) ? $requests_template->total_request_count : $start_num + ( $requests_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $requests_template->total_request_count );
 
-		return apply_filters( 'bp_get_group_requests_pagination_count', sprintf( _n( 'Viewing requests %1$s to %2$s (of %3$s request)', 'Viewing request %1$s to %2$s (of %3$s requests)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_group_requests_pagination_count', sprintf( _n( 'Viewing 1 request', 'Viewing %1$s - %2$s of %3$s requests', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
 /************************************************************************************
@@ -3759,7 +3759,7 @@ function bp_group_invite_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $invites_template->pag_num - 1 ) > $invites_template->total_invite_count ) ? $invites_template->total_invite_count : $start_num + ( $invites_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $invites_template->total_invite_count );
 
-		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing invitation %1$s to %2$s (of %3$s invitation)', 'Viewing invitation %1$s to %2$s (of %3$s invitations)', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing 1 invitation', 'Viewing %1$s - %2$s of %3$s invitations', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
 /***

@@ -990,7 +990,7 @@ function bp_notifications_pagination_count() {
 		$from_num   = bp_core_number_format( $start_num );
 		$to_num     = bp_core_number_format( ( $start_num + ( $query_loop->pag_num - 1 ) > $query_loop->total_notification_count ) ? $query_loop->total_notification_count : $start_num + ( $query_loop->pag_num - 1 ) );
 		$total      = bp_core_number_format( $query_loop->total_notification_count );
-		$pag        = sprintf( _n( 'Viewing %1$s to %2$s (of %3$s notification)', 'Viewing %1$s to %2$s (of %3$s notifications)', $total, 'buddypress' ), $from_num, $to_num, $total );
+		$pag        = sprintf( _n( 'Viewing 1 notification', 'Viewing %1$s - %2$s of %3$s notifications', $total, 'buddypress' ), $from_num, $to_num, $total );
 
 		return apply_filters( 'bp_notifications_pagination_count', $pag );
 	}
