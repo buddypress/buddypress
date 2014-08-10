@@ -717,7 +717,10 @@ class BP_Admin {
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/adamt19/">adamt19</a>,
 				<a href="https://profiles.wordpress.org/Viper007Bond/">Alex Mills (Viper007Bond)</a>,
+				<a href="https://profiles.wordpress.org/allendav/">allendav</a>,
+				<a href="https://profiles.wordpress.org/alternatekev/">alternatekev</a>,
 				<a href="https://profiles.wordpress.org/automattic/">Automattic</a>,
+				<a href="https://profiles.wordpress.org/beaulebens/">Beau Lebens (beaulebens)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
 				<a href="https://profiles.wordpress.org/williamsba1/">Brad Williams (williamsba1)</a>,
 				<a href="https://profiles.wordpress.org/sbrajesh/">Brajesh Singh (sbrajesh)</a>,
