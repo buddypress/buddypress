@@ -1797,15 +1797,13 @@ function bp_activity_user_can_mark_spam() {
  *
  * @since BuddyPress (1.6.0)
  *
- * @global object $bp BuddyPress global settings.
- *
  * @param BP_Activity_Activity $activity The activity item to be spammed.
  * @param string $source Optional. Default is "by_a_person" (ie, a person has
  *        manually marked the activity as spam). BP core also accepts
  *        'by_akismet'.
  */
 function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
-	global $bp;
+	$bp = buddypress();
 
 	$activity->is_spam = 1;
 
@@ -1837,15 +1835,13 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
  *
  * @since BuddyPress (1.6.0)
  *
- * @global object $bp BuddyPress global settings.
- *
  * @param BP_Activity_Activity $activity The activity item to be hammed.
  * @param string $source Optional. Default is "by_a_person" (ie, a person has
  *        manually marked the activity as spam). BP core also accepts
  *        'by_akismet'.
  */
 function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
-	global $bp;
+	$bp = buddypress();
 
 	$activity->is_spam = 0;
 
@@ -1931,7 +1927,6 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
  * @since BuddyPress (1.5.0)
  *
  * @see BP_Embed
- * @global object $bp BuddyPress global settings
  * @uses add_filter() To attach create_function() to 'embed_post_id'.
  * @uses add_filter() To attach 'bp_embed_activity_cache' to 'bp_embed_get_cache'.
  * @uses add_action() To attach 'bp_embed_activity_save_cache' to 'bp_embed_update_cache'.
@@ -1939,15 +1934,13 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
  * @param object $activity The activity that is being expanded.
  */
 function bp_dtheme_embed_read_more( $activity ) {
-	global $bp;
+	buddypress()->activity->read_more_id = $activity->id;
 
-	$bp->activity->read_more_id = $activity->id;
-
-	add_filter( 'embed_post_id',            create_function( '', 'global $bp; return $bp->activity->read_more_id;' ) );
-	add_filter( 'bp_embed_get_cache',       'bp_embed_activity_cache',      10, 3 );
-	add_action( 'bp_embed_update_cache',    'bp_embed_activity_save_cache', 10, 3 );
+	add_filter( 'embed_post_id',         create_function( '', 'return buddypress()->activity->read_more_id;' ) );
+	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
-add_action( 'bp_dtheme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
+add_action( 'bp_dtheme_get_single_activity_content',       'bp_dtheme_embed_read_more' );
 add_action( 'bp_legacy_theme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
 
 /**
