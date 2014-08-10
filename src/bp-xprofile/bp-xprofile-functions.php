@@ -17,6 +17,24 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 /*** Field Group Management **************************************************/
 
+/**
+ * Fetch a set of field groups, populated with fields and field data.
+ *
+ * Procedural wrapper for BP_XProfile_Group::get() method.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param array $args See {@link BP_XProfile_Group::get()} for description of
+ *        arguments.
+ * @return array $groups
+ */
+function bp_xprofile_get_groups( $args = array() ) {
+
+	$groups = BP_XProfile_Group::get( $args );
+
+	return apply_filters( 'bp_xprofile_get_groups', $groups, $args );
+}
+
 function xprofile_insert_field_group( $args = '' ) {
 	$defaults = array(
 		'field_group_id' => false,

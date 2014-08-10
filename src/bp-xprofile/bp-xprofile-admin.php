@@ -36,7 +36,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 	$type = preg_replace( '|[^a-z]|i', '', $type );
 
-	$groups = BP_XProfile_Group::get( array(
+	$groups = bp_xprofile_get_groups( array(
 		'fetch_fields' => true
 	) );
 
@@ -287,7 +287,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 				do_action( 'xprofile_fields_saved_field', $field );
 
-				$groups = BP_XProfile_Group::get();
+				$groups = bp_xprofile_get_groups();
 				xprofile_admin( $message, $type );
 			}
 		} else {

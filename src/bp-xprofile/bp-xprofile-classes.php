@@ -108,18 +108,27 @@ class BP_XProfile_Group {
 	 * @global $wpdb WordPress DB access object.
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 *
-	 * @param array $args Takes an array of parameters:
-	 *		'profile_group_id' - Limit results to a single profile group
-	 *		'user_id' - Required if you want to load a specific user's data
-	 *		'hide_empty_groups' - Hide groups without any fields
-	 *		'hide_empty_fields' - Hide fields where the user has not provided data
-	 *		'fetch_fields' - Load each group's fields
-	 *		'fetch_field_data' - Load each field's data. Requires a user_id
-	 *		'exclude_groups' - Comma-separated list of groups to exclude
-	 *		'exclude_fields' - Comma-separated list of fields to exclude
-	 *		'update_meta_cache' - Whether to pre-fetch xprofilemeta
-	 *		   for all retrieved groups, fields, and data
-	 *
+	 * @param array $args {
+	 *	Array of optional arguments:
+	 *	@type int $profile_group_id Limit results to a single profile
+	 *	      group.
+	 *      @type int $user_id Required if you want to load a specific
+	 *            user's data. Default: displayed user's ID.
+	 *      @type bool $hide_empty_groups True to hide groups that don't
+	 *            have any fields. Default: false.
+	 *	@type bool $hide_empty_fields True to hide fields where the
+	 *	      user has not provided data. Default: false.
+	 *      @type bool $fetch_fields Whether to fetch each group's fields.
+	 *            Default: false.
+	 *      @type bool $fetch_field_data Whether to fetch data for each
+	 *            field. Requires a $user_id. Default: false.
+	 *      @type array $exclude_groups Comma-separated list or array of
+	 *            group IDs to exclude.
+	 *      @type array $exclude_fields Comma-separated list or array of
+	 *            field IDs to exclude.
+	 *      @type bool $update_meta_cache Whether to pre-fetch xprofilemeta
+	 *            for all retrieved groups, fields, and data. Default: true.
+	 * }
 	 * @return array $groups
 	 */
 	public static function get( $args = array() ) {
@@ -1223,7 +1232,7 @@ class BP_XProfile_ProfileData {
 	public static function get_all_for_user( $user_id ) {
 		global $wpdb, $bp;
 
-		$groups = BP_XProfile_Group::get( array(
+		$groups = bp_xprofile_get_groups( array(
 			'user_id'                => $user_id,
 			'hide_empty_groups'      => true,
 			'hide_empty_fields'      => true,

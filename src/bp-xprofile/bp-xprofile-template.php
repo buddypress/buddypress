@@ -25,7 +25,7 @@ class BP_XProfile_Data_Template {
 	var $user_id;
 
 	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false, $fetch_visibility_level = false, $update_meta_cache = true ) {
-		$this->groups = BP_XProfile_Group::get( array(
+		$this->groups = bp_xprofile_get_groups( array(
 			'profile_group_id'    => $profile_group_id,
 			'user_id'             => $user_id,
 			'hide_empty_groups'   => $hide_empty_groups,
@@ -600,7 +600,7 @@ function bp_profile_get_field_groups() {
 	$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' );
 
 	if ( empty( $groups ) ) {
-		$groups = BP_XProfile_Group::get( array( 'fetch_fields' => true ) );
+		$groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
 		wp_cache_set( 'xprofile_groups_inc_empty', $groups, 'bp' );
 	}
 
