@@ -735,6 +735,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/jreeve/">jreeve</a>,
 				<a href="https://profiles.wordpress.org/lenasterg/">lenasterg</a>,
 				<a href="https://profiles.wordpress.org/mercime/">mercime</a>,
+				<a href="https://profiles.wordpress.org/tw2113/">Michael Beckwith</a>,
 				<a href="https://profiles.wordpress.org/milesstewart88/">Miles Stewart (milesstewart88)</a>,
 				<a href="https://profiles.wordpress.org/needle/">needle</a>,
 				<a href="https://profiles.wordpress.org/sooskriszta/">OC2PS (sooskriszta)</a>,
