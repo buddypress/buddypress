@@ -950,10 +950,10 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
 	) );
 
 	$viewing_text = sprintf(
-		__( 'Viewing %1$s - %2$s of %3$s', 'buddypress' ),
+		_n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $query->total_users, 'buddypress' ),
 		number_format_i18n( $current_page_start ),
 		number_format_i18n( $current_page_end ),
-		sprintf( _n( '%s member', '%s members', $query->total_users, 'buddypress' ), $query->total_users )
+		(int) $query->total_users
 	);
 
 	$pagination .= '<span class="bp-group-admin-pagination-viewing">' . $viewing_text . '</span>';
