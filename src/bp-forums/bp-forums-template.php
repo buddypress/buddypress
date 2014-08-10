@@ -1524,7 +1524,7 @@ function bp_forum_pagination_count() {
 		if ( 'tags' == $forum_template->type && !empty( $forum_template->search_terms ) )
 			$pag_filter = sprintf( __( ' matching tag "%s"', 'buddypress' ), $forum_template->search_terms );
 
-		return apply_filters( 'bp_get_forum_pagination_count', sprintf( _n( 'Viewing 1 topic', 'Viewing %1$s - %2$s of %3$s topics', $total, 'buddypress' ), $from_num, $to_num, $total, $pag_filter ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_forum_pagination_count', sprintf( _n( 'Viewing 1 topic', 'Viewing %1$s - %2$s of %3$s topics', (int) $forum_template->total_topic_count, 'buddypress' ), $from_num, $to_num, $total, $pag_filter ), $from_num, $to_num, $total );
 	}
 
 /**
@@ -2163,7 +2163,7 @@ function bp_the_topic_pagination_count() {
 	$to_num = bp_core_number_format( ( $start_num + ( $topic_template->pag_num - 1  ) > $topic_template->total_post_count ) ? $topic_template->total_post_count : $start_num + ( $topic_template->pag_num - 1 ) );
 	$total = bp_core_number_format( $topic_template->total_post_count );
 
-	echo apply_filters( 'bp_the_topic_pagination_count', sprintf( _n( 'Viewing 1 post', 'Viewing %1$s - %2$s of %3$s posts', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+	echo apply_filters( 'bp_the_topic_pagination_count', sprintf( _n( 'Viewing 1 post', 'Viewing %1$s - %2$s of %3$s posts', (int) $topic_template->total_post_count, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 }
 
 /**
