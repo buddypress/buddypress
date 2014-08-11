@@ -650,17 +650,16 @@ function bp_message_thread_avatar( $args = '' ) {
 		global $messages_template;
 
 		$fullname = bp_core_get_user_displayname( $messages_template->thread->last_sender_id );
+		$alt      = sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname );
 
-		$defaults = array(
+		$r = bp_parse_args( $args, array(
 			'type'   => 'thumb',
 			'width'  => false,
 			'height' => false,
 			'class'  => 'avatar',
 			'id'     => false,
-			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname )
-		);
-
-		$r = wp_parse_args( $args, $defaults );
+			'alt'    => $alt
+		) );
 
 		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array(
 			'item_id' => $messages_template->thread->last_sender_id,
