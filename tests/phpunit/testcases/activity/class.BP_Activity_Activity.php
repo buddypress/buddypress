@@ -146,6 +146,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	/**
 	 * @group get
 	 * @group date_query
+	 * @requires PHP 5.3
 	 */
 	public function test_get_with_date_query_before() {
 		if ( ! class_exists( 'WP_Date_Query' ) ) {
@@ -176,6 +177,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	/**
 	 * @group get
 	 * @group date_query
+	 * @requires PHP 5.3
 	 */
 	public function test_get_with_date_query_range() {
 		if ( ! class_exists( 'WP_Date_Query' ) ) {
@@ -208,6 +210,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	/**
 	 * @group get
 	 * @group date_query
+	 * @requires PHP 5.3
 	 */
 	public function test_get_with_date_query_after() {
 		if ( ! class_exists( 'WP_Date_Query' ) ) {

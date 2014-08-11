@@ -1543,6 +1543,13 @@ class BP_Date_Query extends WP_Date_Query {
 	}
 
 	/**
+	 * Destructor.
+	 */
+	public function __destruct() {
+		remove_filter( 'date_query_valid_columns', array( $this, 'register_date_column' ) );	
+	}
+
+	/**
 	 * Registers our date column with WP Date Query to pass validation.
 	 *
 	 * @param array $retval Current DB columns
