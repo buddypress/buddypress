@@ -147,7 +147,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get
 	 * @group date_query
 	 */
-	public function test_get_with_date_query() {
+	public function test_get_with_date_query_before() {
 		if ( ! class_exists( 'WP_Date_Query' ) ) {
 			return;
 		}
@@ -171,6 +171,24 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			) )
 		) );
 		$this->assertEquals( array( $a2 ), wp_list_pluck( $query['activities'], 'id' ) );
+	}
+
+	/**
+	 * @group get
+	 * @group date_query
+	 */
+	public function test_get_with_date_query_range() {
+		if ( ! class_exists( 'WP_Date_Query' ) ) {
+			return;
+		}
+
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create( array(
+			'recorded_time' => '2001-01-01 12:00'
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'recorded_time' => '2005-01-01 12:00'
+		) );
 
 		// 'date_query' range test
 		$query = BP_Activity_Activity::get( array(
@@ -185,6 +203,24 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			) )
 		) );
 		$this->assertEquals( array( $a3 ), wp_list_pluck( $query['activities'], 'id' ) );
+	}
+
+	/**
+	 * @group get
+	 * @group date_query
+	 */
+	public function test_get_with_date_query_after() {
+		if ( ! class_exists( 'WP_Date_Query' ) ) {
+			return;
+		}
+
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create( array(
+			'recorded_time' => '2001-01-01 12:00'
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'recorded_time' => '2005-01-01 12:00'
+		) );
 
 		// 'date_query' after and relative test
 		$query = BP_Activity_Activity::get( array(
