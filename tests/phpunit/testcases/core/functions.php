@@ -350,14 +350,14 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	 * @group bp_core_time_since
 	 * @group bp_core_current_time
 	 */
-	public function test_bp_core_time_since_timezone_right_now() {
+	public function test_bp_core_time_since_timezone_minute_ago() {
 		// backup timezone
 		$tz_backup = date_default_timezone_get();
 
 		// set timezone to something other than UTC
 		date_default_timezone_set( 'Europe/Paris' );
 
-		$this->assertSame( 'right now', bp_core_time_since( time() ) );
+		$this->assertSame( '1 minute ago', bp_core_time_since( time() - 60 ) );
 
 		// revert timezone back to normal
 		if ( $tz_backup ) {
