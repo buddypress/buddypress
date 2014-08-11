@@ -14,13 +14,14 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Message Box Template Class
  */
 class BP_Messages_Box_Template {
+
 	/**
 	 * The loop iterator.
 	 *
 	 * @access public
 	 * @var int
 	 */
-	var $current_thread = -1;
+	public $current_thread = -1;
 
 	/**
 	 * The number of threads returned by the paged query.
@@ -28,7 +29,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $current_thread_count;
+	public $current_thread_count = 0;
 
 	/**
 	 * Total number of threads matching the query params.
@@ -36,7 +37,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $total_thread_count;
+	public $total_thread_count = 0;
 
 	/**
 	 * Array of threads located by the query.
@@ -44,7 +45,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var array
 	 */
-	var $threads;
+	public $threads = array();
 
 	/**
 	 * The thread object currently being iterated on.
@@ -52,7 +53,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var object
 	 */
-	var $thread;
+	public $thread = false;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
@@ -60,7 +61,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var bool
 	 */
-	var $in_the_loop;
+	public $in_the_loop = false;
 
 	/**
 	 * User ID of the current inbox.
@@ -68,7 +69,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $user_id;
+	public $user_id = 0;
 
 	/**
 	 * The current "box" view ('notices', 'sentbox', 'inbox')
@@ -76,7 +77,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $box;
+	public $box = 'inbox';
 
 	/**
 	 * The page number being requested.
@@ -84,7 +85,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_page;
+	public $pag_page = 1;
 
 	/**
 	 * The number of items being requested per page.
@@ -92,7 +93,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_num;
+	public $pag_num = 10;
 
 	/**
 	 * An HTML string containing pagination links.
@@ -100,7 +101,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $pag_links;
+	public $pag_links = '';
 
 	/**
 	 * Search terms for limiting the thread query.
@@ -108,7 +109,7 @@ class BP_Messages_Box_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $search_terms;
+	public $search_terms = '';
 
 	/**
 	 * Constructor method.
@@ -125,7 +126,7 @@ class BP_Messages_Box_Template {
 	 * @param string $page_arg Optional. URL argument for pagination
 	 *        parameter. Default: 'mpage'.
 	 */
-	function __construct( $user_id, $box, $per_page, $max, $type, $search_terms, $page_arg = 'mpage' ) {
+	public function __construct( $user_id, $box, $per_page, $max, $type, $search_terms, $page_arg = 'mpage' ) {
 		$this->pag_page = isset( $_GET[$page_arg] ) ? intval( $_GET[$page_arg] ) : 1;
 		$this->pag_num  = isset( $_GET['num'] )   ? intval( $_GET['num'] )   : $per_page;
 
@@ -191,7 +192,7 @@ class BP_Messages_Box_Template {
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
-	function has_threads() {
+	public function has_threads() {
 		if ( $this->thread_count ) {
 			return true;
 		}
@@ -204,7 +205,7 @@ class BP_Messages_Box_Template {
 	 *
 	 * @return object The next member to iterate over.
 	 */
-	function next_thread() {
+	public function next_thread() {
 		$this->current_thread++;
 		$this->thread = $this->threads[$this->current_thread];
 
@@ -214,7 +215,7 @@ class BP_Messages_Box_Template {
 	/**
 	 * Rewind the threads and reset thread index.
 	 */
-	function rewind_threads() {
+	public function rewind_threads() {
 		$this->current_thread = -1;
 		if ( $this->thread_count > 0 ) {
 			$this->thread = $this->threads[0];
@@ -254,7 +255,7 @@ class BP_Messages_Box_Template {
 	 *
 	 * @see bp_message_thread()
 	 */
-	function the_message_thread() {
+	public function the_message_thread() {
 
 		$this->in_the_loop = true;
 		$this->thread      = $this->next_thread();
@@ -283,16 +284,16 @@ class BP_Messages_Box_Template {
 				}
 			}
 
-			$this->thread->last_message_id      = $this->thread->messages[$last_message_index]->id;
-			$this->thread->last_message_date    = $this->thread->messages[$last_message_index]->date_sent;
-			$this->thread->last_sender_id       = $this->thread->messages[$last_message_index]->sender_id;
-			$this->thread->last_message_subject = $this->thread->messages[$last_message_index]->subject;
-			$this->thread->last_message_content = $this->thread->messages[$last_message_index]->message;
+			$this->thread->last_message_id      = $this->thread->messages[ $last_message_index ]->id;
+			$this->thread->last_message_date    = $this->thread->messages[ $last_message_index ]->date_sent;
+			$this->thread->last_sender_id       = $this->thread->messages[ $last_message_index ]->sender_id;
+			$this->thread->last_message_subject = $this->thread->messages[ $last_message_index ]->subject;
+			$this->thread->last_message_content = $this->thread->messages[ $last_message_index ]->message;
 		}
 
 		// loop has just started
 		if ( 0 == $this->current_thread ) {
-			do_action('messages_box_loop_start');
+			do_action( 'messages_box_loop_start' );
 		}
 	}
 }
@@ -1194,13 +1195,14 @@ function bp_message_get_recipient_usernames() {
  * Message Thread Template Class
  */
 class BP_Messages_Thread_Template {
+
 	/**
 	 * The loop iterator.
 	 *
 	 * @access public
 	 * @var int
 	 */
-	var $current_message = -1;
+	public $current_message = -1;
 
 	/**
 	 * Number of messages returned by the paged query.
@@ -1208,7 +1210,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $message_count;
+	public $message_count = 0;
 
 	/**
 	 * The message object currently being iterated on.
@@ -1216,7 +1218,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var object
 	 */
-	var $message;
+	public $message;
 
 	/**
 	 * Thread that the current messages belong to.
@@ -1224,7 +1226,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var BP_Messages_Thread
 	 */
-	var $thread;
+	public $thread;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
@@ -1232,7 +1234,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var bool
 	 */
-	var $in_the_loop;
+	public $in_the_loop = false;
 
 	/**
 	 * The page number being requested.
@@ -1240,7 +1242,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_page;
+	public $pag_page = 1;
 
 	/**
 	 * The number of items being requested per page.
@@ -1248,7 +1250,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_num;
+	public $pag_num = 10;
 
 	/**
 	 * An HTML string containing pagination links.
@@ -1256,7 +1258,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $pag_links;
+	public $pag_links = '';
 
 	/**
 	 * The total number of messages matching the query.
@@ -1264,7 +1266,7 @@ class BP_Messages_Thread_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $total_message_count;
+	public $total_message_count = 0;
 
 	/**
 	 * Constructor method.
@@ -1272,16 +1274,16 @@ class BP_Messages_Thread_Template {
 	 * @param int $thread_id ID of the message thread.
 	 * @param string $order 'ASC' or 'DESC'.
 	 */
-	function __construct( $thread_id, $order ) {
+	public function __construct( $thread_id, $order ) {
 		$this->thread        = new BP_Messages_Thread( $thread_id, $order );
 		$this->message_count = count( $this->thread->messages );
 
-		$last_message_index = $this->message_count - 1;
-		$this->thread->last_message_id = $this->thread->messages[$last_message_index]->id;
-		$this->thread->last_message_date = $this->thread->messages[$last_message_index]->date_sent;
-		$this->thread->last_sender_id = $this->thread->messages[$last_message_index]->sender_id;
-		$this->thread->last_message_subject = $this->thread->messages[$last_message_index]->subject;
-		$this->thread->last_message_content = $this->thread->messages[$last_message_index]->message;
+		$last_message_index                 = $this->message_count - 1;
+		$this->thread->last_message_id      = $this->thread->messages[ $last_message_index ]->id;
+		$this->thread->last_message_date    = $this->thread->messages[ $last_message_index ]->date_sent;
+		$this->thread->last_sender_id       = $this->thread->messages[ $last_message_index ]->sender_id;
+		$this->thread->last_message_subject = $this->thread->messages[ $last_message_index ]->subject;
+		$this->thread->last_message_content = $this->thread->messages[ $last_message_index ]->message;
 	}
 
 	/**
@@ -1291,8 +1293,8 @@ class BP_Messages_Thread_Template {
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
-	function has_messages() {
-		if ( $this->message_count ) {
+	public function has_messages() {
+		if ( ! empty( $this->message_count ) ) {
 			return true;
 		}
 
@@ -1304,9 +1306,9 @@ class BP_Messages_Thread_Template {
 	 *
 	 * @return object The next member to iterate over.
 	 */
-	function next_message() {
+	public function next_message() {
 		$this->current_message++;
-		$this->message = $this->thread->messages[$this->current_message];
+		$this->message = $this->thread->messages[ $this->current_message ];
 
 		return $this->message;
 	}
@@ -1314,7 +1316,7 @@ class BP_Messages_Thread_Template {
 	/**
 	 * Rewind the messages and reset message index.
 	 */
-	function rewind_messages() {
+	public function rewind_messages() {
 		$this->current_message = -1;
 		if ( $this->message_count > 0 ) {
 			$this->message = $this->thread->messages[0];
@@ -1332,11 +1334,11 @@ class BP_Messages_Thread_Template {
 	 *
 	 * @return bool True if there are more messages to show, otherwise false.
 	 */
-	function messages() {
-		if ( $this->current_message + 1 < $this->message_count ) {
+	public function messages() {
+		if ( ( $this->current_message + 1 ) < $this->message_count ) {
 			return true;
-		} elseif ( $this->current_message + 1 == $this->message_count ) {
-			do_action('thread_loop_end');
+		} elseif ( ( $this->current_message + 1 ) === $this->message_count ) {
+			do_action( 'thread_loop_end' );
 			// Do some cleaning up after the loop
 			$this->rewind_messages();
 		}
@@ -1354,12 +1356,12 @@ class BP_Messages_Thread_Template {
 	 *
 	 * @see bp_thread_the_message()
 	 */
-	function the_message() {
+	public function the_message() {
 		$this->in_the_loop = true;
 		$this->message     = $this->next_message();
 
 		// loop has just started
-		if ( 0 == $this->current_message ) {
+		if ( 0 === $this->current_message ) {
 			do_action( 'thread_loop_start' );
 		}
 	}
