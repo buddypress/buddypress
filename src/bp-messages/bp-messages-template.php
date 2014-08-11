@@ -527,7 +527,7 @@ function bp_message_thread_view_link( $thread_id = 0 ) {
 			$thread_id = $messages_template->thread->thread_id;
 		}
 
-		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_loggedin_user_domain() . buddypress()->messages->slug . '/view/' . $thread_id ) );
+		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id ) );
 	}
 
 /**
