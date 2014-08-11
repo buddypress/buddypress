@@ -606,20 +606,35 @@ function bp_message_thread_unread_count() {
 	}
 
 /**
- * Output the date of the last post in the current thread.
+ * Output the unformatted date of the last post in the current thread.
+ */
+function bp_message_thread_last_post_date_raw() {
+	echo bp_get_message_thread_last_post_date_raw();
+}
+	/**
+	 * Get the unformatted date of the last post in the current thread.
+	 *
+	 * @return string
+	 */
+	function bp_get_message_thread_last_post_date_raw() {
+		global $messages_template;
+
+		return apply_filters( 'bp_get_message_thread_last_message_date', $messages_template->thread->last_message_date );
+	}
+
+/**
+ * Output the nicely formatted date of the last post in the current thread.
  */
 function bp_message_thread_last_post_date() {
 	echo bp_get_message_thread_last_post_date();
 }
 	/**
-	 * Get the date of the last post in the current thread.
+	 * Get the nicely formatted date of the last post in the current thread.
 	 *
 	 * @return string
 	 */
 	function bp_get_message_thread_last_post_date() {
-		global $messages_template;
-
-		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime( $messages_template->thread->last_message_date ) ) );
+		return apply_filters( 'bp_get_message_thread_last_post_date', bp_format_time( strtotime( bp_get_message_thread_last_post_date_raw() ) ) );
 	}
 
 /**
