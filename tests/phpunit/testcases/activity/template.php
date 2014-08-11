@@ -512,4 +512,33 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			$activities_template = null;
 		}
 	}
+
+	/**
+	 * Integration test for 'date_query' param
+	 *
+	 * @group date_query
+	 */
+	function test_bp_has_activities_with_date_query() {
+		if ( ! class_exists( 'WP_Date_Query' ) ) {
+			return;
+		}
+
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create( array(
+			'recorded_time' => '2001-01-01 12:00'
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'recorded_time' => '2005-01-01 12:00'
+		) );
+
+		global $activities_template;
+		bp_has_activities( array(
+			'date_query' => array( array(
+				'after' => '1 day ago'
+			) )
+		) );
+
+		$ids = wp_list_pluck( $activities_template->activities, 'id' );
+		$this->assertEquals( $ids, array( $a1 ) );
+	}
 }

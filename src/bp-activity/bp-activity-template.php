@@ -178,6 +178,7 @@ class BP_Activity_Template {
 			'filter'            => false,
 			'search_terms'      => false,
 			'meta_query'        => false,
+			'date_query'        => false,
 			'display_comments'  => 'threaded',
 			'show_hidden'       => false,
 			'spam'              => 'ham_only',
@@ -220,6 +221,7 @@ class BP_Activity_Template {
 				'sort'              => $sort,
 				'search_terms'      => $search_terms,
 				'meta_query'        => $meta_query,
+				'date_query'        => $date_query,
 				'filter'            => $filter,
 				'show_hidden'       => $show_hidden,
 				'exclude'           => $exclude,
@@ -567,6 +569,7 @@ function bp_has_activities( $args = '' ) {
 		'since'             => false,        // return only items recorded since this Y-m-d H:i:s date
 
 		'meta_query'        => false,        // filter on activity meta. See WP_Meta_Query for format
+		'date_query'        => false,        // filter by date. See first parameter of WP_Date_Query for format
 
 		// Searching
 		'search_terms'      => false,        // specify terms to search on
@@ -680,6 +683,7 @@ function bp_has_activities( $args = '' ) {
 		'filter'            => $filter,
 		'search_terms'      => $search_terms,
 		'meta_query'        => $meta_query,
+		'date_query'        => $date_query,
 		'display_comments'  => $display_comments,
 		'show_hidden'       => $show_hidden,
 		'spam'              => $spam,

@@ -145,6 +145,58 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group date_query
+	 */
+	public function test_get_with_date_query() {
+		if ( ! class_exists( 'WP_Date_Query' ) ) {
+			return;
+		}
+
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create( array(
+			'recorded_time' => '2001-01-01 12:00'
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'recorded_time' => '2005-01-01 12:00'
+		) );
+
+		// 'date_query' before test
+		$query = BP_Activity_Activity::get( array(
+			'date_query' => array( array(
+				'before' => array(
+					'year'  => 2004,
+					'month' => 1,
+					'day'   => 1,
+				),
+			) )
+		) );
+		$this->assertEquals( array( $a2 ), wp_list_pluck( $query['activities'], 'id' ) );
+
+		// 'date_query' range test
+		$query = BP_Activity_Activity::get( array(
+			'date_query' => array( array(
+				'after'  => 'January 2nd, 2001',
+				'before' => array(
+					'year'  => 2013,
+					'month' => 1,
+					'day'   => 1,
+				),
+				'inclusive' => true,
+			) )
+		) );
+		$this->assertEquals( array( $a3 ), wp_list_pluck( $query['activities'], 'id' ) );
+
+		// 'date_query' after and relative test
+		$query = BP_Activity_Activity::get( array(
+			'date_query' => array( array(
+				'after' => '1 day ago'
+			) )
+		) );
+		$this->assertEquals( array( $a1 ), wp_list_pluck( $query['activities'], 'id' ) );
+	}
+
+	/**
+	 * @group get
 	 */
 	public function test_get_with_search_terms() {
 		$a1 = $this->factory->activity->create( array(
