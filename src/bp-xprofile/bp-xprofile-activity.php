@@ -115,47 +115,35 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  * Records activity for the logged in user within the profile component so that
  * it will show in the users activity stream (if installed)
  *
+ * @since BuddyPress (1.0.0)0
+ *
  * @package BuddyPress
  * @subpackage XProfileActivity
  * @param string $args String containing all variables used after extract() call
- * @global $bp The global BuddyPress settings variable created in bp_core_current_times()
  * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
  */
 function xprofile_record_activity( $args = '' ) {
 
-	if ( !bp_is_active( 'activity' ) )
+	// Bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	global $bp;
-
-	$defaults = array (
+	// Parse the arguments
+	$r = bp_parse_args( $args, array(
 		'user_id'           => bp_loggedin_user_id(),
 		'action'            => '',
 		'content'           => '',
 		'primary_link'      => '',
-		'component'         => $bp->profile->id,
+		'component'         => buddypress()->profile->id,
 		'type'              => false,
 		'item_id'           => false,
 		'secondary_item_id' => false,
 		'recorded_time'     => bp_core_current_time(),
 		'hide_sitewide'     => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return bp_activity_add( array(
-		'user_id'           => $user_id,
-		'action'            => $action,
-		'content'           => $content,
-		'primary_link'      => $primary_link,
-		'component'         => $component,
-		'type'              => $type,
-		'item_id'           => $item_id,
-		'secondary_item_id' => $secondary_item_id,
-		'recorded_time'     => $recorded_time,
-		'hide_sitewide'     => $hide_sitewide
 	) );
+
+	return bp_activity_add( $r );
 }
 
 /**
