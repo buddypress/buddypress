@@ -511,11 +511,35 @@ class BP_XProfile_Group {
 						</div>
 						<div id="postbox-container-1" class="postbox-container">
 							<div id="side-sortables" class="meta-box-sortables ui-sortable">
+
+								<?php
+								/**
+								 * Fires before XProfile Group submit metabox.
+								 *
+								 * @since BuddyPress (2.1.0)
+								 *
+								 * @param BP_XProfile_Group $this Current XProfile group.
+								 */
+								do_action( 'xprofile_group_before_submitbox', $this );
+								?>
+
 								<div id="submitdiv" class="postbox">
 									<div id="handlediv"><h3 class="hndle"><?php _e( 'Save', 'buddypress' ); ?></h3></div>
 									<div class="inside">
 										<div id="submitcomment" class="submitbox">
 											<div id="major-publishing-actions">
+
+												<?php
+												/**
+												 * Fires at the beginning of the XProfile Group publishing actions section.
+												 *
+												 * @since BuddyPress (2.1.0)
+												 *
+												 * @param BP_XProfile_Group $this Current XProfile group.
+												 */
+												do_action( 'xprofile_group_submitbox_start', $this );
+												?>
+
 												<div id="delete-action">
 													<a href="users.php?page=bp-profile-setup" class="submitdelete deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 												</div>
@@ -528,6 +552,17 @@ class BP_XProfile_Group {
 										</div>
 									</div>
 								</div>
+
+								<?php
+								/**
+								 * Fires after XProfile Group submit metabox.
+								 *
+								 * @since BuddyPress (2.1.0)
+								 *
+								 * @param BP_XProfile_Group $this Current XProfile group.
+								 */
+								do_action( 'xprofile_group_after_submitbox', $this );
+								?>
 							</div>
 						</div>
 					</div>
@@ -892,11 +927,35 @@ class BP_XProfile_Field {
 						</div><!-- #post-body-content -->
 
 						<div id="postbox-container-1" class="postbox-container">
+
+							<?php
+							/**
+							 * Fires before XProfile Field submit metabox.
+							 *
+							 * @since BuddyPress (2.1.0)
+							 *
+							 * @param BP_XProfile_Field $this Current XProfile field.
+							 */
+							do_action( 'xprofile_field_before_submitbox', $this );
+							?>
+
 							<div id="submitdiv" class="postbox">
 								<h3><?php _e( 'Submit', 'buddypress' ); ?></h3>
 								<div class="inside">
 									<div id="submitcomment" class="submitbox">
 										<div id="major-publishing-actions">
+
+											<?php
+											/**
+											 * Fires at the beginning of the XProfile Field publishing actions section.
+											 *
+											 * @since BuddyPress (2.1.0)
+											 *
+											 * @param BP_XProfile_Field $this Current XProfile field.
+											 */
+											do_action( 'xprofile_field_submitbox_start', $this );
+											?>
+
 											<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
 											<div id="publishing-action">
 												<input type="submit" value="<?php esc_attr_e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
@@ -910,6 +969,17 @@ class BP_XProfile_Field {
 									</div>
 								</div>
 							</div>
+
+							<?php
+							/**
+							 * Fires after XProfile Field submit metabox.
+							 *
+							 * @since BuddyPress (2.1.0)
+							 *
+							 * @param BP_XProfile_Field $this Current XProfile field.
+							 */
+							do_action( 'xprofile_field_after_submitbox', $this );
+							?>
 
 							<?php /* Field 1 is the fullname field, which cannot have custom visibility */ ?>
 							<?php if ( 1 != $this->id ) : ?>
