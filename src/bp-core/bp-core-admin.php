@@ -713,7 +713,7 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php _e( 'Contributors to BuddyPress 2.1', 'buddypress' ); ?></h4>
+			<h4 class="wp-people-group"><?php printf( __( 'Contributors to BuddyPress %s', 'buddypress' ), $display_version ); ?></h4>
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/adamt19/">adamt19</a>,
 				<a href="https://profiles.wordpress.org/Viper007Bond/">Alex Mills (Viper007Bond)</a>,
