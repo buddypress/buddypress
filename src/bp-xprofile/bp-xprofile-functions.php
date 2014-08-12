@@ -294,32 +294,36 @@ function xprofile_delete_field( $field_id ) {
 /**
  * Fetches profile data for a specific field for the user.
  *
- * When the field value is serialized, this function unserializes and filters each item in the array
- * that results.
+ * When the field value is serialized, this function unserializes and filters
+ * each item in the array.
  *
  * @package BuddyPress Core
- * @param mixed $field The ID of the field, or the $name of the field.
- * @param int $user_id The ID of the user
+ * @param mixed $field         The ID of the field, or the $name of the field.
+ * @param int $user_id         The ID of the user
  * @param string $multi_format How should array data be returned? 'comma' if you want a
- *   comma-separated string; 'array' if you want an array
+ *                             comma-separated string; 'array' if you want an array
  * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
  * @return mixed The profile field data.
  */
 function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' ) {
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_displayed_user_id();
+	}
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
-	if ( is_numeric( $field ) )
+	if ( is_numeric( $field ) ) {
 		$field_id = $field;
-	else
+	} else {
 		$field_id = xprofile_get_field_id_from_name( $field );
+	}
 
-	if ( empty( $field_id ) )
+	if ( empty( $field_id ) ) {
 		return false;
+	}
 
 	$values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $field_id, $user_id ) );
 
@@ -344,20 +348,23 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
  *
  * @package BuddyPress Core
  * @param int|string $field The ID of the field, or the $name of the field.
- * @param int|$user_id The ID of the user
- * @param mixed The value for the field you want to set for the user.
+ * @param int|$user_id      The ID of the user
+ * @param mixed $value      The value for the field you want to set for the user.
+ * @param $is_required      Whether or not the field is required
  * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
  * @return bool True on success, false on failure.
  */
 function xprofile_set_field_data( $field, $user_id, $value, $is_required = false ) {
 
-	if ( is_numeric( $field ) )
+	if ( is_numeric( $field ) ) {
 		$field_id = $field;
-	else
+	} else {
 		$field_id = xprofile_get_field_id_from_name( $field );
+	}
 
-	if ( empty( $field_id ) )
+	if ( empty( $field_id ) ) {
 		return false;
+	}
 
 	$field          = new BP_XProfile_Field( $field_id );
 	$field_type     = BP_XProfile_Field::get_type( $field_id );
