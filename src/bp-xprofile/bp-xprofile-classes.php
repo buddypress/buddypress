@@ -2787,11 +2787,18 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @param string $submitted_value Raw value submitted by the user.
 	 * @return string
 	 */
-	public static function pre_validate_filter( $submitted_value ) {
+	public static function pre_validate_filter( $submitted_value = '' ) {
+
+		// Allow empty URL values
+		if ( empty( $submitted_value ) ) {
+			return '';
+		}
+
+		// Run some checks on the submitted value
 		if ( false === strpos( $submitted_value, ':'  )
-	          && substr( $submitted_value, 0, 1 ) !== '/'
-                  && substr( $submitted_value, 0, 1 ) !== '#'
-		  && ! preg_match( '/^[a-z0-9-]+?\.php/i', $submitted_value )
+		     && substr( $submitted_value, 0, 1 ) !== '/'
+		     && substr( $submitted_value, 0, 1 ) !== '#'
+		     && ! preg_match( '/^[a-z0-9-]+?\.php/i', $submitted_value )
 		) {
 			$submitted_value = 'http://' . $submitted_value;
 		}
