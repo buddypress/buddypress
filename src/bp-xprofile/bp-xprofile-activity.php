@@ -295,7 +295,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 
 	// Default throttle time is 2 hours. Filter to change (in seconds)
 	if ( ! empty( $existing['activities'] ) ) {
-		$throttle_period = apply_filters( 'bp_xprofile_updated_profile_activity_throttle_time', 60 * 60 * 2 );
+		$throttle_period = apply_filters( 'bp_xprofile_updated_profile_activity_throttle_time', HOUR_IN_SECONDS * 2 );
 		$then            = strtotime( $existing['activities'][0]->date_recorded );
 		$now             = strtotime( bp_core_current_time() );
 
