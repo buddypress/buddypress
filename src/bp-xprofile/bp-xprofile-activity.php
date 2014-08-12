@@ -3,8 +3,8 @@
 /**
  * BuddyPress XProfile Activity & Notification Functions
  *
- * These functions handle the recording, deleting and formatting of activity items and
- * notifications for the user and for this specific component.
+ * These functions handle the recording, deleting and formatting of activity
+ * items and notifications for the user and for this specific component.
  *
  * @package BuddyPress
  * @subpackage XProfileActivity
@@ -13,8 +13,14 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Register the activity actions for the Extended Profile component
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @uses bp_activity_set_action() To setup the individual actions
+ */
 function xprofile_register_activity_actions() {
-	global $bp;
 
 	// Register the activity stream actions for this component
 	bp_activity_set_action(
@@ -27,8 +33,11 @@ function xprofile_register_activity_actions() {
 		__( 'Updated Profile Photos', 'buddypress' )
 	);
 
+	// Get the profile component ID
+	$profile_id = buddypress()->profile->id;
+
 	bp_activity_set_action(
-		$bp->profile->id,
+		$profile_id,
 		'new_member',
 		__( 'New member registered', 'buddypress' ),
 		'bp_xprofile_format_activity_action_new_member',
@@ -37,7 +46,7 @@ function xprofile_register_activity_actions() {
 	);
 
 	bp_activity_set_action(
-		$bp->profile->id,
+		$profile_id,
 		'updated_profile',
 		__( 'Updated Profile', 'buddypress' ),
 		'bp_xprofile_format_activity_action_updated_profile',
@@ -101,6 +110,7 @@ function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
  * @return string
  */
 function bp_xprofile_format_activity_action_updated_profile( $action, $activity ) {
+
 	// Note for translators: The natural phrasing in English, "Joe updated
 	// his profile", requires that we know Joe's gender, which we don't. If
 	// your language doesn't have this restriction, feel free to use a more
@@ -115,7 +125,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  * Records activity for the logged in user within the profile component so that
  * it will show in the users activity stream (if installed)
  *
- * @since BuddyPress (1.0.0)0
+ * @since BuddyPress (1.0.0)
  *
  * @package BuddyPress
  * @subpackage XProfileActivity
