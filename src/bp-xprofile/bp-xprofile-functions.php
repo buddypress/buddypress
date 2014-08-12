@@ -35,43 +35,92 @@ function bp_xprofile_get_groups( $args = array() ) {
 	return apply_filters( 'bp_xprofile_get_groups', $groups, $args );
 }
 
+/**
+ * Insert a new profile field group
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param type $args
+ * @return boolean
+ */
 function xprofile_insert_field_group( $args = '' ) {
-	$defaults = array(
+
+	// Parse the arguments
+	$r = bp_parse_args( $args, array(
 		'field_group_id' => false,
 		'name'           => false,
 		'description'    => '',
 		'can_delete'     => true
-	);
+	), 'xprofile_insert_field_group' );
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	if ( empty( $name ) )
+	// Bail if no group name
+	if ( empty( $r['name'] ) ) {
 		return false;
+	}
 
-	$field_group              = new BP_XProfile_Group( $field_group_id );
-	$field_group->name        = $name;
-	$field_group->description = $description;
-	$field_group->can_delete  = $can_delete;
+	// Create new field group object, maybe using an existing ID
+	$field_group              = new BP_XProfile_Group( $r['field_group_id'] );
+	$field_group->name        = $r['name'];
+	$field_group->description = $r['description'];
+	$field_group->can_delete  = $r['can_delete'];
 
 	return $field_group->save();
 }
 
-function xprofile_get_field_group( $field_group_id ) {
+/**
+ * Get a specific profile field group
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param int $field_group_id
+ * @return boolean|BP_XProfile_Group
+ */
+function xprofile_get_field_group( $field_group_id = 0 ) {
+
+	// Try to get a specific field group by ID
 	$field_group = new BP_XProfile_Group( $field_group_id );
 
-	if ( empty( $field_group->id ) )
+	// Bail if group was not found
+	if ( empty( $field_group->id ) ) {
 		return false;
+	}
 
+	// Return field group
 	return $field_group;
 }
 
-function xprofile_delete_field_group( $field_group_id ) {
-	$field_group = new BP_XProfile_Group( $field_group_id );
+/**
+ * Delete a specific profile field group
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param int $field_group_id
+ * @return boolean
+ */
+function xprofile_delete_field_group( $field_group_id = 0 ) {
+
+	// Try to get a specific field group by ID
+	$field_group = xprofile_get_field_group( $field_group_id );
+
+	// Bail if group was not found
+	if ( false === $field_group ) {
+		return false;
+	}
+
+	// Return the results of trying to delete the field group
 	return $field_group->delete();
 }
 
-function xprofile_update_field_group_position( $field_group_id, $position ) {
+/**
+ * Update the position of a specific profile field group
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param int $field_group_id
+ * @param int $position
+ * @return bool
+ */
+function xprofile_update_field_group_position( $field_group_id = 0, $position = 0 ) {
 	return BP_XProfile_Group::update_position( $field_group_id, $position );
 }
 
