@@ -613,28 +613,37 @@ add_action( 'bp_setup_globals', 'xprofile_override_user_fullnames', 100 );
 /**
  * Setup the avatar upload directory for a user.
  *
+ * @since BuddyPress (1.0.0)
+ *
  * @package BuddyPress Core
+ *
  * @param string $directory The root directory name. Optional.
- * @param int $user_id The user ID. Optional.
- * @return array() containing the path and URL plus some other settings.
+ * @param int    $user_id   The user ID. Optional.
+ *
+ * @return array() Array containing the path, URL, and other helpful settings.
  */
-function xprofile_avatar_upload_dir( $directory = false, $user_id = 0 ) {
+function xprofile_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 
-	if ( empty( $user_id ) )
+	// Use displayed user if no user ID was passed
+	if ( empty( $user_id ) ) {
 		$user_id = bp_displayed_user_id();
+	}
 
-	if ( empty( $directory ) )
+	// Failsafe against accidentally nooped $directory parameter
+	if ( empty( $directory ) ) {
 		$directory = 'avatars';
+	}
 
-	$path    = bp_core_avatar_upload_path() . '/avatars/' . $user_id;
+	$path    = bp_core_avatar_upload_path() . '/' . $directory. '/' . $user_id;
 	$newbdir = $path;
 
-	if ( !file_exists( $path ) )
+	if ( ! file_exists( $path ) ) {
 		@wp_mkdir_p( $path );
+	}
 
-	$newurl    = bp_core_avatar_url() . '/avatars/' . $user_id;
+	$newurl    = bp_core_avatar_url() . '/' . $directory. '/' . $user_id;
 	$newburl   = $newurl;
-	$newsubdir = '/avatars/' . $user_id;
+	$newsubdir = '/' . $directory. '/' . $user_id;
 
 	return apply_filters( 'xprofile_avatar_upload_dir', array(
 		'path'    => $path,
