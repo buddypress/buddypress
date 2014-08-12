@@ -708,16 +708,18 @@ add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10,
  */
 function xprofile_sync_wp_profile( $user_id = 0 ) {
 
-	$bp = buddypress();
-
-	if ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int) $bp->site_options['bp-disable-profile-sync'] )
+	// Bail if profile syncing is disabled
+	if ( bp_disable_profile_sync() ) {
 		return true;
+	}
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		return false;
+	}
 
 	$fullname = xprofile_get_field_data( bp_xprofile_fullname_field_id(), $user_id );
 	$space    = strpos( $fullname, ' ' );
@@ -750,10 +752,11 @@ add_action( 'bp_core_activated_user',   'xprofile_sync_wp_profile' );
  * @package BuddyPress Core
  */
 function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
-	global $bp;
 
-	if ( ( !empty( $bp->site_options['bp-disable-profile-sync'] ) && (int) $bp->site_options['bp-disable-profile-sync'] ) || !$update || $errors->get_error_codes() )
+	// Bail if profile syncing is disabled
+	if ( bp_disable_profile_sync() ) {
 		return;
+	}
 
 	xprofile_set_field_data( bp_xprofile_fullname_field_id(), $user->ID, $user->display_name );
 }
