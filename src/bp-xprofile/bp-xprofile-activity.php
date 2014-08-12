@@ -264,7 +264,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		$old_value = isset( $old_values[ $field_id ] ) ? $old_values[ $field_id ] : '';
 
 		// Don't register changes to private fields
-		if ( 'public' !== $new_value['visibility'] ) {
+		if ( empty( $new_value['visibility'] ) || ( 'public' !== $new_value['visibility'] ) ) {
 			continue;
 		}
 
