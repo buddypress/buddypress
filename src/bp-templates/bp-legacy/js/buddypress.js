@@ -416,12 +416,20 @@ jq(document).ready( function() {
 				just_posted.push( jq(this).attr('id').replace( 'activity-','' ) );
 			});
 
-			bp_ajax_request = jq.post( ajaxurl, {
+			load_more_args = {
 				action: 'activity_get_older_updates',
 				'cookie': bp_get_cookies(),
 				'page': oldest_page,
 				'exclude_just_posted': just_posted.join(',')
-			},
+			}
+
+			load_more_search = bp_get_querystring('s');
+
+			if ( load_more_search ) {
+				load_more_args.search_terms = load_more_search;
+			}
+
+			bp_ajax_request = jq.post( ajaxurl, load_more_args,
 			function(response)
 			{
 				jq('#buddypress li.load-more').removeClass('loading');
@@ -1612,6 +1620,12 @@ jq(document).ready( function() {
 		}
 
 		data.bp_activity_last_recorded = activity_last_recorded;
+
+		last_recorded_search = bp_get_querystring('s');
+
+		if ( last_recorded_search ) {
+			data.bp_activity_last_recorded_search_terms = last_recorded_search;
+		}
 	});
 
 	// Increment newest_activities and activity_last_recorded if data has been returned

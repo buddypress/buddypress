@@ -459,7 +459,7 @@ function bp_activity_timestamp_class( $classes = '' ) {
 	if ( empty( $activity_date ) ) {
 		return $classes;
 	}
-	
+
 	$classes .= ' date-recorded-' . strtotime( $activity_date );
 
 	return $classes;
@@ -491,6 +491,10 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 		array( 'since' => date( 'Y-m-d H:i:s', $data['bp_activity_last_recorded'] ) ),
 		'activity_latest_args'
 	);
+
+	if ( ! empty( $data['bp_activity_last_recorded_search_terms'] ) && empty( $activity_latest_args['search_terms'] ) ) {
+		$activity_latest_args['search_terms'] = addslashes( $data['bp_activity_last_recorded_search_terms'] );
+	}
 
 	$newest_activities = array();
 	$last_activity_recorded = 0;
