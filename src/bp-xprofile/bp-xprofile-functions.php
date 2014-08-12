@@ -346,7 +346,6 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
  * @param int|string $field The ID of the field, or the $name of the field.
  * @param int|$user_id The ID of the user
  * @param mixed The value for the field you want to set for the user.
- * @global BuddyPress $bp The one true BuddyPress instance
  * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
  * @return bool True on success, false on failure.
  */
@@ -874,7 +873,7 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
  * @param string $object_type Type of object. 'group', 'field', or 'data'.
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value.
- * @param bool $unique. Optional. Whether to enforce a single metadata value
+ * @param bool $unique Optional. Whether to enforce a single metadata value
  *        for the given key. If true, and the object already has a value for
  *        the key, no change will be made. Default: false.
  * @return int|bool The meta ID on successful update, false on failure.
