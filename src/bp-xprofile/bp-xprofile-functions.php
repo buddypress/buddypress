@@ -488,16 +488,24 @@ function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
 	return $current_level;
 }
 
-function xprofile_delete_field_data( $field, $user_id ) {
-	if ( is_numeric( $field ) )
-		$field_id = $field;
-	else
+function xprofile_delete_field_data( $field = '', $user_id = 0 ) {
+
+	// Get the field ID
+	if ( is_numeric( $field ) ) {
+		$field_id = (int) $field;
+	} else {
 		$field_id = xprofile_get_field_id_from_name( $field );
+	}
 
-	if ( empty( $field_id ) || empty( $user_id ) )
+	// Bail if field or user ID are empty
+	if ( empty( $field_id ) || empty( $user_id ) ) {
 		return false;
+	}
 
+	// Get the profile field data to delete
 	$field = new BP_XProfile_ProfileData( $field_id, $user_id );
+
+	// Delete the field data
 	return $field->delete();
 }
 
@@ -508,12 +516,13 @@ function xprofile_check_is_required_field( $field_id ) {
 	$retval = false;
 
 	// Super admins can skip required check
-	if ( bp_current_user_can( 'bp_moderate' ) && !is_admin() )
+	if ( bp_current_user_can( 'bp_moderate' ) && ! is_admin() ) {
 		$retval = false;
 
 	// All other users will use the field's setting
-	elseif ( isset( $field->is_required ) )
+	} elseif ( isset( $field->is_required ) ) {
 		$retval = $field->is_required;
+	}
 
 	return (bool) $retval;
 }
@@ -544,13 +553,15 @@ function xprofile_get_field_id_from_name( $field_name ) {
 function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
 	$field_data = BP_XProfile_ProfileData::get_random( $user_id, $exclude_fullname );
 
-	if ( empty( $field_data ) )
+	if ( empty( $field_data ) ) {
 		return false;
+	}
 
 	$field_data[0]->value = xprofile_format_profile_field( $field_data[0]->type, $field_data[0]->value );
 
-	if ( empty( $field_data[0]->value ) )
+	if ( empty( $field_data[0]->value ) ) {
 		return false;
+	}
 
 	return apply_filters( 'xprofile_get_random_profile_data', $field_data );
 }
@@ -564,8 +575,10 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
  * @return string|bool The formatted value, or false if value is empty
  */
 function xprofile_format_profile_field( $field_type, $field_value ) {
-	if ( !isset( $field_value ) || empty( $field_value ) )
+
+	if ( empty( $field_value ) ) {
 		return false;
+	}
 
 	$field_value = bp_unserialize_profile_field( $field_value );
 
