@@ -733,9 +733,10 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
 				<a href="https://profiles.wordpress.org/jconti/">Jose Conti (jconti)</a>,
 				<a href="https://profiles.wordpress.org/jreeve/">jreeve</a>,
+				<a href="https://profiles.wordpress.org/Offereins">Laurens Offereins (Offereins)</a>
 				<a href="https://profiles.wordpress.org/lenasterg/">lenasterg</a>,
 				<a href="https://profiles.wordpress.org/mercime/">mercime</a>,
-				<a href="https://profiles.wordpress.org/tw2113/">Michael Beckwith</a>,
+				<a href="https://profiles.wordpress.org/tw2113/">Michael Beckwith (tw2113)</a>,
 				<a href="https://profiles.wordpress.org/milesstewart88/">Miles Stewart (milesstewart88)</a>,
 				<a href="https://profiles.wordpress.org/needle/">needle</a>,
 				<a href="https://profiles.wordpress.org/sooskriszta/">OC2PS (sooskriszta)</a>,
