@@ -233,12 +233,14 @@ add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
  *        levels.
  * @return bool True on success, false on failure.
  */
-function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $old_values = array(), $new_values = array() ) {
+function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $errors = false, $old_values = array(), $new_values = array() ) {
+
 	// If there were errors, don't post
 	if ( ! empty( $errors ) ) {
 		return false;
 	}
 
+	// Bail if activity component is not turned on
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
@@ -247,9 +249,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 	// related solely to non-public fields
 	$public_changes = false;
 	foreach ( $new_values as $field_id => $new_value ) {
-		$old_value            = isset( $old_values[ $field_id ] ) ? $old_values[ $field_id ] : '';
-		$old_value_value      = isset( $old_value['value'] ) ? $old_value['value'] : '';
-		$old_value_visibility = isset( $old_value['visibility'] ) ? $old_value['visibility'] : '';
+		$old_value = isset( $old_values[ $field_id ] ) ? $old_values[ $field_id ] : '';
 
 		// Don't register changes to private fields
 		if ( 'public' !== $new_value['visibility'] ) {
@@ -266,13 +266,14 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 		break;
 	}
 
-	if ( ! $public_changes ) {
+	// Bail if no public changes
+	if ( empty( $public_changes ) ) {
 		return false;
 	}
 
 	// Throttle to one activity of this type per 2 hours
 	$existing = bp_activity_get( array(
-		'max' => 1,
+		'max'    => 1,
 		'filter' => array(
 			'user_id' => $user_id,
 			'object'  => buddypress()->profile->id,
@@ -280,32 +281,27 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 		),
 	) );
 
-	if ( empty( $existing['activities'] ) ) {
-		$throttle = false;
-	} else {
-		// Default throttle time is 2 hours. Filter to change (in seconds)
+	// Default throttle time is 2 hours. Filter to change (in seconds)
+	if ( ! empty( $existing['activities'] ) ) {
 		$throttle_period = apply_filters( 'bp_xprofile_updated_profile_activity_throttle_time', 60 * 60 * 2 );
-		$then = strtotime( $existing['activities'][0]->date_recorded );
-		$now  = strtotime( bp_core_current_time() );
+		$then            = strtotime( $existing['activities'][0]->date_recorded );
+		$now             = strtotime( bp_core_current_time() );
 
-		$throttle = ( $now - $then ) < $throttle_period;
-	}
-
-	if ( $throttle ) {
-		return false;
+		// Bail if throttled
+		if ( ( $now - $then ) < $throttle_period ) {
+			return false;
+		}
 	}
 
 	// If we've reached this point, assemble and post the activity item
 	$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . buddypress()->profile->slug );
 
-	$retval = xprofile_record_activity( array(
+	return (bool) xprofile_record_activity( array(
 		'user_id'      => $user_id,
 		'primary_link' => $profile_link,
 		'component'    => buddypress()->profile->id,
 		'type'         => 'updated_profile',
 	) );
-
-	return (bool) $retval;
 }
 add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 10, 5 );
 
