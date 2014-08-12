@@ -197,6 +197,21 @@ function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $fiel
 	return $value;
 }
 
+/**
+ * Filter an Extended Profile field value, and attempt to make clickable links
+ * to members search results out of them.
+ * 
+ * - Not run on datebox field types
+ * - Not run on values without commas with less than 5 words
+ * - URL's are made clickable
+ * - To disable: remove_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 2 );
+ *
+ * @since BuddyPress (1.1)
+ *
+ * @param string $field_value
+ * @param string  $field_type
+ * @return string
+ */
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
 
 	if ( 'datebox' === $field_type ) {
@@ -227,7 +242,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 				// Less than 5 spaces
 				} else {
 					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_members_directory_permalink() );
-					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . $value . '</a>';
+					$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
 				}
 			}
 		}
