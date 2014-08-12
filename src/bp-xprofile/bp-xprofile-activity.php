@@ -185,13 +185,23 @@ function xprofile_delete_activity( $args = '' ) {
 	bp_activity_delete_by_item_id( $r );
 }
 
+/**
+ * Register an activity action for the Extended Profiles component
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param string $key
+ * @param string $value
+ * @return bool True if success, false on failure
+ */
 function xprofile_register_activity_action( $key, $value ) {
-	global $bp;
 
-	if ( !bp_is_active( 'activity' ) )
+	// Bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( $bp->profile->id, $key, $value ), $key, $value );
+	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( buddypress()->profile->id, $key, $value ), $key, $value );
 }
 
 /**
