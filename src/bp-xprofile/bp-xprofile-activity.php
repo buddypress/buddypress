@@ -159,30 +159,30 @@ function xprofile_record_activity( $args = '' ) {
 }
 
 /**
- * Deletes activity for a user within the profile component so that
- * it will be removed from the users activity stream and sitewide stream (if installed)
+ * Deletes activity for a user within the profile component so that it will be
+ * removed from the users activity stream and sitewide stream (if installed)
+ *
+ * @since BuddyPress (1.0.0)
  *
  * @package BuddyPress XProfile
  * @param string $args Containing all variables used after extract() call
- * @global BuddyPress $bp The one true BuddyPress instance
- * @uses bp_activity_delete() Deletes an entry to the activity component tables for a specific activity
+ * @uses bp_activity_delete() Deletes an entry to the activity component tables
+ *                            for a specific activity
  */
 function xprofile_delete_activity( $args = '' ) {
 
-	if ( ! bp_is_active( 'activity' ) )
+	// Bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	global $bp;
+	// Parse the arguments
+	$r = bp_parse_args( $args, array(
+		'component' => buddypress()->profile->id
+	), 'xprofile_delete_activity' );
 
-	extract( $args );
-
-	bp_activity_delete_by_item_id( array(
-		'item_id'           => $item_id,
-		'component'         => $bp->profile->id,
-		'type'              => $type,
-		'user_id'           => $user_id,
-		'secondary_item_id' => $secondary_item_id
-	) );
+	// Delete the activity item
+	bp_activity_delete_by_item_id( $r );
 }
 
 function xprofile_register_activity_action( $key, $value ) {
@@ -240,7 +240,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		return false;
 	}
 
-	// Bail if activity component is not turned on
+	// Bail if activity component is not active
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
