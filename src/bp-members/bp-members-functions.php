@@ -1850,7 +1850,7 @@ function bp_members_migrate_signups() {
  * @param array $user Array of userdata passed to bp_core_activated_user hook.
  */
 function bp_core_new_user_activity( $user ) {
-	if ( empty( $user ) || ! bp_is_active( 'activity' ) ) {
+	if ( empty( $user ) || ! bp_is_active( 'activity' ) || ! bp_is_active( 'xprofile' ) ) {
 		return false;
 	}
 

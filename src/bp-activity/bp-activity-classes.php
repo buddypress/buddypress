@@ -333,6 +333,9 @@ class BP_Activity_Activity {
 		// Where conditions
 		$where_conditions = array();
 
+		// Excluded types
+		$excluded_types = array();
+
 		// Spam
 		if ( 'ham_only' == $spam )
 			$where_conditions['spam_sql'] = 'a.is_spam = 0';
@@ -391,13 +394,24 @@ class BP_Activity_Activity {
 		// comments in the stream like normal comments or threaded below
 		// the activity.
 		if ( false === $display_comments || 'threaded' === $display_comments ) {
-			$where_conditions[] = "a.type != 'activity_comment'";
+			$excluded_types[] = 'activity_comment';
 		}
 
 		// Exclude 'last_activity' items unless the 'action' filter has
 		// been explicitly set
 		if ( empty( $filter['object'] ) ) {
-			$where_conditions[] = "a.type != 'last_activity'";
+			$excluded_types[] = 'last_activity';
+		}
+
+		// Exclude 'new_member' items if xprofile component is not active
+		if ( ! bp_is_active( 'xprofile' ) ) {
+			$excluded_types[] = 'new_member';
+		}
+
+		// Build the excluded type sql part
+		if ( ! empty( $excluded_types ) ) {
+			$not_in = "'" . implode( "', '", esc_sql( $excluded_types ) ) . "'";
+			$where_conditions['excluded_types'] = "a.type NOT IN ({$not_in})";
 		}
 
 		// Filter the where conditions
