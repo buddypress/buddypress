@@ -17,7 +17,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Register activity actions for the Groups component.
  */
 function groups_register_activity_actions() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
@@ -163,7 +163,8 @@ function bp_groups_prefetch_activity_object_data( $activities ) {
 		}
 
 		if ( ! empty( $uncached_ids ) ) {
-			global $wpdb, $bp;
+			global $wpdb;
+			$bp = buddypress();
 			$uncached_ids_sql = implode( ',', wp_parse_id_list( $uncached_ids ) );
 			$groups = $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name} WHERE id IN ({$uncached_ids_sql})" );
 			foreach ( $groups as $group ) {
