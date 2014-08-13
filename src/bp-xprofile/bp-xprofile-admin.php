@@ -553,7 +553,12 @@ class BP_XProfile_User_Admin {
 		$stats_metabox->priority = 'low';
 
 		// Each Group of fields will have his own metabox
-		if ( ! bp_is_user_spammer( $user_id ) && bp_has_profile( array( 'fetch_fields' => false ) ) ) {
+		$profile_args = array(
+			'fetch_fields' => false,
+			'user_id'      => $user_id,
+		);
+
+		if ( ! bp_is_user_spammer( $user_id ) && bp_has_profile( $profile_args ) ) {
 
 			// Loop through field groups and add a metabox for each one
 			while ( bp_profile_groups() ) : bp_the_profile_group();
