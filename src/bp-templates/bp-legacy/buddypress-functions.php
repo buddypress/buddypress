@@ -792,11 +792,11 @@ function bp_legacy_theme_new_activity_comment() {
 		// Because the whole tree has not been loaded, we manually
 		// determine depth
 		$depth = 1;
-		$parent_id = $activities_template->activities[0]->secondary_item_id;
-		while ( $parent_id !== $activities_template->activities[0]->item_id ) {
+		$parent_id = (int) $activities_template->activities[0]->secondary_item_id;
+		while ( $parent_id !== (int) $activities_template->activities[0]->item_id ) {
 			$depth++;
 			$p_obj = new BP_Activity_Activity( $parent_id );
-			$parent_id = $p_obj->secondary_item_id;
+			$parent_id = (int) $p_obj->secondary_item_id;
 		}
 		$activities_template->activity->current_comment->depth = $depth;
 	}
