@@ -3059,14 +3059,16 @@ function bp_groups_filter_title() {
 	do_action( 'bp_groups_filter_title' );
 }
 
-function bp_is_group_admin_screen( $slug ) {
-	if ( !bp_is_groups_component() || !bp_is_current_action( 'admin' ) )
-		return false;
-
-	if ( bp_is_action_variable( $slug ) )
-		return true;
-
-	return false;
+/**
+ * Is the current page a specific group admin screen?
+ *
+ * @since BuddyPress (1.1)
+ *
+ * @param string $slug
+ * @return string
+ */
+function bp_is_group_admin_screen( $slug = '' ) {
+	return (bool) ( bp_is_group_admin_page() && bp_is_action_variable( $slug ) );
 }
 
 /**
