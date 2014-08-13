@@ -3065,7 +3065,7 @@ function bp_groups_filter_title() {
  * @since BuddyPress (1.1)
  *
  * @param string $slug
- * @return string
+ * @return bool
  */
 function bp_is_group_admin_screen( $slug = '' ) {
 	return (bool) ( bp_is_group_admin_page() && bp_is_action_variable( $slug ) );
