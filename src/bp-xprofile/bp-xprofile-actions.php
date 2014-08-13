@@ -85,6 +85,17 @@ function bp_xprofile_action_settings() {
 		// Get the POST'ed field ID's
 		$posted_field_ids = explode( ',', $_POST['field_ids'] );
 
+		// Backward compatibility: a bug in BP 2.0 caused only a single
+		// group's field IDs to be submitted. Look for values submitted
+		// in the POST request that may not appear in 'field_ids', and
+		// add them to the list of IDs to save.
+		foreach ( $_POST as $posted_key => $posted_value ) {
+			preg_match( '/^field_([0-9]+)_visibility$/', $posted_key, $matches );
+			if ( ! empty( $matches[1] ) && ! in_array( $matches[1], $posted_field_ids ) ) {
+				$posted_field_ids[] = $matches[1];
+			}
+		}
+
 		// Save the visibility settings
 		foreach ( $posted_field_ids as $field_id ) {
 

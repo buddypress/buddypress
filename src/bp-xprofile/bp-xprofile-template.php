@@ -314,6 +314,34 @@ function bp_the_profile_group_field_ids() {
 		return substr( $field_ids, 0, -1 );
 	}
 
+/**
+ * Output a comma-separated list of field IDs that are to be submitted on profile edit.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_the_profile_field_ids() {
+	echo bp_get_the_profile_field_ids();
+}
+	/**
+	 * Generate a comma-separated list of field IDs that are to be submitted on profile edit.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_profile_field_ids() {
+		global $profile_template;
+
+		$field_ids = array();
+		foreach ( $profile_template->groups as $group ) {
+			$field_ids = array_merge( $field_ids, wp_list_pluck( $group->fields, 'id' ) );
+		}
+
+		$field_ids = implode( ',', wp_parse_id_list( $field_ids ) );
+
+		return apply_filters( 'bp_get_tthe_profile_field_ids', $field_ids );
+	}
+
 function bp_profile_fields() {
 	global $profile_template;
 	return $profile_template->profile_fields();

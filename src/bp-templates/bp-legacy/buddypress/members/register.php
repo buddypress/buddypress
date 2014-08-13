@@ -104,7 +104,7 @@
 
 					<?php endwhile; ?>
 
-					<input type="hidden" name="signup_profile_field_ids" id="signup_profile_field_ids" value="<?php bp_the_profile_group_field_ids(); ?>" />
+					<input type="hidden" name="signup_profile_field_ids" id="signup_profile_field_ids" value="<?php bp_the_profile_field_ids(); ?>" />
 
 					<?php endwhile; endif; endif; ?>
 
