@@ -338,13 +338,13 @@ function bp_use_wp_admin_bar() {
 /** Directory *****************************************************************/
 
 /**
- * Returns an array of core components.
+ * Returns an array of core component IDs.
  *
  * @since BuddyPress (2.1.0)
  *
  * @return array
  */
-function bp_core_get_components() {
+function bp_core_get_packaged_component_ids() {
 	return array(
 		'activity',
 		'members',
