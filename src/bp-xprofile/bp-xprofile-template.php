@@ -339,7 +339,7 @@ function bp_the_profile_field_ids() {
 
 		$field_ids = implode( ',', wp_parse_id_list( $field_ids ) );
 
-		return apply_filters( 'bp_get_tthe_profile_field_ids', $field_ids );
+		return apply_filters( 'bp_get_the_profile_field_ids', $field_ids );
 	}
 
 function bp_profile_fields() {
