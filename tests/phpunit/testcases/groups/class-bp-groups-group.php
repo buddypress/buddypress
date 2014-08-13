@@ -338,6 +338,50 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( '1', $groups['total'] );
 	}
 
+	/**
+	 * @group get
+	 * @ticket BP5477
+	 */
+	public function test_get_groups_page_perpage_params() {
+		// Create more than 20 groups (20 is the default per_page number)
+		$group_ids = array();
+
+		for ( $i = 1; $i <= 25; $i++ ) {
+			$group_ids[] = $this->factory->group->create();
+		}
+
+		// Tests
+		// Passing false to 'per_page' and 'page' should result in pagination not being applied
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => false,
+			'page'     => false
+		) );
+
+		// Should return all groups; "paged" group total should be 25
+		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
+
+		unset( $groups );
+
+		// Passing 'per_page' => -1 should result in pagination not being applied.
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => -1
+		) );
+
+		// Should return all groups; "paged" group total should match 25
+		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
+
+		unset( $groups );
+
+		// If "per_page" and "page" are both set, should result in pagination being applied.
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => 12,
+			'page'     => 1
+		) );
+
+		// Should return top 12 groups only
+		$this->assertEquals( '12', count( $groups['groups'] ) );
+	}
+
 	/** convert_type_to_order_orderby() **********************************/
 
 	/**
