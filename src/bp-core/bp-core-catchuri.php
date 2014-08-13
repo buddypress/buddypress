@@ -372,8 +372,17 @@ function bp_core_load_template( $templates ) {
 		$filtered_templates[] = $template . '.php';
 	}
 
+	// Only perform template lookup for bp-default themes
+	if ( ! bp_use_theme_compat_with_current_theme() ) {
+		$template = locate_template( (array) $filtered_templates, false );
+
+	// Theme compat doesn't require a template lookup
+	} else {
+		$template = '';
+	}
+
 	// Filter the template locations so that plugins can alter where they are located
-	$located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates );
+	$located_template = apply_filters( 'bp_located_template', $template, $filtered_templates );
 	if ( !empty( $located_template ) ) {
 
 		// Template was located, lets set this as a valid page and not a 404.
