@@ -1537,10 +1537,9 @@ function bp_is_settings_component() {
  *         packaged components.
  */
 function bp_is_current_component_core() {
-	$retval            = false;
-	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
+	$retval = false;
 
-	foreach ( array_keys( $active_components ) as $active_component ) {
+	foreach ( bp_core_get_components() as $active_component ) {
 		if ( bp_is_current_component( $active_component ) ) {
 			$retval = true;
 			break;
