@@ -201,6 +201,23 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $user_id, $found_user_id );
 	}
 
+	public function test_bp_user_query_search_with_ampersand_sign() {
+
+		// LIKE special character: &
+		$user_id = $this->create_user();
+		xprofile_set_field_data( 1, $user_id, "a&mpersand" );
+		$q = new BP_User_Query( array( 'search_terms' => "a&m", ) );
+
+		$found_user_id = null;
+		if ( ! empty( $q->results ) ) {
+			$found_user = array_pop( $q->results );
+			$found_user_id = $found_user->ID;
+		}
+
+		$this->assertEquals( $user_id, $found_user_id );
+
+	}
+
 	/**
 	 * @group search_terms
 	 */
