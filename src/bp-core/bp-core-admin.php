@@ -728,6 +728,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
 				<a href="https://profiles.wordpress.org/ebellempire/">Erin B. (ebellempire)</a>,
 				<a href="https://profiles.wordpress.org/esroyo/">esroyo</a>,
+				<a href="https://profiles.wordpress.org/godavid33">godavid33</a>
 				<a href="https://profiles.wordpress.org/hnla/">Hugo (hnla)</a>,
 				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
