@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-08-16 11:30:40+00:00\n"
+"POT-Creation-Date: 2014-08-16 12:30:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1323,7 +1323,7 @@ msgid "Everything in a BuddyPress community revolves around its members."
 msgstr ""
 
 #: src/bp-core/admin/bp-core-components.php:356
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:105
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:108
 msgid "Group Forums"
 msgstr ""
 
@@ -3521,7 +3521,7 @@ msgid "Search all Groups"
 msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:687
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:112
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:115
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:47
 msgid "Enable discussion forum"
 msgstr ""
@@ -3549,19 +3549,19 @@ msgid "Who can invite others to this group?"
 msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:708
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:89
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:92
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:99
 msgid "All group members"
 msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:709
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:94
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:97
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:104
 msgid "Group admins and mods only"
 msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:710
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:99
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:102
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:109
 msgid "Group admins only"
 msgstr ""
@@ -5895,24 +5895,24 @@ msgstr ""
 msgid "Privacy Options"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:55
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:54
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:61
 msgid "This is a public group"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:57
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:56
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:63
 msgid "Any site member can join this group."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:58
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:67
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:57
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:68
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:64
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:74
 msgid "This group will be listed in the groups directory and in search results."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:59
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:58
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:65
 msgid "Group content and activity will be visible to any site member."
 msgstr ""
@@ -5922,114 +5922,114 @@ msgstr ""
 msgid "This is a private group"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:66
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:67
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:73
 msgid "Only users who request membership and are accepted can join the group."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:68
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:77
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:69
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:80
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:75
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:85
 msgid "Group content and activity will only be visible to members of the group."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:73
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:75
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:81
 msgid "This is a hidden group"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:75
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:78
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:83
 msgid "Only users who are invited can join the group."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:76
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:79
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:84
 msgid "This group will not be listed in the groups directory or search results."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:82
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:85
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:92
 msgid "Group Invitations"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:84
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:87
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:94
 msgid "Which members of this group are allowed to invite others?"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:109
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:112
 msgid "Should this group have a forum?"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:116
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:119
 msgid "<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s\">correct setup and configuration</a> of a bbPress installation."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:142
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:145
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:127
 msgid "Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:146
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:149
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:131
 #: src/bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:18
 msgid "Upload Image"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:150
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:153
 msgid "To skip the group profile photo upload process, hit the \"Next Step\" button."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:157
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:160
 msgid "Crop Group Profile Photo"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:159
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:162
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:151
 msgid "Profile photo to crop"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:162
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:165
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:154
 msgid "Profile photo preview"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:165
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:168
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:157
 #: src/bp-templates/bp-legacy/buddypress/members/single/profile/change-avatar.php:39
 msgid "Crop Image"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:204
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:207
 #: src/bp-templates/bp-legacy/buddypress/groups/single/invites-loop.php:79
 msgid "Select people to invite from your friends list."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:222
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:225
 #: src/bp-templates/bp-legacy/buddypress/groups/single/invites-loop.php:51
 #: src/bp-templates/bp-legacy/buddypress-functions.php:1047
 msgid "Remove Invite"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:239
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:242
 msgid "Once you have built up friend connections you will be able to invite others to your group."
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:261
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:264
 msgid "Back to Previous Step"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:268
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:271
 msgid "Next Step"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:275
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:278
 msgid "Create Group and Continue"
 msgstr ""
 
-#: src/bp-templates/bp-legacy/buddypress/groups/create.php:282
+#: src/bp-templates/bp-legacy/buddypress/groups/create.php:285
 msgid "Finish"
 msgstr ""
 
