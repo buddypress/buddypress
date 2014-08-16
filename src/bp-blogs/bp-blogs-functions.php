@@ -571,7 +571,16 @@ function bp_blogs_update_post( $post ) {
 
 	// update the activity entry
 	$activity = new BP_Activity_Activity( $activity_id );
-	$activity->content = $post->post_content;
+
+	if ( ! empty( $post->post_content ) ) {
+		// Make sure to update the thumbnail image
+		$post_content = bp_activity_thumbnail_content_images( $post->post_content, $activity->primary_link, (array) $activity );
+
+		// Make sure to apply the blop post excerpt
+		$activity->content = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $post_content ), $post_content, (array) $activity );
+	}
+
+	// Save the updated activity
 	$activity->save();
 
 	// add post comment status to activity meta if closed
