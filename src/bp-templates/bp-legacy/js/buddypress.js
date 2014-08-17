@@ -1689,10 +1689,6 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		return false;
 	}
 
-	if ( bp_get_querystring('s') && !search_terms ) {
-		search_terms = bp_get_querystring('s');
-	}
-
 	if ( null === scope ) {
 		scope = 'all';
 	}

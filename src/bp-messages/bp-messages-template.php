@@ -173,8 +173,22 @@ class BP_Messages_Box_Template {
 		}
 
 		if ( (int) $this->total_thread_count && (int) $this->pag_num ) {
+			$pag_args = array(
+				$page_arg => '%#%',
+			);
+
+			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
+				$base = remove_query_arg( 's', wp_get_referer() );
+			} else {
+				$base = '';
+			}
+
+			if ( ! empty( $this->search_terms ) ) {
+				$pag_args['s'] = $this->search_terms;
+			}
+
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $page_arg, '%#%' ),
+				'base'      => add_query_arg( $pag_args, $base ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_thread_count / (int) $this->pag_num ),
 				'current'   => $this->pag_page,

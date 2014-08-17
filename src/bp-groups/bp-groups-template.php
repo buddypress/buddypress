@@ -234,8 +234,25 @@ class BP_Groups_Template {
 
 		// Build pagination links
 		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
+			$pag_args = array(
+				$page_arg => '%#%',
+				'num'     => $this->pag_num,
+				'sortby'  => $this->sort_by,
+				'order'   => $this->order,
+			);
+
+			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
+				$base = remove_query_arg( 's', wp_get_referer() );
+			} else {
+				$base = '';
+			}
+
+			if ( ! empty( $search_terms ) ) {
+				$pag_args['s'] = $search_terms;
+			}
+
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( array( $page_arg => '%#%', 'num' => $this->pag_num, 's' => $search_terms, 'sortby' => $this->sort_by, 'order' => $this->order ) ),
+				'base'      => add_query_arg( $pag_args, $base ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_group_count / (int) $this->pag_num ),
 				'current'   => $this->pag_page,
