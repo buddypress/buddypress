@@ -1136,16 +1136,24 @@ function bp_blogs_total_blogs() {
 /**
  * Get the total number of blogs being tracked by BP for a specific user.
  *
+ * @since BuddyPress (1.2.0)
+ *
  * @param int $user_id ID of the user being queried. Default: on a user page,
  *        the displayed user. Otherwise, the logged-in user.
  * @return int $count Total blog count for the user.
  */
 function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
-
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+	}
 
-	if ( !$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' ) ) {
+	// no user ID? do not attempt to look at cache
+	if ( empty( $user_id ) ) {
+		return 0;
+	}
+
+	$count = wp_cache_get( 'bp_total_blogs_for_user_' . $user_id, 'bp' );
+	if ( false === $count ) {
 		$count = BP_Blogs_Blog::total_blog_count_for_user( $user_id );
 		wp_cache_set( 'bp_total_blogs_for_user_' . $user_id, $count, 'bp' );
 	}
