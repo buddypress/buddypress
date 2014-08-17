@@ -753,6 +753,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/treyhunner/">treyhunner</a>,
 				<a href="https://profiles.wordpress.org/wbajzek/">wbajzek</a>,
 				<a href="https://profiles.wordpress.org/WCUADD/">WCUADD</a>,
+				<a href="https://profiles.wordpress.org/wpdennis/">wpdennis</a>,
 				<a href="https://profiles.wordpress.org/wolfhoundjesse/">wolfhoundjesse</a>.
 			</p>
 
