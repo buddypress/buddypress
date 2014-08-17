@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-08-17 10:30:40+00:00\n"
+"POT-Creation-Date: 2014-08-17 18:30:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1932,7 +1932,7 @@ msgstr ""
 msgid "<a href=\"%s\">&hellip;and lots more!</a>"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:621 src/bp-core/bp-core-admin.php:768
+#: src/bp-core/bp-core-admin.php:621 src/bp-core/bp-core-admin.php:769
 msgid "Go to the BuddyPress Settings page"
 msgstr ""
 
@@ -1972,23 +1972,23 @@ msgstr ""
 msgid "Contributors to BuddyPress %s"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:759
+#: src/bp-core/bp-core-admin.php:760
 msgid "External Libraries"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:793
+#: src/bp-core/bp-core-admin.php:794
 msgid "Maintenance Release"
 msgid_plural "Maintenance Releases"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-core/bp-core-admin.php:794
+#: src/bp-core/bp-core-admin.php:795
 msgid "Security Release"
 msgid_plural "Security Releases"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-core/bp-core-admin.php:795
+#: src/bp-core/bp-core-admin.php:796
 msgid "Maintenance and Security Release"
 msgid_plural "Maintenance and Security Releases"
 msgstr[0] ""
@@ -1996,7 +1996,7 @@ msgstr[1] ""
 
 #. translators: 1: WordPress version number.
 
-#: src/bp-core/bp-core-admin.php:798
+#: src/bp-core/bp-core-admin.php:799
 msgid "<strong>Version %1$s</strong> addressed a security issue."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
 msgstr[0] ""
@@ -2004,7 +2004,7 @@ msgstr[1] ""
 
 #. translators: 1: WordPress version number, 2: plural number of bugs.
 
-#: src/bp-core/bp-core-admin.php:803
+#: src/bp-core/bp-core-admin.php:804
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] ""
@@ -2013,7 +2013,7 @@ msgstr[1] ""
 #. translators: 1: WordPress version number, 2: plural number of bugs. Singular
 #. security issue.
 
-#: src/bp-core/bp-core-admin.php:808
+#: src/bp-core/bp-core-admin.php:809
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] ""
@@ -2022,13 +2022,13 @@ msgstr[1] ""
 #. translators: 1: WordPress version number, 2: plural number of bugs. More
 #. than one security issue.
 
-#: src/bp-core/bp-core-admin.php:813
+#: src/bp-core/bp-core-admin.php:814
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-core/bp-core-admin.php:817
+#: src/bp-core/bp-core-admin.php:818
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr ""
 
@@ -3639,7 +3639,7 @@ msgid "No members of this type"
 msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:897
-#: src/bp-groups/bp-groups-classes.php:3236
+#: src/bp-groups/bp-groups-classes.php:3244
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:32
 #: src/bp-templates/bp-legacy/buddypress/groups/single/admin.php:117
 #: src/bp-templates/bp-legacy/buddypress/groups/single/forum/edit.php:58
@@ -3742,7 +3742,7 @@ msgstr ""
 msgid "Group Admin"
 msgstr ""
 
-#: src/bp-groups/bp-groups-classes.php:3529
+#: src/bp-groups/bp-groups-classes.php:3537
 msgid "You do not have access to this content."
 msgstr ""
 
