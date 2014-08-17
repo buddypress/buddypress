@@ -3001,6 +3001,14 @@ class BP_Group_Extension {
 	protected $legacy_properties_converted = array();
 
 	/**
+	 * Redirect location as defined by post-edit save callback.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var string
+	 */
+	protected $post_save_redirect;
+
+	/**
 	 * Miscellaneous data as set by the __set() magic method.
 	 *
 	 * @since BuddyPress (1.8.0)
@@ -3689,7 +3697,24 @@ class BP_Group_Extension {
 		}
 
 		$this->check_nonce( 'edit' );
+
+		// Detect whether the screen_save_callback is performing a
+		// redirect, so that we don't do one of our own
+		add_filter( 'wp_redirect', array( $this, 'detect_post_save_redirect' ) );
+
+		// Call the extension's save routine
 		call_user_func( $this->screens['edit']['screen_save_callback'], $this->group_id );
+
+		// Clean up detection filters
+		remove_filter( 'wp_redirect', array( $this, 'detect_post_save_redirect' ) );
+
+		// Perform a redirect only if one has not already taken place
+		if ( empty( $this->post_save_redirect ) ) {
+			$redirect_to = apply_filters( 'bp_group_extension_edit_screen_save_redirect', bp_get_requested_url( ) );
+
+			bp_core_redirect( $redirect_to );
+			die();
+		}
 	}
 
 	/**
@@ -3751,6 +3776,22 @@ class BP_Group_Extension {
 		$pattern = "/<input[^>]+type=[\'\"]submit[\'\"]/";
 		preg_match( $pattern, $screen, $matches );
 		return ! empty( $matches[0] );
+	}
+
+	/**
+	 * Detect redirects hardcoded into edit_screen_save() callbacks.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param string $location
+	 * @return string
+	 */
+	public function detect_post_save_redirect( $redirect = '' ) {
+		if ( ! empty( $redirect ) ) {
+			$this->post_save_redirect = $redirect;
+		}
+
+		return $redirect;
 	}
 
 	/** Admin *************************************************************/
