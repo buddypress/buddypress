@@ -396,10 +396,6 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 	top: 0;
 	right: 0;
 }
-	body.rtl .about-wrap .bp-badge {
-		right: auto;
-		left: 0;
-	}
 
 /* HiDPI
 ------------------------------------------------------------------------------*/
