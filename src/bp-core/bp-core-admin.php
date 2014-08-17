@@ -500,7 +500,7 @@ class BP_Admin {
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
 			<div class="about-text">
 				<?php if ( $is_new_install ) : ?>
-					<?php printf( __( 'Thank you for installing BuddyPress! ', 'buddypress' ), $display_version ); ?>
+					<?php printf( __( 'Thank you for installing BuddyPress! BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
 				<?php else : ?>
 					<?php printf( __( 'Howdy. BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
 				<?php endif; ?>
@@ -541,6 +541,7 @@ class BP_Admin {
 
 					<h4><?php _e( 'Community and Support', 'buddypress' ); ?></h4>
 					<p><?php _e( 'Looking for help? The <a href="http://codex.buddypress.org/">BuddyPress Codex</a> has you covered, with dozens of user-contributed guides on how to configure and use your BP site. Can&#8217;t find what you need? Stop by <a href="http://buddypress.org/support/">our support forums</a>, where a vibrant community of BuddyPress users and developers is waiting to share tips, show off their sites, talk about the future of BuddyPress, and much more.', 'buddypress' ) ?></p>
+					<p><?php _e( 'Read on to learn more about this version of BuddyPress.', 'buddypress' ); ?></p>
 				</div>
 				<hr />
 
@@ -663,7 +664,7 @@ class BP_Admin {
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
 			<div class="about-text">
 				<?php if ( $is_new_install ) : ?>
-					<?php printf( __( 'Thank you for installing BuddyPress! ', 'buddypress' ), $display_version ); ?>
+					<?php printf( __( 'Thank you for installing BuddyPress! BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
 				<?php else : ?>
 					<?php printf( __( 'Howdy. BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
 				<?php endif; ?>
