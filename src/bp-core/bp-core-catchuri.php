@@ -342,20 +342,38 @@ function bp_core_enable_root_profiles() {
 function bp_core_load_template( $templates ) {
 	global $wp_query;
 
-	// reset post if not on a directory page
-	// if we're not on a directory page, this means we're faking a page and we
-	// need to reset the post to avoid notices
-	if ( ! bp_is_directory() ) {
-		bp_theme_compat_reset_post( array(
-			'ID'          => 0,
-			'is_404'      => true,
-			'post_status' => 'publish',
-		) );
-
-		// need to set theme compat to false since the reset post function
-		// automatically sets theme compat to true
-		bp_set_theme_compat_active( false );
+	// check if BP page belongs to, or is a child of, a BP directory page
+	$page_id = false;
+	foreach ( (array) buddypress()->pages as $page ) {
+		if ( $page->name == buddypress()->unfiltered_uri[buddypress()->unfiltered_uri_offset] ) {
+			$page_id = $page->id;
+			break;
+		}
 	}
+
+	// Set up reset post args
+	$reset_post_args = array(
+		'is_404'      => true,
+		'post_status' => 'publish',
+	);
+
+	// BP page exists - fill in the $wp_query->post object
+	//
+	// bp_theme_compat_reset_post() looks at the $wp_query->post object to fill in
+	// the post globals
+	if ( ! empty( $page_id ) ) {
+		$wp_query->post = get_post( $page_id );
+		$reset_post_args['ID'] = $page_id;
+	} else {
+		$reset_post_args['ID'] = 0;
+	}
+
+	// Reset the post
+	bp_theme_compat_reset_post( $reset_post_args );
+
+	// Set theme compat to false since the reset post function automatically sets
+	// theme compat to true
+	bp_set_theme_compat_active( false );
 
 	// Fetch each template and add the php suffix
 	$filtered_templates = array();
