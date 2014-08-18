@@ -593,10 +593,13 @@ function bp_blogs_update_post( $post ) {
 		bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
 
 		// now update activity meta for post comments... sigh
-		$comment_ids = get_comments( array( 'post_id' => $post->ID, 'fields' => 'ids' ) );
+		add_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
+		$comments = get_comments( array( 'post_id' => $post->ID ) );
+		remove_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
 
-		if ( ! empty( $comment_ids ) ) {
+		if ( ! empty( $comments ) ) {
 			$activity_ids = array();
+			$comment_ids  = wp_list_pluck( $comments, 'comment_ID' );
 
 			// setup activity args
 			$args = array(
@@ -607,8 +610,8 @@ function bp_blogs_update_post( $post ) {
 
 			// query for old-style "new_blog_comment" activity items
 			$args['filter'] = array(
-				'object'     => buddypress()->blogs->id,
-				'action'     => 'new_blog_comment',
+				'object'       => buddypress()->blogs->id,
+				'action'       => 'new_blog_comment',
 				'secondary_id' => implode( ',', $comment_ids ),
 			);
 
@@ -639,7 +642,7 @@ function bp_blogs_update_post( $post ) {
 				}
 			}
 
-			unset( $activities, $activity_ids, $comment_ids );
+			unset( $activities, $activity_ids, $comment_ids, $comments );
 		}
 	}
 

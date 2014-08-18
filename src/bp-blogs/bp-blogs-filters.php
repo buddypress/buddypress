@@ -36,3 +36,19 @@ function bp_blogs_creation_location( $url ) {
 	return apply_filters( 'bp_blogs_creation_location', trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create', $url ) );
 }
 add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
+
+/**
+ * Only select comments by ID instead of all fields when using get_comments().
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @see bp_blogs_update_post()
+ *
+ * @param array Current SQL clauses in array format
+ * @return array
+ */
+function bp_blogs_comments_clauses_select_by_id( $retval ) {
+	$retval['fields'] = 'comment_ID';
+	
+	return $retval;
+}
