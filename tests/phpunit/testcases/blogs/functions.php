@@ -394,6 +394,89 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Unpublished post should not have activity' );
 	}
 
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_update_blog_post_and_new_blog_comment_and_activity_comment_meta() {
+		// save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$u = $this->create_user();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type' => 'post',
+			'post_title' => 'First title',
+		) );
+
+		// remove comment flood protection temporarily
+		add_filter( 'comment_flood_filter', '__return_false' );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		$c1 = wp_new_comment( array(
+			'comment_post_ID'      => $post_id,
+			'comment_author'       => $userdata->user_nicename,
+			'comment_author_url'   => 'http://buddypress.org',
+			'comment_author_email' => $userdata->user_email,
+			'comment_content'      => 'this is a blog comment',
+			'comment_type'         => '',
+			'comment_parent'       => 0,
+			'user_id'              => $u,
+		) );
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// let's also add a "new_blog_comment" activity entry
+		$c2 = wp_new_comment( array(
+			'comment_post_ID'      => $post_id,
+			'comment_author'       => $userdata->user_nicename,
+			'comment_author_url'   => 'http://buddypress.org',
+			'comment_author_email' => $userdata->user_email,
+			'comment_content'      => 'this is another blog comment',
+			'comment_type'         => '',
+			'comment_parent'       => 0,
+			'user_id'              => $u,
+		) );
+
+		// bring back flood protection
+		remove_filter( 'comment_flood_filter', '__return_false' );
+
+		// update the initial blog post
+		wp_update_post( array(
+			'ID'        => $post_id,
+			'post_title' => 'Second title',
+		) );
+
+		// grab the activity ID for the activity comment
+		$a1 = bp_activity_get_activity_id( array(
+			'type'              => 'activity_comment',
+			'display_comments'  => 'stream',
+			'meta_query'        => array( array(
+				'key'     => 'bp_blogs_post_comment_id',
+				'value'   => $c1,
+			) )
+		) );
+
+		// grab the activity ID for the blog comment
+		$a2 = bp_activity_get_activity_id( array(
+			'component'         => buddypress()->blogs->id,
+			'type'              => 'new_blog_comment',
+			'secondary_item_id' => $c2,
+		) );
+
+		// see if blog comment activity meta matches the post items
+		$this->assertEquals( 'Second title', bp_activity_get_meta( $a1, 'post_title' ) );
+		$this->assertEquals( add_query_arg( 'p', $post_id, home_url( '/' ) ), bp_activity_get_meta( $a1, 'post_url' ) );
+
+		$this->assertEquals( 'Second title', bp_activity_get_meta( $a2, 'post_title' ) );
+		$this->assertEquals( add_query_arg( 'p', $post_id, home_url( '/' ) ), bp_activity_get_meta( $a2, 'post_url' ) );
+
+		// reset
+		$this->set_current_user( $old_user );
+	}
+
 	protected function activity_exists_for_post( $post_id ) {
 		$a = bp_activity_get( array(
 			'component' => buddypress()->blogs->id,

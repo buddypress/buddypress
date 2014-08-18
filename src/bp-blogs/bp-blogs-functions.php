@@ -523,7 +523,7 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 
 			$activity_content = $post->post_content;
 
-			bp_blogs_record_activity( array(
+			$activity_id = bp_blogs_record_activity( array(
 				'user_id'           => (int) $post->post_author,
 				'content'           => apply_filters( 'bp_blogs_activity_new_post_content',      $activity_content, $post, $post_permalink ),
 				'primary_link'      => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink,   $post_id               ),
@@ -531,7 +531,11 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 				'item_id'           => $blog_id,
 				'secondary_item_id' => $post_id,
 				'recorded_time'     => $post->post_date_gmt,
-			));
+			) );
+
+			// save post title in activity meta
+			bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
+			bp_activity_update_meta( $activity_id, 'post_url',   $post_permalink );
 		}
 
 		// Update the blogs last activity
@@ -582,6 +586,62 @@ function bp_blogs_update_post( $post ) {
 
 	// Save the updated activity
 	$activity->save();
+
+	// update post title in activity meta
+	$existing_title = bp_activity_get_meta( $activity_id, 'post_title' );
+	if ( $post->post_title !== $existing_title ) {
+		bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
+
+		// now update activity meta for post comments... sigh
+		$comment_ids = get_comments( array( 'post_id' => $post->ID, 'fields' => 'ids' ) );
+
+		if ( ! empty( $comment_ids ) ) {
+			$activity_ids = array();
+
+			// setup activity args
+			$args = array(
+				'update_meta_cache' => false,
+				'show_hidden'       => true,
+				'per_page'          => 99999,
+			);
+
+			// query for old-style "new_blog_comment" activity items
+			$args['filter'] = array(
+				'object'     => buddypress()->blogs->id,
+				'action'     => 'new_blog_comment',
+				'secondary_id' => implode( ',', $comment_ids ),
+			);
+
+			$activities = bp_activity_get( $args );
+			if ( ! empty( $activities['activities'] ) ) {
+				$activity_ids = (array) wp_list_pluck( $activities['activities'], 'id' );
+			}
+
+			// query for activity comments connected to a blog post
+			unset( $args['filter'] );
+			$args['meta_query'] = array( array(
+				'key'     => 'bp_blogs_post_comment_id',
+				'value'   => $comment_ids,
+				'compare' => 'IN',
+			) );
+			$args['type'] = 'activity_comment';
+			$args['display_comments'] = 'stream';
+
+			$activities = bp_activity_get( $args );
+			if ( ! empty( $activities['activities'] ) ) {
+				$activity_ids = array_merge( $activity_ids, (array) wp_list_pluck( $activities['activities'], 'id' ) );
+			}
+
+			// update activity meta for all found activity items
+			if ( ! empty( $activity_ids ) ) {
+				foreach ( $activity_ids as $aid ) {
+					bp_activity_update_meta( $aid, 'post_title', $post->post_title );
+				}
+			}
+
+			unset( $activities, $activity_ids, $comment_ids );
+		}
+	}
 
 	// add post comment status to activity meta if closed
 	if( 'closed' == $post->comment_status ) {
@@ -680,7 +740,11 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 			$args['secondary_item_id'] = $comment_id;
 
 			// record the activity entry
-			bp_blogs_record_activity( $args );
+			$activity_id = bp_blogs_record_activity( $args );
+
+			// add some post info in activity meta
+			bp_activity_update_meta( $activity_id, 'post_title', $recorded_comment->post->post_title );
+			bp_activity_update_meta( $activity_id, 'post_url',   add_query_arg( 'p', $recorded_comment->post->ID, home_url( '/' ) ) );
 
 		// record comment as BP activity comment under the parent 'new_blog_post'
 		// activity item
@@ -744,6 +808,8 @@ function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 				if ( empty( $args['id'] ) ) {
 					// add meta to activity comment
 					bp_activity_update_meta( $comment_activity_id, 'bp_blogs_post_comment_id', $comment_id );
+					bp_activity_update_meta( $comment_activity_id, 'post_title', $recorded_comment->post->post_title );
+					bp_activity_update_meta( $comment_activity_id, 'post_url', add_query_arg( 'p', $recorded_comment->post->ID, home_url( '/' ) ) );
 
 					// add meta to comment
 					add_comment_meta( $comment_id, 'bp_activity_comment_id', $comment_activity_id );
