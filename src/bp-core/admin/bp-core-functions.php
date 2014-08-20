@@ -200,7 +200,7 @@ function bp_core_add_admin_notice( $notice = '' ) {
  * @since BuddyPress (1.2)
  */
 function bp_core_activation_notice() {
-	global $wp_rewrite;
+	global $wp_rewrite, $wpdb;
 
 	// Only the super admin gets warnings
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
@@ -220,6 +220,20 @@ function bp_core_activation_notice() {
 	// Bail if in network admin, and BuddyPress is not network activated
 	if ( is_network_admin() && ! bp_is_network_activated() ) {
 		return;
+	}
+
+	/**
+	 * Check to make sure that the blog setup routine has run. This can't
+	 * happen during the wizard because of the order which the components
+	 * are loaded.
+	 */
+	if ( bp_is_active( 'blogs' ) ) {
+		$bp    = buddypress();
+		$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$bp->blogs->table_name}" );
+
+		if ( empty( $count ) ) {
+			bp_blogs_record_existing_blogs();
+		}
 	}
 
 	// Add notice if no rewrite rules are enabled
