@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-08-18 13:30:39+00:00\n"
+"POT-Creation-Date: 2014-08-20 15:30:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -157,10 +157,10 @@ msgstr ""
 
 #: src/bp-activity/bp-activity-admin.php:211
 #: src/bp-activity/bp-activity-admin.php:258
-#: src/bp-core/admin/bp-core-functions.php:431
-#: src/bp-core/admin/bp-core-functions.php:449
-#: src/bp-core/admin/bp-core-functions.php:468
-#: src/bp-core/admin/bp-core-functions.php:487
+#: src/bp-core/admin/bp-core-functions.php:445
+#: src/bp-core/admin/bp-core-functions.php:463
+#: src/bp-core/admin/bp-core-functions.php:482
+#: src/bp-core/admin/bp-core-functions.php:501
 #: src/bp-groups/bp-groups-admin.php:111 src/bp-groups/bp-groups-admin.php:146
 #: src/bp-members/bp-members-admin.php:671
 #: src/bp-members/bp-members-admin.php:1252
@@ -201,10 +201,10 @@ msgstr ""
 
 #: src/bp-activity/bp-activity-admin.php:230
 #: src/bp-activity/bp-activity-admin.php:275
-#: src/bp-core/admin/bp-core-functions.php:437
-#: src/bp-core/admin/bp-core-functions.php:455
-#: src/bp-core/admin/bp-core-functions.php:474
-#: src/bp-core/admin/bp-core-functions.php:493
+#: src/bp-core/admin/bp-core-functions.php:451
+#: src/bp-core/admin/bp-core-functions.php:469
+#: src/bp-core/admin/bp-core-functions.php:488
+#: src/bp-core/admin/bp-core-functions.php:507
 #: src/bp-groups/bp-groups-admin.php:119 src/bp-groups/bp-groups-admin.php:162
 #: src/bp-members/bp-members-admin.php:680
 #: src/bp-members/bp-members-admin.php:1273
@@ -217,10 +217,10 @@ msgstr ""
 
 #: src/bp-activity/bp-activity-admin.php:232
 #: src/bp-activity/bp-activity-admin.php:276
-#: src/bp-core/admin/bp-core-functions.php:439
-#: src/bp-core/admin/bp-core-functions.php:457
-#: src/bp-core/admin/bp-core-functions.php:476
-#: src/bp-core/admin/bp-core-functions.php:495
+#: src/bp-core/admin/bp-core-functions.php:453
+#: src/bp-core/admin/bp-core-functions.php:471
+#: src/bp-core/admin/bp-core-functions.php:490
+#: src/bp-core/admin/bp-core-functions.php:509
 #: src/bp-groups/bp-groups-admin.php:163
 #: src/bp-members/bp-members-admin.php:682
 #: src/bp-members/bp-members-admin.php:1274
@@ -305,7 +305,7 @@ msgstr ""
 #: src/bp-activity/bp-activity-admin.php:1424
 #: src/bp-activity/bp-activity-akismet.php:197
 #: src/bp-activity/bp-activity-akismet.php:226
-#: src/bp-core/admin/bp-core-functions.php:809
+#: src/bp-core/admin/bp-core-functions.php:823
 msgid "Spam"
 msgstr ""
 
@@ -456,7 +456,7 @@ msgstr ""
 
 #: src/bp-activity/bp-activity-admin.php:1229
 #: src/bp-activity/bp-activity-admin.php:1422
-#: src/bp-core/admin/bp-core-functions.php:803
+#: src/bp-core/admin/bp-core-functions.php:817
 msgid "Not Spam"
 msgstr ""
 
@@ -936,7 +936,7 @@ msgid "Delete"
 msgstr ""
 
 #: src/bp-activity/bp-activity-template.php:2643
-#: src/bp-core/admin/bp-core-functions.php:815
+#: src/bp-core/admin/bp-core-functions.php:829
 #: src/bp-core/admin/bp-core-slugs.php:109
 #: src/bp-core/admin/bp-core-slugs.php:172
 #: src/bp-groups/bp-groups-admin.php:1406
@@ -1211,7 +1211,7 @@ msgid "Max posts to show:"
 msgstr ""
 
 #: src/bp-core/admin/bp-core-components.php:26
-#: src/bp-core/admin/bp-core-functions.php:369
+#: src/bp-core/admin/bp-core-functions.php:383
 msgid "Components"
 msgstr ""
 
@@ -1391,11 +1391,11 @@ msgstr ""
 msgid "Components, Pages, Settings, and Forums, have been moved to <a href=\"%s\">Settings &gt; BuddyPress</a>. Profile Fields has been moved into the <a href=\"%s\">Users</a> menu."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:227
+#: src/bp-core/admin/bp-core-functions.php:241
 msgid "<strong>BuddyPress is almost ready</strong>. You must <a href=\"%s\">update your permalink structure</a> to something other than the default for it to work."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:254
+#: src/bp-core/admin/bp-core-functions.php:268
 #: src/bp-core/admin/bp-core-slugs.php:135
 #: src/bp-members/admin/bp-members-classes.php:269
 #: src/bp-members/admin/bp-members-classes.php:273
@@ -1406,26 +1406,26 @@ msgstr ""
 msgid "Activate"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:259
+#: src/bp-core/admin/bp-core-functions.php:273
 #: src/bp-core/admin/bp-core-slugs.php:134
 #: src/bp-members/bp-members-adminbar.php:61
 msgid "Register"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:285
+#: src/bp-core/admin/bp-core-functions.php:299
 msgid "The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href=\"%1$s\">Repair</a>"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:307
+#: src/bp-core/admin/bp-core-functions.php:321
 msgid "Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href=\"%1$s\">Repair</a>"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:373
+#: src/bp-core/admin/bp-core-functions.php:387
 #: src/bp-core/admin/bp-core-slugs.php:26
 msgid "Pages"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:377
+#: src/bp-core/admin/bp-core-functions.php:391
 #: src/bp-core/admin/bp-core-settings.php:243 src/bp-core/bp-core-admin.php:439
 #: src/bp-groups/bp-groups-template.php:1645
 #: src/bp-settings/bp-settings-loader.php:23
@@ -1434,7 +1434,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:390
+#: src/bp-core/admin/bp-core-functions.php:404
 #: src/bp-forums/bp-forums-loader.php:132
 #: src/bp-forums/bp-forums-loader.php:199
 #: src/bp-forums/bp-forums-loader.php:240
@@ -1444,73 +1444,73 @@ msgstr ""
 msgid "Forums"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:438
+#: src/bp-core/admin/bp-core-functions.php:452
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-components\">Managing Components</a>"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:456
+#: src/bp-core/admin/bp-core-functions.php:470
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-pages\">Managing Pages</a>"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:475
+#: src/bp-core/admin/bp-core-functions.php:489
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-settings\">Managing Settings</a>"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:494
+#: src/bp-core/admin/bp-core-functions.php:508
 msgid "<a href=\"http://codex.buddypress.org/getting-started/configure-buddypress-components/#users-profile-fields\">Managing Profile Fields</a>"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:512
+#: src/bp-core/admin/bp-core-functions.php:526
 msgid "By default, all but four of the BuddyPress components are enabled. You can selectively enable or disable any of the components by using the form below. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:516
+#: src/bp-core/admin/bp-core-functions.php:530
 msgid "BuddyPress Components use WordPress Pages for their root directory/archive pages. You can change the page associations for each active component by using the form below."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:520
+#: src/bp-core/admin/bp-core-functions.php:534
 msgid "Extra configuration settings are provided and activated. You can selectively enable or disable any setting by using the form on this screen."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:524
+#: src/bp-core/admin/bp-core-functions.php:538
 msgid "Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:684
+#: src/bp-core/admin/bp-core-functions.php:698
 #: src/bp-core/bp-core-admin.php:215 src/bp-core/bp-core-admin.php:216
 #: src/bp-core/bp-core-admin.php:236 src/bp-core/bp-core-admin.php:290
 msgid "BuddyPress"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:706
-#: src/bp-core/admin/bp-core-functions.php:715
+#: src/bp-core/admin/bp-core-functions.php:720
+#: src/bp-core/admin/bp-core-functions.php:729
 msgid "Logged-In"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:709
-#: src/bp-core/admin/bp-core-functions.php:724
+#: src/bp-core/admin/bp-core-functions.php:723
+#: src/bp-core/admin/bp-core-functions.php:738
 msgid "Logged-Out"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:716
+#: src/bp-core/admin/bp-core-functions.php:730
 msgid "<em>Logged-In</em> links are relative to the current user, and are not visible to visitors who are not logged in."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:725
+#: src/bp-core/admin/bp-core-functions.php:739
 msgid "<em>Logged-Out</em> links are not visible to users who are logged in."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:735
+#: src/bp-core/admin/bp-core-functions.php:749
 msgid "Add to Menu"
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:867
+#: src/bp-core/admin/bp-core-functions.php:881
 #: src/bp-members/bp-members-actions.php:54
 #: src/bp-members/bp-members-admin.php:293
 msgid "User marked as spammer. Spam users are visible only to site admins."
 msgstr ""
 
-#: src/bp-core/admin/bp-core-functions.php:869
+#: src/bp-core/admin/bp-core-functions.php:883
 msgid "User removed from spam."
 msgstr ""
 
@@ -5225,7 +5225,7 @@ msgstr ""
 
 #: src/bp-messages/bp-messages-loader.php:153
 #: src/bp-messages/bp-messages-loader.php:220
-#: src/bp-messages/bp-messages-notifications.php:129
+#: src/bp-messages/bp-messages-notifications.php:127
 msgid "Inbox"
 msgstr ""
 
@@ -5280,15 +5280,15 @@ msgstr ""
 msgid "To disable these notifications, please log in and go to: %s"
 msgstr ""
 
-#: src/bp-messages/bp-messages-notifications.php:132
+#: src/bp-messages/bp-messages-notifications.php:131
 msgid "You have %d new messages"
 msgstr ""
 
-#: src/bp-messages/bp-messages-notifications.php:143
+#: src/bp-messages/bp-messages-notifications.php:142
 msgid "%s sent you a new private message"
 msgstr ""
 
-#: src/bp-messages/bp-messages-notifications.php:145
+#: src/bp-messages/bp-messages-notifications.php:144
 msgid "You have %s new private message"
 msgid_plural "You have %s new private messages"
 msgstr[0] ""
