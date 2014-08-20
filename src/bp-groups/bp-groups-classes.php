@@ -891,19 +891,8 @@ class BP_Groups_Group {
 			preg_match_all( '/ON \((.*)\)/', $meta_sql['join'], $matches_b );
 
 			if ( ! empty( $matches_a[1] ) && ! empty( $matches_b[1] ) ) {
-				$sql_array['join']  = implode( ',', $matches_a[1] ). ', ';
-
-				$sql_array['where'] = '';
-
-				$meta_query_where_clauses = explode( "\n", $meta_sql['where'] );
-
-				// Trim empties
-				$meta_query_where_clauses = array_values( array_filter( $meta_query_where_clauses ) );
-
-				foreach( $matches_b[1] as $key => $group_id_clause ) {
-					$sql_array['where'] .= ' ' . preg_replace( '/^(AND\s+[\(\s]+)/', '$1' . $group_id_clause . ' AND ', ltrim( $meta_query_where_clauses[ $key ] ) );
-				}
-
+				$sql_array['join']  = implode( ',', $matches_a[1] ) . ', ';
+				$sql_array['where'] = $meta_sql['where'] . ' AND ' . implode ( ' AND ', $matches_b[1] );
 			}
 		}
 
