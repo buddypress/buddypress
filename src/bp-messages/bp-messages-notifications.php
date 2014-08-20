@@ -123,11 +123,10 @@ add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 	$total_items = (int) $total_items;
+	$link        = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox' );
+	$title       = __( 'Inbox', 'buddypress' );
 
 	if ( 'new_message' === $action ) {
-		$link  = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox' );
-		$title = __( 'Inbox', 'buddypress' );
-
 		if ( $total_items > 1 ) {
 			$text   = sprintf( __( 'You have %d new messages', 'buddypress' ), $total_items );
 			$filter = 'bp_messages_multiple_new_message_notification';
