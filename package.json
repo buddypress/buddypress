@@ -10,7 +10,7 @@
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-cssmin": "~0.10.0",
-    "grunt-contrib-imagemin": "~0.7.1",
+    "grunt-contrib-imagemin": "~0.8.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-uglify": "~0.5.1",
     "grunt-contrib-watch": "~0.6.1",
@@ -19,9 +19,8 @@
     "grunt-jsvalidate": "~0.2.2",
     "grunt-legacy-util": "^0.2.0",
     "grunt-patch-wordpress": "~0.2.1",
-    "grunt-phpunit": "~0.3.4",
     "grunt-sass": "~0.14.0",
-    "grunt-wp-i18n": "~0.4.6",
+    "grunt-wp-i18n": "~0.4.7",
     "matchdep": "~0.3.0"
   },
   "keywords": [
