@@ -1,3 +1,4 @@
+/* jshint undef: false, unused:false */
 // AJAX Functions
 var jq = jQuery;
 
@@ -421,7 +422,7 @@ jq(document).ready( function() {
 				'cookie': bp_get_cookies(),
 				'page': oldest_page,
 				'exclude_just_posted': just_posted.join(',')
-			}
+			};
 
 			load_more_search = bp_get_querystring('s');
 
