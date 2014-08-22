@@ -1,9 +1,9 @@
 === BuddyPress ===
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime
-Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, twitter, facebook, social, community, networks, networking, cms
+Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, social, community, networks, networking
 Requires at least: 3.6
-Tested up to: 3.9.1
-Stable tag: 2.0
+Tested up to: 4.0
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,13 +13,9 @@ Social networking in a box. Build a social network for your company, school, spo
 
 BuddyPress lets users sign-up and start creating profiles, posting messages, making connections, creating and interacting in groups, and much more. A social network in a box, BuddyPress lets you easily build a community for your company, school, sports team, or other niche community.
 
-<h4>Who's Using BuddyPress?</h4>
-
-Take a look at some of the best sites on the <a href="http://buddypress.org/showcase/">BuddyPress Showcase</a>.
-
 <h4>Plugins: Adding So Much More</h4>
 
-BuddyPress boasts an ever growing array of new features developed by an awesome plugin development community. There are more than 330 BuddyPress plugins available, and the list is growing every day. Check out our list of <a href="http://buddypress.org/extend/recommended-plugins/">popular and recommended plugins</a>; for a full list of plugins, please visit the <a href="http://buddypress.org/extend/plugins/">BuddyPress.org plugins page</a>. You can install any of these plugins automatically, using the plugin installer on your WordPress Dashboard.
+BuddyPress boasts an ever growing array of new features developed by an awesome plugin development community. There are more than 330 BuddyPress plugins available, and the list is growing every day. Check out our list of <a href="http://buddypress.org/extend/recommended-plugins/">popular and recommended plugins</a>, or <a href="http://wordpress.org/plugins/search.php?q=buddypress">search for BuddyPress plugins on WordPress.org</a>. You can install any of these plugins automatically, using the plugin installer on your WordPress Dashboard.
 
 <h4>More Information</h4>
 
@@ -29,7 +25,7 @@ Visit the <a href="http://buddypress.org/">BuddyPress website</a> for more infor
 
 You can download and install BuddyPress using the built in WordPress plugin installer. If you download BuddyPress manually, make sure it is uploaded to "/wp-content/plugins/buddypress/".
 
-Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. If you're using WordPress Multisite, you can optionally activate BuddyPress Network Wide, allowing its toolbar integration to appear on all of your sites, and optionally turning on post and comment aggregation to the Activity Stream too!
+Activate BuddyPress in the "Plugins" admin panel using the "Activate" link. If you're using WordPress Multisite, you can choose to activate BuddyPress network wide for full integration with all of your site.
 
 = Discussion Forums =
 
@@ -47,7 +43,7 @@ Yes! If your WordPress installation has multisite enabled, BuddyPress will suppo
 
 = Where can I get support? =
 
-The support forums can be found at <a href="http://buddypress.org/forums/">http://buddypress.org/forums/</a>.
+The support forums can be found at <a href="http://buddypress.org/support/">http://buddypress.org/support/</a>.
 
 = Where can I find documentation? =
 
@@ -73,7 +69,7 @@ Check out the development trunk of BuddyPress via Subversion, from <a href="http
 
 == Languages ==
 
-BuddyPress is available in more than 20 languages. For more information, check out the <a href="http://codex.buddypress.org/getting-started/translations/">translation page</a> on the BuddyPress Codex.
+BuddyPress is available in many languages. For more information, check out the <a href="http://codex.buddypress.org/translations/">translation page</a> on the BuddyPress Codex.
 
 == Upgrade Notice ==
 
@@ -158,4 +154,4 @@ See: http://codex.buddypress.org/releases/version-1-6/
 See: http://codex.buddypress.org/releases/version-1-5/
 
 = Older =
-See: http://buddypress.org/about/release-history/
+See: http://codex.buddypress.org/releases/
