@@ -2592,7 +2592,7 @@ function bp_activity_delete_url() {
 		}
 
 		$url = wp_nonce_url( $url, 'bp_activity_delete_link' );
-				
+
 		return apply_filters( 'bp_get_activity_delete_url', $url );
 	}
 
@@ -2763,7 +2763,7 @@ function bp_activity_can_comment() {
 	// Determine ability to comment based on activity action name
 	$activity_action = bp_get_activity_action_name();
 	switch ( $activity_action ) {
-		
+
 		// Maybe turn off for blog and forum updates
 		case 'new_blog_post'    :
 		case 'new_blog_comment' :
@@ -2792,26 +2792,34 @@ function bp_activity_can_comment() {
  * @return bool $can_comment True if comment can receive comments, otherwise
  *         false.
  */
-function bp_activity_can_comment_reply( $comment ) {
+function bp_activity_can_comment_reply( $comment = '' ) {
 
 	// Assume activity can be commented on
 	$can_comment = true;
 
-	// Fall back on current comment in activity loop
-	$comment_depth = isset( $comment->depth )
-		? intval( $comment->depth )
-		: bp_activity_get_comment_depth();
-
-	// Threading is turned on, so check the depth
-	if ( get_option( 'thread_comments' ) ) {
-		$can_comment = (bool) ( $comment_depth < get_option( 'thread_comments_depth' ) );
-
-	// No threading for comment replies if no threading for comments
-	} else {
-		$can_comment = false;
+	// Check that comment exists
+	if ( empty( $comment ) ) {
+		$comment = bp_activity_current_comment();
 	}
 
-	return apply_filters( 'bp_activity_can_comment_reply', $can_comment, $comment );
+	if ( ! empty( $comment ) ) {
+
+		// Fall back on current comment in activity loop
+		$comment_depth = isset( $comment->depth )
+			? intval( $comment->depth )
+			: bp_activity_get_comment_depth();
+
+		// Threading is turned on, so check the depth
+		if ( get_option( 'thread_comments' ) ) {
+			$can_comment = (bool) ( $comment_depth < get_option( 'thread_comments_depth' ) );
+
+		// No threading for comment replies if no threading for comments
+		} else {
+			$can_comment = false;
+		}
+	}
+
+	return (bool) apply_filters( 'bp_activity_can_comment_reply', $can_comment, $comment );
 }
 
 /**
@@ -2868,7 +2876,7 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
 
 		return apply_filters( 'bp_get_total_favorite_count_for_user', $retval );
 	}
-	
+
 
 /**
  * Output the total mention count for a specified user.
@@ -3188,7 +3196,7 @@ function bp_activity_get_comments_user_ids() {
 	 * @return array Array of user IDs.
 	 */
 	function bp_activity_recurse_comments_user_ids( array $comments = array() ) {
-		
+
 		// Default user ID's array
 		$user_ids = array();
 
@@ -3359,19 +3367,19 @@ function bp_activities_member_rss_link() { echo bp_get_member_activity_feed_link
 		// Single member activity feed link
 		if ( bp_is_profile_component() || bp_is_current_action( 'just-me' ) ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/feed/';
-			
+
 		// Friend feed link
 		} elseif ( bp_is_active( 'friends' ) && bp_is_current_action( bp_get_friends_slug() ) ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/feed/';
-			
+
 		// Group feed link
-		} elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) ) { 
+		} elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() . '/feed/';
 
 		// Favorites activity feed link
 		} elseif ( 'favorites' === bp_current_action() ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/favorites/feed/';
-			
+
 		// Mentions activity feed link
 		} elseif ( ( 'mentions' === bp_current_action() ) && bp_activity_do_mentions() ) {
 			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions/feed/';
