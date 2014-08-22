@@ -73,6 +73,15 @@ BuddyPress is available in many languages. For more information, check out the <
 
 == Upgrade Notice ==
 
+= 2.1 =
+See: http://codex.buddypress.org/releases/version-2-1/
+
+= 2.0.2 =
+See: http://codex.buddypress.org/releases/version-2-0-2/
+
+= 2.0.1 =
+See: http://codex.buddypress.org/releases/version-2-0-1/
+
 = 2.0 =
 See: http://codex.buddypress.org/releases/version-2-0/
 
@@ -134,6 +143,18 @@ Compatibility with WordPress 3.1
 Fixes over 10 bugs.
 
 == Changelog ==
+
+= 2.1 =
+See: http://codex.buddypress.org/releases/version-2-1/
+
+= 2.0.2 =
+See: http://codex.buddypress.org/releases/version-2-0-2/
+
+= 2.0.1 =
+See: http://codex.buddypress.org/releases/version-2-0-1/
+
+= 2.0 =
+See: http://codex.buddypress.org/releases/version-2-0/
 
 = 1.9 =
 See: http://codex.buddypress.org/releases/version-1-9/
