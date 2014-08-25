@@ -334,7 +334,9 @@ function bp_the_profile_field_ids() {
 
 		$field_ids = array();
 		foreach ( $profile_template->groups as $group ) {
-			$field_ids = array_merge( $field_ids, wp_list_pluck( $group->fields, 'id' ) );
+			if ( ! empty( $group->fields ) ) {
+				$field_ids = array_merge( $field_ids, wp_list_pluck( $group->fields, 'id' ) );
+			}
 		}
 
 		$field_ids = implode( ',', wp_parse_id_list( $field_ids ) );
