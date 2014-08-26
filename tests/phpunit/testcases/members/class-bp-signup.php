@@ -251,7 +251,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group activate
 	 */
 	public function test_activate_user_accounts_with_blogs() {
-		global $wpdb, $current_site;
+		global $wpdb, $current_site, $base;
 
 		if ( ! is_multisite() ) {
 			return;
@@ -259,31 +259,41 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$signups = array();
 
-		$signups['blogone'] = $this->factory->signup->create( array(
-			'user_login'     => 'blogone',
+		// Can't trust this first signup :(
+		$signups['testpath1'] = $this->factory->signup->create( array(
+			'user_login'     => 'testpath1',
 			'user_email'     => 'blogone@example.com',
-			'domain'         => $current_site->domain,
-			'path'           => '/blogone/',
-			'title'          => 'Blog One',
+			'domain'         => '',
+			'path'           => '',
+			'title'          => '',
 			'activation_key' => 'activationkeyblogone',
 		) );
 
 		$signups['blogtwo'] = $this->factory->signup->create( array(
 			'user_login'     => 'blogtwo',
 			'user_email'     => 'blogtwo@example.com',
-			'domain'         => '',
-			'path'           => '',
-			'title'          => '',
+			'domain'         => $current_site->domain,
+			'path'           => $base . 'blogtwo',
+			'title'          => 'Blog Two',
 			'activation_key' => 'activationkeyblogtwo',
 		) );
 
 		$signups['blogthree'] = $this->factory->signup->create( array(
 			'user_login'     => 'blogthree',
 			'user_email'     => 'blogthree@example.com',
-			'domain'         => $current_site->domain,
-			'path'           => '/blogthree/',
-			'title'          => 'Blog Three',
+			'domain'         => '',
+			'path'           => '',
+			'title'          => '',
 			'activation_key' => 'activationkeyblogthree',
+		) );
+
+		$signups['blogfour'] = $this->factory->signup->create( array(
+			'user_login'     => 'blogfour',
+			'user_email'     => 'blogfour@example.com',
+			'domain'         => $current_site->domain,
+			'path'           => $base . 'blogfour',
+			'title'          => 'Blog Four',
+			'activation_key' => 'activationkeyblogfour',
 		) );
 
 		// Neutralize db errors
@@ -306,6 +316,11 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$blogs = array();
 
 		foreach ( $users as $path => $user  ) {
+			// Can't trust this first signup :(
+			if ( 'testpath1' == $path ) {
+				continue;
+			}
+
 			$blogs[ $path ] = get_active_blog_for_user( $user->ID );
 		}
 
