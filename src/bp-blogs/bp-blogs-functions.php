@@ -859,7 +859,7 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 
 		// Get user capabilities
 		$key        = $wpdb->get_blog_prefix( $blog_id ). 'capabilities';
-		$user_roles = array_keys( bp_get_user_meta( $user_id, $key, true ) );
+		$user_roles = array_keys( (array) bp_get_user_meta( $user_id, $key, true ) );
 
 		// User has roles so lets
 		if ( ! empty( $user_roles ) ) {
