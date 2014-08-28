@@ -210,7 +210,7 @@ function bp_avatar_to_crop() {
 		$bp  = buddypress();
 		$url = isset( $bp->avatar_admin->image->url )
 			? $bp->avatar_admin->image->url
-			: $url = '';
+			: '';
 
 		return apply_filters( 'bp_get_avatar_to_crop', $url );
 	}
@@ -227,7 +227,12 @@ function bp_avatar_to_crop_src() {
 	 * @return string Relative file path to the avatar.
 	 */
 	function bp_get_avatar_to_crop_src() {
-		return apply_filters( 'bp_get_avatar_to_crop_src', str_replace( WP_CONTENT_DIR, '', buddypress()->avatar_admin->image->dir ) );
+		$bp  = buddypress();
+		$src = isset( $bp->avatar_admin->image->dir )
+			? str_replace( WP_CONTENT_DIR, '', $bp->avatar_admin->image->dir )
+			: '';
+
+		return apply_filters( 'bp_get_avatar_to_crop_src', $src );
 	}
 
 /**
