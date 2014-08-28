@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-08-28 15:30:41+00:00\n"
+"POT-Creation-Date: 2014-08-28 17:30:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2342,49 +2342,49 @@ msgstr ""
 msgid "%s Directory"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:297
+#: src/bp-core/bp-core-template.php:302
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:380
+#: src/bp-core/bp-core-template.php:385
 msgctxt "search form"
 msgid "Members"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:384
+#: src/bp-core/bp-core-template.php:389
 msgctxt "search form"
 msgid "Groups"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:388
+#: src/bp-core/bp-core-template.php:393
 msgctxt "search form"
 msgid "Blogs"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:392
+#: src/bp-core/bp-core-template.php:397
 msgctxt "search form"
 msgid "Forums"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:395
+#: src/bp-core/bp-core-template.php:400
 msgctxt "search form"
 msgid "Posts"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:398
+#: src/bp-core/bp-core-template.php:403
 msgctxt "search form"
 msgid "Search these:"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:438
+#: src/bp-core/bp-core-template.php:443
 msgid "Search anything..."
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:542
+#: src/bp-core/bp-core-template.php:547
 msgid " [&hellip;]"
 msgstr ""
 
-#: src/bp-core/bp-core-template.php:766
+#: src/bp-core/bp-core-template.php:771
 msgid "Community"
 msgstr ""
 
