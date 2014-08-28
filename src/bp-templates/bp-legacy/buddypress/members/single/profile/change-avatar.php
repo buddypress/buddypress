@@ -20,7 +20,7 @@
 			</p>
 
 			<?php if ( bp_get_user_has_avatar() ) : ?>
-				<p><?php _e( "If you'd like to delete your current profile phot but not upload a new one, please use the delete profile photo button.", 'buddypress' ); ?></p>
+				<p><?php _e( "If you'd like to delete your current profile photo but not upload a new one, please use the delete profile photo button.", 'buddypress' ); ?></p>
 				<p><a class="button edit" href="<?php bp_avatar_delete_link(); ?>" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>"><?php _e( 'Delete My Profile Photo', 'buddypress' ); ?></a></p>
 			<?php endif; ?>
 
