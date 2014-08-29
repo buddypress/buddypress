@@ -704,15 +704,6 @@ function bp_profile_group_name( $deprecated = true ) {
 		return apply_filters( 'bp_get_profile_group_name', $group->name );
 	}
 
-function bp_avatar_upload_form() {
-	global $bp;
-
-	if ( !(int) $bp->site_options['bp-disable-avatar-uploads'] )
-		bp_core_avatar_admin( null, bp_loggedin_user_domain() . $bp->profile->slug . '/change-avatar/', bp_loggedin_user_domain() . $bp->profile->slug . '/delete-avatar/' );
-	else
-		_e( 'Profile photo uploads are currently disabled. Why not use a <a href="http://gravatar.com" target="_blank">gravatar</a> instead?', 'buddypress' );
-}
-
 function bp_profile_last_updated() {
 
 	$last_updated = bp_get_profile_last_updated();

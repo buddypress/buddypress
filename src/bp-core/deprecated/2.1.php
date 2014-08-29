@@ -623,3 +623,14 @@ function bp_blogs_get_subdomain_base() {
 	_deprecated_function( __FUNCTION__, '2.1', 'bp_signup_get_subdomain_base()' );
 	return bp_signup_get_subdomain_base();
 }
+
+/**
+ * Alledgedly output an avatar upload form, but it hasn't done that since 2009.
+ *
+ * @since BuddyPress (1.0.0)
+ * @deprecated BuddyPress (2.1.0)
+ */
+function bp_avatar_upload_form() {
+	_deprecated_function(__FUNCTION__, '2.1', 'No longer used' );
+}
+
