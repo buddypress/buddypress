@@ -429,15 +429,8 @@ function bp_rewind_members() {
 function bp_has_members( $args = '' ) {
 	global $members_template;
 
-	/***
-	 * Set the defaults based on the current page. Any of these will be overridden
-	 * if arguments are directly passed into the loop. Custom plugins should always
-	 * pass their parameters directly to the loop.
-	 */
-	$type         = 'active';
-	$user_id      = 0;
-	$page         = 1;
-	$search_terms = null;
+	// Default user ID
+	$user_id = 0;
 
 	// User filtering
 	if ( bp_is_user_friends() && ! bp_is_user_friend_requests() ) {
@@ -445,42 +438,56 @@ function bp_has_members( $args = '' ) {
 	}
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
-	$defaults = array(
-		'type'            => $type,
-		'page'            => $page,
+	$r = bp_parse_args( $args, array(
+		'type'            => 'active',
+		'page'            => 1,
 		'per_page'        => 20,
 		'max'             => false,
 
-		'page_arg'        => 'upage',       // See https://buddypress.trac.wordpress.org/ticket/3679
+		'page_arg'        => 'upage',  // See https://buddypress.trac.wordpress.org/ticket/3679
 
-		'include'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
-		'exclude'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
+		'include'         => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
+		'exclude'         => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
 
-		'user_id'         => $user_id,      // Pass a user_id to only show friends of this user
-		'search_terms'    => $search_terms, // Pass search_terms to filter users by their profile data
+		'user_id'         => $user_id, // Pass a user_id to only show friends of this user
+		'search_terms'    => null,     // Pass search_terms to filter users by their profile data
 
-		'meta_key'        => false,	        // Only return users with this usermeta
-		'meta_value'	  => false,	        // Only return users where the usermeta value matches. Requires meta_key
+		'meta_key'        => false,	   // Only return users with this usermeta
+		'meta_value'	  => false,	   // Only return users where the usermeta value matches. Requires meta_key
 
-		'populate_extras' => true           // Fetch usermeta? Friend count, last active etc.
-	);
-
-	$r = bp_parse_args( $args, $defaults, 'has_members' );
-	extract( $r );
+		'populate_extras' => true      // Fetch usermeta? Friend count, last active etc.
+	), 'has_members' );
 
 	// Pass a filter if ?s= is set.
-	if ( is_null( $search_terms ) ) {
-		if ( !empty( $_REQUEST['s'] ) )
-			$search_terms = $_REQUEST['s'];
-		else
-			$search_terms = false;
+	if ( is_null( $r['search_terms'] ) ) {
+		if ( !empty( $_REQUEST['s'] ) ) {
+			$r['search_terms'] = $_REQUEST['s'];
+		} else {
+			$r['search_terms'] = false;
+		}
 	}
 
 	// Set per_page to max if max is larger than per_page
-	if ( !empty( $max ) && ( $per_page > $max ) )
-		$per_page = $max;
+	if ( !empty( $r['max'] ) && ( $r['per_page'] > $r['max'] ) ) {
+		$r['per_page'] = $r['max'];
+	}
 
-	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude, $meta_key, $meta_value, $page_arg );
+	// Query for members and populate $members_template global
+	$members_template = new BP_Core_Members_Template(
+		$r['type'],
+		$r['page'],
+		$r['per_page'],
+		$r['max'],
+		$r['user_id'],
+		$r['search_terms'],
+		$r['include'],
+		$r['populate_extras'],
+		$r['exclude'],
+		$r['meta_key'],
+		$r['meta_value'],
+		$r['page_arg']
+	);
+
 	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template );
 }
 
