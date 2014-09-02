@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-08-29 22:30:39+00:00\n"
+"POT-Creation-Date: 2014-09-02 19:30:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -745,9 +745,9 @@ msgstr ""
 #: src/bp-groups/bp-groups-template.php:2478
 #: src/bp-groups/bp-groups-template.php:3401
 #: src/bp-members/bp-members-loader.php:258
-#: src/bp-members/bp-members-template.php:717
-#: src/bp-members/bp-members-template.php:1161
-#: src/bp-members/bp-members-template.php:1203
+#: src/bp-members/bp-members-template.php:724
+#: src/bp-members/bp-members-template.php:1168
+#: src/bp-members/bp-members-template.php:1210
 #: src/bp-messages/bp-messages-loader.php:282
 #: src/bp-messages/bp-messages-template.php:687
 #: src/bp-notifications/bp-notifications-loader.php:235
@@ -940,7 +940,7 @@ msgstr ""
 #: src/bp-core/admin/bp-core-slugs.php:109
 #: src/bp-core/admin/bp-core-slugs.php:172
 #: src/bp-groups/bp-groups-admin.php:1406
-#: src/bp-members/bp-members-template.php:885
+#: src/bp-members/bp-members-template.php:892
 #: src/bp-templates/bp-legacy/buddypress-functions.php:250
 msgid "View"
 msgstr ""
@@ -1065,8 +1065,8 @@ msgstr ""
 #: src/bp-groups/bp-groups-template.php:3618
 #: src/bp-groups/bp-groups-widgets.php:94
 #: src/bp-groups/bp-groups-widgets.php:206
-#: src/bp-members/bp-members-template.php:827
-#: src/bp-members/bp-members-template.php:1256
+#: src/bp-members/bp-members-template.php:834
+#: src/bp-members/bp-members-template.php:1263
 #: src/bp-templates/bp-legacy/buddypress/groups/groups-loop.php:47
 #: src/bp-templates/bp-legacy/buddypress/groups/single/group-header.php:42
 #: tests/phpunit/testcases/blogs/template.php:19
@@ -1077,7 +1077,7 @@ msgid "active %s"
 msgstr ""
 
 #: src/bp-blogs/bp-blogs-template.php:674
-#: src/bp-members/bp-members-template.php:840
+#: src/bp-members/bp-members-template.php:847
 #: tests/phpunit/testcases/blogs/template.php:62
 msgid "Never active"
 msgstr ""
@@ -1164,7 +1164,7 @@ msgstr ""
 #: src/bp-blogs/bp-blogs-template.php:1174 src/bp-core/deprecated/1.5.php:417
 #: src/bp-forums/bp-forums-template.php:2196
 #: src/bp-groups/bp-groups-template.php:3020
-#: src/bp-members/bp-members-template.php:1024
+#: src/bp-members/bp-members-template.php:1031
 #: src/bp-messages/bp-messages-template.php:768
 msgid "Search"
 msgstr ""
@@ -2315,7 +2315,7 @@ msgstr ""
 
 #: src/bp-core/bp-core-functions.php:1843 src/bp-core/bp-core-widgets.php:72
 #: src/bp-core/deprecated/1.5.php:307 src/bp-core/deprecated/2.1.php:306
-#: src/bp-members/bp-members-template.php:1096
+#: src/bp-members/bp-members-template.php:1103
 msgid "Log Out"
 msgstr ""
 
@@ -3677,7 +3677,7 @@ msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:953
 #: src/bp-groups/bp-groups-template.php:2606
-#: src/bp-members/bp-members-template.php:536
+#: src/bp-members/bp-members-template.php:543
 msgid "Viewing 1 member"
 msgid_plural "Viewing %1$s - %2$s of %3$s members"
 msgstr[0] ""
@@ -5132,39 +5132,39 @@ msgctxt "Member pagination next text"
 msgid "&rarr;"
 msgstr ""
 
-#: src/bp-members/bp-members-template.php:530
+#: src/bp-members/bp-members-template.php:537
 msgid "Viewing 1 active member"
 msgid_plural "Viewing %1$s - %2$s of %3$s active members"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-template.php:532
+#: src/bp-members/bp-members-template.php:539
 msgid "Viewing 1 member with friends"
 msgid_plural "Viewing %1$s - %2$s of %3$s members with friends"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-template.php:534
+#: src/bp-members/bp-members-template.php:541
 msgid "Viewing 1 online member"
 msgid_plural "Viewing %1$s - %2$s of %3$s online members"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-template.php:880
+#: src/bp-members/bp-members-template.php:887
 msgctxt "member latest update in member directory"
 msgid "- &quot;%s&quot;"
 msgstr ""
 
-#: src/bp-members/bp-members-template.php:982
+#: src/bp-members/bp-members-template.php:989
 msgctxt "Records the timestamp that the user registered into the activy stream"
 msgid "registered %s"
 msgstr ""
 
-#: src/bp-members/bp-members-template.php:1744
+#: src/bp-members/bp-members-template.php:1751
 msgid "Your Profile Photo"
 msgstr ""
 
-#: src/bp-members/bp-members-template.php:1824
+#: src/bp-members/bp-members-template.php:1831
 msgid "Activity RSS Feed"
 msgstr ""
 
