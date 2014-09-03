@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-09-02 19:30:45+00:00\n"
+"POT-Creation-Date: 2014-09-03 19:30:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -724,9 +724,9 @@ msgid "My Activity"
 msgstr ""
 
 #: src/bp-activity/bp-activity-loader.php:343
-#: src/bp-activity/bp-activity-template.php:1251
-#: src/bp-activity/bp-activity-template.php:1401
-#: src/bp-activity/bp-activity-template.php:1412
+#: src/bp-activity/bp-activity-template.php:1282
+#: src/bp-activity/bp-activity-template.php:1432
+#: src/bp-activity/bp-activity-template.php:1443
 #: src/bp-blogs/bp-blogs-loader.php:241 src/bp-core/deprecated/2.1.php:501
 #: src/bp-forums/bp-forums-loader.php:245
 #: src/bp-forums/bp-forums-template.php:730
@@ -891,33 +891,33 @@ msgid_plural "Viewing %1$s - %2$s of %3$s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-activity/bp-activity-template.php:1251
+#: src/bp-activity/bp-activity-template.php:1282
 msgid "Profile picture"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:1377
+#: src/bp-activity/bp-activity-template.php:1408
 msgid "Group logo"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:1380
+#: src/bp-activity/bp-activity-template.php:1411
 #: src/bp-groups/bp-groups-admin.php:1420
 #: src/bp-groups/bp-groups-template.php:602
 msgid "Group logo of %s"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:1391
+#: src/bp-activity/bp-activity-template.php:1422
 msgid "Profile picture of the author of the site %s"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:1621
+#: src/bp-activity/bp-activity-template.php:1652
 msgid "View Discussion"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:2170
+#: src/bp-activity/bp-activity-template.php:2201
 msgid "%1$s no longer accepts arguments. See the inline documentation at %2$s for more details."
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:2551
+#: src/bp-activity/bp-activity-template.php:2582
 #: src/bp-forums/bp-forums-template.php:2113
 #: src/bp-groups/bp-groups-admin.php:1292
 #: src/bp-groups/bp-groups-admin.php:1403
@@ -935,7 +935,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:2643
+#: src/bp-activity/bp-activity-template.php:2674
 #: src/bp-core/admin/bp-core-functions.php:829
 #: src/bp-core/admin/bp-core-slugs.php:109
 #: src/bp-core/admin/bp-core-slugs.php:172
@@ -945,23 +945,23 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:2741
+#: src/bp-activity/bp-activity-template.php:2772
 msgid "Clear Filter"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:3019
+#: src/bp-activity/bp-activity-template.php:3050
 msgid "a user"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:3075
+#: src/bp-activity/bp-activity-template.php:3106
 msgid "Send a public message on your activity stream."
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:3076
+#: src/bp-activity/bp-activity-template.php:3107
 msgid "Public Message"
 msgstr ""
 
-#: src/bp-activity/bp-activity-template.php:3598
+#: src/bp-activity/bp-activity-template.php:3629
 msgid "Site Wide Activity RSS Feed"
 msgstr ""
 
