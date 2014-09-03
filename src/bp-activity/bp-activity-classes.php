@@ -600,7 +600,6 @@ class BP_Activity_Activity {
 	 * @return array
 	 */
 	protected static function append_user_fullnames( $activities ) {
-		global $wpdb;
 
 		if ( bp_is_active( 'xprofile' ) && ! empty( $activities ) ) {
 			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
