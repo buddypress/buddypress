@@ -1047,6 +1047,37 @@ function bp_activity_date_recorded() {
 	}
 
 /**
+ * Output the display name of the member who posted the activity
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @uses bp_get_activity_member_display_name()
+ */
+function bp_activity_member_display_name() {
+	echo bp_get_activity_member_display_name();
+}
+
+	/**
+	 * Return the display name of the member who posted the activity
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @uses apply_filters() To call the 'bp_get_activity_member_display_name' hook.
+	 *
+	 * @return string The date the activity was recorded.
+	 */
+	function bp_get_activity_member_display_name() {
+		global $activities_template;
+
+		$retval = isset( $activities_template->activity->display_name )
+			? $activities_template->activity->display_name
+			: '';
+
+		return apply_filters( 'bp_get_activity_member_display_name', $retval );
+	}
+
+/**
  * Output the activity object name.
  *
  * @since BuddyPress (1.2)
