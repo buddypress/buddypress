@@ -1149,8 +1149,11 @@ class BP_Members_Admin {
 			return;
 		}
 
+		// Get current screen
+		$current_screen = get_current_screen();
+
 		// Bail if not on a users page
-		if ( $this->users_page !== get_current_screen()->id ) {
+		if ( ! isset( $current_screen->id ) || $this->users_page !== $current_screen->id ) {
 			return;
 		}
 
