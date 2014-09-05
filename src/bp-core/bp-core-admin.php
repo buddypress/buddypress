@@ -516,36 +516,56 @@ class BP_Admin {
 				</a>
 			</h2>
 
-			<?php if ( $is_new_install ) : ?>
-			<h3><?php _e( 'Getting Started', 'buddypress' ); ?></h3>
+			<?php if ( $is_new_install ) : ?> 
 
-				<div class="feature-section">
-					<h4><?php _e( 'Your Default Setup', 'buddypress' ); ?></h4>
-
-					<?php if ( bp_is_active( 'members' ) && bp_is_active( 'activity' ) && current_user_can( $this->capability ) ) : ?>
-						<p><?php printf(
-						__( 'BuddyPress&#8217;s powerful features help your users connect and collaborate. To help get your community started, we&#8217;ve activated two of the most commonly used tools in BP: <strong>Extended Profiles</strong> and <strong>Activity Streams</strong>. See these components in action at the %1$s and %2$s directories, and be sure to spend a few minutes <a href="%3$s">configuring user profiles</a>. Want to explore more of BP&#8217;s features? Visit the <a href="%4$s">Components panel</a>.', 'buddypress' ),
-						$pretty_permalinks_enabled ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '">' . __( 'Members', 'buddypress' ) . '</a>' : __( 'Members', 'buddypress' ),
-						$pretty_permalinks_enabled ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() ) . '">' . __( 'Activity', 'buddypress' ) . '</a>' : __( 'Activity', 'buddypress' ),
-						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-profile-setup' ), 'users.php' ) ),
-						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) )
-					); ?></p>
-
-					<?php else : ?>
-						<p><?php printf(
-						__( 'BuddyPress&#8217; powerful features help your users connect and collaborate. Want to explore BP&#8217;s features? Visit the <a href="%s">Components panel</a>.', 'buddypress' ),
-						bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) )
-					); ?></p>
-
-					<?php endif; ?>
-
-					<h4><?php _e( 'Community and Support', 'buddypress' ); ?></h4>
-					<p><?php _e( 'Looking for help? The <a href="http://codex.buddypress.org/">BuddyPress Codex</a> has you covered, with dozens of user-contributed guides on how to configure and use your BP site. Can&#8217;t find what you need? Stop by <a href="http://buddypress.org/support/">our support forums</a>, where a vibrant community of BuddyPress users and developers is waiting to share tips, show off their sites, talk about the future of BuddyPress, and much more.', 'buddypress' ) ?></p>
-					<p><?php _e( 'Read on to learn more about this version of BuddyPress.', 'buddypress' ); ?></p>
+				<div id="welcome-panel" class="welcome-panel">
+					<div class="welcome-panel-content">
+						<h3 style="margin:0"><?php _e( 'Getting Started with BuddyPress', 'buddypress' ); ?></h3>
+						<div class="welcome-panel-column-container">
+							<div class="welcome-panel-column">
+								<h4><?php _e( 'Configure Buddypress', 'buddypress' ); ?></h4>
+								<ul>
+									<li><?php printf( 
+									'<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Set Up Components', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) )
+									); ?></li>
+									<li><?php printf( 
+									'<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Assign Components to Pages', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), $this->settings_page ) )
+									); ?></li>
+									<li><?php printf(
+									'<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Customize Settings', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), $this->settings_page ) )
+									); ?></li>
+								</ul>
+								<a class="button button-primary button-hero" style="margin-bottom:20px;margin-top:0;" href="<?php bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ); ?>" ><?php _e( 'Get Started', 'buddypress' ); ?></a>
+							</div>
+							<div class="welcome-panel-column">
+								<h4><?php _e( 'Administration Tools', 'buddypress' ); ?></h4>
+								<ul>
+									<?php if ( bp_is_active( 'members' ) ) : ?>
+										<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Add User Profile Fields', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-profile-setup' ), 'users.php' ) ) ); ?></li>
+									<?php endif; ?>
+									<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Manage User Signups', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-signups' ), 'users.php' ) ) ); ?></li>
+									<?php if ( bp_is_active( 'activity' ) ) : ?>
+										<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Moderate Activity Streams', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-activity' ), 'admin.php' ) ) ); ?></li>
+									<?php endif; ?>
+									<?php if ( bp_is_active( 'groups' ) ) : ?>
+										<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Manage Groups', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-groups' ), 'admin.php' ) ) ); ?></li>
+									<?php endif; ?>
+									<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Repair Data', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-tools' ), 'tools.php' ) ) ); ?>
+									</li>
+								</ul>
+							</div>
+							<div class="welcome-panel-column welcome-panel-last">
+								<h4><?php _e( 'Community and Support', 'buddypress'  ); ?></h4>
+								<p class="welcome-icon welcome-learn-more" style="margin-right:10px"><?php _e( 'Looking for help? The <a href="http://codex.buddypress.org/">BuddyPress Codex</a> has you covered.', 'buddypress' ) ?></p> 
+								<p class="welcome-icon welcome-learn-more" style="margin-right:10px"><?php _e( 'Can&#8217;t find what you need? Stop by <a href="http://buddypress.org/support/">our support forums</a>, where active BuddyPress users and developers are waiting to share tips and more.', 'buddypress' ) ?></p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<hr />
 
 			<?php endif; ?>
+
+			<hr />
 
 			<div class="changelog">
 				<h2 class="about-headline-callout"><?php _e( 'Revamped @mentions Interface', 'buddypress' ); ?></h2>
