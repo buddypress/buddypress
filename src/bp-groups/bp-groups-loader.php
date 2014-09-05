@@ -473,7 +473,7 @@ class BP_Groups_Component extends BP_Component {
 			// If the user is a group admin, then show the group admin nav item
 			if ( bp_is_item_admin() ) {
 				$sub_nav[] = array(
-					'name'            => _x( 'Admin', 'My Group screen nav', 'buddypress' ),
+					'name'            => _x( 'Manage', 'My Group screen nav', 'buddypress' ),
 					'slug'            => 'admin',
 					'parent_url'      => $group_link,
 					'parent_slug'     => $this->current_group->slug,
