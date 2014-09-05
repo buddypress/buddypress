@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-09-05 10:30:40+00:00\n"
+"POT-Creation-Date: 2014-09-05 23:30:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -163,7 +163,7 @@ msgstr ""
 #: src/bp-core/admin/bp-core-functions.php:501
 #: src/bp-groups/bp-groups-admin.php:111 src/bp-groups/bp-groups-admin.php:146
 #: src/bp-members/bp-members-admin.php:671
-#: src/bp-members/bp-members-admin.php:1252
+#: src/bp-members/bp-members-admin.php:1255
 msgid "Overview"
 msgstr ""
 
@@ -207,7 +207,7 @@ msgstr ""
 #: src/bp-core/admin/bp-core-functions.php:507
 #: src/bp-groups/bp-groups-admin.php:119 src/bp-groups/bp-groups-admin.php:162
 #: src/bp-members/bp-members-admin.php:680
-#: src/bp-members/bp-members-admin.php:1273
+#: src/bp-members/bp-members-admin.php:1276
 msgid "For more information:"
 msgstr ""
 
@@ -223,7 +223,7 @@ msgstr ""
 #: src/bp-core/admin/bp-core-functions.php:509
 #: src/bp-groups/bp-groups-admin.php:163
 #: src/bp-members/bp-members-admin.php:682
-#: src/bp-members/bp-members-admin.php:1274
+#: src/bp-members/bp-members-admin.php:1277
 msgid "<a href=\"http://buddypress.org/support/\">Support Forums</a>"
 msgstr ""
 
@@ -408,7 +408,7 @@ msgstr ""
 
 #: src/bp-activity/bp-activity-admin.php:916
 #: src/bp-groups/bp-groups-admin.php:651
-#: src/bp-members/bp-members-admin.php:1668
+#: src/bp-members/bp-members-admin.php:1671
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
@@ -422,7 +422,7 @@ msgstr ""
 
 #: src/bp-activity/bp-activity-admin.php:944
 #: src/bp-groups/bp-groups-admin.php:605
-#: src/bp-members/bp-members-admin.php:1799
+#: src/bp-members/bp-members-admin.php:1802
 #: src/bp-templates/bp-legacy/buddypress/activity/entry.php:102
 #: src/bp-templates/bp-legacy/buddypress/forums/index.php:116
 #: src/bp-xprofile/bp-xprofile-classes.php:544
@@ -3542,7 +3542,7 @@ msgid "You are about to delete the following groups:"
 msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:602
-#: src/bp-members/bp-members-admin.php:1794
+#: src/bp-members/bp-members-admin.php:1797
 msgid "This action cannot be undone."
 msgstr ""
 
@@ -3667,7 +3667,7 @@ msgid "Banned"
 msgstr ""
 
 #: src/bp-groups/bp-groups-admin.php:829
-#: src/bp-members/bp-members-admin.php:1262
+#: src/bp-members/bp-members-admin.php:1265
 #: src/bp-templates/bp-legacy/buddypress/members/single/notifications/notifications-loop.php:7
 msgid "Actions"
 msgstr ""
@@ -4623,7 +4623,7 @@ msgstr ""
 
 #: src/bp-members/admin/bp-members-classes.php:100
 #: src/bp-members/admin/bp-members-classes.php:440
-#: src/bp-members/bp-members-admin.php:1185
+#: src/bp-members/bp-members-admin.php:1188
 msgctxt "signup users"
 msgid "Pending %s"
 msgstr ""
@@ -4789,13 +4789,13 @@ msgid "&larr; Back to Users"
 msgstr ""
 
 #: src/bp-members/bp-members-admin.php:816
-#: src/bp-members/bp-members-admin.php:1659
+#: src/bp-members/bp-members-admin.php:1662
 msgctxt "user"
 msgid "Add New"
 msgstr ""
 
 #: src/bp-members/bp-members-admin.php:820
-#: src/bp-members/bp-members-admin.php:1663
+#: src/bp-members/bp-members-admin.php:1666
 msgctxt "user"
 msgid "Add Existing"
 msgstr ""
@@ -4837,148 +4837,148 @@ msgstr ""
 msgid "Extended"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1248
+#: src/bp-members/bp-members-admin.php:1251
 msgctxt "Pending Accounts per page (screen options)"
 msgid "Pending Accounts"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1254
+#: src/bp-members/bp-members-admin.php:1257
 msgid "This is the admininistration screen for pending accounts on your site."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1255
+#: src/bp-members/bp-members-admin.php:1258
 msgid "From the screen options, you can customize the displayed columns and the pagination of this screen."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1256
+#: src/bp-members/bp-members-admin.php:1259
 msgid "You can reorder the list of your pending accounts by clicking on the Username, Email or Registered column headers."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1257
+#: src/bp-members/bp-members-admin.php:1260
 msgid "Using the search form, you can find pending accounts more easily. The Username and Email fields will be included in the search."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1264
+#: src/bp-members/bp-members-admin.php:1267
 msgid "Hovering over a row in the pending accounts list will display action links that allow you to manage pending accounts. You can perform the following actions:"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1265
+#: src/bp-members/bp-members-admin.php:1268
 msgid "\"Email\" takes you to the confirmation screen before being able to send the activation link to the desired pending account. You can only send the activation email once per day."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1266
+#: src/bp-members/bp-members-admin.php:1269
 msgid "\"Delete\" allows you to delete a pending account from your site. You will be asked to confirm this deletion."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1267
+#: src/bp-members/bp-members-admin.php:1270
 msgid "By clicking on a Username you will be able to activate a pending account from the confirmation screen."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1268
+#: src/bp-members/bp-members-admin.php:1271
 msgid "Bulk actions allow you to perform these 3 actions for the selected rows."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1422
+#: src/bp-members/bp-members-admin.php:1425
 msgctxt "signup resent"
 msgid "%s activation email successfully sent! "
 msgid_plural "%s activation emails successfully sent! "
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1433
+#: src/bp-members/bp-members-admin.php:1436
 msgctxt "signup notsent"
 msgid "%s activation email was not sent."
 msgid_plural "%s activation emails were not sent."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1456
+#: src/bp-members/bp-members-admin.php:1459
 msgctxt "signup resent"
 msgid "%s account successfully activated! "
 msgid_plural "%s accounts successfully activated! "
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1467
+#: src/bp-members/bp-members-admin.php:1470
 msgctxt "signup notsent"
 msgid "%s account was not activated."
 msgid_plural "%s accounts were not activated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1490
+#: src/bp-members/bp-members-admin.php:1493
 msgctxt "signup deleted"
 msgid "%s sign-up successfully deleted!"
 msgid_plural "%s sign-ups successfully deleted!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1501
+#: src/bp-members/bp-members-admin.php:1504
 msgctxt "signup notdeleted"
 msgid "%s sign-up was not deleted."
 msgid_plural "%s sign-ups were not deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1524
+#: src/bp-members/bp-members-admin.php:1527
 msgid "There was a problem sending the activation emails, please try again."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1531
+#: src/bp-members/bp-members-admin.php:1534
 msgid "There was a problem activating accounts, please try again."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1538
+#: src/bp-members/bp-members-admin.php:1541
 msgid "There was a problem deleting sign-ups, please try again."
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1655
+#: src/bp-members/bp-members-admin.php:1658
 msgid "Users"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1679
+#: src/bp-members/bp-members-admin.php:1682
 msgid "Search Pending Users"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1725
+#: src/bp-members/bp-members-admin.php:1728
 msgid "Delete Pending Accounts"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1726
+#: src/bp-members/bp-members-admin.php:1729
 msgid "You are about to delete the following account:"
 msgid_plural "You are about to delete the following accounts:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1730
+#: src/bp-members/bp-members-admin.php:1733
 msgid "Activate Pending Accounts"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1731
+#: src/bp-members/bp-members-admin.php:1734
 msgid "You are about to activate the following account:"
 msgid_plural "You are about to activate the following accounts:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1735
+#: src/bp-members/bp-members-admin.php:1738
 msgid "Resend Activation Emails"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1736
+#: src/bp-members/bp-members-admin.php:1739
 msgid "You are about to resend an activation email to the following account:"
 msgid_plural "You are about to resend activation emails to the following accounts:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-members/bp-members-admin.php:1776
+#: src/bp-members/bp-members-admin.php:1779
 msgid "Last notified: %s"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1780
+#: src/bp-members/bp-members-admin.php:1783
 msgid "(less than 24 hours ago)"
 msgstr ""
 
-#: src/bp-members/bp-members-admin.php:1798
+#: src/bp-members/bp-members-admin.php:1801
 msgid "Confirm"
 msgstr ""
 
