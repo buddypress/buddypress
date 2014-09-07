@@ -614,4 +614,27 @@ Bar!';
 
 		$this->assertEquals( 5, $field->option_order );
 	}
+
+	/**
+	 * @group xprofile_update_field_group_position
+	 * @group bp_profile_get_field_groups
+	 */
+	public function test_bp_profile_get_field_groups_update_position() {
+		$g1 = $this->factory->xprofile_group->create();
+		$g2 = $this->factory->xprofile_group->create();
+		$g3 = $this->factory->xprofile_group->create();
+
+		// prime the cache
+		bp_profile_get_field_groups();
+
+		// switch the field group positions for the last two groups
+		xprofile_update_field_group_position( $g2, 3 );
+		xprofile_update_field_group_position( $g3, 2 );
+
+		// now refetch field groups
+		$field_groups = bp_profile_get_field_groups();
+
+		// assert!
+		$this->assertEquals( array( 1, $g1, $g3, $g2 ), wp_list_pluck( $field_groups, 'id' ) );
+	}
 }

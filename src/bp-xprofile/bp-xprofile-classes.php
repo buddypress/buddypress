@@ -387,8 +387,12 @@ class BP_XProfile_Group {
 	public static function update_position( $field_group_id, $position ) {
 		global $wpdb, $bp;
 
-		if ( !is_numeric( $position ) )
+		if ( !is_numeric( $position ) ) {
 			return false;
+		}
+
+		// purge profile field group cache
+		wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
 
 		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET group_order = %d WHERE id = %d", $position, $field_group_id ) );
 	}
