@@ -767,7 +767,7 @@ add_action( 'bp_core_activated_user',   'xprofile_sync_wp_profile' );
 function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
 
 	// Bail if profile syncing is disabled
-	if ( bp_disable_profile_sync() ) {
+	if ( bp_disable_profile_sync() || ! $update || $errors->get_error_codes() ) {
 		return;
 	}
 

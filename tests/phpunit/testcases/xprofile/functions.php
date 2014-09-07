@@ -570,6 +570,40 @@ Bar!';
 	}
 
 	/**
+	 * @group xprofile_set_field_data
+	 * @ticket BP5836
+	 */
+	public function test_xprofile_sync_bp_profile_new_user() {
+		$post_vars = $_POST;
+
+		$_POST = array(
+			'user_login' => 'foobar',
+			'pass1'      => 'password',
+			'pass2'      => 'password',
+			'role'       => 'subscriber',
+			'email'      => 'foo@bar.com',
+			'first_name' => 'Foo',
+			'last_name'  => 'Bar',
+		);
+
+		$id = add_user();
+
+		$display_name = 'Bar Foo';
+
+		$_POST = array(
+		    'display_name' => $display_name,
+		    'email'        => 'foo@bar.com',
+		);
+
+		$id = edit_user( $id );
+
+		// clean up post vars
+		$_POST = $post_vars;
+
+		$this->assertEquals( $display_name, xprofile_get_field_data( bp_xprofile_fullname_field_id(), $id ) );
+	}
+
+	/**
 	 * @group xprofile_insert_field
 	 */
 	public function test_xprofile_insert_field_type_option() {
