@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-09-05 23:30:41+00:00\n"
+"POT-Creation-Date: 2014-09-07 21:30:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -425,8 +425,8 @@ msgstr ""
 #: src/bp-members/bp-members-admin.php:1802
 #: src/bp-templates/bp-legacy/buddypress/activity/entry.php:102
 #: src/bp-templates/bp-legacy/buddypress/forums/index.php:116
-#: src/bp-xprofile/bp-xprofile-classes.php:544
-#: src/bp-xprofile/bp-xprofile-classes.php:964
+#: src/bp-xprofile/bp-xprofile-classes.php:548
+#: src/bp-xprofile/bp-xprofile-classes.php:968
 msgid "Cancel"
 msgstr ""
 
@@ -930,7 +930,7 @@ msgstr ""
 #: src/bp-templates/bp-legacy/buddypress/members/single/messages/messages-loop.php:51
 #: src/bp-templates/bp-legacy/buddypress/members/single/messages/single.php:24
 #: src/bp-xprofile/bp-xprofile-admin.php:407
-#: src/bp-xprofile/bp-xprofile-classes.php:3161
+#: src/bp-xprofile/bp-xprofile-classes.php:3165
 msgid "Delete"
 msgstr ""
 
@@ -1597,8 +1597,8 @@ msgstr ""
 #: src/bp-core/admin/bp-core-slugs.php:105
 #: src/bp-core/admin/bp-core-slugs.php:168
 #: src/bp-templates/bp-legacy/buddypress/members/single/settings/capabilities.php:13
-#: src/bp-xprofile/bp-xprofile-classes.php:527
-#: src/bp-xprofile/bp-xprofile-classes.php:961
+#: src/bp-xprofile/bp-xprofile-classes.php:531
+#: src/bp-xprofile/bp-xprofile-classes.php:965
 msgid "Save"
 msgstr ""
 
@@ -3693,7 +3693,7 @@ msgstr ""
 #: src/bp-templates/bp-legacy/buddypress/members/single/profile/edit.php:63
 #: src/bp-templates/bp-legacy/buddypress/members/single/settings/general.php:23
 #: src/bp-templates/bp-legacy/buddypress/members/single/settings/notifications.php:11
-#: src/bp-xprofile/bp-xprofile-classes.php:474
+#: src/bp-xprofile/bp-xprofile-classes.php:478
 msgid "Save Changes"
 msgstr ""
 
@@ -5910,10 +5910,10 @@ msgstr ""
 #. translators: no option picked in select box
 
 #: src/bp-templates/bp-legacy/buddypress/forums/index.php:98
-#: src/bp-xprofile/bp-xprofile-classes.php:1691
-#: src/bp-xprofile/bp-xprofile-classes.php:1714
-#: src/bp-xprofile/bp-xprofile-classes.php:1722
-#: src/bp-xprofile/bp-xprofile-classes.php:2354
+#: src/bp-xprofile/bp-xprofile-classes.php:1695
+#: src/bp-xprofile/bp-xprofile-classes.php:1718
+#: src/bp-xprofile/bp-xprofile-classes.php:1726
+#: src/bp-xprofile/bp-xprofile-classes.php:2358
 msgid "----"
 msgstr ""
 
@@ -6291,15 +6291,15 @@ msgstr ""
 #: src/bp-templates/bp-legacy/buddypress/members/register.php:45
 #: src/bp-templates/bp-legacy/buddypress/members/register.php:133
 #: src/bp-templates/bp-legacy/buddypress/members/register.php:142
-#: src/bp-xprofile/bp-xprofile-classes.php:1598
-#: src/bp-xprofile/bp-xprofile-classes.php:1852
-#: src/bp-xprofile/bp-xprofile-classes.php:2005
-#: src/bp-xprofile/bp-xprofile-classes.php:2165
-#: src/bp-xprofile/bp-xprofile-classes.php:2323
-#: src/bp-xprofile/bp-xprofile-classes.php:2472
-#: src/bp-xprofile/bp-xprofile-classes.php:2559
-#: src/bp-xprofile/bp-xprofile-classes.php:2646
-#: src/bp-xprofile/bp-xprofile-classes.php:2735
+#: src/bp-xprofile/bp-xprofile-classes.php:1602
+#: src/bp-xprofile/bp-xprofile-classes.php:1856
+#: src/bp-xprofile/bp-xprofile-classes.php:2009
+#: src/bp-xprofile/bp-xprofile-classes.php:2169
+#: src/bp-xprofile/bp-xprofile-classes.php:2327
+#: src/bp-xprofile/bp-xprofile-classes.php:2476
+#: src/bp-xprofile/bp-xprofile-classes.php:2563
+#: src/bp-xprofile/bp-xprofile-classes.php:2650
+#: src/bp-xprofile/bp-xprofile-classes.php:2739
 msgid "(required)"
 msgstr ""
 
@@ -6751,7 +6751,7 @@ msgid "Profile Fields"
 msgstr ""
 
 #: src/bp-xprofile/bp-xprofile-admin.php:72
-#: src/bp-xprofile/bp-xprofile-classes.php:468
+#: src/bp-xprofile/bp-xprofile-classes.php:472
 msgid "Add New Field Group"
 msgstr ""
 
@@ -6847,219 +6847,219 @@ msgstr ""
 msgid "Please make sure you give the group a name."
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:470
+#: src/bp-xprofile/bp-xprofile-classes.php:474
 msgid "Create Field Group"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:472
+#: src/bp-xprofile/bp-xprofile-classes.php:476
 msgid "Edit Field Group"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:498
+#: src/bp-xprofile/bp-xprofile-classes.php:502
 msgid "Field Group Title"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:505
+#: src/bp-xprofile/bp-xprofile-classes.php:509
 msgid "Group Description"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:886
+#: src/bp-xprofile/bp-xprofile-classes.php:890
 msgid "Add Field"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:898
+#: src/bp-xprofile/bp-xprofile-classes.php:902
 msgid "Edit Field"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:922
+#: src/bp-xprofile/bp-xprofile-classes.php:926
 msgid "Field Description"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:943
+#: src/bp-xprofile/bp-xprofile-classes.php:947
 msgid "Submit"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:988
+#: src/bp-xprofile/bp-xprofile-classes.php:992
 msgid "Default Visibility"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1006
+#: src/bp-xprofile/bp-xprofile-classes.php:1010
 msgid "Per-Member Visibility"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1011
+#: src/bp-xprofile/bp-xprofile-classes.php:1015
 msgid "Let members change this field's visibility"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1015
+#: src/bp-xprofile/bp-xprofile-classes.php:1019
 msgid "Enforce the default visibility for all members"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1030
+#: src/bp-xprofile/bp-xprofile-classes.php:1034
 msgid "Field Requirement"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1033
+#: src/bp-xprofile/bp-xprofile-classes.php:1037
 msgid "Not Required"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1034
+#: src/bp-xprofile/bp-xprofile-classes.php:1038
 msgid "Required"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1040
+#: src/bp-xprofile/bp-xprofile-classes.php:1044
 msgid "Field Type"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1078
+#: src/bp-xprofile/bp-xprofile-classes.php:1082
 msgid "Please make sure you fill out all required fields."
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1086
+#: src/bp-xprofile/bp-xprofile-classes.php:1090
 msgid "This field type require at least one option. Please add options below."
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1554
-#: src/bp-xprofile/bp-xprofile-classes.php:2441
-#: src/bp-xprofile/bp-xprofile-classes.php:2528
-#: src/bp-xprofile/bp-xprofile-classes.php:2615
-#: src/bp-xprofile/bp-xprofile-classes.php:2700
+#: src/bp-xprofile/bp-xprofile-classes.php:1558
+#: src/bp-xprofile/bp-xprofile-classes.php:2445
+#: src/bp-xprofile/bp-xprofile-classes.php:2532
+#: src/bp-xprofile/bp-xprofile-classes.php:2619
+#: src/bp-xprofile/bp-xprofile-classes.php:2704
 msgctxt "xprofile field type category"
 msgid "Single Fields"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1555
+#: src/bp-xprofile/bp-xprofile-classes.php:1559
 msgctxt "xprofile field type"
 msgid "Date Selector"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1700
+#: src/bp-xprofile/bp-xprofile-classes.php:1704
 msgid "January"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1701
+#: src/bp-xprofile/bp-xprofile-classes.php:1705
 msgid "February"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1702
+#: src/bp-xprofile/bp-xprofile-classes.php:1706
 msgid "March"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1703
+#: src/bp-xprofile/bp-xprofile-classes.php:1707
 msgid "April"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1704
+#: src/bp-xprofile/bp-xprofile-classes.php:1708
 msgid "May"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1705
+#: src/bp-xprofile/bp-xprofile-classes.php:1709
 msgid "June"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1706
+#: src/bp-xprofile/bp-xprofile-classes.php:1710
 msgid "July"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1707
+#: src/bp-xprofile/bp-xprofile-classes.php:1711
 msgid "August"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1708
+#: src/bp-xprofile/bp-xprofile-classes.php:1712
 msgid "September"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1709
+#: src/bp-xprofile/bp-xprofile-classes.php:1713
 msgid "October"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1710
+#: src/bp-xprofile/bp-xprofile-classes.php:1714
 msgid "November"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1711
+#: src/bp-xprofile/bp-xprofile-classes.php:1715
 msgid "December"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1818
-#: src/bp-xprofile/bp-xprofile-classes.php:1972
-#: src/bp-xprofile/bp-xprofile-classes.php:2129
-#: src/bp-xprofile/bp-xprofile-classes.php:2292
+#: src/bp-xprofile/bp-xprofile-classes.php:1822
+#: src/bp-xprofile/bp-xprofile-classes.php:1976
+#: src/bp-xprofile/bp-xprofile-classes.php:2133
+#: src/bp-xprofile/bp-xprofile-classes.php:2296
 msgctxt "xprofile field type category"
 msgid "Multi Fields"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1819
+#: src/bp-xprofile/bp-xprofile-classes.php:1823
 msgctxt "xprofile field type"
 msgid "Checkboxes"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:1973
+#: src/bp-xprofile/bp-xprofile-classes.php:1977
 msgctxt "xprofile field type"
 msgid "Radio Buttons"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:2016
-#: src/bp-xprofile/bp-xprofile-classes.php:2094
-#: src/bp-xprofile/bp-xprofile-classes.php:2178
+#: src/bp-xprofile/bp-xprofile-classes.php:2020
+#: src/bp-xprofile/bp-xprofile-classes.php:2098
+#: src/bp-xprofile/bp-xprofile-classes.php:2182
 msgid "Clear"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:2130
+#: src/bp-xprofile/bp-xprofile-classes.php:2134
 msgctxt "xprofile field type"
 msgid "Multi Select Box"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:2293
+#: src/bp-xprofile/bp-xprofile-classes.php:2297
 msgctxt "xprofile field type"
 msgid "Drop Down Select Box"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:2442
+#: src/bp-xprofile/bp-xprofile-classes.php:2446
 msgctxt "xprofile field type"
 msgid "Multi-line Text Area"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:2529
+#: src/bp-xprofile/bp-xprofile-classes.php:2533
 msgctxt "xprofile field type"
 msgid "Text Box"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:2616
+#: src/bp-xprofile/bp-xprofile-classes.php:2620
 msgctxt "xprofile field type"
 msgid "Number"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:2701
+#: src/bp-xprofile/bp-xprofile-classes.php:2705
 msgctxt "xprofile field type"
 msgid "URL"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:3084
+#: src/bp-xprofile/bp-xprofile-classes.php:3088
 msgid "Please enter options for this Field:"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:3087
+#: src/bp-xprofile/bp-xprofile-classes.php:3091
 msgid "Sort Order:"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:3089
+#: src/bp-xprofile/bp-xprofile-classes.php:3093
 msgid "Custom"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:3090
+#: src/bp-xprofile/bp-xprofile-classes.php:3094
 msgid "Ascending"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:3091
+#: src/bp-xprofile/bp-xprofile-classes.php:3095
 msgid "Descending"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:3156
+#: src/bp-xprofile/bp-xprofile-classes.php:3160
 msgid "Default Value"
 msgstr ""
 
-#: src/bp-xprofile/bp-xprofile-classes.php:3173
+#: src/bp-xprofile/bp-xprofile-classes.php:3177
 msgid "Add Another Option"
 msgstr ""
 
