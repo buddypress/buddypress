@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-09-08 18:30:40+00:00\n"
+"POT-Creation-Date: 2014-09-08 19:30:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2075,7 +2075,7 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: src/bp-core/bp-core-adminbar.php:73
+#: src/bp-core/bp-core-adminbar.php:79
 msgid "The BuddyBar is no longer supported. Please migrate to the WordPress toolbar as soon as possible."
 msgstr ""
 
