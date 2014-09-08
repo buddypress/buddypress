@@ -781,7 +781,7 @@ function bp_legacy_theme_new_activity_comment() {
 		exit( '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>' );
 
 	// Load the new activity item into the $activities_template global
-	bp_has_activities( 'display_comments=stream&hide_spam=false&include=' . $comment_id );
+	bp_has_activities( 'display_comments=stream&hide_spam=false&show_hidden=true&include=' . $comment_id );
 
 	// Swap the current comment with the activity item we just loaded
 	if ( isset( $activities_template->activities[0] ) ) {
