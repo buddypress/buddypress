@@ -696,6 +696,33 @@ Bar!';
 	}
 
 	/**
+	 * @group bp_activity_delete_comment
+	 * @group cache
+	 */
+	public function test_bp_activity_delete_comment_clear_cache() {
+		// add new activity update and comment to this update
+		$a1 = $this->factory->activity->create();
+		$a2 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a1,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		// prime cache
+		bp_activity_get( array(
+			'in' => array( $a1 ),
+			'display_comments' => 'threaded',
+		) );
+
+		// delete activity comment
+		bp_activity_delete_comment( $a1, $a2 );
+
+		// assert comment cache as empty for $a1
+		$this->assertEmpty( wp_cache_get( $a1, 'bp_activity_comments' ) );
+	}
+
+	/**
 	 * @group favorites
 	 * @group bp_activity_add_user_favorite
 	 */

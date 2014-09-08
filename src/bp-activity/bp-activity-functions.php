@@ -1623,6 +1623,9 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 		return false;
 	}
 
+	// Purge comment cache for the root activity update
+	wp_cache_delete( $activity_id, 'bp_activity_comments' );
+
 	// Recalculate the comment tree
 	BP_Activity_Activity::rebuild_activity_comment_tree( $activity_id );
 
