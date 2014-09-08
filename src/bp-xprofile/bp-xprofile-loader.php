@@ -186,7 +186,7 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Add the subnav items to the profile
 		$sub_nav[] = array(
-			'name'            => _x( 'Profile', 'Profile header menu', 'buddypress' ),
+			'name'            => _x( 'View', 'Profile header sub menu', 'buddypress' ),
 			'slug'            => 'public',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $this->slug,
