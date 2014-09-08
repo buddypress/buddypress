@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-09-07 21:30:38+00:00\n"
+"POT-Creation-Date: 2014-09-08 18:30:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -635,7 +635,7 @@ msgstr ""
 msgid "%s posted a new activity comment"
 msgstr ""
 
-#: src/bp-activity/bp-activity-functions.php:1774
+#: src/bp-activity/bp-activity-functions.php:1777
 msgid "Thumbnail"
 msgstr ""
 
@@ -6859,6 +6859,11 @@ msgstr ""
 msgid "Field Group Title"
 msgstr ""
 
+#: src/bp-xprofile/bp-xprofile-classes.php:503
+msgctxt "XProfile admin edit group"
+msgid "Group Name"
+msgstr ""
+
 #: src/bp-xprofile/bp-xprofile-classes.php:509
 msgid "Group Description"
 msgstr ""
@@ -6869,6 +6874,11 @@ msgstr ""
 
 #: src/bp-xprofile/bp-xprofile-classes.php:902
 msgid "Edit Field"
+msgstr ""
+
+#: src/bp-xprofile/bp-xprofile-classes.php:923
+msgctxt "XProfile admin edit field"
+msgid "Field Name"
 msgstr ""
 
 #: src/bp-xprofile/bp-xprofile-classes.php:926
@@ -7089,9 +7099,13 @@ msgid "My Friends"
 msgstr ""
 
 #: src/bp-xprofile/bp-xprofile-loader.php:168
-#: src/bp-xprofile/bp-xprofile-loader.php:189
 msgctxt "Profile header menu"
 msgid "Profile"
+msgstr ""
+
+#: src/bp-xprofile/bp-xprofile-loader.php:189
+msgctxt "Profile header sub menu"
+msgid "View"
 msgstr ""
 
 #: src/bp-xprofile/bp-xprofile-loader.php:199
