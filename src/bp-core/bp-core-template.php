@@ -1926,7 +1926,13 @@ function bp_is_groups_directory() {
  * @return bool True if the current page is part of a single group.
  */
 function bp_is_group() {
-	return (bool) ( bp_is_groups_component() && groups_get_current_group() );
+	$retval = bp_is_active( 'groups' );
+
+	if ( ! empty( $retval ) ) {
+		$retval = bp_is_groups_component() && groups_get_current_group();
+	}
+	
+	return (bool) $retval;
 }
 
 /**
