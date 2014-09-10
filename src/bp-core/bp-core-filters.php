@@ -370,7 +370,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 				return $user;
 			}
 
-		/** 
+		/**
 		 * There can be a case where the user was created without the skip confirmation
 		 * And the super admin goes in pending accounts to resend it. In this case, as the
 		 * meta['password'] is not set, the activation url must be WordPress one
@@ -604,4 +604,22 @@ add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
  */
 function bp_filter_metaid_column_name( $q ) {
 	return str_replace( 'meta_id', 'id', $q );
+}
+
+/**
+ * Filter the edit post link to avoid its display in BuddyPress pages
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param  string $link    The edit link.
+ * @param  int    $post_id Post ID.
+ * @return mixed  Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
+ *                otherwise
+ */
+function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
+	if ( 0 === $post_id ) {
+		$edit_link = false;
+	}
+
+	return $edit_link;
 }

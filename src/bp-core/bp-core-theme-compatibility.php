@@ -558,7 +558,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	bp_set_theme_compat_active( true );
 
 	// If we are in theme compat, we don't need the 'Edit' post link
-	add_filter( 'get_edit_post_link', '__return_false' );
+	add_filter( 'get_edit_post_link', 'bp_core_filter_edit_post_link', 10, 2 );
 }
 
 /**
