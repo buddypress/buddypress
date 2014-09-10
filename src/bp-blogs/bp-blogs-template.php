@@ -670,7 +670,7 @@ function bp_blog_last_active( $args = array() ) {
 			$r['active_format'] = __( 'active %s', 'buddypress' );
 		}
 
-		// Blog has logged in at least one time
+		// Blog has been posted to at least once
 		if ( isset( $blogs_template->blog->last_activity ) ) {
 
 			// Backwards compatibility for pre 1.5 'ago' strings
@@ -678,7 +678,7 @@ function bp_blog_last_active( $args = array() ) {
 				? bp_core_get_last_activity( $blogs_template->blog->last_activity, $r['active_format'] )
 				: bp_core_time_since( $blogs_template->blog->last_activity );
 
-		// Blog has never logged in or been active
+		// Blog has never been posted to
 		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
 		}
