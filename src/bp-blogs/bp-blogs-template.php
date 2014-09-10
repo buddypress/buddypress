@@ -660,16 +660,25 @@ function bp_blog_last_active( $args = array() ) {
 	function bp_get_blog_last_active( $args = array() ) {
 		global $blogs_template;
 
-		$r = wp_parse_args( $args, array(
-			'active_format' => true,
+		// Parse the activity format
+		$r = bp_parse_args( $args, array(
+			'active_format' => true
 		) );
 
+		// Backwards compatibilty for anyone forcing a 'true' active_format
+		if ( true === $r['active_format'] ) {
+			$r['active_format'] = __( 'active %s', 'buddypress' );
+		}
+
+		// Blog has logged in at least one time
 		if ( isset( $blogs_template->blog->last_activity ) ) {
-			if ( ! empty( $r['active_format'] ) ) {
-				$last_activity = bp_core_get_last_activity( $blogs_template->blog->last_activity, __( 'active %s', 'buddypress' ) );
-			} else {
-				$last_activity = bp_core_time_since( $blogs_template->blog->last_activity );
-			}
+
+			// Backwards compatibility for pre 1.5 'ago' strings
+			$last_activity = ! empty( $r['active_format'] )
+				? bp_core_get_last_activity( $blogs_template->blog->last_activity, $r['active_format'] )
+				: bp_core_time_since( $blogs_template->blog->last_activity );
+
+		// Blog has never logged in or been active
 		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
 		}

@@ -824,7 +824,7 @@ function bp_member_last_active( $args = array() ) {
 	function bp_get_member_last_active( $args = array() ) {
 		global $members_template;
 
-		// Parse the activy format
+		// Parse the activity format
 		$r = bp_parse_args( $args, array(
 			'active_format' => true
 		) );
