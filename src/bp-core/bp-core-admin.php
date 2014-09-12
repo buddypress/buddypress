@@ -570,7 +570,6 @@ class BP_Admin {
 			<div class="changelog">
 				<h2 class="about-headline-callout"><?php _e( 'Revamped @mentions Interface', 'buddypress' ); ?></h2>
 				<p><?php _e( 'Forget the old days of trying to remember someone&#8217;s username when you want to @mention them in a conversation! With BuddyPress 2.1, type a <code>@</code> when leaving a status update or commenting on an activity item or blog post, and the new suggestions panel will open.', 'buddypress' ) ?></p>
-				<p>TODO: add GIF.</p>
  			</div>
 
 			<hr />
@@ -582,19 +581,16 @@ class BP_Admin {
 					<div class="col-1">
 						<h4><?php esc_html_e( 'New Profile Field Type: URL', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Built to hold the address of another website, this new field type automatically creates a link to that site.', 'buddypress' ); ?></p>
-						<p>TODO: image.</p>
 					</div>
 
 					<div class="col-2">
 						<h4><?php esc_html_e( 'Awesome Translations', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'BuddyPress supports high-quality translations that are automatically fetched by WordPress. Many thanks to our translation volunteers for making this possible.', 'buddypress' ); ?></p>
-						<p>TODO: image.</p>
 					</div>
 
 					<div class="col-3 last-feature">
 						<h4><?php esc_html_e( 'Performance Improvements', 'buddypress' ); ?></h4>
 						<p><?php _e( 'Like we do with every release, we&#8217ve made further optimizations to increase BuddyPress&#8217 performance and reduce its query overhead.', 'buddypress' ); ?></p>
-						<p>TODO: image.</p>
 					</div>
 				</div>
 			</div>
