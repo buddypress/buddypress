@@ -535,7 +535,7 @@ class BP_Admin {
 									'<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Customize Settings', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), $this->settings_page ) )
 									); ?></li>
 								</ul>
-								<a class="button button-primary button-hero" style="margin-bottom:20px;margin-top:0;" href="<?php bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ); ?>" ><?php _e( 'Get Started', 'buddypress' ); ?></a>
+								<a class="button button-primary button-hero" style="margin-bottom:20px;margin-top:0;" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Get Started', 'buddypress' ); ?></a>
 							</div>
 							<div class="welcome-panel-column">
 								<h4><?php _e( 'Administration Tools', 'buddypress' ); ?></h4>
