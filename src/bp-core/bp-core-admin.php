@@ -488,13 +488,9 @@ class BP_Admin {
 	public function about_screen() {
 		global $wp_rewrite;
 
-		$is_new_install = ! empty( $_GET['is_new_install'] );
-
+		$is_new_install            = ! empty( $_GET['is_new_install'] );
 		$pretty_permalinks_enabled = ! empty( $wp_rewrite->permalink_structure );
-
-		$image_base = buddypress()->plugin_url . 'bp-core/images/bp20/';
-
-		list( $display_version ) = explode( '-', bp_get_version() ); ?>
+		list( $display_version )   = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
@@ -570,6 +566,7 @@ class BP_Admin {
 			<div class="changelog">
 				<h2 class="about-headline-callout"><?php _e( 'Revamped @mentions Interface', 'buddypress' ); ?></h2>
 				<p><?php _e( 'Forget the old days of trying to remember someone&#8217;s username when you want to @mention them in a conversation! With BuddyPress 2.1, type a <code>@</code> when leaving a status update or commenting on an activity item or blog post, and the new suggestions panel will open.', 'buddypress' ) ?></p>
+				<p style="text-align: center"><img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/mentions.gif' ); ?>" alt="<?php esc_attr_e( 'Demo of at-mentions feature', 'buddypress' ); ?>" style="margin-bottom: 20px"></p>
  			</div>
 
 			<hr />
