@@ -811,12 +811,6 @@ class BP_Admin {
 				<a href="https://github.com/carhartl/jquery-cookie">jquery.cookie</a>.
 			</p>
 
-			<?php if ( current_user_can( $this->capability ) ) :?>
-				<div class="return-to-dashboard">
-					<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) ) ); ?>"><?php _e( 'Go to the BuddyPress Settings page', 'buddypress' ); ?></a>
-				</div>
-			<?php endif;?>
-
 		</div>
 
 		<?php
