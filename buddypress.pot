@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress \n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2014-09-12 19:30:42+00:00\n"
+"POT-Creation-Date: 2014-09-14 10:30:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1795,239 +1795,243 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:500 src/bp-core/bp-core-admin.php:680
+#: src/bp-core/bp-core-admin.php:496 src/bp-core/bp-core-admin.php:677
 msgid "Welcome to BuddyPress %s"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:503 src/bp-core/bp-core-admin.php:683
+#: src/bp-core/bp-core-admin.php:499 src/bp-core/bp-core-admin.php:680
 msgid "Thank you for installing BuddyPress! BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:505 src/bp-core/bp-core-admin.php:685
+#: src/bp-core/bp-core-admin.php:501 src/bp-core/bp-core-admin.php:682
 msgid "Howdy. BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:513 src/bp-core/bp-core-admin.php:693
+#: src/bp-core/bp-core-admin.php:509 src/bp-core/bp-core-admin.php:690
 msgid "What&#8217;s New"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:515 src/bp-core/bp-core-admin.php:695
+#: src/bp-core/bp-core-admin.php:511 src/bp-core/bp-core-admin.php:692
 msgid "Credits"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:523
+#: src/bp-core/bp-core-admin.php:519
 msgid "Getting Started with BuddyPress"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:526
+#: src/bp-core/bp-core-admin.php:522
 msgid "Configure Buddypress"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:529
+#: src/bp-core/bp-core-admin.php:525
 msgid "Set Up Components"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:532
+#: src/bp-core/bp-core-admin.php:528
 msgid "Assign Components to Pages"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:535
+#: src/bp-core/bp-core-admin.php:531
 msgid "Customize Settings"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:538
+#: src/bp-core/bp-core-admin.php:534
 msgid "Get Started"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:541
+#: src/bp-core/bp-core-admin.php:537
 msgid "Administration Tools"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:544
+#: src/bp-core/bp-core-admin.php:540
 msgid "Add User Profile Fields"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:546
+#: src/bp-core/bp-core-admin.php:542
 msgid "Manage User Signups"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:548
+#: src/bp-core/bp-core-admin.php:544
 msgid "Moderate Activity Streams"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:551
+#: src/bp-core/bp-core-admin.php:547
 msgid "Manage Groups"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:553
+#: src/bp-core/bp-core-admin.php:549
 msgid "Repair Data"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:558
+#: src/bp-core/bp-core-admin.php:554
 msgid "Community and Support"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:559
+#: src/bp-core/bp-core-admin.php:555
 msgid "Looking for help? The <a href=\"http://codex.buddypress.org/\">BuddyPress Codex</a> has you covered."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:560
+#: src/bp-core/bp-core-admin.php:556
 msgid "Can&#8217;t find what you need? Stop by <a href=\"http://buddypress.org/support/\">our support forums</a>, where active BuddyPress users and developers are waiting to share tips and more."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:571
+#: src/bp-core/bp-core-admin.php:567
 msgid "Revamped @mentions Interface"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:572
+#: src/bp-core/bp-core-admin.php:568
 msgid "Forget the old days of trying to remember someone&#8217;s username when you want to @mention them in a conversation! With BuddyPress 2.1, type a <code>@</code> when leaving a status update or commenting on an activity item or blog post, and the new suggestions panel will open."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:578
+#: src/bp-core/bp-core-admin.php:569
+msgid "Demo of at-mentions feature"
+msgstr ""
+
+#: src/bp-core/bp-core-admin.php:575
 msgid "Continuous Improvement"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:582
+#: src/bp-core/bp-core-admin.php:579
 msgid "New Profile Field Type: URL"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:583
+#: src/bp-core/bp-core-admin.php:580
 msgid "Built to hold the address of another website, this new field type automatically creates a link to that site."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:587
+#: src/bp-core/bp-core-admin.php:584
 msgid "Awesome Translations"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:588
+#: src/bp-core/bp-core-admin.php:585
 msgid "BuddyPress supports high-quality translations that are automatically fetched by WordPress. Many thanks to our translation volunteers for making this possible."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:592
+#: src/bp-core/bp-core-admin.php:589
 msgid "Performance Improvements"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:593
+#: src/bp-core/bp-core-admin.php:590
 msgid "Like we do with every release, we&#8217ve made further optimizations to increase BuddyPress&#8217 performance and reduce its query overhead."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:601
+#: src/bp-core/bp-core-admin.php:598
 msgid "Enhancements for Plugin &amp; Theme Developers"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:604
+#: src/bp-core/bp-core-admin.php:601
 msgid "If you&#8217re a plugin developer, or make custom themes, or want to contribute back to the BuddyPress project, here&#8217s what you should know about this release:"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:605
+#: src/bp-core/bp-core-admin.php:602
 msgid "If you&#8217ve used BuddyPress for a very long time, you might remember the <em>BuddyBar</em>; it was our toolbar before WordPress had its own toolbar. We started to deprecate it in BuddyPress 1.6. It is now formally deprecated, which means you should not use it for new sites."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:608
+#: src/bp-core/bp-core-admin.php:605
 msgid "The classic <a href=\"%s\">BP Default theme has moved to Github</a>. We moved it because BuddyPress development is now focused on our <a href=\"%s\">theme compatibility</a> templates, which were introduced in BuddyPress 1.7. Don&#8217t worry, BP-Default is still bundled with BuddyPress releases."
 msgstr ""
 
 #. translators: don't translate the insides of the <code> block
 
-#: src/bp-core/bp-core-admin.php:616
+#: src/bp-core/bp-core-admin.php:613
 msgid "In BuddyPress 2.0, we added a new <code>BP_XProfile_Field_Type</code> API for managing profile field types. In this release, we&#8217ve added a new <code>bp_core_get_suggestions</code> API which powers our new @mentions interface. Both are cool, and are worth checking out."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:622
+#: src/bp-core/bp-core-admin.php:619
 msgid "Other interesting changes:"
 msgstr ""
 
 #. translators: don't translate the insides of the <code> block
 
-#: src/bp-core/bp-core-admin.php:628
+#: src/bp-core/bp-core-admin.php:625
 msgid "In <code>BP_Group_Extension</code>, the <code>visibility</code> and <code>enable_nav_item</code> properties have been phased out in favor of new <code>access</code> and <code>show_tab</code> parameters."
 msgstr ""
 
 #. translators: don't translate the insides of the <code> block
 
-#: src/bp-core/bp-core-admin.php:634
+#: src/bp-core/bp-core-admin.php:631
 msgid "A new <code>group_activity</code> sort order has been added for Groups queries, to let you query for recently active members."
 msgstr ""
 
 #. translators: don't translate the insides of the <code> block
 
-#: src/bp-core/bp-core-admin.php:640
+#: src/bp-core/bp-core-admin.php:637
 msgid "Extra CSS classes have been added to Profile Field visibility field elements, allowing greater CSS customization."
 msgstr ""
 
 #. translators: don't translate the insides of the <code> block
 
-#: src/bp-core/bp-core-admin.php:646
+#: src/bp-core/bp-core-admin.php:643
 msgid "A <code>no_access_url</code> parameter has been added to <code>bp_core_new_subnav_item()</code>. This allows you to set the URL that users are redirected to when they do not have permission to access a sub-navigation item."
 msgstr ""
 
 #. translators: don't translate the insides of the <code> block
 
-#: src/bp-core/bp-core-admin.php:652
+#: src/bp-core/bp-core-admin.php:649
 msgid "When making searches with <code>BP_User_Query</code>, a new <code>search_wildcard</code> parameter gives you finer control over how the search SQL is constructed."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:657
+#: src/bp-core/bp-core-admin.php:654
 msgid "<a href=\"%s\">&hellip;and lots more!</a>"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:699
+#: src/bp-core/bp-core-admin.php:696
 msgid "BuddyPress is created by a worldwide network of friendly folks."
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:701
+#: src/bp-core/bp-core-admin.php:698
 msgid "Project Leaders"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:706
+#: src/bp-core/bp-core-admin.php:703
 msgid "Project Lead"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:711 src/bp-core/bp-core-admin.php:716
+#: src/bp-core/bp-core-admin.php:708 src/bp-core/bp-core-admin.php:713
 msgid "Lead Developer"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:720
+#: src/bp-core/bp-core-admin.php:717
 msgid "Core Team"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:725 src/bp-core/bp-core-admin.php:730
+#: src/bp-core/bp-core-admin.php:722 src/bp-core/bp-core-admin.php:727
 msgid "Core Developer"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:735
+#: src/bp-core/bp-core-admin.php:732
 msgid "Navigator"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:739
+#: src/bp-core/bp-core-admin.php:736
 msgid "Recent Rockstars"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:763
+#: src/bp-core/bp-core-admin.php:760
 msgid "Contributors to BuddyPress %s"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:808
+#: src/bp-core/bp-core-admin.php:805
 msgid "External Libraries"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:817
+#: src/bp-core/bp-core-admin.php:814
 msgid "Go to the BuddyPress Settings page"
 msgstr ""
 
-#: src/bp-core/bp-core-admin.php:842
+#: src/bp-core/bp-core-admin.php:839
 msgid "Maintenance Release"
 msgid_plural "Maintenance Releases"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-core/bp-core-admin.php:843
+#: src/bp-core/bp-core-admin.php:840
 msgid "Security Release"
 msgid_plural "Security Releases"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-core/bp-core-admin.php:844
+#: src/bp-core/bp-core-admin.php:841
 msgid "Maintenance and Security Release"
 msgid_plural "Maintenance and Security Releases"
 msgstr[0] ""
@@ -2035,7 +2039,7 @@ msgstr[1] ""
 
 #. translators: 1: WordPress version number.
 
-#: src/bp-core/bp-core-admin.php:847
+#: src/bp-core/bp-core-admin.php:844
 msgid "<strong>Version %1$s</strong> addressed a security issue."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
 msgstr[0] ""
@@ -2043,7 +2047,7 @@ msgstr[1] ""
 
 #. translators: 1: WordPress version number, 2: plural number of bugs.
 
-#: src/bp-core/bp-core-admin.php:852
+#: src/bp-core/bp-core-admin.php:849
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] ""
@@ -2052,7 +2056,7 @@ msgstr[1] ""
 #. translators: 1: WordPress version number, 2: plural number of bugs. Singular
 #. security issue.
 
-#: src/bp-core/bp-core-admin.php:857
+#: src/bp-core/bp-core-admin.php:854
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] ""
@@ -2061,13 +2065,13 @@ msgstr[1] ""
 #. translators: 1: WordPress version number, 2: plural number of bugs. More
 #. than one security issue.
 
-#: src/bp-core/bp-core-admin.php:862
+#: src/bp-core/bp-core-admin.php:859
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/bp-core/bp-core-admin.php:866
+#: src/bp-core/bp-core-admin.php:863
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr ""
 
