@@ -345,7 +345,7 @@ function bp_use_wp_admin_bar() {
  * @return array
  */
 function bp_core_get_packaged_component_ids() {
-	return array(
+	$components = array(
 		'activity',
 		'members',
 		'groups',
@@ -355,8 +355,15 @@ function bp_core_get_packaged_component_ids() {
 		'messages',
 		'settings',
 		'notifications',
-		'forums',
 	);
+
+	// only add legacy forums if it is enabled
+	// prevents conflicts with bbPress, which also uses the same 'forums' id
+	if ( class_exists( 'BP_Forums_Component' ) ) {
+		$components[] = 'forums';
+	}
+
+	return $components;
 }
 
 /**
