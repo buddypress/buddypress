@@ -57,11 +57,11 @@ function groups_action_create_group() {
 
 	// Fetch the currently completed steps variable
 	if ( isset( $_COOKIE['bp_completed_create_steps'] ) && !isset( $reset_steps ) )
-		$bp->groups->completed_create_steps = unserialize( stripslashes( $_COOKIE['bp_completed_create_steps'] ) );
+		$bp->groups->completed_create_steps = json_decode( base64_decode( stripslashes( $_COOKIE['bp_completed_create_steps'] ) ) );
 
 	// Set the ID of the new group, if it has already been created in a previous step
 	if ( isset( $_COOKIE['bp_new_group_id'] ) ) {
-		$bp->groups->new_group_id = $_COOKIE['bp_new_group_id'];
+		$bp->groups->new_group_id = (int) $_COOKIE['bp_new_group_id'];
 		$bp->groups->current_group = groups_get_group( array( 'group_id' => $bp->groups->new_group_id ) );
 
 		// Only allow the group creator to continue to edit the new group
@@ -149,7 +149,7 @@ function groups_action_create_group() {
 
 		// Reset cookie info
 		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH );
-		setcookie( 'bp_completed_create_steps', serialize( $bp->groups->completed_create_steps ), time()+60*60*24, COOKIEPATH );
+		setcookie( 'bp_completed_create_steps', base64_encode( json_encode( $bp->groups->completed_create_steps ) ), time()+60*60*24, COOKIEPATH );
 
 		// If we have completed all steps and hit done on the final step we
 		// can redirect to the completed group
