@@ -281,8 +281,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		if ( WP_TESTS_FORCE_KNOWN_BUGS || in_array( $ticket_id, self::$forced_tickets ) )
 			return;
 
-		if ( ! TracTickets::isTracTicketClosed( 'http://buddypress.trac.wordpress.org', $ticket_id ) )
+		if ( ! TracTickets::isTracTicketClosed( 'https://buddypress.trac.wordpress.org', $ticket_id ) ) {
 			$this->markTestSkipped( sprintf( 'BuddyPress Ticket #%d is not fixed', $ticket_id ) );
+		}
 	}
 
 	/**
