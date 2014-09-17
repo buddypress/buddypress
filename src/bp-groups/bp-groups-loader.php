@@ -17,65 +17,72 @@ if ( !defined( 'ABSPATH' ) ) exit;
 class BP_Groups_Component extends BP_Component {
 
 	/**
-	 * Auto join group when non group member performs group activity
+	 * Auto-join group when non group member performs group activity
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 * @access public
 	 * @var bool
 	 */
 	public $auto_join;
 
 	/**
-	 * The group being currently accessed
+	 * The group being currently accessed.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 * @access public
 	 * @var BP_Groups_Group
 	 */
 	public $current_group;
 
 	/**
-	 * Default group extension
+	 * Default group extension.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
+	 * @access public
 	 * @todo Is this used anywhere? Is this a duplicate of $default_extension?
 	 */
 	var $default_component;
 
 	/**
-	 * Default group extension
+	 * Default group extension.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
+	 * @access public
 	 * @var string
 	 */
 	public $default_extension;
 
 	/**
-	 * Illegal group names/slugs
+	 * Illegal group names/slugs.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 * @access public
 	 * @var array
 	 */
 	public $forbidden_names;
 
 	/**
-	 * Group creation/edit steps (e.g. Details, Settings, Avatar, Invites)
+	 * Group creation/edit steps (e.g. Details, Settings, Avatar, Invites).
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 * @access public
 	 * @var array
 	 */
 	public $group_creation_steps;
 
 	/**
-	 * Types of group statuses (Public, Private, Hidden)
+	 * Types of group statuses (Public, Private, Hidden).
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 * @access public
 	 * @var array
 	 */
 	public $valid_status;
 
 	/**
-	 * Start the groups component creation process
+	 * Start the groups component creation process.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function __construct() {
 		parent::start(
@@ -89,7 +96,13 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
-	 * Include files
+	 * Include Groups component files.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::includes() for a description of arguments.
+	 *
+	 * @param array $includes See BP_Component::includes() for a description.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -114,12 +127,16 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup globals
+	 * Set up component global data.
 	 *
 	 * The BP_GROUPS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_globals() for a description of arguments.
+	 *
+	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
@@ -320,9 +337,16 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up navigation.
+	 * Set up component navigation.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @see BP_Component::setup_nav() for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
+	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
+	 *        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -496,7 +520,13 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the Toolbar
+	 * Set up the component entries in the WordPress Admin Bar.
+	 *
+	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
+	 *      parameter array.
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a
+	 *        description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		$bp = buddypress();
@@ -557,7 +587,7 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
-	 * Sets up the title for pages and <title>
+	 * Set up the title for pages and <title>.
 	 */
 	public function setup_title() {
 		$bp = buddypress();
@@ -597,7 +627,11 @@ class BP_Groups_Component extends BP_Component {
 	}
 }
 
-
+/**
+ * Bootstrap the Notifications component.
+ *
+ * @since BuddyPress (1.5.0)
+ */
 function bp_setup_groups() {
 	buddypress()->groups = new BP_Groups_Component();
 }

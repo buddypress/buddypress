@@ -3,9 +3,9 @@
 /**
  * BuddyPress Groups Screen Functions
  *
- * Screen functions are the controllers of BuddyPress. They will execute when their
- * specific URL is caught. They will first save or manipulate data using business
- * functions, then pass on the user to a template file.
+ * Screen functions are the controllers of BuddyPress. They will execute when
+ * their specific URL is caught. They will first save or manipulate data using
+ * business functions, then pass on the user to a template file.
  *
  * @package BuddyPress
  * @subpackage GroupsScreens
@@ -14,6 +14,9 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Handle the display of the Groups directory index.
+ */
 function groups_directory_groups_setup() {
 	if ( bp_is_groups_directory() ) {
 		bp_update_is_directory( true, 'groups' );
@@ -25,6 +28,9 @@ function groups_directory_groups_setup() {
 }
 add_action( 'bp_screens', 'groups_directory_groups_setup', 2 );
 
+/**
+ * Handle the loading of the My Groups page.
+ */
 function groups_screen_my_groups() {
 
 	do_action( 'groups_screen_my_groups' );
@@ -32,6 +38,9 @@ function groups_screen_my_groups() {
 	bp_core_load_template( apply_filters( 'groups_template_my_groups', 'members/single/home' ) );
 }
 
+/**
+ * Handle the loading of a user's Groups > Invites page.
+ */
 function groups_screen_group_invites() {
 	$group_id = (int)bp_action_variable( 1 );
 
@@ -87,6 +96,9 @@ function groups_screen_group_invites() {
 	bp_core_load_template( apply_filters( 'groups_template_group_invites', 'members/single/home' ) );
 }
 
+/**
+ * Handle the loading of a single group's page.
+ */
 function groups_screen_group_home() {
 
 	if ( ! bp_is_single_item() ) {
@@ -99,9 +111,7 @@ function groups_screen_group_home() {
 }
 
 /**
- * This screen function handles actions related to group forums
- *
- * @package BuddyPress
+ * This screen function handles actions related to group forums.
  */
 function groups_screen_group_forum() {
 
@@ -399,6 +409,9 @@ function groups_screen_group_forum() {
 	}
 }
 
+/**
+ * Handle the display of a group's Members page.
+ */
 function groups_screen_group_members() {
 
 	if ( !bp_is_single_item() )
@@ -413,6 +426,9 @@ function groups_screen_group_members() {
 	bp_core_load_template( apply_filters( 'groups_template_group_members', 'groups/single/home' ) );
 }
 
+/**
+ * Handle the display of a group's Send Invites page.
+ */
 function groups_screen_group_invite() {
 
 	if ( !bp_is_single_item() )
@@ -489,6 +505,9 @@ function groups_remove_group_invite() {
 }
 add_action( 'bp_screens', 'groups_remove_group_invite' );
 
+/**
+ * Handle the display of a group's Request Membership page.
+ */
 function groups_screen_group_request_membership() {
 	global $bp;
 
@@ -529,6 +548,9 @@ function groups_screen_group_request_membership() {
 	bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/single/home' ) );
 }
 
+/**
+ * Handle the display of a single group activity item.
+ */
 function groups_screen_group_activity_permalink() {
 
 	if ( !bp_is_groups_component() || !bp_is_active( 'activity' ) || ( bp_is_active( 'activity' ) && !bp_is_current_action( bp_get_activity_slug() ) ) || !bp_action_variable( 0 ) )
@@ -540,6 +562,9 @@ function groups_screen_group_activity_permalink() {
 }
 add_action( 'bp_screens', 'groups_screen_group_activity_permalink' );
 
+/**
+ * Handle the display of a group's Admin pages.
+ */
 function groups_screen_group_admin() {
 	if ( !bp_is_groups_component() || !bp_is_current_action( 'admin' ) )
 		return false;
@@ -550,6 +575,9 @@ function groups_screen_group_admin() {
 	bp_core_redirect( bp_get_group_permalink( groups_get_current_group() ) . 'admin/edit-details/' );
 }
 
+/**
+ * Handle the display of a group's admin/edit-details page.
+ */
 function groups_screen_group_admin_edit_details() {
 
 	if ( 'edit-details' != bp_get_group_current_admin_tab() )
@@ -585,6 +613,9 @@ function groups_screen_group_admin_edit_details() {
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_edit_details' );
 
+/**
+ * Handle the display of a group's admin/group-settings page.
+ */
 function groups_screen_group_admin_settings() {
 
 	if ( 'group-settings' != bp_get_group_current_admin_tab() )
@@ -628,6 +659,9 @@ function groups_screen_group_admin_settings() {
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_settings' );
 
+/**
+ * Handle the display of a group's Change Avatar page.
+ */
 function groups_screen_group_admin_avatar() {
 
 	if ( 'group-avatar' != bp_get_group_current_admin_tab() )
@@ -705,8 +739,6 @@ add_action( 'bp_screens', 'groups_screen_group_admin_avatar' );
 
 /**
  * This function handles actions related to member management on the group admin.
- *
- * @package BuddyPress
  */
 function groups_screen_group_admin_manage_members() {
 
@@ -824,6 +856,9 @@ function groups_screen_group_admin_manage_members() {
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_manage_members' );
 
+/**
+ * Handle the display of Admin > Membership Requests.
+ */
 function groups_screen_group_admin_requests() {
 	$bp = buddypress();
 
@@ -872,6 +907,9 @@ function groups_screen_group_admin_requests() {
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_requests' );
 
+/**
+ * Handle the display of the Delete Group page.
+ */
 function groups_screen_group_admin_delete_group() {
 	global $bp;
 
@@ -911,9 +949,7 @@ function groups_screen_group_admin_delete_group() {
 add_action( 'bp_screens', 'groups_screen_group_admin_delete_group' );
 
 /**
- * Renders the group settings fields on the Notification Settings page
- *
- * @package BuddyPress
+ * Render the group settings fields on the Notification Settings page.
  */
 function groups_screen_notification_settings() {
 
@@ -933,7 +969,7 @@ function groups_screen_notification_settings() {
 		<thead>
 			<tr>
 				<th class="icon"></th>
-				<th class="title"><?php _ex( 'Groups', 'Group settings on notification settings page', 'buddypress' ) ?></th>				
+				<th class="title"><?php _ex( 'Groups', 'Group settings on notification settings page', 'buddypress' ) ?></th>
 				<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
 				<th class="no"><?php _e( 'No', 'buddypress' )?></th>
 			</tr>
@@ -977,19 +1013,19 @@ add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
 /** Theme Compatability *******************************************************/
 
 /**
- * The main theme compat class for BuddyPress Groups
+ * The main theme compat class for BuddyPress Groups.
  *
  * This class sets up the necessary theme compatability actions to safely output
  * group template parts to the_title and the_content areas of a theme.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  */
 class BP_Groups_Theme_Compat {
 
 	/**
-	 * Setup the groups component theme compatibility
+	 * Set up theme compatibility for the Groups component.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function __construct() {
 		add_action( 'bp_setup_theme_compat', array( $this, 'is_group' ) );
@@ -998,7 +1034,7 @@ class BP_Groups_Theme_Compat {
 	/**
 	 * Are we looking at something that needs group theme compatability?
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function is_group() {
 
@@ -1031,16 +1067,17 @@ class BP_Groups_Theme_Compat {
 		}
 	}
 
-	/** Directory *************************************************************/
+	/** Directory *********************************************************/
 
 	/**
 	 * Add template hierarchy to theme compat for the group directory page.
 	 *
-	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 * This is to mirror how WordPress has
+	 * {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @param string $templates The templates from bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
@@ -1057,9 +1094,9 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/**
-	 * Update the global $post with directory data
+	 * Update the global $post with directory data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function directory_dummy_post() {
 
@@ -1079,24 +1116,25 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/**
-	 * Filter the_content with the groups index template part
+	 * Filter the_content with the groups index template part.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function directory_content() {
 		return bp_buffer_template_part( 'groups/index', null, false );
 	}
 
-	/** Create ****************************************************************/
+	/** Create ************************************************************/
 
 	/**
 	 * Add custom template hierarchy to theme compat for the group create page.
 	 *
-	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 * This is to mirror how WordPress has
+	 * {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @param string $templates The templates from bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function create_template_hierarchy( $templates ) {
@@ -1113,9 +1151,9 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/**
-	 * Update the global $post with create screen data
+	 * Update the global $post with create screen data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function create_dummy_post() {
 
@@ -1135,24 +1173,25 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/**
-	 * Filter the_content with the create screen template part
+	 * Filter the_content with the create screen template part.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function create_content() {
 		return bp_buffer_template_part( 'groups/create', null, false );
 	}
 
-	/** Single ****************************************************************/
+	/** Single ************************************************************/
 
 	/**
 	 * Add custom template hierarchy to theme compat for group pages.
 	 *
-	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
+	 * This is to mirror how WordPress has
+	 * {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates()
+	 * @param string $templates The templates from bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
@@ -1176,9 +1215,9 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/**
-	 * Update the global $post with single group data
+	 * Update the global $post with single group data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function single_dummy_post() {
 		bp_theme_compat_reset_post( array(
@@ -1195,9 +1234,9 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/**
-	 * Filter the_content with the single group template part
+	 * Filter the_content with the single group template part.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function single_content() {
 		return bp_buffer_template_part( 'groups/single/home', null, false );

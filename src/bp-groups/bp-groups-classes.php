@@ -631,9 +631,11 @@ class BP_Groups_Group {
 	 *     @type bool $populate_extras Whether to fetch additional
 	 *           information (such as member count) about groups. Default:
 	 *           true.
-	 *     @type array|string Optional. Array or comma-separated list of
-	 *           group IDs. Results will exclude the listed groups.
+	 *     @type array|string $exclude Optional. Array or comma-separated
+	 *           list of group IDs. Results will exclude the listed groups.
 	 *           Default: false.
+	 *     @type bool $update_meta_cache Whether to pre-fetch groupmeta for
+	 *           the returned groups. Default: true.
 	 *     @type bool $show_hidden Whether to include hidden groups in
 	 *           results. Default: false.
 	 * }

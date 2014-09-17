@@ -16,11 +16,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /** Emails ********************************************************************/
 
 /**
- * Notify all group members when a group is updated
+ * Notify all group members when a group is updated.
  *
  * @since BuddyPress (1.0.0)
  *
- * @param int $group_id
+ * @param int $group_id ID of the group.
  */
 function groups_notification_group_updated( $group_id = 0 ) {
 
@@ -68,15 +68,15 @@ To view the group: %2$s
 }
 
 /**
- * Notify group admin about new membership request
+ * Notify group admin about new membership request.
  *
  * @since BuddyPress (1.0.0)
  *
- * @param int $requesting_user_id
- * @param int $admin_id
- * @param int $group_id
- * @param int $membership_id
- * @return boolean
+ * @param int $requesting_user_id ID of the user requesting group membership.
+ * @param int $admin_id ID of the group admin.
+ * @param int $group_id ID of the group.
+ * @param int $membership_id ID of the group membership object.
+ * @return bool|null False on failure.
  */
 function groups_notification_new_membership_request( $requesting_user_id = 0, $admin_id = 0, $group_id = 0, $membership_id = 0 ) {
 
@@ -144,13 +144,14 @@ To view %4$s\'s profile: %5$s
 }
 
 /**
- * Notify member about their group membership request
+ * Notify member about their group membership request.
  *
  * @since BuddyPress (1.0.0)
  *
- * @param type $requesting_user_id
- * @param type $group_id
- * @param type $accepted
+ * @param int $requesting_user_id ID of the user requesting group membership.
+ * @param int $group_id ID of the group.
+ * @param bool $accepted Optional. Whether the membership request was accepted.
+ *        Default: true.
  * @return boolean
  */
 function groups_notification_membership_request_completed( $requesting_user_id = 0, $group_id = 0, $accepted = true ) {
@@ -223,13 +224,13 @@ add_action( 'groups_membership_accepted', 'groups_notification_membership_reques
 add_action( 'groups_membership_rejected', 'groups_notification_membership_request_completed', 10, 3 );
 
 /**
- * Notify group member they have been promoted
+ * Notify group member they have been promoted.
  *
  * @since BuddyPress (1.0.0)
  *
- * @param int $user_id
- * @param int $group_id
- * @return boolean
+ * @param int $user_id ID of the user.
+ * @param int $group_id ID of the group.
+ * @return bool|null False on failure.
  */
 function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 
@@ -291,14 +292,14 @@ To view the group please visit: %3$s
 add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
 
 /**
- * Notify a member they have been invitated to a group
+ * Notify a member they have been invited to a group.
  *
  * @since BuddyPress (1.0.0)
  *
- * @param object $group
- * @param object $member
- * @param int $inviter_user_id
- * @return boolean
+ * @param BP_Groups_Group $group Group object.
+ * @param BP_Groups_Member $member Member object.
+ * @param int $inviter_user_id ID of the user who sent the invite.
+ * @return bool|null False on failure.
  */
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 
@@ -374,11 +375,14 @@ To view %5$s\'s profile visit: %6$s
  *
  * @since BuddyPress (1.0.0)
  *
- * @param string $action The kind of notification being rendered
- * @param int $item_id The primary item id
- * @param int $secondary_item_id The secondary item id
- * @param int $total_items The total number of messaging-related notifications waiting for the user
- * @param string $format 'string' for BuddyBar-compatible notifications; 'array' for WP Toolbar
+ * @param string $action The kind of notification being rendered.
+ * @param int $item_id The primary item ID.
+ * @param int $secondary_item_id The secondary item ID.
+ * @param int $total_items The total number of messaging-related notifications
+ *        waiting for the user.
+ * @param string $format 'string' for BuddyBar-compatible notifications; 'array'
+ *        for WP Toolbar. Default: 'string'.
+ * @return string
  */
 function groups_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
 
@@ -610,9 +614,11 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 }
 
 /**
- * Remove all notifications for any member belonging to a specific group
+ * Remove all notifications for any member belonging to a specific group.
  *
  * @since BuddyPress (1.9.0)
+ *
+ * @param int $group_id ID of the group.
  */
 function bp_groups_delete_group_delete_all_notifications( $group_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -625,6 +631,9 @@ add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notificati
  * When a demotion takes place, delete any corresponding promotion notifications.
  *
  * @since BuddyPress (2.0.0)
+ *
+ * @param int $user_id ID of the user.
+ * @param int $group_id ID of the group.
  */
 function bp_groups_delete_promotion_notifications( $user_id = 0, $group_id = 0 ) {
 	if ( bp_is_active( 'notifications' ) && ! empty( $group_id ) && ! empty( $user_id ) ) {
@@ -635,11 +644,12 @@ function bp_groups_delete_promotion_notifications( $user_id = 0, $group_id = 0 )
 add_action( 'groups_demoted_member', 'bp_groups_delete_promotion_notifications', 10, 2 );
 
 /**
- * Mark notifications read when a member accepts a group invitation
+ * Mark notifications read when a member accepts a group invitation.
  *
  * @since BuddyPress (1.9.0)
- * @param int $user_id
- * @param int $group_id
+ *
+ * @param int $user_id ID of the user.
+ * @param int $group_id ID of the group.
  */
 function bp_groups_accept_invite_mark_notifications( $user_id, $group_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -651,7 +661,7 @@ add_action( 'groups_reject_invite', 'bp_groups_accept_invite_mark_notifications'
 add_action( 'groups_delete_invite', 'bp_groups_accept_invite_mark_notifications', 10, 2 );
 
 /**
- * Mark notifications read when a member views their group memberships
+ * Mark notifications read when a member views their group memberships.
  *
  * @since BuddyPress (1.9.0)
  */
@@ -675,7 +685,7 @@ add_action( 'groups_screen_my_groups',  'bp_groups_screen_my_groups_mark_notific
 add_action( 'groups_screen_group_home', 'bp_groups_screen_my_groups_mark_notifications', 10 );
 
 /**
- * Mark group invitation notifications read when a member views their invitations
+ * Mark group invitation notifications read when a member views their invitations.
  *
  * @since BuddyPress (1.9.0)
  */
@@ -687,8 +697,7 @@ function bp_groups_screen_invites_mark_notifications() {
 add_action( 'groups_screen_group_invites', 'bp_groups_screen_invites_mark_notifications', 10 );
 
 /**
- * Mark group join requests read when an admin or moderator visits the group
- * administration area.
+ * Mark group join requests read when an admin or moderator visits the group administration area.
  *
  * @since BuddyPress (1.9.0)
  */
@@ -703,7 +712,8 @@ add_action( 'groups_screen_group_admin_requests', 'bp_groups_screen_group_admin_
  * Delete new group membership notifications when a user is being deleted.
  *
  * @since BuddyPress (1.9.0)
- * @param int $user_id
+ *
+ * @param int $user_id ID of the user.
  */
 function bp_groups_remove_data_for_user_notifications( $user_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
