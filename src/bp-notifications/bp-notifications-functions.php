@@ -113,7 +113,7 @@ function bp_notifications_delete_notification( $id ) {
  * @since BuddyPress (1.9.0)
  *
  * @param int $id ID of the user whose notifications are being deleted.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notification( $id, $is_new = false ) {
@@ -128,11 +128,11 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
 }
 
 /**
- * Get all notifications for a user and cache them
+ * Get all notifications for a user and cache them.
  *
  * @since BuddyPress (2.1.0)
  *
- * @param int $user_id 
+ * @param int $user_id ID of the user whose notifications are being fetched.
  * @return array
  */
 function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
@@ -160,7 +160,7 @@ function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $user_id ID of the user whose notification are being fetched.
+ * @param int $user_id ID of the user whose notifications are being fetched.
  * @param string $format Format of the returned values. 'string' returns HTML,
  *        while 'object' returns a structured object for parsing.
  * @return mixed Object or array on success, false on failure.
@@ -403,7 +403,7 @@ function bp_notifications_delete_notifications_from_user( $user_id, $component_n
  * @param int $user_id ID of the user whose notifications are being deleted.
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new = false ) {
@@ -432,7 +432,7 @@ function bp_notifications_mark_notifications_by_type( $user_id, $component_name,
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
  * @param int $secondary_item_id ID of the secondary associated item.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false, $is_new = false ) {
@@ -462,7 +462,7 @@ function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $co
  * @param string $component_name Name of the associated component.
  * @param string $component_action Optional. Name of the associated action.
  * @param int $secondary_item_id Optional. ID of the secondary associated item.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false, $is_new = false ) {
@@ -494,7 +494,7 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $component_n
  * @param int $is_new 0 for read, 1 for unread
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
@@ -550,6 +550,8 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
  * @since BuddyPress (1.9.1)
  *
  * @see http://buddypress.trac.wordpress.org/ticket/5300
+ *
+ * @return array
  */
 function bp_notifications_get_registered_components() {
 

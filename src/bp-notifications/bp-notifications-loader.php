@@ -55,10 +55,7 @@ class BP_Notifications_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup globals
-	 *
-	 * The BP_FRIENDS_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * Set up component global data.
 	 *
 	 * @since BuddyPress (1.9.0)
 	 *

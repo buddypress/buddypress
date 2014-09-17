@@ -42,7 +42,7 @@ function bp_notifications_permalink() {
 	 *
 	 * @since BuddyPress (1.9.0)
 	 *
-	 * @return string Notifications permalink
+	 * @return string Notifications permalink.
 	 */
 	function bp_get_notifications_permalink() {
 		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
@@ -62,7 +62,7 @@ function bp_notifications_unread_permalink() {
 	 *
 	 * @since BuddyPress (1.9.0)
 	 *
-	 * @return string Unread notifications permalink
+	 * @return string Unread notifications permalink.
 	 */
 	function bp_get_notifications_unread_permalink() {
 		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() . '/unread' );
@@ -82,7 +82,7 @@ function bp_notifications_read_permalink() {
 	 *
 	 * @since BuddyPress (1.9.0)
 	 *
-	 * @return string Read notifications permalink
+	 * @return string Read notifications permalink.
 	 */
 	function bp_get_notifications_read_permalink() {
 		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() . '/read' );
@@ -942,10 +942,10 @@ function bp_the_notification_action_links( $args = '' ) {
 	 * @since BuddyPress (1.9.0)
 	 *
 	 * @param array $args {
-	 *     @type string $before HTML before the links
-	 *     @type string $after HTML after the links
-	 *     @type string $sep HTML between the links
-	 *     @type array $links Array of links to implode by 'sep'
+	 *     @type string $before HTML before the links.
+	 *     @type string $after HTML after the links.
+	 *     @type string $sep HTML between the links.
+	 *     @type array $links Array of links to implode by 'sep'.
 	 * }
 	 *
 	 * @return string HTML links for actions to take on single notifications.
