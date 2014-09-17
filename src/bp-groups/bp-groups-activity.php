@@ -15,6 +15,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
  * Register activity actions for the Groups component.
+ *
+ * @return bool|null False on failure.
  */
 function groups_register_activity_actions() {
 	$bp = buddypress();
@@ -239,6 +241,7 @@ function groups_record_activity( $args = '' ) {
  *
  * @param int $group_id Optional. The ID of the group whose last_activity is
  *        being updated. Default: the current group's ID.
+ * @return bool|null False on failure.
  */
 function groups_update_last_activity( $group_id = 0 ) {
 
@@ -261,8 +264,10 @@ add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
  * Add an activity stream item when a member joins a group
  *
  * @since BuddyPress (1.9.0)
- * @param int $user_id
- * @param int $group_id
+ *
+ * @param int $user_id ID of the user joining the group.
+ * @param int $group_id ID of the group.
+ * @return bool|null False on failure.
  */
 function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 
@@ -285,9 +290,11 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_activity', 10, 2 );
 
 /**
- * Delete all group activity from activity streams
+ * Delete all activity items related to a specific group.
  *
  * @since BuddyPress (1.9.0)
+ *
+ * @param int $group_id ID of the group.
  */
 function bp_groups_delete_group_delete_all_activity( $group_id ) {
 	if ( bp_is_active( 'activity' ) ) {
@@ -300,14 +307,16 @@ function bp_groups_delete_group_delete_all_activity( $group_id ) {
 add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_activity', 10 );
 
 /**
- * Delete group member activity if they leave or are removed within 5 minutes of
- * membership modification.
+ * Delete group member activity if they leave or are removed within 5 minutes of membership modification.
  *
  * If the user joined this group less than five minutes ago, remove the
  * joined_group activity so users cannot flood the activity stream by
  * joining/leaving the group in quick succession.
  *
  * @since BuddyPress (1.9.0)
+ *
+ * @param int $group_id ID of the group.
+ * @param int $user_id ID of the user leaving the group.
  */
 function bp_groups_leave_group_delete_recent_activity( $group_id, $user_id ) {
 

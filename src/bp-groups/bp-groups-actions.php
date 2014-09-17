@@ -316,6 +316,9 @@ function groups_action_create_group() {
 }
 add_action( 'bp_actions', 'groups_action_create_group' );
 
+/**
+ * Catch and process "Join Group" button clicks.
+ */
 function groups_action_join_group() {
 	global $bp;
 
@@ -401,6 +404,8 @@ add_action( 'bp_actions', 'groups_action_leave_group' );
 
 /**
  * Sort the group creation steps.
+ *
+ * @return bool|null False on failure.
  */
 function groups_action_sort_creation_steps() {
 	global $bp;
@@ -443,6 +448,8 @@ add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
  * Load the activity feed for the current group.
  *
  * @since BuddyPress (1.2.0)
+ *
+ * @return bool|null False on failure.
  */
 function groups_action_group_feed() {
 

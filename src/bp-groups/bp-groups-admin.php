@@ -68,7 +68,7 @@ add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
  *
  * @since BuddyPress (1.7.0)
  *
- * @global BP_Groups_List_Table $bp_groups_list_table Groups screen list table
+ * @global BP_Groups_List_Table $bp_groups_list_table Groups screen list table.
  */
 function bp_groups_admin_load() {
 	global $bp_groups_list_table;
@@ -1038,7 +1038,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * e.g. "All", "Pending", "Approved", "Spam"...
 	 *
 	 * @since BuddyPress (1.7.0)
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1048,7 +1047,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Group counts for each group type.
 	 *
 	 * @since BuddyPress (1.7.0)
-	 *
 	 * @access public
 	 * @var int
 	 */
