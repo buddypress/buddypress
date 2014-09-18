@@ -77,6 +77,9 @@ BuddyPress is available in many languages. For more information, check out the <
 = 2.1 =
 See: http://codex.buddypress.org/releases/version-2-1/
 
+= 2.0.3 =
+See: http://codex.buddypress.org/releases/version-2-0-3/
+
 = 2.0.2 =
 See: http://codex.buddypress.org/releases/version-2-0-2/
 
@@ -147,6 +150,9 @@ Fixes over 10 bugs.
 
 = 2.1 =
 See: http://codex.buddypress.org/releases/version-2-1/
+
+= 2.0.3 =
+See: http://codex.buddypress.org/releases/version-2-0-3/
 
 = 2.0.2 =
 See: http://codex.buddypress.org/releases/version-2-0-2/
