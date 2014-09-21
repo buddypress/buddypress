@@ -137,7 +137,7 @@ class BP_Forums_Template_Forum {
 	 * The page number being requested.
 	 *
 	 * @access public
-	 * @var public
+	 * @var int
 	 */
 	var $pag_page;
 
@@ -145,7 +145,7 @@ class BP_Forums_Template_Forum {
 	 * The number of items being requested per page.
 	 *
 	 * @access public
-	 * @var public
+	 * @var int
 	 */
 	var $pag_num;
 
