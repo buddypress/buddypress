@@ -534,8 +534,10 @@ function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
 			) );
 
 			// save post title in activity meta
-			bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
-			bp_activity_update_meta( $activity_id, 'post_url',   $post_permalink );
+			if ( bp_is_active( 'activity' ) ) {
+				bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
+				bp_activity_update_meta( $activity_id, 'post_url',   $post_permalink );
+			}
 		}
 
 		// Update the blogs last activity
