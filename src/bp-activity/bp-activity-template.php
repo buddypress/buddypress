@@ -1694,7 +1694,7 @@ function bp_activity_user_can_delete( $activity = false ) {
 		// Users are allowed to delete their own activity. This is actually
 		// quite powerful, because doing so also deletes all comments to that
 		// activity item. We should revisit this eventually.
-		if ( isset( $activity->user_id ) && ( $activity->user_id === bp_loggedin_user_id() ) ) {
+		if ( isset( $activity->user_id ) && ( (int) $activity->user_id === bp_loggedin_user_id() ) ) {
 			$can_delete = true;
 		}
 

@@ -57,6 +57,32 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->set_current_user( $original_user );
 	}
 
+	/**
+	 * Test if a non-admin can delete their own activity.
+	 */
+	public function test_user_can_delete_for_nonadmin() {
+		// save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$u = $this->create_user();
+		$this->set_current_user( $u );
+
+		// create an activity update for the user
+		$this->factory->activity->create( array(
+			'component' => buddypress()->activity->id,
+			'type' => 'activity_update',
+			'user_id' => $u,
+		) );
+
+		// start the activity loop
+		bp_has_activities( array( 'user_id' => $u ) );
+		while ( bp_activities() ) : bp_the_activity();
+			// assert!
+			$this->assertTrue( bp_activity_user_can_delete() );
+		endwhile;
+
+		// reset
+		$this->set_current_user( $old_user );
+	}
 
 	/**
 	 * Make sure that action filters ('activity_update', etc) work when
