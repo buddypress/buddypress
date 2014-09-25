@@ -426,7 +426,7 @@ function bp_settings_verify_email_change(){
 
 	// Email change is being verified
 	if ( isset( $_GET['verify_email_change'] ) ) {
-		$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change' );
+		$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change', true );
 
 		// Bail if the hash provided doesn't match the one saved in the database
 		if ( urldecode( $_GET['verify_email_change'] ) !== $pending_email['hash'] ) {
@@ -439,6 +439,9 @@ function bp_settings_verify_email_change(){
 		) );
 
 		if ( $email_changed ) {
+			// Delete object cache for displayed user
+			wp_cache_delete( 'bp_core_userdata_' . bp_displayed_user_id(), 'bp' );
+
 			// Delete the pending email change key
 			bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
 
