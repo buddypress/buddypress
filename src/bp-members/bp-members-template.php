@@ -275,7 +275,7 @@ class BP_Core_Members_Template {
 			}
 
 			if ( ! empty( $search_terms ) ) {
-				$pag_args['s'] = $search_terms;
+				$pag_args['s'] = urlencode( $search_terms );
 			}
 
 			$this->pag_links = paginate_links( array(

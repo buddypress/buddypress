@@ -40,6 +40,32 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$this->assertEquals( $user_ids, $shouldbe );
 	}
 
+	/**
+	 * @ticket BP5898
+	 * @group bp_has_members
+	 */
+	public function test_bp_has_members_search_pagination_with_spaces() {
+		$u1 = $this->create_user( array( 'display_name' => '~ tilde u1' ) );
+		$u2 = $this->create_user( array( 'display_name' => '~ tilde u2' ) );
+
+		$template_args = array(
+			'search_terms' => '~ tilde',
+			'per_page'     => 1,
+		);
+
+		global $members_template;
+		$reset_members_template = $members_template;
+
+		bp_has_members( $template_args );
+
+		preg_match( '/&#038;s=(.*)\'/', $members_template->pag_links, $matches );
+
+		$this->assertEquals( urldecode( $matches[1] ), urldecode( $template_args['search_terms'] ) );
+
+		// reset the members template global
+		$members_template = $reset_members_template;
+	}
+
 	public function test_bp_has_members_friendship_requests() {
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
