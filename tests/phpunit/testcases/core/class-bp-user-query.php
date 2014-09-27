@@ -367,4 +367,44 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertNotContains( $u1, $found_user_ids );
 	}
 
+	/**
+	 * @group meta
+	 * @group BP5904
+	 */
+	public function test_bp_user_query_with_user_meta_argument() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		bp_update_user_meta( $u2, 'foo', 'bar' );
+
+		$q = new BP_User_Query( array(
+			'meta_key'        => 'foo',
+			'meta_value'      => 'bar',
+		) );
+
+		$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+
+		// Do a assertNotContains because there are weird issues with user #1 as created by WP
+		$this->assertNotContains( $u1, $found_user_ids );
+		$this->assertEquals( array( $u2 ), $found_user_ids );
+	}
+
+	/**
+	 * @group meta
+	 * @group BP5904
+	 */
+	public function test_bp_user_query_with_user_meta_argument_no_user() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+
+		$q = new BP_User_Query( array(
+			'meta_key'        => 'foo',
+			'meta_value'      => 'bar',
+		) );
+
+		$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+
+		$this->assertEmpty( $found_user_ids );
+	}
+
 }

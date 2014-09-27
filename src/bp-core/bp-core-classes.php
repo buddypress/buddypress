@@ -403,6 +403,8 @@ class BP_User_Query {
 
 			if ( ! empty( $found_user_ids ) ) {
 				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ")";
+			} else {
+				$sql['where'][] = '1 = 0';
 			}
 		}
 
@@ -1546,7 +1548,7 @@ class BP_Date_Query extends WP_Date_Query {
 	 * Destructor.
 	 */
 	public function __destruct() {
-		remove_filter( 'date_query_valid_columns', array( $this, 'register_date_column' ) );	
+		remove_filter( 'date_query_valid_columns', array( $this, 'register_date_column' ) );
 	}
 
 	/**
