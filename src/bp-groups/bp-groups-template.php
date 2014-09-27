@@ -1644,9 +1644,18 @@ function bp_group_member_count() {
 		return apply_filters( 'bp_get_group_member_count', $count_string );
 	}
 
+/**
+ * Output the URL of the Forum page of the current group in the loop.
+ */
 function bp_group_forum_permalink() {
 	echo bp_get_group_forum_permalink();
 }
+	/**
+	 * Generate the URL of the Forum page of a group.
+	 *
+	 * @param object $group Optional. Group object. Default: current group in loop.
+	 * @return string
+	 */
 	function bp_get_group_forum_permalink( $group = false ) {
 		global $groups_template;
 
@@ -1656,9 +1665,25 @@ function bp_group_forum_permalink() {
 		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . 'forum' );
 	}
 
+/**
+ * Output the topic count for a group forum.
+ *
+ * @param array $args See {@link bp_get_group_forum_topic_count()}.
+ */
 function bp_group_forum_topic_count( $args = '' ) {
 	echo bp_get_group_forum_topic_count( $args );
 }
+	/**
+	 * Generate the topic count string for a group forum.
+	 *
+	 * @param array $args {
+	 *     Array of arguments.
+	 *     @type bool $showtext Optional. If true, result will be formatted
+	 *           as "x topics". If false, just a number will be returned.
+	 *           Default: false.
+	 * }
+	 * @return string|int
+	 */
 	function bp_get_group_forum_topic_count( $args = '' ) {
 		global $groups_template;
 
@@ -1690,9 +1715,25 @@ function bp_group_forum_topic_count( $args = '' ) {
 		return apply_filters( 'bp_get_group_forum_topic_count', $total_topics, (bool)$showtext );
 	}
 
+/**
+ * Output the post count for a group forum.
+ *
+ * @param array $args See {@link bp_get_group_forum_post_count()}.
+ */
 function bp_group_forum_post_count( $args = '' ) {
 	echo bp_get_group_forum_post_count( $args );
 }
+	/**
+	 * Generate the post count string for a group forum.
+	 *
+	 * @param array $args {
+	 *     Array of arguments.
+	 *     @type bool $showtext Optional. If true, result will be formatted
+	 *           as "x posts". If false, just a number will be returned.
+	 *           Default: false.
+	 * }
+	 * @return string|int
+	 */
 	function bp_get_group_forum_post_count( $args = '' ) {
 		global $groups_template;
 
@@ -1724,6 +1765,12 @@ function bp_group_forum_post_count( $args = '' ) {
 		return apply_filters( 'bp_get_group_forum_post_count', $total_posts, (bool)$showtext );
 	}
 
+/**
+ * Determine whether forums are enabled for a group.
+ *
+ * @param object $group Optional. Group object. Default: current group in loop.
+ * @return bool
+ */
 function bp_group_is_forum_enabled( $group = false ) {
 	global $groups_template;
 
@@ -1736,6 +1783,11 @@ function bp_group_is_forum_enabled( $group = false ) {
 	return false;
 }
 
+/**
+ * Output the 'checked' attribute for the group forums settings UI.
+ *
+ * @param object $group Optional. Group object. Default: current group in loop.
+ */
 function bp_group_show_forum_setting( $group = false ) {
 	global $groups_template;
 
@@ -1746,6 +1798,12 @@ function bp_group_show_forum_setting( $group = false ) {
 		echo ' checked="checked"';
 }
 
+/**
+ * Output the 'checked' attribute for a given status in the settings UI.
+ *
+ * @param string $setting Group status. 'public', 'private', 'hidden'.
+ * @param object $group Optional. Group object. Default: current group in loop.
+ */
 function bp_group_show_status_setting( $setting, $group = false ) {
 	global $groups_template;
 
@@ -1757,12 +1815,13 @@ function bp_group_show_status_setting( $setting, $group = false ) {
 }
 
 /**
- * Get the 'checked' value, if needed, for a given invite_status on the group create/admin screens
+ * Output the 'checked' value, if needed, for a given invite_status on the group create/admin screens
  *
  * @since BuddyPress (1.5.0)
  *
- * @param string $setting The setting you want to check against ('members', 'mods', or 'admins')
- * @param BP_Groups_Group $group (optional) The group whose status you want to check
+ * @param string $setting The setting you want to check against ('members',
+ *	  'mods', or 'admins').
+ * @param object $group Optional. Group object. Default: current group in loop.
  */
 function bp_group_show_invite_status_setting( $setting, $group = false ) {
 	$group_id = isset( $group->id ) ? $group->id : false;
@@ -1774,19 +1833,23 @@ function bp_group_show_invite_status_setting( $setting, $group = false ) {
 }
 
 /**
- * Get the invite status of a group
+ * Get the invite status of a group.
  *
- * 'invite_status' became part of BuddyPress in BP 1.5. In order to provide backward compatibility,
- * groups without a status set will default to 'members', ie all members in a group can send
- * invitations. Filter 'bp_group_invite_status_fallback' to change this fallback behavior.
+ * 'invite_status' became part of BuddyPress in BP 1.5. In order to provide
+ * backward compatibility with earlier installations, groups without a status
+ * set will default to 'members', ie all members in a group can send
+ * invitations. Filter 'bp_group_invite_status_fallback' to change this
+ * fallback behavior.
  *
  * This function can be used either in or out of the loop.
  *
  * @since BuddyPress (1.5.0)
  *
- * @param int $group_id (optional) The id of the group whose status you want to check
- * @return mixed Returns false when no group can be found. Otherwise returns the group invite
- *    status, from among 'members', 'mods', and 'admins'
+ * @param int $group_id Optional. The ID of the group whose status you want to
+ *        check. Default: the displayed group, or the current group in the loop.
+ * @return bool|string Returns false when no group can be found. Otherwise
+ *         returns the group invite status, from among 'members', 'mods', and
+ *         'admins'.
  */
 function bp_group_get_invite_status( $group_id = false ) {
 	global $bp, $groups_template;
@@ -1818,7 +1881,8 @@ function bp_group_get_invite_status( $group_id = false ) {
  *
  * @since BuddyPress (1.5.0)
  *
- * @param int $group_id (optional) The id of the group whose status you want to check
+ * @param int $group_id Optional. The ID of the group whose status you want to
+ *        check. Default: the ID of the current group.
  * @return bool $can_send_invites
  */
 function bp_groups_user_can_send_invites( $group_id = false ) {
@@ -1944,6 +2008,13 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 	<?php endif;
 }
 
+/**
+ * Generate the HTML for a list of group moderators.
+ *
+ * No longer used.
+ *
+ * @todo Deprecate.
+ */
 function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 	global $groups_template;
 
@@ -2006,6 +2077,12 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 	<?php }
 }
 
+/**
+ * Determine whether a group has moderators.
+ *
+ * @param object $group Optional. Group object. Default: current group in loop.
+ * @return array Info about group admins (user_id + date_modified).
+ */
 function bp_group_has_moderators( $group = false ) {
 	global $groups_template;
 
@@ -2015,9 +2092,24 @@ function bp_group_has_moderators( $group = false ) {
 	return apply_filters( 'bp_group_has_moderators', groups_get_group_mods( $group->id ) );
 }
 
+/**
+ * Output a URL for promoting a user to moderator.
+ *
+ * @param array $args See {@link bp_get_group_member_promote_mod_link()}.
+ */
 function bp_group_member_promote_mod_link( $args = '' ) {
 	echo bp_get_group_member_promote_mod_link( $args );
 }
+	/**
+	 * Generate a URL for promoting a user to moderator.
+	 *
+	 * @param array $args {
+	 *     @type int $user_id ID of the member to promote. Default:
+	 *           current member in a group member loop.
+	 *     @type object $group Group object. Default: current group.
+	 * }
+	 * @return string
+	 */
 	function bp_get_group_member_promote_mod_link( $args = '' ) {
 		global $members_template, $groups_template;
 
@@ -2032,9 +2124,24 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 		return apply_filters( 'bp_get_group_member_promote_mod_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/mod/' . $user_id, 'groups_promote_member' ) );
 	}
 
+/**
+ * Output a URL for promoting a user to admin.
+ *
+ * @param array $args See {@link bp_get_group_member_promote_admin_link()}.
+ */
 function bp_group_member_promote_admin_link( $args = '' ) {
 	echo bp_get_group_member_promote_admin_link( $args );
 }
+	/**
+	 * Generate a URL for promoting a user to admin.
+	 *
+	 * @param array $args {
+	 *     @type int $user_id ID of the member to promote. Default:
+	 *           current member in a group member loop.
+	 *     @type object $group Group object. Default: current group.
+	 * }
+	 * @return string
+	 */
 	function bp_get_group_member_promote_admin_link( $args = '' ) {
 		global $members_template, $groups_template;
 
@@ -2049,6 +2156,12 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/admin/' . $user_id, 'groups_promote_member' ) );
 	}
 
+/**
+ * Output a URL for demoting a user to member.
+ *
+ * @param int $user_id ID of the member to demote. Default: current member in
+ *        a member loop.
+ */
 function bp_group_member_demote_link( $user_id = 0 ) {
 	global $members_template;
 
@@ -2057,6 +2170,14 @@ function bp_group_member_demote_link( $user_id = 0 ) {
 
 	echo bp_get_group_member_demote_link( $user_id );
 }
+	/**
+	 * Generate a URL for demoting a user to member.
+	 *
+	 * @param int $user_id ID of the member to demote. Default: current
+	 *        member in a member loop.
+	 * @param object $group Optional. Group object. Default: current group.
+	 * @return string
+	 */
 	function bp_get_group_member_demote_link( $user_id = 0, $group = false ) {
 		global $members_template, $groups_template;
 
@@ -2069,6 +2190,12 @@ function bp_group_member_demote_link( $user_id = 0 ) {
 		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
 	}
 
+/**
+ * Output a URL for banning a member from a group.
+ *
+ * @param int $user_id ID of the member to ban. Default: current member in
+ *        a member loop.
+ */
 function bp_group_member_ban_link( $user_id = 0 ) {
 	global $members_template;
 
@@ -2077,6 +2204,14 @@ function bp_group_member_ban_link( $user_id = 0 ) {
 
 	echo bp_get_group_member_ban_link( $user_id );
 }
+	/**
+	 * Generate a URL for banning a member from a group.
+	 *
+	 * @param int $user_id ID of the member to ban. Default: current
+	 *        member in a member loop.
+	 * @param object $group Optional. Group object. Default: current group.
+	 * @return string
+	 */
 	function bp_get_group_member_ban_link( $user_id = 0, $group = false ) {
 		global $groups_template;
 
@@ -2086,6 +2221,12 @@ function bp_group_member_ban_link( $user_id = 0 ) {
 		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/ban/' . $user_id, 'groups_ban_member' ) );
 	}
 
+/**
+ * Output a URL for unbanning a member from a group.
+ *
+ * @param int $user_id ID of the member to unban. Default: current member in
+ *        a member loop.
+ */
 function bp_group_member_unban_link( $user_id = 0 ) {
 	global $members_template;
 
@@ -2094,6 +2235,14 @@ function bp_group_member_unban_link( $user_id = 0 ) {
 
 	echo bp_get_group_member_unban_link( $user_id );
 }
+	/**
+	 * Generate a URL for unbanning a member from a group.
+	 *
+	 * @param int $user_id ID of the member to unban. Default: current
+	 *        member in a member loop.
+	 * @param object $group Optional. Group object. Default: current group.
+	 * @return string
+	 */
 	function bp_get_group_member_unban_link( $user_id = 0, $group = false ) {
 		global $members_template, $groups_template;
 
@@ -2106,7 +2255,12 @@ function bp_group_member_unban_link( $user_id = 0 ) {
 		return apply_filters( 'bp_get_group_member_unban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/unban/' . $user_id, 'groups_unban_member' ) );
 	}
 
-
+/**
+ * Output a URL for removing a member from a group.
+ *
+ * @param int $user_id ID of the member to remove. Default: current member in
+ *        a member loop.
+ */
 function bp_group_member_remove_link( $user_id = 0 ) {
 	global $members_template;
 
@@ -2115,6 +2269,14 @@ function bp_group_member_remove_link( $user_id = 0 ) {
 
 	echo bp_get_group_member_remove_link( $user_id );
 }
+	/**
+	 * Generate a URL for removing a member from a group.
+	 *
+	 * @param int $user_id ID of the member to remove. Default: current
+	 *        member in a member loop.
+	 * @param object $group Optional. Group object. Default: current group.
+	 * @return string
+	 */
 	function bp_get_group_member_remove_link( $user_id = 0, $group = false ) {
 		global $groups_template;
 
