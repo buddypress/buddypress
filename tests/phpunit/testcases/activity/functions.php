@@ -723,6 +723,25 @@ Bar!';
 	}
 
 	/**
+	 * @group bp_activity_new_comment
+	 * @group BP5907
+	 */
+	public function test_bp_activity_comment_on_deleted_activity() {
+		$a = $this->factory->activity->create();
+
+		bp_activity_delete_by_activity_id( $a );
+
+		$c = bp_activity_new_comment( array(
+			'activity_id' => $a,
+			'parent_id' => $a,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		$this->assertEmpty( $c );
+	}
+
+	/**
 	 * @group favorites
 	 * @group bp_activity_add_user_favorite
 	 */

@@ -1350,8 +1350,15 @@ function bp_activity_new_comment( $args = '' ) {
 
 	$activity_id = $r['activity_id'];
 
-	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
+	// Get the parent activity
 	$activity  = new BP_Activity_Activity( $activity_id );
+
+	// Bail if the parent activity does not exist
+	if ( empty( $activity->date_recorded ) ) {
+		return false;
+	}
+
+	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
 	$is_hidden = ( (int) $activity->hide_sitewide ) ? 1 : 0;
 
 	// Insert the activity comment
@@ -1661,7 +1668,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 				bp_activity_delete_children( $activity_id, $child->id );
 			}
 		}
-		
+
 		// Delete the comment itself
 		bp_activity_delete( array(
 			'secondary_item_id' => $comment_id,
