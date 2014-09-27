@@ -1507,6 +1507,15 @@ function bp_group_search_form() {
 	echo apply_filters( 'bp_group_search_form', $search_form_html );
 }
 
+/**
+ * Determine whether the displayed user has no groups.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @todo Deprecate
+ *
+ * @return bool True if the displayed user has no groups, otherwise false.
+ */
 function bp_group_show_no_groups_message() {
 	if ( !groups_total_groups_for_user( bp_displayed_user_id() ) )
 		return true;
@@ -1514,6 +1523,15 @@ function bp_group_show_no_groups_message() {
 	return false;
 }
 
+/**
+ * Determine whether the current page is a group activity permalink.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @todo Deprecate.
+ *
+ * @return bool True if this is a group activity permalink, otherwise false.
+ */
 function bp_group_is_activity_permalink() {
 
 	if ( !bp_is_single_item() || !bp_is_groups_component() || !bp_is_current_action( bp_get_activity_slug() ) )
@@ -1522,18 +1540,34 @@ function bp_group_is_activity_permalink() {
 	return true;
 }
 
+/**
+ * Output the pagination HTML for a group loop.
+ */
 function bp_groups_pagination_links() {
 	echo bp_get_groups_pagination_links();
 }
+	/**
+	 * Get the pagination HTML for a group loop.
+	 *
+	 * @return string
+	 */
 	function bp_get_groups_pagination_links() {
 		global $groups_template;
 
 		return apply_filters( 'bp_get_groups_pagination_links', $groups_template->pag_links );
 	}
 
+/**
+ * Output the "Viewing x-y of z groups" pagination message.
+ */
 function bp_groups_pagination_count() {
 	echo bp_get_groups_pagination_count();
 }
+	/**
+	 * Generate the "Viewing x-y of z groups" pagination message.
+	 *
+	 * @return string
+	 */
 	function bp_get_groups_pagination_count() {
 		global $groups_template;
 
@@ -1545,15 +1579,34 @@ function bp_groups_pagination_count() {
 		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing 1 group', 'Viewing %1$s - %2$s of %3$s groups', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
+/**
+ * Determine whether groups auto-join is enabled.
+ *
+ * "Auto-join" is the toggle that determines whether users are joined to a
+ * public group automatically when creating content in that group.
+ *
+ * @return bool
+ */
 function bp_groups_auto_join() {
 	global $bp;
 
 	return apply_filters( 'bp_groups_auto_join', (bool)$bp->groups->auto_join );
 }
 
+/**
+ * Output the total member count for a group.
+ *
+ * @param object $group Optional. Group object. Default: current group in loop.
+ */
 function bp_group_total_members( $group = false ) {
 	echo bp_get_group_total_members( $group );
 }
+	/**
+	 * Get the total member count for a group.
+	 *
+	 * @param object $group Optional. Group object. Default: current group in loop.
+	 * @return int
+	 */
 	function bp_get_group_total_members( $group = false ) {
 		global $groups_template;
 
@@ -1563,9 +1616,20 @@ function bp_group_total_members( $group = false ) {
 		return apply_filters( 'bp_get_group_total_members', $group->total_member_count );
 	}
 
+/**
+ * Output the "x members" count string for a group.
+ *
+ * @param object $group Optional. Group object. Default: current group in loop.
+ */
 function bp_group_member_count() {
 	echo bp_get_group_member_count();
 }
+	/**
+	 * Generate the "x members" count string for a group.
+	 *
+	 * @param object $group Optional. Group object. Default: current group in loop.
+	 * @return string
+	 */
 	function bp_get_group_member_count() {
 		global $groups_template;
 
