@@ -177,11 +177,13 @@ function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
 
 	$activity_allowedtags = $allowedtags;
-	$activity_allowedtags['span']          = array();
-	$activity_allowedtags['span']['class'] = array();
 	$activity_allowedtags['a']['class']    = array();
 	$activity_allowedtags['a']['id']       = array();
 	$activity_allowedtags['a']['rel']      = array();
+	$activity_allowedtags['a']['title']    = array();
+	$activity_allowedtags['b']             = array();
+	$activity_allowedtags['code']          = array();
+	$activity_allowedtags['i']             = array();
 	$activity_allowedtags['img']           = array();
 	$activity_allowedtags['img']['src']    = array();
 	$activity_allowedtags['img']['alt']    = array();
@@ -190,7 +192,9 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['img']['class']  = array();
 	$activity_allowedtags['img']['id']     = array();
 	$activity_allowedtags['img']['title']  = array();
-	$activity_allowedtags['code']          = array();
+	$activity_allowedtags['span']          = array();
+	$activity_allowedtags['span']['class'] = array();
+
 
 	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
 	return wp_kses( $content, $activity_allowedtags );
