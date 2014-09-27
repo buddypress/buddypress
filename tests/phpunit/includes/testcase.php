@@ -281,7 +281,15 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		if ( WP_TESTS_FORCE_KNOWN_BUGS || in_array( $ticket_id, self::$forced_tickets ) )
 			return;
 
-		if ( ! TracTickets::isTracTicketClosed( 'https://buddypress.trac.wordpress.org', $ticket_id ) ) {
+		$trac_url = 'https://buddypress.trac.wordpress.org';
+
+		// When SSL is not available, use non-SSL mirror
+		// Primarily for travis-ci PHP 5.2 build
+		if ( ! extension_loaded( 'openssl' ) ) {
+			$trac_url = 'http://hardg.com/bp-open-tickets';
+		}
+
+		if ( ! TracTickets::isTracTicketClosed( $trac_url, $ticket_id ) ) {
 			$this->markTestSkipped( sprintf( 'BuddyPress Ticket #%d is not fixed', $ticket_id ) );
 		}
 	}
