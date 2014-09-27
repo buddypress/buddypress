@@ -1633,10 +1633,15 @@ function bp_group_member_count() {
 	function bp_get_group_member_count() {
 		global $groups_template;
 
-		if ( 1 == (int) $groups_template->group->total_member_count )
-			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%s member', 'buddypress' ), bp_core_number_format( $groups_template->group->total_member_count ) ) );
-		else
-			return apply_filters( 'bp_get_group_member_count', sprintf( __( '%s members', 'buddypress' ), bp_core_number_format( $groups_template->group->total_member_count ) ) );
+		if ( isset( $groups_template->group->total_member_count ) ) {
+			$count = (int) $groups_template->group->total_member_count;
+		} else {
+			$count = 0;
+		}
+
+		$count_string = sprintf( _n( '%s member', '%s members', $count, 'buddypress' ), bp_core_number_format( $count ) );
+
+		return apply_filters( 'bp_get_group_member_count', $count_string );
 	}
 
 function bp_group_forum_permalink() {

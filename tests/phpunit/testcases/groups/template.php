@@ -796,4 +796,55 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		// Clean up
 		$this->set_current_user( $old_user );
 	}
+
+	/**
+	 * @group bp_get_group_member_count
+	 */
+	public function test_bp_get_group_member_count_0_members() {
+		global $groups_template;
+		$gt = $groups_template;
+		$groups_template = new stdClass;
+		$groups_template->group = new stdClass;
+		$groups_template->group->total_member_count = 0;
+
+		$found = bp_get_group_member_count();
+
+		$groups_template = $gt;
+
+		$this->assertSame( '0 members', $found );
+	}
+
+	/**
+	 * @group bp_get_group_member_count
+	 */
+	public function test_bp_get_group_member_count_1_member() {
+		global $groups_template;
+		$gt = $groups_template;
+		$groups_template = new stdClass;
+		$groups_template->group = new stdClass;
+		$groups_template->group->total_member_count = 1;
+
+		$found = bp_get_group_member_count();
+
+		$groups_template = $gt;
+
+		$this->assertSame( '1 member', $found );
+	}
+
+	/**
+	 * @group bp_get_group_member_count
+	 */
+	public function test_bp_get_group_member_count_2_members() {
+		global $groups_template;
+		$gt = $groups_template;
+		$groups_template = new stdClass;
+		$groups_template->group = new stdClass;
+		$groups_template->group->total_member_count = 2;
+
+		$found = bp_get_group_member_count();
+
+		$groups_template = $gt;
+
+		$this->assertSame( '2 members', $found );
+	}
 }
