@@ -2360,6 +2360,10 @@ function bp_the_body_class() {
 
 		/** Groups ************************************************************/
 
+		if ( bp_is_group() ) {
+			$bp_classes[] = 'group-' . groups_get_current_group()->slug;
+		}
+
 		if ( bp_is_group_leave() ) {
 			$bp_classes[] = 'leave-group';
 		}
