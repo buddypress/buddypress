@@ -755,21 +755,29 @@ function bp_legacy_theme_post_update() {
 function bp_legacy_theme_new_activity_comment() {
 	global $activities_template;
 
+	$bp = buddypress();
+
 	// Bail if not a POST action
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 		return;
+	}
 
 	// Check the nonce
 	check_admin_referer( 'new_activity_comment', '_wpnonce_new_activity_comment' );
 
-	if ( ! is_user_logged_in() )
+	if ( ! is_user_logged_in() ) {
 		exit( '-1' );
+	}
 
-	if ( empty( $_POST['content'] ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'Please do not leave the comment area blank.', 'buddypress' ) . '</p></div>' );
+	$feedback = __( 'There was an error posting your reply. Please try again.', 'buddypress' );
 
-	if ( empty( $_POST['form_id'] ) || empty( $_POST['comment_id'] ) || ! is_numeric( $_POST['form_id'] ) || ! is_numeric( $_POST['comment_id'] ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>' );
+	if ( empty( $_POST['content'] ) ) {
+		exit( '-1<div id="message" class="error"><p>' . esc_html__( 'Please do not leave the comment area blank.', 'buddypress' ) . '</p></div>' );
+	}
+
+	if ( empty( $_POST['form_id'] ) || empty( $_POST['comment_id'] ) || ! is_numeric( $_POST['form_id'] ) || ! is_numeric( $_POST['comment_id'] ) ) {
+		exit( '-1<div id="message" class="error"><p>' . esc_html( $feedback ) . '</p></div>' );
+	}
 
 	$comment_id = bp_activity_new_comment( array(
 		'activity_id' => $_POST['form_id'],
@@ -777,8 +785,14 @@ function bp_legacy_theme_new_activity_comment() {
 		'parent_id'   => $_POST['comment_id'],
 	) );
 
-	if ( ! $comment_id )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>' );
+	if ( ! $comment_id ) {
+		if ( ! empty( $bp->activity->errors['new_comment'] ) && is_wp_error( $bp->activity->errors['new_comment'] ) ) {
+			$feedback = $bp->activity->errors['new_comment']->get_error_message();
+			unset( $bp->activity->errors['new_comment'] );
+		}
+
+		exit( '-1<div id="message" class="error"><p>' . esc_html( $feedback ) . '</p></div>' );
+	}
 
 	// Load the new activity item into the $activities_template global
 	bp_has_activities( 'display_comments=stream&hide_spam=false&show_hidden=true&include=' . $comment_id );

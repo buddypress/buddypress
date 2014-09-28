@@ -1329,6 +1329,13 @@ function bp_activity_post_update( $args = '' ) {
  * @return int|bool The ID of the comment on success, otherwise false.
  */
 function bp_activity_new_comment( $args = '' ) {
+	$bp       = buddypress();
+	$errors   = new WP_Error();
+	$feedback = __( 'There was an error posting your reply. Please try again.', 'buddypress' );
+
+	if ( empty( $bp->activity->errors ) ) {
+		$bp->activity->errors = array();
+	}
 
 	$r = wp_parse_args( $args, array(
 		'id'          => false,
@@ -1340,6 +1347,9 @@ function bp_activity_new_comment( $args = '' ) {
 
 	// Bail if missing necessary data
 	if ( empty( $r['content'] ) || empty( $r['user_id'] ) || empty( $r['activity_id'] ) ) {
+		$errors->add( 'missing_data', $feedback );
+		$bp->activity->errors['new_comment'] = $errors;
+
 		return false;
 	}
 
@@ -1355,6 +1365,9 @@ function bp_activity_new_comment( $args = '' ) {
 
 	// Bail if the parent activity does not exist
 	if ( empty( $activity->date_recorded ) ) {
+		$errors->add( 'missing_activity', __( 'Sorry, the item you are replying to no longer exists.', 'buddypress' ) );
+		$bp->activity->errors['new_comment'] = $errors;
+
 		return false;
 	}
 
@@ -1386,6 +1399,11 @@ function bp_activity_new_comment( $args = '' ) {
 	wp_cache_delete( $activity_id, 'bp_activity' );
 
 	do_action( 'bp_activity_comment_posted', $comment_id, $r, $activity );
+
+	if ( empty( $comment_id ) ) {
+		$errors->add( 'comment_failed', $feedback );
+		$bp->activity->errors['new_comment'] = $errors;
+	}
 
 	return $comment_id;
 }
