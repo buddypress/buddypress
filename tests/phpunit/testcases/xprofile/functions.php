@@ -568,4 +568,107 @@ Bar!';
 
 		$this->assertEquals( 0, xprofile_get_field_data( 'Pens', $u ) );
 	}
+
+	/**
+	 * @group xprofile_set_field_data
+	 * @ticket BP5836
+	 */
+	public function test_xprofile_sync_bp_profile_new_user() {
+		$post_vars = $_POST;
+
+		$_POST = array(
+			'user_login' => 'foobar',
+			'pass1'      => 'password',
+			'pass2'      => 'password',
+			'role'       => 'subscriber',
+			'email'      => 'foo@bar.com',
+			'first_name' => 'Foo',
+			'last_name'  => 'Bar',
+		);
+
+		$id = add_user();
+
+		$display_name = 'Bar Foo';
+
+		$_POST = array(
+		    'display_name' => $display_name,
+		    'email'        => 'foo@bar.com',
+		);
+
+		$id = edit_user( $id );
+
+		// clean up post vars
+		$_POST = $post_vars;
+
+		$this->assertEquals( $display_name, xprofile_get_field_data( bp_xprofile_fullname_field_id(), $id ) );
+	}
+
+	/**
+	 * @group xprofile_insert_field
+	 */
+	public function test_xprofile_insert_field_type_option() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'field_order' => 5,
+		) );
+
+		$this->assertNotEmpty( $f );
+	}
+
+	/**
+	 * @group xprofile_insert_field
+	 */
+	public function test_xprofile_insert_field_type_option_option_order() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'option_order' => 5,
+		) );
+
+		$field = new BP_XProfile_Field( $f );
+
+		$this->assertEquals( 5, $field->option_order );
+	}
+
+	/**
+	 * @group xprofile_update_field_group_position
+	 * @group bp_profile_get_field_groups
+	 */
+	public function test_bp_profile_get_field_groups_update_position() {
+		$g1 = $this->factory->xprofile_group->create();
+		$g2 = $this->factory->xprofile_group->create();
+		$g3 = $this->factory->xprofile_group->create();
+
+		// prime the cache
+		bp_profile_get_field_groups();
+
+		// switch the field group positions for the last two groups
+		xprofile_update_field_group_position( $g2, 3 );
+		xprofile_update_field_group_position( $g3, 2 );
+
+		// now refetch field groups
+		$field_groups = bp_profile_get_field_groups();
+
+		// assert!
+		$this->assertEquals( array( 1, $g1, $g3, $g2 ), wp_list_pluck( $field_groups, 'id' ) );
+	}
 }

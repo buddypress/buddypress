@@ -19,7 +19,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @since BuddyPress (1.9.0)
  *
- * @return boolean
+ * @return bool
  */
 function bp_notifications_action_mark_read() {
 
@@ -55,7 +55,7 @@ add_action( 'bp_actions', 'bp_notifications_action_mark_read' );
  *
  * @since BuddyPress (1.9.0)
  *
- * @return boolean
+ * @return bool
  */
 function bp_notifications_action_mark_unread() {
 
@@ -91,7 +91,7 @@ add_action( 'bp_actions', 'bp_notifications_action_mark_unread' );
  *
  * @since BuddyPress (1.9.0)
  *
- * @return boolean
+ * @return bool
  */
 function bp_notifications_action_delete() {
 

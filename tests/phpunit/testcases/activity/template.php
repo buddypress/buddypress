@@ -57,6 +57,32 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->set_current_user( $original_user );
 	}
 
+	/**
+	 * Test if a non-admin can delete their own activity.
+	 */
+	public function test_user_can_delete_for_nonadmin() {
+		// save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$u = $this->create_user();
+		$this->set_current_user( $u );
+
+		// create an activity update for the user
+		$this->factory->activity->create( array(
+			'component' => buddypress()->activity->id,
+			'type' => 'activity_update',
+			'user_id' => $u,
+		) );
+
+		// start the activity loop
+		bp_has_activities( array( 'user_id' => $u ) );
+		while ( bp_activities() ) : bp_the_activity();
+			// assert!
+			$this->assertTrue( bp_activity_user_can_delete() );
+		endwhile;
+
+		// reset
+		$this->set_current_user( $old_user );
+	}
 
 	/**
 	 * Make sure that action filters ('activity_update', etc) work when
@@ -309,6 +335,63 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_with_type_new_blog_comments() {
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		$now = time();
+		$a1 = $this->factory->activity->create( array(
+			'content' => 'Life Rules',
+			'component' => 'blogs',
+			'type' => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'content' => 'Life Drools',
+			'component' => 'blogs',
+			'type' => 'new_blog_comment',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		// This one will show up in the stream because it's a comment
+		// on a blog post
+		$a3 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'content' => 'Candy is good',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 200 ),
+		) );
+
+		$a4 = $this->factory->activity->create( array(
+			'content' => 'Life Rulez',
+			'component' => 'activity',
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 300 ),
+		) );
+
+		// This one should not show up in the stream because it's a
+		// comment on an activity item
+		$a5 = bp_activity_new_comment( array(
+			'activity_id' => $a4,
+			'content' => 'Candy is great',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 400 ),
+		) );
+		global $activities_template;
+
+		// prime
+		bp_has_activities( array(
+			'component' => 'blogs',
+			'action' => 'new_blog_comment',
+		) );
+
+		$this->assertEquals( array( $a3, $a2 ), wp_parse_id_list( wp_list_pluck( $activities_template->activities, 'id' ) ) );
+
+		// Clean up
+		$activities_template = null;
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+	}
+
+	/**
 	 * @group bp_activity_can_comment_reply
 	 */
 	public function test_bp_activity_can_comment_reply_thread_comments_on() {
@@ -454,5 +537,35 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			$this->assertTrue( bp_activity_has_more_items() );
 			$activities_template = null;
 		}
+	}
+
+	/**
+	 * Integration test for 'date_query' param
+	 *
+	 * @group date_query
+	 * @requires PHP 5.3
+	 */
+	function test_bp_has_activities_with_date_query() {
+		if ( ! class_exists( 'WP_Date_Query' ) ) {
+			return;
+		}
+
+		$a1 = $this->factory->activity->create();
+		$a2 = $this->factory->activity->create( array(
+			'recorded_time' => '2001-01-01 12:00'
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'recorded_time' => '2005-01-01 12:00'
+		) );
+
+		global $activities_template;
+		bp_has_activities( array(
+			'date_query' => array( array(
+				'after' => '1 day ago'
+			) )
+		) );
+
+		$ids = wp_list_pluck( $activities_template->activities, 'id' );
+		$this->assertEquals( $ids, array( $a1 ) );
 	}
 }

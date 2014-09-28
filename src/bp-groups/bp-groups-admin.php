@@ -29,8 +29,8 @@ function bp_groups_add_admin_menu() {
 
 	// Add our screen
 	$hook = add_menu_page(
-		__( 'Groups', 'buddypress' ),
-		__( 'Groups', 'buddypress' ),
+		_x( 'Groups', 'Admin Groups page title', 'buddypress' ),
+		_x( 'Groups', 'Admin Groups menu', 'buddypress' ),
 		'bp_moderate',
 		'bp-groups',
 		'bp_groups_admin',
@@ -68,7 +68,7 @@ add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
  *
  * @since BuddyPress (1.7.0)
  *
- * @global BP_Groups_List_Table $bp_groups_list_table Groups screen list table
+ * @global BP_Groups_List_Table $bp_groups_list_table Groups screen list table.
  */
 function bp_groups_admin_load() {
 	global $bp_groups_list_table;
@@ -168,12 +168,17 @@ function bp_groups_admin_load() {
 
 	// Enqueue CSS and JavaScript
 	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin.{$min}js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
-	wp_enqueue_style( 'bp_groups_admin_css', $bp->plugin_url . "bp-groups/admin/css/admin.{$min}css", array(), bp_get_version() );
-
 	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
 		'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' ),
 		'warn_on_leave'          => __( 'If you leave this page, you will lose any unsaved changes you have made to the group.', 'buddypress' ),
 	) );
+	wp_enqueue_style( 'bp_groups_admin_css', $bp->plugin_url . "bp-groups/admin/css/admin.{$min}css", array(), bp_get_version() );
+
+	wp_style_add_data( 'bp_groups_admin_css', 'rtl', true );
+	if ( $min ) {
+		wp_style_add_data( 'bp_groups_admin_css', 'suffix', $min );
+	}
+
 
 	if ( $doaction && 'save' == $doaction ) {
 		// Get group ID
@@ -560,8 +565,9 @@ function bp_groups_admin_edit() {
  */
 function bp_groups_admin_delete() {
 
-	if ( ! is_super_admin() )
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		die( '-1' );
+	}
 
 	$group_ids = isset( $_REQUEST['gid'] ) ? $_REQUEST['gid'] : 0;
 	if ( ! is_array( $group_ids ) ) {
@@ -944,10 +950,10 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
 	) );
 
 	$viewing_text = sprintf(
-		__( 'Viewing %1$s - %2$s of %3$s', 'buddypress' ),
+		_n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $query->total_users, 'buddypress' ),
 		number_format_i18n( $current_page_start ),
 		number_format_i18n( $current_page_end ),
-		sprintf( _n( '%s member', '%s members', $query->total_users, 'buddypress' ), $query->total_users )
+		(int) $query->total_users
 	);
 
 	$pagination .= '<span class="bp-group-admin-pagination-viewing">' . $viewing_text . '</span>';
@@ -984,41 +990,38 @@ function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
 function bp_groups_admin_autocomplete_handler() {
 
 	// Bail if user user shouldn't be here, or is a large network
-	if ( ! current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) )
+	if ( ! current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) ) {
 		wp_die( -1 );
-
-	$return = array();
-
-	// Exclude current group members
-	$group_id = isset( $_GET['group_id'] ) ? wp_parse_id_list( $_GET['group_id'] ) : array();
-	$group_member_query = new BP_Group_Member_Query( array(
-		'group_id'        => $group_id,
-		'per_page'        => 0, // show all
-		'group_role'      => array( 'member', 'mod', 'admin', ),
-		'populate_extras' => false,
-		'count_total'     => false,
-	) );
-
-	$group_members = ! empty( $group_member_query->results ) ? wp_list_pluck( $group_member_query->results, 'ID' ) : array();
-
-	$terms = isset( $_GET['term'] ) ? $_GET['term'] : '';
-	$users = bp_core_get_users( array(
-		'type'            => 'alphabetical',
-		'search_terms'    => $terms,
-		'exclude'         => $group_members,
-		'per_page'        => 10,
-		'populate_extras' => false
-	) );
-
-	foreach ( (array) $users['users'] as $user ) {
-		$return[] = array(
-			/* translators: 1: user_login, 2: user_email */
-			'label' => sprintf( __( '%1$s (%2$s)', 'buddypress' ), bp_is_username_compatibility_mode() ? $user->user_login : $user->user_nicename, $user->user_email ),
-			'value' => $user->user_nicename,
-		);
 	}
 
-	wp_die( json_encode( $return ) );
+	$term     = isset( $_GET['term'] )     ? sanitize_text_field( $_GET['term'] ) : '';
+	$group_id = isset( $_GET['group_id'] ) ? absint( $_GET['group_id'] )          : 0;
+
+	if ( ! $term || ! $group_id ) {
+		wp_die( -1 );
+	}
+
+	$suggestions = bp_core_get_suggestions( array(
+		'group_id' => -$group_id,  // A negative value will exclude this group's members from the suggestions.
+		'limit'    => 10,
+		'term'     => $term,
+		'type'     => 'members',
+	) );
+
+	$matches = array();
+
+	if ( $suggestions && ! is_wp_error( $suggestions ) ) {
+		foreach ( $suggestions as $user ) {
+
+			$matches[] = array(
+				// translators: 1: user_login, 2: user_email
+				'label' => sprintf( __( '%1$s (%2$s)', 'buddypress' ), $user->name, $user->ID ),
+				'value' => $user->ID,
+			);
+		}
+	}
+
+	wp_die( json_encode( $matches ) );
 }
 add_action( 'wp_ajax_bp_group_admin_member_autocomplete', 'bp_groups_admin_autocomplete_handler' );
 
@@ -1035,7 +1038,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * e.g. "All", "Pending", "Approved", "Spam"...
 	 *
 	 * @since BuddyPress (1.7.0)
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1045,7 +1047,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Group counts for each group type.
 	 *
 	 * @since BuddyPress (1.7.0)
-	 *
 	 * @access public
 	 * @var int
 	 */
@@ -1406,16 +1407,20 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$actions = apply_filters( 'bp_groups_admin_comment_row_actions', array_filter( $actions ), $item );
 
 		// Get group name and avatar
-		$avatar  = bp_core_fetch_avatar( array(
-			'item_id'    => $item['id'],
-			'object'     => 'group',
-			'type'       => 'thumb',
-			'avatar_dir' => 'group-avatars',
-			'alt'        => sprintf( __( 'Group logo of %s', 'buddypress' ), $group_name ),
-			'width'      => '32',
-			'height'     => '32',
-			'title'      => $group_name
-		) );
+		$avatar = '';
+
+		if ( buddypress()->avatar->show_avatars ) {
+			$avatar  = bp_core_fetch_avatar( array(
+				'item_id'    => $item['id'],
+				'object'     => 'group',
+				'type'       => 'thumb',
+				'avatar_dir' => 'group-avatars',
+				'alt'        => sprintf( __( 'Group logo of %s', 'buddypress' ), $group_name ),
+				'width'      => '32',
+				'height'     => '32',
+				'title'      => $group_name
+			) );
+		}
 
 		$content = sprintf( '<strong><a href="%s">%s</a></strong>', esc_url( $edit_url ), $group_name );
 

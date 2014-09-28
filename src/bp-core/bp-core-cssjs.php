@@ -10,36 +10,62 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Register scripts commonly used by BuddyPress plugins and themes.
+ * Register scripts commonly used by BuddyPress.
  *
  * @since BuddyPress (2.1.0)
  */
 function bp_core_register_common_scripts() {
-
-	// Whether or not to use minified versions
-	$min  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
-
-	// Get the version for busting caches
-	$ver  = bp_get_version();
-
-	// Get the common core JS URL
-	$url  = buddypress()->plugin_url . 'bp-core/js/';
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	$url = buddypress()->plugin_url . 'bp-core/js/';
 	
-	// Array of common scripts
 	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
-		'bp-confirm'          => 'confirm',
-		'bp-widget-members'   => 'widget-members',
-		'bp-jquery-query'     => 'jquery-query',
-		'bp-jquery-cookie'    => 'jquery-cookie',
-		'bp-jquery-scroll-to' => 'jquery-scroll-to',
+
+		// Legacy
+		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js",        'dependencies' => array( 'jquery' ) ),
+		'bp-widget-members' => array( 'file' => "{$url}widget-members{$min}.js", 'dependencies' => array( 'jquery' ) ),
+		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js",   'dependencies' => array( 'jquery' ) ),
+		'bp-jquery-cookie'  => array( 'file' => "{$url}jquery-cookie{$min}.js",  'dependencies' => array( 'jquery' ) ),
+
+		// 2.1
+		'jquery-caret' => array( 'file' => "{$url}jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ) ),
+		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ) ),
 	) );
 
-	// Register scripts commonly used by BuddyPress themes
-	foreach ( $scripts as $id => $file ) {
-		wp_register_script( $id, $url . $file . $min, array( 'jquery' ), $ver );
+	$version = bp_get_version();
+	foreach ( $scripts as $id => $script ) {
+		wp_register_script( $id, $script['file'], $script['dependencies'], $version );
 	}
 }
-add_action( 'bp_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
+add_action( 'bp_enqueue_scripts',       'bp_core_register_common_scripts', 1 );
+add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
+
+/**
+ * Register styles commonly used by BuddyPress.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_core_register_common_styles() {
+	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	$url = buddypress()->plugin_url . 'bp-core/css/';
+
+	$styles = apply_filters( 'bp_core_register_common_styles', array(
+		'bp-admin-bar' => array(
+			'file'         => apply_filters( 'bp_core_admin_bar_css', "{$url}admin-bar{$min}.css" ),
+			'dependencies' => array( 'admin-bar' )
+		)
+	) );
+
+	foreach ( $styles as $id => $style ) {
+		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
+
+		wp_style_add_data( $id, 'rtl', true );
+		if ( $min ) {
+			wp_style_add_data( $id, 'suffix', $min );
+		}
+	}
+}
+add_action( 'bp_enqueue_scripts',       'bp_core_register_common_styles', 1 );
+add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_styles', 1 );
 
 /**
  * Load the JS for "Are you sure?" .confirm links.
@@ -76,10 +102,11 @@ function bp_core_add_cropper_inline_js() {
 
 	// Bail if no image was uploaded
 	$image = apply_filters( 'bp_inline_cropper_image', getimagesize( bp_core_avatar_upload_path() . buddypress()->avatar_admin->image->dir ) );
-	if ( empty( $image ) )
+	if ( empty( $image ) ) {
 		return;
+	}
 
-	//
+	// Get avatar full width and height
 	$full_height = bp_core_avatar_full_height();
 	$full_width  = bp_core_avatar_full_width();
 
@@ -91,20 +118,52 @@ function bp_core_add_cropper_inline_js() {
 	}
 
 	// Default cropper coordinates
-	$crop_left   = round( $image[0] / 4 );
-	$crop_top    = round( $image[1] / 4 );
-	$crop_right  = $image[0] - $crop_left;
-	$crop_bottom = $image[1] - $crop_top; ?>
+
+	// Smaller than full-width: cropper defaults to entire image
+	if ( $image[0] < $full_width ) {
+		$crop_left  = 0;
+		$crop_right = $image[0];
+
+	// Less than 2x full-width: cropper defaults to full-width
+	} else if ( $image[0] < ( $full_width * 2 ) ) {
+		$padding_w  = round( ( $image[0] - $full_width ) / 2 );
+		$crop_left  = $padding_w;
+		$crop_right = $image[0] - $padding_w;
+
+	// Larger than 2x full-width: cropper defaults to 1/2 image width
+	} else {
+		$crop_left  = round( $image[0] / 4 );
+		$crop_right = $image[0] - $crop_left;
+	}
+
+	// Smaller than full-height: cropper defaults to entire image
+	if ( $image[1] < $full_height ) {
+		$crop_top    = 0;
+		$crop_bottom = $image[1];
+
+	// Less than double full-height: cropper defaults to full-height
+	} else if ( $image[1] < ( $full_height * 2 ) ) {
+		$padding_h   = round( ( $image[1] - $full_height ) / 2 );
+		$crop_top    = $padding_h;
+		$crop_bottom = $image[1] - $padding_h;
+
+	// Larger than 2x full-height: cropper defaults to 1/2 image height
+	} else {
+		$crop_top    = round( $image[1] / 4 );
+		$crop_bottom = $image[1] - $crop_top;
+	}
+
+	?>
 
 	<script type="text/javascript">
 		jQuery(window).load( function(){
 			jQuery('#avatar-to-crop').Jcrop({
 				onChange: showPreview,
 				onSelect: updateCoords,
-				aspectRatio: <?php echo $aspect_ratio; ?>,
-				setSelect: [ <?php echo $crop_left; ?>, <?php echo $crop_top; ?>, <?php echo $crop_right; ?>, <?php echo $crop_bottom; ?> ]
+				aspectRatio: <?php echo (int) $aspect_ratio; ?>,
+				setSelect: [ <?php echo (int) $crop_left; ?>, <?php echo (int) $crop_top; ?>, <?php echo (int) $crop_right; ?>, <?php echo (int) $crop_bottom; ?> ]
 			});
-			updateCoords({x: <?php echo $crop_left; ?>, y: <?php echo $crop_top; ?>, w: <?php echo $crop_right; ?>, h: <?php echo $crop_bottom; ?>});
+			updateCoords({x: <?php echo (int) $crop_left; ?>, y: <?php echo (int) $crop_top; ?>, w: <?php echo (int) $crop_right; ?>, h: <?php echo (int) $crop_bottom; ?>});
 		});
 
 		function updateCoords(c) {
@@ -116,14 +175,14 @@ function bp_core_add_cropper_inline_js() {
 
 		function showPreview(coords) {
 			if ( parseInt(coords.w) > 0 ) {
-				var fw = <?php echo $full_width; ?>;
-				var fh = <?php echo $full_height; ?>;
+				var fw = <?php echo (int) $full_width; ?>;
+				var fh = <?php echo (int) $full_height; ?>;
 				var rx = fw / coords.w;
 				var ry = fh / coords.h;
 
 				jQuery( '#avatar-crop-preview' ).css({
-					width: Math.round(rx * <?php echo $image[0]; ?>) + 'px',
-					height: Math.round(ry * <?php echo $image[1]; ?>) + 'px',
+					width: Math.round(rx * <?php echo (int) $image[0]; ?>) + 'px',
+					height: Math.round(ry * <?php echo (int) $image[1]; ?>) + 'px',
 					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
 				});

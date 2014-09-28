@@ -66,6 +66,7 @@ add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
  */
 add_action( 'bp_init', 'bp_core_set_uri_globals',    2  );
 add_action( 'bp_init', 'bp_setup_globals',           4  );
+add_action( 'bp_init', 'bp_setup_canonical_stack',   5  );
 add_action( 'bp_init', 'bp_setup_nav',               6  );
 add_action( 'bp_init', 'bp_setup_title',             8  );
 add_action( 'bp_init', 'bp_core_load_admin_bar_css', 12 );

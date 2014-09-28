@@ -110,10 +110,10 @@ function bp_groups_filter_kses( $content = '' ) {
 	return wp_kses( $content, $tags );
 }
 
-/** Group forums **************************************************************/
+/** Legacy group forums (bbPress 1.x) *****************************************/
 
 /**
- * Only filter the forum SQL on group pages or on the forums directory
+ * Filter bbPress query SQL when on group pages or on forums directory.
  */
 function groups_add_forum_privacy_sql() {
 	add_filter( 'get_topics_fields', 'groups_add_forum_fields_sql' );
@@ -122,11 +122,23 @@ function groups_add_forum_privacy_sql() {
 }
 add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
 
+/**
+ * Add fields to bbPress query for group-specific data.
+ *
+ * @param string $sql
+ * @return string
+ */
 function groups_add_forum_fields_sql( $sql = '' ) {
 	$sql = 't.*, g.id as object_id, g.name as object_name, g.slug as object_slug';
 	return $sql;
 }
 
+/**
+ * Add JOINed tables to bbPress query for group-specific data.
+ *
+ * @param string $sql
+ * @return string
+ */
 function groups_add_forum_tables_sql( $sql = '' ) {
 	global $bp;
 
@@ -135,6 +147,12 @@ function groups_add_forum_tables_sql( $sql = '' ) {
 	return $sql;
 }
 
+/**
+ * Add WHERE clauses to bbPress query for group-specific data and access protection.
+ *
+ * @param string $sql
+ * @return string
+ */
 function groups_add_forum_where_sql( $sql = '' ) {
 	global $bp;
 
@@ -178,6 +196,14 @@ function groups_add_forum_where_sql( $sql = '' ) {
 	return $bp->groups->filter_sql;
 }
 
+/**
+ * Modify bbPress caps for bp-forums.
+ *
+ * @param bool $value
+ * @param string $cap
+ * @param array $args
+ * @return bool
+ */
 function groups_filter_bbpress_caps( $value, $cap, $args ) {
 	global $bp;
 
@@ -195,11 +221,13 @@ function groups_filter_bbpress_caps( $value, $cap, $args ) {
 add_filter( 'bb_current_user_can', 'groups_filter_bbpress_caps', 10, 3 );
 
 /**
- * Amends the forum directory's "last active" bbPress SQL query to stop it fetching
- * information we aren't going to use. This speeds up the query.
+ * Amends the forum directory's "last active" bbPress SQL query to stop it fetching information we aren't going to use.
+ *
+ * This speeds up the query.
+ *
+ * @since BuddyPress (1.5.0)
  *
  * @see BB_Query::_filter_sql()
- * @since BuddyPress (1.5)
  */
 function groups_filter_forums_root_page_sql( $sql ) {
 	return apply_filters( 'groups_filter_bbpress_root_page_sql', 't.topic_id' );

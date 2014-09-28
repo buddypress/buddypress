@@ -210,4 +210,123 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$this->assertEquals( array( $s2 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
 	}
+
+	/**
+	 * @group activate
+	 */
+	public function test_activate_user_accounts() {
+		$signups = array();
+
+		$signups['accountone'] = $this->factory->signup->create( array(
+			'user_login'     => 'accountone',
+			'user_email'     => 'accountone@example.com',
+			'activation_key' => 'activationkeyone',
+		) );
+
+		$signups['accounttwo'] = $this->factory->signup->create( array(
+			'user_login'     => 'accounttwo',
+			'user_email'     => 'accounttwo@example.com',
+			'activation_key' => 'activationkeytwo',
+		) );
+
+		$signups['accountthree'] = $this->factory->signup->create( array(
+			'user_login'     => 'accountthree',
+			'user_email'     => 'accountthree@example.com',
+			'activation_key' => 'activationkeythree',
+		) );
+
+		$results = BP_Signup::activate( $signups );
+		$this->assertNotEmpty( $results['activated'] );
+
+		$users = array();
+
+		foreach ( $signups as $login => $signup_id  ) {
+			$users[ $login ] = get_user_by( 'login', $login );
+		}
+
+		$this->assertEqualSets( $results['activated'], wp_list_pluck( $users, 'ID' ) );
+	}
+
+	/**
+	 * @group activate
+	 */
+	public function test_activate_user_accounts_with_blogs() {
+		global $wpdb, $current_site, $base;
+
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$signups = array();
+
+		// Can't trust this first signup :(
+		$signups['testpath1'] = $this->factory->signup->create( array(
+			'user_login'     => 'testpath1',
+			'user_email'     => 'blogone@example.com',
+			'domain'         => '',
+			'path'           => '',
+			'title'          => '',
+			'activation_key' => 'activationkeyblogone',
+		) );
+
+		$signups['blogtwo'] = $this->factory->signup->create( array(
+			'user_login'     => 'blogtwo',
+			'user_email'     => 'blogtwo@example.com',
+			'domain'         => $current_site->domain,
+			'path'           => $base . 'blogtwo',
+			'title'          => 'Blog Two',
+			'activation_key' => 'activationkeyblogtwo',
+		) );
+
+		$signups['blogthree'] = $this->factory->signup->create( array(
+			'user_login'     => 'blogthree',
+			'user_email'     => 'blogthree@example.com',
+			'domain'         => '',
+			'path'           => '',
+			'title'          => '',
+			'activation_key' => 'activationkeyblogthree',
+		) );
+
+		$signups['blogfour'] = $this->factory->signup->create( array(
+			'user_login'     => 'blogfour',
+			'user_email'     => 'blogfour@example.com',
+			'domain'         => $current_site->domain,
+			'path'           => $base . 'blogfour',
+			'title'          => 'Blog Four',
+			'activation_key' => 'activationkeyblogfour',
+		) );
+
+		// Neutralize db errors
+		$suppress = $wpdb->suppress_errors();
+
+		$results = BP_Signup::activate( $signups );
+
+		$wpdb->suppress_errors( $suppress );
+
+		$this->assertNotEmpty( $results['activated'] );
+
+		$users  = array();
+
+		foreach ( $signups as $login => $signup_id  ) {
+			$users[ $login ] = get_user_by( 'login', $login );
+		}
+
+		$this->assertEqualSets( $results['activated'], wp_list_pluck( $users, 'ID' ) );
+
+		$blogs = array();
+
+		foreach ( $users as $path => $user  ) {
+			// Can't trust this first signup :(
+			if ( 'testpath1' == $path ) {
+				continue;
+			}
+
+			$blogs[ $path ] = get_active_blog_for_user( $user->ID );
+		}
+
+		$blogs = array_filter( $blogs );
+		$blogs = array_map( 'basename', wp_list_pluck( $blogs, 'path' ) );
+
+		$this->assertEqualSets( $blogs, array_keys( $blogs ) );
+	}
 }

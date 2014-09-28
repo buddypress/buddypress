@@ -278,7 +278,7 @@ class BP_Members_Admin {
 			case 'avatar':
 				$notice = array(
 					'class'   => 'updated',
-					'message' => __( 'Avatar was deleted successfully!', 'buddypress' )
+					'message' => __( 'Profile photo was deleted.', 'buddypress' )
 				);
 				break;
 			case 'ham' :
@@ -548,10 +548,15 @@ class BP_Members_Admin {
 		}
 
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 		$css = $this->css_url . "admin{$min}.css";
 		$css = apply_filters( 'bp_members_admin_css', $css );
+
 		wp_enqueue_style( 'bp-members-css', $css, array(), bp_get_version() );
+
+		wp_style_add_data( 'bp-members-css', 'rtl', true );
+		if ( $min ) {
+			wp_style_add_data( 'bp-members-css', 'suffix', $min );
+		}
 
 		// Only load javascript for BuddyPress profile
 		if ( get_current_screen()->id == $this->user_page ) {
@@ -1130,21 +1135,29 @@ class BP_Members_Admin {
 		global $wpdb;
 
 		// Bail if this is an ajax request
-		if ( defined( 'DOING_AJAX' ) )
+		if ( defined( 'DOING_AJAX' ) ) {
 			return;
+		}
 
+		// Bail if updating BuddyPress
 		if ( bp_is_update() ) {
 			return;
 		}
 
-		if ( ! function_exists( 'get_current_screen' ) ) {
+		// Bail if there is no current admin screen
+		if ( ! function_exists( 'get_current_screen' ) || ! get_current_screen() ) {
 			return;
 		}
 
-		if ( $this->users_page != get_current_screen()->id ) {
+		// Get current screen
+		$current_screen = get_current_screen();
+
+		// Bail if not on a users page
+		if ( ! isset( $current_screen->id ) || $this->users_page !== $current_screen->id ) {
 			return;
 		}
 
+		// Bail if already querying by an existing role
 		if ( ! empty( $query->query_vars['role'] ) ) {
 			return;
 		}

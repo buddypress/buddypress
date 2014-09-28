@@ -1,3 +1,4 @@
+/* jshint undef: false, unused:false */
 // AJAX Functions
 var jq = jQuery;
 
@@ -182,7 +183,7 @@ jq(document).ready( function() {
 
 				if ( 0 !== jq('#latest-update').length ) {
 					var l   = jq('#activity-stream li.new-update .activity-content .activity-inner p').html(),
-						v     = jq('#activity-stream li.new-update .activity-content .activity-header p a.view').attr('href').
+						v     = jq('#activity-stream li.new-update .activity-content .activity-header p a.view').attr('href'),
 						ltext = jq('#activity-stream li.new-update .activity-content .activity-inner p').text(),
 						u     = '';
 
@@ -416,12 +417,20 @@ jq(document).ready( function() {
 				just_posted.push( jq(this).attr('id').replace( 'activity-','' ) );
 			});
 
-			bp_ajax_request = jq.post( ajaxurl, {
+			load_more_args = {
 				action: 'activity_get_older_updates',
 				'cookie': bp_get_cookies(),
 				'page': oldest_page,
 				'exclude_just_posted': just_posted.join(',')
-			},
+			};
+
+			load_more_search = bp_get_querystring('s');
+
+			if ( load_more_search ) {
+				load_more_args.search_terms = load_more_search;
+			}
+
+			bp_ajax_request = jq.post( ajaxurl, load_more_args,
 			function(response)
 			{
 				jq('#buddypress li.load-more').removeClass('loading');
@@ -931,7 +940,7 @@ jq(document).ready( function() {
 
 			// Search terms
 			if ( jq('div.dir-search input').length ) {
-				search_terms = jq('.dir-search input').val();
+				search_terms =  jq('.dir-search input').prop('placeholder') ? jq('.dir-search input').prop('placeholder') : jq('.dir-search input').val();
 			}
 
 			// The Group Members page has a different selector for
@@ -1612,6 +1621,12 @@ jq(document).ready( function() {
 		}
 
 		data.bp_activity_last_recorded = activity_last_recorded;
+
+		last_recorded_search = bp_get_querystring('s');
+
+		if ( last_recorded_search ) {
+			data.bp_activity_last_recorded_search_terms = last_recorded_search;
+		}
 	});
 
 	// Increment newest_activities and activity_last_recorded if data has been returned
@@ -1673,10 +1688,6 @@ function bp_init_objects(objects) {
 function bp_filter_request( object, filter, scope, target, search_terms, page, extras, caller, template ) {
 	if ( 'activity' === object ) {
 		return false;
-	}
-
-	if ( bp_get_querystring('s') && !search_terms ) {
-		search_terms = bp_get_querystring('s');
 	}
 
 	if ( null === scope ) {

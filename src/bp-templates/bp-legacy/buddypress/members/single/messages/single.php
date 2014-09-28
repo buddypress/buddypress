@@ -28,7 +28,7 @@
 
 		<?php while ( bp_thread_messages() ) : bp_thread_the_message(); ?>
 
-			<div class="message-box <?php bp_the_thread_message_alt_class(); ?>">
+			<div class="message-box <?php bp_the_thread_message_css_class(); ?>">
 
 				<div class="message-metadata">
 

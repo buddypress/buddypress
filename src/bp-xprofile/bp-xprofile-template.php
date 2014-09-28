@@ -25,7 +25,7 @@ class BP_XProfile_Data_Template {
 	var $user_id;
 
 	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false, $fetch_visibility_level = false, $update_meta_cache = true ) {
-		$this->groups = BP_XProfile_Group::get( array(
+		$this->groups = bp_xprofile_get_groups( array(
 			'profile_group_id'    => $profile_group_id,
 			'user_id'             => $user_id,
 			'hide_empty_groups'   => $hide_empty_groups,
@@ -142,9 +142,14 @@ class BP_XProfile_Data_Template {
 
 		$field = $this->next_field();
 
-		$value = !empty( $field->data ) && !empty( $field->data->value ) ? maybe_unserialize( $field->data->value ) : false;
+		// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
+		if ( ! empty( $field->data ) && ( ! empty( $field->data->value ) || '0' == $field->data->value ) ) {
+			$value = maybe_unserialize( $field->data->value );
+		} else {
+			$value = false;
+		}
 
-		if ( !empty( $value ) ) {
+		if ( ! empty( $value ) || '0' == $value ) {
 			$this->field_has_data = true;
 		} else {
 			$this->field_has_data = false;
@@ -217,6 +222,16 @@ function bp_field_css_class( $class = false ) {
 
 		// Set a class with the field name (sanitized)
 		$css_classes[] = 'field_' . sanitize_title( $profile_template->field->name );
+
+		// Set a class indicating whether the field is required or optional
+		if ( ! empty( $profile_template->field->is_required ) ) {
+			$css_classes[] = 'required-field';
+		} else {
+			$css_classes[] = 'optional-field';
+		}
+
+		// Add the field visibility level
+		$css_classes[] = 'visibility-' . esc_attr( bp_get_the_profile_field_visibility_level() );
 
 		if ( $profile_template->current_field % 2 == 1 )
 			$css_classes[] = 'alt';
@@ -297,6 +312,36 @@ function bp_the_profile_group_field_ids() {
 		}
 
 		return substr( $field_ids, 0, -1 );
+	}
+
+/**
+ * Output a comma-separated list of field IDs that are to be submitted on profile edit.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_the_profile_field_ids() {
+	echo bp_get_the_profile_field_ids();
+}
+	/**
+	 * Generate a comma-separated list of field IDs that are to be submitted on profile edit.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_profile_field_ids() {
+		global $profile_template;
+
+		$field_ids = array();
+		foreach ( $profile_template->groups as $group ) {
+			if ( ! empty( $group->fields ) ) {
+				$field_ids = array_merge( $field_ids, wp_list_pluck( $group->fields, 'id' ) );
+			}
+		}
+
+		$field_ids = implode( ',', wp_parse_id_list( $field_ids ) );
+
+		return apply_filters( 'bp_get_the_profile_field_ids', $field_ids );
 	}
 
 function bp_profile_fields() {
@@ -574,13 +619,45 @@ function bp_profile_field_data( $args = '' ) {
 		return apply_filters( 'bp_get_profile_field_data', xprofile_get_field_data( $field, $user_id ) );
 	}
 
+/**
+ * Get all profile field groups.
+ *
+ * @since  BuddyPress (2.1.0)
+ *
+ * @return object $groups
+ */
+function bp_profile_get_field_groups() {
+	$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' );
+
+	if ( empty( $groups ) ) {
+		$groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
+		wp_cache_set( 'xprofile_groups_inc_empty', $groups, 'bp' );
+	}
+
+	return apply_filters( 'bp_profile_get_field_groups', $groups );
+}
+
+/**
+ * Check if there is more than one group of fields for the profile being edited.
+ *
+ * @since  BuddyPress (2.1.0)
+ *
+ * @return bool True if there is more than one profile field group.
+ */
+function bp_profile_has_multiple_groups() {
+	$has_multiple_groups = count( (array) bp_profile_get_field_groups() ) > 1;
+	return (bool) apply_filters( 'bp_profile_has_multiple_groups', $has_multiple_groups );
+}
+
+/**
+ * Output the tabs to switch between profile field groups.
+ *
+ * @return string Field group tabs markup.
+ */
 function bp_profile_group_tabs() {
 	global $bp, $group_name;
 
-	if ( !$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' ) ) {
-		$groups = BP_XProfile_Group::get( array( 'fetch_fields' => true ) );
-		wp_cache_set( 'xprofile_groups_inc_empty', $groups, 'bp' );
-	}
+	$groups = bp_profile_get_field_groups();
 
 	if ( empty( $group_name ) )
 		$group_name = bp_profile_group_name(false);
@@ -626,15 +703,6 @@ function bp_profile_group_name( $deprecated = true ) {
 
 		return apply_filters( 'bp_get_profile_group_name', $group->name );
 	}
-
-function bp_avatar_upload_form() {
-	global $bp;
-
-	if ( !(int) $bp->site_options['bp-disable-avatar-uploads'] )
-		bp_core_avatar_admin( null, bp_loggedin_user_domain() . $bp->profile->slug . '/change-avatar/', bp_loggedin_user_domain() . $bp->profile->slug . '/delete-avatar/' );
-	else
-		_e( 'Avatar uploads are currently disabled. Why not use a <a href="http://gravatar.com" target="_blank">gravatar</a> instead?', 'buddypress' );
-}
 
 function bp_profile_last_updated() {
 
@@ -708,7 +776,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 			'field_id'     => bp_get_the_profile_field_id(),
 			'before'       => '<ul class="radio">',
 			'after'        => '</ul>',
-			'before_radio' => '<li>',
+			'before_radio' => '<li class="%s">',
 			'after_radio'  => '</li>',
 			'class'        => 'bp-xprofile-visibility'
 		), 'xprofile_visibility_radio_buttons' );
@@ -729,7 +797,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 
 				<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
-					<?php echo $r['before_radio']; ?>
+					<?php printf( $r['before_radio'], esc_attr( $level['id'] ) ); ?>
 
 					<label for="<?php echo esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>">
 						<input type="radio" id="<?php echo esc_attr( 'see-field_' . $r['field_id'] . '_' . $level['id'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] . '_visibility' ); ?>" value="<?php echo esc_attr( $level['id'] ); ?>" <?php checked( $level['id'], bp_get_the_profile_field_visibility_level() ); ?> />

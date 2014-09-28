@@ -96,6 +96,9 @@ add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
 add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 add_filter( 'bp_get_activity_content',      'bp_activity_truncate_entry', 5 );
 
+add_filter( 'bp_get_total_favorite_count_for_user', 'bp_core_number_format' );
+add_filter( 'bp_get_total_mention_count_for_user',  'bp_core_number_format' );
+
 /** Actions *******************************************************************/
 
 // At-name filter
@@ -174,11 +177,13 @@ function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
 
 	$activity_allowedtags = $allowedtags;
-	$activity_allowedtags['span']          = array();
-	$activity_allowedtags['span']['class'] = array();
 	$activity_allowedtags['a']['class']    = array();
 	$activity_allowedtags['a']['id']       = array();
 	$activity_allowedtags['a']['rel']      = array();
+	$activity_allowedtags['a']['title']    = array();
+	$activity_allowedtags['b']             = array();
+	$activity_allowedtags['code']          = array();
+	$activity_allowedtags['i']             = array();
 	$activity_allowedtags['img']           = array();
 	$activity_allowedtags['img']['src']    = array();
 	$activity_allowedtags['img']['alt']    = array();
@@ -187,7 +192,9 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['img']['class']  = array();
 	$activity_allowedtags['img']['id']     = array();
 	$activity_allowedtags['img']['title']  = array();
-	$activity_allowedtags['code']          = array();
+	$activity_allowedtags['span']          = array();
+	$activity_allowedtags['span']['class'] = array();
+
 
 	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
 	return wp_kses( $content, $activity_allowedtags );
@@ -456,7 +463,7 @@ function bp_activity_timestamp_class( $classes = '' ) {
 	if ( empty( $activity_date ) ) {
 		return $classes;
 	}
-	
+
 	$classes .= ' date-recorded-' . strtotime( $activity_date );
 
 	return $classes;
@@ -488,6 +495,10 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 		array( 'since' => date( 'Y-m-d H:i:s', $data['bp_activity_last_recorded'] ) ),
 		'activity_latest_args'
 	);
+
+	if ( ! empty( $data['bp_activity_last_recorded_search_terms'] ) && empty( $activity_latest_args['search_terms'] ) ) {
+		$activity_latest_args['search_terms'] = addslashes( $data['bp_activity_last_recorded_search_terms'] );
+	}
 
 	$newest_activities = array();
 	$last_activity_recorded = 0;

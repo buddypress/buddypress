@@ -199,16 +199,19 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @uses wp_enqueue_style() To enqueue the styles
 	 */
 	public function enqueue_styles() {
-
-		// LTR or RTL
-		$file = is_rtl() ? 'buddypress-rtl.css' : 'buddypress.css';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Locate the BP stylesheet
-		$asset = $this->locate_asset_in_stack( $file, 'css' );
+		$asset = $this->locate_asset_in_stack( "buddypress{$min}.css", 'css' );
 
 		// Enqueue BuddyPress-specific styling, if found
 		if ( isset( $asset['location'], $asset['handle'] ) ) {
 			wp_enqueue_style( $asset['handle'], $asset['location'], array(), $this->version, 'screen' );
+
+			wp_style_add_data( $asset['handle'], 'rtl', true );
+			if ( $min ) {
+				wp_style_add_data( $asset['handle'], 'suffix', $min );
+			}
 		}
 	}
 
@@ -218,11 +221,10 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @since BuddyPress (1.7)
 	 */
 	public function enqueue_scripts() {
-
-		$file = 'buddypress.js';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Locate the BP JS file
-		$asset = $this->locate_asset_in_stack( $file, 'js' );
+		$asset = $this->locate_asset_in_stack( "buddypress{$min}.js", 'js' );
 
 		// Enqueue the global JS, if found - AJAX will not work
 		// without it
@@ -252,6 +254,20 @@ class BP_Legacy extends BP_Theme_Compat {
 		// Maybe enqueue comment reply JS
 		if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
+		}
+
+		// Maybe enqueue password verify JS (register page or user settings page)
+		if ( bp_is_register_page() || ( function_exists( 'bp_is_user_settings_general' ) && bp_is_user_settings_general() ) ) {
+
+			// Locate the Register Page JS file
+			$asset = $this->locate_asset_in_stack( "password-verify{$min}.js", 'js' );
+
+			$dependencies = array_merge( bp_core_get_js_dependencies(), array(
+				'password-strength-meter',
+			) );
+
+			// Enqueue script
+			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version);
 		}
 	}
 
@@ -520,7 +536,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 
 	$object_search_text = bp_get_search_default_text( $object );
  	if ( ! empty( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )
-		$qs[] = 'search_terms=' . $_POST['search_terms'];
+		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
 
 	// Now pass the querystring to override default values.
 	$query_string = empty( $qs ) ? '' : join( '&', (array) $qs );
@@ -704,7 +720,7 @@ function bp_legacy_theme_post_update() {
 	}
 
 	if ( empty( $activity_id ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update, please try again.', 'buddypress' ) . '</p></div>' );
+		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update; please try again.', 'buddypress' ) . '</p></div>' );
 
 	$last_recorded = ! empty( $_POST['since'] ) ? date( 'Y-m-d H:i:s', intval( $_POST['since'] ) ) : 0;
 	if ( $last_recorded ) {
@@ -739,21 +755,29 @@ function bp_legacy_theme_post_update() {
 function bp_legacy_theme_new_activity_comment() {
 	global $activities_template;
 
+	$bp = buddypress();
+
 	// Bail if not a POST action
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 		return;
+	}
 
 	// Check the nonce
 	check_admin_referer( 'new_activity_comment', '_wpnonce_new_activity_comment' );
 
-	if ( ! is_user_logged_in() )
+	if ( ! is_user_logged_in() ) {
 		exit( '-1' );
+	}
 
-	if ( empty( $_POST['content'] ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'Please do not leave the comment area blank.', 'buddypress' ) . '</p></div>' );
+	$feedback = __( 'There was an error posting your reply. Please try again.', 'buddypress' );
 
-	if ( empty( $_POST['form_id'] ) || empty( $_POST['comment_id'] ) || ! is_numeric( $_POST['form_id'] ) || ! is_numeric( $_POST['comment_id'] ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>' );
+	if ( empty( $_POST['content'] ) ) {
+		exit( '-1<div id="message" class="error"><p>' . esc_html__( 'Please do not leave the comment area blank.', 'buddypress' ) . '</p></div>' );
+	}
+
+	if ( empty( $_POST['form_id'] ) || empty( $_POST['comment_id'] ) || ! is_numeric( $_POST['form_id'] ) || ! is_numeric( $_POST['comment_id'] ) ) {
+		exit( '-1<div id="message" class="error"><p>' . esc_html( $feedback ) . '</p></div>' );
+	}
 
 	$comment_id = bp_activity_new_comment( array(
 		'activity_id' => $_POST['form_id'],
@@ -761,11 +785,17 @@ function bp_legacy_theme_new_activity_comment() {
 		'parent_id'   => $_POST['comment_id'],
 	) );
 
-	if ( ! $comment_id )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was an error posting that reply, please try again.', 'buddypress' ) . '</p></div>' );
+	if ( ! $comment_id ) {
+		if ( ! empty( $bp->activity->errors['new_comment'] ) && is_wp_error( $bp->activity->errors['new_comment'] ) ) {
+			$feedback = $bp->activity->errors['new_comment']->get_error_message();
+			unset( $bp->activity->errors['new_comment'] );
+		}
+
+		exit( '-1<div id="message" class="error"><p>' . esc_html( $feedback ) . '</p></div>' );
+	}
 
 	// Load the new activity item into the $activities_template global
-	bp_has_activities( 'display_comments=stream&hide_spam=false&include=' . $comment_id );
+	bp_has_activities( 'display_comments=stream&hide_spam=false&show_hidden=true&include=' . $comment_id );
 
 	// Swap the current comment with the activity item we just loaded
 	if ( isset( $activities_template->activities[0] ) ) {
@@ -776,11 +806,11 @@ function bp_legacy_theme_new_activity_comment() {
 		// Because the whole tree has not been loaded, we manually
 		// determine depth
 		$depth = 1;
-		$parent_id = $activities_template->activities[0]->secondary_item_id;
-		while ( $parent_id !== $activities_template->activities[0]->item_id ) {
+		$parent_id = (int) $activities_template->activities[0]->secondary_item_id;
+		while ( $parent_id !== (int) $activities_template->activities[0]->item_id ) {
 			$depth++;
 			$p_obj = new BP_Activity_Activity( $parent_id );
-			$parent_id = $p_obj->secondary_item_id;
+			$parent_id = (int) $p_obj->secondary_item_id;
 		}
 		$activities_template->activity->current_comment->depth = $depth;
 	}
@@ -1383,70 +1413,34 @@ function bp_legacy_theme_ajax_messages_delete() {
  * @return string HTML.
  */
 function bp_legacy_theme_ajax_messages_autocomplete_results() {
+	$limit = isset( $_GET['limit'] ) ? absint( $_GET['limit'] )          : (int) apply_filters( 'bp_autocomplete_max_results', 10 );
+	$term  = isset( $_GET['q'] )     ? sanitize_text_field( $_GET['q'] ) : '';
 
 	// Include everyone in the autocomplete, or just friends?
-	if ( bp_is_current_component( bp_get_messages_slug() ) )
-		$autocomplete_all = buddypress()->messages->autocomplete_all;
-
-	$pag_page     = 1;
-	$limit        = (int) $_GET['limit'] ? $_GET['limit'] : apply_filters( 'bp_autocomplete_max_results', 10 );
-	$search_terms = isset( $_GET['q'] ) ? $_GET['q'] : '';
-
-	$user_query_args = array(
-		'search_terms' => $search_terms,
-		'page'         => intval( $pag_page ),
-		'per_page'     => intval( $limit ),
-	);
-
-	// If only matching against friends, get an $include param for
-	// BP_User_Query
-	if ( ! $autocomplete_all && bp_is_active( 'friends' ) ) {
-		$include = BP_Friends_Friendship::get_friend_user_ids( bp_loggedin_user_id() );
-
-		// Ensure zero matches if no friends are found
-		if ( empty( $include ) ) {
-			$include = array( 0 );
-		}
-
-		$user_query_args['include'] = $include;
+	if ( bp_is_current_component( bp_get_messages_slug() ) ) {
+		$only_friends = ( buddypress()->messages->autocomplete_all === false );
+	} else {
+		$only_friends = true;
 	}
 
-	$user_query = new BP_User_Query( $user_query_args );
+	$suggestions = bp_core_get_suggestions( array(
+		'limit'        => $limit,
+		'only_friends' => $only_friends,
+		'term'         => $term,
+		'type'         => 'members',
+	) );
 
-	// Backward compatibility - if a plugin is expecting a legacy
-	// filter, pass the IDs through the filter and requery (groan)
-	if ( has_filter( 'bp_core_autocomplete_ids' ) || has_filter( 'bp_friends_autocomplete_ids' ) ) {
-		$found_user_ids = wp_list_pluck( $user_query->results, 'ID' );
-
-		if ( $autocomplete_all ) {
-			$found_user_ids = apply_filters( 'bp_core_autocomplete_ids', $found_user_ids );
-		} else {
-			$found_user_ids = apply_filters( 'bp_friends_autocomplete_ids', $found_user_ids );
-		}
-
-		if ( empty( $found_user_ids ) ) {
-			$found_user_ids = array( 0 );
-		}
-
-		// Repopulate the $user_query variable
-		$user_query = new BP_User_Query( array(
-			'include' => $found_user_ids,
-		) );
-	}
-
-	if ( ! empty( $user_query->results ) ) {
-		foreach ( $user_query->results as $user ) {
-			if ( bp_is_username_compatibility_mode() ) {
-				// Sanitize for spaces. Use urlencode() rather
-				// than rawurlencode() because %20 breaks JS
-				$username = urlencode( $user->user_login );
-			} else {
-				$username = $user->user_nicename;
-			}
+	if ( $suggestions && ! is_wp_error( $suggestions ) ) {
+		foreach ( $suggestions as $user ) {
 
 			// Note that the final line break acts as a delimiter for the
 			// autocomplete javascript and thus should not be removed
-			echo '<span id="link-' . esc_attr( $username ) . '" href="' . bp_core_get_user_domain( $user->ID ) . '"></span>' . bp_core_fetch_avatar( array( 'item_id' => $user->ID, 'type' => 'thumb', 'width' => 15, 'height' => 15, 'alt' => $user->display_name ) ) . ' &nbsp;' . bp_core_get_user_displayname( $user->ID ) . ' (' . esc_html( $username ) . ')' . "\n";
+			printf( '<span id="%s" href="#"></span><img src="%s" style="width: 15px"> &nbsp; %s (%s)' . "\n",
+				esc_attr( 'link-' . $user->ID ),
+				esc_url( $user->image ),
+				esc_html( $user->name ),
+				esc_html( $user->ID )
+			);
 		}
 	}
 

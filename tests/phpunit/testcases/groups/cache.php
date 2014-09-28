@@ -154,4 +154,47 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$this->assertNotEmpty( wp_cache_get( $g1, 'bp_groups' ) );
 		$this->assertNotEmpty( wp_cache_get( $g2, 'bp_groups' ) );
 	}
+
+	/**
+	 * @group groups_get_group_admins
+	 */
+	public function test_groups_get_group_admins_cache() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// prime cache
+		groups_get_group_admins( $g );
+
+		// promote user 2 to an admin
+		bp_update_is_item_admin( true );
+		groups_promote_member( $u2, $g, 'admin' );
+
+		// assert that cache is invalidated
+		$this->assertEmpty( wp_cache_get( $g, 'bp_group_admins' ) );
+
+		// assert new cached value
+		$this->assertEquals( 2, count( groups_get_group_admins( $g ) ) );
+	}
+
+	/**
+	 * @group groups_get_group_admins
+	 */
+	public function test_groups_get_group_admins_cache_on_member_save() {
+		$u1 = $this->create_user();
+		$u2 = $this->create_user();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// prime cache
+		groups_get_group_admins( $g );
+
+		// promote user 2 to an admin via BP_Groups_Member::save()
+		self::add_user_to_group( $u2, $g, array( 'is_admin' => 1 ) );
+
+		// assert that cache is invalidated
+		$this->assertEmpty( wp_cache_get( $g, 'bp_group_admins' ) );
+
+		// assert new cached value
+		$this->assertEquals( 2, count( groups_get_group_admins( $g ) ) );
+	}
 }

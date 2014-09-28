@@ -123,9 +123,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
 	// Trigger the deprecated function notice
 	_deprecated_function( __FUNCTION__, '1.9', 'bp_notifications_get_notifications_for_user()' );
 
-	$renderable = bp_notifications_get_notifications_for_user( $user_id, $format );
-
-	return apply_filters( 'bp_core_get_notifications_for_user', $renderable, $user_id, $format );
+	return bp_notifications_get_notifications_for_user( $user_id, $format );
 }
 
 /** Delete ********************************************************************/

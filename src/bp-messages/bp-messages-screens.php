@@ -44,7 +44,6 @@ function messages_screen_sentbox() {
  * Load the Messages > Compose screen.
  */
 function messages_screen_compose() {
-	global $bp;
 
 	if ( bp_action_variables() ) {
 		bp_do_404();
@@ -68,7 +67,7 @@ function messages_screen_compose() {
 			if ( isset( $_POST['send-notice'] ) ) {
 				if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
 					bp_core_add_message( __( 'Notice sent successfully!', 'buddypress' ) );
-					bp_core_redirect( bp_loggedin_user_domain() . $bp->messages->slug . '/inbox/' );
+					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox/' );
 				} else {
 					bp_core_add_message( __( 'There was an error sending that notice, please try again', 'buddypress' ), 'error' );
 				}
@@ -78,11 +77,16 @@ function messages_screen_compose() {
 				$typed_recipients        = explode( ' ', $_POST['send_to_usernames'] );
 				$recipients              = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
 				$recipients              = apply_filters( 'bp_messages_recipients', $recipients );
+				$thread_id               = messages_new_message( array(
+					'recipients' => $recipients,
+					'subject'    => $_POST['subject'],
+					'content'    => $_POST['content']
+				) );
 
 				// Send the message
-				if ( $thread_id = messages_new_message( array( 'recipients' => $recipients, 'subject' => $_POST['subject'], 'content' => $_POST['content'] ) ) ) {
+				if ( ! empty( $thread_id ) ) {
 					bp_core_add_message( __( 'Message sent successfully!', 'buddypress' ) );
-					bp_core_redirect( bp_loggedin_user_domain() . $bp->messages->slug . '/view/' . $thread_id . '/' );
+					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id . '/' );
 				} else {
 					bp_core_add_message( __( 'There was an error sending that message, please try again', 'buddypress' ), 'error' );
 				}
@@ -103,13 +107,15 @@ function messages_screen_compose() {
 function messages_screen_conversation() {
 
 	// Bail if not viewing a single message
-	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) )
+	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) ) {
 		return false;
+	}
 
 	$thread_id = (int) bp_action_variable( 0 );
 
-	if ( empty( $thread_id ) || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !bp_current_user_can( 'bp_moderate' ) ) )
+	if ( empty( $thread_id ) || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !bp_current_user_can( 'bp_moderate' ) ) ) {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
+	}
 
 	// Load up BuddyPress one time
 	$bp = buddypress();
@@ -131,8 +137,9 @@ add_action( 'bp_screens', 'messages_screen_conversation' );
 function messages_screen_notices() {
 	global $notice_id;
 
-	if ( !bp_current_user_can( 'bp_moderate' ) )
+	if ( !bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
+	}
 
 	$notice_id = (int)bp_action_variable( 1 );
 
@@ -180,8 +187,9 @@ function messages_screen_notification_settings() {
 		return;
 	}
 
-	if ( !$new_messages = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_message', true ) )
-		$new_messages = 'yes'; ?>
+	if ( !$new_messages = bp_get_user_meta( bp_displayed_user_id(), 'notification_messages_new_message', true ) ) {
+		$new_messages = 'yes';
+	} ?>
 
 	<table class="notification-settings" id="messages-notification-settings">
 		<thead>

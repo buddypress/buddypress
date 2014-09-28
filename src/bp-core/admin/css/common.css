@@ -383,7 +383,7 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 
 .bp-badge {
 	font: normal 150px/1 'dashicons' !important;
-	color: #000;
+	color: #D84800;
 	display: inline-block;
 }
 
@@ -396,10 +396,6 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 	top: 0;
 	right: 0;
 }
-	body.rtl .about-wrap .bp-badge {
-		right: auto;
-		left: 0;
-	}
 
 /* HiDPI
 ------------------------------------------------------------------------------*/
@@ -432,11 +428,5 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 	body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image {
 		background-image: url('../images/menu-2x.png') !important;
 		background-size: 209px 64px;
-	}
-
-	/* Badge */
-	.bp-badge {
-		background-image: url('../images/badge-2x.png');
-		background-size: 173px 194px;
 	}
 }

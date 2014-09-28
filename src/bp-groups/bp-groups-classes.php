@@ -158,6 +158,12 @@ class BP_Groups_Group {
 	 *
 	 * @param int $id Optional. If the ID of an existing group is provided,
 	 *        the object will be pre-populated with info about that group.
+	 * @param array $args {
+	 *     Array of optional arguments.
+	 *     @type bool $populate_extras Whether to fetch "extra" data about
+	 *           the group (group admins/mods, access for the current user).
+	 *           Default: false.
+	 * }
 	 */
 	public function __construct( $id = null, $args = array() ) {
 		$this->args = wp_parse_args( $args, array(
@@ -445,7 +451,7 @@ class BP_Groups_Group {
 		if ( empty( $user_id ) )
 			$user_id = bp_displayed_user_id();
 
-		$filter = esc_sql( like_escape( $filter ) );
+		$search_terms_like = bp_esc_like( $filter ) . '%';
 
 		$pag_sql = $order_sql = $hidden_sql = '';
 
@@ -460,8 +466,8 @@ class BP_Groups_Group {
 
 		$gids = esc_sql( implode( ',', wp_parse_id_list( $gids['groups'] ) ) );
 
-		$paged_groups = $wpdb->get_results( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE '{$filter}%%' OR description LIKE '{$filter}%%' ) AND id IN ({$gids}) {$pag_sql}" );
-		$total_groups = $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE ( name LIKE '{$filter}%%' OR description LIKE '{$filter}%%' ) AND id IN ({$gids})" );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) AND id IN ({$gids}) {$pag_sql}", $search_terms_like, $search_terms_like ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) AND id IN ({$gids})", $search_terms_like, $search_terms_like ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -486,7 +492,7 @@ class BP_Groups_Group {
 	public static function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
 		global $wpdb, $bp;
 
-		$filter = esc_sql( like_escape( $filter ) );
+		$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
 
 		$pag_sql = $order_sql = $hidden_sql = '';
 
@@ -502,8 +508,8 @@ class BP_Groups_Group {
 		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = "AND status != 'hidden'";
 
-		$paged_groups = $wpdb->get_results( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE '%%{$filter}%%' OR description LIKE '%%{$filter}%%' ) {$hidden_sql} {$order_sql} {$pag_sql}" );
-		$total_groups = $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE ( name LIKE '%%{$filter}%%' OR description LIKE '%%{$filter}%%' ) {$hidden_sql}" );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) {$hidden_sql} {$order_sql} {$pag_sql}", $search_terms_like, $search_terms_like ) );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) {$hidden_sql}", $search_terms_like, $search_terms_like ) );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -625,9 +631,11 @@ class BP_Groups_Group {
 	 *     @type bool $populate_extras Whether to fetch additional
 	 *           information (such as member count) about groups. Default:
 	 *           true.
-	 *     @type array|string Optional. Array or comma-separated list of
-	 *           group IDs. Results will exclude the listed groups.
+	 *     @type array|string $exclude Optional. Array or comma-separated
+	 *           list of group IDs. Results will exclude the listed groups.
 	 *           Default: false.
+	 *     @type bool $update_meta_cache Whether to pre-fetch groupmeta for
+	 *           the returned groups. Default: true.
 	 *     @type bool $show_hidden Whether to include hidden groups in
 	 *           results. Default: false.
 	 * }
@@ -702,8 +710,8 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $r['search_terms'] ) ) {
-			$search_terms = esc_sql( like_escape( $r['search_terms'] ) );
-			$sql['search'] = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
+			$sql['search'] = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
@@ -738,7 +746,7 @@ class BP_Groups_Group {
 		// If a 'type' parameter was passed, parse it and overwrite
 		// 'order' and 'orderby' params passed to the function
 		if (  ! empty( $r['type'] ) ) {
-			$order_orderby = self::convert_type_to_order_orderby( $r['type'] );
+			$order_orderby = apply_filters( 'bp_groups_get_orderby', self::convert_type_to_order_orderby( $r['type'] ), $r['type'] );
 
 			// If an invalid type is passed, $order_orderby will be
 			// an array with empty values. In this case, we stick
@@ -756,7 +764,7 @@ class BP_Groups_Group {
 		$order = bp_esc_sql_order( $order );
 
 		// Convert 'orderby' into the proper ORDER BY term
-		$orderby = self::convert_orderby_to_order_by_term( $orderby );
+		$orderby = apply_filters( 'bp_groups_get_orderby_converted_by_term', self::convert_orderby_to_order_by_term( $orderby ), $orderby, $r['type'] );
 
 		// Random order is a special case
 		if ( 'rand()' === $orderby ) {
@@ -765,7 +773,7 @@ class BP_Groups_Group {
 			$sql[] = "ORDER BY {$orderby} {$order}";
 		}
 
-		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) ) {
+		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) && $r['per_page'] != -1 ) {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
 		}
 
@@ -784,7 +792,7 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $sql['search'] ) ) {
-			$total_sql['where'][] = "( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+			$total_sql['where'][] = $wpdb->prepare( "( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		if ( ! empty( $r['user_id'] ) ) {
@@ -891,19 +899,8 @@ class BP_Groups_Group {
 			preg_match_all( '/ON \((.*)\)/', $meta_sql['join'], $matches_b );
 
 			if ( ! empty( $matches_a[1] ) && ! empty( $matches_b[1] ) ) {
-				$sql_array['join']  = implode( ',', $matches_a[1] ). ', ';
-
-				$sql_array['where'] = '';
-
-				$meta_query_where_clauses = explode( "\n", $meta_sql['where'] );
-
-				// Trim empties
-				$meta_query_where_clauses = array_values( array_filter( $meta_query_where_clauses ) );
-
-				foreach( $matches_b[1] as $key => $group_id_clause ) {
-					$sql_array['where'] .= ' ' . preg_replace( '/^(AND\s+[\(\s]+)/', '$1' . $group_id_clause . ' AND ', ltrim( $meta_query_where_clauses[ $key ] ) );
-				}
-
+				$sql_array['join']  = implode( ',', $matches_a[1] ) . ', ';
+				$sql_array['where'] = $meta_sql['where'] . ' AND ' . implode ( ' AND ', $matches_b[1] );
 			}
 		}
 
@@ -1029,8 +1026,8 @@ class BP_Groups_Group {
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = esc_sql( like_escape( $search_terms ) );
-			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+			$search_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s ) ', $search_terms_like, $search_terms_like );
 		}
 
 		if ( !empty( $exclude ) ) {
@@ -1093,8 +1090,8 @@ class BP_Groups_Group {
 			$hidden_sql = " AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = esc_sql( like_escape( $search_terms ) );
-			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+			$search_sql        = $wpdb->prepare( ' AND ( g.name LIKE %s OR g.description LIKE %s ) ', $search_terms_like, $search_terms_like );
 		}
 
 		if ( !empty( $exclude ) ) {
@@ -1164,15 +1161,15 @@ class BP_Groups_Group {
 		if ( !bp_current_user_can( 'bp_moderate' ) )
 			$hidden_sql = " AND status != 'hidden'";
 
-		$letter = esc_sql( like_escape( $letter ) );
+		$letter_like = bp_esc_like( $letter ) . '%';
 
 		if ( !empty( $limit ) && !empty( $page ) ) {
 			$pag_sql      = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
-		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE '{$letter}%%' {$hidden_sql} {$exclude_sql}" );
+		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE %s {$hidden_sql} {$exclude_sql}", $letter_like ) );
 
-		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE '{$letter}%%' {$hidden_sql} {$exclude_sql} ORDER BY g.name ASC {$pag_sql}" );
+		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE %s {$hidden_sql} {$exclude_sql} ORDER BY g.name ASC {$pag_sql}", $letter_like ) );
 
 		if ( !empty( $populate_extras ) ) {
 			foreach ( (array) $paged_groups as $group ) {
@@ -1220,8 +1217,8 @@ class BP_Groups_Group {
 			$hidden_sql = "AND g.status != 'hidden'";
 
 		if ( !empty( $search_terms ) ) {
-			$search_terms = esc_sql( like_escape( $search_terms ) );
-			$search_sql = " AND ( g.name LIKE '%%{$search_terms}%%' OR g.description LIKE '%%{$search_terms}%%' )";
+			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+			$search_sql = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		if ( !empty( $exclude ) ) {
@@ -1437,8 +1434,8 @@ class BP_Groups_Group {
 		$sql['where']  = "WHERE gm.meta_key = 'forum_id' {$status_sql} AND t.topic_status = '0' AND t.topic_sticky != '2'";
 
 		if ( !empty( $search_terms ) ) {
-			$st = esc_sql( like_escape( $search_terms ) );
-			$sql['where'] .= " AND (  t.topic_title LIKE '%{$st}%' )";
+			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+			$sql['where'] .= $wpdb->prepare( " AND ( t.topic_title LIKE %s )", $search_terms_like );
 		}
 
 		return $wpdb->get_var( implode( ' ', $sql ) );
@@ -1502,6 +1499,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * Array of group member ids, cached to prevent redundant lookups.
 	 *
 	 * @since BuddyPress (1.8.1)
+	 * @access protected
 	 * @var null|array Null if not yet defined, otherwise an array of ints.
 	 */
 	protected $group_member_ids;
@@ -1748,10 +1746,11 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param object $query BP_User_Query object. Because we're filtering
-	 *   the current object, we use $this inside of the method instead
+	 * @param BP_User_Query $query BP_User_Query object. Because we're
+	 *        filtering the current object, we use $this inside of the
+	 *        method instead.
 	 * @param string $user_ids_sql Sanitized, comma-separated string of
-	 *   the user ids returned by the main query
+	 *        the user ids returned by the main query.
 	 */
 	public function populate_group_member_extras( $query, $user_ids_sql ) {
 		global $wpdb;
@@ -1783,7 +1782,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	/**
 	 * Sort user IDs by how recently they have generated activity within a given group.
 	 *
-	 * @since  BuddyPress (2.1.0)
+	 * @since BuddyPress (2.1.0)
 	 *
 	 * @param BP_User_Query $query BP_User_Query object.
 	 * @param array $gm_ids array of group member ids.
@@ -1825,7 +1824,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 }
 
 /**
- * BuddyPress Group Membership objects.
+ * BuddyPress Group Membership object.
  */
 class BP_Groups_Member {
 
@@ -2261,21 +2260,23 @@ class BP_Groups_Member {
 	public static function get_recently_joined( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
-		$pag_sql = $hidden_sql = $filter_sql = '';
+		$user_id_sql = $pag_sql = $hidden_sql = $filter_sql = '';
+
+		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
 
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $filter ) ) {
-			$filter     = esc_sql( like_escape( $filter ) );
-			$filter_sql = " AND ( g.name LIKE '%%{$filter}%%' OR g.description LIKE '%%{$filter}%%' )";
+			$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
+			$filter_sql = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		if ( $user_id != bp_loggedin_user_id() )
 			$hidden_sql = " AND g.status != 'hidden'";
 
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY m.date_modified DESC {$pag_sql}", $user_id ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND m.user_id = %d AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY m.date_modified DESC", $user_id ) );
+		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 ORDER BY m.date_modified DESC {$pag_sql}" );
+		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 0 AND m.is_confirmed = 1 ORDER BY m.date_modified DESC" );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -2298,21 +2299,23 @@ class BP_Groups_Member {
 	public static function get_is_admin_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
-		$pag_sql = $hidden_sql = $filter_sql = '';
+		$user_id_sql = $pag_sql = $hidden_sql = $filter_sql = '';
+
+		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
 
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $filter ) ) {
-			$filter     = esc_sql( like_escape( $filter ) );
-			$filter_sql = " AND ( g.name LIKE '%%{$filter}%%' OR g.description LIKE '%%{$filter}%%' )";
+			$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
+			$filter_sql = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		if ( $user_id != bp_loggedin_user_id() )
 			$hidden_sql = " AND g.status != 'hidden'";
 
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY m.date_modified ASC {$pag_sql}", $user_id ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY date_modified ASC", $user_id ) );
+		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY m.date_modified ASC {$pag_sql}" );
+		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_admin = 1 ORDER BY date_modified ASC" );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -2335,21 +2338,23 @@ class BP_Groups_Member {
 	public static function get_is_mod_of( $user_id, $limit = false, $page = false, $filter = false ) {
 		global $wpdb, $bp;
 
-		$pag_sql = $hidden_sql = $filter_sql = '';
+		$user_id_sql = $pag_sql = $hidden_sql = $filter_sql = '';
+
+		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
 
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 
 		if ( !empty( $filter ) ) {
-			$filter     = esc_sql( like_escape( $filter ) );
-			$filter_sql = " AND ( g.name LIKE '%%{$filter}%%' OR g.description LIKE '%%{$filter}%%' )";
+			$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
+			$filter_sql = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		if ( $user_id != bp_loggedin_user_id() )
 			$hidden_sql = " AND g.status != 'hidden'";
 
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY m.date_modified ASC {$pag_sql}", $user_id ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY date_modified ASC", $user_id ) );
+		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY m.date_modified ASC {$pag_sql}" );
+		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_confirmed = 1 AND m.is_banned = 0 AND m.is_mod = 1 ORDER BY date_modified ASC" );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
@@ -2626,7 +2631,15 @@ class BP_Groups_Member {
 	public static function get_group_administrator_ids( $group_id ) {
 		global $bp, $wpdb;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
+		$group_admins = wp_cache_get( $group_id, 'bp_group_admins' );
+
+		if ( false === $group_admins ) {
+			$group_admins = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
+
+			wp_cache_set( $group_id, $group_admins, 'bp_group_admins' );
+		}
+
+		return $group_admins;
 	}
 
 	/**
@@ -2837,6 +2850,7 @@ class BP_Group_Extension {
 	 * Information about this extension's screens.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access public
 	 * @var array
 	 */
 	public $screens = array();
@@ -2845,6 +2859,7 @@ class BP_Group_Extension {
 	 * The name of the extending class.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access public
 	 * @var string
 	 */
 	public $class_name = '';
@@ -2853,6 +2868,7 @@ class BP_Group_Extension {
 	 * A ReflectionClass object of the current extension.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access public
 	 * @var ReflectionClass
 	 */
 	public $class_reflection = null;
@@ -2861,14 +2877,25 @@ class BP_Group_Extension {
 	 * Parsed configuration paramaters for the extension.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access public
 	 * @var array
 	 */
 	public $params = array();
 
 	/**
+	 * Raw config params, as passed by the extending class.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @access public
+	 * @var array
+	 */
+	public $params_raw = array();
+
+	/**
 	 * The ID of the current group.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access public
 	 * @var int
 	 */
 	public $group_id = 0;
@@ -2876,6 +2903,7 @@ class BP_Group_Extension {
 	/**
 	 * The slug of the current extension.
 	 *
+	 * @access public
 	 * @var string
 	 */
 	public $slug = '';
@@ -2883,6 +2911,7 @@ class BP_Group_Extension {
 	/**
 	 * The translatable name of the current extension.
 	 *
+	 * @access public
 	 * @var string
 	 */
 	public $name = '';
@@ -2890,6 +2919,7 @@ class BP_Group_Extension {
 	/**
 	 * The visibility of the extension tab. 'public' or 'private'.
 	 *
+	 * @access public
 	 * @var string
 	 */
 	public $visibility = 'public';
@@ -2897,6 +2927,7 @@ class BP_Group_Extension {
 	/**
 	 * The numeric position of the main nav item.
 	 *
+	 * @access public
 	 * @var int
 	 */
 	public $nav_item_position = 81;
@@ -2904,13 +2935,33 @@ class BP_Group_Extension {
 	/**
 	 * Whether to show the nav item.
 	 *
+	 * @access public
 	 * @var bool
 	 */
 	public $enable_nav_item = true;
 
 	/**
+	 * Whether the current user should see the navigation item.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @access public
+	 * @var bool
+	 */
+	public $user_can_see_nav_item;
+
+	/**
+	 * Whether the current user can visit the tab.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @access public
+	 * @var bool
+	 */
+	public $user_can_visit;
+
+	/**
 	 * The text of the nav item. Defaults to self::name.
 	 *
+	 * @access public
 	 * @var string
 	 */
 	public $nav_item_name = '';
@@ -2920,6 +2971,7 @@ class BP_Group_Extension {
 	 *
 	 * Default: 'groups_custom_group_boxes'.
 	 *
+	 * @access public
 	 * @var string
 	 */
 	public $display_hook = 'groups_custom_group_boxes';
@@ -2929,6 +2981,7 @@ class BP_Group_Extension {
 	 *
 	 * Default: 'groups/single/plugins'.
 	 *
+	 * @access public
 	 * @var string
 	 */
 	public $template_file = 'groups/single/plugins';
@@ -2939,6 +2992,7 @@ class BP_Group_Extension {
 	 * Has the extension been initialized?
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access protected
 	 * @var bool
 	 */
 	protected $initialized = false;
@@ -2947,6 +3001,7 @@ class BP_Group_Extension {
 	 * Extension properties as set by legacy extensions.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access protected
 	 * @var array
 	 */
 	protected $legacy_properties = array();
@@ -2958,14 +3013,25 @@ class BP_Group_Extension {
 	 * then converted to match the new format for params.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access protected
 	 * @var array
 	 */
 	protected $legacy_properties_converted = array();
 
 	/**
+	 * Redirect location as defined by post-edit save callback.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @access protected
+	 * @var string
+	 */
+	protected $post_save_redirect;
+
+	/**
 	 * Miscellaneous data as set by the __set() magic method.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 * @access protected
 	 * @var array
 	 */
 	protected $data = array();
@@ -3046,6 +3112,8 @@ class BP_Group_Extension {
 	 * }
 	 */
 	public function init( $args = array() ) {
+		// Store the raw arguments
+		$this->params_raw = $args;
 
 		// Before this init() method was introduced, plugins were
 		// encouraged to set their config directly. For backward
@@ -3066,6 +3134,8 @@ class BP_Group_Extension {
 			'display_hook'      => $this->display_hook,
 			'template_file'     => $this->template_file,
 			'screens'           => $this->get_default_screens(),
+			'access'            => null,
+			'show_tab'          => null,
 		) );
 
 		$this->initialized = true;
@@ -3109,6 +3179,9 @@ class BP_Group_Extension {
 		// Configure 'screens': create, admin, and edit contexts
 		$this->setup_screens();
 
+		// Configure access-related settings
+		$this->setup_access_settings();
+
 		// Mirror configuration data so it's accessible to plugins
 		// that look for it in its old locations
 		$this->setup_legacy_properties();
@@ -3148,6 +3221,8 @@ class BP_Group_Extension {
 	 *   - group admin
 	 *
 	 * @since BuddyPress (1.8.0)
+	 *
+	 * @return int
 	 */
 	public static function get_group_id() {
 
@@ -3179,6 +3254,8 @@ class BP_Group_Extension {
 	 * Gather configuration data about your screens.
 	 *
 	 * @since BuddyPress (1.8.0)
+	 *
+	 * @return array
 	 */
 	protected function get_default_screens() {
 		$this->setup_class_info();
@@ -3227,6 +3304,148 @@ class BP_Group_Extension {
 		}
 	}
 
+	/**
+	 * Set up access-related settings for this extension.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	protected function setup_access_settings() {
+		// Bail if no gruop ID is available
+		if ( empty( $this->group_id ) ) {
+			return;
+		}
+
+		// Backward compatibility
+		if ( isset( $this->params['enable_nav_item'] ) ) {
+			$this->enable_nav_item = (bool) $this->params['enable_nav_item'];
+		}
+
+		// Tab Access
+		$this->user_can_visit = false;
+
+		// Backward compatibility for components that do not provide
+		// explicit 'access' parameter
+		if ( empty( $this->params['access'] ) ) {
+			if ( false === $this->enable_nav_item ) {
+				$this->params['access'] = 'noone';
+			} else {
+				$group = groups_get_group( array(
+					'group_id' => $this->group_id,
+				) );
+
+				if ( ! empty( $group->status ) && 'public' === $group->status ) {
+					// Tabs in public groups are accessible to anyone by default
+					$this->params['access'] = 'anyone';
+				} else {
+					// All other groups have members-only as the default
+					$this->params['access'] = 'member';
+				}
+			}
+		}
+
+		// Parse multiple access conditions into an array
+		$access_conditions = $this->params['access'];
+		if ( ! is_array( $access_conditions ) ) {
+			$access_conditions = explode( ',', $access_conditions );
+		}
+
+		// If the current user meets at least one condition, the
+		// get access
+		foreach ( $access_conditions as $access_condition ) {
+			if ( $this->user_meets_access_condition( $access_condition ) ) {
+				$this->user_can_visit = true;
+				break;
+			}
+		}
+
+		// Tab Visibility
+		$this->user_can_see_nav_item = false;
+
+		// Backward compatibility for components that do not provide
+		// explicit 'show_tab' parameter
+		if ( empty( $this->params['show_tab'] ) ) {
+			if ( false === $this->params['enable_nav_item'] ) {
+				// enable_nav_item is only false if it's been
+				// defined explicitly as such in the
+				// constructor. So we always trust this value
+				$this->params['show_tab'] = 'noone';
+
+			} else if ( isset( $this->params_raw['enable_nav_item'] ) || isset( $this->params_raw['visibility'] ) ) {
+				// If enable_nav_item or visibility is passed,
+				// we assume this  is a legacy extension.
+				// Legacy behavior is that enable_nav_item=true +
+				// visibility=private implies members-only
+				if ( 'public' !== $this->visibility ) {
+					$this->params['show_tab'] = 'member';
+				} else {
+					$this->params['show_tab'] = 'anyone';
+				}
+
+			} else {
+				// No show_tab or enable_nav_item value is
+				// available, so match the value of 'access'
+				$this->params['show_tab'] = $this->params['access'];
+			}
+		}
+
+		// Parse multiple access conditions into an array
+		$access_conditions = $this->params['show_tab'];
+		if ( ! is_array( $access_conditions ) ) {
+			$access_conditions = explode( ',', $access_conditions );
+		}
+
+		// If the current user meets at least one condition, the
+		// get access
+		foreach ( $access_conditions as $access_condition ) {
+			if ( $this->user_meets_access_condition( $access_condition ) ) {
+				$this->user_can_see_nav_item = true;
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Check whether the current user meets an access condition.
+	 *
+	 * @param string $access_condition 'anyone', 'loggedin', 'member',
+	 *        'mod', 'admin' or 'noone'.
+	 * @return bool
+	 */
+	protected function user_meets_access_condition( $access_condition ) {
+		$group = groups_get_group( array(
+			'group_id' => $this->group_id,
+		) );
+
+		switch ( $access_condition ) {
+			case 'admin' :
+				$meets_condition = groups_is_user_admin( bp_loggedin_user_id(), $this->group_id );
+				break;
+
+			case 'mod' :
+				$meets_condition = groups_is_user_mod( bp_loggedin_user_id(), $this->group_id );
+				break;
+
+			case 'member' :
+				$meets_condition = groups_is_user_member( bp_loggedin_user_id(), $this->group_id );
+				break;
+
+			case 'loggedin' :
+				$meets_condition = is_user_logged_in();
+				break;
+
+			case 'noone' :
+				$meets_condition = false;
+				break;
+
+			case 'anyone' :
+			default :
+				$meets_condition = true;
+				break;
+		}
+
+		return $meets_condition;
+	}
+
 	/** Display ***********************************************************/
 
 	/**
@@ -3241,25 +3460,31 @@ class BP_Group_Extension {
 			return;
 		}
 
-		// Bail if the current user doesn't have access
+		// Backward compatibility only
 		if ( ( 'public' !== $this->visibility ) && ! buddypress()->groups->current_group->user_has_access ) {
 			return;
 		}
 
-		if ( true === $this->enable_nav_item ) {
+		$user_can_see_nav_item = $this->user_can_see_nav_item();
+
+		if ( $user_can_see_nav_item ) {
+			$group_permalink = bp_get_group_permalink( groups_get_current_group() );
+
 			bp_core_new_subnav_item( array(
 				'name'            => ! $this->nav_item_name ? $this->name : $this->nav_item_name,
 				'slug'            => $this->slug,
 				'parent_slug'     => bp_get_current_group_slug(),
-				'parent_url'      => bp_get_group_permalink( groups_get_current_group() ),
+				'parent_url'      => $group_permalink,
 				'position'        => $this->nav_item_position,
 				'item_css_id'     => 'nav-' . $this->slug,
 				'screen_function' => array( &$this, '_display_hook' ),
-				'user_has_access' => $this->enable_nav_item
+				'user_has_access' => $user_can_see_nav_item,
+				'no_access_url'   => $group_permalink,
 			) );
 
 			// When we are viewing the extension display page, set the title and options title
 			if ( bp_is_current_action( $this->slug ) ) {
+				add_filter( 'bp_group_user_has_access',   array( $this, 'group_access_protection' ), 10, 2 );
 				add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 				add_action( 'bp_template_title',          create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
 			}
@@ -3278,6 +3503,69 @@ class BP_Group_Extension {
 		add_action( 'bp_template_content', array( &$this, 'display' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', $this->template_file ) );
 	}
+
+	/**
+	 * Determine whether the current user should see this nav tab.
+	 *
+	 * Note that this controls only the display of the navigation item.
+	 * Access to the tab is controlled by the user_can_visit() check.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return bool
+	 */
+	public function user_can_see_nav_item( $user_can_see_nav_item = false ) {
+		if ( 'noone' !== $this->params['show_tab'] && current_user_can( 'bp_moderate' ) ) {
+			return true;
+		}
+
+		return $this->user_can_see_nav_item;
+	}
+
+	/**
+	 * Determine whether the current user has access to visit this tab.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return bool
+	 */
+	public function user_can_visit( $user_can_visit = false ) {
+		if ( 'noone' !== $this->params['access'] && current_user_can( 'bp_moderate' ) ) {
+			return true;
+		}
+
+		return $this->user_can_visit;
+	}
+
+	/**
+	 * Filter the access check in bp_groups_group_access_protection() for this extension.
+	 *
+	 * Note that $no_access_args is passed by reference, as there are some
+	 * circumstances where the bp_core_no_access() arguments need to be
+	 * modified before the redirect takes place.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool $user_can_visit
+	 * @param array $no_access_args
+	 * @return bool
+	 */
+	public function group_access_protection( $user_can_visit, &$no_access_args ) {
+		$user_can_visit = $this->user_can_visit();
+
+		if ( ! $user_can_visit && is_user_logged_in() ) {
+			$current_group = groups_get_group( array(
+				'group_id' => $this->group_id,
+			) );
+
+			$no_access_args['message'] = __( 'You do not have access to this content.', 'buddypress' );
+			$no_access_args['root'] = bp_get_group_permalink( $current_group ) . 'home/';
+			$no_access_args['redirect'] = false;
+		}
+
+		return $user_can_visit;
+	}
+
 
 	/** Create ************************************************************/
 
@@ -3433,7 +3721,24 @@ class BP_Group_Extension {
 		}
 
 		$this->check_nonce( 'edit' );
+
+		// Detect whether the screen_save_callback is performing a
+		// redirect, so that we don't do one of our own
+		add_filter( 'wp_redirect', array( $this, 'detect_post_save_redirect' ) );
+
+		// Call the extension's save routine
 		call_user_func( $this->screens['edit']['screen_save_callback'], $this->group_id );
+
+		// Clean up detection filters
+		remove_filter( 'wp_redirect', array( $this, 'detect_post_save_redirect' ) );
+
+		// Perform a redirect only if one has not already taken place
+		if ( empty( $this->post_save_redirect ) ) {
+			$redirect_to = apply_filters( 'bp_group_extension_edit_screen_save_redirect', bp_get_requested_url( ) );
+
+			bp_core_redirect( $redirect_to );
+			die();
+		}
 	}
 
 	/**
@@ -3495,6 +3800,22 @@ class BP_Group_Extension {
 		$pattern = "/<input[^>]+type=[\'\"]submit[\'\"]/";
 		preg_match( $pattern, $screen, $matches );
 		return ! empty( $matches[0] );
+	}
+
+	/**
+	 * Detect redirects hardcoded into edit_screen_save() callbacks.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param string $location
+	 * @return string
+	 */
+	public function detect_post_save_redirect( $redirect = '' ) {
+		if ( ! empty( $redirect ) ) {
+			$this->post_save_redirect = $redirect;
+		}
+
+		return $redirect;
 	}
 
 	/** Admin *************************************************************/
@@ -3572,8 +3893,6 @@ class BP_Group_Extension {
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *
-	 * @uses wp_nonce_field()
-	 *
 	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
 	 */
 	public function nonce_field( $context = '' ) {
@@ -3584,8 +3903,6 @@ class BP_Group_Extension {
 	 * Check the nonce on a submitted settings form.
 	 *
 	 * @since BuddyPress (1.8.0)
-	 *
-	 * @uses check_admin_referer()
 	 *
 	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
 	 */
@@ -3603,7 +3920,6 @@ class BP_Group_Extension {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $context Screen context. 'create', 'edit', or 'admin'.
-	 *
 	 * @return bool True if the screen is enabled, otherwise false.
 	 */
 	public function is_screen_enabled( $context = '' ) {
@@ -4061,4 +4377,136 @@ function bp_register_group_extension( $group_extension_class = '' ) {
 		add_action( "bp_actions", array( &$extension, "_register" ), 8 );
 		add_action( "admin_init", array( &$extension, "_register" ) );
 	' ), 11 );
+}
+
+/**
+ * Adds support for user at-mentions (for users in a specific Group) to the Suggestions API.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
+
+	/**
+	 * Default arguments for this suggestions service.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @access protected
+	 * @var array $args {
+	 *     @type int $group_id Positive integers will restrict the search to members in that group.
+	 *           Negative integers will restrict the search to members in every other group.
+	 *     @type int $limit Maximum number of results to display. Default: 16.
+	 *     @type bool $only_friends If true, only match the current user's friends. Default: false.
+	 *     @type string $term The suggestion service will try to find results that contain this string.
+	 *           Mandatory.
+	 * }
+	 */
+	protected $default_args = array(
+		'group_id'     => 0,
+		'limit'        => 16,
+		'only_friends' => false,
+		'term'         => '',
+		'type'         => '',
+	);
+
+
+	/**
+	 * Validate and sanitise the parameters for the suggestion service query.
+	 *
+	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function validate() {
+		$this->args['group_id'] = (int) $this->args['group_id'];
+		$this->args             = apply_filters( 'bp_groups_member_suggestions_args', $this->args, $this );
+
+		// Check for invalid or missing mandatory parameters.
+		if ( ! $this->args['group_id'] || ! bp_is_active( 'groups' ) ) {
+			return new WP_Error( 'missing_requirement' );
+		}
+
+		// Check that the specified group_id exists, and that the current user can access it.
+		$the_group = groups_get_group( array(
+			'group_id'        => absint( $this->args['group_id'] ),
+			'populate_extras' => true,
+		) );
+
+		if ( $the_group->id === 0 || ! $the_group->user_has_access ) {
+			return new WP_Error( 'access_denied' );
+		}
+
+		return apply_filters( 'bp_groups_member_suggestions_validate_args', parent::validate(), $this );
+	}
+
+	/**
+	 * Find and return a list of username suggestions that match the query.
+	 *
+	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function get_suggestions() {
+		$user_query = array(
+			'count_total'     => '',  // Prevents total count
+			'populate_extras' => false,
+			'type'            => 'alphabetical',
+
+			'group_role'      => array( 'admin', 'member', 'mod' ),
+			'page'            => 1,
+			'per_page'        => $this->args['limit'],
+			'search_terms'    => $this->args['term'],
+			'search_wildcard' => 'right',
+		);
+
+		// Only return matches of friends of this user.
+		if ( $this->args['only_friends'] && is_user_logged_in() ) {
+			$user_query['user_id'] = get_current_user_id();
+		}
+
+		// Positive Group IDs will restrict the search to members in that group.
+		if ( $this->args['group_id'] > 0 ) {
+			$user_query['group_id'] = $this->args['group_id'];
+
+		// Negative Group IDs will restrict the search to members in every other group.
+		} else {
+			$group_query = array(
+				'count_total'     => '',  // Prevents total count
+				'populate_extras' => false,
+				'type'            => 'alphabetical',
+
+				'group_id'        => absint( $this->args['group_id'] ),
+				'group_role'      => array( 'admin', 'member', 'mod' ),
+				'page'            => 1,
+			);
+			$group_users = new BP_Group_Member_Query( $group_query );
+
+			if ( $group_users->results ) {
+				$user_query['exclude'] = wp_list_pluck( $group_users->results, 'ID' );
+			} else {
+				$user_query['include'] = array( 0 );
+			}
+		}
+
+		$user_query = apply_filters( 'bp_groups_member_suggestions_query_args', $user_query, $this );
+		if ( is_wp_error( $user_query ) ) {
+			return $user_query;
+		}
+
+
+		if ( isset( $user_query['group_id'] ) ) {
+			$user_query = new BP_Group_Member_Query( $user_query );
+		} else {
+			$user_query = new BP_User_Query( $user_query );
+		}
+
+		$results = array();
+		foreach ( $user_query->results as $user ) {
+			$result        = new stdClass();
+			$result->ID    = $user->user_nicename;
+			$result->image = bp_core_fetch_avatar( array( 'html' => false, 'item_id' => $user->ID ) );
+			$result->name  = bp_core_get_user_displayname( $user->ID );
+
+			$results[] = $result;
+		}
+
+		return apply_filters( 'bp_groups_member_suggestions_get_suggestions', $results, $this );
+	}
 }

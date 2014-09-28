@@ -69,7 +69,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 			<div class="bp-login-widget-user-links">
 				<div class="bp-login-widget-user-link"><?php echo bp_core_get_userlink( bp_loggedin_user_id() ); ?></div>
-				<div class="bp-login-widget-user-logout"><a class="logout" href="<?php echo wp_logout_url( wp_guess_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a></div>
+				<div class="bp-login-widget-user-logout"><a class="logout" href="<?php echo wp_logout_url( bp_get_requested_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a></div>
 			</div>
 
 			<?php do_action( 'bp_after_login_widget_loggedin' ); ?>
@@ -314,7 +314,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$widget_ops = array(
-			'description' => __( 'Avatars of users who are currently online', 'buddypress' ),
+			'description' => __( 'Profile photos of online users', 'buddypress' ),
 			'classname' => 'widget_bp_core_whos_online_widget buddypress widget',
 		);
 		parent::__construct( false, $name = _x( "(BuddyPress) Who's Online", 'widget name', 'buddypress' ), $widget_ops );
@@ -417,7 +417,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$widget_ops = array(
-			'description' => __( 'Avatars of recently active members', 'buddypress' ),
+			'description' => __( 'Profile photos of recently active members', 'buddypress' ),
 			'classname' => 'widget_bp_core_recently_active_widget buddypress widget',
 		);
 		parent::__construct( false, $name = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' ), $widget_ops );

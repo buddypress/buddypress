@@ -30,6 +30,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *     @type string|bool $search_terms Terms to search by. Search happens
  *           across xprofile fields. Requires XProfile component.
  *           Default: false.
+ *     @type string $search_wildcard When searching with $search_terms,
+ *           set where wildcards around the term should be positioned.
+ *           Default: 'both'. Other values: 'left', 'right'.
  *     @type array|string|bool $include An array or comma-separated list of
  *           user IDs to which query should be limited.
  *           Default: false.
@@ -153,6 +156,7 @@ class BP_User_Query {
 				'page'            => 1,
 				'user_id'         => 0,
 				'search_terms'    => false,
+				'search_wildcard' => 'both',
 				'include'         => false,
 				'exclude'         => false,
 				'user_ids'        => false,
@@ -364,8 +368,26 @@ class BP_User_Query {
 		// 'search_terms' searches user_login and user_nicename
 		// xprofile field matches happen in bp_xprofile_bp_user_query_search()
 		if ( false !== $search_terms ) {
-			$search_terms_clean = esc_sql( esc_sql( $search_terms ) );
-			$sql['where']['search'] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE '%{$search_terms_clean}%' OR user_nicename LIKE '%{$search_terms_clean}%' ) )";
+			$search_terms = bp_esc_like( wp_kses_normalize_entities( $search_terms ) );
+
+			if ( $search_wildcard === 'left' ) {
+				$search_terms_nospace = '%' . $search_terms;
+				$search_terms_space   = '%' . $search_terms . ' %';
+			} elseif ( $search_wildcard === 'right' ) {
+				$search_terms_nospace =        $search_terms . '%';
+				$search_terms_space   = '% ' . $search_terms . '%';
+			} else {
+				$search_terms_nospace = '%' . $search_terms . '%';
+				$search_terms_space   = '%' . $search_terms . '%';
+			}
+
+			$sql['where']['search'] = $wpdb->prepare(
+				"u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE %s OR user_login LIKE %s OR user_nicename LIKE %s OR user_nicename LIKE %s ) )",
+				$search_terms_nospace,
+				$search_terms_space,
+				$search_terms_nospace,
+				$search_terms_space
+			);
 		}
 
 		// 'meta_key', 'meta_value' allow usermeta search
@@ -381,6 +403,8 @@ class BP_User_Query {
 
 			if ( ! empty( $found_user_ids ) ) {
 				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ")";
+			} else {
+				$sql['where'][] = '1 = 0';
 			}
 		}
 
@@ -810,9 +834,9 @@ class BP_Core_User {
 		wp_cache_set( 'bp_user_email_' . $this->id, $this->email, 'bp' );
 		wp_cache_set( 'bp_user_url_' . $this->id, $this->user_url, 'bp' );
 
-		$this->avatar       = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), $this->fullname ) ) );
-		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), $this->fullname ) ) );
-		$this->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Avatar of %s', 'buddypress' ), $this->fullname ), 'width' => 30, 'height' => 30 ) );
+		$this->avatar       = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->fullname ) ) );
+		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->fullname ) ) );
+		$this->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->fullname ), 'width' => 30, 'height' => 30 ) );
 		$this->last_active  = bp_core_get_last_activity( bp_get_user_last_activity( $this->id ), __( 'active %s', 'buddypress' ) );
 	}
 
@@ -967,8 +991,8 @@ class BP_Core_User {
 		}
 
 		if ( !empty( $search_terms ) && bp_is_active( 'xprofile' ) ) {
-			$search_terms             = esc_sql( like_escape( $search_terms ) );
-			$sql['where_searchterms'] = "AND spd.value LIKE '%%$search_terms%%'";
+			$search_terms_like        = '%' . bp_esc_like( $search_terms ) . '%';
+			$sql['where_searchterms'] = $wpdb->prepare( "AND spd.value LIKE %s", $search_terms_like );
 		}
 
 		if ( !empty( $meta_key ) ) {
@@ -1085,18 +1109,18 @@ class BP_Core_User {
 			}
 		}
 
-		$letter     = esc_sql( like_escape( $letter ) );
-		$status_sql = bp_core_get_status_sql( 'u.' );
+		$letter_like = bp_esc_like( $letter ) . '%';
+		$status_sql  = bp_core_get_status_sql( 'u.' );
 
 		if ( !empty( $exclude ) ) {
-			$exclude     = implode( ',', wp_parse_id_list( $r['exclude'] ) );
+			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
 			$exclude_sql = " AND u.id NOT IN ({$exclude})";
 		} else {
 			$exclude_sql = '';
 		}
 
-		$total_users_sql = apply_filters( 'bp_core_users_by_letter_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE '{$letter}%%'  ORDER BY pd.value ASC", bp_xprofile_fullname_field_name() ) );
-		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE '{$letter}%%' ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name() ) );
+		$total_users_sql = apply_filters( 'bp_core_users_by_letter_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", bp_xprofile_fullname_field_name(), $letter_like ) );
+		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name(), $letter_like ) );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
@@ -1184,11 +1208,11 @@ class BP_Core_User {
 		$user_ids = array();
 		$pag_sql  = $limit && $page ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) ) : '';
 
-		$search_terms = esc_sql( like_escape( $search_terms ) );
-		$status_sql   = bp_core_get_status_sql( 'u.' );
+		$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+		$status_sql        = bp_core_get_status_sql( 'u.' );
 
-		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE '%%{$search_terms}%%' ORDER BY pd.value ASC", $search_terms );
-		$paged_users_sql = apply_filters( 'bp_core_search_users_sql',       "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE '%%{$search_terms}%%' ORDER BY pd.value ASC{$pag_sql}", $search_terms, $pag_sql );
+		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", $search_terms_like ), $search_terms );
+		$paged_users_sql = apply_filters( 'bp_core_search_users_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", $search_terms_like ), $search_terms, $pag_sql );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
@@ -1485,6 +1509,60 @@ class BP_Core_User {
 	}
 }
 
+if ( class_exists( 'WP_Date_Query' ) ) :
+/**
+ * BuddyPress date query class.
+ *
+ * Extends the {@link WP_Date_Query} class for use with BuddyPress.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param array $date_query {
+ *     Date query arguments.  See first parameter of {@link WP_Date_Query::__construct()}.
+ * }
+ * @param string $column The DB column to query against.
+ */
+class BP_Date_Query extends WP_Date_Query {
+	/**
+	 * The column to query against. Can be changed via the query arguments.
+	 *
+	 * @var string
+	 */
+	public $column;
+
+	/**
+	 * Constructor.
+	 *
+	 * @see WP_Date_Query::__construct()
+	 */
+	public function __construct( $date_query, $column = '' ) {
+		if ( ! empty( $column ) ) {
+			$this->column = $column;
+			add_filter( 'date_query_valid_columns', array( $this, 'register_date_column' ) );
+		}
+
+		parent::__construct( $date_query, $column );
+	}
+
+	/**
+	 * Destructor.
+	 */
+	public function __destruct() {
+		remove_filter( 'date_query_valid_columns', array( $this, 'register_date_column' ) );
+	}
+
+	/**
+	 * Registers our date column with WP Date Query to pass validation.
+	 *
+	 * @param array $retval Current DB columns
+	 * @return array
+	 */
+	public function register_date_column( $retval = array() ) {
+		$retval[] = $this->column;
+		return $retval;
+	}
+}
+endif;
 
 /**
  * BP_Core_Notification is deprecated.
@@ -1891,13 +1969,22 @@ class BP_Button {
 		if ( true == $this->must_be_logged_in && ! is_user_logged_in() )
 			return false;
 
-		// No button if viewing your own profile
-		if ( true == $this->block_self && bp_is_my_profile() )
-			return false;
+		// block_self
+		if ( true == $this->block_self ) {
+			// No button if you are the current user in a members loop
+			// This condition takes precedence, because members loops
+			// can be found on user profiles
+			if ( bp_get_member_user_id() ) {
+				if ( is_user_logged_in() && bp_loggedin_user_id() == bp_get_member_user_id() ) {
+					return false;
+				}
 
-		// No button if you are the current user in a loop
-		if ( true === $this->block_self && is_user_logged_in() && bp_loggedin_user_id() === bp_get_member_user_id() )
-			return false;
+			// No button if viewing your own profile (and not in
+			// a members loop)
+			} else if ( bp_is_my_profile() ) {
+				return false;
+			}
+		}
 
 		// Wrapper properties
 		if ( false !== $this->wrapper ) {
@@ -2405,5 +2492,211 @@ class BP_Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= '<input type="hidden" class="menu-item-attr_title" name="menu-item[' . $possible_object_id . '][menu-item-attr_title]" value="'. esc_attr( $item->attr_title ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="'. esc_attr( implode( ' ', $item->classes ) ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="'. esc_attr( $item->xfn ) .'" />';
+	}
+}
+
+/**
+ * Base class for the BuddyPress Suggestions API.
+ *
+ * Originally built to power BuddyPress' at-mentions suggestions, it's flexible enough to be used
+ * for similar kinds of future core requirements, or those desired by third-party developers.
+ *
+ * To implement a new suggestions service, create a new class that extends this one, and update
+ * the list of default services in {@link bp_core_get_suggestions()}. If you're building a plugin,
+ * it's recommend that you use the `bp_suggestions_services` filter to do this. :)
+ *
+ * While the implementation of the query logic is left to you, it should be as quick and efficient
+ * as possible. When implementing the abstract methods in this class, pay close attention to the
+ * recommendations provided in the phpDoc blocks, particularly the expected return types.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+abstract class BP_Suggestions {
+
+	/**
+	 * Default arguments common to all suggestions services.
+	 *
+	 * If your custom service requires further defaults, add them here.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var array
+	 */
+	protected $default_args = array(
+		'limit' => 16,
+		'term'  => '',
+		'type'  => '',
+	);
+
+	/**
+	 * Holds the arguments for the query (about to made to the suggestions service).
+	 *
+	 * This includes `$default_args`, as well as the user-supplied values.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var array
+	 */
+	protected $args = array(
+	);
+
+
+	/**
+	 * Constructor.
+	 *
+	 * @param array $args Optional. If set, used as the parameters for the suggestions service query.
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function __construct( array $args = array() ) {
+		if ( ! empty( $args ) ) {
+			$this->set_query( $args );
+		}
+	}
+
+	/**
+	 * Set the parameters for the suggestions service query.
+	 *
+	 * @param array $args {
+	 *     @type int $limit Maximum number of results to display. Optional, default: 16.
+	 *     @type string $type The name of the suggestion service to use for the request. Mandatory.
+	 *     @type string $term The suggestion service will try to find results that contain this string.
+	 *           Mandatory.
+	 * }
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function set_query( array $args = array() ) {
+		$this->args = wp_parse_args( $args, $this->default_args );
+	}
+
+	/**
+	 * Validate and sanitise the parameters for the suggestion service query.
+	 *
+	 * Be sure to call this class' version of this method when implementing it in your own service.
+	 * If validation fails, you must return a WP_Error object.
+	 *
+	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function validate() {
+		$this->args['limit'] = absint( $this->args['limit'] );
+		$this->args['term']  = trim( sanitize_text_field( $this->args['term'] ) );
+		$this->args          = apply_filters( 'bp_suggestions_args', $this->args, $this );
+
+
+		// Check for invalid or missing mandatory parameters.
+		if ( ! $this->args['limit'] || ! $this->args['term'] ) {
+			return new WP_Error( 'missing_parameter' );
+		}
+
+		// Check for blocked users (e.g. deleted accounts, or spammers).
+		if ( is_user_logged_in() && ! bp_is_user_active( get_current_user_id() ) ) {
+			return new WP_Error( 'invalid_user' );
+		}
+
+		return apply_filters( 'bp_suggestions_validate_args', true, $this );
+	}
+
+	/**
+	 * Find and return a list of suggestions that match the query.
+	 *
+	 * The return type is important. If no matches are found, an empty array must be returned.
+	 * Matches must be returned as objects in an array.
+	 *
+	 * The object format for each match must be: { 'ID': string, 'image': string, 'name': string }
+	 * For example: { 'ID': 'admin', 'image': 'http://example.com/logo.png', 'name': 'Name Surname' }
+	 *
+	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
+	 * @since BuddyPress (2.1.0)
+	 */
+	abstract public function get_suggestions();
+}
+
+/**
+ * Adds support for user at-mentions to the Suggestions API.
+ *
+ * This class is in the Core component because it's required by a class in the Groups component,
+ * and Groups is loaded before Members (alphabetical order).
+ *
+ * @since BuddyPress (2.1.0)
+ */
+class BP_Members_Suggestions extends BP_Suggestions {
+
+	/**
+	 * Default arguments for this suggestions service.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 * @var array $args {
+	 *     @type int $limit Maximum number of results to display. Default: 16.
+	 *     @type bool $only_friends If true, only match the current user's friends. Default: false.
+	 *     @type string $term The suggestion service will try to find results that contain this string.
+	 *           Mandatory.
+	 * }
+	 */
+	protected $default_args = array(
+		'limit'        => 10,
+		'only_friends' => false,
+		'term'         => '',
+		'type'         => '',
+	);
+
+
+	/**
+	 * Validate and sanitise the parameters for the suggestion service query.
+	 *
+	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function validate() {
+		$this->args['only_friends'] = (bool) $this->args['only_friends'];
+		$this->args                 = apply_filters( 'bp_members_suggestions_args', $this->args, $this );
+
+		// Check for invalid or missing mandatory parameters.
+		if ( $this->args['only_friends'] && ( ! bp_is_active( 'friends' ) || ! is_user_logged_in() ) ) {
+			return new WP_Error( 'missing_requirement' );
+		}
+
+		return apply_filters( 'bp_members_suggestions_validate_args', parent::validate(), $this );
+	}
+
+	/**
+	 * Find and return a list of username suggestions that match the query.
+	 *
+	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function get_suggestions() {
+		$user_query = array(
+			'count_total'     => '',  // Prevents total count
+			'populate_extras' => false,
+			'type'            => 'alphabetical',
+
+			'page'            => 1,
+			'per_page'        => $this->args['limit'],
+			'search_terms'    => $this->args['term'],
+			'search_wildcard' => 'right',
+		);
+
+		// Only return matches of friends of this user.
+		if ( $this->args['only_friends'] && is_user_logged_in() ) {
+			$user_query['user_id'] = get_current_user_id();
+		}
+
+		$user_query = apply_filters( 'bp_members_suggestions_query_args', $user_query, $this );
+		if ( is_wp_error( $user_query ) ) {
+			return $user_query;
+		}
+
+
+		$user_query = new BP_User_Query( $user_query );
+		$results    = array();
+
+		foreach ( $user_query->results as $user ) {
+			$result        = new stdClass();
+			$result->ID    = $user->user_nicename;
+			$result->image = bp_core_fetch_avatar( array( 'html' => false, 'item_id' => $user->ID ) );
+			$result->name  = bp_core_get_user_displayname( $user->ID );
+
+			$results[] = $result;
+		}
+
+		return apply_filters( 'bp_members_suggestions_get_suggestions', $results, $this );
 	}
 }

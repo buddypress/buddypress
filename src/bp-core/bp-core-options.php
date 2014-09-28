@@ -149,8 +149,9 @@ function bp_delete_options() {
 	$options = bp_get_default_options();
 
 	// Add default options
-	foreach ( $options as $key => $value )
+	foreach ( array_keys( $options ) as $key ) {
 		delete_option( $key );
+	}
 
 	// Allow previously activated plugins to append their own options.
 	do_action( 'bp_delete_options' );
@@ -173,8 +174,9 @@ function bp_setup_option_filters() {
 	$options = bp_get_default_options();
 
 	// Add filters to each BuddyPress option
-	foreach ( $options as $key => $value )
+	foreach ( array_keys( $options ) as $key ) {
 		add_filter( 'pre_option_' . $key, 'bp_pre_get_option' );
+	}
 
 	// Allow previously activated plugins to append their own options.
 	do_action( 'bp_setup_option_filters' );
@@ -187,12 +189,11 @@ function bp_setup_option_filters() {
  *
  * @since BuddyPress (1.6)
  *
- * @global BuddyPress $bp
  * @param bool $value Optional. Default value false
  * @return mixed false if not overloaded, mixed if set
  */
 function bp_pre_get_option( $value = false ) {
-	global $bp;
+	$bp = buddypress();
 
 	// Get the name of the current filter so we can manipulate it
 	$filter = current_filter();
@@ -201,8 +202,9 @@ function bp_pre_get_option( $value = false ) {
 	$option = str_replace( 'pre_option_', '', $filter );
 
 	// Check the options global for preset value
-	if ( !empty( $bp->options[$option] ) )
-		$value = $bp->options[$option];
+	if ( ! empty( $bp->options[ $option ] ) ) {
+		$value = $bp->options[ $option ];
+	}
 
 	// Always return a value, even if false
 	return $value;
@@ -240,6 +242,7 @@ function bp_get_option( $option_name, $default = '' ) {
  *
  * @param string $option_name The option key to be set.
  * @param mixed $value The value to be set.
+ * @return bool True on success, false on failure.
  */
 function bp_add_option( $option_name, $value ) {
 	return add_blog_option( bp_get_root_blog_id(), $option_name, $value );
@@ -258,9 +261,10 @@ function bp_add_option( $option_name, $value ) {
  *
  * @param string $option_name The option key to be set.
  * @param string $value The value to be set.
+ * @return bool True on success, false on failure.
  */
 function bp_update_option( $option_name, $value ) {
-	update_blog_option( bp_get_root_blog_id(), $option_name, $value );
+	return update_blog_option( bp_get_root_blog_id(), $option_name, $value );
 }
 
 /**
@@ -275,9 +279,10 @@ function bp_update_option( $option_name, $value ) {
  * @uses bp_get_root_blog_id()
  *
  * @param string $option_name The option key to be deleted.
+ * @return bool True on success, false on failure.
  */
 function bp_delete_option( $option_name ) {
-	delete_blog_option( bp_get_root_blog_id(), $option_name );
+	return delete_blog_option( bp_get_root_blog_id(), $option_name );
 }
 
 /**
@@ -379,26 +384,29 @@ function bp_core_get_root_options() {
 
 			// Loop through options
 			foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
-				// Clear out the value from the last time around
-				unset( $old_meta_value );
 
 				if ( isset( $existing_options[$old_meta_key] ) ) {
 					continue;
 				}
 
 				// Get old site option
-				if ( is_multisite() )
+				if ( is_multisite() ) {
 					$old_meta_value = get_site_option( $old_meta_key );
+				}
 
 				// No site option so look in root blog
-				if ( empty( $old_meta_value ) )
+				if ( empty( $old_meta_value ) ) {
 					$old_meta_value = bp_get_option( $old_meta_key, $old_meta_default );
+				}
 
 				// Update the root blog option
 				bp_update_option( $old_meta_key, $old_meta_value );
 
 				// Update the global array
 				$root_blog_options_meta[$old_meta_key] = $old_meta_value;
+
+				// Clear out the value for the next time around
+				unset( $old_meta_value );
 			}
 
 			$root_blog_options_meta = array_merge( $root_blog_options_meta, $existing_options );
@@ -407,8 +415,9 @@ function bp_core_get_root_options() {
 		// We're all matched up
 		} else {
 			// Loop through our results and make them usable
-			foreach ( $root_blog_options_meta as $root_blog_option )
+			foreach ( $root_blog_options_meta as $root_blog_option ) {
 				$root_blog_options[$root_blog_option->name] = $root_blog_option->value;
+			}
 
 			// Copy the options no the return val
 			$root_blog_options_meta = $root_blog_options;
@@ -436,7 +445,7 @@ function bp_core_get_root_options() {
  *        Default: true.
  * @return bool True if profile sync is enabled, otherwise false.
  */
-function bp_disable_profile_sync( $default = true ) {
+function bp_disable_profile_sync( $default = false ) {
 	return (bool) apply_filters( 'bp_disable_profile_sync', (bool) bp_get_option( 'bp-disable-profile-sync', $default ) );
 }
 

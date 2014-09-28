@@ -146,11 +146,12 @@ function bp_alpha_sort_by_key( $items, $key ) {
  * @param bool $decimals Whether to use decimals. See {@link number_format_i18n()}.
  * @return string The formatted number.
  */
-function bp_core_number_format( $number, $decimals = false ) {
+function bp_core_number_format( $number = 0, $decimals = false ) {
 
 	// Force number to 0 if needed
-	if ( empty( $number ) )
+	if ( ! is_numeric( $number ) ) {
 		$number = 0;
+	}
 
 	return apply_filters( 'bp_core_number_format', number_format_i18n( $number, $decimals ), $number, $decimals );
 }
@@ -265,6 +266,32 @@ function bp_esc_sql_order( $order = '' ) {
 }
 
 /**
+ * Escape special characters in a SQL LIKE clause.
+ *
+ * In WordPress 4.0, like_escape() was deprecated, due to incorrect
+ * documentation and improper sanitization leading to a history of misuse. To
+ * maintain compatibility with versions of WP before 4.0, we duplicate the
+ * logic of the replacement, wpdb::esc_like().
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @see wpdb::esc_like() for more details on proper use.
+ *
+ * @param string $text The raw text to be escaped.
+ * @return string Text in the form of a LIKE phrase. Not SQL safe. Run through
+ *         wpdb::prepare() before use.
+ */
+function bp_esc_like( $text ) {
+	global $wpdb;
+
+	if ( method_exists( $wpdb, 'esc_like' ) ) {
+		return $wpdb->esc_like( $text );
+	} else {
+		return addcslashes( $text, '_%\\' );
+	}
+}
+
+/**
  * Are we running username compatibility mode?
  *
  * @since BuddyPress (1.5.0)
@@ -289,24 +316,55 @@ function bp_is_username_compatibility_mode() {
  *
  * @uses apply_filters() Filter 'bp_use_wp_admin_bar' to alter.
  *
- * @return bool False when WP Toolbar support is disabled, true when enabled.
- *        Default: true.
+ * @return bool Default: true. False when WP Toolbar support is disabled.
  */
 function bp_use_wp_admin_bar() {
+
+	// Default to true (to avoid loading deprecated BuddyBar code)
 	$use_admin_bar = true;
 
-	// Has the WP Toolbar constant been explicity set?
-	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) && ! BP_USE_WP_ADMIN_BAR )
-		$use_admin_bar = false;
+	// Has the WP Toolbar constant been explicity opted into?
+	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
+		$use_admin_bar = (bool) BP_USE_WP_ADMIN_BAR;
 
-	// Has the admin chosen to use the BuddyBar during an upgrade?
-	elseif ( (bool) bp_get_option( '_bp_force_buddybar', false ) )
+	// ...or is the old BuddyBar being forced back into use?
+	} elseif ( bp_force_buddybar( false ) ) {
 		$use_admin_bar = false;
+	}
 
-	return apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
+	return (bool) apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
 }
 
 /** Directory *****************************************************************/
+
+/**
+ * Returns an array of core component IDs.
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @return array
+ */
+function bp_core_get_packaged_component_ids() {
+	$components = array(
+		'activity',
+		'members',
+		'groups',
+		'blogs',
+		'xprofile',
+		'friends',
+		'messages',
+		'settings',
+		'notifications',
+	);
+
+	// only add legacy forums if it is enabled
+	// prevents conflicts with bbPress, which also uses the same 'forums' id
+	if ( class_exists( 'BP_Forums_Component' ) ) {
+		$components[] = 'forums';
+	}
+
+	return $components;
+}
 
 /**
  * Fetch a list of BP directory pages from the appropriate meta table.
@@ -428,14 +486,16 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 		return;
 	}
 
-	// Make sure that the pages are created on the root blog no matter which Dashboard the setup is being run on
-	if ( ! bp_is_root_blog() )
+	// Make sure that the pages are created on the root blog no matter which
+	// dashboard the setup is being run on.
+	if ( ! bp_is_root_blog() ) {
 		switch_to_blog( bp_get_root_blog_id() );
+	}
 
 	$pages = bp_core_get_directory_page_ids();
 
 	// Delete any existing pages
-	if ( 'delete' == $existing ) {
+	if ( 'delete' === $existing ) {
 		foreach ( (array) $pages as $page_id ) {
 			wp_delete_post( $page_id, true );
 		}
@@ -444,11 +504,11 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	}
 
 	$page_titles = array(
-		'activity' => _x( 'Activity', 'Page title for the Activity directory.', 'buddypress' ),
-		'groups'   => _x( 'Groups', 'Page title for the Groups directory.', 'buddypress' ),
-		'sites'    => _x( 'Sites', 'Page title for the Sites directory.', 'buddypress' ),
-		'activate' => _x( 'Activate', 'Page title for the user account activation screen.', 'buddypress' ),
-		'members'  => _x( 'Members', 'Page title for the Members directory.', 'buddypress' ),
+		'activity' => _x( 'Activity', 'Page title for the Activity directory.',       'buddypress' ),
+		'groups'   => _x( 'Groups',   'Page title for the Groups directory.',         'buddypress' ),
+		'sites'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
+		'members'  => _x( 'Members',  'Page title for the Members directory.',        'buddypress' ),
+		'activate' => _x( 'Activate', 'Page title for the user activation screen.',   'buddypress' ),
 		'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
 	);
 
@@ -481,21 +541,29 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
 	// Create the pages
 	foreach ( $pages_to_create as $component_name => $page_name ) {
-		$pages[ $component_name ] = wp_insert_post( array(
-			'comment_status' => 'closed',
-			'ping_status'    => 'closed',
-			'post_status'    => 'publish',
-			'post_title'     => $page_name,
-			'post_type'      => 'page',
-		) );
+		$exists = get_page_by_path( $component_name );
+
+		// If page already exists, use it
+		if ( ! empty( $exists ) ) {
+			$pages[ $component_name ] = $exists->ID;
+		} else {
+			$pages[ $component_name ] = wp_insert_post( array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_status'    => 'publish',
+				'post_title'     => $page_name,
+				'post_type'      => 'page',
+			) );
+		}
 	}
 
 	// Save the page mapping
 	bp_update_option( 'bp-pages', $pages );
 
 	// If we had to switch_to_blog, go back to the original site.
-	if ( ! bp_is_root_blog() )
+	if ( ! bp_is_root_blog() ) {
 		restore_current_blog();
+	}
 }
 
 /**
@@ -665,13 +733,14 @@ function bp_core_get_root_domain() {
  * @param int $status Optional. The numeric code to give in the redirect
  *        headers. Default: 302.
  */
-function bp_core_redirect( $location, $status = 302 ) {
+function bp_core_redirect( $location = '', $status = 302 ) {
 
 	// On some setups, passing the value of wp_get_referer() may result in an
 	// empty value for $location, which results in an error. Ensure that we
 	// have a valid URL.
-	if ( empty( $location ) )
+	if ( empty( $location ) ) {
 		$location = bp_get_root_domain();
+	}
 
 	// Make sure we don't call status_header() in bp_core_do_catch_uri() as this
 	// conflicts with wp_redirect() and wp_safe_redirect().
@@ -702,23 +771,24 @@ function bp_core_referrer() {
 function bp_core_get_site_path() {
 	global $current_site;
 
-	if ( is_multisite() )
+	if ( is_multisite() ) {
 		$site_path = $current_site->path;
-	else {
+	} else {
 		$site_path = (array) explode( '/', home_url() );
 
-		if ( count( $site_path ) < 2 )
+		if ( count( $site_path ) < 2 ) {
 			$site_path = '/';
-		else {
+		} else {
 			// Unset the first three segments (http(s)://domain.com part)
 			unset( $site_path[0] );
 			unset( $site_path[1] );
 			unset( $site_path[2] );
 
-			if ( !count( $site_path ) )
+			if ( !count( $site_path ) ) {
 				$site_path = '/';
-			else
+			} else {
 				$site_path = '/' . implode( '/', $site_path ) . '/';
+			}
 		}
 	}
 
@@ -733,13 +803,12 @@ function bp_core_get_site_path() {
  * @since BuddyPress (1.2.6)
  *
  * @param bool $gmt True to use GMT (rather than local) time. Default: true.
+ * @param string $type See the 'type' parameter in {@link current_time()}.
+          Default: 'mysql'.
  * @return string Current time in 'Y-m-d h:i:s' format.
  */
-function bp_core_current_time( $gmt = true ) {
-	// Get current time in MYSQL format
-	$current_time = current_time( 'mysql', $gmt );
-
-	return apply_filters( 'bp_core_current_time', $current_time );
+function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
+	return apply_filters( 'bp_core_current_time', current_time( $type, $gmt ) );
 }
 
 /**
@@ -771,7 +840,8 @@ function bp_core_current_time( $gmt = true ) {
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
 	// Use this filter to bypass BuddyPress's time_since calculations
-	if ( $pre_value = apply_filters( 'bp_core_time_since_pre', false, $older_date, $newer_date ) ) {
+	$pre_value = apply_filters( 'bp_core_time_since_pre', false, $older_date, $newer_date );
+	if ( false !== $pre_value ) {
 		return $pre_value;
 	}
 
@@ -802,7 +872,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 * a date and the current time. $newer_date will have a value if we want to
 	 * work out time elapsed between two known dates.
 	 */
-	$newer_date = ( !$newer_date ) ? strtotime( bp_core_current_time() ) : $newer_date;
+	$newer_date = ( !$newer_date ) ? bp_core_current_time( true, 'timestamp' ) : $newer_date;
 
 	// Difference in seconds
 	$since = $newer_date - $older_date;
@@ -1024,18 +1094,26 @@ function bp_core_render_message() {
  */
 function bp_core_record_activity() {
 
-	if ( !is_user_logged_in() )
+	// Bail if user is not logged in
+	if ( ! is_user_logged_in() ) {
 		return false;
+	}
 
+	// Get the user ID
 	$user_id = bp_loggedin_user_id();
 
-	if ( bp_is_user_inactive( $user_id ) )
+	// Bail if user is not active
+	if ( bp_is_user_inactive( $user_id ) ) {
 		return false;
+	}
 
+	// Get the user's last activity
 	$activity = bp_get_user_last_activity( $user_id );
 
-	if ( !is_numeric( $activity ) )
+	// Make sure it's numeric
+	if ( ! is_numeric( $activity ) ) {
 		$activity = strtotime( $activity );
+	}
 
 	// Get current time
 	$current_time = bp_core_current_time();
@@ -1045,7 +1123,8 @@ function bp_core_record_activity() {
 		do_action( 'bp_first_activity_for_member', $user_id );
 	}
 
-	if ( empty( $activity ) || strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) ) {
+	// If it's been more than 5 minutes, record a newer last-activity time
+	if ( empty( $activity ) || ( strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) ) ) {
 		bp_update_user_last_activity( $user_id, $current_time );
 	}
 }
@@ -1058,16 +1137,22 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  *       representation of the time elapsed.
  *
  * @param int|string $last_activity_date The date of last activity.
- * @param string $string A sprintf()-able statement of the form '% ago'.
+ * @param string $string A sprintf()-able statement of the form 'active %s'
  * @return string $last_active A string of the form '3 years ago'.
  */
-function bp_core_get_last_activity( $last_activity_date, $string ) {
+function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 
-	if ( empty( $last_activity_date ) )
-		$last_active = __( 'Not recently active', 'buddypress' );
-	else
-		$last_active = sprintf( $string, bp_core_time_since( $last_activity_date ) );
+	// Setup a default string if none was passed
+	$string = empty( $string )
+		? '%s'     // Gettext placeholder
+		: $string;
 
+	// Use the string if a last activity date was passed
+	$last_active = empty( $last_activity_date )
+		? __( 'Not recently active', 'buddypress' )
+		: sprintf( $string, bp_core_time_since( $last_activity_date ) );
+
+	// Filter and return
 	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );
 }
 
@@ -1296,8 +1381,9 @@ function bp_core_do_network_admin() {
 	// Default
 	$retval = bp_is_network_activated();
 
-	if ( bp_is_multiblog_mode() )
+	if ( bp_is_multiblog_mode() ) {
 		$retval = false;
+	}
 
 	return (bool) apply_filters( 'bp_core_do_network_admin', $retval );
 }
@@ -1336,12 +1422,14 @@ function bp_is_root_blog( $blog_id = 0 ) {
 	$is_root_blog = false;
 
 	// Use current blog if no ID is passed
-	if ( empty( $blog_id ) )
+	if ( empty( $blog_id ) ) {
 		$blog_id = get_current_blog_id();
+	}
 
 	// Compare to root blog ID
-	if ( $blog_id == bp_get_root_blog_id() )
+	if ( $blog_id == bp_get_root_blog_id() ) {
 		$is_root_blog = true;
+	}
 
 	return (bool) apply_filters( 'bp_is_root_blog', (bool) $is_root_blog );
 }
@@ -1433,8 +1521,9 @@ function bp_is_network_activated() {
 	$plugins = get_site_option( 'active_sitewide_plugins' );
 
 	// Override is_multisite() if not network activated
-	if ( ! is_array( $plugins ) || ! isset( $plugins[$base] ) )
+	if ( ! is_array( $plugins ) || ! isset( $plugins[ $base ] ) ) {
 		$retval = false;
+	}
 
 	return (bool) apply_filters( 'bp_is_network_activated', $retval );
 }
@@ -1632,8 +1721,9 @@ add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
  */
 function bp_core_action_search_site( $slug = '' ) {
 
-	if ( !bp_is_current_component( bp_get_search_slug() ) )
+	if ( ! bp_is_current_component( bp_get_search_slug() ) ) {
 		return;
+	}
 
 	if ( empty( $_POST['search-terms'] ) ) {
 		bp_core_redirect( bp_get_root_domain() );
@@ -1701,6 +1791,25 @@ function bp_core_print_generation_time() {
 	<?php
 }
 add_action( 'wp_footer', 'bp_core_print_generation_time' );
+
+/**
+ * Remove "prev" and "next" relational links from <head> on BuddyPress pages.
+ *
+ * WordPress automatically generates these relational links to the current
+ * page.  However, BuddyPress doesn't adhere to these links.  In this
+ * function, we remove these links when on a BuddyPress page.  This also
+ * prevents additional, unnecessary queries from running.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_remove_adjacent_posts_rel_link() {
+	if ( ! is_buddypress() ) {
+		return;
+	}
+
+	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+}
+add_action( 'bp_init', 'bp_remove_adjacent_posts_rel_link' );
 
 /** Nav Menu ******************************************************************/
 
@@ -1875,4 +1984,54 @@ function bp_nav_menu_get_item_url( $slug ) {
 	}
 
 	return $nav_item_url;
+}
+
+/** Suggestions***************************************************************/
+
+/**
+ * BuddyPress Suggestions API for types of at-mentions.
+ *
+ * This is used to power BuddyPress' at-mentions suggestions, but it is flexible enough to be used
+ * for similar kinds of future requirements, or those implemented by third-party developers.
+ *
+ * @param array $args
+ * @return array|WP_Error Array of results. If there were any problems, returns a WP_Error object.
+ * @since BuddyPress (2.1.0)
+ */
+function bp_core_get_suggestions( $args ) {
+	$args = wp_parse_args( $args );
+
+	if ( ! $args['type'] ) {
+		return new WP_Error( 'missing_parameter' );
+	}
+
+	// Members @name suggestions.
+	if ( $args['type'] === 'members' ) {
+		$class = 'BP_Members_Suggestions';
+
+		// Members @name suggestions for users in a specific Group.
+		if ( isset( $args['group_id'] ) ) {
+			$class = 'BP_Groups_Member_Suggestions';
+		}
+
+	} else {
+		// If you've built a custom suggestions service, use this to tell BP the name of your class.
+		$class = apply_filters( 'bp_suggestions_services', '', $args );
+	}
+
+	if ( ! $class || ! class_exists( $class ) ) {
+		return new WP_Error( 'missing_parameter' );
+	}
+
+
+	$suggestions = new $class( $args );
+	$validation  = $suggestions->validate();
+
+	if ( is_wp_error( $validation ) ) {
+		$retval = $validation;
+	} else {
+		$retval = $suggestions->get_suggestions();
+	}
+
+	return apply_filters( 'bp_core_get_suggestions', $retval, $args );
 }

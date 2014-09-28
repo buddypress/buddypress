@@ -300,7 +300,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// Get a fallback for the 'alt' parameter
 	if ( empty( $alt ) )
-		$alt = __( 'Avatar Image', 'buddypress' );
+		$alt = __( 'Profile Photo', 'buddypress' );
 
 	$html_alt = ' alt="' . esc_attr( $alt ) . '"';
 
@@ -670,6 +670,15 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		return false;
 	}
 
+	// If the uploaded image is smaller than the "full" dimensions, throw
+	// a warning
+	$uploaded_image = @getimagesize( bp_core_avatar_upload_path() . buddypress()->avatar_admin->image->dir );
+	$full_width     = bp_core_avatar_full_width();
+	$full_height    = bp_core_avatar_full_height();
+	if ( isset( $uploaded_image[0] ) && $uploaded_image[0] < $full_width || $uploaded_image[1] < $full_height ) {
+		bp_core_add_message( sprintf( __( 'You have selected an image that is smaller than recommended. For best results, upload a picture larger than %d x %d pixels.', 'buddypress' ), $full_width, $full_height ), 'error' );
+	}
+
 	// Set the url value for the image
 	$bp->avatar_admin->image->url = bp_core_avatar_url() . $bp->avatar_admin->image->dir;
 
@@ -822,7 +831,11 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 
 	// If passed an object, assume $user->user_id
 	if ( is_object( $user ) ) {
-		$id = $user->user_id;
+		if ( isset( $user->user_id ) ) {
+			$id = $user->user_id;
+		} else {
+			$id = $user->ID;
+		}
 
 	// If passed a number, assume it was a $user_id
 	} else if ( is_numeric( $user ) ) {
@@ -840,7 +853,7 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 
 	// Image alt tag
 	if ( empty( $alt ) ) {
-		$alt = sprintf( __( 'Avatar of %s', 'buddypress' ), bp_core_get_user_displayname( $id ) );
+		$alt = sprintf( __( 'Profile photo of %s', 'buddypress' ), bp_core_get_user_displayname( $id ) );
 	}
 
 	// Use the 'thumb' type, unless the requested width is bigger than

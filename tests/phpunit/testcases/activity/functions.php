@@ -696,6 +696,52 @@ Bar!';
 	}
 
 	/**
+	 * @group bp_activity_delete_comment
+	 * @group cache
+	 */
+	public function test_bp_activity_delete_comment_clear_cache() {
+		// add new activity update and comment to this update
+		$a1 = $this->factory->activity->create();
+		$a2 = bp_activity_new_comment( array(
+			'activity_id' => $a1,
+			'parent_id' => $a1,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		// prime cache
+		bp_activity_get( array(
+			'in' => array( $a1 ),
+			'display_comments' => 'threaded',
+		) );
+
+		// delete activity comment
+		bp_activity_delete_comment( $a1, $a2 );
+
+		// assert comment cache as empty for $a1
+		$this->assertEmpty( wp_cache_get( $a1, 'bp_activity_comments' ) );
+	}
+
+	/**
+	 * @group bp_activity_new_comment
+	 * @group BP5907
+	 */
+	public function test_bp_activity_comment_on_deleted_activity() {
+		$a = $this->factory->activity->create();
+
+		bp_activity_delete_by_activity_id( $a );
+
+		$c = bp_activity_new_comment( array(
+			'activity_id' => $a,
+			'parent_id' => $a,
+			'content' => 'foo',
+			'user_id' => 1,
+		) );
+
+		$this->assertEmpty( $c );
+	}
+
+	/**
 	 * @group favorites
 	 * @group bp_activity_add_user_favorite
 	 */
@@ -735,6 +781,77 @@ Bar!';
 		// Removing for user 2 should fail
 		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+	}
+
+	/**
+	 * @group bp_activity_post_update
+	 */
+	public function test_bp_activity_post_update_empty_content() {
+		$this->assertFalse( bp_activity_post_update( array( 'user_id' => 3, ) ) );
+	}
+
+	/**
+	 * @group bp_activity_post_update
+	 */
+	public function test_bp_activity_post_update_inactive_user() {
+		$this->assertFalse( bp_activity_post_update( array(
+			'user_id' => 3456,
+			'content' => 'foo',
+		) ) );
+	}
+
+	/**
+	 * @group bp_activity_post_update
+	 */
+	public function test_bp_activity_post_update_success() {
+		$u = $this->create_user();
+
+		$a = bp_activity_post_update( array(
+			'user_id' => $u,
+			'content' => 'foo',
+		) );
+
+		$this->assertNotEmpty( $a );
+	}
+
+	/**
+	 * @group bp_activity_get_activity_id
+	 */
+	public function test_bp_activity_get_activity_id() {
+		$args = array(
+			'user_id' => 5,
+			'component' => 'foo',
+			'type' => 'bar',
+			'item_id' => 12,
+			'secondary_item_id' => 44,
+		);
+
+		$a = $this->factory->activity->create( $args );
+
+		$this->assertEquals( $a, bp_activity_get_activity_id( $args ) );
+	}
+
+	/**
+	 * @group bp_activity_delete_by_item_id
+	 */
+	public function test_bp_activity_delete_by_item_id() {
+		$args = array(
+			'user_id' => 5,
+			'component' => 'foo',
+			'type' => 'bar',
+			'item_id' => 12,
+			'secondary_item_id' => 44,
+		);
+
+		$a = $this->factory->activity->create( $args );
+
+		$this->assertTrue( bp_activity_delete_by_item_id( $args ) );
+
+		$found = bp_activity_get_specific( array(
+			'activity_ids' => array( $a ),
+		) );
+
+		$this->assertSame( array(), $found['activities'] );
 	}
 
 	public function check_activity_caches() {

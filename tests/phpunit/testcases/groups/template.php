@@ -43,20 +43,21 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_has_groups
 	 */
 	public function test_bp_has_groups_with_order_orderby_with_null_type() {
+		$now = time();
 		$g1 = $this->factory->group->create( array(
 			'name' => 'AAAAA',
-			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000000 ),
+			'date_created' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 1000000 ),
 		) );
 		$g2 = $this->factory->group->create( array(
 			'name' => 'BBBBB',
-			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 1000000 ),
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 10000 ),
+			'date_created' => gmdate( 'Y-m-d H:i:s', $now - 1000000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 10000 ),
 		) );
 		$g3 = $this->factory->group->create( array(
 			'name' => 'CCCCC',
-			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 10000 ),
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 10 ),
+			'date_created' => gmdate( 'Y-m-d H:i:s', $now - 10000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 10 ),
 		) );
 
 		global $groups_template;
@@ -78,17 +79,18 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_has_groups
 	 */
 	public function test_bp_has_groups_defaults_to_DESC_last_activity_for_default_type_active_backpat() {
+		$now = time();
 		$g1 = $this->factory->group->create( array(
 			'name' => 'AAAAA',
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 		$g2 = $this->factory->group->create( array(
 			'name' => 'BBBBB',
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 1000000 ),
 		) );
 		$g3 = $this->factory->group->create( array(
 			'name' => 'CCCCC',
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 10000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 10000 ),
 		) );
 
 		global $groups_template;
@@ -374,11 +376,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'creator_id' => $u1,
 		) );
 
+		$now = time();
 		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*24 ),
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*24 ),
 		) );
 		$this->add_user_to_group( $u3, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*12 ),
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*12 ),
 		) );
 
 		$m2 = new BP_Groups_Member( $u2, $g );
@@ -402,14 +405,15 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_default_order() {
+		$now = time();
 		$u1 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60 ),
 		) );
 		$u2 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 600 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 600 ),
 		) );
 		$u3 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 6000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 6000 ),
 		) );
 
 		$g = $this->factory->group->create( array(
@@ -417,11 +421,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		) );
 
 		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*24 ),
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*24 ),
 		) );
 
 		$this->add_user_to_group( $u3, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*12 ),
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*12 ),
 		) );
 
 		global $members_template;
@@ -440,17 +444,18 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group BP_Groups_Invite_Template
 	 */
 	public function test_bp_group_has_invites_template_structure() {
+		$now = time();
 		$u1 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60 ),
 		) );
 		$u2 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 600 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 600 ),
 		) );
 		$u3 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 6000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 6000 ),
 		) );
 		$u4 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60000 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60000 ),
 		) );
 
 
@@ -459,21 +464,21 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		) );
 
 		$m2 = $this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*24 ),
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*24 ),
 			'is_confirmed' => 0,
 			'inviter_id' => $u1,
 			'invite_sent' => true,
 		) );
 
 		$m3 = $this->add_user_to_group( $u3, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*12 ),
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*12 ),
 			'is_confirmed' => 0,
 			'inviter_id' => $u1,
 			'invite_sent' => true,
 		) );
 
 		$m4 = $this->add_user_to_group( $u4, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', time() - 60*60*36 ),
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*36 ),
 			'is_confirmed' => 1,
 			'inviter_id' => $u1,
 			'invite_sent' => true,
@@ -529,13 +534,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		) );
 
 		$users = array();
+		$now = time();
 		for ( $i = 1; $i < 15; $i++ ) {
 			$users[ $i ] = $this->create_user( array(
-				'last_activity' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - $i ),
 			) );
 
 			$this->add_user_to_group( $users[ $i ], $g, array(
-				'date_modified' => gmdate( 'Y-m-d H:i:s', time() - $i ),
+				'date_modified' => gmdate( 'Y-m-d H:i:s', $now - $i ),
 				'is_confirmed' => 0,
 				'inviter_id' => $u1,
 				'invite_sent' => true,
@@ -562,8 +568,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group BP_Group_Membership_Requests_Template
 	 */
 	public function test_bp_group_has_membership_requests_results() {
+		$now = time();
 		$u1 = $this->create_user( array(
-			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
+			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60 ),
 		) );
 
 		$g = $this->factory->group->create( array(
@@ -574,14 +581,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$memberships = array();
 		for ( $i = 1; $i < 15; $i++ ) {
 			$users[ $i ] = $this->create_user( array(
-				'last_activity' => gmdate( 'Y-m-d H:i:s', time() - ( 100 - $i ) ),
+				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - ( 100 - $i ) ),
 			) );
 
 			$memberships[ $i ] = $this->add_user_to_group( $users[ $i ], $g, array(
 				// this date_modified ensures that order will match
 				// id order. necessary due to a quirk in the legacy
 				// implementation
-				'date_modified' => gmdate( 'Y-m-d H:i:s', time() - ( 100 - $i ) ),
+				'date_modified' => gmdate( 'Y-m-d H:i:s', $now - ( 100 - $i ) ),
 				'is_confirmed' => 0,
 				'inviter_id' => 0,
 				'invite_sent' => false,
@@ -688,5 +695,156 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		foreach ( get_object_vars( $expected ) as $k => $v ) {
 			$this->assertEquals( $v, $requests_template->requests[0]->{$k} );
 		}
+	}
+
+	/**
+	 * @group bp_group_is_user_banned
+	 */
+	public function test_bp_group_is_user_banned_in_groups_loop() {
+		$now = time();
+		$u1 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		$g1 = $this->factory->group->create( array(
+			'creator_id' => $u1,
+			'last_activity' => $now - 100,
+		) );
+		$g2 = $this->factory->group->create( array(
+			'creator_id' => $u2,
+			'last_activity' => $now - 200,
+		) );
+
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+		$this->add_user_to_group( $u2, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 500 ),
+		) );
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		// Ban user 1 from group 2
+		// Fool the admin check
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u2 );
+		buddypress()->is_item_admin = true;
+		groups_ban_member( $u1, $g2 );
+
+		// Start the groups loop
+		$this->set_current_user( $u1 );
+		if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group();
+			$found[] = bp_group_is_user_banned();
+		endwhile; endif;
+
+		// Assert
+		$expected = array( false, true );
+		$this->assertEquals( $expected, $found );
+
+		// Clean up
+		$GLOBALS['groups_template'] = null;
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_group_is_user_banned
+	 */
+	public function test_bp_group_is_user_banned_not_in_groups_loop() {
+		$now = time();
+		$u1 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$u2 = $this->create_user( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u2 ) );
+
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+		$this->add_user_to_group( $u2, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 500 ),
+		) );
+		$this->add_user_to_group( $u1, $g2, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+
+		// Ban user 1 from group 2
+		// Fool the admin check
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u2 );
+		buddypress()->is_item_admin = true;
+		groups_ban_member( $u1, $g2 );
+
+		// Do group ban checks
+		$group1 = new BP_Groups_Group( $g1 );
+		$group2 = new BP_Groups_Group( $g2 );
+
+		$found = array();
+		$found[] = bp_group_is_user_banned( $group1, $u1 );
+		$found[] = bp_group_is_user_banned( $group2, $u1 );
+
+		// Assert
+		$expected = array( false, true );
+		$this->assertEquals( $expected, $found );
+
+		// Clean up
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_get_group_member_count
+	 */
+	public function test_bp_get_group_member_count_0_members() {
+		global $groups_template;
+		$gt = $groups_template;
+		$groups_template = new stdClass;
+		$groups_template->group = new stdClass;
+		$groups_template->group->total_member_count = 0;
+
+		$found = bp_get_group_member_count();
+
+		$groups_template = $gt;
+
+		$this->assertSame( '0 members', $found );
+	}
+
+	/**
+	 * @group bp_get_group_member_count
+	 */
+	public function test_bp_get_group_member_count_1_member() {
+		global $groups_template;
+		$gt = $groups_template;
+		$groups_template = new stdClass;
+		$groups_template->group = new stdClass;
+		$groups_template->group->total_member_count = 1;
+
+		$found = bp_get_group_member_count();
+
+		$groups_template = $gt;
+
+		$this->assertSame( '1 member', $found );
+	}
+
+	/**
+	 * @group bp_get_group_member_count
+	 */
+	public function test_bp_get_group_member_count_2_members() {
+		global $groups_template;
+		$gt = $groups_template;
+		$groups_template = new stdClass;
+		$groups_template->group = new stdClass;
+		$groups_template->group->total_member_count = 2;
+
+		$found = bp_get_group_member_count();
+
+		$groups_template = $gt;
+
+		$this->assertSame( '2 members', $found );
 	}
 }

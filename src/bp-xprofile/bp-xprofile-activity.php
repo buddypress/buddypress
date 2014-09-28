@@ -3,8 +3,8 @@
 /**
  * BuddyPress XProfile Activity & Notification Functions
  *
- * These functions handle the recording, deleting and formatting of activity items and
- * notifications for the user and for this specific component.
+ * These functions handle the recording, deleting and formatting of activity
+ * items and notifications for the user and for this specific component.
  *
  * @package BuddyPress
  * @subpackage XProfileActivity
@@ -13,8 +13,14 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Register the activity actions for the Extended Profile component
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @uses bp_activity_set_action() To setup the individual actions
+ */
 function xprofile_register_activity_actions() {
-	global $bp;
 
 	// Register the activity stream actions for this component
 	bp_activity_set_action(
@@ -24,11 +30,14 @@ function xprofile_register_activity_actions() {
 		'new_avatar',
 		__( 'Member changed profile picture', 'buddypress' ),
 		'bp_xprofile_format_activity_action_new_avatar',
-		__( 'Updated Avatars', 'buddypress' )
+		__( 'Updated Profile Photos', 'buddypress' )
 	);
 
+	// Get the profile component ID
+	$profile_id = buddypress()->profile->id;
+
 	bp_activity_set_action(
-		$bp->profile->id,
+		$profile_id,
 		'new_member',
 		__( 'New member registered', 'buddypress' ),
 		'bp_xprofile_format_activity_action_new_member',
@@ -37,7 +46,7 @@ function xprofile_register_activity_actions() {
 	);
 
 	bp_activity_set_action(
-		$bp->profile->id,
+		$profile_id,
 		'updated_profile',
 		__( 'Updated Profile', 'buddypress' ),
 		'bp_xprofile_format_activity_action_updated_profile',
@@ -101,6 +110,7 @@ function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
  * @return string
  */
 function bp_xprofile_format_activity_action_updated_profile( $action, $activity ) {
+
 	// Note for translators: The natural phrasing in English, "Joe updated
 	// his profile", requires that we know Joe's gender, which we don't. If
 	// your language doesn't have this restriction, feel free to use a more
@@ -115,105 +125,107 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  * Records activity for the logged in user within the profile component so that
  * it will show in the users activity stream (if installed)
  *
+ * @since BuddyPress (1.0.0)
+ *
  * @package BuddyPress
  * @subpackage XProfileActivity
  * @param string $args String containing all variables used after extract() call
- * @global $bp The global BuddyPress settings variable created in bp_core_current_times()
  * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
  */
 function xprofile_record_activity( $args = '' ) {
 
-	if ( !bp_is_active( 'activity' ) )
+	// Bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	global $bp;
-
-	$defaults = array (
+	// Parse the arguments
+	$r = bp_parse_args( $args, array(
 		'user_id'           => bp_loggedin_user_id(),
 		'action'            => '',
 		'content'           => '',
 		'primary_link'      => '',
-		'component'         => $bp->profile->id,
+		'component'         => buddypress()->profile->id,
 		'type'              => false,
 		'item_id'           => false,
 		'secondary_item_id' => false,
 		'recorded_time'     => bp_core_current_time(),
 		'hide_sitewide'     => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	return bp_activity_add( array(
-		'user_id'           => $user_id,
-		'action'            => $action,
-		'content'           => $content,
-		'primary_link'      => $primary_link,
-		'component'         => $component,
-		'type'              => $type,
-		'item_id'           => $item_id,
-		'secondary_item_id' => $secondary_item_id,
-		'recorded_time'     => $recorded_time,
-		'hide_sitewide'     => $hide_sitewide
 	) );
+
+	return bp_activity_add( $r );
 }
 
 /**
- * Deletes activity for a user within the profile component so that
- * it will be removed from the users activity stream and sitewide stream (if installed)
+ * Deletes activity for a user within the profile component so that it will be
+ * removed from the users activity stream and sitewide stream (if installed)
+ *
+ * @since BuddyPress (1.0.0)
  *
  * @package BuddyPress XProfile
  * @param string $args Containing all variables used after extract() call
- * @global BuddyPress $bp The one true BuddyPress instance
- * @uses bp_activity_delete() Deletes an entry to the activity component tables for a specific activity
+ * @uses bp_activity_delete() Deletes an entry to the activity component tables
+ *                            for a specific activity
  */
 function xprofile_delete_activity( $args = '' ) {
 
-	if ( ! bp_is_active( 'activity' ) )
+	// Bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	global $bp;
+	// Parse the arguments
+	$r = bp_parse_args( $args, array(
+		'component' => buddypress()->profile->id
+	), 'xprofile_delete_activity' );
 
-	extract( $args );
-
-	bp_activity_delete_by_item_id( array(
-		'item_id'           => $item_id,
-		'component'         => $bp->profile->id,
-		'type'              => $type,
-		'user_id'           => $user_id,
-		'secondary_item_id' => $secondary_item_id
-	) );
+	// Delete the activity item
+	bp_activity_delete_by_item_id( $r );
 }
 
+/**
+ * Register an activity action for the Extended Profiles component
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param string $key
+ * @param string $value
+ * @return bool True if success, false on failure
+ */
 function xprofile_register_activity_action( $key, $value ) {
-	global $bp;
 
-	if ( !bp_is_active( 'activity' ) )
+	// Bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
-	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( $bp->profile->id, $key, $value ), $key, $value );
+	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( buddypress()->profile->id, $key, $value ), $key, $value );
 }
 
 /**
  * Adds an activity stream item when a user has uploaded a new avatar.
  *
+ * @since BuddyPress (1.0.0)
+ *
  * @package BuddyPress XProfile
- * @global BuddyPress $bp The one true BuddyPress instance
- * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
+ * @uses bp_activity_add() Adds an entry to the activity component tables for a
+ *                         specific activity
  */
 function bp_xprofile_new_avatar_activity() {
 
-	if ( !bp_is_active( 'activity' ) )
+	// Bail if activity component is not active
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
+	}
 
+	// Allow user ID to be filtered
 	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', bp_displayed_user_id() );
 
-	$userlink = bp_core_get_userlink( $user_id );
-
+	// Add the activity
 	bp_activity_add( array(
-		'user_id' => $user_id,
+		'user_id'   => $user_id,
 		'component' => 'profile',
-		'type' => 'new_avatar'
+		'type'      => 'new_avatar'
 	) );
 }
 add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
@@ -233,12 +245,14 @@ add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
  *        levels.
  * @return bool True on success, false on failure.
  */
-function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $old_values = array(), $new_values = array() ) {
+function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $errors = false, $old_values = array(), $new_values = array() ) {
+
 	// If there were errors, don't post
 	if ( ! empty( $errors ) ) {
 		return false;
 	}
 
+	// Bail if activity component is not active
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
@@ -247,12 +261,10 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 	// related solely to non-public fields
 	$public_changes = false;
 	foreach ( $new_values as $field_id => $new_value ) {
-		$old_value            = isset( $old_values[ $field_id ] ) ? $old_values[ $field_id ] : '';
-		$old_value_value      = isset( $old_value['value'] ) ? $old_value['value'] : '';
-		$old_value_visibility = isset( $old_value['visibility'] ) ? $old_value['visibility'] : '';
+		$old_value = isset( $old_values[ $field_id ] ) ? $old_values[ $field_id ] : '';
 
 		// Don't register changes to private fields
-		if ( 'public' !== $new_value['visibility'] ) {
+		if ( empty( $new_value['visibility'] ) || ( 'public' !== $new_value['visibility'] ) ) {
 			continue;
 		}
 
@@ -266,13 +278,14 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 		break;
 	}
 
-	if ( ! $public_changes ) {
+	// Bail if no public changes
+	if ( empty( $public_changes ) ) {
 		return false;
 	}
 
 	// Throttle to one activity of this type per 2 hours
 	$existing = bp_activity_get( array(
-		'max' => 1,
+		'max'    => 1,
 		'filter' => array(
 			'user_id' => $user_id,
 			'object'  => buddypress()->profile->id,
@@ -280,32 +293,27 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $o
 		),
 	) );
 
-	if ( empty( $existing['activities'] ) ) {
-		$throttle = false;
-	} else {
-		// Default throttle time is 2 hours. Filter to change (in seconds)
-		$throttle_period = apply_filters( 'bp_xprofile_updated_profile_activity_throttle_time', 60 * 60 * 2 );
-		$then = strtotime( $existing['activities'][0]->date_recorded );
-		$now  = strtotime( bp_core_current_time() );
+	// Default throttle time is 2 hours. Filter to change (in seconds)
+	if ( ! empty( $existing['activities'] ) ) {
+		$throttle_period = apply_filters( 'bp_xprofile_updated_profile_activity_throttle_time', HOUR_IN_SECONDS * 2 );
+		$then            = strtotime( $existing['activities'][0]->date_recorded );
+		$now             = strtotime( bp_core_current_time() );
 
-		$throttle = ( $now - $then ) < $throttle_period;
-	}
-
-	if ( $throttle ) {
-		return false;
+		// Bail if throttled
+		if ( ( $now - $then ) < $throttle_period ) {
+			return false;
+		}
 	}
 
 	// If we've reached this point, assemble and post the activity item
 	$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . buddypress()->profile->slug );
 
-	$retval = xprofile_record_activity( array(
+	return (bool) xprofile_record_activity( array(
 		'user_id'      => $user_id,
 		'primary_link' => $profile_link,
 		'component'    => buddypress()->profile->id,
 		'type'         => 'updated_profile',
 	) );
-
-	return (bool) $retval;
 }
 add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 10, 5 );
 

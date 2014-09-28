@@ -290,7 +290,9 @@ class BP_Friends_Friendship {
 		if ( empty( $user_id ) )
 			$user_id = bp_loggedin_user_id();
 
-		$filter = esc_sql( like_escape( $filter ) );
+		// Only search for matching strings at the beginning of the
+		// name (@todo - figure out why this restriction)
+		$search_terms_like = bp_esc_like( $filter ) . '%';
 
 		$pag_sql = '';
 		if ( !empty( $limit ) && !empty( $page ) )
@@ -307,11 +309,11 @@ class BP_Friends_Friendship {
 
 		// filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
-			$sql       = "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ({$fids}) AND value LIKE '{$filter}%%' {$pag_sql}";
-			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ({$fids}) AND value LIKE '{$filter}%%'";
+			$sql       = $wpdb->prepare( "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ({$fids}) AND value LIKE %s {$pag_sql}", $search_terms_like );
+			$total_sql = $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ({$fids}) AND value LIKE %s", $search_terms_like );
 		} else {
-			$sql       = "SELECT DISTINCT user_id FROM {$wpdb->usermeta} WHERE user_id IN ({$fids}) AND meta_key = 'nickname' AND meta_value LIKE '{$filter}%%' {$pag_sql}";
-			$total_sql = "SELECT COUNT(DISTINCT user_id) FROM {$wpdb->usermeta} WHERE user_id IN ({$fids}) AND meta_key = 'nickname' AND meta_value LIKE '{$filter}%%'";
+			$sql       = $wpdb->prepare( "SELECT DISTINCT user_id FROM {$wpdb->usermeta} WHERE user_id IN ({$fids}) AND meta_key = 'nickname' AND meta_value LIKE %s' {$pag_sql}", $search_terms_like );
+			$total_sql = $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM {$wpdb->usermeta} WHERE user_id IN ({$fids}) AND meta_key = 'nickname' AND meta_value LIKE %s", $search_terms_like );
 		}
 
 		$filtered_friend_ids = $wpdb->get_col( $sql );
@@ -443,7 +445,9 @@ class BP_Friends_Friendship {
 	public static function search_users( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb, $bp;
 
-		$filter = esc_sql( like_escape( $filter ) );
+		// Only search for matching strings at the beginning of the
+		// name (@todo - figure out why this restriction)
+		$search_terms_like = bp_esc_like( $filter ) . '%';
 
 		$usermeta_table = $wpdb->base_prefix . 'usermeta';
 		$users_table    = $wpdb->base_prefix . 'users';
@@ -454,9 +458,9 @@ class BP_Friends_Friendship {
 
 		// filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
-			$sql = "SELECT DISTINCT d.user_id as id FROM {$bp->profile->table_name_data} d, {$users_table} u WHERE d.user_id = u.id AND d.value LIKE '{$filter}%%' ORDER BY d.value DESC {$pag_sql}";
+			$sql = $wpdb->prepare( "SELECT DISTINCT d.user_id as id FROM {$bp->profile->table_name_data} d, {$users_table} u WHERE d.user_id = u.id AND d.value LIKE %s ORDER BY d.value DESC {$pag_sql}", $search_terms_like );
 		} else {
-			$sql = "SELECT DISTINCT user_id as id FROM {$usermeta_table} WHERE meta_value LIKE '{$filter}%%' ORDER BY d.value DESC {$pag_sql}";
+			$sql = $wpdb->prepare( "SELECT DISTINCT user_id as id FROM {$usermeta_table} WHERE meta_value LIKE %s ORDER BY d.value DESC {$pag_sql}", $search_terms_like );
 		}
 
 		$filtered_fids = $wpdb->get_col($sql);
@@ -478,16 +482,18 @@ class BP_Friends_Friendship {
 	public static function search_users_count( $filter ) {
 		global $wpdb, $bp;
 
-		$filter = esc_sql( like_escape( $filter ) );
+		// Only search for matching strings at the beginning of the
+		// name (@todo - figure out why this restriction)
+		$search_terms_like = bp_esc_like( $filter ) . '%';
 
 		$usermeta_table = $wpdb->prefix . 'usermeta';
 		$users_table    = $wpdb->base_prefix . 'users';
 
 		// filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
-			$sql = "SELECT COUNT(DISTINCT d.user_id) FROM {$bp->profile->table_name_data} d, {$users_table} u WHERE d.user_id = u.id AND d.value LIKE '{$filter}%%'";
+			$sql = $wpdb->prepare( "SELECT COUNT(DISTINCT d.user_id) FROM {$bp->profile->table_name_data} d, {$users_table} u WHERE d.user_id = u.id AND d.value LIKE %s", $search_terms_like );
 		} else {
-			$sql = "SELECT COUNT(DISTINCT user_id) FROM {$usermeta_table} WHERE meta_value LIKE '{$filter}%%'";
+			$sql = $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM {$usermeta_table} WHERE meta_value LIKE %s", $search_terms_like );
 		}
 
 		$user_count = $wpdb->get_col($sql);

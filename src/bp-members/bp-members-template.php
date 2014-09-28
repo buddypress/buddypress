@@ -264,8 +264,22 @@ class BP_Core_Members_Template {
 		}
 
 		if ( (int) $this->total_member_count && (int) $this->pag_num ) {
+			$pag_args = array(
+				$page_arg => '%#%',
+			);
+
+			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
+				$base = remove_query_arg( 's', wp_get_referer() );
+			} else {
+				$base = '';
+			}
+
+			if ( ! empty( $search_terms ) ) {
+				$pag_args['s'] = urlencode( $search_terms );
+			}
+
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $page_arg, '%#%' ),
+				'base'      => add_query_arg( $pag_args, $base ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_member_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
@@ -415,15 +429,8 @@ function bp_rewind_members() {
 function bp_has_members( $args = '' ) {
 	global $members_template;
 
-	/***
-	 * Set the defaults based on the current page. Any of these will be overridden
-	 * if arguments are directly passed into the loop. Custom plugins should always
-	 * pass their parameters directly to the loop.
-	 */
-	$type         = 'active';
-	$user_id      = 0;
-	$page         = 1;
-	$search_terms = null;
+	// Default user ID
+	$user_id = 0;
 
 	// User filtering
 	if ( bp_is_user_friends() && ! bp_is_user_friend_requests() ) {
@@ -431,42 +438,56 @@ function bp_has_members( $args = '' ) {
 	}
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
-	$defaults = array(
-		'type'            => $type,
-		'page'            => $page,
+	$r = bp_parse_args( $args, array(
+		'type'            => 'active',
+		'page'            => 1,
 		'per_page'        => 20,
 		'max'             => false,
 
-		'page_arg'        => 'upage',       // See https://buddypress.trac.wordpress.org/ticket/3679
+		'page_arg'        => 'upage',  // See https://buddypress.trac.wordpress.org/ticket/3679
 
-		'include'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
-		'exclude'         => false,         // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
+		'include'         => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
+		'exclude'         => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
 
-		'user_id'         => $user_id,      // Pass a user_id to only show friends of this user
-		'search_terms'    => $search_terms, // Pass search_terms to filter users by their profile data
+		'user_id'         => $user_id, // Pass a user_id to only show friends of this user
+		'search_terms'    => null,     // Pass search_terms to filter users by their profile data
 
-		'meta_key'        => false,	        // Only return users with this usermeta
-		'meta_value'	  => false,	        // Only return users where the usermeta value matches. Requires meta_key
+		'meta_key'        => false,	   // Only return users with this usermeta
+		'meta_value'	  => false,	   // Only return users where the usermeta value matches. Requires meta_key
 
-		'populate_extras' => true           // Fetch usermeta? Friend count, last active etc.
-	);
-
-	$r = bp_parse_args( $args, $defaults, 'has_members' );
-	extract( $r );
+		'populate_extras' => true      // Fetch usermeta? Friend count, last active etc.
+	), 'has_members' );
 
 	// Pass a filter if ?s= is set.
-	if ( is_null( $search_terms ) ) {
-		if ( !empty( $_REQUEST['s'] ) )
-			$search_terms = $_REQUEST['s'];
-		else
-			$search_terms = false;
+	if ( is_null( $r['search_terms'] ) ) {
+		if ( !empty( $_REQUEST['s'] ) ) {
+			$r['search_terms'] = $_REQUEST['s'];
+		} else {
+			$r['search_terms'] = false;
+		}
 	}
 
 	// Set per_page to max if max is larger than per_page
-	if ( !empty( $max ) && ( $per_page > $max ) )
-		$per_page = $max;
+	if ( !empty( $r['max'] ) && ( $r['per_page'] > $r['max'] ) ) {
+		$r['per_page'] = $r['max'];
+	}
 
-	$members_template = new BP_Core_Members_Template( $type, $page, $per_page, $max, $user_id, $search_terms, $include, (bool)$populate_extras, $exclude, $meta_key, $meta_value, $page_arg );
+	// Query for members and populate $members_template global
+	$members_template = new BP_Core_Members_Template(
+		$r['type'],
+		$r['page'],
+		$r['per_page'],
+		$r['max'],
+		$r['user_id'],
+		$r['search_terms'],
+		$r['include'],
+		$r['populate_extras'],
+		$r['exclude'],
+		$r['meta_key'],
+		$r['meta_value'],
+		$r['page_arg']
+	);
+
 	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template );
 }
 
@@ -513,13 +534,13 @@ function bp_members_pagination_count() {
 		$total     = bp_core_number_format( $members_template->total_member_count );
 
 		if ( 'active' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s active member)', 'Viewing member %1$s to %2$s (of %3$s active members)', $total, 'buddypress' ), $from_num, $to_num, $total );
+			$pag = sprintf( _n( 'Viewing 1 active member', 'Viewing %1$s - %2$s of %3$s active members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 		else if ( 'popular' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member with friends)', 'Viewing member %1$s to %2$s (of %3$s members with friends)', $total, 'buddypress' ), $from_num, $to_num, $total );
+			$pag = sprintf( _n( 'Viewing 1 member with friends', 'Viewing %1$s - %2$s of %3$s members with friends', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 		else if ( 'online' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member online)', 'Viewing member %1$s to %2$s (of %3$s members online)', $total, 'buddypress' ), $from_num, $to_num, $total );
+			$pag = sprintf( _n( 'Viewing 1 online member', 'Viewing %1$s - %2$s of %3$s online members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 		else
-			$pag = sprintf( _n( 'Viewing member %1$s to %2$s (of %3$s member)', 'Viewing member %1$s to %2$s (of %3$s members)', $total, 'buddypress' ), $from_num, $to_num, $total );
+			$pag = sprintf( _n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 
 		return apply_filters( 'bp_members_pagination_count', $pag );
 	}
@@ -794,29 +815,40 @@ function bp_member_last_active( $args = array() ) {
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
-	 *     @type bool $active_format If true, formatted "Active 5 minutes
-	 *           ago". If false, formatted "5 minutes ago". Default: true.
+	 *     @type mixed $active_format If true, formatted "active 5 minutes
+	 *           ago". If false, formatted "5 minutes ago". If string, should
+	 *           be sprintf'able like 'last seen %s ago'.
 	 * }
 	 * @return string
 	 */
 	function bp_get_member_last_active( $args = array() ) {
 		global $members_template;
 
-		$r = wp_parse_args( $args, array(
-			'active_format' => true,
+		// Parse the activity format
+		$r = bp_parse_args( $args, array(
+			'active_format' => true
 		) );
 
+		// Backwards compatibilty for anyone forcing a 'true' active_format
+		if ( true === $r['active_format'] ) {
+			$r['active_format'] = __( 'active %s', 'buddypress' );
+		}
+
+		// Member has logged in at least one time
 		if ( isset( $members_template->member->last_activity ) ) {
-			if ( ! empty( $r['active_format'] ) ) {
-				$last_activity = bp_core_get_last_activity( $members_template->member->last_activity, __( 'active %s', 'buddypress' ) );
-			} else {
-				$last_activity = bp_core_time_since( $members_template->member->last_activity );
-			}
+
+			// Backwards compatibility for pre 1.5 'ago' strings
+			$last_activity = ! empty( $r['active_format'] )
+				? bp_core_get_last_activity( $members_template->member->last_activity, $r['active_format'] )
+				: bp_core_time_since( $members_template->member->last_activity );
+
+		// Member has never logged in or been active
 		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
 		}
 
-		return apply_filters( 'bp_member_last_active', $last_activity );
+		// Filter and return
+		return apply_filters( 'bp_member_last_active', $last_activity, $r );
 	}
 
 /**
@@ -956,7 +988,7 @@ function bp_member_registered() {
 
 		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, _x( 'registered %s', 'Records the timestamp that the user registered into the activy stream', 'buddypress' ) ) );
 
-		return apply_filters( 'bp_member_last_active', $registered );
+		return apply_filters( 'bp_member_registered', $registered );
 	}
 
 /**
@@ -1573,6 +1605,32 @@ function bp_signup_blog_url_value() {
 	}
 
 /**
+ * Output the base URL for subdomain installations of WordPress Multisite.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_signup_subdomain_base() {
+	echo bp_signup_get_subdomain_base();
+}
+	/**
+	 * Return the base URL for subdomain installations of WordPress Multisite.
+	 *
+	 * Replaces bp_blogs_get_subdomain_base()
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return string The base URL - eg, 'example.com' for site_url() example.com or www.example.com.
+	 */
+	function bp_signup_get_subdomain_base() {
+		global $current_site;
+
+		// In case plugins are still using this filter
+		$subdomain_base = apply_filters( 'bp_blogs_subdomain_base', preg_replace( '|^www\.|', '', $current_site->domain ) . $current_site->path );
+
+		return apply_filters( 'bp_signup_subdomain_base', $subdomain_base );
+	}
+
+/**
  * Output the 'signup_blog_titl' value submitted at signup.
  */
 function bp_signup_blog_title_value() {
@@ -1690,7 +1748,7 @@ function bp_signup_avatar( $args = '' ) {
 		$defaults = array(
 			'size' => bp_core_avatar_full_width(),
 			'class' => 'avatar',
-			'alt' => __( 'Your Avatar', 'buddypress' )
+			'alt' => __( 'Your Profile Photo', 'buddypress' )
 		);
 
 		$r = wp_parse_args( $args, $defaults );

@@ -292,31 +292,30 @@ class BP_Component {
 	public function includes( $includes = array() ) {
 
 		// Bail if no files to include
-		if ( empty( $includes ) )
-			return;
+		if ( ! empty( $includes ) ) {
+			$slashed_path = trailingslashit( $this->path );
 
-		$slashed_path = trailingslashit( $this->path );
+			// Loop through files to be included
+			foreach ( (array) $includes as $file ) {
 
-		// Loop through files to be included
-		foreach ( (array) $includes as $file ) {
+				$paths = array(
 
-			$paths = array(
+					// Passed with no extension
+					'bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php',
+					'bp-' . $this->id . '-' . $file . '.php',
+					'bp-' . $this->id . '/' . $file . '.php',
 
-				// Passed with no extension
-				'bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php',
-				'bp-' . $this->id . '-' . $file . '.php',
-				'bp-' . $this->id . '/' . $file . '.php',
+					// Passed with extension
+					$file,
+					'bp-' . $this->id . '-' . $file,
+					'bp-' . $this->id . '/' . $file,
+				);
 
-				// Passed with extension
-				$file,
-				'bp-' . $this->id . '-' . $file,
-				'bp-' . $this->id . '/' . $file,
-			);
-
-			foreach ( $paths as $path ) {
-				if ( @is_file( $slashed_path . $path ) ) {
-					require( $slashed_path . $path );
-					break;
+				foreach ( $paths as $path ) {
+					if ( @is_file( $slashed_path . $path ) ) {
+						require( $slashed_path . $path );
+						break;
+					}
 				}
 			}
 		}
@@ -337,6 +336,9 @@ class BP_Component {
 
 		// Setup globals
 		add_action( 'bp_setup_globals',          array( $this, 'setup_globals'          ), 10 );
+
+		// Set up canonical stack
+		add_action( 'bp_setup_canonical_stack',  array( $this, 'setup_canonical_stack'  ), 10 );
 
 		// Include required files. Called early to ensure that BP core
 		// components are loaded before plugins that hook their loader functions
@@ -378,6 +380,13 @@ class BP_Component {
 		// Additional actions can be attached here
 		do_action( 'bp_' . $this->id . '_setup_actions' );
 	}
+
+	/**
+	 * Set up the canonical URL stack for this component.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function setup_canonical_stack() {}
 
 	/**
 	 * Set up component navigation.
@@ -426,12 +435,14 @@ class BP_Component {
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
 		// Bail if this is an ajax request
-		if ( defined( 'DOING_AJAX' ) )
+		if ( defined( 'DOING_AJAX' ) ) {
 			return;
+		}
 
 		// Do not proceed if BP_USE_WP_ADMIN_BAR constant is not set or is false
-		if ( !bp_use_wp_admin_bar() )
+		if ( ! bp_use_wp_admin_bar() ) {
 			return;
+		}
 
 		// Filter the passed admin nav
 		$wp_admin_nav = apply_filters( 'bp_' . $this->id . '_admin_nav', $wp_admin_nav );

@@ -13,8 +13,9 @@
 	<input type="text" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
 
 	<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ); ?></label>
-	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'New Password', 'buddypress' ); ?><br />
-	<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small" /> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ); ?>
+	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" /> &nbsp;<?php _e( 'New Password', 'buddypress' ); ?><br />
+	<div id="pass-strength-result"></div>
+	<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small password-entry-confirm" /> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ); ?>
 
 	<?php do_action( 'bp_core_general_settings_before_submit' ); ?>
 

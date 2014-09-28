@@ -44,10 +44,8 @@ class BP_Members_Component extends BP_Component {
 			'filters',
 			'screens',
 			'template',
-			'buddybar',
 			'adminbar',
-			'functions',
-			'notifications',
+			'functions'
 		);
 
 		// Include these only if in admin
@@ -97,8 +95,11 @@ class BP_Members_Component extends BP_Component {
 
 		/** Logged in user ****************************************************/
 
+		// The core userdata of the user who is currently logged in.
+		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( bp_loggedin_user_id() );
+
 		// Fetch the full name for the logged in user
-		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( bp_loggedin_user_id() );
+		$bp->loggedin_user->fullname       = isset( $bp->loggedin_user->userdata->display_name ) ? $bp->loggedin_user->userdata->display_name : '';
 
 		// Hits the DB on single WP installs so get this separately
 		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( bp_loggedin_user_id() );
@@ -106,19 +107,16 @@ class BP_Members_Component extends BP_Component {
 		// The domain for the user currently logged in. eg: http://domain.com/members/andy
 		$bp->loggedin_user->domain         = bp_core_get_user_domain( bp_loggedin_user_id() );
 
-		// The core userdata of the user who is currently logged in.
-		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( bp_loggedin_user_id() );
-
 		/** Displayed user ****************************************************/
-
-		// The domain for the user currently being displayed
-		$bp->displayed_user->domain   = bp_core_get_user_domain( bp_displayed_user_id() );
 
 		// The core userdata of the user who is currently being displayed
 		$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
 
 		// Fetch the full name displayed user
-		$bp->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
+		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
+
+		// The domain for the user currently being displayed
+		$bp->displayed_user->domain   = bp_core_get_user_domain( bp_displayed_user_id() );
 
 		/** Signup ************************************************************/
 
@@ -131,6 +129,15 @@ class BP_Members_Component extends BP_Component {
 			$bp->profile->slug = 'profile';
 			$bp->profile->id   = 'profile';
 		}
+	}
+
+	/**
+	 * Set up canonical stack for this component.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
+	public function setup_canonical_stack() {
+		$bp = buddypress();
 
 		/** Default Profile Component *****************************************/
 
@@ -210,7 +217,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Setup the main navigation
 		$main_nav = array(
-			'name'                => __( 'Profile', 'buddypress' ),
+			'name'                => _x( 'Profile', 'Member profile main navigation', 'buddypress' ),
 			'slug'                => $bp->profile->slug,
 			'position'            => 20,
 			'screen_function'     => 'bp_members_screen_display_profile',
@@ -224,7 +231,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Setup the subnav items for the member profile
 		$sub_nav[] = array(
-			'name'            => __( 'View', 'buddypress' ),
+			'name'            => _x( 'View', 'Member profile view', 'buddypress' ),
 			'slug'            => 'public',
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $bp->profile->slug,

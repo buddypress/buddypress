@@ -340,30 +340,40 @@ function bp_core_enable_root_profiles() {
  * @return bool|null Returns false on failure.
  */
 function bp_core_load_template( $templates ) {
-	global $post, $bp, $wp_query, $wpdb;
+	global $wp_query;
 
-	// Determine if the root object WP page exists for this request
-	// note: get_page_by_path() breaks non-root pages
-	if ( !empty( $bp->unfiltered_uri_offset ) ) {
-		if ( !$page_exists = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = %s", $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) ) ) {
-			return false;
+	// check if BP page belongs to, or is a child of, a BP directory page
+	$page_id = false;
+	foreach ( (array) buddypress()->pages as $page ) {
+		if ( $page->name == buddypress()->unfiltered_uri[buddypress()->unfiltered_uri_offset] ) {
+			$page_id = $page->id;
+			break;
 		}
 	}
 
-	// Set the root object as the current wp_query-ied item
-	$object_id = 0;
-	foreach ( (array) $bp->pages as $page ) {
-		if ( $page->name == $bp->unfiltered_uri[$bp->unfiltered_uri_offset] ) {
-			$object_id = $page->id;
-		}
+	// Set up reset post args
+	$reset_post_args = array(
+		'is_404'      => true,
+		'post_status' => 'publish',
+	);
+
+	// BP page exists - fill in the $wp_query->post object
+	//
+	// bp_theme_compat_reset_post() looks at the $wp_query->post object to fill in
+	// the post globals
+	if ( ! empty( $page_id ) ) {
+		$wp_query->post = get_post( $page_id );
+		$reset_post_args['ID'] = $page_id;
+	} else {
+		$reset_post_args['ID'] = 0;
 	}
 
-	// Make the queried/post object an actual valid page
-	if ( !empty( $object_id ) ) {
-		$wp_query->queried_object    = get_post( $object_id );
-		$wp_query->queried_object_id = $object_id;
-		$post                        = $wp_query->queried_object;
-	}
+	// Reset the post
+	bp_theme_compat_reset_post( $reset_post_args );
+
+	// Set theme compat to false since the reset post function automatically sets
+	// theme compat to true
+	bp_set_theme_compat_active( false );
 
 	// Fetch each template and add the php suffix
 	$filtered_templates = array();
@@ -371,8 +381,17 @@ function bp_core_load_template( $templates ) {
 		$filtered_templates[] = $template . '.php';
 	}
 
+	// Only perform template lookup for bp-default themes
+	if ( ! bp_use_theme_compat_with_current_theme() ) {
+		$template = locate_template( (array) $filtered_templates, false );
+
+	// Theme compat doesn't require a template lookup
+	} else {
+		$template = '';
+	}
+
 	// Filter the template locations so that plugins can alter where they are located
-	$located_template = apply_filters( 'bp_located_template', locate_template( (array) $filtered_templates, false ), $filtered_templates );
+	$located_template = apply_filters( 'bp_located_template', $template, $filtered_templates );
 	if ( !empty( $located_template ) ) {
 
 		// Template was located, lets set this as a valid page and not a 404.

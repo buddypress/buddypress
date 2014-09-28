@@ -136,6 +136,151 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group group_meta_query
+	 */
+	public function test_get_with_meta_query_multiple_clauses_relation_or() {
+		$now = time();
+		$g1 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
+		) );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
+		groups_update_groupmeta( $g2, 'foo', 'baz' );
+		groups_update_groupmeta( $g3, 'bar', 'barry' );
+
+		$groups = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+				array(
+					'key' => 'bar',
+					'value' => 'barry',
+				),
+			),
+		) );
+		$ids = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( array( $g1, $g3 ), $ids );
+		$this->assertEquals( 2, $groups['total'] );
+	}
+
+	/**
+	 * @group get
+	 * @group group_meta_query
+	 * @ticket BP5874
+	 */
+	public function test_get_with_meta_query_multiple_clauses_relation_or_shared_meta_key() {
+		$now = time();
+		$g1 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
+		) );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
+		groups_update_groupmeta( $g2, 'foo', 'baz' );
+		groups_update_groupmeta( $g3, 'foo', 'barry' );
+
+		$groups = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+				array(
+					'key' => 'foo',
+					'value' => 'baz',
+				),
+			),
+		) );
+		$ids = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( array( $g1, $g2 ), $ids );
+		$this->assertEquals( 2, $groups['total'] );
+	}
+
+	/**
+	 * @group get
+	 * @group group_meta_query
+	 * @ticket BP5874
+	 */
+	public function test_get_with_meta_query_multiple_clauses_relation_or_shared_meta_key_relation_like() {
+		$now = time();
+		$g1 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
+		) );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
+		groups_update_groupmeta( $g2, 'foo', 'baz' );
+		groups_update_groupmeta( $g3, 'foo', 'barry' );
+
+		$groups = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+					'compare' => 'LIKE',
+				),
+				array(
+					'key' => 'foo',
+					'value' => 'baz',
+					'compare' => 'LIKE',
+				),
+			),
+		) );
+		$ids = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( array( $g1, $g2 ), $ids );
+		$this->assertEquals( 2, $groups['total'] );
+	}
+
+	/**
+	 * @group get
+	 * @group group_meta_query
+	 * @ticket BP5824
+	 */
+	public function test_get_with_meta_query_multiple_keys_with_same_value() {
+		$now = time();
+		$g1 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
+		) );
+		groups_update_groupmeta( $g1, 'foo', 'bar' );
+		groups_update_groupmeta( $g2, 'foo2', 'bar' );
+
+		$groups = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+					'compare' => '=',
+				),
+			),
+		) );
+		$ids = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( $ids, array( $g1 ) );
+		$this->assertEquals( 1, $groups['total'] );
+	}
+
+	/**
+	 * @group get
 	 */
 	public function test_get_normal_search() {
 		$g1 = $this->factory->group->create( array(
@@ -336,6 +481,50 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		// group total should match 1
 		$this->assertEquals( '1', $groups['total'] );
+	}
+
+	/**
+	 * @group get
+	 * @ticket BP5477
+	 */
+	public function test_get_groups_page_perpage_params() {
+		// Create more than 20 groups (20 is the default per_page number)
+		$group_ids = array();
+
+		for ( $i = 1; $i <= 25; $i++ ) {
+			$group_ids[] = $this->factory->group->create();
+		}
+
+		// Tests
+		// Passing false to 'per_page' and 'page' should result in pagination not being applied
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => false,
+			'page'     => false
+		) );
+
+		// Should return all groups; "paged" group total should be 25
+		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
+
+		unset( $groups );
+
+		// Passing 'per_page' => -1 should result in pagination not being applied.
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => -1
+		) );
+
+		// Should return all groups; "paged" group total should match 25
+		$this->assertEquals( count( $group_ids ), count( $groups['groups'] ) );
+
+		unset( $groups );
+
+		// If "per_page" and "page" are both set, should result in pagination being applied.
+		$groups = BP_Groups_Group::get( array(
+			'per_page' => 12,
+			'page'     => 1
+		) );
+
+		// Should return top 12 groups only
+		$this->assertEquals( '12', count( $groups['groups'] ) );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/

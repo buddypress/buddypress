@@ -39,6 +39,12 @@ function bp_admin_bar_my_account_root() {
 				'class' => 'ab-sub-secondary'
 			)
 		) );
+
+		// Remove 'Edit' post link as it's not applicable to BP
+		// Remove when https://core.trac.wordpress.org/ticket/29538 is addressed
+		if ( is_buddypress() ) {
+			$wp_admin_bar->remove_node( 'edit' );
+		}
 	}
 }
 add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
@@ -70,6 +76,7 @@ function bp_core_load_admin_bar() {
 
 	// Hide the WordPress Toolbar and show the BuddyBar
 	if ( ! bp_use_wp_admin_bar() ) {
+		_doing_it_wrong( __FUNCTION__, __( 'The BuddyBar is no longer supported. Please migrate to the WordPress toolbar as soon as possible.', 'buddypress' ), '2.1.0' );
 
 		// Keep the WP Toolbar from loading
 		show_admin_bar( false );
@@ -89,23 +96,35 @@ function bp_core_load_admin_bar() {
 add_action( 'init', 'bp_core_load_admin_bar', 9 );
 
 /**
- * Handle the Toolbar CSS.
+ * Handle the enqueuing of toolbar CSS.
+ *
+ * This function exists mostly for backwards compatibility reasons, so anyone
+ * previously unhooking this function can continue to do so. It's hooked to
+ * the `bp_init` action in `bp-core-actions.php`.
  *
  * @since BuddyPress (1.5.0)
  */
 function bp_core_load_admin_bar_css() {
-	global $wp_styles;
+	add_action( 'bp_enqueue_scripts',       'bp_core_enqueue_admin_bar_css', 1 );
+	add_action( 'bp_admin_enqueue_scripts', 'bp_core_enqueue_admin_bar_css', 1 );
+}
 
-	if ( ! bp_use_wp_admin_bar() || ! is_admin_bar_showing() )
+/**
+ * Enqueue supplemental WordPress Toolbar styling
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @see bp_core_register_common_styles()
+ * @see bp_core_load_admin_bar_css()
+ */
+function bp_core_enqueue_admin_bar_css() {
+
+	// Bail if not using WordPress's admin bar or it's not showing on this
+	// page request.
+	if ( ! bp_use_wp_admin_bar() || ! is_admin_bar_showing() ) {
 		return;
+	}
 
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-	// Toolbar styles
-	$stylesheet = buddypress()->plugin_url . "bp-core/css/admin-bar{$min}.css";
-
-	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_admin_bar_css', $stylesheet ), array( 'admin-bar' ), bp_get_version() );
-	$wp_styles->add_data( 'bp-admin-bar', 'rtl', true );
-	if ( $min )
-		$wp_styles->add_data( 'bp-admin-bar', 'suffix', $min );
+	// Enqueue the additional adminbar css
+	wp_enqueue_style( 'bp-admin-bar' );
 }

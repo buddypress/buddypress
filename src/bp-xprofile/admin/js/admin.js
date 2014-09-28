@@ -2,29 +2,32 @@
 /* jshint scripturl: true */
 /* global XProfileAdmin */
 
+/**
+ * Add option for the forWhat type.
+ *
+ * @param {string} forWhat Value of the field to show options for
+ */
 function add_option(forWhat) {
-	var holder  = document.getElementById(forWhat + '_more'),
-		theId     = document.getElementById(forWhat + '_option_number').value,
-		newDiv    = document.createElement('p'),
-		newOption = document.createElement('input'),
-		span      = document.createElement( 'span' ),
-		txt       = document.createTextNode( '\u00A0\u039E\u00A0' ),
-		isDefault = document.createElement( 'input' ),
-		span1     = document.createElement( 'span' ),
-		txt1      = document.createTextNode( ' Default Value ' ),
-
-		toDelete     = document.createElement( 'a' ),
-		toDeleteText = document.createTextNode( '[x]' );
-
+	var holder       = document.getElementById(forWhat + '_more'),
+		theId        = document.getElementById(forWhat + '_option_number').value,
+		newDiv       = document.createElement( 'div' ),
+		grabber      = document.createElement( 'span' ),
+		newOption    = document.createElement( 'input' ),
+		label        = document.createElement( 'label' ),
+		isDefault    = document.createElement( 'input' ),
+		txt1         = document.createTextNode( 'Default Value' ),
+		toDeleteText = document.createTextNode( 'Delete' ),
+		toDeleteWrap = document.createElement( 'div' ),
+		toDelete     = document.createElement( 'a' );
 
 	newDiv.setAttribute('id', forWhat + '_div' + theId);
-	newDiv.setAttribute('class', 'sortable');
+	newDiv.setAttribute('class', 'bp-option sortable');
+
+	grabber.setAttribute( 'class', 'bp-option-icon grabber');
 
 	newOption.setAttribute( 'type', 'text' );
 	newOption.setAttribute( 'name', forWhat + '_option[' + theId + ']' );
 	newOption.setAttribute( 'id', forWhat + '_option' + theId );
-
-	span.appendChild( txt );
 
 	if ( forWhat === 'checkbox' || forWhat === 'multiselectbox' ) {
 		isDefault.setAttribute( 'type', 'checkbox' );
@@ -36,19 +39,24 @@ function add_option(forWhat) {
 
 	isDefault.setAttribute( 'value', theId );
 
-	span1.appendChild( txt1 );
-
-
 	toDelete.setAttribute( 'href', 'javascript:hide("' + forWhat + '_div' + theId + '")' );
 	toDelete.setAttribute( 'class', 'delete' );
 	toDelete.appendChild( toDeleteText );
 
-	newDiv.appendChild( span );
-	newDiv.appendChild( newOption );
+	toDeleteWrap.setAttribute( 'class', 'delete-button' );
+	toDeleteWrap.appendChild( toDelete );
+
+	label.appendChild( document.createTextNode( ' ' ) );
+	label.appendChild( isDefault );
+	label.appendChild( document.createTextNode( ' ' ) );
+	label.appendChild( txt1 );
+	label.appendChild( document.createTextNode( ' ' ) );
+
+	newDiv.appendChild( grabber );
 	newDiv.appendChild( document.createTextNode( ' ' ) );
-	newDiv.appendChild( isDefault );
-	newDiv.appendChild( span1 );
-	newDiv.appendChild( toDelete );
+	newDiv.appendChild( newOption );
+	newDiv.appendChild( label );
+	newDiv.appendChild( toDeleteWrap );
 	holder.appendChild( newDiv );
 
 	// re-initialize the sorable ui
@@ -64,6 +72,8 @@ function add_option(forWhat) {
 
 /**
  * Hide all "options" sections, and show the options section for the forWhat type.
+ *
+ * @param {string} forWhat Value of the field to show options for
  */
 function show_options( forWhat ) {
 	for ( var i = 0; i < XProfileAdmin.supports_options_field_types.length; i++ ) {
@@ -93,22 +103,20 @@ var fixHelper = function(e, ui) {
 	return ui;
 };
 
-function enableSortableFieldOptions( forWhat ) {
-	if ( jQuery( '#' + forWhat + ' p.sortable' ).length > 1 ) {
-		jQuery( '.bp-options-box' ).sortable( {
-			items: 'p.sortable',
-			tolerance: 'pointer',
-			axis: 'y',
-			handle: 'span'
-		});
+function enableSortableFieldOptions() {
+	jQuery( '.bp-options-box' ).sortable( {
+		cursor: 'move',
+		items: 'div.sortable',
+		tolerance: 'intersect',
+		axis: 'y'
+	});
 
-		jQuery( '.sortable span' ).css( 'cursor', 'move' );
-	}
+	jQuery( '.sortable, .sortable span' ).css( 'cursor', 'move' );
 }
 
 function destroySortableFieldOptions() {
 	jQuery( '.bp-options-box' ).sortable( 'destroy' );
-	jQuery( '.sortable span' ).css( 'cursor', 'default' );
+	jQuery( '.sortable, .sortable span' ).css( 'cursor', 'default' );
 }
 
 jQuery( document ).ready( function() {
@@ -130,7 +138,7 @@ jQuery( document ).ready( function() {
 		function() {} );
 	} );
 
-	//
+	// Set up the sort order change actions
 	jQuery( '[id^="sort_order_"]' ).change(function() {
 		if ( jQuery( this ).val() !== 'custom' ) {
 			destroySortableFieldOptions();
@@ -146,9 +154,9 @@ jQuery( document ).ready( function() {
 	jQuery( 'ul#field-group-tabs' ).sortable( {
 		cursor: 'move',
 		axis: 'x',
-		opacity: 0.6,
+		opacity: 1,
 		items: 'li',
-		tolerance: 'pointer',
+		tolerance: 'intersect',
 
 		update: function() {
 			jQuery.post( ajaxurl, {
@@ -164,9 +172,9 @@ jQuery( document ).ready( function() {
 	// Allow reordering of fields within groups
 	jQuery( 'fieldset.field-group' ).sortable({
 		cursor: 'move',
-		opacity: 0.3,
+		opacity: 1,
 		items: 'fieldset',
-		tolerance: 'pointer',
+		tolerance: 'ponter',
 
 		update: function() {
 			jQuery.post( ajaxurl, {
@@ -205,8 +213,8 @@ jQuery( document ).ready( function() {
 
 			// When field is dropped on tab
 			drop: function( ev, ui ) {
-				var $item = jQuery(this),  // The tab
-					$list   = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );  // The tab body
+				var $item = jQuery(this), // The tab
+					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' ); // The tab body
 
 				// Remove helper class
 				jQuery($item).removeClass( 'drop-candidate' );

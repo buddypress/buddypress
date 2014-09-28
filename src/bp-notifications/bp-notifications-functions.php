@@ -112,8 +112,8 @@ function bp_notifications_delete_notification( $id ) {
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $user_id ID of the user whose notifications are being deleted.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $id ID of the user whose notifications are being deleted.
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notification( $id, $is_new = false ) {
@@ -128,19 +128,19 @@ function bp_notifications_mark_notification( $id, $is_new = false ) {
 }
 
 /**
- * Get notifications for a specific user.
+ * Get all notifications for a user and cache them.
  *
- * @since BuddyPress (1.9.0)
+ * @since BuddyPress (2.1.0)
  *
- * @param int $user_id ID of the user whose notification are being fetched.
- * @param string $format Format of the returned values. 'string' returns HTML,
- *        while 'object' returns a structured object for parsing.
- * @return mixed Object or array on success, false on failure.
+ * @param int $user_id ID of the user whose notifications are being fetched.
+ * @return array
  */
-function bp_notifications_get_notifications_for_user( $user_id, $format = 'string' ) {
+function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
 
-	// Setup local variables
-	$bp = buddypress();
+	// Default to displayed user if no ID is passed
+	if ( empty( $user_id ) ) {
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+	}
 
 	// Get notifications out of the cache, or query if necessary
 	$notifications = wp_cache_get( 'all_for_user_' . $user_id, 'bp_notifications' );
@@ -151,6 +151,27 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
 	}
 
+	// Filter and return
+	return apply_filters( 'bp_notifications_get_all_notifications_for_user', $notifications, $user_id );
+}
+
+/**
+ * Get notifications for a specific user.
+ *
+ * @since BuddyPress (1.9.0)
+ *
+ * @param int $user_id ID of the user whose notifications are being fetched.
+ * @param string $format Format of the returned values. 'string' returns HTML,
+ *        while 'object' returns a structured object for parsing.
+ * @return mixed Object or array on success, false on failure.
+ */
+function bp_notifications_get_notifications_for_user( $user_id, $format = 'string' ) {
+
+	// Setup local variables
+	$bp = buddypress();
+
+	// Get notifications (out of the cache, or query if necessary)
+	$notifications         = bp_notifications_get_all_notifications_for_user( $user_id );
 	$grouped_notifications = array(); // Notification groups
 	$renderable            = array(); // Renderable notifications
 
@@ -201,7 +222,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 					);
 
 					// Create the object to be returned
-					$notification_object = new stdClass;
+					$notification_object = $component_action_items[0];
 
 					// Minimal backpat with non-compatible notification
 					// callback functions
@@ -213,8 +234,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 						$notification_object->href    = $content['link'];
 					}
 
-					$notification_object->id = $component_action_items[0]->id;
-					$renderable[]            = $notification_object;
+					$renderable[] = $notification_object;
 
 				// Return an array of content strings
 				} else {
@@ -245,7 +265,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 					$content = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
 
 					// Create the object to be returned
-					$notification_object = new stdClass;
+					$notification_object = $component_action_items[0];
 
 					// Minimal backpat with non-compatible notification
 					// callback functions
@@ -257,8 +277,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 						$notification_object->href    = $content['link'];
 					}
 
-					$notification_object->id = $component_action_items[0]->id;
-					$renderable[]            = $notification_object;
+					$renderable[] = $notification_object;
 
 				// Return an array of content strings
 				} else {
@@ -332,7 +351,7 @@ function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $user_id ID of the user whose notifications are being deleted.
+ * @param int $item_id ID of the user whose notifications are being deleted.
  * @param string $component_name Name of the associated component.
  * @param string $component_action Optional. Name of the associated action.
  * @param int $secondary_item_id Optional. ID of the secondary associated item.
@@ -384,7 +403,7 @@ function bp_notifications_delete_notifications_from_user( $user_id, $component_n
  * @param int $user_id ID of the user whose notifications are being deleted.
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new = false ) {
@@ -413,7 +432,7 @@ function bp_notifications_mark_notifications_by_type( $user_id, $component_name,
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
  * @param int $secondary_item_id ID of the secondary associated item.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false, $is_new = false ) {
@@ -443,7 +462,7 @@ function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $co
  * @param string $component_name Name of the associated component.
  * @param string $component_action Optional. Name of the associated action.
  * @param int $secondary_item_id Optional. ID of the secondary associated item.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false, $is_new = false ) {
@@ -475,7 +494,7 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $component_n
  * @param int $is_new 0 for read, 1 for unread
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
- * @param int $is_new 0 for read, 1 for unread
+ * @param int $is_new 0 for read, 1 for unread.
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
@@ -518,24 +537,10 @@ function bp_notifications_check_notification_access( $user_id, $notification_id 
  * @return int Unread notification count.
  */
 function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
+	$notifications = bp_notifications_get_all_notifications_for_user( $user_id );
+	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
 
-	// Default to displayed user if no ID is passed
-	if ( empty( $user_id ) ) {
-		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
-	}
-
-	// Get the notifications, and count them
-	$notifications = wp_cache_get( 'all_for_user_' . $user_id, 'bp_notifications' );
-	if ( false === $notifications ) {
-		$notifications = BP_Notifications_Notification::get( array(
-			'user_id' => $user_id,
-		) );
-		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
-	}
-
-	$count = ! empty( $notifications ) ? count( $notifications ) : 0;
-
-	return apply_filters( 'bp_notifications_get_total_notification_count', $count );
+	return apply_filters( 'bp_notifications_get_total_notification_count', (int) $count );
 }
 
 /**
@@ -545,6 +550,8 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
  * @since BuddyPress (1.9.1)
  *
  * @see http://buddypress.trac.wordpress.org/ticket/5300
+ *
+ * @return array
  */
 function bp_notifications_get_registered_components() {
 

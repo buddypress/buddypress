@@ -26,6 +26,8 @@ class BP_Notifications_Notification {
 	/**
 	 * The notification ID.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var int
 	 */
 	public $id;
@@ -33,6 +35,8 @@ class BP_Notifications_Notification {
 	/**
 	 * The ID of the item associated with the notification.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var int
 	 */
 	public $item_id;
@@ -40,6 +44,8 @@ class BP_Notifications_Notification {
 	/**
 	 * The ID of the secondary item associated with the notification.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var int
 	 */
 	public $secondary_item_id = null;
@@ -47,6 +53,8 @@ class BP_Notifications_Notification {
 	/**
 	 * The ID of the user the notification is associated with.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var int
 	 */
 	public $user_id;
@@ -54,6 +62,8 @@ class BP_Notifications_Notification {
 	/**
 	 * The name of the component that the notification is for.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var string
 	 */
 	public $component_name;
@@ -61,6 +71,8 @@ class BP_Notifications_Notification {
 	/**
 	 * The component action which the notification is related to.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var string
 	 */
 	public $component_action;
@@ -68,6 +80,8 @@ class BP_Notifications_Notification {
 	/**
 	 * The date the notification was created.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var string
 	 */
 	public $date_notified;
@@ -75,6 +89,8 @@ class BP_Notifications_Notification {
 	/**
 	 * Is the notification new, or has it already been read.
 	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
 	 * @var bool
 	 */
 	public $is_new;
@@ -327,8 +343,8 @@ class BP_Notifications_Notification {
 
 		// search_terms
 		if ( ! empty( $args['search_terms'] ) ) {
-			$search_terms = like_escape( esc_sql( $args['search_terms'] ) );
-			$where_conditions['search_terms'] = "( component_name LIKE '%%$search_terms%%' OR component_action LIKE '%%$search_terms%%' )";
+			$search_terms_like = '%' . bp_esc_like( $args['search_terms'] ) . '%';
+			$where_conditions['search_terms'] = $wpdb->prepare( "( component_name LIKE %s OR component_action LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		// Custom WHERE
@@ -542,6 +558,8 @@ class BP_Notifications_Notification {
 	 *           notifications. 'both' returns all. Default: true.
 	 *     @type string $search_terms Term to match against component_name
 	 *           or component_action fields.
+	 *     @type string $order_by Database column to order notifications by.
+	 *     @type string $sort_order Either 'ASC' or 'DESC'.
 	 *     @type string $order_by Field to order results by.
 	 *     @type string $sort_order ASC or DESC.
 	 *     @type int $page Number of the current page of results. Default:
@@ -690,7 +708,7 @@ class BP_Notifications_Notification {
 		return self::_delete( $where['data'], $where['format'] );
 	}
 
-	/** Convenience methods ***************************************************/
+	/** Convenience methods ***********************************************/
 
 	/**
 	 * Delete a single notification by ID.
@@ -803,7 +821,7 @@ class BP_Notifications_Notification {
 		return array( 'notifications' => &$notifications, 'total' => $total_count );
 	}
 
-	/** Mark ******************************************************************/
+	/** Mark **************************************************************/
 
 	/**
 	 * Mark all user notifications as read.

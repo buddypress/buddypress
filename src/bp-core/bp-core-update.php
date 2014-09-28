@@ -163,8 +163,9 @@ function bp_version_bump() {
 function bp_setup_updater() {
 
 	// Are we running an outdated version of BuddyPress?
-	if ( ! bp_is_update() )
+	if ( ! bp_is_update() ) {
 		return;
+	}
 
 	bp_version_updater();
 }
@@ -400,8 +401,9 @@ function bp_update_to_2_0_1() {
 function bp_add_activation_redirect() {
 
 	// Bail if activating from network, or bulk
-	if ( isset( $_GET['activate-multi'] ) )
+	if ( isset( $_GET['activate-multi'] ) ) {
 		return;
+	}
 
 	// Record that this is a new installation, so we show the right
 	// welcome message
@@ -425,12 +427,6 @@ function bp_add_activation_redirect() {
  * @return bool If signups table exists
  */
 function bp_core_maybe_install_signups() {
-
-	// Bail if we are explicitly not upgrading global tables
-	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
-		return false;
-	}
-
 	global $wpdb;
 
 	// The table to run queries against

@@ -24,7 +24,7 @@ function xprofile_add_admin_menu() {
 	if ( !bp_current_user_can( 'bp_moderate' ) )
 		return false;
 
-	add_users_page( __( 'Profile Fields', 'buddypress' ), __( 'Profile Fields', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
+	add_users_page( _x( 'Profile Fields', 'xProfile admin page title', 'buddypress' ), _x( 'Profile Fields', 'Admin Users menu', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
 }
 add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
 
@@ -36,7 +36,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 	$type = preg_replace( '|[^a-z]|i', '', $type );
 
-	$groups = BP_XProfile_Group::get( array(
+	$groups = bp_xprofile_get_groups( array(
 		'fetch_fields' => true
 	) );
 
@@ -68,7 +68,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		<?php screen_icon( 'users' ); ?>
 
 		<h2>
-			<?php _e( 'Profile Fields', 'buddypress'); ?>
+			<?php _ex( 'Profile Fields', 'Settings page header', 'buddypress'); ?>
 			<a id="add_group" class="add-new-h2" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
 		</h2>
 
@@ -287,7 +287,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 				do_action( 'xprofile_fields_saved_field', $field );
 
-				$groups = BP_XProfile_Group::get();
+				$groups = bp_xprofile_get_groups();
 				xprofile_admin( $message, $type );
 			}
 		} else {
@@ -403,7 +403,9 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 				<?php if ( $field->can_delete ) : ?>
 
-					<a class="confirm submit-delete deletion" href="users.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
+					<div class="delete-button">
+						<a class="confirm submit-delete deletion" href="users.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
+					</div>
 
 				<?php endif; ?>
 			</div>
@@ -551,7 +553,12 @@ class BP_XProfile_User_Admin {
 		$stats_metabox->priority = 'low';
 
 		// Each Group of fields will have his own metabox
-		if ( ! bp_is_user_spammer( $user_id ) && bp_has_profile( array( 'fetch_fields' => false ) ) ) {
+		$profile_args = array(
+			'fetch_fields' => false,
+			'user_id'      => $user_id,
+		);
+
+		if ( ! bp_is_user_spammer( $user_id ) && bp_has_profile( $profile_args ) ) {
 
 			// Loop through field groups and add a metabox for each one
 			while ( bp_profile_groups() ) : bp_the_profile_group();
@@ -581,7 +588,7 @@ class BP_XProfile_User_Admin {
 		// Avatar Metabox
 		add_meta_box(
 			'bp_xprofile_user_admin_avatar',
-			_x( 'Avatar', 'xprofile user-admin edit screen', 'buddypress' ),
+			_x( 'Profile Photo', 'xprofile user-admin edit screen', 'buddypress' ),
 			array( $this, 'user_admin_avatar_metabox' ),
 			$screen_id,
 			'side',
@@ -841,7 +848,7 @@ class BP_XProfile_User_Admin {
 				$community_url = add_query_arg( $query_args, buddypress()->members->admin->edit_profile_url );
 				$delete_link   = wp_nonce_url( $community_url, 'delete_avatar' ); ?>
 
-				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Avatar', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Avatar', 'buddypress' ); ?></a></li>
+				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a></li>
 
 			<?php endif; ?>
 

@@ -124,7 +124,7 @@
 
 	<?php if ( 'upload-image' == bp_get_avatar_admin_step() ) : ?>
 
-			<p><?php _e("Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
+			<p><?php _e("Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
 
 			<p>
 				<input type="file" name="file" id="file" />
@@ -134,9 +134,9 @@
 
 			<?php if ( bp_get_group_has_avatar() ) : ?>
 
-				<p><?php _e( "If you'd like to remove the existing avatar but not upload a new one, please use the delete avatar button.", 'buddypress' ); ?></p>
+				<p><?php _e( "If you'd like to remove the existing group profile photo but not upload a new one, please use the delete group profile photo button.", 'buddypress' ); ?></p>
 
-				<?php bp_button( array( 'id' => 'delete_group_avatar', 'component' => 'groups', 'wrapper_id' => 'delete-group-avatar-button', 'link_class' => 'edit', 'link_href' => bp_get_group_avatar_delete_link(), 'link_title' => __( 'Delete Avatar', 'buddypress' ), 'link_text' => __( 'Delete Avatar', 'buddypress' ) ) ); ?>
+				<?php bp_button( array( 'id' => 'delete_group_avatar', 'component' => 'groups', 'wrapper_id' => 'delete-group-avatar-button', 'link_class' => 'edit', 'link_href' => bp_get_group_avatar_delete_link(), 'link_title' => __( 'Delete Group Profile Photo', 'buddypress' ), 'link_text' => __( 'Delete Group Profile Photo', 'buddypress' ) ) ); ?>
 
 			<?php endif; ?>
 
@@ -146,12 +146,12 @@
 
 	<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
 
-		<h4><?php _e( 'Crop Avatar', 'buddypress' ); ?></h4>
+		<h4><?php _e( 'Crop Profile Photo', 'buddypress' ); ?></h4>
 
-		<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Avatar to crop', 'buddypress' ); ?>" />
+		<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Profile photo to crop', 'buddypress' ); ?>" />
 
 		<div id="avatar-crop-pane">
-			<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-crop-preview" class="avatar" alt="<?php esc_attr_e( 'Avatar preview', 'buddypress' ); ?>" />
+			<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-crop-preview" class="avatar" alt="<?php esc_attr_e( 'Profile photo preview', 'buddypress' ); ?>" />
 		</div>
 
 		<input type="submit" name="avatar-crop-submit" id="avatar-crop-submit" value="<?php esc_attr_e( 'Crop Image', 'buddypress' ); ?>" />

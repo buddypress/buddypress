@@ -1,44 +1,37 @@
 /* jshint node:true */
 /* global module */
 module.exports = function( grunt ) {
-	var path   = require( 'path' ),
-	SOURCE_DIR = 'src/',
-	BUILD_DIR  = 'build/',
+	var SOURCE_DIR = 'src/',
+		BUILD_DIR  = 'build/',
 
-	BP_CSS = [
-		'bp-activity/admin/css/*.css',
-		'bp-core/admin/css/*.css',
-		'bp-core/css/*.css',
-		'bp-groups/admin/css/*.css',
-		'bp-members/admin/css/*.css',
-		'bp-messages/css/*.css',
-		'bp-templates/bp-legacy/css/*.css',
-		'bp-xprofile/admin/css/*.css',
-		'!**/*-rtl.css'  // Exclude RTL files
-	],
+		// CSS
+		BP_CSS = [
+			'**/*.css'
+		],
 
-	BP_JS = [
-		'bp-activity/admin/js/*.js',
-		'bp-core/js/*.js',
-		'bp-friends/js/*.js',
-		'bp-groups/admin/js/*.js',
-		'bp-groups/js/*.js',
-		'bp-members/admin/js/*.js',
-		'bp-messages/js/*.js',
-		'bp-templates/bp-legacy/js/*.js',
-		'bp-xprofile/admin/js/*.js'
-	],
+		// CSS exclusions, for excluding files from certain tasks, e.g. cssjanus
+		BP_EXCLUDED_CSS = [
+			'!**/*-rtl.css'
+		],
 
-	BP_EXCLUDED_JS = [
-		'!bp-templates/bp-legacy/js/*.js'
-	];
+		// JavaScript - Core
+		BP_JS = [
+			'**/*.js'
+		],
+
+		// JavaScript exclusions, for excluding from certain tasks e.g jshint
+		BP_EXCLUDED_JS = [
+			'!bp-core/deprecated/js/**/*.js', // Depracted
+			'!bp-core/js/jquery.atwho.js',    // External 3rd party library
+			'!bp-core/js/jquery.caret.js',    // External 3rd party library
+			'!bp-core/js/jquery-cookie.js'    // External 3rd party library
+		];
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
 	grunt.util = require( 'grunt-legacy-util' );
 
-
 	grunt.initConfig( {
-		pkg: grunt.file.readJSON('package.json'),
+		pkg: grunt.file.readJSON( 'package.json' ),
 		jshint: {
 			options: grunt.file.readJSON( '.jshintrc' ),
 			grunt: {
@@ -47,13 +40,16 @@ module.exports = function( grunt ) {
 			core: {
 				expand: true,
 				cwd: SOURCE_DIR,
-
-				// Exclude known bad JS from jshint for now; see #5613.
 				src: BP_JS.concat( BP_EXCLUDED_JS ),
 
 				/**
-				 * Limit JSHint's run to a single specified file: grunt jshint:core --file=filename.js
-				 * Optionally, include the file path: grunt jshint:core --file=path/to/filename.js
+				 * Limit JSHint's run to a single specified file:
+				 *
+				 * grunt jshint:core --file=filename.js
+				 *
+				 * Optionally, include the file path:
+				 *
+				 * grunt jshint:core --file=path/to/filename.js
 				 *
 				 * @param {String} filepath
 				 * @returns {Bool}
@@ -84,20 +80,12 @@ module.exports = function( grunt ) {
 				expand: true,
 				cwd: SOURCE_DIR,
 				dest: SOURCE_DIR,
+				extDot: 'last',
 				ext: '-rtl.css',
-				src: BP_CSS,
-				options: { generateExactDuplicates: true }
-			},
-			dynamic: {
-				expand: true,
-				cwd: SOURCE_DIR,
-				dest: SOURCE_DIR,
-				ext: '-rtl.css',
-				src: [],
+				src: BP_CSS.concat( BP_EXCLUDED_CSS ),
 				options: { generateExactDuplicates: true }
 			}
 		},
-
 		checktextdomain: {
 			options: {
 				correct_domain: false,
@@ -149,15 +137,8 @@ module.exports = function( grunt ) {
 				dest: SOURCE_DIR
 			}
 		},
-
 		clean: {
-			all: [ BUILD_DIR ],
-			dynamic: {
-				cwd: BUILD_DIR,
-				dot: true,
-				expand: true,
-				src: []
-			}
+			all: [ BUILD_DIR ]
 		},
 		copy: {
 			files: {
@@ -170,19 +151,13 @@ module.exports = function( grunt ) {
 						src: ['**', '!**/.{svn,git}/**']
 					}
 				]
-			},
-			dynamic: {
-				cwd: SOURCE_DIR,
-				dest: BUILD_DIR,
-				dot: true,
-				expand: true,
-				src: []
 			}
 		},
 		uglify: {
 			core: {
 				cwd: BUILD_DIR,
 				dest: BUILD_DIR,
+				extDot: 'last',
 				expand: true,
 				ext: '.min.js',
 				src: BP_JS
@@ -194,9 +169,10 @@ module.exports = function( grunt ) {
 			}
 		},
 		cssmin: {
-			ltr: {
+			minify: {
 				cwd: BUILD_DIR,
 				dest: BUILD_DIR,
+				extDot: 'last',
 				expand: true,
 				ext: '.min.css',
 				src: BP_CSS,
@@ -205,23 +181,8 @@ module.exports = function( grunt ) {
 					'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
 					'https://wordpress.org/plugins/buddypress/ */'
 				}
-			},
-			rtl: {
-				cwd: BUILD_DIR,
-				dest: BUILD_DIR,
-				expand: true,
-				ext: '.min.css',
-				src: BP_CSS.map( function( filename ) {
-					return filename.replace( '.css', '-rtl.css' );
-				}),
-				options: {
-					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-					'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
-					'https://wordpress.org/plugins/buddypress/ */'
-				}
 			}
 		},
-
 		phpunit: {
 			'default': {
 				cmd: 'phpunit',
@@ -244,13 +205,20 @@ module.exports = function( grunt ) {
 				stdout: false
 			}
 		},
-
-		watch: {
-			css: {
-				files: BP_CSS,
-				tasks: ['less:core'],
-				options: {
-					spawn: false
+		jsvalidate:{
+			options:{
+				globals: {},
+				esprimaOptions:{},
+				verbose: false
+			},
+			build: {
+				files: {
+					src: [BUILD_DIR + '/**/*.js' ]
+				}
+			},
+			src: {
+				files: {
+					src: [SOURCE_DIR + '/**/*.js' ]
 				}
 			}
 		},
@@ -265,11 +233,9 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-
-	grunt.registerTask( 'build',         ['jshint', 'cssjanus:core'] );
+	grunt.registerTask( 'build',         ['jsvalidate:src', 'jshint', 'cssjanus'] );
 	grunt.registerTask( 'build-commit',  ['build', 'checktextdomain', 'imagemin'] );
-	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify:core', 'cssmin:ltr', 'cssmin:rtl', 'makepot', 'exec:bbpress', 'exec:bpdefault', 'test'] );
-
+	grunt.registerTask( 'build-release', ['build-commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bbpress', 'exec:bpdefault', 'test'] );
 
 	// Testing tasks.
 	grunt.registerMultiTask( 'phpunit', 'Runs PHPUnit tests, including the ajax and multisite tests.', function() {
@@ -279,35 +245,17 @@ module.exports = function( grunt ) {
 			opts: { stdio: 'inherit' }
 		}, this.async() );
 	});
-	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit'] );
-	grunt.registerTask( 'travis', ['jshint', 'test'] );
 
+	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit'] );
+
+	grunt.registerTask( 'jstest', 'Runs all javascript tasks.', [ 'jsvalidate:src', 'jshint' ] );
+
+	// Travis CI Task
+	grunt.registerTask( 'travis', ['jshint', 'test'] );
 
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );
 
-
 	// Default task.
 	grunt.registerTask( 'default', ['build'] );
-
-
-	/**
-	 * Add a listener to the watch task.
-	 *
-	 * On `watch:all`, automatically updates the `copy:dynamic` and `clean:dynamic` configurations so that only the changed files are updated.
-	 * On `watch:rtl`, automatically updates the `cssjanus:dynamic` configuration.
-	 */
-	grunt.event.on( 'watch', function( action, filepath, target ) {
-		if ( target !== 'all' && target !== 'rtl' ) {
-			return;
-		}
-
-		var relativePath = path.relative( SOURCE_DIR, filepath ),
-		cleanSrc = ( action === 'deleted' ) ? [ relativePath ] : [],
-		copySrc  = ( action === 'deleted' ) ? [] : [ relativePath ];
-
-		grunt.config( ['clean', 'dynamic', 'src'], cleanSrc );
-		grunt.config( ['copy', 'dynamic', 'src'], copySrc );
-		grunt.config( ['cssjanus', 'dynamic', 'src'], copySrc );
-	});
 };

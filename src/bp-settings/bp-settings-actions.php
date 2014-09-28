@@ -65,11 +65,13 @@ function bp_settings_action_general() {
 
 		if ( !empty( $_POST['email'] ) ) {
 
-			// What is missing from the profile page vs signup - lets double check the goodies
-			$user_email = sanitize_email( esc_html( trim( $_POST['email'] ) ) );
+			// What is missing from the profile page vs signup -
+			// let's double check the goodies
+			$user_email     = sanitize_email( esc_html( trim( $_POST['email'] ) ) );
+			$old_user_email = $bp->displayed_user->userdata->user_email;
 
 			// User is changing email address
-			if ( $bp->displayed_user->userdata->user_email != $user_email ) {
+			if ( $old_user_email != $user_email ) {
 
 				// Run some tests on the email address
 				$email_checks = bp_core_validate_email_address( $user_email );
@@ -88,9 +90,59 @@ function bp_settings_action_general() {
 					}
 				}
 
-				// Yay we made it!
+				// Store a hash to enable email validation
 				if ( false === $email_error ) {
-					$update_user->user_email = $user_email;
+					$hash = wp_hash( $_POST['email'] );
+
+					$pending_email = array(
+						'hash'     => $hash,
+						'newemail' => $user_email,
+					);
+
+					bp_update_user_meta( bp_displayed_user_id(), 'pending_email_change', $pending_email );
+
+					$email_text = sprintf(
+						__( 'Dear %1$s,
+
+You recently changed the email address associated with your account on %2$s.
+If this is correct, please click on the following link to complete the change:
+%3$s
+
+You can safely ignore and delete this email if you do not want to take this action or if you have received this email in error.
+
+This email has been sent to %4$s.
+
+Regards,
+%5$s
+%6$s', 'buddypress' ),
+						bp_core_get_user_displayname( bp_displayed_user_id() ),
+						bp_get_site_name(),
+						esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?verify_email_change=' . $hash ),
+						$user_email,
+						bp_get_site_name(),
+						bp_get_root_domain()
+					);
+
+					/**
+					 * Filter the email text sent when a user changes emails.
+					 *
+					 * @since BuddyPress (2.1.0)
+					 *
+					 * @param string $email_text Text of the email.
+					 * @param string $new_user_email New user email that
+					 *        the current user has changed to.
+					 * @param string $old_user_email Existing email addres
+					 *        for the current user.
+					 * @param object $update_user Userdata for the current user.
+					 */
+					$content = apply_filters( 'bp_new_user_email_content', $email_text, $user_email, $old_user_email, $update_user );
+
+					// Send the verification email
+					wp_mail( $user_email, sprintf( __( '[%s] Verify your new email address', 'buddypress' ), wp_specialchars_decode( bp_get_site_name() ) ), $content );
+
+					// We mark that the change has taken place so as to ensure a
+					// success message, even though verification is still required
+					$_POST['email'] = $current_user->user_email;
 					$email_changed = true;
 				}
 
@@ -355,3 +407,61 @@ function bp_settings_action_delete_account() {
 	}
 }
 add_action( 'bp_actions', 'bp_settings_action_delete_account' );
+
+/**
+ * Process email change verification or cancel requests.
+ *
+ * @since BuddyPress (2.1.0)
+ */
+function bp_settings_verify_email_change(){
+	if ( ! bp_is_settings_component() ) {
+		return;
+	}
+
+	if ( ! bp_is_my_profile() ) {
+		return;
+	}
+
+	$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() );
+
+	// Email change is being verified
+	if ( isset( $_GET['verify_email_change'] ) ) {
+		$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change', true );
+
+		// Bail if the hash provided doesn't match the one saved in the database
+		if ( urldecode( $_GET['verify_email_change'] ) !== $pending_email['hash'] ) {
+			return;
+		}
+
+		$email_changed = wp_update_user( array(
+			'ID'         => bp_displayed_user_id(),
+			'user_email' => trim( $pending_email['newemail'] ),
+		) );
+
+		if ( $email_changed ) {
+			// Delete object cache for displayed user
+			wp_cache_delete( 'bp_core_userdata_' . bp_displayed_user_id(), 'bp' );
+
+			// Delete the pending email change key
+			bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
+
+			// Post a success message and redirect
+			bp_core_add_message( __( 'You have successfully verified your new email address.', 'buddypress' ) );
+		} else {
+			// Unknown error
+			bp_core_add_message( __( 'There was a problem verifying your new email address. Please try again.', 'buddypress' ), 'error' );
+		}
+
+		bp_core_redirect( $redirect_to );
+		die();
+
+	// Email change is being dismissed
+	} elseif ( ! empty( $_GET['dismiss_email_change'] ) ) {
+	        bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
+		bp_core_add_message( __( 'You have successfully dismissed your pending email change.', 'buddypress' ) );
+
+		bp_core_redirect( $redirect_to );
+		die();
+	}
+}
+add_action( 'bp_actions', 'bp_settings_verify_email_change' );

@@ -51,7 +51,7 @@ function bp_members_admin_bar_my_account_menu() {
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'bp-login',
 			'title' => __( 'Log in', 'buddypress' ),
-			'href'  => wp_login_url( wp_guess_url() )
+			'href'  => wp_login_url( bp_get_requested_url() )
 		) );
 
 		// Sign up
@@ -106,7 +106,7 @@ function bp_members_admin_bar_user_admin_menu() {
 			$wp_admin_bar->add_menu( array(
 				'parent' => $bp->user_admin_menu_id,
 				'id'     => $bp->user_admin_menu_id . '-change-avatar',
-				'title'  => __( "Edit Avatar", 'buddypress' ),
+				'title'  => __( "Edit Profile Photo", 'buddypress' ),
 				'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
 			) );
 		}

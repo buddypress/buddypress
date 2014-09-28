@@ -38,7 +38,14 @@ function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query
 		$friend_id = bp_loggedin_user_id() == $fs->initiator_user_id ? $fs->friend_user_id : $fs->initiator_user_id;
 
 		if ( isset( $user_query->results[ $friend_id ] ) ) {
-			$user_query->results[ $friend_id ]->is_friend = $fs->is_confirmed;
+			if ( 0 == $fs->is_confirmed ) {
+				$status = $fs->initiator_user_id == bp_loggedin_user_id() ? 'pending' : 'awaiting_response';
+			} else {
+				$status = 'is_friend';
+			}
+
+			$user_query->results[ $friend_id ]->is_friend         = $fs->is_confirmed;
+			$user_query->results[ $friend_id ]->friendship_status = $status;
 		}
 	}
 }

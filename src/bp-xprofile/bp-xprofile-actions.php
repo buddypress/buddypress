@@ -36,9 +36,9 @@ function xprofile_action_delete_avatar() {
 		return false;
 
 	if ( bp_core_delete_existing_avatar( array( 'item_id' => bp_displayed_user_id() ) ) )
-		bp_core_add_message( __( 'Your avatar was deleted successfully!', 'buddypress' ) );
+		bp_core_add_message( __( 'Your profile photo was deleted successfully!', 'buddypress' ) );
 	else
-		bp_core_add_message( __( 'There was a problem deleting that avatar, please try again.', 'buddypress' ), 'error' );
+		bp_core_add_message( __( 'There was a problem deleting your profile photo; please try again.', 'buddypress' ), 'error' );
 
 	bp_core_redirect( wp_get_referer() );
 }
@@ -84,6 +84,17 @@ function bp_xprofile_action_settings() {
 
 		// Get the POST'ed field ID's
 		$posted_field_ids = explode( ',', $_POST['field_ids'] );
+
+		// Backward compatibility: a bug in BP 2.0 caused only a single
+		// group's field IDs to be submitted. Look for values submitted
+		// in the POST request that may not appear in 'field_ids', and
+		// add them to the list of IDs to save.
+		foreach ( $_POST as $posted_key => $posted_value ) {
+			preg_match( '/^field_([0-9]+)_visibility$/', $posted_key, $matches );
+			if ( ! empty( $matches[1] ) && ! in_array( $matches[1], $posted_field_ids ) ) {
+				$posted_field_ids[] = $matches[1];
+			}
+		}
 
 		// Save the visibility settings
 		foreach ( $posted_field_ids as $field_id ) {
