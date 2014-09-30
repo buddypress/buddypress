@@ -2286,6 +2286,12 @@ function bp_group_member_remove_link( $user_id = 0 ) {
 		return apply_filters( 'bp_get_group_member_remove_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/remove/' . $user_id, 'groups_remove_member' ) );
 	}
 
+/**
+ * HTML admin subnav items for group pages.
+ *
+ * @param object $group Optional. Group object. Default: current group in
+ *        the loop.
+ */
 function bp_group_admin_tabs( $group = false ) {
 	global $groups_template;
 
@@ -2327,16 +2333,37 @@ function bp_group_admin_tabs( $group = false ) {
 <?php
 }
 
+/**
+ * Output the group count for the displayed user.
+ */
 function bp_group_total_for_member() {
 	echo bp_get_group_total_for_member();
 }
+	/**
+	 * Get the group count for the displayed user.
+	 *
+	 * @return string
+	 */
 	function bp_get_group_total_for_member() {
 		return apply_filters( 'bp_get_group_total_for_member', BP_Groups_Member::total_group_count() );
 	}
 
+/**
+ * Output the 'action' attribute for a group form.
+ *
+ * @param string $page Page slug.
+ */
 function bp_group_form_action( $page ) {
 	echo bp_get_group_form_action( $page );
 }
+	/**
+	 * Generate the 'action' attribute for a group form.
+	 *
+	 * @param string $page Page slug.
+	 * @param object $group Optional. Group object. Default: current group
+	 *        in the loop.
+	 * @return string
+	 */
 	function bp_get_group_form_action( $page, $group = false ) {
 		global $groups_template;
 
@@ -2346,9 +2373,22 @@ function bp_group_form_action( $page ) {
 		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . $page );
 	}
 
+/**
+ * Output the 'action' attribute for a group admin form.
+ *
+ * @param string $page Optional. Page slug.
+ */
 function bp_group_admin_form_action( $page = false ) {
 	echo bp_get_group_admin_form_action( $page );
 }
+	/**
+	 * Generate the 'action' attribute for a group admin form.
+	 *
+	 * @param string $page Optional. Page slug.
+	 * @param object $group Optional. Group object. Default: current group
+	 *        in the loop.
+	 * @return string
+	 */
 	function bp_get_group_admin_form_action( $page = false, $group = false ) {
 		global $groups_template;
 
@@ -2361,6 +2401,13 @@ function bp_group_admin_form_action( $page = false ) {
 		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . 'admin/' . $page );
 	}
 
+/**
+ * Determine whether the logged-in user has requested membership to a group.
+ *
+ * @param object $group Optional. Group object. Default: current group in
+ *        the loop.
+ * @return bool
+ */
 function bp_group_has_requested_membership( $group = false ) {
 	global $groups_template;
 
@@ -2374,16 +2421,13 @@ function bp_group_has_requested_membership( $group = false ) {
 }
 
 /**
- * bp_group_is_member()
+ * Check if current user is member of a group.
  *
- * Checks if current user is member of a group.
+ * @global object $groups_template
  *
- * @uses bp_current_user_can() Check if current user is super admin
- * @uses apply_filters Creates bp_group_is_member filter and passes $is_member
- * @usedby groups/activity.php, groups/single/forum/edit.php, groups/single/forum/topic.php to determine template part visibility
- * @global object $groups_template Current Group (usually in template loop)
- * @param object $group Group to check is_member
- * @return bool If user is member of group or not
+ * @param object $group Optional. Group to check is_member. Default: current
+ *        group in the loop.
+ * @return bool If user is member of group or not.
  */
 function bp_group_is_member( $group = false ) {
 	global $groups_template;
@@ -2401,7 +2445,7 @@ function bp_group_is_member( $group = false ) {
 /**
  * Check whether the current user has an outstanding invite to the current group in the loop.
  *
- * @param object $group Optional. Group data object. Defaults to the current
+ * @param object $group Optional. Group data object. Default: the current
  *        group in the groups loop.
  * @return bool True if the user has an outstanding invite, otherwise false.
  */
@@ -2469,9 +2513,19 @@ function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
 	return (bool) apply_filters( 'bp_group_is_user_banned', $retval );
 }
 
+/**
+ * Output the URL for accepting an invitation to the current group in the loop.
+ */
 function bp_group_accept_invite_link() {
 	echo bp_get_group_accept_invite_link();
 }
+	/**
+	 * Generate the URL for accepting an invitation to a group.
+	 *
+	 * @param object $group Optional. Group object. Default: Current group
+	 *        in the loop.
+	 * @return string
+	 */
 	function bp_get_group_accept_invite_link( $group = false ) {
 		global $groups_template, $bp;
 
@@ -2481,9 +2535,19 @@ function bp_group_accept_invite_link() {
 		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ) );
 	}
 
+/**
+ * Output the URL for accepting an invitation to the current group in the loop.
+ */
 function bp_group_reject_invite_link() {
 	echo bp_get_group_reject_invite_link();
 }
+	/**
+	 * Generate the URL for rejecting an invitation to a group.
+	 *
+	 * @param object $group Optional. Group object. Default: Current group
+	 *        in the loop.
+	 * @return string
+	 */
 	function bp_get_group_reject_invite_link( $group = false ) {
 		global $groups_template, $bp;
 
@@ -2493,9 +2557,19 @@ function bp_group_reject_invite_link() {
 		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ) );
 	}
 
+/**
+ * Output the URL for confirming a request to leave a group.
+ */
 function bp_group_leave_confirm_link() {
 	echo bp_get_group_leave_confirm_link();
 }
+	/**
+	 * Generate the URL for confirming a request to leave a group.
+	 *
+	 * @param object $group Optional. Group object. Default: Current group
+	 *        in the loop.
+	 * @return string
+	 */
 	function bp_get_group_leave_confirm_link( $group = false ) {
 		global $groups_template;
 
@@ -2505,9 +2579,19 @@ function bp_group_leave_confirm_link() {
 		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group/yes', 'groups_leave_group' ) );
 	}
 
+/**
+ * Output the URL for rejecting a request to leave a group.
+ */
 function bp_group_leave_reject_link() {
 	echo bp_get_group_leave_reject_link();
 }
+	/**
+	 * Generate the URL for rejecting a request to leave a group.
+	 *
+	 * @param object $group Optional. Group object. Default: Current group
+	 *        in the loop.
+	 * @return string
+	 */
 	function bp_get_group_leave_reject_link( $group = false ) {
 		global $groups_template;
 
@@ -2517,9 +2601,19 @@ function bp_group_leave_reject_link() {
 		return apply_filters( 'bp_get_group_leave_reject_link', bp_get_group_permalink( $group ) );
 	}
 
+/**
+ * Output the 'action' attribute for a group send invite form.
+ */
 function bp_group_send_invite_form_action() {
 	echo bp_get_group_send_invite_form_action();
 }
+	/**
+	 * Output the 'action' attribute for a group send invite form.
+	 *
+	 * @param object $page Optional. Group object. Default: current group
+	 *        in the loop.
+	 * @return string
+	 */
 	function bp_get_group_send_invite_form_action( $group = false ) {
 		global $groups_template;
 
@@ -2529,6 +2623,13 @@ function bp_group_send_invite_form_action() {
 		return apply_filters( 'bp_group_send_invite_form_action', bp_get_group_permalink( $group ) . 'send-invites/send' );
 	}
 
+/**
+ * Determine whether the current user has friends to invite to a group.
+ *
+ * @param object $group Optional. Group object. Default: current group in
+ *        the loop.
+ * @return bool
+ */
 function bp_has_friends_to_invite( $group = false ) {
 	global $groups_template;
 
@@ -2545,12 +2646,12 @@ function bp_has_friends_to_invite( $group = false ) {
 }
 
 /**
- * Outputs a 'New Topic' button for a group.
+ * Output a 'New Topic' button for a group.
  *
  * @since BuddyPress (1.2.7)
  *
- * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
- * @uses bp_get_group_new_topic_button() Returns the 'New Topic' button
+ * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed,
+ *        boolean false if not passed.
  */
 function bp_group_new_topic_button( $group = false ) {
 	echo bp_get_group_new_topic_button( $group );
@@ -2560,13 +2661,9 @@ function bp_group_new_topic_button( $group = false ) {
 	 *
 	 * @since BuddyPress (1.2.7)
 	 *
-	 * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
-	 * @uses is_user_logged_in() Is there a user logged in?
-	 * @uses bp_group_is_user_banned() Is the current user banned from the current group?
-	 * @uses bp_is_group_forum() Are we on a group forum page?
-	 * @uses bp_is_group_forum_topic() Are we on a group topic page?
-	 * @uses bp_get_button() Renders a button
-	 * @return string HTML code for the button
+	 * @param BP_Groups_Group|bool $group The BP Groups_Group object if
+	 *        passed, boolean false if not passed.
+	 * @return string HTML code for the button.
 	 */
 	function bp_get_group_new_topic_button( $group = false ) {
 		global $groups_template;
