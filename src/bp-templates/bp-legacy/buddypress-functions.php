@@ -705,7 +705,7 @@ function bp_legacy_theme_post_update() {
 		exit( '-1' );
 
 	if ( empty( $_POST['content'] ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'Please enter some content to post.', 'buddypress' ) . '</p></div>' );
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'Please enter some content to post.', 'buddypress' ) . '</p></div>' );
 
 	$activity_id = 0;
 	if ( empty( $_POST['object'] ) && bp_is_active( 'activity' ) ) {
@@ -720,7 +720,7 @@ function bp_legacy_theme_post_update() {
 	}
 
 	if ( empty( $activity_id ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem posting your update; please try again.', 'buddypress' ) . '</p></div>' );
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'There was a problem posting your update; please try again.', 'buddypress' ) . '</p></div>' );
 
 	$last_recorded = ! empty( $_POST['since'] ) ? date( 'Y-m-d H:i:s', intval( $_POST['since'] ) ) : 0;
 	if ( $last_recorded ) {
@@ -772,11 +772,11 @@ function bp_legacy_theme_new_activity_comment() {
 	$feedback = __( 'There was an error posting your reply. Please try again.', 'buddypress' );
 
 	if ( empty( $_POST['content'] ) ) {
-		exit( '-1<div id="message" class="error"><p>' . esc_html__( 'Please do not leave the comment area blank.', 'buddypress' ) . '</p></div>' );
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html__( 'Please do not leave the comment area blank.', 'buddypress' ) . '</p></div>' );
 	}
 
 	if ( empty( $_POST['form_id'] ) || empty( $_POST['comment_id'] ) || ! is_numeric( $_POST['form_id'] ) || ! is_numeric( $_POST['comment_id'] ) ) {
-		exit( '-1<div id="message" class="error"><p>' . esc_html( $feedback ) . '</p></div>' );
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html( $feedback ) . '</p></div>' );
 	}
 
 	$comment_id = bp_activity_new_comment( array(
@@ -791,7 +791,7 @@ function bp_legacy_theme_new_activity_comment() {
 			unset( $bp->activity->errors['new_comment'] );
 		}
 
-		exit( '-1<div id="message" class="error"><p>' . esc_html( $feedback ) . '</p></div>' );
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html( $feedback ) . '</p></div>' );
 	}
 
 	// Load the new activity item into the $activities_template global
@@ -852,7 +852,7 @@ function bp_legacy_theme_delete_activity() {
 	do_action( 'bp_activity_before_action_delete_activity', $activity->id, $activity->user_id );
 
 	if ( ! bp_activity_delete( array( 'id' => $activity->id, 'user_id' => $activity->user_id ) ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 
 	do_action( 'bp_activity_action_delete_activity', $activity->id, $activity->user_id );
 	exit;
@@ -888,7 +888,7 @@ function bp_legacy_theme_delete_activity_comment() {
 	do_action( 'bp_activity_before_action_delete_activity', $_POST['id'], $comment->user_id );
 
 	if ( ! bp_activity_delete_comment( $comment->item_id, $comment->id ) )
-		exit( '-1<div id="message" class="error"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 
 	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $comment->user_id );
 	exit;
