@@ -2740,6 +2740,8 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 			<?php endif; ?>
 		</label>
 
+		<?php do_action( bp_get_the_profile_field_errors_action() ); ?>
+
 		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 
 		<?php
