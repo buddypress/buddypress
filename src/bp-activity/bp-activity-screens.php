@@ -231,9 +231,17 @@ function bp_activity_screen_single_activity_permalink() {
 		bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
 
 		// Redirect based on logged in status
-		is_user_logged_in() ?
-			bp_core_redirect( bp_loggedin_user_domain() ) :
-			bp_core_redirect( site_url( 'wp-login.php?redirect_to=' . esc_url( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . bp_current_action() . '/' ) ) );
+		if ( is_user_logged_in() ) {
+			$url = bp_loggedin_user_domain();
+
+		} else {
+			$url = sprintf(
+				site_url( 'wp-login.php?redirect_to=%s' ),
+				urlencode( esc_url_raw( bp_activity_get_permalink( (int) bp_current_action() ) ) )
+			);
+		}
+
+		bp_core_redirect( $url );
 	}
 
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
