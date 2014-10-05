@@ -39,7 +39,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Go to the activity permalink page
-		$this->go_to( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $this->a1 . '/' );
+		$this->go_to( bp_activity_get_permalink( $this->a1 ) );
 		$activity = bp_activity_get_specific( array( 'activity_ids' => $this->a1, 'show_hidden' => true, 'spam' => 'ham_only', ) );
 		do_action( 'bp_activity_screen_single_activity_permalink', $activity['activities'][0] );
 
@@ -69,7 +69,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->set_current_user( 0 );
 
 		// Go to the activity permalink page
-		$this->go_to( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $this->a1 . '/' );
+		$this->go_to( bp_activity_get_permalink( $this->a1 ) );
 		$activity = bp_activity_get_specific( array( 'activity_ids' => $this->a1, 'show_hidden' => true, 'spam' => 'ham_only', ) );
 		do_action( 'bp_activity_screen_single_activity_permalink', $activity['activities'][0] );
 
@@ -101,7 +101,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->set_current_user( $this->u2 );
 
 		// Go to the activity permalink page
-		$this->go_to( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $this->a1 . '/' );
+		$this->go_to( bp_activity_get_permalink( $this->a1 ) );
 		$activity = bp_activity_get_specific( array( 'activity_ids' => $this->a1, 'show_hidden' => true, 'spam' => 'ham_only', ) );
 		do_action( 'bp_activity_screen_single_activity_permalink', $activity['activities'][0] );
 
