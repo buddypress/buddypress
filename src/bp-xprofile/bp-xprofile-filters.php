@@ -335,18 +335,28 @@ add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_popu
 function bp_xprofile_filter_meta_query( $q ) {
 	global $wpdb;
 
+	$raw_q = $q;
+
+	/*
+	 * Replace quoted content with __QUOTE__ to avoid false positives.
+	 * This regular expression will match nested quotes.
+	 */
+	$quoted_regex = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";
+	preg_match_all( $quoted_regex, $q, $quoted_matches );
+	$q = preg_replace( $quoted_regex, '__QUOTE__', $q );
+
 	// Get the first word of the command
 	preg_match( '/^(\S+)/', $q, $first_word_matches );
 
 	if ( empty( $first_word_matches[0] ) ) {
-		return $q;
+		return $raw_q;
 	}
 
 	// Get the field type
 	preg_match( '/xprofile_(group|field|data)_id/', $q, $matches );
 
 	if ( empty( $matches[0] ) || empty( $matches[1] ) ) {
-		return $q;
+		return $raw_q;
 	}
 
 	switch ( $first_word_matches[0] ) {
@@ -413,6 +423,14 @@ function bp_xprofile_filter_meta_query( $q ) {
 				$q
 			);
 			break;
+	}
+
+	// Put quoted content back into the string.
+	if ( ! empty( $quoted_matches[0] ) ) {
+		for ( $i = 0; $i < count( $quoted_matches[0] ); $i++ ) {
+			$quote_pos = strpos( $q, '__QUOTE__' );
+			$q = substr_replace( $q, $quoted_matches[0][ $i ], $quote_pos, 9 );
+		}
 	}
 
 	return $q;

@@ -473,6 +473,32 @@ Bar!';
 
 	/**
 	 * @group xprofilemeta
+	 * @group bp_xprofile_update_meta
+	 * @ticket BP5919
+	 */
+	public function test_bp_xprofile_update_meta_where_sql_filter_keywords_are_in_quoted_value() {
+		$g = $this->factory->xprofile_group->create();
+		$value = "SELECT object_id FROM wp_bp_xprofile_groups WHERE \"foo\" VALUES (foo = 'bar'";
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
+		bp_xprofile_update_meta( $g, 'group', 'foo', $value );
+		$this->assertSame( $value, bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+	}
+
+	/**
+	 * @group xprofilemeta
+	 * @group bp_xprofile_update_meta
+	 * @ticket BP5919
+	 */
+	public function test_bp_xprofile_update_meta_where_meta_id_is_in_quoted_value() {
+		$g = $this->factory->xprofile_group->create();
+		$value = "foo meta_id bar";
+		bp_xprofile_add_meta( $g, 'group', 'foo', 'bar' );
+		bp_xprofile_update_meta( $g, 'group', 'foo', $value );
+		$this->assertSame( $value, bp_xprofile_get_meta( $g, 'group', 'foo' ) );
+	}
+
+	/**
+	 * @group xprofilemeta
 	 * @group bp_xprofile_add_meta
 	 */
 	public function test_bp_xprofile_add_meta_no_meta_key() {

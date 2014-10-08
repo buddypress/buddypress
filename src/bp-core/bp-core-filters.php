@@ -603,7 +603,25 @@ add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
  * @return string
  */
 function bp_filter_metaid_column_name( $q ) {
-	return str_replace( 'meta_id', 'id', $q );
+	/*
+	 * Replace quoted content with __QUOTE__ to avoid false positives.
+	 * This regular expression will match nested quotes.
+	 */
+	$quoted_regex = "/'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'/s";
+	preg_match_all( $quoted_regex, $q, $quoted_matches );
+	$q = preg_replace( $quoted_regex, '__QUOTE__', $q );
+
+	$q = str_replace( 'meta_id', 'id', $q );
+
+	// Put quoted content back into the string.
+	if ( ! empty( $quoted_matches[0] ) ) {
+		for ( $i = 0; $i < count( $quoted_matches[0] ); $i++ ) {
+			$quote_pos = strpos( $q, '__QUOTE__' );
+			$q = substr_replace( $q, $quoted_matches[0][ $i ], $quote_pos, 9 );
+		}
+	}
+
+	return $q;
 }
 
 /**
