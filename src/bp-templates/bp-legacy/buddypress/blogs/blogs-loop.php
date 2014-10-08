@@ -33,7 +33,7 @@
 
 	<?php while ( bp_blogs() ) : bp_the_blog(); ?>
 
-		<li>
+		<li <?php bp_blog_class() ?>>
 			<div class="item-avatar">
 				<a href="<?php bp_blog_permalink(); ?>"><?php bp_blog_avatar( 'type=thumb' ); ?></a>
 			</div>
