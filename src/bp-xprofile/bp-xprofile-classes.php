@@ -1023,6 +1023,8 @@ class BP_XProfile_Field {
 								</div>
 
 							<?php endif ?>
+
+							<?php do_action( 'xprofile_field_after_sidebarbox', $this ); ?>
 						</div>
 
 						<div id="postbox-container-2" class="postbox-container">
@@ -1063,6 +1065,7 @@ class BP_XProfile_Field {
 
 							<?php endif; ?>
 
+							<?php do_action( 'xprofile_field_after_contentbox', $this ); ?>
 						</div>
 					</div><!-- #post-body -->
 
