@@ -895,12 +895,12 @@ class BP_Groups_Group {
 			// @todo It may be better in the long run to refactor
 			// the more general query syntax to accord better with
 			// BP/WP convention
-			preg_match_all( '/INNER JOIN (.*) ON/', $meta_sql['join'], $matches_a );
-			preg_match_all( '/ON \((.*)\)/', $meta_sql['join'], $matches_b );
+			preg_match_all( '/JOIN (.+?) ON/', $meta_sql['join'], $matches_a );
+			preg_match_all( '/ON \((.+?)\)/', $meta_sql['join'], $matches_b );
 
 			if ( ! empty( $matches_a[1] ) && ! empty( $matches_b[1] ) ) {
 				$sql_array['join']  = implode( ',', $matches_a[1] ) . ', ';
-				$sql_array['where'] = $meta_sql['where'] . ' AND ' . implode ( ' AND ', $matches_b[1] );
+				$sql_array['where'] = $meta_sql['where'] . ' AND ' . implode( ' AND ', $matches_b[1] );
 			}
 		}
 
