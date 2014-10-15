@@ -60,6 +60,6 @@ notifications:
 
     irc:
         channels:
-            - "$BP_NOTIFICATIONS_IRC"
+            - secure: "Z+gAlyOafrw0Xg294np+7IpqOKTsswGjAWyOZsbzT7Xo8uY1nmz8tTuU50Gpo8jo5HQqG9G0QgI3zB3Cxy3M5dF+J5oLl1lBz1zL0mtHiq1HoXi2cbVnGCCpxtMvYII6UmPUGAg8zvNUQol+cw1jb3PzLwEDfGcDH64o/Z3j8Gg="
         template:
             - "Build %{build_number} (%{branch} - %{commit}): %{message} %{build_url}"
