@@ -493,14 +493,14 @@ class BP_XProfile_Group {
 
 			<?php endif; ?>
 
-			<form action="<?php echo esc_url( $action ); ?>" method="post">
+			<form id="bp-xprofile-add-field-group" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
 					<div id="post-body" class="metabox-holder columns-2">
 						<div id="post-body-content">
 							<div id="titlediv">
 								<div id="titlewrap">
-									<label class="screen-reader-text" id="title-prompt-text" for="title"><?php esc_html_e( 'Field Group Title', 'buddypress') ?></label>
-									<input type="text" name="group_name" autocomplete="off" id="title" value="<?php echo esc_attr( $this->name ); ?>" placeholder="<?php echo esc_attr_x( 'Group Name', 'XProfile admin edit group', 'buddypress' ); ?>" />
+									<label id="title-prompt-text" for="title"><?php esc_html_e( 'Field Group Name', 'buddypress') ?></label>
+									<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" autocomplete="off" />
 								</div>
 							</div>
 
@@ -920,7 +920,10 @@ class BP_XProfile_Field {
 					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 == get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="titlediv">
-								<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ); ?>" placeholder="<?php echo esc_attr_x( 'Field Name', 'XProfile admin edit field', 'buddypress' ); ?>" />
+								<div class="titlewrap">
+									<label id="title-prompt-text" for="title"><?php echo esc_attr_x( 'Field Name', 'XProfile admin edit field', 'buddypress' ); ?></label>
+									<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ); ?>" autocomplete="off" />
+								</div>
 							</div>
 							<div class="postbox">
 								<h3><?php _e( 'Field Description', 'buddypress' ); ?></h3>

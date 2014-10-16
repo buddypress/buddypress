@@ -119,11 +119,37 @@ function destroySortableFieldOptions() {
 	jQuery( '.sortable, .sortable span' ).css( 'cursor', 'default' );
 }
 
+function titleHint( id ) {
+	id = id || 'title';
+
+	var title = jQuery('#' + id), titleprompt = jQuery('#' + id + '-prompt-text');
+
+	if ( '' === title.val() ) {
+		titleprompt.removeClass('screen-reader-text');
+	}
+
+	titleprompt.click(function(){
+		jQuery(this).addClass('screen-reader-text');
+		title.focus();
+	});
+
+	title.blur(function(){
+		if ( '' === this.value ) {
+			titleprompt.removeClass('screen-reader-text');
+		}
+	}).focus(function(){
+		titleprompt.addClass('screen-reader-text');
+	}).keydown(function(e){
+		titleprompt.addClass('screen-reader-text');
+		jQuery(this).unbind(e);
+	});
+};
+
 jQuery( document ).ready( function() {
 
 	// Set focus in Field Title, if we're on the right page
 	jQuery( '#bp-xprofile-add-field #title' ).focus();
-	
+
 	// Set up deleting options ajax
 	jQuery( 'a.ajax-option-delete' ).on( 'click', function() {
 		var theId = this.id.split( '-' );
@@ -196,6 +222,9 @@ jQuery( document ).ready( function() {
 
 	// Allow reordering of field options
 	enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
+
+	// Handle title placeholder text the WordPress way
+	titleHint( 'title' );
 
 	// tabs init with a custom tab template and an "add" callback filling in the content
 	var $tab_items,

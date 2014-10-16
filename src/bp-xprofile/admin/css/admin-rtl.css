@@ -249,3 +249,8 @@ textarea#group_description {
 	border: 1px solid #ddd;
 	width: 100%;
 }
+
+#bp-xprofile-add-field .titlewrap,
+#bp-xprofile-add-field-group .titlewrap {
+	margin-bottom: 20px;
+}
