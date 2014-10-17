@@ -143,7 +143,7 @@ function titleHint( id ) {
 		titleprompt.addClass('screen-reader-text');
 		jQuery(this).unbind(e);
 	});
-};
+}
 
 jQuery( document ).ready( function() {
 
