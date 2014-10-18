@@ -112,6 +112,13 @@ class BP_Akismet {
 		if ( $desc )
 			echo '<span class="akismet-status"><a href="' . esc_url( bp_get_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) ) . '#bp_activity_history">' . htmlspecialchars( $desc ) . '</a></span>';
 
+		/**
+		 * Filters the list of actions for the current activity's row.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param array $actions Array of available actions for the current activity item's row.
+		 */
 		return apply_filters( 'bp_akismet_comment_row_action', $actions );
 	}
 
@@ -239,6 +246,14 @@ class BP_Akismet {
 	 * @return array List of activity types.
 	 */
 	public static function get_activity_types() {
+
+		/**
+		 * Filters the list of activity types that Akismet should automatically check for spam.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param array Array of default activity types for Akismet to check.
+		 */
 		return apply_filters( 'bp_akismet_get_activity_types', array( 'activity_comment', 'activity_update' ) );
 	}
 
@@ -254,6 +269,14 @@ class BP_Akismet {
 		// Record this item so we can do some tidyup in BP_Akismet::check_member_activity_update()
 		$this->last_activity = $activity;
 
+		/**
+		 * Fires after marking an activity item has been marked as spam.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param BP_Activity_Activity $activity Activity object being marked as spam.
+		 * @param string $source Source of the whom marked as spam. Either "by_a_person" (e.g. a person has manually marked the activity as spam) or "by_akismet".
+		 */
 		do_action( 'bp_activity_akismet_mark_as_spam', $activity, $source );
 	}
 
@@ -270,6 +293,14 @@ class BP_Akismet {
 		if ( 'true' == bp_activity_get_meta( $activity->id, '_bp_akismet_result' ) && !bp_activity_get_meta( $activity->id, '_bp_akismet_user_result' ) )
 			$activity->content = bp_activity_at_name_filter( $activity->content, $activity->id );
 
+		/**
+		 * Fires after marking an activity item has been marked as ham.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param BP_Activity_Activity $activity Activity object being marked as ham.
+		 * @param string $source Source of the whom marked as ham. Either "by_a_person" (e.g. a person has manually marked the activity as ham) or "by_akismet" (automatically hammed).
+		 */
 		do_action( 'bp_activity_akismet_mark_as_ham', $activity, $source );
 	}
 
@@ -311,6 +342,14 @@ class BP_Akismet {
 		elseif ( !empty( $activity->secondary_item_id ) && !empty( $_POST['_bp_as_nonce_' . $activity->secondary_item_id] ) )
 			$activity_data['akismet_comment_nonce'] = wp_verify_nonce( $_POST["_bp_as_nonce_{$activity->secondary_item_id}"], "_bp_as_nonce_{$userdata->ID}_{$activity->secondary_item_id}" ) ? 'passed' : 'failed';
 
+		/**
+		 * Filters activity data before being sent to Akismet to inspect.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param array $activity_data Array of activity data for Akismet to inspect.
+		 * @param BP_Activity_Activity $activity Activity item data.
+		 */
 		return apply_filters( 'bp_akismet_build_akismet_data_package', $activity_data, $activity );
 	}
 
@@ -347,7 +386,14 @@ class BP_Akismet {
 
 		// Spam
 		if ( 'true' == $activity_data['bp_as_result'] ) {
-			// Action for plugin authors
+			/**
+			 * Fires after an activity item has been proven to be spam, but before officially being marked as spam.
+			 *
+			 * @since BuddyPress (1.6.0)
+			 *
+			 * @param BP_Activity_Activity $activity The activity item proven to be spam.
+			 * @param array $activity_data Array of activity data for item including Akismet check results data.
+			 */
 			do_action_ref_array( 'bp_activity_akismet_spam_caught', array( &$activity, $activity_data ) );
 
 			// Mark as spam
@@ -614,6 +660,13 @@ class BP_Akismet {
 function bp_activity_akismet_delete_old_metadata() {
 	global $bp, $wpdb;
 
+	/**
+	 * Filters the threshold for how many days old Akismet metadata needs to be before being automatically deleted.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param integer 15 How many days old metadata needs to be.
+	 */
 	$interval = apply_filters( 'bp_activity_akismet_delete_meta_interval', 15 );
 
 	// Enforce a minimum of 1 day

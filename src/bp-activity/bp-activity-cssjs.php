@@ -41,7 +41,14 @@ function bp_activity_mentions_script() {
 		wp_style_add_data( 'bp-mentions-css', 'suffix', $min );
 	}
 
-	// Print a list of the current user's friends to the page for quicker @mentions lookups.
+	/**
+	 * Fires at the end of the Activity Mentions script.
+	 *
+	 * This is the hook where BP components can add their own prefetched results
+	 * friends to the page for quicker @mentions lookups.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
 	do_action( 'bp_activity_mentions_prime_results' );
 }
 add_action( 'bp_enqueue_scripts', 'bp_activity_mentions_script' );
