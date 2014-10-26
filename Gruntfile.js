@@ -21,7 +21,7 @@ module.exports = function( grunt ) {
 
 		// JavaScript exclusions, for excluding from certain tasks e.g jshint
 		BP_EXCLUDED_JS = [
-			'!bp-core/deprecated/js/**/*.js', // Depracted
+			'!bp-core/deprecated/js/**/*.js', // Deprecated
 			'!bp-core/js/jquery.atwho.js',    // External 3rd party library
 			'!bp-core/js/jquery.caret.js',    // External 3rd party library
 			'!bp-core/js/jquery-cookie.js'    // External 3rd party library
