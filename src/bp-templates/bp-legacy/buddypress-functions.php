@@ -323,7 +323,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		$locations['bp-legacy'] = array(
 			'dir'  => bp_get_theme_compat_dir(),
 			'uri'  => bp_get_theme_compat_url(),
-			'file' => $file
+			'file' => str_replace( '.min', '', $file )
 		);
 
 		// Subdirectories within the top-level $locations directories
