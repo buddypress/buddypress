@@ -1081,9 +1081,9 @@ function bp_loggedin_user_id() {
  * @param string $component Name of the component being checked.
  * @return bool Returns true if the component matches, or else false.
  */
-function bp_is_current_component( $component ) {
-	global $wp_query;
+function bp_is_current_component( $component = '' ) {
 
+	// Default is no match. We'll check a few places for matches
 	$is_current_component = false;
 
 	// Always return false if a null value is passed to the function
@@ -1098,6 +1098,7 @@ function bp_is_current_component( $component ) {
 
 	$bp = buddypress();
 
+	// Only check if BuddyPress found a current_component
 	if ( ! empty( $bp->current_component ) ) {
 
 		// First, check to see whether $component_name and the current
@@ -1136,21 +1137,6 @@ function bp_is_current_component( $component ) {
 					$is_current_component = true;
 					break;
 				}
-			}
-		}
-
-	// Page template fallback check if $bp->current_component is empty
-	} elseif ( !is_admin() && is_a( $wp_query, 'WP_Query' ) && is_page() ) {
-		global $wp_query;
-
-		$page = $wp_query->get_queried_object();
-		if ( isset( $page->ID ) ) {
-			$custom_fields = get_post_custom_values( '_wp_page_template', $page->ID );
-			$page_template = $custom_fields[0];
-
-			// Component name is in the page template name
-			if ( !empty( $page_template ) && strstr( strtolower( $page_template ), strtolower( $component ) ) ) {
-				$is_current_component = true;
 			}
 		}
 	}
