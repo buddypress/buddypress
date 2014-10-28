@@ -253,6 +253,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$current_user->for_blog( $blog_id );
 
 		// For BuddyPress, James.
+		$this->clean_up_global_scope();
 		$GLOBALS['bp']->loggedin_user = NULL;
 		$GLOBALS['bp']->pages = bp_core_get_directory_pages();
 		do_action( 'bp_init' );
