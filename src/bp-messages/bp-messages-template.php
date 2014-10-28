@@ -1498,24 +1498,55 @@ function bp_the_thread_subject() {
 	}
 
 /**
- * Output HTML links to recipients in the current thread.
+ * Get a list of thread recipients or a "x recipients" string.
+ *
+ * In BuddyPress 2.2.0, this parts of this functionality were moved into the
+ * members/single/messages/single.php template. This function is no longer used
+ * by BuddyPress.
+ *
+ * @return string
  */
-function bp_the_thread_recipients() {
-	echo bp_get_the_thread_recipients();
+function bp_get_the_thread_recipients(){
+	if ( 5 <= bp_get_thread_recipients_count() ) {
+		$recipients = sprintf( __( '%s recipients', 'buddypress' ), number_format_i18n( bp_get_thread_recipients_count() ) );
+	} else {
+		$recipients = bp_get_thread_recipients_list();
+	}
+
+	return apply_filters( 'bp_get_the_thread_recipients', $recipients );
+}
+
+/**
+ * Get the number of recipients in the current thread.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @return int
+ */
+function bp_get_thread_recipients_count() {
+	global $thread_template;
+	return count( $thread_template->thread->recipients );
+}
+
+/**
+ * Output HTML links to recipients in the current thread.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_the_thread_recipients_list() {
+	echo bp_get_thread_recipients_list();
 }
 	/**
 	 * Generate HTML links to the profiles of recipients in the current thread.
 	 *
+	 * @since BuddyPress (2.2.0)
+	 *
 	 * @return string
 	 */
-	function bp_get_the_thread_recipients() {
+	function bp_get_thread_recipients_list() {
 		global $thread_template;
 
 		$recipient_links = array();
-
-		if ( count( $thread_template->thread->recipients ) >= 5 ) {
-			return apply_filters( 'bp_get_the_thread_recipients', sprintf( __( '%d Recipients', 'buddypress' ), count( $thread_template->thread->recipients ) ) );
-		}
 
 		foreach( (array) $thread_template->thread->recipients as $recipient ) {
 			if ( (int) $recipient->user_id !== bp_loggedin_user_id() ) {
@@ -1529,7 +1560,7 @@ function bp_the_thread_recipients() {
 			}
 		}
 
-		return apply_filters( 'bp_get_the_thread_recipients', implode( ', ', $recipient_links ) );
+		return apply_filters( 'bp_get_the_thread_recipients_list', implode( ', ', $recipient_links ) );
 	}
 
 /**

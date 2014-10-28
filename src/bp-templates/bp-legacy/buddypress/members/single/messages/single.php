@@ -9,13 +9,17 @@
 		<p id="message-recipients">
 			<span class="highlight">
 
-				<?php if ( !bp_get_the_thread_recipients() ) : ?>
+				<?php if ( ! bp_get_thread_recipients_count() ) : ?>
 
 					<?php _e( 'You are alone in this conversation.', 'buddypress' ); ?>
 
+				<?php elseif ( 5 <= bp_get_thread_recipients_count() ) : ?>
+
+					<?php printf( __( 'Conversation between %s recipients.', 'buddypress' ), number_format_i18n( bp_get_thread_recipients_count() ) ); ?>
+
 				<?php else : ?>
 
-					<?php printf( __( 'Conversation between %s and you.', 'buddypress' ), bp_get_the_thread_recipients() ); ?>
+					<?php printf( __( 'Conversation between %s and you.', 'buddypress' ), bp_get_thread_recipients_list() ); ?>
 
 				<?php endif; ?>
 
