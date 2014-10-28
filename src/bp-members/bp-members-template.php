@@ -1698,7 +1698,7 @@ function bp_signup_avatar_dir_value() {
 		else
 			$signup_avatar_dir = false;
 
-		return apply_filters( 'bp_get_signup_avatar_dir_value', $bp->signup->avatar_dir );
+		return apply_filters( 'bp_get_signup_avatar_dir_value', $signup_avatar_dir );
 	}
 
 /**
