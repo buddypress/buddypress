@@ -216,7 +216,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	}
 
 	/**
-	 * Enqueue the required Javascript files
+	 * Enqueue the required JavaScript files
 	 *
 	 * @since BuddyPress (1.7)
 	 */

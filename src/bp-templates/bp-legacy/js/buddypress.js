@@ -1547,7 +1547,7 @@ jq(document).ready( function() {
 		return false;
 	});
 
-	/* Toolbar & wp_list_pages Javascript IE6 hover class */
+	/* Toolbar & wp_list_pages JavaScript IE6 hover class */
 	jq('#wp-admin-bar ul.main-nav li, #nav li').mouseover( function() {
 		jq(this).addClass('sfhover');
 	});
