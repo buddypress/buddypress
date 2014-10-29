@@ -423,7 +423,7 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
  * @param string $seplocation Direction to display title.
  * @return string New page title.
  */
-function bp_modify_page_title( $title, $sep, $seplocation ) {
+function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
 	global $bp;
 
 	// If this is not a BP page, just return the title produced by WP
