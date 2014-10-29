@@ -1,5 +1,5 @@
 .atwho-view {
-	background: #FFF;
+	background: rgba(204, 204, 204, 0.8);
 	border-radius: 2px;
 	border: 1px solid rgb(204, 204, 204);
 	box-shadow: 0 0 5px rgba(204, 204, 204, 0.25), 0 0 1px #FFF;
@@ -16,6 +16,7 @@
 	left: 0; 
 }
 .atwho-view ul {
+	background: #FFF;
 	list-style: none;
 	margin: auto;
 	padding: 0;
@@ -62,9 +63,6 @@
 		float: left;
 		margin: 0 10px 0 0;
 	}
-	.atwho-view small {
-		display: none;
-	}
 }
 @media (max-width: 400px) {
 	.atwho-view ul li {
@@ -76,5 +74,20 @@
 		height: 30px;
 		margin-top: -5px;
 		width: 30px;
+	}
+	.atwho-view {
+		border-radius: 0;
+		height: 100%;
+		left: 0 !important;
+		width: 100%;
+	}
+	.atwho-view ul li .username {
+		display: inline-block;
+		margin: -10px 0 0 0;
+		padding: 10px 0;
+	}
+	.atwho-view ul li small {
+		display: inline-block;
+		margin-left: 20px;
 	}
 }
