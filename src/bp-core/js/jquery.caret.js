@@ -36,11 +36,16 @@
       };
 
       EditableCaret.prototype.getIEPosition = function() {
-        return $.noop();
+        return this.getPosition();
       };
 
       EditableCaret.prototype.getPosition = function() {
-        return $.noop();
+        var inputor_offset, offset;
+        offset = this.getOffset();
+        inputor_offset = this.$inputor.offset();
+        offset.left -= inputor_offset.left;
+        offset.top -= inputor_offset.top;
+        return offset;
       };
 
       EditableCaret.prototype.getOldIEPos = function() {
@@ -97,7 +102,7 @@
         } else if (oDocument.selection) {
           offset = this.getOldIEOffset();
         }
-        if (offset && !oFrame) {
+        if (offset) {
           offset.top += $(oWindow).scrollTop();
           offset.left += $(oWindow).scrollLeft();
         }
@@ -206,7 +211,7 @@
         var $inputor, at_rect, end_range, format, html, mirror, start_range;
         $inputor = this.$inputor;
         format = function(value) {
-          return value.replace(/</g, '&lt').replace(/>/g, '&gt').replace(/`/g, '&#96').replace(/"/g, '&quot').replace(/\r\n|\r|\n/g, "<br />");
+          return $('<div></div>').text(value).html();
         };
         if (pos === void 0) {
           pos = this.getPos();
@@ -307,13 +312,8 @@
         }
       },
       offset: function(pos) {
-        var iOffset, offset;
+        var offset;
         offset = this.getOffset(pos);
-        if (oFrame) {
-          iOffset = $(oFrame).offset();
-          offset.top += iOffset.top;
-          offset.left += iOffset.left;
-        }
         return offset;
       }
     };
