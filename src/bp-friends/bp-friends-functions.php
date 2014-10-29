@@ -579,6 +579,15 @@ function bp_friends_prime_mentions_results() {
 		return;
 	}
 
+	// Bail out if the site has a ton of users.
+	if ( is_multisite() && wp_is_large_network( 'users' ) ) {
+		return;
+	}
+
+	if ( friends_get_total_friend_count( get_current_user_id() ) > 150 ) {
+		return;
+	}
+
 	$friends_query = array(
 		'count_total'     => '',                    // Prevents total count
 		'populate_extras' => false,
