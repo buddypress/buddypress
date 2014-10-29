@@ -221,13 +221,34 @@
 	};
 
 	$( document ).ready(function() {
-		var users = [];
+		var loadMentionsInTinyMCE,
+			loadAttempts = 0,
+			users        = [];
 
 		if ( typeof window.BP_Suggestions === 'object' ) {
 			users = window.BP_Suggestions.friends || users;
 		}
 
+		// Dashoard post 'visual' editor.
+		loadMentionsInTinyMCE = function() {
+			if ( loadAttempts < 4 || ! $( 'body' ).hasClass( 'wp-admin' ) ) {
+				loadAttempts++;
+
+				if ( typeof window.tinyMCE === 'undefined' || window.tinyMCE.activeEditor === null || typeof window.tinyMCE.activeEditor === 'undefined' ) {
+					setTimeout( loadMentionsInTinyMCE, 500 );
+					return;
+				}
+			}
+
+			$( window.tinyMCE.activeEditor.contentDocument.activeElement )
+				.atwho( 'setIframe', $( '#content_ifr' )[0] )
+				.bp_mentions( users );
+		};
+
 		// Activity/reply, post comments, dashboard post 'text' editor.
 		$( '.bp-suggestions, #comments form textarea, .wp-editor-area' ).bp_mentions( users );
+
+		// Dashbboard post 'visual' editor.
+		loadMentionsInTinyMCE();
 	});
 })( jQuery );
