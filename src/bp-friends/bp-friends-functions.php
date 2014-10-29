@@ -594,7 +594,12 @@ function bp_friends_prime_mentions_results() {
 		$result        = new stdClass();
 		$result->ID    = $user->user_nicename;
 		$result->image = bp_core_fetch_avatar( array( 'html' => false, 'item_id' => $user->ID ) );
-		$result->name  = bp_core_get_user_displayname( $user->ID );
+
+		if ( ! empty( $user->display_name ) && ! bp_disable_profile_sync() ) {
+			$result->name = $user->display_name;
+		} else {
+			$result->name = bp_core_get_user_displayname( $user->ID );
+		}
 
 		$results[] = $result;
 	}
