@@ -233,29 +233,38 @@ function bp_core_screen_activation() {
 		return;
 	}
 
-	// Check if an activation key has been passed
-	if ( isset( $_GET['key'] ) ) {
-
-		// Activate the signup
-		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $_GET['key'] ) );
-
-		// If there were errors, add a message and redirect
-		if ( !empty( $user->errors ) ) {
-			bp_core_add_message( $user->get_error_message(), 'error' );
-			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
-		}
-
-		$hashed_key = wp_hash( $_GET['key'] );
-
-		// Check if the avatar folder exists. If it does, move rename it, move
-		// it and delete the signup avatar dir
-		if ( file_exists( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key ) )
-			@rename( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key, bp_core_avatar_upload_path() . '/avatars/' . $user );
-
-		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
-
-		$bp->activation_complete = true;
+	// grab the key (the old way)
+	$key = isset( $_GET['key'] ) ? $_GET['key'] : '';
+  
+	// grab the key (the new way)
+	if ( empty( $key ) ) {
+		$key = bp_current_action();
 	}
+
+	// bail if no key
+	if ( empty( $key ) ) {
+		return;
+	}
+  
+	// Activate the signup
+	$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $key ) );
+
+	// If there were errors, add a message and redirect
+	if ( ! empty( $user->errors ) ) {
+		bp_core_add_message( $user->get_error_message(), 'error' );
+		bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
+	}
+
+	$hashed_key = wp_hash( $key );
+
+	// Check if the avatar folder exists. If it does, move rename it, move
+	// it and delete the signup avatar dir
+	if ( file_exists( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key ) ) {
+		@rename( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key, bp_core_avatar_upload_path() . '/avatars/' . $user );
+	}
+
+	bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
+	$bp->activation_complete = true;
 
 	bp_core_load_template( apply_filters( 'bp_core_template_activate', array( 'activate', 'registration/activate' ) ) );
 }
