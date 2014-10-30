@@ -201,7 +201,15 @@ class BP_Activity_Activity {
 		$this->mptt_right        = apply_filters_ref_array( 'bp_activity_mptt_right_before_save',        array( $this->mptt_right,        &$this ) );
 		$this->is_spam           = apply_filters_ref_array( 'bp_activity_is_spam_before_save',           array( $this->is_spam,           &$this ) );
 
-		// Use this, not the filters above
+		/**
+		 * Fires before the current activity item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Activity_Activity Current instance of the activity item being saved.
+		 */
 		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
 
 		if ( !$this->component || !$this->type )
@@ -227,6 +235,13 @@ class BP_Activity_Activity {
 		else
 			add_filter( 'bp_activity_at_name_do_notifications', '__return_false' );
 
+		/**
+		 * Fires after an activity item has been saved to the database.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Activity_Activity Reference to current instance of activity being saved.
+		 */
 		do_action_ref_array( 'bp_activity_after_save', array( &$this ) );
 
 		return true;
@@ -414,13 +429,29 @@ class BP_Activity_Activity {
 			$where_conditions['excluded_types'] = "a.type NOT IN ({$not_in})";
 		}
 
-		// Filter the where conditions
+		/**
+		 * Filters the MySQL WHERE conditions for the Activity items get method.
+		 *
+		 * @since BuddyPress (1.9.0)
+		 *
+		 * @param array  $where_conditions Current conditions for MySQL WHERE statement.
+		 * @param array  $r Parsed arguments passed into method.
+		 * @param string $select_sql Current SELECT MySQL statement at point of execution.
+		 * @param string $from_sql Current FROM MySQL statement at point of execution.
+		 * @param string $join_sql Current INNER JOIN MySQL statement at point of execution.
+		 */
 		$where_conditions = apply_filters( 'bp_activity_get_where_conditions', $where_conditions, $r, $select_sql, $from_sql, $join_sql );
 
 		// Join the where conditions together
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
-		// Define the preferred order for indexes
+		/**
+		 * Filters the preferred order of indexes for activity item.
+		 *
+		 * @since Buddypress (1.6.0)
+		 *
+		 * @param array Array of indexes in preferred order.
+		 */
 		$indexes = apply_filters( 'bp_activity_preferred_index_order', array( 'user_id', 'item_id', 'secondary_item_id', 'date_recorded', 'component', 'type', 'hide_sitewide', 'is_spam' ) );
 
 		foreach( $indexes as $key => $index ) {
@@ -446,7 +477,17 @@ class BP_Activity_Activity {
 			'has_more_items' => null,
 		);
 
-		// Filter and return true to use the legacy query structure (not recommended)
+		/**
+		 * Filters if BuddyPress should use legacy query structure over current structure for version 2.0+.
+		 *
+		 * It is not recommended to use the legacy structure, but allowed to if needed.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param bool                 Whether to use legacy structure or not.
+		 * @param BP_Activity_Activity Current method being called.
+		 * @param array                $r Parsed arguments pased into method.
+		 */
 		if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
 			// Legacy queries joined against the user table
@@ -455,9 +496,23 @@ class BP_Activity_Activity {
 
 			if ( ! empty( $page ) && ! empty( $per_page ) ) {
 				$pag_sql    = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
+
+				/** this filter is documented in bp-activity/bp-activity-classes.php */
 				$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
 			} else {
 				$pag_sql    = '';
+
+				/**
+				 * Filters the legacy MySQL query statement so plugins can alter before results are fetched.
+				 *
+				 * @since BuddyPress (1.5.0)
+				 *
+				 * @param string Concatenated MySQL statement pieces to be query results with for legacy query.
+				 * @param string $select_sql Final SELECT MySQL statement portion for legacy query.
+				 * @param string $from_sql Final FROM MySQL statement portion for legacy query.
+				 * @param string $where_sql Final WHERE MySQL statement portion for legacy query.
+				 * @param string $sort Final sort direction for legacy query.
+				 */
 				$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
 			}
 
@@ -472,6 +527,14 @@ class BP_Activity_Activity {
 				$activity_ids_sql .= $wpdb->prepare( " LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page + 1 );
 			}
 
+			/**
+			 * Filters the paged activities MySQL statement.
+			 *
+			 * @since BuddyPress (2.0.0)
+			 *
+			 * @param string $activity_ids_sql MySQL statement used to query for Activity IDs.
+			 * @param array  $r Array of arguments passed into method.
+			 */
 			$activity_ids_sql = apply_filters( 'bp_activity_paged_activities_sql', $activity_ids_sql, $r );
 
 			$activity_ids = $wpdb->get_col( $activity_ids_sql );
@@ -514,6 +577,15 @@ class BP_Activity_Activity {
 		// If $max is set, only return up to the max results
 		if ( ! empty( $r['count_total'] ) ) {
 
+			/**
+			 * Filters the total activities MySQL statement.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param string MySQL statement used to query for total activities.
+			 * @param string $where_sql MySQL WHERE statement portion.
+			 * @param string $sort sort direction for query.
+			 */
 			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
 			$total_activities     = $wpdb->get_var( $total_activities_sql );
 
@@ -640,6 +712,14 @@ class BP_Activity_Activity {
 	 * @param array $activities Array of activities.
 	 */
 	protected static function prefetch_object_data( $activities ) {
+
+		/**
+		 * Filters inside prefetch_object_data method to aid in pre-fetching object data associated with activity item.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $activities Array of activities.
+		 */
 		return apply_filters( 'bp_activity_prefetch_object_data', $activities );
 	}
 
@@ -1054,7 +1134,29 @@ class BP_Activity_Activity {
 
 			// Legacy query - not recommended
 			$func_args = func_get_args();
+
+			/**
+			 * Filters if BuddyPress should use the legacy activity query.
+			 *
+			 * @since BuddyPress (2.0.0)
+			 *
+			 * @param bool                 Whether or not to use the legacy query.
+			 * @param BP_Activity_Activity Magic method referring to currently called method.
+			 * @param array $func_args     Array of the method's argument list.
+			 */
 			if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $func_args ) ) {
+
+				/**
+				 * Filters the MySQL prepared statement for the legacy activity query.
+				 *
+				 * @since BuddyPress (1.5.0)
+				 *
+				 * @param string Prepared statement for the activity query.
+				 * @param int    $activity_id Activity ID to fetch comments for.
+				 * @param int    $left Left-most node boundary.
+				 * @param int    $right Right-most node boundary.
+				 * @param string $spam_sql SQL Statement portion to differentiate between ham or spam.
+				 */
 				$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' {$spam_sql} AND a.item_id = %d AND a.mptt_left > %d AND a.mptt_left < %d ORDER BY a.date_recorded ASC", $top_level_parent_id, $left, $right ), $activity_id, $left, $right, $spam_sql );
 
 				$descendants = $wpdb->get_results( $sql );
@@ -1450,7 +1552,14 @@ class BP_Activity_Feed {
 	 * @param array $args Optional
 	 */
 	public function __construct( $args = array() ) {
-		// If feeds are disabled, stop now!
+
+		/**
+		 * Filters if BuddyPress should consider feeds enabled. If disabled, it will return early.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param bool true Default true aka feeds are enabled.
+		 */
 		if ( false === (bool) apply_filters( 'bp_activity_enable_feeds', true ) ) {
 			global $wp_query;
 
@@ -1496,7 +1605,13 @@ class BP_Activity_Feed {
 			'activity_args'    => array()
 		) );
 
-		// Plugins can use this filter to modify the feed before it is setup
+		/**
+		 * Fires before the feed is setup so plugins can modify.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param BP_Activity_Feed Reference to current instance of activity feed.
+		 */
 		do_action_ref_array( 'bp_activity_feed_prefetch', array( &$this ) );
 
 		// Setup class properties
@@ -1508,7 +1623,13 @@ class BP_Activity_Feed {
 			return false;
 		}
 
-		// Plugins can use this filter to modify the feed after it's setup
+		/**
+		 * Fires after the feed is setup so plugins can modify.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param BP_Activity_Feed Reference to current instance of activity feed.
+		 */
 		do_action_ref_array( 'bp_activity_feed_postfetch', array( &$this ) );
 
 		// Setup feed hooks
@@ -1565,6 +1686,14 @@ class BP_Activity_Feed {
 	 * Fire a hook to ensure backward compatibility for RSS attributes.
 	 */
 	public function backpat_rss_attributes() {
+
+		/**
+		 * Fires inside backpat_rss_attributes method for backwards compatibility related to RSS attributes.
+		 *
+		 * This hook was originally separated out for individual components but has since been abstracted into the BP_Activity_Feed class.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 */
 		do_action( 'bp_activity_' . $this->id . '_feed' );
 	}
 
@@ -1572,6 +1701,14 @@ class BP_Activity_Feed {
 	 * Fire a hook to ensure backward compatibility for channel elements.
 	 */
 	public function backpat_channel_elements() {
+
+		/**
+		 * Fires inside backpat_channel_elements method for backwards compatibility related to RSS channel elements.
+		 *
+		 * This hook was originally separated out for individual components but has since been abstracted into the BP_Activity_Feed class.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 */
 		do_action( 'bp_activity_' . $this->id . '_feed_head' );
 	}
 
@@ -1594,6 +1731,13 @@ class BP_Activity_Feed {
 				break;
 		}
 
+		/**
+		 * Fires inside backpat_item_elements method for backwards compatibility related to RSS item elements.
+		 *
+		 * This hook was originally separated out for individual components but has since been abstracted into the BP_Activity_Feed class.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 */
 		do_action( 'bp_activity_' . $id . '_feed_item' );
 	}
 
@@ -1719,7 +1863,14 @@ class BP_Activity_Feed {
 	xmlns:atom="http://www.w3.org/2005/Atom"
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
 	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
-	<?php do_action( 'bp_activity_feed_rss_attributes' ); ?>
+	<?php
+
+	/**
+	 * Fires at the end of the opening RSS tag for feed output so plugins can add extra attributes.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 */
+	do_action( 'bp_activity_feed_rss_attributes' ); ?>
 >
 
 <channel>
@@ -1733,7 +1884,14 @@ class BP_Activity_Feed {
 	<ttl><?php echo $this->ttl; ?></ttl>
 	<sy:updatePeriod><?php echo $this->update_period; ?></sy:updatePeriod>
  	<sy:updateFrequency><?php echo $this->update_frequency; ?></sy:updateFrequency>
-	<?php do_action( 'bp_activity_feed_channel_elements' ); ?>
+	<?php
+
+	/**
+	 * Fires at the end of channel elements list in RSS feed so plugins can add extra channel elements.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 */
+	do_action( 'bp_activity_feed_channel_elements' ); ?>
 
 	<?php if ( bp_has_activities( $this->activity_args ) ) : ?>
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
@@ -1751,7 +1909,14 @@ class BP_Activity_Feed {
 					<slash:comments><?php bp_activity_comment_count(); ?></slash:comments>
 				<?php endif; ?>
 
-				<?php do_action( 'bp_activity_feed_item_elements' ); ?>
+				<?php
+
+				/**
+				 * Fires at the end of the individual RSS Item list in RSS feed so plugins can add extra item elements.
+				 *
+				 * @since BuddyPress (1.8.0)
+				 */
+				do_action( 'bp_activity_feed_item_elements' ); ?>
 			</item>
 		<?php endwhile; ?>
 
