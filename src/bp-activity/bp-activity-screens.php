@@ -17,7 +17,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * Load the Activity directory.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_displayed_user_id()
  * @uses bp_is_activity_component()
@@ -31,8 +31,20 @@ function bp_activity_screen_index() {
 	if ( bp_is_activity_directory() ) {
 		bp_update_is_directory( true, 'activity' );
 
+		/**
+		 * Fires right before the loading of the Activity directory screen template file.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 */
 		do_action( 'bp_activity_screen_index' );
 
+		/**
+		 * Filters the template to load for the Activity directory screen.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string $template Path to the activity template to load.
+		 */
 		bp_core_load_template( apply_filters( 'bp_activity_screen_index', 'activity/index' ) );
 	}
 }
@@ -41,21 +53,35 @@ add_action( 'bp_screens', 'bp_activity_screen_index' );
 /**
  * Load the 'My Activity' page.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @uses do_action() To call the 'bp_activity_screen_my_activity' hook.
  * @uses bp_core_load_template()
  * @uses apply_filters() To call the 'bp_activity_template_my_activity' hook.
  */
 function bp_activity_screen_my_activity() {
+
+	/**
+	 * Fires right before the loading of the "My Activity" screen template file.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 */
 	do_action( 'bp_activity_screen_my_activity' );
+
+	/**
+	 * Filters the template to load for the "My Activity" screen.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $template Path to the activity template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/home' ) );
 }
 
 /**
  * Load the 'My Friends' activity page.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  *
  * @uses bp_is_active()
  * @uses bp_update_is_item_admin()
@@ -69,14 +95,28 @@ function bp_activity_screen_friends() {
 		return false;
 
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
+
+	/**
+	 * Fires right before the loading of the "My Friends" screen template file.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
 	do_action( 'bp_activity_screen_friends' );
+
+	/**
+	 * Filters the template to load for the "My Friends" screen.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $template Path to the activity template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_activity_template_friends_activity', 'members/single/home' ) );
 }
 
 /**
  * Load the 'My Groups' activity page.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @uses bp_is_active()
  * @uses bp_update_is_item_admin()
@@ -90,14 +130,28 @@ function bp_activity_screen_groups() {
 		return false;
 
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
+
+	/**
+	 * Fires right before the loading of the "My Groups" screen template file.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
 	do_action( 'bp_activity_screen_groups' );
+
+	/**
+	 * Filters the template to load for the "My Groups" screen.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $template Path to the activity template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_activity_template_groups_activity', 'members/single/home' ) );
 }
 
 /**
  * Load the 'Favorites' activity page.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @uses bp_update_is_item_admin()
  * @uses bp_current_user_can()
@@ -107,14 +161,28 @@ function bp_activity_screen_groups() {
  */
 function bp_activity_screen_favorites() {
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
+
+	/**
+	 * Fires right before the loading of the "Favorites" screen template file.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
 	do_action( 'bp_activity_screen_favorites' );
+
+	/**
+	 * Filters the template to load for the "Favorites" screen.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $template Path to the activity template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_activity_template_favorite_activity', 'members/single/home' ) );
 }
 
 /**
  * Load the 'Mentions' activity page.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @uses bp_update_is_item_admin()
  * @uses bp_current_user_can()
@@ -124,14 +192,28 @@ function bp_activity_screen_favorites() {
  */
 function bp_activity_screen_mentions() {
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
+
+	/**
+	 * Fires right before the loading of the "Mentions" screen template file.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
 	do_action( 'bp_activity_screen_mentions' );
+
+	/**
+	 * Filters the template to load for the "Mentions" screen.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $template Path to the activity template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
 }
 
 /**
  * Reset the logged-in user's new mentions data when he visits his mentions screen.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_is_my_profile()
  * @uses bp_activity_clear_new_mentions()
@@ -146,7 +228,7 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
 /**
  * Load the page for a single activity item.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @global object $bp BuddyPress global settings
  * @uses bp_is_activity_component()
@@ -218,10 +300,23 @@ function bp_activity_screen_single_activity_permalink() {
 		}
 	}
 
-	// Allow access to be filtered
+	/**
+	 * Filters the access permission for a single activity view.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param array $access Array holding the current $has_access value and current activity item instance.
+	 */
 	$has_access = apply_filters_ref_array( 'bp_activity_permalink_access', array( $has_access, &$activity ) );
 
-	// Allow additional code execution
+	/**
+	 * Fires before the loading of a single activity template file.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param BP_Activity_Activity $activity Object representing the current activity item being displayed.
+	 * @param bool $has_access Whether or not the current user has access to view activity.
+	 */
 	do_action( 'bp_activity_screen_single_activity_permalink', $activity, $has_access );
 
 	// Access is specifically disallowed
@@ -244,6 +339,13 @@ function bp_activity_screen_single_activity_permalink() {
 		bp_core_redirect( $url );
 	}
 
+	/**
+	 * Filters the template to load for a single activity screen.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $template Path to the activity template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
 }
 add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
@@ -251,7 +353,7 @@ add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
 /**
  * Add activity notifications settings to the notifications settings page.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @uses bp_get_user_meta()
  * @uses bp_core_get_username()
@@ -298,7 +400,14 @@ function bp_activity_screen_notification_settings() {
 				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" value="no" <?php checked( $reply, 'no', true ) ?>/></td>
 			</tr>
 
-			<?php do_action( 'bp_activity_screen_notification_settings' ) ?>
+			<?php
+
+			/**
+			 * Fires inside the closing </tbody> tag for activity screen notification settings.
+			 *
+			 * @since BuddyPress (1.2.0)
+			 */
+			do_action( 'bp_activity_screen_notification_settings' ) ?>
 		</tbody>
 	</table>
 
@@ -314,14 +423,14 @@ add_action( 'bp_notification_settings', 'bp_activity_screen_notification_setting
  * This class sets up the necessary theme compatability actions to safely output
  * activity template parts to the_title and the_content areas of a theme.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  */
 class BP_Activity_Theme_Compat {
 
 	/**
 	 * Set up the activity component theme compatibility.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function __construct() {
 		add_action( 'bp_setup_theme_compat', array( $this, 'is_activity' ) );
@@ -330,7 +439,7 @@ class BP_Activity_Theme_Compat {
 	/**
 	 * Set up the theme compatibility hooks, if we're looking at an activity page.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function is_activity() {
 
@@ -342,6 +451,7 @@ class BP_Activity_Theme_Compat {
 		if ( ! bp_displayed_user_id() && ! bp_current_action() ) {
 			bp_update_is_directory( true, 'activity' );
 
+			/** This action is documented in bp-activity/bp-activity-screens.php */
 			do_action( 'bp_activity_screen_index' );
 
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
@@ -363,13 +473,20 @@ class BP_Activity_Theme_Compat {
 	 *
 	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
-		// Setup our templates based on priority
+
+		/**
+		 * Filters the template hierarchy for the activity directory page.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param array $index-directory Array holding template names to be merged into template list.
+		 */
 		$new_templates = apply_filters( 'bp_template_hierarchy_activity_directory', array(
 			'activity/index-directory.php'
 		) );
@@ -384,7 +501,7 @@ class BP_Activity_Theme_Compat {
 	/**
 	 * Update the global $post with directory data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function directory_dummy_post() {
 		bp_theme_compat_reset_post( array(
@@ -403,7 +520,7 @@ class BP_Activity_Theme_Compat {
 	/**
 	 * Filter the_content with the groups index template part.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function directory_content() {
 		return bp_buffer_template_part( 'activity/index', null, false );
@@ -416,13 +533,20 @@ class BP_Activity_Theme_Compat {
 	 *
 	 * This is to mirror how WordPress has {@link https://codex.wordpress.org/Template_Hierarchy template hierarchy}.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
-		// Setup our templates based on priority
+
+		/**
+		 * Filters the template hierarchy for the activity permalink pages.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param array $index Array holding template names to be merged into template list.
+		 */
 		$new_templates = apply_filters( 'bp_template_hierarchy_activity_single_item', array(
 			'activity/single/index.php'
 		) );
@@ -437,7 +561,7 @@ class BP_Activity_Theme_Compat {
 	/**
 	 * Update the global $post with the displayed user's data.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function single_dummy_post() {
 		bp_theme_compat_reset_post( array(
@@ -456,7 +580,7 @@ class BP_Activity_Theme_Compat {
 	/**
 	 * Filter the_content with the members' activity permalink template part.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (1.7.0)
 	 */
 	public function single_dummy_content() {
 		return bp_buffer_template_part( 'activity/single/home', null, false );
