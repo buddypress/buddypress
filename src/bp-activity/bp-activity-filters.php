@@ -113,7 +113,7 @@ add_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys',  2, 1
 /**
  * Types of activity stream items to moderate.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
  * @return array $types List of the activity types to moderate.
  */
@@ -122,13 +122,21 @@ function bp_activity_get_moderated_activity_types() {
 		'activity_comment',
 		'activity_update'
 	);
+
+	/**
+	 * Filters the default activity types that BuddyPress should moderate.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array $types Default activity types to moderate.
+	 */
 	return apply_filters( 'bp_activity_check_activity_types', $types );
 }
 
 /**
  * Moderate the posted activity item, if it contains moderate keywords.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
  * @param BP_Activity_Activity $activity The activity object to check.
  */
@@ -147,7 +155,7 @@ function bp_activity_check_moderation_keys( $activity ) {
 /**
  * Mark the posted activity as spam, if it contains blacklist keywords.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
  * @param BP_Activity_Activity $activity The activity object to check.
  */
@@ -165,7 +173,7 @@ function bp_activity_check_blacklist_keys( $activity ) {
 /**
  * Custom kses filtering for activity content.
  *
- * @since BuddyPress (1.1)
+ * @since BuddyPress (1.1.0)
  *
  * @uses apply_filters() To call the 'bp_activity_allowed_tags' hook.
  * @uses wp_kses()
@@ -196,6 +204,13 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['span']['class'] = array();
 
 
+	/**
+	 * Filters the allowed HTML tags for BuddyPress Activity content.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param array Array of allowed HTML tags and attributes.
+	 */
 	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
 	return wp_kses( $content, $activity_allowedtags );
 }
@@ -261,7 +276,7 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
  * If mentions are found, replace @mention text with user links and add our
  * hook to send mention notifications after the activity item is saved.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_activity_find_mentions()
  *
@@ -298,7 +313,7 @@ function bp_activity_at_name_filter_updates( $activity ) {
 /**
  * Sends emails and BP notifications for users @-mentioned in an activity item.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @uses bp_activity_at_message_notification()
  * @uses bp_activity_update_mention_count_for_user()
@@ -323,7 +338,14 @@ function bp_activity_at_name_send_emails( $activity ) {
 
 	// Send @mentions and setup BP notifications
 	foreach( (array) $usernames as $user_id => $username ) {
-		// If you want to disable notifications, you can use this filter to stop email sending
+		/**
+		 * Filters BuddyPress' ability to send email notifications for @mentions.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param bool  Whether or not BuddyPress should send a notification to the mentioned users.
+		 * @param array $usernames Array of users potentially notified.
+		 */
 		if ( apply_filters( 'bp_activity_at_name_do_notifications', true, $usernames ) ) {
 			bp_activity_at_message_notification( $activity->id, $user_id );
 		}
@@ -336,7 +358,7 @@ function bp_activity_at_name_send_emails( $activity ) {
 /**
  * Catch links in activity text so rel=nofollow can be added.
  *
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  *
  * @param string $text Activity text.
  * @return string $text Text with rel=nofollow added to any links.
@@ -348,7 +370,7 @@ function bp_activity_make_nofollow_filter( $text ) {
 	/**
 	 * Add rel=nofollow to a link.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @param array $matches
 	 *
@@ -364,7 +386,7 @@ function bp_activity_make_nofollow_filter( $text ) {
 /**
  * Truncate long activity entries when viewed in activity streams.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_is_single_activity()
  * @uses apply_filters() To call the 'bp_activity_excerpt_append_text' hook.
@@ -384,7 +406,22 @@ function bp_activity_truncate_entry( $text ) {
 	if ( bp_is_single_activity() )
 		return $text;
 
+	/**
+	 * Filters the appended text for the activity excerpt.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $read_more Internationalized "Read more" text.
+	 */
 	$append_text    = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
+
+	/**
+	 * Filters the excerpt length for the activity excerpt.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $excerpt_length Number indicating how many words to trim the excerpt down to.
+	 */
 	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
 
 	// Run the text through the excerpt function. If it's too short, the original text will be
@@ -400,6 +437,15 @@ function bp_activity_truncate_entry( $text ) {
 		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', $excerpt, $id, bp_get_activity_thread_permalink(), $append_text );
 	}
 
+	/**
+	 * Filters the composite activity excerpt entry.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $excerpt Excerpt text and markup to be displayed.
+	 * @param string $text The original activity entry text.
+	 * @param string $append_text The final append text applied.
+	 */
 	return apply_filters( 'bp_activity_truncate_entry', $excerpt, $text, $append_text );
 }
 
@@ -552,14 +598,26 @@ function bp_activity_heartbeat_strings( $strings = array() ) {
 
 	$global_pulse = 0;
 
-	// Check whether the global heartbeat settings already exist.
+	/**
+	 * Filter that checks whether the global heartbeat settings already exist.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $settings Heartbeat settings array.
+	 */
 	$heartbeat_settings = apply_filters( 'heartbeat_settings', array() );
 	if ( ! empty( $heartbeat_settings['interval'] ) ) {
 		// 'Fast' is 5
 		$global_pulse = is_numeric( $heartbeat_settings['interval'] ) ? absint( $heartbeat_settings['interval'] ) : 5;
 	}
 
-	// Filter here to specify a BP-specific pulse frequency
+	/**
+	 * Filters the pulse frequency to be used for the BuddyPress Activity heartbeat.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param int $frequency The frequency in seconds between pulses.
+	 */
 	$bp_activity_pulse = apply_filters( 'bp_activity_heartbeat_pulse', 15 );
 
 	/**
