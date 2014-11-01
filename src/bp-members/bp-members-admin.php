@@ -832,8 +832,6 @@ class BP_Members_Admin {
 					<div id="poststuff">
 
 						<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
-							<div id="post-body-content">
-							</div><!-- #post-body-content -->
 
 							<div id="postbox-container-1" class="postbox-container">
 								<?php do_meta_boxes( get_current_screen()->id, 'side', $user ); ?>
