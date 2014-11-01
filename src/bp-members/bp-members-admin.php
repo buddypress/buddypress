@@ -477,7 +477,7 @@ class BP_Members_Admin {
 			$this->is_self_profile = true;
 
 		// Is the user attempting to edit their own profile
-		} else {
+		} elseif ( isset( $_GET['user_id' ] ) || ( isset( $_GET['page'] ) && ( 'bp-profile-edit' === $_GET['page'] ) ) ) {
 			$this->is_self_profile = (bool) ( $this->get_user_id() === $this->current_user_id );
 		}
 
