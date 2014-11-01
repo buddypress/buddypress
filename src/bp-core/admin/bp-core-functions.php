@@ -74,11 +74,12 @@ add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
  * @since BuddyPress (1.6)
  */
 function bp_core_modify_admin_menu_highlight() {
-	global $pagenow, $plugin_page, $submenu_file;
+	global $plugin_page, $submenu_file;
 
 	// This tweaks the Settings subnav menu to show only one BuddyPress menu item
-	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings', ) ) )
+	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings', ) ) ) {
 		$submenu_file = 'bp-components';
+	}
 
 	// Network Admin > Tools
 	if ( in_array( $plugin_page, array( 'bp-tools', 'available-tools' ) ) ) {
@@ -341,15 +342,17 @@ function bp_core_activation_notice() {
 function bp_do_activation_redirect() {
 
 	// Bail if no activation redirect
-	if ( ! get_transient( '_bp_activation_redirect' ) )
+	if ( ! get_transient( '_bp_activation_redirect' ) ) {
 		return;
+	}
 
 	// Delete the redirect transient
 	delete_transient( '_bp_activation_redirect' );
 
 	// Bail if activating from network, or bulk
-	if ( isset( $_GET['activate-multi'] ) )
+	if ( isset( $_GET['activate-multi'] ) ) {
 		return;
+	}
 
 	$query_args = array( 'page' => 'bp-about' );
 	if ( get_transient( '_bp_is_new_install' ) ) {
@@ -563,21 +566,25 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 function bp_admin_separator() {
 
 	// Bail if BuddyPress is not network activated and viewing network admin
-	if ( is_network_admin() && ! bp_is_network_activated() )
+	if ( is_network_admin() && ! bp_is_network_activated() ) {
 		return;
+	}
 
 	// Bail if BuddyPress is network activated and viewing site admin
-	if ( ! is_network_admin() && bp_is_network_activated() )
+	if ( ! is_network_admin() && bp_is_network_activated() ) {
 		return;
+	}
 
 	// Prevent duplicate separators when no core menu items exist
-	if ( ! bp_current_user_can( 'bp_moderate' ) )
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
+	}
 
 	// Bail if there are no components with admin UI's. Hardcoded for now, until
 	// there's a real API for determining this later.
-	if ( ! bp_is_active( 'activity' ) && ! bp_is_active( 'groups' ) )
+	if ( ! bp_is_active( 'activity' ) && ! bp_is_active( 'groups' ) ) {
 		return;
+	}
 
 	global $menu;
 
@@ -596,8 +603,9 @@ function bp_admin_separator() {
 function bp_admin_custom_menu_order( $menu_order = false ) {
 
 	// Bail if user cannot see admin pages
-	if ( ! bp_current_user_can( 'bp_moderate' ) )
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return $menu_order;
+	}
 
 	return true;
 }
@@ -614,8 +622,9 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
 function bp_admin_menu_order( $menu_order = array() ) {
 
 	// Bail if user cannot see admin pages
-	if ( empty( $menu_order ) || ! bp_current_user_can( 'bp_moderate' ) )
+	if ( empty( $menu_order ) || ! bp_current_user_can( 'bp_moderate' ) ) {
 		return $menu_order;
+	}
 
 	// Initialize our custom order array
 	$bp_menu_order = array();
@@ -627,8 +636,9 @@ function bp_admin_menu_order( $menu_order = array() ) {
 	$custom_menus = (array) apply_filters( 'bp_admin_menu_order', array() );
 
 	// Bail if no components have top level admin pages
-	if ( empty( $custom_menus ) )
+	if ( empty( $custom_menus ) ) {
 		return $menu_order;
+	}
 
 	// Add our separator to beginning of array
 	array_unshift( $custom_menus, 'separator-buddypress' );
