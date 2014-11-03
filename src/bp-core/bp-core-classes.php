@@ -1063,7 +1063,7 @@ class BP_Core_User {
 			$user_ids = array();
 
 			foreach ( (array) $paged_users as $user ) {
-				$user_ids[] = $user->id;
+				$user_ids[] = $user->ID;
 			}
 
 			// Add additional data to the returned results
@@ -1134,7 +1134,7 @@ class BP_Core_User {
 		 */
 		$user_ids = array();
 		foreach ( (array) $paged_users as $user )
-			$user_ids[] = (int) $user->id;
+			$user_ids[] = (int) $user->ID;
 
 		// Add additional data to the returned results
 		if ( $populate_extras ) {
@@ -1222,7 +1222,7 @@ class BP_Core_User {
 		 * We can't add these to the main query above since only users who have this information will be returned (since the much of the data is in usermeta and won't support any type of directional join)
 		 */
 		foreach ( (array) $paged_users as $user )
-			$user_ids[] = $user->id;
+			$user_ids[] = $user->ID;
 
 		// Add additional data to the returned results
 		if ( $populate_extras )

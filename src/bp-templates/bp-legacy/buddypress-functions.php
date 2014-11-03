@@ -1056,12 +1056,12 @@ function bp_legacy_theme_ajax_invite_user() {
 
 		$uninvite_url = bp_is_current_action( 'create' ) ? bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/group-invites/?user_id=' . $friend_id : bp_get_group_permalink( $group ) . 'send-invites/remove/' . $friend_id;
 
-		echo '<li id="uid-' . $user->id . '">';
+		echo '<li id="uid-' . esc_attr( $user->ID ) . '">';
 		echo $user->avatar_thumb;
 		echo '<h4>' . $user->user_link . '</h4>';
 		echo '<span class="activity">' . esc_attr( $user->last_active ) . '</span>';
 		echo '<div class="action">
-				<a class="button remove" href="' . wp_nonce_url( $uninvite_url, 'groups_invite_uninvite_user' ) . '" id="uid-' . esc_attr( $user->id ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
+				<a class="button remove" href="' . wp_nonce_url( $uninvite_url, 'groups_invite_uninvite_user' ) . '" id="uid-' . esc_attr( $user->ID ) . '">' . __( 'Remove Invite', 'buddypress' ) . '</a>
 			  </div>';
 
 		if ( 'is_pending' == $user_status ) {
