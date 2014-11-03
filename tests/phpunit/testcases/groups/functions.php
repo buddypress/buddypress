@@ -17,11 +17,6 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->factory->group->create();
 	}
 
-	public function test_creating_new_group_as_anonymous_user() {
-		$g = $this->factory->group->create();
-		$this->assertFalse( $g );
-	}
-
 	/**
 	 * @group total_group_count
 	 * @group groups_join_group

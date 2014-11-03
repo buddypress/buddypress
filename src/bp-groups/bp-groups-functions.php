@@ -120,10 +120,14 @@ function groups_create_group( $args = '' ) {
 	}
 
 	// Set creator ID
-	if ( ! empty( $creator_id ) ) {
+	if ( $creator_id ) {
 		$group->creator_id = (int) $creator_id;
-	} else {
+	} elseif ( is_user_logged_in() ) {
 		$group->creator_id = bp_loggedin_user_id();
+	}
+
+	if ( ! $group->creator_id ) {
+		return false;
 	}
 
 	// Validate status
