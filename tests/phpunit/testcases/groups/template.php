@@ -131,9 +131,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_vanilla() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
+		$g  = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
 
 		$this->add_user_to_group( $u1, $g );
 

@@ -70,7 +70,22 @@ class BP_UnitTest_Factory_For_Group extends WP_UnitTest_Factory_For_Thing {
 
 	function create_object( $args ) {
 		if ( ! isset( $args['creator_id'] ) ) {
-			$args['creator_id'] = get_current_user_id();
+			if ( is_user_logged_in() ) {
+				$args['creator_id'] = get_current_user_id();
+
+			// Create a user. This is based on from BP_UnitTestCase->create_user().
+			} else {
+				$last_activity      = date( 'Y-m-d H:i:s', strtotime( bp_core_current_time() ) - 60 * 60 * 24 * 365 );
+				$user_factory       = new WP_UnitTest_Factory_For_User();
+				$args['creator_id'] = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+				bp_update_user_last_activity( $args['creator_id'] , $last_activity );
+
+				if ( bp_is_active( 'xprofile' ) ) {
+					$user = new WP_User( $args['creator_id']  );
+					xprofile_set_field_data( 1, $args['creator_id'] , $user->display_name );
+				}
+			}
 		}
 
 		$group_id = groups_create_group( $args );
@@ -79,7 +94,6 @@ class BP_UnitTest_Factory_For_Group extends WP_UnitTest_Factory_For_Thing {
 		}
 
 		groups_update_groupmeta( $group_id, 'total_member_count', 1 );
-
 		$last_activity = isset( $args['last_activity'] ) ? $args['last_activity'] : bp_core_current_time();
 		groups_update_groupmeta( $group_id, 'last_activity', $last_activity );
 

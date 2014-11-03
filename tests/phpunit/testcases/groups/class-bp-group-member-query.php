@@ -118,10 +118,12 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_admin() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 		$u3 = $this->create_user();
+		$g  = $this->factory->group->create( array(
+			'creator_id' => $u1
+		) );
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -168,10 +170,12 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_member_admin() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 		$u3 = $this->create_user();
+		$g  = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -193,10 +197,12 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_mod_admin() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 		$u3 = $this->create_user();
+		$g  = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -218,10 +224,12 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_member_mod_admin() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 		$u3 = $this->create_user();
+		$g  = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -243,11 +251,13 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_member_mod_admin_banned() {
-		$g = $this->factory->group->create();
 		$u1 = $this->create_user();
 		$u2 = $this->create_user();
 		$u3 = $this->create_user();
 		$u4 = $this->create_user();
+		$g  = $this->factory->group->create( array(
+			'creator_id' => $u1,
+		) );
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -293,19 +303,6 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
 		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
 		$this->assertEquals( array( $u1, ), $ids );
-	}
-
-	public function test_group_has_no_members() {
-		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-
-		$query_members = new BP_Group_Member_Query( array(
-			'group_id' => $g,
-			'group_role' => array( 'member', 'mod', 'admin' ),
-		) );
-
-		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array(), $ids );
 	}
 
 	public function test_group_has_no_members_of_role_mod() {
