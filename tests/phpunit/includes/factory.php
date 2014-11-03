@@ -74,6 +74,9 @@ class BP_UnitTest_Factory_For_Group extends WP_UnitTest_Factory_For_Thing {
 		}
 
 		$group_id = groups_create_group( $args );
+		if ( ! $group_id ) {
+			return false;
+		}
 
 		groups_update_groupmeta( $group_id, 'total_member_count', 1 );
 
