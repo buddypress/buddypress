@@ -411,4 +411,38 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_bp_core_get_userid_from_nicename_failure() {
 		$this->assertSame( NULL, bp_core_get_userid_from_nicename( 'non_existent_user' ) );
 	}
+
+	/**
+	 * @group bp_update_user_last_activity
+	 */
+	public function test_bp_last_activity_multi_network() {
+
+		// Filter the usermeta key
+		add_filter( 'bp_get_user_meta_key', array( $this, 'filter_usermeta_key' ) );
+
+		// We explicitly do not want last_activity created, so use the
+		// WP factory methods
+		$user = $this->factory->user->create();
+		$time = date( 'Y-m-d H:i:s', time() - 50 );
+
+		// Update last user activity
+		bp_update_user_last_activity( $user, $time );
+
+		// Setup parameters to assert to be the same
+		$expected = $time;
+		$found    = bp_get_user_meta( $user, 'last_activity', true );
+
+		$this->assertSame( $expected, $found );
+	}
+
+	/**
+	 * @group bp_update_user_last_activity
+	 * @global object $wpdb
+	 * @param  string $key
+	 * @return string
+	 */
+	public function filter_usermeta_key( $key ) {
+		global $wpdb;
+		return $wpdb->prefix . $key;
+	}
 }
