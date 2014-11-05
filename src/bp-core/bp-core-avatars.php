@@ -181,28 +181,21 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	global $current_blog;
 
-	$bp = buddypress();
-
-	// Set a few default variables
-	$def_object = 'user';
-	$def_type   = 'thumb';
-	$def_class  = 'avatar';
-
-	// Set the default variables array
+	// Set the default variables array and parse it against incoming $args array.
 	$params = wp_parse_args( $args, array(
 		'item_id'    => false,
-		'object'     => $def_object, // user/group/blog/custom type (if you use filters)
-		'type'       => $def_type,   // thumb or full
-		'avatar_dir' => false,       // Specify a custom avatar directory for your object
-		'width'      => false,       // Custom width (int)
-		'height'     => false,       // Custom height (int)
-		'class'      => $def_class,  // Custom <img> class (string)
-		'css_id'     => false,       // Custom <img> ID (string)
-		'alt'        => '',    	     // Custom <img> alt (string)
-		'email'      => false,       // Pass the user email (for gravatar) to prevent querying the DB for it
-		'no_grav'    => false,       // If there is no avatar found, return false instead of a grav?
-		'html'       => true,        // Wrap the return img URL in <img />
-		'title'      => ''           // Custom <img> title (string)
+		'object'     => 'user',
+		'type'       => 'thumb',
+		'avatar_dir' => false,
+		'width'      => false,
+		'height'     => false,
+		'class'      => 'avatar',
+		'css_id'     => false,
+		'alt'        => '',
+		'email'      => false,
+		'no_grav'    => false,
+		'html'       => true,
+		'title'      => '',
 	) );
 	extract( $params, EXTR_SKIP );
 
