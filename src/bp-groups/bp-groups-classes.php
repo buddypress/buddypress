@@ -3637,6 +3637,10 @@ class BP_Group_Extension {
 	 * @since BuddyPress (1.8.0)
 	 */
 	protected function setup_edit_hooks() {
+		// Bail if not in a group
+		if ( ! bp_is_group() ) {
+			return;
+		}
 
 		// Bail if not an edit screen
 		if ( ! $this->is_screen_enabled( 'edit' ) || ! bp_is_item_admin() ) {
@@ -3646,15 +3650,21 @@ class BP_Group_Extension {
 		$screen = $this->screens['edit'];
 
 		$position = isset( $screen['position'] ) ? (int) $screen['position'] : 10;
+		$position += 40;
 
-		// Add the tab
-		// @todo BP should be using bp_core_new_subnav_item()
-		add_action( 'groups_admin_tabs', create_function( '$current, $group_slug',
-			'$selected = "";
-			if ( "' . esc_attr( $screen['slug'] ) . '" == $current )
-				$selected = " class=\"current\"";
-			echo "<li{$selected}><a href=\"' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/{$group_slug}/admin/' . esc_attr( $screen['slug'] ) ) . '\">' . esc_attr( $screen['name'] ) . '</a></li>";'
-		), $position, 2 );
+		$current_group = groups_get_current_group();
+		$admin_link = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
+
+		// Add the tab to the manage navigation
+		bp_core_new_subnav_item( array(
+			'name'            => $screen['name'],
+			'slug'            => $screen['slug'],
+			'parent_slug'     => $current_group->slug . '_manage',
+			'parent_url'      => trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' ),
+			'user_has_access' => bp_is_item_admin(),
+			'position'        => $position,
+			'screen_function' => 'groups_screen_group_admin',
+		) );
 
 		// Catch the edit screen and forward it to the plugin template
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $screen['slug'], 0 ) ) {

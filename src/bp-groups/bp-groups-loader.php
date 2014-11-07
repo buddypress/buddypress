@@ -509,6 +509,59 @@ class BP_Groups_Component extends BP_Component {
 				);
 			}
 
+			// If viewing an admin page, create the group admin subnav items
+			if ( bp_is_group_admin_page() ) {
+				$admin_link = trailingslashit( $group_link . 'admin' );
+
+				// Common params to all nav items
+				$default_params = array(
+					'parent_url'      => $admin_link,
+					'parent_slug'     => $this->current_group->slug . '_manage',
+					'screen_function' => 'groups_screen_group_admin',
+					'user_has_access' => bp_is_item_admin(),
+				);
+
+				$sub_nav[] = array_merge( array(
+					'name'            => __( 'Details', 'buddypress' ),
+					'slug'            => 'edit-details',
+					'position'        => 0,
+				), $default_params );
+
+				$sub_nav[] = array_merge( array(
+					'name'            => __( 'Settings', 'buddypress' ),
+					'slug'            => 'group-settings',
+					'position'        => 10,
+				), $default_params );
+
+				if ( ! (int) bp_get_option( 'bp-disable-avatar-uploads' ) && buddypress()->avatar->show_avatars ) {
+					$sub_nav[] = array_merge( array(
+						'name'        => __( 'Photo', 'buddypress' ),
+						'slug'        => 'group-avatar',
+						'position'    => 20,
+					), $default_params );
+				}
+
+				$sub_nav[] = array_merge( array(
+					'name'            => __( 'Members', 'buddypress' ),
+					'slug'            => 'manage-members',
+					'position'        => 30,
+				), $default_params );
+
+				if ( 'private' == $this->current_group->status ) {
+					$sub_nav[] = array_merge( array(
+						'name'            => __( 'Requests', 'buddypress' ),
+						'slug'            => 'membership-requests',
+						'position'        => 40,
+					), $default_params );
+				}
+
+				$sub_nav[] = array_merge( array(
+					'name'            => __( 'Delete', 'buddypress' ),
+					'slug'            => 'delete-group',
+					'position'        => 1000,
+				), $default_params );
+			}
+
 			parent::setup_nav( $main_nav, $sub_nav );
 		}
 

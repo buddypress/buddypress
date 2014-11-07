@@ -2299,38 +2299,48 @@ function bp_group_admin_tabs( $group = false ) {
 		$group = ( $groups_template->group ) ? $groups_template->group : groups_get_current_group();
 	}
 
-	$current_tab = bp_get_group_current_admin_tab();
+	$css_id = 'manage-members';
 
-	if ( bp_is_item_admin() ) : ?>
+	if ( 'private' == $group->status ) {
+		$css_id = 'membership-requests';
+	}
 
-		<li<?php if ( 'edit-details' == $current_tab || empty( $current_tab ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/edit-details' ) ?>"><?php _e( 'Details', 'buddypress' ); ?></a></li>
+	add_filter( "bp_get_options_nav_{$css_id}", 'bp_group_admin_tabs_backcompat', 10, 3 );
 
-	<?php endif; ?>
+	bp_get_options_nav( $group->slug . '_manage' );
 
-	<?php if ( ! bp_is_item_admin() )
-			return false; ?>
+	remove_filter( "bp_get_options_nav_{$css_id}", 'bp_group_admin_tabs_backcompat', 10, 3 );
+}
 
-	<li<?php if ( 'group-settings' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/group-settings' ) ?>"><?php _e( 'Settings', 'buddypress' ); ?></a></li>
+/**
+ * BackCompat for plugins/themes directly hooking groups_admin_tabs
+ * without using the Groups Extension API
+ *
+ * @param  string $subnav_output subnav item output
+ * @param  string $subnav_item   subnav item params
+ * @param  string $selected_item current selected tab
+ * @return string HTML output
+ */
+function bp_group_admin_tabs_backcompat( $subnav_output = '', $subnav_item = '', $selected_item = '' ) {
+	if ( ! has_action( 'groups_admin_tabs' ) ) {
+		return $subnav_output;
+	}
 
-	<?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) && buddypress()->avatar->show_avatars ) : ?>
+	$group = groups_get_current_group();
 
-		<li<?php if ( 'group-avatar'   == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/group-avatar' ) ?>"><?php _e( 'Photo', 'buddypress' ); ?></a></li>
+	ob_start();
 
-	<?php endif; ?>
+	do_action( 'groups_admin_tabs', $selected_item, $group->slug );
 
-	<li<?php if ( 'manage-members' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members' ) ?>"><?php _e( 'Members', 'buddypress' ); ?></a></li>
+	$admin_tabs_backcompat = trim( ob_get_contents() );
+	ob_end_clean();
 
-	<?php if ( $groups_template->group->status == 'private' ) : ?>
+	if ( ! empty( $admin_tabs_backcompat ) ) {
+		_doing_it_wrong( "do_action( 'groups_admin_tabs' )", __( 'This action should not be used directly. Please use the BuddyPress Group Extension API to generate Manage tabs.', 'buddypress' ), '2.2.0' );
+		$subnav_output .= $admin_tabs_backcompat;
+	}
 
-		<li<?php if ( 'membership-requests' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/membership-requests' ) ?>"><?php _e( 'Requests', 'buddypress' ); ?></a></li>
-
-	<?php endif; ?>
-
-	<?php do_action( 'groups_admin_tabs', $current_tab, $group->slug ) ?>
-
-	<li<?php if ( 'delete-group' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $group ) . 'admin/delete-group' ) ?>"><?php _e( 'Delete', 'buddypress' ); ?></a></li>
-
-<?php
+	return $subnav_output;
 }
 
 /**

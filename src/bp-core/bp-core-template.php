@@ -26,12 +26,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently
  *       viewed user.
  */
-function bp_get_options_nav() {
+function bp_get_options_nav( $parent_slug = '' ) {
 	$bp = buddypress();
 
 	// If we are looking at a member profile, then the we can use the current
 	// component as an index. Otherwise we need to use the component's root_slug
 	$component_index = !empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
+	$selected_item   = bp_current_action();
 
 	if ( ! bp_is_single_item() ) {
 		if ( !isset( $bp->bp_options_nav[$component_index] ) || count( $bp->bp_options_nav[$component_index] ) < 1 ) {
@@ -40,10 +41,17 @@ function bp_get_options_nav() {
 			$the_index = $component_index;
 		}
 	} else {
-		if ( !isset( $bp->bp_options_nav[bp_current_item()] ) || count( $bp->bp_options_nav[bp_current_item()] ) < 1 ) {
+		$current_item = bp_current_item();
+
+		if ( ! empty( $parent_slug ) ) {
+			$current_item  = $parent_slug;
+			$selected_item = bp_action_variable( 0 );
+		}
+
+		if ( !isset( $bp->bp_options_nav[$current_item] ) || count( $bp->bp_options_nav[$current_item] ) < 1 ) {
 			return false;
 		} else {
-			$the_index = bp_current_item();
+			$the_index = $current_item;
 		}
 	}
 
@@ -54,7 +62,7 @@ function bp_get_options_nav() {
 		}
 
 		// If the current action or an action variable matches the nav item id, then add a highlight CSS class.
-		if ( $subnav_item['slug'] == bp_current_action() ) {
+		if ( $subnav_item['slug'] == $selected_item ) {
 			$selected = ' class="current selected"';
 		} else {
 			$selected = '';
@@ -64,7 +72,7 @@ function bp_get_options_nav() {
 		$list_type = bp_is_group() ? 'groups' : 'personal';
 
 		// echo out the final list item
-		echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="' . $subnav_item['css_id'] . '-' . $list_type . '-li" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item );
+		echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="' . $subnav_item['css_id'] . '-' . $list_type . '-li" ' . $selected . '><a id="' . $subnav_item['css_id'] . '" href="' . $subnav_item['link'] . '">' . $subnav_item['name'] . '</a></li>', $subnav_item, $selected_item );
 	}
 }
 
@@ -1917,7 +1925,7 @@ function bp_is_group() {
 	if ( ! empty( $retval ) ) {
 		$retval = bp_is_groups_component() && groups_get_current_group();
 	}
-	
+
 	return (bool) $retval;
 }
 
