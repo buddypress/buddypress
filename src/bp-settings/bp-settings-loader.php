@@ -172,13 +172,15 @@ class BP_Settings_Component extends BP_Component {
 				'href'   => trailingslashit( $settings_link . 'general' )
 			);
 
-			// Notifications
-			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-notifications',
-				'title'  => __( 'Email', 'buddypress' ),
-				'href'   => trailingslashit( $settings_link . 'notifications' )
-			);
+			// Notifications - only add the tab when there is something to display there.
+			if ( has_action( 'bp_notification_settings' ) ) {
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-notifications',
+					'title'  => __( 'Email', 'buddypress' ),
+					'href'   => trailingslashit( $settings_link . 'notifications' )
+				);
+			}
 
 			// Delete Account
 			if ( !bp_current_user_can( 'bp_moderate' ) && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {

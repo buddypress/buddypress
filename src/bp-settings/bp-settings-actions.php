@@ -465,3 +465,15 @@ function bp_settings_verify_email_change(){
 	}
 }
 add_action( 'bp_actions', 'bp_settings_verify_email_change' );
+
+/**
+ * Removes 'Email' sub nav, if no component has registered options there.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_settings_remove_email_subnav() {
+	if ( ! has_action( 'bp_notification_settings' ) ) {
+		bp_core_remove_subnav_item( BP_SETTINGS_SLUG, 'notifications' );
+	}
+}
+add_action( 'bp_actions', 'bp_settings_remove_email_subnav' );
