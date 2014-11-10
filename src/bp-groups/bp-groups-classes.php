@@ -3045,7 +3045,7 @@ class BP_Group_Extension {
 	 */
 
 	// The content of the group tab
-	public function display() {}
+	public function display( $group_id = null ) {}
 
 	// Content displayed in a widget sidebar, if applicable
 	public function widget_display() {}
@@ -3500,8 +3500,20 @@ class BP_Group_Extension {
 	 * Hook the main display method, and loads the template file
 	 */
 	public function _display_hook() {
-		add_action( 'bp_template_content', array( &$this, 'display' ) );
+		add_action( 'bp_template_content', array( &$this, 'call_display' ) );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', $this->template_file ) );
+	}
+
+	/**
+	 * Call the display() method.
+	 *
+	 * We use this wrapper so that we can pass the group_id to the
+	 * display() callback.
+	 *
+	 * @since BuddyPress (2.1.1)
+	 */
+	public function call_display() {
+		$this->display( $this->group_id );
 	}
 
 	/**
