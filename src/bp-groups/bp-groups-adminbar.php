@@ -23,15 +23,18 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *        access to group admin options.
  */
 function bp_groups_group_admin_menu() {
-	global $wp_admin_bar, $bp;
+	global $wp_admin_bar;
+	$bp = buddypress();
 
 	// Only show if viewing a group
-	if ( !bp_is_group() )
+	if ( ! bp_is_group() || bp_is_group_create() ) {
 		return false;
+	}
 
 	// Only show this menu to group admins and super admins
-	if ( !bp_current_user_can( 'bp_moderate' ) && !bp_group_is_admin() )
+	if ( ! bp_current_user_can( 'bp_moderate' ) && ! bp_group_is_admin() ) {
 		return false;
+	}
 
 	// Unique ID for the 'Edit Group' menu
 	$bp->group_admin_menu_id = 'group-admin';
@@ -43,67 +46,39 @@ function bp_groups_group_admin_menu() {
 		'href'  => bp_get_group_permalink( $bp->groups->current_group )
 	) );
 
-	// Group Admin > Edit details
-	$wp_admin_bar->add_menu( array(
-		'parent' => $bp->group_admin_menu_id,
-		'id'     => 'edit-details',
-		'title'  => __( 'Edit Details', 'buddypress' ),
-		'href'   =>  bp_get_groups_action_link( 'admin/edit-details' )
-	) );
+	// Index of the Manage tabs parent slug
+	$nav_index = $bp->groups->current_group->slug . '_manage';
 
-	// Group Admin > Group settings
-	$wp_admin_bar->add_menu( array(
-		'parent' => $bp->group_admin_menu_id,
-		'id'     => 'group-settings',
-		'title'  => __( 'Edit Settings', 'buddypress' ),
-		'href'   =>  bp_get_groups_action_link( 'admin/group-settings' )
-	) );
-
-	// Group Admin > Group avatar
-	if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) && $bp->avatar->show_avatars ) {
-		$wp_admin_bar->add_menu( array(
-			'parent' => $bp->group_admin_menu_id,
-			'id'     => 'group-avatar',
-			'title'  => __( 'Edit Profile Photo', 'buddypress' ),
-			'href'   =>  bp_get_groups_action_link( 'admin/group-avatar' )
-		) );
+	// Check if current group has Manage tabs
+	if ( empty( $bp->bp_options_nav[ $nav_index ] ) ) {
+		return;
 	}
 
-	// Group Admin > Manage invitations
-	if ( bp_is_active( 'friends' ) ) {
-		$wp_admin_bar->add_menu( array(
-			'parent' => $bp->group_admin_menu_id,
-			'id'     => 'manage-invitations',
-			'title'  => __( 'Manage Invitations', 'buddypress' ),
-			'href'   =>  bp_get_groups_action_link( 'send-invites' )
-		) );
+	// Build the Group Admin menus
+	foreach ( $bp->bp_options_nav[ $nav_index ] as $menu ) {
+		/**
+		 * Should we add the current manage link in the Group's "Edit" Admin Bar menu ?
+		 *
+		 * All core items will be added, plugins can use a new parameter in the BP Group Extension API
+		 * to also add the link to the "edit screen" of their group component. To do so, set the
+		 * the 'show_in_admin_bar' argument of your edit screen to true
+		 */
+		if ( $menu['show_in_admin_bar'] ) {
+			$title = sprintf( _x( 'Edit Group %s', 'Group WP Admin Bar manage links', 'buddypress' ), $menu['name'] );
+
+			// Title is specific for delete
+			if ( 'delete-group' == $menu['slug'] ) {
+				$title = sprintf( _x( '%s Group', 'Group WP Admin Bar delete link', 'buddypress' ), $menu['name'] );
+			}
+
+			$wp_admin_bar->add_menu( array(
+				'parent' => $bp->group_admin_menu_id,
+				'id'     => $menu['slug'],
+				'title'  => $title,
+				'href'   => bp_get_groups_action_link( 'admin/' . $menu['slug'] )
+			) );
+		}
 	}
-
-	// Group Admin > Manage members
-	$wp_admin_bar->add_menu( array(
-		'parent' => $bp->group_admin_menu_id,
-		'id'     => 'manage-members',
-		'title'  => __( 'Manage Members', 'buddypress' ),
-		'href'   =>  bp_get_groups_action_link( 'admin/manage-members' )
-	) );
-
-	// Group Admin > Membership Requests
-	if ( bp_get_group_status( $bp->groups->current_group ) == 'private' ) {
-		$wp_admin_bar->add_menu( array(
-			'parent' => $bp->group_admin_menu_id,
-			'id'     => 'membership-requests',
-			'title'  => __( 'Membership Requests', 'buddypress' ),
-			'href'   =>  bp_get_groups_action_link( 'admin/membership-requests' )
-		) );
-	}
-
-	// Delete Group
-	$wp_admin_bar->add_menu( array(
-		'parent' => $bp->group_admin_menu_id,
-		'id'     => 'delete-group',
-		'title'  => __( 'Delete Group', 'buddypress' ),
-		'href'   =>  bp_get_groups_action_link( 'admin/delete-group' )
-	) );
 }
 add_action( 'admin_bar_menu', 'bp_groups_group_admin_menu', 99 );
 

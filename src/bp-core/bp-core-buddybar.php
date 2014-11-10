@@ -253,6 +253,9 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
  *           when the nav item is clicked.
  *     @type string $link Optional. The URL that the subnav item should point
  *           to. Defaults to a value generated from the $parent_url + $slug.
+ *     @type bool $show_in_admin_bar Optional. Whether the nav item should be
+ *           added into the group's "Edit" Admin Bar menu for group admins.
+ *           Default: false.
  * }
  * @return bool|null Returns false on failure.
  */
@@ -260,17 +263,18 @@ function bp_core_new_subnav_item( $args = '' ) {
 	global $bp;
 
 	$r = wp_parse_args( $args, array(
-		'name'            => false, // Display name for the nav item
-		'slug'            => false, // URL slug for the nav item
-		'parent_slug'     => false, // URL slug of the parent nav item
-		'parent_url'      => false, // URL of the parent item
-		'item_css_id'     => false, // The CSS ID to apply to the HTML of the nav item
-		'user_has_access' => true,  // Can the logged in user see this nav item?
-		'no_access_url'   => '',
-		'site_admin_only' => false, // Can only site admins see this nav item?
-		'position'        => 90,    // Index of where this nav item should be positioned
-		'screen_function' => false, // The name of the function to run when clicked
-		'link'            => ''     // The link for the subnav item; optional, not usually required.
+		'name'              => false, // Display name for the nav item
+		'slug'              => false, // URL slug for the nav item
+		'parent_slug'       => false, // URL slug of the parent nav item
+		'parent_url'        => false, // URL of the parent item
+		'item_css_id'       => false, // The CSS ID to apply to the HTML of the nav item
+		'user_has_access'   => true,  // Can the logged in user see this nav item?
+		'no_access_url'     => '',
+		'site_admin_only'   => false, // Can only site admins see this nav item?
+		'position'          => 90,    // Index of where this nav item should be positioned
+		'screen_function'   => false, // The name of the function to run when clicked
+		'link'              => '',    // The link for the subnav item; optional, not usually required.
+		'show_in_admin_bar' => false, // Show the Manage link in the current group's "Edit" Admin Bar menu
 	) );
 
 	extract( $r, EXTR_SKIP );
@@ -297,15 +301,17 @@ function bp_core_new_subnav_item( $args = '' ) {
 		$item_css_id = $slug;
 
 	$subnav_item = array(
-		'name'            => $name,
-		'link'            => trailingslashit( $link ),
-		'slug'            => $slug,
-		'css_id'          => $item_css_id,
-		'position'        => $position,
-		'user_has_access' => $user_has_access,
-		'no_access_url'   => $no_access_url,
-		'screen_function' => &$screen_function
+		'name'              => $name,
+		'link'              => trailingslashit( $link ),
+		'slug'              => $slug,
+		'css_id'            => $item_css_id,
+		'position'          => $position,
+		'user_has_access'   => $user_has_access,
+		'no_access_url'     => $no_access_url,
+		'screen_function'   => &$screen_function,
+		'show_in_admin_bar' => (bool) $r['show_in_admin_bar'],
 	);
+
 	$bp->bp_options_nav[$parent_slug][$slug] = $subnav_item;
 
 	/**

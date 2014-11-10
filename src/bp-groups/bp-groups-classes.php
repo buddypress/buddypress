@@ -3667,8 +3667,7 @@ class BP_Group_Extension {
 		$current_group = groups_get_current_group();
 		$admin_link = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
 
-		// Add the tab to the manage navigation
-		bp_core_new_subnav_item( array(
+		$subnav_args = array(
 			'name'            => $screen['name'],
 			'slug'            => $screen['slug'],
 			'parent_slug'     => $current_group->slug . '_manage',
@@ -3676,7 +3675,15 @@ class BP_Group_Extension {
 			'user_has_access' => bp_is_item_admin(),
 			'position'        => $position,
 			'screen_function' => 'groups_screen_group_admin',
-		) );
+		);
+
+		// Should we add a menu to the Group's WP Admin Bar
+		if ( ! empty( $screen['show_in_admin_bar'] ) ) {
+			$subnav_args['show_in_admin_bar'] = true;
+		}
+
+		// Add the tab to the manage navigation
+		bp_core_new_subnav_item( $subnav_args );
 
 		// Catch the edit screen and forward it to the plugin template
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $screen['slug'], 0 ) ) {

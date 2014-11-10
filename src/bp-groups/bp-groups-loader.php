@@ -507,18 +507,16 @@ class BP_Groups_Component extends BP_Component {
 					'item_css_id'     => 'admin',
 					'no_access_url'   => $group_link,
 				);
-			}
 
-			// If viewing an admin page, create the group admin subnav items
-			if ( bp_is_group_admin_page() ) {
 				$admin_link = trailingslashit( $group_link . 'admin' );
 
 				// Common params to all nav items
 				$default_params = array(
-					'parent_url'      => $admin_link,
-					'parent_slug'     => $this->current_group->slug . '_manage',
-					'screen_function' => 'groups_screen_group_admin',
-					'user_has_access' => bp_is_item_admin(),
+					'parent_url'        => $admin_link,
+					'parent_slug'       => $this->current_group->slug . '_manage',
+					'screen_function'   => 'groups_screen_group_admin',
+					'user_has_access'   => bp_is_item_admin(),
+					'show_in_admin_bar' => true,
 				);
 
 				$sub_nav[] = array_merge( array(
