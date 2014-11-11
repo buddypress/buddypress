@@ -3712,7 +3712,7 @@ function bp_activity_show_filters( $context = '' ) {
 		 * @param string $context Context for the filter. 'activity'
 		 *        'member', 'member_groups', 'group'.
 		 */
-		$filters = apply_filters( 'bp_get_activity_show_filters', $filters, $context );
+		$filters = apply_filters( 'bp_get_activity_show_filters_options', $filters, $context );
 
 		// Build the options output
 		$output = '';
