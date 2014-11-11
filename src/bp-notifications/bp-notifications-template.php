@@ -1049,3 +1049,24 @@ function bp_notifications_sort_order_form() {
 
 <?php
 }
+
+/**
+ * Output the dropdown for bulk management of notifications.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_notifications_bulk_management_dropdown() {
+	?>
+	<select name="notification_bulk_action" id="notification-select">
+		<option value="" selected="selected"><?php _e( 'Bulk Actions', 'buddypress' ); ?></option>
+
+		<?php if ( bp_is_current_action( 'unread' ) ) : ?>
+			<option value="read"><?php _e( 'Mark read', 'buddypress' ); ?></option>
+		<?php elseif ( bp_is_current_action( 'read' ) ) : ?>
+			<option value="unread"><?php _e( 'Mark unread', 'buddypress' ); ?></option>
+		<?php endif; ?>
+		<option value="delete"><?php _e( 'Delete', 'buddypress' ); ?></option>
+	</select>
+	<input type="submit" id="notification-bulk-manage" class="button action" value="<?php esc_attr_e( 'Apply', 'buddypress' ); ?>">
+	<?php
+}

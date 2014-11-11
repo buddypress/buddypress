@@ -731,6 +731,15 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 #buddypress .standard-form #blog-details-section {
 	clear: left;
 }
+#buddypress label[for="select-all-notifications"] {
+	display: none;
+}
+#buddypress #notifications-bulk-management {
+	clear: left;
+}
+body.no-js #buddypress #notifications-bulk-management #select-all-notifications {
+	display: none;
+}
 #buddypress .standard-form input:focus,
 #buddypress .standard-form textarea:focus,
 #buddypress .standard-form select:focus {

@@ -1525,6 +1525,19 @@ jq(document).ready( function() {
 		return false;
 	});
 
+	/* Selecting/Deselecting all notifications */
+	jq('#select-all-notifications').click(function(event) {
+		if( this.checked ) {
+			jq('.notification-check').each(function() {
+				this.checked = true;
+			});
+		} else {
+			jq('.notification-check').each(function() {
+				this.checked = false;
+			});
+		}
+	});
+
 	/* Close site wide notices in the sidebar */
 	jq('#close-notice').on( 'click', function() {
 		jq(this).addClass('loading');
