@@ -16,13 +16,18 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		// Make sure all users are deleted
 		// There's a bug in the multisite tests that causes the
 		// transaction rollback to fail for the first user created,
 		// which busts every other attempt to create users. This is a
-		// hack workaround
+		// hack workaround.
 		global $wpdb;
-		$wpdb->query( "TRUNCATE TABLE {$wpdb->users}" );
+		if ( is_multisite() ) {
+			$user_1 = get_user_by( 'login', 'user 1' );
+			if ( $user_1 ) {
+				$wpdb->delete( $wpdb->users, array( 'ID' => $user_1->ID ) );
+				clean_user_cache( $user_1 );
+			}
+		}
 
 		// Fake WP mail globals, to avoid errors
 		add_filter( 'wp_mail', array( $this, 'setUp_wp_mail' ) );
