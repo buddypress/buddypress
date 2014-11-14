@@ -6,22 +6,23 @@
  * @group suggestions
  */
 class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
-	protected $current_user = null;
-	protected $group_ids    = array();
-	protected $group_slugs  = array();
-	protected $old_user_id  = 0;
-	protected $user_ids     = array();
+	protected static $current_user = null;
+	protected static $group_ids    = array();
+	protected static $group_slugs  = array();
+	protected static $old_user_id  = 0;
+	protected static $user_ids     = array();
 
-	public function setUp() {
-		parent::setUp();
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 
-		$this->old_user_id  = get_current_user_id();
-		$this->current_user = $this->create_user( array(
+		$factory = new BP_UnitTest_Factory();
+
+		self::$old_user_id  = get_current_user_id();
+		self::$current_user = $factory->user->create( array(
 			'display_name' => 'Katie Parker',
 			'user_login'   => 'katie',
+			'user_email'   => 'test-katie@example.com',
 		) );
-
-		$this->set_current_user( $this->current_user );
 
 		$users = array(
 			// user_login, display_name
@@ -39,61 +40,88 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		);
 
 		// Create some dummy users.
-		foreach ( $users as $user ) {
-			$this->user_ids[ $user[0] ] = $this->create_user( array(
+		foreach ( $users as $user_index => $user ) {
+			$new_user = $factory->user->create( array(
 				'display_name' => $user[1],
 				'user_login'   => $user[0],
+				'user_email'   => "test-$user_index@example.com",
 			) );
+
+			self::$user_ids[ $user[0] ] = $new_user;
 		}
 
-		// Create some dummy friendships.
-		friends_add_friend( $this->current_user, $this->user_ids['aardvark'], true );
-		friends_add_friend( $this->current_user, $this->user_ids['cat'], true );
-		friends_add_friend( $this->current_user, $this->user_ids['caterpillar'], true );
-		friends_add_friend( $this->current_user, $this->user_ids['pig'], true );
+		// Create some dummy friendships (but not the corresponding activity items).
+		remove_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 4 );
+		friends_add_friend( self::$current_user, self::$user_ids['aardvark'], true );
+		friends_add_friend( self::$current_user, self::$user_ids['cat'], true );
+		friends_add_friend( self::$current_user, self::$user_ids['caterpillar'], true );
+		friends_add_friend( self::$current_user, self::$user_ids['pig'], true );
+		add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 4 );
 
-		$this->group_slugs['hidden']  = 'the-maw';
-		$this->group_slugs['public']  = 'the-great-journey';
-		$this->group_slugs['private'] = 'tsavo-highway';
+		self::$group_slugs['hidden']  = 'the-maw';
+		self::$group_slugs['public']  = 'the-great-journey';
+		self::$group_slugs['private'] = 'tsavo-highway';
 
 		// Create dummy groups.
-		$this->group_ids['hidden'] = $this->factory->group->create( array(
-			'creator_id' => $this->user_ids['xylo'],
-			'slug'       => $this->group_slugs['hidden'],
+		self::$group_ids['hidden'] = $factory->group->create( array(
+			'creator_id' => self::$user_ids['xylo'],
+			'slug'       => self::$group_slugs['hidden'],
 			'status'     => 'hidden',
 		) );
-		$this->group_ids['public'] = $this->factory->group->create( array(
-			'creator_id' => $this->user_ids['xylo'],
-			'slug'       => $this->group_slugs['public'],
+		self::$group_ids['public'] = $factory->group->create( array(
+			'creator_id' => self::$user_ids['xylo'],
+			'slug'       => self::$group_slugs['public'],
 			'status'     => 'public',
 		) );
-		$this->group_ids['private'] = $this->factory->group->create( array(
-			'creator_id' => $this->user_ids['xylo'],
-			'slug'       => $this->group_slugs['private'],
+		self::$group_ids['private'] = $factory->group->create( array(
+			'creator_id' => self::$user_ids['xylo'],
+			'slug'       => self::$group_slugs['private'],
 			'status'     => 'private',
 		) );
 
 		// Add dummy users to dummy hidden groups.
-		groups_join_group( $this->group_ids['hidden'], $this->user_ids['pig'] );
-		groups_join_group( $this->group_ids['hidden'], $this->user_ids['alpaca red'] );
+		groups_join_group( self::$group_ids['hidden'], self::$user_ids['pig'] );
+		groups_join_group( self::$group_ids['hidden'], self::$user_ids['alpaca red'] );
 
 		// Add dummy users to dummy public groups.
-		groups_join_group( $this->group_ids['public'], $this->current_user );
-		groups_join_group( $this->group_ids['public'], $this->user_ids['aardvark'] );
-		groups_join_group( $this->group_ids['public'], $this->user_ids['alpaca red'] );
-		groups_join_group( $this->group_ids['public'], $this->user_ids['cat'] );
-		groups_join_group( $this->group_ids['public'], $this->user_ids['smith'] );
+		groups_join_group( self::$group_ids['public'], self::$current_user );
+		groups_join_group( self::$group_ids['public'], self::$user_ids['aardvark'] );
+		groups_join_group( self::$group_ids['public'], self::$user_ids['alpaca red'] );
+		groups_join_group( self::$group_ids['public'], self::$user_ids['cat'] );
+		groups_join_group( self::$group_ids['public'], self::$user_ids['smith'] );
 
 		// Add dummy users to dummy private groups.
-		groups_join_group( $this->group_ids['private'], $this->user_ids['cat'] );
-		groups_join_group( $this->group_ids['private'], $this->user_ids['caterpillar'] );
+		groups_join_group( self::$group_ids['private'], self::$user_ids['cat'] );
+		groups_join_group( self::$group_ids['private'], self::$user_ids['caterpillar'] );
+
+		self::commit_transaction();
+	}
+
+	public static function tearDownAfterClass() {
+		foreach ( self::$group_ids as $group_id ) {
+			groups_delete_group( $group_id );
+		}
+
+		foreach ( array_merge( self::$user_ids, array( self::$current_user ) ) as $user_id ) {
+			if ( is_multisite() ) {
+				wpmu_delete_user( $user_id );
+			} else {
+				wp_delete_user( $user_id );
+			}
+		}
+
+		self::commit_transaction();
+	}
+
+	public function setUp() {
+		parent::setUp();
+		$this->set_current_user( self::$current_user );
 	}
 
 	public function tearDown() {
 		parent::tearDown();
-		$this->set_current_user( $this->old_user_id );
+		$this->set_current_user( self::$old_user_id );
 	}
-
 
 	public function test_suggestions_with_type_members() {
 		$suggestions = bp_core_get_suggestions( array(
@@ -168,7 +196,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 	public function test_suggestions_with_type_groupmembers_public() {
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['public'],
+			'group_id' => self::$group_ids['public'],
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
@@ -180,7 +208,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	public function test_suggestions_with_type_groupmembers_public_and_limit() {
 		$suggestions = bp_core_get_suggestions( array(
 			'limit'    => 1,
-			'group_id' => $this->group_ids['public'],
+			'group_id' => self::$group_ids['public'],
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
@@ -191,7 +219,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 	public function test_suggestions_with_type_groupmembers_public_and_only_friends() {
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id'     => $this->group_ids['public'],
+			'group_id'     => self::$group_ids['public'],
 			'only_friends' => true,
 			'type'         => 'members',
 			'term'         => 'smith',
@@ -203,7 +231,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 	public function test_suggestions_with_type_groupmembers_public_and_term_as_displayname() {
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['public'],
+			'group_id' => self::$group_ids['public'],
 			'type'     => 'members',
 			'term'     => 'aardvark',
 		) );
@@ -214,7 +242,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 	public function test_suggestions_with_type_groupmembers_public_and_term_as_usernicename() {
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['public'],
+			'group_id' => self::$group_ids['public'],
 			'type'     => 'members',
 			'term'     => 'robert',
 		) );
@@ -225,7 +253,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 	public function test_suggestions_with_type_groupmembers_public_as_id() {
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['public'],
+			'group_id' => self::$group_ids['public'],
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
@@ -237,16 +265,16 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	public function test_suggestions_with_type_groupmembers_hidden() {
 		// current_user isn't a member of the hidden group
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['hidden'],
+			'group_id' => self::$group_ids['hidden'],
 			'type'     => 'members',
 			'term'     => 'pig',
 		) );
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 		// "alpaca red" is in the hidden group
-		$this->set_current_user( $this->user_ids['alpaca red'] );
+		$this->set_current_user( self::$user_ids['alpaca red'] );
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['hidden'],
+			'group_id' => self::$group_ids['hidden'],
 			'type'     => 'members',
 			'term'     => 'pig',
 		) );
@@ -257,16 +285,16 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	public function test_suggestions_with_type_groupmembers_private() {
 		// current_user isn't a member of the private group.
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['private'],
+			'group_id' => self::$group_ids['private'],
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 		// "caterpillar" is in the private group
-		$this->set_current_user( $this->user_ids['caterpillar'] );
+		$this->set_current_user( self::$user_ids['caterpillar'] );
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['private'],
+			'group_id' => self::$group_ids['private'],
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
@@ -277,7 +305,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 	public function test_suggestions_with_type_groupmembers_public_and_exclude_group_from_results() {
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['public'],
+			'group_id' => self::$group_ids['public'],
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
@@ -285,7 +313,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->assertEquals( 2, count( $suggestions ) );  // aardvark, smith.
 
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => -$this->group_ids['public'],
+			'group_id' => -self::$group_ids['public'],
 			'type'     => 'members',
 			'term'     => 'smith',
 		) );
@@ -296,18 +324,18 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	public function test_suggestions_with_type_groupmembers_private_and_exclude_group_from_results() {
 		// current_user isn't a member of the private group.
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => -$this->group_ids['private'],
+			'group_id' => -self::$group_ids['private'],
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 
-		$this->set_current_user( $this->user_ids['caterpillar'] );
+		$this->set_current_user( self::$user_ids['caterpillar'] );
 
 		// "cat" is in the private group, so won't show up here.
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => -$this->group_ids['private'],
+			'group_id' => -self::$group_ids['private'],
 			'type'     => 'members',
 			'term'     => 'cat',
 		) );
@@ -316,7 +344,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 		// "zoo" is not the private group, so will show up here.
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => -$this->group_ids['private'],
+			'group_id' => -self::$group_ids['private'],
 			'type'     => 'members',
 			'term'     => 'zoo',
 		) );
@@ -327,18 +355,18 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	public function test_suggestions_with_type_groupmembers_hidden_and_exclude_group_from_results() {
 		// current_user isn't a member of the hidden group.
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => $this->group_ids['hidden'],
+			'group_id' => self::$group_ids['hidden'],
 			'type'     => 'members',
 			'term'     => 'pig',
 		) );
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 
-		$this->set_current_user( $this->user_ids['alpaca red'] );
+		$this->set_current_user( self::$user_ids['alpaca red'] );
 
 		// "alpaca red" is in the hidden group, so won't show up here.
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => -$this->group_ids['hidden'],
+			'group_id' => -self::$group_ids['hidden'],
 			'type'     => 'members',
 			'term'     => 'alpaca red',
 		) );
@@ -347,7 +375,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 		// "zoo" is not the hidden group, so will show up here.
 		$suggestions = bp_core_get_suggestions( array(
-			'group_id' => -$this->group_ids['hidden'],
+			'group_id' => -self::$group_ids['hidden'],
 			'type'     => 'members',
 			'term'     => 'zoo',
 		) );

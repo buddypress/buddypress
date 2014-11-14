@@ -430,4 +430,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		// passthrough
 		return $args;
 	}
+
+	/**
+	 * Commit a MySQL transaction.
+	 */
+	public static function commit_transaction() {
+		global $wpdb;
+		$wpdb->query( 'COMMIT;' );
+	}
 }
