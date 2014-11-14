@@ -400,7 +400,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_update_blog_post_and_new_blog_comment_and_activity_comment_meta() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 

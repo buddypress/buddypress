@@ -9,7 +9,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @group fetch_visibility_level
 	 */
 	public function test_fetch_visibility_level() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',

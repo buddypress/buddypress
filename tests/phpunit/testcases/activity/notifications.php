@@ -14,8 +14,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->current_user = get_current_user_id();
-		$this->u1 = $this->create_user();
-		$this->u2 = $this->create_user();
+		$this->u1 = $this->factory->user->create();
+		$this->u2 = $this->factory->user->create();
 		$this->set_current_user( $this->u1 );
 	}
 

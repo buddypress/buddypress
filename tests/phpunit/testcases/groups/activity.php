@@ -10,7 +10,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 * @group bp_groups_format_activity_action_created_group
 	 */
 	public function test_bp_groups_format_activity_action_created_group() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->groups->id,
@@ -32,7 +32,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 * @group bp_groups_format_activity_action_joined_group
 	 */
 	public function test_bp_groups_format_activity_action_joined_group() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->groups->id,

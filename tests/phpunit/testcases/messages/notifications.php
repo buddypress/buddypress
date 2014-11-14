@@ -10,7 +10,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_messages_message_delete_notifications() {
 		$current_user = get_current_user_id();
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 
 		// Dummy thread ID

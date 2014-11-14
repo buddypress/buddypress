@@ -21,9 +21,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_with_include() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -41,9 +41,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	// Make sure we're falling back on 'member'
 	public function test_with_group_role_null() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -69,9 +69,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
 	public function test_with_group_role_member() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -94,9 +94,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
 	public function test_with_group_role_mod() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -118,9 +118,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_admin() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$g  = $this->factory->group->create( array(
 			'creator_id' => $u1
 		) );
@@ -146,9 +146,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
 	public function test_with_group_role_member_mod() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -170,9 +170,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_member_admin() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$g  = $this->factory->group->create( array(
 			'creator_id' => $u1,
 		) );
@@ -197,9 +197,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_mod_admin() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$g  = $this->factory->group->create( array(
 			'creator_id' => $u1,
 		) );
@@ -224,9 +224,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_member_mod_admin() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$g  = $this->factory->group->create( array(
 			'creator_id' => $u1,
 		) );
@@ -251,10 +251,10 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_with_group_role_member_mod_admin_banned() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
-		$u4 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$u4 = $this->factory->user->create();
 		$g  = $this->factory->group->create( array(
 			'creator_id' => $u1,
 		) );
@@ -286,8 +286,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_with_group_role_banned() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -307,7 +307,7 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
 	public function test_group_has_no_members_of_role_mod() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
+		$u1 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array( 'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ) ) );
@@ -323,8 +323,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 
 	public function test_confirmed_members() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(
@@ -350,8 +350,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_last_joined() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(
@@ -376,8 +376,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_first_joined() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(
@@ -403,9 +403,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_group_activity_with_activity_component_disabled() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$c = buddypress()->groups->id;
 		$time = time();
 
@@ -474,9 +474,9 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_group_activity() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 		$c = buddypress()->groups->id;
 		$time = time();
 
@@ -531,7 +531,7 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_group_activity_no_dupes() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
+		$u1 = $this->factory->user->create();
 		$c = buddypress()->groups->id;
 		$time = time();
 
@@ -568,13 +568,13 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_alphabetical() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user( array(
+		$u1 = $this->factory->user->create( array(
 			'display_name' => 'AAA',
 		) );
-		$u2 = $this->create_user( array(
+		$u2 = $this->factory->user->create( array(
 			'display_name' => 'CCC',
 		) );
-		$u3 = $this->create_user( array(
+		$u3 = $this->factory->user->create( array(
 			'display_name' => 'BBB',
 		) );
 		$time = time();
@@ -605,8 +605,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_with_invite_sent_true() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(
@@ -636,8 +636,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_with_invite_sent_false() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(
@@ -667,8 +667,8 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_with_inviter_id_false() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(
@@ -695,10 +695,10 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_with_inviter_id_specific() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
-		$u4 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$u4 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(
@@ -735,10 +735,10 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_with_inviter_id_any() {
 		$g = $this->factory->group->create();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
-		$u4 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$u4 = $this->factory->user->create();
 		$time = time();
 
 		$this->add_user_to_group( $u1, $g, array(

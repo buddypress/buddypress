@@ -63,7 +63,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	public function test_user_can_delete_for_nonadmin() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 
 		// create an activity update for the user

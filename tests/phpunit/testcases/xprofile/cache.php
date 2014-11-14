@@ -9,7 +9,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @group bp_xprofile_update_meta_cache
 	 */
 	public function test_bp_xprofile_update_meta_cache() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -64,7 +64,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @group bp_has_profile
 	 */
 	public function test_bp_has_profile_meta_cache() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -118,7 +118,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @group bp_has_profile
 	 */
 	public function test_bp_has_profile_meta_cache_update_meta_cache_false() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',

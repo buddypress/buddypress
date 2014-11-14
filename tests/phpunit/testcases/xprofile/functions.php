@@ -14,7 +14,7 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_get_hidden_field_types_for_user_loggedout() {
-		$duser = $this->create_user();
+		$duser = $this->factory->user->create();
 
 		$old_current_user = bp_loggedin_user_id();
 		$this->set_current_user( 0 );
@@ -25,8 +25,8 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_get_hidden_field_types_for_user_loggedin() {
-		$duser = $this->create_user();
-		$cuser = $this->create_user();
+		$duser = $this->factory->user->create();
+		$cuser = $this->factory->user->create();
 
 		$old_current_user = bp_loggedin_user_id();
 		$this->set_current_user( $cuser );
@@ -37,8 +37,8 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_get_hidden_field_types_for_user_friends() {
-		$duser = $this->create_user();
-		$cuser = $this->create_user();
+		$duser = $this->factory->user->create();
+		$cuser = $this->factory->user->create();
 		friends_add_friend( $duser, $cuser, true );
 
 		$old_current_user = bp_loggedin_user_id();
@@ -50,8 +50,8 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_get_hidden_field_types_for_user_admin() {
-		$duser = $this->create_user();
-		$cuser = $this->create_user();
+		$duser = $this->factory->user->create();
+		$cuser = $this->factory->user->create();
 		$this->grant_bp_moderate( $cuser );
 
 		$old_current_user = bp_loggedin_user_id();
@@ -106,7 +106,7 @@ Bar!';
 	 * @group xprofile_get_field_visibility_level
 	 */
 	public function test_bp_xprofile_get_field_visibility_level_user_set() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
@@ -125,7 +125,7 @@ Bar!';
 	 * @group xprofile_get_field_visibility_level
 	 */
 	public function test_bp_xprofile_get_field_visibility_level_user_unset() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
@@ -143,7 +143,7 @@ Bar!';
 	 * @group xprofile_get_field_visibility_level
 	 */
 	public function test_bp_xprofile_get_field_visibility_level_admin_override() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
@@ -537,7 +537,7 @@ Bar!';
 	 * @group bp_get_member_profile_data
 	 */
 	public function test_bp_get_member_profile_data_inside_loop() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
@@ -562,7 +562,7 @@ Bar!';
 	 * @group bp_get_member_profile_data
 	 */
 	public function test_bp_get_member_profile_data_outside_of_loop() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
@@ -583,7 +583,7 @@ Bar!';
 	 * @group xprofile_set_field_data
 	 */
 	public function test_get_field_data_integer_zero() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,

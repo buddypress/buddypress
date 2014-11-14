@@ -95,7 +95,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_get_user_displayname
 	 */
 	public function test_bp_core_get_user_displayname_translate_username() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 
 		$user = new WP_User( $u );
 
@@ -119,7 +119,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$xprofile_is_active = bp_is_active( 'xprofile' );
 		buddypress()->active_components['xprofile'] = '1';
 
-		$u = $this->create_user( array(
+		$u = $this->factory->user->create( array(
 			'display_name' => 'Foo',
 		) );
 		bp_core_get_user_displayname( $u );
@@ -139,7 +139,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$xprofile_is_active = bp_is_active( 'xprofile' );
 		buddypress()->active_components['xprofile'] = '1';
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		xprofile_set_field_data( 1, $u, 'Foo Foo' );
 
 		$this->assertFalse( wp_cache_get( 'bp_user_fullname_' . $u, 'bp' ) );
@@ -156,7 +156,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$xprofile_is_active = bp_is_active( 'xprofile' );
 		buddypress()->active_components['xprofile'] = '1';
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		xprofile_set_field_data( 1, $u, 'Foo Foo' );
 
 		$this->assertSame( 'Foo Foo', bp_core_get_user_displayname( $u ) );
@@ -173,7 +173,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$xprofile_is_active = bp_is_active( 'xprofile' );
 		buddypress()->active_components['xprofile'] = '1';
 
-		$u = $this->create_user( array(
+		$u = $this->factory->user->create( array(
 			'display_name' => 'Foo Foo',
 		) );
 
@@ -204,8 +204,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_get_user_displaynames
 	 */
 	public function test_bp_core_get_user_displaynames_all_uncached() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 
 		xprofile_set_field_data( 1, $u1, 'Foo' );
 		xprofile_set_field_data( 1, $u2, 'Bar' );
@@ -222,8 +222,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_get_user_displaynames
 	 */
 	public function test_bp_core_get_user_displaynames_one_not_in_xprofile() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user( array(
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create( array(
 			'display_name' => 'Bar',
 		) );
 
@@ -248,7 +248,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_get_user_displaynames
 	 */
 	public function test_bp_core_get_user_displaynames_one_in_cache() {
-		$u1 = $this->create_user();
+		$u1 = $this->factory->user->create();
 		xprofile_set_field_data( 1, $u1, 'Foo' );
 
 		// Fake the cache for $u2
@@ -267,7 +267,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_members_migrate_signups
 	 */
 	public function test_bp_members_migrate_signups_standard() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$u_obj = new WP_User( $u );
 
 		// Fake an old-style registration
@@ -301,7 +301,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_members_migrate_signups
 	 */
 	public function test_bp_members_migrate_signups_activation_key_but_user_status_0() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$u_obj = new WP_User( $u );
 
 		// Fake an old-style registration
@@ -332,7 +332,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_members_migrate_signups
 	 */
 	public function test_bp_members_migrate_signups_no_activation_key_but_user_status_2() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$u_obj = new WP_User( $u );
 
 		// Fake an old-style registration but without an activation key

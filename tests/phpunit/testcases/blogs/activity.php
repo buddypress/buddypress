@@ -11,7 +11,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		}
 
 		$b = $this->factory->blog->create();
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog',
@@ -35,7 +35,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$p = $this->factory->post->create( array(
 			'post_author' => $u,
 		) );
@@ -69,7 +69,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$p = $this->factory->post->create( array(
 			'post_author' => $u,
 		) );
@@ -104,7 +104,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		}
 
 		$b = $this->factory->blog->create();
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 
 		switch_to_blog( $b );
 		$p = $this->factory->post->create( array(
@@ -144,7 +144,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		}
 
 		$b = $this->factory->blog->create();
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 
 		switch_to_blog( $b );
 		$p = $this->factory->post->create( array(
@@ -189,7 +189,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		add_filter( 'bp_blogs_activity_created_blog_action', array( $this, 'created_blog_passthrough' ), 10, 2 );
 
 		$b = $this->factory->blog->create();
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 
 		$recorded_blog          = new BP_Blogs_Blog;
 		$recorded_blog->user_id = $u;
@@ -222,7 +222,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$p = $this->factory->post->create();
 		restore_current_blog();
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_post',
@@ -253,7 +253,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		) );
 		restore_current_blog();
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_comment',

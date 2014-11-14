@@ -9,7 +9,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group exists
 	 */
 	public function test_exists_when_doesnt_exist() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -25,7 +25,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group exists
 	 */
 	public function test_exists_when_exists_uncached() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -45,7 +45,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group exists
 	 */
 	public function test_exists_when_exists_in_cache() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -65,7 +65,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_fielddataid_byid
 	 */
 	public function test_get_fielddataid_byid_when_doesnt_exist() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -82,7 +82,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_fielddataid_byid
 	 */
 	public function test_get_fielddataid_byid_when_exists_uncached() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -105,7 +105,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_fielddataid_byid
 	 */
 	public function test_get_fielddataid_byid_when_exists_in_cache() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -124,7 +124,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_singleuser_uncached() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -149,8 +149,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	public function test_get_value_byid_multipleusers_uncached() {
 		$time = date( 'Y-m-d H:i:s', time() - 60*60*24 );
 
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -205,7 +205,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_value_byid
 	 */
 	public function test_get_value_byid_singleuser_cached() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -229,8 +229,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	public function test_get_value_byid_multipleusers_cached() {
 		$time = date( 'Y-m-d H:i:s', time() - 60*60*24 );
 
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',
@@ -278,7 +278,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_all_for_user
 	 */
 	public function test_get_all_for_user_uncached() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g1 = $this->factory->xprofile_group->create();
 		$g2 = $this->factory->xprofile_group->create();
 		$f1 = $this->factory->xprofile_field->create( array(
@@ -357,7 +357,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	 * @group get_all_for_user
 	 */
 	public function test_get_all_for_user_cached() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g1 = $this->factory->xprofile_group->create();
 		$g2 = $this->factory->xprofile_group->create();
 		$f1 = $this->factory->xprofile_field->create( array(

@@ -10,8 +10,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 * @group counts
 	 */
 	public function test_get_unread_count() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 
 		// send a private message
 		$t1 = messages_new_message( array(

@@ -902,7 +902,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_non_member() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 
 		$paged_groups = array();
@@ -933,7 +933,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_member() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 		$this->add_user_to_group( $u, $g );
 
@@ -965,7 +965,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_invited() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 
 		$invite                = new BP_Groups_Member;
@@ -1004,7 +1004,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_pending() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 
 		$invite                = new BP_Groups_Member;
@@ -1043,7 +1043,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_banned() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 
 		$member                = new BP_Groups_Member;

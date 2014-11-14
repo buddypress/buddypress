@@ -10,8 +10,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	 * @group bp_friends_format_activity_action_friendship_accepted
 	 */
 	public function test_bp_friends_format_activity_action_friendship_accepted() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->friends->id,
@@ -32,8 +32,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	 * @group bp_friends_format_activity_action_friendship_created
 	 */
 	public function test_bp_friends_format_activity_action_friendship_created() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->friends->id,

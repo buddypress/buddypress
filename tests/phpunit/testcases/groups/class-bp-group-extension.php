@@ -292,7 +292,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		buddypress()->bp_options_nav = $old_options_nav;
 
 		// Test as group member
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 		$this->add_user_to_group( $u, $g );
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
@@ -335,7 +335,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		buddypress()->bp_options_nav = $old_options_nav;
 
 		// Test as group member
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 		$this->add_user_to_group( $u, $g );
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
@@ -421,7 +421,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -463,7 +463,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -507,7 +507,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -553,7 +553,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -681,7 +681,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -723,7 +723,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -767,7 +767,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -813,7 +813,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 

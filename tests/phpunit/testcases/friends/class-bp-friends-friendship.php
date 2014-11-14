@@ -19,9 +19,9 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_friends() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 
 		xprofile_set_field_data( 1, $u2, 'Cool Dude' );
 		xprofile_set_field_data( 1, $u3, 'Rock And Roll America Yeah' );
@@ -34,13 +34,13 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_bulk_last_active() {
-		$u1 = $this->create_user( array(
+		$u1 = $this->factory->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
 		) );
-		$u2 = $this->create_user( array(
+		$u2 = $this->factory->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
-		$u3 = $this->create_user( array(
+		$u3 = $this->factory->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
 		) );
 
@@ -50,9 +50,9 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_users() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 
 		xprofile_set_field_data( 1, $u1, 'Freedom Isn\'t Free' );
 		xprofile_set_field_data( 1, $u2, 'Cool Dude' );
@@ -64,9 +64,9 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_users_count() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
-		$u3 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
 
 		xprofile_set_field_data( 1, $u1, 'Freedom Isn\'t Free' );
 		xprofile_set_field_data( 1, $u2, 'Cool Dude' );
@@ -81,8 +81,8 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	 * @group check_is_friend
 	 */
 	public function test_check_is_friend_not_friends() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
 
@@ -90,8 +90,8 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	 * @group check_is_friend
 	 */
 	public function test_check_is_friend_pending() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		friends_add_friend( $u1, $u2, false );
 		$this->assertEquals( 'pending', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}
@@ -100,8 +100,8 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	 * @group check_is_friend
 	 */
 	public function test_check_is_friend_awaiting_response() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		friends_add_friend( $u1, $u2, false );
 		$this->assertEquals( 'awaiting_response', BP_Friends_Friendship::check_is_friend( $u2, $u1 ) );
 	}
@@ -110,8 +110,8 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 	 * @group check_is_friend
 	 */
 	public function test_check_is_friend_is_friend() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		friends_add_friend( $u1, $u2, true );
 		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 	}

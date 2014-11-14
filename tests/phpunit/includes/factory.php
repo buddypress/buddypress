@@ -5,6 +5,7 @@ class BP_UnitTest_Factory extends WP_UnitTest_Factory {
 	function __construct() {
 		parent::__construct();
 
+		$this->user = new BP_UnitTest_Factory_For_User( $this );
 		$this->activity = new BP_UnitTest_Factory_For_Activity( $this );
 		$this->group = new BP_UnitTest_Factory_For_Group( $this );
 		$this->message = new BP_UnitTest_Factory_For_Message( $this );
@@ -12,6 +13,37 @@ class BP_UnitTest_Factory extends WP_UnitTest_Factory {
 		$this->xprofile_field = new BP_UnitTest_Factory_For_XProfileField( $this );
 		$this->notification = new BP_UnitTest_Factory_For_Notification( $this );
 		$this->signup = new BP_UnitTest_Factory_For_Signup( $this );
+	}
+}
+
+class BP_UnitTest_Factory_For_User extends WP_UnitTest_Factory_For_User {
+	/**
+	 * When creating a new user, it's almost always necessary to have the
+	 * last_activity usermeta set right away, so that the user shows up in
+	 * directory queries. This is a shorthand wrapper for the user factory
+	 * create() method.
+	 *
+	 * Also set a display name
+	 */
+	public function create_object( $args ) {
+		$r = wp_parse_args( $args, array(
+			'role' => 'subscriber',
+			'last_activity' => date( 'Y-m-d H:i:s', strtotime( bp_core_current_time() ) - 60*60*24*365 ),
+		) );
+
+		$last_activity = $r['last_activity'];
+		unset( $r['last_activity'] );
+
+		$user_id = wp_insert_user( $r );
+
+		bp_update_user_last_activity( $user_id, $last_activity );
+
+		if ( bp_is_active( 'xprofile' ) ) {
+			$user = new WP_User( $user_id );
+			xprofile_set_field_data( 1, $user_id, $user->display_name );
+		}
+
+		return $user_id;
 	}
 }
 

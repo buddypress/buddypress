@@ -94,7 +94,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 
 		// Switch user so we have access to non-public blogs
 		$old_user = get_current_user_id();
@@ -188,7 +188,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 
 		// Switch user so we have access to non-public blogs
 		$old_user = get_current_user_id();

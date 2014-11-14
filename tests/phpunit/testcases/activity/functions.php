@@ -452,7 +452,7 @@ Bar!';
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_off() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 
-		$u = $this->create_user( array(
+		$u = $this->factory->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -468,12 +468,12 @@ Bar!';
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_on() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 
-		$u1 = $this->create_user( array(
+		$u1 = $this->factory->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
 
-		$u2 = $this->create_user( array(
+		$u2 = $this->factory->user->create( array(
 			'user_login' => 'foo.bar.baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -490,7 +490,7 @@ Bar!';
 	public function test_bp_activity_get_userid_from_mentionname_compatibilitymode_off() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 
-		$u = $this->create_user( array(
+		$u = $this->factory->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -507,24 +507,24 @@ Bar!';
 		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 
 		// all spaces are hyphens
-		$u1 = $this->create_user( array(
+		$u1 = $this->factory->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foobarbaz',
 		) );
 
 		// no spaces are hyphens
-		$u2 = $this->create_user( array(
+		$u2 = $this->factory->user->create( array(
 			'user_login' => 'foo-bar-baz-1',
 			'user_nicename' => 'foobarbaz-1',
 		) );
 
 		// some spaces are hyphens
-		$u3 = $this->create_user( array(
+		$u3 = $this->factory->user->create( array(
 			'user_login' => 'foo bar-baz 2',
 			'user_nicename' => 'foobarbaz-2',
 		) );
 
-		$u4 = $this->create_user( array(
+		$u4 = $this->factory->user->create( array(
 			'user_login' => 'foo.bar.baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -542,7 +542,7 @@ Bar!';
 	 * @group bp_activity_format_activity_action_activity_update
 	 */
 	public function test_bp_activity_format_activity_action_activity_update() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_update',
@@ -561,7 +561,7 @@ Bar!';
 	 * @group bp_activity_format_activity_action_activity_comment
 	 */
 	public function test_bp_activity_format_activity_action_activity_comment() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_comment',
@@ -746,7 +746,7 @@ Bar!';
 	 * @group bp_activity_add_user_favorite
 	 */
 	public function test_add_user_favorite_already_favorited() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
@@ -761,7 +761,7 @@ Bar!';
 	 * @group bp_activity_add_user_favorite
 	 */
 	public function test_add_user_favorite_not_yet_favorited() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
 	}
@@ -771,8 +771,8 @@ Bar!';
 	 * @group bp_activity_remove_user_favorite
 	 */
 	public function test_remove_user_favorite_bad_activity_id() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
 		// Only favorite for user 1
@@ -804,7 +804,7 @@ Bar!';
 	 * @group bp_activity_post_update
 	 */
 	public function test_bp_activity_post_update_success() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 
 		$a = bp_activity_post_update( array(
 			'user_id' => $u,

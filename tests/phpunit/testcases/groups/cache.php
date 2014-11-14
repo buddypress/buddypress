@@ -159,8 +159,8 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	 * @group groups_get_group_admins
 	 */
 	public function test_groups_get_group_admins_cache() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
 		// prime cache
@@ -181,8 +181,8 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	 * @group groups_get_group_admins
 	 */
 	public function test_groups_get_group_admins_cache_on_member_save() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
 		// prime cache

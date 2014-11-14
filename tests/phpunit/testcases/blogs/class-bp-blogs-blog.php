@@ -20,7 +20,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 		$b = $this->factory->blog->create( array(
 			'title' => 'The Foo Bar Blog',
@@ -46,7 +46,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 		$b = $this->factory->blog->create( array(
 			'title' => 'The Foo Bar Blog',
@@ -76,7 +76,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 		$b = $this->factory->blog->create( array(
 			'title' => 'Foo Bar Blog',

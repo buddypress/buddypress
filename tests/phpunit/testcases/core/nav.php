@@ -197,7 +197,7 @@ class BP_Tests_Core_Nav extends BP_UnitTestCase {
 	 * @group bp_core_maybe_hook_new_subnav_screen_function
 	 */
 	public function test_maybe_hook_new_subnav_screen_function_user_has_access_false_user_logged_in_my_profile() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -219,8 +219,8 @@ class BP_Tests_Core_Nav extends BP_UnitTestCase {
 	 * @group bp_core_maybe_hook_new_subnav_screen_function
 	 */
 	public function test_maybe_hook_new_subnav_screen_function_user_has_access_false_user_logged_in_others_profile_default_component_accessible() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u1 );
 
@@ -254,8 +254,8 @@ class BP_Tests_Core_Nav extends BP_UnitTestCase {
 	 * @group bp_core_maybe_hook_new_subnav_screen_function
 	 */
 	public function test_maybe_hook_new_subnav_screen_function_user_has_access_false_user_logged_in_others_profile_default_component_not_accessible() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u1 );
 
@@ -289,7 +289,7 @@ class BP_Tests_Core_Nav extends BP_UnitTestCase {
 	 * @group bp_core_maybe_hook_new_subnav_screen_function
 	 */
 	public function test_maybe_hook_new_subnav_screen_function_user_has_access_false_user_logged_in_group() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
@@ -318,7 +318,7 @@ class BP_Tests_Core_Nav extends BP_UnitTestCase {
 	 * @group bp_core_maybe_hook_new_subnav_screen_function
 	 */
 	public function test_maybe_hook_new_subnav_screen_function_user_has_access_false_user_logged_in_group_no_redirect_url_provided() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$g = $this->factory->group->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );

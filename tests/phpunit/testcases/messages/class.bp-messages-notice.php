@@ -10,7 +10,7 @@ class BP_Tests_BP_Messages_Notice_TestCases extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->create_user( array( 'role' => 'administrator' ) ) );
+		$this->set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 	}
 
 	public function tearDown() {
@@ -43,7 +43,7 @@ class BP_Tests_BP_Messages_Notice_TestCases extends BP_UnitTestCase {
 
 		// now get the new active notice
 		BP_Messages_Notice::get_active();
-		
+
 		// grab the cache and make sure it equals our new notice
 		$cache = wp_cache_get( 'active_notice', 'bp_messages' );
 		$this->assertEquals( $subject2, $cache->subject );

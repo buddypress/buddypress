@@ -5,7 +5,7 @@
  */
 class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	public function test_cache_invalidation_all_for_user_on_save() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$n1 = $this->factory->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
@@ -33,7 +33,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_cache_invalidation_all_for_user_on_delete() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$n1 = $this->factory->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
@@ -96,8 +96,8 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_bp_notifications_get_unread_notification_count_cache() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 
 		$n1 = $this->factory->notification->create( array(
 			'component_name'    => 'messages',
@@ -125,8 +125,8 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group bp_has_notifications
 	 */
 	public function test_bp_has_notifications_filtering() {
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 
 		// create a mixture of different notifications
 		$n1 = $this->factory->notification->create( array(

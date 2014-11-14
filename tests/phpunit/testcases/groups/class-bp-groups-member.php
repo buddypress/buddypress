@@ -116,8 +116,8 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	public function test_get_all_for_group_with_exclude() {
 		$g1 = $this->factory->group->create();
 
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 		self::add_user_to_group( $u1, $g1 );
 		self::add_user_to_group( $u2, $g1 );
 

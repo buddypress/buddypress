@@ -9,7 +9,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		parent::setUp();
 
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
+		$this->set_current_user( $this->factory->user->create( array(
+			'role' => 'subscriber',
+		) ) );
 	}
 
 	public function tearDown() {
@@ -517,8 +519,9 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_activity_comments_format() {
 		$now = time();
-		$u1 = $this->create_user();
-		$u2 = $this->create_user();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
 
 		$a1 = $this->factory->activity->create( array(
 			'content' => 'Life Rules',

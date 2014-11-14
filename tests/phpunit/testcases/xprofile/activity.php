@@ -277,7 +277,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	 * @group bp_xprofile_format_activity_action_new_avatar
 	 */
 	public function test_bp_xprofile_format_activity_action_new_avatar() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => 'profile',
 			'type' => 'new_avatar',
@@ -299,7 +299,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$active = bp_is_active( 'xprofile' );
 		buddypress()->active_components['xprofile'] = '1';
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->profile->id,
 			'type' => 'new_member',
@@ -325,7 +325,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$active = bp_is_active( 'xprofile' );
 		unset( buddypress()->active_components['xprofile'] );
 
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->profile->id,
 			'type' => 'new_member',
@@ -348,7 +348,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	 * @group bp_xprofile_format_activity_action_updated_profile
 	 */
 	public function test_bp_xprofile_format_activity_action_updated_profile() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create( array(
 			'component' => buddypress()->profile->id,
 			'type' => 'updated_profile',
@@ -363,7 +363,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	}
 
 	protected function setup_updated_profile_data() {
-		$this->updated_profile_data['u'] = $this->create_user();
+		$this->updated_profile_data['u'] = $this->factory->user->create();
 		$this->updated_profile_data['g'] = $this->factory->xprofile_group->create();
 		$this->updated_profile_data['f'] = $this->factory->xprofile_field->create( array(
 			'type' => 'textbox',

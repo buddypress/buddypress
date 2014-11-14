@@ -21,7 +21,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	 * @group block_self
 	 */
 	public function test_block_self_own_profile() {
-		$u = $this->create_user();
+		$u = $this->factory->user->create();
 		$this->set_current_user( $u );
 
 		$this->go_to( bp_core_get_user_domain( $u ) );
@@ -39,10 +39,10 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	 * @group block_self
 	 */
 	public function test_block_self_others_profile() {
-		$u1 = $this->create_user();
+		$u1 = $this->factory->user->create();
 		$this->set_current_user( $u1 );
 
-		$u2 = $this->create_user();
+		$u2 = $this->factory->user->create();
 		$this->go_to( bp_core_get_user_domain( $u2 ) );
 
 		$b = new BP_Button( array(
@@ -59,10 +59,10 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	 */
 	public function test_block_self_inside_members_loop() {
 		$now = time();
-		$u1 = $this->create_user( array(
+		$u1 = $this->factory->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now ),
 		) );
-		$u2 = $this->create_user( array(
+		$u2 = $this->factory->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
@@ -99,10 +99,10 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	 */
 	public function test_block_self_false_inside_members_loop() {
 		$now = time();
-		$u1 = $this->create_user( array(
+		$u1 = $this->factory->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now ),
 		) );
-		$u2 = $this->create_user( array(
+		$u2 = $this->factory->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
@@ -139,10 +139,10 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	 */
 	public function test_block_self_inside_members_loop_on_my_profile_page() {
 		$now = time();
-		$u1 = $this->create_user( array(
+		$u1 = $this->factory->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now ),
 		) );
-		$u2 = $this->create_user( array(
+		$u2 = $this->factory->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
