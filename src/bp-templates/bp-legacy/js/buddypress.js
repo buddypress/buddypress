@@ -1538,6 +1538,14 @@ jq(document).ready( function() {
 		}
 	});
 
+	/* Make sure a 'Bulk Action' is selected before submiting the form */
+	jq('#notification-bulk-manage').attr('disabled', 'disabled');
+
+	/* Remove the disabled attribute from the form submit button when bulk action has a value */
+	jq('#notification-select').on('change', function(){
+		jq('#notification-bulk-manage').attr('disabled', jq(this).val().length <= 0);
+	});
+
 	/* Close site wide notices in the sidebar */
 	jq('#close-notice').on( 'click', function() {
 		jq(this).addClass('loading');
