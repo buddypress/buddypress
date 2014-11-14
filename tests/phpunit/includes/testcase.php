@@ -310,7 +310,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 *
 	 * @global BuddyPres $bp
 	 */
-	function set_current_user( $user_id ) {
+	public static function set_current_user( $user_id ) {
 		global $bp;
 		$bp->loggedin_user->id = $user_id;
 		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $user_id );
