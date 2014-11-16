@@ -1,5 +1,6 @@
 .DS_Store
 phpunit.xml
+.idea
 
 lib-cov
 *.seed
@@ -13,6 +14,7 @@ lib-cov
 pids
 logs
 results
+src/vendor
 
 node_modules
 npm-debug.log
