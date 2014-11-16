@@ -1,1 +1,8 @@
-src/bp-forums/bbpress/**/*.js
+// Deprecated
+src/bp-forums/bbpress/**/*
+src/bp-core/deprecated/js/**/*
+
+// 3rd party libraries
+src/bp-core/js/jquery.atwho.js
+src/bp-core/js/jquery.caret.js
+src/bp-core/js/jquery-cookie.js

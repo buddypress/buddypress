@@ -17,14 +17,6 @@ module.exports = function( grunt ) {
 		// JavaScript - Core
 		BP_JS = [
 			'**/*.js'
-		],
-
-		// JavaScript exclusions, for excluding from certain tasks e.g jshint
-		BP_EXCLUDED_JS = [
-			'!bp-core/deprecated/js/**/*.js', // Deprecated
-			'!bp-core/js/jquery.atwho.js',    // External 3rd party library
-			'!bp-core/js/jquery.caret.js',    // External 3rd party library
-			'!bp-core/js/jquery-cookie.js'    // External 3rd party library
 		];
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
@@ -40,7 +32,7 @@ module.exports = function( grunt ) {
 			core: {
 				expand: true,
 				cwd: SOURCE_DIR,
-				src: BP_JS.concat( BP_EXCLUDED_JS ),
+				src: BP_JS,
 
 				/**
 				 * Limit JSHint's run to a single specified file:
