@@ -728,8 +728,17 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 #buddypress .standard-form #profile-details-section {
 	float: left;
 }
-#buddypress .standard-form #blog-details-section {
+#buddypress .standard-form #blog-details-section,
+#buddypress #notifications-bulk-management {
 	clear: right;
+}
+body.no-js #buddypress #notifications-bulk-management #select-all-notifications,
+body.no-js #buddypress label[for="message-type-select"],
+body.no-js #buddypress #message-type-select,
+body.no-js #buddypress #delete_inbox_messages,
+body.no-js #buddypress #delete_sentbox_messages,
+body.no-js #buddypress #notifications-bulk-management #select-all-notifications {
+	display: none;
 }
 #buddypress .standard-form input:focus,
 #buddypress .standard-form textarea:focus,
@@ -818,6 +827,17 @@ a.bp-title-button {
 #buddypress .wp-editor-wrap input[type=reset] {
 	padding: 0 10px 1px;
 }
+
+/* Form classes & generic attr styling */
+#buddypress form *[disabled="disabled"]{
+	cursor: default;
+	opacity: .4;
+ }
+.bp-screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute;
+}
+
 /*--------------------------------------------------------------
 3.6 - Ajax Loading
 --------------------------------------------------------------*/
@@ -862,6 +882,7 @@ a.bp-title-button {
 #buddypress input[type="submit"].disabled,
 #buddypress input[type="button"].disabled,
 #buddypress input[type="reset"].disabled,
+#buddypress input[type="submit"][disabled=disabled],
 #buddypress button.pending,
 #buddypress button.disabled,
 #buddypress div.pending a,
