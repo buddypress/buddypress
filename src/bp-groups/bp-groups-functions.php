@@ -1047,6 +1047,14 @@ function groups_send_invites( $user_id, $group_id ) {
 	do_action( 'groups_send_invites', $group_id, $invited_users );
 }
 
+/**
+ * Get IDs of users with outstanding invites to a given group from a specified user.
+ *
+ * @param int $user_id ID of the inviting user.
+ * @param int $group_id ID of the group.
+ * @return array IDs of users who have been invited to the group by the
+ *         user but have not yet accepted.
+ */
 function groups_get_invites_for_group( $user_id, $group_id ) {
 	return BP_Groups_Group::get_invites( $user_id, $group_id );
 }
