@@ -136,13 +136,16 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 		case 'friendship_accepted':
 			$link = trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends' );
 
+			// $action and $amount are used to generate dynamic filter names.
+			$action = 'accepted';
+
 			// Set up the string and the filter
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( '%d friends accepted your friendship requests', 'buddypress' ), (int) $total_items );
-				$filter = 'bp_friends_multiple_friendship_accepted_notification';
+				$amount = 'multiple';
 			} else {
 				$text = sprintf( __( '%s accepted your friendship request', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
-				$filter = 'bp_friends_single_friendship_accepted_notification';
+				$amount = 'single';
 			}
 
 			break;
@@ -150,13 +153,15 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 		case 'friendship_request':
 			$link = bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/?new';
 
+			$action = 'request';
+
 			// Set up the string and the filter
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( 'You have %d pending friendship requests', 'buddypress' ), (int) $total_items );
-				$filter = 'bp_friends_multiple_friendship_request_notification';
+				$amount = 'multiple';
 			} else {
 				$text = sprintf( __( 'You have a friendship request from %s', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
-				$filter = 'bp_friends_single_friendship_request_notification';
+				$amount = 'single';
 			}
 
 			break;
@@ -164,9 +169,9 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 	// Return either an HTML link or an array, depending on the requested format
 	if ( 'string' == $format ) {
-		$return = apply_filters( $filter, '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id );
+		$return = apply_filters( 'bp_friends_' . $amount . '_friendship_' . $action . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id );
 	} else {
-		$return = apply_filters( $filter, array(
+		$return = apply_filters( 'bp_friends_' . $amount . '_friendship_' . $action . '_notification', array(
 			'link' => $link,
 			'text' => $text
 		), (int) $total_items, $item_id );
