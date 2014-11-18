@@ -19,8 +19,20 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function friends_screen_my_friends() {
 
+	/**
+	 * Fires before the loading of template for the My Friends page.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 */
 	do_action( 'friends_screen_my_friends' );
 
+	/**
+	 * Filters the template used to display the My Friends page.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $template Path to the my friends template to load.
+	 */
 	bp_core_load_template( apply_filters( 'friends_template_my_friends', 'members/single/home' ) );
 }
 
@@ -62,8 +74,20 @@ function friends_screen_requests() {
 		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_current_component() . '/' . bp_current_action() ) );
 	}
 
+	/**
+	 * Fires before the loading of template for the friends requests page.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 */
 	do_action( 'friends_screen_requests' );
 
+	/**
+	 * Filters the template used to display the My Friends page.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $template Path to the friends request template to load.
+	 */
 	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/home' ) );
 }
 
@@ -102,7 +126,14 @@ function friends_screen_notification_settings() {
 				<td class="no"><input type="radio" name="notifications[notification_friends_friendship_accepted]" value="no" <?php checked( $accept_requests, 'no', true ) ?>/></td>
 			</tr>
 
-			<?php do_action( 'friends_screen_notification_settings' ); ?>
+			<?php
+
+			/**
+			 * Fires after the last table row on the friends notification screen.
+			 *
+			 * @since BuddyPress (1.0.0)
+			 */
+			do_action( 'friends_screen_notification_settings' ); ?>
 
 		</tbody>
 	</table>

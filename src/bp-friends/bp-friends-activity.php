@@ -113,6 +113,11 @@ function friends_register_activity_actions() {
 	// < BP 1.6 backpat
 	bp_activity_set_action( $bp->friends->id, 'friends_register_activity_action', __( 'New friendship created', 'buddypress' ) );
 
+	/**
+	 * Fires after all default bp-friends activity actions have been registered.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	do_action( 'friends_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' );
@@ -139,6 +144,14 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
 	}
 
+	/**
+	 * Filters the 'friendship_accepted' activty action format.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action String text for the 'friendship_accepted' action.
+	 * @param object $activity Activity data.
+	 */
 	return apply_filters( 'bp_friends_format_activity_action_friendship_accepted', $action, $activity );
 }
 
@@ -165,6 +178,14 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
 		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
 	}
 
+	/**
+	 * Filters the 'friendship_created' activty action format.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action String text for the 'friendship_created' action.
+	 * @param object $activity Activity data.
+	 */
 	return apply_filters( 'bp_friends_format_activity_action_friendship_created', $action, $activity );
 }
 

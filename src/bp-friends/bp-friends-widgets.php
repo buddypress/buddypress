@@ -76,6 +76,13 @@ class BP_Core_Friends_Widget extends WP_Widget {
 			$instance['friend_default'] = 'active';
 		}
 
+		/**
+		 * Filters the Friends widget title.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param string $title The widget title.
+		 */
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		echo $before_widget;
