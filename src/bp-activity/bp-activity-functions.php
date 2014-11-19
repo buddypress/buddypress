@@ -1522,7 +1522,6 @@ function bp_activity_post_update( $args = '' ) {
  * @uses bp_activity_add()
  * @uses apply_filters() To call the 'bp_activity_comment_action' hook.
  * @uses apply_filters() To call the 'bp_activity_comment_content' hook.
- * @uses bp_activity_new_comment_notification()
  * @uses wp_cache_delete()
  * @uses do_action() To call the 'bp_activity_comment_posted' hook.
  *
