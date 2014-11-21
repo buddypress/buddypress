@@ -163,6 +163,9 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
+		// User 2 joins the group
+		groups_join_group( $g, $u2 );
+
 		// prime cache
 		groups_get_group_admins( $g );
 
