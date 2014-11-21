@@ -250,7 +250,7 @@ body.activity-permalink #buddypress .activity-list li .activity-header > p {
 }
 #buddypress .activity-list .activity-content .activity-header img.avatar {
 	float: none !important;
-	margin: 0 0 -8px 5px !important;
+	margin: 0 5px -8px 0 !important;
 }
 #buddypress a.bp-secondary-action,
 #buddypress span.highlight {
@@ -738,7 +738,7 @@ body.no-js #buddypress label[for="message-type-select"],
 body.no-js #buddypress #message-type-select,
 body.no-js #buddypress #delete_inbox_messages,
 body.no-js #buddypress #delete_sentbox_messages,
-body.no-js #buddypress #notifications-bulk-management #select-all-notifications {
+body.no-js #buddypress #messages-bulk-management #select-all-messages {
 	display: none;
 }
 #buddypress .standard-form input:focus,
@@ -974,8 +974,6 @@ a.bp-title-button {
 }
 #buddypress table#message-threads {
 	clear: both;
-	margin: 0;
-	width: auto;
 }
 #buddypress table.profile-fields {
 	margin-bottom: 20px;
@@ -1014,6 +1012,9 @@ a.bp-title-button {
 	border-left: 1px solid #eaeaea;
 	font-weight: bold;
 	width: 25%;
+}
+#buddypress #message-threads .thread-info {
+	min-width: 40%;
 }
 #buddypress table tr td.thread-info p {
 	margin: 0;
@@ -1384,6 +1385,11 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	border-bottom: 1px solid #ffe8c4;
 	font-weight: bold;
 }
+#buddypress table#message-threads tr.unread td .thread-excerpt,
+#buddypress table#message-threads tr.unread td .activity,
+#buddypress table#message-threads tr.unread td.thread-options {
+	font-weight: normal;
+}
 #buddypress li span.unread-count,
 #buddypress tr.unread span.unread-count {
 	background: #dd0000;
@@ -1394,13 +1400,6 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 #buddypress div.item-list-tabs ul li a span.unread-count {
 	padding: 1px 6px;
 	color: #fff;
-}
-#buddypress div.messages-options-nav {
-	background: #eee;
-	font-size: 80%;
-	margin: 0;
-	padding: 5px 15px;
-	text-align: left;
 }
 #buddypress div#message-thread div.message-box {
 	margin: 0;
