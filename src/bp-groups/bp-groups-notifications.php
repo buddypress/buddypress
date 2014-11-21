@@ -111,11 +111,32 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 	// Link to the group administrator email settings: %s in "disable notifications" part of the email
 	$settings_link  = bp_core_get_user_domain( $admin_id ) . $settings_slug . '/notifications/';
 
+	// Fetch the message, if there's one to fetch.
+	$membership = new BP_Groups_Member( false, false, $membership_id );
+
 	// Set up and send the message
 	$to       = $ud->user_email;
 	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for group: %s', 'buddypress' ), $group->name ) ) );
 
-$message = sprintf( __(
+	if ( ! empty( $membership->comments ) ) {
+		$message = sprintf( __(
+'%1$s wants to join the group "%2$s".
+
+Message from %1$s: "%3$s"
+
+Because you are the administrator of this group, you must either accept or reject the membership request.
+
+To view all pending membership requests for this group, please visit:
+%4$s
+
+To view %5$s\'s profile: %6$s
+
+---------------------
+', 'buddypress' ), $requesting_user_name, $group->name, esc_html( $membership->comments ), $group_requests, $requesting_user_name, $profile_link );
+
+	} else {
+
+		$message = sprintf( __(
 '%1$s wants to join the group "%2$s".
 
 Because you are the administrator of this group, you must either accept or reject the membership request.
@@ -127,6 +148,7 @@ To view %4$s\'s profile: %5$s
 
 ---------------------
 ', 'buddypress' ), $requesting_user_name, $group->name, $group_requests, $requesting_user_name, $profile_link );
+	}
 
 	// Only show the disable notifications line if the settings component is enabled
 	if ( bp_is_active( 'settings' ) ) {
