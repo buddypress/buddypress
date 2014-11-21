@@ -1196,3 +1196,46 @@ function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
 
 	return apply_filters( 'bp_core_avatar_thumb', $avatar );
 }
+
+/**
+ * Reset the week parameter of the WordPress main query if needed
+ *
+ * When cropping an avatar, a $_POST['w'] var is sent, setting the 'week'
+ * paramater of the WordPress main query to this posted var. To avoid
+ * notices, we need to make sure this 'week' query var is reset to 0
+ *
+ * @since  BuddyPress (2.2.0)
+ *
+ * @param  WP_Quert $posts_query the main query object
+ * @uses   bp_is_group_create()
+ * @uses   bp_is_group_admin_page()
+ * @uses   bp_is_group_admin_screen() to check for a group admin screen
+ * @uses   bp_action_variable() to check for the group's avatar creation step
+ * @uses   bp_is_user_change_avatar() to check for the user's change profile screen
+ */
+function bp_core_avatar_reset_query( $posts_query = null ) {
+	$reset_w = false;
+
+	// Group's avatar edit screen
+	if ( bp_is_group_admin_page() ) {
+		$reset_w = bp_is_group_admin_screen( 'group-avatar' );
+
+	// Group's avatar create screen
+	} else if ( bp_is_group_create() ) {
+		/**
+		 * we can't use bp_get_groups_current_create_step()
+		 * as it's not set yet
+		 */
+		$reset_w = 'group-avatar' === bp_action_variable( 1 );
+
+	// User's change avatar screen
+	} else {
+		$reset_w = bp_is_user_change_avatar();
+	}
+
+	// A user or a group is cropping an avatar
+	if ( true === $reset_w && isset( $_POST['avatar-crop-submit'] ) ) {
+		$posts_query->set( 'w', 0 );
+	}
+}
+add_action( 'bp_parse_query', 'bp_core_avatar_reset_query', 10, 1 );
