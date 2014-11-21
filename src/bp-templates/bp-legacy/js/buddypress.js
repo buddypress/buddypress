@@ -1525,6 +1525,27 @@ jq(document).ready( function() {
 		return false;
 	});
 
+	/* Selecting/Deselecting all messages */
+	jq('#select-all-messages').click(function(event) {
+		if( this.checked ) {
+			jq('.message-check').each(function() {
+				this.checked = true;
+			});
+		} else {
+			jq('.message-check').each(function() {
+				this.checked = false;
+			});
+		}
+	});
+
+	/* Make sure a 'Bulk Action' is selected before submiting the messages bulk action form */
+	jq('#messages-bulk-manage').attr('disabled', 'disabled');
+
+	/* Remove the disabled attribute from the messages form submit button when bulk action has a value */
+	jq('#messages-select').on('change', function(){
+		jq('#messages-bulk-manage').attr('disabled', jq(this).val().length <= 0);
+	});
+
 	/* Selecting/Deselecting all notifications */
 	jq('#select-all-notifications').click(function(event) {
 		if( this.checked ) {

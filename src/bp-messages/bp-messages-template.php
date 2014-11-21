@@ -561,6 +561,88 @@ function bp_message_thread_delete_link() {
 	}
 
 /**
+ * Output the URL used for marking a single message thread as unread.
+ *
+ * Since this function directly outputs a URL, it is escaped.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_the_message_thread_mark_unread_url() {
+	echo esc_url( bp_get_the_message_thread_mark_unread_url() );
+}
+	/**
+	 * Return the URL used for marking a single message thread as unread.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_message_thread_mark_unread_url() {
+
+		// Get the message ID.
+		$id = bp_get_message_thread_id();
+
+		// Get the args to add to the URL.
+		$args = array(
+			'action'     => 'unread',
+			'message_id' => $id
+		);
+
+		// Base unread URL.
+		$url = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/unread' );
+
+		// Add the args to the URL.
+		$url = add_query_arg( $args, $url );
+
+		// Add the nonce.
+		$url = wp_nonce_url( $url, 'bp_message_thread_mark_unread_' . $id );
+
+		// Filter and return.
+		return apply_filters( 'bp_get_the_message_thread_mark_unread_url', $url );
+	}
+
+/**
+ * Output the URL used for marking a single message thread as read.
+ *
+ * Since this function directly outputs a URL, it is escaped.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_the_message_thread_mark_read_url() {
+	echo esc_url( bp_get_the_message_thread_mark_read_url() );
+}
+	/**
+	 * Return the URL used for marking a single message thread as read
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_the_message_thread_mark_read_url() {
+
+		// Get the message ID.
+		$id = bp_get_message_thread_id();
+
+		// Get the args to add to the URL.
+		$args = array(
+			'action'     => 'read',
+			'message_id' => $id
+		);
+
+		// Base read URL.
+		$url = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/read' );
+
+		// Add the args to the URL.
+		$url = add_query_arg( $args, $url );
+
+		// Add the nonce.
+		$url = wp_nonce_url( $url, 'bp_message_thread_mark_read_' . $id );
+
+		// Filter and return.
+		return apply_filters( 'bp_get_the_message_thread_mark_read_url', $url );
+	}
+
+/**
  * Output the CSS class for the current thread.
  */
 function bp_message_css_class() {
@@ -617,6 +699,71 @@ function bp_message_thread_unread_count() {
 			: false;
 
 		return apply_filters( 'bp_get_message_thread_unread_count', $count );
+	}
+
+/**
+ * Output a thread's total message count.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param int $thread_id Optional. ID of the thread. Defaults to current thread ID.
+ */
+function bp_message_thread_total_count( $thread_id = false ) {
+	echo bp_get_message_thread_total_count( $thread_id );
+}
+	/**
+	 * Get the current thread's total message count.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param int $thread_id Optional. ID of the thread. Defaults to
+	 *        current thread ID.
+	 * @return int
+	 */
+	function bp_get_message_thread_total_count( $thread_id = false ) {
+		if ( false === $thread_id ) {
+			$thread_id = bp_get_message_thread_id();
+		}
+
+		$thread_template = new BP_Messages_Thread_Template( $thread_id, 'ASC' );
+
+		$count = 0;
+		if ( ! empty( $thread_template->message_count ) ) {
+			$count = intval( $thread_template->message_count );
+		}
+
+		return apply_filters( 'bp_get_message_thread_total_count', $count );
+	}
+
+/**
+ * Output markup for the current thread's total and unread count.
+ *
+ * @since Buddypress (2.2.0)
+ *
+ * @param int $thread_id Optional. ID of the thread. Default: current thread ID.
+ */
+function bp_message_thread_total_and_unread_count( $thread_id = false ) {
+	echo bp_get_message_thread_total_and_unread_count( $thread_id );
+}
+	/**
+	 * Get markup for the current thread's total and unread count.
+	 *
+	 * @param int $thread_id Optional. ID of the thread. Default: current thread ID.
+	 * @return string Markup displaying the total and unread count for the thread.
+	 */
+	function bp_get_message_thread_total_and_unread_count( $thread_id = false ) {
+		if ( false === $thread_id ) {
+			$thread_id = bp_get_message_thread_id();
+		}
+
+		$total  = bp_get_message_thread_total_count( $thread_id );
+		$unread = bp_get_message_thread_unread_count( $thread_id );
+
+		return sprintf(
+			'<span class="thread-count">(%1$s)</span> <span class="bp-screen-reader-text">%2$s</span>',
+			number_format_i18n( $total ),
+			sprintf( _n( '%d unread', '%d unread', $unread, 'buddypress' ), number_format_i18n( $unread ) )
+		);
 	}
 
 /**
@@ -856,10 +1003,12 @@ function bp_messages_content_value() {
 function bp_messages_options() {
 ?>
 
-	<?php _e( 'Select:', 'buddypress' ) ?>
+	<label for="message-type-select" class="bp-screen-reader-text">
+		<?php _e( 'Select:', 'buddypress' ) ?>
+	 </label>
 
 	<select name="message-type-select" id="message-type-select">
-		<option value=""></option>
+		<option value=""><?php _e( 'Select', 'buddypress' ); ?></option>
 		<option value="read"><?php _ex('Read', 'Message dropdown filter', 'buddypress') ?></option>
 		<option value="unread"><?php _ex('Unread', 'Message dropdown filter', 'buddypress') ?></option>
 		<option value="all"><?php _ex('All', 'Message dropdown filter', 'buddypress') ?></option>
@@ -875,6 +1024,24 @@ function bp_messages_options() {
 	<a href="#" id="delete_<?php echo bp_current_action(); ?>_messages"><?php _e( 'Delete Selected', 'buddypress' ); ?></a> &nbsp;
 
 <?php
+}
+
+/**
+ * Output the dropdown for bulk management of messages.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_messages_bulk_management_dropdown() {
+	?>
+	<label class="bp-screen-reader-text" for="messages-select"><?php _e( 'Select Bulk Action', 'buddypress' ); ?></label>
+	<select name="messages_bulk_action" id="messages-select">
+		<option value="" selected="selected"><?php _e( 'Bulk Actions', 'buddypress' ); ?></option>
+		<option value="read"><?php _e( 'Mark read', 'buddypress' ); ?></option>
+		<option value="unread"><?php _e( 'Mark unread', 'buddypress' ); ?></option>
+		<option value="delete"><?php _e( 'Delete', 'buddypress' ); ?></option>
+	</select>
+	<input type="submit" id="messages-bulk-manage" class="button action" value="<?php esc_attr_e( 'Apply', 'buddypress' ); ?>">
+	<?php
 }
 
 /**
