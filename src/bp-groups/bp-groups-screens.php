@@ -1099,12 +1099,9 @@ class BP_Groups_Theme_Compat {
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function directory_dummy_post() {
-
-		$title = apply_filters( 'bp_groups_directory_header', bp_get_directory_title( 'groups' ) );
-
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,
-			'post_title'     => $title,
+			'post_title'     => bp_get_directory_title( 'groups' ),
 			'post_author'    => 0,
 			'post_date'      => 0,
 			'post_content'   => '',
@@ -1222,7 +1219,7 @@ class BP_Groups_Theme_Compat {
 	public function single_dummy_post() {
 		bp_theme_compat_reset_post( array(
 			'ID'             => 0,
-			'post_title'     => '<a href="' . bp_get_group_permalink( groups_get_current_group() ) . '">' . bp_get_current_group_name() . '</a>',
+			'post_title'     => bp_get_current_group_name(),
 			'post_author'    => 0,
 			'post_date'      => 0,
 			'post_content'   => '',
