@@ -512,6 +512,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 }
 #buddypress div#message.updated {
 	clear: both;
+	display: block;
 }
 #buddypress div#message p,
 #sitewide-notice p {
