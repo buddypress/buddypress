@@ -211,7 +211,7 @@ class BP_Messages_Thread {
 		 *
 		 * @param array $recipients Array of recipient objects.
 		 * @param int   $thread_id  ID of the current thread.
-                 */
+		 */
 		return apply_filters( 'bp_messages_thread_get_recipients', $recipients, $this->thread_id );
 	}
 
