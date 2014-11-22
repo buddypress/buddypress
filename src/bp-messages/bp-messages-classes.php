@@ -109,7 +109,7 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param int $thread_id The message thread ID.
+	 * @param bool|int $thread_id The message thread ID.
 	 * @param string $order The order to sort the messages. Either 'ASC' or 'DESC'.
 	 */
 	public function __construct( $thread_id = false, $order = 'ASC' ) {
@@ -127,6 +127,7 @@ class BP_Messages_Thread {
 	 *
 	 * @param int $thread_id The message thread ID.
 	 * @param string $order The order to sort the messages. Either 'ASC' or 'DESC'.
+	 * @return bool False on failure.
 	 */
 	public function populate( $thread_id, $order ) {
 		global $wpdb, $bp;
@@ -361,7 +362,7 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int $thread_id The message thread ID.
-	 * @param bool
+	 * @return bool
 	 */
 	public static function user_is_sender( $thread_id ) {
 		global $wpdb, $bp;
@@ -468,7 +469,7 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param object $recipients Object containing the message recipients.
+	 * @param array $recipients Array containing the message recipients (array of objects).
 	 * @return string
 	 */
 	public static function get_recipient_links( $recipients ) {
@@ -790,6 +791,7 @@ class BP_Messages_Notice {
 	 * Constructor.
 	 *
 	 * @since BuddyPress (1.0.0)
+	 * @param int $id Optional. The ID of the current notice.
 	 */
 	public function __construct( $id = null ) {
 		if ( $id ) {
@@ -911,7 +913,7 @@ class BP_Messages_Notice {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param array $data {
+	 * @param array $args {
 	 *     Array of parameters.
 	 *     @type int $pag_num Number of notices per page. Defaults to 20.
 	 *     @type int $pag_page The page number.  Defaults to 1.
