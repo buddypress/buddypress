@@ -154,6 +154,15 @@ class BP_Messages_Thread {
 		if ( isset( $this->recipients[bp_loggedin_user_id()] ) ) {
 			$this->unread_count = $this->recipients[bp_loggedin_user_id()]->unread_count;
 		}
+
+		/**
+		 * Fires after a BP_Messages_Thread object has been populated.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param BP_Messages_Thread Message thread object.
+		 */
+		do_action( 'bp_messages_thread_post_populate', $this );
 	}
 
 	/**
@@ -183,7 +192,7 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @return object
+	 * @return array
 	 */
 	public function get_recipients() {
 		global $wpdb, $bp;
@@ -191,10 +200,19 @@ class BP_Messages_Thread {
 		$recipients = array();
 		$results    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
 
-		foreach ( (array) $results as $recipient )
+		foreach ( (array) $results as $recipient ) {
 			$recipients[$recipient->user_id] = $recipient;
+		}
 
-		return $recipients;
+		/**
+		 * Filters the recipients of a message thread.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param array $recipients Array of recipient objects.
+		 * @param int   $thread_id  ID of the current thread.
+                 */
+		return apply_filters( 'bp_messages_thread_get_recipients', $recipients, $this->thread_id );
 	}
 
 	/** Static Functions ******************************************************/
@@ -209,6 +227,15 @@ class BP_Messages_Thread {
 	 */
 	public static function delete( $thread_id ) {
 		global $wpdb, $bp;
+
+		/**
+		 * Fires before a message thread is deleted.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param int $thread_id ID of the thread being deleted.
+		 */
+		do_action( 'bp_messages_thread_before_delete', $thread_id );
 
 		// Mark messages as deleted
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, bp_loggedin_user_id() ) );
@@ -228,7 +255,14 @@ class BP_Messages_Thread {
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $thread_id ) );
 		}
 
-		do_action( 'messages_thread_deleted_thread', $message_id );
+		/**
+		 * Fires after a message thread is deleted.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param int $thread_id ID of the thread being deleted.
+		 */
+		do_action( 'bp_messages_thread_after_delete', $message_id );
 
 		return true;
 	}
@@ -294,7 +328,17 @@ class BP_Messages_Thread {
 			$threads[] = new BP_Messages_Thread( $thread_id );
 		}
 
-		return array( 'threads' => &$threads, 'total' => (int) $total_threads );
+		/**
+		 * Filters the results of the query for a user's message threads.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param array $value {
+		 *     @type array $threads       Array of threads. Passed by reference.
+		 *     @type int   $total_threads Number of threads found by the query.
+		 * }
+		 */
+		return apply_filters( 'bp_messages_thread_current_threads', array( 'threads' => &$threads, 'total' => (int) $total_threads ) );
 	}
 
 	/**
@@ -417,7 +461,15 @@ class BP_Messages_Thread {
 			wp_cache_set( $user_id, $unread_count, 'bp_messages_unread_count' );
 		}
 
-		return (int) $unread_count;
+		/**
+		 * Filters a user's unread message count.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param int $unread_count Unread message count.
+		 * @param int $user_id      ID of the user.
+		 */
+		return apply_filters( 'messages_thread_get_inbox_count', (int) $unread_count, $user_id );
 	}
 
 	/**
