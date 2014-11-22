@@ -251,7 +251,7 @@ class BP_XProfile_Component extends BP_Component {
 		$settings_slug = bp_get_settings_slug();
 
 		bp_core_new_subnav_item( array(
-			'name'            => _x( 'Profile', 'Profile settings  sub nav', 'buddypress' ),
+			'name'            => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
 			'slug'            => 'profile',
 			'parent_url'      => trailingslashit( $user_domain . $settings_slug ),
 			'parent_slug'     => $settings_slug,
