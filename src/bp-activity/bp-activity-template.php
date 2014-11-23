@@ -195,6 +195,7 @@ class BP_Activity_Template {
 			'per_page'          => 20,
 			'page_arg'          => 'acpage',
 			'max'               => false,
+			'count_total'       => false,
 			'sort'              => false,
 			'include'           => false,
 			'exclude'           => false,
@@ -226,6 +227,7 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get_specific( array(
 				'activity_ids'      => explode( ',', $include ),
 				'max'               => $max,
+				'count_total'       => $count_total,
 				'page'              => $this->pag_page,
 				'per_page'          => $this->pag_num,
 				'sort'              => $sort,
@@ -240,6 +242,7 @@ class BP_Activity_Template {
 			$this->activities = bp_activity_get( array(
 				'display_comments'  => $display_comments,
 				'max'               => $max,
+				'count_total'       => $count_total,
 				'per_page'          => $this->pag_num,
 				'page'              => $this->pag_page,
 				'sort'              => $sort,
@@ -447,6 +450,8 @@ class BP_Activity_Template {
  *           pagination links. Default: 'acpage'.
  *     @type int|bool $max Maximum number of results to return.
  *           Default: false (unlimited).
+ *     @type string|bool $count_total If true, an additional DB query is run to
+ *           count the total activity items for the query. Default: false.
  *     @type string $sort 'ASC' or 'DESC'. Default: 'DESC'.
  *     @type array|bool $exclude Array of activity IDs to exclude. Default: false.
  *     @type array|bool $in Array of IDs to limit query by (IN). 'in' is
@@ -586,6 +591,7 @@ function bp_has_activities( $args = '' ) {
 		'page'              => 1,            // which page to load
 		'per_page'          => 20,           // number of items per page
 		'max'               => false,        // max number to return
+		'count_total'       => false,
 		'show_hidden'       => $show_hidden, // Show activity items that are hidden site-wide?
 		'spam'              => 'ham_only',   // Hide spammed items
 
@@ -719,6 +725,7 @@ function bp_has_activities( $args = '' ) {
 		'per_page'          => $per_page,
 		'page_arg'          => $page_arg,
 		'max'               => $max,
+		'count_total'       => $count_total,
 		'sort'              => $sort,
 		'include'           => $include,
 		'exclude'           => $exclude,
