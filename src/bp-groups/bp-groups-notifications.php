@@ -415,19 +415,50 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
+			$amount = 'single';
 
 			// Set up the string and the filter
 			// Because different values are passed to the filters, we'll return the
 			// values inline
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( '%1$d new membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
-				$filter = 'bp_groups_multiple_new_membership_requests_notification';
+				$amount = 'multiple';
 				$notification_link = $group_link . 'admin/membership-requests/?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . $text . '</a>', $group_link, $total_items, $group->name, $text, $notification_link );
+					/**
+					 * Filters groups multiple new membership request notification for string format.
+					 *
+					 * This is a dynamic filter that is dependent on item count and action.
+					 * Complete filter - bp_groups_multiple_new_membership_requests_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for request.
+					 * @param string $group_link        The permalink for the group.
+					 * @param int    $total_items       Total number of membership requests.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . 's_notification', '<a href="' . $notification_link . '" title="' . __( 'Group Membership Requests', 'buddypress' ) . '">' . $text . '</a>', $group_link, $total_items, $group->name, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters groups multiple new membership request notification for any non-string format.
+					 *
+					 * This is a dynamic filter that is dependent on item count and action.
+					 * Complete filter - bp_groups_multiple_new_membership_requests_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param string $group_link        The permalink for the group.
+					 * @param int    $total_items       Total number of membership requests.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . 's_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $group_link, $total_items, $group->name, $text, $notification_link );
@@ -435,13 +466,42 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
 				$text = sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname );
-				$filter = 'bp_groups_single_new_membership_request_notification';
 				$notification_link = $group_link . 'admin/membership-requests/?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname ) . '">' . $text . '</a>', $group_link, $user_fullname, $group->name, $text, $notification_link );
+					/**
+					 * Filters groups single new membership request notification for string format.
+					 *
+					 * This is a dynamic filter that is dependent on item count and action.
+					 * Complete filter - bp_groups_single_new_membership_request_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for request.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $user_fullname     Full name of requesting user.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '" title="' . sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname ) . '">' . $text . '</a>', $group_link, $user_fullname, $group->name, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters groups single new membership request notification for any non-string format.
+					 *
+					 * This is a dynamic filter that is dependent on item count and action.
+					 * Complete filter - bp_groups_single_new_membership_request_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $user_fullname     Full name of requesting user.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $group_link, $user_fullname, $group->name, $text, $notification_link );
@@ -455,16 +515,41 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
+			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( '%d accepted group membership requests', 'buddypress' ), (int) $total_items, $group->name );
-				$filter = 'bp_groups_multiple_membership_request_accepted_notification';
+				$amount = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name, $text, $notification_link );
+					/**
+					 * Filters multiple accepted group membership requests notification for string format.
+					 * Complete filter - bp_groups_multiple_membership_request_accepted_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $total_items       Total number of accepted requests.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters multiple accepted group membership requests notification for non-string format.
+					 * Complete filter - bp_groups_multiple_membership_request_accepted_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification
+					 * @param int    $total_items       Total number of accepted requests.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $total_items, $group->name, $text, $notification_link );
@@ -475,8 +560,32 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = $group_link . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					/**
+					 * Filters single accepted group membership request notification for string format.
+					 * Complete filter - bp_groups_single_membership_request_accepted_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
+					/**
+					 * Filters single accepted group membership request notification for non-string format.
+					 * Complete filter - bp_groups_single_membership_request_accepted_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param string $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
 					return apply_filters( $filter, array(
 						'link' => $notification_link,
 						'text' => $text
@@ -491,29 +600,77 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
+			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( '%d rejected group membership requests', 'buddypress' ), (int) $total_items, $group->name );
-				$filter = 'bp_groups_multiple_membership_request_rejected_notification';
+				$amount = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name );
+					/**
+					 * Filters multiple rejected group membership requests notification for string format.
+					 * Complete filter - bp_groups_multiple_membership_request_rejected_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $group->name );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters multiple rejected group membership requests notification for non-string format.
+					 * Complete filter - bp_groups_multiple_membership_request_rejected_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $total_items, $group->name, $text, $notification_link );
 				}
 			} else {
 				$text = sprintf( __( 'Membership for group "%s" rejected', 'buddypress' ), $group->name );
-				$filter = 'bp_groups_single_membership_request_rejected_notification';
 				$notification_link = $group_link . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					/**
+					 * Filters single rejected group membership requests notification for string format.
+					 * Complete filter - bp_groups_single_membership_request_rejected_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters single rejected group membership requests notification for non-string format.
+					 * Complete filter - bp_groups_single_membership_request_rejected_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array              Array holding permalink and content for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $group_link, $group->name, $text, $notification_link );
@@ -527,29 +684,75 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
+			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( 'You were promoted to an admin in %d groups', 'buddypress' ), (int) $total_items );
-				$filter = 'bp_groups_multiple_member_promoted_to_admin_notification';
+				$amount = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					/**
+					 * Filters multiple promoted to group admin notification for string format.
+					 * Complete filter - bp_groups_multiple_member_promoted_to_admin_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters multiple promoted to group admin notification for non-string format.
+					 * Complete filter - bp_groups_multiple_member_promoted_to_admin_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $total_items, $text, $notification_link );
 				}
 			} else {
 				$text = sprintf( __( 'You were promoted to an admin in the group "%s"', 'buddypress' ), $group->name );
-				$filter = 'bp_groups_single_member_promoted_to_admin_notification';
 				$notification_link = $group_link . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					/**
+					 * Filters single promoted to group admin notification for non-string format.
+					 * Complete filter - bp_groups_single_member_promoted_to_admin_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters single promoted to group admin notification for non-string format.
+					 * Complete filter - bp_groups_single_member_promoted_to_admin_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $group_link, $group->name, $text, $notification_link );
@@ -563,29 +766,75 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
+			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( 'You were promoted to a mod in %d groups', 'buddypress' ), (int) $total_items );
-				$filter = 'bp_groups_multiple_member_promoted_to_mod_notification';
+				$amount = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					/**
+					 * Filters multiple promoted to group mod notification for string format.
+					 * Complete filter - bp_groups_multiple_member_promoted_to_mod_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '" title="' . __( 'Groups', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters multiple promoted to group mod notification for non-string format.
+					 * Complete filter - bp_groups_multiple_member_promoted_to_mod_notification.
+					 *
+					 * @since 1.0.0
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $total_items, $text, $notification_link );
 				}
 			} else {
 				$text = sprintf( __( 'You were promoted to a mod in the group "%s"', 'buddypress' ), $group->name );
-				$filter = 'bp_groups_single_member_promoted_to_mod_notification';
 				$notification_link = $group_link . '?n=1';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					/**
+					 * Filters single promoted to group mod notification for string format.
+					 * Complete filter - bp_groups_single_member_promoted_to_mod_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters single promoted to group admin notification for non-string format.
+					 * Complete filter - bp_groups_single_member_promoted_to_mod_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $group_link, $group->name, $text, $notification_link );
@@ -598,17 +847,40 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 			$group_link = bp_get_group_permalink( $group );
+			$amount = 'single';
 
 			$notification_link = bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/?n=1';
 
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int) $total_items );
-				$filter = 'bp_groups_multiple_group_invite_notification';
+				$amount = 'multiple';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '" title="' . __( 'Group Invites', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					/**
+					 * Filters multiple group invitation notification for string format.
+					 * Complete filter - bp_groups_multiple_group_invite_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '" title="' . __( 'Group Invites', 'buddypress' ) . '">' . $text . '</a>', $total_items, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters multiple group invitation notification for non-string format.
+					 * Complete filter - bp_groups_multiple_group_invite_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param int    $total_items       Total number of rejected requests.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $total_items, $text, $notification_link );
@@ -618,9 +890,33 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$filter = 'bp_groups_single_group_invite_notification';
 
 				if ( 'string' == $format ) {
-					return apply_filters( $filter, '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					/**
+					 * Filters single group invitation notification for string format.
+					 * Complete filter - bp_groups_single_group_invite_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param string $string            HTML anchor tag for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
-					return apply_filters( $filter, array(
+					/**
+					 * Filters single group invitation notification for non-string format.
+					 * Complete filter - bp_groups_single_group_invite_notification.
+					 *
+					 * @since BuddyPress (1.0.0)
+					 *
+					 * @param array  $array             Array holding permalink and content for notification.
+					 * @param int    $group_link        The permalink for the group.
+					 * @param string $group->name       Name of the group.
+					 * @param string $text              Notification content.
+					 * @param string $notification_link The permalink for notification.
+					 */
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', array(
 						'link' => $notification_link,
 						'text' => $text
 					), $group_link, $group->name, $text, $notification_link );
