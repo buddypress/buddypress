@@ -6,6 +6,17 @@
  */
 class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
+	protected $filter_fired;
+
+	public function setUp() {
+		parent::setUp();
+		$this->filter_fired = '';
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+	}
+
 	/**
 	 * @group friends_get_friendship_request_user_ids
 	 * @group friends_add_friend
@@ -226,5 +237,38 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		);
 
 		$this->assertSame( $expected, $found );
+	}
+
+	/**
+	 * @group friends_add_friend
+	 */
+	public function test_friends_add_friend_friends_friendship_requested() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		add_filter( 'friends_friendship_requested', array( $this, 'friends_friendship_filter_callback' ) );
+		$n = friends_add_friend( $u1, $u2, false );
+		remove_filter( 'friends_friendship_requested', array( $this, 'friends_friendship_filter_callback' ) );
+
+		$this->assertSame( 'friends_friendship_requested', $this->filter_fired );
+	}
+
+	/**
+	 * @group friends_add_friend
+	 */
+	public function test_friends_add_friend_friends_friendship_accepted() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		add_filter( 'friends_friendship_accepted', array( $this, 'friends_friendship_filter_callback' ) );
+		$n = friends_add_friend( $u1, $u2, true );
+		remove_filter( 'friends_friendship_accepted', array( $this, 'friends_friendship_filter_callback' ) );
+
+		$this->assertSame( 'friends_friendship_accepted', $this->filter_fired );
+	}
+
+	public function friends_friendship_filter_callback( $value ) {
+		$this->filter_fired = current_filter();
+		return $value;
 	}
 }

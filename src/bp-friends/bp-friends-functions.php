@@ -59,16 +59,28 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 
 	// Send notifications
 	if ( empty( $force_accept ) ) {
-		$action = 'friends_friendship_requested';
+		$action = 'requested';
 
 	// Update friend totals
 	} else {
-		$action = 'friends_friendship_accepted';
+		$action = 'accepted';
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id, 'add' );
 	}
 
-	// Call the above titled action and pass friendship data into it
-	do_action( $action, $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id, $friendship );
+	/**
+	 * Fires at the end of initiating a new friendship connection.
+	 *
+	 * This is a variable hook, depending on context.
+	 * The two potential hooks are: friends_friendship_requested, friends_friendship_accepted.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int    $id ID of the pending friendship connection.
+	 * @param int    $initiator_user_id ID of the friendship initiator.
+	 * @param int    $friend_user_id ID of the friend user.
+	 * @param object $friendship BuddyPress Friendship Object.
+	 */
+	do_action( 'friends_friendship_' . $action, $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id, $friendship );
 
 	return true;
 }
