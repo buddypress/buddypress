@@ -240,7 +240,7 @@ function bp_core_activation_notice() {
 
 	// Add notice if no rewrite rules are enabled
 	if ( empty( $wp_rewrite->permalink_structure ) ) {
-		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ) );
+		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ), 'error' );
 	}
 
 	// Get BuddyPress instance
