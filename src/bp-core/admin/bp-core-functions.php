@@ -119,7 +119,6 @@ function bp_core_admin_backpat_page() {
  * BuddyPress combines all its messages into a single notice, to avoid a preponderance of yellow
  * boxes.
  *
- * @package BuddyPress Core
  * @since BuddyPress (1.5)
  *
  * @uses bp_current_user_can() to check current user permissions before showing the notices
@@ -138,23 +137,22 @@ function bp_core_print_admin_notices() {
 		return;
 	}
 
-	// Get the admin notices
-	$admin_notices = buddypress()->admin->notices;
+	$notice_types = array();
+	foreach ( buddypress()->admin->notices as $notice ) {
+		$notice_types[] = $notice['type'];
+	}
+	$notice_types = array_unique( $notice_types );
 
-	// Show the messages
-	if ( !empty( $admin_notices ) ) : ?>
+	foreach ( $notice_types as $type ) {
+		$notices = wp_list_filter( buddypress()->admin->notices, array( 'type' => $type ) );
+		printf( '<div id="message" class="fade %s">', sanitize_html_class( $type ) );
 
-		<div id="message" class="updated fade">
+		foreach ( $notices as $notice ) {
+			printf( '<p>%s</p>', $notice['message'] );
+		}
 
-			<?php foreach ( $admin_notices as $notice ) : ?>
-
-				<p><?php echo $notice; ?></p>
-
-			<?php endforeach; ?>
-
-		</div>
-
-	<?php endif;
+		printf( '</div>' );
+	}
 }
 add_action( 'admin_notices',         'bp_core_print_admin_notices' );
 add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
@@ -166,12 +164,12 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * box. It is recommended that you hook this function to admin_init, so that your messages are
  * loaded in time.
  *
- * @package BuddyPress Core
  * @since BuddyPress (1.5)
  *
- * @param string $notice The notice you are adding to the queue
+ * @param string $notice The notice you are adding to the queue.
+ * @param string $type The notice type; optional. Usually either "updated" or "error".
  */
-function bp_core_add_admin_notice( $notice = '' ) {
+function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
 
 	// Do not add if the notice is empty
 	if ( empty( $notice ) ) {
@@ -184,7 +182,10 @@ function bp_core_add_admin_notice( $notice = '' ) {
 	}
 
 	// Add the notice
-	buddypress()->admin->notices[] = $notice;
+	buddypress()->admin->notices[] = array(
+		'message' => $notice,
+		'type'    => $type,
+	);
 }
 
 /**
