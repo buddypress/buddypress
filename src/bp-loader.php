@@ -11,7 +11,7 @@
 /**
  * Plugin Name: BuddyPress
  * Plugin URI:  http://buddypress.org
- * Description: Social networking in a box. Build a social network for your company, school, sports team or niche community all based on the power and flexibility of WordPress.
+ * Description: BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.
  * Author:      The BuddyPress Community
  * Author URI:  http://buddypress.org/community/members/
  * Version:     2.2-alpha

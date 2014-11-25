@@ -1,6 +1,6 @@
 {
 	"name": "buddypress/buddypress",
-	"description": "BuddyPress is a powerful (yet elegant) suite of social networking components, made the WordPress way, to help you build a flexible & robust community.",
+	"description": "BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.",
 	"type": "wordpress-plugin",
 	"keywords": [
 		"activity",

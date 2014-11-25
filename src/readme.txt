@@ -7,7 +7,7 @@ Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Social networking in a box. Build a social network for your company, school, sports team, or niche community.
+BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.
 
 == Description ==
 
