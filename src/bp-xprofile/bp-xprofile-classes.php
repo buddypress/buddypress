@@ -3716,7 +3716,7 @@ class BP_XProfile_Query {
 
 				case 'LIKE' :
 				case 'NOT LIKE' :
-					$field_value = '%' . $wpdb->esc_like( $field_value ) . '%';
+					$field_value = '%' . bp_esc_like( $field_value ) . '%';
 					$where = $wpdb->prepare( '%s', $field_value );
 					break;
 
