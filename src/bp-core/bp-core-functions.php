@@ -384,6 +384,11 @@ function bp_core_get_directory_page_ids() {
 				unset( $page_ids[ $component_name ] );
 			}
 
+			// 'register' and 'activate' do not have components, but should be whitelisted.
+			if ( bp_get_signup_allowed() && ( 'register' === $component_name || 'activate' === $component_name ) ) {
+				continue;
+			}
+
 			if ( ! bp_is_active( $component_name ) || 'trash' == get_post_status( $page_id ) ) {
 				unset( $page_ids[ $component_name ] );
 			}

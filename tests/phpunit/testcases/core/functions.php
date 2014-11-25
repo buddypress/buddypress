@@ -368,6 +368,45 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_get_directory_page_ids
+	 */
+	public function test_bp_core_get_directory_page_ids_should_contain_register_and_activet_pages_when_registration_is_open() {
+		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$ac = buddypress()->active_components;
+		bp_core_add_page_mappings( array_keys( $ac ) );
+
+		$page_ids = bp_core_get_directory_page_ids();
+		$page_names = array_keys( $page_ids );
+
+		$this->assertContains( 'register', $page_names );
+		$this->assertContains( 'activate', $page_names );
+
+		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+	}
+
+	/**
+	 * @group bp_core_get_directory_page_ids
+	 */
+	public function test_bp_core_get_directory_page_ids_should_not_contain_register_and_activet_pages_when_registration_is_closed() {
+
+		// Make sure the pages exist, to verify they're filtered out.
+		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+		$ac = buddypress()->active_components;
+		bp_core_add_page_mappings( array_keys( $ac ) );
+		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+		$page_ids = bp_core_get_directory_page_ids();
+		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+
+		$page_names = array_keys( $page_ids );
+
+		$this->assertNotContains( 'register', $page_names );
+		$this->assertNotContains( 'activate', $page_names );
+	}
+
+	/**
 	 * @group bp_core_get_directory_pages
 	 */
 	public function test_bp_core_get_directory_pages_pages_settings_update() {
