@@ -281,6 +281,93 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_get_directory_page_ids
+	 */
+	public function test_bp_core_get_directory_page_ids_on_directory_page_to_trash() {
+		$old_page_ids = bp_core_get_directory_page_ids();
+
+		// Grab the and remove the first page.
+		foreach ( $old_page_ids as $component => $page_id ) {
+			$p = $page_id;
+			unset( $old_page_ids[ $component ] );
+			break;
+		}
+
+		// Move page to trash.
+		wp_delete_post( $p, false );
+
+		$new_page_ids = bp_core_get_directory_page_ids();
+
+		$this->assertEquals( $old_page_ids, $new_page_ids );
+	}
+
+	/**
+	 * @group bp_core_get_directory_page_ids
+	 */
+	public function test_bp_core_get_directory_page_ids_on_directory_page_delete() {
+		$old_page_ids = bp_core_get_directory_page_ids();
+
+		// Grab the and remove the first page.
+		foreach ( $old_page_ids as $component => $page_id ) {
+			$p = $page_id;
+			unset( $old_page_ids[ $component ] );
+			break;
+		}
+
+		// Force delete page.
+		wp_delete_post( $p, true );
+
+		$new_page_ids = bp_core_get_directory_page_ids();
+
+		$this->assertEquals( $old_page_ids, $new_page_ids );
+	}
+
+	/**
+	 * @group bp_core_get_directory_page_ids
+	 */
+	public function test_bp_core_get_directory_page_ids_on_non_directory_page_delete() {
+		$old_page_ids = bp_core_get_directory_page_ids();
+
+		$p = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type' => 'page',
+		) );
+
+		// Force delete page.
+		wp_delete_post( $p, true );
+
+		$new_page_ids = bp_core_get_directory_page_ids();
+
+		$this->assertEquals( $old_page_ids, $new_page_ids );
+	}
+
+	/**
+	 * @group bp_core_get_directory_page_ids
+	 */
+	public function test_bp_core_get_directory_page_ids_non_active_component() {
+		$old_page_ids = bp_core_get_directory_page_ids();
+		$bp = buddypress();
+
+		// Grab the and remove the first page.
+		foreach ( $old_page_ids as $component => $page_id ) {
+			$p = $page_id;
+			$c = $component;
+			unset( $old_page_ids[ $component ] );
+			break;
+		}
+
+		// Deactivate component.
+		unset( $bp->active_components[ $c ] );
+
+		$new_page_ids = bp_core_get_directory_page_ids();
+
+		// Restore components.
+		$bp->active_components[ $c ] = 1;
+
+		$this->assertEquals( $old_page_ids, $new_page_ids );
+	}
+
+	/**
 	 * @group bp_core_get_directory_pages
 	 */
 	public function test_bp_core_get_directory_pages_pages_settings_update() {

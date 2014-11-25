@@ -381,7 +381,11 @@ function bp_core_get_directory_page_ids() {
 	if ( !empty( $page_ids ) && is_array( $page_ids ) ) {
 		foreach( (array) $page_ids as $component_name => $page_id ) {
 			if ( empty( $component_name ) || empty( $page_id ) ) {
-				unset( $page_ids[$component_name] );
+				unset( $page_ids[ $component_name ] );
+			}
+
+			if ( ! bp_is_active( $component_name ) || 'trash' == get_post_status( $page_id ) ) {
+				unset( $page_ids[ $component_name ] );
 			}
 		}
 	}
@@ -565,6 +569,25 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 		restore_current_blog();
 	}
 }
+
+/**
+ * Remove the entry from bp_pages when the corresponding WP page is deleted.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param int $post_id Post ID.
+ */
+function bp_core_on_directory_page_delete( $post_id ) {
+	$page_ids = bp_core_get_directory_page_ids();
+	$component_name = array_search( $post_id, $page_ids );
+
+	if ( ! empty( $component_name ) ) {
+		unset( $page_ids[ $component_name ] );
+	}
+
+	bp_core_update_directory_page_ids( $page_ids );
+}
+add_action( 'delete_post', 'bp_core_on_directory_page_delete' );
 
 /**
  * Create a default component slug from a WP page root_slug.
