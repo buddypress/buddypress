@@ -12,50 +12,45 @@ if ( !defined( 'ABSPATH' ) ) exit;
 /**
  * BuddyPress User Query class.
  *
- * Used for querying users in a BuddyPress context, in situations where
- * WP_User_Query won't do the trick: Member directories, the Friends component,
- * etc.
+ * Used for querying users in a BuddyPress context, in situations where WP_User_Query won't do the trick:
+ * Member directories, the Friends component, etc.
  *
  * @since BuddyPress (1.7.0)
  *
  * @param array $query {
  *     Query arguments. All items are optional.
- *     @type string $type Determines sort order. Select from 'newest', 'active',
- *           'online', 'random', 'popular', 'alphabetical'. Default: 'newest'.
- *     @type int $per_page Number of results to return. Default: 0 (no limit).
- *     @type int $page Page offset (together with $per_page). Default: 1.
- *     @type int $user_id ID of a user. If present, and if the friends
- *           component is activated, results will be limited to the friends of
- *           that user. Default: 0.
- *     @type string|bool $search_terms Terms to search by. Search happens
- *           across xprofile fields. Requires XProfile component.
- *           Default: false.
- *     @type string $search_wildcard When searching with $search_terms,
- *           set where wildcards around the term should be positioned.
- *           Default: 'both'. Other values: 'left', 'right'.
- *     @type array|string|bool $include An array or comma-separated list of
- *           user IDs to which query should be limited.
- *           Default: false.
- *     @type array|string|bool $exclude An array or comma-separated list of
- *           user IDs that will be excluded from query results. Default: false.
- *     @type array|string|bool $user_ids An array or comma-separated list of
- *           IDs corresponding to the users that should be returned. When this
- *           parameter is passed, it will override all others; BP User objects
- *           will be constructed using these IDs only. Default: false.
- *     @type string|bool $meta_key Limit results to users that have usermeta
- *           associated with this meta_key. Usually used with $meta_value.
- *           Default: false.
- *     @type string|bool $meta_value When used with $meta_key, limits results
- *           to users whose usermeta value associated with $meta_key matches
- *           $meta_value. Default: false.
- *     @type bool $populate_extras True if you want to fetch extra metadata
- *           about returned users, such as total group and friend counts.
- *     @type string $count_total Determines how BP_User_Query will do a count
- *           of total users matching the other filter criteria. Default value
- *           is 'count_query', which does a separate SELECT COUNT query to
- *           determine the total. 'sql_count_found_rows' uses
- *           SQL_COUNT_FOUND_ROWS and SELECT FOUND_ROWS(). Pass an empty string
- *           to skip the total user count query.
+ *     @type string            $type            Determines sort order. Select from 'newest', 'active', 'online',
+ *                                              'random', 'popular', 'alphabetical'. Default: 'newest'.
+ *     @type int               $per_page Number of results to return. Default: 0 (no limit).
+ *     @type int               $page            Page offset (together with $per_page). Default: 1.
+ *     @type int               $user_id         ID of a user. If present, and if the friends component is activated,
+ *                                              results will be limited to the friends of that user. Default: 0.
+ *     @type string|bool       $search_terms    Terms to search by. Search happens across xprofile fields. Requires
+ *                                              XProfile component. Default: false.
+ *     @type string            $search_wildcard When searching with $search_terms, set where wildcards around the term
+ *                                              should be positioned. Accepts 'both', 'left', 'right'. Default: 'both'.
+ *     @type array|string|bool $include         An array or comma-separated list of user IDs to which query should
+ *                                              be limited. Default: false.
+ *     @type array|string|bool $exclude         An array or comma-separated list of user IDs that will be excluded from
+ *                                              query results. Default: false.
+ *     @type array|string|bool $user_ids        An array or comma-separated list of IDs corresponding to the users
+ *                                              that should be returned. When this parameter is passed, it will
+ *                                              override all others; BP User objects will be constructed using these
+ *                                              IDs only. Default: false.
+ *     @type string|bool       $meta_key        Limit results to users that have usermeta associated with this meta_key.
+ *                                              Usually used with $meta_value. Default: false.
+ *     @type string|bool       $meta_value      When used with $meta_key, limits results to users whose usermeta value
+ *                                              associated with $meta_key matches $meta_value. Default: false.
+ *     @type array             $xprofile_query  Filter results by xprofile data. Requires the xprofile component. See
+ *                                              {@see BP_XProfile_Query} for details.
+ *     @type bool              $populate_extras True if you want to fetch extra metadata
+ *                                              about returned users, such as total group and friend counts.
+ *     @type string            $count_total     Determines how BP_User_Query will do a count of total users matching
+ *                                              the other filter criteria. Default value is 'count_query', which does
+ *                                              a separate SELECT COUNT query to determine the total.
+ *                                              'sql_count_found_rows' uses SQL_COUNT_FOUND_ROWS and
+ *                                              SELECT FOUND_ROWS(). Pass an empty string to skip the total user
+ *                                              count query.
  * }
  */
 class BP_User_Query {
@@ -115,6 +110,15 @@ class BP_User_Query {
 	public $uid_clauses = array();
 
 	/**
+	 * SQL table where the user ID is being fetched from.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 * @var string
+	 */
+	public $uid_table = '';
+
+	/**
 	 * SQL database column name to order by.
 	 *
 	 * @since BuddyPress (1.7.0)
@@ -162,6 +166,7 @@ class BP_User_Query {
 				'user_ids'        => false,
 				'meta_key'        => false,
 				'meta_value'      => false,
+				'xprofile_query'  => false,
 				'populate_extras' => true,
 				'count_total'     => 'count_query'
 			) );
@@ -249,7 +254,8 @@ class BP_User_Query {
 			// number of minutes used as an interval
 			case 'online' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$bp->members->table_name_last_activity} u";
+				$this->uid_table = $bp->members->table_name_last_activity;
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 				$sql['where'][] = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
 				$sql['where'][] = $wpdb->prepare( "u.date_recorded >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )", apply_filters( 'bp_user_query_online_interval', 15 ) );
 				$sql['orderby'] = "ORDER BY u.date_recorded";
@@ -263,7 +269,8 @@ class BP_User_Query {
 			case 'newest' :
 			case 'random' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$bp->members->table_name_last_activity} u";
+				$this->uid_table = $bp->members->table_name_last_activity;
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 				$sql['where'][] = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
 
 				if ( 'newest' == $type ) {
@@ -281,7 +288,8 @@ class BP_User_Query {
 			// 'popular' sorts by the 'total_friend_count' usermeta
 			case 'popular' :
 				$this->uid_name = 'user_id';
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->usermeta} u";
+				$this->uid_table = $wpdb->usermeta;
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'total_friend_count' ) );
 				$sql['orderby'] = "ORDER BY CONVERT(u.meta_value, SIGNED)";
 				$sql['order']   = "DESC";
@@ -298,7 +306,8 @@ class BP_User_Query {
 				// @todo remove need for bp_is_active() check
 				if ( ! bp_disable_profile_sync() || ! bp_is_active( 'xprofile' ) ) {
 					$this->uid_name = 'ID';
-					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->users} u";
+					$this->uid_table = $wpdb->users;
+					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 					$sql['orderby'] = "ORDER BY u.display_name";
 					$sql['order']   = "ASC";
 
@@ -306,7 +315,8 @@ class BP_User_Query {
 				// the xprofile table
 				} else {
 					$this->uid_name = 'user_id';
-					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$bp->profile->table_name_data} u";
+					$this->uid_table = $bp->profile->table_name_data;
+					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 					$sql['where'][] = $wpdb->prepare( "u.field_id = %d", bp_xprofile_fullname_field_id() );
 					$sql['orderby'] = "ORDER BY u.value";
 					$sql['order']   = "ASC";
@@ -322,7 +332,8 @@ class BP_User_Query {
 			// Any other 'type' falls through
 			default :
 				$this->uid_name = 'ID';
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$wpdb->users} u";
+				$this->uid_table = $wpdb->users;
+				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 
 				// In this case, we assume that a plugin is
 				// handling order, so we leave those clauses

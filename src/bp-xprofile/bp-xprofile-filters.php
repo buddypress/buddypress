@@ -323,6 +323,30 @@ function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_quer
 add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_populate_extras', 2, 2 );
 
 /**
+ * Parse 'xprofile_query' argument passed to BP_User_Query.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param BP_User_Query User query object.
+ */
+function bp_xprofile_add_xprofile_query_to_user_query( BP_User_Query $q ) {
+	global $wpdb;
+
+	if ( empty( $q->query_vars['xprofile_query'] ) ) {
+		return;
+	}
+
+	$xprofile_query = new BP_XProfile_Query( $q->query_vars['xprofile_query'] );
+	$sql = $xprofile_query->get_sql( 'u', $q->uid_name );
+
+	if ( ! empty( $sql['join'] ) ) {
+		$q->uid_clauses['select'] .= $sql['join'];
+		$q->uid_clauses['where'] .= $sql['where'];
+	}
+}
+add_action( 'bp_pre_user_query', 'bp_xprofile_add_xprofile_query_to_user_query' );
+
+/**
  * Filter meta queries to modify for the xprofile data schema.
  *
  * @since BuddyPress (2.0.0)
