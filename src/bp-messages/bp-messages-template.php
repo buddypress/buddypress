@@ -1467,11 +1467,10 @@ class BP_Messages_Thread_Template {
 	/**
 	 * Constructor method.
 	 *
-	 * @param int $thread_id ID of the message thread.
-	 * @param string $order 'ASC' or 'DESC'.
+	 * @see BP_Messages_Thread::populate() for full parameter info
 	 */
-	public function __construct( $thread_id, $order ) {
-		$this->thread        = new BP_Messages_Thread( $thread_id, $order );
+	public function __construct( $thread_id, $order, $args ) {
+		$this->thread        = new BP_Messages_Thread( $thread_id, $order, $args );
 		$this->message_count = count( $this->thread->messages );
 
 		$last_message_index                 = $this->message_count - 1;
@@ -1572,6 +1571,8 @@ class BP_Messages_Thread_Template {
  *           Default: if viewing a thread, the thread ID will be parsed from
  *           the URL (bp_action_variable( 0 )).
  *     @type string $order 'ASC' or 'DESC'. Default: 'ASC'.
+ *     @type bool $update_meta_cache Whether to pre-fetch metadata for
+ *           queried message items. Default: true.
  * }
  * @return bool True if there are messages to display, otherwise false.
  */
@@ -1579,15 +1580,20 @@ function bp_thread_has_messages( $args = '' ) {
 	global $thread_template;
 
 	$r = bp_parse_args( $args, array(
-		'thread_id' => false,
-		'order'     => 'ASC'
+		'thread_id'         => false,
+		'order'             => 'ASC',
+		'update_meta_cache' => true,
 	), 'thread_has_messages' );
 
 	if ( empty( $r['thread_id'] ) && bp_is_messages_component() && bp_is_current_action( 'view' ) ) {
 		$r['thread_id'] = (int) bp_action_variable( 0 );
 	}
 
-	$thread_template = new BP_Messages_Thread_Template( $r['thread_id'], $r['order'] );
+	// Set up extra args
+	$extra_args = $r;
+	unset( $extra_args['thread_id'], $extra_args['order'] );
+
+	$thread_template = new BP_Messages_Thread_Template( $r['thread_id'], $r['order'], $extra_args );
 
 	return $thread_template->has_messages();
 }

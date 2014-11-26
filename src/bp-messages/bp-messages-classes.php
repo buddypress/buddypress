@@ -109,12 +109,11 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param bool|int $thread_id The message thread ID.
-	 * @param string $order The order to sort the messages. Either 'ASC' or 'DESC'.
+	 * @see BP_Messages_Thread::populate() for full description of parameters
 	 */
-	public function __construct( $thread_id = false, $order = 'ASC' ) {
+	public function __construct( $thread_id = false, $order = 'ASC', $args = array() ) {
 		if ( $thread_id ) {
-			$this->populate( $thread_id, $order );
+			$this->populate( $thread_id, $order, $args );
 		}
 	}
 
@@ -127,14 +126,24 @@ class BP_Messages_Thread {
 	 *
 	 * @param int $thread_id The message thread ID.
 	 * @param string $order The order to sort the messages. Either 'ASC' or 'DESC'.
+	 * @param array $args {
+	 *     Array of arguments.
+	 *     @type bool $update_meta_cache Whether to pre-fetch metadata for
+	 *           queried message items. Default: true.
+	 * }
 	 * @return bool False on failure.
 	 */
-	public function populate( $thread_id, $order ) {
+	public function populate( $thread_id = 0, $order = 'ASC', $args = array() ) {
 		global $wpdb, $bp;
 
 		if( 'ASC' != $order && 'DESC' != $order ) {
-			$order= 'ASC';
+			$order = 'ASC';
 		}
+
+		// merge $args with our defaults
+		$r = wp_parse_args( $args, array(
+			'update_meta_cache' => true
+		) );
 
 		$this->messages_order = $order;
 		$this->thread_id      = $thread_id;
@@ -153,6 +162,11 @@ class BP_Messages_Thread {
 		// Get the unread count for the logged in user
 		if ( isset( $this->recipients[bp_loggedin_user_id()] ) ) {
 			$this->unread_count = $this->recipients[bp_loggedin_user_id()]->unread_count;
+		}
+
+		// Grab all message meta
+		if ( true === (bool) $r['update_meta_cache'] ) {
+			bp_messages_update_meta_cache( wp_list_pluck( $this->messages, 'id' ) );
 		}
 
 		/**
@@ -325,7 +339,9 @@ class BP_Messages_Thread {
 
 		$threads = false;
 		foreach ( (array) $sorted_threads as $thread_id => $date_sent ) {
-			$threads[] = new BP_Messages_Thread( $thread_id );
+			$threads[] = new BP_Messages_Thread( $thread_id, 'ASC', array(
+				'update_meta_cache' => false
+			) );
 		}
 
 		/**
