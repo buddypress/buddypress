@@ -1998,15 +1998,47 @@ function bp_the_thread_message_content() {
 /**
  * Enable oEmbed support for Messages.
  *
- * There's no caching as BP 1.5 does not have a Messages meta API.
- *
  * @since BuddyPress (1.5.0)
  *
  * @see BP_Embed
- *
- * @todo Add Messages meta?
  */
 function bp_messages_embed() {
-	add_filter( 'embed_post_id', 'bp_get_the_thread_message_id' );
+	add_filter( 'embed_post_id',         'bp_get_the_thread_message_id' );
+	add_filter( 'bp_embed_get_cache',    'bp_embed_message_cache',      10, 3 );
+	add_action( 'bp_embed_update_cache', 'bp_embed_message_save_cache', 10, 3 );
 }
 add_action( 'thread_loop_start', 'bp_messages_embed' );
+
+/**
+ * Fetch a private message item's cached embeds.
+ *
+ * Used during {@link BP_Embed::parse_oembed()} via {@link bp_messages_embed()}.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param string $cache An empty string passed by BP_Embed::parse_oembed() for
+ *        functions like this one to filter.
+ * @param int $id The ID of the message item.
+ * @param string $cachekey The cache key generated in BP_Embed::parse_oembed().
+ * @return mixed The cached embeds for this message item.
+ */
+function bp_embed_message_cache( $cache, $id, $cachekey ) {
+	return bp_messages_get_meta( $id, $cachekey );
+}
+
+/**
+ * Set a private message item's embed cache.
+ *
+ * Used during {@link BP_Embed::parse_oembed()} via {@link bp_messages_embed()}.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param string $cache An empty string passed by BP_Embed::parse_oembed() for
+ *        functions like this one to filter.
+ * @param string $cachekey The cache key generated in BP_Embed::parse_oembed().
+ * @param int $id The ID of the message item.
+ * @return bool True on success, false on failure.
+ */
+function bp_embed_message_save_cache( $cache, $cachekey, $id ) {
+	bp_messages_update_meta( $id, $cachekey, $cache );
+}
