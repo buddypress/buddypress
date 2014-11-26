@@ -2007,6 +2007,6 @@ function bp_the_thread_message_content() {
  * @todo Add Messages meta?
  */
 function bp_messages_embed() {
-	add_filter( 'embed_post_id', 'bp_get_message_thread_id' );
+	add_filter( 'embed_post_id', 'bp_get_the_thread_message_id' );
 }
-add_action( 'messages_box_loop_start', 'bp_messages_embed' );
+add_action( 'thread_loop_start', 'bp_messages_embed' );

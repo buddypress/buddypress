@@ -1298,6 +1298,8 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 
 		bp_thread_has_messages( array( 'thread_id' => (int) $_REQUEST['thread_id'] ) );
 
+		bp_thread_the_message();
+
 		if ( $thread_template->message_count % 2 == 1 ) {
 			$class = 'odd';
 		} else {
