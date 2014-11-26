@@ -232,7 +232,10 @@ class BP_Messages_Thread {
 	/** Static Functions ******************************************************/
 
 	/**
-	 * Delete a message thread.
+	 * Mark messages in a thread as deleted or delete all messages in a thread.
+	 *
+	 * Note: All messages in a thread are deleted once every recipient in a thread
+	 * has marked the thread as deleted.
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
@@ -243,25 +246,38 @@ class BP_Messages_Thread {
 		global $wpdb, $bp;
 
 		/**
-		 * Fires before a message thread is deleted.
+		 * Fires before a message thread is marked as deleted.
 		 *
 		 * @since BuddyPress (2.2.0)
 		 *
 		 * @param int $thread_id ID of the thread being deleted.
 		 */
-		do_action( 'bp_messages_thread_before_delete', $thread_id );
+		do_action( 'bp_messages_thread_before_mark_delete', $thread_id );
 
 		// Mark messages as deleted
+		//
+		// @todo the reliance on bp_loggedin_user_id() sucks for plugins
+		//       refactor this method to accept a $user_id parameter
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, bp_loggedin_user_id() ) );
 
 		// Get the message ids in order to pass to the action
 		$message_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id ) );
 
 		// Check to see if any more recipients remain for this message
-		// if not, then delete the message from the database.
 		$recipients = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND is_deleted = 0", $thread_id ) );
 
+		// No more recipients so delete all messages associated with the thread
 		if ( empty( $recipients ) ) {
+			/**
+			 * Fires before an entire message thread is deleted.
+			 *
+			 * @since BuddyPress (2.2.0)
+			 *
+			 * @param int   $thread_id   ID of the thread being deleted.
+			 * @param array $message_ids IDs of messages being deleted.
+			 */
+			do_action( 'bp_messages_thread_before_delete', $thread_id, $message_ids );
+
 			// Delete all the messages
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id ) );
 
