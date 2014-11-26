@@ -186,7 +186,7 @@ function xprofile_admin_manage_group( $group_id = null ) {
 			$group->description	= !empty( $_POST['group_description'] ) ? wp_filter_kses( $_POST['group_description'] ) : '';
 
 			if ( !$group->save() ) {
-				$message = __( 'There was an error saving the group. Please try again', 'buddypress' );
+				$message = __( 'There was an error saving the group. Please try again.', 'buddypress' );
 				$type    = 'error';
 			} else {
 				$message = __( 'The group was saved successfully.', 'buddypress' );
@@ -218,7 +218,7 @@ function xprofile_admin_delete_group( $group_id ) {
 	$group = new BP_XProfile_Group( $group_id );
 
 	if ( !$group->delete() ) {
-		$message = __( 'There was an error deleting the group. Please try again', 'buddypress' );
+		$message = __( 'There was an error deleting the group. Please try again.', 'buddypress' );
 		$type    = 'error';
 	} else {
 		$message = __( 'The group was deleted successfully.', 'buddypress' );
@@ -262,7 +262,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field_id = $field->save();
 
 			if ( !$field_id ) {
-				$message = __( 'There was an error saving the field. Please try again', 'buddypress' );
+				$message = __( 'There was an error saving the field. Please try again.', 'buddypress' );
 				$type = 'error';
 
 				unset( $_GET['mode'] );
@@ -317,7 +317,7 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 	$field       = new BP_XProfile_Field( $field_id );
 
 	if ( !$field->delete( (bool) $delete_data ) ) {
-		$message = sprintf( __( 'There was an error deleting the %s. Please try again', 'buddypress' ), $field_type );
+		$message = sprintf( __( 'There was an error deleting the %s. Please try again.', 'buddypress' ), $field_type );
 		$type    = 'error';
 	} else {
 		$message = sprintf( __( 'The %s was deleted successfully!', 'buddypress' ), $field_type );

@@ -576,7 +576,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	);
 
 	if ( ! bp_core_check_avatar_upload( $file ) ) {
-		bp_core_add_message( sprintf( __( 'Your upload failed, please try again. Error was: %s', 'buddypress' ), $uploadErrors[$file['file']['error']] ), 'error' );
+		bp_core_add_message( sprintf( __( 'Your upload failed. Please try again. Error was: %s', 'buddypress' ), $uploadErrors[$file['file']['error']] ), 'error' );
 		return false;
 	}
 

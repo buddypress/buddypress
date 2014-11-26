@@ -308,7 +308,7 @@ class BP_Members_Admin {
 			case 'avatar':
 				$notice = array(
 					'class'   => 'error',
-					'message' => __( 'There was a problem deleting that avatar, please try again.', 'buddypress' )
+					'message' => __( 'There was a problem deleting that avatar. Please try again.', 'buddypress' )
 				);
 				break;
 			case 'ham' :
@@ -338,7 +338,7 @@ class BP_Members_Admin {
 			case 3:
 				$notice = array(
 					'class'   => 'error',
-					'message' => __( 'There was a problem updating some of your profile information, please try again.', 'buddypress' )
+					'message' => __( 'There was a problem updating some of your profile information. Please try again.', 'buddypress' )
 				);
 				break;
 			}
@@ -1522,21 +1522,21 @@ class BP_Members_Admin {
 				case 'do_resend':
 					$notice = array(
 						'class'   => 'error',
-						'message' => esc_html__( 'There was a problem sending the activation emails, please try again.', 'buddypress' ),
+						'message' => esc_html__( 'There was a problem sending the activation emails. Please try again.', 'buddypress' ),
 					);
 					break;
 
 				case 'do_activate':
 					$notice = array(
 						'class'   => 'error',
-						'message' => esc_html__( 'There was a problem activating accounts, please try again.', 'buddypress' ),
+						'message' => esc_html__( 'There was a problem activating accounts. Please try again.', 'buddypress' ),
 					);
 					break;
 
 				case 'do_delete':
 					$notice = array(
 						'class'   => 'error',
-						'message' => esc_html__( 'There was a problem deleting sign-ups, please try again.', 'buddypress' ),
+						'message' => esc_html__( 'There was a problem deleting sign-ups. Please try again.', 'buddypress' ),
 					);
 					break;
 			}

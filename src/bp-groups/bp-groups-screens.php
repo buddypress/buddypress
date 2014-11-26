@@ -524,7 +524,7 @@ function groups_screen_group_request_membership() {
 		if ( groups_accept_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
 			bp_core_add_message( __( 'Group invite accepted', 'buddypress' ) );
 		else
-			bp_core_add_message( __( 'There was an error accepting the group invitation; please try again.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was an error accepting the group invitation. Please try again.', 'buddypress' ), 'error' );
 		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 	}
 
@@ -536,7 +536,7 @@ function groups_screen_group_request_membership() {
 			return false;
 
 		if ( !groups_send_membership_request( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
-			bp_core_add_message( __( 'There was an error sending your group membership request; please try again.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was an error sending your group membership request. Please try again.', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );
 		}
@@ -596,7 +596,7 @@ function groups_screen_group_admin_edit_details() {
 			$group_notify_members = isset( $_POST['group-notify-members'] ) ? (int) $_POST['group-notify-members'] : 0;
 
 			if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $group_notify_members ) ) {
-				bp_core_add_message( __( 'There was an error updating group details; please try again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error updating group details. Please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
 			}
@@ -643,7 +643,7 @@ function groups_screen_group_admin_settings() {
 			return false;
 
 		if ( !groups_edit_group_settings( $_POST['group-id'], $enable_forum, $status, $invite_status ) ) {
-			bp_core_add_message( __( 'There was an error updating group settings; please try again.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was an error updating group settings. Please try again.', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Group settings were successfully updated.', 'buddypress' ) );
 		}
@@ -682,7 +682,7 @@ function groups_screen_group_admin_avatar() {
 		if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group' ) ) ) {
 			bp_core_add_message( __( 'The group profile photo was deleted successfully!', 'buddypress' ) );
 		} else {
-			bp_core_add_message( __( 'There was a problem deleting the group profile photo; please try again.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was a problem deleting the group profile photo. Please try again.', 'buddypress' ), 'error' );
 		}
 	}
 
@@ -761,7 +761,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Promote a user.
 			if ( !groups_promote_member( $user_id, $bp->groups->current_group->id, $status ) )
-				bp_core_add_message( __( 'There was an error when promoting that user, please try again', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error when promoting that user. Please try again.', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'User promoted successfully', 'buddypress' ) );
 
@@ -786,7 +786,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Demote a user.
 			elseif ( !groups_demote_member( $user_id, $bp->groups->current_group->id ) )
-				bp_core_add_message( __( 'There was an error when demoting that user; please try again', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error when demoting that user. Please try again.', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'User demoted successfully', 'buddypress' ) );
 
@@ -804,7 +804,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Ban a user.
 			if ( !groups_ban_member( $user_id, $bp->groups->current_group->id ) )
-				bp_core_add_message( __( 'There was an error when banning that user; please try again', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error when banning that user. Please try again.', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'User banned successfully', 'buddypress' ) );
 
@@ -822,7 +822,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Remove a ban for user.
 			if ( !groups_unban_member( $user_id, $bp->groups->current_group->id ) )
-				bp_core_add_message( __( 'There was an error when unbanning that user, please try again', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error when unbanning that user. Please try again.', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'User ban removed successfully', 'buddypress' ) );
 
@@ -840,7 +840,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Remove a user.
 			if ( !groups_remove_member( $user_id, $bp->groups->current_group->id ) )
-				bp_core_add_message( __( 'There was an error removing that user from the group; please try again', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error removing that user from the group. Please try again.', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'User removed successfully', 'buddypress' ) );
 
@@ -882,7 +882,7 @@ function groups_screen_group_admin_requests() {
 
 			// Accept the membership request
 			if ( !groups_accept_membership_request( $membership_id ) )
-				bp_core_add_message( __( 'There was an error accepting the membership request; please try again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error accepting the membership request. Please try again.', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'Group membership request accepted', 'buddypress' ) );
 
@@ -893,7 +893,7 @@ function groups_screen_group_admin_requests() {
 
 			// Reject the membership request
 			if ( !groups_reject_membership_request( $membership_id ) )
-				bp_core_add_message( __( 'There was an error rejecting the membership request; please try again.', 'buddypress' ), 'error' );
+				bp_core_add_message( __( 'There was an error rejecting the membership request. Please try again.', 'buddypress' ), 'error' );
 			else
 				bp_core_add_message( __( 'Group membership request rejected', 'buddypress' ) );
 		}
@@ -930,7 +930,7 @@ function groups_screen_group_admin_delete_group() {
 
 		// Group admin has deleted the group, now do it.
 		if ( !groups_delete_group( $bp->groups->current_group->id ) ) {
-			bp_core_add_message( __( 'There was an error deleting the group; please try again.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was an error deleting the group. Please try again.', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'The group was deleted successfully', 'buddypress' ) );
 

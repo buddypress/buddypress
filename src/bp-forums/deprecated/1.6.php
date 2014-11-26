@@ -140,7 +140,7 @@ function bp_forums_bbpress_install_wizard() {
 		case 'existing':
 			if ( isset( $_REQUEST['doinstall'] ) && ( 1 == (int) $_REQUEST['doinstall'] ) ) {
 				if ( !bp_forums_configure_existing_install() ) {
-					_e( 'The bb-config.php file was not found at that location, please try again.', 'buddypress' );
+					_e( 'The bb-config.php file was not found at that location. Please try again.', 'buddypress' );
 				} else {
 					?>
 					<h3><?php _e( 'Forums were set up correctly using your existing bbPress install!', 'buddypress' ) ?></h3>

@@ -61,7 +61,7 @@ function messages_screen_compose() {
 
 		// Check we have what we need
 		if ( empty( $_POST['subject'] ) || empty( $_POST['content'] ) ) {
-			bp_core_add_message( __( 'There was an error sending that message, please try again', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was an error sending that message. Please try again.', 'buddypress' ), 'error' );
 		} else {
 			// If this is a notice, send it
 			if ( isset( $_POST['send-notice'] ) ) {
@@ -69,7 +69,7 @@ function messages_screen_compose() {
 					bp_core_add_message( __( 'Notice sent successfully!', 'buddypress' ) );
 					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox/' );
 				} else {
-					bp_core_add_message( __( 'There was an error sending that notice, please try again', 'buddypress' ), 'error' );
+					bp_core_add_message( __( 'There was an error sending that notice. Please try again.', 'buddypress' ), 'error' );
 				}
 			} else {
 				// Filter recipients into the format we need - array( 'username/userid', 'username/userid' )
@@ -88,7 +88,7 @@ function messages_screen_compose() {
 					bp_core_add_message( __( 'Message sent successfully!', 'buddypress' ) );
 					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id . '/' );
 				} else {
-					bp_core_add_message( __( 'There was an error sending that message, please try again', 'buddypress' ), 'error' );
+					bp_core_add_message( __( 'There was an error sending that message. Please try again.', 'buddypress' ), 'error' );
 				}
 			}
 		}

@@ -47,7 +47,7 @@ function messages_action_conversation() {
 		if ( ! empty( $new_reply ) ) {
 			bp_core_add_message( __( 'Your reply was sent successfully', 'buddypress' ) );
 		} else {
-			bp_core_add_message( __( 'There was a problem sending your reply, please try again', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'There was a problem sending your reply. Please try again.', 'buddypress' ), 'error' );
 		}
 
 		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id . '/' );

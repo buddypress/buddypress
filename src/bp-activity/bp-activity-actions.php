@@ -362,7 +362,7 @@ function bp_activity_action_post_update() {
 	if ( !empty( $activity_id ) )
 		bp_core_add_message( __( 'Update Posted!', 'buddypress' ) );
 	else
-		bp_core_add_message( __( 'There was an error when posting your update, please try again.', 'buddypress' ), 'error' );
+		bp_core_add_message( __( 'There was an error when posting your update. Please try again.', 'buddypress' ), 'error' );
 
 	// Redirect
 	bp_core_redirect( wp_get_referer() );
@@ -427,7 +427,7 @@ function bp_activity_action_post_comment() {
 	if ( !empty( $comment_id ) )
 		bp_core_add_message( __( 'Reply Posted!', 'buddypress' ) );
 	else
-		bp_core_add_message( __( 'There was an error posting that reply, please try again.', 'buddypress' ), 'error' );
+		bp_core_add_message( __( 'There was an error posting that reply. Please try again.', 'buddypress' ), 'error' );
 
 	bp_core_redirect( wp_get_referer() . '#ac-form-' . $activity_id );
 }
@@ -461,7 +461,7 @@ function bp_activity_action_mark_favorite() {
 	if ( bp_activity_add_user_favorite( bp_action_variable( 0 ) ) )
 		bp_core_add_message( __( 'Activity marked as favorite.', 'buddypress' ) );
 	else
-		bp_core_add_message( __( 'There was an error marking that activity as a favorite, please try again.', 'buddypress' ), 'error' );
+		bp_core_add_message( __( 'There was an error marking that activity as a favorite. Please try again.', 'buddypress' ), 'error' );
 
 	bp_core_redirect( wp_get_referer() . '#activity-' . bp_action_variable( 0 ) );
 }
@@ -495,7 +495,7 @@ function bp_activity_action_remove_favorite() {
 	if ( bp_activity_remove_user_favorite( bp_action_variable( 0 ) ) )
 		bp_core_add_message( __( 'Activity removed as favorite.', 'buddypress' ) );
 	else
-		bp_core_add_message( __( 'There was an error removing that activity as a favorite, please try again.', 'buddypress' ), 'error' );
+		bp_core_add_message( __( 'There was an error removing that activity as a favorite. Please try again.', 'buddypress' ), 'error' );
 
 	bp_core_redirect( wp_get_referer() . '#activity-' . bp_action_variable( 0 ) );
 }
