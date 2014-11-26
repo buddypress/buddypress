@@ -188,6 +188,73 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_sort_by_key
+	 */
+	public function test_bp_sort_by_key_arrays_num() {
+		$items = array(
+			array(
+				'foo' => 'bar',
+				'value' => 5,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 10,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 1,
+			),
+		);
+
+		$expected = array(
+			array(
+				'foo' => 'bar',
+				'value' => 1,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 5,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 10,
+			),
+		);
+
+		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
+	}
+
+	/**
+	 * @group bp_sort_by_key
+	 */
+	public function test_bp_sort_by_key_objects_num() {
+		$items = array(
+			new stdClass,
+			new stdClass,
+			new stdClass,
+		);
+		$items[0]->foo = 'bar';
+		$items[0]->value = 5;
+		$items[1]->foo = 'bar';
+		$items[1]->value = 10;
+		$items[2]->foo = 'bar';
+		$items[2]->value = 1;
+
+		$expected = array(
+			new stdClass,
+			new stdClass,
+			new stdClass,
+		);
+		$expected[0]->foo = 'bar';
+		$expected[0]->value = 1;
+		$expected[1]->foo = 'bar';
+		$expected[1]->value = 5;
+		$expected[2]->foo = 'bar';
+		$expected[2]->value = 10;
+
+		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
+	}
+	/**
 	 * @group bp_alpha_sort_by_key
 	 */
 	public function test_bp_alpha_sort_by_key_arrays() {
