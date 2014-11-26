@@ -254,6 +254,44 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
 	}
+
+	/**
+	 * @group bp_sort_by_key
+	 */
+	public function test_bp_sort_by_key_num_should_respect_0() {
+		$items = array(
+			array(
+				'foo' => 'bar',
+				'value' => 2,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 0,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 4,
+			),
+		);
+
+		$expected = array(
+			array(
+				'foo' => 'bar',
+				'value' => 0,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 2,
+			),
+			array(
+				'foo' => 'bar',
+				'value' => 4,
+			),
+		);
+
+		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num' ) );
+	}
+
 	/**
 	 * @group bp_alpha_sort_by_key
 	 */

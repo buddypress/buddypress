@@ -117,7 +117,7 @@ function bp_sort_by_key( $items, $key, $type = 'alpha' ) {
 			}
 		}
 
-		if ( $values[0] && $values[1] ) {
+		if ( isset( $values[0], $values[1] ) ) {
 			if ( "num" === "' . $type . '" ) {
 				$cmp = $values[0] - $values[1];
 			} else {
