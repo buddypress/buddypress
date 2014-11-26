@@ -1801,11 +1801,15 @@ function bp_signup_allowed() {
 	 * @return bool
 	 */
 	function bp_get_signup_allowed() {
-		global $bp;
+		$bp = buddypress();
 
 		$signup_allowed = false;
 
 		if ( is_multisite() ) {
+			if ( ! isset( $bp->site_options ) ) {
+				$bp->site_options = bp_core_get_root_options();
+			}
+
 			if ( in_array( $bp->site_options['registration'], array( 'all', 'user' ) ) ) {
 				$signup_allowed = true;
 			}
