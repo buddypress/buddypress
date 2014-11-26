@@ -12,6 +12,29 @@
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Slurp up metadata for a set of messages.
+ *
+ * It grabs all message meta associated with all of the messages passed in
+ * $message_ids and adds it to WP cache. This improves efficiency when using
+ * message meta within a loop context.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param int|str|array $message_ids Accepts a single message_id, or a
+ *        comma-separated list or array of message ids.
+ */
+function bp_messages_update_meta_cache( $message_ids = false ) {
+	bp_update_meta_cache( array(
+		'object_ids' 	   => $message_ids,
+		'object_type' 	   => buddypress()->messages->id,
+		'cache_group'      => 'message_meta',
+		'object_column'    => 'message_id',
+		'meta_table' 	   => buddypress()->messages->table_name_meta,
+		'cache_key_prefix' => 'bp_messages_meta'
+	) );
+}
+
 // List actions to clear super cached pages on, if super cache is installed
 add_action( 'messages_delete_thread',  'bp_core_clear_cache' );
 add_action( 'messages_send_notice',    'bp_core_clear_cache' );

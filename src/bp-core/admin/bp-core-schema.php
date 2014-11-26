@@ -304,6 +304,15 @@ function bp_core_install_private_messaging() {
 				KEY is_active (is_active)
 			) {$charset_collate};";
 
+	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_meta (
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				message_id bigint(20) NOT NULL,
+				meta_key varchar(255) DEFAULT NULL,
+				meta_value longtext DEFAULT NULL,
+				KEY message_id (message_id),
+				KEY meta_key (meta_key)
+			) {$charset_collate};";
+
 	dbDelta( $sql );
 }
 
