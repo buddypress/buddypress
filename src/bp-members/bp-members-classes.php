@@ -294,8 +294,6 @@ class BP_Signup {
 	public static function add_backcompat( $user_login = '', $user_password = '', $user_email = '', $usermeta = array() ) {
 		global $wpdb;
 
-		$errors = new WP_Error();
-
 		$user_id = wp_insert_user( array(
 			'user_login'   => $user_login,
 			'user_pass'    => $user_password,
@@ -304,8 +302,7 @@ class BP_Signup {
 		) );
 
 		if ( is_wp_error( $user_id ) || empty( $user_id ) ) {
-			$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you. Please contact the <a href="mailto:%s">webmaster</a>.', 'buddypress' ), bp_get_option( 'admin_email' ) ) );
-			return $errors;
+			return $user_id;
 		}
 
 		// Update the user status to '2', ie "not activated"
