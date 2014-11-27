@@ -142,7 +142,7 @@ Regards,
 
 					// We mark that the change has taken place so as to ensure a
 					// success message, even though verification is still required
-					$_POST['email'] = $current_user->user_email;
+					$_POST['email'] = $update_user->user_email;
 					$email_changed = true;
 				}
 
