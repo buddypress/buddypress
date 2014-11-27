@@ -235,6 +235,9 @@ function groups_action_create_group() {
 			unset( $bp->groups->current_create_step );
 			unset( $bp->groups->completed_create_steps );
 
+			setcookie( 'bp_new_group_id', false, time() - 3600, COOKIEPATH );
+			setcookie( 'bp_completed_create_steps', false, time() - 3600, COOKIEPATH );
+
 			// Once we compelete all steps, record the group creation in the activity stream.
 			groups_record_activity( array(
 				'type' => 'created_group',
