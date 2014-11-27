@@ -1,8 +1,5 @@
 language: php
 
-git:
-    depth: 1
-
 php:
     - 5.2
     - 5.3
