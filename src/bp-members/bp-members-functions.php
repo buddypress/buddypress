@@ -1583,7 +1583,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 			}
 
 			$activation_key = wp_hash( $user_id );
-			update_user_meta( $user_id, 'activation_key', $activation_key );
+			bp_update_user_meta( $user_id, 'activation_key', $activation_key );
 		}
 
 		$args = array(
