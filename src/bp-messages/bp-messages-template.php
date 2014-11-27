@@ -725,7 +725,9 @@ function bp_message_thread_total_count( $thread_id = false ) {
 			$thread_id = bp_get_message_thread_id();
 		}
 
-		$thread_template = new BP_Messages_Thread_Template( $thread_id, 'ASC' );
+		$thread_template = new BP_Messages_Thread_Template( $thread_id, 'ASC', array(
+			'update_meta_cache' => false
+		) );
 
 		$count = 0;
 		if ( ! empty( $thread_template->message_count ) ) {
@@ -1469,7 +1471,7 @@ class BP_Messages_Thread_Template {
 	 *
 	 * @see BP_Messages_Thread::populate() for full parameter info
 	 */
-	public function __construct( $thread_id, $order, $args ) {
+	public function __construct( $thread_id = 0, $order = 'ASC', $args = array() ) {
 		$this->thread        = new BP_Messages_Thread( $thread_id, $order, $args );
 		$this->message_count = count( $this->thread->messages );
 
