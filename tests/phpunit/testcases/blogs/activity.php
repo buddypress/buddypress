@@ -2,6 +2,25 @@
 
 class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
+	 * @group bp_blogs_register_activity_actions
+	 * @group activity_tracking
+	 */
+	public function test_bp_blogs_loader_post_tracking_args_filter() {
+		$bp = buddypress();
+
+		$expected = array( 'new_blog_post', 'new_blog_comment' );
+
+		if ( is_multisite() ) {
+			$expected = array_merge( array( 'new_blog' ), $expected );
+		}
+
+		$actions = bp_activity_get_actions();
+		$actions = array_keys( (array) $actions->blogs );
+
+		$this->assertEquals( $expected, $actions );
+	}
+
+	/**
 	 * @group activity_action
 	 * @group bp_blogs_format_activity_action_new_blog
 	 */

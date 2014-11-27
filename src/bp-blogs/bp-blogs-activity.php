@@ -33,27 +33,23 @@ function bp_blogs_register_activity_actions() {
 			'new_blog',
 			__( 'New site created', 'buddypress' ),
 			'bp_blogs_format_activity_action_new_blog',
-			__( 'New Sites', 'buddypress' )
+			__( 'New Sites', 'buddypress' ),
+			0
 		);
 	}
 
-	bp_activity_set_action(
-		$bp->blogs->id,
-		'new_blog_post',
-		__( 'New post published', 'buddypress' ),
-		'bp_blogs_format_activity_action_new_blog_post',
-		__( 'Posts', 'buddypress' ),
-		array( 'activity', 'member' )
-	);
-
-	bp_activity_set_action(
-		$bp->blogs->id,
-		'new_blog_comment',
-		__( 'New post comment posted', 'buddypress' ),
-		'bp_blogs_format_activity_action_new_blog_comment',
-		__( 'Comments', 'buddypress' ),
-		array( 'activity', 'member' )
-	);
+	// Only add the comment type if the 'post' post type is trackable
+	if ( post_type_supports( 'post', 'buddypress-activity' ) ) {
+		bp_activity_set_action(
+			$bp->blogs->id,
+			'new_blog_comment',
+			__( 'New post comment posted', 'buddypress' ),
+			'bp_blogs_format_activity_action_new_blog_comment',
+			__( 'Comments', 'buddypress' ),
+			array( 'activity', 'member' ),
+			10
+		);
+	}
 
 	do_action( 'bp_blogs_register_activity_actions' );
 }
@@ -108,9 +104,17 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 		bp_blogs_update_blogmeta( $activity->item_id, 'name', $blog_name );
 	}
 
-	$post_url = add_query_arg( 'p', $activity->secondary_item_id, trailingslashit( $blog_url ) );
+	if ( empty( $activity->post_url ) ) {
+		$post_url = add_query_arg( 'p', $activity->secondary_item_id, trailingslashit( $blog_url ) );
+	} else {
+		$post_url = $activity->post_url;
+	}
 
-	$post_title = bp_activity_get_meta( $activity->id, 'post_title' );
+	if ( empty( $activity->post_title ) ) {
+		$post_title = bp_activity_get_meta( $activity->id, 'post_title' );
+	} else {
+		$post_title = $activity->post_title;
+	}
 
 	// Should only be empty at the time of post creation
 	if ( empty( $post_title ) ) {

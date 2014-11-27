@@ -766,3 +766,47 @@ function bp_ajax_get_suggestions() {
 	wp_send_json_success( $results );
 }
 add_action( 'wp_ajax_bp_get_suggestions', 'bp_ajax_get_suggestions' );
+
+/**
+ * Detect a change in post type status, and initiate an activity update if necessary.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @todo Support untrashing better.
+ *
+ * @param string $new_status New status for the post.
+ * @param string $old_status Old status for the post.
+ * @param object $post       Post data.
+ */
+function bp_activity_catch_transition_post_type_status( $new_status, $old_status, $post ) {
+	if ( ! post_type_supports( $post->post_type, 'buddypress-activity' ) ) {
+		return;
+	}
+
+	// This is an edit.
+	if ( $new_status === $old_status ) {
+		// An edit of an existing post should update the existing activity item.
+		if ( $new_status == 'publish' ) {
+			bp_activity_post_type_update( $post );
+		}
+
+		return;
+	}
+
+	// Publishing a previously unpublished post.
+	if ( 'publish' === $new_status ) {
+		// Untrashing the post type - nothing here yet.
+		if ( 'trash' == $old_status ) {
+			do_action( 'bp_activity_post_type_untrash_' . $post->post_type, $post );
+		} else {
+			// Record the post.
+			bp_activity_post_type_publish( $post->ID, $post );
+		}
+
+	// Unpublishing a previously published post.
+	} else if ( 'publish' === $old_status ) {
+		// Some form of pending status - only remove the activity entry
+		bp_activity_post_type_unpublish( $post->ID, $post );
+	}
+}
+add_action( 'transition_post_status', 'bp_activity_catch_transition_post_type_status', 10, 3 );

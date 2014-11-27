@@ -402,199 +402,54 @@ function bp_blogs_update_option_thread_comments_depth( $oldvalue, $newvalue ) {
 add_action( 'update_option_thread_comments_depth', 'bp_blogs_update_option_thread_comments_depth', 10, 2 );
 
 /**
- * Detect a change in post status, and initiate an activity update if necessary.
+ * Record activity metadata about a published blog post.
  *
- * Posts get new activity updates when (a) they are being published, and (b)
- * they have not already been published. This enables proper posting for
- * regular posts as well as scheduled posts, while preventing post bumping.
+ * @since BuddyPress (2.2.0)
  *
- * See #4090, #3746, #2546 for background.
- *
- * @since BuddyPress (2.0.0)
- *
- * @todo Support untrashing better
- *
- * @param string $new_status New status for the post.
- * @param string $old_status Old status for the post.
- * @param object $post Post data.
+ * @param  int     $activity_id ID of the acitvity item.
+ * @param  WP_Post $post        Post object.
  */
-function bp_blogs_catch_transition_post_status( $new_status, $old_status, $post ) {
-
-	// This is an edit
-	if ( $new_status === $old_status ) {
-		if ( $new_status == 'publish' ) {
-			bp_blogs_update_post( $post );
-			return;
-		}
-	}
-
-	// Publishing a previously unpublished post
-	if ( 'publish' === $new_status ) {
-		// Untrashing the post
-		// Nothing here yet
-		if ( 'trash' == $old_status ) {}
-
-		// Record the post
-		bp_blogs_record_post( $post->ID, $post );
-
-	// Unpublishing a previously published post
-	} else if ( 'publish' === $old_status ) {
-		// Some form of pending status
-		// Only remove the activity entry
-		bp_blogs_delete_activity( array(
-			'item_id'           => get_current_blog_id(),
-			'secondary_item_id' => $post->ID,
-			'component'         => buddypress()->blogs->id,
-			'type'              => 'new_blog_post'
-		) );
-	}
-}
-add_action( 'transition_post_status', 'bp_blogs_catch_transition_post_status', 10, 3 );
-
-/**
- * Record a new blog post in the BuddyPress activity stream.
- *
- * @param int $post_id ID of the post being recorded.
- * @param object $post The WP post object passed to the 'save_post' action.
- * @param int $user_id Optional. The user to whom the activity item will be
- *        associated. Defaults to the post_author.
- * @return bool|null Returns false on failure.
- */
-function bp_blogs_record_post( $post_id, $post, $user_id = 0 ) {
-	global $bp, $wpdb;
-
-	$post_id = (int) $post_id;
-	$blog_id = (int) $wpdb->blogid;
-
-	// If blog is not trackable, do not record the activity.
-	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) )
-		return false;
-
-	if ( !$user_id )
-		$user_id = (int) $post->post_author;
-
-	// Stop infinite loops with WordPress MU Sitewide Tags.
-	// That plugin changed the way its settings were stored at some point. Thus the dual check.
-	if ( !empty( $bp->site_options['sitewide_tags_blog'] ) ) {
-		$st_options = maybe_unserialize( $bp->site_options['sitewide_tags_blog'] );
-		$tags_blog_id = isset( $st_options['tags_blog_id'] ) ? $st_options['tags_blog_id'] : 0;
-	} else {
-		$tags_blog_id = isset( $bp->site_options['tags_blog_id'] ) ? $bp->site_options['tags_blog_id'] : 0;
-	}
-
-	if ( (int) $blog_id == $tags_blog_id && apply_filters( 'bp_blogs_block_sitewide_tags_activity', true ) )
-		return false;
-
-	// Don't record this if it's not a post
-	if ( !in_array( $post->post_type, apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) ) ) )
-		return false;
-
-	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) );
-
-	if ( 'publish' == $post->post_status && empty( $post->post_password ) ) {
-		if ( $is_blog_public || !is_multisite() ) {
-
-			// Record this in activity streams
-			$post_permalink = add_query_arg(
-				'p',
-				$post_id,
-				trailingslashit( get_home_url( $blog_id ) )
-			);
-
-			if ( is_multisite() )
-				$activity_action  = sprintf( __( '%1$s wrote a new post, %2$s, on the site %3$s', 'buddypress' ), bp_core_get_userlink( (int) $post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>', '<a href="' . get_blog_option( $blog_id, 'home' ) . '">' . get_blog_option( $blog_id, 'blogname' ) . '</a>' );
-			else
-				$activity_action  = sprintf( __( '%1$s wrote a new post, %2$s', 'buddypress' ), bp_core_get_userlink( (int) $post->post_author ), '<a href="' . $post_permalink . '">' . $post->post_title . '</a>' );
-
-			// Make sure there's not an existing entry for this post (prevent bumping)
-			if ( bp_is_active( 'activity' ) ) {
-				$existing = bp_activity_get( array(
-					'filter' => array(
-						'action'       => 'new_blog_post',
-						'primary_id'   => $blog_id,
-						'secondary_id' => $post_id,
-					)
-				) );
-
-				if ( !empty( $existing['activities'] ) ) {
-					return;
-				}
-			}
-
-			$activity_content = $post->post_content;
-
-			$activity_id = bp_blogs_record_activity( array(
-				'user_id'           => (int) $post->post_author,
-				'content'           => apply_filters( 'bp_blogs_activity_new_post_content',      $activity_content, $post, $post_permalink ),
-				'primary_link'      => apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_permalink,   $post_id               ),
-				'type'              => 'new_blog_post',
-				'item_id'           => $blog_id,
-				'secondary_item_id' => $post_id,
-				'recorded_time'     => $post->post_date_gmt,
-			) );
-
-			// save post title in activity meta
-			if ( bp_is_active( 'activity' ) ) {
-				bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
-				bp_activity_update_meta( $activity_id, 'post_url',   $post_permalink );
-			}
-		}
-
-		// Update the blogs last activity
-		bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
-	} else {
-		bp_blogs_remove_post( $post_id, $blog_id, $user_id );
-	}
-
-	do_action( 'bp_blogs_new_blog_post', $post_id, $post, $user_id );
-}
-
-/**
- * Updates a blog post's corresponding activity entry during a post edit.
- *
- * @since BuddyPress (2.0.0)
- *
- * @see bp_blogs_catch_transition_post_status()
- *
- * @param WP_Post $post
- */
-function bp_blogs_update_post( $post ) {
-	if ( ! bp_is_active( 'activity' ) ) {
+function bp_blogs_publish_post_activity_meta( $activity_id, $post, $args ) {
+	if ( empty( $activity_id ) || 'post' != $post->post_type ) {
 		return;
 	}
 
-	$activity_id = bp_activity_get_activity_id( array(
-		'component'         => buddypress()->blogs->id,
-		'item_id'           => get_current_blog_id(),
-		'secondary_item_id' => $post->ID,
-		'type'              => 'new_blog_post',
-	 ) );
+	bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
 
-	// activity ID doesn't exist, so stop!
-	if ( empty( $activity_id ) ) {
+	if ( ! empty( $args['post_url'] ) ) {
+		$post_permalink = $args['post_url'];
+	} else {
+		$post_permalink = $post->guid;
+	}
+
+	bp_activity_update_meta( $activity_id, 'post_url',   $post_permalink );
+
+	// Update the blog's last activity.
+	bp_blogs_update_blogmeta( $args['item_id'], 'last_activity', bp_core_current_time() );
+
+	do_action( 'bp_blogs_new_blog_post', $post->ID, $post, $args['user_id'] );
+}
+add_action( 'bp_activity_post_type_published', 'bp_blogs_publish_post_activity_meta', 10, 3 );
+
+/**
+ * Updates a blog post's activity meta entry during a post edit.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param WP_Post              $post     Post object.
+ * @param BP_Actitivy_Activity $activity Activity object.
+ */
+function bp_blogs_update_post_activity_meta( $post, $activity ) {
+	if ( empty( $activity->id ) || 'post' != $post->post_type ) {
 		return;
 	}
 
-	// update the activity entry
-	$activity = new BP_Activity_Activity( $activity_id );
-
-	if ( ! empty( $post->post_content ) ) {
-		// Make sure to update the thumbnail image
-		$post_content = bp_activity_thumbnail_content_images( $post->post_content, $activity->primary_link, (array) $activity );
-
-		// Make sure to apply the blop post excerpt
-		$activity->content = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $post_content ), $post_content, (array) $activity );
-	}
-
-	// Save the updated activity
-	$activity->save();
-
-	// update post title in activity meta
-	$existing_title = bp_activity_get_meta( $activity_id, 'post_title' );
+	// Update post title in activity meta.
+	$existing_title = bp_activity_get_meta( $activity->id, 'post_title' );
 	if ( $post->post_title !== $existing_title ) {
-		bp_activity_update_meta( $activity_id, 'post_title', $post->post_title );
+		bp_activity_update_meta( $activity->id, 'post_title', $post->post_title );
 
-		// now update activity meta for post comments... sigh
+		// Now update activity meta for post comments... sigh.
 		add_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
 		$comments = get_comments( array( 'post_id' => $post->ID ) );
 		remove_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
@@ -603,14 +458,14 @@ function bp_blogs_update_post( $post ) {
 			$activity_ids = array();
 			$comment_ids  = wp_list_pluck( $comments, 'comment_ID' );
 
-			// setup activity args
+			// Set up activity args.
 			$args = array(
 				'update_meta_cache' => false,
 				'show_hidden'       => true,
 				'per_page'          => 99999,
 			);
 
-			// query for old-style "new_blog_comment" activity items
+			// Query for old-style "new_blog_comment" activity items.
 			$args['filter'] = array(
 				'object'       => buddypress()->blogs->id,
 				'action'       => 'new_blog_comment',
@@ -622,7 +477,7 @@ function bp_blogs_update_post( $post ) {
 				$activity_ids = (array) wp_list_pluck( $activities['activities'], 'id' );
 			}
 
-			// query for activity comments connected to a blog post
+			// Query for activity comments connected to a blog post.
 			unset( $args['filter'] );
 			$args['meta_query'] = array( array(
 				'key'     => 'bp_blogs_post_comment_id',
@@ -637,7 +492,7 @@ function bp_blogs_update_post( $post ) {
 				$activity_ids = array_merge( $activity_ids, (array) wp_list_pluck( $activities['activities'], 'id' ) );
 			}
 
-			// update activity meta for all found activity items
+			// Update activity meta for all found activity items.
 			if ( ! empty( $activity_ids ) ) {
 				foreach ( $activity_ids as $aid ) {
 					bp_activity_update_meta( $aid, 'post_title', $post->post_title );
@@ -648,13 +503,14 @@ function bp_blogs_update_post( $post ) {
 		}
 	}
 
-	// add post comment status to activity meta if closed
+	// Add post comment status to activity meta if closed.
 	if( 'closed' == $post->comment_status ) {
-		bp_activity_update_meta( $activity_id, 'post_comment_status', $post->comment_status );
+		bp_activity_update_meta( $activity->id, 'post_comment_status', $post->comment_status );
 	} else {
-		bp_activity_delete_meta( $activity_id, 'post_comment_status' );
+		bp_activity_delete_meta( $activity->id, 'post_comment_status' );
 	}
 }
+add_action( 'bp_activity_post_type_updated', 'bp_blogs_update_post_activity_meta', 10, 2 );
 
 /**
  * Record a new blog comment in the BuddyPress activity stream.

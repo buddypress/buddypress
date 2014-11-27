@@ -316,17 +316,17 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
  *
  * @since BuddyPress (1.1.0)
  *
- * @param string $component_id The unique string ID of the component.
- * @param string $type The action type.
- * @param string $description The action description.
- * @param callable $format_callback Callback for formatting the action string.
- * @param string $label String to describe this action in the activity stream
- *        filter dropdown.
- * @param array $context Activity stream contexts where the filter should appear.
- *        'activity', 'member', 'member_groups', 'group'
+ * @param  string   $component_id    The unique string ID of the component.
+ * @param  string   $type            The action type.
+ * @param  string   $description     The action description.
+ * @param  callable $format_callback Callback for formatting the action string.
+ * @param  string   $label           String to describe this action in the activity stream filter dropdown.
+ * @param  array    $context         Optional. Activity stream contexts where the filter should appear.
+ *                                   Values: 'activity', 'member', 'member_groups', 'group'
+ * @param  int      $position        Optional. The position of the action when listed in dropdowns.
  * @return bool False if any param is empty, otherwise true.
  */
-function bp_activity_set_action( $component_id, $type, $description, $format_callback = false, $label = false, $context = array() ) {
+function bp_activity_set_action( $component_id, $type, $description, $format_callback = false, $label = false, $context = array(), $position = 0 ) {
 	$bp = buddypress();
 
 	// Return false if any of the above values are not set
@@ -368,9 +368,195 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 		'format_callback' => $format_callback,
 		'label'           => $label,
 		'context'         => $context,
+		'position'        => $position,
 	), $component_id, $type, $description, $format_callback, $label, $context );
 
 	return true;
+}
+
+/**
+ * Set tracking arguments for a given post type.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @global $wp_post_types
+ *
+ * @param string $post_type The name of the post type, as registered with WordPress. Eg 'post' or 'page'.
+ * @param array  $args {
+ *     An associative array of tracking parameters. All items are optional.
+ *
+ *     @type string   $bp_activity_admin_filter String to use in the Dashboard > Activity dropdown.
+ *     @type string   $bp_activity_front_filter String to use in frontend dropdown.
+ *     @type string   $bp_activity_new_post     String format to use for generating the activity action. Should be a
+ *                                              translatable string where %1$s is replaced by a user link and %2$s is
+ *                                              the URL of the newly created post.
+ *     @type string   $bp_activity_new_post_ms  String format to use for generating the activity action on Multisite.
+ *                                              Should be a translatable string where %1$s is replaced by a user link,
+ *                                              %2$s is the URL of the newly created post, and %3$s is a link to
+ *                                              the site.
+ *     @type string   $component_id             ID of the BuddyPress component to associate the activity item.
+ *     @type string   $action_id                Value for the 'type' param of the new activity item.
+ *     @type callable $format_callback          Callback for formatting the activity action string.
+ *                                              Default: 'bp_activity_format_activity_action_custom_post_type_post'.
+ *     @type array    $contexts                 The directory contexts in which the filter will show.
+ *                                              Default: array( 'activity' ),
+ *     @type array    $position                 Position of the item in filter dropdowns.
+ *     @type string   $singular                 Singular, translatable name of the post type item. If no value is
+ *                                              provided, it's pulled from the 'singular_name' of the post type.
+ *     @type bool     $activity_comment         Whether to allow comments on the activity items. Defaults to true if
+ *                                              the post type does not natively support comments, otherwise false.
+ * }
+ */
+function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array() ) {
+	global $wp_post_types;
+	$bp = buddypress();
+
+	if ( empty( $wp_post_types[ $post_type ] ) || ! post_type_supports( $post_type, 'buddypress-activity' ) || ! is_array( $args ) ) {
+		return false;
+	}
+
+	// Labels are loaded into the post type object.
+	foreach ( array( 'bp_activity_admin_filter', 'bp_activity_front_filter', 'bp_activity_new_post', 'bp_activity_new_post_ms' ) as $label_type ) {
+		if ( ! empty( $args[ $label_type ] ) ) {
+			$wp_post_types[ $post_type ]->labels->{$label_type} = $args[ $label_type ];
+			unset( $args[ $post_type ] );
+		}
+	}
+
+	// If there are any additional args, put them in the bp_activity attribute of the post type.
+	if ( ! empty( $args ) ) {
+		$wp_post_types[ $post_type ]->bp_activity = $args;
+	}
+}
+
+/**
+ * Get tracking arguments for a specific post type.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  string $post_type Name of the post type
+ * @return object The tracking arguments of the post type.
+ */
+function bp_activity_get_post_type_tracking_args( $post_type ) {
+	if ( ! post_type_supports( $post_type, 'buddypress-activity' ) ) {
+		return false;
+	}
+
+	$post_type_object = get_post_type_object( $post_type );
+
+	$post_type_activity = array(
+		'component_id'      => buddypress()->activity->id,
+		'action_id'         => 'new_' . $post_type,
+		'format_callback'   => 'bp_activity_format_activity_action_custom_post_type_post',
+		'front_filter'      => $post_type_object->labels->name,
+		'contexts'          => array( 'activity' ),
+		'position'          => 0,
+		'singular'          => strtolower( $post_type_object->labels->singular_name ),
+		'activity_comment' => ! post_type_supports( $post_type, 'comments' ),
+	);
+
+	if ( ! empty( $post_type_object->bp_activity ) ) {
+		$post_type_activity = bp_parse_args( (array) $post_type_object->bp_activity, $post_type_activity, $post_type . '_tracking_args' );
+	}
+
+	$post_type_activity = (object) $post_type_activity;
+
+	// Try to get the admin filter from the post type labels.
+	if ( ! empty( $post_type_object->labels->bp_activity_admin_filter ) ) {
+		$post_type_activity->admin_filter = $post_type_object->labels->bp_activity_admin_filter;
+
+	// Fall back to a generic name.
+	} else {
+		$post_type_activity->admin_filter = _x( 'New item published', 'Post Type generic activity post admin filter', 'buddypress' );
+	}
+
+	// Check for the front filter in the post type labels.
+	if ( ! empty( $post_type_object->labels->bp_activity_front_filter ) ) {
+		$post_type_activity->front_filter = $post_type_object->labels->bp_activity_front_filter;
+	}
+
+	// Try to get the action for new post type action on non-multisite installations.
+	if ( ! empty( $post_type_object->labels->bp_activity_new_post ) ) {
+		$post_type_activity->new_post_type_action = $post_type_object->labels->bp_activity_new_post;
+	}
+
+	// Try to get the action for new post type action on multisite installations.
+	if ( ! empty( $post_type_object->labels->bp_activity_new_post_ms ) ) {
+		$post_type_activity->new_post_type_action_ms = $post_type_object->labels->bp_activity_new_post_ms;
+	}
+
+	return apply_filters( 'bp_activity_get_post_type_tracking_args', $post_type_activity, $post_type );
+}
+
+/**
+ * Get tracking arguments for all post types.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @return array List of post types with their tracking arguments.
+ */
+function bp_activity_get_post_types_tracking_args() {
+	// Fetch all public post types
+	$post_types = get_post_types( array( 'public' => true ), 'names' );
+
+	$post_types_tracking_args = array();
+
+	foreach ( $post_types as $post_type ) {
+		$track_post_type = bp_activity_get_post_type_tracking_args( $post_type );
+
+		if ( ! empty( $track_post_type ) ) {
+			$post_types_tracking_args[ $track_post_type->action_id ] = $track_post_type;
+		}
+
+	}
+
+	return apply_filters( 'bp_activity_get_post_types_tracking_args', $post_types_tracking_args );
+}
+
+/**
+ * Get all components' activity actions, sorted by their position attribute.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @return object actions ordered by their position
+ */
+function bp_activity_get_actions() {
+	$bp = buddypress();
+
+	$post_types = bp_activity_get_post_types_tracking_args();
+
+	// Create the actions for the post types, if they haven't already been created.
+	if ( ! empty( $post_types ) ) {
+		foreach ( $post_types as $post_type ) {
+			if ( isset( $bp->activity->actions->{$post_type->component_id}->{$post_type->action_id} ) ) {
+				continue;
+			}
+
+			bp_activity_set_action(
+				$post_type->component_id,
+				$post_type->action_id,
+				$post_type->admin_filter,
+				$post_type->format_callback,
+				$post_type->front_filter,
+				$post_type->contexts,
+				$post_type->position
+			);
+		}
+	}
+
+	// Sort the actions by their position within each component.
+	foreach ( $bp->activity->actions as $component => $actions ) {
+		$actions = (array) $actions;
+		$temp = bp_sort_by_key( $actions, 'position', 'num' );
+
+		// Restore keys.
+		$bp->activity->actions->{$component} = new stdClass;
+		foreach ( $temp as $key_ordered ) {
+			$bp->activity->actions->{$component}->{$key_ordered['key']} = $key_ordered;
+		}
+	}
+
+	return $bp->activity->actions;
 }
 
 /**
@@ -391,19 +577,22 @@ function bp_activity_get_action( $component_id, $key ) {
 		return false;
 	}
 
-	$bp     = buddypress();
-	$retval = isset( $bp->activity->actions->{$component_id}->{$key} )
-		? $bp->activity->actions->{$component_id}->{$key}
-		: false;
+	$bp      = buddypress();
+	$actions = bp_activity_get_actions();
+
+	$retval = false;
+	if ( isset( $actions->{$component_id}->{$key} ) ) {
+		$retval = $actions->{$component_id}->{$key};
+	}
 
 	/**
 	 * Filters the current action by component and key.
 	 *
 	 * @since BuddyPress (1.1.0)
 	 *
-	 * @param string|bool $retval The action key.
+	 * @param string|bool $retval       The action key.
 	 * @param string      $component_id The unique string ID of the component.
-	 * @param string      $key The action key.
+	 * @param string      $key          The action key.
 	 */
 	return apply_filters( 'bp_activity_get_action', $retval, $component_id, $key );
 }
@@ -419,7 +608,7 @@ function bp_activity_get_types() {
 	$actions  = array();
 
 	// Walk through the registered actions, and build an array of actions/values.
-	foreach ( buddypress()->activity->actions as $action ) {
+	foreach ( bp_activity_get_actions() as $action ) {
 		$action = array_values( (array) $action );
 
 		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ ) {
@@ -1130,6 +1319,63 @@ function bp_activity_format_activity_action_activity_comment( $action, $activity
 	return apply_filters( 'bp_activity_comment_action', $action, $activity );
 }
 
+/**
+ * Format activity action strings for custom post types.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
+ * @return string
+ */
+function bp_activity_format_activity_action_custom_post_type_post( $action, $activity ) {
+	$bp = buddypress();
+
+	// Fetch all the tracked post types once.
+	if ( empty( $bp->activity->track ) ) {
+		$bp->activity->track = bp_activity_get_post_types_tracking_args();
+	}
+
+	if ( empty( $activity->type ) || empty( $bp->activity->track[ $activity->type ] ) ) {
+		return $action;
+	}
+
+	$user_link = bp_core_get_userlink( $activity->user_id );
+	$blog_url  = get_home_url( $activity->item_id );
+
+	if ( empty( $activity->post_url ) ) {
+		$post_url = add_query_arg( 'p', $activity->secondary_item_id, trailingslashit( $blog_url ) );
+	} else {
+		$post_url = $activity->post_url;
+	}
+
+	if ( is_multisite() ) {
+		$blog_link = '<a href="' . $blog_url . '">' . get_blog_option( $activity->item_id, 'blogname' ) . '</a>';
+
+		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action_ms ) ) {
+			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action_ms, $user_link, $post_url, $blog_link );
+		} else {
+			$action = sprintf( _x( '%1$s wrote a new <a href="%2$s">item</a>, on the site %3$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_url, $blog_link );
+		}
+	} else {
+		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action ) ) {
+			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action, $user_link, $post_url );
+		} else {
+			$action = sprintf( _x( '%1$s wrote a new <a href="%2$s">item</a>', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_url );
+		}
+	}
+
+	/**
+	 * Filters the formatted custom post type activity post action string.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param string               $action Activity action string value.
+	 * @param BP_Activity_Activity $activity Activity item object.
+	 */
+	return apply_filters( 'bp_activity_custom_post_type_post_action', $action, $activity );
+}
+
 /******************************************************************************
  * Business functions are where all the magic happens in BuddyPress. They will
  * handle the actual saving or manipulation of information. Usually they will
@@ -1510,6 +1756,235 @@ function bp_activity_post_update( $args = '' ) {
 	do_action( 'bp_activity_posted_update', $r['content'], $r['user_id'], $activity_id );
 
 	return $activity_id;
+}
+
+/**
+ * Create an activity item for a newly published post type post.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  int      $post_id ID of the new post.
+ * @param  WP_Post  $post    Post object.
+ * @param  int      $user_id ID of the post author.
+ * @return int|bool The ID of the activity on success. False on error.
+ */
+function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0 ) {
+	$bp = buddypress();
+
+	if ( ! is_a( $post, 'WP_Post' ) ) {
+		return;
+	}
+
+	// Get the post type tracking args.
+	$activity_post_object = bp_activity_get_post_type_tracking_args( $post->post_type );
+
+	if ( 'publish' != $post->post_status || ! empty( $post->post_password ) || empty( $activity_post_object->action_id ) ) {
+		return;
+	}
+
+	if ( empty( $post_id ) ) {
+		$post_id = $post->ID;
+	}
+
+	$blog_id = get_current_blog_id();
+
+	if ( empty( $user_id ) ) {
+		$user_id = (int) $post->post_author;
+	}
+
+	// Bail if an activity item already exists for this post.
+	$existing = bp_activity_get( array(
+		'filter' => array(
+			'action'       => $activity_post_object->action_id,
+			'primary_id'   => $blog_id,
+			'secondary_id' => $post_id,
+		)
+	) );
+
+	if ( ! empty( $existing['activities'] ) ) {
+		return;
+	}
+
+	// Let components/plugins bail before the activity is posted.
+	if ( false === apply_filters( "bp_activity_{$post->post_type}_pre_publish", true, $blog_id, $post_id, $user_id ) ) {
+		return;
+	}
+
+	// Record this in activity streams.
+	$blog_url = get_home_url( $blog_id );
+	$post_url = add_query_arg(
+		'p',
+		$post_id,
+		trailingslashit( $blog_url )
+	);
+
+	// Backward compatibility filters for the 'blogs' component.
+	if ( 'blogs' == $activity_post_object->component_id )  {
+		$activity_content      = apply_filters( 'bp_blogs_activity_new_post_content', $post->post_content, $post, $post_url, $post->post_type );
+		$activity_primary_link = apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_url, $post_id, $post->post_type );
+	} else {
+		$activity_content      = $post->post_content;
+		$activity_primary_link = $post_url;
+	}
+
+	$activity_args = array(
+		'user_id'           => $user_id,
+		'content'           => $activity_content,
+		'primary_link'      => $activity_primary_link,
+		'component'         => $activity_post_object->component_id,
+		'type'              => $activity_post_object->action_id,
+		'item_id'           => $blog_id,
+		'secondary_item_id' => $post_id,
+		'recorded_time'     => $post->post_date_gmt,
+	);
+
+	// Remove large images and replace them with just one image thumbnail.
+	if ( ! empty( $activity_args['content'] ) ) {
+		$activity_args['content'] = bp_activity_thumbnail_content_images( $activity_args['content'], $activity_args['primary_link'], $activity_args );
+	}
+
+	if ( ! empty( $activity_args['content'] ) ) {
+		// Create the excerpt.
+		$activity_excerpt = bp_create_excerpt( $activity_args['content'] );
+
+		// Backward compatibility filter for blog posts.
+		if ( 'blogs' == $activity_post_object->component_id )  {
+			$activity_args['content'] = apply_filters( 'bp_blogs_record_activity_content', $activity_excerpt, $activity_args['content'], $activity_args, $post->post_type );
+		} else {
+			$activity_args['content'] = $activity_excerpt;
+		}
+	}
+
+	// Set up the action by using the format functions.
+	$action_args = array_merge( $activity_args, array(
+		'post_title' => $post->post_title,
+		'post_url'   => $post_url,
+	) );
+
+	$activity_args['action'] = call_user_func_array( $activity_post_object->format_callback, array( '', (object) $action_args ) );
+
+	// Make sure the action is set.
+	if ( empty( $activity_args['action'] ) ) {
+		return;
+	} else {
+		// Backward compatibility filter for the blogs component.
+		if ( 'blogs' == $activity_post_object->component_id )  {
+			$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
+		}
+	}
+
+	$activity_id = bp_activity_add( $activity_args );
+
+	do_action( 'bp_activity_post_type_published', $activity_id, $post, $activity_args );
+
+	return $activity_id;
+}
+
+/**
+ * Update the activity item for a custom post type entry.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  WP_Post $post Post item.
+ * @return bool    True on success, false on failure.
+ */
+function bp_activity_post_type_update( $post = null ) {
+	$bp = buddypress();
+
+	if ( ! is_a( $post, 'WP_Post' ) ) {
+		return;
+	}
+
+	// Get the post type tracking args.
+	$activity_post_object = bp_activity_get_post_type_tracking_args( $post->post_type );
+
+	if ( empty( $activity_post_object->action_id ) ) {
+		return;
+	}
+
+	$activity_id = bp_activity_get_activity_id( array(
+		'component'         => $activity_post_object->component_id,
+		'item_id'           => get_current_blog_id(),
+		'secondary_item_id' => $post->ID,
+		'type'              => $activity_post_object->action_id,
+	) );
+
+	// Activity ID doesn't exist, so stop!
+	if ( empty( $activity_id ) ) {
+		return;
+	}
+
+	// Delete the activity if the post was updated with a password.
+	if ( ! empty( $post->post_password ) ) {
+		bp_activity_delete( array( 'id' => $activity_id ) );
+	}
+
+	// Update the activity entry.
+	$activity = new BP_Activity_Activity( $activity_id );
+
+	if ( ! empty( $post->post_content ) ) {
+		// Make sure to update the thumbnail image.
+		$post_content = bp_activity_thumbnail_content_images( $post->post_content, $activity->primary_link, (array) $activity );
+
+		// Generate an excerpt.
+		$activity_excerpt = bp_create_excerpt( $post_content );
+
+		// Backward compatibility filter for the blogs component.
+		if ( 'blogs' == $activity_post_object->component_id ) {
+			$activity->content = apply_filters( 'bp_blogs_record_activity_content', $activity_excerpt, $post_content, (array) $activity, $post->post_type );
+		} else {
+			$activity->content = $activity_excerpt;
+		}
+	}
+
+	// Save the updated activity.
+	$updated = $activity->save();
+
+	do_action( 'bp_activity_post_type_updated', $post, $activity );
+
+	return $updated;
+}
+
+/**
+ * Unpublish an activity for the custom post type.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  int     $post_id ID of the post being unpublished.
+ * @param  WP_Post $post    Post object.
+ * @return bool    True on success, false on failure.
+ */
+function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
+	$bp = buddypress();
+
+	if ( ! is_a( $post, 'WP_Post' ) ) {
+		return;
+	}
+
+	// Get the post type tracking args
+	$activity_post_object = bp_activity_get_post_type_tracking_args( $post->post_type );
+
+	if ( empty( $activity_post_object->action_id ) ) {
+		return;
+	}
+
+	if ( empty( $post_id ) ) {
+		$post_id = $post->ID;
+	}
+
+	$delete_activity_args = array(
+		'item_id'           => get_current_blog_id(),
+		'secondary_item_id' => $post_id,
+		'component'         => $activity_post_object->component_id,
+		'type'              => $activity_post_object->action_id,
+		'user_id'           => false,
+	);
+
+	$deleted = bp_activity_delete_by_item_id( $delete_activity_args );
+
+	do_action( 'bp_activity_post_type_unpublished', $delete_activity_args, $post, $deleted );
+
+	return $deleted;
 }
 
 /**
@@ -1988,6 +2463,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
  * @return string $link Permalink for the activity item.
  */
 function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
+	$bp = buddypress();
 
 	if ( empty( $activity_obj ) ) {
 		$activity_obj = new BP_Activity_Activity( $activity_id );
@@ -1997,7 +2473,18 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 		$activity_obj = $activity_obj->current_comment;
 	}
 
-	if ( 'new_blog_post' == $activity_obj->type || 'new_blog_comment' == $activity_obj->type || 'new_forum_topic' == $activity_obj->type || 'new_forum_post' == $activity_obj->type ) {
+	$use_primary_links = array(
+		'new_blog_post',
+		'new_blog_comment',
+		'new_forum_topic',
+		'new_forum_post',
+	);
+
+	if ( ! empty( $bp->activity->track ) ) {
+		$use_primary_links = array_merge( $use_primary_links, array_keys( $bp->activity->track ) );
+	}
+
+	if ( false !== array_search( $activity_obj->type, $use_primary_links ) ) {
 		$link = $activity_obj->primary_link;
 	} else {
 		if ( 'activity_comment' == $activity_obj->type ) {

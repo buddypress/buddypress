@@ -75,6 +75,23 @@ class BP_Blogs_Component extends BP_Component {
 
 		// Setup the globals
 		parent::setup_globals( $args );
+
+		/*
+		 * Set up the post post type to track.
+		 *
+		 * In case the config is not multisite, the blog_public option is ignored.
+		 */
+		if ( 0 !== (int) get_option( 'blog_public' ) || ! is_multisite() ) {
+			// Get all posts to track.
+			$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+
+			foreach ( $post_types as $post_type ) {
+				add_post_type_support( $post_type, 'buddypress-activity' );
+			}
+		}
+
+		// Filter the generic track parameters for the 'post' post type.
+		add_filter( 'bp_activity_get_post_type_tracking_args', array( $this, 'post_tracking_args' ), 10, 2 );
 	}
 
 	/**
@@ -245,6 +262,30 @@ class BP_Blogs_Component extends BP_Component {
 		}
 
 		parent::setup_title();
+	}
+
+	/**
+	 * Set up the tracking arguments for the 'post' post type.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @see bp_activity_get_post_type_tracking_args() for information on parameters.
+	 */
+	public function post_tracking_args( $params = array(), $post_type = 0 ) {
+		if ( 'post' != $post_type ) {
+			return $params;
+		}
+
+		// Set specific params for the 'post' post type.
+		$params->component_id    = $this->id;
+		$params->action_id       = 'new_blog_post';
+		$params->admin_filter    = __( 'New post published', 'buddypress' );
+		$params->format_callback = 'bp_blogs_format_activity_action_new_blog_post';
+		$params->front_filter    = __( 'Posts', 'buddypress' );
+		$params->contexts        = array( 'activity', 'member' );
+		$params->position        = 5;
+
+		return $params;
 	}
 }
 

@@ -798,7 +798,7 @@ function bp_activity_admin_get_activity_actions() {
 	$actions  = array();
 
 	// Walk through the registered actions, and build an array of actions/values.
-	foreach ( buddypress()->activity->actions as $action ) {
+	foreach ( bp_activity_get_actions() as $action ) {
 		$action = array_values( (array) $action );
 
 		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ ) {
@@ -831,7 +831,7 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 	$selected = $item->type;
 
 	// Walk through the registered actions, and build an array of actions/values.
-	foreach ( $bp->activity->actions as $action ) {
+	foreach ( bp_activity_get_actions() as $action ) {
 		$action = array_values( (array) $action );
 
 		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ )
@@ -1365,7 +1365,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$selected = ( ! empty( $_REQUEST['activity_type'] ) ) ? $_REQUEST['activity_type'] : '';
 
 		// Get the actions
-		$activity_actions = buddypress()->activity->actions; ?>
+		$activity_actions = bp_activity_get_actions(); ?>
 
 		<div class="alignleft actions">
 			<select name="activity_type">

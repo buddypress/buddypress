@@ -303,6 +303,84 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_blogs_catch_transition_post_status
 	 */
+	public function test_transition_post_status_password_publish() {
+		$post_id = $this->factory->post->create( array(
+			'post_status'   => 'publish',
+			'post_type'     => 'post',
+			'post_password' => 'pass',
+		) );
+		$post = get_post( $post_id );
+
+		// 'new' => 'publish with password'
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Published with password post should not have activity' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_publish_update_password() {
+		$post_id = $this->factory->post->create( array(
+			'post_status'   => 'publish',
+			'post_type'     => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		// 'publish' => 'publish'
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+
+		$post->post_content .= ' foo';
+		$post->post_password = 'pass';
+
+		wp_update_post( $post );
+
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Updated with password post should not have activity' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_private_publish() {
+		$post_id = $this->factory->post->create( array(
+			'post_status'   => 'private',
+			'post_type'     => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		// 'new' => 'private'
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Private post should not have activity' );
+
+		$post->post_status = 'publish';
+
+		wp_update_post( $post );
+
+		// 'private' => 'publish'
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_transition_post_status_publish_private() {
+		$post_id = $this->factory->post->create( array(
+			'post_status'   => 'publish',
+			'post_type'     => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		// 'new' => 'publish'
+		$this->assertTrue( $this->activity_exists_for_post( $post_id ), 'Published post should have activity' );
+
+		$post->post_status = 'private';
+
+		wp_update_post( $post );
+
+		// 'publish' => 'private'
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Private post should not have activity' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
 	public function test_transition_post_status_draft_to_draft() {
 		$post_id = $this->factory->post->create( array(
 			'post_status' => 'draft',
@@ -475,6 +553,60 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		// reset
 		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_bp_blogs_is_blog_trackable_false_publish_post() {
+		add_filter( 'bp_blogs_is_blog_trackable', '__return_false' );
+
+		$post_id = $this->factory->post->create( array(
+			'post_status'   => 'publish',
+			'post_type'     => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		// 'new' => 'publish'
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Not trackable blog post should not have activity' );
+
+		$post->post_content .= ' foo';
+
+		wp_update_post( $post );
+
+		// 'publish' => 'publish'
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Not trackable blog post should not have activity' );
+
+		remove_filter( 'bp_blogs_is_blog_trackable', '__return_false' );
+	}
+
+	/**
+	 * @group bp_blogs_catch_transition_post_status
+	 */
+	public function test_bp_is_blog_public_zero_publish_post() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		add_filter( 'bp_is_blog_public', '__return_zero' );
+
+		$post_id = $this->factory->post->create( array(
+			'post_status'   => 'publish',
+			'post_type'     => 'post',
+		) );
+		$post = get_post( $post_id );
+
+		// 'new' => 'publish'
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Not public blog post should not have activity' );
+
+		$post->post_content .= ' foo';
+
+		wp_update_post( $post );
+
+		// 'publish' => 'publish'
+		$this->assertFalse( $this->activity_exists_for_post( $post_id ), 'Not public blog post should not have activity' );
+
+		remove_filter( 'bp_is_blog_public', '__return_zero' );
 	}
 
 	protected function activity_exists_for_post( $post_id ) {

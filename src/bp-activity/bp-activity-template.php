@@ -3315,29 +3315,40 @@ function bp_activity_filter_links( $args = false ) {
  */
 function bp_activity_can_comment() {
 	global $activities_template;
+	$bp = buddypress();
 
 	// Assume activity can be commented on
 	$can_comment = true;
 
 	// Determine ability to comment based on activity action name
 	$activity_action = bp_get_activity_action_name();
-	switch ( $activity_action ) {
 
-		// Maybe turn off for blog and forum updates
-		case 'new_blog_post'    :
-		case 'new_blog_comment' :
-		case 'new_forum_topic'  :
-		case 'new_forum_post'   :
-			if ( ! empty( $activities_template->disable_blogforum_replies ) ) {
-				$can_comment = false;
-			}
-			break;
-
-		// Turn off for activity comments
-		case 'activity_comment' :
-			$can_comment = false;
-			break;
+	$turn_off = 0;
+	if ( ! empty( $activities_template->disable_blogforum_replies ) ) {
+		$turn_off = 1;
 	}
+
+	$maybe_turn_off = array_fill_keys( array(
+		'new_blog_post',
+		'new_blog_comment',
+		'new_forum_topic',
+		'new_forum_post',
+	), $turn_off );
+
+	$maybe_turn_off['activity_comment'] = 1;
+
+	// Fetch all the tracked post types once.
+	if ( empty( $bp->activity->track ) ) {
+		$bp->activity->track = bp_activity_get_post_types_tracking_args();
+	}
+
+	foreach ( $bp->activity->track as $action => $tracking_args ) {
+		if ( empty( $tracking_args->activity_comment ) ) {
+			$maybe_turn_off[ $action ] = $turn_off;
+		}
+	}
+
+	$can_comment = empty( $maybe_turn_off[ $activity_action ] );
 
 	/**
 	 * Filters whether a comment can be made on an activity item.
@@ -4367,7 +4378,7 @@ function bp_activity_show_filters( $context = '' ) {
 
 		// Walk through the registered actions, and prepare an the
 		// select box options.
-		foreach ( buddypress()->activity->actions as $actions ) {
+		foreach ( bp_activity_get_actions() as $actions ) {
 			foreach ( $actions as $action ) {
 				if ( ! in_array( $context, (array) $action['context'] ) ) {
 					continue;

@@ -42,13 +42,59 @@ add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
  *
  * @since BuddyPress (2.1.0)
  *
- * @see bp_blogs_update_post()
+ * @see bp_blogs_update_post_activity_meta()
  *
  * @param array Current SQL clauses in array format
  * @return array
  */
 function bp_blogs_comments_clauses_select_by_id( $retval ) {
 	$retval['fields'] = 'comment_ID';
-	
+
 	return $retval;
 }
+
+/**
+ * Check whether the current post can be published.
+ *
+ * Abstracted from the deprecated `bp_blogs_record_post()`.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  bool $return  Whether the post should be published.
+ * @param  int  $blog_id ID of the blog.
+ * @param  int  $post_id ID of the post.
+ * @param  int  $user_id ID of the post author.
+ * @return bool True to authorize the post to be published, otherwise false.
+ */
+function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
+	$bp = buddypress();
+
+	// If blog is not trackable, do not record the activity.
+	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
+		return false;
+	}
+
+	/*
+	 * Stop infinite loops with WordPress MU Sitewide Tags.
+	 * That plugin changed the way its settings were stored at some point. Thus the dual check.
+	 */
+	if ( ! empty( $bp->site_options['sitewide_tags_blog'] ) ) {
+		$st_options = maybe_unserialize( $bp->site_options['sitewide_tags_blog'] );
+		$tags_blog_id = isset( $st_options['tags_blog_id'] ) ? $st_options['tags_blog_id'] : 0;
+	} else {
+		$tags_blog_id = isset( $bp->site_options['tags_blog_id'] ) ? $bp->site_options['tags_blog_id'] : 0;
+	}
+
+	if ( (int) $blog_id == $tags_blog_id && apply_filters( 'bp_blogs_block_sitewide_tags_activity', true ) ) {
+		return false;
+	}
+
+	$is_blog_public = apply_filters( 'bp_is_blog_public', (int) get_blog_option( $blog_id, 'blog_public' ) );
+
+	if ( 0 === $is_blog_public && is_multisite() ) {
+		return false;
+	}
+
+	return $return;
+}
+add_filter( 'bp_activity_post_pre_publish', 'bp_blogs_post_pre_publish', 10, 4 );
