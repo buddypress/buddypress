@@ -940,7 +940,11 @@ jq(document).ready( function() {
 
 			// Search terms
 			if ( jq('div.dir-search input').length ) {
-				search_terms =  jq('.dir-search input').prop('placeholder') ? jq('.dir-search input').prop('placeholder') : jq('.dir-search input').val();
+				search_terms =  jq('.dir-search input').val();
+
+				if ( ! search_terms && bp_get_querystring('s') ) {
+					search_terms = jq('.dir-search input').prop('placeholder');
+				}
 			}
 
 			// The Group Members page has a different selector for
