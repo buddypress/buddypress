@@ -241,30 +241,28 @@ function bp_core_screen_activation() {
 		$key = bp_current_action();
 	}
 
-	// bail if no key
-	if ( empty( $key ) ) {
-		return;
+	// we've got a key; let's attempt to activate the signup
+	if ( ! empty( $key ) ) {
+		// Activate the signup
+		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $key ) );
+
+		// If there were errors, add a message and redirect
+		if ( ! empty( $user->errors ) ) {
+			bp_core_add_message( $user->get_error_message(), 'error' );
+			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
+		}
+
+		$hashed_key = wp_hash( $key );
+
+		// Check if the signup avatar folder exists. If it does, move the folder to
+		// the BP user avatars directory
+		if ( file_exists( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key ) ) {
+			@rename( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key, bp_core_avatar_upload_path() . '/avatars/' . $user );
+		}
+
+		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
+		$bp->activation_complete = true;
 	}
-
-	// Activate the signup
-	$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $key ) );
-
-	// If there were errors, add a message and redirect
-	if ( ! empty( $user->errors ) ) {
-		bp_core_add_message( $user->get_error_message(), 'error' );
-		bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
-	}
-
-	$hashed_key = wp_hash( $key );
-
-	// Check if the avatar folder exists. If it does, move rename it, move
-	// it and delete the signup avatar dir
-	if ( file_exists( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key ) ) {
-		@rename( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key, bp_core_avatar_upload_path() . '/avatars/' . $user );
-	}
-
-	bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
-	$bp->activation_complete = true;
 
 	bp_core_load_template( apply_filters( 'bp_core_template_activate', array( 'activate', 'registration/activate' ) ) );
 }
