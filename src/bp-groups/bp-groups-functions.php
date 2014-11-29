@@ -190,7 +190,9 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 	if ( empty( $group_name ) || empty( $group_desc ) )
 		return false;
 
-	$group              = groups_get_group( array( 'group_id' => $group_id ) );
+	$group     = groups_get_group( array( 'group_id' => $group_id ) );
+	$old_group = clone $group;
+
 	$group->name        = $group_name;
 	$group->description = $group_desc;
 
@@ -201,7 +203,16 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 		groups_notification_group_updated( $group->id );
 	}
 
-	do_action( 'groups_details_updated', $group->id );
+	/**
+	 * Fired after a group's details are updated.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param int             $value          ID of the group.
+	 * @param BP_Groups_Group $old_group      Group object, before being modified.
+	 * @param bool            $notify_members Whether to send an email notification to members about the change.
+	 */
+	do_action( 'groups_details_updated', $group->id, $old_group, $notify_members );
 
 	return true;
 }
