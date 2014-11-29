@@ -371,16 +371,32 @@ function bp_do_activation_redirect() {
  * Output the tabs in the admin area
  *
  * @since BuddyPress (1.5)
- * @param string $active_tab Name of the tab that is active
+ * @param string $active_tab Name of the tab that is active. Optional.
  */
 function bp_core_admin_tabs( $active_tab = '' ) {
-
-	// Declare local variables
 	$tabs_html    = '';
 	$idle_class   = 'nav-tab';
 	$active_class = 'nav-tab nav-tab-active';
+	$tabs         = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab ) );
 
-	// Setup core admin tabs
+	// Loop through tabs and build navigation
+	foreach ( array_values( $tabs ) as $tab_data ) {
+		$is_current = (bool) ( $tab_data['name'] == $active_tab );
+		$tab_class  = $is_current ? $active_class : $idle_class;
+		$tabs_html .= '<a href="' . esc_url( $tab_data['href'] ) . '" class="' . esc_attr( $tab_class ) . '">' . esc_html( $tab_data['name'] ) . '</a>';
+	}
+
+	echo $tabs_html;
+	do_action( 'bp_admin_tabs' );
+}
+
+/**
+ * Get the data for the tabs in the admin area.
+ *
+ * @since BuddyPress (2.2.0)
+ * @param string $active_tab Name of the tab that is active. Optional.
+ */
+function bp_core_get_admin_tabs( $active_tab = '' ) {
 	$tabs = array(
 		'0' => array(
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
@@ -409,21 +425,13 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 		);
 	}
 
-	// Allow the tabs to be filtered
-	$tabs = apply_filters( 'bp_core_admin_tabs', $tabs );
-
-	// Loop through tabs and build navigation
-	foreach ( array_values( $tabs ) as $tab_data ) {
-		$is_current = (bool) ( $tab_data['name'] == $active_tab );
-		$tab_class  = $is_current ? $active_class : $idle_class;
-		$tabs_html .= '<a href="' . esc_url( $tab_data['href'] ) . '" class="' . esc_attr( $tab_class ) . '">' . esc_html( $tab_data['name'] ) . '</a>';
-	}
-
-	// Output the tabs
-	echo $tabs_html;
-
-	// Do other fun things
-	do_action( 'bp_admin_tabs' );
+	/**
+	 * Filters the tab data used in our wp-admin screens.
+	 *
+	 * @param array $tabs Tab data.
+	 * @since BuddyPress (2.2.0)
+	 */
+	return apply_filters( 'bp_core_get_admin_tabs', $tabs );
 }
 
 /** Help **********************************************************************/
