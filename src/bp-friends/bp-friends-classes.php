@@ -145,6 +145,13 @@ class BP_Friends_Friendship {
 		$this->is_limited        = apply_filters( 'friends_friendship_is_limited_before_save',        $this->is_limited,        $this->id );
 		$this->date_created      = apply_filters( 'friends_friendship_date_created_before_save',      $this->date_created,      $this->id );
 
+		/**
+		 * Fires before processing and saving the current friendship request.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param Object $value Current friendship request object.
+		 */
 		do_action_ref_array( 'friends_friendship_before_save', array( &$this ) );
 
 		// Update
@@ -157,6 +164,13 @@ class BP_Friends_Friendship {
 			$this->id = $wpdb->insert_id;
 		}
 
+		/**
+		 * Fires after processing and saving the current friendship request.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param Object $value Current friendship request object.
+		 */
 		do_action( 'friends_friendship_after_save', array( &$this ) );
 
 		return $result;
