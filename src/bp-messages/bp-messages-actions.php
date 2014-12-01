@@ -56,6 +56,11 @@ function messages_action_conversation() {
 	// Mark message read
 	messages_mark_thread_read( $thread_id );
 
+	/**
+	 * Fires after processing a view request for a single message thread.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 */
 	do_action( 'messages_action_conversation' );
 }
 add_action( 'bp_actions', 'messages_action_conversation' );
