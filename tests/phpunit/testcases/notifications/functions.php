@@ -159,6 +159,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		// now fetch only activity notifications
 		bp_has_notifications( array(
 			'component_name' => 'activity',
+			'user_id' => $u2,
 		) );
 
 		// assert
