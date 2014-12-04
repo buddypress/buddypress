@@ -1791,6 +1791,7 @@ class BP_Activity_Feed {
 
 		// Set content-type
 		@header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
+		send_nosniff_header();
 
 		// Cache-related variables
 		$last_modified      = mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false );
