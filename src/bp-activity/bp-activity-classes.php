@@ -336,7 +336,6 @@ class BP_Activity_Activity {
 			'count_total'       => false,
 		);
 		$r = wp_parse_args( $args, $defaults );
-		extract( $r );
 
 		// Select conditions
 		$select_sql = "SELECT DISTINCT a.id";
@@ -351,44 +350,48 @@ class BP_Activity_Activity {
 		// Excluded types
 		$excluded_types = array();
 
+		// Regular filtering
+		if ( $r['filter'] && $filter_sql = BP_Activity_Activity::get_filter_sql( $r['filter'] ) ) {
+			$where_conditions['filter_sql'] = $filter_sql;
+		}
+
 		// Spam
-		if ( 'ham_only' == $spam )
+		if ( 'ham_only' == $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 0';
-		elseif ( 'spam_only' == $spam )
+		} elseif ( 'spam_only' == $r['spam'] ) {
 			$where_conditions['spam_sql'] = 'a.is_spam = 1';
+		}
 
 		// Searching
-		if ( $search_terms ) {
-			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+		if ( $r['search_terms'] ) {
+			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
 			$where_conditions['search_sql'] = $wpdb->prepare( 'a.content LIKE %s', $search_terms_like );
 		}
 
-		// Filtering
-		if ( $filter && $filter_sql = BP_Activity_Activity::get_filter_sql( $filter ) )
-			$where_conditions['filter_sql'] = $filter_sql;
-
 		// Sorting
-		if ( $sort != 'ASC' && $sort != 'DESC' )
+		$sort = $r['sort'];
+		if ( $sort != 'ASC' && $sort != 'DESC' ) {
 			$sort = 'DESC';
+		}
 
 		// Hide Hidden Items?
-		if ( !$show_hidden )
+		if ( ! $r['show_hidden'] )
 			$where_conditions['hidden_sql'] = "a.hide_sitewide = 0";
 
 		// Exclude specified items
-		if ( !empty( $exclude ) ) {
-			$exclude = implode( ',', wp_parse_id_list( $exclude ) );
+		if ( ! empty( $r['exclude'] ) ) {
+			$exclude = implode( ',', wp_parse_id_list( $r['exclude'] ) );
 			$where_conditions['exclude'] = "a.id NOT IN ({$exclude})";
 		}
 
 		// The specific ids to which you want to limit the query
-		if ( !empty( $in ) ) {
-			$in = implode( ',', wp_parse_id_list( $in ) );
+		if ( ! empty( $r['in'] ) ) {
+			$in = implode( ',', wp_parse_id_list( $r['in'] ) );
 			$where_conditions['in'] = "a.id IN ({$in})";
 		}
 
 		// Process meta_query into SQL
-		$meta_query_sql = self::get_meta_query_sql( $meta_query );
+		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		if ( ! empty( $meta_query_sql['join'] ) ) {
 			$join_sql .= $meta_query_sql['join'];
@@ -399,7 +402,7 @@ class BP_Activity_Activity {
 		}
 
 		// Process date_query into SQL
-		$date_query_sql = self::get_date_query_sql( $date_query );
+		$date_query_sql = self::get_date_query_sql( $r['date_query'] );
 
 		if ( ! empty( $date_query_sql ) ) {
 			$where_conditions['date'] = $date_query_sql;
@@ -408,13 +411,13 @@ class BP_Activity_Activity {
 		// Alter the query based on whether we want to show activity item
 		// comments in the stream like normal comments or threaded below
 		// the activity.
-		if ( false === $display_comments || 'threaded' === $display_comments ) {
+		if ( false === $r['display_comments'] || 'threaded' === $r['display_comments'] ) {
 			$excluded_types[] = 'activity_comment';
 		}
 
 		// Exclude 'last_activity' items unless the 'action' filter has
 		// been explicitly set
-		if ( empty( $filter['object'] ) ) {
+		if ( empty( $r['filter']['object'] ) ) {
 			$excluded_types[] = 'last_activity';
 		}
 
@@ -468,8 +471,8 @@ class BP_Activity_Activity {
 		}
 
 		// Sanitize page and per_page parameters
-		$page     = absint( $page     );
-		$per_page = absint( $per_page );
+		$page     = absint( $r['page']     );
+		$per_page = absint( $r['per_page'] );
 
 		$retval = array(
 			'activities'     => null,
@@ -559,12 +562,13 @@ class BP_Activity_Activity {
 			$activity_ids[] = $activity->id;
 		}
 
-		if ( ! empty( $activity_ids ) && $update_meta_cache ) {
+		if ( ! empty( $activity_ids ) && $r['update_meta_cache'] ) {
 			bp_activity_update_meta_cache( $activity_ids );
 		}
 
-		if ( $activities && $display_comments )
-			$activities = BP_Activity_Activity::append_comments( $activities, $spam );
+		if ( $activities && $r['display_comments'] ) {
+			$activities = BP_Activity_Activity::append_comments( $activities, $r['spam'] );
+		}
 
 		// Pre-fetch data associated with activity users and other objects
 		BP_Activity_Activity::prefetch_object_data( $activities );
@@ -589,9 +593,9 @@ class BP_Activity_Activity {
 			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
 			$total_activities     = $wpdb->get_var( $total_activities_sql );
 
-			if ( !empty( $max ) ) {
-				if ( (int) $total_activities > (int) $max )
-					$total_activities = $max;
+			if ( !empty( $r['max'] ) ) {
+				if ( (int) $total_activities > (int) $r['max'] )
+					$total_activities = $r['max'];
 			}
 
 			$retval['total'] = $total_activities;
