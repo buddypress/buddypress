@@ -407,4 +407,116 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEmpty( $found_user_ids );
 	}
 
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type_single_value() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type' => 'bar',
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEquals( array( $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type_array_with_single_value() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type' => array( 'bar' ),
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEquals( array( $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type_comma_separated_values() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type' => 'foo, bar',
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type_array_with_multiple_values() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type' => array( 'foo', 'bar' ),
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type_comma_separated_values_should_discard_non_existent_taxonomies() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type' => 'foo, baz',
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[0] ), $found );
+	}
+
+
+	/**
+	 * @group cache
+	 * @group member_types
+	 */
+	public function test_member_type_should_be_prefetched_into_cache_during_user_query() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 4 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+		bp_set_member_type( $users[2], 'foo' );
+
+		$q = new BP_User_Query( array(
+			'include' => $users,
+		) );
+
+		$this->assertSame( 'foo', wp_cache_get( $users[0], 'bp_member_type' ) );
+		$this->assertSame( 'bar', wp_cache_get( $users[1], 'bp_member_type' ) );
+		$this->assertSame( 'foo', wp_cache_get( $users[2], 'bp_member_type' ) );
+		$this->assertSame( '', wp_cache_get( $users[3], 'bp_member_type' ) );
+	}
 }

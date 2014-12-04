@@ -37,6 +37,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *                                              that should be returned. When this parameter is passed, it will
  *                                              override all others; BP User objects will be constructed using these
  *                                              IDs only. Default: false.
+ *     @type array|string      $member_type     Array or comma-separated list of member types to limit results to.
  *     @type string|bool       $meta_key        Limit results to users that have usermeta associated with this meta_key.
  *                                              Usually used with $meta_value. Default: false.
  *     @type string|bool       $meta_value      When used with $meta_key, limits results to users whose usermeta value
@@ -164,6 +165,7 @@ class BP_User_Query {
 				'include'         => false,
 				'exclude'         => false,
 				'user_ids'        => false,
+				'member_type'     => '',
 				'meta_key'        => false,
 				'meta_value'      => false,
 				'xprofile_query'  => false,
@@ -399,6 +401,46 @@ class BP_User_Query {
 				$search_terms_nospace,
 				$search_terms_space
 			);
+		}
+
+		// Member type.
+		if ( ! empty( $member_type ) ) {
+			$member_types = array();
+
+			if ( ! is_array( $member_type ) ) {
+				$member_type = preg_split( '/[,\s+]/', $member_type );
+			}
+
+			foreach ( $member_type as $mt ) {
+				if ( ! bp_get_member_type_object( $mt ) ) {
+					continue;
+				}
+
+				$member_types[] = $mt;
+			}
+
+			if ( ! empty( $member_types ) ) {
+				$member_type_tq = new WP_Tax_Query( array(
+					array(
+						'taxonomy' => 'bp_member_type',
+						'field'    => 'name',
+						'operator' => 'IN',
+						'terms'    => $member_types,
+					),
+				) );
+
+				// Switch to the root blog, where member type taxonomies live.
+				switch_to_blog( bp_get_root_blog_id() );
+
+				$member_type_sql_clauses = $member_type_tq->get_sql( 'u', $this->uid_name );
+				restore_current_blog();
+
+
+				// Grab the first term_relationships clause and convert to a subquery.
+				if ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id.*/', $member_type_sql_clauses['where'], $matches ) ) {
+					$sql['where']['member_type'] = "u.{$this->uid_name} IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
+				}
+			}
 		}
 
 		// 'meta_key', 'meta_value' allow usermeta search

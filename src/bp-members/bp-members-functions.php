@@ -78,19 +78,18 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
  * @param array $args {
  *     Array of arguments. All are optional. See {@link BP_User_Query} for
  *     a more complete description of arguments.
- *     @type string $type Sort order. Default: 'active'.
- *     @type int $user_id Limit results to friends of a user. Default: false.
- *     @type mixed $exclude IDs to exclude from results. Default: false.
- *     @type string $search_terms Limit to users matching search terms. Default: false.
- *     @type string $meta_key Limit to users with a meta_key. Default: false.
- *     @type string $meta_value Limit to users with a meta_value (with
- *           meta_key). Default: false.
+ *     @type string       $type            Sort order. Default: 'active'.
+ *     @type int          $user_id         Limit results to friends of a user. Default: false.
+ *     @type mixed        $exclude         IDs to exclude from results. Default: false.
+ *     @type string       $search_terms    Limit to users matching search terms. Default: false.
+ *     @type string       $meta_key        Limit to users with a meta_key. Default: false.
+ *     @type string       $meta_value      Limit to users with a meta_value (with meta_key). Default: false.
+ *     @type array|string $member_type     Array or comma-separated string of member types.
  *     @type mixed $include Limit results by user IDs. Default: false.
- *     @type int $per_page Results per page. Default: 20.
- *     @type int $page Page of results. Default: 1.
- *     @type bool $populate_extras Fetch optional extras. Default: true.
- *     @type string|bool $count_total How to do total user count.
- *           Default: 'count_query'.
+ *     @type int          $per_page        Results per page. Default: 20.
+ *     @type int          $page            Page of results. Default: 1.
+ *     @type bool         $populate_extras Fetch optional extras. Default: true.
+ *     @type string|bool  $count_total     How to do total user count. Default: 'count_query'.
  * }
  * @return array
  */
@@ -104,6 +103,7 @@ function bp_core_get_users( $args = '' ) {
 		'search_terms'    => false,        // Limit to users that match these search terms
 		'meta_key'        => false,        // Limit to users who have this piece of usermeta
 		'meta_value'      => false,        // With meta_key, limit to users where usermeta matches this value
+		'member_type'     => '',
 		'include'         => false,        // Pass comma separated list of user_ids to limit to only these users
 		'per_page'        => 20,           // The number of results to return per page
 		'page'            => 1,            // The page to return if limiting per page
@@ -2148,3 +2148,219 @@ function bp_live_spammer_login_error() {
 	add_action( 'login_head', 'wp_shake_js', 12 );
 }
 add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' );
+
+/** Member Types *************************************************************/
+
+/**
+ * Register a member type.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param string $member_type Unique string identifier for the member type.
+ * @param array  $args {
+ *     Array of arguments describing the member type.
+ *
+ *     @type array $labels {
+ *         Array of labels to use in various parts of the interface.
+ *
+ *         @type string $name          Default name. Should typically be plural.
+ *         @type string $singular_name Singular name.
+ *     }
+ * }
+ * @return object|WP_Error Member type object on success, WP_Error object on failure.
+ */
+function bp_register_member_type( $member_type, $args = array() ) {
+	$bp = buddypress();
+
+	if ( isset( $bp->members->types[ $member_type ] ) ) {
+		return new WP_Error( 'bp_member_type_exists', __( 'Member type already exists.', 'buddypress' ), $member_type );
+	}
+
+	$r = bp_parse_args( $args, array(
+		'labels' => array(),
+	), 'register_member_type' );
+
+	$type = (object) $r;
+
+	// Store the post type name as data in the object (not just as the array key).
+	$type->name = $member_type;
+
+	// Make sure the relevant labels have been filled in.
+	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $type->name );
+	$r['labels'] = array_merge( array(
+		'name'          => $default_name,
+		'singular_name' => $default_name,
+	), $r['labels'] );
+
+	$bp->members->types[ $member_type ] = $type;
+
+	/**
+	 * Fires after a member type is registered.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param string $member_type Member type identifier.
+	 * @param object $type        Member type object.
+	 */
+	do_action( 'bp_registered_member_type', $member_type, $type );
+
+	return $type;
+}
+
+/**
+ * Retrieve a member type object by name.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  string $post_type The name of the member type.
+ * @return object A member type object.
+ */
+function bp_get_member_type_object( $member_type ) {
+	$types = bp_get_member_types( array(), 'objects' );
+
+	if ( empty( $types[ $member_type ] ) ) {
+		return null;
+	}
+
+	return $types[ $member_type ];
+}
+
+/**
+ * Get a list of all registered member type objects.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @see bp_register_member_type() for accepted arguments.
+ *
+ * @param array|string $args     Optional. An array of key => value arguments to match against
+ *                               the member type objects. Default empty array.
+ * @param string       $output   Optional. The type of output to return. Accepts 'names'
+ *                               or 'objects'. Default 'names'.
+ * @param string       $operator Optional. The logical operation to perform. 'or' means only one
+ *                               element from the array needs to match; 'and' means all elements
+ *                               must match. Accepts 'or' or 'and'. Default 'and'.
+ * @return array A list of member type names or objects.
+ */
+function bp_get_member_types( $args = array(), $output = 'names', $operator = 'and' ) {
+	$types = buddypress()->members->types;
+
+	$field = 'names' == $output ? 'name' : false;
+
+	$types = wp_filter_object_list( $types, $args, $operator );
+
+	/**
+	 * Filters the array of member type objects.
+	 *
+	 * This filter is run before the $output filter has been applied, so that
+	 * filtering functions have access to the entire member type objects.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array  $types     Member type objects, keyed by name.
+	 * @param array  $args      Array of key=>value arguments for filtering.
+	 * @param string $operator 'or' to match any of $args, 'and' to require all.
+	 */
+	$types = apply_filters( 'bp_get_member_types', $types, $args, $operator );
+
+	if ( 'names' === $output ) {
+		$types = wp_list_pluck( $types, 'name' );
+	}
+
+	return $types;
+}
+
+/**
+ * Set type for a member.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param int    $user_id     ID of the user.
+ * @param string $member_type Member type.
+ * @param bool   $append      Optional. True to append this to existing types for user,
+ *                            false to replace. Default: false.
+ * @return See {@see bp_set_object_terms()}.
+ */
+function bp_set_member_type( $user_id, $member_type, $append = false ) {
+	// Pass an empty $member_type to remove a user's type.
+	if ( ! empty( $member_type ) && ! bp_get_member_type_object( $member_type ) ) {
+		return false;
+	}
+
+	$retval = bp_set_object_terms( $user_id, $member_type, 'bp_member_type', $append );
+
+	// Bust the cache if the type has been updated.
+	if ( ! is_wp_error( $retval ) ) {
+		wp_cache_delete( $user_id, 'bp_member_type' );
+
+		/**
+		 * Fires just after a user's member type has been changed.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param int    $user_id     ID of the user whose member type has been updated.
+		 * @param string $member_type Member type.
+		 * @param bool   $append      Whether the type is being appended to existing types.
+		 */
+		do_action( 'bp_set_member_type', $user_id, $member_type, $append );
+	}
+
+	return $retval;
+}
+
+/**
+ * Get type for a member.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  int               $user_id ID of the user.
+ * @param  bool              $single  Optional. Whether to return a single type string. If multiple types are found
+ *                                    for the user, the oldest one will be returned. Default: true.
+ * @return string|array|bool On success, returns a single member type (if $single is true) or an array of member
+ *                           types (if $single is false). Returns false on failure.
+ */
+function bp_get_member_type( $user_id, $single = true ) {
+	$types = wp_cache_get( $user_id, 'bp_member_type' );
+
+	if ( false === $types ) {
+		$types = bp_get_object_terms( $user_id, 'bp_member_type'  );
+
+		if ( ! is_wp_error( $types ) ) {
+			$types = wp_list_pluck( $types, 'name' );
+			wp_cache_set( $user_id, $types, 'bp_member_type' );
+		}
+	}
+
+	$type = false;
+	if ( ! empty( $types ) ) {
+		if ( $single ) {
+			$type = array_pop( $types );
+		} else {
+			$type = $types;
+		}
+	}
+
+	/**
+	 * Filters a user's member type(s).
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param string $type    Member type.
+	 * @param int    $user_id ID of the user.
+	 * @param bool   $single  Whether to return a single type string, or an array.
+	 */
+	return apply_filters( 'bp_get_member_type', $type, $user_id, $single );
+}
+
+/**
+ * Delete a user's member type when the user when the user is deleted.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  int $user_id ID of the user.
+ * @return See {@see bp_set_member_type()}.
+ */
+function bp_remove_member_type_on_user_delete( $user_id ) {
+	return bp_set_member_type( $user_id, '' );
+}
+add_action( 'wpmu_delete_user', 'bp_remove_member_type_on_user_delete' );
+add_action( 'delete_user', 'bp_remove_member_type_on_user_delete' );

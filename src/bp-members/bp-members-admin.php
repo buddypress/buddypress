@@ -186,6 +186,9 @@ class BP_Members_Admin {
 		// Add user row actions for single site
 		add_filter( 'user_row_actions', array( $this, 'row_actions' ), 10, 2 );
 
+		// Process changes to member type.
+		add_action( 'bp_members_admin_load', array( $this, 'process_member_type_update' ) );
+
 		/** Signups ***********************************************************/
 
 		if ( is_admin() ) {
@@ -719,6 +722,19 @@ class BP_Members_Admin {
 				sanitize_key( $this->stats_metabox->priority )
 			);
 
+			// Member Type metabox. Only added if member types have been registered.
+			$member_types = bp_get_member_types();
+			if ( ! empty( $member_types ) ) {
+				add_meta_box(
+					'bp_members_admin_member_type',
+					_x( 'Member Type', 'members user-admin edit screen', 'buddypress' ),
+					array( $this, 'user_admin_member_type_metabox' ),
+					get_current_screen()->id,
+					'side',
+					'core'
+				);
+			}
+
 			/**
 			 * Custom metabox ?
 			 * Plugins can restrict metabox to "bp_moderate" admins checking
@@ -995,6 +1011,75 @@ class BP_Members_Admin {
 		</ul>
 
 		<?php
+	}
+
+	/**
+	 * Render the Member Type metabox.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 *
+	 * @param WP_User $user The WP_User object to be edited.
+	 */
+	public function user_admin_member_type_metabox( $user = null ) {
+
+		// Bail if no user ID.
+		if ( empty( $user->ID ) ) {
+			return;
+		}
+
+		$types = bp_get_member_types( array(), 'objects' );
+		$current_type = bp_get_member_type( $user->ID );
+
+		/* translators: no option picked in select box */
+		$null_option = __( '----', 'buddypress' );
+
+		?>
+		<select name="bp-members-profile-member-type">
+			<option value="" <?php selected( '', $current_type ); ?>><?php esc_attr_e( $null_option ) ?></option>
+			<?php foreach ( $types as $type ) : ?>
+				<option value="<?php echo esc_attr( $type->name ) ?>" <?php selected( $type->name, $current_type ) ?>><?php echo esc_html( $type->labels['singular_name'] ) ?></option>
+			<?php endforeach; ?>
+		</select>
+
+		<?php
+
+		wp_nonce_field( 'bp-member-type-change-' . $user->ID, 'bp-member-type-nonce' );
+	}
+
+	/**
+	 * Process changes from the Member Type metabox.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 */
+	public function process_member_type_update() {
+		if ( ! isset( $_POST['bp-member-type-nonce'] ) || ! isset( $_POST['bp-members-profile-member-type'] ) ) {
+			return;
+		}
+
+		$user_id = $this->get_user_id();
+
+		check_admin_referer( 'bp-member-type-change-' . $user_id, 'bp-member-type-nonce' );
+
+		// Permission check.
+		if ( ! current_user_can( 'bp_moderate' ) && $user_id != bp_loggedin_user_id() ) {
+			return;
+		}
+
+		// Member type string must either reference a valid member type, or be empty.
+		$member_type = stripslashes( $_POST['bp-members-profile-member-type'] );
+		if ( ! empty( $member_type ) && ! bp_get_member_type_object( $member_type ) ) {
+			return;
+		}
+
+		/*
+		 * If an invalid member type is passed, someone's doing something
+		 * fishy with the POST request, so we can fail silently.
+		 */
+		if ( bp_set_member_type( $user_id, $member_type ) ) {
+			// @todo Success messages can't be posted because other stuff happens on the pageload.
+		}
 	}
 
 	/**

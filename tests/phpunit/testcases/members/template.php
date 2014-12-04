@@ -124,6 +124,30 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_has_members
+	 */
+	public function test_bp_has_members_should_pass_member_type_param_to_query() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		global $members_template;
+		$old_members_template = $members_template;
+
+		bp_has_members( array(
+			'member_type' => 'bar',
+		) );
+
+		$members = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
+		$member_ids = wp_list_pluck( $members, 'ID' );
+		$this->assertEquals( array( $users[1]), $member_ids );
+
+		$GLOBALS['members_template'] = $old_members_template;
+	}
+
+	/**
 	 * @group bp_get_member_last_active
 	 */
 	public function test_bp_get_member_last_active_default_params() {

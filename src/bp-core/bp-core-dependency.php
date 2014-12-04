@@ -39,6 +39,15 @@ function bp_setup_canonical_stack() {
 }
 
 /**
+ * Fire the 'bp_register_taxonomies' action, where plugins should register taxonomies.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_register_taxonomies() {
+	do_action( 'bp_register_taxonomies' );
+}
+
+/**
  * Fire the 'bp_setup_globals' action, where plugins should initialize global settings.
  */
 function bp_setup_globals() {

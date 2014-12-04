@@ -11,6 +11,16 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_Members_Component extends BP_Component {
+	/**
+	 * Member types.
+	 *
+	 * @see bp_register_member_type()
+	 *
+	 * @access public
+	 * @since  BuddyPress (2.2.0)
+	 * @var    array
+	 */
+	public $types = array();
 
 	/**
 	 * Start the members component creation process.
@@ -45,7 +55,8 @@ class BP_Members_Component extends BP_Component {
 			'screens',
 			'template',
 			'adminbar',
-			'functions'
+			'functions',
+			'cache',
 		);
 
 		// Include these only if in admin
