@@ -128,12 +128,12 @@ Regards,
 					 *
 					 * @since BuddyPress (2.1.0)
 					 *
-					 * @param string $email_text Text of the email.
-					 * @param string $new_user_email New user email that
-					 *        the current user has changed to.
-					 * @param string $old_user_email Existing email addres
-					 *        for the current user.
-					 * @param object $update_user Userdata for the current user.
+					 * @param string  $email_text     Text of the email.
+					 * @param string  $new_user_email New user email that the
+					 *                                current user has changed to.
+					 * @param string  $old_user_email Existing email address
+					 *                                for the current user.
+					 * @param WP_User $update_user    Userdata object for the current user.
 					 */
 					$content = apply_filters( 'bp_new_user_email_content', $email_text, $user_email, $old_user_email, $update_user );
 
@@ -257,7 +257,11 @@ Regards,
 	// Set the feedback
 	bp_core_add_message( implode( '</p><p>', $feedback ), $feedback_type );
 
-	// Execute additional code
+	/**
+	 * Fires after the general settings have been saved, and before redirect.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_core_general_settings_after_save' );
 
 	// Redirect to prevent issues with browser back button
@@ -303,6 +307,11 @@ function bp_settings_action_notifications() {
 		bp_core_add_message( __( "This user's notification settings have been saved.", 'buddypress' ), 'success' );
 	}
 
+	/**
+	 * Fires after the notificaton settings have been saved, and before redirect.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_core_notification_settings_after_save' );
 
 	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications/' );
@@ -341,6 +350,11 @@ function bp_settings_action_capabilities() {
 	// Nonce check
 	check_admin_referer( 'capabilities' );
 
+	/**
+	 * Fires before the capabilities settings have been saved.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_settings_capabilities_before_save' );
 
 	/** Spam **************************************************************/
@@ -350,11 +364,25 @@ function bp_settings_action_capabilities() {
 	if ( bp_is_user_spammer( bp_displayed_user_id() ) != $is_spammer ) {
 		$status = ( true == $is_spammer ) ? 'spam' : 'ham';
 		bp_core_process_spammer_status( bp_displayed_user_id(), $status );
+
+		/**
+		 * Fires after processing a user as a spammer.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param int    $value  ID of the currently displayed user.
+		 * @param string $status Determined status of "spam" or "ham" for the displayed user.
+		 */
 		do_action( 'bp_core_action_set_spammer_status', bp_displayed_user_id(), $status );
 	}
 
 	/** Other *************************************************************/
 
+	/**
+	 * Fires after the capabilities settings have been saved and before redirect.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_settings_capabilities_after_save' );
 
 	// Redirect to the root domain

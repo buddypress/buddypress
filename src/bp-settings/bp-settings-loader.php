@@ -15,7 +15,7 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Start the settings component creation process
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function __construct() {
 		parent::start(
@@ -48,7 +48,7 @@ class BP_Settings_Component extends BP_Component {
 	 * The BP_SETTINGS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function setup_globals( $args = array() ) {
 
