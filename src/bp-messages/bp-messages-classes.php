@@ -268,6 +268,7 @@ class BP_Messages_Thread {
 
 		// No more recipients so delete all messages associated with the thread
 		if ( empty( $recipients ) ) {
+
 			/**
 			 * Fires before an entire message thread is deleted.
 			 *
@@ -731,6 +732,15 @@ class BP_Messages_Message {
 		$this->message   = apply_filters( 'messages_message_content_before_save',   $this->message,   $this->id );
 		$this->date_sent = apply_filters( 'messages_message_date_sent_before_save', $this->date_sent, $this->id );
 
+		/**
+		 * Fires before the current message item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Messages_Message Current instance of the message item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'messages_message_before_save', array( &$this ) );
 
 		// Make sure we have at least one recipient before sending.
@@ -770,6 +780,13 @@ class BP_Messages_Message {
 
 		messages_remove_callback_values();
 
+		/**
+		 * Fires after the current message item has been saved.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Messages_Message Current instance of the message item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'messages_message_after_save', array( &$this ) );
 
 		return $this->id;
@@ -933,6 +950,15 @@ class BP_Messages_Notice {
 		$this->subject = apply_filters( 'messages_notice_subject_before_save', $this->subject, $this->id );
 		$this->message = apply_filters( 'messages_notice_message_before_save', $this->message, $this->id );
 
+		/**
+		 * Fires before the current message notice item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Messages_Notice Current instance of the message notice item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'messages_notice_before_save', array( &$this ) );
 
 		if ( empty( $this->id ) ) {
@@ -954,6 +980,13 @@ class BP_Messages_Notice {
 
 		bp_update_user_last_activity( bp_loggedin_user_id(), bp_core_current_time() );
 
+		/**
+		 * Fires after the current message notice item has been saved.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Messages_Notice Current instance of the message item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'messages_notice_after_save', array( &$this ) );
 
 		return true;
@@ -993,6 +1026,13 @@ class BP_Messages_Notice {
 	public function delete() {
 		global $wpdb, $bp;
 
+		/**
+		 * Fires before the current message item has been deleted.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Messages_Notice Current instance of the message notice item being deleted.
+		 */
 		do_action( 'messages_notice_before_delete', $this );
 
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id );

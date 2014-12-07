@@ -155,7 +155,13 @@ function messages_new_message( $args = '' ) {
 		return false;
 	}
 
-	// Allow additional actions when a message is sent successfully
+	/**
+	 * Fires after a message has been successfully sent.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param BP_Messages_Message $message Message object. Passed by reference.
+	 */
 	do_action_ref_array( 'messages_message_sent', array( &$message ) );
 
 	// Return the thread ID
@@ -182,6 +188,14 @@ function messages_send_notice( $subject, $message ) {
 		$notice->is_active = 1;
 		$notice->save(); // send it.
 
+		/**
+		 * Fires after a notice has been successfully sent.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $subject Subject of the notice.
+		 * @param string $message Content of the notice.
+		 */
 		do_action_ref_array( 'messages_send_notice', array( $subject, $message ) );
 
 		return true;
@@ -195,6 +209,14 @@ function messages_send_notice( $subject, $message ) {
  * @return bool True on success, false on failure.
  */
 function messages_delete_thread( $thread_ids ) {
+
+	/**
+	 * Fires before specified thread IDs have been deleted.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int|array Thread ID or array of thread IDs that were deleted.
+	 */
 	do_action( 'messages_before_delete_thread', $thread_ids );
 
 	if ( is_array( $thread_ids ) ) {
@@ -209,6 +231,13 @@ function messages_delete_thread( $thread_ids ) {
 			return false;
 		}
 
+		/**
+		 * Fires after specified thread IDs have been deleted.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param int|array Thread ID or array of thread IDs that were deleted.
+		 */
 		do_action( 'messages_delete_thread', $thread_ids );
 
 		return true;
@@ -217,6 +246,7 @@ function messages_delete_thread( $thread_ids ) {
 			return false;
 		}
 
+		/** This action is documented in bp-messages/bp-messages-functions.php */
 		do_action( 'messages_delete_thread', $thread_ids );
 
 		return true;

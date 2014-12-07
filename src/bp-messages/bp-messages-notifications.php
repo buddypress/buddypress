@@ -92,15 +92,56 @@ To view and read your messages please log in and visit: %4$s
 				$email_content .= sprintf( __( 'To disable these notifications, please log in and go to: %s', 'buddypress' ), $settings_link );
 			}
 
-			// Send the message
+			/**
+			 * Filters the user email that the message notification will be sent to.
+			 *
+			 * @since BuddyPress (1.2.0)
+			 *
+			 * @param string  $email_to User email the notification is being sent to.
+			 * @param WP_User $ud       WP_User object of who is receiving the message.
+			 */
 			$email_to      = apply_filters( 'messages_notification_new_message_to',      $email_to, $ud );
+
+			/**
+			 * Filters the message notification subject that will be sent to user.
+			 *
+			 * @since BuddyPress (1.2.0)
+			 *
+			 * @param string  $email_subject Email notification subject text.
+			 * @param string  $sender_name   Name of the person who sent the message.
+			 * @param WP_User $ud            WP_User object of who is receiving the message.
+			 */
 			$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name, $ud );
+
+			/**
+			 * Filters the message notification message that will be sent to user.
+			 *
+			 * @since BuddyPress (1.2.0)
+			 *
+			 * @param string  $email_content Email notification message text.
+			 * @param string  $sender_name   Name of the person who sent the message.
+			 * @param string  $subject       Email notification subject text.
+			 * @param string  $content       Content of the message.
+			 * @param string  $message_link  URL permalink for the message.
+			 * @param string  $settings_link URL permalink for the user's notification settings area.
+			 * @param WP_User $ud            WP_User object of who is receiving the message.
+			 */
 			$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link, $settings_link, $ud );
 
 			wp_mail( $email_to, $email_subject, $email_content );
 		}
 	}
 
+	/**
+	 * Fires after the sending of a new message email notification.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param array  $recipients    User IDs of recipients.
+	 * @param string $email_subject Email notification subject text.
+	 * @param string $email_content Email notification message text.
+	 * @param array  $$args         Array of originally provided arguments.
+	 */
 	do_action( 'bp_messages_sent_notification_email', $recipients, $email_subject, $email_content, $args );
 }
 add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
@@ -125,11 +166,13 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	$total_items = (int) $total_items;
 	$link        = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox' );
 	$title       = __( 'Inbox', 'buddypress' );
+	$amount      = 'single';
 
 	if ( 'new_message' === $action ) {
 		if ( $total_items > 1 ) {
 			$amount = 'multiple';
 			$text   = sprintf( __( 'You have %d new messages', 'buddypress' ), $total_items );
+			$amount = 'multiple';
 		} else {
 			$amount = 'single';
 
@@ -177,6 +220,16 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		), $link, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
 	}
 
+	/**
+	 * Fires right before returning the formatted message notifications.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $action            The type of message notification.
+	 * @param int    $item_id           The primary item ID.
+	 * @param int    $secondary_item_id The secondary item ID.
+	 * @param int    $total_items       Total amount of items to format.
+	 */
 	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 
 	return $return;
