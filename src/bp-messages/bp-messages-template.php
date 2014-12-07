@@ -1587,6 +1587,7 @@ function bp_send_message_button() {
 		// Note: 'bp_get_send_message_button' is a legacy filter. Use
 		// 'bp_get_send_message_button_args' instead. See #4536
 		return apply_filters( 'bp_get_send_message_button',
+
 			/**
 			 * Filters the "Private Message" button for member profile headers.
 			 *
