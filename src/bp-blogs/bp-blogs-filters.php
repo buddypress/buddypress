@@ -33,6 +33,14 @@ add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
  * @return string The new URL.
  */
 function bp_blogs_creation_location( $url ) {
+
+	/**
+	 * Filters the 'Create a new site' link URL.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param string $value URL for the 'Create a new site' signup page.
+	 */
 	return apply_filters( 'bp_blogs_creation_location', trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create', $url ) );
 }
 add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
@@ -85,10 +93,24 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 		$tags_blog_id = isset( $bp->site_options['tags_blog_id'] ) ? $bp->site_options['tags_blog_id'] : 0;
 	}
 
+	/**
+	 * Filters whether or not BuddyPress should block sitewide tags activity.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param bool $value Current status of the sitewide tags activity.
+	 */
 	if ( (int) $blog_id == $tags_blog_id && apply_filters( 'bp_blogs_block_sitewide_tags_activity', true ) ) {
 		return false;
 	}
 
+	/**
+	 * Filters whether or not the current blog is public.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param int $value Value from the blog_public option for the current blog.
+	 */
 	$is_blog_public = apply_filters( 'bp_is_blog_public', (int) get_blog_option( $blog_id, 'blog_public' ) );
 
 	if ( 0 === $is_blog_public && is_multisite() ) {

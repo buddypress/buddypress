@@ -82,7 +82,14 @@ class BP_Blogs_Component extends BP_Component {
 		 * In case the config is not multisite, the blog_public option is ignored.
 		 */
 		if ( 0 !== (int) get_option( 'blog_public' ) || ! is_multisite() ) {
-			// Get all posts to track.
+
+			/**
+			 * Filters the post types to track for the Blog component.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param array $value Array of post types to track.
+			 */
 			$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
 
 			foreach ( $post_types as $post_type ) {

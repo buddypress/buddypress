@@ -51,6 +51,11 @@ function bp_blogs_register_activity_actions() {
 		);
 	}
 
+	/**
+	 * Fires after the registry of the default blog component activity actions.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	do_action( 'bp_blogs_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions' );
@@ -81,6 +86,14 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 		}
 	}
 
+	/**
+	 * Filters the new blog activity action for the new blog.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action   Constructed activity action.
+	 * @param obj    $activity Activity data object.
+	 */
 	return apply_filters( 'bp_blogs_format_activity_action_new_blog', $action, $activity );
 }
 
@@ -150,6 +163,14 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 		}
 	}
 
+	/**
+	 * Filters the new blog post action for the new blog.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action   Constructed activity action.
+	 * @param obj    $activity Activity data object.
+	 */
 	return apply_filters( 'bp_blogs_format_activity_action_new_blog_post', $action, $activity );
 }
 
@@ -217,6 +238,14 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 		}
 	}
 
+	/**
+	 * Filters the new blog comment action for the new blog.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action   Constructed activity action.
+	 * @param obj    $activity Activity data object.
+	 */
 	return apply_filters( 'bp_blogs_format_activity_action_new_blog_comment', $action, $activity );
 }
 
@@ -298,10 +327,28 @@ function bp_blogs_record_activity( $args = '' ) {
 	}
 
 	if ( ! empty( $r['action'] ) ) {
+
+		/**
+		 * Filters the action associated with activity for activity stream.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 *
+		 * @param string $value Action for the activity stream.
+		 */
 		$r['action'] = apply_filters( 'bp_blogs_record_activity_action', $r['action'] );
 	}
 
 	if ( ! empty( $r['content'] ) ) {
+
+		/**
+		 * Filters the content associated with activity for activity stream.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 *
+		 * @param string $value Generated excerpt from content for the activity stream.
+		 * @param string $value Content for the activity stream.
+		 * @param array  $r     Array of arguments used for the activity stream item.
+		 */
 		$r['content'] = apply_filters( 'bp_blogs_record_activity_content', bp_create_excerpt( $r['content'] ), $r['content'], $r );
 	}
 
@@ -531,6 +578,16 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 	// add the comment hook back
 	add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
 
+	/**
+	 * Fires after activity comments have been synced and posted as blog comments.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param int    $comment_id      The activity ID for the posted activity comment.
+	 * @param array  $args            Array of args used for the comment syncing.
+	 * @param object $parent_activity Parameters of the blog post parent activity item.
+	 * @param object $user            User data object for the blog comment.
+	 */
 	do_action( 'bp_blogs_sync_add_from_activity_comment', $comment_id, $args, $parent_activity, $user );
 }
 add_action( 'bp_activity_comment_posted', 'bp_blogs_sync_add_from_activity_comment', 10, 3 );

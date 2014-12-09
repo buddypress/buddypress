@@ -283,6 +283,15 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		) );
 	}
 
+	/**
+	 * Fires after BuddyPress has been made aware of a new site for activity tracking.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param BP_Blogs_Blog $recorded_blog Current blog being recorded. Passed by reference.
+	 * @param bool          $is_private    Whether or not the current blog being recorded is private.
+	 * @param bool          $is_recorded   Whether or not the current blog was recorded.
+	 */
 	do_action_ref_array( 'bp_blogs_new_blog', array( &$recorded_blog, $is_private, $is_recorded ) );
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
@@ -427,6 +436,15 @@ function bp_blogs_publish_post_activity_meta( $activity_id, $post, $args ) {
 	// Update the blog's last activity.
 	bp_blogs_update_blogmeta( $args['item_id'], 'last_activity', bp_core_current_time() );
 
+	/**
+	 * Fires after BuddyPress has recorded metadata about a published blog post.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int     $ID    ID of the blog post being recorded.
+	 * @param WP_Post $post  WP_Post object for the current blog post.
+	 * @param string  $value ID of the user associated with the current blog post.
+	 */
 	do_action( 'bp_blogs_new_blog_post', $post->ID, $post, $args['user_id'] );
 }
 add_action( 'bp_activity_post_type_published', 'bp_blogs_publish_post_activity_meta', 10, 3 );
@@ -790,7 +808,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
  * core function, so that we can be sure that the Blogs component is loaded
  * first. See http://buddypress.trac.wordpress.org/ticket/3916.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  * @access private
  */
 function bp_blogs_maybe_add_user_to_blog() {
@@ -811,6 +829,15 @@ function bp_blogs_remove_blog( $blog_id ) {
 	global $bp;
 
 	$blog_id = (int) $blog_id;
+
+	/**
+	 * Fires before a "blog created" item is removed from blogs
+	 * tracker and activity stream.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $blog_id ID of the blog having its item removed.
+	 */
 	do_action( 'bp_blogs_before_remove_blog', $blog_id );
 
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
@@ -818,6 +845,14 @@ function bp_blogs_remove_blog( $blog_id ) {
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->id, 'type' => 'new_blog' ) );
 
+	/**
+	 * Fires after a "blog created" item has been removed from blogs
+	 * tracker and activity stream.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $blog_id ID of the blog who had its item removed.
+	 */
 	do_action( 'bp_blogs_remove_blog', $blog_id );
 }
 add_action( 'delete_blog', 'bp_blogs_remove_blog' );
@@ -834,6 +869,14 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	$blog_id = (int) $blog_id;
 	$user_id = (int) $user_id;
 
+	/**
+	 * Fires before a blog is removed from the tracker for a specific user.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $blog_id ID of the blog being removed.
+	 * @param int $user_id ID of the user having the blog removed for.
+	 */
 	do_action( 'bp_blogs_before_remove_blog_for_user', $blog_id, $user_id );
 
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
@@ -845,6 +888,14 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 		'type'      => 'new_blog'
 	) );
 
+	/**
+	 * Fires after a blog has been removed from the tracker for a specific user.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $blog_id ID of the blog that was removed.
+	 * @param int $user_id ID of the user having the blog removed for.
+	 */
 	do_action( 'bp_blogs_remove_blog_for_user', $blog_id, $user_id );
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
@@ -871,11 +922,29 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	if ( !$user_id )
 		$user_id = bp_loggedin_user_id();
 
+	/**
+	 * Fires before removal of a blog post activity item from the activity stream.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $blog_id ID of the blog associated with the post that was removed.
+	 * @param int $post_id ID of the post that was removed.
+	 * @param int $user_id ID of the user having the blog removed for.
+	 */
 	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
 
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'secondary_item_id' => $post_id, 'component' => $bp->blogs->id, 'type' => 'new_blog_post' ) );
 
+	/**
+	 * Fires after removal of a blog post activity item from the activity stream.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $blog_id ID of the blog associated with the post that was removed.
+	 * @param int $post_id ID of the post that was removed.
+	 * @param int $user_id ID of the user having the blog removed for.
+	 */
 	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $user_id );
 }
 add_action( 'delete_post', 'bp_blogs_remove_post' );
@@ -935,6 +1004,15 @@ function bp_blogs_remove_comment( $comment_id ) {
 		}
 	}
 
+	/**
+	 * Fires after a blog comment activity item was removed from activity stream.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $blogid     Item ID for the blog associated with the removed comment.
+	 * @param int $comment_id ID of the comment being removed.
+	 * @param int $value      ID of the current logged in user.
+	 */
 	do_action( 'bp_blogs_remove_comment', $wpdb->blogid, $comment_id, bp_loggedin_user_id() );
 }
 add_action( 'delete_comment', 'bp_blogs_remove_comment' );
@@ -1110,6 +1188,14 @@ function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
 function bp_blogs_remove_data_for_blog( $blog_id ) {
 	global $bp;
 
+	/**
+	 * Fires before all data related to a given blog is removed from blogs tracker
+	 * and activity stream.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $blog_id ID of the blog whose data is being removed.
+	 */
 	do_action( 'bp_blogs_before_remove_data_for_blog', $blog_id );
 
 	// If this is regular blog, delete all data for that blog.
@@ -1118,6 +1204,14 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 	// Delete activity stream item
 	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->id, 'type' => false ) );
 
+	/**
+	 * Fires after all data related to a given blog has been removed from blogs tracker
+	 * and activity stream.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $blog_id ID of the blog whose data is being removed.
+	 */
 	do_action( 'bp_blogs_remove_data_for_blog', $blog_id );
 }
 add_action( 'delete_blog', 'bp_blogs_remove_data_for_blog', 1 );
@@ -1302,11 +1396,25 @@ function bp_blogs_remove_data( $user_id ) {
 	if ( !is_multisite() )
 		return false;
 
+	/**
+	 * Fires before all blog associations are removed for a given user.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $user_id ID of the user whose blog associations are being removed.
+	 */
 	do_action( 'bp_blogs_before_remove_data', $user_id );
 
 	// If this is regular blog, delete all data for that blog.
 	BP_Blogs_Blog::delete_blogs_for_user( $user_id );
 
+	/**
+	 * Fires after all blog associations are removed for a given user.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $user_id ID of the user whose blog associations were removed.
+	 */
 	do_action( 'bp_blogs_remove_data', $user_id );
 }
 add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );

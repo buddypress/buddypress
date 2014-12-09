@@ -58,6 +58,15 @@ class BP_Blogs_Blog {
 		$this->user_id = apply_filters( 'bp_blogs_blog_user_id_before_save', $this->user_id, $this->id );
 		$this->blog_id = apply_filters( 'bp_blogs_blog_id_before_save', $this->blog_id, $this->id );
 
+		/**
+		 * Fires before the current blog item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Blogs_Blog Current instance of the blog item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'bp_blogs_blog_before_save', array( &$this ) );
 
 		// Don't try and save if there is no user ID or blog ID set.
@@ -79,6 +88,15 @@ class BP_Blogs_Blog {
 		if ( !$wpdb->query($sql) )
 			return false;
 
+		/**
+		 * Fires after the current blog item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Blogs_Blog Current instance of the blog item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'bp_blogs_blog_after_save', array( &$this ) );
 
 		if ( $this->id )
