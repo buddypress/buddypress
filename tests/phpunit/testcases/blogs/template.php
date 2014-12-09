@@ -115,4 +115,91 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$blogs_template->blog = null;
 	}
+
+	/**
+	 * @group bp_blog_signup_enabled
+	 */
+	public function test_bp_signup_enabled_when_registration_setting_does_not_exist_should_default_to_true() {
+		$old_settings = $settings = buddypress()->site_options['registration'];
+		if ( isset( $settings['registration'] ) ) {
+			unset( $settings['registration'] );
+		}
+		buddypress()->site_options = $settings;
+
+		$this->assertTrue( bp_blog_signup_enabled() );
+
+		buddypress()->site_options = $old_settings;
+	}
+
+	/**
+	 * @group bp_blog_signup_enabled
+	 */
+	public function test_bp_signup_enabled_when_registration_setting_is_all_should_return_true() {
+		$old_settings = $settings = buddypress()->site_options['registration'];
+
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+
+		$settings['registration'] = 'all';
+		buddypress()->site_options = $settings;
+
+		$this->assertTrue( bp_blog_signup_enabled() );
+
+		buddypress()->site_options = $old_settings;
+	}
+
+	/**
+	 * @group bp_blog_signup_enabled
+	 */
+	public function test_bp_signup_enabled_when_registration_setting_is_blog_should_return_true() {
+		$old_settings = $settings = buddypress()->site_options['registration'];
+
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+
+		$settings['registration'] = 'blog';
+		buddypress()->site_options = $settings;
+
+		$this->assertTrue( bp_blog_signup_enabled() );
+
+		buddypress()->site_options = $old_settings;
+	}
+
+	/**
+	 * @group bp_blog_signup_enabled
+	 */
+	public function test_bp_signup_enabled_when_registration_setting_is_user_should_return_false() {
+		$old_settings = $settings = buddypress()->site_options['registration'];
+
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+
+		$settings['registration'] = 'user';
+		buddypress()->site_options = $settings;
+
+		$this->assertFalse( bp_blog_signup_enabled() );
+
+		buddypress()->site_options = $old_settings;
+	}
+
+	/**
+	 * @group bp_blog_signup_enabled
+	 */
+	public function test_bp_signup_enabled_when_registration_setting_is_none_should_return_false() {
+		$old_settings = $settings = buddypress()->site_options['registration'];
+
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+
+		$settings['registration'] = 'none';
+		buddypress()->site_options = $settings;
+
+		$this->assertFalse( bp_blog_signup_enabled() );
+
+		buddypress()->site_options = $old_settings;
+	}
 }
