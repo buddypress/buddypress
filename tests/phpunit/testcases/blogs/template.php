@@ -121,7 +121,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_signup_enabled_when_registration_setting_does_not_exist_should_default_to_true() {
 		$old_settings = $settings = buddypress()->site_options['registration'];
-		if ( isset( $settings['registration'] ) ) {
+		if ( is_array( $settings['registration'] ) && isset( $settings['registration'] ) ) {
 			unset( $settings['registration'] );
 		}
 		buddypress()->site_options = $settings;
