@@ -423,35 +423,35 @@ class BP_Groups_Template {
  *
  * @param array $args {
  *     Array of parameters. All items are optional.
- *     @type string $type Optional. Shorthand for certain orderby/
+ *     @type string $type Shorthand for certain orderby/
  *           order combinations. 'newest', 'active', 'popular',
  *           'alphabetical', 'random'. When present, will override
  *           orderby and order params. Default: null.
- *     @type string $orderby Optional. Property to sort by.
+ *     @type string $orderby Property to sort by.
  *           'date_created', 'last_activity', 'total_member_count',
  *           'name', 'random'. Default: 'date_created'.
- *     @type string $order Optional. Sort order. 'ASC' or 'DESC'.
+ *     @type string $order Sort order. 'ASC' or 'DESC'.
  *           Default: 'DESC'.
- *     @type int $per_page Optional. Number of items to return per page
+ *     @type int $per_page Number of items to return per page
  *           of results. Default: null (no limit).
- *     @type int $page Optional. Page offset of results to return.
+ *     @type int $page Page offset of results to return.
  *           Default: null (no limit).
- *     @type int $user_id Optional. If provided, results will be limited
+ *     @type int $user_id If provided, results will be limited
  *           to groups of which the specified user is a member. Default:
  *           null.
- *     @type string $search_terms Optional. If provided, only groups
+ *     @type string $search_terms If provided, only groups
  *           whose names or descriptions match the search terms will be
  *           returned. Default: false.
- *     @type array $meta_query Optional. An array of meta_query
+ *     @type array $meta_query An array of meta_query
  *           conditions. See {@link WP_Meta_Query::queries} for
  *           description.
- *     @type array|string Optional. Array or comma-separated list of
+ *     @type array|string $include Array or comma-separated list of
  *           group IDs. Results will be limited to groups within the
  *           list. Default: false.
  *     @type bool $populate_extras Whether to fetch additional
  *           information (such as member count) about groups. Default:
  *           true.
- *     @type array|string Optional. Array or comma-separated list of
+ *     @type array|string $exclude Array or comma-separated list of
  *           group IDs. Results will exclude the listed groups.
  *           Default: false.
  *     @type bool $show_hidden Whether to include hidden groups in
