@@ -35,7 +35,7 @@
 
 				<label for="signup_email"><?php _e( 'Email Address', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 				<?php do_action( 'bp_signup_email_errors' ); ?>
-				<input type="text" name="signup_email" id="signup_email" value="<?php bp_signup_email_value(); ?>" />
+				<input type="email" name="signup_email" id="signup_email" value="<?php bp_signup_email_value(); ?>" />
 
 				<label for="signup_password"><?php _e( 'Choose a Password', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 				<?php do_action( 'bp_signup_password_errors' ); ?>

@@ -10,7 +10,7 @@
 	<?php endif; ?>
 
 	<label for="email"><?php _e( 'Account Email', 'buddypress' ); ?></label>
-	<input type="text" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
+	<input type="email" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" />
 
 	<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ); ?></label>
 	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" /> &nbsp;<?php _e( 'New Password', 'buddypress' ); ?><br />
