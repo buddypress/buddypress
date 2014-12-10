@@ -21,10 +21,46 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since BuddyPress (1.0.0)
  *
  * @param int $group_id ID of the group.
+ * @param BP_Groups_Group $old_group Group before new details were saved.
  */
-function groups_notification_group_updated( $group_id = 0 ) {
+function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 
-	$group    = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( array( 'group_id' => $group_id ) );
+
+	if ( $old_group instanceof BP_Groups_Group ) {
+		$changed = array();
+
+		if ( $group->name !== $old_group->name ) {
+			$changed[] = sprintf(
+				_x( '* Name changed from "%s" to "%s"', 'Group update email text', 'buddypress' ),
+				esc_html( $old_group->name ),
+				esc_html( $group->name )
+			);
+		}
+
+		if ( $group->description !== $old_group->description ) {
+			$changed[] = sprintf(
+				__( '* Description changed from "%s" to "%s"', 'Group update email text', 'buddypress' ),
+				esc_html( $old_group->description ),
+				esc_html( $group->description )
+			);
+		}
+	}
+
+	/**
+	 * Filters the bullet points listing updated items in the email notification after a group is updated.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $changed Array of bullet points.
+	 */
+	$changed = apply_filters( 'groups_notification_group_update_updated_items', $changed );
+
+	$changed_text = '';
+	if ( ! empty( $changed ) ) {
+		$changed_text = "\n\n" . implode( "\n", $changed );
+	}
+
 	$subject  = bp_get_email_subject( array( 'text' => __( 'Group Details Updated', 'buddypress' ) ) );
 	$user_ids = BP_Groups_Member::get_group_member_ids( $group->id );
 
@@ -45,12 +81,12 @@ function groups_notification_group_updated( $group_id = 0 ) {
 		$settings_link = bp_core_get_user_domain( $user_id ) . $settings_slug . '/notifications/';
 
 		$message = sprintf( __(
-'Group details for the group "%1$s" were updated:
+'Group details for the group "%1$s" were updated: %2$s
 
-To view the group: %2$s
+To view the group: %3$s
 
 ---------------------
-', 'buddypress' ), $group->name, $group_link );
+', 'buddypress' ), $group->name, $changed_text, $group_link );
 
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 
