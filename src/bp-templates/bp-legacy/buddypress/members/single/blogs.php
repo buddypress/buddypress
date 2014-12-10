@@ -16,8 +16,8 @@
 
 		<li id="blogs-order-select" class="last filter">
 
-			<label for="blogs-all"><?php _e( 'Order By:', 'buddypress' ); ?></label>
-			<select id="blogs-all">
+			<label for="blogs-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+			<select id="blogs-order-by">
 				<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
 				<option value="newest"><?php _e( 'Newest', 'buddypress' ); ?></option>
 				<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
