@@ -246,7 +246,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'jstest', 'Runs all javascript tasks.', [ 'jsvalidate:src', 'jshint' ] );
 
 	// Travis CI Task
-	grunt.registerTask( 'travis', ['jshint', 'test'] );
+	grunt.registerTask( 'travis', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
 
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );
