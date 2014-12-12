@@ -40,7 +40,7 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 
 		if ( $group->description !== $old_group->description ) {
 			$changed[] = sprintf(
-				__( '* Description changed from "%s" to "%s"', 'Group update email text', 'buddypress' ),
+				_x( '* Description changed from "%s" to "%s"', 'Group update email text', 'buddypress' ),
 				esc_html( $old_group->description ),
 				esc_html( $group->description )
 			);
