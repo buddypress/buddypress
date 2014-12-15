@@ -231,4 +231,27 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 		$this->set_current_user( $old_user );
 	}
+
+	/**
+	 * @group bp_blogs_total_blogs
+	 * @group counts
+	 */
+	public function test_bp_blogs_total_count_should_respect_cached_value_of_0() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		global $wpdb;
+
+		// prime cache
+		// no blogs are created by default, so count is zero
+		bp_blogs_total_blogs();
+		$first_query_count = $wpdb->num_queries;
+
+		// run function again
+		bp_blogs_total_blogs();
+
+		// check if function references cache or hits the DB by comparing query count
+		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+	}
 }

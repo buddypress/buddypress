@@ -597,7 +597,9 @@ function bp_core_get_userlink_by_username( $username ) {
 function bp_core_get_total_member_count() {
 	global $wpdb;
 
-	if ( !$count = wp_cache_get( 'bp_total_member_count', 'bp' ) ) {
+	$count = wp_cache_get( 'bp_total_member_count', 'bp' );
+
+	if ( false === $count ) {
 		$status_sql = bp_core_get_status_sql();
 		$count = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->users} WHERE {$status_sql}" );
 		wp_cache_set( 'bp_total_member_count', $count, 'bp' );

@@ -1144,7 +1144,9 @@ add_action( 'transition_comment_status', 'bp_blogs_transition_activity_status', 
  * @return int $count Total blog count.
  */
 function bp_blogs_total_blogs() {
-	if ( !$count = wp_cache_get( 'bp_total_blogs', 'bp' ) ) {
+	$count = wp_cache_get( 'bp_total_blogs', 'bp' );
+
+	if ( false === $count ) {
 		$blogs = BP_Blogs_Blog::get_all();
 		$count = $blogs['total'];
 		wp_cache_set( 'bp_total_blogs', $count, 'bp' );

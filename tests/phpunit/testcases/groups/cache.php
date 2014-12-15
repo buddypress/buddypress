@@ -200,4 +200,23 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		// assert new cached value
 		$this->assertEquals( 2, count( groups_get_group_admins( $g ) ) );
 	}
+
+	/**
+	 * @group groups_get_total_group_count
+	 * @group counts
+	 */
+	public function test_groups_get_total_group_count_should_respect_cached_value_of_0() {
+		global $wpdb;
+
+		// prime cache
+		// no groups are created by default, so count is zero
+		groups_get_total_group_count();
+		$first_query_count = $wpdb->num_queries;
+
+		// run function again
+		groups_get_total_group_count();
+
+		// check if function references cache or hits the DB by comparing query count
+		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+	}
 }

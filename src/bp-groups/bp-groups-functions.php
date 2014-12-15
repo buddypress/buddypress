@@ -644,7 +644,9 @@ function groups_get_groups( $args = '' ) {
  * @return int
  */
 function groups_get_total_group_count() {
-	if ( !$count = wp_cache_get( 'bp_total_group_count', 'bp' ) ) {
+	$count = wp_cache_get( 'bp_total_group_count', 'bp' );
+
+	if ( false === $count ) {
 		$count = BP_Groups_Group::get_total_group_count();
 		wp_cache_set( 'bp_total_group_count', $count, 'bp' );
 	}
@@ -684,7 +686,9 @@ function groups_total_groups_for_user( $user_id = 0 ) {
 	if ( empty( $user_id ) )
 		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
 
-	if ( !$count = wp_cache_get( 'bp_total_groups_for_user_' . $user_id, 'bp' ) ) {
+	$count = wp_cache_get( 'bp_total_groups_for_user_' . $user_id, 'bp' );
+
+	if ( false === $count ) {
 		$count = BP_Groups_Member::total_group_count( $user_id );
 		wp_cache_set( 'bp_total_groups_for_user_' . $user_id, $count, 'bp' );
 	}
