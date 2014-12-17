@@ -126,6 +126,8 @@ function titleHint( id ) {
 
 	if ( '' === title.val() ) {
 		titleprompt.removeClass('screen-reader-text');
+	} else {
+		titleprompt.addClass('screen-reader-text');
 	}
 
 	titleprompt.click(function(){
