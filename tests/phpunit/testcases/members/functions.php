@@ -37,6 +37,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$maybe_user = new WP_User( $user1 );
 		$this->assertEquals( 0, $maybe_user->ID );
 		unset( $maybe_user );
+		$this->restore_admins();
 
 		// 2. Admin cannot delete superadmin account
 		$user2 = $this->factory->user->create( array( 'role' => 'administrator' ) );
