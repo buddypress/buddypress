@@ -119,6 +119,8 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 								<?php endif; ?>
 
+								<?php do_action( 'xprofile_admin_group_action', $group ); ?>
+
 							</div>
 						</div>
 
@@ -379,7 +381,14 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 	$field = $admin_field; ?>
 
 	<fieldset id="field_<?php echo esc_attr( $field->id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
-		<legend><span><?php bp_the_profile_field_name(); ?> <?php if( !$field->can_delete ) : ?> <?php _e( '(Primary)', 'buddypress' ); endif; ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(Required)', 'buddypress' ) ?><?php endif; ?></span></legend>
+		<legend>
+			<span>
+				<?php bp_the_profile_field_name(); ?>
+				<?php if ( ! $field->can_delete ) : ?> <?php _e( '(Primary)', 'buddypress' ); endif; ?>
+				<?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(Required)', 'buddypress' ) ?><?php endif; ?>
+				<?php do_action( 'xprofile_admin_field_name_legend', $field ); ?>
+			</span>
+		</legend>
 		<div class="field-wrapper">
 
 			<?php
@@ -408,6 +417,9 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 					</div>
 
 				<?php endif; ?>
+
+				<?php do_action( 'xprofile_admin_field_action', $field ); ?>
+
 			</div>
 		</div>
 	</fieldset>
