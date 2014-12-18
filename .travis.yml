@@ -5,22 +5,19 @@ php:
     - 5.3
     - 5.4
     - 5.5
+    - 5.6
 
 # WordPress comes from the Git mirror, where 'master' mirrors svn 'trunk' and
 # x.y mirrors the latest from the x.y branch
 env:
     - WP_VERSION=master
+    - WP_VERSION=4.1
     - WP_VERSION=4.0
     - WP_VERSION=3.9
     - WP_VERSION=3.8
     - WP_VERSION=3.7
 
 matrix:
-  include:
-    - php: 5.6
-      env: WP_VERSION=master
-  allow_failures:
-    - php: 5.6
   fast_finish: true
 
 # before_install: Failures in this section will result in build status 'errored'
