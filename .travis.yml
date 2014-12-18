@@ -37,8 +37,8 @@ before_install:
     - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
     - sed -i "s/yourusernamehere/root/" wp-tests-config.php
     - sed -i "s/yourpasswordhere//" wp-tests-config.php
-    # disable WP_DEBUG for PHP 5.5 due to ext/mysqli E_DEPRECATED errors
-    - if [[ "$TRAVIS_PHP_VERSION" == 5.5* ]] && [[ "$WP_VERSION" == "3.7" ]] ; then sed -i "s:define( 'WP_DEBUG://define( 'WP_DEBUG:" wp-tests-config.php; fi;
+    # disable WP_DEBUG for PHP >= 5.5 due to ext/mysqli E_DEPRECATED errors
+    - if [[ "$TRAVIS_PHP_VERSION" > 5.4* ]] && [[ "$WP_VERSION" == "3.7" ]] ; then sed -i "s:define( 'WP_DEBUG://define( 'WP_DEBUG:" wp-tests-config.php; fi;
     # set up database
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
     # prepare for running the tests
