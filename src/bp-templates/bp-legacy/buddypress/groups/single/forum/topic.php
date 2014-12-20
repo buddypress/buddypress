@@ -138,7 +138,7 @@
 
 					<h4><?php _e( 'Add a reply:', 'buddypress' ); ?></h4>
 
-					<textarea name="reply_text" id="reply_text"></textarea>
+					<textarea name="reply_text" id="reply_text" class="bp-suggestions"></textarea>
 
 					<div class="submit">
 						<input type="submit" name="submit_reply" id="submit" value="<?php esc_attr_e( 'Post Reply', 'buddypress' ); ?>" />
