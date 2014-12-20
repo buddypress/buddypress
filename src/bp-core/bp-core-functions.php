@@ -2045,7 +2045,7 @@ function bp_nav_menu_get_item_url( $slug ) {
  * @since BuddyPress (2.1.0)
  */
 function bp_core_get_suggestions( $args ) {
-	$args = wp_parse_args( $args );
+	$args = bp_parse_args( $args, array(), 'get_suggestions' );
 
 	if ( ! $args['type'] ) {
 		return new WP_Error( 'missing_parameter' );
