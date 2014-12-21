@@ -1746,17 +1746,23 @@ function bp_is_get_request() {
  * @return bool True on success, false on failure.
  */
 function bp_core_load_buddypress_textdomain() {
-	// Try to load via load_plugin_textdomain() first, for future
-	// wordpress.org translation downloads
-	if ( load_plugin_textdomain( 'buddypress', false, 'buddypress/bp-languages' ) ) {
-		return true;
-	}
+	$domain = 'buddypress';
+	$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', get_locale() ) );
 
-	// Nothing found in bp-languages, so try to load from WP_LANG_DIR
-	$locale = apply_filters( 'buddypress_locale', get_locale() );
-	$mofile = WP_LANG_DIR . '/buddypress-' . $locale . '.mo';
+	$locations = apply_filters( 'buddypress_locale_locations', array(
+		trailingslashit( WP_LANG_DIR . '/' . $domain  ),
+		trailingslashit( WP_LANG_DIR ),
+	) );
 
-	return load_textdomain( 'buddypress', $mofile );
+	// Try custom locations in WP_LANG_DIR
+	foreach ( $locations as $location ) {
+		if ( load_textdomain( 'buddypress', $location . $mofile_custom ) ) {
+			return true;
+		}
+ 	}
+
+	// default to WP and glotpress
+	return load_plugin_textdomain( $domain );
 }
 add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
