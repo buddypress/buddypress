@@ -260,25 +260,26 @@ class BP_Activity_Activity {
 	 * @param array $args {
 	 *     An array of arguments. All items are optional.
 	 *
-	 *     @type int         $page              Which page of results to fetch. Using page=1 without per_page will result
-	 *                                          in no pagination. Default: 1.
-	 *     @type int|bool    $per_page          Number of results per page. Default: 25.
-	 *     @type int|bool    $max               Maximum number of results to return. Default: false (unlimited).
-	 *     @type string      $sort              ASC or DESC. Default: 'DESC'.
-	 *     @type array       $exclude           Array of activity IDs to exclude. Default: false.
-	 *     @type array       $in                Array of ids to limit query by (IN). Default: false.
-	 *     @type array       $meta_query        Array of meta_query conditions. See WP_Meta_Query::queries.
-	 *     @type array       $date_query        Array of date_query conditions. See first parameter of
-	 *                                          WP_Date_Query::__construct().
-	 *     @type array       $filter_query      Array of advanced query conditions. See BP_Activity_Query::__construct().
-	 *     @type array       $filter            See BP_Activity_Activity::get_filter_sql().
-	 *     @type string      $search_terms      Limit results by a search term. Default: false.
-	 *     @type bool        $display_comments  Whether to include activity comments. Default: false.
-	 *     @type bool        $show_hidden       Whether to show items marked hide_sitewide. Default: false.
-	 *     @type string      $spam              Spam status. Default: 'ham_only'.
-	 *     @type bool        $update_meta_cache Whether to pre-fetch metadata for queried activity items. Default: true.
-	 *     @type string|bool $count_total       If true, an additional DB query is run to count the total activity items
-	 *                                          for the query. Default: false.
+	 *     @type int          $page              Which page of results to fetch. Using page=1 without per_page will result
+	 *                                           in no pagination. Default: 1.
+	 *     @type int|bool     $per_page          Number of results per page. Default: 25.
+	 *     @type int|bool     $max               Maximum number of results to return. Default: false (unlimited).
+	 *     @type string       $sort              ASC or DESC. Default: 'DESC'.
+	 *     @type array        $exclude           Array of activity IDs to exclude. Default: false.
+	 *     @type array        $in                Array of ids to limit query by (IN). Default: false.
+	 *     @type array        $meta_query        Array of meta_query conditions. See WP_Meta_Query::queries.
+	 *     @type array        $date_query        Array of date_query conditions. See first parameter of
+	 *                                           WP_Date_Query::__construct().
+	 *     @type array        $filter_query      Array of advanced query conditions. See BP_Activity_Query::__construct().
+	 *     @type string|array $scope             Pre-determined set of activity arguments.
+	 *     @type array        $filter            See BP_Activity_Activity::get_filter_sql().
+	 *     @type string       $search_terms      Limit results by a search term. Default: false.
+	 *     @type bool         $display_comments  Whether to include activity comments. Default: false.
+	 *     @type bool         $show_hidden       Whether to show items marked hide_sitewide. Default: false.
+	 *     @type string       $spam              Spam status. Default: 'ham_only'.
+	 *     @type bool         $update_meta_cache Whether to pre-fetch metadata for queried activity items. Default: true.
+	 *     @type string|bool  $count_total       If true, an additional DB query is run to count the total activity items
+	 *                                           for the query. Default: false.
 	 * }
 	 * @return array The array returned has two keys:
 	 *     - 'total' is the count of located activities
@@ -320,6 +321,7 @@ class BP_Activity_Activity {
 			'date_query'        => false,      // Filter by date
 			'filter_query'      => false,      // Advanced filtering - see BP_Activity_Query
 			'filter'            => false,      // See self::get_filter_sql()
+			'scope'             => false,      // Preset activity arguments
 			'search_terms'      => false,      // Terms to search by
 			'display_comments'  => false,      // Whether to include activity comments
 			'show_hidden'       => false,      // Show items marked hide_sitewide
@@ -342,8 +344,20 @@ class BP_Activity_Activity {
 		// Excluded types
 		$excluded_types = array();
 
+		// Scope takes precedence
+		if ( ! empty( $r['scope'] ) ) {
+			$scope_query = self::get_scope_query_sql( $r['scope'], $r );
+
+			if ( ! empty( $scope_query['sql'] ) ) {
+				$where_conditions['scope_query_sql'] = $scope_query['sql'];
+			}
+
+			// override some arguments if needed
+			if ( ! empty( $scope_query['override'] ) ) {
+				$r = array_replace_recursive( $r, $scope_query['override'] );
+			}
 		// Advanced filtering
-		if ( ! empty( $r['filter_query'] ) ) {
+		} elseif ( ! empty( $r['filter_query'] ) ) {
 			$filter_query = new BP_Activity_Query( $r['filter_query'] );
 			if ( $sql = $filter_query->get_sql() ) {
 				$where_conditions['filter_query_sql'] = $sql;
@@ -520,7 +534,6 @@ class BP_Activity_Activity {
 			}
 
 		} else {
-
 			// Query first for activity IDs
 			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}";
 
@@ -818,6 +831,161 @@ class BP_Activity_Activity {
 		}
 
 		return $sql;
+	}
+
+	/**
+	 * Get the SQL for the 'scope' param in BP_Activity_Activity::get().
+	 *
+	 * A scope is a predetermined set of activity arguments.  This method is used
+	 * to grab these activity arguments and override any existing args if needed.
+	 *
+	 * Can handle multple scopes.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param  string $scope The activity scope
+	 * @param  array  $r     Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 *                       but merged with defaults.
+	 * @return array 'sql' WHERE SQL string and 'override' activity args
+	 */
+	public static function get_scope_query_sql( $scope = '', $r = array() ) {
+		$query_args = array();
+		$override   = array();
+		$retval     = array();
+
+		if ( ! is_array( $scope ) ) {
+			$scopes = explode( ',', $scope );
+		} else {
+			$scopes = $scope;
+		}
+
+		if ( empty( $scopes ) ) {
+			return $sql;
+		}
+
+		// helper to easily grab the 'user_id'
+		if ( ! empty( $r['filter']['user_id'] ) ) {
+			$r['user_id'] = $r['filter']['user_id'];
+		}
+
+		// parse each scope; yes! we handle multiples!
+		foreach ( $scopes as $scope ) {
+			$scope_args = array();
+
+			switch ( $scope ) {
+				case 'just-me' :
+					$scope_args = array(
+						'column' => 'user_id',
+						'value'  => $r['user_id']
+					);
+
+					$scope_args['override']['display_comments'] = 'stream';
+
+					// wipe out the user ID
+					$scope_args['override']['filter']['user_id'] = 0;
+
+					break;
+
+				case 'favorites':
+					$favs = bp_activity_get_user_favorites( $r['user_id'] );
+					if ( empty( $favs ) ) {
+						return $scope_args;
+					}
+
+					$scope_args = array(
+						'column'  => 'id',
+						'compare' => 'IN',
+						'value'   => (array) $favs
+					);
+					$scope_args['override']['display_comments']  = true;
+
+					// wipe out the user ID
+					$scope_args['override']['filter']['user_id'] = 0;
+
+					break;
+
+				case 'mentions':
+					// Are mentions disabled?
+					if ( ! bp_activity_do_mentions() ) {
+						return $scope_args;
+					}
+
+					$scope_args = array(
+						'column'  => 'content',
+						'compare' => 'LIKE',
+
+						// Start search at @ symbol and stop search at closing tag delimiter.
+						'value'   => '@' . bp_activity_get_user_mentionname( $r['user_id'] ) . '<'
+					);
+
+					// wipe out current search terms if any
+					// this is so the 'mentions' scope can be combined with other scopes
+					$scope_args['override']['search_terms'] = false;
+
+					$scope_args['override']['display_comments'] = 'stream';
+					$scope_args['override']['filter']['user_id'] = 0;
+
+					break;
+
+				default :
+					/**
+					 * Plugins can hook here to set their activity arguments for custom scopes.
+					 *
+					 * This is a dynamic filter based on the activity scope. eg:
+					 *   - 'bp_activity_set_groups_scope_args'
+					 *   - 'bp_activity_set_friends_scope_args'
+					 *
+					 * To see how this filter is used, plugin devs should check out:
+					 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
+					 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
+					 *
+					 * @since BuddyPress (2.2.0)
+					 *
+					 *  @param array {
+					 *     Activity query clauses.
+					 *
+					 *     @type array {
+					 *         Activity arguments for your custom scope.
+					 *         See {@link BP_Activity_Query::_construct()} for more details.
+					 *     }
+					 *     @type array $override Optional. Override existing activity arguments passed by $r.
+					 * }
+					 * @param array $r Current activity arguments passed in BP_Activity_Activity::get()
+					 */
+					$scope_args = apply_filters( "bp_activity_set_{$scope}_scope_args", array(), $r );
+					break;
+			}
+
+			if ( ! empty( $scope_args ) ) {
+				// merge override properties from other scopes
+				// this might be a problem...
+				if ( ! empty( $scope_args['override'] ) ) {
+					$override = array_merge( $override, $scope_args['override'] );
+					unset( $scope_args['override'] );
+				}
+
+				// save scope args
+				if ( ! empty( $scope_args ) ) {
+					$query_args[] = $scope_args;
+				}
+			}
+		}
+
+		if ( ! empty( $query_args ) ) {
+			// set relation to OR
+			$query_args['relation'] = 'OR';
+
+			$query = new BP_Activity_Query( $query_args );
+			if ( $sql = $query->get_sql() ) {
+				$retval['sql'] = $sql;
+			}
+		}
+
+		if ( ! empty( $override ) ) {
+			$retval['override'] = $override;
+		}
+
+		return $retval;
 	}
 
 	/**

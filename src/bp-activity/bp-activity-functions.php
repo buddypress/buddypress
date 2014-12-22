@@ -1423,6 +1423,7 @@ function bp_activity_get( $args = '' ) {
 		'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
 		'update_meta_cache' => true,
 		'count_total'       => false,
+		'scope'             => false,
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -1438,7 +1439,7 @@ function bp_activity_get( $args = '' ) {
 	) );
 
 	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter_query'] ) && empty( $r['filter'] ) && empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
+	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter_query'] ) && empty( $r['filter'] ) && empty( $r['scope'] )&& empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
 
 		$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' );
 		if ( false === $activity ) {
@@ -1453,6 +1454,7 @@ function bp_activity_get( $args = '' ) {
 				'date_query'        => $r['date_query'],
 				'filter_query'      => $r['filter_query'],
 				'filter'            => $r['filter'],
+				'scope'             => $r['scope'],
 				'display_comments'  => $r['display_comments'],
 				'show_hidden'       => $r['show_hidden'],
 				'spam'              => $r['spam'],
@@ -1474,6 +1476,7 @@ function bp_activity_get( $args = '' ) {
 			'date_query'       => $r['date_query'],
 			'filter_query'     => $r['filter_query'],
 			'filter'           => $r['filter'],
+			'scope'            => $r['scope'],
 			'display_comments' => $r['display_comments'],
 			'show_hidden'      => $r['show_hidden'],
 			'exclude'          => $r['exclude'],

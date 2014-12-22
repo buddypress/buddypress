@@ -201,6 +201,7 @@ class BP_Activity_Template {
 			'exclude'           => false,
 			'in'                => false,
 			'filter'            => false,
+			'scope'             => false,
 			'search_terms'      => false,
 			'meta_query'        => false,
 			'date_query'        => false,
@@ -252,6 +253,7 @@ class BP_Activity_Template {
 				'date_query'        => $date_query,
 				'filter_query'      => $filter_query,
 				'filter'            => $filter,
+				'scope'             => $scope,
 				'show_hidden'       => $show_hidden,
 				'exclude'           => $exclude,
 				'in'                => $in,
@@ -613,65 +615,20 @@ function bp_has_activities( $args = '' ) {
 		$page = 0;
 	}
 
+	// Search terms
 	if ( empty( $search_terms ) && ! empty( $_REQUEST['s'] ) )
 		$search_terms = $_REQUEST['s'];
 
-	// If you have passed a "scope" then this will override any filters you have passed.
-	if ( 'just-me' == $scope || 'friends' == $scope || 'groups' == $scope || 'favorites' == $scope || 'mentions' == $scope ) {
-		if ( 'just-me' == $scope )
-			$display_comments = 'stream';
-
-		// determine which user_id applies
-		if ( empty( $user_id ) )
+	// Set some default arguments when using a scope
+	if ( ! empty( $scope ) ) {
+		// Determine which user ID applies
+		if ( empty( $user_id ) ) {
 			$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
+		}
 
-		// are we displaying user specific activity?
-		if ( is_numeric( $user_id ) ) {
-			$show_hidden = ( $user_id == bp_loggedin_user_id() && $scope != 'friends' ) ? 1 : 0;
-
-			switch ( $scope ) {
-				case 'friends':
-					if ( bp_is_active( 'friends' ) )
-						$friends = friends_get_friend_user_ids( $user_id );
-						if ( empty( $friends ) )
-							return false;
-
-						$user_id = implode( ',', (array) $friends );
-					break;
-				case 'groups':
-					if ( bp_is_active( 'groups' ) ) {
-						$groups = groups_get_user_groups( $user_id );
-						if ( empty( $groups['groups'] ) )
-							return false;
-
-						$object = $bp->groups->id;
-						$primary_id = implode( ',', (array) $groups['groups'] );
-
-						$user_id = 0;
-					}
-					break;
-				case 'favorites':
-					$favs = bp_activity_get_user_favorites( $user_id );
-					if ( empty( $favs ) )
-						return false;
-
-					$in = implode( ',', (array) $favs );
-					$display_comments = true;
-					$user_id = 0;
-					break;
-				case 'mentions':
-
-					// Are mentions disabled?
-					if ( ! bp_activity_do_mentions() ) {
-						return false;
-					}
-
-					// Start search at @ symbol and stop search at closing tag delimiter.
-					$search_terms     = '@' . bp_activity_get_user_mentionname( $user_id ) . '<';
-					$display_comments = 'stream';
-					$user_id = 0;
-					break;
-			}
+		// Should we show all items regardless of sitewide visibility?
+		if ( ! empty( $user_id ) ) {
+			$show_hidden = ( $user_id == bp_loggedin_user_id() ) ? 1 : 0;
 		}
 	}
 
@@ -712,6 +669,7 @@ function bp_has_activities( $args = '' ) {
 		'exclude'           => $exclude,
 		'in'                => $in,
 		'filter'            => $filter,
+		'scope'             => $scope,
 		'search_terms'      => $search_terms,
 		'meta_query'        => $meta_query,
 		'date_query'        => $date_query,

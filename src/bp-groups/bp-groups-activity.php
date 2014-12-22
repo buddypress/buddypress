@@ -234,6 +234,42 @@ function bp_groups_prefetch_activity_object_data( $activities ) {
 add_filter( 'bp_activity_prefetch_object_data', 'bp_groups_prefetch_activity_object_data' );
 
 /**
+ * Set up activity arguments for use with the 'groups' scope.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array $retval Empty array by default
+ * @param array $filter Current activity arguments
+ * @return array
+ */
+function bp_groups_filter_activity_scope( $retval, $filter ) {
+	$groups = groups_get_user_groups( $filter['user_id'] );
+
+	if ( empty( $groups['groups'] ) ) {
+		return $retval;
+	}
+
+	$retval= array(
+		'relation' => 'AND',
+		array(
+			'column' => 'component',
+			'value'  => buddypress()->groups->id
+		),
+		array(
+			'column'  => 'item_id',
+			'compare' => 'IN',
+			'value'   => (array) $groups['groups']
+		),
+	);
+
+	// wipe out the user ID
+	$retval['override']['filter']['user_id'] = 0;
+
+	return $retval;
+}
+add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scope', 10, 2 );
+
+/**
  * Record an activity item related to the Groups component.
  *
  * A wrapper for {@link bp_activity_add()} that provides some Groups-specific

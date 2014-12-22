@@ -228,6 +228,49 @@ function bp_friends_prefetch_activity_object_data( $activities ) {
 add_filter( 'bp_activity_prefetch_object_data', 'bp_friends_prefetch_activity_object_data' );
 
 /**
+ * Set up activity arguments for use with the 'friends' scope.
+ *
+ * For details on the syntax, see {@link BP_Activity_Query}.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array $retval Empty array by default
+ * @param array $filter Current activity arguments
+ * @return array
+ */
+function bp_friends_filter_activity_scope( $retval, $filter ) {
+	$friends = friends_get_friend_user_ids( $filter['user_id'] );
+
+	if ( empty( $friends ) ) {
+		return $retval;
+	}
+
+	$retval= array(
+		'relation' => 'AND',
+		array(
+			'column'  => 'user_id',
+			'compare' => 'IN',
+			'value'   => (array) $friends
+		),
+		// we should only be able to view sitewide activity content for friends
+		array(
+			'column' => 'hide_sitewide',
+			'value'  => 0
+		),
+	);
+
+	// wipe out the user ID
+	$retval['override']['filter']['user_id'] = 0;
+
+	// make sure we aren't limiting items by 'hide_sitewide' since we're already
+	// limiting it above
+	$scope_args['override']['show_hidden'] = true;
+
+	return $retval;
+}
+add_filter( 'bp_activity_set_friends_scope_args', 'bp_friends_filter_activity_scope', 10, 2 );
+
+/**
  * Add activity stream items when one members accepts another members request
  * for virtual friendship.
  *
