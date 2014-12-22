@@ -204,6 +204,7 @@ class BP_Activity_Template {
 			'search_terms'      => false,
 			'meta_query'        => false,
 			'date_query'        => false,
+			'filter_query'      => false,
 			'display_comments'  => 'threaded',
 			'show_hidden'       => false,
 			'spam'              => 'ham_only',
@@ -249,6 +250,7 @@ class BP_Activity_Template {
 				'search_terms'      => $search_terms,
 				'meta_query'        => $meta_query,
 				'date_query'        => $date_query,
+				'filter_query'      => $filter_query,
 				'filter'            => $filter,
 				'show_hidden'       => $show_hidden,
 				'exclude'           => $exclude,
@@ -461,6 +463,7 @@ class BP_Activity_Template {
  *                                               {@link WP_Meta_Query::queries} for a description of the syntax.
  *     @type array             $date_query       Limit by date by passing an array of date_query conditions. See first
  *                                               parameter of {@link WP_Date_Query::__construct()} for syntax.
+ *     @type array             $filter_query     Advanced activity filtering.  See {@link BP_Activity_Query::__construct()}.
  *     @type string            $search_terms     Limit results by a search term. Default: false.
  *     @type string            $scope            Use a BuddyPress pre-built filter.
  *                                                 - 'just-me' retrieves items belonging only to a user; this is equivalent
@@ -588,6 +591,7 @@ function bp_has_activities( $args = '' ) {
 
 		'meta_query'        => false,        // filter on activity meta. See WP_Meta_Query for format
 		'date_query'        => false,        // filter by date. See first parameter of WP_Date_Query for format
+		'filter_query'      => false,        // advanced filtering.  See BP_Activity_Query for format
 
 		// Searching
 		'search_terms'      => false,        // specify terms to search on
@@ -711,6 +715,7 @@ function bp_has_activities( $args = '' ) {
 		'search_terms'      => $search_terms,
 		'meta_query'        => $meta_query,
 		'date_query'        => $date_query,
+		'filter_query'      => $filter_query,
 		'display_comments'  => $display_comments,
 		'show_hidden'       => $show_hidden,
 		'spam'              => $spam,

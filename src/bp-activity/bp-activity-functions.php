@@ -1416,6 +1416,7 @@ function bp_activity_get( $args = '' ) {
 		'search_terms'      => false,        // Pass search terms as a string
 		'meta_query'        => false,        // Filter by activity meta. See WP_Meta_Query for format
 		'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format
+		'filter_query'      => false,
 		'show_hidden'       => false,        // Show activity items that are hidden site-wide?
 		'exclude'           => false,        // Comma-separated list of activity IDs to exclude
 		'in'                => false,        // Comma-separated list or array of activity IDs to which you want to limit the query
@@ -1437,7 +1438,7 @@ function bp_activity_get( $args = '' ) {
 	) );
 
 	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter'] ) && empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
+	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter_query'] ) && empty( $r['filter'] ) && empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
 
 		$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' );
 		if ( false === $activity ) {
@@ -1450,6 +1451,7 @@ function bp_activity_get( $args = '' ) {
 				'search_terms'      => $r['search_terms'],
 				'meta_query'        => $r['meta_query'],
 				'date_query'        => $r['date_query'],
+				'filter_query'      => $r['filter_query'],
 				'filter'            => $r['filter'],
 				'display_comments'  => $r['display_comments'],
 				'show_hidden'       => $r['show_hidden'],
@@ -1470,6 +1472,7 @@ function bp_activity_get( $args = '' ) {
 			'search_terms'     => $r['search_terms'],
 			'meta_query'       => $r['meta_query'],
 			'date_query'       => $r['date_query'],
+			'filter_query'     => $r['filter_query'],
 			'filter'           => $r['filter'],
 			'display_comments' => $r['display_comments'],
 			'show_hidden'      => $r['show_hidden'],
