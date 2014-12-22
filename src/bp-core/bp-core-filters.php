@@ -445,7 +445,48 @@ function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
 
 	// Displayed user
 	if ( bp_get_displayed_user_fullname() && ! is_404() ) {
-		$title = bp_get_displayed_user_fullname();
+		// Get the component's ID to try and get its name
+		$component_id = $component_name = bp_current_component();
+
+		// Use the component nav name
+		if ( ! empty( $bp->bp_nav[$component_id] ) ) {
+			// Remove counts that are added by the nav item
+			$span = strpos( $bp->bp_nav[ $component_id ]['name'], '<span' );
+			if ( false !== $span ) {
+				$component_name = substr( $bp->bp_nav[ $component_id ]['name'], 0, $span - 1 );
+
+			} else {
+				$component_name = $bp->bp_nav[ $component_id ]['name'];
+			}
+
+		// Fall back on the component ID
+		} elseif ( ! empty( $bp->{$component_id}->id ) ) {
+			$component_name = ucwords( $bp->{$component_id}->id );
+		}
+
+		// Append action name if we're on a member component sub-page
+		if ( ! empty( $bp->bp_options_nav[ $component_id ][ bp_current_action() ]['name'] ) && ! empty( $bp->canonical_stack['action'] ) ) {
+			$component_subnav_name = "{$bp->bp_options_nav[ $component_id ][ bp_current_action() ]['name']}";
+		} else {
+			$component_subnav_name = '';
+		}
+
+		// If on the user profile's landing page, just use the fullname
+		if ( bp_is_current_component( $bp->default_component ) && bp_get_requested_url() === bp_displayed_user_domain() ) {
+			$title = bp_get_displayed_user_fullname();
+
+		// Use component name on member pages
+		} else {
+			// If we have a subnav name, add it separately for localization
+			if ( ! empty( $component_subnav_name ) ) {
+				// translators: construct the page title. 1 = user name, 2 = component name, 3 = seperator, 4 = component subnav name
+				$title = strip_tags( sprintf( __( '%1$s %3$s %2$s %3$s %4$s', 'buddypress' ), bp_get_displayed_user_fullname(), $component_name, $sep, $component_subnav_name ) );
+
+			} else {
+				// translators: construct the page title. 1 = user name, 2 = component name, 3 = seperator
+				$title = strip_tags( sprintf( __( '%1$s %3$s %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), $component_name, $sep ) );
+			}
+		}
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && ! empty( $bp->groups->current_group ) && ! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ] ) ) {
