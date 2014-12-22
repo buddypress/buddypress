@@ -1336,6 +1336,22 @@ jq(document).ready( function() {
 		return false;
 	});
 
+	/** Registration ***********************************************/
+
+	if ( jq('body').hasClass('register') ) {
+		var blog_checked = jq('#signup_with_blog');
+
+		// hide "Blog Details" block if not checked by default
+		if ( ! blog_checked.prop('checked') ) {
+			jq('#blog-details').toggle();
+		}
+
+		// toggle "Blog Details" block whenever checkbox is checked
+		blog_checked.change(function() {
+			jq('#blog-details').toggle();
+		});
+	}
+
 	/** Private Messaging ******************************************/
 
 	/** Message search*/
