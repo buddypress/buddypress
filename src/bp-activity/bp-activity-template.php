@@ -407,6 +407,8 @@ class BP_Activity_Template {
 
 			/**
 			 * Fires if the current activity item is the first in the activity loop.
+			 *
+			 * @since BuddyPress (1.1.0)
 			 */
 			do_action('activity_loop_start');
 		}
