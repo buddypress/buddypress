@@ -1,12 +1,8 @@
+# Travis CI Configuration File
+
 # Use new Travis container-based infrastructure
 # http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
-
-# Cached directories
-cache:
-  apt: true
-  directories:
-    - node_modules
 
 language: php
 
