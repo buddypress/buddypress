@@ -89,6 +89,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * limiting query to user favorites
 	 *
 	 * @ticket BP4872
+	 * @group scope
 	 */
 	public function test_bp_has_activities_favorites_action_filter() {
 		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
@@ -139,6 +140,588 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		$this->assertEquals( array( $a1 ), $ids );
 
+		$activities_template = null;
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_mentions_scope() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		$now = time();
+
+		// mentioned activity item
+		$mention_username = '@' . bp_activity_get_user_mentionname( $u1 );
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u2,
+			'type'    => 'activity_update',
+			'content' => "{$mention_username} - You rule, dude!",
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+
+		// misc activity items
+		$this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'blogs',
+			'item_id'   => 1,
+			'type'      => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		// grab activities from multiple scopes
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'mentions',
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_friends_and_mentions_scope() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		// user 1 becomes friends with user 2
+		friends_add_friend( $u1, $u2, true );
+
+		$now = time();
+
+		// friend status update
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u2,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+
+		// mentioned item by non-friend
+		$mention_username = '@' . bp_activity_get_user_mentionname( $u1 );
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'content'   => "{$mention_username} - Oy!",
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		// misc activity items
+		$this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'blogs',
+			'item_id'   => 1,
+			'type'      => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		// grab activities from multiple scopes
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'mentions,friends',
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_groups_and_friends_scope() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		// user 1 becomes friends with user 2
+		friends_add_friend( $u1, $u2, true );
+
+		// user 1 joins a group
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		$now = time();
+
+		// friend status update
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u2,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+
+		// group activity
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'groups',
+			'item_id'   => $g1,
+			'type'      => 'joined_group',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		// misc activity items
+		$this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'blogs',
+			'item_id'   => 1,
+			'type'      => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		// grab activities from multiple scopes
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'groups,friends',
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+	}
+
+	/**
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_with_filter_query_nested_conditions() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$now = time();
+
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'blogs',
+			'item_id'   => 1,
+			'type'      => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		// misc activity items
+		$this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		bp_has_activities( array(
+			'filter_query' => array(
+				'relation' => 'OR',
+				array(
+					'column' => 'component',
+					'value'  => 'blogs',
+				),
+				array(
+					'relation' => 'AND',
+					array(
+						'column' => 'type',
+						'value'  => 'activity_update',
+					),
+					array(
+						'column' => 'user_id',
+						'value'  => $u2,
+					),
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+	}
+
+	/**
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_with_filter_query_compare_not_in_operator() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$now = time();
+
+		// misc activity items
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'blogs',
+			'item_id'   => 1,
+			'type'      => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a4 = $this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'id',
+					'compare' => 'NOT IN',
+					'value'   => array( $a1, $a4 ),
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a2, $a3 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+	}
+
+	/**
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_with_filter_query_compare_between_operator() {
+		$u1 = $this->factory->user->create();
+
+		$now = time();
+
+		// misc activity items
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'blogs',
+			'item_id'   => 1,
+			'type'      => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a4 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'id',
+					'compare' => 'BETWEEN',
+					'value'   => array( $a3, $a4 ),
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a3, $a4 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+	}
+
+	/**
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_with_filter_query_compare_arithmetic_comparisons() {
+		$u1 = $this->factory->user->create();
+
+		$now = time();
+
+		// misc activity items
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'item_id'   => 1,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'item_id'   => 10,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'item_id'   => 25,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a4 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'item_id'   => 100,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		// greater than
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'item_id',
+					'compare' => '>',
+					'value'   => 10,
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a3, $a4 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// greater or equal than
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'item_id',
+					'compare' => '>=',
+					'value'   => 10,
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a2, $a3, $a4 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// less than
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'item_id',
+					'compare' => '<',
+					'value'   => 10,
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// less or equal than
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'item_id',
+					'compare' => '<=',
+					'value'   => 10,
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// not equal to
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'item_id',
+					'compare' => '!=',
+					'value'   => 10,
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1, $a3, $a4 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+	}
+
+	/**
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_with_filter_query_compare_regex() {
+		$u1 = $this->factory->user->create();
+
+		$now = time();
+
+		// misc activity items
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'blogs',
+			'item_id'   => 1,
+			'type'      => 'new_blog_post',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'blogs',
+			'type'      => 'new_blog_comment',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a3 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$a4 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		// REGEXP
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'type',
+					'compare' => 'REGEXP',
+					'value'   => '^new_blog_',
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// RLIKE is a synonym for REGEXP
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'type',
+					'compare' => 'RLIKE',
+					'value'   => '^new_blog_',
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// NOT REGEXP
+		bp_has_activities( array(
+			'filter_query' => array(
+				array(
+					'column'  => 'type',
+					'compare' => 'NOT REGEXP',
+					'value'   => '^new_blog_',
+				),
+			)
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a3, $a4 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
 		$activities_template = null;
 	}
 
