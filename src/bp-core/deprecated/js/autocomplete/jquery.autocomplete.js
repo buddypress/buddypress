@@ -326,7 +326,7 @@ $.Autocompleter = function(input, options) {
 					q: lastWord(term),
 					limit: options.max,
 					action: 'messages_autocomplete_results',
-					'cookie': encodeURIComponent(document.cookie)
+					'cookie': getAutocompleteCookies()
 				}, extraParams),
 				success: function(data) {
 					var parsed = options.parse && options.parse(data) || parse(data);
@@ -361,6 +361,29 @@ $.Autocompleter = function(input, options) {
 		jQuery('#send-to-input').removeClass('loading');
 	};
 
+	/* Returns a querystring of BP cookies (cookies beginning with 'bp-') */
+	function getAutocompleteCookies() {
+		var allCookies = document.cookie.split(';'),  // get all cookies and split into an array
+			bpCookies      = {},
+			cookiePrefix   = 'bp-',
+			i, cookie, delimiter, name, value;
+
+		// loop through cookies
+		for (i = 0; i < allCookies.length; i++) {
+			cookie    = allCookies[i];
+			delimiter = cookie.indexOf('=');
+			name      = jq.trim( unescape( cookie.slice(0, delimiter) ) );
+			value     = unescape( cookie.slice(delimiter + 1) );
+
+			// if BP cookie, store it
+			if ( name.indexOf(cookiePrefix) === 0 ) {
+				bpCookies[name] = value;
+			}
+		}
+
+		// returns BP cookies as querystring
+		return encodeURIComponent( jq.param(bpCookies) );
+	}
 };
 
 $.Autocompleter.defaults = {

@@ -64,19 +64,18 @@ function bp_activity_do_mentions() {
  * @since BuddyPress (2.1.0)
  */
 function bp_activity_maybe_load_mentions_scripts() {
-	$retval =
-		bp_activity_do_mentions() &&
-		bp_is_user_active() &&
-		( bp_is_activity_component() || bp_is_blog_page() && is_singular() && comments_open() || is_admin() );
+	$mentions_enabled = bp_activity_do_mentions() && bp_is_user_active();
+	$load_mentions    = $mentions_enabled && ( bp_is_activity_component() || is_admin() );
 
 	/**
 	 * Filters whether or not BuddyPress should load mentions scripts and assets.
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
-	 * @param bool $retval True to load mentions assets, false otherwise.
+	 * @param bool $load_mentions True to load mentions assets, false otherwise.
+	 * @param bool $mentions_enabled True if mentions are enabled.
 	 */
-	return (bool) apply_filters( 'bp_activity_maybe_load_mentions_scripts', $retval );
+	return (bool) apply_filters( 'bp_activity_maybe_load_mentions_scripts', $load_mentions, $mentions_enabled );
 }
 
 /**

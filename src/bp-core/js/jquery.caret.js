@@ -84,21 +84,34 @@
       };
 
       EditableCaret.prototype.getOffset = function(pos) {
-        var clonedRange, offset, range, rect;
+        var clonedRange, offset, range, rect, shadowCaret;
         if (oWindow.getSelection && (range = this.range())) {
-          if (range.endOffset - 1 < 0) {
-            return null;
+          if (range.endOffset - 1 > 0 && range.endContainer === !this.domInputor) {
+            clonedRange = range.cloneRange();
+            clonedRange.setStart(range.endContainer, range.endOffset - 1);
+            clonedRange.setEnd(range.endContainer, range.endOffset);
+            rect = clonedRange.getBoundingClientRect();
+            offset = {
+              height: rect.height,
+              left: rect.left + rect.width,
+              top: rect.top
+            };
+            clonedRange.detach();
           }
-          clonedRange = range.cloneRange();
-          clonedRange.setStart(range.endContainer, range.endOffset - 1);
-          clonedRange.setEnd(range.endContainer, range.endOffset);
-          rect = clonedRange.getBoundingClientRect();
-          offset = {
-            height: rect.height,
-            left: rect.left + rect.width,
-            top: rect.top
-          };
-          clonedRange.detach();
+          if (!offset || (offset != null ? offset.height : void 0) === 0) {
+            clonedRange = range.cloneRange();
+            shadowCaret = $(oDocument.createTextNode("|"));
+            clonedRange.insertNode(shadowCaret[0]);
+            clonedRange.selectNode(shadowCaret[0]);
+            rect = clonedRange.getBoundingClientRect();
+            offset = {
+              height: rect.height,
+              left: rect.left,
+              top: rect.top
+            };
+            shadowCaret.remove();
+            clonedRange.detach();
+          }
         } else if (oDocument.selection) {
           offset = this.getOldIEOffset();
         }
@@ -211,7 +224,7 @@
         var $inputor, at_rect, end_range, format, html, mirror, start_range;
         $inputor = this.$inputor;
         format = function(value) {
-          return $('<div></div>').text(value).html();
+          return $('<div></div>').text(value).html().replace(/\r\n|\r|\n/g, "<br/>").replace(/\s/g, "&nbsp;");
         };
         if (pos === void 0) {
           pos = this.getPos();
