@@ -254,4 +254,38 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		// check if function references cache or hits the DB by comparing query count
 		$this->assertEquals( $first_query_count, $wpdb->num_queries );
 	}
+
+	/**
+	 * @group bp_blogs_total_blogs
+	 */
+	public function test_bp_blogs_total_blogs_count_after_delete_blog() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$u = $this->factory->user->create();
+
+		// need to make sure we set the 'public' flag due to how BP_Blogs_Blogs:get_all() works
+		$b1 = $this->factory->blog->create( array(
+			'meta' => array(
+				'public' => 1
+			)
+		) );
+		$b2 = $this->factory->blog->create( array(
+			'meta' => array(
+				'public' => 1
+			)
+		) );
+
+		bp_blogs_record_blog( $b1, $u );
+		bp_blogs_record_blog( $b2, $u );
+
+		// prime total blog count
+		bp_blogs_total_blogs();
+
+		// delete a blog
+		wpmu_delete_blog( $b2 );
+
+		$this->assertEquals( 1, bp_blogs_total_blogs() );
+	}
 }

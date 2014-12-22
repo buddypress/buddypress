@@ -63,3 +63,17 @@ function bp_blogs_update_post( $post ) {
 	_deprecated_function( __FUNCTION__, '2.2', 'bp_activity_post_type_update()' );
 	bp_activity_post_type_update( $post );
 }
+
+/**
+ * Clear cache when a new blog is created.
+ *
+ * @since BuddyPress (1.0.0)
+ * @deprecated BuddyPress (2.2.0)
+ *
+ * @param BP_Blogs_Blog $recorded_blog_obj The recorded blog, passed by
+ *        'bp_blogs_new_blog'.
+ */
+function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
+	_deprecated_function( __FUNCTION__, '2.2', 'bp_blogs_clear_blog_object_cache()' );
+	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );
+}
