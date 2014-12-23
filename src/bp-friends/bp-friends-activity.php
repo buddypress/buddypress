@@ -264,7 +264,7 @@ function bp_friends_filter_activity_scope( $retval, $filter ) {
 
 	// make sure we aren't limiting items by 'hide_sitewide' since we're already
 	// limiting it above
-	$scope_args['override']['show_hidden'] = true;
+	$retval['override']['show_hidden'] = true;
 
 	return $retval;
 }
