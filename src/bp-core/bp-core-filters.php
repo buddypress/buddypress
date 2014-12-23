@@ -465,8 +465,15 @@ function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
 		}
 
 		// Append action name if we're on a member component sub-page
-		if ( ! empty( $bp->bp_options_nav[ $component_id ][ bp_current_action() ]['name'] ) && ! empty( $bp->canonical_stack['action'] ) ) {
-			$component_subnav_name = "{$bp->bp_options_nav[ $component_id ][ bp_current_action() ]['name']}";
+		if ( ! empty( $bp->bp_options_nav[ $component_id ] ) && ! empty( $bp->canonical_stack['action'] ) ) {
+			$component_subnav_name = wp_filter_object_list( $bp->bp_options_nav[ $component_id ], array( 'slug' => bp_current_action() ), 'and', 'name' );
+
+			if ( $component_subnav_name ) {
+				$component_subnav_name = array_shift( $component_subnav_name );
+			} else {
+				$component_subnav_name = '';
+			}
+
 		} else {
 			$component_subnav_name = '';
 		}
