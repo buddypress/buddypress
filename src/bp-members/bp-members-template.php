@@ -275,8 +275,15 @@ class BP_Core_Members_Template {
 				$base = '';
 			}
 
+			/**
+			 * Defaults to an empty array to make sure paginate_links()
+			 * won't add the $page_arg to the links which would break
+			 * pagination in case javascript is disabled.
+			 */
+			$add_args = array();
+
 			if ( ! empty( $search_terms ) ) {
-				$pag_args['s'] = urlencode( $search_terms );
+				$add_args['s'] = urlencode( $search_terms );
 			}
 
 			$this->pag_links = paginate_links( array(
@@ -286,7 +293,8 @@ class BP_Core_Members_Template {
 				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Member pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Member pagination next text', 'buddypress' ),
-				'mid_size'   => 1
+				'mid_size'  => 1,
+				'add_args'  => $add_args,
 			) );
 		}
 	}

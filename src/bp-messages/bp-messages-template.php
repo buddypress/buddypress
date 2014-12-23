@@ -183,8 +183,10 @@ class BP_Messages_Box_Template {
 				$base = '';
 			}
 
+			$add_args = array();
+
 			if ( ! empty( $this->search_terms ) ) {
-				$pag_args['s'] = $this->search_terms;
+				$add_args['s'] = $this->search_terms;
 			}
 
 			$this->pag_links = paginate_links( array(
@@ -194,7 +196,8 @@ class BP_Messages_Box_Template {
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Message pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Message pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => $add_args,
 			) );
 		}
 	}

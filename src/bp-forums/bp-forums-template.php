@@ -295,7 +295,8 @@ class BP_Forums_Template_Forum {
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Forum topic pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Forum topic pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 		}
 	}
@@ -567,7 +568,8 @@ function bp_has_forum_topics( $args = '' ) {
 				'current'   => $forum_template->pag_page,
 				'prev_text' => _x( '&larr;', 'Forum topic pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Forum topic pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 
 		} else {
@@ -1735,7 +1737,8 @@ class BP_Forums_Template_Topic {
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Forum thread pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Forum thread pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 
 			$this->pag->total_pages = ceil( (int) $this->total_post_count / (int) $this->pag_num );

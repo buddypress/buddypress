@@ -248,7 +248,8 @@ class BP_Blogs_Template {
 				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Blog pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Blog pagination next text',     'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 		}
 	}
