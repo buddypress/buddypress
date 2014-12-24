@@ -552,6 +552,14 @@ class BP_Members_Admin {
 
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$css = $this->css_url . "admin{$min}.css";
+
+		/**
+		 * Filters the CSS URL to enqueue in the Members admin area.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param string $css URL to the CSS admin file to load.
+		 */
 		$css = apply_filters( 'bp_members_admin_css', $css );
 
 		wp_enqueue_style( 'bp-members-css', $css, array(), bp_get_version() );
@@ -561,14 +569,29 @@ class BP_Members_Admin {
 			wp_style_add_data( 'bp-members-css', 'suffix', $min );
 		}
 
-		// Only load javascript for BuddyPress profile
+		// Only load JavaScript for BuddyPress profile
 		if ( get_current_screen()->id == $this->user_page ) {
 			$js = $this->js_url . "admin{$min}.js";
+
+			/**
+			 * Filters the JS URL to enqueue in the Members admin area.
+			 *
+			 * @since BuddyPress (2.0.0)
+			 *
+			 * @param string $js URL to the JavaScript admin file to load.
+			 */
 			$js = apply_filters( 'bp_members_admin_js', $js );
 			wp_enqueue_script( 'bp-members-js', $js, array( 'jquery' ), bp_get_version(), true );
 		}
 
-		// Plugins may want to hook here to load some css/js
+		/**
+		 * Fires after all of the members JavaScript and CSS is enqueued.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param string $id        ID of the current screen.
+		 * @param array  $screen_id Array of allowed screens to add scripts and styles to.
+		 */
 		do_action( 'bp_members_admin_enqueue_scripts', get_current_screen()->id, $this->screen_id );
 	}
 
@@ -659,10 +682,23 @@ class BP_Members_Admin {
 			}
 		}
 
-		// Call an action for plugins to hook in early
+		/**
+		 * Fires at the start of the signups admin load.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param string $doaction Current bulk action being processed.
+		 * @param array  $_REQUEST Current $_REQUEST global.
+		 */
 		do_action_ref_array( 'bp_members_admin_load', array( $doaction, $_REQUEST ) );
 
-		// Allowed actions
+		/**
+		 * Filters the allowed actions for use in the user admin page.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $value Array of allowed actions to use.
+		 */
 		$allowed_actions = apply_filters( 'bp_members_admin_allowed_actions', array( 'update', 'delete_avatar', 'spam', 'ham' ) );
 
 		// Prepare the display of the Community Profile screen
@@ -700,8 +736,15 @@ class BP_Members_Admin {
 			$this->stats_metabox->priority = 'core';
 
 			/**
-			 * xProfile Hooks to load the profile fields if component is active
-			 * Plugins should not use this hook, please use 'bp_members_admin_user_metaboxes' instead
+			 * Fires before loading the profile fields if component is active.
+			 *
+			 * Plugins should not use this hook, please use 'bp_members_admin_user_metaboxes' instead.
+			 *
+			 * @since BuddyPress (2.0.0)
+			 *
+			 * @param int    $user_id       Current user ID for the screen.
+			 * @param string $id            Current screen ID.
+			 * @param object $stats_metabox Object holding position data for use with the stats metabox.
 			 */
 			do_action_ref_array( 'bp_members_admin_xprofile_metabox', array( $user_id, get_current_screen()->id, $this->stats_metabox ) );
 
@@ -736,11 +779,17 @@ class BP_Members_Admin {
 			}
 
 			/**
-			 * Custom metabox ?
-			 * Plugins can restrict metabox to "bp_moderate" admins checking
-			 * the first argument ($this->is_self_profile) is false in their hook
-			 * They can also restruct their metabox to self profile editing
-			 * by cheking it set to true.
+			 * Fires at the end of the Community Profile screen.
+			 *
+			 * Plugins can restrict metabox to "bp_moderate" admins by checking if
+			 * the first argument ($this->is_self_profile) is false in their callback.
+			 * They can also restrict their metabox to self profile editing
+			 * by setting it to true.
+			 *
+			 * @since BuddyPress (2.0.0)
+			 *
+			 * @param bool $is_self_profile Whether or not it is the current user's profile.
+			 * @param int  $user_id         Current user ID.
 			 */
 			do_action( 'bp_members_admin_user_metaboxes', $this->is_self_profile, $user_id );
 
@@ -765,6 +814,16 @@ class BP_Members_Admin {
 		} else {
 			$this->redirect = $redirect_to;
 
+			/**
+			 * Fires at end of user profile admin load if doaction does not match any available actions.
+			 *
+			 * @since BuddyPress (2.0.0)
+			 *
+			 * @param string $doaction Current bulk action being processed.
+			 * @param int    $user_id  Current user ID.
+			 * @param array  $_REQUEST Current $_REQUEST global.
+			 * @param string $redirect Determined redirect url to send user to.
+			 */
 			do_action_ref_array( 'bp_members_admin_update_user', array( $doaction, $user_id, $_REQUEST, $this->redirect ) );
 
 			bp_core_redirect( $this->redirect );
@@ -1005,6 +1064,15 @@ class BP_Members_Admin {
 			<?php
 			// Loading other stats only if user has activated their account
 			if ( empty( $user->user_status ) ) {
+
+				/**
+				 * Fires in the user stats metabox if the user has activated their account.
+				 *
+				 * @since BuddyPress (2.0.0)
+				 *
+				 * @param array  $value Array holding the user ID.
+				 * @param object $user  Current displayed user object.
+				 */
 				do_action( 'bp_members_admin_user_stats', array( 'user_id' => $user->ID ), $user );
 			}
 			?>
@@ -1312,10 +1380,23 @@ class BP_Members_Admin {
 		$redirect_to = remove_query_arg( array( 'action', 'error', 'updated', 'activated', 'notactivated', 'deleted', 'notdeleted', 'resent', 'notresent', 'do_delete', 'do_resend', 'do_activate', '_wpnonce', 'signup_ids' ), $_SERVER['REQUEST_URI'] );
 		$doaction    = bp_admin_list_table_current_bulk_action();
 
-		// Call an action for plugins to hook in early
+		/**
+		 * Fires at the start of the signups admin load.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param string $doaction Current bulk action being processed.
+		 * @param array  $_REQUEST Current $_REQUEST global.
+		 */
 		do_action( 'bp_signups_admin_load', $doaction, $_REQUEST );
 
-		// Allowed actions
+		/**
+		 * Filters the allowed actions for use in the user signups admin page.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $value Array of allowed actions to use.
+		 */
 		$allowed_actions = apply_filters( 'bp_signups_admin_allowed_actions', array( 'do_delete', 'do_activate', 'do_resend' ) );
 
 		// Prepare the display of the Community Profile screen
@@ -1446,6 +1527,15 @@ class BP_Members_Admin {
 			} else {
 				$this->redirect = $redirect_to;
 
+				/**
+				 * Fires at end of signups admin load if doaction does not match any actions.
+				 *
+				 * @since BuddyPress (2.0.0)
+				 *
+				 * @param string $doaction Current bulk action being processed.
+				 * @param array  $_REQUEST Current $_REQUEST global.
+				 * @param string $redirect Determined redirect url to send user to.
+				 */
 				do_action( 'bp_members_admin_update_signups', $doaction, $_REQUEST, $this->redirect );
 
 				bp_core_redirect( $this->redirect );
