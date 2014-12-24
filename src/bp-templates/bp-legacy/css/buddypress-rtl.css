@@ -38,7 +38,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 	background: transparent;
 	border: none;
 	color: #888;
-	font-size: 90%;
+	font-size: small;
 	margin: 0;
 	position: relative;
 	display: block;
@@ -126,7 +126,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 	background: #fff;
 	color: #555;
 	font-family: inherit;
-	font-size: 90%;
+	font-size: medium;
 	height: 20px;
 	padding: 6px;
 	width: 98%;
@@ -770,7 +770,7 @@ a.bp-title-button {
 	background: #fff; /* Old browsers */
 	border: 1px solid #ccc;
 	color: #777;
-	font-size: .8rem;
+	font-size: small;
 	cursor: pointer;
 	outline: none;
 	padding: 4px 10px;
@@ -1132,7 +1132,7 @@ a.bp-title-button {
 }
 #buddypress span.activity {
 	display: inline-block;
-	font-size: 80%;
+	font-size: small;
 	opacity: 0.8;
 	padding: 0;
 }
@@ -1508,7 +1508,7 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress span.activity {
 	display: inline-block;
-	font-size: 80%;
+	font-size: small;
 	opacity: 0.8;
 	padding: 0;
 }
