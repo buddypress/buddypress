@@ -2125,34 +2125,6 @@ function bp_members_migrate_signups() {
 }
 
 /**
- * Create a "became a registered user" activity item when a user activates his account.
- *
- * @param array $user Array of userdata passed to bp_core_activated_user hook.
- */
-function bp_core_new_user_activity( $user ) {
-	if ( empty( $user ) || ! bp_is_active( 'activity' ) || ! bp_is_active( 'xprofile' ) ) {
-		return false;
-	}
-
-	if ( is_array( $user ) ) {
-		$user_id = $user['user_id'];
-	} else {
-		$user_id = $user;
-	}
-
-	if ( empty( $user_id ) ) {
-		return false;
-	}
-
-	bp_activity_add( array(
-		'user_id'   => $user_id,
-		'component' => 'xprofile',
-		'type'      => 'new_member'
-	) );
-}
-add_action( 'bp_core_activated_user', 'bp_core_new_user_activity' );
-
-/**
  * Map a user's WP display name to the XProfile fullname field, if necessary.
  *
  * This only happens when a user is registered in wp-admin by an administrator;

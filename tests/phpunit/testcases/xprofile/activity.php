@@ -293,58 +293,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 
 	/**
 	 * @group activity_action
-	 * @group bp_xprofile_format_activity_action_new_member
-	 */
-	public function test_bp_xprofile_format_activity_action_new_member_xprofile_on() {
-		$active = bp_is_active( 'xprofile' );
-		buddypress()->active_components['xprofile'] = '1';
-
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
-			'component' => buddypress()->profile->id,
-			'type' => 'new_member',
-			'user_id' => $u,
-		) );
-
-		$expected = sprintf( __( '%s became a registered member', 'buddypress' ), bp_core_get_userlink( $u ) );
-
-		$a_obj = new BP_Activity_Activity( $a );
-
-		$this->assertSame( $expected, $a_obj->action );
-
-		if ( ! $active ) {
-			unset( buddypress()->active_components['xprofile'] );
-		}
-	}
-
-	/**
-	 * @group activity_action
-	 * @group bp_xprofile_format_activity_action_new_member
-	 */
-	public function test_bp_xprofile_format_activity_action_new_member_xprofile_off() {
-		$active = bp_is_active( 'xprofile' );
-		unset( buddypress()->active_components['xprofile'] );
-
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
-			'component' => buddypress()->profile->id,
-			'type' => 'new_member',
-			'user_id' => $u,
-		) );
-
-		$expected = sprintf( __( '%s became a registered member', 'buddypress' ), bp_core_get_userlink( $u ) );
-
-		$a_obj = new BP_Activity_Activity( $a );
-
-		$this->assertSame( $expected, $a_obj->action );
-
-		if ( $active ) {
-			buddypress()->active_components['xprofile'] = '1';
-		}
-	}
-
-	/**
-	 * @group activity_action
 	 * @group bp_xprofile_format_activity_action_updated_profile
 	 */
 	public function test_bp_xprofile_format_activity_action_updated_profile() {

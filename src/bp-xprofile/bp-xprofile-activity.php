@@ -33,20 +33,8 @@ function xprofile_register_activity_actions() {
 		__( 'Updated Profile Photos', 'buddypress' )
 	);
 
-	// Get the profile component ID
-	$profile_id = buddypress()->profile->id;
-
 	bp_activity_set_action(
-		$profile_id,
-		'new_member',
-		__( 'New member registered', 'buddypress' ),
-		'bp_xprofile_format_activity_action_new_member',
-		__( 'New Members', 'buddypress' ),
-		array( 'activity' )
-	);
-
-	bp_activity_set_action(
-		$profile_id,
+		buddypress()->profile->id,
 		'updated_profile',
 		__( 'Updated Profile', 'buddypress' ),
 		'bp_xprofile_format_activity_action_updated_profile',
@@ -77,27 +65,6 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
 	}
 
 	return apply_filters( 'bp_xprofile_format_activity_action_new_avatar', $action, $activity );
-}
-
-/**
- * Format 'new_member' activity actions.
- *
- * @since BuddyPress (2.0.0)
- *
- * @param string $action Static activity action.
- * @param object $activity Activity object.
- * @return string
- */
-function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
-	$userlink = bp_core_get_userlink( $activity->user_id );
-	$action   = sprintf( __( '%s became a registered member', 'buddypress' ), $userlink );
-
-	// Legacy filter - pass $user_id instead of $activity
-	if ( has_filter( 'bp_core_activity_registered_member_action' ) ) {
-		$action = apply_filters( 'bp_core_activity_registered_member_action', $action, $activity->user_id );
-	}
-
-	return apply_filters( 'bp_xprofile_format_activity_action_new_member', $action, $activity );
 }
 
 /**

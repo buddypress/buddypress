@@ -435,11 +435,6 @@ class BP_Activity_Activity {
 			$excluded_types[] = 'last_activity';
 		}
 
-		// Exclude 'new_member' items if xprofile component is not active
-		if ( ! bp_is_active( 'xprofile' ) ) {
-			$excluded_types[] = 'new_member';
-		}
-
 		// Build the excluded type sql part
 		if ( ! empty( $excluded_types ) ) {
 			$not_in = "'" . implode( "', '", esc_sql( $excluded_types ) ) . "'";

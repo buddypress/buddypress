@@ -59,6 +59,10 @@ class BP_Members_Component extends BP_Component {
 			'cache',
 		);
 
+		if ( bp_is_active( 'activity' ) ) {
+			$includes[] = 'activity';
+		}
+
 		// Include these only if in admin
 		if ( is_admin() ) {
 			$includes[] = 'admin';

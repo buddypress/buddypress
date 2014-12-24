@@ -398,6 +398,7 @@ function bp_update_to_2_0_1() {
  * 2.2.0 update routine.
  *
  * - Add messages meta table
+ * - Update the component field of the 'new members' activity type
  *
  * @since BuddyPress (2.2.0)
  */
@@ -405,6 +406,46 @@ function bp_update_to_2_2() {
 	if ( bp_is_active( 'messages' ) ) {
 		bp_core_install_private_messaging();
 	}
+
+	if ( bp_is_active( 'activity' ) ) {
+		bp_migrate_new_member_activity_component();
+	}
+}
+
+/**
+ * Updates the component field for new_members type.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @global $wpdb
+ * @uses   buddypress()
+ *
+ */
+function bp_migrate_new_member_activity_component() {
+	global $wpdb;
+	$bp = buddypress();
+
+	// Update the component for the new_member type
+	$wpdb->update(
+		// Activity table
+		$bp->members->table_name_last_activity,
+		array(
+			'component' => $bp->members->id,
+		),
+		array(
+			'component' => 'xprofile',
+			'type'      => 'new_member',
+		),
+		// Data sanitization format
+		array(
+			'%s',
+		),
+		// WHERE sanitization format
+		array(
+			'%s',
+			'%s'
+		)
+	);
 }
 
 /**
