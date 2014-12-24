@@ -175,6 +175,16 @@ class BP_Signup {
 		// Implode WHERE clauses
 		$sql['where'] = 'WHERE ' . implode( ' AND ', $sql['where'] );
 
+		/**
+		 * Filters the Signups paged query.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param string $value SQL statement.
+		 * @param array  $sql   Array of SQL statement parts.
+		 * @param array  $args  Array of original arguments for get() method.
+		 * @param array  $r     Array of parsed arguments for get() method.
+		 */
 		$paged_signups = $wpdb->get_results( apply_filters( 'bp_members_signups_paged_query', join( ' ', $sql ), $sql, $args, $r ) );
 
 		if ( empty( $paged_signups ) ) {
@@ -225,6 +235,17 @@ class BP_Signup {
 
 		unset( $sql['limit'] );
 		$sql['select'] = preg_replace( "/SELECT.*?FROM/", "SELECT COUNT(*) FROM", $sql['select'] );
+
+		/**
+		 * Filters the Signups count query.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param string $value SQL statement.
+		 * @param array  $sql   Array of SQL statement parts.
+		 * @param array  $args  Array of original arguments for get() method.
+		 * @param array  $r     Array of parsed arguments for get() method.
+		 */
 		$total_signups = $wpdb->get_var( apply_filters( 'bp_members_signups_count_query', join( ' ', $sql ), $sql, $args, $r ) );
 
 		return array( 'signups' => $paged_signups, 'total' => $total_signups );
@@ -270,6 +291,13 @@ class BP_Signup {
 			$retval = false;
 		}
 
+		/**
+		 * Filters the result of a signup addition.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param int|bool $retval Newly added user ID on success, false on failure.
+		 */
 		return apply_filters( 'bp_core_signups_add', $retval );
 	}
 
@@ -335,6 +363,13 @@ class BP_Signup {
 			}
 		}
 
+		/**
+		 * Filters the user ID for the backcompat functionality.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param int $user_id User ID being registered.
+		 */
 		return apply_filters( 'bp_core_signups_add_backcompat', $user_id );
 	}
 
@@ -355,6 +390,13 @@ class BP_Signup {
 
 		$user_status = $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM {$wpdb->users} WHERE ID = %d", $user_id ) );
 
+		/**
+		 * Filters the user status of a provided user ID.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param int $value User status of the provided user ID.
+		 */
 		return apply_filters( 'bp_core_signups_check_user_status', intval( $user_status ) );
 	}
 
@@ -394,6 +436,13 @@ class BP_Signup {
 			)
 		);
 
+		/**
+		 * Filters the status of the activated user.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param bool $activated Whether or not the activation was successful.
+		 */
 		return apply_filters( 'bp_core_signups_validate', $activated );
 	}
 
@@ -410,6 +459,13 @@ class BP_Signup {
 		$signups_table = buddypress()->members->table_name_signups;
 		$count_signups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) AS total FROM {$signups_table} WHERE active = %d", 0 ) );
 
+		/**
+		 * Filters the total inactive signups.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param int $count_signups How many total signups there are.
+		 */
 		return apply_filters( 'bp_core_signups_count', (int) $count_signups );
 	}
 
@@ -460,6 +516,13 @@ class BP_Signup {
 			)
 		);
 
+		/**
+		 * Filters the signup ID which received a meta update.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param int $value The signup ID.
+		 */
 		return apply_filters( 'bp_core_signups_update', $r['signup_id'] );
 	}
 
@@ -486,6 +549,13 @@ class BP_Signup {
 
 		$result = array();
 
+		/**
+		 * Fires before activation emails are resent.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $signup_ids Array of IDs to resend activation emails to.
+		 */
 		do_action( 'bp_core_signup_before_resend', $signup_ids );
 
 		foreach ( $signups as $signup ) {
@@ -525,8 +595,23 @@ class BP_Signup {
 			) );
 		}
 
+		/**
+		 * Fires after activation emails are resent.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $signup_ids Array of IDs to resend activation emails to.
+		 * @param array $result     Updated metadata related to activation emails.
+		 */
 		do_action( 'bp_core_signup_after_resend', $signup_ids, $result );
 
+		/**
+		 * Filters the result of the metadata for signup activation email resends.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $result Updated metadata related to activation emails.
+		 */
 		return apply_filters( 'bp_core_signup_resend', $result );
 	}
 
@@ -553,6 +638,13 @@ class BP_Signup {
 
 		$result = array();
 
+		/**
+		 * Fires before activation of user accounts.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $signup_ids Array of IDs to activate.
+		 */
 		do_action( 'bp_core_signup_before_activate', $signup_ids );
 
 		foreach ( $signups as $signup ) {
@@ -585,8 +677,23 @@ class BP_Signup {
 			}
 		}
 
+		/**
+		 * Fires after activation of user accounts.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $signup_ids Array of IDs activated activate.
+		 * @param array $result     Array of data for activated accounts.
+		 */
 		do_action( 'bp_core_signup_after_activate', $signup_ids, $result );
 
+		/**
+		 * Filters the result of the metadata after user activation.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $result Updated metadata related to user activation.
+		 */
 		return apply_filters( 'bp_core_signup_activate', $result );
 	}
 
@@ -615,6 +722,13 @@ class BP_Signup {
 
 		$result = array();
 
+		/**
+		 * Fires before deletion of pending accounts.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $signup_ids Array of pending IDs to delete.
+		 */
 		do_action( 'bp_core_signup_before_delete', $signup_ids );
 
 		foreach ( $signups as $signup ) {
@@ -650,8 +764,23 @@ class BP_Signup {
 			}
 		}
 
+		/**
+		 * Fires after deletion of pending accounts.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $signup_ids Array of pending IDs to delete.
+		 * @param array $result     Array of data for deleted accounts.
+		 */
 		do_action( 'bp_core_signup_after_delete', $signup_ids, $result );
 
+		/**
+		 * Filters the result of the metadata for deleted pending accounts.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $result Updated metadata related to deleted pending accounts.
+		 */
 		return apply_filters( 'bp_core_signup_delete', $result );
 	}
 }
