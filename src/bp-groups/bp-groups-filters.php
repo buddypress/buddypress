@@ -233,3 +233,25 @@ function groups_filter_forums_root_page_sql( $sql ) {
 	return apply_filters( 'groups_filter_bbpress_root_page_sql', 't.topic_id' );
 }
 add_filter( 'get_latest_topics_fields', 'groups_filter_forums_root_page_sql' );
+
+/**
+ * Should BuddyPress load the mentions scripts and related assets, including results to prime the
+ * mentions suggestions?
+ *
+ * @param bool $load_mentions True to load mentions assets, false otherwise.
+ * @param bool $mentions_enabled True if mentions are enabled.
+ * @return bool True if mentions scripts should be loaded.
+ * @since BuddyPress (2.2.0)
+ */
+function bp_groups_maybe_load_mentions_scripts( $load_mentions, $mentions_enabled ) {
+	if ( ! $mentions_enabled ) {
+		return $load_mentions;
+	}
+
+	if ( $load_mentions || ( bp_is_group_activity() || bp_is_group_home() ) ) {
+		return true;
+	}
+
+	return $load_mentions;
+}
+add_filter( 'bp_activity_maybe_load_mentions_scripts', 'bp_groups_maybe_load_mentions_scripts', 10, 2 );

@@ -753,10 +753,17 @@ function bp_ajax_get_suggestions() {
 		exit;
 	}
 
-	$results = bp_core_get_suggestions( array(
+	$args = array(
 		'term' => sanitize_text_field( $_GET['term'] ),
 		'type' => sanitize_text_field( $_GET['type'] ),
-	) );
+	);
+
+	// Support per-Group suggestions.
+	if ( ! empty( $_GET['group-id'] ) ) {
+		$args['group_id'] = absint( $_GET['group-id'] );
+	}
+
+	$results = bp_core_get_suggestions( $args );
 
 	if ( is_wp_error( $results ) ) {
 		wp_send_json_error( $results->get_error_message() );
