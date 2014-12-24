@@ -1205,7 +1205,7 @@ jq(document).ready( function() {
 	});
 
 	/* Add / Remove friendship buttons */
-	jq( '#members-dir-list, #members-group-list' ).on('click', '.friendship-button a', function() {
+	jq( '#members-dir-list, #members-group-list, #item-header' ).on('click', '.friendship-button a', function() {
 		jq(this).parent().addClass('loading');
 		var fid   = jq(this).attr('id'),
 			nonce   = jq(this).attr('href'),
