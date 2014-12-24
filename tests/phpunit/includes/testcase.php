@@ -54,6 +54,24 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		parent::clean_up_global_scope();
 	}
 
+	function tearDown() {
+		parent::tearDown();
+
+		/**
+		 * Sites created by the WP_UnitTest_Factory_For_Blog sometimes are not removed when the current
+		 * transaction is rolled back. This requires further investigation to understand the root cause
+		 * but for now, we'll empty out the blogs table manually.
+		 */
+		global $wpdb;
+
+		$blogs = wp_get_sites();
+		foreach ( $blogs as $blog ) {
+			if ( (int) $blog['blog_id'] !== 1 ) {
+				wpmu_delete_blog( $blog['blog_id'], true );
+			}
+		}
+	}
+
 	function assertPreConditions() {
 		parent::assertPreConditions();
 
