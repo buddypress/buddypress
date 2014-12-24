@@ -29,6 +29,11 @@ function bp_members_register_activity_actions() {
 		array( 'activity' )
 	);
 
+	/**
+	 * Fires after the default 'new member' activity types are registered.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
 	do_action( 'bp_members_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'bp_members_register_activity_actions' );
@@ -51,6 +56,14 @@ function bp_members_format_activity_action_new_member( $action, $activity ) {
 		$action = apply_filters( 'bp_core_activity_registered_member_action', $action, $activity->user_id );
 	}
 
+	/**
+	 * Filters the formatted 'new member' activity actions.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param string $action   Static activity action.
+	 * @param object $activity Activity object.
+	 */
 	return apply_filters( 'bp_members_format_activity_action_new_member', $action, $activity );
 }
 
