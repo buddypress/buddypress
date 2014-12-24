@@ -1422,3 +1422,29 @@ function bp_blogs_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );
 add_action( 'delete_user',       'bp_blogs_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_blogs_remove_data' );
+
+/**
+ * Restore all blog associations for a given user
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param int $user_id ID whose blog data should be restored.
+ */
+function bp_blogs_restore_data( $user_id = 0 ) {
+	if ( ! is_multisite() ) {
+		return;
+	}
+
+	// Get the user's blogs
+	$user_blogs = get_blogs_of_user( $user_id );
+	if ( empty( $user_blogs ) ) {
+		return;
+	}
+
+	$blogs = array_keys( $user_blogs );
+
+	foreach ( $blogs as $blog_id ) {
+		bp_blogs_add_user_to_blog( $user_id, false, $blog_id );
+	}
+}
+add_action( 'bp_make_ham_user', 'bp_blogs_restore_data', 10, 1 );
