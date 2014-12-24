@@ -120,6 +120,14 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function get_columns() {
+
+		/**
+		 * Filters the single site Members signup columns.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $value Array of columns to display.
+		 */
 		return apply_filters( 'bp_members_signup_columns', array(
 			'cb'         => '<input type="checkbox" />',
 			'username'   => __( 'Username',    'buddypress' ),
@@ -277,6 +285,14 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			$actions['delete'] = sprintf( '<a href="%1$s" class="delete">%2$s</a>', esc_url( $delete_link ), __( 'Delete', 'buddypress' ) );
 		}
 
+		/**
+		 * Filters the multisite row actions for each user in list.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array  $actions       Array of actions and corresponding links.
+		 * @param object $signup_object The signup data object.
+		 */
 		$actions = apply_filters( 'bp_members_ms_signup_row_actions', $actions, $signup_object );
 
 		echo $this->row_actions( $actions );
@@ -336,14 +352,23 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	}
 
 	/**
-	 * Allow plugins to add their costum column.
+	 * Allow plugins to add their custom column.
 	 *
-	 * @since BuddyPress 2.1.0
+	 * @since BuddyPress (2.1.0)
 	 *
 	 * @param object $signup_object The signup data object.
 	 * @param string the column name.
 	 */
 	function column_default( $signup_object = null, $column_name = '' ) {
+
+		/**
+		 * Filters the single site custom columns for plugins.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param string $column_name   The column name.
+		 * @param object $signup_object The signup data object.
+		 */
 		return apply_filters( 'bp_members_signup_custom_column', '', $column_name, $signup_object );
 	}
 }
@@ -448,6 +473,14 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * @since BuddyPress (2.0.0)
 	 */
 	public function get_columns() {
+
+		/**
+		 * Filters the multisite Members signup columns.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $value Array of columns to display.
+		 */
 		return apply_filters( 'bp_members_ms_signup_columns', array(
 			'cb'         => '<input type="checkbox" />',
 			'username'   => __( 'Username',    'buddypress' ),
@@ -600,6 +633,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			$actions['delete'] = sprintf( '<a href="%1$s" class="delete">%2$s</a>', esc_url( $delete_link ), __( 'Delete', 'buddypress' ) );
 		}
 
+		/** This filter is documented in bp-members/admin/bp-members-classes.php */
 		$actions = apply_filters( 'bp_members_ms_signup_row_actions', $actions, $signup_object );
 
 		echo $this->row_actions( $actions );
@@ -681,6 +715,15 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * @param string the column name.
 	 */
 	function column_default( $signup_object = null, $column_name = '' ) {
+
+		/**
+		 * Filters the multisite custom columns for plugins.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param string $column_name   The column name.
+		 * @param object $signup_object The signup data object.
+		 */
 		return apply_filters( 'bp_members_ms_signup_custom_column', '', $column_name, $signup_object );
 	}
 }
