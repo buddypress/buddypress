@@ -58,15 +58,8 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			return;
 		}
 
-		// switch to BP root blog if necessary
-		if ( bp_get_root_blog_id() != get_current_blog_id() ) {
-			$this->go_to( '/' );
-		}
-
 		// get BP root blog's upload directory data
 		$upload_dir = wp_upload_dir();
-
-		restore_current_blog();
 
 		// create new subsite
 		$blog_id = $this->factory->blog->create( array(
