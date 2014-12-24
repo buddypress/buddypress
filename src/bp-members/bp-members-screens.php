@@ -16,7 +16,21 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * Handle the display of the profile page by loading the correct template file.
  */
 function bp_members_screen_display_profile() {
+
+	/**
+	 * Fires right before the loading of the Member profile screen template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_members_screen_display_profile' );
+
+	/**
+	 * Filters the template to load for the Member profile page screen.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $template Path to the Member template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_members_screen_display_profile', 'members/single/home' ) );
 }
 
@@ -27,8 +41,20 @@ function bp_members_screen_index() {
 	if ( bp_is_members_directory() ) {
 		bp_update_is_directory( true, 'members' );
 
+		/**
+		 * Fires right before the loading of the Member directory index screen template file.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 */
 		do_action( 'bp_members_screen_index' );
 
+		/**
+		 * Filters the template to load for the Member directory page screen.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string $value Path to the member directory template to load.
+		 */
 		bp_core_load_template( apply_filters( 'bp_members_screen_index', 'members/index' ) );
 	}
 }
@@ -53,6 +79,13 @@ function bp_core_screen_signup() {
 		else
 			$redirect_to = bp_get_root_domain();
 
+		/**
+		 * Filters the URL to redirect logged in users to when visiting registration page.
+		 *
+		 * @since BuddyPress (1.5.1)
+		 *
+		 * @param string $redirect_to URL to redirect user to.
+		 */
 		bp_core_redirect( apply_filters( 'bp_loggedin_register_page_redirect_to', $redirect_to ) );
 
 		return;
@@ -66,6 +99,11 @@ function bp_core_screen_signup() {
 	// If the signup page is submitted, validate and save
 	} elseif ( isset( $_POST['signup_submit'] ) && bp_verify_nonce_request( 'bp_new_signup' ) ) {
 
+	    /**
+		 * Fires before the validation of a new signup.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 */
 		do_action( 'bp_signup_pre_validate' );
 
 		// Check the base account details for problems
@@ -132,6 +170,11 @@ function bp_core_screen_signup() {
 			}
 		}
 
+	    /**
+		 * Fires after the validation of a new signup.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
 		do_action( 'bp_signup_validate' );
 
 		// Add any errors to the action for the field in the template for display.
@@ -139,6 +182,14 @@ function bp_core_screen_signup() {
 			foreach ( (array) $bp->signup->errors as $fieldname => $error_message ) {
 				// addslashes() and stripslashes() to avoid create_function()
 				// syntax errors when the $error_message contains quotes
+
+				/**
+				 * Filters the error message in the loop.
+				 *
+				 * @since BuddyPress (1.5.0)
+				 *
+				 * @param string $value Error message wrapped in html.
+				 */
 				add_action( 'bp_' . $fieldname . '_errors', create_function( '', 'echo apply_filters(\'bp_members_signup_error_message\', "<div class=\"error\">" . stripslashes( \'' . addslashes( $error_message ) . '\' ) . "</div>" );' ) );
 			}
 		} else {
@@ -185,6 +236,13 @@ function bp_core_screen_signup() {
 				if ( 'blog' == $active_signup || 'all' == $active_signup )
 					$usermeta['public'] = ( isset( $_POST['signup_blog_privacy'] ) && 'public' == $_POST['signup_blog_privacy'] ) ? true : false;
 
+				/**
+				 * Filters the user meta used for signup.
+				 *
+				 * @since BuddyPress (1.1.0)
+				 *
+				 * @param array $usermeta Array of user meta to add to signup.
+				 */
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
 
 				// Finally, sign up the user and/or blog
@@ -201,12 +259,30 @@ function bp_core_screen_signup() {
 				}
 			}
 
+			/**
+			 * Fires after the completion of a new signup.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 */
 			do_action( 'bp_complete_signup' );
 		}
 
 	}
 
+	/**
+	 * Fires right before the loading of the Member registration screen template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_core_screen_signup' );
+
+	/**
+	 * Filters the template to load for the Member registration page screen.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $value Path to the Member registration template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_core_template_register', array( 'register', 'registration/register' ) ) );
 }
 add_action( 'bp_screens', 'bp_core_screen_signup' );
@@ -228,6 +304,13 @@ function bp_core_screen_activation() {
 			$redirect_to = trailingslashit( bp_get_root_domain() );
 		}
 
+		/**
+		 * Filters the URL to redirect logged in users to when visiting activation page.
+		 *
+		 * @since BuddyPress (1.9.0)
+		 *
+		 * @param string $redirect_to URL to redirect user to.
+		 */
 		bp_core_redirect( apply_filters( 'bp_loggedin_activate_page_redirect_to', $redirect_to ) );
 
 		return;
@@ -243,7 +326,15 @@ function bp_core_screen_activation() {
 
 	// we've got a key; let's attempt to activate the signup
 	if ( ! empty( $key ) ) {
-		// Activate the signup
+
+		/**
+		 * Filters the activation signup.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param bool|int $value Value returned by activation.
+		 *                        Integer on success, boolean on failure.
+		 */
 		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $key ) );
 
 		// If there were errors, add a message and redirect
@@ -264,6 +355,13 @@ function bp_core_screen_activation() {
 		$bp->activation_complete = true;
 	}
 
+	/**
+	 * Filters the template to load for the Member activation page screen.
+	 *
+	 * @since BuddyPress (1.1.1)
+	 *
+	 * @param string $value Path to the Member activation template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_core_template_activate', array( 'activate', 'registration/activate' ) ) );
 }
 add_action( 'bp_screens', 'bp_core_screen_activation' );
@@ -304,6 +402,11 @@ class BP_Members_Theme_Compat {
 		if ( ! bp_current_action() && ! bp_current_item() ) {
 			bp_update_is_directory( true, 'members' );
 
+			/**
+			 * Fires if looking at Members directory when needing theme compat.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 */
 			do_action( 'bp_members_screen_index' );
 
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
@@ -317,6 +420,11 @@ class BP_Members_Theme_Compat {
 			if ( bp_is_active( 'activity' ) && bp_is_single_activity() )
 				return;
 
+			/**
+			 * Fires if looking at Members user page when needing theme compat.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 */
 			do_action( 'bp_members_screen_display_profile' );
 
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
@@ -336,12 +444,19 @@ class BP_Members_Theme_Compat {
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from bp_get_theme_compat_templates().
+	 * @param array $templates The templates from bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates = array() ) {
 
-		// Setup our templates based on priority
+		/**
+		 * Filters the template hierarchy for theme compat and members directory page.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param array $value Array of template paths to add to hierarchy.
+		 */
 		$new_templates = apply_filters( 'bp_template_hierarchy_members_directory', array(
 			'members/index-directory.php'
 		) );
@@ -399,7 +514,13 @@ class BP_Members_Theme_Compat {
 		// Setup some variables we're going to reference in our custom templates
 		$user_nicename = buddypress()->displayed_user->userdata->user_nicename;
 
-		// Setup our templates based on priority
+		/**
+		 * Filters the template hierarchy for theme compat and member pages.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param array $value Array of template paths to add to hierarchy.
+		 */
 		$new_templates = apply_filters( 'bp_template_hierarchy_members_single_item', array(
 			'members/single/index-id-'        . sanitize_file_name( bp_displayed_user_id() ) . '.php',
 			'members/single/index-nicename-'  . sanitize_file_name( $user_nicename )         . '.php',
@@ -501,7 +622,16 @@ class BP_Registration_Theme_Compat {
 	public function template_hierarchy( $templates ) {
 		$component = sanitize_file_name( bp_current_component() );
 
-		// Setup our templates based on priority
+		/**
+		 * Filters the template hierarchy for theme compat and registration/activation pages.
+		 *
+		 * This filter is a variable filter that depends on the current component
+		 * being used.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param array $value Array of template paths to add to hierarchy.
+		 */
 		$new_templates = apply_filters( "bp_template_hierarchy_{$component}", array(
 			"members/index-{$component}.php"
 		) );
