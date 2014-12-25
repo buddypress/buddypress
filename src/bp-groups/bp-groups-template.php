@@ -4399,10 +4399,6 @@ class BP_Groups_Invite_Template {
 			$this->invite->user->total_friends = BP_Friends_Friendship::total_friend_count( $user_id );
 		}
 
-		if ( bp_is_active( 'friends' ) ) {
-			$this->invite->user->total_friends = BP_Friends_Friendship::total_friend_count( $user_id );
-		}
-
 		$this->invite->user->total_blogs = null;
 
 		$this->invite->group_id = $group_id; // Globaled in bp_group_has_invites()
