@@ -64,10 +64,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		 */
 		global $wpdb;
 
-		$blogs = wp_get_sites();
-		foreach ( $blogs as $blog ) {
-			if ( (int) $blog['blog_id'] !== 1 ) {
-				wpmu_delete_blog( $blog['blog_id'], true );
+		if ( is_multisite() ) {
+			$blogs = wp_get_sites();
+			foreach ( $blogs as $blog ) {
+				if ( (int) $blog['blog_id'] !== 1 ) {
+					wpmu_delete_blog( $blog['blog_id'], true );
+				}
 			}
 		}
 	}
