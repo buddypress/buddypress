@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Maps XProfile caps to built in WordPress caps
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  *
  * @param array $caps Capabilities for meta capability
  * @param string $cap Capability name
@@ -55,6 +55,16 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 			break;
 	}
 
+	/**
+	 * Filters the XProfile caps to built in WordPress caps.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array  $caps    Capabilities for meta capability.
+	 * @param string $cap     Capability name.
+	 * @param int    $user_id User ID being mapped.
+	 * @param mixed  $args    Capability arguments.
+	 */
 	return apply_filters( 'bp_xprofile_map_meta_caps', $caps, $cap, $user_id, $args );
 }
 add_filter( 'bp_map_meta_caps', 'bp_xprofile_map_meta_caps', 10, 4 );
