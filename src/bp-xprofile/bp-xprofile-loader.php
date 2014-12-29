@@ -17,7 +17,7 @@ class BP_XProfile_Component extends BP_Component {
 	/**
 	 * Profile field types
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 * @var array
 	 */
 	public $field_types;
@@ -26,14 +26,14 @@ class BP_XProfile_Component extends BP_Component {
 	 * The acceptable visibility levels for xprofile fields.
 	 *
 	 * @see bp_xprofile_get_visibility_levels()
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 */
 	var $visibility_levels = array();
 
 	/**
 	 * Start the xprofile component creation process
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function __construct() {
 		parent::start(
@@ -78,7 +78,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * The BP_XPROFILE_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
@@ -98,7 +98,13 @@ class BP_XProfile_Component extends BP_Component {
 			define( 'BP_XPROFILE_FULLNAME_FIELD_NAME', stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ) );
 		}
 
-		// Set the support field type ids
+		/**
+		 * Filters the supported field type IDs.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param array $value Array of IDs for the supported field types.
+		 */
 		$this->field_types = apply_filters( 'xprofile_field_types', array_keys( bp_xprofile_get_field_types() ) );
 
 		// 'option' is a special case. It is not a top-level field, so
