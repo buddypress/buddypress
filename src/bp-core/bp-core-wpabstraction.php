@@ -75,7 +75,7 @@ if ( !is_multisite() ) {
 		/**
 		 * @see switch_to_blog()
 		 */
-		function switch_to_blog() {
+		function switch_to_blog( $new_blog, $deprecated = null ) {
 			return bp_get_root_blog_id();
 		}
 	}
@@ -93,7 +93,7 @@ if ( !is_multisite() ) {
 		/**
 		 * @see get_blogs_of_user()
 		 */
-		function get_blogs_of_user() {
+		function get_blogs_of_user( $user_id, $all = false ) {
 			return false;
 		}
 	}
@@ -102,7 +102,7 @@ if ( !is_multisite() ) {
 		/**
 		 * @see update_blog_status()
 		 */
-		function update_blog_status() {
+		function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 			return true;
 		}
 	}
