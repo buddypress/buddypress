@@ -47,7 +47,7 @@ add_action( 'bp_actions', 'xprofile_action_delete_avatar' );
 /**
  * Handles the saving of xprofile field visibilities
  *
- * @since BuddyPress (1.9)
+ * @since BuddyPress (1.9.0)
  */
 function bp_xprofile_action_settings() {
 
@@ -75,6 +75,11 @@ function bp_xprofile_action_settings() {
 	// Nonce check
 	check_admin_referer( 'bp_xprofile_settings' );
 
+	/**
+	 * Fires before saving xprofile field visibilities.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
 	do_action( 'bp_xprofile_settings_before_save' );
 
 	/** Save ******************************************************************/
@@ -111,6 +116,11 @@ function bp_xprofile_action_settings() {
 
 	/** Other *****************************************************************/
 
+	/**
+	 * Fires after saving xprofile field visibilities.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
 	do_action( 'bp_xprofile_settings_after_save' );
 
 	// Redirect to the root domain
