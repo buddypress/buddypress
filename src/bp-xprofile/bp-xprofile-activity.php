@@ -42,6 +42,11 @@ function xprofile_register_activity_actions() {
 		array( 'activity' )
 	);
 
+	/**
+	 * Fires after the registration of default activity actions for Extended Profile component.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	do_action( 'xprofile_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions' );
@@ -64,6 +69,14 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
 		$action = apply_filters( 'bp_xprofile_new_avatar_action', $action, $activity->user_id );
 	}
 
+	/**
+	 * Filters the formatted 'new_avatar' activity stream action.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action   Formatted action for activity stream.
+	 * @param object $activity Activity object.
+	 */
 	return apply_filters( 'bp_xprofile_format_activity_action_new_avatar', $action, $activity );
 }
 
@@ -85,6 +98,14 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
 	$profile_link = trailingslashit( bp_core_get_user_domain( $activity->user_id ) . buddypress()->profile->slug );
 	$action	      = sprintf( __( '%s&#8217;s profile was updated', 'buddypress' ), '<a href="' . $profile_link . '">' . bp_core_get_user_displayname( $activity->user_id ) . '</a>' );
 
+	/**
+	 * Filters the formatted 'updated_profile' activity stream action.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action   Formatted action for activity stream.
+	 * @param object $activity Activity object.
+	 */
 	return apply_filters( 'bp_xprofile_format_activity_action_updated_profile', $action, $activity );
 }
 
@@ -166,6 +187,15 @@ function xprofile_register_activity_action( $key, $value ) {
 		return false;
 	}
 
+	/**
+	 * Filters the return value of bp_activity_set_action.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param bool   $value Whether or not an action was successfully registered.
+	 * @param string $key   Key used for the registered action.
+	 * @param string $value Value used for the registered action.
+	 */
 	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( buddypress()->profile->id, $key, $value ), $key, $value );
 }
 
@@ -185,7 +215,13 @@ function bp_xprofile_new_avatar_activity() {
 		return false;
 	}
 
-	// Allow user ID to be filtered
+	/**
+	 * Filters the user ID when a user has ploaded a new avatar.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $value ID of the displayed user.
+	 */
 	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', bp_displayed_user_id() );
 
 	// Add the activity
@@ -262,6 +298,14 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 
 	// Default throttle time is 2 hours. Filter to change (in seconds)
 	if ( ! empty( $existing['activities'] ) ) {
+
+		/**
+		 * Filters the throttle time, in seconds, used to prevent excessive activity posting.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param int $value Throttle time, in seconds.
+		 */
 		$throttle_period = apply_filters( 'bp_xprofile_updated_profile_activity_throttle_time', HOUR_IN_SECONDS * 2 );
 		$then            = strtotime( $existing['activities'][0]->date_recorded );
 		$now             = strtotime( bp_core_current_time() );
