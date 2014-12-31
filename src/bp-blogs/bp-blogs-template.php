@@ -1468,7 +1468,7 @@ function bp_blog_create_button() {
 			'component'  => 'blogs',
 			'link_text'  => __( 'Create a Site', 'buddypress' ),
 			'link_title' => __( 'Create a Site', 'buddypress' ),
-			'link_class' => 'button blog-create bp-title-button',
+			'link_class' => 'blog-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . trailingslashit( 'create' ),
 			'wrapper'    => false,
 		);
@@ -1482,6 +1482,60 @@ function bp_blog_create_button() {
 		 */
 		return bp_get_button( apply_filters( 'bp_get_blog_create_button', $button_args ) );
 	}
+
+/**
+ * Output the Create a Site nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_blog_create_nav_item() {
+	echo bp_get_blog_create_nav_item();
+}
+
+	/**
+	 * Get the Create a Site nav item.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_blog_create_nav_item() {
+		// Get the create a site button
+		$create_blog_button = bp_get_blog_create_button();
+
+		// Make sure the button is available
+		if ( empty( $create_blog_button ) ) {
+			return;
+		}
+
+		$output = '<li id="blog-create-nav">' . $create_blog_button . '</li>';
+
+		return apply_filters( 'bp_get_blog_create_nav_item', $output );
+	}
+
+/**
+ * Checks if a specific theme is still filtering the Blogs directory title
+ * if so, transform the title button into a Blogs directory nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses   bp_blog_create_nav_item() to output the Create a Site nav item
+ * @return string HTML Output
+ */
+function bp_blog_backcompat_create_nav_item() {
+	// Bail if Blogs nav item is already used by bp-legacy
+	if ( has_action( 'bp_blogs_directory_blog_types', 'bp_legacy_theme_blog_create_nav', 999 ) ) {
+		return;
+	}
+
+	// Bail if the theme is not filtering the Blogs directory title
+	if ( ! has_filter( 'bp_blogs_directory_header' ) ) {
+		return;
+	}
+
+	bp_blog_create_nav_item();
+}
+add_action( 'bp_blogs_directory_blog_types', 'bp_blog_backcompat_create_nav_item', 1000 );
 
 /**
  * Output button for visiting a blog in a loop.

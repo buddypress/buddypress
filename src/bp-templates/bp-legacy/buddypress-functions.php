@@ -108,16 +108,18 @@ class BP_Legacy extends BP_Theme_Compat {
 
 			// Group buttons
 			if ( bp_is_active( 'groups' ) ) {
-				add_action( 'bp_group_header_actions',     'bp_group_join_button',           5 );
-				add_action( 'bp_group_header_actions',     'bp_group_new_topic_button',      20 );
-				add_action( 'bp_directory_groups_actions', 'bp_group_join_button' );
-				add_filter( 'bp_groups_directory_header',  'bp_legacy_theme_group_create_button' );
-				add_filter( 'bp_blogs_directory_header',   'bp_legacy_theme_blog_create_button' );
+				add_action( 'bp_group_header_actions',          'bp_group_join_button',               5 );
+				add_action( 'bp_group_header_actions',          'bp_group_new_topic_button',         20 );
+				add_action( 'bp_directory_groups_actions',      'bp_group_join_button'                  );
+				add_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav', 999 );
 			}
 
 			// Blog button
-			if ( bp_is_active( 'blogs' ) )
-				add_action( 'bp_directory_blogs_actions',  'bp_blogs_visit_blog_button' );
+			if ( bp_is_active( 'blogs' ) ) {
+				add_action( 'bp_directory_blogs_actions',    'bp_blogs_visit_blog_button'           );
+				add_action( 'bp_blogs_directory_blog_types', 'bp_legacy_theme_blog_create_nav', 999 );
+			}
+
 
 		}
 
@@ -449,6 +451,7 @@ endif;
  * the behavior of bp-default.
  *
  * @since BuddyPress (2.0.0)
+ * @todo Deprecate
  *
  * @param string $title Groups directory title.
  * @return string
@@ -458,12 +461,28 @@ function bp_legacy_theme_group_create_button( $title ) {
 }
 
 /**
+ * Add the Create a Group nav to the Groups directory navigation.
+ *
+ * bp-legacy puts the Create a Group nav at the last position of
+ * the Groups directory navigation.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses   bp_group_create_nav_item() to output the create a Group nav item
+ * @return string
+ */
+function bp_legacy_theme_group_create_nav() {
+	bp_group_create_nav_item();
+}
+
+/**
  * Add the Create a Site button to the Sites directory title.
  *
  * bp-legacy puts the Create a Site button into the page title, to mimic
  * the behavior of bp-default.
  *
  * @since BuddyPress (2.0.0)
+ * @todo Deprecate
  *
  * @param string $title Sites directory title.
  * @return string
@@ -471,6 +490,22 @@ function bp_legacy_theme_group_create_button( $title ) {
 function bp_legacy_theme_blog_create_button( $title ) {
 	return $title . ' ' . bp_get_blog_create_button();
 }
+
+/**
+ * Add the Create a Site nav to the Sites directory navigation.
+ *
+ * bp-legacy puts the Create a Site nav at the last position of
+ * the Sites directory navigation.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses   bp_blog_create_nav_item() to output the Create a Site nav item
+ * @return string
+ */
+function bp_legacy_theme_blog_create_nav() {
+	bp_blog_create_nav_item();
+}
+
 /**
  * This function looks scarier than it actually is. :)
  * Each object loop (activity/members/groups/blogs/forums) contains default

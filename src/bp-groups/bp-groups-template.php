@@ -2854,13 +2854,67 @@ function bp_group_create_button() {
 			'component'  => 'groups',
 			'link_text'  => __( 'Create a Group', 'buddypress' ),
 			'link_title' => __( 'Create a Group', 'buddypress' ),
-			'link_class' => 'button group-create bp-title-button',
+			'link_class' => 'group-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_groups_root_slug() ) . trailingslashit( 'create' ),
 			'wrapper'    => false,
 		);
 
 		return bp_get_button( apply_filters( 'bp_get_group_create_button', $button_args ) );
 	}
+
+/**
+ * Output the Create a Group nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_group_create_nav_item() {
+	echo bp_get_group_create_nav_item();
+}
+
+	/**
+	 * Get the Create a Group nav item.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_group_create_nav_item() {
+		// Get the create a group button
+		$create_group_button = bp_get_group_create_button();
+
+		// Make sure the button is available
+		if ( empty( $create_group_button ) ) {
+			return;
+		}
+
+		$output = '<li id="group-create-nav">' . $create_group_button . '</li>';
+
+		return apply_filters( 'bp_get_group_create_nav_item', $output );
+	}
+
+/**
+ * Checks if a specific theme is still filtering the Groups directory title
+ * if so, transform the title button into a Groups directory nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses   bp_group_create_nav_item() to output the create a Group nav item
+ * @return string HTML Output
+ */
+function bp_group_backcompat_create_nav_item() {
+	// Bail if the Groups nav item is already used by bp-legacy
+	if ( has_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav', 999 ) ) {
+		return;
+	}
+
+	// Bail if the theme is not filtering the Groups directory title
+	if ( ! has_filter( 'bp_groups_directory_header' ) ) {
+		return;
+	}
+
+	bp_group_create_nav_item();
+}
+add_action( 'bp_groups_directory_group_filter', 'bp_group_backcompat_create_nav_item', 1000 );
 
 /**
  * Prints a message if the group is not visible to the current user (it is a
