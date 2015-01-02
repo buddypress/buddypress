@@ -127,5 +127,95 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$ids = wp_list_pluck( $mm, 'user_id' );
 		$this->assertEquals( array( $u2 ), $ids );
 	}
+
+	/**
+	 * @group bp_groups_user_can_send_invites
+	 */
+	public function test_bp_groups_user_can_send_invites() {
+		$u_members = $this->factory->user->create();
+		$u_mods = $this->factory->user->create();
+		$u_admins = $this->factory->user->create();
+		$u_siteadmin = $this->factory->user->create();
+		$user_siteadmin = new WP_User( $u_siteadmin );
+		$user_siteadmin->add_role( 'administrator' );
+
+		$g = $this->factory->group->create();
+
+		$now = time();
+		$old_current_user = get_current_user_id();
+
+		// Create member-level user
+		$this->add_user_to_group( $u_members, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+		// Create mod-level user
+		$this->add_user_to_group( $u_mods, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+		$m_mod = new BP_Groups_Member( $u_mods, $g );
+		$m_mod->promote( 'mod' );
+		// Create admin-level user
+		$this->add_user_to_group( $u_admins, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+		$m_admin = new BP_Groups_Member( $u_admins, $g );
+		$m_admin->promote( 'admin' );
+
+		// Test with no status
+		// In bp_group_get_invite_status(), no status falls back to "members"
+		$this->assertTrue( '' == groups_get_groupmeta( $g, 'invite_status' ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_members ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_mods ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_siteadmin ) );
+
+		// Test with members status
+		groups_update_groupmeta( $g, 'invite_status', 'members' );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_members ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_mods ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_siteadmin ) );
+		// Falling back to current user
+		$this->set_current_user( $u_members );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, null ) );
+
+		// Test with mod status
+		groups_update_groupmeta( $g, 'invite_status', 'mods' );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_members ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_mods ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_siteadmin ) );
+		// Falling back to current user
+		$this->set_current_user( $u_members );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, null ) );
+		$this->set_current_user( $u_mods );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, null ) );
+
+		// Test with admin status
+		groups_update_groupmeta( $g, 'invite_status', 'admins' );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_members ) );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_mods ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_siteadmin ) );
+		// Falling back to current user
+		$this->set_current_user( $u_mods );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, null ) );
+		$this->set_current_user( $u_admins );
+		$this->assertTrue( bp_groups_user_can_send_invites( $g, null ) );
+
+		// Bad or null parameters
+		$this->assertFalse( bp_groups_user_can_send_invites( 59876454257, $u_members ) );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, 958647515 ) );
+		// Not in group context
+		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_members ) );
+		// In group context
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		groups_update_groupmeta( $g, 'invite_status', 'members' );
+
+		$this->assertTrue( bp_groups_user_can_send_invites( null, $u_members ) );
+
+		$this->set_current_user( $old_current_user );
+	}
 }
 

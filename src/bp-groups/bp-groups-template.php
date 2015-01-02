@@ -1881,58 +1881,70 @@ function bp_group_get_invite_status( $group_id = false ) {
 }
 
 /**
- * Can the logged-in user send invitations in the specified group?
+ * Can a user send invitations in the specified group?
  *
  * @since BuddyPress (1.5.0)
+ * @since BuddyPress (2.2.0) Added the $user_id parameter.
  *
- * @param int $group_id Optional. The ID of the group whose status you want to
- *        check. Default: the ID of the current group.
- * @return bool $can_send_invites
+ * @param int $group_id The group ID to check.
+ * @param int $user_id  The user ID to check.
+ * @return bool
  */
-function bp_groups_user_can_send_invites( $group_id = false ) {
-	global $bp;
-
+function bp_groups_user_can_send_invites( $group_id = 0, $user_id = 0 ) {
 	$can_send_invites = false;
 	$invite_status    = false;
 
-	if ( is_user_logged_in() ) {
-		if ( bp_current_user_can( 'bp_moderate' ) ) {
-			// Super admins can always send invitations
+	// If $user_id isn't specified, we check against the logged-in user.
+	if ( ! $user_id ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	// If $group_id isn't specified, use existing one if available.
+	if ( ! $group_id ) {
+		$group_id = bp_get_current_group_id();
+	}
+
+	if ( $user_id ) {
+		// Users with the 'bp_moderate' cap can always send invitations
+		if ( user_can( $user_id, 'bp_moderate' ) ) {
 			$can_send_invites = true;
-
 		} else {
-			// If no $group_id is provided, default to the current group id
-			if ( !$group_id )
-				$group_id = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
-
-			// If no group has been found, bail
-			if ( !$group_id )
-				return false;
-
 			$invite_status = bp_group_get_invite_status( $group_id );
-			if ( !$invite_status )
-				return false;
 
 			switch ( $invite_status ) {
 				case 'admins' :
-					if ( groups_is_user_admin( bp_loggedin_user_id(), $group_id ) )
+					if ( groups_is_user_admin( $user_id, $group_id ) ) {
 						$can_send_invites = true;
+					}
 					break;
 
 				case 'mods' :
-					if ( groups_is_user_mod( bp_loggedin_user_id(), $group_id ) || groups_is_user_admin( bp_loggedin_user_id(), $group_id ) )
+					if ( groups_is_user_mod( $user_id, $group_id ) || groups_is_user_admin( $user_id, $group_id ) ) {
 						$can_send_invites = true;
+					}
 					break;
 
 				case 'members' :
-					if ( groups_is_user_member( bp_loggedin_user_id(), $group_id ) )
+					if ( groups_is_user_member( $user_id, $group_id ) ) {
 						$can_send_invites = true;
+					}
 					break;
 			}
 		}
 	}
 
-	return apply_filters( 'bp_groups_user_can_send_invites', $can_send_invites, $group_id, $invite_status );
+	/**
+	 * Filters whether a user can send invites in a group.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @since BuddyPress (2.2.0) Added the $user_id parameter.
+	 *
+	 * @param bool $can_send_invites Whether the user can send invites
+	 * @param int  $group_id         The group ID being checked
+	 * @param bool $invite_status    The group's current invite status
+	 * @param int  $user_id          The user ID being checked
+	 */
+	return apply_filters( 'bp_groups_user_can_send_invites', $can_send_invites, $group_id, $invite_status, $user_id );
 }
 
 /**
