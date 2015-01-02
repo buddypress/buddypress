@@ -196,6 +196,8 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$just_date     = false;
 		$localize_time = true;
 
+		update_option( 'date_format', 'F j, Y' );
+		update_option( 'time_format', 'g:i a' );
 		update_option( 'gmt_offset', $gmt_offset );
 		delete_option( 'timezone_string' );
 
@@ -211,6 +213,8 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$just_date      = false;
 		$localize_time  = true;
 
+		update_option( 'date_format', 'F j, Y' );
+		update_option( 'time_format', 'g:i a' );
 		update_option( 'timezone_string', $timzone_string );
 		delete_option( 'gmt_offset' );
 
