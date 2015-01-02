@@ -188,6 +188,36 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_format_time
+	 */
+	public function test_bp_format_time_gmt_offset() {
+		$time          = 1395169200;
+		$gmt_offset    = '-6';
+		$just_date     = false;
+		$localize_time = true;
+
+		update_option( 'gmt_offset', $gmt_offset );
+		delete_option( 'timezone_string' );
+
+		$this->assertEquals( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+	}
+
+	/**
+	 * @group bp_format_time
+	 */
+	public function test_bp_format_time_timezone_string() {
+		$time           = 1395169200;
+		$timzone_string = 'America/Chicago';
+		$just_date      = false;
+		$localize_time  = true;
+
+		update_option( 'timezone_string', $timzone_string );
+		delete_option( 'gmt_offset' );
+
+		$this->assertEquals( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+	}
+
+	/**
 	 * @group bp_sort_by_key
 	 */
 	public function test_bp_sort_by_key_arrays_num() {
