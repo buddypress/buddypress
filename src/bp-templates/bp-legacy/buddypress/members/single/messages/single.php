@@ -9,7 +9,7 @@
 		<p id="message-recipients">
 			<span class="highlight">
 
-				<?php if ( ! bp_get_thread_recipients_count() ) : ?>
+				<?php if ( 1 <= bp_get_thread_recipients_count() ) : ?>
 
 					<?php _e( 'You are alone in this conversation.', 'buddypress' ); ?>
 
