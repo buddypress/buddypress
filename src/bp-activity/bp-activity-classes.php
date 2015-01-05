@@ -1799,7 +1799,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @param string $alias An existing table alias that is compatible with the current query clause.
 	 *               Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
 	 * @return string SQL fragment to append to the main WHERE clause.
-	 * }
 	 */
 	public function get_sql( $alias = 'a' ) {
 		if ( ! empty( $alias ) ) {
@@ -1936,9 +1935,9 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @param  array $q Clause to check.
 	 * @return bool
 	 */
-        protected function is_first_order_clause( $query ) {
+	protected function is_first_order_clause( $query ) {
 		return isset( $query['column'] ) || isset( $query['value'] );
-        }
+	}
 
 	/**
 	 * Validates a column name parameter.
