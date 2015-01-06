@@ -132,6 +132,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group bp_groups_user_can_send_invites
 	 */
 	public function test_bp_groups_user_can_send_invites() {
+		$u_nonmembers = $this->factory->user->create();
 		$u_members = $this->factory->user->create();
 		$u_mods = $this->factory->user->create();
 		$u_admins = $this->factory->user->create();
@@ -164,6 +165,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		// Test with no status
 		// In bp_group_get_invite_status(), no status falls back to "members"
 		$this->assertTrue( '' == groups_get_groupmeta( $g, 'invite_status' ) );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_nonmembers ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_members ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_mods ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
@@ -171,6 +173,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		// Test with members status
 		groups_update_groupmeta( $g, 'invite_status', 'members' );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_nonmembers ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_members ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_mods ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
@@ -181,6 +184,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		// Test with mod status
 		groups_update_groupmeta( $g, 'invite_status', 'mods' );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_nonmembers ) );
 		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_members ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_mods ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
@@ -193,6 +197,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		// Test with admin status
 		groups_update_groupmeta( $g, 'invite_status', 'admins' );
+		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_nonmembers ) );
 		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_members ) );
 		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_mods ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
@@ -211,9 +216,10 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		// In group context
 		$g_obj = groups_get_group( array( 'group_id' => $g ) );
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
-		groups_update_groupmeta( $g, 'invite_status', 'members' );
-
-		$this->assertTrue( bp_groups_user_can_send_invites( null, $u_members ) );
+		groups_update_groupmeta( $g, 'invite_status', 'mods' );
+		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_nonmembers ) );
+		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_members ) );
+		$this->assertTrue( bp_groups_user_can_send_invites( null, $u_mods ) );
 
 		$this->set_current_user( $old_current_user );
 	}
