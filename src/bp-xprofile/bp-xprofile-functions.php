@@ -32,6 +32,14 @@ function bp_xprofile_get_groups( $args = array() ) {
 
 	$groups = BP_XProfile_Group::get( $args );
 
+	/**
+	 * Filters a set of field groups, populated with fields and field data.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param array $groups Array of field groups and field data.
+	 * @param array $args   Array of arguments used to query for groups.
+	 */
 	return apply_filters( 'bp_xprofile_get_groups', $groups, $args );
 }
 
@@ -146,7 +154,15 @@ function bp_xprofile_get_field_types() {
 		'textbox'        => 'BP_XProfile_Field_Type_Textbox',
 	);
 
-	// If you've added a custom field type in a plugin, register it with this filter.
+	/**
+	 * Filters the list of all xprofile field types.
+	 *
+	 * If you've added a custom field type in a plugin, register it with this filter.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $fields Array of field type/class name pairings.
+	 */
 	return apply_filters( 'bp_xprofile_get_field_types', $fields );
 }
 
@@ -330,6 +346,16 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 	if ( is_array( $values ) ) {
 		$data = array();
 		foreach( (array) $values as $value ) {
+
+			/**
+			 * Filters the field data value for a specific field for the user.
+			 *
+			 * @since BuddyPress (1.0.0)
+			 *
+			 * @param string $value    Value saved for the field.
+			 * @param int    $field_id ID of the field being displayed.
+			 * @param int    $user_id  ID of the user being displayed.
+			 */
 			$data[] = apply_filters( 'xprofile_get_field_data', $value, $field_id, $user_id );
 		}
 
@@ -337,6 +363,7 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 			$data = implode( ', ', $data );
 		}
 	} else {
+		/** This filter is documented in bp-xprofile/bp-xprofile-functions.php */
 		$data = apply_filters( 'xprofile_get_field_data', $values, $field_id, $user_id );
 	}
 
@@ -563,6 +590,13 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
 		return false;
 	}
 
+	/**
+	 * Filters a random piece of profile data for the user.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param array $field_data Array holding random profile data.
+	 */
 	return apply_filters( 'xprofile_get_random_profile_data', $field_data );
 }
 
@@ -658,6 +692,13 @@ function xprofile_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 	$newburl   = $newurl;
 	$newsubdir = '/' . $directory. '/' . $user_id;
 
+	/**
+	 * Filters the avatar upload directory for a user.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param array $value Array containing the path, URL, and other helpful settings.
+	 */
 	return apply_filters( 'xprofile_avatar_upload_dir', array(
 		'path'    => $path,
 		'url'     => $newurl,
@@ -958,11 +999,19 @@ function bp_xprofile_fullname_field_id() {
  * Return the field name for the Full Name xprofile field
  *
  * @package BuddyPress
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @return string The field name
  */
 function bp_xprofile_fullname_field_name() {
+
+	/**
+	 * Filters the field name for the Full Name xprofile field.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string BP_XPROFILE_FULLNAME_FIELD_NAME Full name field constant.
+	 */
 	return apply_filters( 'bp_xprofile_fullname_field_name', BP_XPROFILE_FULLNAME_FIELD_NAME );
 }
 
@@ -974,6 +1023,13 @@ function bp_xprofile_fullname_field_name() {
 function bp_xprofile_get_visibility_levels() {
 	global $bp;
 
+	/**
+	 * Filters the visibility levels out of the $bp global.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array $visibility_levels Array of visibility levels.
+	 */
 	return apply_filters( 'bp_xprofile_get_visibility_levels', $bp->profile->visibility_levels );
 }
 
@@ -985,7 +1041,7 @@ function bp_xprofile_get_visibility_levels() {
  * profile viewer). Then, based on that relationship, we query for the set of fields that should
  * be excluded from the profile loop.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  * @see BP_XProfile_Group::get()
  * @uses apply_filters() Filter bp_xprofile_get_hidden_fields_for_user to modify visibility levels,
  *   or if you have added your own custom levels
@@ -1011,6 +1067,15 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 	$hidden_levels = bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id, $current_user_id );
 	$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
 
+	/**
+	 * Filters the ids of fields that are hidden for this displayed/loggedin user pair.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array $hidden_fields     Array of hidden fields for the displayed/logged in user.
+	 * @param int   $displayed_user_id ID of the displayed user.
+	 * @param int   $current_user_id   ID of the current user.
+	 */
 	return apply_filters( 'bp_xprofile_get_hidden_fields_for_user', $hidden_fields, $displayed_user_id, $current_user_id );
 }
 
@@ -1054,13 +1119,22 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
 		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly', );
 	}
 
+	/**
+	 * Filters the visibility levels that should be hidden for this user pair.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $hidden_fields     Array of hidden fields for the displayed/logged in user.
+	 * @param int   $displayed_user_id ID of the displayed user.
+	 * @param int   $current_user_id   ID of the current user.
+	 */
 	return apply_filters( 'bp_xprofile_get_hidden_field_types_for_user', $hidden_levels, $displayed_user_id, $current_user_id );
 }
 
 /**
  * Fetch an array of the xprofile fields that a given user has marked with certain visibility levels
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  * @see bp_xprofile_get_hidden_fields_for_user()
  *
  * @param int $user_id The id of the profile owner
