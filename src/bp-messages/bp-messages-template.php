@@ -114,26 +114,49 @@ class BP_Messages_Box_Template {
 	/**
 	 * Constructor method.
 	 *
-	 * @param int $user_id ID of the user whose Messages box is being
-	 *        viewed.
-	 * @param string $box Type of box being viewed ('notices', 'sentbox',
-	 *        'inbox').
-	 * @param int $per_page Number of thread to return per page of results.
-	 * @param int $max Max number of results to return.
-	 * @param string $type Type of results to return. 'unread', 'read',
-	 *        or 'all'.
-	 * @param string $search_terms Search terms for limiting results.
-	 * @param string $page_arg Optional. URL argument for pagination
-	 *        parameter. Default: 'mpage'.
+	 * @param array $args {
+	 *     Array of arguments. See bp_has_message_threads() for full description.
+	 * }
 	 */
-	public function __construct( $user_id, $box, $per_page, $max, $type, $search_terms, $page_arg = 'mpage' ) {
-		$this->pag_page = isset( $_GET[$page_arg] ) ? intval( $_GET[$page_arg] ) : 1;
-		$this->pag_num  = isset( $_GET['num'] )   ? intval( $_GET['num'] )   : $per_page;
+	public function __construct( $args = array() ) {
+		global $wpdb, $bp;
 
-		$this->user_id      = $user_id;
-		$this->box          = $box;
-		$this->type         = $type;
-		$this->search_terms = $search_terms;
+		// Backward compatibility with old method of passing arguments
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '2.2.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = array(
+				0 => 'user_id',
+				1 => 'box',
+				2 => 'per_page',
+				3 => 'max',
+				4 => 'type',
+				5 => 'search_terms',
+				6 => 'page_arg'
+			);
+
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+		}
+
+		$r = wp_parse_args( $args, array(
+			'user_id'  => bp_loggedin_user_id(),
+			'box'      => 'inbox',
+			'per_page' => 10,
+			'max'      => false,
+			'type'     => 'all',
+			'search_terms' => '',
+			'page_arg'     => 'mpage',
+			'meta_query'   => array(),
+		) );
+
+		$this->pag_page = isset( $_GET[ $r['page_arg'] ] ) ? intval( $_GET[ $r['page_arg'] ] ) : 1;
+		$this->pag_num  = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $r['per_page'];
+
+		$this->user_id      = $r['user_id'];
+		$this->box          = $r['box'];
+		$this->type         = $r['type'];
+		$this->search_terms = $r['search_terms'];
 
 		if ( 'notices' == $this->box ) {
 			$this->threads = BP_Messages_Notice::get_notices( array(
@@ -141,7 +164,15 @@ class BP_Messages_Box_Template {
 				'pag_page' => $this->pag_page
 			) );
 		} else {
-			$threads = BP_Messages_Thread::get_current_threads_for_user( $this->user_id, $this->box, $this->type, $this->pag_num, $this->pag_page, $this->search_terms );
+			$threads = BP_Messages_Thread::get_current_threads_for_user( array(
+				'user_id' => $this->user_id,
+				'box'     => $this->box,
+				'type'    => $this->type,
+				'limit'   => $this->pag_num,
+				'page'    => $this->pag_page,
+				'search_terms' => $this->search_terms,
+				'meta_query'   => $r['meta_query'],
+			) );
 
 			$this->threads            = $threads['threads'];
 			$this->total_thread_count = $threads['total'];
@@ -153,19 +184,19 @@ class BP_Messages_Box_Template {
 		} else {
 			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
 
-			if ( !$max || $max >= (int) $total_notice_count ) {
+			if ( ! $r['max'] || $r['max'] >= (int) $total_notice_count ) {
 				if ( 'notices' == $this->box ) {
 					$this->total_thread_count = (int) $total_notice_count;
 				}
 			} else {
-				$this->total_thread_count = (int) $max;
+				$this->total_thread_count = (int) $r['max'];
 			}
 
-			if ( $max ) {
+			if ( $r['max'] ) {
 				if ( $max >= count( $this->threads ) ) {
 					$this->thread_count = count( $this->threads );
 				} else {
-					$this->thread_count = (int) $max;
+					$this->thread_count = (int) $r['max'];
 				}
 			} else {
 				$this->thread_count = count( $this->threads );
@@ -174,7 +205,7 @@ class BP_Messages_Box_Template {
 
 		if ( (int) $this->total_thread_count && (int) $this->pag_num ) {
 			$pag_args = array(
-				$page_arg => '%#%',
+				$r['page_arg'] => '%#%',
 			);
 
 			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
@@ -382,15 +413,7 @@ function bp_has_message_threads( $args = '' ) {
 	}
 
 	// Load the messages loop global up with messages
-	$messages_template = new BP_Messages_Box_Template(
-		$r['user_id'],
-		$r['box'],
-		$r['per_page'],
-		$r['max'],
-		$r['type'],
-		$r['search_terms'],
-		$r['page_arg']
-	);
+	$messages_template = new BP_Messages_Box_Template( $r );
 
 	/**
 	 * Filters if there are any message threads to display in inbox/sentbox/notices.
