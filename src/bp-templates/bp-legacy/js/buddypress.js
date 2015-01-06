@@ -820,7 +820,7 @@ jq(document).ready( function() {
 			template = null;
 
 			// The Group Members page specifies its own template
-			if ( 'members' === object && 'groups' === css_id[1] ) {
+			if ( event.currentTarget.className === 'groups-members-search' ) {
 				object = 'group_members';
 				template = 'groups/single/members';
 			}
@@ -889,6 +889,8 @@ jq(document).ready( function() {
 		$gm_search = jq( '.groups-members-search input' );
 		if ( $gm_search.length ) {
 			search_terms = $gm_search.val();
+			object = 'members';
+			scope = 'groups';
 		}
 
 		// On the Groups Members page, we specify a template
@@ -952,6 +954,7 @@ jq(document).ready( function() {
 			$gm_search = jq( '.groups-members-search input' );
 			if ( $gm_search.length ) {
 				search_terms = $gm_search.val();
+				object = 'members';
 			}
 
 			// On the Groups Members page, we specify a template
