@@ -21,7 +21,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /** Constants *****************************************************************/
 
@@ -222,8 +222,9 @@ class BuddyPress {
 
 		// Place your custom code (actions/filters) in a file called
 		// '/plugins/bp-custom.php' and it will be loaded before anything else.
-		if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) )
+		if ( file_exists( WP_PLUGIN_DIR . '/bp-custom.php' ) ) {
 			require( WP_PLUGIN_DIR . '/bp-custom.php' );
+		}
 
 		// Path and URL
 		if ( ! defined( 'BP_PLUGIN_DIR' ) ) {
@@ -282,8 +283,9 @@ class BuddyPress {
 		// search requests are loaded
 		//
 		// @todo Make this better
-		if ( !defined( 'BP_SEARCH_SLUG' ) )
+		if ( ! defined( 'BP_SEARCH_SLUG' ) ) {
 			define( 'BP_SEARCH_SLUG', 'search' );
+		}
 	}
 
 	/**
@@ -395,10 +397,14 @@ class BuddyPress {
 	private function legacy_constants() {
 
 		// Define the BuddyPress version
-		if ( !defined( 'BP_VERSION'    ) ) define( 'BP_VERSION',    $this->version   );
+		if ( ! defined( 'BP_VERSION' ) ) {
+			define( 'BP_VERSION', $this->version );
+		}
 
 		// Define the database version
-		if ( !defined( 'BP_DB_VERSION' ) ) define( 'BP_DB_VERSION', $this->db_version );
+		if ( ! defined( 'BP_DB_VERSION' ) ) {
+			define( 'BP_DB_VERSION', $this->db_version );
+		}
 	}
 
 	/**
@@ -474,8 +480,9 @@ class BuddyPress {
 		add_action( 'deactivate_' . $this->basename, 'bp_deactivation' );
 
 		// If BuddyPress is being deactivated, do not add any actions
-		if ( bp_is_deactivation( $this->basename ) )
+		if ( bp_is_deactivation( $this->basename ) ) {
 			return;
+		}
 
 		// Array of BuddyPress core actions
 		$actions = array(
@@ -493,8 +500,9 @@ class BuddyPress {
 		);
 
 		// Add the actions
-		foreach( $actions as $class_action )
+		foreach( $actions as $class_action ) {
 			add_action( 'bp_' . $class_action, array( $this, $class_action ), 5 );
+		}
 
 		// All BuddyPress actions are setup (includes bbp-core-hooks.php)
 		do_action_ref_array( 'bp_after_setup_actions', array( &$this ) );
@@ -586,8 +594,9 @@ class BuddyPress {
 	public function setup_theme() {
 
 		// Bail if something already has this under control
-		if ( ! empty( $this->theme_compat->theme ) )
+		if ( ! empty( $this->theme_compat->theme ) ) {
 			return;
+		}
 
 		// Setup the theme package to use for compatibility
 		bp_setup_theme_compat( bp_get_theme_package_id() );
