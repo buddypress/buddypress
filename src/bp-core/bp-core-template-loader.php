@@ -442,6 +442,29 @@ function bp_load_theme_functions() {
  * @return array Array of possible root level wrapper template files.
  */
 function bp_get_theme_compat_templates() {
+	$page_id       = 0;
+	$page_template = array();
+
+	// Get the WordPress Page ID for the current view.
+	foreach ( (array) buddypress()->pages as $component => $bp_page ) {
+
+		// Handles the majority of components.
+		if ( bp_is_current_component( $component ) ) {
+			$page_id = (int) $bp_page->id;
+		}
+
+		// Stop if not on a user page.
+		if ( ! bp_is_user() && ! empty( $page_id ) ) {
+			break;
+		}
+
+		// The Members component requires an explicit check due to overlapping components.
+		if ( bp_is_user() && 'members' === $component ) {
+			$page_id = (int) $bp_page->id;
+			break;
+		}
+	}
+
 	$templates = array(
 		'plugin-buddypress.php',
 		'buddypress.php',
@@ -451,5 +474,15 @@ function bp_get_theme_compat_templates() {
 		'single.php',
 		'index.php'
 	);
+
+	// If the Page has a Page Template set, use that.
+	if ( $page_id ) {
+		$template_file = get_page_template_slug( $page_id );
+
+		if ( $template_file ) {
+			$templates = array( $template_file );
+		}
+	}
+
 	return bp_get_query_template( 'buddypress', $templates );
 }
