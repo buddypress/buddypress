@@ -501,7 +501,9 @@ class BuddyPress {
 
 		// Add the actions
 		foreach( $actions as $class_action ) {
-			add_action( 'bp_' . $class_action, array( $this, $class_action ), 5 );
+			if ( method_exists( $this, $class_action ) ) {
+				add_action( 'bp_' . $class_action, array( $this, $class_action ), 5 );
+			}
 		}
 
 		// All BuddyPress actions are setup (includes bbp-core-hooks.php)
