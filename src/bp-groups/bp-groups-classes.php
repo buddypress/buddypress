@@ -2873,7 +2873,7 @@ class BP_Group_Extension {
 	public $class_reflection = null;
 
 	/**
-	 * Parsed configuration paramaters for the extension.
+	 * Parsed configuration parameters for the extension.
 	 *
 	 * @since BuddyPress (1.8.0)
 	 * @access public
@@ -3309,7 +3309,7 @@ class BP_Group_Extension {
 	 * @since BuddyPress (2.1.0)
 	 */
 	protected function setup_access_settings() {
-		// Bail if no gruop ID is available
+		// Bail if no group ID is available
 		if ( empty( $this->group_id ) ) {
 			return;
 		}

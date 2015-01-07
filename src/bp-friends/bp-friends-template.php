@@ -487,7 +487,7 @@ function bp_friend_friendship_id() {
 	echo bp_get_friend_friendship_id();
 }
 	/**
-	 * Return the ID of the frinedship between the logged-in user and the current user in the loop.
+	 * Return the ID of the friendship between the logged-in user and the current user in the loop.
 	 *
 	 * @return int ID of the friendship.
 	 */

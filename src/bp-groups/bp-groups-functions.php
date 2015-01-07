@@ -1128,7 +1128,7 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 }
 
 /**
- * Demone a user to 'member' status within a group.
+ * Demote a user to 'member' status within a group.
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.

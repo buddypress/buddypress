@@ -569,7 +569,7 @@ new BP_Members_Theme_Compat();
 /**
  * The main theme compat class for BuddyPress Registration.
  *
- * This class sets up the necessary theme compatability actions to safely output
+ * This class sets up the necessary theme compatibility actions to safely output
  * registration template parts to the_title and the_content areas of a theme.
  *
  * @since BuddyPress (1.7.0)

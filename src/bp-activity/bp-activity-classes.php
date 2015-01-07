@@ -498,7 +498,7 @@ class BP_Activity_Activity {
 		 *
 		 * @param bool                 Whether to use legacy structure or not.
 		 * @param BP_Activity_Activity Current method being called.
-		 * @param array                $r Parsed arguments pased into method.
+		 * @param array                $r Parsed arguments passed into method.
 		 */
 		if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
@@ -834,7 +834,7 @@ class BP_Activity_Activity {
 	 * A scope is a predetermined set of activity arguments.  This method is used
 	 * to grab these activity arguments and override any existing args if needed.
 	 *
-	 * Can handle multple scopes.
+	 * Can handle multiple scopes.
 	 *
 	 * @since BuddyPress (2.2.0)
 	 *
@@ -1408,7 +1408,7 @@ class BP_Activity_Activity {
 	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $parent_id ID of an activty or activity comment.
+	 * @param int $parent_id ID of an activity or activity comment.
 	 * @param int $left Node boundary start for activity or activity comment.
 	 * @return int Right node boundary of activity or activity comment.
 	 */
@@ -1444,7 +1444,7 @@ class BP_Activity_Activity {
 	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $parent_id ID of an activty or activity comment.
+	 * @param int $parent_id ID of an activity or activity comment.
 	 * @return object Numerically indexed array of child comments.
 	 */
 	public static function get_child_comments( $parent_id ) {

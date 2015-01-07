@@ -207,7 +207,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		 *
 		 * @param string $retval            Notification text.
 		 * @param int    $total_items       Number of messages referred to by the notification.
-		 * @param string $text              The raw notification test (ie, not wrappen in a link).
+		 * @param string $text              The raw notification test (ie, not wrapped in a link).
 		 * @param int    $item_id           ID of the associated item.
 		 * @param int    $secondary_item_id ID of the secondary associated item.
 		 */

@@ -292,7 +292,7 @@ class BP_XProfile_Group {
 				// Loop through fields
 				foreach( (array) $fields as $field_key => $field ) {
 
-					// Loop throught the data in each field
+					// Loop through the data in each field
 					foreach( (array) $field_data as $data ) {
 
 						// Assign correct data value to the field
@@ -1807,7 +1807,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * Output the edit field options HTML for this field type.
 	 *
 	 * BuddyPress considers a field's "options" to be, for example, the items in a selectbox.
-	 * These are stored separately in the database, and their templating is handled seperately.
+	 * These are stored separately in the database, and their templating is handled separately.
 	 *
 	 * This templating is separate from {@link BP_XProfile_Field_Type::edit_field_html()} because
 	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.
@@ -2073,7 +2073,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 	 * Output the edit field options HTML for this field type.
 	 *
 	 * BuddyPress considers a field's "options" to be, for example, the items in a selectbox.
-	 * These are stored separately in the database, and their templating is handled seperately.
+	 * These are stored separately in the database, and their templating is handled separately.
 	 *
 	 * This templating is separate from {@link BP_XProfile_Field_Type::edit_field_html()} because
 	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.
@@ -2256,7 +2256,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	 * Output the edit field options HTML for this field type.
 	 *
 	 * BuddyPress considers a field's "options" to be, for example, the items in a selectbox.
-	 * These are stored separately in the database, and their templating is handled seperately.
+	 * These are stored separately in the database, and their templating is handled separately.
 	 *
 	 * This templating is separate from {@link BP_XProfile_Field_Type::edit_field_html()} because
 	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.
@@ -2439,7 +2439,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 * Output the edit field options HTML for this field type.
 	 *
 	 * BuddyPress considers a field's "options" to be, for example, the items in a selectbox.
-	 * These are stored separately in the database, and their templating is handled seperately.
+	 * These are stored separately in the database, and their templating is handled separately.
 	 *
 	 * This templating is separate from {@link BP_XProfile_Field_Type::edit_field_html()} because
 	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.
@@ -2613,7 +2613,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 	 * Output the edit field options HTML for this field type.
 	 *
 	 * BuddyPress considers a field's "options" to be, for example, the items in a selectbox.
-	 * These are stored separately in the database, and their templating is handled seperately.
+	 * These are stored separately in the database, and their templating is handled separately.
 	 *
 	 * This templating is separate from {@link BP_XProfile_Field_Type::edit_field_html()} because
 	 * it's also used in the wp-admin screens when creating new fields, and for backwards compatibility.

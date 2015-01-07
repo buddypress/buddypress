@@ -235,7 +235,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param int    $activty_id Activity ID to be marked as spam.
+	 * @param int    $activity_id Activity ID to be marked as spam.
 	 * @param object $activity Activity object for the ID to be marked as spam.
 	 */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
@@ -244,7 +244,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
-	// Tell the user the spamming has been succesful
+	// Tell the user the spamming has been successful
 	bp_core_add_message( __( 'The activity item has been marked as spam and is no longer visible.', 'buddypress' ) );
 
 	/**
@@ -252,7 +252,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param int $activty_id Activity ID that was marked as spam.
+	 * @param int $activity_id Activity ID that was marked as spam.
 	 * @param int $user_id User ID associated with activity.
 	 */
 	do_action( 'bp_activity_action_spam_activity', $activity_id, $activity->user_id );

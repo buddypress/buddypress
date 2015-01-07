@@ -707,7 +707,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	}
 
 	/**
-	 * Allow plugins to add their costum column.
+	 * Allow plugins to add their custom column.
 	 *
 	 * @since BuddyPress 2.1.0
 	 *

@@ -549,7 +549,7 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 	$newest_activities = array();
 	$last_activity_recorded = 0;
 
-	// Temporarly add a just-posted class for new activity items
+	// Temporarily add a just-posted class for new activity items
 	add_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 
 	ob_start();

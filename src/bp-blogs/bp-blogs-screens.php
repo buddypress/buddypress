@@ -68,12 +68,12 @@ function bp_blogs_screen_index() {
 }
 add_action( 'bp_screens', 'bp_blogs_screen_index', 2 );
 
-/** Theme Compatability *******************************************************/
+/** Theme Compatibility *******************************************************/
 
 /**
  * The main theme compat class for BuddyPress Blogs
  *
- * This class sets up the necessary theme compatability actions to safely output
+ * This class sets up the necessary theme compatibility actions to safely output
  * group template parts to the_title and the_content areas of a theme.
  *
  * @since BuddyPress (1.7.0)
@@ -90,7 +90,7 @@ class BP_Blogs_Theme_Compat {
 	}
 
 	/**
-	 * Are we looking at something that needs Blogs theme compatability?
+	 * Are we looking at something that needs Blogs theme compatibility?
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */

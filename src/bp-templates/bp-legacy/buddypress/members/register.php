@@ -13,7 +13,7 @@
 				<p><?php _e( 'User registration is currently not allowed.', 'buddypress' ); ?></p>
 
 			<?php do_action( 'bp_after_registration_disabled' ); ?>
-		<?php endif; // registration-disabled signup setp ?>
+		<?php endif; // registration-disabled signup step ?>
 
 		<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 

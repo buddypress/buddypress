@@ -96,7 +96,7 @@ function bp_core_load_admin_bar() {
 add_action( 'init', 'bp_core_load_admin_bar', 9 );
 
 /**
- * Handle the enqueuing of toolbar CSS.
+ * Handle the enqueueing of toolbar CSS.
  *
  * This function exists mostly for backwards compatibility reasons, so anyone
  * previously unhooking this function can continue to do so. It's hooked to

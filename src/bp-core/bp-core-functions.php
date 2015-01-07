@@ -341,7 +341,7 @@ function bp_use_wp_admin_bar() {
 	// Default to true (to avoid loading deprecated BuddyBar code)
 	$use_admin_bar = true;
 
-	// Has the WP Toolbar constant been explicity opted into?
+	// Has the WP Toolbar constant been explicitly opted into?
 	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
 		$use_admin_bar = (bool) BP_USE_WP_ADMIN_BAR;
 
@@ -1327,7 +1327,7 @@ function bp_use_embed_in_activity() {
 }
 
 /**
- * Are oembeds allwoed in activity replies?
+ * Are oembeds allowed in activity replies?
  *
  * @since BuddyPress (1.5.0)
  *

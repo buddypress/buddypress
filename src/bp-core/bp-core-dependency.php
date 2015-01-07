@@ -14,7 +14,7 @@
  * The following functions are wrappers for hooks, allowing them to be
  * manually called and/or piggy-backed on top of other hooks if needed.
  *
- * @todo use anonymous functions when PHP minimun requirement allows (5.3)
+ * @todo use anonymous functions when PHP minimum requirement allows (5.3)
  */
 
 /**

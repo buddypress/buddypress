@@ -19,7 +19,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *
  * @param array $args {
  *     Array of arguments describing the notification. All are optional.
- *     @type int $user_id ID of the user to associate the notificiton with.
+ *     @type int $user_id ID of the user to associate the notification with.
  *     @type int $item_id ID of the item to associate the notification with.
  *     @type int $secondary_item_id ID of the secondary item to associate the
  *           notification with.
@@ -377,7 +377,7 @@ function bp_notifications_delete_all_notifications_by_type( $item_id, $component
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $user_id ID of the user whose associated items are beind deleted.
+ * @param int $user_id ID of the user whose associated items are being deleted.
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.
  * @return bool True on success, false on failure.
@@ -490,7 +490,7 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $component_n
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $user_id ID of the user whose associated items are beind deleted.
+ * @param int $user_id ID of the user whose associated items are being deleted.
  * @param int $is_new 0 for read, 1 for unread
  * @param string $component_name Name of the associated component.
  * @param string $component_action Name of the associated action.

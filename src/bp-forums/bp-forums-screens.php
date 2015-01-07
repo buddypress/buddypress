@@ -140,12 +140,12 @@ function bp_forums_screen_single_topic() {
 add_action( 'bp_screens', 'bp_forums_screen_single_topic' );
 
 
-/** Theme Compatability *******************************************************/
+/** Theme Compatibility *******************************************************/
 
 /**
  * The main theme compat class for legacy BuddyPress forums.
  *
- * This class sets up the necessary theme compatability actions to safely output
+ * This class sets up the necessary theme compatibility actions to safely output
  * old forum template parts to the_title and the_content areas of a theme.
  *
  * @since BuddyPress (1.7.0)
@@ -162,7 +162,7 @@ class BP_Forum_Legacy_Theme_Compat {
 	}
 
 	/**
-	 * Are we looking at something that needs old forum theme compatability?
+	 * Are we looking at something that needs old forum theme compatibility?
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */

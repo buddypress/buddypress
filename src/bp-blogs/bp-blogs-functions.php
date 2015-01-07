@@ -415,7 +415,7 @@ add_action( 'update_option_thread_comments_depth', 'bp_blogs_update_option_threa
  *
  * @since BuddyPress (2.2.0)
  *
- * @param  int     $activity_id ID of the acitvity item.
+ * @param  int     $activity_id ID of the activity item.
  * @param  WP_Post $post        Post object.
  */
 function bp_blogs_publish_post_activity_meta( $activity_id, $post, $args ) {
@@ -455,7 +455,7 @@ add_action( 'bp_activity_post_type_published', 'bp_blogs_publish_post_activity_m
  * @since BuddyPress (2.2.0)
  *
  * @param WP_Post              $post     Post object.
- * @param BP_Actitivy_Activity $activity Activity object.
+ * @param BP_Activity_Activity $activity Activity object.
  */
 function bp_blogs_update_post_activity_meta( $post, $activity ) {
 	if ( empty( $activity->id ) || 'post' != $post->post_type ) {
@@ -1280,7 +1280,7 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
  */
 
 /**
- * Delete a metadta from the DB for a blog.
+ * Delete a metadata from the DB for a blog.
  *
  * @global object $wpdb WordPress database access object.
  * @global object $bp BuddyPress global settings.

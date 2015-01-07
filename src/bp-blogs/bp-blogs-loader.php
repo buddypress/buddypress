@@ -5,7 +5,7 @@
  *
  * The blogs component tracks posts and comments to member activity streams,
  * shows blogs the member can post to in their profiles, and caches useful
- * information from those blogs to make quering blogs in bulk more performant.
+ * information from those blogs to make querying blogs in bulk more performant.
  *
  * @package BuddyPress
  * @subpackage Blogs Core

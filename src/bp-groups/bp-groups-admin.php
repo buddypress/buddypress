@@ -406,7 +406,7 @@ function bp_groups_admin_screen_options( $value, $option, $new_value ) {
 }
 
 /**
- * Select the appropirate Groups admin screen, and output it.
+ * Select the appropriate Groups admin screen, and output it.
  *
  * @since BuddyPress (1.7.0)
  */
@@ -1143,7 +1143,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$this->group_counts[ $group_type ] = count( $group_ids );
 		}
 
-		// If we're viewing a specific group, flatten all activites into a single array.
+		// If we're viewing a specific group, flatten all activities into a single array.
 		if ( $include_id ) {
 			$groups = array( (array) groups_get_group( 'group_id=' . $include_id ) );
 		} else {
@@ -1491,7 +1491,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Allow plugins to add their costum column.
+	 * Allow plugins to add their custom column.
 	 *
 	 * @since BuddyPress 2.0.0
 	 *

@@ -385,7 +385,7 @@ add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_act
  * @since BuddyPress (2.2.0)
  *
  * @param  int             $group_id       ID of the group.
- * @param  BP_Groups_Group $old_grop       Group object before the details had been changed.
+ * @param  BP_Groups_Group $old_group      Group object before the details had been changed.
  * @param  bool            $notify_members True if the admin has opted to notify group members, otherwise false.
  * @return int|bool The ID of the activity on success. False on error.
  */

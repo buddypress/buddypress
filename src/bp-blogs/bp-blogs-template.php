@@ -394,7 +394,7 @@ function bp_rewind_blogs() {
 function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
-	// Checkfor and use search terms
+	// Check for and use search terms
 	$search_terms = ! empty( $_REQUEST['s'] )
 		? $_REQUEST['s']
 		: false;
@@ -770,7 +770,7 @@ function bp_blog_last_active( $args = array() ) {
 			'active_format' => true
 		) );
 
-		// Backwards compatibilty for anyone forcing a 'true' active_format
+		// Backwards compatibility for anyone forcing a 'true' active_format
 		if ( true === $r['active_format'] ) {
 			$r['active_format'] = __( 'active %s', 'buddypress' );
 		}
@@ -1365,7 +1365,7 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 <?php
 
 	/**
-	 * Fires after the default successful blog registration messsage markup.
+	 * Fires after the default successful blog registration message markup.
 	 *
 	 * @since BuddyPress (1.0.0)
 	 */

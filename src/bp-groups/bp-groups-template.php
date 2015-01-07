@@ -4467,7 +4467,7 @@ class BP_Groups_Invite_Template {
 
 		$this->invite->user->total_blogs = null;
 
-		$this->invite->group_id = $group_id; // Globaled in bp_group_has_invites()
+		$this->invite->group_id = $group_id; // Global'ed in bp_group_has_invites()
 
 		if ( 0 == $this->current_invite ) // loop has just started
 			do_action('loop_start');

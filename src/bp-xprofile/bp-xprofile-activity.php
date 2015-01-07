@@ -216,7 +216,7 @@ function bp_xprofile_new_avatar_activity() {
 	}
 
 	/**
-	 * Filters the user ID when a user has ploaded a new avatar.
+	 * Filters the user ID when a user has uploaded a new avatar.
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *

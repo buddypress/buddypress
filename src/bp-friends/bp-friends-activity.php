@@ -145,7 +145,7 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 	}
 
 	/**
-	 * Filters the 'friendship_accepted' activty action format.
+	 * Filters the 'friendship_accepted' activity action format.
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
@@ -179,7 +179,7 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
 	}
 
 	/**
-	 * Filters the 'friendship_created' activty action format.
+	 * Filters the 'friendship_created' activity action format.
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *

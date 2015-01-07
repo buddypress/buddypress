@@ -178,14 +178,14 @@ class BuddyPress {
 	public function __isset( $key ) { return isset( $this->data[$key] ); }
 
 	/**
-	 * Magic method for getting BuddyPress varibles.
+	 * Magic method for getting BuddyPress variables.
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function __get( $key ) { return isset( $this->data[$key] ) ? $this->data[$key] : null; }
 
 	/**
-	 * Magic method for setting BuddyPress varibles.
+	 * Magic method for setting BuddyPress variables.
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */
@@ -365,7 +365,7 @@ class BuddyPress {
 		// Languages
 		$this->lang_dir       = $this->plugin_dir . 'bp-languages';
 
-		// Templates (theme compatability)
+		// Templates (theme compatibility)
 		$this->themes_dir     = $this->plugin_dir . 'bp-templates';
 		$this->themes_url     = $this->plugin_url . 'bp-templates';
 
@@ -419,7 +419,7 @@ class BuddyPress {
 
 		/** Update/Install ****************************************************/
 
-		// Theme compatability
+		// Theme compatibility
 		require( $this->plugin_dir . 'bp-core/bp-core-template-loader.php'     );
 		require( $this->plugin_dir . 'bp-core/bp-core-theme-compatibility.php' );
 
@@ -579,7 +579,7 @@ class BuddyPress {
 	}
 
 	/**
-	 * Set up the default BuddyPress theme compatability location.
+	 * Set up the default BuddyPress theme compatibility location.
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */

@@ -6,8 +6,8 @@
  * @since BuddyPress (2.0.0)
  *
  * @param array $args
- * 
- * 
+ *
+ *
  * @return array
  */
 function bp_xprofile_get_settings_fields( $args = '' ) {
@@ -34,7 +34,7 @@ function bp_xprofile_get_settings_fields( $args = '' ) {
  * @since BuddyPress (2.0.0)
  *
  * @uses bp_core_add_message()
- * @usse bp_is_my_profile()
+ * @uses bp_is_my_profile()
  */
 function bp_xprofile_settings_add_feedback_message() {
 

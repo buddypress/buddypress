@@ -415,12 +415,12 @@ function bp_activity_screen_notification_settings() {
 }
 add_action( 'bp_notification_settings', 'bp_activity_screen_notification_settings', 1 );
 
-/** Theme Compatability *******************************************************/
+/** Theme Compatibility *******************************************************/
 
 /**
  * The main theme compat class for BuddyPress Activity.
  *
- * This class sets up the necessary theme compatability actions to safely output
+ * This class sets up the necessary theme compatibility actions to safely output
  * activity template parts to the_title and the_content areas of a theme.
  *
  * @since BuddyPress (1.7.0)

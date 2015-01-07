@@ -170,7 +170,7 @@ function bp_admin_setting_callback_force_buddybar() {
 
 
 /**
- * Sanitization for _bp_force_buddyvar
+ * Sanitization for _bp_force_buddybar
  *
  * If upgraded to 1.6 and you chose to keep the BuddyBar, a checkbox asks if you want to switch to
  * the WP Toolbar. The option we store is 1 if the BuddyBar is forced on, so we use this function
@@ -625,7 +625,7 @@ function bp_blogs_get_subdomain_base() {
 }
 
 /**
- * Alledgedly output an avatar upload form, but it hasn't done that since 2009.
+ * Allegedly output an avatar upload form, but it hasn't done that since 2009.
  *
  * @since BuddyPress (1.0.0)
  * @deprecated BuddyPress (2.1.0)

@@ -559,7 +559,7 @@ function bp_activity_get_actions() {
 }
 
 /**
- * Retreive the current action from a component and key.
+ * Retrieve the current action from a component and key.
  *
  * @since BuddyPress (1.1.0)
  *
@@ -1099,7 +1099,7 @@ function bp_activity_spam_all_user_data( $user_id = 0 ) {
 		 * If Akismet is present, update the activity history meta.
 		 *
 		 * This is usually taken care of when BP_Activity_Activity::save() happens, but
-		 * as we're going to be updating all the activity statuses directly, for efficency,
+		 * as we're going to be updating all the activity statuses directly, for efficiency,
 		 * we need to update manually.
 		 */
 		if ( ! empty( $bp->activity->akismet ) ) {
@@ -1169,7 +1169,7 @@ function bp_activity_ham_all_user_data( $user_id = 0 ) {
 		 * If Akismet is present, update the activity history meta.
 		 *
 		 * This is usually taken care of when BP_Activity_Activity::save() happens, but
-		 * as we're going to be updating all the activity statuses directly, for efficency,
+		 * as we're going to be updating all the activity statuses directly, for efficiency,
 		 * we need to update manually.
 		 */
 		if ( ! empty( $bp->activity->akismet ) ) {
@@ -2061,7 +2061,7 @@ function bp_activity_new_comment( $args = '' ) {
 		return false;
 	}
 
-	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
+	// Check to see if the parent activity is hidden, and if so, hide this comment publicly.
 	$is_hidden = ( (int) $activity->hide_sitewide ) ? 1 : 0;
 
 	/**
@@ -2846,7 +2846,7 @@ function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
  *
  * @since BuddyPress (2.0.0)
  *
- * @uses bp_is_activity_heartbeat_active() to check if heatbeat setting is on.
+ * @uses bp_is_activity_heartbeat_active() to check if heartbeat setting is on.
  * @uses bp_is_activity_directory() to check if the current page is the activity
  *       directory.
  * @uses bp_is_active() to check if the group component is active.

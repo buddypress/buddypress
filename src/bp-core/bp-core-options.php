@@ -435,7 +435,7 @@ function bp_core_get_root_options() {
 /** Active? *******************************************************************/
 
 /**
- * Is profile sycing disabled?
+ * Is profile syncing disabled?
  *
  * @since BuddyPress (1.6.0)
  *

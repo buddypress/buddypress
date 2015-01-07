@@ -34,7 +34,7 @@ class BP_Core extends BP_Component {
 	/**
 	 * Populate the global data needed before BuddyPress can continue.
 	 *
-	 * This involves figuring out the currently required, active, deactive,
+	 * This involves figuring out the currently required, activated, deactivated,
 	 * and optional components.
 	 *
 	 * @since BuddyPress (1.5.0)

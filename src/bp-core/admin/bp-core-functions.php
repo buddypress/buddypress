@@ -276,7 +276,7 @@ function bp_core_activation_notice() {
 		);
 	}
 
-	// On the first admin screen after a new installation, this isn't set, so grab it to supress a misleading error message.
+	// On the first admin screen after a new installation, this isn't set, so grab it to suppress a misleading error message.
 	if ( empty( $bp->pages->members ) ) {
 		$bp->pages = bp_core_get_directory_pages();
 	}
@@ -448,7 +448,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 	switch ( $screen->id ) {
 
-		// Compontent page
+		// Component page
 		case 'settings_page_bp-components' :
 
 			// help tabs

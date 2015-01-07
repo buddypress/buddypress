@@ -87,7 +87,7 @@ function bp_activity_directory_permalink() {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses traisingslashit()
+	 * @uses trailingslashit()
 	 * @uses bp_get_root_domain()
 	 * @uses bp_get_activity_root_slug()
 	 * @uses apply_filters() To call the 'bp_get_activity_directory_permalink' hook.
@@ -1453,7 +1453,7 @@ function bp_activity_avatar( $args = '' ) {
 		 */
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $item_id );
 
-		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
+		// If this is a user object pass the users' email address for Gravatar so we don't have to prefetch it.
 		if ( 'user' == $object && empty( $user_id ) && empty( $email ) && isset( $current_activity_item->user_email ) )
 			$email = $current_activity_item->user_email;
 
@@ -1639,7 +1639,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			 * @since BuddyPress (1.7.0)
 			 *
 			 * @param string $link Link to wrap the avatar image in.
-			 * @param string $component Activity componant being acted on.
+			 * @param string $component Activity component being acted on.
 			 */
 			$link = apply_filters( 'bp_get_activity_secondary_avatar_link', $link, $activities_template->activity->component );
 
@@ -1816,7 +1816,7 @@ function bp_activity_content() {
 		 * If you want to filter activity update content, please use
 		 * the filter 'bp_get_activity_content_body'
 		 *
-		 * This function is mainly for backwards comptibility.
+		 * This function is mainly for backwards compatibility.
 		 */
 		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
 		return apply_filters( 'bp_get_activity_content', $content );

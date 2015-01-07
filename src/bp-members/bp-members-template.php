@@ -789,7 +789,7 @@ function bp_member_user_email() {
 		 *
 		 * @since BuddyPress (1.2.5)
 		 *
-		 * @param string $user_email Email addres for the current member.
+		 * @param string $user_email Email address for the current member.
 		 */
 		return apply_filters( 'bp_get_member_user_email', $members_template->member->user_email );
 	}
@@ -1000,7 +1000,7 @@ function bp_member_last_active( $args = array() ) {
 			'active_format' => true
 		) );
 
-		// Backwards compatibilty for anyone forcing a 'true' active_format
+		// Backwards compatibility for anyone forcing a 'true' active_format
 		if ( true === $r['active_format'] ) {
 			$r['active_format'] = __( 'active %s', 'buddypress' );
 		}
@@ -1107,7 +1107,7 @@ function bp_member_profile_data( $args = '' ) {
 	 * to use outside of the loop.
 	 *
 	 * @param array $args {
-	 *     Array of config paramaters.
+	 *     Array of config parameters.
 	 *     @type string $field Name of the profile field.
 	 *     @type int $user_id ID of the user whose data is being fetched.
 	 *           Defaults to the current member in the loop, or if not
@@ -1185,7 +1185,7 @@ function bp_member_registered() {
 	function bp_get_member_registered() {
 		global $members_template;
 
-		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, _x( 'registered %s', 'Records the timestamp that the user registered into the activy stream', 'buddypress' ) ) );
+		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, _x( 'registered %s', 'Records the timestamp that the user registered into the activity stream', 'buddypress' ) ) );
 
 		/**
 		 * Filters the 'registered [x days ago]' string for the current member.
@@ -1847,7 +1847,7 @@ function bp_has_custom_activation_page() {
 }
 
 /**
- * Output the URL of the actvitation page.
+ * Output the URL of the activation page.
  */
 function bp_activation_page() {
 	echo bp_get_activation_page();

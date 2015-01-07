@@ -68,7 +68,7 @@ class BP_Theme_Compat {
 	/**
 	 * Set up the BuddyPress-specific theme compat methods.
 	 *
-	 * Themes shoud use this method in their constructor.
+	 * Themes should use this method in their constructor.
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */
@@ -155,7 +155,7 @@ function bp_setup_theme_compat( $theme = '' ) {
  * Get the ID of the theme package being used.
  *
  * This can be filtered or set manually. Tricky theme authors can override the
- * default and include their own BuddyPress compatability layers for their themes.
+ * default and include their own BuddyPress compatibility layers for their themes.
  *
  * @since BuddyPress (1.7.0)
  *
@@ -171,7 +171,7 @@ function bp_get_theme_compat_id() {
  * Get the name of the theme package being used.
  *
  * This can be filtered or set manually. Tricky theme authors can override the
- * default and include their own BuddyPress compatability layers for their themes.
+ * default and include their own BuddyPress compatibility layers for their themes.
  *
  * @since BuddyPress (1.7.0)
  *
@@ -187,7 +187,7 @@ function bp_get_theme_compat_name() {
  * Get the version of the theme package being used.
  *
  * This can be filtered or set manually. Tricky theme authors can override the
- * default and include their own BuddyPress compatability layers for their themes.
+ * default and include their own BuddyPress compatibility layers for their themes.
  *
  * @since BuddyPress (1.7.0)
  *
@@ -203,7 +203,7 @@ function bp_get_theme_compat_version() {
  * Get the absolute path of the theme package being used.
  *
  * or set manually. Tricky theme authors can override the default and include
- * their own BuddyPress compatability layers for their themes.
+ * their own BuddyPress compatibility layers for their themes.
  *
  * @since BuddyPress (1.7.0)
  *
@@ -219,7 +219,7 @@ function bp_get_theme_compat_dir() {
  * Get the URL of the theme package being used.
  *
  * This can be filtered, or set manually. Tricky theme authors can override
- * the default and include their own BuddyPress compatability layers for their
+ * the default and include their own BuddyPress compatibility layers for their
  * themes.
  *
  * @since BuddyPress (1.7.0)
@@ -286,7 +286,7 @@ function bp_detect_theme_compat_with_current_theme() {
 		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
 			$theme_compat = false;
 
-		// Bruteforce check for a BP template
+		// Brute-force check for a BP template
 		// Examples are clones of bp-default
 		} else if ( locate_template( 'members/members-loop.php', false, false ) ) {
 			$theme_compat = false;

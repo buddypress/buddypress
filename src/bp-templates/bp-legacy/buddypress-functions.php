@@ -561,7 +561,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	if ( ! empty( $_POST['page'] ) && '-1' != $_POST['page'] )
 		$qs[] = 'page=' . absint( $_POST['page'] );
 
-	// exludes activity just posted and avoids duplicate ids
+	// excludes activity just posted and avoids duplicate ids
 	if ( ! empty( $_POST['exclude_just_posted'] ) ) {
 		$just_posted = wp_parse_id_list( $_POST['exclude_just_posted'] );
 		$qs[] = 'exclude=' . implode( ',', $just_posted );

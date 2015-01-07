@@ -577,7 +577,7 @@ class BP_Signup {
 					// Status is not 2, so user's account has been activated
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
 
-					// repare signups table
+					// repair signups table
 					self::validate( $signup->activation_key );
 
 					continue;
@@ -664,7 +664,7 @@ class BP_Signup {
 					// Status is not 2, so user's account has been activated
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
 
-					// repare signups table
+					// repair signups table
 					self::validate( $signup->activation_key );
 
 				// we have a user id, account is not active, let's delete it
@@ -741,7 +741,7 @@ class BP_Signup {
 					// Status is not 2, so user's account has been activated
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
 
-					// repare signups table
+					// repair signups table
 					self::validate( $signup->activation_key );
 
 				// we have a user id, account is not active, let's delete it

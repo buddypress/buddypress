@@ -1010,12 +1010,12 @@ function groups_screen_notification_settings() {
 }
 add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
 
-/** Theme Compatability *******************************************************/
+/** Theme Compatibility *******************************************************/
 
 /**
  * The main theme compat class for BuddyPress Groups.
  *
- * This class sets up the necessary theme compatability actions to safely output
+ * This class sets up the necessary theme compatibility actions to safely output
  * group template parts to the_title and the_content areas of a theme.
  *
  * @since BuddyPress (1.7.0)
@@ -1032,7 +1032,7 @@ class BP_Groups_Theme_Compat {
 	}
 
 	/**
-	 * Are we looking at something that needs group theme compatability?
+	 * Are we looking at something that needs group theme compatibility?
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */

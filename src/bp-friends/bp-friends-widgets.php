@@ -152,7 +152,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 * Process a widget save.
 	 *
 	 * @param array $new_instance The parameters saved by the user.
-	 * @param array $old_instance The paramaters as previously saved to the database.
+	 * @param array $old_instance The parameters as previously saved to the database.
 	 * @return array $instance The processed settings to save.
 	 */
 	function update( $new_instance, $old_instance ) {

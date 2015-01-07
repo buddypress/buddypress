@@ -629,7 +629,7 @@ function xprofile_update_field_position( $field_id, $position, $field_group_id )
 }
 
 /**
- * Replace the displayed and logged-in userss fullnames with the xprofile name, if required.
+ * Replace the displayed and logged-in users fullnames with the xprofile name, if required.
  *
  * The Members component uses the logged-in user's display_name to set the
  * value of buddypress()->loggedin_user->fullname. However, in cases where

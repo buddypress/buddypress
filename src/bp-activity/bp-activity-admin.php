@@ -432,7 +432,7 @@ function bp_activity_admin_load() {
 			$redirect_to = add_query_arg( 'error', implode ( ',', array_map( 'absint', $errors ) ), $redirect_to );
 
 		/**
-		 * Filters redirect URL after activty spamming/un-spamming/deletion occurs.
+		 * Filters redirect URL after activity spamming/un-spamming/deletion occurs.
 		 *
 		 * @since BuddyPress (1.6.0)
 		 *
@@ -948,7 +948,7 @@ function bp_activity_admin_index() {
 			$messages[] = sprintf( _n( '%s activity item has been successfully unspammed.', '%s activity items have been successfully unspammed.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
 
 		if ( $updated > 0 )
-			$messages[] = __( 'The activity item has been updated succesfully.', 'buddypress' );
+			$messages[] = __( 'The activity item has been updated successfully.', 'buddypress' );
 	}
 
 	// Prepare the activity items for display
@@ -1142,7 +1142,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'count_total'      => 'count_query',
 		) );
 
-		// If we're viewing a specific activity, flatten all activites into a single array.
+		// If we're viewing a specific activity, flatten all activities into a single array.
 		if ( $include_id ) {
 			$activities['activities'] = BP_Activity_List_Table::flatten_activity_array( $activities['activities'] );
 			$activities['total']      = count( $activities['activities'] );
@@ -1156,7 +1156,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		foreach ( $activities['activities'] as $activity_item ) {
 			$new_activities[] = (array) $activity_item;
 
-			// Build an array of activity-to-user ID mappings for better efficency in the In Response To column
+			// Build an array of activity-to-user ID mappings for better efficiency in the In Response To column
 			$this->activity_user_id[$activity_item->id] = $activity_item->user_id;
 		}
 
@@ -1612,7 +1612,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 			/**
 			 * If, somehow, the referenced activity has been deleted, leaving its associated
-			 * activites as orphans, use the logged in user's ID to avoid errors.
+			 * activities as orphans, use the logged in user's ID to avoid errors.
 			 */
 			if ( empty( $activity['activities'] ) )
 				return bp_loggedin_user_id();

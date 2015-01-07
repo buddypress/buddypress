@@ -59,7 +59,7 @@ function add_option(forWhat) {
 	newDiv.appendChild( toDeleteWrap );
 	holder.appendChild( newDiv );
 
-	// re-initialize the sorable ui
+	// re-initialize the sortable ui
 	enableSortableFieldOptions( forWhat );
 
 	// set focus on newly created element
@@ -202,7 +202,7 @@ jQuery( document ).ready( function() {
 		cursor: 'move',
 		opacity: 1,
 		items: 'fieldset',
-		tolerance: 'ponter',
+		tolerance: 'pointer',
 
 		update: function() {
 			jQuery.post( ajaxurl, {

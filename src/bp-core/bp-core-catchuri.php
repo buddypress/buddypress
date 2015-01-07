@@ -253,7 +253,7 @@ function bp_core_set_uri_globals() {
 			// Viewing a specific user
 			if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
 
-				// Switch the displayed_user based on compatbility mode
+				// Switch the displayed_user based on compatibility mode
 				if ( bp_is_username_compatibility_mode() ) {
 					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
 				} else {
@@ -409,7 +409,7 @@ function bp_core_load_template( $templates ) {
 		// Kill any other output after this.
 		exit();
 
-	// No template found, so setup theme compatability
+	// No template found, so setup theme compatibility
 	// @todo Some other 404 handling if theme compat doesn't kick in
 	} else {
 
@@ -464,7 +464,7 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  * @since BuddyPress (1.5.0)
  *
  * @param array $args {
- *     @type int $mode Specifies the destintation of the redirect. 1 will
+ *     @type int $mode Specifies the destination of the redirect. 1 will
  *           direct to the root domain (home page), which assumes you have a
  *           log-in form there; 2 directs to wp-login.php. Default: 2.
  *     @type string $redirect The URL the user will be redirected to after

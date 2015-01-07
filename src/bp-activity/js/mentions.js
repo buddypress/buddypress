@@ -236,7 +236,7 @@
 			users = window.BP_Suggestions.friends || users;
 		}
 
-		// Dashoard post 'visual' editor.
+		// Dashboard post 'visual' editor.
 		loadMentionsInTinyMCE = function() {
 			if ( loadAttempts < 4 || ! $( 'body' ).hasClass( 'wp-admin' ) ) {
 				loadAttempts++;
@@ -255,7 +255,7 @@
 		// Activity/reply, post comments, dashboard post 'text' editor.
 		$( '.bp-suggestions, #comments form textarea, .wp-editor-area' ).bp_mentions( users );
 
-		// Dashbboard post 'visual' editor.
+		// Dashboard post 'visual' editor.
 		loadMentionsInTinyMCE();
 	});
 })( jQuery );

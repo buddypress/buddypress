@@ -477,7 +477,7 @@ class BP_Akismet {
 	/**
 	 * Contact Akismet to check if this is spam or ham.
 	 *
-	 * Props to WordPress core Akismet plugin for alot of this.
+	 * Props to WordPress core Akismet plugin for a lot of this.
 	 *
 	 * @since BuddyPress (1.6)
 	 *

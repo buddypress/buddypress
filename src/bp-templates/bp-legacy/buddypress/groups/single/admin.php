@@ -22,7 +22,7 @@
 	<?php do_action( 'groups_custom_group_fields_editable' ); ?>
 
 	<p>
-		<label for="group-notifiy-members">
+		<label for="group-notify-members">
 			<input type="checkbox" name="group-notify-members" value="1" /> <?php _e( 'Notify group members of these changes via email', 'buddypress' ); ?>
 		</label>
 	</p>

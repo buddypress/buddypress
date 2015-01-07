@@ -697,7 +697,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
  *     @type string $avatar_dir Subdirectory where avatar should be stored.
  *           Default: 'avatars'.
  *     @type bool|int $item_id ID of the item that the avatar belongs to.
- *     @type bool|string $original_file Absolute papth to the original avatar
+ *     @type bool|string $original_file Absolute path to the original avatar
  *           file.
  *     @type int $crop_w Crop width. Default: the global 'full' avatar width,
  *           as retrieved by bp_core_avatar_full_width().
@@ -1201,12 +1201,12 @@ function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
  * Reset the week parameter of the WordPress main query if needed
  *
  * When cropping an avatar, a $_POST['w'] var is sent, setting the 'week'
- * paramater of the WordPress main query to this posted var. To avoid
+ * parameter of the WordPress main query to this posted var. To avoid
  * notices, we need to make sure this 'week' query var is reset to 0
  *
  * @since  BuddyPress (2.2.0)
  *
- * @param  WP_Quert $posts_query the main query object
+ * @param  WP_Query $posts_query the main query object
  * @uses   bp_is_group_create()
  * @uses   bp_is_group_admin_page()
  * @uses   bp_is_group_admin_screen() to check for a group admin screen

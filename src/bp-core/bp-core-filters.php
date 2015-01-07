@@ -486,11 +486,11 @@ function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
 		} else {
 			// If we have a subnav name, add it separately for localization
 			if ( ! empty( $component_subnav_name ) ) {
-				// translators: construct the page title. 1 = user name, 2 = component name, 3 = seperator, 4 = component subnav name
+				// translators: construct the page title. 1 = user name, 2 = component name, 3 = separator, 4 = component subnav name
 				$title = strip_tags( sprintf( __( '%1$s %3$s %2$s %3$s %4$s', 'buddypress' ), bp_get_displayed_user_fullname(), $component_name, $sep, $component_subnav_name ) );
 
 			} else {
-				// translators: construct the page title. 1 = user name, 2 = component name, 3 = seperator
+				// translators: construct the page title. 1 = user name, 2 = component name, 3 = separator
 				$title = strip_tags( sprintf( __( '%1$s %3$s %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), $component_name, $sep ) );
 			}
 		}

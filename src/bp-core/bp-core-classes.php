@@ -664,7 +664,7 @@ class BP_User_Query {
 			$this->results[$uindex]->total_friend_count = 0;
 		}
 
-		// Create, prepare, and run the seperate usermeta query
+		// Create, prepare, and run the separate usermeta query
 		$user_metas = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, meta_key, meta_value FROM {$wpdb->usermeta} WHERE meta_key IN (%s,%s) AND user_id IN ({$user_ids_sql})", $total_friend_count_key, $bp_latest_update_key ) );
 
 		// The $members_template global expects the index key to be different
@@ -1832,7 +1832,7 @@ class BP_Core_Notification {
 	 * @global wpdb $wpdb WordPress database object
 	 * @param string $item_id The item id that they notifications are to be for.
 	 * @param string $component_name The component that the notifications are to be from.
-	 * @param string $component_action The action that the notificationsa are to be from.
+	 * @param string $component_action The action that the notifications are to be from.
 	 * @param string $secondary_item_id Optional secondary item id that the notifications are to have.
 	 * @static
 	 */

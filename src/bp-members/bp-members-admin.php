@@ -329,7 +329,7 @@ class BP_Members_Admin {
 			case 1 :
 				$notice = array(
 					'class'   => 'error',
-					'message' => __( 'An error occured while trying to update the profile.', 'buddypress' )
+					'message' => __( 'An error occurred while trying to update the profile.', 'buddypress' )
 				);
 				break;
 			case 2:
@@ -608,7 +608,7 @@ class BP_Members_Admin {
 			return;
 		}
 
-		// Add the user ID to query agruments when not editing yourself
+		// Add the user ID to query arguments when not editing yourself
 		if ( false === $this->is_self_profile ) {
 			$query_args = array( 'user_id' => $user->ID );
 		} else {
@@ -955,7 +955,7 @@ class BP_Members_Admin {
 			return;
 		}
 
-		// Bail if user has not been activated yet (how didy ou get here?)
+		// Bail if user has not been activated yet (how did you get here?)
 		if ( isset( $user->user_status ) && ( 2 == $user->user_status ) ) : ?>
 
 			<p class="not-activated"><?php esc_html_e( 'User account has not yet been activated', 'buddypress' ); ?></p><br/>
@@ -1143,7 +1143,7 @@ class BP_Members_Admin {
 		 * fishy with the POST request, so we can fail silently.
 		 */
 		if ( bp_set_member_type( $user_id, $member_type ) ) {
-			// @todo Success messages can't be posted because other stuff happens on the pageload.
+			// @todo Success messages can't be posted because other stuff happens on the page load.
 		}
 	}
 
@@ -1415,7 +1415,7 @@ class BP_Members_Admin {
 				'id'      => 'bp-signups-overview',
 				'title'   => __( 'Overview', 'buddypress' ),
 				'content' =>
-				'<p>' . __( 'This is the admininistration screen for pending accounts on your site.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'This is the administration screen for pending accounts on your site.', 'buddypress' ) . '</p>' .
 				'<p>' . __( 'From the screen options, you can customize the displayed columns and the pagination of this screen.', 'buddypress' ) . '</p>' .
 				'<p>' . __( 'You can reorder the list of your pending accounts by clicking on the Username, Email or Registered column headers.', 'buddypress' ) . '</p>' .
 				'<p>' . __( 'Using the search form, you can find pending accounts more easily. The Username and Email fields will be included in the search.', 'buddypress' ) . '</p>'
