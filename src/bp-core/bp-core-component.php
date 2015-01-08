@@ -356,6 +356,9 @@ class BP_Component {
 		// Setup component title
 		add_action( 'bp_setup_title',            array( $this, 'setup_title'            ), 10 );
 
+		// Setup cache groups
+		add_action( 'bp_setup_cache_groups',     array( $this, 'setup_cache_groups'     ), 10 );
+
 		// Register post types
 		add_action( 'bp_register_post_types',    array( $this, 'register_post_types'    ), 10 );
 
@@ -471,10 +474,21 @@ class BP_Component {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}setup_title'.
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_setup_title'.
 	 */
 	public function setup_title() {
 		do_action(  'bp_' . $this->id . '_setup_title' );
+	}
+
+	/**
+	 * Setup component-specific cache groups.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @uses do_action() Calls 'bp_setup_{@link bp_Component::name}_cache_groups'.
+	 */
+	public function setup_cache_groups() {
+		do_action( 'bp_' . $this->id . '_setup_cache_groups' );
 	}
 
 	/**
