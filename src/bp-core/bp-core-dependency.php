@@ -84,6 +84,15 @@ function bp_setup_widgets() {
 }
 
 /**
+ * Fire the 'bp_setup_cache_groups' action, where cache groups are registered.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_setup_cache_groups() {
+	do_action( 'bp_setup_cache_groups' );
+}
+
+/**
  * Set up the currently logged-in user.
  *
  * @uses did_action() To make sure the user isn't loaded out of order.
