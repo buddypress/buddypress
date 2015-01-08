@@ -94,3 +94,13 @@ function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
 	$action = apply_filters( 'bp_xprofile_format_activity_action_new_member', $action, $activity );
 	return bp_members_format_activity_action_new_member( $action, $activity );
 }
+
+/**
+ * Add 'bp' to global group of network wide cachable objects.
+ *
+ * @since BuddyPress (1.1)
+ * @deprecated BuddyPress (2.2.0)
+ */
+function bp_core_add_global_group() {
+	_deprecated_function( __FUNCTION__, '2.2', 'This function cas no replacement' );
+}

@@ -27,14 +27,79 @@ function bp_core_clear_cache() {
 }
 
 /**
- * Add 'bp' to global group of network wide cachable objects.
+ * Get the root blog cache key, used by our wrapper functions to differentiate
+ * which blog to store our cached data in.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  string $key
+ * @return string
  */
-function bp_core_add_global_group() {
-	if ( function_exists( 'wp_cache_add_global_groups' ) ) {
-		wp_cache_add_global_groups( array( 'bp' ) );
-	}
+function bp_get_root_blog_cache_key( $key = '' ) {
+	$root_blog_id = bp_get_root_blog_id();
+	return "{$root_blog_id}:{$key}";
 }
-add_action( 'bp_loaded', 'bp_core_add_global_group' );
+
+/**
+ * Retrieves the cache contents from the cache by key and group.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses wp_cache_get()
+ * @see WP_Object_Cache::get()
+ *
+ * @param  int|string $key   What the contents in the cache are called
+ * @param  string     $group Where the cache contents are grouped
+ * @param  bool       $force Whether to force an update of the local cache from
+ *                           the persistent cache (default is false)
+ * @param  &bool      $found Whether key was found in the cache. Disambiguates a
+ *                           return of false, a storable value.
+ * @return bool|mixed        False on failure to retrieve contents or the cache
+ *                           contents on success
+ */
+function bp_cache_get( $key, $group = '', $force = false, &$found = null ) {
+	$cache_key = bp_get_root_blog_cache_key( $key );
+
+	return wp_cache_get( $cache_key, $group, $force, $found );
+}
+
+/**
+ * Saves the data to the cache.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses wp_cache_set()
+ * @see WP_Object_Cache::set()
+ *
+ * @param  int|string $key    What to call the contents in the cache
+ * @param  mixed      $data   The contents to store in the cache
+ * @param  string     $group  Where to group the cache contents
+ * @param  int        $expire When to expire the cache contents
+ * @return bool               False on failure, true on success
+ */
+function bp_cache_set( $key, $data, $group = '', $expire = 0 ) {
+	$cache_key = bp_get_root_blog_cache_key( $key );
+
+	return wp_cache_set( $cache_key, $data, $group, $expire );
+}
+
+/**
+ * Removes the cache contents matching key and group.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses wp_cache_delete()
+ * @see WP_Object_Cache::delete()
+ *
+ * @param  int|string $key   What the contents in the cache are called
+ * @param  string     $group Where the cache contents are grouped
+ * @return bool              True on successful removal, false on failure
+ */
+function bp_cache_delete( $key, $group = '' ) {
+	$cache_key = bp_get_root_blog_cache_key( $key );
+
+	return wp_cache_delete( $cache_key, $group );
+}
 
 /**
  * Clear all cached objects for a user, or those that a user is part of.
