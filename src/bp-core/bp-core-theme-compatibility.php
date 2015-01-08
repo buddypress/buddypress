@@ -288,7 +288,7 @@ function bp_detect_theme_compat_with_current_theme() {
 
 		// Brute-force check for a BP template
 		// Examples are clones of bp-default
-		} else if ( locate_template( 'members/members-loop.php', false, false ) ) {
+		} elseif ( locate_template( 'members/members-loop.php', false, false ) ) {
 			$theme_compat = false;
 		}
 	}

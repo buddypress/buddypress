@@ -169,7 +169,7 @@ class BP_Activity_Activity {
 
 		// If no callback is available, use the literal string from
 		// the database row
-		} else if ( ! empty( $row->action ) ) {
+		} elseif ( ! empty( $row->action ) ) {
 			$this->action = $row->action;
 
 		// Provide a fallback to avoid PHP notices
@@ -1277,7 +1277,7 @@ class BP_Activity_Activity {
 			$comments = false;
 
 		// A true cache miss
-		} else if ( empty( $comments ) ) {
+		} elseif ( empty( $comments ) ) {
 
 			// Select the user's fullname with the query
 			if ( bp_is_active( 'xprofile' ) ) {

@@ -1079,7 +1079,7 @@ function bp_legacy_theme_ajax_invite_user() {
 			$user_status = 'is_pending';
 
 		// Create the user invitation
-		} else if ( groups_invite_user( array( 'user_id' => $friend_id, 'group_id' => $group_id ) ) ) {
+		} elseif ( groups_invite_user( array( 'user_id' => $friend_id, 'group_id' => $group_id ) ) ) {
 			$user_status = 'is_invited';
 
 		// Miscellaneous failure

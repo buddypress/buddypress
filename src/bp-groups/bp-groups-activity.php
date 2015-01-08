@@ -165,15 +165,15 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 		$action = sprintf( __( '%1$s updated details for the group %2$s', 'buddypress' ), $user_link, $group_link );
 
 	// Name and description changed - to keep things short, don't describe changes in detail.
-	} else if ( isset( $changed['name'] ) && isset( $changed['description'] ) ) {
+	} elseif ( isset( $changed['name'] ) && isset( $changed['description'] ) ) {
 		$action = sprintf( __( '%1$s changed the name and description of the group %2$s', 'buddypress' ), $user_link, $group_link );
 
 	// Name only.
-	} else if ( ! empty( $changed['name']['old'] ) && ! empty( $changed['name']['new'] ) ) {
+	} elseif ( ! empty( $changed['name']['old'] ) && ! empty( $changed['name']['new'] ) ) {
 		$action = sprintf( __( '%1$s changed the name of the group %2$s from "%3$s" to "%4$s"', 'buddypress' ), $user_link, $group_link, esc_html( $changed['name']['old'] ), esc_html( $changed['name']['new'] ) );
 
 	// Description only.
-	} else if ( ! empty( $changed['description']['old'] ) && ! empty( $changed['description']['new'] ) ) {
+	} elseif ( ! empty( $changed['description']['old'] ) && ! empty( $changed['description']['new'] ) ) {
 		$action = sprintf( __( '%1$s changed the description of the group %2$s from "%3$s" to "%4$s"', 'buddypress' ), $user_link, $group_link, esc_html( $changed['description']['old'] ), esc_html( $changed['description']['new'] ) );
 
 	}

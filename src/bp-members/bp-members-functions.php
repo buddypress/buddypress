@@ -1938,7 +1938,7 @@ function bp_core_activate_signup( $key ) {
 
 		// If a user ID is found, this may be a legacy signup, or one
 		// created locally for backward compatibility. Process it.
-		} else if ( $key == wp_hash( $user_id ) ) {
+		} elseif ( $key == wp_hash( $user_id ) ) {
 			// Change the user's status so they become active
 			if ( ! $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 0 WHERE ID = %d", $user_id ) ) ) {
 				return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
@@ -2396,7 +2396,7 @@ function bp_stop_live_spammer() {
 	$is_login = false;
 	if ( isset( $_GLOBALS['pagenow'] ) && false !== strpos( $GLOBALS['pagenow'], 'wp-login.php' ) ) {
 		$is_login = true;
-	} else if ( isset( $_SERVER['SCRIPT_NAME'] ) && false !== strpos( $_SERVER['SCRIPT_NAME'], 'wp-login.php' ) ) {
+	} elseif ( isset( $_SERVER['SCRIPT_NAME'] ) && false !== strpos( $_SERVER['SCRIPT_NAME'], 'wp-login.php' ) ) {
 		$is_login = true;
 	}
 

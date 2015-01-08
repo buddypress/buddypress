@@ -1153,7 +1153,7 @@ function bp_messages_username_value() {
 			 * @param string $value Default user name.
 			 */
 			return apply_filters( 'bp_get_messages_username_value', $_COOKIE['bp_messages_send_to'] );
-		} else if ( isset( $_GET['r'] ) && !isset( $_COOKIE['bp_messages_send_to'] ) ) {
+		} elseif ( isset( $_GET['r'] ) && !isset( $_COOKIE['bp_messages_send_to'] ) ) {
 			/** This filter is documented in bp-messages-template.php */
 			return apply_filters( 'bp_get_messages_username_value', $_GET['r'] );
 		}

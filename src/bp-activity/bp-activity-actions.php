@@ -91,7 +91,7 @@ function bp_activity_action_permalink_router() {
 		}
 
 	// Set redirect to users' activity stream
-	} else if ( ! empty( $activity->user_id ) ) {
+	} elseif ( ! empty( $activity->user_id ) ) {
 		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 	}
 
@@ -339,7 +339,7 @@ function bp_activity_action_post_update() {
 		$activity_id = bp_activity_post_update( array( 'content' => $content ) );
 
 	// Post to groups object
-	} else if ( 'groups' == $object && bp_is_active( 'groups' ) ) {
+	} elseif ( 'groups' == $object && bp_is_active( 'groups' ) ) {
 		if ( (int) $item_id ) {
 			$activity_id = groups_post_update( array( 'content' => $content, 'group_id' => $item_id ) );
 		}
@@ -811,7 +811,7 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 		}
 
 	// Unpublishing a previously published post.
-	} else if ( 'publish' === $old_status ) {
+	} elseif ( 'publish' === $old_status ) {
 		// Some form of pending status - only remove the activity entry
 		bp_activity_post_type_unpublish( $post->ID, $post );
 	}

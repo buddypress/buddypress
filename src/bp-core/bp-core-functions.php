@@ -112,7 +112,7 @@ function bp_sort_by_key( $items, $key, $type = 'alpha' ) {
 		foreach ( $func_args as $indexi => $index ) {
 			if ( isset( $index->' . $key . ' ) ) {
 				$values[ $indexi ] = $index->' . $key . ';
-			} else if ( isset( $index["' . $key . '"] ) ) {
+			} elseif ( isset( $index["' . $key . '"] ) ) {
 				$values[ $indexi ] = $index["' . $key . '"];
 			}
 		}
@@ -126,7 +126,7 @@ function bp_sort_by_key( $items, $key, $type = 'alpha' ) {
 
 			if ( 0 > $cmp ) {
 				$retval = -1;
-			} else if ( 0 < $cmp ) {
+			} elseif ( 0 < $cmp ) {
 				$retval = 1;
 			} else {
 				$retval = 0;

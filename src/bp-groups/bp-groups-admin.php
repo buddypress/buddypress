@@ -102,7 +102,7 @@ function bp_groups_admin_load() {
 
 		bp_core_redirect( $redirect_to );
 
-	} else if ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
+	} elseif ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
 		// columns screen option
 		add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
@@ -308,7 +308,7 @@ function bp_groups_admin_load() {
 
 								if ( 'admin' == $existing_role || 'mod' == $existing_role ) {
 									$result = groups_demote_member( $user_id, $group_id );
-								} else if ( 'banned' == $existing_role ) {
+								} elseif ( 'banned' == $existing_role ) {
 									$result = groups_unban_member( $user_id, $group_id );
 								}
 
@@ -419,7 +419,7 @@ function bp_groups_admin() {
 		bp_groups_admin_edit();
 
 	// Display the group deletion confirmation screen
-	} else if ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
+	} elseif ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
 		bp_groups_admin_delete();
 
 	// Otherwise, display the groups index screen
@@ -456,7 +456,7 @@ function bp_groups_admin_edit() {
 
 		if ( ! empty( $errors ) ) {
 			$messages[] = __( 'An error occurred when trying to update your group details.', 'buddypress' );
-		} else if ( ! empty( $updated ) ) {
+		} elseif ( ! empty( $updated ) ) {
 			$messages[] = __( 'The group has been updated successfully.', 'buddypress' );
 		}
 

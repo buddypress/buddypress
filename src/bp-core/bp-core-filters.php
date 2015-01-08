@@ -375,7 +375,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 		 * And the super admin goes in pending accounts to resend it. In this case, as the
 		 * meta['password'] is not set, the activation url must be WordPress one
 		 */
-		} else if ( buddypress()->members->admin->signups_page == get_current_screen()->id ) {
+		} elseif ( buddypress()->members->admin->signups_page == get_current_screen()->id ) {
 			$is_hashpass_in_meta = maybe_unserialize( $meta );
 
 			if ( empty( $is_hashpass_in_meta['password'] ) ) {

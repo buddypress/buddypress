@@ -315,7 +315,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	// Set image width
 	if ( false !== $params['width'] ) {
 		// Width has been specified. No modification necessary.
-	} else if ( 'thumb' == $params['type'] ) {
+	} elseif ( 'thumb' == $params['type'] ) {
 		$params['width'] = bp_core_avatar_thumb_width();
 	} else {
 		$params['width'] = bp_core_avatar_full_width();
@@ -325,7 +325,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	// Set image height
 	if ( false !== $params['height'] ) {
 		// Height has been specified. No modification necessary.
-	} else if ( 'thumb' == $params['type'] ) {
+	} elseif ( 'thumb' == $params['type'] ) {
 		$params['height'] = bp_core_avatar_thumb_height();
 	} else {
 		$params['height'] = bp_core_avatar_full_height();
@@ -424,7 +424,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		// Set gravatar type
 		if ( empty( $bp->grav_default->{$params['object']} ) ) {
 			$default_grav = 'wavatar';
-		} else if ( 'mystery' == $bp->grav_default->{$params['object']} ) {
+		} elseif ( 'mystery' == $bp->grav_default->{$params['object']} ) {
 			$default_grav = apply_filters( 'bp_core_mysteryman_src', 'mm', $params['width'] );
 		} else {
 			$default_grav = $bp->grav_default->{$params['object']};
@@ -434,7 +434,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( empty( $params['email'] ) ) {
 			if ( 'user' == $params['object'] ) {
 				$params['email'] = bp_core_get_user_email( $params['item_id'] );
-			} else if ( 'group' == $params['object'] || 'blog' == $params['object'] ) {
+			} elseif ( 'group' == $params['object'] || 'blog' == $params['object'] ) {
 				$params['email'] = $params['item_id'] . '-' . $params['object'] . '@' . bp_get_root_domain();
 			}
 		}
@@ -496,9 +496,9 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	if ( empty( $item_id ) ) {
 		if ( 'user' == $object )
 			$item_id = bp_displayed_user_id();
-		else if ( 'group' == $object )
+		elseif ( 'group' == $object )
 			$item_id = buddypress()->groups->current_group->id;
-		else if ( 'blog' == $object )
+		elseif ( 'blog' == $object )
 			$item_id = $current_blog->id;
 
 		$item_id = apply_filters( 'bp_core_avatar_item_id', $item_id, $object );
@@ -509,9 +509,9 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	if ( empty( $avatar_dir ) ) {
 		if ( 'user' == $object )
 			$avatar_dir = 'avatars';
-		else if ( 'group' == $object )
+		elseif ( 'group' == $object )
 			$avatar_dir = 'group-avatars';
-		else if ( 'blog' == $object )
+		elseif ( 'blog' == $object )
 			$avatar_dir = 'blog-avatars';
 
 		$avatar_dir = apply_filters( 'bp_core_avatar_dir', $avatar_dir, $object );
@@ -830,7 +830,7 @@ function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = ''
 		}
 
 	// If passed a number, assume it was a $user_id
-	} else if ( is_numeric( $user ) ) {
+	} elseif ( is_numeric( $user ) ) {
 		$id = $user;
 
 	// If passed a string and that string returns a user, get the $id
@@ -1144,7 +1144,7 @@ function bp_core_avatar_default( $type = 'gravatar' ) {
 		$avatar = BP_AVATAR_DEFAULT;
 
 	// Use the local default image
-	} else if ( 'local' === $type ) {
+	} elseif ( 'local' === $type ) {
 		$avatar = buddypress()->plugin_url . 'bp-core/images/mystery-man.jpg';
 
 	// Use Gravatar's mystery man as fallback
@@ -1180,7 +1180,7 @@ function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
 		$avatar = BP_AVATAR_DEFAULT_THUMB;
 
 	// Use the local default image
-	} else if ( 'local' === $type ) {
+	} elseif ( 'local' === $type ) {
 		$avatar = buddypress()->plugin_url . 'bp-core/images/mystery-man-50.jpg';
 
 	// Use Gravatar's mystery man as fallback
@@ -1221,7 +1221,7 @@ function bp_core_avatar_reset_query( $posts_query = null ) {
 		$reset_w = bp_is_group_admin_screen( 'group-avatar' );
 
 	// Group's avatar create screen
-	} else if ( bp_is_group_create() ) {
+	} elseif ( bp_is_group_create() ) {
 		/**
 		 * we can't use bp_get_groups_current_create_step()
 		 * as it's not set yet

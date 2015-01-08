@@ -1470,7 +1470,7 @@ class BP_Members_Admin {
 				bp_core_redirect( $redirect_to );
 
 			// Handle activated accounts
-			} else if ( 'do_activate' == $doaction ) {
+			} elseif ( 'do_activate' == $doaction ) {
 
 				// nonce check
 				check_admin_referer( 'signups_activate' );
@@ -1497,7 +1497,7 @@ class BP_Members_Admin {
 				bp_core_redirect( $redirect_to );
 
 			// Handle sign-ups delete
-			} else if ( 'do_delete' == $doaction ) {
+			} elseif ( 'do_delete' == $doaction ) {
 
 				// nonce check
 				check_admin_referer( 'signups_delete' );
@@ -1875,7 +1875,7 @@ class BP_Members_Admin {
 		$ids = false;
 		if ( ! empty( $_POST['allsignups'] ) ) {
 			$ids = wp_parse_id_list( $_POST['allsignups'] );
-		} else if ( ! empty( $_GET['signup_id'] ) ) {
+		} elseif ( ! empty( $_GET['signup_id'] ) ) {
 			$ids = absint( $_GET['signup_id'] );
 		}
 

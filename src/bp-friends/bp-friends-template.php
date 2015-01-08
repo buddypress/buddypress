@@ -270,7 +270,7 @@ function bp_potential_friend_id( $user_id = 0 ) {
 
 		if ( empty( $user_id ) && isset( $friends_template->friendship->friend ) )
 			$user_id = $friends_template->friendship->friend->id;
-		else if ( empty( $user_id ) && !isset( $friends_template->friendship->friend ) )
+		elseif ( empty( $user_id ) && !isset( $friends_template->friendship->friend ) )
 			$user_id = bp_displayed_user_id();
 
 		/**

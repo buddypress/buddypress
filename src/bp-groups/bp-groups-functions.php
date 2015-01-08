@@ -921,7 +921,7 @@ function groups_invite_user( $args = '' ) {
 		groups_accept_membership_request( $membership_id, $user_id, $group_id );
 
 	// Otherwise, create a new invitation
-	} else if ( ! groups_is_user_member( $user_id, $group_id ) && ! groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
+	} elseif ( ! groups_is_user_member( $user_id, $group_id ) && ! groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;
 		$invite->user_id       = $user_id;

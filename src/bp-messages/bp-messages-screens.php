@@ -210,13 +210,13 @@ function messages_screen_notices() {
 			} else {
 				bp_core_add_message( __('Notice deactivated.', 'buddypress') );
 			}
-		} else if ( bp_is_action_variable( 'activate', 0 ) ) {
+		} elseif ( bp_is_action_variable( 'activate', 0 ) ) {
 			if ( !$notice->activate() ) {
 				bp_core_add_message( __('There was a problem activating that notice.', 'buddypress'), 'error' );
 			} else {
 				bp_core_add_message( __('Notice activated.', 'buddypress') );
 			}
-		} else if ( bp_is_action_variable( 'delete' ) ) {
+		} elseif ( bp_is_action_variable( 'delete' ) ) {
 			if ( !$notice->delete() ) {
 				bp_core_add_message( __('There was a problem deleting that notice.', 'buddypress'), 'buddypress' );
 			} else {

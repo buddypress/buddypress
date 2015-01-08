@@ -233,7 +233,7 @@ class BP_Groups_Template {
 
 		if ( 'invites' == $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
-		} else if ( 'single-group' == $type ) {
+		} elseif ( 'single-group' == $type ) {
 			$this->single_group = true;
 
 			if ( groups_get_current_group() ) {
@@ -279,7 +279,7 @@ class BP_Groups_Template {
 			$this->total_group_count = (int) $this->groups['total'];
 			$this->group_count       = (int) $this->groups['total'];
 			$this->groups            = $this->groups['groups'];
-		} else if ( 'single-group' == $type ) {
+		} elseif ( 'single-group' == $type ) {
 			if ( empty( $group->id ) ) {
 				$this->total_group_count = 0;
 				$this->group_count       = 0;
@@ -710,9 +710,9 @@ function bp_group_type( $group = false ) {
 
 		if ( 'public' == $group->status ) {
 			$type = __( "Public Group", "buddypress" );
-		} else if ( 'hidden' == $group->status ) {
+		} elseif ( 'hidden' == $group->status ) {
 			$type = __( "Hidden Group", "buddypress" );
-		} else if ( 'private' == $group->status ) {
+		} elseif ( 'private' == $group->status ) {
 			$type = __( "Private Group", "buddypress" );
 		} else {
 			$type = ucwords( $group->status ) . ' ' . __( 'Group', 'buddypress' );
@@ -1862,7 +1862,7 @@ function bp_group_get_invite_status( $group_id = false ) {
 		if ( isset( $bp->groups->current_group->id ) ) {
 			// Default to the current group first
 			$group_id = $bp->groups->current_group->id;
-		} else if ( isset( $groups_template->group->id ) ) {
+		} elseif ( isset( $groups_template->group->id ) ) {
 			// Then see if we're in the loop
 			$group_id = $groups_template->group->id;
 		} else {
@@ -2946,7 +2946,7 @@ function bp_group_status_message( $group = null ) {
  		if ( ! bp_group_has_requested_membership() ) {
 			if ( is_user_logged_in() && bp_group_is_invited() ) {
 				$message = __( 'You must accept your pending invitation before you can access this private group.', 'buddypress' );
-			} else if ( is_user_logged_in() ) {
+			} elseif ( is_user_logged_in() ) {
 				$message = __( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
 			} else {
 				$message = __( 'This is a private group. To join you must be a registered site member and request group membership.', 'buddypress' );

@@ -34,7 +34,7 @@ function bp_groups_group_access_protection() {
 			$user_has_access = true;
 
 		// User doesn't have access, so set up redirect args
-		} else if ( is_user_logged_in() ) {
+		} elseif ( is_user_logged_in() ) {
 			$no_access_args = array(
 				'message'  => __( 'You do not have access to this group.', 'buddypress' ),
 				'root'     => bp_get_group_permalink( $current_group ) . 'home/',
@@ -183,7 +183,7 @@ function groups_action_create_group() {
 
 			if ( 'private' == $_POST['group-status'] )
 				$group_status = 'private';
-			else if ( 'hidden' == $_POST['group-status'] )
+			elseif ( 'hidden' == $_POST['group-status'] )
 				$group_status = 'hidden';
 
 			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_forum' => $group_enable_forum ) ) ) {

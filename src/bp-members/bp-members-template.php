@@ -606,9 +606,9 @@ function bp_members_pagination_count() {
 
 		if ( 'active' == $members_template->type )
 			$pag = sprintf( _n( 'Viewing 1 active member', 'Viewing %1$s - %2$s of %3$s active members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
-		else if ( 'popular' == $members_template->type )
+		elseif ( 'popular' == $members_template->type )
 			$pag = sprintf( _n( 'Viewing 1 member with friends', 'Viewing %1$s - %2$s of %3$s members with friends', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
-		else if ( 'online' == $members_template->type )
+		elseif ( 'online' == $members_template->type )
 			$pag = sprintf( _n( 'Viewing 1 online member', 'Viewing %1$s - %2$s of %3$s online members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 		else
 			$pag = sprintf( _n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
@@ -2182,7 +2182,7 @@ function bp_signup_avatar( $args = '' ) {
 			// Set default gravatar type
 			if ( empty( $bp->grav_default->user ) )
 				$default_grav = 'wavatar';
-			else if ( 'mystery' == $bp->grav_default->user )
+			elseif ( 'mystery' == $bp->grav_default->user )
 				$default_grav = $bp->plugin_url . 'bp-core/images/mystery-man.jpg';
 			else
 				$default_grav = $bp->grav_default->user;

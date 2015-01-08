@@ -1295,7 +1295,7 @@ class BP_Groups_Group {
 					$is_member = '1';
 
 				// invite_sent means the user has been invited
-				} else if ( $user_status[ $gid ]->invite_sent ) {
+				} elseif ( $user_status[ $gid ]->invite_sent ) {
 					$is_invited = '1';
 
 				// User has sent request, but has not been confirmed
@@ -1611,7 +1611,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 				$sql['where'][] = "inviter_id = 0";
 
 			// The string 'any' matches any non-zero value (inviter_id != 0)
-			} else if ( 'any' === $inviter_id ) {
+			} elseif ( 'any' === $inviter_id ) {
 				$sql['where'][] = "inviter_id != 0";
 
 			// Assume that a list of inviter IDs has been passed
@@ -3369,7 +3369,7 @@ class BP_Group_Extension {
 				// constructor. So we always trust this value
 				$this->params['show_tab'] = 'noone';
 
-			} else if ( isset( $this->params_raw['enable_nav_item'] ) || isset( $this->params_raw['visibility'] ) ) {
+			} elseif ( isset( $this->params_raw['enable_nav_item'] ) || isset( $this->params_raw['visibility'] ) ) {
 				// If enable_nav_item or visibility is passed,
 				// we assume this  is a legacy extension.
 				// Legacy behavior is that enable_nav_item=true +

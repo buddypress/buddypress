@@ -391,7 +391,7 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) {
 
 			// In the case of a user page, we try to assume a
 			// redirect URL
-			} else if ( bp_is_user() ) {
+			} elseif ( bp_is_user() ) {
 
 				// Redirect to the displayed user's default
 				// component, as long as that component is

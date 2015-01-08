@@ -652,7 +652,7 @@ function bp_has_activities( $args = '' ) {
 	 */
 	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) )
 		$filter = array( 'object' => $_GET['afilter'] );
-	else if ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) || ! empty( $since ) )
+	elseif ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) || ! empty( $since ) )
 		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id, 'offset' => $offset, 'since' => $since );
 	else
 		$filter = false;
@@ -4308,7 +4308,7 @@ function bp_activity_show_filters( $context = '' ) {
 				}
 
 			// On individual group pages, default to 'group'
-			} else if ( bp_is_active( 'groups' ) && bp_is_group() ) {
+			} elseif ( bp_is_active( 'groups' ) && bp_is_group() ) {
 				$context = 'group';
 
 			// 'activity' everywhere else

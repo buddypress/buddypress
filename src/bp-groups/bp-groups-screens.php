@@ -71,7 +71,7 @@ function groups_screen_group_invites() {
 
 		bp_core_redirect( $redirect_to );
 
-	} else if ( bp_is_action_variable( 'reject' ) && is_numeric( $group_id ) ) {
+	} elseif ( bp_is_action_variable( 'reject' ) && is_numeric( $group_id ) ) {
 		// Check the nonce
 		if ( !check_admin_referer( 'groups_reject_invite' ) )
 			return false;
@@ -179,7 +179,7 @@ function groups_screen_group_forum() {
 		}
 
 		// Sticky a topic
-		else if ( bp_is_action_variable( 'stick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
+		elseif ( bp_is_action_variable( 'stick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 			// Check the nonce
 			check_admin_referer( 'bp_forums_stick_topic' );
 
@@ -194,7 +194,7 @@ function groups_screen_group_forum() {
 		}
 
 		// Un-Sticky a topic
-		else if ( bp_is_action_variable( 'unstick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
+		elseif ( bp_is_action_variable( 'unstick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 			// Check the nonce
 			check_admin_referer( 'bp_forums_unstick_topic' );
 
@@ -209,7 +209,7 @@ function groups_screen_group_forum() {
 		}
 
 		// Close a topic
-		else if ( bp_is_action_variable( 'close', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
+		elseif ( bp_is_action_variable( 'close', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 			// Check the nonce
 			check_admin_referer( 'bp_forums_close_topic' );
 
@@ -224,7 +224,7 @@ function groups_screen_group_forum() {
 		}
 
 		// Open a topic
-		else if ( bp_is_action_variable( 'open', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
+		elseif ( bp_is_action_variable( 'open', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
 			// Check the nonce
 			check_admin_referer( 'bp_forums_open_topic' );
 
@@ -239,7 +239,7 @@ function groups_screen_group_forum() {
 		}
 
 		// Delete a topic
-		else if ( empty( $user_is_banned ) && bp_is_action_variable( 'delete', 2 ) && !bp_action_variable( 3 ) ) {
+		elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'delete', 2 ) && !bp_action_variable( 3 ) ) {
 			// Fetch the topic
 			$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -264,7 +264,7 @@ function groups_screen_group_forum() {
 		}
 
 		// Editing a topic
-		else if ( empty( $user_is_banned ) && bp_is_action_variable( 'edit', 2 ) && !bp_action_variable( 3 ) ) {
+		elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'edit', 2 ) && !bp_action_variable( 3 ) ) {
 			// Fetch the topic
 			$topic = bp_forums_get_topic_details( $topic_id );
 
@@ -292,7 +292,7 @@ function groups_screen_group_forum() {
 			bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/home' ) );
 
 		// Delete a post
-		} else if ( empty( $user_is_banned ) && bp_is_action_variable( 'delete', 2 ) && $post_id = bp_action_variable( 4 ) ) {
+		} elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'delete', 2 ) && $post_id = bp_action_variable( 4 ) ) {
 			// Fetch the post
 			$post = bp_forums_get_post( $post_id );
 
@@ -316,7 +316,7 @@ function groups_screen_group_forum() {
 			bp_core_redirect( wp_get_referer() );
 
 		// Editing a post
-		} else if ( empty( $user_is_banned ) && bp_is_action_variable( 'edit', 2 ) && $post_id = bp_action_variable( 4 ) ) {
+		} elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'edit', 2 ) && $post_id = bp_action_variable( 4 ) ) {
 
 			// Fetch the post
 			$post = bp_forums_get_post( $post_id );
@@ -379,7 +379,7 @@ function groups_screen_group_forum() {
 
 			if ( empty( $_POST['topic_title'] ) ) {
 				$error_message = __( 'Please provide a title for your forum topic.', 'buddypress' );
-			} else if ( empty( $_POST['topic_text'] ) ) {
+			} elseif ( empty( $_POST['topic_text'] ) ) {
 				$error_message = __( 'Forum posts cannot be empty. Please enter some text.', 'buddypress' );
 			}
 
@@ -492,10 +492,10 @@ function groups_remove_group_invite() {
 	if ( ! bp_groups_user_can_send_invites( $group_id ) ) {
 		$message = __( 'You are not allowed to send or remove invites', 'buddypress' );
 		$error = 'error';
-	} else if ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
+	} elseif ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
 		$message = __( 'The member requested to join the group', 'buddypress' );
 		$error = 'error';
-	} else if ( ! groups_uninvite_user( $friend_id, $group_id ) ) {
+	} elseif ( ! groups_uninvite_user( $friend_id, $group_id ) ) {
 		$message = __( 'There was an error removing the invite', 'buddypress' );
 		$error = 'error';
 	}

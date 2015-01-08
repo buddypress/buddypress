@@ -191,7 +191,7 @@ class BP_XProfile_Group {
 
 		if ( ! empty( $profile_group_id ) ) {
 			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
-		} else if ( $exclude_groups ) {
+		} elseif ( $exclude_groups ) {
 			$exclude_groups = join( ',', wp_parse_id_list( $exclude_groups ) );
 			$where_sql = "WHERE g.id NOT IN ({$exclude_groups})";
 		}
@@ -492,7 +492,7 @@ class BP_XProfile_Group {
 			foreach ( $levels as $level ) {
 				if ( 'default_visibility' == $level->meta_key ) {
 					$default_visibility_levels[ $level->object_id ]['default'] = $level->meta_value;
-				} else if ( 'allow_custom_visibility' == $level->meta_key ) {
+				} elseif ( 'allow_custom_visibility' == $level->meta_key ) {
 					$default_visibility_levels[ $level->object_id ]['allow_custom'] = $level->meta_value;
 				}
 			}
@@ -1324,7 +1324,7 @@ class BP_XProfile_ProfileData {
 			if ( $this->exists() && strlen( trim( $this->value ) ) ) {
 				$result   = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
 
-			} else if ( $this->exists() && empty( $this->value ) ) {
+			} elseif ( $this->exists() && empty( $this->value ) ) {
 				// Data removed, delete the entry.
 				$result   = $this->delete();
 
@@ -1640,7 +1640,7 @@ class BP_XProfile_ProfileData {
 				for ( $j = 0; $j < count( $fields ); $j++ ) {
 					if ( $values[$i]->name == $fields[$j] ) {
 						$new_values[$fields[$j]] = $values[$i]->value;
-					} else if ( !array_key_exists( $fields[$j], $new_values ) ) {
+					} elseif ( !array_key_exists( $fields[$j], $new_values ) ) {
 						$new_values[$fields[$j]] = NULL;
 					}
 				}
@@ -3734,11 +3734,11 @@ class BP_XProfile_Query {
 			if ( 'relation' === $key ) {
 				$relation = $query;
 
-			} else if ( ! is_array( $query ) ) {
+			} elseif ( ! is_array( $query ) ) {
 				continue;
 
 			// First-order clause.
-			} else if ( $this->is_first_order_clause( $query ) ) {
+			} elseif ( $this->is_first_order_clause( $query ) ) {
 				if ( isset( $query['value'] ) && array() === $query['value'] ) {
 					unset( $query['value'] );
 				}
@@ -3768,7 +3768,7 @@ class BP_XProfile_Query {
 		 * This value will not actually be used to join clauses, but it
 		 * simplifies the logic around combining key-only queries.
 		 */
-		} else if ( 1 === count( $clean_queries ) ) {
+		} elseif ( 1 === count( $clean_queries ) ) {
 			$clean_queries['relation'] = 'OR';
 
 		// Default to AND.
@@ -3885,7 +3885,7 @@ class BP_XProfile_Query {
 		foreach ( $query as $key => &$clause ) {
 			if ( 'relation' === $key ) {
 				$relation = $query['relation'];
-			} else if ( is_array( $clause ) ) {
+			} elseif ( is_array( $clause ) ) {
 
 				// This is a first-order clause.
 				if ( $this->is_first_order_clause( $clause ) ) {
@@ -3894,7 +3894,7 @@ class BP_XProfile_Query {
 					$where_count = count( $clause_sql['where'] );
 					if ( ! $where_count ) {
 						$sql_chunks['where'][] = '';
-					} else if ( 1 === $where_count ) {
+					} elseif ( 1 === $where_count ) {
 						$sql_chunks['where'][] = $clause_sql['where'][0];
 					} else {
 						$sql_chunks['where'][] = '( ' . implode( ' AND ', $clause_sql['where'] ) . ' )';
@@ -4149,7 +4149,7 @@ class BP_XProfile_Query {
 				$compatible_compares = array( '=', 'IN', 'BETWEEN', 'LIKE', 'REGEXP', 'RLIKE', '>', '>=', '<', '<=' );
 
 			// Clauses joined by AND with "negative" operators share a join only if they also share a key.
-			} else if ( isset( $sibling['field_id'] ) && isset( $clause['field_id'] ) && $sibling['field_id'] === $clause['field_id'] ) {
+			} elseif ( isset( $sibling['field_id'] ) && isset( $clause['field_id'] ) && $sibling['field_id'] === $clause['field_id'] ) {
 				$compatible_compares = array( '!=', 'NOT IN', 'NOT LIKE' );
 			}
 

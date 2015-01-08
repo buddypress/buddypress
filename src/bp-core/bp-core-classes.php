@@ -278,7 +278,7 @@ class BP_User_Query {
 				if ( 'newest' == $type ) {
 					$sql['orderby'] = "ORDER BY u.user_id";
 					$sql['order'] = "DESC";
-				} else if ( 'random' == $type ) {
+				} elseif ( 'random' == $type ) {
 					$sql['orderby'] = "ORDER BY rand()";
 				} else {
 					$sql['orderby'] = "ORDER BY u.date_recorded";
@@ -2035,7 +2035,7 @@ class BP_Button {
 
 			// No button if viewing your own profile (and not in
 			// a members loop)
-			} else if ( bp_is_my_profile() ) {
+			} elseif ( bp_is_my_profile() ) {
 				return false;
 			}
 		}
@@ -2833,7 +2833,7 @@ abstract class BP_Recursive_Query {
                 foreach ( $query as $key => $clause ) {
                         if ( 'relation' === $key ) {
                                 $relation = $query['relation'];
-                        } else if ( is_array( $clause ) ) {
+                        } elseif ( is_array( $clause ) ) {
                                 // This is a first-order clause
                                 if ( $this->is_first_order_clause( $clause ) ) {
                                         $clause_sql = $this->get_sql_for_clause( $clause, $query );
@@ -2841,7 +2841,7 @@ abstract class BP_Recursive_Query {
                                         $where_count = count( $clause_sql['where'] );
                                         if ( ! $where_count ) {
                                                 $sql_chunks['where'][] = '';
-                                        } else if ( 1 === $where_count ) {
+                                        } elseif ( 1 === $where_count ) {
                                                 $sql_chunks['where'][] = $clause_sql['where'][0];
                                         } else {
                                                 $sql_chunks['where'][] = '( ' . implode( ' AND ', $clause_sql['where'] ) . ' )';
@@ -2904,11 +2904,11 @@ abstract class BP_Recursive_Query {
 			if ( 'relation' === $key ) {
 				$relation = $query;
 
-			} else if ( ! is_array( $query ) ) {
+			} elseif ( ! is_array( $query ) ) {
 				continue;
 
 			// First-order clause.
-			} else if ( $this->is_first_order_clause( $query ) ) {
+			} elseif ( $this->is_first_order_clause( $query ) ) {
 				if ( isset( $query['value'] ) && array() === $query['value'] ) {
 					unset( $query['value'] );
 				}
@@ -2938,7 +2938,7 @@ abstract class BP_Recursive_Query {
 		 * This value will not actually be used to join clauses, but it
 		 * simplifies the logic around combining key-only queries.
 		 */
-		} else if ( 1 === count( $clean_queries ) ) {
+		} elseif ( 1 === count( $clean_queries ) ) {
 			$clean_queries['relation'] = 'OR';
 
 		// Default to AND.
