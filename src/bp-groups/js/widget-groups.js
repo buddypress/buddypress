@@ -17,7 +17,7 @@ jQuery(document).ready( function() {
 			function(response)
 			{
 				jQuery(link).removeClass('loading');
-				groups_wiget_response(response);
+				groups_widget_response(response);
 			});
 
 			return false;
@@ -25,7 +25,7 @@ jQuery(document).ready( function() {
 	);
 });
 
-function groups_wiget_response(response) {
+function groups_widget_response(response) {
 	response = response.substr(0, response.length-1);
 	response = response.split('[[SPLIT]]');
 
