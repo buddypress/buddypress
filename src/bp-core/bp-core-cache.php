@@ -52,7 +52,7 @@ function bp_get_root_blog_cache_key( $key = '' ) {
  * @param  string     $group Where the cache contents are grouped
  * @param  bool       $force Whether to force an update of the local cache from
  *                           the persistent cache (default is false)
- * @param  &bool      $found Whether key was found in the cache. Disambiguates a
+ * @param  bool       $found Whether key was found in the cache. Disambiguates a
  *                           return of false, a storable value.
  * @return bool|mixed        False on failure to retrieve contents or the cache
  *                           contents on success
