@@ -24,7 +24,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	private function clean_existing_avatars( $type = 'user' ) {
 		if ( 'user' === $type ) {
 			$avatar_dir = 'avatars';
-		} else if ( 'group' === $object ) {
+		} elseif ( 'group' === $object ) {
 			$avatar_dir = 'group-avatars';
 		}
 
@@ -159,7 +159,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			// Set expected gravatar type
 			if ( empty( $bp->grav_default->{$this->params['object']} ) ) {
 				$default_grav = 'wavatar';
-			} else if ( 'mystery' == $bp->grav_default->{$this->params['object']} ) {
+			} elseif ( 'mystery' == $bp->grav_default->{$this->params['object']} ) {
 				$default_grav = apply_filters( 'bp_core_mysteryman_src', 'mm', $this->params['width'] );
 			} else {
 				$default_grav = $bp->grav_default->{$this->params['object']};

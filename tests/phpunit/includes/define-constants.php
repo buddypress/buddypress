@@ -39,11 +39,11 @@ if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
 	// Standard develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
 
-} else if ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
+} elseif ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
 	// Legacy unit-test.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
 
-} else if ( file_exists( dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' ) ) {
+} elseif ( file_exists( dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' ) ) {
 	// Environment variable exists and points to tests/phpunit of
 	// develop.svn.wordpress.org setup
 	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' );
