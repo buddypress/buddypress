@@ -105,7 +105,7 @@ class BP_Members_Admin {
 		$this->js_url    = trailingslashit( $this->admin_url . 'js'  ); // Admin CSS URL
 
 		// Capability depends on config
-		$this->capability = bp_core_do_network_admin() ? 'manage_network_options' : 'manage_options';
+		$this->capability = bp_core_do_network_admin() ? 'manage_network_users' : 'edit_users';
 
 		// The Edit Profile Screen id
 		$this->user_page = '';
@@ -144,7 +144,7 @@ class BP_Members_Admin {
 
 		// When BuddyPress is not network activated, only Super Admin can moderate signups
 		if ( ! empty( $this->subsite_activated ) ) {
-			$this->capability = 'manage_network_options';
+			$this->capability = 'manage_network_users';
 		}
 	}
 
@@ -1861,7 +1861,7 @@ class BP_Members_Admin {
 	 * @param string $action Delete, activate, or resend activation link.
 	 */
 	public function signups_admin_manage( $action = '' ) {
-		if ( ! is_super_admin() || empty( $action ) ) {
+		if ( ! current_user_can( $this->capability ) || empty( $action ) ) {
 			die( '-1' );
 		}
 
