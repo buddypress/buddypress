@@ -496,7 +496,7 @@ class BP_Akismet {
 		if ( function_exists( 'akismet_init' ) && ( empty( $akismet_api_host ) || empty( $akismet_api_port ) ) )
 			akismet_init();
 
-		$query_string = $path = $response = '';
+		$query_string = $path = '';
 
 		$activity_data['blog']         = bp_get_option( 'home' );
 		$activity_data['blog_charset'] = bp_get_option( 'blog_charset' );

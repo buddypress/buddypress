@@ -442,8 +442,7 @@ function bp_load_theme_functions() {
  * @return array Array of possible root level wrapper template files.
  */
 function bp_get_theme_compat_templates() {
-	$page_id       = 0;
-	$page_template = array();
+	$page_id = 0;
 
 	// Get the WordPress Page ID for the current view.
 	foreach ( (array) buddypress()->pages as $component => $bp_page ) {

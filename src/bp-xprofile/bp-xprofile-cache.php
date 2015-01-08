@@ -80,16 +80,11 @@ function bp_xprofile_update_meta_cache( $object_ids = array(), $user_id = 0 ) {
 	}
 
 
-	$bp = buddypress();
+	$bp        = buddypress();
+	$cache     = array();
 	$meta_list = $wpdb->get_results( "SELECT object_id, object_type, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE {$where_sql}" );
 
 	if ( ! empty( $meta_list ) ) {
-		$object_type_caches = array(
-			'group' => array(),
-			'field' => array(),
-			'data'  => array(),
-		);
-
 		foreach ( $meta_list as $meta ) {
 			$oid    = $meta->object_id;
 			$otype  = $meta->object_type;

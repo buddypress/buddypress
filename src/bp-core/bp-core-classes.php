@@ -600,7 +600,6 @@ class BP_User_Query {
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @global BuddyPress $bp Global BuddyPress settings object.
 	 * @global WPDB $wpdb Global WordPress database access object.
 	 */
 	public function populate_extras() {
@@ -624,8 +623,6 @@ class BP_User_Query {
 
 		// Turn user ID's into a query-usable, comma separated value
 		$user_ids_sql = implode( ',', wp_parse_id_list( $this->user_ids ) );
-
-		$bp = buddypress();
 
 		/**
 		 * Use this action to independently populate your own custom extras.
@@ -2329,7 +2326,6 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		if ( empty( $elements ) ) // nothing to walk
 			return $output;
 
-		$id_field     = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
 
 		// flat display

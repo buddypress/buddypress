@@ -217,17 +217,11 @@ class BP_Members_Admin {
 	 * @return int
 	 */
 	private function get_user_id() {
-
-		// No user ID to start
-		$user_id = 0;
+		$user_id = get_current_user_id();
 
 		// We'll need a user ID when not on the user admin
 		if ( ! empty( $_GET['user_id'] ) ) {
 			$user_id = $_GET['user_id'];
-
-		// Assume the current user ID
-		} else {
-			$user_id = get_current_user_id();
 		}
 
 		return intval( $user_id );

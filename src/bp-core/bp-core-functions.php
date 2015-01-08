@@ -1912,7 +1912,6 @@ function bp_nav_menu_get_loggedin_pages() {
 	$page_args = array();
 
 	foreach ( $bp_menu_items as $bp_item ) {
-		$item_name = '';
 
 		// Remove <span>number</span>
 		$item_name = preg_replace( '/([.0-9]+)/', '', $bp_item['name'] );

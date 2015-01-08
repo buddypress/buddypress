@@ -559,7 +559,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 
 	// We use information stored in the CSS class to determine what kind of
 	// menu item this is, and how it should be treated
-	$css_target = preg_match( '/\sbp-(.*)-nav/', implode( ' ', $menu_item->classes), $matches );
+	preg_match( '/\sbp-(.*)-nav/', implode( ' ', $menu_item->classes), $matches );
 
 	// If this isn't a BP menu item, we can stop here
 	if ( empty( $matches[1] ) ) {

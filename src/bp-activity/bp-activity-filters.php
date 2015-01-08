@@ -528,8 +528,6 @@ add_filter( 'bp_get_activity_css_class', 'bp_activity_timestamp_class', 9, 1 );
  * @return array $response
  */
 function bp_activity_heartbeat_last_recorded( $response = array(), $data = array() ) {
-	$bp = buddypress();
-
 	if ( empty( $data['bp_activity_last_recorded'] ) ) {
 		return $response;
 	}

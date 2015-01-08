@@ -172,7 +172,6 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		if ( $total_items > 1 ) {
 			$amount = 'multiple';
 			$text   = sprintf( __( 'You have %d new messages', 'buddypress' ), $total_items );
-			$amount = 'multiple';
 		} else {
 			$amount = 'single';
 

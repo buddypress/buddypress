@@ -363,7 +363,7 @@ class BP_Messages_Thread {
 		);
 		$r = wp_parse_args( $args, $defaults );
 
-		$user_id_sql = $pag_sql = $type_sql = $search_sql = '';
+		$pag_sql = $type_sql = $search_sql = '';
 
 		if ( $r['limit'] && $r['page'] ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );

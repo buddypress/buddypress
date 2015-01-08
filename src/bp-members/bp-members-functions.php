@@ -596,9 +596,6 @@ function bp_core_get_user_displaynames( $user_ids ) {
  *         user not found.
  */
 function bp_core_get_user_displayname( $user_id_or_username ) {
-
-	$fullname = '';
-
 	if ( empty( $user_id_or_username ) ) {
 		return false;
 	}

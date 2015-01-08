@@ -679,9 +679,6 @@ function bp_the_notification_description() {
 	 * @return string
 	 */
 	function bp_get_the_notification_description() {
-
-		// Setup local variables
-		$description  = '';
 		$bp           = buddypress();
 		$notification = $bp->notifications->query_loop->notification;
 

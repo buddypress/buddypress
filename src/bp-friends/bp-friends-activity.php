@@ -282,15 +282,9 @@ add_filter( 'bp_activity_set_friends_scope_args', 'bp_friends_filter_activity_sc
  * @param object $friendship Optional
  */
 function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_user_id, $friend_user_id, $friendship = false ) {
-
-	// Bail if Activity component is not active
 	if ( ! bp_is_active( 'activity' ) ) {
 		return;
 	}
-
-	// Get links to both members profiles
-	$initiator_link = bp_core_get_userlink( $initiator_user_id );
-	$friend_link    = bp_core_get_userlink( $friend_user_id    );
 
 	// Record in activity streams for the initiator
 	friends_record_activity( array(
