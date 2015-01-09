@@ -56,6 +56,7 @@ class BP_Members_Component extends BP_Component {
 			'template',
 			'adminbar',
 			'functions',
+			'widgets',
 			'cache',
 		);
 
