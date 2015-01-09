@@ -393,8 +393,8 @@ class BP_Messages_Thread {
 		// set up SQL array
 		$sql = array();
 		$sql['select'] = 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent';
-		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m";
-		$sql['where']  = "WHERE m.thread_id = r.thread_id AND r.is_deleted = 0 {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql}";
+		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id";
+		$sql['where']  = "WHERE r.is_deleted = 0 {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql}";
 		$sql['misc']   = "GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}";
 
 		// get thread IDs
