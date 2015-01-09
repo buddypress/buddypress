@@ -381,6 +381,8 @@ class BP_Messages_Box_Template {
  *           the value of $_REQUEST['s'].
  *     @type string $page_arg URL argument used for the pagination param.
  *           Default: 'mpage'.
+ *     @type array $meta_query Meta query arguments. Only applicable if $box is
+ *           not 'notices'. See WP_Meta_Query more details.
  * }
  * @return bool True if there are threads to display, otherwise false.
  */
@@ -405,6 +407,7 @@ function bp_has_message_threads( $args = '' ) {
 		'type'         => 'all',
 		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
 		'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679
+		'meta_query'   => array()
 	), 'has_message_threads' );
 
 	// If trying to access notices without capabilities, redirect to root domain

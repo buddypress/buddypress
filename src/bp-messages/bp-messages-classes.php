@@ -359,11 +359,16 @@ class BP_Messages_Thread {
 			'type'         => 'all',
 			'limit'        => null,
 			'page'         => null,
-			'search_terms' => ''
+			'search_terms' => '',
+			'meta_query'   => array()
 		);
 		$r = wp_parse_args( $args, $defaults );
 
 		$pag_sql = $type_sql = $search_sql = $user_id_sql = $sender_sql = '';
+		$meta_query_sql = array(
+			'join'  => '',
+			'where' => ''
+		);
 
 		if ( $r['limit'] && $r['page'] ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
@@ -390,11 +395,20 @@ class BP_Messages_Thread {
 			}
 		}
 
+		// Process meta query into SQL
+		$meta_query = self::get_meta_query_sql( $r['meta_query'] );
+		if ( ! empty( $meta_query['join'] ) ) {
+			$meta_query_sql['join'] = $meta_query['join'];
+		}
+		if ( ! empty( $meta_query['where'] ) ) {
+			$meta_query_sql['where'] = $meta_query['where'];
+		}
+
 		// set up SQL array
 		$sql = array();
 		$sql['select'] = 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent';
-		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id";
-		$sql['where']  = "WHERE r.is_deleted = 0 {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql}";
+		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id {$meta_query_sql['join']}";
+		$sql['where']  = "WHERE r.is_deleted = 0 {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
 		$sql['misc']   = "GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}";
 
 		// get thread IDs
@@ -433,6 +447,39 @@ class BP_Messages_Thread {
 		 * }
 		 */
 		return apply_filters( 'bp_messages_thread_current_threads', array( 'threads' => &$threads, 'total' => (int) $total_threads ) );
+	}
+
+	/**
+	 * Get the SQL for the 'meta_query' param in BP_Messages_Thread::get_current_threads_for_user().
+	 *
+	 * We use WP_Meta_Query to do the heavy lifting of parsing the meta_query array
+	 * and creating the necessary SQL clauses.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $meta_query An array of meta_query filters. See the
+	 *   documentation for WP_Meta_Query for details.
+	 * @return array $sql_array 'join' and 'where' clauses.
+	 */
+	public static function get_meta_query_sql( $meta_query = array() ) {
+		global $wpdb;
+
+		$sql_array = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		if ( ! empty( $meta_query ) ) {
+			$meta_query = new WP_Meta_Query( $meta_query );
+
+			// WP_Meta_Query expects the table name at
+			// $wpdb->messagemeta
+			$wpdb->messagemeta = buddypress()->messages->table_name_meta;
+
+			return $meta_query->get_sql( 'message', 'm', 'id' );
+		}
+
+		return $sql_array;
 	}
 
 	/**
