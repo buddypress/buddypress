@@ -13,6 +13,29 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Determine which xprofile fields do not have cached values for a user.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param int   $user_id   User ID to check
+ * @param array $field_ids XProfile field IDs.
+ * @return array
+ */
+function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array() ) {
+	$uncached_fields = array();
+
+	foreach ( $field_ids as $field_id ) {
+		$field_id  = (int) $field_id;
+		$cache_key = "{$user_id}:{$field_id}";
+		if ( false === wp_cache_get( $cache_key, 'bp_xprofile_data' ) ) {
+			$uncached_fields[] = $field_id;
+		}
+	}
+
+	return $uncached_fields;
+}
+
+/**
  * Slurp up xprofilemeta for a specified set of profile objects.
  *
  * We do not use bp_update_meta_cache() for the xprofile component. This is
@@ -40,7 +63,7 @@ function bp_xprofile_update_meta_cache( $object_ids = array(), $user_id = 0 ) {
 	$uncached_object_ids = array(
 		'group' => array(),
 		'field' => array(),
-		'data'   => array(),
+		'data'  => array(),
 	);
 
 	$cache_groups = array(
@@ -170,9 +193,9 @@ add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_objec
  * @param BP_XProfile_ProfileData $data_obj
  */
 function xprofile_clear_profiledata_object_cache( $data_obj ) {
-	wp_cache_delete( $data_obj->field_id, 'bp_xprofile_data_' . $data_obj->user_id );
+	wp_cache_delete( "{$data_obj->user_id}:{$data_obj->field_id}", 'bp_xprofile_data' );
 }
-add_action( 'xprofile_data_after_save', 'xprofile_clear_profiledata_object_cache' );
+add_action( 'xprofile_data_after_save',   'xprofile_clear_profiledata_object_cache' );
 add_action( 'xprofile_data_after_delete', 'xprofile_clear_profiledata_object_cache' );
 
 /**

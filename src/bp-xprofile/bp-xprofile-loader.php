@@ -353,6 +353,23 @@ class BP_XProfile_Component extends BP_Component {
 	}
 
 	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'bp_xprofile',
+			'bp_xprofile_data',
+			//'xprofile_meta'
+		) );
+
+		parent::setup_cache_groups();
+	}
+
+	/**
 	 * Adds "Settings > Profile" subnav item under the "Settings" adminbar menu.
 	 *
 	 * @since BuddyPress (2.0.0)

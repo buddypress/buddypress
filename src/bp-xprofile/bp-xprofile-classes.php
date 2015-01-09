@@ -1222,15 +1222,15 @@ class BP_XProfile_ProfileData {
 	public function populate( $field_id, $user_id )  {
 		global $wpdb, $bp;
 
-		$cache_group = 'bp_xprofile_data_' . $user_id;
-		$profiledata = wp_cache_get( $field_id, $cache_group );
+		$cache_key   = "{$user_id}:{$field_id}";
+		$profiledata = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 
 		if ( false === $profiledata ) {
-			$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
+			$sql         = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 			$profiledata = $wpdb->get_row( $sql );
 
 			if ( $profiledata ) {
-				wp_cache_set( $field_id, $profiledata, $cache_group );
+				wp_cache_set( $cache_key, $profiledata, 'bp_xprofile_data' );
 			}
 		}
 
@@ -1259,7 +1259,8 @@ class BP_XProfile_ProfileData {
 		global $wpdb, $bp;
 
 		// Check cache first
-		$cached = wp_cache_get( $this->field_id, 'bp_xprofile_data_' . $this->user_id );
+		$cache_key = "{$this->user_id}:{$this->field_id}";
+		$cached    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 
 		if ( $cached && ! empty( $cached->id ) ) {
 			$retval = true;
@@ -1400,9 +1401,7 @@ class BP_XProfile_ProfileData {
 
 		$data = array();
 
-		$cache_group = 'bp_xprofile_data_' . $user_id;
-
-		$uncached_field_ids = bp_get_non_cached_ids( $field_ids, $cache_group );
+		$uncached_field_ids = bp_xprofile_get_non_cached_field_ids( $user_id, $field_ids, 'bp_xprofile_data' );
 
 		// Prime the cache
 		if ( ! empty( $uncached_field_ids ) ) {
@@ -1426,9 +1425,11 @@ class BP_XProfile_ProfileData {
 			// Set caches
 			foreach ( $uncached_field_ids as $field_id ) {
 
+				$cache_key = "{$user_id}:{$field_id}";
+
 				// If a value was found, cache it
 				if ( isset( $queried_data[ $field_id ] ) ) {
-					wp_cache_set( $field_id, $queried_data[ $field_id ], $cache_group );
+					wp_cache_set( $cache_key, $queried_data[ $field_id ], 'bp_xprofile_data' );
 
 				// If no value was found, cache an empty item
 				// to avoid future cache misses
@@ -1440,14 +1441,15 @@ class BP_XProfile_ProfileData {
 					$d->value        = '';
 					$d->last_updated = '';
 
-					wp_cache_set( $field_id, $d, $cache_group );
+					wp_cache_set( $cache_key, $d, 'bp_xprofile_data' );
 				}
 			}
 		}
 
 		// Now that all items are cached, fetch them
 		foreach ( $field_ids as $field_id ) {
-			$data[] = wp_cache_get( $field_id, $cache_group );
+			$cache_key = "{$user_id}:{$field_id}";
+			$data[]    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 		}
 
 		return $data;
@@ -1460,7 +1462,6 @@ class BP_XProfile_ProfileData {
 	 * @return array
 	 */
 	public static function get_all_for_user( $user_id ) {
-		global $wpdb, $bp;
 
 		$groups = bp_xprofile_get_groups( array(
 			'user_id'                => $user_id,
@@ -1514,7 +1515,8 @@ class BP_XProfile_ProfileData {
 		} else {
 
 			// Check cache first
-			$fielddata = wp_cache_get( $field_id, 'bp_xprofile_data_' . $user_id );
+			$cache_key = "{$user_id}:{$field_id}";
+			$fielddata = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 			if ( false === $fielddata || empty( $fielddata->id ) ) {
 				$fielddata_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id ) );
 			} else {
@@ -1551,7 +1553,8 @@ class BP_XProfile_ProfileData {
 		// Assemble uncached IDs
 		$uncached_ids = array();
 		foreach ( $user_ids as $user_id ) {
-			if ( false === wp_cache_get( $field_id, 'bp_xprofile_data_' . $user_id ) ) {
+			$cache_key = "{$user_id}:{$field_id}";
+			if ( false === wp_cache_get( $cache_key, 'bp_xprofile_data' ) ) {
 				$uncached_ids[] = $user_id;
 			}
 		}
@@ -1583,14 +1586,16 @@ class BP_XProfile_ProfileData {
 					$d->last_updated = '';
 				}
 
-				wp_cache_set( $field_id, $d, 'bp_xprofile_data_' . $d->user_id );
+				$cache_key = "{$d->user_id}:{$field_id}";
+				wp_cache_set( $cache_key, $d, 'bp_xprofile_data' );
 			}
 		}
 
 		// Now that the cache is primed with all data, fetch it
 		$data = array();
 		foreach ( $user_ids as $user_id ) {
-			$data[] = wp_cache_get( $field_id, 'bp_xprofile_data_' . $user_id );
+			$cache_key = "{$user_id}:{$field_id}";
+			$data[]    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 		}
 
 		// If a single ID was passed, just return the value
