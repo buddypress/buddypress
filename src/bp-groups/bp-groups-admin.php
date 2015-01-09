@@ -211,6 +211,15 @@ function bp_groups_admin_load() {
 		// groups_edit_base_group_details()
 		if ( !groups_edit_base_group_details( $group_id, $_POST['bp-groups-name'], $_POST['bp-groups-description'], 0 ) ) {
 			$error = $group_id;
+
+			// using negative integers for different error messages... eek!
+			if ( empty( $_POST['bp-groups-name'] ) && empty( $_POST['bp-groups-description'] ) ) {
+				$error = -3;
+			} elseif ( empty( $_POST['bp-groups-name'] ) ) {
+				$error = -1;
+			} elseif ( empty( $_POST['bp-groups-description'] ) ) {
+				$error = -2;
+			}
 		}
 
 		// Enable discussion forum
@@ -455,7 +464,24 @@ function bp_groups_admin_edit() {
 		}
 
 		if ( ! empty( $errors ) ) {
-			$messages[] = __( 'An error occurred when trying to update your group details.', 'buddypress' );
+			switch ( $errors ) {
+				case -1 :
+					$messages[] = __( 'Group name cannot be empty.', 'buddypress' );
+					break;
+
+				case -2 :
+					$messages[] = __( 'Group description cannot be empty.', 'buddypress' );
+					break;
+
+				case -3 :
+					$messages[] = __( 'Group name and description cannot be empty.', 'buddypress' );
+					break;
+
+				default :
+					$messages[] = __( 'An error occurred when trying to update your group details.', 'buddypress' );
+					break;
+			}
+
 		} elseif ( ! empty( $updated ) ) {
 			$messages[] = __( 'The group has been updated successfully.', 'buddypress' );
 		}
