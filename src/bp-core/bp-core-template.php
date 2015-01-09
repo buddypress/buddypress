@@ -492,6 +492,82 @@ function bp_custom_profile_sidebar_boxes() {
 }
 
 /**
+ * Output the attributes for a form field.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param string $name       The field name to output attributes for.
+ * @param array  $attributes Array of existing attributes to add.
+ */
+function bp_form_field_attributes( $name = '', $attributes = array() ) {
+	echo bp_get_form_field_attributes( $name, $attributes );
+}
+	/**
+	 * Get the attributes for a form field.
+	 *
+	 * Primarily to add better support for touchscreen devices, but plugin devs
+	 * can use the 'bp_get_form_field_extra_attributes' filter for further
+	 * manipulation.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param string $name       The field name to get attributes for.
+	 * @param array  $attributes Array of existing attributes to add.
+	 * @return string
+	 */
+	function bp_get_form_field_attributes( $name = '', $attributes = array() ) {
+		$retval = '';
+
+		if ( empty( $attributes ) ) {
+			$attributes = array();
+		}
+
+		$name = strtolower( $name );
+
+		switch ( $name ) {
+			case 'username' :
+			case 'blogname' :
+				$attributes['autocomplete']   = 'off';
+				$attributes['autocapitalize'] = 'none';
+				break;
+
+			case 'email' :
+				if ( wp_is_mobile() ) {
+					$attributes['autocapitalize'] = 'none';
+				}
+				break;
+
+			case 'password' :
+				$attributes['spellcheck']   = 'false';
+				$attributes['autocomplete'] = 'off';
+
+				if ( wp_is_mobile() ) {
+					$attributes['autocorrect']    = 'false';
+					$attributes['autocapitalize'] = 'none';
+				}
+				break;
+		}
+
+		/**
+		 * Filter the attributes for a field before rendering output.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param array  $attributes The field attributes
+		 * @param string $name       The field name
+		 */
+		$attributes = (array) apply_filters( 'bp_get_form_field_attributes', $attributes, $name );
+
+		$attributes = array_unique( $attributes );
+
+		foreach( $attributes as $attr => $value ) {
+			$retval .= sprintf( ' %s="%s"', sanitize_key( $attr ), esc_attr( $value ) );
+		}
+
+		return $retval;
+	}
+
+/**
  * Create and output a button.
  *
  * @see bp_get_button()

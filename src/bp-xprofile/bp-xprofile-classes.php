@@ -3624,13 +3624,9 @@ abstract class BP_XProfile_Field_Type {
 		 * @param array  $r     Array of parsed arguments.
 		 * @param string $value Class name for the current class instance.
 		 */
-		$r    = (array) apply_filters( 'bp_xprofile_field_edit_html_elements', $r, get_class( $this ) );
+		$r = (array) apply_filters( 'bp_xprofile_field_edit_html_elements', $r, get_class( $this ) );
 
-		foreach ( $r as $name => $value ) {
-			$html .= sprintf( '%s="%s" ', sanitize_key( $name ), esc_attr( $value ) );
-		}
-
-		return $html;
+		return bp_get_form_field_attributes( sanitize_key( bp_get_the_profile_field_name() ), $r );
 	}
 }
 
