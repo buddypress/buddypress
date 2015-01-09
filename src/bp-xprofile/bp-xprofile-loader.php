@@ -14,6 +14,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_XProfile_Component extends BP_Component {
+
 	/**
 	 * Profile field types
 	 *
@@ -66,8 +67,9 @@ class BP_XProfile_Component extends BP_Component {
 			'functions',
 		);
 
-		if ( is_admin() )
+		if ( is_admin() ) {
 			$includes[] = 'admin';
+		}
 
 		parent::includes( $includes );
 	}
@@ -84,8 +86,9 @@ class BP_XProfile_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_XPROFILE_SLUG' ) )
+		if ( !defined( 'BP_XPROFILE_SLUG' ) ) {
 			define( 'BP_XPROFILE_SLUG', 'profile' );
+		}
 
 		// Assign the base group and fullname field names to constants
 		// to use in SQL statements.
@@ -396,7 +399,8 @@ class BP_XProfile_Component extends BP_Component {
 function bp_setup_xprofile() {
 	$bp = buddypress();
 
-	if ( !isset( $bp->profile->id ) )
+	if ( ! isset( $bp->profile->id ) ) {
 		$bp->profile = new BP_XProfile_Component();
+	}
 }
 add_action( 'bp_setup_components', 'bp_setup_xprofile', 2 );
