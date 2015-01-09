@@ -937,7 +937,7 @@ class BP_XProfile_Field {
 		if ( empty( $bp->profile->table_name_fields ) || !isset( $field_name ) )
 			return false;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", $field_name ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s AND parent_id = 0", $field_name ) );
 	}
 
 	public static function update_position( $field_id, $position, $field_group_id ) {
