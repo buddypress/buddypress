@@ -140,6 +140,93 @@ function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
 add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_admin', 11, 1 );
 
 /**
+ * Adds current page CSS classes to the parent BP page in a WP Page Menu.
+ *
+ * Because BuddyPress primarily uses virtual pages, we need a way to highlight
+ * the BP parent page during WP menu generation.  This function checks the
+ * current BP component against the current page in the WP menu to see if we
+ * should highlight the WP page.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array   $retval CSS classes for the current menu page in the menu
+ * @param WP_Post $page   The page properties for the current menu item
+ * @return array
+ */
+function bp_core_menu_highlight_parent_page( $retval, $page ) {
+	if ( ! is_buddypress() ) {
+		return $retval;
+	}
+
+	$page_id = false;
+
+	// loop against all BP component pages
+	foreach ( (array) buddypress()->pages as $component => $bp_page ) {
+		// handles the majority of components
+		if ( bp_is_current_component( $component ) ) {
+	                $page_id = (int) $bp_page->id;
+		}
+
+		// stop if not on a user page
+		if ( ! bp_is_user() && ! empty( $page_id ) ) {
+			break;
+		}
+
+		// members component requires an explicit check due to overlapping components
+		if ( bp_is_user() && 'members' === $component ) {
+			$page_id = (int) $bp_page->id;
+			break;
+		}
+	}
+
+	// duplicate some logic from Walker_Page::start_el() to highlight menu items
+	if ( ! empty( $page_id ) ) {
+		$_bp_page = get_post( $page_id );
+		if ( in_array( $page->ID, $_bp_page->ancestors, true ) ) {
+			$retval[] = 'current_page_ancestor';
+		}
+		if ( $page->ID === $page_id ) {
+			$retval[] = 'current_page_item';
+		} elseif ( $_bp_page && $page->ID === $_bp_page->post_parent ) {
+			$retval[] = 'current_page_parent';
+		}
+	}
+
+	$retval = array_unique( $retval );
+
+	return $retval;
+}
+add_filter( 'page_css_class', 'bp_core_menu_highlight_parent_page', 10, 2 );
+
+/**
+ * Adds current page CSS classes to the parent BP page in a WP Nav Menu.
+ *
+ * When {@link wp_nav_menu()} is used, this function helps to highlight the
+ * current BP parent page during nav menu generation.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array   $retval CSS classes for the current nav menu item in the menu
+ * @param WP_Post $item   The properties for the current nav menu item
+ * @return array
+ */
+function bp_core_menu_highlight_nav_menu_item( $retval, $item ) {
+	// If we're not on a BP page or if the current nav item is not a page, stop!
+	if ( ! is_buddypress() || 'page' !== $item->object ) {
+		return $retval;
+	}
+
+	// get the WP page
+	$page   = get_post( $item->object_id );
+
+	// see if we should add our highlight CSS classes for the page
+	$retval = bp_core_menu_highlight_parent_page( $retval, $page );
+
+	return $retval;
+}
+add_filter( 'nav_menu_css_class', 'bp_core_menu_highlight_nav_menu_item', 10, 2 );
+
+/**
  * Set "From" name in outgoing email to the site name.
  *
  * @uses bp_get_option() fetches the value for a meta_key in the wp_X_options table.
