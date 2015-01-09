@@ -1471,6 +1471,7 @@ function bp_blog_create_button() {
 			'link_class' => 'blog-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . trailingslashit( 'create' ),
 			'wrapper'    => false,
+			'block_self' => false,
 		);
 
 		/**

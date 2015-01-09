@@ -2869,6 +2869,7 @@ function bp_group_create_button() {
 			'link_class' => 'group-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_groups_root_slug() ) . trailingslashit( 'create' ),
 			'wrapper'    => false,
+			'block_self' => false,
 		);
 
 		return bp_get_button( apply_filters( 'bp_get_group_create_button', $button_args ) );
