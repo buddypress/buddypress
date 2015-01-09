@@ -638,3 +638,93 @@ function bp_activity_heartbeat_strings( $strings = array() ) {
 	return $strings;
 }
 add_filter( 'bp_core_get_js_strings', 'bp_activity_heartbeat_strings', 10, 1 );
+
+/** SCOPES **************************************************************/
+
+/**
+ * Set up activity arguments for use with the 'just-me' scope.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array $retval Empty array by default
+ * @param array $filter Current activity arguments
+ * @return array
+ */
+function bp_activity_filter_just_me_scope( $retval, $filter ) {
+	$retval = array(
+		'column' => 'user_id',
+		'value'  => $filter['user_id']
+	);
+
+	$retval['override']['display_comments'] = 'stream';
+
+	// wipe out the user ID
+	$retval['override']['filter']['user_id'] = 0;
+
+	return $retval;
+}
+add_filter( 'bp_activity_set_just-me_scope_args', 'bp_activity_filter_just_me_scope', 10, 2 );
+
+/**
+ * Set up activity arguments for use with the 'favorites' scope.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array $retval Empty array by default
+ * @param array $filter Current activity arguments
+ * @return array
+ */
+function bp_activity_filter_favorites_scope( $retval, $filter ) {
+	$favs = bp_activity_get_user_favorites( $filter['user_id'] );
+	if ( empty( $favs ) ) {
+		return $retval;
+	}
+
+	$retval = array(
+		'column'  => 'id',
+		'compare' => 'IN',
+		'value'   => (array) $favs
+	);
+	$retval['override']['display_comments']  = true;
+
+	// wipe out the user ID
+	$retval['override']['filter']['user_id'] = 0;
+
+	return $retval;
+}
+add_filter( 'bp_activity_set_favorites_scope_args', 'bp_activity_filter_favorites_scope', 10, 2 );
+
+
+/**
+ * Set up activity arguments for use with the 'favorites' scope.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array $retval Empty array by default
+ * @param array $filter Current activity arguments
+ * @return array
+ */
+function bp_activity_filter_mentions_scope( $retval, $filter ) {
+	// Are mentions disabled?
+	if ( ! bp_activity_do_mentions() ) {
+		return $retval;
+	}
+
+	$retval = array(
+		'column'  => 'content',
+		'compare' => 'LIKE',
+
+		// Start search at @ symbol and stop search at closing tag delimiter.
+		'value'   => '@' . bp_activity_get_user_mentionname( $filter['user_id'] ) . '<'
+	);
+
+	// wipe out current search terms if any
+	// this is so the 'mentions' scope can be combined with other scopes
+	$retval['override']['search_terms'] = false;
+
+	$retval['override']['display_comments'] = 'stream';
+	$retval['override']['filter']['user_id'] = 0;
+
+	return $retval;
+}
+add_filter( 'bp_activity_set_mentions_scope_args', 'bp_activity_filter_mentions_scope', 10, 2 );

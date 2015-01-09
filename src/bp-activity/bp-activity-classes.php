@@ -867,89 +867,31 @@ class BP_Activity_Activity {
 		foreach ( $scopes as $scope ) {
 			$scope_args = array();
 
-			switch ( $scope ) {
-				case 'just-me' :
-					$scope_args = array(
-						'column' => 'user_id',
-						'value'  => $r['user_id']
-					);
-
-					$scope_args['override']['display_comments'] = 'stream';
-
-					// wipe out the user ID
-					$scope_args['override']['filter']['user_id'] = 0;
-
-					break;
-
-				case 'favorites':
-					$favs = bp_activity_get_user_favorites( $r['user_id'] );
-					if ( empty( $favs ) ) {
-						return $scope_args;
-					}
-
-					$scope_args = array(
-						'column'  => 'id',
-						'compare' => 'IN',
-						'value'   => (array) $favs
-					);
-					$scope_args['override']['display_comments']  = true;
-
-					// wipe out the user ID
-					$scope_args['override']['filter']['user_id'] = 0;
-
-					break;
-
-				case 'mentions':
-					// Are mentions disabled?
-					if ( ! bp_activity_do_mentions() ) {
-						return $scope_args;
-					}
-
-					$scope_args = array(
-						'column'  => 'content',
-						'compare' => 'LIKE',
-
-						// Start search at @ symbol and stop search at closing tag delimiter.
-						'value'   => '@' . bp_activity_get_user_mentionname( $r['user_id'] ) . '<'
-					);
-
-					// wipe out current search terms if any
-					// this is so the 'mentions' scope can be combined with other scopes
-					$scope_args['override']['search_terms'] = false;
-
-					$scope_args['override']['display_comments'] = 'stream';
-					$scope_args['override']['filter']['user_id'] = 0;
-
-					break;
-
-				default :
-					/**
-					 * Plugins can hook here to set their activity arguments for custom scopes.
-					 *
-					 * This is a dynamic filter based on the activity scope. eg:
-					 *   - 'bp_activity_set_groups_scope_args'
-					 *   - 'bp_activity_set_friends_scope_args'
-					 *
-					 * To see how this filter is used, plugin devs should check out:
-					 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
-					 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
-					 *
-					 * @since BuddyPress (2.2.0)
-					 *
-					 *  @param array {
-					 *     Activity query clauses.
-					 *
-					 *     @type array {
-					 *         Activity arguments for your custom scope.
-					 *         See {@link BP_Activity_Query::_construct()} for more details.
-					 *     }
-					 *     @type array $override Optional. Override existing activity arguments passed by $r.
-					 * }
-					 * @param array $r Current activity arguments passed in BP_Activity_Activity::get()
-					 */
-					$scope_args = apply_filters( "bp_activity_set_{$scope}_scope_args", array(), $r );
-					break;
-			}
+			/**
+			 * Plugins can hook here to set their activity arguments for custom scopes.
+			 *
+			 * This is a dynamic filter based on the activity scope. eg:
+			 *   - 'bp_activity_set_groups_scope_args'
+			 *   - 'bp_activity_set_friends_scope_args'
+			 *
+			 * To see how this filter is used, plugin devs should check out:
+			 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
+			 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 * @since BuddyPress (2.2.0)
+			 *
+			 *  @param array {
+			 *     Activity query clauses.
+			 *
+			 *     @type array {
+			 *         Activity arguments for your custom scope.
+			 *         See {@link BP_Activity_Query::_construct()} for more details.
+			 *     }
+			 *     @type array $override Optional. Override existing activity arguments passed by $r.
+			 * }
+			 * @param array $r Current activity arguments passed in BP_Activity_Activity::get()
+			 */
+			$scope_args = apply_filters( "bp_activity_set_{$scope}_scope_args", array(), $r );
 
 			if ( ! empty( $scope_args ) ) {
 				// merge override properties from other scopes
