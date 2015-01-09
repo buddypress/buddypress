@@ -102,5 +102,5 @@ function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
  * @deprecated BuddyPress (2.2.0)
  */
 function bp_core_add_global_group() {
-	_deprecated_function( __FUNCTION__, '2.2', 'This function cas no replacement' );
+	_deprecated_function( __FUNCTION__, '2.2', 'This function has no replacement' );
 }
