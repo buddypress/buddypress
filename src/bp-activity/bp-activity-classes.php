@@ -348,8 +348,13 @@ class BP_Activity_Activity {
 		if ( ! empty( $r['scope'] ) ) {
 			$scope_query = self::get_scope_query_sql( $r['scope'], $r );
 
+			// Add our SQL conditions if matches were found
 			if ( ! empty( $scope_query['sql'] ) ) {
 				$where_conditions['scope_query_sql'] = $scope_query['sql'];
+
+			// No matches, so we should alter the SQL statement to match nothing
+			} else {
+				$where_conditions['scope_no_results'] = '0 = 1';
 			}
 
 			// override some arguments if needed

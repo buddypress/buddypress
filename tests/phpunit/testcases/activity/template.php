@@ -342,6 +342,138 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_scope_friends_no_items() {
+		$u1 = $this->factory->user->create();
+
+		$now = time();
+
+		// Create a random activity
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u1,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+
+		global $activities_template;
+		$reset_activities_template = $activities_template;
+
+		// grab activities from friends scope
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'friends',
+		) );
+
+		// assert!
+		$this->assertEmpty( $activities_template->activities, 'When a user does not have any friendship, no activities should be fetched when on friends scope' );
+
+		// clean up!
+		$activities_template = $reset_activities_template;
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_scope_favorites_no_items() {
+		$u1 = $this->factory->user->create();
+
+		$now = time();
+
+		// Create a random activity
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u1,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+
+		global $activities_template;
+		$reset_activities_template = $activities_template;
+
+		// grab activities from favorites scope
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'favorites',
+		) );
+
+		// assert!
+		$this->assertEmpty( $activities_template->activities, 'When a user has not favorited any activity, no activities should be fetched when on favorites scope' );
+
+		// clean up!
+		$activities_template = $reset_activities_template;
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_scope_groups_no_items() {
+		$u1 = $this->factory->user->create();
+
+		$now = time();
+
+		// Create a random activity
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u1,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+
+		global $activities_template;
+		$reset_activities_template = $activities_template;
+
+		// grab activities from groups scope
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'groups',
+		) );
+
+		// assert!
+		$this->assertEmpty( $activities_template->activities, 'When a user is not a member of any group, no activities should be fetched when on groups scope' );
+
+		// clean up!
+		$activities_template = $reset_activities_template;
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_scope_mentions_no_items() {
+		$u1 = $this->factory->user->create();
+
+		$now = time();
+
+		// Create a random activity
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u1,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+		) );
+
+		global $activities_template;
+		$reset_activities_template = $activities_template;
+
+		// grab activities from mentions scope
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'mentions',
+		) );
+
+		// assert!
+		$this->assertEmpty( $activities_template->activities, 'When a user has no mention, no activities should be fetched when on the mentions scope' );
+
+		// clean up!
+		$activities_template = $reset_activities_template;
+	}
+
+	/**
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
