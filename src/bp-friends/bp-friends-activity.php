@@ -271,6 +271,66 @@ function bp_friends_filter_activity_scope( $retval, $filter ) {
 add_filter( 'bp_activity_set_friends_scope_args', 'bp_friends_filter_activity_scope', 10, 2 );
 
 /**
+ * Set up activity arguments for use with the 'just-me' scope.
+ *
+ * For details on the syntax, see {@link BP_Activity_Query}.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array $retval Empty array by default
+ * @param array $filter Current activity arguments
+ * @return array
+ */
+function bp_friends_filter_activity_just_me_scope( $retval, $filter ) {
+	// Get the requested action
+	$action = $filter['filter']['action'];
+
+	// Make sure actions are listed in an array
+	if ( ! is_array( $action ) ) {
+		$action = explode( ',', $filter['filter']['action'] );
+	}
+
+	$action = array_flip( array_filter( $action ) );
+
+	/**
+	 * If filtering activities for something other than the friendship_created action
+	 * return without changing anything
+	 */
+	if ( ! empty( $action ) && ! isset( $action['friendship_created'] ) ) {
+		return $retval;
+	}
+
+	/**
+	 * Else make sure to get the friendship_created action, the user is involved in
+	 * - user initiated the friendship
+	 * - user has been requested a friendship
+	 */
+	return array(
+		'relation' => 'OR',
+		array(
+ 			'column' => 'user_id',
+ 			'value'  => $filter['user_id']
+ 		),
+		array(
+			'relation' => 'AND',
+			array(
+				'column' => 'component',
+				'value'  => 'friends',
+			),
+			array(
+				'column' => 'secondary_item_id',
+				'value'  => $filter['user_id'],
+			),
+		),
+		'override' => array(
+			'display_comments' => 'stream',
+			'filter'           => array( 'user_id' => 0 ),
+		),
+	);
+}
+add_filter( 'bp_activity_set_just-me_scope_args', 'bp_friends_filter_activity_just_me_scope', 20, 2 );
+
+/**
  * Add activity stream items when one members accepts another members request
  * for virtual friendship.
  *
@@ -292,15 +352,6 @@ function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_use
 		'type'              => 'friendship_created',
 		'item_id'           => $friendship_id,
 		'secondary_item_id' => $friend_user_id
-	) );
-
-	// Record in activity streams for the friend
-	friends_record_activity( array(
-		'user_id'           => $friend_user_id,
-		'type'              => 'friendship_created',
-		'item_id'           => $friendship_id,
-		'secondary_item_id' => $initiator_user_id,
-		'hide_sitewide'     => true // We've already got the first entry site wide
 	) );
 }
 add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 4 );

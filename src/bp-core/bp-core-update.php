@@ -399,6 +399,7 @@ function bp_update_to_2_0_1() {
  *
  * - Add messages meta table
  * - Update the component field of the 'new members' activity type
+ * - Clean up hidden friendship activities
  *
  * @since BuddyPress (2.2.0)
  */
@@ -409,6 +410,10 @@ function bp_update_to_2_2() {
 
 	if ( bp_is_active( 'activity' ) ) {
 		bp_migrate_new_member_activity_component();
+
+		if ( bp_is_active( 'friends' ) ) {
+			bp_cleanup_friendship_activities();
+		}
 	}
 }
 
@@ -447,6 +452,21 @@ function bp_migrate_new_member_activity_component() {
 		)
 	);
 }
+
+/**
+ * Remove all hidden friendship activities
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses bp_activity_delete() to delete the corresponding friendship activities
+ */
+function bp_cleanup_friendship_activities() {
+	bp_activity_delete( array(
+		'component'     => buddypress()->friends->id,
+		'type'          => 'friendship_created',
+		'hide_sitewide' => true,
+	) );
+ }
 
 /**
  * Redirect user to BP's What's New page on first page load after activation.
