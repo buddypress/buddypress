@@ -676,6 +676,24 @@ class BP_Groups_Component extends BP_Component {
 
 		parent::setup_title();
 	}
+
+	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'bp_groups',
+			'bp_group_admins',
+			'bp_group_invite_count',
+			'group_meta'
+		) );
+
+		parent::setup_cache_groups();
+	}
 }
 
 /**

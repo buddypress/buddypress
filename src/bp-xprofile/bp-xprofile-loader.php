@@ -366,7 +366,7 @@ class BP_XProfile_Component extends BP_Component {
 		wp_cache_add_global_groups( array(
 			'bp_xprofile',
 			'bp_xprofile_data',
-			//'xprofile_meta'
+			'xprofile_meta'
 		) );
 
 		parent::setup_cache_groups();

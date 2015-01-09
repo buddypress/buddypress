@@ -272,6 +272,21 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'blog_meta'
+		) );
+
+		parent::setup_cache_groups();
+	}
+
+	/**
 	 * Set up the tracking arguments for the 'post' post type.
 	 *
 	 * @since BuddyPress (2.2.0)
