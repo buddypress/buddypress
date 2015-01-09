@@ -53,6 +53,15 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 			$title = '<a href="' . trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . '">' . esc_html( $title ) . '</a>';
 		}
 
+		/**
+		 * Filters the Blogs Recent Posts widget title.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param string $title The widget title.
+		 */
+		$title = apply_filters( 'widget_title', $instance['title'] );
+
 		echo $args['before_widget'];
 		echo $args['before_title'] . $title . $args['after_title'];
 
