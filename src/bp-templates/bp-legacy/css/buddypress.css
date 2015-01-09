@@ -1526,13 +1526,13 @@ body.register #buddypress div.page ul {
 .widget.buddypress div.item-meta,
 .widget.buddypress div.item-content {
 	font-size: 11px;
-	margin-left: 38px;
+	margin-left: 50px;
 }
 
 .widget.buddypress ul.item-list img.avatar {
-	height: 20px;
+	height: 40px;
 	margin-right: 10px;
-	width: 20px;
+	width: 40px;
 }
 .widget.buddypress div.item-avatar img {
 	height: 40px;
@@ -1555,7 +1555,7 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress .bp-login-widget-user-avatar {
 	float: left;
-	width: 60px;
+	width: 40px;
 }
 
 .widget.buddypress .bp-login-widget-user-links > div {
@@ -1568,6 +1568,19 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress .bp-login-widget-user-links > div.bp-login-widget-user-link a {
 	font-weight: bold;
+}
+
+.widget.buddypress #groups-list,
+.widget.buddypress #members-list,
+.widget.buddypress #friends-list {
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.widget.buddypress #groups-list li,
+.widget.buddypress #members-list li,
+.widget.buddypress #friends-list li {
+	list-style-type: none;
 }
 
 /*--------------------------------------------------------------
