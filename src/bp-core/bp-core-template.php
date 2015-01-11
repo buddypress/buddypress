@@ -558,8 +558,6 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 		 */
 		$attributes = (array) apply_filters( 'bp_get_form_field_attributes', $attributes, $name );
 
-		$attributes = array_unique( $attributes );
-
 		foreach( $attributes as $attr => $value ) {
 			$retval .= sprintf( ' %s="%s"', sanitize_key( $attr ), esc_attr( $value ) );
 		}
