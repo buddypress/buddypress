@@ -1092,20 +1092,41 @@ function bp_messages_pagination_count() {
 /**
  * Output the Private Message search form.
  *
+ * @todo  Move markup to template part in: /members/single/messages/search.php
  * @since BuddyPress (1.6.0)
  */
 function bp_message_search_form() {
 
+	// Get the default search text
 	$default_search_value = bp_get_search_default_text( 'messages' );
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
+
+	// Setup a few values based on what's being searched for
+	$search_submitted     = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
+	$search_placeholder   = ( $search_submitted === $default_search_value ) ? ' placeholder="' .  esc_attr( $search_submitted ) . '"' : '';
+	$search_value         = ( $search_submitted !== $default_search_value ) ? ' value="'       .  esc_attr( $search_submitted ) . '"' : '';
+
+	// Start the output buffer, so form can be filtered
+	ob_start(); ?>
 
 	<form action="" method="get" id="search-message-form">
-		<label for="messages_search" class="bp-screen-reader-text"><?php _e( 'Search Messages', 'buddypress' ); ?></label>
-		<input type="text" name="s" id="messages_search" <?php if ( $search_value === $default_search_value ) : ?>placeholder="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> <?php if ( $search_value !== $default_search_value ) : ?>value="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> />
-		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="<?php esc_attr_e( 'Search', 'buddypress' ) ?>" />
+		<label for="messages_search" class="bp-screen-reader-text"><?php esc_html_e( 'Search Messages', 'buddypress' ); ?></label>
+		<input type="text" name="s" id="messages_search"<?php echo $search_placeholder . $search_value; ?> />
+		<input type="submit" class="button" id="messages_search_submit" name="messages_search_submit" value="<?php esc_html_e( 'Search', 'buddypress' ); ?>" />
 	</form>
 
-<?php
+	<?php
+
+	// Get the search form from the above output buffer
+	$search_form_html = ob_get_clean();
+
+	/**
+	 * Filters the private message component search form.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param string $search_form_html HTML markup for the message search form.
+	 */
+	echo apply_filters( 'bp_message_search_form', $search_form_html );
 }
 
 /**
