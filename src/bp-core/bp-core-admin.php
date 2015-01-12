@@ -486,11 +486,8 @@ class BP_Admin {
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function about_screen() {
-		global $wp_rewrite;
-
-		$is_new_install            = ! empty( $_GET['is_new_install'] );
-		$pretty_permalinks_enabled = ! empty( $wp_rewrite->permalink_structure );
-		list( $display_version )   = explode( '-', bp_get_version() ); ?>
+		$is_new_install          = ! empty( $_GET['is_new_install'] );
+		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>

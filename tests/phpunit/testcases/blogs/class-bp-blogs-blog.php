@@ -37,6 +37,40 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $b ), $blog_ids );
 
 		$this->set_current_user( $old_user );
+		wpmu_delete_blog( $b, true );
+	}
+
+	/**
+	 * @ticket BP5858
+	 */
+	public function test_get_with_search_terms_should_match_description() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$old_user = get_current_user_id();
+
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$b = $this->factory->blog->create( array(
+			'title' => 'The Foo Bar Blog',
+			'domain' => __METHOD__,
+			'user_id' => $u,
+		) );
+		update_blog_option( $b, 'blogdescription', 'Full of foorificness' );
+		bp_blogs_record_existing_blogs();
+
+		// make the blog public or it won't turn up in generic results
+		update_blog_option( $b, 'blog_public', '1' );
+
+		$blogs = BP_Blogs_Blog::get( 'active', false, false, 0, 'Full' );
+		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
+
+		$this->assertEquals( array( $b ), $blog_ids );
+		$this->assertEquals( 1, $blogs['total'] );
+
+		$this->set_current_user( $old_user );
+		wpmu_delete_blog( $b, true );
 	}
 
 	public function test_search_blogs() {
@@ -64,6 +98,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $b ), $blog_ids );
 
 		$this->set_current_user( $old_user );
+		wpmu_delete_blog( $b, true );
 	}
 
 	/**
@@ -94,5 +129,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $b ), $blog_ids );
 
 		$this->set_current_user( $old_user );
+		wpmu_delete_blog( $b, true );
 	}
 }

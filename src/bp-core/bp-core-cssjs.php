@@ -125,7 +125,7 @@ function bp_core_add_cropper_inline_js() {
 		$crop_right = $image[0];
 
 	// Less than 2x full-width: cropper defaults to full-width
-	} else if ( $image[0] < ( $full_width * 2 ) ) {
+	} elseif ( $image[0] < ( $full_width * 2 ) ) {
 		$padding_w  = round( ( $image[0] - $full_width ) / 2 );
 		$crop_left  = $padding_w;
 		$crop_right = $image[0] - $padding_w;
@@ -142,7 +142,7 @@ function bp_core_add_cropper_inline_js() {
 		$crop_bottom = $image[1];
 
 	// Less than double full-height: cropper defaults to full-height
-	} else if ( $image[1] < ( $full_height * 2 ) ) {
+	} elseif ( $image[1] < ( $full_height * 2 ) ) {
 		$padding_h   = round( ( $image[1] - $full_height ) / 2 );
 		$crop_top    = $padding_h;
 		$crop_bottom = $image[1] - $padding_h;

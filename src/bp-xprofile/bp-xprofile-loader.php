@@ -14,10 +14,11 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 class BP_XProfile_Component extends BP_Component {
+
 	/**
 	 * Profile field types
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 * @var array
 	 */
 	public $field_types;
@@ -26,14 +27,14 @@ class BP_XProfile_Component extends BP_Component {
 	 * The acceptable visibility levels for xprofile fields.
 	 *
 	 * @see bp_xprofile_get_visibility_levels()
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 */
 	var $visibility_levels = array();
 
 	/**
 	 * Start the xprofile component creation process
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function __construct() {
 		parent::start(
@@ -66,8 +67,9 @@ class BP_XProfile_Component extends BP_Component {
 			'functions',
 		);
 
-		if ( is_admin() )
+		if ( is_admin() ) {
 			$includes[] = 'admin';
+		}
 
 		parent::includes( $includes );
 	}
@@ -78,14 +80,15 @@ class BP_XProfile_Component extends BP_Component {
 	 * The BP_XPROFILE_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_XPROFILE_SLUG' ) )
+		if ( !defined( 'BP_XPROFILE_SLUG' ) ) {
 			define( 'BP_XPROFILE_SLUG', 'profile' );
+		}
 
 		// Assign the base group and fullname field names to constants
 		// to use in SQL statements.
@@ -98,7 +101,13 @@ class BP_XProfile_Component extends BP_Component {
 			define( 'BP_XPROFILE_FULLNAME_FIELD_NAME', stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ) );
 		}
 
-		// Set the support field type ids
+		/**
+		 * Filters the supported field type IDs.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param array $value Array of IDs for the supported field types.
+		 */
 		$this->field_types = apply_filters( 'xprofile_field_types', array_keys( bp_xprofile_get_field_types() ) );
 
 		// 'option' is a special case. It is not a top-level field, so
@@ -347,6 +356,23 @@ class BP_XProfile_Component extends BP_Component {
 	}
 
 	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'bp_xprofile',
+			'bp_xprofile_data',
+			'xprofile_meta'
+		) );
+
+		parent::setup_cache_groups();
+	}
+
+	/**
 	 * Adds "Settings > Profile" subnav item under the "Settings" adminbar menu.
 	 *
 	 * @since BuddyPress (2.0.0)
@@ -373,7 +399,8 @@ class BP_XProfile_Component extends BP_Component {
 function bp_setup_xprofile() {
 	$bp = buddypress();
 
-	if ( !isset( $bp->profile->id ) )
+	if ( ! isset( $bp->profile->id ) ) {
 		$bp->profile = new BP_XProfile_Component();
+	}
 }
 add_action( 'bp_setup_components', 'bp_setup_xprofile', 2 );

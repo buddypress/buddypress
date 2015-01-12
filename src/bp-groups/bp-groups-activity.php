@@ -165,15 +165,15 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 		$action = sprintf( __( '%1$s updated details for the group %2$s', 'buddypress' ), $user_link, $group_link );
 
 	// Name and description changed - to keep things short, don't describe changes in detail.
-	} else if ( isset( $changed['name'] ) && isset( $changed['description'] ) ) {
+	} elseif ( isset( $changed['name'] ) && isset( $changed['description'] ) ) {
 		$action = sprintf( __( '%1$s changed the name and description of the group %2$s', 'buddypress' ), $user_link, $group_link );
 
 	// Name only.
-	} else if ( ! empty( $changed['name']['old'] ) && ! empty( $changed['name']['new'] ) ) {
+	} elseif ( ! empty( $changed['name']['old'] ) && ! empty( $changed['name']['new'] ) ) {
 		$action = sprintf( __( '%1$s changed the name of the group %2$s from "%3$s" to "%4$s"', 'buddypress' ), $user_link, $group_link, esc_html( $changed['name']['old'] ), esc_html( $changed['name']['new'] ) );
 
 	// Description only.
-	} else if ( ! empty( $changed['description']['old'] ) && ! empty( $changed['description']['new'] ) ) {
+	} elseif ( ! empty( $changed['description']['old'] ) && ! empty( $changed['description']['new'] ) ) {
 		$action = sprintf( __( '%1$s changed the description of the group %2$s from "%3$s" to "%4$s"', 'buddypress' ), $user_link, $group_link, esc_html( $changed['description']['old'] ), esc_html( $changed['description']['new'] ) );
 
 	}
@@ -232,6 +232,42 @@ function bp_groups_prefetch_activity_object_data( $activities ) {
 	return $activities;
 }
 add_filter( 'bp_activity_prefetch_object_data', 'bp_groups_prefetch_activity_object_data' );
+
+/**
+ * Set up activity arguments for use with the 'groups' scope.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array $retval Empty array by default
+ * @param array $filter Current activity arguments
+ * @return array
+ */
+function bp_groups_filter_activity_scope( $retval, $filter ) {
+	$groups = groups_get_user_groups( $filter['user_id'] );
+
+	if ( empty( $groups['groups'] ) ) {
+		return $retval;
+	}
+
+	$retval= array(
+		'relation' => 'AND',
+		array(
+			'column' => 'component',
+			'value'  => buddypress()->groups->id
+		),
+		array(
+			'column'  => 'item_id',
+			'compare' => 'IN',
+			'value'   => (array) $groups['groups']
+		),
+	);
+
+	// wipe out the user ID
+	$retval['override']['filter']['user_id'] = 0;
+
+	return $retval;
+}
+add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scope', 10, 2 );
 
 /**
  * Record an activity item related to the Groups component.
@@ -349,7 +385,7 @@ add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_act
  * @since BuddyPress (2.2.0)
  *
  * @param  int             $group_id       ID of the group.
- * @param  BP_Groups_Group $old_grop       Group object before the details had been changed.
+ * @param  BP_Groups_Group $old_group      Group object before the details had been changed.
  * @param  bool            $notify_members True if the admin has opted to notify group members, otherwise false.
  * @return int|bool The ID of the activity on success. False on error.
  */

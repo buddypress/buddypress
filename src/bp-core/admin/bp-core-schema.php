@@ -84,7 +84,7 @@ function bp_core_install( $active_components = false ) {
  * Install database tables for the Notifications component
  *
  * @since BuddyPress (1.0.0)
- * 
+ *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()
@@ -119,7 +119,7 @@ function bp_core_install_notifications() {
  * Install database tables for the Activity component
  *
  * @since BuddyPress (1.0.0)
- * 
+ *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()
@@ -172,7 +172,7 @@ function bp_core_install_activity_streams() {
  * Install database tables for the Notifications component
  *
  * @since BuddyPress (1.0.0)
- * 
+ *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()
@@ -200,7 +200,7 @@ function bp_core_install_friends() {
  * Install database tables for the Groups component
  *
  * @since BuddyPress (1.0.0)
- * 
+ *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()
@@ -257,10 +257,10 @@ function bp_core_install_groups() {
 }
 
 /**
- * Install database tables for the Messsages component
+ * Install database tables for the Messages component
  *
  * @since BuddyPress (1.0.0)
- * 
+ *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()
@@ -320,7 +320,7 @@ function bp_core_install_private_messaging() {
  * Install database tables for the Profiles component
  *
  * @since BuddyPress (1.0.0)
- * 
+ *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()
@@ -410,7 +410,7 @@ function bp_core_install_extended_profiles() {
  * Install database tables for the Sites component
  *
  * @since BuddyPress (1.0.0)
- * 
+ *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
  * @uses dbDelta()

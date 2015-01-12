@@ -27,16 +27,6 @@ function bp_core_clear_cache() {
 }
 
 /**
- * Add 'bp' to global group of network wide cachable objects.
- */
-function bp_core_add_global_group() {
-	if ( function_exists( 'wp_cache_add_global_groups' ) ) {
-		wp_cache_add_global_groups( array( 'bp' ) );
-	}
-}
-add_action( 'bp_loaded', 'bp_core_add_global_group' );
-
-/**
  * Clear all cached objects for a user, or those that a user is part of.
  */
 function bp_core_clear_user_object_cache( $user_id ) {

@@ -157,7 +157,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
  */
 function friends_accept_friendship( $friendship_id ) {
 
-	// Get the friesdhip data
+	// Get the friendship data
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
 	// Accepting friendship
@@ -342,7 +342,7 @@ function friends_get_friendship_id( $initiator_user_id, $friend_user_id ) {
 /**
  * Get the IDs of a given user's friends.
  *
- * @param int $user_id ID of the user whose friends are being retreived.
+ * @param int $user_id ID of the user whose friends are being retrieved.
  * @param bool $friend_requests_only Optional. Whether to fetch unaccepted
  *        requests only. Default: false.
  * @param bool $assoc_arr Optional. True to receive an array of arrays keyed as
@@ -388,7 +388,7 @@ function friends_get_friendship_request_user_ids( $user_id ) {
  *
  * @see BP_Core_User::get_users() for a description of return value.
  *
- * @param int $user_id ID of the user whose friends are being retreived.
+ * @param int $user_id ID of the user whose friends are being retrieved.
  * @param int $per_page Optional. Number of results to return per page.
  *        Default: 0 (no pagination; show all results).
  * @param int $page Optional. Number of the page of results to return.
@@ -417,7 +417,7 @@ function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filte
  *
  * @see BP_Core_User::get_users() for a description of return value.
  *
- * @param int $user_id ID of the user whose friends are being retreived.
+ * @param int $user_id ID of the user whose friends are being retrieved.
  * @param int $per_page Optional. Number of results to return per page.
  *        Default: 0 (no pagination; show all results).
  * @param int $page Optional. Number of the page of results to return.
@@ -446,7 +446,7 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
  *
  * @see BP_Core_User::get_users() for a description of return value.
  *
- * @param int $user_id ID of the user whose friends are being retreived.
+ * @param int $user_id ID of the user whose friends are being retrieved.
  * @param int $per_page Optional. Number of results to return per page.
  *        Default: 0 (no pagination; show all results).
  * @param int $page Optional. Number of the page of results to return.
@@ -513,7 +513,7 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 	 *
 	 * @since BuddyPress (1.5.4)
 	 *
-	 * @param array $value Array of default paremters for invite list.
+	 * @param array $value Array of default parameters for invite list.
 	 */
 	$args = apply_filters( 'bp_friends_pre_get_invite_list', array(
 		'user_id'  => $user_id,

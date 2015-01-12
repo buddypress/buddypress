@@ -92,7 +92,7 @@ class BP_Groups_Widget extends WP_Widget {
 										printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
 									if ( 'active' == $instance['group_default'] )
 										printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
-									else if ( 'popular' == $instance['group_default'] )
+									elseif ( 'popular' == $instance['group_default'] )
 										bp_group_member_count();
 								?>
 								</span>
@@ -202,9 +202,9 @@ function groups_ajax_widget_groups_list() {
 							<?php
 							if ( 'newest-groups' == $_POST['filter'] ) {
 								printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
-							} else if ( 'recently-active-groups' == $_POST['filter'] ) {
+							} elseif ( 'recently-active-groups' == $_POST['filter'] ) {
 								printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
-							} else if ( 'popular-groups' == $_POST['filter'] ) {
+							} elseif ( 'popular-groups' == $_POST['filter'] ) {
 								bp_group_member_count();
 							}
 							?>

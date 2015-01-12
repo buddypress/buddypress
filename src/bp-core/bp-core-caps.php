@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Capabilites.
+ * BuddyPress Capabilities.
  *
  * @package BuddyPress
  * @subpackage Capabilities
@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * WordPress roles are dynamically flipped when calls to switch_to_blog() and
  * restore_current_blog() are made, so we use and trust WordPress core to have
  * loaded the correct results for us here. As enhancements are made to
- * WordPresss's RBAC, so should our capability functions here.
+ * WordPress's RBAC, so should our capability functions here.
  *
  * @since BuddyPress (2.1.0)
  *

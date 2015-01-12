@@ -5,7 +5,7 @@
  *
  * The blogs component tracks posts and comments to member activity streams,
  * shows blogs the member can post to in their profiles, and caches useful
- * information from those blogs to make quering blogs in bulk more performant.
+ * information from those blogs to make querying blogs in bulk more performant.
  *
  * @package BuddyPress
  * @subpackage Blogs Core
@@ -269,6 +269,21 @@ class BP_Blogs_Component extends BP_Component {
 		}
 
 		parent::setup_title();
+	}
+
+	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'blog_meta'
+		) );
+
+		parent::setup_cache_groups();
 	}
 
 	/**

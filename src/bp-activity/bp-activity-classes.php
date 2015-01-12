@@ -169,7 +169,7 @@ class BP_Activity_Activity {
 
 		// If no callback is available, use the literal string from
 		// the database row
-		} else if ( ! empty( $row->action ) ) {
+		} elseif ( ! empty( $row->action ) ) {
 			$this->action = $row->action;
 
 		// Provide a fallback to avoid PHP notices
@@ -259,35 +259,27 @@ class BP_Activity_Activity {
 	 *
 	 * @param array $args {
 	 *     An array of arguments. All items are optional.
-	 *     @type int $page Which page of results to fetch. Using page=1
-	 *                     without per_page will result in no pagination.
-	 *                     Default: 1.
-	 *     @type int|bool $per_page Number of results per page. Default: 25.
-	 *     @type int|bool $max Maximum number of results to return.
-	 *                         Default: false (unlimited).
-	 *     @type string $sort ASC or DESC. Default: 'DESC'.
-	 *     @type array $exclude Array of activity IDs to exclude.
-	 *                          Default: false.
-	 *     @type array $in Array of ids to limit query by (IN).
-	 *                     Default: false.
-	 *     @type array $meta_query An array of meta_query conditions.
-	 *                             See WP_Meta_Query::queries for description.
-	 *     @type array $date_query An array of date_query conditions.
-	 *                             See first parameter of WP_Date_Query::__construct()
-	 *                             for description.
-	 *     @type array $filter See BP_Activity_Activity::get_filter_sql().
-	 *     @type string $search_terms Limit results by a search term.
-	 *                                Default: false.
-	 *     @type bool $display_comments Whether to include activity comments.
-	 *                                  Default: false.
-	 *     @type bool $show_hidden Whether to show items marked hide_sitewide.
-	 *                             Default: false.
-	 *     @type string $spam Spam status. Default: 'ham_only'.
-	 *     @type bool $update_meta_cache Whether to pre-fetch metadata for
-	 *           queried activity items. Default: true.
-	 *     @type string|bool $count_total If true, an additional DB query
-	 *           is run to count the total activity items for the query.
-	 *           Default: false.
+	 *
+	 *     @type int          $page              Which page of results to fetch. Using page=1 without per_page will result
+	 *                                           in no pagination. Default: 1.
+	 *     @type int|bool     $per_page          Number of results per page. Default: 25.
+	 *     @type int|bool     $max               Maximum number of results to return. Default: false (unlimited).
+	 *     @type string       $sort              ASC or DESC. Default: 'DESC'.
+	 *     @type array        $exclude           Array of activity IDs to exclude. Default: false.
+	 *     @type array        $in                Array of ids to limit query by (IN). Default: false.
+	 *     @type array        $meta_query        Array of meta_query conditions. See WP_Meta_Query::queries.
+	 *     @type array        $date_query        Array of date_query conditions. See first parameter of
+	 *                                           WP_Date_Query::__construct().
+	 *     @type array        $filter_query      Array of advanced query conditions. See BP_Activity_Query::__construct().
+	 *     @type string|array $scope             Pre-determined set of activity arguments.
+	 *     @type array        $filter            See BP_Activity_Activity::get_filter_sql().
+	 *     @type string       $search_terms      Limit results by a search term. Default: false.
+	 *     @type bool         $display_comments  Whether to include activity comments. Default: false.
+	 *     @type bool         $show_hidden       Whether to show items marked hide_sitewide. Default: false.
+	 *     @type string       $spam              Spam status. Default: 'ham_only'.
+	 *     @type bool         $update_meta_cache Whether to pre-fetch metadata for queried activity items. Default: true.
+	 *     @type string|bool  $count_total       If true, an additional DB query is run to count the total activity items
+	 *                                           for the query. Default: false.
 	 * }
 	 * @return array The array returned has two keys:
 	 *     - 'total' is the count of located activities
@@ -327,7 +319,9 @@ class BP_Activity_Activity {
 			'in'                => false,      // Array of ids to limit query by (IN)
 			'meta_query'        => false,      // Filter by activitymeta
 			'date_query'        => false,      // Filter by date
+			'filter_query'      => false,      // Advanced filtering - see BP_Activity_Query
 			'filter'            => false,      // See self::get_filter_sql()
+			'scope'             => false,      // Preset activity arguments
 			'search_terms'      => false,      // Terms to search by
 			'display_comments'  => false,      // Whether to include activity comments
 			'show_hidden'       => false,      // Show items marked hide_sitewide
@@ -349,6 +343,31 @@ class BP_Activity_Activity {
 
 		// Excluded types
 		$excluded_types = array();
+
+		// Scope takes precedence
+		if ( ! empty( $r['scope'] ) ) {
+			$scope_query = self::get_scope_query_sql( $r['scope'], $r );
+
+			// Add our SQL conditions if matches were found
+			if ( ! empty( $scope_query['sql'] ) ) {
+				$where_conditions['scope_query_sql'] = $scope_query['sql'];
+
+			// No matches, so we should alter the SQL statement to match nothing
+			} else {
+				$where_conditions['scope_no_results'] = '0 = 1';
+			}
+
+			// override some arguments if needed
+			if ( ! empty( $scope_query['override'] ) ) {
+				$r = self::array_replace_recursive( $r, $scope_query['override'] );
+			}
+		// Advanced filtering
+		} elseif ( ! empty( $r['filter_query'] ) ) {
+			$filter_query = new BP_Activity_Query( $r['filter_query'] );
+			if ( $sql = $filter_query->get_sql() ) {
+				$where_conditions['filter_query_sql'] = $sql;
+			}
+		}
 
 		// Regular filtering
 		if ( $r['filter'] && $filter_sql = BP_Activity_Activity::get_filter_sql( $r['filter'] ) ) {
@@ -421,11 +440,6 @@ class BP_Activity_Activity {
 			$excluded_types[] = 'last_activity';
 		}
 
-		// Exclude 'new_member' items if xprofile component is not active
-		if ( ! bp_is_active( 'xprofile' ) ) {
-			$excluded_types[] = 'new_member';
-		}
-
 		// Build the excluded type sql part
 		if ( ! empty( $excluded_types ) ) {
 			$not_in = "'" . implode( "', '", esc_sql( $excluded_types ) ) . "'";
@@ -489,7 +503,7 @@ class BP_Activity_Activity {
 		 *
 		 * @param bool                 Whether to use legacy structure or not.
 		 * @param BP_Activity_Activity Current method being called.
-		 * @param array                $r Parsed arguments pased into method.
+		 * @param array                $r Parsed arguments passed into method.
 		 */
 		if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
@@ -520,7 +534,6 @@ class BP_Activity_Activity {
 			}
 
 		} else {
-
 			// Query first for activity IDs
 			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}";
 
@@ -821,6 +834,103 @@ class BP_Activity_Activity {
 	}
 
 	/**
+	 * Get the SQL for the 'scope' param in BP_Activity_Activity::get().
+	 *
+	 * A scope is a predetermined set of activity arguments.  This method is used
+	 * to grab these activity arguments and override any existing args if needed.
+	 *
+	 * Can handle multiple scopes.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param  string $scope The activity scope
+	 * @param  array  $r     Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 *                       but merged with defaults.
+	 * @return array 'sql' WHERE SQL string and 'override' activity args
+	 */
+	public static function get_scope_query_sql( $scope = '', $r = array() ) {
+		$query_args = array();
+		$override   = array();
+		$retval     = array();
+
+		if ( ! is_array( $scope ) ) {
+			$scopes = explode( ',', $scope );
+		} else {
+			$scopes = $scope;
+		}
+
+		if ( empty( $scopes ) ) {
+			return $sql;
+		}
+
+		// helper to easily grab the 'user_id'
+		if ( ! empty( $r['filter']['user_id'] ) ) {
+			$r['user_id'] = $r['filter']['user_id'];
+		}
+
+		// parse each scope; yes! we handle multiples!
+		foreach ( $scopes as $scope ) {
+			$scope_args = array();
+
+			/**
+			 * Plugins can hook here to set their activity arguments for custom scopes.
+			 *
+			 * This is a dynamic filter based on the activity scope. eg:
+			 *   - 'bp_activity_set_groups_scope_args'
+			 *   - 'bp_activity_set_friends_scope_args'
+			 *
+			 * To see how this filter is used, plugin devs should check out:
+			 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
+			 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
+			 *
+			 * @since BuddyPress (2.2.0)
+			 *
+			 *  @param array {
+			 *     Activity query clauses.
+			 *
+			 *     @type array {
+			 *         Activity arguments for your custom scope.
+			 *         See {@link BP_Activity_Query::_construct()} for more details.
+			 *     }
+			 *     @type array $override Optional. Override existing activity arguments passed by $r.
+			 * }
+			 * @param array $r Current activity arguments passed in BP_Activity_Activity::get()
+			 */
+			$scope_args = apply_filters( "bp_activity_set_{$scope}_scope_args", array(), $r );
+
+			if ( ! empty( $scope_args ) ) {
+				// merge override properties from other scopes
+				// this might be a problem...
+				if ( ! empty( $scope_args['override'] ) ) {
+					$override = array_merge( $override, $scope_args['override'] );
+					unset( $scope_args['override'] );
+				}
+
+				// save scope args
+				if ( ! empty( $scope_args ) ) {
+					$query_args[] = $scope_args;
+				}
+			}
+		}
+
+		if ( ! empty( $query_args ) ) {
+			// set relation to OR
+			$query_args['relation'] = 'OR';
+
+			$query = new BP_Activity_Query( $query_args );
+			if ( $sql = $query->get_sql() ) {
+				$retval['sql'] = $sql;
+			}
+		}
+
+		if ( ! empty( $override ) ) {
+			$retval['override'] = $override;
+		}
+
+		return $retval;
+	}
+
+	/**
 	 * In BuddyPress 1.2.x, this was used to retrieve specific activity stream items (for example, on an activity's permalink page).
 	 *
 	 * As of 1.5.x, use BP_Activity_Activity::get() with an 'in' parameter instead.
@@ -1114,7 +1224,7 @@ class BP_Activity_Activity {
 			$comments = false;
 
 		// A true cache miss
-		} else if ( empty( $comments ) ) {
+		} elseif ( empty( $comments ) ) {
 
 			// Select the user's fullname with the query
 			if ( bp_is_active( 'xprofile' ) ) {
@@ -1245,7 +1355,7 @@ class BP_Activity_Activity {
 	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $parent_id ID of an activty or activity comment.
+	 * @param int $parent_id ID of an activity or activity comment.
 	 * @param int $left Node boundary start for activity or activity comment.
 	 * @return int Right node boundary of activity or activity comment.
 	 */
@@ -1281,7 +1391,7 @@ class BP_Activity_Activity {
 	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $parent_id ID of an activty or activity comment.
+	 * @param int $parent_id ID of an activity or activity comment.
 	 * @return object Numerically indexed array of child comments.
 	 */
 	public static function get_child_comments( $parent_id ) {
@@ -1497,6 +1607,303 @@ class BP_Activity_Activity {
 		global $wpdb, $bp;
 
 		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );
+	}
+
+	/**
+	 * PHP-agnostic version of {@link array_replace_recursive()}.
+	 *
+	 * array_replace_recursive() is a PHP 5.3 function.  BuddyPress (and
+	 * WordPress) currently supports down to PHP 5.2, so this method is a workaround
+	 * for PHP 5.2.
+	 *
+	 * Note: array_replace_recursive() supports infinite arguments, but for our use-
+	 * case, we only need to support two arguments.
+	 *
+	 * Subject to removal once WordPress makes PHP 5.3.0 the minimum requirement.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @see http://php.net/manual/en/function.array-replace-recursive.php#109390
+	 *
+	 * @param  array $base         Array with keys needing to be replaced
+	 * @param  array $replacements Array with the replaced keys
+	 * @return array
+	 */
+	protected static function array_replace_recursive( $base = array(), $replacements = array() ) {
+		if ( function_exists( 'array_replace_recursive' ) ) {
+			return array_replace_recursive( $base, $replacements );
+		}
+
+		// PHP 5.2-compatible version
+		// http://php.net/manual/en/function.array-replace-recursive.php#109390
+		foreach ( array_slice( func_get_args(), 1 ) as $replacements ) {
+			$bref_stack = array( &$base );
+			$head_stack = array( $replacements );
+
+			do {
+				end( $bref_stack );
+
+				$bref = &$bref_stack[ key( $bref_stack ) ];
+				$head = array_pop( $head_stack );
+
+				unset( $bref_stack[ key($bref_stack) ] );
+
+				foreach ( array_keys( $head ) as $key ) {
+					if ( isset( $key, $bref ) && is_array( $bref[$key] ) && is_array( $head[$key] ) ) {
+						$bref_stack[] = &$bref[ $key ];
+						$head_stack[] = $head[ $key ];
+					} else {
+						$bref[ $key ] = $head[ $key ];
+					}
+				}
+			} while( count( $head_stack ) );
+		}
+
+		return $base;
+	}
+}
+
+/**
+ * Class for generating the WHERE SQL clause for advanced activity fetching.
+ *
+ * This is notably used in {@link BP_Activity_Activity::get()} with the
+ * 'filter_query' parameter.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+class BP_Activity_Query extends BP_Recursive_Query {
+	/**
+	 * Array of activity queries.
+	 *
+	 * See {@see BP_Activity_Query::__construct()} for information on query arguments.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 * @var array
+	 */
+	public $queries = array();
+
+	/**
+	 * Table alias.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 * @var string
+	 */
+	public $table_alias = '';
+
+	/**
+	 * Supported DB columns.
+	 *
+	 * See the 'wp_bp_activity' DB table schema.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 * @var array
+	 */
+	public $db_columns = array(
+		'id', 'user_id', 'component', 'type', 'action', 'content',
+		'item_id', 'secondary_item_id', 'hide_sitewide', 'is_spam',
+	);
+
+	/**
+	 * Constructor.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $query {
+	 *     Array of query clauses.
+	 *
+	 *     @type array {
+	 *         @type string $column   Required. The column to query against. Basically, any DB column in the main
+	 *                                'wp_bp_activity' table.
+	 *         @type string $value    Required. Value to filter by.
+	 *         @type string $compare  Optional. The comparison operator. Default '='.
+	 *                                Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'LIKE',
+	 *                                'NOT LIKE', BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', 'RLIKE'
+	 *         @type string $relation Optional. The boolean relationship between the activity queries.
+	 *                                Accepts 'OR', 'AND'. Default 'AND'.
+	 *         @type array {
+	 *             Optional. Another fully-formed activity query. See parameters above.
+	 *         }
+	 *     }
+	 * }
+	 */
+	public function __construct( $query = array() ) {
+		if ( ! is_array( $query ) ) {
+			return;
+		}
+
+		$this->queries = $this->sanitize_query( $query );
+	}
+
+	/**
+	 * Generates WHERE SQL clause to be appended to a main query.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 *
+	 * @param string $alias An existing table alias that is compatible with the current query clause.
+	 *               Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
+	 * @return string SQL fragment to append to the main WHERE clause.
+	 */
+	public function get_sql( $alias = 'a' ) {
+		if ( ! empty( $alias ) ) {
+			$this->table_alias = sanitize_title( $alias );
+		}
+
+		$sql = $this->get_sql_clauses();
+
+		// we only need the 'where' clause
+		//
+		// also trim trailing "AND" clause from parent BP_Recursive_Query class
+		// since it's not necessary for our needs
+		return preg_replace( '/^\sAND/', '', $sql['where'] );
+	}
+
+	/**
+	 * Generate WHERE clauses for a first-order clause.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access protected
+	 *
+	 * @param  array $clause       Array of arguments belonging to the clause.
+	 * @param  array $parent_query Parent query to which the clause belongs.
+	 * @return array {
+	 *     @type array $where Array of subclauses for the WHERE statement.
+	 *     @type array $join  Empty array. Not used.
+	 * }
+	 */
+	protected function get_sql_for_clause( $clause, $parent_query ) {
+		global $wpdb;
+
+		$sql_chunks = array(
+			'where' => array(),
+			'join' => array(),
+		);
+
+		$column = isset( $clause['column'] ) ? $this->validate_column( $clause['column'] ) : '';
+		$value  = isset( $clause['value'] )  ? $clause['value'] : '';
+		if ( empty( $column ) || ! isset( $clause['value'] ) ) {
+			return $sql_chunks;
+		}
+
+		if ( isset( $clause['compare'] ) ) {
+			$clause['compare'] = strtoupper( $clause['compare'] );
+		} else {
+			$clause['compare'] = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
+		}
+
+		// default 'compare' to '=' if no valid operator is found
+		if ( ! in_array( $clause['compare'], array(
+			'=', '!=', '>', '>=', '<', '<=',
+			'LIKE', 'NOT LIKE',
+			'IN', 'NOT IN',
+			'BETWEEN', 'NOT BETWEEN',
+			'REGEXP', 'NOT REGEXP', 'RLIKE'
+		) ) ) {
+			$clause['compare'] = '=';
+		}
+
+		$compare = $clause['compare'];
+
+		$alias = ! empty( $this->table_alias ) ? "{$this->table_alias}." : '';
+
+		// Next, Build the WHERE clause.
+		$where = '';
+
+		// value.
+		if ( isset( $clause['value'] ) ) {
+			if ( in_array( $compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
+				if ( ! is_array( $value ) ) {
+					$value = preg_split( '/[,\s]+/', $value );
+				}
+			}
+
+			// tinyint
+			if ( ! empty( $column ) && true === in_array( $column, array( 'hide_sitewide', 'is_spam' ) ) ) {
+				$sql_chunks['where'][] = $wpdb->prepare( "{$alias}{$column} = %d", $value );
+
+			} else {
+				switch ( $compare ) {
+					// IN uses different syntax
+					case 'IN' :
+					case 'NOT IN' :
+						$in_sql = BP_Activity_Activity::get_in_operator_sql( "{$alias}{$column}", $value );
+
+						// 'NOT IN' operator is as easy as a string replace!
+						if ( 'NOT IN' === $compare ) {
+							$in_sql = str_replace( 'IN', 'NOT IN', $in_sql );
+						}
+
+						$sql_chunks['where'][] = $in_sql;
+						break;
+
+					case 'BETWEEN' :
+					case 'NOT BETWEEN' :
+						$value = array_slice( $value, 0, 2 );
+						$where = $wpdb->prepare( '%s AND %s', $value );
+						break;
+
+					case 'LIKE' :
+					case 'NOT LIKE' :
+						$value = '%' . bp_esc_like( $value ) . '%';
+						$where = $wpdb->prepare( '%s', $value );
+						break;
+
+					default :
+						$where = $wpdb->prepare( '%s', $value );
+						break;
+
+				}
+			}
+
+			if ( $where ) {
+				$sql_chunks['where'][] = "{$alias}{$column} {$compare} {$where}";
+			}
+		}
+
+		/*
+		 * Multiple WHERE clauses should be joined in parentheses.
+		 */
+		if ( 1 < count( $sql_chunks['where'] ) ) {
+			$sql_chunks['where'] = array( '( ' . implode( ' AND ', $sql_chunks['where'] ) . ' )' );
+		}
+
+		return $sql_chunks;
+	}
+
+	/**
+	 * Determine whether a clause is first-order.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access protected
+	 *
+	 * @param  array $q Clause to check.
+	 * @return bool
+	 */
+	protected function is_first_order_clause( $query ) {
+		return isset( $query['column'] ) || isset( $query['value'] );
+	}
+
+	/**
+	 * Validates a column name parameter.
+	 *
+	 * Column names are checked against a whitelist of known tables.
+	 * See {@link BP_Activity_Query::db_tables}.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @access public
+	 *
+	 * @param string $column The user-supplied column name.
+	 * @return string A validated column name value.
+	 */
+	public function validate_column( $column = '' ) {
+		if ( in_array( $column, $this->db_columns ) ) {
+			return $column;
+		} else {
+			return '';
+		}
 	}
 }
 

@@ -212,7 +212,7 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
 /**
  * Delete all notifications for a user.
  *
- * Used when clearing out all notifications for a user, whene deleted or spammed
+ * Used when clearing out all notifications for a user, when deleted or spammed
  *
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_delete_notifications_from_user() instead.

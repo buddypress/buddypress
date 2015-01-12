@@ -233,7 +233,7 @@ class BP_Groups_Template {
 
 		if ( 'invites' == $type ) {
 			$this->groups = groups_get_invites_for_user( $user_id, $this->pag_num, $this->pag_page, $exclude );
-		} else if ( 'single-group' == $type ) {
+		} elseif ( 'single-group' == $type ) {
 			$this->single_group = true;
 
 			if ( groups_get_current_group() ) {
@@ -279,7 +279,7 @@ class BP_Groups_Template {
 			$this->total_group_count = (int) $this->groups['total'];
 			$this->group_count       = (int) $this->groups['total'];
 			$this->groups            = $this->groups['groups'];
-		} else if ( 'single-group' == $type ) {
+		} elseif ( 'single-group' == $type ) {
 			if ( empty( $group->id ) ) {
 				$this->total_group_count = 0;
 				$this->group_count       = 0;
@@ -310,10 +310,7 @@ class BP_Groups_Template {
 		// Build pagination links
 		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
 			$pag_args = array(
-				$page_arg => '%#%',
-				'num'     => $this->pag_num,
-				'sortby'  => $this->sort_by,
-				'order'   => $this->order,
+				$page_arg => '%#%'
 			);
 
 			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
@@ -322,8 +319,14 @@ class BP_Groups_Template {
 				$base = '';
 			}
 
+			$add_args = array(
+				'num'     => $this->pag_num,
+				'sortby'  => $this->sort_by,
+				'order'   => $this->order,
+			);
+
 			if ( ! empty( $search_terms ) ) {
-				$pag_args['s'] = $search_terms;
+				$add_args['s'] = urlencode( $search_terms );
 			}
 
 			$this->pag_links = paginate_links( array(
@@ -333,7 +336,8 @@ class BP_Groups_Template {
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Group pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Group pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => $add_args,
 			) );
 		}
 	}
@@ -706,9 +710,9 @@ function bp_group_type( $group = false ) {
 
 		if ( 'public' == $group->status ) {
 			$type = __( "Public Group", "buddypress" );
-		} else if ( 'hidden' == $group->status ) {
+		} elseif ( 'hidden' == $group->status ) {
 			$type = __( "Hidden Group", "buddypress" );
-		} else if ( 'private' == $group->status ) {
+		} elseif ( 'private' == $group->status ) {
 			$type = __( "Private Group", "buddypress" );
 		} else {
 			$type = ucwords( $group->status ) . ' ' . __( 'Group', 'buddypress' );
@@ -1858,7 +1862,7 @@ function bp_group_get_invite_status( $group_id = false ) {
 		if ( isset( $bp->groups->current_group->id ) ) {
 			// Default to the current group first
 			$group_id = $bp->groups->current_group->id;
-		} else if ( isset( $groups_template->group->id ) ) {
+		} elseif ( isset( $groups_template->group->id ) ) {
 			// Then see if we're in the loop
 			$group_id = $groups_template->group->id;
 		} else {
@@ -1877,58 +1881,70 @@ function bp_group_get_invite_status( $group_id = false ) {
 }
 
 /**
- * Can the logged-in user send invitations in the specified group?
+ * Can a user send invitations in the specified group?
  *
  * @since BuddyPress (1.5.0)
+ * @since BuddyPress (2.2.0) Added the $user_id parameter.
  *
- * @param int $group_id Optional. The ID of the group whose status you want to
- *        check. Default: the ID of the current group.
- * @return bool $can_send_invites
+ * @param int $group_id The group ID to check.
+ * @param int $user_id  The user ID to check.
+ * @return bool
  */
-function bp_groups_user_can_send_invites( $group_id = false ) {
-	global $bp;
-
+function bp_groups_user_can_send_invites( $group_id = 0, $user_id = 0 ) {
 	$can_send_invites = false;
 	$invite_status    = false;
 
-	if ( is_user_logged_in() ) {
-		if ( bp_current_user_can( 'bp_moderate' ) ) {
-			// Super admins can always send invitations
+	// If $user_id isn't specified, we check against the logged-in user.
+	if ( ! $user_id ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	// If $group_id isn't specified, use existing one if available.
+	if ( ! $group_id ) {
+		$group_id = bp_get_current_group_id();
+	}
+
+	if ( $user_id ) {
+		// Users with the 'bp_moderate' cap can always send invitations
+		if ( user_can( $user_id, 'bp_moderate' ) ) {
 			$can_send_invites = true;
-
 		} else {
-			// If no $group_id is provided, default to the current group id
-			if ( !$group_id )
-				$group_id = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
-
-			// If no group has been found, bail
-			if ( !$group_id )
-				return false;
-
 			$invite_status = bp_group_get_invite_status( $group_id );
-			if ( !$invite_status )
-				return false;
 
 			switch ( $invite_status ) {
 				case 'admins' :
-					if ( groups_is_user_admin( bp_loggedin_user_id(), $group_id ) )
+					if ( groups_is_user_admin( $user_id, $group_id ) ) {
 						$can_send_invites = true;
+					}
 					break;
 
 				case 'mods' :
-					if ( groups_is_user_mod( bp_loggedin_user_id(), $group_id ) || groups_is_user_admin( bp_loggedin_user_id(), $group_id ) )
+					if ( groups_is_user_mod( $user_id, $group_id ) || groups_is_user_admin( $user_id, $group_id ) ) {
 						$can_send_invites = true;
+					}
 					break;
 
 				case 'members' :
-					if ( groups_is_user_member( bp_loggedin_user_id(), $group_id ) )
+					if ( groups_is_user_member( $user_id, $group_id ) ) {
 						$can_send_invites = true;
+					}
 					break;
 			}
 		}
 	}
 
-	return apply_filters( 'bp_groups_user_can_send_invites', $can_send_invites, $group_id, $invite_status );
+	/**
+	 * Filters whether a user can send invites in a group.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @since BuddyPress (2.2.0) Added the $user_id parameter.
+	 *
+	 * @param bool $can_send_invites Whether the user can send invites
+	 * @param int  $group_id         The group ID being checked
+	 * @param bool $invite_status    The group's current invite status
+	 * @param int  $user_id          The user ID being checked
+	 */
+	return apply_filters( 'bp_groups_user_can_send_invites', $can_send_invites, $group_id, $invite_status, $user_id );
 }
 
 /**
@@ -2850,13 +2866,68 @@ function bp_group_create_button() {
 			'component'  => 'groups',
 			'link_text'  => __( 'Create a Group', 'buddypress' ),
 			'link_title' => __( 'Create a Group', 'buddypress' ),
-			'link_class' => 'button group-create bp-title-button',
+			'link_class' => 'group-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_groups_root_slug() ) . trailingslashit( 'create' ),
 			'wrapper'    => false,
+			'block_self' => false,
 		);
 
 		return bp_get_button( apply_filters( 'bp_get_group_create_button', $button_args ) );
 	}
+
+/**
+ * Output the Create a Group nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_group_create_nav_item() {
+	echo bp_get_group_create_nav_item();
+}
+
+	/**
+	 * Get the Create a Group nav item.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_group_create_nav_item() {
+		// Get the create a group button
+		$create_group_button = bp_get_group_create_button();
+
+		// Make sure the button is available
+		if ( empty( $create_group_button ) ) {
+			return;
+		}
+
+		$output = '<li id="group-create-nav">' . $create_group_button . '</li>';
+
+		return apply_filters( 'bp_get_group_create_nav_item', $output );
+	}
+
+/**
+ * Checks if a specific theme is still filtering the Groups directory title
+ * if so, transform the title button into a Groups directory nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses   bp_group_create_nav_item() to output the create a Group nav item
+ * @return string HTML Output
+ */
+function bp_group_backcompat_create_nav_item() {
+	// Bail if the Groups nav item is already used by bp-legacy
+	if ( has_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav', 999 ) ) {
+		return;
+	}
+
+	// Bail if the theme is not filtering the Groups directory title
+	if ( ! has_filter( 'bp_groups_directory_header' ) ) {
+		return;
+	}
+
+	bp_group_create_nav_item();
+}
+add_action( 'bp_groups_directory_group_filter', 'bp_group_backcompat_create_nav_item', 1000 );
 
 /**
  * Prints a message if the group is not visible to the current user (it is a
@@ -2876,7 +2947,7 @@ function bp_group_status_message( $group = null ) {
  		if ( ! bp_group_has_requested_membership() ) {
 			if ( is_user_logged_in() && bp_group_is_invited() ) {
 				$message = __( 'You must accept your pending invitation before you can access this private group.', 'buddypress' );
-			} else if ( is_user_logged_in() ) {
+			} elseif ( is_user_logged_in() ) {
 				$message = __( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
 			} else {
 				$message = __( 'This is a private group. To join you must be a registered site member and request group membership.', 'buddypress' );
@@ -3038,13 +3109,14 @@ class BP_Groups_Group_Members_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( array( 'mlpage' => '%#%' ), $base_url ),
-			'format' => '',
-			'total' => !empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
-			'current' => $this->pag_page,
+			'base'      => add_query_arg( array( 'mlpage' => '%#%' ), $base_url ),
+			'format'    => '',
+			'total'     => ! empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
+			'current'   => $this->pag_page,
 			'prev_text' => '&larr;',
 			'next_text' => '&rarr;',
-			'mid_size' => 1
+			'mid_size'  => 1,
+			'add_args'  => array(),
 		));
 	}
 
@@ -4069,13 +4141,14 @@ class BP_Groups_Membership_Requests_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base' => add_query_arg( 'mrpage', '%#%' ),
-			'format' => '',
-			'total' => ceil( $this->total_request_count / $this->pag_num ),
-			'current' => $this->pag_page,
+			'base'      => add_query_arg( 'mrpage', '%#%' ),
+			'format'    => '',
+			'total'     => ceil( $this->total_request_count / $this->pag_num ),
+			'current'   => $this->pag_page,
 			'prev_text' => '&larr;',
 			'next_text' => '&rarr;',
-			'mid_size' => 1
+			'mid_size'  => 1,
+			'add_args'  => array(),
 		) );
 	}
 
@@ -4321,6 +4394,7 @@ class BP_Groups_Invite_Template {
 				'prev_text' => '&larr;',
 				'next_text' => '&rarr;',
 				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 		} else {
 			$this->pag_links = '';
@@ -4392,13 +4466,9 @@ class BP_Groups_Invite_Template {
 			$this->invite->user->total_friends = BP_Friends_Friendship::total_friend_count( $user_id );
 		}
 
-		if ( bp_is_active( 'friends' ) ) {
-			$this->invite->user->total_friends = BP_Friends_Friendship::total_friend_count( $user_id );
-		}
-
 		$this->invite->user->total_blogs = null;
 
-		$this->invite->group_id = $group_id; // Globaled in bp_group_has_invites()
+		$this->invite->group_id = $group_id; // Global'ed in bp_group_has_invites()
 
 		if ( 0 == $this->current_invite ) // loop has just started
 			do_action('loop_start');

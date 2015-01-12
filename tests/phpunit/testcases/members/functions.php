@@ -183,7 +183,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		global $wpdb, $bp;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u ) );
 		wp_cache_delete( 'bp_user_fullname_' . $u, 'bp' );
-		wp_cache_delete( 1, 'bp_xprofile_data_' . $u, 'bp' );
+		wp_cache_delete( "{$u}:1", 'bp_xprofile_data', 'bp' );
 
 		$this->assertSame( '', xprofile_get_field_data( 1, $u ) );
 		$this->assertSame( 'Foo Foo', bp_core_get_user_displayname( $u ) );

@@ -151,7 +151,8 @@
 				 * @since BuddyPress (2.1.0)
 				 */
 				remote_filter: function( query, render_view ) {
-					var self = $( this );
+					var self = $( this ),
+						params = {};
 
 					mentionsItem = mentionsQueryCache[ query ];
 					if ( typeof mentionsItem === 'object' ) {
@@ -163,7 +164,13 @@
 						self.xhr.abort();
 					}
 
-					self.xhr = $.getJSON( ajaxurl, { 'action': 'bp_get_suggestions', 'term': query, 'type': 'members' } )
+					params = { 'action': 'bp_get_suggestions', 'term': query, 'type': 'members' };
+
+					if ( $.isNumeric( this.$inputor.data( 'suggestions-group-id' ) ) ) {
+						params['group-id'] = parseInt( this.$inputor.data( 'suggestions-group-id' ), 10 );
+					}
+
+					self.xhr = $.getJSON( ajaxurl, params )
 						/**
 						 * Success callback for the @suggestions lookup.
 						 *
@@ -229,7 +236,7 @@
 			users = window.BP_Suggestions.friends || users;
 		}
 
-		// Dashoard post 'visual' editor.
+		// Dashboard post 'visual' editor.
 		loadMentionsInTinyMCE = function() {
 			if ( loadAttempts < 4 || ! $( 'body' ).hasClass( 'wp-admin' ) ) {
 				loadAttempts++;
@@ -248,7 +255,7 @@
 		// Activity/reply, post comments, dashboard post 'text' editor.
 		$( '.bp-suggestions, #comments form textarea, .wp-editor-area' ).bp_mentions( users );
 
-		// Dashbboard post 'visual' editor.
+		// Dashboard post 'visual' editor.
 		loadMentionsInTinyMCE();
 	});
 })( jQuery );

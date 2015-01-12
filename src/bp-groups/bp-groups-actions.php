@@ -34,7 +34,7 @@ function bp_groups_group_access_protection() {
 			$user_has_access = true;
 
 		// User doesn't have access, so set up redirect args
-		} else if ( is_user_logged_in() ) {
+		} elseif ( is_user_logged_in() ) {
 			$no_access_args = array(
 				'message'  => __( 'You do not have access to this group.', 'buddypress' ),
 				'root'     => bp_get_group_permalink( $current_group ) . 'home/',
@@ -183,7 +183,7 @@ function groups_action_create_group() {
 
 			if ( 'private' == $_POST['group-status'] )
 				$group_status = 'private';
-			else if ( 'hidden' == $_POST['group-status'] )
+			elseif ( 'hidden' == $_POST['group-status'] )
 				$group_status = 'hidden';
 
 			if ( !$bp->groups->new_group_id = groups_create_group( array( 'group_id' => $bp->groups->new_group_id, 'status' => $group_status, 'enable_forum' => $group_enable_forum ) ) ) {
@@ -238,7 +238,7 @@ function groups_action_create_group() {
 			setcookie( 'bp_new_group_id', false, time() - 3600, COOKIEPATH );
 			setcookie( 'bp_completed_create_steps', false, time() - 3600, COOKIEPATH );
 
-			// Once we compelete all steps, record the group creation in the activity stream.
+			// Once we completed all steps, record the group creation in the activity stream.
 			groups_record_activity( array(
 				'type' => 'created_group',
 				'item_id' => $bp->groups->new_group_id

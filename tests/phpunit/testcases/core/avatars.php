@@ -24,7 +24,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	private function clean_existing_avatars( $type = 'user' ) {
 		if ( 'user' === $type ) {
 			$avatar_dir = 'avatars';
-		} else if ( 'group' === $object ) {
+		} elseif ( 'group' === $object ) {
 			$avatar_dir = 'group-avatars';
 		}
 
@@ -58,15 +58,8 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			return;
 		}
 
-		// switch to BP root blog if necessary
-		if ( bp_get_root_blog_id() != get_current_blog_id() ) {
-			$this->go_to( '/' );
-		}
-
 		// get BP root blog's upload directory data
 		$upload_dir = wp_upload_dir();
-
-		restore_current_blog();
 
 		// create new subsite
 		$blog_id = $this->factory->blog->create( array(
@@ -166,7 +159,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			// Set expected gravatar type
 			if ( empty( $bp->grav_default->{$this->params['object']} ) ) {
 				$default_grav = 'wavatar';
-			} else if ( 'mystery' == $bp->grav_default->{$this->params['object']} ) {
+			} elseif ( 'mystery' == $bp->grav_default->{$this->params['object']} ) {
 				$default_grav = apply_filters( 'bp_core_mysteryman_src', 'mm', $this->params['width'] );
 			} else {
 				$default_grav = $bp->grav_default->{$this->params['object']};

@@ -140,6 +140,93 @@ function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
 add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_admin', 11, 1 );
 
 /**
+ * Adds current page CSS classes to the parent BP page in a WP Page Menu.
+ *
+ * Because BuddyPress primarily uses virtual pages, we need a way to highlight
+ * the BP parent page during WP menu generation.  This function checks the
+ * current BP component against the current page in the WP menu to see if we
+ * should highlight the WP page.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array   $retval CSS classes for the current menu page in the menu
+ * @param WP_Post $page   The page properties for the current menu item
+ * @return array
+ */
+function bp_core_menu_highlight_parent_page( $retval, $page ) {
+	if ( ! is_buddypress() ) {
+		return $retval;
+	}
+
+	$page_id = false;
+
+	// loop against all BP component pages
+	foreach ( (array) buddypress()->pages as $component => $bp_page ) {
+		// handles the majority of components
+		if ( bp_is_current_component( $component ) ) {
+	                $page_id = (int) $bp_page->id;
+		}
+
+		// stop if not on a user page
+		if ( ! bp_is_user() && ! empty( $page_id ) ) {
+			break;
+		}
+
+		// members component requires an explicit check due to overlapping components
+		if ( bp_is_user() && 'members' === $component ) {
+			$page_id = (int) $bp_page->id;
+			break;
+		}
+	}
+
+	// duplicate some logic from Walker_Page::start_el() to highlight menu items
+	if ( ! empty( $page_id ) ) {
+		$_bp_page = get_post( $page_id );
+		if ( in_array( $page->ID, $_bp_page->ancestors, true ) ) {
+			$retval[] = 'current_page_ancestor';
+		}
+		if ( $page->ID === $page_id ) {
+			$retval[] = 'current_page_item';
+		} elseif ( $_bp_page && $page->ID === $_bp_page->post_parent ) {
+			$retval[] = 'current_page_parent';
+		}
+	}
+
+	$retval = array_unique( $retval );
+
+	return $retval;
+}
+add_filter( 'page_css_class', 'bp_core_menu_highlight_parent_page', 10, 2 );
+
+/**
+ * Adds current page CSS classes to the parent BP page in a WP Nav Menu.
+ *
+ * When {@link wp_nav_menu()} is used, this function helps to highlight the
+ * current BP parent page during nav menu generation.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param array   $retval CSS classes for the current nav menu item in the menu
+ * @param WP_Post $item   The properties for the current nav menu item
+ * @return array
+ */
+function bp_core_menu_highlight_nav_menu_item( $retval, $item ) {
+	// If we're not on a BP page or if the current nav item is not a page, stop!
+	if ( ! is_buddypress() || 'page' !== $item->object ) {
+		return $retval;
+	}
+
+	// get the WP page
+	$page   = get_post( $item->object_id );
+
+	// see if we should add our highlight CSS classes for the page
+	$retval = bp_core_menu_highlight_parent_page( $retval, $page );
+
+	return $retval;
+}
+add_filter( 'nav_menu_css_class', 'bp_core_menu_highlight_nav_menu_item', 10, 2 );
+
+/**
  * Set "From" name in outgoing email to the site name.
  *
  * @uses bp_get_option() fetches the value for a meta_key in the wp_X_options table.
@@ -375,7 +462,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 		 * And the super admin goes in pending accounts to resend it. In this case, as the
 		 * meta['password'] is not set, the activation url must be WordPress one
 		 */
-		} else if ( buddypress()->members->admin->signups_page == get_current_screen()->id ) {
+		} elseif ( buddypress()->members->admin->signups_page == get_current_screen()->id ) {
 			$is_hashpass_in_meta = maybe_unserialize( $meta );
 
 			if ( empty( $is_hashpass_in_meta['password'] ) ) {
@@ -445,7 +532,55 @@ function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
 
 	// Displayed user
 	if ( bp_get_displayed_user_fullname() && ! is_404() ) {
-		$title = bp_get_displayed_user_fullname();
+		// Get the component's ID to try and get its name
+		$component_id = $component_name = bp_current_component();
+
+		// Use the component nav name
+		if ( ! empty( $bp->bp_nav[$component_id] ) ) {
+			// Remove counts that are added by the nav item
+			$span = strpos( $bp->bp_nav[ $component_id ]['name'], '<span' );
+			if ( false !== $span ) {
+				$component_name = substr( $bp->bp_nav[ $component_id ]['name'], 0, $span - 1 );
+
+			} else {
+				$component_name = $bp->bp_nav[ $component_id ]['name'];
+			}
+
+		// Fall back on the component ID
+		} elseif ( ! empty( $bp->{$component_id}->id ) ) {
+			$component_name = ucwords( $bp->{$component_id}->id );
+		}
+
+		// Append action name if we're on a member component sub-page
+		if ( ! empty( $bp->bp_options_nav[ $component_id ] ) && ! empty( $bp->canonical_stack['action'] ) ) {
+			$component_subnav_name = wp_filter_object_list( $bp->bp_options_nav[ $component_id ], array( 'slug' => bp_current_action() ), 'and', 'name' );
+
+			if ( $component_subnav_name ) {
+				$component_subnav_name = array_shift( $component_subnav_name );
+			} else {
+				$component_subnav_name = '';
+			}
+
+		} else {
+			$component_subnav_name = '';
+		}
+
+		// If on the user profile's landing page, just use the fullname
+		if ( bp_is_current_component( $bp->default_component ) && bp_get_requested_url() === bp_displayed_user_domain() ) {
+			$title = bp_get_displayed_user_fullname();
+
+		// Use component name on member pages
+		} else {
+			// If we have a subnav name, add it separately for localization
+			if ( ! empty( $component_subnav_name ) ) {
+				// translators: construct the page title. 1 = user name, 2 = component name, 3 = separator, 4 = component subnav name
+				$title = strip_tags( sprintf( __( '%1$s %3$s %2$s %3$s %4$s', 'buddypress' ), bp_get_displayed_user_fullname(), $component_name, $sep, $component_subnav_name ) );
+
+			} else {
+				// translators: construct the page title. 1 = user name, 2 = component name, 3 = separator
+				$title = strip_tags( sprintf( __( '%1$s %3$s %2$s', 'buddypress' ), bp_get_displayed_user_fullname(), $component_name, $sep ) );
+			}
+		}
 
 	// A single group
 	} elseif ( bp_is_active( 'groups' ) && ! empty( $bp->groups->current_group ) && ! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ] ) ) {
@@ -511,7 +646,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 
 	// We use information stored in the CSS class to determine what kind of
 	// menu item this is, and how it should be treated
-	$css_target = preg_match( '/\sbp-(.*)-nav/', implode( ' ', $menu_item->classes), $matches );
+	preg_match( '/\sbp-(.*)-nav/', implode( ' ', $menu_item->classes), $matches );
 
 	// If this isn't a BP menu item, we can stop here
 	if ( empty( $matches[1] ) ) {

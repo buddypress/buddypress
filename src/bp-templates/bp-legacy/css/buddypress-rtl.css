@@ -38,7 +38,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 	background: transparent;
 	border: none;
 	color: #888;
-	font-size: 90%;
+	font-size: small;
 	margin: 0;
 	position: relative;
 	display: block;
@@ -126,7 +126,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 	background: #fff;
 	color: #555;
 	font-family: inherit;
-	font-size: 90%;
+	font-size: medium;
 	height: 20px;
 	padding: 6px;
 	width: 98%;
@@ -250,7 +250,7 @@ body.activity-permalink #buddypress .activity-list li .activity-header > p {
 }
 #buddypress .activity-list .activity-content .activity-header img.avatar {
 	float: none !important;
-	margin: 0 0 -8px 5px !important;
+	margin: 0 5px -8px 0 !important;
 }
 #buddypress a.bp-secondary-action,
 #buddypress span.highlight {
@@ -770,7 +770,7 @@ a.bp-title-button {
 	background: #fff; /* Old browsers */
 	border: 1px solid #ccc;
 	color: #777;
-	font-size: .8rem;
+	font-size: small;
 	cursor: pointer;
 	outline: none;
 	padding: 4px 10px;
@@ -1132,7 +1132,7 @@ a.bp-title-button {
 }
 #buddypress span.activity {
 	display: inline-block;
-	font-size: 80%;
+	font-size: small;
 	opacity: 0.8;
 	padding: 0;
 }
@@ -1321,7 +1321,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	margin-top: 4px;
 }
 #buddypress div.item-list-tabs ul li.last select {
-	max-width: 175px;
+	max-width: 185px;
 }
 #buddypress div.item-list-tabs ul li a,
 #buddypress div.item-list-tabs ul li span {
@@ -1508,7 +1508,7 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress span.activity {
 	display: inline-block;
-	font-size: 80%;
+	font-size: small;
 	opacity: 0.8;
 	padding: 0;
 }
@@ -1526,13 +1526,13 @@ body.register #buddypress div.page ul {
 .widget.buddypress div.item-meta,
 .widget.buddypress div.item-content {
 	font-size: 11px;
-	margin-right: 38px;
+	margin-right: 50px;
 }
 
 .widget.buddypress ul.item-list img.avatar {
-	height: 20px;
+	height: 40px;
 	margin-left: 10px;
-	width: 20px;
+	width: 40px;
 }
 .widget.buddypress div.item-avatar img {
 	height: 40px;
@@ -1555,7 +1555,7 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress .bp-login-widget-user-avatar {
 	float: right;
-	width: 60px;
+	width: 40px;
 }
 
 .widget.buddypress .bp-login-widget-user-links > div {
@@ -1568,6 +1568,19 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress .bp-login-widget-user-links > div.bp-login-widget-user-link a {
 	font-weight: bold;
+}
+
+.widget.buddypress #groups-list,
+.widget.buddypress #members-list,
+.widget.buddypress #friends-list {
+	margin-right: 0;
+	padding-right: 0;
+}
+
+.widget.buddypress #groups-list li,
+.widget.buddypress #members-list li,
+.widget.buddypress #friends-list li {
+	list-style-type: none;
 }
 
 /*--------------------------------------------------------------

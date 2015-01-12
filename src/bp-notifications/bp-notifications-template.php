@@ -301,6 +301,10 @@ class BP_Notifications_Template {
 		}
 
 		if ( (int) $this->total_notification_count && (int) $this->pag_num ) {
+			$add_args = array(
+				'sort_order' => $this->sort_order,
+			);
+
 			$this->pag_links = paginate_links( array(
 				'base'      => add_query_arg( $this->page_arg, '%#%' ),
 				'format'    => '',
@@ -309,6 +313,7 @@ class BP_Notifications_Template {
 				'prev_text' => _x( '&larr;', 'Notifications pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Notifications pagination next text',     'buddypress' ),
 				'mid_size'  => 1,
+				'add_args'  => $add_args,
 			) );
 
 			// Remove first page from pagination
@@ -674,9 +679,6 @@ function bp_the_notification_description() {
 	 * @return string
 	 */
 	function bp_get_the_notification_description() {
-
-		// Setup local variables
-		$description  = '';
 		$bp           = buddypress();
 		$notification = $bp->notifications->query_loop->notification;
 

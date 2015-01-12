@@ -248,7 +248,8 @@ class BP_Blogs_Template {
 				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Blog pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Blog pagination next text',     'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 		}
 	}
@@ -393,7 +394,7 @@ function bp_rewind_blogs() {
 function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
-	// Checkfor and use search terms
+	// Check for and use search terms
 	$search_terms = ! empty( $_REQUEST['s'] )
 		? $_REQUEST['s']
 		: false;
@@ -769,7 +770,7 @@ function bp_blog_last_active( $args = array() ) {
 			'active_format' => true
 		) );
 
-		// Backwards compatibilty for anyone forcing a 'true' active_format
+		// Backwards compatibility for anyone forcing a 'true' active_format
 		if ( true === $r['active_format'] ) {
 			$r['active_format'] = __( 'active %s', 'buddypress' );
 		}
@@ -1222,7 +1223,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	if ( !is_subdomain_install() )
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span> <input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="63" /><br />';
 	else
-		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="63" /> <span class="suffix_address">.' . bp_blogs_get_subdomain_base() . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="63" ' . bp_get_form_field_attributes( 'blogname' ) . '/> <span class="suffix_address">.' . bp_blogs_get_subdomain_base() . '</span><br />';
 
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' , 'buddypress');
@@ -1364,7 +1365,7 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 <?php
 
 	/**
-	 * Fires after the default successful blog registration messsage markup.
+	 * Fires after the default successful blog registration message markup.
 	 *
 	 * @since BuddyPress (1.0.0)
 	 */
@@ -1467,9 +1468,10 @@ function bp_blog_create_button() {
 			'component'  => 'blogs',
 			'link_text'  => __( 'Create a Site', 'buddypress' ),
 			'link_title' => __( 'Create a Site', 'buddypress' ),
-			'link_class' => 'button blog-create bp-title-button',
+			'link_class' => 'blog-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . trailingslashit( 'create' ),
 			'wrapper'    => false,
+			'block_self' => false,
 		);
 
 		/**
@@ -1481,6 +1483,60 @@ function bp_blog_create_button() {
 		 */
 		return bp_get_button( apply_filters( 'bp_get_blog_create_button', $button_args ) );
 	}
+
+/**
+ * Output the Create a Site nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ */
+function bp_blog_create_nav_item() {
+	echo bp_get_blog_create_nav_item();
+}
+
+	/**
+	 * Get the Create a Site nav item.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_blog_create_nav_item() {
+		// Get the create a site button
+		$create_blog_button = bp_get_blog_create_button();
+
+		// Make sure the button is available
+		if ( empty( $create_blog_button ) ) {
+			return;
+		}
+
+		$output = '<li id="blog-create-nav">' . $create_blog_button . '</li>';
+
+		return apply_filters( 'bp_get_blog_create_nav_item', $output );
+	}
+
+/**
+ * Checks if a specific theme is still filtering the Blogs directory title
+ * if so, transform the title button into a Blogs directory nav item.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @uses   bp_blog_create_nav_item() to output the Create a Site nav item
+ * @return string HTML Output
+ */
+function bp_blog_backcompat_create_nav_item() {
+	// Bail if Blogs nav item is already used by bp-legacy
+	if ( has_action( 'bp_blogs_directory_blog_types', 'bp_legacy_theme_blog_create_nav', 999 ) ) {
+		return;
+	}
+
+	// Bail if the theme is not filtering the Blogs directory title
+	if ( ! has_filter( 'bp_blogs_directory_header' ) ) {
+		return;
+	}
+
+	bp_blog_create_nav_item();
+}
+add_action( 'bp_blogs_directory_blog_types', 'bp_blog_backcompat_create_nav_item', 1000 );
 
 /**
  * Output button for visiting a blog in a loop.

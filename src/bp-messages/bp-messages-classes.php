@@ -319,49 +319,108 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param int    $user_id The user ID.
-	 * @param string $box  The type of mailbox to get. Either 'inbox' or 'sentbox'.
-	 *                     Defaults to 'inbox'.
-	 * @param string $type The type of messages to get. Either 'all' or 'unread'
-	 *                     or 'read'. Defaults to 'all'.
-	 * @param int    $limit The number of messages to get. Defaults to null.
-	 * @param int    $page  The page number to get. Defaults to null.
-	 * @param string $search_terms The search term to use. Defaults to ''.
+	 * @param array $args {
+	 *     Array of arguments.
+	 *     @type int    $user_id      The user ID.
+	 *     @type string $box          The type of mailbox to get. Either 'inbox' or 'sentbox'.
+	 *                                Defaults to 'inbox'.
+	 *     @type string $type         The type of messages to get. Either 'all' or 'unread'
+	 *                                or 'read'. Defaults to 'all'.
+	 *     @type int    $limit        The number of messages to get. Defaults to null.
+	 *     @type int    $page         The page number to get. Defaults to null.
+	 *     @type string $search_terms The search term to use. Defaults to ''.
+	 *     @type array  $meta_query   Meta query arguments. See WP_Meta_Query for more details.
+	 * }
 	 * @return array|bool Array on success. Boolean false on failure.
 	 */
-	public static function get_current_threads_for_user( $user_id, $box = 'inbox', $type = 'all', $limit = null, $page = null, $search_terms = '' ) {
+	public static function get_current_threads_for_user( $args = array() ) {
 		global $wpdb, $bp;
 
-		$user_id_sql = $pag_sql = $type_sql = $search_sql = '';
+		// Backward compatibility with old method of passing arguments
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '2.2.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
-		if ( $limit && $page ) {
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+			$old_args_keys = array(
+				0 => 'user_id',
+				1 => 'box',
+				2 => 'type',
+				3 => 'limit',
+				4 => 'page',
+				5 => 'search_terms',
+			);
+
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
 		}
 
-		if ( $type == 'unread' ) {
+		$defaults = array(
+			'user_id'      => false,
+			'box'          => 'inbox',
+			'type'         => 'all',
+			'limit'        => null,
+			'page'         => null,
+			'search_terms' => '',
+			'meta_query'   => array()
+		);
+		$r = wp_parse_args( $args, $defaults );
+
+		$pag_sql = $type_sql = $search_sql = $user_id_sql = $sender_sql = '';
+		$meta_query_sql = array(
+			'join'  => '',
+			'where' => ''
+		);
+
+		if ( $r['limit'] && $r['page'] ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
+		}
+
+		if ( $r['type'] == 'unread' ) {
 			$type_sql = " AND r.unread_count != 0 ";
-		} elseif ( $type == 'read' ) {
+		} elseif ( $r['type'] == 'read' ) {
 			$type_sql = " AND r.unread_count = 0 ";
 		}
 
-		if ( ! empty( $search_terms ) ) {
-			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+		if ( ! empty( $r['search_terms'] ) ) {
+			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
 			$search_sql        = $wpdb->prepare( "AND ( subject LIKE %s OR message LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
-		if ( 'sentbox' == $box ) {
-			$user_id_sql = $wpdb->prepare( 'm.sender_id = %d', $user_id );
-			$thread_ids  = $wpdb->get_results( "SELECT m.thread_id, MAX(m.date_sent) AS date_sent FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND m.sender_id = r.user_id AND {$user_id_sql} AND r.is_deleted = 0 {$search_sql} GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}" );
-			$total_threads = $wpdb->get_var( "SELECT COUNT( DISTINCT m.thread_id ) FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND m.sender_id = r.user_id AND {$user_id_sql} AND r.is_deleted = 0 {$search_sql} " );
-		} else {
-			$user_id_sql = $wpdb->prepare( 'r.user_id = %d', $user_id );
-			$thread_ids = $wpdb->get_results( "SELECT m.thread_id, MAX(m.date_sent) AS date_sent FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND r.is_deleted = 0 AND {$user_id_sql} AND r.sender_only = 0 {$type_sql} {$search_sql} GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}" );
-			$total_threads = $wpdb->get_var( "SELECT COUNT( DISTINCT m.thread_id ) FROM {$bp->messages->table_name_recipients} r, {$bp->messages->table_name_messages} m WHERE m.thread_id = r.thread_id AND r.is_deleted = 0 AND {$user_id_sql} AND r.sender_only = 0 {$type_sql} {$search_sql}" );
+		if ( ! empty( $r['user_id'] ) ) {
+			if ( 'sentbox' == $r['box'] ) {
+				$user_id_sql = 'AND ' . $wpdb->prepare( 'm.sender_id = %d', $r['user_id'] );
+				$sender_sql  = ' AND m.sender_id = r.user_id';
+			} else {
+				$user_id_sql = 'AND ' . $wpdb->prepare( 'r.user_id = %d', $r['user_id'] );
+				$sender_sql  = ' AND r.sender_only = 0';
+			}
 		}
 
+		// Process meta query into SQL
+		$meta_query = self::get_meta_query_sql( $r['meta_query'] );
+		if ( ! empty( $meta_query['join'] ) ) {
+			$meta_query_sql['join'] = $meta_query['join'];
+		}
+		if ( ! empty( $meta_query['where'] ) ) {
+			$meta_query_sql['where'] = $meta_query['where'];
+		}
+
+		// set up SQL array
+		$sql = array();
+		$sql['select'] = 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent';
+		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id {$meta_query_sql['join']}";
+		$sql['where']  = "WHERE r.is_deleted = 0 {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
+		$sql['misc']   = "GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}";
+
+		// get thread IDs
+		$thread_ids = $wpdb->get_results( implode( ' ', $sql ) );
 		if ( empty( $thread_ids ) ) {
 			return false;
 		}
+
+		// adjust $sql to work for thread total
+		$sql['select'] = 'SELECT COUNT( DISTINCT m.thread_id )';
+		unset( $sql['misc'] );
+		$total_threads = $wpdb->get_var( implode( ' ', $sql ) );
 
 		// Sort threads by date_sent
 		foreach( (array) $thread_ids as $thread ) {
@@ -388,6 +447,39 @@ class BP_Messages_Thread {
 		 * }
 		 */
 		return apply_filters( 'bp_messages_thread_current_threads', array( 'threads' => &$threads, 'total' => (int) $total_threads ) );
+	}
+
+	/**
+	 * Get the SQL for the 'meta_query' param in BP_Messages_Thread::get_current_threads_for_user().
+	 *
+	 * We use WP_Meta_Query to do the heavy lifting of parsing the meta_query array
+	 * and creating the necessary SQL clauses.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $meta_query An array of meta_query filters. See the
+	 *   documentation for WP_Meta_Query for details.
+	 * @return array $sql_array 'join' and 'where' clauses.
+	 */
+	public static function get_meta_query_sql( $meta_query = array() ) {
+		global $wpdb;
+
+		$sql_array = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		if ( ! empty( $meta_query ) ) {
+			$meta_query = new WP_Meta_Query( $meta_query );
+
+			// WP_Meta_Query expects the table name at
+			// $wpdb->messagemeta
+			$wpdb->messagemeta = buddypress()->messages->table_name_meta;
+
+			return $meta_query->get_sql( 'message', 'm', 'id' );
+		}
+
+		return $sql_array;
 	}
 
 	/**
@@ -443,7 +535,7 @@ class BP_Messages_Thread {
 
 		if ( $type == 'unread' )
 			$type_sql = " AND unread_count != 0 ";
-		else if ( $type == 'read' )
+		elseif ( $type == 'read' )
 			$type_sql = " AND unread_count = 0 ";
 
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0{$exclude_sender} {$type_sql}", $user_id ) );

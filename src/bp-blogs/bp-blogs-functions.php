@@ -415,7 +415,7 @@ add_action( 'update_option_thread_comments_depth', 'bp_blogs_update_option_threa
  *
  * @since BuddyPress (2.2.0)
  *
- * @param  int     $activity_id ID of the acitvity item.
+ * @param  int     $activity_id ID of the activity item.
  * @param  WP_Post $post        Post object.
  */
 function bp_blogs_publish_post_activity_meta( $activity_id, $post, $args ) {
@@ -455,7 +455,7 @@ add_action( 'bp_activity_post_type_published', 'bp_blogs_publish_post_activity_m
  * @since BuddyPress (2.2.0)
  *
  * @param WP_Post              $post     Post object.
- * @param BP_Actitivy_Activity $activity Activity object.
+ * @param BP_Activity_Activity $activity Activity object.
  */
 function bp_blogs_update_post_activity_meta( $post, $activity ) {
 	if ( empty( $activity->id ) || 'post' != $post->post_type ) {
@@ -1280,7 +1280,7 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
  */
 
 /**
- * Delete a metadta from the DB for a blog.
+ * Delete a metadata from the DB for a blog.
  *
  * @global object $wpdb WordPress database access object.
  * @global object $bp BuddyPress global settings.
@@ -1422,3 +1422,29 @@ function bp_blogs_remove_data( $user_id ) {
 add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );
 add_action( 'delete_user',       'bp_blogs_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_blogs_remove_data' );
+
+/**
+ * Restore all blog associations for a given user
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param int $user_id ID whose blog data should be restored.
+ */
+function bp_blogs_restore_data( $user_id = 0 ) {
+	if ( ! is_multisite() ) {
+		return;
+	}
+
+	// Get the user's blogs
+	$user_blogs = get_blogs_of_user( $user_id );
+	if ( empty( $user_blogs ) ) {
+		return;
+	}
+
+	$blogs = array_keys( $user_blogs );
+
+	foreach ( $blogs as $blog_id ) {
+		bp_blogs_add_user_to_blog( $user_id, false, $blog_id );
+	}
+}
+add_action( 'bp_make_ham_user', 'bp_blogs_restore_data', 10, 1 );

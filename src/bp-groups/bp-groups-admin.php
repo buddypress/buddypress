@@ -102,7 +102,7 @@ function bp_groups_admin_load() {
 
 		bp_core_redirect( $redirect_to );
 
-	} else if ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
+	} elseif ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
 		// columns screen option
 		add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
@@ -211,6 +211,15 @@ function bp_groups_admin_load() {
 		// groups_edit_base_group_details()
 		if ( !groups_edit_base_group_details( $group_id, $_POST['bp-groups-name'], $_POST['bp-groups-description'], 0 ) ) {
 			$error = $group_id;
+
+			// using negative integers for different error messages... eek!
+			if ( empty( $_POST['bp-groups-name'] ) && empty( $_POST['bp-groups-description'] ) ) {
+				$error = -3;
+			} elseif ( empty( $_POST['bp-groups-name'] ) ) {
+				$error = -1;
+			} elseif ( empty( $_POST['bp-groups-description'] ) ) {
+				$error = -2;
+			}
 		}
 
 		// Enable discussion forum
@@ -308,7 +317,7 @@ function bp_groups_admin_load() {
 
 								if ( 'admin' == $existing_role || 'mod' == $existing_role ) {
 									$result = groups_demote_member( $user_id, $group_id );
-								} else if ( 'banned' == $existing_role ) {
+								} elseif ( 'banned' == $existing_role ) {
 									$result = groups_unban_member( $user_id, $group_id );
 								}
 
@@ -406,7 +415,7 @@ function bp_groups_admin_screen_options( $value, $option, $new_value ) {
 }
 
 /**
- * Select the appropirate Groups admin screen, and output it.
+ * Select the appropriate Groups admin screen, and output it.
  *
  * @since BuddyPress (1.7.0)
  */
@@ -419,7 +428,7 @@ function bp_groups_admin() {
 		bp_groups_admin_edit();
 
 	// Display the group deletion confirmation screen
-	} else if ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
+	} elseif ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
 		bp_groups_admin_delete();
 
 	// Otherwise, display the groups index screen
@@ -455,8 +464,25 @@ function bp_groups_admin_edit() {
 		}
 
 		if ( ! empty( $errors ) ) {
-			$messages[] = __( 'An error occurred when trying to update your group details.', 'buddypress' );
-		} else if ( ! empty( $updated ) ) {
+			switch ( $errors ) {
+				case -1 :
+					$messages[] = __( 'Group name cannot be empty.', 'buddypress' );
+					break;
+
+				case -2 :
+					$messages[] = __( 'Group description cannot be empty.', 'buddypress' );
+					break;
+
+				case -3 :
+					$messages[] = __( 'Group name and description cannot be empty.', 'buddypress' );
+					break;
+
+				default :
+					$messages[] = __( 'An error occurred when trying to update your group details.', 'buddypress' );
+					break;
+			}
+
+		} elseif ( ! empty( $updated ) ) {
 			$messages[] = __( 'The group has been updated successfully.', 'buddypress' );
 		}
 
@@ -1143,7 +1169,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$this->group_counts[ $group_type ] = count( $group_ids );
 		}
 
-		// If we're viewing a specific group, flatten all activites into a single array.
+		// If we're viewing a specific group, flatten all activities into a single array.
 		if ( $include_id ) {
 			$groups = array( (array) groups_get_group( 'group_id=' . $include_id ) );
 		} else {
@@ -1491,7 +1517,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Allow plugins to add their costum column.
+	 * Allow plugins to add their custom column.
 	 *
 	 * @since BuddyPress 2.0.0
 	 *

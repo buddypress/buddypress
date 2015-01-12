@@ -69,7 +69,7 @@ function bp_forums_directory_permalink() {
 	 * @since BuddyPress (1.5.0)
 	 *
 	 * @uses apply_filters()
-	 * @uses traisingslashit()
+	 * @uses trailingslashit()
 	 * @uses bp_get_root_domain()
 	 * @uses bp_get_forums_root_slug()
 	 *
@@ -199,7 +199,7 @@ class BP_Forums_Template_Forum {
 	 * @param int $user_id The ID of the user to whom topics should be
 	 *        limited. Pass false to remove this filter.
 	 * @param int $page The number of the page being requested.
-	 * @param int $per_page The number of items being requested perpage.
+	 * @param int $per_page The number of items being requested per page.
 	 * @param string $no_stickies Requested sticky format.
 	 * @param string $search_terms Filter results by a string.
 	 * @param int $offset Optional. Offset results by a given numeric value.
@@ -295,7 +295,8 @@ class BP_Forums_Template_Forum {
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Forum topic pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Forum topic pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 		}
 	}
@@ -567,7 +568,8 @@ function bp_has_forum_topics( $args = '' ) {
 				'current'   => $forum_template->pag_page,
 				'prev_text' => _x( '&larr;', 'Forum topic pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Forum topic pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 
 		} else {
@@ -1273,7 +1275,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 	 * Return the admin links for the current topic in the loop.
 	 *
 	 * @param array $args {
-	 *     @type string $seperator The character to use when separating
+	 *     @type string $separator The character to use when separating
 	 *           links. Default: '|'.
 	 * }
 	 * @return HTML string containing the admin links for the current topic.
@@ -1282,7 +1284,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 		global $forum_template;
 
 		$defaults = array(
-			'seperator' => '|'
+			'separator' => '|'
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -1304,7 +1306,7 @@ function bp_the_topic_admin_links( $args = '' ) {
 			$links[] = '<a class="confirm" id="topic-delete-link" href="' . wp_nonce_url( bp_get_the_topic_permalink() . 'delete', 'bp_forums_delete_topic' ) . '">' . __( 'Delete Topic', 'buddypress' ) . '</a>';
 		}
 
-		return implode( ' ' . $seperator . ' ', (array) $links );
+		return implode( ' ' . $separator . ' ', (array) $links );
 	}
 
 /**
@@ -1735,7 +1737,8 @@ class BP_Forums_Template_Topic {
 				'current'   => $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Forum thread pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Forum thread pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 
 			$this->pag->total_pages = ceil( (int) $this->total_post_count / (int) $this->pag_num );

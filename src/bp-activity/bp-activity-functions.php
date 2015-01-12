@@ -559,7 +559,7 @@ function bp_activity_get_actions() {
 }
 
 /**
- * Retreive the current action from a component and key.
+ * Retrieve the current action from a component and key.
  *
  * @since BuddyPress (1.1.0)
  *
@@ -1099,7 +1099,7 @@ function bp_activity_spam_all_user_data( $user_id = 0 ) {
 		 * If Akismet is present, update the activity history meta.
 		 *
 		 * This is usually taken care of when BP_Activity_Activity::save() happens, but
-		 * as we're going to be updating all the activity statuses directly, for efficency,
+		 * as we're going to be updating all the activity statuses directly, for efficiency,
 		 * we need to update manually.
 		 */
 		if ( ! empty( $bp->activity->akismet ) ) {
@@ -1169,7 +1169,7 @@ function bp_activity_ham_all_user_data( $user_id = 0 ) {
 		 * If Akismet is present, update the activity history meta.
 		 *
 		 * This is usually taken care of when BP_Activity_Activity::save() happens, but
-		 * as we're going to be updating all the activity statuses directly, for efficency,
+		 * as we're going to be updating all the activity statuses directly, for efficiency,
 		 * we need to update manually.
 		 */
 		if ( ! empty( $bp->activity->akismet ) ) {
@@ -1416,12 +1416,14 @@ function bp_activity_get( $args = '' ) {
 		'search_terms'      => false,        // Pass search terms as a string
 		'meta_query'        => false,        // Filter by activity meta. See WP_Meta_Query for format
 		'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format
+		'filter_query'      => false,
 		'show_hidden'       => false,        // Show activity items that are hidden site-wide?
 		'exclude'           => false,        // Comma-separated list of activity IDs to exclude
 		'in'                => false,        // Comma-separated list or array of activity IDs to which you want to limit the query
 		'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
 		'update_meta_cache' => true,
 		'count_total'       => false,
+		'scope'             => false,
 
 		/**
 		 * Pass filters as an array -- all filter items can be multiple values comma separated:
@@ -1437,7 +1439,7 @@ function bp_activity_get( $args = '' ) {
 	) );
 
 	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter'] ) && empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
+	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter_query'] ) && empty( $r['filter'] ) && empty( $r['scope'] )&& empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
 
 		$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' );
 		if ( false === $activity ) {
@@ -1450,7 +1452,9 @@ function bp_activity_get( $args = '' ) {
 				'search_terms'      => $r['search_terms'],
 				'meta_query'        => $r['meta_query'],
 				'date_query'        => $r['date_query'],
+				'filter_query'      => $r['filter_query'],
 				'filter'            => $r['filter'],
+				'scope'             => $r['scope'],
 				'display_comments'  => $r['display_comments'],
 				'show_hidden'       => $r['show_hidden'],
 				'spam'              => $r['spam'],
@@ -1470,7 +1474,9 @@ function bp_activity_get( $args = '' ) {
 			'search_terms'     => $r['search_terms'],
 			'meta_query'       => $r['meta_query'],
 			'date_query'       => $r['date_query'],
+			'filter_query'     => $r['filter_query'],
 			'filter'           => $r['filter'],
+			'scope'            => $r['scope'],
 			'display_comments' => $r['display_comments'],
 			'show_hidden'      => $r['show_hidden'],
 			'exclude'          => $r['exclude'],
@@ -2055,7 +2061,7 @@ function bp_activity_new_comment( $args = '' ) {
 		return false;
 	}
 
-	// Check to see if the parent activity is hidden, and if so, hide this comment publically.
+	// Check to see if the parent activity is hidden, and if so, hide this comment publicly.
 	$is_hidden = ( (int) $activity->hide_sitewide ) ? 1 : 0;
 
 	/**
@@ -2840,7 +2846,7 @@ function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
  *
  * @since BuddyPress (2.0.0)
  *
- * @uses bp_is_activity_heartbeat_active() to check if heatbeat setting is on.
+ * @uses bp_is_activity_heartbeat_active() to check if heartbeat setting is on.
  * @uses bp_is_activity_directory() to check if the current page is the activity
  *       directory.
  * @uses bp_is_active() to check if the group component is active.

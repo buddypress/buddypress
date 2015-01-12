@@ -329,7 +329,7 @@ add_action( 'friends_screen_my_friends', 'bp_friends_mark_friendship_accepted_no
  * @since BuddyPress (1.9.0)
  * @param int $friendship_id The unique ID of the friendship
  * @param int $initiator_user_id The friendship initiator user ID
- * @param int $friend_user_id The friendship request reciever user ID
+ * @param int $friend_user_id The friendship request receiver user ID
  */
 function bp_friends_friendship_requested_notification( $friendship_id, $initiator_user_id, $friend_user_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -367,7 +367,7 @@ add_action( 'friends_friendship_rejected', 'bp_friends_mark_friendship_rejected_
  * @since BuddyPress (1.9.0)
  * @param int $friendship_id The unique ID of the friendship
  * @param int $initiator_user_id The friendship initiator user ID
- * @param int $friend_user_id The friendship request reciever user ID
+ * @param int $friend_user_id The friendship request receiver user ID
  */
 function bp_friends_add_friendship_accepted_notification( $friendship_id, $initiator_user_id, $friend_user_id ) {
 

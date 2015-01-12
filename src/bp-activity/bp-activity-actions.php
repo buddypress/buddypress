@@ -91,7 +91,7 @@ function bp_activity_action_permalink_router() {
 		}
 
 	// Set redirect to users' activity stream
-	} else if ( ! empty( $activity->user_id ) ) {
+	} elseif ( ! empty( $activity->user_id ) ) {
 		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 	}
 
@@ -235,7 +235,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param int    $activty_id Activity ID to be marked as spam.
+	 * @param int    $activity_id Activity ID to be marked as spam.
 	 * @param object $activity Activity object for the ID to be marked as spam.
 	 */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
@@ -244,7 +244,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
-	// Tell the user the spamming has been succesful
+	// Tell the user the spamming has been successful
 	bp_core_add_message( __( 'The activity item has been marked as spam and is no longer visible.', 'buddypress' ) );
 
 	/**
@@ -252,7 +252,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param int $activty_id Activity ID that was marked as spam.
+	 * @param int $activity_id Activity ID that was marked as spam.
 	 * @param int $user_id User ID associated with activity.
 	 */
 	do_action( 'bp_activity_action_spam_activity', $activity_id, $activity->user_id );
@@ -339,7 +339,7 @@ function bp_activity_action_post_update() {
 		$activity_id = bp_activity_post_update( array( 'content' => $content ) );
 
 	// Post to groups object
-	} else if ( 'groups' == $object && bp_is_active( 'groups' ) ) {
+	} elseif ( 'groups' == $object && bp_is_active( 'groups' ) ) {
 		if ( (int) $item_id ) {
 			$activity_id = groups_post_update( array( 'content' => $content, 'group_id' => $item_id ) );
 		}
@@ -753,10 +753,17 @@ function bp_ajax_get_suggestions() {
 		exit;
 	}
 
-	$results = bp_core_get_suggestions( array(
+	$args = array(
 		'term' => sanitize_text_field( $_GET['term'] ),
 		'type' => sanitize_text_field( $_GET['type'] ),
-	) );
+	);
+
+	// Support per-Group suggestions.
+	if ( ! empty( $_GET['group-id'] ) ) {
+		$args['group_id'] = absint( $_GET['group-id'] );
+	}
+
+	$results = bp_core_get_suggestions( $args );
 
 	if ( is_wp_error( $results ) ) {
 		wp_send_json_error( $results->get_error_message() );
@@ -804,7 +811,7 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 		}
 
 	// Unpublishing a previously published post.
-	} else if ( 'publish' === $old_status ) {
+	} elseif ( 'publish' === $old_status ) {
 		// Some form of pending status - only remove the activity entry
 		bp_activity_post_type_unpublish( $post->ID, $post );
 	}

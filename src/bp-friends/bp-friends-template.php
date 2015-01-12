@@ -270,7 +270,7 @@ function bp_potential_friend_id( $user_id = 0 ) {
 
 		if ( empty( $user_id ) && isset( $friends_template->friendship->friend ) )
 			$user_id = $friends_template->friendship->friend->id;
-		else if ( empty( $user_id ) && !isset( $friends_template->friendship->friend ) )
+		elseif ( empty( $user_id ) && !isset( $friends_template->friendship->friend ) )
 			$user_id = bp_displayed_user_id();
 
 		/**
@@ -487,7 +487,7 @@ function bp_friend_friendship_id() {
 	echo bp_get_friend_friendship_id();
 }
 	/**
-	 * Return the ID of the frinedship between the logged-in user and the current user in the loop.
+	 * Return the ID of the friendship between the logged-in user and the current user in the loop.
 	 *
 	 * @return int ID of the friendship.
 	 */

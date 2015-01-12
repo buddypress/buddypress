@@ -186,7 +186,7 @@ class BP_Friends_Friendship {
 	/**
 	 * Get the IDs of a given user's friends.
 	 *
-	 * @param int $user_id ID of the user whose friends are being retreived.
+	 * @param int $user_id ID of the user whose friends are being retrieved.
 	 * @param bool $friend_requests_only Optional. Whether to fetch
 	 *        unaccepted requests only. Default: false.
 	 * @param bool $assoc_arr Optional. True to receive an array of arrays

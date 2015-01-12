@@ -34,7 +34,7 @@ class BP_Core extends BP_Component {
 	/**
 	 * Populate the global data needed before BuddyPress can continue.
 	 *
-	 * This involves figuring out the currently required, active, deactive,
+	 * This involves figuring out the currently required, activated, deactivated,
 	 * and optional components.
 	 *
 	 * @since BuddyPress (1.5.0)
@@ -250,6 +250,21 @@ class BP_Core extends BP_Component {
 
 			parent::setup_nav( $main_nav, $sub_nav );
 		}
+	}
+
+	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'bp'
+		) );
+
+		parent::setup_cache_groups();
 	}
 }
 

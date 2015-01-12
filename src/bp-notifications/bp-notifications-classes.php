@@ -422,7 +422,7 @@ class BP_Notifications_Notification {
 	}
 
 	/**
-	 * Assemble query clauses, based on arrguments, to pass to $wpdb methods.
+	 * Assemble query clauses, based on arguments, to pass to $wpdb methods.
 	 *
 	 * The insert(), update(), and delete() methods of {@link wpdb} expect
 	 * arguments of the following forms:

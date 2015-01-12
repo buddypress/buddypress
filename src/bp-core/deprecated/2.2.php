@@ -63,3 +63,44 @@ function bp_blogs_update_post( $post ) {
 	_deprecated_function( __FUNCTION__, '2.2', 'bp_activity_post_type_update()' );
 	bp_activity_post_type_update( $post );
 }
+
+/**
+ * Clear cache when a new blog is created.
+ *
+ * @since BuddyPress (1.0.0)
+ * @deprecated BuddyPress (2.2.0)
+ *
+ * @param BP_Blogs_Blog $recorded_blog_obj The recorded blog, passed by
+ *        'bp_blogs_new_blog'.
+ */
+function bp_blogs_format_clear_blog_cache( $recorded_blog_obj ) {
+	_deprecated_function( __FUNCTION__, '2.2', 'bp_blogs_clear_blog_object_cache()' );
+	bp_blogs_clear_blog_object_cache( false, $recorded_blog_obj->user_id );
+}
+
+/**
+ * Format 'new_member' activity actions.
+ *
+ * @since BuddyPress (2.0.0)
+ * @deprecated BuddyPress (2.2.0)
+ *
+ * @param string $action Static activity action.
+ * @param object $activity Activity object.
+ * @return string
+ */
+function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
+	_deprecated_function( __FUNCTION__, '2.2', 'bp_members_format_activity_action_new_member()' );
+
+	$action = apply_filters( 'bp_xprofile_format_activity_action_new_member', $action, $activity );
+	return bp_members_format_activity_action_new_member( $action, $activity );
+}
+
+/**
+ * Add 'bp' to global group of network wide cachable objects.
+ *
+ * @since BuddyPress (1.1)
+ * @deprecated BuddyPress (2.2.0)
+ */
+function bp_core_add_global_group() {
+	_deprecated_function( __FUNCTION__, '2.2', 'This function has no replacement' );
+}

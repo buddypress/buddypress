@@ -409,7 +409,7 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 
 	// Check if the user has an outstanding request. If so, delete it.
 	if ( groups_check_for_membership_request( $user_id, $group_id ) )
-		groups_delete_membership_request( $user_id, $group_id );
+		groups_delete_membership_request( null, $user_id, $group_id );
 
 	// User is already a member, just return true
 	if ( groups_is_user_member( $user_id, $group_id ) )
@@ -921,7 +921,7 @@ function groups_invite_user( $args = '' ) {
 		groups_accept_membership_request( $membership_id, $user_id, $group_id );
 
 	// Otherwise, create a new invitation
-	} else if ( ! groups_is_user_member( $user_id, $group_id ) && ! groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
+	} elseif ( ! groups_is_user_member( $user_id, $group_id ) && ! groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;
 		$invite->user_id       = $user_id;
@@ -976,7 +976,7 @@ function groups_accept_invite( $user_id, $group_id ) {
 		}
 
 		if ( groups_check_for_membership_request( $user_id, $group_id ) ) {
-			groups_delete_membership_request( $user_id, $group_id );
+			groups_delete_membership_request( null, $user_id, $group_id );
 		}
 
 		return true;
@@ -1128,7 +1128,7 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 }
 
 /**
- * Demone a user to 'member' status within a group.
+ * Demote a user to 'member' status within a group.
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.

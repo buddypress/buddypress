@@ -23,7 +23,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 			'subject' => 'Bar',
 		) );
 
-		$threads = BP_Messages_Thread::get_current_threads_for_user( $u2, 'inbox', 'all', null, null, 'ar' );
+		$threads = BP_Messages_Thread::get_current_threads_for_user( array(
+			'user_id' => $u2,
+			'search_terms' => 'ar',
+		) );
 
 		$expected = array( $t2 );
 		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
@@ -35,6 +38,38 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group get_current_threads_for_user
 	 */
 	public function test_get_current_threads_for_user_with_search_terms_sentbox() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		$t1 = $this->factory->message->create( array(
+			'sender_id' => $u1,
+			'recipients' => array( $u2 ),
+			'subject' => 'Foo',
+		) );
+
+		$t2 = $this->factory->message->create( array(
+			'sender_id' => $u1,
+			'recipients' => array( $u2 ),
+			'subject' => 'Bar',
+		) );
+
+		$threads = BP_Messages_Thread::get_current_threads_for_user( array(
+			'user_id' => $u1,
+			'box' => 'sentbox',
+			'search_terms' => 'ar',
+		) );
+
+		$expected = array( $t2 );
+		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
+
+		$this->assertSame( $expected, $found );
+	}
+
+	/**
+	 * @group get_current_threads_for_user
+	 * @expectedDeprecated BP_Messages_Thread::get_current_threads_for_user
+	 */
+	public function test_get_current_threads_for_user_with_old_args() {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 

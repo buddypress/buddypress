@@ -36,7 +36,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 
 		$d = new BP_XProfile_ProfileData( $f, $u );
 
-		wp_cache_delete( $f, 'bp_xprofile_data_' . $u );
+		wp_cache_delete( "{$u}:{$f}", 'bp_xprofile_data' );
 
 		$this->assertTrue( $d->exists() );
 	}
@@ -56,7 +56,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		// Fake the cache
 		$c = new stdClass;
 		$c->id = 3;
-		wp_cache_set( $f, $c, 'bp_xprofile_data_' . $u );
+		wp_cache_set( "{$u}:{$f}", $c, 'bp_xprofile_data' );
 
 		$this->assertTrue( $d->exists() );
 	}
@@ -73,7 +73,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		) );
 
 		// Just to be sure
-		wp_cache_delete( $f, 'bp_xprofile_data_' . $u );
+		wp_cache_delete( "{$u}:{$f}", 'bp_xprofile_data' );
 
 		$this->assertEquals( 0, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
@@ -96,7 +96,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d->save();
 
 		// Ensure it's deleted from cache
-		wp_cache_delete( $f, 'bp_xprofile_data_' . $u );
+		wp_cache_delete( "{$u}:{$f}", 'bp_xprofile_data' );
 
 		$this->assertEquals( $d->id, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
@@ -115,7 +115,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		// Fake the cache
 		$d = new stdClass;
 		$d->id = 5;
-		wp_cache_set( $f, $d, 'bp_xprofile_data_' . $u );
+		wp_cache_set( "{$u}:{$f}", $d, 'bp_xprofile_data' );
 
 		$this->assertSame( 5, BP_XProfile_ProfileData::get_fielddataid_byid( $f, $u ) );
 	}
@@ -138,7 +138,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d->save();
 
 		// Ensure it's deleted from cache
-		wp_cache_delete( $f, 'bp_xprofile_data_' . $u );
+		wp_cache_delete( "{$u}:{$f}", 'bp_xprofile_data' );
 
 		$this->assertSame( 'foo', BP_XProfile_ProfileData::get_value_byid( $f, $u ) );
 	}
@@ -179,8 +179,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		remove_filter( 'xprofile_data_last_updated_before_save', array( $this, 'filter_time' ) );
 
 		// Ensure it's deleted from cache
-		wp_cache_delete( $f, 'bp_xprofile_data_' . $u1 );
-		wp_cache_delete( $f, 'bp_xprofile_data_' . $u2 );
+		wp_cache_delete( "{$u1}:{$f}", 'bp_xprofile_data' );
+		wp_cache_delete( "{$u2}:{$f}", 'bp_xprofile_data' );
 
 		$eu1 = new stdClass;
 		$eu1->user_id = $u1;
@@ -218,7 +218,7 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d = new stdClass;
 		$d->value = 'foo';
 		$d->field_id = $f;
-		wp_cache_set( $f, $d, 'bp_xprofile_data_' . $u );
+		wp_cache_set( "{$u}:{$f}", $d, 'bp_xprofile_data' );
 
 		$this->assertSame( 'foo', BP_XProfile_ProfileData::get_value_byid( $f, $u ) );
 	}
@@ -252,8 +252,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d2->value = 'bar';
 		$d2->last_updated = $time;
 
-		wp_cache_set( $f, $d1, 'bp_xprofile_data_' . $u1 );
-		wp_cache_set( $f, $d2, 'bp_xprofile_data_' . $u2 );
+		wp_cache_set( "{$u1}:{$f}", $d1, 'bp_xprofile_data' );
+		wp_cache_set( "{$u2}:{$f}", $d2, 'bp_xprofile_data' );
 
 		$eu1 = new stdClass;
 		$eu1->id = 10;
@@ -313,8 +313,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d2->save();
 
 		// Ensure it's deleted from cache
-		wp_cache_delete( $f1, 'bp_xprofile_data_' . $u );
-		wp_cache_delete( $f2, 'bp_xprofile_data_' . $u );
+		wp_cache_delete( "{$u}:{$f1}", 'bp_xprofile_data' );
+		wp_cache_delete( "{$u}:{$f2}", 'bp_xprofile_data' );
 
 		$u_obj = new WP_User( $u );
 
@@ -389,8 +389,8 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$d2->last_updated = $time;
 		$d2->id = 2;
 
-		wp_cache_set( $f1, $d1, 'bp_xprofile_data_' . $u );
-		wp_cache_set( $f2, $d2, 'bp_xprofile_data_' . $u );
+		wp_cache_set( "{$u}:{$f1}", $d1, 'bp_xprofile_data' );
+		wp_cache_set( "{$u}:{$f2}", $d2, 'bp_xprofile_data' );
 
 		$u_obj = new WP_User( $u );
 

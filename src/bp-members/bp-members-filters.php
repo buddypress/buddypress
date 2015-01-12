@@ -111,6 +111,15 @@ function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
 		$profile_link = $url;
 	}
 
+	/**
+	 * Filters the user profile URL to point to BuddyPress profile edit.
+	 *
+	 * @since BuddyPress (1.5.2)
+	 *
+	 * @param string $url WP profile edit URL.
+	 * @param int    $user_id ID of the user.
+	 * @param string $scheme Scheme to use.
+	 */
 	return apply_filters( 'bp_members_edit_profile_url', $profile_link, $url, $user_id, $scheme );
 }
 add_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );

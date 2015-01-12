@@ -70,6 +70,14 @@ function xprofile_filter_kses( $content, $data_obj = null ) {
 	$xprofile_allowedtags             = $allowedtags;
 	$xprofile_allowedtags['a']['rel'] = array();
 
+	/**
+	 * Filters the allowed tags for use within xprofile_filter_kses().
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param array                   $xprofile_allowedtags Array of allowed tags for profile field values.
+	 * @param BP_XProfile_ProfileData $data_obj             The BP_XProfile_ProfileData object.
+	 */
 	$xprofile_allowedtags = apply_filters( 'xprofile_allowed_tags', $xprofile_allowedtags, $data_obj );
 	return wp_kses( $content, $xprofile_allowedtags );
 }
@@ -97,6 +105,16 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 	if ( !is_array( $field_value ) ) {
 		$kses_field_value     = xprofile_filter_kses( $field_value, $data_obj );
 		$filtered_field_value = wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
+
+		/**
+		 * Filters the kses-filtered data before saving to database.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string                  $filtered_field_value The filtered value.
+		 * @param string                  $field_value          The original value before filtering.
+		 * @param BP_XProfile_ProfileData $data_obj             The BP_XProfile_ProfileData object.
+		 */
 		$filtered_field_value = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_field_value, $field_value, $data_obj );
 
 	// Filter each array item independently
@@ -105,6 +123,8 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		foreach ( (array) $field_value as $value ) {
 			$kses_field_value       = xprofile_filter_kses( $value, $data_obj );
 			$filtered_value 	= wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
+
+			/** This filter is documented in bp-xprofile/bp-xprofile-filters.php */
 			$filtered_values[] = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_value, $value, $data_obj );
 
 		}
@@ -200,13 +220,13 @@ function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $fiel
 /**
  * Filter an Extended Profile field value, and attempt to make clickable links
  * to members search results out of them.
- * 
+ *
  * - Not run on datebox field types
  * - Not run on values without commas with less than 5 words
  * - URL's are made clickable
  * - To disable: remove_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 2 );
  *
- * @since BuddyPress (1.1)
+ * @since BuddyPress (1.1.0)
  *
  * @param string $field_value
  * @param string  $field_type
@@ -300,7 +320,7 @@ add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
 /**
  * Filter BP_User_Query::populate_extras to override each queries users fullname
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @param BP_User_Query $user_query
  * @param string $user_ids_sql

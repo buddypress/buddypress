@@ -362,6 +362,23 @@ class BP_Activity_Component extends BP_Component {
 
 		parent::setup_actions();
 	}
+
+	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'bp_activity',
+			'bp_activity_comments',
+			'activity_meta'
+		) );
+
+		parent::setup_cache_groups();
+	}
 }
 
 /**

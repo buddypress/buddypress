@@ -87,7 +87,7 @@ function bp_activity_directory_permalink() {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @uses traisingslashit()
+	 * @uses trailingslashit()
 	 * @uses bp_get_root_domain()
 	 * @uses bp_get_activity_root_slug()
 	 * @uses apply_filters() To call the 'bp_get_activity_directory_permalink' hook.
@@ -201,9 +201,11 @@ class BP_Activity_Template {
 			'exclude'           => false,
 			'in'                => false,
 			'filter'            => false,
+			'scope'             => false,
 			'search_terms'      => false,
 			'meta_query'        => false,
 			'date_query'        => false,
+			'filter_query'      => false,
 			'display_comments'  => 'threaded',
 			'show_hidden'       => false,
 			'spam'              => 'ham_only',
@@ -249,7 +251,9 @@ class BP_Activity_Template {
 				'search_terms'      => $search_terms,
 				'meta_query'        => $meta_query,
 				'date_query'        => $date_query,
+				'filter_query'      => $filter_query,
 				'filter'            => $filter,
+				'scope'             => $scope,
 				'show_hidden'       => $show_hidden,
 				'exclude'           => $exclude,
 				'in'                => $in,
@@ -310,7 +314,8 @@ class BP_Activity_Template {
 				'current'   => (int) $this->pag_page,
 				'prev_text' => _x( '&larr;', 'Activity pagination previous text', 'buddypress' ),
 				'next_text' => _x( '&rarr;', 'Activity pagination next text', 'buddypress' ),
-				'mid_size'  => 1
+				'mid_size'  => 1,
+				'add_args'  => array(),
 			) );
 		}
 	}
@@ -403,6 +408,8 @@ class BP_Activity_Template {
 
 			/**
 			 * Fires if the current activity item is the first in the activity loop.
+			 *
+			 * @since BuddyPress (1.1.0)
 			 */
 			do_action('activity_loop_start');
 		}
@@ -433,110 +440,88 @@ class BP_Activity_Template {
  * @uses apply_filters() To call the 'bp_has_activities' hook.
  *
  * @param array $args {
- *     Arguments for limiting the contents of the activity loop. Most
- *     arguments are in the same format as {@link BP_Activity_Activity::get()}.
- *     However, because the format of the arguments accepted here differs in
- *     a number of ways, and because bp_has_activities() determines some
- *     default arguments in a dynamic fashion, we list all accepted arguments
- *     here as well.
+ *     Arguments for limiting the contents of the activity loop. Most arguments
+ *     are in the same format as {@link BP_Activity_Activity::get()}. However,
+ *     because the format of the arguments accepted here differs in a number of
+ *     ways, and because bp_has_activities() determines some default arguments in
+ *     a dynamic fashion, we list all accepted arguments here as well.
  *
- *     Arguments can be passed as an associative array, or as a URL query
- *     string (eg, 'user_id=4&display_comments=threaded').
+ *     Arguments can be passed as an associative array, or as a URL querystring
+ *     (eg, 'user_id=4&display_comments=threaded').
  *
- *     @type int $page Which page of results to fetch. Using page=1 without
- *           per_page will result in no pagination. Default: 1.
- *     @type int|bool $per_page Number of results per page. Default: 20.
- *     @type string $page_arg The string used as a query parameter in
- *           pagination links. Default: 'acpage'.
- *     @type int|bool $max Maximum number of results to return.
- *           Default: false (unlimited).
- *     @type string|bool $count_total If true, an additional DB query is run to
- *           count the total activity items for the query. Default: false.
- *     @type string $sort 'ASC' or 'DESC'. Default: 'DESC'.
- *     @type array|bool $exclude Array of activity IDs to exclude. Default: false.
- *     @type array|bool $in Array of IDs to limit query by (IN). 'in' is
- *           intended to be used in conjunction with other filter parameters.
- *           Default: false.
- *     @type array|bool $include Array of exact activity IDs to query.
- *           Providing an 'include' array will override all other filters
- *           passed in the argument array. When viewing a the permalink page
- *           for a single activity item, this value defaults to the ID of that
- *           item. Otherwise the default is false.
- *     @type array $meta_query Limit by activitymeta by passing an array of
- *           meta_query conditions. See {@link WP_Meta_Query::queries} for a
- *           description of the syntax.
- *     @type string $search_terms Limit results by a search term. Default: false.
- *     @type string|bool $scope Use one of BuddyPress's pre-built filters. In
- *           each case, the term 'current user' refers to the displayed user
- *           when looking at a user profile, and otherwise to the logged-in user.
- *             - 'just-me' retrieves items belonging only to the logged-in user;
- *               this is equivalent to passing a 'user_id' argument
- *             - 'friends' retrieves items belonging to the friends of the
- *               current user
- *             - 'groups' retrieves items associated with the groups to which
- *               the current user belongs
- *             - 'favorites' retrieves the current user's favorited activity
- *               items
- *             - 'mentions' retrieves activity items where the current user has
- *               received an @-mention
- *           The default value of 'scope' is set to one of the above if that
- *           value appears in the appropriate place in the URL; eg, 'scope' will
- *           be 'groups' when visiting http://example.com/members/joe/activity/groups/.
- *           Otherwise defaults to false.
- *     @type int|array|bool $user_id The ID(s) of user(s) whose activity should
- *           be fetched. Pass a single ID or an array of IDs. When viewing a
- *           user profile page (but not that user's activity subpages, ie My
- *           Friends, My Groups, etc), 'user_id' defaults to the ID of the
- *           displayed user. Otherwise the default is false.
- *     @type string|array|bool $object Filters by the `component` column in the
- *           database, which is generally the component ID in the case of
- *           BuddyPress components, or the plugin slug in the case of plugins.
- *           For example, 'groups' will limit results to those that are
- *           associated with the BP Groups component. Accepts a single
- *           component string, or an array of multiple components. Defaults to
- *           'groups' when viewing the page of a single group, the My Groups
- *           activity filter, or the Activity > Groups filter of a user profile.
- *           Otherwise defaults to false.
- *     @type string|array|bool $action Filters by the `type` column in the
- *           database, which is a string categorizing the activity item (eg,
- *           'new_blog_post', 'created_group'). Accepts a single type string,
- *           or an array of multiple types. Defaults to false.
- *     @type int|array|bool $primary_id Filters by the `item_id` column in the
- *           database. The meaning of 'primary_id' differs between components/
- *           types; for example, in the case of 'created_group', 'primary_id'
- *           is the ID of the group. Accepts a single ID, or an array of
- *           multiple IDs. When viewing a single group, defaults to the current
- *           group ID. When viewing a user's Groups stream page, defaults to
- *           the IDs of the user's groups. Otherwise defaults to false.
- *     @type int|array|bool $secondary_id Filters by the `secondary_item_id`
- *           column in the database. The meaning of 'secondary_id' differs
- *           between components/types. Accepts a single ID, or an array of
- *           multiple IDs. Defaults to false.
- *     @type int $offset Return only activity items with an ID greater than or
- *           equal to this one. Note that providing an offset will disable
- *           pagination. Default: false.
- *     @type string|bool $display_comments How to handle activity comments.
- *           Possible values:
- *             - 'threaded' - comments appear in a threaded tree, under their
- *               parent items
- *             - 'stream' - the activity stream is presented in a flat manner,
- *               with comments sorted in chronological order alongside other
- *               activity items
- *             - false - don't fetch activity comments at all
- *           Default: 'threaded'.
- *     @type bool $show_hidden Whether to show items marked hide_sitewide.
- *           Defaults to false, except in the following cases:
- *             - User is viewing his own activity stream
- *             - User is viewing the activity stream of a non-public group of
- *               which he is a member
- *     @type bool $show_hidden Normally defaults to false, except when:
- *             - a user is viewing his own activity stream
- *             - a user is viewing the activity stream of a non-public group of
- *               which he is a member
- *     @type string|bool $spam Spam status. 'ham_only', 'spam_only', or false
- *           to show all activity regardless of spam status. Default: 'ham_only'.
- *     @type bool $populate_extras Whether to pre-fetch the activity metadata
- *           for the queried items. Default: true.
+ *     @type int               $page             Which page of results to fetch. Using page=1 without per_page will result
+ *                                               in no pagination. Default: 1.
+ *     @type int|bool          $per_page         Number of results per page. Default: 20.
+ *     @type string            $page_arg         String used as a query parameter in pagination links. Default: 'acpage'.
+ *     @type int|bool          $max              Maximum number of results to return. Default: false (unlimited).
+ *     @type string|bool       $count_total      If true, an additional DB query is run to count the total activity items
+ *                                               for the query. Default: false.
+ *     @type string            $sort             'ASC' or 'DESC'. Default: 'DESC'.
+ *     @type array|bool        $exclude          Array of activity IDs to exclude. Default: false.
+ *     @type array|bool        $in               Array of IDs to limit query by (IN). 'in' is intended to be used in
+ *                                               conjunction with other filter parameters. Default: false.
+ *     @type array|bool        $include          Array of exact activity IDs to query. Providing an 'include' array will
+ *                                               override all other filters passed in the argument array. When viewing the
+ *                                               permalink page for a single activity item, this value defaults to the ID of
+ *                                               that item. Otherwise the default is false.
+ *     @type array             $meta_query       Limit by activitymeta by passing an array of meta_query conditions. See
+ *                                               {@link WP_Meta_Query::queries} for a description of the syntax.
+ *     @type array             $date_query       Limit by date by passing an array of date_query conditions. See first
+ *                                               parameter of {@link WP_Date_Query::__construct()} for syntax.
+ *     @type array             $filter_query     Advanced activity filtering.  See {@link BP_Activity_Query::__construct()}.
+ *     @type string            $search_terms     Limit results by a search term. Default: false.
+ *     @type string            $scope            Use a BuddyPress pre-built filter.
+ *                                                 - 'just-me' retrieves items belonging only to a user; this is equivalent
+ *                                                   to passing a 'user_id' argument
+ *                                                 - 'friends' retrieves items belonging to the friends of a user
+ *                                                 - 'groups' retrieves items belonging to groups to which a user belongs to
+ *                                                 - 'favorites' retrieves a user's favorited activity items
+ *                                                 - 'mentions' retrieves items where a user has received an @-mention
+ *                                               The default value of 'scope' is set to one of the above if that value
+ *                                               appears in the appropriate place in the URL; eg, 'scope' will be 'groups'
+ *                                               when visiting http://example.com/members/joe/activity/groups/. Otherwise
+ *                                               defaults to false.
+ *     @type int|array|bool    $user_id          The ID(s) of user(s) whose activity should be fetched. Pass a single ID or
+ *                                               an array of IDs. When viewing a user profile page (but not that user's
+ *                                               activity subpages, ie My Friends, My Groups, etc), 'user_id' defaults to
+ *                                               the ID of the displayed user. Otherwise the default is false.
+ *     @type string|array|bool $object           Filters by the `component` column in the database, which is generally the
+ *                                               component ID in the case of BuddyPress components, or the plugin slug in
+ *                                               the case of plugins. For example, 'groups' will limit results to those that
+ *                                               are associated with the BP Groups component. Accepts a single component
+ *                                               string, or an array of multiple components. Defaults to 'groups' when
+ *                                               viewing the page of a single group, the My Groups activity filter, or the
+ *                                               Activity > Groups filter of a user profile. Otherwise defaults to false.
+ *     @type string|array|bool $action           Filters by the `type` column in the database, which is a string
+ *                                               categorizing the activity item (eg, 'new_blog_post', 'created_group').
+ *                                               Accepts a comma-delimited string or an array of types. Default: false.
+ *     @type int|array|bool    $primary_id       Filters by the `item_id` column in the database. The meaning of
+ *                                               'primary_id' differs between components/types; for example, in the case of
+ *                                               'created_group', 'primary_id' is the ID of the group. Accepts a single ID,
+ *                                               or an array of multiple IDs. When viewing a single group, defaults to the
+ *                                               current group ID. When viewing a user's Groups stream page, defaults to the
+ *                                               IDs of the user's groups. Otherwise defaults to false.
+ *     @type int|array|bool    $secondary_id     Filters by the `secondary_item_id` column in the database. The meaning of
+ *                                               'secondary_id' differs between components/types. Accepts a single ID, or an
+ *                                               array of multiple IDs. Defaults to false.
+ *     @type int               $offset           Return only activity items with an ID greater than or equal to this one.
+ *                                               Note that providing an offset will disable pagination. Default: false.
+ *     @type string|bool       $display_comments How to handle activity comments. Possible values:
+ *                                                 - 'threaded' - comments appear in a threaded tree, under their parent
+ *                                                   items
+ *                                                 - 'stream' - the activity stream is presented in a flat manner, with
+ *                                                   comments sorted in chronological order alongside other activity items
+ *                                                 - false - don't fetch activity comments at all
+ *                                               Default: 'threaded'.
+ *     @type bool              $show_hidden      Whether to show items marked hide_sitewide. Defaults to false, except in
+ *                                               the following cases:
+ *                                                 - User is viewing his own activity stream
+ *                                                 - User is viewing the activity stream of a non-public group of which he
+ *                                                   is a member
+ *     @type string|bool       $spam             Spam status. 'ham_only', 'spam_only', or false to show all activity
+ *                                               regardless of spam status. Default: 'ham_only'.
+ *     @type bool              $populate_extras  Whether to pre-fetch the activity metadata for the queried items.
+ *                                               Default: true.
  * }
  * @return bool Returns true when activities are found, otherwise false.
  */
@@ -611,6 +596,7 @@ function bp_has_activities( $args = '' ) {
 
 		'meta_query'        => false,        // filter on activity meta. See WP_Meta_Query for format
 		'date_query'        => false,        // filter by date. See first parameter of WP_Date_Query for format
+		'filter_query'      => false,        // advanced filtering.  See BP_Activity_Query for format
 
 		// Searching
 		'search_terms'      => false,        // specify terms to search on
@@ -632,65 +618,20 @@ function bp_has_activities( $args = '' ) {
 		$page = 0;
 	}
 
+	// Search terms
 	if ( empty( $search_terms ) && ! empty( $_REQUEST['s'] ) )
 		$search_terms = $_REQUEST['s'];
 
-	// If you have passed a "scope" then this will override any filters you have passed.
-	if ( 'just-me' == $scope || 'friends' == $scope || 'groups' == $scope || 'favorites' == $scope || 'mentions' == $scope ) {
-		if ( 'just-me' == $scope )
-			$display_comments = 'stream';
-
-		// determine which user_id applies
-		if ( empty( $user_id ) )
+	// Set some default arguments when using a scope
+	if ( ! empty( $scope ) ) {
+		// Determine which user ID applies
+		if ( empty( $user_id ) ) {
 			$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
+		}
 
-		// are we displaying user specific activity?
-		if ( is_numeric( $user_id ) ) {
-			$show_hidden = ( $user_id == bp_loggedin_user_id() && $scope != 'friends' ) ? 1 : 0;
-
-			switch ( $scope ) {
-				case 'friends':
-					if ( bp_is_active( 'friends' ) )
-						$friends = friends_get_friend_user_ids( $user_id );
-						if ( empty( $friends ) )
-							return false;
-
-						$user_id = implode( ',', (array) $friends );
-					break;
-				case 'groups':
-					if ( bp_is_active( 'groups' ) ) {
-						$groups = groups_get_user_groups( $user_id );
-						if ( empty( $groups['groups'] ) )
-							return false;
-
-						$object = $bp->groups->id;
-						$primary_id = implode( ',', (array) $groups['groups'] );
-
-						$user_id = 0;
-					}
-					break;
-				case 'favorites':
-					$favs = bp_activity_get_user_favorites( $user_id );
-					if ( empty( $favs ) )
-						return false;
-
-					$in = implode( ',', (array) $favs );
-					$display_comments = true;
-					$user_id = 0;
-					break;
-				case 'mentions':
-
-					// Are mentions disabled?
-					if ( ! bp_activity_do_mentions() ) {
-						return false;
-					}
-
-					// Start search at @ symbol and stop search at closing tag delimiter.
-					$search_terms     = '@' . bp_activity_get_user_mentionname( $user_id ) . '<';
-					$display_comments = 'stream';
-					$user_id = 0;
-					break;
-			}
+		// Should we show all items regardless of sitewide visibility?
+		if ( ! empty( $user_id ) ) {
+			$show_hidden = ( $user_id == bp_loggedin_user_id() ) ? 1 : 0;
 		}
 	}
 
@@ -711,7 +652,7 @@ function bp_has_activities( $args = '' ) {
 	 */
 	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) )
 		$filter = array( 'object' => $_GET['afilter'] );
-	else if ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) || ! empty( $since ) )
+	elseif ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) || ! empty( $since ) )
 		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id, 'offset' => $offset, 'since' => $since );
 	else
 		$filter = false;
@@ -731,9 +672,11 @@ function bp_has_activities( $args = '' ) {
 		'exclude'           => $exclude,
 		'in'                => $in,
 		'filter'            => $filter,
+		'scope'             => $scope,
 		'search_terms'      => $search_terms,
 		'meta_query'        => $meta_query,
 		'date_query'        => $date_query,
+		'filter_query'      => $filter_query,
 		'display_comments'  => $display_comments,
 		'show_hidden'       => $show_hidden,
 		'spam'              => $spam,
@@ -1510,7 +1453,7 @@ function bp_activity_avatar( $args = '' ) {
 		 */
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $item_id );
 
-		// If this is a user object pass the users' email address for Gravatar so we don't have to refetch it.
+		// If this is a user object pass the users' email address for Gravatar so we don't have to prefetch it.
 		if ( 'user' == $object && empty( $user_id ) && empty( $email ) && isset( $current_activity_item->user_email ) )
 			$email = $current_activity_item->user_email;
 
@@ -1696,7 +1639,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			 * @since BuddyPress (1.7.0)
 			 *
 			 * @param string $link Link to wrap the avatar image in.
-			 * @param string $component Activity componant being acted on.
+			 * @param string $component Activity component being acted on.
 			 */
 			$link = apply_filters( 'bp_get_activity_secondary_avatar_link', $link, $activities_template->activity->component );
 
@@ -1873,7 +1816,7 @@ function bp_activity_content() {
 		 * If you want to filter activity update content, please use
 		 * the filter 'bp_get_activity_content_body'
 		 *
-		 * This function is mainly for backwards comptibility.
+		 * This function is mainly for backwards compatibility.
 		 */
 		$content = bp_get_activity_action() . ' ' . bp_get_activity_content_body();
 		return apply_filters( 'bp_get_activity_content', $content );
@@ -4365,7 +4308,7 @@ function bp_activity_show_filters( $context = '' ) {
 				}
 
 			// On individual group pages, default to 'group'
-			} else if ( bp_is_active( 'groups' ) && bp_is_group() ) {
+			} elseif ( bp_is_active( 'groups' ) && bp_is_group() ) {
 				$context = 'group';
 
 			// 'activity' everywhere else

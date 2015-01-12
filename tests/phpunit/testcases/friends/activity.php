@@ -95,5 +95,94 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 
 		$this->assertTrue( count( $fd_act['activities'] ) == 0, 'friends_delete_activity() should remove "friendship_created" activities about a deleted friendship' );
 	}
+
+	/**
+	 * @group bp_friends_friendship_accepted_activity
+	 */
+	public function test_bp_friends_friendship_accepted_activity() {
+		$old_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		friends_add_friend( $u2, $u1 );
+		$friendship_id = friends_get_friendship_id( $u2, $u1 );
+
+		// Set current user to u1 to accepte the friendship
+		$this->set_current_user( $u1 );
+		friends_accept_friendship( $friendship_id );
+
+		// Reset the current user
+		$this->set_current_user( $old_user );
+
+		$u1_act = bp_activity_get( array(
+			'component'   => buddypress()->friends->id,
+			'item_id'     => $friendship_id,
+			'scope'       => 'just-me',
+			'filter'      => array( 'action' => array( 'friendship_created' ), 'user_id' => $u1 ),
+		) );
+
+		$this->assertTrue( count( $u1_act['activities'] ) == 1, 'a public activity should be listed in the friend stream' );
+
+		$u2_act = bp_activity_get( array(
+			'component'   => buddypress()->friends->id,
+			'item_id'     => $friendship_id,
+			'scope'       => 'just-me',
+			'filter'      => array( 'action' => array( 'friendship_created' ), 'user_id' => $u2 ),
+		) );
+
+		$this->assertTrue( count( $u2_act['activities'] ) == 1, 'a public activity should be listed in the initiator stream' );
+	}
+
+	/**
+	 * @group bp_cleanup_friendship_activities
+	 */
+	public function test_bp_cleanup_friendship_activities() {
+		$old_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$users = array( $u1, $u2 );
+
+		friends_add_friend( $u2, $u1 );
+		$friendship_id = friends_get_friendship_id( $u2, $u1 );
+
+		// Set current user to u1 to accepte the friendship and generate a public activity
+		$this->set_current_user( $u1 );
+		friends_accept_friendship( $friendship_id );
+
+		// Reset the current user
+		$this->set_current_user( $old_user );
+
+		$users[] = $this->factory->user->create();
+		$users[] = $this->factory->user->create();
+
+		foreach( $users as $u ) {
+			bp_activity_add( array(
+				'user_id'       => $u,
+				'item_id'       => $friendship_id,
+				'type'          => 'friendship_created',
+				'component'     => buddypress()->friends->id,
+				'hide_sitewide' => true,
+			) );
+		}
+
+		$hidden = bp_activity_get( array(
+			'component'   => buddypress()->friends->id,
+			'filter'      => array( 'action' => array( 'friendship_created' ) ),
+			'show_hidden' => true,
+		) );
+
+		bp_cleanup_friendship_activities();
+
+		$check = bp_activity_get( array(
+			'component'   => buddypress()->friends->id,
+			'item_id'     => $friendship_id,
+			'filter'      => array( 'action' => array( 'friendship_created' ) ),
+			'show_hidden' => true,
+		) );
+
+		$this->assertTrue( count( $check['activities'] ) == 1 );
+	}
 }
 

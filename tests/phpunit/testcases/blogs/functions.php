@@ -280,6 +280,45 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_blogs_restore_data
+	 */
+	public function test_bp_blogs_restore_data() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		// Create a regular member
+		$u = $this->factory->user->create();
+
+		// Create blogs
+		$b1 = $this->factory->blog->create( array( 'user_id' => $u ) );
+		$b2 = $this->factory->blog->create( array( 'user_id' => $u ) );
+
+		$expected = array(
+			$b1 => $b1,
+			$b2 => $b2
+		);
+
+		// Mark the user as spam
+		bp_core_process_spammer_status( $u, 'spam' );
+
+		// get all blogs for user
+		$blogs = bp_blogs_get_blogs_for_user( $u, true );
+		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
+
+		$this->assertNotEquals( $expected, array_map( 'intval', $blog_ids ), 'User marked as spam should not have any blog registered' );
+
+		// Ham the user
+		bp_core_process_spammer_status( $u, 'ham' );
+
+		// get all blogs for user
+		$blogs = bp_blogs_get_blogs_for_user( $u, true );
+		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
+
+		$this->assertEquals( $expected, array_map( 'intval', $blog_ids ) );
+	}
+
+	/**
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_publish_to_publish() {

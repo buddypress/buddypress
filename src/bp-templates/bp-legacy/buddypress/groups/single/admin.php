@@ -22,7 +22,7 @@
 	<?php do_action( 'groups_custom_group_fields_editable' ); ?>
 
 	<p>
-		<label for="group-notifiy-members">
+		<label for="group-notify-members">
 			<input type="checkbox" name="group-notify-members" value="1" /> <?php _e( 'Notify group members of these changes via email', 'buddypress' ); ?>
 		</label>
 	</p>
@@ -230,7 +230,7 @@
 	<div class="bp-widget">
 		<h4><?php _e("Members", "buddypress"); ?></h4>
 
-		<?php if ( bp_group_has_members( 'per_page=15&exclude_banned=false' ) ) : ?>
+		<?php if ( bp_group_has_members( 'per_page=15&exclude_banned=0' ) ) : ?>
 
 			<?php if ( bp_group_member_needs_pagination() ) : ?>
 

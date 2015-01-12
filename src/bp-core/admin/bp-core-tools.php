@@ -257,7 +257,7 @@ function bp_admin_repair_group_count() {
  */
 function bp_admin_repair_blog_records() {
 
-	// Description of this tool, dispalyed to the user
+	// Description of this tool, displayed to the user
 	$statement = __( 'Repopulating Blogs records&hellip; %s', 'buddypress' );
 
 	// Default to failure text

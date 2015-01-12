@@ -129,7 +129,7 @@ function bp_forums_new_forum( $args = '' ) {
  *     @type bool $forum_order Order.
  *     @type int $forum_is_category Whether the forum is a category. Default: 0.
  * }
- * @return bool Ttrue on success, false on failure.
+ * @return bool True on success, false on failure.
  */
 function bp_forums_update_forum( $args = '' ) {
 	do_action( 'bbpress_init' );
@@ -308,7 +308,7 @@ function bp_forums_new_topic( $args = '' ) {
 		'topic_start_time'       => bp_core_current_time(),
 		'topic_time'             => bp_core_current_time(),
 		'topic_open'             => 1,
-		'topic_tags'             => false, // accepts array or comma delim
+		'topic_tags'             => false, // accepts array or comma delimited
 		'forum_id'               => 0      // accepts ids or slugs
 	) );
 	extract( $r, EXTR_SKIP );

@@ -648,7 +648,7 @@ class BP_Groups_Component extends BP_Component {
 			if ( bp_is_my_profile() && !bp_is_single_item() ) {
 				$bp->bp_options_title = _x( 'Memberships', 'My Groups page <title>', 'buddypress' );
 
-			} else if ( !bp_is_my_profile() && !bp_is_single_item() ) {
+			} elseif ( !bp_is_my_profile() && !bp_is_single_item() ) {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => bp_displayed_user_id(),
 					'type'    => 'thumb',
@@ -658,7 +658,7 @@ class BP_Groups_Component extends BP_Component {
 
 			// We are viewing a single group, so set up the
 			// group navigation menu using the $this->current_group global.
-			} else if ( bp_is_single_item() ) {
+			} elseif ( bp_is_single_item() ) {
 				$bp->bp_options_title  = $this->current_group->name;
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id'    => $this->current_group->id,
@@ -675,6 +675,24 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		parent::setup_title();
+	}
+
+	/**
+	 * Setup cache groups
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups
+		wp_cache_add_global_groups( array(
+			'bp_groups',
+			'bp_group_admins',
+			'bp_group_invite_count',
+			'group_meta'
+		) );
+
+		parent::setup_cache_groups();
 	}
 }
 

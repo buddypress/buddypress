@@ -61,9 +61,19 @@ Title: Navigator
 Twitter: mercime_one
 Favorite Food: Paella Valenciana
 
+Name: David Cavins
+Title: Core Developer
+Twitter: daveycavey
+Favorite Food: Quad-Cities pizza
+
+Name: Michael Beckwith
+Title: Core Developer
+Twitter: tw2113
+Favorite Food: Jelly Beans
+
 /* THANKS */
 hnla, modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2014/04/14
+Updated: 2015/01/07
 See: http://humanstxt.org/
