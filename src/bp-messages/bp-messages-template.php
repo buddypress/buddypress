@@ -119,7 +119,6 @@ class BP_Messages_Box_Template {
 	 * }
 	 */
 	public function __construct( $args = array() ) {
-		global $wpdb, $bp;
 
 		// Backward compatibility with old method of passing arguments
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
@@ -140,36 +139,36 @@ class BP_Messages_Box_Template {
 		}
 
 		$r = wp_parse_args( $args, array(
-			'user_id'  => bp_loggedin_user_id(),
-			'box'      => 'inbox',
-			'per_page' => 10,
-			'max'      => false,
-			'type'     => 'all',
+			'user_id'      => bp_loggedin_user_id(),
+			'box'          => 'inbox',
+			'per_page'     => 10,
+			'max'          => false,
+			'type'         => 'all',
 			'search_terms' => '',
 			'page_arg'     => 'mpage',
 			'meta_query'   => array(),
 		) );
 
-		$this->pag_page = isset( $_GET[ $r['page_arg'] ] ) ? intval( $_GET[ $r['page_arg'] ] ) : 1;
-		$this->pag_num  = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $r['per_page'];
+		$this->pag_page     = isset( $_GET[ $r['page_arg'] ] ) ? intval( $_GET[ $r['page_arg'] ] ) : 1;
+		$this->pag_num      = isset( $_GET['num']            ) ? intval( $_GET['num']            ) : $r['per_page'];
 
 		$this->user_id      = $r['user_id'];
 		$this->box          = $r['box'];
 		$this->type         = $r['type'];
 		$this->search_terms = $r['search_terms'];
 
-		if ( 'notices' == $this->box ) {
+		if ( 'notices' === $this->box ) {
 			$this->threads = BP_Messages_Notice::get_notices( array(
 				'pag_num'  => $this->pag_num,
 				'pag_page' => $this->pag_page
 			) );
 		} else {
 			$threads = BP_Messages_Thread::get_current_threads_for_user( array(
-				'user_id' => $this->user_id,
-				'box'     => $this->box,
-				'type'    => $this->type,
-				'limit'   => $this->pag_num,
-				'page'    => $this->pag_page,
+				'user_id'      => $this->user_id,
+				'box'          => $this->box,
+				'type'         => $this->type,
+				'limit'        => $this->pag_num,
+				'page'         => $this->pag_page,
 				'search_terms' => $this->search_terms,
 				'meta_query'   => $r['meta_query'],
 			) );
@@ -184,16 +183,16 @@ class BP_Messages_Box_Template {
 		} else {
 			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
 
-			if ( ! $r['max'] || $r['max'] >= (int) $total_notice_count ) {
-				if ( 'notices' == $this->box ) {
+			if ( empty( $r['max'] ) || ( (int) $r['max'] >= (int) $total_notice_count ) ) {
+				if ( 'notices' === $this->box ) {
 					$this->total_thread_count = (int) $total_notice_count;
 				}
 			} else {
 				$this->total_thread_count = (int) $r['max'];
 			}
 
-			if ( $r['max'] ) {
-				if ( $max >= count( $this->threads ) ) {
+			if ( ! empty( $r['max'] ) ) {
+				if ( (int) $r['max'] >= count( $this->threads ) ) {
 					$this->thread_count = count( $this->threads );
 				} else {
 					$this->thread_count = (int) $r['max'];
