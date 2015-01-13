@@ -151,7 +151,14 @@ function bp_notifications_get_all_notifications_for_user( $user_id = 0 ) {
 		wp_cache_set( 'all_for_user_' . $user_id, $notifications, 'bp_notifications' );
 	}
 
-	// Filter and return
+	/**
+	 * Filters all notifications for a user.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param array $notifications Array of notifications for user.
+	 * @param int   $user_id       ID of the user being fetched.
+	 */
 	return apply_filters( 'bp_notifications_get_all_notifications_for_user', $notifications, $user_id );
 }
 
@@ -261,7 +268,13 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 				// Function should return an object
 				if ( 'object' === $format ) {
 
-					// Retrieve the content of the notification using the callback
+					/**
+					 * Filters the notifications for a user.
+					 *
+					 * @since BuddyPress (1.9.0)
+					 *
+					 * @param array $ref_array Array of properties for the current notification being rendered.
+					 */
 					$content = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
 
 					// Create the object to be returned
@@ -281,6 +294,8 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 
 				// Return an array of content strings
 				} else {
+
+					/** This filters is documented in bp-notifications/bp-notifications-functions.php */
 					$renderable[] = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
 				}
 			}
@@ -292,7 +307,15 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 		$renderable = false;
 	}
 
-	// Filter and return
+	/**
+	 * Filters the final array of notifications to be displayed for a user.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param Array|Bool $renderable Array of notifications to render or false if no notifications.
+	 * @param int        $user_id    ID of the user whose notifications are being displayed.
+	 * @param string     $format     Display format requested for the notifications.
+	 */
 	return apply_filters( 'bp_core_get_notifications_for_user', $renderable, $user_id, $format );
 }
 
@@ -540,6 +563,13 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
 	$notifications = bp_notifications_get_all_notifications_for_user( $user_id );
 	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
 
+	/**
+	 * Filters the count of unread notification items for a user.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param int $count Count of unread notification items for a user.
+	 */
 	return apply_filters( 'bp_notifications_get_total_notification_count', (int) $count );
 }
 
@@ -571,6 +601,13 @@ function bp_notifications_get_registered_components() {
 		}
 	}
 
-	// Return active components with registered notifications callbacks
+	/**
+	 * Filters active components with registered notifications callbacks.
+	 *
+	 * @since BuddyPress (1.9.1)
+	 *
+	 * @param array $component_names   Array of registered component names.
+	 * @param array $active_components Array of active components.
+	 */
 	return apply_filters( 'bp_notifications_get_registered_components', $component_names, $active_components );
 }

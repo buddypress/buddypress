@@ -138,6 +138,15 @@ class BP_Notifications_Notification {
 		);
 		$data_format = array( '%d', '%d', '%d', '%s', '%s', '%s', '%d' );
 
+		/**
+		 * Fires before the current notification item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param BP_Notifications_Notification Current instance of the notification item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'bp_notification_before_save', array( &$this ) );
 
 		// Update
@@ -157,6 +166,13 @@ class BP_Notifications_Notification {
 			$retval   = $wpdb->insert_id;
 		}
 
+		/**
+		 * Fires after the current notification item gets saved.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param BP_Notifications_Notification Current instance of the notification item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'bp_notification_after_save', array( &$this ) );
 
 		// Return the result
@@ -703,6 +719,15 @@ class BP_Notifications_Notification {
 	public static function delete( $args = array() ) {
 		$where = self::get_query_clauses( $args );
 
+		/**
+		 * Fires before the deletion of a notification item.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $args Associative array of columns/values, to determine
+		 *                    which rows should be deleted. Of the format
+		 *                    array( 'item_id' => 7, 'component_action' => 'members' ).
+		 */
 		do_action( 'bp_notification_before_delete', $args );
 
 		return self::_delete( $where['data'], $where['format'] );
