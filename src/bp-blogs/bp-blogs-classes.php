@@ -156,7 +156,7 @@ class BP_Blogs_Blog {
 				$order_sql = "ORDER BY bm.meta_value DESC";
 				break;
 			case 'alphabetical':
-				$order_sql = "ORDER BY bm2.meta_value ASC";
+				$order_sql = "ORDER BY bm_name.meta_value ASC";
 				break;
 			case 'newest':
 				$order_sql = "ORDER BY wb.registered DESC";
