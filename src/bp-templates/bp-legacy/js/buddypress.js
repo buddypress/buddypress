@@ -1357,7 +1357,7 @@ jq(document).ready( function() {
 
 	/** Private Messaging ******************************************/
 
-	/** Message search*/
+	/** Message search */
 	jq('.message-search').on( 'click', function(event) {
 		if ( jq(this).hasClass('no-ajax') ) {
 			return;
@@ -1366,11 +1366,17 @@ jq(document).ready( function() {
 		var target = jq(event.target),
 			object;
 
-		if ( target.attr('type') === 'submit' ) {
-			//var css_id = jq('.item-list-tabs li.selected').attr('id').split( '-' );
+		if ( target.attr('type') === 'submit' || target.attr('type') === 'button' ) {
 			object = 'messages';
 
-			bp_filter_request( object, jq.cookie('bp-' + object + '-filter'), jq.cookie('bp-' + object + '-scope') , 'div.' + object, target.parent().children('label').children('input').val(), 1, jq.cookie('bp-' + object + '-extras') );
+			bp_filter_request(
+				object,
+				jq.cookie('bp-' + object + '-filter'),
+				jq.cookie('bp-' + object + '-scope'),
+				'div.' + object, jq('#messages_search').val(),
+				1,
+				jq.cookie('bp-' + object + '-extras')
+			);
 
 			return false;
 		}
