@@ -255,7 +255,7 @@ Regards,
 	}
 
 	// Set the feedback
-	bp_core_add_message( implode( '</p><p>', $feedback ), $feedback_type );
+	bp_core_add_message( implode( "\n", $feedback ), $feedback_type );
 
 	/**
 	 * Fires after the general settings have been saved, and before redirect.
