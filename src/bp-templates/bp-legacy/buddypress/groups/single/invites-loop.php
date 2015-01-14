@@ -1,3 +1,4 @@
+
 <div class="left-menu">
 
 	<div id="invite-list">
@@ -75,16 +76,16 @@
 		</div>
 
 	<?php else : ?>
+
 		<div id="message" class="info">
-			<p><?php _e( 'Select people to invite from your friends list.', 'buddypress' ); ?></p>
+			<p><?php _e( 'Select friends to invite.', 'buddypress' ); ?></p>
 		</div>
+
 	<?php endif; ?>
 
 <?php do_action( 'bp_after_group_send_invites_list' ); ?>
 
 </div><!-- .main-column -->
-
-<div class="clear"></div>
 
 <div class="submit">
 	<input type="submit" name="submit" id="submit" value="<?php esc_attr_e( 'Send Invites', 'buddypress' ); ?>" />
