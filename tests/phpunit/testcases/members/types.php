@@ -32,6 +32,36 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		}
 	}
 
+	/**
+	 * @ticket BP6125
+	 */
+	public function test_bp_register_member_type_should_respect_custom_name_label() {
+		$object = bp_register_member_type( 'foo', array(
+			'labels' => array(
+				'name' => 'Bar',
+			),
+		) );
+
+		// 'singular_name' falls back on 'name'.
+		$this->assertSame( 'Bar', $object->labels['name'] );
+		$this->assertSame( 'Bar', $object->labels['singular_name'] );
+	}
+
+	/**
+	 * @ticket BP6125
+	 */
+	public function test_bp_register_member_type_should_respect_custom_singular_name_label() {
+		$object = bp_register_member_type( 'foo', array(
+			'labels' => array(
+				'singular_name' => 'Bar',
+			),
+		) );
+
+		// 'name' is set to upper-case version of member type name.
+		$this->assertSame( 'Foo', $object->labels['name'] );
+		$this->assertSame( 'Bar', $object->labels['singular_name'] );
+	}
+
 	public function test_bp_get_member_type_object_should_return_null_for_non_existent_member_type() {
 		$this->assertSame( null, bp_get_member_type_object( 'foo' ) );
 	}

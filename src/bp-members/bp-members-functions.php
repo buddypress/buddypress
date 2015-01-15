@@ -2479,19 +2479,17 @@ function bp_register_member_type( $member_type, $args = array() ) {
 		'labels' => array(),
 	), 'register_member_type' );
 
-	$type = (object) $r;
-
 	// Store the post type name as data in the object (not just as the array key).
-	$type->name = $member_type;
+	$r['name'] = $member_type;
 
 	// Make sure the relevant labels have been filled in.
-	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $type->name );
+	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $r['name'] );
 	$r['labels'] = array_merge( array(
 		'name'          => $default_name,
 		'singular_name' => $default_name,
 	), $r['labels'] );
 
-	$bp->members->types[ $member_type ] = $type;
+	$bp->members->types[ $member_type ] = $type = (object) $r;
 
 	/**
 	 * Fires after a member type is registered.
