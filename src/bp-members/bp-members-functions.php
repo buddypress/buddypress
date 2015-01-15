@@ -714,7 +714,8 @@ function bp_core_get_total_member_count() {
 function bp_core_get_active_member_count() {
 	global $wpdb;
 
-	if ( !$count = get_transient( 'bp_active_member_count' ) ) {
+	$count = get_transient( 'bp_active_member_count' );
+	if ( false === $count ) {
 		$bp = buddypress();
 
 		// Avoid a costly join by splitting the lookup
