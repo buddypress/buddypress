@@ -2541,8 +2541,6 @@ function bp_get_member_type_object( $member_type ) {
 function bp_get_member_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	$types = buddypress()->members->types;
 
-	$field = 'names' == $output ? 'name' : false;
-
 	$types = wp_filter_object_list( $types, $args, $operator );
 
 	/**
