@@ -2509,7 +2509,7 @@ function bp_register_member_type( $member_type, $args = array() ) {
  *
  * @since BuddyPress (2.2.0)
  *
- * @param  string $post_type The name of the member type.
+ * @param  string $member_type The name of the member type.
  * @return object A member type object.
  */
 function bp_get_member_type_object( $member_type ) {
