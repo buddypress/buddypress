@@ -283,6 +283,32 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		$this->assertEquals( $this->comment_post_id, $p );
 	}
+
+	/**
+	 * @ticket BP6126
+	 */
+	public function test_check_activity_actions_are_set_when_creating_activity_object() {
+		$bp = buddypress();
+
+		if ( isset( $bp->activity->actions ) ) {
+			unset( $bp->activity->actions );
+		}
+
+		$u = $this->factory->user->create();
+		$p = $this->factory->post->create( array( 'post_author' => $u, ) );
+		$a = $this->factory->activity->create( array(
+			'component'         => buddypress()->blogs->id,
+			'item_id'           => 1,
+			'secondary_item_id' => $p,
+			'type'              => 'new_blog_post',
+			'user_id'           => $u,
+		) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+		$this->assertTrue( ! empty( $a_obj->action ) );
+
+	}
+
 	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter

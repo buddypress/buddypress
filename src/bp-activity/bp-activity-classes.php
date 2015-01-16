@@ -162,6 +162,14 @@ class BP_Activity_Activity {
 			$this->is_spam           = $row->is_spam;
 		}
 
+		/**
+		 * Make sure the activity actions have been registered.
+		 * We can't assume it will already be set because this is normally only done on an ad-hoc basis.
+		 *
+		 * @link https://buddypress.trac.wordpress.org/ticket/6126
+		 */
+		bp_activity_get_actions();
+
 		// Generate dynamic 'action' when possible
 		$action = bp_activity_generate_action_string( $this );
 		if ( false !== $action ) {
