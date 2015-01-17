@@ -53,4 +53,34 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 
 		$this->assertEquals( $expected, $found );
 	}
+
+	/**
+	 * @group bp_activity_clear_cache_for_activity
+	 */
+	public function test_bp_activity_clear_cache_for_activity() {
+		$u = $this->factory->user->create();
+
+		$a = $this->factory->activity->create( array(
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar',
+		) );
+
+		$a_fp = bp_activity_get( array(
+			'type' => 'activity_update',
+			'user' => array( 'filter' => array( 'user_id' => $u ) ),
+		) );
+
+		$activity_updated = new BP_Activity_Activity( $a );
+		$activity_updated->content = 'bar foo';
+		$activity_updated->save();
+
+		$a_fp = bp_activity_get( array(
+			'type' => 'activity_update',
+			'user' => array( 'filter' => array( 'user_id' => $u ) ),
+		) );
+
+		$this->assertSame( 'bar foo', $a_fp['activities'][0]->content );
+	}
 }

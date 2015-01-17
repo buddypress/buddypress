@@ -43,6 +43,7 @@ function bp_activity_update_meta_cache( $activity_ids = false ) {
  */
 function bp_activity_clear_cache_for_activity( $activity ) {
 	wp_cache_delete( $activity->id, 'bp_activity' );
+	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 }
 add_action( 'bp_activity_after_save', 'bp_activity_clear_cache_for_activity' );
 
