@@ -17,11 +17,22 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->u1 = $this->factory->user->create();
 		$this->u2 = $this->factory->user->create();
 		$this->set_current_user( $this->u1 );
+
+		/**
+		 * Tests suite in WP < 4.0 does not include the WP_UnitTestCase->_restore_hooks() function
+		 * When updating an activity, the following filter is fired to prevent sending more than one
+		 * notification. Once we've reached this filter all at_mentions tests fails so we need to
+		 * temporarly remove it and restore it in $this->tearDown()
+		 */
+		remove_filter( 'bp_activity_at_name_do_notifications', '__return_false' );
 	}
 
 	public function tearDown() {
 		$this->set_current_user( $this->current_user );
 		parent::tearDown();
+
+		// Restore the filter
+		add_filter( 'bp_activity_at_name_do_notifications', '__return_false' );
 	}
 
 	/**
