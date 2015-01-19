@@ -970,51 +970,64 @@ class BP_Activity_Activity {
 	/**
 	 * Get the first activity ID that matches a set of criteria.
 	 *
-	 * @param int $user_id The user ID to filter by.
-	 * @param string $component The component to filter by.
-	 * @param string $type The activity type to filter by.
-	 * @param int $item_id The associated item to filter by.
-	 * @param int $secondary_item_id The secondary associated item to filter by.
-	 * @param string $action The action to filter by.
-	 * @param string $content The content to filter by.
-	 * @param string $date_recorded The date to filter by.
+	 * @param int    $user_id           User ID to filter by
+	 * @param string $component         Component to filter by
+	 * @param string $type              Activity type to filter by
+	 * @param int    $item_id           Associated item to filter by
+	 * @param int    $secondary_item_id Secondary associated item to filter by
+	 * @param string $action            Action to filter by
+	 * @param string $content           Content to filter by
+	 * @param string $date_recorded     Date to filter by
+	 *
+	 * @todo Should parameters be optional?
+	 *
 	 * @return int|bool Activity ID on success, false if none is found.
 	 */
 	public static function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$where_args = false;
 
-		if ( !empty( $user_id ) )
+		if ( ! empty( $user_id ) ) {
 			$where_args[] = $wpdb->prepare( "user_id = %d", $user_id );
+		}
 
-		if ( !empty( $component ) )
+		if ( ! empty( $component ) ) {
 			$where_args[] = $wpdb->prepare( "component = %s", $component );
+		}
 
-		if ( !empty( $type ) )
+		if ( ! empty( $type ) ) {
 			$where_args[] = $wpdb->prepare( "type = %s", $type );
+		}
 
-		if ( !empty( $item_id ) )
+		if ( ! empty( $item_id ) ) {
 			$where_args[] = $wpdb->prepare( "item_id = %d", $item_id );
+		}
 
-		if ( !empty( $secondary_item_id ) )
+		if ( ! empty( $secondary_item_id ) ) {
 			$where_args[] = $wpdb->prepare( "secondary_item_id = %d", $secondary_item_id );
+		}
 
-		if ( !empty( $action ) )
+		if ( ! empty( $action ) ) {
 			$where_args[] = $wpdb->prepare( "action = %s", $action );
+		}
 
-		if ( !empty( $content ) )
+		if ( ! empty( $content ) ) {
 			$where_args[] = $wpdb->prepare( "content = %s", $content );
+		}
 
-		if ( !empty( $date_recorded ) )
+		if ( ! empty( $date_recorded ) ) {
 			$where_args[] = $wpdb->prepare( "date_recorded = %s", $date_recorded );
+		}
 
-		if ( !empty( $where_args ) )
+		if ( ! empty( $where_args ) ) {
 			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
-		else
-			return false;
+			return $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
+		}
 
-		return $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
+		return false;
 	}
 
 	/**
