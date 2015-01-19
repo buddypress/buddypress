@@ -1906,7 +1906,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @since BuddyPress (2.2.0)
 	 * @access protected
 	 *
-	 * @param  array $q Clause to check.
+	 * @param  array $query Clause to check.
 	 * @return bool
 	 */
 	protected function is_first_order_clause( $query ) {
