@@ -934,7 +934,8 @@ class BP_Activity_Activity {
 			$query_args['relation'] = 'OR';
 
 			$query = new BP_Activity_Query( $query_args );
-			if ( $sql = $query->get_sql() ) {
+			$sql   = $query->get_sql();
+			if ( ! empty( $sql ) ) {
 				$retval['sql'] = $sql;
 			}
 		}
@@ -2276,7 +2277,8 @@ class BP_Activity_Feed {
 			$client_etag = trim( $client_etag, '"' );
 
 			// Strip suffixes from ETag if they exist (eg. "-gzip")
-			if ( $etag_suffix_pos = strpos( $client_etag, '-' ) ) {
+			$etag_suffix_pos = strpos( $client_etag, '-' );
+			if ( ! empty( $etag_suffix_pos ) ) {
 				$client_etag = substr( $client_etag, 0, $etag_suffix_pos );
 			}
 
