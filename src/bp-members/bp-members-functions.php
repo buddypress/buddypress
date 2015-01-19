@@ -2480,6 +2480,8 @@ function bp_register_member_type( $member_type, $args = array() ) {
 		'labels' => array(),
 	), 'register_member_type' );
 
+	$member_type = sanitize_key( $member_type );
+
 	// Store the post type name as data in the object (not just as the array key).
 	$r['name'] = $member_type;
 

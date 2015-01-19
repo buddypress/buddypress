@@ -20,6 +20,17 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$this->assertInternalType( 'object', bp_register_member_type( 'foo' ) );
 	}
 
+	/**
+	 * @ticket BP6139
+	 */
+	public function test_bp_register_member_type_should_sanitize_member_type_key() {
+		$key = 'F//oo% -Bar';
+		$sanitized_key = 'foo-bar';
+
+		$object = bp_register_member_type( $key );
+		$this->assertSame( $sanitized_key, $object->name );
+	}
+
 	public function test_bp_register_member_type_should_store_member_type_string_as_name_property() {
 		$object = bp_register_member_type( 'foo' );
 		$this->assertSame( 'foo', $object->name );
