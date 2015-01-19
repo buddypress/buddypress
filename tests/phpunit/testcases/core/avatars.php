@@ -178,4 +178,46 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 
 		$this->assertEquals( $html, $expected_html );
 	}
+
+	/**
+	 * @group bp_core_fetch_avatar
+	 */
+	public function test_bp_core_fetch_avatar_class_attribute() {
+		$u = $this->factory->user->create();
+
+		$hw = 100;
+		$args = array(
+			'item_id'    => $u,
+			'object'     => 'user',
+			'type'       => 'full',
+			'width'      => $hw,
+			'height'     => $hw,
+			'class'      => '',
+			'no_grav'    => true,
+			'html'       => true,
+		);
+
+		// Class attribute is empty
+		$avatar = bp_core_fetch_avatar( $args );
+		$expected = array( 'avatar', 'user-' . $u . '-avatar', 'avatar-' . $hw );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $avatar, $matches );
+		$classes = explode( ' ', $matches[1] );
+		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
+
+		// Class attribute is a String
+		$args['class'] = 'custom-class class-custom';
+		$avatar = bp_core_fetch_avatar( $args );
+		$expected = array_merge( explode( ' ', $args['class'] ), array( 'user-' . $u . '-avatar', 'avatar-' . $hw ) );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $avatar, $matches );
+		$classes = explode( ' ', $matches[1] );
+		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
+
+		// Class attribute is an Array
+		$args['class'] = array( 'custom-class', 'class-custom' );
+		$avatar = bp_core_fetch_avatar( $args );
+		$expected = array_merge( $args['class'], array( 'user-' . $u . '-avatar', 'avatar-' . $hw ) );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $avatar, $matches );
+		$classes = explode( ' ', $matches[1] );
+		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
+	}
 }

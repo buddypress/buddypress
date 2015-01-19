@@ -334,7 +334,24 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	// Create CSS class html string
 	$params['class'] = apply_filters( 'bp_core_avatar_class', $params['class'], $params['item_id'], $params['object'], $params );
-	$html_class = ' class="' . sanitize_html_class( $params['class'] ) . ' ' . sanitize_html_class( $params['object'] . '-' . $params['item_id'] . '-avatar' ) . ' ' . sanitize_html_class( 'avatar-' . $params['width'] ) . ' photo"';
+
+	// Use an alias to leave the param unchanged
+	$avatar_classes = $params['class'];
+	if ( ! is_array( $avatar_classes ) ) {
+		$avatar_classes = explode( ' ', $avatar_classes );
+	}
+
+	// merge classes
+	$avatar_classes = array_merge( $avatar_classes, array(
+		$params['object'] . '-' . $params['item_id'] . '-avatar',
+		'avatar-' . $params['width'],
+	) );
+
+	// Sanitize each class
+	$avatar_classes = array_map( 'sanitize_html_class', $avatar_classes );
+
+	// populate the class attribute
+	$html_class = ' class="' . join( ' ', $avatar_classes ) . ' photo"';
 
 	// Set img URL and DIR based on prepopulated constants
 	$avatar_loc        = new stdClass();
