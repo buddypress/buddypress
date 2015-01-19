@@ -135,11 +135,12 @@ class BP_Activity_Activity {
 	 * Populate the object with data about the specific activity item.
 	 */
 	public function populate() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$row = wp_cache_get( $this->id, 'bp_activity' );
 
 		if ( false === $row ) {
+			$bp  = buddypress();
 			$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE id = %d", $this->id ) );
 
 			wp_cache_set( $this->id, $row, 'bp_activity' );
@@ -301,7 +302,7 @@ class BP_Activity_Activity {
 	 *     - 'activities' is an array of the located activities
 	 */
 	public static function get( $args = array() ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// Backward compatibility with old method of passing arguments
 		if ( !is_array( $args ) || func_num_args() > 1 ) {
@@ -325,7 +326,8 @@ class BP_Activity_Activity {
 			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
 		}
 
-		$r = wp_parse_args( $args, array(
+		$bp = buddypress();
+		$r  = wp_parse_args( $args, array(
 			'page'              => 1,          // The current page
 			'per_page'          => 25,         // Activity items per page
 			'max'               => false,      // Max number of items to return
@@ -1054,7 +1056,9 @@ class BP_Activity_Activity {
 	 * @return array|bool An array of deleted activity IDs on success, false on failure.
 	 */
 	public static function delete( $args = array() ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$defaults = array(
 			'id'                => false,
@@ -1155,10 +1159,11 @@ class BP_Activity_Activity {
 	 * @return bool True on success.
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
-		global $bp, $wpdb;
+		global $wpdb;
 
-		$delete_meta = (bool) $delete_meta;
+		$bp = buddypress();
 
+		$delete_meta  = (bool) $delete_meta;
 		$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
 
 		if ( $delete_meta ) {
@@ -1226,7 +1231,6 @@ class BP_Activity_Activity {
 	 *
 	 * @since BuddyPress (1.2)
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $activity_id Activity ID to fetch comments for.
@@ -1237,7 +1241,7 @@ class BP_Activity_Activity {
 	 * @return array The updated activities with nested comments.
 	 */
 	public static function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only', $top_level_parent_id = 0 ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $top_level_parent_id ) ) {
 			$top_level_parent_id = $activity_id;
@@ -1252,6 +1256,8 @@ class BP_Activity_Activity {
 
 		// A true cache miss
 		} elseif ( empty( $comments ) ) {
+
+			$bp = buddypress();
 
 			// Select the user's fullname with the query
 			if ( bp_is_active( 'xprofile' ) ) {
@@ -1419,14 +1425,15 @@ class BP_Activity_Activity {
 	 *
 	 * @since BuddyPress (1.2)
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $parent_id ID of an activity or activity comment.
 	 * @return object Numerically indexed array of child comments.
 	 */
 	public static function get_child_comments( $parent_id ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE type = 'activity_comment' AND secondary_item_id = %d", $parent_id ) );
 	}
@@ -1442,9 +1449,11 @@ class BP_Activity_Activity {
 	 * @return array List of component names.
 	 */
 	public static function get_recorded_components( $skip_last_activity = true ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
-		if ( $skip_last_activity ) {
+		$bp = buddypress();
+
+		if ( true === $skip_last_activity ) {
 			$components = $wpdb->get_col( "SELECT DISTINCT component FROM {$bp->activity->table_name} WHERE action != '' AND action != 'last_activity' ORDER BY component ASC" );
 		} else {
 			$components = $wpdb->get_col( "SELECT DISTINCT component FROM {$bp->activity->table_name} ORDER BY component ASC" );
@@ -1596,7 +1605,9 @@ class BP_Activity_Activity {
 	 * @return string ISO timestamp.
 	 */
 	public static function get_last_updated() {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( "SELECT date_recorded FROM {$bp->activity->table_name} ORDER BY date_recorded DESC LIMIT 1" );
 	}
@@ -1628,7 +1639,9 @@ class BP_Activity_Activity {
 	 * @return int|bool The ID of the first matching item if found, otherwise false.
 	 */
 	public static function check_exists_by_content( $content ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE content = %s", $content ) );
 	}
@@ -1640,7 +1653,9 @@ class BP_Activity_Activity {
 	 * @param int
 	 */
 	public static function hide_all_for_user( $user_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );
 	}
