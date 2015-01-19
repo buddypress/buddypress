@@ -859,27 +859,33 @@ class BP_Activity_Activity {
 	 *
 	 * @since BuddyPress (2.2.0)
 	 *
-	 * @param  string $scope The activity scope
-	 * @param  array  $r     Current activity arguments. Same as those of BP_Activity_Activity::get(),
+	 * @param  mixed $scope  The activity scope. Accepts string or array of scopes
+	 * @param  array $r      Current activity arguments. Same as those of BP_Activity_Activity::get(),
 	 *                       but merged with defaults.
 	 * @return array 'sql' WHERE SQL string and 'override' activity args
 	 */
-	public static function get_scope_query_sql( $scope = '', $r = array() ) {
+	public static function get_scope_query_sql( $scope = false, $r = array() ) {
+
+		// Define arrays for future use
 		$query_args = array();
 		$override   = array();
 		$retval     = array();
 
-		if ( ! is_array( $scope ) ) {
-			$scopes = explode( ',', $scope );
-		} else {
+		// Check for array of scopes
+		if ( is_array( $scope ) ) {
 			$scopes = $scope;
+
+		// Explode a comma separated string of scopes
+		} elseif ( is_string( $scope ) ) {
+			$scopes = explode( ',', $scope );
 		}
 
+		// Bail if no scope passed
 		if ( empty( $scopes ) ) {
-			return $sql;
+			return false;
 		}
 
-		// helper to easily grab the 'user_id'
+		// Helper to easily grab the 'user_id'
 		if ( ! empty( $r['filter']['user_id'] ) ) {
 			$r['user_id'] = $r['filter']['user_id'];
 		}
