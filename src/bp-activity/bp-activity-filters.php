@@ -677,7 +677,7 @@ add_filter( 'bp_activity_set_just-me_scope_args', 'bp_activity_filter_just_me_sc
 function bp_activity_filter_favorites_scope( $retval, $filter ) {
 	$favs = bp_activity_get_user_favorites( $filter['user_id'] );
 	if ( empty( $favs ) ) {
-		return $retval;
+		$favs = array( 0 );
 	}
 
 	$retval = array(

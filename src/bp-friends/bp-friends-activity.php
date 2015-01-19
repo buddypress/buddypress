@@ -242,7 +242,7 @@ function bp_friends_filter_activity_scope( $retval, $filter ) {
 	$friends = friends_get_friend_user_ids( $filter['user_id'] );
 
 	if ( empty( $friends ) ) {
-		return $retval;
+		$friends = array( 0 );
 	}
 
 	$retval= array(

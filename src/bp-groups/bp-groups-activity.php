@@ -246,7 +246,7 @@ function bp_groups_filter_activity_scope( $retval, $filter ) {
 	$groups = groups_get_user_groups( $filter['user_id'] );
 
 	if ( empty( $groups['groups'] ) ) {
-		return $retval;
+		$groups = array( 'groups' => 0 );
 	}
 
 	$retval= array(

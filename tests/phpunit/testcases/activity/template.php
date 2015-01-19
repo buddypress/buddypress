@@ -352,7 +352,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
@@ -385,7 +385,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
@@ -418,7 +418,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
@@ -451,7 +451,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),

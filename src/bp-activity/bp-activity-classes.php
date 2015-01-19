@@ -318,7 +318,7 @@ class BP_Activity_Activity {
 			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
 		}
 
-		$defaults = array(
+		$r = wp_parse_args( $args, array(
 			'page'              => 1,          // The current page
 			'per_page'          => 25,         // Activity items per page
 			'max'               => false,      // Max number of items to return
@@ -336,8 +336,7 @@ class BP_Activity_Activity {
 			'spam'              => 'ham_only', // Spam status
 			'update_meta_cache' => true,
 			'count_total'       => false,
-		);
-		$r = wp_parse_args( $args, $defaults );
+		) );
 
 		// Select conditions
 		$select_sql = "SELECT DISTINCT a.id";
@@ -359,20 +358,18 @@ class BP_Activity_Activity {
 			// Add our SQL conditions if matches were found
 			if ( ! empty( $scope_query['sql'] ) ) {
 				$where_conditions['scope_query_sql'] = $scope_query['sql'];
-
-			// No matches, so we should alter the SQL statement to match nothing
-			} else {
-				$where_conditions['scope_no_results'] = '0 = 1';
 			}
 
 			// override some arguments if needed
 			if ( ! empty( $scope_query['override'] ) ) {
 				$r = self::array_replace_recursive( $r, $scope_query['override'] );
 			}
+
 		// Advanced filtering
 		} elseif ( ! empty( $r['filter_query'] ) ) {
 			$filter_query = new BP_Activity_Query( $r['filter_query'] );
-			if ( $sql = $filter_query->get_sql() ) {
+			$sql          = $filter_query->get_sql();
+			if ( ! empty( $sql ) ) {
 				$where_conditions['filter_query_sql'] = $sql;
 			}
 		}
@@ -402,8 +399,9 @@ class BP_Activity_Activity {
 		}
 
 		// Hide Hidden Items?
-		if ( ! $r['show_hidden'] )
+		if ( ! $r['show_hidden'] ) {
 			$where_conditions['hidden_sql'] = "a.hide_sitewide = 0";
+		}
 
 		// Exclude specified items
 		if ( ! empty( $r['exclude'] ) ) {
@@ -615,8 +613,9 @@ class BP_Activity_Activity {
 			$total_activities     = $wpdb->get_var( $total_activities_sql );
 
 			if ( !empty( $r['max'] ) ) {
-				if ( (int) $total_activities > (int) $r['max'] )
+				if ( (int) $total_activities > (int) $r['max'] ) {
 					$total_activities = $r['max'];
+				}
 			}
 
 			$retval['total'] = $total_activities;
