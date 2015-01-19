@@ -1379,35 +1379,39 @@ class BP_Activity_Activity {
 	 *
 	 * @since BuddyPress (1.2)
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 * @global wpdb $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database object
 	 *
-	 * @param int $parent_id ID of an activity or activity comment.
-	 * @param int $left Node boundary start for activity or activity comment.
-	 * @return int Right node boundary of activity or activity comment.
+	 * @param  int $parent_id ID of an activity or activity comment
+	 * @param  int $left      Node boundary start for activity or activity comment
+	 * @return int Right      Node boundary of activity or activity comment
 	 */
 	public static function rebuild_activity_comment_tree( $parent_id, $left = 1 ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		// The right value of this node is the left value + 1
-		$right = $left + 1;
+		$right = intval( $left + 1 );
 
 		// Get all descendants of this node
-		$descendants = BP_Activity_Activity::get_child_comments( $parent_id );
+		$comments    = BP_Activity_Activity::get_child_comments( $parent_id );
+		$descendants = wp_list_pluck( $comments, 'id' );
 
 		// Loop the descendants and recalculate the left and right values
-		foreach ( (array) $descendants as $descendant )
-			$right = BP_Activity_Activity::rebuild_activity_comment_tree( $descendant->id, $right );
+		foreach ( (array) $descendants as $descendant_id ) {
+			$right = BP_Activity_Activity::rebuild_activity_comment_tree( $descendant_id, $right );
+		}
 
 		// We've got the left value, and now that we've processed the children
 		// of this node we also know the right value
-		if ( 1 == $left )
+		if ( 1 === $left ) {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE id = %d", $left, $right, $parent_id ) );
-		else
+		} else {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET mptt_left = %d, mptt_right = %d WHERE type = 'activity_comment' AND id = %d", $left, $right, $parent_id ) );
+		}
 
 		// Return the right value of this node + 1
-		return $right + 1;
+		return intval( $right + 1 );
 	}
 
 	/**
