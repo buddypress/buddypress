@@ -1606,10 +1606,15 @@ class BP_Activity_Activity {
 	 * @return int A count of the user's favorites.
 	 */
 	public static function total_favorite_count( $user_id ) {
-		if ( !$favorite_activity_entries = bp_get_user_meta( $user_id, 'bp_favorite_activities', true ) )
-			return 0;
 
-		return count( maybe_unserialize( $favorite_activity_entries ) );
+		// Get activities from user meta
+		$favorite_activity_entries = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
+		if ( ! empty( $favorite_activity_entries ) ) {
+			return count( maybe_unserialize( $favorite_activity_entries ) );
+		}
+
+		// No favorites
+		return 0;
 	}
 
 	/**
