@@ -1249,12 +1249,13 @@ function bp_activity_generate_action_string( $activity ) {
 	}
 
 	// Check for registered format callback
-	if ( empty( buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {
+	$actions = bp_activity_get_actions();
+	if ( empty( $actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {
 		return false;
 	}
 
 	// We apply the format_callback as a filter
-	add_filter( 'bp_activity_generate_action_string', buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
+	add_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
 
 	/**
 	 * Filters the string for the activity action being returned.
@@ -1267,7 +1268,7 @@ function bp_activity_generate_action_string( $activity ) {
 	$action = apply_filters( 'bp_activity_generate_action_string', $activity->action, $activity );
 
 	// Remove the filter for future activity items
-	remove_filter( 'bp_activity_generate_action_string', buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
+	remove_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
 
 	return $action;
 }
