@@ -484,6 +484,14 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
 		$post_type_activity->new_post_type_action_ms = $post_type_object->labels->bp_activity_new_post_ms;
 	}
 
+	/**
+	 * Filters tracking arguments for a specific post type.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param object $post_type_activity The tracking arguments of the post type.
+	 * @param string $post_type Name of the post type.
+	 */
 	return apply_filters( 'bp_activity_get_post_type_tracking_args', $post_type_activity, $post_type );
 }
 
@@ -509,6 +517,14 @@ function bp_activity_get_post_types_tracking_args() {
 
 	}
 
+	/**
+	 * Filters tracking arguments for all post types.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $post_types_tracking_args Array of post types with
+	 *                                        their tracking arguments.
+	 */
 	return apply_filters( 'bp_activity_get_post_types_tracking_args', $post_types_tracking_args );
 }
 
@@ -1811,7 +1827,19 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 		return;
 	}
 
-	// Let components/plugins bail before the activity is posted.
+	/**
+	 * Filters whether or not to post the activity.
+	 *
+	 * This is a variable filter, dependent on the post type,
+	 * that lets components or plugins bail early if needed.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param bool $value   Whether or not to continue.
+	 * @param int  $blog_id ID of the current site.
+	 * @param int  $post_id ID of the current post being published.
+	 * @param int  $user_id ID of the current user or post author.
+	 */
 	if ( false === apply_filters( "bp_activity_{$post->post_type}_pre_publish", true, $blog_id, $post_id, $user_id ) ) {
 		return;
 	}
@@ -1881,6 +1909,15 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 
 	$activity_id = bp_activity_add( $activity_args );
 
+	/**
+	 * Fires after the publishing of an activity item for a newly published post type post.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param int     $activity_id   ID of the newly published activity item.
+	 * @param WP_Post $post          Post object.
+	 * @param array   $activity_args Array of activity arguments.
+	 */
 	do_action( 'bp_activity_post_type_published', $activity_id, $post, $activity_args );
 
 	return $activity_id;
@@ -1946,6 +1983,14 @@ function bp_activity_post_type_update( $post = null ) {
 	// Save the updated activity.
 	$updated = $activity->save();
 
+	/**
+	 * Fires after the updating of an activity item for a custom post type entry.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param WP_Post              $post Post object.
+	 * @param BP_Activity_Activity $activity Activity object.
+	 */
 	do_action( 'bp_activity_post_type_updated', $post, $activity );
 
 	return $updated;
@@ -1988,6 +2033,16 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
 
 	$deleted = bp_activity_delete_by_item_id( $delete_activity_args );
 
+	/**
+	 * Fires after the unpublishing for the custom post type.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array   $delete_activity_args Array of arguments for activity deletion.
+	 * @param WP_Post $post                 Post object.
+	 * @param bool    $activity             Whether or not the activity
+	 *                                      was successfully deleted.
+	 */
 	do_action( 'bp_activity_post_type_unpublished', $delete_activity_args, $post, $deleted );
 
 	return $deleted;

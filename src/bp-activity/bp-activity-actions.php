@@ -804,6 +804,17 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 	if ( 'publish' === $new_status ) {
 		// Untrashing the post type - nothing here yet.
 		if ( 'trash' == $old_status ) {
+
+			/**
+			 * Fires if untrashing post in a post type.
+			 *
+			 * This is a variable filter that is dependent on the post type
+			 * being untrashed.
+			 *
+			 * @since BuddyPress (2.2.0)
+			 *
+			 * @param WP_Post $post Post data.
+			 */
 			do_action( 'bp_activity_post_type_untrash_' . $post->post_type, $post );
 		} else {
 			// Record the post.
