@@ -105,7 +105,9 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 		$num_links = preg_match_all( '/<a [^>]*href/i', $content, $match_out );
 
 		// Allow for bumping the max to include the user's URL
-		$num_links = apply_filters( 'comment_max_links_url', $num_links, $post['url'] );
+		if ( ! empty( $post['url'] ) ) {
+			$num_links = apply_filters( 'comment_max_links_url', $num_links, $post['url'] );
+		}
 
 		// Das ist zu viele links!
 		if ( $num_links >= $max_links ) {
@@ -182,6 +184,16 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 	// Define local variable
 	$post = array();
 
+	/** Blacklist *************************************************************/
+
+	// Get the moderation keys
+	$blacklist = trim( get_option( 'blacklist_keys' ) );
+
+	// Bail if blacklist is empty
+	if ( empty( $blacklist ) ) {
+		return true;
+	}
+
 	/** User Data *************************************************************/
 
 	// Map current user data
@@ -205,16 +217,6 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 	// Post title and content
 	$post['title']   = $title;
 	$post['content'] = $content;
-
-	/** Blacklist *************************************************************/
-
-	// Get the moderation keys
-	$blacklist = trim( get_option( 'blacklist_keys' ) );
-
-	// Bail if blacklist is empty
-	if ( empty( $blacklist ) ) {
-		return true;
-	}
 
 	/** Words *****************************************************************/
 
