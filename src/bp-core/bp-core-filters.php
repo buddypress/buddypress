@@ -754,8 +754,8 @@ function bp_filter_metaid_column_name( $q ) {
  *
  * @since BuddyPress (2.1.0)
  *
- * @param  string $link    The edit link.
- * @param  int    $post_id Post ID.
+ * @param  string $edit_link The edit link.
+ * @param  int    $post_id   Post ID.
  * @return mixed  Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
  *                otherwise
  */
