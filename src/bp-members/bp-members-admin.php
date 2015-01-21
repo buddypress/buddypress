@@ -305,7 +305,7 @@ class BP_Members_Admin {
 			case 'avatar':
 				$notice = array(
 					'class'   => 'error',
-					'message' => __( 'There was a problem deleting that avatar. Please try again.', 'buddypress' )
+					'message' => __( 'There was a problem deleting that profile photo. Please try again.', 'buddypress' )
 				);
 				break;
 			case 'ham' :
