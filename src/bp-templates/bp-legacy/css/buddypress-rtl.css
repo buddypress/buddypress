@@ -1555,6 +1555,10 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress .bp-login-widget-user-avatar {
 	float: right;
+}
+
+.bp-login-widget-user-avatar img.avatar {
+	height: 40px;
 	width: 40px;
 }
 
