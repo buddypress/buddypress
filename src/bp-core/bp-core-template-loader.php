@@ -442,6 +442,36 @@ function bp_load_theme_functions() {
  * @return array Array of possible root level wrapper template files.
  */
 function bp_get_theme_compat_templates() {
+	return bp_get_query_template( 'buddypress', array(
+		'plugin-buddypress.php',
+		'buddypress.php',
+		'community.php',
+		'generic.php',
+		'page.php',
+		'single.php',
+		'index.php'
+	) );
+}
+
+/**
+ * Filter the default theme compatibility root template hierarchy, and prepend
+ * a page template to the front if it's set.
+ *
+ * @see https://buddypress.trac.wordpress.org/ticket/6065
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  array $templates
+ * @return array
+ */
+function bp_theme_compat_page_templates( $templates = array() ) {
+
+	// Bail if not looking at a directory
+	if ( ! bp_is_directory() ) {
+		return $templates;
+	}
+
+	// No page ID yet
 	$page_id = 0;
 
 	// Get the WordPress Page ID for the current view.
@@ -458,30 +488,25 @@ function bp_get_theme_compat_templates() {
 		}
 
 		// The Members component requires an explicit check due to overlapping components.
-		if ( bp_is_user() && 'members' === $component ) {
+		if ( bp_is_user() && ( 'members' === $component ) ) {
 			$page_id = (int) $bp_page->id;
 			break;
 		}
 	}
 
-	$templates = array(
-		'plugin-buddypress.php',
-		'buddypress.php',
-		'community.php',
-		'generic.php',
-		'page.php',
-		'single.php',
-		'index.php'
-	);
-
-	// If the Page has a Page Template set, use that.
-	if ( $page_id ) {
-		$template_file = get_page_template_slug( $page_id );
-
-		if ( $template_file ) {
-			$templates = array( $template_file );
-		}
+	// Bail if no directory page set
+	if ( 0 === $page_id ) {
+		return $templates;
 	}
 
-	return bp_get_query_template( 'buddypress', $templates );
+	// Check for page template
+	$page_template = get_page_template_slug( $page_id );
+
+	// Add it to the beginning of the templates array so it takes precedence
+	// over the default hierarchy.
+	if ( ! empty( $page_template ) ) {
+		array_unshift( $templates, $page_template );
+	}
+
+	return $templates;
 }
