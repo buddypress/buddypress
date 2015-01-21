@@ -205,7 +205,7 @@ class BP_Notifications_Component extends BP_Component {
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-read',
-				'title'  => __( 'Read', 'buddypress' ),
+				'title'  => _x( 'Read', 'My Account Notification sub nav', 'buddypress' ),
 				'href'   => trailingslashit( $notifications_link . 'read' ),
 			);
 		}
