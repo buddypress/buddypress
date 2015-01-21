@@ -83,6 +83,13 @@ function bp_forums_filter_kses( $content ) {
 	$forums_allowedtags['code'] = array();
 	$forums_allowedtags['blockquote'] = array();
 
+	/**
+	 * Filters the allowed HTML tags for forum posts.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param array $forums_allowedtags Array of allowed HTML tags.
+	 */
 	$forums_allowedtags = apply_filters( 'bp_forums_allowed_tags', $forums_allowedtags );
 	return wp_kses( $content, $forums_allowedtags );
 }
@@ -99,6 +106,13 @@ function bp_forums_filter_kses( $content ) {
 function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
 	global $bp;
 
+	/**
+	 * Filters the link for a forum topic tags directory.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param string $value Link for the forum topic tag directory.
+	 */
 	return apply_filters( 'bp_forums_filter_tag_link', bp_get_root_domain() . '/' . bp_get_forums_root_slug() . '/tag/' . $tag . '/' );
 }
 add_filter( 'bb_get_tag_link', 'bp_forums_filter_tag_link', 10, 4);

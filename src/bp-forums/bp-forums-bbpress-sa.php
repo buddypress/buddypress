@@ -86,8 +86,25 @@ function bp_forums_load_bbpress() {
 		bb_init_roles( $bb_roles );
 	}
 
+	/**
+	 * Fires during the bootstrap setup for bbPress 1.x.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	do_action( 'bb_got_roles' );
+
+	/**
+	 * Fires during the bootstrap setup for bbPress 1.x.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	do_action( 'bb_init'      );
+
+	/**
+	 * Fires during the bootstrap setup for bbPress 1.x.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	do_action( 'init_roles'   );
 
 	$bb_current_user = $current_user;
@@ -124,6 +141,11 @@ function bp_forums_load_bbpress() {
 		bb_update_option( 'uri', BB_URL );
 	}
 
+	/**
+	 * Fires inside an anonymous function that is run on bbPress shutdown.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	register_shutdown_function( create_function( '', 'do_action("bb_shutdown");' ) );
 }
 add_action( 'bbpress_init', 'bp_forums_load_bbpress' );

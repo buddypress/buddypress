@@ -28,6 +28,11 @@ function bp_forums_directory_forums_setup() {
 
 		bp_update_is_directory( true, 'forums' );
 
+		/**
+		 * Fires early in the initialization of bbPress-based areas of BuddyPress.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
 		do_action( 'bbpress_init' );
 
 		// Check to see if the user has posted a new topic from the forums page.
@@ -75,8 +80,20 @@ function bp_forums_directory_forums_setup() {
 			}
 		}
 
+		/**
+		 * Fires right before the loading of the forums directory screen template file.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
 		do_action( 'bp_forums_directory_forums_setup' );
 
+		/**
+		 * Filters the template to load for the forums directory screen.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param string $template Path to the forums template to load.
+		 */
 		bp_core_load_template( apply_filters( 'bp_forums_template_directory_forums_setup', 'forums/index' ) );
 	}
 }
@@ -86,8 +103,21 @@ add_action( 'bp_screens', 'bp_forums_directory_forums_setup', 2 );
  * Load the Topics Started screen.
  */
 function bp_member_forums_screen_topics() {
+
+	/**
+	 * Fires right before the loading of the forums topics started screen template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_member_forums_screen_topics' );
 
+	/**
+	 * Filters the template to load for the forums topics started screen.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $template Path to the forums topics started template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_member_forums_screen_topics', 'members/single/home' ) );
 }
 
@@ -95,8 +125,21 @@ function bp_member_forums_screen_topics() {
  * Load the Replied To screen.
  */
 function bp_member_forums_screen_replies() {
+
+	/**
+	 * Fires right before the loading of the forums replied to screen template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_member_forums_screen_replies' );
 
+	/**
+	 * Filters the template to load for the forums replied to screen.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $template Path to the forums replied to template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_member_forums_screen_replies', 'members/single/home' ) );
 }
 
@@ -106,8 +149,21 @@ function bp_member_forums_screen_replies() {
  * Note that this feature is not fully implemented at the moment.
  */
 function bp_member_forums_screen_favorites() {
+
+	/**
+	 * Fires right before the loading of the forums favorites screen template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_member_forums_screen_favorites' );
 
+	/**
+	 * Filters the template to load for the forums favorites screen.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $template Path to the forums favorites template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_member_forums_screen_favorites', 'members/single/home' ) );
 }
 
@@ -119,8 +175,20 @@ function bp_forums_screen_single_forum() {
 	if ( !bp_is_forums_component() || !bp_is_current_action( 'forum' ) || !bp_action_variable( 0 ) )
 		return false;
 
+	/**
+	 * Fires right before the loading of the forums single forum screen template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_forums_screen_single_forum' );
 
+	/**
+	 * Filters the template to load for the forums single forum screen.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $template Path to the forums single forum template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_forums_screen_single_forum', 'forums/single/forum' ) );
 }
 add_action( 'bp_screens', 'bp_forums_screen_single_forum' );
@@ -133,8 +201,20 @@ function bp_forums_screen_single_topic() {
 	if ( !bp_is_forums_component() || !bp_is_current_action( 'topic' ) || !bp_action_variable( 0 ) )
 		return false;
 
+	/**
+	 * Fires right before the loading of the forums single topic screen template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_forums_screen_single_topic' );
 
+	/**
+	 * Filters the template to load for the forums single topic screen.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $template Path to the forums single topic template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_forums_screen_single_topic', 'forums/single/topic' ) );
 }
 add_action( 'bp_screens', 'bp_forums_screen_single_topic' );
