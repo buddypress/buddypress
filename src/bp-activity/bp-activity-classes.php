@@ -472,7 +472,7 @@ class BP_Activity_Activity {
 		/**
 		 * Filters the preferred order of indexes for activity item.
 		 *
-		 * @since Buddypress (1.6.0)
+		 * @since BuddyPress (1.6.0)
 		 *
 		 * @param array Array of indexes in preferred order.
 		 */
