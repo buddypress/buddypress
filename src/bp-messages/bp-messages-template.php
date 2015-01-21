@@ -888,7 +888,7 @@ function bp_message_thread_total_count( $thread_id = false ) {
 /**
  * Output markup for the current thread's total and unread count.
  *
- * @since Buddypress (2.2.0)
+ * @since BuddyPress (2.2.0)
  *
  * @param int $thread_id Optional. ID of the thread. Default: current thread ID.
  */
