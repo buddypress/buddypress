@@ -289,20 +289,27 @@ add_action( 'bp_screens', 'bp_core_screen_signup' );
 
 /**
  * Handle the loading of the Activate screen.
+ *
+ * @todo Move the actual activation process into an action in bp-members-actions.php
  */
 function bp_core_screen_activation() {
-	global $bp;
-
-	if ( !bp_is_current_component( 'activate' ) )
+	
+	// Bail if not viewing the activation page
+	if ( ! bp_is_current_component( 'activate' ) ) {
 		return false;
+	}
 
-	// If the user is logged in, redirect away from here
+	// If the user is already logged in, redirect away from here
 	if ( is_user_logged_in() ) {
-		if ( bp_is_component_front_page( 'activate' ) ) {
-			$redirect_to = trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() );
-		} else {
-			$redirect_to = trailingslashit( bp_get_root_domain() );
-		}
+
+		// If activation page is also front page, set to members directory to
+		// avoid an infinite loop. Otherwise, set to root domain.
+		$redirect_to = bp_is_component_front_page( 'activate' )
+			? bp_get_root_domain() . '/' . bp_get_members_root_slug()
+			: bp_get_root_domain();
+
+		// Trailing slash it, as we expect these URL's to be
+		$redirect_to = trailingslashit( $redirect_to );
 
 		/**
 		 * Filters the URL to redirect logged in users to when visiting activation page.
@@ -311,9 +318,10 @@ function bp_core_screen_activation() {
 		 *
 		 * @param string $redirect_to URL to redirect user to.
 		 */
-		bp_core_redirect( apply_filters( 'bp_loggedin_activate_page_redirect_to', $redirect_to ) );
+		$redirect_to = apply_filters( 'bp_loggedin_activate_page_redirect_to', $redirect_to );
 
-		return;
+		// Redirect away from the activation page
+		bp_core_redirect( $redirect_to );
 	}
 
 	// grab the key (the old way)
@@ -323,6 +331,9 @@ function bp_core_screen_activation() {
 	if ( empty( $key ) ) {
 		$key = bp_current_action();
 	}
+
+	// Get BuddyPress
+	$bp = buddypress();
 
 	// we've got a key; let's attempt to activate the signup
 	if ( ! empty( $key ) ) {
