@@ -406,8 +406,9 @@ class BP_Members_Theme_Compat {
 	public function is_members() {
 
 		// Bail if not looking at the members component or a user's page
-		if ( ! bp_is_members_component() && ! bp_is_user() )
+		if ( ! bp_is_members_component() && ! bp_is_user() ) {
 			return;
+		}
 
 		// Members Directory
 		if ( ! bp_current_action() && ! bp_current_item() ) {
@@ -426,10 +427,12 @@ class BP_Members_Theme_Compat {
 
 		// User page
 		} elseif ( bp_is_user() ) {
+
 			// If we're on a single activity permalink page, we shouldn't use the members
 			// template, so stop here!
-			if ( bp_is_active( 'activity' ) && bp_is_single_activity() )
+			if ( bp_is_active( 'activity' ) && bp_is_single_activity() ) {
 				return;
+			}
 
 			/**
 			 * Fires if looking at Members user page when needing theme compat.
