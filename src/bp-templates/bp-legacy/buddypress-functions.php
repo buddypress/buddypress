@@ -80,6 +80,9 @@ class BP_Legacy extends BP_Theme_Compat {
 		// Template Output
 		add_filter( 'bp_get_activity_action_pre_meta', array( $this, 'secondary_avatars' ), 10, 2 );
 
+		// Filter BuddyPress template hierarchy and look for page templates
+		add_filter( 'bp_get_buddypress_template', array( $this, 'theme_compat_page_templates' ), 10, 1 );
+
 		/** Scripts ***********************************************************/
 
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles'   ) ); // Enqueue theme CSS
@@ -87,7 +90,8 @@ class BP_Legacy extends BP_Theme_Compat {
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
 		add_action( 'bp_head',            array( $this, 'head_scripts'     ) ); // Output some extra JS in the <head>
 
-		/** Body no-js Class ********************************************************/
+		/** Body no-js Class **************************************************/
+
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
 
 		/** Buttons ***********************************************************/
@@ -119,8 +123,6 @@ class BP_Legacy extends BP_Theme_Compat {
 				add_action( 'bp_directory_blogs_actions',    'bp_blogs_visit_blog_button'           );
 				add_action( 'bp_blogs_directory_blog_types', 'bp_legacy_theme_blog_create_nav', 999 );
 			}
-
-
 		}
 
 		/** Notices ***********************************************************/
@@ -439,6 +441,66 @@ class BP_Legacy extends BP_Theme_Compat {
 		}
 
 		return $action;
+	}
+
+	/**
+	 * Filter the default theme compatibility root template hierarchy, and prepend
+	 * a page template to the front if it's set.
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/6065
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param  array $templates
+	 * @uses   apply_filters() call 'bp_legacy_theme_compat_page_templates_directory_only' and return false
+	 *                         to use the defined page template for component's directory and its single items
+	 * @return array
+	 */
+	public function theme_compat_page_templates( $templates = array() ) {
+
+		// Bail if not looking at a directory
+		if ( true === (bool) apply_filters( 'bp_legacy_theme_compat_page_templates_directory_only', ! bp_is_directory() ) ) {
+			return $templates;
+		}
+
+		// No page ID yet
+		$page_id = 0;
+
+		// Get the WordPress Page ID for the current view.
+		foreach ( (array) buddypress()->pages as $component => $bp_page ) {
+
+			// Handles the majority of components.
+			if ( bp_is_current_component( $component ) ) {
+				$page_id = (int) $bp_page->id;
+			}
+
+			// Stop if not on a user page.
+			if ( ! bp_is_user() && ! empty( $page_id ) ) {
+				break;
+			}
+
+			// The Members component requires an explicit check due to overlapping components.
+			if ( bp_is_user() && ( 'members' === $component ) ) {
+				$page_id = (int) $bp_page->id;
+				break;
+			}
+		}
+
+		// Bail if no directory page set
+		if ( 0 === $page_id ) {
+			return $templates;
+		}
+
+		// Check for page template
+		$page_template = get_page_template_slug( $page_id );
+
+		// Add it to the beginning of the templates array so it takes precedence
+		// over the default hierarchy.
+		if ( ! empty( $page_template ) ) {
+			array_unshift( $templates, $page_template );
+		}
+
+		return $templates;
 	}
 }
 new BP_Legacy();
