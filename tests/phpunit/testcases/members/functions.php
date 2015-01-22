@@ -450,6 +450,90 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_core_process_spammer_status
 	 */
+	public function test_bp_core_process_spammer_status() {
+		if ( is_multisite() ) {
+			return;
+		}
+
+		$bp = buddypress();
+		$displayed_user = $bp->displayed_user;
+
+		$u1 = $this->factory->user->create();
+		$bp->displayed_user->id = $u1;
+
+		// Spam the user
+		bp_core_process_spammer_status( $u1, 'spam' );
+
+		$this->assertTrue( bp_is_user_spammer( $u1 ) );
+
+		// Unspam the user
+		bp_core_process_spammer_status( $u1, 'ham' );
+
+		$this->assertFalse( bp_is_user_spammer( $u1 ) );
+
+		// Reset displayed user
+		$bp->displayed_user = $displayed_user;
+	}
+
+	/**
+	 * @group bp_core_process_spammer_status
+	 */
+	public function test_bp_core_process_spammer_status_ms_bulk_spam() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$bp = buddypress();
+		$displayed_user = $bp->displayed_user;
+
+		$u1 = $this->factory->user->create();
+		$bp->displayed_user->id = $u1;
+
+		// Bulk spam in network admin uses update_user_status
+		update_user_status( $u1, 'spam', '1' );
+
+		$this->assertTrue( bp_is_user_spammer( $u1 ) );
+
+		// Unspam the user
+		bp_core_process_spammer_status( $u1, 'ham' );
+
+		$this->assertFalse( bp_is_user_spammer( $u1 ) );
+
+		// Reset displayed user
+		$bp->displayed_user = $displayed_user;
+	}
+
+	/**
+	 * @group bp_core_process_spammer_status
+	 */
+	public function test_bp_core_process_spammer_status_ms_bulk_ham() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$bp = buddypress();
+		$displayed_user = $bp->displayed_user;
+
+		$u1 = $this->factory->user->create();
+		$bp->displayed_user->id = $u1;
+
+		// Spam the user
+		bp_core_process_spammer_status( $u1, 'spam' );
+
+		$this->assertTrue( bp_is_user_spammer( $u1 ) );
+
+		// Bulk unspam in network admin uses update_user_status
+		update_user_status( $u1, 'spam', '0' );
+
+		$this->assertFalse( bp_is_user_spammer( $u1 ) );
+
+		// Reset displayed user
+		$bp->displayed_user = $displayed_user;
+	}
+
+	/**
+	 * @group bp_core_process_spammer_status
+	 */
 	public function test_bp_core_process_spammer_status_make_spam_user_filter() {
 		add_filter( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
 

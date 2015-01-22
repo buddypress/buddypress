@@ -785,13 +785,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 	remove_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
 	remove_action( 'make_ham_user',  'bp_core_mark_user_ham_admin'  );
 
-	// Determine if we are on an admin page
-	$is_admin = is_admin();
-	if ( $is_admin && ! defined( 'DOING_AJAX' ) ) {
-		$is_admin = (bool) ( buddypress()->members->admin->user_page !== get_current_screen()->id );
-	}
-
-	// When marking as spam in the Dashboard, these actions are handled by WordPress
+	// force the cleanup of WordPress content and status for multisite configs
 	if ( $do_wp_cleanup ) {
 
 		// Get the blogs for the user
@@ -812,35 +806,36 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 		if ( is_multisite() ) {
 			update_user_status( $user_id, 'spam', $is_spam );
 		}
+	}
 
-		// Always set single site status
-		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
+	// Update the user status
+	$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
 
+	// Clean user cache
+	clean_user_cache( $user_id );
+
+	if ( ! is_multisite() ) {
 		// Call multisite actions in single site mode for good measure
-		if ( !is_multisite() ) {
-			if ( true === $is_spam ) {
+		if ( true === $is_spam ) {
 
-				/**
-				 * Fires at end of processing spammer in Dashboard if not multisite and user is spam.
-				 *
-				 * @since BuddyPress (1.5.0)
-				 *
-				 * @param int $value Displayed user ID.
-				 */
-				do_action( 'make_spam_user', bp_displayed_user_id() );
-			} else {
+			/**
+			 * Fires at end of processing spammer in Dashboard if not multisite and user is spam.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param int $value user ID.
+			 */
+			do_action( 'make_spam_user', $user_id );
+		} else {
 
-				/**
-				 * Fires at end of processing spammer in Dashboard if not multisite and user is not spam.
-				 *
-				 * @since BuddyPress (1.5.0)
-				 *
-				 * @param int $value Displayed user ID.
-				 */
-				do_action( 'make_ham_user', bp_displayed_user_id() );
-			}
-
-
+			/**
+			 * Fires at end of processing spammer in Dashboard if not multisite and user is not spam.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param int $value user ID.
+			 */
+			do_action( 'make_ham_user', $user_id );
 		}
 	}
 
