@@ -858,6 +858,120 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP6169
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_private_group_home_scope() {
+		global $activities_template;
+		$bp = buddypress();
+		$reset_current_group = $bp->groups->current_group;
+		$reset_current_action = $bp->current_action;
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$this->set_current_user( $u1 );
+
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		groups_join_group( $g, $u2 );
+		groups_join_group( $g, $u3 );
+
+		$a1 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u2,
+			'content'   => 'foo bar',
+		) );
+
+		$a2 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u3,
+			'content'   => 'bar foo',
+		) );
+
+		$bp->groups->current_group = groups_get_group( array(
+			'group_id'        => $g,
+			'populate_extras' => true,
+		) );
+
+		// On group's home the scope is set to 'home'
+		$bp->current_action = 'home';
+
+		bp_has_activities( array( 'action' => 'activity_update' ) );
+
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+		$bp->groups->current_group = $reset_current_group;
+		$bp->current_action = $reset_current_action;
+	}
+
+	/**
+	 * @ticket BP6169
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_hidden_group_home_scope() {
+		global $activities_template;
+		$bp = buddypress();
+		$reset_current_group = $bp->groups->current_group;
+		$reset_current_action = $bp->current_action;
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$this->set_current_user( $u1 );
+
+		$g = $this->factory->group->create( array(
+			'status' => 'hidden',
+		) );
+
+		groups_join_group( $g, $u2 );
+		groups_join_group( $g, $u3 );
+
+		$a1 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u2,
+			'content'   => 'foo bar',
+		) );
+
+		$a2 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u3,
+			'content'   => 'bar foo',
+		) );
+
+		$bp->groups->current_group = groups_get_group( array(
+			'group_id'        => $g,
+			'populate_extras' => true,
+		) );
+
+		// On group's home the scope is set to 'home'
+		$bp->current_action = 'home';
+
+		bp_has_activities( array( 'action' => 'activity_update' ) );
+
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+		$bp->groups->current_group = $reset_current_group;
+		$bp->current_action = $reset_current_action;
+	}
+
+	/**
 	 * Integration test for 'meta_query' param
 	 */
 	function test_bp_has_activities_with_meta_query() {
