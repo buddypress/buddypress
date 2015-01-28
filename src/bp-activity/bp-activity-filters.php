@@ -639,7 +639,7 @@ function bp_activity_heartbeat_strings( $strings = array() ) {
 }
 add_filter( 'bp_core_get_js_strings', 'bp_activity_heartbeat_strings', 10, 1 );
 
-/** SCOPES **************************************************************/
+/** Scopes ********************************************************************/
 
 /**
  * Set up activity arguments for use with the 'just-me' scope.
@@ -650,16 +650,41 @@ add_filter( 'bp_core_get_js_strings', 'bp_activity_heartbeat_strings', 10, 1 );
  * @param array $filter Current activity arguments
  * @return array
  */
-function bp_activity_filter_just_me_scope( $retval, $filter ) {
+function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() ) {
+
+	// Determine the user_id
+	if ( ! empty( $filter['user_id'] ) ) {
+		$user_id = $filter['user_id'];
+	} else {
+		$user_id = bp_displayed_user_id()
+			? bp_displayed_user_id()
+			: bp_loggedin_user_id();
+	}
+
+	// Should we show all items regardless of sitewide visibility?
+	$show_hidden = array();
+	if ( ! empty( $user_id ) && $user_id !== bp_loggedin_user_id() ) {
+		$show_hidden = array(
+			'column' => 'hide_sitewide',
+			'value'  => 0
+		);
+	}
+
 	$retval = array(
-		'column' => 'user_id',
-		'value'  => $filter['user_id']
+		'relation' => 'AND',
+		array(
+			'column' => 'user_id',
+			'value'  => $filter['user_id']
+		),
+		$show_hidden,
+
+		// overrides
+		'override' => array(
+			'display_comments' => 'stream',
+			'filter'           => array( 'user_id' => 0 ),
+			'show_hidden'      => true
+		),
 	);
-
-	$retval['override']['display_comments'] = 'stream';
-
-	// wipe out the user ID
-	$retval['override']['filter']['user_id'] = 0;
 
 	return $retval;
 }
@@ -674,21 +699,48 @@ add_filter( 'bp_activity_set_just-me_scope_args', 'bp_activity_filter_just_me_sc
  * @param array $filter Current activity arguments
  * @return array
  */
-function bp_activity_filter_favorites_scope( $retval, $filter ) {
-	$favs = bp_activity_get_user_favorites( $filter['user_id'] );
+function bp_activity_filter_favorites_scope( $retval = array(), $filter = array() ) {
+
+	// Determine the user_id
+	if ( ! empty( $filter['user_id'] ) ) {
+		$user_id = $filter['user_id'];
+	} else {
+		$user_id = bp_displayed_user_id()
+			? bp_displayed_user_id()
+			: bp_loggedin_user_id();
+	}
+
+	// Determine the favorites
+	$favs = bp_activity_get_user_favorites( $user_id );
 	if ( empty( $favs ) ) {
 		$favs = array( 0 );
 	}
 
-	$retval = array(
-		'column'  => 'id',
-		'compare' => 'IN',
-		'value'   => (array) $favs
-	);
-	$retval['override']['display_comments']  = true;
+	// Should we show all items regardless of sitewide visibility?
+	$show_hidden = array();
+	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
+		$show_hidden = array(
+			'column' => 'hide_sitewide',
+			'value'  => 0
+		);
+	}
 
-	// wipe out the user ID
-	$retval['override']['filter']['user_id'] = 0;
+	$retval = array(
+		'relation' => 'AND',
+		array(
+			'column'  => 'id',
+			'compare' => 'IN',
+			'value'   => (array) $favs
+		),
+		$show_hidden,
+
+		// overrides
+		'override' => array(
+			'display_comments' => true,
+			'filter'           => array( 'user_id' => 0 ),
+			'show_hidden'      => true
+		),
+	);
 
 	return $retval;
 }
@@ -704,26 +756,53 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_activity_filter_favorite
  * @param array $filter Current activity arguments
  * @return array
  */
-function bp_activity_filter_mentions_scope( $retval, $filter ) {
+function bp_activity_filter_mentions_scope( $retval = array(), $filter = array() ) {
+
 	// Are mentions disabled?
 	if ( ! bp_activity_do_mentions() ) {
 		return $retval;
 	}
 
+	// Determine the user_id
+	if ( ! empty( $filter['user_id'] ) ) {
+		$user_id = $filter['user_id'];
+	} else {
+		$user_id = bp_displayed_user_id()
+			? bp_displayed_user_id()
+			: bp_loggedin_user_id();
+	}
+
+	// Should we show all items regardless of sitewide visibility?
+	$show_hidden = array();
+	if ( ! empty( $user_id ) && $user_id !== bp_loggedin_user_id() ) {
+		$show_hidden = array(
+			'column' => 'hide_sitewide',
+			'value'  => 0
+		);
+	}
+
 	$retval = array(
-		'column'  => 'content',
-		'compare' => 'LIKE',
+		'relation' => 'AND',
+		array(
+			'column'  => 'content',
+			'compare' => 'LIKE',
 
-		// Start search at @ symbol and stop search at closing tag delimiter.
-		'value'   => '@' . bp_activity_get_user_mentionname( $filter['user_id'] ) . '<'
+			// Start search at @ symbol and stop search at closing tag delimiter.
+			'value'   => '@' . bp_activity_get_user_mentionname( $user_id ) . '<'
+		),
+		$show_hidden,
+
+		// overrides
+		'override' => array(
+
+			// clear search terms so 'mentions' scope works with other scopes
+			'search_terms' => false,
+
+			'display_comments' => 'stream',
+			'filter'           => array( 'user_id' => 0 ),
+			'show_hidden'      => true
+		),
 	);
-
-	// wipe out current search terms if any
-	// this is so the 'mentions' scope can be combined with other scopes
-	$retval['override']['search_terms'] = false;
-
-	$retval['override']['display_comments'] = 'stream';
-	$retval['override']['filter']['user_id'] = 0;
 
 	return $retval;
 }

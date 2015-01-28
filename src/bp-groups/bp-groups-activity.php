@@ -242,28 +242,54 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_groups_prefetch_activity_obj
  * @param array $filter Current activity arguments
  * @return array
  */
-function bp_groups_filter_activity_scope( $retval, $filter ) {
-	$groups = groups_get_user_groups( $filter['user_id'] );
+function bp_groups_filter_activity_scope( $retval = array(), $filter = array() ) {
 
+	// Determine the user_id
+	if ( ! empty( $filter['user_id'] ) ) {
+		$user_id = $filter['user_id'];
+	} else {
+		$user_id = bp_displayed_user_id()
+			? bp_displayed_user_id()
+			: bp_loggedin_user_id();
+	}
+
+	// Determine groups of user
+	$groups = groups_get_user_groups( $user_id );
 	if ( empty( $groups['groups'] ) ) {
 		$groups = array( 'groups' => 0 );
 	}
 
-	$retval= array(
+	// Should we show all items regardless of sitewide visibility?
+	$show_hidden = array();
+	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
+		$show_hidden = array(
+			'column' => 'hide_sitewide',
+			'value'  => 0
+		);
+	}
+
+	$retval = array(
 		'relation' => 'AND',
 		array(
-			'column' => 'component',
-			'value'  => buddypress()->groups->id
+			'relation' => 'AND',
+			array(
+				'column' => 'component',
+				'value'  => buddypress()->groups->id
+			),
+			array(
+				'column'  => 'item_id',
+				'compare' => 'IN',
+				'value'   => (array) $groups['groups']
+			),
 		),
-		array(
-			'column'  => 'item_id',
-			'compare' => 'IN',
-			'value'   => (array) $groups['groups']
+		$show_hidden,
+
+		// overrides
+		'override' => array(
+			'filter'      => array( 'user_id' => 0 ),
+			'show_hidden' => true
 		),
 	);
-
-	// wipe out the user ID
-	$retval['override']['filter']['user_id'] = 0;
 
 	return $retval;
 }

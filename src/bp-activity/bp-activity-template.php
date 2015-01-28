@@ -622,19 +622,6 @@ function bp_has_activities( $args = '' ) {
 	if ( empty( $search_terms ) && ! empty( $_REQUEST['s'] ) )
 		$search_terms = $_REQUEST['s'];
 
-	// Set some default arguments when using a scope
-	if ( ! empty( $scope ) ) {
-		// Determine which user ID applies
-		if ( empty( $user_id ) ) {
-			$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
-		}
-
-		// Should we show all items regardless of sitewide visibility?
-		if ( ! empty( $user_id ) ) {
-			$show_hidden = ( $user_id == bp_loggedin_user_id() ) ? 1 : 0;
-		}
-	}
-
 	// Do not exceed the maximum per page
 	if ( !empty( $max ) && ( (int) $per_page > (int) $max ) )
 		$per_page = $max;
