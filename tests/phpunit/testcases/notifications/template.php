@@ -13,6 +13,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Notifications_Template
 	 */
 	public function test_bp_notifications_template_should_give_precedence_to_npage_URL_param() {
@@ -29,6 +30,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Notifications_Template
 	 */
 	public function test_bp_notifications_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
@@ -45,6 +47,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Notifications_Template
 	 */
 	public function test_bp_notifications_template_should_give_precedence_to_num_URL_param() {
@@ -61,6 +64,7 @@ class BP_Tests_Notifications_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Notifications_Template
 	 */
 	public function test_bp_notifications_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {

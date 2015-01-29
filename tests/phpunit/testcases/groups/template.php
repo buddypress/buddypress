@@ -851,6 +851,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Template
 	 */
 	public function test_bp_groups_template_should_give_precedence_to_grpage_URL_param() {
@@ -867,6 +868,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Template
 	 */
 	public function test_bp_groups_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
@@ -883,6 +885,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Template
 	 */
 	public function test_bp_groups_template_should_give_precedence_to_num_URL_param() {
@@ -899,6 +902,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Template
 	 */
 	public function test_bp_groups_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
@@ -915,6 +919,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Group_Members_Template
 	 */
 	public function test_bp_groups_group_members_template_should_give_precedence_to_mlpage_URL_param() {
@@ -931,6 +936,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Group_Members_Template
 	 */
 	public function test_bp_groups_group_members_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
@@ -947,6 +953,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Group_Members_Template
 	 */
 	public function test_bp_groups_group_members_template_should_give_precedence_to_num_URL_param() {
@@ -963,6 +970,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Group_Members_Template
 	 */
 	public function test_bp_groups_group_members_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
@@ -979,6 +987,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Membership_Requests_Template
 	 */
 	public function test_bp_groups_membership_requests_template_should_give_precedence_to_mrpage_URL_param() {
@@ -995,6 +1004,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Membership_Requests_Template
 	 */
 	public function test_bp_groups_membership_requests_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
@@ -1011,6 +1021,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Membership_Requests_Template
 	 */
 	public function test_bp_groups_membership_requests_template_should_give_precedence_to_num_URL_param() {
@@ -1027,6 +1038,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Membership_Requests_Template
 	 */
 	public function test_bp_groups_membership_requests_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
@@ -1043,6 +1055,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Invite_Template
 	 */
 	public function test_bp_groups_invite_template_should_give_precedence_to_invitepage_URL_param() {
@@ -1059,6 +1072,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Invite_Template
 	 */
 	public function test_bp_groups_invite_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
@@ -1075,6 +1089,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Invite_Template
 	 */
 	public function test_bp_groups_invite_template_should_give_precedence_to_num_URL_param() {
@@ -1091,6 +1106,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Groups_Invite_Template
 	 */
 	public function test_bp_groups_invite_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {

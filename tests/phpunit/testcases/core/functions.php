@@ -395,6 +395,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group bp_sanitize_pagination_arg
 	 */
 	public function test_bp_sanitize_pagination_arg_zero() {
@@ -410,6 +411,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group bp_sanitize_pagination_arg
 	 */
 	public function test_bp_sanitize_pagination_arg_negative() {

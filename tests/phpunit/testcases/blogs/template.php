@@ -204,6 +204,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_give_precedence_to_bpage_URL_param() {
@@ -244,6 +245,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
@@ -284,6 +286,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_give_precedence_to_num_URL_param() {
@@ -324,6 +327,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
 	 * @group BP_Blogs_Template
 	 */
 	public function test_bp_blogs_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
