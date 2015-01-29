@@ -139,19 +139,20 @@ class BP_Messages_Box_Template {
 		}
 
 		$r = wp_parse_args( $args, array(
-			'user_id'      => bp_loggedin_user_id(),
-			'box'          => 'inbox',
+			'page'         => 1,
 			'per_page'     => 10,
-			'max'          => false,
-			'type'         => 'all',
-			'search_terms' => '',
 			'page_arg'     => 'mpage',
+			'box'          => 'inbox',
+			'type'         => 'all',
+			'user_id'      => bp_loggedin_user_id(),
+			'max'          => false,
+			'search_terms' => '',
 			'meta_query'   => array(),
 		) );
 
-		$this->pag_page     = isset( $_GET[ $r['page_arg'] ] ) ? intval( $_GET[ $r['page_arg'] ] ) : 1;
-		$this->pag_num      = isset( $_GET['num']            ) ? intval( $_GET['num']            ) : $r['per_page'];
-
+		$this->pag_arg      = sanitize_key( $r['page_arg'] );
+		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_num      = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
 		$this->user_id      = $r['user_id'];
 		$this->box          = $r['box'];
 		$this->type         = $r['type'];

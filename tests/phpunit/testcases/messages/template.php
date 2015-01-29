@@ -257,4 +257,68 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertEquals( 1, $messages_template->thread_count );
 		$this->assertEqualSets( array( $t1 ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
+
+	/**
+	 * @group BP_Messages_Box_Template
+	 */
+	public function test_bp_messages_template_should_give_precedence_to_mpage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['mpage'] = '5';
+
+		$at = new BP_Messages_Box_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Messages_Box_Template
+	 */
+	public function test_bp_messages_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['mpage'] = '0';
+
+		$at = new BP_Messages_Box_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Messages_Box_Template
+	 */
+	public function test_bp_messages_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$at = new BP_Messages_Box_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Messages_Box_Template
+	 */
+	public function test_bp_messages_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$at = new BP_Messages_Box_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
 }
