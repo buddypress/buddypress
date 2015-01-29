@@ -486,17 +486,17 @@ class BP_Admin {
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function about_screen() {
-		$is_new_install          = ! empty( $_GET['is_new_install'] );
+		$is_new_install = ! empty( $_GET['is_new_install'] );
+		$welcome_text   = ( $is_new_install )
+			? __( 'Thank you for installing BuddyPress! BuddyPress %s gives you the components you need to turn your WordPress powered site into a thriving membership community.', 'buddypress' )
+			: __( 'BuddyPress %s comes with a bunch of great improvements we think you&#8217;re really going to like.', 'buddypress' );
+
 		list( $display_version ) = explode( '-', bp_get_version() ); ?>
 
 		<div class="wrap about-wrap">
 			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
 			<div class="about-text">
-				<?php if ( $is_new_install ) : ?>
-					<?php printf( __( 'Thank you for installing BuddyPress! BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
-				<?php else : ?>
-					<?php printf( __( 'Howdy. BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
-				<?php endif; ?>
+				<?php printf( $welcome_text, $display_version ); ?>
 			</div>
 
 			<div class="bp-badge"></div>
@@ -509,7 +509,7 @@ class BP_Admin {
 				</a>
 			</h2>
 
-			<?php if ( $is_new_install ) : ?> 
+			<?php if ( $is_new_install ) : ?>
 
 				<div id="welcome-panel" class="welcome-panel">
 					<div class="welcome-panel-content">
@@ -518,10 +518,10 @@ class BP_Admin {
 							<div class="welcome-panel-column">
 								<h4><?php _e( 'Configure Buddypress', 'buddypress' ); ?></h4>
 								<ul>
-									<li><?php printf( 
+									<li><?php printf(
 									'<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Set Up Components', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), $this->settings_page ) )
 									); ?></li>
-									<li><?php printf( 
+									<li><?php printf(
 									'<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Assign Components to Pages', 'buddypress' ) . '</a>', bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), $this->settings_page ) )
 									); ?></li>
 									<li><?php printf(
@@ -549,7 +549,7 @@ class BP_Admin {
 							</div>
 							<div class="welcome-panel-column welcome-panel-last">
 								<h4><?php _e( 'Community and Support', 'buddypress'  ); ?></h4>
-								<p class="welcome-icon welcome-learn-more" style="margin-right:10px"><?php _e( 'Looking for help? The <a href="http://codex.buddypress.org/">BuddyPress Codex</a> has you covered.', 'buddypress' ) ?></p> 
+								<p class="welcome-icon welcome-learn-more" style="margin-right:10px"><?php _e( 'Looking for help? The <a href="http://codex.buddypress.org/">BuddyPress Codex</a> has you covered.', 'buddypress' ) ?></p>
 								<p class="welcome-icon welcome-learn-more" style="margin-right:10px"><?php _e( 'Can&#8217;t find what you need? Stop by <a href="http://buddypress.org/support/">our support forums</a>, where active BuddyPress users and developers are waiting to share tips and more.', 'buddypress' ) ?></p>
 							</div>
 						</div>
@@ -560,99 +560,77 @@ class BP_Admin {
 
 			<?php endif; ?>
 
-			<div class="changelog">
-				<h2 class="about-headline-callout"><?php _e( 'Revamped @mentions Interface', 'buddypress' ); ?></h2>
-				<p><?php _e( 'Forget the old days of trying to remember someone&#8217;s username when you want to @mention them in a conversation! With BuddyPress 2.1, type a <code>@</code> when leaving a status update or commenting on an activity item or blog post, and the new suggestions panel will open.', 'buddypress' ) ?></p>
-				<p style="text-align: center"><img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/mentions.gif' ); ?>" alt="<?php esc_attr_e( 'Demo of at-mentions feature', 'buddypress' ); ?>" style="margin-bottom: 20px"></p>
- 			</div>
-
-			<hr />
-
-			<div class="changelog">
-				<h2 class="about-headline-callout"><?php _e( 'Continuous Improvement', 'buddypress' ); ?></h2>
-
-				<div class="feature-section col three-col">
-					<div class="col-1">
-						<h4><?php esc_html_e( 'New Profile Field Type: URL', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Built to hold the address of another website, this new field type automatically creates a link to that site.', 'buddypress' ); ?></p>
-					</div>
-
-					<div class="col-2">
-						<h4><?php esc_html_e( 'Awesome Translations', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'BuddyPress supports high-quality translations that are automatically fetched by WordPress. Many thanks to our translation volunteers for making this possible.', 'buddypress' ); ?></p>
-					</div>
-
-					<div class="col-3 last-feature">
-						<h4><?php esc_html_e( 'Performance Improvements', 'buddypress' ); ?></h4>
-						<p><?php _e( 'Like we do with every release, we&#8217ve made further optimizations to increase BuddyPress&#8217 performance and reduce its query overhead.', 'buddypress' ); ?></p>
-					</div>
+			<div class="changelog headline-feature">
+				<h2><?php esc_html_e( 'Member Types', 'buddypress' ); ?></h2>
+				<div class="featured-image">
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/member-types.png' ); ?>" alt="<?php esc_attr_e( 'Member types metabox', 'buddypress' ); ?>">
 				</div>
+
+				<div class="feature-section">
+					<h3><?php esc_html_e( 'Native APIs for crafting great new member experiences.', 'buddypress' ); ?></h3>
+					<p><?php esc_html_e( 'Registering member types finally enables a strict separation of different and explicit types of community members.', 'buddypress' ); ?></p>
+					<p><?php esc_html_e( 'This amazing new feature is available to plugin developers starting with BuddyPress 2.2', 'buddypress' ); ?></p>
+					<p><a href="https://codex.buddypress.org/developer/member-types/"><?php esc_html_e( 'Learn more &rarr;', 'buddypress' ); ?></a></p>
+				</div>
+
+				<div class="clear"></div>
 			</div>
 
 			<hr />
 
-			<div class="changelog">
-				<h2 class="about-headline-callout"><?php esc_html_e( 'Enhancements for Plugin &amp; Theme Developers', 'buddypress' ); ?></h2>
+			<div class="changelog feature-list finer-points">
+				<h2><?php esc_html_e( 'The Finer Points', 'buddypress' ); ?></h2>
+
 				<div class="feature-section col two-col">
-					<div class="col-1">
-						<p><?php _e( 'If you&#8217re a plugin developer, or make custom themes, or want to contribute back to the BuddyPress project, here&#8217s what you should know about this release:', 'buddypress' ); ?></p>
-						<p><?php _e( 'If you&#8217ve used BuddyPress for a very long time, you might remember the <em>BuddyBar</em>; it was our toolbar before WordPress had its own toolbar. We started to deprecate it in BuddyPress 1.6. It is now formally deprecated, which means you should not use it for new sites.', 'buddypress' ); ?></p>
-						<p>
-							<?php printf(
-								__( 'The classic <a href="%s">BP Default theme has moved to Github</a>. We moved it because BuddyPress development is now focused on our <a href="%s">theme compatibility</a> templates, which were introduced in BuddyPress 1.7. Don&#8217t worry, BP-Default is still bundled with BuddyPress releases.', 'buddypress' ),
-								esc_url( 'https://github.com/buddypress/BP-Default' ),
-								esc_url( 'http://codex.buddypress.org/themes/theme-compatibility-1-7/a-quick-look-at-1-7-theme-compatibility/' )
-							); ?>
-						</p>
-						<p>
-							<?php
-							/* translators: don't translate the insides of the <code> block */
-							_e( 'In BuddyPress 2.0, we added a new <code>BP_XProfile_Field_Type</code> API for managing profile field types. In this release, we&#8217ve added a new <code>bp_core_get_suggestions</code> API which powers our new @mentions interface. Both are cool, and are worth checking out.', 'buddypress' );
-							?>
-						</p>
+					<div>
+						<span class=" dashicons dashicons-admin-post"></span>
+						<h4><?php esc_html_e( 'Post Types Activities', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Register custom post types so they appear as activity stream items, complete with custom verbiage.', 'buddypress' ); ?></p>
 					</div>
 
-					<div class="col-2 last-feature">
-						<p><?php esc_html_e( 'Other interesting changes:', 'buddypress' ); ?>
+					<div class="template-pack last-feature">
+						<span class=" dashicons dashicons-admin-appearance"></span>
+						<h4><?php esc_html_e( 'Template Pack', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'The Legacy template pack is now more responsive and accommodating to more WordPress themes.', 'buddypress' ); ?></p>
+					</div>
 
-						<ul>
-							<li>
-								<?php
-								/* translators: don't translate the insides of the <code> block */
-								_e( 'In <code>BP_Group_Extension</code>, the <code>visibility</code> and <code>enable_nav_item</code> properties have been phased out in favor of new <code>access</code> and <code>show_tab</code> parameters.', 'buddypress' );
-								?>
-							</li>
-							<li>
-								<?php
-								/* translators: don't translate the insides of the <code> block */
-								_e( 'A new <code>group_activity</code> sort order has been added for Groups queries, to let you query for recently active members.', 'buddypress' );
-								?>
-							</li>
-							<li>
-								<?php
-								/* translators: don't translate the insides of the <code> block */
-								_e( 'Extra CSS classes have been added to Profile Field visibility field elements, allowing greater CSS customization.', 'buddypress' );
-								?>
-							</li>
-							<li>
-								<?php
-								/* translators: don't translate the insides of the <code> block */
-								_e( 'A <code>no_access_url</code> parameter has been added to <code>bp_core_new_subnav_item()</code>. This allows you to set the URL that users are redirected to when they do not have permission to access a sub-navigation item.', 'buddypress' );
-								?>
-							</li>
-							<li>
-								<?php
-								/* translators: don't translate the insides of the <code> block */
-								_e( 'When making searches with <code>BP_User_Query</code>, a new <code>search_wildcard</code> parameter gives you finer control over how the search SQL is constructed.', 'buddypress' );
-								?>
-							</li>
-	
+					<div class="group-invites">
+						<span class=" dashicons dashicons-plus-alt"></span>
+						<h4><?php esc_html_e( 'Group Invitations', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Inviting members to groups is now smoother than ever with a simpler, clearer interface.', 'buddypress' ); ?></p>
+					</div>
 
-							<li><?php printf( __( '<a href="%s">&hellip;and lots more!</a>', 'buddypress' ), 'https://codex.buddypress.org/releases/version-2-1' ); ?></li>
-						</ul>
+					<div class="last-feature">
+						<span class=" dashicons dashicons-heart"></span>
+						<h4><?php esc_html_e( 'WordPress 3.6 - 4.1', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'We support a wide range of WordPress versions, even though you should always stay up-to-date.', 'buddypress' ); ?></p>
 					</div>
 				</div>
 			</div>
+
+			<hr />
+
+			<div class="changelog feature-list">
+				<h2><?php esc_html_e( 'Under the Hood', 'buddypress' ); ?></h2>
+
+				<div class="feature-section col two-col">
+					<div>
+						<h4><?php esc_html_e( 'Complex Activity Queries', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Metadata, multiple scopes, actions, post types, and more are now easily queried using core APIs and functionality.', 'buddypress' ); ?></p>
+
+						<h4><?php esc_html_e( 'Cache Improvements', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'We now properly group and cache several different types of queries and objects, with an emphasis on multi-network environments.', 'buddypress' ); ?></p>
+					</div>
+					<div class="last-feature">
+						<h4><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Continued improvements to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
+
+						<h4><?php esc_html_e( 'And so Much More', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'With over 130 bugs squashed and constant attention to improving unit-test coverage, we think this version is just the bees-knees.', 'buddypress' ); ?></p>
+					</div>
+				</div>
+			</div>
+
 		<?php
 	}
 
