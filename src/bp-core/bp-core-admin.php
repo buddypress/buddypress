@@ -595,9 +595,9 @@ class BP_Admin {
 					</div>
 
 					<div class="group-invites">
-						<span class=" dashicons dashicons-plus-alt"></span>
-						<h4><?php esc_html_e( 'Group Invitations', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Inviting members to groups is now smoother than ever with a simpler, clearer interface.', 'buddypress' ); ?></p>
+						<span class=" dashicons dashicons-editor-code"></span>
+						<h4><?php esc_html_e( 'Message Meta', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Private message conversations made infinitely more flexible with an additional metadata table.', 'buddypress' ); ?></p>
 					</div>
 
 					<div class="last-feature">
