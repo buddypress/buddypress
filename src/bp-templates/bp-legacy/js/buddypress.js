@@ -1628,7 +1628,7 @@ jq(document).ready( function() {
 	});
 
 	/* Clear BP cookies on logout */
-	jq('a.logout').on( 'click', function() {
+	jq('#wp-admin-bar-logout, a.logout').on( 'click', function() {
 		jq.removeCookie('bp-activity-scope', {
 			path: '/'
 		});
