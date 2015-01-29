@@ -758,6 +758,10 @@ class BP_Admin {
 					<a href="http://profiles.wordpress.org/netweb"><img src="http://0.gravatar.com/avatar/97e1620b501da675315ba7cfb740e80f?s=60" class="gravatar" alt="Stephen Edgar" /></a>
 					<a class="web" href="http://profiles.wordpress.org/netweb">Stephen Edgar</a>
 				</li>
+				<li class="wp-person" id="wp-person-hnla">
+					<a href="http://profiles.wordpress.org/hnla"><img src="http://0.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60" class="gravatar" alt="Hugo Ashmore" /></a>
+					<a class="web" href="http://profiles.wordpress.org/hnla">Hugo</a>
+				</li>
 			</ul>
 
 			<h4 class="wp-people-group"><?php printf( __( 'Contributors to BuddyPress %s', 'buddypress' ), $display_version ); ?></h4>
