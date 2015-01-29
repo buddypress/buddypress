@@ -1397,4 +1397,68 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 		$this->assertEquals( $ids, array( $a1 ) );
 	}
+
+	/**
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_give_precedence_to_acpage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['acpage'] = '5';
+
+		$at = new BP_Activity_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['acpage'] = '0';
+
+		$at = new BP_Activity_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$at = new BP_Activity_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$at = new BP_Activity_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
 }
