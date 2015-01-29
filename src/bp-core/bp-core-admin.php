@@ -556,9 +556,9 @@ class BP_Admin {
 					</div>
 				</div>
 
-			<?php endif; ?>
+				<hr />
 
-			<hr />
+			<?php endif; ?>
 
 			<div class="changelog">
 				<h2 class="about-headline-callout"><?php _e( 'Revamped @mentions Interface', 'buddypress' ); ?></h2>
