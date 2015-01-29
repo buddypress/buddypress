@@ -199,8 +199,9 @@ class BP_Blogs_Template {
 	 */
 	public function __construct( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg = 'bpage', $update_meta_cache = true, $include_blog_ids = false ) {
 
-		$this->pag_page = isset( $_REQUEST[ $page_arg ] ) ? intval( $_REQUEST[ $page_arg ] ) : $page;
-		$this->pag_num  = isset( $_REQUEST['num']       ) ? intval( $_REQUEST['num']       ) : $per_page;
+		$this->pag_arg  = sanitize_key( $page_arg );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $page     );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $per_page );
 
 		// Backwards compatibility support for blogs by first letter
 		if ( ! empty( $_REQUEST['letter'] ) ) {
@@ -242,7 +243,7 @@ class BP_Blogs_Template {
 		// Build pagination links based on total blogs and current page number
 		if ( ! empty( $this->total_blog_count ) && ! empty( $this->pag_num ) ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $page_arg, '%#%' ),
+				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_blog_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,

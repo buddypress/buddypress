@@ -202,4 +202,164 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		buddypress()->site_options = $old_settings;
 	}
+
+	/**
+	 * @group BP_Blogs_Template
+	 */
+	public function test_bp_blogs_template_should_give_precedence_to_bpage_URL_param() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$request = $_REQUEST;
+		$_REQUEST['bpage'] = '5';
+
+		$r = array(
+			'type'              => 'active',
+			'page_arg'          => 'bpage',
+			'page'              => 8,
+			'per_page'          => 20,
+			'max'               => false,
+			'user_id'           => 0,
+			'include_blog_ids'  => false,
+			'search_terms'      => '',
+			'update_meta_cache' => true
+		);
+
+		$at = new BP_Blogs_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['page_arg'],
+			$r['update_meta_cache'],
+			$r['include_blog_ids']
+		);
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Blogs_Template
+	 */
+	public function test_bp_blogs_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$request = $_REQUEST;
+		$_REQUEST['bpage'] = '0';
+
+		$r = array(
+			'type'              => 'active',
+			'page_arg'          => 'bpage',
+			'page'              => 8,
+			'per_page'          => 20,
+			'max'               => false,
+			'user_id'           => 0,
+			'include_blog_ids'  => false,
+			'search_terms'      => '',
+			'update_meta_cache' => true
+		);
+
+		$at = new BP_Blogs_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['page_arg'],
+			$r['update_meta_cache'],
+			$r['include_blog_ids']
+		);
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Blogs_Template
+	 */
+	public function test_bp_blogs_template_should_give_precedence_to_num_URL_param() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$r = array(
+			'type'              => 'active',
+			'page_arg'          => 'bpage',
+			'page'              => 1,
+			'per_page'          => 13,
+			'max'               => false,
+			'user_id'           => 0,
+			'include_blog_ids'  => false,
+			'search_terms'      => '',
+			'update_meta_cache' => true
+		);
+
+		$at = new BP_Blogs_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['page_arg'],
+			$r['update_meta_cache'],
+			$r['include_blog_ids']
+		);
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Blogs_Template
+	 */
+	public function test_bp_blogs_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$r = array(
+			'type'              => 'active',
+			'page_arg'          => 'bpage',
+			'page'              => 1,
+			'per_page'          => 13,
+			'max'               => false,
+			'user_id'           => 0,
+			'include_blog_ids'  => false,
+			'search_terms'      => '',
+			'update_meta_cache' => true
+		);
+
+		$at = new BP_Blogs_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['page_arg'],
+			$r['update_meta_cache'],
+			$r['include_blog_ids']
+		);
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
 }
