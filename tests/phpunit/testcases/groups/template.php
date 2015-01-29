@@ -849,4 +849,260 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		$this->assertSame( '2 members', $found );
 	}
+
+	/**
+	 * @group BP_Groups_Template
+	 */
+	public function test_bp_groups_template_should_give_precedence_to_grpage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['grpage'] = '5';
+
+		$at = new BP_Groups_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Template
+	 */
+	public function test_bp_groups_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['grpage'] = '0';
+
+		$at = new BP_Groups_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Template
+	 */
+	public function test_bp_groups_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$at = new BP_Groups_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Template
+	 */
+	public function test_bp_groups_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$at = new BP_Groups_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Group_Members_Template
+	 */
+	public function test_bp_groups_group_members_template_should_give_precedence_to_mlpage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['mlpage'] = '5';
+
+		$at = new BP_Groups_Group_Members_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Group_Members_Template
+	 */
+	public function test_bp_groups_group_members_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['mlpage'] = '0';
+
+		$at = new BP_Groups_Group_Members_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Group_Members_Template
+	 */
+	public function test_bp_groups_group_members_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$at = new BP_Groups_Group_Members_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Group_Members_Template
+	 */
+	public function test_bp_groups_group_members_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$at = new BP_Groups_Group_Members_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Membership_Requests_Template
+	 */
+	public function test_bp_groups_membership_requests_template_should_give_precedence_to_mrpage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['mrpage'] = '5';
+
+		$at = new BP_Groups_Membership_Requests_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Membership_Requests_Template
+	 */
+	public function test_bp_groups_membership_requests_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['mrpage'] = '0';
+
+		$at = new BP_Groups_Membership_Requests_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Membership_Requests_Template
+	 */
+	public function test_bp_groups_membership_requests_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$at = new BP_Groups_Membership_Requests_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Membership_Requests_Template
+	 */
+	public function test_bp_groups_membership_requests_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$at = new BP_Groups_Membership_Requests_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Invite_Template
+	 */
+	public function test_bp_groups_invite_template_should_give_precedence_to_invitepage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['invitepage'] = '5';
+
+		$at = new BP_Groups_Invite_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Invite_Template
+	 */
+	public function test_bp_groups_invite_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['invitepage'] = '0';
+
+		$at = new BP_Groups_Invite_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Invite_Template
+	 */
+	public function test_bp_groups_invite_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$at = new BP_Groups_Invite_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Groups_Invite_Template
+	 */
+	public function test_bp_groups_invite_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$at = new BP_Groups_Invite_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
 }

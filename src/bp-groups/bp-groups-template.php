@@ -206,27 +206,30 @@ class BP_Groups_Template {
 		}
 
 		$defaults = array(
-			'type'            => 'active',
-			'page'            => 1,
-			'per_page'        => 20,
-			'max'             => false,
-			'show_hidden'     => false,
-			'page_arg'        => 'grpage',
-			'user_id'         => 0,
-			'slug'            => false,
-			'include'         => false,
-			'exclude'         => false,
-			'search_terms'    => '',
-			'meta_query'      => false,
-			'populate_extras' => true,
+			'page'              => 1,
+			'per_page'          => 20,
+			'page_arg'          => 'grpage',
+			'max'               => false,
+			'type'              => 'active',
+			'order'             => 'DESC',
+			'orderby'           => 'date_created',
+			'show_hidden'       => false,
+			'user_id'           => 0,
+			'slug'              => false,
+			'include'           => false,
+			'exclude'           => false,
+			'search_terms'      => '',
+			'meta_query'        => false,
+			'populate_extras'   => true,
 			'update_meta_cache' => true,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
 
-		$this->pag_page = isset( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : $page;
-		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->pag_arg  = sanitize_key( $r['page_arg'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
 
 		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) )
 			$show_hidden = true;
@@ -310,7 +313,7 @@ class BP_Groups_Template {
 		// Build pagination links
 		if ( (int) $this->total_group_count && (int) $this->pag_num ) {
 			$pag_args = array(
-				$page_arg => '%#%'
+				$this->pag_arg => '%#%'
 			);
 
 			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {
@@ -3055,6 +3058,7 @@ class BP_Groups_Group_Members_Template {
 			'group_id'            => bp_get_current_group_id(),
 			'page'                => 1,
 			'per_page'            => 20,
+			'page_arg'            => 'mlpage',
 			'max'                 => false,
 			'exclude'             => false,
 			'exclude_admins_mods' => 1,
@@ -3067,8 +3071,9 @@ class BP_Groups_Group_Members_Template {
 		// @todo No
 		extract( $r );
 
-		$this->pag_page = isset( $_REQUEST['mlpage'] ) ? intval( $_REQUEST['mlpage'] ) : $r['page'];
-		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
+		$this->pag_arg  = sanitize_key( $r['page_arg'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
 
 		/**
 		 * Check the current group is the same as the supplied group ID.
@@ -3109,7 +3114,7 @@ class BP_Groups_Group_Members_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base'      => add_query_arg( array( 'mlpage' => '%#%' ), $base_url ),
+			'base'      => add_query_arg( array( $this->pag_arg => '%#%' ), $base_url ),
 			'format'    => '',
 			'total'     => ! empty( $this->pag_num ) ? ceil( $this->total_member_count / $this->pag_num ) : $this->total_member_count,
 			'current'   => $this->pag_page,
@@ -4090,15 +4095,17 @@ class BP_Groups_Membership_Requests_Template {
 		}
 
 		$r = wp_parse_args( $args, array(
-			'group_id' => bp_get_current_group_id(),
-			'per_page' => 10,
 			'page'     => 1,
+			'per_page' => 10,
+			'page_arg' => 'mrpage',
 			'max'      => false,
 			'type'     => 'first_joined',
+			'group_id' => bp_get_current_group_id(),
 		) );
 
-		$this->pag_page = isset( $_REQUEST['mrpage'] ) ? intval( $_REQUEST['mrpage'] ) : $r['page'];
-		$this->pag_num  = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $r['per_page'];
+		$this->pag_arg  = sanitize_key( $r['page_arg'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
 
 		$mquery = new BP_Group_Member_Query( array(
 			'group_id' => $r['group_id'],
@@ -4141,7 +4148,7 @@ class BP_Groups_Membership_Requests_Template {
 		}
 
 		$this->pag_links = paginate_links( array(
-			'base'      => add_query_arg( 'mrpage', '%#%' ),
+			'base'      => add_query_arg( $this->pag_arg, '%#%' ),
 			'format'    => '',
 			'total'     => ceil( $this->total_request_count / $this->pag_num ),
 			'current'   => $this->pag_page,
@@ -4358,14 +4365,16 @@ class BP_Groups_Invite_Template {
 		}
 
 		$r = wp_parse_args( $args, array(
-			'user_id'  => bp_loggedin_user_id(),
-			'group_id' => bp_get_current_group_id(),
 			'page'     => 1,
 			'per_page' => 10,
+			'page_arg' => 'invitepage',
+			'user_id'  => bp_loggedin_user_id(),
+			'group_id' => bp_get_current_group_id(),
 		) );
 
-		$this->pag_num  = intval( $r['per_page'] );
-		$this->pag_page = isset( $_REQUEST['invitepage'] ) ? intval( $_REQUEST['invitepage'] ) : $r['page'];
+		$this->pag_arg  = sanitize_key( $r['page_arg'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
 
 		$iquery = new BP_Group_Member_Query( array(
 			'group_id' => $r['group_id'],
@@ -4387,7 +4396,7 @@ class BP_Groups_Invite_Template {
 		// pag_links
 		if ( ! empty( $this->pag_num ) ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( 'invitepage', '%#%' ),
+				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( $this->total_invite_count / $this->pag_num ),
 				'current'   => $this->pag_page,
