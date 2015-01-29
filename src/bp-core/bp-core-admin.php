@@ -626,7 +626,7 @@ class BP_Admin {
 						<p><?php esc_html_e( 'Continued improvements to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
 
 						<h4><?php esc_html_e( 'And so Much More', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'With over 130 bugs squashed and constant attention to improving unit-test coverage, we think this version is just the bees-knees.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'With over 130 bugs squashed and constant attention to improving unit-test coverage, we think this version is just the bee&#8217;s knees.', 'buddypress' ); ?></p>
 					</div>
 				</div>
 			</div>
