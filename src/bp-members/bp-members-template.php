@@ -223,6 +223,14 @@ class BP_Core_Members_Template {
 	var $in_the_loop;
 
 	/**
+	 * The unique string used for pagination queries
+	 *
+	 * @access public
+	 * @var public
+	 */
+	var $pag_arg;
+
+	/**
 	 * The page number being requested.
 	 *
 	 * @access public
@@ -276,8 +284,9 @@ class BP_Core_Members_Template {
 	 */
 	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage', $member_type = '' ) {
 
-		$this->pag_page = !empty( $_REQUEST[$page_arg] ) ? intval( $_REQUEST[$page_arg] ) : (int) $page_number;
-		$this->pag_num  = !empty( $_REQUEST['num'] )   ? intval( $_REQUEST['num'] )   : (int) $per_page;
+		$this->pag_arg  = sanitize_key( $page_arg );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $page_number );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $per_page    );
 		$this->type     = $type;
 
 		if ( !empty( $_REQUEST['letter'] ) )
@@ -304,7 +313,7 @@ class BP_Core_Members_Template {
 
 		if ( (int) $this->total_member_count && (int) $this->pag_num ) {
 			$pag_args = array(
-				$page_arg => '%#%',
+				$this->pag_arg => '%#%',
 			);
 
 			if ( defined( 'DOING_AJAX' ) && true === (bool) DOING_AJAX ) {

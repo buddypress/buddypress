@@ -191,4 +191,184 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$this->assertEquals( bp_core_time_since( $time ), bp_get_member_last_active( array( 'active_format' => false, ) ) );
 	}
+
+	/**
+	 * @group BP_Core_Members_Template
+	 */
+	public function test_bp_groups_template_should_give_precedence_to_upage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['upage'] = '5';
+
+		$r = array(
+			'type'            => 'active',
+			'page'            => 8,
+			'per_page'        => 20,
+			'max'             => false,
+			'page_arg'        => 'upage',
+			'include'         => false,
+			'exclude'         => false,
+			'user_id'         => 0,
+			'member_type'     => '',
+			'search_terms'    => null,
+			'meta_key'        => false,
+			'meta_value'	  => false,
+			'populate_extras' => true,
+			'search_terms'    => ''
+		);
+
+		$at = new BP_Core_Members_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['include'],
+			$r['populate_extras'],
+			$r['exclude'],
+			$r['meta_key'],
+			$r['meta_value'],
+			$r['page_arg'],
+			$r['member_type']
+		);
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Core_Members_Template
+	 */
+	public function test_bp_members_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['upage'] = '0';
+
+		$r = array(
+			'type'            => 'active',
+			'page'            => 8,
+			'per_page'        => 20,
+			'max'             => false,
+			'page_arg'        => 'upage',
+			'include'         => false,
+			'exclude'         => false,
+			'user_id'         => 0,
+			'member_type'     => '',
+			'search_terms'    => null,
+			'meta_key'        => false,
+			'meta_value'	  => false,
+			'populate_extras' => true,
+			'search_terms'    => ''
+		);
+
+		$at = new BP_Core_Members_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['include'],
+			$r['populate_extras'],
+			$r['exclude'],
+			$r['meta_key'],
+			$r['meta_value'],
+			$r['page_arg'],
+			$r['member_type']
+		);
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Core_Members_Template
+	 */
+	public function test_bp_members_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$r = array(
+			'type'            => 'active',
+			'page'            => 1,
+			'per_page'        => 13,
+			'max'             => false,
+			'page_arg'        => 'upage',
+			'include'         => false,
+			'exclude'         => false,
+			'user_id'         => 0,
+			'member_type'     => '',
+			'search_terms'    => null,
+			'meta_key'        => false,
+			'meta_value'	  => false,
+			'populate_extras' => true,
+			'search_terms'    => ''
+		);
+
+		$at = new BP_Core_Members_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['include'],
+			$r['populate_extras'],
+			$r['exclude'],
+			$r['meta_key'],
+			$r['meta_value'],
+			$r['page_arg'],
+			$r['member_type']
+		);
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group BP_Core_Members_Template
+	 */
+	public function test_bp_members_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$r = array(
+			'type'            => 'active',
+			'page'            => 1,
+			'per_page'        => 13,
+			'max'             => false,
+			'page_arg'        => 'upage',
+			'include'         => false,
+			'exclude'         => false,
+			'user_id'         => 0,
+			'member_type'     => '',
+			'search_terms'    => null,
+			'meta_key'        => false,
+			'meta_value'	  => false,
+			'populate_extras' => true,
+			'search_terms'    => ''
+		);
+
+		$at = new BP_Core_Members_Template(
+			$r['type'],
+			$r['page'],
+			$r['per_page'],
+			$r['max'],
+			$r['user_id'],
+			$r['search_terms'],
+			$r['include'],
+			$r['populate_extras'],
+			$r['exclude'],
+			$r['meta_key'],
+			$r['meta_value'],
+			$r['page_arg'],
+			$r['member_type']
+		);
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
 }
