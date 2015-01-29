@@ -282,18 +282,6 @@ class BP_Notifications_Template {
 
 		// Overrides
 
-		// Set which pagination page
-		if ( isset( $_GET[ $r['page_arg'] ] ) ) {
-			$r['page'] = intval( $_GET[ $r['page_arg'] ] );
-		}
-
-		// Set the number to show per page
-		if ( isset( $_GET['num'] ) ) {
-			$r['per_page'] = intval( $_GET['num'] );
-		} else {
-			$r['per_page'] = intval( $r['per_page'] );
-		}
-
 		// Sort order direction
 		$orders = array( 'ASC', 'DESC' );
 		if ( ! empty( $_GET['sort_order'] ) && in_array( $_GET['sort_order'], $orders ) ) {
@@ -303,12 +291,12 @@ class BP_Notifications_Template {
 		}
 
 		// Setup variables
-		$this->pag_page     = $r['page'];
-		$this->pag_num      = $r['per_page'];
+		$this->pag_arg      = sanitize_key( $r['page_arg'] );
+		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_num      = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
 		$this->user_id      = $r['user_id'];
 		$this->is_new       = $r['is_new'];
 		$this->search_terms = $r['search_terms'];
-		$this->page_arg     = $r['page_arg'];
 		$this->order_by     = $r['order_by'];
 		$this->sort_order   = $r['sort_order'];
 
@@ -338,7 +326,7 @@ class BP_Notifications_Template {
 			);
 
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->page_arg, '%#%' ),
+				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_notification_count / (int) $this->pag_num ),
 				'current'   => $this->pag_page,
