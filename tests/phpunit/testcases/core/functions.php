@@ -395,6 +395,36 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_sanitize_pagination_arg
+	 */
+	public function test_bp_sanitize_pagination_arg_zero() {
+		$request          = $_REQUEST;
+		$arg              = 'bp_pagination_test';
+		$page             = 1;
+		$_REQUEST[ $arg ] = '0';
+		$value            = bp_sanitize_pagination_arg( $arg, $page );
+
+		$this->assertEquals( $value, $page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group bp_sanitize_pagination_arg
+	 */
+	public function test_bp_sanitize_pagination_arg_negative() {
+		$request          = $_REQUEST;
+		$arg              = 'bp_pagination_test';
+		$page             = 25;
+		$_REQUEST[ $arg ] = '-25';
+		$value            = bp_sanitize_pagination_arg( $arg, $page );
+
+		$this->assertEquals( $value, $page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
 	 * @group bp_core_get_directory_pages
 	 */
 	public function test_bp_core_get_directory_pages_after_page_edit() {

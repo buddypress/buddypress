@@ -268,6 +268,35 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 }
 
 /**
+ * Sanitizes a pagination argument based on both the request override and the
+ * original value submitted via a query argument, likely to a template class
+ * responsible for limiting the resultset of a template loop.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  string $page_arg The $_REQUEST argument to look for
+ * @param  int    $page     The original page value to fall back to
+ * @return int              A sanitized integer value, good for pagination
+ */
+function bp_sanitize_pagination_arg( $page_arg = '', $page = 1 ) {
+
+	// Check if request overrides exist
+	if ( isset( $_REQUEST[ $page_arg ] ) ) {
+
+		// Get the absolute integer value of the override
+		$int = absint( $_REQUEST[ $page_arg ] );
+
+		// If override is 0, do not use it. This prevents unlimited result sets.
+		// @see https://buddypress.trac.wordpress.org/ticket/5796
+		if ( $int ) {
+			$page = intval( $int );
+		}
+	}
+
+	return $page;
+}
+
+/**
  * Sanitize an 'order' parameter for use in building SQL queries.
  *
  * Strings like 'DESC', 'desc', ' desc' will be interpreted into 'DESC'.
