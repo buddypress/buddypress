@@ -7,7 +7,8 @@
 /* Welcome Screen
 ------------------------------------------------------------------------------*/
 
-body.dashboard_page_bp-about span.dashicons {
+body.dashboard_page_bp-about span.dashicons,
+body.index_page_bp-about span.dashicons {
 	float: left;
 	clear: left;
 	margin: 15px 15px 0 0 ;
