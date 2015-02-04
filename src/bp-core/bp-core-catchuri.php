@@ -21,11 +21,11 @@ defined( 'ABSPATH' ) || exit;
  * URI structures with very little work.
  *
  * The URIs are broken down as follows:
- *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
- *   - OUTSIDE ROOT: http:// domain.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - http:// example.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - OUTSIDE ROOT: http:// example.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *
  *	Example:
- *    - http://domain.com/members/andy/profile/edit/group/5/
+ *    - http://example.com/members/andy/profile/edit/group/5/
  *    - $bp->current_component: string 'xprofile'
  *    - $bp->current_action: string 'edit'
  *    - $bp->action_variables: array ['group', 5]

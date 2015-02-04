@@ -1369,8 +1369,8 @@ function bp_is_directory() {
 /**
  * Check to see if a component's URL should be in the root, not under a member page.
  *
- * - Yes ('groups' is root)    : http://domain.com/groups/the-group
- * - No  ('groups' is not-root): http://domain.com/members/andy/groups/the-group
+ * - Yes ('groups' is root)    : http://example.com/groups/the-group
+ * - No  ('groups' is not-root): http://example.com/members/andy/groups/the-group
  *
  * This function is on the chopping block. It's currently only used by a few
  * already deprecated functions.

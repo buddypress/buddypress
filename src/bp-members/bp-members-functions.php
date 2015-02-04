@@ -151,7 +151,7 @@ function bp_core_get_users( $args = '' ) {
 }
 
 /**
- * Return the domain for the passed user: e.g. http://domain.com/members/andy/.
+ * Return the domain for the passed user: e.g. http://example.com/members/andy/.
  *
  * @param int $user_id The ID of the user.
  * @param string $user_nicename Optional. user_nicename of the user.
@@ -463,7 +463,7 @@ function bp_core_get_user_email( $uid ) {
 /**
  * Return a HTML formatted link for a user with the user's full name as the link text.
  *
- * eg: <a href="http://andy.domain.com/">Andy Peatling</a>
+ * eg: <a href="http://andy.example.com/">Andy Peatling</a>
  *
  * Optional parameters will return just the name or just the URL.
  *
