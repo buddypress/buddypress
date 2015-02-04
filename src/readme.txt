@@ -93,7 +93,7 @@ Report bugs, suggest ideas, and participate in development at <a href="https://b
 
 = Where can I get the bleeding edge version of BuddyPress? =
 
-Check out the development trunk of BuddyPress from Subversion at <a href="https://buddypress.svn.wordpress.org/trunk/">https://buddypress.svn.wordpress.org/trunk/</a>, or clone from Git at https://buddypress.git.wordpress.org/.
+Check out the development trunk of BuddyPress from Subversion at <a href="https://buddypress.svn.wordpress.org/trunk/">https://buddypress.svn.wordpress.org/trunk/</a>, or clone from Git at git://buddypress.git.wordpress.org/.
 
 = How does BuddyPress make money? =
 
