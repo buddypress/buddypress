@@ -289,11 +289,11 @@ function bp_sanitize_pagination_arg( $page_arg = '', $page = 1 ) {
 		// If override is 0, do not use it. This prevents unlimited result sets.
 		// @see https://buddypress.trac.wordpress.org/ticket/5796
 		if ( $int ) {
-			$page = intval( $int );
+			$page = $int;
 		}
 	}
 
-	return $page;
+	return intval( $page );
 }
 
 /**
