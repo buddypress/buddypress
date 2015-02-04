@@ -187,8 +187,9 @@ class BP_Admin {
 	public function admin_menus() {
 
 		// Bail if user cannot moderate
-		if ( ! bp_current_user_can( 'manage_options' ) )
+		if ( ! bp_current_user_can( 'manage_options' ) ) {
 			return;
+		}
 
 		// About
 		add_dashboard_page(
@@ -350,8 +351,9 @@ class BP_Admin {
 			// Add the main section
 			add_settings_section( 'bp_groups',        __( 'Groups Settings',  'buddypress' ), 'bp_admin_setting_callback_groups_section',   'buddypress'              );
 
-			if ( empty( $avatar_setting ) )
+			if ( empty( $avatar_setting ) ) {
 				$avatar_setting = 'bp_groups';
+			}
 
 			// Allow subscriptions setting
 			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation',   'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
@@ -431,8 +433,9 @@ class BP_Admin {
 	public function modify_plugin_action_links( $links, $file ) {
 
 		// Return normal links if not BuddyPress
-		if ( plugin_basename( buddypress()->basename ) != $file )
+		if ( plugin_basename( buddypress()->basename ) != $file ) {
 			return $links;
+		}
 
 		// Add a few links to the existing links array
 		return array_merge( $links, array(
@@ -486,30 +489,15 @@ class BP_Admin {
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function about_screen() {
-		$is_new_install = ! empty( $_GET['is_new_install'] );
-		$welcome_text   = ( $is_new_install )
-			? __( 'Thank you for installing BuddyPress! BuddyPress %s gives you the components you need to turn your WordPress powered site into a thriving membership community.', 'buddypress' )
-			: __( 'BuddyPress %s comes with a bunch of great improvements we think you&#8217;re really going to like.', 'buddypress' );
-
-		list( $display_version ) = explode( '-', bp_get_version() ); ?>
+	?>
 
 		<div class="wrap about-wrap">
-			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
-			<div class="about-text">
-				<?php printf( $welcome_text, $display_version ); ?>
-			</div>
 
-			<div class="bp-badge"></div>
+			<?php self::welcome_text(); ?>
 
-			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab nav-tab-active" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>">
-					<?php _e( 'What&#8217;s New', 'buddypress' ); ?>
-				</a><a class="nav-tab" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'index.php' ) ) ); ?>">
-					<?php _e( 'Credits', 'buddypress' ); ?>
-				</a>
-			</h2>
+			<?php self::tab_navigation( __METHOD__ ); ?>
 
-			<?php if ( $is_new_install ) : ?>
+			<?php if ( self::is_new_install() ) : ?>
 
 				<div id="welcome-panel" class="welcome-panel">
 					<div class="welcome-panel-content">
@@ -643,32 +631,15 @@ class BP_Admin {
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function credits_screen() {
-
-		$is_new_install = ! empty( $_GET['is_new_install'] );
-
-		list( $display_version ) = explode( '-', bp_get_version() ); ?>
+	?>
 
 		<div class="wrap about-wrap">
-			<h1><?php printf( __( 'Welcome to BuddyPress %s', 'buddypress' ), $display_version ); ?></h1>
-			<div class="about-text">
-				<?php if ( $is_new_install ) : ?>
-					<?php printf( __( 'Thank you for installing BuddyPress! BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
-				<?php else : ?>
-					<?php printf( __( 'Howdy. BuddyPress %s is our most streamlined and easy-to-use release to date, and we think you&#8217;re going to love it.', 'buddypress' ), $display_version ); ?>
-				<?php endif; ?>
-			</div>
 
-			<div class="bp-badge"></div>
+			<?php self::welcome_text(); ?>
 
-			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>">
-					<?php _e( 'What&#8217;s New', 'buddypress' ); ?>
-				</a><a class="nav-tab nav-tab-active" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'index.php' ) ) ); ?>">
-					<?php _e( 'Credits', 'buddypress' ); ?>
-				</a>
-			</h2>
+			<?php self::tab_navigation( __METHOD__ ); ?>
 
-			<p class="about-description"><?php _e( 'BuddyPress is created by a worldwide network of friendly folks.', 'buddypress' ); ?></p>
+			<p class="about-description"><?php _e( 'BuddyPress is created by a worldwide network of friendly folks like these.', 'buddypress' ); ?></p>
 
 			<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h4>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
@@ -742,7 +713,7 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php printf( __( 'Contributors to BuddyPress %s', 'buddypress' ), $display_version ); ?></h4>
+			<h4 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h4>
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/andemann/">andemann</a>,
 				<a href="https://profiles.wordpress.org/dontdream/">Andrea Tarantini (dontdream)</a>,
@@ -801,6 +772,94 @@ class BP_Admin {
 		</div>
 
 		<?php
+	}
+
+	/**
+	 * Output welcome text and badge for What's New and Credits pages
+	 *
+	 * @since BuddyPress (2.2.0)
+	 */
+	public static function welcome_text() {
+
+		// Switch welcome text based on whether this is a new installation or not
+		$welcome_text = ( self::is_new_install() )
+			? __( 'Thank you for installing BuddyPress! BuddyPress %s gives you the components you need to turn your WordPress powered site into a thriving membership community.', 'buddypress' )
+			: __( 'BuddyPress %s comes with a bunch of great improvements we think you&#8217;re really going to like.', 'buddypress' );
+
+		?>
+
+		<h1><?php printf( esc_html__( 'Welcome to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h1>
+		<div class="about-text">
+			<?php printf( $welcome_text, self::display_version() ); ?>
+		</div>
+
+		<div class="bp-badge"></div>
+
+		<?php
+	}
+
+	/**
+	 * Output tab navigation for `What's New` and `Credits` pages
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @param string $tab
+	 */
+	public static function tab_navigation( $tab = 'whats_new' ) {
+	?>
+
+		<h2 class="nav-tab-wrapper">
+			<a class="nav-tab <?php if ( 'BP_Admin::about_screen' === $tab ) : ?>nav-tab-active<?php endif; ?>" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-about' ), 'index.php' ) ) ); ?>">
+				<?php esc_html_e( 'What&#8217;s New', 'buddypress' ); ?>
+			</a><a class="nav-tab <?php if ( 'BP_Admin::credits_screen' === $tab ) : ?>nav-tab-active<?php endif; ?>" href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'index.php' ) ) ); ?>">
+				<?php esc_html_e( 'Credits', 'buddypress' ); ?>
+			</a>
+		</h2>
+
+	<?php
+	}
+
+	/** Helpers ***************************************************************/
+
+	/**
+	 * Return true/false based on whether a query argument is set
+	 *
+	 * @see bp_do_activation_redirect()
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @return bool
+	 */
+	public static function is_new_install() {
+		return (bool) isset( $_GET['is_new_install'] );
+	}
+
+	/**
+	 * Return a user-friendly version-number string, for use in translations
+	 *
+	 * @since BuddyPress (2.2.0)
+	 * @return string
+	 */
+	public static function display_version() {
+
+		// Use static variable to prevent recalculations
+		static $display = '';
+
+		// Only calculate on first run
+		if ( '' === $display ) {
+
+			// Get current version
+			$version = bp_get_version();
+
+			// Check for prerelease hyphen
+			$pre     = strpos( $version, '-' );
+
+			// Strip prerelease suffix
+			$display = ( false !== $pre )
+				? substr( $version, 0, $pre )
+				: $version;
+		}
+
+		// Done!
+		return $display;
 	}
 }
 endif; // class_exists check
