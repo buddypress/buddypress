@@ -95,11 +95,9 @@ Report bugs, suggest ideas, and participate in development at <a href="https://b
 
 Check out the development trunk of BuddyPress from Subversion at <a href="https://buddypress.svn.wordpress.org/trunk/">https://buddypress.svn.wordpress.org/trunk/</a>, or clone from Git at git://buddypress.git.wordpress.org/.
 
-= How does BuddyPress make money? =
+= Who builds BuddyPress? =
 
-This question comes up frequently, but is harder to answer than one might think. The short answer is that "BuddyPress" as a piece of software does not attempt to operate for-profit, but the volunteer developers behind the project either work for a company that is already using BuddyPress or providing consulting services, or are volunteers/freelancers/contractors generous enough to donate some time back to improving the software.
-
-If you are interested in supporting the BuddyPress project with monetary contributions, please consider a donation to the <a href="http://wordpressfoundation.org">WordPress Foundation</a>, or contact your favorite contributor directly for how they prefer to have their efforts rewarded.
+BuddyPress is free software, built by an international community of volunteers. Some contributors to BuddyPress are employed companies that use BuddyPress, while others are consultants who offer BuddyPress-related services for hire. No one is paid by the BuddyPress project for his or her contributions. If you would like to provide monetary support to BuddyPress, please consider a donation to the <a href="http://wordpressfoundation.org">WordPress Foundation</a>, or ask your favorite contributor how they prefer to have their efforts rewarded.
 
 == Screenshots ==
 
