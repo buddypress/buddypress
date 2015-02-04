@@ -58,7 +58,7 @@ BuddyPress can be activated and operate in just about any scope you need for it 
 
 * Activate at the site level to only load BuddyPress on that site.
 * Activate at the network level for full integration with all sites in your network. (This is the most common multisite installation type.)
-* Enable <a href="https://codex.buddypress.org/getting-started/customizing/bp_enable_multiblog/">multiblog"</a> mode to allow your BuddyPress content to be displayed on any site in your WordPress Multisite network, using the same central data.
+* Enable <a href="https://codex.buddypress.org/getting-started/customizing/bp_enable_multiblog/">multiblog</a> mode to allow your BuddyPress content to be displayed on any site in your WordPress Multisite network, using the same central data.
 * Extend BuddyPress with a third-party multi-network plugin to allow each site or network to have an isolated and dedicated community, all from the same WordPress installation.
 
 Read more about custom BuddyPress activations <a href="https://codex.buddypress.org/getting-started/installation-in-wordpress-multisite/">on our codex page.</a>
@@ -93,7 +93,7 @@ Report bugs, suggest ideas, and participate in development at <a href="https://b
 
 = Where can I get the bleeding edge version of BuddyPress? =
 
-Check out the development trunk of BuddyPress via Subversion, from <a href="https://buddypress.svn.wordpress.org/trunk/">https://buddypress.svn.wordpress.org/trunk/</a>
+Check out the development trunk of BuddyPress from Subversion at <a href="https://buddypress.svn.wordpress.org/trunk/">https://buddypress.svn.wordpress.org/trunk/</a>, or clone from Git at https://buddypress.git.wordpress.org/.
 
 = How does BuddyPress make money? =
 
@@ -196,6 +196,9 @@ Compatibility with WordPress 3.1
 Fixes over 10 bugs.
 
 == Changelog ==
+
+= 2.2 =
+See: https://codex.buddypress.org/releases/version-2-2/
 
 = 2.1 =
 See: https://codex.buddypress.org/releases/version-2-1/
