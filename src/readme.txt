@@ -81,7 +81,7 @@ Yes! If your WordPress installation has multisite enabled, BuddyPress will suppo
 
 Our community provides free support at <a href="https://buddypress.org/support/">https://buddypress.org/support/</a>.
 
-For dedicated consultations, see our list of <a href="https://buddypress.org/consulting/">unofficial list</a> of freelancers, contractors, and agencies offering BuddyPress services.
+For dedicated consultations, see our <a href="https://buddypress.org/consulting/">unofficial list</a> of freelancers, contractors, and agencies offering BuddyPress services.
 
 = Where can I find documentation? =
 
@@ -94,6 +94,12 @@ Report bugs, suggest ideas, and participate in development at <a href="https://b
 = Where can I get the bleeding edge version of BuddyPress? =
 
 Check out the development trunk of BuddyPress via Subversion, from <a href="https://buddypress.svn.wordpress.org/trunk/">https://buddypress.svn.wordpress.org/trunk/</a>
+
+= How does BuddyPress make money? =
+
+This question comes up frequently, but is harder to answer than one might think. The short answer is that "BuddyPress" as a piece of software does not attempt to operate for-profit, but the volunteer developers behind the project either work for a company that is already using BuddyPress or providing consulting services, or are volunteers/freelancers/contractors generous enough to donate some time back to improving the software.
+
+If you are interested in supporting the BuddyPress project with monetary contributions, please consider a donation to the <a href="http://wordpressfoundation.org">WordPress Foundation</a>, or contact your favorite contributor directly for how they prefer to have their efforts rewarded.
 
 == Screenshots ==
 
