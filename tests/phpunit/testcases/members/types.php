@@ -162,6 +162,30 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group BP6193
+	 */
+	public function test_bp_members_prefetch_member_type_array_cache_set() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_set_member_type( $u1, 'foo' );
+		bp_set_member_type( $u1, 'bar', true );
+
+		// Get users so that the 'bp_user_query_populate_extras' is fired
+		// and members type prefetched
+		$users = bp_core_get_users( array( 'include' => array( $u1, $u2 ) ) );
+
+		// Get single member type
+		$this->assertSame( 'foo', bp_get_member_type( $u1, true ) );
+		$this->assertEmpty( bp_get_member_type( $u2, true ) );
+
+		// Get all member types for the user
+		$this->assertEqualSets( array( 'foo', 'bar' ), bp_get_member_type( $u1, false ) );
+		$this->assertEmpty( bp_get_member_type( $u2, false ) );
+	}
+
+	/**
 	 * @group cache
 	 */
 	public function test_bp_get_member_type_should_return_false_for_deleted_user() {
