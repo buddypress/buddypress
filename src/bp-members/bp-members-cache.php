@@ -20,10 +20,20 @@ function bp_members_prefetch_member_type( BP_User_Query $bp_user_query ) {
 		'fields' => 'all_with_object_id',
 	) );
 
-	$cached_member_ids = array();
+	// Rekey by user ID.
+	$keyed_member_types = array();
 	foreach ( $member_types as $member_type ) {
-		wp_cache_set( $member_type->object_id, $member_type->name, 'bp_member_type' );
-		$cached_member_ids[] = $member_type->object_id;
+		if ( ! isset( $keyed_member_types[ $member_type->object_id ] ) ) {
+			$keyed_member_types[ $member_type->object_id ] = array();
+		}
+
+		$keyed_member_types[ $member_type->object_id ][] = $member_type->name;
+	}
+
+	$cached_member_ids = array();
+	foreach ( $keyed_member_types as $user_id => $user_member_types ) {
+		wp_cache_set( $user_id, $user_member_types, 'bp_member_type' );
+		$cached_member_ids[] = $user_id;
 	}
 
 	// Cache an empty value for users with no type.
