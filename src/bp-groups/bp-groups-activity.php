@@ -75,6 +75,11 @@ function groups_register_activity_actions() {
 		);
 	}
 
+	/**
+	 * Fires at end of registration of the default activity actions for the Groups component.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
 	do_action( 'groups_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' );
@@ -99,6 +104,14 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 
 	$action = sprintf( __( '%1$s created the group %2$s', 'buddypress'), $user_link, $group_link );
 
+	/**
+	 * Filters the 'created_group' activity actions.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $action   The 'created_group' activity action.
+	 * @param object $activity Activity data object.
+	 */
 	return apply_filters( 'groups_activity_created_group_action', $action, $activity );
 }
 
@@ -133,6 +146,14 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 		$action = apply_filters_ref_array( 'groups_activity_accepted_invite_action', array( $action, $activity->user_id, &$group ) );
 	}
 
+	/**
+	 * Filters the 'joined_group' activity actions.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action   The 'joined_group' activity actions.
+	 * @param object $activity Activity data object.
+	 */
 	return apply_filters( 'bp_groups_format_activity_action_joined_group', $action, $activity );
 }
 
@@ -178,6 +199,14 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 
 	}
 
+	/**
+	 * Filters the 'group_details_updated' activity actions.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $action   The 'group_details_updated' activity actions.
+	 * @param object $activity Activity data object.
+	 */
 	return apply_filters( 'bp_groups_format_activity_action_joined_group', $action, $activity );
 }
 
@@ -395,9 +424,20 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	// Get the group so we can get it's name
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
+	/**
+	 * Filters the 'membership_accepted' activity actions.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $value    The 'membership_accepted' activity action.
+	 * @param int    $user_id  ID of the user joining the group.
+	 * @param int    $group_id ID of the group. Passed by reference.
+	 */
+	$action = apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $user_id, &$group ) );
+
 	// Record in activity streams
 	groups_record_activity( array(
-		'action'  => apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $user_id, &$group ) ),
+		'action'  => $action,
 		'type'    => 'joined_group',
 		'item_id' => $group_id,
 		'user_id' => $user_id
