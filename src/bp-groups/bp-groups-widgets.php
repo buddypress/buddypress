@@ -42,6 +42,14 @@ class BP_Groups_Widget extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+
+		/**
+		 * Filters the user ID to use with the widget instance.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string $value Empty user ID.
+		 */
 		$user_id = apply_filters( 'bp_group_widget_user_id', '0' );
 
 		extract( $args );
@@ -52,6 +60,13 @@ class BP_Groups_Widget extends WP_Widget {
 		if ( empty( $instance['title'] ) )
 			$instance['title'] = __( 'Groups', 'buddypress' );
 
+		/**
+		 * Filters the title of the Groups widget.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param string $value The widget title.
+		 */
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		echo $before_widget;
