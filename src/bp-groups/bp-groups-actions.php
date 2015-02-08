@@ -191,8 +191,15 @@ function groups_action_create_group() {
 				bp_core_redirect( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/' . bp_get_groups_current_create_step() . '/' );
 			}
 
-			// Set the invite status
-			// Checked against a whitelist for security
+			/**
+			 * Filters the allowed invite statuses.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param array $value Array of statuses allowed.
+			 *                     Possible values are 'members,
+			 *                     'mods', and 'admins'.
+			 */
 			$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
 			$invite_status	       = !empty( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
@@ -212,8 +219,24 @@ function groups_action_create_group() {
 			groups_send_invites( bp_loggedin_user_id(), $bp->groups->new_group_id );
 		}
 
+		/**
+		 * Fires before finalization of group creation and cookies are set.
+		 *
+		 * This hook is a variable hook dependent on the current step
+		 * in the creation process.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
 		do_action( 'groups_create_group_step_save_' . bp_get_groups_current_create_step() );
-		do_action( 'groups_create_group_step_complete' ); // Mostly for clearing cache on a generic action name
+
+		/**
+		 * Fires after the group creation step is completed.
+		 *
+		 * Mostly for clearing cache on a generic action name.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
+		do_action( 'groups_create_group_step_complete' );
 
 		/**
 		 * Once we have successfully saved the details for this step of the creation process
@@ -244,6 +267,13 @@ function groups_action_create_group() {
 				'item_id' => $bp->groups->new_group_id
 			) );
 
+			/**
+			 * Fires after the group has been successfully created.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 *
+			 * @param int $new_group_id ID of the newly created group.
+			 */
 			do_action( 'groups_group_create_complete', $bp->groups->new_group_id );
 
 			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
@@ -315,6 +345,13 @@ function groups_action_create_group() {
 		}
 	}
 
+	/**
+	 * Filters the template to load for the group creation screen.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $value Path to the group creation template to load.
+	 */
 	bp_core_load_template( apply_filters( 'groups_template_create_group', 'groups/create' ) );
 }
 add_action( 'bp_actions', 'groups_action_create_group' );
@@ -352,6 +389,13 @@ function groups_action_join_group() {
 		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 	}
 
+	/**
+	 * Filters the template to load for the single group screen.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $value Path to the single group template to load.
+	 */
 	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
 add_action( 'bp_actions', 'groups_action_join_group' );
@@ -401,6 +445,7 @@ function groups_action_leave_group() {
 		bp_core_redirect( $redirect );
 	}
 
+	/** This filter is documented in bp-groups/bp-groups-actions.php */
 	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
 }
 add_action( 'bp_actions', 'groups_action_leave_group' );
