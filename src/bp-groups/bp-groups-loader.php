@@ -178,6 +178,14 @@ class BP_Groups_Component extends BP_Component {
 		if ( bp_is_groups_component() && $group_id = BP_Groups_Group::group_exists( bp_current_action() ) ) {
 
 			$bp->is_single_item  = true;
+
+			/**
+			 * Filters the current PHP Class being used.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param string $value Name of the class being used.
+			 */
 			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 
 			if ( $current_group_class == 'BP_Groups_Group' ) {
@@ -187,6 +195,14 @@ class BP_Groups_Component extends BP_Component {
 				) );
 
 			} else {
+
+				/**
+				 * Filters the current group object being instantiated from previous filter.
+				 *
+				 * @since BuddyPress (1.5.0)
+				 *
+				 * @param object $value Newly instantiated object for the group.
+				 */
 				$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
 			}
 
@@ -233,7 +249,13 @@ class BP_Groups_Component extends BP_Component {
 			$this->current_group = 0;
 		}
 
-		// Illegal group names/slugs
+		/**
+		 * Filters the list of illegal groups names/slugs.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param array $value Array of illegal group names/slugs.
+		 */
 		$this->forbidden_names = apply_filters( 'groups_forbidden_names', array(
 			'my-groups',
 			'create',
@@ -257,7 +279,13 @@ class BP_Groups_Component extends BP_Component {
 			return;
 		}
 
-		// Preconfigured group creation steps
+		/**
+		 * Filters the preconfigured groups creation steps.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param array $value Array of preconfigured group creation steps.
+		 */
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', array(
 			'group-details'  => array(
 				'name'       => _x( 'Details', 'Group screen nav', 'buddypress' ),
@@ -285,7 +313,13 @@ class BP_Groups_Component extends BP_Component {
 			);
 		}
 
-		// Groups statuses
+		/**
+		 * Filters the list of valid groups statuses.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param array $value Array of valid group statuses.
+		 */
 		$this->valid_status = apply_filters( 'groups_valid_status', array(
 			'public',
 			'private',
@@ -311,6 +345,14 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 
+		/**
+		 * Filters the default groups extension.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param string $value BP_GROUPS_DEFAULT_EXTENSION constant if defined,
+		 *                      else 'home'.
+		 */
 		$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
 
 		if ( !bp_current_action() ) {
@@ -564,8 +606,18 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		if ( isset( $this->current_group->user_has_access ) ) {
+
+			/**
+			 * Fires at the end of the groups navigation setup if user has access.
+			 *
+			 * @since BuddyPress (1.0.2)
+			 *
+			 * @param bool $user_has_access Whether or not user has access.
+			 */
 			do_action( 'groups_setup_nav', $this->current_group->user_has_access );
 		} else {
+
+			/** This action is documented in bp-groups/bp-groups-loader.php */
 			do_action( 'groups_setup_nav');
 		}
 	}
