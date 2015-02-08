@@ -98,9 +98,9 @@ function bp_groups_filter_kses( $content = '' ) {
 	$allowed_tags['code']          = array();
 
 	/**
-	 * Filter HTML elements allowed for a given context.
+	 * Filters the HTML elements allowed for a given context.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @param string $allowed_tags Allowed tags, attributes, and/or entities.
 	 */
@@ -230,6 +230,16 @@ add_filter( 'bb_current_user_can', 'groups_filter_bbpress_caps', 10, 3 );
  * @see BB_Query::_filter_sql()
  */
 function groups_filter_forums_root_page_sql( $sql ) {
+
+	/**
+	 * Filters the forum directory's "last active" bbPress SQL query.
+	 *
+	 * This filter is used to prevent fetching information that is not used.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $value SQL string to specify fetching just topic_id
+	 */
 	return apply_filters( 'groups_filter_bbpress_root_page_sql', 't.topic_id' );
 }
 add_filter( 'get_latest_topics_fields', 'groups_filter_forums_root_page_sql' );
