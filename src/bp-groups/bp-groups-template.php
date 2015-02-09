@@ -2764,7 +2764,6 @@ function bp_group_join_button( $group = false ) {
 			switch ( $group->status ) {
 				case 'hidden' :
 					return false;
-					break;
 
 				case 'public':
 					$button = array(
