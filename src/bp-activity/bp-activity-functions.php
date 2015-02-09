@@ -2618,10 +2618,16 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 		preg_match( '/<img.*?(height\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $height );
 		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i',  $matches[0][0], $width  );
 
-		if ( !empty( $src ) ) {
-			$src    = substr( substr( str_replace( 'src=',    '', $src[1]    ), 0, -1 ), 1 );
-			$height = substr( substr( str_replace( 'height=', '', $height[1] ), 0, -1 ), 1 );
-			$width  = substr( substr( str_replace( 'width=',  '', $width[1]  ), 0, -1 ), 1 );
+		if ( ! empty( $src ) ) {
+			$src = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
+
+			if ( isset( $width[1] ) ) {
+				$width = substr( substr( str_replace( 'width=', '', $width[1] ), 0, -1 ), 1 );
+			}
+
+			if ( isset( $height[1] ) ) {
+				$height = substr( substr( str_replace( 'height=', '', $height[1] ), 0, -1 ), 1 );
+			}
 
 			if ( empty( $width ) || empty( $height ) ) {
 				$width  = 100;
