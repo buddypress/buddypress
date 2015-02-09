@@ -22,7 +22,7 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 // Assume you want to load from build
 $bp_loader = dirname( __FILE__ ) . '/build/bp-loader.php';
