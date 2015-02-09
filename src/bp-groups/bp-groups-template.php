@@ -3070,17 +3070,17 @@ function bp_total_group_count_for_user( $user_id = 0 ) {
 /** Group Members *************************************************************/
 
 class BP_Groups_Group_Members_Template {
-	var $current_member = -1;
-	var $member_count;
-	var $members;
-	var $member;
+	public $current_member = -1;
+	public $member_count;
+	public $members;
+	public $member;
 
-	var $in_the_loop;
+	public $in_the_loop;
 
-	var $pag_page;
-	var $pag_num;
-	var $pag_links;
-	var $total_group_count;
+	public $pag_page;
+	public $pag_num;
+	public $pag_links;
+	public $total_group_count;
 
 	/**
 	 * Constructor.
@@ -3102,7 +3102,7 @@ class BP_Groups_Group_Members_Template {
 	 *     @type string $search_terms Optional. Search terms to match.
 	 * }
 	 */
-	function __construct( $args = array() ) {
+	public function __construct( $args = array() ) {
 
 		// Backward compatibility with old method of passing arguments
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
@@ -3136,9 +3136,6 @@ class BP_Groups_Group_Members_Template {
 			'type'                => 'last_joined',
 		) );
 
-		// @todo No
-		extract( $r );
-
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
@@ -3148,7 +3145,7 @@ class BP_Groups_Group_Members_Template {
 		 * It can differ when using {@link bp_group_has_members()} outside the Groups screens.
 		 */
 		$current_group = groups_get_current_group();
-		if ( ! $current_group || $current_group && $current_group->id !== bp_get_current_group_id() ) {
+		if ( empty( $current_group ) || ( $current_group && $current_group->id !== bp_get_current_group_id() ) ) {
 			$current_group = groups_get_group( array( 'group_id' => $r['group_id'] ) );
 		}
 
@@ -3163,22 +3160,22 @@ class BP_Groups_Group_Members_Template {
 		$members_args['page']     = $this->pag_page;
 		$members_args['per_page'] = $this->pag_num;
 
+		// Get group members for this loop
 		$this->members = groups_get_group_members( $members_args );
 
-		if ( !$max || $max >= (int) $this->members['count'] )
+		if ( empty( $r['max'] ) || ( $r['max'] >= (int) $this->members['count'] ) ) {
 			$this->total_member_count = (int) $this->members['count'];
-		else
-			$this->total_member_count = (int) $max;
+		} else {
+			$this->total_member_count = (int) $r['max'];
+		}
 
+		// Reset members array for subsequent looping
 		$this->members = $this->members['members'];
 
-		if ( $max ) {
-			if ( $max >= count($this->members) )
-				$this->member_count = count($this->members);
-			else
-				$this->member_count = (int) $max;
+		if ( empty( $r['max'] ) || ( $r['max'] >= count( $this->members ) ) ) {
+			$this->member_count = (int) count( $this->members );
 		} else {
-			$this->member_count = count($this->members);
+			$this->member_count = (int) $r['max'];
 		}
 
 		$this->pag_links = paginate_links( array(
@@ -3190,35 +3187,37 @@ class BP_Groups_Group_Members_Template {
 			'next_text' => '&rarr;',
 			'mid_size'  => 1,
 			'add_args'  => array(),
-		));
+		) );
 	}
 
-	function has_members() {
-		if ( $this->member_count )
+	public function has_members() {
+		if ( ! empty( $this->member_count ) ) {
 			return true;
+		}
 
 		return false;
 	}
 
-	function next_member() {
+	public function next_member() {
 		$this->current_member++;
-		$this->member = $this->members[$this->current_member];
+		$this->member = $this->members[ $this->current_member ];
 
 		return $this->member;
 	}
 
-	function rewind_members() {
+	public function rewind_members() {
 		$this->current_member = -1;
 		if ( $this->member_count > 0 ) {
 			$this->member = $this->members[0];
 		}
 	}
 
-	function members() {
-		if ( $this->current_member + 1 < $this->member_count ) {
+	public function members() {
+		$tick = intval( $this->current_member + 1 );
+		if ( $tick < $this->member_count ) {
 			return true;
-		} elseif ( $this->current_member + 1 == $this->member_count ) {
-			do_action('loop_end');
+		} elseif ( $tick == $this->member_count ) {
+			do_action( 'loop_end' );
 			// Do some cleaning up after the loop
 			$this->rewind_members();
 		}
@@ -3227,13 +3226,14 @@ class BP_Groups_Group_Members_Template {
 		return false;
 	}
 
-	function the_member() {
-
+	public function the_member() {
 		$this->in_the_loop = true;
 		$this->member      = $this->next_member();
 
-		if ( 0 == $this->current_member ) // loop has just started
-			do_action('loop_start');
+		// loop has just started
+		if ( 0 == $this->current_member ) {
+			do_action( 'loop_start' );
+		}
 	}
 }
 
@@ -4116,23 +4116,20 @@ function bp_custom_group_fields() {
 	do_action( 'groups_custom_group_fields' );
 }
 
-
-/************************************************************************************
- * Membership Requests Template Tags
- **/
+/** Group Membership Requests *************************************************/
 
 class BP_Groups_Membership_Requests_Template {
-	var $current_request = -1;
-	var $request_count;
-	var $requests;
-	var $request;
+	public $current_request = -1;
+	public $request_count;
+	public $requests;
+	public $request;
 
-	var $in_the_loop;
+	public $in_the_loop;
 
-	var $pag_page;
-	var $pag_num;
-	var $pag_links;
-	var $total_request_count;
+	public $pag_page;
+	public $pag_num;
+	public $pag_links;
+	public $total_request_count;
 
 	/**
 	 * Constructor method.
@@ -4146,7 +4143,7 @@ class BP_Groups_Membership_Requests_Template {
 	 *     @type int $max Max items to return. Default: false (show all)
 	 * }
 	 */
-	function __construct( $args = array() ) {
+	public function __construct( $args = array() ) {
 
 		// Backward compatibility with old method of passing arguments
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
@@ -4201,18 +4198,16 @@ class BP_Groups_Membership_Requests_Template {
 			$this->requests[ $rk ]->group_id   = $r['group_id'];
 		}
 
-		if ( !$r['max'] || $r['max'] >= (int) $mquery->total_users )
+		if ( empty( $r['max'] ) || ( $r['max'] >= (int) $mquery->total_users ) ) {
 			$this->total_request_count = (int) $mquery->total_users;
-		else
-			$this->total_request_count = (int) $r['max'];
-
-		if ( $r['max'] ) {
-			if ( $r['max'] >= count($this->requests) )
-				$this->request_count = count($this->requests);
-			else
-				$this->request_count = (int) $r['max'];
 		} else {
-			$this->request_count = count($this->requests);
+			$this->total_request_count = (int) $r['max'];
+		}
+
+		if ( empty( $r['max'] ) || ( $r['max'] >= count( $this->requests ) ) ) {
+			$this->request_count = count( $this->requests );
+		} else {
+			$this->request_count = (int) $r['max'];
 		}
 
 		$this->pag_links = paginate_links( array(
@@ -4227,32 +4222,35 @@ class BP_Groups_Membership_Requests_Template {
 		) );
 	}
 
-	function has_requests() {
-		if ( $this->request_count )
+	public function has_requests() {
+		if ( ! empty( $this->request_count ) ) {
 			return true;
+		}
 
 		return false;
 	}
 
-	function next_request() {
+	public function next_request() {
 		$this->current_request++;
-		$this->request = $this->requests[$this->current_request];
+		$this->request = $this->requests[ $this->current_request ];
 
 		return $this->request;
 	}
 
-	function rewind_requests() {
+	public function rewind_requests() {
 		$this->current_request = -1;
 
-		if ( $this->request_count > 0 )
+		if ( $this->request_count > 0 ) {
 			$this->request = $this->requests[0];
+		}
 	}
 
-	function requests() {
-		if ( $this->current_request + 1 < $this->request_count ) {
+	public function requests() {
+		$tick = intval( $this->current_request + 1 );
+		if ( $tick < $this->request_count ) {
 			return true;
-		} elseif ( $this->current_request + 1 == $this->request_count ) {
-			do_action('group_request_loop_end');
+		} elseif ( $tick == $this->request_count ) {
+			do_action( 'group_request_loop_end' );
 			// Do some cleaning up after the loop
 			$this->rewind_requests();
 		}
@@ -4261,12 +4259,14 @@ class BP_Groups_Membership_Requests_Template {
 		return false;
 	}
 
-	function the_request() {
+	public function the_request() {
 		$this->in_the_loop = true;
 		$this->request     = $this->next_request();
 
-		if ( 0 == $this->current_request ) // loop has just started
-			do_action('group_request_loop_start');
+		// loop has just started
+		if ( 0 == $this->current_request ) {
+			do_action( 'group_request_loop_start' );
+		}
 	}
 }
 
@@ -4400,22 +4400,20 @@ function bp_group_requests_pagination_count() {
 		return apply_filters( 'bp_get_group_requests_pagination_count', sprintf( _n( 'Viewing 1 request', 'Viewing %1$s - %2$s of %3$s requests', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
-/************************************************************************************
- * Invite Friends Template Tags
- **/
+/** Group Invitations *********************************************************/
 
 class BP_Groups_Invite_Template {
-	var $current_invite = -1;
-	var $invite_count;
-	var $invites;
-	var $invite;
+	public $current_invite = -1;
+	public $invite_count;
+	public $invites;
+	public $invite;
 
-	var $in_the_loop;
+	public $in_the_loop;
 
-	var $pag_page;
-	var $pag_num;
-	var $pag_links;
-	var $total_invite_count;
+	public $pag_page;
+	public $pag_num;
+	public $pag_links;
+	public $total_invite_count;
 
 	public function __construct( $args = array() ) {
 
@@ -4454,10 +4452,10 @@ class BP_Groups_Invite_Template {
 			'is_confirmed' => false,
 			'inviter_id'   => $r['user_id'],
 		) );
-		$this->invite_data = $iquery->results;
 
+		$this->invite_data        = $iquery->results;
 		$this->total_invite_count = $iquery->total_users;
-		$this->invites		  = array_values( wp_list_pluck( $this->invite_data, 'ID' ) );
+		$this->invites            = array_values( wp_list_pluck( $this->invite_data, 'ID' ) );
 		$this->invite_count       = count( $this->invites );
 
 		// If per_page is set to 0 (show all results), don't generate
@@ -4478,31 +4476,34 @@ class BP_Groups_Invite_Template {
 		}
 	}
 
-	function has_invites() {
-		if ( $this->invite_count )
+	public function has_invites() {
+		if ( ! empty( $this->invite_count ) ) {
 			return true;
+		}
 
 		return false;
 	}
 
-	function next_invite() {
+	public function next_invite() {
 		$this->current_invite++;
-		$this->invite = $this->invites[$this->current_invite];
+		$this->invite = $this->invites[ $this->current_invite ];
 
 		return $this->invite;
 	}
 
-	function rewind_invites() {
+	public function rewind_invites() {
 		$this->current_invite = -1;
-		if ( $this->invite_count > 0 )
+		if ( $this->invite_count > 0 ) {
 			$this->invite = $this->invites[0];
+		}
 	}
 
-	function invites() {
-		if ( $this->current_invite + 1 < $this->invite_count ) {
+	public function invites() {
+		$tick = intval( $this->current_invite + 1 );
+		if ( $tick < $this->invite_count ) {
 			return true;
-		} elseif ( $this->current_invite + 1 == $this->invite_count ) {
-			do_action('loop_end');
+		} elseif ( $tick == $this->invite_count ) {
+			do_action( 'loop_end' );
 			// Do some cleaning up after the loop
 			$this->rewind_invites();
 		}
@@ -4511,13 +4512,14 @@ class BP_Groups_Invite_Template {
 		return false;
 	}
 
-	function the_invite() {
+	public function the_invite() {
 		global $group_id;
-		$this->in_the_loop      = true;
-		$user_id                = $this->next_invite();
 
-		$this->invite           = new stdClass;
-		$this->invite->user     = $this->invite_data[ $user_id ];
+		$this->in_the_loop  = true;
+		$user_id            = $this->next_invite();
+
+		$this->invite       = new stdClass;
+		$this->invite->user = $this->invite_data[ $user_id ];
 
 		// This method previously populated the user object with
 		// BP_Core_User. We manually configure BP_Core_User data for
@@ -4526,7 +4528,7 @@ class BP_Groups_Invite_Template {
 			$this->invite->user->profile_data = BP_XProfile_ProfileData::get_all_for_user( $user_id );
 		}
 
-		$this->invite->user->avatar       = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'full', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->invite->user->fullname ) ) );
+		$this->invite->user->avatar       = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'full',  'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->invite->user->fullname ) ) );
 		$this->invite->user->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->invite->user->fullname ) ) );
 		$this->invite->user->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $user_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->invite->user->fullname ), 'width' => 30, 'height' => 30 ) );
 		$this->invite->user->email        = $this->invite->user->user_email;
@@ -4545,10 +4547,13 @@ class BP_Groups_Invite_Template {
 
 		$this->invite->user->total_blogs = null;
 
-		$this->invite->group_id = $group_id; // Global'ed in bp_group_has_invites()
+		// Global'ed in bp_group_has_invites()
+		$this->invite->group_id = $group_id;
 
-		if ( 0 == $this->current_invite ) // loop has just started
-			do_action('loop_start');
+		// loop has just started
+		if ( 0 == $this->current_invite ) {
+			do_action( 'loop_start' );
+		}
 	}
 }
 
