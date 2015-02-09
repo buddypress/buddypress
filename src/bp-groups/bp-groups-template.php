@@ -4626,9 +4626,7 @@ function bp_group_invite_pagination_count() {
 		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing 1 invitation', 'Viewing %1$s - %2$s of %3$s invitations', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
 	}
 
-/***
- * Groups RSS Feed Template Tags
- */
+/** Group RSS *****************************************************************/
 
 /**
  * Hook group activity feed to <head>
@@ -4636,8 +4634,11 @@ function bp_group_invite_pagination_count() {
  * @since BuddyPress (1.5.0)
  */
 function bp_groups_activity_feed() {
-	if ( !bp_is_active( 'groups' ) || !bp_is_active( 'activity' ) || !bp_is_group() )
-		return; ?>
+
+	// Bail if not viewing a single group or activity is not active
+	if ( ! bp_is_active( 'groups' ) || ! bp_is_active( 'activity' ) || ! bp_is_group() ) {
+		return;
+	} ?>
 
 	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_current_group_name() ?> | <?php _e( 'Group Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_group_activity_feed_link() ?>" />
 
@@ -4645,12 +4646,29 @@ function bp_groups_activity_feed() {
 }
 add_action( 'bp_head', 'bp_groups_activity_feed' );
 
+/**
+ * Output the current group activity-stream RSS url
+ *
+ * @since BuddyPress (1.5.0)
+ */
 function bp_group_activity_feed_link() {
 	echo bp_get_group_activity_feed_link();
 }
+	/**
+	 * Return the current group activity-stream RSS url
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @return string
+	 */
 	function bp_get_group_activity_feed_link() {
-		return apply_filters( 'bp_get_group_activity_feed_link', bp_get_group_permalink( groups_get_current_group() ) . 'feed/' );
+		$current_group = groups_get_current_group();
+		$group_link    = bp_get_group_permalink( $current_group ) . 'feed';
+		$feed_link     = trailingslashit( $group_link );
+
+		return apply_filters( 'bp_get_group_activity_feed_link', $feed_link );
 	}
+
+/** Current Group *************************************************************/
 
 /**
  * Echoes the output of bp_get_current_group_id()
@@ -4701,6 +4719,7 @@ function bp_current_group_slug() {
 /**
  * Echoes the output of bp_get_current_group_name()
  *
+ * @since BuddyPress (1.5.0)
  */
 function bp_current_group_name() {
 	echo bp_get_current_group_name();
