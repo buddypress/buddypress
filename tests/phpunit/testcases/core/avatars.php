@@ -151,11 +151,8 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		} else {
 			// This test has the slight odor of hokum since it recreates so much code that could be changed at any time.
 			$bp = buddypress();
-			// Set host based on if using ssl
-			$host = 'http://gravatar.com/avatar/';
-			if ( is_ssl() ) {
-				$host = 'https://secure.gravatar.com/avatar/';
-			}
+			$host = '//www.gravatar.com/avatar/';
+
 			// Set expected gravatar type
 			if ( empty( $bp->grav_default->{$this->params['object']} ) ) {
 				$default_grav = 'wavatar';

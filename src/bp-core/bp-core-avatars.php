@@ -456,11 +456,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 			}
 		}
 
-		// Set host based on if using ssl
-		$host = 'http://gravatar.com/avatar/';
-		if ( is_ssl() ) {
-			$host = 'https://secure.gravatar.com/avatar/';
-		}
+		$host = '//www.gravatar.com/avatar/';
 
 		// Filter gravatar vars
 		$params['email'] = apply_filters( 'bp_core_gravatar_email', $params['email'], $params['item_id'], $params['object'] );
@@ -1166,13 +1162,7 @@ function bp_core_avatar_default( $type = 'gravatar' ) {
 
 	// Use Gravatar's mystery man as fallback
 	} else {
-		if ( is_ssl() ) {
-			$host = 'https://secure.gravatar.com';
-		} else {
-			$host = 'http://www.gravatar.com';
-		}
-
-		$avatar = $host . '/avatar/00000000000000000000000000000000?d=mm&amp;s=' . bp_core_avatar_full_width();
+		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . bp_core_avatar_full_width();
 	}
 
 	return apply_filters( 'bp_core_avatar_default', $avatar );
@@ -1202,13 +1192,7 @@ function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
 
 	// Use Gravatar's mystery man as fallback
 	} else {
-		if ( is_ssl() ) {
-			$host = 'https://secure.gravatar.com';
-		} else {
-			$host = 'http://www.gravatar.com';
-		}
-
-		$avatar = $host . '/avatar/00000000000000000000000000000000?d=mm&amp;s=' . bp_core_avatar_thumb_width();
+		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . bp_core_avatar_thumb_width();
 	}
 
 	return apply_filters( 'bp_core_avatar_thumb', $avatar );
