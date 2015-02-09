@@ -2720,30 +2720,51 @@ function bp_group_new_topic_button( $group = false ) {
 		return bp_get_button( apply_filters( 'bp_get_group_new_topic_button', $button ) );
 	}
 
+/**
+ * Output button to join a group
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param object $group Single group object
+ */
 function bp_group_join_button( $group = false ) {
 	echo bp_get_group_join_button( $group );
 }
+	/**
+	 * Return button to join a group
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param object $group Single group object
+	 */
 	function bp_get_group_join_button( $group = false ) {
 		global $groups_template;
 
-		if ( empty( $group ) )
+		// Set group to current loop group if none passed
+		if ( empty( $group ) ) {
 			$group =& $groups_template->group;
+		}
 
-		if ( !is_user_logged_in() || bp_group_is_user_banned( $group ) )
+		// Don't show button if not logged in or previously banned
+		if ( ! is_user_logged_in() || bp_group_is_user_banned( $group ) ) {
 			return false;
+		}
 
 		// Group creation was not completed or status is unknown
-		if ( !$group->status )
+		if ( empty( $group->status ) ) {
 			return false;
+		}
 
 		// Already a member
-		if ( isset( $group->is_member ) && $group->is_member ) {
+		if ( ! empty( $group->is_member ) ) {
 
 			// Stop sole admins from abandoning their group
 	 		$group_admins = groups_get_group_admins( $group->id );
-		 	if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == bp_loggedin_user_id() )
+		 	if ( ( 1 == count( $group_admins ) ) && ( bp_loggedin_user_id() === (int) $group_admins[0]->user_id ) ) {
 				return false;
+			}
 
+			// Setup button attributes
 			$button = array(
 				'id'                => 'leave_group',
 				'component'         => 'groups',
