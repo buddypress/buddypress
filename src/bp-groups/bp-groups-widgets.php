@@ -71,7 +71,7 @@ class BP_Groups_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		$title = !empty( $instance['link_title'] ) ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) . '">' . $title . '</a>' : $title;
+		$title = !empty( $instance['link_title'] ) ? '<a href="' . bp_get_groups_directory_permalink() . '">' . $title . '</a>' : $title;
 
 		echo $before_title . $title . $after_title;
 

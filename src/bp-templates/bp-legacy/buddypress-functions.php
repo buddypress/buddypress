@@ -1151,7 +1151,9 @@ function bp_legacy_theme_ajax_invite_user() {
 
 		$user = new BP_Core_User( $friend_id );
 
-		$uninvite_url = bp_is_current_action( 'create' ) ? bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/create/step/group-invites/?user_id=' . $friend_id : bp_get_group_permalink( $group ) . 'send-invites/remove/' . $friend_id;
+		$uninvite_url = bp_is_current_action( 'create' )
+			? bp_get_groups_directory_permalink() . 'create/step/group-invites/?user_id=' . $friend_id
+			: bp_get_group_permalink( $group )    . 'send-invites/remove/' . $friend_id;
 
 		echo '<li id="uid-' . esc_attr( $user->id ) . '">';
 		echo $user->avatar_thumb;

@@ -1008,10 +1008,11 @@ function bp_the_topic_object_permalink() {
 	function bp_get_the_topic_object_permalink() {
 
 		// Currently this will only work with group forums, extended support in the future
-		if ( bp_is_active( 'groups' ) )
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . bp_get_the_topic_object_slug() . '/forum' );
-		else
+		if ( bp_is_active( 'groups' ) ) {
+			$permalink = trailingslashit( bp_get_groups_directory_permalink() . bp_get_the_topic_object_slug() . '/forum' );
+		} else {
 			$permalink = '';
+		}
 
 		/**
 		 * Filters the permalink of the object associated with the current topic in the loop.
@@ -1425,15 +1426,15 @@ function bp_the_topic_permalink() {
 	 * @return string Permalink for the current topic.
 	 */
 	function bp_get_the_topic_permalink() {
-		global $forum_template, $bp;
+		global $forum_template;
 
 		// The topic is in a loop where its parent object is loaded
 		if ( bp_get_the_topic_object_slug() ) {
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . bp_get_the_topic_object_slug() . '/forum' );
+			$permalink = trailingslashit( bp_get_groups_directory_permalink() . bp_get_the_topic_object_slug() . '/forum' );
 
 		// We are viewing a single group topic, so use the current item
 		} elseif ( bp_is_group_forum_topic() ) {
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . bp_current_item() . '/forum' );
+			$permalink = trailingslashit( bp_get_groups_directory_permalink() . bp_current_item() . '/forum' );
 
 		// We are unsure what the context is, so fallback to forum root slug
 		} elseif ( bp_is_single_item() ) {
@@ -2711,10 +2712,9 @@ function bp_forum_permalink( $forum_id = 0 ) {
 	 * @return string|bool False on failure, a URL on success.
 	 */
 	function bp_get_forum_permalink( $forum_id = 0 ) {
-		global $bp;
 
 		if ( bp_is_groups_component() ) {
-			$permalink = trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() . '/' . bp_current_item() . '/forum' );
+			$permalink = trailingslashit( bp_get_groups_directory_permalink() . bp_current_item() . '/forum' );
 		} else {
 			if ( empty( $forum_id ) ) {
 				global $topic_template;
