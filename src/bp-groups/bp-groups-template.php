@@ -4068,11 +4068,6 @@ function bp_get_group_has_avatar( $group_id = false ) {
 		$group_id = bp_get_current_group_id();
 	}
 
-	// Todo - this looks like an overgeneral check
-	if ( ! empty( $_FILES ) ) {
-		return false;
-	}
-
 	$group_avatar = bp_core_fetch_avatar( array(
 		'item_id' => $group_id,
 		'object' => 'group',
