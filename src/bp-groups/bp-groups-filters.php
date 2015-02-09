@@ -61,9 +61,10 @@ add_filter( 'bp_get_new_group_name',        'esc_attr'     );
 add_filter( 'bp_get_new_group_description', 'esc_textarea' );
 
 // Format numberical output
-add_filter( 'bp_get_total_group_count',      'bp_core_number_format' );
-add_filter( 'bp_get_group_total_for_member', 'bp_core_number_format' );
-add_filter( 'bp_get_group_total_members',    'bp_core_number_format' );
+add_filter( 'bp_get_total_group_count',          'bp_core_number_format' );
+add_filter( 'bp_get_group_total_for_member',     'bp_core_number_format' );
+add_filter( 'bp_get_group_total_members',        'bp_core_number_format' );
+add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 
 /**
  * Filter output of Group Description through WordPress's KSES API.

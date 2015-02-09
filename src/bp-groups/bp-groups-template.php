@@ -2956,37 +2956,60 @@ add_action( 'bp_groups_directory_group_filter', 'bp_group_backcompat_create_nav_
  * Prints a message if the group is not visible to the current user (it is a
  * hidden or private group, and the user does not have access).
  *
+ * @since BuddyPress (1.0.0)
+ *
  * @global BP_Groups_Template $groups_template Groups template object
  * @param object $group Group to get status message for. Optional; defaults to current group.
- * @since BuddyPress (1.0.0)
  */
 function bp_group_status_message( $group = null ) {
 	global $groups_template;
 
-	if ( ! $group )
+	// Group not passed so look for loop
+	if ( empty( $group ) ) {
 		$group =& $groups_template->group;
+	}
 
-	if ( 'private' == $group->status ) {
- 		if ( ! bp_group_has_requested_membership() ) {
-			if ( is_user_logged_in() && bp_group_is_invited() ) {
-				$message = __( 'You must accept your pending invitation before you can access this private group.', 'buddypress' );
-			} elseif ( is_user_logged_in() ) {
-				$message = __( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
-			} else {
-				$message = __( 'This is a private group. To join you must be a registered site member and request group membership.', 'buddypress' );
-			}
+	// Group status is not set (maybe outside of group loop?)
+	if ( empty( $group->status ) ) {
+		$message = __( 'This group is not currently accessible.', 'buddypress' );
 
-		} else {
-			$message = __( 'This is a private group. Your membership request is awaiting approval from the group administrator.', 'buddypress' );
-		}
-
+	// Group has a status
 	} else {
-		$message = __( 'This is a hidden group and only invited members can join.', 'buddypress' );
+		switch( $group->status ) {
+
+			// Private group
+			case 'private' :
+				if ( ! bp_group_has_requested_membership() ) {
+					if ( is_user_logged_in() ) {
+						if ( bp_group_is_invited() ) {
+							$message = __( 'You must accept your pending invitation before you can access this private group.', 'buddypress' );
+						} else {
+							$message = __( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
+						}
+					} else {
+						$message = __( 'This is a private group. To join you must be a registered site member and request group membership.', 'buddypress' );
+					}
+				} else {
+					$message = __( 'This is a private group. Your membership request is awaiting approval from the group administrator.', 'buddypress' );
+				}
+
+			// Hidden group
+			case 'hidden' :
+			default :
+				$message = __( 'This is a hidden group and only invited members can join.', 'buddypress' );
+		}
 	}
 
 	echo apply_filters( 'bp_group_status_message', $message, $group );
 }
 
+/**
+ * Output hidden form fields for group.
+ *
+ * This function is no longer used, but may still be used by older themes.
+ *
+ * @since BuddyPress (1.0.0)
+ */
 function bp_group_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
 		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ) . '" name="search_terms" />';
@@ -3001,25 +3024,50 @@ function bp_group_hidden_fields() {
 	}
 }
 
+/**
+ * Output the total number of groups
+ *
+ * @since BuddyPress (1.0.0)
+ */
 function bp_total_group_count() {
 	echo bp_get_total_group_count();
 }
+	/**
+	 * Return the total number of groups
+	 *
+	 * @since BuddyPress (1.0.0)
+	 * @return type
+	 */
 	function bp_get_total_group_count() {
 		return apply_filters( 'bp_get_total_group_count', groups_get_total_group_count() );
 	}
 
+/**
+ * Output the total number of groups a user belongs to
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @param int $user_id User ID to get group membership count
+ */
 function bp_total_group_count_for_user( $user_id = 0 ) {
 	echo bp_get_total_group_count_for_user( $user_id );
 }
+	/**
+	 * Return the total number of groups a user belongs to
+	 *
+	 * Filtered by `bp_core_number_format()` by default
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $user_id User ID to get group membership count
+	 */
 	function bp_get_total_group_count_for_user( $user_id = 0 ) {
-		return apply_filters( 'bp_get_total_group_count_for_user', groups_total_groups_for_user( $user_id ), $user_id );
+		$count = groups_total_groups_for_user( $user_id );
+
+		return apply_filters( 'bp_get_total_group_count_for_user', $count, $user_id );
 	}
-	add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 
-
-/***************************************************************************
- * Group Members Template Tags
- **/
+/** Group Members *************************************************************/
 
 class BP_Groups_Group_Members_Template {
 	var $current_member = -1;
