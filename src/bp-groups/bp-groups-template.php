@@ -4061,8 +4061,15 @@ function bp_group_current_avatar( $type = 'thumb' ) {
 		return apply_filters( 'bp_get_group_current_avatar', $group_avatar );
 	}
 
+/**
+ * Return whether a group has an avatar
+ *
+ * @since BuddyPress (1.1.0)
+ *
+ * @param  int $group_id
+ * @return boolean
+ */
 function bp_get_group_has_avatar( $group_id = false ) {
-	global $bp;
 
 	if ( false === $group_id ) {
 		$group_id = bp_get_current_group_id();
@@ -4070,9 +4077,9 @@ function bp_get_group_has_avatar( $group_id = false ) {
 
 	$group_avatar = bp_core_fetch_avatar( array(
 		'item_id' => $group_id,
-		'object' => 'group',
+		'object'  => 'group',
 		'no_grav' => true,
-		'html' => false,
+		'html'    => false,
 	) );
 
 	if ( bp_core_avatar_default( 'local' ) === $group_avatar ) {
