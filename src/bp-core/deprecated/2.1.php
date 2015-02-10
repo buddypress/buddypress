@@ -96,13 +96,14 @@ add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_styles', 1 );
  * @return bool|null Returns false on failure. Otherwise echoes the menu item.
  */
 function bp_adminbar_blogs_menu() {
-	global $bp;
 
-	if ( !is_user_logged_in() || !bp_is_active( 'blogs' ) )
+	if ( ! is_user_logged_in() || ! bp_is_active( 'blogs' ) ) {
 		return false;
+	}
 
-	if ( !is_multisite() )
+	if ( ! is_multisite() ) {
 		return false;
+	}
 
 	$blogs = wp_cache_get( 'bp_blogs_of_user_' . bp_loggedin_user_id() . '_inc_hidden', 'bp' );
 	if ( empty( $blogs ) ) {
@@ -191,13 +192,15 @@ function bp_admin_sanitize_callback_force_buddybar( $value = false ) {
  * @deprecated BuddyPress (2.1.0)
  */
 function bp_core_admin_bar() {
-	global $bp;
+	$bp = buddypress();
 
-	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR )
+	if ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR ) {
 		return false;
+	}
 
-	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() )
+	if ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) {
 		return false;
+	}
 
 	$bp->doing_admin_bar = true;
 
@@ -237,14 +240,16 @@ function bp_adminbar_logo() {
  */
 function bp_adminbar_login_menu() {
 
-	if ( is_user_logged_in() )
+	if ( is_user_logged_in() ) {
 		return false;
+	}
 
 	echo '<li class="bp-login no-arrow"><a href="' . wp_login_url() . '">' . __( 'Log In', 'buddypress' ) . '</a></li>';
 
 	// Show "Sign Up" link if user registrations are allowed
-	if ( bp_get_signup_allowed() )
+	if ( bp_get_signup_allowed() ) {
 		echo '<li class="bp-signup no-arrow"><a href="' . bp_get_signup_page() . '">' . __( 'Sign Up', 'buddypress' ) . '</a></li>';
+	}
 }
 
 /**
@@ -255,10 +260,11 @@ function bp_adminbar_login_menu() {
  * @return bool|null Returns false on failure.
  */
 function bp_adminbar_account_menu() {
-	global $bp;
+	$bp = buddypress();
 
-	if ( !$bp->bp_nav || !is_user_logged_in() )
+	if ( empty( $bp->bp_nav ) || ! is_user_logged_in() ) {
 		return false;
+	}
 
 	echo '<li id="bp-adminbar-account-menu"><a href="' . bp_loggedin_user_domain() . '">';
 	echo __( 'My Account', 'buddypress' ) . '</a>';
@@ -269,8 +275,9 @@ function bp_adminbar_account_menu() {
 	foreach( (array) $bp->bp_nav as $nav_item ) {
 		$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : '';
 
-		if ( -1 == $nav_item['position'] )
+		if ( -1 == $nav_item['position'] ) {
 			continue;
+		}
 
 		echo '<li' . $alt . '>';
 		echo '<a id="bp-admin-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a>';
@@ -283,11 +290,13 @@ function bp_adminbar_account_menu() {
 				$link = $subnav_item['link'];
 				$name = $subnav_item['name'];
 
-				if ( bp_displayed_user_domain() )
+				if ( bp_displayed_user_domain() ) {
 					$link = str_replace( bp_displayed_user_domain(), bp_loggedin_user_domain(), $subnav_item['link'] );
+				}
 
-				if ( isset( $bp->displayed_user->userdata->user_login ) )
+				if ( isset( $bp->displayed_user->userdata->user_login ) ) {
 					$name = str_replace( $bp->displayed_user->userdata->user_login, $bp->loggedin_user->userdata->user_login, $subnav_item['name'] );
+				}
 
 				$alt = ( 0 == $sub_counter % 2 ) ? ' class="alt"' : '';
 				echo '<li' . $alt . '><a id="bp-admin-' . $subnav_item['css_id'] . '" href="' . $link . '">' . $name . '</a></li>';
@@ -367,8 +376,10 @@ function bp_adminbar_random_menu() {
  * @deprecated BuddyPress (2.1.0)
  */
 function bp_core_load_buddybar_css() {
-	if ( bp_use_wp_admin_bar() || ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) || ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR ) )
+
+	if ( bp_use_wp_admin_bar() || ( (int) bp_get_option( 'hide-loggedout-adminbar' ) && !is_user_logged_in() ) || ( defined( 'BP_DISABLE_ADMIN_BAR' ) && BP_DISABLE_ADMIN_BAR ) ) {
 		return;
+	}
 
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
@@ -393,18 +404,18 @@ add_action( 'bp_init', 'bp_core_load_buddybar_css' );
  * @since BuddyPress (1.0.0)
  *
  * @deprecated BuddyPress (2.1.0)
- *
- * @global BuddyPress $bp
  */
 function bp_groups_adminbar_admin_menu() {
-	global $bp;
+	$bp = buddypress();
 
-	if ( empty( $bp->groups->current_group ) )
+	if ( empty( $bp->groups->current_group ) ) {
 		return false;
+	}
 
 	// Only group admins and site admins can see this menu
-	if ( !current_user_can( 'edit_users' ) && !bp_current_user_can( 'bp_moderate' ) && !bp_is_item_admin() )
-		return false; ?>
+	if ( !current_user_can( 'edit_users' ) && !bp_current_user_can( 'bp_moderate' ) && !bp_is_item_admin() ) {
+		return false;
+	} ?>
 
 	<li id="bp-adminbar-adminoptions-menu">
 		<a href="<?php bp_groups_action_link( 'admin' ); ?>"><?php _e( 'Admin Options', 'buddypress' ); ?></a>
@@ -470,12 +481,14 @@ function bp_adminbar_authors_menu() {
 	global $wpdb;
 
 	// Only for multisite
-	if ( !is_multisite() )
+	if ( ! is_multisite() ) {
 		return false;
+	}
 
 	// Hide on root blog
-	if ( $wpdb->blogid == bp_get_root_blog_id() || !bp_is_active( 'blogs' ) )
+	if ( bp_is_root_blog( $wpdb->blogid ) || ! bp_is_active( 'blogs' ) ) {
 		return false;
+	}
 
 	$blog_prefix = $wpdb->get_blog_prefix( $wpdb->blogid );
 	$authors     = $wpdb->get_results( "SELECT user_id, user_login, user_nicename, display_name, user_email, meta_value as caps FROM $wpdb->users u, $wpdb->usermeta um WHERE u.ID = um.user_id AND meta_key = '{$blog_prefix}capabilities' ORDER BY um.user_id" );
@@ -489,7 +502,9 @@ function bp_adminbar_authors_menu() {
 		echo '<ul class="author-list">';
 		foreach( (array) $authors as $author ) {
 			$caps = maybe_unserialize( $author->caps );
-			if ( isset( $caps['subscriber'] ) || isset( $caps['contributor'] ) ) continue;
+			if ( isset( $caps['subscriber'] ) || isset( $caps['contributor'] ) ) {
+				continue;
+			}
 
 			echo '<li>';
 			echo '<a href="' . bp_core_get_user_domain( $author->user_id, $author->user_nicename, $author->user_login ) . '">';
@@ -521,12 +536,14 @@ add_action( 'bp_adminbar_menus', 'bp_adminbar_authors_menu', 12 );
 function bp_members_adminbar_admin_menu() {
 
 	// Only show if viewing a user
-	if ( !bp_displayed_user_id() )
+	if ( ! bp_displayed_user_id() ) {
 		return false;
+	}
 
 	// Don't show this menu to non site admins or if you're viewing your own profile
-	if ( !current_user_can( 'edit_users' ) || bp_is_my_profile() )
-		return false; ?>
+	if ( !current_user_can( 'edit_users' ) || bp_is_my_profile() ) {
+		return false;
+	} ?>
 
 	<li id="bp-adminbar-adminoptions-menu">
 
@@ -569,7 +586,10 @@ function bp_notifications_buddybar_menu() {
 	echo '<li id="bp-adminbar-notifications-menu"><a href="' . esc_url( bp_loggedin_user_domain() ) . '">';
 	_e( 'Notifications', 'buddypress' );
 
-	if ( $notification_count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() ) ) : ?>
+	$notification_count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
+	$notifications      = bp_notifications_get_notifications_for_user( bp_loggedin_user_id() );
+
+	if ( ! empty( $notification_count ) ) : ?>
 		<span><?php echo bp_core_number_format( $notification_count ); ?></span>
 	<?php
 	endif;
@@ -577,7 +597,7 @@ function bp_notifications_buddybar_menu() {
 	echo '</a>';
 	echo '<ul>';
 
-	if ( $notifications = bp_notifications_get_notifications_for_user( bp_loggedin_user_id() ) ) {
+	if ( ! empty( $notifications ) ) {
 		$counter = 0;
 		for ( $i = 0, $count = count( $notifications ); $i < $count; ++$i ) {
 			$alt = ( 0 == $counter % 2 ) ? ' class="alt"' : ''; ?>
