@@ -74,10 +74,10 @@ function bp_core_screen_signup() {
 
 	// If the user is logged in, redirect away from here
 	if ( is_user_logged_in() ) {
-		if ( bp_is_component_front_page( 'register' ) )
-			$redirect_to = trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() );
-		else
-			$redirect_to = bp_get_root_domain();
+
+		$redirect_to = bp_is_component_front_page( 'register' )
+			? bp_get_members_directory_permalink()
+			: bp_get_root_domain();
 
 		/**
 		 * Filters the URL to redirect logged in users to when visiting registration page.
@@ -305,7 +305,7 @@ function bp_core_screen_activation() {
 		// If activation page is also front page, set to members directory to
 		// avoid an infinite loop. Otherwise, set to root domain.
 		$redirect_to = bp_is_component_front_page( 'activate' )
-			? bp_get_root_domain() . '/' . bp_get_members_root_slug()
+			? bp_get_members_directory_permalink()
 			: bp_get_root_domain();
 
 		// Trailing slash it, as we expect these URL's to be

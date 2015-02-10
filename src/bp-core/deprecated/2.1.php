@@ -339,7 +339,7 @@ function bp_adminbar_random_menu() {
 	<li class="align-right" id="bp-adminbar-visitrandom-menu">
 		<a href="#"><?php _e( 'Visit', 'buddypress' ) ?></a>
 		<ul class="random-list">
-			<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '?random-member' ?>" rel="nofollow"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
+			<li><a href="<?php bp_members_directory_permalink(); ?>?random-member" rel="nofollow"><?php _e( 'Random Member', 'buddypress' ) ?></a></li>
 
 			<?php if ( bp_is_active( 'groups' ) ) : ?>
 

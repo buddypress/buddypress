@@ -63,7 +63,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		$title = $instance['link_title'] ? '<a href="' . trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) . '">' . $title . '</a>' : $title;
+		$title = $instance['link_title'] ? '<a href="' . bp_get_members_directory_permalink() . '">' . $title . '</a>' : $title;
 
 		echo $before_title
 		   . $title

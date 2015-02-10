@@ -648,7 +648,7 @@ function bp_get_canonical_url( $args = array() ) {
 		// and the current user is logged in. In this case we send to
 		// the members directory to avoid redirect loops
 		} elseif ( bp_is_register_page() && 'register' == $front_page_component && is_user_logged_in() ) {
-			$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) );
+			$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', bp_get_members_directory_permalink() );
 		}
 	}
 
