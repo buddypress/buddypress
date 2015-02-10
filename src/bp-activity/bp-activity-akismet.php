@@ -654,11 +654,12 @@ class BP_Akismet {
  *
  * @since BuddyPress (1.6)
  *
- * @global object $bp BuddyPress global settings.
  * @global wpdb $wpdb WordPress database object.
  */
 function bp_activity_akismet_delete_old_metadata() {
-	global $bp, $wpdb;
+	global $wpdb;
+
+	$bp = buddypress();
 
 	/**
 	 * Filters the threshold for how many days old Akismet metadata needs to be before being automatically deleted.

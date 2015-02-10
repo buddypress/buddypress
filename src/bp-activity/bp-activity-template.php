@@ -164,7 +164,7 @@ class BP_Activity_Template {
 	 * }
 	 */
 	function __construct( $args ) {
-		global $bp;
+		$bp = buddypress();
 
 		// Backward compatibility with old method of passing arguments
 		if ( !is_array( $args ) || func_num_args() > 1 ) {
@@ -426,7 +426,6 @@ class BP_Activity_Template {
  * @since BuddyPress (1.0.0)
  *
  * @global object $activities_template {@link BP_Activity_Template}
- * @global object $bp BuddyPress global settings.
  * @uses groups_is_user_member()
  * @uses bp_current_action()
  * @uses bp_is_current_action()
@@ -1348,7 +1347,6 @@ function bp_activity_avatar( $args = '' ) {
 	 *
 	 * @see bp_core_fetch_avatar() For a description of the arguments.
 	 * @global object $activities_template {@link BP_Activity_Template}
-	 * @global object $bp BuddyPress global settings
 	 * @uses bp_is_single_activity()
 	 * @uses wp_parse_args()
 	 * @uses apply_filters() To call the 'bp_get_activity_avatar_object_' . $current_activity_item->component hook

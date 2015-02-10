@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return bool True if found, otherwise false.
  */
 function bp_members_has_directory() {
-	global $bp;
+	$bp = buddypress();
 
 	return (bool) !empty( $bp->pages->members->id );
 }

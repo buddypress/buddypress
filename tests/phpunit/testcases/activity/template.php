@@ -21,7 +21,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @ticket BP4735
 	 */
 	public function test_user_can_delete() {
-		global $bp;
+		$bp = buddypress();
 
 		$a = $this->factory->activity->create( array(
 			'type' => 'activity_update',
@@ -133,8 +133,6 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'scope' => 'favorites',
 			'action' => 'activity_update',
 		) );
-
-		global $wpdb, $bp;
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 

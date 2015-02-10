@@ -503,7 +503,6 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
  * @since BuddyPress (1.5.0)
  *
  * @see wp_title()
- * @global object $bp BuddyPress global settings.
  *
  * @param string $title Original page title.
  * @param string $sep How to separate the various items within the page title.
@@ -511,7 +510,6 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
  * @return string New page title.
  */
 function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
-	global $bp;
 
 	// If this is not a BP page, just return the title produced by WP
 	if ( bp_is_blog_page() ) {
@@ -528,6 +526,7 @@ function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
 		return $title;
 	}
 
+	$bp    = buddypress();
 	$title = '';
 
 	// Displayed user

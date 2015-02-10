@@ -24,11 +24,12 @@ class BP_XProfile_Group {
 	}
 
 	public function populate( $id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$group = wp_cache_get( 'xprofile_group_' . $this->id, 'bp' );
 
 		if ( false === $group ) {
+			$bp = buddypress();
 			$group = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id ) );
 		}
 
@@ -44,7 +45,7 @@ class BP_XProfile_Group {
 	}
 
 	public function save() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$this->name        = apply_filters( 'xprofile_group_name_before_save',        $this->name,        $this->id );
 		$this->description = apply_filters( 'xprofile_group_description_before_save', $this->description, $this->id );
@@ -59,6 +60,8 @@ class BP_XProfile_Group {
 		 * @param BP_XProfile_Group Current instance of the group being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'xprofile_group_before_save', array( &$this ) );
+
+		$bp = buddypress();
 
 		if ( $this->id )
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id );
@@ -85,7 +88,7 @@ class BP_XProfile_Group {
 	}
 
 	public function delete() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $this->can_delete ) )
 			return false;
@@ -98,6 +101,8 @@ class BP_XProfile_Group {
 		 * @param BP_XProfile_Group Current instance of the group being deleted. Passed by reference.
 		 */
 		do_action_ref_array( 'xprofile_group_before_delete', array( &$this ) );
+
+		$bp = buddypress();
 
 		// Delete field group
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_groups} WHERE id = %d", $this->id ) ) ) {
@@ -162,7 +167,7 @@ class BP_XProfile_Group {
 	 * @return array $groups
 	 */
 	public static function get( $args = array() ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$defaults = array(
 			'profile_group_id'       => false,
@@ -195,6 +200,8 @@ class BP_XProfile_Group {
 			$exclude_groups = join( ',', wp_parse_id_list( $exclude_groups ) );
 			$where_sql = "WHERE g.id NOT IN ({$exclude_groups})";
 		}
+
+		$bp = buddypress();
 
 		if ( ! empty( $hide_empty_groups ) ) {
 			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
@@ -415,7 +422,7 @@ class BP_XProfile_Group {
 	}
 
 	public static function update_position( $field_group_id, $position ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !is_numeric( $position ) ) {
 			return false;
@@ -423,6 +430,8 @@ class BP_XProfile_Group {
 
 		// purge profile field group cache
 		wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
+
+		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET group_order = %d WHERE id = %d", $position, $field_group_id ) );
 	}
@@ -480,11 +489,13 @@ class BP_XProfile_Group {
 	 *         (whether the admin allows this field to be set by user)
 	 */
 	public static function fetch_default_visibility_levels() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$default_visibility_levels = wp_cache_get( 'xprofile_default_visibility_levels', 'bp' );
 
 		if ( false === $default_visibility_levels ) {
+			$bp = buddypress();
+
 			$levels = $wpdb->get_results( "SELECT object_id, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND ( meta_key = 'default_visibility' OR meta_key = 'allow_custom_visibility' )" );
 
 			// Arrange so that the field id is the key and the visibility level the value
@@ -657,12 +668,13 @@ class BP_XProfile_Field {
 	}
 
 	public function populate( $id, $user_id, $get_data ) {
-		global $wpdb, $userdata, $bp;
+		global $wpdb, $userdata;
 
 		if ( empty( $user_id ) ) {
 			$user_id = isset( $userdata->ID ) ? $userdata->ID : 0;
 		}
 
+		$bp  = buddypress();
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id );
 
 		if ( $field = $wpdb->get_row( $sql ) ) {
@@ -698,13 +710,15 @@ class BP_XProfile_Field {
 	}
 
 	public function delete( $delete_data = false ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// Prevent deletion if no ID is present
 		// Prevent deletion by url when can_delete is false.
 		// Prevent deletion of option 1 since this invalidates fields with options.
 		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order == 1 ) )
 			return false;
+
+		$bp = buddypress();
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id ) ) )
 			return false;
@@ -717,7 +731,9 @@ class BP_XProfile_Field {
 	}
 
 	public function save() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$this->group_id    = apply_filters( 'xprofile_field_group_id_before_save',    $this->group_id,    $this->id );
 		$this->parent_id   = apply_filters( 'xprofile_field_parent_id_before_save',   $this->parent_id,   $this->id );
@@ -856,7 +872,7 @@ class BP_XProfile_Field {
 	}
 
 	public function get_children( $for_editing = false ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// This is done here so we don't have problems with sql injection
 		if ( 'asc' == $this->order_by && empty( $for_editing ) ) {
@@ -874,6 +890,7 @@ class BP_XProfile_Field {
 			$parent_id = $this->id;
 		}
 
+		$bp  = buddypress();
 		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE parent_id = %d AND group_id = %d $sort_sql", $parent_id, $this->group_id );
 
 		$children = $wpdb->get_results( $sql );
@@ -890,8 +907,9 @@ class BP_XProfile_Field {
 	}
 
 	public function delete_children() {
-		global $wpdb, $bp;
+		global $wpdb;
 
+		$bp  = buddypress();
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE parent_id = %d", $this->id );
 
 		$wpdb->query( $sql );
@@ -900,9 +918,10 @@ class BP_XProfile_Field {
 	/** Static Methods ********************************************************/
 
 	public static function get_type( $field_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !empty( $field_id ) ) {
+			$bp  = buddypress();
 			$sql = $wpdb->prepare( "SELECT type FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id );
 
 			if ( !$field_type = $wpdb->get_var( $sql ) ) {
@@ -916,9 +935,10 @@ class BP_XProfile_Field {
 	}
 
 	public static function delete_for_group( $group_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !empty( $group_id ) ) {
+			$bp  = buddypress();
 			$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id );
 
 			if ( $wpdb->get_var( $sql ) === false ) {
@@ -932,7 +952,9 @@ class BP_XProfile_Field {
 	}
 
 	public static function get_id_from_name( $field_name ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( empty( $bp->profile->table_name_fields ) || !isset( $field_name ) )
 			return false;
@@ -941,10 +963,12 @@ class BP_XProfile_Field {
 	}
 
 	public static function update_position( $field_id, $position, $field_group_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !is_numeric( $position ) || !is_numeric( $field_group_id ) )
 			return false;
+
+		$bp = buddypress();
 
 		// Update $field_id with new $position and $field_group_id
 		if ( $parent = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET field_order = %d, group_id = %d WHERE id = %d", $position, $field_group_id, $field_id ) ) ) {;
@@ -1220,12 +1244,14 @@ class BP_XProfile_ProfileData {
 	}
 
 	public function populate( $field_id, $user_id )  {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$cache_key   = "{$user_id}:{$field_id}";
 		$profiledata = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 
 		if ( false === $profiledata ) {
+			$bp = buddypress();
+
 			$sql         = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $field_id, $user_id );
 			$profiledata = $wpdb->get_row( $sql );
 
@@ -1256,7 +1282,7 @@ class BP_XProfile_ProfileData {
 	 * @return bool
 	 */
 	public function exists() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// Check cache first
 		$cache_key = "{$this->user_id}:{$this->field_id}";
@@ -1265,6 +1291,7 @@ class BP_XProfile_ProfileData {
 		if ( $cached && ! empty( $cached->id ) ) {
 			$retval = true;
 		} else {
+			$bp = buddypress();
 			$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
 		}
 
@@ -1283,11 +1310,12 @@ class BP_XProfile_ProfileData {
 	 * Check if this data is for a valid field.
 	 *
 	 * @global object $wpdb
-	 * @global array $bp
 	 * @return bool
 	 */
 	public function is_valid_field() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
 
@@ -1303,7 +1331,9 @@ class BP_XProfile_ProfileData {
 	}
 
 	public function save() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save',      $this->user_id,         $this->id );
 		$this->field_id     = apply_filters( 'xprofile_data_field_id_before_save',     $this->field_id,        $this->id );
@@ -1508,11 +1538,12 @@ class BP_XProfile_ProfileData {
 	 * @return int $fielddata_id
 	 */
 	public static function get_fielddataid_byid( $field_id, $user_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $field_id ) || empty( $user_id ) ) {
 			$fielddata_id = 0;
 		} else {
+			$bp = buddypress();
 
 			// Check cache first
 			$cache_key = "{$user_id}:{$field_id}";
@@ -1538,7 +1569,7 @@ class BP_XProfile_ProfileData {
 	 *         otherwise an array of results.
 	 */
 	public static function get_value_byid( $field_id, $user_ids = null ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $user_ids ) ) {
 			$user_ids = bp_displayed_user_id();
@@ -1561,6 +1592,7 @@ class BP_XProfile_ProfileData {
 
 		// Prime caches
 		if ( ! empty( $uncached_ids ) ) {
+			$bp = buddypress();
 			$uncached_ids_sql = implode( ',', $uncached_ids );
 			$queried_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
 
@@ -1609,10 +1641,12 @@ class BP_XProfile_ProfileData {
 	}
 
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
-		global $bp, $wpdb;
+		global $wpdb;
 
 		if ( empty( $fields ) )
 			return false;
+
+		$bp = buddypress();
 
 		if ( empty( $user_id ) )
 			$user_id = bp_displayed_user_id();
@@ -1658,7 +1692,9 @@ class BP_XProfile_ProfileData {
 	}
 
 	public static function delete_for_field( $field_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d", $field_id ) ) )
 			return false;
@@ -1667,7 +1703,9 @@ class BP_XProfile_ProfileData {
 	}
 
 	public static function get_last_updated( $user_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$last_updated = $wpdb->get_var( $wpdb->prepare( "SELECT last_updated FROM {$bp->profile->table_name_data} WHERE user_id = %d ORDER BY last_updated LIMIT 1", $user_id ) );
 
@@ -1675,15 +1713,19 @@ class BP_XProfile_ProfileData {
 	}
 
 	public static function delete_data_for_user( $user_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d", $user_id ) );
 	}
 
 	public static function get_random( $user_id, $exclude_fullname ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$exclude_sql = ! empty( $exclude_fullname ) ? ' AND pf.id != 1' : '';
+
+		$bp = buddypress();
 
 		return $wpdb->get_results( $wpdb->prepare( "SELECT pf.type, pf.name, pd.value FROM {$bp->profile->table_name_data} pd INNER JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id AND pd.user_id = %d {$exclude_sql} ORDER BY RAND() LIMIT 1", $user_id ) );
 	}

@@ -441,7 +441,9 @@ Bar!';
 		$g = $this->factory->group->create();
 
 		// Get rid of any auto-created values
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_groupmeta} WHERE group_id = %d", $g ) );
 		wp_cache_delete( $g, 'group_meta' );
 

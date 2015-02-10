@@ -104,8 +104,6 @@ function bp_forums_filter_kses( $content ) {
  * @return string Link of the form http://example.com/forums/tag/tagname/.
  */
 function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
-	global $bp;
-
 	/**
 	 * Filters the link for a forum topic tags directory.
 	 *
@@ -141,8 +139,6 @@ function bp_forums_make_nofollow_filter( $text ) {
 /**
  * Append forum topic to page title.
  *
- * @global object $bp Global BuddyPress settings object.
- *
  * @see bp_modify_page_title()
  *
  * @param string $title New page title; see {@link bp_modify_page_title()}.
@@ -152,7 +148,6 @@ function bp_forums_make_nofollow_filter( $text ) {
  * @return string Page title with forum topic title appended.
  */
 function bp_forums_add_forum_topic_to_page_title( $title, $original_title, $sep, $seplocation  ) {
-	global $bp;
 
 	if ( bp_is_current_action( 'forum' ) && bp_is_action_variable( 'topic', 0 ) )
 		if ( bp_has_forum_topic_posts() )

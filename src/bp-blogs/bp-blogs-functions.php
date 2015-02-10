@@ -14,12 +14,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since BuddyPress (1.5.0)
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @return bool True if set, false if empty.
  */
 function bp_blogs_has_directory() {
-	global $bp;
+	$bp = buddypress();
 
 	return (bool) !empty( $bp->pages->blogs->id );
 }
@@ -826,7 +824,6 @@ add_action( 'init', 'bp_blogs_maybe_add_user_to_blog', 1 );
  * @param int $blog_id ID of the blog being removed.
  */
 function bp_blogs_remove_blog( $blog_id ) {
-	global $bp;
 
 	$blog_id = (int) $blog_id;
 
@@ -843,7 +840,11 @@ function bp_blogs_remove_blog( $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->id, 'type' => 'new_blog' ) );
+	bp_blogs_delete_activity( array(
+		'item_id'   => $blog_id,
+		'component' => buddypress()->blogs->id,
+		'type'      => 'new_blog'
+	) );
 
 	/**
 	 * Fires after a "blog created" item has been removed from blogs
@@ -864,7 +865,6 @@ add_action( 'delete_blog', 'bp_blogs_remove_blog' );
  * @param int $blog_id ID of the blog being removed.
  */
 function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
-	global $bp;
 
 	$blog_id = (int) $blog_id;
 	$user_id = (int) $user_id;
@@ -884,7 +884,7 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	// Delete activity stream item
 	bp_blogs_delete_activity( array(
 		'item_id'   => $blog_id,
-		'component' => $bp->blogs->id,
+		'component' => buddypress()->blogs->id,
 		'type'      => 'new_blog'
 	) );
 
@@ -909,7 +909,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
  *        is currently unused in the function (but is passed to hooks).
  */
 function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
-	global $wpdb, $bp;
+	global $wpdb;
 
 	if ( empty( $wpdb->blogid ) )
 		return false;
@@ -934,7 +934,12 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'secondary_item_id' => $post_id, 'component' => $bp->blogs->id, 'type' => 'new_blog_post' ) );
+	bp_blogs_delete_activity( array(
+		'item_id'           => $blog_id,
+		'secondary_item_id' => $post_id,
+		'component'         => buddypress()->blogs->id,
+		'type'              => 'new_blog_post'
+	) );
 
 	/**
 	 * Fires after removal of a blog post activity item from the activity stream.
@@ -1063,14 +1068,11 @@ function bp_blogs_remove_associated_blog_comments( $activity_ids = array(), $for
  *
  * @since BuddyPress (1.6.0)
  *
- * @global object $bp BuddyPress global settings.
- *
  * @param string $new_status New comment status.
  * @param string $old_status Previous comment status.
  * @param object $comment Comment data.
  */
 function bp_blogs_transition_activity_status( $new_status, $old_status, $comment ) {
-	global $bp;
 
 	// Check the Activity component is active
 	if ( ! bp_is_active( 'activity' ) )
@@ -1099,7 +1101,12 @@ function bp_blogs_transition_activity_status( $new_status, $old_status, $comment
 
 	// Get the activity
 	if ( bp_disable_blogforum_comments() ) {
-		$activity_id = bp_activity_get_activity_id( array( 'component' => $bp->blogs->id, 'item_id' => get_current_blog_id(), 'secondary_item_id' => $comment->comment_ID, 'type' => 'new_blog_comment', ) );
+		$activity_id = bp_activity_get_activity_id( array(
+			'component'         => buddypress()->blogs->id,
+			'item_id'           => get_current_blog_id(),
+			'secondary_item_id' => $comment->comment_ID,
+			'type'              => 'new_blog_comment'
+		) );
 	} else {
 		$activity_id = get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true );
 	}
@@ -1188,7 +1195,6 @@ function bp_blogs_total_blogs_for_user( $user_id = 0 ) {
  * @param int $blog_id The ID of the blog to expunge.
  */
 function bp_blogs_remove_data_for_blog( $blog_id ) {
-	global $bp;
 
 	/**
 	 * Fires before all data related to a given blog is removed from blogs tracker
@@ -1204,7 +1210,11 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
 	// Delete activity stream item
-	bp_blogs_delete_activity( array( 'item_id' => $blog_id, 'component' => $bp->blogs->id, 'type' => false ) );
+	bp_blogs_delete_activity( array(
+		'item_id'   => $blog_id,
+		'component' => buddypress()->blogs->id,
+		'type'      => false
+	) );
 
 	/**
 	 * Fires after all data related to a given blog has been removed from blogs tracker
@@ -1283,7 +1293,6 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
  * Delete a metadata from the DB for a blog.
  *
  * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
  *
  * @param int $blog_id ID of the blog whose metadata is being deleted.
  * @param string $meta_key Optional. The key of the metadata being deleted. If
@@ -1297,7 +1306,7 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
  * @return bool True on success, false on failure.
  */
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
-	global $wpdb, $bp;
+	global $wpdb;
 
 	// Legacy - if no meta_key is passed, delete all for the blog_id
 	if ( empty( $meta_key ) ) {
@@ -1325,7 +1334,6 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
  * @since BuddyPress (1.2.0)
  *
  * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
  *
  * @param int $blog_id ID of the blog whose metadata is being requested.
  * @param string $meta_key Optional. If present, only the metadata matching
@@ -1348,7 +1356,6 @@ function bp_blogs_get_blogmeta( $blog_id, $meta_key = '', $single = true ) {
  * Update a piece of blog meta.
  *
  * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
  *
  * @param int $blog_id ID of the blog whose metadata is being updated.
  * @param string $meta_key Key of the metadata being updated.

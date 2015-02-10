@@ -64,7 +64,7 @@ add_action( 'bp_screens', 'bp_members_screen_index' );
  * Handle the loading of the signup screen.
  */
 function bp_core_screen_signup() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( ! bp_is_current_component( 'register' ) || bp_current_action() )
 		return;

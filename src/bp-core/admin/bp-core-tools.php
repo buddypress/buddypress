@@ -155,7 +155,7 @@ function bp_admin_repair_list() {
  * @return array
  */
 function bp_admin_repair_friend_count() {
-	global $wpdb, $bp;
+	global $wpdb;
 
 	if ( ! bp_is_active( 'friends' ) ) {
 		return;
@@ -168,6 +168,8 @@ function bp_admin_repair_friend_count() {
 	if ( is_wp_error( $wpdb->query( $sql_delete ) ) ) {
 		return array( 1, sprintf( $statement, $result ) );
 	}
+
+	$bp = buddypress();
 
 	// Walk through all users on the site
 	$total_users = $wpdb->get_row( "SELECT count(ID) as c FROM {$wpdb->users}" )->c;
@@ -211,7 +213,7 @@ function bp_admin_repair_friend_count() {
  * @return array
  */
 function bp_admin_repair_group_count() {
-	global $wpdb, $bp;
+	global $wpdb;
 
 	if ( ! bp_is_active( 'groups' ) ) {
 		return;
@@ -224,6 +226,8 @@ function bp_admin_repair_group_count() {
 	if ( is_wp_error( $wpdb->query( $sql_delete ) ) ) {
 		return array( 1, sprintf( $statement, $result ) );
 	}
+
+	$bp = buddypress();
 
 	// Walk through all users on the site
 	$total_users = $wpdb->get_row( "SELECT count(ID) as c FROM {$wpdb->users}" )->c;

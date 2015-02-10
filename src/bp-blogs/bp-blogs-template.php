@@ -1114,9 +1114,11 @@ function bp_total_blog_count_for_user( $user_id = 0 ) {
  * @return bool True if blog registration is enabled.
  */
 function bp_blog_signup_enabled() {
-	global $bp;
+	$bp = buddypress();
 
-	$active_signup = isset( $bp->site_options['registration'] ) ? $bp->site_options['registration'] : 'all';
+	$active_signup = isset( $bp->site_options['registration'] )
+		? $bp->site_options['registration']
+		: 'all';
 
 	/**
 	 * Filters whether or not blog creation is enabled.

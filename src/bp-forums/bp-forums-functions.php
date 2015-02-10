@@ -315,7 +315,7 @@ function bp_forums_get_topic_id_from_slug( $topic_slug ) {
  *         {@link bp_forums_get_topic_details()}.
  */
 function bp_forums_new_topic( $args = '' ) {
-	global $bp;
+	$bp = buddypress();
 
 	/** This action is documented in bp-forums/bp-forums-screens */
 	do_action( 'bbpress_init' );
@@ -906,10 +906,12 @@ function bp_forums_insert_post( $args = '' ) {
  * @return array Posts with BP-data added.
  */
 function bp_forums_get_post_extras( $posts ) {
-	global $bp, $wpdb;
+	global $wpdb;
 
 	if ( empty( $posts ) )
 		return $posts;
+
+	$bp = buddypress();
 
 	// Get the user ids
 	foreach ( (array) $posts as $post ) $user_ids[] = $post->poster_id;

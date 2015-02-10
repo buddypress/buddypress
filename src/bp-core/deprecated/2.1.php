@@ -91,8 +91,6 @@ add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_styles', 1 );
  * @since BuddyPress (1.0.0)
  * @deprecated BuddyPress (2.1.0)
  *
- * @global object $bp The BuddyPress global settings object.
- *
  * @return bool|null Returns false on failure. Otherwise echoes the menu item.
  */
 function bp_adminbar_blogs_menu() {

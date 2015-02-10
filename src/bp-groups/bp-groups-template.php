@@ -1499,7 +1499,6 @@ function bp_group_all_members_permalink() {
  * @todo Deprecate
  */
 function bp_group_search_form() {
-	global $bp;
 
 	$action = bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/search/';
 	$label = __('Filter Groups', 'buddypress');
@@ -1596,9 +1595,7 @@ function bp_groups_pagination_count() {
  * @return bool
  */
 function bp_groups_auto_join() {
-	global $bp;
-
-	return apply_filters( 'bp_groups_auto_join', (bool)$bp->groups->auto_join );
+	return apply_filters( 'bp_groups_auto_join', (bool) buddypress()->groups->auto_join );
 }
 
 /**
@@ -1860,9 +1857,11 @@ function bp_group_show_invite_status_setting( $setting, $group = false ) {
  *         'admins'.
  */
 function bp_group_get_invite_status( $group_id = false ) {
-	global $bp, $groups_template;
+	global $groups_template;
 
 	if ( !$group_id ) {
+		$bp = buddypress();
+
 		if ( isset( $bp->groups->current_group->id ) ) {
 			// Default to the current group first
 			$group_id = $bp->groups->current_group->id;
@@ -2557,10 +2556,12 @@ function bp_group_accept_invite_link() {
 	 * @return string
 	 */
 	function bp_get_group_accept_invite_link( $group = false ) {
-		global $groups_template, $bp;
+		global $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
+
+		$bp = buddypress();
 
 		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ) );
 	}
@@ -2579,10 +2580,12 @@ function bp_group_reject_invite_link() {
 	 * @return string
 	 */
 	function bp_get_group_reject_invite_link( $group = false ) {
-		global $groups_template, $bp;
+		global $groups_template;
 
 		if ( empty( $group ) )
 			$group =& $groups_template->group;
+
+		$bp = buddypress();
 
 		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ) );
 	}
@@ -3622,7 +3625,7 @@ function bp_user_can_create_groups() {
 }
 
 function bp_group_creation_tabs() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( !is_array( $bp->groups->group_creation_steps ) )
 		return false;
@@ -3647,7 +3650,7 @@ function bp_group_creation_tabs() {
 }
 
 function bp_group_creation_stage_title() {
-	global $bp;
+	$bp = buddypress();
 
 	echo apply_filters( 'bp_group_creation_stage_title', '<span>&mdash; ' . $bp->groups->group_creation_steps[bp_get_groups_current_create_step()]['name'] . '</span>' );
 }
@@ -3656,7 +3659,7 @@ function bp_group_creation_form_action() {
 	echo bp_get_group_creation_form_action();
 }
 	function bp_get_group_creation_form_action() {
-		global $bp;
+		$bp = buddypress();
 
 		if ( !bp_action_variable( 1 ) ) {
 			$keys = array_keys( $bp->groups->group_creation_steps );
@@ -3667,11 +3670,12 @@ function bp_group_creation_form_action() {
 	}
 
 function bp_is_group_creation_step( $step_slug ) {
-	global $bp;
 
 	/* Make sure we are in the groups component */
 	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
 		return false;
+
+	$bp = buddypress();
 
 	/* If this the first step, we can just accept and return true */
 	$keys = array_keys( $bp->groups->group_creation_steps );
@@ -3692,7 +3696,7 @@ function bp_is_group_creation_step( $step_slug ) {
 }
 
 function bp_is_group_creation_step_complete( $step_slugs ) {
-	global $bp;
+	$bp = buddypress();
 
 	if ( !isset( $bp->groups->completed_create_steps ) )
 		return false;
@@ -3714,7 +3718,7 @@ function bp_is_group_creation_step_complete( $step_slugs ) {
 }
 
 function bp_are_previous_group_creation_steps_complete( $step_slug ) {
-	global $bp;
+	$bp = buddypress();
 
 	/* If this is the first group creation step, return true */
 	$keys = array_keys( $bp->groups->group_creation_steps );
@@ -3739,7 +3743,7 @@ function bp_new_group_id() {
 	echo bp_get_new_group_id();
 }
 	function bp_get_new_group_id() {
-		global $bp;
+		$bp = buddypress();
 
 		if ( isset( $bp->groups->new_group_id ) )
 			$new_group_id = $bp->groups->new_group_id;
@@ -3753,7 +3757,7 @@ function bp_new_group_name() {
 	echo bp_get_new_group_name();
 }
 	function bp_get_new_group_name() {
-		global $bp;
+		$bp = buddypress();
 
 		if ( isset( $bp->groups->current_group->name ) )
 			$name = $bp->groups->current_group->name;
@@ -3767,7 +3771,7 @@ function bp_new_group_description() {
 	echo bp_get_new_group_description();
 }
 	function bp_get_new_group_description() {
-		global $bp;
+		$bp = buddypress();
 
 		if ( isset( $bp->groups->current_group->description ) )
 			$description = $bp->groups->current_group->description;
@@ -3781,7 +3785,8 @@ function bp_new_group_enable_forum() {
 	echo bp_get_new_group_enable_forum();
 }
 	function bp_get_new_group_enable_forum() {
-		global $bp;
+		$bp = buddypress();
+
 		return (int) apply_filters( 'bp_get_new_group_enable_forum', $bp->groups->current_group->enable_forum );
 	}
 
@@ -3789,7 +3794,8 @@ function bp_new_group_status() {
 	echo bp_get_new_group_status();
 }
 	function bp_get_new_group_status() {
-		global $bp;
+		$bp = buddypress();
+
 		return apply_filters( 'bp_get_new_group_status', $bp->groups->current_group->status );
 	}
 
@@ -3797,7 +3803,7 @@ function bp_new_group_avatar( $args = '' ) {
 	echo bp_get_new_group_avatar( $args );
 }
 	function bp_get_new_group_avatar( $args = '' ) {
-		global $bp;
+		$bp = buddypress();
 
 		$defaults = array(
 			'type' => 'full',
@@ -3819,7 +3825,7 @@ function bp_group_creation_previous_link() {
 	echo bp_get_group_creation_previous_link();
 }
 	function bp_get_group_creation_previous_link() {
-		global $bp;
+		$bp = buddypress();
 
 		foreach ( (array) $bp->groups->group_creation_steps as $slug => $name ) {
 			if ( bp_is_action_variable( $slug ) )
@@ -3848,7 +3854,7 @@ function bp_groups_current_create_step() {
 	 * @return string $current_create_step
 	 */
 	function bp_get_groups_current_create_step() {
-		global $bp;
+		$bp = buddypress();
 
 		if ( !empty( $bp->groups->current_create_step ) ) {
 			$current_create_step = $bp->groups->current_create_step;
@@ -3860,7 +3866,7 @@ function bp_groups_current_create_step() {
 	}
 
 function bp_is_last_group_creation_step() {
-	global $bp;
+	$bp = buddypress();
 
 	$keys      = array_keys( $bp->groups->group_creation_steps );
 	$last_step = array_pop( $keys );
@@ -3872,7 +3878,7 @@ function bp_is_last_group_creation_step() {
 }
 
 function bp_is_first_group_creation_step() {
-	global $bp;
+	$bp = buddypress();
 
 	$keys       = array_keys( $bp->groups->group_creation_steps );
 	$first_step = array_shift( $keys );
@@ -3887,7 +3893,7 @@ function bp_new_group_invite_friend_list() {
 	echo bp_get_new_group_invite_friend_list();
 }
 	function bp_get_new_group_invite_friend_list( $args = '' ) {
-		global $bp;
+		$bp = buddypress();
 
 		if ( !bp_is_active( 'friends' ) )
 			return false;
@@ -3944,7 +3950,7 @@ function bp_directory_groups_search_form() {
  * @todo Deprecate?
  */
 function bp_groups_header_tabs() {
-	global $bp;?>
+	$bp = buddypress(); ?>
 
 	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/recently-active' ) ?>"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
 	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/recently-joined' ) ?>"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
@@ -4094,7 +4100,7 @@ function bp_group_avatar_delete_link() {
 	echo bp_get_group_avatar_delete_link();
 }
 	function bp_get_group_avatar_delete_link() {
-		global $bp;
+		$bp = buddypress();
 
 		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
 	}

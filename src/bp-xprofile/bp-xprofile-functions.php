@@ -217,7 +217,6 @@ function bp_xprofile_create_field_type( $type ) {
  * @return bool|int False on failure, ID of new field on success.
  */
 function xprofile_insert_field( $args = '' ) {
-	global $bp;
 
 	$r = wp_parse_args( $args, array(
 		'field_id' => null,
@@ -239,7 +238,7 @@ function xprofile_insert_field( $args = '' ) {
 	}
 
 	// Check this is a valid field type
-	if ( ! in_array( $r['type'], (array) $bp->profile->field_types ) ) {
+	if ( ! in_array( $r['type'], (array) buddypress()->profile->field_types ) ) {
 		return false;
 	}
 
@@ -1021,7 +1020,6 @@ function bp_xprofile_fullname_field_name() {
  * @return array
  */
 function bp_xprofile_get_visibility_levels() {
-	global $bp;
 
 	/**
 	 * Filters the visibility levels out of the $bp global.
@@ -1030,7 +1028,7 @@ function bp_xprofile_get_visibility_levels() {
 	 *
 	 * @param array $visibility_levels Array of visibility levels.
 	 */
-	return apply_filters( 'bp_xprofile_get_visibility_levels', $bp->profile->visibility_levels );
+	return apply_filters( 'bp_xprofile_get_visibility_levels', buddypress()->profile->visibility_levels );
 }
 
 /**

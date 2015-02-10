@@ -171,8 +171,9 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_get_user_displayname
 	 */
 	public function test_bp_core_get_user_displayname_xprofile_does_not_exist() {
+		$bp = buddypress();
 		$xprofile_is_active = bp_is_active( 'xprofile' );
-		buddypress()->active_components['xprofile'] = '1';
+		$bp->active_components['xprofile'] = '1';
 
 		$u = $this->factory->user->create( array(
 			'display_name' => 'Foo Foo',
@@ -180,7 +181,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		// Delete directly because BP won't let you delete a required
 		// field through the API
-		global $wpdb, $bp;
+		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u ) );
 		wp_cache_delete( 'bp_user_fullname_' . $u, 'bp' );
 		wp_cache_delete( "{$u}:1", 'bp_xprofile_data', 'bp' );
@@ -190,7 +191,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertSame( 'Foo Foo', xprofile_get_field_data( 1, $u ) );
 
 		if ( ! $xprofile_is_active ) {
-			unset( buddypress()->active_components['xprofile'] );
+			unset( $bp->active_components['xprofile'] );
 		}
 	}
 
@@ -232,7 +233,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		// Delete directly because BP won't let you delete a required
 		// field through the API
-		global $wpdb, $bp;
+		global $wpdb;
+		$bp = buddypress();
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u2 ) );
 		wp_cache_delete( 'bp_user_fullname_' . $u2, 'bp' );
 		wp_cache_delete( 1, 'bp_xprofile_data_' . $u2, 'bp' );
@@ -377,7 +379,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		update_user_meta( $u3, 'last_activity', $t3 );
 
 		// Create an existing entry in last_activity to test no dupes
-		global $wpdb, $bp;
+		global $wpdb;
+		$bp = buddypress();
 		$wpdb->query( $wpdb->prepare(
 			"INSERT INTO {$bp->members->table_name_last_activity}
 				(`user_id`, `component`, `type`, `action`, `content`, `primary_link`, `item_id`, `date_recorded` ) VALUES

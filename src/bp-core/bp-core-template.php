@@ -442,7 +442,8 @@ function bp_search_default_text( $component = '' ) {
 	 * @return string Placeholder text for search field.
 	 */
 	function bp_get_search_default_text( $component = '' ) {
-		global $bp;
+
+		$bp = buddypress();
 
 		if ( empty( $component ) ) {
 			$component = bp_current_component();

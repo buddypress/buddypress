@@ -369,7 +369,9 @@ function bp_the_profile_group_edit_form_action() {
 	echo bp_get_the_profile_group_edit_form_action();
 }
 	function bp_get_the_profile_group_edit_form_action() {
-		global $bp, $group;
+		global $group;
+
+		$bp = buddypress();
 
 		/**
 		 * Filters the action for the profile group edit form.
@@ -844,8 +846,9 @@ function bp_profile_has_multiple_groups() {
  * @return string Field group tabs markup.
  */
 function bp_profile_group_tabs() {
-	global $bp, $group_name;
+	global $group_name;
 
+	$bp     = buddypress();
 	$groups = bp_profile_get_field_groups();
 
 	if ( empty( $group_name ) )
@@ -966,7 +969,7 @@ function bp_avatar_delete_link() {
 	echo bp_get_avatar_delete_link();
 }
 	function bp_get_avatar_delete_link() {
-		global $bp;
+		$bp = buddypress();
 
 		/**
 		 * Filters the link used for deleting an avatar.
@@ -979,7 +982,7 @@ function bp_avatar_delete_link() {
 	}
 
 function bp_edit_profile_button() {
-	global $bp;
+	$bp = buddypress();
 
 	bp_button( array (
 		'id'                => 'edit_profile',

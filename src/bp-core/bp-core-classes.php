@@ -221,7 +221,9 @@ class BP_User_Query {
 	 * @since BuddyPress (1.7.0)
 	 */
 	public function prepare_user_ids_query() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		// Default query variables used here
 		$type         = '';
@@ -952,9 +954,11 @@ class BP_Core_User {
 	 * }
 	 */
 	public static function get_users( $type, $limit = 0, $page = 1, $user_id = 0, $include = false, $search_terms = false, $populate_extras = true, $exclude = false, $meta_key = false, $meta_value = false ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		_deprecated_function( __METHOD__, '1.7', 'BP_User_Query' );
+
+		$bp = buddypress();
 
 		$sql = array();
 
@@ -1128,7 +1132,6 @@ class BP_Core_User {
 	/**
 	 * Fetch the details for all users whose usernames start with the given letter.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string $letter The letter the users names are to start with.
@@ -1142,7 +1145,7 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 */
 	public static function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
-		global $bp, $wpdb;
+		global $wpdb;
 
 		$pag_sql = '';
 		if ( $limit && $page ) {
@@ -1159,6 +1162,8 @@ class BP_Core_User {
 				return false;
 			}
 		}
+
+		$bp = buddypress();
 
 		$letter_like = bp_esc_like( $letter ) . '%';
 		$status_sql  = bp_core_get_status_sql( 'u.' );
@@ -1243,7 +1248,6 @@ class BP_Core_User {
 	/**
 	 * Find users who match on the value of an xprofile data.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string $search_terms The terms to search the profile table
@@ -1254,7 +1258,9 @@ class BP_Core_User {
 	 * @return array Associative array.
 	 */
 	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$user_ids = array();
 		$pag_sql  = $limit && $page ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) ) : '';
@@ -1287,7 +1293,6 @@ class BP_Core_User {
 	 *
 	 * Accepts multiple user IDs to fetch data for.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $paged_users An array of stdClass containing the users.
@@ -1296,7 +1301,9 @@ class BP_Core_User {
 	 * @return mixed False on error, otherwise associative array of results.
 	 */
 	public static function get_user_extras( &$paged_users, &$user_ids, $type = false ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( empty( $user_ids ) )
 			return $paged_users;
@@ -1698,12 +1705,13 @@ class BP_Core_Notification {
 	/**
 	 * Update or insert notification details into the database.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @return bool Success or failure
 	 */
 	public function save() {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		// Update
 		if ( !empty( $this->id ) ) {
@@ -1727,11 +1735,12 @@ class BP_Core_Notification {
 	/**
 	 * Fetches the notification data from the database.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 */
 	public function populate() {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
 			$this->item_id = $notification->item_id;
@@ -1747,7 +1756,9 @@ class BP_Core_Notification {
 	/** Static Methods ********************************************************/
 
 	public static function check_access( $user_id, $notification_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
 	}
@@ -1755,7 +1766,6 @@ class BP_Core_Notification {
 	/**
 	 * Fetches all the notifications in the database for a specific user.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id User ID
 	 * @param string $status 'is_new' or 'all'
@@ -1763,9 +1773,13 @@ class BP_Core_Notification {
 	 * @static
 	 */
 	public static function get_all_for_user( $user_id, $status = 'is_new' ) {
-		global $bp, $wpdb;
+		global $wpdb;
 
-		$is_new = ( 'is_new' == $status ) ? ' AND is_new = 1 ' : '';
+		$bp = buddypress();
+
+		$is_new = ( 'is_new' === $status )
+			? ' AND is_new = 1 '
+			: '';
 
  		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d {$is_new}", $user_id ) );
 	}
@@ -1773,7 +1787,6 @@ class BP_Core_Notification {
 	/**
 	 * Delete all the notifications for a user based on the component name and action.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id
 	 * @param string $component_name
@@ -1781,7 +1794,9 @@ class BP_Core_Notification {
 	 * @static
 	 */
 	public static function delete_for_user_by_type( $user_id, $component_name, $component_action ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
 	}
@@ -1789,7 +1804,6 @@ class BP_Core_Notification {
 	/**
 	 * Delete all the notifications that have a specific item id, component name and action.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id The ID of the user who the notifications are for.
 	 * @param integer $item_id The item ID of the notifications we wish to delete.
@@ -1799,9 +1813,13 @@ class BP_Core_Notification {
 	 * @static
 	 */
 	public static function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
-		global $bp, $wpdb;
+		global $wpdb;
 
-		$secondary_item_sql = !empty( $secondary_item_id ) ? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id ) : '';
+		$bp = buddypress();
+
+		$secondary_item_sql = !empty( $secondary_item_id )
+			? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id )
+			: '';
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
 	}
@@ -1809,7 +1827,6 @@ class BP_Core_Notification {
 	/**
 	 * Deletes all the notifications sent by a specific user, by component and action.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param integer $user_id The ID of the user whose sent notifications we wish to delete.
 	 * @param string $component_name The name of the component the notification was sent from.
@@ -1817,7 +1834,9 @@ class BP_Core_Notification {
 	 * @static
 	 */
 	public static function delete_from_user_by_type( $user_id, $component_name, $component_action ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
 	}
@@ -1825,7 +1844,6 @@ class BP_Core_Notification {
 	/**
 	 * Deletes all the notifications for all users by item id, and optional secondary item id, and component name and action.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 * @global wpdb $wpdb WordPress database object
 	 * @param string $item_id The item id that they notifications are to be for.
 	 * @param string $component_name The component that the notifications are to be from.
@@ -1834,7 +1852,7 @@ class BP_Core_Notification {
 	 * @static
 	 */
 	public static function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
-		global $bp, $wpdb;
+		global $wpdb;
 
 		if ( $component_action )
 			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
@@ -1845,6 +1863,8 @@ class BP_Core_Notification {
 			$secondary_item_sql = $wpdb->prepare( "AND secondary_item_id = %d", $secondary_item_id );
 		else
 			$secondary_item_sql = '';
+
+		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s {$component_action_sql} {$secondary_item_sql}", $item_id, $component_name ) );
 	}

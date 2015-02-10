@@ -39,7 +39,9 @@ class BP_Blogs_Blog {
 	 * Populate the object with data about the specific activity item.
 	 */
 	public function populate() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name} WHERE id = %d", $this->id ) );
 
@@ -53,7 +55,7 @@ class BP_Blogs_Blog {
 	 * @return bool True on success, false on failure.
 	 */
 	public function save() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$this->user_id = apply_filters( 'bp_blogs_blog_user_id_before_save', $this->user_id, $this->id );
 		$this->blog_id = apply_filters( 'bp_blogs_blog_id_before_save', $this->blog_id, $this->id );
@@ -76,6 +78,8 @@ class BP_Blogs_Blog {
 		// Don't save if this blog has already been recorded for the user.
 		if ( !$this->id && $this->exists() )
 			return false;
+
+		$bp = buddypress();
 
 		if ( $this->id ) {
 			// Update
@@ -112,7 +116,9 @@ class BP_Blogs_Blog {
 	 *         saved in the blog component tables.
 	 */
 	public function exists() {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->blogs->table_name} WHERE user_id = %d AND blog_id = %d", $this->user_id, $this->blog_id ) );
 	}
@@ -140,7 +146,9 @@ class BP_Blogs_Blog {
 	 *           'total' - A count of the total blogs matching the filter params
 	 */
 	public static function get( $type, $limit = false, $page = false, $user_id = 0, $search_terms = false, $update_meta_cache = true, $include_blog_ids = false ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( !is_user_logged_in() || ( !bp_current_user_can( 'bp_moderate' ) && ( $user_id != bp_loggedin_user_id() ) ) )
 			$hidden_sql = "AND wb.public = 1";
@@ -231,9 +239,12 @@ class BP_Blogs_Blog {
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public static function delete_blog_for_all( $blog_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		bp_blogs_delete_blogmeta( $blog_id );
+		
+		$bp = buddypress();
+
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
 	}
 
@@ -246,10 +257,12 @@ class BP_Blogs_Blog {
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public static function delete_blog_for_user( $blog_id, $user_id = null ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !$user_id )
 			$user_id = bp_loggedin_user_id();
+
+		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE user_id = %d AND blog_id = %d", $user_id, $blog_id ) );
 	}
@@ -263,10 +276,12 @@ class BP_Blogs_Blog {
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public static function delete_blogs_for_user( $user_id = null ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !$user_id )
 			$user_id = bp_loggedin_user_id();
+
+		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE user_id = %d", $user_id ) );
 	}
@@ -289,7 +304,9 @@ class BP_Blogs_Blog {
 	 *           'total' - A count of the total blogs for the user.
 	 */
 	public static function get_blogs_for_user( $user_id = 0, $show_hidden = false ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( !$user_id )
 			$user_id = bp_displayed_user_id();
@@ -324,7 +341,9 @@ class BP_Blogs_Blog {
 	 * @return int The number of blogs associated with the user.
 	 */
 	public static function get_blog_ids_for_user( $user_id = 0 ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( !$user_id )
 			$user_id = bp_displayed_user_id();
@@ -340,7 +359,9 @@ class BP_Blogs_Blog {
 	 *         on success, otherwise null.
 	 */
 	public static function is_recorded( $blog_id ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
 	}
@@ -357,7 +378,9 @@ class BP_Blogs_Blog {
 	 * @return int Blog count for the user.
 	 */
 	public static function total_blog_count_for_user( $user_id = null ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( !$user_id )
 			$user_id = bp_displayed_user_id();
@@ -386,7 +409,7 @@ class BP_Blogs_Blog {
 	 *           'total' - A count of the total blogs matching the query.
 	 */
 	public static function search_blogs( $filter, $limit = null, $page = null ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
 		$search_terms_sql  = $wpdb->prepare( 'bm.meta_value LIKE %s', $search_terms_like );
@@ -399,6 +422,8 @@ class BP_Blogs_Blog {
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
+
+		$bp = buddypress();
 
 		$paged_blogs = $wpdb->get_results( "SELECT DISTINCT bm.blog_id FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND {$search_terms_sql} ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC{$pag_sql}" );
 		$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT bm.blog_id) FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND {$search_terms_sql} ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC" );
@@ -421,10 +446,12 @@ class BP_Blogs_Blog {
 	 *           'total' - A count of the total blogs.
 	 */
 	public static function get_all( $limit = null, $page = null ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$hidden_sql = !bp_current_user_can( 'bp_moderate' ) ? "AND wb.public = 1" : '';
-		$pag_sql = ( $limit && $page ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
+		$pag_sql    = ( $limit && $page ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
 
 		$paged_blogs = $wpdb->get_results( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$hidden_sql} {$pag_sql}" );
 		$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$hidden_sql}" );
@@ -448,7 +475,9 @@ class BP_Blogs_Blog {
 	 *           'total' - A count of the total blogs matching the query.
 	 */
 	public static function get_by_letter( $letter, $limit = null, $page = null ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$letter_like = '%' . bp_esc_like( $letter ) . '%';
 		$letter_sql  = $wpdb->prepare( 'bm.meta_value LIKE %s', $letter_like );
@@ -482,7 +511,9 @@ class BP_Blogs_Blog {
 	 * @return array $paged_blogs The located blogs array, with the extras added.
 	 */
 	public static function get_blog_extras( &$paged_blogs, &$blog_ids, $type = false ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( empty( $blog_ids ) )
 			return $paged_blogs;
@@ -561,7 +592,9 @@ class BP_Blogs_Blog {
 	 * @return int|bool ID of user-blog link, or false if not found.
 	 */
 	public static function get_user_blog( $user_id, $blog_id ) {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$user_blog = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->blogs->table_name} WHERE user_id = %d AND blog_id = %d", $user_id, $blog_id ) );
 

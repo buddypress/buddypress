@@ -509,7 +509,6 @@ add_action( 'bp_screens', 'groups_remove_group_invite' );
  * Handle the display of a group's Request Membership page.
  */
 function groups_screen_group_request_membership() {
-	global $bp;
 
 	if ( !is_user_logged_in() )
 		return false;
@@ -911,13 +910,14 @@ add_action( 'bp_screens', 'groups_screen_group_admin_requests' );
  * Handle the display of the Delete Group page.
  */
 function groups_screen_group_admin_delete_group() {
-	global $bp;
 
 	if ( 'delete-group' != bp_get_group_current_admin_tab() )
 		return false;
 
 	if ( ! bp_is_item_admin() && !bp_current_user_can( 'bp_moderate' ) )
 		return false;
+
+	$bp = buddypress();
 
 	if ( isset( $_REQUEST['delete-group-button'] ) && isset( $_REQUEST['delete-group-understand'] ) ) {
 

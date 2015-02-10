@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *        separated list or array of activity ids
  */
 function bp_activity_update_meta_cache( $activity_ids = false ) {
-	global $bp;
+	$bp = buddypress();
 
 	$cache_args = array(
 		'object_ids' 	   => $activity_ids,

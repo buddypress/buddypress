@@ -230,7 +230,6 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
  *
  * @since BuddyPress (1.2.0)
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_is_activity_component()
  * @uses bp_activity_get_specific()
  * @uses bp_current_action()
@@ -252,7 +251,7 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
  * @uses apply_filters() To call the 'bp_activity_template_profile_activity_permalink' hook
  */
 function bp_activity_screen_single_activity_permalink() {
-	global $bp;
+	$bp = buddypress();
 
 	// No displayed user or not viewing activity component
 	if ( !bp_is_activity_component() )

@@ -261,7 +261,9 @@ function xprofile_admin_delete_group( $group_id ) {
  * Handles the adding or editing of profile field data for a user.
  */
 function xprofile_admin_manage_field( $group_id, $field_id = null ) {
-	global $bp, $wpdb, $message, $groups;
+	global $wpdb, $message, $groups;
+
+	$bp = buddypress();
 
 	$field           = new BP_XProfile_Field( $field_id );
 	$field->group_id = $group_id;

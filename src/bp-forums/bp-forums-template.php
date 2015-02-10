@@ -27,8 +27,6 @@ function bp_forums_slug() {
 	 * @return string Slug for the forums component.
 	 */
 	function bp_get_forums_slug() {
-		global $bp;
-
 		/**
 		 * Filters the forums component slug.
 		 *
@@ -36,7 +34,7 @@ function bp_forums_slug() {
 		 *
 		 * @param string $slug Forums component slug.
 		 */
-		return apply_filters( 'bp_get_forums_slug', $bp->forums->slug );
+		return apply_filters( 'bp_get_forums_slug', buddypress()->forums->slug );
 	}
 
 /**
@@ -57,8 +55,6 @@ function bp_forums_root_slug() {
 	 * @return string Root slug for the forums component.
 	 */
 	function bp_get_forums_root_slug() {
-		global $bp;
-
 		/**
 		 * Filters the forums component root slug.
 		 *
@@ -66,7 +62,7 @@ function bp_forums_root_slug() {
 		 *
 		 * @param string $root_slug Forums component root slug.
 		 */
-		return apply_filters( 'bp_get_forums_root_slug', $bp->forums->root_slug );
+		return apply_filters( 'bp_get_forums_root_slug', buddypress()->forums->root_slug );
 	}
 
 /**
@@ -230,7 +226,7 @@ class BP_Forums_Template_Forum {
 	 * @param int $number Optional. Total number of items to retrieve.
 	 */
 	function __construct( $type, $forum_id, $user_id, $page, $per_page, $max, $no_stickies, $search_terms, $offset = false, $number = false ) {
-		global $bp;
+		$bp = buddypress();
 
 		$this->pag_page     = $page;
 		$this->pag_num      = $per_page;
@@ -332,7 +328,7 @@ class BP_Forums_Template_Forum {
 		 * @param int    $max         The max number of posts to show.
 		 * @param string $no_stickies Requested sticky format.
 		 */
-		$this->topic_count       = apply_filters_ref_array( 'bp_forums_template_topic_count',                                 array( $this->topic_count, &$this->topics, $type, $forum_id, $per_page, $max, $no_stickies ) );
+		$this->topic_count = apply_filters_ref_array( 'bp_forums_template_topic_count', array( $this->topic_count, &$this->topics, $type, $forum_id, $per_page, $max, $no_stickies ) );
 
 		/**
 		 * Filters the total topic count for the forum being displayed.
@@ -498,7 +494,9 @@ class BP_Forums_Template_Forum {
  *         false otherwise.
  */
 function bp_has_forum_topics( $args = '' ) {
-	global $forum_template, $bp;
+	global $forum_template;
+
+	$bp = buddypress();
 
 	/***
 	 * Set the defaults based on the current page. Any of these will be overridden
@@ -1665,8 +1663,6 @@ function bp_my_forum_topics_link() {
 	 * @return string Link to the 'personal' topics tab.
 	 */
 	function bp_get_my_forum_topics_link() {
-		global $bp;
-
 		/**
 		 * Filters the permalink to the 'personal' topics tab.
 		 *
@@ -1689,8 +1685,6 @@ function bp_unreplied_forum_topics_link() {
 	 * @return string Link to the 'unreplied' topics tab.
 	 */
 	function bp_get_unreplied_forum_topics_link() {
-		global $bp;
-
 		/**
 		 * Filters the permalink to the 'unreplied' topics tab.
 		 *
@@ -1713,8 +1707,6 @@ function bp_popular_forum_topics_link() {
 	 * @return string Link to the 'popular' topics tab.
 	 */
 	function bp_get_popular_forum_topics_link() {
-		global $bp;
-
 		/**
 		 * Filters the permalink to the 'popular' topics tab.
 		 *
@@ -1737,8 +1729,6 @@ function bp_newest_forum_topics_link() {
 	 * @return string Link to the forums directory.
 	 */
 	function bp_get_newest_forum_topics_link() {
-		global $bp;
-
 		/**
 		 * Filters the link to the forums directory.
 		 *
@@ -1763,7 +1753,6 @@ function bp_forum_topic_type() {
 	 * @return string Type of the currently viewed topic list.
 	 */
 	function bp_get_forum_topic_type() {
-		global $bp;
 
 		if ( !bp_is_directory() || !bp_current_action() )
 			return 'newest';
@@ -1878,7 +1867,7 @@ function bp_forum_pagination_count() {
 	 * @return string
 	 */
 	function bp_get_forum_pagination_count() {
-		global $bp, $forum_template;
+		global $forum_template;
 
 		$start_num  = intval( ( $forum_template->pag_page - 1 ) * $forum_template->pag_num ) + 1;
 		$from_num   = bp_core_number_format( $start_num );
@@ -1908,7 +1897,6 @@ function bp_forum_pagination_count() {
  * @return bool True if currently editing a topic, otherwise false.
  */
 function bp_is_edit_topic() {
-	global $bp;
 
 	if ( bp_is_action_variable( 'post' ) && bp_is_action_variable( 'edit' ) )
 		return false;
@@ -2060,11 +2048,11 @@ class BP_Forums_Template_Topic {
 	 * @param string $order Direction to order results.
 	 */
 	function __construct( $topic_id, $per_page, $max, $order ) {
-		global $bp, $current_user, $forum_template;
+		global $forum_template;
 
-                if ( !isset( $forum_template ) ) {
-                        $forum_template = new stdClass;
-                }
+		if ( !isset( $forum_template ) ) {
+			$forum_template = new stdClass;
+		}
 
 		$this->pag_page        = isset( $_REQUEST['topic_page'] ) ? intval( $_REQUEST['topic_page'] ) : 1;
 		$this->pag_num         = isset( $_REQUEST['num'] ) ? intval( $_REQUEST['num'] ) : $per_page;
@@ -2192,7 +2180,6 @@ class BP_Forums_Template_Topic {
 	 * @see bp_the_forum_topic_post()
 	 */
 	function the_post() {
-		global $post;
 
 		$this->in_the_loop = true;
 		$this->post = $this->next_post();
@@ -2515,7 +2502,7 @@ function bp_the_topic_post_is_mine() {
 	 *         the logged-in user, otherwise false.
 	 */
 	function bp_get_the_topic_post_is_mine() {
-		global $bp, $topic_template;
+		global $topic_template;
 
 		return bp_loggedin_user_id() == $topic_template->post->poster_id;
 	}
@@ -2628,7 +2615,7 @@ function bp_the_topic_pagination() {
  * @return string
  */
 function bp_the_topic_pagination_count() {
-	global $bp, $topic_template;
+	global $topic_template;
 
 	$start_num = intval( ( $topic_template->pag_page - 1 ) * $topic_template->pag_num ) + 1;
 	$from_num = bp_core_number_format( $start_num );
@@ -2757,7 +2744,6 @@ function bp_forum_name( $forum_id = 0 ) {
 	 * @return string|bool False on failure, a name on success.
 	 */
 	function bp_get_forum_name( $forum_id = 0 ) {
-		global $bp;
 
 		if ( empty( $forum_id ) ) {
 			global $topic_template;

@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @todo Deprecate WP 3.2 Toolbar compatibility when we drop 3.2 support
  */
 function bp_members_admin_bar_my_account_menu() {
-	global $bp, $wp_admin_bar;
+	global $wp_admin_bar;
 
 	// Bail if this is an ajax request
 	if ( defined( 'DOING_AJAX' ) )
@@ -28,6 +28,8 @@ function bp_members_admin_bar_my_account_menu() {
 
 	// Logged in user
 	if ( is_user_logged_in() ) {
+
+		$bp = buddypress();
 
 		// Stored in the global so we can add menus easily later on
 		$bp->my_account_menu_id = 'my-account-buddypress';
@@ -72,7 +74,7 @@ add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
  * @since BuddyPress (1.5.0)
  */
 function bp_members_admin_bar_user_admin_menu() {
-	global $bp, $wp_admin_bar;
+	global $wp_admin_bar;
 
 	// Only show if viewing a user
 	if ( !bp_is_user() )
@@ -81,6 +83,8 @@ function bp_members_admin_bar_user_admin_menu() {
 	// Don't show this menu to non site admins or if you're viewing your own profile
 	if ( !current_user_can( 'edit_users' ) || bp_is_my_profile() )
 		return false;
+
+	$bp = buddypress();
 
 	// Unique ID for the 'My Account' menu
 	$bp->user_admin_menu_id = 'user-admin';

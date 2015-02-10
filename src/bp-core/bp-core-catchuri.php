@@ -33,11 +33,13 @@ defined( 'ABSPATH' ) || exit;
  * @since BuddyPress (1.0.0)
  */
 function bp_core_set_uri_globals() {
-	global $bp, $current_blog, $wp_rewrite;
+	global $current_blog, $wp_rewrite;
 
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
 		return false;
+
+	$bp = buddypress();
 
 	// Define local variables
 	$root_profile = $match   = false;
@@ -418,7 +420,9 @@ function bp_core_catch_profile_uri() {
  * @since BuddyPress (1.5.0)
  */
 function bp_core_catch_no_access() {
-	global $bp, $wp_query;
+	global $wp_query;
+
+	$bp = buddypress();
 
 	// If coming from bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessible page so skip this check.
@@ -549,7 +553,6 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  * @uses bp_get_requested_url()
  */
 function bp_redirect_canonical() {
-	global $bp;
 
 	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
 		// If this is a POST request, don't do a canonical redirect.
@@ -572,6 +575,8 @@ function bp_redirect_canonical() {
 
 		// Only redirect if we've assembled a URL different from the request
 		if ( $canonical_url !== $req_url_clean ) {
+
+			$bp = buddypress();
 
 			// Template messages have been deleted from the cookie by this point, so
 			// they must be readded before redirecting
@@ -618,12 +623,13 @@ function bp_rel_canonical() {
  * @return string Canonical URL for the current page.
  */
 function bp_get_canonical_url( $args = array() ) {
-	global $bp;
 
 	// For non-BP content, return the requested url, and let WP do the work
 	if ( bp_is_blog_page() ) {
 		return bp_get_requested_url();
 	}
+
+	$bp = buddypress();
 
 	$defaults = array(
 		'include_query_args' => false // Include URL arguments, eg ?foo=bar&foo2=bar2
@@ -700,7 +706,7 @@ function bp_get_canonical_url( $args = array() ) {
  * @return string Requested URL string.
  */
 function bp_get_requested_url() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( empty( $bp->canonical_stack['requested_url'] ) ) {
 		$bp->canonical_stack['requested_url']  = is_ssl() ? 'https://' : 'http://';

@@ -15,12 +15,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since BuddyPress (1.0.0)
  *
- * @global object $bp The BuddyPress global settings object.
- *
  * @return bool|null Returns false if activity component is not active.
  */
 function bp_blogs_register_activity_actions() {
-	global $bp;
+	$bp = buddypress();
 
 	// Bail if activity is not active
 	if ( ! bp_is_active( 'activity' ) ) {
@@ -321,7 +319,6 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  * @since BuddyPress (1.0.0)
  *
  * @see bp_activity_add() for description of parameters.
- * @global object $bp The BuddyPress global settings object.
  *
  * @param array $args {
  *     See {@link bp_activity_add()} for complete description of arguments.
@@ -332,12 +329,13 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  * @return int|bool On success, returns the activity ID. False on failure.
  */
 function bp_blogs_record_activity( $args = '' ) {
-	global $bp;
 
 	// Bail if activity is not active
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
+
+	$bp = buddypress();
 
 	$defaults = array(
 		'user_id'           => bp_loggedin_user_id(),

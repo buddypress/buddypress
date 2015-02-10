@@ -112,7 +112,9 @@ class BP_Friends_Friendship {
 	 * Set up data about the current friendship.
 	 */
 	public function populate() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( $friendship = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->friends->table_name} WHERE id = %d", $this->id ) ) ) {
 			$this->initiator_user_id = $friendship->initiator_user_id;
@@ -137,7 +139,9 @@ class BP_Friends_Friendship {
 	 * @return bool True on success, false on failure.
 	 */
 	public function save() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$this->initiator_user_id = apply_filters( 'friends_friendship_initiator_user_id_before_save', $this->initiator_user_id, $this->id );
 		$this->friend_user_id    = apply_filters( 'friends_friendship_friend_user_id_before_save',    $this->friend_user_id,    $this->id );
@@ -177,7 +181,10 @@ class BP_Friends_Friendship {
 	}
 
 	public function delete() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE id = %d", $this->id ) );
 	}
 
@@ -194,7 +201,7 @@ class BP_Friends_Friendship {
 	 *        array of user IDs. Default: false.
 	 */
 	public static function get_friend_user_ids( $user_id, $friend_requests_only = false, $assoc_arr = false ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !empty( $friend_requests_only ) ) {
 			$oc_sql = 'AND is_confirmed = 0';
@@ -204,6 +211,7 @@ class BP_Friends_Friendship {
 			$friend_sql = $wpdb->prepare( " WHERE (initiator_user_id = %d OR friend_user_id = %d)", $user_id, $user_id );
 		}
 
+		$bp = buddypress();
 		$friends = $wpdb->get_results( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} {$friend_sql} {$oc_sql} ORDER BY date_created DESC" );
 		$fids = array();
 
@@ -227,7 +235,9 @@ class BP_Friends_Friendship {
 	 *         false.
 	 */
 	public static function get_friendship_id( $user_id, $friend_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->friends->table_name} WHERE ( initiator_user_id = %d AND friend_user_id = %d ) OR ( initiator_user_id = %d AND friend_user_id = %d ) AND is_confirmed = 1", $user_id, $friend_id, $friend_id, $user_id ) );
 	}
@@ -243,7 +253,9 @@ class BP_Friends_Friendship {
 		$friend_requests = wp_cache_get( $user_id, 'bp_friends_requests' );
 
 		if ( false === $friend_requests ) {
-			global $wpdb, $bp;
+			global $wpdb;
+
+			$bp = buddypress();
 
 			$friend_requests = $wpdb->get_col( $wpdb->prepare( "SELECT initiator_user_id FROM {$bp->friends->table_name} WHERE friend_user_id = %d AND is_confirmed = 0", $user_id ) );
 
@@ -262,10 +274,12 @@ class BP_Friends_Friendship {
 	 * @return int Friend count for the user.
 	 */
 	public static function total_friend_count( $user_id = 0 ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $user_id ) )
 			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+
+		$bp = buddypress();
 
 		/* This is stored in 'total_friend_count' usermeta.
 		   This function will recalculate, update and return. */
@@ -297,7 +311,7 @@ class BP_Friends_Friendship {
 	 * }. Returns false on failure.
 	 */
 	public static function search_friends( $filter, $user_id, $limit = null, $page = null ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// TODO: Optimize this function.
 
@@ -320,6 +334,8 @@ class BP_Friends_Friendship {
 
 		if ( empty( $fids ) )
 			return false;
+
+		$bp = buddypress();
 
 		// filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -355,11 +371,13 @@ class BP_Friends_Friendship {
 	 *        'is_friend', 'pending', and 'awaiting_response'.
 	 */
 	public static function check_is_friend( $initiator_userid, $possible_friend_userid ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $initiator_userid ) || empty( $possible_friend_userid ) ) {
 			return false;
 		}
+
+		$bp = buddypress();
 
 		$result = $wpdb->get_results( $wpdb->prepare( "SELECT id, initiator_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id = %d) OR (initiator_user_id = %d AND friend_user_id = %d)", $initiator_userid, $possible_friend_userid, $possible_friend_userid, $initiator_userid ) );
 
@@ -418,7 +436,10 @@ class BP_Friends_Friendship {
 	 * @return int Number of database rows updated.
 	 */
 	public static function accept($friendship_id) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 	 	return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET is_confirmed = 1, date_created = %s WHERE id = %d AND friend_user_id = %d", bp_core_current_time(), $friendship_id, bp_loggedin_user_id() ) );
 	}
 
@@ -429,7 +450,10 @@ class BP_Friends_Friendship {
 	 * @return int Number of database rows deleted.
 	 */
 	public static function withdraw($friendship_id) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE id = %d AND initiator_user_id = %d", $friendship_id, bp_loggedin_user_id() ) );
 	}
 
@@ -440,7 +464,10 @@ class BP_Friends_Friendship {
 	 * @return int Number of database rows deleted.
 	 */
 	public static function reject($friendship_id) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE id = %d AND friend_user_id = %d", $friendship_id, bp_loggedin_user_id() ) );
 	}
 
@@ -457,7 +484,7 @@ class BP_Friends_Friendship {
 	 * @return array $filtered_ids IDs of users who match the query.
 	 */
 	public static function search_users( $filter, $user_id, $limit = null, $page = null ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// Only search for matching strings at the beginning of the
 		// name (@todo - figure out why this restriction)
@@ -469,6 +496,8 @@ class BP_Friends_Friendship {
 		$pag_sql = '';
 		if ( !empty( $limit ) && !empty( $page ) )
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * intval( $limit ) ), intval( $limit ) );
+
+		$bp = buddypress();
 
 		// filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -494,7 +523,7 @@ class BP_Friends_Friendship {
 	 * @return int Count of users matching the search term.
 	 */
 	public static function search_users_count( $filter ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// Only search for matching strings at the beginning of the
 		// name (@todo - figure out why this restriction)
@@ -502,6 +531,8 @@ class BP_Friends_Friendship {
 
 		$usermeta_table = $wpdb->prefix . 'usermeta';
 		$users_table    = $wpdb->base_prefix . 'users';
+
+		$bp = buddypress();
 
 		// filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
@@ -527,10 +558,12 @@ class BP_Friends_Friendship {
 	 * @return array User IDs, sorted by the associated display names.
 	 */
 	public static function sort_by_name( $user_ids ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( !bp_is_active( 'xprofile' ) )
 			return false;
+
+		$bp = buddypress();
 
 		$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 
@@ -547,8 +580,9 @@ class BP_Friends_Friendship {
 	 *         false if none are found.
 	 */
 	public static function get_random_friends( $user_id, $total_friends = 5 ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
+		$bp      = buddypress();
 		$fids    = array();
 		$sql     = $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} WHERE (friend_user_id = %d || initiator_user_id = %d) && is_confirmed = 1 ORDER BY rand() LIMIT %d", $user_id, $user_id, $total_friends );
 		$results = $wpdb->get_results( $sql );
@@ -611,7 +645,10 @@ class BP_Friends_Friendship {
 	 * @return object friend_user_id and initiator_user_id.
 	 */
 	public static function get_user_ids_for_friendship( $friendship_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->get_row( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} WHERE id = %d", $friendship_id ) );
 	}
 
@@ -621,7 +658,9 @@ class BP_Friends_Friendship {
 	 * @param int $user_id ID of the user being expunged.
 	 */
 	public static function delete_all_for_user( $user_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		// Get friends of $user_id
 		$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );

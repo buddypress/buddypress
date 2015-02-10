@@ -95,7 +95,6 @@ add_action( 'bp_actions', 'bp_groups_group_access_protection' );
  * Catch and process group creation form submissions.
  */
 function groups_action_create_group() {
-	global $bp;
 
 	// If we're not at domain.org/groups/create/ then return false
 	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
@@ -108,6 +107,8 @@ function groups_action_create_group() {
 		bp_core_add_message( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), 'error' );
 		bp_core_redirect( bp_get_groups_directory_permalink() );
 	}
+
+	$bp = buddypress();
 
 	// Make sure creation steps are in the right order
 	groups_action_sort_creation_steps();
@@ -360,7 +361,6 @@ add_action( 'bp_actions', 'groups_action_create_group' );
  * Catch and process "Join Group" button clicks.
  */
 function groups_action_join_group() {
-	global $bp;
 
 	if ( !bp_is_single_item() || !bp_is_groups_component() || !bp_is_current_action( 'join' ) )
 		return false;
@@ -368,6 +368,8 @@ function groups_action_join_group() {
 	// Nonce check
 	if ( !check_admin_referer( 'groups_join_group' ) )
 		return false;
+
+	$bp = buddypress();
 
 	// Skip if banned or already a member
 	if ( !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) && !groups_is_user_banned( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
@@ -456,10 +458,11 @@ add_action( 'bp_actions', 'groups_action_leave_group' );
  * @return bool|null False on failure.
  */
 function groups_action_sort_creation_steps() {
-	global $bp;
 
 	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
 		return false;
+
+	$bp = buddypress();
 
 	if ( !is_array( $bp->groups->group_creation_steps ) )
 		return false;

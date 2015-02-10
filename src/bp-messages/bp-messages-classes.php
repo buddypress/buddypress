@@ -134,7 +134,7 @@ class BP_Messages_Thread {
 	 * @return bool False on failure.
 	 */
 	public function populate( $thread_id = 0, $order = 'ASC', $args = array() ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if( 'ASC' != $order && 'DESC' != $order ) {
 			$order = 'ASC';
@@ -147,6 +147,8 @@ class BP_Messages_Thread {
 
 		$this->messages_order = $order;
 		$this->thread_id      = $thread_id;
+
+		$bp = buddypress();
 
 		if ( !$this->messages = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE thread_id = %d ORDER BY date_sent " . $order, $this->thread_id ) ) ) {
 			return false;
@@ -209,7 +211,9 @@ class BP_Messages_Thread {
 	 * @return array
 	 */
 	public function get_recipients() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$recipients = array();
 		$results    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
@@ -243,7 +247,7 @@ class BP_Messages_Thread {
 	 * @return bool
 	 */
 	public static function delete( $thread_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		/**
 		 * Fires before a message thread is marked as deleted.
@@ -253,6 +257,8 @@ class BP_Messages_Thread {
 		 * @param int $thread_id ID of the thread being deleted.
 		 */
 		do_action( 'bp_messages_thread_before_mark_delete', $thread_id );
+
+		$bp = buddypress();
 
 		// Mark messages as deleted
 		//
@@ -334,7 +340,7 @@ class BP_Messages_Thread {
 	 * @return array|bool Array on success. Boolean false on failure.
 	 */
 	public static function get_current_threads_for_user( $args = array() ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		// Backward compatibility with old method of passing arguments
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
@@ -403,6 +409,8 @@ class BP_Messages_Thread {
 		if ( ! empty( $meta_query['where'] ) ) {
 			$meta_query_sql['where'] = $meta_query['where'];
 		}
+
+		$bp = buddypress();
 
 		// set up SQL array
 		$sql = array();
@@ -490,8 +498,9 @@ class BP_Messages_Thread {
 	 * @param int $thread_id The message thread ID.
 	 */
 	public static function mark_as_read( $thread_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
+		$bp  = buddypress();
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 
@@ -506,8 +515,9 @@ class BP_Messages_Thread {
 	 * @param int $thread_id The message thread ID.
 	 */
 	public static function mark_as_unread( $thread_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
+		$bp  = buddypress();
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 
@@ -527,7 +537,7 @@ class BP_Messages_Thread {
 	 * @return int
 	 */
 	public static function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$exclude_sender = '';
 		if ( $box != 'sentbox' )
@@ -537,6 +547,8 @@ class BP_Messages_Thread {
 			$type_sql = " AND unread_count != 0 ";
 		elseif ( $type == 'read' )
 			$type_sql = " AND unread_count = 0 ";
+
+		$bp = buddypress();
 
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0{$exclude_sender} {$type_sql}", $user_id ) );
 	}
@@ -550,7 +562,9 @@ class BP_Messages_Thread {
 	 * @return bool
 	 */
 	public static function user_is_sender( $thread_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$sender_ids = $wpdb->get_col( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id ) );
 
@@ -570,7 +584,9 @@ class BP_Messages_Thread {
 	 * @return string|bool The user link on success. Boolean false on failure.
 	 */
 	public static function get_last_sender( $thread_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( ! $sender_id = $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d GROUP BY sender_id ORDER BY date_sent LIMIT 1", $thread_id ) ) ) {
 			return false;
@@ -588,7 +604,7 @@ class BP_Messages_Thread {
 	 * @return int
 	 */
 	public static function get_inbox_count( $user_id = 0 ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $user_id ) ) {
 			$user_id = bp_loggedin_user_id();
@@ -597,6 +613,8 @@ class BP_Messages_Thread {
 		$unread_count = wp_cache_get( $user_id, 'bp_messages_unread_count' );
 
 		if ( false === $unread_count ) {
+			$bp = buddypress();
+
 			$unread_count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT SUM(unread_count) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 AND sender_only = 0", $user_id ) );
 
 			wp_cache_set( $user_id, $unread_count, 'bp_messages_unread_count' );
@@ -623,10 +641,12 @@ class BP_Messages_Thread {
 	 * @return int The message ID on success.
 	 */
 	public static function check_access( $thread_id, $user_id = 0 ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		if ( empty( $user_id ) )
 			$user_id = bp_loggedin_user_id();
+
+		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND is_deleted = 0 AND user_id = %d", $thread_id, $user_id ) );
 	}
@@ -693,7 +713,7 @@ class BP_Messages_Thread {
 	 * @return bool
 	 */
 	public static function update_tables() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$bp_prefix = bp_core_get_table_prefix();
 		$errors    = false;
@@ -703,6 +723,8 @@ class BP_Messages_Thread {
 		if ( empty( $threads ) ) {
 			return true;
 		}
+
+		$bp = buddypress();
 
 		foreach( (array) $threads as $thread ) {
 			$message_ids = maybe_unserialize( $thread->message_ids );
@@ -797,7 +819,9 @@ class BP_Messages_Message {
 	 * @param int $id ID of the message.
 	 */
 	public function populate( $id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		if ( $message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) ) ) {
 			$this->id        = $message->id;
@@ -816,7 +840,9 @@ class BP_Messages_Message {
 	 *         on failure.
 	 */
 	public function send() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$this->sender_id = apply_filters( 'messages_message_sender_id_before_save', $this->sender_id, $this->id );
 		$this->thread_id = apply_filters( 'messages_message_thread_id_before_save', $this->thread_id, $this->id );
@@ -890,7 +916,10 @@ class BP_Messages_Message {
 	 * @return array
 	 */
 	public function get_recipients() {
-		global $bp, $wpdb;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->get_results( $wpdb->prepare( "SELECT user_id FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
 	}
 
@@ -924,7 +953,10 @@ class BP_Messages_Message {
 	 * @return int|null ID of the message if found, otherwise null.
 	 */
 	public static function get_last_sent_for_user( $thread_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND thread_id = %d ORDER BY date_sent DESC LIMIT 1", bp_loggedin_user_id(), $thread_id ) );
 	}
 
@@ -937,7 +969,10 @@ class BP_Messages_Message {
 	 *         sender, otherwise null.
 	 */
 	public static function is_user_sender( $user_id, $message_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND id = %d", $user_id, $message_id ) );
 	}
 
@@ -948,7 +983,10 @@ class BP_Messages_Message {
 	 * @return int|null The ID of the sender if found, otherwise null.
 	 */
 	public static function get_message_sender( $message_id ) {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		return $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE id = %d", $message_id ) );
 	}
 }
@@ -1017,7 +1055,9 @@ class BP_Messages_Notice {
 	 * @since BuddyPress (1.0.0)
 	 */
 	public function populate() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$notice = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id ) );
 
@@ -1037,7 +1077,9 @@ class BP_Messages_Notice {
 	 * @return bool
 	 */
 	public function save() {
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
 
 		$this->subject = apply_filters( 'messages_notice_subject_before_save', $this->subject, $this->id );
 		$this->message = apply_filters( 'messages_notice_message_before_save', $this->message, $this->id );
@@ -1116,7 +1158,7 @@ class BP_Messages_Notice {
 	 * @return bool
 	 */
 	public function delete() {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		/**
 		 * Fires before the current message item has been deleted.
@@ -1127,6 +1169,7 @@ class BP_Messages_Notice {
 		 */
 		do_action( 'messages_notice_before_delete', $this );
 
+		$bp  = buddypress();
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_notices} WHERE id = %d", $this->id );
 
 		if ( ! $wpdb->query( $sql ) ) {
@@ -1153,7 +1196,7 @@ class BP_Messages_Notice {
 	 * @return array
 	 */
 	public static function get_notices( $args = array() ) {
-		global $wpdb, $bp;
+		global $wpdb;
 
 		$r = wp_parse_args( $args, array(
 			'pag_num'  => 20, // Number of notices per page
@@ -1164,6 +1207,8 @@ class BP_Messages_Notice {
 		if ( (int) $r['pag_num'] >= 0 ) {
 			$limit_sql = $wpdb->prepare( "LIMIT %d, %d", (int) ( ( $r['pag_page'] - 1 ) * $r['pag_num'] ), (int) $r['pag_num'] );
 		}
+
+		$bp = buddypress();
 
 		$notices = $wpdb->get_results( "SELECT * FROM {$bp->messages->table_name_notices} ORDER BY date_sent DESC {$limit_sql}" );
 
@@ -1178,9 +1223,11 @@ class BP_Messages_Notice {
 	 * @return int
 	 */
 	public static function get_total_notice_count() {
-		global $wpdb, $bp;
+		global $wpdb;
 
-		$notice_count = $wpdb->get_var( "SELECT COUNT(id) FROM " . $bp->messages->table_name_notices );
+		$bp = buddypress();
+
+		$notice_count = $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->messages->table_name_notices}" );
 
 		return $notice_count;
 	}
@@ -1196,7 +1243,9 @@ class BP_Messages_Notice {
 		$notice = wp_cache_get( 'active_notice', 'bp_messages' );
 
 		if ( false === $notice ) {
-			global $wpdb, $bp;
+			global $wpdb;
+
+			$bp = buddypress();
 
 			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->messages->table_name_notices} WHERE is_active = 1" );
 			$notice    = new BP_Messages_Notice( $notice_id );

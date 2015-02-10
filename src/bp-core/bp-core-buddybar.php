@@ -14,8 +14,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add an item to the main BuddyPress navigation array.
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param array $args {
  *     Array describing the new nav item.
  *     @type string $name Display name for the nav item.
@@ -38,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
  * @return bool|null Returns false on failure.
  */
 function bp_core_new_nav_item( $args = '' ) {
-	global $bp;
+	$bp = buddypress();
 
 	$defaults = array(
 		'name'                    => false, // Display name for the nav item
@@ -119,8 +117,6 @@ function bp_core_new_nav_item( $args = '' ) {
 /**
  * Modify the default subnav item that loads when a top level nav item is clicked.
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param array $args {
  *     @type string $parent_slug The slug of the nav item whose default is
  *           being changed.
@@ -130,7 +126,7 @@ function bp_core_new_nav_item( $args = '' ) {
  * }
  */
 function bp_core_new_nav_default( $args = '' ) {
-	global $bp;
+	$bp = buddypress();
 
 	$defaults = array(
 		'parent_slug'     => false, // Slug of the parent
@@ -195,12 +191,10 @@ function bp_core_new_nav_default( $args = '' ) {
  * The sorting is split into a separate function because it can only happen
  * after all plugins have had a chance to register their navigation items.
  *
- * @global BuddyPress $bp The one true BuddyPress instance
- *
  * @return bool|null Returns false on failure.
  */
 function bp_core_sort_nav_items() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( empty( $bp->bp_nav ) || !is_array( $bp->bp_nav ) )
 		return false;
@@ -228,8 +222,6 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
 
 /**
  * Add a subnav item to the BuddyPress navigation.
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param array $args {
  *     Array describing the new subnav item.
@@ -260,7 +252,7 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
  * @return bool|null Returns false on failure.
  */
 function bp_core_new_subnav_item( $args = '' ) {
-	global $bp;
+	$bp = buddypress();
 
 	$r = wp_parse_args( $args, array(
 		'name'              => false, // Display name for the nav item
@@ -441,12 +433,10 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) {
 /**
  * Sort all subnavigation arrays.
  *
- * @global BuddyPress $bp The one true BuddyPress instance
- *
  * @return bool|null Returns false on failure.
  */
 function bp_core_sort_subnav_items() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( empty( $bp->bp_options_nav ) || !is_array( $bp->bp_options_nav ) )
 		return false;
@@ -486,7 +476,7 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
  *        items; false otherwise.
  */
 function bp_nav_item_has_subnav( $nav_item = '' ) {
-	global $bp;
+	$bp = buddypress();
 
 	if ( !$nav_item )
 		$nav_item = bp_current_component();
@@ -503,7 +493,7 @@ function bp_nav_item_has_subnav( $nav_item = '' ) {
  * @param bool Returns false on failure, ie if the nav item can't be found.
  */
 function bp_core_remove_nav_item( $parent_id ) {
-	global $bp;
+	$bp = buddypress();
 
 	// Unset subnav items for this nav item
 	if ( isset( $bp->bp_options_nav[$parent_id] ) && is_array( $bp->bp_options_nav[$parent_id] ) ) {
@@ -532,9 +522,11 @@ function bp_core_remove_nav_item( $parent_id ) {
  * @param string $slug The slug of the subnav item to be removed.
  */
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
-	global $bp;
+	$bp = buddypress();
 
-	$screen_function = isset( $bp->bp_options_nav[$parent_id][$slug]['screen_function'] ) ? $bp->bp_options_nav[$parent_id][$slug]['screen_function'] : false;
+	$screen_function = isset( $bp->bp_options_nav[$parent_id][$slug]['screen_function'] )
+		? $bp->bp_options_nav[$parent_id][$slug]['screen_function']
+		: false;
 
 	if ( ! empty( $screen_function ) ) {
 		// Remove our screen hook if screen function is callable
@@ -552,12 +544,10 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
 /**
  * Clear all subnav items from a specific nav item.
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param string $parent_slug The slug of the parent navigation item.
  */
 function bp_core_reset_subnav_items( $parent_slug ) {
-	global $bp;
+	$bp = buddypress();
 
 	unset( $bp->bp_options_nav[$parent_slug] );
 }

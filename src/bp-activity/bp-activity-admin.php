@@ -820,12 +820,10 @@ function bp_activity_admin_get_activity_actions() {
  *
  * @since BuddyPress (1.6.0)
  *
- * @global object $bp BuddyPress global settings.
- *
  * @param object $item Activity item.
  */
 function bp_activity_admin_edit_metabox_type( $item ) {
-	global $bp;
+	$bp = buddypress();
 
 	$actions  = array();
 	$selected = $item->type;

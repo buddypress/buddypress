@@ -20,11 +20,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since BuddyPress (1.5.0)
  *
- * @global BuddyPress $bp The one true BuddyPress instance
  * @return bool True if set, False if empty
  */
 function bp_groups_has_directory() {
-	global $bp;
+	$bp = buddypress();
 
 	return (bool) !empty( $bp->pages->groups->id );
 }
@@ -300,7 +299,7 @@ function groups_delete_group( $group_id ) {
  * @return bool True if status is allowed, otherwise false.
  */
 function groups_is_valid_status( $status ) {
-	global $bp;
+	$bp = buddypress();
 
 	return in_array( $status, (array) $bp->groups->valid_status );
 }
@@ -312,7 +311,7 @@ function groups_is_valid_status( $status ) {
  * @return A unique and sanitized slug.
  */
 function groups_check_slug( $slug ) {
-	global $bp;
+	$bp = buddypress();
 
 	if ( 'wp' == substr( $slug, 0, 2 ) )
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
@@ -364,7 +363,6 @@ function groups_get_id( $group_slug ) {
  * @return bool True on success, false on failure.
  */
 function groups_leave_group( $group_id, $user_id = 0 ) {
-	global $bp;
 
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
@@ -398,7 +396,6 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
  * @return bool True on success, false on failure.
  */
 function groups_join_group( $group_id, $user_id = 0 ) {
-	global $bp;
 
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
@@ -426,6 +423,8 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 
 	if ( !$new_member->save() )
 		return false;
+
+	$bp = buddypress();
 
 	if ( !isset( $bp->groups->current_group ) || !$bp->groups->current_group || $group_id != $bp->groups->current_group->id )
 		$group = groups_get_group( array( 'group_id' => $group_id ) );
@@ -704,9 +703,11 @@ function groups_total_groups_for_user( $user_id = 0 ) {
  * @return BP_Groups_Group The current group object.
  */
 function groups_get_current_group() {
-	global $bp;
+	$bp = buddypress();
 
-	$current_group = isset( $bp->groups->current_group ) ? $bp->groups->current_group : false;
+	$current_group = isset( $bp->groups->current_group )
+		? $bp->groups->current_group
+		: false;
 
 	return apply_filters( 'groups_get_current_group', $current_group );
 }
@@ -721,10 +722,10 @@ function groups_get_current_group() {
  * @return string
  */
 function groups_avatar_upload_dir( $group_id = 0 ) {
-	global $bp;
 
-	if ( !$group_id )
-		$group_id = $bp->groups->current_group->id;
+	if ( empty( $group_id ) ) {
+		$group_id = bp_get_current_group_id();
+	}
 
 	$path    = bp_core_avatar_upload_path() . '/group-avatars/' . $group_id;
 	$newbdir = $path;
@@ -809,7 +810,7 @@ function groups_is_user_creator( $user_id, $group_id ) {
  * @return int
  */
 function groups_post_update( $args = '' ) {
-	global $bp;
+	$bp = buddypress();
 
 	$defaults = array(
 		'content'  => false,

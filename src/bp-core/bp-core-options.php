@@ -296,9 +296,10 @@ function bp_delete_option( $option_name ) {
  * @deprecated 1.6.0
  */
 function bp_core_activate_site_options( $keys = array() ) {
-	global $bp;
 
 	if ( !empty( $keys ) && is_array( $keys ) ) {
+		$bp = buddypress();
+
 		$errors = false;
 
 		foreach ( $keys as $key => $default ) {

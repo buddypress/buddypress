@@ -327,11 +327,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * WP's core tests use wp_set_current_user() to change the current
 	 * user during tests. BP caches the current user differently, so we
 	 * have to do a bit more work to change it
-	 *
-	 * @global BuddyPres $bp
 	 */
 	public static function set_current_user( $user_id ) {
-		global $bp;
+		$bp = buddypress();
+
 		$bp->loggedin_user->id = $user_id;
 		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $user_id );
 		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( $user_id );

@@ -48,7 +48,7 @@ function bp_core_admin_slugs_settings() {
  * @todo Use settings API
  */
 function bp_core_admin_slugs_options() {
-	global $bp;
+	$bp = buddypress();
 
 	// Get the existing WP pages
 	$existing_pages = bp_core_get_directory_page_ids();
