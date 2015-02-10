@@ -1375,18 +1375,25 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 
 /**
  * Output a "Create a Site" link for users viewing their own profiles.
+ *
+ * This function is not used by BuddyPress as of 1.2, but is kept here for older
+ * themes that may still be using it.
  */
 function bp_create_blog_link() {
-	if ( bp_is_my_profile() )
 
-		/**
-		 * Filters "Create a Site" links for users viewing their own profiles.
-		 *
-		 * @since BuddyPress (1.0.0)
-		 *
-		 * @param string $value HTML link for creating a site.
-		 */
-		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create/">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
+	// Don't show this link when not on your own profile
+	if ( ! bp_is_my_profile() ) {
+		return;
+	}
+
+	/**
+	 * Filters "Create a Site" links for users viewing their own profiles.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $value HTML link for creating a site.
+	 */
+	echo apply_filters( 'bp_create_blog_link', '<a href="' . trailingslashit( bp_get_blogs_directory_permalink() . 'create' ) . '">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
 }
 
 /**
@@ -1397,10 +1404,9 @@ function bp_create_blog_link() {
 function bp_blogs_blog_tabs() {
 
 	// Don't show these tabs on a user's own profile
-	if ( bp_is_my_profile() )
+	if ( bp_is_my_profile() ) {
 		return false;
-
-	?>
+	} ?>
 
 	<ul class="content-header-nav">
 		<li<?php if ( bp_is_current_action( 'my-blogs'        ) || !bp_current_action() ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/my-blogs'        ); ?>"><?php printf( __( "%s's Sites", 'buddypress' ),           bp_get_displayed_user_fullname() ); ?></a></li>
@@ -1470,7 +1476,7 @@ function bp_blog_create_button() {
 			'link_text'  => __( 'Create a Site', 'buddypress' ),
 			'link_title' => __( 'Create a Site', 'buddypress' ),
 			'link_class' => 'blog-create no-ajax',
-			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . trailingslashit( 'create' ),
+			'link_href'  => trailingslashit( bp_get_blogs_directory_permalink() . 'create' ),
 			'wrapper'    => false,
 			'block_self' => false,
 		);

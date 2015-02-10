@@ -50,7 +50,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		$title = ! empty( $instance['title'] ) ? esc_html( $instance['title'] ) : __( 'Recent Networkwide Posts', 'buddypress' );
 
 		if ( ! empty( $instance['link_title'] ) ) {
-			$title = '<a href="' . trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . '">' . esc_html( $title ) . '</a>';
+			$title = '<a href="' . bp_get_blogs_directory_permalink() . '">' . esc_html( $title ) . '</a>';
 		}
 
 		/**

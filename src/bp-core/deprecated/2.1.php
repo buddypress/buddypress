@@ -143,7 +143,7 @@ function bp_adminbar_blogs_menu() {
 
 		if ( bp_blog_signup_enabled() ) {
 			echo '<li' . $alt . '>';
-			echo '<a href="' . bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create/">' . __( 'Create a Site!', 'buddypress' ) . '</a>';
+			echo '<a href="' . trailingslashit( bp_get_blogs_directory_permalink() . 'create' ) . '">' . __( 'Create a Site!', 'buddypress' ) . '</a>';
 			echo '</li>';
 		}
 
@@ -349,7 +349,7 @@ function bp_adminbar_random_menu() {
 
 			<?php if ( is_multisite() && bp_is_active( 'blogs' ) ) : ?>
 
-				<li><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) . '?random-blog' ?>"  rel="nofollow"><?php _e( 'Random Site', 'buddypress' ) ?></a></li>
+				<li><a href="<?php bp_blogs_directory_permalink(); ?>?random-blog"  rel="nofollow"><?php _e( 'Random Site', 'buddypress' ) ?></a></li>
 
 			<?php endif; ?>
 
