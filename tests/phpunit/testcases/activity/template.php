@@ -148,6 +148,62 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
+	function test_bp_has_activities_just_me_scope_with_no_user_id() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u1 );
+
+		$now = time();
+
+		// activity item
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		// misc activity items
+
+		$this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		// grab just-me scope with no user ID
+		// user ID should fallback to logged-in user ID
+		bp_has_activities( array(
+			'user_id' => false,
+			'scope' => 'just-me',
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
 	function test_bp_has_activities_mentions_scope() {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
