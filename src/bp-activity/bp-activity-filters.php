@@ -674,7 +674,7 @@ function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() 
 		'relation' => 'AND',
 		array(
 			'column' => 'user_id',
-			'value'  => $filter['user_id']
+			'value'  => $user_id
 		),
 		$show_hidden,
 
