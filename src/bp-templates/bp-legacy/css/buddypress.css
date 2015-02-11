@@ -1584,6 +1584,7 @@ body.register #buddypress div.page ul {
 .widget.buddypress #groups-list li,
 .widget.buddypress #members-list li,
 .widget.buddypress #friends-list li {
+	clear: both;
 	list-style-type: none;
 }
 
