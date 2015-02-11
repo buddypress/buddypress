@@ -41,7 +41,7 @@ function bp_blogs_creation_location( $url ) {
 	 *
 	 * @param string $value URL for the 'Create a new site' signup page.
 	 */
-	return apply_filters( 'bp_blogs_creation_location', trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create', $url ) );
+	return apply_filters( 'bp_blogs_creation_location', trailingslashit( bp_get_blogs_directory_permalink() . 'create' ), $url );
 }
 add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
 
