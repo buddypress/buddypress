@@ -120,4 +120,67 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		buddypress()->active_components = $ac;
 	}
+
+	/**
+	 * @group bp_core_activation_notice
+	 */
+	public function test_bp_core_activation_notice_register_activate_pages_notcreated_signup_allowed() {
+		$bp = buddypress();
+		$reset_bp_pages = $bp->pages;
+		$reset_admin_notices = $bp->admin->notices;
+
+		// Reset pages
+		$bp->pages = bp_core_get_directory_pages();
+
+		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		bp_core_activation_notice();
+
+		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$missing_pages = array();
+		foreach( buddypress()->admin->notices as $notice ) {
+			preg_match_all( '/<strong>(.+?)<\/strong>/', $notice['message'], $missing_pages );
+		}
+
+		$this->assertContains( 'Register', $missing_pages[1] );
+		$this->assertContains( 'Activate', $missing_pages[1] );
+
+		// Reset buddypress() vars
+		$bp->pages = $reset_bp_pages;
+		$bp->admin->notices = $reset_admin_notices;
+	}
+
+	/**
+	 * @group bp_core_activation_notice
+	 */
+	public function test_bp_core_activation_notice_register_activate_pages_created_signup_allowed() {
+		$bp = buddypress();
+		$reset_bp_pages = $bp->pages;
+		$reset_admin_notices = $bp->admin->notices;
+
+		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$ac = buddypress()->active_components;
+		bp_core_add_page_mappings( array_keys( $ac ) );
+
+		// Reset pages
+		$bp->pages = bp_core_get_directory_pages();
+
+		bp_core_activation_notice();
+
+		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$missing_pages = array();
+		foreach( buddypress()->admin->notices as $notice ) {
+			preg_match_all( '/<strong>(.+?)<\/strong>/', $notice['message'], $missing_pages );
+		}
+
+		$this->assertNotContains( 'Register', $missing_pages[1] );
+		$this->assertNotContains( 'Activate', $missing_pages[1] );
+
+		// Reset buddypress() vars
+		$bp->pages = $reset_bp_pages;
+		$bp->admin->notices = $reset_admin_notices;
+	}
 }
