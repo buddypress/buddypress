@@ -21,12 +21,6 @@ function bp_core_register_deprecated_scripts() {
 
 	$scripts = apply_filters( 'bp_core_register_deprecated_scripts', array(
 
-		// Core
-		'bp-jquery-scroll-to' => array(
-			'file'         => "{$url}jquery-scroll-to{$min}.js",
-			'dependencies' => array( 'jquery' ),
-		),
-
 		// Messages
 		'bp-jquery-autocomplete'    => array(
 			'file'          => "{$url}autocomplete/jquery.autocomplete{$min}.js",
