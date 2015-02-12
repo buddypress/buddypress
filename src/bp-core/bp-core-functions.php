@@ -432,7 +432,7 @@ function bp_core_get_directory_page_ids() {
 			}
 
 			// 'register' and 'activate' do not have components, but should be whitelisted.
-			if ( bp_get_signup_allowed() && ( 'register' === $component_name || 'activate' === $component_name ) ) {
+			if ( 'register' === $component_name || 'activate' === $component_name ) {
 				continue;
 			}
 
