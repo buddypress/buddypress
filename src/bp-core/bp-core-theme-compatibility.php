@@ -848,8 +848,7 @@ function bp_comments_open( $open, $post_id = 0 ) {
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
 	global $wp_query;
 
-	$wp_query->is_single = false;
-	$wp_query->is_page   = false;
+	$wp_query->is_page = false;
 
 	// Set a switch so we know that we've toggled these WP_Query properties
 	buddypress()->theme_compat->is_page_toggled = true;
@@ -877,8 +876,7 @@ function bp_theme_compat_loop_end( $query ) {
 	}
 
 	// Revert our toggled WP_Query properties
-	$query->is_single = true;
-	$query->is_page   = true;
+	$query->is_page = true;
 
 	// Unset our switch
 	unset( $bp->theme_compat->is_page_toggled );
