@@ -205,7 +205,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 			),
 		) );
 		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1, $g2 ), $ids );
+		$this->assertEqualSets( array( $g1, $g2 ), $ids );
 		$this->assertEquals( 2, $groups['total'] );
 	}
 
