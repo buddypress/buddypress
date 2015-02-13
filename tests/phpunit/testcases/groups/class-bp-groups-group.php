@@ -212,46 +212,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	/**
 	 * @group get
 	 * @group group_meta_query
-	 * @ticket BP5874
-	 */
-	public function test_get_with_meta_query_multiple_clauses_relation_or_shared_meta_key_relation_like() {
-		$now = time();
-		$g1 = $this->factory->group->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
-		) );
-		$g2 = $this->factory->group->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
-		) );
-		$g3 = $this->factory->group->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
-		) );
-		groups_update_groupmeta( $g1, 'foo', 'bar' );
-		groups_update_groupmeta( $g2, 'foo', 'baz' );
-		groups_update_groupmeta( $g3, 'foo', 'barry' );
-
-		$groups = BP_Groups_Group::get( array(
-			'meta_query' => array(
-				'relation' => 'OR',
-				array(
-					'key' => 'foo',
-					'value' => 'bar',
-					'compare' => 'LIKE',
-				),
-				array(
-					'key' => 'foo',
-					'value' => 'baz',
-					'compare' => 'LIKE',
-				),
-			),
-		) );
-		$ids = wp_list_pluck( $groups['groups'], 'id' );
-		$this->assertEquals( array( $g1, $g2 ), $ids );
-		$this->assertEquals( 2, $groups['total'] );
-	}
-
-	/**
-	 * @group get
-	 * @group group_meta_query
 	 * @ticket BP5824
 	 */
 	public function test_get_with_meta_query_multiple_keys_with_same_value() {
