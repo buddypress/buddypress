@@ -213,13 +213,18 @@ class BP_Messages_Thread {
 	public function get_recipients() {
 		global $wpdb;
 
-		$bp = buddypress();
+		$recipients = wp_cache_get( 'thread_recipients_' . $this->thread_id, 'bp_messages' );
+		if ( false === $recipients ) {
+			$bp = buddypress();
 
-		$recipients = array();
-		$results    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
+			$recipients = array();
+			$results    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
 
-		foreach ( (array) $results as $recipient ) {
-			$recipients[$recipient->user_id] = $recipient;
+			foreach ( (array) $results as $recipient ) {
+				$recipients[ $recipient->user_id ] = $recipient;
+			}
+
+			wp_cache_set( 'thread_recipients_' . $this->thread_id, $recipients, 'bp_messages' );
 		}
 
 		/**

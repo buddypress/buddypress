@@ -84,3 +84,29 @@ function bp_notices_clear_cache( $notice ) {
 }
 add_action( 'messages_notice_after_save',    'bp_notices_clear_cache' );
 add_action( 'messages_notice_before_delete', 'bp_notices_clear_cache' );
+
+/**
+ * Invalidate thread recipient cache on message update.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param BP_Messages_Message $message Message object.
+ */
+function bp_messages_clear_message_thread_recipient_cache_on_message_sent( BP_Messages_Message $message ) {
+	wp_cache_delete( 'thread_recipients_' . $message->thread_id, 'bp_messages' );
+}
+add_action( 'messages_message_sent', 'bp_messages_clear_message_thread_recipient_cache_on_message_sent' );
+
+/**
+ * Invalidate thread recipient cache on thread deletion.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param int|array $thread_ids IDs of deleted threads.
+ */
+function bp_messages_clear_message_thread_recipient_cache_on_thread_delete( $thread_ids ) {
+	foreach ( (array) $thread_ids as $thread_id ) {
+		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
+	}
+}
+add_action( 'messages_delete_thread', 'bp_messages_clear_message_thread_recipient_cache_on_thread_delete' );
