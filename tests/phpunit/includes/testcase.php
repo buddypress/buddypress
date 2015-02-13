@@ -287,42 +287,6 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		do_action( 'bp_init' );
 	}
 
-	protected function checkRequirements() {
-		if ( WP_TESTS_FORCE_KNOWN_BUGS )
-			return;
-
-		parent::checkRequirements();
-
-		$tickets = PHPUnit_Util_Test::getTickets( get_class( $this ), $this->getName( false ) );
-		foreach ( $tickets as $ticket ) {
-			if ( 'BP' == substr( $ticket, 0, 2 ) ) {
-				$ticket = substr( $ticket, 2 );
-				if ( $ticket && is_numeric( $ticket ) )
-					$this->knownBPBug( $ticket );
-			}
-		}
-	}
-
-	/**
-	 * Skips the current test if there is an open BuddyPress ticket with id $ticket_id
-	 */
-	function knownBPBug( $ticket_id ) {
-		if ( WP_TESTS_FORCE_KNOWN_BUGS || in_array( $ticket_id, self::$forced_tickets ) )
-			return;
-
-		$trac_url = 'https://buddypress.trac.wordpress.org';
-
-		// When SSL is not available, use non-SSL mirror
-		// Primarily for travis-ci PHP 5.2 build
-		if ( ! extension_loaded( 'openssl' ) ) {
-			$trac_url = 'http://hardg.com/bp-open-tickets';
-		}
-
-		if ( ! TracTickets::isTracTicketClosed( $trac_url, $ticket_id ) ) {
-			$this->markTestSkipped( sprintf( 'BuddyPress Ticket #%d is not fixed', $ticket_id ) );
-		}
-	}
-
 	/**
 	 * WP's core tests use wp_set_current_user() to change the current
 	 * user during tests. BP caches the current user differently, so we
