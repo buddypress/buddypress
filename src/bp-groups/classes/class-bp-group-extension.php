@@ -761,6 +761,14 @@ class BP_Group_Extension {
 	 */
 	public function _display_hook() {
 		add_action( 'bp_template_content', array( &$this, 'call_display' ) );
+
+		/**
+		 * Filters the template to load for the main display method.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $template_file Path to the template to load.
+		 */
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', $this->template_file ) );
 	}
 
@@ -1023,6 +1031,16 @@ class BP_Group_Extension {
 
 		// Perform a redirect only if one has not already taken place
 		if ( empty( $this->post_save_redirect ) ) {
+
+			/**
+			 * Filters the URL to redirect to after group edit screen save.
+			 *
+			 * Only runs if a redirect has not already occurred.
+			 *
+			 * @since BuddyPress (2.1.0)
+			 *
+			 * @param string $value URL to redirect to.
+			 */
 			$redirect_to = apply_filters( 'bp_group_extension_edit_screen_save_redirect', bp_get_requested_url( ) );
 
 			bp_core_redirect( $redirect_to );
