@@ -47,6 +47,15 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	 */
 	public function validate() {
 		$this->args['group_id'] = (int) $this->args['group_id'];
+
+		/**
+		 * Filters the arguments used to validate and sanitize suggestion service query.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param array                        $args  Array of arguments for the suggestion service query.
+		 * @param BP_Groups_Member_Suggestions $this  Instance of the current suggestion class.
+		 */
 		$this->args             = apply_filters( 'bp_groups_member_suggestions_args', $this->args, $this );
 
 		// Check for invalid or missing mandatory parameters.
@@ -64,6 +73,14 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 			return new WP_Error( 'access_denied' );
 		}
 
+		/**
+		 * Filters the validation results for the suggestion service query.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param bool|WP_Error                $value True if valid, WP_Error if not.
+		 * @param BP_Groups_Member_Suggestions $this  Instance of the current suggestion class.
+		 */
 		return apply_filters( 'bp_groups_member_suggestions_validate_args', parent::validate(), $this );
 	}
 
@@ -115,6 +132,14 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 			}
 		}
 
+		/**
+		 * Filters the arguments for the user query for the Suggestion API.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param array                        $user_query Array of arguments for the query.
+		 * @param BP_Groups_Member_Suggestions $this       Instance of the current suggestion class.
+		 */
 		$user_query = apply_filters( 'bp_groups_member_suggestions_query_args', $user_query, $this );
 		if ( is_wp_error( $user_query ) ) {
 			return $user_query;
@@ -137,6 +162,14 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 			$results[] = $result;
 		}
 
+		/**
+		 * Filters the results of the member suggestions user query.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param array                        $results Array of member suggestions.
+		 * @param BP_Groups_Member_Suggestions $this    Instance of the current suggestion class.
+		 */
 		return apply_filters( 'bp_groups_member_suggestions_get_suggestions', $results, $this );
 	}
 }
