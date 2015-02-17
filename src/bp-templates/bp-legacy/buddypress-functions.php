@@ -497,7 +497,16 @@ class BP_Legacy extends BP_Theme_Compat {
 		// Add it to the beginning of the templates array so it takes precedence
 		// over the default hierarchy.
 		if ( ! empty( $page_template ) ) {
-			array_unshift( $templates, $page_template );
+
+			/**
+			 * Check for existence of template before adding it to template
+			 * stack to avoid accidentally including an unintended file.
+			 *
+			 * @see: https://buddypress.trac.wordpress.org/ticket/6190
+			 */
+			if ( '' !== locate_template( $page_template ) ) {
+				array_unshift( $templates, $page_template );
+			}
 		}
 
 		return $templates;
