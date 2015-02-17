@@ -1582,7 +1582,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @since BuddyPress (1.0.0)
 		 *
 		 * @param string $value Markup for the Description column.
-		 * @parma array  $item  The current group item in the loop.
+		 * @param array  $item  The current group item in the loop.
 		 */
 		echo apply_filters_ref_array( 'bp_get_group_description', array( $item['description'], $item ) );
 	}
