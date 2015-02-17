@@ -454,7 +454,7 @@ function bp_core_install_signups() {
 	global $wpdb;
 
 	// Signups is not there and we need it so let's create it
-	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-schema.php' );
+	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 	require_once( ABSPATH                  . 'wp-admin/includes/upgrade.php'     );
 
 	// Never use bp_core_get_table_prefix() for any global users tables

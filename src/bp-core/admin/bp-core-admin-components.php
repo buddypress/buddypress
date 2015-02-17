@@ -247,7 +247,7 @@ function bp_core_admin_components_settings_handler() {
 		$bp = buddypress();
 
 		// Save settings and upgrade schema
-		require_once( $bp->plugin_dir . '/bp-core/admin/bp-core-schema.php' );
+		require_once( $bp->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 
 		$submitted = stripslashes_deep( $_POST['bp_components'] );
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $submitted );

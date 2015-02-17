@@ -195,7 +195,7 @@ function bp_version_updater() {
 		'notifications' => 1,
 	) );
 
-	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-schema.php' );
+	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 
 	// Install BP schema and activate only Activity and XProfile
 	if ( bp_is_install() ) {
