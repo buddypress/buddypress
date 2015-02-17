@@ -335,10 +335,6 @@ class BP_Notifications_Template {
 				'mid_size'  => 1,
 				'add_args'  => $add_args,
 			) );
-
-			// Remove first page from pagination
-			$this->pag_links = str_replace( '?'      . $r['page_arg'] . '=1', '', $this->pag_links );
-			$this->pag_links = str_replace( '&#038;' . $r['page_arg'] . '=1', '', $this->pag_links );
 		}
 	}
 
