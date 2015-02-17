@@ -213,7 +213,13 @@ class BP_Groups_Group {
 		// Are we getting extra group data?
 		if ( ! empty( $this->args['populate_extras'] ) ) {
 
-			// Get group admins and mods
+			/**
+			 * Filters the SQL prepared statement used to fetch group admins and mods.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param string $value SQL select statement used to fetch admins and mods.
+			 */
 			$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );
 
 			// Add admins and moderators to their respective arrays
@@ -270,6 +276,15 @@ class BP_Groups_Group {
 		$this->enable_forum = apply_filters( 'groups_group_enable_forum_before_save', $this->enable_forum, $this->id );
 		$this->date_created = apply_filters( 'groups_group_date_created_before_save', $this->date_created, $this->id );
 
+		/**
+		 * Fires before the current group item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Groups_Group Current instance of the group item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'groups_group_before_save', array( &$this ) );
 
 		// Groups need at least a name
@@ -343,6 +358,13 @@ class BP_Groups_Group {
 		if ( empty( $this->id ) )
 			$this->id = $wpdb->insert_id;
 
+		/**
+		 * Fires after the current group item has been saved.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Groups_Group Current instance of the group item that was saved. Passed by reference.
+		 */
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
 
 		wp_cache_delete( $this->id, 'bp_groups' );
@@ -371,6 +393,14 @@ class BP_Groups_Group {
 		// Now delete all group member entries
 		BP_Groups_Member::delete_all( $this->id );
 
+		/**
+		 * Fires before the deletion of a group.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 *
+		 * @param BP_Groups_Group $this     Current instance of the group item being deleted. Passed by reference.
+		 * @param array           $user_ids Array of user IDs that were members of the group.
+		 */
 		do_action_ref_array( 'bp_groups_delete_group', array( &$this, $user_ids ) );
 
 		wp_cache_delete( $this->id, 'bp_groups' );
@@ -768,6 +798,15 @@ class BP_Groups_Group {
 		// If a 'type' parameter was passed, parse it and overwrite
 		// 'order' and 'orderby' params passed to the function
 		if (  ! empty( $r['type'] ) ) {
+
+			/**
+			 * Filters the 'type' parameter used to overwrite 'order' and 'orderby' values.
+			 *
+			 * @since BuddyPress (2.1.0)
+			 *
+			 * @param array  $value Converted 'type' value for order and orderby.
+			 * @param string $value Parsed 'type' value for the get method.
+			 */
 			$order_orderby = apply_filters( 'bp_groups_get_orderby', self::convert_type_to_order_orderby( $r['type'] ), $r['type'] );
 
 			// If an invalid type is passed, $order_orderby will be
@@ -785,7 +824,15 @@ class BP_Groups_Group {
 		// Sanitize 'order'
 		$order = bp_esc_sql_order( $order );
 
-		// Convert 'orderby' into the proper ORDER BY term
+		/**
+		 * Filters the converted 'orderby' term.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param string $value   Converted 'orderby' term.
+		 * @param string $orderby Original orderby value.
+		 * @param string $value   Parsed 'type' value for the get method.
+		 */
 		$orderby = apply_filters( 'bp_groups_get_orderby_converted_by_term', self::convert_orderby_to_order_by_term( $orderby ), $orderby, $r['type'] );
 
 		// Random order is a special case
@@ -799,7 +846,15 @@ class BP_Groups_Group {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
 		}
 
-		// Get paginated results
+		/**
+		 * Filters the pagination SQL statement.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string $value Concatenated SQL statement.
+		 * @param array  $sql   Array of SQL parts before concatenation.
+		 * @param array  $r     Array of parsed arguments for the get method.
+		 */
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql, $r );
 		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
 
@@ -851,7 +906,15 @@ class BP_Groups_Group {
 			$t_sql .= " WHERE " . join( ' AND ', (array) $total_sql['where'] );
 		}
 
-		// Get total group results
+		/**
+		 * Filters the SQL used to retrieve total group results.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string $t_sql     Concatenated SQL statement used for retrieving total group results.
+		 * @param array  $total_sql Array of SQL parts for the query.
+		 * @param array  $r         Array of parsed arguments for the get method.
+		 */
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r );
 		$total_groups     = $wpdb->get_var( $total_groups_sql );
 
@@ -1036,8 +1099,11 @@ class BP_Groups_Group {
 	public static function get_by_most_forum_topics( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bbdb;
 
-		if ( empty( $bbdb ) )
+		if ( empty( $bbdb ) ) {
+
+			/** This action is documented in bp-forums/bp-forums-screens */
 			do_action( 'bbpress_init' );
+		}
 
 		if ( !empty( $limit ) && !empty( $page ) ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -1102,8 +1168,11 @@ class BP_Groups_Group {
 	public static function get_by_most_forum_posts( $limit = null, $page = null, $search_terms = false, $populate_extras = true, $exclude = false ) {
 		global $wpdb, $bbdb;
 
-		if ( empty( $bbdb ) )
+		if ( empty( $bbdb ) ) {
+
+			/** This action is documented in bp-forums/bp-forums-screens */
 			do_action( 'bbpress_init' );
+		}
 
 		if ( !empty( $limit ) && !empty( $page ) ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
@@ -1411,7 +1480,16 @@ class BP_Groups_Group {
 		if ( 'unreplied' == $type )
 			$bp->groups->filter_sql = ' AND t.topic_posts = 1';
 
-		// https://buddypress.trac.wordpress.org/ticket/4306
+		/**
+		 * Filters the portion of the SQL related to global count of forum topics in public groups.
+		 *
+		 * https://buddypress.trac.wordpress.org/ticket/4306.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param string $filter_sql SQL portion for the query.
+		 * @param string $type       Type of forum topics to query for.
+		 */
 		$extra_sql = apply_filters( 'get_global_forum_topic_count_extra_sql', $bp->groups->filter_sql, $type );
 
 		// Make sure the $extra_sql begins with an AND
