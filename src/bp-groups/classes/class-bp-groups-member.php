@@ -219,6 +219,15 @@ class BP_Groups_Member {
 		$this->comments      = apply_filters( 'groups_member_comments_before_save',      $this->comments,      $this->id );
 		$this->invite_sent   = apply_filters( 'groups_member_invite_sent_before_save',   $this->invite_sent,   $this->id );
 
+		/**
+		 * Fires before the current group membership item gets saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Groups_Member Current instance of the group membership item being saved. Passed by reference.
+		 */
 		do_action_ref_array( 'groups_member_before_save', array( &$this ) );
 
 		if ( !empty( $this->id ) ) {
@@ -243,6 +252,15 @@ class BP_Groups_Member {
 		// Update the group's member count
 		self::refresh_total_member_count_for_group( $this->group_id );
 
+		/**
+		 * Fires after the current group membership item has been saved.
+		 *
+		 * Please use this hook to filter the properties above. Each part will be passed in.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param BP_Groups_Member Current instance of the group membership item has been saved. Passed by reference.
+		 */
 		do_action_ref_array( 'groups_member_after_save', array( &$this ) );
 
 		return true;
@@ -927,8 +945,18 @@ class BP_Groups_Member {
 		$bp = buddypress();
 
 		if ( bp_is_active( 'xprofile' ) ) {
+
+			/**
+			 * Filters the SQL prepared statement used to fetch group members.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param string $value SQL prepared statement for fetching group members.
+			 */
 			$members = $wpdb->get_results( apply_filters( 'bp_group_members_user_join_filter', $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, pd.value as display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u, {$bp->profile->table_name_data} pd WHERE u.ID = m.user_id AND u.ID = pd.user_id AND pd.field_id = 1 AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) ) );
 		} else {
+
+			/** This filter is documented in bp-groups/bp-groups-classes */
 			$members = $wpdb->get_results( apply_filters( 'bp_group_members_user_join_filter', $wpdb->prepare( "SELECT m.user_id, m.date_modified, m.is_banned, u.user_login, u.user_nicename, u.user_email, u.display_name FROM {$bp->groups->table_name_members} m, {$wpdb->users} u WHERE u.ID = m.user_id AND group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql} ORDER BY m.date_modified DESC {$pag_sql}", $group_id ) ) );
 		}
 
@@ -939,6 +967,14 @@ class BP_Groups_Member {
 		if ( empty( $pag_sql ) ) {
 			$total_member_count = count( $members );
 		} else {
+
+			/**
+			 * Filters the SQL prepared statement used to fetch group members total count.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param string $value SQL prepared statement for fetching group member count.
+			 */
 			$total_member_count = $wpdb->get_var( apply_filters( 'bp_group_members_count_user_join_filter', $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} m WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql}", $group_id ) ) );
 		}
 
