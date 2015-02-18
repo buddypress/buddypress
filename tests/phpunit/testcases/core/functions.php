@@ -689,6 +689,41 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_multisite_delete_post_with_same_bp_page_id() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$dir_pages = bp_core_get_directory_pages();
+
+		// create a blog
+		$u = $this->factory->user->create();
+		$b1 = $this->factory->blog->create( array( 'user_id' => $u ) );
+
+		// switch to blog and create some dummy posts until we reach a post ID that
+		// matches our BP activity page ID
+		switch_to_blog( $b1 );
+		$p = $this->factory->post->create();
+		while( $p <= $dir_pages->activity->id ) {
+			$p = $this->factory->post->create();
+		}
+
+		// delete the post that matches the BP activity page ID on this sub-site
+		wp_delete_post( $dir_pages->activity->id, true );
+
+		// restore blog
+		restore_current_blog();
+
+		// refetch BP directory pages
+		$dir_pages = bp_core_get_directory_pages();
+
+		// Now verify that our BP activity page was not wiped out
+		$this->assertNotEmpty( $dir_pages->activity );
+	}
+
+	/**
 	 * @group bp_core_get_root_options
 	 */
 	public function test_bp_core_get_root_options_cache_invalidate() {
