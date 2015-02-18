@@ -114,13 +114,59 @@ function bp_activity_directory_permalink() {
  * @since BuddyPress (1.0.0)
  */
 class BP_Activity_Template {
-	var $current_activity = -1;
-	var $activity_count;
-	var $total_activity_count;
-	var $activities;
-	var $activity;
+    /**
+     * The loop iterator.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $current_activity = -1;
+	
+    /**
+     * The activity count.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $activity_count;
+	
+    /**
+     * The total activity count.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $total_activity_count;
+	
+    /**
+     * Array of activities located by the query.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var array
+     */
+	public $activities;
+	
+    /**
+     * The activity object currently being iterated on.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var object
+     */
+	public $activity;
 
-	var $in_the_loop;
+    /**
+     * A flag for whether the loop is currently being iterated.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var bool
+     */
+	public $in_the_loop;
 
 	/**
 	 * URL parameter key for activity pagination. Default: 'acpage'.
@@ -128,13 +174,43 @@ class BP_Activity_Template {
 	 * @since BuddyPress (2.1.0)
 	 * @var string
 	 */
-	var $pag_arg;
+	public $pag_arg;
 
-	var $pag_page;
-	var $pag_num;
-	var $pag_links;
+    /**
+     * The page number being requested.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $pag_page;
+	
+    /**
+     * The number of items being requested per page.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $pag_num;
+	
+    /**
+     * An HTML string containing pagination links.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var string
+     */
+	public $pag_links;
 
-	var $full_name;
+    /**
+     * The displayed user's full name.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var string
+     */
+	public $full_name;
 
 	/**
 	 * Constructor method.

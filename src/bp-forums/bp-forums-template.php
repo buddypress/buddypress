@@ -111,7 +111,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var int
 	 */
-	var $current_topic = -1;
+	public $current_topic = -1;
 
 	/**
 	 * The number of topics returned by the paged query.
@@ -119,7 +119,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var int
 	 */
-	var $topic_count;
+	public $topic_count;
 
 	/**
 	 * Array of topics located by the query.
@@ -127,7 +127,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var array
 	 */
-	var $topics;
+	public $topics;
 
 	/**
 	 * The topic object currently being iterated on.
@@ -135,7 +135,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var object
 	 */
-	var $topic;
+	public $topic;
 
 	/**
 	 * The ID of the forum whose topics are being queried.
@@ -143,7 +143,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var int
 	 */
-	var $forum_id;
+	public $forum_id;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
@@ -151,7 +151,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var bool
 	 */
-	var $in_the_loop;
+	public $in_the_loop;
 
 	/**
 	 * The page number being requested.
@@ -159,7 +159,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_page;
+	public $pag_page;
 
 	/**
 	 * The number of items being requested per page.
@@ -167,7 +167,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var int
 	 */
-	var $pag_num;
+	public $pag_num;
 
 	/**
 	 * An HTML string containing pagination links.
@@ -175,7 +175,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var string
 	 */
-	var $pag_links;
+	public $pag_links;
 
 	/**
 	 * The total number of topics matching the query parameters.
@@ -183,7 +183,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var int
 	 */
-	var $total_topic_count;
+	public $total_topic_count;
 
 	/**
 	 * Whether requesting a single topic. Not currently used.
@@ -191,7 +191,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var bool
 	 */
-	var $single_topic = false;
+	public $single_topic = false;
 
 	/**
 	 * Term to sort by. Not currently used.
@@ -199,7 +199,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var string
 	 */
-	var $sort_by;
+	public $sort_by;
 
 	/**
 	 * Sort order. Not currently used.
@@ -207,7 +207,7 @@ class BP_Forums_Template_Forum {
 	 * @access public
 	 * @var string
 	 */
-	var $order;
+	public $order;
 
 	/**
 	 * Constructor method.
@@ -1916,7 +1916,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var int
 	 */
-	var $current_post = -1;
+	public $current_post = -1;
 
 	/**
 	 * The number of posts returned by the paged query.
@@ -1924,7 +1924,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var int
 	 */
-	var $post_count;
+	public $post_count;
 
 	/**
 	 * Array of posts located by the query.
@@ -1932,7 +1932,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var array
 	 */
-	var $posts;
+	public $posts;
 
 	/**
 	 * The post object currently being iterated on.
@@ -1940,7 +1940,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var object
 	 */
-	var $post;
+	public $post;
 
 	/**
 	 * The ID of the forum whose topic is being queried.
@@ -1948,7 +1948,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var int
 	 */
-	var $forum_id;
+	public $forum_id;
 
 	/**
 	 * The ID of the topic whose posts are being queried.
@@ -1956,7 +1956,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var int
 	 */
-	var $topic_id;
+	public $topic_id;
 
 	/**
 	 * The topic object to which the posts belong.
@@ -1964,7 +1964,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var object
 	 */
-	var $topic;
+	public $topic;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
@@ -1972,7 +1972,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var bool
 	 */
-	var $in_the_loop;
+	public $in_the_loop;
 
 	/**
 	 * Contains a 'total_pages' property holding total number of pages in
@@ -1989,7 +1989,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var public
 	 */
-	var $pag_page;
+	public $pag_page;
 
 	/**
 	 * The number of items being requested per page.
@@ -1997,7 +1997,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var public
 	 */
-	var $pag_num;
+	public $pag_num;
 
 	/**
 	 * An HTML string containing pagination links.
@@ -2005,7 +2005,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var string
 	 */
-	var $pag_links;
+	public $pag_links;
 
 	/**
 	 * The total number of posts matching the query parameters.
@@ -2013,7 +2013,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var int
 	 */
-	var $total_post_count;
+	public $total_post_count;
 
 	/**
 	 * Whether requesting a single topic. Not currently used.
@@ -2021,7 +2021,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var bool
 	 */
-	var $single_post = false;
+	public $single_post = false;
 
 	/**
 	 * Term to sort by.
@@ -2029,7 +2029,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var string
 	 */
-	var $sort_by;
+	public $sort_by;
 
 	/**
 	 * Sort order.
@@ -2037,7 +2037,7 @@ class BP_Forums_Template_Topic {
 	 * @access public
 	 * @var string
 	 */
-	var $order;
+	public $order;
 
 	/**
 	 * Constructor method.

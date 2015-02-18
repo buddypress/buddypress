@@ -101,7 +101,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $current_group = -1;
+	public $current_group = -1;
 
 	/**
 	 * The number of groups returned by the paged query.
@@ -109,7 +109,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $group_count;
+	public $group_count;
 
 	/**
 	 * Array of groups located by the query.
@@ -117,7 +117,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var array
 	 */
-	var $groups;
+	public $groups;
 
 	/**
 	 * The group object currently being iterated on.
@@ -125,7 +125,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var object
 	 */
-	var $group;
+	public $group;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
@@ -133,7 +133,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var bool
 	 */
-	var $in_the_loop;
+	public $in_the_loop;
 
 	/**
 	 * The page number being requested.
@@ -141,7 +141,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var public
 	 */
-	var $pag_page;
+	public $pag_page;
 
 	/**
 	 * The number of items being requested per page.
@@ -149,7 +149,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var public
 	 */
-	var $pag_num;
+	public $pag_num;
 
 	/**
 	 * An HTML string containing pagination links.
@@ -157,7 +157,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $pag_links;
+	public $pag_links;
 
 	/**
 	 * The total number of groups matching the query parameters.
@@ -165,7 +165,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var int
 	 */
-	var $total_group_count;
+	public $total_group_count;
 
 	/**
 	 * Whether the template loop is for a single group page.
@@ -173,7 +173,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var bool
 	 */
-	var $single_group = false;
+	public $single_group = false;
 
 	/**
 	 * Field to sort by.
@@ -181,7 +181,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $sort_by;
+	public $sort_by;
 
 	/**
 	 * Sort order.
@@ -189,7 +189,7 @@ class BP_Groups_Template {
 	 * @access public
 	 * @var string
 	 */
-	var $order;
+	public $order;
 
 	/**
 	 * Constructor method.
