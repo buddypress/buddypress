@@ -10,4 +10,4 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-require __DIR__ . '/classes/class-bp-blogs-blog.php';
+require dirname( __FILE__ ) . '/classes/class-bp-blogs-blog.php';

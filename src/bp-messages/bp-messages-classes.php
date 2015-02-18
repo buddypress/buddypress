@@ -9,6 +9,6 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-require __DIR__ . '/classes/class-bp_messages-thread.php';
-require __DIR__ . '/classes/class-bp-messages-message.php';
-require __DIR__ . '/classes/class-bp-messages-notice.php';
+require dirname( __FILE__ ) . '/classes/class-bp_messages-thread.php';
+require dirname( __FILE__ ) . '/classes/class-bp-messages-message.php';
+require dirname( __FILE__ ) . '/classes/class-bp-messages-notice.php';

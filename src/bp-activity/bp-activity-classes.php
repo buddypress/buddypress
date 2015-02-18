@@ -9,6 +9,6 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-require __DIR__ . '/classes/class-bp-activity-activity.php';
-require __DIR__ . '/classes/class-bp-activity-feed.php';
-require __DIR__ . '/classes/class-bp-activity-query.php';
+require dirname( __FILE__ ) . '/classes/class-bp-activity-activity.php';
+require dirname( __FILE__ ) . '/classes/class-bp-activity-feed.php';
+require dirname( __FILE__ ) . '/classes/class-bp-activity-query.php';
