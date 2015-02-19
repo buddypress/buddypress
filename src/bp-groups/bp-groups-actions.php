@@ -480,6 +480,13 @@ function groups_action_sort_creation_steps() {
 
 	foreach( (array) $temp as $position => $step )
 		$bp->groups->group_creation_steps[$step['slug']] = array( 'name' => $step['name'], 'position' => $position );
+
+	/**
+	 * Fires after group creation sets have been sorted.
+	 *
+	 * @since 2.3.0
+	 */
+	do_action( 'groups_action_sort_creation_steps' );
 }
 
 /**
