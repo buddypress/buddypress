@@ -354,7 +354,7 @@ function bp_core_admin_get_components( $type = 'all' ) {
 	$retired_components = array(
 		'forums' => array(
 			'title'       => __( 'Group Forums', 'buddypress' ),
-			'description' => sprintf( __( 'BuddyPress Forums are retired. Use %s.', 'buddypress' ), '<a href="http://bbpress.org">bbPress</a>' )
+			'description' => sprintf( __( 'BuddyPress Forums are retired. Use %s.', 'buddypress' ), '<a href="https://bbpress.org/">bbPress</a>' )
 		),
 	);
 

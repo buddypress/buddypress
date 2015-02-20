@@ -131,7 +131,7 @@ class BP_Akismet {
 	 *
 	 * @since BuddyPress (1.6)
 	 *
-	 * @see http://plugins.trac.wordpress.org/ticket/1232
+	 * @see https://plugins.trac.wordpress.org/ticket/1232
 	 */
 	public function add_activity_stream_nonce() {
 		$form_id = '_bp_as_nonce';
@@ -589,7 +589,7 @@ class BP_Akismet {
 	 *
 	 * @since BuddyPress (1.6)
 	 *
-	 * @see http://buddypress.trac.wordpress.org/ticket/3907
+	 * @see https://buddypress.trac.wordpress.org/ticket/3907
 	 * @todo Update activity meta to allow >1 record with the same key (iterate through $history).
 	 *
 	 * @param object $item Activity item.

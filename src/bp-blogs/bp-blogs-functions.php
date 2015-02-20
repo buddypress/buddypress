@@ -804,7 +804,7 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
  * WordPress catches add-user-to-blog requests at init:10. In some cases, this
  * can precede BP's Blogs component. This function bumps the priority of the
  * core function, so that we can be sure that the Blogs component is loaded
- * first. See http://buddypress.trac.wordpress.org/ticket/3916.
+ * first. See https://buddypress.trac.wordpress.org/ticket/3916.
  *
  * @since BuddyPress (1.6.0)
  * @access private

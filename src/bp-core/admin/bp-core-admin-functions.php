@@ -461,8 +461,8 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// help panel - sidebar links
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-components">Managing Components</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/">Managing Components</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
 			break;
 
@@ -479,8 +479,8 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// Help panel - sidebar links
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-pages">Managing Pages</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/#settings-buddypress-pages">Managing Pages</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
 
 			break;
@@ -498,8 +498,8 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// Help panel - sidebar links
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#settings-buddypress-settings">Managing Settings</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/#settings-buddypress-settings">Managing Settings</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
 
 			break;
@@ -517,8 +517,8 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			// Help panel - sidebar links
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="http://codex.buddypress.org/getting-started/configure-buddypress-components/#users-profile-fields">Managing Profile Fields</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p>' . __( '<a href="https://codex.buddypress.org/administrator-guide/extended-profiles/">Managing Profile Fields</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
 
 			break;

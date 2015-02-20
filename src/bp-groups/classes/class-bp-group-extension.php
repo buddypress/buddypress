@@ -1319,7 +1319,7 @@ class BP_Group_Extension {
 	 * will be matched by a value of identical depth in the other one. The
 	 * function is NOT designed for general use, and will probably result
 	 * in unexpected results when used with data in the wild. See, eg,
-	 * http://core.trac.wordpress.org/ticket/19888
+	 * https://core.trac.wordpress.org/ticket/19888
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *

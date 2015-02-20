@@ -100,7 +100,7 @@ function bp_forums_bbpress_admin() {
 					<li><?php _e( 'And more!', 'buddypress' ); ?></p></li>
 				</ul>
 
-				<p><?php printf( __( 'If you decide to use bbPress, you will need to deactivate the legacy group forum component.  For more info, <a href="%s">read this codex article</a>.', 'buddypress' ), 'http://codex.buddypress.org/user/setting-up-a-new-installation/installing-group-and-sitewide-forums/using-bbpress-2-2-with-buddypress/' ) ?></p>
+				<p><?php printf( __( 'If you decide to use bbPress, you will need to deactivate the legacy group forum component.  For more info, <a href="%s">read this codex article</a>.', 'buddypress' ), 'https://codex.buddypress.org/legacy/getting-started/using-bbpress-2-2-with-buddypress/' ) ?></p>
 
 				<div>
 					<a class="button thickbox button-primary" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
@@ -243,7 +243,7 @@ function bp_forums_bbpress_install_wizard() {
 						<li><?php _e( 'And more!', 'buddypress' ); ?></p></li>
 					</ul>
 
-					<p><?php printf( __( 'If you decide to use bbPress, you will need to deactivate the legacy group forum component.  For more info, <a href="%s">read this codex article</a>.', 'buddypress' ), 'http://codex.buddypress.org/user/setting-up-a-new-installation/installing-group-and-sitewide-forums/using-bbpress-2-2-with-buddypress/' ) ?></p>
+					<p><?php printf( __( 'If you decide to use bbPress, you will need to deactivate the legacy group forum component.  For more info, <a href="%s">read this codex article</a>.', 'buddypress' ), 'https://codex.buddypress.org/legacy/getting-started/using-bbpress-2-2-with-buddypress/' ) ?></p>
 					<div>
 						<a class="button button-primary <?php if ( ! $bbpress_plugin_is_active ) { echo esc_attr( 'thickbox' ); }?>" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
 					</div>

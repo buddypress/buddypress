@@ -394,7 +394,7 @@ class BP_Activity_Feed {
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<description><?php echo $this->description ?></description>
 	<lastBuildDate><?php echo mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false ); ?></lastBuildDate>
-	<generator>http://buddypress.org/?v=<?php bp_version(); ?></generator>
+	<generator>https://buddypress.org/?v=<?php bp_version(); ?></generator>
 	<language><?php bloginfo_rss( 'language' ); ?></language>
 	<ttl><?php echo $this->ttl; ?></ttl>
 	<sy:updatePeriod><?php echo $this->update_period; ?></sy:updatePeriod>

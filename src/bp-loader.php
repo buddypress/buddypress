@@ -10,10 +10,10 @@
 
 /**
  * Plugin Name: BuddyPress
- * Plugin URI:  http://buddypress.org
+ * Plugin URI:  https://buddypress.org/
  * Description: BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.
  * Author:      The BuddyPress Community
- * Author URI:  http://buddypress.org
+ * Author URI:  https://buddypress.org/
  * Version:     2.3-alpha
  * Text Domain: buddypress
  * Domain Path: /bp-languages/

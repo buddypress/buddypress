@@ -550,7 +550,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	/**
 	 * Force the header back to 200 status if not a deliberate 404
 	 *
-	 * @see http://bbpress.trac.wordpress.org/ticket/1973
+	 * @see https://bbpress.trac.wordpress.org/ticket/1973
 	 */
 	if ( ! $wp_query->is_404() ) {
 		status_header( 200 );

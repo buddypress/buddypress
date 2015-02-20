@@ -85,7 +85,7 @@ class BP_Embed extends WP_Embed {
 		$attr = wp_parse_args( $attr, wp_embed_defaults() );
 
 		// kses converts & into &amp; and we need to undo this
-		// See http://core.trac.wordpress.org/ticket/11311
+		// See https://core.trac.wordpress.org/ticket/11311
 		$url = str_replace( '&amp;', '&', $url );
 
 		// Look for known internal handlers

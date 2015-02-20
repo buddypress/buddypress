@@ -123,7 +123,7 @@ function bp_groups_admin_load() {
 		// Help panel - sidebar links
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-			'<p><a href="http://buddypress.org/support">' . __( 'Support Forums', 'buddypress' ) . '</a></p>'
+			'<p><a href="https://buddypress.org/support">' . __( 'Support Forums', 'buddypress' ) . '</a></p>'
 		);
 
 		// Register metaboxes for the edit screen.
@@ -171,7 +171,7 @@ function bp_groups_admin_load() {
 		// Help panel - sidebar links
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-			'<p>' . __( '<a href="http://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+			'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 		);
 	}
 

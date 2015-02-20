@@ -831,7 +831,7 @@ function bp_registration_needs_activation() {
  *
  * @since BuddyPress (1.7.0)
  *
- * @see http://buddypress.trac.wordpress.org/ticket/4401
+ * @see https://buddypress.trac.wordpress.org/ticket/4401
  *
  * @param array $args {
  *     Array of optional parameters.
@@ -2651,7 +2651,7 @@ function bp_get_nav_menu_items() {
 			continue;
 		}
 
-		// Get the correct menu link. See http://buddypress.trac.wordpress.org/ticket/4624
+		// Get the correct menu link. See https://buddypress.trac.wordpress.org/ticket/4624
 		$link = bp_loggedin_user_domain() ? str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $nav['link'] ) : trailingslashit( bp_displayed_user_domain() . $nav['link'] );
 
 		// Add this menu
