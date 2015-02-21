@@ -104,7 +104,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 			$original_option_values = sanitize_text_field(  $_POST['field_' . $this->field_obj->id] );
 		}
 
-		$option_values = (array) $original_option_values;
+		$option_values = ( $original_option_values ) ? (array) $original_option_values : array();
 		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 			$selected = '';
 

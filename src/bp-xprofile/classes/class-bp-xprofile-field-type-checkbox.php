@@ -101,8 +101,8 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 		$options       = $this->field_obj->get_children();
-		$option_values = BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] );
-		$option_values = (array) maybe_unserialize( $option_values );
+		$option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] ) );
+		$option_values = ( $option_values ) ? (array) $option_values : array();
 
 		$html = '';
 
@@ -132,7 +132,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 
 			// If the user has not yet supplied a value for this field, check to
 			// see whether there is a default value available
-			if ( ! is_array( $option_values ) && empty( $option_values ) && empty( $selected ) && ! empty( $options[$k]->is_default_option ) ) {
+			if ( empty( $option_values ) && empty( $selected ) && ! empty( $options[$k]->is_default_option ) ) {
 				$selected = ' checked="checked"';
 			}
 
