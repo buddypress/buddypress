@@ -114,58 +114,58 @@ function bp_activity_directory_permalink() {
  * @since BuddyPress (1.0.0)
  */
 class BP_Activity_Template {
-    /**
-     * The loop iterator.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The loop iterator.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $current_activity = -1;
-	
-    /**
-     * The activity count.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+
+	/**
+	 * The activity count.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $activity_count;
-	
-    /**
-     * The total activity count.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+
+	/**
+	 * The total activity count.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $total_activity_count;
-	
-    /**
-     * Array of activities located by the query.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var array
-     */
+
+	/**
+	 * Array of activities located by the query.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var array
+	 */
 	public $activities;
-	
-    /**
-     * The activity object currently being iterated on.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var object
-     */
+
+	/**
+	 * The activity object currently being iterated on.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var object
+	 */
 	public $activity;
 
-    /**
-     * A flag for whether the loop is currently being iterated.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var bool
-     */
+	/**
+	 * A flag for whether the loop is currently being iterated.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var bool
+	 */
 	public $in_the_loop;
 
 	/**
@@ -176,40 +176,40 @@ class BP_Activity_Template {
 	 */
 	public $pag_arg;
 
-    /**
-     * The page number being requested.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The page number being requested.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $pag_page;
-	
-    /**
-     * The number of items being requested per page.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+
+	/**
+	 * The number of items being requested per page.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $pag_num;
-	
-    /**
-     * An HTML string containing pagination links.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var string
-     */
+
+	/**
+	 * An HTML string containing pagination links.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var string
+	 */
 	public $pag_links;
 
-    /**
-     * The displayed user's full name.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var string
-     */
+	/**
+	 * The displayed user's full name.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var string
+	 */
 	public $full_name;
 
 	/**
