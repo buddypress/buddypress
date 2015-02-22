@@ -264,7 +264,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		if ( bp_is_register_page() || ( function_exists( 'bp_is_user_settings_general' ) && bp_is_user_settings_general() ) ) {
 
 			// Locate the Register Page JS file
-			$asset = $this->locate_asset_in_stack( "password-verify{$min}.js", 'js' );
+			$asset = $this->locate_asset_in_stack( "password-verify{$min}.js", 'js', 'bp-legacy-password-verify' );
 
 			$dependencies = array_merge( bp_core_get_js_dependencies(), array(
 				'password-strength-meter',
@@ -299,13 +299,14 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since BuddyPress (1.8)
 	 * @access private
-	 * @param string $file A filename like buddypress.cs
-	 * @param string $type css|js
+	 * @param string $file A filename like buddypress.css
+	 * @param string $type Optional. Either "js" or "css" (the default).
+	 * @param string $script_handle Optional. If set, used as the script name in `wp_enqueue_script`.
 	 * @return array An array of data for the wp_enqueue_* function:
 	 *   'handle' (eg 'bp-child-css') and a 'location' (the URI of the
 	 *   asset)
 	 */
-	private function locate_asset_in_stack( $file, $type = 'css' ) {
+	private function locate_asset_in_stack( $file, $type = 'css', $script_handle = '' ) {
 		// Child, parent, theme compat
 		$locations = array();
 
@@ -343,7 +344,8 @@ class BP_Legacy extends BP_Theme_Compat {
 			foreach ( $subdirs as $subdir ) {
 				if ( file_exists( trailingslashit( $location['dir'] ) . trailingslashit( $subdir ) . $location['file'] ) ) {
 					$retval['location'] = trailingslashit( $location['uri'] ) . trailingslashit( $subdir ) . $location['file'];
-					$retval['handle']   = $location_type . '-' . $type;
+					$retval['handle']   = ( $script_handle ) ? $script_handle : "{$location_type}-{$type}";
+
 					break 2;
 				}
 			}
