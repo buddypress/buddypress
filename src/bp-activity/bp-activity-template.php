@@ -2270,7 +2270,9 @@ function bp_activity_comments( $args = '' ) {
 function bp_activity_current_comment() {
 	global $activities_template;
 
-	$current_comment = !empty( $activities_template->activity->current_comment ) ? $activities_template->activity->current_comment : false;
+	$current_comment = !empty( $activities_template->activity->current_comment )
+		? $activities_template->activity->current_comment
+		: false;
 
 	/**
 	 * Filters the current comment being recursed.
@@ -3370,11 +3372,11 @@ function bp_activity_can_comment() {
  *
  * @since BuddyPress (1.5.0)
  *
- * @param object $comment Activity comment.
- * @return bool $can_comment True if comment can receive comments, otherwise
- *         false.
+ * @param  bool|object $comment     Activity comment.
+ * @return bool        $can_comment True if comment can receive comments,
+ *                                  otherwise false.
  */
-function bp_activity_can_comment_reply( $comment = '' ) {
+function bp_activity_can_comment_reply( $comment = false ) {
 
 	// Assume activity can be commented on
 	$can_comment = true;
