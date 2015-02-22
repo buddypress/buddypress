@@ -1727,12 +1727,12 @@ function bp_init_activity() {
 		path: '/'
 	} );
 
-	if ( null != jq.cookie('bp-activity-filter') && jq('#activity-filter-select').length ) {
+	if ( null !== jq.cookie('bp-activity-filter') && jq('#activity-filter-select').length ) {
 		jq('#activity-filter-select select option[value="' + jq.cookie('bp-activity-filter') + '"]').prop( 'selected', true );
 	}
 
 	/* Activity Tab Set */
-	if ( null != jq.cookie('bp-activity-scope') && jq('.activity-type-tabs').length ) {
+	if ( null !== jq.cookie('bp-activity-scope') && jq('.activity-type-tabs').length ) {
 		jq('.activity-type-tabs li').each( function() {
 			jq(this).removeClass('selected');
 		});
@@ -1743,11 +1743,11 @@ function bp_init_activity() {
 /* Setup object scope and filter based on the current cookie settings for the object. */
 function bp_init_objects(objects) {
 	jq(objects).each( function(i) {
-		if ( null != jq.cookie('bp-' + objects[i] + '-filter') && jq('#' + objects[i] + '-order-select select').length ) {
+		if ( null !== jq.cookie('bp-' + objects[i] + '-filter') && jq('#' + objects[i] + '-order-select select').length ) {
 			jq('#' + objects[i] + '-order-select select option[value="' + jq.cookie('bp-' + objects[i] + '-filter') + '"]').prop( 'selected', true );
 		}
 
-		if ( null != jq.cookie('bp-' + objects[i] + '-scope') && jq('div.' + objects[i]).length ) {
+		if ( null !== jq.cookie('bp-' + objects[i] + '-scope') && jq('div.' + objects[i]).length ) {
 			jq('.item-list-tabs li').each( function() {
 				jq(this).removeClass('selected');
 			});
@@ -1876,7 +1876,7 @@ function bp_activity_request(scope, filter) {
 		});
 
 		/* Update the feed link */
-		if ( null != response.feed_url ) {
+		if ( null !== response.feed_url ) {
 			jq('.directory #subnav li.feed a, .home-page #subnav li.feed a').attr('href', response.feed_url);
 		}
 
