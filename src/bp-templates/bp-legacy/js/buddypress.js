@@ -1295,7 +1295,7 @@ jq(document).ready( function() {
 
 			// user groups page
 			if ( ! jq('body.directory').length ) {
-				location.href = location.href;
+				window.location.reload();
 
 			// groups directory
 			} else {
