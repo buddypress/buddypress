@@ -95,6 +95,11 @@ function bp_setup_cache_groups() {
 /**
  * Set up the currently logged-in user.
  *
+ * We white-list the WordPress customizer which purposely loads the user early.
+ *
+ * @link https://buddypress.trac.wordpress.org/ticket/6046
+ * @link https://core.trac.wordpress.org/ticket/24169
+ *
  * @uses did_action() To make sure the user isn't loaded out of order.
  * @uses do_action() Calls 'bp_setup_current_user'.
  */
@@ -102,7 +107,7 @@ function bp_setup_current_user() {
 
 	// If the current user is being setup before the "init" action has fired,
 	// strange (and difficult to debug) role/capability issues will occur.
-	if ( ! did_action( 'after_setup_theme' ) ) {
+	if ( ! isset( $GLOBALS['wp_customize'] ) && ! did_action( 'after_setup_theme' ) ) {
 		_doing_it_wrong( __FUNCTION__, __( 'The current user is being initialized without using $wp->init().', 'buddypress' ), '1.7' );
 	}
 
