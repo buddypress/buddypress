@@ -59,6 +59,13 @@ class BP_Core_Members_Widget extends WP_Widget {
 		if ( !$instance['member_default'] )
 			$instance['member_default'] = 'active';
 
+		/**
+		 * Filters the title of the Members widget.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param string $value The widget title.
+		 */
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		echo $before_widget;
@@ -221,6 +228,13 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 		extract( $args );
 
+		/**
+		 * Filters the title of the Who's Online widget.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param string $value The widget title.
+		 */
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		echo $before_widget;
@@ -327,6 +341,13 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 
 		extract( $args );
 
+		/**
+		 * Filters the title of the Recently Active widget.
+		 *
+		 * @since BuddyPress (1.8.0)
+		 *
+		 * @param string $value The widget title.
+		 */
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		echo $before_widget;
