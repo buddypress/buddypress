@@ -658,10 +658,10 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		$openTags    = array();
 		$truncate    = '';
 
-		// Find all the tags and put them in a stack for later use
-		preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
-		foreach ( $tags as $tag ) {
+		// Find all the tags and HTML comments and put them in a stack for later use
+		preg_match_all( '/(<\/?([\w!].+?)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
 
+		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed
 			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s',  $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
