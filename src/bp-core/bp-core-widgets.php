@@ -50,6 +50,14 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
+
+		/**
+		 * Filters the title of the Login widget.
+		 *
+		 * @since BuddyPress (1.9.0)
+		 *
+		 * @param string $title The widget title.
+		 */
 		$title = apply_filters( 'widget_title', $title );
 
 		echo $args['before_widget'];
@@ -58,7 +66,14 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 		<?php if ( is_user_logged_in() ) : ?>
 
-			<?php do_action( 'bp_before_login_widget_loggedin' ); ?>
+			<?php
+
+ 		 	/**
+		 	 * Fires before the display of widget content if logged in.
+		 	 *
+		 	 * @since BuddyPress (1.9.0)
+		 	 */
+			do_action( 'bp_before_login_widget_loggedin' ); ?>
 
 			<div class="bp-login-widget-user-avatar">
 				<a href="<?php echo bp_loggedin_user_domain(); ?>">
@@ -71,11 +86,25 @@ class BP_Core_Login_Widget extends WP_Widget {
 				<div class="bp-login-widget-user-logout"><a class="logout" href="<?php echo wp_logout_url( bp_get_requested_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a></div>
 			</div>
 
-			<?php do_action( 'bp_after_login_widget_loggedin' ); ?>
+			<?php
+
+			/**
+		 	 * Fires after the display of widget content if logged in.
+		 	 *
+		 	 * @since BuddyPress (1.9.0)
+		 	 */
+			do_action( 'bp_after_login_widget_loggedin' ); ?>
 
 		<?php else : ?>
 
-			<?php do_action( 'bp_before_login_widget_loggedout' ); ?>
+			<?php
+
+			/**
+		 	 * Fires before the display of widget content if logged out.
+		 	 *
+		 	 * @since BuddyPress (1.9.0)
+		 	 */
+			do_action( 'bp_before_login_widget_loggedout' ); ?>
 
 			<form name="bp-login-form" id="bp-login-widget-form" class="standard-form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 				<label for="bp-login-widget-user-login"><?php _e( 'Username', 'buddypress' ); ?></label>
@@ -96,7 +125,14 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 			</form>
 
-			<?php do_action( 'bp_after_login_widget_loggedout' ); ?>
+			<?php
+
+			/**
+		 	 * Fires after the display of widget content if logged out.
+		 	 *
+		 	 * @since BuddyPress (1.9.0)
+		 	 */
+			do_action( 'bp_after_login_widget_loggedout' ); ?>
 
 		<?php endif;
 
