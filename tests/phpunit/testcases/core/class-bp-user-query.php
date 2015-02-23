@@ -514,9 +514,9 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			'include' => $users,
 		) );
 
-		$this->assertSame( array( 'foo' ), wp_cache_get( $users[0], 'bp_member_type' ) );
-		$this->assertSame( array( 'bar' ), wp_cache_get( $users[1], 'bp_member_type' ) );
-		$this->assertSame( array( 'foo' ), wp_cache_get( $users[2], 'bp_member_type' ) );
-		$this->assertSame( '', wp_cache_get( $users[3], 'bp_member_type' ) );
+		$this->assertSame( array( 'foo' ), wp_cache_get( $users[0], 'bp_member_member_type' ) );
+		$this->assertSame( array( 'bar' ), wp_cache_get( $users[1], 'bp_member_member_type' ) );
+		$this->assertSame( array( 'foo' ), wp_cache_get( $users[2], 'bp_member_member_type' ) );
+		$this->assertSame( '', wp_cache_get( $users[3], 'bp_member_member_type' ) );
 	}
 }
