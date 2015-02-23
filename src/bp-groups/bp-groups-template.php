@@ -3959,10 +3959,13 @@ function bp_group_member_is_friend() {
 	function bp_get_group_member_is_friend() {
 		global $members_template;
 
-		if ( !isset( $members_template->member->is_friend ) )
+		if ( !isset( $members_template->member->is_friend ) ) {
 			$friend_status = 'not_friends';
-		else
-			$friend_status = ( 0 == $members_template->member->is_friend ) ? 'pending' : 'is_friend';
+		} else {
+			$friend_status = ( 0 == $members_template->member->is_friend )
+				? 'pending'
+				: 'is_friend';
+		}
 
 		/**
 		 * Filters the friendship status between current user and displayed user in group member loop.
@@ -4041,8 +4044,9 @@ function bp_group_member_id() {
 function bp_group_member_needs_pagination() {
 	global $members_template;
 
-	if ( $members_template->total_member_count > $members_template->pag_num )
+	if ( $members_template->total_member_count > $members_template->pag_num ) {
 		return true;
+	}
 
 	return false;
 }
@@ -4086,9 +4090,9 @@ function bp_group_member_pagination_count() {
 		global $members_template;
 
 		$start_num = intval( ( $members_template->pag_page - 1 ) * $members_template->pag_num ) + 1;
-		$from_num = bp_core_number_format( $start_num );
-		$to_num = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
-		$total = bp_core_number_format( $members_template->total_member_count );
+		$from_num  = bp_core_number_format( $start_num );
+		$to_num    = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
+		$total     = bp_core_number_format( $members_template->total_member_count );
 
 		/**
 		 * Filters the "Viewing x-y of z members" pagination message.
@@ -4204,9 +4208,11 @@ function bp_groups_members_filter() {
  * @return bool True if user can create groups. False otherwise.
  */
 function bp_user_can_create_groups() {
+
 	// Super admin can always create groups
-	if ( bp_current_user_can( 'bp_moderate' ) )
+	if ( bp_current_user_can( 'bp_moderate' ) ) {
 		return true;
+	}
 
 	// Get group creation option, default to 0 (allowed)
 	$restricted = (int) bp_get_option( 'bp_restrict_group_creation', 0 );
@@ -4215,8 +4221,9 @@ function bp_user_can_create_groups() {
 	$can_create = true;
 
 	// Are regular users restricted?
-	if ( $restricted )
+	if ( $restricted ) {
 		$can_create = false;
+	}
 
 	/**
 	 * Filters if the current logged in user can create groups.
@@ -4232,8 +4239,9 @@ function bp_user_can_create_groups() {
 function bp_group_creation_tabs() {
 	$bp = buddypress();
 
-	if ( !is_array( $bp->groups->group_creation_steps ) )
+	if ( !is_array( $bp->groups->group_creation_steps ) ) {
 		return false;
+	}
 
 	if ( !bp_get_groups_current_create_step() ) {
 		$keys = array_keys( $bp->groups->group_creation_steps );
@@ -4295,26 +4303,31 @@ function bp_group_creation_form_action() {
 
 function bp_is_group_creation_step( $step_slug ) {
 
-	/* Make sure we are in the groups component */
-	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
+	// Make sure we are in the groups component
+	if ( ! bp_is_groups_component() || ! bp_is_current_action( 'create' ) ) {
 		return false;
+	}
 
 	$bp = buddypress();
 
-	/* If this the first step, we can just accept and return true */
+	// If this the first step, we can just accept and return true
 	$keys = array_keys( $bp->groups->group_creation_steps );
-	if ( !bp_action_variable( 1 ) && array_shift( $keys ) == $step_slug )
+	if ( !bp_action_variable( 1 ) && array_shift( $keys ) == $step_slug ) {
 		return true;
-
-	/* Before allowing a user to see a group creation step we must make sure previous steps are completed */
-	if ( !bp_is_first_group_creation_step() ) {
-		if ( !bp_are_previous_group_creation_steps_complete( $step_slug ) )
-			return false;
 	}
 
-	/* Check the current step against the step parameter */
-	if ( bp_is_action_variable( $step_slug ) )
+	// Before allowing a user to see a group creation step we must make sure
+	// previous steps are completed
+	if ( !bp_is_first_group_creation_step() ) {
+		if ( !bp_are_previous_group_creation_steps_complete( $step_slug ) ) {
+			return false;
+		}
+	}
+
+	// Check the current step against the step parameter
+	if ( bp_is_action_variable( $step_slug ) ) {
 		return true;
+	}
 
 	return false;
 }
@@ -4322,15 +4335,17 @@ function bp_is_group_creation_step( $step_slug ) {
 function bp_is_group_creation_step_complete( $step_slugs ) {
 	$bp = buddypress();
 
-	if ( !isset( $bp->groups->completed_create_steps ) )
+	if ( !isset( $bp->groups->completed_create_steps ) ) {
 		return false;
+	}
 
 	if ( is_array( $step_slugs ) ) {
 		$found = true;
 
 		foreach ( (array) $step_slugs as $step_slug ) {
-			if ( !in_array( $step_slug, $bp->groups->completed_create_steps ) )
+			if ( !in_array( $step_slug, $bp->groups->completed_create_steps ) ) {
 				$found = false;
+			}
 		}
 
 		return $found;
@@ -4344,18 +4359,21 @@ function bp_is_group_creation_step_complete( $step_slugs ) {
 function bp_are_previous_group_creation_steps_complete( $step_slug ) {
 	$bp = buddypress();
 
-	/* If this is the first group creation step, return true */
+	// If this is the first group creation step, return true
 	$keys = array_keys( $bp->groups->group_creation_steps );
-	if ( array_shift( $keys ) == $step_slug )
+	if ( array_shift( $keys ) == $step_slug ) {
 		return true;
+	}
 
 	reset( $bp->groups->group_creation_steps );
-	unset( $previous_steps );
 
-	/* Get previous steps */
+	$previous_steps = array();
+
+	// Get previous steps
 	foreach ( (array) $bp->groups->group_creation_steps as $slug => $name ) {
-		if ( $slug == $step_slug )
+		if ( $slug === $step_slug ) {
 			break;
+		}
 
 		$previous_steps[] = $slug;
 	}
@@ -4367,12 +4385,10 @@ function bp_new_group_id() {
 	echo bp_get_new_group_id();
 }
 	function bp_get_new_group_id() {
-		$bp = buddypress();
-
-		if ( isset( $bp->groups->new_group_id ) )
-			$new_group_id = $bp->groups->new_group_id;
-		else
-			$new_group_id = 0;
+		$bp           = buddypress();
+		$new_group_id = isset( $bp->groups->new_group_id )
+			? $bp->groups->new_group_id
+			: 0;
 
 		/**
 		 * Filters the new group ID.
@@ -4388,12 +4404,10 @@ function bp_new_group_name() {
 	echo bp_get_new_group_name();
 }
 	function bp_get_new_group_name() {
-		$bp = buddypress();
-
-		if ( isset( $bp->groups->current_group->name ) )
-			$name = $bp->groups->current_group->name;
-		else
-			$name = '';
+		$bp   = buddypress();
+		$name = isset( $bp->groups->current_group->name )
+			? $bp->groups->current_group->name
+			: '';
 
 		/**
 		 * Filters the new group name.
@@ -4409,12 +4423,10 @@ function bp_new_group_description() {
 	echo bp_get_new_group_description();
 }
 	function bp_get_new_group_description() {
-		$bp = buddypress();
-
-		if ( isset( $bp->groups->current_group->description ) )
-			$description = $bp->groups->current_group->description;
-		else
-			$description = '';
+		$bp          = buddypress();
+		$description = isset( $bp->groups->current_group->description )
+			? $bp->groups->current_group->description
+			: '';
 
 		/**
 		 * Filters the new group description.
@@ -4430,7 +4442,10 @@ function bp_new_group_enable_forum() {
 	echo bp_get_new_group_enable_forum();
 }
 	function bp_get_new_group_enable_forum() {
-		$bp = buddypress();
+		$bp    = buddypress();
+		$forum = isset( $bp->groups->current_group->enable_forum )
+			? $bp->groups->current_group->enable_forum
+			: false;
 
 		/**
 		 * Filters whether or not to enable forums for the new group.
@@ -4439,14 +4454,17 @@ function bp_new_group_enable_forum() {
 		 *
 		 * @param int $enable_forum Whether or not to enable forums.
 		 */
-		return (int) apply_filters( 'bp_get_new_group_enable_forum', $bp->groups->current_group->enable_forum );
+		return (int) apply_filters( 'bp_get_new_group_enable_forum', $forum );
 	}
 
 function bp_new_group_status() {
 	echo bp_get_new_group_status();
 }
 	function bp_get_new_group_status() {
-		$bp = buddypress();
+		$bp     = buddypress();
+		$status = isset( $bp->groups->current_group->status )
+			? $bp->groups->current_group->status
+			: 'public';
 
 		/**
 		 * Filters the new group status.
@@ -4455,7 +4473,7 @@ function bp_new_group_status() {
 		 *
 		 * @param string $status Status for the new group.
 		 */
-		return apply_filters( 'bp_get_new_group_status', $bp->groups->current_group->status );
+		return apply_filters( 'bp_get_new_group_status', $status );
 	}
 
 function bp_new_group_avatar( $args = '' ) {
@@ -4464,18 +4482,23 @@ function bp_new_group_avatar( $args = '' ) {
 	function bp_get_new_group_avatar( $args = '' ) {
 		$bp = buddypress();
 
-		$defaults = array(
-			'type' => 'full',
-			'width' => false,
-			'height' => false,
-			'class' => 'avatar',
-			'id' => 'avatar-crop-preview',
-			'alt' => __( 'Group avatar', 'buddypress' ),
+		$r = wp_parse_args( $args, array(
+			'type'    => 'full',
+			'width'   => false,
+			'height'  => false,
+			'class'   => 'avatar',
+			'id'      => 'avatar-crop-preview',
+			'alt'     => __( 'Group avatar', 'buddypress' ),
 			'no_grav' => false
-		);
+		) );
+		
+		$r = array_merge( $r, array(
+			'item_id'    => $bp->groups->current_group->id,
+			'object'     => 'group',
+			'avatar_dir' => 'group-avatars',
+		) );
 
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		$avatar = bp_core_fetch_avatar( $r );
 
 		/**
 		 * Filters the new group avatar.
@@ -4484,7 +4507,7 @@ function bp_new_group_avatar( $args = '' ) {
 		 *
 		 * @param string $value HTML markup for the new group avatar.
 		 */
-		return apply_filters( 'bp_get_new_group_avatar', bp_core_fetch_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group', 'type' => $type, 'avatar_dir' => 'group-avatars', 'alt' => $alt, 'width' => $width, 'height' => $height, 'class' => $class, 'no_grav' => $no_grav ) ) );
+		return apply_filters( 'bp_get_new_group_avatar', $avatar, $r, $args );
 	}
 
 function bp_group_creation_previous_link() {
@@ -4494,8 +4517,9 @@ function bp_group_creation_previous_link() {
 		$bp = buddypress();
 
 		foreach ( (array) $bp->groups->group_creation_steps as $slug => $name ) {
-			if ( bp_is_action_variable( $slug ) )
+			if ( bp_is_action_variable( $slug ) ) {
 				break;
+			}
 
 			$previous_steps[] = $slug;
 		}
@@ -4553,8 +4577,9 @@ function bp_is_last_group_creation_step() {
 	$keys      = array_keys( $bp->groups->group_creation_steps );
 	$last_step = array_pop( $keys );
 
-	if ( $last_step == bp_get_groups_current_create_step() )
+	if ( $last_step == bp_get_groups_current_create_step() ) {
 		return true;
+	}
 
 	return false;
 }
@@ -4565,8 +4590,9 @@ function bp_is_first_group_creation_step() {
 	$keys       = array_keys( $bp->groups->group_creation_steps );
 	$first_step = array_shift( $keys );
 
-	if ( $first_step == bp_get_groups_current_create_step() )
+	if ( $first_step == bp_get_groups_current_create_step() ) {
 		return true;
+	}
 
 	return false;
 }
@@ -4577,8 +4603,9 @@ function bp_new_group_invite_friend_list() {
 	function bp_get_new_group_invite_friend_list( $args = '' ) {
 		$bp = buddypress();
 
-		if ( !bp_is_active( 'friends' ) )
+		if ( !bp_is_active( 'friends' ) ) {
 			return false;
+		}
 
 		$defaults = array(
 			'group_id'  => false,
@@ -4588,8 +4615,9 @@ function bp_new_group_invite_friend_list() {
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
 
-		if ( empty( $group_id ) )
+		if ( empty( $group_id ) ) {
 			$group_id = !empty( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
+		}
 
 		if ( $friends = friends_get_friends_invite_list( bp_loggedin_user_id(), $group_id ) ) {
 			$invites = groups_get_invites_for_group( bp_loggedin_user_id(), $group_id );
@@ -4598,16 +4626,18 @@ function bp_new_group_invite_friend_list() {
 				$checked = '';
 
 				if ( !empty( $invites ) ) {
-					if ( in_array( $friends[$i]['id'], $invites ) )
+					if ( in_array( $friends[$i]['id'], $invites ) ) {
 						$checked = ' checked="checked"';
+					}
 				}
 
 				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . esc_attr( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
 			}
 		}
 
-		if ( !empty( $items ) )
+		if ( !empty( $items ) ) {
 			return implode( "\n", (array) $items );
+		}
 
 		return false;
 	}
@@ -4639,14 +4669,14 @@ function bp_directory_groups_search_form() {
  * @todo Deprecate?
  */
 function bp_groups_header_tabs() {
-	$bp = buddypress(); ?>
+	$user_groups = bp_displayed_user_domain() . bp_get_groups_slug(); ?>
 
-	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/recently-active' ) ?>"><?php _e( 'Recently Active', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/recently-joined' ) ?>"><?php _e( 'Recently Joined', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'most-popular', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/most-popular' ) ?>"><?php _e( 'Most Popular', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'admin-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/admin-of' ) ?>"><?php _e( 'Administrator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'mod-of', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/mod-of' ) ?>"><?php _e( 'Moderator Of', 'buddypress' ) ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'alphabetically' ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/alphabetically' ) ?>"><?php _e( 'Alphabetically', 'buddypress' ) ?></a></li>
+	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-active' ); ?>"><?php _e( 'Recently Active', 'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-joined' ); ?>"><?php _e( 'Recently Joined',  'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'most-popular',    0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/most-popular'    ); ?>"><?php _e( 'Most Popular',     'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'admin-of',        0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/admin-of'        ); ?>"><?php _e( 'Administrator Of', 'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'mod-of',          0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/mod-of'          ); ?>"><?php _e( 'Moderator Of',     'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'alphabetically'     ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/alphabetically'  ); ?>"><?php _e( 'Alphabetically',   'buddypress' ); ?></a></li>
 
 <?php
 	do_action( 'groups_header_tabs' );
@@ -4728,9 +4758,7 @@ function bp_group_current_admin_tab() {
 		return apply_filters( 'bp_get_current_group_admin_tab', $tab );
 	}
 
-/************************************************************************************
- * Group Avatar Template Tags
- **/
+/** Group Avatar Template Tags ************************************************/
 
 /**
  * Outputs the current group avatar
