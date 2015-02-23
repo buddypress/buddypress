@@ -205,4 +205,34 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $u, 'bp_member_type' ) );
 		$this->assertFalse( bp_get_member_type( $u ) );
 	}
+
+	/**
+	 * @group BP6242
+	 * @group cache
+	 */
+	public function test_bp_get_member_type_should_not_conflict_with_term_cache() {
+		global $wpdb;
+
+		// Offset IDs.
+		$dummy_terms = $this->factory->tag->create_many( 5 );
+
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_set_member_type( $u1, 'foo' );
+
+		// Fetch a term ID.
+		$terms = get_terms( 'bp_member_type', array( 'hide_empty' => false, 'fields' => 'all' ) );
+
+		// Make sure the user's ID matches a term ID, to force a cache confusion.
+		$u2 = $this->factory->user->create();
+		$new_user_id = $terms[0]->term_id;
+		$wpdb->update( $wpdb->users, array( 'ID' => $new_user_id ), array( 'ID' => $u2 ) );
+
+		bp_set_member_type( $new_user_id, 'foo' );
+
+		// Reprime the taxonomy cache.
+		$terms = get_terms( 'bp_member_type', array( 'hide_empty' => false, 'fields' => 'all' ) );
+
+		$this->assertSame( 'foo', bp_get_member_type( $new_user_id, true ) );
+	}
 }

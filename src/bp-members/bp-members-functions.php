@@ -2583,7 +2583,7 @@ function bp_set_member_type( $user_id, $member_type, $append = false ) {
 
 	// Bust the cache if the type has been updated.
 	if ( ! is_wp_error( $retval ) ) {
-		wp_cache_delete( $user_id, 'bp_member_type' );
+		wp_cache_delete( $user_id, 'bp_member_member_type' );
 
 		/**
 		 * Fires just after a user's member type has been changed.
@@ -2612,14 +2612,14 @@ function bp_set_member_type( $user_id, $member_type, $append = false ) {
  *                           types (if $single is false). Returns false on failure.
  */
 function bp_get_member_type( $user_id, $single = true ) {
-	$types = wp_cache_get( $user_id, 'bp_member_type' );
+	$types = wp_cache_get( $user_id, 'bp_member_member_type' );
 
 	if ( false === $types ) {
-		$types = bp_get_object_terms( $user_id, 'bp_member_type'  );
+		$types = bp_get_object_terms( $user_id, 'bp_member_type' );
 
 		if ( ! is_wp_error( $types ) ) {
 			$types = wp_list_pluck( $types, 'name' );
-			wp_cache_set( $user_id, $types, 'bp_member_type' );
+			wp_cache_set( $user_id, $types, 'bp_member_member_type' );
 		}
 	}
 
