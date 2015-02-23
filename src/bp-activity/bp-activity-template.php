@@ -3473,16 +3473,19 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
 	 * @return int The total favorite count for the specified user.
 	 */
 	function bp_get_total_favorite_count_for_user( $user_id = 0 ) {
+		$retval = false;
 
-		// Default to displayed user if none is passed
-		$user_id = empty( $user_id )
-			? bp_displayed_user_id()
-			: $user_id;
+		if ( bp_activity_can_favorite() ) {
+			// Default to displayed user if none is passed
+			$user_id = empty( $user_id )
+				? bp_displayed_user_id()
+				: $user_id;
 
-		// Get user meta if user ID exists
-		$retval = ! empty( $user_id )
-			? bp_activity_total_favorites_for_user( $user_id )
-			: false;
+			// Get user meta if user ID exists
+			if ( ! empty( $user_id ) ) {
+				$retval = bp_activity_total_favorites_for_user( $user_id );
+			}
+		}
 
 		/**
 		 * Filters the total favorite count for a user.
