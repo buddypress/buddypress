@@ -749,9 +749,9 @@ function bp_has_activities( $args = '' ) {
 	 *
 	 * @since BuddyPress (1.1.0)
 	 *
-	 * @param bool   $has_activities      Whether or not there are activity items to display.
+	 * @param bool   $value               Whether or not there are activity items to display.
 	 * @param string $activities_template Current activities template being used.
-	 * @param array  $template_args       Array of arguments passed into the BP_Activity_Template class.
+	 * @param array  $r                   Array of arguments passed into the BP_Activity_Template class.
 	 */
 	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template, $r );
 }
