@@ -4452,7 +4452,7 @@ function bp_new_group_enable_forum() {
 		 *
 		 * @since BuddyPress (1.1.0)
 		 *
-		 * @param int $enable_forum Whether or not to enable forums.
+		 * @param int $forum Whether or not to enable forums.
 		 */
 		return (int) apply_filters( 'bp_get_new_group_enable_forum', $forum );
 	}
@@ -4491,7 +4491,7 @@ function bp_new_group_avatar( $args = '' ) {
 			'alt'     => __( 'Group avatar', 'buddypress' ),
 			'no_grav' => false
 		) );
-		
+
 		$r = array_merge( $r, array(
 			'item_id'    => $bp->groups->current_group->id,
 			'object'     => 'group',
@@ -4505,7 +4505,9 @@ function bp_new_group_avatar( $args = '' ) {
 		 *
 		 * @since BuddyPress (1.1.0)
 		 *
-		 * @param string $value HTML markup for the new group avatar.
+		 * @param string $avatar HTML markup for the new group avatar.
+		 * @param array  $r      Array of parsed arguments for the group avatar.
+		 * @param array  $args   Array of original arguments passed to the function.
 		 */
 		return apply_filters( 'bp_get_new_group_avatar', $avatar, $r, $args );
 	}
