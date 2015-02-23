@@ -153,8 +153,11 @@ class BP_Blogs_Component extends BP_Component {
 		}
 
 		// Add 'Sites' to the main navigation
-		$main_nav =  array(
-			'name'                => sprintf( __( 'Sites <span>%d</span>', 'buddypress' ), bp_get_total_blog_count_for_user() ),
+		$count    = (int) bp_get_total_blog_count_for_user();
+		$class    = ( 0 === $count ) ? 'no-count' : 'count';
+		$nav_text = sprintf( __( 'Sites <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count )  );
+		$main_nav = array(
+			'name'                => $nav_text,
 			'slug'                => $this->slug,
 			'position'            => 30,
 			'screen_function'     => 'bp_blogs_screen_my_blogs',
