@@ -624,7 +624,7 @@ function bp_has_activities( $args = '' ) {
 	// Group filtering
 	if ( groups_get_current_group() ) {
 		$object      = $bp->groups->id;
-		$primary_id  = bp_current_group_id();
+		$primary_id  = bp_get_current_group_id();
 		$show_hidden = (bool) ( groups_is_user_member( bp_loggedin_user_id(), $primary_id ) || bp_current_user_can( 'bp_moderate' ) );
 	} else {
 		$object      = false;
