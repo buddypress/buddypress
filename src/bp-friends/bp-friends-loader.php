@@ -249,7 +249,7 @@ class BP_Friends_Component extends BP_Component {
 
 		// Global groups
 		wp_cache_add_global_groups( array(
-			'bp_friend_requests'
+			'bp_friends_requests'
 		) );
 
 		parent::setup_cache_groups();
