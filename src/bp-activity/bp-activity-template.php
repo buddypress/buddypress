@@ -601,61 +601,56 @@ class BP_Activity_Template {
  * @return bool Returns true when activities are found, otherwise false.
  */
 function bp_has_activities( $args = '' ) {
-	global $activities_template, $bp;
+	global $activities_template;
 
-	/***
-	 * Set the defaults based on the current page. Any of these will be overridden
-	 * if arguments are directly passed into the loop. Custom plugins should always
-	 * pass their parameters directly to the loop.
-	 */
-	$user_id     = false;
-	$include     = false;
-	$exclude     = false;
-	$in          = false;
-	$show_hidden = false;
-	$object      = false;
-	$primary_id  = false;
+	// Get BuddyPress
+	$bp = buddypress();
+
+	/** Smart Defaults ********************************************************/
 
 	// User filtering
-	if ( bp_displayed_user_id() )
-		$user_id = bp_displayed_user_id();
+	$user_id = bp_displayed_user_id()
+		? bp_displayed_user_id()
+		: false;
 
 	// Group filtering
-	if ( !empty( $bp->groups->current_group ) ) {
-		$object = $bp->groups->id;
-		$primary_id = $bp->groups->current_group->id;
-
-		if ( groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) || bp_current_user_can( 'bp_moderate' ) ) {
-			$show_hidden = true;
-		}
+	if ( groups_get_current_group() ) {
+		$object      = $bp->groups->id;
+		$primary_id  = bp_current_group_id();
+		$show_hidden = (bool) ( groups_is_user_member( bp_loggedin_user_id(), $primary_id ) || bp_current_user_can( 'bp_moderate' ) );
+	} else {
+		$object      = false;
+		$primary_id  = false;
+		$show_hidden = false;
 	}
 
 	// The default scope should recognize custom slugs
-	if ( array_key_exists( bp_current_action(), (array) $bp->loaded_components ) ) {
-		$scope = $bp->loaded_components[bp_current_action()];
-	}
-	else
-		$scope = bp_current_action();
+	$scope = array_key_exists( bp_current_action(), (array) $bp->loaded_components )
+		? $bp->loaded_components[ bp_current_action() ]
+		: bp_current_action();
 
 	// Support for permalinks on single item pages: /groups/my-group/activity/124/
-	if ( bp_is_current_action( bp_get_activity_slug() ) )
-		$include = bp_action_variable( 0 );
+	$include = bp_is_current_action( bp_get_activity_slug() )
+		? bp_action_variable( 0 )
+		: false;
 
-	// Note: any params used for filtering can be a single value, or multiple values comma separated.
-	$defaults = array(
+	/** Parse Args ************************************************************/
+
+	// Note: any params used for filtering can be a single value, or multiple
+	// values comma separated.
+	$r = bp_parse_args( $args, array(
 		'display_comments'  => 'threaded',   // false for none, stream/threaded - show comments in the stream or threaded under items
 		'include'           => $include,     // pass an activity_id or string of IDs comma-separated
-		'exclude'           => $exclude,     // pass an activity_id or string of IDs comma-separated
-		'in'                => $in,          // comma-separated list or array of activity IDs among which to search
+		'exclude'           => false,        // pass an activity_id or string of IDs comma-separated
+		'in'                => false,        // comma-separated list or array of activity IDs among which to search
 		'sort'              => 'DESC',       // sort DESC or ASC
 		'page'              => 1,            // which page to load
 		'per_page'          => 20,           // number of items per page
+		'page_arg'          => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679
 		'max'               => false,        // max number to return
 		'count_total'       => false,
 		'show_hidden'       => $show_hidden, // Show activity items that are hidden site-wide?
 		'spam'              => 'ham_only',   // Hide spammed items
-
-		'page_arg'          => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679
 
 		// Scope - pre-built activity filters for a user (friends/groups/favorites/mentions)
 		'scope'             => $scope,
@@ -676,30 +671,31 @@ function bp_has_activities( $args = '' ) {
 		// Searching
 		'search_terms'      => false,        // specify terms to search on
 		'update_meta_cache' => true,
-	);
+	), 'has_activities' );
 
-	$r = bp_parse_args( $args, $defaults, 'has_activities' );
-	extract( $r );
+	/** Smart Overrides *******************************************************/
 
 	// Translate various values for 'display_comments'
 	// This allows disabling comments via ?display_comments=0
 	// or =none or =false. Final true is a strict type check. See #5029
-	if ( in_array( $display_comments, array( 0, '0', 'none', 'false' ), true ) ) {
-		$display_comments = false;
+	if ( in_array( $r['display_comments'], array( 0, '0', 'none', 'false' ), true ) ) {
+		$r['display_comments'] = false;
 	}
 
 	// Ignore pagination if an offset is passed
-	if ( ! empty( $offset ) ) {
-		$page = 0;
+	if ( ! empty( $r['offset'] ) ) {
+		$r['page'] = 0;
 	}
 
 	// Search terms
-	if ( empty( $search_terms ) && ! empty( $_REQUEST['s'] ) )
-		$search_terms = $_REQUEST['s'];
+	if ( ! empty( $_REQUEST['s'] ) && empty( $r['search_terms'] ) ) {
+		$r['search_terms'] = $_REQUEST['s'];
+	}
 
 	// Do not exceed the maximum per page
-	if ( !empty( $max ) && ( (int) $per_page > (int) $max ) )
-		$per_page = $max;
+	if ( ! empty( $r['max'] ) && ( (int) $r['per_page'] > (int) $r['max'] ) ) {
+		$r['per_page'] = $r['max'];
+	}
 
 	/**
 	 * Filters whether BuddyPress should enable afilter support.
@@ -712,51 +708,44 @@ function bp_has_activities( $args = '' ) {
 	 *
 	 * @param bool $value True if BuddyPress should enable afilter support.
 	 */
-	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) )
-		$filter = array( 'object' => $_GET['afilter'] );
-	elseif ( ! empty( $user_id ) || ! empty( $object ) || ! empty( $action ) || ! empty( $primary_id ) || ! empty( $secondary_id ) || ! empty( $offset ) || ! empty( $since ) )
-		$filter = array( 'user_id' => $user_id, 'object' => $object, 'action' => $action, 'primary_id' => $primary_id, 'secondary_id' => $secondary_id, 'offset' => $offset, 'since' => $since );
-	else
-		$filter = false;
+	if ( isset( $_GET['afilter'] ) && apply_filters( 'bp_activity_enable_afilter_support', false ) ) {
+		$r['filter'] = array(
+			'object' => $_GET['afilter']
+		);
+	} elseif ( ! empty( $r['user_id'] ) || ! empty( $r['object'] ) || ! empty( $r['action'] ) || ! empty( $r['primary_id'] ) || ! empty( $r['secondary_id'] ) || ! empty( $r['offset'] ) || ! empty( $r['since'] ) ) {
+		$r['filter'] = array(
+			'user_id'      => $r['user_id'],
+			'object'       => $r['object'],
+			'action'       => $r['action'],
+			'primary_id'   => $r['primary_id'],
+			'secondary_id' => $r['secondary_id'],
+			'offset'       => $r['offset'],
+			'since'        => $r['since']
+		);
+	} else {
+		$r['filter'] = false;
+	}
 
-	// If specific activity items have been requested, override the $hide_spam argument. This prevents backpat errors with AJAX.
-	if ( !empty( $include ) && ( 'ham_only' == $spam ) )
-		$spam = 'all';
+	// If specific activity items have been requested, override the $hide_spam
+	// argument. This prevents backpat errors with AJAX.
+	if ( ! empty( $r['include'] ) && ( 'ham_only' === $r['spam'] ) ) {
+		$r['spam'] = 'all';
+	}
 
-	$template_args = array(
-		'page'              => $page,
-		'per_page'          => $per_page,
-		'page_arg'          => $page_arg,
-		'max'               => $max,
-		'count_total'       => $count_total,
-		'sort'              => $sort,
-		'include'           => $include,
-		'exclude'           => $exclude,
-		'in'                => $in,
-		'filter'            => $filter,
-		'scope'             => $scope,
-		'search_terms'      => $search_terms,
-		'meta_query'        => $meta_query,
-		'date_query'        => $date_query,
-		'filter_query'      => $filter_query,
-		'display_comments'  => $display_comments,
-		'show_hidden'       => $show_hidden,
-		'spam'              => $spam,
-		'update_meta_cache' => $update_meta_cache,
-	);
+	/** Query *****************************************************************/
 
-	$activities_template = new BP_Activity_Template( $template_args );
+	$activities_template = new BP_Activity_Template( $r );
 
 	/**
 	 * Filters whether or not there are activity items to display.
 	 *
 	 * @since BuddyPress (1.1.0)
 	 *
-	 * @param bool   $has_activities Whether or not there are activity items to display.
+	 * @param bool   $has_activities      Whether or not there are activity items to display.
 	 * @param string $activities_template Current activities template being used.
-	 * @param array  $template_args Array of arguments passed into the BP_Activity_Template class.
+	 * @param array  $template_args       Array of arguments passed into the BP_Activity_Template class.
 	 */
-	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template, $template_args );
+	return apply_filters( 'bp_has_activities', $activities_template->has_activities(), $activities_template, $r );
 }
 
 /**
