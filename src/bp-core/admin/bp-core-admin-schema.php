@@ -40,6 +40,8 @@ function bp_core_install( $active_components = false ) {
 
 	// If no components passed, get all the active components from the main site
 	if ( empty( $active_components ) ) {
+
+		/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
 		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 	}
 
