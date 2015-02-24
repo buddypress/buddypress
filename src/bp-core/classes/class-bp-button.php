@@ -231,7 +231,19 @@ class BP_Button {
 		// Build the button
 		$this->contents = $before . '<a'. $this->link_href . $this->link_title . $this->link_id . $this->link_rel . $this->link_class . '>' . $this->link_text . '</a>' . $after;
 
-		// Allow button to be manipulated externally
+		/**
+		 * Filters the button based on class parameters.
+		 *
+		 * This filter is a dynamic filter based on component and component ID and
+		 * allows button to be manipulated externally.
+		 *
+		 * @since BuddyPress (1.2.6)
+		 *
+		 * @param string    $contents HTML being used for the button.
+		 * @param BP_Button $this     Current BP_Button instance.
+		 * @param string    $before   HTML appended before the actual button.
+		 * @param string    $after    HTML appended after the actual button.
+		 */
 		$this->contents = apply_filters( 'bp_button_' . $this->component . '_' . $this->id, $this->contents, $this, $before, $after );
 	}
 
