@@ -1,13 +1,13 @@
 <?php
 
 /**
- * BuddyPress Admin Actions
+ * BuddyPress Admin Actions.
  *
  * This file contains the actions that are used through-out BuddyPress Admin. They
  * are consolidated here to make searching for them easier, and to help developers
  * understand at a glance the order in which things occur.
  *
- * There are a few common places that additional actions can currently be found
+ * There are a few common places that additional actions can currently be found.
  *
  *  - BuddyPress: In {@link BuddyPress::setup_actions()} in BuddyPress.php
  *  - Admin: More in {@link bp_Admin::setup_actions()} in admin.php
@@ -22,7 +22,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Attach BuddyPress to WordPress
+ * Attach BuddyPress to WordPress.
  *
  * BuddyPress uses its own internal actions to help aid in third-party plugin
  * development, and to limit the amount of potential future code changes when
@@ -60,16 +60,16 @@ add_action( 'bp_admin_menu', 'bp_admin_separator' );
 
 /**
  * When a new site is created in a multisite installation, run the activation
- * routine on that site
+ * routine on that site.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @param int $blog_id
  * @param int $user_id
  * @param string $domain
  * @param string $path
  * @param int $site_id
- * @param array() $meta
+ * @param array $meta
  */
 function bp_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 
@@ -80,7 +80,18 @@ function bp_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 	// Switch to the new blog
 	switch_to_blog( $blog_id );
 
-	// Do the BuddyPress activation routine
+	/**
+	 * Fires the activation routine for a new site created in a multisite installation.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param int    $blog_id ID of the blog being installed to.
+	 * @param int    $user_id ID of the user the install is for.
+	 * @param string $domain  Domain to use with the install.
+	 * @param string $path    Path to use with the install.
+	 * @param int    $site_id ID of the site being installed to.
+	 * @param array  $meta    Metadata to use with the site creation.
+	 */
 	do_action( 'bp_new_site', $blog_id, $user_id, $domain, $path, $site_id, $meta );
 
 	// restore original blog
@@ -90,42 +101,66 @@ function bp_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 /** Sub-Actions ***************************************************************/
 
 /**
- * Piggy back admin_init action
+ * Piggy back admin_init action.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_admin_init'
+ * @since BuddyPress (1.7.0)
+ * @uses do_action() Calls 'bp_admin_init'.
  */
 function bp_admin_init() {
+
+	/**
+	 * Fires inside the bp_admin_init function.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_admin_init' );
 }
 
 /**
- * Piggy back admin_menu action
+ * Piggy back admin_menu action.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_admin_menu'
+ * @since BuddyPress (1.7.0)
+ * @uses do_action() Calls 'bp_admin_menu'.
  */
 function bp_admin_menu() {
+
+	/**
+	 * Fires inside the bp_admin_menu function.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 */
 	do_action( 'bp_admin_menu' );
 }
 
 /**
- * Piggy back admin_head action
+ * Piggy back admin_head action.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_admin_head'
+ * @since BuddyPress (1.7.0)
+ * @uses do_action() Calls 'bp_admin_head'.
  */
 function bp_admin_head() {
+
+	/**
+	 * Fires inside the bp_admin_head function.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_admin_head' );
 }
 
 /**
- * Piggy back admin_notices action
+ * Piggy back admin_notices action.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_admin_notices'
+ * @since BuddyPress (1.7.0)
+ * @uses do_action() Calls 'bp_admin_notices'.
  */
 function bp_admin_notices() {
+
+	/**
+	 * Fires inside the bp_admin_notices function.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_admin_notices' );
 }
 
@@ -137,38 +172,66 @@ function bp_admin_notices() {
  * @uses do_action() Calls 'bp_admin_enqueue_scripts''.
  *
  * @param string $hook_suffix The current admin page, passed to
- *        'admin_enqueue_scripts'.
+ *                            'admin_enqueue_scripts'.
  */
 function bp_admin_enqueue_scripts( $hook_suffix = '' ) {
+
+	/**
+	 * Fires inside the bp_admin_enqueue_scripts function.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $hook_suffix The current admin page, passed to admin_enqueue_scripts.
+	 */
 	do_action( 'bp_admin_enqueue_scripts', $hook_suffix );
 }
 
 /**
- * Dedicated action to register BuddyPress importers
+ * Dedicated action to register BuddyPress importers.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_admin_notices'
+ * @since BuddyPress (1.7.0)
+ * @uses do_action() Calls 'bp_admin_notices'.
  */
 function bp_register_importers() {
+
+	/**
+	 * Fires inside the bp_register_importers function.
+	 *
+	 * Used to register a BuddyPress importer.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 */
 	do_action( 'bp_register_importers' );
 }
 
 /**
- * Dedicated action to register admin styles
+ * Dedicated action to register admin styles.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_admin_notices'
+ * @since BuddyPress (1.7.0)
+ * @uses do_action() Calls 'bp_admin_notices'.
  */
 function bp_register_admin_style() {
+
+	/**
+	 * Fires inside the bp_register_admin_style function.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 */
 	do_action( 'bp_register_admin_style' );
 }
 
 /**
- * Dedicated action to register admin settings
+ * Dedicated action to register admin settings.
  *
- * @since BuddyPress (1.7)
- * @uses do_action() Calls 'bp_register_admin_settings'
+ * @since BuddyPress (1.7.0)
+ * @uses do_action() Calls 'bp_register_admin_settings'.
  */
 function bp_register_admin_settings() {
+
+	/**
+	 * Fires inside the bp_register_admin_settings function.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_register_admin_settings' );
 }
