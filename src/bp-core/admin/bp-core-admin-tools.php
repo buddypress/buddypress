@@ -144,6 +144,13 @@ function bp_admin_repair_list() {
 
 	ksort( $repair_list );
 
+	/**
+	 * Filters the array of the repair list.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $repair_list Array of values for the Repair list options.
+	 */
 	return (array) apply_filters( 'bp_repair_list', $repair_list );
 }
 
@@ -364,7 +371,14 @@ function bp_core_admin_available_tools_page() {
 	<div class="wrap">
 		<h2><?php esc_attr_e( 'Tools', 'buddypress' ) ?></h2>
 
-		<?php do_action( 'bp_network_tool_box' ); ?>
+		<?php
+
+		/**
+		 * Fires inside the markup used to display the Available Tools page.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 */
+		do_action( 'bp_network_tool_box' ); ?>
 
 	</div>
 	<?php
