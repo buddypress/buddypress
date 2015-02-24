@@ -38,6 +38,9 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		$this->assertEquals( bp_admin_list_table_current_bulk_action(), 'foo' );
 	}
 
+	/**
+	 * @group bp_core_admin_get_active_components_from_submitted_settings
+	 */
 	public function test_bp_core_admin_get_active_components_from_submitted_settings() {
 		$get_action = isset( $_GET['action'] ) ? $_GET['action'] : null;
 		$ac = buddypress()->active_components;
@@ -119,6 +122,38 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		}
 
 		buddypress()->active_components = $ac;
+	}
+
+	/**
+	 * @group BP6244
+	 * @group bp_core_admin_get_active_components_from_submitted_settings
+	 */
+	public function test_bp_core_admin_get_active_components_from_submitted_settings_should_keep_custom_component_directory_page() {
+		$bp = buddypress();
+		$reset_active_components = $bp->active_components;
+
+		// Create and activate the foo component
+		$bp->foo = new BP_Component;
+		$bp->foo->id   = 'foo';
+		$bp->foo->slug = 'foo';
+		$bp->foo->name = 'Foo';
+		$bp->active_components[ $bp->foo->id ] = 1;
+		$new_page_ids = array( $bp->foo->id => $this->factory->post->create( array(
+			'post_type'  => 'page',
+			'post_title' => $bp->foo->name,
+			'post_name'  => $bp->foo->slug,
+		) ) );
+
+		$page_ids = array_merge( $new_page_ids, (array) bp_core_get_directory_page_ids() );
+		bp_core_update_directory_page_ids( $page_ids );
+
+		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $reset_active_components );
+		bp_core_add_page_mappings( $bp->active_components );
+
+		$this->assertContains( $bp->foo->id, array_keys( bp_core_get_directory_page_ids() ) );
+
+		// Reset buddypress() vars
+		$bp->active_components = $reset_active_components;
 	}
 
 	/**
