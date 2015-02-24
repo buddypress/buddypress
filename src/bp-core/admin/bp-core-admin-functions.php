@@ -32,7 +32,7 @@ function bp_core_admin_menu_init() {
  * @global array $_parent_pages
  * @global array $_registered_pages
  * @global array $submenu
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 function bp_core_admin_backpat_menu() {
 	global $_parent_pages, $_registered_pages, $submenu;
@@ -71,7 +71,7 @@ add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
  *
  * @global string $plugin_page
  * @global array $submenu
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 function bp_core_modify_admin_menu_highlight() {
 	global $plugin_page, $submenu_file;
@@ -93,7 +93,7 @@ function bp_core_modify_admin_menu_highlight() {
  * will never appear.
  *
  * @see bp_core_admin_backpat_menu()
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  * @todo Add convenience links into the markup once new positions are finalised.
  */
 function bp_core_admin_backpat_page() {
@@ -119,7 +119,7 @@ function bp_core_admin_backpat_page() {
  * BuddyPress combines all its messages into a single notice, to avoid a preponderance of yellow
  * boxes.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @uses bp_current_user_can() to check current user permissions before showing the notices
  * @uses bp_is_root_blog()
@@ -164,7 +164,7 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * box. It is recommended that you hook this function to admin_init, so that your messages are
  * loaded in time.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  *
  * @param string $notice The notice you are adding to the queue.
  * @param string $type The notice type; optional. Usually either "updated" or "error".
@@ -199,7 +199,7 @@ function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
  *
  * @global WPDB $wpdb WordPress DB object
  * @global WP_Rewrite $wp_rewrite
- * @since BuddyPress (1.2)
+ * @since BuddyPress (1.2.0)
  */
 function bp_core_activation_notice() {
 	global $wp_rewrite, $wpdb;
@@ -329,7 +329,7 @@ function bp_core_activation_notice() {
 /**
  * Redirect user to BuddyPress's What's New page on activation
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @internal Used internally to redirect BuddyPress to the about page on activation
  *
@@ -370,13 +370,21 @@ function bp_do_activation_redirect() {
 /**
  * Output the tabs in the admin area
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  * @param string $active_tab Name of the tab that is active. Optional.
  */
 function bp_core_admin_tabs( $active_tab = '' ) {
 	$tabs_html    = '';
 	$idle_class   = 'nav-tab';
 	$active_class = 'nav-tab nav-tab-active';
+
+	/**
+	 * Filters the admin tabs to be displayed.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param array $value Array of tabs to output to the admin area.
+	 */
 	$tabs         = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab ) );
 
 	// Loop through tabs and build navigation
@@ -387,6 +395,12 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	}
 
 	echo $tabs_html;
+
+	/**
+	 * Fires after the output of tabs for the admin area.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_admin_tabs' );
 }
 
@@ -428,8 +442,9 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 	/**
 	 * Filters the tab data used in our wp-admin screens.
 	 *
-	 * @param array $tabs Tab data.
 	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $tabs Tab data.
 	 */
 	return apply_filters( 'bp_core_get_admin_tabs', $tabs );
 }
@@ -439,7 +454,7 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 /**
  * adds contextual help to BuddyPress admin pages
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  * @todo Make this part of the BP_Component class and split into each component
  */
 function bp_core_add_contextual_help( $screen = '' ) {
@@ -529,7 +544,7 @@ add_action( 'contextual_help', 'bp_core_add_contextual_help' );
 /**
  * renders contextual help content to contextual help tabs
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  */
 function bp_core_add_contextual_help_content( $tab = '' ) {
 
@@ -568,7 +583,7 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 /**
  * Add a separator to the WordPress admin menus
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @uses bp_current_user_can() To check users capability on root blog
  */
@@ -603,7 +618,7 @@ function bp_admin_separator() {
 /**
  * Tell WordPress we have a custom menu order
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @param bool $menu_order Menu order
  * @uses bp_current_user_can() To check users capability on root blog
@@ -622,7 +637,7 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
 /**
  * Move our custom separator above our custom post types
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @param array $menu_order Menu Order
  * @uses bp_current_user_can() To check users capability on root blog
@@ -641,7 +656,13 @@ function bp_admin_menu_order( $menu_order = array() ) {
 	// Menu values
 	$last_sep     = is_network_admin() ? 'separator1' : 'separator2';
 
-	// Filter the custom admin menus
+	/**
+	 * Filters the custom admin menus.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param array $value Empty array.
+	 */
 	$custom_menus = (array) apply_filters( 'bp_admin_menu_order', array() );
 
 	// Bail if no components have top level admin pages
@@ -687,7 +708,7 @@ function bp_admin_menu_order( $menu_order = array() ) {
  * and the inputs have different keys in the $_REQUEST array. This function
  * reconciles the two values and returns a single action being performed.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  * @return string
  */
 function bp_admin_list_table_current_bulk_action() {
