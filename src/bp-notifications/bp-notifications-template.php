@@ -792,10 +792,12 @@ function bp_the_notification_description() {
 		 * Filters the full-text description for a specific notification.
 		 *
 		 * @since BuddyPress (1.9.0)
+		 * @since BuddyPress (2.3.0) Added the `$notification` parameter.
 		 *
-		 * @param string $description Full-text description for a specific notification.
+		 * @param string $description  Full-text description for a specific notification.
+		 * @param object $notification Notification object.
 		 */
-		return apply_filters( 'bp_get_the_notification_description', $description );
+		return apply_filters( 'bp_get_the_notification_description', $description, $notification );
 	}
 
 /**
