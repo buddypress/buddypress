@@ -835,14 +835,27 @@ function bp_core_redirect( $location = '', $status = 302 ) {
 }
 
 /**
- * Return the referrer URL without the http(s)://
+ * Return the URL path of the referring page.
  *
- * @return string The referrer URL.
+ * This is a wrapper for `wp_get_referer()` that sanitizes the referer URL to
+ * a webroot-relative path. For example, 'http://example.com/foo/' will be
+ * reduced to '/foo/'.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @return bool|string Returns false on error, a URL path on success.
  */
-function bp_core_referrer() {
-	$referer = explode( '/', wp_get_referer() );
-	unset( $referer[0], $referer[1], $referer[2] );
-	return implode( '/', $referer );
+function bp_get_referer_path() {
+	$referer = wp_get_referer();
+
+	if ( false === $referer ) {
+		return false;
+	}
+
+	// Turn into an absolute path.
+	$referer = preg_replace( '|https?\://[^/]+/|', '/', $referer );
+
+	return $referer;
 }
 
 /**
