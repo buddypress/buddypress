@@ -7,7 +7,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Slurp up activitymeta for a specified set of activity items.
@@ -20,7 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *        separated list or array of activity ids
  */
 function bp_activity_update_meta_cache( $activity_ids = false ) {
-	global $bp;
+	$bp = buddypress();
 
 	$cache_args = array(
 		'object_ids' 	   => $activity_ids,
@@ -43,6 +43,7 @@ function bp_activity_update_meta_cache( $activity_ids = false ) {
  */
 function bp_activity_clear_cache_for_activity( $activity ) {
 	wp_cache_delete( $activity->id, 'bp_activity' );
+	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 }
 add_action( 'bp_activity_after_save', 'bp_activity_clear_cache_for_activity' );
 

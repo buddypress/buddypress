@@ -250,7 +250,7 @@ body.activity-permalink #buddypress .activity-list li .activity-header > p {
 }
 #buddypress .activity-list .activity-content .activity-header img.avatar {
 	float: none !important;
-	margin: 0 5px -8px 0 !important;
+	margin: 0 0 -8px 5px !important;
 }
 #buddypress a.bp-secondary-action,
 #buddypress span.highlight {
@@ -1555,6 +1555,10 @@ body.register #buddypress div.page ul {
 
 .widget.buddypress .bp-login-widget-user-avatar {
 	float: right;
+}
+
+.bp-login-widget-user-avatar img.avatar {
+	height: 40px;
 	width: 40px;
 }
 
@@ -1580,6 +1584,7 @@ body.register #buddypress div.page ul {
 .widget.buddypress #groups-list li,
 .widget.buddypress #members-list li,
 .widget.buddypress #friends-list li {
+	clear: both;
 	list-style-type: none;
 }
 

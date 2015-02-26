@@ -8,7 +8,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /** Versions ******************************************************************/
 
@@ -268,6 +268,35 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 }
 
 /**
+ * Sanitizes a pagination argument based on both the request override and the
+ * original value submitted via a query argument, likely to a template class
+ * responsible for limiting the resultset of a template loop.
+ *
+ * @since BuddyPress (2.2.0)
+ *
+ * @param  string $page_arg The $_REQUEST argument to look for
+ * @param  int    $page     The original page value to fall back to
+ * @return int              A sanitized integer value, good for pagination
+ */
+function bp_sanitize_pagination_arg( $page_arg = '', $page = 1 ) {
+
+	// Check if request overrides exist
+	if ( isset( $_REQUEST[ $page_arg ] ) ) {
+
+		// Get the absolute integer value of the override
+		$int = absint( $_REQUEST[ $page_arg ] );
+
+		// If override is 0, do not use it. This prevents unlimited result sets.
+		// @see https://buddypress.trac.wordpress.org/ticket/5796
+		if ( $int ) {
+			$page = $int;
+		}
+	}
+
+	return intval( $page );
+}
+
+/**
  * Sanitize an 'order' parameter for use in building SQL queries.
  *
  * Strings like 'DESC', 'desc', ' desc' will be interpreted into 'DESC'.
@@ -403,7 +432,7 @@ function bp_core_get_directory_page_ids() {
 			}
 
 			// 'register' and 'activate' do not have components, but should be whitelisted.
-			if ( bp_get_signup_allowed() && ( 'register' === $component_name || 'activate' === $component_name ) ) {
+			if ( 'register' === $component_name || 'activate' === $component_name ) {
 				continue;
 			}
 
@@ -596,12 +625,21 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 /**
  * Remove the entry from bp_pages when the corresponding WP page is deleted.
  *
+ * Bails early on multisite installations when not viewing the root site.
+ * @link https://buddypress.trac.wordpress.org/ticket/6226
+ *
  * @since BuddyPress (2.2.0)
  *
  * @param int $post_id Post ID.
  */
 function bp_core_on_directory_page_delete( $post_id ) {
-	$page_ids = bp_core_get_directory_page_ids();
+
+	// Stop if we are not on the main BP root blog
+	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
+	$page_ids       = bp_core_get_directory_page_ids();
 	$component_name = array_search( $post_id, $page_ids );
 
 	if ( ! empty( $component_name ) ) {
@@ -757,7 +795,7 @@ function bp_do_register_theme_directory() {
 /**
  * Return the domain for the root blog.
  *
- * eg: http://domain.com OR https://domain.com
+ * eg: http://example.com OR https://example.com
  *
  * @uses get_blog_option() WordPress function to fetch blog meta.
  *
@@ -797,14 +835,27 @@ function bp_core_redirect( $location = '', $status = 302 ) {
 }
 
 /**
- * Return the referrer URL without the http(s)://
+ * Return the URL path of the referring page.
  *
- * @return string The referrer URL.
+ * This is a wrapper for `wp_get_referer()` that sanitizes the referer URL to
+ * a webroot-relative path. For example, 'http://example.com/foo/' will be
+ * reduced to '/foo/'.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @return bool|string Returns false on error, a URL path on success.
  */
-function bp_core_referrer() {
-	$referer = explode( '/', wp_get_referer() );
-	unset( $referer[0], $referer[1], $referer[2] );
-	return implode( '/', $referer );
+function bp_get_referer_path() {
+	$referer = wp_get_referer();
+
+	if ( false === $referer ) {
+		return false;
+	}
+
+	// Turn into an absolute path.
+	$referer = preg_replace( '|https?\://[^/]+/|', '/', $referer );
+
+	return $referer;
 }
 
 /**
@@ -825,7 +876,7 @@ function bp_core_get_site_path() {
 		if ( count( $site_path ) < 2 ) {
 			$site_path = '/';
 		} else {
-			// Unset the first three segments (http(s)://domain.com part)
+			// Unset the first three segments (http(s)://example.com part)
 			unset( $site_path[0] );
 			unset( $site_path[1] );
 			unset( $site_path[2] );

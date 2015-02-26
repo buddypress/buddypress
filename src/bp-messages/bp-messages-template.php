@@ -8,7 +8,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Message Box Template Class
@@ -119,7 +119,6 @@ class BP_Messages_Box_Template {
 	 * }
 	 */
 	public function __construct( $args = array() ) {
-		global $wpdb, $bp;
 
 		// Backward compatibility with old method of passing arguments
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
@@ -140,36 +139,37 @@ class BP_Messages_Box_Template {
 		}
 
 		$r = wp_parse_args( $args, array(
-			'user_id'  => bp_loggedin_user_id(),
-			'box'      => 'inbox',
-			'per_page' => 10,
-			'max'      => false,
-			'type'     => 'all',
-			'search_terms' => '',
+			'page'         => 1,
+			'per_page'     => 10,
 			'page_arg'     => 'mpage',
+			'box'          => 'inbox',
+			'type'         => 'all',
+			'user_id'      => bp_loggedin_user_id(),
+			'max'          => false,
+			'search_terms' => '',
 			'meta_query'   => array(),
 		) );
 
-		$this->pag_page = isset( $_GET[ $r['page_arg'] ] ) ? intval( $_GET[ $r['page_arg'] ] ) : 1;
-		$this->pag_num  = isset( $_GET['num'] ) ? intval( $_GET['num'] ) : $r['per_page'];
-
+		$this->pag_arg      = sanitize_key( $r['page_arg'] );
+		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
+		$this->pag_num      = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
 		$this->user_id      = $r['user_id'];
 		$this->box          = $r['box'];
 		$this->type         = $r['type'];
 		$this->search_terms = $r['search_terms'];
 
-		if ( 'notices' == $this->box ) {
+		if ( 'notices' === $this->box ) {
 			$this->threads = BP_Messages_Notice::get_notices( array(
 				'pag_num'  => $this->pag_num,
 				'pag_page' => $this->pag_page
 			) );
 		} else {
 			$threads = BP_Messages_Thread::get_current_threads_for_user( array(
-				'user_id' => $this->user_id,
-				'box'     => $this->box,
-				'type'    => $this->type,
-				'limit'   => $this->pag_num,
-				'page'    => $this->pag_page,
+				'user_id'      => $this->user_id,
+				'box'          => $this->box,
+				'type'         => $this->type,
+				'limit'        => $this->pag_num,
+				'page'         => $this->pag_page,
 				'search_terms' => $this->search_terms,
 				'meta_query'   => $r['meta_query'],
 			) );
@@ -184,16 +184,16 @@ class BP_Messages_Box_Template {
 		} else {
 			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
 
-			if ( ! $r['max'] || $r['max'] >= (int) $total_notice_count ) {
-				if ( 'notices' == $this->box ) {
+			if ( empty( $r['max'] ) || ( (int) $r['max'] >= (int) $total_notice_count ) ) {
+				if ( 'notices' === $this->box ) {
 					$this->total_thread_count = (int) $total_notice_count;
 				}
 			} else {
 				$this->total_thread_count = (int) $r['max'];
 			}
 
-			if ( $r['max'] ) {
-				if ( $max >= count( $this->threads ) ) {
+			if ( ! empty( $r['max'] ) ) {
+				if ( (int) $r['max'] >= count( $this->threads ) ) {
 					$this->thread_count = count( $this->threads );
 				} else {
 					$this->thread_count = (int) $r['max'];
@@ -889,7 +889,7 @@ function bp_message_thread_total_count( $thread_id = false ) {
 /**
  * Output markup for the current thread's total and unread count.
  *
- * @since Buddypress (2.2.0)
+ * @since BuddyPress (2.2.0)
  *
  * @param int $thread_id Optional. ID of the thread. Default: current thread ID.
  */
@@ -1092,20 +1092,41 @@ function bp_messages_pagination_count() {
 /**
  * Output the Private Message search form.
  *
+ * @todo  Move markup to template part in: /members/single/messages/search.php
  * @since BuddyPress (1.6.0)
  */
 function bp_message_search_form() {
 
+	// Get the default search text
 	$default_search_value = bp_get_search_default_text( 'messages' );
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value; ?>
+
+	// Setup a few values based on what's being searched for
+	$search_submitted     = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
+	$search_placeholder   = ( $search_submitted === $default_search_value ) ? ' placeholder="' .  esc_attr( $search_submitted ) . '"' : '';
+	$search_value         = ( $search_submitted !== $default_search_value ) ? ' value="'       .  esc_attr( $search_submitted ) . '"' : '';
+
+	// Start the output buffer, so form can be filtered
+	ob_start(); ?>
 
 	<form action="" method="get" id="search-message-form">
-		<label for="messages_search" class="bp-screen-reader-text"><?php _e( 'Search Messages', 'buddypress' ); ?></label>
-		<input type="text" name="s" id="messages_search" <?php if ( $search_value === $default_search_value ) : ?>placeholder="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> <?php if ( $search_value !== $default_search_value ) : ?>value="<?php echo esc_html( $search_value ); ?>"<?php endif; ?> />
-		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="<?php esc_attr_e( 'Search', 'buddypress' ) ?>" />
+		<label for="messages_search" class="bp-screen-reader-text"><?php esc_html_e( 'Search Messages', 'buddypress' ); ?></label>
+		<input type="text" name="s" id="messages_search"<?php echo $search_placeholder . $search_value; ?> />
+		<input type="submit" class="button" id="messages_search_submit" name="messages_search_submit" value="<?php esc_html_e( 'Search', 'buddypress' ); ?>" />
 	</form>
 
-<?php
+	<?php
+
+	// Get the search form from the above output buffer
+	$search_form_html = ob_get_clean();
+
+	/**
+	 * Filters the private message component search form.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param string $search_form_html HTML markup for the message search form.
+	 */
+	echo apply_filters( 'bp_message_search_form', $search_form_html );
 }
 
 /**

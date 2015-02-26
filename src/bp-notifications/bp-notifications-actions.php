@@ -12,7 +12,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Handle marking single notifications as read.
@@ -125,7 +125,7 @@ add_action( 'bp_actions', 'bp_notifications_action_delete' );
 /**
  * Handles bulk management (mark as read/unread, delete) of notifications.
  *
- * @since BuddyPress (2.2)
+ * @since BuddyPress (2.2.0)
  *
  * @return bool
  */

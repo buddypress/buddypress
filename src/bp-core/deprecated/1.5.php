@@ -8,7 +8,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /** Loader ********************************************************************/
 
@@ -449,7 +449,7 @@ function bp_is_friend_requests() {
 
 /**
  * Checks to see if a component's URL should be in the root, not under a member page:
- * eg: http://domain.com/groups/the-group NOT http://domain.com/members/andy/groups/the-group
+ * eg: http://example.com/groups/the-group NOT http://example.com/members/andy/groups/the-group
  * You should be using bp_is_root_component().
  *
  * @deprecated BuddyPress (1.5)

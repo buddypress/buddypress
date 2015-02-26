@@ -4,6 +4,26 @@
  * @since BuddyPress (1.6)
  */
 
+/* Welcome Screen
+------------------------------------------------------------------------------*/
+
+body.dashboard_page_bp-about span.dashicons,
+body.index_page_bp-about span.dashicons {
+	float: left;
+	clear: left;
+	margin: 15px 15px 0 0 ;
+	height: 90px;
+	width: 90px;
+	background-color: #cccccc;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	border: 1px solid #c1c1c1;
+	font-size: 65px;
+	line-height: 90px;
+	color: #999;
+	text-align: center;
+}
+
 /* User's Lists
 ------------------------------------------------------------------------------*/
 

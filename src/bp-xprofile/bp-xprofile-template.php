@@ -8,21 +8,98 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 class BP_XProfile_Data_Template {
-	var $current_group = -1;
-	var $group_count;
-	var $groups;
-	var $group;
+    /**
+     * The loop iterator.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $current_group = -1;
+	
+    /**
+     * The number of groups returned by the paged query.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $group_count;
+	
+    /**
+     * Array of groups located by the query.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var array
+     */
+	public $groups;
+	
+    /**
+     * The group object currently being iterated on.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var object
+     */
+	public $group;
 
-	var $current_field = -1;
-	var $field_count;
-	var $field_has_data;
-	var $field;
+    /**
+     * The current field.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $current_field = -1;
+	
+    /**
+     * The field count.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $field_count;
+	
+    /**
+     * Field has data.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var bool
+     */
+	public $field_has_data;
+	
+    /**
+     * The field.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $field;
 
-	var $in_the_loop;
-	var $user_id;
+    /**
+     * A flag for whether the loop is currently being iterated.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var bool
+     */
+	public $in_the_loop;
+	
+    /**
+     * The user ID.
+     *
+     * @since BuddyPress (1.5.0)
+     * @access public
+     * @var int
+     */
+	public $user_id;
 
 	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false, $fetch_visibility_level = false, $update_meta_cache = true ) {
 		$this->groups = bp_xprofile_get_groups( array(
@@ -369,7 +446,9 @@ function bp_the_profile_group_edit_form_action() {
 	echo bp_get_the_profile_group_edit_form_action();
 }
 	function bp_get_the_profile_group_edit_form_action() {
-		global $bp, $group;
+		global $group;
+
+		$bp = buddypress();
 
 		/**
 		 * Filters the action for the profile group edit form.
@@ -844,8 +923,9 @@ function bp_profile_has_multiple_groups() {
  * @return string Field group tabs markup.
  */
 function bp_profile_group_tabs() {
-	global $bp, $group_name;
+	global $group_name;
 
+	$bp     = buddypress();
 	$groups = bp_profile_get_field_groups();
 
 	if ( empty( $group_name ) )
@@ -966,7 +1046,7 @@ function bp_avatar_delete_link() {
 	echo bp_get_avatar_delete_link();
 }
 	function bp_get_avatar_delete_link() {
-		global $bp;
+		$bp = buddypress();
 
 		/**
 		 * Filters the link used for deleting an avatar.
@@ -979,7 +1059,7 @@ function bp_avatar_delete_link() {
 	}
 
 function bp_edit_profile_button() {
-	global $bp;
+	$bp = buddypress();
 
 	bp_button( array (
 		'id'                => 'edit_profile',

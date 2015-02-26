@@ -11,7 +11,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Analyze the URI and break it down into BuddyPress-usable chunks.
@@ -21,11 +21,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * URI structures with very little work.
  *
  * The URIs are broken down as follows:
- *   - http:// domain.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
- *   - OUTSIDE ROOT: http:// domain.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - http:// example.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+ *   - OUTSIDE ROOT: http:// example.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *
  *	Example:
- *    - http://domain.com/members/andy/profile/edit/group/5/
+ *    - http://example.com/members/andy/profile/edit/group/5/
  *    - $bp->current_component: string 'xprofile'
  *    - $bp->current_action: string 'edit'
  *    - $bp->action_variables: array ['group', 5]
@@ -33,11 +33,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since BuddyPress (1.0.0)
  */
 function bp_core_set_uri_globals() {
-	global $bp, $current_blog, $wp_rewrite;
+	global $current_blog, $wp_rewrite;
 
 	// Don't catch URIs on non-root blogs unless multiblog mode is on
 	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
 		return false;
+
+	$bp = buddypress();
 
 	// Define local variables
 	$root_profile = $match   = false;
@@ -49,7 +51,7 @@ function bp_core_set_uri_globals() {
 
 	// Ajax or not?
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX || strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
-		$path = bp_core_referrer();
+		$path = bp_get_referer_path();
 	else
 		$path = esc_url( $_SERVER['REQUEST_URI'] );
 
@@ -418,7 +420,9 @@ function bp_core_catch_profile_uri() {
  * @since BuddyPress (1.5.0)
  */
 function bp_core_catch_no_access() {
-	global $bp, $wp_query;
+	global $wp_query;
+
+	$bp = buddypress();
 
 	// If coming from bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessible page so skip this check.
@@ -549,7 +553,6 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  * @uses bp_get_requested_url()
  */
 function bp_redirect_canonical() {
-	global $bp;
 
 	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
 		// If this is a POST request, don't do a canonical redirect.
@@ -572,6 +575,8 @@ function bp_redirect_canonical() {
 
 		// Only redirect if we've assembled a URL different from the request
 		if ( $canonical_url !== $req_url_clean ) {
+
+			$bp = buddypress();
 
 			// Template messages have been deleted from the cookie by this point, so
 			// they must be readded before redirecting
@@ -618,12 +623,13 @@ function bp_rel_canonical() {
  * @return string Canonical URL for the current page.
  */
 function bp_get_canonical_url( $args = array() ) {
-	global $bp;
 
 	// For non-BP content, return the requested url, and let WP do the work
 	if ( bp_is_blog_page() ) {
 		return bp_get_requested_url();
 	}
+
+	$bp = buddypress();
 
 	$defaults = array(
 		'include_query_args' => false // Include URL arguments, eg ?foo=bar&foo2=bar2
@@ -648,7 +654,7 @@ function bp_get_canonical_url( $args = array() ) {
 		// and the current user is logged in. In this case we send to
 		// the members directory to avoid redirect loops
 		} elseif ( bp_is_register_page() && 'register' == $front_page_component && is_user_logged_in() ) {
-			$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) );
+			$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', bp_get_members_directory_permalink() );
 		}
 	}
 
@@ -700,7 +706,7 @@ function bp_get_canonical_url( $args = array() ) {
  * @return string Requested URL string.
  */
 function bp_get_requested_url() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( empty( $bp->canonical_stack['requested_url'] ) ) {
 		$bp->canonical_stack['requested_url']  = is_ssl() ? 'https://' : 'http://';
@@ -753,8 +759,8 @@ add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
  *
  * @since BuddyPress (1.6.1)
  *
- * @link http://buddypress.trac.wordpress.org/ticket/4329
- * @link http://buddypress.trac.wordpress.org/ticket/4415
+ * @link https://buddypress.trac.wordpress.org/ticket/4329
+ * @link https://buddypress.trac.wordpress.org/ticket/4415
  */
 function _bp_rehook_maybe_redirect_404() {
 	if ( defined( 'NOBLOGREDIRECT' ) ) {

@@ -151,11 +151,8 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		} else {
 			// This test has the slight odor of hokum since it recreates so much code that could be changed at any time.
 			$bp = buddypress();
-			// Set host based on if using ssl
-			$host = 'http://gravatar.com/avatar/';
-			if ( is_ssl() ) {
-				$host = 'https://secure.gravatar.com/avatar/';
-			}
+			$host = '//www.gravatar.com/avatar/';
+
 			// Set expected gravatar type
 			if ( empty( $bp->grav_default->{$this->params['object']} ) ) {
 				$default_grav = 'wavatar';
@@ -177,5 +174,47 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$expected_html = '<img src="' . $avatar_url . '" id="' . $this->params['css_id'] . '" class="' . $this->params['class'] . ' ' . $this->params['object'] . '-' . $this->params['item_id'] . '-avatar avatar-' . $this->params['width'] . ' photo" width="' . $this->params['width'] . '" height="' . $this->params['height'] . '" alt="' . $this->params['alt'] . '" title="' . $this->params['title'] . '" />';
 
 		$this->assertEquals( $html, $expected_html );
+	}
+
+	/**
+	 * @group bp_core_fetch_avatar
+	 */
+	public function test_bp_core_fetch_avatar_class_attribute() {
+		$u = $this->factory->user->create();
+
+		$hw = 100;
+		$args = array(
+			'item_id'    => $u,
+			'object'     => 'user',
+			'type'       => 'full',
+			'width'      => $hw,
+			'height'     => $hw,
+			'class'      => '',
+			'no_grav'    => true,
+			'html'       => true,
+		);
+
+		// Class attribute is empty
+		$avatar = bp_core_fetch_avatar( $args );
+		$expected = array( 'avatar', 'user-' . $u . '-avatar', 'avatar-' . $hw );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $avatar, $matches );
+		$classes = explode( ' ', $matches[1] );
+		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
+
+		// Class attribute is a String
+		$args['class'] = 'custom-class class-custom';
+		$avatar = bp_core_fetch_avatar( $args );
+		$expected = array_merge( explode( ' ', $args['class'] ), array( 'user-' . $u . '-avatar', 'avatar-' . $hw ) );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $avatar, $matches );
+		$classes = explode( ' ', $matches[1] );
+		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
+
+		// Class attribute is an Array
+		$args['class'] = array( 'custom-class', 'class-custom' );
+		$avatar = bp_core_fetch_avatar( $args );
+		$expected = array_merge( $args['class'], array( 'user-' . $u . '-avatar', 'avatar-' . $hw ) );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $avatar, $matches );
+		$classes = explode( ' ', $matches[1] );
+		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
 	}
 }

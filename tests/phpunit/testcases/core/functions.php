@@ -395,6 +395,38 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group pagination
+	 * @group bp_sanitize_pagination_arg
+	 */
+	public function test_bp_sanitize_pagination_arg_zero() {
+		$request          = $_REQUEST;
+		$arg              = 'bp_pagination_test';
+		$page             = 1;
+		$_REQUEST[ $arg ] = '0';
+		$value            = bp_sanitize_pagination_arg( $arg, $page );
+
+		$this->assertEquals( $value, $page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group pagination
+	 * @group bp_sanitize_pagination_arg
+	 */
+	public function test_bp_sanitize_pagination_arg_negative() {
+		$request          = $_REQUEST;
+		$arg              = 'bp_pagination_test';
+		$page             = 25;
+		$_REQUEST[ $arg ] = '-25';
+		$value            = bp_sanitize_pagination_arg( $arg, $page );
+
+		$this->assertEquals( $value, $page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
 	 * @group bp_core_get_directory_pages
 	 */
 	public function test_bp_core_get_directory_pages_after_page_edit() {
@@ -535,7 +567,15 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		bp_core_add_page_mappings( array_keys( $ac ) );
 		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
 
+		// Get page ids
+		$page_ids = bp_core_get_directory_page_ids();
+
+		// Need to delete these pages as previously created.
+		wp_delete_post( $page_ids['register'], true );
+		wp_delete_post( $page_ids['activate'], true );
+
 		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+		bp_core_add_page_mappings( array_keys( $ac ) );
 		$page_ids = bp_core_get_directory_page_ids();
 		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
 
@@ -543,6 +583,93 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$this->assertNotContains( 'register', $page_names );
 		$this->assertNotContains( 'activate', $page_names );
+	}
+
+	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_register_activate_page_created_signups_allowed() {
+		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$ac = buddypress()->active_components;
+		bp_core_add_page_mappings( array_keys( $ac ) );
+		$directory_pages = bp_core_get_directory_pages();
+
+		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$this->assertTrue( isset( $directory_pages->register ) );
+		$this->assertTrue( isset( $directory_pages->activate ) );
+
+		$r = get_post( $directory_pages->register->id );
+		$this->assertTrue( 'publish' == $r->post_status );
+
+		$a = get_post( $directory_pages->activate->id );
+		$this->assertTrue( 'publish' == $a->post_status );
+	}
+
+	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_allowed() {
+		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+
+		$ac = buddypress()->active_components;
+		bp_core_add_page_mappings( array_keys( $ac ) );
+
+		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+
+		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$directory_pages = bp_core_get_directory_pages();
+
+		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$this->assertFalse( isset( $directory_pages->register ) );
+		$this->assertFalse( isset( $directory_pages->activate ) );
+	}
+
+	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_register_activate_page_created_signups_notallowed() {
+		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		$ac = buddypress()->active_components;
+		bp_core_add_page_mappings( array_keys( $ac ) );
+
+		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
+
+		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+
+		$directory_pages = bp_core_get_directory_pages();
+
+		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+
+		$this->assertTrue( isset( $directory_pages->register ) );
+		$this->assertTrue( isset( $directory_pages->activate ) );
+
+		$r = get_post( $directory_pages->register->id );
+		$this->assertTrue( 'publish' == $r->post_status );
+
+		$a = get_post( $directory_pages->activate->id );
+		$this->assertTrue( 'publish' == $a->post_status );
+	}
+
+	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_notallowed() {
+
+		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+
+		$ac = buddypress()->active_components;
+		bp_core_add_page_mappings( array_keys( $ac ) );
+		$directory_pages = bp_core_get_directory_pages();
+
+		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
+
+		$this->assertFalse( isset( $directory_pages->register ) );
+		$this->assertFalse( isset( $directory_pages->activate ) );
 	}
 
 	/**
@@ -559,6 +686,41 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp' ) );
 
 		bp_update_option( 'bp-pages', $v );
+	}
+
+	/**
+	 * @group bp_core_get_directory_pages
+	 */
+	public function test_bp_core_get_directory_pages_multisite_delete_post_with_same_bp_page_id() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$dir_pages = bp_core_get_directory_pages();
+
+		// create a blog
+		$u = $this->factory->user->create();
+		$b1 = $this->factory->blog->create( array( 'user_id' => $u ) );
+
+		// switch to blog and create some dummy posts until we reach a post ID that
+		// matches our BP activity page ID
+		switch_to_blog( $b1 );
+		$p = $this->factory->post->create();
+		while( $p <= $dir_pages->activity->id ) {
+			$p = $this->factory->post->create();
+		}
+
+		// delete the post that matches the BP activity page ID on this sub-site
+		wp_delete_post( $dir_pages->activity->id, true );
+
+		// restore blog
+		restore_current_blog();
+
+		// refetch BP directory pages
+		$dir_pages = bp_core_get_directory_pages();
+
+		// Now verify that our BP activity page was not wiped out
+		$this->assertNotEmpty( $dir_pages->activity );
 	}
 
 	/**

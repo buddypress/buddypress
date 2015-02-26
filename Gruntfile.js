@@ -230,8 +230,8 @@ module.exports = function( grunt ) {
 	 */
 	grunt.registerTask( 'src',     ['jsvalidate:src', 'jshint', 'cssjanus'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
-	grunt.registerTask( 'release', ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
-	grunt.registerTask( 'build',   ['release', 'exec:bbpress'] );
+	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
+	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );
 
 	// Testing tasks.
 	grunt.registerMultiTask( 'phpunit', 'Runs PHPUnit tests, including the ajax and multisite tests.', function() {

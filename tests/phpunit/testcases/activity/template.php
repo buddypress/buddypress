@@ -21,7 +21,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	 * @ticket BP4735
 	 */
 	public function test_user_can_delete() {
-		global $bp;
+		$bp = buddypress();
 
 		$a = $this->factory->activity->create( array(
 			'type' => 'activity_update',
@@ -134,13 +134,67 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'action' => 'activity_update',
 		) );
 
-		global $wpdb, $bp;
-
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 
 		$this->assertEquals( array( $a1 ), $ids );
 
 		$activities_template = null;
+	}
+
+	/**
+	 * @group scope
+	 * @group filter_query
+	 * @group BP_Activity_Query
+	 */
+	function test_bp_has_activities_just_me_scope_with_no_user_id() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u1 );
+
+		$now = time();
+
+		// activity item
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u1,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		// misc activity items
+
+		$this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'activity',
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'groups',
+			'item_id'   => 324,
+			'type'      => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		global $activities_template;
+
+		// grab just-me scope with no user ID
+		// user ID should fallback to logged-in user ID
+		bp_has_activities( array(
+			'user_id' => false,
+			'scope' => 'just-me',
+		) );
+
+		// assert!
+		$this->assertEqualSets( array( $a1 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+		$this->set_current_user( $old_user );
 	}
 
 	/**
@@ -352,7 +406,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
@@ -385,7 +439,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
@@ -418,7 +472,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
@@ -451,7 +505,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$now = time();
 
 		// Create a random activity
-		$a1 = $this->factory->activity->create( array(
+		$this->factory->activity->create( array(
 			'user_id' => $u1,
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
@@ -855,6 +909,120 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		// clean up!
 		$activities_template = null;
+	}
+
+	/**
+	 * @ticket BP6169
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_private_group_home_scope() {
+		global $activities_template;
+		$bp = buddypress();
+		$reset_current_group = $bp->groups->current_group;
+		$reset_current_action = $bp->current_action;
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$this->set_current_user( $u1 );
+
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		groups_join_group( $g, $u2 );
+		groups_join_group( $g, $u3 );
+
+		$a1 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u2,
+			'content'   => 'foo bar',
+		) );
+
+		$a2 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u3,
+			'content'   => 'bar foo',
+		) );
+
+		$bp->groups->current_group = groups_get_group( array(
+			'group_id'        => $g,
+			'populate_extras' => true,
+		) );
+
+		// On group's home the scope is set to 'home'
+		$bp->current_action = 'home';
+
+		bp_has_activities( array( 'action' => 'activity_update' ) );
+
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+		$bp->groups->current_group = $reset_current_group;
+		$bp->current_action = $reset_current_action;
+	}
+
+	/**
+	 * @ticket BP6169
+	 * @group bp_has_activities
+	 */
+	public function test_bp_has_activities_hidden_group_home_scope() {
+		global $activities_template;
+		$bp = buddypress();
+		$reset_current_group = $bp->groups->current_group;
+		$reset_current_action = $bp->current_action;
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$this->set_current_user( $u1 );
+
+		$g = $this->factory->group->create( array(
+			'status' => 'hidden',
+		) );
+
+		groups_join_group( $g, $u2 );
+		groups_join_group( $g, $u3 );
+
+		$a1 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u2,
+			'content'   => 'foo bar',
+		) );
+
+		$a2 = $this->factory->activity->create( array(
+			'component' => $bp->groups->id,
+			'item_id'   => $g,
+			'type'      => 'activity_update',
+			'user_id'   => $u3,
+			'content'   => 'bar foo',
+		) );
+
+		$bp->groups->current_group = groups_get_group( array(
+			'group_id'        => $g,
+			'populate_extras' => true,
+		) );
+
+		// On group's home the scope is set to 'home'
+		$bp->current_action = 'home';
+
+		bp_has_activities( array( 'action' => 'activity_update' ) );
+
+		$this->assertEqualSets( array( $a1, $a2 ), wp_list_pluck( $activities_template->activities, 'id' ) );
+
+		// clean up!
+		$activities_template = null;
+		$bp->groups->current_group = $reset_current_group;
+		$bp->current_action = $reset_current_action;
 	}
 
 	/**
@@ -1282,5 +1450,73 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		$ids = wp_list_pluck( $activities_template->activities, 'id' );
 		$this->assertEquals( $ids, array( $a1 ) );
+	}
+
+	/**
+	 * @group pagination
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_give_precedence_to_acpage_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['acpage'] = '5';
+
+		$at = new BP_Activity_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 5, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group pagination
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_reset_0_pag_page_URL_param_to_default_pag_page_value() {
+		$request = $_REQUEST;
+		$_REQUEST['acpage'] = '0';
+
+		$at = new BP_Activity_Template( array(
+			'page' => 8,
+		) );
+
+		$this->assertEquals( 8, $at->pag_page );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group pagination
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_give_precedence_to_num_URL_param() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '14';
+
+		$at = new BP_Activity_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 14, $at->pag_num );
+
+		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group pagination
+	 * @group BP_Activity_Template
+	 */
+	public function test_bp_activity_template_should_reset_0_pag_num_URL_param_to_default_pag_num_value() {
+		$request = $_REQUEST;
+		$_REQUEST['num'] = '0';
+
+		$at = new BP_Activity_Template( array(
+			'per_page' => 13,
+		) );
+
+		$this->assertEquals( 13, $at->pag_num );
+
+		$_REQUEST = $request;
 	}
 }

@@ -8,7 +8,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Akismet support for the Activity component.
@@ -131,7 +131,7 @@ class BP_Akismet {
 	 *
 	 * @since BuddyPress (1.6)
 	 *
-	 * @see http://plugins.trac.wordpress.org/ticket/1232
+	 * @see https://plugins.trac.wordpress.org/ticket/1232
 	 */
 	public function add_activity_stream_nonce() {
 		$form_id = '_bp_as_nonce';
@@ -589,7 +589,7 @@ class BP_Akismet {
 	 *
 	 * @since BuddyPress (1.6)
 	 *
-	 * @see http://buddypress.trac.wordpress.org/ticket/3907
+	 * @see https://buddypress.trac.wordpress.org/ticket/3907
 	 * @todo Update activity meta to allow >1 record with the same key (iterate through $history).
 	 *
 	 * @param object $item Activity item.
@@ -654,11 +654,12 @@ class BP_Akismet {
  *
  * @since BuddyPress (1.6)
  *
- * @global object $bp BuddyPress global settings.
  * @global wpdb $wpdb WordPress database object.
  */
 function bp_activity_akismet_delete_old_metadata() {
-	global $bp, $wpdb;
+	global $wpdb;
+
+	$bp = buddypress();
 
 	/**
 	 * Filters the threshold for how many days old Akismet metadata needs to be before being automatically deleted.

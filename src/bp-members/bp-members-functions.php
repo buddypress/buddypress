@@ -10,7 +10,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Check for the existence of a Members directory page.
@@ -20,7 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @return bool True if found, otherwise false.
  */
 function bp_members_has_directory() {
-	global $bp;
+	$bp = buddypress();
 
 	return (bool) !empty( $bp->pages->members->id );
 }
@@ -151,7 +151,7 @@ function bp_core_get_users( $args = '' ) {
 }
 
 /**
- * Return the domain for the passed user: e.g. http://domain.com/members/andy/.
+ * Return the domain for the passed user: e.g. http://example.com/members/andy/.
  *
  * @param int $user_id The ID of the user.
  * @param string $user_nicename Optional. user_nicename of the user.
@@ -463,7 +463,7 @@ function bp_core_get_user_email( $uid ) {
 /**
  * Return a HTML formatted link for a user with the user's full name as the link text.
  *
- * eg: <a href="http://andy.domain.com/">Andy Peatling</a>
+ * eg: <a href="http://andy.example.com/">Andy Peatling</a>
  *
  * Optional parameters will return just the name or just the URL.
  *
@@ -714,7 +714,8 @@ function bp_core_get_total_member_count() {
 function bp_core_get_active_member_count() {
 	global $wpdb;
 
-	if ( !$count = get_transient( 'bp_active_member_count' ) ) {
+	$count = get_transient( 'bp_active_member_count' );
+	if ( false === $count ) {
 		$bp = buddypress();
 
 		// Avoid a costly join by splitting the lookup
@@ -784,13 +785,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 	remove_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
 	remove_action( 'make_ham_user',  'bp_core_mark_user_ham_admin'  );
 
-	// Determine if we are on an admin page
-	$is_admin = is_admin();
-	if ( $is_admin && ! defined( 'DOING_AJAX' ) ) {
-		$is_admin = (bool) ( buddypress()->members->admin->user_page !== get_current_screen()->id );
-	}
-
-	// When marking as spam in the Dashboard, these actions are handled by WordPress
+	// force the cleanup of WordPress content and status for multisite configs
 	if ( $do_wp_cleanup ) {
 
 		// Get the blogs for the user
@@ -811,35 +806,36 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 		if ( is_multisite() ) {
 			update_user_status( $user_id, 'spam', $is_spam );
 		}
+	}
 
-		// Always set single site status
-		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
+	// Update the user status
+	$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
 
+	// Clean user cache
+	clean_user_cache( $user_id );
+
+	if ( ! is_multisite() ) {
 		// Call multisite actions in single site mode for good measure
-		if ( !is_multisite() ) {
-			if ( true === $is_spam ) {
+		if ( true === $is_spam ) {
 
-				/**
-				 * Fires at end of processing spammer in Dashboard if not multisite and user is spam.
-				 *
-				 * @since BuddyPress (1.5.0)
-				 *
-				 * @param int $value Displayed user ID.
-				 */
-				do_action( 'make_spam_user', bp_displayed_user_id() );
-			} else {
+			/**
+			 * Fires at end of processing spammer in Dashboard if not multisite and user is spam.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param int $value user ID.
+			 */
+			do_action( 'make_spam_user', $user_id );
+		} else {
 
-				/**
-				 * Fires at end of processing spammer in Dashboard if not multisite and user is not spam.
-				 *
-				 * @since BuddyPress (1.5.0)
-				 *
-				 * @param int $value Displayed user ID.
-				 */
-				do_action( 'make_ham_user', bp_displayed_user_id() );
-			}
-
-
+			/**
+			 * Fires at end of processing spammer in Dashboard if not multisite and user is not spam.
+			 *
+			 * @since BuddyPress (1.5.0)
+			 *
+			 * @param int $value user ID.
+			 */
+			do_action( 'make_ham_user', $user_id );
 		}
 	}
 
@@ -2391,7 +2387,7 @@ add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
 function bp_stop_live_spammer() {
 	// if we're on the login page, stop now to prevent redirect loop
 	$is_login = false;
-	if ( isset( $_GLOBALS['pagenow'] ) && false !== strpos( $GLOBALS['pagenow'], 'wp-login.php' ) ) {
+	if ( isset( $GLOBALS['pagenow'] ) && ( false !== strpos( $GLOBALS['pagenow'], 'wp-login.php' ) ) ) {
 		$is_login = true;
 	} elseif ( isset( $_SERVER['SCRIPT_NAME'] ) && false !== strpos( $_SERVER['SCRIPT_NAME'], 'wp-login.php' ) ) {
 		$is_login = true;
@@ -2479,19 +2475,19 @@ function bp_register_member_type( $member_type, $args = array() ) {
 		'labels' => array(),
 	), 'register_member_type' );
 
-	$type = (object) $r;
+	$member_type = sanitize_key( $member_type );
 
 	// Store the post type name as data in the object (not just as the array key).
-	$type->name = $member_type;
+	$r['name'] = $member_type;
 
 	// Make sure the relevant labels have been filled in.
-	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $type->name );
+	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $r['name'] );
 	$r['labels'] = array_merge( array(
 		'name'          => $default_name,
 		'singular_name' => $default_name,
 	), $r['labels'] );
 
-	$bp->members->types[ $member_type ] = $type;
+	$bp->members->types[ $member_type ] = $type = (object) $r;
 
 	/**
 	 * Fires after a member type is registered.
@@ -2511,7 +2507,7 @@ function bp_register_member_type( $member_type, $args = array() ) {
  *
  * @since BuddyPress (2.2.0)
  *
- * @param  string $post_type The name of the member type.
+ * @param  string $member_type The name of the member type.
  * @return object A member type object.
  */
 function bp_get_member_type_object( $member_type ) {
@@ -2542,8 +2538,6 @@ function bp_get_member_type_object( $member_type ) {
  */
 function bp_get_member_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	$types = buddypress()->members->types;
-
-	$field = 'names' == $output ? 'name' : false;
 
 	$types = wp_filter_object_list( $types, $args, $operator );
 
@@ -2589,7 +2583,7 @@ function bp_set_member_type( $user_id, $member_type, $append = false ) {
 
 	// Bust the cache if the type has been updated.
 	if ( ! is_wp_error( $retval ) ) {
-		wp_cache_delete( $user_id, 'bp_member_type' );
+		wp_cache_delete( $user_id, 'bp_member_member_type' );
 
 		/**
 		 * Fires just after a user's member type has been changed.
@@ -2618,14 +2612,14 @@ function bp_set_member_type( $user_id, $member_type, $append = false ) {
  *                           types (if $single is false). Returns false on failure.
  */
 function bp_get_member_type( $user_id, $single = true ) {
-	$types = wp_cache_get( $user_id, 'bp_member_type' );
+	$types = wp_cache_get( $user_id, 'bp_member_member_type' );
 
 	if ( false === $types ) {
-		$types = bp_get_object_terms( $user_id, 'bp_member_type'  );
+		$types = bp_get_object_terms( $user_id, 'bp_member_type' );
 
 		if ( ! is_wp_error( $types ) ) {
 			$types = wp_list_pluck( $types, 'name' );
-			wp_cache_set( $user_id, $types, 'bp_member_type' );
+			wp_cache_set( $user_id, $types, 'bp_member_member_type' );
 		}
 	}
 

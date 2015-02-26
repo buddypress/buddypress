@@ -21,7 +21,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Attach BuddyPress to WordPress.
@@ -63,7 +63,7 @@ add_filter( 'bp_template_include',   'bp_template_include_theme_supports', 2, 1 
 add_filter( 'bp_template_include',   'bp_template_include_theme_compat',   4, 2 );
 
 // Filter BuddyPress template locations
-add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations'          );
+add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations' );
 
 // Turn comments off for BuddyPress pages
 add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
@@ -503,7 +503,6 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
  * @since BuddyPress (1.5.0)
  *
  * @see wp_title()
- * @global object $bp BuddyPress global settings.
  *
  * @param string $title Original page title.
  * @param string $sep How to separate the various items within the page title.
@@ -511,7 +510,6 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
  * @return string New page title.
  */
 function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
-	global $bp;
 
 	// If this is not a BP page, just return the title produced by WP
 	if ( bp_is_blog_page() ) {
@@ -528,6 +526,7 @@ function bp_modify_page_title( $title, $sep = '', $seplocation = '' ) {
 		return $title;
 	}
 
+	$bp    = buddypress();
 	$title = '';
 
 	// Displayed user
@@ -751,8 +750,8 @@ function bp_filter_metaid_column_name( $q ) {
  *
  * @since BuddyPress (2.1.0)
  *
- * @param  string $link    The edit link.
- * @param  int    $post_id Post ID.
+ * @param  string $edit_link The edit link.
+ * @param  int    $post_id   Post ID.
  * @return mixed  Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
  *                otherwise
  */

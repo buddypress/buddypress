@@ -13,18 +13,17 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Check whether there is a Groups directory page in the $bp global.
  *
  * @since BuddyPress (1.5.0)
  *
- * @global BuddyPress $bp The one true BuddyPress instance
  * @return bool True if set, False if empty
  */
 function bp_groups_has_directory() {
-	global $bp;
+	$bp = buddypress();
 
 	return (bool) !empty( $bp->pages->groups->id );
 }
@@ -57,6 +56,13 @@ function groups_get_group( $args = '' ) {
 
 	$group = new BP_Groups_Group( $r['group_id'], $group_args );
 
+	/**
+	 * Filters a single group object.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param BP_Groups_Group $group Single group object.
+	 */
 	return apply_filters( 'groups_get_group', $group );
 }
 
@@ -161,12 +167,39 @@ function groups_create_group( $args = '' ) {
 
 		groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
 
+		/**
+		 * Fires after the creation of a new group and a group creator needs to be made.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param int              $id     ID of the newly created group.
+		 * @param BP_Groups_Member $member Instance of the member who is assigned
+		 *                                 as group creator.
+		 * @param BP_Groups_Group  $group  Instance of the group being created.
+		 */
 		do_action( 'groups_create_group', $group->id, $member, $group );
 
 	} else {
+
+		/**
+		 * Fires after the update of a group.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param int             $id    ID of the updated group.
+		 * @param BP_Groups_Group $group Instance of the group being updated.
+		 */
 		do_action( 'groups_update_group', $group->id, $group );
 	}
 
+	/**
+	 * Fires after the creation of a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int             $id    ID of the newly created group.
+	 * @param BP_Groups_Group $group Instance of the group being updated.
+	 */
 	do_action( 'groups_created_group', $group->id, $group );
 
 	return $group->id;
@@ -260,6 +293,14 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
 		groups_update_groupmeta( $group->id, 'invite_status', $invite_status );
 
 	groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
+
+	/**
+	 * Fires after the update of a groups settings.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $id ID of the group that was updated.
+	 */
 	do_action( 'groups_settings_updated', $group->id );
 
 	return true;
@@ -275,6 +316,13 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
  */
 function groups_delete_group( $group_id ) {
 
+	/**
+	 * Fires before the deletion of a group.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $group_id ID of the group to be deleted.
+	 */
 	do_action( 'groups_before_delete_group', $group_id );
 
 	// Get the group object
@@ -288,6 +336,13 @@ function groups_delete_group( $group_id ) {
 	// Remove all outstanding invites for this group
 	groups_delete_all_group_invites( $group_id );
 
+	/**
+	 * Fires after the deletion of a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $group_id ID of the group that was deleted.
+	 */
 	do_action( 'groups_delete_group', $group_id );
 
 	return true;
@@ -300,7 +355,7 @@ function groups_delete_group( $group_id ) {
  * @return bool True if status is allowed, otherwise false.
  */
 function groups_is_valid_status( $status ) {
-	global $bp;
+	$bp = buddypress();
 
 	return in_array( $status, (array) $bp->groups->valid_status );
 }
@@ -312,7 +367,7 @@ function groups_is_valid_status( $status ) {
  * @return A unique and sanitized slug.
  */
 function groups_check_slug( $slug ) {
-	global $bp;
+	$bp = buddypress();
 
 	if ( 'wp' == substr( $slug, 0, 2 ) )
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
@@ -364,7 +419,6 @@ function groups_get_id( $group_slug ) {
  * @return bool True on success, false on failure.
  */
 function groups_leave_group( $group_id, $user_id = 0 ) {
-	global $bp;
 
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
@@ -384,6 +438,14 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 
 	bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
 
+	/**
+	 * Fires after a user leaves a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $group_id ID of the group.
+	 * @param int $user_id  ID of the user leaving the group.
+	 */
 	do_action( 'groups_leave_group', $group_id, $user_id );
 
 	return true;
@@ -398,7 +460,6 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
  * @return bool True on success, false on failure.
  */
 function groups_join_group( $group_id, $user_id = 0 ) {
-	global $bp;
 
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
@@ -427,6 +488,8 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	if ( !$new_member->save() )
 		return false;
 
+	$bp = buddypress();
+
 	if ( !isset( $bp->groups->current_group ) || !$bp->groups->current_group || $group_id != $bp->groups->current_group->id )
 		$group = groups_get_group( array( 'group_id' => $group_id ) );
 	else
@@ -442,6 +505,14 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	// Modify group meta
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
+	/**
+	 * Fires after a user joins a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $group_id ID of the group.
+	 * @param int $user_id  ID of the user joining the group.
+	 */
 	do_action( 'groups_join_group', $group_id, $user_id );
 
 	return true;
@@ -635,6 +706,17 @@ function groups_get_groups( $args = '' ) {
 		'orderby'           => $r['orderby'],
 	) );
 
+	/**
+	 * Filters the collection of groups based on parsed parameters.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 *
+	 * @param BP_Groups_Group $groups Object of found groups based on parameters.
+	 *                                Passed by reference.
+	 * @param array           $r      Array of parsed arguments used for group query.
+	 *                                Passed by reference.
+	 */
 	return apply_filters_ref_array( 'groups_get_groups', array( &$groups, &$r ) );
 }
 
@@ -704,10 +786,19 @@ function groups_total_groups_for_user( $user_id = 0 ) {
  * @return BP_Groups_Group The current group object.
  */
 function groups_get_current_group() {
-	global $bp;
+	$bp = buddypress();
 
-	$current_group = isset( $bp->groups->current_group ) ? $bp->groups->current_group : false;
+	$current_group = isset( $bp->groups->current_group )
+		? $bp->groups->current_group
+		: false;
 
+	/**
+	 * Filters the BP_Groups_Group object corresponding to the current group.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param BP_Groups_Group $current_group Current BP_Groups_Group object.
+	 */
 	return apply_filters( 'groups_get_current_group', $current_group );
 }
 
@@ -721,10 +812,10 @@ function groups_get_current_group() {
  * @return string
  */
 function groups_avatar_upload_dir( $group_id = 0 ) {
-	global $bp;
 
-	if ( !$group_id )
-		$group_id = $bp->groups->current_group->id;
+	if ( empty( $group_id ) ) {
+		$group_id = bp_get_current_group_id();
+	}
 
 	$path    = bp_core_avatar_upload_path() . '/group-avatars/' . $group_id;
 	$newbdir = $path;
@@ -736,6 +827,13 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
 	$newburl   = $newurl;
 	$newsubdir = '/group-avatars/' . $group_id;
 
+	/**
+	 * Filters the avatar upload directory path for a given group.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param array $value Array of parts related to the groups avatar upload directory.
+	 */
 	return apply_filters( 'groups_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
 }
 
@@ -809,7 +907,7 @@ function groups_is_user_creator( $user_id, $group_id ) {
  * @return int
  */
 function groups_post_update( $args = '' ) {
-	global $bp;
+	$bp = buddypress();
 
 	$defaults = array(
 		'content'  => false,
@@ -836,15 +934,44 @@ function groups_post_update( $args = '' ) {
 	$activity_action  = sprintf( __( '%1$s posted an update in the group %2$s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
 	$activity_content = $content;
 
+	/**
+	 * Filters the action for the new group activity update.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $activity_action The new group activity update.
+	 */
+	$action = apply_filters( 'groups_activity_new_update_action',  $activity_action  );
+
+	/**
+	 * Filters the content for the new group activity update.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $activity_content The content of the update.
+	 */
+	$content_filtered = apply_filters( 'groups_activity_new_update_content', $activity_content );
+
 	$activity_id = groups_record_activity( array(
 		'user_id' => $user_id,
-		'action'  => apply_filters( 'groups_activity_new_update_action',  $activity_action  ),
-		'content' => apply_filters( 'groups_activity_new_update_content', $activity_content ),
+		'action'  => $action,
+		'content' => $content_filtered,
 		'type'    => 'activity_update',
 		'item_id' => $group_id
 	) );
 
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
+
+	/**
+	 * Fires after posting of an Activity status update affiliated with a group.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $content     The content of the update.
+	 * @param int    $user_id     ID of the user posting the update.
+	 * @param int    $group_id    ID of the group being posted to.
+	 * @param bool   $activity_id Whether or not the activity recording succeeded.
+	 */
 	do_action( 'bp_groups_posted_update', $content, $user_id, $group_id, $activity_id );
 
 	return $activity_id;
@@ -932,6 +1059,13 @@ function groups_invite_user( $args = '' ) {
 		if ( !$invite->save() )
 			return false;
 
+		/**
+		 * Fires after the creation of a new group invite.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param array $args Array of parsed arguments for the group invite.
+		 */
 		do_action( 'groups_invite_user', $args );
 	}
 
@@ -952,6 +1086,14 @@ function groups_uninvite_user( $user_id, $group_id ) {
 	if ( !BP_Groups_Member::delete( $user_id, $group_id ) )
 		return false;
 
+	/**
+	 * Fires after uninviting a user from a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $group_id ID of the group being uninvited from.
+	 * @param int $user_id  ID of the user being uninvited.
+	 */
 	do_action( 'groups_uninvite_user', $group_id, $user_id );
 
 	return true;
@@ -997,6 +1139,14 @@ function groups_accept_invite( $user_id, $group_id ) {
 	// Modify group meta
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
+	/**
+	 * Fires after a user has accepted a group invite.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $user_id  ID of the user who accepted the group invite.
+	 * @param int $group_id ID of the group being accepted to.
+	 */
 	do_action( 'groups_accept_invite', $user_id, $group_id );
 
 	return true;
@@ -1013,6 +1163,14 @@ function groups_reject_invite( $user_id, $group_id ) {
 	if ( ! BP_Groups_Member::delete( $user_id, $group_id ) )
 		return false;
 
+	/**
+	 * Fires after a user rejects a group invitation.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $user_id  ID of the user rejecting the invite.
+	 * @param int $group_id ID of the group being rejected.
+	 */
 	do_action( 'groups_reject_invite', $user_id, $group_id );
 
 	return true;
@@ -1029,6 +1187,14 @@ function groups_delete_invite( $user_id, $group_id ) {
 	if ( ! BP_Groups_Member::delete_invite( $user_id, $group_id ) )
 		return false;
 
+	/**
+	 * Fires after the deletion of a group invitation.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param int $user_id  ID of the user whose invitation is being deleted.
+	 * @param int $group_id ID of the group whose invitation is being deleted.
+	 */
 	do_action( 'groups_delete_invite', $user_id, $group_id );
 
 	return true;
@@ -1059,6 +1225,14 @@ function groups_send_invites( $user_id, $group_id ) {
 		$member->save();
 	}
 
+	/**
+	 * Fires after the sending of invites for a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int   $group_id      ID of the group who's being invited to.
+	 * @param array $invited_users Array of users being invited to the group.
+	 */
 	do_action( 'groups_send_invites', $group_id, $invited_users );
 }
 
@@ -1121,7 +1295,15 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 	// Don't use this action. It's deprecated as of BuddyPress 1.6.
 	do_action( 'groups_premote_member', $group_id, $user_id, $status );
 
-	// Use this action instead.
+	/**
+	 * Fires before the promotion of a user to a new status.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param int    $group_id ID of the group being promoted in.
+	 * @param int    $user_id  ID of the user being promoted.
+	 * @param string $status   New status being promoted to.
+	 */
 	do_action( 'groups_promote_member', $group_id, $user_id, $status );
 
 	return $member->promote( $status );
@@ -1141,6 +1323,14 @@ function groups_demote_member( $user_id, $group_id ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
+	/**
+	 * Fires before the demotion of a user to 'member'.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $group_id ID of the group being demoted in.
+	 * @param int $user_id  ID of the user being demoted.
+	 */
 	do_action( 'groups_demote_member', $group_id, $user_id );
 
 	return $member->demote();
@@ -1160,6 +1350,14 @@ function groups_ban_member( $user_id, $group_id ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
+	/**
+	 * Fires before the banning of a member from a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $group_id ID of the group being banned from.
+	 * @param int $user_id  ID of the user being banned.
+	 */
 	do_action( 'groups_ban_member', $group_id, $user_id );
 
 	return $member->ban();
@@ -1179,6 +1377,14 @@ function groups_unban_member( $user_id, $group_id ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
+	/**
+	 * Fires before the unbanning of a member from a group.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $group_id ID of the group being unbanned from.
+	 * @param int $user_id  ID of the user being unbanned.
+	 */
 	do_action( 'groups_unban_member', $group_id, $user_id );
 
 	return $member->unban();
@@ -1200,6 +1406,14 @@ function groups_remove_member( $user_id, $group_id ) {
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
+	/**
+	 * Fires before the removal of a member from a group.
+	 *
+	 * @since BuddyPress (1.2.6)
+	 *
+	 * @param int $group_id ID of the group being removed from.
+	 * @param int $user_id  ID of the user being removed.
+	 */
 	do_action( 'groups_remove_member', $group_id, $user_id );
 
 	return $member->remove();
@@ -1247,6 +1461,16 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 		for ( $i = 0, $count = count( $admins ); $i < $count; ++$i )
 			groups_notification_new_membership_request( $requesting_user_id, $admins[$i]->user_id, $group_id, $requesting_user->id );
 
+		/**
+		 * Fires after the creation of a new membership request.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param int   $requesting_user_id  ID of the user requesting membership.
+		 * @param array $admins              Array of group admins.
+		 * @param int   $group_id            ID of the group being requested to.
+		 * @param int   $requesting_user->id ID of the user requesting membership.
+		 */
 		do_action( 'groups_membership_requested', $requesting_user_id, $admins, $group_id, $requesting_user->id );
 
 		return true;
@@ -1285,6 +1509,15 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 		groups_delete_invite( $membership->user_id, $membership->group_id );
 	}
 
+	/**
+	 * Fires after a group membership request has been accepted.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int  $user_id  ID of the user who accepted membership.
+	 * @param int  $group_id ID of the group that was accepted membership to.
+	 * @param bool $value    If membership was accepted.
+	 */
 	do_action( 'groups_membership_accepted', $membership->user_id, $membership->group_id, true );
 
 	return true;
@@ -1306,6 +1539,15 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
 		return false;
 	}
 
+	/**
+	 * Fires after a group membership request has been rejected.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int  $user_id  ID of the user who rejected membership.
+	 * @param int  $group_id ID of the group that was rejected membership to.
+	 * @param bool $value    If membership was accepted.
+	 */
 	do_action( 'groups_membership_rejected', $membership->user_id, $membership->group_id, false );
 
 	return true;
@@ -1360,6 +1602,13 @@ function groups_accept_all_pending_membership_requests( $group_id ) {
 	foreach ( (array) $user_ids as $user_id )
 		groups_accept_membership_request( false, $user_id, $group_id );
 
+	/**
+	 * Fires after the acceptance of all pending membership requests to a group.
+	 *
+	 * @since BuddyPress (1.0.2)
+	 *
+	 * @param int $group_id ID of the group whose pending memberships were accepted.
+	 */
 	do_action( 'groups_accept_all_pending_membership_requests', $group_id );
 
 	return true;
@@ -1478,6 +1727,13 @@ function groups_add_groupmeta( $group_id, $meta_key, $meta_value, $unique = fals
 function groups_remove_data_for_user( $user_id ) {
 	BP_Groups_Member::delete_all_for_user( $user_id );
 
+	/**
+	 * Fires after the deletion of all data for a user.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param int $user_id ID of the user whose data is being deleted.
+	 */
 	do_action( 'groups_remove_data_for_user', $user_id );
 }
 add_action( 'wpmu_delete_user',  'groups_remove_data_for_user' );

@@ -37,13 +37,17 @@ add_action( 'bp_register_taxonomies', 'bp_register_default_taxonomies' );
  * @return array Array of term taxonomy IDs.
  */
 function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
-	if ( ! bp_is_root_blog() ) {
+	$is_root_blog = bp_is_root_blog();
+
+	if ( ! $is_root_blog ) {
 		switch_to_blog( bp_get_root_blog_id() );
 	}
 
 	$retval = wp_set_object_terms( $object_id, $terms, $taxonomy, $append );
 
-	restore_current_blog();
+	if ( ! $is_root_blog ) {
+		restore_current_blog();
+	}
 
 	return $retval;
 }
@@ -61,13 +65,17 @@ function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
  * @return array
  */
 function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
-	if ( ! bp_is_root_blog() ) {
+	$is_root_blog = bp_is_root_blog();
+
+	if ( ! $is_root_blog ) {
 		switch_to_blog( bp_get_root_blog_id() );
 	}
 
 	$retval = wp_get_object_terms( $object_ids, $taxonomies, $args );
 
-	restore_current_blog();
+	if ( ! $is_root_blog ) {
+		restore_current_blog();
+	}
 
 	return $retval;
 }

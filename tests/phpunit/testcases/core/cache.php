@@ -13,7 +13,10 @@ class BP_Tests_Core_Cache extends BP_UnitTestCase {
 		$a1 = $this->factory->activity->create();
 
 		// Confirm that all activitymeta is deleted
-		global $wpdb, $bp;
+		global $wpdb;
+
+		$bp = buddypress();
+
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->activity->table_name_meta} WHERE activity_id = %d", $a1 ) );
 
 		bp_update_meta_cache( array(

@@ -10,7 +10,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 add_filter( 'bp_get_message_notice_subject',        'wp_filter_kses', 1 );
 add_filter( 'bp_get_message_notice_text',           'wp_filter_kses', 1 );

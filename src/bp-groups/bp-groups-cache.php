@@ -11,7 +11,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Slurp up metadata for a set of groups.
@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  *        comma-separated list or array of group ids.
  */
 function bp_groups_update_meta_cache( $group_ids = false ) {
-	global $bp;
+	$bp = buddypress();
 
 	$cache_args = array(
 		'object_ids' 	   => $group_ids,

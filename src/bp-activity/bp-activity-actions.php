@@ -10,7 +10,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Allow core components and dependent plugins to register activity actions.
@@ -35,7 +35,6 @@ add_action( 'bp_init', 'bp_register_activity_actions', 8 );
  *
  * @since BuddyPress (1.2)
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
  * @uses bp_action_variable()
@@ -200,12 +199,11 @@ add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
  *
  * @since BuddyPress (1.6)
  *
- * @global object $bp BuddyPress global settings
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
  * @return bool False on failure.
  */
 function bp_activity_action_spam_activity( $activity_id = 0 ) {
-	global $bp;
+	$bp = buddypress();
 
 	// Not viewing activity, or action is not spam, or Akismet isn't present
 	if ( !bp_is_activity_component() || !bp_is_current_action( 'spam' ) || empty( $bp->activity->akismet ) )
@@ -506,7 +504,6 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
  *
  * @since BuddyPress (1.0)
  *
- * @global object $bp BuddyPress global settings
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
  * @uses bp_is_user()
@@ -515,7 +512,7 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
  * @return bool False on failure.
  */
 function bp_activity_action_sitewide_feed() {
-	global $bp;
+	$bp = buddypress();
 
 	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'feed' ) || bp_is_user() || ! empty( $bp->groups->current_group ) )
 		return false;
@@ -714,11 +711,9 @@ add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
  * Loads Akismet filtering for activity.
  *
  * @since BuddyPress (1.6)
- *
- * @global object $bp BuddyPress global settings
  */
 function bp_activity_setup_akismet() {
-	global $bp;
+	$bp = buddypress();
 
 	// Bail if Akismet is not active
 	if ( ! defined( 'AKISMET_VERSION' ) )
@@ -804,6 +799,17 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 	if ( 'publish' === $new_status ) {
 		// Untrashing the post type - nothing here yet.
 		if ( 'trash' == $old_status ) {
+
+			/**
+			 * Fires if untrashing post in a post type.
+			 *
+			 * This is a variable filter that is dependent on the post type
+			 * being untrashed.
+			 *
+			 * @since BuddyPress (2.2.0)
+			 *
+			 * @param WP_Post $post Post data.
+			 */
 			do_action( 'bp_activity_post_type_untrash_' . $post->post_type, $post );
 		} else {
 			// Record the post.

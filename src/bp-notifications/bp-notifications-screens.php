@@ -12,7 +12,7 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Catch and route the 'unread' notifications screen.
@@ -20,8 +20,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @since BuddyPress (1.9.0)
  */
 function bp_notifications_screen_unread() {
+
+	/**
+	 * Fires right before the loading of the notifications unread screen template file.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 */
 	do_action( 'bp_notifications_screen_unread' );
 
+	/**
+	 * Filters the template to load for the notifications unread screen.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param string $template Path to the notifications unread template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_notifications_template_unread', 'members/single/home' ) );
 }
 
@@ -31,8 +44,21 @@ function bp_notifications_screen_unread() {
  * @since BuddyPress (1.9.0)
  */
 function bp_notifications_screen_read() {
+
+	/**
+	 * Fires right before the loading of the notifications read screen template file.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 */
 	do_action( 'bp_notifications_screen_read' );
 
+	/**
+	 * Filters the template to load for the notifications read screen.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param string $template Path to the notifications read template to load.
+	 */
 	bp_core_load_template( apply_filters( 'bp_notifications_template_read', 'members/single/home' ) );
 }
 

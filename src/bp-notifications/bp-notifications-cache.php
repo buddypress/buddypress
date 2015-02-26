@@ -11,7 +11,7 @@
  *
  * @since BuddyPress (2.0.0)
  *
- * @param BP_Notification_Notification $n Notification object.
+ * @param BP_Notifications_Notification $n Notification object.
  */
 function bp_notifications_clear_all_for_user_cache_after_save( BP_Notifications_Notification $n ) {
 	wp_cache_delete( 'all_for_user_' . $n->user_id, 'bp_notifications' );

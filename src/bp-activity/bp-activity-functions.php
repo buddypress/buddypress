@@ -10,7 +10,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Check whether the $bp global lists an activity directory page.
@@ -484,6 +484,14 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
 		$post_type_activity->new_post_type_action_ms = $post_type_object->labels->bp_activity_new_post_ms;
 	}
 
+	/**
+	 * Filters tracking arguments for a specific post type.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param object $post_type_activity The tracking arguments of the post type.
+	 * @param string $post_type Name of the post type.
+	 */
 	return apply_filters( 'bp_activity_get_post_type_tracking_args', $post_type_activity, $post_type );
 }
 
@@ -509,6 +517,14 @@ function bp_activity_get_post_types_tracking_args() {
 
 	}
 
+	/**
+	 * Filters tracking arguments for all post types.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $post_types_tracking_args Array of post types with
+	 *                                        their tracking arguments.
+	 */
 	return apply_filters( 'bp_activity_get_post_types_tracking_args', $post_types_tracking_args );
 }
 
@@ -895,7 +911,6 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
  * @since BuddyPress (1.2.0)
  *
  * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
  *
  * @param int $activity_id ID of the activity item whose metadata is being deleted.
  * @param string $meta_key Optional. The key of the metadata being deleted. If
@@ -1062,7 +1077,6 @@ add_action( 'delete_user',       'bp_activity_remove_all_user_data' );
  * @since BuddyPress (1.6.0)
  *
  * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
  *
  * @param int $user_id ID of the user whose activity is being spammed.
  */
@@ -1131,7 +1145,6 @@ add_action( 'bp_make_spam_user', 'bp_activity_spam_all_user_data' );
  * @since BuddyPress (1.6.0)
  *
  * @global object $wpdb WordPress database access object.
- * @global object $bp BuddyPress global settings.
  *
  * @param int $user_id ID of the user whose activity is being hammed.
  */
@@ -1249,12 +1262,13 @@ function bp_activity_generate_action_string( $activity ) {
 	}
 
 	// Check for registered format callback
-	if ( empty( buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {
+	$actions = bp_activity_get_actions();
+	if ( empty( $actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {
 		return false;
 	}
 
 	// We apply the format_callback as a filter
-	add_filter( 'bp_activity_generate_action_string', buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
+	add_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
 
 	/**
 	 * Filters the string for the activity action being returned.
@@ -1267,7 +1281,7 @@ function bp_activity_generate_action_string( $activity ) {
 	$action = apply_filters( 'bp_activity_generate_action_string', $activity->action, $activity );
 
 	// Remove the filter for future activity items
-	remove_filter( 'bp_activity_generate_action_string', buddypress()->activity->actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
+	remove_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
 
 	return $action;
 }
@@ -1810,7 +1824,19 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 		return;
 	}
 
-	// Let components/plugins bail before the activity is posted.
+	/**
+	 * Filters whether or not to post the activity.
+	 *
+	 * This is a variable filter, dependent on the post type,
+	 * that lets components or plugins bail early if needed.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param bool $value   Whether or not to continue.
+	 * @param int  $blog_id ID of the current site.
+	 * @param int  $post_id ID of the current post being published.
+	 * @param int  $user_id ID of the current user or post author.
+	 */
 	if ( false === apply_filters( "bp_activity_{$post->post_type}_pre_publish", true, $blog_id, $post_id, $user_id ) ) {
 		return;
 	}
@@ -1880,6 +1906,15 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 
 	$activity_id = bp_activity_add( $activity_args );
 
+	/**
+	 * Fires after the publishing of an activity item for a newly published post type post.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param int     $activity_id   ID of the newly published activity item.
+	 * @param WP_Post $post          Post object.
+	 * @param array   $activity_args Array of activity arguments.
+	 */
 	do_action( 'bp_activity_post_type_published', $activity_id, $post, $activity_args );
 
 	return $activity_id;
@@ -1945,6 +1980,14 @@ function bp_activity_post_type_update( $post = null ) {
 	// Save the updated activity.
 	$updated = $activity->save();
 
+	/**
+	 * Fires after the updating of an activity item for a custom post type entry.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param WP_Post              $post Post object.
+	 * @param BP_Activity_Activity $activity Activity object.
+	 */
 	do_action( 'bp_activity_post_type_updated', $post, $activity );
 
 	return $updated;
@@ -1987,6 +2030,16 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
 
 	$deleted = bp_activity_delete_by_item_id( $delete_activity_args );
 
+	/**
+	 * Fires after the unpublishing for the custom post type.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array   $delete_activity_args Array of arguments for activity deletion.
+	 * @param WP_Post $post                 Post object.
+	 * @param bool    $activity             Whether or not the activity
+	 *                                      was successfully deleted.
+	 */
 	do_action( 'bp_activity_post_type_unpublished', $delete_activity_args, $post, $deleted );
 
 	return $deleted;
@@ -1997,7 +2050,6 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
  *
  * @since BuddyPress (1.2.0)
  *
- * @global object $bp BuddyPress global settings.
  * @uses wp_parse_args()
  * @uses bp_activity_add()
  * @uses apply_filters() To call the 'bp_activity_comment_action' hook.
@@ -2562,10 +2614,16 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 		preg_match( '/<img.*?(height\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $height );
 		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i',  $matches[0][0], $width  );
 
-		if ( !empty( $src ) ) {
-			$src    = substr( substr( str_replace( 'src=',    '', $src[1]    ), 0, -1 ), 1 );
-			$height = substr( substr( str_replace( 'height=', '', $height[1] ), 0, -1 ), 1 );
-			$width  = substr( substr( str_replace( 'width=',  '', $width[1]  ), 0, -1 ), 1 );
+		if ( ! empty( $src ) ) {
+			$src = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
+
+			if ( isset( $width[1] ) ) {
+				$width = substr( substr( str_replace( 'width=', '', $width[1] ), 0, -1 ), 1 );
+			}
+
+			if ( isset( $height[1] ) ) {
+				$height = substr( substr( str_replace( 'height=', '', $height[1] ), 0, -1 ), 1 );
+			}
 
 			if ( empty( $width ) || empty( $height ) ) {
 				$width  = 100;

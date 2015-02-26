@@ -8,7 +8,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Output the blogs component slug.
@@ -199,8 +199,9 @@ class BP_Blogs_Template {
 	 */
 	public function __construct( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg = 'bpage', $update_meta_cache = true, $include_blog_ids = false ) {
 
-		$this->pag_page = isset( $_REQUEST[ $page_arg ] ) ? intval( $_REQUEST[ $page_arg ] ) : $page;
-		$this->pag_num  = isset( $_REQUEST['num']       ) ? intval( $_REQUEST['num']       ) : $per_page;
+		$this->pag_arg  = sanitize_key( $page_arg );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $page     );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $per_page );
 
 		// Backwards compatibility support for blogs by first letter
 		if ( ! empty( $_REQUEST['letter'] ) ) {
@@ -242,7 +243,7 @@ class BP_Blogs_Template {
 		// Build pagination links based on total blogs and current page number
 		if ( ! empty( $this->total_blog_count ) && ! empty( $this->pag_num ) ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $page_arg, '%#%' ),
+				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_blog_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
@@ -1113,9 +1114,11 @@ function bp_total_blog_count_for_user( $user_id = 0 ) {
  * @return bool True if blog registration is enabled.
  */
 function bp_blog_signup_enabled() {
-	global $bp;
+	$bp = buddypress();
 
-	$active_signup = isset( $bp->site_options['registration'] ) ? $bp->site_options['registration'] : 'all';
+	$active_signup = isset( $bp->site_options['registration'] )
+		? $bp->site_options['registration']
+		: 'all';
 
 	/**
 	 * Filters whether or not blog creation is enabled.
@@ -1374,18 +1377,25 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 
 /**
  * Output a "Create a Site" link for users viewing their own profiles.
+ *
+ * This function is not used by BuddyPress as of 1.2, but is kept here for older
+ * themes that may still be using it.
  */
 function bp_create_blog_link() {
-	if ( bp_is_my_profile() )
 
-		/**
-		 * Filters "Create a Site" links for users viewing their own profiles.
-		 *
-		 * @since BuddyPress (1.0.0)
-		 *
-		 * @param string $value HTML link for creating a site.
-		 */
-		echo apply_filters( 'bp_create_blog_link', '<a href="' . bp_get_root_domain() . '/' . bp_get_blogs_root_slug() . '/create/">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
+	// Don't show this link when not on your own profile
+	if ( ! bp_is_my_profile() ) {
+		return;
+	}
+
+	/**
+	 * Filters "Create a Site" links for users viewing their own profiles.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $value HTML link for creating a site.
+	 */
+	echo apply_filters( 'bp_create_blog_link', '<a href="' . trailingslashit( bp_get_blogs_directory_permalink() . 'create' ) . '">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
 }
 
 /**
@@ -1396,10 +1406,9 @@ function bp_create_blog_link() {
 function bp_blogs_blog_tabs() {
 
 	// Don't show these tabs on a user's own profile
-	if ( bp_is_my_profile() )
+	if ( bp_is_my_profile() ) {
 		return false;
-
-	?>
+	} ?>
 
 	<ul class="content-header-nav">
 		<li<?php if ( bp_is_current_action( 'my-blogs'        ) || !bp_current_action() ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/my-blogs'        ); ?>"><?php printf( __( "%s's Sites", 'buddypress' ),           bp_get_displayed_user_fullname() ); ?></a></li>
@@ -1469,7 +1478,7 @@ function bp_blog_create_button() {
 			'link_text'  => __( 'Create a Site', 'buddypress' ),
 			'link_title' => __( 'Create a Site', 'buddypress' ),
 			'link_class' => 'blog-create no-ajax',
-			'link_href'  => trailingslashit( bp_get_root_domain() ) . trailingslashit( bp_get_blogs_root_slug() ) . trailingslashit( 'create' ),
+			'link_href'  => trailingslashit( bp_get_blogs_directory_permalink() . 'create' ),
 			'wrapper'    => false,
 			'block_self' => false,
 		);

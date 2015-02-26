@@ -8,7 +8,7 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 /** Theme Compat **************************************************************/
 
@@ -309,8 +309,9 @@ function bp_detect_theme_compat_with_current_theme() {
 function bp_is_theme_compat_active() {
 	$bp = buddypress();
 
-	if ( empty( $bp->theme_compat->active ) )
+	if ( empty( $bp->theme_compat->active ) ) {
 		return false;
+	}
 
 	return $bp->theme_compat->active;
 }
@@ -392,8 +393,9 @@ function bp_set_theme_compat_original_template( $template = '' ) {
 function bp_is_theme_compat_original_template( $template = '' ) {
 	$bp = buddypress();
 
-	if ( empty( $bp->theme_compat->original_template ) )
+	if ( empty( $bp->theme_compat->original_template ) ) {
 		return false;
+	}
 
 	return (bool) ( $bp->theme_compat->original_template == $template );
 }
@@ -548,7 +550,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	/**
 	 * Force the header back to 200 status if not a deliberate 404
 	 *
-	 * @see http://bbpress.trac.wordpress.org/ticket/1973
+	 * @see https://bbpress.trac.wordpress.org/ticket/1973
 	 */
 	if ( ! $wp_query->is_404() ) {
 		status_header( 200 );
@@ -602,8 +604,9 @@ function bp_template_include_theme_compat( $template = '' ) {
 	do_action( 'bp_template_include_reset_dummy_post_data' );
 
 	// Bail if the template already matches a BuddyPress template
-	if ( !empty( buddypress()->theme_compat->found_template ) )
+	if ( ! empty( buddypress()->theme_compat->found_template ) ) {
 		return $template;
+	}
 
 	/**
 	 * If we are relying on BuddyPress's built in theme compatibility to load
@@ -651,8 +654,9 @@ function bp_template_include_theme_compat( $template = '' ) {
 function bp_replace_the_content( $content = '' ) {
 
 	// Bail if not the main loop where theme compat is happening
-	if ( ! bp_do_theme_compat() )
+	if ( ! bp_do_theme_compat() ) {
 		return $content;
+	}
 
 	// Set theme compat to false early, to avoid recursion from nested calls to
 	// the_content() that execute before theme compat has unhooked itself.
@@ -662,7 +666,7 @@ function bp_replace_the_content( $content = '' ) {
 	$new_content = apply_filters( 'bp_replace_the_content', $content );
 
 	// Juggle the content around and try to prevent unsightly comments
-	if ( !empty( $new_content ) && ( $new_content !== $content ) ) {
+	if ( ! empty( $new_content ) && ( $new_content !== $content ) ) {
 
 		// Set the content to be the new content
 		$content = $new_content;
@@ -718,7 +722,7 @@ function bp_remove_all_filters( $tag, $priority = false ) {
 	if ( isset( $wp_filter[$tag] ) ) {
 
 		// Filters exist in this priority
-		if ( !empty( $priority ) && isset( $wp_filter[$tag][$priority] ) ) {
+		if ( ! empty( $priority ) && isset( $wp_filter[$tag][$priority] ) ) {
 
 			// Store filters in a backup
 			$bp->filters->wp_filter[$tag][$priority] = $wp_filter[$tag][$priority];
@@ -774,7 +778,7 @@ function bp_restore_all_filters( $tag, $priority = false ) {
 	if ( isset( $bp->filters->wp_filter[$tag] ) ) {
 
 		// Filters exist in this priority
-		if ( !empty( $priority ) && isset( $bp->filters->wp_filter[$tag][$priority] ) ) {
+		if ( ! empty( $priority ) && isset( $bp->filters->wp_filter[$tag][$priority] ) ) {
 
 			// Store filters in a backup
 			$wp_filter[$tag][$priority] = $bp->filters->wp_filter[$tag][$priority];
@@ -844,8 +848,7 @@ function bp_comments_open( $open, $post_id = 0 ) {
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
 	global $wp_query;
 
-	$wp_query->is_single = false;
-	$wp_query->is_page   = false;
+	$wp_query->is_page = false;
 
 	// Set a switch so we know that we've toggled these WP_Query properties
 	buddypress()->theme_compat->is_page_toggled = true;
@@ -873,8 +876,7 @@ function bp_theme_compat_loop_end( $query ) {
 	}
 
 	// Revert our toggled WP_Query properties
-	$query->is_single = true;
-	$query->is_page   = true;
+	$query->is_page = true;
 
 	// Unset our switch
 	unset( $bp->theme_compat->is_page_toggled );
