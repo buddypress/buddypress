@@ -109,13 +109,20 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_accept_membership_request
 	 */
 	public function test_total_group_count_groups_accept_membership_request() {
-		$u = $this->factory->user->create();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u2 );
+
 		$g = $this->factory->group->create();
-		groups_send_membership_request( $u, $g );
+		groups_send_membership_request( $u1, $g );
 
-		groups_accept_membership_request( 0, $u, $g );
+		groups_accept_membership_request( 0, $u1, $g );
 
-		$this->assertEquals( 1, bp_get_user_meta( $u, 'total_group_count', true ) );
+		$this->assertEquals( 1, bp_get_user_meta( $u1, 'total_group_count', true ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**
