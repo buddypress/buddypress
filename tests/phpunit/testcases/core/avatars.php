@@ -4,22 +4,7 @@
  * @group avatars
  */
 class BP_Tests_Avatars extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
 	private $params = array();
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->administrator    = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		wp_set_current_user( $this->administrator );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		wp_set_current_user( $this->old_current_user );
-	}
 
 	private function clean_existing_avatars( $type = 'user' ) {
 		if ( 'user' === $type ) {
@@ -58,12 +43,14 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			return;
 		}
 
+		$u = $this->factory->user->create();
+
 		// get BP root blog's upload directory data
 		$upload_dir = wp_upload_dir();
 
 		// create new subsite
 		$blog_id = $this->factory->blog->create( array(
-			'user_id' => $this->administrator,
+			'user_id' => $u,
 			'title'   => 'Test Title',
 			'path'    => '/path' . rand() . time() . '/',
 		) );

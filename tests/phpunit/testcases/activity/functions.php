@@ -3,19 +3,6 @@
  * @group activity
  */
 class BP_Tests_Activity_Functions extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
 
 	/**
 	 * @ticket BP4488
@@ -914,30 +901,33 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_comment_caches() {
-		$a1 = $this->factory->activity->create();
+		$u = $this->factory->user->create();
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u,
+		) );
 		$a2 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a1,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a3 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a2,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a4 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a5 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// prime caches
@@ -953,7 +943,7 @@ Bar!';
 			'activity_id' => $a1,
 			'parent_id' => $a4,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// should be empty
@@ -965,30 +955,33 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_activity_caches() {
-		$a1 = $this->factory->activity->create();
+		$u = $this->factory->user->create();
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u,
+		) );
 		$a2 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a1,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a3 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a2,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a4 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a5 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// prime caches
@@ -1020,7 +1013,7 @@ Bar!';
 			'activity_id' => $a1,
 			'parent_id' => $a4,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// should be empty
@@ -1034,13 +1027,16 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_delete_comment_clear_cache() {
+		$u = $this->factory->user->create();
 		// add new activity update and comment to this update
-		$a1 = $this->factory->activity->create();
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u,
+		) );
 		$a2 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a1,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// prime cache
@@ -1061,6 +1057,7 @@ Bar!';
 	 * @group BP5907
 	 */
 	public function test_bp_activity_comment_on_deleted_activity() {
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
 		bp_activity_delete_by_activity_id( $a );
@@ -1069,7 +1066,7 @@ Bar!';
 			'activity_id' => $a,
 			'parent_id' => $a,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		$this->assertEmpty( $c );
@@ -1083,11 +1080,17 @@ Bar!';
 		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
+		// bp_activity_add_user_favorite() requires a logged-in user.
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u );
+
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
 
 		$this->assertFalse( bp_activity_add_user_favorite( $a, $u ) );
 		$this->assertSame( array( $a ), bp_activity_get_user_favorites( $u ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**
@@ -1097,7 +1100,13 @@ Bar!';
 	public function test_add_user_favorite_not_yet_favorited() {
 		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
+
+		// bp_activity_add_user_favorite() requires a logged-in user.
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u );
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**
@@ -1109,12 +1118,18 @@ Bar!';
 		$u2 = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
+		// bp_activity_add_user_favorite() requires a logged-in user.
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u1 );
+
 		// Only favorite for user 1
 		bp_activity_add_user_favorite( $a, $u1 );
 
 		// Removing for user 2 should fail
 		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**

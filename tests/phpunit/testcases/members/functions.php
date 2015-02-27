@@ -3,19 +3,6 @@
  * @group members
  */
 class BP_Tests_Members_Functions extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
 
 	/**
 	 * @ticket BP4915

@@ -5,18 +5,6 @@
  * @group functions
  */
 class BP_Tests_Groups_Functions extends BP_UnitTestCase {
-	protected $old_current_user_id = 0;
-
-	public function setUp() {
-		parent::setUp();
-		$this->old_current_user = get_current_user_id();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
-
 	public function test_creating_new_group_as_authenticated_user() {
 		$u = $this->factory->user->create();
 		wp_set_current_user( $u );

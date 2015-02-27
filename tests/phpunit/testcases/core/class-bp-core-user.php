@@ -5,16 +5,6 @@
  * @group BP_Core_User
  */
 class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	/**
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */

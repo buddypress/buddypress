@@ -4,14 +4,6 @@
  * @group template
  */
 class BP_Tests_Notifications_Template extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	/**
 	 * @group pagination
 	 * @group BP_Notifications_Template

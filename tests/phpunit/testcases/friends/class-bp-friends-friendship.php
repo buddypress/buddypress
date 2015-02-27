@@ -4,20 +4,6 @@
  * @group friends
  */
 class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
-
 	public function test_search_friends() {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();

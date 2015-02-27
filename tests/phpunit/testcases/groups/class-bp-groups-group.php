@@ -4,13 +4,6 @@
  * @group BP_Groups_Group
  */
 class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
 
 	/** __construct()  ***************************************************/
 

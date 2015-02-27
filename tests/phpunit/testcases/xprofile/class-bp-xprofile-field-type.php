@@ -4,14 +4,6 @@
  * @group BP_XProfile_Field_Type
  */
 class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public function test_unregistered_field_type_returns_textbox() {
 		$field = bp_xprofile_create_field_type( 'fakeyfield' );
 		$this->assertEquals( get_class( $field ), 'BP_XProfile_Field_Type_Placeholder' );

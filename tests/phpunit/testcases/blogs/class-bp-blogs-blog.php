@@ -5,14 +5,6 @@
  * @group BP_Blogs_Blog
  */
 class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public function test_get_with_search_terms() {
 		if ( ! is_multisite() ) {
 			return;

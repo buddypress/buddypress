@@ -3,21 +3,6 @@
  * @group activity
  */
 class BP_Tests_Activity_Class extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array(
-			'role' => 'subscriber',
-		) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
 
 	/**
 	 * @group check_exists_by_content
@@ -258,16 +243,21 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_display_comments_threaded() {
+		$u = $this->factory->user->create();
+
 		$now = time();
 		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u,
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
 		) );
 		$a2 = $this->factory->activity->create( array(
+			'user_id' => $u,
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 		$a3 = bp_activity_new_comment( array(
+			'user_id' => $u,
 			'activity_id' => $a1,
 			'content' => 'Candy is good',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),

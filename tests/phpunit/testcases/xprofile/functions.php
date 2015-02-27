@@ -5,14 +5,6 @@
  * @group functions
  */
 class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public function test_get_hidden_field_types_for_user_loggedout() {
 		$duser = $this->factory->user->create();
 

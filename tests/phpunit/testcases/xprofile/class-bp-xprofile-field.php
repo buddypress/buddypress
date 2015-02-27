@@ -4,14 +4,6 @@
  * @group BP_XProfile_Field
  */
 class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public function test_can_delete_save() {
 		$group = $this->factory->xprofile_group->create();
 		$field = $this->factory->xprofile_field->create( array(

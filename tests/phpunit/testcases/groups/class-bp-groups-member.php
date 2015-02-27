@@ -4,14 +4,6 @@
  * @group BP_Groups_Member
  */
 class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public static function invite_user_to_group( $user_id, $group_id, $inviter_id ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;

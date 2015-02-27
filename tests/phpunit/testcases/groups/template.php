@@ -4,14 +4,6 @@
  * @group template
  */
 class BP_Tests_Groups_Template extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	/**
 	 * Integration test to make sure meta_query is getting passed through
 	 *

@@ -3,36 +3,24 @@
  * @group activity
  */
 class BP_Tests_Activity_Template extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
 
 	/**
 	 * @ticket BP4735
 	 */
 	public function test_user_can_delete() {
 		$bp = buddypress();
+		$u = $this->factory->user->create();
+		$original_user = bp_loggedin_user_id();
+		$this->set_current_user( $u );
 
 		$a = $this->factory->activity->create( array(
 			'type' => 'activity_update',
+			'user_id' => $u,
 		) );
 
 		// User can delete his own items
 		$activity = $this->factory->activity->get_object_by_id( $a );
 		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
-
-		// Stash original user
-		$original_user = get_current_user_id();
 
 		// Logged-out user can't delete
 		$this->set_current_user( 0 );
@@ -106,8 +94,13 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $user_id );
+
 		bp_activity_add_user_favorite( $a1, $user_id );
 		bp_activity_add_user_favorite( $a2, $user_id );
+
+		$this->set_current_user( $current_user );
 
 		// groan. It sucks that you have to invoke the global
 		global $activities_template;
@@ -1223,18 +1216,22 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	public function test_bp_has_activities_with_type_new_blog_comments() {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
+		$u = $this->factory->user->create();
+
 		$now = time();
 		$a1 = $this->factory->activity->create( array(
 			'content' => 'Life Rules',
 			'component' => 'blogs',
 			'type' => 'new_blog_post',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
+			'user_id' => $u,
 		) );
 		$a2 = $this->factory->activity->create( array(
 			'content' => 'Life Drools',
 			'component' => 'blogs',
 			'type' => 'new_blog_comment',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+			'user_id' => $u,
 		) );
 
 		// This one will show up in the stream because it's a comment
@@ -1243,6 +1240,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'activity_id' => $a1,
 			'content' => 'Candy is good',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 200 ),
+			'user_id' => $u,
 		) );
 
 		$a4 = $this->factory->activity->create( array(
@@ -1250,6 +1248,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'component' => 'activity',
 			'type' => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 300 ),
+			'user_id' => $u,
 		) );
 
 		// This one should not show up in the stream because it's a
@@ -1258,6 +1257,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'activity_id' => $a4,
 			'content' => 'Candy is great',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 400 ),
+			'user_id' => $u,
 		) );
 		global $activities_template;
 
