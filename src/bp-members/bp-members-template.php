@@ -223,6 +223,14 @@ class BP_Core_Members_Template {
 	public $in_the_loop;
 
 	/**
+	 * The type of member being requested. Used for ordering results.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $type;
+
+	/**
 	 * The unique string used for pagination queries
 	 *
 	 * @access public
