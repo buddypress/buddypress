@@ -6,3 +6,4 @@ src/bp-core/deprecated/js/**/*
 src/bp-core/js/jquery.atwho.js
 src/bp-core/js/jquery.caret.js
 src/bp-core/js/jquery-cookie.js
+src/bp-core/js/jquery-scroll-to.js
