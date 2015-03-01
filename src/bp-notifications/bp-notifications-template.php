@@ -205,6 +205,15 @@ class BP_Notifications_Template {
 	public $pag_page;
 
 	/**
+	 * The $_GET argument used in URLs for determining pagination
+	 *
+	 * @since BuddyPress (1.9.0)
+	 * @access public
+	 * @var int
+	 */
+	public $pag_arg;
+
+	/**
 	 * The number of items to display per page of results.
 	 *
 	 * @since BuddyPress (1.9.0)
@@ -250,6 +259,14 @@ class BP_Notifications_Template {
 	public $sort_order;
 
 	/**
+	 * Array of variables used in this notification query
+	 *
+	 * @since BuddyPress (2.2.2)
+	 * @var array
+	 */
+	public $query_vars;
+
+	/**
 	 * Constructor method.
 	 *
 	 * @see bp_has_notifications() For information on the array format.
@@ -267,6 +284,7 @@ class BP_Notifications_Template {
 		$r = wp_parse_args( $args, array(
 			'id'                => false,
 			'user_id'           => 0,
+			'item_id'           => false,
 			'secondary_item_id' => false,
 			'component_name'    => bp_notifications_get_registered_components(),
 			'component_action'  => false,
@@ -274,10 +292,10 @@ class BP_Notifications_Template {
 			'search_terms'      => '',
 			'order_by'          => 'date_notified',
 			'sort_order'        => 'DESC',
+			'page_arg'          => 'npage',
 			'page'              => 1,
 			'per_page'          => 25,
 			'max'               => null,
-			'page_arg'          => 'npage',
 		) );
 
 		// Overrides
@@ -299,10 +317,24 @@ class BP_Notifications_Template {
 		$this->search_terms = $r['search_terms'];
 		$this->order_by     = $r['order_by'];
 		$this->sort_order   = $r['sort_order'];
+		$this->query_vars   = array(
+			'id'                => $r['id'],
+			'user_id'           => $this->user_id,
+			'item_id'           => $r['item_id'],
+			'secondary_item_id' => $r['secondary_item_id'],
+			'component_name'    => $r['component_name'],
+			'component_action'  => $r['component_action'],
+			'is_new'            => $this->is_new,
+			'search_terms'      => $this->search_terms,
+			'order_by'          => $this->order_by,
+			'sort_order'        => $this->sort_order,
+			'page'              => $this->pag_page,
+			'per_page'          => $this->pag_num,
+		);
 
 		// Setup the notifications to loop through
-		$this->notifications            = BP_Notifications_Notification::get( $r );
-		$this->total_notification_count = BP_Notifications_Notification::get_total_count( $r );
+		$this->notifications            = BP_Notifications_Notification::get( $this->query_vars );
+		$this->total_notification_count = BP_Notifications_Notification::get_total_count( $this->query_vars );
 
 		if ( empty( $this->notifications ) ) {
 			$this->notification_count       = 0;
