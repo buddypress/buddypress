@@ -211,18 +211,18 @@ function bp_version_updater() {
 		// Run the schema install to update tables
 		bp_core_install();
 
-		// 1.5
+		// 1.5.0
 		if ( $raw_db_version < 1801 ) {
 			bp_update_to_1_5();
 			bp_core_add_page_mappings( $default_components, 'delete' );
 		}
 
-		// 1.6
+		// 1.6.0
 		if ( $raw_db_version < 6067 ) {
 			bp_update_to_1_6();
 		}
 
-		// 1.9
+		// 1.9.0
 		if ( $raw_db_version < 7553 ) {
 			bp_update_to_1_9();
 		}
@@ -232,7 +232,7 @@ function bp_version_updater() {
 			bp_update_to_1_9_2();
 		}
 
-		// 2.0
+		// 2.0.0
 		if ( $raw_db_version < 7892 ) {
 			bp_update_to_2_0();
 		}
@@ -242,9 +242,14 @@ function bp_version_updater() {
 			bp_update_to_2_0_1();
 		}
 
-		// 2.2
+		// 2.2.0
 		if ( $raw_db_version < 9181 ) {
 			bp_update_to_2_2();
+		}
+
+		// 2.3.0
+		if ( $raw_db_version < 9572 ) {
+			bp_update_to_2_3();
 		}
 	}
 
@@ -414,6 +419,19 @@ function bp_update_to_2_2() {
 		if ( bp_is_active( 'friends' ) ) {
 			bp_cleanup_friendship_activities();
 		}
+	}
+}
+
+/**
+ * 2.3.0 update routine.
+ *
+ * - Add notifications meta table
+ *
+ * @since BuddyPress (2.3.0)
+ */
+function bp_update_to_2_3() {
+	if ( bp_is_active( 'notifications' ) ) {
+		bp_core_install_notifications();
 	}
 }
 

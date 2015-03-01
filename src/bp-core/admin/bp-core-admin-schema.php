@@ -114,6 +114,15 @@ function bp_core_install_notifications() {
 				KEY useritem (user_id,is_new)
 			) {$charset_collate};";
 
+	$sql[] = "CREATE TABLE {$bp_prefix}bp_notifications_meta (
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				notification_id bigint(20) NOT NULL,
+				meta_key varchar(255) DEFAULT NULL,
+				meta_value longtext DEFAULT NULL,
+				KEY notification_id (notification_id),
+				KEY meta_key (meta_key)
+			) {$charset_collate};";
+
 	dbDelta( $sql );
 }
 

@@ -247,7 +247,8 @@ class BP_Notifications_Component extends BP_Component {
 
 		// Global groups
 		wp_cache_add_global_groups( array(
-			'bp_notifications'
+			'bp_notifications',
+			'notification_meta'
 		) );
 
 		parent::setup_cache_groups();

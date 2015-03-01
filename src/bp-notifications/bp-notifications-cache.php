@@ -7,6 +7,30 @@
  */
 
 /**
+ * Slurp up metadata for a set of notifications.
+ *
+ * It grabs all notification meta associated with all of the notifications
+ * passed in $notification_ids and adds it to WP cache. This improves efficiency
+ * when using notification meta within a loop context.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param int|str|array $notification_ids Accepts a single notification_id, or a
+ *                                        comma-separated list or array of
+ *                                        notification ids.
+ */
+function bp_notifications_update_meta_cache( $notification_ids = false ) {
+	bp_update_meta_cache( array(
+		'object_ids' 	   => $notification_ids,
+		'object_type' 	   => buddypress()->notifications->id,
+		'cache_group'      => 'notification_meta',
+		'object_column'    => 'notification_id',
+		'meta_table' 	   => buddypress()->notifications->table_name_meta,
+		'cache_key_prefix' => 'bp_notifications_meta'
+	) );
+}
+
+/**
  * Invalidate 'all_for_user_' cache when saving.
  *
  * @since BuddyPress (2.0.0)
