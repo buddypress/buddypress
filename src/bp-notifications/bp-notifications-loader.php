@@ -64,6 +64,8 @@ class BP_Notifications_Component extends BP_Component {
 	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
+		$bp = buddypress();
+
 		// Define a slug, if necessary
 		if ( !defined( 'BP_NOTIFICATIONS_SLUG' ) ) {
 			define( 'BP_NOTIFICATIONS_SLUG', $this->id );
@@ -71,7 +73,8 @@ class BP_Notifications_Component extends BP_Component {
 
 		// Global tables for the notifications component
 		$global_tables = array(
-			'table_name' => bp_core_get_table_prefix() . 'bp_notifications'
+			'table_name'      => $bp->table_prefix . 'bp_notifications',
+			'table_name_meta' => $bp->table_prefix . 'bp_notifications_meta',
 		);
 
 		// All globals for the notifications component.
