@@ -282,10 +282,10 @@ class BP_Notifications_Notification {
 	 * @since BuddyPress (1.9.0)
 	 *
 	 * @param array $args See {@link BP_Notifications_Notification::get()}
-	 *        for more details.
+	 *                    for more details.
 	 * @return string WHERE clause.
 	 */
-	protected static function get_where_sql( $args = array() ) {
+	protected static function get_where_sql( $args = array(), $select_sql = '', $from_sql = '', $join_sql = '', $meta_query_sql = '' ) {
 		global $wpdb;
 
 		$where_conditions = array();
@@ -361,6 +361,30 @@ class BP_Notifications_Notification {
 			$search_terms_like = '%' . bp_esc_like( $args['search_terms'] ) . '%';
 			$where_conditions['search_terms'] = $wpdb->prepare( "( component_name LIKE %s OR component_action LIKE %s )", $search_terms_like, $search_terms_like );
 		}
+
+		// date query
+		if ( ! empty( $args['date_query'] ) ) {
+			$where_conditions['date_query'] = self::get_date_query_sql( $args['date_query'] );
+		}
+
+		// meta query
+		if ( ! empty( $meta_query_sql['where'] ) ) {
+			$where_conditions['meta_query'] = $meta_query_sql['where'];
+		}
+
+		/**
+		 * Filters the MySQL WHERE conditions for the Notifications items get method.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param array  $where_conditions Current conditions for MySQL WHERE statement.
+		 * @param array  $args             Parsed arguments passed into method.
+		 * @param string $select_sql       Current SELECT MySQL statement at point of execution.
+		 * @param string $from_sql         Current FROM MySQL statement at point of execution.
+		 * @param string $join_sql         Current INNER JOIN MySQL statement at point of execution.
+		 * @param string $meta_query_sql   Current meta query WHERE statement at point of execution.
+		 */
+		$where_conditions = apply_filters( 'bp_notifications_get_where_conditions', $where_conditions, $args, $select_sql, $from_sql, $join_sql, $meta_query_sql );
 
 		// Custom WHERE
 		if ( ! empty( $where_conditions ) ) {
@@ -588,7 +612,7 @@ class BP_Notifications_Notification {
 		global $wpdb;
 
 		// Parse the arguments
-		$r  = wp_parse_args( $args, array(
+		$r = wp_parse_args( $args, array(
 			'id'                => false,
 			'user_id'           => false,
 			'item_id'           => false,
@@ -601,13 +625,26 @@ class BP_Notifications_Notification {
 			'sort_order'        => false,
 			'page'              => false,
 			'per_page'          => false,
+			'meta_query'        => false,
+			'date_query'        => false,
+			'update_meta_cache' => true,
+			'count_total'       => false,
 		) );
+
+		// Get BuddyPress
+		$bp = buddypress();
+
+		// METADATA
+		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		// SELECT
 		$select_sql = "SELECT *";
 
 		// FROM
-		$from_sql   = "FROM " . buddypress()->notifications->table_name;
+		$from_sql   = "FROM {$bp->notifications->table_name} n ";
+
+		// JOIN
+		$join_sql   = $meta_query_sql['join'];
 
 		// WHERE
 		$where_sql  = self::get_where_sql( array(
@@ -619,7 +656,8 @@ class BP_Notifications_Notification {
 			'component_action'  => $r['component_action'],
 			'is_new'            => $r['is_new'],
 			'search_terms'      => $r['search_terms'],
-		) );
+			'date_query'        => $r['date_query']
+		), $select_sql, $from_sql, $join_sql, $meta_query_sql );
 
 		// ORDER BY
 		$order_sql  = self::get_order_by_sql( array(
@@ -633,7 +671,8 @@ class BP_Notifications_Notification {
 			'per_page' => $r['per_page'],
 		) );
 
-		$sql = "{$select_sql} {$from_sql} {$where_sql} {$order_sql} {$pag_sql}";
+		// Concatenate query parts
+		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} {$order_sql} {$pag_sql}";
 
 		return $wpdb->get_results( $sql );
 	}
@@ -672,6 +711,76 @@ class BP_Notifications_Notification {
 
 		// Return the queried results
 		return $wpdb->get_var( $sql );
+	}
+
+	/**
+	 * Get the SQL for the 'meta_query' param in BP_Notifications_Notification::get().
+	 *
+	 * We use WP_Meta_Query to do the heavy lifting of parsing the
+	 * meta_query array and creating the necessary SQL clauses. However,
+	 * since BP_Notifications_Notification::get() builds its SQL differently than
+	 * WP_Query, we have to alter the return value (stripping the leading
+	 * AND keyword from the 'where' clause).
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @param  array $meta_query An array of meta_query filters. See the
+	 *                           documentation for WP_Meta_Query for details.
+	 * @return array $sql_array 'join' and 'where' clauses.
+	 */
+	public static function get_meta_query_sql( $meta_query = array() ) {
+
+		// Default array keys & empty values
+		$sql_array = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		// Bail if no meta query
+		if ( empty( $meta_query ) ) {
+			return $sql_array;
+		}
+
+		// WP_Meta_Query expects the table name at $wpdb->notificationmeta
+		$GLOBALS['wpdb']->notificationmeta = buddypress()->notifications->table_name_meta;
+
+		$n_meta_query = new WP_Meta_Query( $meta_query );
+		$meta_sql     = $n_meta_query->get_sql( 'notification', 'n', 'id' );
+
+		// Strip the leading AND - it's handled in get()
+		$sql_array['where'] = preg_replace( '/^\sAND/', '', $meta_sql['where'] );
+		$sql_array['join']  = $meta_sql['join'];
+
+		return $sql_array;
+	}
+
+	/**
+	 * Get the SQL for the 'date_query' param in BP_Notifications_Notification::get().
+	 *
+	 * We use BP_Date_Query, which extends WP_Date_Query, to do the heavy lifting
+	 * of parsing the date_query array and creating the necessary SQL clauses.
+	 * However, since BP_Notifications_Notification::get() builds its SQL
+	 * differently than WP_Query, we have to alter the return value (stripping
+	 * the leading AND keyword from the query).
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @param array $date_query An array of date_query parameters. See the
+	 *                          documentation for the first parameter of WP_Date_Query.
+	 * @return string
+	 */
+	public static function get_date_query_sql( $date_query = array() ) {
+
+		// Bail if not a proper date query format
+		if ( empty( $date_query ) || ! is_array( $date_query ) || ! class_exists( 'BP_Date_Query' ) ) {
+			return '';
+		}
+
+		// Date query
+		$date_query = new BP_Date_Query( $date_query, 'date_recorded' );
+
+		// Strip the leading AND - it's handled in get()
+		return preg_replace( '/^\sAND/', '', $date_query->get_sql() );
 	}
 
 	/**

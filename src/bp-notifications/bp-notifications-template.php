@@ -296,6 +296,8 @@ class BP_Notifications_Template {
 			'page'              => 1,
 			'per_page'          => 25,
 			'max'               => null,
+			'meta_query'        => false,
+			'date_query'        => false
 		) );
 
 		// Overrides
@@ -324,6 +326,8 @@ class BP_Notifications_Template {
 			'secondary_item_id' => $r['secondary_item_id'],
 			'component_name'    => $r['component_name'],
 			'component_action'  => $r['component_action'],
+			'meta_query'        => $r['meta_query'],
+			'date_query'        => $r['date_query'],
 			'is_new'            => $this->is_new,
 			'search_terms'      => $this->search_terms,
 			'order_by'          => $this->order_by,
@@ -534,6 +538,8 @@ function bp_has_notifications( $args = '' ) {
 		'search_terms'      => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
 		'order_by'          => 'date_notified',
 		'sort_order'        => 'DESC',
+		'meta_query'        => false,
+		'date_query'        => false,
 		'page'              => 1,
 		'per_page'          => 25,
 
