@@ -573,7 +573,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		$users = array();
 		$memberships = array();
-		for ( $i = 1; $i < 15; $i++ ) {
+		for ( $i = 1; $i < 5; $i++ ) {
 			$users[ $i ] = $this->factory->user->create( array(
 				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - ( 100 - $i ) ),
 			) );
@@ -605,13 +605,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		// Populate the global
 		bp_group_has_membership_requests( array(
 			'group_id' => $g,
+			'per_page' => 3,
 		) );
 
 		global $requests_template;
 
 		$expected_user_ids = array();
 		$expected_mem_ids = array();
-		for ( $j = 1; $j <= 10; $j++ ) {
+		for ( $j = 1; $j <= 3; $j++ ) {
 			$expected_user_ids[] = (string) $users[ $j ];
 			$expected_mem_ids[] = (string) $memberships[ $j ];
 		}
