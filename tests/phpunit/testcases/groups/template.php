@@ -529,7 +529,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		$users = array();
 		$now = time();
-		for ( $i = 1; $i < 15; $i++ ) {
+		for ( $i = 1; $i < 6; $i++ ) {
 			$users[ $i ] = $this->factory->user->create( array(
 				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - $i ),
 			) );
@@ -547,12 +547,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'group_id' => $g,
 			'user_id' => $u1,
 			'page' => 2,
-			'per_page' => 5,
+			'per_page' => 2,
 		) );
 
 		global $invites_template;
 
-		$this->assertEquals( array( $users[ 9 ], $users[ 8 ], $users[ 7 ], $users[ 6 ], $users[ 5 ], ), $invites_template->invites );
+		$this->assertEquals( array( $users[ 3 ], $users[ 2 ] ), $invites_template->invites );
 	}
 
 	/**
