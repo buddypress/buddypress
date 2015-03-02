@@ -194,26 +194,26 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$g = $this->factory->group->create();
 
 		$users = array();
-		for ( $i = 1; $i <= 10; $i++ ) {
+		for ( $i = 1; $i <= 5; $i++ ) {
 			$users[ $i ] = $this->factory->user->create();
 		}
 
 		$expected = array();
 		$now = time();
-		for ( $i = 3; $i <= 10; $i++ ) {
+		for ( $i = 3; $i <= 5; $i++ ) {
 			$this->add_user_to_group( $users[ $i ], $g, array(
 				'date_modified' => date( 'Y-m-d H:i:s', $now - ( 60 * $i ) ),
 			) );
 			$expected[] = $users[ $i ];
 		}
 
-		// hack it down to 5 (per page arg below)
-		$expected = array_slice( $expected, 0, 5 );
+		// hack it down to 2 (per page arg below)
+		$expected = array_slice( $expected, 0, 2 );
 
 		global $members_template;
 		bp_group_has_members( array(
 			'group_id' => $g,
-			'per_page' => 5,
+			'per_page' => 2,
 		) );
 
 		$ids = wp_parse_id_list( wp_list_pluck( $members_template->members, 'user_id' ) );
@@ -232,12 +232,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$g = $this->factory->group->create();
 
 		$users = array();
-		for ( $i = 1; $i <= 10; $i++ ) {
+		for ( $i = 1; $i <= 5; $i++ ) {
 			$users[ $i ] = $this->factory->user->create();
 		}
 
 		$expected = array();
-		for ( $i = 3; $i <= 10; $i++ ) {
+		for ( $i = 3; $i <= 5; $i++ ) {
 			$this->add_user_to_group( $users[ $i ], $g );
 			$expected[] = $users[ $i ];
 		}
@@ -245,10 +245,10 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		global $members_template;
 		bp_group_has_members( array(
 			'group_id' => $g,
-			'max' => 5,
+			'max' => 1,
 		) );
 
-		$this->assertEquals( 5, $members_template->member_count );
+		$this->assertEquals( 1, $members_template->member_count );
 	}
 
 	/**
