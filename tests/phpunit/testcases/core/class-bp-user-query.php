@@ -24,7 +24,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket 4938
+	 * @ticket BP4938
 	 */
 	public function test_bp_user_query_friends_with_include() {
 		$u1 = $this->factory->user->create();
