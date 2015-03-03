@@ -1,5 +1,5 @@
 {
-  "author": "The BuddyPress Community",
+  "author": "The BuddyPress Contributors",
   "bugs": {
     "url": "https://buddypress.trac.wordpress.org/"
   },
@@ -9,7 +9,7 @@
     "grunt-checktextdomain": "~0.1.1",
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-copy": "~0.8.0",
-    "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-cssmin": "~0.11.0",
     "grunt-contrib-imagemin": "~0.9.3",
     "grunt-contrib-jshint": "~0.11.0",
     "grunt-contrib-uglify": "~0.8.0",
