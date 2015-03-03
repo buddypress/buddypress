@@ -1079,6 +1079,14 @@ class BP_Groups_List_Table extends WP_List_Table {
 	public $group_counts = 0;
 
 	/**
+	 * Multidimensional array of group visibility types and their groups.
+	 *
+	 * @link https://buddypress.trac.wordpress.org/ticket/6277
+	 * @var array
+	 */
+	public $group_type_ids = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @since BuddyPress (1.7.0)
