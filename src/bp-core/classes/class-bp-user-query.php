@@ -173,8 +173,13 @@ class BP_User_Query {
 				'count_total'     => 'count_query'
 			) );
 
-			// Plugins can use this filter to modify query args
-			// before the query is constructed
+			/**
+			 * Fires before the construction of the BP_User_Query query.
+			 *
+			 * @since BuddyPress (1.7.0)
+			 *
+			 * @param BP_User_Query $this Current instance of the BP_User_Query. Passed by reference.
+			 */
 			do_action_ref_array( 'bp_pre_user_query_construct', array( &$this ) );
 
 			// Get user ids
@@ -261,6 +266,14 @@ class BP_User_Query {
 				$this->uid_table = $bp->members->table_name_last_activity;
 				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 				$sql['where'][] = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
+
+				/**
+				 * Filters the threshold for activity timestamp minutes since to indicate online status.
+				 *
+				 * @since BuddyPress (1.8.0)
+				 *
+				 * @param int $value Amount of minutes for threshold. Default 15.
+				 */
 				$sql['where'][] = $wpdb->prepare( "u.date_recorded >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )", apply_filters( 'bp_user_query_online_interval', 15 ) );
 				$sql['orderby'] = "ORDER BY u.date_recorded";
 				$sql['order']   = "DESC";
@@ -471,7 +484,14 @@ class BP_User_Query {
 			$sql['limit'] = '';
 		}
 
-		// Allow custom filters
+		/**
+		 * Filters the clauses for the user query.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array         $sql  Array of SQL clauses to be used in the query.
+		 * @param BP_User_Query $this Current BP_User_Query instance.
+		 */
 		$sql = apply_filters_ref_array( 'bp_user_query_uid_clauses', array( $sql, &$this ) );
 
 		// Assemble the query chunks
@@ -481,6 +501,13 @@ class BP_User_Query {
 		$this->uid_clauses['order']   = $sql['order'];
 		$this->uid_clauses['limit']   = $sql['limit'];
 
+		/**
+		 * Fires before the BP_User_Query query is made.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param BP_User_Query $this Current BP_User_Query instance. Passed by reference.
+		 */
 		do_action_ref_array( 'bp_pre_user_query', array( &$this ) );
 	}
 
@@ -507,9 +534,24 @@ class BP_User_Query {
 
 		// Get the total user count
 		if ( 'sql_calc_found_rows' == $this->query_vars['count_total'] ) {
+
+			/**
+			 * Filters the found user SQL statements before query.
+			 *
+			 * If "sql_calc_found_rows" is the provided count_total query var
+			 * then the value will be "SELECT FOUND_ROWS()". Otherwise it will
+			 * use a "SELECT COUNT()" query statement.
+			 *
+			 * @since BuddyPress (1.7.0)
+			 *
+			 * @param string        $value SQL statement to select FOUND_ROWS().
+			 * @param BP_User_Query $this  Current BP_User_Query instance.
+			 */
 			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "SELECT FOUND_ROWS()", $this ) );
 		} elseif ( 'count_query' == $this->query_vars['count_total'] ) {
 			$count_select      = preg_replace( '/^SELECT.*?FROM (\S+) u/', "SELECT COUNT(u.{$this->uid_name}) FROM $1 u", $this->uid_clauses['select'] );
+
+			/** This filter is documented in bp-core/classes/class-bp-user-query.php */
 			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "{$count_select} {$this->uid_clauses['where']}", $this ) );
 		}
 	}
@@ -527,6 +569,14 @@ class BP_User_Query {
 			$fields[] = 'deleted';
 		}
 
+		/**
+		 * Filters the WP User Query arguments before passing into the class.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param array         $value Array of arguments for the user query.
+		 * @param BP_User_Query $this  Current BP_User_Query instance.
+		 */
 		$wp_user_query = new WP_User_Query( apply_filters( 'bp_wp_user_query_args', array(
 
 			// Relevant
@@ -627,17 +677,22 @@ class BP_User_Query {
 		$user_ids_sql = implode( ',', wp_parse_id_list( $this->user_ids ) );
 
 		/**
-		 * Use this action to independently populate your own custom extras.
+		 * Allows users to independently populate custom extras.
 		 *
 		 * Note that anything you add here should query using $user_ids_sql, to
 		 * avoid running multiple queries per user in the loop.
 		 *
 		 * Two BuddyPress components currently do this:
-		 * - XProfile: To override display names
-		 * - Friends:  To set whether or not a user is the current users friend
+		 * - XProfile: To override display names.
+		 * - Friends:  To set whether or not a user is the current users friend.
 		 *
 		 * @see bp_xprofile_filter_user_query_populate_extras()
 		 * @see bp_friends_filter_user_query_populate_extras()
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param BP_User_Query $this         Current BP_User_Query instance.
+		 * @param string        $user_ids_sql Comma-separated string of user IDs.
 		 */
 		do_action_ref_array( 'bp_user_query_populate_extras', array( $this, $user_ids_sql ) );
 
