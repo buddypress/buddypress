@@ -439,11 +439,11 @@ function bp_messages_update_meta( $message_id, $meta_key, $meta_value, $prev_val
 /**
  * Add a piece of message metadata.
  *
- * @since BuddyPress (2.2.0)
+ * @since BuddyPress (2.2.2)
  *
  * @see add_metadata() for full documentation excluding $meta_type variable.
  */
-function bp_message_add_meta( $message_id, $meta_key, $meta_value, $unique = false ) {
+function bp_messages_add_meta( $message_id, $meta_key, $meta_value, $unique = false ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	$retval = add_metadata( 'message', $message_id, $meta_key, $meta_value, $unique );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );

@@ -104,3 +104,13 @@ function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
 function bp_core_add_global_group() {
 	_deprecated_function( __FUNCTION__, '2.2', 'This function has no replacement' );
 }
+
+/**
+ * Add a piece of message metadata.
+ *
+ * @deprecated BuddyPress (2.2.2)
+ */
+function bp_message_add_meta( $message_id, $meta_key, $meta_value, $unique = false ) {
+	_deprecated_function( __FUNCTION__, '2.3.0', 'bp_messages_add_meta()' );
+	return bp_messages_add_meta( $message_id, $meta_key, $meta_value, $unique );
+}
