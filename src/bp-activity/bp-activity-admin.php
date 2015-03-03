@@ -1054,6 +1054,17 @@ class BP_Activity_List_Table extends WP_List_Table {
 	protected $activity_user_id = array();
 
 	/**
+	 * If users can comment on blog & forum activity items
+	 *
+	 * @since BuddyPress (2.2.2)
+	 *
+	 * @link https://buddypress.trac.wordpress.org/ticket/6277
+	 *
+	 * @var bool
+	 */
+	public $disable_blogforum_comments = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since BuddyPress (1.6.0)
