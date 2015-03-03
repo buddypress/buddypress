@@ -108,7 +108,7 @@ function bp_core_add_global_group() {
 /**
  * Add a piece of message metadata.
  *
- * @deprecated BuddyPress (2.3.0)
+ * @deprecated BuddyPress (2.2.2)
  */
 function bp_message_add_meta( $message_id, $meta_key, $meta_value, $unique = false ) {
 	_deprecated_function( __FUNCTION__, '2.3.0', 'bp_messages_add_meta()' );
