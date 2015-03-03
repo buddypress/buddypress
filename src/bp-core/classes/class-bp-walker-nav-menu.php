@@ -150,12 +150,30 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		// If we're someway down the tree, indent the HTML with the appropriate number of tabs
 		$indent = $depth ? str_repeat( "\t", $depth ) : '';
 
-		// Add HTML classes
+		/**
+		 * Filters the classes to be added to the nav menu markup.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param array  $value Array of classes to be added.
+		 * @param object $item  Menu item data object.
+		 * @param array  $args  Array of arguments for the item.
+		 */
 		$class_names = join( ' ', apply_filters( 'bp_nav_menu_css_class', array_filter( $item->class ), $item, $args ) );
 		$class_names = ! empty( $class_names ) ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		// Add HTML ID
 		$id = sanitize_html_class( $item->css_id . '-personal-li' );  // Backpat with BP pre-1.7
+
+		/**
+		 * Filters the value to be used for the nav menu ID attribute.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param string $id   ID attribute to be added to the menu item.
+		 * @param object $item Menu item data object.
+		 * @param array  $args Array of arguments for the item.
+		 */
 		$id = apply_filters( 'bp_nav_menu_item_id', $id, $item, $args );
 		$id = ! empty( $id ) ? ' id="' . esc_attr( $id ) . '"' : '';
 
@@ -168,11 +186,29 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		// Construct the link
 		$item_output = $args->before;
 		$item_output .= '<a' . $attributes . '>';
+
+		/**
+		 * Filters the link text to be added to the item output.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param string $name  Item text to be applied.
+		 * @param int    $value Post ID the title is for.
+		 */
 		$item_output .= $args->link_before . apply_filters( 'the_title', $item->name, 0 ) . $args->link_after;
 		$item_output .= '</a>';
 		$item_output .= $args->after;
 
-		// $output is byref
+		/**
+		 * Filters the final result for the menu item.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param string $item_output Constructed output for the menu item to append to output.
+		 * @param object $item        Menu item data object.
+		 * @param int    $depth       Depth of menu item. Used for padding.
+		 * @param array  $args        Array of arguments for the item.
+		 */
 		$output .= apply_filters( 'bp_walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
 }
