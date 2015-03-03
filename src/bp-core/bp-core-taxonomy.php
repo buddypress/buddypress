@@ -79,3 +79,31 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 
 	return $retval;
 }
+
+/**
+ * Remove taxonomy terms on a BuddyPress object.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @see wp_remove_object_terms() for a full description of function and parameters.
+ *
+ * @param int          $object_id Object ID.
+ * @param string|array $terms     Term or terms to remove.
+ * @param string       $taxonomy  Taxonomy name.
+ * @return bool|WP_Error True on success, false or WP_Error on failure.
+ */
+function bp_remove_object_terms( $object_id, $terms, $taxonomy ) {
+	$is_root_blog = bp_is_root_blog();
+
+	if ( ! $is_root_blog ) {
+		switch_to_blog( bp_get_root_blog_id() );
+	}
+
+	$retval = wp_remove_object_terms( $object_id, $terms, $taxonomy );
+
+	if ( ! $is_root_blog ) {
+		restore_current_blog();
+	}
+
+	return $retval;
+}

@@ -2616,7 +2616,7 @@ function bp_remove_member_type( $user_id, $member_type ) {
 		return false;
 	}
 
-	$deleted = wp_remove_object_terms( $user_id, $member_type, 'bp_member_type' );
+	$deleted = bp_remove_object_terms( $user_id, $member_type, 'bp_member_type' );
 
 	// Bust the cache if the type has been removed.
 	if ( ! is_wp_error( $deleted ) ) {
