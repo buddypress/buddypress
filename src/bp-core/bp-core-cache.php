@@ -21,6 +21,12 @@ function bp_core_clear_cache() {
 	global $cache_path;
 
 	if ( function_exists( 'prune_super_cache' ) ) {
+
+		/**
+		 * Fires before the pruning of WP Super Cache.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 */
 		do_action( 'bp_core_clear_cache' );
 		return prune_super_cache( $cache_path, true );
 	}
