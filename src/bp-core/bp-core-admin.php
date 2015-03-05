@@ -178,7 +178,7 @@ class BP_Admin {
 	/**
 	 * Add the navigational menu elements.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 *
 	 * @uses add_management_page() To add the Recount page in Tools section.
 	 * @uses add_options_page() To add the Forums settings page in Settings
@@ -472,6 +472,14 @@ class BP_Admin {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		$file = $this->css_url . "common{$min}.css";
+
+		/**
+		 * Filters the BuddyPress Core Admin CSS file path.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param string $file File path for the admin CSS.
+		 */
 		$file = apply_filters( 'bp_core_admin_common_css', $file );
 		wp_enqueue_style( 'bp-admin-common-css', $file, array(), bp_get_version() );
 
