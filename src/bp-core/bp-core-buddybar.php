@@ -106,11 +106,30 @@ function bp_core_new_nav_item( $args = '' ) {
 			}
 
 			if ( !empty( $default_subnav_slug ) ) {
+
+				/**
+				 * Filters the default component subnav item.
+				 *
+				 * @since BuddyPress (1.5.0)
+				 *
+				 * @param string $default_subnav_slug The slug of the default subnav item
+				 *                                    to select when clicked.
+				 * @param array  $r                   Parsed arguments for the nav item.
+				 */
 				$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
 			}
 		}
 	}
 
+	/**
+	 * Fires after adding an item to the main BuddyPress navigation array.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param array $r        Parsed arguments for the nav item.
+	 * @param array $args     Originally passed in arguments for the nav item.
+	 * @param array $defaults Default arguments for a nav item.
+	 */
 	do_action( 'bp_core_new_nav_item', $r, $args, $defaults );
 }
 
@@ -483,6 +502,15 @@ function bp_nav_item_has_subnav( $nav_item = '' ) {
 
 	$has_subnav = isset( $bp->bp_options_nav[$nav_item] ) && count( $bp->bp_options_nav[$nav_item] ) > 0;
 
+	/**
+	 * Filters whether or not a given nav item has subnav items.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool   $has_subnav Whether or not there is any subnav items.
+	 * @param string $nav_item   The slug of the top-level nav item whose subnav
+	 *                           items you're checking.
+	 */
 	return apply_filters( 'bp_nav_item_has_subnav', $has_subnav, $nav_item );
 }
 
