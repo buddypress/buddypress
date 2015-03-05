@@ -164,6 +164,14 @@ function bp_setup_theme_compat( $theme = '' ) {
  * @return string ID of the theme package in use.
  */
 function bp_get_theme_compat_id() {
+
+	/**
+	 * Filters the ID of the theme package being used.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $id ID of the theme package in use.
+	 */
 	return apply_filters( 'bp_get_theme_compat_id', buddypress()->theme_compat->theme->id );
 }
 
@@ -180,6 +188,14 @@ function bp_get_theme_compat_id() {
  * @return string Name of the theme package currently in use.
  */
 function bp_get_theme_compat_name() {
+
+	/**
+	 * Filters the name of the theme package being used.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $name Name of the theme package in use.
+	 */
 	return apply_filters( 'bp_get_theme_compat_name', buddypress()->theme_compat->theme->name );
 }
 
@@ -196,6 +212,14 @@ function bp_get_theme_compat_name() {
  * @return string The version string of the theme package currently in use.
  */
 function bp_get_theme_compat_version() {
+
+	/**
+	 * Filters the version of the theme package being used.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $version The version string of the theme package in use.
+	 */
 	return apply_filters( 'bp_get_theme_compat_version', buddypress()->theme_compat->theme->version );
 }
 
@@ -212,6 +236,14 @@ function bp_get_theme_compat_version() {
  * @return string The absolute path of the theme package currently in use.
  */
 function bp_get_theme_compat_dir() {
+
+	/**
+	 * Filters the absolute path of the theme package being used.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $dir The absolute path of the theme package in use.
+	 */
 	return apply_filters( 'bp_get_theme_compat_dir', buddypress()->theme_compat->theme->dir );
 }
 
@@ -229,6 +261,14 @@ function bp_get_theme_compat_dir() {
  * @return string URL of the theme package currently in use.
  */
 function bp_get_theme_compat_url() {
+
+	/**
+	 * Filters the URL of the theme package being used.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $url URL of the theme package in use.
+	 */
 	return apply_filters( 'bp_get_theme_compat_url', buddypress()->theme_compat->theme->url );
 }
 
@@ -249,6 +289,13 @@ function bp_use_theme_compat_with_current_theme() {
 		bp_detect_theme_compat_with_current_theme();
 	}
 
+	/**
+	 * Filters whether or not to use theme compat for the active theme.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param bool $use_with_current_theme True if the current theme needs theme compatibility.
+	 */
 	return apply_filters( 'bp_use_theme_compat_with_current_theme', buddypress()->theme_compat->use_with_current_theme );
 }
 
@@ -406,7 +453,7 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  * For an example of how this function is used, see:
  * {@link BuddyPress::register_theme_packages()}.
  *
- * @since BuddyPress (1.7)
+ * @since BuddyPress (1.7.0)
  *
  * @see BP_Theme_Compat for a description of the $theme parameter arguments.
  *
@@ -597,9 +644,13 @@ function bp_template_include_theme_compat( $template = '' ) {
 	}
 
 	/**
+	 * Fires when resetting main query vars and filtering 'the_content' to output BuddyPress template parts.
+	 *
 	 * Use this action to execute code that will communicate to BuddyPress's
 	 * theme compatibility layer whether or not we're replacing the_content()
 	 * with some other template part.
+	 *
+	 * @since BuddyPress (1.7.0)
 	 */
 	do_action( 'bp_template_include_reset_dummy_post_data' );
 
@@ -636,6 +687,13 @@ function bp_template_include_theme_compat( $template = '' ) {
 		}
 	}
 
+	/**
+	 * Filters the template name to include.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $template Template name.
+	 */
 	return apply_filters( 'bp_template_include_theme_compat', $template );
 }
 
@@ -662,7 +720,13 @@ function bp_replace_the_content( $content = '' ) {
 	// the_content() that execute before theme compat has unhooked itself.
 	bp_set_theme_compat_active( false );
 
-	// Do we have new content to replace the old content?
+	/**
+	 * Filters the content to replace in the post.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $content Original post content.
+	 */
 	$new_content = apply_filters( 'bp_replace_the_content', $content );
 
 	// Juggle the content around and try to prevent unsightly comments
@@ -823,7 +887,15 @@ function bp_comments_open( $open, $post_id = 0 ) {
 
 	$retval = is_buddypress() ? false : $open;
 
-	// Allow override of the override
+	/**
+	 * Filters whether or not to force comments_status to closed for BuddyPress post types.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param bool $retval  Whether or not we are on a BuddyPress post type.
+	 * @param bool $open    True if comments open, false if closed.
+	 * @param int  $post_id Post ID for the checked post.
+	 */
 	return apply_filters( 'bp_force_comment_status', $retval, $open, $post_id );
 }
 
