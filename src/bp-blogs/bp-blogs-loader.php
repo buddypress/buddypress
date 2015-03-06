@@ -81,7 +81,7 @@ class BP_Blogs_Component extends BP_Component {
 		 *
 		 * In case the config is not multisite, the blog_public option is ignored.
 		 */
-		if ( 0 !== (int) get_option( 'blog_public' ) || ! is_multisite() ) {
+		if ( 0 !== apply_filters( 'bp_is_blog_public', (int) get_option( 'blog_public' ) ) || ! is_multisite() ) {
 
 			/**
 			 * Filters the post types to track for the Blog component.
