@@ -194,11 +194,13 @@ function bp_core_admin_components_options() {
 
 							<?php endif; ?>
 
-							<label class="screen-reader-text" for="bp_components[<?php echo esc_attr( $name ); ?>]"><?php sprintf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) );  ?></label>
 						</th>
 						<td class="plugin-title" style="width: 190px;">
 							<span></span>
-							<strong><?php echo esc_html( $labels['title'] ); ?></strong>
+							<label for="bp_components[<?php echo esc_attr( $name ); ?>]">
+								<strong><?php echo esc_html( $labels['title'] ); ?></strong>
+							</label>
+
 							<div class="row-actions-visible">
 
 							</div>
