@@ -111,7 +111,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 				<input type="text" name="log" id="bp-login-widget-user-login" class="input" value="" />
 
 				<label for="bp-login-widget-user-pass"><?php _e( 'Password', 'buddypress' ); ?></label>
-				<input type="password" name="pwd" id="bp-login-widget-user-pass" class="input" value=""  />
+				<input type="password" name="pwd" id="bp-login-widget-user-pass" class="input" value="" autocomplete="off" />
 
 				<div class="forgetmenot"><label><input name="rememberme" type="checkbox" id="bp-login-widget-rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ); ?></label></div>
 
