@@ -193,7 +193,6 @@ function bp_core_add_cropper_inline_js() {
 				aspectRatio: <?php echo (int) $aspect_ratio; ?>,
 				setSelect: [ <?php echo (int) $crop_left; ?>, <?php echo (int) $crop_top; ?>, <?php echo (int) $crop_right; ?>, <?php echo (int) $crop_bottom; ?> ]
 			});
-			updateCoords({x: <?php echo (int) $crop_left; ?>, y: <?php echo (int) $crop_top; ?>, w: <?php echo (int) $crop_right; ?>, h: <?php echo (int) $crop_bottom; ?>});
 		});
 
 		function updateCoords(c) {
