@@ -2681,6 +2681,31 @@ function bp_get_member_type( $user_id, $single = true ) {
 }
 
 /**
+ * Check whether the given user has a certain member type.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param  int    $user_id     $user_id ID of the user.
+ * @param  string $member_type Member Type.
+ * @return bool Whether the user has the given member type.
+ */
+function bp_has_member_type( $user_id, $member_type ) {
+	// Bail if no valid member type was passed.
+	if ( empty( $member_type ) || ! bp_get_member_type_object( $member_type ) ) {
+		return false;
+	}
+
+	// Get all user's member types.
+	$types = bp_get_member_type( $user_id, false );
+
+	if ( ! is_array( $types ) ) {
+		return false;
+	}
+
+	return in_array( $member_type, $types );
+}
+
+/**
  * Delete a user's member type when the user when the user is deleted.
  *
  * @since BuddyPress (2.2.0)

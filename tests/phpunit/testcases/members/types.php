@@ -278,4 +278,54 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$types = bp_get_member_type( $u1, false );
 		$this->assertEquals( array( 'bar' ), $types );
 	}
+
+	/**
+	 * @group BP6138
+	 */
+	function test_bp_has_member_type_should_return_false_when_member_type_is_empty() {
+		$this->assertFalse( bp_has_member_type( 5, '' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	function test_bp_has_member_type_should_return_false_when_member_type_is_invalid() {
+		$this->assertFalse( bp_has_member_type( 5, 'foo' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	public function test_bp_has_member_type_should_return_false_when_member_id_is_empty() {
+		bp_register_member_type( 'foo' );
+
+		$this->assertFalse( bp_has_member_type( '', 'foo' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	public function test_bp_has_member_type_should_return_false_when_member_is_not_of_provided_type() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_set_member_type( $u1, 'bar' );
+
+		$this->assertFalse( bp_has_member_type( $u1, 'foo' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	public function test_bp_has_member_type_should_return_true_on_success() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_set_member_type( $u1, 'foo' );
+		bp_set_member_type( $u1, 'bar', true );
+
+		$this->assertTrue( bp_has_member_type( $u1, 'foo' ) );
+		$types = bp_get_member_type( $u1, false );
+		$this->assertEqualSets( array( 'bar', 'foo' ), $types );
+	}
 }
