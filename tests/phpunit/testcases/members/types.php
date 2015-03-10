@@ -214,7 +214,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		global $wpdb;
 
 		// Offset IDs.
-		$dummy_terms = $this->factory->tag->create_many( 5 );
+		$dummy_terms = $this->factory->tag->create_many( 7 );
 
 		$u1 = $this->factory->user->create();
 		bp_register_member_type( 'foo' );
