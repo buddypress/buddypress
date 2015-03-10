@@ -63,7 +63,7 @@ function bp_core_clear_directory_pages_cache_page_edit( $post_id ) {
 		return;
 	}
 
-	$page_ids = bp_core_get_directory_page_ids();
+	$page_ids = bp_core_get_directory_page_ids( 'all' );
 
 	if ( ! in_array( $post_id, (array) $page_ids ) ) {
 		return;

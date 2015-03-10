@@ -144,13 +144,13 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'post_name'  => $bp->foo->slug,
 		) ) );
 
-		$page_ids = array_merge( $new_page_ids, (array) bp_core_get_directory_page_ids() );
+		$page_ids = array_merge( $new_page_ids, (array) bp_core_get_directory_page_ids( 'all' ) );
 		bp_core_update_directory_page_ids( $page_ids );
 
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $reset_active_components );
 		bp_core_add_page_mappings( $bp->active_components );
 
-		$this->assertContains( $bp->foo->id, array_keys( bp_core_get_directory_page_ids() ) );
+		$this->assertContains( $bp->foo->id, array_keys( bp_core_get_directory_page_ids( 'all' ) ) );
 
 		// Reset buddypress() vars
 		$bp->active_components = $reset_active_components;
