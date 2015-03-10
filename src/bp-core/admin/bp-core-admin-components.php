@@ -309,9 +309,7 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 		$current_action = $_GET['action'];
 	}
 
-	$current_components       = buddypress()->active_components;
-	$packaged_components      = array_flip( bp_core_get_packaged_component_ids() );
-	$custom_active_components = array_diff_key( $current_components, $packaged_components );
+	$current_components = buddypress()->active_components;
 
 	switch ( $current_action ) {
 		case 'retired' :
@@ -319,11 +317,6 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 			foreach ( array_keys( $retired_components ) as $retired_component ) {
 				if ( ! isset( $submitted[ $retired_component ] ) ) {
 					unset( $current_components[ $retired_component ] );
-
-					// Make sure custom components does not contain a retired component
-					if ( isset( $custom_active_components[ $retired_component ] ) ) {
-						unset( $custom_active_components[ $retired_component ] );
-					}
 				}
 			}
 			// fall through
@@ -339,8 +332,7 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 			break;
 	}
 
-	// Active components is the list of packaged and custom components
-	return array_merge( $components, $custom_active_components );
+	return $components;
 }
 
 /**

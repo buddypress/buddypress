@@ -418,10 +418,13 @@ function bp_core_get_packaged_component_ids() {
  *
  * @since BuddyPress (1.5.0)
  *
+ * @param string $status 'active' to return only pages associated with active components, 'all' to return all saved
+ *                       pages. When running save routines, use 'all' to avoid removing data related to inactive
+ *                       components. Default: 'active'.
  * @return array|string An array of page IDs, keyed by component names, or an
- *         empty string if the list is not found.
+ *                      empty string if the list is not found.
  */
-function bp_core_get_directory_page_ids() {
+function bp_core_get_directory_page_ids( $status = 'active' ) {
 	$page_ids = bp_get_option( 'bp-pages' );
 
 	// Ensure that empty indexes are unset. Should only matter in edge cases
@@ -436,7 +439,14 @@ function bp_core_get_directory_page_ids() {
 				continue;
 			}
 
-			if ( ! bp_is_active( $component_name ) || 'trash' == get_post_status( $page_id ) ) {
+			// Trashed pages should not appear in results.
+			if ( 'trash' == get_post_status( $page_id ) ) {
+				unset( $page_ids[ $component_name ] );
+
+			}
+
+			// Remove inactive component pages, if required.
+			if ( 'active' === $status && ! bp_is_active( $component_name ) ) {
 				unset( $page_ids[ $component_name ] );
 			}
 		}
@@ -548,7 +558,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 		switch_to_blog( bp_get_root_blog_id() );
 	}
 
-	$pages = bp_core_get_directory_page_ids();
+	$pages = bp_core_get_directory_page_ids( 'all' );
 
 	// Delete any existing pages
 	if ( 'delete' === $existing ) {
@@ -639,7 +649,7 @@ function bp_core_on_directory_page_delete( $post_id ) {
 		return;
 	}
 
-	$page_ids       = bp_core_get_directory_page_ids();
+	$page_ids       = bp_core_get_directory_page_ids( 'all' );
 	$component_name = array_search( $post_id, $page_ids );
 
 	if ( ! empty( $component_name ) ) {
@@ -745,7 +755,7 @@ function bp_core_create_root_component_page() {
 		) );
 	}
 
-	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_directory_page_ids() );
+	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_directory_page_ids( 'all' ) );
 	bp_core_update_directory_page_ids( $page_ids );
 }
 
