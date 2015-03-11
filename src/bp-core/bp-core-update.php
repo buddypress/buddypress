@@ -248,7 +248,7 @@ function bp_version_updater() {
 		}
 
 		// 2.3.0
-		if ( $raw_db_version < 9572 ) {
+		if ( $raw_db_version < 9615 ) {
 			bp_update_to_2_3();
 		}
 	}
@@ -409,6 +409,8 @@ function bp_update_to_2_0_1() {
  * @since BuddyPress (2.2.0)
  */
 function bp_update_to_2_2() {
+
+	// Also handled by `bp_core_install()`
 	if ( bp_is_active( 'messages' ) ) {
 		bp_core_install_private_messaging();
 	}
@@ -430,6 +432,8 @@ function bp_update_to_2_2() {
  * @since BuddyPress (2.3.0)
  */
 function bp_update_to_2_3() {
+
+	// Also handled by `bp_core_install()`
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_core_install_notifications();
 	}

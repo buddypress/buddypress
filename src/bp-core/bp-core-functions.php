@@ -71,7 +71,7 @@ function bp_db_version_raw() {
 	 * @return string The BuddyPress version direct from the database.
 	 */
 	function bp_get_db_version_raw() {
-		$bp     = buddypress();
+		$bp = buddypress();
 		return !empty( $bp->db_version_raw ) ? $bp->db_version_raw : 0;
 	}
 
