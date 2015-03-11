@@ -572,6 +572,34 @@ class BP_Notifications_Notification {
 	}
 
 	/**
+	 * Parse notifications query arguments
+	 *
+	 * @since BuddyPress 2.3.0
+	 *
+	 * @param  mixed $args
+	 * @return array
+	 */
+	public static function parse_args( $args = '' ) {
+		return wp_parse_args( $args, array(
+			'id'                => false,
+			'user_id'           => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'component_name'    => bp_notifications_get_registered_components(),
+			'component_action'  => false,
+			'is_new'            => true,
+			'search_terms'      => '',
+			'order_by'          => false,
+			'sort_order'        => false,
+			'page'              => false,
+			'per_page'          => false,
+			'meta_query'        => false,
+			'date_query'        => false,
+			'update_meta_cache' => true
+		) );
+	}
+
+	/**
 	 * Get notifications, based on provided filter parameters.
 	 *
 	 * @since BuddyPress (1.9.0)
@@ -612,24 +640,7 @@ class BP_Notifications_Notification {
 		global $wpdb;
 
 		// Parse the arguments
-		$r = wp_parse_args( $args, array(
-			'id'                => false,
-			'user_id'           => false,
-			'item_id'           => false,
-			'secondary_item_id' => false,
-			'component_name'    => bp_notifications_get_registered_components(),
-			'component_action'  => false,
-			'is_new'            => true,
-			'search_terms'      => '',
-			'order_by'          => false,
-			'sort_order'        => false,
-			'page'              => false,
-			'per_page'          => false,
-			'meta_query'        => false,
-			'date_query'        => false,
-			'update_meta_cache' => true,
-			'count_total'       => false,
-		) );
+		$r = self::parse_args( $args );
 
 		// Get BuddyPress
 		$bp = buddypress();
@@ -668,7 +679,7 @@ class BP_Notifications_Notification {
 		// LIMIT %d, %d
 		$pag_sql    = self::get_paged_sql( array(
 			'page'     => $r['page'],
-			'per_page' => $r['per_page'],
+			'per_page' => $r['per_page']
 		) );
 
 		// Concatenate query parts
@@ -691,23 +702,39 @@ class BP_Notifications_Notification {
 	public static function get_total_count( $args ) {
 		global $wpdb;
 
-		/**
-		 * Default component_name to active_components
-		 *
-		 * @see http://buddypress.trac.wordpress.org/ticket/5300
-		 */
-		$args = wp_parse_args( $args, array(
-			'component_name' => bp_notifications_get_registered_components()
-		) );
+		// Parse the arguments
+		$r = self::parse_args( $args );
 
 		// Load BuddyPress
 		$bp = buddypress();
 
-		// Build the query
+		// METADATA
+		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
+
+		// SELECT
 		$select_sql = "SELECT COUNT(*)";
-		$from_sql   = "FROM {$bp->notifications->table_name}";
-		$where_sql  = self::get_where_sql( $args );
-		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
+
+		// FROM
+		$from_sql   = "FROM {$bp->notifications->table_name} n ";
+
+		// JOIN
+		$join_sql   = $meta_query_sql['join'];
+
+		// WHERE
+		$where_sql  = self::get_where_sql( array(
+			'id'                => $r['id'],
+			'user_id'           => $r['user_id'],
+			'item_id'           => $r['item_id'],
+			'secondary_item_id' => $r['secondary_item_id'],
+			'component_name'    => $r['component_name'],
+			'component_action'  => $r['component_action'],
+			'is_new'            => $r['is_new'],
+			'search_terms'      => $r['search_terms'],
+			'date_query'        => $r['date_query']
+		), $select_sql, $from_sql, $join_sql, $meta_query_sql );
+
+		// Concatenate query parts
+		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql}";
 
 		// Return the queried results
 		return $wpdb->get_var( $sql );
