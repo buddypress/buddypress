@@ -272,18 +272,33 @@ function bp_site_name() {
 	}
 
 /**
- * Format a date.
+ * Format a date based on a UNIX timestamp
  *
- * @param int $time The UNIX timestamp to be formatted.
- * @param bool $just_date Optional. True to return only the month + day, false
- *        to return month, day, and time. Default: false.
- * @param bool $localize_time Optional. True to display in local time, false to
- *        leave in GMT. Default: true.
- * @return string|bool $localize_time Optional. A string representation of
- *         $time, in the format "January 1, 2010 at 9:50pm" (or whatever your
- *         'date_format' and 'time_format' settings are). False on failure.
+ * This function can be used to turn a UNIX timestamp into a properly formatted
+ * (and possibly localized) string, userful for ouputting the date & time an
+ * action took place.
+ *
+ * Not to be confused with `bp_core_time_since()`, this function is best used
+ * for displaying a more exact date and time vs. a human-readable time.
+ *
+ * Note: This function may be improved or removed at a later date, as it is
+ * hardly used and adds an additional layer of complexity to calculating dates
+ * and times together with timezone offsets and i18n.
+ *
+ * @since BuddyPress (1.1.0)
+ *
+ * @param int  $time         The UNIX timestamp to be formatted.
+ * @param bool $exclude_time Optional. True to return only the month + day, false
+ *                           to return month, day, and time. Default: false.
+ * @param bool $gmt          Optional. True to display in local time, false to
+ *                           leave in GMT. Default: true.
+ *
+ * @return mixed             A string representation of $time, in the format
+ *                           "March 18, 2014 at 2:00 pm" (or whatever your
+ *                           'date_format' and 'time_format' settings are
+ *                           on your root blog). False on failure.
  */
-function bp_format_time( $time = '', $just_date = false, $localize_time = true ) {
+function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
 
 	// Bail if time is empty or not numeric
 	// @todo We should output something smarter here
@@ -292,7 +307,7 @@ function bp_format_time( $time = '', $just_date = false, $localize_time = true )
 	}
 
 	// Get GMT offset from root blog
-	if ( true === $localize_time ) {
+	if ( true === $gmt ) {
 
 		// Use Timezone string if set
 		$timezone_string = bp_get_option( 'timezone_string' );
@@ -314,14 +329,14 @@ function bp_format_time( $time = '', $just_date = false, $localize_time = true )
 		$calculated_time = $time;
 	}
 
-	// Current date (January 1, 2010)
-	$formatted_date = date_i18n( bp_get_option( 'date_format' ), $calculated_time, $localize_time );
+	// Formatted date: "March 18, 2014"
+	$formatted_date = date_i18n( bp_get_option( 'date_format' ), $calculated_time, $gmt );
 
 	// Should we show the time also?
-	if ( false === $just_date ) {
+	if ( true !== $exclude_time ) {
 
-		// Current time (9:50pm)
-		$formatted_time = date_i18n( bp_get_option( 'time_format' ), $calculated_time, $localize_time );
+		// Formatted time: "2:00 pm"
+		$formatted_time = date_i18n( bp_get_option( 'time_format' ), $calculated_time, $gmt );
 
 		// Return string formatted with date and time
 		$formatted_date = sprintf( esc_html__( '%1$s at %2$s', 'buddypress' ), $formatted_date, $formatted_time );
