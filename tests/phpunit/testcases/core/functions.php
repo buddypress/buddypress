@@ -190,7 +190,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_format_time
 	 */
-	public function test_bp_format_time_gmt_offset() {
+	public function test_bp_format_time_gmt_offset_no_timezone_string() {
 		$time          = 1395169200;
 		$gmt_offset    = '-6';
 		$just_date     = false;
@@ -199,7 +199,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'date_format', 'F j, Y' );
 		update_option( 'time_format', 'g:i a' );
 		update_option( 'gmt_offset', $gmt_offset );
-		delete_option( 'timezone_string' );
+		update_option( 'timezone_string', '' );
 
 		$this->assertEquals( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
@@ -207,7 +207,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_format_time
 	 */
-	public function test_bp_format_time_timezone_string() {
+	public function test_bp_format_time_timezone_string_no_gmt_offset() {
 		$time           = 1395169200;
 		$timzone_string = 'America/Chicago';
 		$just_date      = false;
@@ -216,9 +216,43 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'date_format', 'F j, Y' );
 		update_option( 'time_format', 'g:i a' );
 		update_option( 'timezone_string', $timzone_string );
-		delete_option( 'gmt_offset' );
+		update_option( 'gmt_offset', '0' );
 
-		$this->assertEquals( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+		$this->assertEquals( 'March 18, 2014 at 2:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+	}
+
+	/**
+	 * @group bp_format_time
+	 */
+	public function test_bp_format_time_gmt_offset_no_localize() {
+		$time          = 1395169200;
+		$gmt_offset    = '-6';
+		$just_date     = false;
+		$localize_time = false;
+
+		update_option( 'date_format', 'F j, Y' );
+		update_option( 'time_format', 'g:i a' );
+		update_option( 'gmt_offset', $gmt_offset );
+		update_option( 'timezone_string', '' );
+
+		$this->assertEquals( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+	}
+
+	/**
+	 * @group bp_format_time
+	 */
+	public function test_bp_format_time_timezone_string_no_localize() {
+		$time           = 1395169200;
+		$timzone_string = 'America/Chicago';
+		$just_date      = false;
+		$localize_time  = false;
+
+		update_option( 'date_format', 'F j, Y' );
+		update_option( 'time_format', 'g:i a' );
+		update_option( 'timezone_string', $timzone_string );
+		update_option( 'gmt_offset', '0' );
+
+		$this->assertEquals( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
 	/**
