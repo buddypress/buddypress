@@ -94,7 +94,7 @@ class BP_Notifications_Notification {
 	 */
 	public $is_new;
 
-	/** Public Methods ****************************************************/
+	/** Public Methods ********************************************************/
 
 	/**
 	 * Constructor method.
@@ -206,7 +206,7 @@ class BP_Notifications_Notification {
 		}
 	}
 
-	/** Protected Static Methods ******************************************/
+	/** Protected Static Methods **********************************************/
 
 	/**
 	 * Create a notification entry.
@@ -551,7 +551,7 @@ class BP_Notifications_Notification {
 		return $where_clauses;
 	}
 
-	/** Public Static Methods *********************************************/
+	/** Public Static Methods *************************************************/
 
 	/**
 	 * Check that a specific notification is for a specific user.
@@ -868,7 +868,7 @@ class BP_Notifications_Notification {
 		return self::_delete( $where['data'], $where['format'] );
 	}
 
-	/** Convenience methods ***********************************************/
+	/** Convenience methods ***************************************************/
 
 	/**
 	 * Delete a single notification by ID.
@@ -981,7 +981,7 @@ class BP_Notifications_Notification {
 		return array( 'notifications' => &$notifications, 'total' => $total_count );
 	}
 
-	/** Mark **************************************************************/
+	/** Mark ******************************************************************/
 
 	/**
 	 * Mark all user notifications as read.
