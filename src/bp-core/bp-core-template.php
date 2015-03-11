@@ -283,34 +283,51 @@ function bp_site_name() {
  *         $time, in the format "January 1, 2010 at 9:50pm" (or whatever your
  *         'date_format' and 'time_format' settings are). False on failure.
  */
-function bp_format_time( $time, $just_date = false, $localize_time = true ) {
+function bp_format_time( $time = '', $just_date = false, $localize_time = true ) {
 
-	if ( ! isset( $time ) || ! is_numeric( $time ) ) {
+	// Bail if time is empty or not numeric
+	// @todo We should output something smarter here
+	if ( empty( $time ) || ! is_numeric( $time ) ) {
 		return false;
 	}
 
 	// Get GMT offset from root blog
-	$root_blog_offset = false;
-	if ( ! empty( $localize_time ) ) {
-		$root_blog_offset = get_blog_option( bp_get_root_blog_id(), 'gmt_offset' );
-	}
+	if ( true === $localize_time ) {
 
-	// Calculate offset time
-	$time_offset = $time + ( $root_blog_offset * 3600 );
+		// Use Timezone string if set
+		$timezone_string = bp_get_option( 'timezone_string' );
+		if ( ! empty( $timezone_string ) ) {
+			$timezone_object = timezone_open( $timezone_string );
+			$datetime_object = date_create( "@{$time}" );
+			$timezone_offset = timezone_offset_get( $timezone_object, $datetime_object ) / HOUR_IN_SECONDS;
+
+		// Fall back on less reliable gmt_offset
+		} else {
+			$timezone_offset = bp_get_option( 'gmt_offset' );
+		}
+
+		// Calculate time based on the offset
+		$calculated_time = $time + ( $timezone_offset * HOUR_IN_SECONDS );
+
+	// No localizing, so just use the time that was submitted
+	} else {
+		$calculated_time = $time;
+	}
 
 	// Current date (January 1, 2010)
-	$date = date_i18n( get_option( 'date_format' ), $time_offset );
+	$formatted_date = date_i18n( bp_get_option( 'date_format' ), $calculated_time, $localize_time );
 
 	// Should we show the time also?
-	if ( empty( $just_date ) ) {
+	if ( false === $just_date ) {
+
 		// Current time (9:50pm)
-		$time = date_i18n( get_option( 'time_format' ), $time_offset );
+		$formatted_time = date_i18n( bp_get_option( 'time_format' ), $calculated_time, $localize_time );
 
 		// Return string formatted with date and time
-		$date = sprintf( __( '%1$s at %2$s', 'buddypress' ), $date, $time );
+		$formatted_date = sprintf( esc_html__( '%1$s at %2$s', 'buddypress' ), $formatted_date, $formatted_time );
 	}
 
-	return apply_filters( 'bp_format_time', $date );
+	return apply_filters( 'bp_format_time', $formatted_date );
 }
 
 /**
