@@ -51,18 +51,6 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		";
 	}
 
-	public function setUp() {
-		parent::setUp();
-
-		$this->factory->user->create( array( 'user_login' => 'paulgibbs' ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-
-		$this->remove_added_uploads();
-	}
-
 
 	/**
 	 * General.
@@ -155,6 +143,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 
 
 	public function test_extract_multiple_media_types_from_content() {
+		$this->factory->user->create( array( 'user_login' => 'paulgibbs' ) );
 		$media = self::$media_extractor->extract( self::$richtext, BP_Media_Extractor::LINKS | BP_Media_Extractor::MENTIONS );
 
 		$this->assertNotEmpty( $media['links'] );
@@ -200,6 +189,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	 */
 
 	public function test_extract_mentions_from_content_with_activity_enabled() {
+		$this->factory->user->create( array( 'user_login' => 'paulgibbs' ) );
 		$media = self::$media_extractor->extract( self::$richtext, BP_Media_Extractor::MENTIONS );
 
 		$this->assertArrayHasKey( 'user_id', $media['mentions'][0] );
@@ -207,6 +197,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_mentions_from_content_with_activity_disabled() {
+		$this->factory->user->create( array( 'user_login' => 'paulgibbs' ) );
 		$was_activity_enabled = false;
 
 		// Turn activity off.
