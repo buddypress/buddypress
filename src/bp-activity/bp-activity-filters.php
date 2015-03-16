@@ -386,6 +386,8 @@ function bp_activity_make_nofollow_filter( $text ) {
 /**
  * Truncate long activity entries when viewed in activity streams.
  *
+ * This method can only be used inside the Activity loop.
+ *
  * @since BuddyPress (1.5.0)
  *
  * @uses bp_is_single_activity()
@@ -402,9 +404,20 @@ function bp_activity_make_nofollow_filter( $text ) {
 function bp_activity_truncate_entry( $text ) {
 	global $activities_template;
 
+	/**
+	 * Provides a filter that lets you choose whether to skip this filter on a per-activity basis.
+	 *
+	 * @param bool $maybe_truncate_text If true, text should be checked to see if it needs truncating.
+	 * @since BuddyPress (2.3.0)
+	 */
+	$maybe_truncate_text = apply_filters( 'bp_activity_maybe_truncate_entry',
+		! in_array( $activities_template->activity->type, array( 'new_blog_post', ), true )
+	);
+
 	// The full text of the activity update should always show on the single activity screen
-	if ( bp_is_single_activity() )
+	if ( ! $maybe_truncate_text || bp_is_single_activity() ) {
 		return $text;
+	}
 
 	/**
 	 * Filters the appended text for the activity excerpt.
