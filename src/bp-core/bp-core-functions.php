@@ -2147,3 +2147,50 @@ function bp_core_get_suggestions( $args ) {
 
 	return apply_filters( 'bp_core_get_suggestions', $retval, $args );
 }
+
+/**
+ * Set data from the BP root blog's upload directory.
+ *
+ * Handy for multisite instances because all uploads are made on the BP root
+ * blog and we need to query the BP root blog for the upload directory data.
+ *
+ * This function ensures that we only need to use {@link switch_to_blog()}
+ * once to get what we need.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @uses  is_multisite()
+ * @uses  bp_is_root_blog()
+ * @uses  switch_to_blog()
+ * @uses  wp_upload_dir()
+ * @uses  restore_current_blog()
+ */
+function bp_upload_dir() {
+	$bp = buddypress();
+
+	if ( empty( $bp->upload_dir ) ) {
+		$need_switch = (bool) ( is_multisite() && ! bp_is_root_blog() );
+
+		// Maybe juggle to root blog
+		if ( true === $need_switch ) {
+			switch_to_blog( bp_get_root_blog_id() );
+		}
+
+		// Get the upload directory (maybe for root blog)
+		$wp_upload_dir = wp_upload_dir();
+
+		// Maybe juggle back to current blog
+		if ( true === $need_switch ) {
+			restore_current_blog();
+		}
+
+		// Bail if an error occurred
+		if ( ! empty( $wp_upload_dir['error'] ) ) {
+			return false;
+		}
+
+		$bp->upload_dir = $wp_upload_dir;
+	}
+
+	return $bp->upload_dir;
+}
