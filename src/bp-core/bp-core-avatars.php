@@ -564,8 +564,9 @@ function bp_core_delete_existing_avatar( $args = '' ) {
  * @see bp_core_check_avatar_upload()
  * @see bp_core_check_avatar_type()
  *
- * @param array $file The appropriate entry the from $_FILES superglobal.
+ * @param array  $file              The appropriate entry the from $_FILES superglobal.
  * @param string $upload_dir_filter A filter to be applied to 'upload_dir'.
+ *
  * @return bool True on success, false on failure.
  */
 function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
@@ -574,98 +575,35 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	 * You may want to hook into this filter if you want to override this function.
 	 * Make sure you return false.
 	 */
-	if ( !apply_filters( 'bp_core_pre_avatar_handle_upload', true, $file, $upload_dir_filter ) )
+	if ( ! apply_filters( 'bp_core_pre_avatar_handle_upload', true, $file, $upload_dir_filter ) ) {
 		return true;
-
-	require_once( ABSPATH . '/wp-admin/includes/file.php' );
-
-	$uploadErrors = array(
-		0 => __( 'The image was uploaded successfully', 'buddypress' ),
-		1 => __( 'The image exceeds the maximum allowed file size of: ', 'buddypress' ) . size_format( bp_core_avatar_original_max_filesize() ),
-		2 => __( 'The image exceeds the maximum allowed file size of: ', 'buddypress' ) . size_format( bp_core_avatar_original_max_filesize() ),
-		3 => __( 'The uploaded file was only partially uploaded.', 'buddypress' ),
-		4 => __( 'The image was not uploaded.', 'buddypress' ),
-		6 => __( 'Missing a temporary folder.', 'buddypress' )
-	);
-
-	if ( ! bp_core_check_avatar_upload( $file ) ) {
-		bp_core_add_message( sprintf( __( 'Your upload failed. Please try again. Error was: %s', 'buddypress' ), $uploadErrors[$file['file']['error']] ), 'error' );
-		return false;
 	}
 
-	if ( ! bp_core_check_avatar_size( $file ) ) {
-		bp_core_add_message( sprintf( __( 'The file you uploaded is too big. Please upload a file under %s', 'buddypress' ), size_format( bp_core_avatar_original_max_filesize() ) ), 'error' );
-		return false;
-	}
+	// Setup some variables
+	$bp          = buddypress();
+	$upload_path = bp_core_avatar_upload_path();
 
-	if ( ! bp_core_check_avatar_type( $file ) ) {
-		bp_core_add_message( __( 'Please upload only JPG, GIF or PNG photos.', 'buddypress' ), 'error' );
-		return false;
-	}
+	// Upload the file
+	$avatar_attachment = new BP_Attachment_Avatar();
+	$bp->avatar_admin->original = $avatar_attachment->upload( $file, $upload_dir_filter );
 
-	// Filter the upload location
-	add_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
-
-	$bp = buddypress();
-
-	$bp->avatar_admin->original = wp_handle_upload( $file['file'], array( 'action'=> 'bp_avatar_upload' ) );
-
-	// Remove the upload_dir filter, so that other upload URLs on the page
-	// don't break
-	remove_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
-
-	// Move the file to the correct upload location.
-	if ( !empty( $bp->avatar_admin->original['error'] ) ) {
+	// In case of an error, stop the process and display a feedback to the user
+	if ( ! empty( $bp->avatar_admin->original['error'] ) ) {
 		bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->original['error'] ), 'error' );
 		return false;
 	}
 
-	// Get image size
-	$size  = @getimagesize( $bp->avatar_admin->original['file'] );
-	$error = false;
-
-	// Check image size and shrink if too large
-	if ( $size[0] > bp_core_avatar_original_max_width() ) {
-		$editor = wp_get_image_editor( $bp->avatar_admin->original['file'] );
-
-		if ( ! is_wp_error( $editor ) ) {
-			$editor->set_quality( 100 );
-
-			$resized = $editor->resize( bp_core_avatar_original_max_width(), bp_core_avatar_original_max_width(), false );
-			if ( ! is_wp_error( $resized ) ) {
-				$thumb = $editor->save( $editor->generate_filename() );
-			} else {
-				$error = $resized;
-			}
-
-			// Check for thumbnail creation errors
-			if ( false === $error && is_wp_error( $thumb ) ) {
-				$error = $thumb;
-			}
-
-			// Thumbnail is good so proceed
-			if ( false === $error ) {
-				$bp->avatar_admin->resized = $thumb;
-			}
-
-		} else {
-			$error = $editor;
-		}
-
-		if ( false !== $error ) {
-			bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $error->get_error_message() ), 'error' );
-			return false;
-		}
-	}
-
-	if ( ! isset( $bp->avatar_admin->image ) )
-		$bp->avatar_admin->image = new stdClass();
+	// Maybe resize
+	$bp->avatar_admin->resized = $avatar_attachment->shrink( $bp->avatar_admin->original['file'] );
+	$bp->avatar_admin->image   = new stdClass();
 
 	// We only want to handle one image after resize.
 	if ( empty( $bp->avatar_admin->resized ) ) {
-		$bp->avatar_admin->image->dir = str_replace( bp_core_avatar_upload_path(), '', $bp->avatar_admin->original['file'] );
+		$bp->avatar_admin->image->file = $bp->avatar_admin->original['file'];
+		$bp->avatar_admin->image->dir  = str_replace( $upload_path, '', $bp->avatar_admin->original['file'] );
 	} else {
-		$bp->avatar_admin->image->dir = str_replace( bp_core_avatar_upload_path(), '', $bp->avatar_admin->resized['path'] );
+		$bp->avatar_admin->image->file = $bp->avatar_admin->resized['path'];
+		$bp->avatar_admin->image->dir  = str_replace( $upload_path, '', $bp->avatar_admin->resized['path'] );
 		@unlink( $bp->avatar_admin->original['file'] );
 	}
 
@@ -675,13 +613,9 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		return false;
 	}
 
-	// If the uploaded image is smaller than the "full" dimensions, throw
-	// a warning
-	$uploaded_image = @getimagesize( bp_core_avatar_upload_path() . buddypress()->avatar_admin->image->dir );
-	$full_width     = bp_core_avatar_full_width();
-	$full_height    = bp_core_avatar_full_height();
-	if ( isset( $uploaded_image[0] ) && $uploaded_image[0] < $full_width || $uploaded_image[1] < $full_height ) {
-		bp_core_add_message( sprintf( __( 'You have selected an image that is smaller than recommended. For best results, upload a picture larger than %d x %d pixels.', 'buddypress' ), $full_width, $full_height ), 'error' );
+	// If the uploaded image is smaller than the "full" dimensions, throw a warning
+	if ( $avatar_attachment->is_too_small( $bp->avatar_admin->image->file ) ) {
+		bp_core_add_message( sprintf( __( 'You have selected an image that is smaller than recommended. For best results, upload a picture larger than %d x %d pixels.', 'buddypress' ), bp_core_avatar_full_width(), bp_core_avatar_full_height() ), 'error' );
 	}
 
 	// Set the url value for the image
@@ -738,79 +672,18 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	 * You may want to hook into this filter if you want to override this function.
 	 * Make sure you return false.
 	 */
-	if ( !apply_filters( 'bp_core_pre_avatar_handle_crop', true, $r ) )
+	if ( ! apply_filters( 'bp_core_pre_avatar_handle_crop', true, $r ) ) {
 		return true;
-
-	extract( $r, EXTR_SKIP );
-
-	if ( empty( $original_file ) )
-		return false;
-
-	$original_file = bp_core_avatar_upload_path() . $original_file;
-
-	if ( !file_exists( $original_file ) )
-		return false;
-
-	if ( empty( $item_id ) ) {
-		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', dirname( $original_file ), $item_id, $object, $avatar_dir );
-	} else {
-		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', bp_core_avatar_upload_path() . '/' . $avatar_dir . '/' . $item_id, $item_id, $object, $avatar_dir );
 	}
 
-	if ( !file_exists( $avatar_folder_dir ) )
-		return false;
-
-	require_once( ABSPATH . '/wp-admin/includes/image.php' );
-	require_once( ABSPATH . '/wp-admin/includes/file.php' );
-
-	// Delete the existing avatar files for the object
-	$existing_avatar = bp_core_fetch_avatar( array(
-		'object'  => $object,
-		'item_id' => $item_id,
-		'html' => false,
-	) );
-
-	if ( ! empty( $existing_avatar ) ) {
-		// Check that the new avatar doesn't have the same name as the
-		// old one before deleting
-		$upload_dir           = wp_upload_dir();
-		$existing_avatar_path = str_replace( $upload_dir['baseurl'], '', $existing_avatar );
-		$new_avatar_path      = str_replace( $upload_dir['basedir'], '', $original_file );
-
-		if ( $existing_avatar_path !== $new_avatar_path ) {
-			bp_core_delete_existing_avatar( array( 'object' => $object, 'item_id' => $item_id, 'avatar_path' => $avatar_folder_dir ) );
-		}
-	}
-
-
-
-	// Make sure we at least have a width and height for cropping
-	if ( empty( $crop_w ) ) {
-		$crop_w = bp_core_avatar_full_width();
-	}
-
-	if ( empty( $crop_h ) ) {
-		$crop_h = bp_core_avatar_full_height();
-	}
-
-	// Get the file extension
-	$data = @getimagesize( $original_file );
-	$ext  = $data['mime'] == 'image/png' ? 'png' : 'jpg';
-
-	// Set the full and thumb filenames
-	$full_filename  = wp_hash( $original_file . time() ) . '-bpfull.'  . $ext;
-	$thumb_filename = wp_hash( $original_file . time() ) . '-bpthumb.' . $ext;
-
-	// Crop the image
-	$full_cropped  = wp_crop_image( $original_file, (int) $crop_x, (int) $crop_y, (int) $crop_w, (int) $crop_h, bp_core_avatar_full_width(),  bp_core_avatar_full_height(),  false, $avatar_folder_dir . '/' . $full_filename  );
-	$thumb_cropped = wp_crop_image( $original_file, (int) $crop_x, (int) $crop_y, (int) $crop_w, (int) $crop_h, bp_core_avatar_thumb_width(), bp_core_avatar_thumb_height(), false, $avatar_folder_dir . '/' . $thumb_filename );
+	// Crop the file
+	$avatar_attachment = new BP_Attachment_Avatar();
+	$cropped           = $avatar_attachment->crop( $r );
 
 	// Check for errors
-	if ( empty( $full_cropped ) || empty( $thumb_cropped ) || is_wp_error( $full_cropped ) || is_wp_error( $thumb_cropped ) )
+	if ( empty( $cropped['full'] ) || empty( $cropped['thumb'] ) || is_wp_error( $cropped['full'] ) || is_wp_error( $cropped['thumb'] ) ) {
 		return false;
-
-	// Remove the original
-	@unlink( $original_file );
+	}
 
 	return true;
 }
@@ -926,15 +799,7 @@ function bp_core_check_avatar_type($file) {
 /**
  * Fetch data from the BP root blog's upload directory.
  *
- * Handy for multisite instances because all uploads are made on the BP root
- * blog and we need to query the BP root blog for the upload directory data.
- *
- * This function ensures that we only need to use {@link switch_to_blog()}
- * once to get what we need.
- *
  * @since BuddyPress (1.8.0)
- *
- * @uses wp_upload_dir()
  *
  * @param string $type The variable we want to return from the $bp->avatars
  *        object. Only 'upload_path' and 'url' are supported. Default: 'upload_path'.
@@ -977,16 +842,9 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 
 			// No cache, so query for it
 			} else {
-				// We need to switch to the root blog on multisite installs
-				if ( is_multisite() ) {
-					switch_to_blog( bp_get_root_blog_id() );
-				}
 
 				// Get upload directory information from current site
-				$upload_dir = wp_upload_dir();
-
-				// Will bail if not switched
-				restore_current_blog();
+				$upload_dir = bp_upload_dir();
 
 				// Stash upload directory data for later use
 				$bp->avatar->upload_dir = $upload_dir;
@@ -1018,7 +876,7 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 /**
  * Get the absolute upload path for the WP installation.
  *
- * @uses wp_upload_dir To get upload directory info
+ * @uses bp_core_get_upload_dir() To get upload directory info
  *
  * @return string Absolute path to WP upload directory.
  */
@@ -1029,7 +887,7 @@ function bp_core_avatar_upload_path() {
 /**
  * Get the raw base URL for root site upload location.
  *
- * @uses wp_upload_dir To get upload directory info.
+ * @uses bp_core_get_upload_dir() To get upload directory info.
  *
  * @return string Full URL to current upload location.
  */
