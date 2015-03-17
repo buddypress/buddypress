@@ -2159,16 +2159,12 @@ function bp_core_signup_avatar_upload_dir() {
 		return false;
 	}
 
-	$path  = bp_core_avatar_upload_path() . '/avatars/signups/' . $bp->signup->avatar_dir;
-	$newbdir = $path;
-
-	if ( ! file_exists( $path ) ) {
-		@wp_mkdir_p( $path );
-	}
-
-	$newurl = bp_core_avatar_url() . '/avatars/signups/' . $bp->signup->avatar_dir;
-	$newburl = $newurl;
-	$newsubdir = '/avatars/signups/' . $bp->signup->avatar_dir;
+	$directory = 'avatars/signups';
+	$path      = bp_core_avatar_upload_path() . '/' . $directory . '/' . $bp->signup->avatar_dir;
+	$newbdir   = $path;
+	$newurl    = bp_core_avatar_url() . '/' . $directory . '/' . $bp->signup->avatar_dir;
+	$newburl   = $newurl;
+	$newsubdir = '/' . $directory . '/' . $bp->signup->avatar_dir;
 
 	/**
 	 * Filters the avatar storage directory for use during registration.
@@ -2183,7 +2179,7 @@ function bp_core_signup_avatar_upload_dir() {
 		'subdir'  => $newsubdir,
 		'basedir' => $newbdir,
 		'baseurl' => $newburl,
-		'error' => false
+		'error'   => false
 	) );
 }
 

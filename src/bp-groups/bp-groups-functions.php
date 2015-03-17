@@ -817,15 +817,12 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
 		$group_id = bp_get_current_group_id();
 	}
 
-	$path    = bp_core_avatar_upload_path() . '/group-avatars/' . $group_id;
-	$newbdir = $path;
-
-	if ( !file_exists( $path ) )
-		@wp_mkdir_p( $path );
-
-	$newurl    = bp_core_avatar_url() . '/group-avatars/' . $group_id;
+	$directory = 'group-avatars';
+	$path      = bp_core_avatar_upload_path() . '/' . $directory . '/' . $group_id;
+	$newbdir   = $path;
+	$newurl    = bp_core_avatar_url() . '/' . $directory . '/' . $group_id;
 	$newburl   = $newurl;
-	$newsubdir = '/group-avatars/' . $group_id;
+	$newsubdir = '/' . $directory . '/' . $group_id;
 
 	/**
 	 * Filters the avatar upload directory path for a given group.
@@ -834,7 +831,14 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
 	 *
 	 * @param array $value Array of parts related to the groups avatar upload directory.
 	 */
-	return apply_filters( 'groups_avatar_upload_dir', array( 'path' => $path, 'url' => $newurl, 'subdir' => $newsubdir, 'basedir' => $newbdir, 'baseurl' => $newburl, 'error' => false ) );
+	return apply_filters( 'groups_avatar_upload_dir', array(
+		'path'    => $path,
+		'url'     => $newurl,
+		'subdir'  => $newsubdir,
+		'basedir' => $newbdir,
+		'baseurl' => $newburl,
+		'error'   => false
+	) );
 }
 
 /** Group Member Status Checks ************************************************/
