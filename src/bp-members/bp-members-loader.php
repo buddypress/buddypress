@@ -287,6 +287,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Global groups
 		wp_cache_add_global_groups( array(
+			'bp_last_activity',
 			'bp_member_type'
 		) );
 
