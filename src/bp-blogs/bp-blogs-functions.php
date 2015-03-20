@@ -234,12 +234,12 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 		return false;
 
 	$name = get_blog_option( $blog_id, 'blogname' );
+	$url  = get_home_url( $blog_id );
 
 	if ( empty( $name ) ) {
-		return false;
+		$name = $url;
 	}
 
-	$url             = get_home_url( $blog_id );
 	$description     = get_blog_option( $blog_id, 'blogdescription' );
 	$close_old_posts = get_blog_option( $blog_id, 'close_comments_for_old_posts' );
 	$close_days_old  = get_blog_option( $blog_id, 'close_comments_days_old' );
