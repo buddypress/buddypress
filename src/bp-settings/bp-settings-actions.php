@@ -161,12 +161,12 @@ Regards,
 		if ( !empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) ) {
 
 			if ( ( $_POST['pass1'] == $_POST['pass2'] ) && !strpos( " " . $_POST['pass1'], "\\" ) ) {
-				
+
 				// Password change attempt is successful
-				if ( $_POST['pwd'] != $_POST['pass1'] ) {
+				if ( ( ! empty( $_POST['pwd'] ) && $_POST['pwd'] != $_POST['pass1'] ) || is_super_admin() )  {
 					$update_user->user_pass = $_POST['pass1'];
 					$pass_changed = true;
-					
+
 				// The new password is the same as the current password
 				} else {
 					$pass_error = 'same';
