@@ -317,28 +317,32 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *   asset)
 	 */
 	private function locate_asset_in_stack( $file, $type = 'css', $script_handle = '' ) {
-		// Child, parent, theme compat
 		$locations = array();
+
+		// Ensure the assets can be located when running from /src/.
+		if ( defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src' ) {
+			$file = str_replace( '.min', '', $file );
+		}
 
 		// No need to check child if template == stylesheet
 		if ( is_child_theme() ) {
 			$locations['bp-child'] = array(
 				'dir'  => get_stylesheet_directory(),
 				'uri'  => get_stylesheet_directory_uri(),
-				'file' => str_replace( '.min', '', $file )
+				'file' => $file,
 			);
 		}
 
 		$locations['bp-parent'] = array(
 			'dir'  => get_template_directory(),
 			'uri'  => get_template_directory_uri(),
-			'file' => str_replace( '.min', '', $file )
+			'file' => $file,
 		);
 
 		$locations['bp-legacy'] = array(
 			'dir'  => bp_get_theme_compat_dir(),
 			'uri'  => bp_get_theme_compat_url(),
-			'file' => str_replace( '.min', '', $file )
+			'file' => $file,
 		);
 
 		// Subdirectories within the top-level $locations directories
