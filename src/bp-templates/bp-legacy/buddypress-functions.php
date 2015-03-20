@@ -206,15 +206,25 @@ class BP_Legacy extends BP_Theme_Compat {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Locate the BP stylesheet
-		$asset = $this->locate_asset_in_stack( "buddypress{$min}.css", 'css' );
+		$ltr = $this->locate_asset_in_stack( "buddypress{$min}.css",     'css' );
+		$rtl = $this->locate_asset_in_stack( "buddypress-rtl{$min}.css", 'css' );
 
-		// Enqueue BuddyPress-specific styling, if found
-		if ( isset( $asset['location'], $asset['handle'] ) ) {
-			wp_enqueue_style( $asset['handle'], $asset['location'], array(), $this->version, 'screen' );
+		// LTR
+		if ( ! is_rtl() && isset( $ltr['location'], $ltr['handle'] ) ) {
+			wp_enqueue_style( $ltr['handle'], $ltr['location'], array(), $this->version, 'screen' );
 
-			wp_style_add_data( $asset['handle'], 'rtl', true );
 			if ( $min ) {
-				wp_style_add_data( $asset['handle'], 'suffix', $min );
+				wp_style_add_data( $ltr['handle'], 'suffix', $min );
+			}
+		}
+
+		// RTL
+		if ( is_rtl() && isset( $rtl['location'], $rtl['handle'] ) ) {
+			$rtl['handle'] = str_replace( '-css', '-css-rtl', $rtl['handle'] );  // Backwards compatibility
+			wp_enqueue_style( $rtl['handle'], $rtl['location'], array(), $this->version, 'screen' );
+
+			if ( $min ) {
+				wp_style_add_data( $rtl['handle'], 'suffix', $min );
 			}
 		}
 	}
