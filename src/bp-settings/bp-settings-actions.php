@@ -160,10 +160,17 @@ Regards,
 
 		if ( !empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) ) {
 
-			// Password change attempt is successful
 			if ( ( $_POST['pass1'] == $_POST['pass2'] ) && !strpos( " " . $_POST['pass1'], "\\" ) ) {
-				$update_user->user_pass = $_POST['pass1'];
-				$pass_changed = true;
+				
+				// Password change attempt is successful
+				if ( $_POST['pwd'] != $_POST['pass1'] ) {
+					$update_user->user_pass = $_POST['pass1'];
+					$pass_changed = true;
+					
+				// The new password is the same as the current password
+				} else {
+					$pass_error = 'same';
+				}
 
 			// Password change attempt was unsuccessful
 			} else {
@@ -235,6 +242,8 @@ Regards,
 		case 'empty' :
 			$feedback['pass_empty']    = __( 'One of the password fields was empty.', 'buddypress' );
 			break;
+		case 'same' :
+			$feedback['pass_same'] 	   = __( 'The new password must be different from the current password.', 'buddypress' );
 		case false :
 			// No change
 			break;
