@@ -1,6 +1,6 @@
 /* exported add_option, show_options, hide, fixHelper */
 /* jshint scripturl: true */
-/* global XProfileAdmin */
+/* global XProfileAdmin, ajaxurl */
 
 /**
  * Add option for the forWhat type.
