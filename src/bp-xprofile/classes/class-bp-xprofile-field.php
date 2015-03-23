@@ -373,8 +373,9 @@ class BP_XProfile_Field {
 
 	public function render_admin_form( $message = '' ) {
 		if ( empty( $this->id ) ) {
-			$title  = __( 'Add Field', 'buddypress' );
+			$title  = __( 'Add New Field', 'buddypress' );
 			$action	= "users.php?page=bp-profile-setup&amp;group_id=" . $this->group_id . "&amp;mode=add_field#tabs-" . $this->group_id;
+			$button	= __( 'Save', 'buddypress' );
 
 			if ( !empty( $_POST['saveField'] ) ) {
 				$this->name        = $_POST['title'];
@@ -387,6 +388,7 @@ class BP_XProfile_Field {
 		} else {
 			$title  = __( 'Edit Field', 'buddypress' );
 			$action = "users.php?page=bp-profile-setup&amp;mode=edit_field&amp;group_id=" . $this->group_id . "&amp;field_id=" . $this->id . "#tabs-" . $this->group_id;
+			$button	= __( 'Update', 'buddypress' );
 		} ?>
 
 		<div class="wrap">
@@ -455,7 +457,7 @@ class BP_XProfile_Field {
 
 											<input type="hidden" name="field_order" id="field_order" value="<?php echo esc_attr( $this->field_order ); ?>" />
 											<div id="publishing-action">
-												<input type="submit" value="<?php esc_attr_e( 'Save', 'buddypress' ); ?>" name="saveField" id="saveField" style="font-weight: bold" class="button-primary" />
+												<input type="submit" name="saveField" value="<?php echo esc_attr( $button ); ?>" class="button-primary" />
 											</div>
 											<div id="delete-action">
 												<a href="users.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
