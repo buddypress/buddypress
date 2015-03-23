@@ -217,10 +217,7 @@ jQuery( document ).ready( function() {
 	})
 
 	// Disallow text selection
-	.disableSelection()
-
-	// Change cursor to move if JS is enabled
-	.css( 'cursor', 'move' );
+	.disableSelection();
 
 	// Allow reordering of field options
 	enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
