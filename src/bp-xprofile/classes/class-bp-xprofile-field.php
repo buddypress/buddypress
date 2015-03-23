@@ -390,7 +390,9 @@ class BP_XProfile_Field {
 		} ?>
 
 		<div class="wrap">
-			<div id="icon-users" class="icon32"><br /></div>
+
+			<?php screen_icon( 'users' ); ?>
+
 			<h2><?php echo esc_html( $title ); ?></h2>
 
 			<?php if ( !empty( $message ) ) : ?>
