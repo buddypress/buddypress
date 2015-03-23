@@ -519,11 +519,11 @@ class BP_XProfile_Group {
 		if ( empty( $this->id ) ) {
 			$title	= __( 'Add New Field Group', 'buddypress' );
 			$action	= "users.php?page=bp-profile-setup&amp;mode=add_group";
-			$button	= __( 'Create Field Group', 'buddypress' );
+			$button	= __( 'Save', 'buddypress' );
 		} else {
 			$title  = __( 'Edit Field Group', 'buddypress' );
 			$action = "users.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=" . $this->id;
-			$button	= __( 'Save Changes', 'buddypress' );
+			$button	= __( 'Update', 'buddypress' );
 		} ?>
 
 		<div class="wrap">
@@ -532,10 +532,9 @@ class BP_XProfile_Group {
 
 			<h2><?php echo esc_html( $title ); ?></h2>
 
-			<?php if ( !empty( $message ) ) :
-					$type = ( 'error' == $type ) ? 'error' : 'updated'; ?>
+			<?php if ( !empty( $message ) ) : ?>
 
-				<div id="message" class="<?php echo esc_attr( $type ); ?> fade">
+				<div id="message" class="error fade">
 					<p><?php echo esc_html( $message ); ?></p>
 				</div>
 
@@ -543,82 +542,78 @@ class BP_XProfile_Group {
 
 			<form id="bp-xprofile-add-field-group" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
-					<div id="post-body" class="metabox-holder columns-2">
+					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 == get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="titlediv">
-								<div id="titlewrap">
+								<div class="titlewrap">
 									<label id="title-prompt-text" for="title"><?php esc_html_e( 'Field Group Name', 'buddypress') ?></label>
 									<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" autocomplete="off" />
 								</div>
 							</div>
-
-							<div id="postdiv">
-								<div class="postbox">
-									<div id="titlediv"><h3 class="hndle"><?php _e( 'Group Description', 'buddypress' ); ?></h3></div>
-									<div class="inside">
-										<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
-									</div>
+							<div class="postbox">
+								<h3><?php _e( 'Field Group Description', 'buddypress' ); ?></h3>
+								<div class="inside">
+									<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
 								</div>
 							</div>
-						</div>
+						</div><!-- #post-body-content -->
+
 						<div id="postbox-container-1" class="postbox-container">
-							<div id="side-sortables" class="meta-box-sortables ui-sortable">
 
-								<?php
+							<?php
 
-								/**
-								 * Fires before XProfile Group submit metabox.
-								 *
-								 * @since BuddyPress (2.1.0)
-								 *
-								 * @param BP_XProfile_Group $this Current XProfile group.
-								 */
-								do_action( 'xprofile_group_before_submitbox', $this );
-								?>
+							/**
+							 * Fires before XProfile Group submit metabox.
+							 *
+							 * @since BuddyPress (2.1.0)
+							 *
+							 * @param BP_XProfile_Group $this Current XProfile group.
+							 */
+							do_action( 'xprofile_group_before_submitbox', $this );
+							?>
 
-								<div id="submitdiv" class="postbox">
-									<div id="handlediv"><h3 class="hndle"><?php _e( 'Save', 'buddypress' ); ?></h3></div>
-									<div class="inside">
-										<div id="submitcomment" class="submitbox">
-											<div id="major-publishing-actions">
+							<div id="submitdiv" class="postbox">
+								<h3><?php _e( 'Submit', 'buddypress' ); ?></h3>
+								<div class="inside">
+									<div id="submitcomment" class="submitbox">
+										<div id="major-publishing-actions">
 
-												<?php
+											<?php
 
-												/**
-												 * Fires at the beginning of the XProfile Group publishing actions section.
-												 *
-												 * @since BuddyPress (2.1.0)
-												 *
-												 * @param BP_XProfile_Group $this Current XProfile group.
-												 */
-												do_action( 'xprofile_group_submitbox_start', $this );
-												?>
+											/**
+											 * Fires at the beginning of the XProfile Group publishing actions section.
+											 *
+											 * @since BuddyPress (2.1.0)
+											 *
+											 * @param BP_XProfile_Group $this Current XProfile group.
+											 */
+											do_action( 'xprofile_group_submitbox_start', $this );
+											?>
 
-												<div id="delete-action">
-													<a href="users.php?page=bp-profile-setup" class="submitdelete deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
-												</div>
-												<div id="publishing-action">
-													<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
-												</div>
-												<input type="hidden" name="group_order" id="group_order" value="<?php echo esc_attr( $this->group_order ); ?>" />
-												<div class="clear"></div>
+											<input type="hidden" name="group_order" id="group_order" value="<?php echo esc_attr( $this->group_order ); ?>" />
+											<div id="publishing-action">
+												<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
 											</div>
+											<div id="delete-action">
+												<a href="users.php?page=bp-profile-setup" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+											</div>
+											<div class="clear"></div>
 										</div>
 									</div>
 								</div>
-
-								<?php
-
-								/**
-								 * Fires after XProfile Group submit metabox.
-								 *
-								 * @since BuddyPress (2.1.0)
-								 *
-								 * @param BP_XProfile_Group $this Current XProfile group.
-								 */
-								do_action( 'xprofile_group_after_submitbox', $this );
-								?>
 							</div>
+
+							<?php
+
+							/**
+							 * Fires after XProfile Group submit metabox.
+							 *
+							 * @since BuddyPress (2.1.0)
+							 *
+							 * @param BP_XProfile_Group $this Current XProfile group.
+							 */
+							do_action( 'xprofile_group_after_submitbox', $this );
+							?>
 						</div>
 					</div>
 				</div>
