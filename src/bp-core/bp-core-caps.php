@@ -30,10 +30,23 @@ function bp_get_current_blog_roles() {
 		? $wp_roles->roles
 		: array();
 
-	// Apply WordPress core filter to editable roles
+	/**
+	 * Filters the list of editable roles.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param array $roles List of roles.
+	 */
 	$roles = apply_filters( 'editable_roles', $roles );
 
-	// Return the editable roles
+	/**
+	 * Filters the array of roles from the currently loaded blog.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param array    $roles    Available roles.
+	 * @param WP_Roles $wp_roles Object of WordPress roles.
+	 */
 	return apply_filters( 'bp_get_current_blog_roles', $roles, $wp_roles );
 }
 
@@ -62,6 +75,13 @@ function bp_add_caps() {
 		}
 	}
 
+	/**
+	 * Fires after the addition of capabilities to WordPress user roles.
+	 *
+	 * This is called on plugin activation.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_add_caps' );
 }
 
@@ -90,6 +110,13 @@ function bp_remove_caps() {
 		}
 	}
 
+	/**
+	 * Fires after the removal of capabilities from WordPress user roles.
+	 *
+	 * This is called on plugin deactivation.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_remove_caps' );
 }
 
@@ -110,6 +137,17 @@ function bp_remove_caps() {
  * @return array Actual capabilities for meta capability. See {@link WP_User::has_cap()}.
  */
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
+
+	/**
+	 * Filters the community caps mapping to be built in WordPress caps.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array  $caps    Returns the user's actual capabilities.
+	 * @param string $cap     Capability name.
+	 * @param int    $user_id The user ID.
+	 * @param array  $args    Adds the context to the cap. Typically the object ID.
+	 */
 	return apply_filters( 'bp_map_meta_caps', $caps, $cap, $user_id, $args );
 }
 
@@ -127,6 +165,13 @@ function bp_get_community_caps() {
 	// Forum meta caps
 	$caps = array();
 
+	/**
+	 * Filters community capabilities.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array $caps Array of capabilities to add. Empty by default.
+	 */
 	return apply_filters( 'bp_get_community_caps', $caps );
 }
 
@@ -163,6 +208,14 @@ function bp_get_caps_for_role( $role = '' ) {
 			break;
 	}
 
+	/**
+	 * Filters the array of capabilities based on the role that is being requested.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array  $caps Array of capabilities to return.
+	 * @param string $role The role currently being loaded.
+	 */
 	return apply_filters( 'bp_get_caps_for_role', $caps, $role );
 }
 
@@ -220,6 +273,15 @@ function bp_current_user_can( $capability, $blog_id = 0 ) {
 
 	$retval = current_user_can_for_blog( $blog_id, $capability );
 
+	/**
+	 * Filters whether or not the current user has a given capability.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param bool   $retval     Whether or not the current user has the capability.
+	 * @param string $capability The capability being checked for.
+	 * @param int    $blog_id    Blog ID. Defaults to the BP root blog.
+	 */
 	return (bool) apply_filters( 'bp_current_user_can', $retval, $capability, $blog_id );
 }
 
