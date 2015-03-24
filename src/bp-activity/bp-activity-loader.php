@@ -15,14 +15,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Main Activity Class.
  *
- * @since BuddyPress (1.5)
+ * @since BuddyPress (1.5.0)
  */
 class BP_Activity_Component extends BP_Component {
 
 	/**
 	 * Start the activity component setup process.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 */
 	public function __construct() {
 		parent::start(
@@ -38,7 +38,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Include component files.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @see BP_Component::includes() for a description of arguments.
 	 *
@@ -79,7 +79,7 @@ class BP_Activity_Component extends BP_Component {
 	 * The BP_ACTIVITY_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
@@ -122,7 +122,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Set up component navigation.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @see BP_Component::setup_nav() for a description of arguments.
 	 * @uses bp_is_active()
@@ -231,7 +231,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Set up the component entries in the WordPress Admin Bar.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
 	 *      parameter array.
@@ -330,7 +330,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Set up the title for pages and <title>.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @uses bp_is_activity_component()
 	 * @uses bp_is_my_profile()
@@ -359,7 +359,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Set up actions necessary for the component.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since BuddyPress (1.6.0)
 	 */
 	public function setup_actions() {
 		// Spam prevention

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Enqueue @mentions JS.
  *
- * @since BuddyPress (2.1)
+ * @since BuddyPress (2.1.0)
  */
 function bp_activity_mentions_script() {
 	if ( ! bp_activity_maybe_load_mentions_scripts() ) {

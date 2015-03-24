@@ -1021,7 +1021,7 @@ function bp_activity_admin_index() {
 /**
  * List table class for the Activity component admin page.
  *
- * @since BuddyPress (1.6)
+ * @since BuddyPress (1.6.0)
  */
 class BP_Activity_List_Table extends WP_List_Table {
 
