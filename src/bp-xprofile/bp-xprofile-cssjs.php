@@ -27,7 +27,7 @@ function xprofile_add_admin_css() {
 		}
 	}
 }
-add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_css' );
+add_action( 'bp_admin_enqueue_scripts', 'xprofile_add_admin_css' );
 
 /**
  * Enqueue the jQuery libraries for handling drag/drop/sort
@@ -64,4 +64,4 @@ function xprofile_add_admin_js() {
 		wp_localize_script( 'xprofile-admin-js', 'XProfileAdmin', $strings );
 	}
 }
-add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_js', 1 );
+add_action( 'bp_admin_enqueue_scripts', 'xprofile_add_admin_js', 1 );

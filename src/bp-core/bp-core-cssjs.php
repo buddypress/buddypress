@@ -106,8 +106,8 @@ function bp_core_confirmation_js() {
 	) );
 
 }
-add_action( 'bp_enqueue_scripts',    'bp_core_confirmation_js' );
-add_action( 'admin_enqueue_scripts', 'bp_core_confirmation_js' );
+add_action( 'bp_enqueue_scripts',       'bp_core_confirmation_js' );
+add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );
 
 /**
  * Enqueues jCrop library and hooks BP's custom cropper JS.
