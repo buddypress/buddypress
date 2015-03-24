@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Instance methods are available for creating/editing an activity,
  * static methods for querying activities.
  *
- * @since BuddyPress (1.0)
+ * @since BuddyPress (1.0.0)
  */
 class BP_Activity_Activity {
 
@@ -628,7 +628,7 @@ class BP_Activity_Activity {
 	/**
 	 * Convert activity IDs to activity objects, as expected in template loop.
 	 *
-	 * @since 2.0
+	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $activity_ids Array of activity IDs.
 	 * @return array
@@ -783,7 +783,7 @@ class BP_Activity_Activity {
 	 * WP_Query, we have to alter the return value (stripping the leading
 	 * AND keyword from the 'where' clause).
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *   documentation for WP_Meta_Query for details.
@@ -950,7 +950,7 @@ class BP_Activity_Activity {
 	 *
 	 * As of 1.5.x, use BP_Activity_Activity::get() with an 'in' parameter instead.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @deprecated 1.5
 	 * @deprecated Use BP_Activity_Activity::get() with an 'in' parameter instead.
@@ -1037,7 +1037,7 @@ class BP_Activity_Activity {
 	 * To delete a specific activity item, pass an 'id' parameter.
 	 * Otherwise use the filters.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @param array $args {
 	 *     @int $id Optional. The ID of a specific item to delete.
@@ -1149,7 +1149,7 @@ class BP_Activity_Activity {
 	/**
 	 * Delete the comments associated with a set of activity items.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @todo Mark as deprecated?  Method is no longer used internally.
 	 *
@@ -1180,7 +1180,7 @@ class BP_Activity_Activity {
 	/**
 	 * Delete the meta entries associated with a set of activity items.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @param array $activity_ids Activity IDs whose meta should be deleted.
 	 * @return bool True on success.
@@ -1198,7 +1198,7 @@ class BP_Activity_Activity {
 	/**
 	 * Append activity comments to their associated activity items.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @global wpdb $wpdb WordPress database object
 	 *
@@ -1228,7 +1228,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get activity comments that are associated with a specific activity ID.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -1382,7 +1382,7 @@ class BP_Activity_Activity {
 	/**
 	 * Rebuild nested comment tree under an activity or activity comment.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @global wpdb $wpdb WordPress database object
 	 *
@@ -1422,7 +1422,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get child comments of an activity or activity comment.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -1485,7 +1485,7 @@ class BP_Activity_Activity {
 	/**
 	 * Create SQL IN clause for filter queries.
 	 *
-	 * @since BuddyPress (1.5)
+	 * @since BuddyPress (1.5.0)
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql()
 	 *
@@ -1599,7 +1599,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get the date/time of last recorded activity.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @return string ISO timestamp.
 	 */
@@ -1614,7 +1614,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get favorite count for a given user.
 	 *
-	 * @since BuddyPress (1.2)
+	 * @since BuddyPress (1.2.0)
 	 *
 	 * @param int The ID of the user whose favorites you're counting.
 	 * @return int A count of the user's favorites.
