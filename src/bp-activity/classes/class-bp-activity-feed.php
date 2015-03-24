@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit;
  *   max              - Number of feed items to display
  *   activity_args    - Arguments passed to {@link bp_has_activities()}
  *
- * @since BuddyPress (1.8)
+ * @since BuddyPress (1.8.0)
  */
 class BP_Activity_Feed {
 	/**
