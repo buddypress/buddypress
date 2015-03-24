@@ -72,8 +72,6 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			<a id="add_group" class="add-new-h2" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
 		</h2>
 
-		<p><?php echo sprintf( __( 'Fields in the "%s" group will appear on the signup page.', 'buddypress' ), esc_html( stripslashes( bp_get_option( 'bp-xprofile-base-group-name' ) ) ) ) ?></p>
-
 		<form action="" id="profile-field-form" method="post">
 
 			<?php
@@ -85,7 +83,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 				$type = ( $type == 'error' ) ? 'error' : 'updated'; ?>
 
 				<div id="message" class="<?php echo $type; ?> fade">
-					<p><?php echo esc_html( esc_attr( $message ) ); ?></p>
+					<p><?php echo esc_html( $message ); ?></p>
 				</div>
 
 			<?php endif; ?>
@@ -95,7 +93,17 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 					<?php if ( !empty( $groups ) ) : foreach ( $groups as $group ) : ?>
 
-						<li id="group_<?php echo $group->id; ?>"><a href="#tabs-<?php echo $group->id; ?>" class="ui-tab"><?php echo esc_attr( $group->name ); ?><?php if ( !$group->can_delete ) : ?> <?php _e( '(Primary)', 'buddypress'); endif; ?></a></li>
+						<li id="group_<?php echo esc_attr( $group->id ); ?>">
+							<a href="#tabs-<?php echo esc_attr( $group->id ); ?>" class="ui-tab">
+								<?php echo esc_attr( $group->name ); ?>
+
+								<?php if ( !$group->can_delete ) : ?>
+									<?php _e( '(Primary)', 'buddypress'); ?>
+								<?php endif; ?>
+
+								<span class="spinner"></span>
+							</a>
+						</li>
 
 					<?php endforeach; endif; ?>
 
@@ -107,7 +115,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 						<h3><?php echo esc_attr( $group->name ); ?></h3>
 					</noscript>
 
-					<div id="tabs-<?php echo $group->id; ?>" class="tab-wrapper">
+					<div id="tabs-<?php echo esc_attr( $group->id ); ?>" class="tab-wrapper">
 						<div class="tab-toolbar">
 							<div class="tab-toolbar-left">
 								<a class="button-primary" href="users.php?page=bp-profile-setup&amp;group_id=<?php echo esc_attr( $group->id ); ?>&amp;mode=add_field"><?php _e( 'Add New Field', 'buddypress' ); ?></a>
@@ -115,7 +123,9 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 								<?php if ( $group->can_delete ) : ?>
 
-									<a class="confirm submitdelete deletion ajax-option-delete" href="users.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo esc_attr( $group->id ); ?>"><?php _e( 'Delete Group', 'buddypress' ); ?></a>
+									<div class="delete-button">
+										<a class="confirm submitdelete deletion ajax-option-delete" href="users.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo esc_attr( $group->id ); ?>"><?php _e( 'Delete Group', 'buddypress' ); ?></a>
+									</div>
 
 								<?php endif; ?>
 
@@ -134,13 +144,16 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							</div>
 						</div>
 
-						<fieldset id="<?php echo $group->id; ?>" class="connectedSortable field-group">
+						<?php if ( ! empty( $group->description ) ) : ?>
 
-							<?php if ( $group->description ) : ?>
+							<p><?php echo esc_html( $group->description ); ?></p>
 
-								<legend><?php echo esc_attr( $group->description ) ?></legend>
+						<?php endif; ?>
 
-							<?php endif;
+						<fieldset id="<?php echo esc_attr( $group->id ); ?>" class="connectedSortable field-group">
+							<legend class="screen-reader-text"><?php printf( esc_html__( 'Fields for "%s" Group', 'buddypress' ), $group->name ); ?></legend>
+
+							<?php
 
 							if ( !empty( $group->fields ) ) :
 								foreach ( $group->fields as $field ) {
@@ -149,12 +162,14 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 									$field = new BP_XProfile_Field( $field->id );
 
 									$class = '';
-									if ( !$field->can_delete )
+									if ( empty( $field->can_delete ) ) {
 										$class = ' core nodrag';
+									}
 
-									/* This function handles the WYSIWYG profile field
-									* display for the xprofile admin setup screen
-									*/
+									/**
+									 * This function handles the WYSIWYG profile field
+									 * display for the xprofile admin setup screen
+									 */
 									xprofile_admin_field( $field, $group, $class );
 
 								} // end for
@@ -166,6 +181,13 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 							<?php endif; // end $group->fields ?>
 
 						</fieldset>
+
+						<?php if ( empty( $group->can_delete ) ) : ?>
+
+							<p><?php esc_html_e( '* Fields in this group appear on the signup page.', 'buddypress' ); ?></p>
+
+						<?php endif; ?>
+
 					</div>
 
 				<?php endforeach; else : ?>
@@ -175,7 +197,6 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 				<?php endif; ?>
 
-				<div id="tabs-bottom">&nbsp;</div>
 			</div>
 		</form>
 	</div>
