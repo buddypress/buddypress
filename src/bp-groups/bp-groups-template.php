@@ -3411,9 +3411,9 @@ function bp_group_status_message( $group = null ) {
 
 			// Private group
 			case 'private' :
-				if ( ! bp_group_has_requested_membership() ) {
+				if ( ! bp_group_has_requested_membership( $group ) ) {
 					if ( is_user_logged_in() ) {
-						if ( bp_group_is_invited() ) {
+						if ( bp_group_is_invited( $group ) ) {
 							$message = __( 'You must accept your pending invitation before you can access this private group.', 'buddypress' );
 						} else {
 							$message = __( 'This is a private group and you must request group membership in order to join.', 'buddypress' );
@@ -3425,10 +3425,13 @@ function bp_group_status_message( $group = null ) {
 					$message = __( 'This is a private group. Your membership request is awaiting approval from the group administrator.', 'buddypress' );
 				}
 
+				break;
+
 			// Hidden group
 			case 'hidden' :
 			default :
 				$message = __( 'This is a hidden group and only invited members can join.', 'buddypress' );
+				break;
 		}
 	}
 
