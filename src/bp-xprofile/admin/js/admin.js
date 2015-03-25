@@ -200,7 +200,7 @@ jQuery( document ).ready( function() {
 	// Allow reordering of fields within groups
 	jQuery( 'fieldset.field-group' ).sortable({
 		cursor: 'move',
-		opacity: 1,
+		opacity: 0.7,
 		items: 'fieldset',
 		tolerance: 'pointer',
 

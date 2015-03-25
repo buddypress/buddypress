@@ -1,13 +1,19 @@
 /* Profile field group main admin page */
+@-o-keyframes tab-throb {
+    from { box-shadow: 0 0 10px #1e8cbe; }
+    50%  { box-shadow: 0 0 0    #1e8cbe; }
+    to   { box-shadow: 0 0 10px #1e8cbe; }
+}
 @-webkit-keyframes tab-throb {
     from { box-shadow: 0 0 10px #1e8cbe; }
-    50% { box-shadow: 0 0 00px #1e8cbe; }
-    to { box-shadow: 0 0 10px #1e8cbe; }
+    50%  { box-shadow: 0 0 0    #1e8cbe; }
+    to   { box-shadow: 0 0 10px #1e8cbe; }
 }
+
 @-moz-keyframes tab-throb {
     from { box-shadow: 0 0 10px #1e8cbe; }
-    50% { box-shadow: 0 0 00px #1e8cbe; }
-    to { box-shadow: 0 0 10px #1e8cbe; }
+    50%  { box-shadow: 0 0 0    #1e8cbe; }
+    to   { box-shadow: 0 0 10px #1e8cbe; }
 }
 
 #profile-field-form {
@@ -38,11 +44,19 @@
 		}
 		ul#field-group-tabs li.ui-state-acceptable:not(.ui-state-active) a.ui-tab {
 			-webkit-animation: tab-throb 2s infinite;
+			-moz-animation: tab-throb 2s infinite;
+			-o-animation: tab-throb 2s infinite;
 			animation: tab-throb 2s infinite;
 		}
-		ul#field-group-tabs li.drop-candidate a.ui-tab {
-			background-color: transparent;
-			border-color: #000 #000 #ccc #000;
+		ul#field-group-tabs li.drop-candidate.ui-state-acceptable:not(.ui-state-active) a.ui-tab {
+			-webkit-box-shadow: 0 0 10px green;
+			-moz-box-shadow: 0 0 10px green;
+			-o-box-shadow: 0 0 10px green;
+			box-shadow: 0 0 10px green;
+			-webkit-animation: none;
+			-moz-animation: none;
+			-o-animation: none;
+			animation: none;
 			color: #000;
 		}
 		ul#field-group-tabs li a.ui-tab {
@@ -60,7 +74,7 @@
 		/* Selected tab */
 		ul#field-group-tabs li.ui-state-active a.ui-tab {
 			background-color: #fff;
-			margin-top: 0px;
+			margin-top: 0;
 			padding: 7px 10px 7px;
 			border-bottom: 1px solid transparent;
 			color: #000;
