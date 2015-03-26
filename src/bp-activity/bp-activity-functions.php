@@ -408,7 +408,6 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
  */
 function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array() ) {
 	global $wp_post_types;
-	$bp = buddypress();
 
 	if ( empty( $wp_post_types[ $post_type ] ) || ! post_type_supports( $post_type, 'buddypress-activity' ) || ! is_array( $args ) ) {
 		return false;
@@ -592,10 +591,9 @@ function bp_activity_get_action( $component_id, $key ) {
 		return false;
 	}
 
-	$bp      = buddypress();
 	$actions = bp_activity_get_actions();
+	$retval  = false;
 
-	$retval = false;
 	if ( isset( $actions->{$component_id}->{$key} ) ) {
 		$retval = $actions->{$component_id}->{$key};
 	}
@@ -1788,7 +1786,6 @@ function bp_activity_post_update( $args = '' ) {
  * @return int|bool The ID of the activity on success. False on error.
  */
 function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0 ) {
-	$bp = buddypress();
 
 	if ( ! is_a( $post, 'WP_Post' ) ) {
 		return;
@@ -1924,7 +1921,6 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
  * @return bool    True on success, false on failure.
  */
 function bp_activity_post_type_update( $post = null ) {
-	$bp = buddypress();
 
 	if ( ! is_a( $post, 'WP_Post' ) ) {
 		return;
@@ -1994,7 +1990,6 @@ function bp_activity_post_type_update( $post = null ) {
  * @return bool    True on success, false on failure.
  */
 function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
-	$bp = buddypress();
 
 	if ( ! is_a( $post, 'WP_Post' ) ) {
 		return;
