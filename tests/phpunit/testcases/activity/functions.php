@@ -24,7 +24,207 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	/**
 	 * @group delete
 	 */
-	public function test_delete_activity_and_meta() {
+	public function test_delete_activity_by_id() {
+
+		// create an activity update
+		$activity = $this->factory->activity->create( array(
+			'type' => 'activity_update'
+		) );
+
+		// now delete the activity item
+		bp_activity_delete( array(
+			'id' => $activity
+		) );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( array(
+			'id' => $activity
+		) );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_by_type() {
+
+		// Setup criteria
+		$criteria = array(
+			'type' => 'activity_update'
+		);
+
+		// create an activity update
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+
+		// now delete the activity items
+		bp_activity_delete( $criteria );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( $criteria );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_by_component() {
+
+		// Setup criteria
+		$criteria = array(
+			'component' => 'xprofile'
+		);
+
+		// create an activity update
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+
+		// now delete the activity items
+		bp_activity_delete( $criteria );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( $criteria );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_by_user_id() {
+
+		// Setup criteria
+		$criteria = array(
+			'user_id' => '1'
+		);
+
+		// create an activity update
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+
+		// now delete the activity items
+		bp_activity_delete( $criteria );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( $criteria );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_meta() {
+
+		// create an activity update
+		$activity = $this->factory->activity->create( array(
+			'type' => 'activity_update'
+		) );
+
+		// add some meta to the activity items
+		bp_activity_update_meta( $activity, 'foo', 'bar' );
+
+		// now delete the parent activity item meta entry
+		bp_activity_delete_meta(  $activity, 'foo', 'bar' );
+
+		// now fetch activity meta for the deleted activity entries
+		$m1 = bp_activity_get_meta( $activity );
+
+		// test if activity meta entries still exist
+		$this->assertEmpty( $m1 );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_all_meta() {
+
+		// create an activity update
+		$activity = $this->factory->activity->create( array(
+			'type' => 'activity_update'
+		) );
+
+		// add some meta to the activity items
+		bp_activity_update_meta( $activity, 'foo1', 'bar' );
+		bp_activity_update_meta( $activity, 'foo2', 'bar' );
+		bp_activity_update_meta( $activity, 'foo3', 'bar' );
+		bp_activity_update_meta( $activity, 'foo4', 'bar' );
+		bp_activity_update_meta( $activity, 'foo5', 'bar' );
+
+		// now delete the parent activity item meta entry
+		bp_activity_delete_meta( $activity );
+
+		// now fetch activity meta for the deleted activity entries
+		$m1 = bp_activity_get_meta( $activity );
+		$m2 = bp_activity_get_meta( $activity );
+		$m3 = bp_activity_get_meta( $activity );
+		$m4 = bp_activity_get_meta( $activity );
+		$m5 = bp_activity_get_meta( $activity );
+
+		// test if activity meta entries still exist
+		$this->assertEmpty( $m1 );
+		$this->assertEmpty( $m2 );
+		$this->assertEmpty( $m3 );
+		$this->assertEmpty( $m4 );
+		$this->assertEmpty( $m5 );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_and_comments() {
+
+		// create an activity update
+		$parent_activity = $this->factory->activity->create( array(
+			'type' => 'activity_update',
+		) );
+
+		// create some activity comments
+		$comment_one = $this->factory->activity->create( array(
+			'type'              => 'activity_comment',
+			'item_id'           => $parent_activity,
+			'secondary_item_id' => $parent_activity,
+		) );
+
+		$comment_two = $this->factory->activity->create( array(
+			'type'              => 'activity_comment',
+			'item_id'           => $parent_activity,
+			'secondary_item_id' => $parent_activity,
+		) );
+
+		// now delete the parent activity item
+		// this should hopefully delete the associated comments and meta entries
+		bp_activity_delete( array(
+			'id' => $parent_activity
+		) );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( array(
+			'in'               => array( $parent_activity, $comment_one, $comment_two ),
+			'display_comments' => 'stream'
+		) );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_meta_for_comments() {
+
 		// create an activity update
 		$parent_activity = $this->factory->activity->create( array(
 			'type' => 'activity_update',
@@ -53,15 +253,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		bp_activity_delete( array(
 			'id' => $parent_activity
 		) );
-
-		// now fetch the deleted activity entries
-		$get = bp_activity_get( array(
-			'in'               => array( $parent_activity, $comment_one, $comment_two ),
-			'display_comments' => 'stream'
-		) );
-
-		// activities should equal zero
-		$this->assertEquals( 0, $get['total'] );
 
 		// now fetch activity meta for the deleted activity entries
 		$m1 = bp_activity_get_meta( $parent_activity );
