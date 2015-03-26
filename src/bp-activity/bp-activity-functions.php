@@ -2650,10 +2650,12 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
  * Currently, it's only used for blog post items, but it will probably be used for all types of
  * activity in the future.
  *
- * @param string $content The content of the activity item.
- * @param array $activity_args The data passed to bp_activity_add() or the values from an Activity obj.
- * @return string
  * @since BuddyPress (2.3.0)
+ *
+ * @param string $content  The content of the activity item.
+ * @param array  $activity The data passed to bp_activity_add() or the values
+ *                         from an Activity obj.
+ * @return string
  */
 function bp_activity_create_summary( $content, $activity ) {
 	$args = array(
