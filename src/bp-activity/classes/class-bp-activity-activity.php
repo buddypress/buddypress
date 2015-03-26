@@ -1058,8 +1058,7 @@ class BP_Activity_Activity {
 		global $wpdb;
 
 		$bp = buddypress();
-
-		$defaults = array(
+		$r  = wp_parse_args( $args, array(
 			'id'                => false,
 			'action'            => false,
 			'content'           => false,
@@ -1071,76 +1070,136 @@ class BP_Activity_Activity {
 			'secondary_item_id' => false,
 			'date_recorded'     => false,
 			'hide_sitewide'     => false
-		);
-		$params = wp_parse_args( $args, $defaults );
-		extract( $params );
+		) );
 
-		$where_args = false;
+		// Setup empty array fro where query arguments
+		$where_args = array();
 
-		if ( !empty( $id ) )
-			$where_args[] = $wpdb->prepare( "id = %d", $id );
+		// ID
+		if ( ! empty( $r['id'] ) ) {
+			$where_args[] = $wpdb->prepare( "id = %d", $r['id'] );
+		}
 
-		if ( !empty( $user_id ) )
-			$where_args[] = $wpdb->prepare( "user_id = %d", $user_id );
+		// User ID
+		if ( ! empty( $r['user_id'] ) ) {
+			$where_args[] = $wpdb->prepare( "user_id = %d", $r['user_id'] );
+		}
 
-		if ( !empty( $action ) )
-			$where_args[] = $wpdb->prepare( "action = %s", $action );
+		// Action
+		if ( ! empty( $r['action'] ) ) {
+			$where_args[] = $wpdb->prepare( "action = %s", $r['action'] );
+		}
 
-		if ( !empty( $content ) )
-			$where_args[] = $wpdb->prepare( "content = %s", $content );
+		// Content
+		if ( ! empty( $r['content'] ) ) {
+			$where_args[] = $wpdb->prepare( "content = %s", $r['content'] );
+		}
 
-		if ( !empty( $component ) )
-			$where_args[] = $wpdb->prepare( "component = %s", $component );
+		// Component
+		if ( ! empty( $r['component'] ) ) {
+			$where_args[] = $wpdb->prepare( "component = %s", $r['component'] );
+		}
 
-		if ( !empty( $type ) )
-			$where_args[] = $wpdb->prepare( "type = %s", $type );
+		// Type
+		if ( ! empty( $r['type'] ) ) {
+			$where_args[] = $wpdb->prepare( "type = %s", $r['type'] );
+		}
 
-		if ( !empty( $primary_link ) )
-			$where_args[] = $wpdb->prepare( "primary_link = %s", $primary_link );
+		// Primary Link
+		if ( ! empty( $r['primary_link'] ) ) {
+			$where_args[] = $wpdb->prepare( "primary_link = %s", $r['primary_link'] );
+		}
 
-		if ( !empty( $item_id ) )
-			$where_args[] = $wpdb->prepare( "item_id = %d", $item_id );
+		// Item ID
+		if ( ! empty( $r['item_id'] ) ) {
+			$where_args[] = $wpdb->prepare( "item_id = %d", $r['item_id'] );
+		}
 
-		if ( !empty( $secondary_item_id ) )
-			$where_args[] = $wpdb->prepare( "secondary_item_id = %d", $secondary_item_id );
+		// Secondary item ID
+		if ( ! empty( $r['secondary_item_id'] ) ) {
+			$where_args[] = $wpdb->prepare( "secondary_item_id = %d", $r['secondary_item_id'] );
+		}
 
-		if ( !empty( $date_recorded ) )
-			$where_args[] = $wpdb->prepare( "date_recorded = %s", $date_recorded );
+		// Date Recorded
+		if ( ! empty( $r['date_recorded'] ) ) {
+			$where_args[] = $wpdb->prepare( "date_recorded = %s", $r['date_recorded'] );
+		}
 
-		if ( !empty( $hide_sitewide ) )
-			$where_args[] = $wpdb->prepare( "hide_sitewide = %d", $hide_sitewide );
+		// Hidden sitewide
+		if ( ! empty( $r['hide_sitewide'] ) ) {
+			$where_args[] = $wpdb->prepare( "hide_sitewide = %d", $r['hide_sitewide'] );
+		}
 
-		if ( !empty( $where_args ) )
-			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
-		else
-			return false;
-
-		// Fetch the activity IDs so we can delete any comments for this activity item
-		$activity_ids = $wpdb->get_col( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
-
-		if ( ! $wpdb->query( "DELETE FROM {$bp->activity->table_name} {$where_sql}" ) ) {
+		// Bail if no where arguments
+		if ( empty( $where_args ) ) {
 			return false;
 		}
 
+		// Join the where arguments for querying
+		$where_sql = 'WHERE ' . join( ' AND ', $where_args );
+
+		// Fetch all activities being deleted so we can perform more actions
+		$activities = $wpdb->get_results( "SELECT * FROM {$bp->activity->table_name} {$where_sql}" );
+
+		/**
+		 * Action to allow intercepting activity items to be deleted
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param array $activities Array of activities
+		 * @param array $r          Array of parsed arguments
+		 */
+		do_action_ref_array( 'bp_activity_before_delete', array( $activities, $r ) );
+
+		// Attempt to delete activities from the database
+		$deleted = $wpdb->query( "DELETE FROM {$bp->activity->table_name} {$where_sql}" );
+
+		// Bail if nothing was deleted
+		if ( empty( $deleted ) ) {
+			return false;
+		}
+
+		/**
+		 * Action to allow intercepting activity items just deleted
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param array $activities Array of activities
+		 * @param array $r          Array of parsed arguments
+		 */
+		do_action_ref_array( 'bp_activity_after_delete', array( $activities, $r ) );
+
+		// Pluck the activity ID's out of the $activities array
+		$activity_ids = wp_parse_id_list( wp_list_pluck( $activities, 'id' ) );
+
 		// Handle accompanying activity comments and meta deletion
-		if ( $activity_ids ) {
-			$activity_ids_comma          = implode( ',', wp_parse_id_list( $activity_ids ) );
-			$activity_comments_where_sql = "WHERE type = 'activity_comment' AND item_id IN ({$activity_ids_comma})";
+		if ( ! empty( $activity_ids ) ) {
 
-			// Fetch the activity comment IDs for our deleted activity items
-			$activity_comment_ids = $wpdb->get_col( "SELECT id FROM {$bp->activity->table_name} {$activity_comments_where_sql}" );
+			// Delete all activity meta entries for activity items
+			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
 
-			// We have activity comments!
-			if ( ! empty( $activity_comment_ids ) ) {
-				// Delete activity comments
-				$wpdb->query( "DELETE FROM {$bp->activity->table_name} {$activity_comments_where_sql}" );
+			// Setup empty array for comments
+			$comment_ids = array();
 
-				// Merge activity IDs with activity comment IDs
-				$activity_ids = array_merge( $activity_ids, $activity_comment_ids );
+			// Loop through activity ids and attempt to delete comments
+			foreach ( $activity_ids as $activity_id ) {
+
+				// Attempt to delete comments
+				$comments = BP_Activity_Activity::delete( array(
+					'type'    => 'activity_comment',
+					'item_id' => $activity_id
+				) );
+
+				// Merge ID's together
+				if ( ! empty( $comments ) ) {
+					$comment_ids = array_merge( $comment_ids, $comments );
+				}
 			}
 
-			// Delete all activity meta entries for activity items and activity comments
-			BP_Activity_Activity::delete_activity_meta_entries( $activity_ids );
+			// Merge activity IDs with any deleted comment IDs
+			if ( ! empty( $comment_ids ) ) {
+				$activity_ids = array_unique( array_merge( $activity_ids, $comment_ids ) );
+			}
 		}
 
 		return $activity_ids;
@@ -1149,9 +1208,11 @@ class BP_Activity_Activity {
 	/**
 	 * Delete the comments associated with a set of activity items.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * This method is no longer used by BuddyPress, and it is recommended not to
+	 * use it going forward, and use BP_Activity_Activity::delete() instead.
 	 *
-	 * @todo Mark as deprecated?  Method is no longer used internally.
+	 * @since BuddyPress (1.2.0)
+	 * @deprecated BuddyPress (2.3.0)
 	 *
 	 * @param array $activity_ids Activity IDs whose comments should be deleted.
 	 * @param bool $delete_meta Should we delete the activity meta items for these comments?
