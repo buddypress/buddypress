@@ -1072,7 +1072,7 @@ class BP_Activity_Activity {
 			'hide_sitewide'     => false
 		) );
 
-		// Setup empty array fro where query arguments
+		// Setup empty array from where query arguments
 		$where_args = array();
 
 		// ID
@@ -1169,7 +1169,7 @@ class BP_Activity_Activity {
 		 */
 		do_action_ref_array( 'bp_activity_after_delete', array( $activities, $r ) );
 
-		// Pluck the activity ID's out of the $activities array
+		// Pluck the activity IDs out of the $activities array
 		$activity_ids = wp_parse_id_list( wp_list_pluck( $activities, 'id' ) );
 
 		// Handle accompanying activity comments and meta deletion
@@ -1190,7 +1190,7 @@ class BP_Activity_Activity {
 					'item_id' => $activity_id
 				) );
 
-				// Merge ID's together
+				// Merge IDs together
 				if ( ! empty( $comments ) ) {
 					$comment_ids = array_merge( $comment_ids, $comments );
 				}
