@@ -410,8 +410,9 @@ function bp_activity_truncate_entry( $text ) {
 	 * @param bool $maybe_truncate_text If true, text should be checked to see if it needs truncating.
 	 * @since BuddyPress (2.3.0)
 	 */
-	$maybe_truncate_text = apply_filters( 'bp_activity_maybe_truncate_entry',
-		! in_array( $activities_template->activity->type, array( 'new_blog_post', ), true )
+	$maybe_truncate_text = apply_filters(
+		'bp_activity_maybe_truncate_entry',
+		isset( $activities_template->activity->type ) && ! in_array( $activities_template->activity->type, array( 'new_blog_post', ), true )
 	);
 
 	// The full text of the activity update should always show on the single activity screen
