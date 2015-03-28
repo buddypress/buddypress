@@ -1650,6 +1650,7 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 
+	$retval = true;
 	foreach ( $keys as $key ) {
 		$retval = delete_metadata( 'group', $group_id, $key, $meta_value, $delete_all );
 	}

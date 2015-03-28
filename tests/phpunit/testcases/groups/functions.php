@@ -518,6 +518,24 @@ Bar!';
 	/**
 	 * @group groupmeta
 	 * @group groups_delete_groupmeta
+	 * @ticket BP6326
+	 */
+	public function test_groups_delete_groupmeta_with_no_meta_key_when_group_has_metadata() {
+		global $wpdb;
+
+		$g = $this->factory->group->create();
+		$m = groups_get_groupmeta( $g );
+		foreach ( $m as $mk => $mv ) {
+			groups_delete_groupmeta( $g, $mk );
+		}
+
+		$found = groups_delete_groupmeta( $g );
+		$this->assertTrue( $found );
+	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_delete_groupmeta
 	 */
 	public function test_groups_delete_groupmeta_with_delete_all_but_no_meta_key() {
 		// With no meta key, don't delete for all items - just delete
