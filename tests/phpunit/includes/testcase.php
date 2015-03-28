@@ -309,6 +309,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 1,
 			'is_admin'      => 0,
+			'is_mod'        => 0,
 			'invite_sent'   => 0,
 			'inviter_id'    => 0,
 		) );
@@ -318,6 +319,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$new_member->user_id       = $user_id;
 		$new_member->inviter_id    = 0;
 		$new_member->is_admin      = $r['is_admin'];
+		$new_member->is_mod        = $r['is_mod'];
 		$new_member->user_title    = '';
 		$new_member->date_modified = $r['date_modified'];
 		$new_member->is_confirmed  = $r['is_confirmed'];
