@@ -487,6 +487,7 @@ class BP_XProfile_Field {
 								<div class="postbox">
 									<h3><label for="default-visibility"><?php _e( 'Default Visibility', 'buddypress' ); ?></label></h3>
 									<div class="inside">
+										<p><?php esc_html_e( 'Data in this field is visible to:', 'buddypress' ); ?></p>
 										<ul>
 
 											<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
@@ -503,16 +504,16 @@ class BP_XProfile_Field {
 								</div>
 
 								<div class="postbox">
-									<h3><label for="allow-custom-visibility"><?php _e( 'Per-Member Visibility', 'buddypress' ); ?></label></h3>
+									<h3><label for="allow-custom-visibility"><?php _e( 'Visibility Override', 'buddypress' ); ?></label></h3>
 									<div class="inside">
 										<ul>
 											<li>
 												<input type="radio" id="allow-custom-visibility-allowed" name="allow-custom-visibility" value="allowed" <?php checked( $this->allow_custom_visibility, 'allowed' ); ?> />
-												<label for="allow-custom-visibility-allowed"><?php _e( "Let members change this field's visibility", 'buddypress' ); ?></label>
+												<label for="allow-custom-visibility-allowed"><?php _e( "Members can modify", 'buddypress' ); ?></label>
 											</li>
 											<li>
 												<input type="radio" id="allow-custom-visibility-disabled" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ); ?> />
-												<label for="allow-custom-visibility-disabled"><?php _e( 'Enforce the default visibility for all members', 'buddypress' ); ?></label>
+												<label for="allow-custom-visibility-disabled"><?php _e( 'Members cannot modify', 'buddypress' ); ?></label>
 											</li>
 										</ul>
 									</div>
