@@ -603,7 +603,7 @@ class BP_XProfile_Field {
 		global $message;
 
 		// Validate Form
-		if ( '' == $_POST['title'] || '' == $_POST['required'] || '' == $_POST['fieldtype'] ) {
+		if ( empty( $_POST['title'] ) || ! isset( $_POST['required'] ) || empty( $_POST['fieldtype'] ) ) {
 			$message = __( 'Please make sure you fill out all required fields.', 'buddypress' );
 			return false;
 
@@ -611,8 +611,8 @@ class BP_XProfile_Field {
 			$field_type  = bp_xprofile_create_field_type( $_POST['fieldtype'] );
 			$option_name = "{$_POST['fieldtype']}_option";
 
-			if ( $field_type->supports_options && isset( $_POST[$option_name] ) && empty( $_POST[$option_name][1] ) ) {
-				$message = __( 'This field type require at least one option. Please add options below.', 'buddypress' );
+			if ( ! empty( $field_type->supports_options ) && isset( $_POST[$option_name] ) && empty( $_POST[$option_name][1] ) ) {
+				$message = __( 'This field type requires at least one option. Please add options below.', 'buddypress' );
 				return false;
 			}
 		}
