@@ -53,10 +53,10 @@ class BP_XProfile_Field {
 			$user_id = isset( $userdata->ID ) ? $userdata->ID : 0;
 		}
 
-		$bp  = buddypress();
-		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id );
+		$bp    = buddypress();
+		$field = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id ) );
 
-		if ( $field = $wpdb->get_row( $sql ) ) {
+		if ( ! empty( $field ) ) {
 			$this->id               = $field->id;
 			$this->group_id          = $field->group_id;
 			$this->parent_id         = $field->parent_id;
@@ -94,17 +94,20 @@ class BP_XProfile_Field {
 		// Prevent deletion if no ID is present
 		// Prevent deletion by url when can_delete is false.
 		// Prevent deletion of option 1 since this invalidates fields with options.
-		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order == 1 ) )
+		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order == 1 ) ) {
 			return false;
+		}
 
 		$bp = buddypress();
 
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id ) ) )
+		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id ) ) ) {
 			return false;
+		}
 
 		// delete the data in the DB for this field
-		if ( true === $delete_data )
+		if ( true === $delete_data ) {
 			BP_XProfile_ProfileData::delete_for_field( $this->id );
+		}
 
 		return true;
 	}
@@ -209,11 +212,13 @@ class BP_XProfile_Field {
 						$is_default = 0;
 
 						if ( is_array( $defaults ) ) {
-							if ( isset( $defaults[$option_key] ) )
+							if ( isset( $defaults[$option_key] ) ) {
 								$is_default = 1;
+							}
 						} else {
-							if ( (int) $defaults == $option_key )
+							if ( (int) $defaults == $option_key ) {
 								$is_default = 1;
+							}
 						}
 
 						if ( '' != $option_value ) {
@@ -335,8 +340,9 @@ class BP_XProfile_Field {
 
 		$bp = buddypress();
 
-		if ( empty( $bp->profile->table_name_fields ) || !isset( $field_name ) )
+		if ( empty( $bp->profile->table_name_fields ) || !isset( $field_name ) ) {
 			return false;
+		}
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s AND parent_id = 0", $field_name ) );
 	}
@@ -344,8 +350,9 @@ class BP_XProfile_Field {
 	public static function update_position( $field_id, $position, $field_group_id ) {
 		global $wpdb;
 
-		if ( !is_numeric( $position ) || !is_numeric( $field_group_id ) )
+		if ( !is_numeric( $position ) || !is_numeric( $field_group_id ) ) {
 			return false;
+		}
 
 		$bp = buddypress();
 
