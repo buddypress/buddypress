@@ -85,7 +85,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			$file['error'] = 9;
 
 		// File is of invalid type
-		} else if ( ! bp_core_check_avatar_type( array( 'file' => $file ) ) ) {
+		} elseif ( ! bp_core_check_avatar_type( array( 'file' => $file ) ) ) {
 			$file['error'] = 10;
 		}
 

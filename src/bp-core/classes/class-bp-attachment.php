@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since BuddyPress (2.3.0)
  */
-class BP_Attachment {
+abstract class BP_Attachment {
 
 	/** Upload properties *****************************************************/
 
@@ -28,54 +28,20 @@ class BP_Attachment {
 	public $attachment = array();
 
 	/**
-	 * Maximum file size in kilobytes
-	 *
-	 * @var int
-	 */
-	public $original_max_filesize = 0;
-
-	/**
-	 * List of allowed file extensions
-	 * Defaults to get_allowed_mime_types()
-	 *
-	 * @var int
-	 */
-	public $allowed_mime_types = array();
-
-	/**
-	 * component's upload base directory.
-	 *
-	 * @var string
-	 */
-	public $base_dir = '';
-
-	/**
-	 * The upload action.
-	 *
-	 * @var string
-	 */
-	public $action = '';
-
-	/**
-	 * The file input name attribute
-	 *
-	 * @var string
-	 */
-	public $file_input = '';
-
-	/**
-	 * List of upload errors.
+	 * The default args to be merged with the
+	 * ones passed by the child class
 	 *
 	 * @var array
 	 */
-	public $upload_error_strings = array();
-
-	/**
-	 * List of required core files
-	 *
-	 * @var array
-	 */
-	public $required_wp_files = array( 'file' );
+	protected $default_args = array(
+		'original_max_filesize' => 0,
+		'allowed_mime_types'    => array(),
+		'base_dir'              => '',
+		'action'                => '',
+		'file_input'            => '',
+		'upload_error_strings'  => array(),
+		'required_wp_files'     => array( 'file' ),
+	);
 
 	/**
 	 * Construct Upload parameters
@@ -113,14 +79,20 @@ class BP_Attachment {
 		 * Max file size defaults to php ini settings or, in the case of
 		 * a multisite config, the root site fileupload_maxk option
 		 */
-		$this->original_max_filesize = (int) wp_max_upload_size();
+		$this->default_args['original_max_filesize'] = (int) wp_max_upload_size();
 
-		$params = bp_parse_args( $args, get_class_vars( __CLASS__ ), $this->action . '_upload_params' );
+		$params = bp_parse_args( $args, $this->default_args, $this->action . '_upload_params' );
 
 		foreach ( $params as $key => $param ) {
 			if ( 'upload_error_strings' === $key ) {
 				$this->{$key} = $this->set_upload_error_strings( $param );
-			} else {
+
+			// Sanitize the base dir
+			} elseif ( 'base_dir' === $key ) {
+				$this->{$key} = sanitize_title( $param );
+
+			// Action & File input are already set and sanitized
+			} elseif ( 'action' !== $key && 'file_input' !== $key ) {
 				$this->{$key} = $param;
 			}
 		}
@@ -315,7 +287,7 @@ class BP_Attachment {
 		// Set the allowed mimes for the upload
 		foreach ( (array) $this->allowed_mime_types as $ext ) {
 			foreach ( $wp_mimes as $ext_pattern => $mime ) {
-				if ( $ext != '' && strpos( $ext_pattern, $ext ) !== false ) {
+				if ( $ext !== '' && strpos( $ext_pattern, $ext ) !== false ) {
 					$valid_mimes[$ext_pattern] = $mime;
 				}
 			}
@@ -395,7 +367,7 @@ class BP_Attachment {
 		}
 
 		// Check if upload path already exists
-		if ( ! file_exists( $this->upload_path ) ) {
+		if ( ! is_dir( $this->upload_path ) ) {
 
 			// If path does not exist, attempt to create it
 			if ( ! wp_mkdir_p( $this->upload_path ) ) {
@@ -429,7 +401,7 @@ class BP_Attachment {
 	public function crop( $args = array() ) {
 		$wp_error = new WP_Error();
 
-		$r = wp_parse_args( $args, array(
+		$r = bp_parse_args( $args, array(
 			'original_file' => '',
 			'crop_x'        => 0,
 			'crop_y'        => 0,
@@ -439,7 +411,7 @@ class BP_Attachment {
 			'dst_h'         => 0,
 			'src_abs'       => false,
 			'dst_file'      => false,
-		) );
+		), 'bp_attachment_crop_args' );
 
 		if ( empty( $r['original_file'] ) || ! file_exists( $r['original_file'] ) ) {
 			$wp_error->add( 'crop_error', __( 'Cropping the file failed: missing source file.', 'buddypress' ) );
