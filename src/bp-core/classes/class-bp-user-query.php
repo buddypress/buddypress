@@ -445,12 +445,17 @@ class BP_User_Query {
 				) );
 
 				// Switch to the root blog, where member type taxonomies live.
-				switch_to_blog( bp_get_root_blog_id() );
+				$switched = false;
+				if ( ! bp_is_root_blog() ) {
+					switch_to_blog( bp_get_root_blog_id() );
+					$switched = true;
+				}
 
 				$member_type_sql_clauses = $member_type_tq->get_sql( 'u', $this->uid_name );
-				restore_current_blog();
 
-
+				if ( $switched ) {
+					restore_current_blog();
+				}
 
 				// Grab the first term_relationships clause and convert to a subquery.
 				if ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $member_type_sql_clauses['where'], $matches ) ) {
