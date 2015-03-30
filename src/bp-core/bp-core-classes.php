@@ -435,11 +435,11 @@ class BP_User_Query {
 				$member_type_sql_clauses = $member_type_tq->get_sql( 'u', $this->uid_name );
 				restore_current_blog();
 
-
-
 				// Grab the first term_relationships clause and convert to a subquery.
 				if ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $member_type_sql_clauses['where'], $matches ) ) {
 					$sql['where']['member_type'] = "u.{$this->uid_name} IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
+				} elseif ( false !== strpos( $member_type_sql_clauses['where'], '0 = 1' ) ) {
+					$sql['where']['member_type'] = $this->no_results['where'];
 				}
 			}
 		}
