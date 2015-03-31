@@ -55,7 +55,13 @@ function bp_core_set_uri_globals() {
 	else
 		$path = esc_url( $_SERVER['REQUEST_URI'] );
 
-	// Filter the path
+	/**
+	 * Filters the BuddyPress global URI path.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $path Path to set.
+	 */
 	$path = apply_filters( 'bp_uri', $path );
 
 	// Take GET variables off the URL to avoid problems
@@ -327,6 +333,13 @@ function bp_core_enable_root_profiles() {
 	if ( defined( 'BP_ENABLE_ROOT_PROFILES' ) && ( true == BP_ENABLE_ROOT_PROFILES ) )
 		$retval = true;
 
+	/**
+	 * Filters whether or not root profiles are enabled and allowed.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param bool $retval Whether or not root profiles are available.
+	 */
 	return apply_filters( 'bp_core_enable_root_profiles', $retval );
 }
 
@@ -370,7 +383,16 @@ function bp_core_load_template( $templates ) {
 		$template = '';
 	}
 
-	// Filter the template locations so that plugins can alter where they are located
+	/**
+	 * Filters the template locations.
+	 *
+	 * Allows plugins to alter where the template files are located.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param string $template           Located template path.
+	 * @param array  $filtered_templates Array of templates to attempt to load.
+	 */
 	$located_template = apply_filters( 'bp_located_template', $template, $filtered_templates );
 	if ( !empty( $located_template ) ) {
 		// Template was located, lets set this as a valid page and not a 404.
@@ -379,10 +401,31 @@ function bp_core_load_template( $templates ) {
 		$wp_query->is_singular = true;
 		$wp_query->is_404      = false;
 
+		/**
+		 * Fires before the loading of a located template file.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param string $located_template Template found to be loaded.
+		 */
 		do_action( 'bp_core_pre_load_template', $located_template );
 
+		/**
+		 * Filters the selected template right before loading.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param string $located_template Template found to be loaded.
+		 */
 		load_template( apply_filters( 'bp_load_template', $located_template ) );
 
+		/**
+		 * Fires after the loading of a located template file.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param string $located_template Template found that was loaded.
+		 */
 		do_action( 'bp_core_post_load_template', $located_template );
 
 		// Kill any other output after this.
@@ -401,6 +444,11 @@ function bp_core_load_template( $templates ) {
 			$wp_query->is_404      = false;
 		}
 
+		/**
+		 * Fires if there are no found templates to load and theme compat is needed.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 */
 		do_action( 'bp_setup_theme_compat' );
 	}
 }
@@ -410,6 +458,14 @@ function bp_core_load_template( $templates ) {
  */
 function bp_core_catch_profile_uri() {
 	if ( !bp_is_active( 'xprofile' ) ) {
+
+		/**
+		 * Filters the path to redirect users to if XProfile is not enabled.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $value Path to redirect users to.
+		 */
 		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'members/single/home' ) );
 	}
 }
@@ -472,6 +528,14 @@ function bp_core_no_access( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Filters the arguments used for user redirecting when visiting access controlled areas.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param array $r Array of parsed arguments for redirect determination.
+	 */
 	$r = apply_filters( 'bp_core_no_access', $r );
 	extract( $r, EXTR_SKIP );
 
@@ -528,6 +592,14 @@ function bp_core_no_access( $args = '' ) {
 function bp_core_no_access_wp_login_error() {
 	global $error;
 
+	/**
+	 * Filters the error message for wp-login.php when needing to log in before accessing.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $value Error message to display.
+	 * @param string $value URL to redirect user to after successful login.
+	 */
 	$error = apply_filters( 'bp_wp_login_error', __( 'You must log in to access the page you requested.', 'buddypress' ), $_REQUEST['redirect_to'] );
 
 	// shake shake shake!
@@ -554,6 +626,13 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  */
 function bp_redirect_canonical() {
 
+	/**
+	 * Filters whether or not to do canonical redirects on BuddyPress URLs.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param bool $value Whether or not to do canonical redirects. Default true.
+	 */
 	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
 		// If this is a POST request, don't do a canonical redirect.
 		// This is for backward compatibility with plugins that submit form requests to
@@ -654,6 +733,14 @@ function bp_get_canonical_url( $args = array() ) {
 		// and the current user is logged in. In this case we send to
 		// the members directory to avoid redirect loops
 		} elseif ( bp_is_register_page() && 'register' == $front_page_component && is_user_logged_in() ) {
+
+			/**
+			 * Filters the logged in register page redirect URL.
+			 *
+			 * @since BuddyPress (1.5.1)
+			 *
+			 * @param string $value URL to redirect logged in members to.
+			 */
 			$bp->canonical_stack['canonical_url'] = apply_filters( 'bp_loggedin_register_page_redirect_to', bp_get_members_directory_permalink() );
 		}
 	}
@@ -695,6 +782,14 @@ function bp_get_canonical_url( $args = array() ) {
 		$canonical_url = array_pop( $canonical_url );
 	}
 
+	/**
+	 * Filters the canonical url of the current page.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param string $canonical_url Canonical URL of the current page.
+	 * @param array  $args          Array of arguments to help determine canonical URL.
+	 */
 	return apply_filters( 'bp_get_canonical_url', $canonical_url, $args );
 }
 
@@ -713,6 +808,13 @@ function bp_get_requested_url() {
 		$bp->canonical_stack['requested_url'] .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	}
 
+	/**
+	 * Filters the URL as requested on the current page load by the user agent.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $value Requested URL string.
+	 */
 	return apply_filters( 'bp_get_requested_url', $bp->canonical_stack['requested_url'] );
 }
 

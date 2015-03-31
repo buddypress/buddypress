@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Use BP_Notifications_Notification instead.
  *
  * @package BuddyPress Core
- * @deprecated since BuddyPress (1.9)
+ * @deprecated since BuddyPress (1.9.0)
  */
 class BP_Core_Notification {
 
