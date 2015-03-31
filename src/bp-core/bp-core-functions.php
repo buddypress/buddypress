@@ -1828,7 +1828,7 @@ function bp_core_load_buddypress_textdomain() {
 add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
 /**
- * A javascript-free implementation of the search functions in BuddyPress.
+ * A JavaScript-free implementation of the search functions in BuddyPress.
  *
  * @param string $slug The slug to redirect to for searching.
  */

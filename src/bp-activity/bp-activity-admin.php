@@ -253,7 +253,7 @@ function bp_activity_admin_load() {
 		add_meta_box( 'bp_activity_type',    _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', get_current_screen()->id, 'normal', 'core' );
 		add_meta_box( 'bp_activity_userid',  _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', get_current_screen()->id, 'normal', 'core' );
 
-		// Enqueue javascripts
+		// Enqueue JavaScript files
 		wp_enqueue_script( 'postbox' );
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'comment' );
@@ -1491,7 +1491,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// Rollover actions
 
-		// Reply - javascript only; implemented by AJAX.
+		// Reply - JavaScript only; implemented by AJAX.
 		if ( 'spam' != $item_status ) {
 			if ( $this->can_comment( $item ) ) {
 				$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', __( 'Reply', 'buddypress' ) );

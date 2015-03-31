@@ -579,7 +579,7 @@ class BP_Members_Admin {
 		}
 
 		/**
-		 * Fires after all of the members JavaScript and CSS is enqueued.
+		 * Fires after all of the members JavaScript and CSS are enqueued.
 		 *
 		 * @since BuddyPress (2.0.0)
 		 *
@@ -787,7 +787,7 @@ class BP_Members_Admin {
 			 */
 			do_action( 'bp_members_admin_user_metaboxes', $this->is_self_profile, $user_id );
 
-			// Enqueue javascripts
+			// Enqueue JavaScript files
 			wp_enqueue_script( 'postbox'   );
 			wp_enqueue_script( 'dashboard' );
 

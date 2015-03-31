@@ -2714,7 +2714,7 @@ function bp_activity_comment_link() {
 	}
 
 /**
- * Output the activity comment form no javascript display CSS.
+ * Output the activity comment form no JavaScript display CSS.
  *
  * @since BuddyPress (1.2.0)
  *
@@ -2725,14 +2725,14 @@ function bp_activity_comment_form_nojs_display() {
 }
 
 	/**
-	 * Return the activity comment form no javascript display CSS.
+	 * Return the activity comment form no JavaScript display CSS.
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
 	 * @global object $activities_template {@link BP_Activity_Template}
 	 *
-	 * @return string|bool The activity comment form no javascript
-	 *         display CSS. False on failure
+	 * @return string|bool The activity comment form no JavaScript
+	 *         display CSS. False on failure.
 	 */
 	function bp_get_activity_comment_form_nojs_display() {
 		global $activities_template;

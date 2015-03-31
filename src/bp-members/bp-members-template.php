@@ -333,7 +333,7 @@ class BP_Core_Members_Template {
 			/**
 			 * Defaults to an empty array to make sure paginate_links()
 			 * won't add the $page_arg to the links which would break
-			 * pagination in case javascript is disabled.
+			 * pagination in case JavaScript is disabled.
 			 */
 			$add_args = array();
 

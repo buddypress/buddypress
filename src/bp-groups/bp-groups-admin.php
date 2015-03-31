@@ -139,7 +139,7 @@ function bp_groups_admin_load() {
 		 */
 		do_action( 'bp_groups_admin_meta_boxes' );
 
-		// Enqueue javascripts
+		// Enqueue JavaScript files
 		wp_enqueue_script( 'postbox' );
 		wp_enqueue_script( 'dashboard' );
 
@@ -820,7 +820,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 
 	// Pull up a list of group members, so we can separate out the types
 	// We'll also keep track of group members here to place them into a
-	// javascript variable, which will help with group member autocomplete
+	// JavaScript variable, which will help with group member autocomplete
 	$members = array(
 		'admin'  => array(),
 		'mod'    => array(),
@@ -850,7 +850,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 		$pagination[ $type ] = bp_groups_admin_create_pagination_links( $member_type_query, $type );
 	}
 
-	// Echo out the javascript variable
+	// Echo out the JavaScript variable
 	echo '<script type="text/javascript">var group_id = "' . esc_js( $item->id ) . '";</script>';
 
 	// Loop through each member type

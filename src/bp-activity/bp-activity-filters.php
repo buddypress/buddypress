@@ -464,7 +464,7 @@ function bp_activity_truncate_entry( $text ) {
 }
 
 /**
- * Include extra javascript dependencies for activity component.
+ * Include extra JavaScript dependencies for activity component.
  *
  * @since BuddyPress (2.0.0)
  *

@@ -1563,7 +1563,7 @@ function bp_legacy_theme_ajax_messages_autocomplete_results() {
 		foreach ( $suggestions as $user ) {
 
 			// Note that the final line break acts as a delimiter for the
-			// autocomplete javascript and thus should not be removed
+			// autocomplete JavaScript and thus should not be removed
 			printf( '<span id="%s" href="#"></span><img src="%s" style="width: 15px"> &nbsp; %s (%s)' . "\n",
 				esc_attr( 'link-' . $user->ID ),
 				esc_url( $user->image ),

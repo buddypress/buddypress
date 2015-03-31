@@ -281,13 +281,13 @@ function bp_core_ajax_url() {
 }
 
 /**
- * Get the javascript dependencies for buddypress.js.
+ * Get the JavaScript dependencies for buddypress.js.
  *
  * @since BuddyPress (2.0.0)
  *
  * @uses apply_filters() to allow other component to load extra dependencies
  *
- * @return array The javascript dependencies.
+ * @return array The JavaScript dependencies.
  */
 function bp_core_get_js_dependencies() {
 
