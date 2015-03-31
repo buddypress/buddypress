@@ -355,6 +355,15 @@ class BP_Groups_Member {
 	public function remove() {
 		global $wpdb;
 
+		/**
+		 * Fires before a member is removed from a group.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param BP_Groups_Member Current group membership object.
+		 */
+		do_action_ref_array( 'groups_member_before_remove', array( $this ) );
+
 		$bp  = buddypress();
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $this->user_id, $this->group_id );
 
@@ -366,6 +375,15 @@ class BP_Groups_Member {
 
 		// Update the group's member count
 		self::refresh_total_member_count_for_group( $this->group_id );
+
+		/**
+		 * Fires after a member is removed from a group.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param BP_Groups_Member Current group membership object.
+		 */
+		do_action_ref_array( 'groups_member_after_remove', array( $this ) );
 
 		return $result;
 	}
@@ -406,6 +424,16 @@ class BP_Groups_Member {
 	public static function delete( $user_id, $group_id ) {
 		global $wpdb;
 
+		/**
+		 * Fires before a group membership is deleted.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param int $user_id  ID of the user.
+		 * @param int $group_id ID of the group.
+		 */
+		do_action( 'bp_groups_member_before_delete', $user_id, $group_id );
+
 		$bp = buddypress();
 		$remove = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 
@@ -414,6 +442,16 @@ class BP_Groups_Member {
 
 		// Update the group's member count
 		self::refresh_total_member_count_for_group( $group_id );
+
+		/**
+		 * Fires after a member is removed from a group.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param int $user_id  ID of the user.
+		 * @param int $group_id ID of the group.
+		 */
+		do_action( 'bp_groups_member_after_delete', $user_id, $group_id );
 
 		return $remove;
 	}
