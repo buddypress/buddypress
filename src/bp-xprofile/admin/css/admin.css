@@ -271,3 +271,6 @@ textarea#group_description {
 #bp-xprofile-add-field-group .titlewrap {
 	margin-bottom: 20px;
 }
+#bp-xprofile-add-field #post-body-content {
+	margin-bottom: 0;
+}
