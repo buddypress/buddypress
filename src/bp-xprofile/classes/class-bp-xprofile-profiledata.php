@@ -210,7 +210,7 @@ class BP_XProfile_ProfileData {
 
 		$data = array();
 
-		$uncached_field_ids = bp_xprofile_get_non_cached_field_ids( $user_id, $field_ids, 'bp_xprofile_data' );
+		$uncached_field_ids = bp_xprofile_get_non_cached_field_ids( $user_id, $field_ids );
 
 		// Prime the cache
 		if ( ! empty( $uncached_field_ids ) ) {
