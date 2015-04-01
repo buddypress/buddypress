@@ -124,7 +124,7 @@ class BP_XProfile_Field {
 	public $data;
 
 	/**
-	 * Populate or initialize a profile field
+	 * Initialize and/or populate profile field
 	 *
 	 * @since BuddyPress (1.1.0)
 	 *
@@ -145,7 +145,7 @@ class BP_XProfile_Field {
 	}
 
 	/**
-	 * Populate a profile field with
+	 * Populate a profile field object
 	 *
 	 * @since BuddyPress (1.1.0)
 	 *

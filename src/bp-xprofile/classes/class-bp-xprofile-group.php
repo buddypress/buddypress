@@ -10,18 +10,74 @@
 defined( 'ABSPATH' ) || exit;
 
 class BP_XProfile_Group {
+	
+	/**
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @var int ID of field group
+	 */
 	public $id = null;
+	
+	/**
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @var string Name of field group
+	 */
 	public $name;
+	
+	/**
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @var string Description of field group
+	 */
 	public $description;
+	
+	/**
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @var bool Can this group be deleted?
+	 */
 	public $can_delete;
+	
+	/**
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @var int Group order relative to other groups
+	 */
 	public $group_order;
+	
+	/**
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @var array Fields of group
+	 */
 	public $fields;
 
+	/**
+	 * Initialize and/or populate profile field group
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param int  $id
+	 * @param int  $user_id
+	 * @param bool $get_data
+	 */
 	public function __construct( $id = null ) {
-		if ( !empty( $id ) )
+		if ( ! empty( $id ) ) {
 			$this->populate( $id );
+		}
 	}
 
+	/**
+	 * Populate a profile field group
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @global $wpdb $wpdb
+	 * @param  int   $id
+	 *
+	 * @return boolean
+	 */
 	public function populate( $id ) {
 		global $wpdb;
 
@@ -43,6 +99,15 @@ class BP_XProfile_Group {
 		$this->group_order = $group->group_order;
 	}
 
+	/**
+	 * Save a profile field group
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @global object $wpdb
+	 *
+	 * @return boolean
+	 */
 	public function save() {
 		global $wpdb;
 
@@ -62,17 +127,21 @@ class BP_XProfile_Group {
 
 		$bp = buddypress();
 
-		if ( $this->id )
+		if ( ! empty( $this->id ) ) {
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id );
-		else
+		} else {
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description );
+		}
 
-		if ( is_wp_error( $wpdb->query( $sql ) ) )
+		// Bail if query fails
+		if ( is_wp_error( $wpdb->query( $sql ) ) ) {
 			return false;
+		}
 
 		// If not set, update the ID in the group object
-		if ( ! $this->id )
+		if ( empty( $this->id ) ) {
 			$this->id = $wpdb->insert_id;
+		}
 
 		/**
 		 * Fires after the current group instance gets saved.
@@ -86,11 +155,21 @@ class BP_XProfile_Group {
 		return $this->id;
 	}
 
+	/**
+	 * Delete a profile field group
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @global object  $wpdb
+	 * @return boolean
+	 */
 	public function delete() {
 		global $wpdb;
 
-		if ( empty( $this->can_delete ) )
+		// Bail if field group cannot be deleted
+		if ( empty( $this->can_delete ) ) {
 			return false;
+		}
 
 		/**
 		 * Fires before the current group instance gets deleted.
@@ -101,46 +180,45 @@ class BP_XProfile_Group {
 		 */
 		do_action_ref_array( 'xprofile_group_before_delete', array( &$this ) );
 
-		$bp = buddypress();
+		$bp      = buddypress();
+		$sql     = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_groups} WHERE id = %d", $this->id );
+		$deleted = $wpdb->query( $sql );
 
 		// Delete field group
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_groups} WHERE id = %d", $this->id ) ) ) {
+		if ( empty( $deleted ) || is_wp_error( $deleted ) ) {
 			return false;
-		} else {
-
-			// Remove the group's fields.
-			if ( BP_XProfile_Field::delete_for_group( $this->id ) ) {
-
-				// Remove profile data for the groups fields
-				for ( $i = 0, $count = count( $this->fields ); $i < $count; ++$i ) {
-					BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
-				}
-			}
-
-			/**
-			 * Fires after the current group instance gets deleted.
-			 *
-			 * @since BuddyPress (2.0.0)
-			 *
-			 * @param BP_XProfile_Group Current instance of the group being deleted. Passed by reference.
-			 */
-			do_action_ref_array( 'xprofile_group_after_delete', array( &$this ) );
-
-			return true;
 		}
+
+		// Remove the group's fields.
+		if ( BP_XProfile_Field::delete_for_group( $this->id ) ) {
+
+			// Remove profile data for the groups fields
+			for ( $i = 0, $count = count( $this->fields ); $i < $count; ++$i ) {
+				BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
+			}
+		}
+
+		/**
+		 * Fires after the current group instance gets deleted.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param BP_XProfile_Group Current instance of the group being deleted. Passed by reference.
+		 */
+		do_action_ref_array( 'xprofile_group_after_delete', array( &$this ) );
+
+		return true;
 	}
 
 	/** Static Methods ********************************************************/
 
 	/**
-	 * get()
-	 *
-	 * Populates the BP_XProfile_Group object with profile field groups, fields, and field data
+	 * Populates the BP_XProfile_Group object with profile field groups, fields,
+	 * and field data
 	 *
 	 * @package BuddyPress XProfile
 	 *
 	 * @global $wpdb WordPress DB access object.
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 *
 	 * @param array $args {
 	 *	Array of optional arguments:
@@ -168,7 +246,8 @@ class BP_XProfile_Group {
 	public static function get( $args = array() ) {
 		global $wpdb;
 
-		$defaults = array(
+		// Parse arguments
+		$r = wp_parse_args( $args, array(
 			'profile_group_id'       => false,
 			'user_id'                => bp_displayed_user_id(),
 			'hide_empty_groups'      => false,
@@ -179,10 +258,7 @@ class BP_XProfile_Group {
 			'exclude_groups'         => false,
 			'exclude_fields'         => false,
 			'update_meta_cache'      => true,
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		) );
 
 		// Keep track of object IDs for cache-priming
 		$object_ids = array(
@@ -191,81 +267,85 @@ class BP_XProfile_Group {
 			'data'  => array(),
 		);
 
-		$where_sql = '';
-
-		if ( ! empty( $profile_group_id ) ) {
-			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $profile_group_id );
-		} elseif ( $exclude_groups ) {
-			$exclude_groups = join( ',', wp_parse_id_list( $exclude_groups ) );
-			$where_sql = "WHERE g.id NOT IN ({$exclude_groups})";
+		// WHERE
+		if ( ! empty( $r['profile_group_id'] ) ) {
+			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $r['profile_group_id'] );
+		} elseif ( $r['exclude_groups'] ) {
+			$exclude   = join( ',', wp_parse_id_list( $r['exclude_groups'] ) );
+			$where_sql = "WHERE g.id NOT IN ({$exclude})";
+		} else {
+			$where_sql = '';
 		}
 
 		$bp = buddypress();
 
-		if ( ! empty( $hide_empty_groups ) ) {
+		// Include or exclude empty groups
+		if ( ! empty( $r['hide_empty_groups'] ) ) {
 			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
 		} else {
 			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
 		}
 
+		// Get all group data
 		$groups = self::get_group_data( $group_ids );
 
-		if ( empty( $fetch_fields ) )
+		// Bail if not also getting fields
+		if ( empty( $r['fetch_fields'] ) ) {
 			return $groups;
-
-		// Get the group ids
-		$group_ids = array();
-		foreach( (array) $groups as $group ) {
-			$group_ids[] = $group->id;
 		}
+
+		// Get the group ids from the groups we found
+		$group_ids = wp_list_pluck( $groups, 'id' );
 
 		// Store for meta cache priming
 		$object_ids['group'] = $group_ids;
 
-		$group_ids = implode( ',', (array) $group_ids );
-
-		if ( empty( $group_ids ) )
+		// Bail if no groups foundS
+		if ( empty( $group_ids ) ) {
 			return $groups;
+		}
+
+		// Setup IN query from group IDs
+		$group_ids_in = implode( ',', (array) $group_ids );
 
 		// Support arrays and comma-separated strings
-		$exclude_fields_cs = wp_parse_id_list( $exclude_fields );
+		$exclude_fields_cs = wp_parse_id_list( $r['exclude_fields'] );
 
 		// Visibility - Handled here so as not to be overridden by sloppy use of the
 		// exclude_fields parameter. See bp_xprofile_get_hidden_fields_for_user()
-		$exclude_fields_cs = array_merge( $exclude_fields_cs, bp_xprofile_get_hidden_fields_for_user( $user_id ) );
-		$exclude_fields_cs = implode( ',', $exclude_fields_cs );
+		$hidden_user_fields = bp_xprofile_get_hidden_fields_for_user( $r['user_id'] );
+		$exclude_fields_cs  = array_merge( $exclude_fields_cs, $hidden_user_fields );
+		$exclude_fields_cs  = implode( ',', $exclude_fields_cs );
 
-		if ( !empty( $exclude_fields_cs ) ) {
+		// Setup IN query for field IDs
+		if ( ! empty( $exclude_fields_cs ) ) {
 			$exclude_fields_sql = "AND id NOT IN ({$exclude_fields_cs})";
 		} else {
 			$exclude_fields_sql = '';
 		}
 
 		// Fetch the fields
-		$fields = $wpdb->get_results( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" );
+		$fields    = $wpdb->get_results( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids_in} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" );
+		$field_ids = wp_list_pluck( $fields, 'id' );
 
 		// Store field IDs for meta cache priming
-		$object_ids['field'] = wp_list_pluck( $fields, 'id' );
+		$object_ids['field'] = $field_ids;
 
-		if ( empty( $fields ) )
+		// Bail if no fields
+		if ( empty( $fields ) ) {
 			return $groups;
+		}
 
 		// Maybe fetch field data
-		if ( ! empty( $fetch_field_data ) ) {
+		if ( ! empty( $r['fetch_field_data'] ) ) {
 
-			// Fetch the field data for the user.
-			foreach( (array) $fields as $field ) {
-				$field_ids[] = $field->id;
-			}
-
-			$field_ids_sql = implode( ',', (array) $field_ids );
-
-			if ( ! empty( $field_ids ) && ! empty( $user_id ) ) {
-				$field_data = BP_XProfile_ProfileData::get_data_for_user( $user_id, $field_ids );
+			// Get field data for user ID
+			if ( ! empty( $field_ids ) && ! empty( $r['user_id'] ) ) {
+				$field_data = BP_XProfile_ProfileData::get_data_for_user( $r['user_id'], $field_ids );
 			}
 
 			// Remove data-less fields, if necessary
-			if ( !empty( $hide_empty_fields ) && ! empty( $field_ids ) && ! empty( $field_data ) ) {
+			if ( ! empty( $r['hide_empty_fields'] ) && ! empty( $field_ids ) && ! empty( $field_data ) ) {
 
 				// Loop through the results and find the fields that have data.
 				foreach( (array) $field_data as $data ) {
@@ -277,14 +357,14 @@ class BP_XProfile_Group {
 					if ( ( ! empty( $maybe_value ) || '0' == $maybe_value ) && false !== $key = array_search( $data->field_id, $field_ids ) ) {
 
 						// Fields that have data get removed from the list
-						unset( $field_ids[$key] );
+						unset( $field_ids[ $key ] );
 					}
 				}
 
 				// The remaining members of $field_ids are empty. Remove them.
 				foreach( $fields as $field_key => $field ) {
 					if ( in_array( $field->id, $field_ids ) ) {
-						unset( $fields[$field_key] );
+						unset( $fields[ $field_key ] );
 					}
 				}
 
@@ -293,7 +373,7 @@ class BP_XProfile_Group {
 			}
 
 			// Field data was found
-			if ( ! empty( $fields ) && !empty( $field_data ) && !is_wp_error( $field_data ) ) {
+			if ( ! empty( $fields ) && ! empty( $field_data ) && ! is_wp_error( $field_data ) ) {
 
 				// Loop through fields
 				foreach( (array) $fields as $field_key => $field ) {
@@ -303,9 +383,9 @@ class BP_XProfile_Group {
 
 						// Assign correct data value to the field
 						if ( $field->id == $data->field_id ) {
-							$fields[$field_key]->data        = new stdClass;
-							$fields[$field_key]->data->value = $data->value;
-							$fields[$field_key]->data->id    = $data->id;
+							$fields[ $field_key ]->data        = new stdClass;
+							$fields[ $field_key ]->data->value = $data->value;
+							$fields[ $field_key ]->data->id    = $data->id;
 						}
 
 						// Store for meta cache priming
@@ -316,13 +396,13 @@ class BP_XProfile_Group {
 		}
 
 		// Prime the meta cache, if necessary
-		if ( $update_meta_cache ) {
+		if ( ! empty( $r['update_meta_cache'] ) ) {
 			bp_xprofile_update_meta_cache( $object_ids );
 		}
 
 		// Maybe fetch visibility levels
-		if ( !empty( $fetch_visibility_level ) ) {
-			$fields = self::fetch_visibility_level( $user_id, $fields );
+		if ( ! empty( $r['fetch_visibility_level'] ) ) {
+			$fields = self::fetch_visibility_level( $r['user_id'], $fields );
 		}
 
 		// Merge the field array back in with the group array
@@ -333,15 +413,15 @@ class BP_XProfile_Group {
 			$index = array_search( $group, $groups );
 
 			foreach( (array) $fields as $field ) {
-				if ( $group->id == $field->group_id ) {
-					$groups[$index]->fields[] = $field;
+				if ( $group->id === $field->group_id ) {
+					$groups[ $index ]->fields[] = $field;
 				}
 			}
 
 			// When we unset fields above, we may have created empty groups.
 			// Remove them, if necessary.
-			if ( empty( $group->fields ) && $hide_empty_groups ) {
-				unset( $groups[$index] );
+			if ( empty( $group->fields ) && ! empty( $r['hide_empty_groups'] ) ) {
+				unset( $groups[ $index ] );
 			}
 
 			// Reset indexes
@@ -367,13 +447,17 @@ class BP_XProfile_Group {
 			return array();
 		}
 
+		// Setup empty arrays
 		$groups        = array();
 		$uncached_gids = array();
 
+		// Loop through groups and look for cached & uncached data
 		foreach ( $group_ids as $group_id ) {
 
 			// If cached data is found, use it
-			if ( $group_data = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
+			$cache_key  = 'xprofile_group_' . $group_id;
+			$group_data = wp_cache_get( $cache_key, 'bp' );
+			if ( false !== $group_data ) {
 				$groups[ $group_id ] = $group_data;
 
 			// Otherwise leave a placeholder so we don't lose the order
@@ -387,31 +471,50 @@ class BP_XProfile_Group {
 
 		// Fetch uncached data from the DB if necessary
 		if ( ! empty( $uncached_gids ) ) {
+
+			// Setup IN query for uncached group data
 			$uncached_gids_sql = implode( ',', wp_parse_id_list( $uncached_gids ) );
 
-			$bp = buddypress();
+			// Get table name to query
+			$table_name = buddypress()->profile->table_name_groups;
 
 			// Fetch data, preserving order
-			$queried_gdata = $wpdb->get_results( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id IN ({$uncached_gids_sql}) ORDER BY FIELD( id, {$uncached_gids_sql} )");
+			$queried_gdata = $wpdb->get_results( "SELECT * FROM {$table_name} WHERE id IN ({$uncached_gids_sql}) ORDER BY FIELD( id, {$uncached_gids_sql} )");
 
-			// Put queried data into the placeholders created earlier,
-			// and add it to the cache
-			foreach ( (array) $queried_gdata as $gdata ) {
-				$groups[ $gdata->id ] = $gdata;
-				wp_cache_set( 'xprofile_group_' . $gdata->id, $gdata, 'bp' );
+			// Make sure query returned valid data
+			if ( ! empty( $queried_gdata ) && ! is_wp_error( $queried_gdata ) ) {
+
+				// Put queried data into the placeholders created earlier,
+				// and add it to the cache
+				foreach ( (array) $queried_gdata as $gdata ) {
+
+					// Add group to groups array
+					$groups[ $gdata->id ] = $gdata;
+
+					// Cache previously uncached group data
+					$cache_key = 'xprofile_group_' . $gdata->id;
+					wp_cache_set( $cache_key, $gdata, 'bp' );
+				}
 			}
 		}
 
-		// Reset indexes
-		$groups = array_values( $groups );
-
-		return $groups;
+		// Reset indexes & return
+		return array_values( $groups );
 	}
 
+	/**
+	 * Validate field group when form submitted
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @global string $message
+	 *
+	 * @return boolean
+	 */
 	public static function admin_validate() {
 		global $message;
 
-		/* Validate Form */
+		// Validate Form
 		if ( empty( $_POST['group_name'] ) ) {
 			$message = __( 'Please make sure you give the group a name.', 'buddypress' );
 			return false;
@@ -420,14 +523,25 @@ class BP_XProfile_Group {
 		}
 	}
 
+	/**
+	 * Update field group position
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @global $wpdb $wpdb
+	 * @param  int $field_group_id
+	 * @param  int $position
+	 *
+	 * @return boolean
+	 */
 	public static function update_position( $field_group_id, $position ) {
 		global $wpdb;
 
-		if ( !is_numeric( $position ) ) {
+		if ( ! is_numeric( $position ) ) {
 			return false;
 		}
 
-		// purge profile field group cache
+		// Purge profile field group cache
 		wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
 
 		$bp = buddypress();
@@ -452,11 +566,12 @@ class BP_XProfile_Group {
 		foreach( (array) $fields as $key => $field ) {
 
 			// Does the admin allow this field to be customized?
-			$allow_custom = 'disabled' !== bp_xprofile_get_meta( $field->id, 'field', 'allow_custom_visibility' );
+			$visibility   = bp_xprofile_get_meta( $field->id, 'field', 'allow_custom_visibility' );
+			$allow_custom = (bool) ( 'disabled' !== $visibility );
 
 			// Look to see if the user has set the visibility for this field
-			if ( $allow_custom && isset( $visibility_levels[$field->id] ) ) {
-				$field_visibility = $visibility_levels[$field->id];
+			if ( ( true === $allow_custom ) && isset( $visibility_levels[ $field->id ] ) ) {
+				$field_visibility = $visibility_levels[ $field->id ];
 
 			// If no admin-set default is saved, fall back on a global default
 			} else {
@@ -469,10 +584,12 @@ class BP_XProfile_Group {
 				 *
 				 * @param string $value Default visibility value.
 				 */
-				$field_visibility = ! empty( $fallback_visibility ) ? $fallback_visibility : apply_filters( 'bp_xprofile_default_visibility_level', 'public' );
+				$field_visibility = ! empty( $fallback_visibility )
+					? $fallback_visibility
+					: apply_filters( 'bp_xprofile_default_visibility_level', 'public' );
 			}
 
-			$fields[$key]->visibility_level = $field_visibility;
+			$fields[ $key ]->visibility_level = $field_visibility;
 		}
 
 		return $fields;
@@ -500,10 +617,13 @@ class BP_XProfile_Group {
 			// Arrange so that the field id is the key and the visibility level the value
 			$default_visibility_levels = array();
 			foreach ( $levels as $level ) {
-				if ( 'default_visibility' == $level->meta_key ) {
-					$default_visibility_levels[ $level->object_id ]['default'] = $level->meta_value;
-				} elseif ( 'allow_custom_visibility' == $level->meta_key ) {
-					$default_visibility_levels[ $level->object_id ]['allow_custom'] = $level->meta_value;
+				switch ( $level->meta_key ) {
+					case 'default_visibility' :
+						$default_visibility_levels[ $level->object_id ]['default']      = $level->meta_value;
+						break;
+					case 'allow_custom_visibility' :
+						$default_visibility_levels[ $level->object_id ]['allow_custom'] = $level->meta_value;
+						break;
 				}
 			}
 
@@ -513,16 +633,28 @@ class BP_XProfile_Group {
 		return $default_visibility_levels;
 	}
 
+	/** Admin Output **********************************************************/
+
+	/**
+	 * Output the admin area field group form
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @global string $message
+	 */
 	public function render_admin_form() {
 		global $message;
 
+		// New field group
 		if ( empty( $this->id ) ) {
 			$title	= __( 'Add New Field Group', 'buddypress' );
-			$action	= "users.php?page=bp-profile-setup&amp;mode=add_group";
+			$action	= add_query_arg( array( 'page' => 'bp-profile-setup', 'mode' => 'add_group' ), 'users.php' );
 			$button	= __( 'Save', 'buddypress' );
+
+		// Existing field group
 		} else {
 			$title  = __( 'Edit Field Group', 'buddypress' );
-			$action = "users.php?page=bp-profile-setup&amp;mode=edit_group&amp;group_id=" . $this->id;
+			$action	= add_query_arg( array( 'page' => 'bp-profile-setup', 'mode' => 'edit_group', 'group_id' => $this->id ), 'users.php' );
 			$button	= __( 'Update', 'buddypress' );
 		} ?>
 
@@ -532,7 +664,7 @@ class BP_XProfile_Group {
 
 			<h2><?php echo esc_html( $title ); ?></h2>
 
-			<?php if ( !empty( $message ) ) : ?>
+			<?php if ( ! empty( $message ) ) : ?>
 
 				<div id="message" class="error fade">
 					<p><?php echo esc_html( $message ); ?></p>
@@ -569,8 +701,7 @@ class BP_XProfile_Group {
 							 *
 							 * @param BP_XProfile_Group $this Current XProfile group.
 							 */
-							do_action( 'xprofile_group_before_submitbox', $this );
-							?>
+							do_action( 'xprofile_group_before_submitbox', $this ); ?>
 
 							<div id="submitdiv" class="postbox">
 								<h3><?php _e( 'Submit', 'buddypress' ); ?></h3>
@@ -587,8 +718,7 @@ class BP_XProfile_Group {
 											 *
 											 * @param BP_XProfile_Group $this Current XProfile group.
 											 */
-											do_action( 'xprofile_group_submitbox_start', $this );
-											?>
+											do_action( 'xprofile_group_submitbox_start', $this ); ?>
 
 											<input type="hidden" name="group_order" id="group_order" value="<?php echo esc_attr( $this->group_order ); ?>" />
 											<div id="publishing-action">
@@ -612,14 +742,14 @@ class BP_XProfile_Group {
 							 *
 							 * @param BP_XProfile_Group $this Current XProfile group.
 							 */
-							do_action( 'xprofile_group_after_submitbox', $this );
-							?>
+							do_action( 'xprofile_group_after_submitbox', $this ); ?>
+
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 
-<?php
+	<?php
 	}
 }
