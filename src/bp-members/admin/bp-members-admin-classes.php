@@ -226,6 +226,8 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * Markup for the checkbox used to select items for bulk actions.
 	 *
 	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param object $signup_object The signup data object.
 	 */
 	public function column_cb( $signup_object = null ) {
 	?>
@@ -574,6 +576,8 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * Markup for the checkbox used to select items for bulk actions.
 	 *
 	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param object $signup_object The signup data object.
 	 */
 	public function column_cb( $signup_object = null ) {
 	?>
