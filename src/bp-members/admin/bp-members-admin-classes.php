@@ -231,7 +231,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 */
 	public function column_cb( $signup_object = null ) {
 	?>
-		<label class="screen-reader-text" for="signup_<?php echo intval( $signup_object->id ); ?>"><?php printf( esc_html__( 'Select %s', 'buddypress' ), $signup_object->user_login ); ?></label>
+		<label class="screen-reader-text" for="signup_<?php echo intval( $signup_object->id ); ?>"><?php printf( esc_html__( 'Select user: %s', 'buddypress' ), $signup_object->user_login ); ?></label>
 		<input type="checkbox" id="signup_<?php echo intval( $signup_object->id ) ?>" name="allsignups[]" value="<?php echo esc_attr( $signup_object->id ) ?>" />
 		<?php
 	}
@@ -581,7 +581,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 */
 	public function column_cb( $signup_object = null ) {
 	?>
-		<label class="screen-reader-text" for="signup_<?php echo intval( $signup_object->id ); ?>"><?php printf( esc_html__( 'Select %s', 'buddypress' ), $signup_object->user_login ); ?></label>
+		<label class="screen-reader-text" for="signup_<?php echo intval( $signup_object->id ); ?>"><?php printf( esc_html__( 'Select user: %s', 'buddypress' ), $signup_object->user_login ); ?></label>
 		<input type="checkbox" id="signup_<?php echo intval( $signup_object->id ) ?>" name="allsignups[]" value="<?php echo esc_attr( $signup_object->id ) ?>" />
 		<?php
 	}
