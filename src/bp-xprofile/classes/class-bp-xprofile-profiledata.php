@@ -143,8 +143,9 @@ class BP_XProfile_ProfileData {
 				$this->id = $wpdb->insert_id;
 			}
 
-			if ( false === $result )
+			if ( false === $result ) {
 				return false;
+			}
 
 			/**
 			 * Fires after the current profile data instance gets saved.
@@ -181,8 +182,10 @@ class BP_XProfile_ProfileData {
 		 */
 		do_action_ref_array( 'xprofile_data_before_delete', array( $this ) );
 
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) ) )
+		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id = %d", $this->field_id, $this->user_id ) );
+		if ( empty( $deleted ) ) {
 			return false;
+		}
 
 		/**
 		 * Fires after the current profile data instance gets deleted.
@@ -422,13 +425,15 @@ class BP_XProfile_ProfileData {
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
 		global $wpdb;
 
-		if ( empty( $fields ) )
+		if ( empty( $fields ) ) {
 			return false;
+		}
 
 		$bp = buddypress();
 
-		if ( empty( $user_id ) )
+		if ( empty( $user_id ) ) {
 			$user_id = bp_displayed_user_id();
+		}
 
 		$field_sql = '';
 
@@ -446,10 +451,12 @@ class BP_XProfile_ProfileData {
 			$field_sql .= $wpdb->prepare( "AND f.name = %s", $fields );
 		}
 
-		$sql = $wpdb->prepare( "SELECT d.value, f.name FROM {$bp->profile->table_name_data} d, {$bp->profile->table_name_fields} f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
+		$sql    = $wpdb->prepare( "SELECT d.value, f.name FROM {$bp->profile->table_name_data} d, {$bp->profile->table_name_fields} f WHERE d.field_id = f.id AND d.user_id = %d AND f.parent_id = 0 $field_sql", $user_id );
+		$values = $wpdb->get_results( $sql );
 
-		if ( !$values = $wpdb->get_results( $sql ) )
+		if ( empty( $values ) || is_wp_error( $values ) ) {
 			return false;
+		}
 
 		$new_values = array();
 
@@ -473,10 +480,11 @@ class BP_XProfile_ProfileData {
 	public static function delete_for_field( $field_id ) {
 		global $wpdb;
 
-		$bp = buddypress();
-
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d", $field_id ) ) )
+		$bp      = buddypress();
+		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE field_id = %d", $field_id ) );
+		if ( empty( $deleted ) || is_wp_error( $deleted ) ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -511,11 +519,10 @@ class BP_XProfile_ProfileData {
 
 	public static function get_fullname( $user_id = 0 ) {
 
-		if ( empty( $user_id ) )
+		if ( empty( $user_id ) ) {
 			$user_id = bp_displayed_user_id();
+		}
 
-		$data = xprofile_get_field_data( bp_xprofile_fullname_field_id(), $user_id );
-
-		return $data[$field_name];
+		return xprofile_get_field_data( bp_xprofile_fullname_field_id(), $user_id );
 	}
 }
