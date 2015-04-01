@@ -36,8 +36,6 @@ add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
  */
 function xprofile_admin( $message = '', $type = 'error' ) {
 
-	$type = preg_replace( '|[^a-z]|i', '', $type );
-
 	if ( isset( $_GET['mode'] ) && isset( $_GET['group_id'] ) && 'add_field' == $_GET['mode'] ) {
 		xprofile_admin_manage_field( $_GET['group_id'] );
 
@@ -60,7 +58,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		xprofile_admin_manage_group( $_GET['group_id'] );
 
 	} else {
-		xprofile_admin_screen( $message );
+		xprofile_admin_screen( $message, $type );
 	}
 }
 
@@ -69,9 +67,15 @@ function xprofile_admin( $message = '', $type = 'error' ) {
  *
  * @since BuddyPress (2.3.0)
  *
+ * @param string $message Feedback message
+ * @param string $type    Feedback type
+ *
  * @todo Improve error message output
  */
-function xprofile_admin_screen( $message = '' ) {
+function xprofile_admin_screen( $message = '', $type = 'error' ) {
+
+	// Validate type
+	$type = preg_replace( '|[^a-z]|i', '', $type );
 
 	// Get all of the profile groups & fields
 	$groups = bp_xprofile_get_groups( array(
