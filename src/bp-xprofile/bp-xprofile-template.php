@@ -880,11 +880,11 @@ function bp_profile_field_data( $args = '' ) {
  * @return object $groups
  */
 function bp_profile_get_field_groups() {
-	$groups = wp_cache_get( 'xprofile_groups_inc_empty', 'bp' );
 
-	if ( empty( $groups ) ) {
+	$groups = wp_cache_get( 'all', 'bp_xprofile_groups' );
+	if ( false === $groups ) {
 		$groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
-		wp_cache_set( 'xprofile_groups_inc_empty', $groups, 'bp' );
+		wp_cache_set( 'all', $groups, 'bp_xprofile' );
 	}
 
 	/**
@@ -973,16 +973,15 @@ function bp_profile_group_name( $deprecated = true ) {
 	}
 }
 	function bp_get_profile_group_name() {
-		if ( !$group_id = bp_action_variable( 1 ) )
-			$group_id = 1;
 
-		if ( !is_numeric( $group_id ) )
+		// Check action variable
+		$group_id = bp_action_variable( 1 );
+		if ( empty( $group_id ) || ! is_numeric( $group_id ) ) {
 			$group_id = 1;
-
-		if ( !$group = wp_cache_get( 'xprofile_group_' . $group_id, 'bp' ) ) {
-			$group = new BP_XProfile_Group($group_id);
-			wp_cache_set( 'xprofile_group_' . $group_id, $group, 'bp' );
 		}
+
+		// Check for cached group
+		$group = new BP_XProfile_Group( $group_id );
 
 		/**
 		 * Filters the profile group name.

@@ -52,7 +52,7 @@ function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array(
  * @param array $object_ids Multi-dimensional array of object_ids, keyed by
  *        object type ('group', 'field', 'data')
  */
-function bp_xprofile_update_meta_cache( $object_ids = array(), $user_id = 0 ) {
+function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	global $wpdb;
 
 	if ( empty( $object_ids ) ) {
@@ -75,6 +75,7 @@ function bp_xprofile_update_meta_cache( $object_ids = array(), $user_id = 0 ) {
 	$do_query = false;
 	foreach ( $uncached_object_ids as $object_type => $uncached_object_type_ids ) {
 		if ( ! empty( $object_ids[ $object_type ] ) ) {
+
 			// Sanitize $object_ids passed to the function
 			$object_type_ids = wp_parse_id_list( $object_ids[ $object_type ] );
 
@@ -89,7 +90,7 @@ function bp_xprofile_update_meta_cache( $object_ids = array(), $user_id = 0 ) {
 	}
 
 	// If there are uncached items, go ahead with the query
-	if ( $do_query ) {
+	if ( true === $do_query ) {
 		$where = array();
 		foreach ( $uncached_object_ids as $otype => $oids ) {
 			if ( empty( $oids ) ) {
@@ -138,17 +139,31 @@ function bp_xprofile_update_meta_cache( $object_ids = array(), $user_id = 0 ) {
 	return;
 }
 
+/**
+ * Clear cached XProfile field group data
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param object $group_obj
+ */
 function xprofile_clear_profile_groups_object_cache( $group_obj ) {
-	wp_cache_delete( 'xprofile_groups_inc_empty',        'bp' );
-	wp_cache_delete( 'xprofile_group_' . $group_obj->id, 'bp' );
+	wp_cache_delete( 'all',          'bp_xprofile_groups' );
+	wp_cache_delete( $group_obj->id, 'bp_xprofile_groups' );
 }
 add_action( 'xprofile_group_after_delete', 'xprofile_clear_profile_groups_object_cache' );
 add_action( 'xprofile_group_after_save',   'xprofile_clear_profile_groups_object_cache' );
 
-function xprofile_clear_profile_data_object_cache( $group_id ) {
-	wp_cache_delete( 'bp_user_fullname_' . bp_loggedin_user_id(), 'bp' );
+/**
+ * Clear cached XProfile fullname data for user
+ *
+ * @since BuddyPress (2.1.0)
+ *
+ * @param int $user_id ID of user whose fullname cache to delete
+ */
+function xprofile_clear_profile_data_object_cache( $user_id = 0 ) {
+	wp_cache_delete( 'bp_user_fullname_' . $user_id, 'bp' );
 }
-add_action( 'xprofile_updated_profile', 'xprofile_clear_profile_data_object_cache'   );
+add_action( 'xprofile_updated_profile', 'xprofile_clear_profile_data_object_cache' );
 
 /**
  * Clear the fullname cache when field 1 is updated.
@@ -173,16 +188,17 @@ add_action( 'xprofile_data_after_save', 'xprofile_clear_fullname_cache_on_profil
  * @param BP_XProfile_Field
  */
 function xprofile_clear_profile_field_object_cache( $field_obj ) {
+
 	// Clear default visibility level cache
-	wp_cache_delete( 'xprofile_default_visibility_levels', 'bp' );
+	wp_cache_delete( 'default_visibility_levels', 'bp_xprofile' );
 
 	// Modified fields can alter parent group status, in particular when
 	// the group goes from empty to non-empty. Bust its cache, as well as
-	// the global group_inc_empty cache
-	wp_cache_delete( 'xprofile_group_' . $field_obj->group_id, 'bp' );
-	wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
+	// the global 'all' cache
+	wp_cache_delete( 'all',                'bp_xprofile_groups' );
+	wp_cache_delete( $field_obj->group_id, 'bp_xprofile_groups' );
 }
-add_action( 'xprofile_fields_saved_field', 'xprofile_clear_profile_field_object_cache' );
+add_action( 'xprofile_fields_saved_field',   'xprofile_clear_profile_field_object_cache' );
 add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_object_cache' );
 
 /**

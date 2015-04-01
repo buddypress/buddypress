@@ -81,11 +81,12 @@ class BP_XProfile_Group {
 	public function populate( $id ) {
 		global $wpdb;
 
-		$group = wp_cache_get( 'xprofile_group_' . $this->id, 'bp' );
+		$group = wp_cache_get( $id, 'bp_xprofile_groups' );
 
 		if ( false === $group ) {
-			$bp = buddypress();
+			$bp    = buddypress();
 			$group = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id ) );
+			wp_cache_set( $id, $group, 'bp_xprofile_groups' );
 		}
 
 		if ( empty( $group ) ) {
@@ -93,8 +94,8 @@ class BP_XProfile_Group {
 		}
 
 		$this->id          = $group->id;
-		$this->name        = stripslashes( $group->name );
-		$this->description = stripslashes( $group->description );
+		$this->name        = $group->name;
+		$this->description = $group->description;
 		$this->can_delete  = $group->can_delete;
 		$this->group_order = $group->group_order;
 	}
@@ -455,8 +456,7 @@ class BP_XProfile_Group {
 		foreach ( $group_ids as $group_id ) {
 
 			// If cached data is found, use it
-			$cache_key  = 'xprofile_group_' . $group_id;
-			$group_data = wp_cache_get( $cache_key, 'bp' );
+			$group_data = wp_cache_get( $group_id, 'bp_xprofile_groups' );
 			if ( false !== $group_data ) {
 				$groups[ $group_id ] = $group_data;
 
@@ -492,8 +492,7 @@ class BP_XProfile_Group {
 					$groups[ $gdata->id ] = $gdata;
 
 					// Cache previously uncached group data
-					$cache_key = 'xprofile_group_' . $gdata->id;
-					wp_cache_set( $cache_key, $gdata, 'bp' );
+					wp_cache_set( $gdata->id, $gdata, 'bp_xprofile_groups' );
 				}
 			}
 		}
@@ -542,7 +541,7 @@ class BP_XProfile_Group {
 		}
 
 		// Purge profile field group cache
-		wp_cache_delete( 'xprofile_groups_inc_empty', 'bp' );
+		wp_cache_delete( 'all', 'bp_xprofile_groups' );
 
 		$bp = buddypress();
 
@@ -607,7 +606,7 @@ class BP_XProfile_Group {
 	public static function fetch_default_visibility_levels() {
 		global $wpdb;
 
-		$default_visibility_levels = wp_cache_get( 'xprofile_default_visibility_levels', 'bp' );
+		$default_visibility_levels = wp_cache_get( 'default_visibility_levels', 'bp_xprofile' );
 
 		if ( false === $default_visibility_levels ) {
 			$bp = buddypress();
@@ -627,7 +626,7 @@ class BP_XProfile_Group {
 				}
 			}
 
-			wp_cache_set( 'xprofile_default_visibility_levels', $default_visibility_levels, 'bp' );
+			wp_cache_set( 'default_visibility_levels', $default_visibility_levels, 'bp_xprofile' );
 		}
 
 		return $default_visibility_levels;
