@@ -79,20 +79,21 @@ class BP_XProfile_Group {
 	 * @return boolean
 	 */
 	public function populate( $id ) {
-		global $wpdb;
 
-		$group = wp_cache_get( $id, 'bp_xprofile_groups' );
+		// Get this group
+		$group = self::get( array(
+			'profile_group_id' => $id
+		) );
 
-		if ( false === $group ) {
-			$bp    = buddypress();
-			$group = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_groups} WHERE id = %d", $id ) );
-			wp_cache_set( $id, $group, 'bp_xprofile_groups' );
-		}
-
+		// Bail if group not found
 		if ( empty( $group ) ) {
 			return false;
 		}
 
+		// Get the first array element
+		$group = reset( $group );
+
+		// Set object properties
 		$this->id          = $group->id;
 		$this->name        = $group->name;
 		$this->description = $group->description;
@@ -128,14 +129,18 @@ class BP_XProfile_Group {
 
 		$bp = buddypress();
 
+		// Update or insert
 		if ( ! empty( $this->id ) ) {
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_groups} SET name = %s, description = %s WHERE id = %d", $this->name, $this->description, $this->id );
 		} else {
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_groups} (name, description, can_delete) VALUES (%s, %s, 1)", $this->name, $this->description );
 		}
 
+		// Attempt to insert or update
+		$query = $wpdb->query( $sql );
+
 		// Bail if query fails
-		if ( is_wp_error( $wpdb->query( $sql ) ) ) {
+		if ( empty( $query ) || is_wp_error( $query ) ) {
 			return false;
 		}
 
