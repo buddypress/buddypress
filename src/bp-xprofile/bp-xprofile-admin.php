@@ -362,11 +362,13 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 					bp_update_option( 'bp-xprofile-fullname-field-name', $field->name );
 				}
 
-				if ( ! empty( $_POST['default-visibility'] ) ) {
+				// Validate default visibility
+				if ( ! empty( $_POST['default-visibility'] ) && in_array( $_POST['default-visibility'], wp_list_pluck( bp_xprofile_get_visibility_levels(), 'id' ) ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $_POST['default-visibility'] );
 				}
 
-				if ( ! empty( $_POST['allow-custom-visibility'] ) ) {
+				// Validate custom visibility
+				if ( ! empty( $_POST['allow-custom-visibility'] ) && in_array( $_POST['allow-custom-visibility'], array( 'allowed', 'disallowed' ) ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'allow_custom_visibility', $_POST['allow-custom-visibility'] );
 				}
 
