@@ -99,4 +99,41 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$this->assertSame( $e2, array_merge( $found2, array() ) );
 	}
+
+	/**
+	 * @group save_xprofile_group_name
+	 */
+	public function test_save_xprofile_group_name() {
+		$g1 = $this->factory->xprofile_group->create( array(
+			'name' => "Test ' Name"
+		) );
+
+		$e1 = new BP_XProfile_Group( $g1 );
+		$e1->save();
+
+		wp_cache_delete( $g1, 'bp_xprofile_groups' );
+
+		$e2 = new BP_XProfile_Group( $g1 );
+
+		$this->assertEquals( $e1->name, $e2->name );
+	}
+
+	/**
+	 * @group save_xprofile_group_name
+	 */
+	public function test_save_xprofile_group_name_with_single_quote() {
+
+		// Set the original group name with no slashes
+		$pristine_name = "Test \' Name";
+
+		// Create a group
+		$g1 = $this->factory->xprofile_group->create( array(
+			'name' => $pristine_name
+		) );
+
+		// Get the field
+		$e1 = new BP_XProfile_Group( $g1 );
+
+		$this->assertEquals( $pristine_name, $e1->name );
+	}
 }
