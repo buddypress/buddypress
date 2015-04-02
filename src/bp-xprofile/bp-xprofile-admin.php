@@ -326,50 +326,49 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 	if ( isset( $_POST['saveField'] ) ) {
 		if ( BP_XProfile_Field::admin_validate() ) {
-			$field->name        = wp_filter_kses( $_POST['title'] );
-			$field->description = !empty( $_POST['description'] ) ? wp_filter_kses( $_POST['description'] ) : '';
-			$field->is_required = wp_filter_kses( $_POST['required'] );
-			$field->type        = wp_filter_kses( $_POST['fieldtype'] );
+			$field->is_required = $_POST['required'];
+			$field->type        = $_POST['fieldtype'];
+			$field->name        = $_POST['title'];
 
-			if ( !empty( $_POST["sort_order_{$field->type}"] ) ) {
-				$field->order_by = wp_filter_kses( $_POST["sort_order_{$field->type}"] );
+			if ( ! empty( $_POST['description'] ) ) {
+				$field->description = $_POST['description'];
+			} else {
+				$field->description = '';
+			}
+
+			if ( ! empty( $_POST["sort_order_{$field->type}"] ) ) {
+				$field->order_by = $_POST["sort_order_{$field->type}"];
 			}
 
 			$field->field_order = $wpdb->get_var( $wpdb->prepare( "SELECT field_order FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
-
-			if ( !$field->field_order ) {
+			if ( empty( $field->field_order ) || is_wp_error( $field->field_order ) ) {
 				$field->field_order = (int) $wpdb->get_var( $wpdb->prepare( "SELECT max(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id ) );
 				$field->field_order++;
 			}
 
-			// For new profile fields, set the $field_id. For existing profile fields,
-			// this will overwrite $field_id with the same value.
+			// For new profile fields, set the $field_id. For existing profile
+			// fields, this will overwrite $field_id with the same value.
 			$field_id = $field->save();
 
-			if ( !$field_id ) {
+			if ( empty( $field_id ) ) {
 				$message = __( 'There was an error saving the field. Please try again.', 'buddypress' );
-				$type = 'error';
-
-				unset( $_GET['mode'] );
-
-				xprofile_admin( $message, $type );
+				$type    = 'error';
 			} else {
 				$message = __( 'The field was saved successfully.', 'buddypress' );
-				$type = 'success';
+				$type    = 'success';
 
+				// @todo remove these old options
 				if ( 1 == $field_id ) {
 					bp_update_option( 'bp-xprofile-fullname-field-name', $field->name );
 				}
 
-				if ( !empty( $_POST['default-visibility'] ) ) {
+				if ( ! empty( $_POST['default-visibility'] ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $_POST['default-visibility'] );
 				}
 
-				if ( !empty( $_POST['allow-custom-visibility'] ) ) {
+				if ( ! empty( $_POST['allow-custom-visibility'] ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'allow_custom_visibility', $_POST['allow-custom-visibility'] );
 				}
-
-				unset( $_GET['mode'] );
 
 				/**
 				 * Fires at the end of the process to save a field for a user, if successful.
@@ -381,8 +380,12 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				do_action( 'xprofile_fields_saved_field', $field );
 
 				$groups = bp_xprofile_get_groups();
-				xprofile_admin( $message, $type );
 			}
+
+			unset( $_GET['mode'] );
+
+			xprofile_admin( $message, $type );
+
 		} else {
 			$field->render_admin_form( $message );
 		}
@@ -817,7 +820,9 @@ class BP_XProfile_User_Admin {
 			// Now we've checked for required fields, let's save the values.
 			foreach ( (array) $posted_field_ids as $field_id ) {
 
-				// Certain types of fields (checkboxes, multiselects) may come through empty. Save them as an empty array so that they don't get overwritten by the default on the next edit.
+				// Certain types of fields (checkboxes, multiselects) may come
+				// through empty. Save them as an empty array so that they don't
+				// get overwritten by the default on the next edit.
 				$value = isset( $_POST['field_' . $field_id] ) ? $_POST['field_' . $field_id] : '';
 
 				if ( ! xprofile_set_field_data( $field_id, $user_id, $value, $is_required[ $field_id ] ) ) {
