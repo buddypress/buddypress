@@ -229,20 +229,36 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 function xprofile_admin_manage_group( $group_id = null ) {
 	global $message, $type;
 
+	// Get the field group
 	$group = new BP_XProfile_Group( $group_id );
 
+	// Updating
 	if ( isset( $_POST['save_group'] ) ) {
-		if ( BP_XProfile_Group::admin_validate( $_POST ) ) {
-			$group->name		= wp_filter_kses( $_POST['group_name'] );
-			$group->description	= !empty( $_POST['group_description'] ) ? wp_filter_kses( $_POST['group_description'] ) : '';
 
-			if ( !$group->save() ) {
+		// Validate $_POSTed data
+		if ( BP_XProfile_Group::admin_validate() ) {
+
+			// Set the group name
+			$group->name = $_POST['group_name'];
+
+			// Set the group description
+			if ( ! empty( $_POST['group_description'] ) ) {
+				$group->description = $_POST['group_description'];
+			} else {
+				$group->description = '';
+			}
+
+			// Attempt to save the field group
+			if ( false === $group->save() ) {
 				$message = __( 'There was an error saving the group. Please try again.', 'buddypress' );
 				$type    = 'error';
+
+			// Save successful
 			} else {
 				$message = __( 'The group was saved successfully.', 'buddypress' );
 				$type    = 'success';
 
+				// @todo remove these old options
 				if ( 1 == $group_id ) {
 					bp_update_option( 'bp-xprofile-base-group-name', $group->name );
 				}

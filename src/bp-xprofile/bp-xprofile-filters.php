@@ -55,6 +55,10 @@ add_filter( 'bp_xprofile_set_field_data_pre_validate',  'xprofile_filter_pre_val
 add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 4 );
 add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
 
+// Save filters
+add_filter( 'xprofile_group_name_before_save',        'wp_filter_kses' );
+add_filter( 'xprofile_group_description_before_save', 'wp_filter_kses' );
+
 /**
  * xprofile_filter_kses ( $content )
  *

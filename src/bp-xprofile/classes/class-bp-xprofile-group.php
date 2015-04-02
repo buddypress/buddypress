@@ -113,6 +113,7 @@ class BP_XProfile_Group {
 	public function save() {
 		global $wpdb;
 
+		// Filter the field group attributes
 		$this->name        = apply_filters( 'xprofile_group_name_before_save',        $this->name,        $this->id );
 		$this->description = apply_filters( 'xprofile_group_description_before_save', $this->description, $this->id );
 
