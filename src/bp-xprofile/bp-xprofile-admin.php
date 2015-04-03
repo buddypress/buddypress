@@ -120,7 +120,6 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 									<?php _e( '(Primary)', 'buddypress'); ?>
 								<?php endif; ?>
 
-								<span class="spinner"></span>
 							</a>
 						</li>
 
@@ -372,6 +371,13 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 					bp_xprofile_update_field_meta( $field_id, 'allow_custom_visibility', $_POST['allow-custom-visibility'] );
 				}
 
+				// Validate signup
+				if ( ! empty( $_POST['signup-position'] ) ) {
+					bp_xprofile_update_field_meta( $field_id, 'signup_position', (int) $_POST['signup-position'] );
+				} else {
+					bp_xprofile_delete_meta( $field_id, 'field', 'signup_position' );
+				}
+
 				/**
 				 * Fires at the end of the process to save a field for a user, if successful.
 				 *
@@ -489,8 +495,11 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
-				<?php if ( ! $field->can_delete ) : ?> <?php _e( '(Primary)', 'buddypress' ); endif; ?>
-				<?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(Required)', 'buddypress' ) ?><?php endif; ?>
+
+				<?php if ( empty( $field->can_delete )                                    ) : ?><?php esc_html_e( '(Primary)',  'buddypress' ); endif; ?>
+				<?php if ( bp_get_the_profile_field_is_required()                         ) : ?><?php esc_html_e( '(Required)', 'buddypress' ); endif; ?>
+				<?php if ( bp_xprofile_get_meta( $field->id, 'field', 'signup_position' ) ) : ?><?php esc_html_e( '(Sign-up)',  'buddypress' ); endif; ?>
+
 				<?php
 
 				/**
