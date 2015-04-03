@@ -10,6 +10,13 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * The main profile template loop class.
+ *
+ * This is responsible for loading profile field, group, and data and displaying it.
+ *
+ * @since BuddyPress (1.0.0)
+ */
 class BP_XProfile_Data_Template {
 
     /**
@@ -377,8 +384,9 @@ function bp_field_css_class( $class = false ) {
 
 		$css_classes = array();
 
-		if ( $class )
+		if ( empty( $class ) ) {
 			$css_classes[] = sanitize_title( esc_attr( $class ) );
+		}
 
 		// Set a class with the field ID
 		$css_classes[] = 'field_' . $profile_template->field->id;
@@ -396,8 +404,9 @@ function bp_field_css_class( $class = false ) {
 		// Add the field visibility level
 		$css_classes[] = 'visibility-' . esc_attr( bp_get_the_profile_field_visibility_level() );
 
-		if ( $profile_template->current_field % 2 == 1 )
+		if ( $profile_template->current_field % 2 == 1 ) {
 			$css_classes[] = 'alt';
+		}
 
 		$css_classes[] = 'field_type_' . sanitize_title( $profile_template->field->type );
 
@@ -428,8 +437,9 @@ function bp_field_has_data() {
 function bp_field_has_public_data() {
 	global $profile_template;
 
-	if ( $profile_template->field_has_data )
+	if ( ! empty( $profile_template->field_has_data ) ) {
 		return true;
+	}
 
 	return false;
 }
@@ -643,19 +653,20 @@ function bp_the_profile_field_edit_value() {
 		 * Check to see if the posted value is different, if it is re-display this
 		 * value as long as it's not empty and a required field.
 		 */
-		if ( !isset( $field->data ) ) {
+		if ( ! isset( $field->data ) ) {
 			$field->data = new stdClass;
 		}
 
-		if ( !isset( $field->data->value ) ) {
+		if ( ! isset( $field->data->value ) ) {
 			$field->data->value = '';
 		}
 
 		if ( isset( $_POST['field_' . $field->id] ) && $field->data->value != $_POST['field_' . $field->id] ) {
-			if ( !empty( $_POST['field_' . $field->id] ) )
+			if ( ! empty( $_POST['field_' . $field->id] ) ) {
 				$field->data->value = $_POST['field_' . $field->id];
-			else
+			} else {
 				$field->data->value = '';
+			}
 		}
 
 		$field_value = isset( $field->data->value ) ? bp_unserialize_profile_field( $field->data->value ) : '';
@@ -788,8 +799,9 @@ function bp_the_profile_field_options( $args = array() ) {
 			$field_obj = new BP_XProfile_Field( $field->id );
 
 			foreach ( $field as $field_prop => $field_prop_value ) {
-				if ( ! isset( $field_obj->{$field_prop} ) )
+				if ( ! isset( $field_obj->{$field_prop} ) ) {
 					$field_obj->{$field_prop} = $field_prop_value;
+				}
 			}
 
 			$field = $field_obj;
@@ -813,12 +825,13 @@ function bp_the_profile_field_is_required() {
 		$retval = false;
 
 		// Super admins can skip required check
-		if ( bp_current_user_can( 'bp_moderate' ) && !is_admin() )
+		if ( bp_current_user_can( 'bp_moderate' ) && !is_admin() ) {
 			$retval = false;
 
 		// All other users will use the field's setting
-		elseif ( isset( $field->is_required ) )
+		} elseif ( isset( $field->is_required ) ) {
 			$retval = $field->is_required;
+		}
 
 		/**
 		 * Filters whether or not a profile field is required.
@@ -891,7 +904,7 @@ function bp_the_profile_field_visibility_level_label() {
 		 *
 		 * @param string $retval Field visibility level label.
 		 */
-		return apply_filters( 'bp_get_the_profile_field_visibility_level_label', $fields[$level]['label'] );
+		return apply_filters( 'bp_get_the_profile_field_visibility_level_label', $fields[ $level ]['label'] );
 	}
 
 
@@ -910,13 +923,10 @@ function bp_profile_field_data( $args = '' ) {
 }
 	function bp_get_profile_field_data( $args = '' ) {
 
-		$defaults = array(
+		$r = wp_parse_args( $args, array(
 			'field'   => false, // Field name or ID.
 			'user_id' => bp_displayed_user_id()
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		) );
 
 		/**
 		 * Filters the profile field data.
@@ -925,7 +935,7 @@ function bp_profile_field_data( $args = '' ) {
 		 *
 		 * @param mixed $value Profile data for a specific field for the user.
 		 */
-		return apply_filters( 'bp_get_profile_field_data', xprofile_get_field_data( $field, $user_id ) );
+		return apply_filters( 'bp_get_profile_field_data', xprofile_get_field_data( $r['field'], $r['user_id'] ) );
 	}
 
 /**
@@ -1078,7 +1088,7 @@ function bp_profile_last_updated() {
 
 	$last_updated = bp_get_profile_last_updated();
 
-	if ( !$last_updated ) {
+	if ( empty( $last_updated ) ) {
 		_e( 'Profile not recently updated', 'buddypress' ) . '.';
 	} else {
 		echo $last_updated;
@@ -1088,7 +1098,7 @@ function bp_profile_last_updated() {
 
 		$last_updated = bp_get_user_meta( bp_displayed_user_id(), 'profile_last_updated', true );
 
-		if ( $last_updated ) {
+		if ( ! empty( $last_updated ) ) {
 
 			/**
 			 * Filters the formatted string used to display when a profile was last updated.
@@ -1107,8 +1117,10 @@ function bp_current_profile_group_id() {
 	echo bp_get_current_profile_group_id();
 }
 	function bp_get_current_profile_group_id() {
-		if ( !$profile_group_id = bp_action_variable( 1 ) )
+		$profile_group_id = bp_action_variable( 1 );
+		if ( empty( $profile_group_id ) ) {
 			$profile_group_id = 1;
+		}
 
 		/**
 		 * Filters the current profile group ID.
@@ -1141,7 +1153,7 @@ function bp_avatar_delete_link() {
 function bp_edit_profile_button() {
 	$bp = buddypress();
 
-	bp_button( array (
+	bp_button( array(
 		'id'                => 'edit_profile',
 		'component'         => 'xprofile',
 		'must_be_logged_in' => true,
