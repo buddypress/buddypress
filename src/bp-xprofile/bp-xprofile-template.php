@@ -11,6 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 class BP_XProfile_Data_Template {
+
     /**
      * The loop iterator.
      *
@@ -101,38 +102,83 @@ class BP_XProfile_Data_Template {
      */
 	public $user_id;
 
-	function __construct( $user_id, $profile_group_id, $hide_empty_groups = false, $fetch_fields = false, $fetch_field_data = false, $exclude_groups = false, $exclude_fields = false, $hide_empty_fields = false, $fetch_visibility_level = false, $update_meta_cache = true ) {
-		$this->groups = bp_xprofile_get_groups( array(
-			'profile_group_id'    => $profile_group_id,
-			'user_id'             => $user_id,
-			'hide_empty_groups'   => $hide_empty_groups,
-			'hide_empty_fields'   => $hide_empty_fields,
-			'fetch_fields'        => $fetch_fields,
-			'fetch_field_data'    => $fetch_field_data,
-			'fetch_visibility_level' => $fetch_visibility_level,
-			'exclude_groups'      => $exclude_groups,
-			'exclude_fields'      => $exclude_fields,
-			'update_meta_cache'   => $update_meta_cache,
+	/**
+	 * Get activity items, as specified by parameters
+	 *
+	 * @param array $args {
+	 *     An array of arguments. All items are optional.
+	 *
+	 *     @type int       $user_id                 Fetch field data for this user ID
+	 *     @type int       $profile_group_id        Field group to fetch fields & data for
+	 *     @type int|bool  $hide_empty_groups       Should empty field groups be skipped
+	 *     @type int|bool  $fetch_fields            Fetch fields for field group
+	 *     @type int|bool  $fetch_field_data        Fetch field data for fields in group
+	 *     @type array     $exclude_groups          Exclude these field groups
+	 *     @type array     $exclude_fields          Exclude these fields
+	 *     @type int|bool  $hide_empty_fields       Should empty fields be skipped
+	 *     @type int|bool  $fetch_visibility_level  Fetch visibility levels
+	 *     @type int|bool  $update_meta_cache       Should metadata cache be updated
+	 * }
+	 * @return array The array returned has two keys:
+	 *     - 'total' is the count of located activities
+	 *     - 'activities' is an array of the located activities
+	 */
+	public function __construct( $args = '' ) {
+
+		// Backward compatibility with old method of passing arguments
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '2.3.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = array(
+				0 => 'user_id',
+				1 => 'profile_group_id',
+				2 => 'hide_empty_groups',
+				3 => 'fetch_fields',
+				4 => 'fetch_field_data',
+				5 => 'exclude_groups',
+				6 => 'exclude_fields',
+				7 => 'hide_empty_fields',
+				8 => 'fetch_visibility_level',
+				9 => 'update_meta_cache'
+			);
+
+			$func_args = func_get_args();
+			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+		}
+
+		$r = wp_parse_args( $args, array(
+			'profile_group_id'       => false,
+			'user_id'                => false,
+			'hide_empty_groups'      => false,
+			'hide_empty_fields'      => false,
+			'fetch_fields'           => false,
+			'fetch_field_data'       => false,
+			'fetch_visibility_level' => false,
+			'exclude_groups'         => false,
+			'exclude_fields'         => false,
+			'update_meta_cache'      => true
 		) );
 
-		$this->group_count = count($this->groups);
-		$this->user_id = $user_id;
+		$this->groups      = bp_xprofile_get_groups( $r );
+		$this->group_count = count( $this->groups );
+		$this->user_id     = $r['user_id'];
 	}
 
-	function has_groups() {
-		if ( $this->group_count )
+	public function has_groups() {
+		if ( ! empty( $this->group_count ) ) {
 			return true;
+		}
 
 		return false;
 	}
 
-	function next_group() {
+	public function next_group() {
 		$this->current_group++;
 
-		$this->group       = $this->groups[$this->current_group];
+		$this->group       = $this->groups[ $this->current_group ];
 		$this->field_count = 0;
 
-		if( ! empty( $this->group->fields ) ) {
+		if ( ! empty( $this->group->fields ) ) {
 
 			/**
 			 * Filters the group fields for the next_group method.
@@ -149,14 +195,14 @@ class BP_XProfile_Data_Template {
 		return $this->group;
 	}
 
-	function rewind_groups() {
+	public function rewind_groups() {
 		$this->current_group = -1;
 		if ( $this->group_count > 0 ) {
 			$this->group = $this->groups[0];
 		}
 	}
 
-	function profile_groups() {
+	public function profile_groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
 		} elseif ( $this->current_group + 1 == $this->group_count ) {
@@ -166,7 +212,8 @@ class BP_XProfile_Data_Template {
 			 *
 			 * @since BuddyPress (1.1.0)
 			 */
-			do_action('xprofile_template_loop_end');
+			do_action( 'xprofile_template_loop_end' );
+
 			// Do some cleaning up after the loop
 			$this->rewind_groups();
 		}
@@ -175,56 +222,56 @@ class BP_XProfile_Data_Template {
 		return false;
 	}
 
-	function the_profile_group() {
+	public function the_profile_group() {
 		global $group;
 
 		$this->in_the_loop = true;
 		$group = $this->next_group();
 
-		if ( 0 == $this->current_group ) // loop has just started
+		// loop has just started
+		if ( 0 === $this->current_group ) {
 
 			/**
 			 * Fires if the current group is the first in the loop.
 			 *
 			 * @since BuddyPress (1.1.0)
 			 */
-			do_action('xprofile_template_loop_start');
+			do_action( 'xprofile_template_loop_start' );
+		}
 	}
 
-	/**** FIELDS ****/
+	/** Fields ****************************************************************/
 
-	function next_field() {
+	public function next_field() {
 		$this->current_field++;
 
-		$this->field = $this->group->fields[$this->current_field];
+		$this->field = $this->group->fields[ $this->current_field ];
+
 		return $this->field;
 	}
 
-	function rewind_fields() {
+	public function rewind_fields() {
 		$this->current_field = -1;
 		if ( $this->field_count > 0 ) {
 			$this->field = $this->group->fields[0];
 		}
 	}
 
-	function has_fields() {
+	public function has_fields() {
 		$has_data = false;
 
 		for ( $i = 0, $count = count( $this->group->fields ); $i < $count; ++$i ) {
-			$field = &$this->group->fields[$i];
+			$field = &$this->group->fields[ $i ];
 
-			if ( !empty( $field->data ) && $field->data->value != null ) {
+			if ( ! empty( $field->data ) && ( $field->data->value != null ) ) {
 				$has_data = true;
 			}
 		}
 
-		if ( $has_data )
-			return true;
-
-		return false;
+		return $has_data;
 	}
 
-	function profile_fields() {
+	public function profile_fields() {
 		if ( $this->current_field + 1 < $this->field_count ) {
 			return true;
 		} elseif ( $this->current_field + 1 == $this->field_count ) {
@@ -235,19 +282,19 @@ class BP_XProfile_Data_Template {
 		return false;
 	}
 
-	function the_profile_field() {
+	public function the_profile_field() {
 		global $field;
 
 		$field = $this->next_field();
 
 		// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
-		if ( ! empty( $field->data ) && ( ! empty( $field->data->value ) || '0' == $field->data->value ) ) {
+		if ( ! empty( $field->data ) && ( ! empty( $field->data->value ) || ( '0' === $field->data->value ) ) ) {
 			$value = maybe_unserialize( $field->data->value );
 		} else {
 			$value = false;
 		}
 
-		if ( ! empty( $value ) || '0' == $value ) {
+		if ( ! empty( $value ) || ( '0' === $value ) ) {
 			$this->field_has_data = true;
 		} else {
 			$this->field_has_data = false;
@@ -294,18 +341,7 @@ function bp_has_profile( $args = '' ) {
 	), 'has_profile' );
 
 	// Populate the template loop global
-	$profile_template = new BP_XProfile_Data_Template(
-		$r['user_id'],
-		$r['profile_group_id'],
-		$r['hide_empty_groups'],
-		$r['fetch_fields'],
-		$r['fetch_field_data'],
-		$r['exclude_groups'],
-		$r['exclude_fields'],
-		$r['hide_empty_fields'],
-		$r['fetch_visibility_level'],
-		$r['update_meta_cache']
-	);
+	$profile_template = new BP_XProfile_Data_Template( $r );
 
 	/**
 	 * Filters whether or not a group has a profile to display.
