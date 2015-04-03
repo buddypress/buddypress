@@ -19,7 +19,7 @@ class BP_XProfile_Data_Template {
      * @var int
      */
 	public $current_group = -1;
-	
+
     /**
      * The number of groups returned by the paged query.
      *
@@ -28,7 +28,7 @@ class BP_XProfile_Data_Template {
      * @var int
      */
 	public $group_count;
-	
+
     /**
      * Array of groups located by the query.
      *
@@ -37,7 +37,7 @@ class BP_XProfile_Data_Template {
      * @var array
      */
 	public $groups;
-	
+
     /**
      * The group object currently being iterated on.
      *
@@ -55,7 +55,7 @@ class BP_XProfile_Data_Template {
      * @var int
      */
 	public $current_field = -1;
-	
+
     /**
      * The field count.
      *
@@ -64,7 +64,7 @@ class BP_XProfile_Data_Template {
      * @var int
      */
 	public $field_count;
-	
+
     /**
      * Field has data.
      *
@@ -73,7 +73,7 @@ class BP_XProfile_Data_Template {
      * @var bool
      */
 	public $field_has_data;
-	
+
     /**
      * The field.
      *
@@ -91,7 +91,7 @@ class BP_XProfile_Data_Template {
      * @var bool
      */
 	public $in_the_loop;
-	
+
     /**
      * The user ID.
      *
@@ -920,28 +920,60 @@ function bp_profile_has_multiple_groups() {
 /**
  * Output the tabs to switch between profile field groups.
  *
+ * @since BuddyPress (1.0.0)
+ *
  * @return string Field group tabs markup.
  */
 function bp_profile_group_tabs() {
-	global $group_name;
+	echo bp_get_profile_group_tabs();
 
-	$bp     = buddypress();
-	$groups = bp_profile_get_field_groups();
+	/**
+	 * Fires at the end of the tab output for switching between profile field
+	 * groups. This action is in a strange place for legacy reasons.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 */
+	do_action( 'xprofile_profile_group_tabs' );
+}
 
-	if ( empty( $group_name ) )
-		$group_name = bp_profile_group_name(false);
+/**
+ * Return the XProfile group tabs
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @return string
+ */
+function bp_get_profile_group_tabs() {
 
-	$tabs = array();
+	// Get field group data
+	$groups     = bp_profile_get_field_groups();
+	$group_name = bp_get_profile_group_name();
+	$tabs       = array();
+
+	// Loop through field groups and put a tab-lst together
 	for ( $i = 0, $count = count( $groups ); $i < $count; ++$i ) {
-		if ( $group_name == $groups[$i]->name )
-			$selected = ' class="current"';
-		else
-			$selected = '';
 
-		if ( !empty( $groups[$i]->fields ) ) {
-			$link = trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . $groups[$i]->id );
-			$tabs[] = sprintf( '<li %1$s><a href="%2$s">%3$s</a></li>', $selected, $link, esc_html( $groups[$i]->name ) );
+		// Setup the selected class
+		$selected = '';
+		if ( $group_name === $groups[ $i ]->name ) {
+			$selected = ' class="current"';
 		}
+
+		// Skip if group has no fields
+		if ( empty( $groups[ $i ]->fields ) ) {
+			continue;
+		}
+
+		// Build the profile field group link
+		$link   = trailingslashit( bp_displayed_user_domain() . buddypress()->profile->slug . '/edit/group/' . $groups[ $i ]->id );
+
+		// Add tab to end of tabs array
+		$tabs[] = sprintf(
+			'<li %1$s><a href="%2$s">%3$s</a></li>',
+			$selected,
+			esc_url( $link ),
+			esc_html( apply_filters( 'bp_get_the_profile_group_name', $groups[ $i ]->name ) )
+		);
 	}
 
 	/**
@@ -954,15 +986,8 @@ function bp_profile_group_tabs() {
 	 * @param string $group_name Name of the current group displayed.
 	 */
 	$tabs = apply_filters( 'xprofile_filter_profile_group_tabs', $tabs, $groups, $group_name );
-	foreach ( (array) $tabs as $tab )
-		echo $tab;
 
-	/**
-	 * Fires at the end of the tab output for switching between profile field groups.
-	 *
-	 * @since BuddyPress (1.0.0)
-	 */
-	do_action( 'xprofile_profile_group_tabs' );
+	return join( '', $tabs );
 }
 
 function bp_profile_group_name( $deprecated = true ) {
