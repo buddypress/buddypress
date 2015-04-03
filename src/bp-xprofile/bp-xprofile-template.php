@@ -255,12 +255,22 @@ class BP_XProfile_Data_Template {
 	}
 }
 
+/**
+ * Query for XProfile groups and fields
+ *
+ * @since BuddyPress (1.0.0)
+ *
+ * @global object $profile_template
+ * @param  array  $args
+ *
+ * @return bool
+ */
 function bp_has_profile( $args = '' ) {
 	global $profile_template;
 
-	// Only show empty fields if we're on the Dashboard, or we're on a user's profile edit page,
-	// or this is a registration page
-	$hide_empty_fields_default = ( !is_network_admin() && !is_admin() && !bp_is_user_profile_edit() && !bp_is_register_page() );
+	// Only show empty fields if we're on the Dashboard, or we're on a user's
+	// profile edit page, or this is a registration page
+	$hide_empty_fields_default = ( ! is_network_admin() && ! is_admin() && ! bp_is_user_profile_edit() && ! bp_is_register_page() );
 
 	// We only need to fetch visibility levels when viewing your own profile
 	if ( bp_is_my_profile() || bp_current_user_can( 'bp_moderate' ) || bp_is_register_page() ) {
@@ -269,23 +279,33 @@ function bp_has_profile( $args = '' ) {
 		$fetch_visibility_level_default = false;
 	}
 
-	$defaults = array(
-		'user_id'             => bp_displayed_user_id(),
-		'profile_group_id'    => false,
-		'hide_empty_groups'   => true,
-		'hide_empty_fields'   => $hide_empty_fields_default,
-		'fetch_fields'        => true,
-		'fetch_field_data'    => true,
+	// Parse arguments
+	$r = bp_parse_args( $args, array(
+		'user_id'                => bp_displayed_user_id(),
+		'profile_group_id'       => false,
+		'hide_empty_groups'      => true,
+		'hide_empty_fields'      => $hide_empty_fields_default,
+		'fetch_fields'           => true,
+		'fetch_field_data'       => true,
 		'fetch_visibility_level' => $fetch_visibility_level_default,
-		'exclude_groups'      => false, // Comma-separated list of profile field group IDs to exclude
-		'exclude_fields'      => false,  // Comma-separated list of profile field IDs to exclude
-		'update_meta_cache'   => true,
+		'exclude_groups'         => false, // Comma-separated list of profile field group IDs to exclude
+		'exclude_fields'         => false, // Comma-separated list of profile field IDs to exclude
+		'update_meta_cache'      => true,
+	), 'has_profile' );
+
+	// Populate the template loop global
+	$profile_template = new BP_XProfile_Data_Template(
+		$r['user_id'],
+		$r['profile_group_id'],
+		$r['hide_empty_groups'],
+		$r['fetch_fields'],
+		$r['fetch_field_data'],
+		$r['exclude_groups'],
+		$r['exclude_fields'],
+		$r['hide_empty_fields'],
+		$r['fetch_visibility_level'],
+		$r['update_meta_cache']
 	);
-
-	$r = bp_parse_args( $args, $defaults, 'has_profile' );
-	extract( $r, EXTR_SKIP );
-
-	$profile_template = new BP_XProfile_Data_Template( $user_id, $profile_group_id, $hide_empty_groups, $fetch_fields, $fetch_field_data, $exclude_groups, $exclude_fields, $hide_empty_fields, $fetch_visibility_level, $update_meta_cache );
 
 	/**
 	 * Filters whether or not a group has a profile to display.
