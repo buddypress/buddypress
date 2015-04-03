@@ -384,7 +384,7 @@ function bp_field_css_class( $class = false ) {
 
 		$css_classes = array();
 
-		if ( empty( $class ) ) {
+		if ( ! empty( $class ) ) {
 			$css_classes[] = sanitize_title( esc_attr( $class ) );
 		}
 
