@@ -126,9 +126,6 @@ class BP_XProfile_Data_Template {
 	 *     @type int|bool  $fetch_visibility_level  Fetch visibility levels
 	 *     @type int|bool  $update_meta_cache       Should metadata cache be updated
 	 * }
-	 * @return array The array returned has two keys:
-	 *     - 'total' is the count of located activities
-	 *     - 'activities' is an array of the located activities
 	 */
 	public function __construct( $args = '' ) {
 
