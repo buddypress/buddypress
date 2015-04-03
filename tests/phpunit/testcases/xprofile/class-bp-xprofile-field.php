@@ -4,6 +4,10 @@
  * @group BP_XProfile_Field
  */
 class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
+	
+	/**
+	 * @group xprofile_field_save
+	 */
 	public function test_can_delete_save() {
 		$group = $this->factory->xprofile_group->create();
 		$field = $this->factory->xprofile_field->create( array(
