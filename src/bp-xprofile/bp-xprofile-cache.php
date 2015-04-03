@@ -55,88 +55,122 @@ function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array(
 function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	global $wpdb;
 
+	// Bail if no objects
 	if ( empty( $object_ids ) ) {
 		return false;
 	}
 
-	// $object_ids is a multi-dimensional array
+	$bp = buddypress();
+
+	// Define the array where uncached object IDs will be stored
 	$uncached_object_ids = array(
-		'group' => array(),
-		'field' => array(),
-		'data'  => array(),
+		'group',
+		'field',
+		'data'
 	);
 
+	// Define the cache groups for the 3 types of XProfile metadata
 	$cache_groups = array(
 		'group' => 'xprofile_group_meta',
 		'field' => 'xprofile_field_meta',
 		'data'  => 'xprofile_data_meta',
 	);
 
+	// No reason to query yet
 	$do_query = false;
-	foreach ( $uncached_object_ids as $object_type => $uncached_object_type_ids ) {
-		if ( ! empty( $object_ids[ $object_type ] ) ) {
 
-			// Sanitize $object_ids passed to the function
-			$object_type_ids = wp_parse_id_list( $object_ids[ $object_type ] );
+	// Loop through object types and look for uncached data
+	foreach ( $uncached_object_ids as $object_type ) {
 
-			// Get non-cached IDs for each object type
-			$uncached_object_ids[ $object_type ] = bp_get_non_cached_ids( $object_type_ids, $cache_groups[ $object_type ] );
+		// Skip if empty object type
+		if ( empty( $object_ids[ $object_type ] ) ) {
+			continue;
+		}
 
-			// Set the flag to do the meta query
-			if ( ! empty( $uncached_object_ids[ $object_type ] ) && ! $do_query ) {
-				$do_query = true;
-			}
+		// Sanitize $object_ids passed to the function
+		$object_type_ids = wp_parse_id_list( $object_ids[ $object_type ] );
+
+		// Get non-cached IDs for each object type
+		$uncached_object_ids[ $object_type ] = bp_get_non_cached_ids( $object_type_ids, $cache_groups[ $object_type ] );
+
+		// Set the flag to do the meta query
+		if ( ! empty( $uncached_object_ids[ $object_type ] ) && ( false === $do_query ) ) {
+			$do_query = true;
 		}
 	}
 
-	// If there are uncached items, go ahead with the query
-	if ( true === $do_query ) {
-		$where = array();
-		foreach ( $uncached_object_ids as $otype => $oids ) {
-			if ( empty( $oids ) ) {
-				continue;
-			}
-
-			$oids_sql = implode( ',', wp_parse_id_list( $oids ) );
-			$where[]  = $wpdb->prepare( "( object_type = %s AND object_id IN ({$oids_sql}) )", $otype );
-		}
-		$where_sql = implode( " OR ", $where );
+	// Bail if no uncached items
+	if ( false === $do_query ) {
+		return;
 	}
 
+	// Setup where conditions for query
+	$where_sql        = '';
+	$where_conditions = array();
 
-	$bp        = buddypress();
-	$cache     = array();
+	// Loop through uncached objects and prepare to query for them
+	foreach ( $uncached_object_ids as $otype => $oids ) {
+
+		// Skip empty object IDs
+		if ( empty( $oids ) ) {
+			continue;
+		}
+
+		// Compile WHERE query conditions for uncached metadata
+		$oids_sql           = implode( ',', wp_parse_id_list( $oids ) );
+		$where_conditions[] = $wpdb->prepare( "( object_type = %s AND object_id IN ({$oids_sql}) )", $otype );
+	}
+
+	// Bail if no where conditions
+	if ( empty( $where_conditions ) ) {
+		return;
+	}
+
+	// Setup the WHERE query part
+	$where_sql = implode( " OR ", $where_conditions );
+
+	// Attempt to query meta values
 	$meta_list = $wpdb->get_results( "SELECT object_id, object_type, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE {$where_sql}" );
 
-	if ( ! empty( $meta_list ) ) {
-		foreach ( $meta_list as $meta ) {
-			$oid    = $meta->object_id;
-			$otype  = $meta->object_type;
-			$okey   = $meta->meta_key;
-			$ovalue = $meta->meta_value;
-
-			// Force subkeys to be array type
-			if ( ! isset( $cache[ $otype ][ $oid ] ) || ! is_array( $cache[ $otype ][ $oid ] ) ) {
-				$cache[ $otype ][ $oid ] = array();
-			}
-
-			if ( ! isset( $cache[ $otype ][ $oid ][ $okey ] ) || ! is_array( $cache[ $otype ][ $oid ][ $okey ] ) ) {
-				$cache[ $otype ][ $oid ][ $okey ] = array();
-			}
-
-			// Add to the cache array
-			$cache[ $otype ][ $oid ][ $okey ][] = maybe_unserialize( $ovalue );
-		}
-
-		foreach ( $cache as $object_type => $object_caches ) {
-			$cache_group = $cache_groups[ $object_type ];
-			foreach ( $object_caches as $object_id => $object_cache ) {
-				wp_cache_set( $object_id, $object_cache, $cache_group );
-			}
-		}
+	// Bail if no results found
+	if ( empty( $meta_list ) || is_wp_error( $meta_list ) ) {
+		return;
 	}
 
-	return;
+	// Setup empty cache array
+	$cache = array();
+
+	// Loop through metas
+	foreach ( $meta_list as $meta ) {
+		$oid    = $meta->object_id;
+		$otype  = $meta->object_type;
+		$okey   = $meta->meta_key;
+		$ovalue = $meta->meta_value;
+
+		// Force subkeys to be array type
+		if ( ! isset( $cache[ $otype ][ $oid ] ) || ! is_array( $cache[ $otype ][ $oid ] ) ) {
+			$cache[ $otype ][ $oid ] = array();
+		}
+
+		if ( ! isset( $cache[ $otype ][ $oid ][ $okey ] ) || ! is_array( $cache[ $otype ][ $oid ][ $okey ] ) ) {
+			$cache[ $otype ][ $oid ][ $okey ] = array();
+		}
+
+		// Add to the cache array
+		$cache[ $otype ][ $oid ][ $okey ][] = maybe_unserialize( $ovalue );
+	}
+
+	// Loop through data and cache to the appropriate object
+	foreach ( $cache as $object_type => $object_caches ) {
+
+		// Determine the cache group for this data
+		$cache_group = $cache_groups[ $object_type ];
+
+		// Loop through objects and cache appropriately
+		foreach ( $object_caches as $object_id => $object_cache ) {
+			wp_cache_set( $object_id, $object_cache, $cache_group );
+		}
+	}
 }
 
 /**
