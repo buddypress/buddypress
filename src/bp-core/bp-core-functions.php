@@ -89,6 +89,15 @@ function bp_db_version_raw() {
 function bp_core_get_table_prefix() {
 	global $wpdb;
 
+	/**
+	 * Filters the $wpdb base prefix.
+	 *
+	 * Intended primarily for use in multinetwork installations.
+	 *
+	 * @since BuddyPress (1.2.6)
+	 *
+	 * @param string $base_prefix Base prefix to use.
+	 */
 	return apply_filters( 'bp_core_get_table_prefix', $wpdb->base_prefix );
 }
 
@@ -171,6 +180,15 @@ function bp_core_number_format( $number = 0, $decimals = false ) {
 		$number = 0;
 	}
 
+	/**
+	 * Filters the BuddyPress formatted number.
+	 *
+	 * @since BuddyPress (1.2.4)
+	 *
+	 * @param string $value    BuddyPress formatted value.
+	 * @param int    $number   The number to be formatted.
+	 * @param bool   $decimals Whether or not to use decimals.
+	 */
 	return apply_filters( 'bp_core_number_format', number_format_i18n( $number, $decimals ), $number, $decimals );
 }
 
@@ -250,6 +268,16 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 
 	// Passively filter the args before the parse
 	if ( !empty( $filter_key ) ) {
+
+		/**
+		 * Filters the arguments key before parsing if filter key provided.
+		 *
+		 * This is a dynamic filter dependent on the specified key.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $r Array of arguments to use.
+		 */
 		$r = apply_filters( 'bp_before_' . $filter_key . '_parse_args', $r );
 	}
 
@@ -260,6 +288,16 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 
 	// Aggressively filter the args after the parse
 	if ( !empty( $filter_key ) ) {
+
+		/**
+		 * Filters the arguments key after parsing if filter key provided.
+		 *
+		 * This is a dynamic filter dependent on the specified key.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $r Array of parsed arguments.
+		 */
 		$r = apply_filters( 'bp_after_' . $filter_key . '_parse_args', $r );
 	}
 
@@ -350,6 +388,14 @@ function bp_esc_like( $text ) {
  *         Default: false.
  */
 function bp_is_username_compatibility_mode() {
+
+	/**
+	 * Filters whether or not to use username compatibility mode.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $value Whether or not username compatibility mode should be used.
+	 */
 	return apply_filters( 'bp_is_username_compatibility_mode', defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) && BP_ENABLE_USERNAME_COMPATIBILITY_MODE );
 }
 
@@ -379,6 +425,13 @@ function bp_use_wp_admin_bar() {
 		$use_admin_bar = false;
 	}
 
+	/**
+	 * Filters whether or not to use the admin bar.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $use_admin_bar Whether or not to use the admin bar.
+	 */
 	return (bool) apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
 }
 
@@ -452,6 +505,13 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 		}
 	}
 
+	/**
+	 * Filters the list of BP directory pages from the appropriate meta table.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param array $page_ids Array of directory pages.
+	 */
 	return apply_filters( 'bp_core_get_directory_page_ids', $page_ids );
 }
 
@@ -529,6 +589,13 @@ function bp_core_get_directory_pages() {
 		wp_cache_set( 'directory_pages', $pages, 'bp' );
 	}
 
+	/**
+	 * Filters the names and slugs for BuddyPress component directory pages.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param object $pages Object holding page names and slugs.
+	 */
 	return apply_filters( 'bp_core_get_directory_pages', $pages );
 }
 
@@ -687,6 +754,14 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
 	$slug_chunks = explode( '/', $root_slug );
  	$slug        = array_pop( $slug_chunks );
 
+	/**
+	 * Filters the default component slug from a WP page root_slug.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $slug      Short slug for use in the middle of URLs.
+	 * @param string $root_slug The root slug which comes from $bp->pages-[component]->slug.
+	 */
  	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug );
 }
 
@@ -797,6 +872,13 @@ function bp_do_register_theme_directory() {
 		$register = true;
 	}
 
+	/**
+	 * Filters whether BuddyPress should register the bp-themes directory.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param bool $register If bp-themes should be registered.
+	 */
 	return apply_filters( 'bp_do_register_theme_directory', $register );
 }
 
@@ -815,6 +897,13 @@ function bp_core_get_root_domain() {
 
 	$domain = get_home_url( bp_get_root_blog_id() );
 
+	/**
+	 * Filters the domain for the root blog.
+	 *
+	 * @since BuddyPress (1.0.1)
+	 *
+	 * @param string $domain The domain URL for the blog.
+	 */
 	return apply_filters( 'bp_core_get_root_domain', $domain );
 }
 
@@ -869,7 +958,7 @@ function bp_get_referer_path() {
 }
 
 /**
- * Get the path of of the current site.
+ * Get the path of the current site.
  *
  * @global object $current_site
  *
@@ -899,6 +988,13 @@ function bp_core_get_site_path() {
 		}
 	}
 
+	/**
+	 * Filters the path of the current site.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $site_path URL to the current site.
+	 */
 	return apply_filters( 'bp_core_get_site_path', $site_path );
 }
 
@@ -915,6 +1011,14 @@ function bp_core_get_site_path() {
  * @return string Current time in 'Y-m-d h:i:s' format.
  */
 function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
+
+	/**
+	 * Filters the current GMT time to save into the DB.
+	 *
+	 * @since BuddyPress (1.2.6)
+	 *
+	 * @param string $value Current GMT time.
+	 */
 	return apply_filters( 'bp_core_current_time', current_time( $type, $gmt ) );
 }
 
@@ -946,15 +1050,45 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
-	// Use this filter to bypass BuddyPress's time_since calculations
+	/**
+	 * Filters whether or not to bypass BuddyPress' time_since calculations.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param bool   $value      Whether or not to bypass.
+	 * @param string $older_date Earlier time from which we're calculating time elapsed.
+	 * @param string $newer_date Unix timestamp of date to compare older time to.
+	 */
 	$pre_value = apply_filters( 'bp_core_time_since_pre', false, $older_date, $newer_date );
 	if ( false !== $pre_value ) {
 		return $pre_value;
 	}
 
-	// Setup the strings
+	/**
+	 * Filters the value to use if the time since is unknown.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $value String representing the time since the older date.
+	 */
 	$unknown_text   = apply_filters( 'bp_core_time_since_unknown_text',   __( 'sometime',  'buddypress' ) );
+
+	/**
+	 * Filters the value to use if the time since is right now.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $value String representing the time since the older date.
+	 */
 	$right_now_text = apply_filters( 'bp_core_time_since_right_now_text', __( 'right now', 'buddypress' ) );
+
+	/**
+	 * Filters the value to use if the time since is some time ago.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $value String representing the time since the older date.
+	 */
 	$ago_text       = apply_filters( 'bp_core_time_since_ago_text',       __( '%s ago',    'buddypress' ) );
 
 	// array of time period chunks
@@ -1085,6 +1219,15 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		$output = sprintf( $ago_text, $output );
 	}
 
+	/**
+	 * Filters the English-language representation of the time elapsed since a given date.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $output     Final 'time since' string.
+	 * @param string $older_date Earlier time from which we're calculating time elapsed.
+	 * @param string $newer_date Unix timestamp of date to compare older time to.
+	 */
 	return apply_filters( 'bp_core_time_since', $output, $older_date, $newer_date );
 }
 
@@ -1169,6 +1312,16 @@ function bp_core_render_message() {
 
 	if ( !empty( $bp->template_message ) ) :
 		$type    = ( 'success' === $bp->template_message_type ) ? 'updated' : 'error';
+
+		/**
+		 * Filters the 'template_notices' feedback message content.
+		 *
+		 * @since BuddyPress (1.5.5)
+		 *
+		 * @param string $template_message Feedback message content.
+		 * @param string $type             The type of message being displayed.
+		 *                                 Either 'updated' or 'error'.
+		 */
 		$content = apply_filters( 'bp_core_render_message_content', $bp->template_message, $type ); ?>
 
 		<div id="message" class="bp-template-notice <?php echo esc_attr( $type ); ?>">
@@ -1179,6 +1332,11 @@ function bp_core_render_message() {
 
 	<?php
 
+		/**
+		 * Fires after the display of any template_notices feedback messages.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
 		do_action( 'bp_core_render_message' );
 
 	endif;
@@ -1227,6 +1385,16 @@ function bp_core_record_activity() {
 
 	// Use this action to detect the very first activity for a given member
 	if ( empty( $activity ) ) {
+
+		/**
+		 * Fires inside the recording of an activity item.
+		 *
+		 * Use this action to detect the very first activity for a given member.
+		 *
+		 * @since BuddyPress (1.6.0)
+		 *
+		 * @param int $user_id ID of the user whose activity is recorded.
+		 */
 		do_action( 'bp_first_activity_for_member', $user_id );
 	}
 
@@ -1259,7 +1427,15 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 		? __( 'Not recently active', 'buddypress' )
 		: sprintf( $string, bp_core_time_since( $last_activity_date ) );
 
-	// Filter and return
+	/**
+	 * Filters last activity string based on time since date given.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $last_active        Last activity string based on time since date given.
+	 * @param string $last_activity_date The date of last activity.
+	 * @param string $string             A sprintf()-able statement of the form 'active %s'.
+	 */
 	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );
 }
 
@@ -1289,6 +1465,14 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
  * @return string $key The usermeta meta_key.
  */
 function bp_get_user_meta_key( $key = false ) {
+
+	/**
+	 * Filters the meta_key for a given piece of user metadata.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $key The usermeta meta key.
+	 */
 	return apply_filters( 'bp_get_user_meta_key', $key );
 }
 
@@ -1384,6 +1568,14 @@ add_action( 'bp_init', 'bp_embed_init', 9 );
  *         enabled. Default: true.
  */
 function bp_use_embed_in_activity() {
+
+	/**
+	 * Filters whether or not oEmbeds are allowed in activity items.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $value Whether or not oEmbeds are allowed.
+	 */
 	return apply_filters( 'bp_use_oembed_in_activity', !defined( 'BP_EMBED_DISABLE_ACTIVITY' ) || !BP_EMBED_DISABLE_ACTIVITY );
 }
 
@@ -1396,6 +1588,14 @@ function bp_use_embed_in_activity() {
  *         when enabled. Default: true.
  */
 function bp_use_embed_in_activity_replies() {
+
+	/**
+	 * Filters whether or not oEmbeds are allowed in activity replies.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $value Whether or not oEmbeds are allowed.
+	 */
 	return apply_filters( 'bp_use_embed_in_activity_replies', !defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) || !BP_EMBED_DISABLE_ACTIVITY_REPLIES );
 }
 
@@ -1408,6 +1608,14 @@ function bp_use_embed_in_activity_replies() {
  *         enabled. Default: true.
  */
 function bp_use_embed_in_forum_posts() {
+
+	/**
+	 * Filters whether or not oEmbeds are allowed in forum posts.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $value Whether or not oEmbeds are allowed.
+	 */
 	return apply_filters( 'bp_use_embed_in_forum_posts', !defined( 'BP_EMBED_DISABLE_FORUM_POSTS' ) || !BP_EMBED_DISABLE_FORUM_POSTS );
 }
 
@@ -1420,6 +1628,14 @@ function bp_use_embed_in_forum_posts() {
  *         enabled. Default: true.
  */
 function bp_use_embed_in_private_messages() {
+
+	/**
+	 * Filters whether or not oEmbeds are allowed in private messages.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $value Whether or not oEmbeds are allowed.
+	 */
 	return apply_filters( 'bp_use_embed_in_private_messages', !defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) || !BP_EMBED_DISABLE_PRIVATE_MESSAGES );
 }
 
@@ -1492,6 +1708,13 @@ function bp_core_do_network_admin() {
 		$retval = false;
 	}
 
+	/**
+	 * Filters whether or not BuddyPress should appear in network admin.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $retval Whether or not BuddyPress should be in the network admin.
+	 */
 	return (bool) apply_filters( 'bp_core_do_network_admin', $retval );
 }
 
@@ -1510,6 +1733,13 @@ function bp_core_do_network_admin() {
 function bp_core_admin_hook() {
 	$hook = bp_core_do_network_admin() ? 'network_admin_menu' : 'admin_menu';
 
+	/**
+	 * Filters the action name that BuddyPress nav setup callbacks should be hooked to.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $hook Action name to be attached to.
+	 */
 	return apply_filters( 'bp_core_admin_hook', $hook );
 }
 
@@ -1538,6 +1768,13 @@ function bp_is_root_blog( $blog_id = 0 ) {
 		$is_root_blog = true;
 	}
 
+	/**
+	 * Filters whether or not we're on the root blog.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $is_root_blog Whether or not we're on the root blog.
+	 */
 	return (bool) apply_filters( 'bp_is_root_blog', (bool) $is_root_blog );
 }
 
@@ -1553,6 +1790,14 @@ function bp_is_root_blog( $blog_id = 0 ) {
  * @return int The root site ID.
  */
 function bp_get_root_blog_id() {
+
+	/**
+	 * Filters the ID for the root blog.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $root_blog_id ID for the root blog.
+	 */
 	return (int) apply_filters( 'bp_get_root_blog_id', (int) buddypress()->root_blog_id );
 }
 
@@ -1603,6 +1848,13 @@ function bp_is_multiblog_mode() {
 		$retval = true;
 	}
 
+	/**
+	 * Filters whether or not we're running in multiblog mode.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $retval Whether or not we're running multiblog mode.
+	 */
 	return apply_filters( 'bp_is_multiblog_mode', $retval );
 }
 
@@ -1632,6 +1884,13 @@ function bp_is_network_activated() {
 		$retval = false;
 	}
 
+	/**
+	 * Filters whether or not we're active at the network level.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param bool $retval Whether or not we're network activated.
+	 */
 	return (bool) apply_filters( 'bp_is_network_activated', $retval );
 }
 
@@ -1650,6 +1909,14 @@ function bp_update_is_directory( $is_directory = false, $component = '' ) {
 		$component = bp_current_component();
 	}
 
+	/**
+	 * Filters the "is_directory" global value.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool   $is_directory Whether or not we're "is_directory".
+	 * @param string $component    Component name. Default: the current component.
+	 */
 	buddypress()->is_directory = apply_filters( 'bp_update_is_directory', $is_directory, $component );
 }
 
@@ -1666,6 +1933,14 @@ function bp_update_is_item_admin( $is_item_admin = false, $component = '' ) {
 		$component = bp_current_component();
 	}
 
+	/**
+	 * Filters the "is_item_admin" global value.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool   $is_item_admin Whether or not we're "is_item_admin".
+	 * @param string $component     Component name. Default: the current component.
+	 */
 	buddypress()->is_item_admin = apply_filters( 'bp_update_is_item_admin', $is_item_admin, $component );
 }
 
@@ -1682,6 +1957,14 @@ function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
 		$component = bp_current_component();
 	}
 
+	/**
+	 * Filters the "is_item_mod" global value.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool   $is_item_mod Whether or not we're "is_item_mod".
+	 * @param string $component   Component name. Default: the current component.
+	 */
 	buddypress()->is_item_mod = apply_filters( 'bp_update_is_item_mod', $is_item_mod, $component );
 }
 
@@ -1698,6 +1981,14 @@ function bp_update_is_item_mod( $is_item_mod = false, $component = '' ) {
 function bp_do_404( $redirect = 'remove_canonical_direct' ) {
 	global $wp_query;
 
+	/**
+	 * Fires inside the triggering of a 404.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $redirect Redirect type used to determine if redirect_canonical
+	 *                         function should be be removed.
+	 */
 	do_action( 'bp_do_404', $redirect );
 
 	$wp_query->set_404();
@@ -1757,7 +2048,15 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 
 	/** Look for match ********************************************************/
 
-	// Filter the requested URL, for configurations like reverse proxying
+	/**
+	 * Filters the requested URL being nonce-verified.
+	 *
+	 * Useful for configurations like reverse proxying.
+	 *
+	 * @since BuddyPress (1.9.0)
+	 *
+	 * @param string $requested_url The requested URL.
+	 */
 	$matched_url = apply_filters( 'bp_verify_nonce_request_url', $requested_url );
 
 	// Check the nonce
@@ -1768,7 +2067,14 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 		$result = false;
 	}
 
-	// Do extra things
+	/**
+	 * Fires at the end of the nonce verification check.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 *
+	 * @param string $action Action nonce.
+	 * @param bool   $result Boolean result of nonce verification.
+	 */
 	do_action( 'bp_verify_nonce_request', $action, $result );
 
 	return $result;
@@ -1808,8 +2114,23 @@ function bp_is_get_request() {
  */
 function bp_core_load_buddypress_textdomain() {
 	$domain = 'buddypress';
+
+	/**
+	 * Filters the locale to be loaded for the language files.
+	 *
+	 * @since BuddyPress (1.0.2)
+	 *
+	 * @param string $value Current locale for the install.
+	 */
 	$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', get_locale() ) );
 
+	/**
+	 * Filters the locations to load language files from.
+	 *
+	 * @since BuddyPress (2.2.0)
+	 *
+	 * @param array $value Array of directories to check for language files in.
+	 */
 	$locations = apply_filters( 'buddypress_locale_locations', array(
 		trailingslashit( WP_LANG_DIR . '/' . $domain  ),
 		trailingslashit( WP_LANG_DIR ),
@@ -1889,6 +2210,14 @@ function bp_core_action_search_site( $slug = '' ) {
 		}
 	}
 
+	/**
+	 * Filters the constructed url for use with site searching.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $value        URL for use with site searching.
+	 * @param array  $search_terms Array of search terms.
+	 */
 	bp_core_redirect( apply_filters( 'bp_core_search_site', home_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
 }
 add_action( 'bp_init', 'bp_core_action_search_site', 7 );
@@ -2127,7 +2456,18 @@ function bp_core_get_suggestions( $args ) {
 		}
 
 	} else {
-		// If you've built a custom suggestions service, use this to tell BP the name of your class.
+
+		/**
+		 * Filters the default suggestions service to use.
+		 *
+		 * Use this hook to tell BP the name of your class
+		 * if you've built a custom suggestions service.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param string $value Custom class to use. Default: none.
+		 * @param array  $args  Array of arguments for sugggestions.
+		 */
 		$class = apply_filters( 'bp_suggestions_services', '', $args );
 	}
 
@@ -2145,6 +2485,14 @@ function bp_core_get_suggestions( $args ) {
 		$retval = $suggestions->get_suggestions();
 	}
 
+	/**
+	 * Filters the available type of at-mentions.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param array|WP_Error $retval Array of results or WP_Error object.
+	 * @param array          $args   Array of arguments for suggestions.
+	 */
 	return apply_filters( 'bp_core_get_suggestions', $retval, $args );
 }
 

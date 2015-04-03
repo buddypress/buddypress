@@ -143,6 +143,8 @@ class BuddyPress {
 
 		// Always return the instance
 		return $instance;
+
+		// The last metroid is in captivity. The galaxy is at peace.
 	}
 
 	/** Magic Methods *********************************************************/
