@@ -120,7 +120,7 @@ function bp_core_install_notifications() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY notification_id (notification_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
@@ -173,7 +173,7 @@ function bp_core_install_activity_streams() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY activity_id (activity_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
@@ -261,7 +261,7 @@ function bp_core_install_groups() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY group_id (group_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
@@ -321,7 +321,7 @@ function bp_core_install_private_messaging() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY message_id (message_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
@@ -398,7 +398,7 @@ function bp_core_install_extended_profiles() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY object_id (object_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
@@ -445,7 +445,7 @@ function bp_core_install_blog_tracking() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY blog_id (blog_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
