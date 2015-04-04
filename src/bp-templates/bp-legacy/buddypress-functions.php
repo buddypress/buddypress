@@ -227,6 +227,18 @@ class BP_Legacy extends BP_Theme_Compat {
 				wp_style_add_data( $rtl['handle'], 'suffix', $min );
 			}
 		}
+
+		// Compatibility stylesheets for specific themes.
+		$asset = $this->locate_asset_in_stack( get_stylesheet() . "{$min}.css", 'css' );
+		if ( isset( $asset['location'] ) ) {
+			// use a unique handle
+			$asset['handle'] = 'bp-' . get_stylesheet();
+			wp_enqueue_style( $asset['handle'], $asset['location'], array(), $this->version, 'screen' );
+
+			if ( $min ) {
+				wp_style_add_data( $asset['handle'], 'suffix', $min );
+			}
+		}
 	}
 
 	/**
