@@ -819,7 +819,7 @@ function bp_blog_signup_allowed() {
 			return false;
 		}
 
-		$status = buddypress()->site_options['registration'];
+		$status = bp_core_get_root_option( 'registration' );
 		if ( ( 'none' !== $status ) && ( 'user' !== $status ) ) {
 			return true;
 		}

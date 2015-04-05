@@ -2244,11 +2244,9 @@ function bp_signup_allowed() {
 		$signup_allowed = false;
 
 		if ( is_multisite() ) {
-			if ( ! isset( $bp->site_options ) ) {
-				$bp->site_options = bp_core_get_root_options();
-			}
+			$registration = bp_core_get_root_option( 'registration' );
 
-			if ( in_array( $bp->site_options['registration'], array( 'all', 'user' ) ) ) {
+			if ( in_array( $registration, array( 'all', 'user' ) ) ) {
 				$signup_allowed = true;
 			}
 

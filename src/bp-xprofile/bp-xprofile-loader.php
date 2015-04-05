@@ -95,11 +95,11 @@ class BP_XProfile_Component extends BP_Component {
 		// to use in SQL statements.
 		// Defined conditionally to accommodate unit tests
 		if ( ! defined( 'BP_XPROFILE_BASE_GROUP_NAME' ) ) {
-			define( 'BP_XPROFILE_BASE_GROUP_NAME', stripslashes( $bp->site_options['bp-xprofile-base-group-name'] ) );
+			define( 'BP_XPROFILE_BASE_GROUP_NAME', stripslashes( bp_core_get_root_option( 'avatar_default' ) ) );
 		}
 
 		if ( ! defined( 'BP_XPROFILE_FULLNAME_FIELD_NAME' ) ) {
-			define( 'BP_XPROFILE_FULLNAME_FIELD_NAME', stripslashes( $bp->site_options['bp-xprofile-fullname-field-name'] ) );
+			define( 'BP_XPROFILE_FULLNAME_FIELD_NAME', stripslashes( bp_core_get_root_option( 'bp-xprofile-fullname-field-name' ) ) );
 		}
 
 		/**

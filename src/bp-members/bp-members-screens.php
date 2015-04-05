@@ -156,7 +156,7 @@ function bp_core_screen_signup() {
 
 		// Finally, let's check the blog details, if the user wants a blog and blog creation is enabled
 		if ( isset( $_POST['signup_with_blog'] ) ) {
-			$active_signup = $bp->site_options['registration'];
+			$active_signup = bp_core_get_root_option( 'registration' );
 
 			if ( 'blog' == $active_signup || 'all' == $active_signup ) {
 				$blog_details = bp_core_validate_blog_signup( $_POST['signup_blog_url'], $_POST['signup_blog_title'] );
@@ -196,7 +196,7 @@ function bp_core_screen_signup() {
 			$bp->signup->step = 'save-details';
 
 			// No errors! Let's register those deets.
-			$active_signup = !empty( $bp->site_options['registration'] ) ? $bp->site_options['registration'] : '';
+			$active_signup = bp_core_get_root_option( 'registration' );
 
 			if ( 'none' != $active_signup ) {
 

@@ -521,6 +521,32 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_get_root_option
+	 */
+	public function test_bp_core_get_root_option_with_unpopulated_cache() {
+		// Back up and unset global cache.
+		$old_options = buddypress()->site_options;
+		unset( buddypress()->site_options );
+
+		$this->assertSame( $old_options['avatar_default'], bp_core_get_root_option( 'avatar_default' ) );
+
+		// Clean up.
+		buddypress()->site_options = $old_options;
+	}
+
+	/**
+	 * @group bp_core_get_root_option
+	 */
+	public function test_bp_core_get_root_option_with_populated_cache() {
+		// Back up and unset global cache.
+		$old_options = buddypress()->site_options;
+		buddypress()->site_options = bp_core_get_root_options();
+		$expected = buddypress()->site_options['avatar_default'];
+
+		$this->assertSame( $expected, bp_core_get_root_option( 'avatar_default' ) );
+	}
+
+	/**
 	 * @group bp_core_add_root_component
 	 */
 	public function test_add_root_component_not_in_bp_pages() {

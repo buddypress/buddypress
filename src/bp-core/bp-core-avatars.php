@@ -31,10 +31,11 @@ function bp_core_set_avatar_constants() {
 
 	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
 
-		if ( !isset( $bp->site_options['fileupload_maxk'] ) ) {
+		$fileupload_maxk = bp_core_get_root_option( 'fileupload_maxk' );
+		if ( '' === $fileupload_maxk ) {
 			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); // 5mb
 		} else {
-			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', $bp->site_options['fileupload_maxk'] * 1024 );
+			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', $fileupload_maxk * 1024 );
 		}
 	}
 

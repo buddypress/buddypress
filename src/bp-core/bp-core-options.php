@@ -481,6 +481,33 @@ function bp_core_get_root_options() {
 	return apply_filters( 'bp_core_get_root_options', $root_blog_options_meta );
 }
 
+/**
+ * Get a root option.
+ *
+ * "Root options" are those that apply across an entire installation, and are fetched only a single
+ * time during a pageload and stored in `buddypress()->site_options` to prevent future lookups.
+ * See {@see bp_core_get_root_options()}.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param  string $option Name of the option key.
+ * @return mixed Value, if found.
+ */
+function bp_core_get_root_option( $option ) {
+	$bp = buddypress();
+
+	if ( ! isset( $bp->site_options ) ) {
+		$bp->site_options = bp_core_get_root_options();
+	}
+
+	$value = '';
+	if ( isset( $bp->site_options[ $option ] ) ) {
+		$value = $bp->site_options[ $option ];
+	}
+
+	return $value;
+}
+
 /** Active? *******************************************************************/
 
 /**

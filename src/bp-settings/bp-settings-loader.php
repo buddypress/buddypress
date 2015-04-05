@@ -183,7 +183,7 @@ class BP_Settings_Component extends BP_Component {
 			}
 
 			// Delete Account
-			if ( !bp_current_user_can( 'bp_moderate' ) && empty( $bp->site_options['bp-disable-account-deletion'] ) ) {
+			if ( !bp_current_user_can( 'bp_moderate' ) && ! bp_core_get_root_option( 'bp-disable-account-deletion' ) ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
 					'id'     => 'my-account-' . $this->id . '-delete-account',
