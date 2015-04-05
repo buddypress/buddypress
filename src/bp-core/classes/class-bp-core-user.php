@@ -376,7 +376,14 @@ class BP_Core_User {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
 		}
 
-		// Get paginated results
+		/**
+		 * Filters the SQL used to query for paged users.
+		 *
+		 * @since BuddyPress (1.2.6)
+		 *
+		 * @param string $value Concatenated SQL statement for the query.
+		 * @param array  $sql   Array of SQL statement parts for the query.
+		 */
 		$paged_users_sql = apply_filters( 'bp_core_get_paged_users_sql', join( ' ', (array) $sql ), $sql );
 		$paged_users     = $wpdb->get_results( $paged_users_sql );
 
@@ -401,7 +408,14 @@ class BP_Core_User {
 
 		array_unshift( $sql, "SELECT COUNT(u.ID)" );
 
-		// Get total user results
+		/**
+		 * Filters the SQL used to query for total users.
+		 *
+		 * @since BuddyPress (1.2.6)
+		 *
+		 * @param string $value Concatenated SQL statement for the query.
+		 * @param array  $sql   Array of SQL statement parts for the query.
+		 */
 		$total_users_sql = apply_filters( 'bp_core_get_total_users_sql', join( ' ', (array) $sql ), $sql );
 		$total_users     = $wpdb->get_var( $total_users_sql );
 
@@ -470,7 +484,22 @@ class BP_Core_User {
 			$exclude_sql = '';
 		}
 
+		/**
+		 * Filters the SQL used to query for total user count by first letter.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $value SQL prepared statement for the user count query.
+		 */
 		$total_users_sql = apply_filters( 'bp_core_users_by_letter_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", bp_xprofile_fullname_field_name(), $letter_like ) );
+
+		/**
+		 * Filters the SQL used to query for users by first letter.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $value SQL prepared statement for the user query.
+		 */
 		$paged_users_sql = apply_filters( 'bp_core_users_by_letter_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id LEFT JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id WHERE {$status_sql} AND pf.name = %s {$exclude_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", bp_xprofile_fullname_field_name(), $letter_like ) );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
@@ -563,7 +592,22 @@ class BP_Core_User {
 		$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
 		$status_sql        = bp_core_get_status_sql( 'u.' );
 
+		/**
+		 * Filters the SQL used to query for searched users count.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $value SQL statement for the searched users count query.
+		 */
 		$total_users_sql = apply_filters( 'bp_core_search_users_count_sql', $wpdb->prepare( "SELECT COUNT(DISTINCT u.ID) as id FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC", $search_terms_like ), $search_terms );
+
+		/**
+		 * Filters the SQL used to query for searched users.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $value SQL statement for the searched users query.
+		 */
 		$paged_users_sql = apply_filters( 'bp_core_search_users_sql',       $wpdb->prepare( "SELECT DISTINCT u.ID as id, u.user_registered, u.user_nicename, u.user_login, u.user_email FROM {$wpdb->users} u LEFT JOIN {$bp->profile->table_name_data} pd ON u.ID = pd.user_id WHERE {$status_sql} AND pd.value LIKE %s ORDER BY pd.value ASC{$pag_sql}", $search_terms_like ), $search_terms, $pag_sql );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
@@ -738,7 +782,7 @@ class BP_Core_User {
 	 * Will create a new entry if it does not exist. Otherwise updates the
 	 * existing entry.
 	 *
-	 * @since 2.0
+	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param int $user_id ID of the user whose last_activity you are updating.
 	 * @param string $time MySQL-formatted time string.
@@ -827,7 +871,7 @@ class BP_Core_User {
 	/**
 	 * Delete a user's last_activity value.
 	 *
-	 * @since 2.0
+	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param int $user_id
 	 * @return bool True on success, false on failure or if no last_activity
