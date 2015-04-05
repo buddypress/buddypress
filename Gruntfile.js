@@ -163,6 +163,14 @@ module.exports = function( grunt ) {
 				'https://wordpress.org/plugins/buddypress/ */\n'
 			}
 		},
+		scsslint: {
+			options: {
+				bundleExec: false,
+				colorizeOutput: true,
+				config: '.scss-lint.yml'
+			},
+			core: [ SOURCE_DIR + 'bp-templates/bp-legacy/css/*.scss' ]
+		},
 		cssmin: {
 			minify: {
 				cwd: BUILD_DIR,
@@ -228,7 +236,7 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['jsvalidate:src', 'jshint', 'cssjanus'] );
+	grunt.registerTask( 'src',     ['jsvalidate:src', 'jshint', 'scsslint', 'cssjanus'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
 	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );

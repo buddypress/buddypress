@@ -55,6 +55,7 @@ before_install:
     # prepare for running the tests
     - cd $plugin_dir
     - npm install -g grunt-cli
+    - gem install scss-lint
 
 # before_script: Failures in this section will result in build status 'errored'
 before_script:
