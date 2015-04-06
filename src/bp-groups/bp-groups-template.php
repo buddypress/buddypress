@@ -3679,7 +3679,16 @@ class BP_Groups_Group_Members_Template {
 			return true;
 		} elseif ( $tick == $this->member_count ) {
 
-			do_action( 'loop_end' );
+			/**
+			 * Fires right before the rewinding of members list.
+			 *
+			 * @since BuddyPress (1.0.0)
+			 * @since BuddyPress (2.3.0) `$this` parameter added.
+			 *
+			 * @param BP_Groups_Group_Members_Template $this Instance of the current Members template.
+			 */
+			do_action( 'loop_end', $this );
+
 			// Do some cleaning up after the loop
 			$this->rewind_members();
 		}
@@ -3694,7 +3703,16 @@ class BP_Groups_Group_Members_Template {
 
 		// loop has just started
 		if ( 0 == $this->current_member ) {
-			do_action( 'loop_start' );
+
+			/**
+			 * Fires if the current member item is the first in the members list.
+			 *
+			 * @since BuddyPress (1.0.0)
+			 * @since BuddyPress (2.3.0) `$this` parameter added.
+			 *
+			 * @param BP_Groups_Group_Members_Template $this Instance of the current Members template.
+			 */
+			do_action( 'loop_start', $this );
 		}
 	}
 }
@@ -5333,7 +5351,17 @@ class BP_Groups_Invite_Template {
 		if ( $tick < $this->invite_count ) {
 			return true;
 		} elseif ( $tick == $this->invite_count ) {
-			do_action( 'loop_end' );
+
+			/**
+			 * Fires right before the rewinding of invites list.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 * @since BuddyPress (2.3.0) `$this` parameter added.
+			 *
+			 * @param BP_Groups_Invite_Template $this Instance of the current Invites template.
+			 */
+			do_action( 'loop_end', $this );
+
 			// Do some cleaning up after the loop
 			$this->rewind_invites();
 		}
@@ -5382,7 +5410,16 @@ class BP_Groups_Invite_Template {
 
 		// loop has just started
 		if ( 0 == $this->current_invite ) {
-			do_action( 'loop_start' );
+
+			/**
+			 * Fires if the current invite item is the first in the loop.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 * @since BuddyPress (2.3.0) `$this` parameter added.
+			 *
+			 * @param BP_Groups_Invite_Template $this Instance of the current Invites template.
+			 */
+			do_action( 'loop_start', $this );
 		}
 	}
 }
