@@ -55,10 +55,13 @@ class BP_Core_Login_Widget extends WP_Widget {
 		 * Filters the title of the Login widget.
 		 *
 		 * @since BuddyPress (1.9.0)
+		 * @since BuddyPress (2.3.0) Added 'instance' and 'id_base' to arguments passed to filter.
 		 *
-		 * @param string $title The widget title.
+		 * @param string $title    The widget title.
+		 * @param array  $instance The settings for the particular instance of the widget.
+		 * @param string $id_base  Root ID for all widgets of this type.
 		 */
-		$title = apply_filters( 'widget_title', $title );
+		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
 		echo $args['before_widget'];
 

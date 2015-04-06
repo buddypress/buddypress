@@ -60,10 +60,13 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		 * Filters the Blogs Recent Posts widget title.
 		 *
 		 * @since BuddyPress (2.2.0)
+		 * @since BuddyPress (2.3.0) Added 'instance' and 'id_base' to arguments passed to filter.
 		 *
-		 * @param string $title The widget title.
+		 * @param string $title    The widget title.
+		 * @param array  $instance The settings for the particular instance of the widget.
+		 * @param string $id_base  Root ID for all widgets of this type.
 		 */
-		$title = apply_filters( 'widget_title', $instance['title'] );
+		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . $title . $args['after_title'];
