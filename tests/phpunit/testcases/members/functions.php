@@ -576,4 +576,15 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->filter_fired = current_filter();
 		return $value;
 	}
+
+	/**
+	 * @ticket BP6208
+	 *
+	 * Note - it's not possible to test this when registration is not configured properly,
+	 * because `bp_has_custom_signup_page()` stores its value in a static variable that cannot
+	 * be toggled.
+	 */
+	public function test_wp_registration_url_should_return_bp_register_page_when_register_page_is_configured_properly() {
+		$this->assertSame( bp_get_signup_page(), wp_registration_url() );
+	}
 }

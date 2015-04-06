@@ -18,6 +18,9 @@ defined( 'ABSPATH' ) || exit;
 add_filter( 'bp_displayed_user_fullname',    'esc_html' );
 add_filter( 'bp_get_loggedin_user_fullname', 'esc_html' );
 
+// Filter the user registration URL to point to BuddyPress's registration page.
+add_filter( 'register_url', 'bp_get_signup_page' );
+
 /**
  * Load additional sign-up sanitization filters on bp_loaded.
  *
