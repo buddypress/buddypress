@@ -381,4 +381,23 @@ class BP_Tests_Core_Nav extends BP_UnitTestCase {
 		$expected = bp_get_root_domain() . 'foo-parent/';
 		$this->assertSame( $expected, buddypress()->bp_options_nav['foo-parent']['bar']['link'] );
 	}
+
+	/**
+	 * @group bp_core_new_subnav_item
+	 * @ticket BP6353
+	 */
+	public function test_bp_core_new_subnav_item_link_should_not_trailingslash_link_explicit_link() {
+		$link = 'http://example.com/foo/bar/blah/?action=edit&id=30';
+
+		bp_core_new_subnav_item( array(
+			'name' => 'bar',
+			'slug' => 'bar',
+			'parent_slug' => 'foo',
+			'parent_url' => 'http://example.com/foo/',
+			'screen_function' => 'foo',
+			'link' => $link,
+		) );
+
+		$this->assertSame( $link, buddypress()->bp_options_nav['foo']['bar']['link'] );
+	}
 }
