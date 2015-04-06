@@ -547,8 +547,59 @@ class BP_Core_User {
 		$user_ids   = implode( ',', wp_parse_id_list( $user_ids ) );
 		$status_sql = bp_core_get_status_sql();
 
+		/**
+		 * Filter the SQL string used for querying specific user count.
+		 *
+		 * This same filter name is used for the paged user SQL, and so should be avoided.
+		 * Use 'bp_core_user_get_specific_users_count_sql' instead.
+		 *
+		 * @deprecated BuddyPress (2.3.0)
+		 *
+		 * @param string $sql SQL string.
+		 */
 		$total_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT COUNT(ID) FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids})" );
+
+		/**
+		 * Filter the SQL string used for querying specific user count results.
+		 *
+		 * Use this instead of the deprecated 'bp_core_get_specific_users_count_sql'.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param string   $sql             SQL string.
+		 * @param array    $user_ids        Array of IDs of specific users to fetch.
+		 * @param int|null $limit           Max number of records to return. Null for no limit.
+		 * @param int      $page            The page we're on for pagination.
+		 * @param bool     $populate_extras Whether to populate extra user fields.
+		 */
+		$total_users_sql = apply_filters( 'bp_core_user_get_specific_users_count_sql', $total_users_sql, $user_ids, $limit, $page, $populate_extras );
+
+		/**
+		 * Filter the SQL string used for querying specific user paged results.
+		 *
+		 * This same filter name is used for the user count SQL, and so should be avoided.
+		 * Use 'bp_core_user_get_specific_users_paged_sql' instead.
+		 *
+		 * @deprecated BuddyPress (2.3.0)
+		 *
+		 * @param string $sql SQL string.
+		 */
 		$paged_users_sql = apply_filters( 'bp_core_get_specific_users_count_sql', "SELECT ID as id, user_registered, user_nicename, user_login, user_email FROM {$wpdb->users} WHERE {$status_sql} AND ID IN ({$user_ids}) {$pag_sql}" );
+
+		/**
+		 * Filter the SQL string used for querying specific user paged results.
+		 *
+		 * Use this instead of the deprecated 'bp_core_get_specific_users_count_sql'.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param string   $sql             SQL string.
+		 * @param array    $user_ids        Array of IDs of specific users to fetch.
+		 * @param int|null $limit           Max number of records to return. Null for no limit.
+		 * @param int      $page            The page we're on for pagination.
+		 * @param bool     $populate_extras Whether to populate extra user fields.
+		 */
+		$paged_users_sql = apply_filters( 'bp_core_user_get_specific_users_paged_sql', $paged_users_sql, $user_ids, $limit, $page, $populate_extras );
 
 		$total_users = $wpdb->get_var( $total_users_sql );
 		$paged_users = $wpdb->get_results( $paged_users_sql );
