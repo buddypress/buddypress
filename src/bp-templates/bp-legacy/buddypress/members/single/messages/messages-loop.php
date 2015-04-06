@@ -24,7 +24,7 @@
 
 			<thead>
 				<tr>
-					<th scope="col" class="thread-checkbox"><label class="bp-screen-reader-text" for="select-all-messages"><?php _e( 'Select all', 'buddypress' ); ?></label><input id="select-all-messages" type="checkbox"></th>
+					<th scope="col" class="thread-checkbox bulk-select-all"><label class="bp-screen-reader-text" for="select-all-messages"><?php _e( 'Select all', 'buddypress' ); ?></label><input id="select-all-messages" type="checkbox"></th>
 					<th scope="col" class="thread-from"><?php _e( 'From', 'buddypress' ); ?></th>
 					<th scope="col" class="thread-info"><?php _e( 'Subject', 'buddypress' ); ?></th>
 					<th scope="col" class="thread-options"><?php _e( 'Actions', 'buddypress' ); ?></th>
@@ -36,7 +36,7 @@
 				<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
 
 					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php if ( bp_message_thread_has_unread() ) : ?> unread<?php else: ?> read<?php endif; ?>">
-						<td>
+						<td class="bulk-select-check">
 							<input type="checkbox" name="message_ids[]" class="message-check" value="<?php bp_message_thread_id(); ?>" />
 						</td>
 
