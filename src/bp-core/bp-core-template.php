@@ -744,7 +744,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	// If $exact is false, we can't break on words
 	if ( empty( $r['exact'] ) ) {
 		$spacepos = mb_strrpos( $truncate, ' ' );
-		if ( isset( $spacepos ) ) {
+		if ( false !== $spacepos ) {
 			if ( $r['html'] ) {
 				$bits = mb_substr( $truncate, $spacepos );
 				preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );

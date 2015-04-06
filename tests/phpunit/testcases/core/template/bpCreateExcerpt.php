@@ -40,4 +40,25 @@ class BP_Tests_Core_Template_BPCreateExcerpt extends BP_UnitTestCase {
 			'exact' => true,
 		) ) );
 	}
+
+	public function test_should_break_on_prior_word_boundary_when_exact_is_false() {
+		$text = 'aaaaa aaaaaa';
+		$expected = 'aaaaa';
+		$this->assertSame( $expected, bp_create_excerpt( $text, 7, array(
+			'exact' => false,
+			'ending' => '',
+		) ) );
+	}
+
+	/**
+	 * @ticket BP6254
+	 */
+	public function test_should_trim_too_long_first_word_to_max_characters_even_when_exact_is_false() {
+		$text = 'aaaaaaaaaaa';
+		$expected = 'aaa';
+		$this->assertSame( $expected, bp_create_excerpt( $text, 3, array(
+			'exact' => false,
+			'ending' => '',
+		) ) );
+	}
 }
