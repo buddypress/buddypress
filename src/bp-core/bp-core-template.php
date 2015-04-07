@@ -71,7 +71,17 @@ function bp_get_options_nav( $parent_slug = '' ) {
 		// List type depends on our current component
 		$list_type = bp_is_group() ? 'groups' : 'personal';
 
-		// echo out the final list item
+		/**
+		 * Filters the "options nav", the secondary-level single item navigation menu.
+		 *
+		 * This is a dynamic filter that is dependent on the provided css_id value.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param string $value         HTML list item for the submenu item.
+		 * @param array  $subnav_item   Submenu array item being displayed.
+		 * @param string $selected_item Current action.
+		 */
 		echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="' . esc_attr( $subnav_item['css_id'] . '-' . $list_type . '-li' ) . '" ' . $selected . '><a id="' . esc_attr( $subnav_item['css_id'] ) . '" href="' . esc_url( $subnav_item['link'] ) . '">' . $subnav_item['name'] . '</a></li>', $subnav_item, $selected_item );
 	}
 }
@@ -114,6 +124,14 @@ function bp_get_directory_title( $component = '' ) {
 		$title = sprintf( __( '%s Directory', 'buddypress' ), buddypress()->{$component}->name );
 	}
 
+	/**
+	 * Filters the directory title for a component.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param string $title     Text to be used in <title> tag.
+	 * @param string $component Current componet being displayed.
+	 */
 	return apply_filters( 'bp_get_directory_title', $title, $component );
 }
 
@@ -200,6 +218,13 @@ function bp_avatar_admin_step() {
 			? $step = $bp->avatar_admin->step
 			: 'upload-image';
 
+		/**
+		 * Filters the current avatar upload step.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param string $step The current avatar upload step.
+		 */
 		return apply_filters( 'bp_get_avatar_admin_step', $step );
 	}
 
@@ -220,6 +245,13 @@ function bp_avatar_to_crop() {
 			? $bp->avatar_admin->image->url
 			: '';
 
+		/**
+		 * Filters the URL of the avatar to crop.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param string $url URL for the avatar.
+		 */
 		return apply_filters( 'bp_get_avatar_to_crop', $url );
 	}
 
@@ -240,6 +272,13 @@ function bp_avatar_to_crop_src() {
 			? str_replace( WP_CONTENT_DIR, '', $bp->avatar_admin->image->dir )
 			: '';
 
+		/**
+		 * Filters the relative file path to the avatar to crop.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param string $src Relative file path for the avatar.
+		 */
 		return apply_filters( 'bp_get_avatar_to_crop_src', $src );
 	}
 
@@ -268,6 +307,14 @@ function bp_site_name() {
 	 * @since BuddyPress (1.6.0)
 	 */
 	function bp_get_site_name() {
+
+		/**
+		 * Filters the name of the BP site. Used in RSS headers.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param string $value Current BP site name.
+		 */
 		return apply_filters( 'bp_site_name', get_bloginfo( 'name', 'display' ) );
 	}
 
@@ -342,6 +389,13 @@ function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
 		$formatted_date = sprintf( esc_html__( '%1$s at %2$s', 'buddypress' ), $formatted_date, $formatted_time );
 	}
 
+	/**
+	 * Filters the date based on a UNIX timestamp.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $formatted_date Formatted date from the timestamp.
+	 */
 	return apply_filters( 'bp_format_time', $formatted_date );
 }
 
@@ -371,8 +425,18 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 
 	if ( bp_displayed_user_id() == bp_loggedin_user_id() ) {
 		if ( true == $echo ) {
+
+			/**
+			 * Filters the text used based on context of own profile or someone else's profile.
+			 *
+			 * @since BuddyPress (1.0.0)
+			 *
+			 * @param string $youtext Context-determined string to display.
+			 */
 			echo apply_filters( 'bp_word_or_name', $youtext );
 		} else {
+
+			/** This filter is documented in bp-core/bp-core-template.php */
 			return apply_filters( 'bp_word_or_name', $youtext );
 		}
 	} else {
@@ -380,8 +444,12 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		$fullname = (array) explode( ' ', $fullname );
 		$nametext = sprintf( $nametext, $fullname[0] );
 		if ( true == $echo ) {
+
+			/** This filter is documented in bp-core/bp-core-template.php */
 			echo apply_filters( 'bp_word_or_name', $nametext );
 		} else {
+
+			/** This filter is documented in bp-core/bp-core-template.php */
 			return apply_filters( 'bp_word_or_name', $nametext );
 		}
 	}
@@ -407,6 +475,14 @@ function bp_styles() {
  * @return string URL action attribute for search forms, eg example.com/search/.
  */
 function bp_search_form_action() {
+
+	/**
+	 * Filters the "action" attribute for search forms.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $value Search form action url.
+	 */
 	return apply_filters( 'bp_search_form_action', trailingslashit( bp_get_root_domain() . '/' . bp_get_search_slug() ) );
 }
 
@@ -443,6 +519,13 @@ function bp_search_form_type_select() {
 	$selection_box  = '<label for="search-which" class="accessibly-hidden">' . _x( 'Search these:', 'search form', 'buddypress' ) . '</label>';
 	$selection_box .= '<select name="search-which" id="search-which" style="width: auto">';
 
+	/**
+	 * Filters all of the component options available for search scope.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param array $options Array of options to add to select field.
+	 */
 	$options = apply_filters( 'bp_search_form_type_select_options', $options );
 	foreach( (array) $options as $option_value => $option_title ) {
 		$selection_box .= sprintf( '<option value="%s">%s</option>', $option_value, $option_title );
@@ -450,6 +533,13 @@ function bp_search_form_type_select() {
 
 	$selection_box .= '</select>';
 
+	/**
+	 * Filters the complete <select> input used for search scope.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $selection_box <select> input for selecting search scope.
+	 */
 	return apply_filters( 'bp_search_form_type_select', $selection_box );
 }
 
@@ -499,6 +589,14 @@ function bp_search_default_text( $component = '' ) {
 			}
 		}
 
+		/**
+		 * Filters the default text for the search box for a given component.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string $default_text Default text for search box.
+		 * @param string $component    Current component displayed.
+		 */
 		return apply_filters( 'bp_get_search_default_text', $default_text, $component );
 	}
 
@@ -618,6 +716,16 @@ function bp_button( $args = '' ) {
 	 */
 	function bp_get_button( $args = '' ) {
 		$button = new BP_Button( $args );
+
+		/**
+		 * Filters the requested button output.
+		 *
+		 * @since BuddyPress (1.2.6)
+		 *
+		 * @param string    $contents  Button context to be used.
+		 * @param array     $args      Array of args for the button.
+		 * @param BP_Button $button    BP_Button object.
+		 */
 		return apply_filters( 'bp_get_button', $button->contents, $args, $button );
 	}
 
@@ -668,8 +776,22 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	// Save the original text, to be passed along to the filter
 	$original_text = $text;
 
-	// Allow plugins to modify these values globally
+	/**
+	 * Filters the excerpt length to trim text to.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $length Length of returned string, including ellipsis.
+	 */
 	$length = apply_filters( 'bp_excerpt_length',      $length      );
+
+	/**
+	 * Filters the excerpt appended text value.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string $value Text to append to the end of the excerpt.
+	 */
 	$ending = apply_filters( 'bp_excerpt_append_text', $r['ending'] );
 
 	// Remove shortcodes if necessary
@@ -767,6 +889,16 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		}
 	}
 
+	/**
+	 * Filters the final generated excerpt.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param string $truncate      Generated excerpt.
+	 * @param string $original_text Original text provided.
+	 * @param int    $length        Length of returned string, including ellipsis.
+	 * @param array  $options       Array of HTML attributes and options.
+	 */
 	return apply_filters( 'bp_create_excerpt', $truncate, $original_text, $length, $options );
 }
 add_filter( 'bp_create_excerpt', 'stripslashes_deep'  );
@@ -793,6 +925,14 @@ function bp_total_member_count() {
 	 * @return int Member count.
 	 */
 	function bp_get_total_member_count() {
+
+		/**
+		 * Filters the total member count in your BP instance.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 *
+		 * @param int $value Member count.
+		 */
 		return apply_filters( 'bp_get_total_member_count', bp_core_get_active_member_count() );
 	}
 	add_filter( 'bp_get_total_member_count', 'bp_core_number_format' );
@@ -852,6 +992,14 @@ function bp_account_was_activated() {
  * @return bool True by default.
  */
 function bp_registration_needs_activation() {
+
+	/**
+	 * Filters whether registrations require activation on this installation.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param bool $value Whether registrations require activation. Default true.
+	 */
 	return apply_filters( 'bp_registration_needs_activation', true );
 }
 
@@ -889,6 +1037,14 @@ function bp_get_email_subject( $args = array() ) {
 
 	$subject = $r['before'] . wp_specialchars_decode( bp_get_option( 'blogname', $r['default'] ), ENT_QUOTES ) . $r['after'] . ' ' . $r['text'];
 
+	/**
+	 * Filters a client friendly version of the root blog name.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $subject Client friendy version of the root blog name.
+	 * @param array  $r       Array of arguments for the email subject.
+	 */
 	return apply_filters( 'bp_get_email_subject', $subject, $r );
 }
 
@@ -912,6 +1068,16 @@ function bp_ajax_querystring( $object = false ) {
 		$bp->ajax_querystring = '';
 	}
 
+	/**
+	 * Filters the template paramenters to be used in the query string.
+	 *
+	 * Allows templates to pass parameters into the template loops via AJAX.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 *
+	 * @param string $ajax_querystring Current query string.
+	 * @param string $object           Current template component.
+	 */
 	return apply_filters( 'bp_ajax_querystring', $bp->ajax_querystring, $object );
 }
 
@@ -928,6 +1094,13 @@ function bp_current_component() {
 		? $bp->current_component
 		: false;
 
+	/**
+	 * Filters the name of the current component.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string|bool $current_component Current component if available or false.
+	 */
 	return apply_filters( 'bp_current_component', $current_component );
 }
 
@@ -942,6 +1115,13 @@ function bp_current_action() {
 		? $bp->current_action
 		: '';
 
+	/**
+	 * Filters the name of the current action.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param string $current_action Current action.
+	 */
 	return apply_filters( 'bp_current_action', $current_action );
 }
 
@@ -956,6 +1136,13 @@ function bp_current_item() {
 		? $bp->current_item
 		: false;
 
+	/**
+	 * Filters the name of the current item.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @param string|bool $current_item Current item if available or false.
+	 */
 	return apply_filters( 'bp_current_item', $current_item );
 }
 
@@ -971,6 +1158,13 @@ function bp_action_variables() {
 		? $bp->action_variables
 		: false;
 
+	/**
+	 * Filters the value of $bp->action_variables.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param array|bool $action_variables Available action variables.
+	 */
 	return apply_filters( 'bp_action_variables', $action_variables );
 }
 
@@ -989,6 +1183,14 @@ function bp_action_variable( $position = 0 ) {
 		? $action_variables[ $position ]
 		: false;
 
+	/**
+	 * Filters the value of a given action variable.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param string|bool $action_variable Requested action variable based on position.
+	 * @param int         $position        The key of the action variable requested.
+	 */
 	return apply_filters( 'bp_action_variable', $action_variable, $position );
 }
 
@@ -1013,6 +1215,13 @@ function bp_root_domain() {
 			$bp->root_domain = $domain;
 		}
 
+		/**
+		 * Filters the "root domain", the URL of the BP root blog.
+		 *
+		 * @since BuddyPress (1.2.4)
+		 *
+		 * @param string $domain URL of the BP root blog.
+		 */
 		return apply_filters( 'bp_get_root_domain', $domain );
 	}
 
@@ -1085,6 +1294,14 @@ function bp_root_slug( $component = '' ) {
 			$root_slug = $component;
 		}
 
+		/**
+		 * Filters the root slug for given component.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string $root_slug Root slug for given component.
+		 * @param string $component Current component.
+		 */
 		return apply_filters( 'bp_get_root_slug', $root_slug, $component );
 	}
 
@@ -1124,6 +1341,13 @@ function bp_user_has_access() {
 		? true
 		: false;
 
+	/**
+	 * Filters whether or not a user has access.
+	 *
+	 * @since BuddyPress (1.2.4)
+	 *
+	 * @param bool $has_access Whether or not user has access.
+	 */
 	return (bool) apply_filters( 'bp_user_has_access', $has_access );
 }
 
@@ -1145,6 +1369,14 @@ function bp_search_slug() {
 	 * @return string The search slug. Default: 'search'.
 	 */
 	function bp_get_search_slug() {
+
+		/**
+		 * Filters the search slug.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param string BP_SEARCH_SLUG The search slug. Default "search".
+		 */
 		return apply_filters( 'bp_get_search_slug', BP_SEARCH_SLUG );
 	}
 
@@ -1161,6 +1393,13 @@ function bp_displayed_user_id() {
 		? $bp->displayed_user->id
 		: 0;
 
+	/**
+	 * Filters the ID of the currently displayed user.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $id ID of the currently displayed user.
+	 */
 	return (int) apply_filters( 'bp_displayed_user_id', $id );
 }
 
@@ -1177,6 +1416,13 @@ function bp_loggedin_user_id() {
 		? $bp->loggedin_user->id
 		: 0;
 
+	/**
+	 * Filters the ID of the currently logged-in user.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param int $id ID of the currently logged-in user.
+	 */
 	return (int) apply_filters( 'bp_loggedin_user_id', $id );
 }
 
@@ -1256,6 +1502,14 @@ function bp_is_current_component( $component = '' ) {
 		}
 	}
 
+	/**
+	 * Filters whether the current page belongs to the specified component.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool   $is_current_component Whether or not the current page belongs to specified component.
+	 * @param string $component            Name of the component being checked.
+	 */
  	return apply_filters( 'bp_is_current_component', $is_current_component, $component );
 }
 
@@ -1317,6 +1571,15 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 		$is_action_variable = in_array( $action_variable, (array)bp_action_variables() );
 	}
 
+	/**
+	 * Filters whether the current page matches a given action_variable.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool   $is_action_variable Whether the current page matches a given action_variable.
+	 * @param string $action_variable    The action_variable being tested against.
+	 * @param int    $position           The array key tested against.
+	 */
 	return apply_filters( 'bp_is_action_variable', $is_action_variable, $action_variable, $position );
 }
 
@@ -1329,6 +1592,14 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 function bp_is_current_item( $item = '' ) {
 	$retval = ( $item === bp_current_item() );
 
+	/**
+	 * Filters whether or not an item is the current item.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool   $retval Whether or not an item is the current item.
+	 * @param string $item   The item being checked.
+	 */
 	return (bool) apply_filters( 'bp_is_current_item', $retval, $item );
 }
 
@@ -1345,6 +1616,13 @@ function bp_is_single_item() {
 		$retval = $bp->is_single_item;
 	}
 
+	/**
+	 * Filters whether or not an item is the a single item. (group, user, etc)
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool $retval Whether or not an item is a single item.
+	 */
 	return (bool) apply_filters( 'bp_is_single_item', $retval );
 }
 
@@ -1362,6 +1640,13 @@ function bp_is_item_admin() {
 		$retval = $bp->is_item_admin;
 	}
 
+	/**
+	 * Filters whether or not the logged-in user is an admin for the current item.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool $retval Whether or not the logged-in user is an admin.
+	 */
 	return (bool) apply_filters( 'bp_is_item_admin', $retval );
 }
 
@@ -1379,6 +1664,13 @@ function bp_is_item_mod() {
 		$retval = $bp->is_item_mod;
 	}
 
+	/**
+	 * Filters whether or not the logged-in user is a mod for the current item.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool $retval Whether or not the logged-in user is a mod.
+	 */
 	return (bool) apply_filters( 'bp_is_item_mod', $retval );
 }
 
@@ -1396,6 +1688,13 @@ function bp_is_directory() {
 		$retval = $bp->is_directory;
 	}
 
+	/**
+	 * Filters whether or not user is on a component directory page.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool $retval Whether or not user is on a component directory page.
+	 */
 	return (bool) apply_filters( 'bp_is_directory', $retval );
 }
 
@@ -1429,6 +1728,13 @@ function bp_is_root_component( $component_name = '' ) {
 		}
 	}
 
+	/**
+	 * Filters whether or not a component's URL should be in the root, not under a member page.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool $retval Whether or not URL should be in the root.
+	 */
 	return (bool) apply_filters( 'bp_is_root_component', $retval );
 }
 
@@ -1469,6 +1775,14 @@ function bp_is_component_front_page( $component = '' ) {
 		return false;
 	}
 
+	/**
+	 * Filters whether or not the specified BuddyPress component directory is set to be the front page.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool   $value     Whether or not the specified component directory is set as front page.
+	 * @param string $component Current component being checked.
+	 */
 	return (bool) apply_filters( 'bp_is_component_front_page', ( $bp->pages->{$component}->id == $page_on_front ), $component );
 }
 
@@ -1491,6 +1805,13 @@ function bp_is_blog_page() {
 		$is_blog_page = true;
 	}
 
+	/**
+	 * Filters whether or not current page is a blog page or not.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param bool $is_blog_page Whether or not current page is a blog page.
+	 */
 	return (bool) apply_filters( 'bp_is_blog_page', $is_blog_page );
 }
 
@@ -1511,6 +1832,13 @@ function bp_is_blog_page() {
 function is_buddypress() {
 	$retval = (bool) ( bp_current_component() || bp_is_user() );
 
+	/**
+	 * Filters whether or not this is a BuddyPress component.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param bool $retval Whether or not this is a BuddyPress component.
+	 */
 	return apply_filters( 'is_buddypress', $retval );
 }
 
@@ -1535,6 +1863,14 @@ function bp_is_active( $component = '' ) {
 		$retval = true;
 	}
 
+	/**
+	 * Filters whether or not a given component has been activated by the admin.
+	 *
+	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param bool   $retval    Whether or not a given component has been activated by the admin.
+	 * @param string $component Current component being checked.
+	 */
 	return apply_filters( 'bp_is_active', $retval, $component );
 }
 
@@ -1713,6 +2049,13 @@ function bp_is_my_profile() {
 		$my_profile = false;
 	}
 
+	/**
+	 * Filters whether or not current page is part of the profile for the logged-in user.
+	 *
+	 * @since BuddyPress (1.2.4)
+	 *
+	 * @param bool $my_profile Whether or not current page is part of the profile for the logged-in user.
+	 */
 	return apply_filters( 'bp_is_my_profile', $my_profile );
 }
 
@@ -2534,6 +2877,16 @@ function bp_the_body_class() {
 		// Merge WP classes with BuddyPress classes and remove any duplicates
 		$classes = array_unique( array_merge( (array) $bp_classes, (array) $wp_classes ) );
 
+		/**
+		 * Filters the BuddyPress classes to be added to body_class()
+		 *
+		 * @since BuddyPress (1.1.0)
+		 *
+		 * @param array $classes        Array of body classes to add.
+		 * @param array $bp_classes     Array of BuddyPress-based classes.
+		 * @param array $wp_classes     Array of WordPress-based classes.
+		 * @param array $custom_classes Array of classes that were passed to get_body_class().
+		 */
 		return apply_filters( 'bp_get_the_body_class', $classes, $bp_classes, $wp_classes, $custom_classes );
 	}
 	add_filter( 'body_class', 'bp_get_the_body_class', 10, 2 );
@@ -2702,6 +3055,13 @@ function bp_get_nav_menu_items() {
 		$menus[] = $menu;
 	}
 
+	/**
+	 * Filters the items registered in the primary and secondary BuddyPress navigation menus.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param array $menus Array of items registered in the primary and secondary BuddyPress navigation.
+	 */
 	return apply_filters( 'bp_get_nav_menu_items', $menus );
 }
 
@@ -2761,6 +3121,14 @@ function bp_nav_menu( $args = array() ) {
 		'walker'          => '',
 	);
 	$args = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Filters the parsed bp_nav_menu arguments.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param array $args Array of parsed arguments.
+	 */
 	$args = apply_filters( 'bp_nav_menu_args', $args );
 	$args = (object) $args;
 
@@ -2778,6 +3146,14 @@ function bp_nav_menu( $args = array() ) {
 
 	// Whether to wrap the ul, and what to wrap it with
 	if ( $args->container ) {
+
+		/**
+		 * Filters the allowed tags for the wp_nav_menu_container.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param array $value Array of allowed tags. Default 'div' and 'nav'.
+		 */
 		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav', ) );
 
 		if ( in_array( $args->container, $allowed_tags ) ) {
@@ -2789,7 +3165,14 @@ function bp_nav_menu( $args = array() ) {
 		}
 	}
 
-	// Get the BuddyPress menu items
+	/**
+	 * Filters the BuddyPress menu objects.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param array $value Array of nav menu objects.
+	 * @param array $args  Array of arguments for the menu.
+	 */
 	$menu_items = apply_filters( 'bp_nav_menu_objects', bp_get_nav_menu_items(), $args );
 	$items      = walk_nav_menu_tree( $menu_items, $args->depth, $args );
 	unset( $menu_items );
@@ -2812,7 +3195,16 @@ function bp_nav_menu( $args = array() ) {
 	}
 	$menu_id_slugs[] = $wrap_id;
 
-	// Allow plugins to hook into the menu to add their own <li>'s
+	/**
+	 * Filters the BuddyPress menu items.
+	 *
+	 * Allow plugins to hook into the menu to add their own <li>'s
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param array $items Array of nav menu items.
+	 * @param array $args  Array of arguments for the menu.
+	 */
 	$items = apply_filters( 'bp_nav_menu_items', $items, $args );
 
 	// Build the output
@@ -2825,7 +3217,14 @@ function bp_nav_menu( $args = array() ) {
 		$nav_menu .= '</' . $args->container . '>';
 	}
 
-	// Final chance to modify output
+	/**
+	 * Filters the final BuddyPress menu output.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $nav_menu Final nav menu output.
+	 * @param array  $args     Array of arguments for the menu.
+	 */
 	$nav_menu = apply_filters( 'bp_nav_menu', $nav_menu, $args );
 
 	if ( ! empty( $args->echo ) ) {

@@ -196,8 +196,12 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		if ( empty( $args['item_id'] ) ) {
+
+			/** This filter is documented in bp-core/bp-core-avatars.php */
 			$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', dirname( $absolute_path ), $args['item_id'], $args['object'], $args['avatar_dir'] );
 		} else {
+
+			/** This filter is documented in bp-core/bp-core-avatars.php */
 			$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', $this->upload_path . '/' . $args['avatar_dir'] . '/' . $args['item_id'], $args['item_id'], $args['object'], $args['avatar_dir'] );
 		}
 
