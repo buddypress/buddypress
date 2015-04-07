@@ -38,6 +38,8 @@ function bp_core_set_charset() {
  */
 function bp_core_install( $active_components = false ) {
 
+	bp_pre_schema_upgrade();
+
 	// If no components passed, get all the active components from the main site
 	if ( empty( $active_components ) ) {
 

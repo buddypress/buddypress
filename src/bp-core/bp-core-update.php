@@ -259,6 +259,39 @@ function bp_version_updater() {
 	bp_version_bump();
 }
 
+/**
+ * Perform database operations that must take place before the general schema upgrades.
+ *
+ * `dbDelta()` cannot handle certain operations - like changing indexes - so we do it here instead.
+ *
+ * @since BuddyPress (2.3.0)
+ */
+function bp_pre_schema_upgrade() {
+	global $wpdb;
+
+	$raw_db_version = (int) bp_get_db_version_raw();
+	$bp_prefix      = bp_core_get_table_prefix();
+
+	// 2.3.0: Change index lengths to account for utf8mb4.
+	if ( $raw_db_version < 9695 ) {
+		// table_name => columns.
+		$tables = array(
+			$bp_prefix . 'bp_activity_meta'       => array( 'meta_key' ),
+			$bp_prefix . 'bp_groups_groupmeta'    => array( 'meta_key' ),
+			$bp_prefix . 'bp_messages_meta'       => array( 'meta_key' ),
+			$bp_prefix . 'bp_notifications_meta'  => array( 'meta_key' ),
+			$bp_prefix . 'bp_user_blogs_blogmeta' => array( 'meta_key' ),
+			$bp_prefix . 'bp_xprofile_meta'       => array( 'meta_key' ),
+		);
+
+		foreach ( $tables as $table_name => $indexes ) {
+			foreach ( $indexes as $index ) {
+				$wpdb->query( "ALTER TABLE $table_name DROP INDEX $index" );
+			}
+		}
+	}
+}
+
 /** Upgrade Routines **********************************************************/
 
 /**
