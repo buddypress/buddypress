@@ -217,18 +217,18 @@ function bp_xprofile_create_field_type( $type ) {
 function xprofile_insert_field( $args = '' ) {
 
 	$r = wp_parse_args( $args, array(
-		'field_id' => null,
-		'field_group_id' => null,
-		'parent_id' => null,
-		'type' => '',
-		'name' => '',
-		'description' => '',
-		'is_required' => false,
-		'can_delete' => true,
-		'order_by' => '',
+		'field_id'          => null,
+		'field_group_id'    => null,
+		'parent_id'         => null,
+		'type'              => '',
+		'name'              => '',
+		'description'       => '',
+		'is_required'       => false,
+		'can_delete'        => true,
+		'order_by'          => '',
 		'is_default_option' => false,
-		'option_order' => null,
-		'field_order' => null,
+		'option_order'      => null,
+		'field_order'       => null,
 	) );
 
 	// field_group_id is required
