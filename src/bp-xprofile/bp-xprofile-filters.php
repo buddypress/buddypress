@@ -69,6 +69,42 @@ add_filter( 'xprofile_field_field_order_before_save',  'absint' );
 add_filter( 'xprofile_field_option_order_before_save', 'absint' );
 add_filter( 'xprofile_field_can_delete_before_save',   'absint' );
 
+// Save field options
+add_filter( 'xprofile_field_options_before_save', 'bp_xprofile_sanitize_field_options' );
+add_filter( 'xprofile_field_default_before_save', 'bp_xprofile_sanitize_field_default' );
+
+/**
+ * Sanitize each field option name for saving to the database
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param  mixed $field_options
+ * @return mixed
+ */
+function bp_xprofile_sanitize_field_options( $field_options = '' ) {
+	if ( is_array( $field_options ) ) {
+		return array_map( 'sanitize_text_field', $field_options );
+	} else {
+		return sanitize_text_field( $field_options );
+	}
+}
+
+/**
+ * Sanitize each field option default for saving to the database
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param  mixed $field_default
+ * @return mixed
+ */
+function bp_xprofile_sanitize_field_default( $field_default = '' ) {
+	if ( is_array( $field_default ) ) {
+		return array_map( 'intval', $field_default );
+	} else {
+		return intval( $field_default );
+	}
+}
+
 /**
  * xprofile_filter_kses ( $content )
  *
