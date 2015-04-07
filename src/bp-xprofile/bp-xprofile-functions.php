@@ -230,6 +230,7 @@ function xprofile_insert_field( $args = '' ) {
 		'order_by' => '',
 		'is_default_option' => false,
 		'option_order' => null,
+		'field_order' => null,
 	) );
 
 	// field_group_id is required
@@ -237,7 +238,7 @@ function xprofile_insert_field( $args = '' ) {
 		return false;
 	}
 
-	// Check this is a valid field type
+	// Check this is a non-empty, valid field type.
 	if ( ! in_array( $r['type'], (array) buddypress()->profile->field_types ) ) {
 		return false;
 	}
@@ -250,44 +251,21 @@ function xprofile_insert_field( $args = '' ) {
 	}
 
 	$field->group_id = $r['field_group_id'];
+	$field->type     = $r['type'];
 
-	if ( ! empty( $r['parent_id'] ) ) {
-		$field->parent_id = $r['parent_id'];
-	}
-
-	if ( ! empty( $r['type'] ) ) {
-		$field->type = $r['type'];
-	}
-
+	// The 'name' field cannot be empty.
 	if ( ! empty( $r['name'] ) ) {
 		$field->name = $r['name'];
 	}
 
-	if ( ! empty( $r['description'] ) ) {
-		$field->description = $r['description'];
-	}
-
-	if ( ! empty( $r['is_required'] ) ) {
-		$field->is_required = $r['is_required'];
-	}
-
-	if ( ! empty( $r['can_delete'] ) ) {
-		$field->can_delete = $r['can_delete'];
-	}
-
-	if ( ! empty( $r['field_order'] ) ) {
-		$field->field_order = $r['field_order'];
-	}
-
-	if ( ! empty( $r['order_by'] ) ) {
-		$field->order_by = $r['order_by'];
-	}
-
+	$field->description       = $r['description'];
+	$field->order_by          = $r['order_by'];
+	$field->parent_id         = (int) $r['parent_id'];
+	$field->field_order       = (int) $r['field_order'];
+	$field->option_order      = (int) $r['option_order'];
+	$field->is_required       = (bool) $r['is_required'];
+	$field->can_delete        = (bool) $r['can_delete'];
 	$field->is_default_option = (bool) $r['is_default_option'];
-
-	if ( ! empty( $r['option_order'] ) ) {
-		$field->option_order = $r['option_order'];
-	}
 
 	return $field->save();
 }
