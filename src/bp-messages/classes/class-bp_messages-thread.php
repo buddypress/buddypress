@@ -508,6 +508,7 @@ class BP_Messages_Thread {
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 
+		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
 		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
 	}
 
@@ -525,6 +526,7 @@ class BP_Messages_Thread {
 		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
 		$wpdb->query($sql);
 
+		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
 		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
 	}
 
