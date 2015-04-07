@@ -286,7 +286,7 @@ function bp_pre_schema_upgrade() {
 
 		foreach ( $tables as $table_name => $indexes ) {
 			foreach ( $indexes as $index ) {
-				if ( $wpdb->query( $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $table_name ) ) ) ) {
+				if ( $wpdb->query( $wpdb->prepare( "SHOW TABLES LIKE %s", bp_esc_like( $table_name ) ) ) ) {
 					$wpdb->query( "ALTER TABLE $table_name DROP INDEX $index" );
 				}
 			}
