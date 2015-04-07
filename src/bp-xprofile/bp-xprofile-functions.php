@@ -283,9 +283,7 @@ function xprofile_insert_field( $args = '' ) {
 		$field->order_by = $r['order_by'];
 	}
 
-	if ( ! empty( $r['is_default_option'] ) ) {
-		$field->is_default_option = $r['is_default_option'];
-	}
+	$field->is_default_option = (bool) $r['is_default_option'];
 
 	if ( ! empty( $r['option_order'] ) ) {
 		$field->option_order = $r['option_order'];
