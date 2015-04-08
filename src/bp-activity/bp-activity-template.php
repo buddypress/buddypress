@@ -1753,11 +1753,9 @@ function bp_activity_action( $args = array() ) {
 	function bp_get_activity_action( $args = array() ) {
 		global $activities_template;
 
-		$args = wp_parse_args( $args, array(
+		$r = wp_parse_args( $args, array(
 			'no_timestamp' => false,
 		) );
-
-		$action = $activities_template->activity->action;
 
 		/**
 		 * Filters the activity action before the action is inserted as meta.
@@ -1766,8 +1764,13 @@ function bp_activity_action( $args = array() ) {
 		 *
 		 * @param array $value Array containing the current action, the current activity, and the $args array passed into the function.
 		 */
-		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array( $action, &$activities_template->activity, $args ) );
+		$action = apply_filters_ref_array( 'bp_get_activity_action_pre_meta', array(
+			$activities_template->activity->action,
+			&$activities_template->activity,
+			$r
+		) );
 
+		// Prepend the activity action meta (link, time since, etc...)
 		if ( ! empty( $action ) && empty( $r['no_timestamp'] ) ) {
 			$action = bp_insert_activity_meta( $action );
 		}
@@ -1779,7 +1782,11 @@ function bp_activity_action( $args = array() ) {
 		 *
 		 * @param array $value Array containing the current action, the current activity, and the $args array passed into the function.
 		 */
-		return apply_filters_ref_array( 'bp_get_activity_action', array( $action, &$activities_template->activity, $args ) );
+		return apply_filters_ref_array( 'bp_get_activity_action', array(
+			$action,
+			&$activities_template->activity,
+			$r
+		) );
 	}
 
 /**
@@ -1901,11 +1908,14 @@ function bp_activity_content() {
  * @param string $content The activity content.
  * @return string The activity content with the metadata string attached.
  */
-function bp_insert_activity_meta( $content ) {
+function bp_insert_activity_meta( $content = '' ) {
 	global $activities_template;
 
 	// Strip any legacy time since placeholders from BP 1.0-1.1
-	$content = str_replace( '<span class="time-since">%s</span>', '', $content );
+	$new_content = str_replace( '<span class="time-since">%s</span>', '', $content );
+
+	// Get the time since this activity was recorded
+	$date_recorded  = bp_core_time_since( $activities_template->activity->date_recorded );
 
 	/**
 	 * Filters the activity item time since markup.
@@ -1914,10 +1924,22 @@ function bp_insert_activity_meta( $content ) {
 	 *
 	 * @param array $value Array containing the time since markup and the current activity component.
 	 */
-	$time_since = apply_filters_ref_array( 'bp_activity_time_since', array( '<span class="time-since">' . bp_core_time_since( $activities_template->activity->date_recorded ) . '</span>', &$activities_template->activity ) );
+	$time_since = apply_filters_ref_array( 'bp_activity_time_since', array(
+		'<span class="time-since">' . $date_recorded . '</span>',
+		&$activities_template->activity
+	) );
 
 	// Insert the permalink
-	if ( !bp_is_single_activity() ) {
+	if ( ! bp_is_single_activity() ) {
+
+		// Setup variables for activity meta
+		$activity_permalink = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity );
+		$activity_meta      = sprintf( '%1$s <a href="%2$s" class="view activity-time-since" title="%3$s">%4$s</a>',
+			$new_content,
+			$activity_permalink,
+			esc_attr__( 'View Discussion', 'buddypress' ),
+			$time_since
+		);
 
 		/**
 		 * Filters the activity permalink to be added to the activity content.
@@ -1926,9 +1948,12 @@ function bp_insert_activity_meta( $content ) {
 		 *
 		 * @param array $value Array containing the html markup for the activity permalink, after being parsed by sprintf and current activity component.
 		 */
-		$content = apply_filters_ref_array( 'bp_activity_permalink', array( sprintf( '%1$s <a href="%2$s" class="view activity-time-since" title="%3$s">%4$s</a>', $content, bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ), esc_attr__( 'View Discussion', 'buddypress' ), $time_since ), &$activities_template->activity ) );
+		$new_content = apply_filters_ref_array( 'bp_activity_permalink', array(
+			$activity_meta,
+			&$activities_template->activity
+		) );
 	} else {
-		$content .= str_pad( $time_since, strlen( $time_since ) + 2, ' ', STR_PAD_BOTH );
+		$new_content .= str_pad( $time_since, strlen( $time_since ) + 2, ' ', STR_PAD_BOTH );
 	}
 
 	/**
@@ -1938,7 +1963,7 @@ function bp_insert_activity_meta( $content ) {
 	 *
 	 * @param string $content Activity content with the activity metadata added.
 	 */
-	return apply_filters( 'bp_insert_activity_meta', $content );
+	return apply_filters( 'bp_insert_activity_meta', $new_content, $content );
 }
 
 /**
