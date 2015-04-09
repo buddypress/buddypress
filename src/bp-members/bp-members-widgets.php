@@ -118,7 +118,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 				<?php endwhile; ?>
 			</ul>
-			<?php wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members' ); ?>
+			<?php wp_nonce_field( 'bp_core_widget_members', '_wpnonce-members', false ); ?>
 			<input type="hidden" name="members_widget_max" id="members_widget_max" value="<?php echo esc_attr( $instance['max_members'] ); ?>" />
 
 		<?php else: ?>
