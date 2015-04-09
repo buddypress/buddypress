@@ -720,22 +720,29 @@ function bp_the_activity() {
  * @since BuddyPress (2.1.0)
  */
 function bp_activity_load_more_link() {
-	echo bp_get_activity_load_more_link();
+	echo esc_url( bp_get_activity_load_more_link() );
 }
+	/**
+	 * Get the URL for the Load More link
+	 *
+	 * @since BuddyPress (2.1.0)
+	 */
 	function bp_get_activity_load_more_link() {
 		global $activities_template;
 
-		$link = bp_get_requested_url();
-		$link = add_query_arg( $activities_template->pag_arg, $activities_template->pag_page + 1, $link );
+		$url  = bp_get_requested_url();
+		$link = add_query_arg( $activities_template->pag_arg, $activities_template->pag_page + 1, $url );
 
 		/**
 		 * Filters the Load More link URL.
 		 *
 		 * @since BuddyPress (2.1.0)
 		 *
-		 * @param string $link The Load More link URL.
+		 * @param string $link                The "Load More" link URL with appropriate query args
+		 * @param string $url                 The original URL
+		 * @param object $activities_template The activity template loop global
 		 */
-		return apply_filters( 'bp_get_activity_load_more_link', $link );
+		return apply_filters( 'bp_get_activity_load_more_link', $link, $url, $activities_template );
 	}
 
 /**
