@@ -73,6 +73,54 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$this->assertSame( 'Bar', $object->labels['singular_name'] );
 	}
 
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_has_directory_should_default_to_true() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => true,
+		) );
+
+		$this->assertTrue( $object->has_directory );
+		$this->assertSame( 'foo', $object->directory_slug );
+	}
+
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_has_directory_true() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => true,
+		) );
+
+		$this->assertTrue( $object->has_directory );
+		$this->assertSame( 'foo', $object->directory_slug );
+	}
+
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_should_store_has_directory_false() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => false,
+		) );
+
+		$this->assertFalse( $object->has_directory );
+		$this->assertSame( '', $object->directory_slug );
+	}
+
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_should_store_has_directory_string() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => 'foos',
+		) );
+
+		$this->assertTrue( $object->has_directory );
+		$this->assertSame( 'foos', $object->directory_slug );
+	}
+
 	public function test_bp_get_member_type_object_should_return_null_for_non_existent_member_type() {
 		$this->assertSame( null, bp_get_member_type_object( 'foo' ) );
 	}

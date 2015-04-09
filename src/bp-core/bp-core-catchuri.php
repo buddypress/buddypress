@@ -258,37 +258,54 @@ function bp_core_set_uri_globals() {
 		// If members component, do more work to find the actual component
 		if ( 'members' == $match->key ) {
 
-			// Viewing a specific user
-			if ( !empty( $bp_uri[$uri_offset + 1] ) ) {
+			$after_member_slug = false;
+			if ( ! empty( $bp_uri[ $uri_offset + 1 ] ) ) {
+				$after_member_slug = $bp_uri[ $uri_offset + 1 ];
+			}
 
+			// Are we viewing a specific user?
+			if ( $after_member_slug ) {
 				// Switch the displayed_user based on compatibility mode
 				if ( bp_is_username_compatibility_mode() ) {
-					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $bp_uri[$uri_offset + 1] ) );
+					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $after_member_slug ) );
 				} else {
-					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( urldecode( $bp_uri[$uri_offset + 1] ) );
+					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( $after_member_slug );
 				}
+			}
 
-				if ( !bp_displayed_user_id() ) {
+			// Is this a member type directory?
+			if ( ! bp_displayed_user_id() && $after_member_slug === apply_filters( 'bp_members_member_type_base', _x( 'type', 'member type URL base', 'buddypress' ) ) && ! empty( $bp_uri[ $uri_offset + 2 ] ) ) {
+				$matched_types = bp_get_member_types( array(
+					'has_directory'  => true,
+					'directory_slug' => $bp_uri[ $uri_offset + 2 ],
+				) );
 
-					// Prevent components from loading their templates
-					$bp->current_component = '';
+				if ( ! empty( $matched_types ) ) {
+					$bp->current_member_type = reset( $matched_types );
+					unset( $bp_uri[ $uri_offset + 1 ] );
+				}
+			}
 
+			// If the slug matches neither a member type nor a specific member, 404.
+			if ( ! bp_displayed_user_id() && ! bp_get_current_member_type() && $after_member_slug ) {
+				// Prevent components from loading their templates.
+				$bp->current_component = '';
+				bp_do_404();
+				return;
+			}
+
+			// If the displayed user is marked as a spammer, 404 (unless logged-in user is a super admin)
+			if ( bp_displayed_user_id() && bp_is_user_spammer( bp_displayed_user_id() ) ) {
+				if ( bp_current_user_can( 'bp_moderate' ) ) {
+					bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'warning' );
+				} else {
 					bp_do_404();
 					return;
 				}
+			}
 
-				// If the displayed user is marked as a spammer, 404 (unless logged-
-				// in user is a super admin)
-				if ( bp_displayed_user_id() && bp_is_user_spammer( bp_displayed_user_id() ) ) {
-					if ( bp_current_user_can( 'bp_moderate' ) ) {
-						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'warning' );
-					} else {
-						bp_do_404();
-						return;
-					}
-				}
-
-				// Bump the offset
+			// Bump the offset.
+			if ( bp_displayed_user_id() ) {
 				if ( isset( $bp_uri[$uri_offset + 2] ) ) {
 					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
 					$bp->current_component = $bp_uri[0];
@@ -298,10 +315,10 @@ function bp_core_set_uri_globals() {
 					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
 					$bp->current_component = '';
 				}
-
-				// Reset the offset
-				$uri_offset = 0;
 			}
+
+			// Reset the offset
+			$uri_offset = 0;
 		}
 	}
 

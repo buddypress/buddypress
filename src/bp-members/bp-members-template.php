@@ -515,6 +515,16 @@ function bp_has_members( $args = '' ) {
 		$user_id = bp_displayed_user_id();
 	}
 
+	$member_type = bp_get_current_member_type();
+	if ( ! $member_type && ! empty( $_GET['member_type'] ) ) {
+		if ( is_array( $_GET['member_type'] ) ) {
+			$member_type = $_GET['member_type'];
+		} else {
+			// Can be a comma-separated list.
+			$member_type = explode( ',', $_GET['member_type'] );
+		}
+	}
+
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$r = bp_parse_args( $args, array(
 		'type'            => 'active',
@@ -528,7 +538,7 @@ function bp_has_members( $args = '' ) {
 		'exclude'         => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
 
 		'user_id'         => $user_id, // Pass a user_id to only show friends of this user
-		'member_type'     => '',
+		'member_type'     => $member_type,
 		'search_terms'    => null,     // Pass search_terms to filter users by their profile data
 
 		'meta_key'        => false,	   // Only return users with this usermeta
@@ -1795,6 +1805,28 @@ function bp_loggedin_user_username() {
 		 * @param string $username Username of the logged-in user.
 		 */
 		return apply_filters( 'bp_get_loggedin_user_username', $username );
+	}
+/**
+ * Echo the current member type message.
+ *
+ * @since BuddyPress (2.3.0)
+ */
+function bp_current_member_type_message() {
+	echo bp_get_current_member_type_message();
+}
+	/**
+	 * Generate the current member type message.
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_current_member_type_message() {
+		$type_object = bp_get_member_type_object( bp_get_current_member_type() );
+
+		$message = sprintf( __( 'Viewing members of the type: %s', 'buddypress' ), '<strong>' . $type_object->labels['singular_name'] . '</strong>' );
+
+		return apply_filters( 'bp_get_current_member_type_message', $message );
 	}
 
 /** Signup Form ***************************************************************/

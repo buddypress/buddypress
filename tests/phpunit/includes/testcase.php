@@ -44,7 +44,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 	function clean_up_global_scope() {
 		buddypress()->bp_nav                = buddypress()->bp_options_nav = buddypress()->action_variables = buddypress()->canonical_stack = buddypress()->unfiltered_uri = $GLOBALS['bp_unfiltered_uri'] = array();
-		buddypress()->current_component     = buddypress()->current_item = buddypress()->current_action = '';
+		buddypress()->current_component     = buddypress()->current_item = buddypress()->current_action = buddypress()->current_member_type = '';
 		buddypress()->unfiltered_uri_offset = 0;
 		buddypress()->is_single_item        = false;
 		buddypress()->current_user          = new stdClass();

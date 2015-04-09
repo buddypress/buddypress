@@ -81,6 +81,11 @@ class BuddyPress {
 	public $action_variables = array();
 
 	/**
+	 * @var string Current member directory type.
+	 */
+	public $current_member_type = '';
+
+	/**
 	 * @var array Required components (core, members).
 	 */
 	public $required_components = array();

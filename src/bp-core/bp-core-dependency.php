@@ -141,6 +141,15 @@ function bp_setup_widgets() {
 }
 
 /**
+ * Fire the 'bp_register_member_types' action, where plugins should register member types.
+ *
+ * @since BuddyPress (2.3.0)
+ */
+function bp_register_member_types() {
+	do_action( 'bp_register_member_types' );
+}
+
+/**
  * Fire the 'bp_setup_cache_groups' action, where cache groups are registered.
  *
  * @since BuddyPress (2.2.0)

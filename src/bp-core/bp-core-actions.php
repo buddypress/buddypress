@@ -55,6 +55,7 @@ add_action( 'bp_loaded', 'bp_setup_components',         2  );
 add_action( 'bp_loaded', 'bp_include',                  4  );
 add_action( 'bp_loaded', 'bp_setup_cache_groups',       5  );
 add_action( 'bp_loaded', 'bp_setup_widgets',            6  );
+add_action( 'bp_loaded', 'bp_register_member_types',    8  );
 add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
 add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
 

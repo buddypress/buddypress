@@ -2451,12 +2451,16 @@ add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' );
  * @param array  $args {
  *     Array of arguments describing the member type.
  *
- *     @type array $labels {
+ *     @type array       $labels {
  *         Array of labels to use in various parts of the interface.
  *
  *         @type string $name          Default name. Should typically be plural.
  *         @type string $singular_name Singular name.
  *     }
+ *     @type bool|string $has_directory Whether the member type should have its own type-specific directory.
+ *                                      Pass `true` to use the `$member_type` string as the type's slug.
+ *                                      Pass a string to customize the slug. Pass `false` to disable.
+ *                                      Default: true.
  * }
  * @return object|WP_Error Member type object on success, WP_Error object on failure.
  */
@@ -2468,7 +2472,8 @@ function bp_register_member_type( $member_type, $args = array() ) {
 	}
 
 	$r = bp_parse_args( $args, array(
-		'labels' => array(),
+		'labels'        => array(),
+		'has_directory' => true,
 	), 'register_member_type' );
 
 	$member_type = sanitize_key( $member_type );
@@ -2482,6 +2487,23 @@ function bp_register_member_type( $member_type, $args = array() ) {
 		'name'          => $default_name,
 		'singular_name' => $default_name,
 	), $r['labels'] );
+
+	// Directory slug.
+	if ( $r['has_directory'] ) {
+		// A string value is intepreted as the directory slug. Otherwise fall back on member type.
+		if ( is_string( $r['has_directory'] ) ) {
+			$directory_slug = $r['has_directory'];
+		} else {
+			$directory_slug = $member_type;
+		}
+
+		// Sanitize for use in URLs.
+		$r['directory_slug'] = sanitize_title( $directory_slug );
+		$r['has_directory']  = true;
+	} else {
+		$r['directory_slug'] = '';
+		$r['has_directory']  = false;
+	}
 
 	$bp->members->types[ $member_type ] = $type = (object) $r;
 
@@ -2714,3 +2736,14 @@ function bp_remove_member_type_on_user_delete( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_remove_member_type_on_user_delete' );
 add_action( 'delete_user', 'bp_remove_member_type_on_user_delete' );
+
+/**
+ * Get the "current" member type, if one is provided, in member directories.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @return string
+ */
+function bp_get_current_member_type() {
+	return apply_filters( 'bp_get_current_member_type', buddypress()->current_member_type );
+}
