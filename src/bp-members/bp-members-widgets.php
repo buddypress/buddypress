@@ -525,64 +525,79 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
  * AJAX request handler for Members widgets.
  *
  * @since BuddyPress (1.0.0)
+ *
+ * @see BP_Core_Members_Widget
  */
 function bp_core_ajax_widget_members() {
 
 	check_ajax_referer( 'bp_core_widget_members' );
 
-	switch ( $_POST['filter'] ) {
-		case 'newest-members':
+	// Setup some variables to check
+	$filter      = ! empty( $_POST['filter']      ) ? $_POST['filter']                : 'recently-active-members';
+	$max_members = ! empty( $_POST['max-members'] ) ? absint( $_POST['max-members'] ) : 5;
+
+	// Determine the type of members query to perform
+	switch ( $filter ) {
+
+		// Newest activated
+		case 'newest-members' :
 			$type = 'newest';
 			break;
 
-		case 'recently-active-members':
-			$type = 'active';
+		// Popular by friends
+		case 'popular-members' :
+			if ( bp_is_active( 'friends' ) ) {
+				$type = 'popular';
+			} else {
+				$type = 'active';
+			}
 			break;
 
-		case 'popular-members':
-			if ( bp_is_active( 'friends' ) )
-				$type = 'popular';
-			else
-				$type = 'active';
-
+		// Default
+		case 'recently-active-members' :
+		default :
+			$type = 'active';
 			break;
 	}
 
+	// Setup args for querying members
 	$members_args = array(
 		'user_id'         => 0,
 		'type'            => $type,
-		'per_page'        => $_POST['max-members'],
-		'max'             => $_POST['max-members'],
-		'populate_extras' => 1,
+		'per_page'        => $max_members,
+		'max'             => $max_members,
+		'populate_extras' => true,
 		'search_terms'    => false,
 	);
 
+	// Query for members
 	if ( bp_has_members( $members_args ) ) : ?>
 		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this. ?>
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 			<li class="vcard">
 				<div class="item-avatar">
-					<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
+					<a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar(); ?></a>
 				</div>
 
 				<div class="item">
-					<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
-					<?php if ( 'active' == $type ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
-					<?php elseif ( 'newest' == $type ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_registered() ?></span></div>
+					<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_name(); ?></a></div>
+					<?php if ( 'active' === $type ) : ?>
+						<div class="item-meta"><span class="activity"><?php bp_member_last_active(); ?></span></div>
+					<?php elseif ( 'newest' === $type ) : ?>
+						<div class="item-meta"><span class="activity"><?php bp_member_registered(); ?></span></div>
 					<?php elseif ( bp_is_active( 'friends' ) ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count() ?></span></div>
+						<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count(); ?></span></div>
 					<?php endif; ?>
 				</div>
 			</li>
+
 		<?php endwhile; ?>
 
 	<?php else: ?>
 		<?php echo "-1[[SPLIT]]<li>"; ?>
-		<?php _e( 'There were no members found, please try another filter.', 'buddypress' ) ?>
+		<?php esc_html_e( 'There were no members found, please try another filter.', 'buddypress' ) ?>
 		<?php echo "</li>"; ?>
 	<?php endif;
 }
-add_action( 'wp_ajax_widget_members', 'bp_core_ajax_widget_members' );
+add_action( 'wp_ajax_widget_members',        'bp_core_ajax_widget_members' );
 add_action( 'wp_ajax_nopriv_widget_members', 'bp_core_ajax_widget_members' );
