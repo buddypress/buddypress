@@ -55,7 +55,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
-	 * @param array $args Widget arguments.
+	 * @param array $args     Widget arguments.
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
@@ -152,9 +152,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 	/**
 	 * Update the Members widget options.
 	 *
-	 * @param array $new_instance The new instance options.
-	 * @param array $old_instance The old instance options.
-	 * @return array $instance The parsed options to be saved.
+	 * @param  array $new_instance The new instance options.
+	 * @param  array $old_instance The old instance options.
+	 * @return array $instance     The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -257,7 +257,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
-	 * @param array $args Widget arguments.
+	 * @param array $args     Widget arguments.
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
@@ -320,9 +320,9 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	/**
 	 * Update the Who's Online widget options.
 	 *
-	 * @param array $new_instance The new instance options.
-	 * @param array $old_instance The old instance options.
-	 * @return array $instance The parsed options to be saved.
+	 * @param  array $new_instance The new instance options.
+	 * @param  array $old_instance The old instance options.
+	 * @return array $instance     The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance                = $old_instance;
@@ -387,12 +387,13 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	/**
 	 * Constructor method.
 	 */
-	function __construct() {
-		$widget_ops = array(
-			'description' => __( 'Profile photos of recently active members', 'buddypress' ),
-			'classname' => 'widget_bp_core_recently_active_widget buddypress widget',
-		);
-		parent::__construct( false, $name = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' ), $widget_ops );
+	public function __construct() {
+		$name        = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' );
+		$description = __( 'Profile photos of recently active members', 'buddypress' );
+		parent::__construct( false, $name, array(
+			'description' => $description,
+			'classname'   => 'widget_bp_core_recently_active_widget buddypress widget',
+		) );
 	}
 
 	/**
@@ -400,12 +401,13 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
-	 * @param array $args Widget arguments.
+	 * @param array $args     Widget arguments.
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 
-		extract( $args );
+		// Get widget settings
+		$settings = $this->parse_settings( $instance );
 
 		/**
 		 * Filters the title of the Recently Active widget.
@@ -414,45 +416,49 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		 * @since BuddyPress (2.3.0) Added 'instance' and 'id_base' to arguments passed to filter.
 		 *
 		 * @param string $title    The widget title.
-		 * @param array  $instance The settings for the particular instance of the widget.
+		 * @param array  $settings The settings for the particular instance of the widget.
 		 * @param string $id_base  Root ID for all widgets of this type.
 		 */
-		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', $settings['title'], $settings, $this->id_base );
 
-		echo $before_widget;
-		echo $before_title
+		echo $args['before_widget'];
+		echo $args['before_title']
 		   . $title
-		   . $after_title;
+		   . $args['after_title'];
 
+		// Setup args for querying members
 		$members_args = array(
 			'user_id'         => 0,
 			'type'            => 'active',
-			'per_page'        => $instance['max_members'],
-			'max'             => $instance['max_members'],
+			'per_page'        => $settings['max_members'],
+			'max'             => $settings['max_members'],
 			'populate_extras' => true,
 			'search_terms'    => false,
-		);
-
-		?>
+		); ?>
 
 		<?php if ( bp_has_members( $members_args ) ) : ?>
+
 			<div class="avatar-block">
+
 				<?php while ( bp_members() ) : bp_the_member(); ?>
+
 					<div class="item-avatar">
-						<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+						<a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_avatar(); ?></a>
 					</div>
+
 				<?php endwhile; ?>
+
 			</div>
+
 		<?php else: ?>
 
 			<div class="widget-error">
-				<?php _e( 'There are no recently active members', 'buddypress' ) ?>
+				<?php esc_html_e( 'There are no recently active members', 'buddypress' ); ?>
 			</div>
 
 		<?php endif; ?>
 
-		<?php echo $after_widget; ?>
-	<?php
+		<?php echo $args['after_widget'];
 	}
 
 	/**
@@ -462,9 +468,9 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 * @param array $old_instance The old instance options.
 	 * @return array $instance The parsed options to be saved.
 	 */
-	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		$instance['title'] = strip_tags( $new_instance['title'] );
+	public function update( $new_instance, $old_instance ) {
+		$instance                = $old_instance;
+		$instance['title']       = strip_tags( $new_instance['title'] );
 		$instance['max_members'] = strip_tags( $new_instance['max_members'] );
 
 		return $instance;
@@ -475,21 +481,43 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @param $instance Settings for this widget.
 	 */
-	function form( $instance ) {
-		$defaults = array(
-			'title' => __( 'Recently Active Members', 'buddypress' ),
-			'max_members' => 15
-		);
-		$instance = wp_parse_args( (array) $instance, $defaults );
+	public function form( $instance ) {
 
-		$title = strip_tags( $instance['title'] );
-		$max_members = strip_tags( $instance['max_members'] );
-		?>
+		// Get widget settings
+		$settings    = $this->parse_settings( $instance );
+		$title       = strip_tags( $settings['title'] );
+		$max_members = strip_tags( $settings['max_members'] ); ?>
 
-		<p><label for="bp-core-widget-members-title"><?php _e('Title:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" /></label></p>
+		<p>
+			<label for="bp-core-widget-members-title">
+				<?php esc_html_e( 'Title:', 'buddypress' ); ?>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" />
+			</label>
+		</p>
 
-		<p><label for="bp-core-widget-members-max"><?php _e('Max Members to show:', 'buddypress'); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" /></label></p>
+		<p>
+			<label for="bp-core-widget-members-max">
+				<?php esc_html_e( 'Max Members to show:', 'buddypress' ); ?>
+				<input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" />
+			</label>
+		</p>
+
 	<?php
+	}
+
+	/**
+	 * Merge the widget settings into defaults array.
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @param $instance Instance
+	 * @uses bp_parse_args() To merge widget settings into defaults
+	 */
+	public function parse_settings( $instance = array() ) {
+		return bp_parse_args( $instance, array(
+			'title' 	     => __( 'Recently Active Members', 'buddypress' ),
+			'max_members' 	 => 15,
+		), 'recently_active_members_widget_settings' );
 	}
 }
 
