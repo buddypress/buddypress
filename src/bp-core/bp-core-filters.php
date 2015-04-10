@@ -663,7 +663,7 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 		$title_parts[] = $blogname;
 
 		if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
-			$title_parts[] = sprintf( __( 'Page %s' ), max( $paged, $page ) );
+			$title_parts[] = sprintf( __( 'Page %s', 'buddypress' ), max( $paged, $page ) );
 		}
 	}
 
