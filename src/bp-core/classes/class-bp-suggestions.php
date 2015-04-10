@@ -92,8 +92,16 @@ abstract class BP_Suggestions {
 	public function validate() {
 		$this->args['limit'] = absint( $this->args['limit'] );
 		$this->args['term']  = trim( sanitize_text_field( $this->args['term'] ) );
-		$this->args          = apply_filters( 'bp_suggestions_args', $this->args, $this );
 
+		/**
+		 * Filters the arguments to be validated for the BP_Suggestions query.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param BP_Suggestions $value Arguments to be validated.
+		 * @param BP_Suggestions $this  Current BP_Suggestions instance.
+		 */
+		$this->args          = apply_filters( 'bp_suggestions_args', $this->args, $this );
 
 		// Check for invalid or missing mandatory parameters.
 		if ( ! $this->args['limit'] || ! $this->args['term'] ) {
@@ -105,6 +113,14 @@ abstract class BP_Suggestions {
 			return new WP_Error( 'invalid_user' );
 		}
 
+		/**
+		 * Filters the status of validation for the BP_Suggestions query.
+		 *
+		 * @since BuddyPress (2.1.0)
+		 *
+		 * @param bool           $value Whether or not the values are valid.
+		 * @param BP_Suggestions $this  Current BP_Suggestions instance.
+		 */
 		return apply_filters( 'bp_suggestions_validate_args', true, $this );
 	}
 
