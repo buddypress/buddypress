@@ -66,7 +66,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		 * @param array  $instance The settings for the particular instance of the widget.
 		 * @param string $id_base  Root ID for all widgets of this type.
 		 */
-		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $args['before_widget'];
 		echo $args['before_title'] . $title . $args['after_title'];
