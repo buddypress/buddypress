@@ -314,6 +314,13 @@ class BuddyPress {
 
 		/** Loading ***********************************************************/
 
+		/**
+		 * Filters the load_deprecated property value.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param constant BP_IGNORE_DEPRECATED Whether or not to ignore deprecated functionality.
+		 */
 		$this->load_deprecated = ! apply_filters( 'bp_ignore_deprecated', BP_IGNORE_DEPRECATED );
 
 		/** Toolbar ***********************************************************/
@@ -361,6 +368,13 @@ class BuddyPress {
 		/** Root **************************************************************/
 
 		// BuddyPress Root blog ID
+		/**
+		 * Filters the BuddyPress Root blog ID.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 *
+		 * @param constant BP_ROOT_BLOG BuddyPress Root blog ID.
+		 */
 		$this->root_blog_id = (int) apply_filters( 'bp_get_root_blog_id', BP_ROOT_BLOG );
 
 		/** Paths**************************************************************/
@@ -515,7 +529,15 @@ class BuddyPress {
 			}
 		}
 
-		// All BuddyPress actions are setup (includes bbp-core-hooks.php)
+		/**
+		 * Fires after the setup of all BuddyPress actions.
+		 *
+		 * Includes bbp-core-hooks.php.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param BuddyPress $this. Current BuddyPress instance. Passed by reference.
+		 */
 		do_action_ref_array( 'bp_after_setup_actions', array( &$this ) );
 	}
 
