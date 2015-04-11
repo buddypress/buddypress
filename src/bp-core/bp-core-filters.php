@@ -540,24 +540,6 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 	// Is there a displayed user, and do they have a name?
 	$displayed_user_name = bp_get_displayed_user_fullname();
 
-	/**
-	 * Strip span tags out of title part strings.
-	 *
-	 * This is a temporary function for compatibility with WordPress versions
-	 * less than 4.0, and should be removed at a later date.
-	 *
-	 * @param  string $title_part
-	 * @return string
-	 */
-	function _bp_strip_spans_from_title( $title_part = '' ) {
-		$title = $title_part;
-		$span = strpos( $title, '<span' );
-		if ( false !== $span ) {
-			$title = substr( $title, 0, $span - 1 );
-		}
-		return $title;
-	}
-
 	// Displayed user
 	if ( ! empty( $displayed_user_name ) && ! is_404() ) {
 
@@ -690,6 +672,24 @@ add_filter( 'wp_title', 'bp_modify_page_title', 20, 3 );
 add_filter( 'bp_modify_page_title', 'wptexturize'     );
 add_filter( 'bp_modify_page_title', 'convert_chars'   );
 add_filter( 'bp_modify_page_title', 'esc_html'        );
+
+/**
+ * Strip span tags out of title part strings.
+ *
+ * This is a temporary function for compatibility with WordPress versions
+ * less than 4.0, and should be removed at a later date.
+ *
+ * @param  string $title_part
+ * @return string
+ */
+function _bp_strip_spans_from_title( $title_part = '' ) {
+	$title = $title_part;
+	$span = strpos( $title, '<span' );
+	if ( false !== $span ) {
+		$title = substr( $title, 0, $span - 1 );
+	}
+	return $title;
+}
 
 /**
  * Add BuddyPress-specific items to the wp_nav_menu.
