@@ -297,11 +297,20 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $message_id ID of the message.
+ * @param int   $message_id  ID of the thread.
+ * @param array $message_ids IDs of the messages.
  */
-function bp_messages_message_delete_notifications( $message_id = 0 ) {
-	if ( bp_is_active( 'notifications' ) && ! empty( $message_id ) ) {
-		bp_notifications_delete_notifications_by_item_id( bp_loggedin_user_id(), (int) $message_id, buddypress()->messages->id, 'new_message' );
+function bp_messages_message_delete_notifications( $thread_id, $message_ids ) {
+	if ( ! bp_is_active( 'notifications' ) ) {
+		return;
+	}
+
+	// For each recipient, delete notifications corresponding to each message.
+	$thread = new BP_Messages_Thread( $thread_id );
+	foreach ( $thread->get_recipients() as $recipient ) {
+		foreach ( $message_ids as $message_id ) {
+			bp_notifications_delete_notifications_by_item_id( $recipient->user_id, (int) $message_id, buddypress()->messages->id, 'new_message' );
+		}
 	}
 }
-add_action( 'messages_thread_deleted_thread', 'bp_messages_message_delete_notifications', 10, 1 );
+add_action( 'bp_messages_thread_after_delete', 'bp_messages_message_delete_notifications', 10, 2 );
