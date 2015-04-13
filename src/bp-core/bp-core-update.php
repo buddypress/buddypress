@@ -187,6 +187,13 @@ function bp_version_updater() {
 	// Get the raw database version
 	$raw_db_version = (int) bp_get_db_version_raw();
 
+	/**
+	 * Filters the default components to activate for a new install.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param array $value Array of default components to activate.
+	 */
 	$default_components = apply_filters( 'bp_new_install_default_components', array(
 		'activity'      => 1,
 		'members'       => 1,
@@ -614,7 +621,13 @@ function bp_activation() {
 	// Add options
 	bp_add_options();
 
-	// Use as of (1.6)
+	/**
+	 * Fires during the activation of BuddyPress.
+	 *
+	 * Use as of (1.6.0)
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_activation' );
 
 	// @deprecated as of (1.6)
@@ -643,7 +656,13 @@ function bp_deactivation() {
 		update_option( 'stylesheet_root', get_raw_theme_root( WP_DEFAULT_THEME, true ) );
 	}
 
-	// Use as of (1.6)
+	/**
+	 * Fires during the deactivation of BuddyPress.
+	 *
+	 * Use as of (1.6.0)
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_deactivation' );
 
 	// @deprecated as of (1.6)
@@ -660,5 +679,11 @@ function bp_deactivation() {
  * @uses do_action() Calls 'bp_uninstall' hook.
  */
 function bp_uninstall() {
+
+	/**
+	 * Fires during the uninstallation of BuddyPress.
+	 *
+	 * @since BuddyPress (1.6.0)
+	 */
 	do_action( 'bp_uninstall' );
 }
