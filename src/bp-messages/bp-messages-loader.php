@@ -303,6 +303,7 @@ class BP_Messages_Component extends BP_Component {
 		// Global groups
 		wp_cache_add_global_groups( array(
 			'bp_messages',
+			'bp_messages_threads',
 			'bp_messages_unread_count',
 			'message_meta'
 		) );
