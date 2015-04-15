@@ -146,6 +146,12 @@ function bp_setup_widgets() {
  * @since BuddyPress (2.3.0)
  */
 function bp_register_member_types() {
+
+	/**
+	 * Fires inside bp_register_member_types(), so plugins can register member types.
+	 *
+	 * @since BuddyPress (2.3.0)
+	 */
 	do_action( 'bp_register_member_types' );
 }
 
