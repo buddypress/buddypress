@@ -206,24 +206,30 @@ class BP_Messages_Thread {
 	 * Returns recipients for a message thread.
 	 *
 	 * @since BuddyPress (1.0.0)
+	 * @since BuddyPress (2.3.0) Added $thread_id as a parameter.
 	 *
+	 * @param int $thread_id The thread ID
 	 * @return array
 	 */
-	public function get_recipients() {
+	public function get_recipients( $thread_id = 0 ) {
 		global $wpdb;
 
-		$recipients = wp_cache_get( 'thread_recipients_' . $this->thread_id, 'bp_messages' );
+		if ( empty( $thread_id ) ) {
+			$thread_id = $this->thread_id;
+		}
+
+		$recipients = wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' );
 		if ( false === $recipients ) {
 			$bp = buddypress();
 
 			$recipients = array();
-			$results    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $this->thread_id ) );
+			$results    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d", $thread_id ) );
 
 			foreach ( (array) $results as $recipient ) {
 				$recipients[ $recipient->user_id ] = $recipient;
 			}
 
-			wp_cache_set( 'thread_recipients_' . $this->thread_id, $recipients, 'bp_messages' );
+			wp_cache_set( 'thread_recipients_' . $thread_id, $recipients, 'bp_messages' );
 		}
 
 		/**
@@ -234,10 +240,23 @@ class BP_Messages_Thread {
 		 * @param array $recipients Array of recipient objects.
 		 * @param int   $thread_id  ID of the current thread.
 		 */
-		return apply_filters( 'bp_messages_thread_get_recipients', $recipients, $this->thread_id );
+		return apply_filters( 'bp_messages_thread_get_recipients', $recipients, $thread_id );
 	}
 
 	/** Static Functions ******************************************************/
+
+	/**
+	 * Static method to get message recipients by thread ID.
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @param  int $thread_id The thread ID
+	 * @return array
+	 */
+	public static function get_recipients_for_thread( $thread_id = 0 ) {
+		$thread = new self( false );
+		return $thread->get_recipients( $thread_id );
+	}
 
 	/**
 	 * Mark messages in a thread as deleted or delete all messages in a thread.
