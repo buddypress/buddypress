@@ -256,4 +256,139 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		// Return the full and thumb cropped avatars
 		return $avatar_types;
 	}
+
+	/**
+	 * Get the user id to set its avatar
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @return integer the user ID
+	 */
+	private function get_user_id() {
+		$bp = buddypress();
+		$user_id = 0;
+
+		if ( bp_is_user() ) {
+			$user_id = bp_displayed_user_id();
+		}
+
+		if ( ! empty( $bp->members->admin->user_id ) ) {
+			$user_id = $bp->members->admin->user_id;
+		}
+
+		return $user_id;
+	}
+
+	/**
+	 * Get the group id to set its avatar
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @return integer the group id
+	 */
+	private function get_group_id() {
+		$group_id = 0;
+
+		if ( bp_is_group() ) {
+			$group_id = bp_get_current_group_id();
+		}
+
+		return $group_id;
+	}
+
+	/**
+	 * Build script datas for the Uploader UI
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @return array the javascript localization data
+	 */
+	public function script_data() {
+		// Get default script data
+		$script_data = parent::script_data();
+
+		// Defaults to Avatar Backbone script
+		$js_scripts = array( 'bp-avatar' );
+
+		// Default object
+		$object = '';
+
+		// Get the possible item ids
+		$user_id  = $this->get_user_id();
+		$group_id = $this->get_group_id();
+
+		if ( ! empty( $user_id ) ) {
+			// Should we load the the Webcam Avatar javascript file
+			if ( bp_avatar_use_webcam() ) {
+				$js_scripts = array( 'bp-webcam' );
+			}
+
+			$script_data['bp_params'] = array(
+				'object'     => 'user',
+				'item_id'    => $user_id,
+				'has_avatar' => bp_get_user_has_avatar( $user_id ),
+				'nonces'  => array(
+					'set'    => wp_create_nonce( 'bp_avatar_cropstore' ),
+					'remove' => wp_create_nonce( 'bp_delete_avatar_link' ),
+				),
+			);
+
+			// Set feedback messages
+			$script_data['feedback_messages'] = array(
+				1 => __( 'There was a problem cropping your profile photo.', 'buddypress' ),
+				2 => __( 'Your new profile photo was uploaded successfully.', 'buddypress' ),
+				3 => __( 'There was a problem deleting your profile photo. Please try again.', 'buddypress' ),
+				4 => __( 'Your profile photo was deleted successfully!', 'buddypress' ),
+			);
+		} elseif ( ! empty( $group_id ) ) {
+			$script_data['bp_params'] = array(
+				'object'     => 'group',
+				'item_id'    => $group_id,
+				'has_avatar' => bp_get_group_has_avatar( $group_id ),
+				'nonces'     => array(
+					'set'    => wp_create_nonce( 'bp_avatar_cropstore' ),
+					'remove' => wp_create_nonce( 'bp_group_avatar_delete' ),
+				),
+			);
+
+			// Set feedback messages
+			$script_data['feedback_messages'] = array(
+				1 => __( 'There was a problem cropping the group profile photo.', 'buddypress' ),
+				2 => __( 'The group profile photo was uploaded successfully.', 'buddypress' ),
+				3 => __( 'There was a problem deleting the group profile photo. Please try again.', 'buddypress' ),
+				4 => __( 'The group profile photo was deleted successfully!', 'buddypress' ),
+			);
+		} else {
+			/**
+			 * Use this filter to include specific BuddyPress params for your object
+			 * e.g. Blavatar
+			 *
+			 * @since BuddyPress (2.3.0)
+			 *
+			 * @param array the avatar specific BuddyPress parameters
+			 */
+			$script_data['bp_params'] = apply_filters( 'bp_attachment_avatar_params', array() );
+		}
+
+		// Include the specific css
+		$script_data['extra_css'] = array( 'bp-avatar' );
+
+		// Include the specific css
+		$script_data['extra_js']  = $js_scripts;
+
+		// Set the object to contextualize the filter
+		if ( isset( $script_data['bp_params']['object'] ) ) {
+			$object = $script_data['bp_params']['object'];
+		}
+
+		/**
+		 * Use this filter to override/extend the avatar script data
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param array  $script_data the avatar script data
+		 * @param string $object      the object the avatar belongs to (eg: user or group)
+		 */
+		return apply_filters( 'bp_attachment_avatar_script_data', $script_data, $object );
+	}
 }

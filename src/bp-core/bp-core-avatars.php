@@ -1373,3 +1373,67 @@ function bp_core_avatar_reset_query( $posts_query = null ) {
 	}
 }
 add_action( 'bp_parse_query', 'bp_core_avatar_reset_query', 10, 1 );
+
+/**
+ * Checks whether Avatar UI should be loaded
+ *
+ * @since  BuddyPress (2.3.0)
+ *
+ * @return bool True if Avatar UI should load, false otherwise
+ */
+function bp_avatar_is_front_edit() {
+	$retval = false;
+
+	if ( bp_is_user_change_avatar() && 'crop-image' !== bp_get_avatar_admin_step() ) {
+		$retval = ! bp_core_get_root_option( 'bp-disable-avatar-uploads' );
+	}
+
+	if ( bp_is_active( 'groups' ) ) {
+		// Group creation
+		if ( bp_is_group_create() && bp_is_group_creation_step( 'group-avatar' ) && 'crop-image' !== bp_get_avatar_admin_step() ) {
+			$retval = ! bp_core_get_root_option( 'bp-disable-avatar-uploads' );
+
+		// Group Manage
+		} elseif ( bp_is_group_admin_page() && bp_is_group_admin_screen( 'group-avatar' ) && 'crop-image' !== bp_get_avatar_admin_step() ) {
+			$retval = ! bp_core_get_root_option( 'bp-disable-avatar-uploads' );
+		}
+	}
+
+	/**
+	 * Use this filter if you need to :
+	 * - Load the avatar UI for a component that is !groups or !user (return true regarding your conditions)
+	 * - Completely disable the avatar UI introduced in 2.3 (eg: __return_false())
+	 *
+	 * @since  BuddyPress (2.3.0)
+	 *
+	 * @var  bool whether to load the Avatar UI
+	 */
+	return apply_filters( 'bp_avatar_is_front_edit', $retval );
+}
+
+/**
+ * Checks whether the Webcam Avatar UI part should be loaded
+ *
+ * @since  BuddyPress (2.3.0)
+ *
+ * @return bool True to load the Webcam Avatar UI part. False otherwise.
+ */
+function bp_avatar_use_webcam() {
+	/**
+	 * Do not use the webcam feature for mobile devices
+	 * to avoid possible confusions.
+	 */
+	if ( wp_is_mobile() ) {
+		return false;
+	}
+
+	/**
+	 * Use this filter if you need to disable the webcam capture feature
+	 * by returning false.
+	 *
+	 * @since  BuddyPress (2.3.0)
+	 *
+	 * @var  bool whether to load Webcam Avatar UI part
+	 */
+	return apply_filters( 'bp_avatar_use_webcam', true );
+}
