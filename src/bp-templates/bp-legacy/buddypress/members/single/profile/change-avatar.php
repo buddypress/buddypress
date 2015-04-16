@@ -50,6 +50,14 @@
 
 	</form>
 
+	<?php
+	/**
+	 * Load the Avatar UI templates
+	 *
+	 * @since  BuddyPress (2.3.0)
+	 */
+	bp_avatar_get_templates(); ?>
+
 <?php else : ?>
 
 	<p><?php _e( 'Your profile photo will be used on your profile and throughout the site. To change your profile photo, please create an account with <a href="http://gravatar.com">Gravatar</a> using the same email address as you used to register with this site.', 'buddypress' ); ?></p>

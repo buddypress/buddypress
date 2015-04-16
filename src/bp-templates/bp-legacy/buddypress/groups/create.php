@@ -60,7 +60,7 @@
 
 
 					<label>
-						<input type="radio" name="group-status" value="private"<?php if ( 'private' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> /> 
+						<input type="radio" name="group-status" value="private"<?php if ( 'private' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> />
 						<strong><?php _e( 'This is a private group', 'buddypress' ); ?></strong>
 					</label>
 					<ul>
@@ -71,7 +71,7 @@
 
 
 					<label>
-						<input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> /> 
+						<input type="radio" name="group-status" value="hidden"<?php if ( 'hidden' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> />
 						<strong><?php _e('This is a hidden group', 'buddypress' ); ?></strong>
 					</label>
 					<ul>
@@ -152,6 +152,14 @@
 
 						<p><?php _e( 'To skip the group profile photo upload process, hit the "Next Step" button.', 'buddypress' ); ?></p>
 					</div><!-- .main-column -->
+
+					<?php
+					/**
+					 * Load the Avatar UI templates
+					 *
+					 * @since  BuddyPress (2.3.0)
+					 */
+					bp_avatar_get_templates(); ?>
 
 				<?php endif; ?>
 

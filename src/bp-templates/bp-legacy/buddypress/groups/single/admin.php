@@ -140,6 +140,14 @@
 
 			<?php endif; ?>
 
+			<?php
+			/**
+			 * Load the Avatar UI templates
+			 *
+			 * @since  BuddyPress (2.3.0)
+			 */
+			bp_avatar_get_templates(); ?>
+
 			<?php wp_nonce_field( 'bp_avatar_upload' ); ?>
 
 	<?php endif; ?>

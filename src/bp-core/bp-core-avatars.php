@@ -1437,3 +1437,35 @@ function bp_avatar_use_webcam() {
 	 */
 	return apply_filters( 'bp_avatar_use_webcam', true );
 }
+
+/**
+ * Template function to load the Avatar UI javascript templates
+ *
+ * @since  BuddyPress (2.3.0)
+ */
+function bp_avatar_get_templates() {
+	if ( ! bp_avatar_is_front_edit() ) {
+		return;
+	}
+
+	bp_attachments_get_template_part( 'avatars/index' );
+}
+
+/**
+ * Trick to check if the theme's BuddyPress templates are up to date
+ *
+ * If the "avatar templates" are not including the new template tag, this will
+ * help users to get the avatar UI and inform the most curious that their
+ * templates are out of date.
+ *
+ * @since  BuddyPress (2.3.0)
+ */
+function bp_avatar_template_check() {
+	if ( ! bp_avatar_is_front_edit() ) {
+		return;
+	}
+
+	if ( ! did_action( 'bp_attachments_avatar_check_template' ) ) {
+		bp_attachments_get_template_part( 'avatars/index' );
+	}
+}
