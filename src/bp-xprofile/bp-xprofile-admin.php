@@ -673,12 +673,40 @@ class BP_XProfile_User_Admin {
 	 * @since BuddyPress (2.0.0)
 	 */
 	private function setup_actions() {
+		// Enqueue scripts
+		add_action( 'bp_members_admin_enqueue_scripts',  array( $this, 'enqueue_scripts'    ), 10, 1 );
 
 		// Register the metabox in Member's community admin profile
 		add_action( 'bp_members_admin_xprofile_metabox', array( $this, 'register_metaboxes' ), 10, 3 );
 
 		// Saves the profile actions for user ( avatar, profile fields )
 		add_action( 'bp_members_admin_update_user',      array( $this, 'user_admin_load'    ), 10, 4 );
+	}
+
+	/**
+	 * Enqueue needed scripts.
+	 *
+	 * @access public
+	 * @since BuddyPress (2.3.0)
+	 */
+	public function enqueue_scripts( $screen_id ) {
+		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' ) && false === strpos( $screen_id, 'profile_page_bp-profile-edit' ) ) || bp_core_get_root_option( 'bp-disable-avatar-uploads' ) ) {
+			return;
+		}
+
+		/**
+		 * Get Thickbox
+		 *
+		 * We cannot simply use add_thickbox() here as WordPress is not playing
+		 * nice with Thickbox width/height see https://core.trac.wordpress.org/ticket/17249
+		 * Using media-upload might be interesting in the future for the send to editor stuff
+		 * and we make sure the tb_window is wide enougth
+		 */
+		wp_enqueue_style ( 'thickbox' );
+		wp_enqueue_script( 'media-upload' );
+
+		// Get Avatar Uploader
+		bp_attachments_enqueue_scripts( 'BP_Attachment_Avatar' );
 	}
 
 	/**
@@ -1037,6 +1065,14 @@ class BP_XProfile_User_Admin {
 
 				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a></li>
 
+			<?php endif;
+
+			// Load the Avatar UI templates if user avatar uploads are enabled
+			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) ) : ?>
+				<a href="#TB_inline?width=800px&height=400px&inlineId=bp-xprofile-avatar-editor" title="<?php esc_attr_e( 'Edit Profile Photo', 'buddypress' );?>" class="thickbox bp-xprofile-avatar-user-edit"><?php esc_html_e( 'Edit Profile Photo', 'buddypress' ); ?></a>
+				<div id="bp-xprofile-avatar-editor" style="display:none;">
+					<?php bp_attachments_get_template_part( 'avatars/index' ); ?>
+				</div>
 			<?php endif; ?>
 
 		</div>

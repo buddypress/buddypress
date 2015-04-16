@@ -25,7 +25,8 @@ div#community-profile-page li.bp-members-profile-stats:before,
 div#community-profile-page li.bp-friends-profile-stats:before,
 div#community-profile-page li.bp-groups-profile-stats:before,
 div#community-profile-page li.bp-blogs-profile-stats:before,
-div#community-profile-page a.bp-xprofile-avatar-user-admin:before {
+div#community-profile-page a.bp-xprofile-avatar-user-admin:before,
+div#community-profile-page a.bp-xprofile-avatar-user-edit:before {
 	font: normal 20px/1 'dashicons';
 	speak: none;
 	display: inline-block;
@@ -58,6 +59,10 @@ div#community-profile-page li.bp-blogs-profile-stats:before {
 
 div#community-profile-page a.bp-xprofile-avatar-user-admin:before {
 	content:"\f182";
+}
+
+div#community-profile-page a.bp-xprofile-avatar-user-edit:before {
+	content: "\f107";
 }
 
 div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar {
