@@ -1321,6 +1321,53 @@ function bp_core_check_avatar_size( $file ) {
 }
 
 /**
+ * Get allowed avatar types
+ *
+ * @since  BuddyPress (2.3.0)
+ */
+function bp_core_get_allowed_avatar_types() {
+	$allowed_types = array( 'jpeg', 'gif', 'png' );
+
+	/**
+ 	 * Use this filter to restrict image types
+ 	 *
+ 	 * @since BuddyPress (2.3.0)
+ 	 *
+ 	 * @param array list of image types
+ 	 */
+ 	$avatar_types = (array) apply_filters( 'bp_core_get_allowed_avatar_types', $allowed_types );
+
+ 	if ( empty( $avatar_types ) ) {
+ 		$avatar_types = $allowed_types;
+ 	} else {
+ 		$avatar_types = array_intersect( $allowed_types, $avatar_types );
+ 	}
+
+ 	return array_values( $avatar_types );
+}
+
+/**
+ * Get allowed avatar mime types
+ *
+ * @since  BuddyPress (2.3.0)
+ */
+function bp_core_get_allowed_avatar_mimes() {
+	$allowed_types  = bp_core_get_allowed_avatar_types();
+	$validate_mimes = wp_match_mime_types( join( ',', $allowed_types ), wp_get_mime_types() );
+	$allowed_mimes  = array_map( 'implode', $validate_mimes );
+
+	/**
+	 * Include jpg type if needed so that bp_core_check_avatar_type()
+	 * will check for jpeg and jpg extensions.
+	 */
+	if ( isset( $allowed_mimes['jpeg'] ) ) {
+		$allowed_mimes['jpg'] = $allowed_mimes['jpeg'];
+	}
+
+	return $allowed_mimes;
+}
+
+/**
  * Does the current avatar upload have an allowed file type?
  *
  * Permitted file types are JPG, GIF and PNG.
@@ -1328,11 +1375,14 @@ function bp_core_check_avatar_size( $file ) {
  * @param array $file The $_FILES array.
  * @return bool True if the file extension is permitted, otherwise false.
  */
-function bp_core_check_avatar_type($file) {
-	if ( ( !empty( $file['file']['type'] ) && !preg_match('/(jpe?g|gif|png)$/i', $file['file']['type'] ) ) || !preg_match( '/(jpe?g|gif|png)$/i', $file['file']['name'] ) )
-		return false;
+function bp_core_check_avatar_type( $file ) {
+	$avatar_filetype = wp_check_filetype_and_ext( $file['file']['tmp_name'], $file['file']['name'], bp_core_get_allowed_avatar_mimes() );
 
-	return true;
+	if ( ! empty( $avatar_filetype['ext'] ) && ! empty( $avatar_filetype['type'] ) ) {
+		return true;
+	}
+
+	return false;
 }
 
 /**
