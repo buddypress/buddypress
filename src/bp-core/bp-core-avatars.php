@@ -720,6 +720,61 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 }
 
 /**
+ * Ajax delete an avatar for a given object and item id
+ *
+ * @since  BuddyPress (2.3.0)
+ *
+ * @return  string a json object containing success data if the avatar was deleted
+ *                 error message otherwise
+ */
+function bp_avatar_ajax_delete() {
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+		wp_send_json_error();
+	}
+
+	$avatar_data = $_POST;
+
+	if ( empty( $avatar_data['object'] ) || empty( $avatar_data['item_id'] ) ) {
+		wp_send_json_error();
+	}
+
+	$nonce = 'bp_delete_avatar_link';
+	if ( 'group' === $avatar_data['object'] ) {
+		$nonce = 'bp_group_avatar_delete';
+	}
+
+	// Check the nonce
+	check_admin_referer( $nonce, 'nonce' );
+
+	// Capability check
+	if ( ! bp_attachments_current_user_can( 'edit_avatar', $avatar_data ) ) {
+		wp_send_json_error();
+	}
+
+	// Handle delete
+	if ( bp_core_delete_existing_avatar( array( 'item_id' => $avatar_data['item_id'], 'object' => $avatar_data['object'] ) ) ) {
+		$return = array(
+			'avatar' => html_entity_decode( bp_core_fetch_avatar( array(
+				'object'  => $avatar_data['object'],
+				'item_id' => $avatar_data['item_id'],
+				'html'    => false,
+				'type'    => 'full',
+			) ) ),
+			'feedback_code' => 4,
+			'item_id'       => $avatar_data['item_id'],
+		);
+
+		wp_send_json_success( $return );
+	} else {
+		wp_send_json_error( array(
+			'feedback_code' => 3,
+		) );
+	}
+}
+add_action( 'wp_ajax_bp_avatar_delete', 'bp_avatar_ajax_delete' );
+
+/**
  * Handle avatar uploading.
  *
  * The functions starts off by checking that the file has been uploaded
@@ -799,6 +854,195 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 }
 
 /**
+ * Ajax upload an avatar
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @return  string a json object containing success data if the upload succeeded
+ *                 error message otherwise
+ */
+function bp_avatar_ajax_upload() {
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+		wp_die();
+	}
+
+	/**
+	 * Sending the json response will be different if
+	 * the current Plupload runtime is html4
+	 */
+	$is_html4 = false;
+	if ( ! empty( $_POST['html4' ] ) ) {
+		$is_html4 = true;
+	}
+
+	// Check the nonce
+	check_admin_referer( 'bp-uploader' );
+
+	// Init the BuddyPress parameters
+	$bp_params = array();
+
+	// We need it to carry on
+	if ( ! empty( $_POST['bp_params' ] ) ) {
+		$bp_params = $_POST['bp_params' ];
+	} else {
+		bp_attachments_json_response( false, $is_html4 );
+	}
+
+	// We need the object to set the uploads dir filter
+	if ( empty( $bp_params['object'] ) ) {
+		bp_attachments_json_response( false, $is_html4 );
+	}
+
+	// Capability check
+	if ( ! bp_attachments_current_user_can( 'edit_avatar', $bp_params ) ) {
+		bp_attachments_json_response( false, $is_html4 );
+	}
+
+	$bp = buddypress();
+	$bp_params['upload_dir_filter'] = '';
+	$needs_reset = array();
+
+	if ( 'user' === $bp_params['object'] && bp_is_active( 'xprofile' ) ) {
+		$bp_params['upload_dir_filter'] = 'xprofile_avatar_upload_dir';
+
+		if ( ! bp_displayed_user_id() && ! empty( $bp_params['item_id'] ) ) {
+			$needs_reset = array( 'key' => 'displayed_user', 'value' => $bp->displayed_user );
+			$bp->displayed_user->id = $bp_params['item_id'];
+		}
+	} elseif ( 'group' === $bp_params['object'] && bp_is_active( 'groups' ) ) {
+		$bp_params['upload_dir_filter'] = 'groups_avatar_upload_dir';
+
+		if ( ! bp_get_current_group_id() && ! empty( $bp_params['item_id'] ) ) {
+			$needs_reset = array( 'component' => 'groups', 'key' => 'current_group', 'value' => $bp->groups->current_group );
+			$bp->groups->current_group = groups_get_group( array(
+				'group_id'        => $bp_params['item_id'],
+				'populate_extras' => false,
+			) );
+		}
+	} else {
+		/**
+		 * Filter here to deal with other components
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @var array $bp_params the BuddyPress Ajax parameters
+		 */
+		$bp_params = apply_filters( 'bp_core_avatar_ajax_upload_params', $bp_params );
+	}
+
+	if ( ! isset( $bp->avatar_admin ) ) {
+		$bp->avatar_admin = new stdClass();
+	}
+
+	// Upload the avatar
+	$avatar = bp_core_avatar_handle_upload( $_FILES, $bp_params['upload_dir_filter'] );
+
+	// Reset objects
+	if ( ! empty( $needs_reset ) ) {
+		if ( ! empty( $needs_reset['component'] ) ) {
+			$bp->{$needs_reset['component']}->{$needs_reset['key']} = $needs_reset['value'];
+		} else {
+			$bp->{$needs_reset['key']} = $needs_reset['value'];
+		}
+	}
+
+	if ( empty( $avatar ) ) {
+		// Default upload error
+		$message = array();
+
+		// Intercept the template message and remove it
+		if ( ! empty( $bp->template_message ) ) {
+			// Set the feedback message
+			$message = array(
+				'type'    => 'upload_error',
+				'message' => $bp->template_message,
+			);
+
+			// Remove template message.
+			$bp->template_message      = false;
+			$bp->template_message_type = false;
+			@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
+			@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+		}
+
+		bp_attachments_json_response( false, $is_html4, $message );
+	}
+
+	if ( empty( $bp->avatar_admin->image->file ) ) {
+		bp_attachments_json_response( false, $is_html4 );
+	}
+
+	$uploaded_image = @getimagesize( $bp->avatar_admin->image->file );
+
+	// Set the name of the file
+	$name = $_FILES['file']['name'];
+	$name_parts = pathinfo( $name );
+	$name = trim( substr( $name, 0, - ( 1 + strlen( $name_parts['extension'] ) ) ) );
+
+	if ( 'user' === $bp_params['object'] ) {
+		do_action( 'xprofile_avatar_uploaded' );
+	}
+
+	// Finally return the avatar to the editor
+	bp_attachments_json_response( true, $is_html4, array(
+		'name'      => $name,
+		'url'       => $bp->avatar_admin->image->url,
+		'width'     => $uploaded_image[0],
+		'height'    => $uploaded_image[1],
+	) );
+}
+add_action( 'wp_ajax_bp_avatar_upload', 'bp_avatar_ajax_upload' );
+
+ /**
+ * Handle avatar webcam capture.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param string $data base64 encoded image.
+ * @param int $item_id.
+ * @return bool True on success, false on failure.
+ */
+function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
+	if ( empty( $data ) || empty( $item_id ) ) {
+		return false;
+	}
+
+	$avatar_dir = bp_core_avatar_upload_path() . '/avatars';
+
+	// It's not a regular upload, we may need to create this folder
+	if ( ! file_exists( $avatar_dir ) ) {
+		if ( ! wp_mkdir_p( $avatar_dir ) ) {
+			return false;
+		}
+	}
+
+	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', $avatar_dir . '/' . $item_id, $item_id, 'user', 'avatars' );
+
+	// It's not a regular upload, we may need to create this folder
+	if( ! is_dir( $avatar_folder_dir ) ) {
+		if ( ! wp_mkdir_p( $avatar_folder_dir ) ) {
+			return false;
+		}
+	}
+
+	$original_file = $avatar_folder_dir . '/webcam-capture-' . $item_id . '.png';
+
+	if ( file_put_contents( $original_file, $data ) ) {
+		$avatar_to_crop = str_replace( bp_core_avatar_upload_path(), '', $original_file );
+
+		// Crop to default values
+		$crop_args = array( 'item_id' => $item_id, 'original_file' => $avatar_to_crop, 'crop_x' => 0, 'crop_y' => 0 );
+
+		do_action( 'xprofile_avatar_uploaded' );
+
+		return bp_core_avatar_handle_crop( $crop_args );
+	} else {
+		return false;
+	}
+}
+
+/**
  * Crop an uploaded avatar.
  *
  * $args has the following parameters:
@@ -867,6 +1111,121 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 
 	return true;
 }
+
+/**
+ * Ajax set an avatar for a given object and item id
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @return  string a json object containing success data if the crop/capture succeeded
+ *                 error message otherwise
+ */
+function bp_avatar_ajax_set() {
+	// Bail if not a POST action
+	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+		wp_send_json_error();
+	}
+
+	// Check the nonce
+	check_admin_referer( 'bp_avatar_cropstore', 'nonce' );
+
+	$avatar_data = wp_parse_args( $_POST, array(
+		'crop_w' => bp_core_avatar_full_width(),
+		'crop_h' => bp_core_avatar_full_height(),
+		'crop_x' => 0,
+		'crop_y' => 0
+	) );
+
+	if ( empty( $avatar_data['object'] ) || empty( $avatar_data['item_id'] ) || empty( $avatar_data['original_file'] ) ) {
+		wp_send_json_error();
+	}
+
+	// Capability check
+	if ( ! bp_attachments_current_user_can( 'edit_avatar', $avatar_data ) ) {
+		wp_send_json_error();
+	}
+
+	if ( ! empty( $avatar_data['type'] ) && 'camera' === $avatar_data['type'] && 'user' === $avatar_data['object'] ) {
+		$webcam_avatar = false;
+
+		if ( ! empty( $avatar_data['original_file'] ) ) {
+			$webcam_avatar = str_replace( array( 'data:image/png;base64,', ' ' ), array( '', '+' ), $avatar_data['original_file'] );
+			$webcam_avatar = base64_decode( $webcam_avatar );
+		}
+
+		if ( ! bp_avatar_handle_capture( $webcam_avatar, $avatar_data['item_id'] ) ) {
+			wp_send_json_error( array(
+				'feedback_code' => 1
+			) );
+
+		} else {
+			$return = array(
+				'avatar' => html_entity_decode( bp_core_fetch_avatar( array(
+					'object'  => $avatar_data['object'],
+					'item_id' => $avatar_data['item_id'],
+					'html'    => false,
+					'type'    => 'full',
+				) ) ),
+				'feedback_code' => 2,
+				'item_id'       => $avatar_data['item_id'],
+			);
+
+			do_action( 'xprofile_screen_change_avatar' );
+
+			wp_send_json_success( $return );
+		}
+
+		return;
+	}
+
+	$original_file = str_replace( bp_core_avatar_url(), '', $avatar_data['original_file'] );
+
+	// Set avatars dir & feedback part
+	if ( 'user' === $avatar_data['object'] ) {
+		$avatar_dir = 'avatars';
+
+	// Defaults to object-avatars dir
+	} else {
+		$avatar_dir = sanitize_key( $avatar_data['object'] ) . '-avatars';
+	}
+
+	// Crop args
+	$r = array(
+		'item_id'       => $avatar_data['item_id'],
+		'object'        => $avatar_data['object'],
+		'avatar_dir'    => $avatar_dir,
+		'original_file' => $original_file,
+		'crop_w'        => $avatar_data['crop_w'],
+		'crop_h'        => $avatar_data['crop_h'],
+		'crop_x'        => $avatar_data['crop_x'],
+		'crop_y'        => $avatar_data['crop_y']
+	);
+
+	// Handle crop
+	if ( bp_core_avatar_handle_crop( $r ) ) {
+		$return = array(
+			'avatar' => html_entity_decode( bp_core_fetch_avatar( array(
+				'object'  => $avatar_data['object'],
+				'item_id' => $avatar_data['item_id'],
+				'html'    => false,
+				'type'    => 'full',
+			) ) ),
+			'feedback_code' => 2,
+			'item_id'       => $avatar_data['item_id'],
+		);
+
+		if ( 'user' === $avatar_data['object'] ) {
+			do_action( 'xprofile_screen_change_avatar' );
+		}
+
+		wp_send_json_success( $return );
+	} else {
+		wp_send_json_error( array(
+			'feedback_code' => 1,
+		) );
+	}
+}
+add_action( 'wp_ajax_bp_avatar_set', 'bp_avatar_ajax_set' );
 
 /**
  * Replace default WordPress avatars with BP avatars, if available.
@@ -1455,8 +1814,7 @@ function bp_avatar_get_templates() {
  * Trick to check if the theme's BuddyPress templates are up to date
  *
  * If the "avatar templates" are not including the new template tag, this will
- * help users to get the avatar UI and inform the most curious that their
- * templates are out of date.
+ * help users to get the avatar UI.
  *
  * @since  BuddyPress (2.3.0)
  */

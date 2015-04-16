@@ -120,6 +120,26 @@ add_action( 'bp_enqueue_scripts',       'bp_core_confirmation_js' );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );
 
 /**
+ * Enqueues the css and js required by the Avatar UI
+ *
+ * @since  BuddyPress (2.3.0)
+ */
+function bp_core_avatar_scripts() {
+	if ( ! bp_avatar_is_front_edit() ) {
+		return false;
+	}
+
+	// Enqueue the Attachments scripts for the Avatar UI
+	bp_attachments_enqueue_scripts( 'BP_Attachment_Avatar' );
+
+	// Add Some actions for Theme backcompat
+	add_action( 'bp_after_profile_avatar_upload_content', 'bp_avatar_template_check' );
+	add_action( 'bp_after_group_admin_content',           'bp_avatar_template_check' );
+	add_action( 'bp_after_group_avatar_creation_step',    'bp_avatar_template_check' );
+}
+add_action( 'bp_enqueue_scripts', 'bp_core_avatar_scripts' );
+
+/**
  * Enqueues jCrop library and hooks BP's custom cropper JS.
  */
 function bp_core_add_jquery_cropper() {
