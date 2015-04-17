@@ -192,6 +192,13 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		/** Override **********************************************************/
 
+		/**
+		 * Fires after all of the BuddyPress theme compat actions have been added.
+		 *
+		 * @since BuddyPress (1.7.0)
+		 *
+		 * @param BP_Legacy $this Current BP_Legacy instance.
+		 */
 		do_action_ref_array( 'bp_theme_compat_actions', array( &$this ) );
 	}
 
@@ -258,8 +265,13 @@ class BP_Legacy extends BP_Theme_Compat {
 			wp_enqueue_script( $asset['handle'], $asset['location'], bp_core_get_js_dependencies(), $this->version );
 		}
 
-		// Add words that we need to use in JS to the end of the page
-		// so they can be translated and still used.
+		/**
+		 * Filters core JavaScript strings for internationalization before AJAX usage.
+		 *
+		 * @since BuddyPress (2.0.0)
+		 *
+		 * @param array $value Array of key/value pairs for AJAX usage.
+		 */
 		$params = apply_filters( 'bp_core_get_js_strings', array(
 			'accepted'            => __( 'Accepted', 'buddypress' ),
 			'close'               => __( 'Close', 'buddypress' ),
@@ -486,7 +498,13 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	public function theme_compat_page_templates( $templates = array() ) {
 
-		// Bail if not looking at a directory
+		/**
+		 * Filters whether or not we are looking at a directory to determine if to return early.
+		 *
+		 * @since BuddyPress (2.2.0)
+		 *
+		 * @param bool $value Whether or not we are viewing a directory.
+		 */
 		if ( true === (bool) apply_filters( 'bp_legacy_theme_compat_page_templates_directory_only', ! bp_is_directory() ) ) {
 			return $templates;
 		}
@@ -698,6 +716,19 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	if ( isset( $_BP_COOKIE['bp-' . $object . '-extras'] ) )
 		$object_extras = $_BP_COOKIE['bp-' . $object . '-extras'];
 
+	/**
+	 * Filters the AJAX query string for the component loops.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $query_string        The query string we are working with.
+	 * @param string $object              The type of page we are on.
+	 * @param string $object_filter       The current object filter.
+	 * @param string $object_scope        The current object scope.
+	 * @param string $object_page         The current object page.
+	 * @param string $object_search_terms The current object search terms.
+	 * @param string $object_extras       The current object extras.
+	 */
 	return apply_filters( 'bp_legacy_theme_ajax_querystring', $query_string, $object, $object_filter, $object_scope, $object_page, $object_search_terms, $object_extras );
 }
 
@@ -816,6 +847,15 @@ function bp_legacy_theme_activity_template_loader() {
 	ob_start();
 	bp_get_template_part( 'activity/activity-loop' );
 	$result['contents'] = ob_get_contents();
+
+	/**
+	 * Filters the feed URL for when activity is requested via AJAX.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $feed_url URL for the feed to be used.
+	 * @param string $scope    Scope for the activity request.
+	 */
 	$result['feed_url'] = apply_filters( 'bp_legacy_theme_activity_feed_url', $feed_url, $scope );
 	ob_end_clean();
 
@@ -853,6 +893,8 @@ function bp_legacy_theme_post_update() {
 			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $_POST['item_id'] ) );
 
 	} else {
+
+		/** This filter is documented in bp-activity/bp-activity-actions.php */
 		$activity_id = apply_filters( 'bp_activity_custom_update', false, $_POST['object'], $_POST['item_id'], $_POST['content'] );
 	}
 
@@ -985,12 +1027,13 @@ function bp_legacy_theme_delete_activity() {
 	if ( ! bp_activity_user_can_delete( $activity ) )
 		exit( '-1' );
 
-	// Call the action before the delete so plugins can still fetch information about it
+	/** This action is documented in bp-activity/bp-activity-actions.php */
 	do_action( 'bp_activity_before_action_delete_activity', $activity->id, $activity->user_id );
 
 	if ( ! bp_activity_delete( array( 'id' => $activity->id, 'user_id' => $activity->user_id ) ) )
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 
+	/** This action is documented in bp-activity/bp-activity-actions.php */
 	do_action( 'bp_activity_action_delete_activity', $activity->id, $activity->user_id );
 	exit;
 }
@@ -1021,12 +1064,13 @@ function bp_legacy_theme_delete_activity_comment() {
 	if ( empty( $_POST['id'] ) || ! is_numeric( $_POST['id'] ) )
 		exit( '-1' );
 
-	// Call the action before the delete so plugins can still fetch information about it
+	/** This action is documented in bp-activity/bp-activity-actions.php */
 	do_action( 'bp_activity_before_action_delete_activity', $_POST['id'], $comment->user_id );
 
 	if ( ! bp_activity_delete_comment( $comment->item_id, $comment->id ) )
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'There was a problem when deleting. Please try again.', 'buddypress' ) . '</p></div>' );
 
+	/** This action is documented in bp-activity/bp-activity-actions.php */
 	do_action( 'bp_activity_action_delete_activity', $_POST['id'], $comment->user_id );
 	exit;
 }
@@ -1064,13 +1108,14 @@ function bp_legacy_theme_spam_activity() {
 	// Check nonce
 	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );
 
-	// Call an action before the spamming so plugins can modify things if they want to
+	/** This action is documented in bp-activity/bp-activity-actions.php */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
 
 	// Mark as spam
 	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
+	/** This action is documented in bp-activity/bp-activity-actions.php */
 	do_action( 'bp_activity_action_spam_activity', $activity->id, $activity->user_id );
 	exit;
 }
@@ -1114,7 +1159,7 @@ function bp_legacy_theme_unmark_activity_favorite() {
 }
 
 /**
- * Fetches full an activity's full, non-excerpted content via a POST request.
+ * Fetches an activity's full, non-excerpted content via a POST request.
  * Used for the 'Read More' link on long activity items.
  *
  * @return string HTML
@@ -1135,10 +1180,19 @@ function bp_legacy_theme_get_single_activity_content() {
 	if ( empty( $activity ) )
 		exit; // @todo: error?
 
+	/**
+	 * Fires before the return of an activity's full, non-excerpted content via a POST request.
+	 *
+	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $activity Activity content. Passed by reference.
+	 */
 	do_action_ref_array( 'bp_legacy_theme_get_single_activity_content', array( &$activity ) );
 
 	// Activity content retrieved through AJAX should run through normal filters, but not be truncated
 	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
+
+	/** This filter is documented in bp-activity/bp-activity-template.php */
 	$content = apply_filters( 'bp_get_activity_content_body', $activity->content );
 
 	exit( $content );
@@ -1444,21 +1498,52 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 
 		<div class="message-box new-message <?php echo $class; ?>">
 			<div class="message-metadata">
-				<?php do_action( 'bp_before_message_meta' ); ?>
+				<?php
+
+				/**
+				 * Fires before the notifications for private messages.
+				 *
+				 * @since BuddyPress (1.1.0)
+				 */
+				do_action( 'bp_before_message_meta' ); ?>
 				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
 
 				<strong><a href="<?php echo bp_loggedin_user_domain(); ?>"><?php bp_loggedin_user_fullname(); ?></a> <span class="activity"><?php printf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ); ?></span></strong>
 
-				<?php do_action( 'bp_after_message_meta' ); ?>
+				<?php
+
+				/**
+				 * Fires after the notifications for private messages.
+				 *
+				 * @since BuddyPress (1.1.0)
+				 */
+				do_action( 'bp_after_message_meta' ); ?>
 			</div>
 
-			<?php do_action( 'bp_before_message_content' ); ?>
+			<?php
+
+			/**
+			 * Fires before the message content for a private message.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 */
+			do_action( 'bp_before_message_content' ); ?>
 
 			<div class="message-content">
-				<?php echo stripslashes( apply_filters( 'bp_get_the_thread_message_content', $_REQUEST['content'] ) ); ?>
+				<?php
+
+				/** This filter is documented in bp-messages/bp-messages-template.php */
+				echo stripslashes( apply_filters( 'bp_get_the_thread_message_content', $_REQUEST['content'] ) ); ?>
 			</div>
 
-			<?php do_action( 'bp_after_message_content' ); ?>
+			<?php
+
+			/**
+			 * Fires after the message content for a private message.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 */
+			do_action( 'bp_after_message_content' ); ?>
 
 			<div class="clear"></div>
 		</div>
@@ -1554,6 +1639,14 @@ function bp_legacy_theme_ajax_messages_delete() {
  * @return string HTML.
  */
 function bp_legacy_theme_ajax_messages_autocomplete_results() {
+
+	/**
+	 * Filters the max results default value for ajax messages autocomplete results.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param int $value Max results for autocomplete. Default 10.
+	 */
 	$limit = isset( $_GET['limit'] ) ? absint( $_GET['limit'] )          : (int) apply_filters( 'bp_autocomplete_max_results', 10 );
 	$term  = isset( $_GET['q'] )     ? sanitize_text_field( $_GET['q'] ) : '';
 
