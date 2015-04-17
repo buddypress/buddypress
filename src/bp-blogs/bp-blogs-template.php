@@ -472,7 +472,13 @@ function bp_blogs_pagination_count() {
 	$to_num    = bp_core_number_format( ( $start_num + ( $blogs_template->pag_num - 1 ) > $blogs_template->total_blog_count ) ? $blogs_template->total_blog_count : $start_num + ( $blogs_template->pag_num - 1 ) );
 	$total     = bp_core_number_format( $blogs_template->total_blog_count );
 
-	echo sprintf( _n( 'Viewing 1 site', 'Viewing %1$s - %2$s of %3$s sites', $total, 'buddypress' ), $from_num, $to_num, $total );
+	if ( 1 == $blogs_template->total_blog_count ) {
+		$message = __( 'Viewing 1 site', 'buddypress' );
+	} else {
+		$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s site', 'Viewing %1$s - %2$s of %3$s sites', $blogs_template->total_blog_count, 'buddypress' ), $from_num, $to_num, $total );
+	}
+
+	echo $message;
 }
 
 /**

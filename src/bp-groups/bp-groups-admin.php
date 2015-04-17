@@ -1039,12 +1039,16 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
 		'current'   => $page,
 	) );
 
-	$viewing_text = sprintf(
-		_n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $query->total_users, 'buddypress' ),
-		number_format_i18n( $current_page_start ),
-		number_format_i18n( $current_page_end ),
-		(int) $query->total_users
-	);
+	if ( 1 == $query->total_users ) {
+		$viewing_text = __( 'Viewing 1 member', 'buddypress' );
+	} else {
+		$viewing_text = sprintf(
+			_n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s members', $query->total_users, 'buddypress' ),
+			bp_core_number_format( $current_page_start ),
+			bp_core_number_format( $current_page_end ),
+			bp_core_number_format( $query->total_users )
+		);
+	}
 
 	$pagination .= '<span class="bp-group-admin-pagination-viewing">' . $viewing_text . '</span>';
 	$pagination .= '<span class="bp-group-admin-pagination-links">' . $pag_links . '</span>';

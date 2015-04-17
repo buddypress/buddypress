@@ -631,14 +631,31 @@ function bp_members_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $members_template->total_member_count );
 
-		if ( 'active' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing 1 active member', 'Viewing %1$s - %2$s of %3$s active members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
-		elseif ( 'popular' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing 1 member with friends', 'Viewing %1$s - %2$s of %3$s members with friends', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
-		elseif ( 'online' == $members_template->type )
-			$pag = sprintf( _n( 'Viewing 1 online member', 'Viewing %1$s - %2$s of %3$s online members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
-		else
-			$pag = sprintf( _n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+		if ( 'active' == $members_template->type ) {
+			if ( 1 == $members_template->total_member_count ) {
+				$pag = __( 'Viewing 1 active member', 'buddypress' );
+			} else {
+				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s active member', 'Viewing %1$s - %2$s of %3$s active members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+			}
+		} elseif ( 'popular' == $members_template->type ) {
+			if ( 1 == $members_template->total_member_count ) {
+				$pag = __( 'Viewing 1 member with friends', 'buddypress' );
+			} else {
+				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member with friends', 'Viewing %1$s - %2$s of %3$s members with friends', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+			}
+		} elseif ( 'online' == $members_template->type ) {
+			if ( 1 == $members_template->total_member_count ) {
+				$pag = __( 'Viewing 1 online member', 'buddypress' );
+			} else {
+				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s online member', 'Viewing %1$s - %2$s of %3$s online members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+			}
+		} else {
+			if ( 1 == $members_template->total_member_count ) {
+				$pag = __( 'Viewing 1 member', 'buddypress' );
+			} else {
+				$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+			}
+		}
 
 		/**
 		 * Filters the members pagination count.

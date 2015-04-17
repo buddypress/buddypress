@@ -1894,17 +1894,29 @@ class BP_Members_Admin {
 		switch ( $action ) {
 			case 'delete' :
 				$header_text = __( 'Delete Pending Accounts', 'buddypress' );
-				$helper_text = _n( 'You are about to delete the following account:', 'You are about to delete the following accounts:', count( $signup_ids ), 'buddypress' );
+				if ( 1 == count( $signup_ids ) ) {
+					$helper_text = __( 'You are about to delete the following account:', 'buddypress' );
+				} else {
+					$helper_text = __( 'You are about to delete the following accounts:', 'buddypress' );
+				}
 				break;
 
 			case 'activate' :
 				$header_text = __( 'Activate Pending Accounts', 'buddypress' );
-				$helper_text = _n( 'You are about to activate the following account:', 'You are about to activate the following accounts:', count( $signup_ids ), 'buddypress' );
+				if ( 1 == count( $signup_ids ) ) {
+					$helper_text = __( 'You are about to activate the following account:', 'buddypress' );
+				} else {
+					$helper_text = __( 'You are about to activate the following accounts:', 'buddypress' );
+				}
 				break;
 
 			case 'resend' :
 				$header_text = __( 'Resend Activation Emails', 'buddypress' );
-				$helper_text = _n( 'You are about to resend an activation email to the following account:', 'You are about to resend activation emails to the following accounts:', count( $signup_ids ), 'buddypress' );
+				if ( 1 == count( $signup_ids ) ) {
+					$helper_text = __( 'You are about to resend an activation email to the following account:', 'buddypress' );
+				} else {
+					$helper_text = __( 'You are about to resend an activation email to the following accounts:', 'buddypress' );
+				}
 				break;
 		}
 

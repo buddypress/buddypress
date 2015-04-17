@@ -1793,6 +1793,12 @@ function bp_groups_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $groups_template->pag_num - 1 ) > $groups_template->total_group_count ) ? $groups_template->total_group_count : $start_num + ( $groups_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $groups_template->total_group_count );
 
+		if ( 1 == $groups_template->total_group_count ) {
+			$message = __( 'Viewing 1 group', 'buddypress' );
+		} else {
+			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s group', 'Viewing %1$s - %2$s of %3$s groups', $groups_template->total_group_count, 'buddypress' ), $from_num, $to_num, $total );
+		}
+
 		/**
 		 * Filters the "Viewing x-y of z groups" pagination message.
 		 *
@@ -1803,7 +1809,7 @@ function bp_groups_pagination_count() {
 		 * @param string $to_num   Total amount for the high value in the range.
 		 * @param string $total    Total amount of groups found.
 		 */
-		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing 1 group', 'Viewing %1$s - %2$s of %3$s groups', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_groups_pagination_count', $message, $from_num, $to_num, $total );
 	}
 
 /**
@@ -4115,6 +4121,12 @@ function bp_group_member_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $members_template->pag_num - 1 ) > $members_template->total_member_count ) ? $members_template->total_member_count : $start_num + ( $members_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $members_template->total_member_count );
 
+		if ( 1 == $members_template->total_member_count ) {
+			$message = __( 'Viewing 1 member', 'buddypress' );
+		} else {
+			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s groups', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+		}
+
 		/**
 		 * Filters the "Viewing x-y of z members" pagination message.
 		 *
@@ -4125,7 +4137,7 @@ function bp_group_member_pagination_count() {
 		 * @param string $to_num   Total amount for the high value in the range.
 		 * @param string $total    Total amount of members found.
 		 */
-		return apply_filters( 'bp_get_group_member_pagination_count', sprintf( _n( 'Viewing 1 member', 'Viewing %1$s - %2$s of %3$s members', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_group_member_pagination_count', $message, $from_num, $to_num, $total );
 	}
 
 function bp_group_member_admin_pagination() {
@@ -5238,6 +5250,12 @@ function bp_group_requests_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $requests_template->pag_num - 1 ) > $requests_template->total_request_count ) ? $requests_template->total_request_count : $start_num + ( $requests_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $requests_template->total_request_count );
 
+		if ( 1 == $requests_template->total_request_count ) {
+			$message = __( 'Viewing 1 request', 'buddypress' );
+		} else {
+			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s request', 'Viewing %1$s - %2$s of %3$s requests', $requests_template->total_request_count, 'buddypress' ), $from_num, $to_num, $total );
+		}
+
 		/**
 		 * Filters pagination count text for group membership requests.
 		 *
@@ -5245,7 +5263,7 @@ function bp_group_requests_pagination_count() {
 		 *
 		 * @param string $value Pagination count text for group membership requests.
 		 */
-		return apply_filters( 'bp_get_group_requests_pagination_count', sprintf( _n( 'Viewing 1 request', 'Viewing %1$s - %2$s of %3$s requests', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_group_requests_pagination_count', $message, $from_num, $to_num, $total );
 	}
 
 /** Group Invitations *********************************************************/
@@ -5608,8 +5626,14 @@ function bp_group_invite_pagination_count() {
 		$to_num    = bp_core_number_format( ( $start_num + ( $invites_template->pag_num - 1 ) > $invites_template->total_invite_count ) ? $invites_template->total_invite_count : $start_num + ( $invites_template->pag_num - 1 ) );
 		$total     = bp_core_number_format( $invites_template->total_invite_count );
 
+		if ( 1 == $invites_template->total_invite_count ) {
+			$message = __( 'Viewing 1 invitation', 'buddypress' );
+		} else {
+			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s invitation', 'Viewing %1$s - %2$s of %3$s invitations', $invites_template->total_invite_count, 'buddypress' ), $from_num, $to_num, $total );
+		}
+
 		/** This filter is documented in bp-groups/bp-groups-template.php */
-		return apply_filters( 'bp_get_groups_pagination_count', sprintf( _n( 'Viewing 1 invitation', 'Viewing %1$s - %2$s of %3$s invitations', $total, 'buddypress' ), $from_num, $to_num, $total ), $from_num, $to_num, $total );
+		return apply_filters( 'bp_get_groups_pagination_count', $message, $from_num, $to_num, $total );
 	}
 
 /** Group RSS *****************************************************************/
