@@ -1,5 +1,8 @@
 <div id="buddypress">
-	<?php do_action( 'template_notices' ); ?>
+	<?php
+
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
 
 	<div class="activity no-ajax" role="main">
 		<?php if ( bp_has_activities( 'display_comments=threaded&show_hidden=true&include=' . bp_current_action() ) ) : ?>

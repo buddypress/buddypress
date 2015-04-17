@@ -12,7 +12,14 @@
 
 ?>
 
-<?php do_action( 'bp_before_activity_entry' ); ?>
+<?php
+
+/**
+ * Fires before the display of an activity entry.
+ *
+ * @since BuddyPress (1.2.0)
+ */
+do_action( 'bp_before_activity_entry' ); ?>
 
 <li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>">
 	<div class="activity-avatar">
@@ -41,7 +48,14 @@
 
 		<?php endif; ?>
 
-		<?php do_action( 'bp_activity_entry_content' ); ?>
+		<?php
+
+		/**
+		 * Fires after the display of an activity entry content.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
+		do_action( 'bp_activity_entry_content' ); ?>
 
 		<div class="activity-meta">
 
@@ -75,7 +89,14 @@
 
 				<?php if ( bp_activity_user_can_delete() ) bp_activity_delete_link(); ?>
 
-				<?php do_action( 'bp_activity_entry_meta' ); ?>
+				<?php
+
+				/**
+				 * Fires at the end of the activity entry meta data area.
+				 *
+				 * @since BuddyPress (1.2.0)
+				 */
+				do_action( 'bp_activity_entry_meta' ); ?>
 
 			<?php endif; ?>
 
@@ -83,7 +104,14 @@
 
 	</div>
 
-	<?php do_action( 'bp_before_activity_entry_comments' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of the activity entry comments.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
+	do_action( 'bp_before_activity_entry_comments' ); ?>
 
 	<?php if ( ( bp_activity_get_comment_count() || bp_activity_can_comment() ) || bp_is_single_activity() ) : ?>
 
@@ -103,7 +131,14 @@
 						<input type="hidden" name="comment_form_id" value="<?php bp_activity_id(); ?>" />
 					</div>
 
-					<?php do_action( 'bp_activity_entry_comments' ); ?>
+					<?php
+
+					/**
+					 * Fires after the activity entry comment form.
+					 *
+					 * @since BuddyPress (1.5.0)
+					 */
+					do_action( 'bp_activity_entry_comments' ); ?>
 
 					<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ); ?>
 
@@ -115,8 +150,22 @@
 
 	<?php endif; ?>
 
-	<?php do_action( 'bp_after_activity_entry_comments' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of the activity entry comments.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
+	do_action( 'bp_after_activity_entry_comments' ); ?>
 
 </li>
 
-<?php do_action( 'bp_after_activity_entry' ); ?>
+<?php
+
+/**
+ * Fires after the display of an activity entry.
+ *
+ * @since BuddyPress (1.2.0)
+ */
+do_action( 'bp_after_activity_entry' ); ?>
