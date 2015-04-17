@@ -1,9 +1,23 @@
-<?php do_action( 'bp_before_directory_blogs' ); ?>
+<?php
+
+/**
+ * Fires at the top of the blogs directory template file.
+ *
+ * @since BuddyPress (1.5.0)
+ */
+do_action( 'bp_before_directory_blogs' ); ?>
 
 <div id="buddypress">
 	<form action="" method="post" id="blogs-directory-form" class="dir-form">
 
-		<?php do_action( 'bp_before_directory_blogs_content' ); ?>
+		<?php
+
+		/**
+		 * Fires before the display of the blogs listing content.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
+		do_action( 'bp_before_directory_blogs_content' ); ?>
 
 		<div id="blog-dir-search" class="dir-search" role="search">
 
@@ -21,7 +35,14 @@
 
 				<?php endif; ?>
 
-				<?php do_action( 'bp_blogs_directory_blog_types' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the unordered list displaying blog types.
+				 *
+				 * @since BuddyPress (1.2.0)
+				 */
+				do_action( 'bp_blogs_directory_blog_types' ); ?>
 
 			</ul>
 		</div><!-- .item-list-tabs -->
@@ -29,7 +50,14 @@
 		<div class="item-list-tabs" id="subnav" role="navigation">
 			<ul>
 
-				<?php do_action( 'bp_blogs_directory_blog_sub_types' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the unordered list displaying blog sub-types.
+				 *
+				 * @since BuddyPress (1.5.0)
+				 */
+				do_action( 'bp_blogs_directory_blog_sub_types' ); ?>
 
 				<li id="blogs-order-select" class="last filter">
 
@@ -39,7 +67,14 @@
 						<option value="newest"><?php _e( 'Newest', 'buddypress' ); ?></option>
 						<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
 
-						<?php do_action( 'bp_blogs_directory_order_options' ); ?>
+						<?php
+
+						/**
+						 * Fires inside the select input listing blogs orderby options.
+						 *
+						 * @since BuddyPress (1.2.0)
+						 */
+						do_action( 'bp_blogs_directory_order_options' ); ?>
 
 					</select>
 				</li>
@@ -52,14 +87,35 @@
 
 		</div><!-- #blogs-dir-list -->
 
-		<?php do_action( 'bp_directory_blogs_content' ); ?>
+		<?php
+
+		/**
+		 * Fires inside and displays the blogs content.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
+		do_action( 'bp_directory_blogs_content' ); ?>
 
 		<?php wp_nonce_field( 'directory_blogs', '_wpnonce-blogs-filter' ); ?>
 
-		<?php do_action( 'bp_after_directory_blogs_content' ); ?>
+		<?php
+
+		/**
+		 * Fires after the display of the blogs listing content.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
+		do_action( 'bp_after_directory_blogs_content' ); ?>
 
 	</form><!-- #blogs-directory-form -->
 
-	<?php do_action( 'bp_after_directory_blogs' ); ?>
+	<?php
+
+	/**
+	 * Fires at the top of the blogs directory template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
+	do_action( 'bp_after_directory_blogs' ); ?>
 
 </div>
