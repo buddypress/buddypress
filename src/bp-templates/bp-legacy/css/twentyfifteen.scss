@@ -11,6 +11,7 @@
 // of managing media queries, scalability & flexibility .
 
 // Twentyfifteen Media Queries / Breakpoints
+// @media screen and (min-width: 22em) // Additional for xtra small mobile
 // @media screen and (min-width: 38.75em)
 // @media screen and (min-width: 46.25em)
 // @media screen and (min-width: 55em)
@@ -39,7 +40,8 @@ $medium-background:  #ccc;
 $dark-background:    #555;
 $border-color:       #999; // border color is varied using rgba
 $border-light:       #eaeaea; // BP dividers
-
+$body-text:          #333; // 2015 body text color
+$bp-button-hover:    #ededed; // this is the default BP button hover background
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -59,15 +61,16 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 ----------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
-1.0 Theme Structural Elements
+1.0 Theme Structural Elements & overrides
 2.0 - Navigation - General
 	2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
 	2.2 - Pagination
 3.0 - Images
 4.0 - BP Lists / Loops Generic
 	4.1 - Activity Loop
-		4.1.1 - Activity Listing
-		4.1.2 - Activity Comments
+		4.1.1 Whats New Activity
+		4.1.2 - Activity Listing
+		4.1.3 - Activity Comments
 	4.2 - Members Loop
 	4.3 - Groups Loop
 	4.4 - Blogs Loop
@@ -87,9 +90,23 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 1.0 - Theme - Structural Elements
+* @section 1.0 - Theme - Structural Elements & overrides
 *-------------------------------------------------------------------------------
 */
+
+// Twentyfifteen  adds a generic grouped ruleset of clear:both; 
+// for all heading h# elements this is problematic where floats are concerned
+// We reset this here under our #buddypress namespace
+#buddypress {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		clear: none;
+	}
+}
 
 // As BP screens have specific content lets adjust the themes primary elements
 // to maximise the screen real estate for BP pages.
@@ -127,6 +144,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		} // .article
 	} // .main
+	
 	.site-footer {
 		margin: 0 4%;
 		@media screen and (min-width: 59.6875em) {
@@ -153,7 +171,8 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	.load-more,
 	.field-visibility-settings-toggle,
 	#latest-update,
-	table, {
+	table,
+	.avatar-nav-items {
 		a { border-bottom: 0; }
 	}
 
@@ -195,6 +214,12 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			border-bottom: 1px solid rgba($border-color, 0.4);
 			overflow: hidden;
 			padding: $spacing-val-xs 0;
+			
+			li {
+				a {
+					span {border-radius: 25%;}
+				}
+			}
 		}
 	}
 	/*__ Horizontal menus __*/
@@ -376,24 +401,46 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 
 // Trying to position the action div absolute has bad consequences where
-// aditional items are displayed, floating is an alternative but may need
-// to reconsider this approach. All li items floated left at wide screen.
-// Initialy override the BP absolute positioning, allow natural flow position
+// aditional items are displayed, floating is an alternative that 
+// allows natural flow expansion.
+// This block: 
+// * Manages li items, Stacks them small screen, floated left at wider screens.
+// * Adjusts display of action buttons at small screen
 // mobile up.
 
 #buddypress {
 	ul.item-list {
 		li {
 			overflow: hidden !important;
+			// Undo BP floats to center avatars initially mobile up
+			.item-avatar {
+				margin-bottom: $spacing-val-sm;
+				@media screen and (min-width: 38.75em) { margin-bottom: 0; }
+				text-align: center;
+				a {border-bottom: 0;}
+				img.avatar {
+					display: inline-block;
+					float: none;			
+					// Quite early on we need to move avatars to the left(right)
+					@media screen and (min-width: 38.75em) {
+						display: block;
+						float: left;
+					}
+				}
+			}
 			
 			.item {
+				margin-left: 25%;
+				
+				span.activity {font-style: italic;}
+				
 				.item-desc {
 					margin-left: 0;
-					width: auto;
+					width: 70%;
 				}
 			}
 
-			@media screen and (min-width: 59.6875em) {
+			@media screen and (min-width: 59.6875em) { 
 				.item-avatar,
 				.item,
 				.action {
@@ -402,6 +449,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 				.item {
 					left: 10%;
+					margin-left: 0;
 					position: relative;
 					width: 55%;
 				}
@@ -468,7 +516,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 4.1.2 - Activity Whats New
+* @section 4.1.1 - Activity Whats New
 *-------------------------------------------------------------------------------
 */
 
@@ -495,18 +543,122 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 
 #buddypress {
+
 	.activity-list {
+		
+		// re-size activity avatars
+		li {
+			.activity-avatar {
+				a {
+					img.avatar {
+						height: 60px;
+						margin-left: 0;
+						width: 60px;
+					}
+				}
+			}
+		}
+		
+		li.mini {
+			.activity-avatar {
+				a {
+					img.avatar {
+						height: 30px;
+						margin-left: 15px;
+						width: 30px;
+					}
+				}
+			}
+
+			.activity-content {
+				.activity-header {
+					@include font-size(13);
+				}
+			}				
+		}
+		
 		.activity-content {
 			margin-top: -12px;
 
 			.activity-header {
+				@include font-size(16);
+				line-height: inherit;
+				margin-right: 0;
+				
+				p {
+					background-color: $light-background;
+					border: 1px solid rgba($border-light, .6);
+					padding: 0 .2em;
+				}
+				
 				img.avatar {
 					display: inline-block;
+					margin-bottom: 0 !important; // have to match to BP
 				}
 			} // close .activity-header
+			.activity-meta {
+				a {
+					display: block;
+					margin-bottom: $spacing-val-xs;
+					@media screen and (min-width: 38.75em) {
+						display: inline-block;
+						margin-bottom: 0;
+					}
+				}
+			}
+
 		} // close .activity-content
+		
 		.load-more a {display: block;}
+	
 	} // close .activity-list
+} // close #buddypress
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.1.3 - Activity Comments
+*-------------------------------------------------------------------------------
+*/
+#buddypress {
+	.activity {
+		.activity-comments {
+			border-left: 1px solid $border-light;
+			margin-top: 5px;
+			
+			ul {
+				background: rgba($light-background, .6);
+				margin: 30px 0 0 2px;
+			}
+		
+			.ac-form {
+			
+				input[type="submit"],
+				.ac-reply-cancel {
+					color: rgba($body-text, .8);
+					display: inline-block;
+					font-family: inherit;
+					@include font-size(12);
+					font-weight: normal;
+					line-height: 1.2;
+					padding: 4px 10px;
+					text-transform: lowercase;
+					width: 100px;
+				}
+				
+				.ac-reply-cancel {
+					border: 1px solid rgba($border-color, .7);
+					text-align: center;
+					
+					&:focus,
+					&:hover {
+						background: $bp-button-hover;
+					}
+				}
+
+			} // close .ac-form
+
+		} // close .activity-comments
+	} // close .activity
 
 } // close #buddypress
 
@@ -518,6 +670,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 #buddypress {
 	#members-list {
+	
 		@media screen and (min-width: 59.6875em) {
 			li {
 				.item-avatar,
@@ -530,7 +683,19 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				}
 			}
 		}
-	}
+/*
+		li {
+			.item {
+				.update {
+					border-left: 1px solid rgba($border-color, .4);
+					display: block;
+					margin: .5em 0;
+					padding-left: .3em; 
+				}
+			}
+		}
+*/
+	} // close #members-list
 } //close #BuddyPress
 
 /**
@@ -543,6 +708,142 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	.entry-title {margin-bottom: .5em;}
 	
 	#buddypress {
+	
+	/* General elements & classes, pagination, filters */
+	
+		table {
+			th {@include font-size(14)}
+			td {@include font-size(12)}
+		
+			@media screen and (min-width: 46.25em) {
+				th {@include font-size(16)}
+				td {@include font-size(14)}
+			}
+		
+			@media screen and (min-width: 77.5em) {
+				th {@include font-size(18)}
+				td {@include font-size(16)}
+			}
+		}
+	
+		.pag-count {font-style: italic;}
+		
+		.notifications-options-nav {
+			border: 1px solid rgba($border-color, .5);
+			float: left;
+			width: 100%;
+			@media screen and (min-width: 38.75em) {
+				width: 300px;
+			}
+
+			select,
+			input {
+				border: 0;
+				@include font-size(14);
+				outline: 0;
+				padding: 0;
+			}		
+
+			select {
+				float: left; 
+				margin-right: 0;
+				width: 60%;
+			}
+
+			input {
+				float: right;
+				font-family: inherit;
+				line-height: 20px;
+				width: 40%;
+			}
+
+		} // close .notifications-options-nav
+	
+	/* Item Header */
+	
+		#item-header {
+			padding: $spacing-val-md 0;
+		
+			#item-header-avatar {
+				text-align: center;
+				width: 100%;
+
+				img.avatar, 
+				a {
+					border-bottom: 0;
+					display: inline-block;
+					float: none;
+				}
+			}
+
+			@media screen and (min-width: 46.25em) {
+				#item-header-avatar {		
+					float: left;
+					width: 20%;
+				
+					img.avatar, 
+					a {
+						float: left;
+						width: 100%;
+					}
+				}
+		
+				#item-header-content {
+					float: right;
+					margin-right: 5%;
+					width: 69%;
+				}
+	
+			} // close @media
+		
+		} // close #item-header
+	
+	/* Profile */
+		.profile {
+			.bp-widget {
+				h4 {
+					background: rgba($dark-background, .8);
+					color: #fff;
+					margin-bottom: 0;
+					padding: .4em;
+				}
+
+				table {margin-top: 0;}
+			}
+		} // close .profile
+		
+		.bp-avatar-nav {
+			ul:before,
+			ul:after {
+				content: " ";
+				display: table;
+			}
+				
+			ul:after {
+				clear: both;
+			}
+				
+			ul {
+				border-bottom: 1px solid rgba($border-color, .5);
+				margin-bottom: $spacing-val-md;
+					
+				li.current {
+					border: 1px solid rgba($border-color, .5);
+					border-bottom-color: #fff;
+					border-top-left-radius: 4px;
+					border-top-right-radius: 4px;
+					margin-bottom: -1px;				
+						
+					a {
+						background: none;
+						outline: 0;
+					}
+				} // close li.current
+			}
+		} // .bp-avatar-nav
+		
+		/* Groups */
+		
 		#groups-list {
 			li {
 				.item {
@@ -553,7 +854,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				}
 			}
 		}
-	}
+	
+	/* Messages / Notifications */
+
+	} // close #BuddyPress
+
 } // close .bp-user
 
 /**
@@ -561,6 +866,28 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 * @section 8.0 - Forms  - General
 *-------------------------------------------------------------------------------
 */
+
+// Match BP form elements to Themes(2015) styling where styles 
+// are not inherited or being overriden.
+#buddypress {
+	
+	div.activity-comments {
+		form {
+			.ac-textarea {
+				background: $light-background;
+				border: 1px solid rgba($border-color, .3);
+				
+				textarea {
+					background: none;
+					border: 0;
+				}
+			}
+		}
+	}
+
+	select {border: 1px solid rgba($border-color, .5);}
+
+} // close #buddypress
 
 // 2015 applies 100% width to form element, remove this initially for BP search
 
