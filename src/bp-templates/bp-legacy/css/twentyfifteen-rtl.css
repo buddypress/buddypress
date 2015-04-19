@@ -317,7 +317,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     #buddypress .activity-list .activity-content .activity-header p {
       background-color: #f7f7f7;
       border: 1px solid rgba(234, 234, 234, 0.6);
-      padding: 0 .2em; }
+      padding: 0 0.2em; }
     #buddypress .activity-list .activity-content .activity-header img.avatar {
       display: inline-block;
       margin-bottom: 0 !important; }
@@ -372,7 +372,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					border-left: 1px solid rgba($border-color, .4);
 					display: block;
 					margin: .5em 0;
-					padding-left: .3em; 
+					padding-left: .3em;
 				}
 			}
 		}
@@ -389,7 +389,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-------------------------------------------------------------------------------
 */
 .bp-user .entry-title {
-  margin-bottom: .5em; }
+  margin-bottom: 0.5em; }
 .bp-user #buddypress {
   /* General elements & classes, pagination, filters */
   /* Item Header */
@@ -464,7 +464,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     background: rgba(85, 85, 85, 0.8);
     color: #fff;
     margin-bottom: 0;
-    padding: .4em; }
+    padding: 0.4em; }
   .bp-user #buddypress .profile .bp-widget table {
     margin-top: 0; }
   .bp-user #buddypress .bp-avatar-nav ul:before, .bp-user #buddypress .bp-avatar-nav ul:after {

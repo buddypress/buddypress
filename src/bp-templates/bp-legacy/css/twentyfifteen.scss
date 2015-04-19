@@ -94,7 +94,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-------------------------------------------------------------------------------
 */
 
-// Twentyfifteen  adds a generic grouped ruleset of clear:both; 
+// Twentyfifteen  adds a generic grouped ruleset of clear:both;
 // for all heading h# elements this is problematic where floats are concerned
 // We reset this here under our #buddypress namespace
 #buddypress {
@@ -144,7 +144,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		} // .article
 	} // .main
-	
+
 	.site-footer {
 		margin: 0 4%;
 		@media screen and (min-width: 59.6875em) {
@@ -214,7 +214,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			border-bottom: 1px solid rgba($border-color, 0.4);
 			overflow: hidden;
 			padding: $spacing-val-xs 0;
-			
+
 			li {
 				a {
 					span {border-radius: 25%;}
@@ -263,8 +263,8 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					outline: 0;
 				}
 
-				select, 
-				label, 
+				select,
+				label,
 				option {
 					@include font-size(14);
 				}
@@ -316,7 +316,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		}
 
 		#object-nav {
-			border-right: 1px solid rgba($border-color, .1);
+			border-right: 1px solid rgba($border-color, 0.1);
 			float: left;
 			margin-right: -1px;
 			width: 200px;
@@ -401,9 +401,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 
 // Trying to position the action div absolute has bad consequences where
-// aditional items are displayed, floating is an alternative that 
+// aditional items are displayed, floating is an alternative that
 // allows natural flow expansion.
-// This block: 
+// This block:
 // * Manages li items, Stacks them small screen, floated left at wider screens.
 // * Adjusts display of action buttons at small screen
 // mobile up.
@@ -420,7 +420,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				a {border-bottom: 0;}
 				img.avatar {
 					display: inline-block;
-					float: none;			
+					float: none;
 					// Quite early on we need to move avatars to the left(right)
 					@media screen and (min-width: 38.75em) {
 						display: block;
@@ -428,19 +428,19 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					}
 				}
 			}
-			
+
 			.item {
 				margin-left: 25%;
-				
+
 				span.activity {font-style: italic;}
-				
+
 				.item-desc {
 					margin-left: 0;
 					width: 70%;
 				}
 			}
 
-			@media screen and (min-width: 59.6875em) { 
+			@media screen and (min-width: 59.6875em) {
 				.item-avatar,
 				.item,
 				.action {
@@ -454,7 +454,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					width: 55%;
 				}
 			}// close @media
-			
+
 			div.action {
 				clear: left;
 				float: none;
@@ -475,14 +475,14 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 				div {
 					display: inline-block;
-					margin: $spacing-val-sm 0; 
+					margin: $spacing-val-sm 0;
 					width: 100%;
 
 					a {
 						display: block;
 						width: 100%;
 					}
-					// Provisionally lets keep the 'action' div 
+					// Provisionally lets keep the 'action' div
 					//position but inline-block the buttons
 					@media screen and (min-width: 38.75em) {
 						// keep buttons to a row small tablet up
@@ -495,9 +495,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 						float: right;
 						margin: 0 0 $spacing-val-sm 0;
 					} // close @media
-					
+
 				} // close div
-				
+
 				.meta {
 					font-style: italic;
 				}
@@ -545,7 +545,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 #buddypress {
 
 	.activity-list {
-		
+
 		// re-size activity avatars
 		li {
 			.activity-avatar {
@@ -558,7 +558,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				}
 			}
 		}
-		
+
 		li.mini {
 			.activity-avatar {
 				a {
@@ -574,9 +574,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				.activity-header {
 					@include font-size(13);
 				}
-			}				
+			}
 		}
-		
+
 		.activity-content {
 			margin-top: -12px;
 
@@ -584,13 +584,13 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				@include font-size(16);
 				line-height: inherit;
 				margin-right: 0;
-				
+
 				p {
 					background-color: $light-background;
-					border: 1px solid rgba($border-light, .6);
-					padding: 0 .2em;
+					border: 1px solid rgba($border-light, 0.6);
+					padding: 0 0.2em;
 				}
-				
+
 				img.avatar {
 					display: inline-block;
 					margin-bottom: 0 !important; // have to match to BP
@@ -608,9 +608,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 
 		} // close .activity-content
-		
+
 		.load-more a {display: block;}
-	
+
 	} // close .activity-list
 } // close #buddypress
 
@@ -624,17 +624,17 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		.activity-comments {
 			border-left: 1px solid $border-light;
 			margin-top: 5px;
-			
+
 			ul {
-				background: rgba($light-background, .6);
+				background: rgba($light-background, 0.6);
 				margin: 30px 0 0 2px;
 			}
-		
+
 			.ac-form {
-			
+
 				input[type="submit"],
 				.ac-reply-cancel {
-					color: rgba($body-text, .8);
+					color: rgba($body-text, 0.8);
 					display: inline-block;
 					font-family: inherit;
 					@include font-size(12);
@@ -644,11 +644,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					text-transform: lowercase;
 					width: 100px;
 				}
-				
+
 				.ac-reply-cancel {
-					border: 1px solid rgba($border-color, .7);
+					border: 1px solid rgba($border-color, 0.7);
 					text-align: center;
-					
+
 					&:focus,
 					&:hover {
 						background: $bp-button-hover;
@@ -670,7 +670,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 #buddypress {
 	#members-list {
-	
+
 		@media screen and (min-width: 59.6875em) {
 			li {
 				.item-avatar,
@@ -690,7 +690,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					border-left: 1px solid rgba($border-color, .4);
 					display: block;
 					margin: .5em 0;
-					padding-left: .3em; 
+					padding-left: .3em;
 				}
 			}
 		}
@@ -705,31 +705,31 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 
 .bp-user {
-	.entry-title {margin-bottom: .5em;}
-	
+	.entry-title {margin-bottom: 0.5em;}
+
 	#buddypress {
-	
+
 	/* General elements & classes, pagination, filters */
-	
+
 		table {
 			th {@include font-size(14)}
 			td {@include font-size(12)}
-		
+
 			@media screen and (min-width: 46.25em) {
 				th {@include font-size(16)}
 				td {@include font-size(14)}
 			}
-		
+
 			@media screen and (min-width: 77.5em) {
 				th {@include font-size(18)}
 				td {@include font-size(16)}
 			}
 		}
-	
+
 		.pag-count {font-style: italic;}
-		
+
 		.notifications-options-nav {
-			border: 1px solid rgba($border-color, .5);
+			border: 1px solid rgba($border-color, 0.5);
 			float: left;
 			width: 100%;
 			@media screen and (min-width: 38.75em) {
@@ -742,10 +742,10 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				@include font-size(14);
 				outline: 0;
 				padding: 0;
-			}		
+			}
 
 			select {
-				float: left; 
+				float: left;
 				margin-right: 0;
 				width: 60%;
 			}
@@ -758,17 +758,17 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 
 		} // close .notifications-options-nav
-	
+
 	/* Item Header */
-	
+
 		#item-header {
 			padding: $spacing-val-md 0;
-		
+
 			#item-header-avatar {
 				text-align: center;
 				width: 100%;
 
-				img.avatar, 
+				img.avatar,
 				a {
 					border-bottom: 0;
 					display: inline-block;
@@ -777,63 +777,63 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 
 			@media screen and (min-width: 46.25em) {
-				#item-header-avatar {		
+				#item-header-avatar {
 					float: left;
 					width: 20%;
-				
-					img.avatar, 
+
+					img.avatar,
 					a {
 						float: left;
 						width: 100%;
 					}
 				}
-		
+
 				#item-header-content {
 					float: right;
 					margin-right: 5%;
 					width: 69%;
 				}
-	
+
 			} // close @media
-		
+
 		} // close #item-header
-	
+
 	/* Profile */
 		.profile {
 			.bp-widget {
 				h4 {
-					background: rgba($dark-background, .8);
+					background: rgba($dark-background, 0.8);
 					color: #fff;
 					margin-bottom: 0;
-					padding: .4em;
+					padding: 0.4em;
 				}
 
 				table {margin-top: 0;}
 			}
 		} // close .profile
-		
+
 		.bp-avatar-nav {
 			ul:before,
 			ul:after {
 				content: " ";
 				display: table;
 			}
-				
+
 			ul:after {
 				clear: both;
 			}
-				
+
 			ul {
-				border-bottom: 1px solid rgba($border-color, .5);
+				border-bottom: 1px solid rgba($border-color, 0.5);
 				margin-bottom: $spacing-val-md;
-					
+
 				li.current {
-					border: 1px solid rgba($border-color, .5);
+					border: 1px solid rgba($border-color, 0.5);
 					border-bottom-color: #fff;
 					border-top-left-radius: 4px;
 					border-top-right-radius: 4px;
-					margin-bottom: -1px;				
-						
+					margin-bottom: -1px;
+
 					a {
 						background: none;
 						outline: 0;
@@ -841,9 +841,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				} // close li.current
 			}
 		} // .bp-avatar-nav
-		
+
 		/* Groups */
-		
+
 		#groups-list {
 			li {
 				.item {
@@ -854,7 +854,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				}
 			}
 		}
-	
+
 	/* Messages / Notifications */
 
 	} // close #BuddyPress
@@ -867,16 +867,16 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-------------------------------------------------------------------------------
 */
 
-// Match BP form elements to Themes(2015) styling where styles 
+// Match BP form elements to Themes(2015) styling where styles
 // are not inherited or being overriden.
 #buddypress {
-	
+
 	div.activity-comments {
 		form {
 			.ac-textarea {
 				background: $light-background;
-				border: 1px solid rgba($border-color, .3);
-				
+				border: 1px solid rgba($border-color, 0.3);
+
 				textarea {
 					background: none;
 					border: 0;
@@ -885,7 +885,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		}
 	}
 
-	select {border: 1px solid rgba($border-color, .5);}
+	select {border: 1px solid rgba($border-color, 0.5);}
 
 } // close #buddypress
 
