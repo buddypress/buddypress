@@ -74,7 +74,7 @@ linters:
     width: 1
 
   LeadingZero:
-    enabled: false
+    enabled: true
     style: include_zero # or 'include_zero'
 
   MergeableSelector:
