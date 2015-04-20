@@ -690,7 +690,7 @@ class BP_XProfile_User_Admin {
 	 * @since BuddyPress (2.3.0)
 	 */
 	public function enqueue_scripts( $screen_id ) {
-		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' ) && false === strpos( $screen_id, 'profile_page_bp-profile-edit' ) ) || bp_core_get_root_option( 'bp-disable-avatar-uploads' ) ) {
+		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' ) && false === strpos( $screen_id, 'profile_page_bp-profile-edit' ) ) || bp_core_get_root_option( 'bp-disable-avatar-uploads' ) || ! buddypress()->avatar->show_avatars ) {
 			return;
 		}
 
@@ -768,15 +768,17 @@ class BP_XProfile_User_Admin {
 			);
 		}
 
-		// Avatar Metabox
-		add_meta_box(
-			'bp_xprofile_user_admin_avatar',
-			_x( 'Profile Photo', 'xprofile user-admin edit screen', 'buddypress' ),
-			array( $this, 'user_admin_avatar_metabox' ),
-			$screen_id,
-			'side',
-			'low'
-		);
+		if ( buddypress()->avatar->show_avatars ) {
+			// Avatar Metabox
+			add_meta_box(
+				'bp_xprofile_user_admin_avatar',
+				_x( 'Profile Photo', 'xprofile user-admin edit screen', 'buddypress' ),
+				array( $this, 'user_admin_avatar_metabox' ),
+				$screen_id,
+				'side',
+				'low'
+			);
+		}
 	}
 
 	/**
