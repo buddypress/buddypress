@@ -649,7 +649,7 @@ function bp_activity_admin_edit() {
 
 		<?php if ( ! empty( $activity ) ) : ?>
 
-			<form action="<?php echo esc_attr( $form_url ); ?>" id="bp-activities-edit-form" method="post">
+			<form action="<?php echo esc_url( $form_url ); ?>" id="bp-activities-edit-form" method="post">
 				<div id="poststuff">
 
 					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">

@@ -103,7 +103,7 @@ function bp_forums_bbpress_admin() {
 				<p><?php printf( __( 'If you decide to use bbPress, you will need to deactivate the legacy group forum component.  For more info, <a href="%s">read this codex article</a>.', 'buddypress' ), 'https://codex.buddypress.org/legacy/getting-started/using-bbpress-2-2-with-buddypress/' ) ?></p>
 
 				<div>
-					<a class="button thickbox button-primary" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
+					<a class="button thickbox button-primary" href="<?php echo esc_url( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
 				</div>
 			</div>
 
@@ -184,7 +184,7 @@ function bp_forums_bbpress_install_wizard() {
 				<h3><?php _e( 'New bbPress Installation', 'buddypress' ) ?></h3>
 				<p><?php _e( "You've decided to set up a new installation of bbPress for forum management in BuddyPress. This is very simple and is usually just a one click
 				process. When you're ready, hit the link below.", 'buddypress' ) ?></p>
-				<p><a class="button-primary" href="<?php echo wp_nonce_url( $post_url . '&step=new&doinstall=1', 'bp_forums_new_install_init' ) ?>"><?php _e( 'Complete Installation', 'buddypress' ) ?></a></p>
+				<p><a class="button-primary" href="<?php echo esc_url( wp_nonce_url( $post_url . '&step=new&doinstall=1', 'bp_forums_new_install_init' ) ); ?>"><?php _e( 'Complete Installation', 'buddypress' ) ?></a></p>
 
 				<?php
 			}
@@ -222,8 +222,8 @@ function bp_forums_bbpress_install_wizard() {
 					</ul>
 
 					<div>
-						<a class="button button-primary" href="<?php echo $post_url . '&step=new' ?>"><?php _e( 'Install Group Forums', 'buddypress' ) ?></a> &nbsp;
-						<a class="button" href="<?php echo $post_url . '&step=existing' ?>"><?php _e( 'Use Existing Installation', 'buddypress' ) ?></a>
+						<a class="button button-primary" href="<?php echo esc_url( $post_url ) . '&step=new' ?>"><?php _e( 'Install Group Forums', 'buddypress' ) ?></a> &nbsp;
+						<a class="button" href="<?php echo esc_url( $post_url ) . '&step=existing' ?>"><?php _e( 'Use Existing Installation', 'buddypress' ) ?></a>
 					</div>
 				</div>
 
@@ -245,7 +245,7 @@ function bp_forums_bbpress_install_wizard() {
 
 					<p><?php printf( __( 'If you decide to use bbPress, you will need to deactivate the legacy group forum component.  For more info, <a href="%s">read this codex article</a>.', 'buddypress' ), 'https://codex.buddypress.org/legacy/getting-started/using-bbpress-2-2-with-buddypress/' ) ?></p>
 					<div>
-						<a class="button button-primary <?php if ( ! $bbpress_plugin_is_active ) { echo esc_attr( 'thickbox' ); }?>" href="<?php echo esc_attr( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
+						<a class="button button-primary <?php if ( ! $bbpress_plugin_is_active ) { echo esc_attr( 'thickbox' ); }?>" href="<?php echo esc_url( $button_url ) ?>"><?php echo esc_html( $button_text ) ?></a> &nbsp;
 					</div>
 				</div>
 
