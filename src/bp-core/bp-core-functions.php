@@ -1423,7 +1423,7 @@ function bp_use_embed_in_private_messages() {
  * @param string $scheme See {@link bp_get_admin_url()}.
  */
 function bp_admin_url( $path = '', $scheme = 'admin' ) {
-	echo bp_get_admin_url( $path, $scheme );
+	echo esc_url( bp_get_admin_url( $path, $scheme ) );
 }
 	/**
 	 * Return the correct admin URL based on BuddyPress and WordPress configuration.

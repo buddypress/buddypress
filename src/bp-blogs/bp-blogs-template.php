@@ -901,7 +901,7 @@ function bp_blog_latest_post_title() {
  * @see bp_get_blog_latest_post_title()
  */
 function bp_blog_latest_post_permalink() {
-	echo bp_get_blog_latest_post_permalink();
+	echo esc_url( bp_get_blog_latest_post_permalink() );
 }
 	/**
 	 * Return the permalink of the latest post on the current blog in the loop.

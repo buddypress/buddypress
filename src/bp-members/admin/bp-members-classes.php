@@ -97,7 +97,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 
 		// Remove the 'current' class from the 'All' link
 		$views['all']        = str_replace( 'class="current"', '', $views['all'] );
-		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
+		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', esc_url( add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
 
 		return $views;
 	}
@@ -462,7 +462,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 
 		// Remove the 'current' class from the 'All' link
 		$views['all']        = str_replace( 'class="current"', '', $views['all'] );
-		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
+		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', esc_url( add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
 
 		return $views;
 	}

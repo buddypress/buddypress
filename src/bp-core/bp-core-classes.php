@@ -2424,7 +2424,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		$output .= $indent . '<li' . $id . $class_names . '>';
 
 		// Add href attribute
-		$attributes = ! empty( $item->link ) ? ' href="' . esc_attr( esc_url( $item->link ) ) . '"' : '';
+		$attributes = ! empty( $item->link ) ? ' href="' . esc_url( $item->link ) . '"' : '';
 
 		// Construct the link
 		$item_output = $args->before;

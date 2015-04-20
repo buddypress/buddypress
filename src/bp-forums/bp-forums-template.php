@@ -1784,7 +1784,7 @@ function bp_forum_topic_type() {
  * @since BuddyPress (1.5.0)
  */
 function bp_forum_topic_new_reply_link() {
-	echo bp_get_forum_topic_new_reply_link();
+	echo esc_url( bp_get_forum_topic_new_reply_link() );
 }
 	/**
 	 * Return the permalink for the New Reply button at the top of forum topics.

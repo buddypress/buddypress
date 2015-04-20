@@ -1366,18 +1366,18 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
 	}
 
 	if ( is_multisite() ) {
-		$blog_link = '<a href="' . $blog_url . '">' . get_blog_option( $activity->item_id, 'blogname' ) . '</a>';
+		$blog_link = '<a href="' . esc_url( $blog_url ) . '">' . get_blog_option( $activity->item_id, 'blogname' ) . '</a>';
 
 		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action_ms ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action_ms, $user_link, $post_url, $blog_link );
 		} else {
-			$action = sprintf( _x( '%1$s wrote a new <a href="%2$s">item</a>, on the site %3$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_url, $blog_link );
+			$action = sprintf( _x( '%1$s wrote a new <a href="%2$s">item</a>, on the site %3$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, esc_url( $post_url ), $blog_link );
 		}
 	} else {
 		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action, $user_link, $post_url );
 		} else {
-			$action = sprintf( _x( '%1$s wrote a new <a href="%2$s">item</a>', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_url );
+			$action = sprintf( _x( '%1$s wrote a new <a href="%2$s">item</a>', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, esc_url( $post_url ) );
 		}
 	}
 

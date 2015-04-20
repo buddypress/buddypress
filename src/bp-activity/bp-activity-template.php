@@ -308,7 +308,7 @@ class BP_Activity_Template {
 
 		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $page_arg, '%#%' ),
+				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_activity_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
@@ -2976,7 +2976,6 @@ function bp_activity_delete_link() {
 	 * @uses bp_get_activity_root_slug()
 	 * @uses bp_is_activity_component()
 	 * @uses bp_current_action()
-	 * @uses add_query_arg()
 	 * @uses wp_get_referer()
 	 * @uses wp_nonce_url()
 	 * @uses apply_filters() To call the 'bp_get_activity_delete_link' hook.
@@ -3221,13 +3220,13 @@ function bp_activity_filter_links( $args = false ) {
 			 */
 			$link = apply_filters( 'bp_get_activity_filter_link_href', $link, $component );
 
-			$component_links[] = $before . '<a href="' . esc_attr( $link ) . '">' . ucwords( $component ) . '</a>' . $after;
+			$component_links[] = $before . '<a href="' . esc_url( $link ) . '">' . ucwords( $component ) . '</a>' . $after;
 		}
 
 		$link = remove_query_arg( 'afilter' , $link );
 
 		if ( isset( $_GET['afilter'] ) )
-			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_attr( $link ) . '">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
+			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_url( $link ) . '">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
 
 		/**
 		 * Filters all of the constructed filter links.
@@ -3471,7 +3470,7 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
  * @uses bp_get_send_public_message_link()
  */
 function bp_send_public_message_link() {
-	echo bp_get_send_public_message_link();
+	echo esc_url( bp_get_send_public_message_link() );
 }
 
 	/**

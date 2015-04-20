@@ -649,7 +649,7 @@ function bp_activity_admin_edit() {
 
 		<?php if ( ! empty( $activity ) ) : ?>
 
-			<form action="<?php echo esc_attr( $form_url ); ?>" id="bp-activities-edit-form" method="post">
+			<form action="<?php echo esc_url( $form_url ); ?>" id="bp-activities-edit-form" method="post">
 				<div id="poststuff">
 
 					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
@@ -1279,8 +1279,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$url_base = bp_get_admin_url( 'admin.php?page=bp-activity' ); ?>
 
 		<ul class="subsubsub">
-			<li class="all"><a href="<?php echo esc_attr( esc_url( $url_base ) ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
-			<li class="spam"><a href="<?php echo esc_attr( esc_url( add_query_arg( 'activity_status', 'spam', $url_base ) ) ); ?>" class="<?php if ( 'spam' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Spam <span class="count">(%s)</span>', 'buddypress' ), number_format_i18n( $this->spam_count ) ); ?></a></li>
+			<li class="all"><a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
+			<li class="spam"><a href="<?php echo esc_url( add_query_arg( 'activity_status', 'spam', $url_base ) ); ?>" class="<?php if ( 'spam' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Spam <span class="count">(%s)</span>', 'buddypress' ), number_format_i18n( $this->spam_count ) ); ?></a></li>
 
 			<?php
 

@@ -2288,7 +2288,7 @@ add_action( 'bp_head', 'bp_members_activity_feed' );
  * @param string $nonce See {@bp_get_members_component_link()}.
  */
 function bp_members_component_link( $component, $action = '', $query_args = '', $nonce = false ) {
-	echo bp_get_members_component_link( $component, $action, $query_args, $nonce );
+	echo esc_url( bp_get_members_component_link( $component, $action, $query_args, $nonce ) );
 }
 	/**
 	 * Generate a link to a members component subpage.

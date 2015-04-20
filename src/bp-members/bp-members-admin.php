@@ -1174,7 +1174,7 @@ class BP_Members_Admin {
 
 			// Add query args and setup the Extended link
 			$edit_profile      = add_query_arg( $args, $this->edit_profile_url );
-			$edit_profile_link = sprintf( '<a href="%1$s">%2$s</a>',  esc_url( $edit_profile ), esc_html__( 'Extended', 'buddypress' ) );
+			$edit_profile_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $edit_profile ), esc_html__( 'Extended', 'buddypress' ) );
 
 			/**
 			 * Check the edit action is available
@@ -1329,7 +1329,7 @@ class BP_Members_Admin {
 		$url     = add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) );
 		$text    = sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $signups ) . ')</span>' );
 
-		$views['registered'] = sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', $url, $class, $text );
+		$views['registered'] = sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $url ), $class, $text );
 
 		return $views;
 	}
