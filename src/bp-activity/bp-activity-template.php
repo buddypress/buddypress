@@ -387,7 +387,7 @@ class BP_Activity_Template {
 
 		if ( (int) $this->total_activity_count && (int) $this->pag_num ) {
 			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->page_arg, '%#%' ),
+				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
 				'format'    => '',
 				'total'     => ceil( (int) $this->total_activity_count / (int) $this->pag_num ),
 				'current'   => (int) $this->pag_page,
