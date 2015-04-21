@@ -320,7 +320,7 @@ function bp_core_activation_notice() {
 	// If there are duplicates, post a message about them
 	if ( !empty( $dupe_names ) ) {
 		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf( __( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href="%1$s">Repair</a>', 'buddypress' ), usc_url( $admin_url ), '<strong>' . implode( '</strong>, <strong>', $dupe_names ) . '</strong>' );
+		$notice    = sprintf( __( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href="%1$s">Repair</a>', 'buddypress' ), esc_url( $admin_url ), '<strong>' . implode( '</strong>, <strong>', $dupe_names ) . '</strong>' );
 
 		bp_core_add_admin_notice( $notice );
 	}
