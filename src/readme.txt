@@ -124,6 +124,9 @@ See: https://codex.buddypress.org/releases/version-2-2-3-1/
 = 2.2.3 =
 See: https://codex.buddypress.org/releases/version-2-2-3/
 
+= 2.2.2.1 =
+See: https://codex.buddypress.org/releases/version-2-2-2-1/
+
 = 2.2.2 =
 See: https://codex.buddypress.org/releases/version-2-2-2/
 
