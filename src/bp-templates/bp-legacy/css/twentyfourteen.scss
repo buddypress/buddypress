@@ -1,0 +1,650 @@
+// Stylesheet Guidence Notes
+// Table of content represents a guide to sections of the sheet.
+// Note that not all sections may be described in the body of the
+// rulesets only those that require styles for a given theme.
+// Sub sections might not exist but can be added as required
+// as per BP Lists - 'activity' section.
+
+// We follow the dictats of the parent theme in respect of media queries,
+// font sizing etc. Media queries are used in a modular sense (OOCSS)
+// rather than described as blocks to the end of the sheet, this aids ease
+// of managing media queries, scalability & flexibility .
+
+// Twentyfourteen Media Queries / Breakpoints
+//@media screen and (max-width: 400px)
+//@media screen and (min-width: 401px)
+//@media screen and (min-width: 594px)
+//@media screen and (min-width: 673px)
+//@media screen and (min-width: 783px)
+//@media screen and (min-width: 810px)
+//@media screen and (min-width: 846px)
+//@media screen and (min-width: 1008px)
+//@media screen and (min-width: 1040px)
+//@media screen and (min-width: 1110px)
+
+// Mixins and Variabals
+
+// Common margin values
+$spacing-val-lg: 40px;
+$spacing-val-md: 20px;
+$spacing-val-sm: 10px;
+$spacing-val-xs: 5px;
+
+// A simple mixin to handle font-sizing to match 2014 body 100% approach
+@mixin font-size($font-size: 16) {
+	$rem-font-value: ($font-size / 16);
+	font-size: ($font-size * 1px);
+	font-size: $rem-font-value + rem;
+}
+
+// Border border-radius mixins
+// To allow mixins to pass cscc-lint tests we will not provide vendor prefix
+// until such time as exemption lists can be built for the scss-lint.yml
+
+@mixin border-radius($radius) {
+//	-webkit-border-radius: $radius;
+//	-moz-border-radius: $radius;
+//	-ms-border-radius: $radius;
+	border-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-top-radius($radius) {
+//	-webkit-border-top-right-radius: $radius;
+	border-top-right-radius: $radius;
+//	-webkit-border-top-left-radius: $radius;
+	border-top-left-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-right-radius($radius) {
+//	-webkit-border-bottom-right-radius: $radius;
+	border-bottom-right-radius: $radius;
+//	-webkit-border-top-right-radius: $radius;
+	border-top-right-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-bottom-radius($radius) {
+//	-webkit-border-bottom-right-radius: $radius;
+	border-bottom-right-radius: $radius;
+//	-webkit-border-bottom-left-radius: $radius;
+	border-bottom-left-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-left-radius($radius) {
+//	-webkit-border-bottom-left-radius: $radius;
+	border-bottom-left-radius: $radius;
+//	-webkit-border-top-left-radius: $radius;
+	border-top-left-radius: $radius;
+	background-clip: padding-box;
+}
+
+// Box sizing
+
+@mixin box-model($box-model) {
+//	-webkit-box-sizing: $box-model;
+//	-moz-box-sizing: $box-model;
+	box-sizing: $box-model;
+}
+
+// Variabals: color definitions
+$content-background: #fff;
+$light-background:   #f7f7f7;
+$medium-background:  #999;
+$dark-background:    #000;
+$border-color:       #000; // border color can be varied using rgba
+$border-med:         rgba(#000, 0.2);
+$border-light:       rgba(#000, 0.1); // BP dividers
+$body-text:          #2b2b2b; // 2015 body text color
+$bp-button-hover:    #ededed; // this is the default BP button hover background
+
+// 2014 font family
+@mixin default-font() {
+	font-family: Lato, sans-serif;
+}
+
+/*--------------------------------------------------------------
+
+This is the BuddyPress companion stylesheet for
+the WordPress Twentyfourteen theme.
+
+This sheet supports the primary BuddyPress styles in buddypress.css
+
+The Rulesets shadow the BP default stylesheet sectioning
+to maintain uniformity.
+
+--------------------------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+--------------------------------------------------------------------------------
+1.0 Theme Structural Elements
+2.0 - Navigation - General
+	2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
+	2.2 - Pagination
+3.0 - Images
+4.0 - BP Lists / Loops Generic
+	4.1 - Activity Loop
+		4.1.1 - Activity Whats new
+		4.1.2 - Activity Listing
+		4.1.3 - Activity Comments
+	4.2 - Members Loop
+	4.3 - Groups Loop
+	4.4 - Blogs Loop
+5.0 - Directories - Members, Groups, Blogs, Forums
+6.0 - Single Group Screens
+7.0 - Single User Account Screens
+	7.1 - Notifications
+	7.2 - Private Messaging Threads
+	7.3 - Extended Profiles
+	7.4 - Settings
+8.0 - Forms  -  General
+9.0 - Tables -  General
+10.0 - Error / Success Messages
+11.0 - Ajax Loading
+12.0 - Widgets
+------------------------------------------------------------------------------*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section - 1.0 - Theme - Structural Elements
+*-------------------------------------------------------------------------------
+*/
+
+// As BP screens have specific content lets adjust the themes primary elements
+// to maximise the screen real estate for BP pages.
+
+.buddypress {
+
+	.site-content {
+		padding-top: 4%;
+
+		@media screen and (min-width: 59.6875em) {
+			padding-top: 0;
+		}
+
+		article {
+			margin: 0 4%;
+			padding-top: 0;
+
+			.entry-header,
+			.entry-content {
+				max-width: 100%;
+				padding: 0 $spacing-val-md;
+			}
+
+			#buddypress { margin-bottom: $spacing-val-lg; }
+			} // .article
+		} // .content
+} // .buddypress ( body class )
+
+/**
+* ------------------------------------------------------------------------------
+* @section 2.0 - Navigation - General
+*-------------------------------------------------------------------------------
+*/
+
+/**
+* ------------------------------------------------------------------------------
+* @section 2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
+*-------------------------------------------------------------------------------
+*/
+
+.directory #buddypress {
+	.item-list-tabs {
+
+		ul:before,
+		ul:after {
+			content: " ";
+			display: table;
+		}
+
+		ul:after {
+			clear: both;
+		}
+
+		ul {border-bottom: 1px solid $border-med;}
+
+		@media screen and (min-width: 783px) {
+			ul {
+
+				li.selected {
+					border: 1px solid $border-med;
+					border-bottom-color: $content-background;
+					@include border-top-radius(4px);
+					margin-bottom: -1px;
+
+					a {
+						background: none;
+						outline: none;
+					}
+				}
+			}
+		} // close @media
+	} // close .item-list-tabs
+
+	#subnav {
+		ul {
+			border-bottom: 0;
+		}
+	} // close #subnav
+} // close .directory #buddypress
+
+	/*__ Vertical Menu User Account Screens __*/
+
+// This block contains the rules to re-factor the item-body structural element
+// to sit alongside the vert menu
+
+@media screen and (min-width: 783px) {
+	.bp-user #buddypress {
+		background: #eee;
+
+		#item-header,
+		#item-body {
+			background: #fff;
+		}
+
+		#item-body {border-left: 1px solid #ddd;}
+
+		#object-nav {
+			background: #eee;
+			border-right: 1px solid #ddd;
+			float: left;
+			margin-right: -1px;
+			width: 200px;
+
+			ul {
+				border-bottom: 0;
+				padding: 0;
+
+				li {
+					float: none;
+					overflow: hidden;
+
+					span {
+						border-radius: 10%;
+						float: right;
+						margin-right: 15px;
+					}
+				}
+			}
+		}
+
+		#item-body {
+			overflow: hidden;
+			padding: 0 $spacing-val-md;
+			width: auto;
+
+			#subnav {
+				border: 1px solid #ddd;
+				border-left: 0;
+				border-right: 0;
+				margin: 0 (-$spacing-val-md) $spacing-val-lg;
+			}
+		}
+	} // close .bp-user #buddypress
+} // close @media
+
+/**
+*-------------------------------------------------------------------------------
+* @section 2.2 - Pagination
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.0 - BP Lists / Loops Generic
+*-------------------------------------------------------------------------------
+*/
+#buddypress {
+	.item-list {
+		.item-title {
+
+			a {
+				display: block;
+				@include font-size(22);
+				text-decoration: none;
+			}
+
+			span.update,
+			span a {
+				@include font-size(12);
+			}
+		}
+	}
+}
+
+// Trying to position the action div absolute has bad consequences where
+// aditional items are displayed, floating is an alternative that
+// allows natural flow expansion.
+// This block:
+// * Manages li items, Stacks them small screen, floated left at wider screens.
+// * Adjusts display of action buttons at small screen
+
+#buddypress {
+	ul.item-list {
+		li {
+			overflow: hidden !important; // buddypress styles over specified
+
+			.item-avatar {
+				float: none;
+				margin-bottom: $spacing-val-md;
+				text-align: center;
+
+				a {
+					img.avatar {
+						float: none;
+					}
+				}
+			}
+
+			div.item-title {
+				float: none;
+				width: 100%;
+			}
+
+			// groups group description
+			div.item-desc {
+				margin-left: 0;
+				width: auto;
+			}
+
+			div.action {
+				position: relative;
+				text-align: left;
+				top: 0;
+
+				div {
+					margin: 0 0 $spacing-val-sm;
+				}
+
+			} // close .action
+
+			// item-list buttons blocked/full width for mobile/small screens
+
+			.activity-meta,
+			.action {
+				float: none;
+
+				a,
+				div {
+					display: block;
+					margin: $spacing-val-xs 0;
+				}
+			}
+
+			@media screen and (min-width: 594px) {
+				.item-avatar {
+					float: left;
+					margin-bottom: 0;
+				}
+
+				.item {
+					float: right;
+					width: 80%;
+				}
+
+				.activity-meta,
+				.action {
+					clear: both;
+
+					a,
+					div {
+						display: inline-block;
+						margin: spacing-val-xs $spacing-val-xs 0 0;
+					}
+				}
+			} // close @media
+
+			@media screen and (min-width: 783px) {
+				.item {
+					float: left;
+					margin-left: 5%;
+					width: 60%;
+
+					div.item-desc {
+						margin: 0;
+						width: auto;
+					}
+				}
+
+				.action {
+					clear: none;
+					float: right;
+					width: 25%;
+
+					div {
+						display: block;
+
+						a {
+							@include box-model(border-box);
+							display: block;
+							width: 100%;
+						}
+					}
+
+					.meta {
+						text-align: center;
+					}
+				}
+			} // close @media
+			.meta,
+			.item-meta .activity {
+				font-style: italic;
+			}
+		} // close li
+	} // ul.item-list
+} // close #budypress
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.0 - BP Lists / Loops Generic
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.1 - Activity
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.1.1 - Activity What's New
+*-------------------------------------------------------------------------------
+*/
+#buddypress {
+	#whats-new-form {
+		margin: $spacing-val-lg 0;
+
+		textarea#whats-new {
+			width: 100%;
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.1.2 - Activity Listing
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.1.3 - Activity Comments
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress {
+	.activity {
+		.activity-comments {
+			border-left: 1px solid $border-light;
+			margin-top: 5px;
+
+			ul {
+				background: rgba($light-background, 0.6);
+				margin: 30px 0 0 2px;
+			}
+
+			.ac-form {
+
+				input[type="submit"],
+				.ac-reply-cancel {
+					color: rgba($body-text, 0.8);
+					display: inline-block;
+					font-family: inherit;
+					@include font-size(12);
+					font-weight: normal;
+					line-height: 1.2;
+					padding: 4px 10px;
+					text-transform: lowercase;
+					width: 100px;
+				}
+
+				.ac-reply-cancel {
+					border: 1px solid $border-med;
+					text-align: center;
+
+					&:focus,
+					&:hover {
+						background: $bp-button-hover;
+					}
+				}
+
+			} // close .ac-form
+
+		} // close .activity-comments
+	} // close .activity
+
+} // close #buddypress
+
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.2 - Members Loop
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress {
+	.members {
+		.item-list {
+			.my-entry {
+				.item {
+					background: $light-background;
+					@include box-model(border-box);
+					padding: 0 0.5em;
+					@media screen and (min-width: 783px) {
+
+						float: right;
+						margin-left: 0;
+						padding: 0 0.5em;
+						width: 88%;
+					}
+				}
+			}
+		}
+	}
+}
+/*------------------------------------------------------------------------------
+* @section - 8.0 - Forms  - General
+*-------------------------------------------------------------------------------
+*/
+
+// Match BP form elements to Themes(2014) styling where styles
+// are not inherited or being overriden.
+#buddypress {
+
+	div.activity-comments {
+		form {
+			.ac-textarea {
+				background: $light-background;
+				border: 1px solid $border-med;
+
+				textarea {
+					background: none;
+					border: 0;
+				}
+			}
+		}
+	}
+
+	select {border: 1px solid rgba($border-color, 0.5);}
+
+} // close #buddypress
+
+#buddypress {
+	div.dir-search,
+	div.message-search {
+		float: none;
+		margin: $spacing-val-sm 0;
+
+// Stylise the seach form elements, in part this deals with padding
+// issues on the submit & sizing issues between bp styles & twentyfourteen
+		form {
+			border: 1px solid #ccc;
+			overflow: hidden;
+
+			label {
+				float: left;
+				width: 80%;
+			}
+
+			input[type='text'] {
+				float: left;
+				margin: 0;
+				width: 100%;
+			}
+
+			input[type='text'],
+			input[type='submit'] {
+				border: 0;
+				@include font-size(14);
+				line-height: inherit;
+			}
+
+			input[type='text'] {
+				border-right: 1px solid #ccc;
+				padding: 0.2em 0 0.2em 0.2em;
+			}
+
+			input[type='submit'] {
+				float: right;
+				font-weight: normal;
+				padding: 0.2em 1em;
+				text-align: center;
+				text-transform: none;
+				width: 20%;
+			}
+
+			}// close form
+
+	} // close .dir-search, .message-search
+
+	// Shift the search parent to the right and allow to shrinkwrap
+	@media screen and (min-width: 401px) {
+		div.dir-search,
+		div.message-search {
+			float: right;
+			margin: 0;
+
+			form {
+				label,
+				input[type='submit'],
+				input[type='text'] {
+					width: auto;
+				}
+			}
+		}
+
+		div.message-search { margin-top: 2px;}
+	} // close @media
+} // close #buddypress
+
+/**
+*-------------------------------------------------------------------------------
+* @section 9.0 - Tables General
+*-------------------------------------------------------------------------------
+*/
+
+/*__ User Account tables __*/
+
