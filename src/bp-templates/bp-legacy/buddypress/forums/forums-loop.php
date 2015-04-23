@@ -11,7 +11,14 @@
 
 ?>
 
-<?php do_action( 'bp_before_forums_loop' ); ?>
+<?php
+
+/**
+ * Fires at the start of the forums loop.
+ *
+ * @since BuddyPress (1.2.6)
+ */
+do_action( 'bp_before_forums_loop' ); ?>
 
 <?php if ( bp_has_forum_topics( bp_ajax_querystring( 'forums' ) ) ) : ?>
 
@@ -31,7 +38,14 @@
 
 	</div>
 
-	<?php do_action( 'bp_before_directory_forums_list' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of the forums list.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_directory_forums_list' ); ?>
 
 	<table class="forum">
 		<thead>
@@ -40,7 +54,14 @@
 				<th id="th-postcount"><?php _e( 'Posts', 'buddypress' ); ?></th>
 				<th id="th-freshness"><?php _e( 'Freshness', 'buddypress' ); ?></th>
 
-				<?php do_action( 'bp_directory_forums_extra_cell_head' ); ?>
+				<?php
+
+				/**
+				 * Fires at the end of <tr> row holding the <th> tags.
+				 *
+				 * @since BuddyPress (1.2.4)
+				 */
+				do_action( 'bp_directory_forums_extra_cell_head' ); ?>
 
 			</tr>
 		</thead>
@@ -91,18 +112,39 @@
 					</p>
 				</td>
 
-				<?php do_action( 'bp_directory_forums_extra_cell' ); ?>
+				<?php
+
+				/**
+				 * Fires at the end of <tr> row holding the <td> tags.
+				 *
+				 * @since BuddyPress (1.1.0)
+				 */
+				do_action( 'bp_directory_forums_extra_cell' ); ?>
 
 			</tr>
 
-			<?php do_action( 'bp_directory_forums_extra_row' ); ?>
+			<?php
+
+				/**
+				 * Fires after the <tr> for a forum listing display.
+				 *
+				 * @since BuddyPress (1.1.0)
+				 */
+				do_action( 'bp_directory_forums_extra_row' ); ?>
 
 			<?php endwhile; ?>
 
 		</tbody>
 	</table>
 
-	<?php do_action( 'bp_after_directory_forums_list' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of the forums list.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_after_directory_forums_list' ); ?>
 
 	<div id="pag-bottom" class="pagination">
 
@@ -124,4 +166,11 @@
 
 <?php endif; ?>
 
-<?php do_action( 'bp_after_forums_loop' ); ?>
+<?php
+
+/**
+ * Fires at the end of the forums loop.
+ *
+ * @since BuddyPress (1.2.6)
+ */
+do_action( 'bp_after_forums_loop' ); ?>
