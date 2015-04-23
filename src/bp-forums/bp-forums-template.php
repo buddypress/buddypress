@@ -2499,7 +2499,7 @@ function bp_the_topic_post_time_since() {
  * Output whether the current post in the loop belongs to the logged-in user.
  */
 function bp_the_topic_post_is_mine() {
-	echo bp_the_topic_post_is_mine();
+	echo bp_get_the_topic_post_is_mine();
 }
 	/**
 	 * Does the current post belong to the logged-in user?
