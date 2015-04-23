@@ -351,7 +351,16 @@ abstract class BP_XProfile_Field_Type {
 				<div id="<?php echo esc_attr( "{$type}_more" ); ?>"></div>
 				<p><a href="javascript:add_option('<?php echo esc_js( $type ); ?>')"><?php esc_html_e( 'Add Another Option', 'buddypress' ); ?></a></p>
 
-				<?php do_action( 'bp_xprofile_admin_new_field_additional_settings', $current_field ) ?>
+				<?php
+
+				/**
+				 * Fires at the end of the new field additional settings area.
+				 *
+				 * @since BuddyPress (2.3.0)
+				 *
+				 * @param BP_XProfile_Field $current_field Current field being rendered.
+				 */
+				do_action( 'bp_xprofile_admin_new_field_additional_settings', $current_field ) ?>
 			</div>
 		</div>
 
