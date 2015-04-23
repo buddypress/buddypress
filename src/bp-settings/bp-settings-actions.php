@@ -244,6 +244,7 @@ Regards,
 			break;
 		case 'same' :
 			$feedback['pass_same'] 	   = __( 'The new password must be different from the current password.', 'buddypress' );
+			break;
 		case false :
 			// No change
 			break;
