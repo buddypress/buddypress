@@ -1274,11 +1274,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.6.0)
 	 */
 	function get_views() {
-		$url_base = bp_get_admin_url( 'admin.php?page=bp-activity' ); ?>
+		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) ); ?>
 
 		<ul class="subsubsub">
-			<li class="all"><a href="<?php echo esc_attr( esc_url( $url_base ) ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
-			<li class="spam"><a href="<?php echo esc_attr( esc_url( add_query_arg( 'activity_status', 'spam', $url_base ) ) ); ?>" class="<?php if ( 'spam' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Spam <span class="count">(%s)</span>', 'buddypress' ), number_format_i18n( $this->spam_count ) ); ?></a></li>
+			<li class="all"><a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
+			<li class="spam"><a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="<?php if ( 'spam' == $this->view ) echo 'current'; ?>"><?php printf( __( 'Spam <span class="count">(%s)</span>', 'buddypress' ), number_format_i18n( $this->spam_count ) ); ?></a></li>
 
 			<?php
 
