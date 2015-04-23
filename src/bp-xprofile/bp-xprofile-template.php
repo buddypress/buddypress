@@ -1086,7 +1086,7 @@ function bp_profile_last_updated() {
 	$last_updated = bp_get_profile_last_updated();
 
 	if ( empty( $last_updated ) ) {
-		_e( 'Profile not recently updated', 'buddypress' ) . '.';
+		_e( 'Profile not recently updated.', 'buddypress' );
 	} else {
 		echo $last_updated;
 	}
