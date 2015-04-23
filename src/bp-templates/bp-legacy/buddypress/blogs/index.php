@@ -112,7 +112,7 @@ do_action( 'bp_before_directory_blogs' ); ?>
 	<?php
 
 	/**
-	 * Fires at the top of the blogs directory template file.
+	 * Fires at the bottom of the blogs directory template file.
 	 *
 	 * @since BuddyPress (1.5.0)
 	 */
