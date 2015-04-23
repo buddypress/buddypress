@@ -1,4 +1,11 @@
-<?php do_action( 'bp_before_group_send_invites_content' ); ?>
+<?php
+
+/**
+ * Fires before the send invites content.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'bp_before_group_send_invites_content' ); ?>
 
 <?php
 /* Does the user have friends that could be invited to the group? */
@@ -35,4 +42,11 @@ else : ?>
 
 <?php endif; ?>
 
-<?php do_action( 'bp_after_group_send_invites_content' ); ?>
+<?php
+
+/**
+ * Fires after the send invites content.
+ *
+ * @since BuddyPress (1.2.0)
+ */
+do_action( 'bp_after_group_send_invites_content' ); ?>

@@ -24,7 +24,14 @@
 				<h4><?php bp_group_request_user_link(); ?> <span class="comments"><?php bp_group_request_comment(); ?></span></h4>
 				<span class="activity"><?php bp_group_request_time_since_requested(); ?></span>
 
-				<?php do_action( 'bp_group_membership_requests_admin_item' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the groups membership request list loop.
+				 *
+				 * @since BuddyPress (1.1.0)
+				 */
+				do_action( 'bp_group_membership_requests_admin_item' ); ?>
 
 				<div class="action">
 
@@ -32,7 +39,14 @@
 
 					<?php bp_button( array( 'id' => 'group_membership_reject', 'component' => 'groups', 'wrapper_class' => 'reject', 'link_href' => bp_get_group_request_reject_link(), 'link_title' => __( 'Reject', 'buddypress' ), 'link_text' => __( 'Reject', 'buddypress' ) ) ); ?>
 
-					<?php do_action( 'bp_group_membership_requests_admin_item_action' ); ?>
+					<?php
+
+					/**
+					 * Fires inside the list of membership request actions.
+					 *
+					 * @since BuddyPress (1.1.0)
+					 */
+					do_action( 'bp_group_membership_requests_admin_item_action' ); ?>
 
 				</div>
 			</li>
