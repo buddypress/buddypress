@@ -35,8 +35,8 @@ function bp_core_register_common_scripts() {
 		'bp-jquery-scroll-to' => array( 'file' => "{$url}jquery-scroll-to{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 
 		// 2.1
-		'jquery-caret' => array( 'file' => "{$url}jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ), 'footer' => false ),
+		'jquery-caret' => array( 'file' => "{$url}jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => true ),
+		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ), 'footer' => true ),
 
 		// 2.3
 		'bp-plupload' => array( 'file' => "{$url}bp-plupload{$min}.js", 'dependencies' => array( 'plupload', 'jquery', 'json2', 'wp-backbone' ), 'footer' => true ),
