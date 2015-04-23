@@ -6,12 +6,26 @@
 
 <form action="<?php bp_group_admin_form_action(); ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data" role="main">
 
-<?php do_action( 'bp_before_group_admin_content' ); ?>
+<?php
+
+/**
+ * Fires inside the group admin form and before the content.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'bp_before_group_admin_content' ); ?>
 
 <?php /* Edit Group Details */ ?>
 <?php if ( bp_is_group_admin_screen( 'edit-details' ) ) : ?>
 
-	<?php do_action( 'bp_before_group_details_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of group admin details.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_group_details_admin' ); ?>
 
 	<label for="group-name"><?php _e( 'Group Name (required)', 'buddypress' ); ?></label>
 	<input type="text" name="group-name" id="group-name" value="<?php bp_group_name(); ?>" aria-required="true" />
@@ -19,7 +33,14 @@
 	<label for="group-desc"><?php _e( 'Group Description (required)', 'buddypress' ); ?></label>
 	<textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_group_description_editable(); ?></textarea>
 
-	<?php do_action( 'groups_custom_group_fields_editable' ); ?>
+	<?php
+
+	/**
+	 * Fires after the group description admin details.
+	 *
+	 * @since BuddyPress (1.0.0)
+	 */
+	do_action( 'groups_custom_group_fields_editable' ); ?>
 
 	<p>
 		<label for="group-notify-members">
@@ -27,7 +48,14 @@
 		</label>
 	</p>
 
-	<?php do_action( 'bp_after_group_details_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of group admin details.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_after_group_details_admin' ); ?>
 
 	<p><input type="submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" id="save" name="save" /></p>
 	<?php wp_nonce_field( 'groups_edit_group_details' ); ?>
@@ -37,7 +65,14 @@
 <?php /* Manage Group Settings */ ?>
 <?php if ( bp_is_group_admin_screen( 'group-settings' ) ) : ?>
 
-	<?php do_action( 'bp_before_group_settings_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires before the group settings admin display.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_group_settings_admin' ); ?>
 
 	<?php if ( bp_is_active( 'forums' ) ) : ?>
 
@@ -112,7 +147,14 @@
 
 	<hr />
 
-	<?php do_action( 'bp_after_group_settings_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires after the group settings admin display.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_after_group_settings_admin' ); ?>
 
 	<p><input type="submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" id="save" name="save" /></p>
 	<?php wp_nonce_field( 'groups_edit_group_settings' ); ?>
@@ -179,7 +221,14 @@
 <?php /* Manage Group Members */ ?>
 <?php if ( bp_is_group_admin_screen( 'manage-members' ) ) : ?>
 
-	<?php do_action( 'bp_before_group_manage_members_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires before the group manage members admin display.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 	<div class="bp-widget">
 		<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
@@ -283,7 +332,14 @@
 
 								<a href="<?php bp_group_member_remove_link(); ?>" class="button confirm" title="<?php esc_attr_e( 'Remove this member', 'buddypress' ); ?>"><?php _e( 'Remove from group', 'buddypress' ); ?></a>
 
-								<?php do_action( 'bp_group_manage_members_admin_item' ); ?>
+								<?php
+
+								/**
+								 * Fires inside the display of a member admin item in group management area.
+								 *
+								 * @since BuddyPress (1.1.0)
+								 */
+								do_action( 'bp_group_manage_members_admin_item' ); ?>
 
 							</span>
 						</h5>
@@ -302,14 +358,28 @@
 
 	</div>
 
-	<?php do_action( 'bp_after_group_manage_members_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires after the group manage members admin display.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_after_group_manage_members_admin' ); ?>
 
 <?php endif; ?>
 
 <?php /* Manage Membership Requests */ ?>
 <?php if ( bp_is_group_admin_screen( 'membership-requests' ) ) : ?>
 
-	<?php do_action( 'bp_before_group_membership_requests_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of group membership requests admin.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_group_membership_requests_admin' ); ?>
 
 		<div class="requests">
 
@@ -317,16 +387,39 @@
 
 		</div>
 
-	<?php do_action( 'bp_after_group_membership_requests_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of group membership requests admin.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_after_group_membership_requests_admin' ); ?>
 
 <?php endif; ?>
 
-<?php do_action( 'groups_custom_edit_steps' ) // Allow plugins to add custom group edit screens ?>
+<?php
+
+/**
+ * Fires inside the group admin template.
+ *
+ * Allows plugins to add custom group edit screens.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'groups_custom_edit_steps' ); ?>
 
 <?php /* Delete Group Option */ ?>
 <?php if ( bp_is_group_admin_screen( 'delete-group' ) ) : ?>
 
-	<?php do_action( 'bp_before_group_delete_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of group delete admin.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_group_delete_admin' ); ?>
 
 	<div id="message" class="info">
 		<p><?php _e( 'WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>
@@ -334,7 +427,14 @@
 
 	<label><input type="checkbox" name="delete-group-understand" id="delete-group-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-group-button').disabled = ''; } else { document.getElementById('delete-group-button').disabled = 'disabled'; }" /> <?php _e( 'I understand the consequences of deleting this group.', 'buddypress' ); ?></label>
 
-	<?php do_action( 'bp_after_group_delete_admin' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of group delete admin.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_after_group_delete_admin' ); ?>
 
 	<div class="submit">
 		<input type="submit" disabled="disabled" value="<?php esc_attr_e( 'Delete Group', 'buddypress' ); ?>" id="delete-group-button" name="delete-group-button" />
@@ -347,7 +447,14 @@
 <?php /* This is important, don't forget it */ ?>
 	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id(); ?>" />
 
-<?php do_action( 'bp_after_group_admin_content' ); ?>
+<?php
+
+/**
+ * Fires inside the group admin form and after the content.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'bp_after_group_admin_content' ); ?>
 
 </form><!-- #group-settings-form -->
 

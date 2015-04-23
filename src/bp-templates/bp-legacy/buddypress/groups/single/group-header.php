@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Fires before the display of a group's header.
+ *
+ * @since BuddyPress (1.2.0)
+ */
 do_action( 'bp_before_group_header' );
 
 ?>
@@ -12,15 +17,31 @@ do_action( 'bp_before_group_header' );
 
 		<?php bp_group_list_admins();
 
+		/**
+		 * Fires after the display of the group's administrators.
+		 *
+		 * @since BuddyPress (1.1.0)
+		 */
 		do_action( 'bp_after_group_menu_admins' );
 
 		if ( bp_group_has_moderators() ) :
+
+			/**
+			 * Fires before the display of the group's moderators, if there are any.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 */
 			do_action( 'bp_before_group_menu_mods' ); ?>
 
 			<h3><?php _e( 'Group Mods' , 'buddypress' ); ?></h3>
 
 			<?php bp_group_list_mods();
 
+			/**
+			 * Fires after the display of the group's moderators, if there are any.
+			 *
+			 * @since BuddyPress (1.1.0)
+			 */
 			do_action( 'bp_after_group_menu_mods' );
 
 		endif;
@@ -41,7 +62,14 @@ do_action( 'bp_before_group_header' );
 	<span class="highlight"><?php bp_group_type(); ?></span>
 	<span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
 
-	<?php do_action( 'bp_before_group_header_meta' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of the group's header meta.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
+	do_action( 'bp_before_group_header_meta' ); ?>
 
 	<div id="item-meta">
 
@@ -49,16 +77,36 @@ do_action( 'bp_before_group_header' );
 
 		<div id="item-buttons">
 
-			<?php do_action( 'bp_group_header_actions' ); ?>
+			<?php
+
+			/**
+			 * Fires in the group header actions section.
+			 *
+			 * @since BuddyPress (1.2.6)
+			 */
+			do_action( 'bp_group_header_actions' ); ?>
 
 		</div><!-- #item-buttons -->
 
-		<?php do_action( 'bp_group_header_meta' ); ?>
+		<?php
+
+		/**
+		 * Fires after the group header actions section.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
+		do_action( 'bp_group_header_meta' ); ?>
 
 	</div>
 </div><!-- #item-header-content -->
 
 <?php
+
+/**
+ * Fires after the display of a group's header.
+ *
+ * @since BuddyPress (1.2.0)
+ */
 do_action( 'bp_after_group_header' );
 do_action( 'template_notices' );
 ?>
