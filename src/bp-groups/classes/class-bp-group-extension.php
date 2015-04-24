@@ -356,17 +356,21 @@ class BP_Group_Extension {
 	 *     @type array $screens A multi-dimensional array of configuration
 	 *           information for the extension screens. See docblock of
 	 *           {@link BP_Group_Extension} for more details.
-	 *     @type string $access Which users can visit the plugin's tab.
+	 *     @type string|array $access Which users can visit the plugin's tab.
 	 *			 Possible values: 'anyone', 'loggedin', 'member',
-	 *        	 'mod', 'admin' or 'noone'
-	 *			 ('member', 'mod', 'admin' refer to user's role in group.)
+	 *        	 'mod', 'admin' or 'noone'. ('member', 'mod', 'admin'
+	 *           refer to user's role in group.) Note that 'mod' targets only
+	 *           group moderators. If you want to allow access to group
+	 *           moderators and admins, specify `array( 'mod', 'admin' )`.
 	 * 			 Defaults to 'anyone' for public groups and 'member' for
 	 *			 private groups.
-	 *     @type string $show_tab Which users can see the plugin's navigation
-	 *			 tab.
+	 *     @type string|array $show_tab Which users can see the plugin's
+	 *           navigation tab.
 	 *			 Possible values: 'anyone', 'loggedin', 'member',
-	 *        	 'mod', 'admin' or 'noone'
-	 *			 ('member', 'mod', 'admin' refer to user's role in group.)
+	 *        	 'mod', 'admin' or 'noone'. ('member', 'mod', 'admin'
+	 *           refer to user's role in group.) Note that 'mod' targets only
+	 *           group moderators. If you want to show the tab to group
+	 *           moderators and admins, specify `array( 'mod', 'admin' )`.
 	 * 			 Defaults to 'anyone' for public groups and 'member' for
 	 *			 private groups.
 	 * }
