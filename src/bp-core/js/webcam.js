@@ -21,7 +21,8 @@ window.bp = window.bp || {};
 				capture_enable: false,
 				capture:        null,
 				canvas:         null,
-				warning:        null
+				warning:        null,
+				flipped:        false
 			};
 
 			bp.Avatar.nav.on( 'bp-avatar-view:changed', _.bind( this.setView, this ) );
@@ -43,6 +44,9 @@ window.bp = window.bp || {};
 
 			// Create the WebCam view
 			var cameraView = new bp.Views.WebCamAvatar( { model: new Backbone.Model( { user_media: false } ) } );
+
+			// Make sure the flipped param is reset
+			this.params.flipped = false;
 
 			// Add it to views
 			bp.Avatar.views.add( { id: 'camera', view: cameraView } );
@@ -241,6 +245,13 @@ window.bp = window.bp || {};
 			// Set the offset
 			sc = this.options.video.el.videoHeight;
 			sx = ( this.options.video.el.videoWidth - sc ) / 2;
+
+			// Flip only once.
+			if ( ! bp.WebCam.params.flipped ) {
+				this.options.canvas.el.getContext( '2d' ).translate( this.model.get( 'w' ), 0 );
+				this.options.canvas.el.getContext( '2d' ).scale( -1, 1 );
+				bp.WebCam.params.flipped = true;
+			}
 
 			this.options.canvas.el.getContext( '2d' ).drawImage( this.options.video.el, sx, 0, sc, sc, 0, 0, this.model.get( 'w' ), this.model.get( 'h' ) );
 			bp.WebCam.params.capture = this.options.canvas.el.toDataURL( 'image/png' );
