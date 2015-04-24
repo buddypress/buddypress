@@ -494,6 +494,7 @@ window.bp = window.bp || {};
 		initCropper: function() {
 			var self = this,
 				tocrop = this.$el.find( '#avatar-to-crop img' ),
+				availableWidth = this.$el.width(),
 				selection = {}, crop_top, crop_bottom, crop_left, crop_right, nh, nw;
 
 			if ( ! _.isUndefined( this.options.full_h ) && ! _.isUndefined( this.options.full_w ) ) {
@@ -502,6 +503,15 @@ window.bp = window.bp || {};
 
 			selection.w = this.model.get( 'width' );
 			selection.h = this.model.get( 'height' );
+
+			/**
+			 * Make sure the crop preview is at the right of the avatar
+			 * if the available width allowes it.
+			 */
+			if ( this.options.full_w + selection.w + 20 < availableWidth ) {
+				$( '#avatar-to-crop' ).addClass( 'adjust' );
+				this.$el.find( '.avatar-crop-management' ).addClass( 'adjust' );
+			}
 
 			if ( selection.h <= selection.w ) {
 				crop_top    = Math.round( selection.h / 4 );

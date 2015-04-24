@@ -17,10 +17,12 @@
 		</div>
 	<# } else { #>
 		<div id="avatar-to-crop"></div>
-		<div id="avatar-crop-pane" class="avatar" style="width:{{data.w}}px; height:{{data.h}}px"></div>
-		<div id="avatar-crop-actions">
-			<a class="button avatar-webcam-capture" href="#"><?php esc_html_e( 'Capture', 'buddypress' );?></a>
-			<a class="button avatar-webcam-save" href="#"><?php esc_html_e( 'Save', 'buddypress' );?></a>
+		<div class="avatar-crop-management">
+			<div id="avatar-crop-pane" class="avatar" style="width:{{data.w}}px; height:{{data.h}}px"></div>
+			<div id="avatar-crop-actions">
+				<a class="button avatar-webcam-capture" href="#"><?php esc_html_e( 'Capture', 'buddypress' );?></a>
+				<a class="button avatar-webcam-save" href="#"><?php esc_html_e( 'Save', 'buddypress' );?></a>
+			</div>
 		</div>
 	<# } #>
 </script>
