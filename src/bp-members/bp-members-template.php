@@ -1436,16 +1436,14 @@ function bp_loggedin_user_avatar( $args = '' ) {
 	 */
 	function bp_get_loggedin_user_avatar( $args = '' ) {
 
-		$defaults = array(
-			'type'   => 'thumb',
-			'width'  => false,
-			'height' => false,
-			'html'   => true,
-			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() )
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		$r = wp_parse_args( $args, array(
+			'item_id' => bp_loggedin_user_id(),
+			'type'    => 'thumb',
+			'width'   => false,
+			'height'  => false,
+			'html'    => true,
+			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() )
+		) );
 
 		/**
 		 * Filters the logged in user's avatar.
@@ -1454,7 +1452,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
 		 *
 		 * @param string $value User avatar string.
 		 */
-		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( array( 'item_id' => bp_loggedin_user_id(), 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
+		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( $r ), $r, $args );
 	}
 
 /**
@@ -1485,16 +1483,14 @@ function bp_displayed_user_avatar( $args = '' ) {
 	 */
 	function bp_get_displayed_user_avatar( $args = '' ) {
 
-		$defaults = array(
-			'type'   => 'thumb',
-			'width'  => false,
-			'height' => false,
-			'html'   => true,
-			'alt'    => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
+		$r = wp_parse_args( $args, array(
+			'item_id' => bp_displayed_user_id(),
+			'type'    => 'thumb',
+			'width'   => false,
+			'height'  => false,
+			'html'    => true,
+			'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
+		) );
 
 		/**
 		 * Filters the displayed user's avatar.
@@ -1503,7 +1499,7 @@ function bp_displayed_user_avatar( $args = '' ) {
 		 *
 		 * @param string $value User avatar string.
 		 */
-		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( array( 'item_id' => bp_displayed_user_id(), 'type' => $type, 'width' => $width, 'height' => $height, 'html' => $html, 'alt' => $alt ) ) );
+		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( $r ), $r, $args );
 	}
 
 /**
