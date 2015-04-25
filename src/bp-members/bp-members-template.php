@@ -1870,7 +1870,7 @@ function bp_has_custom_signup_page() {
  * Output the URL to the signup page.
  */
 function bp_signup_page() {
-	echo bp_get_signup_page();
+	echo esc_url( bp_get_signup_page() );
 }
 	/**
 	 * Get the URL to the signup page.
@@ -1916,7 +1916,7 @@ function bp_has_custom_activation_page() {
  * Output the URL of the activation page.
  */
 function bp_activation_page() {
-	echo bp_get_activation_page();
+	echo esc_url( bp_get_activation_page() );
 }
 	/**
 	 * Get the URL of the activation page.
