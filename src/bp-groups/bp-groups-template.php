@@ -67,7 +67,7 @@ function bp_groups_root_slug() {
  * @since BuddyPress (1.5.0)
  */
 function bp_groups_directory_permalink() {
-	echo bp_get_groups_directory_permalink();
+	echo esc_url( bp_get_groups_directory_permalink() );
 }
 	/**
 	 * Return group directory permalink

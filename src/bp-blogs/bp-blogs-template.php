@@ -76,7 +76,7 @@ function bp_blogs_root_slug() {
  * @uses bp_get_blogs_directory_permalink()
  */
 function bp_blogs_directory_permalink() {
-	echo bp_get_blogs_directory_permalink();
+	echo esc_url( bp_get_blogs_directory_permalink() );
 }
 	/**
 	 * Return blog directory permalink.

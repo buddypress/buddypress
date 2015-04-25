@@ -73,7 +73,7 @@ function bp_forums_root_slug() {
  * @uses bp_get_forums_directory_permalink()
  */
 function bp_forums_directory_permalink() {
-	echo bp_get_forums_directory_permalink();
+	echo esc_url( bp_get_forums_directory_permalink() );
 }
 	/**
 	 * Return permalink for the forum directory.
