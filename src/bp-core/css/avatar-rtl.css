@@ -20,7 +20,7 @@ div.bp-avatar-status p.error {
 	color: #800;
 }
 
-.progress {
+div.bp-avatar-status .bp-progress {
 	background: none;
 	border: 1px solid #d1d1d1;
 	float: left;
@@ -33,7 +33,7 @@ div.bp-avatar-status p.error {
 	width: 200px;
 }
 
-.bar {
+div.bp-avatar-status .bp-bar {
 	background-color: #c3ff88;
 	width: 0;
 	height: 100%;
@@ -72,7 +72,7 @@ div.bp-avatar-nav {
 }
 
 .bp-avatar-nav .avatar-nav-items li.avatar-nav-item {
-	float: right;
+	float: right !important;
 	margin: 0;
 	list-style: none;
 }
@@ -83,11 +83,35 @@ div.bp-avatar-nav {
 	text-decoration: none;
 }
 
-.avatar-nav-items li.current a {
-	background-color: #eee;
-	color: #555;
+.bp-avatar-nav	ul:before,
+.bp-avatar-nav	ul:after {
+	content: " ";
+	display: table;
+}
+
+.bp-avatar-nav	ul:after {
+	clear: both;
+}
+
+.bp-avatar-nav	ul {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
+}
+
+.bp-avatar-nav	ul.avatar-nav-items li.current {
+	border: 1px solid #ccc;
+	border-bottom-color: #fff;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	margin-bottom: -1px;
+}
+
+.bp-avatar-nav	li.current a {
+	background: none;
+	color: inherit;
 	font-weight: bold;
 	opacity: 0.8;
+	outline: 0;
 }
 
 #drag-drop-area {

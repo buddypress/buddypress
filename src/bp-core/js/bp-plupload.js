@@ -368,7 +368,7 @@ window.bp = window.bp || window.wp;
 
 		progress:function( model ) {
 			if ( ! _.isUndefined( model.get( 'percent' ) ) ) {
-				$( '#' + model.get('id') + ' .progress .bar' ).css( 'width', model.get('percent') + '%' );
+				$( '#' + model.get('id') + ' .bp-progress .bp-bar' ).css( 'width', model.get('percent') + '%' );
 			}
 		},
 

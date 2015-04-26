@@ -30,8 +30,8 @@
 
 <script type="text/html" id="tmpl-progress-window">
 	<div id="{{data.id}}">
-		<div class="progress">
-			<div class="bar"></div>
+		<div class="bp-progress">
+			<div class="bp-bar"></div>
 		</div>
 		<div class="filename">{{data.filename}}</div>
 	</div>
