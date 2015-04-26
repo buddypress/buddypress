@@ -32,11 +32,16 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	4.4 - Blogs Loop
 5.0 - Directories - Members, Groups, Blogs, Forums
 6.0 - Single Group Screens
+ 6.1 - Item-header
+ 6.2 - Management settings screens
+ 6.3 - Group members list
 7.0 - Single User Account Screens
-	7.1 - Notifications
-	7.2 - Private Messaging Threads
-	7.3 - Extended Profiles
-	7.4 - Settings
+	7.1 - Item Header
+	7.2 - Extended Profiles
+	7.3 - Groups
+	7.4 - friends
+	7.5 - Private Messaging Threads
+	7.6 - Settings
 8.0 - Forms  -  General
 9.0 - Tables -  General
 10.0 - Error / Success Messages
@@ -147,31 +152,32 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /*__ Vertical menu User account screens __*/
 @media screen and (min-width: 55em) {
-  .bp-user #buddypress {
+  /*.bp-user*/
+  #buddypress {
     background: #f7f7f7; }
-    .bp-user #buddypress #item-header, .bp-user #buddypress #item-body {
+    #buddypress #item-header, #buddypress #item-body {
       background: #fff; }
-    .bp-user #buddypress #object-nav {
+    #buddypress #object-nav {
       border-right: 1px solid rgba(153, 153, 153, 0.1);
       float: left;
       margin-right: -1px;
       width: 200px; }
-      .bp-user #buddypress #object-nav ul {
+      #buddypress #object-nav ul {
         border-bottom: 0;
         padding: 0; }
-        .bp-user #buddypress #object-nav ul li {
+        #buddypress #object-nav ul li {
           float: none;
           overflow: hidden; }
-          .bp-user #buddypress #object-nav ul li span {
+          #buddypress #object-nav ul li span {
             border-radius: 10%;
             float: right;
             margin-right: 15px; }
-    .bp-user #buddypress #item-body {
+    #buddypress #item-body {
       border-left: 1px solid #ddd;
       overflow: hidden;
       padding: 0 10px;
       width: auto; }
-      .bp-user #buddypress #item-body #subnav {
+      #buddypress #item-body #subnav {
         margin: 0 -10px; } }
 
 /**
@@ -364,24 +370,152 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 * @section 4.2 - Members Loop
 *-------------------------------------------------------------------------------
 */
-#buddypress #members-list {
-  /*
-		li {
-			.item {
-				.update {
-					border-left: 1px solid rgba($border-color, .4);
-					display: block;
-					margin: .5em 0;
-					padding-left: .3em;
-				}
-			}
-		}
-*/ }
-  @media screen and (min-width: 59.6875em) {
-    #buddypress #members-list li .item-avatar, #buddypress #members-list li .item {
+@media screen and (min-width: 59.6875em) {
+  #buddypress #members-list li .item-avatar, #buddypress #members-list li .item {
+    float: left; }
+  #buddypress #members-list li .action {
+    float: right; } }
+
+/**
+*-------------------------------------------------------------------------------
+* @section 6.0 - Single Group Screens
+*-------------------------------------------------------------------------------
+*/
+/**
+	*------------------------------------------------------
+	* @subsection 6.1 - item-header
+	*------------------------------------------------------
+	*/
+@media screen and (max-width: 38.75em) {
+  .groups #buddypress div#item-header {
+    display: flex;
+    flex-direction: column; }
+    .groups #buddypress div#item-header #item-header-avatar {
+      order: 1;
+      text-align: center; }
+      .groups #buddypress div#item-header #item-header-avatar a {
+        border-bottom: 0; }
+        .groups #buddypress div#item-header #item-header-avatar a img {
+          display: inline-block;
+          float: none; }
+    .groups #buddypress div#item-header #item-header-content {
+      order: 2; }
+    .groups #buddypress div#item-header #item-actions {
+      order: 3; } }
+.groups #buddypress div#item-header {
+  padding-bottom: 40px; }
+  .groups #buddypress div#item-header div#item-actions {
+    margin: 0;
+    width: 100%; }
+    @media screen and (min-width: 38.75em) {
+      .groups #buddypress div#item-header div#item-actions {
+        clear: none;
+        float: right;
+        width: 50%; } }
+    .groups #buddypress div#item-header div#item-actions h3 {
+      background: #555;
+      color: #fff;
+      font-size: 14px;
+      font-size: 1.4rem;
+      padding: 0.2em; }
+      @media screen and (min-width: 46.25em) {
+        .groups #buddypress div#item-header div#item-actions h3 {
+          font-size: 16px;
+          font-size: 1.6rem; } }
+  @media screen and (min-width: 46.25em) {
+    .groups #buddypress div#item-header #item-header-avatar, .groups #buddypress div#item-header #item-header-content {
       float: left; }
-    #buddypress #members-list li .action {
-      float: right; } }
+    .groups #buddypress div#item-header #item-header-avatar {
+      width: 21%; }
+    .groups #buddypress div#item-header #item-header-content {
+      margin-left: 4%;
+      width: 40%; }
+    .groups #buddypress div#item-header div#item-actions {
+      float: right;
+      width: 28%; } }
+
+/**
+*-------------------------------------------------------
+* @subsection 6.2 - Management settings screens
+*-------------------------------------------------------
+*/
+.groups #group-settings-form h4 {
+  background: #555;
+  color: #fff;
+  padding: 0.2em; }
+
+.groups.edit-details #group-settings-form label {
+  background: #555;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  background-clip: padding-box;
+  color: #fff;
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 0.2em;
+  width: 80%; }
+  @media screen and (min-width: 38.75em) {
+    .groups.edit-details #group-settings-form label {
+      width: 60%; } }
+.groups.edit-details #group-settings-form textarea + p label {
+  background: none;
+  color: inherit;
+  font-size: 14px;
+  font-size: 1.4rem;
+  width: auto; }
+
+.groups.group-settings #group-settings-form div.radio label {
+  border: 1px solid #eaeaea;
+  padding: 0.2em; }
+  .groups.group-settings #group-settings-form div.radio label ul {
+    color: rgba(51, 51, 51, 0.6);
+    font-size: 14px;
+    font-size: 1.4rem; }
+
+.groups.group-avatar form > p {
+  margin-top: 20px; }
+
+.groups.manage-members #group-settings-form .item-list li {
+  border-bottom: 1px solid #eaeaea; }
+  .groups.manage-members #group-settings-form .item-list li img, .groups.manage-members #group-settings-form .item-list li h5 {
+    float: left; }
+    .groups.manage-members #group-settings-form .item-list li img > a, .groups.manage-members #group-settings-form .item-list li h5 > a {
+      border-bottom: 0; }
+  .groups.manage-members #group-settings-form .item-list li span.small {
+    clear: left;
+    display: block;
+    float: none;
+    margin-top: 10px; }
+    .groups.manage-members #group-settings-form .item-list li span.small a {
+      display: inline-block;
+      margin: 5px 0;
+      width: 100%; }
+      @media screen and (min-width: 38.75em) {
+        .groups.manage-members #group-settings-form .item-list li span.small a {
+          width: auto; } }
+  .groups.manage-members #group-settings-form .item-list li h5 {
+    margin: 0; }
+
+/**
+*------------------------------------------------------
+* @subsection 6.3 - Group Members list
+*------------------------------------------------------
+*/
+.groups.group-members #subnav li {
+  width: 100%; }
+  @media screen and (max-width: 38.75em) {
+    .groups.group-members #subnav li {
+      background: #fff;
+      padding: 20px 0; } }
+  .groups.group-members #subnav li #search-members-form {
+    float: right;
+    margin: 5px 5px 0 0; }
+    @media screen and (max-width: 38.75em) {
+      .groups.group-members #subnav li #search-members-form {
+        margin: 0;
+        width: 100%; }
+        .groups.group-members #subnav li #search-members-form label input[type="text"] {
+          width: 100%; } }
 
 /**
 *-------------------------------------------------------------------------------
@@ -392,10 +526,21 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   margin-bottom: 0.5em; }
 .bp-user #buddypress {
   /* General elements & classes, pagination, filters */
-  /* Item Header */
-  /* Profile */
-  /* Groups */
-  /* Messages / Notifications */ }
+  /**
+	*-----------------------------------------------------
+	* @subsection 7.1 - Item Header
+	*-----------------------------------------------------
+	*/
+  /**
+	*-----------------------------------------------------
+	* @subsection 7.2 - Extended Profile
+	*-----------------------------------------------------
+	*/
+  /**
+	*-----------------------------------------------------
+	* @subsection 7.3 - Groups
+	*-----------------------------------------------------
+	*/ }
   .bp-user #buddypress table th {
     font-size: 14px;
     font-size: 1.4rem; }
@@ -467,23 +612,6 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     padding: 0.4em; }
   .bp-user #buddypress .profile .bp-widget table {
     margin-top: 0; }
-  .bp-user #buddypress .bp-avatar-nav ul:before, .bp-user #buddypress .bp-avatar-nav ul:after {
-    content: " ";
-    display: table; }
-  .bp-user #buddypress .bp-avatar-nav ul:after {
-    clear: both; }
-  .bp-user #buddypress .bp-avatar-nav ul {
-    border-bottom: 1px solid rgba(153, 153, 153, 0.5);
-    margin-bottom: 20px; }
-    .bp-user #buddypress .bp-avatar-nav ul li.current {
-      border: 1px solid rgba(153, 153, 153, 0.5);
-      border-bottom-color: #fff;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-      margin-bottom: -1px; }
-      .bp-user #buddypress .bp-avatar-nav ul li.current a {
-        background: none;
-        outline: 0; }
   @media screen and (min-width: 77.5em) {
     .bp-user #buddypress #groups-list li .item {
       left: 5%;
@@ -507,28 +635,28 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   float: none; }
 #buddypress #item-body .standard-form input[type='text'], #buddypress #item-body .standard-form textarea {
   width: 100%; }
-#buddypress div.dir-search, #buddypress div.message-search {
+#buddypress div.dir-search, #buddypress div.message-search, #buddypress li.groups-members-search {
   float: none;
   margin: 10px 0; }
-  #buddypress div.dir-search form, #buddypress div.message-search form {
+  #buddypress div.dir-search form, #buddypress div.message-search form, #buddypress li.groups-members-search form {
     border: 1px solid rgba(153, 153, 153, 0.4);
     overflow: hidden; }
-    #buddypress div.dir-search form label, #buddypress div.message-search form label {
+    #buddypress div.dir-search form label, #buddypress div.message-search form label, #buddypress li.groups-members-search form label {
       float: left;
       width: 80%; }
-    #buddypress div.dir-search form input[type='text'], #buddypress div.message-search form input[type='text'] {
+    #buddypress div.dir-search form input[type='text'], #buddypress div.message-search form input[type='text'], #buddypress li.groups-members-search form input[type='text'] {
       float: left;
       margin: 0;
       width: 80%; }
-    #buddypress div.dir-search form input[type='text'], #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form input[type='text'], #buddypress div.message-search form input[type='submit'] {
+    #buddypress div.dir-search form input[type='text'], #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form input[type='text'], #buddypress div.message-search form input[type='submit'], #buddypress li.groups-members-search form input[type='text'], #buddypress li.groups-members-search form input[type='submit'] {
       font-size: 14px;
       font-size: 1.4rem;
       border: 0;
       line-height: inherit; }
-    #buddypress div.dir-search form input[type='text'], #buddypress div.message-search form input[type='text'] {
+    #buddypress div.dir-search form input[type='text'], #buddypress div.message-search form input[type='text'], #buddypress li.groups-members-search form input[type='text'] {
       border-right: 1px solid rgba(153, 153, 153, 0.4);
       padding: 0.2em 0 0.2em 0.2em; }
-    #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form input[type='submit'] {
+    #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form input[type='submit'], #buddypress li.groups-members-search form input[type='submit'] {
       float: right;
       font-weight: normal;
       padding: 0.2em 1em;
@@ -536,10 +664,10 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
       text-transform: none;
       width: 20%; }
 @media screen and (min-width: 38.75em) {
-  #buddypress div.dir-search, #buddypress div.message-search {
+  #buddypress div.dir-search, #buddypress div.message-search, #buddypress li.groups-members-search {
     float: right;
     margin-bottom: 5px !important; }
-    #buddypress div.dir-search form label, #buddypress div.dir-search form input[type='text'], #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form label, #buddypress div.message-search form input[type='text'], #buddypress div.message-search form input[type='submit'] {
+    #buddypress div.dir-search form label, #buddypress div.dir-search form input[type='text'], #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form label, #buddypress div.message-search form input[type='text'], #buddypress div.message-search form input[type='submit'], #buddypress li.groups-members-search form label, #buddypress li.groups-members-search form input[type='text'], #buddypress li.groups-members-search form input[type='submit'] {
       width: auto; }
   #buddypress div.message-search {
     margin-right: 10px; } }
