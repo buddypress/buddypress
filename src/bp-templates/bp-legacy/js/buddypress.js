@@ -912,7 +912,8 @@ jq(document).ready( function() {
 	jq('#buddypress').on( 'click', function(event) {
 		var target = jq(event.target),
 			el,
-			css_id, object, search_terms, pagination_id, template, page_number,
+			css_id, object, search_terms, pagination_id, template,
+			url_parameters,	page_number,
 			$gm_search,
 			caller;
 
@@ -937,7 +938,9 @@ jq(document).ready( function() {
 			pagination_id = jq(target).closest('.pagination-links').attr('id');
 			template = null;
 
-			page_number = target.attr('href').split( '=' );
+			url_parameters = target.attr('href').split( '&' );
+			// The page number is the first parameter.
+			page_number = url_parameters[0].split( '=' );
 			page_number = page_number[1];
 
 			// Search terms
