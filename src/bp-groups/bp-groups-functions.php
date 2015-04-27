@@ -1087,7 +1087,7 @@ function groups_invite_user( $args = '' ) {
  */
 function groups_uninvite_user( $user_id, $group_id ) {
 
-	if ( !BP_Groups_Member::delete( $user_id, $group_id ) )
+	if ( ! BP_Groups_Member::delete_invite( $user_id, $group_id ) )
 		return false;
 
 	/**
@@ -1164,7 +1164,7 @@ function groups_accept_invite( $user_id, $group_id ) {
  * @return bool True on success, false on failure.
  */
 function groups_reject_invite( $user_id, $group_id ) {
-	if ( ! BP_Groups_Member::delete( $user_id, $group_id ) )
+	if ( ! BP_Groups_Member::delete_invite( $user_id, $group_id ) )
 		return false;
 
 	/**
@@ -1574,7 +1574,7 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
 	else
 		$membership = new BP_Groups_Member( false, false, $membership_id );
 
-	if ( !BP_Groups_Member::delete( $membership->user_id, $membership->group_id ) )
+	if ( ! BP_Groups_Member::delete_request( $membership->user_id, $membership->group_id ) )
 		return false;
 
 	return $membership;

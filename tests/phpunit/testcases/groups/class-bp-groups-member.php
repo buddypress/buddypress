@@ -247,6 +247,50 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group groups_reject_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_membership_request_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$now = time();
+		$this->add_user_to_group( $u1, $g );
+
+		// Confirmed memberships should be left intact.
+		groups_reject_membership_request( null, $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_reject_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_membership_request_leave_invites_intact() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$now = time();
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+
+		// Outstanding invitations should be left intact.
+		self::invite_user_to_group( $u2, $g, $u1 );
+		groups_reject_membership_request( null, $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
+		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
+	}
+
+	/**
 	 * @group groups_delete_membership_request
 	 * @group group_membership_requests
 	 * @group group_membership
@@ -262,6 +306,50 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_delete_membership_request( null, $u1, $g );
 		$u1_has_request = groups_check_for_membership_request( $u1, $g );
 		$this->assertEquals( 0, $u1_has_request );
+	}
+
+	/**
+	 * @group groups_delete_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_membership_request_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$now = time();
+		$this->add_user_to_group( $u1, $g );
+
+		// Confirmed memberships should be left intact.
+		groups_delete_membership_request( null, $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member )  && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_delete_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_membership_request_leave_invites_intact() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$now = time();
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+
+		// Outstanding invitations should be left intact.
+		self::invite_user_to_group( $u2, $g, $u1 );
+		groups_delete_membership_request( null, $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
+		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
 	}
 
 	/**
@@ -286,6 +374,46 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_reject_invite( $u2, $g );
 		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
 		$this->assertEquals( 0, $u2_has_invite );
+	}
+
+	/**
+	 * @group groups_reject_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_invite_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$now = time();
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+
+		// Confirmed memberships should be left intact.
+		groups_reject_invite( $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_reject_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_invite_leave_requests_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		// Membership requests should be left intact.
+		self::create_group_membership_request( $u1, $g );
+		groups_reject_invite( $u1, $g );
+		$u1_has_request = groups_check_for_membership_request( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
 	}
 
 	/**
@@ -373,6 +501,47 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_uninvite_user( $u2, $g );
 		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
 		$this->assertEquals( 0, $u2_has_invite );
+	}
+
+	/**
+	 * @group groups_uninvite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_uninvite_user_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$now = time();
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+		) );
+
+		// Confirmed memberships should be left intact.
+		$u1_is_member_before = groups_is_user_member( $u1, $g );
+		groups_uninvite_user( $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_uninvite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_uninvite_user_leave_requests_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		// Membership requests should be left intact.
+		self::create_group_membership_request( $u1, $g );
+		groups_uninvite_user( $u1, $g );
+		$u1_has_request = groups_check_for_membership_request( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
 	}
 
 	/**
