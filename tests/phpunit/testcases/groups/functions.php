@@ -37,6 +37,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 		groups_join_group( $g2, $u2 );
 
+		// Set the current user so the leave group request goes through.
+		$this->set_current_user( $u2 );
 		groups_leave_group( $g1, $u2 );
 		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
