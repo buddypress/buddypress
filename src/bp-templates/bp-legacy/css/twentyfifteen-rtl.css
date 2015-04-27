@@ -31,22 +31,26 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	4.3 - Groups Loop
 	4.4 - Blogs Loop
 5.0 - Directories - Members, Groups, Blogs, Forums
-6.0 - Single Group Screens
- 6.1 - Item-header
- 6.2 - Management settings screens
- 6.3 - Group members list
-7.0 - Single User Account Screens
-	7.1 - Item Header
-	7.2 - Extended Profiles
-	7.3 - Groups
-	7.4 - friends
-	7.5 - Private Messaging Threads
-	7.6 - Settings
-8.0 - Forms  -  General
-9.0 - Tables -  General
-10.0 - Error / Success Messages
-11.0 - Ajax Loading
-12.0 - Widgets
+6.0 - Single Item screens: User Account & Single Group Screens
+	6.1 - Item Headers: Global
+		6.1.1 - Item-header: Groups;
+		6.1.2 -  item-header: User Accounts
+	6.2 - Item Body: Global
+		6.2.1 - item-body: Groups
+		 6.2.1.1- Management settings screens
+   6.2.1.2 - Group members list
+		6.2.2 - item-body: User Accounts
+	  6.2.2.1 - classes, pag, filters
+	  6.2.2.2 - Extended Profiles
+	  6.2.2.3 - Groups
+	  6.2.2.4 - friends
+	  6.2.2.5 - Private Messaging Threads
+	  6.2.2.6 - Settings
+7.0 - Forms  -  General
+8.0 - Tables -  General
+9.0 - Error / Success Messages
+10.0 - Ajax Loading
+11.0 - Widgets
 --------------------------------------------------------------*/
 /**
 *-------------------------------------------------------------------------------
@@ -94,11 +98,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   border-bottom: 0; }
 
 /**
-*-------------------------------------------------------------------------------
-* @section 2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
+* @section 2.1 - Navs Object Nav / Sub Nav (item-list-tabs)
 *
-* @description The main navigational elements for BP screens
+* The main navigational elements for all BP screens
+*----------------------------------------------------------
 */
 #buddypress {
   /*__ Horizontal menus __*/ }
@@ -150,40 +154,39 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     color: #fff;
     opacity: 1; }
 
-/*__ Vertical menu User account screens __*/
+/*__ Vertical menu User Account / Group single screens __*/
 @media screen and (min-width: 55em) {
-  /*.bp-user*/
-  #buddypress {
+  .bp-user #buddypress, .single-item.groups #buddypress {
     background: #f7f7f7; }
-    #buddypress #item-header, #buddypress #item-body {
-      background: #fff; }
-    #buddypress #object-nav {
-      border-left: 1px solid rgba(153, 153, 153, 0.1);
-      float: right;
-      margin-left: -1px;
-      width: 200px; }
-      #buddypress #object-nav ul {
-        border-bottom: 0;
-        padding: 0; }
-        #buddypress #object-nav ul li {
-          float: none;
-          overflow: hidden; }
-          #buddypress #object-nav ul li span {
-            border-radius: 10%;
-            float: left;
-            margin-left: 15px; }
-    #buddypress #item-body {
-      border-right: 1px solid #ddd;
-      overflow: hidden;
-      padding: 0 10px;
-      width: auto; }
-      #buddypress #item-body #subnav {
-        margin: 0 -10px; } }
+  #buddypress #item-header, #buddypress #item-body {
+    background: #fff; }
+  #buddypress #object-nav {
+    border-left: 1px solid #ddd;
+    float: right;
+    margin-left: -1px;
+    width: 200px; }
+    #buddypress #object-nav ul {
+      border-bottom: 0;
+      padding: 0; }
+      #buddypress #object-nav ul li {
+        float: none;
+        overflow: hidden; }
+        #buddypress #object-nav ul li span {
+          border-radius: 10%;
+          float: left;
+          margin-left: 15px; }
+  #buddypress #item-body {
+    border-right: 1px solid #ddd;
+    overflow: hidden;
+    padding: 0 10px;
+    width: auto; }
+    #buddypress #item-body #subnav {
+      margin: 0 -10px; } }
 
 /**
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 * @section 2.2 - Pagination
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 */
 #buddypress div.pagination {
   box-shadow: none; }
@@ -281,26 +284,53 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
       font-style: italic; }
 
 /**
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 * @section 4.1 - Activity
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 */
 /**
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 * @section 4.1.1 - Activity Whats New
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 */
+#buddypress form#whats-new-form p.activity-greeting {
+  line-height: 1.4; }
 #buddypress form#whats-new-form textarea {
   width: 100%; }
+@media screen and (max-width: 46.25em) {
+  #buddypress form#whats-new-form #whats-new-content {
+    clear: right;
+    margin: 10px 0 20px;
+    padding: 10px 0 0; } }
 #buddypress form#whats-new-form #whats-new-options[style] {
-  min-height: 6rem; }
+  min-height: 6rem;
+  overflow: visible; }
+  #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {
+    border: 1px solid rgba(153, 153, 153, 0.5);
+    float: right;
+    line-height: 1.5em;
+    margin-top: 12px;
+    padding-right: 0.2em;
+    width: 100%; }
+    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box select {
+      background: none;
+      border: 0;
+      float: left;
+      margin: 0;
+      min-height: 1.5em;
+      padding-right: 0.4em; }
+  @media screen and (min-width: 30em) {
+    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {
+      width: auto; }
+    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-submit {
+      float: left; } }
 #buddypress #item-body form#whats-new-form {
   margin: 40px 0; }
 
 /**
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 * @section 4.1.2 - Activity Listing
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 */
 #buddypress .activity-list li .activity-avatar a img.avatar {
   height: 60px;
@@ -338,9 +368,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   display: block; }
 
 /**
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 * @section 4.1.3 - Activity Comments
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 */
 #buddypress .activity .activity-comments {
   border-right: 1px solid #eaeaea;
@@ -366,9 +396,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
       background: #ededed; }
 
 /**
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 * @section 4.2 - Members Loop
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 */
 @media screen and (min-width: 59.6875em) {
   #buddypress #members-list li .item-avatar, #buddypress #members-list li .item {
@@ -378,66 +408,113 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 6.0 - Single Group Screens
+* @section 6.0 - Single Item screens: User Account & Single Group Screens
 *-------------------------------------------------------------------------------
 */
 /**
-	*------------------------------------------------------
-	* @subsection 6.1 - item-header
-	*------------------------------------------------------
-	*/
+*-----------------------------------------------------------
+* @subsection 6.1 - Item Header Global
+*-----------------------------------------------------------
+*/
+/**
+*-----------------------------------------------------
+* @subsection 6.1.1 - item-header Groups
+*
+* Group Specific Item Header
+*-----------------------------------------------------
+*/
 @media screen and (max-width: 38.75em) {
-  .groups #buddypress div#item-header {
+  .single-item.groups #buddypress div#item-header {
     display: flex;
     flex-direction: column; }
-    .groups #buddypress div#item-header #item-header-avatar {
+    .single-item.groups #buddypress div#item-header #item-header-avatar {
       order: 1;
       text-align: center; }
-      .groups #buddypress div#item-header #item-header-avatar a {
+      .single-item.groups #buddypress div#item-header #item-header-avatar a {
         border-bottom: 0; }
-        .groups #buddypress div#item-header #item-header-avatar a img {
+        .single-item.groups #buddypress div#item-header #item-header-avatar a img {
           display: inline-block;
           float: none; }
-    .groups #buddypress div#item-header #item-header-content {
+    .single-item.groups #buddypress div#item-header #item-header-content {
       order: 2; }
-    .groups #buddypress div#item-header #item-actions {
+    .single-item.groups #buddypress div#item-header #item-actions {
       order: 3; } }
-.groups #buddypress div#item-header {
+.single-item.groups #buddypress div#item-header {
   padding-bottom: 40px; }
-  .groups #buddypress div#item-header div#item-actions {
+  .single-item.groups #buddypress div#item-header div#item-actions {
     margin: 0;
     width: 100%; }
     @media screen and (min-width: 38.75em) {
-      .groups #buddypress div#item-header div#item-actions {
+      .single-item.groups #buddypress div#item-header div#item-actions {
         clear: none;
         float: left;
         width: 50%; } }
-    .groups #buddypress div#item-header div#item-actions h3 {
+    .single-item.groups #buddypress div#item-header div#item-actions h3 {
       background: #555;
       color: #fff;
       font-size: 14px;
       font-size: 1.4rem;
       padding: 0.2em; }
       @media screen and (min-width: 46.25em) {
-        .groups #buddypress div#item-header div#item-actions h3 {
+        .single-item.groups #buddypress div#item-header div#item-actions h3 {
           font-size: 16px;
           font-size: 1.6rem; } }
   @media screen and (min-width: 46.25em) {
-    .groups #buddypress div#item-header #item-header-avatar, .groups #buddypress div#item-header #item-header-content {
+    .single-item.groups #buddypress div#item-header #item-header-avatar, .single-item.groups #buddypress div#item-header #item-header-content {
       float: right; }
-    .groups #buddypress div#item-header #item-header-avatar {
+    .single-item.groups #buddypress div#item-header #item-header-avatar {
       width: 21%; }
-    .groups #buddypress div#item-header #item-header-content {
+    .single-item.groups #buddypress div#item-header #item-header-content {
       margin-right: 4%;
       width: 40%; }
-    .groups #buddypress div#item-header div#item-actions {
+    .single-item.groups #buddypress div#item-header div#item-actions {
       float: left;
       width: 28%; } }
 
 /**
-*-------------------------------------------------------
-* @subsection 6.2 - Management settings screens
-*-------------------------------------------------------
+*-----------------------------------------------------
+* @subsection 6.1.2 - Item Header User Accounts
+*
+* User Accounts Specific Item Header
+*-----------------------------------------------------
+*/
+.bp-user #buddypress #item-header {
+  padding: 20px 0; }
+  .bp-user #buddypress #item-header #item-header-avatar {
+    text-align: center;
+    width: 100%; }
+    .bp-user #buddypress #item-header #item-header-avatar img.avatar, .bp-user #buddypress #item-header #item-header-avatar a {
+      border-bottom: 0;
+      display: inline-block;
+      float: none; }
+  @media screen and (min-width: 46.25em) {
+    .bp-user #buddypress #item-header #item-header-avatar {
+      float: right;
+      width: 20%; }
+      .bp-user #buddypress #item-header #item-header-avatar img.avatar, .bp-user #buddypress #item-header #item-header-avatar a {
+        float: right;
+        width: 100%; }
+    .bp-user #buddypress #item-header #item-header-content {
+      float: left;
+      margin-left: 5%;
+      width: 69%; } }
+
+/**
+*-----------------------------------------------------------
+* @subsection 6.2 - Item Body: Global
+*-----------------------------------------------------------
+*/
+/**
+*----------------------------------------------------
+* @subsection 6.2.1 - Item Body Groups
+*
+* Groups specific item body rules -  screens
+*----------------------------------------------------
+*/
+/**
+*-----------------------------------------
+* @subsection 6.2.1.1 - Group Management
+*-----------------------------------------
 */
 .groups #group-settings-form h4 {
   background: #555;
@@ -497,9 +574,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     margin: 0; }
 
 /**
-*------------------------------------------------------
-* @subsection 6.3 - Group Members list
-*------------------------------------------------------
+*-----------------------------------------
+* @subsection 6.2.1.2 - Group members
+*-----------------------------------------
 */
 .groups.group-members #subnav li {
   width: 100%; }
@@ -518,28 +595,29 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
           width: 100%; } }
 
 /**
-*-------------------------------------------------------------------------------
-* @section 7.0 - Single User Account Screens
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
+* @subsection 6.2.2 - Item Body User Accounts
+*
+* User Account specific item body rules
+*-----------------------------------------------------
 */
 .bp-user .entry-title {
   margin-bottom: 0.5em; }
 .bp-user #buddypress {
-  /* General elements & classes, pagination, filters */
   /**
-	*-----------------------------------------------------
-	* @subsection 7.1 - Item Header
-	*-----------------------------------------------------
+*--------------------------------------------
+* @subsection 6.2.2.1 - classes, pag, filters
+*--------------------------------------------
+*/
+  /**
+	*-------------------------------------------
+	* @subsection 6.2.2.2 - Extended Profiles
+	*-------------------------------------------
 	*/
   /**
-	*-----------------------------------------------------
-	* @subsection 7.2 - Extended Profile
-	*-----------------------------------------------------
-	*/
-  /**
-	*-----------------------------------------------------
-	* @subsection 7.3 - Groups
-	*-----------------------------------------------------
+	*-------------------------------------------
+	* @subsection 6.2.2.3 - Groups
+	*-------------------------------------------
 	*/ }
   .bp-user #buddypress table th {
     font-size: 14px;
@@ -585,33 +663,44 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
       font-family: inherit;
       line-height: 20px;
       width: 40%; }
-  .bp-user #buddypress #item-header {
-    padding: 20px 0; }
-    .bp-user #buddypress #item-header #item-header-avatar {
-      text-align: center;
-      width: 100%; }
-      .bp-user #buddypress #item-header #item-header-avatar img.avatar, .bp-user #buddypress #item-header #item-header-avatar a {
-        border-bottom: 0;
-        display: inline-block;
-        float: none; }
-    @media screen and (min-width: 46.25em) {
-      .bp-user #buddypress #item-header #item-header-avatar {
+  .bp-user #buddypress .profile {
+    /* Edit profile */ }
+    .bp-user #buddypress .profile .bp-widget h4 {
+      background: rgba(85, 85, 85, 0.8);
+      color: #fff;
+      margin-bottom: 0;
+      padding: 0.4em; }
+    .bp-user #buddypress .profile .bp-widget table {
+      margin-top: 0; }
+    .bp-user #buddypress .profile #profile-edit-form .button-nav:before, .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
+      content: " ";
+      display: table; }
+    .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
+      clear: both; }
+    .bp-user #buddypress .profile #profile-edit-form ul.button-nav {
+      border-bottom: 1px solid #eaeaea;
+      margin-right: 0; }
+      .bp-user #buddypress .profile #profile-edit-form ul.button-nav li {
         float: right;
-        width: 20%; }
-        .bp-user #buddypress #item-header #item-header-avatar img.avatar, .bp-user #buddypress #item-header #item-header-avatar a {
-          float: right;
-          width: 100%; }
-      .bp-user #buddypress #item-header #item-header-content {
-        float: left;
-        margin-left: 5%;
-        width: 69%; } }
-  .bp-user #buddypress .profile .bp-widget h4 {
-    background: rgba(85, 85, 85, 0.8);
-    color: #fff;
-    margin-bottom: 0;
-    padding: 0.4em; }
-  .bp-user #buddypress .profile .bp-widget table {
-    margin-top: 0; }
+        margin-bottom: 0; }
+        .bp-user #buddypress .profile #profile-edit-form ul.button-nav li.current {
+          border: 1px solid #eaeaea;
+          border-bottom-color: #fff;
+          margin-bottom: -1px; }
+      .bp-user #buddypress .profile #profile-edit-form ul.button-nav a {
+        background: none;
+        border: 0;
+        font-size: 18px;
+        font-size: 1.8rem; }
+    .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-toggle, .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings {
+      font-size: 14px;
+      font-size: 1.4rem; }
+    .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-close, .bp-user #buddypress .profile #profile-edit-form .visibility-toggle-link {
+      background: #555;
+      color: #fff;
+      padding: 0.2em 0.5em; }
+    .bp-user #buddypress .profile .bp-avatar #bp-delete-avatar a {
+      font-size: inherit; }
   @media screen and (min-width: 77.5em) {
     .bp-user #buddypress #groups-list li .item {
       right: 5%;
@@ -619,7 +708,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 8.0 - Forms  - General
+* @section 7.0 - Forms  - General
 *-------------------------------------------------------------------------------
 */
 #buddypress div.activity-comments form .ac-textarea {
@@ -681,7 +770,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 9.0 - Tables - General
+* @section 8.0 - Tables - General
 *-------------------------------------------------------------------------------
 */
 #buddypress table {
@@ -712,3 +801,12 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   display: block;
   padding: 0;
   text-align: center; }
+
+/**
+*-------------------------------------------------------------------------------
+* @section 9.0 - Error / Success messages
+*-------------------------------------------------------------------------------
+*/
+#buddypress div#message.info p {
+  background: #c6e4ee;
+  border: 1px solid #78bed6; }

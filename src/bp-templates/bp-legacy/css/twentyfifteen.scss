@@ -80,11 +80,15 @@ $spacing-val-xs: 5px;
 }
 
 // Box sizing
-
 @mixin box-model($box-model) {
 //	-webkit-box-sizing: $box-model;
 //	-moz-box-sizing: $box-model;
 	box-sizing: $box-model;
+}
+
+@mixin message-box($background) {
+	background: lighten($background, 10%);
+	border: 1px solid darken($background, 10%);
 }
 
 // Variabals: color definitions
@@ -94,8 +98,10 @@ $medium-background:  #ccc;
 $dark-background:    #555;
 $border-color:       #999; // border color is varied using rgba
 $border-light:       #eaeaea; // BP dividers
+$border-med:         #ddd;
 $body-text:          #333; // 2015 body text color
 $bp-button-hover:    #ededed; // this is the default BP button hover background
+$notice-info:        #9fd1e2;
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -129,22 +135,26 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	4.3 - Groups Loop
 	4.4 - Blogs Loop
 5.0 - Directories - Members, Groups, Blogs, Forums
-6.0 - Single Group Screens
- 6.1 - Item-header
- 6.2 - Management settings screens
- 6.3 - Group members list
-7.0 - Single User Account Screens
-	7.1 - Item Header
-	7.2 - Extended Profiles
-	7.3 - Groups
-	7.4 - friends
-	7.5 - Private Messaging Threads
-	7.6 - Settings
-8.0 - Forms  -  General
-9.0 - Tables -  General
-10.0 - Error / Success Messages
-11.0 - Ajax Loading
-12.0 - Widgets
+6.0 - Single Item screens: User Account & Single Group Screens
+	6.1 - Item Headers: Global
+		6.1.1 - Item-header: Groups;
+		6.1.2 -  item-header: User Accounts
+	6.2 - Item Body: Global
+		6.2.1 - item-body: Groups
+		 6.2.1.1- Management settings screens
+   6.2.1.2 - Group members list
+		6.2.2 - item-body: User Accounts
+	  6.2.2.1 - classes, pag, filters
+	  6.2.2.2 - Extended Profiles
+	  6.2.2.3 - Groups
+	  6.2.2.4 - friends
+	  6.2.2.5 - Private Messaging Threads
+	  6.2.2.6 - Settings
+7.0 - Forms  -  General
+8.0 - Tables -  General
+9.0 - Error / Success Messages
+10.0 - Ajax Loading
+11.0 - Widgets
 --------------------------------------------------------------*/
 
 /**
@@ -242,11 +252,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close .buddypress #buddypress
 
 /**
-*-------------------------------------------------------------------------------
-* @section 2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
+* @section 2.1 - Navs Object Nav / Sub Nav (item-list-tabs)
 *
-* @description The main navigational elements for BP screens
+* The main navigational elements for all BP screens
+*----------------------------------------------------------
 */
 
 // We have a need to override BP specifity
@@ -281,11 +291,10 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		}
 	}
+
 	/*__ Horizontal menus __*/
 	#object-nav {
 		ul {
-	//		background-color: #eee;
-	//		border-bottom: 1px solid #ddd;
 			overflow: hidden;
 			li {float: none;}
 			li:not(.selected) {
@@ -357,25 +366,25 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 } // close #buddypress
 
-	/*__ Vertical menu User account screens __*/
+	/*__ Vertical menu User Account / Group single screens __*/
 
-// This block contains the rules to re-factor the item-body structural element
+// This block contains rules to re-factor the item-body structural element
 // to sit alongside the vert menu
-// Structural layout and faux column styling of backgrounds is more suited
-// to the earlier section. todo: re-position sort out when known what styles
-// are being used.
 
 @media screen and (min-width: 55em) {
-	/*.bp-user*/ #buddypress {
+	.bp-user #buddypress,
+	.single-item.groups #buddypress {
 		background: $light-background;
+	}
 
+	#buddypress {
 		#item-header,
 		#item-body {
 			background: $content-background;
 		}
 
 		#object-nav {
-			border-right: 1px solid rgba($border-color, 0.1);
+			border-right: 1px solid $border-med;
 			float: left;
 			margin-right: -1px;
 			width: 200px;
@@ -398,7 +407,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		}
 
 		#item-body {
-			border-left: 1px solid #ddd;
+			border-left: 1px solid $border-med;
 			overflow: hidden;
 			padding: 0 $spacing-val-sm;
 			width: auto;
@@ -408,13 +417,13 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		}
 
-	} // close .bp-user #buddypress
+	} // close  #buddypress
 } // close @media
 
 /**
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 * @section 2.2 - Pagination
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 */
 
 #buddypress {
@@ -570,25 +579,70 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close #buddypress
 
 /**
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 * @section 4.1 - Activity
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 */
 
 /**
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 * @section 4.1.1 - Activity Whats New
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 */
 
 #buddypress {
 	form#whats-new-form {
+
+		// Line-height issue inherited from BP rules, override.
+		p.activity-greeting {
+			line-height: 1.4;
+		}
+
 		textarea {width: 100%;}
 		// corrective measure for clipped elements due to JS inline styling
+
+		@media screen and (max-width: 46.25em) {
+			#whats-new-content {
+				clear: left;
+				margin: $spacing-val-sm 0 $spacing-val-md;
+				padding: $spacing-val-sm 0 0;
+			}
+		}
+
 		#whats-new-options[style] {
 			min-height: 6rem; // unit open to debate px value might be better.
+			overflow: visible;
+
+			#whats-new-post-in-box {
+				border: 1px solid rgba($border-color, 0.5);
+				float: left;
+				line-height: 1.5em;
+				margin-top: 12px;
+				padding-left: 0.2em;
+				width: 100%;
+
+				select {
+					background: none;
+					border: 0;
+					float: right;
+					margin: 0;
+					min-height: 1.5em;
+					padding-left: 0.4em;
+				}
+			}
+
+			@media screen and (min-width: 30em) {
+				#whats-new-post-in-box {
+					width: auto;
+				}
+
+				#whats-new-submit {
+					float: right;
+				}
+			}
 		}
 	}
+
 	// User account form requires matching bp default specificity
 	#item-body {
 		form#whats-new-form {
@@ -598,9 +652,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close #buddypress
 
 /**
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 * @section 4.1.2 - Activity Listing
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 */
 
 #buddypress {
@@ -676,9 +730,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close #buddypress
 
 /**
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 * @section 4.1.3 - Activity Comments
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
 */
 #buddypress {
 	.activity {
@@ -724,9 +778,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close #buddypress
 
 /**
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 * @section 4.2 - Members Loop
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
 */
 
 #buddypress {
@@ -750,18 +804,26 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 6.0 - Single Group Screens
+* @section 6.0 - Single Item screens: User Account & Single Group Screens
 *-------------------------------------------------------------------------------
 */
 
 
-	/**
-	*------------------------------------------------------
-	* @subsection 6.1 - item-header
-	*------------------------------------------------------
-	*/
+/**
+*-----------------------------------------------------------
+* @subsection 6.1 - Item Header Global
+*-----------------------------------------------------------
+*/
 
-.groups {
+/**
+*-----------------------------------------------------
+* @subsection 6.1.1 - item-header Groups
+*
+* Group Specific Item Header
+*-----------------------------------------------------
+*/
+
+.single-item.groups {
 	#buddypress {
 
 		// Move visual flow of avatar & item-actions at narrow width,
@@ -844,9 +906,73 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close .groups
 
 /**
-*-------------------------------------------------------
-* @subsection 6.2 - Management settings screens
-*-------------------------------------------------------
+*-----------------------------------------------------
+* @subsection 6.1.2 - Item Header User Accounts
+*
+* User Accounts Specific Item Header
+*-----------------------------------------------------
+*/
+
+.bp-user {
+	#buddypress {
+		#item-header {
+			padding: $spacing-val-md 0;
+
+			#item-header-avatar {
+				text-align: center;
+				width: 100%;
+
+				img.avatar,
+				a {
+					border-bottom: 0;
+					display: inline-block;
+					float: none;
+				}
+			}
+
+			@media screen and (min-width: 46.25em) {
+				#item-header-avatar {
+					float: left;
+					width: 20%;
+
+					img.avatar,
+					a {
+						float: left;
+						width: 100%;
+					}
+				}
+
+				#item-header-content {
+					float: right;
+					margin-right: 5%;
+					width: 69%;
+				}
+
+			} // close @media
+
+		} // close #item-header
+
+	} // close #buddypress
+} // close .bp-user
+
+/**
+*-----------------------------------------------------------
+* @subsection 6.2 - Item Body: Global
+*-----------------------------------------------------------
+*/
+
+/**
+*----------------------------------------------------
+* @subsection 6.2.1 - Item Body Groups
+*
+* Groups specific item body rules -  screens
+*----------------------------------------------------
+*/
+
+/**
+*-----------------------------------------
+* @subsection 6.2.1.1 - Group Management
+*-----------------------------------------
 */
 
 // headings settings screens & general global settings styles
@@ -952,12 +1078,12 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close .groups.manage-members
 
 /**
-*------------------------------------------------------
-* @subsection 6.3 - Group Members list
-*------------------------------------------------------
+*-----------------------------------------
+* @subsection 6.2.1.2 - Group members
+*-----------------------------------------
 */
 
-// Massage the members search for groups nav specifically
+// Massage the members search for groups nav specifically.
 .groups.group-members {
 	#subnav {
 		li {
@@ -986,9 +1112,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 }
 
 /**
-*-------------------------------------------------------------------------------
-* @section 7.0 - Single User Account Screens
-*-------------------------------------------------------------------------------
+*-----------------------------------------------------
+* @subsection 6.2.2 - Item Body User Accounts
+*
+* User Account specific item body rules
+*-----------------------------------------------------
 */
 
 .bp-user {
@@ -996,7 +1124,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 	#buddypress {
 
-	/* General elements & classes, pagination, filters */
+/**
+*--------------------------------------------
+* @subsection 6.2.2.1 - classes, pag, filters
+*--------------------------------------------
+*/
 
 		table {
 			th {@include font-size(14)}
@@ -1046,53 +1178,10 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 		} // close .notifications-options-nav
 
-	/**
-	*-----------------------------------------------------
-	* @subsection 7.1 - Item Header
-	*-----------------------------------------------------
-	*/
-
-		#item-header {
-			padding: $spacing-val-md 0;
-
-			#item-header-avatar {
-				text-align: center;
-				width: 100%;
-
-				img.avatar,
-				a {
-					border-bottom: 0;
-					display: inline-block;
-					float: none;
-				}
-			}
-
-			@media screen and (min-width: 46.25em) {
-				#item-header-avatar {
-					float: left;
-					width: 20%;
-
-					img.avatar,
-					a {
-						float: left;
-						width: 100%;
-					}
-				}
-
-				#item-header-content {
-					float: right;
-					margin-right: 5%;
-					width: 69%;
-				}
-
-			} // close @media
-
-		} // close #item-header
-
-	/**
-	*-----------------------------------------------------
-	* @subsection 7.2 - Extended Profile
-	*-----------------------------------------------------
+/**
+	*-------------------------------------------
+	* @subsection 6.2.2.2 - Extended Profiles
+	*-------------------------------------------
 	*/
 		.profile {
 			.bp-widget {
@@ -1105,12 +1194,65 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 				table {margin-top: 0;}
 			}
+			/* Edit profile */
+
+			#profile-edit-form {
+				.button-nav:before,
+				.button-nav:after {
+					content: " ";
+					display: table;
+				}
+
+				.button-nav:after {
+					clear: both;
+				}
+
+				ul.button-nav {
+					border-bottom: 1px solid $border-light;
+					margin-left: 0;
+
+					li {
+						float: left;
+						margin-bottom: 0;
+
+						&.current {
+							border: 1px solid $border-light;
+							border-bottom-color: #fff;
+							margin-bottom: -1px;
+						}
+					} // li
+
+					a {
+						background: none;
+						border: 0;
+						@include font-size(18)
+					}
+				} //.button-nav
+
+				.field-visibility-settings-toggle,
+				.field-visibility-settings {
+					@include font-size(14);
+				}
+
+				.field-visibility-settings-close,
+				.visibility-toggle-link {
+					background: $dark-background;
+					color: #fff;
+					padding: 0.2em 0.5em;
+				}
+			} // close profile form
+
+			.bp-avatar {
+				#bp-delete-avatar {
+					a {font-size: inherit; }
+				}
+			}
 		} // close .profile
 
 /**
-	*-----------------------------------------------------
-	* @subsection 7.3 - Groups
-	*-----------------------------------------------------
+	*-------------------------------------------
+	* @subsection 6.2.2.3 - Groups
+	*-------------------------------------------
 	*/
 
 		#groups-list {
@@ -1130,7 +1272,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 8.0 - Forms  - General
+* @section 7.0 - Forms  - General
 *-------------------------------------------------------------------------------
 */
 
@@ -1266,7 +1408,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 /**
 *-------------------------------------------------------------------------------
-* @section 9.0 - Tables - General
+* @section 8.0 - Tables - General
 *-------------------------------------------------------------------------------
 */
 
@@ -1326,3 +1468,16 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 	} // .notifications, .message-notices
 } // #buddypress
+
+/**
+*-------------------------------------------------------------------------------
+* @section 9.0 - Error / Success messages
+*-------------------------------------------------------------------------------
+*/
+#buddypress {
+	div#message.info {
+		p {
+			@include message-box($notice-info);
+		}
+	}
+}
