@@ -590,7 +590,7 @@ window.bp = window.bp || {};
 	// BuddyPress Avatar Delete view
 	bp.Views.DeleteAvatar = bp.View.extend( {
 		tagName: 'div',
-		id: 'bp-delete-avatar',
+		id: 'bp-delete-avatar-container',
 		template: bp.template( 'bp-avatar-delete' ),
 
 		events: {
