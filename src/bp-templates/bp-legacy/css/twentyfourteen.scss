@@ -83,22 +83,38 @@ $spacing-val-xs: 5px;
 
 // Box sizing
 
-@mixin box-model($box-model) {
+@mixin box-model($box-model: border-box) {
 //	-webkit-box-sizing: $box-model;
 //	-moz-box-sizing: $box-model;
 	box-sizing: $box-model;
 }
 
+// BP message boxes
+@mixin message-box($background, $text-color: inherit) {
+	background: lighten($background, 10%);
+	border: 1px solid darken($background, 10%);
+	color: $text-color;
+}
+
+// titles dark backgrounds
+@mixin title-background-dark() {
+	background: lighten($dark-background, 20%);
+	color: $dark-back-text-color;
+}
+
 // Variabals: color definitions
-$content-background: #fff;
-$light-background:   #f7f7f7;
-$medium-background:  #999;
-$dark-background:    #000;
-$border-color:       #000; // border color can be varied using rgba
-$border-med:         rgba(#000, 0.2);
-$border-light:       rgba(#000, 0.1); // BP dividers
-$body-text:          #2b2b2b; // 2015 body text color
-$bp-button-hover:    #ededed; // this is the default BP button hover background
+$content-background:     #fff;
+$dark-back-text-color:   #fff;
+$light-background:       #f7f7f7;
+$medium-background:      #999;
+$dark-background:        #000;
+$border-color:           #000; // border color can be varied using rgba
+$border-med:             rgba(#000, 0.2);
+$border-light:           rgba(#000, 0.1); // BP dividers
+$body-text:              #2b2b2b; // 2015 body text color
+$bp-button-hover:        #ededed; // this is the default BP button hover background
+$notice-warning:         #d05656;
+$notice-info:            #9fd1e2;
 
 // 2014 font family
 @mixin default-font() {
@@ -132,17 +148,27 @@ to maintain uniformity.
 	4.3 - Groups Loop
 	4.4 - Blogs Loop
 5.0 - Directories - Members, Groups, Blogs, Forums
-6.0 - Single Group Screens
-7.0 - Single User Account Screens
-	7.1 - Notifications
-	7.2 - Private Messaging Threads
-	7.3 - Extended Profiles
-	7.4 - Settings
-8.0 - Forms  -  General
-9.0 - Tables -  General
-10.0 - Error / Success Messages
-11.0 - Ajax Loading
-12.0 - Widgets
+6.0 - Single Item screens: User Account & Single Group Screens
+	6.1 - Item Headers: Global
+		6.1.1 - Item-header: Groups;
+		6.1.2 -  item-header: User Accounts
+	6.2 - Item Body: Global
+		6.2.1 - item-body: Groups
+			6.2.1.1- Management settings screens
+			6.2.1.2 - Group members list
+			6.2.1.3 - Group Send Invites
+		6.2.2 - item-body: User Accounts
+			6.2.2.1 - classes, pag, filters
+			6.2.2.2 - Extended Profiles
+			6.2.2.3 - Groups
+			6.2.2.4 - friends
+			6.2.2.5 - Private Messaging Threads
+			6.2.2.6 - Settings
+7.0 - Forms  -  General
+8.0 - Tables -  General
+9.0 - Error / Success Messages
+10.0 - Ajax Loading
+11.0 - Widgets
 ------------------------------------------------------------------------------*/
 
 /**
@@ -185,9 +211,11 @@ to maintain uniformity.
 */
 
 /**
-* ------------------------------------------------------------------------------
-* @section 2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
+* @subsection 2.1 - Object Nav / Subnav (item-list-tabs)
+*
+* The main navigational elements for all BP screens
+*----------------------------------------------------------
 */
 
 .directory #buddypress {
@@ -230,42 +258,66 @@ to maintain uniformity.
 	} // close #subnav
 } // close .directory #buddypress
 
-	/*__ Vertical Menu User Account Screens __*/
+/* List last filters global */
+#buddypress {
+	#subnav {
+		li#activity-filter-select.last {
+			line-height: 2.1;
+			margin-top: 0;
+		}
+	}
+}
+
+/*__ Vertical Menu User Account Screens __*/
 
 // This block contains the rules to re-factor the item-body structural element
-// to sit alongside the vert menu
+// to sit alongside the vert menu & menu item styles.
+
+// Boders & backgrounds for user/group navs rely on one color
+// set this here for convenience of changing and clarity
+$nav-background-border: #bebebe;
 
 @media screen and (min-width: 783px) {
-	.bp-user #buddypress {
-		background: #eee;
+	#buddypress {
+		background: lighten($nav-background-border, 10%);
 
 		#item-header,
 		#item-body {
 			background: #fff;
 		}
 
-		#item-body {border-left: 1px solid #ddd;}
+		#item-body {border-left: 1px solid $nav-background-border;}
 
 		#object-nav {
-			background: #eee;
-			border-right: 1px solid #ddd;
+			background: lighten($nav-background-border, 10%);
+			border-right: 1px solid $nav-background-border;
 			float: left;
 			margin-right: -1px;
 			width: 200px;
 
 			ul {
 				border-bottom: 0;
+				border-top: 1px solid $nav-background-border;
 				padding: 0;
 
 				li {
 					float: none;
 					overflow: hidden;
 
+					&:focus,
+					&:hover {
+						background: $nav-background-border;
+					}
+
 					span {
 						border-radius: 10%;
 						float: right;
 						margin-right: 15px;
 					}
+				}
+
+				li.current {
+					background: lighten($nav-background-border, 20%);
 				}
 			}
 		}
@@ -276,19 +328,28 @@ to maintain uniformity.
 			width: auto;
 
 			#subnav {
-				border: 1px solid #ddd;
+				border: 1px solid $nav-background-border;
 				border-left: 0;
 				border-right: 0;
 				margin: 0 (-$spacing-val-md) $spacing-val-lg;
+
+				li:focus,
+				li:hover {
+					background: $nav-background-border;
+				}
+
+				li.current {
+					background: lighten($nav-background-border, 20%);
+				}
 			}
 		}
 	} // close .bp-user #buddypress
 } // close @media
 
 /**
-*-------------------------------------------------------------------------------
-* @section 2.2 - Pagination
-*-------------------------------------------------------------------------------
+*----------------------------------------------------------
+* @subsection 2.2 - Pagination
+*----------------------------------------------------------
 */
 
 /**
@@ -391,7 +452,7 @@ to maintain uniformity.
 					a,
 					div {
 						display: inline-block;
-						margin: spacing-val-xs $spacing-val-xs 0 0;
+						margin: $spacing-val-xs $spacing-val-xs 0 0;
 					}
 				}
 			} // close @media
@@ -437,21 +498,15 @@ to maintain uniformity.
 } // close #budypress
 
 /**
-*-------------------------------------------------------------------------------
-* @section 4.0 - BP Lists / Loops Generic
-*-------------------------------------------------------------------------------
-*/
-
-/**
-*-------------------------------------------------------------------------------
+*------------------------------------------------------------
 * @section 4.1 - Activity
-*-------------------------------------------------------------------------------
+*------------------------------------------------------------
 */
 
 /**
-*-------------------------------------------------------------------------------
-* @section 4.1.1 - Activity What's New
-*-------------------------------------------------------------------------------
+*-------------------------------------------------
+* @subsection 4.1.1 - Activity What's New
+*-------------------------------------------------
 */
 #buddypress {
 	#whats-new-form {
@@ -464,15 +519,15 @@ to maintain uniformity.
 }
 
 /**
-*-------------------------------------------------------------------------------
-* @section 4.1.2 - Activity Listing
-*-------------------------------------------------------------------------------
+*-------------------------------------------------
+* @subsection 4.1.2 - Activity Listing
+*-------------------------------------------------
 */
 
 /**
-*-------------------------------------------------------------------------------
-* @section 4.1.3 - Activity Comments
-*-------------------------------------------------------------------------------
+*-------------------------------------------------
+* @subsection 4.1.3 - Activity Comments
+*-------------------------------------------------
 */
 
 #buddypress {
@@ -520,9 +575,9 @@ to maintain uniformity.
 
 
 /**
-*-------------------------------------------------------------------------------
+*------------------------------------------------------------
 * @section 4.2 - Members Loop
-*-------------------------------------------------------------------------------
+*------------------------------------------------------------
 */
 
 #buddypress {
@@ -545,14 +600,360 @@ to maintain uniformity.
 		}
 	}
 }
+
+/*
+*-------------------------------------------------------------------------------
+* @section 6.0 - Single Item screens
+*-------------------------------------------------------------------------------
+*/
+/* groups & user account page entry title */
+.single-item.groups,
+.bp-user {
+
+	.entry-title {
+		@include title-background-dark();
+		@include font-size(22);
+		padding: 0.2em;
+	}
+
+	@media screen and (min-width: 673px) {
+		.entry-title {
+			@include font-size(28);
+		}
+	}
+
+} // close #buddypress
+/**
+*------------------------------------------------------------
+* @subsection 6.1 - Item Header: Global
+*------------------------------------------------------------
+*/
+
+/**
+*-------------------------------------------------
+* @subsection 6.1.1 - item-header: Groups
+*-------------------------------------------------
+*/
+.single-item.groups {
+	#buddypress {
+
+		@media screen and (max-width: 594px) {
+			div#item-header {
+				display: flex;
+				flex-direction: column;
+
+				#item-header-avatar {
+					order: 1;
+					text-align: center;
+
+					a {
+						border-bottom: 0;
+
+						img {
+							display: inline-block;
+							float: none;
+						}
+					}
+				}
+
+				#item-header-content {order: 2;}
+
+				#item-actions {
+					margin-left: 0;
+					order: 3;
+					text-align: left;
+
+					ul {
+						margin-left: 0;
+
+						li {
+							float: left;
+						}
+					}
+				} // close #item-actions
+			}
+		} // close @media
+
+		#item-header {
+
+			#item-actions {
+				float: none;
+				width: auto;
+
+				h3 {
+					@include font-size(20);
+				}
+			}
+
+			#item-header-avatar {
+				text-align: center;
+			}
+
+			#item-header-content {
+				float: none;
+				overflow: hidden;
+			}
+
+			@media screen and (min-width: 594px) {
+				#item-actions {
+					float: right;
+				}
+
+				#item-header-avatar {
+					float: left;
+				}
+
+				#item-header-content {
+					float: none;
+					overflow: hidden;
+				}
+			}// close @media
+
+		}
+	}
+} // close .single-item.groups
+
+/**
+*-------------------------------------------------
+* @subsection 6.1.2 - item-header: User Accounts
+*-------------------------------------------------
+*/
+
+.bp-user #buddypress {
+	#item-header {
+		padding-bottom: $spacing-val-sm;
+
+		#item-header-avatar {
+			text-align: center;
+			width: 100%;
+
+			img {
+				float: none;
+			}
+		}
+
+		@media screen and (min-width: 673px) {
+			#item-header-avatar {
+				float: left;
+				overflow: hidden;
+				text-align: left;
+				width: 20%;
+
+				img {margin: 0;}
+			}
+
+			#item-header-content {
+				float: right;
+				width: 78%;
+			}
+		}
+
+	} // close #item-header
+
+} // close .bp-user #buddypress
+
+/**
+*------------------------------------------------------------
+* @subsection 6.2 - Item Body: Global
+*------------------------------------------------------------
+*/
+
+/**
+*-------------------------------------------------
+* @subsection 6.2.1 - item-body: groups
+*-------------------------------------------------
+*/
+
+/**
+	*------------------------------
+	* 6.2.1.1 - Groups Management
+	*------------------------------
+	*/
+
+/* manage members */
+.groups.manage-members {
+	#group-settings-form {
+
+		h4 {margin-top: $spacing-val-lg;}
+
+		.item-list {
+			background: $light-background;
+			border-top: 0;
+			padding: 0 0.5em;
+
+			li {
+				border-bottom: 1px solid $border-light;
+				&:last-child {border-bottom: 0;}
+
+				img,
+				h5 {
+					clear: none;
+					float: left;
+					> a {border-bottom: 0;}
+				}
+
+				span.small {
+					display: block;
+					float: none;
+					margin-top: $spacing-val-sm;
+					width: 100%;
+
+					a {
+						display: inline-block;
+						margin: $spacing-val-xs 0;
+						width: 100%;
+
+						@media screen and (min-width: 38.75em) {
+							width: auto;
+						}
+					}
+				}
+
+				h5 {
+					margin: 0;
+				}
+
+			}
+		}
+	}
+} // close .groups.manage-members
+
+/**
+	*------------------------------
+	* 6.2.1.3 - Groups Send Invites
+	*------------------------------
+	*/
+
+.send-invites {
+	#buddypress {
+		#item-body {
+			@media screen and (min-width: 783px) {
+				border-top: 1px solid $nav-background-border;
+			}
+
+			#invite-list {width: 120px;}
+			.main-column {margin-left: 160px;}
+
+			li {
+				img.avatar {
+					display: block;
+					float: none;
+					margin: $spacing-val-sm auto;
+				}
+
+				.action {
+					margin-top: $spacing-val-sm;
+					text-align: left;
+					width: 100%;
+
+					@media screen and (min-width: 38.75em) {
+						text-align: right;
+					}
+				}
+			}
+
+			@media screen and (min-width: 594px) {
+				#invite-list {width: 160px;}
+				.main-column {margin-left: 190px;}
+
+				li {
+					img.avatar {
+						float: left;
+						margin: 0 $spacing-val-sm 0 0;
+					}
+				}
+			}
+
+		}
+	}
+}
+/**
+*-------------------------------------------------
+* @subsection 6.2.2 - item-body: User Accounts
+*-------------------------------------------------
+*/
+#buddypress {
+/**
+	*------------------------------
+	* 6.2.2.2 - Extended Profiles
+	*------------------------------
+	*/
+	.profile {
+
+		.bp-widget {
+			h4 {
+				background: $medium-background;
+				color: #fff;
+				padding: 0.4em 0.2em;
+			}
+		}
+
+			/* Edit profile */
+
+		#profile-edit-form {
+			.button-nav:before,
+			.button-nav:after {
+				content: " ";
+				display: table;
+			}
+
+			.button-nav:after {
+				clear: both;
+			}
+
+			ul.button-nav {
+				border-bottom: 1px solid $border-light;
+				margin-left: 0;
+
+				li {
+					float: left;
+					margin-bottom: 0;
+
+					&.current {
+						border: 1px solid $border-light;
+						border-bottom-color: #fff;
+						margin-bottom: -1px;
+					}
+				} // li
+
+				a {
+					background: none;
+					border: 0;
+					@include font-size(18)
+				}
+			} //.button-nav
+
+			.field-visibility-settings-toggle,
+			.field-visibility-settings {
+				@include font-size(14);
+			}
+
+			.field-visibility-settings-close,
+			.visibility-toggle-link {
+				background: $dark-background;
+				color: #fff;
+				padding: 0.2em 0.5em;
+			}
+		} // close profile form
+
+	} // close .profile
+
+} // close #buddypress - user acounts item-body
 /*------------------------------------------------------------------------------
-* @section - 8.0 - Forms  - General
+* @section - 7.0 - Forms  - General
 *-------------------------------------------------------------------------------
 */
 
 // Match BP form elements to Themes(2014) styling where styles
 // are not inherited or being overriden.
 #buddypress {
+
+	.standard-form {
+		input[type="text"],
+		textarea {
+			width: 100%;
+		}
+	}
 
 	div.activity-comments {
 		form {
@@ -642,9 +1043,35 @@ to maintain uniformity.
 
 /**
 *-------------------------------------------------------------------------------
-* @section 9.0 - Tables General
+* @section 8.0 - Tables General
 *-------------------------------------------------------------------------------
 */
 
 /*__ User Account tables __*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 9.0 - Error / Success messages
+*-------------------------------------------------------------------------------
+*/
+#buddypress {
+	div#message.info {
+		p {
+			@include message-box($notice-info);
+		}
+	}
+}
+
+// Without direct classes on our mesages ( 'warning' )
+// we need to use the body classes
+// message args ($variable-color, text-color)
+.delete-group {
+	#buddypress {
+		div#message.info {
+			p {
+				@include message-box($notice-warning, #fff);
+			}
+		}
+	}
+}
 
