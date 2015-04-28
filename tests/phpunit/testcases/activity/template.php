@@ -365,10 +365,14 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'type'      => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
+
+		// Make sure we get a fake group ID.
+		global $wpdb, $bp;
+		$max_group_id = $wpdb->get_var( "SELECT id FROM {$bp->groups->table_name} ORDER BY id DESC LIMIT 1" );
 		$this->factory->activity->create( array(
 			'user_id'   => $u3,
 			'component' => 'groups',
-			'item_id'   => 324,
+			'item_id'   => $max_group_id + 1,
 			'type'      => 'activity_update',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
