@@ -33,7 +33,10 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 
 	<form action="" method="post" id="groups-directory-form" class="dir-form">
 
-		<?php do_action( 'template_notices' ); ?>
+		<?php
+
+		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+		do_action( 'template_notices' ); ?>
 
 		<div class="item-list-tabs" role="navigation">
 			<ul>
