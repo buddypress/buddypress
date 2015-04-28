@@ -1,4 +1,11 @@
-<?php do_action( 'bp_before_member_settings_template' ); ?>
+<?php
+
+/**
+ * Fires before the display of member settings template.
+ *
+ * @since BuddyPress (1.5.0)
+ */
+do_action( 'bp_before_member_settings_template' ); ?>
 
 <form action="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() . '/profile' ); ?>" method="post" class="standard-form" id="settings-form">
 
@@ -36,13 +43,27 @@
 
 	<?php endif; ?>
 
-	<?php do_action( 'bp_core_xprofile_settings_before_submit' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of the submit button for user profile saving.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
+	do_action( 'bp_core_xprofile_settings_before_submit' ); ?>
 
 	<div class="submit">
 		<input id="submit" type="submit" name="xprofile-settings-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>" class="auto" />
 	</div>
 
-	<?php do_action( 'bp_core_xprofile_settings_after_submit' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of the submit button for user profile saving.
+	 *
+	 * @since BuddyPress (2.0.0)
+	 */
+	do_action( 'bp_core_xprofile_settings_after_submit' ); ?>
 
 	<?php wp_nonce_field( 'bp_xprofile_settings' ); ?>
 
@@ -50,4 +71,11 @@
 
 </form>
 
-<?php do_action( 'bp_after_member_settings_template' );
+<?php
+
+/**
+ * Fires after the display of member settings template.
+ *
+ * @since BuddyPress (1.5.0)
+ */
+do_action( 'bp_after_member_settings_template' );

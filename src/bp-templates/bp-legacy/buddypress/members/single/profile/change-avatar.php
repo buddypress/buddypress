@@ -1,6 +1,13 @@
 <h4><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h4>
 
-<?php do_action( 'bp_before_profile_avatar_upload_content' ); ?>
+<?php
+
+/**
+ * Fires before the display of profile avatar upload content.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 <?php if ( !(int)bp_get_option( 'bp-disable-avatar-uploads' ) ) : ?>
 
@@ -64,4 +71,11 @@
 
 <?php endif; ?>
 
-<?php do_action( 'bp_after_profile_avatar_upload_content' ); ?>
+<?php
+
+/**
+ * Fires after the display of profile avatar upload content.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'bp_after_profile_avatar_upload_content' ); ?>

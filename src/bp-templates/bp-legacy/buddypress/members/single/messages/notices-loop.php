@@ -1,4 +1,11 @@
-<?php do_action( 'bp_before_notices_loop' ); ?>
+<?php
+
+/**
+ * Fires before the members notices loop.
+ *
+ * @since BuddyPress (1.2.0)
+ */
+do_action( 'bp_before_notices_loop' ); ?>
 
 <?php if ( bp_has_message_threads() ) : ?>
 
@@ -14,8 +21,22 @@
 
 	</div><!-- .pagination -->
 
-	<?php do_action( 'bp_after_notices_pagination' ); ?>
-	<?php do_action( 'bp_before_notices' ); ?>
+	<?php
+
+	/**
+	 * Fires after the members notices pagination display.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
+	do_action( 'bp_after_notices_pagination' ); ?>
+	<?php
+
+	/**
+	 * Fires before the members notice items.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
+	do_action( 'bp_before_notices' ); ?>
 
 	<table id="message-threads" class="messages-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
@@ -36,7 +57,14 @@
 					<span class="activity"><?php _e( 'Sent:', 'buddypress' ); ?> <?php bp_message_notice_post_date(); ?></span>
 				</td>
 
-				<?php do_action( 'bp_notices_list_item' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the display of a member notice list item.
+				 *
+				 * @since BuddyPress (1.2.0)
+				 */
+				do_action( 'bp_notices_list_item' ); ?>
 
 				<td width="10%">
 					<a class="button" href="<?php bp_message_activate_deactivate_link(); ?>" class="confirm"><?php bp_message_activate_deactivate_text(); ?></a>
@@ -46,7 +74,14 @@
 		<?php endwhile; ?>
 	</table><!-- #message-threads -->
 
-	<?php do_action( 'bp_after_notices' ); ?>
+	<?php
+
+	/**
+	 * Fires after the members notice items.
+	 *
+	 * @since BuddyPress (1.2.0)
+	 */
+	do_action( 'bp_after_notices' ); ?>
 
 <?php else: ?>
 
@@ -56,4 +91,11 @@
 
 <?php endif;?>
 
-<?php do_action( 'bp_after_notices_loop' ); ?>
+<?php
+
+/**
+ * Fires after the members notices loop.
+ *
+ * @since BuddyPress (1.2.0)
+ */
+do_action( 'bp_after_notices_loop' ); ?>

@@ -1,6 +1,13 @@
 <form action="<?php bp_messages_form_action('compose' ); ?>" method="post" id="send_message_form" class="standard-form" role="main" enctype="multipart/form-data">
 
-	<?php do_action( 'bp_before_messages_compose_content' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of message compose content.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_messages_compose_content' ); ?>
 
 	<label for="send-to-input"><?php _e("Send To (Username or Friend's Name)", 'buddypress' ); ?></label>
 	<ul class="first acfb-holder">
@@ -22,7 +29,14 @@
 
 	<input type="hidden" name="send_to_usernames" id="send-to-usernames" value="<?php bp_message_get_recipient_usernames(); ?>" class="<?php bp_message_get_recipient_usernames(); ?>" />
 
-	<?php do_action( 'bp_after_messages_compose_content' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of message compose content.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_after_messages_compose_content' ); ?>
 
 	<div class="submit">
 		<input type="submit" value="<?php esc_attr_e( "Send Message", 'buddypress' ); ?>" name="send" id="send" />

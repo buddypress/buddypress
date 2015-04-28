@@ -1,8 +1,22 @@
-<?php do_action( 'bp_before_profile_loop_content' ); ?>
+<?php
+
+/**
+ * Fires before the display of member profile loop content.
+ *
+ * @since BuddyPress (1.2.0)
+ */
+do_action( 'bp_before_profile_loop_content' ); ?>
 
 <?php $ud = get_userdata( bp_displayed_user_id() ); ?>
 
-<?php do_action( 'bp_before_profile_field_content' ); ?>
+<?php
+
+	/**
+	 * Fires before the display of member profile field content.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_profile_field_content' ); ?>
 
 	<div class="bp-widget wp-profile">
 		<h4><?php bp_is_my_profile() ? _e( 'My Profile', 'buddypress' ) : printf( __( "%s's Profile", 'buddypress' ), bp_get_displayed_user_fullname() ); ?></h4>
@@ -66,8 +80,29 @@
 		</table>
 	</div>
 
-<?php do_action( 'bp_after_profile_field_content' ); ?>
+<?php
 
-<?php do_action( 'bp_profile_field_buttons' ); ?>
+/**
+ * Fires after the display of member profile field content.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'bp_after_profile_field_content' ); ?>
 
-<?php do_action( 'bp_after_profile_loop_content' ); ?>
+<?php
+
+/**
+ * Fires and displays the profile field buttons.
+ *
+ * @since BuddyPress (1.1.0)
+ */
+do_action( 'bp_profile_field_buttons' ); ?>
+
+<?php
+
+/**
+ * Fires after the display of member profile loop content.
+ *
+ * @since BuddyPress (1.2.0)
+ */
+do_action( 'bp_after_profile_loop_content' ); ?>

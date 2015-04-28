@@ -21,7 +21,14 @@
 				<option value="popular"><?php _e( 'Most Posts', 'buddypress' ); ?></option>
 				<option value="unreplied"><?php _e( 'Unreplied', 'buddypress' ); ?></option>
 
-				<?php do_action( 'bp_forums_directory_order_options' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the members forums order options select input.
+				 *
+				 * @since BuddyPress (1.2.0)
+				 */
+				do_action( 'bp_forums_directory_order_options' ); ?>
 
 			</select>
 		</li>
@@ -34,6 +41,12 @@ if ( bp_is_current_action( 'favorites' ) ) :
 	bp_get_template_part( 'members/single/forums/topics' );
 
 else :
+
+	/**
+	 * Fires before the display of member forums content.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
 	do_action( 'bp_before_member_forums_content' ); ?>
 
 	<div class="forums myforums">
@@ -42,6 +55,13 @@ else :
 
 	</div>
 
-	<?php do_action( 'bp_after_member_forums_content' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of member forums content.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
+	do_action( 'bp_after_member_forums_content' ); ?>
 
 <?php endif; ?>

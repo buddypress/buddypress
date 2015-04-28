@@ -23,7 +23,14 @@
 					<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ); ?></option>
 					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
 
-					<?php do_action( 'bp_member_friends_order_options' ); ?>
+					<?php
+
+					/**
+					 * Fires inside the members friends order options select input.
+					 *
+					 * @since BuddyPress (2.0.0)
+					 */
+					do_action( 'bp_member_friends_order_options' ); ?>
 
 				</select>
 			</li>
@@ -38,6 +45,12 @@ switch ( bp_current_action() ) :
 
 	// Home/My Friends
 	case 'my-friends' :
+
+		/**
+		 * Fires before the display of member friends content.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
 		do_action( 'bp_before_member_friends_content' ); ?>
 
 		<div class="members friends">
@@ -46,7 +59,14 @@ switch ( bp_current_action() ) :
 
 		</div><!-- .members.friends -->
 
-		<?php do_action( 'bp_after_member_friends_content' );
+		<?php
+
+		/**
+		 * Fires after the display of member friends content.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
+		do_action( 'bp_after_member_friends_content' );
 		break;
 
 	case 'requests' :

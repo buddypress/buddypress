@@ -30,13 +30,26 @@ switch ( bp_current_action() ) :
 	// Inbox/Sentbox
 	case 'inbox'   :
 	case 'sentbox' :
+
+		/**
+		 * Fires before the member messages content for inbox and sentbox.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
 		do_action( 'bp_before_member_messages_content' ); ?>
 
 		<div class="messages" role="main">
 			<?php bp_get_template_part( 'members/single/messages/messages-loop' ); ?>
 		</div><!-- .messages -->
 
-		<?php do_action( 'bp_after_member_messages_content' );
+		<?php
+
+		/**
+		 * Fires after the member messages content for inbox and sentbox.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
+		do_action( 'bp_after_member_messages_content' );
 		break;
 
 	// Single Message View
@@ -51,13 +64,26 @@ switch ( bp_current_action() ) :
 
 	// Sitewide Notices
 	case 'notices' :
+
+		/**
+		 * Fires before the member messages content for notices.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
 		do_action( 'bp_before_member_messages_content' ); ?>
 
 		<div class="messages" role="main">
 			<?php bp_get_template_part( 'members/single/messages/notices-loop' ); ?>
 		</div><!-- .messages -->
 
-		<?php do_action( 'bp_after_member_messages_content' );
+		<?php
+
+		/**
+		 * Fires after the member messages content for inbox and sentbox.
+		 *
+		 * @since BuddyPress (1.2.0)
+		 */
+		do_action( 'bp_after_member_messages_content' );
 		break;
 
 	// Any other
