@@ -165,8 +165,6 @@ function groups_create_group( $args = '' ) {
 		$member->date_modified = bp_core_current_time();
 		$member->save();
 
-		groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
-
 		/**
 		 * Fires after the creation of a new group and a group creator needs to be made.
 		 *
@@ -193,7 +191,7 @@ function groups_create_group( $args = '' ) {
 	}
 
 	/**
-	 * Fires after the creation of a group.
+	 * Fires after the creation or update of a group.
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
@@ -500,9 +498,6 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 		'item_id' => $group_id,
 		'user_id' => $user_id,
 	) );
-
-	// Modify group meta
-	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
 	/**
 	 * Fires after a user joins a group.
