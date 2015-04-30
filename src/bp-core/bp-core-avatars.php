@@ -1801,6 +1801,11 @@ add_action( 'bp_parse_query', 'bp_core_avatar_reset_query', 10, 1 );
 function bp_avatar_is_front_edit() {
 	$retval = false;
 
+	// No need to carry on if the current WordPress version is not supported.
+	if ( ! bp_attachments_is_wp_version_supported() ) {
+		return $retval;
+	}
+
 	if ( bp_is_user_change_avatar() && 'crop-image' !== bp_get_avatar_admin_step() ) {
 		$retval = ! bp_core_get_root_option( 'bp-disable-avatar-uploads' );
 	}

@@ -690,7 +690,11 @@ class BP_XProfile_User_Admin {
 	 * @since BuddyPress (2.3.0)
 	 */
 	public function enqueue_scripts( $screen_id ) {
-		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' ) && false === strpos( $screen_id, 'profile_page_bp-profile-edit' ) ) || bp_core_get_root_option( 'bp-disable-avatar-uploads' ) || ! buddypress()->avatar->show_avatars ) {
+		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' ) 
+			&& false === strpos( $screen_id, 'profile_page_bp-profile-edit' ) ) 
+			|| bp_core_get_root_option( 'bp-disable-avatar-uploads' ) 
+			|| ! buddypress()->avatar->show_avatars
+			|| ! bp_attachments_is_wp_version_supported() ) {
 			return;
 		}
 
@@ -1069,8 +1073,8 @@ class BP_XProfile_User_Admin {
 
 			<?php endif;
 
-			// Load the Avatar UI templates if user avatar uploads are enabled
-			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) ) : ?>
+			// Load the Avatar UI templates if user avatar uploads are enabled and current WordPress version is supported
+			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) && bp_attachments_is_wp_version_supported() ) : ?>
 				<a href="#TB_inline?width=800px&height=400px&inlineId=bp-xprofile-avatar-editor" title="<?php esc_attr_e( 'Edit Profile Photo', 'buddypress' );?>" class="thickbox bp-xprofile-avatar-user-edit"><?php esc_html_e( 'Edit Profile Photo', 'buddypress' ); ?></a>
 				<div id="bp-xprofile-avatar-editor" style="display:none;">
 					<?php bp_attachments_get_template_part( 'avatars/index' ); ?>

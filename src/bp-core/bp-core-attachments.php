@@ -10,6 +10,21 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Check if the current WordPress version is using Plupload 2.1.1
+ *
+ * Plupload 2.1.1 was introduced in WordPress 3.9. Our bp-plupload.js
+ * script requires it. So we need to make sure the current WordPress
+ * match with our needs.
+ *
+ * @since  BuddyPress (2.3.0)
+ *
+ * @return bool True if WordPress is 3.9+, false otherwise
+ */
+function bp_attachments_is_wp_version_supported() {
+	return (bool) version_compare( bp_get_major_wp_version(), '3.9', '>=' );
+}
+
+/**
  * Get the BuddyPress Plupload settings
  *
  * @since  BuddyPress (2.3.0)
