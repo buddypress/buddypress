@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since BuddyPress (1.5.0)
  */
 class BP_Messages_Component extends BP_Component {
+
 	/**
 	 * If this is true, the Message autocomplete will return friends only, unless
 	 * this is set to false, in which any matching users will be returned.
@@ -83,8 +84,9 @@ class BP_Messages_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_MESSAGES_SLUG' ) )
+		if ( !defined( 'BP_MESSAGES_SLUG' ) ) {
 			define( 'BP_MESSAGES_SLUG', $this->id );
+		}
 
 		// Global tables for messaging component
 		$global_tables = array(
