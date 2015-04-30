@@ -2479,7 +2479,7 @@ function bp_activity_comment_name() {
 	}
 
 /**
- * Output the date_recorded of the activity comment currently being displayed.
+ * Output the formatted date_recorded of the activity comment currently being displayed.
  *
  * @since BuddyPress (1.5.0)
  *
@@ -2490,11 +2490,10 @@ function bp_activity_comment_date_recorded() {
 }
 
 	/**
-	 * Return the date_recorded for the activity comment currently being displayed.
+	 * Return the formatted date_recorded for the activity comment currently being displayed.
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
 	 * @uses bp_core_time_since()
 	 * @uses apply_filters() To call the 'bp_activity_comment_date_recorded' hook
 	 *
@@ -2502,13 +2501,6 @@ function bp_activity_comment_date_recorded() {
 	 *         in the form "%s ago". False on failure.
 	 */
 	function bp_get_activity_comment_date_recorded() {
-		global $activities_template;
-
-		if ( empty( $activities_template->activity->current_comment->date_recorded ) ) {
-			return false;
-		}
-
-		$date_recorded = bp_core_time_since( $activities_template->activity->current_comment->date_recorded );
 
 		/**
 		 * Filters the recorded date of the activity comment currently being displayed.
@@ -2517,7 +2509,43 @@ function bp_activity_comment_date_recorded() {
 		 *
 		 * @param string|bool Date for the activity comment currently being displayed.
 		 */
-		return apply_filters( 'bp_activity_comment_date_recorded', $date_recorded );
+		return apply_filters( 'bp_activity_comment_date_recorded', bp_core_time_since( bp_get_activity_comment_date_recorded_raw() ) );
+	}
+
+/**
+ * Output the date_recorded of the activity comment currently being displayed.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @uses bp_get_activity_comment_date_recorded()
+ */
+function bp_activity_comment_date_recorded_raw() {
+	echo bp_get_activity_comment_date_recorded_raw();
+}
+
+	/**
+	 * Return the date_recorded for the activity comment currently being displayed.
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @uses bp_core_time_since()
+	 * @uses apply_filters() To call the 'bp_activity_comment_date_recorded' hook
+	 *
+	 * @return string|bool $date_recorded Time since the activity was recorded,
+	 *         in the form "%s ago". False on failure.
+	 */
+	function bp_get_activity_comment_date_recorded_raw() {
+		global $activities_template;
+
+		/**
+		 * Filters the raw recorded date of the activity comment currently being displayed.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param string|bool Raw date for the activity comment currently being displayed.
+		 */
+		return apply_filters( 'bp_activity_comment_date_recorded', $activities_template->activity->current_comment->date_recorded );
 	}
 
 /**
