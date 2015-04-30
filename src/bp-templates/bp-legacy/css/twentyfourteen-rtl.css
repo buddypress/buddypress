@@ -104,54 +104,61 @@ to maintain uniformity.
   line-height: 2.1;
   margin-top: 0; }
 
+@media screen and (max-width: 783px) {
+  #buddypress div#subnav.item-list-tabs {
+    margin-bottom: 40px; } }
+
 /*__ Vertical Menu User Account Screens __*/
 @media screen and (min-width: 783px) {
-  #buddypress {
+  .bp-user #buddypress, .single-item.groups #buddypress {
     background: #d8d8d8; }
-    #buddypress #item-header, #buddypress #item-body {
-      background: #fff; }
-    #buddypress #item-body {
-      border-right: 1px solid #bebebe; }
-    #buddypress #object-nav {
-      background: #d8d8d8;
-      border-left: 1px solid #bebebe;
-      float: right;
-      margin-left: -1px;
-      width: 200px; }
-      #buddypress #object-nav ul {
-        border-bottom: 0;
-        border-top: 1px solid #bebebe;
-        padding: 0; }
-        #buddypress #object-nav ul li {
-          float: none;
-          overflow: hidden; }
-          #buddypress #object-nav ul li:focus, #buddypress #object-nav ul li:hover {
-            background: #bebebe; }
-          #buddypress #object-nav ul li span {
-            border-radius: 10%;
-            float: left;
-            margin-left: 15px; }
-        #buddypress #object-nav ul li.current {
-          background: #f1f1f1; }
-    #buddypress #item-body {
-      overflow: hidden;
-      padding: 0 20px;
-      width: auto; }
-      #buddypress #item-body #subnav {
-        border: 1px solid #bebebe;
-        border-right: 0;
-        border-left: 0;
-        margin: 0 -20px 40px; }
-        #buddypress #item-body #subnav li:focus, #buddypress #item-body #subnav li:hover {
+  #buddypress #item-header, #buddypress #item-body {
+    background: #fff; }
+  #buddypress #item-body {
+    border-right: 1px solid #bebebe; }
+  #buddypress #object-nav {
+    background: #d8d8d8;
+    border-left: 1px solid #bebebe;
+    float: right;
+    margin-left: -1px;
+    width: 200px; }
+    #buddypress #object-nav ul {
+      border-bottom: 0;
+      border-top: 1px solid #bebebe;
+      padding: 0; }
+      #buddypress #object-nav ul li {
+        float: none;
+        overflow: hidden; }
+        #buddypress #object-nav ul li:focus, #buddypress #object-nav ul li:hover {
           background: #bebebe; }
-        #buddypress #item-body #subnav li.current {
-          background: #f1f1f1; } }
+        #buddypress #object-nav ul li span {
+          border-radius: 10%;
+          float: left;
+          margin-left: 15px; }
+      #buddypress #object-nav ul li.current {
+        background: #f1f1f1; }
+  #buddypress #item-body {
+    overflow: hidden;
+    padding: 0 20px;
+    width: auto; }
+    #buddypress #item-body #subnav {
+      border: 1px solid #bebebe;
+      border-right: 0;
+      border-left: 0;
+      margin: 0 -20px 40px; }
+      #buddypress #item-body #subnav li:focus, #buddypress #item-body #subnav li:hover {
+        background: #bebebe; }
+      #buddypress #item-body #subnav li.current {
+        background: #f1f1f1; } }
 
 /**
 *----------------------------------------------------------
 * @subsection 2.2 - Pagination
 *----------------------------------------------------------
 */
+#buddypress div.pagination .pag-count {
+  margin-right: 0; }
+
 /**
 *-------------------------------------------------------------------------------
 * @section 4.0 - BP Lists / Loops Generic
@@ -236,9 +243,11 @@ to maintain uniformity.
 * @subsection 4.1.1 - Activity What's New
 *-------------------------------------------------
 */
-#buddypress #whats-new-form {
+#buddypress form#whats-new-form {
   margin: 40px 0; }
-  #buddypress #whats-new-form textarea#whats-new {
+  #buddypress form#whats-new-form p.activity-greeting {
+    line-height: inherit; }
+  #buddypress form#whats-new-form textarea#whats-new {
     width: 100%; }
 
 /**
@@ -471,6 +480,16 @@ to maintain uniformity.
 	*------------------------------
 	* 6.2.2.2 - Extended Profiles
 	*------------------------------
+	*/
+  /**
+	*------------------------------
+	* @subsection 6.2.2.5 - Messaging
+	*------------------------------
+	*/
+  /**
+	*------------------------------
+	* @subsection 6.2.2.6 - Settings
+	*------------------------------
 	*/ }
   #buddypress .profile {
     /* Edit profile */ }
@@ -505,12 +524,35 @@ to maintain uniformity.
       background: #000;
       color: #fff;
       padding: 0.2em 0.5em; }
+  #buddypress table#message-threads .bulk-select-check {
+    width: 5%; }
+  #buddypress table#message-threads .thread-from, #buddypress table#message-threads .thread-info {
+    width: 35%; }
+  #buddypress table#message-threads .thread-options {
+    width: 25%; }
+  #buddypress table#message-threads tr td {
+    background: #ebf0ff; }
+  #buddypress table#message-threads tr.alt td {
+    background: #dbe5ff; }
+  #buddypress table#message-threads tr.unread td {
+    background: #cddaff;
+    border-bottom: 1px solid #e4cdff;
+    border-top: 1px solid #e4cdff; }
+  #buddypress table#message-threads tr.read td {
+    opacity: 0.5; }
+  #buddypress table.profile-settings {
+    width: 100%; }
+    #buddypress table.profile-settings th, #buddypress table.profile-settings td {
+      clear: none;
+      width: 50%; }
 
 /*------------------------------------------------------------------------------
 * @section - 7.0 - Forms  - General
 *-------------------------------------------------------------------------------
 */
-#buddypress .standard-form input[type="text"], #buddypress .standard-form textarea {
+#buddypress input[type="text"], #buddypress input[type="email"], #buddypress input[type="password"], #buddypress input[type="submit"], #buddypress select, #buddypress textarea {
+  border: 1px solid rgba(0, 0, 0, 0.2); }
+#buddypress .standard-form input[type="text"], #buddypress .standard-form input[type="email"], #buddypress .standard-form input[type="password"], #buddypress .standard-form input[type="submit"], #buddypress .standard-form textarea {
   width: 100%; }
 #buddypress div.activity-comments form .ac-textarea {
   background: #f7f7f7;
@@ -518,10 +560,9 @@ to maintain uniformity.
   #buddypress div.activity-comments form .ac-textarea textarea {
     background: none;
     border: 0; }
-#buddypress select {
-  border: 1px solid rgba(0, 0, 0, 0.5); }
 
 #buddypress div.dir-search, #buddypress div.message-search {
+  clear: both;
   float: none;
   margin: 10px 0; }
   #buddypress div.dir-search form, #buddypress div.message-search form {
@@ -533,7 +574,7 @@ to maintain uniformity.
     #buddypress div.dir-search form input[type='text'], #buddypress div.message-search form input[type='text'] {
       float: right;
       margin: 0;
-      width: 100%; }
+      width: 80%; }
     #buddypress div.dir-search form input[type='text'], #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form input[type='text'], #buddypress div.message-search form input[type='submit'] {
       border: 0;
       font-size: 14px;
@@ -551,6 +592,7 @@ to maintain uniformity.
       width: 20%; }
 @media screen and (min-width: 401px) {
   #buddypress div.dir-search, #buddypress div.message-search {
+    clear: none;
     float: left;
     margin: 0; }
     #buddypress div.dir-search form label, #buddypress div.dir-search form input[type='submit'], #buddypress div.dir-search form input[type='text'], #buddypress div.message-search form label, #buddypress div.message-search form input[type='submit'], #buddypress div.message-search form input[type='text'] {
