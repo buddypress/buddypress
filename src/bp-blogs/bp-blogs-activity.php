@@ -32,6 +32,7 @@ function bp_blogs_register_activity_actions() {
 			__( 'New site created', 'buddypress' ),
 			'bp_blogs_format_activity_action_new_blog',
 			__( 'New Sites', 'buddypress' ),
+			array( 'activity', 'member' ),
 			0
 		);
 	}
