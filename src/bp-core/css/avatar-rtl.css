@@ -50,8 +50,8 @@ div.bp-avatar-status .bp-bar {
 }
 
 #bp-uploader-warning, #bp-webcam-message p.warning {
-	background-color: #ffec8b;
-	border: 1px solid #fc0;
+	background-color: #ffd;
+	border: 1px solid #cb2;
 	color: #440;
 	display: block;
 	font-size: 90%;
@@ -279,6 +279,10 @@ div.bp-avatar-nav {
 	margin-right: 0;
 	padding-top: 0;
 	width: auto;
+}
+
+.bp-avatar .item {
+	overflow:hidden;
 }
 
 .bp-avatar .avatar-crop-management.adjust {

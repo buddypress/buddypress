@@ -947,26 +947,33 @@ function bp_avatar_ajax_upload() {
 		}
 	}
 
+	// Init the feedback message
+	$feedback_message = false;
+
+	if ( ! empty( $bp->template_message ) ) {
+		$feedback_message = $bp->template_message;
+
+		// Remove template message.
+		$bp->template_message      = false;
+		$bp->template_message_type = false;
+		@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
+		@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+	}
+
 	if ( empty( $avatar ) ) {
 		// Default upload error
-		$message = array();
+		$message = __( 'Upload failed.', 'buddypress' );
 
-		// Intercept the template message and remove it
-		if ( ! empty( $bp->template_message ) ) {
-			// Set the feedback message
-			$message = array(
-				'type'    => 'upload_error',
-				'message' => $bp->template_message,
-			);
-
-			// Remove template message.
-			$bp->template_message      = false;
-			$bp->template_message_type = false;
-			@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
-			@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+		// Use the template message if set
+		if ( ! empty( $feedback_message ) ) {
+			$message = $feedback_message;
 		}
 
-		bp_attachments_json_response( false, $is_html4, $message );
+		// Upload error reply
+		bp_attachments_json_response( false, $is_html4, array(
+			'type'    => 'upload_error',
+			'message' => $message,
+		) );
 	}
 
 	if ( empty( $bp->avatar_admin->image->file ) ) {
@@ -990,6 +997,7 @@ function bp_avatar_ajax_upload() {
 		'url'       => $bp->avatar_admin->image->url,
 		'width'     => $uploaded_image[0],
 		'height'    => $uploaded_image[1],
+		'feedback'  => $feedback_message,
 	) );
 }
 add_action( 'wp_ajax_bp_avatar_upload', 'bp_avatar_ajax_upload' );

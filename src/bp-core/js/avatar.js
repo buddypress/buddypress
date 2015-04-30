@@ -26,6 +26,7 @@ window.bp = window.bp || {};
 			// Init some vars
 			this.views    = new Backbone.Collection();
 			this.jcropapi = {};
+			this.warning = null;
 
 			// Set up nav
 			this.setupNav();
@@ -349,6 +350,22 @@ window.bp = window.bp || {};
 
 				avatarStatus.inject( '.bp-avatar-status' );
 			} );
+		},
+
+		removeWarning: function() {
+			if ( ! _.isNull( this.warning ) ) {
+				this.warning.remove();
+			}
+		},
+
+		displayWarning: function( message ) {
+			this.removeWarning();
+
+			this.warning = new bp.Views.uploaderWarning( {
+				value: message
+			} );
+
+			this.warning.inject( '.bp-avatar-status' );
 		}
 	};
 
@@ -362,6 +379,13 @@ window.bp = window.bp || {};
 		},
 
 		initialize: function() {
+			var hasAvatar = _.findWhere( this.collection.models, { id: 'delete' } );
+
+			// Display a message to inform about the delete tab
+			if ( 1 !== hasAvatar.get( 'hide' ) ) {
+				bp.Avatar.displayWarning( BP_Uploader.strings.has_avatar_warning );
+			}
+
 			_.each( this.collection.models, this.addNavItem, this );
 			this.collection.on( 'change:hide', this.showHideNavItem, this );
 		},
@@ -404,6 +428,9 @@ window.bp = window.bp || {};
 
 		toggleView: function( event ) {
 			event.preventDefault();
+
+			// First make sure to remove all warnings
+			bp.Avatar.removeWarning();
 
 			var active = $( event.target ).data( 'nav' );
 
@@ -487,6 +514,11 @@ window.bp = window.bp || {};
 				full_w:  BP_Uploader.settings.crop.full_w,
 				aspectRatio : 1
 			} );
+
+			// Display a warning if the image is smaller than minimum advised
+			if ( false !== this.model.get( 'feedback' ) ) {
+				bp.Avatar.displayWarning( this.model.get( 'feedback' ) );
+			}
 
 			this.on( 'ready', this.initCropper );
 		},

@@ -98,7 +98,8 @@ function bp_attachments_get_plupload_l10n() {
 			'dismiss'                   => __( 'Dismiss', 'buddypress' ),
 			'crunching'                 => __( 'Crunching&hellip;', 'buddypress' ),
 			'unique_file_warning'       => __( 'Make sure to upload a unique file', 'buddypress' ),
-			'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.', 'buddypress' )
+			'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.', 'buddypress' ),
+			'has_avatar_warning'        => __( 'If you&#39;d like to delete the existing profile photo but not upload a new one, please use the delete tab.', 'buddypress' )
 	) );
 }
 
