@@ -28,6 +28,9 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @uses BP_Attachment::__construct()
 	 */
 	public function __construct() {
+		// Allowed avatar types
+		$allowed_types = bp_core_get_allowed_avatar_types();
+
 		parent::__construct( array(
 			'action'                => 'bp_avatar_upload',
 			'file_input'            => 'file',
@@ -36,9 +39,21 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			// Specific errors for avatars
 			'upload_error_strings'  => array(
 				9  => sprintf( __( 'That photo is too big. Please upload one smaller than %s', 'buddypress' ), size_format( bp_core_avatar_original_max_filesize() ) ),
-				10 => __( 'Please upload only JPG, GIF or PNG photos.', 'buddypress' ),
+				10 => sprintf( _n( 'Please upload only this file type: %s.', 'Please upload only these file types: %s.', count( $allowed_types ), 'buddypress' ), self::get_avatar_types( $allowed_types ) ),
 			),
 		) );
+	}
+
+	/**
+	 * Gets the available avatar types
+	 *
+	 * @since BuddyPress (2.3.0)
+	 * @return string comma separated list of allowed avatar types
+	 */
+	public static function get_avatar_types( $allowed_types = array() ) {
+		$types = array_map( 'strtoupper', $allowed_types );
+		$comma = _x( ',', 'avatar types separator', 'buddypress' );
+		return join( $comma . ' ', $types );
 	}
 
 	/**

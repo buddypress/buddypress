@@ -16,24 +16,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->rrmdir( bp_core_avatar_upload_path() . '/' . $avatar_dir );
 	}
 
-	private function rrmdir( $dir ) {
-		$d = glob( $dir . '/*' );
-
-		if ( empty( $d ) ) {
-			return;
-		}
-
-		foreach ( $d as $file ) {
-			if ( is_dir( $file ) ) {
-				$this->rrmdir( $file );
-			} else {
-				@unlink( $file );
-			}
-		}
-
-		@rmdir( $dir );
-	}
-
 	/**
 	 * @ticket BP4948
 	 */

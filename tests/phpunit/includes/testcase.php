@@ -423,4 +423,28 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		global $wpdb;
 		$wpdb->query( 'COMMIT;' );
 	}
+
+	/**
+	 * Clean up created directories/files
+	 */
+	public function rrmdir( $dir ) {
+		// Make sure we are only removing files/dir from uploads
+		if ( 0 !== strpos( $dir, bp_core_avatar_upload_path() ) ) {
+			return;
+		}
+
+		$d = glob( $dir . '/*' );
+
+		if ( ! empty( $d ) ) {
+			foreach ( $d as $file ) {
+				if ( is_dir( $file ) ) {
+					$this->rrmdir( $file );
+				} else {
+					@unlink( $file );
+				}
+			}
+		}
+
+		@rmdir( $dir );
+	}
 }

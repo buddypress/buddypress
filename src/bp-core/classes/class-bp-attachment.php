@@ -219,6 +219,13 @@ abstract class BP_Attachment {
 		 */
 		add_filter( "{$this->action}_prefilter", array( $this, 'validate_upload' ), 10, 1 );
 
+		/**
+		 * The above dynamic filter was introduced in WordPress 4.0, as we support WordPress
+		 * back to 3.6, we need to also use the pre 4.0 static filter and remove it after
+		 * the upload was processed.
+		 */
+		add_filter( 'wp_handle_upload_prefilter', array( $this, 'validate_upload' ), 10, 1 );
+
 		// Set Default overrides
 		$overrides = array(
 			'action'               => $this->action,
@@ -264,6 +271,9 @@ abstract class BP_Attachment {
 
 		// Restore WordPress Uploads data
 		remove_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+
+		// Remove the pre WordPress 4.0 static filter
+		remove_filter( 'wp_handle_upload_prefilter', array( $this, 'validate_upload' ), 10, 1 );
 
 		// Finally return the uploaded file or the error
 		return $this->attachment;
