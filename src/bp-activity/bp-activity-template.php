@@ -1606,6 +1606,10 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		// Set item_id and object (default to user)
 		switch ( $activities_template->activity->component ) {
 			case 'groups' :
+				if ( bp_disable_group_avatar_uploads() ) {
+					return false;
+				}
+
 				$object  = 'group';
 				$item_id = $activities_template->activity->item_id;
 				$link    = '';

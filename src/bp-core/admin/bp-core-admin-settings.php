@@ -182,6 +182,18 @@ function bp_admin_setting_callback_group_creation() {
 <?php
 }
 
+/**
+ * 'Enable group avatars' field markup.
+ *
+ * @since BuddyPress (2.3.0)
+ */
+function bp_admin_setting_callback_group_avatar_uploads() {
+?>
+	<input id="bp-disable-group-avatar-uploads" name="bp-disable-group-avatar-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_group_avatar_uploads() ); ?> />
+	<label for="bp-disable-group-avatar-uploads"><?php _e( 'Allow customizable avatars for groups', 'buddypress' ); ?></label>
+<?php
+}
+
 /** Forums Section ************************************************************/
 
 /**
@@ -280,10 +292,11 @@ function bp_core_admin_settings_save() {
 			}
 		}
 
-		// Some legacy options are not registered with the Settings API
+		// Some legacy options are not registered with the Settings API, or are reversed in the UI.
 		$legacy_options = array(
 			'bp-disable-account-deletion',
 			'bp-disable-avatar-uploads',
+			'bp-disable-group-avatar-uploads',
 			'bp_disable_blogforum_comments',
 			'bp-disable-profile-sync',
 			'bp_restrict_group_creation',

@@ -14,9 +14,11 @@ do_action( 'bp_before_group_invites_content' ); ?>
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
 
 			<li>
-				<div class="item-avatar">
-					<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ); ?></a>
-				</div>
+				<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
+					<div class="item-avatar">
+						<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ); ?></a>
+					</div>
+				<?php endif; ?>
 
 				<h4><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a><span class="small"> - <?php printf( _nx( '%d member', '%d members', bp_get_group_total_members( false ),'Group member count', 'buddypress' ), bp_get_group_total_members( false )  ); ?></span></h4>
 

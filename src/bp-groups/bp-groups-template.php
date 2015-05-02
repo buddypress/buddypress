@@ -709,6 +709,13 @@ function bp_group_class() {
 				$classes[] = 'is-mod';
 		}
 
+		// Whether a group avatar will appear.
+		if ( bp_disable_group_avatar_uploads() || ! buddypress()->avatar->show_avatars ) {
+			$classes[] = 'group-no-avatar';
+		} else {
+			$classes[] = 'group-has-avatar';
+		}
+
 		/**
 		 * Filters classes that will be applied to row class of the current group in the loop.
 		 *
@@ -858,9 +865,8 @@ function bp_group_avatar( $args = '' ) {
 	function bp_get_group_avatar( $args = '' ) {
 		global $groups_template;
 
-		// Bail if avatars are turned off
-		// @todo Should we maybe still filter this?
-		if ( ! buddypress()->avatar->show_avatars ) {
+		// Bail if avatars are turned off.
+		if ( bp_disable_group_avatar_uploads() || ! buddypress()->avatar->show_avatars ) {
 			return false;
 		}
 

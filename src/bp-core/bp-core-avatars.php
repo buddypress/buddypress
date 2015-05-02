@@ -1813,11 +1813,11 @@ function bp_avatar_is_front_edit() {
 	if ( bp_is_active( 'groups' ) ) {
 		// Group creation
 		if ( bp_is_group_create() && bp_is_group_creation_step( 'group-avatar' ) && 'crop-image' !== bp_get_avatar_admin_step() ) {
-			$retval = ! bp_core_get_root_option( 'bp-disable-avatar-uploads' );
+			$retval = ! bp_disable_group_avatar_uploads();
 
 		// Group Manage
 		} elseif ( bp_is_group_admin_page() && bp_is_group_admin_screen( 'group-avatar' ) && 'crop-image' !== bp_get_avatar_admin_step() ) {
-			$retval = ! bp_core_get_root_option( 'bp-disable-avatar-uploads' );
+			$retval = ! bp_disable_group_avatar_uploads();
 		}
 	}
 

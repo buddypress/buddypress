@@ -337,7 +337,8 @@ class BP_Admin {
 			// Add the main section
 			add_settings_section( 'bp_xprofile', _x( 'Profile Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress' );
 
-			$avatar_setting = 'bp_xprofile';
+			add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_avatar_uploads', 'buddypress', 'bp_xprofile' );
+			register_setting( 'buddypress', 'bp-disable-avatar-uploads', 'intval' );
 
 			// Profile sync setting
 			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync',     'buddypress', 'bp_xprofile' );
@@ -351,13 +352,13 @@ class BP_Admin {
 			// Add the main section
 			add_settings_section( 'bp_groups',        __( 'Groups Settings',  'buddypress' ), 'bp_admin_setting_callback_groups_section',   'buddypress'              );
 
-			if ( empty( $avatar_setting ) ) {
-				$avatar_setting = 'bp_groups';
-			}
-
 			// Allow subscriptions setting
 			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation',   'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
 			register_setting  ( 'buddypress',         'bp_restrict_group_creation',   'intval'                                                                                );
+
+			// Allow group avatars.
+			add_settings_field( 'bp-disable-group-avatar-uploads', __( 'Group Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_group_avatar_uploads', 'buddypress', 'bp_groups' );
+			register_setting( 'buddypress', 'bp-disable-group-avatar-uploads', 'intval' );
 		}
 
 		/** Forums ************************************************************/
@@ -392,14 +393,6 @@ class BP_Admin {
 				add_settings_field( '_bp_enable_akismet', __( 'Akismet',          'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
 				register_setting  ( 'buddypress',         '_bp_enable_akismet',   'intval'                                                                                  );
 			}
-		}
-
-		/** Avatar upload for users or groups ************************************/
-
-		if ( ! empty( $avatar_setting ) ) {
-		    // Allow avatar uploads
-		    add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads',   'buddypress' ), 'bp_admin_setting_callback_avatar_uploads',   'buddypress', $avatar_setting );
-		    register_setting  ( 'buddypress',         'bp-disable-avatar-uploads',   'intval'                                                                                    );
 		}
 	}
 

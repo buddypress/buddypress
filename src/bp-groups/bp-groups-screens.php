@@ -906,7 +906,7 @@ function groups_screen_group_admin_avatar() {
 		return false;
 
 	// If the logged-in user doesn't have permission or if avatar uploads are disabled, then stop here
-	if ( ! bp_is_item_admin() || (int) bp_get_option( 'bp-disable-avatar-uploads' ) || ! buddypress()->avatar->show_avatars )
+	if ( ! bp_is_item_admin() || bp_disable_group_avatar_uploads() || ! buddypress()->avatar->show_avatars )
 		return false;
 
 	$bp = buddypress();

@@ -55,6 +55,9 @@ function bp_get_default_options() {
 		// Avatar uploads
 		'bp-disable-avatar-uploads'       => false,
 
+		// Group Profile Photos
+		'bp-disable-group-avatar-uploads' => false,
+
 		// Allow users to delete their own accounts
 		'bp-disable-account-deletion'     => false,
 
@@ -578,6 +581,40 @@ function bp_disable_avatar_uploads( $default = true ) {
 	 * @param bool $value Whether or not members are able to upload their own avatars.
 	 */
 	return (bool) apply_filters( 'bp_disable_avatar_uploads', (bool) bp_get_option( 'bp-disable-avatar-uploads', $default ) );
+}
+
+/**
+ * Are group avatars disabled?
+ *
+ * For backward compatibility, this option falls back on the value of 'bp-disable-avatar-uploads' when no value is
+ * found in the database.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *                      Defaults to the value of `bp_disable_avatar_uploads()`.
+ * @return bool True if group avatar uploads are disabled, otherwise false.
+ */
+function bp_disable_group_avatar_uploads( $default = null ) {
+	$disabled = bp_get_option( 'bp-disable-group-avatar-uploads', '' );
+
+	if ( '' === $disabled ) {
+		if ( is_null( $default ) ) {
+			$disabled = bp_disable_avatar_uploads();
+		} else {
+			$disabled = $default;
+		}
+	}
+
+	/**
+	 * Filters whether or not members are able to upload group avatars.
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @param bool $disabled Whether or not members are able to upload their groups avatars.
+	 * @param bool $default  Default value passed to the function.
+	 */
+	return (bool) apply_filters( 'bp_disable_group_avatar_uploads', $disabled, $default );
 }
 
 /**
