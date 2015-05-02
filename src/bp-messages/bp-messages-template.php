@@ -2080,6 +2080,24 @@ function bp_get_thread_recipients_count() {
 }
 
 /**
+ * Get the max number of recipients to list in the 'Conversation between...' gloss.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @return int
+ */
+function bp_get_max_thread_recipients_to_list() {
+	/**
+	 * Filters the max number of recipients to list in the 'Conversation between...' gloss.
+	 *
+	 * @since BuddyPress (2.3.0)
+	 *
+	 * @param int $count Recipient count. Default: 5.
+	 */
+	return (int) apply_filters( 'bp_get_max_thread_recipients_to_list', 5 );
+}
+
+/**
  * Output HTML links to recipients in the current thread.
  *
  * @since BuddyPress (2.2.0)

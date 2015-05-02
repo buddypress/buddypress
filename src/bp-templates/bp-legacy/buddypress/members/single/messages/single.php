@@ -20,7 +20,7 @@
 
 					<?php _e( 'You are alone in this conversation.', 'buddypress' ); ?>
 
-				<?php elseif ( 5 <= bp_get_thread_recipients_count() ) : ?>
+				<?php elseif ( bp_get_max_thread_recipients_to_list() <= bp_get_thread_recipients_count() ) : ?>
 
 					<?php printf( __( 'Conversation between %s recipients.', 'buddypress' ), number_format_i18n( bp_get_thread_recipients_count() ) ); ?>
 
