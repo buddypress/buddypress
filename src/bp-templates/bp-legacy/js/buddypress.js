@@ -33,7 +33,7 @@ jq(document).ready( function() {
 		var $member_nicename = $whats_new.val();
 
 		jq('#whats-new-options').animate({
-			height:'40px'
+			height:'50px'
 		});
 
 		$whats_new.animate({
@@ -53,7 +53,7 @@ jq(document).ready( function() {
 	/* Textarea focus */
 	$whats_new.focus( function(){
 		jq('#whats-new-options').animate({
-			height:'40px'
+			height:'50px'
 		});
 		jq('#whats-new-form textarea').animate({
 			height:'50px'
@@ -87,7 +87,7 @@ jq(document).ready( function() {
 			if (!this.value.match(/\S+/)) {
 				this.value = '';
 				jq('#whats-new-options').animate({
-					height:'40px'
+					height:'0'
 				});
 				jq('form#whats-new-form textarea').animate({
 					height:'20px'
