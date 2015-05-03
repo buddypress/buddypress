@@ -313,8 +313,8 @@ function bp_activity_screen_single_activity_permalink() {
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param BP_Activity_Activity $activity Object representing the current activity item being displayed.
-	 * @param bool $has_access Whether or not the current user has access to view activity.
+	 * @param BP_Activity_Activity $activity   Object representing the current activity item being displayed.
+	 * @param bool                 $has_access Whether or not the current user has access to view activity.
 	 */
 	do_action( 'bp_activity_screen_single_activity_permalink', $activity, $has_access );
 
@@ -475,6 +475,7 @@ class BP_Activity_Theme_Compat {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
@@ -535,6 +536,7 @@ class BP_Activity_Theme_Compat {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {

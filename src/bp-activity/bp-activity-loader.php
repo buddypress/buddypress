@@ -132,8 +132,8 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
 	 *                        description.
-	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
-	 *                       description.
+	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 

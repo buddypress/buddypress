@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * in $activity_ids and adds it to the WP cache. This improves efficiency when
  * using querying activitymeta inline.
  *
- * @param int|str|array $activity_ids Accepts a single activity ID, or a comma-
- *        separated list or array of activity ids
+ * @param int|string|array|bool $activity_ids Accepts a single activity ID, or a comma-
+ *                                            separated list or array of activity ids
  */
 function bp_activity_update_meta_cache( $activity_ids = false ) {
 	$bp = buddypress();

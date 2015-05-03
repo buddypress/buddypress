@@ -90,7 +90,8 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @access public
 	 *
 	 * @param string $alias An existing table alias that is compatible with the current query clause.
-	 *               Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
+	 *                      Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
+	 *
 	 * @return string SQL fragment to append to the main WHERE clause.
 	 */
 	public function get_sql( $alias = 'a' ) {
@@ -115,6 +116,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * @param  array $clause       Array of arguments belonging to the clause.
 	 * @param  array $parent_query Parent query to which the clause belongs.
+	 *
 	 * @return array {
 	 *     @type array $where Array of subclauses for the WHERE statement.
 	 *     @type array $join  Empty array. Not used.
@@ -225,7 +227,8 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @since BuddyPress (2.2.0)
 	 * @access protected
 	 *
-	 * @param  array $query Clause to check.
+	 * @param array $query Clause to check.
+	 *
 	 * @return bool
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -242,6 +245,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @access public
 	 *
 	 * @param string $column The user-supplied column name.
+	 *
 	 * @return string A validated column name value.
 	 */
 	public function validate_column( $column = '' ) {

@@ -122,7 +122,7 @@ class BP_Activity_Activity {
 	/**
 	 * Constructor method.
 	 *
-	 * @param int $id Optional. The ID of a specific activity item.
+	 * @param int|bool $id Optional. The ID of a specific activity item.
 	 */
 	public function __construct( $id = false ) {
 		if ( !empty( $id ) ) {
@@ -211,7 +211,7 @@ class BP_Activity_Activity {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Activity_Activity Current instance of the activity item being saved.
+		 * @param BP_Activity_Activity $this Current instance of the activity item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
 
@@ -248,7 +248,7 @@ class BP_Activity_Activity {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Activity_Activity Reference to current instance of activity being saved.
+		 * @param BP_Activity_Activity $this Current instance of activity item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_after_save', array( &$this ) );
 
@@ -459,10 +459,10 @@ class BP_Activity_Activity {
 		 * @since BuddyPress (1.9.0)
 		 *
 		 * @param array  $where_conditions Current conditions for MySQL WHERE statement.
-		 * @param array  $r Parsed arguments passed into method.
-		 * @param string $select_sql Current SELECT MySQL statement at point of execution.
-		 * @param string $from_sql Current FROM MySQL statement at point of execution.
-		 * @param string $join_sql Current INNER JOIN MySQL statement at point of execution.
+		 * @param array  $r                Parsed arguments passed into method.
+		 * @param string $select_sql       Current SELECT MySQL statement at point of execution.
+		 * @param string $from_sql         Current FROM MySQL statement at point of execution.
+		 * @param string $join_sql         Current INNER JOIN MySQL statement at point of execution.
 		 */
 		$where_conditions = apply_filters( 'bp_activity_get_where_conditions', $where_conditions, $r, $select_sql, $from_sql, $join_sql );
 
@@ -508,9 +508,9 @@ class BP_Activity_Activity {
 		 *
 		 * @since BuddyPress (2.0.0)
 		 *
-		 * @param bool                 Whether to use legacy structure or not.
-		 * @param BP_Activity_Activity Current method being called.
-		 * @param array                $r Parsed arguments passed into method.
+		 * @param bool                 $value Whether to use legacy structure or not.
+		 * @param BP_Activity_Activity $value Current method being called.
+		 * @param array                $r     Parsed arguments passed into method.
 		 */
 		if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
@@ -531,11 +531,11 @@ class BP_Activity_Activity {
 				 *
 				 * @since BuddyPress (1.5.0)
 				 *
-				 * @param string Concatenated MySQL statement pieces to be query results with for legacy query.
+				 * @param string $value      Concatenated MySQL statement pieces to be query results with for legacy query.
 				 * @param string $select_sql Final SELECT MySQL statement portion for legacy query.
-				 * @param string $from_sql Final FROM MySQL statement portion for legacy query.
-				 * @param string $where_sql Final WHERE MySQL statement portion for legacy query.
-				 * @param string $sort Final sort direction for legacy query.
+				 * @param string $from_sql   Final FROM MySQL statement portion for legacy query.
+				 * @param string $where_sql  Final WHERE MySQL statement portion for legacy query.
+				 * @param string $sort       Final sort direction for legacy query.
 				 */
 				$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
 			}
@@ -556,7 +556,7 @@ class BP_Activity_Activity {
 			 * @since BuddyPress (2.0.0)
 			 *
 			 * @param string $activity_ids_sql MySQL statement used to query for Activity IDs.
-			 * @param array  $r Array of arguments passed into method.
+			 * @param array  $r                Array of arguments passed into method.
 			 */
 			$activity_ids_sql = apply_filters( 'bp_activity_paged_activities_sql', $activity_ids_sql, $r );
 
@@ -606,9 +606,9 @@ class BP_Activity_Activity {
 			 *
 			 * @since BuddyPress (1.5.0)
 			 *
-			 * @param string MySQL statement used to query for total activities.
+			 * @param string $value     MySQL statement used to query for total activities.
 			 * @param string $where_sql MySQL WHERE statement portion.
-			 * @param string $sort sort direction for query.
+			 * @param string $sort      Sort direction for query.
 			 */
 			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
 			$total_activities     = $wpdb->get_var( $total_activities_sql );
@@ -631,6 +631,7 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $activity_ids Array of activity IDs.
+	 *
 	 * @return array
 	 */
 	protected static function get_activity_data( $activity_ids = array() ) {
@@ -695,6 +696,7 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $activities Activities array.
+	 *
 	 * @return array
 	 */
 	protected static function append_user_fullnames( $activities ) {
@@ -735,6 +737,8 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $activities Array of activities.
+	 *
+	 * @return array $activities Array of activities.
 	 */
 	protected static function prefetch_object_data( $activities ) {
 
@@ -759,6 +763,7 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $activities Array of activities.
+	 *
 	 * @return array
 	 */
 	protected static function generate_action_strings( $activities ) {
@@ -786,7 +791,8 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
-	 *   documentation for WP_Meta_Query for details.
+	 *                          documentation for WP_Meta_Query for details.
+	 *
 	 * @return array $sql_array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
@@ -826,7 +832,8 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (2.1.0)
 	 *
 	 * @param array $date_query An array of date_query parameters. See the
-	 *        documentation for the first parameter of WP_Date_Query.
+	 *                          documentation for the first parameter of WP_Date_Query.
+	 *
 	 * @return string
 	 */
 	public static function get_date_query_sql( $date_query = array() ) {
@@ -854,6 +861,7 @@ class BP_Activity_Activity {
 	 * @param  mixed $scope  The activity scope. Accepts string or array of scopes
 	 * @param  array $r      Current activity arguments. Same as those of BP_Activity_Activity::get(),
 	 *                       but merged with defaults.
+	 *
 	 * @return array 'sql' WHERE SQL string and 'override' activity args
 	 */
 	public static function get_scope_query_sql( $scope = false, $r = array() ) {
@@ -955,12 +963,12 @@ class BP_Activity_Activity {
 	 * @deprecated 1.5
 	 * @deprecated Use BP_Activity_Activity::get() with an 'in' parameter instead.
 	 *
-	 * @param mixed $activity_ids Array or comma-separated string of activity IDs to retrieve
-	 * @param int $max Maximum number of results to return. (Optional; default is no maximum)
-	 * @param int $page The set of results that the user is viewing. Used in pagination. (Optional; default is 1)
-	 * @param int $per_page Specifies how many results per page. Used in pagination. (Optional; default is 25)
-	 * @param string MySQL column sort; ASC or DESC. (Optional; default is DESC)
-	 * @param bool $display_comments Retrieve an activity item's associated comments or not. (Optional; default is false)
+	 * @param mixed    $activity_ids     Array or comma-separated string of activity IDs to retrieve
+	 * @param int|bool $max              Maximum number of results to return. (Optional; default is no maximum)
+	 * @param int      $page             The set of results that the user is viewing. Used in pagination. (Optional; default is 1)
+	 * @param int      $per_page         Specifies how many results per page. Used in pagination. (Optional; default is 25)
+	 * @param string   $sort             MySQL column sort; ASC or DESC. (Optional; default is DESC)
+	 * @param bool     $display_comments Retrieve an activity item's associated comments or not. (Optional; default is false)
 	 * @return array
 	 */
 	public static function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
@@ -1040,18 +1048,19 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (1.2.0)
 	 *
 	 * @param array $args {
-	 *     @int $id Optional. The ID of a specific item to delete.
-	 *     @string $action Optional. The action to filter by.
-	 *     @string $content Optional. The content to filter by.
-	 *     @string $component Optional. The component name to filter by.
-	 *     @string $type Optional. The activity type to filter by.
-	 *     @string $primary_link Optional. The primary URL to filter by.
-	 *     @int $user_id Optional. The user ID to filter by.
-	 *     @int $item_id Optional. The associated item ID to filter by.
-	 *     @int $secondary_item_id Optional. The secondary associated item ID to filter by.
-	 *     @string $date_recorded Optional. The date to filter by.
-	 *     @int $hide_sitewide Optional. Default: false.
+	 *     @int    $id                Optional. The ID of a specific item to delete.
+	 *     @string $action            Optional. The action to filter by.
+	 *     @string $content           Optional. The content to filter by.
+	 *     @string $component         Optional. The component name to filter by.
+	 *     @string $type              Optional. The activity type to filter by.
+	 *     @string $primary_link      Optional. The primary URL to filter by.
+	 *     @int    $user_id           Optional. The user ID to filter by.
+	 *     @int    $item_id           Optional. The associated item ID to filter by.
+	 *     @int    $secondary_item_id Optional. The secondary associated item ID to filter by.
+	 *     @string $date_recorded     Optional. The date to filter by.
+	 *     @int    $hide_sitewide     Optional. Default: false.
 	 * }
+	 *
 	 * @return array|bool An array of deleted activity IDs on success, false on failure.
 	 */
 	public static function delete( $args = array() ) {
@@ -1215,7 +1224,8 @@ class BP_Activity_Activity {
 	 * @deprecated BuddyPress (2.3.0)
 	 *
 	 * @param array $activity_ids Activity IDs whose comments should be deleted.
-	 * @param bool $delete_meta Should we delete the activity meta items for these comments?
+	 * @param bool  $delete_meta  Should we delete the activity meta items for these comments?
+	 *
 	 * @return bool True on success.
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
@@ -1244,6 +1254,7 @@ class BP_Activity_Activity {
 	 * @since BuddyPress (1.2.0)
 	 *
 	 * @param array $activity_ids Activity IDs whose meta should be deleted.
+	 *
 	 * @return bool True on success.
 	 */
 	public static function delete_activity_meta_entries( $activity_ids = array() ) {
@@ -1263,8 +1274,9 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object
 	 *
-	 * @param array $activities Activities to fetch comments for.
-	 * @param bool $spam Optional. 'ham_only' (default), 'spam_only' or 'all'.
+	 * @param array  $activities Activities to fetch comments for.
+	 * @param string $spam       Optional. 'ham_only' (default), 'spam_only' or 'all'.
+	 *
 	 * @return array The updated activities with nested comments.
 	 */
 	public static function append_comments( $activities, $spam = 'ham_only' ) {
@@ -1293,11 +1305,12 @@ class BP_Activity_Activity {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $activity_id Activity ID to fetch comments for.
-	 * @param int $left Left-most node boundary.
-	 * @param into $right Right-most node boundary.
-	 * @param bool $spam Optional. 'ham_only' (default), 'spam_only' or 'all'.
-	 * @param int $top_level_parent_id Optional. The id of the root-level parent activity item.
+	 * @param int    $activity_id         Activity ID to fetch comments for.
+	 * @param int    $left                Left-most node boundary.
+	 * @param int    $right               Right-most node boundary.
+	 * @param string $spam                Optional. 'ham_only' (default), 'spam_only' or 'all'.
+	 * @param int    $top_level_parent_id Optional. The id of the root-level parent activity item.
+	 *
 	 * @return array The updated activities with nested comments.
 	 */
 	public static function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only', $top_level_parent_id = 0 ) {
@@ -1347,9 +1360,9 @@ class BP_Activity_Activity {
 			 *
 			 * @since BuddyPress (2.0.0)
 			 *
-			 * @param bool                 Whether or not to use the legacy query.
-			 * @param BP_Activity_Activity Magic method referring to currently called method.
-			 * @param array $func_args     Array of the method's argument list.
+			 * @param bool                 $value     Whether or not to use the legacy query.
+			 * @param BP_Activity_Activity $value     Magic method referring to currently called method.
+			 * @param array                $func_args Array of the method's argument list.
 			 */
 			if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $func_args ) ) {
 
@@ -1358,11 +1371,11 @@ class BP_Activity_Activity {
 				 *
 				 * @since BuddyPress (1.5.0)
 				 *
-				 * @param string Prepared statement for the activity query.
+				 * @param string $value       Prepared statement for the activity query.
 				 * @param int    $activity_id Activity ID to fetch comments for.
-				 * @param int    $left Left-most node boundary.
-				 * @param int    $right Right-most node boundary.
-				 * @param string $spam_sql SQL Statement portion to differentiate between ham or spam.
+				 * @param int    $left        Left-most node boundary.
+				 * @param int    $right       Right-most node boundary.
+				 * @param string $spam_sql    SQL Statement portion to differentiate between ham or spam.
 				 */
 				$sql = apply_filters( 'bp_activity_comments_user_join_filter', $wpdb->prepare( "SELECT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name{$fullname_select} FROM {$bp->activity->table_name} a, {$wpdb->users} u{$fullname_from} WHERE u.ID = a.user_id {$fullname_where} AND a.type = 'activity_comment' {$spam_sql} AND a.item_id = %d AND a.mptt_left > %d AND a.mptt_left < %d ORDER BY a.date_recorded ASC", $top_level_parent_id, $left, $right ), $activity_id, $left, $right, $spam_sql );
 
@@ -1488,6 +1501,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $parent_id ID of an activity or activity comment.
+	 *
 	 * @return object Numerically indexed array of child comments.
 	 */
 	public static function get_child_comments( $parent_id ) {
@@ -1506,6 +1520,7 @@ class BP_Activity_Activity {
 	 *        'last_activity'. (Since 2.0.0, 'last_activity' is stored in
 	 *        the activity table, but these items are not full-fledged
 	 *        activity items.) Default: true.
+	 *
 	 * @return array List of component names.
 	 */
 	public static function get_recorded_components( $skip_last_activity = true ) {
@@ -1526,6 +1541,7 @@ class BP_Activity_Activity {
 	 * Get sitewide activity items for use in an RSS feed.
 	 *
 	 * @param int $limit Optional. Number of items to fetch. Default: 35.
+	 *
 	 * @return array $activity_feed List of activity items, with RSS data added.
 	 */
 	public static function get_sitewide_items_for_feed( $limit = 35 ) {
@@ -1550,8 +1566,10 @@ class BP_Activity_Activity {
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql()
 	 *
-	 * @param string $field The database field.
+	 * @param string     $field The database field.
 	 * @param array|bool $items The values for the IN clause, or false when none are found.
+	 *
+	 * @return string|bool.
 	 */
 	public static function get_in_operator_sql( $field, $items ) {
 		global $wpdb;
@@ -1586,21 +1604,23 @@ class BP_Activity_Activity {
 	 *
 	 * @param array $filter_array {
 	 *     Fields and values to filter by.
-	 *     @type array|string|id $user_id User ID(s).
-	 *     @type array|string $object Corresponds to the 'component'
-	 *           column in the database.
-	 *     @type array|string $action Corresponds to the 'type' column
-	 *           in the database.
-	 *     @type array|string|int $primary_id Corresponds to the 'item_id'
-	 *           column in the database.
+	 *
+	 *     @type array|string|int $user_id User ID(s).
+	 *     @type array|string     $object       Corresponds to the 'component'
+	 *                                          column in the database.
+	 *     @type array|string     $action       Corresponds to the 'type' column
+	 *                                          in the database.
+	 *     @type array|string|int $primary_id   Corresponds to the 'item_id'
+	 *                                          column in the database.
 	 *     @type array|string|int $secondary_id Corresponds to the
-	 *           'secondary_item_id' column in the database.
-	 *     @type int $offset Return only those items with an ID greater
-	 *           than the offset value.
-	 *     @type string $since Return only those items that have a
-	 *           date_recorded value greater than a given MySQL-formatted
-	 *           date.
+	 *                                          'secondary_item_id' column in the database.
+	 *     @type int              $offset       Return only those items with an ID greater
+	 *                                          than the offset value.
+	 *     @type string           $since        Return only those items that have a
+	 *                                          date_recorded value greater than a
+	 *                                          given MySQL-formatted date.
 	 * }
+	 *
 	 * @return string The filter clause, for use in a SQL query.
 	 */
 	public static function get_filter_sql( $filter_array ) {
@@ -1677,8 +1697,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param int The ID of the user whose favorites you're counting.
-	 * @return int A count of the user's favorites.
+	 * @param int $user_id The ID of the user whose favorites you're counting.
+	 *
+	 * @return int $value A count of the user's favorites.
 	 */
 	public static function total_favorite_count( $user_id ) {
 
@@ -1696,6 +1717,7 @@ class BP_Activity_Activity {
 	 * Check whether an activity item exists with a given string content.
 	 *
 	 * @param string $content The content to filter by.
+	 *
 	 * @return int|bool The ID of the first matching item if found, otherwise false.
 	 */
 	public static function check_exists_by_content( $content ) {
@@ -1710,7 +1732,8 @@ class BP_Activity_Activity {
 	 * Hide all activity for a given user.
 	 *
 	 * @param int $user_id The ID of the user whose activity you want to mark hidden.
-	 * @param int
+	 *
+	 * @return mixed
 	 */
 	public static function hide_all_for_user( $user_id ) {
 		global $wpdb;
@@ -1738,6 +1761,7 @@ class BP_Activity_Activity {
 	 *
 	 * @param  array $base         Array with keys needing to be replaced
 	 * @param  array $replacements Array with the replaced keys
+	 *
 	 * @return array
 	 */
 	protected static function array_replace_recursive( $base = array(), $replacements = array() ) {

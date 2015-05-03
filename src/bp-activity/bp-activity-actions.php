@@ -166,7 +166,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	 * @since BuddyPress (1.5.0)
 	 *
 	 * @param int $activity_id The activity ID.
-	 * @param int $user_id The user associated with the activity.
+	 * @param int $user_id     The user associated with the activity.
 	 */
 	do_action( 'bp_activity_before_action_delete_activity', $activity_id, $activity->user_id );
 
@@ -182,7 +182,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	 * @since BuddyPress (1.1.0)
 	 *
 	 * @param int $activity_id The activity ID.
-	 * @param int $user_id The user associated with the activity.
+	 * @param int $user_id     The user associated with the activity.
 	 */
 	do_action( 'bp_activity_action_delete_activity', $activity_id, $activity->user_id );
 
@@ -200,6 +200,7 @@ add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
  * @since BuddyPress (1.6.0)
  *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
+ *
  * @return bool False on failure.
  */
 function bp_activity_action_spam_activity( $activity_id = 0 ) {
@@ -234,7 +235,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 * @since BuddyPress (1.6.0)
 	 *
 	 * @param int    $activity_id Activity ID to be marked as spam.
-	 * @param object $activity Activity object for the ID to be marked as spam.
+	 * @param object $activity    Activity object for the ID to be marked as spam.
 	 */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
 
@@ -251,7 +252,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 * @since BuddyPress (1.6.0)
 	 *
 	 * @param int $activity_id Activity ID that was marked as spam.
-	 * @param int $user_id User ID associated with activity.
+	 * @param int $user_id     User ID associated with activity.
 	 */
 	do_action( 'bp_activity_action_spam_activity', $activity_id, $activity->user_id );
 
@@ -298,7 +299,7 @@ function bp_activity_action_post_update() {
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $whats-new Activity message being posted.
+	 * @param string $value Activity message being posted.
 	 */
 	$content = apply_filters( 'bp_activity_post_update_content', $_POST['whats-new'] );
 
@@ -309,7 +310,7 @@ function bp_activity_action_post_update() {
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $whats-new-post-object Item type to associate with.
+		 * @param string $value Item type to associate with.
 		 */
 		$object = apply_filters( 'bp_activity_post_update_object', $_POST['whats-new-post-object'] );
 	}
@@ -321,7 +322,7 @@ function bp_activity_action_post_update() {
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $whats-new-post-in Chosen component to post activity to.
+		 * @param string $value Chosen component to post activity to.
 		 */
 		$item_id = apply_filters( 'bp_activity_post_update_item_id', $_POST['whats-new-post-in'] );
 	}
@@ -349,7 +350,7 @@ function bp_activity_action_post_update() {
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $object Activity item being associated to.
+		 * @param string $object  Activity item being associated to.
 		 * @param string $item_id Component ID being posted to.
 		 * @param string $content Activity content being posted.
 		 */
@@ -398,7 +399,7 @@ function bp_activity_action_post_comment() {
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $comment_form_id ID of the activity being replied to.
+	 * @param string $value ID of the activity being replied to.
 	 */
 	$activity_id = apply_filters( 'bp_activity_post_comment_activity_id', $_POST['comment_form_id'] );
 
@@ -407,7 +408,7 @@ function bp_activity_action_post_comment() {
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $ac_input_activity_id Comment content being posted.
+	 * @param string $value Comment content being posted.
 	 */
 	$content = apply_filters( 'bp_activity_post_comment_content', $_POST['ac_input_' . $activity_id] );
 
@@ -728,7 +729,7 @@ function bp_activity_setup_akismet() {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param bool bp_is_akismet_active Return value of bp_is_akismet_active boolean function.
+	 * @param bool $value Return value of bp_is_akismet_active boolean function.
 	 */
 	if ( ! apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) )
 		return;

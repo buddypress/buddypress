@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
  * @uses wp_mail()
  * @uses do_action() To call the 'bp_activity_sent_mention_email' hook
  *
- * @param int $activity_id The ID of the activity update.
+ * @param int $activity_id      The ID of the activity update.
  * @param int $receiver_user_id The ID of the user who is receiving the update.
  */
 function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) {
@@ -113,7 +113,7 @@ To view and respond to the message, log in and visit: %3$s
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $subject Email notification subject text.
+		 * @param string $subject     Email notification subject text.
 		 * @param string $poster_name Name of the person who made the @mention.
 		 */
 		$subject = apply_filters( 'bp_activity_at_message_notification_subject', $subject, $poster_name );
@@ -123,10 +123,10 @@ To view and respond to the message, log in and visit: %3$s
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $message Email notification message text.
-		 * @param string $poster_name Name of the person who made the @mention.
-		 * @param string $content Content of the @mention.
-		 * @param string $message_link URL permalink for the activity message.
+		 * @param string $message       Email notification message text.
+		 * @param string $poster_name   Name of the person who made the @mention.
+		 * @param string $content       Content of the @mention.
+		 * @param string $message_link  URL permalink for the activity message.
 		 * @param string $settings_link URL permalink for the user's notification settings area.
 		 */
 		$message = apply_filters( 'bp_activity_at_message_notification_message', $message, $poster_name, $content, $message_link, $settings_link );
@@ -139,10 +139,10 @@ To view and respond to the message, log in and visit: %3$s
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param BP_Activity_Activity $activity Activity Item object.
-	 * @param string               $subject Email notification subject text.
-	 * @param string               $message Email notification message text.
-	 * @param string               $content Content of the @mention.
+	 * @param BP_Activity_Activity $activity         Activity Item object.
+	 * @param string               $subject          Email notification subject text.
+	 * @param string               $message          Email notification message text.
+	 * @param string               $content          Content of the @mention.
 	 * @param int                  $receiver_user_id The ID of the user who is receiving the update.
 	 */
 	do_action( 'bp_activity_sent_mention_email', $activity, $subject, $message, $content, $receiver_user_id );
@@ -173,9 +173,11 @@ To view and respond to the message, log in and visit: %3$s
  * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_message' hook
  * @uses do_action() To call the 'bp_activity_sent_reply_to_reply_email' hook
  *
- * @param int $comment_id The comment id.
- * @param int $commenter_id The ID of the user who posted the comment.
- * @param array $params {@link bp_activity_new_comment()}
+ * @param int   $comment_id   The comment id.
+ * @param int   $commenter_id The ID of the user who posted the comment.
+ * @param array $params       {@link bp_activity_new_comment()}
+ *
+ * @return bool
  */
 function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 0, $params = array() ) {
 
@@ -229,7 +231,7 @@ To view your original update and all comments, log in and visit: %3$s
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $subject Email notification subject text.
+		 * @param string $subject     Email notification subject text.
 		 * @param string $poster_name Name of the person who made the comment.
 		 */
 		$subject = apply_filters( 'bp_activity_new_comment_notification_subject', $subject, $poster_name );
@@ -239,10 +241,10 @@ To view your original update and all comments, log in and visit: %3$s
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $message Email notification message text.
-		 * @param string $poster_name Name of the person who made the comment.
-		 * @param string $content Content of the comment.
-		 * @param string $thread_link URL permalink for the activity thread.
+		 * @param string $message       Email notification message text.
+		 * @param string $poster_name   Name of the person who made the comment.
+		 * @param string $content       Content of the comment.
+		 * @param string $thread_link   URL permalink for the activity thread.
 		 * @param string $settings_link URL permalink for the user's notification settings area.
 		 */
 		$message = apply_filters( 'bp_activity_new_comment_notification_message', $message, $poster_name, $content, $thread_link, $settings_link );
@@ -254,12 +256,12 @@ To view your original update and all comments, log in and visit: %3$s
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param int    $user_id ID of the original activity item author.
-		 * @param string $subject Email notification subject text.
-		 * @param string $message Email notification message text.
-		 * @param int    $comment_id ID for the newly received comment.
+		 * @param int    $user_id      ID of the original activity item author.
+		 * @param string $subject      Email notification subject text.
+		 * @param string $message      Email notification message text.
+		 * @param int    $comment_id   ID for the newly received comment.
 		 * @param int    $commenter_id ID of the user who made the comment.
-		 * @param array  $params Arguments used with the original activity comment.
+		 * @param array  $params       Arguments used with the original activity comment.
 		 */
 		do_action( 'bp_activity_sent_reply_to_update_email', $original_activity->user_id, $subject, $message, $comment_id, $commenter_id, $params );
 	}
@@ -317,7 +319,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $subject Email notification subject text.
+		 * @param string $subject     Email notification subject text.
 		 * @param string $poster_name Name of the person who made the comment reply.
 		 */
 		$subject = apply_filters( 'bp_activity_new_comment_notification_comment_author_subject', $subject, $poster_name );
@@ -327,11 +329,11 @@ To view the original activity, your comment and all replies, log in and visit: %
 		 *
 		 * @since BuddyPress (1.2.0)
 		 *
-		 * @param string $message Email notification message text.
-		 * @param string $poster_name Name of the person who made the comment reply.
-		 * @param string $content Content of the comment reply.
+		 * @param string $message       Email notification message text.
+		 * @param string $poster_name   Name of the person who made the comment reply.
+		 * @param string $content       Content of the comment reply.
 		 * @param string $settings_link URL permalink for the user's notification settings area.
-		 * @param string $thread_link URL permalink for the activity thread.
+		 * @param string $thread_link   URL permalink for the activity thread.
 		 */
 		$message = apply_filters( 'bp_activity_new_comment_notification_comment_author_message', $message, $poster_name, $content, $settings_link, $thread_link );
 
@@ -342,12 +344,12 @@ To view the original activity, your comment and all replies, log in and visit: %
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param int    $user_id ID of the parent activity item author.
-		 * @param string $subject Email notification subject text.
-		 * @param string $message Email notification message text.
-		 * @param int    $comment_id ID for the newly received comment.
+		 * @param int    $user_id      ID of the parent activity item author.
+		 * @param string $subject      Email notification subject text.
+		 * @param string $message      Email notification message text.
+		 * @param int    $comment_id   ID for the newly received comment.
 		 * @param int    $commenter_id ID of the user who made the comment.
-		 * @param array  $params Arguments used with the original activity comment.
+		 * @param array  $params       Arguments used with the original activity comment.
 		 */
 		do_action( 'bp_activity_sent_reply_to_reply_email', $parent_comment->user_id, $subject, $message, $comment_id, $commenter_id, $params );
 	}
@@ -357,7 +359,8 @@ To view the original activity, your comment and all replies, log in and visit: %
  * Helper method to map action arguments to function parameters
  *
  * @since BuddyPress (1.9.0)
- * @param int $comment_id
+ *
+ * @param int   $comment_id
  * @param array $params
  */
 function bp_activity_new_comment_notification_helper( $comment_id, $params ) {
@@ -379,11 +382,12 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
  * @uses apply_filters() To call the 'bp_activity_single_at_mentions_notification' hook.
  * @uses do_action() To call 'activity_format_notifications' hook.
  *
- * @param string $action The type of activity item. Just 'new_at_mention' for now.
- * @param int $item_id The activity ID.
- * @param int $secondary_item_id In the case of at-mentions, this is the mentioner's ID.
- * @param int $total_items The total number of notifications to format.
- * @param string $format 'string' to get a BuddyBar-compatible notification, 'array' otherwise.
+ * @param string $action            The type of activity item. Just 'new_at_mention' for now.
+ * @param int    $item_id           The activity ID.
+ * @param int    $secondary_item_id In the case of at-mentions, this is the mentioner's ID.
+ * @param int    $total_items       The total number of notifications to format.
+ * @param string $format            'string' to get a BuddyBar-compatible notification, 'array' otherwise.
+ *
  * @return string $return Formatted @mention notification.
  */
 function bp_activity_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
@@ -417,11 +421,11 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param string $string HTML anchor tag for the mention.
+		 * @param string $string          HTML anchor tag for the mention.
 		 * @param string $at_mention_link The permalink for the mention.
-		 * @param int    $total_items How many items being notified about.
-		 * @param int    $activity_id ID of the activity item being formatted.
-		 * @param int    $poster_user_id ID of the user posting the mention.
+		 * @param int    $total_items     How many items being notified about.
+		 * @param int    $activity_id     ID of the activity item being formatted.
+		 * @param int    $poster_user_id  ID of the user posting the mention.
 		 */
 		$return = apply_filters( 'bp_activity_' . $amount . '_at_mentions_notification', '<a href="' . esc_url( $at_mention_link ) . '" title="' . esc_attr( $at_mention_title ) . '">' . esc_html( $text ) . '</a>', $at_mention_link, (int) $total_items, $activity_id, $poster_user_id );
 	} else {
@@ -435,11 +439,11 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param array  $array Array holding the content and permalink for the mention notification.
+		 * @param array  $array           Array holding the content and permalink for the mention notification.
 		 * @param string $at_mention_link The permalink for the mention.
-		 * @param int    $total_items How many items being notified about.
-		 * @param int    $activity_id ID of the activity item being formatted.
-		 * @param int    $poster_user_id ID of the user posting the mention.
+		 * @param int    $total_items     How many items being notified about.
+		 * @param int    $activity_id     ID of the activity item being formatted.
+		 * @param int    $poster_user_id  ID of the user posting the mention.
 		 */
 		$return = apply_filters( 'bp_activity_' . $amount . '_at_mentions_notification', array(
 			'text' => $text,
@@ -452,10 +456,10 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $action The type of activity item.
-	 * @param int    $item_id The activity ID.
+	 * @param string $action            The type of activity item.
+	 * @param int    $item_id           The activity ID.
 	 * @param int    $secondary_item_id @mention mentioner ID.
-	 * @param int    $total_items Total amount of items to format.
+	 * @param int    $total_items       Total amount of items to format.
 	 */
 	do_action( 'activity_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 
@@ -472,11 +476,11 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
  *
  * @since BuddyPress (1.9.0)
  *
- * @param obj $activity
+ * @param object $activity
  * @param string $subject (not used)
  * @param string $message (not used)
  * @param string $content (not used)
- * @param int $receiver_user_id
+ * @param int    $receiver_user_id
  */
 function bp_activity_at_mention_add_notification( $activity, $subject, $message, $content, $receiver_user_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -518,6 +522,8 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_remove_screen_notificati
  * Mark at-mention notification as read when user visits the activity with the mention.
  *
  * @since BuddyPress (2.0.0)
+ *
+ * @param object BP_Activity_Activity
  */
 function bp_activity_remove_screen_notifications_single_activity_permalink( $activity ) {
 	if ( ! bp_is_active( 'notifications' ) ) {

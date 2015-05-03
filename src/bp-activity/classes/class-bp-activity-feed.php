@@ -17,23 +17,23 @@ defined( 'ABSPATH' ) || exit;
  *
  * See {@link bp_activity_action_sitewide_feed()} as an example.
  *
- * Accepted parameters:
- *   id	              - internal id for the feed; should be alphanumeric only
- *                      (required)
- *   title            - RSS feed title
- *   link             - Relevant link for the RSS feed
- *   description      - RSS feed description
- *   ttl              - Time-to-live (see inline doc in constructor)
- *   update_period    - Part of the syndication module (see inline doc in
- *                      constructor for more info)
- *   update_frequency - Part of the syndication module (see inline doc in
- *                      constructor for more info)
- *   max              - Number of feed items to display
- *   activity_args    - Arguments passed to {@link bp_has_activities()}
- *
+ * @param array $args {
+ *   @type string $id	            Required. Internal id for the feed; should be alphanumeric only.
+ *   @type string $title            Optional. RSS feed title.
+ *   @type string $link             Optional. Relevant link for the RSS feed.
+ *   @type string $description      Optional. RSS feed description.
+ *   @type string $ttl              Optional. Time-to-live. (see inline doc in constructor)
+ *   @type string $update_period    Optional. Part of the syndication module.
+ *                                            (see inline doc in constructor for more info)
+ *   @type string $update_frequency Optional. Part of the syndication module.
+ *                                            (see inline doc in constructor for more info)
+ *   @type string $max              Optional. Number of feed items to display.
+ *   @type array  $activity_args    Optional. Arguments passed to {@link bp_has_activities()}
+ * }
  * @since BuddyPress (1.8.0)
  */
 class BP_Activity_Feed {
+
 	/**
 	 * Holds our custom class properties.
 	 *
@@ -49,6 +49,8 @@ class BP_Activity_Feed {
 	 * Magic method for checking the existence of a certain data variable.
 	 *
 	 * @param string $key
+	 *
+	 * @return bool Whether or not data variable exists.
 	 */
 	public function __isset( $key ) { return isset( $this->data[$key] ); }
 
@@ -56,6 +58,8 @@ class BP_Activity_Feed {
 	 * Magic method for getting a certain data variable.
 	 *
 	 * @param string $key
+	 *
+	 * @return mixed Data in variable if available or null.
 	 */
 	public function __get( $key ) { return isset( $this->data[$key] ) ? $this->data[$key] : null; }
 
@@ -123,7 +127,7 @@ class BP_Activity_Feed {
 		 *
 		 * @since BuddyPress (1.8.0)
 		 *
-		 * @param BP_Activity_Feed Reference to current instance of activity feed.
+		 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_feed_prefetch', array( &$this ) );
 
@@ -141,7 +145,7 @@ class BP_Activity_Feed {
 		 *
 		 * @since BuddyPress (1.8.0)
 		 *
-		 * @param BP_Activity_Feed Reference to current instance of activity feed.
+		 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_feed_postfetch', array( &$this ) );
 

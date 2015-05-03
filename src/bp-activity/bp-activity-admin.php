@@ -52,6 +52,7 @@ add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );
  * @since BuddyPress (1.7.0)
  *
  * @param array $custom_menus The list of top-level BP menu items.
+ *
  * @return array $custom_menus List of top-level BP menu items, with Activity added
  */
 function bp_activity_admin_menu_order( $custom_menus = array() ) {
@@ -138,10 +139,10 @@ add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
  *
  * @since BuddyPress (1.6.0)
  *
- * @param string $value Will always be false unless another plugin filters it
- *        first.
- * @param string $option Screen option name.
+ * @param string $value     Will always be false unless another plugin filters it first.
+ * @param string $option    Screen option name.
  * @param string $new_value Screen option form value.
+ *
  * @return string Option value. False to abandon update.
  */
 function bp_activity_admin_screen_options( $value, $option, $new_value ) {
@@ -161,7 +162,9 @@ function bp_activity_admin_screen_options( $value, $option, $new_value ) {
  *
  * @since BuddyPress (1.6.0)
  *
+ * @param array     $hidden Array of items to hide.
  * @param WP_Screen $screen Screen identifier.
+ *
  * @return array Hidden Meta Boxes.
  */
 function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
@@ -193,7 +196,7 @@ add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxe
  *
  * @since BuddyPress (1.6.0)
  *
- * @global object $bp BuddyPress global settings.
+ * @global object                 $bp                     BuddyPress global settings.
  * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table.
  */
 function bp_activity_admin_load() {
@@ -411,8 +414,8 @@ function bp_activity_admin_load() {
 		 *
 		 * @since BuddyPress (1.6.0)
 		 *
-		 * @param array  Array holding spam, not spam, deleted counts, error IDs.
-		 * @param string $redirect_to URL to redirect to.
+		 * @param array  $value        Array holding spam, not spam, deleted counts, error IDs.
+		 * @param string $redirect_to  URL to redirect to.
 		 * @param array  $activity_ids Original array of activity IDs.
 		 */
 		do_action( 'bp_activity_admin_action_after', array( $spammed, $unspammed, $deleted, $errors ), $redirect_to, $activity_ids );
@@ -639,7 +642,7 @@ function bp_activity_admin_edit() {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param array Array holding single activity object.
+	 * @param array $value Array holding single activity object that was passed by reference.
 	 */
 	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) ); ?>
 
@@ -888,9 +891,8 @@ function bp_activity_admin_edit_metabox_itemids( $item ) {
  *
  * @since BuddyPress (1.6.0)
  *
- * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list
- *         table.
- * @global string $plugin_page The current plugin page.
+ * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table.
+ * @global string                 $plugin_page            The current plugin page.
  */
 function bp_activity_admin_index() {
 	global $bp_activity_list_table, $plugin_page;
@@ -1288,7 +1290,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			 * @since BuddyPress (1.6.0)
 			 *
 			 * @param string $url_base Current URL base for view.
-			 * @param string $view Current view being displayed.
+			 * @param string $view     Current view being displayed.
 			 */
 			do_action( 'bp_activity_list_table_get_views', $url_base, $this->view ); ?>
 		</ul>
@@ -1521,7 +1523,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 * @since BuddyPress (1.6.0)
 		 *
 		 * @param array $actions Array of available actions user could use.
-		 * @param array $item Current item being added to page.
+		 * @param array $item    Current item being added to page.
 		 */
 		$actions = apply_filters( 'bp_activity_admin_comment_row_actions', array_filter( $actions ), $item );
 
@@ -1573,8 +1575,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @since BuddyPress (1.6.0)
 		 *
-		 * @param array Array of default activity types.
-		 * @param array $item Current item being displayed.
+		 * @param array $value Array of default activity types.
+		 * @param array $item  Current item being displayed.
 		 */
 		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ) ) ) {
 			$comment_count     = !empty( $item['children'] ) ? bp_activity_recurse_comment_count( (object) $item ) : 0;
@@ -1605,6 +1607,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.6.0)
 	 *
 	 * @param int $activity_id Activity ID to retrieve User ID for.
+	 *
 	 * @return int User ID of the activity item in question.
 	 */
 	protected function get_activity_user_id( $activity_id ) {
@@ -1645,6 +1648,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $item An array version of the BP_Activity_Activity object.
+	 *
 	 * @return bool
 	 */
 	protected function can_comment( $item  ) {
@@ -1709,6 +1713,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since BuddyPress (1.6.0)
 	 *
 	 * @param array $tree Source array.
+	 *
 	 * @return array Flattened array.
 	 */
 	public static function flatten_activity_array( $tree ){
