@@ -664,7 +664,7 @@ class BP_Akismet {
 }
 
 /**
- * Delete old spam activity meta data
+ * Delete old spam activity meta data.
  *
  * This is done as a clean-up mechanism, as _bp_akismet_submission meta can
  * grow to be quite large.

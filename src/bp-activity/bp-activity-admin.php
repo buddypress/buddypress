@@ -53,7 +53,7 @@ add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );
  *
  * @param array $custom_menus The list of top-level BP menu items.
  *
- * @return array $custom_menus List of top-level BP menu items, with Activity added
+ * @return array $custom_menus List of top-level BP menu items, with Activity added.
  */
 function bp_activity_admin_menu_order( $custom_menus = array() ) {
 	array_push( $custom_menus, 'bp-activity' );
@@ -191,8 +191,8 @@ add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxe
  *
  * Does the following:
  *   - Register contextual help and screen options for this admin page.
- *   - Enqueues scripts and styles
- *   - Catches POST and GET requests related to Activity
+ *   - Enqueues scripts and styles.
+ *   - Catches POST and GET requests related to Activity.
  *
  * @since BuddyPress (1.6.0)
  *
@@ -819,7 +819,7 @@ function bp_activity_admin_get_activity_actions() {
 }
 
 /**
- * Activity type metabox for the Activity admin edit screen
+ * Activity type metabox for the Activity admin edit screen.
  *
  * @since BuddyPress (1.6.0)
  *
@@ -1054,7 +1054,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	protected $activity_user_id = array();
 
 	/**
-	 * If users can comment on blog & forum activity items
+	 * If users can comment on blog & forum activity items.
 	 *
 	 * @since BuddyPress (2.2.2)
 	 *
@@ -1641,7 +1641,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * Checks if an activity item can be replied to.
 	 *
 	 * This method merges functionality from {@link bp_activity_can_comment()} and
-	 * {@link bp_blogs_disable_activity_commenting()}.  This is done because the activity
+	 * {@link bp_blogs_disable_activity_commenting()}. This is done because the activity
 	 * list table doesn't use a BuddyPress activity loop, which prevents those
 	 * functions from working as intended.
 	 *

@@ -40,7 +40,7 @@ class BP_Activity_Feed {
 	 * These variables are stored in a protected array that is magically
 	 * updated using PHP 5.2+ methods.
 	 *
-	 * @see BP_Feed::__construct() This is where $data is added
+	 * @see BP_Feed::__construct() This is where $data is added.
 	 * @var array
 	 */
 	protected $data;
@@ -66,7 +66,7 @@ class BP_Activity_Feed {
 	/**
 	 * Constructor.
 	 *
-	 * @param array $args Optional
+	 * @param array $args Optional.
 	 */
 	public function __construct( $args = array() ) {
 

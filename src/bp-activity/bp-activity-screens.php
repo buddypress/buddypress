@@ -121,9 +121,9 @@ function bp_activity_screen_friends() {
  * @uses bp_is_active()
  * @uses bp_update_is_item_admin()
  * @uses bp_current_user_can()
- * @uses do_action() To call the 'bp_activity_screen_groups' hook
+ * @uses do_action() To call the 'bp_activity_screen_groups' hook.
  * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_groups_activity' hook
+ * @uses apply_filters() To call the 'bp_activity_template_groups_activity' hook.
  */
 function bp_activity_screen_groups() {
 	if ( !bp_is_active( 'groups' ) )
@@ -155,9 +155,9 @@ function bp_activity_screen_groups() {
  *
  * @uses bp_update_is_item_admin()
  * @uses bp_current_user_can()
- * @uses do_action() To call the 'bp_activity_screen_favorites' hook
+ * @uses do_action() To call the 'bp_activity_screen_favorites' hook.
  * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_favorite_activity' hook
+ * @uses apply_filters() To call the 'bp_activity_template_favorite_activity' hook.
  */
 function bp_activity_screen_favorites() {
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
@@ -186,9 +186,9 @@ function bp_activity_screen_favorites() {
  *
  * @uses bp_update_is_item_admin()
  * @uses bp_current_user_can()
- * @uses do_action() To call the 'bp_activity_screen_mentions' hook
+ * @uses do_action() To call the 'bp_activity_screen_mentions' hook.
  * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_mention_activity' hook
+ * @uses apply_filters() To call the 'bp_activity_template_mention_activity' hook.
  */
 function bp_activity_screen_mentions() {
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
@@ -238,8 +238,8 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
  * @uses bp_is_active()
  * @uses groups_get_group()
  * @uses groups_is_user_member()
- * @uses apply_filters_ref_array() To call the 'bp_activity_permalink_access' hook
- * @uses do_action() To call the 'bp_activity_screen_single_activity_permalink' hook
+ * @uses apply_filters_ref_array() To call the 'bp_activity_permalink_access' hook.
+ * @uses do_action() To call the 'bp_activity_screen_single_activity_permalink' hook.
  * @uses bp_core_add_message()
  * @uses is_user_logged_in()
  * @uses bp_core_redirect()
@@ -248,7 +248,7 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
  * @uses bp_get_root_domain()
  * @uses bp_get_activity_root_slug()
  * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_profile_activity_permalink' hook
+ * @uses apply_filters() To call the 'bp_activity_template_profile_activity_permalink' hook.
  */
 function bp_activity_screen_single_activity_permalink() {
 	$bp = buddypress();

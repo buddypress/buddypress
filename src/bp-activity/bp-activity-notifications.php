@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
  * @uses apply_filters() To call the 'bp_activity_at_message_notification_subject' hook.
  * @uses apply_filters() To call the 'bp_activity_at_message_notification_message' hook.
  * @uses wp_mail()
- * @uses do_action() To call the 'bp_activity_sent_mention_email' hook
+ * @uses do_action() To call the 'bp_activity_sent_mention_email' hook.
  *
  * @param int $activity_id      The ID of the activity update.
  * @param int $receiver_user_id The ID of the user who is receiving the update.
@@ -163,15 +163,15 @@ To view and respond to the message, log in and visit: %3$s
  * @uses wp_specialchars_decode()
  * @uses get_blog_option()
  * @uses bp_get_root_blog_id()
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_to' hook
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_subject' hook
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_message' hook
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_to' hook.
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_subject' hook.
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_message' hook.
  * @uses wp_mail()
- * @uses do_action() To call the 'bp_activity_sent_reply_to_update_email' hook
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_to' hook
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_subject' hook
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_message' hook
- * @uses do_action() To call the 'bp_activity_sent_reply_to_reply_email' hook
+ * @uses do_action() To call the 'bp_activity_sent_reply_to_update_email' hook.
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_to' hook.
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_subject' hook.
+ * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_message' hook.
+ * @uses do_action() To call the 'bp_activity_sent_reply_to_reply_email' hook.
  *
  * @param int   $comment_id   The comment id.
  * @param int   $commenter_id The ID of the user who posted the comment.
@@ -356,7 +356,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 }
 
 /**
- * Helper method to map action arguments to function parameters
+ * Helper method to map action arguments to function parameters.
  *
  * @since BuddyPress (1.9.0)
  *

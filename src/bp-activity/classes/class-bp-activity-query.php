@@ -66,7 +66,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *         @type string $value    Required. Value to filter by.
 	 *         @type string $compare  Optional. The comparison operator. Default '='.
 	 *                                Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'LIKE',
-	 *                                'NOT LIKE', BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', 'RLIKE'
+	 *                                'NOT LIKE', BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', 'RLIKE'.
 	 *         @type string $relation Optional. The boolean relationship between the activity queries.
 	 *                                Accepts 'OR', 'AND'. Default 'AND'.
 	 *         @type array {

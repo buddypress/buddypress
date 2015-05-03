@@ -210,7 +210,7 @@ function bp_activity_filter_kses( $content ) {
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param array Array of allowed HTML tags and attributes.
+	 * @param array $value Array of allowed HTML tags and attributes.
 	 */
 	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
 	return wp_kses( $content, $activity_allowedtags );
@@ -320,7 +320,7 @@ function bp_activity_at_name_filter_updates( $activity ) {
  * @uses bp_activity_at_message_notification()
  * @uses bp_activity_update_mention_count_for_user()
  *
- * @param BP_Activity_Activity $activity The BP_Activity_Activity object
+ * @param BP_Activity_Activity $activity The BP_Activity_Activity object.
  */
 function bp_activity_at_name_send_emails( $activity ) {
 	// Are mentions disabled?
@@ -378,7 +378,7 @@ function bp_activity_make_nofollow_filter( $text ) {
 	 *
 	 * @param array $matches Items matched by preg_replace_callback() in bp_activity_make_nofollow_filter().
 	 *
-	 * @return string $text Link with rel=nofollow added
+	 * @return string $text Link with rel=nofollow added.
 	 */
 	function bp_activity_make_nofollow_filter_callback( $matches ) {
 		$text = $matches[1];
@@ -430,7 +430,7 @@ function bp_activity_truncate_entry( $text ) {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param string $read_more Internationalized "Read more" text.
+	 * @param string $value Internationalized "Read more" text.
 	 */
 	$append_text    = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
 
@@ -439,7 +439,7 @@ function bp_activity_truncate_entry( $text ) {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param int $excerpt_length Number indicating how many words to trim the excerpt down to.
+	 * @param int $value Number indicating how many words to trim the excerpt down to.
 	 */
 	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
 
@@ -543,7 +543,7 @@ add_filter( 'bp_get_activity_css_class', 'bp_activity_timestamp_class', 9, 1 );
  *
  * @since BuddyPress (2.0.0)
  *
- * @uses bp_activity_get_last_updated() to get the recorded date of the last activity
+ * @uses bp_activity_get_last_updated() to get the recorded date of the last activity.
  *
  * @param array $response
  * @param array $data
@@ -625,7 +625,7 @@ function bp_activity_heartbeat_strings( $strings = array() ) {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $settings Heartbeat settings array.
+	 * @param array $value Heartbeat settings array.
 	 */
 	$heartbeat_settings = apply_filters( 'heartbeat_settings', array() );
 	if ( ! empty( $heartbeat_settings['interval'] ) ) {
@@ -638,7 +638,7 @@ function bp_activity_heartbeat_strings( $strings = array() ) {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param int $frequency The frequency in seconds between pulses.
+	 * @param int $value The frequency in seconds between pulses.
 	 */
 	$bp_activity_pulse = apply_filters( 'bp_activity_heartbeat_pulse', 15 );
 

@@ -28,10 +28,10 @@ function bp_activity_has_directory() {
  *
  * The Mentions feature does a number of things, all of which will be turned
  * off if you disable mentions:
- *   - Detecting and auto-linking @username in all BP/WP content
+ *   - Detecting and auto-linking @username in all BP/WP content.
  *   - Sending BP notifications and emails to users when they are mentioned
- *     using the @username syntax
- *   - The Public Message button on user profiles
+ *     using the @username syntax.
+ *   - The Public Message button on user profiles.
  *
  * Mentions are enabled by default. To disable, put the following line in
  * bp-custom.php or your theme's functions.php file:
@@ -269,6 +269,8 @@ function bp_activity_get_user_mentionname( $user_id ) {
  *
  * @since BuddyPress (1.9.0)
  *
+ * @param string $mentionname Username of user in @-mentions.
+ *
  * @return int|bool ID of the user, if one is found. Otherwise false.
  */
 function bp_activity_get_userid_from_mentionname( $mentionname ) {
@@ -328,7 +330,7 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
  * @param  callable|bool $format_callback Callback for formatting the action string.
  * @param  string|bool   $label           String to describe this action in the activity stream filter dropdown.
  * @param  array         $context         Optional. Activity stream contexts where the filter should appear.
- *                                        Values: 'activity', 'member', 'member_groups', 'group'
+ *                                        Values: 'activity', 'member', 'member_groups', 'group'.
  * @param  int           $position        Optional. The position of the action when listed in dropdowns.
  *
  * @return bool False if any param is empty, otherwise true.
@@ -406,7 +408,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
  *     @type callable $format_callback          Callback for formatting the activity action string.
  *                                              Default: 'bp_activity_format_activity_action_custom_post_type_post'.
  *     @type array    $contexts                 The directory contexts in which the filter will show.
- *                                              Default: array( 'activity' ),
+ *                                              Default: array( 'activity' ).
  *     @type array    $position                 Position of the item in filter dropdowns.
  *     @type string   $singular                 Singular, translatable name of the post type item. If no value is
  *                                              provided, it's pulled from the 'singular_name' of the post type.
@@ -543,7 +545,7 @@ function bp_activity_get_post_types_tracking_args() {
  *
  * @since BuddyPress (2.2.0)
  *
- * @return object actions ordered by their position
+ * @return object Actions ordered by their position.
  */
 function bp_activity_get_actions() {
 	$bp = buddypress();
@@ -1232,7 +1234,7 @@ function bp_activity_ham_all_user_data( $user_id = 0 ) {
 add_action( 'bp_make_ham_user', 'bp_activity_ham_all_user_data' );
 
 /**
- * Register the activity stream actions for updates
+ * Register the activity stream actions for updates.
  *
  * @since BuddyPress (1.6.0)
  */
@@ -1544,9 +1546,9 @@ function bp_activity_get( $args = '' ) {
  *
  * @since BuddyPress (1.2.0)
  *
- * @see BP_Activity_Activity::get() For more information on accepted arguments
+ * @see BP_Activity_Activity::get() For more information on accepted arguments.
  * @uses wp_parse_args()
- * @uses apply_filters() To call the 'bp_activity_get_specific' hook
+ * @uses apply_filters() To call the 'bp_activity_get_specific' hook.
  * @uses BP_Activity_Activity::get() {@link BP_Activity_Activity}
  *
  * @param array|string $args {
@@ -1604,7 +1606,7 @@ function bp_activity_get_specific( $args = '' ) {
  * @uses BP_Activity_Activity::save() {@link BP_Activity_Activity}
  * @uses BP_Activity_Activity::rebuild_activity_comment_tree() {@link BP_Activity_Activity}
  * @uses wp_cache_delete()
- * @uses do_action() To call the 'bp_activity_add' hook
+ * @uses do_action() To call the 'bp_activity_add' hook.
  *
  * @param array|string $args {
  *     An array of arguments.
@@ -1727,7 +1729,7 @@ function bp_activity_add( $args = '' ) {
  *     @type string $content The content of the activity update.
  *     @type int    $user_id Optional. Defaults to the logged-in user.
  * }
- * @return int $activity_id The activity id
+ * @return int $activity_id The activity id.
  */
 function bp_activity_post_update( $args = '' ) {
 
@@ -2446,7 +2448,7 @@ function bp_activity_delete( $args = '' ) {
  *                         oldest ancestor.
  * @param int $comment_id  The ID of the comment to be deleted.
  *
- * @return bool True on success, false on failure
+ * @return bool True on success, false on failure.
  */
 function bp_activity_delete_comment( $activity_id, $comment_id ) {
 
@@ -2617,7 +2619,7 @@ function bp_activity_hide_user_activity( $user_id ) {
  * @since BuddyPress (1.2.0)
  *
  * @uses esc_attr()
- * @uses apply_filters() To call the 'bp_activity_thumbnail_content_images' hook
+ * @uses apply_filters() To call the 'bp_activity_thumbnail_content_images' hook.
  *
  * @param string      $content The content of the activity item.
  * @param string|bool $link    Optional. The unescaped URL that the image should link
@@ -2626,7 +2628,7 @@ function bp_activity_hide_user_activity( $user_id ) {
  *                             creation function (eg bp_blogs_record_activity()).
  *
  * @return string $content The content with images stripped and replaced with a
- *         single thumb.
+ *                         single thumb.
  */
 function bp_activity_thumbnail_content_images( $content, $link = false, $args = false ) {
 
@@ -2978,6 +2980,7 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
  * @see BP_Embed
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
+ *
  * @uses add_filter() To attach 'bp_get_activity_id' to 'embed_post_id'.
  * @uses add_filter() To attach 'bp_embed_activity_cache' to 'bp_embed_get_cache'.
  * @uses add_action() To attach 'bp_embed_activity_save_cache' to 'bp_embed_update_cache'.
@@ -3002,6 +3005,7 @@ add_action( 'activity_loop_start', 'bp_activity_embed' );
  * @see BP_Embed
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
+ *
  * @uses add_filter() To attach 'bp_get_activity_comment_id' to 'embed_post_id'.
  * @uses add_filter() To attach 'bp_embed_activity_cache' to 'bp_embed_get_cache'.
  * @uses add_action() To attach 'bp_embed_activity_save_cache' to 'bp_embed_update_cache'.

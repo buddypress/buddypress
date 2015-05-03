@@ -130,10 +130,8 @@ class BP_Activity_Component extends BP_Component {
 	 * @uses bp_get_friends_slug()
 	 * @uses bp_get_groups_slug()
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
-	 *                        description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
-	 *                        description.
+	 * @param array $main_nav Optional. See BP_Component::setup_nav() for description.
+	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -369,7 +367,7 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup cache groups
+	 * Setup cache groups.
 	 *
 	 * @since BuddyPress (2.2.0)
 	 */
