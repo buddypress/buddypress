@@ -1281,6 +1281,9 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	margin: 10px 60px 0 0;
 	width: 50%;
 }
+#buddypress ul.item-list li.group-no-avatar div.item-desc {
+	margin-right: 0;
+}
 #buddypress ul.item-list li div.action {
 	position: absolute;
 	top: 15px;
