@@ -43,5 +43,10 @@ echo "Installing BuddyPress...\n";
 $wpdb->query( 'SET storage_engine = INNODB' );
 $wpdb->select( DB_NAME, $wpdb->dbh );
 
+// Drop BuddyPress tables.
+foreach ( $wpdb->get_col( "SHOW TABLES LIKE '" . $wpdb->prefix . "bp%'" ) as $bp_table ) {
+	$wpdb->query( "DROP TABLE {$bp_table}" );
+}
+
 // Install BuddyPress
 bp_version_updater();
