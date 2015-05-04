@@ -236,6 +236,16 @@ to maintain uniformity.
 
 		ul {border-bottom: 1px solid $border-med;}
 
+		@media screen and (max-width: 400px) {
+			ul {
+				li {
+					float: none;
+					overflow: hidden;
+					width: 100%;
+				}
+			}
+		}
+
 		@media screen and (min-width: 783px) {
 			ul {
 
@@ -541,22 +551,164 @@ $nav-background-border: #bebebe;
 	form#whats-new-form {
 		margin: $spacing-val-lg 0;
 
+		#whats-new-avatar {
+			float: none;
+			margin-bottom: $spacing-val-md;
+			text-align: center;
+		}
+
+		#whats-new-content,
+		p.activity-greeting {
+			margin-left: 0;
+			padding-left: 0;
+		}
+
 		// Line-height issue inherited from BP rules, override.
 		p.activity-greeting {
+			clear: left;
 			line-height: inherit;
+			margin-bottom: $spacing-val-xs;
 		}
 
 		textarea#whats-new {
 			width: 100%;
 		}
-	}
-}
+
+		#whats-new-content.active {
+			textarea {
+				// !important to override the BP inline fixed height
+				height: auto !important;
+			}
+
+			#whats-new-options {
+				// Have to override the BP fixed height
+				height: auto !important;
+			}
+
+			@media screen and (max-width: 594px) {
+				#whats-new-options {
+					display: flex;
+					flex-direction: column;
+
+					#whats-new-submit {
+						order: 2;
+
+						input {
+							width: 100%;
+						}
+					}
+
+					#whats-new-post-in-box {
+						order: 1;
+
+						select {
+							margin-top: $spacing-val-xs;
+							max-width: 100%;
+							width: 100%;
+						}
+					}
+				}
+			}
+		} // close whats-new-content.active
+
+		@media screen and (min-width: 594px) {
+			#whats-new-avatar {
+				float: left;
+			}
+
+			#whats-new-content,
+			p.activity-greeting {
+				clear: none;
+				overflow: hidden;
+				padding-left: $spacing-val-md;
+			}
+		}
+	} // close form#whats-new-form
+
+} // close #buddypress
 
 /**
 *-------------------------------------------------
 * @subsection 4.1.2 - Activity Listing
 *-------------------------------------------------
 */
+
+#buddypress {
+	.activity-list {
+
+		li.activity-item:not(.mini) {
+			.activity-avatar {
+				float: none;
+				margin-bottom: $spacing-val-sm;
+				text-align: center;
+
+				img.avatar {
+					display: inline;
+					float: none;
+				}
+			}
+		}
+
+		li.mini {
+			.activity-avatar {
+				img.avatar {
+					margin-left: 0;
+				}
+			}
+
+			.activity-meta {
+				a {@include font-size(12);}
+			}
+		}
+
+		.activity-content {
+			margin: 0;
+
+			.activity-header {
+				margin: -0.5em 0 0;
+
+				> p {
+					line-height: 1.4;
+					margin-top: -$spacing-val-sm;
+				}
+
+				// BP adds !important. need to override prop val
+				img.avatar {
+					margin-bottom: 0 !important;
+					vertical-align: middle;
+				}
+			}
+
+			.activity-inner {margin: $spacing-val-sm 0;}
+		}
+
+		@media screen and (min-width: 400px) {
+			li.activity-item:not(.mini) {
+				.activity-avatar {
+					float: left;
+					margin: 0 $spacing-val-md 0 0;
+
+					img.avatar {
+						display: inline;
+						float: none;
+					}
+				}
+			}
+
+			li.mini {
+				.activity-avatar {
+					margin: 0 $spacing-val-sm 0 5%;
+				}
+			}
+
+			.activity-content {
+				margin-left: 0;
+				overflow: hidden;
+			}
+		}
+
+	} // close .activity-list
+} // close #buddypress
 
 /**
 *-------------------------------------------------
@@ -1137,7 +1289,6 @@ $nav-background-border: #bebebe;
 		div.message-search {
 			clear: none;
 			float: right;
-			margin: 0;
 
 			form {
 				label,
