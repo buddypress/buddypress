@@ -85,9 +85,10 @@ class BP_Blogs_Component extends BP_Component {
 		if ( 0 !== (int) get_option( 'blog_public' ) || ! is_multisite() ) {
 
 			/**
-			 * Filters the post types to track for the Blog component.
+			 * Filters the post types to track for the Blogs component.
 			 *
 			 * @since BuddyPress (1.5.0)
+			 * @deprecated BuddyPress (2.3.0)
 			 *
 			 * @param array $value Array of post types to track.
 			 */
@@ -297,8 +298,23 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @see bp_activity_get_post_type_tracking_args() for information on parameters.
 	 */
-	public function post_tracking_args( $params = array(), $post_type = 0 ) {
-		if ( 'post' != $post_type ) {
+	public function post_tracking_args( $params = null, $post_type = 0 ) {
+		/**
+		 * Filters the post types to track for the Blogs component.
+		 *
+		 * @since BuddyPress (1.5.0)
+		 * @deprecated BuddyPress (2.3.0)
+		 *
+		 * Make sure plugins still using 'bp_blogs_record_post_post_types'
+		 * to track their post types will generate new_blog_post activities
+		 * See https://buddypress.trac.wordpress.org/ticket/6306
+		 *
+		 * @param array $value Array of post types to track.
+		 */
+		$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+		$post_types_array = array_flip( $post_types );
+
+		if ( ! isset( $post_types_array[ $post_type ] ) ) {
 			return $params;
 		}
 
