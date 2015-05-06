@@ -62,7 +62,7 @@ to maintain uniformity.
     padding-top: 0; }
     .buddypress .site-content article .entry-header, .buddypress .site-content article .entry-content {
       max-width: 100%;
-      padding: 0 20px; }
+      padding: 0; }
     .buddypress .site-content article #buddypress {
       margin-bottom: 40px; }
 
@@ -78,29 +78,36 @@ to maintain uniformity.
 * The main navigational elements for all BP screens
 *----------------------------------------------------------
 */
+#buddypress .item-list-tabs ul li {
+  width: 100%; }
+@media screen and (min-width: 400px) {
+  #buddypress .item-list-tabs ul li {
+    width: 50%; } }
+@media screen and (min-width: 594px) {
+  #buddypress .item-list-tabs ul li {
+    width: auto; } }
+
 .directory #buddypress .item-list-tabs ul:before, .directory #buddypress .item-list-tabs ul:after {
   content: " ";
   display: table; }
 .directory #buddypress .item-list-tabs ul:after {
   clear: both; }
 .directory #buddypress .item-list-tabs ul {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
-@media screen and (max-width: 400px) {
-  .directory #buddypress .item-list-tabs ul li {
-    float: none;
-    overflow: hidden;
-    width: 100%; } }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 10px; }
 @media screen and (min-width: 783px) {
-  .directory #buddypress .item-list-tabs ul li.selected {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-bottom-color: #fff;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    background-clip: padding-box;
-    margin-bottom: -1px; }
-    .directory #buddypress .item-list-tabs ul li.selected a {
-      background: none;
-      outline: none; } }
+  .directory #buddypress .item-list-tabs ul {
+    padding-bottom: 0; }
+    .directory #buddypress .item-list-tabs ul li.selected {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-bottom-color: #fff;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      background-clip: padding-box;
+      margin-bottom: -1px; }
+      .directory #buddypress .item-list-tabs ul li.selected a {
+        background: none;
+        outline: none; } }
 .directory #buddypress #subnav ul {
   border-bottom: 0; }
 
@@ -110,8 +117,14 @@ to maintain uniformity.
   margin-top: 0; }
 
 @media screen and (max-width: 783px) {
+  #buddypress #object-nav ul {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding-bottom: 10px; }
   #buddypress div#subnav.item-list-tabs {
-    margin-bottom: 40px; } }
+    margin-bottom: 40px; }
+    #buddypress div#subnav.item-list-tabs ul li {
+      width: auto; } }
 
 /*__ Vertical Menu User Account Screens __*/
 @media screen and (min-width: 783px) {
@@ -154,7 +167,11 @@ to maintain uniformity.
       #buddypress #item-body #subnav li:focus, #buddypress #item-body #subnav li:hover {
         background: #bebebe; }
       #buddypress #item-body #subnav li.current {
-        background: #f1f1f1; } }
+        background: #f1f1f1; }
+      #buddypress #item-body #subnav li#activity-filter-select:focus, #buddypress #item-body #subnav li#activity-filter-select:hover {
+        background: none; }
+      #buddypress #item-body #subnav li#activity-filter-select select {
+        max-width: 130px; } }
 
 /**
 *----------------------------------------------------------
@@ -294,6 +311,8 @@ to maintain uniformity.
 * @subsection 4.1.2 - Activity Listing
 *-------------------------------------------------
 */
+#buddypress #activity-stream {
+  margin-top: 40px; }
 #buddypress .activity-list li.activity-item:not(.mini) .activity-avatar {
   float: none;
   margin-bottom: 10px;
@@ -386,6 +405,7 @@ to maintain uniformity.
   color: #fff;
   font-size: 22px;
   font-size: 1.375rem;
+  margin-bottom: 10px;
   padding: 0.2em; }
 @media screen and (min-width: 673px) {
   .single-item.groups .entry-title, .bp-user .entry-title {
@@ -616,11 +636,20 @@ to maintain uniformity.
     border-top: 1px solid #e4cdff; }
   #buddypress table#message-threads tr.read td {
     opacity: 0.5; }
+  #buddypress #settings-form > p {
+    font-size: 20px;
+    font-size: 1.25rem; }
+  #buddypress table.notification-settings td.yes, #buddypress table.notification-settings td.no {
+    vertical-align: middle; }
   #buddypress table.profile-settings {
     width: 100%; }
-    #buddypress table.profile-settings th, #buddypress table.profile-settings td {
-      clear: none;
+    #buddypress table.profile-settings th.field-group-name, #buddypress table.profile-settings td.field-name {
       width: 50%; }
+    @media screen and (min-width: 401px) {
+      #buddypress table.profile-settings th.field-group-name, #buddypress table.profile-settings td.field-name {
+        width: 70%; } }
+    #buddypress table.profile-settings td.field-visibility select {
+      width: 100%; }
 
 /*------------------------------------------------------------------------------
 * @section - 7.0 - Forms  - General
@@ -673,7 +702,7 @@ to maintain uniformity.
     #buddypress div.dir-search form label, #buddypress div.dir-search form input[type='submit'], #buddypress div.dir-search form input[type='text'], #buddypress div.message-search form label, #buddypress div.message-search form input[type='submit'], #buddypress div.message-search form input[type='text'] {
       width: auto; }
   #buddypress div.message-search {
-    margin-top: 2px; } }
+    margin: 3px 0 0; } }
 
 /**
 *-------------------------------------------------------------------------------

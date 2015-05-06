@@ -199,7 +199,7 @@ to maintain uniformity.
 			.entry-header,
 			.entry-content {
 				max-width: 100%;
-				padding: 0 $spacing-val-md;
+				padding: 0;
 			}
 
 			#buddypress { margin-bottom: $spacing-val-lg; }
@@ -220,6 +220,27 @@ to maintain uniformity.
 * The main navigational elements for all BP screens
 *----------------------------------------------------------
 */
+#buddypress {
+	.item-list-tabs {
+		ul {
+
+			li {
+				width: 100%;
+			}
+
+			@media screen and (min-width: 400px) {
+				li {
+					width: 50%;
+				}
+			}
+			@media screen and (min-width: 594px) {
+				li {
+					width: auto;
+				}
+			}
+		}
+	}
+}
 
 .directory #buddypress {
 	.item-list-tabs {
@@ -234,20 +255,14 @@ to maintain uniformity.
 			clear: both;
 		}
 
-		ul {border-bottom: 1px solid $border-med;}
-
-		@media screen and (max-width: 400px) {
-			ul {
-				li {
-					float: none;
-					overflow: hidden;
-					width: 100%;
-				}
-			}
+		ul {
+			border-bottom: 1px solid $border-med;
+			padding-bottom: $spacing-val-sm;
 		}
 
 		@media screen and (min-width: 783px) {
 			ul {
+				padding-bottom: 0;
 
 				li.selected {
 					border: 1px solid $border-med;
@@ -268,6 +283,7 @@ to maintain uniformity.
 		ul {
 			border-bottom: 0;
 		}
+
 	} // close #subnav
 } // close .directory #buddypress
 
@@ -281,16 +297,32 @@ to maintain uniformity.
 	}
 }
 
-// Add a little bottom margin to subnav up to vert nav display point
-// for user/group screens
-// @todo object nav/subnav needs display solution/styling for stacked views
+// Add a little bottom margin & border seperation to object/subnav
+// & keep subnav to horizontal up to vert nav display for user/group screens
+
 @media screen and (max-width: 783px) {
+
 	#buddypress {
+		#object-nav {
+			ul {
+				border-bottom: 1px solid $border-med;
+				overflow: hidden;
+				padding-bottom: $spacing-val-sm;
+			}
+		}
+
 		div#subnav.item-list-tabs {
 			margin-bottom: $spacing-val-lg;
+
+			ul {
+				li {
+					width: auto;
+				}
+			}
 		}
 	}
-}
+
+} // close @media
 
 /*__ Vertical Menu User Account Screens __*/
 
@@ -372,6 +404,19 @@ $nav-background-border: #bebebe;
 				li.current {
 					background: lighten($nav-background-border, 20%);
 				}
+
+				li#activity-filter-select {
+
+					&:focus,
+					&:hover {
+						background: none;
+					}
+
+					select {
+						max-width: 130px;
+					}
+				}
+
 			}
 		}
 	} // close  #buddypress
@@ -634,6 +679,7 @@ $nav-background-border: #bebebe;
 */
 
 #buddypress {
+	#activity-stream {margin-top: $spacing-val-lg;}
 	.activity-list {
 
 		li.activity-item:not(.mini) {
@@ -799,6 +845,7 @@ $nav-background-border: #bebebe;
 	.entry-title {
 		@include title-background-dark();
 		@include font-size(22);
+		margin-bottom: $spacing-val-sm;
 		padding: 0.2em;
 	}
 
@@ -1178,18 +1225,40 @@ $nav-background-border: #bebebe;
 	*------------------------------
 	*/
 
+	#settings-form {
+		// 'p' = email notification screen sub heading
+		> p { @include font-size(20); }
+	}
+
+	table.notification-settings {
+		td.yes,
+		td.no {
+			vertical-align: middle;
+		}
+	}
 	// Profile table td widths
 	table.profile-settings {
 		width: 100%;
 
-		th,
-		td {
-			clear: none;
+		th.field-group-name,
+		td.field-name {
 			width: 50%;
+		}
+
+		@media screen and (min-width: 401px) {
+			th.field-group-name,
+			td.field-name {
+				width: 70%;
+			}
+		}
+
+		td.field-visibility {
+			select {width: 100%;}
 		}
 	}
 
 } // close #buddypress - user acounts item-body
+
 /*------------------------------------------------------------------------------
 * @section - 7.0 - Forms  - General
 *-------------------------------------------------------------------------------
@@ -1299,7 +1368,7 @@ $nav-background-border: #bebebe;
 			}
 		}
 
-		div.message-search { margin-top: 2px;}
+		div.message-search { margin: 3px 0 0;}
 	} // close @media
 } // close #buddypress
 
