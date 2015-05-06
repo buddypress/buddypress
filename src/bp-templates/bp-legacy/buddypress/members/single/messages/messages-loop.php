@@ -48,6 +48,19 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 					<th scope="col" class="thread-checkbox bulk-select-all"><label class="bp-screen-reader-text" for="select-all-messages"><?php _e( 'Select all', 'buddypress' ); ?></label><input id="select-all-messages" type="checkbox"></th>
 					<th scope="col" class="thread-from"><?php _e( 'From', 'buddypress' ); ?></th>
 					<th scope="col" class="thread-info"><?php _e( 'Subject', 'buddypress' ); ?></th>
+
+					<?php
+
+					/**
+					 * Fires inside the messages box table header to add a new column.
+					 *
+					 * This is to primarily add a <th> cell to the messages box table header. Use
+					 * the related 'bp_messages_inbox_list_item' hook to add a <td> cell.
+					 *
+					 * @since BuddyPress (2.3.0)
+					 */
+					do_action( 'bp_messages_inbox_list_header' ); ?>
+
 					<th scope="col" class="thread-options"><?php _e( 'Actions', 'buddypress' ); ?></th>
 				</tr>
 			</thead>
@@ -85,7 +98,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						<?php
 
 						/**
-						 * Fires inside the display of a member message inbox list item.
+						 * Fires inside the messages box table row to add a new column.
+						 *
+						 * This is to primarily add a <td> cell to the message box table. Use the
+						 * related 'bp_messages_inbox_list_header' hook to add a <th> header cell.
 						 *
 						 * @since BuddyPress (1.1.0)
 						 */
