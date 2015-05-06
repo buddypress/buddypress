@@ -288,4 +288,30 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 		$this->assertEquals( 1, bp_blogs_total_blogs() );
 	}
+
+	/**
+	 * @group update_blog_details
+	 */
+	public function test_update_blog_details_should_purge_blogmeta_cache() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$u = $this->factory->user->create();
+
+		$b1 = $this->factory->blog->create();
+		bp_blogs_record_blog( $b1, $u, true );
+
+		// prime cache
+		bp_blogs_get_blogmeta( $b1, 'url' );
+		$this->assertNotEmpty( wp_cache_get( $b1, 'blog_meta' ) );
+
+		// updating blog details should purge cache
+		update_blog_details( $b1, array(
+			'domain' => 'awesome.com'
+		) );
+
+		// assert cache is purged
+		$this->assertEmpty( wp_cache_get( $b1, 'blog_meta' ) );
+	}
 }

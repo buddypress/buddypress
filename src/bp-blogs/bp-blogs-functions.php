@@ -409,6 +409,21 @@ function bp_blogs_update_option_thread_comments_depth( $oldvalue, $newvalue ) {
 add_action( 'update_option_thread_comments_depth', 'bp_blogs_update_option_thread_comments_depth', 10, 2 );
 
 /**
+ * Deletes the 'url' blogmeta for a site.
+ *
+ * Hooked to 'refresh_blog_details', which is notably used when editing a site
+ * under "Network Admin > Sites".
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param int $site_id The site ID
+ */
+function bp_blogs_delete_url_blogmeta( $site_id = 0 ) {
+	bp_blogs_delete_blogmeta( (int) $site_id, 'url' );
+}
+add_action( 'refresh_blog_details', 'bp_blogs_delete_url_blogmeta' );
+
+/**
  * Record activity metadata about a published blog post.
  *
  * @since BuddyPress (2.2.0)
