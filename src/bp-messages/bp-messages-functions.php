@@ -366,6 +366,22 @@ function messages_is_valid_thread( $thread_id ) {
 	return BP_Messages_Thread::is_valid( $thread_id );
 }
 
+/**
+ * Get the thread ID from a message ID.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param  int $message_id ID of the message.
+ * @return int The ID of the thread if found, otherwise 0.
+ */
+function messages_get_message_thread_id( $message_id = 0 ) {
+	global $wpdb;
+
+	$bp = buddypress();
+
+	return (int) $wpdb->get_var( $wpdb->prepare( "SELECT thread_id FROM {$bp->messages->table_name_messages} WHERE id = %d", $message_id ) );
+}
+
 /** Messages Meta *******************************************************/
 
 /**
