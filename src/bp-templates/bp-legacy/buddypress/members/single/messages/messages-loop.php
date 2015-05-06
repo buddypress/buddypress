@@ -61,6 +61,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 					 */
 					do_action( 'bp_messages_inbox_list_header' ); ?>
 
+					<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
+						<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php _e( 'Star', 'buddypress' ); ?></span></span></th>
+					<?php endif; ?>
+
 					<th scope="col" class="thread-options"><?php _e( 'Actions', 'buddypress' ); ?></th>
 				</tr>
 			</thead>
@@ -106,6 +110,12 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						 * @since BuddyPress (1.1.0)
 						 */
 						do_action( 'bp_messages_inbox_list_item' ); ?>
+
+						<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
+							<td class="thread-star">
+								<?php bp_the_message_star_action_link( array( 'thread_id' => bp_get_message_thread_id() ) ); ?>
+							</td>
+						<?php endif; ?>
 
 						<td class="thread-options">
 							<?php if ( bp_message_thread_has_unread() ) : ?>

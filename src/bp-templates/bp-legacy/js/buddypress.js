@@ -1578,6 +1578,84 @@ jq(document).ready( function() {
 		jq('#messages-bulk-manage').attr('disabled', jq(this).val().length <= 0);
 	});
 
+	/* Star action function */
+	starAction = function() {
+		var link = jq(this);
+
+		jq.post( ajaxurl, {
+			action: 'messages_star',
+			'message_id': link.data('message-id'),
+			'star_status': link.data('star-status'),
+			'nonce': link.data('star-nonce'),
+			'bulk': link.data('star-bulk')
+		},
+		function(response) {
+			if ( 1 === parseInt( response, 10 ) ) {
+				if ( 'unstar' === link.data('star-status') ) {
+					link.data('star-status', 'star');
+					link.removeClass('message-action-unstar').addClass('message-action-star');
+					link.find('.bp-screen-reader-text').text( BP_PM_Star.strings.text_star );
+
+					if ( 1 === BP_PM_Star.is_single_thread ) {
+						link.prop('title', BP_PM_Star.strings.title_star );
+					} else {
+						link.prop('title', BP_PM_Star.strings.title_star_thread );
+					}
+
+				} else {
+					link.data('star-status', 'unstar');
+					link.removeClass('message-action-star').addClass('message-action-unstar');
+					link.find('.bp-screen-reader-text').text(BP_PM_Star.strings.text_unstar);
+
+					if ( 1 === BP_PM_Star.is_single_thread ) {
+						link.prop('title', BP_PM_Star.strings.title_unstar );
+					} else {
+						link.prop('title', BP_PM_Star.strings.title_unstar_thread );
+					}
+				}
+			}
+		});
+		return false;
+	};
+
+	/* Star actions */
+	jq('#message-threads').on('click', 'td.thread-star a', starAction );
+	jq('#message-thread').on('click', '.message-star-actions a', starAction );
+
+	/* Star bulk manage - Show only the valid action based on the starred item. */
+	jq('#message-threads td.bulk-select-check :checkbox').on('change', function() {
+		var box = jq(this),
+			star = box.closest('tr').find('.thread-star a');
+
+		if ( box.prop('checked') ) {
+			if( 'unstar' === star.data('star-status') ) {
+				BP_PM_Star.star_counter++;
+			} else {
+				BP_PM_Star.unstar_counter++;
+			}
+		} else {
+			if( 'unstar' === star.data('star-status') ) {
+				BP_PM_Star.star_counter--;
+			} else {
+				BP_PM_Star.unstar_counter--;
+			}
+		}
+
+		if ( BP_PM_Star.star_counter > 0 && parseInt( BP_PM_Star.unstar_counter, 10 ) === 0 ) {
+			jq('option[value="star"]').hide();
+		} else {
+			jq('option[value="star"]').show();
+		}
+
+		if ( BP_PM_Star.unstar_counter > 0 && parseInt( BP_PM_Star.star_counter, 10 ) === 0 ) {
+			jq('option[value="unstar"]').hide();
+		} else {
+			jq('option[value="unstar"]').show();
+		}
+	});
+
+	/** Notifications **********************************************/
+
 	/* Selecting/Deselecting all notifications */
 	jq('#select-all-notifications').click(function(event) {
 		if( this.checked ) {

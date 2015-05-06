@@ -1448,6 +1448,39 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	margin: 0 20px;
 }
 
+.message-metadata {
+	position: relative;
+}
+.message-star-actions {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+a.message-action-star,
+a.message-action-unstar {
+	text-decoration: none;
+	outline: none;
+}
+a.message-action-star {
+	opacity: .7;
+}
+a.message-action-star:hover {
+	opacity: 1;
+}
+.message-action-star span.icon:before,
+.message-action-unstar span.icon:before {
+	font-family: dashicons;
+	font-size: 18px;
+}
+.message-action-star span.icon:before {
+	color: #aaa;
+	content: "\f154";
+}
+.message-action-unstar span.icon:before {
+	color: #FCDD77;
+	content: "\f155";
+}
+
 /*--------------------------------------------------------------
 3.10 - Extended Profiles
 --------------------------------------------------------------*/

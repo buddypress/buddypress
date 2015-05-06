@@ -69,6 +69,12 @@
 
 					<span class="activity"><?php bp_the_thread_message_time_since(); ?></span>
 
+					<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
+						<div class="message-star-actions">
+							<?php bp_the_message_star_action_link(); ?>
+						</div>
+					<?php endif; ?>
+
 					<?php
 
 					/** This action is documented in bp-templates/bp-legacy/buddypress-functions.php */

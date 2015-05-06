@@ -177,6 +177,11 @@ class BP_Legacy extends BP_Theme_Compat {
 			'messages_send_reply'           => 'bp_legacy_theme_ajax_messages_send_reply',
 		);
 
+		// Conditional actions
+		if ( bp_is_active( 'messages', 'star' ) ) {
+			$actions['messages_star'] = 'bp_legacy_theme_ajax_messages_star_handler';
+		}
+
 		/**
 		 * Register all of these AJAX handlers
 		 *
@@ -306,6 +311,23 @@ class BP_Legacy extends BP_Theme_Compat {
 
 			// Enqueue script
 			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version);
+		}
+
+		// Star private messages
+		if ( bp_is_active( 'messages', 'star' ) && bp_is_user_messages() ) {
+			wp_localize_script( $asset['handle'], 'BP_PM_Star', array(
+				'strings' => array(
+					'text_unstar'  => __( 'Unstar', 'buddypress' ),
+					'text_star'    => __( 'Star', 'buddypress' ),
+					'title_unstar' => __( 'Starred', 'buddypress' ),
+					'title_star'   => __( 'Not starred', 'buddypress' ),
+					'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
+					'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
+				),
+				'is_single_thread' => (int) bp_is_messages_conversation(),
+				'star_counter'     => 0,
+				'unstar_counter'   => 0
+			) );
 		}
 	}
 
@@ -1686,4 +1708,35 @@ function bp_legacy_theme_ajax_messages_autocomplete_results() {
 	}
 
 	exit;
+}
+
+/**
+ * AJAX callback to set a message's star status.
+ *
+ * @since BuddyPress (2.3.0)
+ */
+function bp_legacy_theme_ajax_messages_star_handler() {
+	if ( false === bp_is_active( 'messages', 'star' ) || empty( $_POST['message_id'] ) ) {
+		return;
+	}
+
+	// Check nonce
+	check_ajax_referer( 'bp-messages-star-' . (int) $_POST['message_id'], 'nonce' );
+
+	// Check capability
+	if ( ! is_user_logged_in() || ! bp_core_can_edit_settings() ) {
+		return;
+	}
+
+	if ( true === bp_messages_star_set_action( array(
+		'action'     => $_POST['star_status'],
+		'message_id' => (int) $_POST['message_id'],
+		'bulk'       => ! empty( $_POST['bulk'] ) ? true : false
+	 ) ) ) {
+		echo '1';
+		die();
+	}
+
+	echo '-1';
+	die();
 }

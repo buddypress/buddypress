@@ -1290,6 +1290,14 @@ function bp_messages_bulk_management_dropdown() {
 		<option value="read"><?php _e( 'Mark read', 'buddypress' ); ?></option>
 		<option value="unread"><?php _e( 'Mark unread', 'buddypress' ); ?></option>
 		<option value="delete"><?php _e( 'Delete', 'buddypress' ); ?></option>
+		<?php
+			/**
+			 * Action to add additional options to the messages bulk management dropdown.
+			 *
+			 * @since BuddyPress (2.3.0)
+			 */
+			do_action( 'bp_messages_bulk_management_dropdown' );
+		?>
 	</select>
 	<input type="submit" id="messages-bulk-manage" class="button action" value="<?php esc_attr_e( 'Apply', 'buddypress' ); ?>">
 	<?php
