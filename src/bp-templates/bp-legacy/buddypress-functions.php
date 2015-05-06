@@ -1483,25 +1483,32 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 
 	if ( !empty( $result ) ) {
 
-		// Get the zebra line classes correct on ajax requests
+		// pretend we're in the message loop
 		global $thread_template;
 
 		bp_thread_has_messages( array( 'thread_id' => (int) $_REQUEST['thread_id'] ) );
 
+		// set the current message to the 2nd last
+		$thread_template->message = end( $thread_template->thread->messages );
+		$thread_template->message = prev( $thread_template->thread->messages );
+
+		// set current message to current key
+		$thread_template->current_message = key( $thread_template->thread->messages );
+
+		// now manually iterate message like we're in the loop
 		bp_thread_the_message();
 
-		if ( $thread_template->message_count % 2 == 1 ) {
-			$class = 'odd';
-		} else {
-			$class = 'even alt';
-		} ?>
+		// manually call oEmbed
+		// this is needed because we're not at the beginning of the loop
+		bp_messages_embed()
+	?>
 
-		<div class="message-box new-message <?php echo $class; ?>">
+		<div class="message-box new-message <?php bp_the_thread_message_css_class(); ?>">
 			<div class="message-metadata">
 				<?php
 
 				/**
-				 * Fires before the notifications for private messages.
+				 * Fires before the single message header is displayed.
 				 *
 				 * @since BuddyPress (1.1.0)
 				 */
@@ -1513,7 +1520,7 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 				<?php
 
 				/**
-				 * Fires after the notifications for private messages.
+				 * Fires after the single message header is displayed.
 				 *
 				 * @since BuddyPress (1.1.0)
 				 */
@@ -1530,10 +1537,7 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 			do_action( 'bp_before_message_content' ); ?>
 
 			<div class="message-content">
-				<?php
-
-				/** This filter is documented in bp-messages/bp-messages-template.php */
-				echo stripslashes( apply_filters( 'bp_get_the_thread_message_content', $_REQUEST['content'] ) ); ?>
+				<?php bp_the_thread_message_content(); ?>
 			</div>
 
 			<?php
@@ -1548,6 +1552,9 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 			<div class="clear"></div>
 		</div>
 	<?php
+		// clean up the loop
+		bp_thread_messages();
+
 	} else {
 		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem sending that reply. Please try again.', 'buddypress' ) . '</p></div>';
 	}
