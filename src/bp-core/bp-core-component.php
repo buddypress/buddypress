@@ -190,24 +190,18 @@ class BP_Component {
 	 *
 	 * @param array $args {
 	 *     All values are optional.
-	 *     @type string $slug The component slug. Used to construct certain
-	 *           URLs, such as 'friends' in http://example.com/members/joe/friends/
-	 *           Default: the value of $this->id.
-	 *     @type string $root_slug The component root slug. Note that this
-	 *           value is generally unused if the component has a root
-	 *           directory (the slug will be overridden by the post_name of
-	 *           the directory page). Default: the slug of the directory
-	 *           page if one is found, otherwise an empty string.
-	 *     @type bool $has_directory Set to true if the component requires
-	 *           an associated WordPress page.
-	 *     @type callable $notification_callback Optional. The callable
-	 *           function that formats the component's notifications.
-	 *     @type string $search_term Optional. The placeholder text in the
-	 *           component directory search box. Eg, 'Search Groups...'.
-	 *     @type array $global_tables Optional. An array of database table
-	 *           names.
-	 *     @type array $meta_tables Optional. An array of metadata table
-	 *           names.
+	 *     @type string   $slug                  The component slug. Used to construct certain URLs, such as 'friends' in
+	 *                                           http://example.com/members/joe/friends/. Default: the value of $this->id.
+	 *     @type string   $root_slug             The component root slug. Note that this value is generally unused if the
+	 *                                           component has a root directory (the slug will be overridden by the
+	 *                                           post_name of the directory page). Default: the slug of the directory page
+	 *                                           if one is found, otherwise an empty string.
+	 *     @type bool     $has_directory         Set to true if the component requires an associated WordPress page.
+	 *     @type callable $notification_callback Optional. The callable function that formats the component's notifications.
+	 *     @type string   $search_term           Optional. The placeholder text in the component directory search box. Eg,
+	 *                                           'Search Groups...'.
+	 *     @type array    $global_tables         Optional. An array of database table names.
+	 *     @type array    $meta_tables           Optional. An array of metadata table names.
 	 * }
 	 */
 	public function setup_globals( $args = array() ) {
