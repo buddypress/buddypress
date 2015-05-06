@@ -1004,7 +1004,7 @@ function bp_activity_admin_index() {
 							<a href="#" class="cancel button-secondary alignleft"><?php _e( 'Cancel', 'buddypress' ); ?></a>
 							<a href="#" class="save button-primary alignright"><?php _e( 'Reply', 'buddypress' ); ?></a>
 
-							<img class="waiting" style="display:none;" src="<?php echo esc_url( bp_get_admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
+							<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 							<span class="error" style="display:none;"></span>
 							<br class="clear" />
 						</p>
