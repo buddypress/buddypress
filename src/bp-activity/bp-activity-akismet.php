@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Akismet support for the Activity component.
  *
  * @since BuddyPress (1.6.0)
+ * @since BuddyPress (2.3.0) We only support Akismet 3+.
  */
 class BP_Akismet {
 	/**
@@ -339,7 +340,7 @@ class BP_Akismet {
 		$activity_data['comment_type']          = $activity->type;
 		$activity_data['permalink']             = bp_activity_get_permalink( $activity->id, $activity );
 		$activity_data['user_ID']               = $userdata->ID;
-		$activity_data['user_role']             = akismet_get_user_roles( $userdata->ID );
+		$activity_data['user_role']             = Akismet::get_user_roles( $userdata->ID );
 
 		/**
 		 * Get the nonce if the new activity was submitted through the "what's up, Paul?" form.
@@ -495,9 +496,6 @@ class BP_Akismet {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @global string $akismet_api_host
-	 * @global string $akismet_api_port
-	 *
 	 * @param array  $activity_data Packet of information to submit to Akismet.
 	 * @param string $check         "check" or "submit".
 	 * @param string $spam          "spam" or "ham".
@@ -505,12 +503,6 @@ class BP_Akismet {
 	 * @return array $activity_data Activity data, with Akismet data added.
 	 */
 	public function send_akismet_request( $activity_data, $check = 'check', $spam = 'spam' ) {
-		global $akismet_api_host, $akismet_api_port;
-
-		// Check that host and port are set, if not, set them
-		if ( function_exists( 'akismet_init' ) && ( empty( $akismet_api_host ) || empty( $akismet_api_port ) ) )
-			akismet_init();
-
 		$query_string = $path = '';
 
 		$activity_data['blog']         = bp_get_option( 'home' );
@@ -520,7 +512,7 @@ class BP_Akismet {
 		$activity_data['user_agent']   = bp_core_current_user_ua();
 		$activity_data['user_ip']      = bp_core_current_user_ip();
 
-		if ( akismet_test_mode() )
+		if ( Akismet::is_test_mode() )
 			$activity_data['is_test'] = 'true';
 
 		// Loop through _POST args and rekey strings
@@ -548,13 +540,13 @@ class BP_Akismet {
 			$query_string .= $key . '=' . urlencode( stripslashes( $data ) ) . '&';
 
 		if ( 'check' == $check )
-			$path = '/1.1/comment-check';
+			$path = 'comment-check';
 		elseif ( 'submit' == $check )
-			$path = '/1.1/submit-' . $spam;
+			$path = 'submit-' . $spam;
 
 		// Send to Akismet
 		add_filter( 'akismet_ua', array( $this, 'buddypress_ua' ) );
-		$response = akismet_http_post( $query_string, $akismet_api_host, $path, $akismet_api_port );
+		$response = Akismet::http_post( $query_string, $path );
 		remove_filter( 'akismet_ua', array( $this, 'buddypress_ua' ) );
 
 		// Get the response
@@ -634,7 +626,7 @@ class BP_Akismet {
 		$event = array(
 			'event'   => $event,
 			'message' => $message,
-			'time'    => akismet_microtime(),
+			'time'    => Akismet::_get_microtime(),
 			'user'    => bp_loggedin_user_id(),
 		);
 

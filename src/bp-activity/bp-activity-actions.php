@@ -712,17 +712,25 @@ add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
  * Loads Akismet filtering for activity.
  *
  * @since BuddyPress (1.6.0)
+ * @since BuddyPress (2.3.0) We only support Akismet 3+.
  */
 function bp_activity_setup_akismet() {
 	$bp = buddypress();
 
 	// Bail if Akismet is not active
-	if ( ! defined( 'AKISMET_VERSION' ) )
+	if ( ! defined( 'AKISMET_VERSION' ) ) {
 		return;
+	}
+
+	// Bail if older version of Akismet
+	if ( ! class_exists( 'Akismet' ) ) {
+		return;
+	}
 
 	// Bail if no Akismet key is set
-	if ( ! bp_get_option( 'wordpress_api_key' ) && ! defined( 'WPCOM_API_KEY' ) )
+	if ( ! bp_get_option( 'wordpress_api_key' ) && ! defined( 'WPCOM_API_KEY' ) ) {
 		return;
+	}
 
 	/**
 	 * Filters if BuddyPress Activity Akismet support has been disabled by another plugin.
@@ -731,8 +739,9 @@ function bp_activity_setup_akismet() {
 	 *
 	 * @param bool $value Return value of bp_is_akismet_active boolean function.
 	 */
-	if ( ! apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) )
+	if ( ! apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) ) {
 		return;
+	}
 
 	// Instantiate Akismet for BuddyPress
 	$bp->activity->akismet = new BP_Akismet();
