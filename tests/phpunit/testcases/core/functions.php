@@ -620,4 +620,69 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( $expected_upload_dir, $tested_upload_dir );
 	}
+
+	/**
+	 * @group bp_is_active
+	 */
+	public function test_bp_is_active_component() {
+		$bp = buddypress();
+		$reset_active_components = $bp->active_components;
+
+		$this->assertTrue( bp_is_active( 'members' ) );
+
+		$this->assertFalse( bp_is_active( 'foo' ) );
+
+		// Create and activate the foo component
+		$bp->foo = new BP_Component;
+		$bp->foo->id   = 'foo';
+		$bp->foo->slug = 'foo';
+		$bp->foo->name = 'Foo';
+		$bp->active_components[ $bp->foo->id ] = 1;
+
+		$this->assertTrue( bp_is_active( 'foo' ) );
+
+		add_filter( 'bp_is_active', '__return_false' );
+
+		$this->assertFalse( bp_is_active( 'foo' ) );
+
+		remove_filter( 'bp_is_active', '__return_false' );
+
+		// Reset buddypress() vars
+		$bp->active_components = $reset_active_components;
+	}
+
+	/**
+	 * @group bp_is_active
+	 */
+	public function test_bp_is_active_feature() {
+		$bp = buddypress();
+		$reset_active_components = $bp->active_components;
+
+		// Create and activate the foo component
+		$bp->foo = new BP_Component;
+		$bp->foo->id   = 'foo';
+		$bp->foo->slug = 'foo';
+		$bp->foo->name = 'Foo';
+		$bp->active_components[ $bp->foo->id ] = 1;
+
+		// foo did not register 'bar' as a feature
+		$this->assertFalse( bp_is_active( 'foo', 'bar' ) );
+
+		// fake registering the 'bar' feature
+		$bp->foo->features = array( 'bar' );
+		$this->assertTrue( bp_is_active( 'foo', 'bar' ) );
+
+		// test the feature filter
+		add_filter( 'bp_is_foo_bar_active', '__return_false' );
+		$this->assertFalse( bp_is_active( 'foo', 'bar' ) );
+		remove_filter( 'bp_is_foo_bar_active', '__return_false' );
+
+		// test the main component filter
+		add_filter( 'bp_is_active', '__return_false' );
+		$this->assertFalse( bp_is_active( 'foo', 'bar' ) );
+		remove_filter( 'bp_is_active', '__return_false' );
+
+		// Reset buddypress() vars
+		$bp->active_components = $reset_active_components;
+	}
 }

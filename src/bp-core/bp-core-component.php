@@ -131,19 +131,21 @@ class BP_Component {
 	 * Component loader.
 	 *
 	 * @since BuddyPress (1.5.0)
+	 * @since BuddyPress (1.9.0) Added $params as a parameter.
+	 * @since BuddyPress (2.3.0) Added $params['features'] as a configurable value.
 	 *
-	 * @uses BP_Component::setup_actions() Set up the hooks and actions.
-	 *
-	 * @param string $id Unique ID (for internal identification). Letters,
-	 *        numbers, and underscores only.
-	 * @param string $name Unique name. This should be a translatable name,
-	 *        eg __( 'Groups', 'buddypress' ).
-	 * @param string $path The file path for the component's files. Used by
-	 *        {@link BP_Component::includes()}.
-	 * @param array $params Additional parameters used by the component.
-	 *        The config array supports the following values:
-	 *        - 'adminbar_myaccount_order' Sets the position for our
-	 *          component menu under the WP Toolbar's "My Account" menu.
+	 * @param string $id   Unique ID. Letters, numbers, and underscores only.
+	 * @param string $name Unique name. This should be a translatable name, eg.
+	 *                     __( 'Groups', 'buddypress' ).
+	 * @param string $path The file path for the component's files. Used by {@link BP_Component::includes()}.
+	 * @param array  $params {
+	 *     Additional parameters used by the component.
+	 *     @type int   $adminbar_myaccount_order Set the position for our menu under the WP Toolbar's "My Account menu"
+	 *     @type array $features                 An array of feature names. This is used to load additional files from your
+	 *                                           component directory and for feature active checks. eg. array( 'awesome' )
+	 *                                           would look for a file called "bp-{$this->id}-awesome.php" and you could use
+	 *                                           bp_is_active( $this->id, 'awesome' ) to determine if the feature is active.
+	 * }
 	 */
 	public function start( $id = '', $name = '', $path = '', $params = array() ) {
 
@@ -161,6 +163,11 @@ class BP_Component {
 			// Sets the position for our menu under the WP Toolbar's "My Account" menu
 			if ( ! empty( $params['adminbar_myaccount_order'] ) ) {
 				$this->adminbar_myaccount_order = (int) $params['adminbar_myaccount_order'];
+			}
+
+			// Register features
+			if ( ! empty( $params['features'] ) ) {
+				$this->features = array_map( 'sanitize_title', (array) $params['features'] );
 			}
 
 		// Set defaults if not passed

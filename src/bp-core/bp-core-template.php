@@ -1845,12 +1845,16 @@ function is_buddypress() {
 /** Components ****************************************************************/
 
 /**
- * Check whether a given component has been activated by the admin.
+ * Check whether a given component (or feature of a component) is active.
+ *
+ * @since BuddyPress (1.2.0) See r2539.
+ * @since BuddyPress (2.3.0) Added $feature as a parameter.
  *
  * @param string $component The component name.
- * @return bool True if the component is active, otherwise false.
+ * @param string $feature   The feature name.
+ * @return bool
  */
-function bp_is_active( $component = '' ) {
+function bp_is_active( $component = '', $feature = '' ) {
 	$retval = false;
 
 	// Default to the current component if none is passed
@@ -1861,6 +1865,22 @@ function bp_is_active( $component = '' ) {
 	// Is component in either the active or required components arrays
 	if ( isset( buddypress()->active_components[ $component ] ) || isset( buddypress()->required_components[ $component ] ) ) {
 		$retval = true;
+
+		// Is feature active?
+		if ( ! empty( $feature ) ) {
+			if ( empty( buddypress()->$component->features ) || false === in_array( $feature, buddypress()->$component->features, true ) ) {
+				$retval = false;
+			}
+
+			/**
+			 * Filters whether or not a given feature for a component is active.
+			 *
+			 * @since BuddyPress (2.3.0)
+			 *
+			 * @param bool $retval
+			 */
+			$retval = apply_filters( "bp_is_{$component}_{$feature}_active", $retval );
+		}
 	}
 
 	/**
