@@ -33,24 +33,23 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 5.0 - Directories - Members, Groups, Blogs, Forums
 6.0 - Single Item screens: User Account & Single Group Screens
 	6.1 - Item Headers: Global
-		6.1.1 - Item-header: Groups;
-		6.1.2 -  item-header: User Accounts
+		6.1.1 - item-header: Groups
+		6.1.2 - item-header: User Accounts
 	6.2 - Item Body: Global
 		6.2.1 - item-body: Groups
-		 6.2.1.1- Management settings screens
-   6.2.1.2 - Group members list
+			6.2.1.1 - Management settings screens
+			6.2.1.2 - Group members list
 		6.2.2 - item-body: User Accounts
-	  6.2.2.1 - classes, pag, filters
-	  6.2.2.2 - Extended Profiles
-	  6.2.2.3 - Groups
-	  6.2.2.4 - friends
-	  6.2.2.5 - Private Messaging Threads
-	  6.2.2.6 - Settings
+			6.2.2.1 - classes, pag, filters
+			6.2.2.2 - Extended Profiles
+			6.2.2.3 - Groups
+			6.2.2.4 - friends
+			6.2.2.5 - Private Messaging Threads
+			6.2.2.6 - Settings
 7.0 - Forms  -  General
 8.0 - Tables -  General
 9.0 - Error / Success Messages
-10.0 - Ajax Loading
-11.0 - Widgets
+10.0 - Ajax Loading, Widgets, General classes
 --------------------------------------------------------------*/
 /**
 *-------------------------------------------------------------------------------
@@ -302,17 +301,17 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     clear: left;
     margin: 10px 0 20px;
     padding: 10px 0 0; } }
-#buddypress form#whats-new-form #whats-new-options[style] {
+#buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] {
   min-height: 6rem;
   overflow: visible; }
-  #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {
+  #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box {
     border: 1px solid rgba(153, 153, 153, 0.5);
     float: left;
     line-height: 1.5em;
     margin-top: 12px;
     padding-left: 0.2em;
     width: 100%; }
-    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box select {
+    #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box select {
       background: none;
       border: 0;
       float: right;
@@ -320,9 +319,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
       min-height: 1.5em;
       padding-left: 0.4em; }
   @media screen and (min-width: 30em) {
-    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {
+    #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box {
       width: auto; }
-    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-submit {
+    #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-submit {
       float: right; } }
 #buddypress #item-body form#whats-new-form {
   margin: 40px 0; }
@@ -618,6 +617,18 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	*-------------------------------------------
 	* @subsection 6.2.2.3 - Groups
 	*-------------------------------------------
+	*/
+  /**
+	*-------------------------------------------
+	* @subsection 6.2.2.5 - Private Messaging
+	*-------------------------------------------
+	*/
+  /* Auto Complete background */
+  /* Sitewide Notices loop */
+  /**
+	*------------------------------
+	* @subsection 6.2.2.6 - Settings
+	*------------------------------
 	*/ }
   .bp-user #buddypress table th {
     font-size: 14px;
@@ -666,7 +677,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   .bp-user #buddypress .profile {
     /* Edit profile */ }
     .bp-user #buddypress .profile .bp-widget h4 {
-      background: rgba(85, 85, 85, 0.8);
+      background: #6e6e6e;
       color: #fff;
       margin-bottom: 0;
       padding: 0.4em; }
@@ -705,6 +716,84 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     .bp-user #buddypress #groups-list li .item {
       left: 5%;
       width: 50%; } }
+  .bp-user #buddypress #message-thread a {
+    border-bottom: 0; }
+  .bp-user #buddypress #message-thread #message-subject {
+    background: #6e6e6e;
+    color: #fff;
+    padding: 0.3em 0 0.3em 0.2em; }
+  .bp-user #buddypress #message-thread #message-recipients {
+    font-style: italic; }
+    .bp-user #buddypress #message-thread #message-recipients a.confirm {
+      border: 1px solid #eaeaea;
+      font-style: normal; }
+  .bp-user #buddypress #message-thread .message-metadata {
+    overflow: hidden; }
+    .bp-user #buddypress #message-thread .message-metadata img.avatar {
+      float: none; }
+    @media screen and (min-width: 46.25em) {
+      .bp-user #buddypress #message-thread .message-metadata img.avatar {
+        float: left; } }
+    .bp-user #buddypress #message-thread .message-metadata .message-star-actions {
+      float: right;
+      margin-right: 5px;
+      position: static; }
+  .bp-user #buddypress #message-thread .message-content {
+    background: #f7f7f7;
+    border: 1px solid #eaeaea;
+    margin: 10px 0 0 0;
+    padding: 0.3em; }
+  .bp-user #buddypress table#message-threads .bulk-select-check, .bp-user #buddypress table#message-threads .thread-star {
+    width: 10%; }
+  .bp-user #buddypress table#message-threads .thread-star a {
+    outline: none; }
+  .bp-user #buddypress table#message-threads .thread-from, .bp-user #buddypress table#message-threads .thread-info {
+    width: 30%; }
+  .bp-user #buddypress table#message-threads .thread-options {
+    width: 20%; }
+  .bp-user #buddypress table#message-threads tr td {
+    background: #ebf0ff; }
+  .bp-user #buddypress table#message-threads tr.alt td {
+    background: #dbe5ff; }
+  .bp-user #buddypress table#message-threads tr.unread td {
+    background: #cddaff;
+    border-bottom: 1px solid #e4cdff;
+    border-top: 1px solid #e4cdff; }
+  .bp-user #buddypress table#message-threads tr.read td {
+    background: #f7f7f7; }
+  .bp-user #buddypress .acfb-holder li.friend-tab {
+    margin-right: 0; }
+    .bp-user #buddypress .acfb-holder li.friend-tab a {
+      border-bottom: 0; }
+      .bp-user #buddypress .acfb-holder li.friend-tab a img {
+        display: inline;
+        height: 20px;
+        margin-right: 0.5em;
+        width: 20px !important; }
+  .bp-user #buddypress .sitewide-notices tr td:first-child {
+    display: none; }
+  .bp-user #buddypress .sitewide-notices td strong {
+    background: #6e6e6e;
+    color: #fff;
+    display: block;
+    padding-left: 0.2em; }
+  .bp-user #buddypress #settings-form > p {
+    font-size: 20px;
+    font-size: 2rem;
+    margin: 20px 0 10px; }
+  .bp-user #buddypress table.notification-settings td.yes, .bp-user #buddypress table.notification-settings td.no {
+    vertical-align: middle; }
+  .bp-user #buddypress table.profile-settings {
+    width: 100%; }
+    .bp-user #buddypress table.profile-settings th.field-group-name, .bp-user #buddypress table.profile-settings td.field-name {
+      width: 50%; }
+    @media screen and (min-width: 46.25em) {
+      .bp-user #buddypress table.profile-settings th.field-group-name, .bp-user #buddypress table.profile-settings td.field-name {
+        width: 70%; } }
+    .bp-user #buddypress table.profile-settings th.title, .bp-user #buddypress table.profile-settings td.field-visibility {
+      width: 30%; }
+    .bp-user #buddypress table.profile-settings td.field-visibility select {
+      width: 100%; }
 
 /**
 *-------------------------------------------------------------------------------
@@ -777,6 +866,12 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   font-size: 14px;
   font-size: 1.4rem;
   margin: 20px 0; }
+  #buddypress table tr th {
+    background: #6e6e6e;
+    border-color: #b7b7b7;
+    color: #fff; }
+  #buddypress table p {
+    margin-bottom: 0.5em; }
 @media screen and (min-width: 55em) {
   #buddypress table {
     font-size: 16px;
@@ -788,7 +883,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   #buddypress .notifications th.bulk-select-all, #buddypress .messages-notices th.bulk-select-all {
     text-align: center;
     width: 10%; }
-#buddypress .notifications .bulk-select-check, #buddypress .messages-notices .bulk-select-check {
+#buddypress .notifications .bulk-select-check, #buddypress .notifications .thread-star, #buddypress .messages-notices .bulk-select-check, #buddypress .messages-notices .thread-star {
   text-align: center; }
 #buddypress .notifications .notification-actions, #buddypress .notifications td.thread-options, #buddypress .messages-notices .notification-actions, #buddypress .messages-notices td.thread-options {
   text-align: center; }
@@ -809,4 +904,20 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 #buddypress div#message.info p {
   background: #c6e4ee;
-  border: 1px solid #78bed6; }
+  border: 1px solid #78bed6;
+  color: inherit; }
+#buddypress div#message.update p {
+  background: #c2cf7c;
+  border: 1px solid #97a73e;
+  color: inherit; }
+
+/**
+*-------------------------------------------------------------------------------
+* @section 10.0 - Ajax Loading, Widgets, General classes
+*-------------------------------------------------------------------------------
+*/
+#buddypress {
+  /* Auto Complete background */ }
+  #buddypress .acfb-holder li.friend-tab {
+    background: #9fd1e2;
+    border: inherit; }

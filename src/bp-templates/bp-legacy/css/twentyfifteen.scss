@@ -86,9 +86,11 @@ $spacing-val-xs: 5px;
 	box-sizing: $box-model;
 }
 
-@mixin message-box($background) {
+// BP message boxes
+@mixin message-box($background, $text-color: inherit) {
 	background: lighten($background, 10%);
 	border: 1px solid darken($background, 10%);
+	color: $text-color;
 }
 
 // Variabals: color definitions
@@ -101,7 +103,14 @@ $border-light:       #eaeaea; // BP dividers
 $border-med:         #ddd;
 $body-text:          #333; // 2015 body text color
 $bp-button-hover:    #ededed; // this is the default BP button hover background
+$notice-error:       #c85a6e;
+$notice-warning:     #d05656;
 $notice-info:        #9fd1e2;
+$notice-update:      #b1c157;
+$stripe-odd:         #ebf0ff;
+$stripe-even:        #dbe5ff;
+$unread:             #cddaff;
+
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -137,24 +146,23 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 5.0 - Directories - Members, Groups, Blogs, Forums
 6.0 - Single Item screens: User Account & Single Group Screens
 	6.1 - Item Headers: Global
-		6.1.1 - Item-header: Groups;
-		6.1.2 -  item-header: User Accounts
+		6.1.1 - item-header: Groups
+		6.1.2 - item-header: User Accounts
 	6.2 - Item Body: Global
 		6.2.1 - item-body: Groups
-		 6.2.1.1- Management settings screens
-   6.2.1.2 - Group members list
+			6.2.1.1 - Management settings screens
+			6.2.1.2 - Group members list
 		6.2.2 - item-body: User Accounts
-	  6.2.2.1 - classes, pag, filters
-	  6.2.2.2 - Extended Profiles
-	  6.2.2.3 - Groups
-	  6.2.2.4 - friends
-	  6.2.2.5 - Private Messaging Threads
-	  6.2.2.6 - Settings
+			6.2.2.1 - classes, pag, filters
+			6.2.2.2 - Extended Profiles
+			6.2.2.3 - Groups
+			6.2.2.4 - friends
+			6.2.2.5 - Private Messaging Threads
+			6.2.2.6 - Settings
 7.0 - Forms  -  General
 8.0 - Tables -  General
 9.0 - Error / Success Messages
-10.0 - Ajax Loading
-11.0 - Widgets
+10.0 - Ajax Loading, Widgets, General classes
 --------------------------------------------------------------*/
 
 /**
@@ -609,39 +617,43 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		}
 
-		#whats-new-options[style] {
-			min-height: 6rem; // unit open to debate px value might be better.
-			overflow: visible;
+		#whats-new-content.active {
+			#whats-new-options[style] {
+				min-height: 6rem; // unit open to debate px value might be better.
+				overflow: visible;
 
-			#whats-new-post-in-box {
-				border: 1px solid rgba($border-color, 0.5);
-				float: left;
-				line-height: 1.5em;
-				margin-top: 12px;
-				padding-left: 0.2em;
-				width: 100%;
-
-				select {
-					background: none;
-					border: 0;
-					float: right;
-					margin: 0;
-					min-height: 1.5em;
-					padding-left: 0.4em;
-				}
-			}
-
-			@media screen and (min-width: 30em) {
 				#whats-new-post-in-box {
-					width: auto;
+					border: 1px solid rgba($border-color, 0.5);
+					float: left;
+					line-height: 1.5em;
+					margin-top: 12px;
+					padding-left: 0.2em;
+					width: 100%;
+
+					select {
+						background: none;
+						border: 0;
+						float: right;
+						margin: 0;
+						min-height: 1.5em;
+						padding-left: 0.4em;
+					}
 				}
 
-				#whats-new-submit {
-					float: right;
+				@media screen and (min-width: 30em) {
+					#whats-new-post-in-box {
+						width: auto;
+					}
+
+					#whats-new-submit {
+						float: right;
+					}
 				}
-			}
-		}
-	}
+
+			} // close #whats-new-options
+		} // close #whats-new-content.active
+
+	} // close #whats-new-form
 
 	// User account form requires matching bp default specificity
 	#item-body {
@@ -1186,7 +1198,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		.profile {
 			.bp-widget {
 				h4 {
-					background: rgba($dark-background, 0.8);
+					background: lighten($dark-background, 10%);
 					color: #fff;
 					margin-bottom: 0;
 					padding: 0.4em;
@@ -1263,6 +1275,193 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 						width: 50%;
 					}
 				}
+			}
+		}
+
+/**
+	*-------------------------------------------
+	* @subsection 6.2.2.5 - Private Messaging
+	*-------------------------------------------
+	*/
+
+		#message-thread {
+		//Single message view
+			a {
+				border-bottom: 0;
+			}
+
+			#message-subject {
+				background: lighten($dark-background, 10%);
+				color: $content-background;
+				padding: 0.3em 0 0.3em 0.2em;
+			}
+
+			#message-recipients {
+				font-style: italic;
+
+				a.confirm {
+					border: 1px solid $border-light;
+					font-style: normal;
+				}
+			}
+
+			.message-metadata {
+				overflow: hidden;
+
+				img.avatar {
+					float: none;
+				}
+
+				@media screen and (min-width: 46.25em) {
+					img.avatar {
+						float: left;
+					}
+				}
+
+				.message-star-actions {
+					float: right;
+					margin-right: $spacing-val-xs;
+					position: static;
+				}
+			}
+
+			.message-content {
+				background: $light-background;
+				border: 1px solid $border-light;
+				margin: $spacing-val-sm 0 0 0;
+				padding: 0.3em;
+			}
+		}
+
+		table#message-threads {
+
+			.bulk-select-check,
+			.thread-star {
+				width: 10%;
+			}
+
+			.thread-star a {
+				outline: none;
+			}
+
+			.thread-from,
+			.thread-info {
+				width: 30%;
+			}
+
+			.thread-options {
+				width: 20%;
+			}
+
+			tr {
+
+				td {
+					background: $stripe-odd;
+				}
+			}
+
+			tr.alt {
+				td {
+					background: $stripe-even;
+				}
+			}
+
+			tr.unread {
+				td {
+					background: $unread;
+					border-bottom: 1px solid #e4cdff;
+					border-top: 1px solid #e4cdff;
+				}
+			}
+
+			tr.read {
+				td {
+					background: $light-background;
+				}
+			}
+		}
+
+	/* Auto Complete background */
+		.acfb-holder {
+
+			li.friend-tab {
+				margin-right: 0;
+
+				a {
+					border-bottom: 0;
+
+					img {
+	 				// this is the tiny user avatar
+						display: inline;
+						height: 20px;
+						margin-right: 0.5em;
+						width: 20px !important; // override inline style
+	 			}
+	 		}
+	 	}
+		}
+
+		/* Sitewide Notices loop */
+		.sitewide-notices {
+			tr {
+				td:first-child {
+					display: none;
+				}
+			}
+
+			td {
+				strong {
+					background: lighten($dark-background, 10%);
+					color: $content-background;
+					display: block;
+					padding-left: 0.2em;
+				}
+			}
+		}
+
+/**
+	*------------------------------
+	* @subsection 6.2.2.6 - Settings
+	*------------------------------
+	*/
+
+		#settings-form {
+			// 'p' = email notification screen sub heading
+			> p {
+				@include font-size(20);
+				margin: $spacing-val-md 0 $spacing-val-sm;
+			}
+		}
+
+		table.notification-settings {
+			td.yes,
+			td.no {
+				vertical-align: middle;
+			}
+		}
+		// Profile table td widths
+		table.profile-settings {
+			width: 100%;
+
+			th.field-group-name,
+			td.field-name {
+				width: 50%;
+			}
+
+			@media screen and (min-width: 46.25em) {
+				th.field-group-name,
+				td.field-name {
+					width: 70%;
+				}
+			}
+
+			th.title,
+			td.field-visibility {
+				width: 30%;
+			}
+
+			td.field-visibility {
+				select {width: 100%;}
 			}
 		}
 
@@ -1420,6 +1619,15 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	table {
 		@include font-size(14);
 		margin: $spacing-val-md 0;
+
+		tr th {
+			background: lighten($dark-background, 10%);
+			border-color: darken($border-light, 20%);
+			color: $content-background;
+		}
+
+		// Reduce the themes inherited paragraph margins in tables
+		p {margin-bottom: 0.5em;}
 	}
 
 	@media screen and (min-width: 55em) {
@@ -1443,7 +1651,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		}
 
-		.bulk-select-check {text-align: center;}
+		.bulk-select-check,
+		.thread-star {
+			text-align: center;
+		}
+
 		.notification-actions,
 		td.thread-options {
 			text-align: center;
@@ -1475,9 +1687,36 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-------------------------------------------------------------------------------
 */
 #buddypress {
-	div#message.info {
-		p {
-			@include message-box($notice-info);
+	div#message {
+		&.info {
+			p {
+				@include message-box($notice-info);
+			}
 		}
+
+		&.update {
+			p {
+				@include message-box($notice-update);
+			}
+		}
+
+	} // close #message
+
+} // close  #buddypress
+
+/**
+*-------------------------------------------------------------------------------
+* @section 10.0 - Ajax Loading, Widgets, General classes
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress {
+	/* Auto Complete background */
+	.acfb-holder {
+
+		li.friend-tab {
+			background: $notice-info;
+			border: inherit;
+	 }
 	}
 }
