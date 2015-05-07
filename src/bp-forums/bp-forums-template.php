@@ -1889,7 +1889,7 @@ function bp_forum_pagination_count() {
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param string $value    Pagination count for the current topic list.
+		 * @param string $message  Pagination count for the current topic list.
 		 * @param string $from_num Low end count in the view.
 		 * @param string $to_num   High end count in the view.
 		 * @param string $total    Total count of topics found.
@@ -2639,7 +2639,7 @@ function bp_the_topic_pagination_count() {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param string $value    Pagination count for the current topic page.
+	 * @param string $message  Pagination count for the current topic page.
 	 * @param string $from_num Low end count in the view.
 	 * @param string $to_num   High end count in the view.
 	 * @param string $total    Total count of topics found.

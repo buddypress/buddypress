@@ -1810,7 +1810,7 @@ function bp_groups_pagination_count() {
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param string $value    "Viewing x-y of z groups" text.
+		 * @param string $message  "Viewing x-y of z groups" text.
 		 * @param string $from_num Total amount for the low value in the range.
 		 * @param string $to_num   Total amount for the high value in the range.
 		 * @param string $total    Total amount of groups found.
@@ -5267,7 +5267,10 @@ function bp_group_requests_pagination_count() {
 		 *
 		 * @since BuddyPress (2.0.0)
 		 *
-		 * @param string $value Pagination count text for group membership requests.
+		 * @param string $message  Pagination count text for group membership requests.
+		 * @param string $from_num Total amount for the low value in the range.
+		 * @param string $to_num   Total amount for the high value in the range.
+		 * @param string $total    Total amount of members found.
 		 */
 		return apply_filters( 'bp_get_group_requests_pagination_count', $message, $from_num, $to_num, $total );
 	}

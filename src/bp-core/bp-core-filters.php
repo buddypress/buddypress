@@ -801,9 +801,13 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 	}
 
 	/**
-	 * @param  string the BuddyPress page title
-	 * @param  string $title the original WordPress page title
-	 * @param  string $sep the title parts separator
+	 * Filters the page title for BuddyPress pages.
+	 *
+	 * @since  BuddyPress (1.5.0)
+	 *
+	 * @param  string $new_title   The BuddyPress page title.
+	 * @param  string $title       The original WordPress page title.
+	 * @param  string $sep         The title parts separator.
 	 * @param  string $seplocation Location of the separator (left or right).
 	 */
 	return apply_filters( 'bp_modify_page_title', $new_title, $title, $sep, $seplocation );
