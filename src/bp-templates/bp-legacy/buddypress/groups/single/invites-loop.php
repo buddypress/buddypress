@@ -114,9 +114,3 @@
 do_action( 'bp_after_group_send_invites_list' ); ?>
 
 </div><!-- .main-column -->
-
-<div class="submit">
-	<input type="submit" name="submit" id="submit" value="<?php esc_attr_e( 'Send Invites', 'buddypress' ); ?>" />
-</div>
-
-<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites' ); ?>

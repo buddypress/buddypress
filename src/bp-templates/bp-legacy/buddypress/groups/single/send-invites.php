@@ -18,6 +18,12 @@ if ( bp_get_new_group_invite_friend_list() ) : ?>
 			<?php bp_get_template_part( 'groups/single/invites-loop' ); ?>
 		</div>
 
+		<div class="submit">
+			<input type="submit" name="submit" id="submit" value="<?php esc_attr_e( 'Send Invites', 'buddypress' ); ?>" />
+		</div>
+
+		<?php wp_nonce_field( 'groups_send_invites', '_wpnonce_send_invites' ); ?>
+
 		<?php /* This is important, don't forget it */ ?>
 		<input type="hidden" name="group_id" id="group_id" value="<?php bp_group_id(); ?>" />
 
