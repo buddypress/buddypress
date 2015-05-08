@@ -1456,8 +1456,9 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	left: 0;
 	top: 0;
 }
-a.message-action-star,
-a.message-action-unstar {
+#buddypress a.message-action-star,
+#buddypress a.message-action-unstar {
+	border-bottom: 0;
 	text-decoration: none;
 	outline: none;
 }
