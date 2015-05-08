@@ -1656,7 +1656,7 @@ function bp_activity_add( $args = '' ) {
 		'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded
 		'hide_sitewide'     => false,                  // Should this be hidden on the sitewide activity stream?
 		'is_spam'           => false,                  // Is this activity item to be marked as spam?
-	) );
+	), 'activity_add' );
 
 	// Make sure we are backwards compatible
 	if ( empty( $r['component'] ) && !empty( $r['component_name'] ) ) {
