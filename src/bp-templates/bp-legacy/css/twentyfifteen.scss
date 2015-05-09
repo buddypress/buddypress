@@ -35,56 +35,69 @@ $spacing-val-xs: 5px;
 	font-size: $rem-font-value + rem;
 }
 
-// Border border-radius mixins
-// To allow mixins to pass cscc-lint tests we will not provide vendor prefix
-// until such time as exemption lists can be built for the scss-lint.yml
+// To allow mixins to pass VendorPrefix scss-lint tests we disable lint-test
+// for specific blocks / rulesets
+// until such time as exemption lists can be built for the scss-lint.yml?
+// Any vendor prefix properties / mixins need to be in this block
+// scss-lint:disable VendorPrefix
 
+// Border border-radius mixins
 @mixin border-radius($radius) {
-//	-webkit-border-radius: $radius;
-//	-moz-border-radius: $radius;
-//	-ms-border-radius: $radius;
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
 	border-radius: $radius;
 	background-clip: padding-box;
 }
 
 @mixin border-top-radius($radius) {
-//	-webkit-border-top-right-radius: $radius;
+	-webkit-border-top-right-radius: $radius;
 	border-top-right-radius: $radius;
-//	-webkit-border-top-left-radius: $radius;
+	-webkit-border-top-left-radius: $radius;
 	border-top-left-radius: $radius;
 	background-clip: padding-box;
 }
 
 @mixin border-right-radius($radius) {
-//	-webkit-border-bottom-right-radius: $radius;
+	-webkit-border-bottom-right-radius: $radius;
 	border-bottom-right-radius: $radius;
-//	-webkit-border-top-right-radius: $radius;
+	-webkit-border-top-right-radius: $radius;
 	border-top-right-radius: $radius;
 	background-clip: padding-box;
 }
 
 @mixin border-bottom-radius($radius) {
-//	-webkit-border-bottom-right-radius: $radius;
+	-webkit-border-bottom-right-radius: $radius;
 	border-bottom-right-radius: $radius;
-//	-webkit-border-bottom-left-radius: $radius;
+	-webkit-border-bottom-left-radius: $radius;
 	border-bottom-left-radius: $radius;
 	background-clip: padding-box;
 }
 
 @mixin border-left-radius($radius) {
-//	-webkit-border-bottom-left-radius: $radius;
+	-webkit-border-bottom-left-radius: $radius;
 	border-bottom-left-radius: $radius;
-//	-webkit-border-top-left-radius: $radius;
+	-webkit-border-top-left-radius: $radius;
 	border-top-left-radius: $radius;
 	background-clip: padding-box;
 }
 
 // Box sizing
 @mixin box-model($box-model) {
-//	-webkit-box-sizing: $box-model;
-//	-moz-box-sizing: $box-model;
+	-webkit-box-sizing: $box-model;
+	-moz-box-sizing: $box-model;
 	box-sizing: $box-model;
 }
+
+// Calc
+@mixin calc($property, $expression) {
+	#{$property}: -webkit-calc(#{$expression});
+	#{$property}: -moz-calc(#{$expression});
+	#{$property}: calc(#{$expression});
+}
+
+// Re-enable the VendorPrefix lint test
+// scss-lint:enable VendorPrefix
 
 // BP message boxes
 @mixin message-box($background, $text-color: inherit) {
@@ -93,15 +106,24 @@ $spacing-val-xs: 5px;
 	color: $text-color;
 }
 
-// Variabals: color definitions
+// 2015 font family
+@mixin default-font-sans() {
+	font-family: "Noto Sans", sans-serif;
+}
+
+@mixin default-font-serif() {
+	font-family: "Noto Serif", serif;
+}
+
+// Variables: color definitions
 $content-background: #fff;
 $light-background:   #f7f7f7;
 $medium-background:  #ccc;
 $dark-background:    #555;
-$border-color:       #999; // border color is varied using rgba
+$border-color:       #999;    // border color is varied using rgba
 $border-light:       #eaeaea; // BP dividers
 $border-med:         #ddd;
-$body-text:          #333; // 2015 body text color
+$body-text:          #333;    // 2015 body text color
 $bp-button-hover:    #ededed; // this is the default BP button hover background
 $notice-error:       #c85a6e;
 $notice-warning:     #d05656;
@@ -109,7 +131,7 @@ $notice-info:        #9fd1e2;
 $notice-update:      #b1c157;
 $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
-$unread:             #cddaff;
+$unread:             #dce5ff;
 
 /*--------------------------------------------------------------
 
@@ -213,7 +235,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 			.entry-header,
 			.entry-content {
-				padding: 0 2rem 2rem;
+				padding: 0 3rem 3rem 3rem;
 			}
 
 			#buddypress {
@@ -288,7 +310,8 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	div.item-list-tabs {
 		ul {
 			background-color: $light-background;
-			border-bottom: 1px solid rgba($border-color, 0.4);
+			border-bottom: 1px solid rgba($border-light, 0.9);
+			border-top: 1px solid rgba($border-light, 0.9);
 			overflow: hidden;
 			padding: $spacing-val-xs 0;
 
@@ -302,6 +325,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 	/*__ Horizontal menus __*/
 	#object-nav {
+
 		ul {
 			overflow: hidden;
 			li {float: none;}
@@ -313,7 +337,6 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				li {
 					float: left;
 				}
-				//	li:nth-child(1n+7) {clear: left;}
 			}
 		}
 	}
@@ -406,9 +429,10 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					overflow: hidden;
 
 					span {
+						background: $content-background;
 						border-radius: 10%;
 						float: right;
-						margin-right: 15px;
+						margin-right: 2px;
 					}
 				}
 			}
@@ -417,11 +441,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		#item-body {
 			border-left: 1px solid $border-med;
 			overflow: hidden;
-			padding: 0 $spacing-val-sm;
+			padding: 0 0 0 $spacing-val-md;
 			width: auto;
 
 			#subnav {
-				margin: 0 (-$spacing-val-sm);
+				margin: 0 0 0 (-$spacing-val-md);
 			}
 		}
 
@@ -476,18 +500,29 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-------------------------------------------------------------------------------
 */
 
+// Adjusts Meta items and various elements to match 2015 font-family
+#buddypress {
+	.item-list {
+		.activity-header,
+		.activity-meta {
+			@include default-font-sans();
+		}
+	}
+}
+
 // Trying to position the action div absolute has bad consequences where
 // aditional items are displayed, floating is an alternative that
 // allows natural flow expansion.
 // This block:
 // * Manages li items, Stacks them small screen, floated left at wider screens.
-// * Adjusts display of action buttons at small screen
-// mobile up.
+// * Adjusts display of action buttons at small screen mobile up.
+// Adjusts Meta items to match 2015 font-family
 
 #buddypress {
 	ul.item-list {
 		li {
 			overflow: hidden !important;
+
 			// Undo BP floats to center avatars initially mobile up
 			.item-avatar {
 				margin-bottom: $spacing-val-sm;
@@ -671,20 +706,60 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 #buddypress {
 
-	.activity-list {
+	#activity-stream {
 
-		// re-size activity avatars
+		// re-size activity avatars and stack small screen
+		// refactor main elements positioning medium up.
 		li {
+			padding: 25px 0 15px;
+
 			.activity-avatar {
+				float: none;
+				text-align: center;
+
 				a {
+					display: inline-block;
+
 					img.avatar {
+						display: inline;
+						float: none;
 						height: 60px;
+						margin-bottom: $spacing-val-md;
 						margin-left: 0;
 						width: 60px;
 					}
 				}
+			} // close .activity-avatar
+
+			.activity-content {
+				margin-left: 0;
+
+				.activity-header {
+					@include font-size(14);
+				}
 			}
-		}
+
+			@media screen and (min-width: 46.25em) {
+
+				.activity-avatar {
+					float: left;
+					margin-right: $spacing-val-sm;
+					text-align: left;
+					a {border-bottom: 0;}
+				}
+
+				.activity-content {
+					margin: 0;
+					overflow: hidden;
+
+					.activity-header {
+						@include font-size(16);
+					}
+				}
+
+			} // close @media
+
+		} // close li
 
 		li.mini {
 			.activity-avatar {
@@ -708,7 +783,6 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			margin-top: -12px;
 
 			.activity-header {
-				@include font-size(16);
 				line-height: inherit;
 				margin-right: 0;
 
@@ -723,6 +797,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					margin-bottom: 0 !important; // have to match to BP
 				}
 			} // close .activity-header
+
 			.activity-meta {
 				a {
 					display: block;
@@ -736,10 +811,49 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 		} // close .activity-content
 
-		.load-more a {display: block;}
+		.load-more {
+			background: $light-background;
+			border: 1px solid transparent;
+			padding: $spacing-val-sm;
 
-	} // close .activity-list
+			&:focus,
+			&:hover {
+				background: darken($light-background, 1%);
+				border: 1px solid rgba(#9fd1e2, 0.3);
+				a { font-style: italic; }
+			}
+
+			a {
+				display: block;
+			}
+		}
+
+	} // close #activity-stream
 } // close #buddypress
+
+/* Single activity view  - activity permalink */
+
+.activity-permalink {
+	#buddypress {
+		#activity-stream {
+
+			li.activity-item {
+				padding: $spacing-val-md;
+			}
+
+			li.mini {
+				.activity-header {
+					@include font-size(16);
+					@media screen and (min-width: 46.25em) {
+						@include font-size(20);
+					}
+					margin-bottom: $spacing-val-lg;
+					p {padding: $spacing-val-md;}
+				}
+			}
+		}
+	}
+}
 
 /**
 *-----------------------------------------------------
@@ -747,14 +861,15 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-----------------------------------------------------
 */
 #buddypress {
-	.activity {
+
+	#activity-stream {
 		.activity-comments {
 			border-left: 1px solid $border-light;
 			margin-top: 5px;
 
 			ul {
 				background: rgba($light-background, 0.6);
-				margin: 30px 0 0 2px;
+				margin: 15px 0 0 2px;
 			}
 
 			.ac-form {
@@ -827,6 +942,51 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-----------------------------------------------------------
 */
 
+.bp-user,
+.single-item.groups {
+	@media screen and (max-width: 46.25em) {
+		main {
+			header.entry-header {
+				padding-bottom: 1rem;
+			}
+		}
+	}
+
+	@media screen and (max-width: 38.75em) {
+		h1,
+		#item-header-content {
+			text-align: center;
+		}
+	}
+
+	#buddypress {
+		@media screen and (max-width: 46.25em) {
+			#item-header {
+				.generic-button {
+					float: none;
+					margin: 1.5em 0 0 0;
+				}
+			}
+		}
+
+		@media screen and (max-width: 38.75em) {
+			h1 {
+				margin-bottom: 0;
+			}
+
+			#item-header-avatar {
+				img.avatar {
+					margin-right: 0;
+				}
+			}
+
+			#item-header-content {
+				width: 100%;
+			}
+		}
+	}
+}
+
 /**
 *-----------------------------------------------------
 * @subsection 6.1.1 - item-header Groups
@@ -837,6 +997,13 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 .single-item.groups {
 	#buddypress {
+		@media screen and (max-width: 46.25em) {
+			#item-header {
+				#item-meta {
+					margin-bottom: $spacing-val-md;
+				}
+			}
+		}
 
 		// Move visual flow of avatar & item-actions at narrow width,
 		// avatar first after group title
@@ -1100,7 +1267,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	#subnav {
 		li {
 			@media screen and (max-width: 38.75em) {
-				background: #fff;
+				background: $content-background;
 				padding: $spacing-val-md 0;
 			}
 			width: 100%;
@@ -1323,7 +1490,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 					margin-right: $spacing-val-xs;
 					position: static;
 				}
-			}
+			} // close .message-meta
 
 			.message-content {
 				background: $light-background;
@@ -1331,53 +1498,121 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				margin: $spacing-val-sm 0 0 0;
 				padding: 0.3em;
 			}
-		}
 
-		table#message-threads {
-
-			.bulk-select-check,
-			.thread-star {
-				width: 10%;
-			}
-
-			.thread-star a {
-				outline: none;
-			}
-
-			.thread-from,
-			.thread-info {
-				width: 30%;
-			}
-
-			.thread-options {
-				width: 20%;
-			}
-
-			tr {
-
-				td {
-					background: $stripe-odd;
+			#send-reply {
+				.message-content {
+					background: $content-background;
+					border: 0;
 				}
 			}
 
-			tr.alt {
+			.alt {
+				background: $content-background;
+			}
+
+		} // close message-thread  Singular view!
+
+		#message-threads {
+			display: block;
+
+			thead {
+				tr {
+					background: lighten($dark-background, 10%);
+				}
+			}
+
+			tr {
 				td {
-					background: $stripe-even;
+					background: $content-background;
+					display: inline-block;
+					float: left;
+				}
+
+				td.thread-star,
+				td.thread-options {
+					border-bottom-color: $medium-background;
+					border-bottom-width: 2px;
+					height: 2.4em;
+					padding-bottom: 0.2em;
+					padding-top: 0.2em;
+
+					@media screen and (max-width: 46.25em) {
+						padding-top: 0;
+					}
+				}
+
+				td.bulk-select-check,
+				td.thread-from {
+					height: 2.6em;
+					@media screen and (max-width: 38.75em) {
+						height: 5.2em;
+					}
+				}
+
+				td.thread-from,
+				td.thread-options {
+					border-left: 0 !important;
+					@include calc(width, "100% - 30px");
+					margin-left: 0;
+				}
+
+				td.thread-info {
+					padding-left: 41px;
+					width: 100%;
+
+					a::after {
+						content: " \2013 \00a0"attr(title);
+						@include font-size(12);
+					}
+				}
+
+				td.thread-options {
+					text-align: right;
+
+					a {
+						@include font-size(12);
+						line-height: 2.2;
+					}
+				}
+
+				span.from {
+					display: none;
+				}
+
+				span.activity {
+					display: block;
+					float: right;
+					line-height: 2;
+					@media screen and (max-width: 38.75em) {
+						clear: both;
+						@include font-size(11);
+						width: 100%;
+					}
 				}
 			}
 
 			tr.unread {
 				td {
 					background: $unread;
-					border-bottom: 1px solid #e4cdff;
-					border-top: 1px solid #e4cdff;
+					border-color: $border-color;
 				}
 			}
 
-			tr.read {
-				td {
-					background: $light-background;
-				}
+			th {
+				display: none;
+			}
+
+			th.bulk-select-all {
+				border-bottom: 0;
+				display: inline-block;
+				text-align: left;
+			}
+
+			th.bulk-select-all,
+			td.bulk-select-check,
+			td.thread-star {
+				border-right: 0;
+				width: 30px;
 			}
 		}
 
