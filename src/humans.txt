@@ -71,9 +71,14 @@ Title: Core Developer
 Twitter: tw2113
 Favorite Food: Jelly Beans
 
+Name: Hugo Ashmore (hnla)
+Title: Core Developer
+Twitter: hnla
+Favourite Food: Sunday Roast or Curries
+
 /* THANKS */
-hnla, modemlooper, cnorris23, karmatosed, photomatt
+modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2015/01/07
+Updated: 2015/05/09
 See: http://humanstxt.org/
