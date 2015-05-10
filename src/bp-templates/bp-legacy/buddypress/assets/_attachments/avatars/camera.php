@@ -13,7 +13,7 @@
 <script id="tmpl-bp-avatar-webcam" type="text/html">
 	<# if ( ! data.user_media ) { #>
 		<div id="bp-webcam-message">
-			<p class="warning"><?php esc_html_e( 'Your browser does not support the camera feature', 'buddypress' );?></p>
+			<p class="warning"><?php esc_html_e( 'Your browser does not support this feature.', 'buddypress' );?></p>
 		</div>
 	<# } else { #>
 		<div id="avatar-to-crop"></div>

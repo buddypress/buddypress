@@ -1838,14 +1838,27 @@ function bp_avatar_is_front_edit() {
  *
  * @since  BuddyPress (2.3.0)
  *
+ * @global $is_safari
+ * @global $is_IE
  * @return bool True to load the Webcam Avatar UI part. False otherwise.
  */
 function bp_avatar_use_webcam() {
+	global $is_safari, $is_IE;
+
 	/**
 	 * Do not use the webcam feature for mobile devices
 	 * to avoid possible confusions.
 	 */
 	if ( wp_is_mobile() ) {
+		return false;
+	}
+
+	/**
+	 * Bail when the browser does not support getUserMedia.
+	 *
+	 * @see  http://caniuse.com/#feat=stream
+	 */
+	if ( $is_safari || $is_IE ) {
 		return false;
 	}
 

@@ -223,18 +223,18 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 
 		// Create the Camera Nav if the WebCam capture feature is enabled
 		if ( bp_avatar_use_webcam() && 'user' === $object ) {
-			$avatar_nav['camera'] = array( 'id' => 'camera', 'caption' => __( 'Camera', 'buddypress' ), 'order' => 10 );
+			$avatar_nav['camera'] = array( 'id' => 'camera', 'caption' => __( 'Take Photo', 'buddypress' ), 'order' => 10 );
 
 			// Set warning messages
 			$strings['camera_warnings'] = array(
-				'requesting'  => __( 'Requesting video stream, please authorize this website to access to your camera.', 'buddypress'),
-				'loading'     => __( 'Please wait for the video to load.', 'buddypress' ),
-				'loaded'      => __( 'Video stream loaded. You can use the capture button to display the profile photo preview.', 'buddypress' ),
-				'noaccess'    => __( 'You denied this website to access to your camera. Please use the upload form.', 'buddypress' ),
-				'errormsg'    => __( 'Your browser is not supported. Please use the upload form.', 'buddypress' ),
-				'videoerror'  => __( 'Video error. Please use the upload form.', 'buddypress' ),
-				'ready'       => __( 'Your profile photo is ready, use the save button to validate.', 'buddypress' ),
-				'nocapture'   => __( 'No profile photo was captured, please use the capture button first.', 'buddypress' ),
+				'requesting'  => __( 'Please allow us to access to your camera.', 'buddypress'),
+				'loading'     => __( 'Please wait as we access your camera.', 'buddypress' ),
+				'loaded'      => __( 'Camera loaded. Click on the "Capture" button to take your photo.', 'buddypress' ),
+				'noaccess'    => __( 'It looks like you do not have a webcam or we were unable to get permission to use your webcam. Please upload a photo instead.', 'buddypress' ),
+				'errormsg'    => __( 'Your browser is not supported. Please upload a photo instead.', 'buddypress' ),
+				'videoerror'  => __( 'Video error. Please upload a photo instead.', 'buddypress' ),
+				'ready'       => __( 'Your profile photo is ready. Click on the "Save" button to use this photo.', 'buddypress' ),
+				'nocapture'   => __( 'No photo was captured. Click on the "Capture" button to take your photo.', 'buddypress' ),
 			);
 		}
 
