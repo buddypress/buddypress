@@ -825,71 +825,69 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     border: 0; }
   .bp-user #buddypress #message-thread .alt {
     background: #fff; }
-  .bp-user #buddypress #message-threads {
-    display: block; }
-    .bp-user #buddypress #message-threads thead tr {
-      background: #6e6e6e; }
-    .bp-user #buddypress #message-threads tr td {
-      background: #fff;
-      display: inline-block;
-      float: right; }
-    .bp-user #buddypress #message-threads tr td.thread-star, .bp-user #buddypress #message-threads tr td.thread-options {
-      border-bottom-color: #ccc;
-      border-bottom-width: 2px;
-      height: 2.4em;
-      padding-bottom: 0.2em;
-      padding-top: 0.2em; }
-      @media screen and (max-width: 46.25em) {
-        .bp-user #buddypress #message-threads tr td.thread-star, .bp-user #buddypress #message-threads tr td.thread-options {
-          padding-top: 0; } }
-    .bp-user #buddypress #message-threads tr td.bulk-select-check, .bp-user #buddypress #message-threads tr td.thread-from {
-      height: 2.6em; }
-      @media screen and (max-width: 38.75em) {
-        .bp-user #buddypress #message-threads tr td.bulk-select-check, .bp-user #buddypress #message-threads tr td.thread-from {
-          height: 5.2em; } }
-    .bp-user #buddypress #message-threads tr td.thread-from, .bp-user #buddypress #message-threads tr td.thread-options {
-      border-right: 0 !important;
-      width: -webkit-calc(100% - 30px);
-      width: -moz-calc(100% - 30px);
-      width: calc(100% - 30px);
-      margin-right: 0; }
-    .bp-user #buddypress #message-threads tr td.thread-info {
-      padding-right: 41px;
-      width: 100%; }
-      .bp-user #buddypress #message-threads tr td.thread-info a::after {
-        content: " \2013 \00a0" attr(title);
-        font-size: 12px;
-        font-size: 1.2rem; }
-    .bp-user #buddypress #message-threads tr td.thread-options {
-      text-align: left; }
-      .bp-user #buddypress #message-threads tr td.thread-options a {
-        font-size: 12px;
-        font-size: 1.2rem;
-        line-height: 2.2; }
-    .bp-user #buddypress #message-threads tr span.from {
-      display: none; }
-    .bp-user #buddypress #message-threads tr span.activity {
-      display: block;
-      float: left;
-      line-height: 2; }
-      @media screen and (max-width: 38.75em) {
-        .bp-user #buddypress #message-threads tr span.activity {
-          clear: both;
-          font-size: 11px;
-          font-size: 1.1rem;
-          width: 100%; } }
-    .bp-user #buddypress #message-threads tr.unread td {
-      background: #dce5ff;
-      border-color: #999; }
-    .bp-user #buddypress #message-threads th {
-      display: none; }
-    .bp-user #buddypress #message-threads th.bulk-select-all {
-      border-bottom: 0;
-      display: inline-block;
-      text-align: right; }
-    .bp-user #buddypress #message-threads th.bulk-select-all, .bp-user #buddypress #message-threads td.bulk-select-check, .bp-user #buddypress #message-threads td.thread-star {
-      border-left: 0;
-      width: 30px; }
+  .bp-user #buddypress #message-threads thead tr {
+    background: #6e6e6e; }
+  .bp-user #buddypress #message-threads tr td {
+    background: #fff;
+    display: inline-block;
+    float: right; }
+  .bp-user #buddypress #message-threads tr td.thread-star, .bp-user #buddypress #message-threads tr td.thread-options {
+    border-bottom-color: #ccc;
+    border-bottom-width: 2px;
+    height: 2.4em;
+    padding-bottom: 0.2em;
+    padding-top: 0.2em; }
+    @media screen and (max-width: 46.25em) {
+      .bp-user #buddypress #message-threads tr td.thread-star, .bp-user #buddypress #message-threads tr td.thread-options {
+        padding-top: 0; } }
+  .bp-user #buddypress #message-threads tr td.bulk-select-check, .bp-user #buddypress #message-threads tr td.thread-from {
+    height: 2.6em; }
+    @media screen and (max-width: 38.75em) {
+      .bp-user #buddypress #message-threads tr td.bulk-select-check, .bp-user #buddypress #message-threads tr td.thread-from {
+        height: 5.2em; } }
+  .bp-user #buddypress #message-threads tr td.thread-from, .bp-user #buddypress #message-threads tr td.thread-options {
+    border-right: 0 !important;
+    width: -webkit-calc(100% - 30px);
+    width: -moz-calc(100% - 30px);
+    width: calc(100% - 30px);
+    margin-right: 0; }
+  .bp-user #buddypress #message-threads tr td.thread-info {
+    padding-right: 41px;
+    width: 100%; }
+    .bp-user #buddypress #message-threads tr td.thread-info a::after {
+      content: " \2013 \00a0" attr(title);
+      font-size: 12px;
+      font-size: 1.2rem; }
+  .bp-user #buddypress #message-threads tr td.thread-options {
+    text-align: left; }
+    .bp-user #buddypress #message-threads tr td.thread-options a {
+      font-size: 12px;
+      font-size: 1.2rem;
+      line-height: 2.2; }
+  .bp-user #buddypress #message-threads tr span.from {
+    display: none; }
+  .bp-user #buddypress #message-threads tr span.activity {
+    display: block;
+    float: left;
+    line-height: 2; }
+    @media screen and (max-width: 38.75em) {
+      .bp-user #buddypress #message-threads tr span.activity {
+        clear: both;
+        font-size: 11px;
+        font-size: 1.1rem;
+        width: 100%; } }
+  .bp-user #buddypress #message-threads tr.unread td {
+    background: #dce5ff;
+    border-color: #999; }
+  .bp-user #buddypress #message-threads th {
+    display: none; }
+  .bp-user #buddypress #message-threads th.bulk-select-all {
+    border-bottom: 0;
+    display: inline-block;
+    text-align: right; }
+  .bp-user #buddypress #message-threads th.bulk-select-all, .bp-user #buddypress #message-threads td.bulk-select-check, .bp-user #buddypress #message-threads td.thread-star {
+    border-left: 0;
+    width: 30px; }
   .bp-user #buddypress .acfb-holder li.friend-tab {
     margin-left: 0; }
     .bp-user #buddypress .acfb-holder li.friend-tab a {
@@ -975,9 +973,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     float: left;
     margin-bottom: 5px !important; }
     #buddypress div.dir-search form label, #buddypress div.dir-search form input[type='text'], #buddypress div.dir-search form input[type='submit'], #buddypress div.message-search form label, #buddypress div.message-search form input[type='text'], #buddypress div.message-search form input[type='submit'], #buddypress li.groups-members-search form label, #buddypress li.groups-members-search form input[type='text'], #buddypress li.groups-members-search form input[type='submit'] {
-      width: auto; }
-  #buddypress div.message-search {
-    margin-left: 10px; } }
+      width: auto; } }
 @media screen and (min-width: 77.5em) {
   #buddypress .dir-search form input[type='text'], #buddypress .message-search form input[type='text'] {
     font-size: 16px;
@@ -1031,14 +1027,23 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 * @section 9.0 - Error / Success messages
 *-------------------------------------------------------------------------------
 */
+#buddypress div#message p {
+  font-size: 18px;
+  font-size: 1.8rem;
+  font-weight: bold; }
 #buddypress div#message.info p {
   background: #c6e4ee;
   border: 1px solid #78bed6;
-  color: inherit; }
-#buddypress div#message.update p {
-  background: #c2cf7c;
-  border: 1px solid #97a73e;
-  color: inherit; }
+  color: #fff; }
+#buddypress div#message.updated p {
+  background: #dee6b2;
+  border: 1px solid #becc66;
+  color: #fff; }
+
+.delete-group #buddypress div#message.info p {
+  background: #db7e7e;
+  border: 1px solid #be3535;
+  color: #fff; }
 
 /**
 *-------------------------------------------------------------------------------

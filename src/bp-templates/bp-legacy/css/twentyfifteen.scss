@@ -128,7 +128,7 @@ $bp-button-hover:    #ededed; // this is the default BP button hover background
 $notice-error:       #c85a6e;
 $notice-warning:     #d05656;
 $notice-info:        #9fd1e2;
-$notice-update:      #b1c157;
+$notice-update:      #ced98c;
 $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
 $unread:             #dce5ff;
@@ -1513,8 +1513,6 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		} // close message-thread  Singular view!
 
 		#message-threads {
-			display: block;
-
 			thead {
 				tr {
 					background: lighten($dark-background, 10%);
@@ -1812,8 +1810,6 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				}
 			}
 		}
-
-		div.message-search {margin-right: $spacing-val-sm;}
 	} // close @media
 
 	// Attempt to replicate the 2015 breakpoint font resizing for buttons/submits
@@ -1923,21 +1919,40 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 #buddypress {
 	div#message {
+		p {
+			@include font-size(18);
+			font-weight: bold;
+		}
+
 		&.info {
 			p {
-				@include message-box($notice-info);
+				@include message-box($notice-info, #fff);
 			}
 		}
 
-		&.update {
+		&.updated {
 			p {
-				@include message-box($notice-update);
+				@include message-box($notice-update, #fff);
 			}
 		}
 
 	} // close #message
 
 } // close  #buddypress
+
+// Without direct classes on our mesages ( 'warning' )
+// we need to use the body classes
+// message args ($variable-color, text-color)
+// todo: If this is class .warning is included in main BP styles remove from here
+.delete-group {
+	#buddypress {
+		div#message.info {
+			p {
+				@include message-box($notice-warning, #fff);
+			}
+		}
+	}
+}
 
 /**
 *-------------------------------------------------------------------------------

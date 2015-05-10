@@ -127,6 +127,7 @@ $body-text:              #2b2b2b; // 2015 body text color
 $bp-button-hover:        #ededed; // this is the default BP button hover background
 $notice-warning:         #d05656;
 $notice-info:            #9fd1e2;
+$notice-update:          #ced98c;
 $stripe-odd:             #ebf0ff;
 $stripe-even:            #dbe5ff;
 $unread:                 #cddaff;
@@ -916,6 +917,11 @@ $nav-background-border: #bebebe;
 						}
 					}
 				} // close #item-actions
+
+				#message {
+					order: 4;
+				}
+
 			}
 		} // close @media
 
@@ -977,6 +983,27 @@ $nav-background-border: #bebebe;
 			}
 		}
 
+		#latest-update {
+			margin-bottom: $spacing-val-sm;
+		}
+
+		@media screen and (max-width: 594px) {
+			#item-buttons {
+				div.generic-button {
+					display: inline-block;
+					float: none;
+					margin: 0 0 $spacing-val-xs 0;
+					width: 100%;
+
+					a {
+						@include box-model();
+						display: block;
+						width: 100%;
+					}
+				}
+			}
+		}
+
 		@media screen and (min-width: 673px) {
 			#item-header-avatar {
 				float: left;
@@ -990,6 +1017,10 @@ $nav-background-border: #bebebe;
 			#item-header-content {
 				float: right;
 				width: 78%;
+
+				#latest-update {
+					margin-bottom: $spacing-val-md;
+				}
 			}
 		}
 
@@ -1398,16 +1429,32 @@ $nav-background-border: #bebebe;
 *-------------------------------------------------------------------------------
 */
 #buddypress {
-	div#message.info {
+	div#message {
 		p {
-			@include message-box($notice-info);
+			@include font-size(18);
+			font-weight: bold;
 		}
-	}
-}
+
+		&.info {
+			p {
+				@include message-box($notice-info, #fff);
+			}
+		}
+
+		&.updated {
+			p {
+				@include message-box($notice-update, #fff);
+			}
+		}
+
+	} // close #message
+
+} // close  #buddypress
 
 // Without direct classes on our mesages ( 'warning' )
 // we need to use the body classes
 // message args ($variable-color, text-color)
+// todo: If this is class .warning is included in main BP styles remove from here
 .delete-group {
 	#buddypress {
 		div#message.info {
@@ -1415,6 +1462,23 @@ $nav-background-border: #bebebe;
 				@include message-box($notice-warning, #fff);
 			}
 		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 10.0 - Ajax Loading, Widgets, General classes
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress {
+	/* Auto Complete background */
+	.acfb-holder {
+
+		li.friend-tab {
+			background: $notice-info;
+			border: inherit;
+	 }
 	}
 }
 

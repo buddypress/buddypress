@@ -449,7 +449,9 @@ to maintain uniformity.
       .single-item.groups #buddypress div#item-header #item-actions ul {
         margin-right: 0; }
         .single-item.groups #buddypress div#item-header #item-actions ul li {
-          float: right; } }
+          float: right; }
+    .single-item.groups #buddypress div#item-header #message {
+      order: 4; } }
 .single-item.groups #buddypress #item-header #item-actions {
   float: none;
   width: auto; }
@@ -482,6 +484,20 @@ to maintain uniformity.
     width: 100%; }
     .bp-user #buddypress #item-header #item-header-avatar img {
       float: none; }
+  .bp-user #buddypress #item-header #latest-update {
+    margin-bottom: 10px; }
+  @media screen and (max-width: 594px) {
+    .bp-user #buddypress #item-header #item-buttons div.generic-button {
+      display: inline-block;
+      float: none;
+      margin: 0 0 5px 0;
+      width: 100%; }
+      .bp-user #buddypress #item-header #item-buttons div.generic-button a {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        display: block;
+        width: 100%; } }
   @media screen and (min-width: 673px) {
     .bp-user #buddypress #item-header #item-header-avatar {
       float: right;
@@ -492,7 +508,9 @@ to maintain uniformity.
         margin: 0; }
     .bp-user #buddypress #item-header #item-header-content {
       float: left;
-      width: 78%; } }
+      width: 78%; }
+      .bp-user #buddypress #item-header #item-header-content #latest-update {
+        margin-bottom: 20px; } }
 
 /**
 *------------------------------------------------------------
@@ -721,12 +739,31 @@ to maintain uniformity.
 * @section 9.0 - Error / Success messages
 *-------------------------------------------------------------------------------
 */
+#buddypress div#message p {
+  font-size: 18px;
+  font-size: 1.125rem;
+  font-weight: bold; }
 #buddypress div#message.info p {
   background: #c6e4ee;
   border: 1px solid #78bed6;
-  color: inherit; }
+  color: #fff; }
+#buddypress div#message.updated p {
+  background: #dee6b2;
+  border: 1px solid #becc66;
+  color: #fff; }
 
 .delete-group #buddypress div#message.info p {
   background: #db7e7e;
   border: 1px solid #be3535;
   color: #fff; }
+
+/**
+*-------------------------------------------------------------------------------
+* @section 10.0 - Ajax Loading, Widgets, General classes
+*-------------------------------------------------------------------------------
+*/
+#buddypress {
+  /* Auto Complete background */ }
+  #buddypress .acfb-holder li.friend-tab {
+    background: #9fd1e2;
+    border: inherit; }
