@@ -38,7 +38,7 @@ do_action( 'bp_before_notices_loop' ); ?>
 	 */
 	do_action( 'bp_before_notices' ); ?>
 
-	<table id="message-threads" class="messages-notices">
+	<table id="message-threads" class="messages-notices sitewide-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
 			<tr id="notice-<?php bp_message_notice_id(); ?>" class="<?php bp_message_css_class(); ?>">
 				<td width="1%"></td>
