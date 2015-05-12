@@ -100,7 +100,15 @@ $spacing-val-xs: 5px;
 // scss-lint:enable VendorPrefix
 
 // BP message boxes
-@mixin message-box($background, $text-color: inherit) {
+@mixin message-box($background, $text-color: null) {
+
+	@if($text-color) {
+		// if a param was passed through
+		$text-color: $text-color;
+	} @else {
+		$text-color: darken($background, 50%);
+	}
+
 	background: lighten($background, 10%);
 	border: 1px solid darken($background, 10%);
 	color: $text-color;
@@ -1262,6 +1270,51 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-----------------------------------------
 */
 
+/* Members loop */
+
+.groups.group-members {
+	#buddypress {
+		#members-group-list {
+			li {
+
+				@media screen and (max-width: 30em) {
+					> a {
+						border-bottom: 0;
+						display: block;
+						margin-bottom: $spacing-val-sm;
+						text-align: center;
+
+						img.avatar {
+							display: inline;
+							float: none;
+						}
+					}
+				}
+
+				h5 {
+					display: inline-block;
+					@include font-size(14);
+
+					@media screen and (min-width: 59.6875em) {
+						@include font-size(16);
+					}
+					margin: 0;
+
+					a {border-bottom: 0;}
+				} //  close h5
+
+				span.activity {
+					@include font-size(12);
+				}
+
+				.action {
+					top: 0;
+				}
+			} // close li
+		}
+	}
+}
+
 // Massage the members search for groups nav specifically.
 .groups.group-members {
 	#subnav {
@@ -1917,7 +1970,13 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 * @section 9.0 - Error / Success messages
 *-------------------------------------------------------------------------------
 */
+
+// message args ($variable-color, text-color)
+// Leave text-color undefined to automagically set text color
+// to background color darker by 50%
+
 #buddypress {
+
 	div#message {
 		p {
 			@include font-size(18);
@@ -1926,13 +1985,13 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 		&.info {
 			p {
-				@include message-box($notice-info, #fff);
+				@include message-box($notice-info);
 			}
 		}
 
 		&.updated {
 			p {
-				@include message-box($notice-update, #fff);
+				@include message-box($notice-update);
 			}
 		}
 
@@ -1942,7 +2001,6 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 // Without direct classes on our mesages ( 'warning' )
 // we need to use the body classes
-// message args ($variable-color, text-color)
 // todo: If this is class .warning is included in main BP styles remove from here
 .delete-group {
 	#buddypress {

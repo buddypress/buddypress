@@ -654,6 +654,33 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 * @subsection 6.2.1.2 - Group members
 *-----------------------------------------
 */
+/* Members loop */
+@media screen and (max-width: 30em) {
+  .groups.group-members #buddypress #members-group-list li > a {
+    border-bottom: 0;
+    display: block;
+    margin-bottom: 10px;
+    text-align: center; }
+    .groups.group-members #buddypress #members-group-list li > a img.avatar {
+      display: inline;
+      float: none; } }
+.groups.group-members #buddypress #members-group-list li h5 {
+  display: inline-block;
+  font-size: 14px;
+  font-size: 1.4rem;
+  margin: 0; }
+  @media screen and (min-width: 59.6875em) {
+    .groups.group-members #buddypress #members-group-list li h5 {
+      font-size: 16px;
+      font-size: 1.6rem; } }
+  .groups.group-members #buddypress #members-group-list li h5 a {
+    border-bottom: 0; }
+.groups.group-members #buddypress #members-group-list li span.activity {
+  font-size: 12px;
+  font-size: 1.2rem; }
+.groups.group-members #buddypress #members-group-list li .action {
+  top: 0; }
+
 .groups.group-members #subnav li {
   width: 100%; }
   @media screen and (max-width: 38.75em) {
@@ -1034,11 +1061,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 #buddypress div#message.info p {
   background: #c6e4ee;
   border: 1px solid #78bed6;
-  color: #fff; }
+  color: #1e5264; }
 #buddypress div#message.updated p {
   background: #dee6b2;
   border: 1px solid #becc66;
-  color: #fff; }
+  color: #454d19; }
 
 .delete-group #buddypress div#message.info p {
   background: #db7e7e;
