@@ -109,7 +109,7 @@ class BP_Messages_Notice {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Messages_Notice Current instance of the message notice item being saved. Passed by reference.
+		 * @param BP_Messages_Notice $this Current instance of the message notice item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_notice_before_save', array( &$this ) );
 
@@ -137,7 +137,7 @@ class BP_Messages_Notice {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Messages_Notice Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Notice $this Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_notice_after_save', array( &$this ) );
 
@@ -183,7 +183,7 @@ class BP_Messages_Notice {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Messages_Notice Current instance of the message notice item being deleted.
+		 * @param BP_Messages_Notice $this Current instance of the message notice item being deleted.
 		 */
 		do_action( 'messages_notice_before_delete', $this );
 
@@ -202,13 +202,13 @@ class BP_Messages_Notice {
 	/**
 	 * Pulls up a list of notices.
 	 *
-	 * To get all notices, pass a value of -1 to pag_num
+	 * To get all notices, pass a value of -1 to pag_num.
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param array $args {
 	 *     Array of parameters.
-	 *     @type int $pag_num Number of notices per page. Defaults to 20.
+	 *     @type int $pag_num  Number of notices per page. Defaults to 20.
 	 *     @type int $pag_page The page number.  Defaults to 1.
 	 * }
 	 * @return array
@@ -255,7 +255,7 @@ class BP_Messages_Notice {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @return object The BP_Messages_Notice object
+	 * @return object The BP_Messages_Notice object.
 	 */
 	public static function get_active() {
 		$notice = wp_cache_get( 'active_notice', 'bp_messages' );

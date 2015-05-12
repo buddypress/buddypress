@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Messages Actions
+ * BuddyPress Messages Actions.
  *
  * Action functions are exactly the same as screen functions, however they do
  * not have a template screen associated with them. Usually they will send the
@@ -102,7 +102,7 @@ add_action( 'bp_actions', 'messages_action_delete_message' );
  * @since BuddyPress (2.2.0)
  *
  * @return bool|null Returns false on failure. Otherwise redirects back to the
- *         message box URL.
+ *                   message box URL.
  */
 function bp_messages_action_mark_read() {
 
@@ -143,7 +143,7 @@ add_action( 'bp_actions', 'bp_messages_action_mark_read' );
  * @since BuddyPress (2.2.0)
  *
  * @return bool|null Returns false on failure. Otherwise redirects back to the
- *         message box URL.
+ *                   message box URL.
  */
 function bp_messages_action_mark_unread() {
 
@@ -184,7 +184,7 @@ add_action( 'bp_actions', 'bp_messages_action_mark_unread' );
  * @since BuddyPress (2.2.0)
  *
  * @return bool Returns false on failure. Otherwise redirects back to the
- *         message box URL.
+ *              message box URL.
  */
 function bp_messages_action_bulk_manage() {
 

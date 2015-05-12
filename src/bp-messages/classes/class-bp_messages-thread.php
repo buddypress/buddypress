@@ -56,7 +56,7 @@ class BP_Messages_Thread {
 	public $unread_count;
 
 	/**
-	 * The content of the last message in this thread
+	 * The content of the last message in this thread.
 	 *
 	 * @since BuddyPress (1.2.0)
 	 * @var string
@@ -64,7 +64,7 @@ class BP_Messages_Thread {
 	public $last_message_content;
 
 	/**
-	 * The date of the last message in this thread
+	 * The date of the last message in this thread.
 	 *
 	 * @since BuddyPress (1.2.0)
 	 * @var string
@@ -72,7 +72,7 @@ class BP_Messages_Thread {
 	public $last_message_date;
 
 	/**
-	 * The ID of the last message in this thread
+	 * The ID of the last message in this thread.
 	 *
 	 * @since BuddyPress (1.2.0)
 	 * @var int
@@ -80,7 +80,7 @@ class BP_Messages_Thread {
 	public $last_message_id;
 
 	/**
-	 * The subject of the last message in this thread
+	 * The subject of the last message in this thread.
 	 *
 	 * @since BuddyPress (1.2.0)
 	 * @var string
@@ -88,7 +88,7 @@ class BP_Messages_Thread {
 	public $last_message_subject;
 
 	/**
-	 * The user ID of the author of the last message in this thread
+	 * The user ID of the author of the last message in this thread.
 	 *
 	 * @since BuddyPress (1.2.0)
 	 * @var int
@@ -108,7 +108,11 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @see BP_Messages_Thread::populate() for full description of parameters
+	 * @see BP_Messages_Thread::populate() for full description of parameters.
+	 *
+	 * @param bool   $thread_id
+	 * @param string $order
+	 * @param array  $args
 	 */
 	public function __construct( $thread_id = false, $order = 'ASC', $args = array() ) {
 		if ( $thread_id ) {
@@ -123,12 +127,12 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param int $thread_id The message thread ID.
-	 * @param string $order The order to sort the messages. Either 'ASC' or 'DESC'.
+	 * @param int    $thread_id The message thread ID.
+	 * @param string $order     The order to sort the messages. Either 'ASC' or 'DESC'.
 	 * @param array $args {
 	 *     Array of arguments.
 	 *     @type bool $update_meta_cache Whether to pre-fetch metadata for
-	 *           queried message items. Default: true.
+	 *                                   queried message items. Default: true.
 	 * }
 	 * @return bool False on failure.
 	 */
@@ -181,7 +185,7 @@ class BP_Messages_Thread {
 		 *
 		 * @since BuddyPress (2.2.0)
 		 *
-		 * @param BP_Messages_Thread Message thread object.
+		 * @param BP_Messages_Thread $this Message thread object.
 		 */
 		do_action( 'bp_messages_thread_post_populate', $this );
 	}
@@ -214,7 +218,8 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 * @since BuddyPress (2.3.0) Added $thread_id as a parameter.
 	 *
-	 * @param int $thread_id The thread ID
+	 * @param int $thread_id The thread ID.
+	 *
 	 * @return array
 	 */
 	public function get_recipients( $thread_id = 0 ) {
@@ -256,7 +261,8 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param int $thread_id The message thread ID
+	 * @param int $thread_id The message thread ID.
+	 *
 	 * @return array
 	 */
 	public static function get_messages( $thread_id = 0 ) {
@@ -281,7 +287,8 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param  int $thread_id The thread ID
+	 * @param  int $thread_id The thread ID.
+	 *
 	 * @return array
 	 */
 	public static function get_recipients_for_thread( $thread_id = 0 ) {
@@ -297,7 +304,8 @@ class BP_Messages_Thread {
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param int $thread_id The message thread ID
+	 * @param int $thread_id The message thread ID.
+	 *
 	 * @return bool
 	 */
 	public static function delete( $thread_id ) {
@@ -352,7 +360,7 @@ class BP_Messages_Thread {
 				 *
 				 * @since BuddyPress (1.0.0)
 				 *
-				 * @param int $message_id ID of the message
+				 * @param int $message_id ID of the message.
 				 */
 				do_action( 'messages_thread_deleted_thread', $message_id );
 			}
@@ -362,7 +370,7 @@ class BP_Messages_Thread {
 		}
 
 		/**
-		 * Fires after a message thread is either marked as deleted or deleted
+		 * Fires after a message thread is either marked as deleted or deleted.
 		 *
 		 * @since BuddyPress (2.2.0)
 		 *
@@ -520,7 +528,8 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (2.2.0)
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
-	 *   documentation for WP_Meta_Query for details.
+	 *                          documentation for WP_Meta_Query for details.
+	 *
 	 * @return array $sql_array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
@@ -586,10 +595,10 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int    $user_id The user ID.
-	 * @param string $box  The type of mailbox to get. Either 'inbox' or 'sentbox'.
-	 *                     Defaults to 'inbox'.
-	 * @param string $type The type of messages to get. Either 'all' or 'unread'
-	 *                     or 'read'. Defaults to 'all'.
+	 * @param string $box     The type of mailbox to get. Either 'inbox' or 'sentbox'.
+	 *                        Defaults to 'inbox'.
+	 * @param string $type    The type of messages to get. Either 'all' or 'unread'.
+	 *                        or 'read'. Defaults to 'all'.
 	 * @return int
 	 */
 	public static function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
@@ -615,6 +624,7 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int $thread_id The message thread ID.
+	 *
 	 * @return bool
 	 */
 	public static function user_is_sender( $thread_id ) {
@@ -637,6 +647,7 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int $thread_id The message thread ID.
+	 *
 	 * @return string|bool The user link on success. Boolean false on failure.
 	 */
 	public static function get_last_sender( $thread_id ) {
@@ -657,6 +668,7 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int $user_id The user ID.
+	 *
 	 * @return int
 	 */
 	public static function get_inbox_count( $user_id = 0 ) {
@@ -693,8 +705,9 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int $thread_id The message thread ID.
-	 * @param int $user_id The user ID.
-	 * @return int|null The recorded recipient ID on success, null on failure
+	 * @param int $user_id   The user ID.
+	 *
+	 * @return int|null The recorded recipient ID on success, null on failure.
 	 */
 	public static function check_access( $thread_id, $user_id = 0 ) {
 		if ( empty( $user_id ) ) {
@@ -716,7 +729,8 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int $thread_id The message thread ID.
-	 * @return int|null The message thread ID on success, null on failure
+	 *
+	 * @return int|null The message thread ID on success, null on failure.
 	 */
 	public static function is_valid( $thread_id = 0 ) {
 		// Bail if no thread ID is passed
@@ -744,6 +758,7 @@ class BP_Messages_Thread {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param array $recipients Array containing the message recipients (array of objects).
+	 *
 	 * @return string
 	 */
 	public static function get_recipient_links( $recipients ) {

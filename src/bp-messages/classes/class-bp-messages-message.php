@@ -100,7 +100,7 @@ class BP_Messages_Message {
 	 * Send a message.
 	 *
 	 * @return int|bool ID of the newly created message on success, false
-	 *         on failure.
+	 *                  on failure.
 	 */
 	public function send() {
 		global $wpdb;
@@ -120,7 +120,7 @@ class BP_Messages_Message {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Messages_Message Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_message_before_save', array( &$this ) );
 
@@ -166,7 +166,7 @@ class BP_Messages_Message {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Messages_Message Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_message_after_save', array( &$this ) );
 
@@ -192,6 +192,7 @@ class BP_Messages_Message {
 	 * Get list of recipient IDs from their usernames.
 	 *
 	 * @param array $recipient_usernames Usernames of recipients.
+	 *
 	 * @return array
 	 */
 	public static function get_recipient_ids( $recipient_usernames ) {
@@ -213,6 +214,7 @@ class BP_Messages_Message {
 	 * Get the ID of the message last sent by the logged-in user for a given thread.
 	 *
 	 * @param int $thread_id ID of the thread.
+	 *
 	 * @return int|null ID of the message if found, otherwise null.
 	 */
 	public static function get_last_sent_for_user( $thread_id ) {
@@ -226,10 +228,11 @@ class BP_Messages_Message {
 	/**
 	 * Check whether a user is the sender of a message.
 	 *
-	 * @param int $user_id ID of the user.
+	 * @param int $user_id    ID of the user.
 	 * @param int $message_id ID of the message.
+	 *
 	 * @return int|null Returns the ID of the message if the user is the
-	 *         sender, otherwise null.
+	 *                  sender, otherwise null.
 	 */
 	public static function is_user_sender( $user_id, $message_id ) {
 		global $wpdb;
@@ -243,6 +246,7 @@ class BP_Messages_Message {
 	 * Get the ID of the sender of a message.
 	 *
 	 * @param int $message_id ID of the message.
+	 *
 	 * @return int|null The ID of the sender if found, otherwise null.
 	 */
 	public static function get_message_sender( $message_id ) {

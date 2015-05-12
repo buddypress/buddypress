@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Messages Caching
+ * BuddyPress Messages Caching.
  *
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
@@ -21,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since BuddyPress (2.2.0)
  *
- * @param int|str|array $message_ids Accepts a single message_id, or a
- *        comma-separated list or array of message ids.
+ * @param int|string|array|bool $message_ids Accepts a single message_id, or a
+ *                                           comma-separated list or array of message ids.
  */
 function bp_messages_update_meta_cache( $message_ids = false ) {
 	bp_update_meta_cache( array(
@@ -71,8 +71,8 @@ add_action( 'messages_message_after_save', 'bp_messages_clear_cache_on_message_s
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int|array $thread_ids If single thread, the thread ID. Otherwise, an
- *  array of thread IDs
+ * @param int|array $thread_ids If single thread, the thread ID.
+ *                              Otherwise, an array of thread IDs.
  */
 function bp_messages_clear_cache_on_message_delete( $thread_ids ) {
 	// Delete thread and thread recipient cache
@@ -92,6 +92,8 @@ add_action( 'messages_delete_thread', 'bp_messages_clear_cache_on_message_delete
  * Currently, invalidates active notice cache.
  *
  * @since BuddyPress (2.0.0)
+ *
+ * @param BP_Messages_Notice $notice
  */
 function bp_notices_clear_cache( $notice ) {
 	wp_cache_delete( 'active_notice', 'bp_messages' );

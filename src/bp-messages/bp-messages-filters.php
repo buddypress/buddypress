@@ -1,9 +1,9 @@
 <?php
 
 /**
- * BuddyPress Messages Filters
+ * BuddyPress Messages Filters.
  *
- * Apply WordPress defined filters to private messages
+ * Apply WordPress defined filters to private messages.
  *
  * @package BuddyPress
  * @subpackage MessagesFilters

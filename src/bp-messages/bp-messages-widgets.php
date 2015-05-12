@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Messages Widgets
+ * BuddyPress Messages Widgets.
  *
  * @package BuddyPress
  * @subpackage Messages
@@ -44,8 +44,8 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget() for a description of parameters.
 	 *
-	 * @param array $args See {@WP_Widget::widget()}.
-	 * @param array $args See {@WP_Widget::widget()}.
+	 * @param array $args     See {@WP_Widget::widget()}.
+	 * @param array $instance See {@WP_Widget::widget()}.
 	 */
 	public function widget( $args, $instance ) {
 
@@ -95,6 +95,7 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance See {@WP_Widget::update()}.
 	 * @param array $old_instance See {@WP_Widget::update()}.
+	 *
 	 * @return array $instance See {@WP_Widget::update()}.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -109,6 +110,8 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 * @see WP_Widget::form() for a description of parameters.
 	 *
 	 * @param array $instance See {@WP_Widget::form()}.
+	 *
+	 * @return string Widget form output.
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array(

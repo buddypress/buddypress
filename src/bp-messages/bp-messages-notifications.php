@@ -19,10 +19,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array|BP_Messages_Message $raw_args {
  *     Array of arguments. Also accepts a BP_Messages_Message object.
- *     @type array $recipients User IDs of recipients.
+ *     @type array  $recipients    User IDs of recipients.
  *     @type string $email_subject Subject line of message.
  *     @type string $email_content Content of message.
- *     @type int $sender_id User ID of sender.
+ *     @type int    $sender_id     User ID of sender.
  * }
  */
 function messages_notification_new_message( $raw_args = array() ) {
@@ -153,13 +153,14 @@ add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
  *
  * @since BuddyPress (1.0.0)
  *
- * @param string $action The kind of notification being rendered.
- * @param int $item_id The primary item id.
- * @param int $secondary_item_id The secondary item id.
- * @param int $total_items The total number of messaging-related notifications
- *        waiting for the user
- * @param string $format Return value format. 'string' for BuddyBar-compatible
- *        notifications; 'array' for WP Toolbar. Default: 'string'.
+ * @param string $action            The kind of notification being rendered.
+ * @param int    $item_id           The primary item id.
+ * @param int    $secondary_item_id The secondary item id.
+ * @param int    $total_items       The total number of messaging-related notifications
+ *                                  waiting for the user.
+ * @param string $format            Return value format. 'string' for BuddyBar-compatible
+ *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
+ *
  * @return string|array Formatted notifications.
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
@@ -201,8 +202,8 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		 * Filters the new message notification text before the notification is created.
 		 *
 		 * This is a dynamic filter. Possible filter names are:
-		 *   - 'bp_messages_multiple_new_message_notification'
-		 *   - 'bp_messages_single_new_message_notification'
+		 *   - 'bp_messages_multiple_new_message_notification'.
+		 *   - 'bp_messages_single_new_message_notification'.
 		 *
 		 * @param string $retval            Notification text.
 		 * @param int    $total_items       Number of messages referred to by the notification.
@@ -297,7 +298,7 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int   $message_id  ID of the thread.
+ * @param int   $thread_id   ID of the thread.
  * @param array $message_ids IDs of the messages.
  */
 function bp_messages_message_delete_notifications( $thread_id, $message_ids ) {

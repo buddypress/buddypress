@@ -3,7 +3,7 @@
 /**
  * BuddyPress Messages Loader
  *
- * A private messages component, for users to send messages to each other
+ * A private messages component, for users to send messages to each other.
  *
  * @package BuddyPress
  * @subpackage MessagesLoader
@@ -125,7 +125,7 @@ class BP_Messages_Component extends BP_Component {
 	 * Set up navigation for user pages.
 	 *
 	 * @param array $main_nav See {BP_Component::setup_nav()} for details.
-	 * @param array $sub_nav See {BP_Component::setup_nav()} for details.
+	 * @param array $sub_nav  See {BP_Component::setup_nav()} for details.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -223,7 +223,7 @@ class BP_Messages_Component extends BP_Component {
 	 * Set up the Toolbar.
 	 *
 	 * @param array $wp_admin_nav See {BP_Component::setup_admin_bar()}
-	 *        for details.
+	 *                            for details.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		$bp = buddypress();
