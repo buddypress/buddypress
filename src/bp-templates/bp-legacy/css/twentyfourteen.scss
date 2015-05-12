@@ -102,7 +102,15 @@ $spacing-val-xs: 5px;
 // scss-lint:enable VendorPrefix
 
 // BP message boxes
-@mixin message-box($background, $text-color: inherit) {
+@mixin message-box($background, $text-color: null) {
+
+	@if($text-color) {
+		// if a param was passed through
+		$text-color: $text-color;
+	} @else {
+		$text-color: darken($background, 50%);
+	}
+
 	background: lighten($background, 10%);
 	border: 1px solid darken($background, 10%);
 	color: $text-color;
@@ -192,6 +200,20 @@ to maintain uniformity.
 * @section - 1.0 - Theme - Structural Elements
 *-------------------------------------------------------------------------------
 */
+
+// Twentyfourteen  adds a generic grouped ruleset of clear:both;
+// for all heading h# elements this is problematic where floats are concerned
+// We reset this here under our #buddypress namespace
+#buddypress {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		clear: none;
+	}
+}
 
 // As BP screens have specific content lets adjust the themes primary elements
 // to maximise the screen real estate for BP pages.
@@ -501,6 +523,10 @@ $nav-background-border: #bebebe;
 				width: 100%;
 			}
 
+			.item {
+				margin-left: 0;
+			}
+
 			// groups group description
 			div.item-desc {
 				margin-left: 0;
@@ -508,9 +534,11 @@ $nav-background-border: #bebebe;
 			}
 
 			div.action {
+				clear: both;
+				float: none;
+				margin: 0;
 				position: relative;
 				text-align: left;
-				top: 0;
 
 				div {
 					margin: 0 0 $spacing-val-sm;
@@ -539,11 +567,11 @@ $nav-background-border: #bebebe;
 
 				.item {
 					float: right;
+					margin-left: 5%;
 					width: 80%;
 				}
 
-				.activity-meta,
-				.action {
+				.activity-meta {
 					clear: both;
 
 					a,
@@ -557,7 +585,6 @@ $nav-background-border: #bebebe;
 			@media screen and (min-width: 783px) {
 				.item {
 					float: left;
-					margin-left: 5%;
 					width: 60%;
 
 					div.item-desc {
@@ -566,9 +593,10 @@ $nav-background-border: #bebebe;
 					}
 				}
 
-				.action {
+				div.action {
 					clear: none;
 					float: right;
+					top: 0;
 					width: 25%;
 
 					div {
@@ -874,6 +902,25 @@ $nav-background-border: #bebebe;
 * @subsection 6.1 - Item Header: Global
 *------------------------------------------------------------
 */
+// override BP margins - users/groups manage their own styles later on
+#buddypress {
+	div#item-header {
+		padding-bottom: $spacing-val-sm;
+
+		img.avatar {
+			margin: 0 $spacing-val-md $spacing-val-sm 0;
+		}
+
+		// Prevent messages block abutting bottom of floats, with padding-top
+		#message {
+			clear: both;
+			margin-bottom: $spacing-val-xs;
+			padding-top: $spacing-val-md;
+
+			p {margin-bottom: 0;}
+		}
+	}
+}
 
 /**
 *-------------------------------------------------
@@ -929,6 +976,7 @@ $nav-background-border: #bebebe;
 
 			#item-actions {
 				float: none;
+				margin: 0 0 0 $spacing-val-md;
 				width: auto;
 
 				h3 {
@@ -972,7 +1020,6 @@ $nav-background-border: #bebebe;
 
 .bp-user #buddypress {
 	#item-header {
-		padding-bottom: $spacing-val-sm;
 
 		#item-header-avatar {
 			text-align: center;
@@ -1093,6 +1140,86 @@ $nav-background-border: #bebebe;
 		}
 	}
 } // close .groups.manage-members
+
+/**
+	*------------------------------
+	* 6.2.1.2 - Group members list
+	*------------------------------
+	*/
+
+#buddypress {
+	#members-group-list {
+		.item-list {
+			h5 {
+				display: inline-block;
+				margin: 0;
+			}
+
+			span.activity {
+				padding-left: $spacing-val-sm;
+			}
+		}
+	}
+} // close #buddypress
+
+#buddypress {
+	#item-body {
+		#subnav {
+			li.groups-members-search:focus,
+			li.groups-members-search:hover,
+			li.last:focus,
+			li.last:hover {
+				background: none;
+			}
+		}
+	}
+}
+
+// Need to target groups members via body classes
+.groups.group-members {
+	#subnav {
+
+		ul:before,
+		ul:after {
+			content: " ";
+			display: table;
+		}
+
+		ul:after {clear: both; }
+
+		ul {
+			padding: $spacing-val-xs 0;
+		}
+
+
+		li {
+
+			@media screen and (max-width: 400px) {
+				background: $content-background;
+				padding: $spacing-val-sm 0;
+				width: 100% !important;
+			}
+
+			#search-members-form {
+				@include box-model(border-box);
+				float: left;
+				@media screen and (max-width: 400px) {
+					margin: 0;
+					width: 100%;
+
+					label {
+						input[type="text"] {width: 100%;}
+					}
+				}
+				@media screen and (min-width: 783px) {
+					margin-left: 3px;
+				}
+			}
+
+		}
+
+	} // close #subnav
+} // close .groups.group-members
 
 /**
 	*------------------------------
@@ -1348,7 +1475,8 @@ $nav-background-border: #bebebe;
 
 #buddypress {
 	div.dir-search,
-	div.message-search {
+	div.message-search,
+	li.groups-members-search {
 		clear: both;
 		float: none;
 		margin: $spacing-val-sm 0;
@@ -1412,7 +1540,19 @@ $nav-background-border: #bebebe;
 		}
 
 		div.message-search { margin: 3px 0 0;}
+
+		li.groups-members-search {
+			form {
+				label,
+				input[type='submit'],
+				input[type='text'] {
+					width: auto;
+				}
+			}
+		}
+
 	} // close @media
+
 } // close #buddypress
 
 /**
@@ -1428,7 +1568,11 @@ $nav-background-border: #bebebe;
 * @section 9.0 - Error / Success messages
 *-------------------------------------------------------------------------------
 */
+// message args ($variable-color, text-color)
+// Leave text-color undefined to automagically set text color
+// to background color darker by 50%
 #buddypress {
+
 	div#message {
 		p {
 			@include font-size(18);
@@ -1437,13 +1581,13 @@ $nav-background-border: #bebebe;
 
 		&.info {
 			p {
-				@include message-box($notice-info, #fff);
+				@include message-box($notice-info);
 			}
 		}
 
 		&.updated {
 			p {
-				@include message-box($notice-update, #fff);
+				@include message-box($notice-update);
 			}
 		}
 
@@ -1451,15 +1595,14 @@ $nav-background-border: #bebebe;
 
 } // close  #buddypress
 
-// Without direct classes on our mesages ( 'warning' )
+// Without direct classes on our messages ( 'warning' )
 // we need to use the body classes
-// message args ($variable-color, text-color)
 // todo: If this is class .warning is included in main BP styles remove from here
 .delete-group {
 	#buddypress {
 		div#message.info {
 			p {
-				@include message-box($notice-warning, #fff);
+				@include message-box($notice-warning);
 			}
 		}
 	}
