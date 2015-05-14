@@ -859,7 +859,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     display: inline-block;
     float: right; }
   .bp-user #buddypress #message-threads tr td.thread-star, .bp-user #buddypress #message-threads tr td.thread-options {
-    border-bottom-color: #ccc;
+    border-bottom-color: #b7b7b7;
     border-bottom-width: 2px;
     height: 2.4em;
     padding-bottom: 0.2em;
@@ -905,7 +905,8 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
         width: 100%; } }
   .bp-user #buddypress #message-threads tr.unread td {
     background: #dce5ff;
-    border-color: #999; }
+    border-bottom-color: #b7b7b7;
+    border-color: #d1d1d1; }
   .bp-user #buddypress #message-threads th {
     display: none; }
   .bp-user #buddypress #message-threads th.bulk-select-all {
@@ -924,13 +925,35 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
         height: 20px;
         margin-left: 0.5em;
         width: 20px !important; }
-  .bp-user #buddypress .sitewide-notices tr td:first-child {
+  .bp-user #buddypress #message-threads.sitewide-notices td {
+    width: 100%; }
+    .bp-user #buddypress #message-threads.sitewide-notices td strong {
+      background: #6e6e6e;
+      color: #fff;
+      display: block;
+      margin-bottom: 0.4em;
+      padding-right: 0.2em; }
+    .bp-user #buddypress #message-threads.sitewide-notices td a {
+      display: inline-block; }
+  .bp-user #buddypress #message-threads.sitewide-notices td:first-child {
     display: none; }
-  .bp-user #buddypress .sitewide-notices td strong {
-    background: #6e6e6e;
-    color: #fff;
-    display: block;
-    padding-right: 0.2em; }
+  .bp-user #buddypress #message-threads.sitewide-notices td:first-child + td + td {
+    border-bottom: 0; }
+    .bp-user #buddypress #message-threads.sitewide-notices td:first-child + td + td span {
+      line-height: 1; }
+  .bp-user #buddypress #message-threads.sitewide-notices td:last-child {
+    border-bottom-color: #b7b7b7;
+    line-height: 1;
+    text-align: left; }
+    .bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child {
+      line-height: 0;
+      margin-right: 0.7em;
+      text-indent: -999em; }
+    .bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child::after {
+      content: attr(title);
+      display: block;
+      line-height: initial;
+      text-indent: 0; }
   .bp-user #buddypress #settings-form > p {
     font-size: 20px;
     font-size: 2rem;

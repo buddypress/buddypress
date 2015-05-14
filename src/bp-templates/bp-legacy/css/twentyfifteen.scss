@@ -1581,7 +1581,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 				td.thread-star,
 				td.thread-options {
-					border-bottom-color: $medium-background;
+					border-bottom-color: darken($border-light, 20%);
 					border-bottom-width: 2px;
 					height: 2.4em;
 					padding-bottom: 0.2em;
@@ -1645,7 +1645,8 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			tr.unread {
 				td {
 					background: $unread;
-					border-color: $border-color;
+					border-bottom-color: darken($border-light, 20%);
+					border-color: darken($border-light, 10%);
 				}
 			}
 
@@ -1688,19 +1689,54 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		}
 
 		/* Sitewide Notices loop */
-		.sitewide-notices {
-			tr {
-				td:first-child {
-					display: none;
-				}
-			}
-
+		#message-threads.sitewide-notices {
 			td {
+				width: 100%;
+
 				strong {
 					background: lighten($dark-background, 10%);
 					color: $content-background;
 					display: block;
+					margin-bottom: 0.4em;
 					padding-left: 0.2em;
+				}
+
+				a {
+					display: inline-block;
+				}
+			}
+
+			td:first-child {
+				display: none;
+			}
+
+			td:first-child + td + td {
+			// notice date
+				border-bottom: 0;
+
+				span {
+					line-height: 1;
+				}
+			}
+
+			td:last-child {
+			// notice actions
+				border-bottom-color: darken($border-light, 20%);
+				line-height: 1;
+				text-align: right;
+
+				a:last-child {
+				// hide the 'x' text
+					line-height: 0;
+					margin-left: 0.7em;
+					text-indent: -999em;
+				}
+
+				a:last-child::after {
+					content: attr(title);
+					display: block;
+					line-height: initial;
+					text-indent: 0;
 				}
 			}
 		}
