@@ -652,49 +652,71 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		textarea {width: 100%;}
 		// corrective measure for clipped elements due to JS inline styling
 
-		@media screen and (max-width: 46.25em) {
-			#whats-new-content {
-				clear: left;
-				margin: $spacing-val-sm 0 $spacing-val-md;
-				padding: $spacing-val-sm 0 0;
+		@media screen and (max-width: 30em) {
+			#whats-new-post-in-box {
+				select {
+					@include font-size(14);
+					max-width: 120px;
+				}
 			}
 		}
 
-		#whats-new-content.active {
-			#whats-new-options[style] {
-				min-height: 6rem; // unit open to debate px value might be better.
-				overflow: visible;
+		@media screen and (max-width: 38.75em) {
+			#whats-new-content {
+				clear: left;
+				margin: $spacing-val-sm 0 $spacing-val-lg;
+				padding: $spacing-val-sm 0 0;
 
+				#whats-new-submit {
+					float: none;
+
+					input {width: 100%;}
+				}
+			}
+
+			#whats-new-options {
+				display: flex;
+				flex-direction: column;
+
+				#whats-new-submit {order: 2;}
+				#whats-new-post-in-box {order: 1;}
+			}
+		} // close @media
+
+		#whats-new-options[style] {
+			min-height: 6rem;
+			overflow: visible;
+
+			#whats-new-post-in-box {
+				border: 1px solid rgba($border-color, 0.5);
+				float: left;
+				line-height: 1.5em;
+				margin-top: 12px;
+				padding-left: 0.2em;
+				width: 100%;
+
+				select {
+					background: none;
+					border: 0;
+					float: right;
+					margin: 0;
+					min-height: 1.5em;
+					outline: 0;
+					padding-left: 0.4em;
+				}
+			}
+
+			@media screen and (min-width: 30em) {
 				#whats-new-post-in-box {
-					border: 1px solid rgba($border-color, 0.5);
-					float: left;
-					line-height: 1.5em;
-					margin-top: 12px;
-					padding-left: 0.2em;
-					width: 100%;
-
-					select {
-						background: none;
-						border: 0;
-						float: right;
-						margin: 0;
-						min-height: 1.5em;
-						padding-left: 0.4em;
-					}
+					width: auto;
 				}
 
-				@media screen and (min-width: 30em) {
-					#whats-new-post-in-box {
-						width: auto;
-					}
-
-					#whats-new-submit {
-						float: right;
-					}
+				#whats-new-submit {
+					float: right;
 				}
+			}
 
-			} // close #whats-new-options
-		} // close #whats-new-content.active
+		} // close #whats-new-options
 
 	} // close #whats-new-form
 
@@ -1352,15 +1374,19 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 
 .bp-user {
-	.entry-title {margin-bottom: 0.5em;}
-
-	#buddypress {
-
+	.entry-title {
+		margin-bottom: 0.5em;
+	}
+}
 /**
 *--------------------------------------------
 * @subsection 6.2.2.1 - classes, pag, filters
 *--------------------------------------------
 */
+
+.bp-user {
+
+	#buddypress {
 
 		table {
 			th {@include font-size(14)}
@@ -1410,11 +1436,20 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 		} // close .notifications-options-nav
 
+	} // close #BuddyPress
+
+} // close .bp-user
+
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.2 - Extended Profiles
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
+
 		.profile {
 			.bp-widget {
 				h4 {
@@ -1481,11 +1516,18 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		} // close .profile
 
+	} // close #BuddyPress
+
+} // close .bp-user
+
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.3 - Groups
 	*-------------------------------------------
 	*/
+.bp-user {
+
+	#buddypress {
 
 		#groups-list {
 			li {
@@ -1498,11 +1540,19 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		}
 
+	} // close #BuddyPress
+
+} // close .bp-user
+
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.5 - Private Messaging
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
 
 		#message-thread {
 		//Single message view
@@ -1741,11 +1791,18 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			}
 		}
 
+	} // close #BuddyPress
+
+} // close .bp-user
+
 /**
 	*------------------------------
 	* @subsection 6.2.2.6 - Settings
 	*------------------------------
 	*/
+
+.bp-user {
+	#buddypress {
 
 		#settings-form {
 			// 'p' = email notification screen sub heading

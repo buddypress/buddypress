@@ -301,32 +301,49 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   line-height: 1.4; }
 #buddypress form#whats-new-form textarea {
   width: 100%; }
-@media screen and (max-width: 46.25em) {
+@media screen and (max-width: 30em) {
+  #buddypress form#whats-new-form #whats-new-post-in-box select {
+    font-size: 14px;
+    font-size: 1.4rem;
+    max-width: 120px; } }
+@media screen and (max-width: 38.75em) {
   #buddypress form#whats-new-form #whats-new-content {
     clear: left;
-    margin: 10px 0 20px;
-    padding: 10px 0 0; } }
-#buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] {
+    margin: 10px 0 40px;
+    padding: 10px 0 0; }
+    #buddypress form#whats-new-form #whats-new-content #whats-new-submit {
+      float: none; }
+      #buddypress form#whats-new-form #whats-new-content #whats-new-submit input {
+        width: 100%; }
+  #buddypress form#whats-new-form #whats-new-options {
+    display: flex;
+    flex-direction: column; }
+    #buddypress form#whats-new-form #whats-new-options #whats-new-submit {
+      order: 2; }
+    #buddypress form#whats-new-form #whats-new-options #whats-new-post-in-box {
+      order: 1; } }
+#buddypress form#whats-new-form #whats-new-options[style] {
   min-height: 6rem;
   overflow: visible; }
-  #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box {
+  #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {
     border: 1px solid rgba(153, 153, 153, 0.5);
     float: left;
     line-height: 1.5em;
     margin-top: 12px;
     padding-left: 0.2em;
     width: 100%; }
-    #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box select {
+    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box select {
       background: none;
       border: 0;
       float: right;
       margin: 0;
       min-height: 1.5em;
+      outline: 0;
       padding-left: 0.4em; }
   @media screen and (min-width: 30em) {
-    #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box {
+    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {
       width: auto; }
-    #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-submit {
+    #buddypress form#whats-new-form #whats-new-options[style] #whats-new-submit {
       float: right; } }
 #buddypress #item-body form#whats-new-form {
   margin: 40px 0; }
@@ -706,120 +723,119 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 */
 .bp-user .entry-title {
   margin-bottom: 0.5em; }
-.bp-user #buddypress {
-  /**
+
+/**
 *--------------------------------------------
 * @subsection 6.2.2.1 - classes, pag, filters
 *--------------------------------------------
 */
-  /**
+.bp-user #buddypress table th {
+  font-size: 14px;
+  font-size: 1.4rem; }
+.bp-user #buddypress table td {
+  font-size: 12px;
+  font-size: 1.2rem; }
+@media screen and (min-width: 46.25em) {
+  .bp-user #buddypress table th {
+    font-size: 16px;
+    font-size: 1.6rem; }
+  .bp-user #buddypress table td {
+    font-size: 14px;
+    font-size: 1.4rem; } }
+@media screen and (min-width: 77.5em) {
+  .bp-user #buddypress table th {
+    font-size: 18px;
+    font-size: 1.8rem; }
+  .bp-user #buddypress table td {
+    font-size: 16px;
+    font-size: 1.6rem; } }
+.bp-user #buddypress .pag-count {
+  font-style: italic; }
+.bp-user #buddypress .notifications-options-nav {
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  float: left;
+  width: 100%; }
+  @media screen and (min-width: 38.75em) {
+    .bp-user #buddypress .notifications-options-nav {
+      width: 300px; } }
+  .bp-user #buddypress .notifications-options-nav select, .bp-user #buddypress .notifications-options-nav input {
+    border: 0;
+    font-size: 14px;
+    font-size: 1.4rem;
+    outline: 0;
+    padding: 0; }
+  .bp-user #buddypress .notifications-options-nav select {
+    float: left;
+    margin-right: 0;
+    width: 60%; }
+  .bp-user #buddypress .notifications-options-nav input {
+    float: right;
+    font-family: inherit;
+    line-height: 20px;
+    width: 40%; }
+
+/**
 	*-------------------------------------------
 	* @subsection 6.2.2.2 - Extended Profiles
 	*-------------------------------------------
 	*/
-  /**
+.bp-user #buddypress .profile {
+  /* Edit profile */ }
+  .bp-user #buddypress .profile .bp-widget h4 {
+    background: #6e6e6e;
+    color: #fff;
+    margin-bottom: 0;
+    padding: 0.4em; }
+  .bp-user #buddypress .profile .bp-widget table {
+    margin-top: 0; }
+  .bp-user #buddypress .profile #profile-edit-form .button-nav:before, .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
+    content: " ";
+    display: table; }
+  .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
+    clear: both; }
+  .bp-user #buddypress .profile #profile-edit-form ul.button-nav {
+    border-bottom: 1px solid #eaeaea;
+    margin-left: 0; }
+    .bp-user #buddypress .profile #profile-edit-form ul.button-nav li {
+      float: left;
+      margin-bottom: 0; }
+      .bp-user #buddypress .profile #profile-edit-form ul.button-nav li.current {
+        border: 1px solid #eaeaea;
+        border-bottom-color: #fff;
+        margin-bottom: -1px; }
+    .bp-user #buddypress .profile #profile-edit-form ul.button-nav a {
+      background: none;
+      border: 0;
+      font-size: 18px;
+      font-size: 1.8rem; }
+  .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-toggle, .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings {
+    font-size: 14px;
+    font-size: 1.4rem; }
+  .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-close, .bp-user #buddypress .profile #profile-edit-form .visibility-toggle-link {
+    background: #555;
+    color: #fff;
+    padding: 0.2em 0.5em; }
+  .bp-user #buddypress .profile .bp-avatar #bp-delete-avatar a {
+    font-size: inherit; }
+
+/**
 	*-------------------------------------------
 	* @subsection 6.2.2.3 - Groups
 	*-------------------------------------------
 	*/
-  /**
+@media screen and (min-width: 77.5em) {
+  .bp-user #buddypress #groups-list li .item {
+    left: 5%;
+    width: 50%; } }
+
+/**
 	*-------------------------------------------
 	* @subsection 6.2.2.5 - Private Messaging
 	*-------------------------------------------
 	*/
+.bp-user #buddypress {
   /* Auto Complete background */
-  /* Sitewide Notices loop */
-  /**
-	*------------------------------
-	* @subsection 6.2.2.6 - Settings
-	*------------------------------
-	*/ }
-  .bp-user #buddypress table th {
-    font-size: 14px;
-    font-size: 1.4rem; }
-  .bp-user #buddypress table td {
-    font-size: 12px;
-    font-size: 1.2rem; }
-  @media screen and (min-width: 46.25em) {
-    .bp-user #buddypress table th {
-      font-size: 16px;
-      font-size: 1.6rem; }
-    .bp-user #buddypress table td {
-      font-size: 14px;
-      font-size: 1.4rem; } }
-  @media screen and (min-width: 77.5em) {
-    .bp-user #buddypress table th {
-      font-size: 18px;
-      font-size: 1.8rem; }
-    .bp-user #buddypress table td {
-      font-size: 16px;
-      font-size: 1.6rem; } }
-  .bp-user #buddypress .pag-count {
-    font-style: italic; }
-  .bp-user #buddypress .notifications-options-nav {
-    border: 1px solid rgba(153, 153, 153, 0.5);
-    float: left;
-    width: 100%; }
-    @media screen and (min-width: 38.75em) {
-      .bp-user #buddypress .notifications-options-nav {
-        width: 300px; } }
-    .bp-user #buddypress .notifications-options-nav select, .bp-user #buddypress .notifications-options-nav input {
-      border: 0;
-      font-size: 14px;
-      font-size: 1.4rem;
-      outline: 0;
-      padding: 0; }
-    .bp-user #buddypress .notifications-options-nav select {
-      float: left;
-      margin-right: 0;
-      width: 60%; }
-    .bp-user #buddypress .notifications-options-nav input {
-      float: right;
-      font-family: inherit;
-      line-height: 20px;
-      width: 40%; }
-  .bp-user #buddypress .profile {
-    /* Edit profile */ }
-    .bp-user #buddypress .profile .bp-widget h4 {
-      background: #6e6e6e;
-      color: #fff;
-      margin-bottom: 0;
-      padding: 0.4em; }
-    .bp-user #buddypress .profile .bp-widget table {
-      margin-top: 0; }
-    .bp-user #buddypress .profile #profile-edit-form .button-nav:before, .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
-      content: " ";
-      display: table; }
-    .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
-      clear: both; }
-    .bp-user #buddypress .profile #profile-edit-form ul.button-nav {
-      border-bottom: 1px solid #eaeaea;
-      margin-left: 0; }
-      .bp-user #buddypress .profile #profile-edit-form ul.button-nav li {
-        float: left;
-        margin-bottom: 0; }
-        .bp-user #buddypress .profile #profile-edit-form ul.button-nav li.current {
-          border: 1px solid #eaeaea;
-          border-bottom-color: #fff;
-          margin-bottom: -1px; }
-      .bp-user #buddypress .profile #profile-edit-form ul.button-nav a {
-        background: none;
-        border: 0;
-        font-size: 18px;
-        font-size: 1.8rem; }
-    .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-toggle, .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings {
-      font-size: 14px;
-      font-size: 1.4rem; }
-    .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-close, .bp-user #buddypress .profile #profile-edit-form .visibility-toggle-link {
-      background: #555;
-      color: #fff;
-      padding: 0.2em 0.5em; }
-    .bp-user #buddypress .profile .bp-avatar #bp-delete-avatar a {
-      font-size: inherit; }
-  @media screen and (min-width: 77.5em) {
-    .bp-user #buddypress #groups-list li .item {
-      left: 5%;
-      width: 50%; } }
+  /* Sitewide Notices loop */ }
   .bp-user #buddypress #message-thread a {
     border-bottom: 0; }
   .bp-user #buddypress #message-thread #message-subject {
@@ -954,23 +970,29 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
       display: block;
       line-height: initial;
       text-indent: 0; }
-  .bp-user #buddypress #settings-form > p {
-    font-size: 20px;
-    font-size: 2rem;
-    margin: 20px 0 10px; }
-  .bp-user #buddypress table.notification-settings td.yes, .bp-user #buddypress table.notification-settings td.no {
-    vertical-align: middle; }
-  .bp-user #buddypress table.profile-settings {
-    width: 100%; }
+
+/**
+	*------------------------------
+	* @subsection 6.2.2.6 - Settings
+	*------------------------------
+	*/
+.bp-user #buddypress #settings-form > p {
+  font-size: 20px;
+  font-size: 2rem;
+  margin: 20px 0 10px; }
+.bp-user #buddypress table.notification-settings td.yes, .bp-user #buddypress table.notification-settings td.no {
+  vertical-align: middle; }
+.bp-user #buddypress table.profile-settings {
+  width: 100%; }
+  .bp-user #buddypress table.profile-settings th.field-group-name, .bp-user #buddypress table.profile-settings td.field-name {
+    width: 50%; }
+  @media screen and (min-width: 46.25em) {
     .bp-user #buddypress table.profile-settings th.field-group-name, .bp-user #buddypress table.profile-settings td.field-name {
-      width: 50%; }
-    @media screen and (min-width: 46.25em) {
-      .bp-user #buddypress table.profile-settings th.field-group-name, .bp-user #buddypress table.profile-settings td.field-name {
-        width: 70%; } }
-    .bp-user #buddypress table.profile-settings th.title, .bp-user #buddypress table.profile-settings td.field-visibility {
-      width: 30%; }
-    .bp-user #buddypress table.profile-settings td.field-visibility select {
-      width: 100%; }
+      width: 70%; } }
+  .bp-user #buddypress table.profile-settings th.title, .bp-user #buddypress table.profile-settings td.field-visibility {
+    width: 30%; }
+  .bp-user #buddypress table.profile-settings td.field-visibility select {
+    width: 100%; }
 
 /**
 *-------------------------------------------------------------------------------
