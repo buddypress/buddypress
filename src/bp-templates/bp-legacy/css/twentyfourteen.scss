@@ -494,12 +494,9 @@ $nav-background-border: #bebebe;
 	}
 }
 
-// Trying to position the action div absolute has bad consequences where
-// aditional items are displayed, floating is an alternative that
-// allows natural flow expansion.
 // This block:
-// * Manages li items, Stacks them small screen, floated left at wider screens.
-// * Adjusts display of action buttons at small screen
+// - Manages li items, Stacks them small screen, floated left at wider screens.
+// - Adjusts display of action buttons at small screen
 
 #buddypress {
 	ul.item-list {
@@ -521,6 +518,8 @@ $nav-background-border: #bebebe;
 			div.item-title {
 				float: none;
 				width: 100%;
+
+				> a {text-align: center;}
 			}
 
 			.item {
@@ -565,6 +564,8 @@ $nav-background-border: #bebebe;
 					margin-bottom: 0;
 				}
 
+				div.item-title > a {text-align: left;}
+
 				.item {
 					float: right;
 					margin-left: 5%;
@@ -580,6 +581,7 @@ $nav-background-border: #bebebe;
 						margin: $spacing-val-xs $spacing-val-xs 0 0;
 					}
 				}
+
 			} // close @media
 
 			@media screen and (min-width: 783px) {
@@ -612,12 +614,15 @@ $nav-background-border: #bebebe;
 					.meta {
 						text-align: center;
 					}
-				}
+				} // close .action
+
 			} // close @media
+
 			.meta,
 			.item-meta .activity {
 				font-style: italic;
 			}
+
 		} // close li
 	} // ul.item-list
 } // close #budypress
@@ -660,13 +665,9 @@ $nav-background-border: #bebebe;
 			width: 100%;
 		}
 
-		#whats-new-content.active {
-			textarea {
-				// !important to override the BP inline fixed height
-				height: auto !important;
-			}
+		#whats-new-content {
 
-			#whats-new-options {
+			#whats-new-options[style] {
 				// Have to override the BP fixed height
 				height: auto !important;
 			}
@@ -685,6 +686,7 @@ $nav-background-border: #bebebe;
 					}
 
 					#whats-new-post-in-box {
+						margin-top: $spacing-val-sm;
 						order: 1;
 
 						select {
@@ -853,26 +855,7 @@ $nav-background-border: #bebebe;
 *------------------------------------------------------------
 */
 
-#buddypress {
-	.members {
-		.item-list {
-			.my-entry {
-				.item {
-					background: $light-background;
-					@include box-model(border-box);
-					padding: 0 0.5em;
-					@media screen and (min-width: 783px) {
 
-						float: right;
-						margin-left: 0;
-						padding: 0 0.5em;
-						width: 88%;
-					}
-				}
-			}
-		}
-	}
-}
 
 /*
 *-------------------------------------------------------------------------------
@@ -1270,17 +1253,22 @@ $nav-background-border: #bebebe;
 		}
 	}
 }
+
 /**
 *-------------------------------------------------
 * @subsection 6.2.2 - item-body: User Accounts
 *-------------------------------------------------
 */
-#buddypress {
+
+
 /**
 	*------------------------------
 	* 6.2.2.2 - Extended Profiles
 	*------------------------------
 	*/
+
+
+#buddypress {
 	.profile {
 
 		.bp-widget {
@@ -1291,7 +1279,7 @@ $nav-background-border: #bebebe;
 			}
 		}
 
-			/* Edit profile */
+		// Edit profile
 
 		#profile-edit-form {
 			.button-nav:before,
@@ -1340,6 +1328,7 @@ $nav-background-border: #bebebe;
 		} // close profile form
 
 	} // close .profile
+} // close #buddypress - user acounts item-body
 
 /**
 	*------------------------------
@@ -1347,47 +1336,144 @@ $nav-background-border: #bebebe;
 	*------------------------------
 	*/
 
+#buddypress {
+
 	table#message-threads {
+		border-left: 1px solid $border-med;
+		border-right: 1px solid $border-med;
 
-		.bulk-select-check {
-			width: 5%;
-		}
-
-		.thread-from,
-		.thread-info {
-			width: 35%;
-		}
-
-		.thread-options {
-			width: 25%;
+		tbody > tr:first-child {
+			td.bulk-select-check,
+			td.thread-from {
+				border-top: 1px solid $border-med;
+		 }
 		}
 
 		tr {
-			td {
-				background: $stripe-odd;
-			}
-		}
 
-		tr.alt {
 			td {
-				background: $stripe-even;
+				background: $content-background;
+				border-right: 0 !important;
+				@include box-model(border-box);
+				display: inline-block;
+				float: left;
+			}
+
+			td.thread-star,
+			td.thread-options {
+				border-bottom-color: darken($border-med, 5%);
+				border-bottom-width: 2px;
+				border-left: 0;
+				height: 2.4em;
+				padding-bottom: 0.2em;
+				padding-top: 0.2em;
+
+				@media screen and (max-width: 549px) {
+					padding-top: 0;
+				}
+			}
+
+			td.bulk-select-check,
+			td.thread-from {
+				border-left: 0;
+				height: 2.6em;
+				@media screen and (max-width: 320px) {
+					height: 5.2em;
+				}
+			}
+
+			td.thread-from,
+			td.thread-options {
+				border-left: 0;
+				@include calc(width, "100% - 30px");
+				margin-left: 0;
+			}
+
+			td.thread-info {
+				border-left: 0;
+				padding-left: 41px;
+				width: 100%;
+
+				a::after {
+					content: " \2013 \00a0"attr(title);
+					@include font-size(12);
+				}
+			}
+
+			td.thread-options {
+				text-align: right;
+
+				a {
+					@include font-size(12);
+					line-height: 2.2;
+				}
+			}
+
+			span.from {
+				display: none;
+			}
+
+			span.activity {
+				display: block;
+				float: right;
+				line-height: 2;
+				@media screen and (max-width: 320px) {
+					clear: both;
+					@include font-size(11);
+					width: 100%;
+				}
 			}
 		}
 
 		tr.unread {
 			td {
-				background: $unread;
-				border-bottom: 1px solid #e4cdff;
-				border-top: 1px solid #e4cdff;
+				background: lighten($unread, 7%);
+				border-color: $border-med;
+				border-top: 0;
+				border-width: 1px;
 			}
 		}
 
-		tr.read {
-			td {
-				opacity: 0.5;
+		th {
+			display: none;
+		}
+
+		th.bulk-select-all {
+			border-bottom: 0;
+			display: inline-block;
+			text-align: left;
+		}
+
+		th.bulk-select-all,
+		td.bulk-select-check,
+		td.thread-star {
+			border-right: 0;
+			width: 30px;
+		}
+
+	} // close #messages-threads
+
+	/* Read Single thread */
+	#message-thread {
+
+		#message-subject {
+			@include title-background-dark();
+			padding: 0.5em;
+		}
+
+		.message-box {
+			.message-metadata {
+				margin-bottom: $spacing-val-sm;
+			}
+
+			.message-content {
+				clear: left;
+				margin-left: 0;
 			}
 		}
 	}
+
+} // close #buddypress - user acounts item-body
 
 /**
 	*------------------------------
@@ -1395,6 +1481,7 @@ $nav-background-border: #bebebe;
 	*------------------------------
 	*/
 
+#buddypress {
 	#settings-form {
 		// 'p' = email notification screen sub heading
 		> p { @include font-size(20); }
@@ -1426,7 +1513,6 @@ $nav-background-border: #bebebe;
 			select {width: 100%;}
 		}
 	}
-
 } // close #buddypress - user acounts item-body
 
 /*------------------------------------------------------------------------------
@@ -1457,6 +1543,9 @@ $nav-background-border: #bebebe;
 		}
 	}
 
+	// BP :(
+	#send-reply.standard-form textarea {width: 100%;}
+
 	div.activity-comments {
 		form {
 			.ac-textarea {
@@ -1474,6 +1563,7 @@ $nav-background-border: #bebebe;
 } // close #buddypress
 
 #buddypress {
+
 	div.dir-search,
 	div.message-search,
 	li.groups-members-search {
@@ -1560,7 +1650,11 @@ $nav-background-border: #bebebe;
 * @section 8.0 - Tables General
 *-------------------------------------------------------------------------------
 */
-
+#buddypress {
+	table {
+		border-color: $border-med;
+	}
+}
 /*__ User Account tables __*/
 
 /**

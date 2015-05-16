@@ -211,6 +211,8 @@ to maintain uniformity.
   #buddypress ul.item-list li div.item-title {
     float: none;
     width: 100%; }
+    #buddypress ul.item-list li div.item-title > a {
+      text-align: center; }
   #buddypress ul.item-list li .item {
     margin-right: 0; }
   #buddypress ul.item-list li div.item-desc {
@@ -233,6 +235,8 @@ to maintain uniformity.
     #buddypress ul.item-list li .item-avatar {
       float: right;
       margin-bottom: 0; }
+    #buddypress ul.item-list li div.item-title > a {
+      text-align: right; }
     #buddypress ul.item-list li .item {
       float: left;
       margin-right: 5%;
@@ -292,21 +296,20 @@ to maintain uniformity.
     margin-bottom: 5px; }
   #buddypress form#whats-new-form textarea#whats-new {
     width: 100%; }
-  #buddypress form#whats-new-form #whats-new-content.active textarea {
-    height: auto !important; }
-  #buddypress form#whats-new-form #whats-new-content.active #whats-new-options {
+  #buddypress form#whats-new-form #whats-new-content #whats-new-options[style] {
     height: auto !important; }
   @media screen and (max-width: 594px) {
-    #buddypress form#whats-new-form #whats-new-content.active #whats-new-options {
+    #buddypress form#whats-new-form #whats-new-content #whats-new-options {
       display: flex;
       flex-direction: column; }
-      #buddypress form#whats-new-form #whats-new-content.active #whats-new-options #whats-new-submit {
+      #buddypress form#whats-new-form #whats-new-content #whats-new-options #whats-new-submit {
         order: 2; }
-        #buddypress form#whats-new-form #whats-new-content.active #whats-new-options #whats-new-submit input {
+        #buddypress form#whats-new-form #whats-new-content #whats-new-options #whats-new-submit input {
           width: 100%; }
-      #buddypress form#whats-new-form #whats-new-content.active #whats-new-options #whats-new-post-in-box {
+      #buddypress form#whats-new-form #whats-new-content #whats-new-options #whats-new-post-in-box {
+        margin-top: 10px;
         order: 1; }
-        #buddypress form#whats-new-form #whats-new-content.active #whats-new-options #whats-new-post-in-box select {
+        #buddypress form#whats-new-form #whats-new-content #whats-new-options #whats-new-post-in-box select {
           margin-top: 5px;
           max-width: 100%;
           width: 100%; } }
@@ -395,19 +398,6 @@ to maintain uniformity.
 * @section 4.2 - Members Loop
 *------------------------------------------------------------
 */
-#buddypress .members .item-list .my-entry .item {
-  background: #f7f7f7;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0 0.5em; }
-  @media screen and (min-width: 783px) {
-    #buddypress .members .item-list .my-entry .item {
-      float: left;
-      margin-right: 0;
-      padding: 0 0.5em;
-      width: 88%; } }
-
 /*
 *-------------------------------------------------------------------------------
 * @section 6.0 - Single Item screens
@@ -654,85 +644,154 @@ to maintain uniformity.
 * @subsection 6.2.2 - item-body: User Accounts
 *-------------------------------------------------
 */
-#buddypress {
-  /**
+/**
 	*------------------------------
 	* 6.2.2.2 - Extended Profiles
 	*------------------------------
 	*/
-  /**
+#buddypress .profile .bp-widget h4 {
+  background: #999;
+  color: #fff;
+  padding: 0.4em 0.2em; }
+#buddypress .profile #profile-edit-form .button-nav:before, #buddypress .profile #profile-edit-form .button-nav:after {
+  content: " ";
+  display: table; }
+#buddypress .profile #profile-edit-form .button-nav:after {
+  clear: both; }
+#buddypress .profile #profile-edit-form ul.button-nav {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-right: 0; }
+  #buddypress .profile #profile-edit-form ul.button-nav li {
+    float: right;
+    margin-bottom: 0; }
+    #buddypress .profile #profile-edit-form ul.button-nav li.current {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom-color: #fff;
+      margin-bottom: -1px; }
+  #buddypress .profile #profile-edit-form ul.button-nav a {
+    background: none;
+    border: 0;
+    font-size: 18px;
+    font-size: 1.125rem; }
+#buddypress .profile #profile-edit-form .field-visibility-settings-toggle, #buddypress .profile #profile-edit-form .field-visibility-settings {
+  font-size: 14px;
+  font-size: 0.875rem; }
+#buddypress .profile #profile-edit-form .field-visibility-settings-close, #buddypress .profile #profile-edit-form .visibility-toggle-link {
+  background: #000;
+  color: #fff;
+  padding: 0.2em 0.5em; }
+
+/**
 	*------------------------------
 	* @subsection 6.2.2.5 - Messaging
 	*------------------------------
 	*/
-  /**
+#buddypress {
+  /* Read Single thread */ }
+  #buddypress table#message-threads {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    border-left: 1px solid rgba(0, 0, 0, 0.2); }
+    #buddypress table#message-threads tbody > tr:first-child td.bulk-select-check, #buddypress table#message-threads tbody > tr:first-child td.thread-from {
+      border-top: 1px solid rgba(0, 0, 0, 0.2); }
+    #buddypress table#message-threads tr td {
+      background: #fff;
+      border-left: 0 !important;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      display: inline-block;
+      float: right; }
+    #buddypress table#message-threads tr td.thread-star, #buddypress table#message-threads tr td.thread-options {
+      border-bottom-color: rgba(0, 0, 0, 0.2);
+      border-bottom-width: 2px;
+      border-right: 0;
+      height: 2.4em;
+      padding-bottom: 0.2em;
+      padding-top: 0.2em; }
+      @media screen and (max-width: 549px) {
+        #buddypress table#message-threads tr td.thread-star, #buddypress table#message-threads tr td.thread-options {
+          padding-top: 0; } }
+    #buddypress table#message-threads tr td.bulk-select-check, #buddypress table#message-threads tr td.thread-from {
+      border-right: 0;
+      height: 2.6em; }
+      @media screen and (max-width: 320px) {
+        #buddypress table#message-threads tr td.bulk-select-check, #buddypress table#message-threads tr td.thread-from {
+          height: 5.2em; } }
+    #buddypress table#message-threads tr td.thread-from, #buddypress table#message-threads tr td.thread-options {
+      border-right: 0;
+      width: -webkit-calc(100% - 30px);
+      width: -moz-calc(100% - 30px);
+      width: calc(100% - 30px);
+      margin-right: 0; }
+    #buddypress table#message-threads tr td.thread-info {
+      border-right: 0;
+      padding-right: 41px;
+      width: 100%; }
+      #buddypress table#message-threads tr td.thread-info a::after {
+        content: " \2013 \00a0" attr(title);
+        font-size: 12px;
+        font-size: 0.75rem; }
+    #buddypress table#message-threads tr td.thread-options {
+      text-align: left; }
+      #buddypress table#message-threads tr td.thread-options a {
+        font-size: 12px;
+        font-size: 0.75rem;
+        line-height: 2.2; }
+    #buddypress table#message-threads tr span.from {
+      display: none; }
+    #buddypress table#message-threads tr span.activity {
+      display: block;
+      float: left;
+      line-height: 2; }
+      @media screen and (max-width: 320px) {
+        #buddypress table#message-threads tr span.activity {
+          clear: both;
+          font-size: 11px;
+          font-size: 0.6875rem;
+          width: 100%; } }
+    #buddypress table#message-threads tr.unread td {
+      background: #f1f4ff;
+      border-color: rgba(0, 0, 0, 0.2);
+      border-top: 0;
+      border-width: 1px; }
+    #buddypress table#message-threads th {
+      display: none; }
+    #buddypress table#message-threads th.bulk-select-all {
+      border-bottom: 0;
+      display: inline-block;
+      text-align: right; }
+    #buddypress table#message-threads th.bulk-select-all, #buddypress table#message-threads td.bulk-select-check, #buddypress table#message-threads td.thread-star {
+      border-left: 0;
+      width: 30px; }
+  #buddypress #message-thread #message-subject {
+    background: #333333;
+    color: #fff;
+    padding: 0.5em; }
+  #buddypress #message-thread .message-box .message-metadata {
+    margin-bottom: 10px; }
+  #buddypress #message-thread .message-box .message-content {
+    clear: right;
+    margin-right: 0; }
+
+/**
 	*------------------------------
 	* @subsection 6.2.2.6 - Settings
 	*------------------------------
-	*/ }
-  #buddypress .profile {
-    /* Edit profile */ }
-    #buddypress .profile .bp-widget h4 {
-      background: #999;
-      color: #fff;
-      padding: 0.4em 0.2em; }
-    #buddypress .profile #profile-edit-form .button-nav:before, #buddypress .profile #profile-edit-form .button-nav:after {
-      content: " ";
-      display: table; }
-    #buddypress .profile #profile-edit-form .button-nav:after {
-      clear: both; }
-    #buddypress .profile #profile-edit-form ul.button-nav {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      margin-right: 0; }
-      #buddypress .profile #profile-edit-form ul.button-nav li {
-        float: right;
-        margin-bottom: 0; }
-        #buddypress .profile #profile-edit-form ul.button-nav li.current {
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          border-bottom-color: #fff;
-          margin-bottom: -1px; }
-      #buddypress .profile #profile-edit-form ul.button-nav a {
-        background: none;
-        border: 0;
-        font-size: 18px;
-        font-size: 1.125rem; }
-    #buddypress .profile #profile-edit-form .field-visibility-settings-toggle, #buddypress .profile #profile-edit-form .field-visibility-settings {
-      font-size: 14px;
-      font-size: 0.875rem; }
-    #buddypress .profile #profile-edit-form .field-visibility-settings-close, #buddypress .profile #profile-edit-form .visibility-toggle-link {
-      background: #000;
-      color: #fff;
-      padding: 0.2em 0.5em; }
-  #buddypress table#message-threads .bulk-select-check {
-    width: 5%; }
-  #buddypress table#message-threads .thread-from, #buddypress table#message-threads .thread-info {
-    width: 35%; }
-  #buddypress table#message-threads .thread-options {
-    width: 25%; }
-  #buddypress table#message-threads tr td {
-    background: #ebf0ff; }
-  #buddypress table#message-threads tr.alt td {
-    background: #dbe5ff; }
-  #buddypress table#message-threads tr.unread td {
-    background: #cddaff;
-    border-bottom: 1px solid #e4cdff;
-    border-top: 1px solid #e4cdff; }
-  #buddypress table#message-threads tr.read td {
-    opacity: 0.5; }
-  #buddypress #settings-form > p {
-    font-size: 20px;
-    font-size: 1.25rem; }
-  #buddypress table.notification-settings td.yes, #buddypress table.notification-settings td.no {
-    vertical-align: middle; }
-  #buddypress table.profile-settings {
-    width: 100%; }
+	*/
+#buddypress #settings-form > p {
+  font-size: 20px;
+  font-size: 1.25rem; }
+#buddypress table.notification-settings td.yes, #buddypress table.notification-settings td.no {
+  vertical-align: middle; }
+#buddypress table.profile-settings {
+  width: 100%; }
+  #buddypress table.profile-settings th.field-group-name, #buddypress table.profile-settings td.field-name {
+    width: 50%; }
+  @media screen and (min-width: 401px) {
     #buddypress table.profile-settings th.field-group-name, #buddypress table.profile-settings td.field-name {
-      width: 50%; }
-    @media screen and (min-width: 401px) {
-      #buddypress table.profile-settings th.field-group-name, #buddypress table.profile-settings td.field-name {
-        width: 70%; } }
-    #buddypress table.profile-settings td.field-visibility select {
-      width: 100%; }
+      width: 70%; } }
+  #buddypress table.profile-settings td.field-visibility select {
+    width: 100%; }
 
 /*------------------------------------------------------------------------------
 * @section - 7.0 - Forms  - General
@@ -741,6 +800,8 @@ to maintain uniformity.
 #buddypress input[type="text"], #buddypress input[type="email"], #buddypress input[type="password"], #buddypress input[type="submit"], #buddypress select, #buddypress textarea {
   border: 1px solid rgba(0, 0, 0, 0.2); }
 #buddypress .standard-form input[type="text"], #buddypress .standard-form input[type="email"], #buddypress .standard-form input[type="password"], #buddypress .standard-form input[type="submit"], #buddypress .standard-form textarea {
+  width: 100%; }
+#buddypress #send-reply.standard-form textarea {
   width: 100%; }
 #buddypress div.activity-comments form .ac-textarea {
   background: #f7f7f7;
@@ -794,6 +855,9 @@ to maintain uniformity.
 * @section 8.0 - Tables General
 *-------------------------------------------------------------------------------
 */
+#buddypress table {
+  border-color: rgba(0, 0, 0, 0.2); }
+
 /*__ User Account tables __*/
 /**
 *-------------------------------------------------------------------------------
