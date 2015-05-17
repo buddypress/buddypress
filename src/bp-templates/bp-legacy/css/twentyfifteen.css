@@ -406,11 +406,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
       margin-bottom: 0 !important; }
   #buddypress #activity-stream .activity-content .activity-meta a {
     display: block;
-    margin-bottom: 5px; }
+    margin: 0 0 5px; }
     @media screen and (min-width: 38.75em) {
       #buddypress #activity-stream .activity-content .activity-meta a {
         display: inline-block;
-        margin-bottom: 0; } }
+        margin: 0; } }
 #buddypress #activity-stream .load-more {
   background: #f7f7f7;
   border: 1px solid transparent;
@@ -424,18 +424,20 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     display: block; }
 
 /* Single activity view  - activity permalink */
-.activity-permalink #buddypress #activity-stream li.activity-item {
-  padding: 20px; }
-.activity-permalink #buddypress #activity-stream li.mini .activity-header {
-  font-size: 16px;
-  font-size: 1.6rem;
-  margin-bottom: 40px; }
-  @media screen and (min-width: 46.25em) {
-    .activity-permalink #buddypress #activity-stream li.mini .activity-header {
-      font-size: 20px;
-      font-size: 2rem; } }
-  .activity-permalink #buddypress #activity-stream li.mini .activity-header p {
+.activity-permalink #buddypress {
+  background: none; }
+  .activity-permalink #buddypress #activity-stream li.activity-item {
     padding: 20px; }
+  .activity-permalink #buddypress #activity-stream li.mini .activity-header {
+    font-size: 16px;
+    font-size: 1.6rem;
+    margin-bottom: 40px; }
+    @media screen and (min-width: 46.25em) {
+      .activity-permalink #buddypress #activity-stream li.mini .activity-header {
+        font-size: 20px;
+        font-size: 2rem; } }
+    .activity-permalink #buddypress #activity-stream li.mini .activity-header p {
+      padding: 20px; }
 
 /**
 *-----------------------------------------------------
@@ -443,11 +445,27 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 *-----------------------------------------------------
 */
 #buddypress #activity-stream .activity-comments {
-  border-left: 1px solid #eaeaea;
-  margin-top: 5px; }
-  #buddypress #activity-stream .activity-comments ul {
+  margin: 10px 0 0; }
+  #buddypress #activity-stream .activity-comments.has-comments {
+    border-left: 1px solid #eaeaea; }
+  #buddypress #activity-stream .activity-comments .ac-form {
+    padding: 20px 0 0; }
+  #buddypress #activity-stream .activity-comments > ul {
     background: rgba(247, 247, 247, 0.6);
     margin: 15px 0 0 2px; }
+    @media screen and (min-width: 38.75em) {
+      #buddypress #activity-stream .activity-comments > ul {
+        margin-left: 70px; } }
+  #buddypress #activity-stream .activity-comments .ac-reply-avatar {
+    display: none; }
+  #buddypress #activity-stream .activity-comments .ac-reply-content {
+    margin-left: 0;
+    padding-left: 0; }
+  @media screen and (min-width: 38.75em) {
+    #buddypress #activity-stream .activity-comments .ac-reply-avatar {
+      display: block; }
+    #buddypress #activity-stream .activity-comments .ac-reply-content {
+      overflow: hidden; } }
   #buddypress #activity-stream .activity-comments .ac-form input[type="submit"], #buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel {
     color: rgba(51, 51, 51, 0.8);
     display: inline-block;
@@ -779,44 +797,44 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	* @subsection 6.2.2.2 - Extended Profiles
 	*-------------------------------------------
 	*/
-.bp-user #buddypress .profile {
-  /* Edit profile */ }
-  .bp-user #buddypress .profile .bp-widget h4 {
-    background: #6e6e6e;
-    color: #fff;
-    margin-bottom: 0;
-    padding: 0.4em; }
-  .bp-user #buddypress .profile .bp-widget table {
-    margin-top: 0; }
-  .bp-user #buddypress .profile #profile-edit-form .button-nav:before, .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
-    content: " ";
-    display: table; }
-  .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
-    clear: both; }
-  .bp-user #buddypress .profile #profile-edit-form ul.button-nav {
-    border-bottom: 1px solid #eaeaea;
-    margin-left: 0; }
-    .bp-user #buddypress .profile #profile-edit-form ul.button-nav li {
-      float: left;
-      margin-bottom: 0; }
-      .bp-user #buddypress .profile #profile-edit-form ul.button-nav li.current {
-        border: 1px solid #eaeaea;
-        border-bottom-color: #fff;
-        margin-bottom: -1px; }
-    .bp-user #buddypress .profile #profile-edit-form ul.button-nav a {
-      background: none;
-      border: 0;
-      font-size: 18px;
-      font-size: 1.8rem; }
-  .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-toggle, .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings {
-    font-size: 14px;
-    font-size: 1.4rem; }
-  .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-close, .bp-user #buddypress .profile #profile-edit-form .visibility-toggle-link {
-    background: #555;
-    color: #fff;
-    padding: 0.2em 0.5em; }
-  .bp-user #buddypress .profile .bp-avatar #bp-delete-avatar a {
-    font-size: inherit; }
+.bp-user #buddypress .profile .bp-widget h4 {
+  background: #6e6e6e;
+  color: #fff;
+  margin-bottom: 0;
+  padding: 0.4em; }
+.bp-user #buddypress .profile .bp-widget table {
+  margin-top: 0; }
+
+/* Edit Profile */
+.bp-user #buddypress .profile #profile-edit-form .button-nav:before, .bp-user #buddypress .profile #profile-edit-form .button-nav:after {
+  content: " ";
+  display: table; }
+.bp-user #buddypress .profile #profile-edit-form .button-nav:after {
+  clear: both; }
+.bp-user #buddypress .profile #profile-edit-form ul.button-nav {
+  border-bottom: 1px solid #eaeaea;
+  margin-left: 0; }
+  .bp-user #buddypress .profile #profile-edit-form ul.button-nav li {
+    float: left;
+    margin-bottom: 0; }
+    .bp-user #buddypress .profile #profile-edit-form ul.button-nav li.current {
+      border: 1px solid #eaeaea;
+      border-bottom-color: #fff;
+      margin-bottom: -1px; }
+  .bp-user #buddypress .profile #profile-edit-form ul.button-nav a {
+    background: none;
+    border: 0;
+    font-size: 18px;
+    font-size: 1.8rem; }
+.bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-toggle, .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings {
+  font-size: 14px;
+  font-size: 1.4rem; }
+.bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-close, .bp-user #buddypress .profile #profile-edit-form .visibility-toggle-link {
+  background: #555;
+  color: #fff;
+  padding: 0.2em 0.5em; }
+.bp-user #buddypress .profile .bp-avatar #bp-delete-avatar a {
+  font-size: inherit; }
 
 /**
 	*-------------------------------------------
@@ -980,6 +998,8 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   font-size: 20px;
   font-size: 2rem;
   margin: 20px 0 10px; }
+.bp-user #buddypress table.notification-settings th.title {
+  width: 75%; }
 .bp-user #buddypress table.notification-settings td.yes, .bp-user #buddypress table.notification-settings td.no {
   vertical-align: middle; }
 .bp-user #buddypress table.profile-settings {

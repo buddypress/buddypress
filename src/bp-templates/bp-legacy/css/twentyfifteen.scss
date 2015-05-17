@@ -831,10 +831,10 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			.activity-meta {
 				a {
 					display: block;
-					margin-bottom: $spacing-val-xs;
+					margin: 0 0 $spacing-val-xs;
 					@media screen and (min-width: 38.75em) {
 						display: inline-block;
-						margin-bottom: 0;
+						margin: 0;
 					}
 				}
 			}
@@ -865,6 +865,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 .activity-permalink {
 	#buddypress {
+		background: none; // counter the .bp-user faux column background
 		#activity-stream {
 
 			li.activity-item {
@@ -894,12 +895,37 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 	#activity-stream {
 		.activity-comments {
-			border-left: 1px solid $border-light;
-			margin-top: 5px;
+			margin: $spacing-val-sm 0 0;
 
-			ul {
+			&.has-comments {
+				border-left: 1px solid $border-light;
+			}
+
+			.ac-form {
+				padding: $spacing-val-md 0 0;
+			}
+
+			> ul {
 				background: rgba($light-background, 0.6);
 				margin: 15px 0 0 2px;
+				@media screen and (min-width: 38.75em) {
+					margin-left: 70px;
+				}
+			}
+
+			.ac-reply-avatar {display: none;}
+
+			.ac-reply-content {
+				margin-left: 0;
+				padding-left: 0;
+			}
+
+			@media screen and (min-width: 38.75em) {
+				.ac-reply-avatar {display: block;}
+
+				.ac-reply-content {
+					overflow: hidden;
+				}
 			}
 
 			.ac-form {
@@ -1447,9 +1473,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 	*/
 
 .bp-user {
-
 	#buddypress {
-
 		.profile {
 			.bp-widget {
 				h4 {
@@ -1461,8 +1485,15 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 				table {margin-top: 0;}
 			}
-			/* Edit profile */
+		}
+	}
+}
 
+/* Edit Profile */
+.bp-user {
+	#buddypress {
+
+		.profile {
 			#profile-edit-form {
 				.button-nav:before,
 				.button-nav:after {
@@ -1517,7 +1548,6 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		} // close .profile
 
 	} // close #BuddyPress
-
 } // close .bp-user
 
 /**
@@ -1813,12 +1843,13 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		}
 
 		table.notification-settings {
+			th.title {width: 75%;}
 			td.yes,
 			td.no {
 				vertical-align: middle;
 			}
 		}
-		// Profile table td widths
+		// Profile visibility table td widths
 		table.profile-settings {
 			width: 100%;
 
