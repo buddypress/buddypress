@@ -196,6 +196,7 @@ abstract class BP_Attachment {
 	 *
 	 * @param  array $file               The appropriate entry the from $_FILES superglobal.
 	 * @param  string $upload_dir_filter A specific filter to be applied to 'upload_dir' (optional).
+	 * @param  string $time              Optional. Time formatted in 'yyyy/mm'. Default null.
 	 * @uses   wp_handle_upload()        To upload the file
 	 * @uses   add_filter()              To temporarly overrides WordPress uploads data
 	 * @uses   remove_filter()           To stop overriding WordPress uploads data
@@ -205,7 +206,7 @@ abstract class BP_Attachment {
 	 *                                   On failure, returns an array containing the error message
 	 *                                   (eg: array( 'error' => $message ) )
 	 */
-	public function upload( $file, $upload_dir_filter = '' ) {
+	public function upload( $file, $upload_dir_filter = '', $time = null ) {
 		/**
 		 * Upload action and the file input name are required parameters
 		 * @see BP_Attachment:__construct()
@@ -264,13 +265,17 @@ abstract class BP_Attachment {
 		}
 
 		// Make sure the file will be uploaded in the attachment directory
-		add_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+		if ( ! empty( $upload_dir_filter ) ) {
+			add_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+		}
 
 		// Upload the attachment
-		$this->attachment = wp_handle_upload( $file[ $this->file_input ], $overrides );
+		$this->attachment = wp_handle_upload( $file[ $this->file_input ], $overrides, $time );
 
 		// Restore WordPress Uploads data
-		remove_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+		if ( ! empty( $upload_dir_filter ) ) {
+			remove_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+		}
 
 		// Remove the pre WordPress 4.0 static filter
 		remove_filter( 'wp_handle_upload_prefilter', array( $this, 'validate_upload' ), 10, 1 );

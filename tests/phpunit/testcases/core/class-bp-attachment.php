@@ -13,9 +13,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		add_filter( 'bp_attachment_upload_overrides', array( $this, 'filter_overrides' ),  10, 1 );
-		add_filter( 'bp_attachment_upload_dir',       array( $this, 'filter_upload_dir' ), 10, 1 );
-		add_filter( 'xprofile_avatar_upload_dir',     array( $this, 'filter_upload_dir' ), 10, 1 );
-		add_filter( 'groups_avatar_upload_dir',       array( $this, 'filter_upload_dir' ), 10, 1 );
+		add_filter( 'upload_dir',                     array( $this, 'filter_upload_dir' ), 20, 1 );
 		$this->upload_results = array();
 		$this->image_file = trailingslashit( buddypress()->plugin_dir ) . 'bp-core/images/mystery-man.jpg';
 	}
@@ -23,9 +21,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	public function tearDown() {
 		parent::tearDown();
 		remove_filter( 'bp_attachment_upload_overrides', array( $this, 'filter_overrides' ),  10, 1 );
-		remove_filter( 'bp_attachment_upload_dir',       array( $this, 'filter_upload_dir' ), 10, 1 );
-		remove_filter( 'xprofile_avatar_upload_dir',     array( $this, 'filter_upload_dir' ), 10, 1 );
-		remove_filter( 'groups_avatar_upload_dir',       array( $this, 'filter_upload_dir' ), 10, 1 );
+		remove_filter( 'upload_dir',                     array( $this, 'filter_upload_dir' ), 20, 1 );
 		$this->upload_results = array();
 		$this->image_file = '';
 	}
@@ -171,6 +167,39 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_FILES = $reset_files;
 		$_POST = $reset_post;
 		$this->clean_files();
+	}
+
+	/**
+	 * @group upload
+	 */
+	public function test_bp_attachment_upload_no_base_dir_specific_time() {
+		$reset_files = $_FILES;
+		$reset_post = $_POST;
+
+		$attachment_class = new BPTest_Attachment_Extension( array(
+			'action'                => 'attachment_action',
+			'file_input'            => 'attachment_file_input',
+		) );
+
+		$_POST['action'] = $attachment_class->action;
+		$_FILES[ $attachment_class->file_input ] = array(
+			'tmp_name' => $this->image_file,
+			'name'     => 'mystery-man.jpg',
+			'type'     => 'image/jpeg',
+			'error'    => 0,
+			'size'     => filesize( $this->image_file ),
+		);
+
+		$time = '2015/01';
+
+		$upload = $attachment_class->upload( $_FILES, '', $time );
+
+		// If no base_dir was provided, default WordPress uploads dir should be used.
+		$this->assertEquals( $upload['file'], $attachment_class->upload_path . '/' . $time . '/mystery-man.jpg' );
+
+		// clean up!
+		$_FILES = $reset_files;
+		$_POST = $reset_post;
 	}
 
 	/**
