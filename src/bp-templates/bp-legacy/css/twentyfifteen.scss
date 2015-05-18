@@ -1250,11 +1250,14 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 } // close .groups.edit-details
 
 .groups.group-settings {
-	#group-settings-form {
+	#group-settings-form,
+	#create-group-form {
 
-		div.radio label {
-			border: 1px solid $border-light;
-			padding: 0.2em;
+		div.radio {
+			label {
+				border: 1px solid $border-light;
+				padding: 0.2em;
+			}
 
 			ul {
 				color: rgba($body-text, 0.6);
@@ -1404,6 +1407,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		margin-bottom: 0.5em;
 	}
 }
+
 /**
 *--------------------------------------------
 * @subsection 6.2.2.1 - classes, pag, filters
@@ -1431,17 +1435,16 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 		.pag-count {font-style: italic;}
 
-		.notifications-options-nav {
-			border: 1px solid rgba($border-color, 0.5);
+		.notifications-options-nav,
+		.messages-options-nav {
 			float: left;
 			width: 100%;
-			@media screen and (min-width: 38.75em) {
-				width: 300px;
+			@media screen and (min-width: 30em) {
+				width: 50%;
 			}
 
 			select,
 			input {
-				border: 0;
 				@include font-size(14);
 				outline: 0;
 				padding: 0;
@@ -1450,14 +1453,26 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 			select {
 				float: left;
 				margin-right: 0;
-				width: 60%;
+				width: 100%;
+
+				@media screen and (min-width: 30em) {
+					width: 60%;
+				}
 			}
 
 			input {
 				float: right;
-				font-family: inherit;
-				line-height: 20px;
-				width: 40%;
+				@include default-font-serif();
+				line-height: 1.5;
+				margin-top: $spacing-val-sm;
+				width: 100%;
+
+				&[disabled]:hover {background: none;}
+
+				@media screen and (min-width: 30em) {
+					margin-top: 0;
+					width: 38%;
+				}
 			}
 
 		} // close .notifications-options-nav
@@ -1907,18 +1922,17 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 } // close #buddypress
 
-// 2015 applies 100% width to form element, remove this initially for BP search
 
 #buddypress {
 
-	// Manage form control widths under #item-body in user account screens
-	#item-body {
-		.standard-form {
-			li {float: none;}
-			input[type='text'],
-			textarea {
-				width: 100%;
-			}
+	// Manage form control widths override BP 75% width.
+
+	.standard-form,
+	.group-create-form {
+		li {float: none;}
+		input[type='text'],
+		textarea {
+			width: 100%;
 		}
 	}
 
@@ -2100,6 +2114,14 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 // to background color darker by 50%
 
 #buddypress {
+	#item-body {
+		div#message {
+			margin-top: $spacing-val-md;
+			@media screen and (min-width: 55em) {
+				margin-right: $spacing-val-md;
+			}
+		}
+	}
 
 	div#message {
 		p {
@@ -2125,12 +2147,12 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 
 // Without direct classes on our mesages ( 'warning' )
 // we need to use the body classes
-// todo: If this is class .warning is included in main BP styles remove from here
 .delete-group {
 	#buddypress {
 		div#message.info {
+
 			p {
-				@include message-box($notice-warning, #fff);
+				@include message-box($notice-warning);
 			}
 		}
 	}

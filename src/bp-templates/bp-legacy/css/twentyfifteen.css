@@ -652,13 +652,13 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
   font-size: 1.4rem;
   width: auto; }
 
-.groups.group-settings #group-settings-form div.radio label {
+.groups.group-settings #group-settings-form div.radio label, .groups.group-settings #create-group-form div.radio label {
   border: 1px solid #eaeaea;
   padding: 0.2em; }
-  .groups.group-settings #group-settings-form div.radio label ul {
-    color: rgba(51, 51, 51, 0.6);
-    font-size: 14px;
-    font-size: 1.4rem; }
+.groups.group-settings #group-settings-form div.radio ul, .groups.group-settings #create-group-form div.radio ul {
+  color: rgba(51, 51, 51, 0.6);
+  font-size: 14px;
+  font-size: 1.4rem; }
 
 .groups.group-avatar form > p {
   margin-top: 20px; }
@@ -769,28 +769,36 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     font-size: 1.6rem; } }
 .bp-user #buddypress .pag-count {
   font-style: italic; }
-.bp-user #buddypress .notifications-options-nav {
-  border: 1px solid rgba(153, 153, 153, 0.5);
+.bp-user #buddypress .notifications-options-nav, .bp-user #buddypress .messages-options-nav {
   float: left;
   width: 100%; }
-  @media screen and (min-width: 38.75em) {
-    .bp-user #buddypress .notifications-options-nav {
-      width: 300px; } }
-  .bp-user #buddypress .notifications-options-nav select, .bp-user #buddypress .notifications-options-nav input {
-    border: 0;
+  @media screen and (min-width: 30em) {
+    .bp-user #buddypress .notifications-options-nav, .bp-user #buddypress .messages-options-nav {
+      width: 50%; } }
+  .bp-user #buddypress .notifications-options-nav select, .bp-user #buddypress .notifications-options-nav input, .bp-user #buddypress .messages-options-nav select, .bp-user #buddypress .messages-options-nav input {
     font-size: 14px;
     font-size: 1.4rem;
     outline: 0;
     padding: 0; }
-  .bp-user #buddypress .notifications-options-nav select {
+  .bp-user #buddypress .notifications-options-nav select, .bp-user #buddypress .messages-options-nav select {
     float: left;
     margin-right: 0;
-    width: 60%; }
-  .bp-user #buddypress .notifications-options-nav input {
+    width: 100%; }
+    @media screen and (min-width: 30em) {
+      .bp-user #buddypress .notifications-options-nav select, .bp-user #buddypress .messages-options-nav select {
+        width: 60%; } }
+  .bp-user #buddypress .notifications-options-nav input, .bp-user #buddypress .messages-options-nav input {
     float: right;
-    font-family: inherit;
-    line-height: 20px;
-    width: 40%; }
+    font-family: "Noto Serif", serif;
+    line-height: 1.5;
+    margin-top: 10px;
+    width: 100%; }
+    .bp-user #buddypress .notifications-options-nav input[disabled]:hover, .bp-user #buddypress .messages-options-nav input[disabled]:hover {
+      background: none; }
+    @media screen and (min-width: 30em) {
+      .bp-user #buddypress .notifications-options-nav input, .bp-user #buddypress .messages-options-nav input {
+        margin-top: 0;
+        width: 38%; } }
 
 /**
 	*-------------------------------------------
@@ -1028,9 +1036,9 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 #buddypress select {
   border: 1px solid rgba(153, 153, 153, 0.5); }
 
-#buddypress #item-body .standard-form li {
+#buddypress .standard-form li, #buddypress .group-create-form li {
   float: none; }
-#buddypress #item-body .standard-form input[type='text'], #buddypress #item-body .standard-form textarea {
+#buddypress .standard-form input[type='text'], #buddypress .standard-form textarea, #buddypress .group-create-form input[type='text'], #buddypress .group-create-form textarea {
   width: 100%; }
 #buddypress div.dir-search, #buddypress div.message-search, #buddypress li.groups-members-search {
   float: none;
@@ -1119,6 +1127,11 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 * @section 9.0 - Error / Success messages
 *-------------------------------------------------------------------------------
 */
+#buddypress #item-body div#message {
+  margin-top: 20px; }
+  @media screen and (min-width: 55em) {
+    #buddypress #item-body div#message {
+      margin-right: 20px; } }
 #buddypress div#message p {
   font-size: 18px;
   font-size: 1.8rem;
@@ -1135,7 +1148,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 .delete-group #buddypress div#message.info p {
   background: #db7e7e;
   border: 1px solid #be3535;
-  color: #fff; }
+  color: #1f0808; }
 
 /**
 *-------------------------------------------------------------------------------
