@@ -11,9 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Register the 'new member' activity type
+ * Register the 'new member' activity type.
  *
- * @since  BuddyPress (2.2.0)
+ * @since BuddyPress (2.2.0)
  *
  * @uses bp_activity_set_action()
  * @uses buddypress()
@@ -43,8 +43,9 @@ add_action( 'bp_register_activity_actions', 'bp_members_register_activity_action
  *
  * @since BuddyPress (2.2.0)
  *
- * @param string $action Static activity action.
+ * @param string $action   Static activity action.
  * @param object $activity Activity object.
+ *
  * @return string
  */
 function bp_members_format_activity_action_new_member( $action, $activity ) {
@@ -71,6 +72,8 @@ function bp_members_format_activity_action_new_member( $action, $activity ) {
  * Create a "became a registered user" activity item when a user activates his account.
  *
  * @param array $user Array of userdata passed to bp_core_activated_user hook.
+ *
+ * @return bool
  */
 function bp_core_new_user_activity( $user ) {
 	if ( empty( $user ) ) {

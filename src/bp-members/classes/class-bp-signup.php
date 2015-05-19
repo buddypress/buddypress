@@ -110,10 +110,11 @@ class BP_Signup {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $args the argument to retrieve desired signups
+	 * @param array $args the argument to retrieve desired signups.
+	 *
 	 * @return array {
 	 *     @type array $signups Located signups.
-	 *     @type int $total Total number of signups matching params.
+	 *     @type int   $total   Total number of signups matching params.
 	 * }
 	 */
 	public static function get( $args = array() ) {
@@ -257,8 +258,9 @@ class BP_Signup {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $args
+	 *
 	 * @return int|bool ID of newly created signup on success, false on
-	 *         failure.
+	 *                  failure.
 	 */
 	public static function add( $args = array() ) {
 		global $wpdb;
@@ -313,10 +315,11 @@ class BP_Signup {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param string $user_login User login string.
+	 * @param string $user_login    User login string.
 	 * @param string $user_password User password.
-	 * @param string $user_email User email address.
-	 * @param array $usermeta Metadata associated with the signup.
+	 * @param string $user_email    User email address.
+	 * @param array  $usermeta      Metadata associated with the signup.
+	 *
 	 * @return int User id.
 	 */
 	public static function add_backcompat( $user_login = '', $user_password = '', $user_email = '', $usermeta = array() ) {
@@ -379,6 +382,7 @@ class BP_Signup {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param int $user_id ID of the user being checked.
+	 *
 	 * @return int|bool The status if found, otherwise false.
 	 */
 	public static function check_user_status( $user_id = 0 ) {
@@ -406,6 +410,7 @@ class BP_Signup {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param string $key Activation key.
+	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public static function validate( $key = '' ) {
@@ -451,7 +456,7 @@ class BP_Signup {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @return int the number of signups
+	 * @return int The number of signups.
 	 */
 	public static function count_signups() {
 		global $wpdb;
@@ -477,8 +482,9 @@ class BP_Signup {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param  array $args
-	 * @return int the signup id
+	 * @param array $args
+	 *
+	 * @return int The signup id
 	 */
 	public static function update( $args = array() ) {
 		global $wpdb;
@@ -532,6 +538,7 @@ class BP_Signup {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $signup_ids Single ID or list of IDs to resend.
+	 *
 	 * @return array
 	 */
 	public static function resend( $signup_ids = array() ) {
@@ -621,6 +628,7 @@ class BP_Signup {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $signup_ids Single ID or list of IDs to activate.
+	 *
 	 * @return array
 	 */
 	public static function activate( $signup_ids = array() ) {
@@ -703,6 +711,7 @@ class BP_Signup {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param array $signup_ids Single ID or list of IDs to delete.
+	 *
 	 * @return array
 	 */
 	public static function delete( $signup_ids = array() ) {

@@ -207,7 +207,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Get the user ID
+	 * Get the user ID.
 	 *
 	 * Look for $_GET['user_id']. If anything else, force the user ID to the
 	 * current user's ID so they aren't left without a user to edit.
@@ -232,7 +232,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Can the current user edit the one displayed
+	 * Can the current user edit the one displayed.
 	 *
 	 * self profile editing / or bp_moderate check.
 	 * This might be replaced by more granular capabilities
@@ -240,6 +240,10 @@ class BP_Members_Admin {
 	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
+	 *
+	 * @param int $user_id ID of the user being checked for edit ability.
+	 *
+	 * @return bool
 	 */
 	private function member_can_edit( $user_id = 0 ) {
 		$retval = false;
@@ -262,7 +266,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Get admin notice when saving a user or member profile
+	 * Get admin notice when saving a user or member profile.
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
@@ -463,9 +467,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Highlight the Users menu if on Edit Profile.
-	 *
-	 * + Check if on the user's admin profile
+	 * Highlight the Users menu if on Edit Profile and check if on the user's admin profile.
 	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
@@ -598,6 +600,11 @@ class BP_Members_Admin {
 	 *
 	 * @access public
 	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param object|null $user   User to create profile navigation for.
+	 * @param string      $active Which profile to highlight.
+	 *
+	 * @return string
 	 */
 	public function profile_nav( $user = null, $active = 'WordPress' ) {
 
@@ -1151,8 +1158,9 @@ class BP_Members_Admin {
 	 * @access public
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $actions WordPress row actions (edit, delete).
-	 * @param object $user The object for the user row.
+	 * @param array|string $actions WordPress row actions (edit, delete).
+	 * @param object       $user    The object for the user row.
+	 *
 	 * @return array Merged actions.
 	 */
 	public function row_actions( $actions = '', $user = null ) {
@@ -1205,7 +1213,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Add a filter to edit profile url in WP Admin Bar
+	 * Add a filter to edit profile url in WP Admin Bar.
 	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
@@ -1215,12 +1223,18 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Filter the profile url
+	 * Filter the profile url.
 	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
 	 *
 	 * @uses  user_admin_url()
+	 *
+	 * @param string $profile_link Profile Link for admin bar.
+	 * @param string $url          Profile URL.
+	 * @param int    $user_id      User ID.
+	 *
+	 * @return string
 	 */
 	public function filter_adminbar_profile_link( $profile_link = '', $url = '', $user_id = 0 ) {
 		if ( ! is_super_admin( $user_id ) && is_admin() ) {
@@ -1230,7 +1244,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Remove the filter to edit profile url in WP Admin Bar
+	 * Remove the filter to edit profile url in WP Admin Bar.
 	 *
 	 * @access public
 	 * @since BuddyPress (2.1.0)
@@ -1247,10 +1261,11 @@ class BP_Members_Admin {
 	 * @access public
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param  int $value
-	 * @param  string $option
-	 * @param  int $new_value
-	 * @return int the pagination preferences
+	 * @param int    $value
+	 * @param string $option
+	 * @param int    $new_value
+	 *
+	 * @return int The pagination preferences.
 	 */
 	public function signup_screen_options( $value = 0, $option = '', $new_value = 0 ) {
 		if ( 'users_page_bp_signups_network_per_page' != $option && 'users_page_bp_signups_per_page' != $option ) {
@@ -1274,7 +1289,8 @@ class BP_Members_Admin {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param  WP_User_Query $query The users query.
+	 * @param WP_User_Query $query The users query.
+	 *
 	 * @return WP_User_Query The users query without the signups.
 	 */
 	public function remove_signups_from_user_query( $query = null ) {
@@ -1316,7 +1332,8 @@ class BP_Members_Admin {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param  array $views WP List Table views.
+	 * @param array $views WP List Table views.
+	 *
 	 * @return array The views with the signup view added.
 	 */
 	public function signup_filter_view( $views = array() ) {
@@ -1343,8 +1360,9 @@ class BP_Members_Admin {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param  string $class    The name of the class to use.
-	 * @param  string $required The parent class.
+	 * @param string $class    The name of the class to use.
+	 * @param string $required The parent class.
+	 *
 	 * @return WP_List_Table    The List table.
 	 */
 	public static function get_list_table_class( $class = '', $required = '' ) {
@@ -1568,7 +1586,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Get admin notice when viewing the sign-up page
+	 * Get admin notice when viewing the sign-up page.
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
@@ -1719,10 +1737,10 @@ class BP_Members_Admin {
 	 * Signups admin page router.
 	 *
 	 * Depending on the context, display
-	 * - the list of signups
-	 * - or the delete confirmation screen
-	 * - or the activate confirmation screen
-	 * - or the "resend" email confirmation screen
+	 * - the list of signups,
+	 * - or the delete confirmation screen,
+	 * - or the activate confirmation screen,
+	 * - or the "resend" email confirmation screen.
 	 *
 	 * Also prepare the admin notices.
 	 *
@@ -1863,6 +1881,8 @@ class BP_Members_Admin {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param string $action Delete, activate, or resend activation link.
+	 *
+	 * @return string
 	 */
 	public function signups_admin_manage( $action = '' ) {
 		if ( ! current_user_can( $this->capability ) || empty( $action ) ) {

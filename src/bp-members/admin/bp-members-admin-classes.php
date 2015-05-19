@@ -109,13 +109,15 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * As we're dealing with signups, we don't need this.
 	 *
 	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param array $which
 	 */
 	public function extra_tablenav( $which ) {
 		return;
 	}
 
 	/**
-	 * Specific signups columns
+	 * Specific signups columns.
 	 *
 	 * @since BuddyPress (2.0.0)
 	 */
@@ -215,6 +217,13 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @see WP_List_Table::single_row() for explanation of params.
+	 *
+	 * @param object|null $signup_object Signup user object.
+	 * @param string      $style         Styles for the row.
+	 * @param string      $role          Role to be assigned to user.
+	 * @param int         $numposts      Numper of posts.
+	 *
+	 * @return string
 	 */
 	public function single_row( $signup_object = null, $style = '', $role = '', $numposts = 0 ) {
 		echo '<tr' . $style . ' id="signup-' . esc_attr( $signup_object->id ) . '">';
@@ -348,6 +357,10 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * Display number of time an activation email has been sent.
 	 *
 	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param object $signup_object Signup object instance.
+	 *
+	 * @return int
 	 */
 	public function column_count_sent( $signup_object = null ) {
 		echo absint( $signup_object->count_sent );
@@ -358,8 +371,10 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
-	 * @param object $signup_object The signup data object.
-	 * @param string the column name.
+	 * @param object|null $signup_object The signup data object.
+	 * @param string      $column_name   The column name.
+	 *
+	 * @return string
 	 */
 	function column_default( $signup_object = null, $column_name = '' ) {
 
@@ -457,7 +472,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @uses WP_MS_Users_List_Table::get_views() to get the users views
+	 * @uses WP_MS_Users_List_Table::get_views() to get the users views.
 	 */
 	public function get_views() {
 		$views = parent::get_views();
@@ -470,7 +485,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	}
 
 	/**
-	 * Specific signups columns
+	 * Specific signups columns.
 	 *
 	 * @since BuddyPress (2.0.0)
 	 */
@@ -495,7 +510,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	}
 
 	/**
-	 * Specific bulk actions for signups
+	 * Specific bulk actions for signups.
 	 *
 	 * @since BuddyPress (2.0.0)
 	 */
@@ -534,7 +549,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	}
 
 	/**
-	 * The columns signups can be reordered with
+	 * The columns signups can be reordered with.
 	 *
 	 * @since BuddyPress (2.0.0)
 	 */
@@ -565,6 +580,9 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @see WP_List_Table::single_row() for explanation of params.
+	 *
+	 * @param object|null $signup_object Signup user object.
+	 * @param string      $style         Styles for the row.
 	 */
 	public function single_row( $signup_object = null, $style = '' ) {
 		echo '<tr' . $style . ' id="signup-' . esc_attr( $signup_object->id ) . '">';
@@ -577,7 +595,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param object $signup_object The signup data object.
+	 * @param object|null $signup_object The signup data object.
 	 */
 	public function column_cb( $signup_object = null ) {
 	?>
@@ -666,7 +684,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	}
 
 	/**
-	 * Display registration date
+	 * Display registration date.
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
@@ -688,6 +706,8 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * Display the last time an activation email has been sent.
 	 *
 	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param object|null $signup_object Signup object instance.
 	 */
 	public function column_date_sent( $signup_object = null ) {
 		global $mode;
@@ -705,6 +725,8 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * Display number of time an activation email has been sent.
 	 *
 	 * @since BuddyPress (2.0.0)
+	 *
+	 * @param object|null $signup_object Signup object instance.
 	 */
 	public function column_count_sent( $signup_object = null ) {
 		echo absint( $signup_object->count_sent );
@@ -715,8 +737,10 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since BuddyPress 2.1.0
 	 *
-	 * @param object $signup_object The signup data object.
-	 * @param string the column name.
+	 * @param object|null $signup_object The signup data object.
+	 * @param string      $column_name   The column name.
+	 *
+	 * @return string
 	 */
 	function column_default( $signup_object = null, $column_name = '' ) {
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Members Toolbar
+ * BuddyPress Members Toolbar.
  *
  * Handles the member functions related to the WordPress Toolbar.
  *

@@ -23,8 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Note: no longer used in the current state. See the Settings component.
  *
- * @param int $user_id Optional. User ID to mark as spam. Defaults to displayed
- *        user.
+ * @param int $user_id Optional. User ID to mark as spam. Defaults to displayed user.
  */
 function bp_core_action_set_spammer_status( $user_id = 0 ) {
 

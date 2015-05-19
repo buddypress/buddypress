@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Member Screens
+ * BuddyPress Member Screens.
  *
  * Handlers for member screens that aren't handled elsewhere.
  *
@@ -293,7 +293,7 @@ add_action( 'bp_screens', 'bp_core_screen_signup' );
  * @todo Move the actual activation process into an action in bp-members-actions.php
  */
 function bp_core_screen_activation() {
-	
+
 	// Bail if not viewing the activation page
 	if ( ! bp_is_current_component( 'activate' ) ) {
 		return false;
@@ -521,7 +521,8 @@ class BP_Members_Theme_Compat {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $templates The templates from
-	 *        bp_get_theme_compat_templates().
+	 *                          bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
@@ -591,7 +592,7 @@ new BP_Members_Theme_Compat();
 class BP_Registration_Theme_Compat {
 
 	/**
-	 * Setup the groups component theme compatibility
+	 * Setup the groups component theme compatibility.
 	 *
 	 * @since BuddyPress (1.7.0)
 	 */
@@ -631,6 +632,7 @@ class BP_Registration_Theme_Compat {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function template_hierarchy( $templates ) {

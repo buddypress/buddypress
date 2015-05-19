@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Members Widgets
+ * BuddyPress Members Widgets.
  *
  * @package BuddyPress
  */
@@ -30,7 +30,7 @@ add_action( 'bp_register_widgets', 'bp_members_register_widgets' );
 class BP_Core_Members_Widget extends WP_Widget {
 
 	/**
-	 * Constructor method
+	 * Constructor method.
 	 */
 	public function __construct() {
 
@@ -152,8 +152,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 	/**
 	 * Update the Members widget options.
 	 *
-	 * @param  array $new_instance The new instance options.
-	 * @param  array $old_instance The old instance options.
+	 * @param array $new_instance The new instance options.
+	 * @param array $old_instance The old instance options.
+	 *
 	 * @return array $instance     The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -170,7 +171,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 	/**
 	 * Output the Members widget options form.
 	 *
-	 * @param $instance Settings for this widget.
+	 * @param array $instance Widget instance settings.
+	 *
+	 * @return string
 	 */
 	public function form( $instance ) {
 
@@ -220,8 +223,11 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param $instance Instance
-	 * @uses bp_parse_args() To merge widget settings into defaults
+	 * @param array $instance Widget instance settings.
+	 *
+	 * @uses bp_parse_args() To merge widget settings into defaults.
+	 *
+	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
 		return bp_parse_args( $instance, array(
@@ -320,8 +326,9 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	/**
 	 * Update the Who's Online widget options.
 	 *
-	 * @param  array $new_instance The new instance options.
-	 * @param  array $old_instance The old instance options.
+	 * @param array $new_instance The new instance options.
+	 * @param array $old_instance The old instance options.
+	 *
 	 * @return array $instance     The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -335,7 +342,9 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	/**
 	 * Output the Who's Online widget options form.
 	 *
-	 * @param $instance Settings for this widget.
+	 * @param array $instance Widget instance settings.
+	 *
+	 * @return string
 	 */
 	public function form( $instance ) {
 
@@ -366,8 +375,11 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param $instance Instance
-	 * @uses bp_parse_args() To merge widget settings into defaults
+	 * @param array $instance Widget instance settings.
+	 *
+	 * @uses bp_parse_args() To merge widget settings into defaults.
+	 *
+	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
 		return bp_parse_args( $instance, array(
@@ -466,6 +478,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
+	 *
 	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -479,7 +492,9 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	/**
 	 * Output the Recently Active widget options form.
 	 *
-	 * @param $instance Settings for this widget.
+	 * @param array $instance Widget instance settings.
+	 *
+	 * @return string
 	 */
 	public function form( $instance ) {
 
@@ -510,8 +525,11 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param $instance Instance
-	 * @uses bp_parse_args() To merge widget settings into defaults
+	 * @param array $instance Widget instance settings.
+	 *
+	 * @uses bp_parse_args() To merge widget settings into defaults.
+	 *
+	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
 		return bp_parse_args( $instance, array(

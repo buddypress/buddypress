@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Members Filters
+ * BuddyPress Members Filters.
  *
  * Filters specific to the Members component.
  *
@@ -57,15 +57,17 @@ function bp_members_signup_sanitization() {
 add_action( 'bp_loaded', 'bp_members_signup_sanitization' );
 
 /**
- * Make sure the username is not the blog slug in case of root profile & subdirectory blog
+ * Make sure the username is not the blog slug in case of root profile & subdirectory blog.
  *
  * If BP_ENABLE_ROOT_PROFILES is defined & multisite config is set to subdirectories,
  * then there is a chance site.url/username == site.url/blogslug. If so, user's profile
  * is not reachable, instead the blog is displayed. This filter makes sure the signup username
  * is not the same than the blog slug for this particular config.
  *
- * @since  BuddyPress (2.1.0)
- * @param  array $illegal_names
+ * @since BuddyPress (2.1.0)
+ *
+ * @param array $illegal_names
+ *
  * @return array $illegal_names
  */
 function bp_members_signup_with_subdirectory_blog( $illegal_names = array() ) {
@@ -98,9 +100,10 @@ add_filter( 'subdirectory_reserved_names', 'bp_members_signup_with_subdirectory_
  *
  * @since BuddyPress (1.6.0)
  *
- * @param string $url WP profile edit URL.
- * @param int $user_id ID of the user.
+ * @param string $url     WP profile edit URL.
+ * @param int    $user_id ID of the user.
  * @param string $scheme
+ *
  * @return string
  */
 function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
