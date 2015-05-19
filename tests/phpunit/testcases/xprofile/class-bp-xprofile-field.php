@@ -54,4 +54,58 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		// cleanup!
 		unset( $_POST['checkbox_option'] );
 	}
+
+	/**
+	 * @group xprofile_field_admin_validate
+	 */
+	public function test_admin_validate_zero_field_name() {
+
+		// Mock POST global values
+		$_POST['title']     = '0';
+		$_POST['required']  = false;
+		$_POST['fieldtype'] = 'textbox';
+
+		// Validate the mocked POST radio button options
+		$result = BP_XProfile_Field::admin_validate();
+
+		// Assert valid
+		$this->assertEquals( $result, true );
+
+		// cleanup
+		unset(
+			$_POST['title'],
+			$_POST['required'],
+			$_POST['fieldtype']
+		);
+	}
+
+	/**
+	 * @group xprofile_field_admin_validate
+	 */
+	public function test_admin_validate_field_options() {
+
+		// Mock POST global values
+		$_POST['title']        = 'Foo';
+		$_POST['required']     = false;
+		$_POST['fieldtype']    = 'radio';
+		$_POST['radio_option'] = array(
+			1 => '0',
+			2 => '1',
+			3 => '4',
+		);
+
+		// Validate the mocked POST radio button options
+		$result = BP_XProfile_Field::admin_validate();
+
+		// Assert valid
+		$this->assertEquals( $result, true );
+
+		// cleanup
+		unset(
+			$_POST['title'],
+			$_POST['required'],
+			$_POST['fieldtype'],
+			$_POST['radio_option' ]
+		);
+	}
 }
