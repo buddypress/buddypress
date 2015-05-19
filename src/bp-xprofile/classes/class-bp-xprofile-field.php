@@ -588,17 +588,59 @@ class BP_XProfile_Field {
 	public static function admin_validate() {
 		global $message;
 
-		// Validate Form
-		if ( empty( $_POST['title'] ) || ! isset( $_POST['required'] ) || empty( $_POST['fieldtype'] ) ) {
-			$message = __( 'Please make sure you fill out all required fields.', 'buddypress' );
+		// Check field name
+		if ( ! isset( $_POST['title'] ) || ( '' === $_POST['title'] ) ) {
+			$message = esc_html__( 'Profile fields must have a name.', 'buddypress' );
 			return false;
+		}
 
-		} elseif ( empty( $_POST['field_file'] ) ) {
-			$field_type  = bp_xprofile_create_field_type( $_POST['fieldtype'] );
-			$option_name = "{$_POST['fieldtype']}_option";
+		// Check field requirement
+		if ( ! isset( $_POST['required'] ) ) {
+			$message = esc_html__( 'Profile field requirement is missing.', 'buddypress' );
+			return false;
+		}
 
-			if ( ! empty( $field_type->supports_options ) && isset( $_POST[ $option_name ] ) && empty( $_POST[ $option_name ][1] ) ) {
-				$message = __( 'This field type requires at least one option. Please add options below.', 'buddypress' );
+		// Check field type
+		if ( empty( $_POST['fieldtype'] ) ) {
+			$message = esc_html__( 'Profile field type is missing.', 'buddypress' );
+			return false;
+		}
+
+		// Check that field is of valid type
+		if ( ! in_array( $_POST['fieldtype'], array_keys( bp_xprofile_get_field_types() ), true ) ) {
+			$message = sprintf( esc_html__( 'The profile field type %s is not registered.', 'buddypress' ), '<code>' . esc_attr( $_POST['fieldtype'] ) . '</code>' );
+			return false;
+		}
+
+		// Get field type so we can check for and lavidate any field options
+		$field_type = bp_xprofile_create_field_type( $_POST['fieldtype'] );
+
+		// Field type requires options
+		if ( true === $field_type->supports_options ) {
+
+			// Build the field option key
+			$option_name = sanitize_key( $_POST['fieldtype'] ) . '_option';
+
+			// Check for missing or malformed options
+			if ( empty( $_POST[ $option_name ] ) || ! is_array( $_POST[ $option_name ] ) ) {
+				$message = esc_html__( 'These field options are invalid.', 'buddypress' );
+				return false;
+			}
+
+			// Trim out empty field options
+			$field_values  = array_values( $_POST[ $option_name ] );
+			$field_options = array_map( 'sanitize_text_field', $field_values );
+			$field_count   = count( $field_options );
+
+			// Check for missing or malformed options
+			if ( 0 === $field_count ) {
+				$message = sprintf( esc_html__( '%s require at least one option.', 'buddypress' ), $field_type->name );
+				return false;
+			}
+
+			// If only one option exists, it cannot be an empty string
+			if ( ( 1 === $field_count ) && ( '' === $field_options[0] ) ) {
+				$message = sprintf( esc_html__( '%s require at least one option.', 'buddypress' ), $field_type->name );
 				return false;
 			}
 		}
