@@ -118,7 +118,7 @@ $spacing-val-xs: 5px;
 
 // titles dark backgrounds
 @mixin title-background-dark() {
-	background: lighten($dark-background, 20%);
+	background: lighten($dark-background, 30%);
 	color: $dark-back-text-color;
 }
 
@@ -221,6 +221,7 @@ to maintain uniformity.
 .buddypress {
 
 	.site-content {
+		padding-bottom: $spacing-val-md;
 		padding-top: 4%;
 
 		@media screen and (min-width: 59.6875em) {
@@ -237,9 +238,12 @@ to maintain uniformity.
 				padding: 0;
 			}
 
-			#buddypress { margin-bottom: $spacing-val-lg; }
-			} // .article
-		} // .content
+			#buddypress {
+				margin-bottom: $spacing-val-lg;
+			}
+
+		} // .article
+	} // .content
 } // .buddypress ( body class )
 
 /**
@@ -429,7 +433,7 @@ $nav-background-border: #bebebe;
 				border: 1px solid $nav-background-border;
 				border-left: 0;
 				border-right: 0;
-				margin: 0 (-$spacing-val-md) $spacing-val-lg;
+				margin: 0 (-$spacing-val-md) $spacing-val-md;
 
 				li:focus,
 				li:hover {
@@ -587,7 +591,7 @@ $nav-background-border: #bebebe;
 			@media screen and (min-width: 783px) {
 				.item {
 					float: left;
-					width: 60%;
+					width: 55%;
 
 					div.item-desc {
 						margin: 0;
@@ -898,7 +902,7 @@ $nav-background-border: #bebebe;
 		#message {
 			clear: both;
 			margin-bottom: $spacing-val-xs;
-			padding-top: $spacing-val-md;
+			padding-top: $spacing-val-sm;
 
 			p {margin-bottom: 0;}
 		}
@@ -1066,7 +1070,7 @@ $nav-background-border: #bebebe;
 
 /**
 *-------------------------------------------------
-* @subsection 6.2.1 - item-body: groups
+* @subsection 6.2.1 - item-body: Groups
 *-------------------------------------------------
 */
 
@@ -1076,7 +1080,25 @@ $nav-background-border: #bebebe;
 	*------------------------------
 	*/
 
-/* manage members */
+/* Settings */
+
+#group-settings-form,
+#create-group-form {
+
+	.radio {
+		strong {
+			@include font-size(18);
+		}
+
+		ul {
+			color: lighten($body-text, 30%);
+		}
+	}
+
+	#group-creation-previous {margin: $spacing-val-sm 0;}
+}
+
+/* Manage Members */
 .groups.manage-members {
 	#group-settings-form {
 
@@ -1126,7 +1148,7 @@ $nav-background-border: #bebebe;
 
 /**
 	*------------------------------
-	* 6.2.1.2 - Group members list
+	* 6.2.1.2 - Group Members List
 	*------------------------------
 	*/
 
@@ -1469,6 +1491,60 @@ $nav-background-border: #bebebe;
 			.message-content {
 				clear: left;
 				margin-left: 0;
+			}
+		}
+	}
+
+	/* Sitewide Notices loop */
+	#message-threads.sitewide-notices {
+		td {
+			width: 100%;
+
+			strong {
+				@include title-background-dark();
+				@include font-size(16);
+				display: block;
+				margin-bottom: 0.4em;
+				padding: 0.2em;
+			}
+
+			a {
+				display: inline-block;
+				line-height: initial;
+			}
+		}
+
+		td:first-child {
+			display: none;
+		}
+
+		td:first-child + td + td {
+		// notice date
+			border-bottom: 0;
+
+			span {
+				line-height: 1;
+			}
+		}
+
+		td:last-child {
+		// notice actions
+			border-bottom-color: $border-med;
+			line-height: 1;
+			text-align: right;
+
+			a:last-child {
+			// hide the 'x' text
+				line-height: 0;
+				margin-left: 0.7em;
+				text-indent: -999em;
+			}
+
+			a:last-child::after {
+				content: attr(title);
+				display: block;
+				line-height: initial;
+				text-indent: 0;
 			}
 		}
 	}

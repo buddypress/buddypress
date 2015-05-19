@@ -56,6 +56,7 @@ to maintain uniformity.
   clear: none; }
 
 .buddypress .site-content {
+  padding-bottom: 20px;
   padding-top: 4%; }
   @media screen and (min-width: 59.6875em) {
     .buddypress .site-content {
@@ -168,7 +169,7 @@ to maintain uniformity.
       border: 1px solid #bebebe;
       border-left: 0;
       border-right: 0;
-      margin: 0 -20px 40px; }
+      margin: 0 -20px 20px; }
       #buddypress #item-body #subnav li:focus, #buddypress #item-body #subnav li:hover {
         background: #bebebe; }
       #buddypress #item-body #subnav li.current {
@@ -249,7 +250,7 @@ to maintain uniformity.
   @media screen and (min-width: 783px) {
     #buddypress ul.item-list li .item {
       float: left;
-      width: 60%; }
+      width: 55%; }
       #buddypress ul.item-list li .item div.item-desc {
         margin: 0;
         width: auto; }
@@ -405,7 +406,7 @@ to maintain uniformity.
 */
 /* groups & user account page entry title */
 .single-item.groups .entry-title, .bp-user .entry-title {
-  background: #333333;
+  background: #4d4d4d;
   color: #fff;
   font-size: 22px;
   font-size: 1.375rem;
@@ -428,7 +429,7 @@ to maintain uniformity.
   #buddypress div#item-header #message {
     clear: both;
     margin-bottom: 5px;
-    padding-top: 20px; }
+    padding-top: 10px; }
     #buddypress div#item-header #message p {
       margin-bottom: 0; }
 
@@ -527,7 +528,7 @@ to maintain uniformity.
 */
 /**
 *-------------------------------------------------
-* @subsection 6.2.1 - item-body: groups
+* @subsection 6.2.1 - item-body: Groups
 *-------------------------------------------------
 */
 /**
@@ -535,7 +536,16 @@ to maintain uniformity.
 	* 6.2.1.1 - Groups Management
 	*------------------------------
 	*/
-/* manage members */
+/* Settings */
+#group-settings-form .radio strong, #create-group-form .radio strong {
+  font-size: 18px;
+  font-size: 1.125rem; }
+#group-settings-form .radio ul, #create-group-form .radio ul {
+  color: #777777; }
+#group-settings-form #group-creation-previous, #create-group-form #group-creation-previous {
+  margin: 10px 0; }
+
+/* Manage Members */
 .groups.manage-members #group-settings-form h4 {
   margin-top: 40px; }
 .groups.manage-members #group-settings-form .item-list {
@@ -568,7 +578,7 @@ to maintain uniformity.
 
 /**
 	*------------------------------
-	* 6.2.1.2 - Group members list
+	* 6.2.1.2 - Group Members List
 	*------------------------------
 	*/
 #buddypress #members-group-list .item-list h5 {
@@ -687,7 +697,8 @@ to maintain uniformity.
 	*------------------------------
 	*/
 #buddypress {
-  /* Read Single thread */ }
+  /* Read Single thread */
+  /* Sitewide Notices loop */ }
   #buddypress table#message-threads {
     border-left: 1px solid rgba(0, 0, 0, 0.2);
     border-right: 1px solid rgba(0, 0, 0, 0.2); }
@@ -764,7 +775,7 @@ to maintain uniformity.
       border-right: 0;
       width: 30px; }
   #buddypress #message-thread #message-subject {
-    background: #333333;
+    background: #4d4d4d;
     color: #fff;
     padding: 0.5em; }
   #buddypress #message-thread .message-box .message-metadata {
@@ -772,6 +783,38 @@ to maintain uniformity.
   #buddypress #message-thread .message-box .message-content {
     clear: left;
     margin-left: 0; }
+  #buddypress #message-threads.sitewide-notices td {
+    width: 100%; }
+    #buddypress #message-threads.sitewide-notices td strong {
+      background: #4d4d4d;
+      color: #fff;
+      font-size: 16px;
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 0.4em;
+      padding: 0.2em; }
+    #buddypress #message-threads.sitewide-notices td a {
+      display: inline-block;
+      line-height: initial; }
+  #buddypress #message-threads.sitewide-notices td:first-child {
+    display: none; }
+  #buddypress #message-threads.sitewide-notices td:first-child + td + td {
+    border-bottom: 0; }
+    #buddypress #message-threads.sitewide-notices td:first-child + td + td span {
+      line-height: 1; }
+  #buddypress #message-threads.sitewide-notices td:last-child {
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    line-height: 1;
+    text-align: right; }
+    #buddypress #message-threads.sitewide-notices td:last-child a:last-child {
+      line-height: 0;
+      margin-left: 0.7em;
+      text-indent: -999em; }
+    #buddypress #message-threads.sitewide-notices td:last-child a:last-child::after {
+      content: attr(title);
+      display: block;
+      line-height: initial;
+      text-indent: 0; }
 
 /**
 	*------------------------------
