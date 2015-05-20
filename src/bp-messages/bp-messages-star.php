@@ -420,7 +420,7 @@ function bp_messages_star_bulk_manage_handler() {
 				) );
 			}
 
-			bp_core_add_message( sprintf( _n( '1 message was successfully starred', '%s messages were successfully starred', $count, 'buddypress' ), $count ) );
+			bp_core_add_message( sprintf( _n( '%s message was successfully starred', '%s messages were successfully starred', $count, 'buddypress' ), $count ) );
 			break;
 
 		case 'unstar' :
@@ -434,7 +434,7 @@ function bp_messages_star_bulk_manage_handler() {
 				) );
 			}
 
-			bp_core_add_message( sprintf( _n( '1 message was successfully unstarred', '%s messages were successfully unstarred', $count, 'buddypress' ), $count ) );
+			bp_core_add_message( sprintf( _n( '%s message was successfully unstarred', '%s messages were successfully unstarred', $count, 'buddypress' ), $count ) );
 			break;
 	}
 
