@@ -231,24 +231,42 @@ class BP_Legacy extends BP_Theme_Compat {
 		}
 
 		// RTL
-		if ( is_rtl() && isset( $rtl['location'], $rtl['handle'] ) ) {
-			$rtl['handle'] = str_replace( '-css', '-css-rtl', $rtl['handle'] );  // Backwards compatibility
-			wp_enqueue_style( $rtl['handle'], $rtl['location'], array(), $this->version, 'screen' );
+		if ( is_rtl() ) {
+			$rtl = $this->locate_asset_in_stack( "buddypress-rtl{$min}.css", 'css' );
 
-			if ( $min ) {
-				wp_style_add_data( $rtl['handle'], 'suffix', $min );
+			if ( isset( $rtl['location'], $rtl['handle'] ) ) {
+				$rtl['handle'] = str_replace( '-css', '-css-rtl', $rtl['handle'] );  // Backwards compatibility
+				wp_enqueue_style( $rtl['handle'], $rtl['location'], array(), $this->version, 'screen' );
+
+				if ( $min ) {
+					wp_style_add_data( $rtl['handle'], 'suffix', $min );
+				}
 			}
 		}
 
 		// Compatibility stylesheets for specific themes.
-		$asset = $this->locate_asset_in_stack( get_template() . "{$min}.css", 'css' );
-		if ( isset( $asset['location'] ) ) {
+		$theme = $this->locate_asset_in_stack( get_template() . "{$min}.css", 'css' );
+		if ( ! is_rtl() && isset( $theme['location'] ) ) {
 			// use a unique handle
-			$asset['handle'] = 'bp-' . get_template();
-			wp_enqueue_style( $asset['handle'], $asset['location'], array(), $this->version, 'screen' );
+			$theme['handle'] = 'bp-' . get_template();
+			wp_enqueue_style( $theme['handle'], $theme['location'], array(), $this->version, 'screen' );
 
 			if ( $min ) {
-				wp_style_add_data( $asset['handle'], 'suffix', $min );
+				wp_style_add_data( $theme['handle'], 'suffix', $min );
+			}
+		}
+
+		// Compatibility stylesheet for specific themes, RTL-version
+		if ( is_rtl() ) {
+			$theme_rtl = $this->locate_asset_in_stack( get_template() . "-rtl{$min}.css", 'css' );
+
+			if ( isset( $theme_rtl['location'] ) ) {
+				$theme_rtl['handle'] = $theme['handle'] . '-rtl';
+				wp_enqueue_style( $theme_rtl['handle'], $theme_rtl['location'], array(), $this->version, 'screen' );
+
+				if ( $min ) {
+					wp_style_add_data( $theme_rtl['handle'], 'suffix', $min );
+				}
 			}
 		}
 	}
