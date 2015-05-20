@@ -211,6 +211,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * Load the theme CSS
 	 *
 	 * @since BuddyPress (1.7)
+	 * @since BuddyPress (2.3.0) Support custom CSS file named after the current theme or parent theme.
 	 *
 	 * @uses wp_enqueue_style() To enqueue the styles
 	 */
@@ -219,7 +220,6 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		// Locate the BP stylesheet
 		$ltr = $this->locate_asset_in_stack( "buddypress{$min}.css",     'css' );
-		$rtl = $this->locate_asset_in_stack( "buddypress-rtl{$min}.css", 'css' );
 
 		// LTR
 		if ( ! is_rtl() && isset( $ltr['location'], $ltr['handle'] ) ) {
@@ -241,10 +241,10 @@ class BP_Legacy extends BP_Theme_Compat {
 		}
 
 		// Compatibility stylesheets for specific themes.
-		$asset = $this->locate_asset_in_stack( get_stylesheet() . "{$min}.css", 'css' );
+		$asset = $this->locate_asset_in_stack( get_template() . "{$min}.css", 'css' );
 		if ( isset( $asset['location'] ) ) {
 			// use a unique handle
-			$asset['handle'] = 'bp-' . get_stylesheet();
+			$asset['handle'] = 'bp-' . get_template();
 			wp_enqueue_style( $asset['handle'], $asset['location'], array(), $this->version, 'screen' );
 
 			if ( $min ) {
