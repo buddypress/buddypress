@@ -55,7 +55,7 @@ do_action( 'bp_before_members_loop' ); ?>
 
 	<?php while ( bp_members() ) : bp_the_member(); ?>
 
-		<li>
+		<li <?php bp_member_class(); ?>>
 			<div class="item-avatar">
 				<a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar(); ?></a>
 			</div>

@@ -722,34 +722,51 @@ function bp_member_user_id() {
  * Output the row class of the current member in the loop.
  *
  * @since BuddyPress (1.7.0)
+ *
+ * @param array $classes Array of custom classes
  */
-function bp_member_class() {
-	echo bp_get_member_class();
+function bp_member_class( $classes = array() ) {
+	echo bp_get_member_class( $classes );
 }
 	/**
 	 * Return the row class of the current member in the loop.
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @return string Row class of the member.
+	 * @param array $classes Array of custom classes
+	 *
+	 * @return string Row class of the member
 	 */
-	function bp_get_member_class() {
+	function bp_get_member_class( $classes = array() ) {
 		global $members_template;
 
-		$classes      = array();
-		$current_time = bp_core_current_time();
-		$pos_in_loop  = (int) $members_template->current_member;
+		// Add even/odd classes, but only if there's more than 1 member
+		if ( $members_template->member_count > 1 ) {
+			$pos_in_loop = (int) $members_template->current_member;
+			$classes[]   = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
 
-		// If we've only one group in the loop, don't both with odd and even.
-		if ( $members_template->member_count > 1 )
-			$classes[] = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
-		else
+		// If we've only one member in the loop, don't bother with odd and even
+		} else {
 			$classes[] = 'bp-single-member';
+		}
 
-		// Has the user been active recently?
+		// Maybe add 'is-online' class
 		if ( ! empty( $members_template->member->last_activity ) ) {
-			if ( strtotime( $current_time ) <= strtotime( '+5 minutes', strtotime( $members_template->member->last_activity ) ) )
+
+			// Calculate some times
+			$current_time  = strtotime( bp_core_current_time() );
+			$last_activity = strtotime( $members_template->member->last_activity );
+			$still_online  = strtotime( '+5 minutes', $last_activity );
+
+			// Has the user been active recently?
+			if ( $current_time <= $still_online ) {
 				$classes[] = 'is-online';
+			}
+		}
+
+		// Add current user class
+		if ( bp_loggedin_user_id() === (int) $members_template->member->id ) {
+			$classes[] = 'is-current-user';
 		}
 
 		/**
