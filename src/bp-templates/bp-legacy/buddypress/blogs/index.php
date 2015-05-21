@@ -12,7 +12,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	<?php
 
 	/**
-	 * Fires at the top of the blogs directory template file.
+	 * Fires before the display of the blogs
 	 *
 	 * @since BuddyPress (1.5.0)
 	 */
@@ -36,7 +36,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	/**
 	 * Fires before the display of the blogs list tabs.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since BuddyPress (2.3.0)
 	 */
 	do_action( 'bp_before_directory_blogs_tabs' ); ?>
 
