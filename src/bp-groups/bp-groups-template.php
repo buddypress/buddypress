@@ -671,42 +671,54 @@ function bp_group_id( $group = false ) {
  * Output the row class of the current group in the loop.
  *
  * @since BuddyPress (1.7.0)
+ *
+ * @param array $classes Array of custom classes
  */
-function bp_group_class() {
-	echo bp_get_group_class();
+function bp_group_class( $classes = array() ) {
+	echo bp_get_group_class( $classes );
 }
 	/**
 	 * Get the row class of the current group in the loop.
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
+	 * @param array $classes Array of custom classes
+	 *
 	 * @return string Row class of the group.
 	 */
-	function bp_get_group_class() {
+	function bp_get_group_class( $classes = array() ) {
 		global $groups_template;
 
-		$classes      = array();
-		$pos_in_loop  = (int) $groups_template->current_group;
+		// Add even/odd classes, but only if there's more than 1 group
+		if ( $groups_template->group_count > 1 ) {
+			$pos_in_loop = (int) $groups_template->current_group;
+			$classes[]   = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
 
-		// If we've only one group in the loop, don't both with odd and even.
-		if ( $groups_template->group_count > 1 )
-			$classes[] = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
-		else
+		// If we've only one group in the loop, don't bother with odd and even
+		} else {
 			$classes[] = 'bp-single-group';
+		}
 
 		// Group type - public, private, hidden.
-		$classes[] = esc_attr( $groups_template->group->status );
+		$classes[] = sanitize_key( $groups_template->group->status );
 
-		// User's group status
+		// User's group role
 		if ( bp_is_user_active() ) {
-			if ( bp_group_is_admin() )
+
+			// Admin
+			if ( bp_group_is_admin() ) {
 				$classes[] = 'is-admin';
+			}
 
-			if ( bp_group_is_member() )
-				$classes[] = 'is-member';
-
-			if ( bp_group_is_mod() )
+			// Moderator
+			if ( bp_group_is_mod() ) {
 				$classes[] = 'is-mod';
+			}
+
+			// Member
+			if ( bp_group_is_member() ) {
+				$classes[] = 'is-member';
+			}
 		}
 
 		// Whether a group avatar will appear.
