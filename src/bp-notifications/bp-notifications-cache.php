@@ -31,6 +31,17 @@ function bp_notifications_update_meta_cache( $notification_ids = false ) {
 }
 
 /**
+ * Clear all notifications cache for a given user ID
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param int $user_id The user ID's cache to clear
+ */
+function bp_notifications_clear_all_for_user_cache( $user_id = 0 ) {
+	wp_cache_delete( 'all_for_user_' . $user_id, 'bp_notifications' );
+}
+
+/**
  * Invalidate 'all_for_user_' cache when saving.
  *
  * @since BuddyPress (2.0.0)
@@ -38,7 +49,7 @@ function bp_notifications_update_meta_cache( $notification_ids = false ) {
  * @param BP_Notifications_Notification $n Notification object.
  */
 function bp_notifications_clear_all_for_user_cache_after_save( BP_Notifications_Notification $n ) {
-	wp_cache_delete( 'all_for_user_' . $n->user_id, 'bp_notifications' );
+	bp_notifications_clear_all_for_user_cache( $n->user_id );
 }
 add_action( 'bp_notification_after_save', 'bp_notifications_clear_all_for_user_cache_after_save' );
 
@@ -50,6 +61,7 @@ add_action( 'bp_notification_after_save', 'bp_notifications_clear_all_for_user_c
  * @param int $args Notification deletion arguments.
  */
 function bp_notifications_clear_all_for_user_cache_before_delete( $args ) {
+
 	// Pull up a list of items matching the args (those about te be deleted)
 	$ns = BP_Notifications_Notification::get( $args );
 
@@ -58,8 +70,31 @@ function bp_notifications_clear_all_for_user_cache_before_delete( $args ) {
 		$user_ids[] = $n->user_id;
 	}
 
-	foreach ( array_unique( $user_ids ) as $user_id ) {
-		wp_cache_delete( 'all_for_user_' . $user_id, 'bp_notifications' );
+	$user_ids = array_unique( $user_ids );
+	foreach ( $user_ids as $user_id ) {
+		bp_notifications_clear_all_for_user_cache( $user_id );
 	}
 }
 add_action( 'bp_notification_before_delete', 'bp_notifications_clear_all_for_user_cache_before_delete' );
+
+/**
+ * Invalidates 'all_for_user_' cache when updating.
+ *
+ * @since BuddyPress (2.3.0)
+ *
+ * @param array $update_args See BP_Notifications_Notification::update() for description.
+ * @param array $where_args  See BP_Notifications_Notification::update() for description.
+ */
+function bp_notifications_clear_all_for_user_cache_before_update( $update_args, $where_args ) {
+
+	// User ID is passed in where arugments
+	if ( ! empty( $where_args['user_id'] ) ) {
+		bp_notifications_clear_all_for_user_cache( $where_args['user_id'] );
+
+	// Get user ID from Notification ID
+	} elseif ( ! empty( $where_args['id'] ) ) {
+		$n = bp_notifications_get_notification( $where_args['id'] );
+		bp_notifications_clear_all_for_user_cache( $n->user_id );
+	}
+}
+add_action( 'bp_notification_before_update', 'bp_notifications_clear_all_for_user_cache_before_update', 10, 2 );

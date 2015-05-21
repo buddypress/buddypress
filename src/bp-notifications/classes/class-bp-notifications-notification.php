@@ -830,12 +830,22 @@ class BP_Notifications_Notification {
 		$update = self::get_query_clauses( $update_args );
 		$where  = self::get_query_clauses( $where_args  );
 
-		// make sure we delete the notification cache for the user on update
-		if ( ! empty( $where_args['user_id'] ) ) {
-			wp_cache_delete( 'all_for_user_' . $where_args['user_id'], 'bp_notifications' );
-		}
+		/**
+		 * Fires before the update of a notification item.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @param array $update_args See BP_Notifications_Notification::update().
+		 * @param array $where_args  See BP_Notifications_Notification::update().
+		 */
+		do_action( 'bp_notification_before_update', $update_args, $where_args );
 
-		return self::_update( $update['data'], $where['data'], $update['format'], $where['format'] );
+		return self::_update(
+			$update['data'],
+			$where['data'],
+			$update['format'],
+			$where['format']
+		);
 	}
 
 	/**
