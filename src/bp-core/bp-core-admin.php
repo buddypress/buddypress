@@ -16,6 +16,7 @@ if ( !class_exists( 'BP_Admin' ) ) :
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
+ * @todo Break this apart into each applicable Component
  *
  * @since BuddyPress (1.6.0)
  */
@@ -158,7 +159,7 @@ class BP_Admin {
 		add_action( 'admin_bar_menu', array( $this, 'admin_bar_about_link' ), 15 );
 
 		// Add a description of new BuddyPress tools in the available tools page
-		add_action( 'tool_box', 'bp_core_admin_available_tools_intro' );
+		add_action( 'tool_box',            'bp_core_admin_available_tools_intro' );
 		add_action( 'bp_network_tool_box', 'bp_core_admin_available_tools_intro' );
 
 		// On non-multisite, catch
@@ -314,11 +315,11 @@ class BP_Admin {
 		/** Main Section ******************************************************/
 
 		// Add the main section
-		add_settings_section( 'bp_main',            __( 'Main Settings',    'buddypress' ), 'bp_admin_setting_callback_main_section',     'buddypress'            );
+		add_settings_section( 'bp_main', __( 'Main Settings', 'buddypress' ), 'bp_admin_setting_callback_main_section', 'buddypress' );
 
 		// Hide toolbar for logged out users setting
-		add_settings_field( 'hide-loggedout-adminbar',        __( 'Toolbar',        'buddypress' ), 'bp_admin_setting_callback_admin_bar',        'buddypress', 'bp_main' );
-	 	register_setting  ( 'buddypress',           'hide-loggedout-adminbar',        'intval'                                                                              );
+		add_settings_field( 'hide-loggedout-adminbar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_admin_bar', 'buddypress', 'bp_main' );
+	 	register_setting( 'buddypress', 'hide-loggedout-adminbar', 'intval' );
 
 		// Only show 'switch to Toolbar' option if the user chose to retain the BuddyBar during the 1.6 upgrade
 		if ( (bool) bp_get_option( '_bp_force_buddybar', false ) ) {
@@ -328,7 +329,7 @@ class BP_Admin {
 
 		// Allow account deletion
 		add_settings_field( 'bp-disable-account-deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
-	 	register_setting  ( 'buddypress',           'bp-disable-account-deletion', 'intval'                                                                              );
+	 	register_setting( 'buddypress', 'bp-disable-account-deletion', 'intval' );
 
 		/** XProfile Section **************************************************/
 
@@ -341,8 +342,8 @@ class BP_Admin {
 			register_setting( 'buddypress', 'bp-disable-avatar-uploads', 'intval' );
 
 			// Profile sync setting
-			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync',     'buddypress', 'bp_xprofile' );
-			register_setting  ( 'buddypress',         'bp-disable-profile-sync',     'intval'                                                                                  );
+			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
+			register_setting  ( 'buddypress', 'bp-disable-profile-sync', 'intval' );
 		}
 
 		/** Groups Section ****************************************************/
@@ -350,11 +351,11 @@ class BP_Admin {
 		if ( bp_is_active( 'groups' ) ) {
 
 			// Add the main section
-			add_settings_section( 'bp_groups',        __( 'Groups Settings',  'buddypress' ), 'bp_admin_setting_callback_groups_section',   'buddypress'              );
+			add_settings_section( 'bp_groups', __( 'Groups Settings',  'buddypress' ), 'bp_admin_setting_callback_groups_section', 'buddypress' );
 
 			// Allow subscriptions setting
-			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation',   'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
-			register_setting  ( 'buddypress',         'bp_restrict_group_creation',   'intval'                                                                                );
+			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation', 'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
+			register_setting( 'buddypress', 'bp_restrict_group_creation', 'intval' );
 
 			// Allow group avatars.
 			add_settings_field( 'bp-disable-group-avatar-uploads', __( 'Group Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_group_avatar_uploads', 'buddypress', 'bp_groups' );
@@ -366,11 +367,11 @@ class BP_Admin {
 		if ( bp_is_active( 'forums' ) ) {
 
 			// Add the main section
-			add_settings_section( 'bp_forums',        __( 'Legacy Group Forums',       'buddypress' ), 'bp_admin_setting_callback_bbpress_section',       'buddypress'              );
+			add_settings_section( 'bp_forums', __( 'Legacy Group Forums', 'buddypress' ), 'bp_admin_setting_callback_bbpress_section', 'buddypress' );
 
 			// Allow subscriptions setting
 			add_settings_field( 'bb-config-location', __( 'bbPress Configuration', 'buddypress' ), 'bp_admin_setting_callback_bbpress_configuration', 'buddypress', 'bp_forums' );
-			register_setting  ( 'buddypress',         'bb-config-location',        ''                                                                                           );
+			register_setting( 'buddypress', 'bb-config-location', '' );
 		}
 
 		/** Activity Section **************************************************/
@@ -378,7 +379,7 @@ class BP_Admin {
 		if ( bp_is_active( 'activity' ) ) {
 
 			// Add the main section
-			add_settings_section( 'bp_activity',      __( 'Activity Settings', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress'                );
+			add_settings_section( 'bp_activity', __( 'Activity Settings', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress' );
 
 			// Activity commenting on blog and forum posts
 			add_settings_field( 'bp-disable-blogforum-comments', __( 'Blog &amp; Forum Comments', 'buddypress' ), 'bp_admin_setting_callback_blogforum_comments', 'buddypress', 'bp_activity' );
@@ -390,8 +391,8 @@ class BP_Admin {
 
 			// Allow activity akismet
 			if ( is_plugin_active( 'akismet/akismet.php' ) && defined( 'AKISMET_VERSION' ) ) {
-				add_settings_field( '_bp_enable_akismet', __( 'Akismet',          'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
-				register_setting  ( 'buddypress',         '_bp_enable_akismet',   'intval'                                                                                  );
+				add_settings_field( '_bp_enable_akismet', __( 'Akismet', 'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
+				register_setting( 'buddypress', '_bp_enable_akismet', 'intval' );
 			}
 		}
 	}
@@ -545,80 +546,76 @@ class BP_Admin {
 					</div>
 				</div>
 
-				<hr />
-
 			<?php endif; ?>
 
-			<div class="changelog headline-feature">
-				<h2><?php esc_html_e( 'Member Types', 'buddypress' ); ?></h2>
+			<div class="headline-feature">
+				<h3><?php esc_html_e( 'Upload Avatars with a Drag and a Drop', 'buddypress' ); ?></h3>
+
 				<div class="featured-image">
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/member-types.png' ); ?>" alt="<?php esc_attr_e( 'Member types metabox', 'buddypress' ); ?>">
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/avatar-ui.gif' ); ?>" alt="<?php esc_attr_e( 'Revamped Avatar Upload UI', 'buddypress' ); ?>">
 				</div>
 
 				<div class="feature-section">
-					<h3><?php esc_html_e( 'Native APIs for crafting great new member experiences.', 'buddypress' ); ?></h3>
-					<p><?php esc_html_e( 'Registering member types finally enables a strict separation of different and explicit types of community members.', 'buddypress' ); ?></p>
-					<p><?php esc_html_e( 'This amazing new feature is available to plugin developers starting with BuddyPress 2.2', 'buddypress' ); ?></p>
-					<p><a href="https://codex.buddypress.org/developer/member-types/"><?php esc_html_e( 'Learn more &rarr;', 'buddypress' ); ?></a></p>
+					<h3><?php esc_html_e( 'Built with the Attachments API, the new foundation for BuddyPress media management.', 'buddypress' ); ?></h3>
+					<p><?php esc_html_e( 'You can drag and drop any image you choose to upload as your profile photo. The interface is mobile-ready and now includes integration with phone or laptop cameras. This is an example of what can be developed using the new Attachments API, the long-awaited foundation for media-related BuddyPress components and features.', 'buddypress' ); ?> <a href="https://codex.buddypress.org/plugindev/bp_attachment/"><?php esc_html_e( 'Learn more &rarr;', 'buddypress' ); ?></a></p>
 				</div>
 
 				<div class="clear"></div>
 			</div>
 
-			<hr />
-
-			<div class="changelog feature-list finer-points">
+			<div class="feature-list finer-points">
 				<h2><?php esc_html_e( 'The Finer Points', 'buddypress' ); ?></h2>
 
 				<div class="feature-section col two-col">
 					<div>
-						<span class=" dashicons dashicons-admin-post"></span>
-						<h4><?php esc_html_e( 'Post Types Activities', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Register custom post types so they appear as activity stream items, complete with custom verbiage.', 'buddypress' ); ?></p>
+						<span class=" dashicons dashicons-admin-users"></span>
+						<h4><?php esc_html_e( 'Member Type Directories', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Create directories of member types in your site using the Member Type API.', 'buddypress' ); ?></p>
 					</div>
 
 					<div class="template-pack last-feature">
 						<span class=" dashicons dashicons-admin-appearance"></span>
-						<h4><?php esc_html_e( 'Template Pack', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'The Legacy template pack is now more responsive and accommodating to more WordPress themes.', 'buddypress' ); ?></p>
+						<h4><?php esc_html_e( 'Core Theme Companion Styling', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Improved integration of components in WordPress core themes Twenty Fifteen and Twenty Fourteen.', 'buddypress' ); ?></p>
 					</div>
 
 					<div class="group-invites">
-						<span class=" dashicons dashicons-editor-code"></span>
-						<h4><?php esc_html_e( 'Message Meta', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Private message conversations made infinitely more flexible with an additional metadata table.', 'buddypress' ); ?></p>
+						<span class=" dashicons dashicons-admin-post"></span>
+						<h4><?php esc_html_e( 'Blog Post Activity', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Generate better excerpts in the activity streams for posts containing images or other embedded media content.', 'buddypress' ); ?></p>
 					</div>
 
 					<div class="last-feature">
-						<span class=" dashicons dashicons-heart"></span>
-						<h4><?php esc_html_e( 'WordPress 3.6 - 4.1', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'We support a wide range of WordPress versions, even though you should always stay up-to-date.', 'buddypress' ); ?></p>
+						<span class=" dashicons dashicons-star-filled"></span>
+						<h4><?php esc_html_e( 'Star Private Messages ', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Mark important messages in your inbox from your friends with a star.', 'buddypress' ); ?></p>
 					</div>
 				</div>
 			</div>
 
-			<hr />
-
-			<div class="changelog feature-list">
+			<div class="feature-list">
 				<h2><?php esc_html_e( 'Under the Hood', 'buddypress' ); ?></h2>
 
 				<div class="feature-section col two-col">
 					<div>
-						<h4><?php esc_html_e( 'Complex Activity Queries', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Metadata, multiple scopes, actions, post types, and more are now easily queried using core APIs and functionality.', 'buddypress' ); ?></p>
+						<h4><?php esc_html_e( 'Components can register new features', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Plugin developers can register new features or check if a component feature is registered using the `BP_Component` class.', 'buddypress' ); ?></p>
 
 						<h4><?php esc_html_e( 'Cache Improvements', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'We now properly group and cache several different types of queries and objects, with an emphasis on multi-network environments.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Improved cacheing for the following components: Messages, Profiles, Members &amp; Member Types, and Friends.', 'buddypress' ); ?></p>
 					</div>
 					<div class="last-feature">
 						<h4><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Continued improvements to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
 
-						<h4><?php esc_html_e( 'And so Much More', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'With over 130 bugs squashed and constant attention to improving unit-test coverage, we think this version is just the bee&#8217;s knees.', 'buddypress' ); ?></p>
+						<h4><?php esc_html_e( 'User Documentation', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'The BuddyPress Codex is maintained and updated regularly with new articles and tutorials.', 'buddypress' ); ?></p>
 					</div>
 				</div>
 			</div>
+
+			<p><?php esc_html_e( 'Official:', 'buddypress' ); ?> <a href="https://buddypress.org/blog/"><?php esc_html_e( 'News', 'buddypress' ); ?></a> &bullet; <a href="https://buddypress.org/suppport/"><?php esc_html_e( 'Support', 'buddypress' ); ?></a> &bullet; <a href="https://codex.buddypress.org/"><?php esc_html_e( 'Documentation', 'buddypress' ); ?></a> &bullet; <a href="https://bpdevel.wordpress.com/"><?php esc_html_e( 'Development Blog', 'buddypress' ); ?></a></p>
+			<p><?php esc_html_e( 'Twitter:',  'buddypress' ); ?> <a href="https://twitter.com/buddypress/"><?php esc_html_e( 'BuddyPress', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/bptrac/"><?php esc_html_e( 'BuddyPress Trac', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/buddypressdev/"><?php esc_html_e( 'BuddyPress Dev', 'buddypress' ); ?></a></p>
 
 		<?php
 	}
