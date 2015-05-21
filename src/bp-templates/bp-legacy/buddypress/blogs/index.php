@@ -3,27 +3,44 @@
 /**
  * Fires at the top of the blogs directory template file.
  *
- * @since BuddyPress (1.5.0)
+ * @since BuddyPress (2.3.0)
  */
-do_action( 'bp_before_directory_blogs' ); ?>
+do_action( 'bp_before_directory_blogs_page' ); ?>
 
 <div id="buddypress">
+
+	<?php
+
+	/**
+	 * Fires at the top of the blogs directory template file.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 */
+	do_action( 'bp_before_directory_blogs' ); ?>
+
+	<?php
+
+	/**
+	 * Fires before the display of the blogs listing content.
+	 *
+	 * @since BuddyPress (1.1.0)
+	 */
+	do_action( 'bp_before_directory_blogs_content' ); ?>
+
+	<div id="blog-dir-search" class="dir-search" role="search">
+		<?php bp_directory_blogs_search_form(); ?>
+	</div><!-- #blog-dir-search -->
+
+	<?php
+
+	/**
+	 * Fires before the display of the blogs list tabs.
+	 *
+	 * @since BuddyPress (1.8.0)
+	 */
+	do_action( 'bp_before_directory_blogs_tabs' ); ?>
+
 	<form action="" method="post" id="blogs-directory-form" class="dir-form">
-
-		<?php
-
-		/**
-		 * Fires before the display of the blogs listing content.
-		 *
-		 * @since BuddyPress (1.1.0)
-		 */
-		do_action( 'bp_before_directory_blogs_content' ); ?>
-
-		<div id="blog-dir-search" class="dir-search" role="search">
-
-			<?php bp_directory_blogs_search_form(); ?>
-
-		</div><!-- #blog-dir-search -->
 
 		<div class="item-list-tabs" role="navigation">
 			<ul>
@@ -119,3 +136,12 @@ do_action( 'bp_before_directory_blogs' ); ?>
 	do_action( 'bp_after_directory_blogs' ); ?>
 
 </div>
+
+<?php
+
+/**
+ * Fires at the bottom of the blogs directory template file.
+ *
+ * @since BuddyPress (2.3.0)
+ */
+do_action( 'bp_after_directory_blogs_page' );

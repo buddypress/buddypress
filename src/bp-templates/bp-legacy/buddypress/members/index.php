@@ -140,4 +140,4 @@ do_action( 'bp_before_directory_members_page' ); ?>
  *
  * @since BuddyPress (1.5.0)
  */
-do_action( 'bp_after_directory_members_page' ); ?>
+do_action( 'bp_after_directory_members_page' );
