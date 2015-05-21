@@ -14,7 +14,7 @@
  * Description: BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.
  * Author:      The BuddyPress Community
  * Author URI:  https://buddypress.org/
- * Version:     2.3.0-beta
+ * Version:     2.3.0-rc
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
@@ -309,7 +309,7 @@ class BuddyPress {
 
 		/** Versions **********************************************************/
 
-		$this->version    = '2.3-beta';
+		$this->version    = '2.3.0-rc';
 		$this->db_version = 9848;
 
 		/** Loading ***********************************************************/
