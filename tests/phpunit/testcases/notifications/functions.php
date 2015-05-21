@@ -4,16 +4,21 @@
  * @group notifications
  */
 class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
+
+	/**
+	 * @group cache
+	 */
 	public function test_cache_invalidation_all_for_user_on_save() {
 		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+
+		$this->factory->notification->create( array(
 			'component_name' => 'groups',
-			'user_id' => $u,
+			'user_id'        => $u
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$this->factory->notification->create( array(
 			'component_name' => 'messages',
-			'user_id' => $u,
-			'item_id' => 1,
+			'user_id'        => $u,
+			'item_id'        => 1
 		) );
 
 		// prime cache
@@ -23,24 +28,27 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
 
 		// Trigger invalidation via save
-		$n3 = $this->factory->notification->create( array(
+		$this->factory->notification->create( array(
 			'component_name' => 'messages',
-			'user_id' => $u,
-			'item_id' => 2,
+			'user_id'        => $u,
+			'item_id'        => 2
 		) );
 
 		$this->assertFalse( wp_cache_get( 'all_for_user_' . $u, 'bp_notifications' ) );
 	}
 
+	/**
+	 * @group cache
+	 */
 	public function test_cache_invalidation_all_for_user_on_delete() {
-		$u = $this->factory->user->create();
+		$u  = $this->factory->user->create();
 		$n1 = $this->factory->notification->create( array(
 			'component_name' => 'groups',
-			'user_id' => $u,
+			'user_id'        => $u
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$this->factory->notification->create( array(
 			'component_name' => 'messages',
-			'user_id' => $u,
+			'user_id'        => $u
 		) );
 
 		// prime cache
@@ -56,18 +64,78 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group cache
+	 */
+	public function test_cache_invalidation_all_for_user_on_update_user_id() {
+		$u = $this->factory->user->create();
+
+		$this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id'        => $u
+		) );
+		$this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id'        => $u
+		) );
+
+		// prime cache
+		$count = bp_notifications_get_unread_notification_count( $u );
+
+		// just to be sure...
+		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
+
+		// mark all notifications by user as read
+		BP_Notifications_Notification::update(
+			array( 'is_new'  => false ),
+			array( 'user_id' => $u    )
+		);
+
+		$this->assertFalse( wp_cache_get( 'all_for_user_' . $u, 'bp_notifications' ) );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_cache_invalidation_all_for_user_on_update_id() {
+		$u  = $this->factory->user->create();
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id'        => $u
+		) );
+
+		$this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id'        => $u
+		) );
+
+		// prime cache
+		$count = bp_notifications_get_unread_notification_count( $u );
+
+		// just to be sure...
+		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
+
+		// mark one notification as read
+		BP_Notifications_Notification::update(
+			array( 'is_new' => false ),
+			array( 'id'     => $n1   )
+		);
+
+		$this->assertFalse( wp_cache_get( 'all_for_user_' . $u, 'bp_notifications' ) );
+	}
+
+	/**
 	 * @group bp_notifications_add_notification
 	 */
 	public function test_bp_notifications_add_notification_no_dupes() {
 		$args = array(
-			'user_id' => 5,
-			'item_id' => 10,
+			'user_id'           => 5,
+			'item_id'           => 10,
 			'secondary_item_id' => 25,
-			'component_name' => 'messages',
-			'component_action' => 'new_message',
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message'
 		);
 
-		$n = $this->factory->notification->create( $args );
+		$this->factory->notification->create( $args );
 
 		$this->assertFalse( bp_notifications_add_notification( $args ) );
 	}
@@ -77,14 +145,14 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_notifications_add_notification_allow_duplicate() {
 		$args = array(
-			'user_id' => 5,
-			'item_id' => 10,
+			'user_id'           => 5,
+			'item_id'           => 10,
 			'secondary_item_id' => 25,
-			'component_name' => 'messages',
-			'component_action' => 'new_message',
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message'
 		);
 
-		$n = $this->factory->notification->create( $args );
+		$this->factory->notification->create( $args );
 
 		$args['allow_duplicate'] = true;
 
@@ -99,13 +167,13 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$n1 = $this->factory->notification->create( array(
+		$this->factory->notification->create( array(
 			'component_name'    => 'messages',
 			'component_action'  => 'new_message',
 			'item_id'           => 99,
 			'user_id'           => $u2,
 			'secondary_item_id' => $u1,
-			'is_new'            => true,
+			'is_new'            => true
 		) );
 
 		// prime cache
@@ -129,37 +197,37 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create a mixture of different notifications
-		$n1 = $this->factory->notification->create( array(
+		$this->factory->notification->create( array(
 			'component_name'    => 'messages',
 			'component_action'  => 'new_message',
 			'item_id'           => 99,
 			'user_id'           => $u2,
 			'secondary_item_id' => $u1,
-			'is_new'            => true,
+			'is_new'            => true
 		) );
 
-		$n2 = $this->factory->notification->create( array(
+		$this->factory->notification->create( array(
 			'component_name'    => 'activity',
 			'component_action'  => 'new_at_mention',
 			'item_id'           => 99,
 			'user_id'           => $u2,
 			'secondary_item_id' => $u1,
-			'is_new'            => true,
+			'is_new'            => true
 		) );
 
-		$n3 = $this->factory->notification->create( array(
+		$this->factory->notification->create( array(
 			'component_name'    => 'activity',
 			'component_action'  => 'new_at_mention',
 			'item_id'           => 100,
 			'user_id'           => $u2,
 			'secondary_item_id' => $u1,
-			'is_new'            => true,
+			'is_new'            => true
 		) );
 
 		// now fetch only activity notifications
 		bp_has_notifications( array(
 			'component_name' => 'activity',
-			'user_id' => $u2,
+			'user_id'        => $u2
 		) );
 
 		// assert
