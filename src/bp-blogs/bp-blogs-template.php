@@ -712,9 +712,11 @@ function bp_blog_description() {
  * Output the row class of the current blog in the loop.
  *
  * @since BuddyPress (1.7.0)
+ *
+ * @param array $classes Array of custom classes
  */
-function bp_blog_class() {
-	echo bp_get_blog_class();
+function bp_blog_class( $classes = array() ) {
+	echo bp_get_blog_class( $classes );
 }
 	/**
 	 * Return the row class of the current blog in the loop.
@@ -722,20 +724,22 @@ function bp_blog_class() {
 	 * @since BuddyPress (1.7.0)
 	 *
 	 * @global BP_Blogs_Template $blogs_template
+	 * @param array $classes Array of custom classes
 	 *
 	 * @return string Row class of the site.
 	 */
-	function bp_get_blog_class() {
+	function bp_get_blog_class( $classes = array() ) {
 		global $blogs_template;
 
-		$classes     = array();
-		$pos_in_loop = (int) $blogs_template->current_blog;
+		// Add even/odd classes, but only if there's more than 1 group
+		if ( $blogs_template->blog_count > 1 ) {
+			$pos_in_loop = (int) $blogs_template->current_blog;
+			$classes[]   = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
 
-		// If we've only one site in the loop, don't bother with odd and even.
-		if ( $blogs_template->blog_count > 1 )
-			$classes[] = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
-		else
+		// If we've only one site in the loop, don't bother with odd and even
+		} else {
 			$classes[] = 'bp-single-blog';
+		}
 
 		/**
 		 * Filters the row class of the current blog in the loop.
@@ -746,8 +750,8 @@ function bp_blog_class() {
 		 */
 		$classes = apply_filters( 'bp_get_blog_class', $classes );
 		$classes = array_merge( $classes, array() );
+		$retval  = 'class="' . join( ' ', $classes ) . '"';
 
-		$retval = 'class="' . join( ' ', $classes ) . '"';
 		return $retval;
 	}
 
