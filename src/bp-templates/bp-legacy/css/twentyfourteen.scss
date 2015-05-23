@@ -22,7 +22,7 @@
 //@media screen and (min-width: 1040px)
 //@media screen and (min-width: 1110px)
 
-// Mixins and Variabals
+// Mixins and Variables
 
 // Common margin values
 $spacing-val-lg: 40px;
@@ -775,7 +775,7 @@ $nav-background-border: #bebebe;
 			.activity-inner {margin: $spacing-val-sm 0;}
 		}
 
-		@media screen and (min-width: 400px) {
+		@media screen and (min-width: 594px) {
 			li.activity-item:not(.mini) {
 				.activity-avatar {
 					float: left;
@@ -803,6 +803,25 @@ $nav-background-border: #bebebe;
 	} // close .activity-list
 } // close #buddypress
 
+// Activity Single Item 'Permalink' Page
+body.activity-permalink {
+	#buddypress {
+		// remove user account faux column background
+		background: transparent;
+
+		.activity-list {
+			li {
+				@media screen and (max-width: 760px) {
+					.activity-content,
+					.activity-comments {
+						margin-left: 0;
+					}
+				}
+			}
+		}
+	}
+}
+
 /**
 *-------------------------------------------------
 * @subsection 4.1.3 - Activity Comments
@@ -812,13 +831,43 @@ $nav-background-border: #bebebe;
 #buddypress {
 	.activity {
 		.activity-comments {
-			border-left: 1px solid $border-light;
+		//	border-left: 1px solid $border-light;
+			margin-left: 0;
 			margin-top: 5px;
+
+			@media screen and (min-width: 594px) {
+				margin-left: 70px;
+			}
 
 			ul {
 				background: rgba($light-background, 0.6);
 				margin: 30px 0 0 2px;
 			}
+
+			ul ul {
+				border-left: 1px solid $border-light;
+				padding-left: 2%;
+			}
+
+			// Display the user avatar stacked up to 594px
+			// reduce/widen the content margins
+			@media screen and (max-width: 400px) {
+				.acomment-avatar {
+					display: block;
+					text-align: center;
+
+					a,
+					img.avatar {display: inline; float: none;}
+				}
+
+				.acomment-content,
+				.acomment-meta,
+				.acomment-options {
+					margin: $spacing-val-xs;
+				}
+
+				.acomment-content {padding: 0 $spacing-val-sm;}
+			} // close @media
 
 			.ac-form {
 

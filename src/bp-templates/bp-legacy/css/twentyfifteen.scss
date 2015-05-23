@@ -20,7 +20,7 @@
 // @media screen and (min-width: 77.5em)
 // @media screen and (min-width: 87.6875em)
 
-// Mixins and Variabals
+// Mixins and Variables
 
 // Common margin values
 $spacing-val-lg: 40px;
@@ -869,7 +869,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 		#activity-stream {
 
 			li.activity-item {
-				padding: $spacing-val-md;
+				padding: $spacing-val-md 0;
 			}
 
 			li.mini {
@@ -911,7 +911,47 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 				@media screen and (min-width: 38.75em) {
 					margin-left: 70px;
 				}
-			}
+
+				ul {
+					// all nested ul margins & padding flattened initially
+					margin-left: 1%;
+					padding-left: 0;
+
+					@media screen and (min-width: 30em) {
+						margin-left: 1%;
+						padding-left: 1em;
+					}
+				}
+
+				ul li {
+					border-left: 1px solid $border-light;
+					border-top: 0;
+					padding-left: 0.2em;
+				}
+
+				.acomment-meta {border-bottom: 1px solid $border-light; font-style: italic;}
+
+				// Display the user avatar stacked up to 30em
+				// reduce/widen the content margins
+				@media screen and (max-width: 38.75em) {
+					.acomment-avatar {
+						display: block;
+						text-align: center;
+
+						a,
+						img.avatar {display: inline; float: none;}
+					}
+
+					.acomment-content,
+					.acomment-meta,
+					.acomment-options {
+						margin: $spacing-val-xs;
+					}
+
+					.acomment-content {padding: 0 $spacing-val-sm;}
+				} // close @media
+
+			} // close the ul li comments construct
 
 			.ac-reply-avatar {display: none;}
 

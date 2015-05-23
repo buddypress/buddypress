@@ -427,7 +427,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 .activity-permalink #buddypress {
   background: none; }
   .activity-permalink #buddypress #activity-stream li.activity-item {
-    padding: 20px; }
+    padding: 20px 0; }
   .activity-permalink #buddypress #activity-stream li.mini .activity-header {
     font-size: 16px;
     font-size: 1.6rem;
@@ -456,6 +456,31 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
     @media screen and (min-width: 38.75em) {
       #buddypress #activity-stream .activity-comments > ul {
         margin-left: 70px; } }
+    #buddypress #activity-stream .activity-comments > ul ul {
+      margin-left: 1%;
+      padding-left: 0; }
+      @media screen and (min-width: 30em) {
+        #buddypress #activity-stream .activity-comments > ul ul {
+          margin-left: 1%;
+          padding-left: 1em; } }
+    #buddypress #activity-stream .activity-comments > ul ul li {
+      border-left: 1px solid #eaeaea;
+      border-top: 0;
+      padding-left: 0.2em; }
+    #buddypress #activity-stream .activity-comments > ul .acomment-meta {
+      border-bottom: 1px solid #eaeaea;
+      font-style: italic; }
+    @media screen and (max-width: 38.75em) {
+      #buddypress #activity-stream .activity-comments > ul .acomment-avatar {
+        display: block;
+        text-align: center; }
+        #buddypress #activity-stream .activity-comments > ul .acomment-avatar a, #buddypress #activity-stream .activity-comments > ul .acomment-avatar img.avatar {
+          display: inline;
+          float: none; }
+      #buddypress #activity-stream .activity-comments > ul .acomment-content, #buddypress #activity-stream .activity-comments > ul .acomment-meta, #buddypress #activity-stream .activity-comments > ul .acomment-options {
+        margin: 5px; }
+      #buddypress #activity-stream .activity-comments > ul .acomment-content {
+        padding: 0 10px; } }
   #buddypress #activity-stream .activity-comments .ac-reply-avatar {
     display: none; }
   #buddypress #activity-stream .activity-comments .ac-reply-content {

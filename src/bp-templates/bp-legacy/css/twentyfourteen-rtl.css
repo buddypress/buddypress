@@ -353,7 +353,7 @@ to maintain uniformity.
       vertical-align: middle; }
   #buddypress .activity-list .activity-content .activity-inner {
     margin: 10px 0; }
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 594px) {
   #buddypress .activity-list li.activity-item:not(.mini) .activity-avatar {
     float: right;
     margin: 0 0 0 20px; }
@@ -366,17 +366,40 @@ to maintain uniformity.
     margin-right: 0;
     overflow: hidden; } }
 
+body.activity-permalink #buddypress {
+  background: transparent; }
+  @media screen and (max-width: 760px) {
+    body.activity-permalink #buddypress .activity-list li .activity-content, body.activity-permalink #buddypress .activity-list li .activity-comments {
+      margin-right: 0; } }
+
 /**
 *-------------------------------------------------
 * @subsection 4.1.3 - Activity Comments
 *-------------------------------------------------
 */
 #buddypress .activity .activity-comments {
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  margin-right: 0;
   margin-top: 5px; }
+  @media screen and (min-width: 594px) {
+    #buddypress .activity .activity-comments {
+      margin-right: 70px; } }
   #buddypress .activity .activity-comments ul {
     background: rgba(247, 247, 247, 0.6);
     margin: 30px 2px 0 0; }
+  #buddypress .activity .activity-comments ul ul {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    padding-right: 2%; }
+  @media screen and (max-width: 400px) {
+    #buddypress .activity .activity-comments .acomment-avatar {
+      display: block;
+      text-align: center; }
+      #buddypress .activity .activity-comments .acomment-avatar a, #buddypress .activity .activity-comments .acomment-avatar img.avatar {
+        display: inline;
+        float: none; }
+    #buddypress .activity .activity-comments .acomment-content, #buddypress .activity .activity-comments .acomment-meta, #buddypress .activity .activity-comments .acomment-options {
+      margin: 5px; }
+    #buddypress .activity .activity-comments .acomment-content {
+      padding: 0 10px; } }
   #buddypress .activity .activity-comments .ac-form input[type="submit"], #buddypress .activity .activity-comments .ac-form .ac-reply-cancel {
     color: rgba(43, 43, 43, 0.8);
     display: inline-block;
