@@ -1,22 +1,23 @@
-/*--------------------------------------------------------------
+/*------------------------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
 the WordPress Twentyfifteen theme.
 
 This sheet supports the primary BuddyPress styles in buddypress.css
 
-The Rulesets shadow the BP default stylesheet sectioning
-to maintain uniformity.
+If you are running as a child theme of twentyfifteen this stylesheet will be
+loaded by default. If you want to modify the styles the normal BP Theme Compat
+hierarchy works and you can copy the file to buddypress/css/ or community/css/
+in your child themes root & either start over or modify the rulesets.
 
-If you are running as a child theme of twentyfifteen and wish to use
-this stylesheet then please copy it to buddypress/css/ or community/css/
-in your child theme root and rename the file to match your child theme name
-i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
-'twentyfifteen-child.css'
+If you do not require the styles you can dequeue them from the themes functions file.
 
-----------------------------------------------------------------
+Please see this codex article for more information:
+http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
+
+--------------------------------------------------------------------------------
 >>> TABLE OF CONTENTS:
-----------------------------------------------------------------
+--------------------------------------------------------------------------------
 1.0 Theme Structural Elements & overrides
 2.0 - Navigation - General
 	2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
@@ -50,7 +51,7 @@ i.e. in child theme named 'twentyfifteen-child', twentyfifteen.css would become
 8.0 - Tables -  General
 9.0 - Error / Success Messages
 10.0 - Ajax Loading, Widgets, General classes
---------------------------------------------------------------*/
+------------------------------------------------------------------------------*/
 /**
 *-------------------------------------------------------------------------------
 * @section 1.0 - Theme - Structural Elements & overrides

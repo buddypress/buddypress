@@ -1,12 +1,19 @@
-/*--------------------------------------------------------------
+/*------------------------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
 the WordPress Twentyfourteen theme.
 
 This sheet supports the primary BuddyPress styles in buddypress.css
 
-The Rulesets shadow the BP default stylesheet sectioning
-to maintain uniformity.
+If you are running as a child theme of twentyfourteen this stylesheet will be
+loaded by default. If you want to modify the styles the normal BP Theme Compat
+hierarchy works and you can copy the file to buddypress/css/ or community/css/
+in your child themes root & either start over or modify the ruelesets.
+
+If you do not require the styles you can dequeue them from the themes functions file.
+
+Please see this codex article for more information:
+http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 --------------------------------------------------------------------------------
 >>> TABLE OF CONTENTS:
