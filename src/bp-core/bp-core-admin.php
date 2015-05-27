@@ -602,7 +602,7 @@ class BP_Admin {
 						<p><?php esc_html_e( 'Plugin developers can register new features or check if a component feature is registered using the `BP_Component` class.', 'buddypress' ); ?></p>
 
 						<h4><?php esc_html_e( 'Cache Improvements', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Improved cacheing for the following components: Messages, Profiles, Members &amp; Member Types, and Friends.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Improved caching for the following components: Messages, Profiles, Members &amp; Member Types, and Friends.', 'buddypress' ); ?></p>
 					</div>
 					<div class="last-feature">
 						<h4><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
