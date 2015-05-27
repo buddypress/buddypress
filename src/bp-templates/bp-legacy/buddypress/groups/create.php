@@ -288,7 +288,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 						</div>
 
 						<?php /* The ID 'friend-list' is important for AJAX support. */ ?>
-						<ul id="friend-list" class="item-list" role="main">
+						<ul id="friend-list" class="item-list">
 
 						<?php if ( bp_group_has_invites() ) : ?>
 

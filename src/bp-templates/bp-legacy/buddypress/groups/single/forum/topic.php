@@ -91,7 +91,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 		 */
 		do_action( 'bp_before_group_forum_topic_posts' ); ?>
 
-		<ul id="topic-post-list" class="item-list" role="main">
+		<ul id="topic-post-list" class="item-list">
 			<?php while ( bp_forum_topic_posts() ) : bp_the_forum_topic_post(); ?>
 
 				<li id="post-<?php bp_the_topic_post_id(); ?>" class="<?php bp_the_topic_post_css_class(); ?>">

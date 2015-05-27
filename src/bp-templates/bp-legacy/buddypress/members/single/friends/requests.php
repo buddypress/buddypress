@@ -25,7 +25,7 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 
 	</div>
 
-	<ul id="friend-list" class="item-list" role="main">
+	<ul id="friend-list" class="item-list">
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 
 			<li id="friendship-<?php bp_friend_friendship_id(); ?>">

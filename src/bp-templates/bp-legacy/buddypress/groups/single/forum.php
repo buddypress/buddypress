@@ -57,7 +57,7 @@ else : ?>
 		</ul>
 	</div>
 
-	<div class="forums single-forum" role="main">
+	<div class="forums single-forum">
 
 		<?php bp_get_template_part( 'forums/forums-loop' ) ?>
 

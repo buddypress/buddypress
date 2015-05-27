@@ -43,7 +43,7 @@ do_action( 'bp_before_blogs_loop' ); ?>
 	 */
 	do_action( 'bp_before_directory_blogs_list' ); ?>
 
-	<ul id="blogs-list" class="item-list" role="main">
+	<ul id="blogs-list" class="item-list">
 
 	<?php while ( bp_blogs() ) : bp_the_blog(); ?>
 

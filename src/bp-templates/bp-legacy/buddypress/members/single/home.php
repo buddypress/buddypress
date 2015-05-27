@@ -34,7 +34,7 @@
 		</div>
 	</div><!-- #item-nav -->
 
-	<div id="item-body" role="main">
+	<div id="item-body">
 
 		<?php
 

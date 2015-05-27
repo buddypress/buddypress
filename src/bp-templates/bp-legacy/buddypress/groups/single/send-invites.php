@@ -12,7 +12,7 @@ do_action( 'bp_before_group_send_invites_content' ); ?>
 if ( bp_get_new_group_invite_friend_list() ) : ?>
 
 	<?php /* 'send-invite-form' is important for AJAX support */ ?>
-	<form action="<?php bp_group_send_invite_form_action(); ?>" method="post" id="send-invite-form" class="standard-form" role="main">
+	<form action="<?php bp_group_send_invite_form_action(); ?>" method="post" id="send-invite-form" class="standard-form">
 
 		<div class="invite">
 			<?php bp_get_template_part( 'groups/single/invites-loop' ); ?>

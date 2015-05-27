@@ -62,7 +62,7 @@ do_action( 'bp_after_member_activity_post_form' );
  */
 do_action( 'bp_before_member_activity_content' ); ?>
 
-<div class="activity" role="main">
+<div class="activity">
 
 	<?php bp_get_template_part( 'activity/activity-loop' ) ?>
 

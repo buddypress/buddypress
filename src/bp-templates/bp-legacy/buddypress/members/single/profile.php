@@ -24,7 +24,7 @@
  */
 do_action( 'bp_before_profile_content' ); ?>
 
-<div class="profile" role="main">
+<div class="profile">
 
 <?php switch ( bp_current_action() ) :
 

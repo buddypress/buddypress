@@ -49,7 +49,7 @@ switch ( bp_current_action() ) :
 		 */
 		do_action( 'bp_before_member_blogs_content' ); ?>
 
-		<div class="blogs myblogs" role="main">
+		<div class="blogs myblogs">
 
 			<?php bp_get_template_part( 'blogs/blogs-loop' ) ?>
 

@@ -9,7 +9,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 
 <?php if ( bp_has_groups( 'type=invites&user_id=' . bp_loggedin_user_id() ) ) : ?>
 
-	<ul id="group-list" class="invites item-list" role="main">
+	<ul id="group-list" class="invites item-list">
 
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
 
@@ -56,7 +56,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 
 <?php else: ?>
 
-	<div id="message" class="info" role="main">
+	<div id="message" class="info">
 		<p><?php _e( 'You have no outstanding group invites.', 'buddypress' ); ?></p>
 	</div>
 

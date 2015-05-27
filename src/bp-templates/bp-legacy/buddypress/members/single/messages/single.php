@@ -1,4 +1,4 @@
-<div id="message-thread" role="main">
+<div id="message-thread">
 
 	<?php
 

@@ -38,7 +38,7 @@ switch ( bp_current_action() ) :
 		 */
 		do_action( 'bp_before_member_messages_content' ); ?>
 
-		<div class="messages" role="main">
+		<div class="messages">
 			<?php bp_get_template_part( 'members/single/messages/messages-loop' ); ?>
 		</div><!-- .messages -->
 
@@ -72,7 +72,7 @@ switch ( bp_current_action() ) :
 		 */
 		do_action( 'bp_before_member_messages_content' ); ?>
 
-		<div class="messages" role="main">
+		<div class="messages">
 			<?php bp_get_template_part( 'members/single/messages/notices-loop' ); ?>
 		</div><!-- .messages -->
 

@@ -94,7 +94,7 @@
 			</ul>
 		</div>
 
-		<div id="forums-dir-list" class="forums dir-list" role="main">
+		<div id="forums-dir-list" class="forums dir-list">
 
 			<?php bp_get_template_part( 'forums/forums-loop' ); ?>
 
