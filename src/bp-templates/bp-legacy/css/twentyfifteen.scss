@@ -1236,7 +1236,20 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @subsection 6.2 - Item Body: Global
 *-----------------------------------------------------------
 */
+// Manage the margins inherited from 2015 inside the item-body sections
+// generally far too large a top margin for headings in our lists
+#item-body {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin: 1em 0;
 
+		a {border-bottom: 0;}
+	}
+}
 /**
 *----------------------------------------------------
 * @subsection 6.2.1 - Item Body Groups
@@ -1258,6 +1271,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			background: $dark-background;
 			color: $content-background;
 			padding: 0.2em;
+		}
+		// remove backgrounds from request list member names.
+		#request-list {
+			h4 {
+				background: none;
+				color: inherit;
+			}
 		}
 	}
 }

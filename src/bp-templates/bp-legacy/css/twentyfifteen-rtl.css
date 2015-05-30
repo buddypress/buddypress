@@ -639,6 +639,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @subsection 6.2 - Item Body: Global
 *-----------------------------------------------------------
 */
+#item-body h1, #item-body h2, #item-body h3, #item-body h4, #item-body h5, #item-body h6 {
+  margin: 1em 0; }
+  #item-body h1 a, #item-body h2 a, #item-body h3 a, #item-body h4 a, #item-body h5 a, #item-body h6 a {
+    border-bottom: 0; }
+
 /**
 *----------------------------------------------------
 * @subsection 6.2.1 - Item Body Groups
@@ -655,6 +660,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
   background: #555;
   color: #fff;
   padding: 0.2em; }
+.groups #group-settings-form #request-list h4 {
+  background: none;
+  color: inherit; }
 
 .groups.edit-details #group-settings-form label {
   background: #555;
