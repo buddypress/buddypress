@@ -721,19 +721,30 @@ class BP_Groups_Member {
 	/**
 	 * Delete an invitation, by specifying user ID and group ID.
 	 *
-	 * @param int $user_id ID of the user.
-	 * @param int $group_id ID of the group.
+	 * @global WPDB $wpdb
+	 *
+	 * @param  int $user_id  ID of the user.
+	 * @param  int $group_id ID of the group.
 	 * @return int Number of records deleted.
 	 */
 	public static function delete_invite( $user_id, $group_id ) {
 		global $wpdb;
 
-		if ( empty( $user_id ) )
+		if ( empty( $user_id ) ) {
 			return false;
+		}
 
-		$bp = buddypress();
+		$table_name = buddypress()->groups->table_name_members;
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0 AND invite_sent = 1", $user_id, $group_id ) );
+		$sql = "DELETE FROM {$table_name}
+				WHERE user_id = %d
+					AND group_id = %d
+					AND is_confirmed = 0
+					AND inviter_id != 0";
+
+		$prepared = $wpdb->prepare( $sql, $user_id, $group_id );
+
+		return $wpdb->query( $prepared );
 	}
 
 	/**
