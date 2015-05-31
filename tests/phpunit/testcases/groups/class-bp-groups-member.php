@@ -137,31 +137,34 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_user_can_send_invites() {
 		$u_nonmembers = $this->factory->user->create();
-		$u_members = $this->factory->user->create();
-		$u_mods = $this->factory->user->create();
-		$u_admins = $this->factory->user->create();
-		$u_siteadmin = $this->factory->user->create();
+		$u_members    = $this->factory->user->create();
+		$u_mods       = $this->factory->user->create();
+		$u_admins     = $this->factory->user->create();
+		$u_siteadmin  = $this->factory->user->create();
+
 		$user_siteadmin = new WP_User( $u_siteadmin );
 		$user_siteadmin->add_role( 'administrator' );
 
 		$g = $this->factory->group->create();
 
-		$now = time();
+		$time = time() - 60;
 		$old_current_user = get_current_user_id();
 
 		// Create member-level user
 		$this->add_user_to_group( $u_members, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
+
 		// Create mod-level user
 		$this->add_user_to_group( $u_mods, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 		$m_mod = new BP_Groups_Member( $u_mods, $g );
 		$m_mod->promote( 'mod' );
+
 		// Create admin-level user
 		$this->add_user_to_group( $u_admins, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 		$m_admin = new BP_Groups_Member( $u_admins, $g );
 		$m_admin->promote( 'admin' );
@@ -257,7 +260,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
 		$this->add_user_to_group( $u1, $g );
 
 		// Confirmed memberships should be left intact.
@@ -278,9 +280,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// Outstanding invitations should be left intact.
@@ -319,13 +321,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
 		$this->add_user_to_group( $u1, $g );
 
 		// Confirmed memberships should be left intact.
 		groups_delete_membership_request( null, $u1, $g );
 		$u1_is_member = groups_is_user_member( $u1, $g );
-		$this->assertTrue( is_numeric( $u1_is_member )  && $u1_is_member > 0 );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
 	}
 
 	/**
@@ -340,9 +341,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// Outstanding invitations should be left intact.
@@ -364,15 +365,15 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// The invitation should be removed.
 		self::invite_user_to_group( $u2, $g, $u1 );
 		groups_reject_invite( $u2, $g );
-		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
 		$this->assertEquals( 0, $u2_has_invite );
 	}
 
@@ -387,9 +388,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// Confirmed memberships should be left intact.
@@ -428,15 +429,49 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// The invitation should be removed.
 		self::invite_user_to_group( $u2, $g, $u1 );
 		groups_delete_invite( $u2, $g );
-		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
+		$this->assertEquals( 0, $u2_has_invite );
+	}
+
+	/**
+	 * @group groups_delete_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_invite_remove_draft_invite() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g  = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// Create the draft invitation.
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $u1
+		) );
+
+		// Check that the invite got created.
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
+		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
+
+		// The invitation should be removed.
+		groups_delete_invite( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
 		$this->assertEquals( 0, $u2_has_invite );
 	}
 
@@ -447,13 +482,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_delete_invite_leave_memberships_intact() {
 		$u1 = $this->factory->user->create();
-		$g = $this->factory->group->create( array(
+		$g  = $this->factory->group->create( array(
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		groups_delete_invite( $u1, $g );
@@ -491,15 +526,15 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// The invitation should be removed.
 		self::invite_user_to_group( $u2, $g, $u1 );
 		groups_uninvite_user( $u2, $g );
-		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
 		$this->assertEquals( 0, $u2_has_invite );
 	}
 
@@ -514,13 +549,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'status' => 'private',
 		) );
 
-		$now = time();
+		$time = time() - 60;
 		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// Confirmed memberships should be left intact.
-		$u1_is_member_before = groups_is_user_member( $u1, $g );
+		groups_is_user_member( $u1, $g );
 		groups_uninvite_user( $u1, $g );
 		$u1_is_member = groups_is_user_member( $u1, $g );
 		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
@@ -805,7 +840,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		self::invite_user_to_group( $u2, $g2, $u1 );
 		self::invite_user_to_group( $u2, $g3, $u1 );
 
-		$groups = groups_get_invites_for_user( $u2, $limit = false, $page = false, $exclude = array( $g2 ) );
+		$groups = groups_get_invites_for_user( $u2, false, false, array( $g2 ) );
 		$this->assertEqualSets( array( $g1, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
 	}
 
@@ -838,15 +873,14 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
-		$args = array(
+		// Create draft invitation.
+		groups_invite_user( array(
 			'user_id'       => $u2,
 			'group_id'      => $g1,
 			'inviter_id'    => $u1,
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 0
-		);
-		// Create draft invitation.
-		groups_invite_user( $args );
+		) );
 
 		// groups_get_invite_count_for_user should ignore draft invitations.
 		$this->assertEquals( 0, groups_get_invite_count_for_user( $u2 ) );
@@ -863,17 +897,16 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
 		// Create draft invitation
-		$args = array(
+		groups_invite_user( array(
 			'user_id'       => $u2,
 			'group_id'      => $g1,
 			'inviter_id'    => $u1,
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 0
-		);
-		groups_invite_user( $args );
+		) );
 
 		// Check that the draft invitation has been created.
-		$draft = groups_check_user_has_invite( $u2, $g1, $type = 'all' );
+		$draft = groups_check_user_has_invite( $u2, $g1, 'all' );
 		$this->assertTrue( is_numeric( $draft ) && $draft > 0 );
 	}
 
@@ -888,17 +921,17 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
 		// Create draft invitation
-		$args = array(
+		groups_invite_user( array(
 			'user_id'       => $u2,
 			'group_id'      => $g1,
 			'inviter_id'    => $u1,
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 0
-		);
-		groups_invite_user( $args );
+		) );
 
 		// Send the invitation
 		groups_send_invites( $u1, $g1 );
+
 		// Check that the invitation has been sent.
 		$sent = groups_check_user_has_invite( $u2, $g1, $type = 'sent' );
 		$this->assertTrue( is_numeric( $sent ) && $sent > 0 );
@@ -915,14 +948,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
 		// Create draft invitation
-		$args = array(
+		groups_invite_user( array(
 			'user_id'       => $u2,
 			'group_id'      => $g1,
 			'inviter_id'    => $u1,
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 0
-		);
-		groups_invite_user( $args );
+		) );
 
 		// Send the invitation
 		groups_send_invites( $u1, $g1 );
@@ -934,7 +966,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$member = groups_is_user_member( $u2, $g1 );
 		$this->assertTrue( is_numeric( $member ) && $member > 0 );
 		// Check that the invite has been removed.
-		$invite = groups_check_user_has_invite( $u2, $g1, $type = 'all' );
+		$invite = groups_check_user_has_invite( $u2, $g1, 'all' );
 		$this->assertTrue( is_null( $invite ) );
 	}
 
@@ -949,14 +981,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
 		// Create draft invitation
-		$args = array(
+		groups_invite_user( array(
 			'user_id'       => $u2,
 			'group_id'      => $g1,
 			'inviter_id'    => $u1,
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 0
-		);
-		groups_invite_user( $args );
+		) );
 
 		// Create membership request
 		groups_send_membership_request( $u2, $g1 );
@@ -985,14 +1016,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
 		// Create draft invitation
-		$args = array(
+		groups_invite_user( array(
 			'user_id'       => $u2,
 			'group_id'      => $g1,
 			'inviter_id'    => $u1,
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 0
-		);
-		groups_invite_user( $args );
+		) );
 
 		// Send the invitation
 		groups_send_invites( $u1, $g1 );
@@ -1022,13 +1052,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_delete_all_group_invites( $g1 );
 
 		// Get group invitations of any type, from any user in the group.
-		$args = array(
+		$invitees = new BP_Group_Member_Query( array(
 			'group_id'     => $g1,
 			'is_confirmed' => 0,
 			'invite_sent'  => null,
 			'inviter_id'   => 'any',
-		);
-		$invitees = new BP_Group_Member_Query( $args );
+		) );
 
 		$this->assertTrue( empty( $invitees->results ) );
 	}
@@ -1106,14 +1135,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		groups_send_membership_request( $u2, $g1 );
 
 		// Create draft invitation
-		$args = array(
+		groups_invite_user( array(
 			'user_id'       => $u2,
 			'group_id'      => $g1,
 			'inviter_id'    => $u1,
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 0
-		);
-		groups_invite_user( $args );
+		) );
 
 		// Send the invitation
 		groups_send_invites( $u1, $g1 );
