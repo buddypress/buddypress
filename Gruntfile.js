@@ -79,7 +79,9 @@ module.exports = function( grunt ) {
 				src: ['bp-templates/bp-legacy/css/*.scss'],
 				dest: SOURCE_DIR + 'bp-templates/bp-legacy/css/',
 				options: {
-					outputStyle: 'expanded'
+					outputStyle: 'expanded',
+					indentType: 'tab',
+					indentWidth: '1'
 				}
 			}
 		},
