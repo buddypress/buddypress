@@ -41,6 +41,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		6.2.1 - item-body: Groups
 			6.2.1.1 - Management settings screens
 			6.2.1.2 - Group members list
+			6.2.1.3 - Group Send Invites
 		6.2.2 - item-body: User Accounts
 			6.2.2.1 - classes, pag, filters
 			6.2.2.2 - Extended Profiles
@@ -1174,6 +1175,45 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		width: 100%;
 	}
 	.groups.group-members #subnav li #search-members-form label input[type="text"] {
+		width: 100%;
+	}
+}
+
+/**
+*-----------------------------------------
+* @subsection 6.2.1.3 - Group Send Invites
+*-----------------------------------------
+*/
+.groups.group-invites #item-body .item-list .action {
+	margin-bottom: 0;
+}
+
+@media screen and (min-width: 46.25em) {
+	.groups.group-invites #buddypress #item-body #message {
+		margin-top: 0;
+	}
+}
+
+@media screen and (min-width: 55em) {
+	.groups.group-invites #buddypress #send-invite-form {
+		margin-top: 0;
+	}
+}
+
+@media screen and (max-width: 46.25em) {
+	.groups.group-invites #item-body .left-menu {
+		float: none;
+		margin: 10px 0;
+	}
+	.groups.group-invites #item-body .left-menu #invite-list {
+		height: auto;
+		width: auto;
+	}
+	.groups.group-invites #item-body .main-column {
+		margin-right: 0;
+	}
+	.groups.group-invites #item-body .submit input {
+		display: inline-block;
 		width: 100%;
 	}
 }

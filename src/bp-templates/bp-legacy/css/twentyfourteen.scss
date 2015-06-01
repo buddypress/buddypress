@@ -8,7 +8,7 @@
 // We follow the dictats of the parent theme in respect of media queries,
 // font sizing etc. Media queries are used in a modular sense (OOCSS)
 // rather than described as blocks to the end of the sheet, this aids ease
-// of managing media queries, scalability & flexibility .
+// of managing media queries, scalability & flexibility.
 
 // Twentyfourteen Media Queries / Breakpoints
 //@media screen and (max-width: 400px)
@@ -1295,8 +1295,20 @@ body.activity-permalink {
 				border-top: 1px solid $nav-background-border;
 			}
 
-			#invite-list {width: 120px;}
-			.main-column {margin-left: 160px;}
+			@media screen and (max-width: 400px) {
+				.left-menu {
+					float: none;
+
+					#invite-list {
+						height: auto;
+						width: auto;
+					}
+				}
+
+				.main-column {
+					margin-left: 0;
+				}
+			}
 
 			li {
 				img.avatar {

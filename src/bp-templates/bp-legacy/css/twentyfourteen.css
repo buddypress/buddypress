@@ -956,12 +956,17 @@ body.activity-permalink #buddypress {
 	}
 }
 
-.send-invites #buddypress #item-body #invite-list {
-	width: 120px;
-}
-
-.send-invites #buddypress #item-body .main-column {
-	margin-left: 160px;
+@media screen and (max-width: 400px) {
+	.send-invites #buddypress #item-body .left-menu {
+		float: none;
+	}
+	.send-invites #buddypress #item-body .left-menu #invite-list {
+		height: auto;
+		width: auto;
+	}
+	.send-invites #buddypress #item-body .main-column {
+		margin-left: 0;
+	}
 }
 
 .send-invites #buddypress #item-body li img.avatar {
