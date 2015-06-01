@@ -549,10 +549,10 @@ class BP_Admin {
 			<?php endif; ?>
 
 			<div class="headline-feature">
-				<h3><?php esc_html_e( 'Upload Avatars with a Drag and a Drop', 'buddypress' ); ?></h3>
+				<h3><?php esc_html_e( 'Upload Profile Pictures with a Drag and a Drop', 'buddypress' ); ?></h3>
 
 				<div class="featured-image">
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/avatar-ui.gif' ); ?>" alt="<?php esc_attr_e( 'Revamped Avatar Upload UI', 'buddypress' ); ?>">
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/avatar-ui.gif' ); ?>" alt="<?php esc_attr_e( 'Revamped Profile Picture Upload UI', 'buddypress' ); ?>">
 				</div>
 
 				<div class="feature-section">
@@ -575,14 +575,14 @@ class BP_Admin {
 
 					<div class="template-pack last-feature">
 						<span class=" dashicons dashicons-admin-appearance"></span>
-						<h4><?php esc_html_e( 'Core Theme Companion Styling', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Improved integration of components in WordPress core themes Twenty Fifteen and Twenty Fourteen.', 'buddypress' ); ?></p>
+						<h4><?php esc_html_e( 'Companion Stylesheets For Themes', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Improved styling and integration of BuddyPress components with bundled WordPress themes, Twenty Fifteen and Twenty Fourteen.', 'buddypress' ); ?></p>
 					</div>
 
 					<div class="group-invites">
 						<span class=" dashicons dashicons-admin-post"></span>
 						<h4><?php esc_html_e( 'Blog Post Activity', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Generate better excerpts in the activity streams for posts containing images or other embedded media content.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'BuddyPress now generates better excerpts in the activity streams for posts containing images or other embedded media content.', 'buddypress' ); ?></p>
 					</div>
 
 					<div class="last-feature">
@@ -599,7 +599,7 @@ class BP_Admin {
 				<div class="feature-section col two-col">
 					<div>
 						<h4><?php esc_html_e( 'Components can register new features', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Plugin developers can register new features or check if a component feature is registered using the `BP_Component` class.', 'buddypress' ); ?></p>
+						<p><?php _e( 'Plugin developers can register new features or check if a component feature is registered using the <code>BP_Component</code> class.', 'buddypress' ); ?></p>
 
 						<h4><?php esc_html_e( 'Cache Improvements', 'buddypress' ); ?></h4>
 						<p><?php esc_html_e( 'Improved caching for the following components: Messages, Profiles, Members &amp; Member Types, and Friends.', 'buddypress' ); ?></p>
@@ -614,8 +614,8 @@ class BP_Admin {
 				</div>
 			</div>
 
-			<p><?php esc_html_e( 'Official:', 'buddypress' ); ?> <a href="https://buddypress.org/blog/"><?php esc_html_e( 'News', 'buddypress' ); ?></a> &bullet; <a href="https://buddypress.org/suppport/"><?php esc_html_e( 'Support', 'buddypress' ); ?></a> &bullet; <a href="https://codex.buddypress.org/"><?php esc_html_e( 'Documentation', 'buddypress' ); ?></a> &bullet; <a href="https://bpdevel.wordpress.com/"><?php esc_html_e( 'Development Blog', 'buddypress' ); ?></a></p>
-			<p><?php esc_html_e( 'Twitter:',  'buddypress' ); ?> <a href="https://twitter.com/buddypress/"><?php esc_html_e( 'BuddyPress', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/bptrac/"><?php esc_html_e( 'BuddyPress Trac', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/buddypressdev/"><?php esc_html_e( 'BuddyPress Dev', 'buddypress' ); ?></a></p>
+			<p><?php _ex( 'Learn more:', 'About screen, website links', 'buddypress' ); ?> <a href="https://buddypress.org/blog/"><?php _ex( 'News', 'About screen, link to project blog', 'buddypress' ); ?></a> &bullet; <a href="https://buddypress.org/suppport/"><?php _ex( 'Support', 'About screen, link to support site', 'buddypress' ); ?></a> &bullet; <a href="https://codex.buddypress.org/"><?php _ex( 'Documentation', 'About screen, link to documentation', 'buddypress' ); ?></a> &bullet; <a href="https://bpdevel.wordpress.com/"><?php _ex( 'Development Blog', 'About screen, link to development blog', 'buddypress' ); ?></a></p>
+			<p><?php _ex( 'Twitter:', 'official Twitter accounts:', 'buddypress' ); ?> <a href="https://twitter.com/buddypress/"><?php _ex( 'BuddyPress', '@buddypress twitter account name', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/bptrac/"><?php _ex( 'Trac', '@bptrac twitter account name', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/buddypressdev/"><?php _ex( 'Development', '@buddypressdev twitter account name', 'buddypress' ); ?></a></p>
 
 		<?php
 	}
@@ -710,6 +710,11 @@ class BP_Admin {
 					<a href="https://profiles.wordpress.org/netweb"><img src="//www.gravatar.com/avatar/97e1620b501da675315ba7cfb740e80f?s=60" class="gravatar" alt="Stephen Edgar" /></a>
 					<a class="web" href="https://profiles.wordpress.org/netweb">Stephen Edgar</a>
 				</li>
+				<li class="wp-person" id="wp-person-dimensionmedia">
+					<a href="https://profiles.wordpress.org/dimensionmedia"><img src="//www.gravatar.com/avatar/7735aada1ec39d0c1118bd92ed4551f1?s=60" class="gravatar" alt="David Bisset" /></a>
+					<a class="web" href="https://profiles.wordpress.org/dimensionmedia">David Bisset</a>
+				</li>
+
 			</ul>
 
 			<h4 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h4>
