@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Groups Functions
+ * BuddyPress Groups Functions.
  *
  * Functions are where all the magic happens in BuddyPress. They will
  * handle the actual saving or manipulation of information. Usually they will
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since BuddyPress (1.5.0)
  *
- * @return bool True if set, False if empty
+ * @return bool True if set, False if empty.
  */
 function bp_groups_has_directory() {
 	$bp = buddypress();
@@ -37,10 +37,12 @@ function bp_groups_has_directory() {
  *
  * @param array|string $args {
  *	Array of al arguments.
- *	@type int $group_id ID of the group.
- *	@type bool $load_users No longer used.
+ *	@type int  $group_id        ID of the group.
+ *	@type bool $load_users      No longer used.
  *	@type bool $populate_extras Whether to fetch membership data and other
- *	      extra information about the group. Default: false.
+ *	                            extra information about the group.
+ *                              Default: false.
+ * }
  * @return BP_Groups_Group $group The group object.
  */
 function groups_get_group( $args = '' ) {
@@ -75,19 +77,20 @@ function groups_get_group( $args = '' ) {
  *
  * @param array|string $args {
  *     An array of arguments.
- *     @type int|bool $group_id Pass a group ID to update an existing item, or
- *           0 / false to create a new group. Default: 0.
- *     @type int $creator_id The user ID that creates the group.
- *     @type string $name The group name.
- *     @type string $description Optional. The group's description.
- *     @type string $slug The group slug.
- *     @type string $status The group's status. Accepts 'public', 'private' or
-             'hidden'. Defaults to 'public'.
- *     @type int $enable_forum Optional. Whether the group has a forum enabled.
- *           If the legacy forums are enabled for this group or if a bbPress
- *           forum is enabled for the group, set this to 1. Default: 0.
- *     @type string $date_created The GMT time, in Y-m-d h:i:s format,
- *           when the group was created. Defaults to the current time.
+ *     @type int|bool $group_id     Pass a group ID to update an existing item, or
+ *                                  0 / false to create a new group. Default: 0.
+ *     @type int      $creator_id   The user ID that creates the group.
+ *     @type string   $name         The group name.
+ *     @type string   $description  Optional. The group's description.
+ *     @type string   $slug         The group slug.
+ *     @type string   $status       The group's status. Accepts 'public', 'private' or
+                                    'hidden'. Defaults to 'public'.
+ *     @type int      $enable_forum Optional. Whether the group has a forum enabled.
+ *                                  If the legacy forums are enabled for this group
+ *                                  or if a bbPress forum is enabled for the group,
+ *                                  set this to 1. Default: 0.
+ *     @type string   $date_created The GMT time, in Y-m-d h:i:s format, when the group
+ *                                  was created. Defaults to the current time.
  * }
  * @return int|bool The ID of the group on success. False on error.
  */
@@ -209,11 +212,12 @@ function groups_create_group( $args = '' ) {
  * These are the settings that appear on the first page of the group's Admin
  * section (Name, Description, and "Notify members...").
  *
- * @param int $group_id ID of the group.
- * @param string $group_name Name of the group.
- * @param string $group_desc Description of the group.
- * @param bool $notify_members Whether to send an email notification to group
- *        members about changes in these details.
+ * @param int    $group_id       ID of the group.
+ * @param string $group_name     Name of the group.
+ * @param string $group_desc     Description of the group.
+ * @param bool   $notify_members Whether to send an email notification to group
+ *                               members about changes in these details.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $notify_members ) {
@@ -254,11 +258,12 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
  * These are the settings that appear on the Settings page of the group's Admin
  * section (privacy settings, "enable forum", invitation status).
  *
- * @param int $group_id ID of the group.
- * @param bool $enable_forum Whether to enable a forum for the group.
- * @param string $status Group status. 'public', 'private', 'hidden'.
+ * @param int         $group_id      ID of the group.
+ * @param bool        $enable_forum  Whether to enable a forum for the group.
+ * @param string      $status        Group status. 'public', 'private', 'hidden'.
  * @param string|bool $invite_status Optional. Who is allowed to send invitations
- *        to the group. 'members', 'mods', or 'admins'.
+ *                                   to the group. 'members', 'mods', or 'admins'.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false ) {
@@ -310,6 +315,7 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
  * @since BuddyPress (1.0.0)
  *
  * @param int $group_id ID of the group to delete.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_delete_group( $group_id ) {
@@ -350,6 +356,7 @@ function groups_delete_group( $group_id ) {
  * Check a group status (eg 'private') against the whitelist of registered statuses.
  *
  * @param string $status Status to check.
+ *
  * @return bool True if status is allowed, otherwise false.
  */
 function groups_is_valid_status( $status ) {
@@ -362,6 +369,7 @@ function groups_is_valid_status( $status ) {
  * Provide a unique, sanitized version of a group slug.
  *
  * @param string $slug Group slug to check.
+ *
  * @return string $slug A unique and sanitized slug.
  */
 function groups_check_slug( $slug ) {
@@ -387,6 +395,7 @@ function groups_check_slug( $slug ) {
  * Get a group slug by its ID.
  *
  * @param int $group_id The numeric ID of the group.
+ *
  * @return string The group's slug.
  */
 function groups_get_slug( $group_id ) {
@@ -400,6 +409,7 @@ function groups_get_slug( $group_id ) {
  * @since BuddyPress (1.6.0)
  *
  * @param string $group_slug The group's slug.
+ *
  * @return int The ID.
  */
 function groups_get_id( $group_slug ) {
@@ -412,8 +422,9 @@ function groups_get_id( $group_slug ) {
  * Remove a user from a group.
  *
  * @param int $group_id ID of the group.
- * @param int $user_id Optional. ID of the user. Defaults to the currently
- *        logged-in user.
+ * @param int $user_id  Optional. ID of the user. Defaults to the currently
+ *                      logged-in user.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_leave_group( $group_id, $user_id = 0 ) {
@@ -452,8 +463,9 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
  * Add a user to a group.
  *
  * @param int $group_id ID of the group.
- * @param int $user_id Optional. ID of the user. Defaults to the currently
- *        logged-in user.
+ * @param int $user_id  Optional. ID of the user. Defaults to the currently
+ *                      logged-in user.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_join_group( $group_id, $user_id = 0 ) {
@@ -518,6 +530,7 @@ function groups_join_group( $group_id, $user_id = 0 ) {
  * Get a list of group administrators.
  *
  * @param int $group_id ID of the group.
+ *
  * @return array Info about group admins (user_id + date_modified).
  */
 function groups_get_group_admins( $group_id ) {
@@ -528,6 +541,7 @@ function groups_get_group_admins( $group_id ) {
  * Get a list of group moderators.
  *
  * @param int $group_id ID of the group.
+ *
  * @return array Info about group admins (user_id + date_modified).
  */
 function groups_get_group_mods( $group_id ) {
@@ -545,22 +559,22 @@ function groups_get_group_mods( $group_id ) {
  *
  * @param array $args {
  *     An array of optional arguments.
- *     @type int $group_id ID of the group whose members are being queried.
- *           Default: current group ID.
- *     @type int $page Page of results to be queried. Default: 1.
- *     @type int $per_page Number of items to return per page of results.
- *           Default: 20.
- *     @type int $max Optional. Max number of items to return.
- *     @type array $exclude Optional. Array of user IDs to exclude.
- *     @type bool|int True (or 1) to exclude admins and mods from results.
- *           Default: 1.
- *     @type bool|int True (or 1) to exclude banned users from results.
- *           Default: 1.
- *     @type array $group_role Optional. Array of group roles to include.
- *     @type string $search_terms Optional. Filter results by a search string.
- *     @type string $type Optional. Sort the order of results. 'last_joined',
- *           'first_joined', or any of the $type params available in
- *           {@link BP_User_Query}. Default: 'last_joined'.
+ *     @type int      $group_id     ID of the group whose members are being queried.
+ *                                  Default: current group ID.
+ *     @type int      $page         Page of results to be queried. Default: 1.
+ *     @type int      $per_page     Number of items to return per page of results.
+ *                                  Default: 20.
+ *     @type int      $max          Optional. Max number of items to return.
+ *     @type array    $exclude      Optional. Array of user IDs to exclude.
+ *     @type bool|int $value        True (or 1) to exclude admins and mods from results.
+ *                                  Default: 1.
+ *     @type bool|int $value        True (or 1) to exclude banned users from results.
+ *                                  Default: 1.
+ *     @type array    $group_role   Optional. Array of group roles to include.
+ *     @type string   $search_terms Optional. Filter results by a search string.
+ *     @type string   $type         Optional. Sort the order of results. 'last_joined',
+ *                                  'first_joined', or any of the $type params available
+ *                                  in {@link BP_User_Query}. Default: 'last_joined'.
  * }
  * @return array Multi-d array of 'members' list and 'count'.
  */
@@ -644,6 +658,7 @@ function groups_get_group_members( $args = array() ) {
  * Get the member count for a group.
  *
  * @param int $group_id Group ID.
+ *
  * @return int Count of confirmed members for the group.
  */
 function groups_get_total_member_count( $group_id ) {
@@ -705,7 +720,6 @@ function groups_get_groups( $args = '' ) {
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 *
 	 * @param BP_Groups_Group $groups Object of found groups based on parameters.
 	 *                                Passed by reference.
 	 * @param array           $r      Array of parsed arguments used for group query.
@@ -733,14 +747,14 @@ function groups_get_total_group_count() {
 /**
  * Get the IDs of the groups of which a specified user is a member.
  *
- * @param int $user_id ID of the user.
- * @param int $pag_num Optional. Max number of results to return.
- *        Default: false (no limit).
+ * @param int $user_id  ID of the user.
+ * @param int $pag_num  Optional. Max number of results to return.
+ *                      Default: false (no limit).
  * @param int $pag_page Optional. Page offset of results to return.
- *        Default: false (no limit).
+ *                      Default: false (no limit).
  * @return array {
  *     @type array $groups Array of groups returned by paginated query.
- *     @type int $total Count of groups matching query.
+ *     @type int   $total Count of groups matching query.
  * }
  */
 function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
@@ -755,6 +769,7 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
  * Get the count of groups of which the specified user is a member.
  *
  * @param int $user_id Optional. Default: ID of the displayed user.
+ *
  * @return int Group count.
  */
 function groups_total_groups_for_user( $user_id = 0 ) {
@@ -802,7 +817,7 @@ function groups_get_current_group() {
  * Generate the avatar upload directory path for a given group.
  *
  * @param int $group_id Optional. ID of the group. Default: ID of the
- *        current group.
+ *                      current group.
  * @return string
  */
 function groups_avatar_upload_dir( $group_id = 0 ) {
@@ -842,7 +857,6 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @param int|null ID of the membership if the user is an admin, otherwise null.
  *
  * @return bool
  */
@@ -855,7 +869,6 @@ function groups_is_user_admin( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @param int|null ID of the membership if the user is a mod, otherwise null.
  *
  * @return bool
  */
@@ -868,7 +881,6 @@ function groups_is_user_mod( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @param int|null ID of the membership if the user is a member, otherwise null.
  *
  * @return bool
  */
@@ -887,7 +899,8 @@ function groups_is_user_banned( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @return int|null ID of the group if the user is the creator, otherwise false.
+ *
+ * @return bool
  */
 function groups_is_user_creator( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_creator( $user_id, $group_id );
@@ -902,11 +915,11 @@ function groups_is_user_creator( $user_id, $group_id ) {
  *
  * @param array|string $args {
  *     Array of arguments.
- *     @type string $content The content of the update.
- *     @type int $user_id Optional. ID of the user posting the update. Default:
- *           ID of the logged-in user.
- *     @type int $group_id Optional. ID of the group to be affiliated with the
- *           update. Default: ID of the current group.
+ *     @type string $content  The content of the update.
+ *     @type int    $user_id  Optional. ID of the user posting the update. Default:
+ *                            ID of the logged-in user.
+ *     @type int    $group_id Optional. ID of the group to be affiliated with the
+ *                            update. Default: ID of the current group.
  * }
  * @return int
  */
@@ -986,13 +999,13 @@ function groups_post_update( $args = '' ) {
 /**
  * Get IDs of users with outstanding invites to a given group from a specified user.
  *
- * @param int $user_id ID of the inviting user.
- * @param int|bool $limit Limit to restrict to.
- * @param int|bool $page
+ * @param int               $user_id ID of the inviting user.
+ * @param int|bool          $limit Limit to restrict to.
+ * @param int|bool          $page
  * @param string|array|bool $exclude
  *
- * @return array IDs of users who have been invited to the group by the
- *         user but have not yet accepted.
+ * @return array $value IDs of users who have been invited to the group by the
+ *                      user but have not yet accepted.
  */
 function groups_get_invites_for_user( $user_id = 0, $limit = false, $page = false, $exclude = false ) {
 
@@ -1008,6 +1021,7 @@ function groups_get_invites_for_user( $user_id = 0, $limit = false, $page = fals
  * @since BuddyPress (2.0.0)
  *
  * @param int $user_id The user ID.
+ *
  * @return int
  */
 function groups_get_invite_count_for_user( $user_id = 0 ) {
@@ -1023,14 +1037,14 @@ function groups_get_invite_count_for_user( $user_id = 0 ) {
  *
  * @param array|string $args {
  *     Array of arguments.
- *     @type int $user_id ID of the user being invited.
- *     @type int $group_id ID of the group to which the user is being invited.
- *     @type int $inviter_id Optional. ID of the inviting user. Default:
- *           ID of the logged-in user.
+ *     @type int    $user_id       ID of the user being invited.
+ *     @type int    $group_id      ID of the group to which the user is being invited.
+ *     @type int    $inviter_id    Optional. ID of the inviting user. Default:
+ *                                 ID of the logged-in user.
  *     @type string $date_modified Optional. Modified date for the invitation.
- *           Default: current date/time.
- *     @type bool $is_confirmed. Optional. Whether the invitation should be
- *           marked confirmed. Default: false.
+ *                                 Default: current date/time.
+ *     @type bool   $is_confirmed  Optional. Whether the invitation should be
+ *                                 marked confirmed. Default: false.
  * }
  * @return bool True on success, false on failure.
  */
@@ -1084,8 +1098,9 @@ function groups_invite_user( $args = '' ) {
  *
  * Functionally, this is equivalent to removing a user from a group.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_uninvite_user( $user_id, $group_id ) {
@@ -1111,8 +1126,9 @@ function groups_uninvite_user( $user_id, $group_id ) {
  *
  * Returns true if a user is already a member of the group.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True when the user is a member of the group, otherwise false.
  */
 function groups_accept_invite( $user_id, $group_id ) {
@@ -1162,8 +1178,9 @@ function groups_accept_invite( $user_id, $group_id ) {
 /**
  * Reject a group invitation.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_reject_invite( $user_id, $group_id ) {
@@ -1186,8 +1203,9 @@ function groups_reject_invite( $user_id, $group_id ) {
 /**
  * Delete a group invitation.
  *
- * @param int $user_id ID of the invited user.
+ * @param int $user_id  ID of the invited user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_delete_invite( $user_id, $group_id ) {
@@ -1210,7 +1228,7 @@ function groups_delete_invite( $user_id, $group_id ) {
 /**
  * Send all pending invites by a single user to a specific group.
  *
- * @param int $user_id ID of the inviting user.
+ * @param int $user_id  ID of the inviting user.
  * @param int $group_id ID of the group.
  */
 function groups_send_invites( $user_id, $group_id ) {
@@ -1246,10 +1264,11 @@ function groups_send_invites( $user_id, $group_id ) {
 /**
  * Get IDs of users with outstanding invites to a given group from a specified user.
  *
- * @param int $user_id ID of the inviting user.
+ * @param int $user_id  ID of the inviting user.
  * @param int $group_id ID of the group.
- * @return array IDs of users who have been invited to the group by the
- *         user but have not yet accepted.
+ *
+ * @return array $value IDs of users who have been invited to the group by the
+ *                      user but have not yet accepted.
  */
 function groups_get_invites_for_group( $user_id, $group_id ) {
 	return BP_Groups_Group::get_invites( $user_id, $group_id );
@@ -1262,10 +1281,11 @@ function groups_get_invites_for_group( $user_id, $group_id ) {
  * Entering 'all' as the $type parameter will return unsent invitations as
  * well (useful to make sure AJAX requests are not duplicated).
  *
- * @param int $user_id ID of potential group member.
- * @param int $group_id ID of potential group.
- * @param string $type Optional. Use 'sent' to check for sent invites, 'all' to
- *        check for all. Default: 'sent'.
+ * @param int    $user_id  ID of potential group member.
+ * @param int    $group_id ID of potential group.
+ * @param string $type     Optional. Use 'sent' to check for sent invites,
+ *                         'all' to check for all. Default: 'sent'.
+ *
  * @return bool True if an invitation is found, otherwise false.
  */
 function groups_check_user_has_invite( $user_id, $group_id, $type = 'sent' ) {
@@ -1276,6 +1296,7 @@ function groups_check_user_has_invite( $user_id, $group_id, $type = 'sent' ) {
  * Delete all invitations to a given group.
  *
  * @param int $group_id ID of the group whose invitations are being deleted.
+ *
  * @return int|null Number of rows records deleted on success, null on failure.
  */
 function groups_delete_all_group_invites( $group_id ) {
@@ -1287,9 +1308,10 @@ function groups_delete_all_group_invites( $group_id ) {
 /**
  * Promote a member to a new status within a group.
  *
- * @param int $user_id ID of the user.
- * @param int $group_id ID of the group.
- * @param string $status The new status. 'mod' or 'admin'.
+ * @param int    $user_id  ID of the user.
+ * @param int    $group_id ID of the group.
+ * @param string $status   The new status. 'mod' or 'admin'.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_promote_member( $user_id, $group_id, $status ) {
@@ -1319,8 +1341,9 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 /**
  * Demote a user to 'member' status within a group.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_demote_member( $user_id, $group_id ) {
@@ -1346,8 +1369,9 @@ function groups_demote_member( $user_id, $group_id ) {
 /**
  * Ban a member from a group.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_ban_member( $user_id, $group_id ) {
@@ -1373,8 +1397,9 @@ function groups_ban_member( $user_id, $group_id ) {
 /**
  * Unban a member from a group.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_unban_member( $user_id, $group_id ) {
@@ -1402,8 +1427,9 @@ function groups_unban_member( $user_id, $group_id ) {
 /**
  * Remove a member from a group.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_remove_member( $user_id, $group_id ) {
@@ -1440,7 +1466,8 @@ function groups_remove_member( $user_id, $group_id ) {
  * Create a group membership request.
  *
  * @param int $requesting_user_id ID of the user requesting membership.
- * @param int $group_id ID of the group.
+ * @param int $group_id           ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_send_membership_request( $requesting_user_id, $group_id ) {
@@ -1498,11 +1525,13 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
  * Accept a pending group membership request.
  *
  * @param int $membership_id ID of the membership object.
- * @param int $user_id Optional. ID of the user who requested membership.
- *        Provide this value along with $group_id to override $membership_id.
- * @param int $group_id Optional. ID of the group to which membership is being
- *        requested. Provide this value along with $user_id to override
- *        $membership_id.
+ * @param int $user_id       Optional. ID of the user who requested membership.
+ *                           Provide this value along with $group_id to override
+ *                           $membership_id.
+ * @param int $group_id      Optional. ID of the group to which membership is being
+ *                           requested. Provide this value along with $user_id to
+ *                           override $membership_id.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_accept_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -1542,11 +1571,13 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
  * Reject a pending group membership request.
  *
  * @param int $membership_id ID of the membership object.
- * @param int $user_id Optional. ID of the user who requested membership.
- *        Provide this value along with $group_id to override $membership_id.
- * @param int $group_id Optional. ID of the group to which membership is being
- *        requested. Provide this value along with $user_id to override
- *        $membership_id.
+ * @param int $user_id       Optional. ID of the user who requested membership.
+ *                           Provide this value along with $group_id to override
+ *                           $membership_id.
+ * @param int $group_id      Optional. ID of the group to which membership is being
+ *                           requested. Provide this value along with $user_id to
+ *                           override $membership_id.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_reject_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -1572,11 +1603,13 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
  * Delete a pending group membership request.
  *
  * @param int $membership_id ID of the membership object.
- * @param int $user_id Optional. ID of the user who requested membership.
- *        Provide this value along with $group_id to override $membership_id.
- * @param int $group_id Optional. ID of the group to which membership is being
- *        requested. Provide this value along with $user_id to override
- *        $membership_id.
+ * @param int $user_id       Optional. ID of the user who requested membership.
+ *                           Provide this value along with $group_id to override
+ *                           $membership_id.
+ * @param int $group_id      Optional. ID of the group to which membership is being
+ *                           requested. Provide this value along with $user_id to
+ *                           override $membership_id.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -1594,8 +1627,9 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
 /**
  * Check whether a user has an outstanding membership request for a given group.
  *
- * @param int $user_id ID of the user.
+ * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ *
  * @return int|null ID of the membership if found, otherwise false.
  */
 function groups_check_for_membership_request( $user_id, $group_id ) {
@@ -1606,6 +1640,7 @@ function groups_check_for_membership_request( $user_id, $group_id ) {
  * Accept all pending membership requests to a group.
  *
  * @param int $group_id ID of the group.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_accept_all_pending_membership_requests( $group_id ) {
@@ -1634,16 +1669,15 @@ function groups_accept_all_pending_membership_requests( $group_id ) {
 /**
  * Delete metadata for a group.
  *
- * @param int $group_id ID of the group.
- * @param string|bool $meta_key The key of the row to delete.
+ * @param int         $group_id   ID of the group.
+ * @param string|bool $meta_key   The key of the row to delete.
  * @param string|bool $meta_value Optional. Metadata value. If specified, only delete
- *        metadata entries with this value.
- * @param bool $delete_all Optional. If true, delete matching metadata entries
- *        for all groups. Default: false.
- * @param bool $delete_all Optional. If true, delete matching metadata entries
- * 	  for all objects, ignoring the specified group_id. Otherwise, only
- * 	  delete matching metadata entries for the specified group.
- * 	  Default: false.
+ *                                metadata entries with this value.
+ * @param bool        $delete_all Optional. If true, delete matching metadata entries
+ *                                for all groups. Otherwise, only delete matching
+ *                                metadata entries for the specified group.
+ *                                Default: false.
+ *
  * @return bool True on success, false on failure.
  */
 function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
@@ -1674,11 +1708,12 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
 /**
  * Get a piece of group metadata.
  *
- * @param int $group_id ID of the group.
+ * @param int    $group_id ID of the group.
  * @param string $meta_key Metadata key.
- * @param bool $single Optional. If true, return only the first value of the
- *        specified meta_key. This parameter has no effect if meta_key is
- *        empty.
+ * @param bool   $single   Optional. If true, return only the first value of the
+ *                         specified meta_key. This parameter has no effect if
+ *                         meta_key is empty.
+ *
  * @return mixed Metadata value.
  */
 function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
@@ -1692,15 +1727,16 @@ function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
 /**
  * Update a piece of group metadata.
  *
- * @param int $group_id ID of the group.
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Value to store.
- * @param mixed $prev_value Optional. If specified, only update existing
- *        metadata entries with the specified value. Otherwise, update all
- *        entries.
- * @return bool|int Returns false on failure. On successful update of existing
- *         metadata, returns true. On successful creation of new metadata,
- *         returns the integer ID of the new metadata row.
+ * @param int    $group_id   ID of the group.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Value to store.
+ * @param mixed  $prev_value Optional. If specified, only update existing
+ *                           metadata entries with the specified value.
+ *                           Otherwise, update all entries.
+ *
+ * @return bool|int $retval Returns false on failure. On successful update of existing
+ *                          metadata, returns true. On successful creation of new metadata,
+ *                          returns the integer ID of the new metadata row.
  */
 function groups_update_groupmeta( $group_id, $meta_key, $meta_value, $prev_value = '' ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -1715,12 +1751,14 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value, $prev_value
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $group_id ID of the group.
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
- * @param bool $unique. Optional. Whether to enforce a single metadata value
- *        for the given key. If true, and the object already has a value for
- *        the key, no change will be made. Default: false.
+ * @param int    $group_id   ID of the group.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Metadata value.
+ * @param bool   $unique.    Optional. Whether to enforce a single metadata value
+ *                           for the given key. If true, and the object already
+ *                           has a value for the key, no change will be made.
+ *                           Default: false.
+ *
  * @return int|bool The meta ID on successful update, false on failure.
  */
 function groups_add_groupmeta( $group_id, $meta_key, $meta_value, $unique = false ) {

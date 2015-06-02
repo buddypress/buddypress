@@ -289,7 +289,7 @@ class BP_Group_Extension {
 	 * methods that it needs for its purposes.
 	 */
 
-	/*
+	/**
 	 * The content of the group tab
 	 *
 	 * @param int|null $group_id
