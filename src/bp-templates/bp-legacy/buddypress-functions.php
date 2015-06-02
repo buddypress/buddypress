@@ -393,14 +393,14 @@ class BP_Legacy extends BP_Theme_Compat {
 			$locations['bp-child'] = array(
 				'dir'  => get_stylesheet_directory(),
 				'uri'  => get_stylesheet_directory_uri(),
-				'file' => $file,
+				'file' => str_replace( '.min', '', $file ),
 			);
 		}
 
 		$locations['bp-parent'] = array(
 			'dir'  => get_template_directory(),
 			'uri'  => get_template_directory_uri(),
-			'file' => $file,
+			'file' => str_replace( '.min', '', $file ),
 		);
 
 		$locations['bp-legacy'] = array(
