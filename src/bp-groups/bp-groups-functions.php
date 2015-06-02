@@ -35,7 +35,7 @@ function bp_groups_has_directory() {
  * of instantiating BP_Groups_Group directly, so that you will inherit cache
  * support and pass through the groups_get_group filter.
  *
- * @param array $args {
+ * @param array|string $args {
  *	Array of al arguments.
  *	@type int $group_id ID of the group.
  *	@type bool $load_users No longer used.
@@ -73,7 +73,7 @@ function groups_get_group( $args = '' ) {
  *
  * @since BuddyPress (1.0.0)
  *
- * @param array $args {
+ * @param array|string $args {
  *     An array of arguments.
  *     @type int|bool $group_id Pass a group ID to update an existing item, or
  *           0 / false to create a new group. Default: 0.
@@ -257,7 +257,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
  * @param int $group_id ID of the group.
  * @param bool $enable_forum Whether to enable a forum for the group.
  * @param string $status Group status. 'public', 'private', 'hidden'.
- * @param string $invite_status Optional. Who is allowed to send invitations
+ * @param string|bool $invite_status Optional. Who is allowed to send invitations
  *        to the group. 'members', 'mods', or 'admins'.
  * @return bool True on success, false on failure.
  */
@@ -362,7 +362,7 @@ function groups_is_valid_status( $status ) {
  * Provide a unique, sanitized version of a group slug.
  *
  * @param string $slug Group slug to check.
- * @return A unique and sanitized slug.
+ * @return string $slug A unique and sanitized slug.
  */
 function groups_check_slug( $slug ) {
 	$bp = buddypress();
@@ -655,7 +655,7 @@ function groups_get_total_member_count( $group_id ) {
 /**
  * Get a collection of groups, based on the parameters passed.
  *
- * @param array $args {
+ * @param array|string $args {
  *     Array of arguments. Supports all arguments of
  *     {@link BP_Groups_Group::get()}. Where the default values differ, they
  *     have been described here.
@@ -734,9 +734,9 @@ function groups_get_total_group_count() {
  * Get the IDs of the groups of which a specified user is a member.
  *
  * @param int $user_id ID of the user.
- * @param int $limit Optional. Max number of results to return.
+ * @param int $pag_num Optional. Max number of results to return.
  *        Default: false (no limit).
- * @param int $page Optional. Page offset of results to return.
+ * @param int $pag_page Optional. Page offset of results to return.
  *        Default: false (no limit).
  * @return array {
  *     @type array $groups Array of groups returned by paginated query.
@@ -843,6 +843,8 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
  * @param int|null ID of the membership if the user is an admin, otherwise null.
+ *
+ * @return bool
  */
 function groups_is_user_admin( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_admin( $user_id, $group_id );
@@ -854,6 +856,8 @@ function groups_is_user_admin( $user_id, $group_id ) {
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
  * @param int|null ID of the membership if the user is a mod, otherwise null.
+ *
+ * @return bool
  */
 function groups_is_user_mod( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_mod( $user_id, $group_id );
@@ -865,6 +869,8 @@ function groups_is_user_mod( $user_id, $group_id ) {
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
  * @param int|null ID of the membership if the user is a member, otherwise null.
+ *
+ * @return bool
  */
 function groups_is_user_member( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_member( $user_id, $group_id );
@@ -894,7 +900,7 @@ function groups_is_user_creator( $user_id, $group_id ) {
  *
  * @todo Should bail out when the Activity component is not active.
  *
- * @param array {
+ * @param array|string $args {
  *     Array of arguments.
  *     @type string $content The content of the update.
  *     @type int $user_id Optional. ID of the user posting the update. Default:
@@ -981,7 +987,10 @@ function groups_post_update( $args = '' ) {
  * Get IDs of users with outstanding invites to a given group from a specified user.
  *
  * @param int $user_id ID of the inviting user.
- * @param int $group_id ID of the group.
+ * @param int|bool $limit Limit to restrict to.
+ * @param int|bool $page
+ * @param string|array|bool $exclude
+ *
  * @return array IDs of users who have been invited to the group by the
  *         user but have not yet accepted.
  */
@@ -1012,7 +1021,7 @@ function groups_get_invite_count_for_user( $user_id = 0 ) {
 /**
  * Invite a user to a group.
  *
- * @param array $args {
+ * @param array|string $args {
  *     Array of arguments.
  *     @type int $user_id ID of the user being invited.
  *     @type int $group_id ID of the group to which the user is being invited.
@@ -1626,8 +1635,8 @@ function groups_accept_all_pending_membership_requests( $group_id ) {
  * Delete metadata for a group.
  *
  * @param int $group_id ID of the group.
- * @param string $meta_key The key of the row to delete.
- * @param string $meta_value Optional. Metadata value. If specified, only delete
+ * @param string|bool $meta_key The key of the row to delete.
+ * @param string|bool $meta_value Optional. Metadata value. If specified, only delete
  *        metadata entries with this value.
  * @param bool $delete_all Optional. If true, delete matching metadata entries
  *        for all groups. Default: false.

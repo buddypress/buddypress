@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Groups Filters
+ * BuddyPress Groups Filters.
  *
  * @package BuddyPress
  * @subpackage GroupsFilters
@@ -72,6 +72,7 @@ add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
  * @since BuddyPress (1.1.0)
  *
  * @param string $content
+ *
  * @return string
  */
 function bp_groups_filter_kses( $content = '' ) {
@@ -127,6 +128,7 @@ add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
  * Add fields to bbPress query for group-specific data.
  *
  * @param string $sql
+ *
  * @return string
  */
 function groups_add_forum_fields_sql( $sql = '' ) {
@@ -138,6 +140,7 @@ function groups_add_forum_fields_sql( $sql = '' ) {
  * Add JOINed tables to bbPress query for group-specific data.
  *
  * @param string $sql
+ *
  * @return string
  */
 function groups_add_forum_tables_sql( $sql = '' ) {
@@ -152,6 +155,7 @@ function groups_add_forum_tables_sql( $sql = '' ) {
  * Add WHERE clauses to bbPress query for group-specific data and access protection.
  *
  * @param string $sql
+ *
  * @return string
  */
 function groups_add_forum_where_sql( $sql = '' ) {
@@ -204,6 +208,7 @@ function groups_add_forum_where_sql( $sql = '' ) {
  * @param bool $value
  * @param string $cap
  * @param array $args
+ *
  * @return bool
  */
 function groups_filter_bbpress_caps( $value, $cap, $args ) {
@@ -244,7 +249,7 @@ function groups_filter_forums_root_page_sql( $sql ) {
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param string $value SQL string to specify fetching just topic_id
+	 * @param string $value SQL string to specify fetching just topic_id.
 	 */
 	return apply_filters( 'groups_filter_bbpress_root_page_sql', 't.topic_id' );
 }
@@ -254,10 +259,12 @@ add_filter( 'get_latest_topics_fields', 'groups_filter_forums_root_page_sql' );
  * Should BuddyPress load the mentions scripts and related assets, including results to prime the
  * mentions suggestions?
  *
- * @param bool $load_mentions True to load mentions assets, false otherwise.
- * @param bool $mentions_enabled True if mentions are enabled.
- * @return bool True if mentions scripts should be loaded.
  * @since BuddyPress (2.2.0)
+ *
+ * @param bool $load_mentions    True to load mentions assets, false otherwise.
+ * @param bool $mentions_enabled True if mentions are enabled.
+ *
+ * @return bool True if mentions scripts should be loaded.
  */
 function bp_groups_maybe_load_mentions_scripts( $load_mentions, $mentions_enabled ) {
 	if ( ! $mentions_enabled ) {

@@ -1510,6 +1510,7 @@ class BP_Groups_Theme_Compat {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function create_template_hierarchy( $templates ) {

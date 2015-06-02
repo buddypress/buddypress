@@ -155,9 +155,9 @@ class BP_Groups_Group {
 	/**
 	 * Constructor method.
 	 *
-	 * @param int $id Optional. If the ID of an existing group is provided,
-	 *        the object will be pre-populated with info about that group.
-	 * @param array $args {
+	 * @param int|null $id Optional. If the ID of an existing group is provided,
+	 *                     the object will be pre-populated with info about that group.
+	 * @param array    $args {
 	 *     Array of optional arguments.
 	 *     @type bool $populate_extras Whether to fetch "extra" data about
 	 *           the group (group admins/mods, access for the current user).
@@ -283,7 +283,7 @@ class BP_Groups_Group {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Groups_Group Current instance of the group item being saved. Passed by reference.
+		 * @param BP_Groups_Group $this Current instance of the group item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_group_before_save', array( &$this ) );
 
@@ -363,7 +363,7 @@ class BP_Groups_Group {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Groups_Group Current instance of the group item that was saved. Passed by reference.
+		 * @param BP_Groups_Group $this Current instance of the group item that was saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
 
@@ -419,9 +419,10 @@ class BP_Groups_Group {
 	/**
 	 * Get whether a group exists for a given slug.
 	 *
-	 * @param string $slug Slug to check.
-	 * @param string $table_name Optional. Name of the table to check
-	 *        against. Default: $bp->groups->table_name.
+	 * @param string      $slug       Slug to check.
+	 * @param string|bool $table_name Optional. Name of the table to check
+	 *                                against. Default: $bp->groups->table_name.
+	 *
 	 * @return string|null ID of the group, if one is found, else null.
 	 */
 	public static function group_exists( $slug, $table_name = false ) {
@@ -472,11 +473,11 @@ class BP_Groups_Group {
 	 * @param int $user_id ID of the user whose groups are being searched.
 	 *        Default: the displayed user.
 	 * @param mixed $order Not used.
-	 * @param int $limit Optional. The max number of results to return.
+	 * @param int|null $limit Optional. The max number of results to return.
 	 *        Default: null (no limit).
-	 * @param int $page Optional. The page offset of results to return.
+	 * @param int|null $page Optional. The page offset of results to return.
 	 *        Default: null (no limit).
-	 * @return array {
+	 * @return false|array {
 	 *     @type array $groups Array of matched and paginated group objects.
 	 *     @type int $total Total count of groups matching the query.
 	 * }
@@ -515,13 +516,13 @@ class BP_Groups_Group {
 	 *
 	 * @param string $filter Search term. Matches against 'name' and
 	 *        'description' fields.
-	 * @param int $limit Optional. The max number of results to return.
+	 * @param int|null $limit Optional. The max number of results to return.
 	 *        Default: null (no limit).
-	 * @param int $page Optional. The page offset of results to return.
+	 * @param int|null $page Optional. The page offset of results to return.
 	 *        Default: null (no limit).
-	 * @param string $sort_by Column to sort by. Default: false (default
+	 * @param string|bool $sort_by Column to sort by. Default: false (default
 	 *        sort).
-	 * @param string $order ASC or DESC. Default: false (default sort).
+	 * @param string|bool $order ASC or DESC. Default: false (default sort).
 	 * @return array {
 	 *     @type array $groups Array of matched and paginated group objects.
 	 *     @type int $total Total count of groups matching the query.
@@ -620,9 +621,9 @@ class BP_Groups_Group {
 	 * Get outstanding membership requests for a group.
 	 *
 	 * @param int $group_id ID of the group.
-	 * @param int $limit Optional. Max number of results to return.
+	 * @param int|null $limit Optional. Max number of results to return.
 	 *        Default: null (no limit).
-	 * @param int $page Optional. Page offset of results returned. Default:
+	 * @param int|null $page Optional. Page offset of results returned. Default:
 	 *        null (no limit).
 	 * @return array {
 	 *     @type array $requests The requested page of located requests.
@@ -1077,17 +1078,17 @@ class BP_Groups_Group {
 	/**
 	 * Get a list of groups, sorted by those that have the most legacy forum topics.
 	 *
-	 * @param int $limit Optional. The max number of results to return.
+	 * @param int|null $limit Optional. The max number of results to return.
 	 *        Default: null (no limit).
-	 * @param int $page Optional. The page offset of results to return.
+	 * @param int|null $page Optional. The page offset of results to return.
 	 *        Default: null (no limit).
 	 * @param int $user_id Optional. If present, groups will be limited to
 	 *        those of which the specified user is a member.
-	 * @param string $search_terms Optional. Limit groups to those whose
+	 * @param string|bool $search_terms Optional. Limit groups to those whose
 	 *        name or description field contain the search string.
 	 * @param bool $populate_extras Optional. Whether to fetch extra
 	 *        information about the groups. Default: true.
-	 * @param string|array Optional. Array or comma-separated list of group
+	 * @param string|array|bool $exclude Optional. Array or comma-separated list of group
 	 *        IDs to exclude from results.
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
@@ -1146,17 +1147,15 @@ class BP_Groups_Group {
 	/**
 	 * Get a list of groups, sorted by those that have the most legacy forum posts.
 	 *
-	 * @param int $limit Optional. The max number of results to return.
+	 * @param int|null $limit Optional. The max number of results to return.
 	 *        Default: null (no limit).
-	 * @param int $page Optional. The page offset of results to return.
+	 * @param int|null $page Optional. The page offset of results to return.
 	 *        Default: null (no limit).
-	 * @param int $user_id Optional. If present, groups will be limited to
-	 *        those of which the specified user is a member.
-	 * @param string $search_terms Optional. Limit groups to those whose
+	 * @param string|bool $search_terms Optional. Limit groups to those whose
 	 *        name or description field contain the search string.
 	 * @param bool $populate_extras Optional. Whether to fetch extra
 	 *        information about the groups. Default: true.
-	 * @param string|array Optional. Array or comma-separated list of group
+	 * @param string|array|bool Optional. Array or comma-separated list of group
 	 *        IDs to exclude from results.
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
@@ -1216,15 +1215,15 @@ class BP_Groups_Group {
 	 * Get a list of groups whose names start with a given letter.
 	 *
 	 * @param string $letter The letter.
-	 * @param int $limit Optional. The max number of results to return.
+	 * @param int|null $limit Optional. The max number of results to return.
 	 *        Default: null (no limit).
-	 * @param int $page Optional. The page offset of results to return.
+	 * @param int|null $page Optional. The page offset of results to return.
 	 *        Default: null (no limit).
 	 * @param bool $populate_extras Optional. Whether to fetch extra
 	 *        information about the groups. Default: true.
-	 * @param string|array Optional. Array or comma-separated list of group
+	 * @param string|array|bool $exclude Optional. Array or comma-separated list of group
 	 *        IDs to exclude from results.
-	 * @return array {
+	 * @return false|array {
 	 *     @type array $groups Array of group objects returned by the
 	 *           paginated query.
 	 *     @type int $total Total count of all groups matching non-
@@ -1282,17 +1281,17 @@ class BP_Groups_Group {
 	 *
 	 * Use BP_Groups_Group::get() with 'type' = 'random' instead.
 	 *
-	 * @param int $limit Optional. The max number of results to return.
+	 * @param int|null $limit Optional. The max number of results to return.
 	 *        Default: null (no limit).
-	 * @param int $page Optional. The page offset of results to return.
+	 * @param int|null $page Optional. The page offset of results to return.
 	 *        Default: null (no limit).
 	 * @param int $user_id Optional. If present, groups will be limited to
 	 *        those of which the specified user is a member.
-	 * @param string $search_terms Optional. Limit groups to those whose
+	 * @param string|bool $search_terms Optional. Limit groups to those whose
 	 *        name or description field contain the search string.
 	 * @param bool $populate_extras Optional. Whether to fetch extra
 	 *        information about the groups. Default: true.
-	 * @param string|array Optional. Array or comma-separated list of group
+	 * @param string|array|bool $exclude Optional. Array or comma-separated list of group
 	 *        IDs to exclude from results.
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
@@ -1358,7 +1357,7 @@ class BP_Groups_Group {
 	 * @param array $paged_groups Array of groups.
 	 * @param string|array Array or comma-separated list of IDs matching
 	 *        $paged_groups.
-	 * @param string $type Not used.
+	 * @param string|bool $type Not used.
 	 * @return array $paged_groups
 	 */
 	public static function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
@@ -1468,7 +1467,7 @@ class BP_Groups_Group {
 	/**
 	 * Get global count of forum topics in public groups (legacy forums).
 	 *
-	 * @param $type Optional. If 'unreplied', count will be limited to
+	 * @param string $type Optional. If 'unreplied', count will be limited to
 	 *        those topics that have received no replies.
 	 * @return int Forum topic count.
 	 */
@@ -1520,6 +1519,8 @@ class BP_Groups_Group {
 	 *
 	 * @param string $status Which group type to count. 'public', 'private',
 	 *        'hidden', or 'all'. Default: 'public'.
+	 * @param string|bool $search_terms Provided search terms.
+	 *
 	 * @return int The topic count
 	 */
 	public static function get_global_topic_count( $status = 'public', $search_terms = false ) {

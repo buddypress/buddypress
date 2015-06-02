@@ -560,7 +560,7 @@ function bp_groups_admin_edit() {
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @param BP_Groups_Group Instance of the current group being edited. Passed by reference.
+	 * @param BP_Groups_Group $this Instance of the current group being edited. Passed by reference.
 	 */
 	do_action_ref_array( 'bp_groups_admin_edit', array( &$group ) ); ?>
 
@@ -687,7 +687,7 @@ function bp_groups_admin_delete() {
  *
  * @since BuddyPress (1.7.0)
  *
- * @global BP_Group_List_Table $bp_groups_list_table Group screen list table.
+ * @global BP_Groups_List_Table $bp_groups_list_table Group screen list table.
  * @global string $plugin_page Currently viewed plugin page.
  */
 function bp_groups_admin_index() {
@@ -1338,7 +1338,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @param object $item The current group item in the loop.
+	 * @param object|array $item The current group item in the loop.
 	 */
 	public function single_row( $item = array() ) {
 		static $even = false;
@@ -1584,7 +1584,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @param array Information about the current row.
+	 * @param array $item Information about the current row.
 	 */
 	public function column_description( $item = array() ) {
 
@@ -1604,7 +1604,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @param array Information about the current row.
+	 * @param array $item Information about the current row.
 	 */
 	public function column_status( $item = array() ) {
 		$status      = $item['status'];
@@ -1640,7 +1640,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @param array Information about the current row.
+	 * @param array $item Information about the current row.
 	 */
 	public function column_members( $item = array() ) {
 		$count = groups_get_groupmeta( $item['id'], 'total_member_count' );
@@ -1661,7 +1661,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since BuddyPress (1.7.0)
 	 *
-	 * @param array Information about the current row.
+	 * @param array $item Information about the current row.
 	 */
 	public function column_last_active( $item = array() ) {
 		$last_active = groups_get_groupmeta( $item['id'], 'last_activity' );
@@ -1682,8 +1682,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array Information about the current row.
-	 * @param string the column name.
+	 * @param array  $item Information about the current row.
+	 * @param string $column_name The column name.
 	 *
 	 * @return string
 	 */

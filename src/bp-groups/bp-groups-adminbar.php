@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Groups Toolbar
+ * BuddyPress Groups Toolbar.
  *
  * Handles the groups functions related to the WordPress Toolbar.
  *
@@ -19,8 +19,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @todo Add dynamic menu items for group extensions.
  *
- * @return bool|null False if not on a group page, or if user does not have
- *        access to group admin options.
+ * @return false|null False if not on a group page, or if user does not have
+ *                    access to group admin options.
  */
 function bp_groups_group_admin_menu() {
 	global $wp_admin_bar;

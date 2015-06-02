@@ -137,7 +137,7 @@ class BP_Groups_Member {
 	 *        look up a membership.
 	 * @param int $group_id Optional. Along with $user_id, can be used to
 	 *        look up a membership.
-	 * @param int $id Optional. The unique ID of the membership object.
+	 * @param int|bool $id Optional. The unique ID of the membership object.
 	 * @param bool $populate Whether to populate the properties of the
 	 *        located membership. Default: true.
 	 */
@@ -226,7 +226,7 @@ class BP_Groups_Member {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Groups_Member Current instance of the group membership item being saved. Passed by reference.
+		 * @param BP_Groups_Member $this Current instance of the group membership item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_member_before_save', array( &$this ) );
 
@@ -259,7 +259,7 @@ class BP_Groups_Member {
 		 *
 		 * @since BuddyPress (1.0.0)
 		 *
-		 * @param BP_Groups_Member Current instance of the group membership item has been saved. Passed by reference.
+		 * @param BP_Groups_Member $this Current instance of the group membership item has been saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_member_after_save', array( &$this ) );
 
@@ -360,7 +360,7 @@ class BP_Groups_Member {
 		 *
 		 * @since BuddyPress (2.3.0)
 		 *
-		 * @param BP_Groups_Member Current group membership object.
+		 * @param BP_Groups_Member $this Current group membership object.
 		 */
 		do_action_ref_array( 'groups_member_before_remove', array( $this ) );
 
@@ -381,7 +381,7 @@ class BP_Groups_Member {
 		 *
 		 * @since BuddyPress (2.3.0)
 		 *
-		 * @param BP_Groups_Member Current group membership object.
+		 * @param BP_Groups_Member $this Current group membership object.
 		 */
 		do_action_ref_array( 'groups_member_after_remove', array( $this ) );
 
@@ -460,9 +460,9 @@ class BP_Groups_Member {
 	 * Get the IDs of the groups of which a specified user is a member.
 	 *
 	 * @param int $user_id ID of the user.
-	 * @param int $limit Optional. Max number of results to return.
+	 * @param int|bool $limit Optional. Max number of results to return.
 	 *        Default: false (no limit).
-	 * @param int $page Optional. Page offset of results to return.
+	 * @param int|bool $page Optional. Page offset of results to return.
 	 *        Default: false (no limit).
 	 * @return array {
 	 *     @type array $groups Array of groups returned by paginated query.
@@ -496,11 +496,11 @@ class BP_Groups_Member {
 	 * Get the IDs of the groups of which a specified user is a member, sorted by the date joined.
 	 *
 	 * @param int $user_id ID of the user.
-	 * @param int $limit Optional. Max number of results to return.
+	 * @param int|bool $limit Optional. Max number of results to return.
 	 *        Default: false (no limit).
-	 * @param int $page Optional. Page offset of results to return.
+	 * @param int|bool $page Optional. Page offset of results to return.
 	 *        Default: false (no limit).
-	 * @param string $filter Optional. Limit results to groups whose name or
+	 * @param string|bool $filter Optional. Limit results to groups whose name or
 	 *        description field matches search terms.
 	 * @return array {
 	 *     @type array $groups Array of groups returned by paginated query.
@@ -537,11 +537,11 @@ class BP_Groups_Member {
 	 * Get the IDs of the groups of which a specified user is an admin.
 	 *
 	 * @param int $user_id ID of the user.
-	 * @param int $limit Optional. Max number of results to return.
+	 * @param int|bool $limit Optional. Max number of results to return.
 	 *        Default: false (no limit).
-	 * @param int $page Optional. Page offset of results to return.
+	 * @param int|bool $page Optional. Page offset of results to return.
 	 *        Default: false (no limit).
-	 * @param string $filter Optional. Limit results to groups whose name or
+	 * @param string|bool $filter Optional. Limit results to groups whose name or
 	 *        description field matches search terms.
 	 * @return array {
 	 *     @type array $groups Array of groups returned by paginated query.
@@ -578,11 +578,11 @@ class BP_Groups_Member {
 	 * Get the IDs of the groups of which a specified user is a moderator.
 	 *
 	 * @param int $user_id ID of the user.
-	 * @param int $limit Optional. Max number of results to return.
+	 * @param int|bool $limit Optional. Max number of results to return.
 	 *        Default: false (no limit).
-	 * @param int $page Optional. Page offset of results to return.
+	 * @param int|bool $page Optional. Page offset of results to return.
 	 *        Default: false (no limit).
-	 * @param string $filter Optional. Limit results to groups whose name or
+	 * @param string|bool $filter Optional. Limit results to groups whose name or
 	 *        description field matches search terms.
 	 * @return array {
 	 *     @type array $groups Array of groups returned by paginated query.
@@ -640,11 +640,11 @@ class BP_Groups_Member {
 	 * Get a user's outstanding group invitations.
 	 *
 	 * @param int $user_id ID of the invitee.
-	 * @param int $limit Optional. Max number of results to return.
+	 * @param int|bool $limit Optional. Max number of results to return.
 	 *        Default: false (no limit).
-	 * @param int $page Optional. Page offset of results to return.
+	 * @param int|bool $page Optional. Page offset of results to return.
 	 *        Default: false (no limit).
-	 * @param string|array $exclude Optional. Array or comma-separated list
+	 * @param string|array|bool $exclude Optional. Array or comma-separated list
 	 *        of group IDs to exclude from results.
 	 * @return array {
 	 *     @type array $groups Array of groups returned by paginated query.
@@ -772,6 +772,8 @@ class BP_Groups_Member {
 	 * @param int $group_id ID of the group.
 	 * @param int|null ID of the membership if the user is an admin,
 	 *        otherwise null.
+	 *
+	 * @return mixed
 	 */
 	public static function check_is_admin( $user_id, $group_id ) {
 		global $wpdb;
@@ -791,6 +793,8 @@ class BP_Groups_Member {
 	 * @param int $group_id ID of the group.
 	 * @param int|null ID of the membership if the user is a mod,
 	 *        otherwise null.
+	 *
+	 * @return mixed
 	 */
 	public static function check_is_mod( $user_id, $group_id ) {
 		global $wpdb;
@@ -810,6 +814,8 @@ class BP_Groups_Member {
 	 * @param int $group_id ID of the group.
 	 * @param int|null ID of the membership if the user is a member,
 	 *        otherwise null.
+	 *
+	 * @return mixed
 	 */
 	public static function check_is_member( $user_id, $group_id ) {
 		global $wpdb;
@@ -829,6 +835,8 @@ class BP_Groups_Member {
 	 * @param int $group_id ID of the group.
 	 * @param int|null ID of the membership if the user is banned,
 	 *        otherwise null.
+	 *
+	 * @return mixed
 	 */
 	public static function check_is_banned( $user_id, $group_id ) {
 		global $wpdb;
@@ -967,6 +975,15 @@ class BP_Groups_Member {
 	 * Get members of a group.
 	 *
 	 * @deprecated BuddyPress (1.8.0)
+	 *
+	 * @param $group_id
+	 * @param $limit
+	 * @param $page
+	 * @param $exclude_admins_mods
+	 * @param $exclude_banned
+	 * @param $exclude
+	 *
+	 * @return mixed
 	 */
 	public static function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
 		global $wpdb;
@@ -1067,6 +1084,8 @@ class BP_Groups_Member {
 	 * @since BuddyPress (1.0.0)
 	 *
 	 * @param int $user_id ID of the user.
+	 *
+	 * @return mixed
 	 */
 	public static function delete_all_for_user( $user_id ) {
 		global $wpdb;

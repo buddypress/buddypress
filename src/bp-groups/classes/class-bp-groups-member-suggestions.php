@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Groups Classes
+ * BuddyPress Groups Classes.
  *
  * @package BuddyPress
  * @subpackage GroupsClasses
@@ -22,12 +22,12 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	 * @since BuddyPress (2.1.0)
 	 * @access protected
 	 * @var array $args {
-	 *     @type int $group_id Positive integers will restrict the search to members in that group.
-	 *           Negative integers will restrict the search to members in every other group.
-	 *     @type int $limit Maximum number of results to display. Default: 16.
-	 *     @type bool $only_friends If true, only match the current user's friends. Default: false.
-	 *     @type string $term The suggestion service will try to find results that contain this string.
-	 *           Mandatory.
+	 *     @type int    $group_id     Positive integers will restrict the search to members in that group.
+	 *                                Negative integers will restrict the search to members in every other group.
+	 *     @type int    $limit        Maximum number of results to display. Default: 16.
+	 *     @type bool   $only_friends If true, only match the current user's friends. Default: false.
+	 *     @type string $term         The suggestion service will try to find results that contain this string.
+	 *                                Mandatory.
 	 * }
 	 */
 	protected $default_args = array(
@@ -42,8 +42,9 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	/**
 	 * Validate and sanitise the parameters for the suggestion service query.
 	 *
-	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
 	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
 	 */
 	public function validate() {
 		$this->args['group_id'] = (int) $this->args['group_id'];
@@ -87,8 +88,9 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	/**
 	 * Find and return a list of username suggestions that match the query.
 	 *
-	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
 	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
 	 */
 	public function get_suggestions() {
 		$user_query = array(

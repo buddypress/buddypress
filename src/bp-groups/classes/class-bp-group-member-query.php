@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Groups Classes
+ * BuddyPress Groups Classes.
  *
  * @package BuddyPress
  * @subpackage GroupsClasses
@@ -13,28 +13,30 @@ defined( 'ABSPATH' ) || exit;
  * Query for the members of a group.
  *
  * Special notes about the group members data schema:
- * - *Members* are entries with is_confirmed = 1
- * - *Pending requests* are entries with is_confirmed = 0 and inviter_id = 0
+ * - *Members* are entries with is_confirmed = 1.
+ * - *Pending requests* are entries with is_confirmed = 0 and inviter_id = 0.
  * - *Pending and sent invitations* are entries with is_confirmed = 0 and
- *   inviter_id != 0 and invite_sent = 1
+ *   inviter_id != 0 and invite_sent = 1.
  * - *Pending and unsent invitations* are entries with is_confirmed = 0 and
- *   inviter_id != 0 and invite_sent = 0
+ *   inviter_id != 0 and invite_sent = 0.
  * - *Membership requests* are entries with is_confirmed = 0 and
- *   inviter_id = 0 (and invite_sent = 0)
+ *   inviter_id = 0 (and invite_sent = 0).
  *
  * @since BuddyPress (1.8.0)
  *
- * @param array $args {
+ * @param array $args  {
  *     Array of arguments. Accepts all arguments from
  *     {@link BP_User_Query}, with the following additions:
- *     @type int $group_id ID of the group to limit results to.
- *     @type array $group_role Array of group roles to match ('member',
- *           'mod', 'admin', 'banned'). Default: array( 'member' ).
- *     @type bool $is_confirmed Whether to limit to confirmed members.
- *           Default: true.
- *     @type string $type Sort order. Accepts any value supported by
- *           {@link BP_User_Query}, in addition to 'last_joined' and
- *           'first_joined'. Default: 'last_joined'.
+ *
+ *     @type int    $group_id     ID of the group to limit results to.
+ *     @type array  $group_role   Array of group roles to match ('member',
+ *                                'mod', 'admin', 'banned').
+ *                                Default: array( 'member' ).
+ *     @type bool   $is_confirmed Whether to limit to confirmed members.
+ *                                Default: true.
+ *     @type string $type         Sort order. Accepts any value supported by
+ *                                {@link BP_User_Query}, in addition to 'last_joined'
+ *                                and 'first_joined'. Default: 'last_joined'.
  * }
  */
 class BP_Group_Member_Query extends BP_User_Query {
@@ -77,7 +79,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * @since BuddyPress (1.8.0)
 	 *
 	 * @param array $include Existing group IDs in the $include parameter,
-	 *        as calculated in BP_User_Query.
+	 *                       as calculated in BP_User_Query.
 	 * @return array
 	 */
 	public function get_include_ids( $include = array() ) {
@@ -297,11 +299,11 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param BP_User_Query $query BP_User_Query object. Because we're
-	 *        filtering the current object, we use $this inside of the
-	 *        method instead.
-	 * @param string $user_ids_sql Sanitized, comma-separated string of
-	 *        the user ids returned by the main query.
+	 * @param BP_User_Query $query        BP_User_Query object. Because we're
+	 *                                    filtering the current object, we use
+	 *                                    $this inside of the method instead.
+	 * @param string        $user_ids_sql Sanitized, comma-separated string of
+	 *                                    the user ids returned by the main query.
 	 */
 	public function populate_group_member_extras( $query, $user_ids_sql ) {
 		global $wpdb;
@@ -335,8 +337,9 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
-	 * @param BP_User_Query $query BP_User_Query object.
-	 * @param array $gm_ids array of group member ids.
+	 * @param BP_User_Query $query  BP_User_Query object.
+	 * @param array         $gm_ids array of group member ids.
+	 *
 	 * @return array
 	 */
 	public function get_gm_ids_ordered_by_activity( $query, $gm_ids = array() ) {

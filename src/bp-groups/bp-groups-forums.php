@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Groups Forums
+ * BuddyPress Groups Forums.
  *
  * Action functions are exactly the same as screen functions, however they do not
  * have a template screen associated with them. Usually they will send the user
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since BuddyPress (1.0.0)
  *
- * @param int $group_id The group ID that the new forum should be attached to.
+ * @param int    $group_id   The group ID that the new forum should be attached to.
  * @param string $group_name The group name.
  * @param string $group_desc The group description.
  */
@@ -66,6 +66,8 @@ function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = 
  * @since BuddyPress (1.1.0)
  *
  * @param int $group_id Group id, passed from groups_details_updated.
+ *
+ * @return mixed
  */
 function groups_update_group_forum( $group_id ) {
 
@@ -106,10 +108,11 @@ add_action( 'groups_details_updated', 'groups_update_group_forum' );
  * @since BuddyPress (1.0.0)
  *
  * @param string $post_text The text for the forum post.
- * @param int $topic_id The topic ID used so we can identify where the new
- *        forum post should reside.
- * @param mixed $page The page number where the new forum post should reside.
- *        Default: false.
+ * @param int    $topic_id  The topic ID used so we can identify where the new
+ *                          forum post should reside.
+ * @param mixed  $page      The page number where the new forum post should reside.
+ *                          Default: false.
+ *
  * @return mixed The new forum post ID on success. Boolean false on failure.
  */
 function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
@@ -215,9 +218,10 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
  * @since BuddyPress (1.0.0)
  *
  * @param string $topic_title The title for the forum topic.
- * @param string $topic_text The text for the forum topic.
- * @param string $topic_tags A comma-delimited string of topic tags.
- * @param int $forum_id The forum ID this forum topic resides in.
+ * @param string $topic_text  The text for the forum topic.
+ * @param string $topic_tags  A comma-delimited string of topic tags.
+ * @param int    $forum_id    The forum ID this forum topic resides in.
+ *
  * @return mixed The new topic object on success. Boolean false on failure.
  */
 function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $forum_id ) {
@@ -334,10 +338,11 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
  *
  * @since BuddyPress (1.1.0)
  *
- * @param int $topic_id The topic ID of the existing forum topic.
+ * @param int    $topic_id    The topic ID of the existing forum topic.
  * @param string $topic_title The title for the forum topic.
- * @param string $topic_text The text for the forum topic.
- * @param mixed $topic_tags A comma-delimited string of topic tags. Optional.
+ * @param string $topic_text  The text for the forum topic.
+ * @param mixed  $topic_tags  A comma-delimited string of topic tags. Optional.
+ *
  * @return mixed The topic object on success. Boolean false on failure.
  */
 function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, $topic_tags = false ) {
@@ -412,11 +417,11 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, 
  *
  * @since BuddyPress (1.1.0)
  *
- * @param int $post_id The post ID of the existing forum post.
+ * @param int    $post_id   The post ID of the existing forum post.
  * @param string $post_text The text for the forum post.
- * @param int $topic_id The topic ID of the existing forum topic.
- * @param mixed $page The page number where the new forum post should reside.
- *	  Optional.
+ * @param int    $topic_id  The topic ID of the existing forum topic.
+ * @param mixed  $page      The page number where the new forum post should reside. Optional.
+ *
  * @return mixed The forum post ID on success. Boolean false on failure.
  */
 function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page = false ) {
@@ -502,6 +507,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
  * @since BuddyPress (1.1.0)
  *
  * @param int $topic_id The ID of the topic to be deleted.
+ *
  * @return bool True if the delete routine went through properly.
  */
 function groups_delete_group_forum_topic( $topic_id ) {
@@ -564,10 +570,11 @@ function groups_delete_group_forum_topic( $topic_id ) {
  *
  * @since BuddyPress (1.1.0)
  *
- * @param int $post_id The ID of the post you want to delete.
- * @param int $topic_id Optional. The topic to which the post belongs. This
- *        value isn't used in the function but is passed along to do_action()
- *        hooks.
+ * @param int      $post_id  The ID of the post you want to delete.
+ * @param int|bool $topic_id Optional. The topic to which the post belongs. This
+ *                           value isn't used in the function but is passed along
+ *                           to do_action() hooks.
+ *
  * @return bool True on success.
  */
 function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
@@ -616,7 +623,8 @@ function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
  * @since BuddyPress (1.5.0)
  *
  * @param string $type Either 'newest', 'popular', 'unreplied', 'tags'.
- *        Default: 'newest'.
+ *                     Default: 'newest'.
+ *
  * @return int The topic count.
  */
 function groups_total_public_forum_topic_count( $type = 'newest' ) {
@@ -636,9 +644,10 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
  *
  * @since BuddyPress (1.5.0)
  *
- * @param string $status Which groups to count. 'public', 'private', 'hidden',
- *        'all'. Default: 'public'.
- * @param string $search_terms Optional. Limit by a search term.
+ * @param string      $status       Which groups to count. 'public', 'private', 'hidden',
+ *                                  'all'. Default: 'public'.
+ * @param string|bool $search_terms Optional. Limit by a search term.
+ *
  * @return int The topic count.
  */
 function groups_total_forum_topic_count( $status = 'public', $search_terms = false ) {

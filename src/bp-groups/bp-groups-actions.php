@@ -455,7 +455,7 @@ add_action( 'bp_actions', 'groups_action_leave_group' );
 /**
  * Sort the group creation steps.
  *
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function groups_action_sort_creation_steps() {
 
@@ -507,7 +507,7 @@ add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
  *
  * @since BuddyPress (1.2.0)
  *
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function groups_action_group_feed() {
 
