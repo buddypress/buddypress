@@ -549,7 +549,7 @@ class BP_Admin {
 			<?php endif; ?>
 
 			<div class="headline-feature">
-				<h3><?php esc_html_e( 'Upload Profile Pictures with a Drag and a Drop', 'buddypress' ); ?></h3>
+				<h3><?php esc_html_e( 'Upload Profile Pictures with Drag and Drop', 'buddypress' ); ?></h3>
 
 				<div class="featured-image">
 					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/avatar-ui.gif' ); ?>" alt="<?php esc_attr_e( 'Revamped Profile Picture Upload UI', 'buddypress' ); ?>">
@@ -557,7 +557,7 @@ class BP_Admin {
 
 				<div class="feature-section">
 					<h3><?php esc_html_e( 'Built with the Attachments API, the new foundation for BuddyPress media management.', 'buddypress' ); ?></h3>
-					<p><?php esc_html_e( 'You can drag and drop any image you choose to upload as your profile photo. The interface is mobile-ready and now includes integration with phone or laptop cameras. This is an example of what can be developed using the new Attachments API, the long-awaited foundation for media-related BuddyPress components and features.', 'buddypress' ); ?> <a href="https://codex.buddypress.org/plugindev/bp_attachment/"><?php esc_html_e( 'Learn more &rarr;', 'buddypress' ); ?></a></p>
+					<p><?php esc_html_e( 'You can drag and drop any image you choose to upload as your profile photo. The interface is mobile-ready and now includes integration with phone and laptop cameras. This is an example of what can be developed using the new Attachments API, the long-awaited foundation for media-related BuddyPress components and features.', 'buddypress' ); ?> <a href="https://codex.buddypress.org/plugindev/bp_attachment/"><?php esc_html_e( 'Learn more &rarr;', 'buddypress' ); ?></a></p>
 				</div>
 
 				<div class="clear"></div>
