@@ -30,6 +30,29 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP6475
+	 */
+	public function test_member_directory_when_nested_under_wp_page() {
+		$p = $this->factory->post->create( array(
+			'post_type' => 'page',
+			'post_name' => 'foo',
+		) );
+
+		$members_page = get_page_by_path( 'members' );
+
+		wp_update_post( array(
+			'ID' => $members_page->ID,
+			'post_parent' => $p,
+		) );
+
+		$members_page_permalink = bp_get_root_domain() . '/foo/members/';
+		$this->go_to( $members_page_permalink );
+
+		$this->assertTrue( bp_is_members_component() );
+		$this->assertEquals( '', bp_current_action() );
+	}
+
+	/**
 	 * @ticket BP6286
 	 * @group member_types
 	 */

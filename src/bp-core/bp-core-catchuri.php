@@ -315,10 +315,10 @@ function bp_core_set_uri_globals() {
 					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
 					$bp->current_component = '';
 				}
-			}
 
-			// Reset the offset
-			$uri_offset = 0;
+				// Reset the offset
+				$uri_offset = 0;
+			}
 		}
 	}
 
