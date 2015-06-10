@@ -113,7 +113,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 		} elseif ( $r['user_id'] == bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
 		} else {
-			$user_domain = bp_core_get_user_domain( $user_id );
+			$user_domain = bp_core_get_user_domain( $r['user_id'] );
 		}
 
 		// thread ID
