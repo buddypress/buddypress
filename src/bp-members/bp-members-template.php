@@ -13,6 +13,35 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Output the profile component slug.
+ *
+ * @since BuddyPress (2.4.0)
+ *
+ * @uses bp_get_profile_slug()
+ */
+function bp_profile_slug() {
+	echo bp_get_profile_slug();
+}
+	/**
+	 * Return the profile component slug.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @return string
+	 */
+	function bp_get_profile_slug() {
+
+		/**
+		 * Filters the profile component slug.
+		 *
+		 * @since BuddyPress (2.4.0)
+		 *
+		 * @param string $slug Profile component slug.
+		 */
+		return apply_filters( 'bp_get_profile_slug', buddypress()->profile->slug );
+	}
+
+/**
  * Output the members component slug.
  *
  * @since BuddyPress (1.5.0)
