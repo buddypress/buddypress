@@ -131,6 +131,9 @@ function bp_the_message_star_action_link( $args = array() ) {
 			return '';
 		}
 
+		// Define local variables
+		$retval = $bulk_attr = '';
+
 		// thread ID
 		if ( (int) $r['thread_id'] > 0 ) {
 
