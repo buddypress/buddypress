@@ -67,7 +67,7 @@ class BP_Notifications_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_NOTIFICATIONS_SLUG' ) ) {
+		if ( ! defined( 'BP_NOTIFICATIONS_SLUG' ) ) {
 			define( 'BP_NOTIFICATIONS_SLUG', $this->id );
 		}
 
@@ -103,26 +103,6 @@ class BP_Notifications_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Only grab count if we're on a user page and current user has access
-		if ( bp_is_user() && bp_user_has_access() ) {
-			$count    = bp_notifications_get_unread_notification_count( bp_displayed_user_id() );
-			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf( _x( 'Notifications <span class="%s">%s</span>', 'Profile screen nav', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) );
-		} else {
-			$nav_name = _x( 'Notifications', 'Profile screen nav', 'buddypress' );
-		}
-
-		// Add 'Notifications' to the main navigation
-		$main_nav = array(
-			'name'                    => $nav_name,
-			'slug'                    => $this->slug,
-			'position'                => 30,
-			'show_for_displayed_user' => bp_core_can_edit_settings(),
-			'screen_function'         => 'bp_notifications_screen_unread',
-			'default_subnav_slug'     => 'unread',
-			'item_css_id'             => $this->id,
-		);
-
 		// Determine user to use
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
@@ -132,28 +112,50 @@ class BP_Notifications_Component extends BP_Component {
 			return;
 		}
 
-		$notifications_link = trailingslashit( $user_domain . bp_get_notifications_slug() );
+		$access             = bp_core_can_edit_settings();
+		$slug               = bp_get_notifications_slug();
+		$notifications_link = trailingslashit( $user_domain . $slug );
+
+		// Only grab count if we're on a user page and current user has access
+		if ( bp_is_user() && bp_user_has_access() ) {
+			$count    = bp_notifications_get_unread_notification_count( bp_displayed_user_id() );
+			$class    = ( 0 === $count ) ? 'no-count' : 'count';
+			$nav_name = sprintf( _x( 'Notifications <span class="%s">%s</span>', 'Profile screen nav', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );
+		} else {
+			$nav_name = _x( 'Notifications', 'Profile screen nav', 'buddypress' );
+		}
+
+		// Add 'Notifications' to the main navigation
+		$main_nav = array(
+			'name'                    => $nav_name,
+			'slug'                    => $slug,
+			'position'                => 30,
+			'show_for_displayed_user' => $access,
+			'screen_function'         => 'bp_notifications_screen_unread',
+			'default_subnav_slug'     => 'unread',
+			'item_css_id'             => $this->id,
+		);
 
 		// Add the subnav items to the notifications nav item
 		$sub_nav[] = array(
 			'name'            => _x( 'Unread', 'Notification screen nav', 'buddypress' ),
 			'slug'            => 'unread',
 			'parent_url'      => $notifications_link,
-			'parent_slug'     => bp_get_notifications_slug(),
+			'parent_slug'     => $slug,
 			'screen_function' => 'bp_notifications_screen_unread',
 			'position'        => 10,
 			'item_css_id'     => 'notifications-my-notifications',
-			'user_has_access' => bp_core_can_edit_settings(),
+			'user_has_access' => $access,
 		);
 
 		$sub_nav[] = array(
 			'name'            => _x( 'Read', 'Notification screen nav', 'buddypress' ),
 			'slug'            => 'read',
 			'parent_url'      => $notifications_link,
-			'parent_slug'     => bp_get_notifications_slug(),
+			'parent_slug'     => $slug,
 			'screen_function' => 'bp_notifications_screen_read',
 			'position'        => 20,
-			'user_has_access' => bp_core_can_edit_settings(),
+			'user_has_access' => $access,
 		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
@@ -176,16 +178,16 @@ class BP_Notifications_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$notifications_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
+			$notifications_link = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
 
 			// Pending notification requests
 			$count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
 			if ( ! empty( $count ) ) {
-				$title  = sprintf( _x( 'Notifications <span class="count">%s</span>', 'My Account Notification pending', 'buddypress' ), number_format_i18n( $count ) );
-				$unread = sprintf( _x( 'Unread <span class="count">%s</span>', 'My Account Notification pending', 'buddypress' ), number_format_i18n( $count ) );
+				$title  = sprintf( _x( 'Notifications <span class="count">%s</span>', 'My Account Notification pending', 'buddypress' ), bp_core_number_format( $count ) );
+				$unread = sprintf( _x( 'Unread <span class="count">%s</span>',        'My Account Notification pending', 'buddypress' ), bp_core_number_format( $count ) );
 			} else {
-				$title  = _x( 'Notifications', 'My Account Notification', 'buddypress' );
-				$unread = _x( 'Unread', 'My Account Notification sub nav', 'buddypress' );
+				$title  = _x( 'Notifications', 'My Account Notification',         'buddypress' );
+				$unread = _x( 'Unread',        'My Account Notification sub nav', 'buddypress' );
 			}
 
 			// Add the "My Account" sub menus
@@ -193,7 +195,7 @@ class BP_Notifications_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => trailingslashit( $notifications_link ),
+				'href'   => $notifications_link
 			);
 
 			// Unread
@@ -201,7 +203,7 @@ class BP_Notifications_Component extends BP_Component {
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-unread',
 				'title'  => $unread,
-				'href'   => trailingslashit( $notifications_link ),
+				'href'   => $notifications_link
 			);
 
 			// Read
@@ -222,10 +224,11 @@ class BP_Notifications_Component extends BP_Component {
 	 * @since BuddyPress (1.9.0)
 	 */
 	public function setup_title() {
-		$bp = buddypress();
 
 		// Adjust title
 		if ( bp_is_notifications_component() ) {
+			$bp = buddypress();
+
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __( 'Notifications', 'buddypress' );
 			} else {

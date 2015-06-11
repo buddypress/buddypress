@@ -30,8 +30,6 @@ class BP_Settings_Component extends BP_Component {
 
 	/**
 	 * Include files
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
 	 */
 	public function includes( $includes = array() ) {
 		parent::includes( array(
@@ -53,8 +51,9 @@ class BP_Settings_Component extends BP_Component {
 	public function setup_globals( $args = array() ) {
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_SETTINGS_SLUG' ) )
+		if ( ! defined( 'BP_SETTINGS_SLUG' ) ) {
 			define( 'BP_SETTINGS_SLUG', $this->id );
+		}
 
 		// All globals for settings component.
 		parent::setup_globals( array(
@@ -68,16 +67,6 @@ class BP_Settings_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Add the settings navigation item
-		$main_nav = array(
-			'name'                    => __( 'Settings', 'buddypress' ),
-			'slug'                    => $this->slug,
-			'position'                => 100,
-			'show_for_displayed_user' => bp_core_can_edit_settings(),
-			'screen_function'         => 'bp_settings_screen_general',
-			'default_subnav_slug'     => 'general'
-		);
-
 		// Determine user to use
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
@@ -87,17 +76,29 @@ class BP_Settings_Component extends BP_Component {
 			return;
 		}
 
-		$settings_link = trailingslashit( $user_domain . $this->slug );
+		$access        = bp_core_can_edit_settings();
+		$slug          = bp_get_settings_slug();
+		$settings_link = trailingslashit( $user_domain . $slug );
+
+		// Add the settings navigation item
+		$main_nav = array(
+			'name'                    => __( 'Settings', 'buddypress' ),
+			'slug'                    => $slug,
+			'position'                => 100,
+			'show_for_displayed_user' => $access,
+			'screen_function'         => 'bp_settings_screen_general',
+			'default_subnav_slug'     => 'general'
+		);
 
 		// Add General Settings nav item
 		$sub_nav[] = array(
 			'name'            => __( 'General', 'buddypress' ),
 			'slug'            => 'general',
 			'parent_url'      => $settings_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'bp_settings_screen_general',
 			'position'        => 10,
-			'user_has_access' => bp_core_can_edit_settings()
+			'user_has_access' => $access
 		);
 
 		// Add Email nav item. Formerly called 'Notifications', we
@@ -106,10 +107,10 @@ class BP_Settings_Component extends BP_Component {
 			'name'            => __( 'Email', 'buddypress' ),
 			'slug'            => 'notifications',
 			'parent_url'      => $settings_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'bp_settings_screen_notification',
 			'position'        => 20,
-			'user_has_access' => bp_core_can_edit_settings()
+			'user_has_access' => $access
 		);
 
 		// Add Spam Account nav item
@@ -118,7 +119,7 @@ class BP_Settings_Component extends BP_Component {
 				'name'            => __( 'Capabilities', 'buddypress' ),
 				'slug'            => 'capabilities',
 				'parent_url'      => $settings_link,
-				'parent_slug'     => $this->slug,
+				'parent_slug'     => $slug,
 				'screen_function' => 'bp_settings_screen_capabilities',
 				'position'        => 80,
 				'user_has_access' => ! bp_is_my_profile()
@@ -131,7 +132,7 @@ class BP_Settings_Component extends BP_Component {
 				'name'            => __( 'Delete Account', 'buddypress' ),
 				'slug'            => 'delete-account',
 				'parent_url'      => $settings_link,
-				'parent_slug'     => $this->slug,
+				'parent_slug'     => $slug,
 				'screen_function' => 'bp_settings_screen_delete_account',
 				'position'        => 90,
 				'user_has_access' => ! is_super_admin( bp_displayed_user_id() )
@@ -146,22 +147,18 @@ class BP_Settings_Component extends BP_Component {
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
-		// The instance
-		$bp = buddypress();
-
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain   = bp_loggedin_user_domain();
-			$settings_link = trailingslashit( $user_domain . $this->slug );
+			$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
 
 			// Add main Settings menu
 			$wp_admin_nav[] = array(
-				'parent' => $bp->my_account_menu_id,
+				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => __( 'Settings', 'buddypress' ),
-				'href'   => trailingslashit( $settings_link )
+				'href'   => $settings_link
 			);
 
 			// General Account
@@ -169,7 +166,7 @@ class BP_Settings_Component extends BP_Component {
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-general',
 				'title'  => __( 'General', 'buddypress' ),
-				'href'   => trailingslashit( $settings_link . 'general' )
+				'href'   => $settings_link
 			);
 
 			// Notifications - only add the tab when there is something to display there.

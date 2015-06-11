@@ -90,7 +90,7 @@ class BP_Messages_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_MESSAGES_SLUG' ) ) {
+		if ( ! defined( 'BP_MESSAGES_SLUG' ) ) {
 			define( 'BP_MESSAGES_SLUG', $this->id );
 		}
 
@@ -129,26 +129,6 @@ class BP_Messages_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Only grab count if we're on a user page and current user has access
-		if ( bp_is_user() && bp_user_has_access() ) {
-			$count    = bp_get_total_unread_messages_count();
-			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf( __( 'Messages <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) );
-		} else {
-			$nav_name = __( 'Messages', 'buddypress' );
-		}
-
-		// Add 'Messages' to the main navigation
-		$main_nav = array(
-			'name'                    => $nav_name,
-			'slug'                    => $this->slug,
-			'position'                => 50,
-			'show_for_displayed_user' => bp_core_can_edit_settings(),
-			'screen_function'         => 'messages_screen_inbox',
-			'default_subnav_slug'     => 'inbox',
-			'item_css_id'             => $this->id
-		);
-
 		// Determine user to use
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
@@ -158,18 +138,39 @@ class BP_Messages_Component extends BP_Component {
 			return;
 		}
 
-		// Link to user messages
-		$messages_link = trailingslashit( $user_domain . $this->slug );
+		$access        = bp_core_can_edit_settings();
+		$slug          = bp_get_messages_slug();
+		$messages_link = trailingslashit( $user_domain . $slug );
+
+		// Only grab count if we're on a user page and current user has access
+		if ( bp_is_user() && bp_user_has_access() ) {
+			$count    = bp_get_total_unread_messages_count();
+			$class    = ( 0 === $count ) ? 'no-count' : 'count';
+			$nav_name = sprintf( __( 'Messages <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );
+		} else {
+			$nav_name = __( 'Messages', 'buddypress' );
+		}
+
+		// Add 'Messages' to the main navigation
+		$main_nav = array(
+			'name'                    => $nav_name,
+			'slug'                    => $slug,
+			'position'                => 50,
+			'show_for_displayed_user' => $access,
+			'screen_function'         => 'messages_screen_inbox',
+			'default_subnav_slug'     => 'inbox',
+			'item_css_id'             => $this->id
+		);
 
 		// Add the subnav items to the profile
 		$sub_nav[] = array(
 			'name'            => __( 'Inbox', 'buddypress' ),
 			'slug'            => 'inbox',
 			'parent_url'      => $messages_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'messages_screen_inbox',
 			'position'        => 10,
-			'user_has_access' => bp_core_can_edit_settings()
+			'user_has_access' => $access
 		);
 
 		if ( bp_is_active( $this->id, 'star' ) ) {
@@ -177,10 +178,10 @@ class BP_Messages_Component extends BP_Component {
 				'name'            => __( 'Starred', 'buddypress' ),
 				'slug'            => bp_get_messages_starred_slug(),
 				'parent_url'      => $messages_link,
-				'parent_slug'     => $this->slug,
+				'parent_slug'     => $slug,
 				'screen_function' => 'bp_messages_star_screen',
 				'position'        => 11,
-				'user_has_access' => bp_core_can_edit_settings()
+				'user_has_access' => $access
 			);
 		}
 
@@ -188,20 +189,20 @@ class BP_Messages_Component extends BP_Component {
 			'name'            => __( 'Sent', 'buddypress' ),
 			'slug'            => 'sentbox',
 			'parent_url'      => $messages_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'messages_screen_sentbox',
 			'position'        => 20,
-			'user_has_access' => bp_core_can_edit_settings()
+			'user_has_access' => $access
 		);
 
 		$sub_nav[] = array(
 			'name'            => __( 'Compose', 'buddypress' ),
 			'slug'            => 'compose',
 			'parent_url'      => $messages_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'messages_screen_compose',
 			'position'        => 30,
-			'user_has_access' => bp_core_can_edit_settings()
+			'user_has_access' => $access
 		);
 
 		if ( bp_current_user_can( 'bp_moderate' ) ) {
@@ -209,10 +210,10 @@ class BP_Messages_Component extends BP_Component {
 				'name'            => __( 'Notices', 'buddypress' ),
 				'slug'            => 'notices',
 				'parent_url'      => $messages_link,
-				'parent_slug'     => $this->slug,
+				'parent_slug'     => $slug,
 				'screen_function' => 'messages_screen_notices',
 				'position'        => 90,
-				'user_has_access' => bp_current_user_can( 'bp_moderate' )
+				'user_has_access' => true
 			);
 		}
 
@@ -226,20 +227,18 @@ class BP_Messages_Component extends BP_Component {
 	 *                            for details.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		$bp = buddypress();
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain   = bp_loggedin_user_domain();
-			$messages_link = trailingslashit( $user_domain . $this->slug );
+			$messages_link = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
 
 			// Unread message count
 			$count = messages_get_unread_count();
 			if ( !empty( $count ) ) {
-				$title = sprintf( __( 'Messages <span class="count">%s</span>', 'buddypress' ), number_format_i18n( $count ) );
-				$inbox = sprintf( __( 'Inbox <span class="count">%s</span>',    'buddypress' ), number_format_i18n( $count ) );
+				$title = sprintf( __( 'Messages <span class="count">%s</span>', 'buddypress' ), bp_core_number_format( $count ) );
+				$inbox = sprintf( __( 'Inbox <span class="count">%s</span>',    'buddypress' ), bp_core_number_format( $count ) );
 			} else {
 				$title = __( 'Messages', 'buddypress' );
 				$inbox = __( 'Inbox',    'buddypress' );
@@ -247,10 +246,10 @@ class BP_Messages_Component extends BP_Component {
 
 			// Add main Messages menu
 			$wp_admin_nav[] = array(
-				'parent' => $bp->my_account_menu_id,
+				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => trailingslashit( $messages_link )
+				'href'   => $messages_link
 			);
 
 			// Inbox
@@ -258,7 +257,7 @@ class BP_Messages_Component extends BP_Component {
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-inbox',
 				'title'  => $inbox,
-				'href'   => trailingslashit( $messages_link . 'inbox' )
+				'href'   => $messages_link
 			);
 
 			// Starred
@@ -305,9 +304,10 @@ class BP_Messages_Component extends BP_Component {
 	 * Set up the title for pages and <title>.
 	 */
 	public function setup_title() {
-		$bp = buddypress();
 
 		if ( bp_is_messages_component() ) {
+			$bp = buddypress();
+
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __( 'My Messages', 'buddypress' );
 			} else {

@@ -171,7 +171,17 @@ class BP_XProfile_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		$sub_nav = array();
+		// Determine user to use
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			return;
+		}
+
+		$slug         = 
+		$profile_link = trailingslashit( $user_domain . $this->slug );
 
 		// Add 'Profile' to the main navigation
 		$main_nav = array(
@@ -182,17 +192,6 @@ class BP_XProfile_Component extends BP_Component {
 			'default_subnav_slug' => 'public',
 			'item_css_id'         => $this->id
 		);
-
-		// Determine user to use
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
-			return;
-		}
-
-		$profile_link = trailingslashit( $user_domain . $this->slug );
 
 		// Add the subnav items to the profile
 		$sub_nav[] = array(
@@ -275,23 +274,19 @@ class BP_XProfile_Component extends BP_Component {
 	 * Set up the Toolbar
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		$bp = buddypress();
-
-		// Prevent debug notices
-		$wp_admin_nav = array();
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 
 			// Profile link
-			$profile_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
+			$profile_link = trailingslashit( bp_loggedin_user_domain() . bp_get_profile_slug() );
 
 			// Add the "Profile" sub menu
 			$wp_admin_nav[] = array(
-				'parent' => $bp->my_account_menu_id,
+				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => _x( 'Profile', 'My Account Profile', 'buddypress' ),
-				'href'   => trailingslashit( $profile_link )
+				'href'   => $profile_link
 			);
 
 			// View Profile
@@ -299,7 +294,7 @@ class BP_XProfile_Component extends BP_Component {
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-public',
 				'title'  => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
-				'href'   => trailingslashit( $profile_link . 'public' )
+				'href'   => $profile_link
 			);
 
 			// Edit Profile
@@ -338,9 +333,10 @@ class BP_XProfile_Component extends BP_Component {
 	 * Sets up the title for pages and <title>
 	 */
 	public function setup_title() {
-		$bp = buddypress();
 
 		if ( bp_is_profile_component() ) {
+			$bp = buddypress();
+
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = _x( 'My Profile', 'Page title', 'buddypress' );
 			} else {
@@ -383,6 +379,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * @return array
 	 */
 	public function setup_settings_admin_nav( $wp_admin_nav ) {
+
 		// Setup the logged in user variables
 		$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
 

@@ -141,7 +141,7 @@ class BP_Members_Component extends BP_Component {
 
 		/** Profiles Fallback *************************************************/
 
-		if ( !bp_is_active( 'xprofile' ) ) {
+		if ( ! bp_is_active( 'xprofile' ) ) {
 			$bp->profile       = new stdClass;
 			$bp->profile->slug = 'profile';
 			$bp->profile->id   = 'profile';
@@ -230,28 +230,34 @@ class BP_Members_Component extends BP_Component {
 			return;
 		}
 
-		$bp = buddypress();
+		// Determine user to use
+		if ( bp_displayed_user_domain() ) {
+			$user_domain = bp_displayed_user_domain();
+		} elseif ( bp_loggedin_user_domain() ) {
+			$user_domain = bp_loggedin_user_domain();
+		} else {
+			return;
+		}
+
+		$slug         = bp_get_profile_slug();
+		$profile_link = trailingslashit( $user_domain . $slug );
 
 		// Setup the main navigation
 		$main_nav = array(
 			'name'                => _x( 'Profile', 'Member profile main navigation', 'buddypress' ),
-			'slug'                => $bp->profile->slug,
+			'slug'                => $slug,
 			'position'            => 20,
 			'screen_function'     => 'bp_members_screen_display_profile',
 			'default_subnav_slug' => 'public',
-			'item_css_id'         => $bp->profile->id
+			'item_css_id'         => buddypress()->profile->id
 		);
-
-		// User links
-		$user_domain  = bp_displayed_user_domain() ? bp_displayed_user_domain() : bp_loggedin_user_domain();
-		$profile_link = trailingslashit( $user_domain . $bp->profile->slug );
 
 		// Setup the subnav items for the member profile
 		$sub_nav[] = array(
 			'name'            => _x( 'View', 'Member profile view', 'buddypress' ),
 			'slug'            => 'public',
 			'parent_url'      => $profile_link,
-			'parent_slug'     => $bp->profile->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'bp_members_screen_display_profile',
 			'position'        => 10
 		);

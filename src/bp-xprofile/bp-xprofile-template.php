@@ -521,7 +521,7 @@ function bp_the_profile_group_edit_form_action() {
 		 * @param string $value URL for the action attribute on the
 		 *                      profile group edit form.
 		 */
-		return apply_filters( 'bp_get_the_profile_group_edit_form_action', trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . $group->id ) );
+		return apply_filters( 'bp_get_the_profile_group_edit_form_action', trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . $group->id ) );
 	}
 
 function bp_the_profile_group_field_ids() {
@@ -1028,7 +1028,7 @@ function bp_get_profile_group_tabs() {
 		}
 
 		// Build the profile field group link
-		$link   = trailingslashit( bp_displayed_user_domain() . buddypress()->profile->slug . '/edit/group/' . $groups[ $i ]->id );
+		$link   = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . $groups[ $i ]->id );
 
 		// Add tab to end of tabs array
 		$tabs[] = sprintf(
@@ -1135,7 +1135,6 @@ function bp_avatar_delete_link() {
 	echo bp_get_avatar_delete_link();
 }
 	function bp_get_avatar_delete_link() {
-		$bp = buddypress();
 
 		/**
 		 * Filters the link used for deleting an avatar.
@@ -1144,18 +1143,16 @@ function bp_avatar_delete_link() {
 		 *
 		 * @param string $value Nonced URL used for deleting an avatar.
 		 */
-		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . $bp->profile->slug . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
+		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_profile_slug() . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
 	}
 
 function bp_edit_profile_button() {
-	$bp = buddypress();
-
 	bp_button( array(
 		'id'                => 'edit_profile',
 		'component'         => 'xprofile',
 		'must_be_logged_in' => true,
 		'block_self'        => true,
-		'link_href'         => trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit' ),
+		'link_href'         => trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit' ),
 		'link_class'        => 'edit',
 		'link_text'         => __( 'Edit Profile', 'buddypress' ),
 		'link_title'        => __( 'Edit Profile', 'buddypress' ),

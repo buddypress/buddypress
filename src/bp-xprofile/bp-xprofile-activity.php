@@ -95,7 +95,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
 	// his profile", requires that we know Joe's gender, which we don't. If
 	// your language doesn't have this restriction, feel free to use a more
 	// natural translation.
-	$profile_link = trailingslashit( bp_core_get_user_domain( $activity->user_id ) . buddypress()->profile->slug );
+	$profile_link = trailingslashit( bp_core_get_user_domain( $activity->user_id ) . bp_get_profile_slug() );
 	$action	      = sprintf( __( '%s&#8217;s profile was updated', 'buddypress' ), '<a href="' . $profile_link . '">' . bp_core_get_user_displayname( $activity->user_id ) . '</a>' );
 
 	/**
@@ -317,7 +317,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 	}
 
 	// If we've reached this point, assemble and post the activity item
-	$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . buddypress()->profile->slug );
+	$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . bp_get_profile_slug() );
 
 	return (bool) xprofile_record_activity( array(
 		'user_id'      => $user_id,

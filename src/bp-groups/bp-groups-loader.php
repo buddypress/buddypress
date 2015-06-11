@@ -120,8 +120,9 @@ class BP_Groups_Component extends BP_Component {
 			'notifications'
 		);
 
-		if ( is_admin() )
+		if ( is_admin() ) {
 			$includes[] = 'admin';
+		}
 
 		parent::includes( $includes );
 	}
@@ -142,8 +143,9 @@ class BP_Groups_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Define a slug, if necessary
-		if ( !defined( 'BP_GROUPS_SLUG' ) )
+		if ( ! defined( 'BP_GROUPS_SLUG' ) ) {
 			define( 'BP_GROUPS_SLUG', $this->id );
+		}
 
 		// Global tables for groups component
 		$global_tables = array(
@@ -213,33 +215,38 @@ class BP_Groups_Component extends BP_Component {
 			array_shift( $bp->action_variables );
 
 			// Using "item" not "group" for generic support in other components.
-			if ( bp_current_user_can( 'bp_moderate' ) )
+			if ( bp_current_user_can( 'bp_moderate' ) ) {
 				bp_update_is_item_admin( true, 'groups' );
-			else
+			} else {
 				bp_update_is_item_admin( groups_is_user_admin( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
+			}
 
 			// If the user is not an admin, check if they are a moderator
-			if ( !bp_is_item_admin() )
+			if ( ! bp_is_item_admin() ) {
 				bp_update_is_item_mod  ( groups_is_user_mod  ( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
+			}
 
 			// Is the logged in user a member of the group?
-			if ( ( is_user_logged_in() && groups_is_user_member( bp_loggedin_user_id(), $this->current_group->id ) ) )
+			if ( ( is_user_logged_in() && groups_is_user_member( bp_loggedin_user_id(), $this->current_group->id ) ) ) {
 				$this->current_group->is_user_member = true;
-			else
+			} else {
 				$this->current_group->is_user_member = false;
+			}
 
 			// Should this group be visible to the logged in user?
-			if ( 'public' == $this->current_group->status || $this->current_group->is_user_member )
+			if ( 'public' == $this->current_group->status || $this->current_group->is_user_member ) {
 				$this->current_group->is_visible = true;
-			else
+			} else {
 				$this->current_group->is_visible = false;
+			}
 
 			// If this is a private or hidden group, does the user have access?
 			if ( 'private' == $this->current_group->status || 'hidden' == $this->current_group->status ) {
-				if ( $this->current_group->is_user_member && is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) )
+				if ( $this->current_group->is_user_member && is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) ) {
 					$this->current_group->user_has_access = true;
-				else
+				} else {
 					$this->current_group->user_has_access = false;
+				}
 			} else {
 				$this->current_group->user_has_access = true;
 			}
@@ -345,7 +352,6 @@ class BP_Groups_Component extends BP_Component {
 			return;
 		}
 
-
 		/**
 		 * Filters the default groups extension.
 		 *
@@ -356,26 +362,28 @@ class BP_Groups_Component extends BP_Component {
 		 */
 		$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
 
-		if ( !bp_current_action() ) {
-			buddypress()->current_action = $this->default_extension;
+		$bp = buddypress();
+
+		if ( ! bp_current_action() ) {
+			$bp->current_action = $this->default_extension;
 		}
 
 		// Prepare for a redirect to the canonical URL
-		buddypress()->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
+		$bp->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
 
 		if ( bp_current_action() ) {
-			buddypress()->canonical_stack['action'] = bp_current_action();
+			$bp->canonical_stack['action'] = bp_current_action();
 		}
 
-		if ( !empty( buddypress()->action_variables ) ) {
-			buddypress()->canonical_stack['action_variables'] = bp_action_variables();
+		if ( ! empty( $bp->action_variables ) ) {
+			$bp->canonical_stack['action_variables'] = bp_action_variables();
 		}
 
 		// When viewing the default extension, the canonical URL should not have
 		// that extension's slug, unless more has been tacked onto the URL via
 		// action variables
-		if ( bp_is_current_action( $this->default_extension ) && empty( buddypress()->action_variables ) )  {
-			unset( buddypress()->canonical_stack['action'] );
+		if ( bp_is_current_action( $this->default_extension ) && empty( $bp->action_variables ) )  {
+			unset( $bp->canonical_stack['action'] );
 		}
 	}
 
@@ -391,25 +399,6 @@ class BP_Groups_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Only grab count if we're on a user page
-		if ( bp_is_user() ) {
-			$count    = bp_get_total_group_count_for_user();
-			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf( _x( 'Groups <span class="%s">%s</span>', 'Group screen nav with counter', 'buddypress' ), esc_attr( $class ), number_format_i18n( $count ) );
-		} else {
-			$nav_name = _x( 'Groups', 'Group screen nav without counter', 'buddypress' );
-		}
-
-		// Add 'Groups' to the main navigation
-		$main_nav = array(
-			'name'                => $nav_name,
-			'slug'                => $this->slug,
-			'position'            => 70,
-			'screen_function'     => 'groups_screen_my_groups',
-			'default_subnav_slug' => 'my-groups',
-			'item_css_id'         => $this->id
-		);
-
 		// Determine user to use
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
@@ -419,15 +408,37 @@ class BP_Groups_Component extends BP_Component {
 			$user_domain = false;
 		}
 
-		if ( !empty( $user_domain ) ) {
-			$groups_link = trailingslashit( $user_domain . $this->slug );
+		// Only grab count if we're on a user page
+		if ( bp_is_user() ) {
+			$count    = bp_get_total_group_count_for_user();
+			$class    = ( 0 === $count ) ? 'no-count' : 'count';
+			$nav_name = sprintf( _x( 'Groups <span class="%s">%s</span>', 'Group screen nav with counter', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );
+		} else {
+			$nav_name = _x( 'Groups', 'Group screen nav without counter', 'buddypress' );
+		}
+
+		$slug = bp_get_groups_slug();
+
+		// Add 'Groups' to the main navigation
+		$main_nav = array(
+			'name'                => $nav_name,
+			'slug'                => $slug,
+			'position'            => 70,
+			'screen_function'     => 'groups_screen_my_groups',
+			'default_subnav_slug' => 'my-groups',
+			'item_css_id'         => $this->id
+		);
+
+		if ( ! empty( $user_domain ) ) {
+			$access      = bp_core_can_edit_settings();
+			$groups_link = trailingslashit( $user_domain . $slug );
 
 			// Add the My Groups nav item
 			$sub_nav[] = array(
 				'name'            => __( 'Memberships', 'buddypress' ),
 				'slug'            => 'my-groups',
 				'parent_url'      => $groups_link,
-				'parent_slug'     => $this->slug,
+				'parent_slug'     => $slug,
 				'screen_function' => 'groups_screen_my_groups',
 				'position'        => 10,
 				'item_css_id'     => 'groups-my-groups'
@@ -438,9 +449,9 @@ class BP_Groups_Component extends BP_Component {
 				'name'            => __( 'Invitations', 'buddypress' ),
 				'slug'            => 'invites',
 				'parent_url'      => $groups_link,
-				'parent_slug'     => $this->slug,
+				'parent_slug'     => $slug,
 				'screen_function' => 'groups_screen_group_invites',
-				'user_has_access' => bp_core_can_edit_settings(),
+				'user_has_access' => $access,
 				'position'        => 30
 			);
 
@@ -486,12 +497,12 @@ class BP_Groups_Component extends BP_Component {
 				) {
 
 				$sub_nav[] = array(
-					'name'               => _x( 'Request Membership','Group screen nav', 'buddypress' ),
-					'slug'               => 'request-membership',
-					'parent_url'         => $group_link,
-					'parent_slug'        => $this->current_group->slug,
-					'screen_function'    => 'groups_screen_group_request_membership',
-					'position'           => 30
+					'name'            => _x( 'Request Membership','Group screen nav', 'buddypress' ),
+					'slug'            => 'request-membership',
+					'parent_url'      => $group_link,
+					'parent_slug'     => $this->current_group->slug,
+					'screen_function' => 'groups_screen_group_request_membership',
+					'position'        => 30
 				);
 			}
 
@@ -561,43 +572,43 @@ class BP_Groups_Component extends BP_Component {
 				);
 
 				$sub_nav[] = array_merge( array(
-					'name'            => __( 'Details', 'buddypress' ),
-					'slug'            => 'edit-details',
-					'position'        => 0,
+					'name'     => __( 'Details', 'buddypress' ),
+					'slug'     => 'edit-details',
+					'position' => 0,
 				), $default_params );
 
 				$sub_nav[] = array_merge( array(
-					'name'            => __( 'Settings', 'buddypress' ),
-					'slug'            => 'group-settings',
-					'position'        => 10,
+					'name'     => __( 'Settings', 'buddypress' ),
+					'slug'     => 'group-settings',
+					'position' => 10,
 				), $default_params );
 
 				if ( ! bp_disable_group_avatar_uploads() && buddypress()->avatar->show_avatars ) {
 					$sub_nav[] = array_merge( array(
-						'name'        => __( 'Photo', 'buddypress' ),
-						'slug'        => 'group-avatar',
-						'position'    => 20,
+						'name'     => __( 'Photo', 'buddypress' ),
+						'slug'     => 'group-avatar',
+						'position' => 20,
 					), $default_params );
 				}
 
 				$sub_nav[] = array_merge( array(
-					'name'            => __( 'Members', 'buddypress' ),
-					'slug'            => 'manage-members',
-					'position'        => 30,
+					'name'     => __( 'Members', 'buddypress' ),
+					'slug'     => 'manage-members',
+					'position' => 30,
 				), $default_params );
 
 				if ( 'private' == $this->current_group->status ) {
 					$sub_nav[] = array_merge( array(
-						'name'            => __( 'Requests', 'buddypress' ),
-						'slug'            => 'membership-requests',
-						'position'        => 40,
+						'name'     => __( 'Requests', 'buddypress' ),
+						'slug'     => 'membership-requests',
+						'position' => 40,
 					), $default_params );
 				}
 
 				$sub_nav[] = array_merge( array(
-					'name'            => __( 'Delete', 'buddypress' ),
-					'slug'            => 'delete-group',
-					'position'        => 1000,
+					'name'     => __( 'Delete', 'buddypress' ),
+					'slug'     => 'delete-group',
+					'position' => 1000,
 				), $default_params );
 			}
 
@@ -630,31 +641,29 @@ class BP_Groups_Component extends BP_Component {
 	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
-		$bp = buddypress();
 
 		// Menus for logged in user
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables
-			$user_domain = bp_loggedin_user_domain();
-			$groups_link = trailingslashit( $user_domain . $this->slug );
+			$groups_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
 
 			// Pending group invites
 			$count   = groups_get_invite_count_for_user();
 			$title   = _x( 'Groups', 'My Account Groups', 'buddypress' );
 			$pending = _x( 'No Pending Invites', 'My Account Groups sub nav', 'buddypress' );
 
-			if ( !empty( $count['total'] ) ) {
-				$title   = sprintf( _x( 'Groups <span class="count">%s</span>', 'My Account Groups nav', 'buddypress' ), $count );
-				$pending = sprintf( _x( 'Pending Invites <span class="count">%s</span>', 'My Account Groups sub nav', 'buddypress' ), $count );
+			if ( ! empty( $count['total'] ) ) {
+				$title   = sprintf( _x( 'Groups <span class="count">%s</span>',          'My Account Groups nav',     'buddypress' ), bp_core_number_format( $count ) );
+				$pending = sprintf( _x( 'Pending Invites <span class="count">%s</span>', 'My Account Groups sub nav', 'buddypress' ), bp_core_number_format( $count ) );
 			}
 
 			// Add the "My Account" sub menus
 			$wp_admin_nav[] = array(
-				'parent' => $bp->my_account_menu_id,
+				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => trailingslashit( $groups_link )
+				'href'   => $groups_link
 			);
 
 			// My Groups
@@ -662,7 +671,7 @@ class BP_Groups_Component extends BP_Component {
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-memberships',
 				'title'  => _x( 'Memberships', 'My Account Groups sub nav', 'buddypress' ),
-				'href'   => trailingslashit( $groups_link )
+				'href'   => $groups_link
 			);
 
 			// Invitations
@@ -691,9 +700,9 @@ class BP_Groups_Component extends BP_Component {
 	 * Set up the title for pages and <title>.
 	 */
 	public function setup_title() {
-		$bp = buddypress();
 
 		if ( bp_is_groups_component() ) {
+			$bp = buddypress();
 
 			if ( bp_is_my_profile() && !bp_is_single_item() ) {
 				$bp->bp_options_title = _x( 'Memberships', 'My Groups page <title>', 'buddypress' );

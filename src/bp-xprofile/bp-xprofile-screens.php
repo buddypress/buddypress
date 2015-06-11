@@ -52,17 +52,17 @@ function xprofile_screen_display_profile() {
  */
 function xprofile_screen_edit_profile() {
 
-	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
+	if ( ! bp_is_my_profile() && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
-
-	$bp = buddypress();
+	}
 
 	// Make sure a group is set.
-	if ( !bp_action_variable( 1 ) )
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/1' ) );
+	if ( ! bp_action_variable( 1 ) ) {
+		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/1' ) );
+	}
 
 	// Check the field group exists
-	if ( !bp_is_action_variable( 'group' ) || !xprofile_get_field_group( bp_action_variable( 1 ) ) ) {
+	if ( ! bp_is_action_variable( 'group' ) || ! xprofile_get_field_group( bp_action_variable( 1 ) ) ) {
 		bp_do_404();
 		return;
 	}
@@ -77,8 +77,9 @@ function xprofile_screen_edit_profile() {
 		check_admin_referer( 'bp_xprofile_edit' );
 
 		// Check we have field ID's
-		if ( empty( $_POST['field_ids'] ) )
-			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . bp_action_variable( 1 ) ) );
+		if ( empty( $_POST['field_ids'] ) ) {
+			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . bp_action_variable( 1 ) ) );
+		}
 
 		// Explode the posted field IDs into an array so we know which
 		// fields have been submitted
@@ -180,7 +181,7 @@ function xprofile_screen_edit_profile() {
 			}
 
 			// Redirect back to the edit screen to display the updates and message
-			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . $bp->profile->slug . '/edit/group/' . bp_action_variable( 1 ) ) );
+			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . bp_action_variable( 1 ) ) );
 		}
 	}
 
@@ -211,8 +212,9 @@ function xprofile_screen_edit_profile() {
 function xprofile_screen_change_avatar() {
 
 	// Bail if not the correct screen
-	if ( !bp_is_my_profile() && !bp_current_user_can( 'bp_moderate' ) )
+	if ( ! bp_is_my_profile() && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
+	}
 
 	// Bail if there are action variables
 	if ( bp_action_variables() ) {
@@ -222,8 +224,9 @@ function xprofile_screen_change_avatar() {
 
 	$bp = buddypress();
 
-	if ( ! isset( $bp->avatar_admin ) )
+	if ( ! isset( $bp->avatar_admin ) ) {
 		$bp->avatar_admin = new stdClass();
+	}
 
 	$bp->avatar_admin->step = 'upload-image';
 

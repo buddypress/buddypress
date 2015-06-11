@@ -150,8 +150,9 @@ class BP_Core extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 
-		if ( !is_admin() )
+		if ( ! is_admin() ) {
 			return;
+		}
 
 		$includes = array(
 			'admin'
@@ -178,20 +179,24 @@ class BP_Core extends BP_Component {
 		/** Database **********************************************************/
 
 		// Get the base database prefix
-		if ( empty( $bp->table_prefix ) )
+		if ( empty( $bp->table_prefix ) ) {
 			$bp->table_prefix = bp_core_get_table_prefix();
+		}
 
 		// The domain for the root of the site where the main blog resides
-		if ( empty( $bp->root_domain ) )
+		if ( empty( $bp->root_domain ) ) {
 			$bp->root_domain = bp_core_get_root_domain();
+		}
 
 		// Fetches all of the core BuddyPress settings in one fell swoop
-		if ( empty( $bp->site_options ) )
+		if ( empty( $bp->site_options ) ) {
 			$bp->site_options = bp_core_get_root_options();
+		}
 
 		// The names of the core WordPress pages used to display BuddyPress content
-		if ( empty( $bp->pages ) )
+		if ( empty( $bp->pages ) ) {
 			$bp->pages = bp_core_get_directory_pages();
+		}
 
 		/** Basic current user data *******************************************/
 
@@ -257,55 +262,6 @@ class BP_Core extends BP_Component {
 		 * @since BuddyPress (1.1.0)
 		 */
 		do_action( 'bp_core_setup_globals' );
-	}
-
-	/**
-	 * Set up component navigation.
-	 *
-	 * @since BuddyPress (1.5.0)
-	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
-	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
-	 *        description.
-	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
-	 *        description.
-	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-		$bp = buddypress();
-
-		 // If xprofile component is disabled, revert to WordPress profile
-		if ( !bp_is_active( 'xprofile' ) ) {
-
-			// Fallback values if xprofile is disabled
-			if ( ! isset( $bp->core->profile ) ) {
-				$bp->core->profile = new stdClass;
-			}
-			$bp->core->profile->slug = 'profile';
-			$bp->active_components[$bp->core->profile->slug] = $bp->core->profile->slug;
-
-			// Add 'Profile' to the main navigation
-			$main_nav = array(
-				'name'                => _x( 'Profile', 'Main navigation', 'buddypress' ),
-				'slug'                => $bp->core->profile->slug,
-				'position'            => 20,
-				'screen_function'     => 'bp_core_catch_profile_uri',
-				'default_subnav_slug' => 'public'
-			);
-
-			$profile_link = trailingslashit( bp_loggedin_user_domain() . '/' . $bp->core->profile->slug );
-
-			// Add the subnav items to the profile
-			$sub_nav[] = array(
-				'name'            => _x( 'View', 'Profile sub nav', 'buddypress' ),
-				'slug'            => 'public',
-				'parent_url'      => $profile_link,
-				'parent_slug'     => $bp->core->profile->slug,
-				'screen_function' => 'bp_core_catch_profile_uri'
-			);
-
-			parent::setup_nav( $main_nav, $sub_nav );
-		}
 	}
 
 	/**
