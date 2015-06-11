@@ -143,7 +143,7 @@ class BP_Messages_Component extends BP_Component {
 			'name'                    => $nav_name,
 			'slug'                    => $this->slug,
 			'position'                => 50,
-			'show_for_displayed_user' => false,
+			'show_for_displayed_user' => bp_core_can_edit_settings(),
 			'screen_function'         => 'messages_screen_inbox',
 			'default_subnav_slug'     => 'inbox',
 			'item_css_id'             => $this->id
