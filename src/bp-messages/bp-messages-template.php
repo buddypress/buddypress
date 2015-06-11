@@ -377,6 +377,8 @@ class BP_Messages_Box_Template {
  *                                view will be inferred from the URL.
  *     @type int    $per_page     Number of results to return per page. Default: 10.
  *     @type int    $max          Max results to return. Default: false.
+ *     @type string $type         Type of messages to return. Values: 'all', 'read', 'unread'
+ *                                Default: 'all'
  *     @type string $search_terms Terms to which to limit results. Default:
  *                                the value of $_REQUEST['s'].
  *     @type string $page_arg     URL argument used for the pagination param.
