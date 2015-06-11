@@ -4798,49 +4798,77 @@ function bp_is_first_group_creation_step() {
 	return false;
 }
 
-function bp_new_group_invite_friend_list() {
-	echo bp_get_new_group_invite_friend_list();
+/**
+ * Output a list of friends who can be invited to a group
+ *
+ * @since BuddyPress (1.0.0)
+ */
+function bp_new_group_invite_friend_list( $args = array() ) {
+	echo bp_get_new_group_invite_friend_list( $args );
 }
-	function bp_get_new_group_invite_friend_list( $args = '' ) {
-		$bp = buddypress();
+	/**
+	 * Return a list of friends who can be invited to a group
+	 *
+	 * @since BuddyPress (1.0.0)
+	 *
+	 * @param  array $args
+	 * @return mixed HTML list of checkboxes, or false
+	 */
+	function bp_get_new_group_invite_friend_list( $args = array() ) {
 
-		if ( !bp_is_active( 'friends' ) ) {
+		// Bail if no friends component
+		if ( ! bp_is_active( 'friends' ) ) {
 			return false;
 		}
 
-		$defaults = array(
+		// Parse arguments
+		$r = wp_parse_args( $args, array(
+			'user_id'   => bp_loggedin_user_id(),
 			'group_id'  => false,
 			'separator' => 'li'
-		);
+		) );
 
-		$r = wp_parse_args( $args, $defaults );
-		extract( $r, EXTR_SKIP );
-
-		if ( empty( $group_id ) ) {
-			$group_id = !empty( $bp->groups->new_group_id ) ? $bp->groups->new_group_id : $bp->groups->current_group->id;
+		// No group passed, so look for new or current group ID's
+		if ( empty( $r['group_id'] ) ) {
+			$bp            = buddypress();
+			$r['group_id'] = ! empty( $bp->groups->new_group_id )
+				? $bp->groups->new_group_id
+				: $bp->groups->current_group->id;
 		}
 
-		if ( $friends = friends_get_friends_invite_list( bp_loggedin_user_id(), $group_id ) ) {
-			$invites = groups_get_invites_for_group( bp_loggedin_user_id(), $group_id );
+		// Setup empty items array
+		$items = array();
+
+		// Get user's friends who are not in this group already
+		$friends = friends_get_friends_invite_list( $r['user_id'], $r['group_id'] );
+
+		if ( ! empty( $friends ) ) {
+
+			// Get already invited users
+			$invites = groups_get_invites_for_group( $r['user_id'], $r['group_id'] );
 
 			for ( $i = 0, $count = count( $friends ); $i < $count; ++$i ) {
-				$checked = '';
-
-				if ( !empty( $invites ) ) {
-					if ( in_array( $friends[$i]['id'], $invites ) ) {
-						$checked = ' checked="checked"';
-					}
-				}
-
-				$items[] = '<' . $separator . '><input' . $checked . ' type="checkbox" name="friends[]" id="f-' . $friends[$i]['id'] . '" value="' . esc_attr( $friends[$i]['id'] ) . '" /> ' . $friends[$i]['full_name'] . '</' . $separator . '>';
+				$checked = in_array( (int) $friends[ $i ]['id'], (array) $invites );
+				$items[] = '<' . $r['separator'] . '><input' . checked( $checked ) . ' type="checkbox" name="friends[]" id="f-' . esc_attr( $friends[ $i ]['id'] ) . '" value="' . esc_attr( $friends[ $i ]['id'] ) . '" /> ' . esc_html( $friends[ $i ]['full_name'] ) . '</' . $r['separator'] . '>';
 			}
 		}
 
-		if ( !empty( $items ) ) {
-			return implode( "\n", (array) $items );
+		/**
+		 * Filters the array of friends who can be invited to a group.
+		 *
+		 * @since BuddyPress (1.0.0)
+		 *
+		 * @param array $items Array of friends.
+		 */		
+		$invitable_friends = apply_filters( 'bp_get_new_group_invite_friend_list', $items, $r, $args );
+
+		if ( ! empty( $invitable_friends ) && is_array( $invitable_friends ) ) {
+			$retval = implode( "\n", $invitable_friends );
+		} else {
+			$retval = false;
 		}
 
-		return false;
+		return $retval;
 	}
 
 function bp_directory_groups_search_form() {
