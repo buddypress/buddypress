@@ -180,13 +180,14 @@ class BP_XProfile_Component extends BP_Component {
 			return;
 		}
 
-		$slug         = 
-		$profile_link = trailingslashit( $user_domain . $this->slug );
+		$access       = bp_core_can_edit_settings();
+		$slug         = bp_get_profile_slug();
+		$profile_link = trailingslashit( $user_domain . $slug );
 
 		// Add 'Profile' to the main navigation
 		$main_nav = array(
 			'name'                => _x( 'Profile', 'Profile header menu', 'buddypress' ),
-			'slug'                => $this->slug,
+			'slug'                => $slug,
 			'position'            => 20,
 			'screen_function'     => 'xprofile_screen_display_profile',
 			'default_subnav_slug' => 'public',
@@ -198,7 +199,7 @@ class BP_XProfile_Component extends BP_Component {
 			'name'            => _x( 'View', 'Profile header sub menu', 'buddypress' ),
 			'slug'            => 'public',
 			'parent_url'      => $profile_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'xprofile_screen_display_profile',
 			'position'        => 10
 		);
@@ -208,10 +209,10 @@ class BP_XProfile_Component extends BP_Component {
 			'name'            => _x( 'Edit','Profile header sub menu', 'buddypress' ),
 			'slug'            => 'edit',
 			'parent_url'      => $profile_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'xprofile_screen_edit_profile',
 			'position'        => 20,
-			'user_has_access' => bp_core_can_edit_settings()
+			'user_has_access' => $access
 		);
 
 		// Change Avatar
@@ -220,10 +221,10 @@ class BP_XProfile_Component extends BP_Component {
 				'name'            => _x( 'Change Profile Photo', 'Profile header sub menu', 'buddypress' ),
 				'slug'            => 'change-avatar',
 				'parent_url'      => $profile_link,
-				'parent_slug'     => $this->slug,
+				'parent_slug'     => $slug,
 				'screen_function' => 'xprofile_screen_change_avatar',
 				'position'        => 30,
-				'user_has_access' => bp_core_can_edit_settings()
+				'user_has_access' => $access
 			);
 		}
 
