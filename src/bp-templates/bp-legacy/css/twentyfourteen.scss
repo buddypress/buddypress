@@ -104,7 +104,7 @@ $spacing-val-xs: 5px;
 // BP message boxes
 @mixin message-box($background, $text-color: null) {
 
-	@if($text-color) {
+	@if $text-color {
 		// if a param was passed through
 		$text-color: $text-color;
 	} @else {
