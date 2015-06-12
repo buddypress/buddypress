@@ -4772,30 +4772,36 @@ function bp_groups_current_create_step() {
 		return apply_filters( 'bp_get_groups_current_create_step', $current_create_step );
 	}
 
+/**
+ * Is the user looking at the last step in the group creation process
+ *
+ * @since BuddyPress (1.1.0)
+ *
+ * @return bool True if yes, False if no
+ */
 function bp_is_last_group_creation_step() {
-	$bp = buddypress();
+	$bp     = buddypress();
+	$steps  = array_keys( $bp->groups->group_creation_steps );
+	$step   = array_pop( $steps );
+	$retval = ( $step === bp_get_groups_current_create_step() );
 
-	$keys      = array_keys( $bp->groups->group_creation_steps );
-	$last_step = array_pop( $keys );
-
-	if ( $last_step == bp_get_groups_current_create_step() ) {
-		return true;
-	}
-
-	return false;
+	return (bool) apply_filters( 'bp_is_last_group_creation_step', $retval, $steps, $step );
 }
 
+/**
+ * Is the user looking at the first step in the group creation process
+ *
+ * @since BuddyPress (1.1.0)
+ *
+ * @return bool True if yes, False if no
+ */
 function bp_is_first_group_creation_step() {
-	$bp = buddypress();
+	$bp     = buddypress();
+	$steps  = array_keys( $bp->groups->group_creation_steps );
+	$step   = array_shift( $steps );
+	$retval = ( $step === bp_get_groups_current_create_step() );
 
-	$keys       = array_keys( $bp->groups->group_creation_steps );
-	$first_step = array_shift( $keys );
-
-	if ( $first_step == bp_get_groups_current_create_step() ) {
-		return true;
-	}
-
-	return false;
+	return (bool) apply_filters( 'bp_is_first_group_creation_step', $retval, $steps, $step );
 }
 
 /**
