@@ -4777,13 +4777,23 @@ function bp_groups_current_create_step() {
  *
  * @since BuddyPress (1.1.0)
  *
- * @return bool True if yes, False if no
+ * @param  string $step Step to compare
+ * @return bool         True if yes, False if no
  */
-function bp_is_last_group_creation_step() {
+function bp_is_last_group_creation_step( $step = '' ) {
+
+	// Use current step, if no step passed
+	if ( empty( $step ) ) {
+		$step = bp_get_groups_current_create_step();
+	}
+
+	// Get the last step
 	$bp     = buddypress();
 	$steps  = array_keys( $bp->groups->group_creation_steps );
-	$step   = array_pop( $steps );
-	$retval = ( $step === bp_get_groups_current_create_step() );
+	$l_step = array_pop( $steps );
+
+	// Compare last step to step
+	$retval = ( $l_step === $step );
 
 	return (bool) apply_filters( 'bp_is_last_group_creation_step', $retval, $steps, $step );
 }
@@ -4793,13 +4803,23 @@ function bp_is_last_group_creation_step() {
  *
  * @since BuddyPress (1.1.0)
  *
- * @return bool True if yes, False if no
+ * @param  string $step Step to compare
+ * @return bool         True if yes, False if no
  */
-function bp_is_first_group_creation_step() {
+function bp_is_first_group_creation_step( $step = '' ) {
+
+	// Use current step, if no step passed
+	if ( empty( $step ) ) {
+		$step = bp_get_groups_current_create_step();
+	}
+
+	// Get the first step
 	$bp     = buddypress();
 	$steps  = array_keys( $bp->groups->group_creation_steps );
-	$step   = array_shift( $steps );
-	$retval = ( $step === bp_get_groups_current_create_step() );
+	$f_step = array_shift( $steps );
+
+	// Compare first step to step
+	$retval = ( $f_step === $step );
 
 	return (bool) apply_filters( 'bp_is_first_group_creation_step', $retval, $steps, $step );
 }
@@ -4865,7 +4885,7 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 		 * @since BuddyPress (1.0.0)
 		 *
 		 * @param array $items Array of friends.
-		 */		
+		 */
 		$invitable_friends = apply_filters( 'bp_get_new_group_invite_friend_list', $items, $r, $args );
 
 		if ( ! empty( $invitable_friends ) && is_array( $invitable_friends ) ) {
