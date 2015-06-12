@@ -4710,19 +4710,42 @@ function bp_new_group_avatar( $args = '' ) {
 		return apply_filters( 'bp_get_new_group_avatar', $avatar, $r, $args );
 	}
 
+/**
+ * Escape & output the URL to the previous group creation step
+ *
+ * @since BuddyPress (1.1.0)
+ */
 function bp_group_creation_previous_link() {
-	echo bp_get_group_creation_previous_link();
+	echo esc_url( bp_get_group_creation_previous_link() );
 }
+	/**
+	 * Return the URL to the previous group creation step
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @return string
+	 */
 	function bp_get_group_creation_previous_link() {
-		$bp = buddypress();
+		$bp    = buddypress();
+		$steps = array_keys( $bp->groups->group_creation_steps );
 
-		foreach ( (array) $bp->groups->group_creation_steps as $slug => $name ) {
+		// Loop through steps
+		foreach ( $steps as $slug ) {
+
+			// Break when the current step is found
 			if ( bp_is_action_variable( $slug ) ) {
 				break;
 			}
 
+			// Add slug to previous steps
 			$previous_steps[] = $slug;
 		}
+
+		// Generate the URL for the previous step
+		$group_directory = bp_get_groups_directory_permalink();
+		$create_step     = 'create/step/';
+		$previous_step   = array_pop( $previous_steps );
+		$url             = trailingslashit( $group_directory . $create_step . $previous_step );
 
 		/**
 		 * Filters the permalink for the previous step with the group creation process.
@@ -4731,7 +4754,7 @@ function bp_group_creation_previous_link() {
 		 *
 		 * @param string $value Permalink for the previous step.
 		 */
-		return apply_filters( 'bp_get_group_creation_previous_link', trailingslashit( bp_get_groups_directory_permalink() . 'create/step/' . array_pop( $previous_steps ) ) );
+		return apply_filters( 'bp_get_group_creation_previous_link', $url );
 	}
 
 /**
