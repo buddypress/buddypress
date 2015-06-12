@@ -4674,28 +4674,49 @@ function bp_new_group_status() {
 		return apply_filters( 'bp_get_new_group_status', $status );
 	}
 
+/**
+ * Output the avatar for the group currently being created
+ *
+ * @since BuddyPress (1.1.0)
+ *
+ * @see bp_core_fetch_avatar() For more information on accepted arguments
+ *
+ * @param  array  $args See bp_core_fetch_avatar()
+ */
 function bp_new_group_avatar( $args = '' ) {
 	echo bp_get_new_group_avatar( $args );
 }
+	/**
+	 * Return the avatar for the group currently being created
+	 *
+	 * @since BuddyPress (1.1.0)
+	 *
+	 * @see bp_core_fetch_avatar() For more information on accepted arguments
+	 *
+	 * @param  array  $args See bp_core_fetch_avatar()
+	 * @return string       The avatar for the group being created
+	 */
 	function bp_get_new_group_avatar( $args = '' ) {
-		$bp = buddypress();
 
-		$r = wp_parse_args( $args, array(
+		// Parse arguments
+		$r = bp_parse_args( $args, array(
 			'type'    => 'full',
 			'width'   => false,
 			'height'  => false,
 			'class'   => 'avatar',
 			'id'      => 'avatar-crop-preview',
-			'alt'     => __( 'Group avatar', 'buddypress' ),
+			'alt'     => __( 'Group photo', 'buddypress' ),
 			'no_grav' => false
-		) );
+		), 'get_new_group_avatar' );
 
+		// Merge parsed arguments with object specific data
 		$r = array_merge( $r, array(
-			'item_id'    => $bp->groups->current_group->id,
+			'item_id'    => bp_get_current_group_id(),
 			'object'     => 'group',
 			'avatar_dir' => 'group-avatars',
 		) );
 
+		// Get the avatar
 		$avatar = bp_core_fetch_avatar( $r );
 
 		/**
