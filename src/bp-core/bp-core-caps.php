@@ -65,8 +65,9 @@ function bp_add_caps() {
 	global $wp_roles;
 
 	// Load roles if not set
-	if ( ! isset( $wp_roles ) )
+	if ( ! isset( $wp_roles ) ) {
 		$wp_roles = new WP_Roles();
+	}
 
 	// Loop through available roles and add them
 	foreach( $wp_roles->role_objects as $role ) {
@@ -100,8 +101,9 @@ function bp_remove_caps() {
 	global $wp_roles;
 
 	// Load roles if not set
-	if ( ! isset( $wp_roles ) )
+	if ( ! isset( $wp_roles ) ) {
 		$wp_roles = new WP_Roles();
+	}
 
 	// Loop through available roles and remove them
 	foreach( $wp_roles->role_objects as $role ) {
@@ -199,11 +201,12 @@ function bp_get_caps_for_role( $role = '' ) {
 
 			break;
 
-		case 'editor'          :
-		case 'author'          :
-		case 'contributor'     :
-		case 'subscriber'      :
-		default                :
+		// All other default WordPress blog roles
+		case 'editor'      :
+		case 'author'      :
+		case 'contributor' :
+		case 'subscriber'  :
+		default            :
 			$caps = array();
 			break;
 	}
@@ -239,16 +242,19 @@ function bp_get_caps_for_role( $role = '' ) {
 function bp_set_current_user_default_role() {
 
 	// Bail if not multisite or not root blog
-	if ( ! is_multisite() || ! bp_is_root_blog() )
+	if ( ! is_multisite() || ! bp_is_root_blog() ) {
 		return;
+	}
 
 	// Bail if user is not logged in or already a member
-	if ( ! is_user_logged_in() || is_user_member_of_blog() )
+	if ( ! is_user_logged_in() || is_user_member_of_blog() ) {
 		return;
+	}
 
 	// Bail if user is not active
-	if ( bp_is_user_inactive() )
+	if ( bp_is_user_inactive() ) {
 		return;
+	}
 
 	// Set the current users default role
 	buddypress()->current_user->set_role( bp_get_option( 'default_role', 'subscriber' ) );
@@ -268,8 +274,9 @@ function bp_set_current_user_default_role() {
 function bp_current_user_can( $capability, $blog_id = 0 ) {
 
 	// Use root blog if no ID passed
-	if ( empty( $blog_id ) )
+	if ( empty( $blog_id ) ) {
 		$blog_id = bp_get_root_blog_id();
+	}
 
 	$retval = current_user_can_for_blog( $blog_id, $capability );
 
@@ -299,8 +306,9 @@ function bp_current_user_can( $capability, $blog_id = 0 ) {
  * installation. See {@link WP_User::has_cap()}.
  *
  * This implementation of 'bp_moderate' is temporary, until BuddyPress properly
- * matches caps to roles and stores them in the database. Plugin authors: Do
- * not use this function.
+ * matches caps to roles and stores them in the database.
+ *
+ * Plugin authors: Please do not use this function; thank you. :)
  *
  * @access private
  * @since BuddyPress (1.6.0)
@@ -315,16 +323,19 @@ function bp_current_user_can( $capability, $blog_id = 0 ) {
 function _bp_enforce_bp_moderate_cap_for_admins( $caps = array(), $cap = '', $user_id = 0, $args = array() ) {
 
 	// Bail if not checking the 'bp_moderate' cap
-	if ( 'bp_moderate' !== $cap )
+	if ( 'bp_moderate' !== $cap ) {
 		return $caps;
+	}
 
 	// Bail if BuddyPress is not network activated
-	if ( bp_is_network_activated() )
+	if ( bp_is_network_activated() ) {
 		return $caps;
+	}
 
 	// Never trust inactive users
-	if ( bp_is_user_inactive( $user_id ) )
+	if ( bp_is_user_inactive( $user_id ) ) {
 		return $caps;
+	}
 
 	// Only users that can 'manage_options' on this site can 'bp_moderate'
 	return array( 'manage_options' );
