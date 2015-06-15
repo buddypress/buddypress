@@ -15,6 +15,194 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Handle creating of private messages or sitewide notices
+ *
+ * @since BuddyPress (2.4.0)
+ *
+ * @return boolean
+ */
+function bp_messages_action_create_message() {
+
+	// Bail if not posting to the compose message screen
+	if ( ! bp_is_post_request() || ! bp_is_messages_component() || ! bp_is_current_action( 'compose' ) ) {
+		return false;
+	}
+
+	// Check the nonce
+	check_admin_referer( 'messages_send_message' );
+
+	// Define local variables
+	$redirect_to = '';
+	$feedback    = '';
+	$success     = false;
+
+	// Missing subject or content
+	if ( empty( $_POST['subject'] ) || empty( $_POST['content'] ) ) {
+		$success  = false;
+		$feedback = __( 'Message was not sent. Check the contents and try again.', 'buddypress' );
+
+	// Subject and content present
+	} else {
+
+		// Setup the link to the logged-in user's messages
+		$member_messages = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
+
+		// Site-wide notice
+		if ( isset( $_POST['send-notice'] ) ) {
+
+			// Attempt to save the notice and redirect to notices
+			if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
+				$success     = true;
+				$feedback    = __( 'Notice successfully created.', 'buddypress' );
+				$redirect_to = trailingslashit( $member_messages . 'notices' );
+
+			// Notice could not be sent
+			} else {
+				$success  = false;
+				$feedback = __( 'Notice was not created. Please try again.', 'buddypress' );
+			}
+
+		// Private conversation
+		} else {
+
+			// Filter recipients into the format we need - array( 'username/userid', 'username/userid' )
+			$autocomplete_recipients = (array) explode( ',', $_POST['send-to-input']     );
+			$typed_recipients        = (array) explode( ' ', $_POST['send_to_usernames'] );
+			$recipients              = array_merge( $autocomplete_recipients, $typed_recipients );
+
+			/**
+			 * Filters the array of recipients to receive the composed message.
+			 *
+			 * @since BuddyPress (1.2.10)
+			 *
+			 * @param array $recipients Array of recipients to receive message.
+			 */
+			$recipients = apply_filters( 'bp_messages_recipients', $recipients );
+
+			// Attempt to send the message
+			$thread_id  = messages_new_message( array(
+				'recipients' => $recipients,
+				'subject'    => $_POST['subject'],
+				'content'    => $_POST['content']
+			) );
+
+			// Send the message and redirect to it
+			if ( ! empty( $thread_id ) ) {
+				$success     = true;
+				$feedback    = __( 'Message successfully sent.', 'buddypress' );
+				$view        = trailingslashit( $member_messages . 'view' );
+				$redirect_to = trailingslashit( $view . $thread_id );
+
+			// Message could not be sent
+			} else {
+				$success  = false;
+				$feedback = __( 'Message was not sent. Please try again.', 'buddypress' );
+			}
+		}
+	}
+
+	// Feedback
+	if ( ! empty( $feedback ) ) {
+
+		// Determine message type
+		$type = ( true === $success )
+			? 'success'
+			: 'error';
+
+		// Add feedback message
+		bp_core_add_message( $feedback, $type );
+	}
+
+	// Maybe redirect
+	if ( ! empty( $redirect_to ) ) {
+		bp_core_redirect( $redirect_to );
+	}
+}
+add_action( 'bp_actions', 'bp_messages_action_create_message' );
+
+/**
+ * Handle editing of sitewide notices
+ *
+ * @since BuddyPress (2.4.0)
+ *
+ * @global int $notice_id
+ *
+ * @return boolean
+ */
+function bp_messages_action_edit_notice() {
+	global $notice_id;
+
+	// Bail if not viewing a single notice URL
+	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'notices' ) || ! bp_action_variable( 1 ) ) {
+		return false;
+	}
+
+	// Get action variables
+	$action    = bp_action_variable( 0 ); // deactivate|activate|delete
+	$notice_id = bp_action_variable( 1 ); // 1|2|3|etc...
+
+	// Bail if notice ID is not numeric
+	if ( ! is_numeric( $notice_id ) ) {
+		return;
+	}
+
+	// Define local variables
+	$redirect_to = '';
+	$feedback    = '';
+	$success     = false;
+
+	// Get the notice from database
+	$notice = new BP_Messages_Notice( $notice_id );
+
+	// Take action
+	switch ( $action ) {
+
+		// Deactivate
+		case 'deactivate' :
+			$success  = $notice->deactivate();
+			$feedback = true === $success
+				? __( 'Notice deactivated successfully.',              'buddypress' )
+				: __( 'There was a problem deactivating that notice.', 'buddypress' );
+			break;
+
+		// Activate
+		case 'activate' :
+			$success  = $notice->activate();
+			$feedback = true === $success
+				? __( 'Notice activated successfully.',              'buddypress' )
+				: __( 'There was a problem activating that notice.', 'buddypress' );
+			break;
+
+		// Delete
+		case 'delete' :
+			$success  = $notice->delete();
+			$feedback = true === $success
+				? __( 'Notice deleted successfully.',              'buddypress' )
+				: __( 'There was a problem deleting that notice.', 'buddypress' );
+			break;
+	}
+
+	// Feedback
+	if ( ! empty( $feedback ) ) {
+
+		// Determine message type
+		$type = ( true === $success )
+			? 'success'
+			: 'error';
+
+		// Add feedback message
+		bp_core_add_message( $feedback, $type );
+	}
+
+	// Redirect
+	$member_notices = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
+	$redirect_to    = trailingslashit( $member_notices . 'notices' );
+
+	bp_core_redirect( $redirect_to );
+}
+add_action( 'bp_actions', 'bp_messages_action_edit_notice' );
+
+/**
  * Process a request to view a single message thread.
  */
 function messages_action_conversation() {

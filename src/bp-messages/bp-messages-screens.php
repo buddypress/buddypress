@@ -16,8 +16,11 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Load the Messages > Inbox screen.
+ *
+ * @since BuddyPress (1.0.0)
  */
 function messages_screen_inbox() {
+
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
@@ -42,8 +45,11 @@ function messages_screen_inbox() {
 
 /**
  * Load the Messages > Sent screen.
+ *
+ * @since BuddyPress (1.0.0)
  */
 function messages_screen_sentbox() {
+
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
@@ -68,6 +74,8 @@ function messages_screen_sentbox() {
 
 /**
  * Load the Messages > Compose screen.
+ *
+ * @since BuddyPress (1.0.0)
  */
 function messages_screen_compose() {
 
@@ -78,55 +86,6 @@ function messages_screen_compose() {
 
 	// Remove any saved message data from a previous session.
 	messages_remove_callback_values();
-
-	// Check if the message form has been submitted
-	if ( isset( $_POST['send'] ) ) {
-
-		// Check the nonce
-		check_admin_referer( 'messages_send_message' );
-
-		// Check we have what we need
-		if ( empty( $_POST['subject'] ) || empty( $_POST['content'] ) ) {
-			bp_core_add_message( __( 'There was an error sending that message. Please try again.', 'buddypress' ), 'error' );
-		} else {
-			// If this is a notice, send it
-			if ( isset( $_POST['send-notice'] ) ) {
-				if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
-					bp_core_add_message( __( 'Notice sent successfully!', 'buddypress' ) );
-					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox/' );
-				} else {
-					bp_core_add_message( __( 'There was an error sending that notice. Please try again.', 'buddypress' ), 'error' );
-				}
-			} else {
-				// Filter recipients into the format we need - array( 'username/userid', 'username/userid' )
-				$autocomplete_recipients = explode( ',', $_POST['send-to-input'] );
-				$typed_recipients        = explode( ' ', $_POST['send_to_usernames'] );
-				$recipients              = array_merge( (array) $autocomplete_recipients, (array) $typed_recipients );
-
-				/**
-				 * Filters the array of recipients to receive the composed message.
-				 *
-				 * @since BuddyPress (1.2.10)
-				 *
-				 * @param array $recipients Array of recipients to receive message.
-				 */
-				$recipients              = apply_filters( 'bp_messages_recipients', $recipients );
-				$thread_id               = messages_new_message( array(
-					'recipients' => $recipients,
-					'subject'    => $_POST['subject'],
-					'content'    => $_POST['content']
-				) );
-
-				// Send the message
-				if ( ! empty( $thread_id ) ) {
-					bp_core_add_message( __( 'Message sent successfully!', 'buddypress' ) );
-					bp_core_redirect( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id . '/' );
-				} else {
-					bp_core_add_message( __( 'There was an error sending that message. Please try again.', 'buddypress' ), 'error' );
-				}
-			}
-		}
-	}
 
 	/**
 	 * Fires right before the loading of the Messages compose screen template file.
@@ -148,18 +107,20 @@ function messages_screen_compose() {
 /**
  * Load an individual conversation screen.
  *
+ * @since BuddyPress (1.0.0)
+ *
  * @return bool|null False on failure.
  */
 function messages_screen_conversation() {
 
 	// Bail if not viewing a single message
-	if ( !bp_is_messages_component() || !bp_is_current_action( 'view' ) ) {
+	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'view' ) ) {
 		return false;
 	}
 
 	$thread_id = (int) bp_action_variable( 0 );
 
-	if ( empty( $thread_id ) || !messages_is_valid_thread( $thread_id ) || ( !messages_check_thread_access( $thread_id ) && !bp_current_user_can( 'bp_moderate' ) ) ) {
+	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) || ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) ) {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
 	}
 
@@ -190,37 +151,11 @@ add_action( 'bp_screens', 'messages_screen_conversation' );
 /**
  * Load the Messages > Notices screen.
  *
+ * @since BuddyPress (1.0.0)
+ *
  * @return false|null False on failure.
  */
 function messages_screen_notices() {
-	global $notice_id;
-
-	$notice_id = (int) bp_action_variable( 1 );
-
-	if ( !empty( $notice_id ) && is_numeric( $notice_id ) ) {
-		$notice = new BP_Messages_Notice( $notice_id );
-
-		if ( bp_is_action_variable( 'deactivate', 0 ) ) {
-			if ( !$notice->deactivate() ) {
-				bp_core_add_message( __('There was a problem deactivating that notice.', 'buddypress'), 'error' );
-			} else {
-				bp_core_add_message( __('Notice deactivated.', 'buddypress') );
-			}
-		} elseif ( bp_is_action_variable( 'activate', 0 ) ) {
-			if ( !$notice->activate() ) {
-				bp_core_add_message( __('There was a problem activating that notice.', 'buddypress'), 'error' );
-			} else {
-				bp_core_add_message( __('Notice activated.', 'buddypress') );
-			}
-		} elseif ( bp_is_action_variable( 'delete' ) ) {
-			if ( !$notice->delete() ) {
-				bp_core_add_message( __('There was a problem deleting that notice.', 'buddypress'), 'buddypress' );
-			} else {
-				bp_core_add_message( __('Notice deleted.', 'buddypress') );
-			}
-		}
-		bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices' ) );
-	}
 
 	if ( bp_action_variables() ) {
 		bp_do_404();
@@ -246,8 +181,11 @@ function messages_screen_notices() {
 
 /**
  * Render the markup for the Messages section of Settings > Notifications.
+ *
+ * @since BuddyPress (1.0.0)
  */
 function messages_screen_notification_settings() {
+
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
