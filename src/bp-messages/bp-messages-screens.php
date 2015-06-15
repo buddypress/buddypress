@@ -195,11 +195,7 @@ add_action( 'bp_screens', 'messages_screen_conversation' );
 function messages_screen_notices() {
 	global $notice_id;
 
-	if ( !bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
-	}
-
-	$notice_id = (int)bp_action_variable( 1 );
+	$notice_id = (int) bp_action_variable( 1 );
 
 	if ( !empty( $notice_id ) && is_numeric( $notice_id ) ) {
 		$notice = new BP_Messages_Notice( $notice_id );

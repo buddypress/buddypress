@@ -388,34 +388,40 @@ class BP_Messages_Box_Template {
  * }
  * @return bool True if there are threads to display, otherwise false.
  */
-function bp_has_message_threads( $args = '' ) {
+function bp_has_message_threads( $args = array() ) {
 	global $messages_template;
 
 	// The default box the user is looking at
-	if ( bp_is_current_action( 'sentbox' ) ) {
-		$default_box = 'sentbox';
-	} elseif ( bp_is_current_action( 'notices' ) ) {
-		$default_box = 'notices';
-	} else {
-		$default_box = 'inbox';
+	$current_action = bp_current_action();
+	switch ( $current_action ) {
+		case 'sentbox' :
+		case 'notices' :
+		case 'inbox'   :
+			$default_box = $current_action;
+			break;
+		default :
+			$default_box = 'inbox';
+			break;
 	}
+
+	// User ID
+	// @todo displayed user for moderators that get this far?
+	$user_id = bp_loggedin_user_id();
+
+	// Search Terms
+	$search_terms = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
 
 	// Parse the arguments
 	$r = bp_parse_args( $args, array(
-		'user_id'      => bp_loggedin_user_id(),
+		'user_id'      => $user_id,
 		'box'          => $default_box,
 		'per_page'     => 10,
 		'max'          => false,
 		'type'         => 'all',
-		'search_terms' => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
+		'search_terms' => $search_terms,
 		'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679
 		'meta_query'   => array()
 	), 'has_message_threads' );
-
-	// If trying to access notices without capabilities, redirect to root domain
-	if ( bp_is_current_action( 'notices' ) && !bp_current_user_can( 'bp_moderate' ) ) {
-		bp_core_redirect( bp_displayed_user_domain() );
-	}
 
 	// Load the messages loop global up with messages
 	$messages_template = new BP_Messages_Box_Template( $r );
