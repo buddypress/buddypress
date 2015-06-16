@@ -453,14 +453,19 @@ class BP_Messages_Thread {
 			$search_sql        = $wpdb->prepare( "AND ( subject LIKE %s OR message LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
-		if ( ! empty( $r['user_id'] ) ) {
-			if ( 'sentbox' == $r['box'] ) {
+		$r['user_id'] = (int) $r['user_id'];
+
+		switch ( $r['box'] ) {
+			case 'sentbox' :
 				$user_id_sql = 'AND ' . $wpdb->prepare( 'm.sender_id = %d', $r['user_id'] );
-				$sender_sql  = ' AND m.sender_id = r.user_id';
-			} else {
+				$sender_sql  = 'AND m.sender_id = r.user_id';
+				break;
+
+			case 'inbox' :
+			default :
 				$user_id_sql = 'AND ' . $wpdb->prepare( 'r.user_id = %d', $r['user_id'] );
-				$sender_sql  = ' AND r.sender_only = 0';
-			}
+				$sender_sql  = 'AND r.sender_only = 0';
+				break;
 		}
 
 		// Process meta query into SQL
