@@ -455,6 +455,9 @@ class BP_Messages_Thread {
 
 		$r['user_id'] = (int) $r['user_id'];
 
+		// Default deleted SQL
+		$deleted_sql = 'r.is_deleted = 0';
+
 		switch ( $r['box'] ) {
 			case 'sentbox' :
 				$user_id_sql = 'AND ' . $wpdb->prepare( 'm.sender_id = %d', $r['user_id'] );
@@ -462,9 +465,13 @@ class BP_Messages_Thread {
 				break;
 
 			case 'inbox' :
-			default :
 				$user_id_sql = 'AND ' . $wpdb->prepare( 'r.user_id = %d', $r['user_id'] );
 				$sender_sql  = 'AND r.sender_only = 0';
+				break;
+
+			// Omit user-deleted threads from all other custom message boxes
+			default :
+				$deleted_sql = $wpdb->prepare( '( r.user_id = %d AND r.is_deleted = 0 )', $r['user_id'] );
 				break;
 		}
 
@@ -483,7 +490,7 @@ class BP_Messages_Thread {
 		$sql = array();
 		$sql['select'] = 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent';
 		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id {$meta_query_sql['join']}";
-		$sql['where']  = "WHERE r.is_deleted = 0 {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
+		$sql['where']  = "WHERE {$deleted_sql} {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
 		$sql['misc']   = "GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}";
 
 		// get thread IDs
