@@ -107,6 +107,68 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_messages_filter_starred_message_threads
+	 */
+	public function test_get_starred_threads_should_not_include_deleted_thread() {
+		$old_current_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// create three threads
+		$t1 = $this->factory->message->create( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'A',
+		) );
+		$t2 = $this->factory->message->create( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'B',
+		) );
+		$t3 = $this->factory->message->create( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'C',
+		) );
+
+		// grab the message ids as individual variables
+		list( $m1 ) = $this->get_message_ids( $t1 );
+		list( $m2 ) = $this->get_message_ids( $t2 );
+		list( $m3 ) = $this->get_message_ids( $t3 );
+
+		// star all threads
+		bp_messages_star_set_action( array(
+			'user_id'    => $u2,
+			'message_id' => $m1,
+		) );
+		bp_messages_star_set_action( array(
+			'user_id'    => $u2,
+			'message_id' => $m2,
+		) );
+		bp_messages_star_set_action( array(
+			'user_id'    => $u2,
+			'message_id' => $m3,
+		) );
+
+		// delete the second thread
+		$this->set_current_user( $u2 );
+		messages_delete_thread( $t2 );
+
+		// load the starred threads loop
+		global $messages_template;
+		add_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_filter_starred_message_threads' );
+		bp_has_message_threads();
+		remove_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_filter_starred_message_threads' );
+
+		// assert that second thread isn't in starred thread loop
+		$thread_ids = wp_list_pluck( $messages_template->threads, 'thread_id' );
+		$this->assertFalse( in_array( $t2, $thread_ids ) );
+
+		// reset
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
 	 * Helper method to grab the message IDs from a message thread.
 	 *
 	 * @param int $thread_id The message thread ID

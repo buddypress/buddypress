@@ -350,10 +350,10 @@ function bp_messages_star_content() {
  * @return array
  */
 function bp_messages_filter_starred_message_threads( $r = array() ) {
-	$r['user_id'] = 0;
+	$r['box'] = 'starred';
 	$r['meta_query'] = array( array(
 		'key'   => 'starred_by_user',
-		'value' => bp_loggedin_user_id()
+		'value' => $r['user_id']
 	) );
 
 	return $r;
