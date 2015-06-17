@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw21
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, social, community, networks, networking
 Requires at least: 3.6
 Tested up to: 4.2
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 
 == Upgrade Notice ==
 
+= 2.3.2 =
+See: https://codex.buddypress.org/releases/version-2-3-2/
+
 = 2.3.1 =
 See: https://codex.buddypress.org/releases/version-2-3-1/
 
@@ -215,6 +218,9 @@ Compatibility with WordPress 3.1
 Fixes over 10 bugs.
 
 == Changelog ==
+
+= 2.3.2 =
+See: https://codex.buddypress.org/releases/version-2-3-2/
 
 = 2.3.1 =
 See: https://codex.buddypress.org/releases/version-2-3-1/
