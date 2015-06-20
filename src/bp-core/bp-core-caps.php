@@ -263,33 +263,52 @@ function bp_set_current_user_default_role() {
 /**
  * Check whether the current user has a given capability.
  *
- * Can be passed blog ID, or will use the root blog by default.
- *
  * @since BuddyPress (1.6.0)
+ * @since BuddyPress (2.4.0) Second argument modified to accept an array, rather than `$blog_id`.
  *
- * @param string $capability Capability or role name.
- * @param int $blog_id Optional. Blog ID. Defaults to the BP root blog.
- * @return bool True if the user has the cap for the given blog.
+ * @param string    $capability Capability or role name.
+ * @param array|int $args {
+ *     Array of extra arguments applicable to the capability check.
+ *     @type int   $blog_id Optional. Blog ID. Defaults to the BP root blog.
+ *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.
+ * }
+ * @return bool True if the user has the cap for the given parameters.
  */
-function bp_current_user_can( $capability, $blog_id = 0 ) {
+function bp_current_user_can( $capability, $args = array() ) {
+	$blog_id = 0;
+
+	// Backward compatibility for older $blog_id parameter.
+	if ( is_int( $args ) ) {
+		$blog_id = $args;
+		$args = array();
+
+	// New format for second parameter.
+	} elseif ( is_array( $args ) && isset( $args['blog_id'] ) ) {
+		// Get the blog ID if set, but don't pass along to `current_user_can_for_blog()`.
+		$blog_id = (int) $args['blog_id'];
+		unset( $args['blog_id'] );
+	}
 
 	// Use root blog if no ID passed
 	if ( empty( $blog_id ) ) {
 		$blog_id = bp_get_root_blog_id();
 	}
 
-	$retval = current_user_can_for_blog( $blog_id, $capability );
+	$args   = array( $blog_id, $capability, $args );
+	$retval = call_user_func_array( 'current_user_can_for_blog', $args );
 
 	/**
 	 * Filters whether or not the current user has a given capability.
 	 *
 	 * @since BuddyPress (1.6.0)
+	 * @since BuddyPress (2.4.0) Pass `$args` variable.
 	 *
 	 * @param bool   $retval     Whether or not the current user has the capability.
 	 * @param string $capability The capability being checked for.
 	 * @param int    $blog_id    Blog ID. Defaults to the BP root blog.
+	 * @param array  $args       Array of extra arguments passed.
 	 */
-	return (bool) apply_filters( 'bp_current_user_can', $retval, $capability, $blog_id );
+	return (bool) apply_filters( 'bp_current_user_can', $retval, $capability, $blog_id, $args );
 }
 
 /**
