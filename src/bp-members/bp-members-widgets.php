@@ -76,6 +76,15 @@ class BP_Core_Members_Widget extends WP_Widget {
 		$title = apply_filters( 'widget_title', $settings['title'], $settings, $this->id_base );
 		$title = $settings['link_title'] ? '<a href="' . bp_get_members_directory_permalink() . '">' . $title . '</a>' : $title;
 
+		/**
+		 * Filters the separator of the member widget links.
+		 *
+		 * @since BuddyPress (2.4.0)
+		 *
+		 * @param string $separator Separator string. Default '|'.
+		 */
+		$separator = apply_filters( 'bp_members_widget_separator', '|' );
+
 		// Output before widget HTMl, title (and maybe content before & after it)
 		echo $args['before_widget']
 		   . $args['before_title']
@@ -96,11 +105,12 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 			<div class="item-options" id="members-list-options">
 				<a href="<?php bp_members_directory_permalink(); ?>" id="newest-members" <?php if ( 'newest' === $settings['member_default'] ) : ?>class="selected"<?php endif; ?>><?php esc_html_e( 'Newest', 'buddypress' ); ?></a>
-				|  <a href="<?php bp_members_directory_permalink(); ?>" id="recently-active-members" <?php if ( 'active' === $settings['member_default'] ) : ?>class="selected"<?php endif; ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></a>
+				<span class="bp-separator" role="separator"><?php echo esc_html( $separator ); ?></span>
+				<a href="<?php bp_members_directory_permalink(); ?>" id="recently-active-members" <?php if ( 'active' === $settings['member_default'] ) : ?>class="selected"<?php endif; ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></a>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
-
-					| <a href="<?php bp_members_directory_permalink(); ?>" id="popular-members" <?php if ( 'popular' === $settings['member_default'] ) : ?>class="selected"<?php endif; ?>><?php esc_html_e( 'Popular', 'buddypress' ); ?></a>
+					<span class="bp-separator" role="separator"><?php echo esc_html( $separator ); ?></span>
+					<a href="<?php bp_members_directory_permalink(); ?>" id="popular-members" <?php if ( 'popular' === $settings['member_default'] ) : ?>class="selected"<?php endif; ?>><?php esc_html_e( 'Popular', 'buddypress' ); ?></a>
 
 				<?php endif; ?>
 
