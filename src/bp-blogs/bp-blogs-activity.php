@@ -766,51 +766,62 @@ add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_
  * @return array $args
  */
 function bp_blogs_new_blog_comment_query_backpat( $args ) {
+	global $wpdb;
+	$bp = buddypress();
+
 	// Bail if this is not a 'new_blog_comment' query
 	if ( 'new_blog_comment' !== $args['action'] ) {
 		return $args;
 	}
 
-	// display_comments=stream is required to show new-style
-	// 'activity_comment' items inline
+	// Comment synced ?
+	$activity_ids = $wpdb->get_col( $wpdb->prepare( "SELECT activity_id FROM {$bp->activity->table_name_meta} WHERE meta_key = %s", 'bp_blogs_post_comment_id' ) );
+
+	if ( empty( $activity_ids ) ) {
+		return $args;
+	}
+
+	// Init the filter query
+	$filter_query = array();
+
+	if ( 'null' === $args['scope'] ) {
+		$args['scope'] = '';
+	} elseif ( 'just-me' === $args['scope'] ) {
+		$filter_query = array(
+			'relation' => 'AND',
+			array(
+				'column' => 'user_id',
+				'value'  => bp_displayed_user_id(),
+			),
+		);
+		$args['scope'] = '';
+	}
+
+	$filter_query[] = array(
+		'relation' => 'OR',
+		array(
+			'column' => 'type',
+			'value'  => $args['action'],
+		),
+		array(
+			'column'  => 'id',
+			'value'   =>  $activity_ids,
+			'compare' => 'IN'
+		),
+	);
+
+	$args['filter_query'] = $filter_query;
+
+	// Make sure to have comment in stream mode && avoid duplicate content
 	$args['display_comments'] = 'stream';
 
-	// For the remaining clauses, we filter the SQL query directly
-	add_filter( 'bp_activity_paged_activities_sql', '_bp_blogs_new_blog_comment_query_backpat_filter' );
-	add_filter( 'bp_activity_total_activities_sql', '_bp_blogs_new_blog_comment_query_backpat_filter' );
+	// Finally reset the action
+	$args['action'] = '';
 
 	// Return the original arguments
 	return $args;
 }
 add_filter( 'bp_after_has_activities_parse_args', 'bp_blogs_new_blog_comment_query_backpat' );
-
-/**
- * Filter activity SQL to include new- and old-style 'new_blog_comment' activity items.
- *
- * @since BuddyPress (2.1.0)
- *
- * @access private
- * @see bp_blogs_new_blog_comment_query_backpat()
- *
- * @param string $query SQL query as assembled in BP_Activity_Activity::get().
- * @return string $query Modified SQL query.
- */
-function _bp_blogs_new_blog_comment_query_backpat_filter( $query ) {
-	$bp = buddypress();
-
-	// The query passed to the filter is for old-style 'new_blog_comment'
-	// items. We include new-style 'activity_comment' items by running a
-	// subquery inside of a large OR clause.
-	$activity_comment_subquery = "SELECT a.id FROM {$bp->activity->table_name} a INNER JOIN {$bp->activity->table_name_meta} am ON (a.id = am.activity_id) WHERE am.meta_key = 'bp_blogs_post_comment_id' AND a.type = 'activity_comment'";
-
-	// WHERE ( [original WHERE clauses] OR a.id IN (activity_comment subquery) )
-	$query = preg_replace( '|WHERE (.*?) ORDER|', 'WHERE ( ( $1 ) OR ( a.id IN ( ' . $activity_comment_subquery . ' ) ) ) ORDER', $query );
-
-	// Don't run this on future queries
-	remove_filter( current_filter(), '_bp_blogs_new_blog_comment_query_backpat_filter' );
-
-	return $query;
-}
 
 /**
  * Utility function to set up some variables for use in the activity loop.
