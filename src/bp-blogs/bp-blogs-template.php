@@ -530,14 +530,13 @@ function bp_blog_avatar( $args = '' ) {
 	 *     Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
-	 *     @type string $alt Default: 'Profile picture of site author
-	 *           [user name]'.
-	 *     @type string $class Default: 'avatar'.
-	 *     @type string $type Default: 'full'.
-	 *     @type int|bool $width Default: false.
-	 *     @type int|bool $height Default: false.
-	 *     @type bool $id Currently unused.
-	 *     @type bool $no_grav Default: true.
+	 *     @type string   $alt     Default: 'Profile picture of site author [user name]'.
+	 *     @type string   $class   Default: 'avatar'.
+	 *     @type string   $type    Default: 'full'.
+	 *     @type int|bool $width   Default: false.
+	 *     @type int|bool $height  Default: false.
+	 *     @type bool     $id      Currently unused.
+	 *     @type bool     $no_grav Default: true.
 	 * }
 	 * @return string User avatar string.
 	 */
