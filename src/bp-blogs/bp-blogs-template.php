@@ -523,6 +523,8 @@ function bp_blog_avatar( $args = '' ) {
 	 * At the moment, blog avatars are simply the user avatars of the blog
 	 * admin. Filter 'bp_get_blog_avatar_' . $blog_id to customize.
 	 *
+	 * @since BuddyPress (2.4.0) Introduced `$title` argument.
+	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
 	 *
@@ -532,6 +534,7 @@ function bp_blog_avatar( $args = '' ) {
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string   $alt     Default: 'Profile picture of site author [user name]'.
 	 *     @type string   $class   Default: 'avatar'.
+	 *     @type string   $title   Default: 'Profile picture of site author [user name]'.
 	 *     @type string   $type    Default: 'full'.
 	 *     @type int|bool $width   Default: false.
 	 *     @type int|bool $height  Default: false.
@@ -549,21 +552,24 @@ function bp_blog_avatar( $args = '' ) {
 			return false;
 		}
 
+		$author_displayname = bp_core_get_user_displayname( $blogs_template->blog->admin_user_id );
+
 		// Parse the arguments
 		$r = bp_parse_args( $args, array(
 			'type'    => 'full',
 			'width'   => false,
 			'height'  => false,
 			'class'   => 'avatar',
+			'title'   => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), esc_attr( $author_displayname ) ),
 			'id'      => false,
-			'alt'     => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), bp_core_get_user_displayname( $blogs_template->blog->admin_user_id ) ),
+			'alt'     => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), esc_attr( $author_displayname ) ),
 			'no_grav' => true,
 		) );
 
 		// Fetch the avatar
 		$avatar = bp_core_fetch_avatar( array(
 			'item_id'    => $blogs_template->blog->admin_user_id,
-			'title'      => $blogs_template->blog->admin_user_email,
+			'title'      => $r['title'],
 			//'avatar_dir' => 'blog-avatars',
 			//'object'     => 'blog',
 			'type'       => $r['type'],
