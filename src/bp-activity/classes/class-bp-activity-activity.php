@@ -1414,21 +1414,26 @@ class BP_Activity_Activity {
 			foreach ( $ref as &$r ) {
 				$depth = 1;
 				$parent_id = $r->secondary_item_id;
+
 				while ( $parent_id !== $r->item_id ) {
 					$depth++;
 
-					// When display_comments=stream, the
-					// parent comment may not be part of
-					// the returned results, so we manually
-					// fetch it
+					// When display_comments=stream, the parent comment may not be part of the
+					// returned results, so we manually fetch it
 					if ( empty( $ref[ $parent_id ] ) ) {
 						$direct_parent = new BP_Activity_Activity( $parent_id );
 						if ( isset( $direct_parent->secondary_item_id ) ) {
-							$parent_id = $direct_parent->secondary_item_id;
+							// If the direct parent is not an activity update, that means we've reached
+							// the parent activity item (eg. new_blog_post)
+							if ( 'activity_update' !== $direct_parent->type ) {
+								$parent_id = $r->item_id;
+
+							} else {
+								$parent_id = $direct_parent->secondary_item_id;
+							}
+
 						} else {
-							// Something went wrong
-							// Short-circuit the
-							// depth calculation
+							// Something went wrong.  Short-circuit the depth calculation
 							$parent_id = $r->item_id;
 						}
 					} else {
