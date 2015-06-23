@@ -61,4 +61,17 @@ class BP_Tests_Core_Template_BPCreateExcerpt extends BP_UnitTestCase {
 			'ending' => '',
 		) ) );
 	}
+
+	/**
+	 * @ticket BP6517
+	 */
+	public function test_string_should_not_be_cut_mid_tag_when_exact_is_false() {
+		$text = '<p><span>Foo</span> <a href="http://example.com">Bar</a> Baz.</p><p>Foo Bar Baz</p>';
+		$actual = bp_create_excerpt( $text, 7, array(
+			'html' => true,
+			'ending' => '',
+			'exact' => false,
+		) );
+		$this->assertSame( '<p><span>Foo</span> <a href="http://example.com">Bar</a></p>', $actual );
+	}
 }

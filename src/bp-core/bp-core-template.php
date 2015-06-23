@@ -813,7 +813,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		$truncate    = '';
 
 		// Find all the tags and HTML comments and put them in a stack for later use
-		preg_match_all( '/(<\/?([\w!].+?)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
+		preg_match_all( '/(<\/?([\w+!]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
 
 		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed
@@ -865,7 +865,35 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 	// If $exact is false, we can't break on words
 	if ( empty( $r['exact'] ) ) {
-		$spacepos = mb_strrpos( $truncate, ' ' );
+		// Find the position of the last space character not part of a tag.
+		preg_match_all( '/<[a-z\!\/][^>]*>/', $truncate, $truncate_tags, PREG_OFFSET_CAPTURE );
+		$rtruncate = strrev( $truncate );
+		$spacepos = false;
+		for ( $i = strlen( $rtruncate ) - 1; $i >= 0; $i-- ) {
+			if ( ' ' !== $rtruncate[ $i ] ) {
+				continue;
+			}
+
+			// Convert rpos to negative offset on forward-facing string.
+			$pos = -1 - $i;
+
+			// If there are no tags in the string, the first space found is the right one.
+			if ( empty( $truncate_tags[0] ) ) {
+				$spacepos = $pos;
+				break;
+			}
+
+			// Look at each tag to see if the space is inside of it.
+			foreach ( $truncate_tags[0] as $truncate_tag ) {
+				$start = $truncate_tag[1];
+				$end   = $start + strlen( $truncate_tag[0] );
+				if ( $pos > $start && $pos < $end ) {
+					$spacepos = $pos;
+					break 2;
+				}
+			}
+		}
+
 		if ( false !== $spacepos ) {
 			if ( $r['html'] ) {
 				$bits = mb_substr( $truncate, $spacepos );
