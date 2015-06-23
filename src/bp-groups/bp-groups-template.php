@@ -873,19 +873,24 @@ function bp_group_avatar( $args = '' ) {
 	echo bp_get_group_avatar( $args );
 }
 	/**
-	 * Return the group avatar while in the groups loop.
+	 * Get a group's avatar.
 	 *
 	 * @since BuddyPress (1.0.0)
 	 *
-	 * @param array|string $args {
-	 *     Array of arguments. See {@link bp_core_fetch_avatar()} for
-	 *     detailed description. Default values that differ from that
-	 *     function are described below.
+	 * @see bp_core_fetch_avatar() For a description of arguments and return values.
+
+	 * @param array $args  {
+	 *     Arguments are listed here with an explanation of their defaults.
+	 *     For more information about the arguments, see {@link bp_core_fetch_avatar()}.
 	 *
-	 *     @type string $type Default: 'full'.
-	 *     @type string $id   Passed to $css_id parameter.
+	 *     @type string   $alt     Default: 'Group logo of [group name]'.
+	 *     @type string   $class   Default: 'avatar'.
+	 *     @type string   $type    Default: 'full'.
+	 *     @type int|bool $width   Default: false.
+	 *     @type int|bool $height  Default: false.
+	 *     @type bool     $id      Passed to `$css_id` parameter.
 	 * }
-	 * @return string
+	 * @return string Group avatar string.
 	 */
 	function bp_get_group_avatar( $args = '' ) {
 		global $groups_template;
@@ -4691,9 +4696,19 @@ function bp_new_group_avatar( $args = '' ) {
 	 *
 	 * @since BuddyPress (1.1.0)
 	 *
-	 * @see bp_core_fetch_avatar() For more information on accepted arguments
+	 * @see bp_core_fetch_avatar() For a description of arguments and return values.
 	 *
-	 * @param  array  $args See bp_core_fetch_avatar()
+	 * @param array $args  {
+	 *     Arguments are listed here with an explanation of their defaults.
+	 *     For more information about the arguments, see {@link bp_core_fetch_avatar()}.
+	 *
+	 *     @type string   $alt     Default: 'Group photo'.
+	 *     @type string   $class   Default: 'avatar'.
+	 *     @type string   $type    Default: 'full'.
+	 *     @type int|bool $width   Default: false.
+	 *     @type int|bool $height  Default: false.
+	 *     @type string   $id      Passed to $css_id parameter. Default: 'avatar-crop-preview'.
+	 * }
 	 * @return string       The avatar for the group being created
 	 */
 	function bp_get_new_group_avatar( $args = '' ) {
