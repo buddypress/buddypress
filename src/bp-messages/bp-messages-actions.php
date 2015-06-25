@@ -39,7 +39,12 @@ function bp_messages_action_create_message() {
 	// Missing subject or content
 	if ( empty( $_POST['subject'] ) || empty( $_POST['content'] ) ) {
 		$success  = false;
-		$feedback = __( 'Message was not sent. Check the contents and try again.', 'buddypress' );
+
+		if ( empty( $_POST['subject'] ) ) {
+			$feedback = __( 'Your message was not sent. Please enter a subject line.', 'buddypress' );
+		} else {
+			$feedback = __( 'Your message was not sent. Please enter some content.', 'buddypress' );
+		}
 
 	// Subject and content present
 	} else {
