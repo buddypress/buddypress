@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Handle creating of private messages or sitewide notices
  *
- * @since BuddyPress (2.4.0)
+ * @since BuddyPress (2.4.0) This function was split from messages_screen_compose(). See #6505.
  *
  * @return boolean
  */
@@ -128,7 +128,7 @@ add_action( 'bp_actions', 'bp_messages_action_create_message' );
 /**
  * Handle editing of sitewide notices
  *
- * @since BuddyPress (2.4.0)
+ * @since BuddyPress (2.4.0) This function was split from messages_screen_notices(). See #6505.
  *
  * @global int $notice_id
  *
