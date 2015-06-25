@@ -51,6 +51,19 @@ class BP_Tests_Core_Template_BPCreateExcerpt extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP6517
+	 */
+	public function test_exact_false_should_properly_account_for_accented_characters() {
+		$text = 'Toutes les connaissances que les hommes avaient mis sur Internet lui étaient accessible. Les grandes bibliothèques du monde entier n’avaient plus de secret pour lui. Il pouvait apprendre très vite, beaucoup plus vite que n’importe quel humain.
+Il avait appris toutes les connaissances du monde entier, visiter tout les pays. C’est lui qui avait fait en sorte qu’Internet se déploie ainsi.';
+		$expected = 'Toutes les connaissances que les hommes avaient mis sur Internet lui étaient accessible. Les';
+		$this->assertSame( $expected, bp_create_excerpt( $text, 98, array(
+			'ending' => '',
+			'exact' => false,
+		) ) );
+	}
+
+	/**
 	 * @ticket BP6254
 	 */
 	public function test_should_trim_too_long_first_word_to_max_characters_even_when_exact_is_false() {
