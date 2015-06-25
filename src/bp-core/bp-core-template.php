@@ -866,48 +866,69 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	// If $exact is false, we can't break on words
 	if ( empty( $r['exact'] ) ) {
 		// Find the position of the last space character not part of a tag.
-		preg_match_all( '/<[a-z\!\/][^>]*>/', $truncate, $truncate_tags, PREG_OFFSET_CAPTURE );
-		$rtruncate = strrev( $truncate );
-		$spacepos = false;
-		for ( $i = strlen( $rtruncate ) - 1; $i >= 0; $i-- ) {
-			if ( ' ' !== $rtruncate[ $i ] ) {
+		preg_match_all( '/<[a-z\!\/][^>]*>/', $truncate, $_truncate_tags, PREG_OFFSET_CAPTURE );
+
+		// Rekey tags by the string index of their last character.
+		$truncate_tags = array();
+		if ( ! empty( $_truncate_tags[0] ) ) {
+			foreach ( $_truncate_tags[0] as $_tt ) {
+				$_tt['start'] = $_tt[1];
+				$_tt['end']   = $_tt[1] + strlen( $_tt[0] );
+				$truncate_tags[ $_tt['end'] ] = $_tt;
+			}
+		}
+
+		$truncate_length = mb_strlen( $truncate );
+		$spacepos = $truncate_length + 1;
+		for ( $pos = $truncate_length - 1; $pos >= 0; $pos-- ) {
+			// Word boundaries are spaces and the close of HTML tags, when the tag is preceded by a space.
+			$is_word_boundary = ' ' === $truncate[ $pos ];
+			if ( ! $is_word_boundary && isset( $truncate_tags[ $pos - 1 ] ) ) {
+				$preceding_tag    = $truncate_tags[ $pos - 1 ];
+				if ( ' ' === $truncate[ $preceding_tag['start'] - 1 ] ) {
+					$is_word_boundary = true;
+					break;
+				}
+			}
+
+			if ( ! $is_word_boundary ) {
 				continue;
 			}
 
-			// Convert rpos to negative offset on forward-facing string.
-			$pos = -1 - $i;
-
 			// If there are no tags in the string, the first space found is the right one.
-			if ( empty( $truncate_tags[0] ) ) {
+			if ( empty( $truncate_tags ) ) {
 				$spacepos = $pos;
 				break;
 			}
 
 			// Look at each tag to see if the space is inside of it.
-			foreach ( $truncate_tags[0] as $truncate_tag ) {
-				$start = $truncate_tag[1];
-				$end   = $start + strlen( $truncate_tag[0] );
-				if ( $pos > $start && $pos < $end ) {
-					$spacepos = $pos;
-					break 2;
+			$intag = false;
+			foreach ( $truncate_tags as $tt ) {
+				if ( $pos > $tt['start'] && $pos < $tt['end'] ) {
+					$intag = true;
+					break;
+				}
+			}
+
+			if ( ! $intag ) {
+				$spacepos = $pos;
+				break;
+			}
+		}
+
+		if ( $r['html'] ) {
+			$bits = mb_substr( $truncate, $spacepos );
+			preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
+			if ( !empty( $droppedTags ) ) {
+				foreach ( $droppedTags as $closingTag ) {
+					if ( !in_array( $closingTag[1], $openTags ) ) {
+						array_unshift( $openTags, $closingTag[1] );
+					}
 				}
 			}
 		}
 
-		if ( false !== $spacepos ) {
-			if ( $r['html'] ) {
-				$bits = mb_substr( $truncate, $spacepos );
-				preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
-				if ( !empty( $droppedTags ) ) {
-					foreach ( $droppedTags as $closingTag ) {
-						if ( !in_array( $closingTag[1], $openTags ) ) {
-							array_unshift( $openTags, $closingTag[1] );
-						}
-					}
-				}
-			}
-			$truncate = mb_substr( $truncate, 0, $spacepos );
-		}
+		$truncate = rtrim( mb_substr( $truncate, 0, $spacepos ) );
 	}
 	$truncate .= $ending;
 
