@@ -1167,6 +1167,29 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			}
 
 			break;
+
+		default:
+
+			/**
+			 * Filters plugin-added group-related custom component_actions.
+			 *
+			 * @since BuddyPress (2.4.0)
+			 *
+			 * @param string $notification      Null value.
+			 * @param int    $item_id           The primary item ID.
+			 * @param int    $secondary_item_id The secondary item ID.
+			 * @param int    $total_items       The total number of messaging-related notifications
+			 *                                  waiting for the user.
+			 * @param string $format            'string' for BuddyBar-compatible notifications;
+			 *                                  'array' for WP Toolbar.
+			 */
+			$custom_action_notification = apply_filters( 'bp_groups_' . $action . '_notification', null, $item_id, $secondary_item_id, $total_items, $format );
+
+			if ( ! is_null( $custom_action_notification ) ) {
+				return $custom_action_notification;
+			}
+
+			break;
 	}
 
 	/**
