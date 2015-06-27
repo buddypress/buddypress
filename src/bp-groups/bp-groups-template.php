@@ -3436,10 +3436,12 @@ function bp_group_join_button( $group = false ) {
 		 * Filters the HTML button for joining a group.
 		 *
 		 * @since BuddyPress (1.2.6)
+	 	 * @since BuddyPress (2.4.0) Added $group parameter to filter args.
 		 *
 		 * @param string $button HTML button for joining a group.
+		 * @param object $group BuddyPress group object
 		 */
-		return bp_get_button( apply_filters( 'bp_get_group_join_button', $button ) );
+		return bp_get_button( apply_filters( 'bp_get_group_join_button', $button, $group ) );
 	}
 
 /**
