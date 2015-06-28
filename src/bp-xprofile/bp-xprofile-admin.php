@@ -690,9 +690,9 @@ class BP_XProfile_User_Admin {
 	 * @since BuddyPress (2.3.0)
 	 */
 	public function enqueue_scripts( $screen_id ) {
-		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' ) 
-			&& false === strpos( $screen_id, 'profile_page_bp-profile-edit' ) ) 
-			|| bp_core_get_root_option( 'bp-disable-avatar-uploads' ) 
+		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' )
+			&& false === strpos( $screen_id, 'profile_page_bp-profile-edit' ) )
+			|| bp_core_get_root_option( 'bp-disable-avatar-uploads' )
 			|| ! buddypress()->avatar->show_avatars
 			|| ! bp_attachments_is_wp_version_supported() ) {
 			return;

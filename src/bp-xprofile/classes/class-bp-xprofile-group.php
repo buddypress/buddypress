@@ -10,42 +10,42 @@
 defined( 'ABSPATH' ) || exit;
 
 class BP_XProfile_Group {
-	
+
 	/**
 	 * @since BuddyPress (1.1.0)
 	 *
 	 * @var int ID of field group
 	 */
 	public $id = null;
-	
+
 	/**
 	 * @since BuddyPress (1.1.0)
 	 *
 	 * @var string Name of field group
 	 */
 	public $name;
-	
+
 	/**
 	 * @since BuddyPress (1.1.0)
 	 *
 	 * @var string Description of field group
 	 */
 	public $description;
-	
+
 	/**
 	 * @since BuddyPress (1.1.0)
 	 *
 	 * @var bool Can this group be deleted?
 	 */
 	public $can_delete;
-	
+
 	/**
 	 * @since BuddyPress (1.1.0)
 	 *
 	 * @var int Group order relative to other groups
 	 */
 	public $group_order;
-	
+
 	/**
 	 * @since BuddyPress (1.1.0)
 	 *
