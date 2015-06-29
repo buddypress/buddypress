@@ -27,9 +27,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
 
 		$this->assertEquals( array( $b ), $blog_ids );
-
-		$this->set_current_user( $old_user );
-		wpmu_delete_blog( $b, true );
 	}
 
 	/**
@@ -60,9 +57,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$this->assertEquals( array( $b ), $blog_ids );
 		$this->assertEquals( 1, $blogs['total'] );
-
-		$this->set_current_user( $old_user );
-		wpmu_delete_blog( $b, true );
 	}
 
 	public function test_search_blogs() {
@@ -88,9 +82,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
 
 		$this->assertEquals( array( $b ), $blog_ids );
-
-		$this->set_current_user( $old_user );
-		wpmu_delete_blog( $b, true );
 	}
 
 	/**
@@ -119,9 +110,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$blog_ids = wp_list_pluck( $blogs['blogs'], 'blog_id' );
 
 		$this->assertEquals( array( $b ), $blog_ids );
-
-		$this->set_current_user( $old_user );
-		wpmu_delete_blog( $b, true );
 	}
 
 	/**
@@ -181,9 +169,5 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( 2 == count( $blogs['blogs'] ) );
 
 		$this->set_current_user( $old_user );
-
-		foreach ( $bs as $d ) {
-			wpmu_delete_blog( $d, true );
-		}
 	}
 }
