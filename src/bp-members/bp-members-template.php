@@ -304,22 +304,23 @@ class BP_Core_Members_Template {
 	 *
 	 * @see BP_User_Query for an in-depth description of parameters.
 	 *
-	 * @param string       $type            Sort order.
-	 * @param int          $page_number     Page of results.
-	 * @param int          $per_page        Number of results per page.
-	 * @param int          $max             Max number of results to return.
-	 * @param int          $user_id         Limit to friends of a user.
-	 * @param string       $search_terms    Limit to users matching search terms.
-	 * @param array        $include         Limit results by these user IDs.
-	 * @param bool         $populate_extras Fetch optional extras.
-	 * @param array        $exclude         Exclude these IDs from results.
-	 * @param array        $meta_key        Limit to users with a meta_key.
-	 * @param array        $meta_value      Limit to users with a meta_value (with meta_key).
-	 * @param string       $page_arg        Optional. The string used as a query parameter in pagination links.
-	 *                                      Default: 'upage'.
-	 * @param array|string $member_type     Array or comma-separated string of member types to limit results to.
+	 * @param string       $type                Sort order.
+	 * @param int          $page_number         Page of results.
+	 * @param int          $per_page            Number of results per page.
+	 * @param int          $max                 Max number of results to return.
+	 * @param int          $user_id             Limit to friends of a user.
+	 * @param string       $search_terms        Limit to users matching search terms.
+	 * @param array        $include             Limit results by these user IDs.
+	 * @param bool         $populate_extras     Fetch optional extras.
+	 * @param array        $exclude             Exclude these IDs from results.
+	 * @param array        $meta_key            Limit to users with a meta_key.
+	 * @param array        $meta_value          Limit to users with a meta_value (with meta_key).
+	 * @param string       $page_arg            Optional. The string used as a query parameter in pagination links.
+	 *                                          Default: 'upage'.
+	 * @param array|string $member_type         Array or comma-separated string of member types to limit results to.
 	 * @param array|string $member_type__in     Array or comma-separated string of member types to limit results to.
-	 * @param array|string $member_type__not_in     Array or comma-separated string of member types to exclude from results.
+	 * @param array|string $member_type__not_in Array or comma-separated string of member types to exclude
+	 *                                          from results.
 	 */
 	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage', $member_type = '', $member_type__in = '', $member_type__not_in = '' ) {
 
@@ -507,33 +508,36 @@ function bp_rewind_members() {
  *     Arguments can be passed as an associative array, or as a URL query
  *     string (eg, 'user_id=4&per_page=3').
  *
- *     @type int                   $type            Sort order. Accepts 'active', 'random', 'newest', 'popular',
- *                                                  'online', 'alphabetical'. Default: 'active'.
- *     @type int|bool              $page            Page of results to display. Default: 1.
- *     @type int|bool              $per_page        Number of results per page. Default: 20.
- *     @type int|bool              $max             Maximum number of results to return. Default: false (unlimited).
- *     @type string                $page_arg        The string used as a query parameter in pagination links.
- *                                                  Default: 'bpage'.
- *     @type array|int|string|bool $include         Limit results by a list of user IDs. Accepts an array, a
- *                                                  single integer, a comma-separated list of IDs, or false (to
- *                                                  disable this limiting). Accepts 'active', 'alphabetical',
- *                                                  'newest', or 'random'. Default: false.
- *     @type array|int|string|bool $exclude         Exclude users from results by ID. Accepts an array, a single
- *                                                  integer, a comma-separated list of IDs, or false (to disable
- *                                                  this limiting). Default: false.
- *     @type int                   $user_id         If provided, results are limited to the friends of the specified
- *                                                  user. When on a user's Friends page, defaults to the ID of the
- *                                                  displayed user. Otherwise defaults to 0.
- *     @type string|array          $member_type     Array or comma-separated list of member types to limit results to.
- *     @type string|array          $member_type__in     Array or comma-separated list of member types to limit results to.
- *     @type string|array          $member_type__not_in     Array or comma-separated list of member types to exclude from results.
- *     @type string                $search_terms    Limit results by a search term. Default: null.
- *     @type string                $meta_key        Limit results by the presence of a usermeta key.
- *                                                  Default: false.
- *     @type mixed                 $meta_value      When used with meta_key, limits results by the
- *                                                  a matching usermeta value. Default: false.
- *     @type bool                  $populate_extras Whether to fetch optional data, such as
- *                                                  friend counts. Default: true.
+ *     @type int                   $type                Sort order. Accepts 'active', 'random', 'newest', 'popular',
+ *                                                      'online', 'alphabetical'. Default: 'active'.
+ *     @type int|bool              $page                Page of results to display. Default: 1.
+ *     @type int|bool              $per_page            Number of results per page. Default: 20.
+ *     @type int|bool              $max                 Maximum number of results to return. Default: false (unlimited).
+ *     @type string                $page_arg            The string used as a query parameter in pagination links.
+ *                                                      Default: 'bpage'.
+ *     @type array|int|string|bool $include             Limit results by a list of user IDs. Accepts an array, a
+ *                                                      single integer, a comma-separated list of IDs, or false (to
+ *                                                      disable this limiting). Accepts 'active', 'alphabetical',
+ *                                                      'newest', or 'random'. Default: false.
+ *     @type array|int|string|bool $exclude             Exclude users from results by ID. Accepts an array, a single
+ *                                                      integer, a comma-separated list of IDs, or false (to disable
+ *                                                      this limiting). Default: false.
+ *     @type int                   $user_id             If provided, results are limited to the friends of the specified
+ *                                                      user. When on a user's Friends page, defaults to the ID of the
+ *                                                      displayed user. Otherwise defaults to 0.
+ *     @type string|array          $member_type         Array or comma-separated list of member types to limit
+ *                                                      results to.
+ *     @type string|array          $member_type__in     Array or comma-separated list of member types to limit
+ *                                                      results to.
+ *     @type string|array          $member_type__not_in Array or comma-separated list of member types to exclude
+ *                                                      from results.
+ *     @type string                $search_terms        Limit results by a search term. Default: null.
+ *     @type string                $meta_key            Limit results by the presence of a usermeta key.
+ *                                                      Default: false.
+ *     @type mixed                 $meta_value          When used with meta_key, limits results by the a matching
+ *                                                      usermeta value. Default: false.
+ *     @type bool                  $populate_extras     Whether to fetch optional data, such as friend counts.
+ *                                                      Default: true.
  * }
  * @return bool Returns true when blogs are found, otherwise false.
  */
@@ -560,26 +564,26 @@ function bp_has_members( $args = '' ) {
 
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$r = bp_parse_args( $args, array(
-		'type'            => 'active',
-		'page'            => 1,
-		'per_page'        => 20,
-		'max'             => false,
+		'type'                => 'active',
+		'page'                => 1,
+		'per_page'            => 20,
+		'max'                 => false,
 
-		'page_arg'        => 'upage',  // See https://buddypress.trac.wordpress.org/ticket/3679
+		'page_arg'            => 'upage',  // See https://buddypress.trac.wordpress.org/ticket/3679
 
-		'include'         => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
-		'exclude'         => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
+		'include'             => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users
+		'exclude'             => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users
 
-		'user_id'         => $user_id, // Pass a user_id to only show friends of this user
-		'member_type'     => $member_type,
+		'user_id'             => $user_id, // Pass a user_id to only show friends of this user
+		'member_type'         => $member_type,
 		'member_type__in'     => '',
-		'member_type__not_in'     => '',
-		'search_terms'    => null,     // Pass search_terms to filter users by their profile data
+		'member_type__not_in' => '',
+		'search_terms'        => null,     // Pass search_terms to filter users by their profile data
 
-		'meta_key'        => false,	   // Only return users with this usermeta
-		'meta_value'	  => false,	   // Only return users where the usermeta value matches. Requires meta_key
+		'meta_key'            => false,	   // Only return users with this usermeta
+		'meta_value'	      => false,	   // Only return users where the usermeta value matches. Requires meta_key
 
-		'populate_extras' => true      // Fetch usermeta? Friend count, last active etc.
+		'populate_extras'     => true      // Fetch usermeta? Friend count, last active etc.
 	), 'has_members' );
 
 	// Pass a filter if ?s= is set.
