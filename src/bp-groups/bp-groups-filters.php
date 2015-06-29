@@ -92,7 +92,6 @@ function bp_groups_filter_kses( $content = '' ) {
 	$allowed_tags['img']           = array();
 	$allowed_tags['img']['src']    = array();
 	$allowed_tags['img']['alt']    = array();
-	$allowed_tags['img']['class']  = array();
 	$allowed_tags['img']['width']  = array();
 	$allowed_tags['img']['height'] = array();
 	$allowed_tags['img']['class']  = array();
