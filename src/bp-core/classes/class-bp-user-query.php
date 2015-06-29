@@ -38,6 +38,9 @@ defined( 'ABSPATH' ) || exit;
  *                                              override all others; BP User objects will be constructed using these
  *                                              IDs only. Default: false.
  *     @type array|string      $member_type     Array or comma-separated list of member types to limit results to.
+ *     @type array|string      $member_type__in Array or comma-separated list of member types to limit results to.
+ *     @type array|string      $member_type__not_in Array or comma-separated list of member types that will be
+ *			                            excluded from results.
  *     @type string|bool       $meta_key        Limit results to users that have usermeta associated with this meta_key.
  *                                              Usually used with $meta_value. Default: false.
  *     @type string|bool       $meta_value      When used with $meta_key, limits results to users whose usermeta value
@@ -166,6 +169,8 @@ class BP_User_Query {
 				'exclude'         => false,
 				'user_ids'        => false,
 				'member_type'     => '',
+				'member_type__in' => '',
+				'member_type__not_in' => '',
 				'meta_key'        => false,
 				'meta_value'      => false,
 				'xprofile_query'  => false,
@@ -418,52 +423,22 @@ class BP_User_Query {
 			);
 		}
 
-		// Member type.
-		if ( ! empty( $member_type ) ) {
-			$member_types = array();
+		// Only use $member_type__in if $member_type is not set.
+		if ( empty( $member_type ) && ! empty( $member_type__in ) ) {
+			$member_type = $member_type__in;
+		}
 
-			if ( ! is_array( $member_type ) ) {
-				$member_type = preg_split( '/[,\s+]/', $member_type );
-			}
+		// Member types to exclude. Note that this takes precedence over inclusions.
+		if ( ! empty( $member_type__not_in ) ) {
+			$member_type_clause = $this->get_sql_clause_for_member_types( $member_type__not_in, 'NOT IN' );
 
-			foreach ( $member_type as $mt ) {
-				if ( ! bp_get_member_type_object( $mt ) ) {
-					continue;
-				}
+		// Member types to include.
+		} elseif ( ! empty( $member_type ) ) {
+			$member_type_clause = $this->get_sql_clause_for_member_types( $member_type, 'IN' );
+		}
 
-				$member_types[] = $mt;
-			}
-
-			if ( ! empty( $member_types ) ) {
-				$member_type_tq = new WP_Tax_Query( array(
-					array(
-						'taxonomy' => 'bp_member_type',
-						'field'    => 'name',
-						'operator' => 'IN',
-						'terms'    => $member_types,
-					),
-				) );
-
-				// Switch to the root blog, where member type taxonomies live.
-				$switched = false;
-				if ( ! bp_is_root_blog() ) {
-					switch_to_blog( bp_get_root_blog_id() );
-					$switched = true;
-				}
-
-				$member_type_sql_clauses = $member_type_tq->get_sql( 'u', $this->uid_name );
-
-				if ( $switched ) {
-					restore_current_blog();
-				}
-
-				// Grab the first term_relationships clause and convert to a subquery.
-				if ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $member_type_sql_clauses['where'], $matches ) ) {
-					$sql['where']['member_type'] = "u.{$this->uid_name} IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
-				} elseif ( false !== strpos( $member_type_sql_clauses['where'], '0 = 1' ) ) {
-					$sql['where']['member_type'] = $this->no_results['where'];
-				}
-			}
+		if ( ! empty( $member_type_clause ) ) {
+			$sql['where']['member_type'] = $member_type_clause;
 		}
 
 		// 'meta_key', 'meta_value' allow usermeta search
@@ -773,5 +748,73 @@ class BP_User_Query {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get a SQL clause representing member_type include/exclusion.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string|array $member_types Array or comma-separated list of member types.
+	 * @param string       $operator     'IN' or 'NOT IN'.
+	 */
+	protected function get_sql_clause_for_member_types( $member_types, $operator ) {
+		global $wpdb;
+
+		// Sanitize.
+		if ( 'NOT IN' !== $operator ) {
+			$operator = 'IN';
+		}
+
+		// Parse and sanitize types.
+		if ( ! is_array( $member_types ) ) {
+			$member_types = preg_split( '/[,\s+]/', $member_types );
+		}
+
+		$types = array();
+		foreach ( $member_types as $mt ) {
+			if ( bp_get_member_type_object( $mt ) ) {
+				$types[] = $mt;
+			}
+		}
+
+		$tax_query = new WP_Tax_Query( array(
+			array(
+				'taxonomy' => 'bp_member_type',
+				'field'    => 'name',
+				'operator' => $operator,
+				'terms'    => $types,
+			),
+		) );
+
+		// Switch to the root blog, where member type taxonomies live.
+		$switched = false;
+		if ( ! bp_is_root_blog() ) {
+			switch_to_blog( bp_get_root_blog_id() );
+			$switched = true;
+		}
+
+		$sql_clauses = $tax_query->get_sql( 'u', $this->uid_name );
+
+		if ( $switched ) {
+			restore_current_blog();
+		}
+
+		$clause = '';
+
+		// no_results clauses are the same between IN and NOT IN.
+		if ( false !== strpos( $sql_clauses['where'], '0 = 1' ) ) {
+			$clause = $this->no_results['where'];
+
+		// The tax_query clause generated for NOT IN can be used almost as-is. We just trim the leading 'AND'.
+		} elseif ( 'NOT IN' === $operator ) {
+			$clause = preg_replace( '/^\s*AND\s*/', '', $sql_clauses['where'] );
+
+		// IN clauses must be converted to a subquery.
+		} elseif ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $sql_clauses['where'], $matches ) ) {
+			$clause = "u.{$this->uid_name} IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
+		}
+
+		return $clause;
 	}
 }

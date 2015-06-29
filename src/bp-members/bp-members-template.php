@@ -318,8 +318,10 @@ class BP_Core_Members_Template {
 	 * @param string       $page_arg        Optional. The string used as a query parameter in pagination links.
 	 *                                      Default: 'upage'.
 	 * @param array|string $member_type     Array or comma-separated string of member types to limit results to.
+	 * @param array|string $member_type__in     Array or comma-separated string of member types to limit results to.
+	 * @param array|string $member_type__not_in     Array or comma-separated string of member types to exclude from results.
 	 */
-	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage', $member_type = '' ) {
+	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage', $member_type = '', $member_type__in = '', $member_type__not_in = '' ) {
 
 		$this->pag_arg  = sanitize_key( $page_arg );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $page_number );
@@ -329,7 +331,7 @@ class BP_Core_Members_Template {
 		if ( !empty( $_REQUEST['letter'] ) )
 			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras, $exclude );
 		else
-			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude, 'meta_key' => $meta_key, 'meta_value' => $meta_value, 'member_type' => $member_type ) );
+			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude, 'meta_key' => $meta_key, 'meta_value' => $meta_value, 'member_type' => $member_type, 'member_type__in' => $member_type__in, 'member_type__not_in' => $member_type__not_in ) );
 
 		if ( !$max || $max >= (int) $this->members['total'] )
 			$this->total_member_count = (int) $this->members['total'];
@@ -523,6 +525,8 @@ function bp_rewind_members() {
  *                                                  user. When on a user's Friends page, defaults to the ID of the
  *                                                  displayed user. Otherwise defaults to 0.
  *     @type string|array          $member_type     Array or comma-separated list of member types to limit results to.
+ *     @type string|array          $member_type__in     Array or comma-separated list of member types to limit results to.
+ *     @type string|array          $member_type__not_in     Array or comma-separated list of member types to exclude from results.
  *     @type string                $search_terms    Limit results by a search term. Default: null.
  *     @type string                $meta_key        Limit results by the presence of a usermeta key.
  *                                                  Default: false.
@@ -568,6 +572,8 @@ function bp_has_members( $args = '' ) {
 
 		'user_id'         => $user_id, // Pass a user_id to only show friends of this user
 		'member_type'     => $member_type,
+		'member_type__in'     => '',
+		'member_type__not_in'     => '',
 		'search_terms'    => null,     // Pass search_terms to filter users by their profile data
 
 		'meta_key'        => false,	   // Only return users with this usermeta
@@ -604,7 +610,9 @@ function bp_has_members( $args = '' ) {
 		$r['meta_key'],
 		$r['meta_value'],
 		$r['page_arg'],
-		$r['member_type']
+		$r['member_type'],
+		$r['member_type__in'],
+		$r['member_type__not_in']
 	);
 
 	/**

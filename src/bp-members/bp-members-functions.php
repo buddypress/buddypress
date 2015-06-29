@@ -85,6 +85,9 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
  *     @type string       $meta_key        Limit to users with a meta_key. Default: false.
  *     @type string       $meta_value      Limit to users with a meta_value (with meta_key). Default: false.
  *     @type array|string $member_type     Array or comma-separated string of member types.
+ *     @type array|string $member_type__in Array or comma-separated string of member types.
+ *                                         `$member_type` takes precedence over this parameter.
+ *     @type array|string $member_type__not_in Array or comma-separated string of member types to be excluded.
  *     @type mixed        $include         Limit results by user IDs. Default: false.
  *     @type int          $per_page        Results per page. Default: 20.
  *     @type int          $page            Page of results. Default: 1.
@@ -104,6 +107,8 @@ function bp_core_get_users( $args = '' ) {
 		'meta_key'        => false,        // Limit to users who have this piece of usermeta
 		'meta_value'      => false,        // With meta_key, limit to users where usermeta matches this value
 		'member_type'     => '',
+		'member_type__in' => '',
+		'member_type__not_in' => '',
 		'include'         => false,        // Pass comma separated list of user_ids to limit to only these users
 		'per_page'        => 20,           // The number of results to return per page
 		'page'            => 1,            // The page to return if limiting per page
