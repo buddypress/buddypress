@@ -144,6 +144,13 @@ function bp_blogs_record_existing_blogs() {
 		}
 	}
 
+	/**
+	 * Fires after the BP blogs tables have been populated with existing blogs.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 */
+	do_action( 'bp_blogs_recorded_existing_blogs' );
+
 	// No errors
 	return true;
 }
