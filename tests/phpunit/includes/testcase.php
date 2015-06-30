@@ -1,11 +1,5 @@
 <?php
 
-/**
- * WP's test suite wipes out BP's directory page mappings with _delete_all_posts()
- * We must reestablish them before our tests can be successfully run
- */
-bp_core_add_page_mappings( bp_get_option( 'bp-active-components' ), 'delete' );
-
 require_once dirname( __FILE__ ) . '/factory.php';
 
 class BP_UnitTestCase extends WP_UnitTestCase {
@@ -23,6 +17,13 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	protected $autocommitted = false;
 
 	public static function setUpBeforeClass() {
+
+		/*
+		 * WP's test suite wipes out BP's directory page mappings with `_delete_all_posts()`.
+		 * We must reestablish them before our tests can be successfully run.
+		 */
+		bp_core_add_page_mappings( bp_get_option( 'bp-active-components' ), 'delete' );
+
 		// Fake WP mail globals, to avoid errors
 		add_filter( 'wp_mail', array( 'BP_UnitTestCase', 'setUp_wp_mail' ) );
 		add_filter( 'wp_mail_from', array( 'BP_UnitTestCase', 'tearDown_wp_mail' ) );
