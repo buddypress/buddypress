@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Groups Actions
+ * BuddyPress Groups Actions.
  *
  * Action functions are exactly the same as screen functions, however they do
  * not have a template screen associated with them. Usually they will send the
@@ -62,23 +62,22 @@ function bp_groups_group_access_protection() {
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
-	 * @param bool $user_has_access True if the user has access to the
-	 *        content, otherwise false.
-	 * @param array $no_access_args Arguments to be passed to
-	 *        bp_core_no_access() in case of no access. Note that this
-	 *        value is passed by reference, so it can be modified by the
-	 *        filter callback.
+	 * @param bool  $user_has_access True if the user has access to the
+	 *                               content, otherwise false.
+	 * @param array $no_access_args  Arguments to be passed to bp_core_no_access() in case
+	 *                               of no access. Note that this value is passed by reference,
+	 *                               so it can be modified by the filter callback.
 	 */
 	$user_has_access = apply_filters_ref_array( 'bp_group_user_has_access', array( $user_has_access, &$no_access_args ) );
 
-	// If user has access, we return rather than redirect
+	// If user has access, we return rather than redirect.
 	if ( $user_has_access ) {
 		return;
 	}
 
 	// Hidden groups should return a 404 for non-members.
 	// Unset the current group so that you're not redirected
-	// to the default group tab
+	// to the default group tab.
 	if ( 'hidden' == $current_group->status ) {
 		buddypress()->groups->current_group = 0;
 		buddypress()->is_single_item        = false;
