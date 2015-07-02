@@ -1386,9 +1386,7 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 }
 
 function bp_user_has_access() {
-	$has_access = ( bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile() )
-		? true
-		: false;
+	$has_access = bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile();
 
 	/**
 	 * Filters whether or not a user has access.
