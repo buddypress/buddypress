@@ -19,6 +19,26 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $u2 ), $friends['friends'] );
 	}
 
+	/**
+	 * @ticket BP6546
+	 */
+	public function test_search_friends_with_xprofile_inactive() {
+		$this->deactivate_component( 'xprofile' );
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		add_user_meta( $u2, 'nickname', 'Cool Dude' );
+		add_user_meta( $u3, 'nickname', 'Rock And Roll America Yeah' );
+
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+
+		$friends = BP_Friends_Friendship::search_friends( 'Coo', $u1 );
+		$this->assertEquals( array( $u2 ), $friends['friends'] );
+	}
+
 	public function test_get_bulk_last_active() {
 		$u1 = $this->factory->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
