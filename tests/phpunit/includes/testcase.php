@@ -16,6 +16,15 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 */
 	protected $autocommitted = false;
 
+	/**
+	 * A list of components that have been deactivated during a test.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @var array
+	 */
+	protected $deactivated_components = array();
+
 	public static function setUpBeforeClass() {
 
 		/*
@@ -67,6 +76,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		}
 
 		$this->commit_transaction();
+
+		// Reactivate any components that have been deactivated.
+		foreach ( $this->deactivated_components as $component ) {
+			buddypress()->active_components[ $component ] = 1;
+		}
+		$this->deactivated_components = array();
 	}
 
 	function clean_up_global_scope() {
@@ -463,5 +478,23 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 */
 	public function set_autocommit_flag() {
 		$this->autocommitted = true;
+	}
+
+	/**
+	 * Deactivate a component for the duration of a test.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @param string $component Component name.
+	 */
+	public function deactivate_component( $component ) {
+		$is_active = isset( buddypress()->active_components[ $component ] );
+
+		if ( ! isset( $component ) ) {
+			return false;
+		}
+
+		unset( buddypress()->active_components[ $component ] );
+		$this->deactivated_components[] = $component;
 	}
 }
