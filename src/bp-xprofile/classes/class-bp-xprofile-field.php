@@ -275,7 +275,9 @@ class BP_XProfile_Field {
 		 */
 		do_action_ref_array( 'xprofile_field_before_save', array( $this ) );
 
-		if ( $this->id != null ) {
+		$is_new_field = is_null( $this->id );
+
+		if ( ! $is_new_field ) {
 			$sql = $wpdb->prepare( "UPDATE {$bp->profile->table_name_fields} SET group_id = %d, parent_id = 0, type = %s, name = %s, description = %s, is_required = %d, order_by = %s, field_order = %d, option_order = %d, can_delete = %d, is_default_option = %d WHERE id = %d", $this->group_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->option_order, $this->can_delete, $this->is_default_option, $this->id );
 		} else {
 			$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, order_by, field_order, option_order, can_delete, is_default_option ) VALUES ( %d, %d, %s, %s, %s, %d, %s, %d, %d, %d, %d )", $this->group_id, $this->parent_id, $this->type, $this->name, $this->description, $this->is_required, $this->order_by, $this->field_order, $this->option_order, $this->can_delete, $this->is_default_option );
@@ -287,14 +289,12 @@ class BP_XProfile_Field {
 		 */
 		if ( $wpdb->query( $sql ) !== null ) {
 
-			if ( ! empty( $this->id ) ) {
-				$field_id = $this->id;
-			} else {
-				$field_id = $wpdb->insert_id;
+			if ( $is_new_field ) {
+				$this->id = $wpdb->insert_id;
 			}
 
 			// Only do this if we are editing an existing field
-			if ( $this->id != null ) {
+			if ( ! $is_new_field ) {
 
 				/**
 				 * Remove any radio or dropdown options for this
@@ -311,11 +311,7 @@ class BP_XProfile_Field {
 			 */
 			if ( $this->type_obj->supports_options ) {
 
-				if ( !empty( $this->id ) ) {
-					$parent_id = $this->id;
-				} else {
-					$parent_id = $wpdb->insert_id;
-				}
+				$parent_id = $this->id;
 
 				// Allow plugins to filter the field's child options (i.e. the items in a selectbox).
 				$post_option  = ! empty( $_POST["{$this->type}_option"]           ) ? $_POST["{$this->type}_option"]           : '';
@@ -380,11 +376,6 @@ class BP_XProfile_Field {
 			// Recreate type_obj in case someone changed $this->type via a filter
 	 		$this->type_obj            = bp_xprofile_create_field_type( $this->type );
 	 		$this->type_obj->field_obj = $this;
-
-			// If this is a new field, set the `id` property of the current object.
-			if ( empty( $this->id ) ) {
-				$this->id = $field_id;
-			}
 
 			return $this->id;
 		} else {
