@@ -212,4 +212,46 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 
 		$this->assertSame( $link, buddypress()->bp_options_nav['foo']['bar']['link'] );
 	}
+
+	public function test_should_return_false_if_site_admin_only_and_current_user_cannot_bp_moderate() {
+		// Should already be set to a 0 user.
+		$this->assertFalse( bp_current_user_can( 'bp_moderate' ) );
+		$args = array(
+			'name' => 'Foo',
+			'slug' => 'foo',
+			'parent_slug' => 'parent',
+			'parent_url' => bp_get_root_domain() . '/parent/',
+			'screen_function' => 'foo',
+			'site_admin_only' => true,
+		);
+
+		$this->assertFalse( bp_core_new_subnav_item( $args ) );
+	}
+
+	public function test_css_id_should_fall_back_on_slug() {
+		$args = array(
+			'name' => 'Foo',
+			'slug' => 'foo',
+			'parent_slug' => 'parent',
+			'parent_url' => bp_get_root_domain() . '/parent/',
+			'screen_function' => 'foo',
+		);
+		bp_core_new_subnav_item( $args );
+
+		$this->assertSame( 'foo', buddypress()->bp_options_nav['parent']['foo']['css_id'] );
+	}
+
+	public function test_css_id_should_be_respected() {
+		$args = array(
+			'name' => 'Foo',
+			'slug' => 'foo',
+			'parent_slug' => 'parent',
+			'parent_url' => bp_get_root_domain() . '/parent/',
+			'screen_function' => 'foo',
+			'item_css_id' => 'bar',
+		);
+		bp_core_new_subnav_item( $args );
+
+		$this->assertSame( 'bar', buddypress()->bp_options_nav['parent']['foo']['css_id'] );
+	}
 }
