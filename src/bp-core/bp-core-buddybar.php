@@ -16,22 +16,18 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array $args {
  *     Array describing the new nav item.
- *     @type string $name Display name for the nav item.
- *     @type string $slug Unique URL slug for the nav item.
- *     @type bool|string $item_css_id Optional. 'id' attribute for the nav
- *           item. Default: the value of $slug.
- *     @type bool $show_for_displayed_user Optional. Whether the nav item
- *           should be visible when viewing a member profile other than your
- *           own. Default: true.
- *     @type bool $site_admin_only Optional. Whether the nav item should be
- *           visible only to site admins (those with the 'bp_moderate' cap).
- *           Default: false.
- *     @type int $position Optional. Numerical index specifying where the item
- *           should appear in the nav array. Default: 99.
- *     @type callable $screen_function The callback function that will run
- *           when the nav item is clicked.
- *     @type bool|string $default_subnav_slug Optional. The slug of the default
- *           subnav item to select when the nav item is clicked.
+ *     @type string      $name                    Display name for the nav item.
+ *     @type string      $slug                    Unique URL slug for the nav item.
+ *     @type bool|string $item_css_id             Optional. 'id' attribute for the nav item. Default: the value of `$slug`.
+ *     @type bool        $show_for_displayed_user Optional. Whether the nav item should be visible when viewing a
+ *                                                member profile other than your own. Default: true.
+ *     @type bool        $site_admin_only         Optional. Whether the nav item should be visible only to site admins
+ *                                                (those with the 'bp_moderate' cap). Default: false.
+ *     @type int         $position                Optional. Numerical index specifying where the item should appear in
+ *                                                the nav array. Default: 99.
+ *     @type callable    $screen_function         The callback function that will run when the nav item is clicked.
+ *     @type bool|string $default_subnav_slug     Optional. The slug of the default subnav item to select when the nav
+ *                                                item is clicked.
  * }
  * @return bool|null Returns false on failure.
  */
@@ -137,11 +133,9 @@ function bp_core_new_nav_item( $args = '' ) {
  * Modify the default subnav item that loads when a top level nav item is clicked.
  *
  * @param array $args {
- *     @type string $parent_slug The slug of the nav item whose default is
- *           being changed.
- *     @type callable $screen_function The new default callback function that
- *           will run when the nav item is clicked.
- *     @type string $subnav_slug The slug of the new default subnav item.
+ *     @type string   $parent_slug     The slug of the nav item whose default is being changed.
+ *     @type callable $screen_function The new default callback function that will run when the nav item is clicked.
+ *     @type string   $subnav_slug     The slug of the new default subnav item.
  * }
  */
 function bp_core_new_nav_default( $args = '' ) {
@@ -244,29 +238,25 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
  *
  * @param array $args {
  *     Array describing the new subnav item.
- *     @type string $name Display name for the subnav item.
- *     @type string $slug Unique URL slug for the subnav item.
- *     @type string $parent_slug Slug of the top-level nav item under which the
- *           new subnav item should be added.
- *     @type string $parent_url URL of the parent nav item.
- *     @type bool|string $item_css_id Optional. 'id' attribute for the nav
- *           item. Default: the value of $slug.
- *     @type bool $user_has_access Optional. True if the logged-in user has
- *           access to the subnav item, otherwise false. Can be set dynamically
- *           when registering the subnav; eg, use bp_is_my_profile() to restrict
- *           access to profile owners only. Default: true.
- *     @type bool $site_admin_only Optional. Whether the nav item should be
- *           visible only to site admins (those with the 'bp_moderate' cap).
- *           Default: false.
- *     @type int $position Optional. Numerical index specifying where the item
- *           should appear in the subnav array. Default: 90.
- *     @type callable $screen_function The callback function that will run
- *           when the nav item is clicked.
- *     @type string $link Optional. The URL that the subnav item should point
- *           to. Defaults to a value generated from the $parent_url + $slug.
- *     @type bool $show_in_admin_bar Optional. Whether the nav item should be
- *           added into the group's "Edit" Admin Bar menu for group admins.
- *           Default: false.
+ *     @type string      $name              Display name for the subnav item.
+ *     @type string      $slug              Unique URL slug for the subnav item.
+ *     @type string      $parent_slug       Slug of the top-level nav item under which the new subnav item should
+ *                                          be added.
+ *     @type string      $parent_url        URL of the parent nav item.
+ *     @type bool|string $item_css_id       Optional. 'id' attribute for the nav item. Default: the value of `$slug`.
+ *     @type bool        $user_has_access   Optional. True if the logged-in user has access to the subnav item,
+ *                                          otherwise false. Can be set dynamically when registering the subnav;
+ *                                          eg, use `bp_is_my_profile()` to restrict access to profile owners only.
+ *                                          Default: true.
+ *     @type bool        $site_admin_only   Optional. Whether the nav item should be visible only to site admins
+ *                                          (those with the 'bp_moderate' cap). Default: false.
+ *     @type int         $position          Optional. Numerical index specifying where the item should appear in the
+ *                                          subnav array. Default: 90.
+ *     @type callable    $screen_function   The callback function that will run when the nav item is clicked.
+ *     @type string      $link              Optional. The URL that the subnav item should point to. Defaults to a value
+ *                                          generated from the `$parent_url` + `$slug`.
+ *     @type bool        $show_in_admin_bar Optional. Whether the nav item should be added into the group's "Edit"
+ *                                          Admin Bar menu for group admins. Default: false.
  * }
  * @return bool|null Returns false on failure.
  */
@@ -363,8 +353,7 @@ function bp_core_new_subnav_item( $args = '' ) {
  *
  * @since BuddyPress (2.1.0)
  *
- * @param array $subnav_item The subnav array added to bp_options_nav in
- *        bp_core_new_subnav_item().
+ * @param array $subnav_item The subnav array added to bp_options_nav in `bp_core_new_subnav_item()`.
  * @return array
  */
 function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) {
@@ -489,10 +478,9 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
  *
  * @since BuddyPress (1.5.0)
  *
- * @param string $nav_item The slug of the top-level nav item whose subnav
- *        items you're checking. Default: the current component slug.
- * @return bool $has_subnav True if the nav item is found and has subnav
- *        items; false otherwise.
+ * @param string $nav_item The slug of the top-level nav item whose subnav items you're checking.
+ *                         Default: the current component slug.
+ * @return bool $has_subnav True if the nav item is found and has subnav items; false otherwise.
  */
 function bp_nav_item_has_subnav( $nav_item = '' ) {
 	$bp = buddypress();
@@ -508,8 +496,7 @@ function bp_nav_item_has_subnav( $nav_item = '' ) {
 	 * @since BuddyPress (1.5.0)
 	 *
 	 * @param bool   $has_subnav Whether or not there is any subnav items.
-	 * @param string $nav_item   The slug of the top-level nav item whose subnav
-	 *                           items you're checking.
+	 * @param string $nav_item   The slug of the top-level nav item whose subnav items you're checking.
 	 */
 	return apply_filters( 'bp_nav_item_has_subnav', $has_subnav, $nav_item );
 }
@@ -547,7 +534,7 @@ function bp_core_remove_nav_item( $parent_id ) {
  * Remove a subnav item from the navigation array.
  *
  * @param string $parent_id The slug of the parent navigation item.
- * @param string $slug The slug of the subnav item to be removed.
+ * @param string $slug      The slug of the subnav item to be removed.
  */
 function bp_core_remove_subnav_item( $parent_id, $slug ) {
 	$bp = buddypress();
@@ -591,8 +578,7 @@ function bp_core_reset_subnav_items( $parent_slug ) {
  * @uses get_user_option()
  *
  * @param string $context Context of this preference check. 'admin' or 'front'.
- * @param int $user Optional. ID of the user to check. Default: 0 (which falls
- *        back to the logged-in user's ID).
+ * @param int    $user    Optional. ID of the user to check. Default: 0 (which falls back to the logged-in user's ID).
  * @return bool True if the toolbar should be showing for this user.
  */
 function bp_get_admin_bar_pref( $context, $user = 0 ) {
