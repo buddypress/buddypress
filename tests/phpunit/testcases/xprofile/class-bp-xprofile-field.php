@@ -108,4 +108,17 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 			$_POST['radio_option' ]
 		);
 	}
+
+	/**
+	 * @ticket BP6545
+	 */
+	public function test_newly_created_field_should_have_field_id_property_set() {
+		$field = new BP_XProfile_Field();
+		$field->group_id = 1;
+		$field->name = 'Foo';
+
+		$new_field_id = $field->save();
+
+		$this->assertSame( $new_field_id, $field->id );
+	}
 }

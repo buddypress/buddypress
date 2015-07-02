@@ -287,7 +287,7 @@ class BP_XProfile_Field {
 		 */
 		if ( $wpdb->query( $sql ) !== null ) {
 
-			if ( !empty( $this->id ) ) {
+			if ( ! empty( $this->id ) ) {
 				$field_id = $this->id;
 			} else {
 				$field_id = $wpdb->insert_id;
@@ -381,7 +381,12 @@ class BP_XProfile_Field {
 	 		$this->type_obj            = bp_xprofile_create_field_type( $this->type );
 	 		$this->type_obj->field_obj = $this;
 
-			return $field_id;
+			// If this is a new field, set the `id` property of the current object.
+			if ( empty( $this->id ) ) {
+				$this->id = $field_id;
+			}
+
+			return $this->id;
 		} else {
 			return false;
 		}
