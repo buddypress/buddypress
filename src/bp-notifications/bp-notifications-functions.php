@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_notifications_add_notification( $args = array() ) {
 
-	$r = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'user_id'           => 0,
 		'item_id'           => 0,
 		'secondary_item_id' => 0,
@@ -43,7 +43,7 @@ function bp_notifications_add_notification( $args = array() ) {
 		'date_notified'     => bp_core_current_time(),
 		'is_new'            => 1,
 		'allow_duplicate'   => false,
-	) );
+	), 'notifications_add_notification' );;
 
 	// Check for existing duplicate notifications
 	if ( ! $r['allow_duplicate'] ) {
