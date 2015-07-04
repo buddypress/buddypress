@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Friends Classes
+ * BuddyPress Friends Classes.
  *
  * @package BuddyPress
  * @subpackage FriendsClasses

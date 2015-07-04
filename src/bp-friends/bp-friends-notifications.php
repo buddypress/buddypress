@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Friends Activity Functions
+ * BuddyPress Friends Activity Functions.
  *
  * These functions handle the recording, deleting and formatting of activity
  * for the user and for this specific component.
@@ -22,8 +22,10 @@ defined( 'ABSPATH' ) || exit;
  * the user of whom friendship has been requested ($friend_id).
  *
  * @param int $friendship_id ID of the friendship object.
- * @param int $initiator_id ID of the user who initiated the request.
- * @param int $friend_id ID of the request recipient.
+ * @param int $initiator_id  ID of the user who initiated the request.
+ * @param int $friend_id     ID of the request recipient.
+ *
+ * @return bool
  */
 function friends_notification_new_request( $friendship_id, $initiator_id, $friend_id ) {
 
@@ -70,7 +72,7 @@ To view %3$s\'s profile: %4$s
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $subject Subject line to be used in friend request email.
+	 * @param string $subject        Subject line to be used in friend request email.
 	 * @param string $initiator_name Name of the person requesting friendship.
 	 */
 	$subject = apply_filters( 'friends_notification_new_request_subject', $subject, $initiator_name );
@@ -80,11 +82,11 @@ To view %3$s\'s profile: %4$s
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $message Message to be used in friend request email.
-	 * @param string $initiator_name Name of the person requesting friendship.
-	 * @param string $initiator_link Profile link of person requesting friendship.
+	 * @param string $message           Message to be used in friend request email.
+	 * @param string $initiator_name    Name of the person requesting friendship.
+	 * @param string $initiator_link    Profile link of person requesting friendship.
 	 * @param string $all_requests_link User's friends request management link.
-	 * @param string $settings_link Email recipient's settings management link.
+	 * @param string $settings_link     Email recipient's settings management link.
 	 */
 	$message = apply_filters( 'friends_notification_new_request_message', $message, $initiator_name, $initiator_link, $all_requests_link, $settings_link );
 
@@ -95,11 +97,11 @@ To view %3$s\'s profile: %4$s
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param int    $friend_id ID of the request recipient.
-	 * @param string $subject Text for the friend request subject field.
-	 * @param string $message Text for the friend request message field.
+	 * @param int    $friend_id     ID of the request recipient.
+	 * @param string $subject       Text for the friend request subject field.
+	 * @param string $message       Text for the friend request message field.
 	 * @param int    $friendship_id ID of the friendship object.
-	 * @param int    $initiator_id ID of the friendship requester.
+	 * @param int    $initiator_id  ID of the friendship requester.
 	 */
 	do_action( 'bp_friends_sent_request_email', $friend_id, $subject, $message, $friendship_id, $initiator_id );
 }
@@ -112,8 +114,10 @@ add_action( 'friends_friendship_requested', 'friends_notification_new_request', 
  * sent to the user who requested the friendship ($initiator_id).
  *
  * @param int $friendship_id ID of the friendship object.
- * @param int $initiator_id ID of the user who initiated the request.
- * @param int $friend_id ID of the request recipient.
+ * @param int $initiator_id  ID of the user who initiated the request.
+ * @param int $friend_id     ID of the request recipient.
+ *
+ * @return bool
  */
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
 
@@ -157,7 +161,7 @@ To view %2$s\'s profile: %3$s
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $subject Subject line to be used in friend request accepted email.
+	 * @param string $subject     Subject line to be used in friend request accepted email.
 	 * @param string $friend_name Name of the person who accepted the friendship request.
 	 */
 	$subject = apply_filters( 'friends_notification_accepted_request_subject', $subject, $friend_name );
@@ -167,9 +171,9 @@ To view %2$s\'s profile: %3$s
 	 *
 	 * @since BuddyPress (1.2.0)
 	 *
-	 * @param string $message Message to be used in friend request email.
-	 * @param string $friend_name Name of the person who accepted the friendship request.
-	 * @param string $friend_link Profile link of person who accepted the friendship request.
+	 * @param string $message       Message to be used in friend request email.
+	 * @param string $friend_name   Name of the person who accepted the friendship request.
+	 * @param string $friend_link   Profile link of person who accepted the friendship request.
 	 * @param string $settings_link Email recipient's settings management link.
 	 */
 	$message = apply_filters( 'friends_notification_accepted_request_message', $message, $friend_name, $friend_link, $settings_link );
@@ -181,11 +185,11 @@ To view %2$s\'s profile: %3$s
 	 *
 	 * @since BuddyPress (1.5.0)
 	 *
-	 * @param int    $initiator_id ID of the friendship requester.
-	 * @param string $subject Text for the friend request subject field.
-	 * @param string $message Text for the friend request message field.
+	 * @param int    $initiator_id  ID of the friendship requester.
+	 * @param string $subject       Text for the friend request subject field.
+	 * @param string $message       Text for the friend request message field.
 	 * @param int    $friendship_id ID of the friendship object.
-	 * @param int    $friend_id ID of the request recipient.
+	 * @param int    $friend_id     ID of the request recipient.
 	 */
 	do_action( 'bp_friends_sent_accepted_email', $initiator_id, $subject, $message, $friendship_id, $friend_id );
 }
@@ -196,13 +200,14 @@ add_action( 'friends_friendship_accepted', 'friends_notification_accepted_reques
 /**
  * Notification formatting callback for bp-friends notifications.
  *
- * @param string $action The kind of notification being rendered.
- * @param int $item_id The primary item ID.
- * @param int $secondary_item_id The secondary item ID.
- * @param int $total_items The total number of messaging-related notifications
- *        waiting for the user.
- * @param string $format 'string' for BuddyBar-compatible notifications;
- *        'array' for WP Toolbar. Default: 'string'.
+ * @param string $action            The kind of notification being rendered.
+ * @param int    $item_id           The primary item ID.
+ * @param int    $secondary_item_id The secondary item ID.
+ * @param int    $total_items       The total number of messaging-related notifications
+ *                                  waiting for the user.
+ * @param string $format            'string' for BuddyBar-compatible notifications;
+ *                                  'array' for WP Toolbar. Default: 'string'.
+ *
  * @return array|string
  */
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
@@ -327,9 +332,9 @@ add_action( 'friends_screen_my_friends', 'bp_friends_mark_friendship_accepted_no
  * Notify one use that another user has requested their virtual friendship.
  *
  * @since BuddyPress (1.9.0)
- * @param int $friendship_id The unique ID of the friendship
- * @param int $initiator_user_id The friendship initiator user ID
- * @param int $friend_user_id The friendship request receiver user ID
+ * @param int $friendship_id     The unique ID of the friendship.
+ * @param int $initiator_user_id The friendship initiator user ID.
+ * @param int $friend_user_id    The friendship request receiver user ID.
  */
 function bp_friends_friendship_requested_notification( $friendship_id, $initiator_user_id, $friend_user_id ) {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -351,7 +356,7 @@ add_action( 'friends_friendship_requested', 'bp_friends_friendship_requested_not
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $friendship_id (not used)
+ * @param int    $friendship_id (not used)
  * @param object $friendship
  */
 function bp_friends_mark_friendship_rejected_notifications_by_item_id( $friendship_id, $friendship ) {
@@ -365,9 +370,10 @@ add_action( 'friends_friendship_rejected', 'bp_friends_mark_friendship_rejected_
  * Notify a member when another member accepts their virtual friendship request.
  *
  * @since BuddyPress (1.9.0)
- * @param int $friendship_id The unique ID of the friendship
- * @param int $initiator_user_id The friendship initiator user ID
- * @param int $friend_user_id The friendship request receiver user ID
+ *
+ * @param int $friendship_id     The unique ID of the friendship.
+ * @param int $initiator_user_id The friendship initiator user ID.
+ * @param int $friend_user_id    The friendship request receiver user ID.
  */
 function bp_friends_add_friendship_accepted_notification( $friendship_id, $initiator_user_id, $friend_user_id ) {
 
@@ -393,11 +399,11 @@ function bp_friends_add_friendship_accepted_notification( $friendship_id, $initi
 add_action( 'friends_friendship_accepted', 'bp_friends_add_friendship_accepted_notification', 10, 3 );
 
 /**
- * Remove friend request notice when a member withdraws their friend request
+ * Remove friend request notice when a member withdraws their friend request.
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int $friendship_id (not used)
+ * @param int    $friendship_id (not used)
  * @param object $friendship
  */
 function bp_friends_mark_friendship_withdrawn_notifications_by_item_id( $friendship_id, $friendship ) {
@@ -408,9 +414,10 @@ function bp_friends_mark_friendship_withdrawn_notifications_by_item_id( $friends
 add_action( 'friends_friendship_withdrawn', 'bp_friends_mark_friendship_withdrawn_notifications_by_item_id', 10, 2 );
 
 /**
- * Remove friendship requests FROM user, used primarily when a user is deleted
+ * Remove friendship requests FROM user, used primarily when a user is deleted.
  *
  * @since BuddyPress (1.9.0)
+ *
  * @param int $user_id
  */
 function bp_friends_remove_notifications_data( $user_id = 0 ) {

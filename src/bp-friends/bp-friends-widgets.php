@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Widgets
+ * BuddyPress Widgets.
  *
  * @package BuddyPress
  * @subpackage Friends
@@ -156,6 +156,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The parameters saved by the user.
 	 * @param array $old_instance The parameters as previously saved to the database.
+	 *
 	 * @return array $instance The processed settings to save.
 	 */
 	function update( $new_instance, $old_instance ) {
@@ -172,6 +173,8 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 * Render the widget edit form.
 	 *
 	 * @param array $instance The saved widget settings.
+	 *
+	 * @return string
 	 */
 	function form( $instance ) {
 		$defaults = array(

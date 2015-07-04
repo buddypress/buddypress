@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Friend Filters
+ * BuddyPress Friend Filters.
  *
  * @package BuddyPress
  * @subpackage FriendsFilters
@@ -17,9 +17,9 @@
  *
  * @global WPDB $wpdb WordPress database access object.
  *
- * @param BP_User_Query $user_query The BP_User_Query object.
- * @param string $user_ids_sql Comma-separated list of user IDs to fetch extra
- *        data for, as determined by BP_User_Query.
+ * @param BP_User_Query $user_query   The BP_User_Query object.
+ * @param string        $user_ids_sql Comma-separated list of user IDs to fetch extra
+ *                                    data for, as determined by BP_User_Query.
  */
 function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql ) {
 	global $wpdb;

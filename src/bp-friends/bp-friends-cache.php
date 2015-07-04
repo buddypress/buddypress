@@ -17,7 +17,9 @@ defined( 'ABSPATH' ) || exit;
  * Clear friends-related cache for members of a specific friendship.
  *
  * @param int $friendship_id ID of the friendship whose two members should
- *        have their friends cache busted.
+ *                           have their friends cache busted.
+ *
+ * @return bool
  */
 function friends_clear_friend_object_cache( $friendship_id ) {
 	if ( !$friendship = new BP_Friends_Friendship( $friendship_id ) )
@@ -36,7 +38,7 @@ add_action( 'friends_friendship_deleted',  'friends_clear_friend_object_cache' )
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $friend_user_id The user ID not initiating the friendship
+ * @param int $friend_user_id The user ID not initiating the friendship.
  */
 function bp_friends_clear_request_cache( $friend_user_id ) {
 	wp_cache_delete( $friend_user_id, 'bp_friends_requests' );
@@ -49,9 +51,9 @@ function bp_friends_clear_request_cache( $friend_user_id ) {
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $friendship_id The friendship ID
- * @param int $initiator_user_id The user ID initiating the friendship
- * @param int $friend_user_id The user ID not initiating the friendship
+ * @param int $friendship_id     The friendship ID.
+ * @param int $initiator_user_id The user ID initiating the friendship.
+ * @param int $friend_user_id    The user ID not initiating the friendship.
  */
 function bp_friends_clear_request_cache_on_save( $friendship_id, $initiator_user_id, $friend_user_id ) {
 	bp_friends_clear_request_cache( $friend_user_id );
@@ -66,11 +68,11 @@ add_action( 'friends_friendship_accepted',  'bp_friends_clear_request_cache_on_s
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $friendship_id The friendship ID
+ * @param int                   $friendship_id The friendship ID.
  * @param BP_Friends_Friendship $friendship
  */
 function bp_friends_clear_request_cache_on_remove( $friendship_id, BP_Friends_Friendship $friendship ) {
-	bp_friends_clear_request_cache( $friendship->friend_user_id );	
+	bp_friends_clear_request_cache( $friendship->friend_user_id );
 }
 add_action( 'friends_friendship_withdrawn', 'bp_friends_clear_request_cache_on_remove', 10, 2 );
 add_action( 'friends_friendship_rejected',  'bp_friends_clear_request_cache_on_remove', 10, 2 );
