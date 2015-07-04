@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Settings Template Functions
+ * BuddyPress Settings Template Functions.
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Output the settings component slug
+ * Output the settings component slug.
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
@@ -23,7 +23,7 @@ function bp_settings_slug() {
 	echo bp_get_settings_slug();
 }
 	/**
-	 * Return the settings component slug
+	 * Return the settings component slug.
 	 *
 	 * @package BuddyPress
 	 * @subpackage SettingsTemplate
@@ -42,7 +42,7 @@ function bp_settings_slug() {
 	}
 
 /**
- * Output the settings component root slug
+ * Output the settings component root slug.
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
@@ -54,7 +54,7 @@ function bp_settings_root_slug() {
 	echo bp_get_settings_root_slug();
 }
 	/**
-	 * Return the settings component root slug
+	 * Return the settings component root slug.
 	 *
 	 * @package BuddyPress
 	 * @subpackage SettingsTemplate

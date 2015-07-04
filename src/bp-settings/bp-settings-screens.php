@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Settings Screens
+ * BuddyPress Settings Screens.
  *
  * @package BuddyPress
  * @subpackage SettingsScreens
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Show the general settings template
+ * Show the general settings template.
  *
  * @since BuddyPress (1.5.0)
  */
@@ -33,7 +33,7 @@ function bp_settings_screen_general() {
 }
 
 /**
- * Show the notifications settings template
+ * Show the notifications settings template.
  *
  * @since BuddyPress (1.5.0)
  */
@@ -55,7 +55,7 @@ function bp_settings_screen_notification() {
 }
 
 /**
- * Show the delete-account settings template
+ * Show the delete-account settings template.
  *
  * @since BuddyPress (1.5.0)
  */
@@ -77,7 +77,7 @@ function bp_settings_screen_delete_account() {
 }
 
 /**
- * Show the capabilities settings template
+ * Show the capabilities settings template.
  *
  * @since BuddyPress (1.6.0)
  */

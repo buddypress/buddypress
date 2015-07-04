@@ -12,7 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Handles the changing and saving of user email addresses and passwords
+ * Handles the changing and saving of user email addresses and passwords.
  *
  * We do quite a bit of logic and error handling here to make sure that users
  * do not accidentally lock themselves out of their accounts. We also try to
@@ -280,7 +280,7 @@ Regards,
 add_action( 'bp_actions', 'bp_settings_action_general' );
 
 /**
- * Handles the changing and saving of user notification settings
+ * Handles the changing and saving of user notification settings.
  */
 function bp_settings_action_notifications() {
 
@@ -401,7 +401,7 @@ function bp_settings_action_capabilities() {
 add_action( 'bp_actions', 'bp_settings_action_capabilities' );
 
 /**
- * Handles the deleting of a user
+ * Handles the deleting of a user.
  */
 function bp_settings_action_delete_account() {
 
