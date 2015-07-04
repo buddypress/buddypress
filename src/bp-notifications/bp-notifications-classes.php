@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Notifications Classes
+ * BuddyPress Notifications Classes.
  *
  * Classes used for the Notifications component.
  *

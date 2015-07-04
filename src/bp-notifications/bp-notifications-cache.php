@@ -15,9 +15,9 @@
  *
  * @since BuddyPress (2.3.0)
  *
- * @param int|str|array $notification_ids Accepts a single notification_id, or a
- *                                        comma-separated list or array of
- *                                        notification ids.
+ * @param int|string|array|bool $notification_ids Accepts a single notification_id, or a
+ *                                                comma-separated list or array of
+ *                                                notification ids.
  */
 function bp_notifications_update_meta_cache( $notification_ids = false ) {
 	bp_update_meta_cache( array(
@@ -31,11 +31,11 @@ function bp_notifications_update_meta_cache( $notification_ids = false ) {
 }
 
 /**
- * Clear all notifications cache for a given user ID
+ * Clear all notifications cache for a given user ID.
  *
  * @since BuddyPress (2.3.0)
  *
- * @param int $user_id The user ID's cache to clear
+ * @param int $user_id The user ID's cache to clear.
  */
 function bp_notifications_clear_all_for_user_cache( $user_id = 0 ) {
 	wp_cache_delete( 'all_for_user_' . $user_id, 'bp_notifications' );

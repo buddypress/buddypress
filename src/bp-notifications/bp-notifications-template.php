@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Notifications Template Functions
+ * BuddyPress Notifications Template Functions.
  *
  * @package BuddyPress
  * @subpackage TonificationsTemplate
@@ -205,7 +205,7 @@ class BP_Notifications_Template {
 	public $pag_page;
 
 	/**
-	 * The $_GET argument used in URLs for determining pagination
+	 * The $_GET argument used in URLs for determining pagination.
 	 *
 	 * @since BuddyPress (1.9.0)
 	 * @access public
@@ -250,7 +250,7 @@ class BP_Notifications_Template {
 	public $order_by;
 
 	/**
-	 * The direction to sort the results (ASC or DESC)
+	 * The direction to sort the results (ASC or DESC).
 	 *
 	 * @since BuddyPress (1.9.0)
 	 * @access public
@@ -259,7 +259,7 @@ class BP_Notifications_Template {
 	public $sort_order;
 
 	/**
-	 * Array of variables used in this notification query
+	 * Array of variables used in this notification query.
 	 *
 	 * @since BuddyPress (2.2.2)
 	 * @var array
@@ -433,7 +433,7 @@ class BP_Notifications_Template {
 	 * @see bp_notifications()
 	 *
 	 * @return bool True if there are more notifications to show,
-	 *         otherwise false.
+	 *              otherwise false.
 	 */
 	public function notifications() {
 
@@ -495,17 +495,19 @@ class BP_Notifications_Template {
  *
  * @since BuddyPress (1.9.0)
  *
- * @param array $args {
+ * @param array|string $args {
  *     Arguments for limiting the contents of the notifications loop. Can be
  *     passed as an associative array, or as a URL query string.
  *
  *     See {@link BP_Notifications_Notification::get()} for detailed
  *     information on the arguments.  In addition, also supports:
  *
- *     @type int $max Optional. Max items to display. Default: false.
+ *     @type int    $max      Optional. Max items to display. Default: false.
  *     @type string $page_arg URL argument to use for pagination.
- *           Default: 'npage'.
+ *                            Default: 'npage'.
  * }
+ *
+ * @return bool
  */
 function bp_has_notifications( $args = '' ) {
 
@@ -873,7 +875,7 @@ function bp_the_notification_mark_read_link() {
 	}
 
 /**
- * Output the URL used for marking a single notification as read
+ * Output the URL used for marking a single notification as read.
  *
  * Since this function directly outputs a URL, it is escaped.
  *
@@ -885,7 +887,7 @@ function bp_the_notification_mark_read_url() {
 	echo esc_url( bp_get_the_notification_mark_read_url() );
 }
 	/**
-	 * Return the URL used for marking a single notification as read
+	 * Return the URL used for marking a single notification as read.
  	 *
 	 * @since BuddyPress (2.1.0)
 	 */
@@ -951,7 +953,7 @@ function bp_the_notification_mark_unread_link() {
 	}
 
 /**
- * Output the URL used for marking a single notification as unread
+ * Output the URL used for marking a single notification as unread.
  *
  * Since this function directly outputs a URL, it is escaped.
  *
@@ -963,7 +965,7 @@ function bp_the_notification_mark_unread_url() {
 	echo esc_url( bp_get_the_notification_mark_unread_url() );
 }
 	/**
-	 * Return the URL used for marking a single notification as unread
+	 * Return the URL used for marking a single notification as unread.
  	 *
 	 * @since BuddyPress (2.1.0)
 	 */
@@ -1062,7 +1064,7 @@ function bp_the_notification_delete_link() {
 	}
 
 /**
- * Output the URL used for deleting a single notification
+ * Output the URL used for deleting a single notification.
  *
  * Since this function directly outputs a URL, it is escaped.
  *
@@ -1075,7 +1077,7 @@ function bp_the_notification_delete_url() {
 	echo esc_url( bp_get_the_notification_delete_url() );
 }
 	/**
-	 * Return the URL used for deleting a single notification
+	 * Return the URL used for deleting a single notification.
 	 *
 	 * @since BuddyPress (2.1.0)
 	 *
@@ -1118,6 +1120,7 @@ function bp_the_notification_delete_url() {
 /**
  * Output the action links for the current notification.
  *
+ * @param array|string $args Array of arguments.
  * @since BuddyPress (1.9.0)
  */
 function bp_the_notification_action_links( $args = '' ) {
@@ -1128,11 +1131,11 @@ function bp_the_notification_action_links( $args = '' ) {
 	 *
 	 * @since BuddyPress (1.9.0)
 	 *
-	 * @param array $args {
+	 * @param array|string $args {
 	 *     @type string $before HTML before the links.
-	 *     @type string $after HTML after the links.
-	 *     @type string $sep HTML between the links.
-	 *     @type array $links Array of links to implode by 'sep'.
+	 *     @type string $after  HTML after the links.
+	 *     @type string $sep    HTML between the links.
+	 *     @type array  $links  Array of links to implode by 'sep'.
 	 * }
 	 *
 	 * @return string HTML links for actions to take on single notifications.
@@ -1231,7 +1234,7 @@ function bp_notifications_pagination_links() {
 /** Form Helpers **************************************************************/
 
 /**
- * Output the form for changing the sort order of notifications
+ * Output the form for changing the sort order of notifications.
  *
  * @since BuddyPress (1.9.0)
  */

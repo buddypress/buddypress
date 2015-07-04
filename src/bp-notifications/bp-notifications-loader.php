@@ -10,7 +10,7 @@
  * @since BuddyPress (1.9.0)
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 class BP_Notifications_Component extends BP_Component {
@@ -97,9 +97,9 @@ class BP_Notifications_Component extends BP_Component {
 	 * @see BP_Component::setup_nav() for a description of arguments.
 	 *
 	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
-	 *        description.
-	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
-	 *        description.
+	 *                        description.
+	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -170,7 +170,7 @@ class BP_Notifications_Component extends BP_Component {
 	 *      parameter array.
 	 *
 	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a
-	 *        description.
+	 *                            description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
@@ -245,7 +245,7 @@ class BP_Notifications_Component extends BP_Component {
 	}
 
 	/**
-	 * Setup cache groups
+	 * Setup cache groups.
 	 *
 	 * @since BuddyPress (2.2.0)
 	 */
