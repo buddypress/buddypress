@@ -265,6 +265,54 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
  * @return bool|null Returns false on failure.
  */
 function bp_core_new_subnav_item( $args = '' ) {
+
+	// First, add the subnav item link to the bp_options_nav array.
+	$created = bp_core_create_subnav_link( $args );
+
+	// To mimic the existing behavior, if bp_core_create_subnav_link()
+	// returns false, we make an early exit and don't attempt to register
+	// the screen function.
+	if ( false === $created ) {
+		return false;
+	}
+
+	// Then, hook the screen function for the added subnav item.
+	bp_core_register_subnav_screen_function( $args );
+
+}
+
+/**
+ * Add a subnav link to the BuddyPress navigation.
+ *
+ * @param array $args {
+ *     Array describing the new subnav item.
+ *     @type string $name Display name for the subnav item.
+ *     @type string $slug Unique URL slug for the subnav item.
+ *     @type string $parent_slug Slug of the top-level nav item under which the
+ *           new subnav item should be added.
+ *     @type string $parent_url URL of the parent nav item.
+ *     @type bool|string $item_css_id Optional. 'id' attribute for the nav
+ *           item. Default: the value of $slug.
+ *     @type bool $user_has_access Optional. True if the logged-in user has
+ *           access to the subnav item, otherwise false. Can be set dynamically
+ *           when registering the subnav; eg, use bp_is_my_profile() to restrict
+ *           access to profile owners only. Default: true.
+ *     @type bool $site_admin_only Optional. Whether the nav item should be
+ *           visible only to site admins (those with the 'bp_moderate' cap).
+ *           Default: false.
+ *     @type int $position Optional. Numerical index specifying where the item
+ *           should appear in the subnav array. Default: 90.
+ *     @type callable $screen_function The callback function that will run
+ *           when the nav item is clicked.
+ *     @type string $link Optional. The URL that the subnav item should point
+ *           to. Defaults to a value generated from the $parent_url + $slug.
+ *     @type bool $show_in_admin_bar Optional. Whether the nav item should be
+ *           added into the group's "Edit" Admin Bar menu for group admins.
+ *           Default: false.
+ * }
+ * @return bool|null Returns false on failure.
+ */
+function bp_core_create_subnav_link( $args = '' ) {
 	$bp = buddypress();
 
 	$r = wp_parse_args( $args, array(
@@ -318,12 +366,51 @@ function bp_core_new_subnav_item( $args = '' ) {
 	);
 
 	$bp->bp_options_nav[$r['parent_slug']][$r['slug']] = $subnav_item;
+}
+
+/**
+ * Register a screen function, whether or not a related subnav link exists.
+ *
+ * @param array $args {
+ *     Array describing the new subnav item.
+ *     @type string $slug Unique URL slug for the subnav item.
+ *     @type string $parent_slug Slug of the top-level nav item under which the
+ *           new subnav item should be added.
+ *     @type string $parent_url URL of the parent nav item.
+ *     @type bool $user_has_access Optional. True if the logged-in user has
+ *           access to the subnav item, otherwise false. Can be set dynamically
+ *           when registering the subnav; eg, use bp_is_my_profile() to restrict
+ *           access to profile owners only. Default: true.
+ *     @type bool $site_admin_only Optional. Whether the nav item should be
+ *           visible only to site admins (those with the 'bp_moderate' cap).
+ *           Default: false.
+ *     @type int $position Optional. Numerical index specifying where the item
+ *           should appear in the subnav array. Default: 90.
+ *     @type callable $screen_function The callback function that will run
+ *           when the nav item is clicked.
+ *     @type string $link Optional. The URL that the subnav item should point
+ *           to. Defaults to a value generated from the $parent_url + $slug.
+ *     @type bool $show_in_admin_bar Optional. Whether the nav item should be
+ *           added into the group's "Edit" Admin Bar menu for group admins.
+ *           Default: false.
+ * }
+ * @return bool|null Returns false on failure.
+ */
+function bp_core_register_subnav_screen_function( $args = '' ) {
+	$r = wp_parse_args( $args, array(
+		'slug'              => false, // URL slug for the screen
+		'parent_slug'       => false, // URL slug of the parent screen
+		'user_has_access'   => true,  // Can the user visit this screen?
+		'no_access_url'     => '',
+		'site_admin_only'   => false, // Can only site admins visit this screen?
+		'screen_function'   => false, // The name of the function to run when clicked
+	) );
 
 	/**
-	 * The last step is to hook the screen function for the added subnav item. But this only
-	 * needs to be done if this subnav item is the current view, and the user has access to the
-	 * subnav item. We figure out whether we're currently viewing this subnav by checking the
-	 * following two conditions:
+	 * Hook the screen function for the added subnav item. But this only needs to
+	 * be done if this subnav item is the current view, and the user has access to the
+	 * subnav item. We figure out whether we're currently viewing this subnav by
+	 * checking the following two conditions:
 	 *   (1) Either:
 	 *	     (a) the parent slug matches the current_component, or
 	 *	     (b) the parent slug matches the current_item
@@ -344,7 +431,12 @@ function bp_core_new_subnav_item( $args = '' ) {
 	// If we *do* meet condition (2), then the added subnav item is currently being requested
 	if ( ( bp_current_action() && bp_is_current_action( $r['slug'] ) ) || ( bp_is_user() && ! bp_current_action() && ( $r['screen_function'] == $bp->bp_nav[$parent_slug]['screen_function'] ) ) ) {
 
-		$hooked = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
+		// If this is for site admins only and the user is not one, don't create the subnav item
+		if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+			return false;
+		}
+
+		$hooked = bp_core_maybe_hook_new_subnav_screen_function( $r );
 
 		// If redirect args have been returned, perform the redirect now
 		if ( ! empty( $hooked['status'] ) && 'failure' === $hooked['status'] && isset( $hooked['redirect_args'] ) ) {
@@ -366,8 +458,14 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) {
 		'status' => '',
 	);
 
+	// Is this accessible by site admins only?
+	$site_admin_restricted = false;
+	if ( ! empty( $subnav_item['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+		$site_admin_restricted = true;
+	}
+
 	// User has access, so let's try to hook the display callback
-	if ( ! empty( $subnav_item['user_has_access'] ) ) {
+	if ( ! empty( $subnav_item['user_has_access'] ) && ! $site_admin_restricted ) {
 
 		// Screen function is invalid
 		if ( ! is_callable( $subnav_item['screen_function'] ) ) {

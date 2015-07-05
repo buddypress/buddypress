@@ -734,12 +734,13 @@ class BP_Group_Extension {
 			return;
 		}
 
+		// If the user can see the nav item, we create it.
 		$user_can_see_nav_item = $this->user_can_see_nav_item();
 
 		if ( $user_can_see_nav_item ) {
 			$group_permalink = bp_get_group_permalink( groups_get_current_group() );
 
-			bp_core_new_subnav_item( array(
+			bp_core_create_subnav_link( array(
 				'name'            => ! $this->nav_item_name ? $this->name : $this->nav_item_name,
 				'slug'            => $this->slug,
 				'parent_slug'     => bp_get_current_group_slug(),
@@ -748,6 +749,21 @@ class BP_Group_Extension {
 				'item_css_id'     => 'nav-' . $this->slug,
 				'screen_function' => array( &$this, '_display_hook' ),
 				'user_has_access' => $user_can_see_nav_item,
+				'no_access_url'   => $group_permalink,
+			) );
+		}
+
+		// If the user can visit the screen, we register it.
+		$user_can_visit = $this->user_can_visit();
+
+		if ( $user_can_visit ) {
+			$group_permalink = bp_get_group_permalink( groups_get_current_group() );
+
+			bp_core_register_subnav_screen_function( array(
+				'slug'            => $this->slug,
+				'parent_slug'     => bp_get_current_group_slug(),
+				'screen_function' => array( &$this, '_display_hook' ),
+				'user_has_access' => $user_can_visit,
 				'no_access_url'   => $group_permalink,
 			) );
 
