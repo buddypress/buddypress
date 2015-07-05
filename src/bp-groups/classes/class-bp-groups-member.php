@@ -230,6 +230,11 @@ class BP_Groups_Member {
 		 */
 		do_action_ref_array( 'groups_member_before_save', array( &$this ) );
 
+		// The following properties are required; bail if not met.
+		if ( empty( $this->user_id ) || empty( $this->group_id ) ) {
+			return false;
+		}
+
 		if ( !empty( $this->id ) ) {
 			$sql = $wpdb->prepare( "UPDATE {$bp->groups->table_name_members} SET inviter_id = %d, is_admin = %d, is_mod = %d, is_banned = %d, user_title = %s, date_modified = %s, is_confirmed = %d, comments = %s, invite_sent = %d WHERE id = %d", $this->inviter_id, $this->is_admin, $this->is_mod, $this->is_banned, $this->user_title, $this->date_modified, $this->is_confirmed, $this->comments, $this->invite_sent, $this->id );
 		} else {
