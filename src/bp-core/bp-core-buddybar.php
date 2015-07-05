@@ -46,28 +46,30 @@ function bp_core_new_nav_item( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
 	// If we don't have the required info we need, don't create this subnav item
-	if ( empty( $name ) || empty( $slug ) )
+	if ( empty( $r['name'] ) || empty( $r['slug'] ) ) {
 		return false;
+	}
 
 	// If this is for site admins only and the user is not one, don't create the subnav item
-	if ( !empty( $site_admin_only ) && !bp_current_user_can( 'bp_moderate' ) )
+	if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
+	}
 
-	if ( empty( $item_css_id ) )
-		$item_css_id = $slug;
+	if ( empty( $r['item_css_id'] ) ) {
+		$r['item_css_id'] = $r['slug'];
+	}
 
-	$bp->bp_nav[$slug] = array(
-		'name'                    => $name,
-		'slug'                    => $slug,
-		'link'                    => trailingslashit( bp_loggedin_user_domain() . $slug ),
-		'css_id'                  => $item_css_id,
-		'show_for_displayed_user' => $show_for_displayed_user,
-		'position'                => $position,
-		'screen_function'         => &$screen_function,
-		'default_subnav_slug'	  => $default_subnav_slug
+	$bp->bp_nav[$r['slug']] = array(
+		'name'                    => $r['name'],
+		'slug'                    => $r['slug'],
+		'link'                    => trailingslashit( bp_loggedin_user_domain() . $r['slug'] ),
+		'css_id'                  => $r['item_css_id'],
+		'show_for_displayed_user' => $r['show_for_displayed_user'],
+		'position'                => $r['position'],
+		'screen_function'         => &$r['screen_function'],
+		'default_subnav_slug'	  => $r['default_subnav_slug']
 	);
 
  	/**
@@ -75,33 +77,35 @@ function bp_core_new_nav_item( $args = '' ) {
 	 * the logged in user is not the displayed user
 	 * looking at their own profile, don't create the nav item.
 	 */
-	if ( empty( $show_for_displayed_user ) && !bp_user_has_access() )
+	if ( empty( $r['show_for_displayed_user'] ) && ! bp_user_has_access() ) {
 		return false;
+	}
 
 	/**
  	 * If the nav item is visible, we are not viewing a user, and this is a root
 	 * component, don't attach the default subnav function so we can display a
 	 * directory or something else.
  	 */
-	if ( ( -1 != $position ) && bp_is_root_component( $slug ) && !bp_displayed_user_id() )
+	if ( ( -1 != $r['position'] ) && bp_is_root_component( $r['slug'] ) && ! bp_displayed_user_id() ) {
 		return;
+	}
 
 	// Look for current component
-	if ( bp_is_current_component( $slug ) || bp_is_current_item( $slug ) ) {
+	if ( bp_is_current_component( $r['slug'] ) || bp_is_current_item( $r['slug'] ) ) {
 
 		// The requested URL has explicitly included the default subnav
 		// (eg: http://example.com/members/membername/activity/just-me/)
 		// The canonical version will not contain this subnav slug.
-		if ( !empty( $default_subnav_slug ) && bp_is_current_action( $default_subnav_slug ) && !bp_action_variable( 0 ) ) {
+		if ( ! empty( $r['default_subnav_slug'] ) && bp_is_current_action( $r['default_subnav_slug'] ) && !bp_action_variable( 0 ) ) {
 			unset( $bp->canonical_stack['action'] );
 		} elseif ( ! bp_current_action() ) {
 
 			// Add our screen hook if screen function is callable
-			if ( is_callable( $screen_function ) ) {
-				add_action( 'bp_screens', $screen_function, 3 );
+			if ( is_callable( $r['screen_function'] ) ) {
+				add_action( 'bp_screens', $r['screen_function'], 3 );
 			}
 
-			if ( !empty( $default_subnav_slug ) ) {
+			if ( ! empty( $r['default_subnav_slug'] ) ) {
 
 				/**
 				 * Filters the default component subnav item.
@@ -112,7 +116,7 @@ function bp_core_new_nav_item( $args = '' ) {
 				 *                                    to select when clicked.
 				 * @param array  $r                   Parsed arguments for the nav item.
 				 */
-				$bp->current_action = apply_filters( 'bp_default_component_subnav', $default_subnav_slug, $r );
+				$bp->current_action = apply_filters( 'bp_default_component_subnav', $r['default_subnav_slug'], $r );
 			}
 		}
 	}
@@ -148,43 +152,42 @@ function bp_core_new_nav_default( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
-	if ( $function = $bp->bp_nav[$parent_slug]['screen_function'] ) {
+	if ( $function = $bp->bp_nav[$r['parent_slug']]['screen_function'] ) {
 		// Remove our screen hook if screen function is callable
 		if ( is_callable( $function ) ) {
 			remove_action( 'bp_screens', $function, 3 );
 		}
 	}
 
-	$bp->bp_nav[$parent_slug]['screen_function'] = &$screen_function;
+	$bp->bp_nav[$r['parent_slug']]['screen_function'] = &$r['screen_function'];
 
-	if ( bp_is_current_component( $parent_slug ) ) {
+	if ( bp_is_current_component( $r['parent_slug'] ) ) {
 
 		// The only way to tell whether to set the subnav is to peek at the unfiltered_uri
 		// Find the component
-		$component_uri_key = array_search( $parent_slug, $bp->unfiltered_uri );
+		$component_uri_key = array_search( $r['parent_slug'], $bp->unfiltered_uri );
 
 		if ( false !== $component_uri_key ) {
-			if ( !empty( $bp->unfiltered_uri[$component_uri_key + 1] ) ) {
+			if ( ! empty( $bp->unfiltered_uri[$component_uri_key + 1] ) ) {
 				$unfiltered_action = $bp->unfiltered_uri[$component_uri_key + 1];
 			}
 		}
 
 		// No subnav item has been requested in the URL, so set a new nav default
 		if ( empty( $unfiltered_action ) ) {
-			if ( !bp_is_current_action( $subnav_slug ) ) {
-				if ( is_callable( $screen_function ) ) {
-					add_action( 'bp_screens', $screen_function, 3 );
+			if ( ! bp_is_current_action( $r['subnav_slug'] ) ) {
+				if ( is_callable( $r['screen_function'] ) ) {
+					add_action( 'bp_screens', $r['screen_function'], 3 );
 				}
 
-				$bp->current_action = $subnav_slug;
+				$bp->current_action = $r['subnav_slug'];
 				unset( $bp->canonical_stack['action'] );
 			}
 
 		// The URL is explicitly requesting the new subnav item, but should be
 		// directed to the canonical URL
-		} elseif ( $unfiltered_action == $subnav_slug ) {
+		} elseif ( $unfiltered_action == $r['subnav_slug'] ) {
 			unset( $bp->canonical_stack['action'] );
 
 		// In all other cases (including the case where the original subnav item
@@ -209,19 +212,20 @@ function bp_core_new_nav_default( $args = '' ) {
 function bp_core_sort_nav_items() {
 	$bp = buddypress();
 
-	if ( empty( $bp->bp_nav ) || !is_array( $bp->bp_nav ) )
+	if ( empty( $bp->bp_nav ) || ! is_array( $bp->bp_nav ) ) {
 		return false;
+	}
 
 	$temp = array();
 
 	foreach ( (array) $bp->bp_nav as $slug => $nav_item ) {
-		if ( empty( $temp[$nav_item['position']]) ) {
+		if ( empty( $temp[$nav_item['position']] ) ) {
 			$temp[$nav_item['position']] = $nav_item;
 		} else {
 			// increase numbers here to fit new items in.
 			do {
 				$nav_item['position']++;
-			} while ( !empty( $temp[$nav_item['position']] ) );
+			} while ( ! empty( $temp[$nav_item['position']] ) );
 
 			$temp[$nav_item['position']] = $nav_item;
 		}
@@ -278,42 +282,42 @@ function bp_core_new_subnav_item( $args = '' ) {
 		'show_in_admin_bar' => false, // Show the Manage link in the current group's "Edit" Admin Bar menu
 	) );
 
-	extract( $r, EXTR_SKIP );
-
 	// If we don't have the required info we need, don't create this subnav item
-	if ( empty( $name ) || empty( $slug ) || empty( $parent_slug ) || empty( $parent_url ) || empty( $screen_function ) )
+	if ( empty( $r['name'] ) || empty( $r['slug'] ) || empty( $r['parent_slug'] ) || empty( $r['parent_url'] ) || empty( $r['screen_function'] ) )
 		return false;
 
 	// Link was not forced, so create one
-	if ( empty( $link ) ) {
-		$link = trailingslashit( $parent_url . $slug );
+	if ( empty( $r['link'] ) ) {
+		$r['link'] = trailingslashit( $r['parent_url'] . $r['slug'] );
 
 		// If this sub item is the default for its parent, skip the slug
-		if ( ! empty( $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) && $slug == $bp->bp_nav[$parent_slug]['default_subnav_slug'] ) {
-			$link = trailingslashit( $parent_url );
+		if ( ! empty( $bp->bp_nav[$r['parent_slug']]['default_subnav_slug'] ) && $r['slug'] == $bp->bp_nav[$r['parent_slug']]['default_subnav_slug'] ) {
+			$r['link'] = trailingslashit( $r['parent_url'] );
 		}
 	}
 
 	// If this is for site admins only and the user is not one, don't create the subnav item
-	if ( !empty( $site_admin_only ) && !bp_current_user_can( 'bp_moderate' ) )
+	if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
+	}
 
-	if ( empty( $item_css_id ) )
-		$item_css_id = $slug;
+	if ( empty( $r['item_css_id'] ) ) {
+		$r['item_css_id'] = $r['slug'];
+	}
 
 	$subnav_item = array(
-		'name'              => $name,
-		'link'              => $link,
-		'slug'              => $slug,
-		'css_id'            => $item_css_id,
-		'position'          => $position,
-		'user_has_access'   => $user_has_access,
-		'no_access_url'     => $no_access_url,
-		'screen_function'   => &$screen_function,
+		'name'              => $r['name'],
+		'link'              => $r['link'],
+		'slug'              => $r['slug'],
+		'css_id'            => $r['item_css_id'],
+		'position'          => $r['position'],
+		'user_has_access'   => $r['user_has_access'],
+		'no_access_url'     => $r['no_access_url'],
+		'screen_function'   => &$r['screen_function'],
 		'show_in_admin_bar' => (bool) $r['show_in_admin_bar'],
 	);
 
-	$bp->bp_options_nav[$parent_slug][$slug] = $subnav_item;
+	$bp->bp_options_nav[$r['parent_slug']][$r['slug']] = $subnav_item;
 
 	/**
 	 * The last step is to hook the screen function for the added subnav item. But this only
@@ -333,11 +337,12 @@ function bp_core_new_subnav_item( $args = '' ) {
 	 */
 
 	// If we *don't* meet condition (1), return
-	if ( ! bp_is_current_component( $parent_slug ) && ! bp_is_current_item( $parent_slug ) )
+	if ( ! bp_is_current_component( $r['parent_slug'] ) && ! bp_is_current_item( $r['parent_slug'] ) ) {
 		return;
+	}
 
 	// If we *do* meet condition (2), then the added subnav item is currently being requested
-	if ( ( bp_current_action() && bp_is_current_action( $slug ) ) || ( bp_is_user() && ! bp_current_action() && ( $screen_function == $bp->bp_nav[$parent_slug]['screen_function'] ) ) ) {
+	if ( ( bp_current_action() && bp_is_current_action( $r['slug'] ) ) || ( bp_is_user() && ! bp_current_action() && ( $r['screen_function'] == $bp->bp_nav[$parent_slug]['screen_function'] ) ) ) {
 
 		$hooked = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 
