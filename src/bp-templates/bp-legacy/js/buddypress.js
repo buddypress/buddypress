@@ -60,6 +60,8 @@ jq(document).ready( function() {
 		});
 		jq('#aw-whats-new-submit').prop('disabled', false);
 
+		jq( '#whats-new-content' ).addClass( 'active' );
+
 		var $whats_new_form = jq('form#whats-new-form'),
 			$activity_all = jq( '#activity-all' );
 
@@ -93,6 +95,7 @@ jq(document).ready( function() {
 					height:'20px'
 				});
 				jq('#aw-whats-new-submit').prop('disabled', true);
+				jq( '#whats-new-content' ).removeClass( 'active' );
 			}
 		}
 	});
@@ -215,6 +218,7 @@ jq(document).ready( function() {
 				height:'20px'
 			});
 			jq('#aw-whats-new-submit').prop('disabled', true).removeClass('loading');
+			jq( '#whats-new-content' ).removeClass( 'active' );
 		});
 
 		return false;
