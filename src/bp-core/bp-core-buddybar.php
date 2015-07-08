@@ -397,6 +397,8 @@ function bp_core_create_subnav_link( $args = '' ) {
  * @return bool|null Returns false on failure.
  */
 function bp_core_register_subnav_screen_function( $args = '' ) {
+	$bp = buddypress();
+
 	$r = wp_parse_args( $args, array(
 		'slug'              => false, // URL slug for the screen
 		'parent_slug'       => false, // URL slug of the parent screen
@@ -429,7 +431,7 @@ function bp_core_register_subnav_screen_function( $args = '' ) {
 	}
 
 	// If we *do* meet condition (2), then the added subnav item is currently being requested
-	if ( ( bp_current_action() && bp_is_current_action( $r['slug'] ) ) || ( bp_is_user() && ! bp_current_action() && ( $r['screen_function'] == $bp->bp_nav[$parent_slug]['screen_function'] ) ) ) {
+	if ( ( bp_current_action() && bp_is_current_action( $r['slug'] ) ) || ( bp_is_user() && ! bp_current_action() && ( $r['screen_function'] == $bp->bp_nav[$r['parent_slug']]['screen_function'] ) ) ) {
 
 		// If this is for site admins only and the user is not one, don't create the subnav item
 		if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
