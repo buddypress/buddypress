@@ -140,8 +140,8 @@ class BP_XProfile_Group {
 		// Attempt to insert or update
 		$query = $wpdb->query( $sql );
 
-		// Bail if query fails
-		if ( empty( $query ) || is_wp_error( $query ) ) {
+		// Bail if query fails. If `$query` is 0, it means the save was successful, but no fields were updated.
+		if ( false === $query || is_wp_error( $query ) ) {
 			return false;
 		}
 

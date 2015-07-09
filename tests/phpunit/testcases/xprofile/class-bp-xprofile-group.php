@@ -5,6 +5,19 @@
  * @group xprofile
  */
 class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
+
+	/**
+	 * @ticket BP6552
+	 */
+	public function test_save_should_not_return_false_when_no_fields_have_been_altered() {
+		$g = $this->factory->xprofile_group->create();
+		$group = new BP_XProfile_Group( $g );
+
+		$saved = $group->save();
+
+		$this->assertEquals( $g, $saved );
+	}
+
 	/**
 	 * @group fetch_visibility_level
 	 */
