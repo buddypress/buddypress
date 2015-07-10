@@ -32,6 +32,71 @@ defined( 'ABSPATH' ) || exit;
  * @return bool|null Returns false on failure.
  */
 function bp_core_new_nav_item( $args = '' ) {
+
+	$defaults = array(
+		'name'                    => false, // Display name for the nav item
+		'slug'                    => false, // URL slug for the nav item
+		'item_css_id'             => false, // The CSS ID to apply to the HTML of the nav item
+		'show_for_displayed_user' => true,  // When viewing another user does this nav item show up?
+		'site_admin_only'         => false, // Can only site admins see this nav item?
+		'position'                => 99,    // Index of where this nav item should be positioned
+		'screen_function'         => false, // The name of the function to run when clicked
+		'default_subnav_slug'     => false  // The slug of the default subnav item to select when clicked
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+
+	// First, add the nav item link to the bp_nav array.
+	$created = bp_core_create_nav_link( $r );
+
+	// To mimic the existing behavior, if bp_core_create_nav_link()
+	// returns false, we make an early exit and don't attempt to register
+	// the screen function.
+	if ( false === $created ) {
+		return false;
+	}
+
+	// Then, hook the screen function for the added nav item.
+	bp_core_register_nav_screen_function( $r );
+
+	/**
+	 * Fires after adding an item to the main BuddyPress navigation array.
+	 * Note that, when possible, the more specific action hooks
+	 * `bp_core_create_nav_link` or `bp_core_register_nav_screen_function`
+	 * should be used.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 *
+	 * @param array $r        Parsed arguments for the nav item.
+	 * @param array $args     Originally passed in arguments for the nav item.
+	 * @param array $defaults Default arguments for a nav item.
+	 */
+	do_action( 'bp_core_new_nav_item', $r, $args, $defaults );
+}
+
+/**
+ * Add a link to the main BuddyPress navigation array.
+ *
+ * @since BuddyPress (2.4.0)
+ *
+ * @param array $args {
+ *     Array describing the new nav item.
+ *     @type string      $name                    Display name for the nav item.
+ *     @type string      $slug                    Unique URL slug for the nav item.
+ *     @type bool|string $item_css_id             Optional. 'id' attribute for the nav item. Default: the value of `$slug`.
+ *     @type bool        $show_for_displayed_user Optional. Whether the nav item should be visible when viewing a
+ *                                                member profile other than your own. Default: true.
+ *     @type bool        $site_admin_only         Optional. Whether the nav item should be visible only to site admins
+ *                                                (those with the 'bp_moderate' cap). Default: false.
+ *     @type int         $position                Optional. Numerical index specifying where the item should appear in
+ *                                                the nav array. Default: 99.
+ *     @type callable    $screen_function         The callback function that will run when the nav item is clicked.
+ *     @type bool|string $default_subnav_slug     Optional. The slug of the default subnav item to select when the nav
+ *                                                item is clicked.
+ * }
+ * @return bool|null Returns false on failure.
+ */
+function bp_core_create_nav_link( $args = '' ) {
 	$bp = buddypress();
 
 	$defaults = array(
@@ -47,13 +112,22 @@ function bp_core_new_nav_item( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 
-	// If we don't have the required info we need, don't create this subnav item
+	// If we don't have the required info we need, don't create this nav item.
 	if ( empty( $r['name'] ) || empty( $r['slug'] ) ) {
 		return false;
 	}
 
-	// If this is for site admins only and the user is not one, don't create the subnav item
+	// If this is for site admins only and the user is not one, don't create the nav item.
 	if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+		return false;
+	}
+
+	/**
+	 * If this nav item is hidden for the displayed user, and
+	 * the logged in user is not the displayed user
+	 * looking at their own profile, don't create the nav item.
+	 */
+	if ( empty( $r['show_for_displayed_user'] ) && ! bp_user_has_access() ) {
 		return false;
 	}
 
@@ -72,10 +146,73 @@ function bp_core_new_nav_item( $args = '' ) {
 		'default_subnav_slug'	  => $r['default_subnav_slug']
 	);
 
+	/**
+	 * Fires after a link is added to the main BuddyPress navigation array.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @param array $r        Parsed arguments for the nav item.
+	 * @param array $args     Originally passed in arguments for the nav item.
+	 * @param array $defaults Default arguments for a nav item.
+	 */
+	do_action( 'bp_core_create_nav_link', $r, $args, $defaults );
+}
+
+/**
+ * Register a screen function for an item in the main nav array.
+ *
+ * @since BuddyPress (2.4.0)
+ *
+ * @param array $args {
+ *     Array describing the new nav item.
+ *     @type string      $name                    Display name for the nav item.
+ *     @type string      $slug                    Unique URL slug for the nav item.
+ *     @type bool|string $item_css_id             Optional. 'id' attribute for the nav item. Default: the value of `$slug`.
+ *     @type bool        $show_for_displayed_user Optional. Whether the nav item should be visible when viewing a
+ *                                                member profile other than your own. Default: true.
+ *     @type bool        $site_admin_only         Optional. Whether the nav item should be visible only to site admins
+ *                                                (those with the 'bp_moderate' cap). Default: false.
+ *     @type int         $position                Optional. Numerical index specifying where the item should appear in
+ *                                                the nav array. Default: 99.
+ *     @type callable    $screen_function         The callback function that will run when the nav item is clicked.
+ *     @type bool|string $default_subnav_slug     Optional. The slug of the default subnav item to select when the nav
+ *                                                item is clicked.
+ * }
+ * @return bool|null Returns false on failure.
+ */
+function bp_core_register_nav_screen_function( $args = '' ) {
+	$bp = buddypress();
+
+	$defaults = array(
+		'name'                    => false, // Display name for the nav item
+		'slug'                    => false, // URL slug for the nav item
+		'item_css_id'             => false, // The CSS ID to apply to the HTML of the nav item
+		'show_for_displayed_user' => true,  // When viewing another user does this nav item show up?
+		'site_admin_only'         => false, // Can only site admins see this nav item?
+		'position'                => 99,    // Index of where this nav item should be positioned
+		'screen_function'         => false, // The name of the function to run when clicked
+		'default_subnav_slug'     => false  // The slug of the default subnav item to select when clicked
+	);
+
+	$r = wp_parse_args( $args, $defaults );
+
+	// If we don't have the required info we need, don't register this screen function.
+	if ( empty( $r['slug'] ) ) {
+		return false;
+	}
+
+	/**
+	* If this is for site admins only and the user is not one,
+	* don't register this screen function.
+	*/
+	if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+		return false;
+	}
+
  	/**
 	 * If this nav item is hidden for the displayed user, and
 	 * the logged in user is not the displayed user
-	 * looking at their own profile, don't create the nav item.
+	 * looking at their own profile, don't don't register this screen function.
 	 */
 	if ( empty( $r['show_for_displayed_user'] ) && ! bp_user_has_access() ) {
 		return false;
@@ -96,7 +233,7 @@ function bp_core_new_nav_item( $args = '' ) {
 		// The requested URL has explicitly included the default subnav
 		// (eg: http://example.com/members/membername/activity/just-me/)
 		// The canonical version will not contain this subnav slug.
-		if ( ! empty( $r['default_subnav_slug'] ) && bp_is_current_action( $r['default_subnav_slug'] ) && !bp_action_variable( 0 ) ) {
+		if ( ! empty( $r['default_subnav_slug'] ) && bp_is_current_action( $r['default_subnav_slug'] ) && ! bp_action_variable( 0 ) ) {
 			unset( $bp->canonical_stack['action'] );
 		} elseif ( ! bp_current_action() ) {
 
@@ -122,15 +259,16 @@ function bp_core_new_nav_item( $args = '' ) {
 	}
 
 	/**
-	 * Fires after adding an item to the main BuddyPress navigation array.
+	 * Fires after the screen function for an item in the BuddyPress main
+	 * navigation is registered.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since BuddyPress (2.4.0)
 	 *
 	 * @param array $r        Parsed arguments for the nav item.
 	 * @param array $args     Originally passed in arguments for the nav item.
 	 * @param array $defaults Default arguments for a nav item.
 	 */
-	do_action( 'bp_core_new_nav_item', $r, $args, $defaults );
+	do_action( 'bp_core_register_nav_screen_function', $r, $args, $defaults );
 }
 
 /**
