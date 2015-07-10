@@ -63,7 +63,6 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		$meta_value = 'Foo!
@@ -102,7 +101,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
@@ -121,7 +119,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
@@ -139,7 +136,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
@@ -533,7 +529,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 			'name' => 'Neato',
 		) );
 		xprofile_set_field_data( $f, $u, 'foo' );
@@ -558,7 +553,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 			'name' => 'Kewl',
 		) );
 		xprofile_set_field_data( $f, $u, 'foo' );

@@ -12,7 +12,6 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
 
@@ -67,7 +66,6 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
 
@@ -121,7 +119,6 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
 

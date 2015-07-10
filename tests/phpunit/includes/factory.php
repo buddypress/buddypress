@@ -209,8 +209,9 @@ class BP_UnitTest_Factory_For_XProfileField extends WP_UnitTest_Factory_For_Thin
 		parent::__construct( $factory );
 
 		$this->default_generation_definitions = array(
-			'name'         => new WP_UnitTest_Generator_Sequence( 'XProfile field %s' ),
-			'description'  => new WP_UnitTest_Generator_Sequence( 'XProfile field description %s' ),
+			'name'        => new WP_UnitTest_Generator_Sequence( 'XProfile field %s' ),
+			'description' => new WP_UnitTest_Generator_Sequence( 'XProfile field description %s' ),
+			'type'        => 'textbox',
 		);
 	}
 

@@ -314,7 +314,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->updated_profile_data['u'] = $this->factory->user->create();
 		$this->updated_profile_data['g'] = $this->factory->xprofile_group->create();
 		$this->updated_profile_data['f'] = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $this->updated_profile_data['g'],
 		) );
 

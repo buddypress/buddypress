@@ -25,7 +25,6 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
 
