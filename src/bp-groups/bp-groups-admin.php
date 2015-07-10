@@ -1293,6 +1293,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$this->get_columns(),
 			array(),
 			$this->get_sortable_columns(),
+			$this->get_default_primary_column_name(),
 		);
 
 		return $this->_column_headers;
@@ -1703,5 +1704,18 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @param array  $item        The current group item in the loop.
 		 */
 		return apply_filters( 'bp_groups_admin_get_group_custom_column', '', $column_name, $item );
+	}
+
+	/**
+	 * Get name of default primary column
+	 *
+	 * @since BuddyPress (2.3.3)
+	 * @access protected
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		// comment column is mapped to Group's name
+		return 'comment';
 	}
 }

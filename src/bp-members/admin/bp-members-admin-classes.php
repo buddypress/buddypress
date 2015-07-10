@@ -206,6 +206,12 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	public function display_rows() {
 		$style = '';
 		foreach ( $this->items as $userid => $signup_object ) {
+
+			// Avoid a notice error appearing since 4.3.0
+			if ( isset( $signup_object->id ) ) {
+				$signup_object->ID = $signup_object->id;
+			}
+
 			$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 			echo "\n\t" . $this->single_row( $signup_object, $style );
 		}
@@ -569,6 +575,12 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	public function display_rows() {
 		$style = '';
 		foreach ( $this->items as $userid => $signup_object ) {
+
+			// Avoid a notice error appearing since 4.3.0
+			if ( isset( $signup_object->id ) ) {
+				$signup_object->ID = $signup_object->id;
+			}
+
 			$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 			echo "\n\t" . $this->single_row( $signup_object, $style );
 		}
