@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Blogs Screens
+ * BuddyPress Blogs Screens.
  *
  * @package BuddyPress
  * @subpackage BlogsScreens
@@ -71,7 +71,7 @@ add_action( 'bp_screens', 'bp_blogs_screen_index', 2 );
 /** Theme Compatibility *******************************************************/
 
 /**
- * The main theme compat class for BuddyPress Blogs
+ * The main theme compat class for BuddyPress Blogs.
  *
  * This class sets up the necessary theme compatibility actions to safely output
  * group template parts to the_title and the_content areas of a theme.
@@ -138,8 +138,8 @@ class BP_Blogs_Theme_Compat {
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from
-	 *        bp_get_theme_compat_templates().
+	 * @param string $templates The templates from bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
@@ -201,8 +201,8 @@ class BP_Blogs_Theme_Compat {
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param string $templates The templates from
-	 *        bp_get_theme_compat_templates().
+	 * @param string $templates The templates from bp_get_theme_compat_templates().
+	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function create_template_hierarchy( $templates ) {

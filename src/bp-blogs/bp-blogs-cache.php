@@ -20,8 +20,8 @@ defined( 'ABSPATH' ) || exit;
  * in $blog_ids and adds it to the WP cache. This improves efficiency when
  * using querying blogmeta inline.
  *
- * @param int|str|array $blog_ids Accepts a single blog ID, or a comma-
- *        separated list or array of blog IDs.
+ * @param int|string|array|bool $blog_ids Accepts a single blog ID, or a comma-
+ *                                        separated list or array of blog IDs.
  */
 function bp_blogs_update_meta_cache( $blog_ids = false ) {
 	$cache_args = array(

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Blogs Widgets
+ * BuddyPress Blogs Widgets.
  *
  * @package BuddyPress
  * @subpackage BlogsWidgets
@@ -23,7 +23,7 @@ function bp_blogs_register_widgets() {
 add_action( 'bp_register_widgets', 'bp_blogs_register_widgets' );
 
 /**
- * The Recent Networkwide Posts widget
+ * The Recent Networkwide Posts widget.
  */
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
@@ -43,7 +43,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
-	 * @param array $args Widget arguments.
+	 * @param array $args     Widget arguments.
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
@@ -126,6 +126,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
+	 *
 	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -140,7 +141,9 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	/**
 	 * Output the networkwide posts widget options form.
 	 *
-	 * @param $instance Settings for this widget.
+	 * @param array $instance Settings for this widget.
+	 *
+	 * @return string
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array(

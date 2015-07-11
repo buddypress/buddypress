@@ -64,8 +64,10 @@ add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions'
  *
  * @since BuddyPress (2.0.0)
  *
- * @param string $action Static activity action.
- * @param obj $activity Activity data object.
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
+ *
+ * @return string
  */
 function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
@@ -91,7 +93,7 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param string $action   Constructed activity action.
-	 * @param obj    $activity Activity data object.
+	 * @param object $activity Activity data object.
 	 */
 	return apply_filters( 'bp_blogs_format_activity_action_new_blog', $action, $activity );
 }
@@ -101,8 +103,10 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
- * @param string $action Static activity action.
- * @param obj $activity Activity data object.
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
+ *
+ * @return string Constructed activity action.
  */
 function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
@@ -201,7 +205,7 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param string $action   Constructed activity action.
-	 * @param obj    $activity Activity data object.
+	 * @param object $activity Activity data object.
 	 */
 	return apply_filters( 'bp_blogs_format_activity_action_new_blog_post', $action, $activity );
 }
@@ -211,8 +215,10 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
- * @param string $action Static activity action.
- * @param obj $activity Activity data object.
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
+ *
+ * @return string Constructed activity action.
  */
 function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) {
 	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
@@ -276,7 +282,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 	 * @since BuddyPress (2.0.0)
 	 *
 	 * @param string $action   Constructed activity action.
-	 * @param obj    $activity Activity data object.
+	 * @param object $activity Activity data object.
 	 */
 	return apply_filters( 'bp_blogs_format_activity_action_new_blog_comment', $action, $activity );
 }
@@ -289,6 +295,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
  * @since BuddyPress (2.0.0)
  *
  * @param array $activities Array of activity items.
+ *
  * @return array
  */
 function bp_blogs_prefetch_activity_object_data( $activities ) {
@@ -321,7 +328,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  *
  * @see bp_activity_add() for description of parameters.
  *
- * @param array $args {
+ * @param array|string $args {
  *     See {@link bp_activity_add()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
@@ -398,7 +405,7 @@ function bp_blogs_record_activity( $args = '' ) {
  *
  * @see bp_activity_delete() for description of parameters.
  *
- * @param array $args {
+ * @param array|string $args {
  *     See {@link bp_activity_delete()} for complete description of arguments.
  *     The arguments listed here have different default values from
  *     bp_activity_add().
@@ -438,6 +445,7 @@ function bp_blogs_delete_activity( $args = '' ) {
  * @since BuddyPress (2.0.0)
  *
  * @param object $activity The BP_Activity_Activity object
+ *
  * @return bool
  */
 function bp_blogs_comments_open( $activity ) {
@@ -522,9 +530,9 @@ function bp_blogs_comments_open( $activity ) {
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $comment_id The activity ID for the posted activity comment.
- * @param array $params Parameters for the activity comment.
- * @param object Parameters of the parent activity item (in this case, the blog post).
+ * @param int    $comment_id      The activity ID for the posted activity comment.
+ * @param array  $params          Parameters for the activity comment.
+ * @param object $parent_activity Parameters of the parent activity item (in this case, the blog post).
  */
 function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_activity ) {
 	// if parent activity isn't a blog post, stop now!
@@ -629,8 +637,10 @@ add_action( 'bp_activity_comment_posted', 'bp_blogs_sync_add_from_activity_comme
  * @since BuddyPress (2.0.0)
  *
  * @param bool $retval
- * @param int $parent_activity_id The parent activity ID for the activity comment.
- * @param int $activity_id The activity ID for the pending deleted activity comment.
+ * @param int  $parent_activity_id The parent activity ID for the activity comment.
+ * @param int  $activity_id        The activity ID for the pending deleted activity comment.
+ *
+ * @return bool
  */
 function bp_blogs_sync_delete_from_activity_comment( $retval, $parent_activity_id, $activity_id ) {
 	// check if parent activity is a blog post
@@ -731,9 +741,9 @@ add_action( 'bp_activity_before_save', 'bp_blogs_sync_activity_edit_to_post_comm
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $post_id The post ID
+ * @param int   $post_id  The post ID.
  * @param array $comments Array of comment statuses. The key is comment ID, the
- *        value is the $comment->comment_approved value.
+ *                        value is the $comment->comment_approved value.
  */
 function bp_blogs_remove_activity_meta_for_trashed_comments( $post_id = 0, $comments = array() ) {
 	if ( ! empty( $comments ) ) {
@@ -763,6 +773,7 @@ add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_
  * @since BuddyPress (2.1.0)
  *
  * @param array $args Arguments passed from bp_parse_args() in bp_has_activities().
+ *
  * @return array $args
  */
 function bp_blogs_new_blog_comment_query_backpat( $args ) {
@@ -836,7 +847,7 @@ add_filter( 'bp_after_has_activities_parse_args', 'bp_blogs_new_blog_comment_que
  * @see bp_blogs_disable_activity_commenting()
  * @see bp_blogs_setup_comment_loop_globals_on_ajax()
  *
- * @param object $activity The BP_Activity_Activity object
+ * @param object $activity The BP_Activity_Activity object.
  */
 function bp_blogs_setup_activity_loop_globals( $activity ) {
 	if ( ! is_object( $activity ) ) {
@@ -918,6 +929,7 @@ add_action( 'bp_before_activity_comment', 'bp_blogs_setup_comment_loop_globals_o
  * @since BuddyPress (2.0.0)
  *
  * @param bool $retval Is activity commenting enabled for this activity entry?
+ *
  * @return bool
  */
 function bp_blogs_disable_activity_commenting( $retval ) {
@@ -968,8 +980,9 @@ add_filter( 'bp_activity_can_comment', 'bp_blogs_disable_activity_commenting' );
  *
  * @since BuddyPress (2.0.0)
  *
- * @param bool $retval Are replies allowed for this activity reply?
- * @param object $comment The activity comment object
+ * @param bool   $retval  Are replies allowed for this activity reply?
+ * @param object $comment The activity comment object.
+ *
  * @return bool
  */
 function bp_blogs_can_comment_reply( $retval, $comment ) {
@@ -1006,7 +1019,8 @@ add_filter( 'bp_activity_can_comment_reply', 'bp_blogs_can_comment_reply', 10, 2
  *
  * @since BuddyPress (2.0.0)
  *
- * @param string $retval The activity comment permalink
+ * @param string $retval The activity comment permalink.
+ *
  * @return string
  */
 function bp_blogs_activity_comment_permalink( $retval = '' ) {
@@ -1033,8 +1047,9 @@ add_filter( 'bp_get_activity_comment_permalink', 'bp_blogs_activity_comment_perm
  *
  * @since BuddyPress (2.0.1)
  *
- * @param string $retval The activity permalink
+ * @param string               $retval   The activity permalink.
  * @param BP_Activity_Activity $activity
+ *
  * @return string
  */
 function bp_blogs_activity_comment_single_permalink( $retval, $activity ) {
@@ -1059,8 +1074,9 @@ add_filter( 'bp_activity_get_permalink', 'bp_blogs_activity_comment_single_perma
  *
  * @since BuddyPress (2.0.1)
  *
- * @param string $retval The activity action
+ * @param string               $retval   The activity action.
  * @param BP_Activity_Activity $activity
+ *
  * @return string
  */
 function bp_blogs_activity_comment_single_action( $retval, $activity ) {

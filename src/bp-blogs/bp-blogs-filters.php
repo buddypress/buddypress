@@ -30,6 +30,7 @@ add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
  *       returned value.
  *
  * @param string $url The original URL (points to wp-signup.php by default).
+ *
  * @return string The new URL.
  */
 function bp_blogs_creation_location( $url ) {
@@ -52,7 +53,8 @@ add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
  *
  * @see bp_blogs_update_post_activity_meta()
  *
- * @param array Current SQL clauses in array format
+ * @param array $retval Current SQL clauses in array format.
+ *
  * @return array
  */
 function bp_blogs_comments_clauses_select_by_id( $retval ) {
@@ -72,6 +74,7 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
  * @param  int  $blog_id ID of the blog.
  * @param  int  $post_id ID of the post.
  * @param  int  $user_id ID of the post author.
+ *
  * @return bool True to authorize the post to be published, otherwise false.
  */
 function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
