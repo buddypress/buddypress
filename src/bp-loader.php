@@ -1,6 +1,6 @@
 <?php
 /**
- * The BuddyPress Plugin
+ * The BuddyPress Plugin.
  *
  * BuddyPress is social networking software with a twist from the creators of WordPress.
  *
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'BuddyPress' ) ) :
 /**
- * Main BuddyPress Class
+ * Main BuddyPress Class.
  *
  * Tap tap tap... Is this thing on?
  *
@@ -112,9 +112,9 @@ class BuddyPress {
 	/**
 	 * Main BuddyPress Instance.
 	 *
-	 * BuddyPress is great
-	 * Please load it only one time
-	 * For this, we thank you
+	 * BuddyPress is great.
+	 * Please load it only one time.
+	 * For this, we thank you.
 	 *
 	 * Insures that only one instance of BuddyPress exists in memory at any
 	 * one time. Also prevents needing to define globals all over the place.
@@ -181,6 +181,10 @@ class BuddyPress {
 	 * Magic method for checking the existence of a certain custom field.
 	 *
 	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $key Key to check the set status for.
+	 *
+	 * @return bool
 	 */
 	public function __isset( $key ) { return isset( $this->data[$key] ); }
 
@@ -188,6 +192,10 @@ class BuddyPress {
 	 * Magic method for getting BuddyPress variables.
 	 *
 	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $key Key to return the value for.
+	 *
+	 * @return mixed
 	 */
 	public function __get( $key ) { return isset( $this->data[$key] ) ? $this->data[$key] : null; }
 
@@ -195,6 +203,9 @@ class BuddyPress {
 	 * Magic method for setting BuddyPress variables.
 	 *
 	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $key   Key to set a value for.
+	 * @param mixed  $value Value to set.
 	 */
 	public function __set( $key, $value ) { $this->data[$key] = $value; }
 
@@ -202,6 +213,8 @@ class BuddyPress {
 	 * Magic method for unsetting BuddyPress variables.
 	 *
 	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $key Key to unset a value for.
 	 */
 	public function __unset( $key ) { if ( isset( $this->data[$key] ) ) unset( $this->data[$key] ); }
 
@@ -209,6 +222,11 @@ class BuddyPress {
 	 * Magic method to prevent notices and errors from invalid method calls.
 	 *
 	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param string $name
+	 * @param array  $args
+	 *
+	 * @return null
 	 */
 	public function __call( $name = '', $args = array() ) { unset( $name, $args ); return null; }
 
@@ -319,14 +337,14 @@ class BuddyPress {
 		 *
 		 * @since BuddyPress (2.0.0)
 		 *
-		 * @param constant BP_IGNORE_DEPRECATED Whether or not to ignore deprecated functionality.
+		 * @const constant BP_IGNORE_DEPRECATED Whether or not to ignore deprecated functionality.
 		 */
 		$this->load_deprecated = ! apply_filters( 'bp_ignore_deprecated', BP_IGNORE_DEPRECATED );
 
 		/** Toolbar ***********************************************************/
 
 		/**
-		 * @var string The primary toolbar ID
+		 * @var string The primary toolbar ID.
 		 */
 		$this->my_account_menu_id = '';
 
@@ -346,34 +364,33 @@ class BuddyPress {
 		/** Components ********************************************************/
 
 		/**
-		 * @var string Name of the current BuddyPress component (primary)
+		 * @var string Name of the current BuddyPress component (primary).
 		 */
 		$this->current_component = '';
 
 		/**
-		 * @var string Name of the current BuddyPress item (secondary)
+		 * @var string Name of the current BuddyPress item (secondary).
 		 */
 		$this->current_item = '';
 
 		/**
-		 * @var string Name of the current BuddyPress action (tertiary)
+		 * @var string Name of the current BuddyPress action (tertiary).
 		 */
 		$this->current_action = '';
 
 		/**
-		 * @var bool Displaying custom 2nd level navigation menu (I.E a group)
+		 * @var bool Displaying custom 2nd level navigation menu (I.E a group).
 		 */
 		$this->is_single_item = false;
 
 		/** Root **************************************************************/
 
-		// BuddyPress Root blog ID
 		/**
 		 * Filters the BuddyPress Root blog ID.
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param constant BP_ROOT_BLOG BuddyPress Root blog ID.
+		 * @const constant BP_ROOT_BLOG BuddyPress Root blog ID.
 		 */
 		$this->root_blog_id = (int) apply_filters( 'bp_get_root_blog_id', BP_ROOT_BLOG );
 
@@ -652,7 +669,7 @@ function buddypress() {
 }
 
 /**
- * Hook BuddyPress early onto the 'plugins_loaded' action..
+ * Hook BuddyPress early onto the 'plugins_loaded' action.
  *
  * This gives all other plugins the chance to load before BuddyPress, to get
  * their actions, filters, and overrides setup without BuddyPress being in the
