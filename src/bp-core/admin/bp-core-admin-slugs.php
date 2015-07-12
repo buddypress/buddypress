@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Admin Slug Functions
+ * BuddyPress Admin Slug Functions.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
@@ -214,7 +214,7 @@ function bp_core_admin_slugs_options() {
 }
 
 /**
- * Handle saving of the BuddyPress slugs
+ * Handle saving of the BuddyPress slugs.
  *
  * @since BuddyPress (1.6.0)
  * @todo Use settings API

@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * When wp-super-cache is installed this function will clear cached pages
  * so that success/error messages are not cached, or time sensitive content.
+ *
+ * @return int
  */
 function bp_core_clear_cache() {
 	global $cache_path;
@@ -34,6 +36,8 @@ function bp_core_clear_cache() {
 
 /**
  * Clear all cached objects for a user, or those that a user is part of.
+ *
+ * @param string $user_id
  */
 function bp_core_clear_user_object_cache( $user_id ) {
 	wp_cache_delete( 'bp_user_' . $user_id, 'bp' );
@@ -125,8 +129,9 @@ add_action( 'add_site_option', 'bp_core_clear_root_options_cache' );
  *
  * @since BuddyPress (2.0.0)
  *
- * @param array $item_ids ID list.
+ * @param array  $item_ids    ID list.
  * @param string $cache_group The cache group to check against.
+ *
  * @return array
  */
 function bp_get_non_cached_ids( $item_ids, $cache_group ) {
@@ -153,20 +158,21 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  *
  * @since BuddyPress (1.6.0)
  *
- * @global $wpdb WordPress database object for queries..
+ * @global object $wpdb WordPress database object for queries..
  *
  * @param array $args {
  *     Array of arguments.
- *     @type array|string $object_ids List of object IDs to fetch metadata for.
- *           Accepts an array or a comma-separated list of numeric IDs.
- *     @type string $object_type The type of object, eg 'groups' or 'activity'.
- *     @type string $meta_table The name of the metadata table being queried.
- *     @type string $object_column Optional. The name of the database column
- *           where IDs (those provided by $object_ids) are found. Eg, 'group_id'
- *           for the groups metadata tables. Default: $object_type . '_id'.
- *     @type string $cache_key_prefix Optional. The prefix to use when creating
- *           cache key names. Default: the value of $meta_table.
+ *     @type array|string $object_ids       List of object IDs to fetch metadata for.
+ *                                          Accepts an array or a comma-separated list of numeric IDs.
+ *     @type string       $object_type      The type of object, eg 'groups' or 'activity'.
+ *     @type string       $meta_table       The name of the metadata table being queried.
+ *     @type string       $object_column    Optional. The name of the database column where IDs
+ *                                          (those provided by $object_ids) are found. Eg, 'group_id'
+ *                                          for the groups metadata tables. Default: $object_type . '_id'.
+ *     @type string       $cache_key_prefix Optional. The prefix to use when creating
+ *                                          cache key names. Default: the value of $meta_table.
  * }
+ *
  * @return array|bool Metadata cache for the specified objects, or false on failure.
  */
 function bp_update_meta_cache( $args = array() ) {
@@ -179,7 +185,7 @@ function bp_update_meta_cache( $args = array() ) {
 		'meta_table' 	   => '',      // Name of the table containing the metadata
 		'object_column'    => '',      // DB column for the object ids (group_id, etc)
 		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg
-					       //    'bp_groups_groupmeta'
+					                   // 'bp_groups_groupmeta'
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );

@@ -18,18 +18,18 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since  BuddyPress (2.3.0)
  *
- * @return bool True if WordPress is 3.9+, false otherwise
+ * @return bool True if WordPress is 3.9+, false otherwise.
  */
 function bp_attachments_is_wp_version_supported() {
 	return (bool) version_compare( bp_get_major_wp_version(), '3.9', '>=' );
 }
 
 /**
- * Get the BuddyPress Plupload settings
+ * Get the BuddyPress Plupload settings.
  *
  * @since  BuddyPress (2.3.0)
  *
- * @return array list of BuddyPress Plupload settings
+ * @return array list of BuddyPress Plupload settings.
  */
 function bp_attachments_get_plupload_default_settings() {
 
@@ -83,11 +83,11 @@ function bp_attachments_get_plupload_default_settings() {
 }
 
 /**
- * Builds localization strings for the BuddyPress Uploader scripts
+ * Builds localization strings for the BuddyPress Uploader scripts.
  *
  * @since  BuddyPress (2.3.0)
  *
- * @return array Plupload default localization strings
+ * @return array Plupload default localization strings.
  */
 function bp_attachments_get_plupload_l10n() {
 	// Localization strings
@@ -119,14 +119,16 @@ function bp_attachments_get_plupload_l10n() {
 }
 
 /**
- * Enqueues the script needed for the Uploader UI
+ * Enqueues the script needed for the Uploader UI.
  *
  * @see  BP_Attachment::script_data() && BP_Attachment_Avatar::script_data() for examples showing how
- * to set specific script data
+ * to set specific script data.
  *
  * @since  BuddyPress (2.3.0)
  *
- * @param  string $class name of the class extending BP_Attachment (eg: BP_Attachment_Avatar)
+ * @param  string $class name of the class extending BP_Attachment (eg: BP_Attachment_Avatar).
+ *
+ * @return null|WP_Error
  */
 function bp_attachments_enqueue_scripts( $class = '' ) {
 	// Enqueue me just once per page, please.
@@ -239,18 +241,18 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		}
 
 		/**
-		 * Use this filter to add a navigation to a custom tool to set the object's avatar
+		 * Use this filter to add a navigation to a custom tool to set the object's avatar.
 		 *
 		 * @since BuddyPress (2.3.0)
 		 *
 		 * @param array $avatar_nav An associative array of available nav items where each item is an array organized this way:
 		 * $avatar_nav[ $nav_item_id ] {
-		 *     @type string $nav_item_id the nav item id in lower case without special characters or space
-		 *     @type string $caption     the name of the item nav that will be displayed in the nav
-		 *     @type int    $order       An integer to specify the priority of the item nav, choose one
-		 *                               between 1 and 99 to be after the uploader nav item and before the delete nav item
-		 *     @type int    $hide        if set to 1 the item nav will be hidden
-		 *                               (only used for the delete nav item)
+		 *     @type string $nav_item_id The nav item id in lower case without special characters or space.
+		 *     @type string $caption     The name of the item nav that will be displayed in the nav.
+		 *     @type int    $order       An integer to specify the priority of the item nav, choose one.
+		 *                               between 1 and 99 to be after the uploader nav item and before the delete nav item.
+		 *     @type int    $hide        If set to 1 the item nav will be hidden
+		 *                               (only used for the delete nav item).
 		 * }
 		 * @param string $object the object the avatar belongs to (eg: user or group)
 		 */
@@ -297,18 +299,20 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 	 * Fires at the conclusion of bp_attachments_enqueue_scripts()
 	 * to avoid the scripts to be loaded more than once.
 	 *
-	 * @since BuddyPress 2.3.0
+	 * @since BuddyPress (2.3.0)
 	 */
 	do_action( 'bp_attachments_enqueue_scripts' );
 }
 
 /**
- * Check the current user's capability to edit an avatar for a given object
+ * Check the current user's capability to edit an avatar for a given object.
  *
  * @since  BuddyPress (2.3.0)
  *
- * @param  string $capability the capability to check
- * @param  array  $args an array containing the item_id and the object to check
+ * @param  string $capability The capability to check.
+ * @param  array  $args       An array containing the item_id and the object to check.
+ *
+ * @return bool
  */
 function bp_attachments_current_user_can( $capability, $args = array() ) {
 	$can = false;
@@ -350,9 +354,9 @@ function bp_attachments_current_user_can( $capability, $args = array() ) {
  *
  * @since  BuddyPress (2.3.0)
  *
- * @param  bool true for a success, false otherwise
- * @param  bool true if the Plupload runtime used is html4, false otherwise.
- * @param  mixed $data Data to encode as JSON, then print and die.
+ * @param  bool  $success  True for a success, false otherwise.
+ * @param  bool  $is_html4 True if the Plupload runtime used is html4, false otherwise.
+ * @param  mixed $data     Data to encode as JSON, then print and die.
  */
 function bp_attachments_json_response( $success, $is_html4 = false, $data = null ) {
 	$response = array( 'success' => $success );
@@ -380,9 +384,11 @@ function bp_attachments_json_response( $success, $is_html4 = false, $data = null
 /**
  * Get an Attachment template part.
  *
- * @since  BuddyPress (2.3.0)
+ * @since BuddyPress (2.3.0)
  *
- * @param  string Template part slug. eg 'uploader' for 'uploader.php'.
+ * @param string $slug Template part slug. eg 'uploader' for 'uploader.php'.
+ *
+ * @return bool
  */
 function bp_attachments_get_template_part( $slug ) {
 	$attachment_template_part = 'assets/_attachments/' . $slug;

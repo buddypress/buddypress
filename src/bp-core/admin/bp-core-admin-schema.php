@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress DB schema
+ * BuddyPress DB schema.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
@@ -11,12 +11,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get the DB schema to use for BuddyPress components
+ * Get the DB schema to use for BuddyPress components.
  *
  * @since BuddyPress (1.1.0)
  *
  * @global $wpdb $wpdb
- * @return string The default database character-set, if set
+ * @return string The default database character-set, if set.
  */
 function bp_core_set_charset() {
 	global $wpdb;
@@ -27,14 +27,14 @@ function bp_core_set_charset() {
 }
 
 /**
- * Main installer
+ * Main installer.
  *
  * Can be passed an optional array of components to explicitly run installation
  * routines on, typically the first time a component is activated in Settings.
  *
  * @since BuddyPress (1.0.0)
  *
- * @param array $active_components Components to install
+ * @param array|bool $active_components Components to install.
  */
 function bp_core_install( $active_components = false ) {
 
@@ -85,7 +85,7 @@ function bp_core_install( $active_components = false ) {
 }
 
 /**
- * Install database tables for the Notifications component
+ * Install database tables for the Notifications component.
  *
  * @since BuddyPress (1.0.0)
  *
@@ -129,7 +129,7 @@ function bp_core_install_notifications() {
 }
 
 /**
- * Install database tables for the Activity component
+ * Install database tables for the Activity component.
  *
  * @since BuddyPress (1.0.0)
  *
@@ -182,7 +182,7 @@ function bp_core_install_activity_streams() {
 }
 
 /**
- * Install database tables for the Notifications component
+ * Install database tables for the Notifications component.
  *
  * @since BuddyPress (1.0.0)
  *
@@ -210,7 +210,7 @@ function bp_core_install_friends() {
 }
 
 /**
- * Install database tables for the Groups component
+ * Install database tables for the Groups component.
  *
  * @since BuddyPress (1.0.0)
  *
@@ -270,7 +270,7 @@ function bp_core_install_groups() {
 }
 
 /**
- * Install database tables for the Messages component
+ * Install database tables for the Messages component.
  *
  * @since BuddyPress (1.0.0)
  *
@@ -330,7 +330,7 @@ function bp_core_install_private_messaging() {
 }
 
 /**
- * Install database tables for the Profiles component
+ * Install database tables for the Profiles component.
  *
  * @since BuddyPress (1.0.0)
  *
@@ -420,7 +420,7 @@ function bp_core_install_extended_profiles() {
 }
 
 /**
- * Install database tables for the Sites component
+ * Install database tables for the Sites component.
  *
  * @since BuddyPress (1.0.0)
  *
@@ -500,7 +500,7 @@ function bp_core_install_signups() {
  *
  * This is necessary because WordPress's `pre_schema_upgrade()` function wraps
  * table ALTER's in multisite checks, and other plugins may have installed their
- * own sign-ups table; Eg: Gravity Forms User Registration Add On
+ * own sign-ups table; Eg: Gravity Forms User Registration Add On.
  *
  * @since BuddyPress (2.0.1)
  *

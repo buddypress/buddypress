@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Tools panel
+ * BuddyPress Tools panel.
  *
  * @since BuddyPress (2.0.0)
  */
@@ -260,7 +260,7 @@ function bp_admin_repair_group_count() {
 }
 
 /**
- * Recalculate user-to-blog relationships and useful blog meta data
+ * Recalculate user-to-blog relationships and useful blog meta data.
  *
  * @since BuddyPress (2.1.0)
  *
@@ -321,8 +321,10 @@ function bp_admin_repair_last_activity() {
  *
  * @since BuddyPress (2.0.0)
  *
- * @param string $message Feedback message.
- * @param unknown $class Unused.
+ * @param string      $message Feedback message.
+ * @param string|bool $class   Unused.
+ *
+ * @return bool
  */
 function bp_admin_tools_feedback( $message, $class = false ) {
 	if ( is_string( $message ) ) {

@@ -369,6 +369,7 @@ function bp_core_enable_root_profiles() {
  *   wp-content/themes/[activated_theme]/members/index.php
  *
  * @param array $templates Array of templates to attempt to load.
+ *
  * @return bool|null Returns false on failure.
  */
 function bp_core_load_template( $templates ) {
@@ -517,17 +518,16 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  *
  * @since BuddyPress (1.5.0)
  *
- * @param array $args {
- *     @type int $mode Specifies the destination of the redirect. 1 will
- *           direct to the root domain (home page), which assumes you have a
- *           log-in form there; 2 directs to wp-login.php. Default: 2.
- *     @type string $redirect The URL the user will be redirected to after
- *           successfully logging in. Default: the URL originally requested.
- *     @type string $root The root URL of the site, used in case of error or
- *           mode 1 redirects. Default: the value of {@link bp_get_root_domain()}.
- *     @type string $message An error message to display to the user on the
- *           log-in page. Default: "You must log in to access the page you
- *           requested."
+ * @param array|string $args {
+ *     @type int    $mode     Specifies the destination of the redirect. 1 will
+ *                            direct to the root domain (home page), which assumes you have a
+ *                            log-in form there; 2 directs to wp-login.php. Default: 2.
+ *     @type string $redirect The URL the user will be redirected to after successfully
+ *                            logging in. Default: the URL originally requested.
+ *     @type string $root     The root URL of the site, used in case of error or mode 1 redirects.
+ *                            Default: the value of {@link bp_get_root_domain()}.
+ *     @type string $message  An error message to display to the user on the log-in page.
+ *                            Default: "You must log in to access the page you requested."
  * }
  */
 function bp_core_no_access( $args = '' ) {
@@ -605,7 +605,7 @@ function bp_core_no_access( $args = '' ) {
  *
  * @since BuddyPress (1.5.0)
  *
- * @global $error Error message to pass to wp-login.php
+ * @global string $error Error message to pass to wp-login.php.
  */
 function bp_core_no_access_wp_login_error() {
 	global $error;
@@ -715,8 +715,9 @@ function bp_rel_canonical() {
  * @param array $args {
  *     Optional array of arguments.
  *     @type bool $include_query_args Whether to include current URL arguments
- *           in the canonical URL returned from the function.
+ *                                    in the canonical URL returned from the function.
  * }
+ *
  * @return string Canonical URL for the current page.
  */
 function bp_get_canonical_url( $args = array() ) {

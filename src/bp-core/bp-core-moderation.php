@@ -26,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @uses get_user_meta() To get the last posted meta of the user.
  *
  * @param int $user_id User id to check for flood.
+ *
  * @return bool True if there is no flooding, false if there is.
  */
 function bp_core_check_for_flood( $user_id = 0 ) {
@@ -57,9 +58,10 @@ function bp_core_check_for_flood( $user_id = 0 ) {
  * @uses bp_current_author_ua() To get current user agent.
  * @uses bp_current_user_can() Allow super admins to bypass blacklist.
  *
- * @param int $user_id Topic or reply author ID.
- * @param string $title The title of the content.
+ * @param int    $user_id Topic or reply author ID.
+ * @param string $title   The title of the content.
  * @param string $content The content being posted.
+ *
  * @return bool True if test is passed, false if fail.
  */
 function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' ) {
@@ -191,9 +193,10 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
  * @uses bp_current_author_ua() To get current user agent.
  * @uses bp_current_user_can() Allow super admins to bypass blacklist.
  *
- * @param int $user_id Topic or reply author ID.
- * @param string $title The title of the content.
+ * @param int    $user_id Topic or reply author ID.
+ * @param string $title   The title of the content.
  * @param string $content The content being posted.
+ *
  * @return bool True if test is passed, false if fail.
  */
 function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' ) {
@@ -330,7 +333,7 @@ function bp_core_current_user_ua() {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param string $retval Current user's user-agent
+	 * @param string $retval Current user's user-agent.
 	 */
 	return apply_filters( 'bp_core_current_user_ua', $retval );
 }

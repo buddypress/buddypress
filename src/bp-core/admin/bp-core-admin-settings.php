@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Admin Settings
+ * BuddyPress Admin Settings.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
@@ -11,18 +11,18 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Main settings section description for the settings page
+ * Main settings section description for the settings page.
  *
  * @since BuddyPress (1.6.0)
  */
 function bp_admin_setting_callback_main_section() { }
 
 /**
- * Admin bar for logged out users setting field
+ * Admin bar for logged out users setting field.
  *
  * @since BuddyPress (1.6.0)
  *
- * @uses bp_form_option() To output the option value
+ * @uses bp_form_option() To output the option value.
  */
 function bp_admin_setting_callback_admin_bar() {
 ?>
@@ -34,11 +34,11 @@ function bp_admin_setting_callback_admin_bar() {
 }
 
 /**
- * Allow members to delete their accounts setting field
+ * Allow members to delete their accounts setting field.
  *
  * @since BuddyPress (1.6.0)
  *
- * @uses checked() To display the checked attribute
+ * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_account_deletion() {
 ?>
@@ -52,18 +52,18 @@ function bp_admin_setting_callback_account_deletion() {
 /** Activity *******************************************************************/
 
 /**
- * Groups settings section description for the settings page
+ * Groups settings section description for the settings page.
  *
  * @since BuddyPress (1.6.0)
  */
 function bp_admin_setting_callback_activity_section() { }
 
 /**
- * Allow Akismet setting field
+ * Allow Akismet setting field.
  *
  * @since BuddyPress (1.6.0)
  *
- * @uses checked() To display the checked attribute
+ * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_activity_akismet() {
 ?>
@@ -75,7 +75,7 @@ function bp_admin_setting_callback_activity_akismet() {
 }
 
 /**
- * Allow activity comments on blog posts and forum posts
+ * Allow activity comments on blog posts and forum posts.
  *
  * @since BuddyPress (1.6.0)
  */
@@ -103,13 +103,17 @@ function bp_admin_setting_callback_heartbeat() {
 }
 
 /**
- * Sanitization for bp-disable-blogforum-comments setting
+ * Sanitization for bp-disable-blogforum-comments setting.
  *
  * In the UI, a checkbox asks whether you'd like to *enable* blog/forum activity comments. For
  * legacy reasons, the option that we store is 1 if these comments are *disabled*. So we use this
  * function to flip the boolean before saving the intval.
  *
  * @since BuddyPress (1.6.0)
+ *
+ * @param bool $value
+ *
+ * @return bool
  */
 function bp_admin_sanitize_callback_blogforum_comments( $value = false ) {
 	return $value ? 0 : 1;
@@ -118,18 +122,18 @@ function bp_admin_sanitize_callback_blogforum_comments( $value = false ) {
 /** XProfile ******************************************************************/
 
 /**
- * Profile settings section description for the settings page
+ * Profile settings section description for the settings page.
  *
  * @since BuddyPress (1.6.0)
  */
 function bp_admin_setting_callback_xprofile_section() { }
 
 /**
- * Enable BP->WP profile syncing field
+ * Enable BP->WP profile syncing field.
  *
  * @since BuddyPress (1.6.0)
  *
- * @uses bp_form_option() To output the option value
+ * @uses bp_form_option() To output the option value.
  */
 function bp_admin_setting_callback_profile_sync() {
 ?>
@@ -141,11 +145,11 @@ function bp_admin_setting_callback_profile_sync() {
 }
 
 /**
- * Allow members to upload avatars field
+ * Allow members to upload avatars field.
  *
  * @since BuddyPress (1.6.0)
  *
- * @uses checked() To display the checked attribute
+ * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_avatar_uploads() {
 ?>
@@ -159,18 +163,18 @@ function bp_admin_setting_callback_avatar_uploads() {
 /** Groups Section ************************************************************/
 
 /**
- * Groups settings section description for the settings page
+ * Groups settings section description for the settings page.
  *
  * @since BuddyPress (1.6.0)
  */
 function bp_admin_setting_callback_groups_section() { }
 
 /**
- * Allow all users to create groups field
+ * Allow all users to create groups field.
  *
  * @since BuddyPress (1.6.0)
  *
- * @uses checked() To display the checked attribute
+ * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_group_creation() {
 ?>
@@ -197,19 +201,19 @@ function bp_admin_setting_callback_group_avatar_uploads() {
 /** Forums Section ************************************************************/
 
 /**
- * Forums settings section description for the settings page
+ * Forums settings section description for the settings page.
  *
  * @since BuddyPress (1.6.0)
  */
 function bp_admin_setting_callback_bbpress_section() { }
 
 /**
- * bb-config.php location field
+ * bb-config.php location field.
  *
  * @since BuddyPress (1.6.0)
- * @uses checked() To display the checked attribute
- * @uses bp_get_option() To get the config location
- * @uses bp_form_option() To get the sanitized form option
+ * @uses checked() To display the checked attribute.
+ * @uses bp_get_option() To get the config location.
+ * @uses bp_form_option() To get the sanitized form option.
  */
 function bp_admin_setting_callback_bbpress_configuration() {
 
@@ -237,9 +241,9 @@ function bp_admin_setting_callback_bbpress_configuration() {
  *
  * @since BuddyPress (1.6.0)
  *
- * @uses screen_icon() To display the screen icon
- * @uses settings_fields() To output the hidden fields for the form
- * @uses do_settings_sections() To output the settings sections
+ * @uses screen_icon() To display the screen icon.
+ * @uses settings_fields() To output the hidden fields for the form.
+ * @uses do_settings_sections() To output the settings sections.
  */
 function bp_core_admin_settings() {
 
@@ -270,7 +274,7 @@ function bp_core_admin_settings() {
 }
 
 /**
- * Save our settings
+ * Save our settings.
  *
  * @since BuddyPress (1.6.0)
  */
@@ -317,7 +321,7 @@ function bp_core_admin_settings_save() {
 add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
 
 /**
- * Output settings API option
+ * Output settings API option.
  *
  * @since BuddyPress (1.6.0)
  *
@@ -325,7 +329,7 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
  *
  * @param string $option
  * @param string $default
- * @param bool $slug
+ * @param bool   $slug
  */
 function bp_form_option( $option, $default = '' , $slug = false ) {
 	echo bp_get_form_option( $option, $default, $slug );
@@ -341,7 +345,9 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 	 *
 	 * @param string $option
 	 * @param string $default
-	 * @param bool $slug
+	 * @param bool   $slug
+	 *
+	 * @return string
 	 */
 	function bp_get_form_option( $option, $default = '', $slug = false ) {
 

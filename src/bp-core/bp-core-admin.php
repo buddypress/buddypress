@@ -420,8 +420,9 @@ class BP_Admin {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-	 * @param array $links Links array in which we would prepend our link.
-	 * @param string $file Current plugin basename.
+	 * @param array  $links Links array in which we would prepend our link.
+	 * @param string $file  Current plugin basename.
+	 *
 	 * @return array Processed links.
 	 */
 	public function modify_plugin_action_links( $links, $file ) {
@@ -774,7 +775,7 @@ class BP_Admin {
 	}
 
 	/**
-	 * Output welcome text and badge for What's New and Credits pages
+	 * Output welcome text and badge for What's New and Credits pages.
 	 *
 	 * @since BuddyPress (2.2.0)
 	 */
@@ -798,7 +799,7 @@ class BP_Admin {
 	}
 
 	/**
-	 * Output tab navigation for `What's New` and `Credits` pages
+	 * Output tab navigation for `What's New` and `Credits` pages.
 	 *
 	 * @since BuddyPress (2.2.0)
 	 * @param string $tab
@@ -820,11 +821,12 @@ class BP_Admin {
 	/** Helpers ***************************************************************/
 
 	/**
-	 * Return true/false based on whether a query argument is set
+	 * Return true/false based on whether a query argument is set.
 	 *
 	 * @see bp_do_activation_redirect()
 	 *
 	 * @since BuddyPress (2.2.0)
+	 *
 	 * @return bool
 	 */
 	public static function is_new_install() {
@@ -832,9 +834,10 @@ class BP_Admin {
 	}
 
 	/**
-	 * Return a user-friendly version-number string, for use in translations
+	 * Return a user-friendly version-number string, for use in translations.
 	 *
 	 * @since BuddyPress (2.2.0)
+	 *
 	 * @return string
 	 */
 	public static function display_version() {

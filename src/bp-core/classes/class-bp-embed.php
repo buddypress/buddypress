@@ -80,8 +80,9 @@ class BP_Embed extends WP_Embed {
 	 * @uses _wp_oembed_get_object()
 	 * @uses WP_Embed::maybe_make_link()
 	 *
-	 * @param array $attr Shortcode attributes.
-	 * @param string $url The URL attempting to be embeded.
+	 * @param array  $attr Shortcode attributes.
+	 * @param string $url  The URL attempting to be embeded.
+	 *
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	public function shortcode( $attr, $url = '' ) {
@@ -169,11 +170,12 @@ class BP_Embed extends WP_Embed {
 	 * @uses WP_Embed::maybe_make_link() Process URL for hyperlinking on
 	 *       oEmbed failure.
 	 *
-	 * @param int $id ID to do the caching for.
-	 * @param string $url The URL attempting to be embedded.
-	 * @param array $attr Shortcode attributes from {@link WP_Embed::shortcode()}.
-	 * @param array $rawattr Untouched shortcode attributes from
-	 *        {@link WP_Embed::shortcode()}.
+	 * @param int    $id      ID to do the caching for.
+	 * @param string $url     The URL attempting to be embedded.
+	 * @param array  $attr    Shortcode attributes from {@link WP_Embed::shortcode()}.
+	 * @param array  $rawattr Untouched shortcode attributes from
+	 *                        {@link WP_Embed::shortcode()}.
+	 *
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	public function parse_oembed( $id, $url, $attr, $rawattr ) {

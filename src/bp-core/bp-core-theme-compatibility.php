@@ -38,13 +38,13 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array $properties {
  *     An array of properties describing the theme compat package.
- *     @type string $id ID of the package. Must be unique.
- *     @type string $name Name of the theme. This should match the name given
- *           in style.css.
+ *     @type string $id      ID of the package. Must be unique.
+ *     @type string $name    Name of the theme. This should match the name given
+ *                           in style.css.
  *     @type string $version Theme version. Used for busting script and style
- *           browser caches.
- *     @type string $dir Filesystem path of the theme.
- *     @type string $url Base URL of the theme.
+ *                           browser caches.
+ *     @type string $dir     Filesystem path of the theme.
+ *     @type string $url     Base URL of the theme.
  * }
  */
 class BP_Theme_Compat {
@@ -60,6 +60,8 @@ class BP_Theme_Compat {
 	 * Pass the $properties to the object on creation.
 	 *
 	 * @since BuddyPress (1.7.0)
+	 *
+	 * @param array $properties Array of properties for BP_Theme_Compat.
 	 */
     	public function __construct( Array $properties = array() ) {
 		$this->_data = $properties;
@@ -109,7 +111,8 @@ class BP_Theme_Compat {
 	 * @since BuddyPress (1.7.0)
 	 *
 	 * @param string $property Property name.
-	 * @param mixed $value Property value.
+	 * @param mixed  $value    Property value.
+	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function __set( $property, $value ) {
@@ -122,8 +125,9 @@ class BP_Theme_Compat {
 	 * @since BuddyPress (1.7.0)
 	 *
 	 * @param string $property Property name.
+	 *
 	 * @return mixed The value of the property if it exists, otherwise an
-	 *         empty string.
+	 *               empty string.
 	 */
 	public function __get( $property ) {
 		return array_key_exists( $property, $this->_data ) ? $this->_data[$property] : '';
@@ -369,6 +373,7 @@ function bp_is_theme_compat_active() {
  * @since BuddyPress (1.7.0)
  *
  * @param bool $set True to set the flag to true, false to set it to false.
+ *
  * @return bool Returns the value of $set.
  */
 function bp_set_theme_compat_active( $set = true ) {
@@ -386,6 +391,7 @@ function bp_set_theme_compat_active( $set = true ) {
  * @since BuddyPress (1.7.0)
  *
  * @param array $templates The template stack.
+ *
  * @return array The template stack (value of $templates).
  */
 function bp_set_theme_compat_templates( $templates = array() ) {
@@ -403,6 +409,7 @@ function bp_set_theme_compat_templates( $templates = array() ) {
  * @since BuddyPress (1.7.0)
  *
  * @param string $template The template currently in use.
+ *
  * @return string The template currently in use (value of $template).
  */
 function bp_set_theme_compat_template( $template = '' ) {
@@ -420,6 +427,7 @@ function bp_set_theme_compat_template( $template = '' ) {
  * @since BuddyPress (1.7.0)
  *
  * @param string $template The template originally selected by WP.
+ *
  * @return string The template originally selected by WP (value of $template).
  */
 function bp_set_theme_compat_original_template( $template = '' ) {
@@ -434,8 +442,9 @@ function bp_set_theme_compat_original_template( $template = '' ) {
  * @since BuddyPress (1.7.0)
  *
  * @param string $template The template name to check.
+ *
  * @return bool True if the value of $template is the same as the
- *         "original_template" originally selected by WP. Otherwise false.
+ *              "original_template" originally selected by WP. Otherwise false.
  */
 function bp_is_theme_compat_original_template( $template = '' ) {
 	$bp = buddypress();
@@ -457,9 +466,9 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  *
  * @see BP_Theme_Compat for a description of the $theme parameter arguments.
  *
- * @param array $theme See {@link BP_Theme_Compat}.
- * @param bool $override If true, overrides whatever package is currently set.
- *        Default: true.
+ * @param array $theme    See {@link BP_Theme_Compat}.
+ * @param bool  $override If true, overrides whatever package is currently set.
+ *                        Default: true.
  */
 function bp_register_theme_package( $theme = array(), $override = true ) {
 
@@ -496,8 +505,8 @@ function bp_register_theme_package( $theme = array(), $override = true ) {
  * @global WP_Query $wp_query WordPress database access object.
  * @global object $post Current post object.
  *
- * @param array $args Array of optional arguments. Arguments parallel the
- *        properties of {@link WP_Post}; see that class for more details.
+ * @param array $args Array of optional arguments. Arguments parallel the properties
+ *                    of {@link WP_Post}; see that class for more details.
  */
 function bp_theme_compat_reset_post( $args = array() ) {
 	global $wp_query, $post;
@@ -634,6 +643,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
  * @uses bp_set_theme_compat_template() To set the global theme compat template.
  *
  * @param string $template Template name.
+ *
  * @return string $template Template name.
  */
 function bp_template_include_theme_compat( $template = '' ) {
@@ -707,6 +717,7 @@ function bp_template_include_theme_compat( $template = '' ) {
  * @since BuddyPress (1.7.0)
  *
  * @param string $content Original post content.
+ *
  * @return string $content Post content, potentially modified.
  */
 function bp_replace_the_content( $content = '' ) {
@@ -752,7 +763,7 @@ function bp_replace_the_content( $content = '' ) {
  * @since BuddyPress (1.8.0)
  *
  * @return bool True if the_content is currently in the process of being
- *         filtered and replaced.
+ *              filtered and replaced.
  */
 function bp_do_theme_compat() {
 	return (bool) ( ! bp_is_template_included() && in_the_loop() && bp_is_theme_compat_active() );
@@ -771,10 +782,11 @@ function bp_do_theme_compat() {
  * @global WP_filter $wp_filter
  * @global array $merged_filters
  *
- * @param string $tag The filter tag to remove filters from.
- * @param int $priority Optional. If present, only those callbacks attached
- *        at a given priority will be removed. Otherwise, all callbacks
- *        attached to the tag will be removed, regardless of priority.
+ * @param string   $tag      The filter tag to remove filters from.
+ * @param int|bool $priority Optional. If present, only those callbacks attached
+ *                           at a given priority will be removed. Otherwise, all callbacks
+ *                           attached to the tag will be removed, regardless of priority.
+ *
  * @return bool True on success.
  */
 function bp_remove_all_filters( $tag, $priority = false ) {
@@ -826,11 +838,11 @@ function bp_remove_all_filters( $tag, $priority = false ) {
  * @global WP_filter $wp_filter
  * @global array $merged_filters
  *
- * @param string $tag The tag to which filters should be restored.
- * @param int $priority Optional. If present, only those filters that were
- *        originally attached to the tag with $priority will be restored.
- *        Otherwise, all available filters will be restored, regardless of
- *        priority.
+ * @param string   $tag      The tag to which filters should be restored.
+ * @param int|bool $priority Optional. If present, only those filters that were originally
+ *                           attached to the tag with $priority will be restored. Otherwise,
+ *                           all available filters will be restored, regardless of priority.
+ *
  * @return bool True on success.
  */
 function bp_restore_all_filters( $tag, $priority = false ) {
@@ -879,8 +891,9 @@ function bp_restore_all_filters( $tag, $priority = false ) {
  *
  * @since BuddyPress (1.7.0)
  *
- * @param bool $open True if open, false if closed.
- * @param int $post_id ID of the post to check.
+ * @param bool $open    True if open, false if closed.
+ * @param int  $post_id ID of the post to check.
+ *
  * @return bool True if open, false if closed.
  */
 function bp_comments_open( $open, $post_id = 0 ) {
@@ -916,6 +929,8 @@ function bp_comments_open( $open, $post_id = 0 ) {
  * @since BuddyPress (1.9.2)
  *
  * @param string $retval The current post content.
+ *
+ * @return string $retval
  */
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
 	global $wp_query;

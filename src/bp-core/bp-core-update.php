@@ -60,6 +60,8 @@ function bp_is_update() {
  *
  * @uses buddypress()
  *
+ * @param string $basename BuddyPress basename.
+ *
  * @return bool True if activating BuddyPress, false if not.
  */
 function bp_is_activation( $basename = '' ) {
@@ -104,6 +106,8 @@ function bp_is_activation( $basename = '' ) {
  * @since BuddyPress (1.6.0)
  *
  * @uses buddypress()
+ *
+ * @param string $basename BuddyPress basename.
  *
  * @return bool True if deactivating BuddyPress, false if not.
  */
@@ -396,8 +400,8 @@ function bp_update_to_1_9_2() {
  * 2.0 update routine.
  *
  * - Ensure that the activity tables are installed, for last_activity storage.
- * - Migrate last_activity data from usermeta to activity table
- * - Add values for all BuddyPress options to the options table
+ * - Migrate last_activity data from usermeta to activity table.
+ * - Add values for all BuddyPress options to the options table.
  *
  * @since BuddyPress (2.0.0)
  */
@@ -428,7 +432,7 @@ function bp_update_to_2_0() {
 }
 
 /**
- * 2.0.1 database upgrade routine
+ * 2.0.1 database upgrade routine.
  *
  * @since BuddyPress (2.0.1)
  *
@@ -444,9 +448,9 @@ function bp_update_to_2_0_1() {
 /**
  * 2.2.0 update routine.
  *
- * - Add messages meta table
- * - Update the component field of the 'new members' activity type
- * - Clean up hidden friendship activities
+ * - Add messages meta table.
+ * - Update the component field of the 'new members' activity type.
+ * - Clean up hidden friendship activities.
  *
  * @since BuddyPress (2.2.0)
  */
@@ -469,7 +473,7 @@ function bp_update_to_2_2() {
 /**
  * 2.3.0 update routine.
  *
- * - Add notifications meta table
+ * - Add notifications meta table.
  *
  * @since BuddyPress (2.3.0)
  */
@@ -518,11 +522,11 @@ function bp_migrate_new_member_activity_component() {
 }
 
 /**
- * Remove all hidden friendship activities
+ * Remove all hidden friendship activities.
  *
  * @since BuddyPress (2.2.0)
  *
- * @uses bp_activity_delete() to delete the corresponding friendship activities
+ * @uses bp_activity_delete() to delete the corresponding friendship activities.
  */
 function bp_cleanup_friendship_activities() {
 	bp_activity_delete( array(
@@ -567,7 +571,7 @@ function bp_add_activation_redirect() {
  *
  * @global WPDB $wpdb
  *
- * @return bool If signups table exists
+ * @return bool|null If signups table exists.
  */
 function bp_core_maybe_install_signups() {
 	global $wpdb;

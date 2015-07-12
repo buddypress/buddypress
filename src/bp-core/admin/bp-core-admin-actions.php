@@ -64,12 +64,12 @@ add_action( 'bp_admin_menu', 'bp_admin_separator' );
  *
  * @since BuddyPress (1.7.0)
  *
- * @param int $blog_id
- * @param int $user_id
+ * @param int    $blog_id
+ * @param int    $user_id
  * @param string $domain
  * @param string $path
- * @param int $site_id
- * @param array $meta
+ * @param int    $site_id
+ * @param array  $meta
  */
 function bp_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 

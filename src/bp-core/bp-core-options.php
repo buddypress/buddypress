@@ -217,8 +217,9 @@ function bp_setup_option_filters() {
  *
  * @since BuddyPress (1.6.0)
  *
- * @param bool $value Optional. Default value false
- * @return mixed false if not overloaded, mixed if set
+ * @param bool $value Optional. Default value false.
+ *
+ * @return mixed False if not overloaded, mixed if set.
  */
 function bp_pre_get_option( $value = false ) {
 	$bp = buddypress();
@@ -251,8 +252,9 @@ function bp_pre_get_option( $value = false ) {
  * @uses bp_get_root_blog_id()
  *
  * @param string $option_name The option to be retrieved.
- * @param string $default Optional. Default value to be returned if the option
- *        isn't set. See {@link get_blog_option()}.
+ * @param string $default     Optional. Default value to be returned if the option
+ *                            isn't set. See {@link get_blog_option()}.
+ *
  * @return mixed The value for the option.
  */
 function bp_get_option( $option_name, $default = '' ) {
@@ -277,7 +279,8 @@ function bp_get_option( $option_name, $default = '' ) {
  * @since BuddyPress (2.0.0)
  *
  * @param string $option_name The option key to be set.
- * @param mixed $value The value to be set.
+ * @param mixed  $value       The value to be set.
+ *
  * @return bool True on success, false on failure.
  */
 function bp_add_option( $option_name, $value ) {
@@ -296,7 +299,8 @@ function bp_add_option( $option_name, $value ) {
  * @uses bp_get_root_blog_id()
  *
  * @param string $option_name The option key to be set.
- * @param string $value The value to be set.
+ * @param string $value       The value to be set.
+ *
  * @return bool True on success, false on failure.
  */
 function bp_update_option( $option_name, $value ) {
@@ -315,6 +319,7 @@ function bp_update_option( $option_name, $value ) {
  * @uses bp_get_root_blog_id()
  *
  * @param string $option_name The option key to be deleted.
+ *
  * @return bool True on success, false on failure.
  */
 function bp_delete_option( $option_name ) {
@@ -330,6 +335,10 @@ function bp_delete_option( $option_name ) {
  * This function is no longer used.
  *
  * @deprecated 1.6.0
+ *
+ * @param array $keys
+ *
+ * @return bool
  */
 function bp_core_activate_site_options( $keys = array() ) {
 
@@ -494,6 +503,7 @@ function bp_core_get_root_options() {
  * @since BuddyPress (2.3.0)
  *
  * @param  string $option Name of the option key.
+ *
  * @return mixed Value, if found.
  */
 function bp_core_get_root_option( $option ) {
@@ -521,7 +531,8 @@ function bp_core_get_root_option( $option ) {
  * @uses bp_get_option() To get the profile sync option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if profile sync is enabled, otherwise false.
  */
 function bp_disable_profile_sync( $default = false ) {
@@ -544,9 +555,10 @@ function bp_disable_profile_sync( $default = false ) {
  * @uses bp_get_option() To get the logged out Toolbar option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if the admin bar should be hidden for logged-out users,
- *         otherwise false.
+ *              otherwise false.
  */
 function bp_hide_loggedout_adminbar( $default = true ) {
 
@@ -568,7 +580,8 @@ function bp_hide_loggedout_adminbar( $default = true ) {
  * @uses bp_get_option() To get the avatar uploads option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if avatar uploads are disabled, otherwise false.
  */
 function bp_disable_avatar_uploads( $default = true ) {
@@ -591,8 +604,9 @@ function bp_disable_avatar_uploads( $default = true ) {
  *
  * @since BuddyPress (2.3.0)
  *
- * @param bool $default Optional. Fallback value if not found in the database.
- *                      Defaults to the value of `bp_disable_avatar_uploads()`.
+ * @param bool|null $default Optional. Fallback value if not found in the database.
+ *                           Defaults to the value of `bp_disable_avatar_uploads()`.
+ *
  * @return bool True if group avatar uploads are disabled, otherwise false.
  */
 function bp_disable_group_avatar_uploads( $default = null ) {
@@ -625,9 +639,10 @@ function bp_disable_group_avatar_uploads( $default = null ) {
  * @uses bp_get_option() To get the account deletion option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if users are able to delete their own accounts, otherwise
- *         false.
+ *              false.
  */
 function bp_disable_account_deletion( $default = false ) {
 
@@ -650,9 +665,10 @@ function bp_disable_account_deletion( $default = false ) {
  * @uses bp_get_option() To get the blog/forum comments option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: false.
+ *                      Default: false.
+ *
  * @return bool True if activity comments are disabled for blog and forum
- *         items, otherwise false.
+ *              items, otherwise false.
  */
 function bp_disable_blogforum_comments( $default = false ) {
 
@@ -675,7 +691,8 @@ function bp_disable_blogforum_comments( $default = false ) {
  * @uses bp_get_option() To get the group creation.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if group creation is restricted, otherwise false.
  */
 function bp_restrict_group_creation( $default = true ) {
@@ -698,7 +715,8 @@ function bp_restrict_group_creation( $default = true ) {
  * @uses bp_get_option() To get the BuddyBar option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if the BuddyBar should be forced on, otherwise false.
  */
 function bp_force_buddybar( $default = true ) {
@@ -718,7 +736,7 @@ function bp_force_buddybar( $default = true ) {
  *
  * @since BuddyPress (1.6.0)
  *
- * @param bool $default Optional. Default: '0'.
+ * @param bool|string $default Optional. Default: '0'.
  */
 function bp_group_forums_root_id( $default = '0' ) {
 	echo bp_get_group_forums_root_id( $default );
@@ -730,7 +748,8 @@ function bp_group_forums_root_id( $default = '0' ) {
 	 *
 	 * @uses bp_get_option() To get the root forum ID from the database.
 	 *
-	 * @param bool $default Optional. Default: '0'.
+	 * @param bool|string $default Optional. Default: '0'.
+	 *
 	 * @return int The ID of the group forums root forum.
 	 */
 	function bp_get_group_forums_root_id( $default = '0' ) {
@@ -753,7 +772,8 @@ function bp_group_forums_root_id( $default = '0' ) {
  * @uses bp_get_option() To get the group forums option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if group forums are active, otherwise false.
  */
 function bp_is_group_forums_active( $default = true ) {
@@ -776,7 +796,8 @@ function bp_is_group_forums_active( $default = true ) {
  * @uses bp_get_option() To get the Akismet option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if Akismet is enabled, otherwise false.
  */
 function bp_is_akismet_active( $default = true ) {
@@ -799,7 +820,8 @@ function bp_is_akismet_active( $default = true ) {
  * @uses bp_get_option() To get the Heartbeat option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: true.
+ *                      Default: true.
+ *
  * @return bool True if Heartbeat refresh is enabled, otherwise false.
  */
 function bp_is_activity_heartbeat_active( $default = true ) {
@@ -821,8 +843,9 @@ function bp_is_activity_heartbeat_active( $default = true ) {
  *
  * @uses get_option() To get the theme package option.
  *
- * @param bool $default Optional. Fallback value if not found in the database.
- *        Default: 'legacy'.
+ * @param string $default Optional. Fallback value if not found in the database.
+ *                        Default: 'legacy'.
+ *
  * @return string ID of the theme package.
  */
 function bp_get_theme_package_id( $default = 'legacy' ) {

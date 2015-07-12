@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Admin Component Functions
+ * BuddyPress Admin Component Functions.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
@@ -235,7 +235,7 @@ function bp_core_admin_components_options() {
 }
 
 /**
- * Handle saving the Component settings
+ * Handle saving the Component settings.
  *
  * @since BuddyPress (1.6.0)
  * @todo Use settings API when it supports saving network settings
@@ -277,7 +277,7 @@ function bp_core_admin_components_settings_handler() {
 add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );
 
 /**
- * Calculates the components that should be active after save, based on submitted settings
+ * Calculates the components that should be active after save, based on submitted settings.
  *
  * The way that active components must be set after saving your settings must
  * be calculated differently depending on which of the Components subtabs you
@@ -298,8 +298,9 @@ add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );
  *
  * @since BuddyPress (1.7.0)
  *
- * @param array This is the array of component settings coming from the POST
- *   global. You should stripslashes_deep() before passing to this function
+ * @param array $submitted This is the array of component settings coming from the POST
+ *                         global. You should stripslashes_deep() before passing to this function.
+ *
  * @return array The calculated list of component settings
  */
 function bp_core_admin_get_active_components_from_submitted_settings( $submitted ) {
@@ -336,14 +337,15 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 }
 
 /**
- * Return a list of component information, optionally filtered by type
+ * Return a list of component information, optionally filtered by type.
  *
  * We use this information both to build the markup for the admin screens, as
  * well as to do some processing on settings data submitted from those screens.
  *
  * @since BuddyPress (1.7.0)
  *
- * @param string $type 'all', 'optional', 'retired', 'required'
+ * @param string $type 'all', 'optional', 'retired', 'required'.
+ *
  * @return array An array of requested component data
  */
 function bp_core_admin_get_components( $type = 'all' ) {

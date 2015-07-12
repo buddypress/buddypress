@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type array|string      $member_type         Array or comma-separated list of member types to limit results to.
  *     @type array|string      $member_type__in     Array or comma-separated list of member types to limit results to.
  *     @type array|string      $member_type__not_in Array or comma-separated list of member types that will be
- *			                            excluded from results.
+ *			                                             excluded from results.
  *     @type string|bool       $meta_key            Limit results to users that have usermeta associated with this meta_key.
  *                                                  Usually used with $meta_value. Default: false.
  *     @type string|bool       $meta_value          When used with $meta_key, limits results to users whose usermeta value
@@ -618,10 +618,11 @@ class BP_User_Query {
 	 *
 	 * @since BuddyPress (1.8.0)
 	 *
-	 * @param array Sanitized array of user IDs, as passed to the 'include'
-	 *        parameter of the class constructor.
+	 * @param array $include Sanitized array of user IDs, as passed to the 'include'
+	 *                       parameter of the class constructor.
+	 *
 	 * @return array The list of users to which the main query should be
-	 *         limited.
+	 *               limited.
 	 */
 	public function get_include_ids( $include = array() ) {
 		return $include;
@@ -758,6 +759,8 @@ class BP_User_Query {
 	 *
 	 * @param string|array $member_types Array or comma-separated list of member types.
 	 * @param string       $operator     'IN' or 'NOT IN'.
+	 *
+	 * @return string
 	 */
 	protected function get_sql_clause_for_member_types( $member_types, $operator ) {
 		global $wpdb;

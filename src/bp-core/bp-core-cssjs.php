@@ -120,7 +120,7 @@ add_action( 'bp_enqueue_scripts',       'bp_core_confirmation_js' );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );
 
 /**
- * Enqueues the css and js required by the Avatar UI
+ * Enqueues the css and js required by the Avatar UI.
  *
  * @since  BuddyPress (2.3.0)
  */
@@ -315,7 +315,7 @@ function bp_core_ajax_url() {
  *
  * @since BuddyPress (2.0.0)
  *
- * @uses apply_filters() to allow other component to load extra dependencies
+ * @uses apply_filters() to allow other component to load extra dependencies.
  *
  * @return array The JavaScript dependencies.
  */

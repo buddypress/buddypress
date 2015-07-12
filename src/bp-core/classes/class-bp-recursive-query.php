@@ -37,8 +37,6 @@ abstract class BP_Recursive_Query {
 	 * @since BuddyPress (2.2.0)
 	 * @access protected
 	 *
-	 * @param  string $primary_table
-	 * @param  string $primary_id_column
 	 * @return array
 	 */
 	protected function get_sql_clauses() {
@@ -143,7 +141,8 @@ abstract class BP_Recursive_Query {
 	 * @since BuddyPress (2.2.0)
 	 * @access public
 	 *
-	 * @param  array $queries Array of query clauses.
+	 * @param array $queries Array of query clauses.
+	 *
 	 * @return array Sanitized array of query clauses.
 	 */
 	protected function sanitize_query( $queries ) {
@@ -210,8 +209,9 @@ abstract class BP_Recursive_Query {
 	 * @since BuddyPress (2.2.0)
 	 * @access protected
 	 *
-	 * @param  array $clause       Array of arguments belonging to the clause.
-	 * @param  array $parent_query Parent query to which the clause belongs.
+	 * @param array $clause       Array of arguments belonging to the clause.
+	 * @param array $parent_query Parent query to which the clause belongs.
+	 *
 	 * @return array {
 	 *     @type array $join  Array of subclauses for the JOIN statement.
 	 *     @type array $where Array of subclauses for the WHERE statement.
@@ -227,7 +227,8 @@ abstract class BP_Recursive_Query {
 	 * @since BuddyPress (2.2.0)
 	 * @access protected
 	 *
-	 * @param  array $q Clause to check.
+	 * @param array $query Clause to check.
+	 *
 	 * @return bool
 	 */
 	abstract protected function is_first_order_clause( $query );

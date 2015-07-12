@@ -74,7 +74,8 @@ add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
  * @uses bp_is_active() checks if a BuddyPress component is active.
  *
  * @param array $pages List of excluded page IDs, as passed to the
- *        'wp_list_pages_excludes' filter.
+ *                     'wp_list_pages_excludes' filter.
+ *
  * @return array The exclude list, with BP's pages added.
  */
 function bp_core_exclude_pages( $pages = array() ) {
@@ -113,8 +114,9 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * @uses bp_is_root_blog() checks if current blog is root blog.
  * @uses buddypress() gets BuddyPress main instance
  *
- * @param object $object The post type object used in the meta box
- * @return object The $object, with a query argument to remove register and activate pages id.
+ * @param object|null $object The post type object used in the meta box.
+ *
+ * @return object|null The $object, with a query argument to remove register and activate pages id.
  */
 function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
 
@@ -156,8 +158,9 @@ add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_adm
  *
  * @since BuddyPress (2.2.0)
  *
- * @param array   $retval CSS classes for the current menu page in the menu
- * @param WP_Post $page   The page properties for the current menu item
+ * @param array   $retval CSS classes for the current menu page in the menu.
+ * @param WP_Post $page   The page properties for the current menu item.
+ *
  * @return array
  */
 function bp_core_menu_highlight_parent_page( $retval, $page ) {
@@ -213,8 +216,9 @@ add_filter( 'page_css_class', 'bp_core_menu_highlight_parent_page', 10, 2 );
  *
  * @since BuddyPress (2.2.0)
  *
- * @param array   $retval CSS classes for the current nav menu item in the menu
- * @param WP_Post $item   The properties for the current nav menu item
+ * @param array   $retval CSS classes for the current nav menu item in the menu.
+ * @param WP_Post $item   The properties for the current nav menu item.
+ *
  * @return array
  */
 function bp_core_menu_highlight_nav_menu_item( $retval, $item ) {
@@ -257,7 +261,8 @@ add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
  * Filter the blog post comments array and insert BuddyPress URLs for users.
  *
  * @param array $comments The array of comments supplied to the comments template.
- * @param int $post->ID The post ID.
+ * @param int   $post_id  The post ID.
+ *
  * @return array $comments The modified comment array.
  */
 function bp_core_filter_comments( $comments, $post_id ) {
@@ -296,11 +301,11 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
  * @uses apply_filters() Filter 'bp_core_login_redirect' to modify where users
  *       are redirected to on login.
  *
- * @param string $redirect_to The URL to be redirected to, sanitized
- *        in wp-login.php.
- * @param string $redirect_to_raw The unsanitized redirect_to URL ($_REQUEST['redirect_to'])
- * @param WP_User $user The WP_User object corresponding to a successfully
- *        logged-in user. Otherwise a WP_Error object.
+ * @param string  $redirect_to     The URL to be redirected to, sanitized in wp-login.php.
+ * @param string  $redirect_to_raw The unsanitized redirect_to URL ($_REQUEST['redirect_to']).
+ * @param WP_User $user            The WP_User object corresponding to a successfully
+ *                                 logged-in user. Otherwise a WP_Error object.
+ *
  * @return string The redirect URL.
  */
 function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
@@ -322,7 +327,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 	 *
 	 * @since BuddyPress (1.6.0)
 	 *
-    * @param bool    $value           Whether or not to redirect.
+  * @param bool    $value           Whether or not to redirect.
 	 * @param string  $redirect_to     Sanitized URL to be redirected to.
 	 * @param string  $redirect_to_raw Unsanitized URL to be redirected to.
 	 * @param WP_User $user            The WP_User object corresponding to a
@@ -365,8 +370,9 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  * This filter will not fire when a user is registered by the site admin.
  *
  * @param string $welcome_email Complete email passed through WordPress.
+ *
  * @return string Filtered $welcome_email with the password replaced
- *         by '[User Set]'.
+ *                by '[User Set]'.
  */
 function bp_core_filter_user_welcome_email( $welcome_email ) {
 
@@ -399,9 +405,10 @@ add_filter( 'update_welcome_user_email', 'bp_core_filter_user_welcome_email' );
  * This filter will not fire when a user is registered by the site admin.
  *
  * @param string $welcome_email Complete email passed through WordPress.
- * @param int $blog_id ID of the blog user is joining.
- * @param int $user_id ID of the user joining.
- * @param string $password Password of user.
+ * @param int    $blog_id       ID of the blog user is joining.
+ * @param int    $user_id       ID of the user joining.
+ * @param string $password      Password of user.
+ *
  * @return string Filtered $welcome_email with $password replaced by '[User Set]'.
  */
 function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
@@ -428,14 +435,15 @@ add_filter( 'update_welcome_email', 'bp_core_filter_blog_welcome_email', 10, 4 )
  *
  * @see wpmu_signup_blog_notification() for a description of parameters.
  *
- * @param string $domain The new blog domain.
- * @param string $path The new blog path.
- * @param string $title The site title.
- * @param string $user The user's login name.
+ * @param string $domain     The new blog domain.
+ * @param string $path       The new blog path.
+ * @param string $title      The site title.
+ * @param string $user       The user's login name.
  * @param string $user_email The user's email address.
- * @param string $key The activation key created in wpmu_signup_blog()
- * @param array $meta By default, contains the requested privacy setting and
- *        lang_id.
+ * @param string $key        The activation key created in wpmu_signup_blog()
+ * @param array  $meta       By default, contains the requested privacy setting and
+ *                           lang_id.
+ *
  * @return bool True on success, false on failure.
  */
 function bp_core_activation_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta ) {
@@ -510,7 +518,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	 * @param string $admin_email Admin Email address for the site.
 	 * @param string $subject     Subject used in the notification email.
 	 * @param string $message     Message used in the notification email.
-	 * @param string domain       The new blog domain.
+	 * @param string $domain      The new blog domain.
 	 * @param string $path        The new blog path.
 	 * @param string $title       The site title.
 	 * @param string $user        The user's login name.
@@ -530,11 +538,12 @@ add_filter( 'wpmu_signup_blog_notification', 'bp_core_activation_signup_blog_not
  *
  * @see wpmu_signup_user_notification() for a full description of params.
  *
- * @param string $user The user's login name.
+ * @param string $user       The user's login name.
  * @param string $user_email The user's email address.
- * @param string $key The activation key created in wpmu_signup_user()
- * @param array $meta By default, an empty array.
- * @return bool True on success, false on failure.
+ * @param string $key        The activation key created in wpmu_signup_user()
+ * @param array  $meta       By default, an empty array.
+ *
+ * @return bool|string True on success, false on failure.
  */
 function bp_core_activation_signup_user_notification( $user, $user_email, $key, $meta ) {
 
@@ -824,6 +833,7 @@ add_filter( 'bp_modify_page_title', 'esc_html'        );
  * less than 4.0, and should be removed at a later date.
  *
  * @param  string $title_part
+ *
  * @return string
  */
 function _bp_strip_spans_from_title( $title_part = '' ) {
@@ -841,7 +851,8 @@ function _bp_strip_spans_from_title( $title_part = '' ) {
  * @since BuddyPress (1.9.0)
  *
  * @param WP_Post $menu_item The menu item.
- * @return obj The modified WP_Post object.
+ *
+ * @return WP_Post The modified WP_Post object.
  */
 function bp_setup_nav_menu_item( $menu_item ) {
 	if ( is_admin() ) {
@@ -926,6 +937,7 @@ add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
  * @access private Do not use.
  *
  * @param string $q SQL query.
+ *
  * @return string
  */
 function bp_filter_metaid_column_name( $q ) {
@@ -951,14 +963,15 @@ function bp_filter_metaid_column_name( $q ) {
 }
 
 /**
- * Filter the edit post link to avoid its display in BuddyPress pages
+ * Filter the edit post link to avoid its display in BuddyPress pages.
  *
  * @since BuddyPress (2.1.0)
  *
  * @param  string $edit_link The edit link.
  * @param  int    $post_id   Post ID.
- * @return mixed  Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
- *                otherwise
+ *
+ * @return bool|string Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
+ *                     otherwise
  */
 function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
 	if ( 0 === $post_id ) {
@@ -972,10 +985,12 @@ function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
  * Should BuddyPress load the mentions scripts and related assets, including results to prime the
  * mentions suggestions?
  *
- * @param bool $load_mentions True to load mentions assets, false otherwise.
- * @param bool $mentions_enabled True if mentions are enabled.
- * @return bool True if mentions scripts should be loaded.
  * @since BuddyPress (2.2.0)
+ *
+ * @param bool $load_mentions    True to load mentions assets, false otherwise.
+ * @param bool $mentions_enabled True if mentions are enabled.
+ *
+ * @return bool True if mentions scripts should be loaded.
  */
 function bp_maybe_load_mentions_scripts_for_blog_content( $load_mentions, $mentions_enabled ) {
 	if ( ! $mentions_enabled ) {

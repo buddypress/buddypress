@@ -16,30 +16,32 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array $args {
  *     Array of arguments.
- *     @type string $id String describing the button type.
- *     @type string $component The name of the component the button belongs to.
- *           Default: 'core'.
- *     @type bool $must_be_logged_in Optional. Does the user need to be logged
- *           in to see this button? Default: true.
- *     @type bool $block_self Optional. True if the button should be hidden
- *           when a user is viewing his own profile. Default: true.
- *     @type string|bool $wrapper Optional. HTML element type that should wrap
- *           the button: 'div', 'span', 'p', or 'li'. False for no wrapper at
- *           all. Default: 'div'.
- *     @type string $wrapper_id Optional. DOM ID of the button wrapper element.
- *           Default: ''.
- *     @type string $wrapper_class Optional. DOM class of the button wrapper
- *           element. Default: ''.
- *     @type string $link_href Optional. Destination link of the button.
- *           Default: ''.
- *     @type string $link_class Optional. DOM class of the button. Default: ''.
- *     @type string $link_id Optional. DOM ID of the button. Default: ''.
- *     @type string $link_rel Optional. DOM 'rel' attribute of the button.
- *           Default: ''.
- *     @type string $link_title Optional. Title attribute of the button.
- *           Default: ''.
- *     @type string $link_text Optional. Text to appear on the button.
- *           Default: ''.
+ *
+ *     @type string      $id                String describing the button type.
+ *     @type string      $component         The name of the component the button belongs to.
+ *                                          Default: 'core'.
+ *     @type bool        $must_be_logged_in Optional. Does the user need to be logged
+ *                                          in to see this button? Default: true.
+ *     @type bool        $block_self        Optional. True if the button should be hidden
+ *                                          when a user is viewing his own profile.
+ *                                          Default: true.
+ *     @type string|bool $wrapper           Optional. HTML element type that should wrap
+ *                                          the button: 'div', 'span', 'p', or 'li'.
+ *                                          False for no wrapper at all. Default: 'div'.
+ *     @type string      $wrapper_id        Optional. DOM ID of the button wrapper element.
+ *                                          Default: ''.
+ *     @type string      $wrapper_class     Optional. DOM class of the button wrapper
+ *                                          element. Default: ''.
+ *     @type string      $link_href         Optional. Destination link of the button.
+ *                                          Default: ''.
+ *     @type string      $link_class        Optional. DOM class of the button. Default: ''.
+ *     @type string      $link_id           Optional. DOM ID of the button. Default: ''.
+ *     @type string      $link_rel          Optional. DOM 'rel' attribute of the button.
+ *                                          Default: ''.
+ *     @type string      $link_title        Optional. Title attribute of the button.
+ *                                          Default: ''.
+ *     @type string      $link_text         Optional. Text to appear on the button.
+ *                                          Default: ''.
  * }
  */
 class BP_Button {
@@ -152,9 +154,7 @@ class BP_Button {
 	 *
 	 * @since BuddyPress (1.2.6)
 	 *
-	 * @param array $args See {@BP_Button}.
-	 * @return bool|null Returns false when the button is not allowed for
-	 *         the current context.
+	 * @param array|string $args See {@BP_Button}.
 	 */
 	public function __construct( $args = '' ) {
 

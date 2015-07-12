@@ -33,6 +33,9 @@ class BP_Date_Query extends WP_Date_Query {
 	/**
 	 * Constructor.
 	 *
+	 * @param array  $date_query
+	 * @param string $column
+	 *
 	 * @see WP_Date_Query::__construct()
 	 */
 	public function __construct( $date_query, $column = '' ) {
@@ -54,7 +57,8 @@ class BP_Date_Query extends WP_Date_Query {
 	/**
 	 * Registers our date column with WP Date Query to pass validation.
 	 *
-	 * @param array $retval Current DB columns
+	 * @param array $retval Current DB columns.
+	 *
 	 * @return array
 	 */
 	public function register_date_column( $retval = array() ) {

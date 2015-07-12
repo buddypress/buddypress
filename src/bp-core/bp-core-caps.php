@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Return an array of roles from the currently loaded blog
+ * Return an array of roles from the currently loaded blog.
  *
  * WordPress roles are dynamically flipped when calls to switch_to_blog() and
  * restore_current_blog() are made, so we use and trust WordPress core to have
@@ -132,10 +132,11 @@ function bp_remove_caps() {
  * @uses apply_filters() Calls 'bp_map_meta_caps' with caps, cap, user ID and
  *       args.
  *
- * @param array $caps See {@link WP_User::has_cap()}.
- * @param string $cap See {@link WP_User::has_cap()}.
- * @param int $user_id See {@link WP_User::has_cap()}.
- * @param mixed $args See {@link WP_User::has_cap()}.
+ * @param array  $caps    See {@link WP_User::has_cap()}.
+ * @param string $cap     See {@link WP_User::has_cap()}.
+ * @param int    $user_id See {@link WP_User::has_cap()}.
+ * @param mixed  $args    See {@link WP_User::has_cap()}.
+ *
  * @return array Actual capabilities for meta capability. See {@link WP_User::has_cap()}.
  */
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
@@ -185,6 +186,7 @@ function bp_get_community_caps() {
  * @uses apply_filters() Allow return value to be filtered.
  *
  * @param string $role The role for which you're loading caps.
+ *
  * @return array Capabilities for $role.
  */
 function bp_get_caps_for_role( $role = '' ) {
@@ -272,6 +274,7 @@ function bp_set_current_user_default_role() {
  *     @type int   $blog_id Optional. Blog ID. Defaults to the BP root blog.
  *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.
  * }
+ *
  * @return bool True if the user has the cap for the given parameters.
  */
 function bp_current_user_can( $capability, $args = array() ) {
@@ -334,9 +337,11 @@ function bp_current_user_can( $capability, $args = array() ) {
  *
  * @see WP_User::has_cap()
  *
- * @param array $allcaps The caps that WP associates with the given role.
- * @param array $caps The caps being tested for in WP_User::has_cap().
- * @param array $args Miscellaneous arguments passed to the user_has_cap filter.
+ * @param array  $caps    The caps that WP associates with the given role.
+ * @param string $cap     The caps being tested for in WP_User::has_cap().
+ * @param int    $user_id ID of the user being checked against.
+ * @param array  $args    Miscellaneous arguments passed to the user_has_cap filter.
+ *
  * @return array $allcaps The user's cap list, with 'bp_moderate' appended, if relevant.
  */
 function _bp_enforce_bp_moderate_cap_for_admins( $caps = array(), $cap = '', $user_id = 0, $args = array() ) {

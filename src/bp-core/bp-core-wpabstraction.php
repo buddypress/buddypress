@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since BuddyPress (1.5.2)
  *
  * @global string $wp_version
+ *
  * @return string $wp_version
  */
 function bp_get_major_wp_version() {
@@ -126,7 +127,7 @@ if ( !is_multisite() ) {
  * @internal
  * @todo Why is this function defined in this file?
  *
- * @param string $prefix Global table prefix.
+ * @param string|bool $prefix Global table prefix.
  * @return string SQL chunk.
  */
 function bp_core_get_status_sql( $prefix = false ) {
@@ -176,7 +177,7 @@ if ( !function_exists( 'mb_strpos' ) ) {
 	 * @param string $haystack String to search in.
 	 * @param string $needle String to search for.
 	 * @param int $offset Optional. Start position for the search. Default: 0.
-	 * @param string $enc Optional. Encoding type. Ignored.
+	 * @param string $encoding Optional. Encoding type. Ignored.
 	 * @return int|bool Position of needle in haystack if found, else false.
 	 */
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
@@ -200,7 +201,7 @@ if ( !function_exists( 'mb_strrpos' ) ) {
 	 * @param string $haystack String to search in.
 	 * @param string $needle String to search for.
 	 * @param int $offset Optional. Start position for the search. Default: 0.
-	 * @param string $enc Optional. Encoding type. Ignored.
+	 * @param string $encoding Optional. Encoding type. Ignored.
 	 * @return int Position of last needle in haystack if found, else false.
 	 */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {

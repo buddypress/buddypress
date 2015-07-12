@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BuddyPress Common Admin Functions
+ * BuddyPress Common Admin Functions.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
@@ -114,14 +114,14 @@ function bp_core_admin_backpat_page() {
 /** Notices *******************************************************************/
 
 /**
- * Print admin messages to admin_notices or network_admin_notices
+ * Print admin messages to admin_notices or network_admin_notices.
  *
  * BuddyPress combines all its messages into a single notice, to avoid a preponderance of yellow
  * boxes.
  *
  * @since BuddyPress (1.5.0)
  *
- * @uses bp_current_user_can() to check current user permissions before showing the notices
+ * @uses bp_current_user_can() to check current user permissions before showing the notices.
  * @uses bp_is_root_blog()
  */
 function bp_core_print_admin_notices() {
@@ -158,7 +158,7 @@ add_action( 'admin_notices',         'bp_core_print_admin_notices' );
 add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
 
 /**
- * Add an admin notice to the BP queue
+ * Add an admin notice to the BP queue.
  *
  * Messages added with this function are displayed in BuddyPress's general purpose admin notices
  * box. It is recommended that you hook this function to admin_init, so that your messages are
@@ -167,7 +167,7 @@ add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
  * @since BuddyPress (1.5.0)
  *
  * @param string $notice The notice you are adding to the queue.
- * @param string $type The notice type; optional. Usually either "updated" or "error".
+ * @param string $type   The notice type; optional. Usually either "updated" or "error".
  */
 function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
 
@@ -189,12 +189,12 @@ function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
 }
 
 /**
- * Verify that some BP prerequisites are set up properly, and notify the admin if not
+ * Verify that some BP prerequisites are set up properly, and notify the admin if not.
  *
  * On every Dashboard page, this function checks the following:
- *   - that pretty permalinks are enabled
- *   - that every BP component that needs a WP page for a directory has one
- *   - that no WP page has multiple BP components associated with it
+ *   - that pretty permalinks are enabled.
+ *   - that every BP component that needs a WP page for a directory has one.
+ *   - that no WP page has multiple BP components associated with it.
  * The administrator will be shown a notice for each check that fails.
  *
  * @global WPDB $wpdb WordPress DB object
@@ -327,18 +327,18 @@ function bp_core_activation_notice() {
 }
 
 /**
- * Redirect user to BuddyPress's What's New page on activation
+ * Redirect user to BuddyPress's What's New page on activation.
  *
  * @since BuddyPress (1.7.0)
  *
- * @internal Used internally to redirect BuddyPress to the about page on activation
+ * @internal Used internally to redirect BuddyPress to the about page on activation.
  *
- * @uses get_transient() To see if transient to redirect exists
- * @uses delete_transient() To delete the transient if it exists
- * @uses is_network_admin() To bail if being network activated
- * @uses wp_safe_redirect() To redirect
- * @uses add_query_arg() To help build the URL to redirect to
- * @uses admin_url() To get the admin URL to index.php
+ * @uses get_transient() To see if transient to redirect exists.
+ * @uses delete_transient() To delete the transient if it exists.
+ * @uses is_network_admin() To bail if being network activated.
+ * @uses wp_safe_redirect() To redirect.
+ * @uses add_query_arg() To help build the URL to redirect to.
+ * @uses admin_url() To get the admin URL to index.php.
  */
 function bp_do_activation_redirect() {
 
@@ -368,9 +368,10 @@ function bp_do_activation_redirect() {
 /** UI/Styling ****************************************************************/
 
 /**
- * Output the tabs in the admin area
+ * Output the tabs in the admin area.
  *
  * @since BuddyPress (1.5.0)
+ *
  * @param string $active_tab Name of the tab that is active. Optional.
  */
 function bp_core_admin_tabs( $active_tab = '' ) {
@@ -408,7 +409,10 @@ function bp_core_admin_tabs( $active_tab = '' ) {
  * Get the data for the tabs in the admin area.
  *
  * @since BuddyPress (2.2.0)
+ *
  * @param string $active_tab Name of the tab that is active. Optional.
+ *
+ * @return string
  */
 function bp_core_get_admin_tabs( $active_tab = '' ) {
 	$tabs = array(
@@ -452,10 +456,12 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 /** Help **********************************************************************/
 
 /**
- * adds contextual help to BuddyPress admin pages
+ * adds contextual help to BuddyPress admin pages.
  *
  * @since BuddyPress (1.7.0)
  * @todo Make this part of the BP_Component class and split into each component
+ *
+ * @param string $screen
  */
 function bp_core_add_contextual_help( $screen = '' ) {
 
@@ -542,9 +548,13 @@ function bp_core_add_contextual_help( $screen = '' ) {
 add_action( 'contextual_help', 'bp_core_add_contextual_help' );
 
 /**
- * renders contextual help content to contextual help tabs
+ * renders contextual help content to contextual help tabs.
  *
  * @since BuddyPress (1.7.0)
+ *
+ * @param string $tab
+ *
+ * @return string
  */
 function bp_core_add_contextual_help_content( $tab = '' ) {
 
@@ -581,11 +591,11 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 /** Separator *****************************************************************/
 
 /**
- * Add a separator to the WordPress admin menus
+ * Add a separator to the WordPress admin menus.
  *
  * @since BuddyPress (1.7.0)
  *
- * @uses bp_current_user_can() To check users capability on root blog
+ * @uses bp_current_user_can() To check users capability on root blog.
  */
 function bp_admin_separator() {
 
@@ -616,12 +626,13 @@ function bp_admin_separator() {
 }
 
 /**
- * Tell WordPress we have a custom menu order
+ * Tell WordPress we have a custom menu order.
  *
  * @since BuddyPress (1.7.0)
+ * @uses bp_current_user_can() To check users capability on root blog.
  *
- * @param bool $menu_order Menu order
- * @uses bp_current_user_can() To check users capability on root blog
+ * @param bool $menu_order Menu order.
+ *
  * @return bool Always true
  */
 function bp_admin_custom_menu_order( $menu_order = false ) {
@@ -635,12 +646,13 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
 }
 
 /**
- * Move our custom separator above our custom post types
+ * Move our custom separator above our custom post types.
  *
  * @since BuddyPress (1.7.0)
+ * @uses bp_current_user_can() To check users capability on root blog.
  *
- * @param array $menu_order Menu Order
- * @uses bp_current_user_can() To check users capability on root blog
+ * @param array $menu_order Menu Order.
+ *
  * @return array Modified menu order
  */
 function bp_admin_menu_order( $menu_order = array() ) {
@@ -702,13 +714,14 @@ function bp_admin_menu_order( $menu_order = array() ) {
 /** Utility  *****************************************************************/
 
 /**
- * When using a WP_List_Table, get the currently selected bulk action
+ * When using a WP_List_Table, get the currently selected bulk action.
  *
  * WP_List_Tables have bulk actions at the top and at the bottom of the tables,
  * and the inputs have different keys in the $_REQUEST array. This function
  * reconciles the two values and returns a single action being performed.
  *
  * @since BuddyPress (1.7.0)
+ *
  * @return string
  */
 function bp_admin_list_table_current_bulk_action() {
@@ -726,7 +739,7 @@ function bp_admin_list_table_current_bulk_action() {
 /** Menus *********************************************************************/
 
 /**
- * Register meta box and associated JS for BuddyPress WP Nav Menu .
+ * Register meta box and associated JS for BuddyPress WP Nav Menu.
  *
  * @since BuddyPress (1.9.0)
  */
@@ -832,8 +845,9 @@ function bp_admin_wp_nav_menu_restrict_items() {
  *
  * @since BuddyPress (2.0.0)
  *
- * @param array $actions User row action links.
+ * @param array  $actions     User row action links.
  * @param object $user_object Current user information.
+ *
  * @return array $actions User row action links.
  */
 function bp_core_admin_user_row_actions( $actions, $user_object ) {

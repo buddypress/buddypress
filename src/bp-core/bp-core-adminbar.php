@@ -110,7 +110,7 @@ function bp_core_load_admin_bar_css() {
 }
 
 /**
- * Enqueue supplemental WordPress Toolbar styling
+ * Enqueue supplemental WordPress Toolbar styling.
  *
  * @since BuddyPress (2.1.0)
  *

@@ -69,10 +69,10 @@ abstract class BP_Suggestions {
 	 * Set the parameters for the suggestions service query.
 	 *
 	 * @param array $args {
-	 *     @type int $limit Maximum number of results to display. Optional, default: 16.
-	 *     @type string $type The name of the suggestion service to use for the request. Mandatory.
-	 *     @type string $term The suggestion service will try to find results that contain this string.
-	 *           Mandatory.
+	 *     @type int    $limit Maximum number of results to display. Optional, default: 16.
+	 *     @type string $type  The name of the suggestion service to use for the request. Mandatory.
+	 *     @type string $term  The suggestion service will try to find results that contain this string.
+	 *                         Mandatory.
 	 * }
 	 * @since BuddyPress (2.1.0)
 	 */
@@ -86,8 +86,9 @@ abstract class BP_Suggestions {
 	 * Be sure to call this class' version of this method when implementing it in your own service.
 	 * If validation fails, you must return a WP_Error object.
 	 *
-	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
 	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
 	 */
 	public function validate() {
 		$this->args['limit'] = absint( $this->args['limit'] );
@@ -133,8 +134,9 @@ abstract class BP_Suggestions {
 	 * The object format for each match must be: { 'ID': string, 'image': string, 'name': string }
 	 * For example: { 'ID': 'admin', 'image': 'http://example.com/logo.png', 'name': 'Name Surname' }
 	 *
-	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
 	 * @since BuddyPress (2.1.0)
+	 *
+	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
 	 */
 	abstract public function get_suggestions();
 }

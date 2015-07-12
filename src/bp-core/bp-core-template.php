@@ -25,6 +25,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently
  *       viewed user.
+ *
+ * @param string $parent_slug
+ *
+ * @return string
  */
 function bp_get_options_nav( $parent_slug = '' ) {
 	$bp = buddypress();
@@ -109,6 +113,8 @@ function bp_get_options_title() {
  * page.
  *
  * @since BuddyPress (2.0.0)
+ *
+ * @param string $component
  *
  * @return string
  */
@@ -334,7 +340,7 @@ function bp_site_name() {
  *
  * @since BuddyPress (1.1.0)
  *
- * @param int  $time         The UNIX timestamp to be formatted.
+ * @param int|string  $time         The UNIX timestamp to be formatted.
  * @param bool $exclude_time Optional. True to return only the month + day, false
  *                           to return month, day, and time. Default: false.
  * @param bool $gmt          Optional. True to display in local time, false to
@@ -701,7 +707,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
  *
  * @see bp_get_button()
  *
- * @param array $args See {@link BP_Button}.
+ * @param array|string $args See {@link BP_Button}.
  */
 function bp_button( $args = '' ) {
 	echo bp_get_button( $args );
@@ -711,7 +717,7 @@ function bp_button( $args = '' ) {
 	 *
 	 * @see BP_Button for a description of arguments and return value.
 	 *
-	 * @param array $args See {@link BP_Button}.
+	 * @param array|string $args See {@link BP_Button}.
 	 * @return string HTML markup for the button.
 	 */
 	function bp_get_button( $args = '' ) {
@@ -1107,7 +1113,7 @@ function bp_get_email_subject( $args = array() ) {
  * errors if someone copies the templates from the default theme into another
  * WordPress theme without coping the functions from functions.php.
  *
- * @param string $object
+ * @param string|bool $object
  * @return string The AJAX querystring.
  */
 function bp_ajax_querystring( $object = false ) {
@@ -1177,7 +1183,7 @@ function bp_current_action() {
 /**
  * Return the name of the current item.
  *
- * @return unknown
+ * @return string|bool
  */
 function bp_current_item() {
 	$bp           = buddypress();
@@ -1422,7 +1428,7 @@ function bp_search_slug() {
 		 *
 		 * @since BuddyPress (1.5.0)
 		 *
-		 * @param string BP_SEARCH_SLUG The search slug. Default "search".
+		 * @const string BP_SEARCH_SLUG The search slug. Default "search".
 		 */
 		return apply_filters( 'bp_get_search_slug', BP_SEARCH_SLUG );
 	}
@@ -1596,7 +1602,7 @@ function bp_is_current_action( $action = '' ) {
  * @since BuddyPress (1.5.0)
  *
  * @param string $action_variable The action_variable being tested against.
- * @param int $position Optional. The array key you're testing against. If you
+ * @param int|bool $position Optional. The array key you're testing against. If you
  *        don't provide a $position, the function will return true if the
  *        $action_variable is found *anywhere* in the action variables array.
  * @return bool True if $action_variable matches at the $position provided.
@@ -1754,6 +1760,8 @@ function bp_is_directory() {
  * This function is on the chopping block. It's currently only used by a few
  * already deprecated functions.
  *
+ * @param string $component_name
+ *
  * @return bool True if root component, else false.
  */
 function bp_is_root_component( $component_name = '' ) {
@@ -1792,7 +1800,7 @@ function bp_is_root_component( $component_name = '' ) {
  *
  * @since BuddyPress (1.5.0)
  *
- * @global $current_blog WordPress global for the current blog.
+ * @global int $current_blog WordPress global for the current blog.
  *
  * @param string $component Optional. Name of the component to check for.
  *                          Default: current component.
@@ -2691,6 +2699,9 @@ function bp_is_messages_conversation() {
 /**
  * Not currently used by BuddyPress.
  *
+ * @param string $component Current component to check for.
+ * @param string $callback  Callback to invoke.
+ *
  * @return bool
  */
 function bp_is_single( $component, $callback ) {
@@ -2723,16 +2734,19 @@ function bp_is_register_page() {
 
 /**
  * Customize the body class, according to the currently displayed BP content.
- *
- * Uses the above is_() functions to output a body class for each scenario.
- *
- * @param array $wp_classes The body classes coming from WP.
- * @param array $custom_classes Classes that were passed to get_body_class().
- * @return array $classes The BP-adjusted body classes.
  */
 function bp_the_body_class() {
 	echo bp_get_the_body_class();
 }
+	/**
+	 * Customize the body class, according to the currently displayed BP content.
+	 *
+	 * Uses the above is_() functions to output a body class for each scenario.
+	 *
+	 * @param array $wp_classes The body classes coming from WP.
+	 * @param array|bool $custom_classes Classes that were passed to get_body_class().
+	 * @return array $classes The BP-adjusted body classes.
+	 */
 	function bp_get_the_body_class( $wp_classes = array(), $custom_classes = false ) {
 
 		$bp_classes = array();

@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * BP Attachment class
+ * BP Attachment class.
  *
  * Extend it to manage your component's uploads.
  *
@@ -21,7 +21,7 @@ abstract class BP_Attachment {
 	/** Upload properties *****************************************************/
 
 	/**
-	 * The file being uploaded
+	 * The file being uploaded.
 	 *
 	 * @var array
 	 */
@@ -29,7 +29,7 @@ abstract class BP_Attachment {
 
 	/**
 	 * The default args to be merged with the
-	 * ones passed by the child class
+	 * ones passed by the child class.
 	 *
 	 * @var array
 	 */
@@ -44,20 +44,20 @@ abstract class BP_Attachment {
 	);
 
 	/**
-	 * Construct Upload parameters
+	 * Construct Upload parameters.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param array $args {
+	 * @param array|string $args {
 	 *     @type int    $original_max_filesize Maximum file size in kilobytes. Defaults to php.ini settings.
 	 *     @type array  $allowed_mime_types    List of allowed file extensions (eg: array( 'jpg', 'gif', 'png' ) ).
-	 *                                         Defaults to WordPress allowed mime types
-	 *     @type string $base_dir              Component's upload base directory. Defaults to WordPress 'uploads'
+	 *                                         Defaults to WordPress allowed mime types.
+	 *     @type string $base_dir              Component's upload base directory. Defaults to WordPress 'uploads'.
 	 *     @type string $action                The upload action used when uploading a file, $_POST['action'] must be set
-	 *                                         and its value must equal $action {@link wp_handle_upload()} (required)
-	 *     @type string $file_input            The name attribute used in the file input. (required)
+	 *                                         and its value must equal $action {@link wp_handle_upload()} (required).
+	 *     @type string $file_input            The name attribute used in the file input. (required).
 	 *     @type array  $upload_error_strings  A list of specific error messages (optional).
-	 *     @type array  $required_wp_files     The list of required WordPress core files. Default: array( 'file' );
+	 *     @type array  $required_wp_files     The list of required WordPress core files. Default: array( 'file' ).
 	 * }
 	 * @uses  sanitize_key()
 	 * @uses  wp_max_upload_size()
@@ -106,7 +106,7 @@ abstract class BP_Attachment {
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @uses  bp_upload_dir()
+	 * @uses bp_upload_dir()
 	 */
 	public function set_upload_dir() {
 		// Set the directory, path, & url variables
@@ -139,13 +139,14 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Set Upload error messages
+	 * Set Upload error messages.
 	 *
 	 * Used into the $overrides argument of BP_Attachment->upload()
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param array $param a list of error messages to add to BuddyPress core ones
+	 * @param array $param A list of error messages to add to BuddyPress core ones.
+	 *
 	 * @return array the list of upload errors
 	 */
 	public function set_upload_error_strings( $param = array() ) {
@@ -175,7 +176,7 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Include the WordPress core needed files
+	 * Include the WordPress core needed files.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 */
@@ -190,13 +191,14 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Upload the attachment
+	 * Upload the attachment.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param  array $file               The appropriate entry the from $_FILES superglobal.
-	 * @param  string $upload_dir_filter A specific filter to be applied to 'upload_dir' (optional).
-	 * @param  string $time              Optional. Time formatted in 'yyyy/mm'. Default null.
+	 * @param  array       $file              The appropriate entry the from $_FILES superglobal.
+	 * @param  string      $upload_dir_filter A specific filter to be applied to 'upload_dir' (optional).
+	 * @param  string|null $time              Optional. Time formatted in 'yyyy/mm'. Default null.
+	 *
 	 * @uses   wp_handle_upload()        To upload the file
 	 * @uses   add_filter()              To temporarly overrides WordPress uploads data
 	 * @uses   remove_filter()           To stop overriding WordPress uploads data
@@ -246,9 +248,9 @@ abstract class BP_Attachment {
 		}
 
 		/**
-		 * If you need to add some overrides we haven't thought of
+		 * If you need to add some overrides we haven't thought of.
 		 *
-		 * @var  array $overrides the wp_handle_upload overrides
+		 * @param array $overrides The wp_handle_upload overrides
 		 */
 		$overrides = apply_filters( 'bp_attachment_upload_overrides', $overrides );
 
@@ -285,7 +287,7 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Validate the allowed mime types using WordPress allowed mime types
+	 * Validate the allowed mime types using WordPress allowed mime types.
 	 *
 	 * In case of a multisite, the mime types are already restricted by
 	 * the 'upload_filetypes' setting. BuddyPress will respect this setting.
@@ -311,7 +313,7 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Specific upload rules
+	 * Specific upload rules.
 	 *
 	 * Override this function from your child class to build your specific rules
 	 * By default, if an original_max_filesize is provided, a check will be done
@@ -321,8 +323,9 @@ abstract class BP_Attachment {
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param  array $file the temporary file attributes (before it has been moved)
-	 * @return array the file
+	 * @param  array $file The temporary file attributes (before it has been moved).
+	 *
+	 * @return array The file.
 	 */
 	public function validate_upload( $file = array() ) {
 		// Bail if already an error
@@ -339,15 +342,17 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Default filter to save the attachments
+	 * Default filter to save the attachments.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @uses   apply_filters() call 'bp_attachment_upload_dir' to eventually override the upload location
-	 *                         regarding to context
-	 * @return array the upload directory data
+	 * @uses apply_filters() call 'bp_attachment_upload_dir' to eventually override the upload location
+	 *       regarding to context
+	 *
+	 * @return array The upload directory data.
 	 */
 	public function upload_dir_filter() {
+
 		/**
 		 * Filters the component's upload directory.
 		 *
@@ -366,14 +371,14 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Create the custom base directory for the component uploads
+	 * Create the custom base directory for the component uploads.
 	 *
-	 * Override this function in your child class to run specific actions
+	 * Override this function in your child class to run specific actions.
 	 * (eg: add an .htaccess file)
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @uses   wp_mkdir_p()
+	 * @uses wp_mkdir_p()
 	 */
 	public function create_dir() {
 		// Bail if no specific base dir is set
@@ -395,22 +400,23 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Crop an image file
+	 * Crop an image file.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
 	 * @param array $args {
 	 *     @type string $original_file The source file (absolute path) for the Attachment.
-	 *     @type int    $crop_x The start x position to crop from.
-	 *     @type int    $crop_y The start y position to crop from.
-	 *     @type int    $crop_w The width to crop.
-	 *     @type int    $crop_h The height to crop.
-	 *     @type int    $dst_w The destination width.
-	 *     @type int    $dst_h The destination height.
-	 *     @type int    $src_abs Optional. If the source crop points are absolute.
-	 *     @type string $dst_file Optional. The destination file to write to.
+	 *     @type int    $crop_x        The start x position to crop from.
+	 *     @type int    $crop_y        The start y position to crop from.
+	 *     @type int    $crop_w        The width to crop.
+	 *     @type int    $crop_h        The height to crop.
+	 *     @type int    $dst_w         The destination width.
+	 *     @type int    $dst_h         The destination height.
+	 *     @type int    $src_abs       Optional. If the source crop points are absolute.
+	 *     @type string $dst_file      Optional. The destination file to write to.
 	 * }
 	 * @uses wp_crop_image()
+	 *
 	 * @return string|WP_Error New filepath on success, WP_Error on failure.
 	 */
 	public function crop( $args = array() ) {
@@ -494,13 +500,13 @@ abstract class BP_Attachment {
 	}
 
 	/**
-	 * Build script datas for the Uploader UI
+	 * Build script datas for the Uploader UI.
 	 *
-	 * Override this method from your child class to build the script datas
+	 * Override this method from your child class to build the script datas.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @return array the javascript localization data
+	 * @return array The javascript localization data.
 	 */
 	public function script_data() {
 		$script_data = array(

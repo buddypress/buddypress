@@ -45,7 +45,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
-	 * @param array $args Widget arguments.
+	 * @param array $args     Widget arguments.
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
@@ -147,6 +147,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
+	 *
 	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -159,7 +160,9 @@ class BP_Core_Login_Widget extends WP_Widget {
 	/**
 	 * Output the login widget options form.
 	 *
-	 * @param $instance Settings for this widget.
+	 * @param array $instance Settings for this widget.
+	 *
+	 * @return string
 	 */
 	public function form( $instance = array() ) {
 

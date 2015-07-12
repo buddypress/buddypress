@@ -1043,7 +1043,7 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
  * @param int|string $older_date The earlier time from which you're calculating
  *        the time elapsed. Enter either as an integer Unix timestamp, or as a
  *        date string of the format 'Y-m-d h:i:s'.
- * @param int $newer_date Optional. Unix timestamp of date to compare older
+ * @param int|bool $newer_date Optional. Unix timestamp of date to compare older
  *        date to. Default: false (current time).
  * @return string String representing the time since the older date, eg
  *         "2 hours and 50 minutes".
@@ -1461,7 +1461,7 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
  *
  * @uses apply_filters() Filter 'bp_get_user_meta_key' to modify keys individually.
  *
- * @param string $key The usermeta meta_key.
+ * @param string|bool $key The usermeta meta_key.
  * @return string $key The usermeta meta_key.
  */
 function bp_get_user_meta_key( $key = false ) {

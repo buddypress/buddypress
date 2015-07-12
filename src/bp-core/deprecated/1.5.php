@@ -30,6 +30,8 @@ add_action( 'bp_init', 'bp_setup_root_components', 6 );
  *
  * @deprecated BuddyPress (1.5)
  * @deprecated Use is_multisite()
+ *
+ * @return bool
  */
 function bp_core_is_multisite() {
 	_deprecated_function( __FUNCTION__, '1.5', 'is_multisite()' );
@@ -44,7 +46,7 @@ function bp_core_is_multisite() {
  * @deprecated BuddyPress (1.5)
  * @deprecated Use is_main_site()
  * @package BuddyPress
- * @param int $blog_id optional blog id to test (default current blog)
+ * @param int|string $blog_id optional blog id to test (default current blog)
  * @return bool True if not multisite or $blog_id is main site
  * @since BuddyPress (1.2.6)
  */
@@ -53,15 +55,15 @@ function bp_core_is_main_site( $blog_id = '' ) {
 	return is_main_site( $blog_id );
 }
 
-/**
- * WPMU version of is_super_admin()
- *
- * @deprecated BuddyPress (1.5)
- * @deprecated Use is_super_admin()
- * @param int $user_id Optional. Defaults to logged-in user
- * @return bool True if is super admin
- */
 if ( !function_exists( 'is_site_admin' ) ) {
+	/**
+	 * WPMU version of is_super_admin()
+	 *
+	 * @deprecated BuddyPress (1.5)
+	 * @deprecated Use is_super_admin()
+	 * @param int|bool $user_id Optional. Defaults to logged-in user
+	 * @return bool True if is super admin
+	 */
 	function is_site_admin( $user_id = false ) {
 		_deprecated_function( __FUNCTION__, '1.5', 'is_super_admin()' );
 		return is_super_admin( $user_id );
@@ -77,6 +79,8 @@ if ( !function_exists( 'is_site_admin' ) ) {
  * @deprecated BuddyPress (1.5)
  * @deprecated Use add_menu_page().
  * @since BuddyPress (1.1)
+ *
+ * @return string
  */
 function bp_core_add_admin_menu_page( $args = '' ) {
 	global $_registered_pages, $admin_page_hooks, $menu;
@@ -283,6 +287,8 @@ function bp_page_title() {
 	 * @deprecated BuddyPress (1.5)
 	 * @deprecated Use wp_title()
 	 * @since BuddyPress (1.0)
+	 *
+	 * @return string
 	 */
 	function bp_get_page_title() {
 		_deprecated_function( __FUNCTION__, '1.5', 'wp_title()' );
@@ -378,12 +384,17 @@ To view and respond to the message, log in and visit: %4$s
 /**
  * BP 1.5 simplified notification functions a bit
  * @deprecated BuddyPress (1.5)
+ *
+ * @return mixed
  */
 function bp_core_delete_notifications_for_user_by_type( $user_id, $component_name, $component_action ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_core_delete_notifications_by_type()' );
 	return BP_Core_Notification::delete_for_user_by_type( $user_id, $component_name, $component_action );
 }
 
+/**
+ * @return mixed
+ */
 function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_core_delete_notifications_by_item_id()' );
 	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
@@ -499,7 +510,7 @@ function bp_dtheme_deprecated() {
 	 * @deprecated No longer required.
 	 * @param string $oldvalue Previous value of get_option( 'page_on_front' )
 	 * @param string $oldvalue New value of get_option( 'page_on_front' )
-	 * @return string
+	 * @return bool|string
 	 * @since BuddyPress (1.2)
 	 */
 	function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {

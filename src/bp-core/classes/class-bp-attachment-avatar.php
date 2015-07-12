@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Avatars attachment class
+ * Core Avatars attachment class.
  *
  * @package BuddyPress
  * @subpackage Core
@@ -10,16 +10,16 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * BP Attachment Avatar class
+ * BP Attachment Avatar class.
  *
- * Extends BP Attachment to manage the avatar uploads
+ * Extends BP Attachment to manage the avatar uploads.
  *
  * @since BuddyPress (2.3.0)
  */
 class BP_Attachment_Avatar extends BP_Attachment {
 
 	/**
-	 * Construct Upload parameters
+	 * Construct Upload parameters.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
@@ -45,10 +45,13 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Gets the available avatar types
+	 * Gets the available avatar types.
 	 *
 	 * @since BuddyPress (2.3.0)
-	 * @return string comma separated list of allowed avatar types
+	 *
+	 * @param array $allowed_types Array of allowed avatar types.
+	 *
+	 * @return string comma separated list of allowed avatar types.
 	 */
 	public static function get_avatar_types( $allowed_types = array() ) {
 		$types = array_map( 'strtoupper', $allowed_types );
@@ -57,7 +60,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Set Upload Dir data for avatars
+	 * Set Upload Dir data for avatars.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
@@ -77,17 +80,19 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Avatar specific rules
+	 * Avatar specific rules.
 	 *
-	 * Adds an error if the avatar size or type don't match BuddyPress needs
-	 * The error code is the index of $upload_error_strings
+	 * Adds an error if the avatar size or type don't match BuddyPress needs.
+	 * The error code is the index of $upload_error_strings.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param  array $file the temporary file attributes (before it has been moved)
 	 * @uses   bp_core_check_avatar_size()
 	 * @uses   bp_core_check_avatar_type()
-	 * @return array the file with extra errors if needed
+	 *
+	 * @param  array $file the temporary file attributes (before it has been moved).
+	 *
+	 * @return array the file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
 		// Bail if already an error
@@ -109,13 +114,15 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Maybe shrink the attachment to fit maximum allowed width
+	 * Maybe shrink the attachment to fit maximum allowed width.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param string $file the absolute path to the file
 	 * @uses  bp_core_avatar_original_max_width()
 	 * @uses  wp_get_image_editor()
+	 *
+	 * @param string $file the absolute path to the file.
+	 *
 	 * @return mixed
 	 */
 	public static function shrink( $file = '' ) {
@@ -156,13 +163,15 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Check if the image dimensions are smaller than full avatar dimensions
+	 * Check if the image dimensions are smaller than full avatar dimensions.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @param string $file the absolute path to the file
 	 * @uses  bp_core_avatar_full_width()
 	 * @uses  bp_core_avatar_full_height()
+	 *
+	 * @param string $file the absolute path to the file.
+	 *
 	 * @return boolean
 	 */
 	public static function is_too_small( $file = '' ) {
@@ -178,19 +187,21 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Crop the avatar
+	 * Crop the avatar.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
 	 * @see  BP_Attachment::crop for the list of parameters
-	 * @param array $args
 	 * @uses bp_core_fetch_avatar()
 	 * @uses bp_core_delete_existing_avatar()
 	 * @uses bp_core_avatar_full_width()
 	 * @uses bp_core_avatar_full_height()
 	 * @uses bp_core_avatar_dimension()
 	 * @uses BP_Attachment::crop
-	 * @return array the cropped avatars (full and thumb)
+	 *
+	 * @param array $args
+	 *
+	 * @return array The cropped avatars (full and thumb).
 	 */
 	public function crop( $args = array() ) {
 		// Bail if the original file is missing
@@ -273,11 +284,11 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Get the user id to set its avatar
+	 * Get the user id to set its avatar.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @return integer the user ID
+	 * @return integer The user ID.
 	 */
 	private function get_user_id() {
 		$bp = buddypress();
@@ -295,11 +306,11 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Get the group id to set its avatar
+	 * Get the group id to set its avatar.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @return integer the group id
+	 * @return integer The group ID.
 	 */
 	private function get_group_id() {
 		$group_id = 0;
@@ -312,11 +323,11 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Build script datas for the Uploader UI
+	 * Build script datas for the Uploader UI.
 	 *
 	 * @since BuddyPress (2.3.0)
 	 *
-	 * @return array the javascript localization data
+	 * @return array The javascript localization data.
 	 */
 	public function script_data() {
 		// Get default script data
@@ -374,13 +385,14 @@ class BP_Attachment_Avatar extends BP_Attachment {
 				4 => __( 'The group profile photo was deleted successfully!', 'buddypress' ),
 			);
 		} else {
+
 			/**
-			 * Use this filter to include specific BuddyPress params for your object
-			 * e.g. Blavatar
+			 * Use this filter to include specific BuddyPress params for your object.
+			 * e.g. Blavatar.
 			 *
 			 * @since BuddyPress (2.3.0)
 			 *
-			 * @param array the avatar specific BuddyPress parameters
+			 * @param array $value The avatar specific BuddyPress parameters.
 			 */
 			$script_data['bp_params'] = apply_filters( 'bp_attachment_avatar_params', array() );
 		}
@@ -397,12 +409,12 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		}
 
 		/**
-		 * Use this filter to override/extend the avatar script data
+		 * Use this filter to override/extend the avatar script data.
 		 *
 		 * @since BuddyPress (2.3.0)
 		 *
-		 * @param array  $script_data the avatar script data
-		 * @param string $object      the object the avatar belongs to (eg: user or group)
+		 * @param array  $script_data The avatar script data.
+		 * @param string $object      The object the avatar belongs to (eg: user or group).
 		 */
 		return apply_filters( 'bp_attachment_avatar_script_data', $script_data, $object );
 	}
