@@ -312,7 +312,19 @@ class BP_XProfile_Data_Template {
  * @since BuddyPress (1.0.0)
  *
  * @global object $profile_template
- * @param  array  $args
+ * @see BP_XProfile_Group::get() for full description of `$args` array.
+ *
+ * @param array $args {
+ *     Array of arguments. See BP_XProfile_Group::get() for full description. Those arguments whose defaults differ
+ *     from that method are described here:
+ *     @type bool $hide_empty_groups      Default: true.
+ *     @type bool $hide_empty_fields      Defaults to true on the Dashboard, on a user's Edit Profile page,
+ *                                        or during registration. Otherwise false.
+ *     @type bool $fetch_visibility_level Defaults to true when an admin is viewing a profile, or when a user is
+ *                                        viewing her own profile, or during registration. Otherwise false.
+ *     @type bool $fetch_fields           Default: true.
+ *     @type bool $fetch_field_data       Default: true.
+ * }
  *
  * @return bool
  */
