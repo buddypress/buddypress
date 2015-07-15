@@ -1759,12 +1759,12 @@ function bp_is_root_blog( $blog_id = 0 ) {
 	$is_root_blog = false;
 
 	// Use current blog if no ID is passed
-	if ( empty( $blog_id ) ) {
+	if ( empty( $blog_id ) || ! is_int( $blog_id ) ) {
 		$blog_id = get_current_blog_id();
 	}
 
 	// Compare to root blog ID
-	if ( $blog_id == bp_get_root_blog_id() ) {
+	if ( bp_get_root_blog_id() === $blog_id ) {
 		$is_root_blog = true;
 	}
 
