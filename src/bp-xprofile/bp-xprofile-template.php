@@ -523,7 +523,8 @@ function bp_the_profile_group_edit_form_action() {
 	function bp_get_the_profile_group_edit_form_action() {
 		global $group;
 
-		$bp = buddypress();
+		// Build the form action URL
+		$form_action = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . $group->id );
 
 		/**
 		 * Filters the action for the profile group edit form.
@@ -533,7 +534,7 @@ function bp_the_profile_group_edit_form_action() {
 		 * @param string $value URL for the action attribute on the
 		 *                      profile group edit form.
 		 */
-		return apply_filters( 'bp_get_the_profile_group_edit_form_action', trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . $group->id ) );
+		return apply_filters( 'bp_get_the_profile_group_edit_form_action', $form_action );
 	}
 
 function bp_the_profile_group_field_ids() {
