@@ -19,94 +19,94 @@ defined( 'ABSPATH' ) || exit;
  */
 class BP_XProfile_Data_Template {
 
-    /**
-     * The loop iterator.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The loop iterator.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $current_group = -1;
 
-    /**
-     * The number of groups returned by the paged query.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The number of groups returned by the paged query.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $group_count;
 
-    /**
-     * Array of groups located by the query.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var array
-     */
+	/**
+	 * Array of groups located by the query.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var array
+	 */
 	public $groups;
 
-    /**
-     * The group object currently being iterated on.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var object
-     */
+	/**
+	 * The group object currently being iterated on.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var object
+	 */
 	public $group;
 
-    /**
-     * The current field.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The current field.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $current_field = -1;
 
-    /**
-     * The field count.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The field count.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $field_count;
 
-    /**
-     * Field has data.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var bool
-     */
+	/**
+	 * Field has data.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var bool
+	 */
 	public $field_has_data;
 
-    /**
-     * The field.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The field.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $field;
 
-    /**
-     * A flag for whether the loop is currently being iterated.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var bool
-     */
+	/**
+	 * A flag for whether the loop is currently being iterated.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var bool
+	 */
 	public $in_the_loop;
 
-    /**
-     * The user ID.
-     *
-     * @since BuddyPress (1.5.0)
-     * @access public
-     * @var int
-     */
+	/**
+	 * The user ID.
+	 *
+	 * @since BuddyPress (1.5.0)
+	 * @access public
+	 * @var int
+	 */
 	public $user_id;
 
 	/**
