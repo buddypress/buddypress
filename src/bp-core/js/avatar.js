@@ -1,4 +1,4 @@
-/* globals bp, BP_Uploader, _, Backbone */
+/* global bp, BP_Uploader, _, Backbone */
 
 window.bp = window.bp || {};
 

@@ -1,4 +1,4 @@
-/* globals bp, plupload, BP_Uploader, _, JSON, Backbone */
+/* global bp, plupload, BP_Uploader, _, JSON, Backbone */
 
 window.wp = window.wp || {};
 window.bp = window.bp || window.wp;
