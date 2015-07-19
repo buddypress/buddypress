@@ -78,9 +78,13 @@ class BP_Blogs_Component extends BP_Component {
 		parent::setup_globals( $args );
 
 		/*
-		 * Set up the post post type to track.
+		 * Filters if a blog is public.
 		 *
 		 * In case the config is not multisite, the blog_public option is ignored.
+		 *
+		 * @since BuddyPress (2.3.0)
+		 *
+		 * @oaram int $value Whether or not the blog is public.
 		 */
 		if ( 0 !== apply_filters( 'bp_is_blog_public', (int) get_option( 'blog_public' ) ) || ! is_multisite() ) {
 
