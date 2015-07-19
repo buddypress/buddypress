@@ -4790,7 +4790,7 @@ function bp_group_creation_previous_link() {
 		 *
 		 * @since BuddyPress (1.1.0)
 		 *
-		 * @param string $value Permalink for the previous step.
+		 * @param string $url Permalink for the previous step.
 		 */
 		return apply_filters( 'bp_get_group_creation_previous_link', $url );
 	}
@@ -4834,7 +4834,7 @@ function bp_groups_current_create_step() {
 	}
 
 /**
- * Is the user looking at the last step in the group creation process
+ * Is the user looking at the last step in the group creation process.
  *
  * @since BuddyPress (1.1.0)
  *
@@ -4856,6 +4856,15 @@ function bp_is_last_group_creation_step( $step = '' ) {
 	// Compare last step to step
 	$retval = ( $l_step === $step );
 
+	/**
+	 * Filters whether or not user is looking at last step in group creation process.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @param bool   $retval Whether or not we are looking at last step.
+	 * @param array  $steps  Array of steps from the group creation process.
+	 * @param string $step   Step to compare.
+	 */
 	return (bool) apply_filters( 'bp_is_last_group_creation_step', $retval, $steps, $step );
 }
 
@@ -4882,6 +4891,15 @@ function bp_is_first_group_creation_step( $step = '' ) {
 	// Compare first step to step
 	$retval = ( $f_step === $step );
 
+	/**
+	 * Filters whether or not user is looking at first step in group creation process.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @param bool   $retval Whether or not we are looking at first step.
+	 * @param array  $steps  Array of steps from the group creation process.
+	 * @param string $step   Step to compare.
+	 */
 	return (bool) apply_filters( 'bp_is_first_group_creation_step', $retval, $steps, $step );
 }
 
