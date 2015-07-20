@@ -334,50 +334,43 @@ class BP_Group_Extension {
 	 *   }
 	 *
 	 * @since BuddyPress (1.8.0)
-	 * @since BuddyPress (2.1.0) Added 'access' and 'show_tab' arguments
-	 * 		  to $args.
+	 * @since BuddyPress (2.1.0) Added 'access' and 'show_tab' arguments to `$args`.
+	 *
 	 * @param array $args {
 	 *     Array of initialization arguments.
-	 *     @type string       $slug            Unique, URL-safe identifier for your
-	 *                                         extension.
-	 *     @type string       $name            Translatable name for your extension. Used to
-	 *                                         populate navigation items.
-	 *     @type string       $visibility      Optional. Set to 'public' for your
-	 *                                         extension (the main tab as well as the widget) to be
-	 *                                         available to anyone who can access the group; set to
-	 *                                         'private' otherwise. Default: 'public'.
-	 *     @type int          $nav_item_       Position Optional. Location of the nav item
-	 *                                         in the tab list. Default: 81.
-	 *     @type bool         $enable_nav_item Optional. Whether the extension's tab should be
-	 *                                         accessible to anyone who can view the group.
-	 *                                         Default: true.
-	 *     @type string       $nav_item_name   Optional. The translatable text you want to appear
-	 *                                         in the nav tab. Default: the value of $name.
-	 *     @type string       $display_hook    Optional. The WordPress action that
-	 *                                         the widget_display() method is hooked to.
-	 *                                         Default: 'groups_custom_group_boxes'.
-	 *     @type string       $template_file   Optional. Theme-relative path to the template file
-	 *                                         BP should use to load the content of your main
-	 *                                         extension tab. Default: 'groups/single/plugins.php'.
-	 *     @type array        $screens         A multi-dimensional array of configuration
-	 *                                         information for the extension screens. See docblock of
-	 *                                         {@link BP_Group_Extension} for more details.
-	 *     @type string|array $access          Which users can visit the plugin's tab.
-	 *			                               Possible values: 'anyone', 'loggedin', 'member',
-	 *        	                               'mod', 'admin' or 'noone'. ('member', 'mod', 'admin'
-	 *                                         refer to user's role in group.) Note that 'mod' targets only
-	 *                                         group moderators. If you want to allow access to group
-	 *                                         moderators and admins, specify `array( 'mod', 'admin' )`.
-	 * 			                               Defaults to 'anyone' for public groups and 'member' for
-	 *			                               private groups.
-	 *     @type string|array $show_tab        Which users can see the plugin's navigation tab.
-	 *			                               Possible values: 'anyone', 'loggedin', 'member',
-	 *        	                               'mod', 'admin' or 'noone'. ('member', 'mod', 'admin'
-	 *                                         refer to user's role in group.) Note that 'mod' targets only
-	 *                                         group moderators. If you want to show the tab to group
-	 *                                         moderators and admins, specify `array( 'mod', 'admin' )`.
-	 * 			                               Defaults to 'anyone' for public groups and 'member' for
-	 *			                               private groups.
+	 *     @type string       $slug              Unique, URL-safe identifier for your extension.
+	 *     @type string       $name              Translatable name for your extension. Used to populate
+	 *                                           navigation items.
+	 *     @type string       $visibility        Optional. Set to 'public' for your extension (the main tab as well
+	 *                                           as the widget) to be available to anyone who can access the group;
+	 *                                           set to 'private' otherwise. Default: 'public'.
+	 *     @type int          $nav_item_position Optional. Location of the nav item in the tab list.
+	 *                                           Default: 81.
+	 *     @type bool         $enable_nav_item   Optional. Whether the extension's tab should be accessible to
+	 *                                           anyone who can view the group. Default: true.
+	 *     @type string       $nav_item_name     Optional. The translatable text you want to appear in the nav tab.
+	 *                                           Default: the value of `$name`.
+	 *     @type string       $display_hook      Optional. The WordPress action that the widget_display() method is
+	 *                                           hooked to. Default: 'groups_custom_group_boxes'.
+	 *     @type string       $template_file     Optional. Theme-relative path to the template file BP should use
+	 *                                           to load the content of your main extension tab.
+	 *                                           Default: 'groups/single/plugins.php'.
+	 *     @type array        $screens           A multi-dimensional array of configuration information for the
+	 *                                           extension screens. See docblock of {@link BP_Group_Extension}
+	 *                                           for more details.
+	 *     @type string|array $access            Which users can visit the plugin's tab. Possible values: 'anyone',
+	 *                                           'loggedin', 'member', 'mod', 'admin' or 'noone'. ('member', 'mod',
+	 *                                           'admin' refer to user's role in group.) Note that 'mod' targets
+	 *                                           only group moderators. If you want to allow access to group moderators
+	 *                                           and admins, specify `array( 'mod', 'admin' )`. Defaults to 'anyone'
+	 *                                           for public groups and 'member' for private groups.
+	 *     @type string|array $show_tab          Which users can see the plugin's navigation tab. Possible values:
+	 *                                           'anyone', 'loggedin', 'member', 'mod', 'admin' or 'noone'.
+	 *                                           ('member', 'mod', 'admin' refer to user's role in group.) Note
+	 *                                           that 'mod' targets only group moderators. If you want to show the
+	 *                                           tab to group moderators and admins, specify
+	 *                                           `array( 'mod', 'admin' )`. Defaults to 'anyone' for public groups
+	 *                                           and 'member' for private groups.
 	 * }
 	 */
 	public function init( $args = array() ) {
