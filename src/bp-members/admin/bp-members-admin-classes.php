@@ -603,6 +603,20 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	}
 
 	/**
+	 * Prevents regular users row actions to be output
+	 *
+	 * @since BuddyPress (2.4.0)
+	 * @access protected
+	 *
+	 * @param object $signup_object Signup being acted upon.
+	 * @param string $column_name   Current column name.
+	 * @param string $primary       Primary column name.
+	 */
+	protected function handle_row_actions( $signup_object = null, $column_name = '', $primary = '' ) {
+		return '';
+	}
+
+	/**
 	 * Markup for the checkbox used to select items for bulk actions.
 	 *
 	 * @since BuddyPress (2.0.0)
