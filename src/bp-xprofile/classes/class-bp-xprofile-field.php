@@ -124,6 +124,15 @@ class BP_XProfile_Field {
 	public $data;
 
 	/**
+	 * Member types to which the profile field should be applied.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 * @access protected
+	 * @var array Array of member types.
+	 */
+	protected $member_types;
+
+	/**
 	 * Initialize and/or populate profile field
 	 *
 	 * @since BuddyPress (1.1.0)
@@ -457,6 +466,195 @@ class BP_XProfile_Field {
 		$wpdb->query( $sql );
 	}
 
+	/**
+	 * Gets the member types to which this field should be available.
+	 *
+	 * Will not return inactive member types, even if associated metadata is found.
+	 *
+	 * 'null' is a special pseudo-type, which represents users that do not have a member type.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @return array Array of member type names.
+	 */
+	public function get_member_types() {
+		if ( ! is_null( $this->member_types ) ) {
+			return $this->member_types;
+		}
+
+		$raw_types = bp_xprofile_get_meta( $this->id, 'field', 'member_type', false );
+
+		// If `$raw_types` is not an array, it probably means this is a new field (id=0).
+		if ( ! is_array( $raw_types ) ) {
+			$raw_types = array();
+		}
+
+		// If '_none' is found in the array, it overrides all types.
+		$types = array();
+		if ( ! in_array( '_none', $raw_types ) ) {
+			$registered_types = bp_get_member_types();
+
+			// Eliminate invalid member types saved in the database.
+			foreach ( $raw_types as $raw_type ) {
+				// 'null' is a special case - it represents users without a type.
+				if ( 'null' === $raw_type || isset( $registered_types[ $raw_type ] ) ) {
+					$types[] = $raw_type;
+				}
+			}
+
+			// If no member types have been saved, intepret as *all* member types.
+			if ( empty( $types ) ) {
+				$types = array_values( $registered_types );
+
+				// + the "null" type, ie users without a type.
+				$types[] = 'null';
+			}
+		}
+
+		/**
+		 * Filters the member types to which an XProfile object should be applied.
+		 *
+		 * @since BuddyPress (2.4.0)
+		 *
+		 * @param array             $types Member types.
+		 * @param BP_XProfile_Field $field Field object.
+		 */
+		$this->member_types = apply_filters( 'bp_xprofile_field_member_types', $types, $this );
+
+		return $this->member_types;
+	}
+
+	/**
+	 * Sets the member types for this field.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @param array $member_types Array of member types. Can include 'null' (users with no type) in addition to any
+	 *                            registered types.
+	 * @param bool  $append       Whether to append to existing member types. If false, all existing member type
+	 *                            associations will be deleted before adding your `$member_types`. Default false.
+	 * @return array Member types for the current field, after being saved.
+	 */
+	public function set_member_types( $member_types, $append = false ) {
+		// Unset invalid member types.
+		$types = array();
+		foreach ( $member_types as $member_type ) {
+			// 'null' is a special case - it represents users without a type.
+			if ( 'null' === $member_type || bp_get_member_type_object( $member_type ) ) {
+				$types[] = $member_type;
+			}
+		}
+
+		// When `$append` is false, delete all existing types before adding new ones.
+		if ( ! $append ) {
+			bp_xprofile_delete_meta( $this->id, 'field', 'member_type' );
+
+			/*
+			 * We interpret an empty array as disassociating the field from all types. This is
+			 * represented internally with the '_none' flag.
+			 */
+			if ( empty( $types ) ) {
+				bp_xprofile_add_meta( $this->id, 'field', 'member_type', '_none' );
+			}
+		}
+
+		/*
+		 * Unrestricted fields are represented in the database as having no 'member_type'.
+		 * We detect whether a field is being set to unrestricted by checking whether the
+		 * list of types passed to the method is the same as the list of registered types,
+		 * plus the 'null' pseudo-type.
+		 */
+		$_rtypes  = bp_get_member_types();
+		$rtypes   = array_values( $_rtypes );
+		$rtypes[] = 'null';
+
+		sort( $types );
+		sort( $rtypes );
+
+		// Only save if this is a restricted field.
+		if ( $types !== $rtypes ) {
+			// Save new types.
+			foreach ( $types as $type ) {
+				bp_xprofile_add_meta( $this->id, 'field', 'member_type', $type );
+			}
+		}
+
+		// Reset internal cache of member types.
+		$this->member_types = null;
+
+		/**
+		 * Fires after a field's member types have been updated.
+		 *
+		 * @since BuddyPress (2.4.0)
+		 *
+		 * @param BP_XProfile_Field $field Field object.
+		 */
+		do_action( 'bp_xprofile_field_set_member_type', $this );
+
+		// Refetch fresh items from the database.
+		return $this->get_member_types();
+	}
+
+	/**
+	 * Gets a label representing the field's member types.
+	 *
+	 * This label is displayed alongside the field's name on the Profile Fields Dashboard panel.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @return string
+	 */
+	public function get_member_type_label() {
+		// Field 1 is always displayed to everyone, so never gets a label.
+		if ( 1 == $this->id ) {
+			return '';
+		}
+
+		// Return an empty string if no member types are registered.
+		$all_types = bp_get_member_types();
+		if ( empty( $all_types ) ) {
+			return '';
+		}
+
+		$member_types = $this->get_member_types();
+
+		// If the field applies to all member types, show no message.
+		$all_types[] = 'null';
+		if ( array_values( $all_types ) == $member_types ) {
+			return '';
+		}
+
+		$label = '';
+		if ( ! empty( $member_types ) ) {
+			$has_null = false;
+			$member_type_labels = array();
+			foreach ( $member_types as $member_type ) {
+				if ( 'null' === $member_type ) {
+					$has_null = true;
+					continue;
+				} else {
+					$mt_obj = bp_get_member_type_object( $member_type );
+					$member_type_labels[] = $mt_obj->labels['name'];
+				}
+			}
+
+			// Alphabetical sort.
+			natcasesort( $member_type_labels );
+			$member_type_labels = array_values( $member_type_labels );
+
+			// Add the 'null' option to the end of the list.
+			if ( $has_null ) {
+				$member_type_labels[] = __( 'Users with no member type', 'buddypress' );
+			}
+
+			$label = sprintf( __( '(Member types: %s)', 'buddypress' ), implode( ', ', array_map( 'esc_html', $member_type_labels ) ) );
+		} else {
+			$label = '<span class="member-type-none-notice">' . __( '(Unavailable to all members)', 'buddypress' ) . '</span>';
+		}
+
+		return $label;
+	}
+
 	/** Static Methods ********************************************************/
 
 	public static function get_type( $field_id = 0 ) {
@@ -571,6 +769,80 @@ class BP_XProfile_Field {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Gets the IDs of fields applicable for a given member type or array of member types.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @param string|array $member_types Member type or array of member types. Use 'any' to return unrestricted
+	 *                                   fields (those available for anyone, regardless of member type).
+	 * @return array Multi-dimensional array, with field IDs as top-level keys, and arrays of member types
+	 *               associated with each field as values.
+	 */
+	public static function get_fields_for_member_type( $member_types ) {
+		global $wpdb;
+
+		$fields = array();
+
+		if ( empty( $member_types ) ) {
+			$member_types = array( 'any' );
+		} elseif ( ! is_array( $member_types ) ) {
+			$member_types = array( $member_types );
+		}
+
+		$bp = buddypress();
+
+		// Pull up all recorded field member type data.
+		$mt_meta = wp_cache_get( 'field_member_types', 'bp_xprofile' );
+		if ( false === $mt_meta ) {
+			$mt_meta = $wpdb->get_results( "SELECT object_id, meta_value FROM {$bp->profile->table_name_meta} WHERE meta_key = 'member_type' AND object_type = 'field'" );
+			wp_cache_set( 'field_member_types', $mt_meta, 'bp_xprofile' );
+		}
+
+		// Keep track of all fields with recorded member_type metadata.
+		$all_recorded_field_ids = wp_list_pluck( $mt_meta, 'object_id' );
+
+		// Sort member_type matches in arrays, keyed by field_id.
+		foreach ( $mt_meta as $_mt_meta ) {
+			if ( ! isset( $fields[ $_mt_meta->object_id ] ) ) {
+				$fields[ $_mt_meta->object_id ] = array();
+			}
+
+			$fields[ $_mt_meta->object_id ][] = $_mt_meta->meta_value;
+		}
+
+		/*
+		 * Filter out fields that don't match any passed types, or those marked '_none'.
+		 * The 'any' type is implicitly handled here: it will match no types.
+		 */
+		foreach ( $fields as $field_id => $field_types ) {
+			if ( ! array_intersect( $field_types, $member_types ) ) {
+				unset( $fields[ $field_id ] );
+			}
+		}
+
+		// Any fields with no member_type metadata are available to all member types.
+		if ( ! in_array( '_none', $member_types ) ) {
+			if ( ! empty( $all_recorded_field_ids ) ) {
+				$all_recorded_field_ids_sql = implode( ',', array_map( 'absint', $all_recorded_field_ids ) );
+				$unrestricted_field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id NOT IN ({$all_recorded_field_ids_sql})" );
+			} else {
+				$unrestricted_field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields}" );
+			}
+
+			// Append the 'null' pseudo-type.
+			$all_member_types   = bp_get_member_types();
+			$all_member_types   = array_values( $all_member_types );
+			$all_member_types[] = 'null';
+
+			foreach ( $unrestricted_field_ids as $unrestricted_field_id ) {
+				$fields[ $unrestricted_field_id ] = $all_member_types;
+			}
+		}
+
+		return $fields;
 	}
 
 	/**
@@ -718,6 +990,9 @@ class BP_XProfile_Field {
 							// Output the required metabox
 							$this->required_metabox();
 
+							// Output the Member Types metabox.
+							$this->member_type_metabox();
+
 							// Output the field visibility metaboxes
 							$this->visibility_metabox();
 
@@ -861,6 +1136,59 @@ class BP_XProfile_Field {
 		</div>
 
 	<?php
+	}
+
+	/**
+	 * Private method used to output field Member Type metabox.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 */
+	private function member_type_metabox() {
+
+		// The primary field is for all, so bail.
+		if ( 1 === (int) $this->id ) {
+			return;
+		}
+
+		// Bail when no member types are registered.
+		if ( ! $member_types = bp_get_member_types( array(), 'objects' ) ) {
+			return;
+		}
+
+		$field_member_types = $this->get_member_types();
+
+		?>
+
+		<div id="member-types-div" class="postbox">
+			<h3><?php _e( 'Member Types', 'buddypress' ); ?></h3>
+			<div class="inside">
+				<p class="description"><?php _e( 'This field should be available to:', 'buddypress' ); ?></p>
+
+				<ul>
+					<?php foreach ( $member_types as $member_type ) : ?>
+					<li>
+						<label>
+							<input name="member-types[]" class="member-type-selector" type="checkbox" value="<?php echo $member_type->name; ?>" <?php checked( in_array( $member_type->name, $field_member_types ) ); ?>/>
+							<?php echo $member_type->labels['name']; ?>
+						</label>
+					</li>
+					<?php endforeach; ?>
+
+					<li>
+						<label>
+							<input name="member-types[]" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types ) ); ?>/>
+							<?php _e( 'Users with no member type', 'buddypress' ); ?>
+						</label>
+					</li>
+
+				</ul>
+				<p class="description member-type-none-notice<?php if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php _e( 'Unavailable to all members.', 'buddypress' ) ?></p>
+			</div>
+
+			<input type="hidden" name="has-member-types" value="1" />
+		</div>
+
+		<?php
 	}
 
 	/**

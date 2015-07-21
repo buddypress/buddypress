@@ -21,6 +21,22 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @dataProvider illegal_names
+	 * @ticket BP5192
+	 */
+	public function test_illegal_names( $name ) {
+		$this->assertWPError( bp_register_member_type( $name ) );
+	}
+
+	public function illegal_names() {
+		return array(
+			array( 'any' ),
+			array( 'null' ),
+			array( '_none' ),
+		);
+	}
+
+	/**
 	 * @ticket BP6139
 	 */
 	public function test_bp_register_member_type_should_sanitize_member_type_key() {

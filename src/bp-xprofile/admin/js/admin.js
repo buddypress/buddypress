@@ -96,6 +96,34 @@ function hide( id ) {
 	document.getElementById( field_id ).value = '';
 }
 
+/**
+ * @summary Toggles "no member type" notice.
+ *
+ * @since BuddyPress (2.4.0)
+ */
+function toggle_no_member_type_notice() {
+	var $member_type_checkboxes = jQuery( 'input.member-type-selector' );
+
+	// No checkboxes? Nothing to do.
+	if ( ! $member_type_checkboxes.length ) {
+		return;
+	}
+
+	var has_checked = false;
+	$member_type_checkboxes.each( function() {
+		if ( jQuery( this ).is( ':checked' ) ) {
+			has_checked = true;
+			return false;
+		}
+	} );
+
+	if ( has_checked ) {
+		jQuery( 'p.member-type-none-notice' ).addClass( 'hide' );
+	} else {
+		jQuery( 'p.member-type-none-notice' ).removeClass( 'hide' );
+	}
+}
+
 var fixHelper = function(e, ui) {
 	ui.children().each(function() {
 		jQuery(this).width( jQuery(this).width() );
@@ -151,6 +179,12 @@ jQuery( document ).ready( function() {
 
 	// Set focus in Field Title, if we're on the right page
 	jQuery( '#bp-xprofile-add-field #title' ).focus();
+
+	// Set up the notice that shows when no member types are selected for a field.
+	toggle_no_member_type_notice();
+	jQuery( 'input.member-type-selector' ).on( 'change', function() {
+		toggle_no_member_type_notice();
+	} );
 
 	// Set up deleting options ajax
 	jQuery( 'a.ajax-option-delete' ).on( 'click', function() {

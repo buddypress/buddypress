@@ -2523,6 +2523,22 @@ function bp_register_member_type( $member_type, $args = array() ) {
 
 	$member_type = sanitize_key( $member_type );
 
+	/**
+	 * Filters the list of illegal member type names.
+	 *
+	 * - 'any' is a special pseudo-type, representing items unassociated with any member type.
+	 * - 'null' is a special pseudo-type, representing users without any type.
+	 * - '_none' is used internally to denote an item that should not apply to any member types.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 *
+	 * @param array $illegal_names Array of illegal names.
+	 */
+	$illegal_names = apply_filters( 'bp_member_type_illegal_names', array( 'any', 'null', '_none' ) );
+	if ( in_array( $member_type, $illegal_names, true ) ) {
+		return new WP_Error( 'bp_member_type_illegal_name', __( 'You may not register a member type with this name.', 'buddypress' ), $member_type );
+	}
+
 	// Store the post type name as data in the object (not just as the array key).
 	$r['name'] = $member_type;
 

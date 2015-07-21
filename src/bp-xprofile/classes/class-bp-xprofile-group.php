@@ -232,6 +232,11 @@ class BP_XProfile_Group {
 	 *	@type int   $profile_group_id  Limit results to a single profile group.
 	 *      @type int   $user_id           Required if you want to load a specific user's data.
 	 *                                     Default: displayed user's ID.
+	 *      @type array|string $member_type Limit fields by those restricted to a given member type, or array of
+	 *                                      member types. If `$user_id` is provided, the value of `$member_type`
+	 *                                      will be overridden by the member types of the provided user. The
+	 *                                      special value of 'any' will return only those fields that are
+	 *                                      unrestricted by member type - i.e., those applicable to any type.
 	 *      @type bool  $hide_empty_groups True to hide groups that don't have any fields. Default: false.
 	 *	@type bool  $hide_empty_fields True to hide fields where the user has not provided data. Default: false.
 	 *      @type bool  $fetch_fields      Whether to fetch each group's fields. Default: false.
@@ -251,6 +256,7 @@ class BP_XProfile_Group {
 		$r = wp_parse_args( $args, array(
 			'profile_group_id'       => false,
 			'user_id'                => bp_displayed_user_id(),
+			'member_type'            => false,
 			'hide_empty_groups'      => false,
 			'hide_empty_fields'      => false,
 			'fetch_fields'           => false,
@@ -318,15 +324,41 @@ class BP_XProfile_Group {
 		$exclude_fields_cs  = array_merge( $exclude_fields_cs, $hidden_user_fields );
 		$exclude_fields_cs  = implode( ',', $exclude_fields_cs );
 
-		// Setup IN query for field IDs
+		// Set up NOT IN query for excluded field IDs.
 		if ( ! empty( $exclude_fields_cs ) ) {
 			$exclude_fields_sql = "AND id NOT IN ({$exclude_fields_cs})";
 		} else {
 			$exclude_fields_sql = '';
 		}
 
+		// Set up IN query for included field IDs.
+		$include_field_ids = array();
+
+		// Member-type restrictions.
+		if ( bp_get_member_types() ) {
+			if ( $r['user_id'] || false !== $r['member_type'] ) {
+				$member_types = $r['member_type'];
+				if ( $r['user_id'] ) {
+					$member_types = bp_get_member_type( $r['user_id'], false );
+					if ( empty( $member_types ) ) {
+						$member_types = array( 'null' );
+					}
+				}
+
+				$member_types_fields = BP_XProfile_Field::get_fields_for_member_type( $member_types );
+				$include_field_ids += array_keys( $member_types_fields );
+			}
+		}
+
+		$in_sql = '';
+		if ( ! empty( $include_field_ids ) ) {
+			$include_field_ids_cs = implode( ',', array_map( 'intval', $include_field_ids ) );
+			$in_sql = " AND id IN ({$include_field_ids_cs}) ";
+		}
+
 		// Fetch the fields
-		$fields    = $wpdb->get_results( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids_in} ) AND parent_id = 0 {$exclude_fields_sql} ORDER BY field_order" );
+		$fields = $wpdb->get_results( "SELECT id, name, description, type, group_id, is_required FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids_in} ) AND parent_id = 0 {$exclude_fields_sql} {$in_sql} ORDER BY field_order" );
+
 		$field_ids = wp_list_pluck( $fields, 'id' );
 
 		// Store field IDs for meta cache priming

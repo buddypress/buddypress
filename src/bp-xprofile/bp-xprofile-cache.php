@@ -236,6 +236,16 @@ add_action( 'xprofile_fields_saved_field',   'xprofile_clear_profile_field_objec
 add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_object_cache' );
 
 /**
+ * Clears member_type cache when a field's member types are updated.
+ *
+ * @since BuddyPress (2.4.0)
+ */
+function bp_xprofile_clear_member_type_cache() {
+	wp_cache_delete( 'field_member_types', 'bp_xprofile' );
+}
+add_action( 'bp_xprofile_field_set_member_type', 'bp_xprofile_clear_member_type_cache' );
+
+/**
  * Clear caches when a user's updates a field data object.
  *
  * @since BuddyPress (2.0.0)

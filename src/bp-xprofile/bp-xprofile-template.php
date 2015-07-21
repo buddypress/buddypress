@@ -110,21 +110,26 @@ class BP_XProfile_Data_Template {
 	public $user_id;
 
 	/**
-	 * Get activity items, as specified by parameters
+	 * Get activity items, as specified by parameters.
+	 *
+	 * @see BP_XProfile_Group::get() for more details about parameters.
+	 *
+	 * @since BuddyPress (2.4.0) Introduced `$member_type` argument.
 	 *
 	 * @param array $args {
 	 *     An array of arguments. All items are optional.
 	 *
-	 *     @type int       $user_id                 Fetch field data for this user ID
-	 *     @type int       $profile_group_id        Field group to fetch fields & data for
-	 *     @type int|bool  $hide_empty_groups       Should empty field groups be skipped
-	 *     @type int|bool  $fetch_fields            Fetch fields for field group
-	 *     @type int|bool  $fetch_field_data        Fetch field data for fields in group
-	 *     @type array     $exclude_groups          Exclude these field groups
-	 *     @type array     $exclude_fields          Exclude these fields
-	 *     @type int|bool  $hide_empty_fields       Should empty fields be skipped
-	 *     @type int|bool  $fetch_visibility_level  Fetch visibility levels
-	 *     @type int|bool  $update_meta_cache       Should metadata cache be updated
+	 *     @type int          $user_id                 Fetch field data for this user ID.
+	 *     @type string|array $member_type             Limit results to those matching member type(s).
+	 *     @type int          $profile_group_id        Field group to fetch fields & data for.
+	 *     @type int|bool     $hide_empty_groups       Should empty field groups be skipped.
+	 *     @type int|bool     $fetch_fields            Fetch fields for field group.
+	 *     @type int|bool     $fetch_field_data        Fetch field data for fields in group.
+	 *     @type array        $exclude_groups          Exclude these field groups.
+	 *     @type array        $exclude_fields          Exclude these fields.
+	 *     @type int|bool     $hide_empty_fields       Should empty fields be skipped.
+	 *     @type int|bool     $fetch_visibility_level  Fetch visibility levels.
+	 *     @type int|bool     $update_meta_cache       Should metadata cache be updated.
 	 * }
 	 */
 	public function __construct( $args = '' ) {
@@ -153,6 +158,7 @@ class BP_XProfile_Data_Template {
 		$r = wp_parse_args( $args, array(
 			'profile_group_id'       => false,
 			'user_id'                => false,
+			'member_type'            => 'any',
 			'hide_empty_groups'      => false,
 			'hide_empty_fields'      => false,
 			'fetch_fields'           => false,
@@ -317,13 +323,14 @@ class BP_XProfile_Data_Template {
  * @param array $args {
  *     Array of arguments. See BP_XProfile_Group::get() for full description. Those arguments whose defaults differ
  *     from that method are described here:
- *     @type bool $hide_empty_groups      Default: true.
- *     @type bool $hide_empty_fields      Defaults to true on the Dashboard, on a user's Edit Profile page,
- *                                        or during registration. Otherwise false.
- *     @type bool $fetch_visibility_level Defaults to true when an admin is viewing a profile, or when a user is
- *                                        viewing her own profile, or during registration. Otherwise false.
- *     @type bool $fetch_fields           Default: true.
- *     @type bool $fetch_field_data       Default: true.
+ *     @type string|array $member_type            Default: 'any'.
+ *     @type bool         $hide_empty_groups      Default: true.
+ *     @type bool         $hide_empty_fields      Defaults to true on the Dashboard, on a user's Edit Profile page,
+ *                                                or during registration. Otherwise false.
+ *     @type bool         $fetch_visibility_level Defaults to true when an admin is viewing a profile, or when a user is
+ *                                                viewing her own profile, or during registration. Otherwise false.
+ *     @type bool         $fetch_fields           Default: true.
+ *     @type bool         $fetch_field_data       Default: true.
  * }
  *
  * @return bool
@@ -345,6 +352,7 @@ function bp_has_profile( $args = '' ) {
 	// Parse arguments
 	$r = bp_parse_args( $args, array(
 		'user_id'                => bp_displayed_user_id(),
+		'member_type'            => 'any',
 		'profile_group_id'       => false,
 		'hide_empty_groups'      => true,
 		'hide_empty_fields'      => $hide_empty_fields_default,

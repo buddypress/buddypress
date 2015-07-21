@@ -361,6 +361,16 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 					bp_update_option( 'bp-xprofile-fullname-field-name', $field->name );
 				}
 
+				// Set member types.
+				if ( isset( $_POST['has-member-types'] ) ) {
+					$member_types = array();
+					if ( isset( $_POST['member-types'] ) ) {
+						$member_types = stripslashes_deep( $_POST['member-types'] );
+					}
+
+					$field->set_member_types( $member_types );
+				}
+
 				// Validate default visibility
 				if ( ! empty( $_POST['default-visibility'] ) && in_array( $_POST['default-visibility'], wp_list_pluck( bp_xprofile_get_visibility_levels(), 'id' ) ) ) {
 					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $_POST['default-visibility'] );
@@ -499,6 +509,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 				<?php if ( empty( $field->can_delete )                                    ) : ?><?php esc_html_e( '(Primary)',  'buddypress' ); endif; ?>
 				<?php if ( bp_get_the_profile_field_is_required()                         ) : ?><?php esc_html_e( '(Required)', 'buddypress' ); endif; ?>
 				<?php if ( bp_xprofile_get_meta( $field->id, 'field', 'signup_position' ) ) : ?><?php esc_html_e( '(Sign-up)',  'buddypress' ); endif; ?>
+				<?php if ( bp_get_member_types() ) : echo $field->get_member_type_label(); endif; ?>
 
 				<?php
 
