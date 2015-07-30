@@ -274,3 +274,13 @@ textarea#group_description {
 #bp-xprofile-add-field #post-body-content {
 	margin-bottom: 0;
 }
+
+span.member-type-none-notice,
+p.member-type-none-notice {
+	color: #f00;
+}
+
+.hide {
+	display: none;
+	visibility: hidden;
+}
