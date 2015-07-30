@@ -848,9 +848,16 @@ function bp_setup_nav_menu_item( $menu_item ) {
 		return $menu_item;
 	}
 
+	// Prevent a notice error when using the customizer
+	$menu_classes = $menu_item->classes;
+
+	if ( is_array( $menu_classes ) ) {
+		$menu_classes = implode( ' ', $menu_item->classes);
+	}
+
 	// We use information stored in the CSS class to determine what kind of
 	// menu item this is, and how it should be treated
-	preg_match( '/\sbp-(.*)-nav/', implode( ' ', $menu_item->classes), $matches );
+	preg_match( '/\sbp-(.*)-nav/', $menu_classes, $matches );
 
 	// If this isn't a BP menu item, we can stop here
 	if ( empty( $matches[1] ) ) {
@@ -904,13 +911,80 @@ function bp_setup_nav_menu_item( $menu_item ) {
 	} else {
 		$current = bp_get_requested_url();
 		if ( strpos( $current, $menu_item->url ) !== false ) {
-			$menu_item->classes[] = 'current_page_item';
+			if ( is_array( $menu_item->classes ) ) {
+				$menu_item->classes[] = 'current_page_item';
+				$menu_item->classes[] = 'current-menu-item';
+			} else {
+				$menu_item->classes = array( 'current_page_item', 'current-menu-item' );
+			}
 		}
 	}
 
 	return $menu_item;
 }
 add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
+
+/**
+ * Populate BuddyPress user nav items for the customizer
+ *
+ * @since  BuddyPress (2.3.3)
+ *
+ * @param  array   $items  The array of menu items
+ * @param  string  $type   The requested type
+ * @param  string  $object The requested object name
+ * @param  integer $page   The page num being requested
+ * @return array           The paginated BuddyPress user nav items.
+ */
+function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $object = '', $page = 0 ) {
+	if ( 'bp_loggedin_nav' === $object ) {
+		$bp_items = bp_nav_menu_get_loggedin_pages();
+	} elseif ( 'bp_loggedout_nav' === $object ) {
+		$bp_items = bp_nav_menu_get_loggedout_pages();
+	} else {
+		return $items;
+	}
+
+	foreach ( $bp_items as $bp_item ) {
+		$items[] = array(
+			'id'         => "bp-{$bp_item->post_excerpt}",
+			'title'      => html_entity_decode( $bp_item->post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
+			'type'       => $type,
+			'url'        => esc_url_raw( $bp_item->guid ),
+			'classes'    => "bp-menu bp-{$bp_item->post_excerpt}-nav",
+			'type_label' => _x( 'Custom Link', 'customizer menu type label', 'buddypress' ),
+			'object'     => $object,
+			'object_id'  => -1,
+		);
+	}
+
+	return array_slice( $items, 10 * $page, 10 );
+}
+add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_items', 10, 4 );
+
+/**
+ * Set BuddyPress item navs for the customizer
+ *
+ * @since  BuddyPress (2.3.3)
+ *
+ * @param  array $item_types an associative array structured for the customizer
+ */
+function bp_customizer_nav_menus_set_item_types( $item_types = array() ) {
+	$item_types = array_merge( $item_types, array(
+		'bp_loggedin_nav' => array(
+			'title'  => _x( 'BuddyPress (logged-in)', 'customizer menu section title', 'buddypress' ),
+			'type'   => 'bp_nav',
+			'object' => 'bp_loggedin_nav',
+		),
+		'bp_loggedout_nav' => array(
+			'title'  => _x( 'BuddyPress (logged-out)', 'customizer menu section title', 'buddypress' ),
+			'type'   => 'bp_nav',
+			'object' => 'bp_loggedout_nav',
+		),
+	) );
+
+	return $item_types;
+}
+add_filter( 'customize_nav_menu_available_item_types', 'bp_customizer_nav_menus_set_item_types', 10, 1 );
 
 /**
  * Filter SQL query strings to swap out the 'meta_id' column.
