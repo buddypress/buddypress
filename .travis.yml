@@ -21,7 +21,6 @@ env:
     - WP_VERSION=4.0
     - WP_VERSION=3.9
     - WP_VERSION=3.8
-    - WP_VERSION=3.7
 
 matrix:
   fast_finish: true
