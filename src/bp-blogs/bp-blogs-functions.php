@@ -1017,6 +1017,7 @@ function bp_blogs_remove_comment( $comment_id ) {
 			$activity = bp_activity_get( array(
 				'in'               => $activity_id,
 				'display_comments' => 'stream',
+				'spam'             => 'all',
 			) );
 
 			// get all activity comment IDs for the pending deleted item

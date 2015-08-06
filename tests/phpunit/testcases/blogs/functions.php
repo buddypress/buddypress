@@ -595,6 +595,69 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_blogs_transition_activity_status
+	 * @group bp_blogs_remove_comment
+	 */
+	public function test_bp_blogs_remove_comment_should_remove_spammed_activity_comment() {
+		// save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type' => 'post',
+			'post_title' => 'First title',
+		) );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		$c1 = wp_new_comment( array(
+			'comment_post_ID'      => $post_id,
+			'comment_author'       => $userdata->user_nicename,
+			'comment_author_url'   => 'http://buddypress.org',
+			'comment_author_email' => $userdata->user_email,
+			'comment_content'      => 'this is a blog comment',
+			'comment_type'         => '',
+			'comment_parent'       => 0,
+			'user_id'              => $u,
+		) );
+
+		// save the corresponding activity comment ID
+		$a1 = bp_activity_get_activity_id( array(
+			'type'              => 'activity_comment',
+			'display_comments'  => 'stream',
+			'meta_query'        => array( array(
+				'key'     => 'bp_blogs_post_comment_id',
+				'value'   => $c1,
+			) )
+		) );
+
+		// trash the parent comment.
+		// corresponding activity comment should now be marked as spam
+		// @see bp_blogs_transition_activity_status()
+		wp_trash_comment( $c1 );
+
+		// now permanently delete the comment
+		wp_delete_comment( $c1, true );
+
+		// activity comment should no longer exist
+		$a = bp_activity_get( array(
+			'in'               => $a1,
+			'display_comments' => 'stream',
+			'spam'             => 'all'
+		) );
+		// this is a convoluted way of testing if the activity comment still exists
+		$this->assertTrue( empty( $a['activities'][0] ) );
+
+		// reset
+		$this->set_current_user( $old_user );
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+	}
+
+	/**
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_bp_blogs_is_blog_trackable_false_publish_post() {
