@@ -1,7 +1,7 @@
 /* global bp, plupload, BP_Uploader, _, JSON, Backbone */
 
 window.wp = window.wp || {};
-window.bp = window.bp || window.wp;
+window.bp = window.bp || _.omit( window.wp, ['Uploader', 'emoji'] );
 
 ( function( exports, $ ) {
 
