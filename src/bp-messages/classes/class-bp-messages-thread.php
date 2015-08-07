@@ -28,7 +28,7 @@ class BP_Messages_Thread {
 	 * The current messages.
 	 *
 	 * @since BuddyPress (1.0.0)
-	 * @var object
+	 * @var array
 	 */
 	public $messages;
 
@@ -36,7 +36,7 @@ class BP_Messages_Thread {
 	 * The current recipients in the message thread.
 	 *
 	 * @since BuddyPress (1.0.0)
-	 * @var object
+	 * @var array
 	 */
 	public $recipients;
 
@@ -163,6 +163,13 @@ class BP_Messages_Thread {
 		if ( 'DESC' === $order ) {
 			$this->messages = array_reverse( $this->messages );
 		}
+
+		$last_message_index         = count( $this->messages ) - 1;
+		$this->last_message_id      = $this->messages[ $last_message_index ]->id;
+		$this->last_message_date    = $this->messages[ $last_message_index ]->date_sent;
+		$this->last_sender_id       = $this->messages[ $last_message_index ]->sender_id;
+		$this->last_message_subject = $this->messages[ $last_message_index ]->subject;
+		$this->last_message_content = $this->messages[ $last_message_index ]->message;
 
 		foreach ( (array) $this->messages as $key => $message ) {
 			$this->sender_ids[ $message->sender_id ] = $message->sender_id;

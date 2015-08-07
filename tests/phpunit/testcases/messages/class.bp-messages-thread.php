@@ -402,4 +402,30 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	public function test_is_valid_invalid_thread() {
 		$this->assertEquals( null, BP_Messages_Thread::is_valid( 999 ) );
 	}
+
+	/**
+	 * @group last_message
+	 */
+	public function test_last_message_populated() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		$date = bp_core_current_time();
+
+		$t1 = $this->factory->message->create( array(
+			'sender_id' => $u1,
+			'recipients' => array( $u2 ),
+			'subject' => 'Foo',
+			'date_sent' => $date,
+			'content' => 'Bar and baz.',
+		) );
+
+		$thread = new BP_Messages_Thread( $t1 );
+
+		$this->assertNotNull( $thread->last_message_id );
+		$this->assertEquals( 'Foo', $thread->last_message_subject );
+		$this->assertEquals( $u1, $thread->last_sender_id );
+		$this->assertEquals( $date, $thread->last_message_date );
+		$this->assertEquals( 'Bar and baz.', $thread->last_message_content );
+	}
 }
