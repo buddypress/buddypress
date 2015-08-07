@@ -282,11 +282,6 @@ function friends_check_friendship_status( $user_id, $possible_friend_id ) {
 	if ( ! empty( $members_template->in_the_loop ) ) {
 		if ( isset( $members_template->member->friendship_status ) ) {
 			return $members_template->member->friendship_status;
-
-		// make sure that the friends BP_User_Query was registered before assuming
-		// status as 'not_friends'
-		} elseif ( has_filter( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_populate_extras' ) ) {
-			return 'not_friends';
 		}
 	}
 

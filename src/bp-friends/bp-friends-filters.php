@@ -34,9 +34,13 @@ function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query
 	// Fetch whether or not the user is a friend of the current user
 	$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids_sql} ) ) OR (initiator_user_id IN ( {$user_ids_sql} ) AND friend_user_id = %d )", bp_loggedin_user_id(), bp_loggedin_user_id() ) );
 
+	// Keep track of members that have a friendship status with the current user
+	$friend_user_ids = array();
+
 	// The "friend" is the user ID in the pair who is *not* the logged in user
 	foreach ( (array) $friend_status as $fs ) {
 		$friend_id = bp_loggedin_user_id() == $fs->initiator_user_id ? $fs->friend_user_id : $fs->initiator_user_id;
+		$friend_user_ids[] = $friend_id;
 
 		if ( isset( $user_query->results[ $friend_id ] ) ) {
 			if ( 0 == $fs->is_confirmed ) {
@@ -49,5 +53,15 @@ function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query
 			$user_query->results[ $friend_id ]->friendship_status = $status;
 		}
 	}
+
+	// The rest are not friends with the current user, so set status accordingly
+	$not_friends = array_diff( $user_query->user_ids, $friend_user_ids );
+	foreach ( (array) $not_friends as $nf ) {
+		if ( bp_loggedin_user_id() == $nf ) {
+			continue;
+		}
+		$user_query->results[ $nf ]->friendship_status = 'not_friends';
+	}
+
 }
 add_filter( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_populate_extras', 4, 2 );
