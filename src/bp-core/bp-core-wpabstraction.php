@@ -2,6 +2,8 @@
 /**
  * WordPress Abstraction.
  *
+ * @package BuddyPress
+ *
  * The functions within this file will detect the version of WordPress you are
  * running and will alter the environment so BuddyPress can run regardless.
  *
@@ -9,7 +11,7 @@
  * change at any time.
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -28,7 +30,7 @@ function bp_get_major_wp_version() {
 }
 
 /**
- * Only add MS-specific abstraction functions if WordPress is not in multisite mode
+ * Only add MS-specific abstraction functions if WordPress is not in multisite mode.
  */
 if ( !is_multisite() ) {
 	global $wpdb;
@@ -128,6 +130,7 @@ if ( !is_multisite() ) {
  * @todo Why is this function defined in this file?
  *
  * @param string|bool $prefix Global table prefix.
+ *
  * @return string SQL chunk.
  */
 function bp_core_get_status_sql( $prefix = false ) {
@@ -138,7 +141,7 @@ function bp_core_get_status_sql( $prefix = false ) {
 }
 
 /**
- * Multibyte encoding fallback functions
+ * Multibyte encoding fallback functions.
  *
  * The PHP multibyte encoding extension is not enabled by default. In cases where it is not enabled,
  * these functions provide a fallback.
@@ -151,6 +154,7 @@ if ( !function_exists( 'mb_strlen' ) ) {
 	 *
 	 * @param string $str String to be measured.
 	 * @param string $enc Optional. Encoding type. Ignored.
+	 *
 	 * @return int String length.
 	 */
 	function mb_strlen( $str, $enc = '' ) {
@@ -176,8 +180,9 @@ if ( !function_exists( 'mb_strpos' ) ) {
 	 *
 	 * @param string $haystack String to search in.
 	 * @param string $needle String to search for.
-	 * @param int $offset Optional. Start position for the search. Default: 0.
+	 * @param int    $offset Optional. Start position for the search. Default: 0.
 	 * @param string $encoding Optional. Encoding type. Ignored.
+	 *
 	 * @return int|bool Position of needle in haystack if found, else false.
 	 */
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
@@ -200,8 +205,9 @@ if ( !function_exists( 'mb_strrpos' ) ) {
 	 *
 	 * @param string $haystack String to search in.
 	 * @param string $needle String to search for.
-	 * @param int $offset Optional. Start position for the search. Default: 0.
+	 * @param int    $offset Optional. Start position for the search. Default: 0.
 	 * @param string $encoding Optional. Encoding type. Ignored.
+	 *
 	 * @return int Position of last needle in haystack if found, else false.
 	 */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {

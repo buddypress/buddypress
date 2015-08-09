@@ -2,6 +2,8 @@
 /**
  * BuddyPress Core Caching Functions.
  *
+ * @package BuddyPress
+ *
  * Caching functions handle the clearing of cached objects and pages on specific
  * actions throughout BuddyPress.
  */
@@ -37,7 +39,7 @@ function bp_core_clear_cache() {
 /**
  * Clear all cached objects for a user, or those that a user is part of.
  *
- * @param string $user_id
+ * @param string $user_id User ID to delete cache for.
  */
 function bp_core_clear_user_object_cache( $user_id ) {
 	wp_cache_delete( 'bp_user_' . $user_id, 'bp' );
@@ -61,14 +63,14 @@ add_action( 'deleted_user',                   'bp_core_clear_member_count_caches
  *
  * @since BuddyPress (2.0.0)
  *
- * @param int $post_id
+ * @param int $post_id ID of the page that was saved.
  */
 function bp_core_clear_directory_pages_cache_page_edit( $post_id ) {
 	if ( ! bp_is_root_blog() ) {
 		return;
 	}
 
-	// Bail if BP is not defined here
+	// Bail if BP is not defined here.
 	if ( ! buddypress() ) {
 		return;
 	}
@@ -184,8 +186,7 @@ function bp_update_meta_cache( $args = array() ) {
 		'cache_group'      => '',      // Cache group
 		'meta_table' 	   => '',      // Name of the table containing the metadata
 		'object_column'    => '',      // DB column for the object ids (group_id, etc)
-		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg
-					                   // 'bp_groups_groupmeta'
+		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg 'bp_groups_groupmeta'
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );

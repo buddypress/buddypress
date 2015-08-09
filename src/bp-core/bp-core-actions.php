@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Filters & Actions.
  *
@@ -9,10 +8,9 @@
  * This file contains the actions and filters that are used through-out BuddyPress.
  * They are consolidated here to make searching for them easier, and to help
  * developers understand at a glance the order in which things occur.
- *
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -33,13 +31,13 @@ defined( 'ABSPATH' ) || exit;
   */
 add_action( 'plugins_loaded',          'bp_loaded',                 10    );
 add_action( 'init',                    'bp_init',                   10    );
-add_action( 'parse_query',             'bp_parse_query',            2     ); // Early for overrides
+add_action( 'parse_query',             'bp_parse_query',            2     ); // Early for overrides.
 add_action( 'wp',                      'bp_ready',                  10    );
 add_action( 'set_current_user',        'bp_setup_current_user',     10    );
 add_action( 'setup_theme',             'bp_setup_theme',            10    );
-add_action( 'after_setup_theme',       'bp_after_setup_theme',      100   ); // After WP themes
+add_action( 'after_setup_theme',       'bp_after_setup_theme',      100   ); // After WP themes.
 add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
-add_action( 'admin_bar_menu',          'bp_setup_admin_bar',        20    ); // After WP core
+add_action( 'admin_bar_menu',          'bp_setup_admin_bar',        20    ); // After WP core.
 add_action( 'template_redirect',       'bp_template_redirect',      10    );
 add_action( 'widgets_init',            'bp_widgets_init',           10    );
 add_action( 'generate_rewrite_rules',  'bp_generate_rewrite_rules', 10    );
@@ -99,10 +97,10 @@ add_action( 'bp_template_redirect', 'bp_get_request',        10 );
  */
 add_action( 'bp_after_setup_theme', 'bp_load_theme_functions', 1 );
 
-// Load the admin
+// Load the admin.
 if ( is_admin() ) {
 	add_action( 'bp_loaded', 'bp_admin' );
 }
 
-// Activation redirect
+// Activation redirect.
 add_action( 'bp_activation', 'bp_add_activation_redirect' );

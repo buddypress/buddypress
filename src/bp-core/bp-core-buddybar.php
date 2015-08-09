@@ -79,7 +79,7 @@ function bp_core_new_nav_item( $args = '' ) {
  *
  * @since BuddyPress (2.4.0)
  *
- * @param array $args {
+ * @param array|string $args {
  *     Array describing the new nav item.
  *     @type string      $name                    Display name for the nav item.
  *     @type string      $slug                    Unique URL slug for the nav item.
@@ -163,7 +163,7 @@ function bp_core_create_nav_link( $args = '' ) {
  *
  * @since BuddyPress (2.4.0)
  *
- * @param array $args {
+ * @param array|string $args {
  *     Array describing the new nav item.
  *     @type string      $name                    Display name for the nav item.
  *     @type string      $slug                    Unique URL slug for the nav item.

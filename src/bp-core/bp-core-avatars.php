@@ -1,13 +1,14 @@
 <?php
-
 /**
  * BuddyPress Avatars.
+ *
+ * @package BuddyPress
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/***
+/**
  * Set up the constants we need for avatar support.
  */
 function bp_core_set_avatar_constants() {
@@ -325,13 +326,13 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 	/** Sanity Checks *********************************************************/
 
-	// Get a fallback for the 'alt' parameter, create html output
+	// Get a fallback for the 'alt' parameter, create html output.
 	if ( empty( $params['alt'] ) ) {
 		$params['alt'] = __( 'Profile Photo', 'buddypress' );
 	}
 	$html_alt = ' alt="' . esc_attr( $params['alt'] ) . '"';
 
-	// Filter image title and create html string
+	// Filter image title and create html string.
 	$html_title = '';
 
 	/**
@@ -350,7 +351,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$html_title = ' title="' . esc_attr( $params['title'] ) . '"';
 	}
 
-	// Set CSS ID and create html string
+	// Set CSS ID and create html string.
 	$html_css_id = '';
 
 	/**
@@ -530,7 +531,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 				 */
 				return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '"' . $html_class . $html_css_id  . $html_width . $html_height . $html_alt . $html_title . ' />', $params, $params['item_id'], $params['avatar_dir'], $html_css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 
-				// ...or only the URL
+			// ...or only the URL
 			} else {
 
 				/**
@@ -611,7 +612,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 			$gravatar .= "&amp;r={$rating}";
 		}
 
-		// No avatar was found, and we've been told not to use a gravatar.
+	// No avatar was found, and we've been told not to use a gravatar.
 	} else {
 
 		/**
@@ -643,13 +644,14 @@ function bp_core_fetch_avatar( $args = '' ) {
  *
  * @param array|string $args {
  *     Array of function parameters.
- *     @type bool|int $item_id ID of the item whose avatar you're deleting.
- *           Defaults to the current item of type $object.
- *     @type string $object Object type of the item whose avatar you're
- *           deleting. 'user', 'group', 'blog', or custom. Default: 'user'.
+ *     @type bool|int    $item_id    ID of the item whose avatar you're deleting.
+ *                                   Defaults to the current item of type $object.
+ *     @type string      $object     Object type of the item whose avatar you're
+ *                                   deleting. 'user', 'group', 'blog', or custom.
+ *                                   Default: 'user'.
  *     @type bool|string $avatar_dir Subdirectory where avatar is located.
- *           Default: false, which falls back on the default location
- *           corresponding to the $object.
+ *                                   Default: false, which falls back on the default location
+ *                                   corresponding to the $object.
  * }
  * @return bool True on success, false on failure.
  */
@@ -729,7 +731,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
  *                     error message otherwise.
  */
 function bp_avatar_ajax_delete() {
-	// Bail if not a POST action
+	// Bail if not a POST action.
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 		wp_send_json_error();
 	}
@@ -809,21 +811,21 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		return true;
 	}
 
-	// Setup some variables
+	// Setup some variables.
 	$bp          = buddypress();
 	$upload_path = bp_core_avatar_upload_path();
 
-	// Upload the file
+	// Upload the file.
 	$avatar_attachment = new BP_Attachment_Avatar();
 	$bp->avatar_admin->original = $avatar_attachment->upload( $file, $upload_dir_filter );
 
-	// In case of an error, stop the process and display a feedback to the user
+	// In case of an error, stop the process and display a feedback to the user.
 	if ( ! empty( $bp->avatar_admin->original['error'] ) ) {
 		bp_core_add_message( sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->original['error'] ), 'error' );
 		return false;
 	}
 
-	// Maybe resize
+	// Maybe resize.
 	$bp->avatar_admin->resized = $avatar_attachment->shrink( $bp->avatar_admin->original['file'] );
 	$bp->avatar_admin->image   = new stdClass();
 
@@ -837,18 +839,18 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		@unlink( $bp->avatar_admin->original['file'] );
 	}
 
-	// Check for WP_Error on what should be an image
+	// Check for WP_Error on what should be an image.
 	if ( is_wp_error( $bp->avatar_admin->image->dir ) ) {
 		bp_core_add_message( sprintf( __( 'Upload failed! Error was: %s', 'buddypress' ), $bp->avatar_admin->image->dir->get_error_message() ), 'error' );
 		return false;
 	}
 
-	// If the uploaded image is smaller than the "full" dimensions, throw a warning
+	// If the uploaded image is smaller than the "full" dimensions, throw a warning.
 	if ( $avatar_attachment->is_too_small( $bp->avatar_admin->image->file ) ) {
 		bp_core_add_message( sprintf( __( 'You have selected an image that is smaller than recommended. For best results, upload a picture larger than %d x %d pixels.', 'buddypress' ), bp_core_avatar_full_width(), bp_core_avatar_full_height() ), 'error' );
 	}
 
-	// Set the url value for the image
+	// Set the url value for the image.
 	$bp->avatar_admin->image->url = bp_core_avatar_url() . $bp->avatar_admin->image->dir;
 
 	return true;
@@ -1004,15 +1006,15 @@ function bp_avatar_ajax_upload() {
 add_action( 'wp_ajax_bp_avatar_upload', 'bp_avatar_ajax_upload' );
 
  /**
- * Handle avatar webcam capture.
- *
- * @since BuddyPress (2.3.0)
- *
- * @param string $data     Base64 encoded image.
- * @param int    $item_id.
+  * Handle avatar webcam capture.
   *
- * @return bool True on success, false on failure.
- */
+  * @since BuddyPress (2.3.0)
+  *
+  * @param string $data    Base64 encoded image.
+  * @param int    $item_id Item to associate.
+  *
+  * @return bool True on success, false on failure.
+  */
 function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 	if ( empty( $data ) || empty( $item_id ) ) {
 		return false;
@@ -1020,7 +1022,7 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 
 	$avatar_dir = bp_core_avatar_upload_path() . '/avatars';
 
-	// It's not a regular upload, we may need to create this folder
+	// It's not a regular upload, we may need to create this folder.
 	if ( ! file_exists( $avatar_dir ) ) {
 		if ( ! wp_mkdir_p( $avatar_dir ) ) {
 			return false;
@@ -1039,7 +1041,7 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 	 */
 	$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', $avatar_dir . '/' . $item_id, $item_id, 'user', 'avatars' );
 
-	// It's not a regular upload, we may need to create this folder
+	// It's not a regular upload, we may need to create this folder.
 	if( ! is_dir( $avatar_folder_dir ) ) {
 		if ( ! wp_mkdir_p( $avatar_folder_dir ) ) {
 			return false;
@@ -1448,30 +1450,30 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 			break;
 	}
 
-	// See if the value has already been calculated and stashed in the $bp global
+	// See if the value has already been calculated and stashed in the $bp global.
 	if ( isset( $bp->avatar->$type ) ) {
 		$retval = $bp->avatar->$type;
 	} else {
-		// If this value has been set in a constant, just use that
+		// If this value has been set in a constant, just use that.
 		if ( defined( $constant ) ) {
 			$retval = constant( $constant );
 		} else {
 
-			// Use cached upload dir data if available
+			// Use cached upload dir data if available.
 			if ( ! empty( $bp->avatar->upload_dir ) ) {
 				$upload_dir = $bp->avatar->upload_dir;
 
-			// No cache, so query for it
+			// No cache, so query for it.
 			} else {
 
-				// Get upload directory information from current site
+				// Get upload directory information from current site.
 				$upload_dir = bp_upload_dir();
 
-				// Stash upload directory data for later use
+				// Stash upload directory data for later use.
 				$bp->avatar->upload_dir = $upload_dir;
 			}
 
-			// Directory does not exist and cannot be created
+			// Directory does not exist and cannot be created.
 			if ( ! empty( $upload_dir['error'] ) ) {
 				$retval = '';
 
@@ -1487,7 +1489,7 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 
 		}
 
-		// Stash in $bp for later use
+		// Stash in $bp for later use.
 		$bp->avatar->$type = $retval;
 	}
 
