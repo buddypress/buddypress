@@ -563,7 +563,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		} elseif ( 'mystery' == $bp->grav_default->{$params['object']} ) {
 
 			/**
-			 * Filters the Mysteryman avatar src value.
+			 * Filters the Mystery person avatar src value.
 			 *
 			 * @since BuddyPress (1.2.0)
 			 *
@@ -1711,7 +1711,7 @@ function bp_core_avatar_original_max_filesize() {
  * @since BuddyPress (1.5.0)
  *
  * @param string $type 'local' if the fallback should be the locally-hosted version
- *                     of the mystery-man, 'gravatar' if the fallback should be
+ *                     of the mystery-person, 'gravatar' if the fallback should be
  *                     Gravatar's version. Default: 'gravatar'.
  *
  * @return string The URL of the default avatar.
@@ -1725,7 +1725,7 @@ function bp_core_avatar_default( $type = 'gravatar' ) {
 	} elseif ( 'local' === $type ) {
 		$avatar = buddypress()->plugin_url . 'bp-core/images/mystery-man.jpg';
 
-	// Use Gravatar's mystery man as fallback
+	// Use Gravatar's mystery person as fallback
 	} else {
 		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . bp_core_avatar_full_width();
 	}
@@ -1743,13 +1743,13 @@ function bp_core_avatar_default( $type = 'gravatar' ) {
 /**
  * Get the URL of the 'thumb' default avatar.
  *
- * Uses Gravatar's mystery-man avatar, unless BP_AVATAR_DEFAULT_THUMB has been
+ * Uses Gravatar's mystery-person avatar, unless BP_AVATAR_DEFAULT_THUMB has been
  * defined.
  *
  * @since BuddyPress (1.5.0)
  *
  * @param string $type 'local' if the fallback should be the locally-hosted version
- *                     of the mystery-man, 'gravatar' if the fallback should be
+ *                     of the mystery-person, 'gravatar' if the fallback should be
  *                     Gravatar's version. Default: 'gravatar'.
  *
  * @return string The URL of the default avatar thumb.
@@ -1763,7 +1763,7 @@ function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
 	} elseif ( 'local' === $type ) {
 		$avatar = buddypress()->plugin_url . 'bp-core/images/mystery-man-50.jpg';
 
-	// Use Gravatar's mystery man as fallback
+	// Use Gravatar's mystery person as fallback
 	} else {
 		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . bp_core_avatar_thumb_width();
 	}
