@@ -76,6 +76,6 @@ class BP_Tests_Core_Functions_BPVerifyNonceRequest extends BP_UnitTestCase {
 	public function add_port_and_subdirectory_to_home_url( $url, $path, $scheme ) {
 		$home = parse_url( get_option( 'home' ) );
 		$home_path = isset( $home['path'] ) ? $home['path'] : '';
-		return $scheme . $home['host'] . ':80' . $home_path . '/wordpress' . $path;
+		return $scheme . '://' . $home['host'] . ':80' . $home_path . '/wordpress' . $path;
 	}
 }
