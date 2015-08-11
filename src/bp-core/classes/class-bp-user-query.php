@@ -595,13 +595,17 @@ class BP_User_Query {
 		}
 
 		// Match up to the user ids from the main query
-		foreach ( $this->user_ids as $uid ) {
+		foreach ( $this->user_ids as $key => $uid ) {
 			if ( isset( $r[ $uid ] ) ) {
 				$this->results[ $uid ] = $r[ $uid ];
 
 				// The BP template functions expect an 'id'
 				// (as opposed to 'ID') property
 				$this->results[ $uid ]->id = $uid;
+
+			// remove user ID from original user_ids property
+			} else {
+				unset( $this->user_ids[ $key ] );
 			}
 		}
 	}

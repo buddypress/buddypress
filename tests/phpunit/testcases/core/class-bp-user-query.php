@@ -66,6 +66,32 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $friend_ids, array() );
 	}
 
+	/**
+	 * @group user_ids
+	 */
+	public function test_bp_user_query_user_ids_with_invalid_user_id() {
+		$now = time();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// invalid user ID
+		$u3 = $u2 + 1;
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u1 );
+
+		// pass 'user_ids' to user query to trigger this bug
+		$q = new BP_User_Query( array(
+			'user_ids' => array( $u2, $u3 )
+		) );
+
+		// $q->user_ids property should now not contain invalid user IDs
+		$this->assertNotContains( $u3, $q->user_ids );
+
+		// clean up
+		$this->set_current_user( $old_user );
+	}
+
 	public function test_bp_user_query_sort_by_popular() {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
