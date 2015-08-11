@@ -60,7 +60,10 @@ function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query
 		if ( bp_loggedin_user_id() == $nf ) {
 			continue;
 		}
-		$user_query->results[ $nf ]->friendship_status = 'not_friends';
+
+		if ( isset( $user_query->results[ $nf ] ) ) {
+			$user_query->results[ $nf ]->friendship_status = 'not_friends';
+		}
 	}
 
 }
