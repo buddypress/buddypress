@@ -2055,7 +2055,7 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 	/** Requested URL *********************************************************/
 
 	// Maybe include the port, if it's included in home_url()
-	if ( isset( $parsed_home['port'] ) ) {
+	if ( isset( $parsed_home['port'] ) && false === strpos( $_SERVER['HTTP_HOST'], ':' ) ) {
 		$request_host = $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'];
 	} else {
 		$request_host = $_SERVER['HTTP_HOST'];
