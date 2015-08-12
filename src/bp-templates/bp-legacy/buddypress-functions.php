@@ -1540,58 +1540,17 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 
 		// manually call oEmbed
 		// this is needed because we're not at the beginning of the loop
-		bp_messages_embed()
-	?>
+		bp_messages_embed();
 
-		<div class="message-box new-message <?php bp_the_thread_message_css_class(); ?>">
-			<div class="message-metadata">
-				<?php
+		// add new-message css class
+		add_filter( 'bp_get_the_thread_message_css_class', create_function( '$retval', '
+			$retval[] = "new-message";
+			return $retval;
+		' ) );
 
-				/**
-				 * Fires before the single message header is displayed.
-				 *
-				 * @since BuddyPress (1.1.0)
-				 */
-				do_action( 'bp_before_message_meta' ); ?>
-				<?php echo bp_loggedin_user_avatar( 'type=thumb&width=30&height=30' ); ?>
+		// output single message template part
+		bp_get_template_part( 'members/single/messages/message' );
 
-				<strong><a href="<?php echo bp_loggedin_user_domain(); ?>"><?php bp_loggedin_user_fullname(); ?></a> <span class="activity"><?php printf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_core_current_time() ) ); ?></span></strong>
-
-				<?php
-
-				/**
-				 * Fires after the single message header is displayed.
-				 *
-				 * @since BuddyPress (1.1.0)
-				 */
-				do_action( 'bp_after_message_meta' ); ?>
-			</div>
-
-			<?php
-
-			/**
-			 * Fires before the message content for a private message.
-			 *
-			 * @since BuddyPress (1.1.0)
-			 */
-			do_action( 'bp_before_message_content' ); ?>
-
-			<div class="message-content">
-				<?php bp_the_thread_message_content(); ?>
-			</div>
-
-			<?php
-
-			/**
-			 * Fires after the message content for a private message.
-			 *
-			 * @since BuddyPress (1.1.0)
-			 */
-			do_action( 'bp_after_message_content' ); ?>
-
-			<div class="clear"></div>
-		</div>
-	<?php
 		// clean up the loop
 		bp_thread_messages();
 
