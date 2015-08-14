@@ -49,7 +49,7 @@ div.bp-avatar-status .bp-bar {
 	padding: 10px 15px;
 }
 
-#bp-uploader-warning, #bp-webcam-message p.warning {
+#buddypress p.warning {
 	background-color: #ffd;
 	border: 1px solid #cb2;
 	color: #440;

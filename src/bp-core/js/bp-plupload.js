@@ -303,8 +303,8 @@ window.bp = window.bp || _.omit( window.wp, ['Uploader', 'emoji'] );
 		defaults: _.pick( BP_Uploader.settings.defaults, 'container', 'drop_element', 'browse_button' ),
 
 		initialize: function() {
-			this.warning = null;
-			this.model = new Backbone.Model( this.defaults );
+			this.warnings = [];
+			this.model    = new Backbone.Model( this.defaults );
 			this.on( 'ready', this.initUploader );
 		},
 
@@ -319,20 +319,27 @@ window.bp = window.bp || _.omit( window.wp, ['Uploader', 'emoji'] );
 				return;
 			}
 
-			this.warning = new bp.Views.uploaderWarning( {
+			var warning = new bp.Views.uploaderWarning( {
 				value: message
 			} ).render();
 
-			this.$el.after( this.warning.el );
+			this.warnings.push( warning );
+
+			this.$el.after( warning.el );
 		},
 
 		resetWarning: function() {
-			if ( _.isNull( this.warning ) ) {
+			if ( 0 === this.warnings.length ) {
 				return;
 			}
 
-			this.warning.remove();
-			this.warning = null;
+			// Remove all warning views
+			_.each( this.warnings, function( view ) {
+				view.remove();
+			} );
+
+			// Reset Warnings
+			this.warnings = [];
 		}
 	} );
 
@@ -340,7 +347,6 @@ window.bp = window.bp || _.omit( window.wp, ['Uploader', 'emoji'] );
 	bp.Views.uploaderWarning = bp.View.extend( {
 		tagName: 'p',
 		className: 'warning',
-		id: 'bp-uploader-warning',
 
 		initialize: function() {
 			this.value = this.options.value;
