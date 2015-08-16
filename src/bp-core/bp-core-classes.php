@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 require dirname( __FILE__ ) . '/classes/class-bp-user-query.php';

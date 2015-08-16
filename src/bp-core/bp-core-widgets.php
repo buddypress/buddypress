@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -70,12 +70,11 @@ class BP_Core_Login_Widget extends WP_Widget {
 		<?php if ( is_user_logged_in() ) : ?>
 
 			<?php
-
- 		 	/**
-		 	 * Fires before the display of widget content if logged in.
-		 	 *
-		 	 * @since BuddyPress (1.9.0)
-		 	 */
+			/**
+			 * Fires before the display of widget content if logged in.
+			 *
+			 * @since BuddyPress (1.9.0)
+			 */
 			do_action( 'bp_before_login_widget_loggedin' ); ?>
 
 			<div class="bp-login-widget-user-avatar">
@@ -92,10 +91,10 @@ class BP_Core_Login_Widget extends WP_Widget {
 			<?php
 
 			/**
-		 	 * Fires after the display of widget content if logged in.
-		 	 *
-		 	 * @since BuddyPress (1.9.0)
-		 	 */
+			 * Fires after the display of widget content if logged in.
+			 *
+			 * @since BuddyPress (1.9.0)
+			 */
 			do_action( 'bp_after_login_widget_loggedin' ); ?>
 
 		<?php else : ?>
@@ -103,10 +102,10 @@ class BP_Core_Login_Widget extends WP_Widget {
 			<?php
 
 			/**
-		 	 * Fires before the display of widget content if logged out.
-		 	 *
-		 	 * @since BuddyPress (1.9.0)
-		 	 */
+			 * Fires before the display of widget content if logged out.
+			 *
+			 * @since BuddyPress (1.9.0)
+			 */
 			do_action( 'bp_before_login_widget_loggedout' ); ?>
 
 			<form name="bp-login-form" id="bp-login-widget-form" class="standard-form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
@@ -131,10 +130,10 @@ class BP_Core_Login_Widget extends WP_Widget {
 			<?php
 
 			/**
-		 	 * Fires after the display of widget content if logged out.
-		 	 *
-		 	 * @since BuddyPress (1.9.0)
-		 	 */
+			 * Fires after the display of widget content if logged out.
+			 *
+			 * @since BuddyPress (1.9.0)
+			 */
 			do_action( 'bp_after_login_widget_loggedout' ); ?>
 
 		<?php endif;
@@ -162,7 +161,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 *
 	 * @param array $instance Settings for this widget.
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function form( $instance = array() ) {
 

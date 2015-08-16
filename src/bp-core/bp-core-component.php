@@ -6,10 +6,11 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'BP_Component' ) ) :
+
 /**
  * BuddyPress Component Class.
  *
@@ -587,7 +588,7 @@ class BP_Component {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $tables
+	 * @param array $tables Table names to register.
 	 */
 	public function register_global_tables( $tables = array() ) {
 
@@ -630,7 +631,7 @@ class BP_Component {
 	 *
 	 * @since BuddyPress (2.0.0)
 	 *
-	 * @param array $tables
+	 * @param array $tables Table names to register.
 	 */
 	public function register_meta_tables( $tables = array() ) {
 		global $wpdb;
@@ -769,7 +770,8 @@ class BP_Component {
 	 *
 	 * @since BuddyPress (1.9)
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_parse_query'
+	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_parse_query'.
+	 *
 	 * @param object $query The main WP_Query.
 	 */
 	public function parse_query( $query ) {
@@ -805,4 +807,4 @@ class BP_Component {
 		do_action( 'bp_' . $this->id . '_generate_rewrite_rules' );
 	}
 }
-endif; // BP_Component
+endif; // BP_Component.
