@@ -1,6 +1,17 @@
-(function( $, undefined ) {
+/* global bp */
+
+window.bp = window.bp || {};
+
+( function( bp, $, undefined ) {
 	var mentionsQueryCache = [],
 		mentionsItem;
+
+	bp.mentions       = bp.mentions || {};
+	bp.mentions.users = window.bp.mentions.users || [];
+
+	if ( typeof window.BP_Suggestions === 'object' ) {
+		bp.mentions.users = window.BP_Suggestions.friends || bp.mentions.users;
+	}
 
 	/**
 	 * Adds BuddyPress @mentions to form inputs.
@@ -228,34 +239,17 @@
 	};
 
 	$( document ).ready(function() {
-		var loadMentionsInTinyMCE,
-			loadAttempts = 0,
-			users        = [];
+		// Activity/reply, post comments, dashboard post 'text' editor.
+		$( '.bp-suggestions, #comments form textarea, .wp-editor-area' ).bp_mentions( bp.mentions.users );
+	});
 
-		if ( typeof window.BP_Suggestions === 'object' ) {
-			users = window.BP_Suggestions.friends || users;
-		}
-
-		// Dashboard post 'visual' editor.
-		loadMentionsInTinyMCE = function() {
-			if ( loadAttempts < 4 || ! $( 'body' ).hasClass( 'wp-admin' ) ) {
-				loadAttempts++;
-
-				if ( typeof window.tinyMCE === 'undefined' || window.tinyMCE.activeEditor === null || typeof window.tinyMCE.activeEditor === 'undefined' ) {
-					setTimeout( loadMentionsInTinyMCE, 500 );
-					return;
-				}
-			}
-
+	bp.mentions.tinyMCEinit = function() {
+		if ( typeof window.tinyMCE === 'undefined' || window.tinyMCE.activeEditor === null || typeof window.tinyMCE.activeEditor === 'undefined' ) {
+			return;
+		} else {
 			$( window.tinyMCE.activeEditor.contentDocument.activeElement )
 				.atwho( 'setIframe', $( '#content_ifr' )[0] )
-				.bp_mentions( users );
-		};
-
-		// Activity/reply, post comments, dashboard post 'text' editor.
-		$( '.bp-suggestions, #comments form textarea, .wp-editor-area' ).bp_mentions( users );
-
-		// Dashboard post 'visual' editor.
-		loadMentionsInTinyMCE();
-	});
-})( jQuery );
+				.bp_mentions( bp.mentions.users );
+		}
+	};
+})( bp, jQuery );
