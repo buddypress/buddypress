@@ -114,7 +114,7 @@ function bp_notifications_delete_notification( $id ) {
  *
  * @since BuddyPress (1.9.0)
  *
- * @param int      $id     ID of the user whose notifications are being deleted.
+ * @param int      $id     ID of the notification.
  * @param int|bool $is_new 0 for read, 1 for unread.
  *
  * @return bool True on success, false on failure.
