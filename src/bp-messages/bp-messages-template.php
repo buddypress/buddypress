@@ -2288,7 +2288,7 @@ function bp_the_thread_message_sender_id() {
 		 *
 		 * @param int $user_id ID of the message sender.
 		 */
-		return (int) apply_filters( 'bp_get_the_thread_message_css_class', (int) $user_id );
+		return (int) apply_filters( 'bp_get_the_thread_message_sender_id', (int) $user_id );
 	}
 
 /**
