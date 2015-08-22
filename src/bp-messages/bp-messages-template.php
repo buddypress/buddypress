@@ -648,7 +648,7 @@ function bp_message_thread_view_link( $thread_id = 0 ) {
  * Output the URL for deleting the current thread.
  */
 function bp_message_thread_delete_link() {
-	echo bp_get_message_thread_delete_link();
+	echo esc_url( bp_get_message_thread_delete_link() );
 }
 	/**
 	 * Generate the URL for deleting the current thread.
@@ -767,7 +767,7 @@ function bp_the_message_thread_mark_read_url() {
  * Output the CSS class for the current thread.
  */
 function bp_message_css_class() {
-	echo bp_get_message_css_class();
+	echo esc_attr( bp_get_message_css_class() );
 }
 	/**
 	 * Generate the CSS class for the current thread.
@@ -819,7 +819,7 @@ function bp_message_thread_has_unread() {
  * Output the current thread's unread count.
  */
 function bp_message_thread_unread_count() {
-	echo bp_get_message_thread_unread_count();
+	echo esc_html( bp_get_message_thread_unread_count() );
 }
 	/**
 	 * Get the current thread's unread count.
@@ -1094,7 +1094,7 @@ function bp_messages_pagination_count() {
 		$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s message', 'Viewing %1$s - %2$s of %3$s messages', $messages_template->total_thread_count, 'buddypress' ), $from_num, $to_num, $total );
 	}
 
-	echo $message;
+	echo esc_html( $message );
 }
 
 /**
@@ -1141,7 +1141,7 @@ function bp_message_search_form() {
  * Echo the form action for Messages HTML forms.
  */
 function bp_messages_form_action() {
-	echo bp_get_messages_form_action();
+	echo esc_url( bp_get_messages_form_action() );
 }
 	/**
 	 * Return the form action for Messages HTML forms.
@@ -1164,7 +1164,7 @@ function bp_messages_form_action() {
  * Output the default username for the recipient box.
  */
 function bp_messages_username_value() {
-	echo bp_get_messages_username_value();
+	echo esc_attr( bp_get_messages_username_value() );
 }
 	/**
 	 * Get the default username for the recipient box.
@@ -1195,7 +1195,7 @@ function bp_messages_username_value() {
  * Output the default value for the Subject field.
  */
 function bp_messages_subject_value() {
-	echo bp_get_messages_subject_value();
+	echo esc_attr( bp_get_messages_subject_value() );
 }
 	/**
 	 * Get the default value for the Subject field.
@@ -1206,6 +1206,8 @@ function bp_messages_subject_value() {
 	 * @return string
 	 */
 	function bp_get_messages_subject_value() {
+
+		// Sanitized in bp-messages-filters.php
 		$subject = ! empty( $_POST['subject'] )
 			? $_POST['subject']
 			: '';
@@ -1224,7 +1226,7 @@ function bp_messages_subject_value() {
  * Output the default value for the Compose content field.
  */
 function bp_messages_content_value() {
-	echo bp_get_messages_content_value();
+	echo esc_textarea( bp_get_messages_content_value() );
 }
 	/**
 	 * Get the default value fo the Compose content field.
@@ -1236,7 +1238,8 @@ function bp_messages_content_value() {
 	 */
 	function bp_get_messages_content_value() {
 
-		$content = !empty( $_POST['content'] )
+		// Sanitized in bp-messages-filters.php
+		$content = ! empty( $_POST['content'] )
 			? $_POST['content']
 			: '';
 
@@ -1362,7 +1365,7 @@ function bp_message_is_active_notice() {
  * Output the ID of the current notice in the loop.
  */
 function bp_message_notice_id() {
-	echo bp_get_message_notice_id();
+	echo (int) bp_get_message_notice_id();
 }
 	/**
 	 * Get the ID of the current notice in the loop.
@@ -1458,7 +1461,7 @@ function bp_message_notice_text() {
  * Output the URL for deleting the current notice.
  */
 function bp_message_notice_delete_link() {
-	echo bp_get_message_notice_delete_link();
+	echo esc_url( bp_get_message_notice_delete_link() );
 }
 	/**
 	 * Get the URL for deleting the current notice.
@@ -1483,7 +1486,7 @@ function bp_message_notice_delete_link() {
  * Output the URL for deactivating the current notice.
  */
 function bp_message_activate_deactivate_link() {
-	echo bp_get_message_activate_deactivate_link();
+	echo esc_url( bp_get_message_activate_deactivate_link() );
 }
 	/**
 	 * Get the URL for deactivating the current notice.
@@ -1513,7 +1516,7 @@ function bp_message_activate_deactivate_link() {
  * Output the Deactivate/Activate text for the notice action link.
  */
 function bp_message_activate_deactivate_text() {
-	echo bp_get_message_activate_deactivate_text();
+	echo esc_html( bp_get_message_activate_deactivate_text() );
 }
 	/**
 	 * Generate the text ('Deactivate' or 'Activate') for the notice action link.
@@ -1603,7 +1606,7 @@ function bp_message_get_notices() {
  * Output the URL for the Private Message link in member profile headers.
  */
 function bp_send_private_message_link() {
-	echo bp_get_send_private_message_link();
+	echo esc_url( bp_get_send_private_message_link() );
 }
 	/**
 	 * Generate the URL for the Private Message link in member profile headers.
@@ -1680,7 +1683,7 @@ function bp_send_message_button() {
  * Output the URL of the Messages AJAX loader gif.
  */
 function bp_message_loading_image_src() {
-	echo bp_get_message_loading_image_src();
+	echo esc_url( bp_get_message_loading_image_src() );
 }
 	/**
 	 * Get the URL of the Messages AJAX loader gif.
@@ -1728,7 +1731,7 @@ function bp_message_get_recipient_tabs() {
  * Output recipient usernames for prefilling the 'To' field on the Compose screen.
  */
 function bp_message_get_recipient_usernames() {
-	echo bp_get_message_get_recipient_usernames();
+	echo esc_attr( bp_get_message_get_recipient_usernames() );
 }
 	/**
 	 * Get the recipient usernames for prefilling the 'To' field on the Compose screen.
@@ -1736,7 +1739,11 @@ function bp_message_get_recipient_usernames() {
 	 * @return string
 	 */
 	function bp_get_message_get_recipient_usernames() {
-		$recipients = isset( $_GET['r'] ) ? stripslashes( $_GET['r'] ) : '';
+
+		// Sanitized in bp-messages-filters.php
+		$recipients = isset( $_GET['r'] )
+			? $_GET['r']
+			: '';
 
 		/**
 		 * Filters the recipients usernames for prefilling the 'To' field on the Compose screen.
@@ -1980,7 +1987,7 @@ function bp_thread_has_messages( $args = '' ) {
  * Output the 'ASC' or 'DESC' messages order string for this loop.
  */
 function bp_thread_messages_order() {
-	echo bp_get_thread_messages_order();
+	echo esc_attr( bp_get_thread_messages_order() );
 }
 	/**
 	 * Get the 'ASC' or 'DESC' messages order string for this loop.
@@ -2018,7 +2025,7 @@ function bp_thread_the_message() {
  * Output the ID of the thread that the current loop belongs to.
  */
 function bp_the_thread_id() {
-	echo bp_get_the_thread_id();
+	echo (int) bp_get_the_thread_id();
 }
 	/**
 	 * Get the ID of the thread that the current loop belongs to.
@@ -2071,7 +2078,7 @@ function bp_the_thread_subject() {
  *
  * @return string
  */
-function bp_get_the_thread_recipients(){
+function bp_get_the_thread_recipients() {
 	if ( 5 <= bp_get_thread_recipients_count() ) {
 		$recipients = sprintf( __( '%s recipients', 'buddypress' ), number_format_i18n( bp_get_thread_recipients_count() ) );
 	} else {
@@ -2159,7 +2166,7 @@ function bp_the_thread_recipients_list() {
  * @since BuddyPress (1.9.0)
  */
 function bp_the_thread_message_id() {
-	echo bp_get_the_thread_message_id();
+	echo (int) bp_get_the_thread_message_id();
 }
 	/**
 	 * Get the ID of the current message in the thread.
@@ -2191,7 +2198,7 @@ function bp_the_thread_message_id() {
  * @since BuddyPress (2.1.0)
  */
 function bp_the_thread_message_css_class() {
-	echo bp_get_the_thread_message_css_class();
+	echo esc_attr( bp_get_the_thread_message_css_class() );
 }
 	/**
 	 * Generate the CSS classes for messages within a single thread.
@@ -2232,7 +2239,7 @@ function bp_the_thread_message_css_class() {
  * Output the CSS class used for message zebra striping.
  */
 function bp_the_thread_message_alt_class() {
-	echo bp_get_the_thread_message_alt_class();
+	echo esc_attr( bp_get_the_thread_message_alt_class() );
 }
 	/**
 	 * Get the CSS class used for message zebra striping.
@@ -2264,7 +2271,7 @@ function bp_the_thread_message_alt_class() {
  * @since BuddyPress (2.1.0)
  */
 function bp_the_thread_message_sender_id() {
-	echo bp_get_the_thread_message_sender_id();
+	echo (int) bp_get_the_thread_message_sender_id();
 }
 	/**
 	 * Return the ID for message sender within a single thread.
@@ -2340,7 +2347,7 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
  * Output a link to the sender of the current message.
  */
 function bp_the_thread_message_sender_link() {
-	echo bp_get_the_thread_message_sender_link();
+	echo esc_url( bp_get_the_thread_message_sender_link() );
 }
 	/**
 	 * Get a link to the sender of the current message.
@@ -2364,7 +2371,7 @@ function bp_the_thread_message_sender_link() {
  * Output the display name of the sender of the current message.
  */
 function bp_the_thread_message_sender_name() {
-	echo bp_get_the_thread_message_sender_name();
+	echo esc_html( bp_get_the_thread_message_sender_name() );
 }
 	/**
 	 * Get the display name of the sender of the current message.
@@ -2394,7 +2401,7 @@ function bp_the_thread_message_sender_name() {
  * Output the URL for deleting the current thread.
  */
 function bp_the_thread_delete_link() {
-	echo bp_get_the_thread_delete_link();
+	echo esc_url( bp_get_the_thread_delete_link() );
 }
 	/**
 	 * Get the URL for deleting the current thread.
