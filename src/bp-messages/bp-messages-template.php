@@ -503,7 +503,7 @@ function bp_message_thread_subject() {
 		 *
 		 * @param string $value Subject of the current thread in the loop.
 		 */
-		return apply_filters( 'bp_get_message_thread_subject', stripslashes_deep( $messages_template->thread->last_message_subject ) );
+		return apply_filters( 'bp_get_message_thread_subject', $messages_template->thread->last_message_subject );
 	}
 
 /**
