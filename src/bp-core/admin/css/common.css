@@ -24,6 +24,48 @@ body.index_page_bp-about span.dashicons {
 	text-align: center;
 }
 
+/* About Page - since 2.3.3 (WP 4.3) */
+
+.about-wrap .two-col > div {
+	position: relative;
+	width: 47.6%;
+	margin-right: 4.799999999%;
+	float: left;
+}
+
+.about-wrap [class$=col] .last-feature {
+	margin-right: 0;
+}
+
+.about-wrap .feature-list.finer-points h4, 
+.about-wrap .feature-list.finer-points p {
+	margin-left: 115px;
+}
+
+@media screen and ( max-width: 782px ) {
+	.about-wrap .two-col > div {
+		width: 100%;
+		margin: 30px 0 0;
+		padding: 0 0 30px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	body.dashboard_page_bp-about span.dashicons,
+	body.index_page_bp-about span.dashicons {
+		font-size: 55px;
+		line-height: 70px;
+		height: 70px;
+		width: 70px;
+	}
+	.about-wrap .feature-list h2 {
+	  margin: 30px 0 0;
+	  text-align: center;
+	}
+	.about-wrap .feature-list.finer-points h4, 
+	.about-wrap .feature-list.finer-points p {
+		margin-left: 90px;
+	}
+}
+
 /* User's Lists
 ------------------------------------------------------------------------------*/
 
@@ -415,6 +457,17 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+
+/* About Page - since 2.3.3 (WP 4.3) */
+
+@media only screen and (max-width: 500px) {
+	.about-wrap .bp-badge {
+		position: relative;
+		margin: 10px auto;
+		top: auto;
+		right: auto;
+	} 
 }
 
 /* HiDPI
