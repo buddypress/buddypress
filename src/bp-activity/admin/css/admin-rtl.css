@@ -78,3 +78,9 @@
 .column-action {
 	width: 12%;
 }
+
+@media screen and (max-width: 782px) {
+	body.toplevel_page_bp-activity .wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.check-column) {
+		display: table-cell;
+	}
+}
