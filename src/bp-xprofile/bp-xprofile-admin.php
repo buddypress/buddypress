@@ -501,7 +501,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 	$field = $admin_field; ?>
 
-	<fieldset id="field_<?php echo esc_attr( $field->id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
+	<fieldset class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
