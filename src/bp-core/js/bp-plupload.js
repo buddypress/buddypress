@@ -1,7 +1,7 @@
 /* global bp, plupload, BP_Uploader, _, JSON, Backbone */
 
 window.wp = window.wp || {};
-window.bp = window.bp || _.omit( window.wp, ['Uploader', 'emoji'] );
+window.bp = window.bp || {};
 
 ( function( exports, $ ) {
 
@@ -10,6 +10,10 @@ window.bp = window.bp || _.omit( window.wp, ['Uploader', 'emoji'] );
 		return;
 	}
 
+	// Set the bp global by only getting what we need from the wp one.
+	window.bp = _.pick( window.wp, 'Backbone', 'ajax', 'template' );
+
+	// Init Models, Collections, Views and the BuddyPress Uploader
 	bp.Models      = bp.Models || {};
 	bp.Collections = bp.Collections || {};
 	bp.Views       = bp.Views || {};
