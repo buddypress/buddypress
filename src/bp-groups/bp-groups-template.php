@@ -4212,7 +4212,7 @@ function bp_group_member_pagination_count() {
 		if ( 1 == $members_template->total_member_count ) {
 			$message = __( 'Viewing 1 member', 'buddypress' );
 		} else {
-			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s groups', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
 		}
 
 		/**
