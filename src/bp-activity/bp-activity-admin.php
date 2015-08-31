@@ -5,9 +5,9 @@
  * Props to WordPress core for the Comments admin screen, and its contextual
  * help text, on which this implementation is heavily based.
  *
+ * @since 1.6.0
  * @package BuddyPress
- * @since BuddyPress (1.6.0)
- * @subpackage Activity
+ * @subpackage ActivityAdmin
  */
 
 // Exit if accessed directly
@@ -23,7 +23,7 @@ if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['p
 /**
  * Register the Activity component admin screen.
  *
- * @since BuddyPress (1.6)
+ * @since 1.6.0
  */
 function bp_activity_add_admin_menu() {
 
@@ -49,7 +49,7 @@ add_action( bp_core_admin_hook(), 'bp_activity_add_admin_menu' );
  * which all appear together in the middle of the Dashboard menu. This function
  * adds the Activity page to the array of these menu items.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
  * @param array $custom_menus The list of top-level BP menu items.
  *
@@ -67,7 +67,7 @@ add_filter( 'bp_admin_menu_order', 'bp_activity_admin_menu_order' );
  * Processes requests to add new activity comments, and echoes HTML for a new
  * table row.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 function bp_activity_admin_reply() {
 	// Check nonce
@@ -137,7 +137,7 @@ add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
 /**
  * Handle save/update of screen options for the Activity component admin screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param string $value     Will always be false unless another plugin filters it first.
  * @param string $option    Screen option name.
@@ -160,7 +160,7 @@ function bp_activity_admin_screen_options( $value, $option, $new_value ) {
 /**
  * Hide the advanced edit meta boxes by default, so we don't clutter the screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param array     $hidden Array of items to hide.
  * @param WP_Screen $screen Screen identifier.
@@ -177,7 +177,7 @@ function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
 	/**
 	 * Filters default hidden metaboxes so plugins can alter list.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param array     $hidden Default metaboxes to hide.
 	 * @param WP_Screen $screen Screen identifier.
@@ -194,7 +194,7 @@ add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxe
  *   - Enqueues scripts and styles.
  *   - Catches POST and GET requests related to Activity.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @global object                 $bp                     BuddyPress global settings.
  * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table.
@@ -212,7 +212,7 @@ function bp_activity_admin_load() {
 	/**
 	 * Fires at top of Activity admin page.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $doaction Current $_GET action being performed in admin screen.
 	 */
@@ -320,7 +320,7 @@ function bp_activity_admin_load() {
 		/**
 		 * Filters list of IDs being spammed/un-spammed/deleted.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param array $activity_ids Activity IDs to spam/un-spam/delete.
 		 */
@@ -412,7 +412,7 @@ function bp_activity_admin_load() {
 		 *
 		 * Passes an activity array counts how many were spam, not spam, deleted, and IDs that were errors.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param array  $value        Array holding spam, not spam, deleted counts, error IDs.
 		 * @param string $redirect_to  URL to redirect to.
@@ -437,7 +437,7 @@ function bp_activity_admin_load() {
 		/**
 		 * Filters redirect URL after activity spamming/un-spamming/deletion occurs.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param string $redirect_to URL to redirect to.
 		 */
@@ -554,7 +554,7 @@ function bp_activity_admin_load() {
 		/**
 		 * Fires before redirect so plugins can do something first on save action.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param array Array holding activity object and ID that holds error.
 		 */
@@ -569,7 +569,7 @@ function bp_activity_admin_load() {
 		/**
 		 * Filters URL to redirect to after saving.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param string $redirect_to URL to redirect to.
 		 */
@@ -587,7 +587,7 @@ function bp_activity_admin_load() {
 /**
  * Output the Activity component admin screens.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 function bp_activity_admin() {
 	// Decide whether to load the index or edit screen
@@ -605,7 +605,7 @@ function bp_activity_admin() {
 /**
  * Display the single activity edit screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 function bp_activity_admin_edit() {
 
@@ -640,7 +640,7 @@ function bp_activity_admin_edit() {
 	/**
 	 * Fires before activity edit form is displays so plugins can modify the activity.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param array $value Array holding single activity object that was passed by reference.
 	 */
@@ -702,7 +702,7 @@ function bp_activity_admin_edit() {
 /**
  * Status metabox for the Activity admin edit screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param object $item Activity item.
  */
@@ -758,7 +758,7 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 /**
  * Primary link metabox for the Activity admin edit screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param object $item Activity item.
  */
@@ -775,7 +775,7 @@ function bp_activity_admin_edit_metabox_link( $item ) {
 /**
  * User ID metabox for the Activity admin edit screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param object $item Activity item.
  */
@@ -793,7 +793,7 @@ function bp_activity_admin_edit_metabox_userid( $item ) {
  *
  * Format is [activity_type] => Pretty name for activity type.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @return array
  */
@@ -821,7 +821,7 @@ function bp_activity_admin_get_activity_actions() {
 /**
  * Activity type metabox for the Activity admin edit screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param object $item Activity item.
  */
@@ -867,7 +867,7 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 /**
  * Primary item ID/Secondary item ID metabox for the Activity admin edit screen.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param object $item Activity item.
  */
@@ -889,7 +889,7 @@ function bp_activity_admin_edit_metabox_itemids( $item ) {
 /**
  * Display the Activity admin index screen, which contains a list of all the activities.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table.
  * @global string                 $plugin_page            The current plugin page.
@@ -957,7 +957,7 @@ function bp_activity_admin_index() {
 	/**
 	 * Fires before edit form is displayed so plugins can modify the activity messages.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param array $messages Array of messages to display at top of page.
 	 */
@@ -1023,7 +1023,7 @@ function bp_activity_admin_index() {
 /**
  * List table class for the Activity component admin page.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 class BP_Activity_List_Table extends WP_List_Table {
 
@@ -1032,7 +1032,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * e.g. "all", "pending", "approved", "spam"...
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @var string
 	 */
 	public $view = 'all';
@@ -1040,7 +1040,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * How many activity items have been marked as spam.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @var int
 	 */
 	public $spam_count = 0;
@@ -1048,7 +1048,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Store activity-to-user-ID mappings for use in the In Response To column.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @var array
 	 */
 	protected $activity_user_id = array();
@@ -1056,7 +1056,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * If users can comment on blog & forum activity items.
 	 *
-	 * @since BuddyPress (2.2.2)
+	 * @since 2.2.2
 	 *
 	 * @link https://buddypress.trac.wordpress.org/ticket/6277
 	 *
@@ -1067,7 +1067,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Constructor.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	public function __construct() {
 
@@ -1086,7 +1086,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Handle filtering of data, sorting, pagination, and any other data manipulation prior to rendering.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	function prepare_items() {
 
@@ -1188,7 +1188,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Get an array of all the columns on the page.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @return array Column headers.
 	 */
@@ -1206,7 +1206,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Get name of default primary column
 	 *
-	 * @since BuddyPress (2.3.3)
+	 * @since 2.3.3
 	 * @access protected
 	 *
 	 * @return string
@@ -1218,7 +1218,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Display a message on screen when no items are found (e.g. no search matches).
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	function no_items() {
 		_e( 'No activities found.', 'buddypress' );
@@ -1227,7 +1227,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Output the Activity data table.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	*/
 	function display() {
 		$this->display_tablenav( 'top' ); ?>
@@ -1257,7 +1257,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Generate content for a single row of the table.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param object $item The current item.
 	 */
@@ -1286,7 +1286,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Get the list of views available on this table (e.g. "all", "spam").
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	function get_views() {
 		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) ); ?>
@@ -1300,7 +1300,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			/**
 			 * Fires inside listing of views so plugins can add their own.
 			 *
-			 * @since BuddyPress (1.6.0)
+			 * @since 1.6.0
 			 *
 			 * @param string $url_base Current URL base for view.
 			 * @param string $view     Current view being displayed.
@@ -1313,7 +1313,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Get bulk actions.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @return array Key/value pairs for the bulk actions dropdown.
 	 */
@@ -1326,7 +1326,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		/**
 		 * Filters the default bulk actions so plugins can add custom actions.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param array $actions Default available actions for bulk operations.
 		 */
@@ -1336,7 +1336,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Get the table column titles.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
@@ -1357,7 +1357,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * Currently, returns an empty array (no columns are sortable).
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @todo For this to work, BP_Activity_Activity::get() needs updating
 	 *       to support ordering by specific fields.
 	 *
@@ -1374,7 +1374,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Markup for the "filter" part of the form (i.e. which activity type to display).
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $which 'top' or 'bottom'.
 	 */
@@ -1458,7 +1458,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Checkbox column markup.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
@@ -1471,7 +1471,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Author column markup.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
@@ -1484,7 +1484,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Action column markup.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
@@ -1505,7 +1505,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * Called "comment" in the CSS so we can re-use some WP core CSS.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
@@ -1564,7 +1564,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		/**
 		 * Filters available actions for plugins to alter.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param array $actions Array of available actions user could use.
 		 * @param array $item    Current item being added to page.
@@ -1583,7 +1583,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			/**
 			 * Filters current activity item content.
 			 *
-			 * @since BuddyPress (1.2.0)
+			 * @since 1.2.0
 			 *
 			 * @param array $item Array index holding current activity item content.
 			 */
@@ -1592,7 +1592,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			/**
 			 * Filters current activity item action.
 			 *
-			 * @since BuddyPress (1.2.0)
+			 * @since 1.2.0
 			 *
 			 * @var array $item Array index holding current activity item action.
 			 */
@@ -1605,7 +1605,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * "In response to" column markup.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @see WP_List_Table::single_row_columns()
 	 *
@@ -1617,7 +1617,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		/**
 		 * Filters default list of default root activity types.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param array $value Array of default activity types.
 		 * @param array $item  Current item being displayed.
@@ -1648,7 +1648,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * Wraps bp_activity_get_specific(), with some additional logic for
 	 * avoiding duplicate queries.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param int $activity_id Activity ID to retrieve User ID for.
 	 *
@@ -1689,7 +1689,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * list table doesn't use a BuddyPress activity loop, which prevents those
 	 * functions from working as intended.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $item An array version of the BP_Activity_Activity object.
 	 *
@@ -1741,7 +1741,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		/**
 		 * Filters if an activity item can be commented on or not.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param bool $can_comment Whether an activity item can be commented on or not.
 		 */
@@ -1754,7 +1754,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * In some cases, BuddyPress gives us a structured tree of activity
 	 * items plus their comments. This method converts it to a flat array.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param array $tree Source array.
 	 *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Activity Notifications.
  *
@@ -15,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Send email and BP notifications when a user is mentioned in an update.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses bp_notifications_add_notification()
  * @uses bp_get_user_meta()
@@ -102,7 +101,7 @@ To view and respond to the message, log in and visit: %3$s
 		/**
 		 * Filters the user email that the @mention notification will be sent to.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $to User email the notification is being sent to.
 		 */
@@ -111,7 +110,7 @@ To view and respond to the message, log in and visit: %3$s
 		/**
 		 * Filters the @mention notification subject that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $subject     Email notification subject text.
 		 * @param string $poster_name Name of the person who made the @mention.
@@ -121,7 +120,7 @@ To view and respond to the message, log in and visit: %3$s
 		/**
 		 * Filters the @mention notification message that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $message       Email notification message text.
 		 * @param string $poster_name   Name of the person who made the @mention.
@@ -137,7 +136,7 @@ To view and respond to the message, log in and visit: %3$s
 	/**
 	 * Fires after the sending of an @mention email notification.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param BP_Activity_Activity $activity         Activity Item object.
 	 * @param string               $subject          Email notification subject text.
@@ -151,7 +150,7 @@ To view and respond to the message, log in and visit: %3$s
 /**
  * Send email and BP notifications when an activity item receives a comment.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses bp_get_user_meta()
  * @uses bp_core_get_user_displayname()
@@ -220,7 +219,7 @@ To view your original update and all comments, log in and visit: %3$s
 		/**
 		 * Filters the user email that the new comment notification will be sent to.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $to User email the notification is being sent to.
 		 */
@@ -229,7 +228,7 @@ To view your original update and all comments, log in and visit: %3$s
 		/**
 		 * Filters the new comment notification subject that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $subject     Email notification subject text.
 		 * @param string $poster_name Name of the person who made the comment.
@@ -239,7 +238,7 @@ To view your original update and all comments, log in and visit: %3$s
 		/**
 		 * Filters the new comment notification message that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $message       Email notification message text.
 		 * @param string $poster_name   Name of the person who made the comment.
@@ -254,7 +253,7 @@ To view your original update and all comments, log in and visit: %3$s
 		/**
 		 * Fires after the sending of a reply to an update email notification.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param int    $user_id      ID of the original activity item author.
 		 * @param string $subject      Email notification subject text.
@@ -308,7 +307,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		/**
 		 * Filters the user email that the new comment reply notification will be sent to.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $to User email the notification is being sent to.
 		 */
@@ -317,7 +316,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		/**
 		 * Filters the new comment reply notification subject that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $subject     Email notification subject text.
 		 * @param string $poster_name Name of the person who made the comment reply.
@@ -327,7 +326,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		/**
 		 * Filters the new comment reply notification message that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $message       Email notification message text.
 		 * @param string $poster_name   Name of the person who made the comment reply.
@@ -342,7 +341,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 		/**
 		 * Fires after the sending of a reply to a reply email notification.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param int    $user_id      ID of the parent activity item author.
 		 * @param string $subject      Email notification subject text.
@@ -358,7 +357,7 @@ To view the original activity, your comment and all replies, log in and visit: %
 /**
  * Helper method to map action arguments to function parameters.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int   $comment_id
  * @param array $params
@@ -373,7 +372,7 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
 /**
  * Format notifications related to activity.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @uses bp_loggedin_user_domain()
  * @uses bp_get_activity_slug()
@@ -419,7 +418,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		 * need notified about. The two possible hooks are bp_activity_single_at_mentions_notification
 		 * or bp_activity_multiple_at_mentions_notification.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $string          HTML anchor tag for the mention.
 		 * @param string $at_mention_link The permalink for the mention.
@@ -437,7 +436,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		 * The two possible hooks are bp_activity_single_at_mentions_notification
 		 * or bp_activity_multiple_at_mentions_notification.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param array  $array           Array holding the content and permalink for the mention notification.
 		 * @param string $at_mention_link The permalink for the mention.
@@ -454,7 +453,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 	/**
 	 * Fires right before returning the formatted activity notifications.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $action            The type of activity item.
 	 * @param int    $item_id           The activity ID.
@@ -474,7 +473,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
  * future when we separate emails from Notifications, this will need its own
  * 'bp_activity_at_name_send_emails' equivalent helper function.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param object $activity
  * @param string $subject (not used)
@@ -500,7 +499,7 @@ add_action( 'bp_activity_sent_mention_email', 'bp_activity_at_mention_add_notifi
 /**
  * Mark at-mention notifications as read when users visit their Mentions page.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @uses bp_notifications_mark_all_notifications_by_type()
  */
@@ -521,7 +520,7 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_remove_screen_notificati
 /**
  * Mark at-mention notification as read when user visits the activity with the mention.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param object BP_Activity_Activity
  */
@@ -543,7 +542,7 @@ add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_
 /**
  * Delete at-mention notifications when the corresponding activity item is deleted.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param array $activity_ids_deleted IDs of deleted activity items.
  */

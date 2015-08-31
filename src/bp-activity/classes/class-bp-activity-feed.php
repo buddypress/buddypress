@@ -3,7 +3,7 @@
  * BuddyPress Activity Classes
  *
  * @package BuddyPress
- * @subpackage Activity
+ * @subpackage ActivityFeeds
  */
 
 // Exit if accessed directly
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
  *   @type string $max              Optional. Number of feed items to display.
  *   @type array  $activity_args    Optional. Arguments passed to {@link bp_has_activities()}
  * }
- * @since BuddyPress (1.8.0)
+ * @since 1.8.0
  */
 class BP_Activity_Feed {
 
@@ -73,7 +73,7 @@ class BP_Activity_Feed {
 		/**
 		 * Filters if BuddyPress should consider feeds enabled. If disabled, it will return early.
 		 *
-		 * @since BuddyPress (1.8.0)
+		 * @since 1.8.0
 		 *
 		 * @param bool true Default true aka feeds are enabled.
 		 */
@@ -125,7 +125,7 @@ class BP_Activity_Feed {
 		/**
 		 * Fires before the feed is setup so plugins can modify.
 		 *
-		 * @since BuddyPress (1.8.0)
+		 * @since 1.8.0
 		 *
 		 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
 		 */
@@ -143,7 +143,7 @@ class BP_Activity_Feed {
 		/**
 		 * Fires after the feed is setup so plugins can modify.
 		 *
-		 * @since BuddyPress (1.8.0)
+		 * @since 1.8.0
 		 *
 		 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
 		 */
@@ -209,7 +209,7 @@ class BP_Activity_Feed {
 		 *
 		 * This hook was originally separated out for individual components but has since been abstracted into the BP_Activity_Feed class.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 */
 		do_action( 'bp_activity_' . $this->id . '_feed' );
 	}
@@ -224,7 +224,7 @@ class BP_Activity_Feed {
 		 *
 		 * This hook was originally separated out for individual components but has since been abstracted into the BP_Activity_Feed class.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 */
 		do_action( 'bp_activity_' . $this->id . '_feed_head' );
 	}
@@ -253,7 +253,7 @@ class BP_Activity_Feed {
 		 *
 		 * This hook was originally separated out for individual components but has since been abstracted into the BP_Activity_Feed class.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 */
 		do_action( 'bp_activity_' . $id . '_feed_item' );
 	}
@@ -292,7 +292,7 @@ class BP_Activity_Feed {
 	 *
 	 * Most of this class method is derived from {@link WP::send_headers()}.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @access protected
 	 */
@@ -387,7 +387,7 @@ class BP_Activity_Feed {
 	/**
 	 * Fires at the end of the opening RSS tag for feed output so plugins can add extra attributes.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 */
 	do_action( 'bp_activity_feed_rss_attributes' ); ?>
 >
@@ -408,7 +408,7 @@ class BP_Activity_Feed {
 	/**
 	 * Fires at the end of channel elements list in RSS feed so plugins can add extra channel elements.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 */
 	do_action( 'bp_activity_feed_channel_elements' ); ?>
 
@@ -433,7 +433,7 @@ class BP_Activity_Feed {
 				/**
 				 * Fires at the end of the individual RSS Item list in RSS feed so plugins can add extra item elements.
 				 *
-				 * @since BuddyPress (1.8.0)
+				 * @since 1.8.0
 				 */
 				do_action( 'bp_activity_feed_item_elements' ); ?>
 			</item>

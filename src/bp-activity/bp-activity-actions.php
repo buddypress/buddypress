@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Action functions are exactly the same as screen functions, however they do
  * not have a template screen associated with them. Usually they will send the
@@ -15,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Allow core components and dependent plugins to register activity actions.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses do_action() To call 'bp_register_activity_actions' hook.
  */
@@ -24,7 +23,7 @@ function bp_register_activity_actions() {
 	/**
 	 * Fires on bp_init to allow core components and dependent plugins to register activity actions.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_register_activity_actions' );
 }
@@ -33,7 +32,7 @@ add_action( 'bp_init', 'bp_register_activity_actions', 8 );
 /**
  * Catch and route requests for single activity item permalinks.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
@@ -104,7 +103,7 @@ function bp_activity_action_permalink_router() {
 	/**
 	 * Filter the intended redirect url before the redirect occurs for the single activity item.
 	 *
-	 * @since BuddyPress (1.2.2)
+	 * @since 1.2.2
 	 *
 	 * @param array Array with url to redirect to and activity related to the redirect.
 	 */
@@ -120,7 +119,7 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
 /**
  * Delete specific activity item and redirect to previous page.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
  *
@@ -163,7 +162,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	/**
 	 * Fires before the deletion so plugins can still fetch information about it.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int $activity_id The activity ID.
 	 * @param int $user_id     The user associated with the activity.
@@ -179,7 +178,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	/**
 	 * Fires after the deletion so plugins can act afterwards based on the activity.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param int $activity_id The activity ID.
 	 * @param int $user_id     The user associated with the activity.
@@ -197,7 +196,7 @@ add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
 /**
  * Mark specific activity item as spam and redirect to previous page.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
  *
@@ -232,7 +231,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	/**
 	 * Fires before the marking activity as spam so plugins can modify things if they want to.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param int    $activity_id Activity ID to be marked as spam.
 	 * @param object $activity    Activity object for the ID to be marked as spam.
@@ -249,7 +248,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	/**
 	 * Fires after the marking activity as spam so plugins can act afterwards based on the activity.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param int $activity_id Activity ID that was marked as spam.
 	 * @param int $user_id     User ID associated with activity.
@@ -267,7 +266,7 @@ add_action( 'bp_actions', 'bp_activity_action_spam_activity' );
 /**
  * Post user/group activity update.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -297,7 +296,7 @@ function bp_activity_action_post_update() {
 	/**
 	 * Filters the content provided in the activity input field.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $value Activity message being posted.
 	 */
@@ -308,7 +307,7 @@ function bp_activity_action_post_update() {
 		/**
 		 * Filters the item type that the activity update should be associated with.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $value Item type to associate with.
 		 */
@@ -320,7 +319,7 @@ function bp_activity_action_post_update() {
 		/**
 		 * Filters what component the activity is being to.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $value Chosen component to post activity to.
 		 */
@@ -348,7 +347,7 @@ function bp_activity_action_post_update() {
 		/**
 		 * Filters activity object for BuddyPress core and plugin authors before posting activity update.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $object  Activity item being associated to.
 		 * @param string $item_id Component ID being posted to.
@@ -371,7 +370,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_update' );
 /**
  * Post new activity comment.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -397,7 +396,7 @@ function bp_activity_action_post_comment() {
 	/**
 	 * Filters the activity ID a comment will be in reply to.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $value ID of the activity being replied to.
 	 */
@@ -406,7 +405,7 @@ function bp_activity_action_post_comment() {
 	/**
 	 * Filters the comment content for a comment reply.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $value Comment content being posted.
 	 */
@@ -435,7 +434,7 @@ add_action( 'bp_actions', 'bp_activity_action_post_comment' );
 /**
  * Mark activity as favorite.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -469,7 +468,7 @@ add_action( 'bp_actions', 'bp_activity_action_mark_favorite' );
 /**
  * Remove activity from favorites.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses is_user_logged_in()
  * @uses bp_is_activity_component()
@@ -503,7 +502,7 @@ add_action( 'bp_actions', 'bp_activity_action_remove_favorite' );
 /**
  * Load the sitewide activity feed.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
@@ -535,7 +534,7 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
 /**
  * Load a user's personal activity feed.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -565,7 +564,7 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
 /**
  * Load a user's friends' activity feed.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_is_active()
  * @uses bp_is_user_activity()
@@ -598,7 +597,7 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
 /**
  * Load the activity feed for a user's groups.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses bp_is_active()
  * @uses bp_is_user_activity()
@@ -639,7 +638,7 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
 /**
  * Load a user's @mentions feed.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -676,7 +675,7 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
 /**
  * Load a user's favorites feed.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @uses bp_is_user_activity()
  * @uses bp_is_current_action()
@@ -711,8 +710,8 @@ add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
 /**
  * Loads Akismet filtering for activity.
  *
- * @since BuddyPress (1.6.0)
- * @since BuddyPress (2.3.0) We only support Akismet 3+.
+ * @since 1.6.0
+ * @since 2.3.0 We only support Akismet 3+.
  */
 function bp_activity_setup_akismet() {
 	$bp = buddypress();
@@ -735,7 +734,7 @@ function bp_activity_setup_akismet() {
 	/**
 	 * Filters if BuddyPress Activity Akismet support has been disabled by another plugin.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param bool $value Return value of bp_is_akismet_active boolean function.
 	 */
@@ -750,7 +749,7 @@ function bp_activity_setup_akismet() {
 /**
  * AJAX endpoint for Suggestions API lookups.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 function bp_ajax_get_suggestions() {
 	if ( ! bp_is_user_active() || empty( $_GET['term'] ) || empty( $_GET['type'] ) ) {
@@ -782,7 +781,7 @@ add_action( 'wp_ajax_bp_get_suggestions', 'bp_ajax_get_suggestions' );
 /**
  * Detect a change in post type status, and initiate an activity update if necessary.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @todo Support untrashing better.
  *
@@ -816,7 +815,7 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 			 * This is a variable filter that is dependent on the post type
 			 * being untrashed.
 			 *
-			 * @since BuddyPress (2.2.0)
+			 * @since 2.2.0
 			 *
 			 * @param WP_Post $post Post data.
 			 */

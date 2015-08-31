@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Instance methods are available for creating/editing an activity,
  * static methods for querying activities.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 class BP_Activity_Activity {
 
@@ -209,7 +209,7 @@ class BP_Activity_Activity {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Activity_Activity $this Current instance of the activity item being saved. Passed by reference.
 		 */
@@ -246,7 +246,7 @@ class BP_Activity_Activity {
 		/**
 		 * Fires after an activity item has been saved to the database.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Activity_Activity $this Current instance of activity item being saved. Passed by reference.
 		 */
@@ -456,7 +456,7 @@ class BP_Activity_Activity {
 		/**
 		 * Filters the MySQL WHERE conditions for the Activity items get method.
 		 *
-		 * @since BuddyPress (1.9.0)
+		 * @since 1.9.0
 		 *
 		 * @param array  $where_conditions Current conditions for MySQL WHERE statement.
 		 * @param array  $r                Parsed arguments passed into method.
@@ -472,7 +472,7 @@ class BP_Activity_Activity {
 		/**
 		 * Filters the preferred order of indexes for activity item.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param array Array of indexes in preferred order.
 		 */
@@ -506,7 +506,7 @@ class BP_Activity_Activity {
 		 *
 		 * It is not recommended to use the legacy structure, but allowed to if needed.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param bool                 $value Whether to use legacy structure or not.
 		 * @param BP_Activity_Activity $value Current method being called.
@@ -529,7 +529,7 @@ class BP_Activity_Activity {
 				/**
 				 * Filters the legacy MySQL query statement so plugins can alter before results are fetched.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 *
 				 * @param string $value      Concatenated MySQL statement pieces to be query results with for legacy query.
 				 * @param string $select_sql Final SELECT MySQL statement portion for legacy query.
@@ -553,7 +553,7 @@ class BP_Activity_Activity {
 			/**
 			 * Filters the paged activities MySQL statement.
 			 *
-			 * @since BuddyPress (2.0.0)
+			 * @since 2.0.0
 			 *
 			 * @param string $activity_ids_sql MySQL statement used to query for Activity IDs.
 			 * @param array  $r                Array of arguments passed into method.
@@ -604,7 +604,7 @@ class BP_Activity_Activity {
 			/**
 			 * Filters the total activities MySQL statement.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $value     MySQL statement used to query for total activities.
 			 * @param string $where_sql MySQL WHERE statement portion.
@@ -628,7 +628,7 @@ class BP_Activity_Activity {
 	/**
 	 * Convert activity IDs to activity objects, as expected in template loop.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $activity_ids Array of activity IDs.
 	 *
@@ -693,7 +693,7 @@ class BP_Activity_Activity {
 	/**
 	 * Append xProfile fullnames to an activity array.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $activities Activities array.
 	 *
@@ -734,7 +734,7 @@ class BP_Activity_Activity {
 	 * components, such as bp-friends and bp-groups, to hook in and prime
 	 * their own caches at the beginning of an activity loop.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $activities Array of activities.
 	 *
@@ -745,7 +745,7 @@ class BP_Activity_Activity {
 		/**
 		 * Filters inside prefetch_object_data method to aid in pre-fetching object data associated with activity item.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param array $activities Array of activities.
 		 */
@@ -760,7 +760,7 @@ class BP_Activity_Activity {
 	 * registered), the static 'action' value pulled from the database will
 	 * be left in place.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $activities Array of activities.
 	 *
@@ -788,7 +788,7 @@ class BP_Activity_Activity {
 	 * WP_Query, we have to alter the return value (stripping the leading
 	 * AND keyword from the 'where' clause).
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
@@ -829,7 +829,7 @@ class BP_Activity_Activity {
 	 * WP_Query, we have to alter the return value (stripping the leading AND
 	 * keyword from the query).
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @param array $date_query An array of date_query parameters. See the
 	 *                          documentation for the first parameter of WP_Date_Query.
@@ -856,7 +856,7 @@ class BP_Activity_Activity {
 	 *
 	 * Can handle multiple scopes.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param  mixed $scope  The activity scope. Accepts string or array of scopes.
 	 * @param  array $r      Current activity arguments. Same as those of BP_Activity_Activity::get(),
@@ -905,7 +905,7 @@ class BP_Activity_Activity {
 			 *   - bp_groups_filter_activity_scope() - used for 'groups' scope
 			 *   - bp_friends_filter_activity_scope() - used for 'friends' scope
 			 *
-			 * @since BuddyPress (2.2.0)
+			 * @since 2.2.0
 			 *
 			 *  @param array {
 			 *     Activity query clauses.
@@ -958,7 +958,7 @@ class BP_Activity_Activity {
 	 *
 	 * As of 1.5.x, use BP_Activity_Activity::get() with an 'in' parameter instead.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @deprecated 1.5
 	 * @deprecated Use BP_Activity_Activity::get() with an 'in' parameter instead.
@@ -1046,7 +1046,7 @@ class BP_Activity_Activity {
 	 * To delete a specific activity item, pass an 'id' parameter.
 	 * Otherwise use the filters.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param array $args {
 	 *     @int    $id                Optional. The ID of a specific item to delete.
@@ -1154,7 +1154,7 @@ class BP_Activity_Activity {
 		/**
 		 * Action to allow intercepting activity items to be deleted.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param array $activities Array of activities.
 		 * @param array $r          Array of parsed arguments.
@@ -1172,7 +1172,7 @@ class BP_Activity_Activity {
 		/**
 		 * Action to allow intercepting activity items just deleted.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param array $activities Array of activities.
 		 * @param array $r          Array of parsed arguments.
@@ -1221,8 +1221,8 @@ class BP_Activity_Activity {
 	 * This method is no longer used by BuddyPress, and it is recommended not to
 	 * use it going forward, and use BP_Activity_Activity::delete() instead.
 	 *
-	 * @since BuddyPress (1.2.0)
-	 * @deprecated BuddyPress (2.3.0)
+	 * @since 1.2.0
+	 * @deprecated 2.3.0
 	 *
 	 * @param array $activity_ids Activity IDs whose comments should be deleted.
 	 * @param bool  $delete_meta  Should we delete the activity meta items for these comments?
@@ -1252,7 +1252,7 @@ class BP_Activity_Activity {
 	/**
 	 * Delete the meta entries associated with a set of activity items.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param array $activity_ids Activity IDs whose meta should be deleted.
 	 *
@@ -1271,7 +1271,7 @@ class BP_Activity_Activity {
 	/**
 	 * Append activity comments to their associated activity items.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -1302,7 +1302,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get activity comments that are associated with a specific activity ID.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -1359,7 +1359,7 @@ class BP_Activity_Activity {
 			/**
 			 * Filters if BuddyPress should use the legacy activity query.
 			 *
-			 * @since BuddyPress (2.0.0)
+			 * @since 2.0.0
 			 *
 			 * @param bool                 $value     Whether or not to use the legacy query.
 			 * @param BP_Activity_Activity $value     Magic method referring to currently called method.
@@ -1370,7 +1370,7 @@ class BP_Activity_Activity {
 				/**
 				 * Filters the MySQL prepared statement for the legacy activity query.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 *
 				 * @param string $value       Prepared statement for the activity query.
 				 * @param int    $activity_id Activity ID to fetch comments for.
@@ -1462,7 +1462,7 @@ class BP_Activity_Activity {
 	/**
 	 * Rebuild nested comment tree under an activity or activity comment.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -1502,7 +1502,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get child comments of an activity or activity comment.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -1568,7 +1568,7 @@ class BP_Activity_Activity {
 	/**
 	 * Create SQL IN clause for filter queries.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql()
 	 *
@@ -1606,7 +1606,7 @@ class BP_Activity_Activity {
 	/**
 	 * Create filter SQL clauses.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array $filter_array {
 	 *     Fields and values to filter by.
@@ -1686,7 +1686,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get the date/time of last recorded activity.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @return string ISO timestamp.
 	 */
@@ -1701,7 +1701,7 @@ class BP_Activity_Activity {
 	/**
 	 * Get favorite count for a given user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param int $user_id The ID of the user whose favorites you're counting.
 	 *
@@ -1761,7 +1761,7 @@ class BP_Activity_Activity {
 	 *
 	 * Subject to removal once WordPress makes PHP 5.3.0 the minimum requirement.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @see http://php.net/manual/en/function.array-replace-recursive.php#109390
 	 *

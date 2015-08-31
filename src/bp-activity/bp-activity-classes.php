@@ -3,7 +3,7 @@
  * BuddyPress Activity Classes
  *
  * @package BuddyPress
- * @subpackage Activity
+ * @subpackage ActivityClasses
  */
 
 // Exit if accessed directly

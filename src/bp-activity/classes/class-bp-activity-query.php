@@ -3,7 +3,7 @@
  * BuddyPress Activity Classes
  *
  * @package BuddyPress
- * @subpackage Activity
+ * @subpackage ActivityQuery
  */
 
 // Exit if accessed directly
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * This is notably used in {@link BP_Activity_Activity::get()} with the
  * 'filter_query' parameter.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  */
 class BP_Activity_Query extends BP_Recursive_Query {
 	/**
@@ -23,7 +23,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * See {@see BP_Activity_Query::__construct()} for information on query arguments.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 * @var array
 	 */
@@ -32,7 +32,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Table alias.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 * @var string
 	 */
@@ -43,7 +43,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * See the 'wp_bp_activity' DB table schema.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 * @var array
 	 */
@@ -55,7 +55,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Constructor.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param array $query {
 	 *     Array of query clauses.
@@ -86,7 +86,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Generates WHERE SQL clause to be appended to a main query.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param string $alias An existing table alias that is compatible with the current query clause.
@@ -111,7 +111,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Generate WHERE clauses for a first-order clause.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access protected
 	 *
 	 * @param  array $clause       Array of arguments belonging to the clause.
@@ -224,7 +224,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Determine whether a clause is first-order.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access protected
 	 *
 	 * @param array $query Clause to check.
@@ -241,7 +241,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Column names are checked against a whitelist of known tables.
 	 * See {@link BP_Activity_Query::db_tables}.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param string $column The user-supplied column name.
