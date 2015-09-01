@@ -1252,7 +1252,7 @@ function bp_notifications_sort_order_form() {
 	} ?>
 
 	<form action="" method="get" id="notifications-sort-order">
-		<label for="notifications-friends"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
+		<label for="notifications-sort-order-list"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
 
 		<select id="notifications-sort-order-list" name="sort_order" onchange="this.form.submit();">
 			<option value="DESC" <?php selected( $selected, 'DESC' ); ?>><?php _e( 'Newest First', 'buddypress' ); ?></option>
