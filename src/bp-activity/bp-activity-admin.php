@@ -1392,7 +1392,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$activity_actions = bp_activity_get_actions(); ?>
 
 		<div class="alignleft actions">
-			<select name="activity_type">
+			<label for="activity-type" class="screen-reader-text"><?php _e( 'Filter by activity type', 'buddypress' ); ?></label>
+			<select name="activity_type" id="activity-type"> 
 				<option value="" <?php selected( ! $selected ); ?>><?php _e( 'View all actions', 'buddypress' ); ?></option>
 
 				<?php foreach ( $activity_actions as $component => $actions ) : ?>
