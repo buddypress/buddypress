@@ -101,6 +101,7 @@
 					 */
 					do_action( 'bp_before_message_reply_box' ); ?>
 
+					<label for="message_content" class="bp-screen-reader-text"><?php _e( 'Reply to Message', 'buddypress' ); ?></label>
 					<textarea name="content" id="message_content" rows="15" cols="40"></textarea>
 
 					<?php
