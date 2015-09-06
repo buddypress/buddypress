@@ -256,6 +256,13 @@ function bp_activity_admin_load() {
 		add_meta_box( 'bp_activity_type',    _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', get_current_screen()->id, 'normal', 'core' );
 		add_meta_box( 'bp_activity_userid',  _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', get_current_screen()->id, 'normal', 'core' );
 
+		/**
+		 * Fires after the registration of all of the default activity meta boxes.
+		 *
+		 * @since 2.4.0
+		 */
+		do_action( 'bp_activity_admin_meta_boxes' );
+
 		// Enqueue JavaScript files
 		wp_enqueue_script( 'postbox' );
 		wp_enqueue_script( 'dashboard' );
@@ -306,6 +313,12 @@ function bp_activity_admin_load() {
 		wp_style_add_data( 'bp_activity_admin_css', 'suffix', $min );
 	}
 
+	/**
+	 * Fires after the activity js and style has been enqueued.
+	 *
+	 * @since 2.4.0
+	 */
+	do_action( 'bp_activity_admin_enqueue_scripts' );
 
 	// Handle spam/un-spam/delete of activities
 	if ( !empty( $doaction ) && ! in_array( $doaction, array( '-1', 'edit', 'save', ) ) ) {
@@ -1343,13 +1356,20 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @return array The columns to appear in the Activity list table.
 	 */
 	function get_columns() {
-		return array(
+		/**
+		 * Filters the titles for the columns for the activity list table.
+		 *
+		 * @since 2.4.0
+		 *
+		 * @param array $value Array of slugs and titles for the columns.
+		 */
+		return apply_filters( 'bp_activity_list_table_get_columns', array(
 			'cb'       => '<input name type="checkbox" />',
 			'author'   => _x('Author', 'Admin SWA column header', 'buddypress' ),
 			'comment'  => _x( 'Activity', 'Admin SWA column header', 'buddypress' ),
 			'action'   => _x( 'Action', 'Admin SWA column header', 'buddypress' ),
 			'response' => _x( 'In Response To', 'Admin SWA column header', 'buddypress' ),
-		);
+		) );
 	}
 
 	/**
@@ -1393,7 +1413,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		<div class="alignleft actions">
 			<label for="activity-type" class="screen-reader-text"><?php _e( 'Filter by activity type', 'buddypress' ); ?></label>
-			<select name="activity_type" id="activity-type"> 
+			<select name="activity_type" id="activity-type">
 				<option value="" <?php selected( ! $selected ); ?>><?php _e( 'View all actions', 'buddypress' ); ?></option>
 
 				<?php foreach ( $activity_actions as $component => $actions ) : ?>
@@ -1600,7 +1620,15 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$content = apply_filters_ref_array( 'bp_get_activity_action', array( $item['action'] ) );
 		}
 
-		echo $content . ' ' . $this->row_actions( $actions );
+		/**
+		 * Filter here to add extra output to the activity content into the Administration
+		 *
+		 * @since  2.4.0
+		 *
+		 * @param  string $content The activity content
+		 * @param  array  $item    The activity object converted into an array
+		 */
+		echo apply_filters( 'bp_activity_admin_comment_content', $content, $item ) . ' ' . $this->row_actions( $actions );
 	}
 
 	/**
@@ -1641,6 +1669,30 @@ class BP_Activity_List_Table extends WP_List_Table {
 		// Activity permalink
 		if ( ! $item['is_spam'] )
 			printf( __( '<a href="%1$s">View Activity</a>', 'buddypress' ), bp_activity_get_permalink( $item['id'], (object) $item ) );
+	}
+
+	/**
+	 * Allow plugins to add their custom column.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param array  $item        Information about the current row.
+	 * @param string $column_name The column name.
+	 *
+	 * @return string
+	 */
+	public function column_default( $item = array(), $column_name = '' ) {
+
+		/**
+		 * Filters a string to allow plugins to add custom column content.
+		 *
+		 * @since 2.4.0
+		 *
+		 * @param string $value       Empty string.
+		 * @param string $column_name Name of the column being rendered.
+		 * @param array  $item        The current activity item in the loop.
+		 */
+		return apply_filters( 'bp_activity_admin_get_custom_column', '', $column_name, $item );
 	}
 
 	/**
