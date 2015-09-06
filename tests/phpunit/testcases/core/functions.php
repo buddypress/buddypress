@@ -603,20 +603,19 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	 * @group bp_attachments
 	 * @group bp_upload_dir
 	 */
-	public function test_bp_upload_dir_ms() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped( __METHOD__ . ' is a multisite-only test.' );
-		}
-
+	public function test_bp_upload_dir() {
 		$expected_upload_dir = wp_upload_dir();
 
-		$b = $this->factory->blog->create();
-
-		switch_to_blog( $b );
+		if ( is_multisite() ) {
+			$b = $this->factory->blog->create();
+			switch_to_blog( $b );
+		}
 
 		$tested_upload_dir = bp_upload_dir();
 
-		restore_current_blog();
+		if ( is_multisite() ) {
+			restore_current_blog();
+		}
 
 		$this->assertSame( $expected_upload_dir, $tested_upload_dir );
 	}
