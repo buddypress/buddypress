@@ -64,6 +64,16 @@ class BP_Activity_Feed {
 	public function __get( $key ) { return isset( $this->data[$key] ) ? $this->data[$key] : null; }
 
 	/**
+	 * Magic method for setting a certain data variable.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $key   The property to set.
+	 * @param mixed  $value The value to set.
+	 */
+	public function __set( $key, $value ) { $this->data[$key] = $value; }
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $args Optional.
