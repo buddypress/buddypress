@@ -1210,7 +1210,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$this->get_columns(),
 			array(),
 			$this->get_sortable_columns(),
-			$this->get_primary_column_name(),
+			$this->get_default_primary_column_name(),
 		);
 
 		return $this->_column_headers;
