@@ -14,7 +14,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	 */
 	do_action( 'bp_members_capabilities_account_before_submit' ); ?>
 
-	<label>
+	<label for="user-spammer">
 		<input type="checkbox" name="user-spammer" id="user-spammer" value="1" <?php checked( bp_is_user_spammer( bp_displayed_user_id() ) ); ?> />
 		 <?php _e( 'This user is a spammer.', 'buddypress' ); ?>
 	</label>
