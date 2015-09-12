@@ -3,10 +3,10 @@
  * BuddyPress Forums Filters.
  *
  * @package BuddyPress
- * @subpackage Forums
+ * @subpackage ForumsFilters
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /* Apply WordPress defined filters */
@@ -86,7 +86,7 @@ function bp_forums_filter_kses( $content ) {
 	/**
 	 * Filters the allowed HTML tags for forum posts.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param array $forums_allowedtags Array of allowed HTML tags.
 	 */
@@ -107,7 +107,7 @@ function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
 	/**
 	 * Filters the link for a forum topic tags directory.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param string $value Link for the forum topic tag directory.
 	 */
@@ -183,7 +183,7 @@ add_filter( 'bp_get_the_topic_text',           'bp_forums_strip_mentions_on_post
  *
  * This filter is added in bp_has_forum_topics().
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @param string $sql SQL fragment.
  * @return string $sql SQL fragment of the form "DISTINCT t.topic_id, ".
@@ -199,7 +199,7 @@ function bp_forums_add_replied_distinct_sql( $sql ) {
  *
  * This filter is added in bp_has_forum_topics().
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @global object $bbdb The bbPress database global.
  *
@@ -219,7 +219,7 @@ function bp_forums_add_replied_join_sql( $sql ) {
  *
  * This filter is added in bp_has_forum_topics().
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @global object $wpdb The WordPress database global.
  *

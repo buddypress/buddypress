@@ -3,8 +3,8 @@
  * BuddyPress Forums Actions.
  *
  * @package BuddyPress
- * @subpackage Forums
+ * @subpackage ForumsActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;

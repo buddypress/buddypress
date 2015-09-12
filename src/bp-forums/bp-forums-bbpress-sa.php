@@ -3,10 +3,10 @@
  * BuddyPress bbPress 1.x integration.
  *
  * @package BuddyPress
- * @subpackage Forums
+ * @subpackage ForumsbbPress
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -89,21 +89,21 @@ function bp_forums_load_bbpress() {
 	/**
 	 * Fires during the bootstrap setup for bbPress 1.x.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bb_got_roles' );
 
 	/**
 	 * Fires during the bootstrap setup for bbPress 1.x.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bb_init'      );
 
 	/**
 	 * Fires during the bootstrap setup for bbPress 1.x.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'init_roles'   );
 
@@ -144,7 +144,7 @@ function bp_forums_load_bbpress() {
 	/**
 	 * Fires inside an anonymous function that is run on bbPress shutdown.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	register_shutdown_function( create_function( '', 'do_action("bb_shutdown");' ) );
 }

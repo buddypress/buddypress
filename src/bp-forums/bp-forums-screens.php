@@ -3,10 +3,10 @@
  * BuddyPress Forums Screen Functions.
  *
  * @package BuddyPress
- * @subpackage Forums
+ * @subpackage ForumsScreens
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -31,7 +31,7 @@ function bp_forums_directory_forums_setup() {
 		/**
 		 * Fires early in the initialization of bbPress-based areas of BuddyPress.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bbpress_init' );
 
@@ -83,14 +83,14 @@ function bp_forums_directory_forums_setup() {
 		/**
 		 * Fires right before the loading of the forums directory screen template file.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_forums_directory_forums_setup' );
 
 		/**
 		 * Filters the template to load for the forums directory screen.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 *
 		 * @param string $template Path to the forums template to load.
 		 */
@@ -107,14 +107,14 @@ function bp_member_forums_screen_topics() {
 	/**
 	 * Fires right before the loading of the forums topics started screen template file.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_member_forums_screen_topics' );
 
 	/**
 	 * Filters the template to load for the forums topics started screen.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $template Path to the forums topics started template to load.
 	 */
@@ -129,14 +129,14 @@ function bp_member_forums_screen_replies() {
 	/**
 	 * Fires right before the loading of the forums replied to screen template file.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_member_forums_screen_replies' );
 
 	/**
 	 * Filters the template to load for the forums replied to screen.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $template Path to the forums replied to template to load.
 	 */
@@ -153,14 +153,14 @@ function bp_member_forums_screen_favorites() {
 	/**
 	 * Fires right before the loading of the forums favorites screen template file.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_member_forums_screen_favorites' );
 
 	/**
 	 * Filters the template to load for the forums favorites screen.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $template Path to the forums favorites template to load.
 	 */
@@ -178,14 +178,14 @@ function bp_forums_screen_single_forum() {
 	/**
 	 * Fires right before the loading of the forums single forum screen template file.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_forums_screen_single_forum' );
 
 	/**
 	 * Filters the template to load for the forums single forum screen.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $template Path to the forums single forum template to load.
 	 */
@@ -204,14 +204,14 @@ function bp_forums_screen_single_topic() {
 	/**
 	 * Fires right before the loading of the forums single topic screen template file.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_forums_screen_single_topic' );
 
 	/**
 	 * Filters the template to load for the forums single topic screen.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $template Path to the forums single topic template to load.
 	 */
@@ -228,14 +228,14 @@ add_action( 'bp_screens', 'bp_forums_screen_single_topic' );
  * This class sets up the necessary theme compatibility actions to safely output
  * old forum template parts to the_title and the_content areas of a theme.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  */
 class BP_Forum_Legacy_Theme_Compat {
 
 	/**
 	 * Set up theme compatibility for the legacy forums component.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	public function __construct() {
 		add_action( 'bp_setup_theme_compat', array( $this, 'is_legacy_forum' ) );
@@ -244,7 +244,7 @@ class BP_Forum_Legacy_Theme_Compat {
 	/**
 	 * Are we looking at something that needs old forum theme compatibility?
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	public function is_legacy_forum() {
 
@@ -279,7 +279,7 @@ class BP_Forum_Legacy_Theme_Compat {
 	/**
 	 * Update the global $post with directory data.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	public function directory_dummy_post() {
 
@@ -306,7 +306,7 @@ class BP_Forum_Legacy_Theme_Compat {
 	/**
 	 * Filter the_content with the old forum index template part.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	public function directory_content() {
 		return bp_buffer_template_part( 'forums/index', null, false );

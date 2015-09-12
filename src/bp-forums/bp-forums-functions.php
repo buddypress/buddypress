@@ -3,10 +3,10 @@
  * BuddyPress Forums Functions.
  *
  * @package BuddyPress
- * @subpackage Forums
+ * @subpackage ForumsFunctions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** bbPress 2.x ***************************************************************/
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Is see bbPress 2.x is installed and active?
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @return boolean True if bbPress 2.x is active, false if not.
  */
@@ -40,7 +40,7 @@ function bp_forums_is_bbpress_active() {
  * "Installed correctly" means that the bb-config-location option is set, and
  * the referenced file exists.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @return boolean True if option exists, false if not.
  */
@@ -58,7 +58,7 @@ function bp_forums_is_installed_correctly() {
  *
  * Checks $bp pages global and looks for directory page
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @global BuddyPress $bp The one true BuddyPress instance.
  *
@@ -243,7 +243,7 @@ function bp_forums_get_forum_topics( $args = '' ) {
 	/**
 	 * Filters the found forum topics for provided arguments.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param array $topics Array of found topics. Passed by reference.
 	 * @param array $r      Array of parsed arguments for query. Passed by reference.
@@ -360,7 +360,7 @@ function bp_forums_new_topic( $args = '' ) {
 	/**
 	 * Fires after a new forum topic has been created.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $topic_id ID of the newly created topic post.
 	 */
@@ -513,7 +513,7 @@ function bp_forums_total_topic_count() {
 	/**
 	 * Filters the total topic count for the site.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int $count Total topic count.
 	 */
@@ -525,7 +525,7 @@ function bp_forums_total_topic_count() {
  *
  * Used to prevent dupes.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param string $text The text of the comment.
  * @param int $topic_id The topic id.
@@ -563,7 +563,7 @@ function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
 	/**
 	 * Filters whether a user has already left this particular reply on a given post.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param bool   $reply_exists Whether or not a reply exists.
 	 * @param string $text         The text of the comment.
@@ -576,7 +576,7 @@ function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
 	 * Private one-time-use function used in conjunction with bp_forums_reply_exists()
 	 *
 	 * @access private
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 *
 	 * @global WPDB $wpdb WordPress database access object.
 	 *
@@ -631,7 +631,7 @@ function bp_forums_total_topic_count_for_user( $user_id = 0, $type = 'active' ) 
  * Uses an unfortunate technique to count unique topics, due to limitations in
  * BB_Query.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @param int $user_id ID of the user whose replied topics are being counted.
  *        Defaults to displayed user, then to logged-in user.
@@ -674,7 +674,7 @@ function bp_forums_total_replied_count_for_user( $user_id = 0, $type = 'active' 
 	/**
 	 * Filters the total number of topics replied to by a given user.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int $count   Total number of topics replied to by a given user.
 	 * @param int $user_id The user ID.
@@ -885,7 +885,7 @@ function bp_forums_insert_post( $args = '' ) {
 		/**
 		 * Fires if there was a new post created.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param int $post_id ID of the newly created forum post.
 		 */
@@ -945,7 +945,7 @@ function bp_forums_get_post_extras( $posts ) {
 	/**
 	 * Filters BP-specific details about a set of posts.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array $posts Array of posts holding BP-specific details.
 	 */
@@ -997,7 +997,7 @@ add_filter( 'user_has_cap', 'bp_forums_filter_caps' );
 /**
  * Return the parent forum ID for the bbPress abstraction layer.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @return int Forum ID.
  */
@@ -1006,7 +1006,7 @@ function bp_forums_parent_forum_id() {
 	/**
 	 * Filters the parent forum ID for the bbPress abstraction layer.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int BP_FORUMS_PARENT_FORUM_ID The Parent forum ID constant.
 	 */
@@ -1019,7 +1019,7 @@ function bp_forums_parent_forum_id() {
  * Defaults to false. Define BP_FORUMS_ENABLE_GLOBAL_DIRECTORY_STICKIES, or
  * filter 'bp_forums_enable_global_directory_stickies', to change this behavior.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @return bool True if stickies should be displayed at the top of the global
  *         directory, otherwise false.
@@ -1029,7 +1029,7 @@ function bp_forums_enable_global_directory_stickies() {
 	/**
 	 * Filters whether or not sticky topics should be broken out of regular topic order.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param bool $value Whether or not to break out of topic order.
 	 */
@@ -1058,7 +1058,7 @@ add_action( 'bp_forums_new_post',  'bp_core_clear_cache' );
  * Grabs the topic post ID and attempts to retrieve the oEmbed cache (if it exists)
  * during the forum topic loop.  If no cache and link is embeddable, cache it.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @see BP_Embed
  * @see bp_embed_forum_cache()
@@ -1077,7 +1077,7 @@ add_action( 'topic_loop_start', 'bp_forums_embed' );
  * Wrapper function for {@link bb_get_postmeta()}.
  *
  * @package BuddyPress_Forums
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function bp_embed_forum_cache( $cache, $id, $cachekey ) {
 	return bb_get_postmeta( $id, $cachekey );
@@ -1088,7 +1088,7 @@ function bp_embed_forum_cache( $cache, $id, $cachekey ) {
  *
  * Wrapper function for {@link bb_update_postmeta()}.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function bp_embed_forum_save_cache( $cache, $cachekey, $id ) {
 	bb_update_postmeta( $id, $cachekey, $cache );
