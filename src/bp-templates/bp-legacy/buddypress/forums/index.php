@@ -156,16 +156,16 @@
 					/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
 					do_action( 'template_notices' ); ?>
 
-					<label><?php _e( 'Title:', 'buddypress' ); ?></label>
+					<label for="topic_title"><?php _e( 'Title:', 'buddypress' ); ?></label>
 					<input type="text" name="topic_title" id="topic_title" value="" maxlength="100" />
 
-					<label><?php _e( 'Content:', 'buddypress' ); ?></label>
+					<label for="topic_text"><?php _e( 'Content:', 'buddypress' ); ?></label>
 					<textarea name="topic_text" id="topic_text"></textarea>
 
-					<label><?php _e( 'Tags (comma separated):', 'buddypress' ); ?></label>
+					<label for="topic_tags"><?php _e( 'Tags (comma separated):', 'buddypress' ); ?></label>
 					<input type="text" name="topic_tags" id="topic_tags" value="" />
 
-					<label><?php _e( 'Post In Group Forum:', 'buddypress' ); ?></label>
+					<label for="topic_group_id"><?php _e( 'Post In Group Forum:', 'buddypress' ); ?></label>
 					<select id="topic_group_id" name="topic_group_id">
 
 						<option value=""><?php /* translators: no option picked in select box */ _e( '----', 'buddypress' ); ?></option>
