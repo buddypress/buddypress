@@ -796,7 +796,7 @@ function bp_activity_admin_edit_metabox_userid( $item ) {
 ?>
 
 	<label class="screen-reader-text" for="bp-activities-userid"><?php _e( 'Author ID', 'buddypress' ); ?></label>
-	<input type="number" name="bp-activities-userid" value="<?php echo esc_attr( $item->user_id ); ?>" min="1" />
+	<input type="number" name="bp-activities-userid" id="bp-activities-userid" value="<?php echo esc_attr( $item->user_id ); ?>" min="1" />
 
 <?php
 }
