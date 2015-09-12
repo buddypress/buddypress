@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Blogs Actions.
  *
@@ -13,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Redirect to a random blog in the multisite network.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 function bp_blogs_redirect_to_random_blog() {
 

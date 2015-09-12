@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Blogs Classes.
  *
@@ -7,7 +6,7 @@
  * @subpackage BlogsClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 require dirname( __FILE__ ) . '/classes/class-bp-blogs-blog.php';

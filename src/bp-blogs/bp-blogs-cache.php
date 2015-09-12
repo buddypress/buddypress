@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Blogs Caching.
  *
@@ -10,7 +9,7 @@
  * @subpackage BlogsCache
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -37,7 +36,7 @@ function bp_blogs_update_meta_cache( $blog_ids = false ) {
 /**
  * Clear the blog object cache.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param int $blog_id ID of the current blog.
  * @param int $user_id ID of the user whose blog cache should be cleared.
@@ -51,12 +50,12 @@ function bp_blogs_clear_blog_object_cache( $blog_id = 0, $user_id = 0 ) {
 	wp_cache_delete( 'bp_total_blogs', 'bp' );
 }
 
-// List actions to clear object caches on
+// List actions to clear object caches on.
 add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_clear_blog_object_cache', 10, 2 );
 add_action( 'wpmu_new_blog',                 'bp_blogs_clear_blog_object_cache', 10, 2 );
 add_action( 'bp_blogs_remove_blog',          'bp_blogs_clear_blog_object_cache' );
 
-// List actions to clear super cached pages on, if super cache is installed
+// List actions to clear super cached pages on, if super cache is installed.
 add_action( 'bp_blogs_remove_data_for_blog', 'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_comment',       'bp_core_clear_cache' );
 add_action( 'bp_blogs_remove_post',          'bp_core_clear_cache' );

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Blogs Loader
  *
@@ -8,7 +7,7 @@
  * information from those blogs to make querying blogs in bulk more performant.
  *
  * @package BuddyPress
- * @subpackage Blogs Core
+ * @subpackage BlogsCore
  */
 
 // Exit if accessed directly
@@ -19,7 +18,7 @@ class BP_Blogs_Component extends BP_Component {
 	/**
 	 * Start the blogs component creation process.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -38,7 +37,7 @@ class BP_Blogs_Component extends BP_Component {
 	 * The BP_BLOGS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
@@ -82,7 +81,7 @@ class BP_Blogs_Component extends BP_Component {
 		 *
 		 * In case the config is not multisite, the blog_public option is ignored.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @oaram int $value Whether or not the blog is public.
 		 */
@@ -91,8 +90,8 @@ class BP_Blogs_Component extends BP_Component {
 			/**
 			 * Filters the post types to track for the Blogs component.
 			 *
-			 * @since BuddyPress (1.5.0)
-			 * @deprecated BuddyPress (2.3.0)
+			 * @since 1.5.0
+			 * @deprecated 2.3.0
 			 *
 			 * @param array $value Array of post types to track.
 			 */
@@ -198,7 +197,7 @@ class BP_Blogs_Component extends BP_Component {
 	/**
 	 * Set up bp-blogs integration with the WordPress admin bar.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_admin_bar() for a description of arguments.
 	 *
@@ -286,7 +285,7 @@ class BP_Blogs_Component extends BP_Component {
 	/**
 	 * Setup cache groups
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	public function setup_cache_groups() {
 
@@ -301,7 +300,7 @@ class BP_Blogs_Component extends BP_Component {
 	/**
 	 * Set up the tracking arguments for the 'post' post type.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @see bp_activity_get_post_type_tracking_args() for information on parameters.
 	 *
@@ -315,8 +314,8 @@ class BP_Blogs_Component extends BP_Component {
 		/**
 		 * Filters the post types to track for the Blogs component.
 		 *
-		 * @since BuddyPress (1.5.0)
-		 * @deprecated BuddyPress (2.3.0)
+		 * @since 1.5.0
+		 * @deprecated 2.3.0
 		 *
 		 * Make sure plugins still using 'bp_blogs_record_post_post_types'
 		 * to track their post types will generate new_blog_post activities

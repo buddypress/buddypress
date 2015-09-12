@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * A BP_Blogs_Object represents a link between a specific WordPress blog on a
  * network and a specific user on that blog.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 class BP_Blogs_Blog {
 	public $id;
@@ -64,7 +64,7 @@ class BP_Blogs_Blog {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Blogs_Blog $this Current instance of the blog item being saved. Passed by reference.
 		 */
@@ -96,7 +96,7 @@ class BP_Blogs_Blog {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Blogs_Blog $this Current instance of the blog item being saved. Passed by reference.
 		 */
@@ -242,7 +242,7 @@ class BP_Blogs_Blog {
 		global $wpdb;
 
 		bp_blogs_delete_blogmeta( $blog_id );
-		
+
 		$bp = buddypress();
 
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
