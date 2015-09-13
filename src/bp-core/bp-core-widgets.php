@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register bp-core widgets.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 function bp_core_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Core_Login_Widget");') );
@@ -22,7 +22,7 @@ add_action( 'bp_register_widgets', 'bp_core_register_widgets' );
 /**
  * BuddyPress Login Widget.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 class BP_Core_Login_Widget extends WP_Widget {
 
@@ -54,8 +54,8 @@ class BP_Core_Login_Widget extends WP_Widget {
 		/**
 		 * Filters the title of the Login widget.
 		 *
-		 * @since BuddyPress (1.9.0)
-		 * @since BuddyPress (2.3.0) Added 'instance' and 'id_base' to arguments passed to filter.
+		 * @since 1.9.0
+		 * @since 2.3.0 Added 'instance' and 'id_base' to arguments passed to filter.
 		 *
 		 * @param string $title    The widget title.
 		 * @param array  $instance The settings for the particular instance of the widget.
@@ -73,7 +73,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 			/**
 			 * Fires before the display of widget content if logged in.
 			 *
-			 * @since BuddyPress (1.9.0)
+			 * @since 1.9.0
 			 */
 			do_action( 'bp_before_login_widget_loggedin' ); ?>
 
@@ -93,7 +93,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 			/**
 			 * Fires after the display of widget content if logged in.
 			 *
-			 * @since BuddyPress (1.9.0)
+			 * @since 1.9.0
 			 */
 			do_action( 'bp_after_login_widget_loggedin' ); ?>
 
@@ -104,7 +104,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 			/**
 			 * Fires before the display of widget content if logged out.
 			 *
-			 * @since BuddyPress (1.9.0)
+			 * @since 1.9.0
 			 */
 			do_action( 'bp_before_login_widget_loggedout' ); ?>
 
@@ -132,7 +132,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 			/**
 			 * Fires after the display of widget content if logged out.
 			 *
-			 * @since BuddyPress (1.9.0)
+			 * @since 1.9.0
 			 */
 			do_action( 'bp_after_login_widget_loggedout' ); ?>
 

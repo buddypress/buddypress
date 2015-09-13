@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Notifications
  *
@@ -19,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_add_notification() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param string $item_id
  * @param int $user_id
  * @param string $component_name
@@ -62,7 +61,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_delete_notification() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $id ID of notification.
  * @return boolean True on success, false on failure.
  */
@@ -85,7 +84,7 @@ function bp_core_delete_notification( $id ) {
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_get_notification() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $id ID of notification.
  * @return BP_Core_Notification
  */
@@ -108,7 +107,7 @@ function bp_core_get_notification( $id ) {
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_get_notifications_for_user() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $user_id ID of user.
  * @param string $format
  * @return boolean Object or array on success, false on failure.
@@ -137,7 +136,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_delete_notifications_by_type() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
@@ -165,7 +164,7 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_delete_notifications_by_item_id() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
@@ -190,7 +189,7 @@ function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_delete_all_notifications_by_type() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
@@ -217,7 +216,7 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_delete_notifications_from_user() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
@@ -246,7 +245,7 @@ function bp_core_delete_notifications_from_user( $user_id, $component_name, $com
  * @deprecated Deprecated since BuddyPress 1.9.0. Use
  *             bp_notifications_check_notification_access() instead.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @param int $user_id
  * @param int $notification_id
  * @return boolean True on success, false on failure.

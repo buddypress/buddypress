@@ -6,13 +6,13 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * API to create BuddyPress buttons.
  *
- * @since BuddyPress (1.2.6)
+ * @since 1.2.6
  *
  * @param array $args {
  *     Array of arguments.
@@ -152,7 +152,7 @@ class BP_Button {
 	/**
 	 * Builds the button based on class parameters.
 	 *
-	 * @since BuddyPress (1.2.6)
+	 * @since 1.2.6
 	 *
 	 * @param array|string $args See {@BP_Button}.
 	 */
@@ -237,7 +237,7 @@ class BP_Button {
 		 * This filter is a dynamic filter based on component and component ID and
 		 * allows button to be manipulated externally.
 		 *
-		 * @since BuddyPress (1.2.6)
+		 * @since 1.2.6
 		 *
 		 * @param string    $contents HTML being used for the button.
 		 * @param BP_Button $this     Current BP_Button instance.
@@ -250,7 +250,7 @@ class BP_Button {
 	/**
 	 * Return the markup for the generated button.
 	 *
-	 * @since BuddyPress (1.2.6)
+	 * @since 1.2.6
 	 *
 	 * @return string Button markup.
 	 */
@@ -261,7 +261,7 @@ class BP_Button {
 	/**
 	 * Output the markup of button.
 	 *
-	 * @since BuddyPress (1.2.6)
+	 * @since 1.2.6
 	 */
 	public function display() {
 		if ( !empty( $this->contents ) )

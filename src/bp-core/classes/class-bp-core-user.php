@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -118,7 +118,7 @@ class BP_Core_User {
 	/**
 	 * Profile information for the specific user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var array
 	 */
 	public $profile_data;
@@ -379,7 +379,7 @@ class BP_Core_User {
 		/**
 		 * Filters the SQL used to query for paged users.
 		 *
-		 * @since BuddyPress (1.2.6)
+		 * @since 1.2.6
 		 *
 		 * @param string $value Concatenated SQL statement for the query.
 		 * @param array  $sql   Array of SQL statement parts for the query.
@@ -411,7 +411,7 @@ class BP_Core_User {
 		/**
 		 * Filters the SQL used to query for total users.
 		 *
-		 * @since BuddyPress (1.2.6)
+		 * @since 1.2.6
 		 *
 		 * @param string $value Concatenated SQL statement for the query.
 		 * @param array  $sql   Array of SQL statement parts for the query.
@@ -487,7 +487,7 @@ class BP_Core_User {
 		/**
 		 * Filters the SQL used to query for total user count by first letter.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param string $value SQL prepared statement for the user count query.
 		 */
@@ -496,7 +496,7 @@ class BP_Core_User {
 		/**
 		 * Filters the SQL used to query for users by first letter.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param string $value SQL prepared statement for the user query.
 		 */
@@ -555,7 +555,7 @@ class BP_Core_User {
 		 * This same filter name is used for the paged user SQL, and so should be avoided.
 		 * Use 'bp_core_user_get_specific_users_count_sql' instead.
 		 *
-		 * @deprecated BuddyPress (2.3.0)
+		 * @deprecated 2.3.0
 		 *
 		 * @param string $sql SQL string.
 		 */
@@ -566,7 +566,7 @@ class BP_Core_User {
 		 *
 		 * Use this instead of the deprecated 'bp_core_get_specific_users_count_sql'.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param string   $sql             SQL string.
 		 * @param array    $user_ids        Array of IDs of specific users to fetch.
@@ -582,7 +582,7 @@ class BP_Core_User {
 		 * This same filter name is used for the user count SQL, and so should be avoided.
 		 * Use 'bp_core_user_get_specific_users_paged_sql' instead.
 		 *
-		 * @deprecated BuddyPress (2.3.0)
+		 * @deprecated 2.3.0
 		 *
 		 * @param string $sql SQL string.
 		 */
@@ -593,7 +593,7 @@ class BP_Core_User {
 		 *
 		 * Use this instead of the deprecated 'bp_core_get_specific_users_count_sql'.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param string   $sql             SQL string.
 		 * @param array    $user_ids        Array of IDs of specific users to fetch.
@@ -649,7 +649,7 @@ class BP_Core_User {
 		/**
 		 * Filters the SQL used to query for searched users count.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param string $value SQL statement for the searched users count query.
 		 */
@@ -658,7 +658,7 @@ class BP_Core_User {
 		/**
 		 * Filters the SQL used to query for searched users.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param string $value SQL statement for the searched users query.
 		 */
@@ -839,7 +839,7 @@ class BP_Core_User {
 	 * Will create a new entry if it does not exist. Otherwise updates the
 	 * existing entry.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param int    $user_id ID of the user whose last_activity you are updating.
 	 * @param string $time    MySQL-formatted time string.
@@ -929,7 +929,7 @@ class BP_Core_User {
 	/**
 	 * Delete a user's last_activity value.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param int $user_id
 	 *

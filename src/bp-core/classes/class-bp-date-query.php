@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 if ( class_exists( 'WP_Date_Query' ) ) :
@@ -15,7 +15,7 @@ if ( class_exists( 'WP_Date_Query' ) ) :
  *
  * Extends the {@link WP_Date_Query} class for use with BuddyPress.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param array $date_query {
  *     Date query arguments.  See first parameter of {@link WP_Date_Query::__construct()}.

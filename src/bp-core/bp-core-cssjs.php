@@ -6,13 +6,13 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Register scripts commonly used by BuddyPress.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 function bp_core_register_common_scripts() {
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -21,7 +21,7 @@ function bp_core_register_common_scripts() {
 	/**
 	 * Filters the BuddyPress Core javascript files to register.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @param array $value Array of javascript file information to register.
 	 */
@@ -56,7 +56,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
 /**
  * Register styles commonly used by BuddyPress.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 function bp_core_register_common_styles() {
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -65,7 +65,7 @@ function bp_core_register_common_styles() {
 	/**
 	 * Filters the URL for the Admin Bar stylesheet.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param string $value URL for the Admin Bar stylesheet.
 	 */
@@ -74,7 +74,7 @@ function bp_core_register_common_styles() {
 	/**
 	 * Filters the BuddyPress Core stylesheet files to register.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @param array $value Array of stylesheet file information to register.
 	 */
@@ -122,7 +122,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );
 /**
  * Enqueues the css and js required by the Avatar UI.
  *
- * @since  BuddyPress (2.3.0)
+ * @since  2.3.0
  */
 function bp_core_avatar_scripts() {
 	if ( ! bp_avatar_is_front_edit() ) {
@@ -157,7 +157,7 @@ function bp_core_add_cropper_inline_js() {
 	/**
 	 * Filters the return value of getimagesize to determine if an image was uploaded.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param array $value Array of data found by getimagesize.
 	 */
@@ -277,7 +277,7 @@ function bp_core_add_cropper_inline_css() {
 /**
  * Define the 'ajaxurl' JS variable, used by themes as an AJAX endpoint.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 function bp_core_add_ajax_url_js() {
 ?>
@@ -294,7 +294,7 @@ add_action( 'wp_head', 'bp_core_add_ajax_url_js' );
  * Designed to be sensitive to FORCE_SSL_ADMIN and non-standard multisite
  * configurations.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
  * @return string AJAX endpoint URL.
  */
@@ -303,7 +303,7 @@ function bp_core_ajax_url() {
 	/**
 	 * Filters the proper value for BuddyPress' ajaxurl.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 *
 	 * @param string $value Proper ajaxurl value for BuddyPress.
 	 */
@@ -313,7 +313,7 @@ function bp_core_ajax_url() {
 /**
  * Get the JavaScript dependencies for buddypress.js.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @uses apply_filters() to allow other component to load extra dependencies.
  *
@@ -324,7 +324,7 @@ function bp_core_get_js_dependencies() {
 	/**
 	 * Filters the javascript dependencies for buddypress.js.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $value Array of javascript dependencies for buddypress.js.
 	 */

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Parse the WordPress core version number into the major release.
  *
- * @since BuddyPress (1.5.2)
+ * @since 1.5.2
  *
  * @global string $wp_version
  *

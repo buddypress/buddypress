@@ -1,15 +1,20 @@
 <?php
-
 /**
  * BuddyPress Tools panel.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
+ *
+ * @package BuddyPress
+ * @subpackage Core
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Render the BuddyPress Tools page.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_core_admin_tools() {
 	?>
@@ -57,7 +62,7 @@ function bp_core_admin_tools() {
 /**
  * Handle the processing and feedback of the admin tools page.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_admin_repair_handler() {
 	if ( ! bp_is_post_request() ) {
@@ -147,7 +152,7 @@ function bp_admin_repair_list() {
 	/**
 	 * Filters the array of the repair list.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $repair_list Array of values for the Repair list options.
 	 */
@@ -157,7 +162,7 @@ function bp_admin_repair_list() {
 /**
  * Recalculate friend counts for each user.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @return array
  */
@@ -215,7 +220,7 @@ function bp_admin_repair_friend_count() {
 /**
  * Recalculate group counts for each user.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @return array
  */
@@ -262,7 +267,7 @@ function bp_admin_repair_group_count() {
 /**
  * Recalculate user-to-blog relationships and useful blog meta data.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @return array
  */
@@ -294,7 +299,7 @@ function bp_admin_repair_blog_records() {
 /**
  * Recalculate the total number of active site members.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_admin_repair_count_members() {
 	$statement = __( 'Counting the number of active members on the site&hellip; %s', 'buddypress' );
@@ -308,7 +313,7 @@ function bp_admin_repair_count_members() {
  *
  * Re-runs the migration from usermeta introduced in BP 2.0.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_admin_repair_last_activity() {
 	$statement = __( 'Determining last activity dates for each user&hellip; %s', 'buddypress' );
@@ -319,7 +324,7 @@ function bp_admin_repair_last_activity() {
 /**
  * Assemble admin notices relating success/failure of repair processes.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string      $message Feedback message.
  * @param string|bool $class   Unused.
@@ -366,7 +371,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
  * We register this page on Network Admin as a top-level home for our
  * BuddyPress tools. This displays the default content.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_core_admin_available_tools_page() {
 	?>
@@ -378,7 +383,7 @@ function bp_core_admin_available_tools_page() {
 		/**
 		 * Fires inside the markup used to display the Available Tools page.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 */
 		do_action( 'bp_network_tool_box' ); ?>
 
@@ -389,7 +394,7 @@ function bp_core_admin_available_tools_page() {
 /**
  * Render an introduction of BuddyPress tools on Available Tools page.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_core_admin_available_tools_intro() {
 	$query_arg = array(

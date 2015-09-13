@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Core BuddyPress Navigational Functions.
  *
@@ -8,7 +7,7 @@
  * @todo Deprecate BuddyBar functions.
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -65,7 +64,7 @@ function bp_core_new_nav_item( $args = '' ) {
 	 * `bp_core_create_nav_link` or `bp_core_register_nav_screen_function`
 	 * should be used.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array $r        Parsed arguments for the nav item.
 	 * @param array $args     Originally passed in arguments for the nav item.
@@ -77,7 +76,7 @@ function bp_core_new_nav_item( $args = '' ) {
 /**
  * Add a link to the main BuddyPress navigation array.
  *
- * @since BuddyPress (2.4.0)
+ * @since 2.4.0
  *
  * @param array|string $args {
  *     Array describing the new nav item.
@@ -149,7 +148,7 @@ function bp_core_create_nav_link( $args = '' ) {
 	/**
 	 * Fires after a link is added to the main BuddyPress navigation array.
 	 *
-	 * @since BuddyPress (2.4.0)
+	 * @since 2.4.0
 	 *
 	 * @param array $r        Parsed arguments for the nav item.
 	 * @param array $args     Originally passed in arguments for the nav item.
@@ -161,7 +160,7 @@ function bp_core_create_nav_link( $args = '' ) {
 /**
  * Register a screen function for an item in the main nav array.
  *
- * @since BuddyPress (2.4.0)
+ * @since 2.4.0
  *
  * @param array|string $args {
  *     Array describing the new nav item.
@@ -247,7 +246,7 @@ function bp_core_register_nav_screen_function( $args = '' ) {
 				/**
 				 * Filters the default component subnav item.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 *
 				 * @param string $value The slug of the default subnav item
 				 *                      to select when clicked.
@@ -262,7 +261,7 @@ function bp_core_register_nav_screen_function( $args = '' ) {
 	 * Fires after the screen function for an item in the BuddyPress main
 	 * navigation is registered.
 	 *
-	 * @since BuddyPress (2.4.0)
+	 * @since 2.4.0
 	 *
 	 * @param array $r        Parsed arguments for the nav item.
 	 * @param array $args     Originally passed in arguments for the nav item.
@@ -590,7 +589,7 @@ function bp_core_register_subnav_screen_function( $args = '' ) {
 /**
  * For a given subnav item, either hook the screen function or generate redirect arguments, as necessary.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param array $subnav_item The subnav array added to bp_options_nav in `bp_core_new_subnav_item()`.
  *
@@ -722,7 +721,7 @@ add_action( 'admin_head', 'bp_core_sort_subnav_items' );
 /**
  * Check whether a given nav item has subnav items.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @param string $nav_item The slug of the top-level nav item whose subnav items you're checking.
  *                         Default: the current component slug.
@@ -740,7 +739,7 @@ function bp_nav_item_has_subnav( $nav_item = '' ) {
 	/**
 	 * Filters whether or not a given nav item has subnav items.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param bool   $has_subnav Whether or not there is any subnav items.
 	 * @param string $nav_item   The slug of the top-level nav item whose subnav items you're checking.
@@ -821,7 +820,7 @@ function bp_core_reset_subnav_items( $parent_slug ) {
  *
  * This is a direct copy of WP's private _get_admin_bar_pref()
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @uses get_user_option()
  *

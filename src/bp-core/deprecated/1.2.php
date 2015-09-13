@@ -11,8 +11,8 @@
  *
  * You should use bp_activity_get() instead
  *
- * @since BuddyPress (1.0)
- * @deprecated BuddyPress (1.2)
+ * @since 1.0.0
+ * @deprecated 1.2.0
  *
  * @param array $args
  *

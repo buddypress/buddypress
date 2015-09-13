@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * as possible. When implementing the abstract methods in this class, pay close attention to the
  * recommendations provided in the phpDoc blocks, particularly the expected return types.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 abstract class BP_Suggestions {
 
@@ -32,7 +32,7 @@ abstract class BP_Suggestions {
 	 *
 	 * If your custom service requires further defaults, add them here.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 * @var array
 	 */
 	protected $default_args = array(
@@ -46,7 +46,7 @@ abstract class BP_Suggestions {
 	 *
 	 * This includes `$default_args`, as well as the user-supplied values.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 * @var array
 	 */
 	protected $args = array(
@@ -57,7 +57,7 @@ abstract class BP_Suggestions {
 	 * Constructor.
 	 *
 	 * @param array $args Optional. If set, used as the parameters for the suggestions service query.
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function __construct( array $args = array() ) {
 		if ( ! empty( $args ) ) {
@@ -74,7 +74,7 @@ abstract class BP_Suggestions {
 	 *     @type string $term  The suggestion service will try to find results that contain this string.
 	 *                         Mandatory.
 	 * }
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function set_query( array $args = array() ) {
 		$this->args = wp_parse_args( $args, $this->default_args );
@@ -86,7 +86,7 @@ abstract class BP_Suggestions {
 	 * Be sure to call this class' version of this method when implementing it in your own service.
 	 * If validation fails, you must return a WP_Error object.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
 	 */
@@ -97,7 +97,7 @@ abstract class BP_Suggestions {
 		/**
 		 * Filters the arguments to be validated for the BP_Suggestions query.
 		 *
-		 * @since BuddyPress (2.1.0)
+		 * @since 2.1.0
 		 *
 		 * @param BP_Suggestions $value Arguments to be validated.
 		 * @param BP_Suggestions $this  Current BP_Suggestions instance.
@@ -117,7 +117,7 @@ abstract class BP_Suggestions {
 		/**
 		 * Filters the status of validation for the BP_Suggestions query.
 		 *
-		 * @since BuddyPress (2.1.0)
+		 * @since 2.1.0
 		 *
 		 * @param bool           $value Whether or not the values are valid.
 		 * @param BP_Suggestions $this  Current BP_Suggestions instance.
@@ -134,7 +134,7 @@ abstract class BP_Suggestions {
 	 * The object format for each match must be: { 'ID': string, 'image': string, 'name': string }
 	 * For example: { 'ID': 'admin', 'image': 'http://example.com/logo.png', 'name': 'Name Surname' }
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
 	 */

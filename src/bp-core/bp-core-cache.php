@@ -8,7 +8,7 @@
  * actions throughout BuddyPress.
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -29,7 +29,7 @@ function bp_core_clear_cache() {
 		/**
 		 * Fires before the pruning of WP Super Cache.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 */
 		do_action( 'bp_core_clear_cache' );
 		return prune_super_cache( $cache_path, true );
@@ -61,7 +61,7 @@ add_action( 'deleted_user',                   'bp_core_clear_member_count_caches
 /**
  * Clear the directory_pages cache when one of the pages is updated.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $post_id ID of the page that was saved.
  */
@@ -88,7 +88,7 @@ add_action( 'save_post', 'bp_core_clear_directory_pages_cache_page_edit' );
 /**
  * Clear the directory_pages cache when the bp-pages option is updated.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $option Option name.
  */
@@ -102,7 +102,7 @@ add_action( 'update_option', 'bp_core_clear_directory_pages_cache_settings_edit'
 /**
  * Clear the root_blog_options cache when any of its options are updated.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $option Option name.
  */
@@ -129,7 +129,7 @@ add_action( 'add_site_option', 'bp_core_clear_root_options_cache' );
 /**
  * Determine which items from a list do not have cached values.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param array  $item_ids    ID list.
  * @param string $cache_group The cache group to check against.
@@ -158,7 +158,7 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  * object can lead to dramatic performance improvements when using metadata
  * in the context of template loops.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @global object $wpdb WordPress database object for queries..
  *

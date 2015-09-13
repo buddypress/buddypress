@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Main BuddyPress Admin Class.
  *
@@ -7,10 +6,11 @@
  * @subpackage CoreAdministration
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'BP_Admin' ) ) :
+
 /**
  * Load BuddyPress plugin admin area.
  *
@@ -18,7 +18,7 @@ if ( !class_exists( 'BP_Admin' ) ) :
  * @subpackage CoreAdministration
  * @todo Break this apart into each applicable Component
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 class BP_Admin {
 
@@ -75,7 +75,7 @@ class BP_Admin {
 	/**
 	 * The main BuddyPress admin loader.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @uses BP_Admin::setup_globals() Setup the globals needed.
 	 * @uses BP_Admin::includes() Include the required files.
@@ -91,7 +91,7 @@ class BP_Admin {
 	 * Set admin-related globals.
 	 *
 	 * @access private
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	private function setup_globals() {
 		$bp = buddypress();
@@ -113,7 +113,7 @@ class BP_Admin {
 	/**
 	 * Include required files.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @access private
 	 */
 	private function includes() {
@@ -129,7 +129,7 @@ class BP_Admin {
 	 * Set up the admin hooks, actions, and filters.
 	 *
 	 * @access private
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @uses add_action() To add various actions.
 	 * @uses add_filter() To add various filters.
@@ -179,7 +179,7 @@ class BP_Admin {
 	/**
 	 * Add the navigational menu elements.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @uses add_management_page() To add the Recount page in Tools section.
 	 * @uses add_options_page() To add the Forums settings page in Settings
@@ -304,7 +304,7 @@ class BP_Admin {
 	/**
 	 * Register the settings.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @uses add_settings_section() To add our own settings section.
 	 * @uses add_settings_field() To add various settings fields.
@@ -400,7 +400,7 @@ class BP_Admin {
 	/**
 	 * Add a link to BuddyPress About page to the admin bar.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar As passed to 'admin_bar_menu'.
 	 */
@@ -418,7 +418,7 @@ class BP_Admin {
 	/**
 	 * Add Settings link to plugins area.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param array  $links Links array in which we would prepend our link.
 	 * @param string $file  Current plugin basename.
@@ -442,7 +442,7 @@ class BP_Admin {
 	/**
 	 * Add some general styling to the admin area.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	public function admin_head() {
 
@@ -461,7 +461,7 @@ class BP_Admin {
 	/**
 	 * Add some general styling to the admin area.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	public function enqueue_scripts() {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -471,7 +471,7 @@ class BP_Admin {
 		/**
 		 * Filters the BuddyPress Core Admin CSS file path.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param string $file File path for the admin CSS.
 		 */
@@ -489,7 +489,7 @@ class BP_Admin {
 	/**
 	 * Output the about screen.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	public function about_screen() {
 	?>
@@ -627,7 +627,7 @@ class BP_Admin {
 	 * Hardcoding this in here is pretty janky. It's fine for now, but we'll
 	 * want to leverage api.wordpress.org eventually.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	public function credits_screen() {
 	?>
@@ -777,7 +777,7 @@ class BP_Admin {
 	/**
 	 * Output welcome text and badge for What's New and Credits pages.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	public static function welcome_text() {
 
@@ -801,7 +801,7 @@ class BP_Admin {
 	/**
 	 * Output tab navigation for `What's New` and `Credits` pages.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @param string $tab
 	 */
 	public static function tab_navigation( $tab = 'whats_new' ) {
@@ -825,7 +825,7 @@ class BP_Admin {
 	 *
 	 * @see bp_do_activation_redirect()
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @return bool
 	 */
@@ -836,7 +836,7 @@ class BP_Admin {
 	/**
 	 * Return a user-friendly version-number string, for use in translations.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @return string
 	 */
@@ -869,7 +869,7 @@ endif; // class_exists check
 /**
  * Setup BuddyPress Admin.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @uses BP_Admin
  */

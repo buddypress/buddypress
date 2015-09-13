@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Core Toolbar.
  *
@@ -9,13 +8,13 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Add the secondary BuddyPress area to the my-account menu.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @global WP_Admin_Bar $wp_admin_bar
  */
@@ -52,7 +51,7 @@ add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
 /**
  * Handle the Toolbar/BuddyBar business.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @global string $wp_version
  * @uses bp_get_option()
@@ -102,7 +101,7 @@ add_action( 'init', 'bp_core_load_admin_bar', 9 );
  * previously unhooking this function can continue to do so. It's hooked to
  * the `bp_init` action in `bp-core-actions.php`.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function bp_core_load_admin_bar_css() {
 	add_action( 'bp_enqueue_scripts',       'bp_core_enqueue_admin_bar_css', 1 );
@@ -112,7 +111,7 @@ function bp_core_load_admin_bar_css() {
 /**
  * Enqueue supplemental WordPress Toolbar styling.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @see bp_core_register_common_styles()
  * @see bp_core_load_admin_bar_css()

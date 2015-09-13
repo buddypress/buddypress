@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Filters.
  *
@@ -20,7 +19,7 @@
  * @see bp-core-actions.php
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -98,7 +97,7 @@ function bp_core_exclude_pages( $pages = array() ) {
 	/**
 	 * Filters specific pages that shouldn't show up on page listings.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array $pages Array of pages to exclude.
 	 */
@@ -109,7 +108,7 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
 /**
  * Prevent specific pages (eg 'Activate') from showing in the Pages meta box of the Menu Administration screen.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @uses bp_is_root_blog() checks if current blog is root blog.
  * @uses buddypress() gets BuddyPress main instance
@@ -156,7 +155,7 @@ add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_adm
  * current BP component against the current page in the WP menu to see if we
  * should highlight the WP page.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param array   $retval CSS classes for the current menu page in the menu.
  * @param WP_Post $page   The page properties for the current menu item.
@@ -214,7 +213,7 @@ add_filter( 'page_css_class', 'bp_core_menu_highlight_parent_page', 10, 2 );
  * When {@link wp_nav_menu()} is used, this function helps to highlight the
  * current BP parent page during nav menu generation.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param array   $retval CSS classes for the current nav menu item in the menu.
  * @param WP_Post $item   The properties for the current nav menu item.
@@ -249,7 +248,7 @@ function bp_core_email_from_name_filter() {
 	/**
 	 * Filters the "From" name in outgoing email to the site name.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $value Value to set the "From" name to.
 	 */
@@ -325,7 +324,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 	 *
 	 * Allows plugins to have finer grained control of redirect upon login.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
   * @param bool    $value           Whether or not to redirect.
 	 * @param string  $redirect_to     Sanitized URL to be redirected to.
@@ -352,7 +351,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 	/**
 	 * Filters the URL to redirect users to upon successful login.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param string $value URL to redirect to.
 	 */
@@ -459,7 +458,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	/**
 	 * Filters the email that the notification is going to upon successful registration with blog.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $user_email The user's email address.
 	 * @param string $domain     The new blog domain.
@@ -475,7 +474,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	/**
 	 * Filters the subject that the notification uses upon successful registration with blog.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $subject    The subject to use.
 	 * @param string $domain     The new blog domain.
@@ -491,7 +490,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	/**
 	 * Filters the message that the notification uses upon successful registration with blog.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $message    The message to use.
 	 * @param string $domain     The new blog domain.
@@ -513,7 +512,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	/**
 	 * Fires after the sending of the notification to new users for successful registration with blog.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $admin_email Admin Email address for the site.
 	 * @param string $subject     Subject used in the notification email.
@@ -584,7 +583,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	/**
 	 * Filters the email that the notification is going to upon successful registration without blog.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $user_email The user's email address.
 	 * @param string $user       The user's login name.
@@ -597,7 +596,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	/**
 	 * Filters the subject that the notification uses upon successful registration without blog.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $subject    The subject to use.
 	 * @param string $user       The user's login name.
@@ -610,7 +609,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	/**
 	 * Filters the message that the notification uses upon successful registration without blog.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $message    The message to use.
 	 * @param string $user       The user's login name.
@@ -629,7 +628,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	/**
 	 * Fires after the sending of the notification to new users for successful registration without blog.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $admin_email Admin Email address for the site.
 	 * @param string $subject     Subject used in the notification email.
@@ -649,7 +648,7 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
 /**
  * Filter the page title for BuddyPress pages.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @see wp_title()
  * @global object $bp BuddyPress global settings.
@@ -812,7 +811,7 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 	/**
 	 * Filters the page title for BuddyPress pages.
 	 *
-	 * @since  BuddyPress (1.5.0)
+	 * @since  1.5.0
 	 *
 	 * @param  string $new_title   The BuddyPress page title.
 	 * @param  string $title       The original WordPress page title.
@@ -848,7 +847,7 @@ function _bp_strip_spans_from_title( $title_part = '' ) {
 /**
  * Add BuddyPress-specific items to the wp_nav_menu.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param WP_Post $menu_item The menu item.
  *
@@ -938,7 +937,7 @@ add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
 /**
  * Populate BuddyPress user nav items for the customizer
  *
- * @since  BuddyPress (2.3.3)
+ * @since  2.3.3
  *
  * @param  array   $items  The array of menu items
  * @param  string  $type   The requested type
@@ -975,9 +974,10 @@ add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_i
 /**
  * Set BuddyPress item navs for the customizer
  *
- * @since  BuddyPress (2.3.3)
+ * @since  2.3.3
  *
- * @param  array $item_types an associative array structured for the customizer
+ * @param  array $item_types An associative array structured for the customizer.
+ * @return array $item_types An associative array structured for the customizer.
  */
 function bp_customizer_nav_menus_set_item_types( $item_types = array() ) {
 	$item_types = array_merge( $item_types, array(
@@ -1006,7 +1006,7 @@ add_filter( 'customize_nav_menu_available_item_types', 'bp_customizer_nav_menus_
  * usable for BuddyPress, we use this just-in-time filter on 'query' to swap
  * 'meta_id' with 'id.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @access private Do not use.
  *
@@ -1039,7 +1039,7 @@ function bp_filter_metaid_column_name( $q ) {
 /**
  * Filter the edit post link to avoid its display in BuddyPress pages.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param  string $edit_link The edit link.
  * @param  int    $post_id   Post ID.
@@ -1059,7 +1059,7 @@ function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
  * Should BuddyPress load the mentions scripts and related assets, including results to prime the
  * mentions suggestions?
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param bool $load_mentions    True to load mentions assets, false otherwise.
  * @param bool $mentions_enabled True if mentions are enabled.

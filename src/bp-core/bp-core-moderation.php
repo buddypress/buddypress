@@ -4,10 +4,10 @@
  *
  * @package BuddyPress
  * @subpackage Core
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Moderation ****************************************************************/
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * Check to make sure that a user is not making too many posts in a short amount
  * of time.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @uses current_user_can() To check if the current user can throttle.
  * @uses bp_get_option() To get the throttle time.
@@ -52,7 +52,7 @@ function bp_core_check_for_flood( $user_id = 0 ) {
 /**
  * Check for moderation keys and too many links.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @uses bp_current_author_ip() To get current user IP address.
  * @uses bp_current_author_ua() To get current user agent.
@@ -69,7 +69,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 	/**
 	 * Filters whether or not to bypass checking for moderation keys and too many links.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param bool   $value   Whether or not to bypass checking. Default false.
 	 * @param int    $user_id Topic of reply author ID.
@@ -126,7 +126,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 			/**
 			 * Filters the maximum amount of links allowed to include the user's URL.
 			 *
-			 * @since BuddyPress (1.6.0)
+			 * @since 1.6.0
 			 *
 			 * @param string $num_links How many links found.
 			 * @param string $value     User's url.
@@ -187,7 +187,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 /**
  * Check for blocked keys.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @uses bp_current_author_ip() To get current user IP address.
  * @uses bp_current_author_ua() To get current user agent.
@@ -204,7 +204,7 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 	/**
 	 * Filters whether or not to bypass checking for blocked keys.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param bool   $value   Whether or not to bypass checking. Default false.
 	 * @param int    $user_id Topic of reply author ID.
@@ -295,7 +295,7 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 /**
  * Get the current user's IP address.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @return string IP address.
  */
@@ -305,7 +305,7 @@ function bp_core_current_user_ip() {
 	/**
 	 * Filters the current user's IP address.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $retval Current user's IP Address.
 	 */
@@ -315,7 +315,7 @@ function bp_core_current_user_ip() {
 /**
  * Get the current user's user-agent.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @return string User agent string.
  */
@@ -331,7 +331,7 @@ function bp_core_current_user_ua() {
 	/**
 	 * Filters the current user's user-agent.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $retval Current user's user-agent.
 	 */

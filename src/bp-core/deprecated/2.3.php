@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Return the referrer URL without the http(s)://
  *
- * @deprecated BuddyPress (2.3.0)
+ * @deprecated 2.3.0
  *
  * @return string The referrer URL.
  */

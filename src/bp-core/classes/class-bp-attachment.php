@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Extend it to manage your component's uploads.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 abstract class BP_Attachment {
 
@@ -46,7 +46,7 @@ abstract class BP_Attachment {
 	/**
 	 * Construct Upload parameters.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param array|string $args {
 	 *     @type int    $original_max_filesize Maximum file size in kilobytes. Defaults to php.ini settings.
@@ -104,7 +104,7 @@ abstract class BP_Attachment {
 	/**
 	 * Set upload path and url for the component.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses bp_upload_dir()
 	 */
@@ -143,7 +143,7 @@ abstract class BP_Attachment {
 	 *
 	 * Used into the $overrides argument of BP_Attachment->upload()
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param array $param A list of error messages to add to BuddyPress core ones.
 	 *
@@ -178,7 +178,7 @@ abstract class BP_Attachment {
 	/**
 	 * Include the WordPress core needed files.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 */
 	public function includes() {
 		foreach ( array_unique( $this->required_wp_files ) as $wp_file ) {
@@ -193,7 +193,7 @@ abstract class BP_Attachment {
 	/**
 	 * Upload the attachment.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param  array       $file              The appropriate entry the from $_FILES superglobal.
 	 * @param  string      $upload_dir_filter A specific filter to be applied to 'upload_dir' (optional).
@@ -293,7 +293,7 @@ abstract class BP_Attachment {
 	 * the 'upload_filetypes' setting. BuddyPress will respect this setting.
 	 * @see check_upload_mimes()
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses get_allowed_mime_types()
 	 */
@@ -321,7 +321,7 @@ abstract class BP_Attachment {
 	 *
 	 * @see BP_Attachment_Avatar->validate_upload() for an example of use
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param  array $file The temporary file attributes (before it has been moved).
 	 *
@@ -344,7 +344,7 @@ abstract class BP_Attachment {
 	/**
 	 * Default filter to save the attachments.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses apply_filters() call 'bp_attachment_upload_dir' to eventually override the upload location
 	 *       regarding to context
@@ -356,7 +356,7 @@ abstract class BP_Attachment {
 		/**
 		 * Filters the component's upload directory.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param array $value Array containing the path, URL, and other helpful settings.
 		 */
@@ -376,7 +376,7 @@ abstract class BP_Attachment {
 	 * Override this function in your child class to run specific actions.
 	 * (eg: add an .htaccess file)
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses wp_mkdir_p()
 	 */
@@ -402,7 +402,7 @@ abstract class BP_Attachment {
 	/**
 	 * Crop an image file.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param array $args {
 	 *     @type string $original_file The source file (absolute path) for the Attachment.
@@ -504,7 +504,7 @@ abstract class BP_Attachment {
 	 *
 	 * Override this method from your child class to build the script datas.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @return array The javascript localization data.
 	 */

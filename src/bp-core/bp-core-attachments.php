@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * script requires it. So we need to make sure the current WordPress
  * match with our needs.
  *
- * @since  BuddyPress (2.3.0)
+ * @since  2.3.0
  *
  * @return bool True if WordPress is 3.9+, false otherwise.
  */
@@ -27,7 +27,7 @@ function bp_attachments_is_wp_version_supported() {
 /**
  * Get the BuddyPress Plupload settings.
  *
- * @since  BuddyPress (2.3.0)
+ * @since  2.3.0
  *
  * @return array list of BuddyPress Plupload settings.
  */
@@ -85,7 +85,7 @@ function bp_attachments_get_plupload_default_settings() {
 /**
  * Builds localization strings for the BuddyPress Uploader scripts.
  *
- * @since  BuddyPress (2.3.0)
+ * @since  2.3.0
  *
  * @return array Plupload default localization strings.
  */
@@ -124,7 +124,7 @@ function bp_attachments_get_plupload_l10n() {
  * @see  BP_Attachment::script_data() && BP_Attachment_Avatar::script_data() for examples showing how
  * to set specific script data.
  *
- * @since  BuddyPress (2.3.0)
+ * @since  2.3.0
  *
  * @param  string $class name of the class extending BP_Attachment (eg: BP_Attachment_Avatar).
  *
@@ -243,7 +243,7 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		/**
 		 * Use this filter to add a navigation to a custom tool to set the object's avatar.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param array $avatar_nav An associative array of available nav items where each item is an array organized this way:
 		 * $avatar_nav[ $nav_item_id ] {
@@ -299,7 +299,7 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 	 * Fires at the conclusion of bp_attachments_enqueue_scripts()
 	 * to avoid the scripts to be loaded more than once.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_attachments_enqueue_scripts' );
 }
@@ -307,7 +307,7 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 /**
  * Check the current user's capability to edit an avatar for a given object.
  *
- * @since  BuddyPress (2.3.0)
+ * @since  2.3.0
  *
  * @param  string $capability The capability to check.
  * @param  array  $args       An array containing the item_id and the object to check.
@@ -352,7 +352,7 @@ function bp_attachments_current_user_can( $capability, $args = array() ) {
 /**
  * Send a JSON response back to an Ajax upload request.
  *
- * @since  BuddyPress (2.3.0)
+ * @since  2.3.0
  *
  * @param  bool  $success  True for a success, false otherwise.
  * @param  bool  $is_html4 True if the Plupload runtime used is html4, false otherwise.
@@ -384,7 +384,7 @@ function bp_attachments_json_response( $success, $is_html4 = false, $data = null
 /**
  * Get an Attachment template part.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param string $slug Template part slug. eg 'uploader' for 'uploader.php'.
  *

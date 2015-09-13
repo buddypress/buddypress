@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Core
- * @deprecated Since 1.7
+ * @deprecated Since 1.7.0
  */
 
 // Exit if accessed directly
@@ -13,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Output the BuddyPress maintenance mode
  *
- * @since BuddyPress (1.6)
- * @deprecated BuddyPress (1.7)
+ * @since 1.6.0
+ * @deprecated 1.7.0
  * @uses bp_get_maintenance_mode() To get the BuddyPress maintenance mode
  */
 function bp_maintenance_mode() {
@@ -23,8 +23,8 @@ function bp_maintenance_mode() {
 	/**
 	 * Return the BuddyPress maintenance mode
 	 *
-	 * @since BuddyPress (1.6)
-	 * @deprecated BuddyPress (1.7)
+	 * @since 1.6.0
+	 * @deprecated 1.7.0
 	 * @return string The BuddyPress maintenance mode
 	 */
 	function bp_get_maintenance_mode() {
@@ -32,7 +32,7 @@ function bp_maintenance_mode() {
 	}
 
 /**
- * @deprecated BuddyPress (1.7)
+ * @deprecated 1.7.0
  */
 function xprofile_get_profile() {
 	_deprecated_function( __FUNCTION__, '1.7' );
@@ -40,7 +40,7 @@ function xprofile_get_profile() {
 }
 
 /**
- * @deprecated BuddyPress (1.7)
+ * @deprecated 1.7.0
  */
 function bp_get_profile_header() {
 	_deprecated_function( __FUNCTION__, '1.7' );
@@ -48,7 +48,7 @@ function bp_get_profile_header() {
 }
 
 /**
- * @deprecated BuddyPress (1.7)
+ * @deprecated 1.7.0
  * @param string $component_name
  * @return boolean
  */
@@ -61,7 +61,7 @@ function bp_exists( $component_name ) {
 }
 
 /**
- * @deprecated BuddyPress (1.7)
+ * @deprecated 1.7.0
  */
 function bp_get_plugin_sidebar() {
 	_deprecated_function( __FUNCTION__, '1.7' );
@@ -74,7 +74,7 @@ function bp_get_plugin_sidebar() {
  * bundled themes show up on the root blog selection screen and bypass this
  * step. It also means that the themes won't show for selection on other blogs.
  *
- * @deprecated BuddyPress (1.7)
+ * @deprecated 1.7.0
  * @package BuddyPress Core
  */
 function bp_core_allow_default_theme( $themes ) {
@@ -97,7 +97,7 @@ function bp_core_allow_default_theme( $themes ) {
 /**
  * No longer used by BuddyPress core
  *
- * @deprecated BuddyPress (1.7)
+ * @deprecated 1.7.0
  * @param string $page
  * @return boolean True if is BuddyPress page
  */
@@ -119,7 +119,7 @@ function bp_is_page( $page = '' ) {
  * This function was originally used to update pre-1.1 schemas, but that was
  * before we had a legitimate update process.
  *
- * @deprecated BuddyPress (1.7)
+ * @deprecated 1.7.0
  * @global WPDB $wpdb
  */
 function bp_update_db_stuff() {

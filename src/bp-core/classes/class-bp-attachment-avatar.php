@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * Extends BP Attachment to manage the avatar uploads.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 class BP_Attachment_Avatar extends BP_Attachment {
 
 	/**
 	 * Construct Upload parameters.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @see  BP_Attachment::__construct() for list of parameters
 	 * @uses bp_core_avatar_original_max_filesize()
@@ -47,7 +47,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Gets the available avatar types.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param array $allowed_types Array of allowed avatar types.
 	 *
@@ -62,7 +62,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Set Upload Dir data for avatars.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses bp_core_avatar_upload_path()
 	 * @uses bp_core_avatar_url()
@@ -85,7 +85,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * Adds an error if the avatar size or type don't match BuddyPress needs.
 	 * The error code is the index of $upload_error_strings.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses   bp_core_check_avatar_size()
 	 * @uses   bp_core_check_avatar_type()
@@ -116,7 +116,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Maybe shrink the attachment to fit maximum allowed width.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses  bp_core_avatar_original_max_width()
 	 * @uses  wp_get_image_editor()
@@ -165,7 +165,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Check if the image dimensions are smaller than full avatar dimensions.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @uses  bp_core_avatar_full_width()
 	 * @uses  bp_core_avatar_full_height()
@@ -189,7 +189,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Crop the avatar.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @see  BP_Attachment::crop for the list of parameters
 	 * @uses bp_core_fetch_avatar()
@@ -286,7 +286,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Get the user id to set its avatar.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @return integer The user ID.
 	 */
@@ -308,7 +308,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Get the group id to set its avatar.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @return integer The group ID.
 	 */
@@ -325,7 +325,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	/**
 	 * Build script datas for the Uploader UI.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @return array The javascript localization data.
 	 */
@@ -390,7 +390,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			 * Use this filter to include specific BuddyPress params for your object.
 			 * e.g. Blavatar.
 			 *
-			 * @since BuddyPress (2.3.0)
+			 * @since 2.3.0
 			 *
 			 * @param array $value The avatar specific BuddyPress parameters.
 			 */
@@ -411,7 +411,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		/**
 		 * Use this filter to override/extend the avatar script data.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param array  $script_data The avatar script data.
 		 * @param string $object      The object the avatar belongs to (eg: user or group).

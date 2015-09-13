@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * Borrowed heavily from {@link Walker_Nav_Menu_Checklist}, but modified so as not
  * to require an actual post type or taxonomy, and to force certain CSS classes.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 class BP_Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 
