@@ -90,7 +90,8 @@ class BP_Groups_Component extends BP_Component {
 			_x( 'User Groups', 'Group screen page <title>', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 70
+				'adminbar_myaccount_order' => 70,
+				'search_query_arg' => 'groups_search',
 			)
 		);
 	}

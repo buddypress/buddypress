@@ -34,7 +34,8 @@ class BP_Members_Component extends BP_Component {
 			__( 'Members', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 20
+				'adminbar_myaccount_order' => 20,
+				'search_query_arg' => 'members_s',
 			)
 		);
 	}

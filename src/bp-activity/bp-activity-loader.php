@@ -29,7 +29,8 @@ class BP_Activity_Component extends BP_Component {
 			__( 'Activity Streams', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 10
+				'adminbar_myaccount_order' => 10,
+				'search_query_arg' => 'activity_search',
 			)
 		);
 	}

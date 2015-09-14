@@ -26,7 +26,8 @@ class BP_Blogs_Component extends BP_Component {
 			__( 'Site Directory', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 30
+				'adminbar_myaccount_order' => 30,
+				'search_query_arg' => 'sites_search',
 			)
 		);
 	}

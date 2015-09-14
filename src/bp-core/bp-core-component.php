@@ -126,6 +126,14 @@ class BP_Component {
 	 */
 	public $global_tables = array();
 
+	/**
+	 * Query argument for component search URLs.
+	 *
+	 * @since 2.4.0
+	 * @var string
+	 */
+	public $search_query_arg = 's';
+
 	/** Methods ***************************************************************/
 
 	/**
@@ -134,6 +142,7 @@ class BP_Component {
 	 * @since 1.5.0
 	 * @since 1.9.0 Added $params as a parameter.
 	 * @since 2.3.0 Added $params['features'] as a configurable value.
+	 * @since 2.4.0 Added $params['search_query_arg'] as a configurable value.
 	 *
 	 * @param string $id   Unique ID. Letters, numbers, and underscores only.
 	 * @param string $name Unique name. This should be a translatable name, eg.
@@ -141,11 +150,12 @@ class BP_Component {
 	 * @param string $path The file path for the component's files. Used by {@link BP_Component::includes()}.
 	 * @param array  $params {
 	 *     Additional parameters used by the component.
-	 *     @type int   $adminbar_myaccount_order Set the position for our menu under the WP Toolbar's "My Account menu".
-	 *     @type array $features                 An array of feature names. This is used to load additional files from your
-	 *                                           component directory and for feature active checks. eg. array( 'awesome' )
-	 *                                           would look for a file called "bp-{$this->id}-awesome.php" and you could use
-	 *                                           bp_is_active( $this->id, 'awesome' ) to determine if the feature is active.
+	 *     @type int    $adminbar_myaccount_order Set the position for our menu under the WP Toolbar's "My Account menu".
+	 *     @type array  $features                 An array of feature names. This is used to load additional files from your
+	 *                                            component directory and for feature active checks. eg. array( 'awesome' )
+	 *                                            would look for a file called "bp-{$this->id}-awesome.php" and you could use
+	 *                                            bp_is_active( $this->id, 'awesome' ) to determine if the feature is active.
+	 *     @type string $search_query_arg         String to be used as the query argument in component search URLs.
 	 * }
 	 */
 	public function start( $id = '', $name = '', $path = '', $params = array() ) {
@@ -169,6 +179,10 @@ class BP_Component {
 			// Register features
 			if ( ! empty( $params['features'] ) ) {
 				$this->features = array_map( 'sanitize_title', (array) $params['features'] );
+			}
+
+			if ( ! empty( $params['search_query_arg'] ) ) {
+				$this->search_query_arg = sanitize_title( $params['search_query_arg'] );
 			}
 
 		// Set defaults if not passed

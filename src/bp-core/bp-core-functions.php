@@ -854,6 +854,31 @@ function bp_core_add_illegal_names() {
 }
 
 /**
+ * Get the 'search' query argument for a given component.
+ *
+ * @since 2.4.0
+ *
+ * @param string $component Component name.
+ * @return string|bool Query argument on success. False on failure.
+ */
+function bp_core_get_component_search_query_arg( $component ) {
+	$query_arg = false;
+	if ( isset( buddypress()->{$component}->search_query_arg ) ) {
+		$query_arg = sanitize_title( buddypress()->{$component}->search_query_arg );
+	}
+
+	/**
+	 * Filters the query arg for a component search string.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $query_arg Query argument.
+	 * @param string $component Component name.
+	 */
+	return apply_filters( 'bp_core_get_component_search_query_arg', $query_arg, $component );
+}
+
+/**
  * Determine whether BuddyPress should register the bp-themes directory.
  *
  * @since 1.9.0

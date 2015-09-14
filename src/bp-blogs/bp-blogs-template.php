@@ -384,8 +384,8 @@ function bp_rewind_blogs() {
  *                                      'active', 'alphabetical', 'newest', or 'random'.
  *     @type array    $include_blog_ids Array of blog IDs to limit results to.
  *     @type string   $sort             'ASC' or 'DESC'. Default: 'DESC'.
- *     @type string   $search_terms     Limit results by a search term. Default: the
- *                                      value of $_REQUEST['s'], if present.
+ *     @type string   $search_terms     Limit results by a search term. Default: the value of `$_REQUEST['s']` or
+ *                                      `$_REQUEST['sites_search']`, if present.
  *     @type int      $user_id          The ID of the user whose blogs should be retrieved.
  *                                      When viewing a user profile page, 'user_id' defaults to the
  *                                      ID of the displayed user. Otherwise the default is false.
@@ -395,10 +395,14 @@ function bp_rewind_blogs() {
 function bp_has_blogs( $args = '' ) {
 	global $blogs_template;
 
-	// Check for and use search terms
-	$search_terms = ! empty( $_REQUEST['s'] )
-		? $_REQUEST['s']
-		: false;
+	// Check for and use search terms.
+	$search_terms_default = false;
+	$search_query_arg = bp_core_get_component_search_query_arg( 'blogs' );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+	} elseif ( ! empty( $_REQUEST['s'] ) ) {
+		$search_terms_default = stripslashes( $_REQUEST['s'] );
+	}
 
 	// Parse arguments
 	$r = bp_parse_args( $args, array(
@@ -409,7 +413,7 @@ function bp_has_blogs( $args = '' ) {
 		'max'               => false,
 		'user_id'           => bp_displayed_user_id(), // Pass a user_id to limit to only blogs this user is a member of
 		'include_blog_ids'  => false,
-		'search_terms'      => $search_terms,          // Pass search terms to filter on the blog title or description.
+		'search_terms'      => $search_terms_default,
 		'update_meta_cache' => true
 	), 'has_blogs' );
 
@@ -1449,11 +1453,17 @@ function bp_blogs_blog_tabs() {
  * Output the blog directory search form.
  */
 function bp_directory_blogs_search_form() {
-	$default_search_value = bp_get_search_default_text();
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
+
+	$query_arg = bp_core_get_component_search_query_arg( 'blogs' );
+
+	if ( ! empty( $_REQUEST[ $query_arg ] ) ) {
+		$search_value = stripslashes( $_REQUEST[ $query_arg ] );
+	} else {
+		$search_value = bp_get_search_default_text( 'blogs' );
+	}
 
 	$search_form_html = '<form action="" method="get" id="search-blogs-form">
-		<label><input type="text" name="s" id="blogs_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label><input type="text" name="' . esc_attr( $query_arg ) . '" id="blogs_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
 	</form>';
 

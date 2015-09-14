@@ -321,8 +321,22 @@ function bp_core_set_uri_globals() {
 		}
 	}
 
-	// Set the current action
-	$bp->current_action = isset( $bp_uri[$uri_offset + 1] ) ? $bp_uri[$uri_offset + 1] : '';
+	// Determine the current action.
+	$current_action = isset( $bp_uri[ $uri_offset + 1 ] ) ? $bp_uri[ $uri_offset + 1 ] : '';
+
+	/*
+	 * If a BuddyPress directory is set to the WP front page, URLs like example.com/members/?s=foo
+	 * shouldn't interfere with blog searches.
+	 */
+	if ( empty( $current_action) && ! empty( $_GET['s'] ) && 'page' == get_option( 'show_on_front' ) && ! empty( $match->id ) ) {
+		$page_on_front = (int) get_option( 'page_on_front' );
+		if ( (int) $match->id === $page_on_front ) {
+			$bp->current_component = '';
+			return false;
+		}
+	}
+
+	$bp->current_action = $current_action;
 
 	// Slice the rest of the $bp_uri array and reset offset
 	$bp_uri      = array_slice( $bp_uri, $uri_offset + 2 );

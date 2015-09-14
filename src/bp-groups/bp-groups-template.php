@@ -486,8 +486,9 @@ class BP_Groups_Template {
  *     @type int          $user_id         If provided, results will be limited
  *                                         to groups of which the specified user
  *                                         is a member. Default: null.
- *     @type string       $search_terms    If provided, only groups whose names or descriptions
- *                                         match the search terms will be returned. Default: false.
+ *     @type string       $search_terms    If provided, only groups whose names or descriptions match the search terms
+ *                                         will be returned. Default: value of `$_REQUEST['groups_search']` or
+ *                                         `$_REQUEST['s']`, if present. Otherwise false.
  *     @type array        $meta_query      An array of meta_query conditions.
  *                                         See {@link WP_Meta_Query::queries} for description.
  *     @type array|string $include         Array or comma-separated list of
@@ -533,7 +534,10 @@ function bp_has_groups( $args = '' ) {
 	}
 
 	// Default search string (too soon to escape here)
-	if ( ! empty( $_REQUEST['group-filter-box'] ) ) {
+	$search_query_arg = bp_core_get_component_search_query_arg( 'groups' );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms = stripslashes( $_REQUEST[ $search_query_arg ] );
+	} elseif ( ! empty( $_REQUEST['group-filter-box'] ) ) {
 		$search_terms = $_REQUEST['group-filter-box'];
 	} elseif ( !empty( $_REQUEST['s'] ) ) {
 		$search_terms = $_REQUEST['s'];
@@ -4978,11 +4982,16 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 
 function bp_directory_groups_search_form() {
 
-	$default_search_value = bp_get_search_default_text( 'groups' );
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
+	$query_arg = bp_core_get_component_search_query_arg( 'groups' );
+
+	if ( ! empty( $_REQUEST[ $query_arg ] ) ) {
+		$search_value = stripslashes( $_REQUEST[ $query_arg ] );
+	} else {
+		$search_value = bp_get_search_default_text( 'groups' );
+	}
 
 	$search_form_html = '<form action="" method="get" id="search-groups-form">
-		<label><input type="text" name="s" id="groups_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label><input type="text" name="' . esc_attr( $query_arg ) . '" id="groups_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
 		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="'. __( 'Search', 'buddypress' ) .'" />
 	</form>';
 

@@ -641,6 +641,12 @@ function bp_has_activities( $args = '' ) {
 		? bp_action_variable( 0 )
 		: false;
 
+	$search_terms_default = false;
+	$search_query_arg = bp_core_get_component_search_query_arg( 'activity' );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+	}
+
 	/** Parse Args ************************************************************/
 
 	// Note: any params used for filtering can be a single value, or multiple
@@ -676,7 +682,7 @@ function bp_has_activities( $args = '' ) {
 		'filter_query'      => false,        // advanced filtering.  See BP_Activity_Query for format
 
 		// Searching
-		'search_terms'      => false,        // specify terms to search on
+		'search_terms'      => $search_terms_default,
 		'update_meta_cache' => true,
 	), 'has_activities' );
 

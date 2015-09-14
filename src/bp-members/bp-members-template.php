@@ -531,7 +531,9 @@ function bp_rewind_members() {
  *                                                      results to.
  *     @type string|array          $member_type__not_in Array or comma-separated list of member types to exclude
  *                                                      from results.
- *     @type string                $search_terms        Limit results by a search term. Default: null.
+ *     @type string                $search_terms        Limit results by a search term. Default: value of
+ *                                                      `$_REQUEST['members_search']` or `$_REQUEST['s']`, if present.
+ *                                                      Otherwise false.
  *     @type string                $meta_key            Limit results by the presence of a usermeta key.
  *                                                      Default: false.
  *     @type mixed                 $meta_value          When used with meta_key, limits results by the a matching
@@ -562,6 +564,12 @@ function bp_has_members( $args = '' ) {
 		}
 	}
 
+	$search_terms_default = null;
+	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+	}
+
 	// type: active ( default ) | random | newest | popular | online | alphabetical
 	$r = bp_parse_args( $args, array(
 		'type'                => 'active',
@@ -578,7 +586,7 @@ function bp_has_members( $args = '' ) {
 		'member_type'         => $member_type,
 		'member_type__in'     => '',
 		'member_type__not_in' => '',
-		'search_terms'        => null,     // Pass search_terms to filter users by their profile data
+		'search_terms'        => $search_terms_default,
 
 		'meta_key'            => false,	   // Only return users with this usermeta
 		'meta_value'	      => false,	   // Only return users where the usermeta value matches. Requires meta_key
@@ -1334,11 +1342,16 @@ function bp_member_hidden_fields() {
  */
 function bp_directory_members_search_form() {
 
-	$default_search_value = bp_get_search_default_text( 'members' );
-	$search_value         = !empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
+	$query_arg = bp_core_get_component_search_query_arg( 'members' );
+
+	if ( ! empty( $_REQUEST[ $query_arg ] ) ) {
+		$search_value = stripslashes( $_REQUEST[ $query_arg ] );
+	} else {
+		$search_value = bp_get_search_default_text( 'members' );
+	}
 
 	$search_form_html = '<form action="" method="get" id="search-members-form">
-		<label><input type="text" name="s" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
 	</form>';
 
