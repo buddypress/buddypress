@@ -194,13 +194,12 @@ class BP_Core_Friends_Widget extends WP_Widget {
 		<p><label for="<?php echo $this->get_field_id( 'max_friends' ); ?>"><?php _e( 'Max friends to show:', 'buddypress' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_friends' ); ?>" name="<?php echo $this->get_field_name( 'max_friends' ); ?>" type="text" value="<?php echo absint( $max_friends ); ?>" style="width: 30%" /></label></p>
 
 		<p>
-			<label for="bp-core-widget-friends-default"><?php _e( 'Default friends to show:', 'buddypress' ); ?>
-			<select name="<?php echo $this->get_field_name( 'friend_default' ) ?>">
+			<label for="<?php echo $this->get_field_id( 'friend_default' ) ?>"><?php _e( 'Default friends to show:', 'buddypress' ); ?></label>
+			<select name="<?php echo $this->get_field_name( 'friend_default' ) ?>" id="<?php echo $this->get_field_id( 'friend_default' ) ?>">
 				<option value="newest" <?php selected( $friend_default, 'newest' ); ?>><?php _e( 'Newest', 'buddypress' ) ?></option>
 				<option value="active" <?php selected( $friend_default, 'active' );?>><?php _e( 'Active', 'buddypress' ) ?></option>
 				<option value="popular"  <?php selected( $friend_default, 'popular' ); ?>><?php _e( 'Popular', 'buddypress' ) ?></option>
 			</select>
-			</label>
 		</p>
 
 	<?php
