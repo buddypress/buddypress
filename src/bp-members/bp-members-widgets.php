@@ -363,14 +363,14 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		$max_members = strip_tags( $settings['max_members'] ); ?>
 
 		<p>
-			<label for="bp-core-widget-title">
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>">
 				<?php esc_html_e( 'Title:', 'buddypress' ); ?>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" />
 			</label>
 		</p>
 
 		<p>
-			<label for="bp-core-widget-members-max">
+			<label for="<?php echo $this->get_field_id( 'max_members' ); ?>">
 				<?php esc_html_e( 'Max Members to show:', 'buddypress' ); ?>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" />
 			</label>
