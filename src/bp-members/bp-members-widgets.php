@@ -202,8 +202,8 @@ class BP_Core_Members_Widget extends WP_Widget {
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_name( 'link_title' ) ?>">
-				<input type="checkbox" name="<?php echo $this->get_field_name( 'link_title' ) ?>" value="1" <?php checked( $link_title ) ?> />
+			<label for="<?php echo $this->get_field_id( 'link_title' ) ?>">
+				<input type="checkbox" name="<?php echo $this->get_field_name( 'link_title' ) ?>" id="<?php echo $this->get_field_id( 'link_title' ) ?>" value="1" <?php checked( $link_title ) ?> />
 				<?php esc_html_e( 'Link widget title to Members directory', 'buddypress' ); ?>
 			</label>
 		</p>
