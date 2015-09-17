@@ -165,7 +165,61 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			// Get a cleaned-up version of the wp_version string
 			// (strip -src, -alpha, etc which may trip up version_compare())
 			$wp_version = (float) $GLOBALS['wp_version'];
-			if ( version_compare( $wp_version, '3.9', '>=' ) ) {
+			if ( version_compare( $wp_version, '4.4', '>=' ) ) {
+				if ( ! $current_site = wp_cache_get( 'current_network', 'site-options' ) ) {
+					// Are there even two networks installed?
+					$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
+					if ( 1 === $wpdb->num_rows ) {
+						$current_site = new WP_Network( $one_network );
+						wp_cache_add( 'current_network', $current_site, 'site-options' );
+					} elseif ( 0 === $wpdb->num_rows ) {
+						ms_not_installed( $domain, $path );
+					}
+				}
+				if ( empty( $current_site ) ) {
+					$current_site = WP_Network::get_by_path( $domain, $path, 1 );
+				}
+
+				// The network declared by the site trumps any constants.
+				if ( $current_blog && $current_blog->site_id != $current_site->id ) {
+					$current_site = WP_Network::get_instance( $current_blog->site_id );
+				}
+
+				if ( empty( $current_site ) ) {
+					do_action( 'ms_network_not_found', $domain, $path );
+
+					ms_not_installed( $domain, $path );
+				} elseif ( $path === $current_site->path ) {
+					$current_blog = get_site_by_path( $domain, $path );
+				} else {
+					// Search the network path + one more path segment (on top of the network path).
+					$current_blog = get_site_by_path( $domain, $path, substr_count( $current_site->path, '/' ) );
+				}
+
+				// Figure out the current network's main site.
+				if ( empty( $current_site->blog_id ) ) {
+					if ( $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
+						$current_site->blog_id = $current_blog->blog_id;
+					} elseif ( ! $current_site->blog_id = wp_cache_get( 'network:' . $current_site->id . ':main_site', 'site-options' ) ) {
+						$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s",
+							$current_site->domain, $current_site->path ) );
+						wp_cache_add( 'network:' . $current_site->id . ':main_site', $current_site->blog_id, 'site-options' );
+					}
+				}
+
+				$blog_id = $current_blog->blog_id;
+				$public  = $current_blog->public;
+
+				if ( empty( $current_blog->site_id ) ) {
+					// This dates to [MU134] and shouldn't be relevant anymore,
+					// but it could be possible for arguments passed to insert_blog() etc.
+					$current_blog->site_id = 1;
+				}
+
+				$site_id = $current_blog->site_id;
+				wp_load_core_site_options( $site_id );
+
+			} elseif ( version_compare( $wp_version, '3.9', '>=' ) ) {
 
 				if ( is_admin() ) {
 					$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
