@@ -191,7 +191,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 
 		<p><label for="<?php echo $this->get_field_id( 'link_title' ) ?>"><input type="checkbox" name="<?php echo $this->get_field_name('link_title') ?>" id="<?php echo $this->get_field_id( 'link_title' ) ?>" value="1" <?php checked( $link_title ) ?> /> <?php _e( 'Link widget title to Members directory', 'buddypress' ) ?></label></p>
 
-		<p><label for="bp-core-widget-friends-max"><?php _e( 'Max friends to show:', 'buddypress' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_friends' ); ?>" name="<?php echo $this->get_field_name( 'max_friends' ); ?>" type="text" value="<?php echo absint( $max_friends ); ?>" style="width: 30%" /></label></p>
+		<p><label for="<?php echo $this->get_field_id( 'max_friends' ); ?>"><?php _e( 'Max friends to show:', 'buddypress' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_friends' ); ?>" name="<?php echo $this->get_field_name( 'max_friends' ); ?>" type="text" value="<?php echo absint( $max_friends ); ?>" style="width: 30%" /></label></p>
 
 		<p>
 			<label for="bp-core-widget-friends-default"><?php _e( 'Default friends to show:', 'buddypress' ); ?>
