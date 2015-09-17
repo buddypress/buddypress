@@ -195,7 +195,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		$link_title     = (bool) $settings['link_title']; ?>
 
 		<p>
-			<label for="bp-core-widget-title">
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>">
 				<?php esc_html_e( 'Title:', 'buddypress' ); ?>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" />
 			</label>
