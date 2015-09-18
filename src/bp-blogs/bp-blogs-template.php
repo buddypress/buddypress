@@ -1463,7 +1463,7 @@ function bp_directory_blogs_search_form() {
 	}
 
 	$search_form_html = '<form action="" method="get" id="search-blogs-form">
-		<label><input type="text" name="' . esc_attr( $query_arg ) . '" id="blogs_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label for="blogs_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="blogs_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
 	</form>';
 

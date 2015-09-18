@@ -1351,7 +1351,7 @@ function bp_directory_members_search_form() {
 	}
 
 	$search_form_html = '<form action="" method="get" id="search-members-form">
-		<label><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label for="members_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
 	</form>';
 
