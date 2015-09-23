@@ -987,7 +987,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 			</div>
 
 			<div id="publishing-action">
-				<?php submit_button( __( 'Save Changes', 'buddypress' ), 'primary', 'save', false, array( 'tabindex' => '4' ) ); ?>
+				<?php submit_button( __( 'Save Changes', 'buddypress' ), 'primary', 'save', false ); ?>
 			</div>
 			<div class="clear"></div>
 		</div><!-- #major-publishing-actions -->
