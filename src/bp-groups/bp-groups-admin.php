@@ -1484,13 +1484,13 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * unnecessary <button> addition.
 	 *
 	 * @since 2.3.3
-	 * @access protected
+	 * @since 2.3.4 Visibility set to public for compatibility with WP < 4.0.0.
 	 *
 	 * @param array $actions The list of actions
 	 * @param bool $always_visible Whether the actions should be always visible
 	 * @return string
 	 */
-	protected function row_actions( $actions, $always_visible = false ) {
+	public function row_actions( $actions, $always_visible = false ) {
 		$action_count = count( $actions );
 		$i = 0;
 
