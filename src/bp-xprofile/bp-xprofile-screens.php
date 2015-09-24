@@ -263,9 +263,14 @@ function xprofile_screen_change_avatar() {
 			/**
 			 * Fires right before the redirect, after processing a new avatar.
 			 *
-			 * @since BuddyPress (1.1.0)
+			 * @since 1.1.0
+			 * @since 2.3.4 Add two new parameters to inform about the user id and
+			 *              about the way the avatar was set (eg: 'crop' or 'camera')
+			 *
+			 * @param string $item_id Inform about the user id the avatar was set for
+			 * @param string $value Inform about the way the avatar was set ('crop')
 			 */
-			do_action( 'xprofile_avatar_uploaded' );
+			do_action( 'xprofile_avatar_uploaded', (int) $args['item_id'], 'crop' );
 			bp_core_add_message( __( 'Your new profile photo was uploaded successfully.', 'buddypress' ) );
 			bp_core_redirect( bp_displayed_user_domain() );
 		}
