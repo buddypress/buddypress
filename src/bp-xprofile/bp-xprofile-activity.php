@@ -202,27 +202,34 @@ function xprofile_register_activity_action( $key, $value ) {
 /**
  * Adds an activity stream item when a user has uploaded a new avatar.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
+ * @since 2.3.4 Add new parameter to get the user id the avatar was set for
  *
  * @package BuddyPress XProfile
  * @uses bp_activity_add() Adds an entry to the activity component tables for a
  *                         specific activity
+ *
+ * @param  int $user_id The user id the avatar was set for
  */
-function bp_xprofile_new_avatar_activity() {
+function bp_xprofile_new_avatar_activity( $user_id = 0 ) {
 
 	// Bail if activity component is not active
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
 
+	if ( empty( $user_id ) ) {
+		$user_id = bp_displayed_user_id();
+	}
+
 	/**
 	 * Filters the user ID when a user has uploaded a new avatar.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
-	 * @param int $value ID of the displayed user.
+	 * @param int $user_id ID of the user the avatar was set for.
 	 */
-	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', bp_displayed_user_id() );
+	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', $user_id );
 
 	// Add the activity
 	bp_activity_add( array(

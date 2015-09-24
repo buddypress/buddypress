@@ -991,10 +991,6 @@ function bp_avatar_ajax_upload() {
 	$name_parts = pathinfo( $name );
 	$name = trim( substr( $name, 0, - ( 1 + strlen( $name_parts['extension'] ) ) ) );
 
-	if ( 'user' === $bp_params['object'] ) {
-		do_action( 'xprofile_avatar_uploaded' );
-	}
-
 	// Finally return the avatar to the editor
 	bp_attachments_json_response( true, $is_html4, array(
 		'name'      => $name,
@@ -1056,13 +1052,6 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 
 		// Crop to default values
 		$crop_args = array( 'item_id' => $item_id, 'original_file' => $avatar_to_crop, 'crop_x' => 0, 'crop_y' => 0 );
-
-		/**
-		 * Fires if the new avatar was successfully captured.
-		 *
-		 * @since 2.3.0
-		 */
-		do_action( 'xprofile_avatar_uploaded' );
 
 		return bp_core_avatar_handle_crop( $crop_args );
 	} else {
@@ -1200,7 +1189,18 @@ function bp_avatar_ajax_set() {
 				'item_id'       => $avatar_data['item_id'],
 			);
 
-			do_action( 'xprofile_screen_change_avatar' );
+			/**
+			 * Fires if the new avatar was successfully captured.
+			 *
+			 * @since 1.1.0 Used to inform the avatar was successfully cropped
+			 * @since 2.3.4 Add two new parameters to inform about the user id and
+			 *              about the way the avatar was set (eg: 'crop' or 'camera')
+			 *              Move the action at the right place, once the avatar is set
+			 *
+			 * @param string $item_id Inform about the user id the avatar was set for
+			 * @param string $type    Inform about the way the avatar was set ('camera')
+			 */
+			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'] );
 
 			wp_send_json_success( $return );
 		}
@@ -1245,7 +1245,18 @@ function bp_avatar_ajax_set() {
 		);
 
 		if ( 'user' === $avatar_data['object'] ) {
-			do_action( 'xprofile_screen_change_avatar' );
+			/**
+			 * Fires if the new avatar was successfully cropped.
+			 *
+			 * @since 1.1.0 Used to inform the avatar was successfully cropped
+			 * @since 2.3.4 Add two new parameters to inform about the user id and
+			 *              about the way the avatar was set (eg: 'crop' or 'camera')
+			 *              Move the action at the right place, once the avatar is set
+			 *
+			 * @param string $item_id Inform about the user id the avatar was set for
+			 * @param string $type Inform about the way the avatar was set ('crop')
+			 */
+			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'] );
 		}
 
 		wp_send_json_success( $return );
