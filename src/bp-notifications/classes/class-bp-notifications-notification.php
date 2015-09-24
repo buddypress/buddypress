@@ -7,10 +7,10 @@
  * @package BuddyPress
  * @subpackage NotificationsClasses
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -18,14 +18,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * Use this class to create, access, edit, or delete BuddyPress Notifications.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 class BP_Notifications_Notification {
 
 	/**
 	 * The notification ID.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var int
 	 */
@@ -34,7 +34,7 @@ class BP_Notifications_Notification {
 	/**
 	 * The ID of the item associated with the notification.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var int
 	 */
@@ -43,7 +43,7 @@ class BP_Notifications_Notification {
 	/**
 	 * The ID of the secondary item associated with the notification.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var int
 	 */
@@ -52,7 +52,7 @@ class BP_Notifications_Notification {
 	/**
 	 * The ID of the user the notification is associated with.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var int
 	 */
@@ -61,7 +61,7 @@ class BP_Notifications_Notification {
 	/**
 	 * The name of the component that the notification is for.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var string
 	 */
@@ -70,7 +70,7 @@ class BP_Notifications_Notification {
 	/**
 	 * The component action which the notification is related to.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var string
 	 */
@@ -79,7 +79,7 @@ class BP_Notifications_Notification {
 	/**
 	 * The date the notification was created.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var string
 	 */
@@ -88,7 +88,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Is the notification new, or has it already been read.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @access public
 	 * @var bool
 	 */
@@ -99,7 +99,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Constructor method.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int $id Optional. Provide an ID to access an existing
 	 *                notification item.
@@ -114,7 +114,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Update or insert notification details into the database.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -142,7 +142,7 @@ class BP_Notifications_Notification {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param BP_Notifications_Notification $value Current instance of the notification item being saved. Passed by reference.
 		 */
@@ -168,7 +168,7 @@ class BP_Notifications_Notification {
 		/**
 		 * Fires after the current notification item gets saved.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param BP_Notifications_Notification $value Current instance of the notification item being saved. Passed by reference.
 		 */
@@ -181,7 +181,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Fetch data for an existing notification from the database.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
@@ -211,7 +211,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Create a notification entry.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array $data {
 	 *     Array of notification data, passed to {@link wpdb::insert()}.
@@ -235,7 +235,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Update notifications.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
@@ -258,7 +258,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Delete notifications.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
@@ -280,7 +280,7 @@ class BP_Notifications_Notification {
 	 * Used by BP_Notifications_Notification::get() to create its WHERE
 	 * clause.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array  $args           See {@link BP_Notifications_Notification::get()}
 	 *                               for more details.
@@ -381,7 +381,7 @@ class BP_Notifications_Notification {
 		/**
 		 * Filters the MySQL WHERE conditions for the Notifications items get method.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param array  $where_conditions Current conditions for MySQL WHERE statement.
 		 * @param array  $args             Parsed arguments passed into method.
@@ -406,7 +406,7 @@ class BP_Notifications_Notification {
 	 * Used by BP_Notifications_Notification::get() to create its ORDER BY
 	 * clause.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array $args See {@link BP_Notifications_Notification::get()}
 	 *                    for more details.
@@ -444,7 +444,7 @@ class BP_Notifications_Notification {
 	 *
 	 * Used by BP_Notifications_Notification::get() to create its LIMIT clause.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array $args See {@link BP_Notifications_Notification::get()}
 	 *                    for more details.
@@ -502,7 +502,7 @@ class BP_Notifications_Notification {
 	 *
 	 * which can easily be passed as arguments to the $wpdb methods.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array $args Associative array of filter arguments.
 	 *                    See {@BP_Notifications_Notification::get()}
@@ -566,7 +566,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Check that a specific notification is for a specific user.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int $user_id         ID of the user being checked.
 	 * @param int $notification_id ID of the notification being checked.
@@ -613,7 +613,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Get notifications, based on provided filter parameters.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array $args {
 	 *     Associative array of arguments. All arguments but $page and
@@ -702,7 +702,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Get a count of total notifications matching a set of arguments.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Notifications_Notification::get() for a description of
 	 *      arguments.
@@ -761,7 +761,7 @@ class BP_Notifications_Notification {
 	 * WP_Query, we have to alter the return value (stripping the leading
 	 * AND keyword from the 'where' clause).
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param  array $meta_query An array of meta_query filters. See the
 	 *                           documentation for WP_Meta_Query for details.
@@ -803,7 +803,7 @@ class BP_Notifications_Notification {
 	 * differently than WP_Query, we have to alter the return value (stripping
 	 * the leading AND keyword from the query).
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param array $date_query An array of date_query parameters. See the
 	 *                          documentation for the first parameter of WP_Date_Query.
@@ -827,7 +827,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Update notifications.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Notifications_Notification::get() for a description of
 	 *      accepted update/where arguments.
@@ -848,7 +848,7 @@ class BP_Notifications_Notification {
 		/**
 		 * Fires before the update of a notification item.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param array $update_args See BP_Notifications_Notification::update().
 		 * @param array $where_args  See BP_Notifications_Notification::update().
@@ -866,7 +866,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Delete notifications.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Notifications_Notification::get() for a description of
 	 *      accepted update/where arguments.
@@ -883,7 +883,7 @@ class BP_Notifications_Notification {
 		/**
 		 * Fires before the deletion of a notification item.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param array $args Associative array of columns/values, to determine
 		 *                    which rows should be deleted. Of the format
@@ -899,7 +899,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Delete a single notification by ID.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Notifications_Notification::delete() for explanation of
 	 *      return value.
@@ -917,7 +917,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Fetch all the notifications in the database for a specific user.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int    $user_id ID of the user whose notifications are being
 	 *                        fetched.
@@ -936,7 +936,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Fetch all the unread notifications in the database for a specific user.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int $user_id ID of the user whose notifications are being
 	 *                     fetched.
@@ -953,7 +953,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Fetch all the read notifications in the database for a specific user.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int $user_id ID of the user whose notifications are being
 	 *                     fetched.
@@ -970,7 +970,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Get unread notifications for a user, in a pagination-friendly format.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array $args {
 	 *     Array of arguments.
@@ -1016,7 +1016,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Mark all user notifications as read.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int    $user_id           The ID of the user who the notifications are for.
 	 * @param int    $is_new            Mark as read (1) or unread (0).
@@ -1061,7 +1061,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Mark all notifications from a user as read.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int    $user_id           The ID of the user who the notifications are from.
 	 * @param int    $is_new            Mark as read (1) or unread (0).
@@ -1102,7 +1102,7 @@ class BP_Notifications_Notification {
 	 * Mark all notifications for all users as read by item id, and optional
 	 * secondary item id, and component name and action.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param int    $item_id           The ID of the item associated with the
 	 *                                  notifications.

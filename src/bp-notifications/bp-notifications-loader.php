@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Notifications Loader.
  *
@@ -7,7 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage NotificationsLoader
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 
 // Exit if accessed directly.
@@ -18,7 +17,7 @@ class BP_Notifications_Component extends BP_Component {
 	/**
 	 * Start the notifications component creation process.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -34,7 +33,7 @@ class BP_Notifications_Component extends BP_Component {
 	/**
 	 * Include notifications component files.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Component::includes() for a description of arguments.
 	 *
@@ -57,7 +56,7 @@ class BP_Notifications_Component extends BP_Component {
 	/**
 	 * Set up component global data.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
@@ -92,7 +91,7 @@ class BP_Notifications_Component extends BP_Component {
 	/**
 	 * Set up component navigation.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Component::setup_nav() for a description of arguments.
 	 *
@@ -164,7 +163,7 @@ class BP_Notifications_Component extends BP_Component {
 	/**
 	 * Set up the component entries in the WordPress Admin Bar.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
 	 *      parameter array.
@@ -221,7 +220,7 @@ class BP_Notifications_Component extends BP_Component {
 	/**
 	 * Set up the title for pages and <title>.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 */
 	public function setup_title() {
 
@@ -247,7 +246,7 @@ class BP_Notifications_Component extends BP_Component {
 	/**
 	 * Setup cache groups.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	public function setup_cache_groups() {
 
@@ -264,7 +263,7 @@ class BP_Notifications_Component extends BP_Component {
 /**
  * Bootstrap the Notifications component.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_setup_notifications() {
 	buddypress()->notifications = new BP_Notifications_Component();
