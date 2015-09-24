@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Settings Loader.
  *
@@ -7,7 +6,7 @@
  * @subpackage SettingsLoader
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 class BP_Settings_Component extends BP_Component {
@@ -15,7 +14,7 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Start the settings component creation process.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -50,7 +49,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @param array $args Array of arguments.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function setup_globals( $args = array() ) {
 

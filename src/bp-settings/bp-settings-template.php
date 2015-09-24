@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Settings Template Functions.
  *
@@ -7,7 +6,7 @@
  * @subpackage SettingsTemplate
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -15,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @uses bp_get_settings_slug()
  */
@@ -27,14 +26,14 @@ function bp_settings_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage SettingsTemplate
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	function bp_get_settings_slug() {
 
 		/**
 		 * Filters the Settings component slug.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $slug Settings component slug.
 		 */
@@ -46,7 +45,7 @@ function bp_settings_slug() {
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @uses bp_get_settings_root_slug()
  */
@@ -58,14 +57,14 @@ function bp_settings_root_slug() {
 	 *
 	 * @package BuddyPress
 	 * @subpackage SettingsTemplate
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	function bp_get_settings_root_slug() {
 
 		/**
 		 * Filters the Settings component root slug.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $root_slug Settings component root slug.
 		 */
@@ -75,7 +74,7 @@ function bp_settings_root_slug() {
 /**
  * Add the 'pending email change' message to the settings page.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 function bp_settings_pending_email_notice() {
 	$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change', true );

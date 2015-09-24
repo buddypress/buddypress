@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Settings Actions
  *
@@ -8,7 +7,7 @@
  * @subpackage SettingsActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -126,7 +125,7 @@ Regards,
 					/**
 					 * Filter the email text sent when a user changes emails.
 					 *
-					 * @since BuddyPress (2.1.0)
+					 * @since 2.1.0
 					 *
 					 * @param string  $email_text     Text of the email.
 					 * @param string  $new_user_email New user email that the
@@ -270,7 +269,7 @@ Regards,
 	/**
 	 * Fires after the general settings have been saved, and before redirect.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_core_general_settings_after_save' );
 
@@ -320,7 +319,7 @@ function bp_settings_action_notifications() {
 	/**
 	 * Fires after the notification settings have been saved, and before redirect.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_core_notification_settings_after_save' );
 
@@ -363,7 +362,7 @@ function bp_settings_action_capabilities() {
 	/**
 	 * Fires before the capabilities settings have been saved.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	do_action( 'bp_settings_capabilities_before_save' );
 
@@ -378,7 +377,7 @@ function bp_settings_action_capabilities() {
 		/**
 		 * Fires after processing a user as a spammer.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 *
 		 * @param int    $value  ID of the currently displayed user.
 		 * @param string $status Determined status of "spam" or "ham" for the displayed user.
@@ -391,7 +390,7 @@ function bp_settings_action_capabilities() {
 	/**
 	 * Fires after the capabilities settings have been saved and before redirect.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	do_action( 'bp_settings_capabilities_after_save' );
 
@@ -449,7 +448,7 @@ add_action( 'bp_actions', 'bp_settings_action_delete_account' );
 /**
  * Process email change verification or cancel requests.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 function bp_settings_verify_email_change(){
 	if ( ! bp_is_settings_component() ) {
@@ -507,7 +506,7 @@ add_action( 'bp_actions', 'bp_settings_verify_email_change' );
 /**
  * Removes 'Email' sub nav, if no component has registered options there.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  */
 function bp_settings_remove_email_subnav() {
 	if ( ! has_action( 'bp_notification_settings' ) ) {

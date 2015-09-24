@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Settings Screens.
  *
@@ -7,13 +6,13 @@
  * @subpackage SettingsScreens
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Show the general settings template.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function bp_settings_screen_general() {
 
@@ -25,7 +24,7 @@ function bp_settings_screen_general() {
 	/**
 	 * Filters the template file path to use for the general settings screen.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $value Directory path to look in for the template file.
 	 */
@@ -35,7 +34,7 @@ function bp_settings_screen_general() {
 /**
  * Show the notifications settings template.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function bp_settings_screen_notification() {
 
@@ -47,7 +46,7 @@ function bp_settings_screen_notification() {
 	/**
 	 * Filters the template file path to use for the notification settings screen.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $value Directory path to look in for the template file.
 	 */
@@ -57,7 +56,7 @@ function bp_settings_screen_notification() {
 /**
  * Show the delete-account settings template.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function bp_settings_screen_delete_account() {
 
@@ -69,7 +68,7 @@ function bp_settings_screen_delete_account() {
 	/**
 	 * Filters the template file path to use for the delete-account settings screen.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $value Directory path to look in for the template file.
 	 */
@@ -79,7 +78,7 @@ function bp_settings_screen_delete_account() {
 /**
  * Show the capabilities settings template.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  */
 function bp_settings_screen_capabilities() {
 
@@ -91,7 +90,7 @@ function bp_settings_screen_capabilities() {
 	/**
 	 * Filters the template file path to use for the capabilities settings screen.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $value Directory path to look in for the template file.
 	 */
