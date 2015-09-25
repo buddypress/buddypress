@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Messages Filters.
  *
@@ -9,7 +8,7 @@
  * @subpackage MessagesFilters
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 add_filter( 'bp_get_message_notice_subject',        'wp_filter_kses', 1 );
@@ -70,7 +69,7 @@ add_filter( 'bp_get_the_thread_subject',              'stripslashes_deep' );
 /**
  * Enforce limitations on viewing private message contents
  *
- * @since BuddyPress (2.3.2)
+ * @since 2.3.2
  *
  * @see bp_has_message_threads() for description of parameters
  *

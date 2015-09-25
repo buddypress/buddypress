@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Messages Functions.
  *
@@ -12,7 +11,7 @@
  * @subpackage MessagesFunctions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -157,7 +156,7 @@ function messages_new_message( $args = '' ) {
 	/**
 	 * Fires after a message has been successfully sent.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param BP_Messages_Message $message Message object. Passed by reference.
 	 */
@@ -191,7 +190,7 @@ function messages_send_notice( $subject, $message ) {
 		/**
 		 * Fires after a notice has been successfully sent.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param string $subject Subject of the notice.
 		 * @param string $message Content of the notice.
@@ -214,7 +213,7 @@ function messages_delete_thread( $thread_ids ) {
 	/**
 	 * Fires before specified thread IDs have been deleted.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int|array Thread ID or array of thread IDs that were deleted.
 	 */
@@ -235,7 +234,7 @@ function messages_delete_thread( $thread_ids ) {
 		/**
 		 * Fires after specified thread IDs have been deleted.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param int|array Thread ID or array of thread IDs that were deleted.
 		 */
@@ -373,7 +372,7 @@ function messages_is_valid_thread( $thread_id ) {
 /**
  * Get the thread ID from a message ID.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param  int $message_id ID of the message.
  * @return int The ID of the thread if found, otherwise 0.
@@ -393,7 +392,7 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  *
  * If $meta_key is false, this will delete all meta for the message ID.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @see delete_metadata() for full documentation excluding $meta_type variable.
  *
@@ -436,7 +435,7 @@ function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = 
 /**
  * Get a piece of message metadata.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @see get_metadata() for full documentation excluding $meta_type variable.
  *
@@ -457,7 +456,7 @@ function bp_messages_get_meta( $message_id, $meta_key = '', $single = true ) {
 /**
  * Update a piece of message metadata.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @see update_metadata() for full documentation excluding $meta_type variable.
  *
@@ -480,7 +479,7 @@ function bp_messages_update_meta( $message_id, $meta_key, $meta_value, $prev_val
 /**
  * Add a piece of message metadata.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @see add_metadata() for full documentation excluding $meta_type variable.
  *

@@ -6,10 +6,13 @@
  * @subpackage Messages
  */
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Register widgets for the Messages component.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_messages_register_widgets() {
 	add_action( 'widgets_init', create_function('', 'return register_widget( "BP_Messages_Sitewide_Notices_Widget" );') );
@@ -21,7 +24,7 @@ add_action( 'bp_register_widgets', 'bp_messages_register_widgets' );
 /**
  * A widget that displays sitewide notices.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 
@@ -66,8 +69,8 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 		/**
 		 * Filters the title of the Messages widget.
 		 *
-		 * @since BuddyPress (1.9.0)
-		 * @since BuddyPress (2.3.0) Added 'instance' and 'id_base' to arguments passed to filter.
+		 * @since 1.9.0
+		 * @since 2.3.0 Added 'instance' and 'id_base' to arguments passed to filter.
 		 *
 		 * @param string $title    The widget title.
 		 * @param array  $instance The settings for the particular instance of the widget.

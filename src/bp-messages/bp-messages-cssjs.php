@@ -1,13 +1,12 @@
 <?php
-
 /**
- * BuddyPress Messages CSS and JS
+ * BuddyPress Messages CSS and JS.
  *
  * @package BuddyPress
  * @subpackage MessagesScripts
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**

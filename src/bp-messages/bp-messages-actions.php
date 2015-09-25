@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Messages Actions.
  *
@@ -11,13 +10,13 @@
  * @subpackage MessagesActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Handle creating of private messages or sitewide notices
  *
- * @since BuddyPress (2.4.0) This function was split from messages_screen_compose(). See #6505.
+ * @since 2.4.0 This function was split from messages_screen_compose(). See #6505.
  *
  * @return boolean
  */
@@ -78,7 +77,7 @@ function bp_messages_action_create_message() {
 			/**
 			 * Filters the array of recipients to receive the composed message.
 			 *
-			 * @since BuddyPress (1.2.10)
+			 * @since 1.2.10
 			 *
 			 * @param array $recipients Array of recipients to receive message.
 			 */
@@ -128,7 +127,7 @@ add_action( 'bp_actions', 'bp_messages_action_create_message' );
 /**
  * Handle editing of sitewide notices
  *
- * @since BuddyPress (2.4.0) This function was split from messages_screen_notices(). See #6505.
+ * @since 2.4.0 This function was split from messages_screen_notices(). See #6505.
  *
  * @global int $notice_id
  *
@@ -252,7 +251,7 @@ function messages_action_conversation() {
 	/**
 	 * Fires after processing a view request for a single message thread.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	do_action( 'messages_action_conversation' );
 }
@@ -292,7 +291,7 @@ add_action( 'bp_actions', 'messages_action_delete_message' );
 /**
  * Handle marking a single message thread as read.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @return bool|null Returns false on failure. Otherwise redirects back to the
  *                   message box URL.
@@ -333,7 +332,7 @@ add_action( 'bp_actions', 'bp_messages_action_mark_read' );
 /**
  * Handle marking a single message thread as unread.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @return bool|null Returns false on failure. Otherwise redirects back to the
  *                   message box URL.
@@ -374,7 +373,7 @@ add_action( 'bp_actions', 'bp_messages_action_mark_unread' );
 /**
  * Handle bulk management (mark as read/unread, delete) of message threads.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @return bool Returns false on failure. Otherwise redirects back to the
  *              message box URL.

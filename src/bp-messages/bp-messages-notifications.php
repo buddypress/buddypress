@@ -1,13 +1,12 @@
 <?php
-
 /**
- * BuddyPress Messages Notifications
+ * BuddyPress Messages Notifications.
  *
  * @package BuddyPress
  * @subpackage MessagesNotifications
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Email *********************************************************************/
@@ -15,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Email message recipients to alert them of a new unread private message.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param array|BP_Messages_Message $raw_args {
  *     Array of arguments. Also accepts a BP_Messages_Message object.
@@ -95,7 +94,7 @@ To view and read your messages please log in and visit: %4$s
 			/**
 			 * Filters the user email that the message notification will be sent to.
 			 *
-			 * @since BuddyPress (1.2.0)
+			 * @since 1.2.0
 			 *
 			 * @param string  $email_to User email the notification is being sent to.
 			 * @param WP_User $ud       WP_User object of who is receiving the message.
@@ -105,7 +104,7 @@ To view and read your messages please log in and visit: %4$s
 			/**
 			 * Filters the message notification subject that will be sent to user.
 			 *
-			 * @since BuddyPress (1.2.0)
+			 * @since 1.2.0
 			 *
 			 * @param string  $email_subject Email notification subject text.
 			 * @param string  $sender_name   Name of the person who sent the message.
@@ -116,7 +115,7 @@ To view and read your messages please log in and visit: %4$s
 			/**
 			 * Filters the message notification message that will be sent to user.
 			 *
-			 * @since BuddyPress (1.2.0)
+			 * @since 1.2.0
 			 *
 			 * @param string  $email_content Email notification message text.
 			 * @param string  $sender_name   Name of the person who sent the message.
@@ -135,7 +134,7 @@ To view and read your messages please log in and visit: %4$s
 	/**
 	 * Fires after the sending of a new message email notification.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array  $recipients    User IDs of recipients.
 	 * @param string $email_subject Email notification subject text.
@@ -151,7 +150,7 @@ add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
 /**
  * Format notifications for the Messages component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param string $action            The kind of notification being rendered.
  * @param int    $item_id           The primary item id.
@@ -223,7 +222,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	/**
 	 * Fires right before returning the formatted message notifications.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $action            The type of message notification.
 	 * @param int    $item_id           The primary item ID.
@@ -238,7 +237,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 /**
  * Send notifications to message recipients.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param BP_Messages_Message $message Message object.
  */
@@ -262,7 +261,7 @@ add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification'
 /**
  * Mark new message notification when member reads a message thread directly.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_messages_screen_conversation_mark_notifications() {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -296,7 +295,7 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
 /**
  * When a message is deleted, delete corresponding notifications.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int   $thread_id   ID of the thread.
  * @param array $message_ids IDs of the messages.

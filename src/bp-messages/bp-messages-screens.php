@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Messages Screens.
  *
@@ -11,13 +10,13 @@
  * @subpackage MessagesScreens
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Load the Messages > Inbox screen.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 function messages_screen_inbox() {
 
@@ -29,14 +28,14 @@ function messages_screen_inbox() {
 	/**
 	 * Fires right before the loading of the Messages inbox screen template file.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'messages_screen_inbox' );
 
 	/**
 	 * Filters the template to load for the Messages inbox screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the messages template to load.
 	 */
@@ -46,7 +45,7 @@ function messages_screen_inbox() {
 /**
  * Load the Messages > Sent screen.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 function messages_screen_sentbox() {
 
@@ -58,14 +57,14 @@ function messages_screen_sentbox() {
 	/**
 	 * Fires right before the loading of the Messages sentbox screen template file.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'messages_screen_sentbox' );
 
 	/**
 	 * Filters the template to load for the Messages sentbox screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the messages template to load.
 	 */
@@ -75,7 +74,7 @@ function messages_screen_sentbox() {
 /**
  * Load the Messages > Compose screen.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 function messages_screen_compose() {
 
@@ -90,14 +89,14 @@ function messages_screen_compose() {
 	/**
 	 * Fires right before the loading of the Messages compose screen template file.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'messages_screen_compose' );
 
 	/**
 	 * Filters the template to load for the Messages compose screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the messages template to load.
 	 */
@@ -107,7 +106,7 @@ function messages_screen_compose() {
 /**
  * Load an individual conversation screen.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @return bool|null False on failure.
  */
@@ -133,14 +132,14 @@ function messages_screen_conversation() {
 	/**
 	 * Fires right before the loading of the Messages view screen template file.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 */
 	do_action( 'messages_screen_conversation' );
 
 	/**
 	 * Filters the template to load for the Messages view screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the messages template to load.
 	 */
@@ -151,7 +150,7 @@ add_action( 'bp_screens', 'messages_screen_conversation' );
 /**
  * Load the Messages > Notices screen.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @return false|null False on failure.
  */
@@ -165,14 +164,14 @@ function messages_screen_notices() {
 	/**
 	 * Fires right before the loading of the Messages notices screen template file.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'messages_screen_notices' );
 
 	/**
 	 * Filters the template to load for the Messages notices screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the messages template to load.
 	 */
@@ -182,7 +181,7 @@ function messages_screen_notices() {
 /**
  * Render the markup for the Messages section of Settings > Notifications.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 function messages_screen_notification_settings() {
 
@@ -218,7 +217,7 @@ function messages_screen_notification_settings() {
 			/**
 			 * Fires inside the closing </tbody> tag for messages screen notification settings.
 			 *
-			 * @since BuddyPress (1.0.0)
+			 * @since 1.0.0
 			 */
 			do_action( 'messages_screen_notification_settings' ); ?>
 		</tbody>

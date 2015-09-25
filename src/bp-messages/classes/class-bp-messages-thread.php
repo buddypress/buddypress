@@ -1,25 +1,25 @@
 <?php
 /**
- * BuddyPress Messages Classes
+ * BuddyPress Messages Classes.
  *
  * @package BuddyPress
  * @subpackage MessagesClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * BuddyPress Message Thread class.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 class BP_Messages_Thread {
 
 	/**
 	 * The message thread ID.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $thread_id;
@@ -27,7 +27,7 @@ class BP_Messages_Thread {
 	/**
 	 * The current messages.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 * @var array
 	 */
 	public $messages;
@@ -35,7 +35,7 @@ class BP_Messages_Thread {
 	/**
 	 * The current recipients in the message thread.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 * @var array
 	 */
 	public $recipients;
@@ -43,7 +43,7 @@ class BP_Messages_Thread {
 	/**
 	 * The user IDs of all messages in the message thread.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var array
 	 */
 	public $sender_ids;
@@ -51,7 +51,7 @@ class BP_Messages_Thread {
 	/**
 	 * The unread count for the logged-in user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var int
 	 */
 	public $unread_count;
@@ -59,7 +59,7 @@ class BP_Messages_Thread {
 	/**
 	 * The content of the last message in this thread.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var string
 	 */
 	public $last_message_content;
@@ -67,7 +67,7 @@ class BP_Messages_Thread {
 	/**
 	 * The date of the last message in this thread.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var string
 	 */
 	public $last_message_date;
@@ -75,7 +75,7 @@ class BP_Messages_Thread {
 	/**
 	 * The ID of the last message in this thread.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var int
 	 */
 	public $last_message_id;
@@ -83,7 +83,7 @@ class BP_Messages_Thread {
 	/**
 	 * The subject of the last message in this thread.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var string
 	 */
 	public $last_message_subject;
@@ -91,7 +91,7 @@ class BP_Messages_Thread {
 	/**
 	 * The user ID of the author of the last message in this thread.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var int
 	 */
 	public $last_sender_id;
@@ -99,7 +99,7 @@ class BP_Messages_Thread {
 	/**
 	 * Sort order of the messages in this thread (ASC or DESC).
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 * @var string
 	 */
 	public $messages_order;
@@ -107,7 +107,7 @@ class BP_Messages_Thread {
 	/**
 	 * Constructor.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @see BP_Messages_Thread::populate() for full description of parameters.
 	 *
@@ -126,7 +126,7 @@ class BP_Messages_Thread {
 	 *
 	 * Used in constructor.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int    $thread_id The message thread ID.
 	 * @param string $order     The order to sort the messages. Either 'ASC' or 'DESC'.
@@ -191,7 +191,7 @@ class BP_Messages_Thread {
 		/**
 		 * Fires after a BP_Messages_Thread object has been populated.
 		 *
-		 * @since BuddyPress (2.2.0)
+		 * @since 2.2.0
 		 *
 		 * @param BP_Messages_Thread $this Message thread object.
 		 */
@@ -201,7 +201,7 @@ class BP_Messages_Thread {
 	/**
 	 * Mark a thread initialized in this class as read.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @see BP_Messages_Thread::mark_as_read()
 	 */
@@ -212,7 +212,7 @@ class BP_Messages_Thread {
 	/**
 	 * Mark a thread initialized in this class as unread.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @see BP_Messages_Thread::mark_as_unread()
 	 */
@@ -223,8 +223,8 @@ class BP_Messages_Thread {
 	/**
 	 * Returns recipients for a message thread.
 	 *
-	 * @since BuddyPress (1.0.0)
-	 * @since BuddyPress (2.3.0) Added $thread_id as a parameter.
+	 * @since 1.0.0
+	 * @since 2.3.0 Added $thread_id as a parameter.
 	 *
 	 * @param int $thread_id The thread ID.
 	 *
@@ -257,7 +257,7 @@ class BP_Messages_Thread {
 		/**
 		 * Filters the recipients of a message thread.
 		 *
-		 * @since BuddyPress (2.2.0)
+		 * @since 2.2.0
 		 *
 		 * @param array $recipients Array of recipient objects.
 		 * @param int   $thread_id  ID of the current thread.
@@ -270,7 +270,7 @@ class BP_Messages_Thread {
 	/**
 	 * Get all messages associated with a thread.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 *
@@ -297,7 +297,7 @@ class BP_Messages_Thread {
 	/**
 	 * Static method to get message recipients by thread ID.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param  int $thread_id The thread ID.
 	 *
@@ -314,7 +314,7 @@ class BP_Messages_Thread {
 	 * Note: All messages in a thread are deleted once every recipient in a thread
 	 * has marked the thread as deleted.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 *
@@ -328,7 +328,7 @@ class BP_Messages_Thread {
 		/**
 		 * Fires before a message thread is marked as deleted.
 		 *
-		 * @since BuddyPress (2.2.0)
+		 * @since 2.2.0
 		 *
 		 * @param int $thread_id ID of the thread being deleted.
 		 */
@@ -354,7 +354,7 @@ class BP_Messages_Thread {
 			/**
 			 * Fires before an entire message thread is deleted.
 			 *
-			 * @since BuddyPress (2.2.0)
+			 * @since 2.2.0
 			 *
 			 * @param int   $thread_id   ID of the thread being deleted.
 			 * @param array $message_ids IDs of messages being deleted.
@@ -373,7 +373,7 @@ class BP_Messages_Thread {
 				/**
 				 * Fires after a message is deleted. This hook is poorly named.
 				 *
-				 * @since BuddyPress (1.0.0)
+				 * @since 1.0.0
 				 *
 				 * @param int $message_id ID of the message.
 				 */
@@ -387,7 +387,7 @@ class BP_Messages_Thread {
 		/**
 		 * Fires after a message thread is either marked as deleted or deleted.
 		 *
-		 * @since BuddyPress (2.2.0)
+		 * @since 2.2.0
 		 *
 		 * @param int   $thread_id   ID of the thread being deleted.
 		 * @param array $message_ids IDs of messages being deleted.
@@ -400,7 +400,7 @@ class BP_Messages_Thread {
 	/**
 	 * Get current message threads for a user.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param array $args {
 	 *     Array of arguments.
@@ -535,7 +535,7 @@ class BP_Messages_Thread {
 		/**
 		 * Filters the results of the query for a user's message threads.
 		 *
-		 * @since BuddyPress (2.2.0)
+		 * @since 2.2.0
 		 *
 		 * @param array $value {
 		 *     @type array $threads       Array of threads. Passed by reference.
@@ -554,7 +554,7 @@ class BP_Messages_Thread {
 	 * We use WP_Meta_Query to do the heavy lifting of parsing the meta_query array
 	 * and creating the necessary SQL clauses.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
@@ -585,7 +585,7 @@ class BP_Messages_Thread {
 	/**
 	 * Mark a thread as read.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 */
@@ -603,7 +603,7 @@ class BP_Messages_Thread {
 	/**
 	 * Mark a thread as unread.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 */
@@ -621,7 +621,7 @@ class BP_Messages_Thread {
 	/**
 	 * Returns the total number of message threads for a user.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int    $user_id The user ID.
 	 * @param string $box     The type of mailbox to get. Either 'inbox' or 'sentbox'.
@@ -652,7 +652,7 @@ class BP_Messages_Thread {
 	/**
 	 * Determine if the logged-in user is a sender of any message in a thread.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 *
@@ -675,7 +675,7 @@ class BP_Messages_Thread {
 	/**
 	 * Returns the userlink of the last sender in a message thread.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 *
@@ -696,7 +696,7 @@ class BP_Messages_Thread {
 	/**
 	 * Gets the unread message count for a user.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -722,7 +722,7 @@ class BP_Messages_Thread {
 		/**
 		 * Filters a user's unread message count.
 		 *
-		 * @since BuddyPress (2.2.0)
+		 * @since 2.2.0
 		 *
 		 * @param int $unread_count Unread message count.
 		 * @param int $user_id      ID of the user.
@@ -733,7 +733,7 @@ class BP_Messages_Thread {
 	/**
 	 * Checks whether a user is a part of a message thread discussion.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 * @param int $user_id   The user ID.
@@ -758,7 +758,7 @@ class BP_Messages_Thread {
 	/**
 	 * Checks whether a message thread exists.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
 	 *
@@ -788,7 +788,7 @@ class BP_Messages_Thread {
 	 * If a message thread has more than four users, the returned string is simply
 	 * "X Recipients" where "X" is the number of recipients in the message thread.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param array $recipients Array containing the message recipients (array of objects).
 	 *
@@ -818,7 +818,7 @@ class BP_Messages_Thread {
 	/**
 	 * Upgrade method for the older BP message thread DB table.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @todo We should remove this.  No one is going to upgrade from v1.1, right?
 	 * @return bool

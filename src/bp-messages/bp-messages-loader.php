@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress Messages Loader
+ * BuddyPress Messages Loader.
  *
  * A private messages component, for users to send messages to each other.
  *
@@ -9,13 +8,13 @@
  * @subpackage MessagesLoader
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Implementation of BP_Component for the Messages component.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 class BP_Messages_Component extends BP_Component {
 
@@ -23,7 +22,7 @@ class BP_Messages_Component extends BP_Component {
 	 * If this is true, the Message autocomplete will return friends only, unless
 	 * this is set to false, in which any matching users will be returned.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 * @var bool
 	 */
 	public $autocomplete_all;
@@ -31,7 +30,7 @@ class BP_Messages_Component extends BP_Component {
 	/**
 	 * Start the messages component creation process.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -48,7 +47,7 @@ class BP_Messages_Component extends BP_Component {
 	/**
 	 * Include files.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array $includes See {BP_Component::includes()} for details.
 	 */
@@ -82,7 +81,7 @@ class BP_Messages_Component extends BP_Component {
 	 * The BP_MESSAGES_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array $args Not used.
 	 */
@@ -326,7 +325,7 @@ class BP_Messages_Component extends BP_Component {
 	/**
 	 * Setup cache groups
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	public function setup_cache_groups() {
 

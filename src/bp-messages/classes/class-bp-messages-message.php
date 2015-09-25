@@ -1,12 +1,12 @@
 <?php
 /**
- * BuddyPress Messages Classes
+ * BuddyPress Messages Classes.
  *
  * @package BuddyPress
  * @subpackage MessagesClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -118,7 +118,7 @@ class BP_Messages_Message {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
 		 */
@@ -164,7 +164,7 @@ class BP_Messages_Message {
 		/**
 		 * Fires after the current message item has been saved.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
 		 */

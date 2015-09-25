@@ -1,12 +1,12 @@
 <?php
 /**
- * BuddyPress Messages Classes
+ * BuddyPress Messages Classes.
  *
  * @package BuddyPress
  * @subpackage MessagesClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Use this class to create, activate, deactivate or delete notices.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 class BP_Messages_Notice {
 	/**
@@ -55,7 +55,7 @@ class BP_Messages_Notice {
 	/**
 	 * Constructor.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 * @param int $id Optional. The ID of the current notice.
 	 */
 	public function __construct( $id = null ) {
@@ -70,7 +70,7 @@ class BP_Messages_Notice {
 	 *
 	 * Runs during constructor.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	public function populate() {
 		global $wpdb;
@@ -90,7 +90,7 @@ class BP_Messages_Notice {
 	/**
 	 * Saves a notice.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @return bool
 	 */
@@ -107,7 +107,7 @@ class BP_Messages_Notice {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Messages_Notice $this Current instance of the message notice item being saved. Passed by reference.
 		 */
@@ -135,7 +135,7 @@ class BP_Messages_Notice {
 		/**
 		 * Fires after the current message notice item has been saved.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Messages_Notice $this Current instance of the message item being saved. Passed by reference.
 		 */
@@ -147,7 +147,7 @@ class BP_Messages_Notice {
 	/**
 	 * Activates a notice.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @return bool
 	 */
@@ -159,7 +159,7 @@ class BP_Messages_Notice {
 	/**
 	 * Deactivates a notice.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @return bool
 	 */
@@ -171,7 +171,7 @@ class BP_Messages_Notice {
 	/**
 	 * Deletes a notice.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @return bool
 	 */
@@ -181,7 +181,7 @@ class BP_Messages_Notice {
 		/**
 		 * Fires before the current message item has been deleted.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Messages_Notice $this Current instance of the message notice item being deleted.
 		 */
@@ -204,7 +204,7 @@ class BP_Messages_Notice {
 	 *
 	 * To get all notices, pass a value of -1 to pag_num.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param array $args {
 	 *     Array of parameters.
@@ -236,7 +236,7 @@ class BP_Messages_Notice {
 	/**
 	 * Returns the total number of recorded notices.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @return int
 	 */
@@ -253,7 +253,7 @@ class BP_Messages_Notice {
 	/**
 	 * Returns the active notice that should be displayed on the frontend.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @return object The BP_Messages_Notice object.
 	 */

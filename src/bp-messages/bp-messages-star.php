@@ -3,14 +3,20 @@
  * Functions related to starring private messages.
  *
  * @since BuddyPress (2.3.0)
+ *
+ * @package BuddyPress
+ * @subpackage MessagesStar
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /** UTILITY **************************************************************/
 
 /**
  * Return the starred messages slug. Defaults to 'starred'.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @return string
  */
@@ -18,7 +24,7 @@ function bp_get_messages_starred_slug() {
 	/**
 	 * Filters the starred message slug.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param string
 	 */
@@ -28,7 +34,7 @@ function bp_get_messages_starred_slug() {
 /**
  * Function to determine if a message ID is starred.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param  int $mid     The message ID. Please note that this isn't the message thread ID.
  * @param  int $user_id The user ID
@@ -55,7 +61,7 @@ function bp_messages_is_message_starred( $mid = 0, $user_id = 0 ) {
 /**
  * Output the link or raw URL for starring or unstarring a message.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param array $args See bp_get_the_message_star_action_link() for full documentation.
  */
@@ -65,7 +71,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 	/**
 	 * Return the link or raw URL for starring or unstarring a message.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 *
 	 * @param array $args {
 	 *     Array of arguments.
@@ -206,7 +212,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 		/**
 		 * Filters the star action URL for starring / unstarring a message.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param string $retval URL for starring / unstarring a message.
 		 * @param array  $r      Parsed link arguments. See $args in bp_get_the_message_star_action_link().
@@ -219,7 +225,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 		/**
 		 * Filters the star action link, including markup.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param string $retval Link for starring / unstarring a message, including markup.
 		 * @param array  $r      Parsed link arguments. See $args in bp_get_the_message_star_action_link().
@@ -230,7 +236,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 /**
  * Save or delete star message meta according to a message's star status.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param array $args {
  *     Array of arguments.
@@ -310,7 +316,7 @@ function bp_messages_star_set_action( $args = array() ) {
 /**
  * Screen handler to display a user's "Starred" private messages page.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 function bp_messages_star_screen() {
 	add_action( 'bp_template_content', 'bp_messages_star_content' );
@@ -318,7 +324,7 @@ function bp_messages_star_screen() {
 	/**
 	 * Fires right before the loading of the "Starred" messages box.
 	 *
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_messages_screen_star' );
 
@@ -328,7 +334,7 @@ function bp_messages_star_screen() {
 /**
  * Screen content callback to display a user's "Starred" messages page.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 function bp_messages_star_content() {
 	// add our message thread filter
@@ -344,7 +350,7 @@ function bp_messages_star_content() {
 /**
  * Filter message threads by those starred by the logged-in user.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param  array $r Current message thread arguments.
  * @return array
@@ -364,7 +370,7 @@ function bp_messages_filter_starred_message_threads( $r = array() ) {
 /**
  * Action handler to set a message's star status for those not using JS.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 function bp_messages_star_action_handler() {
 	if ( ! bp_is_user_messages() ) {
@@ -401,7 +407,7 @@ add_action( 'bp_actions', 'bp_messages_star_action_handler' );
 /**
  * Bulk manage handler to set the star status for multiple messages.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 function bp_messages_star_bulk_manage_handler() {
 	if ( empty( $_POST['messages_bulk_nonce' ] ) ) {
@@ -474,7 +480,7 @@ add_action( 'bp_actions', 'bp_messages_star_bulk_manage_handler', 5 );
  *
  * The dashicons font is used for the star / unstar icon.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 function bp_messages_star_enqueue_scripts() {
 	if ( ! bp_is_user_messages() ) {
@@ -488,7 +494,7 @@ add_action( 'bp_enqueue_scripts', 'bp_messages_star_enqueue_scripts' );
 /**
  * Add the "Add star" and "Remove star" options to the bulk management list.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 function bp_messages_star_bulk_management_dropdown() {
 ?>
@@ -503,7 +509,7 @@ add_action( 'bp_messages_bulk_management_dropdown', 'bp_messages_star_bulk_manag
 /**
  * Add CSS class for the current message depending on starred status.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param  array $retval Current CSS classes
  * @return array
