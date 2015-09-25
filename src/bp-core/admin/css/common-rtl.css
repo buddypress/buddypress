@@ -1,7 +1,7 @@
 /**
  * CSS that is always loaded when in wp-admin
  *
- * @since BuddyPress (1.6)
+ * @since 1.6.0
  */
 
 /* Welcome Screen
@@ -37,7 +37,7 @@ body.index_page_bp-about span.dashicons {
 	margin-left: 0;
 }
 
-.about-wrap .feature-list.finer-points h4, 
+.about-wrap .feature-list.finer-points h4,
 .about-wrap .feature-list.finer-points p {
 	margin-right: 115px;
 }
@@ -60,7 +60,7 @@ body.index_page_bp-about span.dashicons {
 	  margin: 30px 0 0;
 	  text-align: center;
 	}
-	.about-wrap .feature-list.finer-points h4, 
+	.about-wrap .feature-list.finer-points h4,
 	.about-wrap .feature-list.finer-points p {
 		margin-right: 90px;
 	}
@@ -467,7 +467,7 @@ body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title sp
 		margin: 10px auto;
 		top: auto;
 		left: auto;
-	} 
+	}
 }
 
 /* HiDPI

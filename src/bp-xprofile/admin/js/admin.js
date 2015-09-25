@@ -99,7 +99,7 @@ function hide( id ) {
 /**
  * @summary Toggles "no member type" notice.
  *
- * @since BuddyPress (2.4.0)
+ * @since 2.4.0
  */
 function toggle_no_member_type_notice() {
 	var $member_type_checkboxes = jQuery( 'input.member-type-selector' );

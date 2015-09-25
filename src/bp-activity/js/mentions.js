@@ -17,7 +17,7 @@ window.bp = window.bp || {};
 	 * Adds BuddyPress @mentions to form inputs.
 	 *
 	 * @param {array|object} options If array, becomes the suggestions' data source. If object, passed as config to $.atwho().
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	$.fn.bp_mentions = function( options ) {
 		if ( $.isArray( options ) ) {
@@ -44,7 +44,7 @@ window.bp = window.bp || {};
 				 * @param {array} data
 				 * @param {string} search_key
 				 * @return {array}
-				 * @since BuddyPress (2.1.0)
+				 * @since 2.1.0
 				 */
 				filter: function( query, data, search_key ) {
 					var item, _i, _len, _results = [],
@@ -67,7 +67,7 @@ window.bp = window.bp || {};
 				 * @param {unknown} li
 				 * @param {string} query
 				 * @return {string}
-				 * @since BuddyPress (2.1.0)
+				 * @since 2.1.0
 				 */
 				highlighter: function( li, query ) {
 					if ( ! query ) {
@@ -84,7 +84,7 @@ window.bp = window.bp || {};
 				 * Reposition the suggestion list dynamically.
 				 *
 				 * @param {unknown} offset
-				 * @since BuddyPress (2.1.0)
+				 * @since 2.1.0
 				 */
 				before_reposition: function( offset ) {
 					// get the iframe, if any, already applied with atwho
@@ -141,7 +141,7 @@ window.bp = window.bp || {};
 				 * @param {string) content The content that will be inserted.
 				 * @param {string) suffix Applied to the end of the content string.
 				 * @return {string}
-				 * @since BuddyPress (2.1.0)
+				 * @since 2.1.0
 				 */
 				inserting_wrapper: function( $inputor, content, suffix ) {
 					return '' + content + suffix;
@@ -159,7 +159,7 @@ window.bp = window.bp || {};
 				 *
 				 * @param {string} query Partial @mention to search for.
 				 * @param {function} render_view Render page callback function.
-				 * @since BuddyPress (2.1.0)
+				 * @since 2.1.0
 				 */
 				remote_filter: function( query, render_view ) {
 					var self = $( this ),
@@ -186,7 +186,7 @@ window.bp = window.bp || {};
 						 * Success callback for the @suggestions lookup.
 						 *
 						 * @param {object} response Details of users matching the query.
-						 * @since BuddyPress (2.1.0)
+						 * @since 2.1.0
 						 */
 						.done(function( response ) {
 							if ( ! response.success ) {
@@ -200,7 +200,7 @@ window.bp = window.bp || {};
 								 *
 								 * @param {array} suggestion A suggestion's original data.
 								 * @return {array} A suggestion's new data.
-								 * @since BuddyPress (2.1.0)
+								 * @since 2.1.0
 								 */
 								function( suggestion ) {
 									suggestion.search = suggestion.search || suggestion.ID + ' ' + suggestion.name;
@@ -221,7 +221,7 @@ window.bp = window.bp || {};
 				 *
 				 * @param {array} suggestion A suggestion's original data.
 				 * @return {array} A suggestion's new data.
-				 * @since BuddyPress (2.1.0)
+				 * @since 2.1.0
 				 */
 				function( suggestion ) {
 					suggestion.search = suggestion.search || suggestion.ID + ' ' + suggestion.name;

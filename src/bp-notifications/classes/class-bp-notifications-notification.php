@@ -585,7 +585,7 @@ class BP_Notifications_Notification {
 	/**
 	 * Parse notifications query arguments.
 	 *
-	 * @since BuddyPress 2.3.0
+	 * @since 2.3.0
 	 *
 	 * @param  mixed $args
 	 * @return array
