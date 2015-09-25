@@ -6,7 +6,7 @@
  * @subpackage XProfileClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 class BP_XProfile_ProfileData {
@@ -77,7 +77,7 @@ class BP_XProfile_ProfileData {
 		/**
 		 * Filters whether or not data already exists for the user.
 		 *
-		 * @since BuddyPress (1.2.7)
+		 * @since 1.2.7
 		 *
 		 * @param bool                    $retval Whether or not data already exists.
 		 * @param BP_XProfile_ProfileData $this   Instance of the current BP_XProfile_ProfileData class.
@@ -101,7 +101,7 @@ class BP_XProfile_ProfileData {
 		/**
 		 * Filters whether or not data is for a valid field
 		 *
-		 * @since BuddyPress (1.2.7)
+		 * @since 1.2.7
 		 *
 		 * @param bool                    $retval Whether or not data is valid.
 		 * @param BP_XProfile_ProfileData $this   Instance of the current BP_XProfile_ProfileData class.
@@ -124,7 +124,7 @@ class BP_XProfile_ProfileData {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_XProfile_ProfileData $this Current instance of the profile data being saved.
 		 */
@@ -150,7 +150,7 @@ class BP_XProfile_ProfileData {
 			/**
 			 * Fires after the current profile data instance gets saved.
 			 *
-			 * @since BuddyPress (1.0.0)
+			 * @since 1.0.0
 			 *
 			 * @param BP_XProfile_ProfileData $this Current instance of the profile data being saved.
 			 */
@@ -176,7 +176,7 @@ class BP_XProfile_ProfileData {
 		/**
 		 * Fires before the current profile data instance gets deleted.
 		 *
-		 * @since BuddyPress (1.9.0)
+		 * @since 1.9.0
 		 *
 		 * @param BP_XProfile_ProfileData $this Current instance of the profile data being deleted.
 		 */
@@ -190,7 +190,7 @@ class BP_XProfile_ProfileData {
 		/**
 		 * Fires after the current profile data instance gets deleted.
 		 *
-		 * @since BuddyPress (1.9.0)
+		 * @since 1.9.0
 		 *
 		 * @param BP_XProfile_ProfileData $this Current instance of the profile data being deleted.
 		 */

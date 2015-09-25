@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class for generating SQL clauses to filter a user query by xprofile data.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  */
 class BP_XProfile_Query {
 	/**
@@ -20,7 +20,7 @@ class BP_XProfile_Query {
 	 *
 	 * See {@see WP_XProfile_Query::__construct()} for information on parameters.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 * @var    array
 	 */
@@ -29,7 +29,7 @@ class BP_XProfile_Query {
 	/**
 	 * Database table that where the metadata's objects are stored (eg $wpdb->users).
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 * @var    string
 	 */
@@ -38,7 +38,7 @@ class BP_XProfile_Query {
 	/**
 	 * Column in primary_table that represents the ID of the object.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 * @var    string
 	 */
@@ -47,7 +47,7 @@ class BP_XProfile_Query {
 	/**
 	 * A flat list of table aliases used in JOIN clauses.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access protected
 	 * @var    array
 	 */
@@ -56,7 +56,7 @@ class BP_XProfile_Query {
 	/**
 	 * Constructor.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param array $xprofile_query {
@@ -92,7 +92,7 @@ class BP_XProfile_Query {
 	 *
 	 * Eliminates empty items and ensures that a 'relation' is set.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param  array $queries Array of query clauses.
@@ -159,7 +159,7 @@ class BP_XProfile_Query {
 	 *
 	 * A first-order query clause is one that has either a 'key' or a 'value' array key.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access protected
 	 *
 	 * @param  array $query XProfile query arguments.
@@ -172,7 +172,7 @@ class BP_XProfile_Query {
 	/**
 	 * Return the appropriate alias for the given field type if applicable.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param  string $type MySQL type to cast `value`.
@@ -202,7 +202,7 @@ class BP_XProfile_Query {
 	 * Called by the public {@see BP_XProfile_Query::get_sql()}, this method is abstracted out to maintain parity
 	 * with WP's Query classes.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access protected
 	 *
 	 * @return array {
@@ -232,7 +232,7 @@ class BP_XProfile_Query {
 	 *
 	 * If nested subqueries are found, this method recurses the tree to produce the properly nested SQL.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access protected
 	 *
 	 * @param  array $query Query to parse.
@@ -313,7 +313,7 @@ class BP_XProfile_Query {
 	/**
 	 * Generates SQL clauses to be appended to a main query.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
@@ -348,7 +348,7 @@ class BP_XProfile_Query {
 	 *
 	 * "First-order" means that it's an array with a 'field' or 'value'.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param array $clause       Query clause.
@@ -498,7 +498,7 @@ class BP_XProfile_Query {
 	 * operator and relation between the clauses allows for a shared table join. In the case of BP_XProfile_Query,
 	 * this * only applies to IN clauses that are connected by the relation OR.
 	 *
-	 * @since  BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access protected
 	 *
 	 * @param  array       $clause       Query clause.

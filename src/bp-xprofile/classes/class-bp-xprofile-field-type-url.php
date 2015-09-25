@@ -6,20 +6,20 @@
  * @subpackage XProfileClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * URL xprofile field type.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 
 	/**
 	 * Constructor for the URL field type
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -32,7 +32,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 		/**
 		 * Fires inside __construct() method for BP_XProfile_Field_Type_URL class.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param BP_XProfile_Field_Type_URL $this Current instance of
 		 *                                         the field type URL.
@@ -48,7 +48,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @param array $raw_properties Optional key/value array of
 	 *        {@link http://dev.w3.org/html5/markup/input.number.html permitted attributes}
 	 *        that you want to add.
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
@@ -88,7 +88,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 *
 	 * @param array $raw_properties Optional key/value array of permitted
 	 *        attributes that you want to add.
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 
@@ -108,7 +108,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 *
 	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
 	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
 
@@ -122,7 +122,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * the protocol is missing, we prepend 'http://' before passing to
 	 * is_valid().
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @param string $submitted_value Raw value submitted by the user.
 	 * @return string
@@ -149,7 +149,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	/**
 	 * Format URL values for display.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @param string $field_value The URL value, as saved in the database.
 	 * @return string URL converted to a link.
