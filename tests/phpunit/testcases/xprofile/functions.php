@@ -603,8 +603,9 @@ Bar!';
 		$display_name = 'Bar Foo';
 
 		$_POST = array(
-		    'display_name' => $display_name,
-		    'email'        => 'foo@bar.com',
+			'display_name' => $display_name,
+			'email' => 'foo@bar.com',
+			'nickname' => 'foobar',
 		);
 
 		$id = edit_user( $id );
