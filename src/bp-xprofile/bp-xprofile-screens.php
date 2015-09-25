@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress XProfile Screens
+ * BuddyPress XProfile Screens.
  *
  * Screen functions are the controllers of BuddyPress. They will execute when
  * their specific URL is caught. They will first save or manipulate data using
@@ -11,7 +10,7 @@
  * @subpackage XProfileScreens
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -26,7 +25,7 @@ function xprofile_screen_display_profile() {
 	/**
 	 * Fires right before the loading of the XProfile screen template file.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $new $_GET parameter holding the "new" parameter.
 	 */
@@ -35,7 +34,7 @@ function xprofile_screen_display_profile() {
 	/**
 	 * Filters the template to load for the XProfile screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the XProfile template to load.
 	 */
@@ -151,7 +150,7 @@ function xprofile_screen_edit_profile() {
 					/**
 					 * Fires on each iteration of an XProfile field being saved with no error.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 *
 					 * @param int    $field_id ID of the field that was saved.
 					 * @param string $value    Value that was saved to the field.
@@ -163,7 +162,7 @@ function xprofile_screen_edit_profile() {
 			/**
 			 * Fires after all XProfile fields have been saved for the current profile.
 			 *
-			 * @since BuddyPress (1.0.0)
+			 * @since 1.0.0
 			 *
 			 * @param int   $value            Displayed user ID.
 			 * @param array $posted_field_ids Array of field IDs that were edited.
@@ -188,14 +187,14 @@ function xprofile_screen_edit_profile() {
 	/**
 	 * Fires right before the loading of the XProfile edit screen template file.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'xprofile_screen_edit_profile' );
 
 	/**
 	 * Filters the template to load for the XProfile edit screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the XProfile edit template to load.
 	 */
@@ -282,14 +281,14 @@ function xprofile_screen_change_avatar() {
 	/**
 	 * Fires right before the loading of the XProfile change avatar screen template file.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'xprofile_screen_change_avatar' );
 
 	/**
 	 * Filters the template to load for the XProfile change avatar screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the XProfile change avatar template to load.
 	 */
@@ -299,7 +298,7 @@ function xprofile_screen_change_avatar() {
 /**
  * Show the xprofile settings template
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_xprofile_screen_settings() {
 
@@ -312,7 +311,7 @@ function bp_xprofile_screen_settings() {
 	/**
 	 * Filters the template to load for the XProfile settings screen.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $template Path to the XProfile change avatar template to load.
 	 */

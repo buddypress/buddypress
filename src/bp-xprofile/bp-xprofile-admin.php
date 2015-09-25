@@ -1,13 +1,12 @@
 <?php
-
 /**
- * BuddyPress XProfile Admin
+ * BuddyPress XProfile Admin.
  *
  * @package BuddyPress
  * @subpackage XProfileAdmin
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -65,7 +64,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 /**
  * Output the main XProfile management screen
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param string $message Feedback message
  * @param string $type    Feedback type
@@ -152,7 +151,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 								/**
 								 * Fires at end of action buttons in xprofile management admin.
 								 *
-								 * @since BuddyPress (2.2.0)
+								 * @since 2.2.0
 								 *
 								 * @param BP_XProfile_Group $group BP_XProfile_Group object
 								 *                                 for the current group.
@@ -265,7 +264,7 @@ function xprofile_admin_manage_group( $group_id = null ) {
 				/**
 				 * Fires at the end of the group adding/saving process, if successful.
 				 *
-				 * @since BuddyPress (1.0.0)
+				 * @since 1.0.0
 				 *
 				 * @param BP_XProfile_Group $group Current BP_XProfile_Group object.
 				 */
@@ -301,7 +300,7 @@ function xprofile_admin_delete_group( $group_id ) {
 		/**
 		 * Fires at the end of group deletion process, if successful.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_XProfile_Group $group Current BP_XProfile_Group object.
 		 */
@@ -391,7 +390,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				/**
 				 * Fires at the end of the process to save a field for a user, if successful.
 				 *
-				 * @since BuddyPress (1.0.0)
+				 * @since 1.0.0
 				 *
 				 * @param BP_XProfile_Field $field Current BP_XProfile_Field object.
 				 */
@@ -415,7 +414,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 /**
  * Handles the deletion of a profile field (or field option)
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  * @global string $message The feedback message to show
  * @global $type The type of feedback message to show
  * @param int $field_id The field to delete
@@ -440,7 +439,7 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 		/**
 		 * Fires at the end of the field deletion process, if successful.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_XProfile_Field $field Current BP_XProfile_Field object.
 		 */
@@ -516,7 +515,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 				/**
 				 * Fires at end of legend above the name field in base xprofile group.
 				 *
-				 * @since BuddyPress (2.2.0)
+				 * @since 2.2.0
 				 *
 				 * @param BP_XProfile_Field $field Current BP_XProfile_Field
 				 *                                 object being rendered.
@@ -535,7 +534,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 				/**
 				 * Fires after the input if the current field is not in default field types.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 *
 				 * @param BP_XProfile_Field $field Current BP_XProfile_Field
 				 *                                 object being rendered.
@@ -567,7 +566,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 				/**
 				 * Fires at end of field management links in xprofile management admin.
 				 *
-				 * @since BuddyPress (2.2.0)
+				 * @since 2.2.0
 				 *
 				 * @param BP_XProfile_Group $group BP_XProfile_Group object
 				 *                                 for the current group.
@@ -585,7 +584,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
  * Print <option> elements containing the xprofile field types.
  *
  * @param string $select_field_type The name of the field type that should be selected. Will defaults to "textbox" if NULL is passed.
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_xprofile_admin_form_field_types( $select_field_type ) {
 	$categories = array();
@@ -639,7 +638,7 @@ if ( ! class_exists( 'BP_XProfile_User_Admin' ) ) :
  * @package BuddyPress
  * @subpackage xProfileAdministration
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 class BP_XProfile_User_Admin {
 
@@ -647,7 +646,7 @@ class BP_XProfile_User_Admin {
 	 * Setup xProfile User Admin.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @uses buddypress() to get BuddyPress main instance
 	 */
@@ -671,7 +670,7 @@ class BP_XProfile_User_Admin {
 	 * Constructor method.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function __construct() {
 		$this->setup_actions();
@@ -681,7 +680,7 @@ class BP_XProfile_User_Admin {
 	 * Set admin-related actions and filters.
 	 *
 	 * @access private
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	private function setup_actions() {
 		// Enqueue scripts
@@ -698,7 +697,7 @@ class BP_XProfile_User_Admin {
 	 * Enqueue needed scripts.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.3.0)
+	 * @since 2.3.0
 	 */
 	public function enqueue_scripts( $screen_id ) {
 		if ( ( false === strpos( $screen_id, 'users_page_bp-profile-edit' )
@@ -728,7 +727,7 @@ class BP_XProfile_User_Admin {
 	 * Register the xProfile metabox on Community Profile admin page.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param int $user_id ID of the user being edited.
 	 * @param string $screen_id Screen ID to load the metabox in.
@@ -803,7 +802,7 @@ class BP_XProfile_User_Admin {
 	 * requests.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function user_admin_load( $doaction = '', $user_id = 0, $request = array(), $redirect_to = '' ) {
 
@@ -888,7 +887,7 @@ class BP_XProfile_User_Admin {
 					/**
 					 * Fires after the saving of each profile field, if successful.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 *
 					 * @param int    $field_id ID of the field being updated.
 					 * @param string $value    Value that was saved to the field.
@@ -904,7 +903,7 @@ class BP_XProfile_User_Admin {
 			/**
 			 * Fires after all of the profile fields have been saved.
 			 *
-			 * @since BuddyPress (1.0.0)
+			 * @since 1.0.0
 			 *
 			 * @param int   $user_id          ID of the user whose data is being saved.
 			 * @param array $posted_field_ids IDs of the fields that were submitted.
@@ -927,7 +926,7 @@ class BP_XProfile_User_Admin {
 	 * Render the xprofile metabox for Community Profile screen.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object for the user being edited.
 	 */
@@ -982,7 +981,7 @@ class BP_XProfile_User_Admin {
 					/**
 					 * Fires before display of visibility form elements for profile metaboxes.
 					 *
-					 * @since BuddyPress (1.7.0)
+					 * @since 1.7.0
 					 */
 					do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
 
@@ -1018,7 +1017,7 @@ class BP_XProfile_User_Admin {
 					/**
 					 * Fires at end of custom profile field items on your xprofile screen tab.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_custom_profile_edit_fields' ); ?>
 
@@ -1033,7 +1032,7 @@ class BP_XProfile_User_Admin {
 	 * Render the fallback metabox in case a user has been marked as a spammer.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object for the user being edited.
 	 */
@@ -1047,7 +1046,7 @@ class BP_XProfile_User_Admin {
 	 * Render the Avatar metabox to moderate inappropriate images.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object for the user being edited.
 	 */

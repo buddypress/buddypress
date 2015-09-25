@@ -1,12 +1,20 @@
 <?php
+/**
+ * BuddyPress XProfile Settings.
+ *
+ * @package    BuddyPress
+ * @subpackage XProfileSettings
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Query all profile fields and their visibility data for display in settings
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param array $args
- *
  *
  * @return array
  */
@@ -31,7 +39,7 @@ function bp_xprofile_get_settings_fields( $args = '' ) {
 /**
  * Adds feedback messages when successfully saving profile field settings
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @uses bp_core_add_message()
  * @uses bp_is_my_profile()

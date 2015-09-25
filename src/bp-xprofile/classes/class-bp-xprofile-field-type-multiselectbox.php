@@ -1,25 +1,25 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Multi-selectbox xprofile field type.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 
 	/**
 	 * Constructor for the multi-selectbox field type
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
  	 */
 	public function __construct() {
 		parent::__construct();
@@ -36,7 +36,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 		/**
 		 * Fires inside __construct() method for BP_XProfile_Field_Type_Multiselectbox class.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param BP_XProfile_Field_Type_Multiselectbox $this Current instance of
 		 *                                                    the field type multiple select box.
@@ -50,7 +50,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
 	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/select.html permitted attributes} that you want to add.
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
@@ -104,7 +104,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
 	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 		$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] ) );
@@ -147,7 +147,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			/**
 			 * Filters the HTML output for options in a multiselect input.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $value    Option tag for current value being rendered.
 			 * @param object $value    Current option being rendered for.
@@ -167,7 +167,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 		$r = bp_parse_args( $raw_properties, array(
@@ -188,7 +188,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 *
 	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
 	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
 		parent::admin_new_field_html( $current_field, 'checkbox' );

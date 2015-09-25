@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress XProfile Activity & Notification Functions
+ * BuddyPress XProfile Activity & Notification Functions.
  *
  * These functions handle the recording, deleting and formatting of activity
  * items and notifications for the user and for this specific component.
@@ -10,13 +9,13 @@
  * @subpackage XProfileActivity
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Register the activity actions for the Extended Profile component
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_activity_set_action() To setup the individual actions
  */
@@ -45,7 +44,7 @@ function xprofile_register_activity_actions() {
 	/**
 	 * Fires after the registration of default activity actions for Extended Profile component.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'xprofile_register_activity_actions' );
 }
@@ -54,7 +53,7 @@ add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions'
 /**
  * Format 'new_avatar' activity actions.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $action Static activity action.
  * @param object $activity Activity object.
@@ -72,7 +71,7 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
 	/**
 	 * Filters the formatted 'new_avatar' activity stream action.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $action   Formatted action for activity stream.
 	 * @param object $activity Activity object.
@@ -83,7 +82,7 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
 /**
  * Format 'updated_profile' activity actions.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $action Static activity action.
  * @param object $activity Activity object.
@@ -101,7 +100,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
 	/**
 	 * Filters the formatted 'updated_profile' activity stream action.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $action   Formatted action for activity stream.
 	 * @param object $activity Activity object.
@@ -113,7 +112,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  * Records activity for the logged in user within the profile component so that
  * it will show in the users activity stream (if installed)
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @package BuddyPress
  * @subpackage XProfileActivity
@@ -148,7 +147,7 @@ function xprofile_record_activity( $args = '' ) {
  * Deletes activity for a user within the profile component so that it will be
  * removed from the users activity stream and sitewide stream (if installed)
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @package BuddyPress XProfile
  * @param string $args Containing all variables used after extract() call
@@ -174,7 +173,7 @@ function xprofile_delete_activity( $args = '' ) {
 /**
  * Register an activity action for the Extended Profiles component
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param string $key
  * @param string $value
@@ -190,7 +189,7 @@ function xprofile_register_activity_action( $key, $value ) {
 	/**
 	 * Filters the return value of bp_activity_set_action.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param bool   $value Whether or not an action was successfully registered.
 	 * @param string $key   Key used for the registered action.
@@ -243,7 +242,7 @@ add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
 /**
  * Add an activity item when a user has updated his profile.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $user_id ID of the user who has updated his profile.
  * @param array $field_ids IDs of the fields submitted.
@@ -309,7 +308,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		/**
 		 * Filters the throttle time, in seconds, used to prevent excessive activity posting.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param int $value Throttle time, in seconds.
 		 */
@@ -338,7 +337,7 @@ add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 
 /**
  * Add filters for xprofile activity types to Show dropdowns.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  * @todo Mark as deprecated
  */
 function xprofile_activity_filter_options() {

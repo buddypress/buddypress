@@ -1,19 +1,19 @@
 <?php
-
 /**
- * Roles and capabilities logic for the XProfile component
+ * Roles and capabilities logic for the XProfile component.
  *
  * @package BuddyPress
- * @since BuddyPress (1.6.0)
+ * @subpackage XPRofileCaps
+ * @since 1.6.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Maps XProfile caps to built in WordPress caps
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param array $caps Capabilities for meta capability
  * @param string $cap Capability name
@@ -58,7 +58,7 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	/**
 	 * Filters the XProfile caps to built in WordPress caps.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param array  $caps    Capabilities for meta capability.
 	 * @param string $cap     Capability name.

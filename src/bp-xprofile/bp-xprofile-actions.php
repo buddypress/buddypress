@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress XProfile Actions
+ * BuddyPress XProfile Actions.
  *
  * Action functions are exactly the same as screen functions, however they do not
  * have a template screen associated with them. Usually they will send the user
@@ -11,7 +10,7 @@
  * @subpackage XProfileActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -50,7 +49,7 @@ add_action( 'bp_actions', 'xprofile_action_delete_avatar' );
 /**
  * Handles the saving of xprofile field visibilities
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_xprofile_action_settings() {
 
@@ -81,7 +80,7 @@ function bp_xprofile_action_settings() {
 	/**
 	 * Fires before saving xprofile field visibilities.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	do_action( 'bp_xprofile_settings_before_save' );
 
@@ -122,7 +121,7 @@ function bp_xprofile_action_settings() {
 	/**
 	 * Fires after saving xprofile field visibilities.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	do_action( 'bp_xprofile_settings_after_save' );
 

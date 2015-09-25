@@ -1,15 +1,14 @@
 <?php
-
 /**
- * BuddyPress XProfile Filters
+ * BuddyPress XProfile Filters.
  *
- * Apply WordPress defined filters
+ * Apply WordPress defined filters.
  *
  * @package BuddyPress
  * @subpackage XProfileFilters
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 add_filter( 'bp_get_the_profile_group_name',            'wp_filter_kses',       1 );
@@ -76,7 +75,7 @@ add_filter( 'xprofile_field_default_before_save', 'bp_xprofile_sanitize_field_de
 /**
  * Sanitize each field option name for saving to the database
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param  mixed $field_options
  * @return mixed
@@ -92,7 +91,7 @@ function bp_xprofile_sanitize_field_options( $field_options = '' ) {
 /**
  * Sanitize each field option default for saving to the database
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  *
  * @param  mixed $field_default
  * @return mixed
@@ -123,7 +122,7 @@ function xprofile_filter_kses( $content, $data_obj = null ) {
 	/**
 	 * Filters the allowed tags for use within xprofile_filter_kses().
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array                   $xprofile_allowedtags Array of allowed tags for profile field values.
 	 * @param BP_XProfile_ProfileData $data_obj             The BP_XProfile_ProfileData object.
@@ -159,7 +158,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		/**
 		 * Filters the kses-filtered data before saving to database.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string                  $filtered_field_value The filtered value.
 		 * @param string                  $field_value          The original value before filtering.
@@ -192,7 +191,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 /**
  * Runs stripslashes on XProfile fields.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param string $field_value XProfile field_value to be filtered.
  * @param string $field_type XProfile field_type to be filtered.
@@ -215,7 +214,7 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 /**
  * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched inside a bp_has_profile() loop.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param mixed $field_value Field value.
  * @param string $field_type Field type.
@@ -238,7 +237,7 @@ function xprofile_filter_format_field_value_by_type( $field_value, $field_type =
 /**
  * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched by xprofile_get_field_data().
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param mixed $field_value Field value.
  * @param int $field_id Field type.
@@ -251,7 +250,7 @@ function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id
 /**
  * Apply pre_validate_filter() filters as defined by the BP_XProfile_Field_Type classes before validating.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param mixed $value Value passed to the bp_xprofile_set_field_data_pre_validate
  *        filter.
@@ -276,7 +275,7 @@ function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $fiel
  * - URL's are made clickable
  * - To disable: remove_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 2 );
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param string $field_value
  * @param string  $field_type
@@ -370,7 +369,7 @@ add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
 /**
  * Filter BP_User_Query::populate_extras to override each queries users fullname
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
  * @param BP_User_Query $user_query
  * @param string $user_ids_sql
@@ -395,7 +394,7 @@ add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_popu
 /**
  * Parse 'xprofile_query' argument passed to BP_User_Query.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param BP_User_Query User query object.
  */
@@ -419,7 +418,7 @@ add_action( 'bp_pre_user_query', 'bp_xprofile_add_xprofile_query_to_user_query' 
 /**
  * Filter meta queries to modify for the xprofile data schema.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @access private Do not use.
  *
