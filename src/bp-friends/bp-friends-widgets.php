@@ -4,16 +4,16 @@
  *
  * @package BuddyPress
  * @subpackage Friends
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Register the friends widget.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_friends_register_widgets() {
 	if ( ! bp_is_active( 'friends' ) ) {
@@ -36,7 +36,7 @@ add_action( 'bp_register_widgets', 'bp_friends_register_widgets' );
 /**
  * The User Friends widget class.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 class BP_Core_Friends_Widget extends WP_Widget {
 
@@ -79,8 +79,8 @@ class BP_Core_Friends_Widget extends WP_Widget {
 		/**
 		 * Filters the Friends widget title.
 		 *
-		 * @since BuddyPress (1.8.0)
-		 * @since BuddyPress (2.3.0) Added 'instance' and 'id_base' to arguments passed to filter.
+		 * @since 1.8.0
+		 * @since 2.3.0 Added 'instance' and 'id_base' to arguments passed to filter.
 		 *
 		 * @param string $title    The widget title.
 		 * @param array  $instance The settings for the particular instance of the widget.
@@ -211,7 +211,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 /**
  * Process AJAX pagination or filtering for the Friends widget.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_core_ajax_widget_friends() {
 

@@ -6,7 +6,7 @@
  * @subpackage FriendsClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -151,7 +151,7 @@ class BP_Friends_Friendship {
 		/**
 		 * Fires before processing and saving the current friendship request.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param Object $value Current friendship request object.
 		 */
@@ -170,7 +170,7 @@ class BP_Friends_Friendship {
 		/**
 		 * Fires after processing and saving the current friendship request.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param Object $value Current friendship request object.
 		 */

@@ -8,7 +8,7 @@
  * @subpackage Friends
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 class BP_Friends_Component extends BP_Component {
@@ -16,7 +16,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Start the friends component creation process.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -59,7 +59,7 @@ class BP_Friends_Component extends BP_Component {
 	 * The BP_FRIENDS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
@@ -101,7 +101,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Set up component navigation.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_nav() for a description of arguments.
 	 *
@@ -164,7 +164,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Set up bp-friends integration with the WordPress admin bar.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_admin_bar() for a description of arguments.
 	 *
@@ -244,7 +244,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Setup cache groups.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	public function setup_cache_groups() {
 

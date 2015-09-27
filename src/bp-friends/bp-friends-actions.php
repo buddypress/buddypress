@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Friends Actions.
  *
@@ -11,7 +10,7 @@
  * @subpackage FriendsActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**

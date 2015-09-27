@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Friends Screen Functions.
  *
@@ -11,7 +10,7 @@
  * @subpackage FriendsScreens
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -22,14 +21,14 @@ function friends_screen_my_friends() {
 	/**
 	 * Fires before the loading of template for the My Friends page.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'friends_screen_my_friends' );
 
 	/**
 	 * Filters the template used to display the My Friends page.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the my friends template to load.
 	 */
@@ -77,14 +76,14 @@ function friends_screen_requests() {
 	/**
 	 * Fires before the loading of template for the friends requests page.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'friends_screen_requests' );
 
 	/**
 	 * Filters the template used to display the My Friends page.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $template Path to the friends request template to load.
 	 */
@@ -131,7 +130,7 @@ function friends_screen_notification_settings() {
 			/**
 			 * Fires after the last table row on the friends notification screen.
 			 *
-			 * @since BuddyPress (1.0.0)
+			 * @since 1.0.0
 			 */
 			do_action( 'friends_screen_notification_settings' ); ?>
 

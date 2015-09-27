@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Friends Activity Functions.
  *
@@ -10,7 +9,7 @@
  * @subpackage FriendsActivity
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -116,7 +115,7 @@ function friends_register_activity_actions() {
 	/**
 	 * Fires after all default bp-friends activity actions have been registered.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'friends_register_activity_actions' );
 }
@@ -125,7 +124,7 @@ add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' 
 /**
  * Format 'friendship_accepted' activity actions.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $action   Activity action string.
  * @param object $activity Activity data.
@@ -149,7 +148,7 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 	/**
 	 * Filters the 'friendship_accepted' activity action format.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $action   String text for the 'friendship_accepted' action.
 	 * @param object $activity Activity data.
@@ -160,7 +159,7 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 /**
  * Format 'friendship_created' activity actions.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data.
@@ -184,7 +183,7 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
 	/**
 	 * Filters the 'friendship_created' activity action format.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $action   String text for the 'friendship_created' action.
 	 * @param object $activity Activity data.
@@ -197,7 +196,7 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
  *
  * This reduces database overhead during the activity loop.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param array $activities Array of activity items.
  *
@@ -236,7 +235,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_friends_prefetch_activity_ob
  *
  * For details on the syntax, see {@link BP_Activity_Query}.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param array $retval Empty array by default
  * @param array $filter Current activity arguments
@@ -290,7 +289,7 @@ add_filter( 'bp_activity_set_friends_scope_args', 'bp_friends_filter_activity_sc
  *
  * For details on the syntax, see {@link BP_Activity_Query}.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param array $retval Empty array by default
  * @param array $filter Current activity arguments
@@ -367,7 +366,7 @@ add_filter( 'bp_activity_set_just-me_scope_args', 'bp_friends_filter_activity_ju
  * Add activity stream items when one members accepts another members request
  * for virtual friendship.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int         $friendship_id
  * @param int         $initiator_user_id

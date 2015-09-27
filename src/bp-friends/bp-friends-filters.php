@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Friend Filters.
  *
@@ -7,13 +6,16 @@
  * @subpackage FriendsFilters
  */
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Filter BP_User_Query::populate_extras to add confirmed friendship status.
  *
  * Each member in the user query is checked for confirmed friendship status
  * against the logged-in user.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
  * @global WPDB $wpdb WordPress database access object.
  *

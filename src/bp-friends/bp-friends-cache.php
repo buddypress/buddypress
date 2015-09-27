@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Friends Caching.
  *
@@ -10,7 +9,7 @@
  * @subpackage FriendsCaching
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -36,7 +35,7 @@ add_action( 'friends_friendship_deleted',  'friends_clear_friend_object_cache' )
 /**
  * Clear the friend request cache for the user not initiating the friendship.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $friend_user_id The user ID not initiating the friendship.
  */
@@ -49,7 +48,7 @@ function bp_friends_clear_request_cache( $friend_user_id ) {
  *
  * A friendship is deemed saved when a friendship is requested or accepted.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $friendship_id     The friendship ID.
  * @param int $initiator_user_id The user ID initiating the friendship.
@@ -66,7 +65,7 @@ add_action( 'friends_friendship_accepted',  'bp_friends_clear_request_cache_on_s
  *
  * A friendship is deemed removed when a friendship is withdrawn or rejected.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int                   $friendship_id The friendship ID.
  * @param BP_Friends_Friendship $friendship
