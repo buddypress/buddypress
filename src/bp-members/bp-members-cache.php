@@ -1,15 +1,20 @@
 <?php
-
 /**
  * Caching functions specific to BuddyPress Members.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
+ *
+ * @package BuddyPress
+ * @subpackage MembersCache
  */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Pre-fetch member type data when initializing a Members loop.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param BP_User_Query $bp_user_query BP_User_Query object.
  */

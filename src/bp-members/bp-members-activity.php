@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Activity
  *
@@ -7,13 +6,13 @@
  * @subpackage MembersActivity
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Register the 'new member' activity type.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @uses bp_activity_set_action()
  * @uses buddypress()
@@ -32,7 +31,7 @@ function bp_members_register_activity_actions() {
 	/**
 	 * Fires after the default 'new member' activity types are registered.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	do_action( 'bp_members_register_activity_actions' );
 }
@@ -41,7 +40,7 @@ add_action( 'bp_register_activity_actions', 'bp_members_register_activity_action
 /**
  * Format 'new_member' activity actions.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity object.
@@ -60,7 +59,7 @@ function bp_members_format_activity_action_new_member( $action, $activity ) {
 	/**
 	 * Filters the formatted 'new member' activity actions.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param string $action   Static activity action.
 	 * @param object $activity Activity object.

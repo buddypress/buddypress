@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Members Actions
  *
@@ -11,7 +10,7 @@
  * @subpackage MembersActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -63,7 +62,7 @@ function bp_core_action_set_spammer_status( $user_id = 0 ) {
 		bp_core_redirect( wp_get_referer() );
 	}
 }
-// Unhooked in BuddyPress (1.6.0) - moved to settings
+// Unhooked in 1.6.0 - moved to settings
 //add_action( 'bp_actions', 'bp_core_action_set_spammer_status' );
 
 /**
@@ -99,13 +98,13 @@ function bp_core_action_delete_user() {
 			bp_core_redirect( bp_loggedin_user_domain() );
 	}
 }
-// Unhooked in BuddyPress (1.6.0) - moved to settings
+// Unhooked in 1.6.0 - moved to settings
 //add_action( 'bp_actions', 'bp_core_action_delete_user' );
 
 /**
  * Redirect to a random member page when visiting a ?random-member URL.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  */
 function bp_core_get_random_member() {
 	if ( ! isset( $_GET['random-member'] ) )

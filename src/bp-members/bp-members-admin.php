@@ -1,16 +1,23 @@
 <?php
+/**
+ * BuddyPress Members Admin
+ *
+ * @package BuddyPress
+ * @subpackage MembersAdmin
+ */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'BP_Members_Admin' ) ) :
+
 /**
  * Load Members admin area.
  *
  * @package BuddyPress
  * @subpackage membersAdministration
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 class BP_Members_Admin {
 
@@ -60,7 +67,7 @@ class BP_Members_Admin {
 	 * Setup BP Members Admin.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @uses buddypress() to get BuddyPress main instance.
 	 */
@@ -82,7 +89,7 @@ class BP_Members_Admin {
 	 * Constructor method.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -93,7 +100,7 @@ class BP_Members_Admin {
 	 * Set admin-related globals.
 	 *
 	 * @access private
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	private function setup_globals() {
 		$bp = buddypress();
@@ -152,7 +159,7 @@ class BP_Members_Admin {
 	 * Set admin-related actions and filters.
 	 *
 	 * @access private
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	private function setup_actions() {
 
@@ -212,7 +219,7 @@ class BP_Members_Admin {
 	 * Look for $_GET['user_id']. If anything else, force the user ID to the
 	 * current user's ID so they aren't left without a user to edit.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @return int
 	 */
@@ -239,7 +246,7 @@ class BP_Members_Admin {
 	 * in the future.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @param int $user_id ID of the user being checked for edit ability.
 	 *
@@ -268,7 +275,7 @@ class BP_Members_Admin {
 	/**
 	 * Get admin notice when saving a user or member profile.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @return array
 	 */
@@ -356,7 +363,7 @@ class BP_Members_Admin {
 	 * Create the /user/ admin Profile submenus for all members.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @uses add_submenu_page() To add the Edit Profile page in Profile section.
 	 */
@@ -395,7 +402,7 @@ class BP_Members_Admin {
 	 * Create the All Users / Profile > Edit Profile and All Users Signups submenus.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @uses add_submenu_page() To add the Edit Profile page in Users/Profile section.
 	 */
@@ -470,7 +477,7 @@ class BP_Members_Admin {
 	 * Highlight the Users menu if on Edit Profile and check if on the user's admin profile.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function profile_admin_head() {
 		global $submenu_file, $parent_file;
@@ -530,7 +537,7 @@ class BP_Members_Admin {
 	 * subnav items under the Users menu.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function admin_head() {
 		remove_submenu_page( 'users.php',   'bp-profile-edit' );
@@ -543,7 +550,7 @@ class BP_Members_Admin {
 	 * Add some specific styling to the Edit User and Edit User's Profile page.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function enqueue_scripts() {
 		if ( ! in_array( get_current_screen()->id, $this->screen_id ) ) {
@@ -556,7 +563,7 @@ class BP_Members_Admin {
 		/**
 		 * Filters the CSS URL to enqueue in the Members admin area.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param string $css URL to the CSS admin file to load.
 		 */
@@ -576,7 +583,7 @@ class BP_Members_Admin {
 			/**
 			 * Filters the JS URL to enqueue in the Members admin area.
 			 *
-			 * @since BuddyPress (2.0.0)
+			 * @since 2.0.0
 			 *
 			 * @param string $js URL to the JavaScript admin file to load.
 			 */
@@ -587,7 +594,7 @@ class BP_Members_Admin {
 		/**
 		 * Fires after all of the members JavaScript and CSS are enqueued.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param string $id        ID of the current screen.
 		 * @param array  $screen_id Array of allowed screens to add scripts and styles to.
@@ -599,7 +606,7 @@ class BP_Members_Admin {
 	 * Create the Profile navigation in Edit User & Edit Profile pages.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param object|null $user   User to create profile navigation for.
 	 * @param string      $active Which profile to highlight.
@@ -663,7 +670,7 @@ class BP_Members_Admin {
 	 * help, and setting up screen options.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function user_admin_load() {
 
@@ -690,7 +697,7 @@ class BP_Members_Admin {
 		/**
 		 * Fires at the start of the signups admin load.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param string $doaction Current bulk action being processed.
 		 * @param array  $_REQUEST Current $_REQUEST global.
@@ -700,7 +707,7 @@ class BP_Members_Admin {
 		/**
 		 * Filters the allowed actions for use in the user admin page.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param array $value Array of allowed actions to use.
 		 */
@@ -745,7 +752,7 @@ class BP_Members_Admin {
 			 *
 			 * Plugins should not use this hook, please use 'bp_members_admin_user_metaboxes' instead.
 			 *
-			 * @since BuddyPress (2.0.0)
+			 * @since 2.0.0
 			 *
 			 * @param int    $user_id       Current user ID for the screen.
 			 * @param string $id            Current screen ID.
@@ -791,7 +798,7 @@ class BP_Members_Admin {
 			 * They can also restrict their metabox to self profile editing
 			 * by setting it to true.
 			 *
-			 * @since BuddyPress (2.0.0)
+			 * @since 2.0.0
 			 *
 			 * @param bool $is_self_profile Whether or not it is the current user's profile.
 			 * @param int  $user_id         Current user ID.
@@ -822,7 +829,7 @@ class BP_Members_Admin {
 			/**
 			 * Fires at end of user profile admin load if doaction does not match any available actions.
 			 *
-			 * @since BuddyPress (2.0.0)
+			 * @since 2.0.0
 			 *
 			 * @param string $doaction Current bulk action being processed.
 			 * @param int    $user_id  Current user ID.
@@ -839,7 +846,7 @@ class BP_Members_Admin {
 	 * Display the user's profile.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function user_admin() {
 
@@ -949,7 +956,7 @@ class BP_Members_Admin {
 	 * - Spam/Unspam user
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
 	 */
@@ -1026,7 +1033,7 @@ class BP_Members_Admin {
 	 * Render the fallback metabox in case a user has been marked as a spammer.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
 	 */
@@ -1040,7 +1047,7 @@ class BP_Members_Admin {
 	 * Render the Stats metabox to moderate inappropriate images.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
 	 */
@@ -1073,7 +1080,7 @@ class BP_Members_Admin {
 				/**
 				 * Fires in the user stats metabox if the user has activated their account.
 				 *
-				 * @since BuddyPress (2.0.0)
+				 * @since 2.0.0
 				 *
 				 * @param array  $value Array holding the user ID.
 				 * @param object $user  Current displayed user object.
@@ -1089,7 +1096,7 @@ class BP_Members_Admin {
 	/**
 	 * Render the Member Type metabox.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
@@ -1120,7 +1127,7 @@ class BP_Members_Admin {
 	/**
 	 * Process changes from the Member Type metabox.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 * @access public
 	 */
 	public function process_member_type_update() {
@@ -1156,7 +1163,7 @@ class BP_Members_Admin {
 	 * Add a link to Profile in Users listing row actions.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array|string $actions WordPress row actions (edit, delete).
 	 * @param object       $user    The object for the user row.
@@ -1216,7 +1223,7 @@ class BP_Members_Admin {
 	 * Add a filter to edit profile url in WP Admin Bar.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function add_edit_profile_url_filter() {
 		add_filter( 'bp_members_edit_profile_url', array( $this, 'filter_adminbar_profile_link' ), 10, 3 );
@@ -1226,7 +1233,7 @@ class BP_Members_Admin {
 	 * Filter the profile url.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @uses  user_admin_url()
 	 *
@@ -1247,7 +1254,7 @@ class BP_Members_Admin {
 	 * Remove the filter to edit profile url in WP Admin Bar.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function remove_edit_profile_url_filter() {
 		remove_filter( 'bp_members_edit_profile_url', array( $this, 'filter_adminbar_profile_link' ), 10, 3 );
@@ -1259,7 +1266,7 @@ class BP_Members_Admin {
 	 * Display the admin preferences about signups pagination.
 	 *
 	 * @access public
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param int    $value
 	 * @param string $option
@@ -1287,7 +1294,7 @@ class BP_Members_Admin {
 	 * This is needed to handle signups that may have not been activated
 	 * before the 2.0.0 upgrade.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param WP_User_Query $query The users query.
 	 *
@@ -1330,7 +1337,7 @@ class BP_Members_Admin {
 	/**
 	 * Filter the WP Users List Table views to include 'bp-signups'.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param array $views WP List Table views.
 	 *
@@ -1358,7 +1365,7 @@ class BP_Members_Admin {
 	/**
 	 * Load the Signup WP Users List table.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $class    The name of the class to use.
 	 * @param string $required The parent class.
@@ -1385,7 +1392,7 @@ class BP_Members_Admin {
 	 * setup, including: processing form requests, registering contextual
 	 * help, and setting up screen options.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @global $bp_members_signup_list_table
 	 */
@@ -1399,7 +1406,7 @@ class BP_Members_Admin {
 		/**
 		 * Fires at the start of the signups admin load.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param string $doaction Current bulk action being processed.
 		 * @param array  $_REQUEST Current $_REQUEST global.
@@ -1409,7 +1416,7 @@ class BP_Members_Admin {
 		/**
 		 * Filters the allowed actions for use in the user signups admin page.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param array $value Array of allowed actions to use.
 		 */
@@ -1546,7 +1553,7 @@ class BP_Members_Admin {
 				/**
 				 * Fires at end of signups admin load if doaction does not match any actions.
 				 *
-				 * @since BuddyPress (2.0.0)
+				 * @since 2.0.0
 				 *
 				 * @param string $doaction Current bulk action being processed.
 				 * @param array  $_REQUEST Current $_REQUEST global.
@@ -1562,7 +1569,7 @@ class BP_Members_Admin {
 	/**
 	 * Display any activation errors.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function signups_display_errors() {
 
@@ -1588,7 +1595,7 @@ class BP_Members_Admin {
 	/**
 	 * Get admin notice when viewing the sign-up page.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @return array
 	 */
@@ -1744,7 +1751,7 @@ class BP_Members_Admin {
 	 *
 	 * Also prepare the admin notices.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 */
 	public function signups_admin() {
 		$doaction = bp_admin_list_table_current_bulk_action();
@@ -1794,7 +1801,7 @@ class BP_Members_Admin {
 	/**
 	 * This is the list of the Pending accounts (signups).
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @global $plugin_page
 	 * @global $bp_members_signup_list_table
@@ -1878,7 +1885,7 @@ class BP_Members_Admin {
 	/**
 	 * This is the confirmation screen for actions.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $action Delete, activate, or resend activation link.
 	 *

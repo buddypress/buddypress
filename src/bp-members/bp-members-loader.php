@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Member Loader.
  *
@@ -7,7 +6,7 @@
  * @subpackage Members
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 class BP_Members_Component extends BP_Component {
@@ -18,7 +17,7 @@ class BP_Members_Component extends BP_Component {
 	 * @see bp_register_member_type()
 	 *
 	 * @access public
-	 * @since  BuddyPress (2.2.0)
+	 * @since  2.2.0
 	 * @var    array
 	 */
 	public $types = array();
@@ -26,7 +25,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Start the members component creation process.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -80,7 +79,7 @@ class BP_Members_Component extends BP_Component {
 	 * The BP_MEMBERS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
@@ -152,7 +151,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Set up canonical stack for this component.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function setup_canonical_stack() {
 		$bp = buddypress();
@@ -210,7 +209,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Set up fall-back component navigation if XProfile is inactive.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_nav() for a description of arguments.
 	 *
@@ -289,7 +288,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Setup cache groups.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	public function setup_cache_groups() {
 
