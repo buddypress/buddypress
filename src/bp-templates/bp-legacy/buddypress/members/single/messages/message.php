@@ -21,7 +21,7 @@
 					/**
 					 * Fires before the single message header is displayed.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_before_message_meta' ); ?>
 
@@ -50,7 +50,7 @@
 					/**
 					 * Fires after the single message header is displayed.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_after_message_meta' ); ?>
 
@@ -61,7 +61,7 @@
 				/**
 				 * Fires before the message content for a private message.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_before_message_content' ); ?>
 
@@ -76,7 +76,7 @@
 				/**
 				 * Fires after the message content for a private message.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_after_message_content' ); ?>
 

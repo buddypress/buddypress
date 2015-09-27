@@ -4,11 +4,12 @@
  *
  * This template is used to create the crop Backbone views
  *
- * @since 2.3
+ * @since 2.3.0
  *
  * @package BuddyPress
  * @subpackage bp-attachments
  */
+
 ?>
 <script id="tmpl-bp-avatar-item" type="text/html">
 	<div id="avatar-to-crop">

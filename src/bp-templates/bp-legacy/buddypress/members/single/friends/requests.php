@@ -3,7 +3,7 @@
 /**
  * Fires before the display of member friend requests content.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_member_friend_requests_content' ); ?>
 
@@ -43,7 +43,7 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 				/**
 				 * Fires inside the display of a member friend request item.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_friend_requests_item' ); ?>
 
@@ -56,7 +56,7 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 					/**
 					 * Fires inside the member friend request actions markup.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_friend_requests_item_action' ); ?>
 				</div>
@@ -70,7 +70,7 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 	/**
 	 * Fires and displays the member friend requests content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_friend_requests_content' ); ?>
 
@@ -103,6 +103,6 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 /**
  * Fires after the display of member friend requests content.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_member_friend_requests_content' ); ?>

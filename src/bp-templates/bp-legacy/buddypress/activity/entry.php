@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Activity Stream (Single Item)
  *
@@ -10,14 +9,10 @@
  * @subpackage bp-legacy
  */
 
-?>
-
-<?php
-
 /**
  * Fires before the display of an activity entry.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_activity_entry' ); ?>
 
@@ -53,7 +48,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 		/**
 		 * Fires after the display of an activity entry content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_activity_entry_content' ); ?>
 
@@ -94,7 +89,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 				/**
 				 * Fires at the end of the activity entry meta data area.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_activity_entry_meta' ); ?>
 
@@ -109,7 +104,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 	/**
 	 * Fires before the display of the activity entry comments.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_activity_entry_comments' ); ?>
 
@@ -136,7 +131,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 					/**
 					 * Fires after the activity entry comment form.
 					 *
-					 * @since BuddyPress (1.5.0)
+					 * @since 1.5.0
 					 */
 					do_action( 'bp_activity_entry_comments' ); ?>
 
@@ -155,7 +150,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 	/**
 	 * Fires after the display of the activity entry comments.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_activity_entry_comments' ); ?>
 
@@ -166,6 +161,6 @@ do_action( 'bp_before_activity_entry' ); ?>
 /**
  * Fires after the display of an activity entry.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_activity_entry' ); ?>

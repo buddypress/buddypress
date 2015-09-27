@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Activity Stream Comment
  *
@@ -10,14 +9,10 @@
  * @subpackage bp-legacy
  */
 
-?>
-
-<?php
-
 /**
  * Fires before the display of an activity comment.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_before_activity_comment' ); ?>
 
@@ -56,7 +51,7 @@ do_action( 'bp_before_activity_comment' ); ?>
 		/**
 		 * Fires after the defualt comment action options display.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 */
 		do_action( 'bp_activity_comment_options' ); ?>
 
@@ -70,6 +65,6 @@ do_action( 'bp_before_activity_comment' ); ?>
 /**
  * Fires after the display of an activity comment.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_after_activity_comment' ); ?>

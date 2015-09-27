@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Members Single Profile WP
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the display of member profile loop content.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_profile_loop_content' ); ?>
 
@@ -14,7 +19,7 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 	/**
 	 * Fires before the display of member profile field content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_profile_field_content' ); ?>
 
@@ -85,7 +90,7 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 /**
  * Fires after the display of member profile field content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_profile_field_content' ); ?>
 
@@ -94,7 +99,7 @@ do_action( 'bp_after_profile_field_content' ); ?>
 /**
  * Fires and displays the profile field buttons.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_profile_field_buttons' ); ?>
 
@@ -103,6 +108,6 @@ do_action( 'bp_profile_field_buttons' ); ?>
 /**
  * Fires after the display of member profile loop content.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_profile_loop_content' ); ?>

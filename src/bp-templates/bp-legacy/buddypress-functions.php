@@ -1,14 +1,14 @@
 <?php
-
 /**
  * Functions of BuddyPress's Legacy theme
  *
+ * @since 1.7.0
+ *
  * @package BuddyPress
  * @subpackage BP_Theme_Compat
- * @since BuddyPress (1.7)
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Theme Setup ***************************************************************/
@@ -27,7 +27,7 @@ if ( !class_exists( 'BP_Legacy' ) ) :
  *
  * See @link BP_Theme_Compat() for more.
  *
- * @since BuddyPress (1.7)
+ * @since 1.7.0
  *
  * @package BuddyPress
  * @subpackage BP_Theme_Compat
@@ -39,7 +39,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	/**
 	 * The main BuddyPress (Legacy) Loader
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 *
 	 * @uses BP_Legacy::setup_globals()
 	 * @uses BP_Legacy::setup_actions()
@@ -54,7 +54,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * You'll want to customize the values in here, so they match whatever your
 	 * needs are.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 * @access private
 	 */
 	protected function setup_globals() {
@@ -69,7 +69,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	/**
 	 * Setup the theme hooks
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 * @access private
 	 *
 	 * @uses add_filter() To add various filters
@@ -200,7 +200,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		/**
 		 * Fires after all of the BuddyPress theme compat actions have been added.
 		 *
-		 * @since BuddyPress (1.7.0)
+		 * @since 1.7.0
 		 *
 		 * @param BP_Legacy $this Current BP_Legacy instance.
 		 */
@@ -210,8 +210,8 @@ class BP_Legacy extends BP_Theme_Compat {
 	/**
 	 * Load the theme CSS
 	 *
-	 * @since BuddyPress (1.7)
-	 * @since BuddyPress (2.3.0) Support custom CSS file named after the current theme or parent theme.
+	 * @since 1.7.0
+	 * @since 2.3.0 Support custom CSS file named after the current theme or parent theme.
 	 *
 	 * @uses wp_enqueue_style() To enqueue the styles
 	 */
@@ -274,7 +274,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	/**
 	 * Enqueue the required JavaScript files
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 */
 	public function enqueue_scripts() {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -291,7 +291,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		/**
 		 * Filters core JavaScript strings for internationalization before AJAX usage.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param array $value Array of key/value pairs for AJAX usage.
 		 */
@@ -371,7 +371,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * release, in favor of a unified _template_stack() system. Plugin
 	 * and theme authors should not attempt to use what follows.
 	 *
-	 * @since BuddyPress (1.8)
+	 * @since 1.8.0
 	 * @access private
 	 * @param string $file A filename like buddypress.css
 	 * @param string $type Optional. Either "js" or "css" (the default).
@@ -435,7 +435,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	/**
 	 * Put some scripts in the header, like AJAX url for wp-lists
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 */
 	public function head_scripts() {
 	?>
@@ -458,7 +458,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * The no-js class is removed by the JavaScript created in buddypress.js.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 */
 	public function add_nojs_body_class( $classes ) {
 		if ( ! in_array( 'no-js', $classes ) )
@@ -472,7 +472,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * These localizations require information that may not be loaded even by init.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 */
 	public function localize_scripts() {
 	}
@@ -480,7 +480,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	/**
 	 * Outputs sitewide notices markup in the footer.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 *
 	 * @see https://buddypress.trac.wordpress.org/ticket/4802
 	 */
@@ -500,7 +500,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	/**
 	 * Add secondary avatar image to this activity stream's record, if supported.
 	 *
-	 * @since BuddyPress (1.7)
+	 * @since 1.7.0
 	 *
 	 * @param string $action The text of this activity
 	 * @param BP_Activity_Activity $activity Activity object
@@ -529,7 +529,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @see https://buddypress.trac.wordpress.org/ticket/6065
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param  array $templates
 	 * @uses   apply_filters() call 'bp_legacy_theme_compat_page_templates_directory_only' and return false
@@ -541,7 +541,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		/**
 		 * Filters whether or not we are looking at a directory to determine if to return early.
 		 *
-		 * @since BuddyPress (2.2.0)
+		 * @since 2.2.0
 		 *
 		 * @param bool $value Whether or not we are viewing a directory.
 		 */
@@ -607,7 +607,7 @@ endif;
  * bp-legacy puts the Create a Group button into the page title, to mimic
  * the behavior of bp-default.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  * @todo Deprecate
  *
  * @param string $title Groups directory title.
@@ -623,7 +623,7 @@ function bp_legacy_theme_group_create_button( $title ) {
  * bp-legacy puts the Create a Group nav at the last position of
  * the Groups directory navigation.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @uses   bp_group_create_nav_item() to output the create a Group nav item
  * @return string
@@ -638,7 +638,7 @@ function bp_legacy_theme_group_create_nav() {
  * bp-legacy puts the Create a Site button into the page title, to mimic
  * the behavior of bp-default.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  * @todo Deprecate
  *
  * @param string $title Sites directory title.
@@ -654,7 +654,7 @@ function bp_legacy_theme_blog_create_button( $title ) {
  * bp-legacy puts the Create a Site nav at the last position of
  * the Sites directory navigation.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @uses   bp_blog_create_nav_item() to output the Create a Site nav item
  * @return string
@@ -677,7 +677,7 @@ function bp_legacy_theme_blog_create_nav() {
  * across page loads.
  *
  * @return string Query string for the component loops
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	if ( empty( $object ) )
@@ -759,7 +759,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	/**
 	 * Filters the AJAX query string for the component loops.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 *
 	 * @param string $query_string        The query string we are working with.
 	 * @param string $object              The type of page we are on.
@@ -776,7 +776,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
  * Load the template loop for the current object.
  *
  * @return string Prints template loop for the specified object
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_object_template_loader() {
 	// Bail if not a POST action
@@ -819,7 +819,7 @@ function bp_legacy_theme_object_template_loader() {
  * Load messages template loop when searched on the private message page
  *
  * @return string Prints template loop for the Messages component
- * @since BuddyPress (1.6)
+ * @since 1.6.0
  */
 function bp_legacy_theme_messages_template_loader() {
 	bp_get_template_part( 'members/single/messages/messages-loop' );
@@ -829,7 +829,7 @@ function bp_legacy_theme_messages_template_loader() {
 /**
  * Load group invitations loop to handle pagination requests sent via AJAX.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_legacy_theme_invite_template_loader() {
 	bp_get_template_part( 'groups/single/invites-loop' );
@@ -839,7 +839,7 @@ function bp_legacy_theme_invite_template_loader() {
 /**
  * Load group membership requests loop to handle pagination requests sent via AJAX.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_legacy_theme_requests_template_loader() {
 	bp_get_template_part( 'groups/single/requests-loop' );
@@ -852,7 +852,7 @@ function bp_legacy_theme_requests_template_loader() {
  * @return string JSON object containing 'contents' (output of the template loop
  * for the Activity component) and 'feed_url' (URL to the relevant RSS feed).
  *
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_activity_template_loader() {
 	// Bail if not a POST action
@@ -891,7 +891,7 @@ function bp_legacy_theme_activity_template_loader() {
 	/**
 	 * Filters the feed URL for when activity is requested via AJAX.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 *
 	 * @param string $feed_url URL for the feed to be used.
 	 * @param string $scope    Scope for the activity request.
@@ -906,7 +906,7 @@ function bp_legacy_theme_activity_template_loader() {
  * Processes Activity updates received via a POST request.
  *
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_post_update() {
 	$bp = buddypress();
@@ -969,7 +969,7 @@ function bp_legacy_theme_post_update() {
  *
  * @global BP_Activity_Template $activities_template
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_new_activity_comment() {
 	global $activities_template;
@@ -1045,7 +1045,7 @@ function bp_legacy_theme_new_activity_comment() {
  * Deletes an Activity item received via a POST request.
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_delete_activity() {
 	// Bail if not a POST action
@@ -1082,7 +1082,7 @@ function bp_legacy_theme_delete_activity() {
  * Deletes an Activity comment received via a POST request
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_delete_activity_comment() {
 	// Bail if not a POST action
@@ -1119,7 +1119,7 @@ function bp_legacy_theme_delete_activity_comment() {
  * AJAX spam an activity item or comment
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.6)
+ * @since 1.6.0
  */
 function bp_legacy_theme_spam_activity() {
 	$bp = buddypress();
@@ -1164,7 +1164,7 @@ function bp_legacy_theme_spam_activity() {
  * Mark an activity as a favourite via a POST request.
  *
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_mark_activity_favorite() {
 	// Bail if not a POST action
@@ -1183,7 +1183,7 @@ function bp_legacy_theme_mark_activity_favorite() {
  * Un-favourite an activity via a POST request.
  *
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_unmark_activity_favorite() {
 	// Bail if not a POST action
@@ -1203,7 +1203,7 @@ function bp_legacy_theme_unmark_activity_favorite() {
  * Used for the 'Read More' link on long activity items.
  *
  * @return string HTML
- * @since BuddyPress (1.5)
+ * @since 1.5.0
  */
 function bp_legacy_theme_get_single_activity_content() {
 	// Bail if not a POST action
@@ -1223,7 +1223,7 @@ function bp_legacy_theme_get_single_activity_content() {
 	/**
 	 * Fires before the return of an activity's full, non-excerpted content via a POST request.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 *
 	 * @param string $activity Activity content. Passed by reference.
 	 */
@@ -1241,7 +1241,7 @@ function bp_legacy_theme_get_single_activity_content() {
 /**
  * Invites a friend to join a group via a POST request.
  *
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  * @todo Audit return types
  */
 function bp_legacy_theme_ajax_invite_user() {
@@ -1324,7 +1324,7 @@ function bp_legacy_theme_ajax_invite_user() {
  * Friend/un-friend a user via a POST request.
  *
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_addremove_friend() {
 
@@ -1377,7 +1377,7 @@ function bp_legacy_theme_ajax_addremove_friend() {
  * Accept a user friendship request via a POST request.
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_accept_friendship() {
 	// Bail if not a POST action
@@ -1396,7 +1396,7 @@ function bp_legacy_theme_ajax_accept_friendship() {
  * Reject a user friendship request via a POST request.
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_reject_friendship() {
 	// Bail if not a POST action
@@ -1415,7 +1415,7 @@ function bp_legacy_theme_ajax_reject_friendship() {
  * Join or leave a group when clicking the "join/leave" button via a POST request.
  *
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_joinleave_group() {
 	// Bail if not a POST action
@@ -1485,7 +1485,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
  * Close and keep closed site wide notices from an admin in the sidebar, via a POST request.
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_close_notice() {
 	// Bail if not a POST action
@@ -1510,7 +1510,7 @@ function bp_legacy_theme_ajax_close_notice() {
  * Send a private message reply to a thread via a POST request.
  *
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_messages_send_reply() {
 	// Bail if not a POST action
@@ -1565,7 +1565,7 @@ function bp_legacy_theme_ajax_messages_send_reply() {
  * Mark a private message as unread in your inbox via a POST request.
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_message_markunread() {
 	// Bail if not a POST action
@@ -1590,7 +1590,7 @@ function bp_legacy_theme_ajax_message_markunread() {
  * Mark a private message as read in your inbox via a POST request.
  *
  * @return mixed String on error, void on success
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_message_markread() {
 	// Bail if not a POST action
@@ -1615,7 +1615,7 @@ function bp_legacy_theme_ajax_message_markread() {
  * Delete a private message(s) in your inbox via a POST request.
  *
  * @return string HTML
- * @since BuddyPress (1.2)
+ * @since 1.2.0
  */
 function bp_legacy_theme_ajax_messages_delete() {
 	// Bail if not a POST action
@@ -1640,7 +1640,7 @@ function bp_legacy_theme_ajax_messages_delete() {
  *
  * Displays friends only, unless BP_MESSAGES_AUTOCOMPLETE_ALL is defined.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @return string HTML.
  */
@@ -1649,7 +1649,7 @@ function bp_legacy_theme_ajax_messages_autocomplete_results() {
 	/**
 	 * Filters the max results default value for ajax messages autocomplete results.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int $value Max results for autocomplete. Default 10.
 	 */
@@ -1690,7 +1690,7 @@ function bp_legacy_theme_ajax_messages_autocomplete_results() {
 /**
  * AJAX callback to set a message's star status.
  *
- * @since BuddyPress (2.3.0)
+ * @since 2.3.0
  */
 function bp_legacy_theme_ajax_messages_star_handler() {
 	if ( false === bp_is_active( 'messages', 'star' ) || empty( $_POST['message_id'] ) ) {

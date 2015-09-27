@@ -7,7 +7,7 @@
 	/**
 	 * Fires before the display of the group home content.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_group_home_content' ); ?>
 
@@ -28,7 +28,7 @@
 				/**
 				 * Fires after the display of group options navigation.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_group_options_nav' ); ?>
 
@@ -43,7 +43,7 @@
 		/**
 		 * Fires before the display of the group home body.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_before_group_body' );
 
@@ -76,7 +76,7 @@
 					/**
 					 * Fires before the display of the group status message.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_before_group_status_message' ); ?>
 
@@ -89,7 +89,7 @@
 					/**
 					 * Fires after the display of the group status message.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_after_group_status_message' );
 
@@ -126,7 +126,7 @@
 		/**
 		 * Fires after the display of the group home body.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_after_group_body' ); ?>
 
@@ -137,7 +137,7 @@
 	/**
 	 * Fires after the display of the group home content.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_group_home_content' ); ?>
 

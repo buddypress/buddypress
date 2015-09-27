@@ -5,7 +5,7 @@
 	/**
 	 * Fires before the display of message compose content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_messages_compose_content' ); ?>
 
@@ -34,7 +34,7 @@
 	/**
 	 * Fires after the display of message compose content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_messages_compose_content' ); ?>
 

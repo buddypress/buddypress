@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Members
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires at the top of the members directory template file.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_before_directory_members_page' ); ?>
 
@@ -14,7 +19,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	/**
 	 * Fires before the display of the members.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_members' ); ?>
 
@@ -23,7 +28,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	/**
 	 * Fires before the display of the members content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_members_content' ); ?>
 
@@ -36,7 +41,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	/**
 	 * Fires before the display of the members list tabs.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 */
 	do_action( 'bp_before_directory_members_tabs' ); ?>
 
@@ -55,7 +60,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 				/**
 				 * Fires inside the members directory member types.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_members_directory_member_types' ); ?>
 
@@ -69,7 +74,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 				/**
 				 * Fires inside the members directory member sub-types.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 */
 				do_action( 'bp_members_directory_member_sub_types' ); ?>
 
@@ -88,7 +93,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 						/**
 						 * Fires inside the members directory member order options.
 						 *
-						 * @since BuddyPress (1.2.0)
+						 * @since 1.2.0
 						 */
 						do_action( 'bp_members_directory_order_options' ); ?>
 					</select>
@@ -105,7 +110,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 		/**
  		 * Fires and displays the members content.
  		 *
- 		 * @since BuddyPress (1.1.0)
+ 		 * @since 1.1.0
  		 */
 		do_action( 'bp_directory_members_content' ); ?>
 
@@ -116,7 +121,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 		/**
 		 * Fires after the display of the members content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_after_directory_members_content' ); ?>
 
@@ -127,7 +132,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	/**
 	 * Fires after the display of the members.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_members' ); ?>
 
@@ -138,6 +143,6 @@ do_action( 'bp_before_directory_members_page' ); ?>
 /**
  * Fires at the bottom of the members directory template file.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_after_directory_members_page' );

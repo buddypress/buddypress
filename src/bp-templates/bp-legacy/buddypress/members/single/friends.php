@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Friends
  *
@@ -28,7 +27,7 @@
 					/**
 					 * Fires inside the members friends order options select input.
 					 *
-					 * @since BuddyPress (2.0.0)
+					 * @since 2.0.0
 					 */
 					do_action( 'bp_member_friends_order_options' ); ?>
 
@@ -49,7 +48,7 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires before the display of member friends content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_before_member_friends_content' ); ?>
 
@@ -64,7 +63,7 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires after the display of member friends content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_after_member_friends_content' );
 		break;

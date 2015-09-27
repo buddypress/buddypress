@@ -5,7 +5,7 @@
 	/**
 	 * Fires at the start of the forums template.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_before_directory_forums' ); ?>
 
@@ -16,7 +16,7 @@
 		/**
 		 * Fires before the display of the forums content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_before_directory_forums_content' ); ?>
 
@@ -32,7 +32,7 @@
 	/**
 	 * Fires before the display of the forum topics.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_before_topics' ); ?>
 
@@ -53,7 +53,7 @@
 				/**
 				 * Fires inside the forum group types list.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_forums_directory_group_types' ); ?>
 
@@ -68,7 +68,7 @@
 				/**
 				 * Fires inside the forum group sub-types list.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 */
 				do_action( 'bp_forums_directory_group_sub_types' ); ?>
 
@@ -85,7 +85,7 @@
 						/**
 						 * Fires inside the select input for forums order options.
 						 *
-						 * @since BuddyPress (1.2.0)
+						 * @since 1.2.0
 						 */
 						do_action( 'bp_forums_directory_order_options' ); ?>
 
@@ -105,7 +105,7 @@
 		/**
 		 * Fires and displays the forums content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_directory_forums_content' ); ?>
 
@@ -118,7 +118,7 @@
 	/**
 	 * Fires after the display of the forums.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_after_directory_forums' ); ?>
 
@@ -127,7 +127,7 @@
 	/**
 	 * Fires before the display of the new topic form.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_before_new_topic_form' ); ?>
 
@@ -144,7 +144,7 @@
 					/**
 					 * Fires inside the new topic form tag and before input display.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 */
 					do_action( 'groups_forum_new_topic_before' ); ?>
 
@@ -187,7 +187,7 @@
 					/**
 					 * Fires before the new topic form submit actions.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 */
 					do_action( 'groups_forum_new_topic_after' ); ?>
 
@@ -218,7 +218,7 @@
 	/**
 	 * Fires after the display of the new topic form.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_after_new_topic_form' ); ?>
 
@@ -227,7 +227,7 @@
 	/**
 	 * Fires before the display of the forums content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_forums_content' ); ?>
 

@@ -29,7 +29,7 @@
 				/**
 				 * Fires inside the groups membership request list loop.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_group_membership_requests_admin_item' ); ?>
 
@@ -44,7 +44,7 @@
 					/**
 					 * Fires inside the list of membership request actions.
 					 *
-					 * @since BuddyPress (1.1.0)
+					 * @since 1.1.0
 					 */
 					do_action( 'bp_group_membership_requests_admin_item_action' ); ?>
 

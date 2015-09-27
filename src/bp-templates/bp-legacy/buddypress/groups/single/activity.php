@@ -7,7 +7,7 @@
 		/**
 		 * Fires inside the syndication options list, after the RSS option.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_group_activity_syndication_options' ); ?>
 
@@ -23,7 +23,7 @@
 				/**
 				 * Fires inside the select input for group activity filter options.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_group_activity_filter_options' ); ?>
 			</select>
@@ -36,7 +36,7 @@
 /**
  * Fires before the display of the group activity post form.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_group_activity_post_form' ); ?>
 
@@ -51,7 +51,7 @@ do_action( 'bp_before_group_activity_post_form' ); ?>
 /**
  * Fires after the display of the group activity post form.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_group_activity_post_form' ); ?>
 <?php
@@ -59,7 +59,7 @@ do_action( 'bp_after_group_activity_post_form' ); ?>
 /**
  * Fires before the display of the group activities list.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_group_activity_content' ); ?>
 
@@ -74,6 +74,6 @@ do_action( 'bp_before_group_activity_content' ); ?>
 /**
  * Fires after the display of the group activities list.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_group_activity_content' ); ?>

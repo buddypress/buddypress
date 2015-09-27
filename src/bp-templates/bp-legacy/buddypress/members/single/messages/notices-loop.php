@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Members Single Messages Notice Loop
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the members notices loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_notices_loop' ); ?>
 
@@ -26,7 +31,7 @@ do_action( 'bp_before_notices_loop' ); ?>
 	/**
 	 * Fires after the members notices pagination display.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_notices_pagination' ); ?>
 	<?php
@@ -34,7 +39,7 @@ do_action( 'bp_before_notices_loop' ); ?>
 	/**
 	 * Fires before the members notice items.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_notices' ); ?>
 
@@ -62,7 +67,7 @@ do_action( 'bp_before_notices_loop' ); ?>
 				/**
 				 * Fires inside the display of a member notice list item.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_notices_list_item' ); ?>
 
@@ -79,7 +84,7 @@ do_action( 'bp_before_notices_loop' ); ?>
 	/**
 	 * Fires after the members notice items.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_notices' ); ?>
 
@@ -96,6 +101,6 @@ do_action( 'bp_before_notices_loop' ); ?>
 /**
  * Fires after the members notices loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_notices_loop' ); ?>

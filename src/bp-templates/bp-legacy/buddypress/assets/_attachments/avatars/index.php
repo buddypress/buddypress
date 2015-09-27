@@ -6,12 +6,11 @@
  * dealing with avatars.
  * It's also used to create the common Backbone views
  *
- * @since 2.3
+ * @since 2.3.0
  *
  * @package BuddyPress
  * @subpackage bp-attachments
  */
-
 
 /**
  * This action is for internal use, please do not use it

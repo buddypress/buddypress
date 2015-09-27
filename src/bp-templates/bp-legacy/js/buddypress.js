@@ -2030,7 +2030,7 @@ function checkAll() {
  * Deselects any select options or input options for the specified field element.
  *
  * @param {String} container HTML ID of the field
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 function clear( container ) {
 	container = document.getElementById( container );

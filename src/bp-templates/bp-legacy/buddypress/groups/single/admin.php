@@ -11,7 +11,7 @@
 /**
  * Fires inside the group admin form and before the content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_group_admin_content' ); ?>
 
@@ -23,7 +23,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires before the display of group admin details.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_details_admin' ); ?>
 
@@ -38,7 +38,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires after the group description admin details.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 */
 	do_action( 'groups_custom_group_fields_editable' ); ?>
 
@@ -53,7 +53,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires after the display of group admin details.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_group_details_admin' ); ?>
 
@@ -70,7 +70,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires before the group settings admin display.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_settings_admin' ); ?>
 
@@ -141,7 +141,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires after the group settings admin display.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_group_settings_admin' ); ?>
 
@@ -175,7 +175,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 			/**
 			 * Load the Avatar UI templates
 			 *
-			 * @since  BuddyPress (2.3.0)
+			 * @since  2.3.0
 			 */
 			bp_avatar_get_templates(); ?>
 
@@ -215,7 +215,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires before the group manage members admin display.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_manage_members_admin' ); ?>
 
@@ -326,7 +326,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 								/**
 								 * Fires inside the display of a member admin item in group management area.
 								 *
-								 * @since BuddyPress (1.1.0)
+								 * @since 1.1.0
 								 */
 								do_action( 'bp_group_manage_members_admin_item' ); ?>
 
@@ -352,7 +352,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires after the group manage members admin display.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_group_manage_members_admin' ); ?>
 
@@ -366,7 +366,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires before the display of group membership requests admin.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_membership_requests_admin' ); ?>
 
@@ -381,7 +381,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	/**
 	 * Fires after the display of group membership requests admin.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_group_membership_requests_admin' ); ?>
 
@@ -394,7 +394,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
  *
  * Allows plugins to add custom group edit screens.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'groups_custom_edit_steps' ); ?>
 
@@ -406,7 +406,7 @@ do_action( 'groups_custom_edit_steps' ); ?>
 	/**
 	 * Fires before the display of group delete admin.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_delete_admin' ); ?>
 
@@ -421,7 +421,7 @@ do_action( 'groups_custom_edit_steps' ); ?>
 	/**
 	 * Fires after the display of group delete admin.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_group_delete_admin' ); ?>
 
@@ -441,7 +441,7 @@ do_action( 'groups_custom_edit_steps' ); ?>
 /**
  * Fires inside the group admin form and after the content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_group_admin_content' ); ?>
 

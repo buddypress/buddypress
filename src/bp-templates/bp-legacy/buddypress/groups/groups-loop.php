@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Groups Loop
  *
@@ -16,7 +15,7 @@
 /**
  * Fires before the display of groups from the groups loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_groups_loop' ); ?>
 
@@ -43,7 +42,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 	/**
 	 * Fires before the listing of the groups list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_groups_list' ); ?>
 
@@ -69,7 +68,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 				/**
 				 * Fires inside the listing of an individual group listing item.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_directory_groups_item' ); ?>
 
@@ -82,7 +81,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 				/**
 				 * Fires inside the action section of an individual group listing item.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_directory_groups_actions' ); ?>
 
@@ -106,7 +105,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 	/**
 	 * Fires after the listing of the groups list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_groups_list' ); ?>
 
@@ -139,6 +138,6 @@ do_action( 'bp_before_groups_loop' ); ?>
 /**
  * Fires after the display of groups from the groups loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_groups_loop' ); ?>

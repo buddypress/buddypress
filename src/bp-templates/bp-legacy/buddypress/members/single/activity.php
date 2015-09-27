@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Activity
  *
@@ -26,7 +25,7 @@
 				/**
 				 * Fires inside the select input for member activity filter options.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_member_activity_filter_options' ); ?>
 
@@ -40,7 +39,7 @@
 /**
  * Fires before the display of the member activity post form.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_member_activity_post_form' ); ?>
 
@@ -51,14 +50,14 @@ if ( is_user_logged_in() && bp_is_my_profile() && ( !bp_current_action() || bp_i
 /**
  * Fires after the display of the member activity post form.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_member_activity_post_form' );
 
 /**
  * Fires before the display of the member activities list.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_member_activity_content' ); ?>
 
@@ -73,6 +72,6 @@ do_action( 'bp_before_member_activity_content' ); ?>
 /**
  * Fires after the display of the member activities list.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_member_activity_content' ); ?>

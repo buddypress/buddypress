@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Settings
  *

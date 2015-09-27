@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Members Single Profile Edit
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires after the display of member profile edit content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_profile_edit_content' );
 
@@ -40,7 +45,7 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				/**
 				 * Fires before the display of visibility options for the field.
 				 *
-				 * @since BuddyPress (1.7.0)
+				 * @since 1.7.0
 				 */
 				do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
 				?>
@@ -70,7 +75,7 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				/**
 				 * Fires after the visibility options for a field.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_custom_profile_edit_fields' ); ?>
 
@@ -101,6 +106,6 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 /**
  * Fires after the display of member profile edit content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_profile_edit_content' ); ?>

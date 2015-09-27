@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Members Messages Loop
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the members messages loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_member_messages_loop' ); ?>
 
@@ -26,7 +31,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	/**
 	 * Fires after the members messages pagination display.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_member_messages_pagination' ); ?>
 
@@ -35,7 +40,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	/**
 	 * Fires before the members messages threads.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_member_messages_threads' ); ?>
 
@@ -57,7 +62,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 					 * This is to primarily add a <th> cell to the messages box table header. Use
 					 * the related 'bp_messages_inbox_list_item' hook to add a <td> cell.
 					 *
-					 * @since BuddyPress (2.3.0)
+					 * @since 2.3.0
 					 */
 					do_action( 'bp_messages_inbox_list_header' ); ?>
 
@@ -107,7 +112,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						 * This is to primarily add a <td> cell to the message box table. Use the
 						 * related 'bp_messages_inbox_list_header' hook to add a <th> header cell.
 						 *
-						 * @since BuddyPress (1.1.0)
+						 * @since 1.1.0
 						 */
 						do_action( 'bp_messages_inbox_list_item' ); ?>
 
@@ -146,7 +151,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	/**
 	 * Fires after the members messages threads.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_member_messages_threads' ); ?>
 
@@ -155,7 +160,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	/**
 	 * Fires and displays member messages options.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_member_messages_options' ); ?>
 
@@ -172,6 +177,6 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 /**
  * Fires after the members messages loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_member_messages_loop' ); ?>

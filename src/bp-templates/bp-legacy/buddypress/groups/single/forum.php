@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Groups Single Forum
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the display of a group's forum content.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_group_forum_content' );
 
@@ -70,7 +75,7 @@ else : ?>
 /**
  * Fires after the display of a group's forum content.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_group_forum_content' ); ?>
 
@@ -86,7 +91,7 @@ do_action( 'bp_after_group_forum_content' ); ?>
 				/**
 				 * Fires before the display of a group forum new post form.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_before_group_forum_post_new' ); ?>
 
@@ -111,7 +116,7 @@ do_action( 'bp_after_group_forum_content' ); ?>
 				/**
 				 * Fires after the display of a group forum new post form.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_after_group_forum_post_new' ); ?>
 

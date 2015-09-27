@@ -8,14 +8,11 @@
  * @package BuddyPress
  * @subpackage bp-legacy
  */
-?>
-
-		<?php
 
 		/**
 		 * Fires at the start of the member plugin template.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_before_member_plugin_template' ); ?>
 
@@ -30,7 +27,7 @@
 				/**
 				 * Fires inside the member plugin template nav <ul> tag.
 				 *
-				 * @since BuddyPress (1.2.2)
+				 * @since 1.2.2
 				 */
 				do_action( 'bp_member_plugin_options_nav' ); ?>
 			</ul>
@@ -43,7 +40,7 @@
 			/**
 			 * Fires inside the member plugin template <h3> tag.
 			 *
-			 * @since BuddyPress (1.0.0)
+			 * @since 1.0.0
 			 */
 			do_action( 'bp_template_title' ); ?></h3>
 
@@ -52,7 +49,7 @@
 		/**
 		 * Fires and displays the member plugin template content.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 */
 		do_action( 'bp_template_content' ); ?>
 
@@ -61,6 +58,6 @@
 		/**
 		 * Fires at the end of the member plugin template.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_after_member_plugin_template' ); ?>

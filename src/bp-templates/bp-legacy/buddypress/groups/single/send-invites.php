@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Groups Send Invites
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the send invites content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_group_send_invites_content' ); ?>
 
@@ -53,6 +58,6 @@ else : ?>
 /**
  * Fires after the send invites content.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_group_send_invites_content' ); ?>

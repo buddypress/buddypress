@@ -5,7 +5,7 @@
 	/**
 	 * Fires before the display of the member activation page.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_activation_page' ); ?>
 
@@ -21,7 +21,7 @@
 		/**
 		 * Fires before the display of the member activation page content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_before_activate_content' ); ?>
 
@@ -55,7 +55,7 @@
 		/**
 		 * Fires after the display of the member activation page content.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_after_activate_content' ); ?>
 
@@ -66,7 +66,7 @@
 	/**
 	 * Fires after the display of the member activation page.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_activation_page' ); ?>
 

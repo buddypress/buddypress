@@ -1,9 +1,15 @@
 <?php
+/**
+ * BuddyPress - Activity Loop
+ *
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the start of the activity loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_activity_loop' ); ?>
 
@@ -48,7 +54,7 @@ do_action( 'bp_before_activity_loop' ); ?>
 /**
  * Fires after the finish of the activity loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_activity_loop' ); ?>
 

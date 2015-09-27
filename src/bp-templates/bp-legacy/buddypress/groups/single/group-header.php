@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Groups Header
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the display of a group's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_group_header' );
 
@@ -20,7 +25,7 @@ do_action( 'bp_before_group_header' );
 		/**
 		 * Fires after the display of the group's administrators.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_after_group_menu_admins' );
 
@@ -29,7 +34,7 @@ do_action( 'bp_before_group_header' );
 			/**
 			 * Fires before the display of the group's moderators, if there are any.
 			 *
-			 * @since BuddyPress (1.1.0)
+			 * @since 1.1.0
 			 */
 			do_action( 'bp_before_group_menu_mods' ); ?>
 
@@ -40,7 +45,7 @@ do_action( 'bp_before_group_header' );
 			/**
 			 * Fires after the display of the group's moderators, if there are any.
 			 *
-			 * @since BuddyPress (1.1.0)
+			 * @since 1.1.0
 			 */
 			do_action( 'bp_after_group_menu_mods' );
 
@@ -69,7 +74,7 @@ do_action( 'bp_before_group_header' );
 	/**
 	 * Fires before the display of the group's header meta.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_group_header_meta' ); ?>
 
@@ -84,7 +89,7 @@ do_action( 'bp_before_group_header' );
 			/**
 			 * Fires in the group header actions section.
 			 *
-			 * @since BuddyPress (1.2.6)
+			 * @since 1.2.6
 			 */
 			do_action( 'bp_group_header_actions' ); ?>
 
@@ -95,7 +100,7 @@ do_action( 'bp_before_group_header' );
 		/**
 		 * Fires after the group header actions section.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_group_header_meta' ); ?>
 
@@ -107,7 +112,7 @@ do_action( 'bp_before_group_header' );
 /**
  * Fires after the display of a group's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_group_header' );
 

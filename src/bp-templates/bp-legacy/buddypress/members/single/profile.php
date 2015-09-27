@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Profile
  *
@@ -20,7 +19,7 @@
 /**
  * Fires before the display of member profile content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_profile_content' ); ?>
 
@@ -63,6 +62,6 @@ endswitch; ?>
 /**
  * Fires after the display of member profile content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_profile_content' ); ?>

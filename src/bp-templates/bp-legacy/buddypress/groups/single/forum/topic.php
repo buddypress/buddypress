@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Groups Single Forum Topic
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires at the top of the group forum topic template.
  *
- * @since BuddyPress (1.2.4)
+ * @since 1.2.4
  */
 do_action( 'bp_before_group_forum_topic' ); ?>
 
@@ -57,7 +62,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 		/**
 		 * Fires at the end of the group forum topic meta markup.
 		 *
-		 * @since BuddyPress (1.2.5)
+		 * @since 1.2.5
 		 */
 		do_action( 'bp_group_forum_topic_meta' ); ?>
 
@@ -87,7 +92,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 		/**
 		 * Fires before the listing of the group forum topic posts.
 		 *
-		 * @since BuddyPress (1.2.4)
+		 * @since 1.2.4
 		 */
 		do_action( 'bp_before_group_forum_topic_posts' ); ?>
 
@@ -116,7 +121,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 						/**
 						 * Fires inside the group forum post meta markup.
 						 *
-						 * @since BuddyPress (1.2.5)
+						 * @since 1.2.5
 						 */
 						do_action( 'bp_group_forum_post_meta' ); ?>
 
@@ -132,7 +137,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 		/**
 		 * Fires before the listing of the group forum topic posts.
 		 *
-		 * @since BuddyPress (1.2.4)
+		 * @since 1.2.4
 		 */
 		do_action( 'bp_after_group_forum_topic_posts' ); ?>
 
@@ -174,7 +179,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 					/**
 					 * Fires before the display of the group forum new reply section.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 */
 					do_action( 'groups_forum_new_reply_before' ); ?>
 
@@ -191,7 +196,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 					/**
 					 * Fires after the display of the group forum new reply section.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 */
 					do_action( 'groups_forum_new_reply_after' ); ?>
 
@@ -217,6 +222,6 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 /**
  * Fires at the end of the group forum topic template.
  *
- * @since BuddyPress (1.2.4)
+ * @since 1.2.4
  */
 do_action( 'bp_after_group_forum_topic' ); ?>

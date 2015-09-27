@@ -39,7 +39,7 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 						/**
 						 * Fires after the display of a field table row for profile data.
 						 *
-						 * @since BuddyPress (1.1.0)
+						 * @since 1.1.0
 						 */
 						do_action( 'bp_profile_field_item' ); ?>
 

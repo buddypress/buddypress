@@ -5,7 +5,7 @@
 /**
  * Fires before the display of profile avatar upload content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
@@ -61,7 +61,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 	/**
 	 * Load the Avatar UI templates
 	 *
-	 * @since  BuddyPress (2.3.0)
+	 * @since  2.3.0
 	 */
 	bp_avatar_get_templates(); ?>
 
@@ -76,6 +76,6 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 /**
  * Fires after the display of profile avatar upload content.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_profile_avatar_upload_content' ); ?>

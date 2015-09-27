@@ -1,9 +1,15 @@
 <?php
+/**
+ * BuddyPress - Groups
+ *
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires at the top of the groups directory template file.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_before_directory_groups_page' ); ?>
 
@@ -14,7 +20,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	/**
 	 * Fires before the display of the groups.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_groups' ); ?>
 
@@ -23,7 +29,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	/**
 	 * Fires before the display of the groups content.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_groups_content' ); ?>
 
@@ -51,7 +57,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 				/**
 				 * Fires inside the groups directory group filter input.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 */
 				do_action( 'bp_groups_directory_group_filter' ); ?>
 
@@ -65,7 +71,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 				/**
 				 * Fires inside the groups directory group types.
 				 *
-				 * @since BuddyPress (1.2.0)
+				 * @since 1.2.0
 				 */
 				do_action( 'bp_groups_directory_group_types' ); ?>
 
@@ -84,7 +90,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 						/**
 						 * Fires inside the groups directory group order options.
 						 *
-						 * @since BuddyPress (1.2.0)
+						 * @since 1.2.0
 						 */
 						do_action( 'bp_groups_directory_order_options' ); ?>
 					</select>
@@ -101,7 +107,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		/**
  		 * Fires and displays the group content.
  		 *
- 		 * @since BuddyPress (1.1.0)
+ 		 * @since 1.1.0
  		 */
 		do_action( 'bp_directory_groups_content' ); ?>
 
@@ -112,7 +118,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		/**
  		 * Fires after the display of the groups content.
  		 *
- 		 * @since BuddyPress (1.1.0)
+ 		 * @since 1.1.0
  		 */
 		do_action( 'bp_after_directory_groups_content' ); ?>
 
@@ -123,7 +129,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	/**
  	 * Fires after the display of the groups.
  	 *
- 	 * @since BuddyPress (1.1.0)
+ 	 * @since 1.1.0
  	 */
 	do_action( 'bp_after_directory_groups' ); ?>
 
@@ -134,6 +140,6 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 /**
  * Fires at the bottom of the groups directory template file.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 do_action( 'bp_after_directory_groups_page' );

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Forums Loop
  *
@@ -16,7 +15,7 @@
 /**
  * Fires at the start of the forums loop.
  *
- * @since BuddyPress (1.2.6)
+ * @since 1.2.6
  */
 do_action( 'bp_before_forums_loop' ); ?>
 
@@ -43,7 +42,7 @@ do_action( 'bp_before_forums_loop' ); ?>
 	/**
 	 * Fires before the display of the forums list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_forums_list' ); ?>
 
@@ -59,7 +58,7 @@ do_action( 'bp_before_forums_loop' ); ?>
 				/**
 				 * Fires at the end of <tr> row holding the <th> tags.
 				 *
-				 * @since BuddyPress (1.2.4)
+				 * @since 1.2.4
 				 */
 				do_action( 'bp_directory_forums_extra_cell_head' ); ?>
 
@@ -117,7 +116,7 @@ do_action( 'bp_before_forums_loop' ); ?>
 				/**
 				 * Fires at the end of <tr> row holding the <td> tags.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_directory_forums_extra_cell' ); ?>
 
@@ -128,7 +127,7 @@ do_action( 'bp_before_forums_loop' ); ?>
 				/**
 				 * Fires after the <tr> for a forum listing display.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_directory_forums_extra_row' ); ?>
 
@@ -142,7 +141,7 @@ do_action( 'bp_before_forums_loop' ); ?>
 	/**
 	 * Fires after the display of the forums list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_forums_list' ); ?>
 
@@ -171,6 +170,6 @@ do_action( 'bp_before_forums_loop' ); ?>
 /**
  * Fires at the end of the forums loop.
  *
- * @since BuddyPress (1.2.6)
+ * @since 1.2.6
  */
 do_action( 'bp_after_forums_loop' ); ?>

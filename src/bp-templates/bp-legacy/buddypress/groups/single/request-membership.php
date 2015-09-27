@@ -1,9 +1,14 @@
 <?php
+/**
+ * BuddyPress - Groups Request Membership
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the display of the group membership request form.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_before_group_request_membership_content' ); ?>
 
@@ -19,7 +24,7 @@ do_action( 'bp_before_group_request_membership_content' ); ?>
 		/**
 		 * Fires after the textarea for the group membership request form.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'bp_group_request_membership_content' ); ?>
 
@@ -34,6 +39,6 @@ do_action( 'bp_before_group_request_membership_content' ); ?>
 /**
  * Fires after the display of the group membership request form.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 do_action( 'bp_after_group_request_membership_content' ); ?>

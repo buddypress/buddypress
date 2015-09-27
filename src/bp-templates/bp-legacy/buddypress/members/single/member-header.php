@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Header
  *
@@ -14,7 +13,7 @@
 /**
  * Fires before the display of a member's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_member_header' ); ?>
 
@@ -39,7 +38,7 @@ do_action( 'bp_before_member_header' ); ?>
 	/**
 	 * Fires before the display of the member's header meta.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_member_header_meta' ); ?>
 
@@ -62,7 +61,7 @@ do_action( 'bp_before_member_header' ); ?>
 			/**
 			 * Fires in the member header actions section.
 			 *
-			 * @since BuddyPress (1.2.6)
+			 * @since 1.2.6
 			 */
 			do_action( 'bp_member_header_actions' ); ?>
 
@@ -76,7 +75,7 @@ do_action( 'bp_before_member_header' ); ?>
 		  * If you'd like to show specific profile fields here use:
 		  * bp_member_profile_data( 'field=About Me' ); -- Pass the name of the field
 		  *
-		  * @since BuddyPress (1.2.0)
+		  * @since 1.2.0
 		  */
 		 do_action( 'bp_profile_header_meta' );
 
@@ -91,7 +90,7 @@ do_action( 'bp_before_member_header' ); ?>
 /**
  * Fires after the display of a member's header.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_member_header' ); ?>
 

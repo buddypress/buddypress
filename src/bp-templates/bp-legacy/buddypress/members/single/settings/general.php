@@ -1,4 +1,9 @@
 <?php
+/**
+ * BuddyPress - Members Single Profile
+ * @package    BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
@@ -26,7 +31,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	/**
 	 * Fires before the display of the submit button for user general settings saving.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_core_general_settings_before_submit' ); ?>
 
@@ -39,7 +44,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	/**
 	 * Fires after the display of the submit button for user general settings saving.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_core_general_settings_after_submit' ); ?>
 

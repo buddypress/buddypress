@@ -10,7 +10,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	/**
 	 * Fires before the display of the submit button for user capabilities saving.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	do_action( 'bp_members_capabilities_account_before_submit' ); ?>
 
@@ -28,7 +28,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	/**
 	 * Fires after the display of the submit button for user capabilities saving.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 */
 	do_action( 'bp_members_capabilities_account_after_submit' ); ?>
 

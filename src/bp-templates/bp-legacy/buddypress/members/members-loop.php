@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Members Loop
  *
@@ -9,14 +8,10 @@
  * @subpackage bp-legacy
  */
 
-?>
-
-<?php
-
 /**
  * Fires before the display of the members loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_before_members_loop' ); ?>
 
@@ -47,7 +42,7 @@ do_action( 'bp_before_members_loop' ); ?>
 	/**
 	 * Fires before the display of the members list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_members_list' ); ?>
 
@@ -79,7 +74,7 @@ do_action( 'bp_before_members_loop' ); ?>
 				/**
 				 * Fires inside the display of a directory member item.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_directory_members_item' ); ?>
 
@@ -101,7 +96,7 @@ do_action( 'bp_before_members_loop' ); ?>
 				/**
 				 * Fires inside the members action HTML markup to display actions.
 				 *
-				 * @since BuddyPress (1.1.0)
+				 * @since 1.1.0
 				 */
 				do_action( 'bp_directory_members_actions' ); ?>
 
@@ -119,7 +114,7 @@ do_action( 'bp_before_members_loop' ); ?>
 	/**
 	 * Fires after the display of the members list.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_members_list' ); ?>
 
@@ -154,6 +149,6 @@ do_action( 'bp_before_members_loop' ); ?>
 /**
  * Fires after the display of the members loop.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  */
 do_action( 'bp_after_members_loop' ); ?>

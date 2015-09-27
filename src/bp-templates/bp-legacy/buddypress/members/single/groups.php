@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Groups
  *
@@ -29,7 +28,7 @@
 					/**
 					 * Fires inside the members group order options select input.
 					 *
-					 * @since BuddyPress (1.2.0)
+					 * @since 1.2.0
 					 */
 					do_action( 'bp_member_group_order_options' ); ?>
 
@@ -51,7 +50,7 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires before the display of member groups content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_before_member_groups_content' ); ?>
 
@@ -66,7 +65,7 @@ switch ( bp_current_action() ) :
 		/**
 		 * Fires after the display of member groups content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_after_member_groups_content' );
 		break;

@@ -5,7 +5,7 @@
 	/**
 	 * Fires before the display of member home content.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_member_home_content' ); ?>
 
@@ -26,7 +26,7 @@
 				/**
 				 * Fires after the display of member options navigation.
 				 *
-				 * @since BuddyPress (1.2.4)
+				 * @since 1.2.4
 				 */
 				do_action( 'bp_member_options_nav' ); ?>
 
@@ -41,7 +41,7 @@
 		/**
 		 * Fires before the display of member body content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_before_member_body' );
 
@@ -81,7 +81,7 @@
 		/**
 		 * Fires after the display of member body content.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 */
 		do_action( 'bp_after_member_body' ); ?>
 
@@ -92,7 +92,7 @@
 	/**
 	 * Fires after the display of member home content.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_member_home_content' ); ?>
 
