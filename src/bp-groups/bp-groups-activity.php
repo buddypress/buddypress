@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Activity Functions.
  *
@@ -10,7 +9,7 @@
  * @subpackage GroupsActivity
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -78,7 +77,7 @@ function groups_register_activity_actions() {
 	/**
 	 * Fires at end of registration of the default activity actions for the Groups component.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 */
 	do_action( 'groups_register_activity_actions' );
 }
@@ -87,7 +86,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
 /**
  * Format 'created_group' activity actions.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
@@ -108,7 +107,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	/**
 	 * Filters the 'created_group' activity actions.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $action   The 'created_group' activity action.
 	 * @param object $activity Activity data object.
@@ -119,7 +118,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 /**
  * Format 'joined_group' activity actions.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
@@ -151,7 +150,7 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 	/**
 	 * Filters the 'joined_group' activity actions.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $action   The 'joined_group' activity actions.
 	 * @param object $activity Activity data object.
@@ -162,7 +161,7 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 /**
  * Format 'group_details_updated' activity actions.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param  string $action   Static activity action.
  * @param  object $activity Activity data object.
@@ -205,7 +204,7 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 	/**
 	 * Filters the 'group_details_updated' activity actions.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param string $action   The 'group_details_updated' activity actions.
 	 * @param object $activity Activity data object.
@@ -218,7 +217,7 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
  *
  * This reduces database overhead during the activity loop.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param array $activities Array of activity items.
  *
@@ -269,7 +268,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_groups_prefetch_activity_obj
 /**
  * Set up activity arguments for use with the 'groups' scope.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param array $retval Empty array by default
  * @param array $filter Current activity arguments
@@ -415,7 +414,7 @@ add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
 /**
  * Add an activity stream item when a member joins a group.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int $user_id  ID of the user joining the group.
  * @param int $group_id ID of the group.
@@ -435,7 +434,7 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	/**
 	 * Filters the 'membership_accepted' activity actions.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $value    The 'membership_accepted' activity action.
 	 * @param int    $user_id  ID of the user joining the group.
@@ -456,7 +455,7 @@ add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_act
 /**
  * Add an activity item when a group's details are updated.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param  int             $group_id       ID of the group.
  * @param  BP_Groups_Group $old_group      Group object before the details had been changed.
@@ -529,7 +528,7 @@ add_action( 'groups_details_updated', 'bp_groups_group_details_updated_add_activ
 /**
  * Delete all activity items related to a specific group.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int $group_id ID of the group.
  */
@@ -550,7 +549,7 @@ add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_activity',
  * joined_group activity so users cannot flood the activity stream by
  * joining/leaving the group in quick succession.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int $group_id ID of the group.
  * @param int $user_id  ID of the user leaving the group.

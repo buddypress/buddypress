@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Actions.
  *
@@ -11,13 +10,13 @@
  * @subpackage GroupsActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Protect access to single groups.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 function bp_groups_group_access_protection() {
 	if ( ! bp_is_group() ) {
@@ -60,7 +59,7 @@ function bp_groups_group_access_protection() {
 	 * want to change the $no_access_args, to avoid problems such as
 	 * logged-in users being redirected to wp-login.php.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 *
 	 * @param bool  $user_has_access True if the user has access to the
 	 *                               content, otherwise false.
@@ -194,7 +193,7 @@ function groups_action_create_group() {
 			/**
 			 * Filters the allowed invite statuses.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param array $value Array of statuses allowed.
 			 *                     Possible values are 'members,
@@ -225,7 +224,7 @@ function groups_action_create_group() {
 		 * This hook is a variable hook dependent on the current step
 		 * in the creation process.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'groups_create_group_step_save_' . bp_get_groups_current_create_step() );
 
@@ -234,7 +233,7 @@ function groups_action_create_group() {
 		 *
 		 * Mostly for clearing cache on a generic action name.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 */
 		do_action( 'groups_create_group_step_complete' );
 
@@ -270,7 +269,7 @@ function groups_action_create_group() {
 			/**
 			 * Fires after the group has been successfully created.
 			 *
-			 * @since BuddyPress (1.1.0)
+			 * @since 1.1.0
 			 *
 			 * @param int $new_group_id ID of the newly created group.
 			 */
@@ -348,7 +347,7 @@ function groups_action_create_group() {
 	/**
 	 * Filters the template to load for the group creation screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $value Path to the group creation template to load.
 	 */
@@ -393,7 +392,7 @@ function groups_action_join_group() {
 	/**
 	 * Filters the template to load for the single group screen.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $value Path to the single group template to load.
 	 */
@@ -410,7 +409,7 @@ add_action( 'bp_actions', 'groups_action_join_group' );
  * Note: When leaving a group from the group directory, AJAX is used and
  * another function handles this. See {@link bp_legacy_theme_ajax_joinleave_group()}.
  *
- * @since BuddyPress (1.2.4)
+ * @since 1.2.4
  */
 function groups_action_leave_group() {
 	if ( ! bp_is_single_item() || ! bp_is_groups_component() || ! bp_is_current_action( 'leave-group' ) ) {
@@ -504,7 +503,7 @@ add_action( 'bp_actions', 'groups_action_redirect_to_random_group' );
 /**
  * Load the activity feed for the current group.
  *
- * @since BuddyPress (1.2.0)
+ * @since 1.2.0
  *
  * @return false|null False on failure.
  */

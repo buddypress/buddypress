@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Caching.
  *
@@ -10,7 +9,7 @@
  * @subpackage Groups
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -61,7 +60,7 @@ add_action( 'groups_create_group_step_complete', 'groups_clear_group_object_cach
 /**
  * Bust group caches when editing or deleting.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
  * @param int $group_id The group being edited.
  */
@@ -76,7 +75,7 @@ add_action( 'groups_settings_updated', 'bp_groups_delete_group_cache' );
 /**
  * Bust group cache when modifying metadata.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $meta_id
  * @param int $group_id
@@ -90,7 +89,7 @@ add_action( 'added_group_meta', 'bp_groups_delete_group_cache_on_metadata_change
 /**
  * Clear caches for the group creator when a group is created.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param int             $group_id  ID of the group.
  * @param BP_Groups_Group $group_obj Group object.
@@ -104,7 +103,7 @@ add_action( 'groups_created_group', 'bp_groups_clear_group_creator_cache', 10, 2
 /**
  * Clears caches for all members in a group when a group is deleted.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @param BP_Groups_Group $group_obj Group object.
  * @param array           $user_ids  User IDs who were in this group.
@@ -121,7 +120,7 @@ add_action( 'bp_groups_delete_group', 'bp_groups_clear_group_members_caches', 10
  *
  * Count is cleared when an invite is accepted, rejected or deleted.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $user_id The user ID.
  */
@@ -137,7 +136,7 @@ add_action( 'groups_delete_invite', 'bp_groups_clear_invite_count_for_user' );
  *
  * Groan. Our API functions are not consistent.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $group_id The group ID. Not used in this function.
  * @param int $user_id  The user ID.
@@ -150,7 +149,7 @@ add_action( 'groups_uninvite_user', 'bp_groups_clear_invite_count_on_uninvite', 
 /**
  * Clear a user's cached total group invite count when a new invite is sent.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int   $group_id      The group ID. Not used in this function.
  * @param array $invited_users Array of invited user IDs.
@@ -181,7 +180,7 @@ add_action( 'groups_remove_member', 'groups_clear_group_user_object_cache', 10, 
 /**
  * Clear group administrator cache.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param int $group_id The group ID.
  */
@@ -198,7 +197,7 @@ add_action( 'groups_delete_group',   'groups_clear_group_administrator_cache' );
  * This accounts for situations where group administrators are added manually
  * using {@link BP_Groups_Member::save()}.  Usually via a plugin.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param BP_Groups_Member $member
  */

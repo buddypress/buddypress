@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Notification Functions.
  *
@@ -10,7 +9,7 @@
  * @subpackage GroupsActivity
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Emails ********************************************************************/
@@ -18,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notify all group members when a group is updated.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param int                  $group_id  ID of the group.
  * @param BP_Groups_Group|null $old_group Group before new details were saved.
@@ -50,7 +49,7 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 	/**
 	 * Filters the bullet points listing updated items in the email notification after a group is updated.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param array $changed Array of bullet points.
 	 */
@@ -93,7 +92,7 @@ To view the group: %3$s
 		/**
 		 * Filters the user email that the group update notification will be sent to.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string $to User email the notification is being sent to.
 		 */
@@ -102,7 +101,7 @@ To view the group: %3$s
 		/**
 		 * Filters the group update notification subject that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string          $subject Email notification subject text.
 		 * @param BP_Groups_Group $group   Object holding the current group instance. Passed by reference.
@@ -112,7 +111,7 @@ To view the group: %3$s
 		/**
 		 * Filters the group update notification message that will be sent to user.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param string          $message       Email notification message text.
 		 * @param BP_Groups_Group $group         Object holding the current group instance. Passed by reference.
@@ -131,7 +130,7 @@ To view the group: %3$s
 	 *
 	 * See https://buddypress.trac.wordpress.org/ticket/3644 for blank message parameter.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array  $user_ids Array of user IDs to notify about the update.
 	 * @param string $subject  Email notification subject text.
@@ -144,7 +143,7 @@ To view the group: %3$s
 /**
  * Notify group admin about new membership request.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param int $requesting_user_id ID of the user requesting group membership.
  * @param int $admin_id           ID of the group admin.
@@ -233,7 +232,7 @@ To view %4$s\'s profile: %5$s
 	/**
 	 * Filters the user email that the group membership request will be sent to.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $to User email the request is being sent to.
 	 */
@@ -242,7 +241,7 @@ To view %4$s\'s profile: %5$s
 	/**
 	 * Filters the group membership request subject that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $subject Membership request email subject text.
 	 * @param BP_Groups_Group $group   Object holding the current group instance. Passed by reference.
@@ -252,7 +251,7 @@ To view %4$s\'s profile: %5$s
 	/**
 	 * Filters the group membership request message that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $message              Membership request email message text.
 	 * @param BP_Groups_Group $group                Object holding the current group instance. Passed by reference.
@@ -268,7 +267,7 @@ To view %4$s\'s profile: %5$s
 	/**
 	 * Fires after the notification is sent that a member has requested group membership.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int    $admin_id           ID of the group administrator.
 	 * @param string $subject            Email notification subject text.
@@ -283,7 +282,7 @@ To view %4$s\'s profile: %5$s
 /**
  * Notify member about their group membership request.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param int  $requesting_user_id ID of the user requesting group membership.
  * @param int  $group_id           ID of the group.
@@ -352,7 +351,7 @@ To submit another request please log in and visit: %2$s
 	/**
 	 * Filters the user email that the group membership request result will be sent to.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $to User email the request result is being sent to.
 	 */
@@ -361,7 +360,7 @@ To submit another request please log in and visit: %2$s
 	/**
 	 * Filters the group membership request result subject that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $subject Membership request result email subject text.
 	 * @param BP_Groups_Group $group   Object holding the current group instance. Passed by reference.
@@ -371,7 +370,7 @@ To submit another request please log in and visit: %2$s
 	/**
 	 * Filters the group membership request result message that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $message       Membership request result email message text.
 	 * @param BP_Groups_Group $group         Object holding the current group instance. Passed by reference.
@@ -385,7 +384,7 @@ To submit another request please log in and visit: %2$s
 	/**
 	 * Fires after the notification is sent that a membership has been approved.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int    $requesting_user_id ID of the user whose membership was approved.
 	 * @param string $subject            Email notification subject text.
@@ -400,7 +399,7 @@ add_action( 'groups_membership_rejected', 'groups_notification_membership_reques
 /**
  * Notify group member they have been promoted.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
@@ -458,7 +457,7 @@ To view the group please visit: %3$s
 	/**
 	 * Filters the user email that the group promotion notification will be sent to.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $to User email the promotion notification is being sent to.
 	 */
@@ -467,7 +466,7 @@ To view the group please visit: %3$s
 	/**
 	 * Filters the group promotion notification subject that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $subject Promotion notification email subject text.
 	 * @param BP_Groups_Group $group   Object holding the current group instance. Passed by reference.
@@ -477,7 +476,7 @@ To view the group please visit: %3$s
 	/**
 	 * Filters the group promotion notification message that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $message       Promotion notification email message text.
 	 * @param BP_Groups_Group $group         Object holding the current group instance. Passed by reference.
@@ -492,7 +491,7 @@ To view the group please visit: %3$s
 	/**
 	 * Fires after the notification is sent that a member has been promoted.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int    $user_id  ID of the user who was promoted.
 	 * @param string $subject  Email notification subject text.
@@ -506,7 +505,7 @@ add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10,
 /**
  * Notify a member they have been invited to a group.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param BP_Groups_Group  $group           Group object.
  * @param BP_Groups_Member $member          Member object.
@@ -574,7 +573,7 @@ To view %5$s\'s profile visit: %6$s
 	/**
 	 * Filters the user email that the group invite notification will be sent to.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $to User email the invite notification is being sent to.
 	 */
@@ -583,7 +582,7 @@ To view %5$s\'s profile visit: %6$s
 	/**
 	 * Filters the group invite notification subject that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $subject Invite notification email subject text.
 	 * @param BP_Groups_Group $group   Object holding the current group instance. Passed by reference.
@@ -593,7 +592,7 @@ To view %5$s\'s profile visit: %6$s
 	/**
 	 * Filters the group invite notification message that will be sent to user.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string          $message       Invite notification email message text.
 	 * @param BP_Groups_Group $group         Object holding the current group instance. Passed by reference.
@@ -610,7 +609,7 @@ To view %5$s\'s profile visit: %6$s
 	/**
 	 * Fires after the notification is sent that a member has been invited to a group.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int             $invited_user_id  ID of the user who was invited.
 	 * @param string          $subject          Email notification subject text.
@@ -625,7 +624,7 @@ To view %5$s\'s profile visit: %6$s
 /**
  * Format notifications for the Groups component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param string $action            The kind of notification being rendered.
  * @param int    $item_id           The primary item ID.
@@ -664,7 +663,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * This is a dynamic filter that is dependent on item count and action.
 					 * Complete filter - bp_groups_multiple_new_membership_requests_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for request.
 					 * @param string $group_link        The permalink for the group.
@@ -682,7 +681,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * This is a dynamic filter that is dependent on item count and action.
 					 * Complete filter - bp_groups_multiple_new_membership_requests_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param string $group_link        The permalink for the group.
@@ -709,7 +708,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * This is a dynamic filter that is dependent on item count and action.
 					 * Complete filter - bp_groups_single_new_membership_request_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for request.
 					 * @param string $group_link        The permalink for the group.
@@ -727,7 +726,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * This is a dynamic filter that is dependent on item count and action.
 					 * Complete filter - bp_groups_single_new_membership_request_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param string $group_link        The permalink for the group.
@@ -763,7 +762,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple accepted group membership requests notification for string format.
 					 * Complete filter - bp_groups_multiple_membership_request_accepted_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $total_items       Total number of accepted requests.
@@ -778,7 +777,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple accepted group membership requests notification for non-string format.
 					 * Complete filter - bp_groups_multiple_membership_request_accepted_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification
 					 * @param int    $total_items       Total number of accepted requests.
@@ -802,7 +801,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single accepted group membership request notification for string format.
 					 * Complete filter - bp_groups_single_membership_request_accepted_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param string $group_link        The permalink for the group.
@@ -817,7 +816,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single accepted group membership request notification for non-string format.
 					 * Complete filter - bp_groups_single_membership_request_accepted_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param string $group_link        The permalink for the group.
@@ -852,7 +851,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple rejected group membership requests notification for string format.
 					 * Complete filter - bp_groups_multiple_membership_request_rejected_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $total_items       Total number of rejected requests.
@@ -867,7 +866,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple rejected group membership requests notification for non-string format.
 					 * Complete filter - bp_groups_multiple_membership_request_rejected_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $total_items       Total number of rejected requests.
@@ -890,7 +889,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single rejected group membership requests notification for string format.
 					 * Complete filter - bp_groups_single_membership_request_rejected_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -905,7 +904,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single rejected group membership requests notification for non-string format.
 					 * Complete filter - bp_groups_single_membership_request_rejected_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -939,7 +938,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple promoted to group admin notification for string format.
 					 * Complete filter - bp_groups_multiple_member_promoted_to_admin_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $total_items       Total number of rejected requests.
@@ -952,7 +951,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple promoted to group admin notification for non-string format.
 					 * Complete filter - bp_groups_multiple_member_promoted_to_admin_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $total_items       Total number of rejected requests.
@@ -973,7 +972,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single promoted to group admin notification for non-string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_admin_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -987,7 +986,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single promoted to group admin notification for non-string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_admin_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -1021,7 +1020,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple promoted to group mod notification for string format.
 					 * Complete filter - bp_groups_multiple_member_promoted_to_mod_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $total_items       Total number of rejected requests.
@@ -1055,7 +1054,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single promoted to group mod notification for string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_mod_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -1069,7 +1068,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single promoted to group admin notification for non-string format.
 					 * Complete filter - bp_groups_single_member_promoted_to_mod_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -1103,7 +1102,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple group invitation notification for string format.
 					 * Complete filter - bp_groups_multiple_group_invite_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $total_items       Total number of rejected requests.
@@ -1116,7 +1115,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters multiple group invitation notification for non-string format.
 					 * Complete filter - bp_groups_multiple_group_invite_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $total_items       Total number of rejected requests.
@@ -1137,7 +1136,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single group invitation notification for string format.
 					 * Complete filter - bp_groups_single_group_invite_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param string $string            HTML anchor tag for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -1151,7 +1150,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * Filters single group invitation notification for non-string format.
 					 * Complete filter - bp_groups_single_group_invite_notification.
 					 *
-					 * @since BuddyPress (1.0.0)
+					 * @since 1.0.0
 					 *
 					 * @param array  $array             Array holding permalink and content for notification.
 					 * @param int    $group_link        The permalink for the group.
@@ -1173,7 +1172,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			/**
 			 * Filters plugin-added group-related custom component_actions.
 			 *
-			 * @since BuddyPress (2.4.0)
+			 * @since 2.4.0
 			 *
 			 * @param string $notification      Null value.
 			 * @param int    $item_id           The primary item ID.
@@ -1195,7 +1194,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 	/**
 	 * Fires right before returning the formatted group notifications.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param string $action            The type of notification being rendered.
 	 * @param int    $item_id           The primary item ID.
@@ -1210,7 +1209,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 /**
  * Remove all notifications for any member belonging to a specific group.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int $group_id ID of the group.
  */
@@ -1224,7 +1223,7 @@ add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notificati
 /**
  * When a demotion takes place, delete any corresponding promotion notifications.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
@@ -1240,7 +1239,7 @@ add_action( 'groups_demoted_member', 'bp_groups_delete_promotion_notifications',
 /**
  * Mark notifications read when a member accepts a group invitation.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
@@ -1257,7 +1256,7 @@ add_action( 'groups_delete_invite', 'bp_groups_accept_invite_mark_notifications'
 /**
  * Mark notifications read when a member views their group memberships.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_groups_screen_my_groups_mark_notifications() {
 
@@ -1281,7 +1280,7 @@ add_action( 'groups_screen_group_home', 'bp_groups_screen_my_groups_mark_notific
 /**
  * Mark group invitation notifications read when a member views their invitations.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_groups_screen_invites_mark_notifications() {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -1293,7 +1292,7 @@ add_action( 'groups_screen_group_invites', 'bp_groups_screen_invites_mark_notifi
 /**
  * Mark group join requests read when an admin or moderator visits the group administration area.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_groups_screen_group_admin_requests_mark_notifications() {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -1305,7 +1304,7 @@ add_action( 'groups_screen_group_admin_requests', 'bp_groups_screen_group_admin_
 /**
  * Delete new group membership notifications when a user is being deleted.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @param int $user_id ID of the user.
  */

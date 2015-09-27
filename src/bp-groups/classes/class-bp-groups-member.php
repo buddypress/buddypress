@@ -6,7 +6,7 @@
  * @subpackage GroupsClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -224,7 +224,7 @@ class BP_Groups_Member {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Groups_Member $this Current instance of the group membership item being saved. Passed by reference.
 		 */
@@ -262,7 +262,7 @@ class BP_Groups_Member {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Groups_Member $this Current instance of the group membership item has been saved. Passed by reference.
 		 */
@@ -364,7 +364,7 @@ class BP_Groups_Member {
 		/**
 		 * Fires before a member is removed from a group.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param BP_Groups_Member $this Current group membership object.
 		 */
@@ -385,7 +385,7 @@ class BP_Groups_Member {
 		/**
 		 * Fires after a member is removed from a group.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param BP_Groups_Member $this Current group membership object.
 		 */
@@ -399,7 +399,7 @@ class BP_Groups_Member {
 	/**
 	 * Refresh the total_group_count for a user.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 *
 	 * @param int $user_id ID of the user.
 	 *
@@ -412,7 +412,7 @@ class BP_Groups_Member {
 	/**
 	 * Refresh the total_member_count for a group.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 *
 	 * @param int $group_id ID of the group.
 	 *
@@ -436,7 +436,7 @@ class BP_Groups_Member {
 		/**
 		 * Fires before a group membership is deleted.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param int $user_id  ID of the user.
 		 * @param int $group_id ID of the group.
@@ -455,7 +455,7 @@ class BP_Groups_Member {
 		/**
 		 * Fires after a member is removed from a group.
 		 *
-		 * @since BuddyPress (2.3.0)
+		 * @since 2.3.0
 		 *
 		 * @param int $user_id  ID of the user.
 		 * @param int $group_id ID of the group.
@@ -686,7 +686,7 @@ class BP_Groups_Member {
 	/**
 	 * Gets the total group invite count for a user.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -860,7 +860,7 @@ class BP_Groups_Member {
 	/**
 	 * Is the specified user the creator of the group?
 	 *
-	 * @since BuddyPress (1.2.6)
+	 * @since 1.2.6
 	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
@@ -989,7 +989,7 @@ class BP_Groups_Member {
 	/**
 	 * Get members of a group.
 	 *
-	 * @deprecated BuddyPress (1.8.0)
+	 * @deprecated 1.8.0
 	 *
 	 * @param $group_id
 	 * @param $limit
@@ -1030,7 +1030,7 @@ class BP_Groups_Member {
 			/**
 			 * Filters the SQL prepared statement used to fetch group members.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $value SQL prepared statement for fetching group members.
 			 */
@@ -1052,7 +1052,7 @@ class BP_Groups_Member {
 			/**
 			 * Filters the SQL prepared statement used to fetch group members total count.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $value SQL prepared statement for fetching group member count.
 			 */
@@ -1097,7 +1097,7 @@ class BP_Groups_Member {
 	/**
 	 * Delete all group membership information for the specified user.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $user_id ID of the user.
 	 *

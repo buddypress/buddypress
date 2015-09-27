@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Filters.
  *
@@ -7,7 +6,7 @@
  * @subpackage GroupsFilters
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 // Filter bbPress template locations
@@ -69,7 +68,7 @@ add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 /**
  * Filter output of Group Description through WordPress's KSES API.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param string $content
  *
@@ -101,7 +100,7 @@ function bp_groups_filter_kses( $content = '' ) {
 	/**
 	 * Filters the HTML elements allowed for a given context.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $allowed_tags Allowed tags, attributes, and/or entities.
 	 */
@@ -235,7 +234,7 @@ add_filter( 'bb_current_user_can', 'groups_filter_bbpress_caps', 10, 3 );
  *
  * This speeds up the query.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @see BB_Query::_filter_sql()
  */
@@ -246,7 +245,7 @@ function groups_filter_forums_root_page_sql( $sql ) {
 	 *
 	 * This filter is used to prevent fetching information that is not used.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string $value SQL string to specify fetching just topic_id.
 	 */
@@ -258,7 +257,7 @@ add_filter( 'get_latest_topics_fields', 'groups_filter_forums_root_page_sql' );
  * Should BuddyPress load the mentions scripts and related assets, including results to prime the
  * mentions suggestions?
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
  * @param bool $load_mentions    True to load mentions assets, false otherwise.
  * @param bool $mentions_enabled True if mentions are enabled.

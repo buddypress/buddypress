@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Loader.
  *
@@ -11,7 +10,7 @@
  * @subpackage GroupsLoader
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 class BP_Groups_Component extends BP_Component {
@@ -19,7 +18,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Auto-join group when non group member performs group activity.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 * @access public
 	 * @var bool
 	 */
@@ -28,7 +27,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * The group being currently accessed.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 * @access public
 	 * @var BP_Groups_Group
 	 */
@@ -37,7 +36,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Default group extension.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @access public
 	 * @todo Is this used anywhere? Is this a duplicate of $default_extension?
 	 */
@@ -46,7 +45,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Default group extension.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @access public
 	 * @var string
 	 */
@@ -55,7 +54,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Illegal group names/slugs.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 * @access public
 	 * @var array
 	 */
@@ -64,7 +63,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Group creation/edit steps (e.g. Details, Settings, Avatar, Invites).
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 * @access public
 	 * @var array
 	 */
@@ -73,7 +72,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Types of group statuses (Public, Private, Hidden).
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 * @access public
 	 * @var array
 	 */
@@ -82,7 +81,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Start the groups component creation process.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -99,7 +98,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Include Groups component files.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::includes() for a description of arguments.
 	 *
@@ -134,7 +133,7 @@ class BP_Groups_Component extends BP_Component {
 	 * The BP_GROUPS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
@@ -185,7 +184,7 @@ class BP_Groups_Component extends BP_Component {
 			/**
 			 * Filters the current PHP Class being used.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $value Name of the class being used.
 			 */
@@ -202,7 +201,7 @@ class BP_Groups_Component extends BP_Component {
 				/**
 				 * Filters the current group object being instantiated from previous filter.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 *
 				 * @param object $value Newly instantiated object for the group.
 				 */
@@ -260,7 +259,7 @@ class BP_Groups_Component extends BP_Component {
 		/**
 		 * Filters the list of illegal groups names/slugs.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param array $value Array of illegal group names/slugs.
 		 */
@@ -290,7 +289,7 @@ class BP_Groups_Component extends BP_Component {
 		/**
 		 * Filters the preconfigured groups creation steps.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 *
 		 * @param array $value Array of preconfigured group creation steps.
 		 */
@@ -325,7 +324,7 @@ class BP_Groups_Component extends BP_Component {
 		/**
 		 * Filters the list of valid groups statuses.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 *
 		 * @param array $value Array of valid group statuses.
 		 */
@@ -342,7 +341,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Set up canonical stack for this component.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 */
 	public function setup_canonical_stack() {
 		if ( ! bp_is_groups_component() ) {
@@ -356,7 +355,7 @@ class BP_Groups_Component extends BP_Component {
 		/**
 		 * Filters the default groups extension.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param string $value BP_GROUPS_DEFAULT_EXTENSION constant if defined,
 		 *                      else 'home'.
@@ -391,7 +390,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Set up component navigation.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_nav() for a description of arguments.
 	 *
@@ -621,7 +620,7 @@ class BP_Groups_Component extends BP_Component {
 			/**
 			 * Fires at the end of the groups navigation setup if user has access.
 			 *
-			 * @since BuddyPress (1.0.2)
+			 * @since 1.0.2
 			 *
 			 * @param bool $user_has_access Whether or not user has access.
 			 */
@@ -740,7 +739,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Setup cache groups
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 */
 	public function setup_cache_groups() {
 
@@ -759,7 +758,7 @@ class BP_Groups_Component extends BP_Component {
 /**
  * Bootstrap the Notifications component.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function bp_setup_groups() {
 	buddypress()->groups = new BP_Groups_Component();

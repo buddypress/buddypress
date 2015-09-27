@@ -6,7 +6,7 @@
  * @subpackage GroupsClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -107,7 +107,7 @@ class BP_Groups_Group {
 	/**
 	 * Is the current user a member of this group?
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var bool
 	 */
 	public $is_member;
@@ -115,7 +115,7 @@ class BP_Groups_Group {
 	/**
 	 * Does the current user have an outstanding invitation to this group?
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @var bool
 	 */
 	public $is_invited;
@@ -123,7 +123,7 @@ class BP_Groups_Group {
 	/**
 	 * Does the current user have a pending membership request to this group?
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 * @var bool
 	 */
 	public $is_pending;
@@ -131,7 +131,7 @@ class BP_Groups_Group {
 	/**
 	 * Timestamp of the last activity that happened in this group.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 * @var string
 	 */
 	public $last_activity;
@@ -139,7 +139,7 @@ class BP_Groups_Group {
 	/**
 	 * If this is a private or hidden group, does the current user have access?
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 * @var bool
 	 */
 	public $user_has_access;
@@ -147,7 +147,7 @@ class BP_Groups_Group {
 	/**
 	 * Raw arguments passed to the constructor.
 	 *
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
 	 * @var array
 	 */
 	public $args;
@@ -216,7 +216,7 @@ class BP_Groups_Group {
 			/**
 			 * Filters the SQL prepared statement used to fetch group admins and mods.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $value SQL select statement used to fetch admins and mods.
 			 */
@@ -281,7 +281,7 @@ class BP_Groups_Group {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Groups_Group $this Current instance of the group item being saved. Passed by reference.
 		 */
@@ -361,7 +361,7 @@ class BP_Groups_Group {
 		/**
 		 * Fires after the current group item has been saved.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
 		 * @param BP_Groups_Group $this Current instance of the group item that was saved. Passed by reference.
 		 */
@@ -396,7 +396,7 @@ class BP_Groups_Group {
 		/**
 		 * Fires before the deletion of a group.
 		 *
-		 * @since BuddyPress (1.2.0)
+		 * @since 1.2.0
 		 *
 		 * @param BP_Groups_Group $this     Current instance of the group item being deleted. Passed by reference.
 		 * @param array           $user_ids Array of user IDs that were members of the group.
@@ -805,7 +805,7 @@ class BP_Groups_Group {
 			/**
 			 * Filters the 'type' parameter used to overwrite 'order' and 'orderby' values.
 			 *
-			 * @since BuddyPress (2.1.0)
+			 * @since 2.1.0
 			 *
 			 * @param array  $value Converted 'type' value for order and orderby.
 			 * @param string $value Parsed 'type' value for the get method.
@@ -830,7 +830,7 @@ class BP_Groups_Group {
 		/**
 		 * Filters the converted 'orderby' term.
 		 *
-		 * @since BuddyPress (2.1.0)
+		 * @since 2.1.0
 		 *
 		 * @param string $value   Converted 'orderby' term.
 		 * @param string $orderby Original orderby value.
@@ -852,7 +852,7 @@ class BP_Groups_Group {
 		/**
 		 * Filters the pagination SQL statement.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $value Concatenated SQL statement.
 		 * @param array  $sql   Array of SQL parts before concatenation.
@@ -912,7 +912,7 @@ class BP_Groups_Group {
 		/**
 		 * Filters the SQL used to retrieve total group results.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $t_sql     Concatenated SQL statement used for retrieving total group results.
 		 * @param array  $total_sql Array of SQL parts for the query.
@@ -950,7 +950,7 @@ class BP_Groups_Group {
 	 * WP_Query, we have to alter the return value (stripping the leading
 	 * AND keyword from the 'where' clause).
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 * @access protected
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
@@ -998,7 +998,7 @@ class BP_Groups_Group {
 	/**
 	 * Convert the 'type' parameter to 'order' and 'orderby'.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 * @access protected
 	 *
 	 * @param string $type The 'type' shorthand param.
@@ -1114,7 +1114,7 @@ class BP_Groups_Group {
 	/**
 	 * Convert the 'orderby' param into a proper SQL term/column.
 	 *
-	 * @since BuddyPress (1.8.0)
+	 * @since 1.8.0
 	 * @access protected
 	 *
 	 * @param string $orderby Orderby term as passed to get().
@@ -1494,7 +1494,7 @@ class BP_Groups_Group {
 		 *
 		 * https://buddypress.trac.wordpress.org/ticket/4306.
 		 *
-		 * @since BuddyPress (1.6.0)
+		 * @since 1.6.0
 		 *
 		 * @param string $filter_sql SQL portion for the query.
 		 * @param string $type       Type of forum topics to query for.
@@ -1526,7 +1526,7 @@ class BP_Groups_Group {
 	/**
 	 * Get a total count of all topics of a given status, across groups/forums.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param string      $status       Which group type to count. 'public', 'private',
 	 *                                  'hidden', or 'all'. Default: 'public'.
@@ -1578,7 +1578,7 @@ class BP_Groups_Group {
 	 * A bit of a kludge workaround for some issues
 	 * with bp_has_groups().
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 *
 	 * @return array
 	 */

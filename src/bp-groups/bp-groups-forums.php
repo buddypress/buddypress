@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Forums.
  *
@@ -14,7 +13,7 @@
  * @subpackage GroupsForums
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -22,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Uses the bundled version of bbPress packaged with BuddyPress.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param int    $group_id   The group ID that the new forum should be attached to.
  * @param string $group_name The group name.
@@ -52,7 +51,7 @@ function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = 
 	/**
 	 * Fires after the creation of a new forum inside a specific BuddyPress group.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $forum_id ID of the newly created forum.
 	 * @param int $group_id ID of the associated group.
@@ -63,7 +62,7 @@ function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = 
 /**
  * Update group forum metadata (title, description, slug) when the group's details are edited.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param int $group_id Group id, passed from groups_details_updated.
  *
@@ -87,7 +86,7 @@ function groups_update_group_forum( $group_id ) {
 	/**
 	 * Filters the group forum metadata value argument.
 	 *
-	 * @since BuddyPress (1.2.5)
+	 * @since 1.2.5
 	 *
 	 * @param array $value Array of metadata values to update the group forum with.
 	 */
@@ -105,7 +104,7 @@ add_action( 'groups_details_updated', 'groups_update_group_forum' );
  *
  * Uses the bundled version of bbPress packaged with BuddyPress.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param string $post_text The text for the forum post.
  * @param int    $topic_id  The topic ID used so we can identify where the new
@@ -123,7 +122,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	/**
 	 * Filters the text for the forum post before save.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $post_text Text for the forum post.
 	 */
@@ -132,7 +131,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	/**
 	 * Filters the ID for the forum post before save.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param int $topic_id ID of the topic the post will be associated with.
 	 */
@@ -158,7 +157,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	/**
 	 * Filters the new groups activity forum post action.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $activity_action Formatted action related to group activity posting.
 	 * @param int    $post_id         ID of the newly created group forum post.
@@ -170,7 +169,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	/**
 	 * Filters the new groups activity forum post content.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $activity_content Excerpt-length activity content to be posted.
 	 * @param int    $post_id          ID of the newly created group forum post.
@@ -182,7 +181,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	/**
 	 * Filters the new groups activity forum post primary link.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param string $value URL to the newly posted forum post.
 	 */
@@ -200,7 +199,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
 	/**
 	 * Fires after the creation of a new group forum topic post.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int $value   ID of the current group.
 	 * @param int $post_id ID of the new created forum topic post.
@@ -215,7 +214,7 @@ function groups_new_group_forum_post( $post_text, $topic_id, $page = false ) {
  *
  * Uses the bundled version of bbPress packaged with BuddyPress.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @param string $topic_title The title for the forum topic.
  * @param string $topic_text  The text for the forum topic.
@@ -231,7 +230,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Filters the new groups forum topic title before saving.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $topic_title The title for the forum topic.
 	 */
@@ -240,7 +239,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Filters the new groups forum topic text before saving.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $topic_text The text for the forum topic.
 	 */
@@ -249,7 +248,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Filters the new groups forum topic tags before saving.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $topic_tags A comma-delimited string of topic tags.
 	 */
@@ -258,7 +257,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Filters the forum ID this forum topic resides in.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $forum_id The forum ID this forum topic resides in.
 	 */
@@ -281,7 +280,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Filters the new groups activity forum topic action.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $activity_action Formatted action related to forum topic.
 	 * @param string $topic_text      New topic text.
@@ -292,7 +291,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Filters the new groups activity forum topic content.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param string $activity_content Excerpt-length activity content to be posted.
 	 * @param string $topic_text       New topic text.
@@ -303,7 +302,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Filters the new groups activity forum topic primary link.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param string $value Concatenated primary link.
 	 */
@@ -321,7 +320,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
 	/**
 	 * Fires after the creation of a new group forum topic.
 	 *
-	 * @since BuddyPress (1.0.0)
+	 * @since 1.0.0
 	 *
 	 * @param int    $value ID of the current group.
 	 * @param object $topic Object holding current topic details. Passed by reference.
@@ -336,7 +335,7 @@ function groups_new_group_forum_topic( $topic_title, $topic_text, $topic_tags, $
  *
  * Uses the bundled version of bbPress packaged with BuddyPress.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param int    $topic_id    The topic ID of the existing forum topic.
  * @param string $topic_title The title for the forum topic.
@@ -401,7 +400,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, 
 	/**
 	 * Fires after the update of a group forum topic.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param object $topic Object holding current topic being updated. Passed by reference.
 	 */
@@ -415,7 +414,7 @@ function groups_update_group_forum_topic( $topic_id, $topic_title, $topic_text, 
  *
  * Uses the bundled version of bbPress packaged with BuddyPress.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param int    $post_id   The post ID of the existing forum post.
  * @param string $post_text The text for the forum post.
@@ -489,7 +488,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
 	/**
 	 * Fires after the update of a group forum post.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param object $post  Object holding current post being updated.
 	 * @param object $topic Object holding current topic details. Passed by reference.
@@ -504,7 +503,7 @@ function groups_update_group_forum_post( $post_id, $post_text, $topic_id, $page 
  *
  * Uses the bundled version of bbPress packaged with BuddyPress.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param int $topic_id The ID of the topic to be deleted.
  *
@@ -522,7 +521,7 @@ function groups_delete_group_forum_topic( $topic_id ) {
 		/**
 		 * Fires before the deletion of a group forum topic.
 		 *
-		 * @since BuddyPress (1.2.9)
+		 * @since 1.2.9
 		 *
 		 * @param int $topic_id ID of the topic to be deleted.
 		 */
@@ -553,7 +552,7 @@ function groups_delete_group_forum_topic( $topic_id ) {
 		/**
 		 * Fires after the deletion of a group forum topic.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 *
 		 * @param int $topic_id ID of the topic that was deleted.
 		 */
@@ -568,7 +567,7 @@ function groups_delete_group_forum_topic( $topic_id ) {
  *
  * Uses the bundled version of bbPress packaged with BuddyPress.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @param int      $post_id  The ID of the post you want to delete.
  * @param int|bool $topic_id Optional. The topic to which the post belongs. This
@@ -586,7 +585,7 @@ function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
 		/**
 		 * Fires before the deletion of a group forum post.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param int $post_id  ID of the post to be deleted.
 		 * @param int $topic_id ID of the associated topic.
@@ -606,7 +605,7 @@ function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
 		/**
 		 * Fires after the deletion of a group forum post.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 *
 		 * @param int $post_id  ID of the post that was deleted.
 		 * @param int $topic_id ID of the associated topic.
@@ -620,7 +619,7 @@ function groups_delete_group_forum_post( $post_id, $topic_id = false ) {
 /**
  * Get a total count of all public topics of a given type, across groups/forums.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @param string $type Either 'newest', 'popular', 'unreplied', 'tags'.
  *                     Default: 'newest'.
@@ -632,7 +631,7 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
 	/**
 	 * Filters the total count of all public topics of a given type, across groups/forums.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param int $value Total count of all public topics.
 	 */
@@ -642,7 +641,7 @@ function groups_total_public_forum_topic_count( $type = 'newest' ) {
 /**
  * Get a total count of all topics of a given status, across groups/forums.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @param string      $status       Which groups to count. 'public', 'private', 'hidden',
  *                                  'all'. Default: 'public'.
@@ -655,7 +654,7 @@ function groups_total_forum_topic_count( $status = 'public', $search_terms = fal
 	/**
 	 * Filters the total count of all topics of a given status, across groups/forums.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param int $value Total count of all topics.
 	 */

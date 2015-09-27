@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress Groups Widgets
  *
@@ -7,7 +6,7 @@
  * @subpackage GroupsWidgets
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /* Register widgets for groups component */
@@ -46,7 +45,7 @@ class BP_Groups_Widget extends WP_Widget {
 		/**
 		 * Filters the user ID to use with the widget instance.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $value Empty user ID.
 		 */
@@ -63,8 +62,8 @@ class BP_Groups_Widget extends WP_Widget {
 		/**
 		 * Filters the title of the Groups widget.
 		 *
-		 * @since BuddyPress (1.8.0)
-		 * @since BuddyPress (2.3.0) Added 'instance' and 'id_base' to arguments passed to filter.
+		 * @since 1.8.0
+		 * @since 2.3.0 Added 'instance' and 'id_base' to arguments passed to filter.
 		 *
 		 * @param string $title    The widget title.
 		 * @param array  $instance The settings for the particular instance of the widget.
@@ -75,7 +74,7 @@ class BP_Groups_Widget extends WP_Widget {
 		/**
 		 * Filters the separator of the group widget links.
 		 *
-		 * @since BuddyPress (2.4.0)
+		 * @since 2.4.0
 		 *
 		 * @param string $separator Separator string. Default '|'.
 		 */
