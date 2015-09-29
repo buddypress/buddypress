@@ -252,7 +252,38 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 			<?php endif; ?>
 
-			<?php /* Group creation step 4: Invite friends to group */ ?>
+			<?php /* Group creation step 4: Cover image */ ?>
+			<?php if ( bp_is_group_creation_step( 'group-cover-image' ) ) : ?>
+
+				<?php
+
+				/**
+				 * Fires before the display of the group cover image creation step.
+				 *
+				 * @since 2.4.0
+				 */
+				do_action( 'bp_before_group_cover_image_creation_step' ); ?>
+
+				<div id="header-cover-image"></div>
+
+				<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
+
+				<?php bp_attachments_get_template_part( 'cover-images/index' ); ?>
+
+				<?php
+
+				/**
+				 * Fires after the display of the group cover image creation step.
+				 *
+				 * @since 2.4.0
+				 */
+				do_action( 'bp_after_group_cover_image_creation_step' ); ?>
+
+				<?php wp_nonce_field( 'groups_create_save_group-cover-image' ); ?>
+
+			<?php endif; ?>
+
+			<?php /* Group creation step 5: Invite friends to group */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-invites' ) ) : ?>
 
 				<?php

@@ -1004,6 +1004,20 @@ function bp_group_avatar_mini( $group = false ) {
 		) );
 	}
 
+/** Group cover image *********************************************************/
+
+/**
+ * Should we use the group's cover image header
+ *
+ * @since 2.4.0
+ *
+ * @return bool True if the displayed user has a cover image,
+ *              False otherwise
+ */
+function bp_group_use_cover_image_header() {
+	return (bool) bp_is_active( 'groups', 'cover_image' ) && ! bp_disable_group_cover_image_uploads() && bp_attachments_is_wp_version_supported();
+}
+
 /**
  * Output the 'last active' string for the current group in the loop.
  *

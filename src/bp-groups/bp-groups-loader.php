@@ -313,6 +313,13 @@ class BP_Groups_Component extends BP_Component {
 			);
 		}
 
+		if ( bp_group_use_cover_image_header() ) {
+			$this->group_creation_steps['group-cover-image'] = array(
+				'name'     => _x( 'Cover Image', 'Group screen nav', 'buddypress' ),
+				'position' => 25
+			);
+		}
+
 		// If friends component is active, add invitations
 		if ( bp_is_active( 'friends' ) ) {
 			$this->group_creation_steps['group-invites'] = array(
@@ -588,6 +595,14 @@ class BP_Groups_Component extends BP_Component {
 						'name'     => __( 'Photo', 'buddypress' ),
 						'slug'     => 'group-avatar',
 						'position' => 20,
+					), $default_params );
+				}
+
+				if ( bp_group_use_cover_image_header() ) {
+					$sub_nav[] = array_merge( array(
+						'name'     => __( 'Cover Image', 'buddypress' ),
+						'slug'     => 'group-cover-image',
+						'position' => 25,
 					), $default_params );
 				}
 

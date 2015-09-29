@@ -13,7 +13,16 @@
 
 	<div id="item-header" role="complementary">
 
-		<?php bp_get_template_part( 'groups/single/group-header' ); ?>
+		<?php
+		/**
+		 * If the cover image feature is enabled, use a specific header
+		 */
+		if ( bp_group_use_cover_image_header() ) :
+			bp_get_template_part( 'groups/single/cover-image-header' );
+		else :
+			bp_get_template_part( 'groups/single/group-header' );
+		endif;
+		?>
 
 	</div><!-- #item-header -->
 

@@ -207,6 +207,35 @@ do_action( 'bp_before_group_admin_content' ); ?>
 
 <?php endif; ?>
 
+<?php /* Group Cover image Settings */ ?>
+<?php if ( bp_is_group_admin_screen( 'group-cover-image' ) ) : ?>
+
+	<h4><?php _e( 'Change Cover Image', 'buddypress' ); ?></h4>
+
+	<?php
+
+	/**
+	 * Fires before the display of profile cover image upload content.
+	 *
+	 * @since 2.4.0
+	 */
+	do_action( 'bp_before_group_settings_cover_image' ); ?>
+
+	<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
+
+	<?php bp_attachments_get_template_part( 'cover-images/index' ); ?>
+
+	<?php
+
+	/**
+	 * Fires after the display of group cover image upload content.
+	 *
+	 * @since 2.4.0
+	 */
+	do_action( 'bp_after_group_settings_cover_image' ); ?>
+
+<?php endif; ?>
+
 <?php /* Manage Group Members */ ?>
 <?php if ( bp_is_group_admin_screen( 'manage-members' ) ) : ?>
 
