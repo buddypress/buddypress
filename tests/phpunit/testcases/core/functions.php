@@ -684,4 +684,27 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		// Reset buddypress() vars
 		$bp->active_components = $reset_active_components;
 	}
+
+	/**
+	 * @group bp_attachments
+	 */
+	public function test_bp_attachments_get_allowed_types() {
+		$supported = array( 'jpeg', 'gif', 'png' );
+
+		$avatar = bp_attachments_get_allowed_types( 'avatar' );
+		$this->assertSame( $supported, $avatar );
+
+		$cover_image = bp_attachments_get_allowed_types( 'cover_image' );
+		$this->assertSame( $supported, $cover_image );
+
+		$images = bp_attachments_get_allowed_types( 'image/' );
+
+		foreach ( $images as $image ) {
+			if ( 'image' !== wp_ext2type( $image ) ) {
+				$not_image = $image;
+			}
+		}
+
+		$this->assertTrue( empty( $not_image ) );
+	}
 }

@@ -328,4 +328,40 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		// clean up!
 		$this->clean_files();
 	}
+
+	/**
+	 * @group upload
+	 * @group cover_image
+	 */
+	public function test_bp_attachment_cover_image_user_upload() {
+		$reset_files = $_FILES;
+		$reset_post = $_POST;
+		$bp = buddypress();
+		$displayed_user = $bp->displayed_user;
+		$bp->displayed_user = new stdClass;
+
+		$u1 = $this->factory->user->create();
+		$bp->displayed_user->id = $u1;
+
+		// Upload the file
+		$cover_image_attachment = new BP_Attachment_Cover_Image();
+		$_POST['action'] = $cover_image_attachment->action;
+		$_FILES[ $cover_image_attachment->file_input ] = array(
+			'tmp_name' => $this->image_file,
+			'name'     => 'mystery-man.jpg',
+			'type'     => 'image/jpeg',
+			'error'    => 0,
+			'size'     => filesize( $this->image_file )
+		);
+
+		/* No error */
+		$cover_image = $cover_image_attachment->upload( $_FILES );
+		$this->assertEquals( $cover_image['file'], $bp->avatar->upload_path . '/buddypress/members/' . $u1 .'/cover-image/mystery-man.jpg' );
+
+		// clean up!
+		$bp->displayed_user = $displayed_user;
+		$this->clean_files( 'buddypress' );
+		$_FILES = $reset_files;
+		$_POST = $reset_post;
+	}
 }
