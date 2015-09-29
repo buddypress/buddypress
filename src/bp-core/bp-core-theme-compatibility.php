@@ -436,6 +436,166 @@ function bp_set_theme_compat_original_template( $template = '' ) {
 }
 
 /**
+ * Set a theme compat feature
+ *
+ * @since 2.4.0
+ *
+ * @param  string $theme_id the theme id (eg: legacy)
+ * @param  array  $feature  an associative array (eg: array( name => 'feature_name', 'settings' => array() ))
+ */
+function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
+	if ( empty( $theme_id ) || empty( $feature['name'] ) ) {
+		return;
+	}
+
+	// Get BuddyPress instance
+	$bp = buddypress();
+
+	// Get current theme compat theme
+	$theme_compat_theme = $bp->theme_compat->theme;
+
+	// Bail if the Theme Compat theme is not in use
+	if ( $theme_id !== bp_get_theme_compat_id() ) {
+		return;
+	}
+
+	$features = $theme_compat_theme->__get( 'features' );
+	if ( empty( $features ) ) {
+		$features = array();
+	}
+
+	// Bail if the feature is already registered or no settings were provided
+	if ( isset( $features[ $feature['name'] ] ) || empty( $feature['settings'] ) ) {
+		return;
+	}
+
+	// Add the feature
+	$features[ $feature['name'] ] = (object) $feature['settings'];
+
+	// The feature is attached to components
+	if ( isset( $features[ $feature['name'] ]->components ) ) {
+		// Set the feature for each concerned component
+		foreach ( (array) $features[ $feature['name'] ]->components as $component ) {
+			// The xProfile component is specific
+			if ( 'xprofile' === $component ) {
+				$component = 'profile';
+			}
+
+			if ( isset( $bp->{$component} ) ) {
+				if ( isset( $bp->{$component}->features ) ) {
+					$bp->{$component}->features[] = $feature['name'];
+				} else {
+					$bp->{$component}->features = array( $feature['name'] );
+				}
+			}
+		}
+	}
+
+	// Finally update the theme compat features
+	$theme_compat_theme->__set( 'features', $features );
+}
+
+/**
+ * Get a theme compat feature
+ *
+ * @since 2.4.0
+ *
+ * @param  string $feature the feature (eg: cover_image)
+ * @return object          the feature settings.
+ */
+function bp_get_theme_compat_feature( $feature = '' ) {
+	// Get current theme compat theme
+	$theme_compat_theme = buddypress()->theme_compat->theme;
+
+	// Get features
+	$features = $theme_compat_theme->__get( 'features' );
+
+	if ( ! isset( $features[ $feature ] ) ) {
+		return false;
+	}
+
+	return $features[ $feature ];
+}
+
+/**
+ * Setup the theme's features
+ *
+ * Note: BP Legacy's buddypress-functions.php is not loaded in WP Administration
+ * as it's loaded using bp_locate_template(). That's why this function is here.
+ *
+ * @since 2.4.0
+ *
+ * @global $content_width the content width of the theme
+ */
+function bp_register_theme_compat_default_features() {
+	global $content_width;
+
+	// If the current theme doesn't need theme compat, bail at this point.
+	if ( ! bp_use_theme_compat_with_current_theme() ) {
+		return;
+	}
+
+	// Make sure BP Legacy is the Theme Compat in use.
+	if ( 'legacy' !== bp_get_theme_compat_id() ) {
+		return;
+	}
+
+	// Get the theme
+	$current_theme = wp_get_theme();
+	$theme_handle  = $current_theme->get_stylesheet();
+	$parent        = $current_theme->parent();
+
+	if ( $parent ) {
+		$theme_handle = $parent->get_stylesheet();
+	}
+
+	/**
+	 * Since Companion stylesheets, the $content_width is smaller
+	 * than the width used by BuddyPress, so we need to manually set the
+	 * content width for the concerned themes.
+	 *
+	 * array( stylesheet => content width used by BuddyPress )
+	 */
+	$bp_content_widths = array(
+		'twentyfifteen'  => 1300,
+		'twentyfourteen' => 955,
+		'twentythirteen' => 890,
+	);
+
+	// Default values
+	$bp_content_width = (int) $content_width;
+	$bp_handle        = 'bp-legacy-css';
+
+	// Specific to themes having companion stylesheets
+	if ( isset( $bp_content_widths[ $theme_handle ] ) ) {
+		$bp_content_width = $bp_content_widths[ $theme_handle ];
+		$bp_handle        = 'bp-' . $theme_handle;
+	}
+
+	if ( is_rtl() ) {
+		$bp_handle .= '-rtl';
+	}
+
+	$top_offset    = 150;
+	$avatar_height = apply_filters( 'bp_core_avatar_full_height', $top_offset );
+
+	if ( $avatar_height > $top_offset ) {
+		$top_offset = $avatar_height;
+	}
+
+	bp_set_theme_compat_feature( 'legacy', array(
+		'name'     => 'cover_image',
+		'settings' => array(
+			'components'   => array( 'xprofile', 'groups' ),
+			'width'        => $bp_content_width,
+			'height'       => $top_offset + round( $avatar_height / 2 ),
+			'callback'     => 'bp_legacy_theme_cover_image',
+			'theme_handle' => $bp_handle,
+		),
+	) );
+}
+
+/**
  * Check whether a given template is the one that WP originally selected to display current page.
  *
  * @since 1.7.0
