@@ -43,6 +43,9 @@ function bp_core_register_common_scripts() {
 		'bp-avatar'   => array( 'file' => "{$url}avatar{$min}.js", 'dependencies' => array( 'jcrop' ), 'footer' => true ),
 		'bp-webcam'   => array( 'file' => "{$url}webcam{$min}.js", 'dependencies' => array( 'bp-avatar' ), 'footer' => true ),
 
+		// 2.4
+		'bp-cover-image' => array( 'file' => "{$url}cover-image{$min}.js", 'dependencies' => array(), 'footer' => true ),
+
 	) );
 
 	$version = bp_get_version();
@@ -138,6 +141,21 @@ function bp_core_avatar_scripts() {
 	add_action( 'bp_after_group_avatar_creation_step',    'bp_avatar_template_check' );
 }
 add_action( 'bp_enqueue_scripts', 'bp_core_avatar_scripts' );
+
+/**
+ * Enqueues the css and js required by the Cover Image UI.
+ *
+ * @since  2.4.0
+ */
+function bp_core_cover_image_scripts() {
+	if ( ! bp_attachments_cover_image_is_edit() ) {
+		return false;
+	}
+
+	// Enqueue the Attachments scripts for the Cover Image UI
+	bp_attachments_enqueue_scripts( 'BP_Attachment_Cover_Image' );
+}
+add_action( 'bp_enqueue_scripts', 'bp_core_cover_image_scripts' );
 
 /**
  * Enqueues jCrop library and hooks BP's custom cropper JS.
@@ -337,3 +355,104 @@ function bp_core_get_js_dependencies() {
 		'bp-jquery-scroll-to'
 	) );
 }
+
+/**
+ * Add inline css to display the component's single item cover image
+ *
+ * @since 2.4.0
+ *
+ * @param  bool $return true to get the inline css
+ * @return string|array the inline css or an associative array containing
+ *                      the css rules and the style handle
+ */
+function bp_add_cover_image_inline_css( $return = false ) {
+	$bp = buddypress();
+
+	// Find the component of the current item
+	if ( bp_is_user() ) {
+
+		// User is not allowed to upload cover images
+		// no need to carry on
+		if ( bp_disable_cover_image_uploads() ) {
+			return;
+		}
+
+		$cover_image_object = array(
+			'component' => 'xprofile',
+			'object' => $bp->displayed_user
+		);
+	} elseif ( bp_is_group() ) {
+
+		// Users are not allowed to upload cover images for their groups
+		// no need to carry on
+		if ( bp_disable_group_cover_image_uploads() ) {
+			return;
+		}
+
+		$cover_image_object = array(
+			'component' =>'groups',
+			'object' => $bp->groups->current_group
+		);
+	} else {
+		$cover_image_object = apply_filters( 'bp_current_cover_image_object_inline_css', array() );
+	}
+
+	// Bail if no component were found.
+	if ( empty( $cover_image_object['component'] ) || empty( $cover_image_object['object'] ) || ! bp_is_active( $cover_image_object['component'], 'cover_image' ) ) {
+		return;
+	}
+
+	// Get the settings of the cover image feature for the current component
+	$params = bp_attachments_get_cover_image_settings( $cover_image_object['component'] );
+
+	// Bail if no params.
+	if ( empty( $params ) ) {
+		return;
+	}
+
+	// Try to call the callback
+	if ( is_callable( $params['callback'] ) ) {
+
+		$object_dir = $cover_image_object['component'];
+
+		if ( 'xprofile' === $object_dir ) {
+			$object_dir = 'members';
+		}
+
+		$cover_image = bp_attachments_get_attachment( 'url', array(
+			'object_dir' => $object_dir,
+			'item_id'    => $cover_image_object['object']->id,
+		) );
+
+		if ( empty( $cover_image ) ) {
+			if ( ! empty( $params['default_cover'] ) ) {
+				$cover_image = $params['default_cover'];
+			}
+		}
+
+		$inline_css = call_user_func_array( $params['callback'], array( array(
+			'cover_image' => esc_url( $cover_image ),
+			'component'   => sanitize_key( $cover_image_object['component'] ),
+			'object_id'   => (int) $cover_image_object['object']->id,
+			'width'       => (int) $params['width'],
+			'height'      => (int) $params['height'],
+		) ) );
+
+		// Finally add the inline css to the handle
+		if ( ! empty( $inline_css ) ) {
+
+			// Used to get the css when Ajax setting the cover image
+			if ( true === $return ) {
+				return array(
+					'css_rules' => '<style type="text/css">' . "\n" . $inline_css . "\n" . '</style>',
+					'handle'    => $params['theme_handle'],
+				);
+			}
+
+			wp_add_inline_style( $params['theme_handle'], $inline_css );
+		} else {
+			return false;
+		}
+	}
+}
+add_action( 'bp_enqueue_scripts', 'bp_add_cover_image_inline_css', 11 );

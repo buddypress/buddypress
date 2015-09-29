@@ -782,9 +782,6 @@ body.activity-permalink #buddypress {
 		text-align: left;
 		width: 20%;
 	}
-	.bp-user #buddypress #item-header #item-header-avatar img {
-		margin: 0;
-	}
 	.bp-user #buddypress #item-header #item-header-content {
 		float: right;
 		width: 78%;

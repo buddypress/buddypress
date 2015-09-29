@@ -19,6 +19,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 	3.6 - Ajax Loading
 	3.7 - Topics and Tables - Forums and General
 	3.8 - Headers, Lists and Tabs - Activity, Groups, Blogs, Forums
+		3.8.1 - Cover Image
 	3.9 - Private Messaging Threads
 	3.10 - Extended Profiles
 	3.11 - Widgets
@@ -845,7 +846,8 @@ a.bp-title-button {
 #buddypress form *[disabled="disabled"]{
 	cursor: default;
 	opacity: .4;
- }
+}
+
 .bp-screen-reader-text {
 	position: absolute;
 	margin: -1px;
@@ -1172,6 +1174,7 @@ a.bp-title-button {
 }
 #buddypress div#item-header {
 	overflow: hidden;
+	position: relative;
 }
 #buddypress div#item-header div#item-header-content {
 	float: right;
@@ -1251,6 +1254,9 @@ a.bp-title-button {
 #buddypress div#item-header a.button {
 	float: right;
 	margin: 10px 0 0 10px;
+}
+body.no-js #buddypress div#item-header .js-self-profile-button {
+	display:none;
 }
 #buddypress div#item-header div#message.info {
 	line-height: 80%;
@@ -1397,6 +1403,31 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	list-style: none;
 }
 
+/*--------------------------------------------------------------
+3.8.1 - Cover Image
+--------------------------------------------------------------*/
+
+#buddypress #header-cover-image {
+	background-color: #c5c5c5;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: 0;
+	display: block;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+
+#buddypress #item-header-cover-image {
+	padding: 0 1em;
+	position: relative;
+	z-index: 999;
+}
 
 /*--------------------------------------------------------------
 3.9 - Private Messaging Threads

@@ -953,10 +953,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		float: left;
 		width: 20%;
 	}
-	.bp-user #buddypress #item-header #item-header-avatar img.avatar,
 	.bp-user #buddypress #item-header #item-header-avatar a {
 		float: left;
-		width: 100%;
 	}
 	.bp-user #buddypress #item-header #item-header-content {
 		float: right;
