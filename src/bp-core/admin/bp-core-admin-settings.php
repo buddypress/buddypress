@@ -159,6 +159,18 @@ function bp_admin_setting_callback_avatar_uploads() {
 <?php
 }
 
+/**
+ * Allow members to upload cover images field.
+ *
+ * @since 2.4.0
+ */
+function bp_admin_setting_callback_cover_image_uploads() {
+?>
+	<input id="bp-disable-cover-image-uploads" name="bp-disable-cover-image-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_cover_image_uploads() ); ?> />
+	<label for="bp-disable-cover-image-uploads"><?php _e( 'Allow registered members to upload cover images', 'buddypress' ); ?></label>
+<?php
+}
+
 /** Groups Section ************************************************************/
 
 /**
@@ -194,6 +206,18 @@ function bp_admin_setting_callback_group_avatar_uploads() {
 ?>
 	<input id="bp-disable-group-avatar-uploads" name="bp-disable-group-avatar-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_group_avatar_uploads() ); ?> />
 	<label for="bp-disable-group-avatar-uploads"><?php _e( 'Allow customizable avatars for groups', 'buddypress' ); ?></label>
+<?php
+}
+
+/**
+ * 'Enable group cover images' field markup.
+ *
+ * @since 2.4.0
+ */
+function bp_admin_setting_callback_group_cover_image_uploads() {
+?>
+	<input id="bp-disable-group-cover-image-uploads" name="bp-disable-group-cover-image-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_group_cover_image_uploads() ); ?> />
+	<label for="bp-disable-group-cover-image-uploads"><?php _e( 'Allow customizable cover images for groups', 'buddypress' ); ?></label>
 <?php
 }
 
@@ -299,7 +323,9 @@ function bp_core_admin_settings_save() {
 		$legacy_options = array(
 			'bp-disable-account-deletion',
 			'bp-disable-avatar-uploads',
+			'bp-disable-cover-image-uploads',
 			'bp-disable-group-avatar-uploads',
+			'bp-disable-group-cover-image-uploads',
 			'bp_disable_blogforum_comments',
 			'bp-disable-profile-sync',
 			'bp_restrict_group_creation',

@@ -1934,6 +1934,11 @@ function bp_is_active( $component = '', $feature = '' ) {
 
 		// Is feature active?
 		if ( ! empty( $feature ) ) {
+			// The xProfile component is specific
+			if ( 'xprofile' === $component ) {
+				$component = 'profile';
+			}
+
 			if ( empty( buddypress()->$component->features ) || false === in_array( $feature, buddypress()->$component->features, true ) ) {
 				$retval = false;
 			}
@@ -2244,6 +2249,19 @@ function bp_is_user_profile_edit() {
 
 function bp_is_user_change_avatar() {
 	return (bool) ( bp_is_profile_component() && bp_is_current_action( 'change-avatar' ) );
+}
+
+/**
+ * Is the current page the a user's change cover image profile page?
+ *
+ * Eg http://example.com/members/joe/profile/change-cover-image/ (or a subpage thereof).
+ *
+ * @since  2.4.0
+ *
+ * @return True if the current page is a user's profile edit cover image page.
+ */
+function bp_is_user_change_cover_image() {
+	return (bool) ( bp_is_profile_component() && bp_is_current_action( 'change-cover-image' ) );
 }
 
 /**

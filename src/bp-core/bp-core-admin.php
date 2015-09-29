@@ -338,8 +338,15 @@ class BP_Admin {
 			// Add the main section
 			add_settings_section( 'bp_xprofile', _x( 'Profile Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress' );
 
+			// Avatars
 			add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_avatar_uploads', 'buddypress', 'bp_xprofile' );
 			register_setting( 'buddypress', 'bp-disable-avatar-uploads', 'intval' );
+
+			// Cover images
+			if ( bp_is_active( 'xprofile', 'cover_image' ) ) {
+				add_settings_field( 'bp-disable-cover-image-uploads', __( 'Cover Image Uploads', 'buddypress' ), 'bp_admin_setting_callback_cover_image_uploads', 'buddypress', 'bp_xprofile' );
+				register_setting( 'buddypress', 'bp-disable-cover-image-uploads', 'intval' );
+			}
 
 			// Profile sync setting
 			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
@@ -360,6 +367,12 @@ class BP_Admin {
 			// Allow group avatars.
 			add_settings_field( 'bp-disable-group-avatar-uploads', __( 'Group Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_group_avatar_uploads', 'buddypress', 'bp_groups' );
 			register_setting( 'buddypress', 'bp-disable-group-avatar-uploads', 'intval' );
+
+			// Allow group cover images.
+			if ( bp_is_active( 'groups', 'cover_image' ) ) {
+				add_settings_field( 'bp-disable-group-cover-image-uploads', __( 'Group Cover Image Uploads', 'buddypress' ), 'bp_admin_setting_callback_group_cover_image_uploads', 'buddypress', 'bp_groups' );
+				register_setting( 'buddypress', 'bp-disable-group-cover-image-uploads', 'intval' );
+			}
 		}
 
 		/** Forums ************************************************************/

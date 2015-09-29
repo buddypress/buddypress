@@ -23,75 +23,81 @@ function bp_get_default_options() {
 
 		/** Components ********************************************************/
 
-		'bp-deactivated-components'       => array(),
+		'bp-deactivated-components'            => array(),
 
 		/** bbPress ***********************************************************/
 
 		// Legacy bbPress config location
-		'bb-config-location'              => ABSPATH . 'bb-config.php',
+		'bb-config-location'                   => ABSPATH . 'bb-config.php',
 
 		/** XProfile **********************************************************/
 
 		// Base profile groups name
-		'bp-xprofile-base-group-name'     => 'Base',
+		'bp-xprofile-base-group-name'          => 'Base',
 
 		// Base fullname field name
-		'bp-xprofile-fullname-field-name' => 'Name',
+		'bp-xprofile-fullname-field-name'      => 'Name',
 
 		/** Blogs *************************************************************/
 
 		// Used to decide if blogs need indexing
-		'bp-blogs-first-install'          => false,
+		'bp-blogs-first-install'               => false,
 
 		/** Settings **********************************************************/
 
 		// Disable the WP to BP profile sync
-		'bp-disable-profile-sync'         => false,
+		'bp-disable-profile-sync'              => false,
 
 		// Hide the Toolbar for logged out users
-		'hide-loggedout-adminbar'         => false,
+		'hide-loggedout-adminbar'              => false,
 
 		// Avatar uploads
-		'bp-disable-avatar-uploads'       => false,
+		'bp-disable-avatar-uploads'            => false,
+
+		// Cover image uploads
+		'bp-disable-cover-image-uploads'       => false,
 
 		// Group Profile Photos
-		'bp-disable-group-avatar-uploads' => false,
+		'bp-disable-group-avatar-uploads'      => false,
+
+		// Group Cover image uploads
+		'bp-disable-group-cover-image-uploads' => false,
 
 		// Allow users to delete their own accounts
-		'bp-disable-account-deletion'     => false,
+		'bp-disable-account-deletion'          => false,
 
 		// Allow comments on blog and forum activity items
-		'bp-disable-blogforum-comments'   => true,
+		'bp-disable-blogforum-comments'        => true,
 
 		// The ID for the current theme package.
-		'_bp_theme_package_id'            => 'legacy',
+		'_bp_theme_package_id'                 => 'legacy',
 
 		/** Groups ************************************************************/
 
 		// @todo Move this into the groups component
 
 		// Restrict group creation to super admins
-		'bp_restrict_group_creation'      => false,
+		'bp_restrict_group_creation'           => false,
 
 		/** Akismet ***********************************************************/
 
 		// Users from all sites can post
-		'_bp_enable_akismet'              => true,
+		'_bp_enable_akismet'                   => true,
 
 		/** Activity HeartBeat ************************************************/
 
 		// HeartBeat is on to refresh activities
-		'_bp_enable_heartbeat_refresh'    => true,
+		'_bp_enable_heartbeat_refresh'         => true,
 
 		/** BuddyBar **********************************************************/
 
 		// Force the BuddyBar
-		'_bp_force_buddybar'              => false,
+		'_bp_force_buddybar'                   => false,
 
 		/** Legacy theme *********************************************/
 
 		// Whether to register the bp-default themes directory
-		'_bp_retain_bp_default'           => false,
+		'_bp_retain_bp_default'                => false,
 
 		/** Widgets **************************************************/
 		'widget_bp_core_login_widget'                => false,
@@ -596,6 +602,30 @@ function bp_disable_avatar_uploads( $default = true ) {
 }
 
 /**
+ * Are members able to upload their own cover images?
+ *
+ * @since 2.4.0
+ *
+ * @uses bp_get_option() To get the cover image uploads option.
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *                      Default: false.
+ *
+ * @return bool True if cover image uploads are disabled, otherwise false.
+ */
+function bp_disable_cover_image_uploads( $default = false ) {
+
+	/**
+	 * Filters whether or not members are able to upload their own cover images.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param bool $value Whether or not members are able to upload their own cover images.
+	 */
+	return (bool) apply_filters( 'bp_disable_cover_image_uploads', (bool) bp_get_option( 'bp-disable-cover-image-uploads', $default ) );
+}
+
+/**
  * Are group avatars disabled?
  *
  * For backward compatibility, this option falls back on the value of 'bp-disable-avatar-uploads' when no value is
@@ -628,6 +658,30 @@ function bp_disable_group_avatar_uploads( $default = null ) {
 	 * @param bool $default  Default value passed to the function.
 	 */
 	return (bool) apply_filters( 'bp_disable_group_avatar_uploads', $disabled, $default );
+}
+
+/**
+ * Are group cover images disabled?
+ *
+ * @since 2.4.0
+ *
+ * @uses bp_get_option() To get the group cover image uploads option.
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *                      Default: false.
+ *
+ * @return bool True if group cover image uploads are disabled, otherwise false.
+ */
+function bp_disable_group_cover_image_uploads( $default = false ) {
+
+	/**
+	 * Filters whether or not members are able to upload group cover images.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param bool $value Whether or not members are able to upload thier groups cover images.
+	 */
+	return (bool) apply_filters( 'bp_disable_group_cover_image_uploads', (bool) bp_get_option( 'bp-disable-group-cover-image-uploads', $default ) );
 }
 
 /**
