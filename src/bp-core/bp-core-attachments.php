@@ -25,6 +25,293 @@ function bp_attachments_is_wp_version_supported() {
 }
 
 /**
+ * Get the Attachments Uploads dir data
+ *
+ * @since  2.4.0
+ *
+ * @param  string        $data The data to get. Possible values are: 'dir', 'basedir' & 'baseurl'
+ *                       Leave empty to get all datas.
+ * @return string|array  The needed Upload dir data.
+ */
+function bp_attachments_uploads_dir_get( $data = '' ) {
+	$attachments_dir = 'buddypress';
+	$retval          = '';
+
+	if ( 'dir' === $data ) {
+		$retval = $attachments_dir;
+	} else {
+		$upload_data = bp_upload_dir();
+
+		// Build the Upload data array for BuddyPress attachments
+		foreach ( $upload_data as $key => $value ) {
+			if ( 'basedir' === $key || 'baseurl' === $key ) {
+				$upload_data[ $key ] = trailingslashit( $value ) . $attachments_dir;
+			} else {
+				unset( $upload_data[ $key ] );
+			}
+		}
+
+		// Add the dir to the array
+		$upload_data['dir'] = $attachments_dir;
+
+		if ( empty( $data ) ) {
+			$retval = $upload_data;
+		} elseif ( isset( $upload_data[ $data ] ) ) {
+			$retval = $upload_data[ $data ];
+		}
+	}
+
+	/**
+	 * Filter here to edit the Attachments upload dir data.
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  string|array $retval      The needed Upload dir data or the full array of data
+	 * @param  string       $data        The data requested
+	 */
+	return apply_filters( 'bp_attachments_uploads_dir_get', $retval, $data );
+}
+
+/**
+ * Get the max upload file size for any attachment
+ *
+ * @since  2.4.0
+ *
+ * @param  string $type A string to inform about the type of attachment
+ *                      we wish to get the max upload file size for
+ * @return int    max upload file size for any attachment
+ */
+function bp_attachments_get_max_upload_file_size( $type = '' ) {
+	$fileupload_maxk = bp_core_get_root_option( 'fileupload_maxk' );
+
+	if ( '' === $fileupload_maxk ) {
+		$fileupload_maxk = 5120000; // 5mb;
+	} else {
+		$fileupload_maxk = $fileupload_maxk * 1024;
+	}
+
+	/**
+	 * Filter here to edit the max upload file size.
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  int    $fileupload_maxk Max upload file size for any attachment
+	 * @param  string $type            The attachment type (eg: 'avatar' or 'cover_image')
+	 */
+	return apply_filters( 'bp_attachments_get_max_upload_file_size', $fileupload_maxk, $type );
+}
+
+/**
+ * Get allowed types for any attachment
+ *
+ * @since  2.4.0
+ *
+ * @param  string $type  The extension types to get.
+ *                       Default: 'avatar'
+ * @return array         The list of allowed extensions for attachments
+ */
+function bp_attachments_get_allowed_types( $type = 'avatar' ) {
+	// Defaults to BuddyPress supported image extensions
+	$exts = array( 'jpeg', 'gif', 'png' );
+
+	/**
+	 * It's not a BuddyPress feature, get the allowed extensions
+	 * matching the $type requested
+	 */
+	if ( 'avatar' !== $type && 'cover_image' !== $type ) {
+		// Reset the default exts
+		$exts = array();
+
+		switch ( $type ) {
+			case 'video' :
+				$exts = wp_get_video_extensions();
+			break;
+
+			case 'audio' :
+				$exts = wp_get_video_extensions();
+			break;
+
+			default:
+				$allowed_mimes = get_allowed_mime_types();
+
+				/**
+				 * Search for allowed mimes matching the type
+				 *
+				 * eg: using 'application/vnd.oasis' as the $type
+				 * parameter will get all OpenOffice extensions supported
+				 * by WordPress and allowed for the current user.
+				 */
+				if ( '' !== $type ) {
+					$allowed_mimes = preg_grep( '/' . addcslashes( $type, '/.+-' ) . '/', $allowed_mimes );
+				}
+
+				$allowed_types = array_keys( $allowed_mimes );
+
+				// Loop to explode keys using '|'
+				foreach ( $allowed_types as $allowed_type ) {
+					$t = explode( '|', $allowed_type );
+					$exts = array_merge( $exts, (array) $t );
+				}
+			break;
+		}
+	}
+
+	/**
+	 * Filter here to edit the allowed extensions by attachment type.
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  array  $exts List of allowed extensions
+	 * @param  string $type The requested file type
+	 */
+	return apply_filters( 'bp_attachments_get_allowed_types', $exts, $type );
+}
+
+/**
+ * Get allowed attachment mime types.
+ *
+ * @since 2.4.0
+ *
+ * @param  string $type         The extension types to get (Optional).
+ * @param  array $allowed_types List of allowed extensions
+ * @return array                List of allowed mime types
+ */
+function bp_attachments_get_allowed_mimes( $type = '', $allowed_types = array() ) {
+	if ( empty( $allowed_types ) ) {
+		$allowed_types = bp_attachments_get_allowed_types( $type );
+	}
+
+	$validate_mimes = wp_match_mime_types( join( ',', $allowed_types ), wp_get_mime_types() );
+	$allowed_mimes  = array_map( 'implode', $validate_mimes );
+
+	/**
+	 * Include jpg type if jpeg is set
+	 */
+	if ( isset( $allowed_mimes['jpeg'] ) && ! isset( $allowed_mimes['jpg'] ) ) {
+		$allowed_mimes['jpg'] = $allowed_mimes['jpeg'];
+	}
+
+	return $allowed_mimes;
+}
+
+/**
+ * Check the uploaded attachment type is allowed
+ *
+ * @since  2.4.0
+ *
+ * @param  string $file          Full path to the file.
+ * @param  string $filename      The name of the file (may differ from $file due to $file being
+ *                               in a tmp directory).
+ * @param  array  $allowed_mimes The attachment allowed mimes (Required)
+ * @return bool                  True if the attachment type is allowed. False otherwise
+ */
+function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
+	$filetype = wp_check_filetype_and_ext( $file, $filename, $allowed_mimes );
+
+	if ( ! empty( $filetype['ext'] ) && ! empty( $filetype['type'] ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Get the url or the path for a type of attachment
+ *
+ * @since  2.4.0
+ *
+ * @param  string $data whether to get the url or the path
+ * @param  array  $args {
+ *     @type string $object_dir  The object dir (eg: members/groups). Defaults to members.
+ *     @type int    $item_id     The object id (eg: a user or a group id). Defaults to current user.
+ *     @type string $type        The type of the attachment which is also the subdir where files are saved.
+ *                               Defaults to 'cover-image'
+ *     @type string $file        The name of the file.
+ * }
+ * @return string|bool the url or the path to the attachment, false otherwise
+ */
+function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
+	// Default value
+	$attachment_data = false;
+
+	$r = bp_parse_args( $args, array(
+		'object_dir' => 'members',
+		'item_id'    => bp_loggedin_user_id(),
+		'type'       => 'cover-image',
+		'file'       => '',
+	), 'attachments_get_attachment_src' );
+
+	// Get BuddyPress Attachments Uploads Dir datas
+	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
+
+	$type_subdir = $r['object_dir'] . '/' . $r['item_id'] . '/' . $r['type'];
+	$type_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $type_subdir;
+
+	if ( ! is_dir( $type_dir ) ) {
+		return $attachment_data;
+	}
+
+	if ( ! empty( $r['file'] ) ) {
+		if ( ! file_exists( trailingslashit( $type_dir ) . $r['file'] ) ) {
+			return $attachment_data;
+		}
+
+		if ( 'url' === $data ) {
+			$attachment_data = trailingslashit( $bp_attachments_uploads_dir['baseurl'] ) . $type_subdir . '/' . $r['file'];
+		} else {
+			$attachment_data = trailingslashit( $type_dir ) . $r['file'];
+		}
+
+	} else {
+		$file = false;
+
+		// Open the directory and get the first file
+		if ( $att_dir = opendir( $type_dir ) ) {
+
+			while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
+				// Look for the first file having the type in its name
+				if ( false !== strpos( $attachment_file, $r['type'] ) && empty( $file ) ) {
+					$file = $attachment_file;
+					break;
+				}
+			}
+		}
+
+		if ( empty( $file ) ) {
+			return $attachment_data;
+		}
+
+		if ( 'url' === $data ) {
+			$attachment_data = trailingslashit( $bp_attachments_uploads_dir['baseurl'] ) . $type_subdir . '/' . $file;
+		} else {
+			$attachment_data = trailingslashit( $type_dir ) . $file;
+		}
+	}
+
+	return $attachment_data;
+}
+
+/**
+ * Delete an attachment for the given arguments
+ *
+ * @since  2.4.0
+ *
+ * @param  array $args
+ * @see    bp_attachments_get_attachment() For more information on accepted arguments.
+ * @return bool True if the attachment was deleted, false otherwise
+ */
+function bp_attachments_delete_file( $args = array() ) {
+	$attachment_path = bp_attachments_get_attachment( 'path', $args );
+
+	if ( empty( $attachment_path ) ) {
+		return false;
+	}
+
+	@unlink( $attachment_path );
+	return true;
+}
+
+/**
  * Get the BuddyPress Plupload settings.
  *
  * @since  2.3.0

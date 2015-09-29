@@ -32,13 +32,7 @@ function bp_core_set_avatar_constants() {
 		define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
 
 	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
-
-		$fileupload_maxk = bp_core_get_root_option( 'fileupload_maxk' );
-		if ( '' === $fileupload_maxk ) {
-			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', 5120000 ); // 5mb
-		} else {
-			define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', $fileupload_maxk * 1024 );
-		}
+		define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', bp_attachments_get_max_upload_file_size( 'avatar' ) );
 	}
 
 	if ( ! defined( 'BP_SHOW_AVATARS' ) ) {
@@ -1370,7 +1364,7 @@ function bp_core_check_avatar_size( $file ) {
  * @since 2.3.0
  */
 function bp_core_get_allowed_avatar_types() {
-	$allowed_types = array( 'jpeg', 'gif', 'png' );
+	$allowed_types = bp_attachments_get_allowed_types( 'avatar' );
 
 	/**
  	 * Filters the list of allowed image types.
@@ -1397,18 +1391,8 @@ function bp_core_get_allowed_avatar_types() {
  */
 function bp_core_get_allowed_avatar_mimes() {
 	$allowed_types  = bp_core_get_allowed_avatar_types();
-	$validate_mimes = wp_match_mime_types( join( ',', $allowed_types ), wp_get_mime_types() );
-	$allowed_mimes  = array_map( 'implode', $validate_mimes );
 
-	/**
-	 * Include jpg type if needed so that bp_core_check_avatar_type()
-	 * will check for jpeg and jpg extensions.
-	 */
-	if ( isset( $allowed_mimes['jpeg'] ) ) {
-		$allowed_mimes['jpg'] = $allowed_mimes['jpeg'];
-	}
-
-	return $allowed_mimes;
+	return bp_attachments_get_allowed_mimes( 'avatar', $allowed_types );
 }
 
 /**
@@ -1421,13 +1405,7 @@ function bp_core_get_allowed_avatar_mimes() {
  * @return bool True if the file extension is permitted, otherwise false.
  */
 function bp_core_check_avatar_type( $file ) {
-	$avatar_filetype = wp_check_filetype_and_ext( $file['file']['tmp_name'], $file['file']['name'], bp_core_get_allowed_avatar_mimes() );
-
-	if ( ! empty( $avatar_filetype['ext'] ) && ! empty( $avatar_filetype['type'] ) ) {
-		return true;
-	}
-
-	return false;
+	return bp_attachments_check_filetype( $file['file']['tmp_name'], $file['file']['name'], bp_core_get_allowed_avatar_mimes() );
 }
 
 /**
