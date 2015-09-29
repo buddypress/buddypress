@@ -227,6 +227,19 @@ class BP_XProfile_Component extends BP_Component {
 			);
 		}
 
+		// Change Cover image
+		if ( bp_displayed_user_use_cover_image_header() ) {
+			$sub_nav[] = array(
+				'name'            => _x( 'Change Cover Image', 'Profile header sub menu', 'buddypress' ),
+				'slug'            => 'change-cover-image',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $slug,
+				'screen_function' => 'xprofile_screen_change_cover_image',
+				'position'        => 40,
+				'user_has_access' => $access
+			);
+		}
+
 		// The Settings > Profile nav item can only be set up after
 		// the Settings component has run its own nav routine
 		add_action( 'bp_settings_setup_nav', array( $this, 'setup_settings_nav' ) );
@@ -315,6 +328,14 @@ class BP_XProfile_Component extends BP_Component {
 				);
 			}
 
+			if ( bp_displayed_user_use_cover_image_header() ) {
+				$wp_admin_nav[] = array(
+					'parent' => 'my-account-' . $this->id,
+					'id'     => 'my-account-' . $this->id . '-change-cover-image',
+					'title'  => _x( 'Change Cover Image', 'My Account Profile sub nav', 'buddypress' ),
+					'href'   => trailingslashit( $profile_link . 'change-cover-image' )
+				);
+			}
 		}
 
 		parent::setup_admin_bar( $wp_admin_nav );

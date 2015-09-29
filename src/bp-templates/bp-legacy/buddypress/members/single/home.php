@@ -11,7 +11,16 @@
 
 	<div id="item-header" role="complementary">
 
-		<?php bp_get_template_part( 'members/single/member-header' ) ?>
+		<?php
+		/**
+		 * If the cover image feature is enabled, use a specific header
+		 */
+		if ( bp_displayed_user_use_cover_image_header() ) :
+			bp_get_template_part( 'members/single/cover-image-header' );
+		else :
+			bp_get_template_part( 'members/single/member-header' );
+		endif;
+		?>
 
 	</div><!-- #item-header -->
 

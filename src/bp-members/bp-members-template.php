@@ -1479,6 +1479,20 @@ function bp_get_displayed_user_nav() {
 	}
 }
 
+/** Cover image ***************************************************************/
+
+/**
+ * Should we use the cover image header
+ *
+ * @since 2.4.0
+ *
+ * @return bool True if the displayed user has a cover image,
+ *              False otherwise
+ */
+function bp_displayed_user_use_cover_image_header() {
+	return (bool) bp_is_active( 'xprofile', 'cover_image' ) && ! bp_disable_cover_image_uploads() && bp_attachments_is_wp_version_supported();
+}
+
 /** Avatars *******************************************************************/
 
 /**
