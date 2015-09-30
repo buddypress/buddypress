@@ -57,7 +57,7 @@ window.bp = window.bp || {};
 			}
 
 			// Display it
-	 		coverImageUploadProgress.inject( '.bp-cover-image-status' );
+			coverImageUploadProgress.inject( '.bp-cover-image-status' );
 		},
 
 		deleteView: function() {

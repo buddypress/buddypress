@@ -468,7 +468,7 @@ class BP_Media_Extractor {
 
 		// Match any registered WordPress shortcodes.
 		if ( strpos( $richtext, '[' ) !== false ) {
-	 		preg_match_all( '/' . get_shortcode_regex() . '/s', $richtext, $matches );
+			preg_match_all( '/' . get_shortcode_regex() . '/s', $richtext, $matches );
 
 			if ( ! empty( $matches[2] ) ) {
 				foreach ( $matches[2] as $i => $shortcode_name ) {

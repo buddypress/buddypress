@@ -3355,8 +3355,8 @@ function bp_group_join_button( $group = false ) {
 		if ( ! empty( $group->is_member ) ) {
 
 			// Stop sole admins from abandoning their group
-	 		$group_admins = groups_get_group_admins( $group->id );
-		 	if ( ( 1 == count( $group_admins ) ) && ( bp_loggedin_user_id() === (int) $group_admins[0]->user_id ) ) {
+			$group_admins = groups_get_group_admins( $group->id );
+			if ( ( 1 == count( $group_admins ) ) && ( bp_loggedin_user_id() === (int) $group_admins[0]->user_id ) ) {
 				return false;
 			}
 
@@ -3456,7 +3456,7 @@ function bp_group_join_button( $group = false ) {
 		 * Filters the HTML button for joining a group.
 		 *
 		 * @since 1.2.6
-	 	 * @since 2.4.0 Added $group parameter to filter args.
+		 * @since 2.4.0 Added $group parameter to filter args.
 		 *
 		 * @param string $button HTML button for joining a group.
 		 * @param object $group BuddyPress group object

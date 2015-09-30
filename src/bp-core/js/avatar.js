@@ -182,7 +182,7 @@ window.bp = window.bp || {};
 			}
 
 			// Display it
-	 		avatarStatus.inject( '.bp-avatar-status' );
+			avatarStatus.inject( '.bp-avatar-status' );
 		},
 
 		cropView: function() {

@@ -2925,7 +2925,7 @@ function bp_activity_thread_permalink() {
 		 *
 		 * @param string $link The activity thread permalink.
 		 */
-	 	return apply_filters( 'bp_get_activity_thread_permalink', $link );
+		return apply_filters( 'bp_get_activity_thread_permalink', $link );
 	}
 
 /**

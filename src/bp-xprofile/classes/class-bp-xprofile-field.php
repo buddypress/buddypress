@@ -383,8 +383,8 @@ class BP_XProfile_Field {
 			do_action_ref_array( 'xprofile_field_after_save', array( $this ) );
 
 			// Recreate type_obj in case someone changed $this->type via a filter
-	 		$this->type_obj            = bp_xprofile_create_field_type( $this->type );
-	 		$this->type_obj->field_obj = $this;
+			$this->type_obj            = bp_xprofile_create_field_type( $this->type );
+			$this->type_obj->field_obj = $this;
 
 			return $this->id;
 		} else {
