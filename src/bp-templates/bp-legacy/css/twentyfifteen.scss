@@ -1893,14 +1893,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					border-bottom: 0;
 
 					img {
-	 				// this is the tiny user avatar
+						// this is the tiny user avatar
 						display: inline;
 						height: 20px;
 						margin-right: 0.5em;
 						width: 20px !important; // override inline style
-	 			}
-	 		}
-	 	}
+					}
+				}
+			}
 		}
 
 		/* Sitewide Notices loop */
@@ -2100,7 +2100,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				text-align: center;
 				text-transform: none;
 				width: 20%;
-		 	}
+			}
 		}// close form
 
 	} // close .dir-search, .message-search
