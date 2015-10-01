@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
@@ -17,10 +17,10 @@ defined( 'ABSPATH' ) || exit;
 class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 	/**
-	 * Constructor for the textarea field type
+	 * Constructor for the textarea field type.
 	 *
 	 * @since 2.0.0
- 	 */
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -45,12 +45,15 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/textarea.html permitted attributes} that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *                              {@link http://dev.w3.org/html5/markup/textarea.html permitted attributes}
+	 *                              that you want to add.
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that certain other fields
+		// User_id is a special optional parameter that certain other fields
 		// types pass to {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			unset( $raw_properties['user_id'] );
@@ -83,8 +86,9 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 		$r = bp_parse_args( $raw_properties, array(
@@ -101,9 +105,11 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	 * This method usually outputs HTML for this field type's children options on the wp-admin Profile Fields
 	 * "Add Field" and "Edit Field" screens, but for this field type, we don't want it, so it's stubbed out.
 	 *
-	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
 	 * @since 2.0.0
+	 *
+	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
+	 * @param string            $control_type  Optional. HTML input type used to render the current
+	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
 }

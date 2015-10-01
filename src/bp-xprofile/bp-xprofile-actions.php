@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * The function will delete the active avatar for a user.
  *
- * @package BuddyPress Xprofile
  * @uses bp_core_delete_avatar() Deletes the active avatar for the logged in user.
  * @uses add_action() Runs a specific function for an action when it fires.
  */
@@ -29,7 +28,7 @@ function xprofile_action_delete_avatar() {
 		return false;
 	}
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'bp_delete_avatar_link' );
 
 	if ( ! bp_is_my_profile() && ! bp_current_user_can( 'bp_moderate' ) ) {
@@ -47,23 +46,23 @@ function xprofile_action_delete_avatar() {
 add_action( 'bp_actions', 'xprofile_action_delete_avatar' );
 
 /**
- * Handles the saving of xprofile field visibilities
+ * Handles the saving of xprofile field visibilities.
  *
  * @since 1.9.0
  */
 function bp_xprofile_action_settings() {
 
-	// Bail if not a POST action
+	// Bail if not a POST action.
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 		return;
 	}
 
-	// Bail if no submit action
+	// Bail if no submit action.
 	if ( ! isset( $_POST['xprofile-settings-submit'] ) ) {
 		return;
 	}
 
-	// Bail if not in settings
+	// Bail if not in settings.
 	if ( ! bp_is_user_settings_profile() ) {
 		return;
 	}
@@ -74,7 +73,7 @@ function bp_xprofile_action_settings() {
 		return;
 	}
 
-	// Nonce check
+	// Nonce check.
 	check_admin_referer( 'bp_xprofile_settings' );
 
 	/**
@@ -86,10 +85,10 @@ function bp_xprofile_action_settings() {
 
 	/** Save ******************************************************************/
 
-	// Only save if there are field ID's being posted
+	// Only save if there are field ID's being posted.
 	if ( ! empty( $_POST['field_ids'] ) ) {
 
-		// Get the POST'ed field ID's
+		// Get the POST'ed field ID's.
 		$posted_field_ids = explode( ',', $_POST['field_ids'] );
 
 		// Backward compatibility: a bug in BP 2.0 caused only a single
@@ -103,7 +102,7 @@ function bp_xprofile_action_settings() {
 			}
 		}
 
-		// Save the visibility settings
+		// Save the visibility settings.
 		foreach ( $posted_field_ids as $field_id ) {
 
 			$visibility_level = 'public';
@@ -125,7 +124,7 @@ function bp_xprofile_action_settings() {
 	 */
 	do_action( 'bp_xprofile_settings_after_save' );
 
-	// Redirect to the root domain
+	// Redirect to the root domain.
 	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/profile' );
 }
 add_action( 'bp_actions', 'bp_xprofile_action_settings' );

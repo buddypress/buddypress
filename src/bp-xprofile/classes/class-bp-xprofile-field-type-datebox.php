@@ -17,10 +17,10 @@ defined( 'ABSPATH' ) || exit;
 class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 	/**
-	 * Constructor for the datebox field type
+	 * Constructor for the datebox field type.
 	 *
 	 * @since 2.0.0
- 	 */
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -45,12 +45,15 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/input.html permitted attributes} that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *                              {@link http://dev.w3.org/html5/markup/input.html permitted attributes}
+	 *                              that you want to add.
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that we pass to
+		// User_id is a special optional parameter that we pass to.
 		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
@@ -127,8 +130,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 * @since 2.0.0
+	 *
+	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 
@@ -139,19 +143,19 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$html       = '';
 		$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
 
-		// Set day, month, year defaults
+		// Set day, month, year defaults.
 		if ( ! empty( $date ) ) {
 
-			// If Unix timestamp
+			// If Unix timestamp.
 			if ( is_numeric( $date ) ) {
 				$day   = date( 'j', $date );
 				$month = date( 'F', $date );
 				$year  = date( 'Y', $date );
 
-			// If MySQL timestamp
+			// If MySQL timestamp.
 			} else {
 				$day   = mysql2date( 'j', $date );
-				$month = mysql2date( 'F', $date, false ); // Not localized, so that selected() works below
+				$month = mysql2date( 'F', $date, false ); // Not localized, so that selected() works below.
 				$year  = mysql2date( 'Y', $date );
 			}
 		}
@@ -178,7 +182,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			$year     = ( $year != $new_year ) ? $new_year : $year;
 		}
 
-		// $type will be passed by calling function when needed
+		// $type will be passed by calling function when needed.
 		switch ( $args['type'] ) {
 			case 'day':
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $day, 0, false ), /* translators: no option picked in select box */ __( '----', 'buddypress' ) );
@@ -241,8 +245,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 
@@ -280,9 +285,11 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * This method usually outputs HTML for this field type's children options on the wp-admin Profile Fields
 	 * "Add Field" and "Edit Field" screens, but for this field type, we don't want it, so it's stubbed out.
 	 *
-	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
 	 * @since 2.0.0
+	 *
+	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
+	 * @param string            $control_type  Optional. HTML input type used to render the current
+	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
 
@@ -292,12 +299,14 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 *
 	 * @param string $field_value The date value, as saved in the database.
-	 *        Typically, this is a MySQL-formatted date string (Y-m-d H:i:s).
+	 *                            Typically, this is a MySQL-formatted date
+	 *                            string (Y-m-d H:i:s).
+	 *
 	 * @return string Date formatted by bp_format_time().
 	 */
 	public static function display_filter( $field_value ) {
 
-		// If Unix timestamp
+		// If Unix timestamp.
 		if ( ! is_numeric( $field_value ) ) {
 			$field_value = strtotime( $field_value );
 		}

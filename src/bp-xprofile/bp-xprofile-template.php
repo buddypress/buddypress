@@ -115,7 +115,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 2.4.0 Introduced `$member_type` argument.
 	 *
-	 * @param array $args {
+	 * @param array|string $args {
 	 *     An array of arguments. All items are optional.
 	 *
 	 *     @type int          $user_id                 Fetch field data for this user ID.
@@ -133,7 +133,7 @@ class BP_XProfile_Data_Template {
 	 */
 	public function __construct( $args = '' ) {
 
-		// Backward compatibility with old method of passing arguments
+		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
 			_deprecated_argument( __METHOD__, '2.3.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
@@ -223,7 +223,7 @@ class BP_XProfile_Data_Template {
 			 */
 			do_action( 'xprofile_template_loop_end' );
 
-			// Do some cleaning up after the loop
+			// Do some cleaning up after the loop.
 			$this->rewind_groups();
 		}
 
@@ -237,7 +237,7 @@ class BP_XProfile_Data_Template {
 		$this->in_the_loop = true;
 		$group = $this->next_group();
 
-		// loop has just started
+		// Loop has just started.
 		if ( 0 === $this->current_group ) {
 
 			/**
@@ -284,7 +284,7 @@ class BP_XProfile_Data_Template {
 		if ( $this->current_field + 1 < $this->field_count ) {
 			return true;
 		} elseif ( $this->current_field + 1 == $this->field_count ) {
-			// Do some cleaning up after the loop
+			// Do some cleaning up after the loop.
 			$this->rewind_fields();
 		}
 
@@ -296,7 +296,7 @@ class BP_XProfile_Data_Template {
 
 		$field = $this->next_field();
 
-		// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
+		// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731.
 		if ( ! empty( $field->data ) && ( ! empty( $field->data->value ) || ( '0' === $field->data->value ) ) ) {
 			$value = maybe_unserialize( $field->data->value );
 		} else {
@@ -312,14 +312,14 @@ class BP_XProfile_Data_Template {
 }
 
 /**
- * Query for XProfile groups and fields
+ * Query for XProfile groups and fields.
  *
  * @since 1.0.0
  *
  * @global object $profile_template
  * @see BP_XProfile_Group::get() for full description of `$args` array.
  *
- * @param array $args {
+ * @param array|string $args {
  *     Array of arguments. See BP_XProfile_Group::get() for full description. Those arguments whose defaults differ
  *     from that method are described here:
  *     @type string|array $member_type            Default: 'any'.
@@ -338,17 +338,17 @@ function bp_has_profile( $args = '' ) {
 	global $profile_template;
 
 	// Only show empty fields if we're on the Dashboard, or we're on a user's
-	// profile edit page, or this is a registration page
+	// profile edit page, or this is a registration page.
 	$hide_empty_fields_default = ( ! is_network_admin() && ! is_admin() && ! bp_is_user_profile_edit() && ! bp_is_register_page() );
 
-	// We only need to fetch visibility levels when viewing your own profile
+	// We only need to fetch visibility levels when viewing your own profile.
 	if ( bp_is_my_profile() || bp_current_user_can( 'bp_moderate' ) || bp_is_register_page() ) {
 		$fetch_visibility_level_default = true;
 	} else {
 		$fetch_visibility_level_default = false;
 	}
 
-	// Parse arguments
+	// Parse arguments.
 	$r = bp_parse_args( $args, array(
 		'user_id'                => bp_displayed_user_id(),
 		'member_type'            => 'any',
@@ -358,12 +358,12 @@ function bp_has_profile( $args = '' ) {
 		'fetch_fields'           => true,
 		'fetch_field_data'       => true,
 		'fetch_visibility_level' => $fetch_visibility_level_default,
-		'exclude_groups'         => false, // Comma-separated list of profile field group IDs to exclude
-		'exclude_fields'         => false, // Comma-separated list of profile field IDs to exclude
+		'exclude_groups'         => false, // Comma-separated list of profile field group IDs to exclude.
+		'exclude_fields'         => false, // Comma-separated list of profile field IDs to exclude.
 		'update_meta_cache'      => true,
 	), 'has_profile' );
 
-	// Populate the template loop global
+	// Populate the template loop global.
 	$profile_template = new BP_XProfile_Data_Template( $r );
 
 	/**
@@ -404,20 +404,20 @@ function bp_field_css_class( $class = false ) {
 			$css_classes[] = sanitize_title( esc_attr( $class ) );
 		}
 
-		// Set a class with the field ID
+		// Set a class with the field ID.
 		$css_classes[] = 'field_' . $profile_template->field->id;
 
-		// Set a class with the field name (sanitized)
+		// Set a class with the field name (sanitized).
 		$css_classes[] = 'field_' . sanitize_title( $profile_template->field->name );
 
-		// Set a class indicating whether the field is required or optional
+		// Set a class indicating whether the field is required or optional.
 		if ( ! empty( $profile_template->field->is_required ) ) {
 			$css_classes[] = 'required-field';
 		} else {
 			$css_classes[] = 'optional-field';
 		}
 
-		// Add the field visibility level
+		// Add the field visibility level.
 		$css_classes[] = 'visibility-' . esc_attr( bp_get_the_profile_field_visibility_level() );
 
 		if ( $profile_template->current_field % 2 == 1 ) {
@@ -530,7 +530,7 @@ function bp_the_profile_group_edit_form_action() {
 	function bp_get_the_profile_group_edit_form_action() {
 		global $group;
 
-		// Build the form action URL
+		// Build the form action URL.
 		$form_action = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . $group->id );
 
 		/**
@@ -749,7 +749,7 @@ function bp_the_profile_field_input_name() {
 	}
 
 /**
- * Returns the action name for any signup errors related to this profile field
+ * Returns the action name for any signup errors related to this profile field.
  *
  * In the registration templates, signup errors are pulled from the global
  * object and rendered at actions that look like 'bp_field_12_errors'. This
@@ -758,7 +758,8 @@ function bp_the_profile_field_input_name() {
  *   do_action( bp_get_the_profile_field_errors_action() );
  *
  * @since 1.8.0
- * @return string The _errors action name corresponding to this profile field
+ *
+ * @return string The _errors action name corresponding to this profile field.
  */
 function bp_get_the_profile_field_errors_action() {
 	global $field;
@@ -766,12 +767,9 @@ function bp_get_the_profile_field_errors_action() {
 }
 
 /**
- * bp_the_profile_field_options()
- *
  * Displays field options HTML for field types of 'selectbox', 'multiselectbox',
  * 'radio', 'checkbox', and 'datebox'.
  *
- * @package BuddyPress Xprofile
  * @since 1.1.0
  *
  * @uses bp_get_the_profile_field_options()
@@ -782,11 +780,8 @@ function bp_the_profile_field_options( $args = array() ) {
 	echo bp_get_the_profile_field_options( $args );
 }
 	/**
-	 * bp_get_the_profile_field_options()
-	 *
 	 * Retrieves field options HTML for field types of 'selectbox', 'multiselectbox', 'radio', 'checkbox', and 'datebox'.
 	 *
-	 * @package BuddyPress Xprofile
 	 * @since 1.1.0
 	 *
 	 * @uses BP_XProfile_Field::get_children()
@@ -794,11 +789,13 @@ function bp_the_profile_field_options( $args = array() ) {
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
-	 *     @type string|bool $type Type of datebox. False if it's not a
-	 *           datebox, otherwise 'day, 'month', or 'year'. Default: false.
-	 *     @type int $user_id ID of the user whose profile values should be
-	 *           used when rendering options. Default: displayed user.
+	 *     @type string|bool $type    Type of datebox. False if it's not a
+	 *                                datebox, otherwise 'day, 'month', or 'year'. Default: false.
+	 *     @type int         $user_id ID of the user whose profile values should be
+	 *                                used when rendering options. Default: displayed user.
 	 * }
+	 *
+	 * @return string $vaue Field options markup.
 	 */
 	function bp_get_the_profile_field_options( $args = array() ) {
 		global $field;
@@ -838,14 +835,14 @@ function bp_the_profile_field_is_required() {
 	function bp_get_the_profile_field_is_required() {
 		global $field;
 
-		// Define locale variable(s)
+		// Define locale variable(s).
 		$retval = false;
 
-		// Super admins can skip required check
+		// Super admins can skip required check.
 		if ( bp_current_user_can( 'bp_moderate' ) && !is_admin() ) {
 			$retval = false;
 
-		// All other users will use the field's setting
+		// All other users will use the field's setting.
 		} elseif ( isset( $field->is_required ) ) {
 			$retval = $field->is_required;
 		}
@@ -861,20 +858,20 @@ function bp_the_profile_field_is_required() {
 	}
 
 /**
- * Echo the visibility level of this field
+ * Echo the visibility level of this field.
  */
 function bp_the_profile_field_visibility_level() {
 	echo bp_get_the_profile_field_visibility_level();
 }
 	/**
-	 * Return the visibility level of this field
+	 * Return the visibility level of this field.
 	 */
 	function bp_get_the_profile_field_visibility_level() {
 		global $field;
 
 		// On the registration page, values stored in POST should take
 		// precedence over default visibility, so that submitted values
-		// are not lost on failure
+		// are not lost on failure.
 		if ( bp_is_register_page() && ! empty( $_POST['field_' . $field->id . '_visibility'] ) ) {
 			$retval = esc_attr( $_POST['field_' . $field->id . '_visibility'] );
 		} else {
@@ -892,20 +889,20 @@ function bp_the_profile_field_visibility_level() {
 	}
 
 /**
- * Echo the visibility level label of this field
+ * Echo the visibility level label of this field.
  */
 function bp_the_profile_field_visibility_level_label() {
 	echo bp_get_the_profile_field_visibility_level_label();
 }
 	/**
-	 * Return the visibility level label of this field
+	 * Return the visibility level label of this field.
 	 */
 	function bp_get_the_profile_field_visibility_level_label() {
 		global $field;
 
 		// On the registration page, values stored in POST should take
 		// precedence over default visibility, so that submitted values
-		// are not lost on failure
+		// are not lost on failure.
 		if ( bp_is_register_page() && ! empty( $_POST['field_' . $field->id . '_visibility'] ) ) {
 			$level = esc_html( $_POST['field_' . $field->id . '_visibility'] );
 		} else {
@@ -958,7 +955,7 @@ function bp_profile_field_data( $args = '' ) {
 /**
  * Get all profile field groups.
  *
- * @since  2.1.0
+ * @since 2.1.0
  *
  * @return object $groups
  */
@@ -983,7 +980,7 @@ function bp_profile_get_field_groups() {
 /**
  * Check if there is more than one group of fields for the profile being edited.
  *
- * @since  2.1.0
+ * @since 2.1.0
  *
  * @return bool True if there is more than one profile field group.
  */
@@ -1004,8 +1001,6 @@ function bp_profile_has_multiple_groups() {
  * Output the tabs to switch between profile field groups.
  *
  * @since 1.0.0
- *
- * @return string Field group tabs markup.
  */
 function bp_profile_group_tabs() {
 	echo bp_get_profile_group_tabs();
@@ -1020,7 +1015,7 @@ function bp_profile_group_tabs() {
 }
 
 /**
- * Return the XProfile group tabs
+ * Return the XProfile group tabs.
  *
  * @since 2.3.0
  *
@@ -1028,29 +1023,29 @@ function bp_profile_group_tabs() {
  */
 function bp_get_profile_group_tabs() {
 
-	// Get field group data
+	// Get field group data.
 	$groups     = bp_profile_get_field_groups();
 	$group_name = bp_get_profile_group_name();
 	$tabs       = array();
 
-	// Loop through field groups and put a tab-lst together
+	// Loop through field groups and put a tab-lst together.
 	for ( $i = 0, $count = count( $groups ); $i < $count; ++$i ) {
 
-		// Setup the selected class
+		// Setup the selected class.
 		$selected = '';
 		if ( $group_name === $groups[ $i ]->name ) {
 			$selected = ' class="current"';
 		}
 
-		// Skip if group has no fields
+		// Skip if group has no fields.
 		if ( empty( $groups[ $i ]->fields ) ) {
 			continue;
 		}
 
-		// Build the profile field group link
+		// Build the profile field group link.
 		$link   = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . $groups[ $i ]->id );
 
-		// Add tab to end of tabs array
+		// Add tab to end of tabs array.
 		$tabs[] = sprintf(
 			'<li %1$s><a href="%2$s">%3$s</a></li>',
 			$selected,
@@ -1082,13 +1077,13 @@ function bp_profile_group_name( $deprecated = true ) {
 }
 	function bp_get_profile_group_name() {
 
-		// Check action variable
+		// Check action variable.
 		$group_id = bp_action_variable( 1 );
 		if ( empty( $group_id ) || ! is_numeric( $group_id ) ) {
 			$group_id = 1;
 		}
 
-		// Check for cached group
+		// Check for cached group.
 		$group = new BP_XProfile_Group( $group_id );
 
 		/**
@@ -1142,7 +1137,7 @@ function bp_current_profile_group_id() {
 		/**
 		 * Filters the current profile group ID.
 		 *
-		 * Possible values are admin/profile/edit/[group-id]
+		 * Possible values are admin/profile/edit/[group-id].
 		 *
 		 * @since 1.1.0
 		 *
@@ -1182,17 +1177,23 @@ function bp_edit_profile_button() {
 /** Visibility ****************************************************************/
 
 /**
- * Echo the field visibility radio buttons
+ * Echo the field visibility radio buttons.
+ *
+ * @param array|string $args Args for the radio buttons.
  */
 function bp_profile_visibility_radio_buttons( $args = '' ) {
 	echo bp_profile_get_visibility_radio_buttons( $args );
 }
 	/**
-	 * Return the field visibility radio buttons
+	 * Return the field visibility radio buttons.
+	 *
+	 * @param array|string $args Args for the radio buttons.
+	 *
+	 * @return string $retval
 	 */
 	function bp_profile_get_visibility_radio_buttons( $args = '' ) {
 
-		// Parse optional arguments
+		// Parse optional arguments.
 		$r = bp_parse_args( $args, array(
 			'field_id'     => bp_get_the_profile_field_id(),
 			'before'       => '<ul class="radio">',
@@ -1202,16 +1203,16 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 			'class'        => 'bp-xprofile-visibility'
 		), 'xprofile_visibility_radio_buttons' );
 
-		// Empty return value, filled in below if a valid field ID is found
+		// Empty return value, filled in below if a valid field ID is found.
 		$retval = '';
 
-		// Only do-the-do if there's a valid field ID
+		// Only do-the-do if there's a valid field ID.
 		if ( ! empty( $r['field_id'] ) ) :
 
-			// Start the output buffer
+			// Start the output buffer.
 			ob_start();
 
-			// Output anything before
+			// Output anything before.
 			echo $r['before']; ?>
 
 			<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
@@ -1231,10 +1232,10 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 
 			<?php endif;
 
-			// Output anything after
+			// Output anything after.
 			echo $r['after'];
 
-			// Get the output buffer and empty it
+			// Get the output buffer and empty it.
 			$retval = ob_get_clean();
 		endif;
 
@@ -1251,21 +1252,27 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 	}
 
 /**
- * Output the XProfile field visibility select list for settings
+ * Output the XProfile field visibility select list for settings.
  *
  * @since 2.0.0
+ *
+ * @param array|string $args Args for the select list.
  */
 function bp_profile_settings_visibility_select( $args = '' ) {
 	echo bp_profile_get_settings_visibility_select( $args );
 }
 	/**
-	 * Return the XProfile field visibility select list for settings
+	 * Return the XProfile field visibility select list for settings.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @param array|string $args Args for the select list.
+	 *
+	 * @return string $retval
 	 */
 	function bp_profile_get_settings_visibility_select( $args = '' ) {
 
-		// Parse optional arguments
+		// Parse optional arguments.
 		$r = bp_parse_args( $args, array(
 			'field_id' => bp_get_the_profile_field_id(),
 			'before'   => '',
@@ -1273,16 +1280,16 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 			'class'    => 'bp-xprofile-visibility'
 		), 'xprofile_settings_visibility_select' );
 
-		// Empty return value, filled in below if a valid field ID is found
+		// Empty return value, filled in below if a valid field ID is found.
 		$retval = '';
 
-		// Only do-the-do if there's a valid field ID
+		// Only do-the-do if there's a valid field ID.
 		if ( ! empty( $r['field_id'] ) ) :
 
-			// Start the output buffer
+			// Start the output buffer.
 			ob_start();
 
-			// Output anything before
+			// Output anything before.
 			echo $r['before']; ?>
 
 			<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
@@ -1304,10 +1311,10 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 
 			<?php endif;
 
-			// Output anything after
+			// Output anything after.
 			echo $r['after'];
 
-			// Get the output buffer and empty it
+			// Get the output buffer and empty it.
 			$retval = ob_get_clean();
 		endif;
 

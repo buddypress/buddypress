@@ -10,17 +10,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Query all profile fields and their visibility data for display in settings
+ * Query all profile fields and their visibility data for display in settings.
  *
  * @since 2.0.0
  *
- * @param array $args
+ * @param array|string $args Array of args for the settings fields.
  *
  * @return array
  */
 function bp_xprofile_get_settings_fields( $args = '' ) {
 
-	// Parse the possible arguments
+	// Parse the possible arguments.
 	$r = bp_parse_args( $args, array(
 		'user_id'                => bp_displayed_user_id(),
 		'profile_group_id'       => false,
@@ -37,7 +37,7 @@ function bp_xprofile_get_settings_fields( $args = '' ) {
 }
 
 /**
- * Adds feedback messages when successfully saving profile field settings
+ * Adds feedback messages when successfully saving profile field settings.
  *
  * @since 2.0.0
  *
@@ -46,16 +46,16 @@ function bp_xprofile_get_settings_fields( $args = '' ) {
  */
 function bp_xprofile_settings_add_feedback_message() {
 
-	// Default message type is success
+	// Default message type is success.
 	$type    = 'success';
 	$message = __( 'Your profile settings have been saved.',        'buddypress' );
 
-	// Community moderator editing another user's settings
+	// Community moderator editing another user's settings.
 	if ( ! bp_is_my_profile() && bp_core_can_edit_settings() ) {
 		$message = __( "This member's profile settings have been saved.", 'buddypress' );
 	}
 
-	// Add the message
+	// Add the message.
 	bp_core_add_message( $message, $type );
 }
 add_action( 'bp_xprofile_settings_after_save', 'bp_xprofile_settings_add_feedback_message' );

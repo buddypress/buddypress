@@ -24,7 +24,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.1.0
  *
  * @param array $args See {@link BP_XProfile_Group::get()} for description of
- *        arguments.
+ *                    arguments.
+ *
  * @return array $groups
  */
 function bp_xprofile_get_groups( $args = array() ) {
@@ -43,16 +44,17 @@ function bp_xprofile_get_groups( $args = array() ) {
 }
 
 /**
- * Insert a new profile field group
+ * Insert a new profile field group.
  *
  * @since 1.0.0
  *
- * @param type $args
+ * @param array|string $args Array of arguments for field group insertion.
+ *
  * @return boolean
  */
 function xprofile_insert_field_group( $args = '' ) {
 
-	// Parse the arguments
+	// Parse the arguments.
 	$r = bp_parse_args( $args, array(
 		'field_group_id' => false,
 		'name'           => false,
@@ -60,12 +62,12 @@ function xprofile_insert_field_group( $args = '' ) {
 		'can_delete'     => true
 	), 'xprofile_insert_field_group' );
 
-	// Bail if no group name
+	// Bail if no group name.
 	if ( empty( $r['name'] ) ) {
 		return false;
 	}
 
-	// Create new field group object, maybe using an existing ID
+	// Create new field group object, maybe using an existing ID.
 	$field_group              = new BP_XProfile_Group( $r['field_group_id'] );
 	$field_group->name        = $r['name'];
 	$field_group->description = $r['description'];
@@ -75,70 +77,73 @@ function xprofile_insert_field_group( $args = '' ) {
 }
 
 /**
- * Get a specific profile field group
+ * Get a specific profile field group.
  *
  * @since 1.0.0
  *
- * @param int $field_group_id
+ * @param int $field_group_id Field group ID to fetch.
+ *
  * @return boolean|BP_XProfile_Group
  */
 function xprofile_get_field_group( $field_group_id = 0 ) {
 
-	// Try to get a specific field group by ID
+	// Try to get a specific field group by ID.
 	$field_group = new BP_XProfile_Group( $field_group_id );
 
-	// Bail if group was not found
+	// Bail if group was not found.
 	if ( empty( $field_group->id ) ) {
 		return false;
 	}
 
-	// Return field group
+	// Return field group.
 	return $field_group;
 }
 
 /**
- * Delete a specific profile field group
+ * Delete a specific profile field group.
  *
  * @since 1.0.0
  *
- * @param int $field_group_id
+ * @param int $field_group_id Field group ID to delete.
+ *
  * @return boolean
  */
 function xprofile_delete_field_group( $field_group_id = 0 ) {
 
-	// Try to get a specific field group by ID
+	// Try to get a specific field group by ID.
 	$field_group = xprofile_get_field_group( $field_group_id );
 
-	// Bail if group was not found
+	// Bail if group was not found.
 	if ( false === $field_group ) {
 		return false;
 	}
 
-	// Return the results of trying to delete the field group
+	// Return the results of trying to delete the field group.
 	return $field_group->delete();
 }
 
 /**
- * Update the position of a specific profile field group
+ * Update the position of a specific profile field group.
  *
  * @since 1.0.0
  *
- * @param int $field_group_id
- * @param int $position
- * @return bool
+ * @param int $field_group_id Field group ID to update.
+ * @param int $position       Field group position to update to.
+ *
+ * @return boolean
  */
 function xprofile_update_field_group_position( $field_group_id = 0, $position = 0 ) {
 	return BP_XProfile_Group::update_position( $field_group_id, $position );
 }
-
 
 /*** Field Management *********************************************************/
 
 /**
  * Get details of all xprofile field types.
  *
- * @return array Key/value pairs (field type => class name).
  * @since 2.0.0
+ *
+ * @return array Key/value pairs (field type => class name).
  */
 function bp_xprofile_get_field_types() {
 	$fields = array(
@@ -168,9 +173,12 @@ function bp_xprofile_get_field_types() {
 /**
  * Creates the specified field type object; used for validation and templating.
  *
- * @param string $type Type of profile field to create. See {@link bp_xprofile_get_field_types()} for default core values.
- * @return object If field type unknown, returns BP_XProfile_Field_Type_Textarea. Otherwise returns an instance of the relevant child class of BP_XProfile_Field_Type.
  * @since 2.0.0
+ *
+ * @param string $type Type of profile field to create. See {@link bp_xprofile_get_field_types()} for default core values.
+ *
+ * @return object $value If field type unknown, returns BP_XProfile_Field_Type_Textarea.
+ *                       Otherwise returns an instance of the relevant child class of BP_XProfile_Field_Type.
  */
 function bp_xprofile_create_field_type( $type ) {
 
@@ -190,7 +198,7 @@ function bp_xprofile_create_field_type( $type ) {
 /**
  * Insert or update an xprofile field.
  *
- * @param array $args {
+ * @param array|string $args {
  *     Array of arguments.
  *     @type int    $field_id          Optional. Pass the ID of an existing field to edit that field.
  *     @type int    $field_group_id    ID of the associated field group.
@@ -230,7 +238,7 @@ function xprofile_insert_field( $args = '' ) {
 		'field_order'       => null,
 	) );
 
-	// field_group_id is required
+	// Field_group_id is required.
 	if ( empty( $r['field_group_id'] ) ) {
 		return false;
 	}
@@ -240,7 +248,7 @@ function xprofile_insert_field( $args = '' ) {
 		return false;
 	}
 
-	// Instantiate a new field object
+	// Instantiate a new field object.
 	if ( ! empty( $r['field_id'] ) ) {
 		$field = new BP_XProfile_Field( $r['field_id'] );
 	} else {
@@ -276,8 +284,8 @@ function xprofile_delete_field( $field_id ) {
 	return $field->delete();
 }
 
-
 /*** Field Data Management *****************************************************/
+
 
 /**
  * Fetches profile data for a specific field for the user.
@@ -285,12 +293,13 @@ function xprofile_delete_field( $field_id ) {
  * When the field value is serialized, this function unserializes and filters
  * each item in the array.
  *
- * @package BuddyPress Core
- * @param mixed $field         The ID of the field, or the $name of the field.
- * @param int $user_id         The ID of the user
- * @param string $multi_format How should array data be returned? 'comma' if you want a
- *                             comma-separated string; 'array' if you want an array
  * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
+ *
+ * @param mixed  $field        The ID of the field, or the $name of the field.
+ * @param int    $user_id      The ID of the user.
+ * @param string $multi_format How should array data be returned? 'comma' if you want a
+ *                             comma-separated string; 'array' if you want an array.
+ *
  * @return mixed The profile field data.
  */
 function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' ) {
@@ -341,16 +350,16 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 
 	return $data;
 }
-
 /**
  * A simple function to set profile data for a specific field for a specific user.
  *
- * @package BuddyPress Core
- * @param int|string $field The ID of the field, or the $name of the field.
- * @param int|$user_id      The ID of the user
- * @param mixed $value      The value for the field you want to set for the user.
- * @param $is_required      Whether or not the field is required
- * @uses xprofile_get_field_id_from_name() Gets the ID for the field based on the name.
+ * @uses xprofile_get_field_id_from_name() Gets the ID from the field based on the name.
+ *
+ * @param int|string $field       The ID of the field, or the $name of the field.
+ * @param int        $user_id     The ID of the user.
+ * @param mixed      $value       The value for the field you want to set for the user.
+ * @param bool       $is_required Whether or not the field is required.
+ *
  * @return bool True on success, false on failure.
  */
 function xprofile_set_field_data( $field, $user_id, $value, $is_required = false ) {
@@ -377,13 +386,13 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param mixed $value Value passed to xprofile_set_field_data()
-	 * @param BP_XProfile_Field $field Field object.
+	 * @param mixed                  $value          Value passed to xprofile_set_field_data().
+	 * @param BP_XProfile_Field      $field          Field object.
 	 * @param BP_XProfile_Field_Type $field_type_obj Field type object.
 	 */
 	$value = apply_filters( 'bp_xprofile_set_field_data_pre_validate', $value, $field, $field_type_obj );
 
-	// Special-case support for integer 0 for the number field type
+	// Special-case support for integer 0 for the number field type.
 	if ( $is_required && ! is_integer( $value ) && $value !== '0' && ( empty( $value ) || ! is_array( $value ) && ! strlen( trim( $value ) ) ) ) {
 		return false;
 	}
@@ -398,7 +407,8 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 		$value = array();
 	}
 
-	// If the value is empty, then delete any field data that exists, unless the field is of a type where null values are semantically meaningful
+	// If the value is empty, then delete any field data that exists, unless the field is of a type
+	// where null values are semantically meaningful.
 	if ( empty( $value ) && ! is_integer( $value ) && $value !== '0' && ! $field_type_obj->accepts_null_value ) {
 		xprofile_delete_field_data( $field_id, $user_id );
 		return true;
@@ -423,11 +433,12 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 }
 
 /**
- * Set the visibility level for this field
+ * Set the visibility level for this field.
  *
- * @param int $field_id The ID of the xprofile field
- * @param int $user_id The ID of the user to whom the data belongs
- * @param string $visibility_level
+ * @param int    $field_id         The ID of the xprofile field.
+ * @param int    $user_id          The ID of the user to whom the data belongs.
+ * @param string $visibility_level What the visibity setting should be.
+ *
  * @return bool True on success
  */
 function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visibility_level = '' ) {
@@ -435,13 +446,13 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 		return false;
 	}
 
-	// Check against a whitelist
+	// Check against a whitelist.
 	$allowed_values = bp_xprofile_get_visibility_levels();
 	if ( !array_key_exists( $visibility_level, $allowed_values ) ) {
 		return false;
 	}
 
-	// Stored in an array in usermeta
+	// Stored in an array in usermeta.
 	$current_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 
 	if ( !$current_visibility_levels ) {
@@ -460,6 +471,7 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
  *
  * @param int $field_id The ID of the xprofile field.
  * @param int $user_id The ID of the user to whom the data belongs.
+ *
  * @return string
  */
 function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
@@ -472,7 +484,7 @@ function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
 	$current_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 	$current_level  = isset( $current_levels[ $field_id ] ) ? $current_levels[ $field_id ] : '';
 
-	// Use the user's stored level, unless custom visibility is disabled
+	// Use the user's stored level, unless custom visibility is disabled.
 	$field = new BP_XProfile_Field( $field_id );
 	if ( isset( $field->allow_custom_visibility ) && 'disabled' === $field->allow_custom_visibility ) {
 		$current_level = $field->default_visibility;
@@ -489,36 +501,36 @@ function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
 
 function xprofile_delete_field_data( $field = '', $user_id = 0 ) {
 
-	// Get the field ID
+	// Get the field ID.
 	if ( is_numeric( $field ) ) {
 		$field_id = (int) $field;
 	} else {
 		$field_id = xprofile_get_field_id_from_name( $field );
 	}
 
-	// Bail if field or user ID are empty
+	// Bail if field or user ID are empty.
 	if ( empty( $field_id ) || empty( $user_id ) ) {
 		return false;
 	}
 
-	// Get the profile field data to delete
+	// Get the profile field data to delete.
 	$field = new BP_XProfile_ProfileData( $field_id, $user_id );
 
-	// Delete the field data
+	// Delete the field data.
 	return $field->delete();
 }
 
 function xprofile_check_is_required_field( $field_id ) {
 	$field = new BP_Xprofile_Field( $field_id );
 
-	// Define locale variable(s)
+	// Define locale variable(s).
 	$retval = false;
 
-	// Super admins can skip required check
+	// Super admins can skip required check.
 	if ( bp_current_user_can( 'bp_moderate' ) && ! is_admin() ) {
 		$retval = false;
 
-	// All other users will use the field's setting
+	// All other users will use the field's setting.
 	} elseif ( isset( $field->is_required ) ) {
 		$retval = $field->is_required;
 	}
@@ -540,13 +552,15 @@ function xprofile_get_field_id_from_name( $field_name ) {
 /**
  * Fetches a random piece of profile data for the user.
  *
- * @package BuddyPress Core
- * @param int $user_id User ID of the user to get random data for
- * @param bool $exclude_fullname Optional; whether or not to exclude the full name field as random data. Defaults to true.
- * @global BuddyPress $bp The one true BuddyPress instance
- * @global $wpdb WordPress DB access object.
- * @global $current_user WordPress global variable containing current logged in user information
+ * @global BuddyPress $bp           The one true BuddyPress instance.
+ * @global object     $wpdb         WordPress DB access object.
+ * @global object     $current_user WordPress global variable containing current logged in user information.
  * @uses xprofile_format_profile_field() Formats profile field data so it is suitable for display.
+ *
+ * @param int  $user_id          User ID of the user to get random data for.
+ * @param bool $exclude_fullname Optional; whether or not to exclude the full name field as random data.
+ *                               Defaults to true.
+ *
  * @return string|bool The fetched random data for the user, or false if no data or no match.
  */
 function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) {
@@ -575,10 +589,10 @@ function xprofile_get_random_profile_data( $user_id, $exclude_fullname = true ) 
 /**
  * Formats a profile field according to its type. [ TODO: Should really be moved to filters ]
  *
- * @package BuddyPress Core
- * @param string $field_type The type of field: datebox, selectbox, textbox etc
- * @param string $field_value The actual value
- * @return string|bool The formatted value, or false if value is empty
+ * @param string $field_type  The type of field: datebox, selectbox, textbox etc.
+ * @param string $field_value The actual value.
+ *
+ * @return string|bool The formatted value, or false if value is empty.
  */
 function xprofile_format_profile_field( $field_type, $field_value ) {
 
@@ -643,12 +657,12 @@ add_action( 'bp_setup_globals', 'xprofile_override_user_fullnames', 100 );
  */
 function xprofile_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 
-	// Use displayed user if no user ID was passed
+	// Use displayed user if no user ID was passed.
 	if ( empty( $user_id ) ) {
 		$user_id = bp_displayed_user_id();
 	}
 
-	// Failsafe against accidentally nooped $directory parameter
+	// Failsafe against accidentally nooped $directory parameter.
 	if ( empty( $directory ) ) {
 		$directory = 'avatars';
 	}
@@ -681,8 +695,10 @@ function xprofile_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @param array $sql Clauses in the user_id SQL query.
- * @param BP_User_Query User query object.
+ * @param array         $sql   Clauses in the user_id SQL query.
+ * @param BP_User_Query $query User query object.
+ *
+ * @return array
  */
 function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 	global $wpdb;
@@ -707,7 +723,7 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 	}
 
 	// Combine the core search (against wp_users) into a single OR clause
-	// with the xprofile_data search
+	// with the xprofile_data search.
 	$search_xprofile = $wpdb->prepare(
 		"u.{$query->uid_name} IN ( SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s OR value LIKE %s )",
 		$search_terms_nospace,
@@ -725,11 +741,13 @@ add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10,
 /**
  * Syncs Xprofile data to the standard built in WordPress profile data.
  *
- * @package BuddyPress Core
+ * @param int $user_id ID of the user to sync.
+ *
+ * @return bool
  */
 function xprofile_sync_wp_profile( $user_id = 0 ) {
 
-	// Bail if profile syncing is disabled
+	// Bail if profile syncing is disabled.
 	if ( bp_disable_profile_sync() ) {
 		return true;
 	}
@@ -770,11 +788,14 @@ add_action( 'bp_core_activated_user',   'xprofile_sync_wp_profile' );
  * Syncs the standard built in WordPress profile data to XProfile.
  *
  * @since 1.2.4
- * @package BuddyPress Core
+ *
+ * @param object $errors Array of errors. Passed by reference.
+ * @param bool   $update Whether or not being upated.
+ * @param object $user   User object whose profile is being synced. Passed by reference.
  */
 function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
 
-	// Bail if profile syncing is disabled
+	// Bail if profile syncing is disabled.
 	if ( bp_disable_profile_sync() || ! $update || $errors->get_error_codes() ) {
 		return;
 	}
@@ -789,8 +810,7 @@ add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
  * profile data from each table. Also we need to clean anything up in the
  * usermeta table that this component uses.
  *
- * @package BuddyPress XProfile
- * @param int $user_id The ID of the deleted user
+ * @param int $user_id The ID of the deleted user.
  */
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
@@ -804,33 +824,34 @@ add_action( 'bp_make_spam_user', 'xprofile_remove_data' );
 /**
  * Delete a piece of xprofile metadata.
  *
- * @param int $object_id ID of the object the metadata belongs to.
- * @param string $object_type Type of object. 'group', 'field', or 'data'.
- * @param string $meta_key Key of the metadata being deleted. If omitted, all
- *        metadata for the object will be deleted.
- * @param mixed $meta_value Optional. If provided, only metadata that matches
- *        the value will be permitted.
- * @param bool $delete_all Optional. If true, delete matching metadata entries
- * 	  for all objects, ignoring the specified object_id. Otherwise, only
- * 	  delete matching metadata entries for the specified object.
- * 	  Default: false.
+ * @param int         $object_id   ID of the object the metadata belongs to.
+ * @param string      $object_type Type of object. 'group', 'field', or 'data'.
+ * @param string|bool $meta_key    Key of the metadata being deleted. If omitted, all
+ *                                 metadata for the object will be deleted.
+ * @param mixed       $meta_value  Optional. If provided, only metadata that matches
+ *                                 the value will be permitted.
+ * @param bool        $delete_all  Optional. If true, delete matching metadata entries
+ *                                 for all objects, ignoring the specified object_id. Otherwise, only
+ *                                 delete matching metadata entries for the specified object.
+ *                                 Default: false.
+ *
  * @return bool True on success, false on failure.
  */
 function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;
 
-	// Sanitize object type
+	// Sanitize object type.
 	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
 		return false;
 	}
 
-	// Legacy - if no meta_key is passed, delete all for the item
+	// Legacy - if no meta_key is passed, delete all for the item.
 	if ( empty( $meta_key ) ) {
 		$table_key  = 'xprofile_' . $object_type . 'meta';
 		$table_name = $wpdb->{$table_key};
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$table_name} WHERE object_type = %s AND object_id = %d", $object_type, $object_id ) );
 
-		// Force delete_all to false if deleting all for object
+		// Force delete_all to false if deleting all for object.
 		$delete_all = false;
 	} else {
 		$keys = array( $meta_key );
@@ -856,17 +877,18 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
  * Note that the default value of $single is true, unlike in the case of the
  * underlying get_metadata() function. This is for backward compatibility.
  *
- * @param int $object_id ID of the object the metadata belongs to.
+ * @param int    $object_id   ID of the object the metadata belongs to.
  * @param string $object_type Type of object. 'group', 'field', or 'data'.
- * @param string $meta_key Key of the metadata being fetched. If omitted, all
- *        metadata for the object will be retrieved.
- * @param bool $single Optional. If true, return only the first value of the
- *	  specified meta_key. This parameter has no effect if meta_key is not
- *	  specified. Default: true.
+ * @param string $meta_key    Key of the metadata being fetched. If omitted, all
+ *                            metadata for the object will be retrieved.
+ * @param bool   $single      Optional. If true, return only the first value of the
+ *                            specified meta_key. This parameter has no effect if meta_key is not
+ *                            specified. Default: true.
+ *
  * @return mixed Meta value if found. False on failure.
  */
 function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single = true ) {
-	// Sanitize object type
+	// Sanitize object type.
 	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
 		return false;
 	}
@@ -883,16 +905,17 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single
 /**
  * Update a piece of xprofile metadata.
  *
- * @param int $object_id ID of the object the metadata belongs to.
+ * @param int    $object_id   ID of the object the metadata belongs to.
  * @param string $object_type Type of object. 'group', 'field', or 'data'.
- * @param string $meta_key Key of the metadata being updated.
- * @param mixed $meta_value Value of the metadata being updated.
- * @param mixed $prev_value Optional. If specified, only update existing
- *        metadata entries with the specified value. Otherwise, update all
- *        entries.
+ * @param string $meta_key    Key of the metadata being updated.
+ * @param mixed  $meta_value  Value of the metadata being updated.
+ * @param mixed  $prev_value  Optional. If specified, only update existing
+ *                            metadata entries with the specified value.
+ *                            Otherwise update all entries.
+ *
  * @return bool|int Returns false on failure. On successful update of existing
- *         metadata, returns true. On successful creation of new metadata,
- *         returns the integer ID of the new metadata row.
+ *                  metadata, returns true. On successful creation of new metadata,
+ *                  returns the integer ID of the new metadata row.
  */
 function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_value, $prev_value = '' ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
@@ -909,13 +932,15 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
  *
  * @since 2.0.0
  *
- * @param int $object_id ID of the object the metadata belongs to.
+ * @param int    $object_id   ID of the object the metadata belongs to.
  * @param string $object_type Type of object. 'group', 'field', or 'data'.
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
- * @param bool $unique Optional. Whether to enforce a single metadata value
- *        for the given key. If true, and the object already has a value for
- *        the key, no change will be made. Default: false.
+ * @param string $meta_key    Metadata key.
+ * @param mixed  $meta_value  Metadata value.
+ * @param bool   $unique      Optional. Whether to enforce a single metadata value
+ *                            for the given key. If true, and the object already
+ *                            has a value for the key, no change will be made.
+ *                            Default false.
+ *
  * @return int|bool The meta ID on successful update, false on failure.
  */
 function bp_xprofile_add_meta( $object_id, $object_type, $meta_key, $meta_value, $unique = false ) {
@@ -963,12 +988,12 @@ function bp_xprofile_fullname_field_id() {
 }
 
 /**
- * Return the field name for the Full Name xprofile field
+ * Return the field name for the Full Name xprofile field.
  *
  * @package BuddyPress
  * @since 1.5.0
  *
- * @return string The field name
+ * @return string The field name.
  */
 function bp_xprofile_fullname_field_name() {
 
@@ -983,7 +1008,7 @@ function bp_xprofile_fullname_field_name() {
 }
 
 /**
- * Get visibility levels out of the $bp global
+ * Get visibility levels out of the $bp global.
  *
  * @return array
  */
@@ -1000,7 +1025,7 @@ function bp_xprofile_get_visibility_levels() {
 }
 
 /**
- * Get the ids of fields that are hidden for this displayed/loggedin user pair
+ * Get the ids of fields that are hidden for this displayed/loggedin user pair.
  *
  * This is the function primarily responsible for profile field visibility. It works by determining
  * the relationship between the displayed_user (ie the profile owner) and the current_user (ie the
@@ -1010,10 +1035,11 @@ function bp_xprofile_get_visibility_levels() {
  * @since 1.6.0
  * @see BP_XProfile_Group::get()
  * @uses apply_filters() Filter bp_xprofile_get_hidden_fields_for_user to modify visibility levels,
- *   or if you have added your own custom levels
+ *   or if you have added your own custom levels.
  *
- * @param int $displayed_user_id The id of the user the profile fields belong to
- * @param int $current_user_id The id of the user viewing the profile
+ * @param int $displayed_user_id The id of the user the profile fields belong to.
+ * @param int $current_user_id   The id of the user viewing the profile.
+ *
  * @return array An array of field ids that should be excluded from the profile query
  */
 function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $current_user_id = 0 ) {
@@ -1046,7 +1072,7 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 }
 
 /**
- * Get the visibility levels that should be hidden for this user pair
+ * Get the visibility levels that should be hidden for this user pair.
  *
  * Field visibility is determined based on the relationship between the
  * logged-in user, the displayed user, and the visibility setting for the
@@ -1057,25 +1083,26 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
  * @since 1.8.2
  * @see bp_xprofile_get_hidden_fields_for_user()
  *
- * @param int $displayed_user_id The id of the user the profile fields belong to
- * @param int $current_user_id The id of the user viewing the profile
- * @return array An array of visibility levels hidden to the current user
+ * @param int $displayed_user_id The id of the user the profile fields belong to.
+ * @param int $current_user_id   The id of the user viewing the profile.
+ *
+ * @return array An array of visibility levels hidden to the current user.
  */
 function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $current_user_id = 0 ) {
 
-	// Current user is logged in
+	// Current user is logged in.
 	if ( ! empty( $current_user_id ) ) {
 
 		// Nothing's private when viewing your own profile, or when the
-		// current user is an admin
+		// current user is an admin.
 		if ( $displayed_user_id == $current_user_id || bp_current_user_can( 'bp_moderate' ) ) {
 			$hidden_levels = array();
 
-		// If the current user and displayed user are friends, show all
+		// If the current user and displayed user are friends, show all.
 		} elseif ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
 			$hidden_levels = array( 'adminsonly', );
 
-		// current user is logged in but not friends, so exclude friends-only
+		// Current user is logged in but not friends, so exclude friends-only.
 		} else {
 			$hidden_levels = array( 'friends', 'adminsonly', );
 		}
@@ -1098,15 +1125,16 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
 }
 
 /**
- * Fetch an array of the xprofile fields that a given user has marked with certain visibility levels
+ * Fetch an array of the xprofile fields that a given user has marked with certain visibility levels.
  *
  * @since 1.6.0
  * @see bp_xprofile_get_hidden_fields_for_user()
  *
- * @param int $user_id The id of the profile owner
- * @param array $levels An array of visibility levels ('public', 'friends', 'loggedin', 'adminsonly' etc) to be
- *    checked against
- * @return array $field_ids The fields that match the requested visibility levels for the given user
+ * @param int   $user_id The id of the profile owner.
+ * @param array $levels  An array of visibility levels ('public', 'friends', 'loggedin', 'adminsonly' etc) to be
+ *                       checked against.
+ *
+ * @return array $field_ids The fields that match the requested visibility levels for the given user.
  */
 function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array() ) {
 	if ( !is_array( $levels ) ) {
@@ -1116,12 +1144,12 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	$user_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 
 	// Parse the user-provided visibility levels with the default levels, which may take
-	// precedence
+	// precedence.
 	$default_visibility_levels = BP_XProfile_Group::fetch_default_visibility_levels();
 
 	foreach( (array) $default_visibility_levels as $d_field_id => $defaults ) {
 		// If the admin has forbidden custom visibility levels for this field, replace
-		// the user-provided setting with the default specified by the admin
+		// the user-provided setting with the default specified by the admin.
 		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] ) {
 			$user_visibility_levels[$d_field_id] = $defaults['default'];
 		}
@@ -1134,7 +1162,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 		}
 	}
 
-	// Never allow the fullname field to be excluded
+	// Never allow the fullname field to be excluded.
 	if ( in_array( 1, $field_ids ) ) {
 		$key = array_search( 1, $field_ids );
 		unset( $field_ids[$key] );

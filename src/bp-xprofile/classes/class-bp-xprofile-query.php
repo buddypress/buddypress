@@ -1,12 +1,12 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.2.0
  */
 class BP_XProfile_Query {
+
 	/**
 	 * Array of xprofile queries.
 	 *
@@ -95,7 +96,8 @@ class BP_XProfile_Query {
 	 * @since 2.2.0
 	 * @access public
 	 *
-	 * @param  array $queries Array of query clauses.
+	 * @param array $queries Array of query clauses.
+	 *
 	 * @return array Sanitized array of query clauses.
 	 */
 	public function sanitize_query( $queries ) {
@@ -163,6 +165,7 @@ class BP_XProfile_Query {
 	 * @access protected
 	 *
 	 * @param  array $query XProfile query arguments.
+	 *
 	 * @return bool  Whether the query clause is a first-order clause.
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -175,7 +178,8 @@ class BP_XProfile_Query {
 	 * @since 2.2.0
 	 * @access public
 	 *
-	 * @param  string $type MySQL type to cast `value`.
+	 * @param string $type MySQL type to cast `value`.
+	 *
 	 * @return string MySQL type.
 	 */
 	public function get_cast_for_type( $type = '' ) {
@@ -237,6 +241,7 @@ class BP_XProfile_Query {
 	 *
 	 * @param  array $query Query to parse.
 	 * @param  int   $depth Optional. Number of tree levels deep we currently are. Used to calculate indentation.
+	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
 	 *
@@ -318,6 +323,7 @@ class BP_XProfile_Query {
 	 *
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
+	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
 	 *
@@ -353,6 +359,7 @@ class BP_XProfile_Query {
 	 *
 	 * @param array $clause       Query clause.
 	 * @param array $parent_query Parent query array.
+	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
 	 *
@@ -421,7 +428,7 @@ class BP_XProfile_Query {
 		// Next, build the WHERE clause.
 		$where = '';
 
-		// field_id.
+		// Field_id.
 		if ( array_key_exists( 'field', $clause ) ) {
 			// Convert field name to ID if necessary.
 			if ( ! is_numeric( $clause['field'] ) ) {
@@ -436,7 +443,7 @@ class BP_XProfile_Query {
 			}
 		}
 
-		// value.
+		// Value.
 		if ( array_key_exists( 'value', $clause ) ) {
 			$field_value = $clause['value'];
 			$field_type = $this->get_cast_for_type( isset( $clause['type'] ) ? $clause['type'] : '' );
@@ -501,8 +508,9 @@ class BP_XProfile_Query {
 	 * @since 2.2.0
 	 * @access protected
 	 *
-	 * @param  array       $clause       Query clause.
-	 * @param  array       $parent_query Parent query of $clause.
+	 * @param array $clause       Query clause.
+	 * @param array $parent_query Parent query of $clause.
+	 *
 	 * @return string|bool Table alias if found, otherwise false.
 	 */
 	protected function find_compatible_table_alias( $clause, $parent_query ) {

@@ -17,10 +17,10 @@ defined( 'ABSPATH' ) || exit;
 class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 
 	/**
-	 * Constructor for the checkbox field type
+	 * Constructor for the checkbox field type.
 	 *
 	 * @since 2.0.0
- 	 */
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -49,12 +49,15 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/input.checkbox.html permitted attributes} that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *                              {@link http://dev.w3.org/html5/markup/input.checkbox.html permitted attributes}
+	 *                              that you want to add.
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that we pass to
+		// User_id is a special optional parameter that we pass to
 		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
@@ -96,8 +99,9 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 * @since 2.0.0
+	 *
+	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 		$options       = $this->field_obj->get_children();
@@ -107,7 +111,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 		$html = '';
 
 		// Check for updated posted values, but errors preventing them from
-		// being saved first time
+		// being saved first time.
 		if ( isset( $_POST['field_' . $this->field_obj->id] ) && $option_values != maybe_serialize( $_POST['field_' . $this->field_obj->id] ) ) {
 			if ( ! empty( $_POST['field_' . $this->field_obj->id] ) ) {
 				$option_values = array_map( 'sanitize_text_field', $_POST['field_' . $this->field_obj->id] );
@@ -117,11 +121,11 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 			$selected = '';
 
-			// First, check to see whether the user's saved values match the option
+			// First, check to see whether the user's saved values match the option.
 			for ( $j = 0, $count_values = count( $option_values ); $j < $count_values; ++$j ) {
 
 				// Run the allowed option name through the before_save filter,
-				// so we'll be sure to get a match
+				// so we'll be sure to get a match.
 				$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
 				if ( $option_values[$j] === $allowed_options || in_array( $allowed_options, $option_values ) ) {
@@ -131,7 +135,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			}
 
 			// If the user has not yet supplied a value for this field, check to
-			// see whether there is a default value available
+			// see whether there is a default value available.
 			if ( empty( $option_values ) && empty( $selected ) && ! empty( $options[$k]->is_default_option ) ) {
 				$selected = ' checked="checked"';
 			}
@@ -166,8 +170,9 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 		bp_the_profile_field_options();
@@ -178,9 +183,11 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
 	 * @since 2.0.0
+	 *
+	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
+	 * @param string            $control_type  Optional. HTML input type used to render the current
+	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
 		parent::admin_new_field_html( $current_field, 'checkbox' );

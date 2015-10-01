@@ -1,12 +1,12 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -20,7 +20,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	 * Constructor for the radio button field type
 	 *
 	 * @since 2.0.0
- 	 */
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -47,12 +47,15 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/input.radio.html permitted attributes} that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *                              {@link http://dev.w3.org/html5/markup/input.radio.html permitted attributes}
+	 *                              that you want to add.
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that we pass to
+		// User_id is a special optional parameter that we pass to
 		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
@@ -101,8 +104,9 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 * @since 2.0.0
+	 *
+	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 		$option_value = BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] );
@@ -113,7 +117,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 
 			// Check for updated posted values, but errors preventing them from
-			// being saved first time
+			// being saved first time.
 			if ( isset( $_POST['field_' . $this->field_obj->id] ) && $option_value != $_POST['field_' . $this->field_obj->id] ) {
 				if ( ! empty( $_POST['field_' . $this->field_obj->id] ) ) {
 					$option_value = sanitize_text_field( $_POST['field_' . $this->field_obj->id] );
@@ -121,7 +125,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 			}
 
 			// Run the allowed option name through the before_save filter, so
-			// we'll be sure to get a match
+			// we'll be sure to get a match.
 			$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 			$selected        = '';
 
@@ -159,8 +163,9 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 		bp_the_profile_field_options();
@@ -181,9 +186,11 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
 	 * @since 2.0.0
+	 *
+	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
+	 * @param string            $control_type  Optional. HTML input type used to render the current
+	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
 		parent::admin_new_field_html( $current_field, 'radio' );

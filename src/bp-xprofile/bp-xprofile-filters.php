@@ -54,11 +54,11 @@ add_filter( 'bp_xprofile_set_field_data_pre_validate',  'xprofile_filter_pre_val
 add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 4 );
 add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
 
-// Save field groups
+// Save field groups.
 add_filter( 'xprofile_group_name_before_save',        'wp_filter_kses' );
 add_filter( 'xprofile_group_description_before_save', 'wp_filter_kses' );
 
-// Save fields
+// Save fields.
 add_filter( 'xprofile_field_name_before_save',         'wp_filter_kses' );
 add_filter( 'xprofile_field_type_before_save',         'wp_filter_kses' );
 add_filter( 'xprofile_field_description_before_save',  'wp_filter_kses' );
@@ -68,16 +68,17 @@ add_filter( 'xprofile_field_field_order_before_save',  'absint' );
 add_filter( 'xprofile_field_option_order_before_save', 'absint' );
 add_filter( 'xprofile_field_can_delete_before_save',   'absint' );
 
-// Save field options
+// Save field options.
 add_filter( 'xprofile_field_options_before_save', 'bp_xprofile_sanitize_field_options' );
 add_filter( 'xprofile_field_default_before_save', 'bp_xprofile_sanitize_field_default' );
 
 /**
- * Sanitize each field option name for saving to the database
+ * Sanitize each field option name for saving to the database.
  *
  * @since 2.3.0
  *
- * @param  mixed $field_options
+ * @param  mixed $field_options Options to sanitize.
+ *
  * @return mixed
  */
 function bp_xprofile_sanitize_field_options( $field_options = '' ) {
@@ -89,11 +90,12 @@ function bp_xprofile_sanitize_field_options( $field_options = '' ) {
 }
 
 /**
- * Sanitize each field option default for saving to the database
+ * Sanitize each field option default for saving to the database.
  *
  * @since 2.3.0
  *
- * @param  mixed $field_default
+ * @param  mixed $field_default Field defaults to sanitize.
+ *
  * @return mixed
  */
 function bp_xprofile_sanitize_field_default( $field_default = '' ) {
@@ -105,12 +107,11 @@ function bp_xprofile_sanitize_field_default( $field_default = '' ) {
 }
 
 /**
- * xprofile_filter_kses ( $content )
- *
  * Run profile field values through kses with filterable allowed tags.
  *
- * @param string $content
- * @param object $data_obj The BP_XProfile_ProfileData object
+ * @param string $content  Content to filter.
+ * @param object $data_obj The BP_XProfile_ProfileData object.
+ *
  * @return string $content
  */
 function xprofile_filter_kses( $content, $data_obj = null ) {
@@ -134,23 +135,24 @@ function xprofile_filter_kses( $content, $data_obj = null ) {
 /**
  * Safely runs profile field data through kses and force_balance_tags.
  *
- * @param string $field_value
- * @param int $field_id
- * @param bool $reserialize Whether to reserialize arrays before returning. Defaults to true
- * @param object $data_obj The BP_XProfile_ProfileData object
+ * @param string $field_value Field value being santized.
+ * @param int    $field_id    Field ID being sanitized.
+ * @param bool   $reserialize Whether to reserialize arrays before returning. Defaults to true.
+ * @param object $data_obj    The BP_XProfile_ProfileData object.
+ *
  * @return string
  */
 function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, $reserialize = true, $data_obj = null ) {
 
-	// Return if empty
+	// Return if empty.
 	if ( empty( $field_value ) ) {
 		return $field_value;
 	}
 
-	// Value might be serialized
+	// Value might be serialized.
 	$field_value = maybe_unserialize( $field_value );
 
-	// Filter single value
+	// Filter single value.
 	if ( !is_array( $field_value ) ) {
 		$kses_field_value     = xprofile_filter_kses( $field_value, $data_obj );
 		$filtered_field_value = wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
@@ -166,7 +168,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		 */
 		$filtered_field_value = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_field_value, $field_value, $data_obj );
 
-	// Filter each array item independently
+	// Filter each array item independently.
 	} else {
 		$filtered_values = array();
 		foreach ( (array) $field_value as $value ) {
@@ -194,12 +196,13 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
  * @since 1.0.0
  *
  * @param string $field_value XProfile field_value to be filtered.
- * @param string $field_type XProfile field_type to be filtered.
+ * @param string $field_type  XProfile field_type to be filtered.
+ *
  * @return string $field_value Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 
-	// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731
+	// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731.
  	if ( ! isset( $field_value ) || empty( $field_value ) && ( '0' !== $field_value ) ) {
 		return false;
 	}
@@ -212,12 +215,14 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 }
 
 /**
- * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched inside a bp_has_profile() loop.
+ * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched inside
+ * a bp_has_profile() loop.
  *
  * @since 2.1.0
  *
- * @param mixed $field_value Field value.
- * @param string $field_type Field type.
+ * @param mixed  $field_value Field value.
+ * @param string $field_type  Field type.
+ *
  * @return mixed
  */
 function xprofile_filter_format_field_value_by_type( $field_value, $field_type = '' ) {
@@ -235,12 +240,15 @@ function xprofile_filter_format_field_value_by_type( $field_value, $field_type =
 }
 
 /**
- * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched by xprofile_get_field_data().
+ * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched
+ * by xprofile_get_field_data().
  *
  * @since 2.1.0
  *
  * @param mixed $field_value Field value.
- * @param int $field_id Field type.
+ * @param int   $field_id    Field type.
+ *
+ * @return string
  */
 function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id ) {
 	$field = new BP_XProfile_Field( $field_id );
@@ -252,10 +260,10 @@ function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id
  *
  * @since 2.1.0
  *
- * @param mixed $value Value passed to the bp_xprofile_set_field_data_pre_validate
- *        filter.
- * @param BP_XProfile_Field $field Field object.
- * @param BP_XProfile_Field_Type Field type object.
+ * @param mixed                  $value          Value passed to the bp_xprofile_set_field_data_pre_validate filter.
+ * @param BP_XProfile_Field      $field          Field object.
+ * @param BP_XProfile_Field_Type $field_type_obj Field type object.
+ *
  * @return mixed
  */
 function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $field_type_obj ) {
@@ -270,15 +278,16 @@ function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $fiel
  * Filter an Extended Profile field value, and attempt to make clickable links
  * to members search results out of them.
  *
- * - Not run on datebox field types
- * - Not run on values without commas with less than 5 words
- * - URL's are made clickable
+ * - Not run on datebox field types.
+ * - Not run on values without commas with less than 5 words.
+ * - URL's are made clickable.
  * - To disable: remove_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 2 );
  *
  * @since 1.1.0
  *
- * @param string $field_value
- * @param string  $field_type
+ * @param string $field_value Profile field data value.
+ * @param string $field_type  Profile field type.
+ *
  * @return string
  */
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
@@ -301,14 +310,14 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
 				$new_values[] = make_clickable( $value );
 
-			// Is not clickable
+			// Is not clickable.
 			} else {
 
-				// More than 5 spaces
+				// More than 5 spaces.
 				if ( count( explode( ' ', $value ) ) > 5 ) {
 					$new_values[] = $value;
 
-				// Less than 5 spaces
+				// Less than 5 spaces.
 				} else {
 					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_members_directory_permalink() );
 					$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
@@ -323,37 +332,38 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 }
 
 /**
- * Ensures that BP data appears in comments array
+ * Ensures that BP data appears in comments array.
  *
  * This filter loops through the comments return by a normal WordPress request
- * and swaps out user data with BP xprofile data, where available
+ * and swaps out user data with BP xprofile data, where available.
  *
- * @param array $comments
- * @param int $post_id
+ * @param array $comments Comments to filter in.
+ * @param int   $post_id  Post ID the comments are for.
+ *
  * @return array $comments
  */
 function xprofile_filter_comments( $comments, $post_id = 0 ) {
 
-	// Locate comment authors with WP accounts
+	// Locate comment authors with WP accounts.
 	foreach( (array) $comments as $comment ) {
 		if ( $comment->user_id ) {
 			$user_ids[] = $comment->user_id;
 		}
 	}
 
-	// If none are found, just return the comments array
+	// If none are found, just return the comments array.
 	if ( empty( $user_ids ) ) {
 		return $comments;
 	}
 
-	// Pull up the xprofile fullname of each commenter
+	// Pull up the xprofile fullname of each commenter.
 	if ( $fullnames = bp_core_get_user_displaynames( $user_ids ) ) {
 		foreach( (array) $fullnames as $user_id => $user_fullname ) {
 			$users[ $user_id ] = trim( stripslashes( $user_fullname ) );
 		}
 	}
 
-	// Loop through and match xprofile fullname with commenters
+	// Loop through and match xprofile fullname with commenters.
 	foreach( (array) $comments as $i => $comment ) {
 		if ( ! empty( $comment->user_id ) ) {
 			if ( ! empty( $users[ $comment->user_id ] ) ) {
@@ -367,12 +377,12 @@ function xprofile_filter_comments( $comments, $post_id = 0 ) {
 add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
 
 /**
- * Filter BP_User_Query::populate_extras to override each queries users fullname
+ * Filter BP_User_Query::populate_extras to override each queries users fullname.
  *
  * @since 1.7.0
  *
- * @param BP_User_Query $user_query
- * @param string $user_ids_sql
+ * @param BP_User_Query $user_query   User query to filter.
+ * @param string        $user_ids_sql SQL statement to use.
  */
 function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql = '' ) {
 
@@ -382,7 +392,7 @@ function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_quer
 
 	$user_id_names = bp_core_get_user_displaynames( $user_query->user_ids );
 
-	// Loop through names and override each user's fullname
+	// Loop through names and override each user's fullname.
 	foreach ( $user_id_names as $user_id => $user_fullname ) {
 		if ( isset( $user_query->results[ $user_id ] ) ) {
 			$user_query->results[ $user_id ]->fullname = $user_fullname;
@@ -396,11 +406,11 @@ add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_popu
  *
  * @since 2.2.0
  *
- * @param BP_User_Query User query object.
+ * @param BP_User_Query $q User query object.
  */
 function bp_xprofile_add_xprofile_query_to_user_query( BP_User_Query $q ) {
 
-	// Bail if no `xprofile_query` clause
+	// Bail if no `xprofile_query` clause.
 	if ( empty( $q->query_vars['xprofile_query'] ) ) {
 		return;
 	}
@@ -423,6 +433,7 @@ add_action( 'bp_pre_user_query', 'bp_xprofile_add_xprofile_query_to_user_query' 
  * @access private Do not use.
  *
  * @param string $q SQL query.
+ *
  * @return string
  */
 function bp_xprofile_filter_meta_query( $q ) {
@@ -438,14 +449,14 @@ function bp_xprofile_filter_meta_query( $q ) {
 	preg_match_all( $quoted_regex, $q, $quoted_matches );
 	$q = preg_replace( $quoted_regex, '__QUOTE__', $q );
 
-	// Get the first word of the command
+	// Get the first word of the command.
 	preg_match( '/^(\S+)/', $q, $first_word_matches );
 
 	if ( empty( $first_word_matches[0] ) ) {
 		return $raw_q;
 	}
 
-	// Get the field type
+	// Get the field type.
 	preg_match( '/xprofile_(group|field|data)_id/', $q, $matches );
 
 	if ( empty( $matches[0] ) || empty( $matches[1] ) ) {

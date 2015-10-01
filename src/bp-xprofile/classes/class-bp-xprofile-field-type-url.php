@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
@@ -46,8 +46,9 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
 	 * @param array $raw_properties Optional key/value array of
-	 *        {@link http://dev.w3.org/html5/markup/input.number.html permitted attributes}
-	 *        that you want to add.
+	 *                              {@link http://dev.w3.org/html5/markup/input.number.html permitted attributes}
+	 *                              that you want to add.
+	 *
 	 * @since 2.1.0
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
@@ -87,7 +88,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
 	 * @param array $raw_properties Optional key/value array of permitted
-	 *        attributes that you want to add.
+	 *                              attributes that you want to add.
 	 * @since 2.1.0
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
@@ -106,9 +107,11 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * on the wp-admin Profile Fields "Add Field" and "Edit Field" screens, but
 	 * for this field type, we don't want it, so it's stubbed out.
 	 *
-	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
 	 * @since 2.1.0
+	 *
+	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
+	 * @param string            $control_type  Optional. HTML input type used to render the current
+	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
 
@@ -125,16 +128,17 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 *
 	 * @param string $submitted_value Raw value submitted by the user.
+	 *
 	 * @return string
 	 */
 	public static function pre_validate_filter( $submitted_value = '' ) {
 
-		// Allow empty URL values
+		// Allow empty URL values.
 		if ( empty( $submitted_value ) ) {
 			return '';
 		}
 
-		// Run some checks on the submitted value
+		// Run some checks on the submitted value.
 		if ( false === strpos( $submitted_value, ':'  )
 		     && substr( $submitted_value, 0, 1 ) !== '/'
 		     && substr( $submitted_value, 0, 1 ) !== '#'
@@ -152,6 +156,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 *
 	 * @param string $field_value The URL value, as saved in the database.
+	 *
 	 * @return string URL converted to a link.
 	 */
 	public static function display_filter( $field_value ) {

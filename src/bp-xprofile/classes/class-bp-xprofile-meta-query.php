@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
@@ -32,6 +32,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * @access protected
 	 *
 	 * @param array $query Meta query arguments.
+	 *
 	 * @return bool Whether the query clause is a first-order clause.
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -44,7 +45,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * @since 2.3.0
 	 * @access public
 	 *
-	 * @param array $qv The query variables
+	 * @param array $qv The query variables.
 	 */
 	public function parse_query_vars( $qv ) {
 		$meta_query = array();
@@ -67,7 +68,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 			$primary_meta_query['value'] = $qv['meta_value'];
 		}
 
-		// BP_XProfile_Query sets 'object_type' = '' by default
+		// BP_XProfile_Query sets 'object_type' = '' by default.
 		if ( isset( $qv[ 'object_type' ] ) && ( '' !== $qv[ 'object_type' ] ) && ( ! is_array( $qv[ 'object_type' ] ) || $qv[ 'object_type' ] ) ) {
 			$meta_query[0]['object'] = $qv[ 'object_type' ];
 		}
@@ -101,6 +102,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
 	 * @param object $context           Optional. The main query object.
+	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
 	 *
@@ -160,6 +162,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * @param array  $parent_query Parent query array.
 	 * @param string $clause_key   Optional. The array key used to name the clause in the original `$meta_query`
 	 *                             parameters. If not provided, a key will be generated automatically.
+	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
 	 *
@@ -245,8 +248,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 		$this->clauses[ $clause_key ] =& $clause;
 
 		// Next, build the WHERE clause.
-
-		// meta_key.
+		// Meta_key.
 		if ( array_key_exists( 'key', $clause ) ) {
 			if ( 'NOT EXISTS' === $meta_compare ) {
 				$sql_chunks['where'][] = $alias . '.' . $this->meta_id_column . ' IS NULL';
@@ -255,7 +257,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 			}
 		}
 
-		// meta_value.
+		// Meta_value.
 		if ( array_key_exists( 'value', $clause ) ) {
 			$meta_value = $clause['value'];
 
@@ -308,7 +310,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 			}
 		}
 
-		// object_type.
+		// Object_type.
 		if ( array_key_exists( 'object', $clause ) ) {
 			$object_type = $clause['object'];
 

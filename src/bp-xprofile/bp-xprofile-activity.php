@@ -13,18 +13,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Register the activity actions for the Extended Profile component
+ * Register the activity actions for the Extended Profile component.
  *
  * @since 1.0.0
  *
- * @uses bp_activity_set_action() To setup the individual actions
+ * @uses bp_activity_set_action() To setup the individual actions.
  */
 function xprofile_register_activity_actions() {
 
-	// Register the activity stream actions for this component
+	// Register the activity stream actions for this component.
 	bp_activity_set_action(
-		// older avatar activity items use 'profile' for component
-		// see r4273
+		// Older avatar activity items use 'profile' for component. See r4273.
 		'profile',
 		'new_avatar',
 		__( 'Member changed profile picture', 'buddypress' ),
@@ -55,15 +54,16 @@ add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions'
  *
  * @since 2.0.0
  *
- * @param string $action Static activity action.
+ * @param string $action   Static activity action.
  * @param object $activity Activity object.
+ *
  * @return string
  */
 function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
 	$userlink = bp_core_get_userlink( $activity->user_id );
 	$action   = sprintf( __( '%s changed their profile picture', 'buddypress' ), $userlink );
 
-	// Legacy filter - pass $user_id instead of $activity
+	// Legacy filter - pass $user_id instead of $activity.
 	if ( has_filter( 'bp_xprofile_new_avatar_action' ) ) {
 		$action = apply_filters( 'bp_xprofile_new_avatar_action', $action, $activity->user_id );
 	}
@@ -84,8 +84,9 @@ function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
  *
  * @since 2.0.0
  *
- * @param string $action Static activity action.
+ * @param string $action   Static activity action.
  * @param object $activity Activity object.
+ *
  * @return string
  */
 function bp_xprofile_format_activity_action_updated_profile( $action, $activity ) {
@@ -110,23 +111,24 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
 
 /**
  * Records activity for the logged in user within the profile component so that
- * it will show in the users activity stream (if installed)
+ * it will show in the users activity stream (if installed).
  *
  * @since 1.0.0
  *
- * @package BuddyPress
- * @subpackage XProfileActivity
- * @param string $args String containing all variables used after extract() call
- * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity
+ * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity.
+ *
+ * @param array|string $args String containing all variables used after bp_parse_args() call.
+ *
+ * @return array
  */
 function xprofile_record_activity( $args = '' ) {
 
-	// Bail if activity component is not active
+	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
 
-	// Parse the arguments
+	// Parse the arguments.
 	$r = bp_parse_args( $args, array(
 		'user_id'           => bp_loggedin_user_id(),
 		'action'            => '',
@@ -145,43 +147,46 @@ function xprofile_record_activity( $args = '' ) {
 
 /**
  * Deletes activity for a user within the profile component so that it will be
- * removed from the users activity stream and sitewide stream (if installed)
+ * removed from the users activity stream and sitewide stream (if installed).
  *
  * @since 1.0.0
  *
- * @package BuddyPress XProfile
- * @param string $args Containing all variables used after extract() call
  * @uses bp_activity_delete() Deletes an entry to the activity component tables
- *                            for a specific activity
+ *                            for a specific activity.
+ *
+ * @param array|string $args Containing all variables used after bp_parse_args() call.
+ *
+ * @return bool
  */
 function xprofile_delete_activity( $args = '' ) {
 
-	// Bail if activity component is not active
+	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
 
-	// Parse the arguments
+	// Parse the arguments.
 	$r = bp_parse_args( $args, array(
 		'component' => buddypress()->profile->id
 	), 'xprofile_delete_activity' );
 
-	// Delete the activity item
+	// Delete the activity item.
 	bp_activity_delete_by_item_id( $r );
 }
 
 /**
- * Register an activity action for the Extended Profiles component
+ * Register an activity action for the Extended Profiles component.
  *
  * @since 1.0.0
  *
- * @param string $key
- * @param string $value
- * @return bool True if success, false on failure
+ * @param string $key Key.
+ * @param string $value Value.
+ *
+ * @return bool True if success, false on failure.
  */
 function xprofile_register_activity_action( $key, $value ) {
 
-	// Bail if activity component is not active
+	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
@@ -202,17 +207,18 @@ function xprofile_register_activity_action( $key, $value ) {
  * Adds an activity stream item when a user has uploaded a new avatar.
  *
  * @since 1.0.0
- * @since 2.3.4 Add new parameter to get the user id the avatar was set for
+ * @since 2.3.4 Add new parameter to get the user id the avatar was set for.
  *
- * @package BuddyPress XProfile
  * @uses bp_activity_add() Adds an entry to the activity component tables for a
  *                         specific activity
  *
- * @param  int $user_id The user id the avatar was set for
+ * @param int $user_id The user id the avatar was set for.
+ *
+ * @return bool
  */
 function bp_xprofile_new_avatar_activity( $user_id = 0 ) {
 
-	// Bail if activity component is not active
+	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
@@ -230,7 +236,7 @@ function bp_xprofile_new_avatar_activity( $user_id = 0 ) {
 	 */
 	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', $user_id );
 
-	// Add the activity
+	// Add the activity.
 	bp_activity_add( array(
 		'user_id'   => $user_id,
 		'component' => 'profile',
@@ -244,55 +250,53 @@ add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
  *
  * @since 2.0.0
  *
- * @param int $user_id ID of the user who has updated his profile.
- * @param array $field_ids IDs of the fields submitted.
- * @param bool $errors True if validation or saving errors occurred, otherwise
- *        false.
- * @param array $old_values Pre-save xprofile field values and visibility
- *        levels.
- * @param array $new_values Post-save xprofile field values and visibility
- *        levels.
+ * @param int   $user_id    ID of the user who has updated his profile.
+ * @param array $field_ids  IDs of the fields submitted.
+ * @param bool  $errors     True if validation or saving errors occurred, otherwise false.
+ * @param array $old_values Pre-save xprofile field values and visibility levels.
+ * @param array $new_values Post-save xprofile field values and visibility levels.
+ *
  * @return bool True on success, false on failure.
  */
 function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $errors = false, $old_values = array(), $new_values = array() ) {
 
-	// If there were errors, don't post
+	// If there were errors, don't post.
 	if ( ! empty( $errors ) ) {
 		return false;
 	}
 
-	// Bail if activity component is not active
+	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
 
 	// Don't post if there have been no changes, or if the changes are
-	// related solely to non-public fields
+	// related solely to non-public fields.
 	$public_changes = false;
 	foreach ( $new_values as $field_id => $new_value ) {
 		$old_value = isset( $old_values[ $field_id ] ) ? $old_values[ $field_id ] : '';
 
-		// Don't register changes to private fields
+		// Don't register changes to private fields.
 		if ( empty( $new_value['visibility'] ) || ( 'public' !== $new_value['visibility'] ) ) {
 			continue;
 		}
 
-		// Don't register if there have been no changes
+		// Don't register if there have been no changes.
 		if ( $new_value === $old_value ) {
 			continue;
 		}
 
-		// Looks like we have public changes - no need to keep checking
+		// Looks like we have public changes - no need to keep checking.
 		$public_changes = true;
 		break;
 	}
 
-	// Bail if no public changes
+	// Bail if no public changes.
 	if ( empty( $public_changes ) ) {
 		return false;
 	}
 
-	// Throttle to one activity of this type per 2 hours
+	// Throttle to one activity of this type per 2 hours.
 	$existing = bp_activity_get( array(
 		'max'    => 1,
 		'filter' => array(
@@ -302,7 +306,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		),
 	) );
 
-	// Default throttle time is 2 hours. Filter to change (in seconds)
+	// Default throttle time is 2 hours. Filter to change (in seconds).
 	if ( ! empty( $existing['activities'] ) ) {
 
 		/**
@@ -316,13 +320,13 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		$then            = strtotime( $existing['activities'][0]->date_recorded );
 		$now             = strtotime( bp_core_current_time() );
 
-		// Bail if throttled
+		// Bail if throttled.
 		if ( ( $now - $then ) < $throttle_period ) {
 			return false;
 		}
 	}
 
-	// If we've reached this point, assemble and post the activity item
+	// If we've reached this point, assemble and post the activity item.
 	$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . bp_get_profile_slug() );
 
 	return (bool) xprofile_record_activity( array(

@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
@@ -22,7 +22,7 @@ class BP_XProfile_ProfileData {
 		}
 	}
 
-	public function populate( $field_id, $user_id )  {
+	public function populate( $field_id, $user_id ) {
 		global $wpdb;
 
 		$cache_key   = "{$user_id}:{$field_id}";
@@ -47,7 +47,7 @@ class BP_XProfile_ProfileData {
 			$this->last_updated = $profiledata->last_updated;
 
 		} else {
-			// When no row is found, we'll need to set these properties manually
+			// When no row is found, we'll need to set these properties manually.
 			$this->field_id	    = $field_id;
 			$this->user_id	    = $user_id;
 		}
@@ -63,7 +63,7 @@ class BP_XProfile_ProfileData {
 	public function exists() {
 		global $wpdb;
 
-		// Check cache first
+		// Check cache first.
 		$cache_key = "{$this->user_id}:{$this->field_id}";
 		$cached    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 
@@ -99,7 +99,7 @@ class BP_XProfile_ProfileData {
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
 
 		/**
-		 * Filters whether or not data is for a valid field
+		 * Filters whether or not data is for a valid field.
 		 *
 		 * @since 1.2.7
 		 *
@@ -163,7 +163,7 @@ class BP_XProfile_ProfileData {
 	}
 
 	/**
-	 * Delete specific XProfile field data
+	 * Delete specific XProfile field data.
 	 *
 	 * @global object $wpdb
 	 * @return boolean
@@ -204,8 +204,9 @@ class BP_XProfile_ProfileData {
 	/**
 	 * Get a user's profile data for a set of fields.
 	 *
-	 * @param int $user_id
-	 * @param array $field_ids
+	 * @param int   $user_id   ID of user whose data is being queried.
+	 * @param array $field_ids Array of field IDs to query for.
+	 *
 	 * @return array
 	 */
 	public static function get_data_for_user( $user_id, $field_ids ) {
@@ -215,13 +216,13 @@ class BP_XProfile_ProfileData {
 
 		$uncached_field_ids = bp_xprofile_get_non_cached_field_ids( $user_id, $field_ids );
 
-		// Prime the cache
+		// Prime the cache.
 		if ( ! empty( $uncached_field_ids ) ) {
 			$bp = buddypress();
 			$uncached_field_ids_sql = implode( ',', wp_parse_id_list( $uncached_field_ids ) );
 			$uncached_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id IN ({$uncached_field_ids_sql}) AND user_id = %d", $user_id ) );
 
-			// Rekey
+			// Rekey.
 			$queried_data = array();
 			foreach ( $uncached_data as $ud ) {
 				$d               = new stdClass;
@@ -234,17 +235,17 @@ class BP_XProfile_ProfileData {
 				$queried_data[ $ud->field_id ] = $d;
 			}
 
-			// Set caches
+			// Set caches.
 			foreach ( $uncached_field_ids as $field_id ) {
 
 				$cache_key = "{$user_id}:{$field_id}";
 
-				// If a value was found, cache it
+				// If a value was found, cache it.
 				if ( isset( $queried_data[ $field_id ] ) ) {
 					wp_cache_set( $cache_key, $queried_data[ $field_id ], 'bp_xprofile_data' );
 
 				// If no value was found, cache an empty item
-				// to avoid future cache misses
+				// to avoid future cache misses.
 				} else {
 					$d               = new stdClass;
 					$d->id           = '';
@@ -258,7 +259,7 @@ class BP_XProfile_ProfileData {
 			}
 		}
 
-		// Now that all items are cached, fetch them
+		// Now that all items are cached, fetch them.
 		foreach ( $field_ids as $field_id ) {
 			$cache_key = "{$user_id}:{$field_id}";
 			$data[]    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
@@ -271,6 +272,7 @@ class BP_XProfile_ProfileData {
 	 * Get all of the profile information for a specific user.
 	 *
 	 * @param int $user_id ID of the user.
+	 *
 	 * @return array
 	 */
 	public static function get_all_for_user( $user_id ) {
@@ -315,8 +317,9 @@ class BP_XProfile_ProfileData {
 	/**
 	 * Get the user's field data id by the id of the xprofile field.
 	 *
-	 * @param int $field_id
-	 * @param int $user_id
+	 * @param int $field_id Field ID being queried for.
+	 * @param int $user_id  User ID associated with field.
+	 *
 	 * @return int $fielddata_id
 	 */
 	public static function get_fielddataid_byid( $field_id, $user_id ) {
@@ -327,7 +330,7 @@ class BP_XProfile_ProfileData {
 		} else {
 			$bp = buddypress();
 
-			// Check cache first
+			// Check cache first.
 			$cache_key = "{$user_id}:{$field_id}";
 			$fielddata = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 			if ( false === $fielddata || empty( $fielddata->id ) ) {
@@ -345,10 +348,11 @@ class BP_XProfile_ProfileData {
 	 *
 	 * Supports multiple user IDs.
 	 *
-	 * @param int $field_id ID of the field.
-	 * @param int|array $user_ids ID or IDs of user(s).
+	 * @param int            $field_id ID of the field.
+	 * @param int|array|null $user_ids ID or IDs of user(s).
+	 *
 	 * @return string|array Single value if a single user is queried,
-	 *         otherwise an array of results.
+	 *                      otherwise an array of results.
 	 */
 	public static function get_value_byid( $field_id, $user_ids = null ) {
 		global $wpdb;
@@ -363,7 +367,7 @@ class BP_XProfile_ProfileData {
 			$is_single = true;
 		}
 
-		// Assemble uncached IDs
+		// Assemble uncached IDs.
 		$uncached_ids = array();
 		foreach ( $user_ids as $user_id ) {
 			$cache_key = "{$user_id}:{$field_id}";
@@ -372,25 +376,25 @@ class BP_XProfile_ProfileData {
 			}
 		}
 
-		// Prime caches
+		// Prime caches.
 		if ( ! empty( $uncached_ids ) ) {
 			$bp = buddypress();
 			$uncached_ids_sql = implode( ',', $uncached_ids );
 			$queried_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
 
-			// Rekey
+			// Rekey.
 			$qd = array();
 			foreach ( $queried_data as $data ) {
 				$qd[ $data->user_id ] = $data;
 			}
 
 			foreach ( $uncached_ids as $id ) {
-				// The value was successfully fetched
+				// The value was successfully fetched.
 				if ( isset( $qd[ $id ] ) ) {
 					$d = $qd[ $id ];
 
 				// No data found for the user, so we fake it to
-				// avoid cache misses and PHP notices
+				// avoid cache misses and PHP notices.
 				} else {
 					$d = new stdClass;
 					$d->id           = '';
@@ -405,18 +409,18 @@ class BP_XProfile_ProfileData {
 			}
 		}
 
-		// Now that the cache is primed with all data, fetch it
+		// Now that the cache is primed with all data, fetch it.
 		$data = array();
 		foreach ( $user_ids as $user_id ) {
 			$cache_key = "{$user_id}:{$field_id}";
 			$data[]    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 		}
 
-		// If a single ID was passed, just return the value
+		// If a single ID was passed, just return the value.
 		if ( $is_single ) {
 			return $data[0]->value;
 
-		// Otherwise return the whole array
+		// Otherwise return the whole array.
 		} else {
 			return $data;
 		}

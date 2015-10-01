@@ -16,8 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Handles the display of the profile page by loading the correct template file.
  *
- * @package BuddyPress XProfile
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
+ * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename).
  */
 function xprofile_screen_display_profile() {
 	$new = isset( $_GET['new'] ) ? $_GET['new'] : '';
@@ -45,9 +44,8 @@ function xprofile_screen_display_profile() {
  * Handles the display of the profile edit page by loading the correct template file.
  * Also checks to make sure this can only be accessed for the logged in users profile.
  *
- * @package BuddyPress XProfile
- * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
+ * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user.
+ * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename).
  */
 function xprofile_screen_edit_profile() {
 
@@ -60,41 +58,41 @@ function xprofile_screen_edit_profile() {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/1' ) );
 	}
 
-	// Check the field group exists
+	// Check the field group exists.
 	if ( ! bp_is_action_variable( 'group' ) || ! xprofile_get_field_group( bp_action_variable( 1 ) ) ) {
 		bp_do_404();
 		return;
 	}
 
-	// No errors
+	// No errors.
 	$errors = false;
 
-	// Check to see if any new information has been submitted
+	// Check to see if any new information has been submitted.
 	if ( isset( $_POST['field_ids'] ) ) {
 
-		// Check the nonce
+		// Check the nonce.
 		check_admin_referer( 'bp_xprofile_edit' );
 
-		// Check we have field ID's
+		// Check we have field ID's.
 		if ( empty( $_POST['field_ids'] ) ) {
 			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . bp_action_variable( 1 ) ) );
 		}
 
 		// Explode the posted field IDs into an array so we know which
-		// fields have been submitted
+		// fields have been submitted.
 		$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
 		$is_required      = array();
 
 		// Loop through the posted fields formatting any datebox values
-		// then validate the field
+		// then validate the field.
 		foreach ( (array) $posted_field_ids as $field_id ) {
 			if ( !isset( $_POST['field_' . $field_id] ) ) {
 
 				if ( !empty( $_POST['field_' . $field_id . '_day'] ) && !empty( $_POST['field_' . $field_id . '_month'] ) && !empty( $_POST['field_' . $field_id . '_year'] ) ) {
-					// Concatenate the values
+					// Concatenate the values.
 					$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
 
-					// Turn the concatenated value into a timestamp
+					// Turn the concatenated value into a timestamp.
 					$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
 				}
 
@@ -106,14 +104,14 @@ function xprofile_screen_edit_profile() {
 			}
 		}
 
-		// There are errors
+		// There are errors.
 		if ( !empty( $errors ) ) {
 			bp_core_add_message( __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' ), 'error' );
 
-		// No errors
+		// No errors.
 		} else {
 
-			// Reset the errors var
+			// Reset the errors var.
 			$errors = false;
 
 			// Now we've checked for required fields, lets save the values.
@@ -127,13 +125,13 @@ function xprofile_screen_edit_profile() {
 
 				// Save the old and new values. They will be
 				// passed to the filter and used to determine
-				// whether an activity item should be posted
+				// whether an activity item should be posted.
 				$old_values[ $field_id ] = array(
 					'value'      => xprofile_get_field_data( $field_id, bp_displayed_user_id() ),
 					'visibility' => xprofile_get_field_visibility_level( $field_id, bp_displayed_user_id() ),
 				);
 
-				// Update the field data and visibility level
+				// Update the field data and visibility level.
 				xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );
 				$field_updated = xprofile_set_field_data( $field_id, bp_displayed_user_id(), $value, $is_required[ $field_id ] );
 				$value         = xprofile_get_field_data( $field_id, bp_displayed_user_id() );
@@ -172,14 +170,14 @@ function xprofile_screen_edit_profile() {
 			 */
 			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors, $old_values, $new_values );
 
-			// Set the feedback messages
+			// Set the feedback messages.
 			if ( !empty( $errors ) ) {
 				bp_core_add_message( __( 'There was a problem updating some of your profile information. Please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Changes saved.', 'buddypress' ) );
 			}
 
-			// Redirect back to the edit screen to display the updates and message
+			// Redirect back to the edit screen to display the updates and message.
 			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . bp_action_variable( 1 ) ) );
 		}
 	}
@@ -204,18 +202,17 @@ function xprofile_screen_edit_profile() {
 /**
  * Handles the uploading and cropping of a user avatar. Displays the change avatar page.
  *
- * @package BuddyPress XProfile
- * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename)
+ * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user.
+ * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename).
  */
 function xprofile_screen_change_avatar() {
 
-	// Bail if not the correct screen
+	// Bail if not the correct screen.
 	if ( ! bp_is_my_profile() && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
 	}
 
-	// Bail if there are action variables
+	// Bail if there are action variables.
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
@@ -231,22 +228,22 @@ function xprofile_screen_change_avatar() {
 
 	if ( !empty( $_FILES ) ) {
 
-		// Check the nonce
+		// Check the nonce.
 		check_admin_referer( 'bp_avatar_upload' );
 
-		// Pass the file to the avatar upload handler
+		// Pass the file to the avatar upload handler.
 		if ( bp_core_avatar_handle_upload( $_FILES, 'xprofile_avatar_upload_dir' ) ) {
 			$bp->avatar_admin->step = 'crop-image';
 
-			// Make sure we include the jQuery jCrop file for image cropping
+			// Make sure we include the jQuery jCrop file for image cropping.
 			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
 		}
 	}
 
-	// If the image cropping is done, crop the image and save a full/thumb version
+	// If the image cropping is done, crop the image and save a full/thumb version.
 	if ( isset( $_POST['avatar-crop-submit'] ) ) {
 
-		// Check the nonce
+		// Check the nonce.
 		check_admin_referer( 'bp_avatar_cropstore' );
 
 		$args = array(
@@ -267,10 +264,10 @@ function xprofile_screen_change_avatar() {
 			 *
 			 * @since 1.1.0
 			 * @since 2.3.4 Add two new parameters to inform about the user id and
-			 *              about the way the avatar was set (eg: 'crop' or 'camera')
+			 *              about the way the avatar was set (eg: 'crop' or 'camera').
 			 *
-			 * @param string $item_id Inform about the user id the avatar was set for
-			 * @param string $value Inform about the way the avatar was set ('crop')
+			 * @param string $item_id Inform about the user id the avatar was set for.
+			 * @param string $value   Inform about the way the avatar was set ('crop').
 			 */
 			do_action( 'xprofile_avatar_uploaded', (int) $args['item_id'], 'crop' );
 			bp_core_add_message( __( 'Your new profile photo was uploaded successfully.', 'buddypress' ) );
@@ -327,13 +324,13 @@ function xprofile_screen_change_cover_image() {
 }
 
 /**
- * Show the xprofile settings template
+ * Show the xprofile settings template.
  *
  * @since 2.0.0
  */
 function bp_xprofile_screen_settings() {
 
-	// Redirect if no privacy settings page is accessible
+	// Redirect if no privacy settings page is accessible.
 	if ( bp_action_variables() || ! bp_is_active( 'xprofile' ) ) {
 		bp_do_404();
 		return;
