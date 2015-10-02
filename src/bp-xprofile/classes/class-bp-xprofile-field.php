@@ -123,19 +123,23 @@ class BP_XProfile_Field {
 	 * Field data visibility.
 	 *
 	 * @since 1.9.0
+	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_default_visibility()`.
 	 *
+	 * @access protected
 	 * @var string Default field data visibility.
 	 */
-	public $default_visibility = 'public';
+	protected $default_visibility;
 
 	/**
 	 * Is the visibility able to be modified?
 	 *
 	 * @since 2.3.0
++	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_allow_custom_visibility()`.
 	 *
+	 * @access protected
 	 * @var string Members are allowed/disallowed to modify data visibility.
 	 */
-	public $allow_custom_visibility = 'allowed';
+	protected $allow_custom_visibility;
 
 	/**
 	 * Field type option.
@@ -228,20 +232,44 @@ class BP_XProfile_Field {
 			if ( ! empty( $get_data ) && ! empty( $user_id ) ) {
 				$this->data = $this->get_field_data( $user_id );
 			}
+		}
+	}
 
-			// Get metadata for field.
-			$default_visibility       = bp_xprofile_get_meta( $id, 'field', 'default_visibility'      );
-			$allow_custom_visibility  = bp_xprofile_get_meta( $id, 'field', 'allow_custom_visibility' );
+	/**
+	 * Magic getter.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $key Property name.
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		switch ( $key ) {
+			case 'default_visibility' :
+				return $this->get_default_visibility();
+				break;
 
-			// Setup default visibility.
-			$this->default_visibility = ! empty( $default_visibility )
-				? $default_visibility
-				: 'public';
+			case 'allow_custom_visibility' :
+				return $this->get_allow_custom_visibility();
+				break;
+		}
+	}
 
-			// Allow members to customize visibilty.
-			$this->allow_custom_visibility = ( 'disabled' === $allow_custom_visibility )
-				? 'disabled'
-				: 'allowed';
+	/**
+	 * Magic issetter.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $key Property name.
+	 * @return bool
+	 */
+	public function __isset( $key ) {
+		switch ( $key ) {
+			// Backward compatibility for when these were public methods.
+			case 'allow_custom_visibility' :
+			case 'default_visibility' :
+				return true;
+				break;
 		}
 	}
 
@@ -690,6 +718,54 @@ class BP_XProfile_Field {
 		}
 
 		return $label;
+	}
+
+	/**
+	 * Get the field's default visibility setting.
+	 *
+	 * Lazy-loaded to reduce overhead.
+	 *
+	 * Defaults to 'public' if no visibility setting is found in the database.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @return string
+	 */
+	public function get_default_visibility() {
+		if ( ! isset( $this->default_visibility ) ) {
+			$this->default_visibility = bp_xprofile_get_meta( $this->id, 'field', 'default_visibility' );
+
+			if ( ! $this->default_visibility ) {
+				$this->default_visibility = 'public';
+			}
+		}
+
+		return $this->default_visibility;
+	}
+
+	/**
+	 * Get whether the field's default visibility can be overridden by users.
+	 *
+	 * Lazy-loaded to reduce overhead.
+	 *
+	 * Defaults to 'allowed'.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @return string 'disabled' or 'allowed'.
+	 */
+	public function get_allow_custom_visibility() {
+		if ( ! isset( $this->allow_custom_visibility ) ) {
+			$allow_custom_visibility = bp_xprofile_get_meta( $this->id, 'field', 'allow_custom_visibility' );
+
+			if ( 'disabled' === $allow_custom_visibility ) {
+				$this->allow_custom_visibility = 'disabled';
+			} else {
+				$this->allow_custom_visibility = 'allowed';
+			}
+		}
+
+		return $this->allow_custom_visibility;
 	}
 
 	/** Static Methods ********************************************************/
@@ -1253,7 +1329,7 @@ class BP_XProfile_Field {
 
 						<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
-							<option value="<?php echo esc_attr( $level['id'] ); ?>" <?php selected( $this->default_visibility, $level['id'] ); ?>>
+							<option value="<?php echo esc_attr( $level['id'] ); ?>" <?php selected( $this->get_default_visibility(), $level['id'] ); ?>>
 								<?php echo esc_html( $level['label'] ); ?>
 							</option>
 
@@ -1265,11 +1341,11 @@ class BP_XProfile_Field {
 				<div>
 					<ul>
 						<li>
-							<input type="radio" id="allow-custom-visibility-allowed" name="allow-custom-visibility" value="allowed" <?php checked( $this->allow_custom_visibility, 'allowed' ); ?> />
+							<input type="radio" id="allow-custom-visibility-allowed" name="allow-custom-visibility" value="allowed" <?php checked( $this->get_allow_custom_visibility(), 'allowed' ); ?> />
 							<label for="allow-custom-visibility-allowed"><?php esc_html_e( 'Allow members to override', 'buddypress' ); ?></label>
 						</li>
 						<li>
-							<input type="radio" id="allow-custom-visibility-disabled" name="allow-custom-visibility" value="disabled" <?php checked( $this->allow_custom_visibility, 'disabled' ); ?> />
+							<input type="radio" id="allow-custom-visibility-disabled" name="allow-custom-visibility" value="disabled" <?php checked( $this->get_allow_custom_visibility(), 'disabled' ); ?> />
 							<label for="allow-custom-visibility-disabled"><?php esc_html_e( 'Enforce field visibility', 'buddypress' ); ?></label>
 						</li>
 					</ul>

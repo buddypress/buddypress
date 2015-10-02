@@ -4,7 +4,7 @@
  * @group BP_XProfile_Field
  */
 class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
-	
+
 	/**
 	 * @group xprofile_field_save
 	 */
@@ -119,5 +119,59 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		$new_field_id = $field->save();
 
 		$this->assertSame( $new_field_id, $field->id );
+	}
+
+	/**
+	 * @ticket BP6638
+	 */
+	public function test_default_visibility_should_be_lazy_loaded() {
+		global $wpdb;
+
+		$group = $this->factory->xprofile_group->create();
+		$field = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $group,
+		) );
+
+		bp_xprofile_update_meta( $field, 'field', 'default_visibility', 'loggedin' );
+
+		// Initial setup takes just one query.
+		$num_queries = $wpdb->num_queries;
+		$field_obj = new BP_XProfile_Field( $field );
+		$num_queries++;
+
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+
+		// Fetching the default_visibility should cause another query.
+		$this->assertSame( 'loggedin', $field_obj->default_visibility );
+		$num_queries++;
+
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @ticket BP6638
+	 */
+	public function test_allow_custom_visibility_should_be_lazy_loaded() {
+		global $wpdb;
+
+		$group = $this->factory->xprofile_group->create();
+		$field = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $group,
+		) );
+
+		bp_xprofile_update_meta( $field, 'field', 'allow_custom_visibility', 'disabled' );
+
+		// Initial setup takes just one query.
+		$num_queries = $wpdb->num_queries;
+		$field_obj = new BP_XProfile_Field( $field );
+		$num_queries++;
+
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+
+		// Fetching the allow_custom_visibility should cause another query.
+		$this->assertSame( 'disabled', $field_obj->allow_custom_visibility );
+		$num_queries++;
+
+		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
 }
