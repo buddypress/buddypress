@@ -544,6 +544,7 @@ function bp_load_theme_functions() {
  * Get the templates to use as the endpoint for BuddyPress template parts.
  *
  * @since 1.7.0
+ * @since 2.4.0 Added singular.php to stack
  *
  * @return array Array of possible root level wrapper template files.
  */
@@ -555,6 +556,7 @@ function bp_get_theme_compat_templates() {
 		'generic.php',
 		'page.php',
 		'single.php',
+		'singular.php',
 		'index.php'
 	) );
 }
