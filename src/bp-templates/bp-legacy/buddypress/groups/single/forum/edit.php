@@ -107,6 +107,7 @@ do_action( 'bp_before_group_forum_edit_form' ); ?>
 				 */
 				do_action( 'bp_group_before_edit_forum_post' ); ?>
 
+				<label for="post_text" class="bp-screen-reader-text"><?php _e( 'Edit text', 'buddypress' ); ?></label>
 				<textarea name="post_text" id="post_text"><?php bp_the_topic_post_edit_text(); ?></textarea>
 
 				<?php
