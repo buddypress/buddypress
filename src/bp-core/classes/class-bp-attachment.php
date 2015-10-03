@@ -521,4 +521,142 @@ abstract class BP_Attachment {
 
 		return $script_data;
 	}
+
+	/**
+	 * Get full data for an image
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  string $file Absolute path to the uploaded image.
+	 * @return bool|array   An associate array containing the width, height and metadatas.
+	 *                      False in case an important image attribute is missing.
+	 */
+	public static function get_image_data( $file ) {
+		// Try to get image basic data
+		list( $width, $height, $sourceImageType ) = @getimagesize( $file );
+
+		// No need to carry on if we couldn't get image's basic data.
+		if ( is_null( $width ) || is_null( $height ) || is_null( $sourceImageType ) ) {
+			return false;
+		}
+
+		// Initialize the image data
+		$image_data = array(
+			'width'  => $width,
+			'height' => $height,
+		);
+
+		/**
+		 * Make sure the wp_read_image_metadata function is reachable for the old Avatar UI
+		 * or if WordPress < 3.9 (New Avatar UI is not available in this case)
+		 */
+		if ( ! function_exists( 'wp_read_image_metadata' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		}
+
+		// Now try to get image's meta data
+		$meta = wp_read_image_metadata( $file );
+
+		if ( ! empty( $meta ) ) {
+			// Before 4.0 the Orientation wasn't included
+			if ( ! isset( $meta['orientation'] ) &&
+				is_callable( 'exif_read_data' ) &&
+				in_array( $sourceImageType, apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) ) )
+			) {
+				$exif = exif_read_data( $file );
+
+				if ( ! empty( $exif['Orientation'] ) ) {
+					$meta['orientation'] = $exif['Orientation'];
+				}
+			}
+
+			// Now add the metas to image data
+			$image_data['meta'] = $meta;
+		}
+
+		/**
+		 * Filter here to add/remove/edit data to the image full data
+		 *
+		 * @since  2.4.0
+		 *
+		 * @param  array $image_data An associate array containing the width, height and metadatas.
+		 */
+		return apply_filters( 'bp_attachments_get_image_data', $image_data );
+	}
+
+	/**
+	 * Edit an image file to resize it or rotate it
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  string $attachment_type The attachment type (eg: avatar or cover_image). Required.
+	 * @param  array  array $args {
+	 *     @type string $file     Absolute path to the image file (required).
+	 *     @type int    $max_w    Max width attribute for the editor's resize method (optional).
+	 *     @type int    $max_h    Max height attribute for the editor's resize method (optional).
+	 *     @type bool   $crop     Crop attribute for the editor's resize method (optional).
+	 *     @type float  $rotate   Angle for the editor's rotate method (optional).
+	 *     @type int    $quality  Compression quality on a 1-100% scale (optional).
+	 *     @type bool   $save     Whether to use the editor's save method or not (optional).
+	 * }
+	 *
+	 * @return string|WP_Image_Editor|WP_Error The edited image path or the WP_Image_Editor object in case of success,
+	 *                                         an WP_Error object otherwise.
+	 */
+	public static function edit_image( $attachment_type, $args = array() ) {
+		if ( empty( $attachment_type ) ) {
+			return new WP_Error( 'missing_parameter' );
+		}
+
+		$r = bp_parse_args( $args, array(
+			'file'   => '',
+			'max_w'   => 0,
+			'max_h'   => 0,
+			'crop'    => false,
+			'rotate'  => 0,
+			'quality' => 90,
+			'save'    => true,
+		), 'attachment_' . $attachment_type . '_edit_image' );
+
+		// Make sure we have to edit the image.
+		if ( empty( $r['max_w'] ) && empty( $r['max_h'] ) && empty( $r['rotate'] ) && empty( $r['file'] ) ) {
+			return new WP_Error( 'missing_parameter' );
+		}
+
+		// Get the image editor
+		$editor = wp_get_image_editor( $r['file'] );
+
+		if ( is_wp_error( $editor ) ) {
+			return $editor;
+		}
+
+		$editor->set_quality( $r['quality'] );
+
+		if ( ! empty( $r['rotate'] ) ) {
+			$rotated = $editor->rotate( $r['rotate'] );
+
+			// Stop in case of error
+			if ( is_wp_error( $rotated ) ) {
+				return $rotated;
+			}
+		}
+
+		if ( ! empty( $r['max_w'] ) || ! empty( $r['max_h'] ) ) {
+			$resized = $editor->resize( $r['max_w'], $r['max_h'], $r['crop'] );
+
+			// Stop in case of error
+			if ( is_wp_error( $resized ) ) {
+				return $resized;
+			}
+		}
+
+		// Use the editor save method to get a path to the edited image
+		if ( true === $r['save'] ) {
+			return $editor->save( $editor->generate_filename() );
+
+		// Need to do some other edit actions or use a specific method to save file
+		} else {
+			return $editor;
+		}
+	}
 }

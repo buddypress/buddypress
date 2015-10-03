@@ -138,39 +138,52 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		}
 
 		// Get image size
-		$size   = @getimagesize( $file );
-		$retval = false;
+		$cover_data = parent::get_image_data( $file );
 
-		// Check image size and shrink if too large
-		if ( $size[0] > $dimensions['width'] || $size[1] > $dimensions['height'] ) {
-			$editor = wp_get_image_editor( $file );
+		// Init the edit args
+		$edit_args = array();
 
-			if ( ! is_wp_error( $editor ) ) {
-				$editor->set_quality( 100 );
-
-				$resized = $editor->resize( $dimensions['width'], $dimensions['height'], true );
-				if ( ! is_wp_error( $resized ) ) {
-					$cover   = $editor->save( $this->generate_filename( $file ) );
-				} else {
-					$retval = $resized;
-				}
-
-				// Check for cover creation errors
-				if ( ( false === $retval ) && is_wp_error( $cover ) ) {
-					$retval = $cover;
-				}
-
-				// Cover is good so proceed
-				if ( false === $retval ) {
-					$retval = $cover;
-				}
-
-			} else {
-				$retval = $editor;
-			}
+		// Do we need to resize the image ?
+		if ( ( isset( $cover_data['width'] ) && $cover_data['width'] > $dimensions['width'] ) ||
+		( isset( $cover_data['height'] ) && $cover_data['height'] > $dimensions['height'] ) ) {
+			$edit_args = array(
+				'max_w' => $dimensions['width'],
+				'max_h' => $dimensions['height'],
+				'crop'  => true,
+			);
 		}
 
-		return $retval;
+		// Do we need to rotate the image ?
+		$angles = array(
+			3 => 180,
+			6 => -90,
+			8 =>  90,
+		);
+
+		if ( isset( $cover_data['meta']['orientation'] ) && isset( $angles[ $cover_data['meta']['orientation'] ] ) ) {
+			$edit_args['rotate'] = $angles[ $cover_data['meta']['orientation'] ];
+		}
+
+		// No need to edit the avatar, original file will be used
+		if ( empty( $edit_args ) ) {
+			return false;
+
+		// Add the file to the edit arguments
+		} else {
+			$edit_args = array_merge( $edit_args, array( 'file' => $file, 'save' => false ) );
+		}
+
+		// Get the editor so that we can use a specific save method
+		$editor = parent::edit_image( 'cover_image', $edit_args );
+
+		if ( is_wp_error( $editor ) )  {
+			return $editor;
+		} elseif ( ! is_a( $editor, 'WP_Image_Editor' ) ) {
+			return false;
+		}
+
+		// Save the new image file
+		return $editor->save( $this->generate_filename( $file ) );
 	}
 
 	/**

@@ -119,7 +119,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @uses  bp_core_avatar_original_max_width()
-	 * @uses  wp_get_image_editor()
 	 *
 	 * @param string $file the absolute path to the file.
 	 *
@@ -127,39 +126,40 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 */
 	public static function shrink( $file = '' ) {
 		// Get image size
-		$size   = @getimagesize( $file );
-		$retval = false;
+		$avatar_data = parent::get_image_data( $file );
 
-		// Check image size and shrink if too large
-		if ( $size[0] > bp_core_avatar_original_max_width() ) {
-			$editor = wp_get_image_editor( $file );
+		// Init the edit args
+		$edit_args = array();
 
-			if ( ! is_wp_error( $editor ) ) {
-				$editor->set_quality( 100 );
-
-				$resized = $editor->resize( bp_core_avatar_original_max_width(), bp_core_avatar_original_max_width(), false );
-				if ( ! is_wp_error( $resized ) ) {
-					$thumb = $editor->save( $editor->generate_filename() );
-				} else {
-					$retval = $resized;
-				}
-
-				// Check for thumbnail creation errors
-				if ( ( false === $retval ) && is_wp_error( $thumb ) ) {
-					$retval = $thumb;
-				}
-
-				// Thumbnail is good so proceed
-				if ( false === $retval ) {
-					$retval = $thumb;
-				}
-
-			} else {
-				$retval = $editor;
-			}
+		// Do we need to resize the image ?
+		if ( isset( $avatar_data['width'] ) && $avatar_data['width'] > bp_core_avatar_original_max_width() ) {
+			$edit_args = array(
+				'max_w' => bp_core_avatar_original_max_width(),
+				'max_h' => bp_core_avatar_original_max_width(),
+			);
 		}
 
-		return $retval;
+		// Do we need to rotate the image ?
+		$angles = array(
+			3 => 180,
+			6 => -90,
+			8 =>  90,
+		);
+
+		if ( isset( $avatar_data['meta']['orientation'] ) && isset( $angles[ $avatar_data['meta']['orientation'] ] ) ) {
+			$edit_args['rotate'] = $angles[ $avatar_data['meta']['orientation'] ];
+		}
+
+		// No need to edit the avatar, original file will be used
+		if ( empty( $edit_args ) ) {
+			return false;
+
+		// Add the file to the edit arguments
+		} else {
+			$edit_args['file'] = $file;
+		}
+
+		return parent::edit_image( 'avatar', $edit_args );
 	}
 
 	/**
