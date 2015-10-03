@@ -21,6 +21,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 			<p><?php _e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Image\' to proceed.', 'buddypress' ); ?></p>
 
 			<p id="avatar-upload">
+				<label for="id" class="bp-screen-reader-text"><?php _e( 'Select an image', 'buddypress' ); ?></label>
 				<input type="file" name="file" id="file" />
 				<input type="submit" name="upload" id="upload" value="<?php esc_attr_e( 'Upload Image', 'buddypress' ); ?>" />
 				<input type="hidden" name="action" id="action" value="bp_avatar_upload" />
