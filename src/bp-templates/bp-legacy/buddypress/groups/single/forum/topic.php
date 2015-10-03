@@ -185,6 +185,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 
 					<h4><?php _e( 'Add a reply:', 'buddypress' ); ?></h4>
 
+					<label for="reply_text" class="bp-screen-reader-text"><?php _e( 'Reply', 'buddypress' ); ?></label>
 					<textarea name="reply_text" id="reply_text"></textarea>
 
 					<div class="submit">
