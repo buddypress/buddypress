@@ -731,6 +731,7 @@ class BP_XProfile_Group {
 							<div class="postbox">
 								<h3><?php _e( 'Field Group Description', 'buddypress' ); ?></h3>
 								<div class="inside">
+									<label for="group_description" class="bp-screen-reader-text"><?php _e( 'Add description', 'buddypress' ); ?></label>
 									<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
 								</div>
 							</div>
