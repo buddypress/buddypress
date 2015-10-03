@@ -364,4 +364,83 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_FILES = $reset_files;
 		$_POST = $reset_post;
 	}
+
+	/**
+	 * @group shrink
+	 * @group avatars
+	 */
+	public function test_bp_attachment_avatar_shrink() {
+		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
+
+		$dir_copy = bp_upload_dir();
+
+		// in case cleaning files fails
+		if ( ! is_dir( $dir_copy['basedir'] . '/shrink' ) ) {
+			mkdir( $dir_copy['basedir'] . '/shrink' );
+		}
+
+		$abs_path_copy = $dir_copy['basedir'] . '/shrink/upside-down.jpg';
+
+		copy( $image, $abs_path_copy );
+
+		add_filter( 'bp_core_avatar_original_max_width', array( $this, 'limit_to_50px' ) );
+
+		$shrink = BP_Attachment_Avatar::shrink( $abs_path_copy );
+
+		remove_filter( 'bp_core_avatar_original_max_width', array( $this, 'limit_to_50px' ) );
+
+		$this->assertTrue( 50 === $shrink['width'] && 50 === $shrink['height'] );
+
+		// Cleanup
+		$this->clean_files( 'shrink' );
+	}
+
+	public function limit_to_50px( $max_width ) {
+		return 50;
+	}
+
+	/**
+	 * @group shrink
+	 * @group avatars
+	 */
+	public function test_bp_attachment_avatar_shrink_not_needed() {
+		$shrink = BP_Attachment_Avatar::shrink( $this->image_file );
+
+		$this->assertTrue( empty( $shrink ) );
+	}
+
+	/**
+	 * @group shrink
+	 * @group cover_images
+	 */
+	public function test_bp_attachment_cover_image_fit() {
+		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
+
+		$cover_image_class = new BP_Attachment_Cover_Image();
+
+		$abs_path_copy = $cover_image_class->upload_path . '/upside-down.jpg';
+
+		copy( $image, $abs_path_copy );
+
+		$fit = $cover_image_class->fit( $abs_path_copy, array( 'width' => 50, 'height' => 50 ) );
+
+		$this->assertTrue( 50 === $fit['width'] && 50 === $fit['height'] );
+
+		// Cleanup
+		$this->clean_files( 'buddypress' );
+	}
+
+	/**
+	 * @group shrink
+	 * @group cover_images
+	 */
+	public function test_bp_attachment_cover_image_fit_not_needed() {
+		$cover_image_class = new BP_Attachment_Cover_Image();
+		$fit = $cover_image_class->fit( $this->image_file, array( 'width' => 1300, 'height' => 225 ) );
+
+		$this->assertTrue( empty( $fit ) );
+
+		// Cleanup
+		$this->clean_files( 'buddypress' );
+	}
 }
