@@ -1247,6 +1247,7 @@ class BP_XProfile_Field {
 		<div class="postbox">
 			<h3><?php echo esc_html_x( 'Description', 'XProfile admin edit field', 'buddypress' ); ?></h3>
 			<div class="inside">
+				<label for="description" class="bp-screen-reader-text"><?php _e( 'Add description', 'buddypress' ); ?></label>
 				<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
 			</div>
 		</div>
