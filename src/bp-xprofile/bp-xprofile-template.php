@@ -1329,3 +1329,36 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 		 */
 		return apply_filters( 'bp_profile_settings_visibility_select', $retval, $r, $args );
 	}
+
+/**
+ * Output the 'required' markup in extended profile field labels.
+ *
+ * @since 2.4.0
+ *
+ * @return string HTML for the required label.
+ */
+function bp_the_profile_field_required_label() {
+	echo bp_get_the_profile_field_required_label();
+}
+
+	/**
+	 * Return the 'required' markup in extended profile field labels.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @return string HTML for the required label.
+	 */
+	function bp_get_the_profile_field_required_label() {
+		$retval = '';
+
+		if ( bp_get_the_profile_field_is_required() ) {
+			$translated_string = __( ' (required)', 'buddypress' );
+
+			$retval = '<span class="bp-required-field-label">';
+			$retval .= apply_filters( 'bp_get_the_profile_field_required_label', $translated_string, bp_get_the_profile_field_id() );
+			$retval .= '</span>';
+
+		}
+
+		return $retval;
+	}

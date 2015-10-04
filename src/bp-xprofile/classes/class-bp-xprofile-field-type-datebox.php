@@ -79,7 +79,11 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 		<div class="datebox">
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_day"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+			<label for="<?php bp_the_profile_field_input_name(); ?>_day">
+				<?php bp_the_profile_field_name(); ?>
+				<?php bp_the_profile_field_required_label(); ?>
+			</label>
+
 			<?php
 
 			/**
