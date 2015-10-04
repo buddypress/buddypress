@@ -1,4 +1,10 @@
 <?php
+/**
+ * BuddyPress - Members Profile Loop
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php */
 do_action( 'bp_before_profile_loop_content' ); ?>

@@ -1,8 +1,8 @@
 <?php
 /**
- * BuddyPress Avatars crop template
+ * BuddyPress Avatars crop template.
  *
- * This template is used to create the crop Backbone views
+ * This template is used to create the crop Backbone views.
  *
  * @since 2.3.0
  *

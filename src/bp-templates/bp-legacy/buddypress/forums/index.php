@@ -1,3 +1,12 @@
+<?php
+/**
+ * BuddyPress - Forums
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
 <div id="buddypress">
 
 	<?php

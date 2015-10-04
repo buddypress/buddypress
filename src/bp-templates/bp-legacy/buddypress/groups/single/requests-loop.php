@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Groups Requests Loop
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <?php if ( bp_group_has_membership_requests( bp_ajax_querystring( 'membership_requests' ) ) ) : ?>
 
 	<div id="pag-top" class="pagination">

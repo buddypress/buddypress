@@ -1,7 +1,8 @@
 <?php
 /**
  * BuddyPress - Members Messages Loop
- * @package    BuddyPress
+ *
+ * @package BuddyPress
  * @subpackage bp-legacy
  */
 

@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Groups Members
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <?php if ( bp_group_has_members( bp_ajax_querystring( 'group_members' ) ) ) : ?>
 
 	<?php

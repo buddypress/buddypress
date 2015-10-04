@@ -1,7 +1,8 @@
 <?php
 /**
  * BuddyPress - Members Single Group Invites
- * @package    BuddyPress
+ *
+ * @package BuddyPress
  * @subpackage bp-legacy
  */
 

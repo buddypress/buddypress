@@ -1,16 +1,18 @@
 <?php
 /**
- * BuddyPress Cover Images main template
+ * BuddyPress Cover Images main template.
  *
  * This template is used to inject the BuddyPress Backbone views
  * dealing with cover images.
- * It's also used to create the common Backbone views
+ *
+ * It's also used to create the common Backbone views.
  *
  * @since 2.4.0
  *
  * @package BuddyPress
  * @subpackage bp-attachments
  */
+
 ?>
 
 <div class="bp-cover-image"></div>

@@ -10,6 +10,7 @@
  * @package BuddyPress
  * @subpackage bp-legacy
  */
+
 ?>
 
 			<div class="message-box <?php bp_the_thread_message_css_class(); ?>">

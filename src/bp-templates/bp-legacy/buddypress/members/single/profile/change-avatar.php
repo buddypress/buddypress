@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Members Profile Change Avatar
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <h4><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h4>
 
 <?php

@@ -1,14 +1,10 @@
 <?php
 /**
- * BuddyPress - Groups Cover Image Header
+ * BuddyPress - Groups Cover Image Header.
  *
  * @package BuddyPress
  * @subpackage bp-legacy
  */
-
-?>
-
-<?php
 
 /**
  * Fires before the display of a group's header.

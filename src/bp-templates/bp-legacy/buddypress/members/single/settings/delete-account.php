@@ -1,4 +1,10 @@
 <?php
+/**
+ * BuddyPress - Members Settings Delete Account
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>

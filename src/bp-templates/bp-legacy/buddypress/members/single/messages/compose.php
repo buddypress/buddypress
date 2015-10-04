@@ -1,3 +1,12 @@
+<?php
+/**
+ * BuddyPress - Members Single Messages Compose
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
 <form action="<?php bp_messages_form_action('compose' ); ?>" method="post" id="send_message_form" class="standard-form" enctype="multipart/form-data">
 
 	<?php

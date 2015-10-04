@@ -1,7 +1,8 @@
 <?php
 /**
  * BuddyPress - Blogs
- * @package    BuddyPress
+ *
+ * @package BuddyPress
  * @subpackage bp-legacy
  */
 
@@ -17,7 +18,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	<?php
 
 	/**
-	 * Fires before the display of the blogs
+	 * Fires before the display of the blogs.
 	 *
 	 * @since 1.5.0
 	 */

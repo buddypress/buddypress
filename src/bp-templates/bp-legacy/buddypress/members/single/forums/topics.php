@@ -6,4 +6,3 @@
  * @package BuddyPress
  * @subpackage bp-legacy
  */
-

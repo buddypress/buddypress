@@ -1,3 +1,12 @@
+<?php
+/**
+ * BuddyPress - Groups Home
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
 <div id="buddypress">
 
 	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>

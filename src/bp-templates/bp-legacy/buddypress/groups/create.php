@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Groups Create
  *
- * @package    BuddyPress
+ * @package BuddyPress
  * @subpackage bp-legacy
  */
 

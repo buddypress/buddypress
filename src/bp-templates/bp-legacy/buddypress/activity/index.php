@@ -2,9 +2,10 @@
 /**
  * BuddyPress Activity templates
  *
- * @since      2.3.0
- * @package    BuddyPress
- * @subpackage BuddyPressActivity
+ * @since 2.3.0
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
  */
 
 /**

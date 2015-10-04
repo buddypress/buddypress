@@ -1,3 +1,12 @@
+<?php
+/**
+ * BuddyPress - Members Single Message
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
 <div id="message-thread">
 
 	<?php

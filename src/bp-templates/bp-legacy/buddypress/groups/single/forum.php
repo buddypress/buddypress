@@ -1,7 +1,8 @@
 <?php
 /**
  * BuddyPress - Groups Single Forum
- * @package    BuddyPress
+ *
+ * @package BuddyPress
  * @subpackage bp-legacy
  */
 

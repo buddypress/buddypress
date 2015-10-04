@@ -1,4 +1,10 @@
 <?php
+/**
+ * BuddyPress - Members Friends Requests
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
 /**
  * Fires before the display of member friend requests content.

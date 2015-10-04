@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Members Profile Change Cover Image
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <h4><?php _e( 'Change Cover Image', 'buddypress' ); ?></h4>
 
 <?php

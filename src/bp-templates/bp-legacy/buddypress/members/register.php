@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Members Register
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <div id="buddypress">
 
 	<?php

@@ -1,8 +1,8 @@
 <?php
 /**
- * BuddyPress Uploader templates
+ * BuddyPress Uploader templates.
  *
- * This template is used to create the BuddyPress Uploader Backbone views
+ * This template is used to create the BuddyPress Uploader Backbone views.
  *
  * @since 2.3.0
  *

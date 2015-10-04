@@ -1,4 +1,12 @@
+<?php
+/**
+ * BuddyPress - Group Invites Loop
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
+?>
 <div class="left-menu">
 
 	<div id="invite-list">

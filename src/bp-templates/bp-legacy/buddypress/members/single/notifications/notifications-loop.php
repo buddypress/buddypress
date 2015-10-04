@@ -1,3 +1,12 @@
+<?php
+/**
+ * BuddyPress - Members Notifications Loop
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
 <form action="" method="post" id="notifications-bulk-management">
 	<table class="notifications">
 		<thead>

@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Activity Loop
  *
- * @package    BuddyPress
+ * @package BuddyPress
  * @subpackage bp-legacy
  */
 
