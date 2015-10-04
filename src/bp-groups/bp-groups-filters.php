@@ -269,7 +269,7 @@ function bp_groups_maybe_load_mentions_scripts( $load_mentions, $mentions_enable
 		return $load_mentions;
 	}
 
-	if ( $load_mentions || ( bp_is_group_activity() || bp_is_group_home() ) ) {
+	if ( $load_mentions || bp_is_group_activity() ) {
 		return true;
 	}
 

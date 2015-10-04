@@ -928,17 +928,36 @@ function bp_legacy_theme_post_update() {
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'Please enter some content to post.', 'buddypress' ) . '</p></div>' );
 
 	$activity_id = 0;
-	if ( empty( $_POST['object'] ) && bp_is_active( 'activity' ) ) {
+	$item_id     = 0;
+	$object      = '';
+
+
+	// Try to get the item id from posted variables.
+	if ( ! empty( $_POST['item_id'] ) ) {
+		$item_id = (int) $_POST['item_id'];
+	}
+
+	// Try to get the object from posted variables.
+	if ( ! empty( $_POST['object'] ) ) {
+		$object  = sanitize_key( $_POST['object'] );
+
+	// If the object is not set and we're in a group, set the item id and the object
+	} elseif ( bp_is_group() ) {
+		$item_id = bp_get_current_group_id();
+		$object = 'groups';
+	}
+
+	if ( ! $object && bp_is_active( 'activity' ) ) {
 		$activity_id = bp_activity_post_update( array( 'content' => $_POST['content'] ) );
 
-	} elseif ( $_POST['object'] == 'groups' ) {
-		if ( ! empty( $_POST['item_id'] ) && bp_is_active( 'groups' ) )
-			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $_POST['item_id'] ) );
+	} elseif ( 'groups' === $object ) {
+		if ( $item_id && bp_is_active( 'groups' ) )
+			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $item_id ) );
 
 	} else {
 
 		/** This filter is documented in bp-activity/bp-activity-actions.php */
-		$activity_id = apply_filters( 'bp_activity_custom_update', false, $_POST['object'], $_POST['item_id'], $_POST['content'] );
+		$activity_id = apply_filters( 'bp_activity_custom_update', false, $object, $item_id, $_POST['content'] );
 	}
 
 	if ( empty( $activity_id ) )

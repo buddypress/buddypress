@@ -251,6 +251,9 @@ class BP_Groups_Component extends BP_Component {
 				$this->current_group->user_has_access = true;
 			}
 
+			// Check once if the current group has a custom front template
+			$this->current_group->front_template = bp_groups_get_front_template( $this->current_group );
+
 		// Set current_group to 0 to prevent debug errors
 		} else {
 			$this->current_group = 0;
@@ -370,6 +373,11 @@ class BP_Groups_Component extends BP_Component {
 		$this->default_extension = apply_filters( 'bp_groups_default_extension', defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'home' );
 
 		$bp = buddypress();
+
+		// If the activity component is not active and the current group has no custom front, members are displayed in the home nav
+		if ( 'members' === $this->default_extension && ! bp_is_active( 'activity' ) && ! $this->current_group->front_template ) {
+			$this->default_extension = 'home';
+		}
 
 		if ( ! bp_current_action() ) {
 			$bp->current_action = $this->default_extension;
@@ -527,17 +535,39 @@ class BP_Groups_Component extends BP_Component {
 				);
 			}
 
-			$sub_nav[] = array(
-				'name'            => sprintf( _x( 'Members <span>%s</span>', 'My Group screen nav', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
-				'slug'            => 'members',
-				'parent_url'      => $group_link,
-				'parent_slug'     => $this->current_group->slug,
-				'screen_function' => 'groups_screen_group_members',
-				'position'        => 60,
-				'user_has_access' => $this->current_group->user_has_access,
-				'item_css_id'     => 'members',
-				'no_access_url'   => $group_link,
-			);
+			if ( $this->current_group->front_template || bp_is_active( 'activity' ) ) {
+				/**
+				 * If the theme is using a custom front, create activity subnav.
+				 */
+				if ( $this->current_group->front_template && bp_is_active( 'activity' ) ) {
+					$sub_nav[] = array(
+						'name'            => _x( 'Activity', 'My Group screen nav', 'buddypress' ),
+						'slug'            => 'activity',
+						'parent_url'      => $group_link,
+						'parent_slug'     => $this->current_group->slug,
+						'screen_function' => 'groups_screen_group_activity',
+						'position'        => 11,
+						'user_has_access' => $this->current_group->user_has_access,
+						'item_css_id'     => 'activity',
+						'no_access_url'   => $group_link,
+					);
+				}
+
+				/**
+				 * Only add the members subnav if it's not the home's nav
+				 */
+				$sub_nav[] = array(
+					'name'            => sprintf( _x( 'Members <span>%s</span>', 'My Group screen nav', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
+					'slug'            => 'members',
+					'parent_url'      => $group_link,
+					'parent_slug'     => $this->current_group->slug,
+					'screen_function' => 'groups_screen_group_members',
+					'position'        => 60,
+					'user_has_access' => $this->current_group->user_has_access,
+					'item_css_id'     => 'members',
+					'no_access_url'   => $group_link,
+				);
+			}
 
 			if ( bp_is_active( 'friends' ) && bp_groups_user_can_send_invites() ) {
 				$sub_nav[] = array(

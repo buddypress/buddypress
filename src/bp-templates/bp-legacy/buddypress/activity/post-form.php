@@ -66,7 +66,7 @@
 				</div>
 				<input type="hidden" id="whats-new-post-object" name="whats-new-post-object" value="groups" />
 
-			<?php elseif ( bp_is_group_home() ) : ?>
+			<?php elseif ( bp_is_group_activity() ) : ?>
 
 				<input type="hidden" id="whats-new-post-object" name="whats-new-post-object" value="groups" />
 				<input type="hidden" id="whats-new-post-in" name="whats-new-post-in" value="<?php bp_group_id(); ?>" />

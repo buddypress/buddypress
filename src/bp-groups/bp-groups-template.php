@@ -4343,6 +4343,70 @@ function bp_group_member_admin_pagination() {
 	}
 
 /**
+ * Output the contents of the current group's home page.
+ *
+ * You should only use this when on a single group page.
+ *
+ * @since 2.4.0
+ */
+function bp_groups_front_template_part() {
+	$located = bp_groups_get_front_template();
+
+	if ( false !== $located ) {
+		$slug = str_replace( '.php', '', $located );
+
+		/**
+		 * Let plugins adding an action to bp_get_template_part get it from here
+		 *
+		 * @param string $slug Template part slug requested.
+		 * @param string $name Template part name requested.
+		 */
+		do_action( 'get_template_part_' . $slug, $slug, false );
+
+		load_template( $located, true );
+
+	} else if ( bp_is_active( 'activity' ) ) {
+		bp_get_template_part( 'groups/single/activity' );
+
+	} else if ( bp_is_active( 'members'  ) ) {
+		bp_groups_members_template_part();
+	}
+
+	return $located;
+}
+
+/**
+ * Locate a custom group front template if it exists.
+ *
+ * @since 2.4.0
+ *
+ * @param  BP_Groups_Group|null $group Optional. Falls back to current group if not passed.
+ * @return string|bool                 Path to front template on success; boolean false on failure.
+ */
+function bp_groups_get_front_template( $group = null ) {
+	if ( ! is_a( $group, 'BP_Groups_Group' ) ) {
+		$group = groups_get_current_group();
+	}
+
+	if ( ! isset( $group->id ) ) {
+		return false;
+	}
+
+	if ( isset( $group->front_template ) ) {
+		return $group->front_template;
+	}
+
+	$template_names = apply_filters( 'bp_groups_get_front_template', array(
+		'groups/single/front-id-'     . sanitize_file_name( $group->id )     . '.php',
+		'groups/single/front-slug-'   . sanitize_file_name( $group->slug )   . '.php',
+		'groups/single/front-status-' . sanitize_file_name( $group->status ) . '.php',
+		'groups/single/front.php'
+	) );
+
+	return bp_locate_template( $template_names, false, true );
+}
+
+/**
  * Output the Group members template
  *
  * @since 2.0.0

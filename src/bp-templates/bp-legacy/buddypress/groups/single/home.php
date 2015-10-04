@@ -77,17 +77,8 @@
 
 				if ( bp_group_is_visible() ) {
 
-					// Use custom front if one exists
-					$custom_front = bp_locate_template( array( 'groups/single/front.php' ), false, true );
-					if     ( ! empty( $custom_front   ) ) : load_template( $custom_front, true );
-
-					// Default to activity
-					elseif ( bp_is_active( 'activity' ) ) : bp_get_template_part( 'groups/single/activity' );
-
-					// Otherwise show members
-					elseif ( bp_is_active( 'members'  ) ) : bp_groups_members_template_part();
-
-					endif;
+					// Load appropriate front template
+					bp_groups_front_template_part();
 
 				} else {
 

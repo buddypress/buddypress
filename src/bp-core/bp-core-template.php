@@ -2552,7 +2552,17 @@ function bp_is_group_forum() {
  * @return True if the current page is a group's activity page.
  */
 function bp_is_group_activity() {
-	return (bool) ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'activity' ) );
+	$retval = false;
+
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'activity' ) ) {
+		$retval = true;
+	}
+
+	if ( bp_is_group_home() && bp_is_active( 'activity' ) && ! bp_is_group_custom_front() ) {
+		$retval = true;
+	}
+
+	return $retval;
 }
 
 /**
@@ -2585,7 +2595,17 @@ function bp_is_group_forum_topic_edit() {
  * @return bool True if the current page is part of a group's Members page.
  */
 function bp_is_group_members() {
-	return (bool) ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'members' ) );
+	$retval = false;
+
+	if ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'members' ) ) {
+		$retval = true;
+	}
+
+	if ( bp_is_group_home() && ! bp_is_active( 'activity' ) && ! bp_is_group_custom_front() ) {
+		$retval = true;
+	}
+
+	return $retval;
 }
 
 /**
@@ -2630,6 +2650,18 @@ function bp_is_group_leave() {
  */
 function bp_is_group_single() {
 	return (bool) ( bp_is_groups_component() && bp_is_single_item() );
+}
+
+/**
+ * Is the current group page a custom front?
+ *
+ * @since 2.4.0
+ *
+ * @return bool True if the current group page is a custom front.
+ */
+function bp_is_group_custom_front() {
+	$bp = buddypress();
+	return (bool) bp_is_group_home() && ! empty( $bp->groups->current_group->front_template );
 }
 
 /**
