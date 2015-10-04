@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress Forums Deprecated Functions
+ * BuddyPress Forums Deprecated Functions.
  *
  * This file contains all the deprecated functions for BuddyPress forums since
  * version 1.7. This was a major update for the forums component, moving from
@@ -11,7 +10,7 @@
  * @subpackage Forums
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 function bp_forums_add_admin_menu() {
@@ -21,10 +20,10 @@ function bp_forums_add_admin_menu() {
 
 	$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
-	// Add the administration tab under the "Site Admin" tab for site administrators
+	// Add the administration tab under the "Site Admin" tab for site administrators.
 	$hook = add_submenu_page( $page, __( 'Forums', 'buddypress' ), __( 'Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 
-	// Fudge the highlighted subnav item when on the BuddyPress Forums admin page
+	// Fudge the highlighted subnav item when on the BuddyPress Forums admin page.
 	add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 }
 add_action( bp_core_admin_hook(), 'bp_forums_add_admin_menu' );
@@ -34,7 +33,7 @@ function bp_forums_configure_existing_install() {
 
 	check_admin_referer( 'bp_forums_existing_install_init' );
 
-	// Sanitize $_REQUEST['bbconfigloc']
+	// Sanitize $_REQUEST['bbconfigloc'].
 	$_REQUEST['bbconfigloc'] = apply_filters( 'bp_forums_bbconfig_location', $_REQUEST['bbconfigloc'] );
 
 	if ( false === strpos( $_REQUEST['bbconfigloc'], 'bb-config.php' ) ) {
@@ -64,7 +63,7 @@ function bp_forums_bbpress_install( $location = '' ) {
 
 	$bp = buddypress();
 
-	// Create the bb-config.php file
+	// Create the bb-config.php file.
 	$initial_write = bp_forums_bbpress_write(
 		$bp->plugin_dir . '/bp-forums/bbpress/bb-config-sample.php',
 		$location,
@@ -84,7 +83,7 @@ function bp_forums_bbpress_install( $location = '' ) {
 		)
 	);
 
-	// Add the custom user and usermeta entries to the config file
+	// Add the custom user and usermeta entries to the config file.
 	if ( $initial_write == 1 ) {
 		$file = file_get_contents( $location );
 	} else {
@@ -146,13 +145,13 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 		return -2;
 	}
 
-	// Get the existing lines in the file
+	// Get the existing lines in the file.
 	$lines = file( $file_source );
 
-	// Initialise an array to store the modified lines
+	// Initialise an array to store the modified lines.
 	$modified_lines = array();
 
-	// Loop through the lines and modify them
+	// Loop through the lines and modify them.
 	foreach ( (array) $lines as $line ) {
 		if ( isset( $alterations[substr( $line, 0, 20 )] ) ) {
 			$alteration = $alterations[substr( $line, 0, 20 )];
@@ -183,10 +182,10 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 		return trim( join( null, $modified_lines ) );
 	}
 
-	// Open the file for writing - rewrites the whole file
+	// Open the file for writing - rewrites the whole file.
 	$file_handle = fopen( $file_target, 'w' );
 
-	// Write lines one by one to avoid OS specific newline hassles
+	// Write lines one by one to avoid OS specific newline hassles.
 	foreach ( (array) $modified_lines as $modified_line ) {
 		if ( strlen( $modified_line ) - 2 === strrpos( $modified_line, '?>' ) ) {
 			$modified_line = '?>';
@@ -198,7 +197,7 @@ function bp_forums_bbpress_write( $file_source, $file_target, $alterations ) {
 		}
 	}
 
-	// Close the config file
+	// Close the config file.
 	fclose( $file_handle );
 
 	@chmod( $file_target, 0666 );

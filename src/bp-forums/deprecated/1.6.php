@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress Forums Deprecated Functions
+ * BuddyPress Forums Deprecated Functions.
  *
  * This file contains all the deprecated functions for BuddyPress forums since
  * version 1.6. This was a major update for the forums component, moving from
@@ -11,7 +10,7 @@
  * @subpackage Forums
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -20,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 function bp_forums_bbpress_admin() {
 
 	// The text and URL of the Site Wide Forums button differs depending on whether bbPress
-	// is running
+	// is running.
 	if ( is_plugin_active( 'bbpress/bbpress.php' ) ) {
 		// The bbPress admin page will always be on the root blog. switch_to_blog() will
 		// pass through if we're already there.
@@ -53,13 +52,13 @@ function bp_forums_bbpress_admin() {
 
 		if ( isset( $_REQUEST['reinstall'] ) || !bp_forums_is_installed_correctly() ) :
 
-			// Delete the bb-config.php location option
+			// Delete the bb-config.php location option.
 			bp_delete_option( 'bb-config-location' );
 
-			// Now delete the bb-config.php file
+			// Now delete the bb-config.php file.
 			@unlink( ABSPATH . 'bb-config.php' );
 
-			// show the updated wizard
+			// Show the updated wizard.
 			bp_forums_bbpress_install_wizard();
 
 		else : ?>
@@ -120,7 +119,7 @@ function bp_forums_bbpress_install_wizard() {
 	$step = isset( $_REQUEST['step'] ) ? $_REQUEST['step'] : '';
 
 	// The text and URL of the Site Wide Forums button differs depending on whether bbPress
-	// is running
+	// is running.
 	if ( is_plugin_active( 'bbpress/bbpress.php' ) ) {
 		$bbpress_plugin_is_active = true;
 
@@ -171,7 +170,7 @@ function bp_forums_bbpress_install_wizard() {
 						_e( '<p>All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.</p>', 'buddypress' );
 						break;
 					default:
-						// Just write the contents to screen
+						// Just write the contents to screen.
 						_e( '<p>A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.</p>', 'buddypress' ); ?>
 
 						<textarea style="display:block; margin-top: 30px; width: 80%;" rows="50"><?php echo esc_textarea( $result ); ?></textarea>
@@ -199,8 +198,7 @@ function bp_forums_bbpress_install_wizard() {
 
 			<?php } else {
 
-				// Include the plugin install
-
+				// Include the plugin install.
 				add_thickbox();
 				wp_enqueue_script( 'plugin-install' );
 				wp_admin_css( 'plugin-install' );

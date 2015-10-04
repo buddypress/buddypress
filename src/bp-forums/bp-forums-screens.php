@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_forums_directory_forums_setup() {
 
-	// Get BuddyPress once
+	// Get BuddyPress once.
 	$bp = buddypress();
 
 	if ( bp_is_forums_component() && ( !bp_current_action() || ( 'tag' == bp_current_action() && bp_action_variables() ) ) && !bp_current_item() ) {
@@ -41,7 +41,7 @@ function bp_forums_directory_forums_setup() {
 
 			$bp->groups->current_group = groups_get_group( array( 'group_id' => $_POST['topic_group_id'] ) );
 			if ( !empty( $bp->groups->current_group->id ) ) {
-				// Auto join this user if they are not yet a member of this group
+				// Auto join this user if they are not yet a member of this group.
 				if ( !bp_current_user_can( 'bp_moderate' ) && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
 					groups_join_group( $bp->groups->current_group->id );
 
@@ -74,7 +74,7 @@ function bp_forums_directory_forums_setup() {
 					bp_core_redirect( add_query_arg( 'new', '', bp_get_forums_directory_permalink() ) );
 				}
 
-			}	 else {
+			} else {
 				bp_core_add_message( __( 'Please pick the group forum where you would like to post this topic.', 'buddypress' ), 'error' );
 				bp_core_redirect( add_query_arg( 'new', '', bp_get_forums_directory_permalink() ) );
 			}
@@ -248,11 +248,11 @@ class BP_Forum_Legacy_Theme_Compat {
 	 */
 	public function is_legacy_forum() {
 
-		// Bail if not looking at a group
+		// Bail if not looking at a group.
 		if ( ! bp_is_forums_component() )
 			return;
 
-		// forum Directory
+		// Forum Directory.
 		if ( ( ! bp_current_action() || ( 'tag' == bp_current_action() && bp_action_variables() ) ) && ! bp_current_item() ) {
 
 			if ( ! bp_forums_has_directory() )
@@ -283,7 +283,7 @@ class BP_Forum_Legacy_Theme_Compat {
 	 */
 	public function directory_dummy_post() {
 
-		// Title based on ability to create groups
+		// Title based on ability to create groups.
 		if ( is_user_logged_in() ) {
 			$title = __( 'Forums', 'buddypress' ) . '&nbsp;<a class="button show-hide-new bp-title-button" href="#new-topic" id="new-topic-button">' . __( 'New Topic', 'buddypress' ) . '</a>';
 		} else {

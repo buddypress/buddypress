@@ -55,10 +55,10 @@ function bp_forums_load_bbpress() {
 	$bb = new stdClass();
 	require( bp_get_option(	'bb-config-location' ) );
 
-	// Setup the global database connection
+	// Setup the global database connection.
 	$bbdb = new BPDB ( BBDB_USER, BBDB_PASSWORD, BBDB_NAME, BBDB_HOST );
 
-	// Set the table names
+	// Set the table names.
 	$bbdb->forums             = $bb_table_prefix . 'forums';
 	$bbdb->meta               = $bb_table_prefix . 'meta';
 	$bbdb->posts              = $bb_table_prefix . 'posts';
@@ -115,11 +115,11 @@ function bp_forums_load_bbpress() {
 
 	$wp_taxonomy_object->register_taxonomy( 'bb_topic_tag', 'bb_topic' );
 
-	// Set a site id if there isn't one already
+	// Set a site id if there isn't one already.
 	if ( !isset( $bb->site_id ) )
 		$bb->site_id = bp_get_root_blog_id();
 
-	// Check if the tables are installed, if not, install them
+	// Check if the tables are installed, if not, install them.
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) ) {
 		require( BB_PATH . 'bb-admin/includes/defaults.bb-schema.php' );
 
@@ -129,7 +129,7 @@ function bp_forums_load_bbpress() {
 		require( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
 		bb_update_db_version();
 
-		// Set the site admins as the keymasters
+		// Set the site admins as the keymasters.
 		$site_admins = get_site_option( 'site_admins', array('admin') );
 		foreach ( (array) $site_admins as $site_admin )
 			bp_update_user_meta( bp_core_get_userid( $site_admin ), $bb_table_prefix . 'capabilities', array( 'keymaster' => true ) );
@@ -137,7 +137,7 @@ function bp_forums_load_bbpress() {
 		// Create the first forum.
 		bb_new_forum( array( 'forum_name' => 'Default Forum' ) );
 
-		// Set the site URI
+		// Set the site URI.
 		bb_update_option( 'uri', BB_URL );
 	}
 
@@ -172,12 +172,12 @@ function bb_get_user( $user_id ) { return get_userdata( $user_id ); }
  *
  * Noop.
  *
- * @param array $users
+ * @param array $users Array of users.
  */
 function bb_cache_users( $users ) {}
 
 /**
- * bbPress needs this class for its usermeta manipulation.
+ * The bbPress plugin needs this class for its usermeta manipulation.
  */
 class BP_Forums_BB_Auth {
 	function update_meta( $args = '' ) {
@@ -190,7 +190,7 @@ class BP_Forums_BB_Auth {
 }
 
 /**
- * bbPress needs the DB class to be BPDB, but we want to use WPDB, so we can extend it and use this.
+ * The bbPress plugin needs the DB class to be BPDB, but we want to use WPDB, so we can extend it and use this.
  *
  * The class is pluggable, so that plugins that swap out WPDB with a custom
  * database class (such as HyperDB and ShareDB) can provide their own versions
@@ -201,7 +201,7 @@ if ( ! class_exists( 'BPDB' ) ) :
 		var $db_servers = array();
 
 		/**
-		 * Constructor
+		 * Constructor.
 		 *
 		 * @see WPDB::__construct() for description of parameters.
 		 */
@@ -246,6 +246,9 @@ if ( ! class_exists( 'BPDB' ) ) :
 		 * from the 1.0 branch of bbPress.
 		 *
 		 * @see BBDB::__construct() for a description of params.
+		 *
+		 * @param array $args Array of args to parse.
+		 * @return array $args.
 		 */
 		function init( $args ) {
 			if ( 4 == func_num_args() ) {
@@ -285,12 +288,12 @@ if ( ! class_exists( 'BPDB' ) ) :
 			return $this->escape( $data );
 		}
 	}
-endif; // class_exists( 'BPDB' )
+endif; // End class_exists( 'BPDB' ).
 
 /**
  * Convert object to given output format.
  *
- * bbPress needs this to convert vars.
+ * The bbPress plugin needs this to convert vars.
  *
  * @param object $object Object to convert.
  * @param string $output Type of object to return. OBJECT, ARRAY_A, or ARRAY_N.
@@ -317,23 +320,23 @@ function backpress_convert_object( &$object, $output ) {
  * @see dbDelta() for a description of parameters and return value.
  *
  * @param array $queries See {@link dbDelta()}.
- * @param bool $execute See {@link dbDelta()}.
+ * @param bool  $execute See {@link dbDelta()}.
  * @return array See {@link dbDelta()}.
  */
 function bp_bb_dbDelta($queries, $execute = true) {
 	global $wpdb;
 
-	// Separate individual queries into an array
+	// Separate individual queries into an array.
 	if ( !is_array($queries) ) {
 		$queries = explode( ';', $queries );
 		if ('' == $queries[count($queries) - 1]) array_pop($queries);
 	}
 
-	$cqueries = array(); // Creation Queries
-	$iqueries = array(); // Insertion Queries
+	$cqueries = array(); // Creation Queries.
+	$iqueries = array(); // Insertion Queries.
 	$for_update = array();
 
-	// Create a tablename index for an array ($cqueries) of queries
+	// Create a tablename index for an array ($cqueries) of queries.
 	foreach($queries as $qry) {
 		if (preg_match("|CREATE TABLE ([^ ]*)|", $qry, $matches)) {
 			$cqueries[trim( strtolower($matches[1]), '`' )] = $qry;
@@ -345,13 +348,13 @@ function bp_bb_dbDelta($queries, $execute = true) {
 		} else if (preg_match("|UPDATE ([^ ]*)|", $qry, $matches)) {
 			$iqueries[] = $qry;
 		} else {
-			// Unrecognized query type
+			// Unrecognized query type.
 		}
 	}
 
-	// Check to see which tables and fields exist
+	// Check to see which tables and fields exist.
 	if ($tables = $wpdb->get_col('SHOW TABLES;')) {
-		// For every table in the database
+		// For every table in the database.
 		foreach ($tables as $table) {
 			// Upgrade global tables only for the main site. Don't upgrade at all if DO_NOT_UPGRADE_GLOBAL_TABLES is defined.
 			if ( in_array($table, $wpdb->tables('global')) && ( !is_main_site() || defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) )
@@ -359,24 +362,24 @@ function bp_bb_dbDelta($queries, $execute = true) {
 
 			// If a table query exists for the database table...
 			if ( array_key_exists(strtolower($table), $cqueries) ) {
-				// Clear the field and index arrays
+				// Clear the field and index arrays.
 				$cfields = $indices = array();
-				// Get all of the field names in the query from between the parents
+				// Get all of the field names in the query from between the parents.
 				preg_match("|\((.*)\)|ms", $cqueries[strtolower($table)], $match2);
 				$qryline = trim($match2[1]);
 
-				// Separate field lines into an array
+				// Separate field lines into an array.
 				$flds = explode("\n", $qryline);
 
 				//echo "<hr/><pre>\n".print_r(strtolower($table), true).":\n".print_r($cqueries, true)."</pre><hr/>";
 
-				// For every field line specified in the query
+				// For every field line specified in the query.
 				foreach ($flds as $fld) {
-					// Extract the field name
+					// Extract the field name.
 					preg_match("|^([^ ]*)|", trim($fld), $fvals);
 					$fieldname = trim( $fvals[1], '`' );
 
-					// Verify the found field name
+					// Verify the found field name.
 					$validfield = true;
 					switch (strtolower($fieldname)) {
 					case '':
@@ -391,74 +394,74 @@ function bp_bb_dbDelta($queries, $execute = true) {
 					}
 					$fld = trim($fld);
 
-					// If it's a valid field, add it to the field array
+					// If it's a valid field, add it to the field array.
 					if ($validfield) {
 						$cfields[strtolower($fieldname)] = trim($fld, ", \n");
 					}
 				}
 
-				// Fetch the table column structure from the database
+				// Fetch the table column structure from the database.
 				$tablefields = $wpdb->get_results("DESCRIBE {$table};");
 
-				// For every field in the table
+				// For every field in the table.
 				foreach ($tablefields as $tablefield) {
 					// If the table field exists in the field array...
 					if (array_key_exists(strtolower($tablefield->Field), $cfields)) {
-						// Get the field type from the query
+						// Get the field type from the query.
 						preg_match("|".$tablefield->Field." ([^ ]*( unsigned)?)|i", $cfields[strtolower($tablefield->Field)], $matches);
 						$fieldtype = $matches[1];
 
 						// Is actual field type different from the field type in query?
 						if ($tablefield->Type != $fieldtype) {
-							// Add a query to change the column type
+							// Add a query to change the column type.
 							$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[strtolower($tablefield->Field)];
 							$for_update[$table.'.'.$tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
 						}
 
-						// Get the default value from the array
+						// Get the default value from the array.
 							//echo "{$cfields[strtolower($tablefield->Field)]}<br>";
 						if (preg_match("| DEFAULT '(.*)'|i", $cfields[strtolower($tablefield->Field)], $matches)) {
 							$default_value = $matches[1];
 							if ($tablefield->Default != $default_value) {
-								// Add a query to change the column's default value
+								// Add a query to change the column's default value.
 								$cqueries[] = "ALTER TABLE {$table} ALTER COLUMN {$tablefield->Field} SET DEFAULT '{$default_value}'";
 								$for_update[$table.'.'.$tablefield->Field] = "Changed default value of {$table}.{$tablefield->Field} from {$tablefield->Default} to {$default_value}";
 							}
 						}
 
-						// Remove the field from the array (so it's not added)
+						// Remove the field from the array (so it's not added).
 						unset($cfields[strtolower($tablefield->Field)]);
 					} else {
 						// This field exists in the table, but not in the creation queries?
 					}
 				}
 
-				// For every remaining field specified for the table
+				// For every remaining field specified for the table.
 				foreach ($cfields as $fieldname => $fielddef) {
-					// Push a query line into $cqueries that adds the field to that table
+					// Push a query line into $cqueries that adds the field to that table.
 					$cqueries[] = "ALTER TABLE {$table} ADD COLUMN $fielddef";
 					$for_update[$table.'.'.$fieldname] = 'Added column '.$table.'.'.$fieldname;
 				}
 
 				// Index stuff goes here
-				// Fetch the table index structure from the database
+				// Fetch the table index structure from the database.
 				$tableindices = $wpdb->get_results("SHOW INDEX FROM {$table};");
 
 				if ($tableindices) {
-					// Clear the index array
+					// Clear the index array.
 					unset($index_ary);
 
-					// For every index in the table
+					// For every index in the table.
 					foreach ($tableindices as $tableindex) {
-						// Add the index to the index data array
+						// Add the index to the index data array.
 						$keyname = $tableindex->Key_name;
 						$index_ary[$keyname]['columns'][] = array('fieldname' => $tableindex->Column_name, 'subpart' => $tableindex->Sub_part);
 						$index_ary[$keyname]['unique'] = ($tableindex->Non_unique == 0)?true:false;
 					}
 
-					// For each actual index in the index array
+					// For each actual index in the index array.
 					foreach ($index_ary as $index_name => $index_data) {
-						// Build a create string to compare to the query
+						// Build a create string to compare to the query.
 						$index_string = '';
 						if ($index_name == 'PRIMARY') {
 							$index_string .= 'PRIMARY ';
@@ -470,16 +473,16 @@ function bp_bb_dbDelta($queries, $execute = true) {
 							$index_string .= $index_name;
 						}
 						$index_columns = '';
-						// For each column in the index
+						// For each column in the index.
 						foreach ($index_data['columns'] as $column_data) {
 							if ($index_columns != '') $index_columns .= ',';
-							// Add the field to the column list string
+							// Add the field to the column list string.
 							$index_columns .= $column_data['fieldname'];
 							if ($column_data['subpart'] != '') {
 								$index_columns .= '('.$column_data['subpart'].')';
 							}
 						}
-						// Add the column list to the index create string
+						// Add the column list to the index create string.
 						$index_string .= ' ('.$index_columns.')';
 						if (!(($aindex = array_search($index_string, $indices)) === false)) {
 							unset($indices[$aindex]);
@@ -489,14 +492,14 @@ function bp_bb_dbDelta($queries, $execute = true) {
 					}
 				}
 
-				// For every remaining index specified for the table
+				// For every remaining index specified for the table.
 				foreach ( (array) $indices as $index ) {
-					// Push a query line into $cqueries that adds the index to that table
+					// Push a query line into $cqueries that adds the index to that table.
 					$cqueries[] = "ALTER TABLE {$table} ADD $index";
 					$for_update[$table.'.'.$fieldname] = 'Added index '.$table.' '.$index;
 				}
 
-				// Remove the original table creation query from processing
+				// Remove the original table creation query from processing.
 				unset($cqueries[strtolower($table)]);
 				unset($for_update[strtolower($table)]);
 			} else {

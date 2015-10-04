@@ -97,9 +97,9 @@ function bp_forums_filter_kses( $content ) {
 /**
  * Get a link for a forum topic tags directory.
  *
- * @param string $link Link passed from filter.
- * @param string $tag Name of the tag.
- * @param string $page Page number, passed from the filter.
+ * @param string $link    Link passed from filter.
+ * @param string $tag     Name of the tag.
+ * @param string $page    Page number, passed from the filter.
  * @param string $context Passed from the filter but unused here.
  * @return string Link of the form http://example.com/forums/tag/tagname/.
  */
@@ -141,10 +141,10 @@ function bp_forums_make_nofollow_filter( $text ) {
  *
  * @see bp_modify_page_title()
  *
- * @param string $title New page title; see {@link bp_modify_page_title()}.
+ * @param string $title          New page title; see {@link bp_modify_page_title()}.
  * @param string $original_title Original page title.
- * @param string $sep How to separate the various items within the page title.
- * @param string $seplocation Direction to display title.
+ * @param string $sep            How to separate the various items within the page title.
+ * @param string $seplocation    Direction to display title.
  * @return string Page title with forum topic title appended.
  */
 function bp_forums_add_forum_topic_to_page_title( $title, $original_title, $sep, $seplocation  ) {
@@ -231,7 +231,7 @@ function bp_forums_add_replied_where_sql( $sql ) {
 
 	$sql .= $wpdb->prepare( " AND p.poster_id = %s ", bp_displayed_user_id() );
 
-	// Remove any topic_author information
+	// Remove any topic_author information.
 	$sql = str_replace( " AND t.topic_poster = '" . bp_displayed_user_id() . "'", '', $sql );
 
 	return $sql;
