@@ -1575,7 +1575,7 @@ class BP_Activity_Activity {
 	 * @param string     $field The database field.
 	 * @param array|bool $items The values for the IN clause, or false when none are found.
 	 *
-	 * @return string|bool.
+	 * @return string|bool
 	 */
 	public static function get_in_operator_sql( $field, $items ) {
 		global $wpdb;
