@@ -114,6 +114,16 @@ function bp_members_admin_bar_user_admin_menu() {
 			) );
 		}
 
+		// User Admin > Edit this user's cover image
+		if ( bp_displayed_user_use_cover_image_header() ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => $bp->user_admin_menu_id,
+				'id'     => $bp->user_admin_menu_id . '-change-cover-image',
+				'title'  => __( 'Edit Cover Image', 'buddypress' ),
+				'href'   => bp_get_members_component_link( 'profile', 'change-cover-image' )
+			) );
+		}
+
 	}
 
 	if ( bp_is_active( 'settings' ) ) {
