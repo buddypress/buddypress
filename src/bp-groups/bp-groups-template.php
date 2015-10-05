@@ -5038,7 +5038,7 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 
 			for ( $i = 0, $count = count( $friends ); $i < $count; ++$i ) {
 				$checked = in_array( (int) $friends[ $i ]['id'], (array) $invites );
-				$items[] = '<' . $r['separator'] . '><input' . checked( $checked ) . ' type="checkbox" name="friends[]" id="f-' . esc_attr( $friends[ $i ]['id'] ) . '" value="' . esc_attr( $friends[ $i ]['id'] ) . '" /> ' . esc_html( $friends[ $i ]['full_name'] ) . '</' . $r['separator'] . '>';
+				$items[] = '<' . $r['separator'] . '><label for="f-' . esc_attr( $friends[ $i ]['id'] ) . '"><input' . checked( $checked ) . ' type="checkbox" name="friends[]" id="f-' . esc_attr( $friends[ $i ]['id'] ) . '" value="' . esc_attr( $friends[ $i ]['id'] ) . '" /> ' . esc_html( $friends[ $i ]['full_name'] ) . '</label></' . $r['separator'] . '>';
 			}
 		}
 
