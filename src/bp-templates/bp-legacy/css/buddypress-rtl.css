@@ -656,7 +656,8 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	margin: 15px 0 5px 0;
 	width: auto;
 }
-#buddypress .standard-form p label {
+#buddypress .standard-form p label,
+#buddypress .standard-form #invite-list label {
 	font-weight: normal;
 	margin: auto;
 }
