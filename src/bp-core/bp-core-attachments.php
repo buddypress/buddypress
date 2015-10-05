@@ -887,6 +887,87 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
 }
 
 /**
+ * Generate the cover image file.
+ *
+ * @since 2.4.0
+ *
+ * @param  array  $args {
+ *     @type string $file            The absolute path to the image. Required.
+ *     @type string $component       The component for the object (eg: groups, xprofile). Required.
+ *     @type string $cover_image_dir The Cover image dir to write the image into. Required.
+ * }
+ * @param  BP_Attachment_Cover_Image $cover_image_class The class to use to fit the cover image.
+ * @return bool|array          An array containing cover image data on success, false otherwise.
+ */
+function bp_attachments_cover_image_generate_file( $args = array(), $cover_image_class = null ) {
+	// Bail if an argument is missing
+	if ( empty( $args['file'] ) || empty( $args['component'] ) || empty( $args['cover_image_dir'] ) ) {
+		return false;
+	}
+
+	// Get advised dimensions for the cover image
+	$dimensions = bp_attachments_get_cover_image_dimensions( $args['component'] );
+
+	// No dimensions or the file does not match with the cover image dir, stop!
+	if ( false === $dimensions || $args['file'] !== $args['cover_image_dir'] . '/' . wp_basename( $args['file'] ) ) {
+		return false;
+	}
+
+	if ( ! is_a( $cover_image_class, 'BP_Attachment_Cover_Image' ) ) {
+		$cover_image_class = new BP_Attachment_Cover_Image();
+	}
+
+	// Make sure the file is inside the Cover Image Upload path.
+	if ( false === strpos( $args['file'], $cover_image_class->upload_path ) ) {
+		return false;
+	}
+
+	// Resize the image so that it fit with the cover image dimensions
+	$cover_image  = $cover_image_class->fit( $args['file'], $dimensions );
+	$is_too_small = false;
+
+	// Image is too small in width and height
+	if ( empty( $cover_image ) ) {
+		$cover_file = $cover_image_class->generate_filename( $args['file'] );
+		@rename( $args['file'], $cover_file );
+
+		// It's too small!
+		$is_too_small = true;
+	} elseif ( ! empty( $cover_image['path'] ) ) {
+		$cover_file = $cover_image['path'];
+
+		// Image is too small in width or height
+		if ( $cover_image['width'] < $dimensions['width'] || $cover_image['height'] < $dimensions['height'] ) {
+			$is_too_small = true;
+		}
+	}
+
+	// We were not able to generate the cover image file.
+	if ( empty( $cover_file ) ) {
+		return false;
+	}
+
+	// Do some clean up with old cover image, now a new one is set.
+	$cover_basename = wp_basename( $cover_file );
+
+	if ( $att_dir = opendir( $args['cover_image_dir'] ) ) {
+		while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
+			// skip directories and the new cover image
+			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
+				@unlink( $args['cover_image_dir'] . '/' . $attachment_file );
+			}
+		}
+	}
+
+	// Finally return needed data.
+	return array(
+		'cover_file'     => $cover_file,
+		'cover_basename' => $cover_basename,
+		'is_too_small'   => $is_too_small
+	);
+}
+
+/**
  * Ajax Upload and set a cover image
  *
  * @since  2.4.0
@@ -989,41 +1070,8 @@ function bp_attachments_cover_image_ajax_upload() {
 		) );
 	}
 
-	// Get advised dimensions for the cover image
-	$dimensions = bp_attachments_get_cover_image_dimensions( $object_data['component'] );
-
-	// Resize the image so that it fit with the cover image dimensions
-	$cover_image  = $cover_image_attachment->fit( $uploaded['file'], $dimensions );
-	$is_too_small = false;
-
-	// Image is too small in width and height
-	if ( empty( $cover_image ) ) {
-		$cover_file = $cover_image_attachment->generate_filename( $uploaded['file'] );
-		@rename( $uploaded['file'], $cover_file );
-
-		// It's too small!
-		$is_too_small = true;
-	} elseif ( ! empty( $cover_image['path'] ) ) {
-		$cover_file   = $cover_image['path'];
-
-		if ( $cover_image['width'] < $dimensions['width'] || $cover_image['height'] < $dimensions['height'] ) {
-			$is_too_small = true;
-		}
-	}
-
 	// Default error message
 	$error_message = __( 'There was a problem uploading the cover image.', 'buddypress' );
-
-	if ( empty( $cover_file ) ) {
-		// Upload error response
-		bp_attachments_json_response( false, $is_html4, array(
-			'type'    => 'upload_error',
-			'message' => $error_message,
-		) );
-	}
-
-	// Set the basename for the cover file
-	$cover_basename = wp_basename( $cover_file );
 
 	// Get BuddyPress Attachments Uploads Dir datas
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
@@ -1039,24 +1087,35 @@ function bp_attachments_cover_image_ajax_upload() {
 		) );
 	}
 
-	// Clean up the cover dir to only keep the uploaded cover image
-	if ( $att_dir = opendir( $cover_dir ) ) {
-		while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
-			// skip directories and the new cover image
-			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
-				@unlink( $cover_dir . '/' . $attachment_file );
-			}
-		}
+	/**
+	 * Generate the cover image so that it fit to feature's dimensions
+	 *
+	 * Unlike the Avatar, Uploading and generating the cover image is happening during
+	 * the same Ajax request, as we already instantiated the BP_Attachment_Cover_Image
+	 * class, let's use it.
+	 */
+	$cover = bp_attachments_cover_image_generate_file( array(
+		'file'            => $uploaded['file'],
+		'component'       => $object_data['component'],
+		'cover_image_dir' => $cover_dir
+	), $cover_image_attachment );
+
+	if ( ! $cover ) {
+		// Upload error response
+		bp_attachments_json_response( false, $is_html4, array(
+			'type'    => 'upload_error',
+			'message' => $error_message,
+		) );
 	}
 
 	// Build the url to the file
-	$cover_url = trailingslashit( $bp_attachments_uploads_dir['baseurl'] ) . $cover_subdir . '/' . $cover_basename;
+	$cover_url = trailingslashit( $bp_attachments_uploads_dir['baseurl'] ) . $cover_subdir . '/' . $cover['cover_basename'];
 
 	// Init Feedback code, 1 is success
 	$feedback_code = 1;
 
 	// 0 is the size warning
-	if ( $is_too_small ) {
+	if ( $cover['is_too_small'] ) {
 		$feedback_code = 0;
 	}
 
