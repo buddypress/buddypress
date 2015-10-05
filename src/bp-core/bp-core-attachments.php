@@ -1065,6 +1065,20 @@ function bp_attachments_cover_image_ajax_upload() {
 	$name_parts = pathinfo( $name );
 	$name = trim( substr( $name, 0, - ( 1 + strlen( $name_parts['extension'] ) ) ) );
 
+	/**
+	 * Fires if the new cover image was successfully uploaded.
+	 *
+	 * The dynamic portion of the hook will be xprofile in case of a user's
+	 * cover image, groups in case of a group's cover image. For instance:
+	 * Use add_action( 'xprofile_cover_image_uploaded' ) to run your specific
+	 * code once the user has set his cover image.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param int $item_id Inform about the item id the cover image was set for.
+	 */
+	do_action( $object_data['component'] . '_cover_image_uploaded', (int) $bp_params['item_id'] );
+
 	// Finally return the cover image url to the UI
 	bp_attachments_json_response( true, $is_html4, array(
 		'name'          => $name,
