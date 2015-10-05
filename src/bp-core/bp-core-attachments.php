@@ -916,8 +916,8 @@ function bp_attachments_cover_image_ajax_upload() {
 	$bp_params = array();
 
 	// We need it to carry on
-	if ( ! empty( $_POST['bp_params' ] ) ) {
-		$bp_params = bp_parse_args( $_POST['bp_params' ], array(
+	if ( ! empty( $_POST['bp_params'] ) ) {
+		$bp_params = bp_parse_args( $_POST['bp_params'], array(
 			'object'  => 'user',
 			'item_id' => bp_loggedin_user_id(),
 		), 'attachments_cover_image_ajax_upload' );
@@ -938,9 +938,17 @@ function bp_attachments_cover_image_ajax_upload() {
 	$bp          = buddypress();
 	$needs_reset = array();
 
-	// Default object data
-	$object_data = array( 'dir' => 'members', 'component' => 'xprofile' );
-	if ( 'group' === $bp_params['object'] ) {
+	// Member's cover image
+	if ( 'user' === $bp_params['object'] ) {
+		$object_data = array( 'dir' => 'members', 'component' => 'xprofile' );
+
+		if ( ! bp_displayed_user_id() && ! empty( $bp_params['item_id'] ) ) {
+			$needs_reset = array( 'key' => 'displayed_user', 'value' => $bp->displayed_user );
+			$bp->displayed_user->id = $bp_params['item_id'];
+		}
+
+	// Group's cover image
+	} elseif ( 'group' === $bp_params['object'] ) {
 		$object_data = array( 'dir' => 'groups', 'component' => 'groups' );
 
 		if ( ! bp_get_current_group_id() && ! empty( $bp_params['item_id'] ) ) {
@@ -950,13 +958,15 @@ function bp_attachments_cover_image_ajax_upload() {
 				'populate_extras' => false,
 			) );
 		}
-	} elseif ( 'user' !== $bp_params['object'] ) {
-		$object_data = apply_filters( 'bp_attachments_cover_image_object_dir', $object_data, $bp_params['object'] );
 
-		if ( ! bp_displayed_user_id() && ! empty( $bp_params['item_id'] ) ) {
-			$needs_reset = array( 'key' => 'displayed_user', 'value' => $bp->displayed_user );
-			$bp->displayed_user->id = $bp_params['item_id'];
-		}
+	// Other object's cover image
+	} else {
+		$object_data = apply_filters( 'bp_attachments_cover_image_object_dir', array(), $bp_params['object'] );
+	}
+
+	// Stop here in case of a missing parameter for the object
+	if ( empty( $object_data['dir'] ) || empty( $object_data['component'] ) ) {
+		bp_attachments_json_response( false, $is_html4 );
 	}
 
 	$cover_image_attachment = new BP_Attachment_Cover_Image();
