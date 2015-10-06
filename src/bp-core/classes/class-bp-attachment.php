@@ -34,30 +34,34 @@ abstract class BP_Attachment {
 	 * @var array
 	 */
 	protected $default_args = array(
-		'original_max_filesize' => 0,
-		'allowed_mime_types'    => array(),
-		'base_dir'              => '',
-		'action'                => '',
-		'file_input'            => '',
-		'upload_error_strings'  => array(),
-		'required_wp_files'     => array( 'file' ),
+		'original_max_filesize'  => 0,
+		'allowed_mime_types'     => array(),
+		'base_dir'               => '',
+		'action'                 => '',
+		'file_input'             => '',
+		'upload_error_strings'   => array(),
+		'required_wp_files'      => array( 'file' ),
+		'upload_dir_filter_args' => 0,
 	);
 
 	/**
 	 * Construct Upload parameters.
 	 *
 	 * @since 2.3.0
+	 * @since 2.4.0 Add the $upload_dir_filter_args argument to the $arguments array
 	 *
 	 * @param array|string $args {
-	 *     @type int    $original_max_filesize Maximum file size in kilobytes. Defaults to php.ini settings.
-	 *     @type array  $allowed_mime_types    List of allowed file extensions (eg: array( 'jpg', 'gif', 'png' ) ).
-	 *                                         Defaults to WordPress allowed mime types.
-	 *     @type string $base_dir              Component's upload base directory. Defaults to WordPress 'uploads'.
-	 *     @type string $action                The upload action used when uploading a file, $_POST['action'] must be set
-	 *                                         and its value must equal $action {@link wp_handle_upload()} (required).
-	 *     @type string $file_input            The name attribute used in the file input. (required).
-	 *     @type array  $upload_error_strings  A list of specific error messages (optional).
-	 *     @type array  $required_wp_files     The list of required WordPress core files. Default: array( 'file' ).
+	 *     @type int    $original_max_filesize  Maximum file size in kilobytes. Defaults to php.ini settings.
+	 *     @type array  $allowed_mime_types     List of allowed file extensions (eg: array( 'jpg', 'gif', 'png' ) ).
+	 *                                          Defaults to WordPress allowed mime types.
+	 *     @type string $base_dir               Component's upload base directory. Defaults to WordPress 'uploads'.
+	 *     @type string $action                 The upload action used when uploading a file, $_POST['action'] must be set
+	 *                                          and its value must equal $action {@link wp_handle_upload()} (required).
+	 *     @type string $file_input             The name attribute used in the file input. (required).
+	 *     @type array  $upload_error_strings   A list of specific error messages (optional).
+	 *     @type array  $required_wp_files      The list of required WordPress core files. Default: array( 'file' ).
+	 *     @type int    $upload_dir_filter_args 1 to receive the original Upload dir array in the Upload dir filter, 0 otherwise.
+	 *                                          Defaults to 0 (optional).
 	 * }
 	 * @uses  sanitize_key()
 	 * @uses  wp_max_upload_size()
@@ -90,6 +94,10 @@ abstract class BP_Attachment {
 			// Sanitize the base dir
 			} elseif ( 'base_dir' === $key ) {
 				$this->{$key} = sanitize_title( $param );
+
+			// Sanitize the upload dir filter arg to pass
+			} elseif ( 'upload_dir_filter_args' === $key ) {
+				$this->{$key} = (int) $param;
 
 			// Action & File input are already set and sanitized
 			} elseif ( 'action' !== $key && 'file_input' !== $key ) {
@@ -268,7 +276,7 @@ abstract class BP_Attachment {
 
 		// Make sure the file will be uploaded in the attachment directory
 		if ( ! empty( $upload_dir_filter ) ) {
-			add_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+			add_filter( 'upload_dir', $upload_dir_filter, 10, $this->upload_dir_filter_args );
 		}
 
 		// Upload the attachment
@@ -276,7 +284,7 @@ abstract class BP_Attachment {
 
 		// Restore WordPress Uploads data
 		if ( ! empty( $upload_dir_filter ) ) {
-			remove_filter( 'upload_dir', $upload_dir_filter, 10, 0 );
+			remove_filter( 'upload_dir', $upload_dir_filter, 10, $this->upload_dir_filter_args );
 		}
 
 		// Remove the pre WordPress 4.0 static filter
@@ -345,20 +353,24 @@ abstract class BP_Attachment {
 	 * Default filter to save the attachments.
 	 *
 	 * @since 2.3.0
+	 * @since 2.4.0 Add the $upload_dir parameter to the method
 	 *
 	 * @uses apply_filters() call 'bp_attachment_upload_dir' to eventually override the upload location
 	 *       regarding to context
 	 *
+	 * @param  array $upload_dir The original Uploads dir.
 	 * @return array The upload directory data.
 	 */
-	public function upload_dir_filter() {
+	public function upload_dir_filter( $upload_dir = array() ) {
 
 		/**
 		 * Filters the component's upload directory.
 		 *
 		 * @since 2.3.0
+		 * @since 2.4.0 Include the original Upload directory as the second parameter of the filter.
 		 *
-		 * @param array $value Array containing the path, URL, and other helpful settings.
+		 * @param array $value          Array containing the path, URL, and other helpful settings.
+		 * @param array $upload_dir     The original Uploads dir.
 		 */
 		return apply_filters( 'bp_attachment_upload_dir', array(
 			'path'    => $this->upload_path,
@@ -367,7 +379,7 @@ abstract class BP_Attachment {
 			'basedir' => $this->upload_path,
 			'baseurl' => $this->url,
 			'error'   => false
-		) );
+		), $upload_dir );
 	}
 
 	/**
