@@ -216,6 +216,164 @@ function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
 }
 
 /**
+ * Use the absolute path to an image to set an attachment type for a given item.
+ *
+ * @since 2.4.0
+ *
+ * @param  string $type        The attachment type to create (avatar or cover_image). Default: avatar.
+ * @param  array  $args {
+ *     @type int    $item_id   The ID of the object (Required). Default: 0.
+ *     @type string $object    The object type (eg: group, user, blog) (Required). Default: 'user'.
+ *     @type string $component The component for the object (eg: groups, xprofile, blogs). Default: ''.
+ *     @type string $image     The absolute path to the image (Required). Default: ''.
+ *     @type int    $crop_w    Crop width. Default: 0.
+ *     @type int    $crop_h    Crop height. Default: 0.
+ *     @type int    $crop_x    The horizontal starting point of the crop. Default: 0.
+ *     @type int    $crop_y    The vertical starting point of the crop. Default: 0.
+ * }
+ * @return bool  True on success, false otherwise.
+ */
+function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
+	if ( empty( $type ) || ( $type !== 'avatar' && $type !== 'cover_image' ) ) {
+		return false;
+	}
+
+	$r = bp_parse_args( $args, array(
+		'item_id'   => 0,
+		'object'    => 'user',
+		'component' => '',
+		'image'     => '',
+		'crop_w'    => 0,
+		'crop_h'    => 0,
+		'crop_x'    => 0,
+		'crop_y'    => 0
+	), 'create_item_' . $type );
+
+	if ( empty( $r['item_id'] ) || empty( $r['object'] ) || ! file_exists( $r['image'] ) || ! @getimagesize( $r['image'] ) ) {
+		return false;
+	}
+
+	// Make sure the file path is safe
+	if ( 0 !== validate_file( $r['image'] ) ) {
+		return false;
+	}
+
+	// Set the component if not already done
+	if ( empty( $r['component'] ) ) {
+		if ( 'user' === $r['object'] ) {
+			$r['component'] = 'xprofile';
+		} else {
+			$r['component'] = $r['object'] . 's';
+		}
+	}
+
+	// Get allowed mimes for the Attachment type and check the image one is.
+	$allowed_mimes = bp_attachments_get_allowed_mimes( $type );
+	$is_allowed    = wp_check_filetype( $r['image'], $allowed_mimes );
+
+	// It's not an image.
+	if ( ! $is_allowed['ext'] ) {
+		return false;
+	}
+
+	// Init the Attachment data
+	$attachment_data = array();
+
+	if ( 'avatar' === $type ) {
+		// Set crop width for the avatar if not given
+		if ( empty( $r['crop_w'] ) ) {
+			$r['crop_w'] = bp_core_avatar_full_width();
+		}
+
+		// Set crop height for the avatar if not given
+		if ( empty( $r['crop_h'] ) ) {
+			$r['crop_h'] = bp_core_avatar_full_height();
+		}
+
+		if ( is_callable( $r['component'] . '_avatar_upload_dir' ) ) {
+			$dir_args = array( $r['item_id'] );
+
+			// In case  of xprofile, we need an extra argument
+			if ( 'xprofile' === $r['component'] ) {
+				$dir_args = array( false, $r['item_id'] );
+			}
+
+			$attachment_data = call_user_func_array( $r['component'] . '_avatar_upload_dir', $dir_args );
+		}
+	} elseif ( 'cover_image' === $type ) {
+		$attachment_data = bp_attachments_uploads_dir_get();
+
+		// Default to members for xProfile
+		$object_subdir = 'members';
+
+		if ( 'xprofile' !== $r['component'] ) {
+			$object_subdir = sanitize_key( $r['component'] );
+		}
+
+		// Set Subdir
+		$attachment_data['subdir'] = $object_subdir . '/' . $r['item_id'] . '/cover-image';
+
+		// Set Path
+		$attachment_data['path'] = trailingslashit( $attachment_data['basedir'] ) . $attachment_data['subdir'];
+	}
+
+	if ( ! isset( $attachment_data['path'] ) || ! isset( $attachment_data['subdir'] ) ) {
+		return false;
+	}
+
+	// It's not a regular upload, we may need to create some folders
+	if ( ! is_dir( $attachment_data['path'] ) ) {
+		if ( ! wp_mkdir_p( $attachment_data['path'] ) ) {
+			return false;
+		}
+	}
+
+	// Set the image name and path
+	$image_file_name = wp_unique_filename( $attachment_data['path'], basename( $r['image'] ) );
+	$image_file_path = $attachment_data['path'] . '/' . $image_file_name;
+
+	// Copy the image file into the avatar dir
+	if ( ! copy( $r['image'], $image_file_path ) ) {
+		return false;
+	}
+
+	// Init the response
+	$created = false;
+
+	// It's an avatar, we need to crop it.
+	if ( 'avatar' === $type ) {
+		$created = bp_core_avatar_handle_crop( array(
+			'object'        => $r['object'],
+			'avatar_dir'    => trim( dirname( $attachment_data['subdir'] ), '/' ),
+			'item_id'       => (int) $r['item_id'],
+			'original_file' => trailingslashit( $attachment_data['subdir'] ) . $image_file_name,
+			'crop_w'        => $r['crop_w'],
+			'crop_h'        => $r['crop_h'],
+			'crop_x'        => $r['crop_x'],
+			'crop_y'        => $r['crop_y']
+		) );
+
+	// It's a cover image we need to fit it to feature's dimensions
+	} elseif ( 'cover_image' === $type ) {
+		$cover_image = bp_attachments_cover_image_generate_file( array(
+			'file'            => $image_file_path,
+			'component'       => $r['component'],
+			'cover_image_dir' => $attachment_data['path']
+		) );
+
+		$created = ! empty( $cover_image['cover_file'] );
+	}
+
+	// Remove copied file if it fails
+	if ( ! $created ) {
+		@unlink( $image_file_path );
+	}
+
+	// Return the response
+	return $created;
+}
+
+/**
  * Get the url or the path for a type of attachment
  *
  * @since  2.4.0
