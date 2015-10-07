@@ -957,7 +957,7 @@ function bp_profile_field_data( $args = '' ) {
  *
  * @since 2.1.0
  *
- * @return object $groups
+ * @return array $groups
  */
 function bp_profile_get_field_groups() {
 
