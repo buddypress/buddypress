@@ -225,6 +225,12 @@ Fixes over 10 bugs.
 
 == Changelog ==
 
+= 2.3.4 =
+See: https://codex.buddypress.org/releases/version-2-3-4/
+
+= 2.3.3 =
+See: https://codex.buddypress.org/releases/version-2-3-3/
+
 = 2.3.2 =
 See: https://codex.buddypress.org/releases/version-2-3-2/
 
