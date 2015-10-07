@@ -20,6 +20,9 @@ window.bp = window.bp || {};
 			this.views   = new Backbone.Collection();
 			this.warning = null;
 
+			// The Cover Image Attachment object.
+			this.Attachment = new Backbone.Model();
+
 			// Set up views
 			this.uploaderView();
 
@@ -125,6 +128,20 @@ window.bp = window.bp || {};
 				// Reset the has_cover_image bp_param
 				BP_Uploader.settings.defaults.multipart_params.bp_params.has_cover_image = false;
 
+				/**
+				 * Reset the Attachment object
+				 *
+				 * You can run extra actions once the cover image is set using:
+				 * bp.CoverImage.Attachment.on( 'change:url', function( data ) { your code } );
+				 *
+				 * In this case data.attributes will include the default url for the
+				 * cover image (most of the time: ''), the object and the item_id concerned.
+				 */
+				self.Attachment.set( _.extend(
+					_.pick( model.attributes, ['object', 'item_id'] ),
+					{ url: response.reset_url, action: 'deleted' }
+				) );
+
 			} ).fail( function( response ) {
 				var feedback = BP_Uploader.strings.default_error;
 				if ( ! _.isUndefined( response ) ) {
@@ -203,6 +220,20 @@ window.bp = window.bp || {};
 
 				// Add the delete view
 				bp.CoverImage.deleteView();
+
+				/**
+				 * Set the Attachment object
+				 *
+				 * You can run extra actions once the cover image is set using:
+				 * bp.CoverImage.Attachment.on( 'change:url', function( data ) { your code } );
+				 *
+				 * In this case data.attributes will include the url to the newly
+				 * uploaded cover image, the object and the item_id concerned.
+				 */
+				bp.CoverImage.Attachment.set( _.extend(
+					_.pick( BP_Uploader.settings.defaults.multipart_params.bp_params, ['object', 'item_id'] ),
+					{ url: model.get( 'url' ), action: 'uploaded' }
+				) );
 			}
 		}
 	} );

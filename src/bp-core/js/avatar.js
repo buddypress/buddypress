@@ -34,6 +34,9 @@ window.bp = window.bp || {};
 			// Avatars are uploaded files
 			this.avatars = bp.Uploader.filesUploaded;
 
+			// The Avatar Attachment object.
+			this.Attachment = new Backbone.Model();
+
 			// Wait till the queue is reset
 			bp.Uploader.filesQueue.on( 'reset', this.cropView, this );
 
@@ -256,6 +259,20 @@ window.bp = window.bp || {};
 				// Inject the Delete nav
 				bp.Avatar.navItems.get( 'delete' ).set( { hide: 0 } );
 
+				/**
+				 * Set the Attachment object
+				 *
+				 * You can run extra actions once the avatar is set using:
+				 * bp.Avatar.Attachment.on( 'change:url', function( data ) { your code } );
+				 *
+				 * In this case data.attributes will include the url to the newly
+				 * uploaded avatar, the object and the item_id concerned.
+				 */
+				self.Attachment.set( _.extend(
+					_.pick( avatar.attributes, ['object', 'item_id'] ),
+					{ url: response.avatar, action: 'uploaded' }
+				) );
+
 			} ).fail( function( response ) {
 				var feedback = BP_Uploader.strings.default_error;
 				if ( ! _.isUndefined( response ) ) {
@@ -329,8 +346,22 @@ window.bp = window.bp || {};
 					$( this ).prop( 'src', response.avatar );
 				} );
 
-				 // Remove the Delete nav
-				 bp.Avatar.navItems.get( 'delete' ).set( { active: 0, hide: 1 } );
+				// Remove the Delete nav
+				bp.Avatar.navItems.get( 'delete' ).set( { active: 0, hide: 1 } );
+
+				/**
+				 * Reset the Attachment object
+				 *
+				 * You can run extra actions once the avatar is set using:
+				 * bp.Avatar.Attachment.on( 'change:url', function( data ) { your code } );
+				 *
+				 * In this case data.attributes will include the url to the gravatar,
+				 * the object and the item_id concerned.
+				 */
+				self.Attachment.set( _.extend(
+					_.pick( model.attributes, ['object', 'item_id'] ),
+					{ url: response.avatar, action: 'deleted' }
+				) );
 
 			} ).fail( function( response ) {
 				var feedback = BP_Uploader.strings.default_error;
