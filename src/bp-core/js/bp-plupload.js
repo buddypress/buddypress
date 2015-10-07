@@ -10,8 +10,12 @@ window.bp = window.bp || {};
 		return;
 	}
 
-	// Set the bp global by only getting what we need from the wp one.
-	window.bp = _.pick( window.wp, 'Backbone', 'ajax', 'template' );
+	/**
+	 * Extend the bp global with what we need from the wp one.
+	 * and make sure previously defined BuddyPress attributes
+	 * are not removed (eg: bp.mentions)
+	 */
+	_.extend( bp, _.pick( wp, 'Backbone', 'ajax', 'template' ) );
 
 	// Init Models, Collections, Views and the BuddyPress Uploader
 	bp.Models      = bp.Models || {};
