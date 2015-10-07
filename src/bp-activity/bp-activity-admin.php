@@ -1642,6 +1642,16 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	function column_response( $item ) {
 		// Is $item is a root activity?
+		?>
+
+		<div class="response-links">
+
+		<?php
+		// Activity permalink
+		$activity_permalink = '';
+		if ( ! $item['is_spam'] ) {
+			$activity_permalink = sprintf( __( '<a href="%1$s" class="comments-view-item-link">View Activity</a>', 'buddypress' ), bp_activity_get_permalink( $item['id'], (object) $item ) );
+		}
 
 		/**
 		 * Filters default list of default root activity types.
@@ -1652,23 +1662,27 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 * @param array $item  Current item being displayed.
 		 */
 		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ) ) ) {
+			echo $activity_permalink;
+
 			$comment_count     = !empty( $item['children'] ) ? bp_activity_recurse_comment_count( (object) $item ) : 0;
 			$root_activity_url = bp_get_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
 
 			// If the activity has comments, display a link to the activity's permalink, with its comment count in a speech bubble
 			if ( $comment_count ) {
 				$title_attr = sprintf( _n( '%s related activity', '%s related activities', $comment_count, 'buddypress' ), number_format_i18n( $comment_count ) );
-				printf( '<a href="%1$s" title="%2$s" class="post-com-count"><span class="comment-count">%3$s</span></a>', esc_url( $root_activity_url ), esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
+				printf( '<a href="%1$s" title="%2$s" class="post-com-count post-com-count-approved"><span class="comment-count comment-count-approved">%3$s</span></a>', esc_url( $root_activity_url ), esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
 			}
 
 		// For non-root activities, display a link to the replied-to activity's author's profile
 		} else {
 			echo '<strong>' . get_avatar( $this->get_activity_user_id( $item['item_id'] ), '32' ) . ' ' . bp_core_get_userlink( $this->get_activity_user_id( $item['item_id'] ) ) . '</strong><br />';
+			echo $activity_permalink;
 		}
+		?>
 
-		// Activity permalink
-		if ( ! $item['is_spam'] )
-			printf( __( '<a href="%1$s">View Activity</a>', 'buddypress' ), bp_activity_get_permalink( $item['id'], (object) $item ) );
+		</div>
+
+		<?php
 	}
 
 	/**
