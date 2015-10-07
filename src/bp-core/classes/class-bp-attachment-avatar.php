@@ -117,6 +117,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * Maybe shrink the attachment to fit maximum allowed width.
 	 *
 	 * @since 2.3.0
+	 * @since 2.4.0 Add the $ui_available_width parameter, to inform about the Avatar UI width.
 	 *
 	 * @uses  bp_core_avatar_original_max_width()
 	 *
@@ -124,18 +125,35 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @return mixed
 	 */
-	public static function shrink( $file = '' ) {
+	public static function shrink( $file = '', $ui_available_width = 0 ) {
 		// Get image size
 		$avatar_data = parent::get_image_data( $file );
 
 		// Init the edit args
 		$edit_args = array();
 
+		// Defaults to the Avatar original max width constant.
+		$original_max_width = bp_core_avatar_original_max_width();
+
+		// The ui_available_width is defined and it's smaller than the Avatar original max width
+		if ( ! empty( $ui_available_width ) && $ui_available_width < $original_max_width ) {
+			/**
+			 * In this case, to make sure the content of the image will be fully displayed
+			 * during the cropping step, let's use the Avatar UI Available width.
+			 */
+			$original_max_width = $ui_available_width;
+
+			// $original_max_width has to be larger than the avatar's full width
+			if ( $original_max_width < bp_core_avatar_full_width() ) {
+				$original_max_width = bp_core_avatar_full_width();
+			}
+		}
+
 		// Do we need to resize the image ?
-		if ( isset( $avatar_data['width'] ) && $avatar_data['width'] > bp_core_avatar_original_max_width() ) {
+		if ( isset( $avatar_data['width'] ) && $avatar_data['width'] > $original_max_width ) {
 			$edit_args = array(
-				'max_w' => bp_core_avatar_original_max_width(),
-				'max_h' => bp_core_avatar_original_max_width(),
+				'max_w' => $original_max_width,
+				'max_h' => $original_max_width,
 			);
 		}
 

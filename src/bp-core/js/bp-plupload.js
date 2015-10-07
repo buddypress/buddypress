@@ -60,11 +60,23 @@ window.bp = window.bp || {};
 		 * @param {plupload.Uploader} uploader Uploader instance.
 		 */
 		this.uploader.bind( 'Init', function( uploader ) {
-			var container = $( '#' + self.params.defaults.container ),
+			var container    = $( '#' + self.params.defaults.container ),
 			    drop_element = $( '#' + self.params.defaults.drop_element );
 
 			if ( 'html4' === uploader.runtime ) {
 				uploader.settings.multipart_params.html4 = true;
+			}
+
+			/**
+			 * Avatars need to be cropped, by default we are using an original
+			 * max width of 450px, but there can be cases when this max width
+			 * is larger than the one of the Avatar UI (eg: on mobile). To avoid any
+			 * difficulties, we're adding a ui_available_width argument to the bp_params
+			 * object and set it according to the container width. This value will be
+			 * checked during the upload process to eventually adapt the resized avatar.
+			 */
+			if ( 'bp_avatar_upload' ===  uploader.settings.multipart_params.action ) {
+				 uploader.settings.multipart_params.bp_params.ui_available_width = container.width();
 			}
 
 			if ( uploader.features.dragdrop && ! self.params.browser.mobile ) {

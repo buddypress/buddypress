@@ -820,8 +820,16 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 		return false;
 	}
 
+	// The Avatar UI available width
+	$ui_available_width = 0;
+
+	// Try to set the ui_available_width using the avatar_admin global
+	if ( isset( $bp->avatar_admin->ui_available_width ) ) {
+		$ui_available_width = $bp->avatar_admin->ui_available_width;
+	}
+
 	// Maybe resize.
-	$bp->avatar_admin->resized = $avatar_attachment->shrink( $bp->avatar_admin->original['file'] );
+	$bp->avatar_admin->resized = $avatar_attachment->shrink( $bp->avatar_admin->original['file'], $ui_available_width );
 	$bp->avatar_admin->image   = new stdClass();
 
 	// We only want to handle one image after resize.
@@ -931,6 +939,14 @@ function bp_avatar_ajax_upload() {
 
 	if ( ! isset( $bp->avatar_admin ) ) {
 		$bp->avatar_admin = new stdClass();
+	}
+
+	/**
+	 * The BuddyPress upload parameters is including the Avatar UI Available width,
+	 * add it to the avatar_admin global for a later use.
+	 */
+	if ( isset( $bp_params['ui_available_width'] ) ) {
+		$bp->avatar_admin->ui_available_width =  (int) $bp_params['ui_available_width'];
 	}
 
 	// Upload the avatar
