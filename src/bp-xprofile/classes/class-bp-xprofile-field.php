@@ -134,7 +134,7 @@ class BP_XProfile_Field {
 	 * Is the visibility able to be modified?
 	 *
 	 * @since 2.3.0
-+	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_allow_custom_visibility()`.
+	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_allow_custom_visibility()`.
 	 *
 	 * @access protected
 	 * @var string Members are allowed/disallowed to modify data visibility.
