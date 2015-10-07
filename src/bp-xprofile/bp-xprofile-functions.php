@@ -275,8 +275,27 @@ function xprofile_insert_field( $args = '' ) {
 	return $field->save();
 }
 
-function xprofile_get_field( $field_id ) {
-	return new BP_XProfile_Field( $field_id );
+/**
+ * Get a profile field object.
+ *
+ * @param int|object $field ID of the field or object representing field data.
+ * @return BP_XProfile_Field|null Field object if found, otherwise null.
+ */
+function xprofile_get_field( $field ) {
+	if ( $field instanceof BP_XProfile_Field ) {
+		$_field = $field;
+	} elseif ( is_object( $field ) ) {
+		$_field = new BP_XProfile_Field();
+		$_field->fill_data( $field );
+	} else {
+		$_field = BP_XProfile_Field::get_instance( $field );
+	}
+
+	if ( ! $_field ) {
+		return null;
+	}
+
+	return $_field;
 }
 
 function xprofile_delete_field( $field_id ) {

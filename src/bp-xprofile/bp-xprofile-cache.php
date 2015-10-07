@@ -283,5 +283,29 @@ function xprofile_clear_fullname_field_id_cache() {
 }
 add_action( 'update_option_bp-xprofile-fullname-field-name', 'xprofile_clear_fullname_field_id_cache' );
 
+/**
+ * Clear a field's caches.
+ *
+ * @since 2.4.0
+ *
+ * @param int|BP_XProfile_Field A field ID or a field object.
+ * @param bool False on failure.
+ */
+function bp_xprofile_clear_field_cache( $field ) {
+	if ( is_numeric( $field ) ) {
+		$field_id = (int) $field;
+	} elseif ( $field instanceof BP_XProfile_Field ) {
+		$field_id = (int) $field->id;
+	}
+
+	if ( ! isset( $field_id ) ) {
+		return false;
+	}
+
+	wp_cache_delete( $field_id, 'bp_xprofile_fields' );
+	wp_cache_delete( $field_id, 'xprofile_meta' );
+}
+add_action( 'xprofile_field_after_save', 'bp_xprofile_clear_field_cache' );
+
 // List actions to clear super cached pages on, if super cache is installed.
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );

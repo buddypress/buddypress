@@ -211,28 +211,71 @@ class BP_XProfile_Field {
 		$bp    = buddypress();
 		$field = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id ) );
 
-		if ( ! empty( $field ) ) {
-			$this->id                = $field->id;
-			$this->group_id          = $field->group_id;
-			$this->parent_id         = $field->parent_id;
-			$this->type              = $field->type;
-			$this->name              = stripslashes( $field->name );
-			$this->description       = stripslashes( $field->description );
-			$this->is_required       = $field->is_required;
-			$this->can_delete        = $field->can_delete;
-			$this->field_order       = $field->field_order;
-			$this->option_order      = $field->option_order;
-			$this->order_by          = $field->order_by;
-			$this->is_default_option = $field->is_default_option;
+		$this->fill_data( $field );
 
-			// Create the field type and store a reference back to this object.
-			$this->type_obj            = bp_xprofile_create_field_type( $field->type );
-			$this->type_obj->field_obj = $this;
+		if ( ! empty( $get_data ) && ! empty( $user_id ) ) {
+			$this->data = $this->get_field_data( $user_id );
+		}
+	}
 
-			if ( ! empty( $get_data ) && ! empty( $user_id ) ) {
-				$this->data = $this->get_field_data( $user_id );
+	/**
+	 * Retrieve a `BP_XProfile_Field` instance.
+	 *
+	 * @static
+	 *
+	 * @param int $field_id ID of the field.
+	 * @return BP_XProfile_Field|false Field object if found, otherwise false.
+	 */
+	public static function get_instance( $field_id ) {
+		global $wpdb;
+
+		$field_id = (int) $field_id;
+		if ( ! $field_id ) {
+			return false;
+		}
+
+		$field = wp_cache_get( $field_id, 'bp_xprofile_fields' );
+		if ( false === $field ) {
+			$bp = buddypress();
+
+			$field = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
+
+			wp_cache_add( $field->id, $field, 'bp_xprofile_fields' );
+
+			if ( ! $field ) {
+				return false;
 			}
 		}
+
+		$_field = new BP_XProfile_Field();
+		$_field->fill_data( $field );
+
+		return $_field;
+	}
+
+	/**
+	 * Fill object vars based on data passed to the method.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param array|object $args Array or object representing the `BP_XProfile_Field` properties.
+	 *                           Generally, this is a row from the fields database table.
+	 */
+	public function fill_data( $args ) {
+		if ( is_object( $args ) ) {
+			$args = (array) $args;
+		}
+
+		foreach ( $args as $k => $v ) {
+			if ( 'name' === $k || 'description' === $k ) {
+				$v = stripslashes( $v );
+			}
+			$this->{$k} = $v;
+		}
+
+		// Create the field type and store a reference back to this object.
+		$this->type_obj            = bp_xprofile_create_field_type( $this->type );
+		$this->type_obj->field_obj = $this;;
 	}
 
 	/**
