@@ -124,12 +124,14 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * is_valid().
 	 *
 	 * @since 2.1.0
+	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
 	 * @param string $submitted_value Raw value submitted by the user.
+	 * @param int    $field_id        Optional. ID of the field.
 	 *
 	 * @return string
 	 */
-	public static function pre_validate_filter( $submitted_value = '' ) {
+	public static function pre_validate_filter( $submitted_value = '', $field_id = '' ) {
 
 		// Allow empty URL values.
 		if ( empty( $submitted_value ) ) {
@@ -152,12 +154,14 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * Format URL values for display.
 	 *
 	 * @since 2.1.0
+	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
 	 * @param string $field_value The URL value, as saved in the database.
+	 * @param int    $field_id    Optional. ID of the field.
 	 *
 	 * @return string URL converted to a link.
 	 */
-	public static function display_filter( $field_value ) {
+	public static function display_filter( $field_value, $field_id = '' ) {
 		$link      = strip_tags( $field_value );
 		$no_scheme = preg_replace( '#^https?://#', '', rtrim( $link, '/' ) );
 		$url_text  = str_replace( $link, $no_scheme, $field_value );

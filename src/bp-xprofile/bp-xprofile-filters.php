@@ -26,8 +26,8 @@ add_filter( 'bp_get_the_profile_field_value',           'make_clickable'     );
 add_filter( 'bp_get_the_profile_field_value',           'esc_html',        8 );
 add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 9 );
 add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value',         1, 2 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value_by_type', 8, 2 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',          9, 2 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value_by_type', 8, 3 );
+add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',          9, 3 );
 
 add_filter( 'bp_get_the_profile_field_edit_value',      'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_edit_value',      'esc_html'           );
@@ -215,24 +215,25 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 }
 
 /**
- * Apply display_filter() filters as defined by the BP_XProfile_Field_Type classes, when fetched inside
- * a bp_has_profile() loop.
+ * Apply display_filter() filters as defined by BP_XProfile_Field_Type classes, when inside a bp_has_profile() loop.
  *
  * @since 2.1.0
+ * @since 2.4.0 Added `$field_id` parameter.
  *
  * @param mixed  $field_value Field value.
  * @param string $field_type  Field type.
+ * @param int    $field_id    Optional. ID of the field.
  *
  * @return mixed
  */
-function xprofile_filter_format_field_value_by_type( $field_value, $field_type = '' ) {
+function xprofile_filter_format_field_value_by_type( $field_value, $field_type = '', $field_id = '' ) {
 	foreach ( bp_xprofile_get_field_types() as $type => $class ) {
 		if ( $type !== $field_type ) {
 			continue;
 		}
 
 		if ( method_exists( $class, 'display_filter' ) ) {
-			$field_value = call_user_func( array( $class, 'display_filter' ), $field_value );
+			$field_value = call_user_func( array( $class, 'display_filter' ), $field_value, $field_id );
 		}
 	}
 
@@ -252,7 +253,7 @@ function xprofile_filter_format_field_value_by_type( $field_value, $field_type =
  */
 function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id ) {
 	$field = xprofile_get_field( $field_id );
-	return xprofile_filter_format_field_value_by_type( $field_value, $field->type );
+	return xprofile_filter_format_field_value_by_type( $field_value, $field->type, $field_id );
 }
 
 /**
