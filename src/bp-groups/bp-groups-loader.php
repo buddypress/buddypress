@@ -390,6 +390,17 @@ class BP_Groups_Component extends BP_Component {
 			$bp->canonical_stack['action'] = bp_current_action();
 		}
 
+		/**
+		 * If there's no custom front.php template for the group, we need to make sure the canonical stack action
+		 * is set to 'home' in these 2 cases:
+		 *
+		 * - the current action is 'activity' (eg: site.url/groups/single/activity) and the Activity component is active
+		 * - the current action is 'members' (eg: site.url/groups/single/members) and the Activity component is *not* active.
+		 */
+		if ( ! $this->current_group->front_template && ( bp_is_current_action( 'activity' ) || ( ! bp_is_active( 'activity' ) && bp_is_current_action( 'members' ) ) ) ) {
+			$bp->canonical_stack['action'] = 'home';
+		}
+
 		if ( ! empty( $bp->action_variables ) ) {
 			$bp->canonical_stack['action_variables'] = bp_action_variables();
 		}
