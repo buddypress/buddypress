@@ -250,7 +250,7 @@ function xprofile_insert_field( $args = '' ) {
 
 	// Instantiate a new field object.
 	if ( ! empty( $r['field_id'] ) ) {
-		$field = new BP_XProfile_Field( $r['field_id'] );
+		$field = xprofile_get_field( $r['field_id'] );
 	} else {
 		$field = new BP_XProfile_Field;
 	}
@@ -393,7 +393,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 		return false;
 	}
 
-	$field          = new BP_XProfile_Field( $field_id );
+	$field          = xprofile_get_field( $field_id );
 	$field_type     = BP_XProfile_Field::get_type( $field_id );
 	$field_type_obj = bp_xprofile_create_field_type( $field_type );
 
@@ -504,7 +504,7 @@ function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
 	$current_level  = isset( $current_levels[ $field_id ] ) ? $current_levels[ $field_id ] : '';
 
 	// Use the user's stored level, unless custom visibility is disabled.
-	$field = new BP_XProfile_Field( $field_id );
+	$field = xprofile_get_field( $field_id );
 	if ( isset( $field->allow_custom_visibility ) && 'disabled' === $field->allow_custom_visibility ) {
 		$current_level = $field->default_visibility;
 	}

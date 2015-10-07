@@ -251,7 +251,7 @@ function xprofile_filter_format_field_value_by_type( $field_value, $field_type =
  * @return string
  */
 function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id ) {
-	$field = new BP_XProfile_Field( $field_id );
+	$field = xprofile_get_field( $field_id );
 	return xprofile_filter_format_field_value_by_type( $field_value, $field->type );
 }
 

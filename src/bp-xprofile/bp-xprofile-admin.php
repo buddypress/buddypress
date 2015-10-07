@@ -179,7 +179,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 								foreach ( $group->fields as $field ) {
 
 									// Load the field.
-									$field = new BP_XProfile_Field( $field->id );
+									$field = xprofile_get_field( $field->id );
 
 									$class = '';
 									if ( empty( $field->can_delete ) ) {
@@ -329,7 +329,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 	$bp = buddypress();
 
-	$field           = new BP_XProfile_Field( $field_id );
+	$field           = xprofile_get_field( $field_id );
 	$field->group_id = $group_id;
 
 	if ( isset( $_POST['saveField'] ) ) {
@@ -438,7 +438,7 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 	// Switch type to 'option' if type is not 'field'.
 	// @todo trust this param.
 	$field_type  = ( 'field' == $field_type ) ? __( 'field', 'buddypress' ) : __( 'option', 'buddypress' );
-	$field       = new BP_XProfile_Field( $field_id );
+	$field       = xprofile_get_field( $field_id );
 
 	if ( !$field->delete( (bool) $delete_data ) ) {
 		$message = sprintf( __( 'There was an error deleting the %s. Please try again.', 'buddypress' ), $field_type );
