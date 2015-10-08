@@ -35,7 +35,8 @@
 
 		<?php endif; ?>
 
-		<h3><?php
+		<?php if ( has_action( 'bp_template_title' ) ) : ?>
+			<h3><?php
 
 			/**
 			 * Fires inside the member plugin template <h3> tag.
@@ -43,6 +44,8 @@
 			 * @since 1.0.0
 			 */
 			do_action( 'bp_template_title' ); ?></h3>
+
+		<?php endif; ?>
 
 		<?php
 
