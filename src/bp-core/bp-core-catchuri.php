@@ -240,8 +240,11 @@ function bp_core_set_uri_globals() {
 
 	// Rejig the offset
 	if ( !empty( $slug ) && ( 1 < count( $slug ) ) ) {
-		array_pop( $slug );
-		$uri_offset = count( $slug );
+		// Only offset if not on a root profile. Fixes issue when Members page is nested.
+		if ( false === $root_profile ) {
+			array_pop( $slug );
+			$uri_offset = count( $slug );
+		}
 	}
 
 	// Global the unfiltered offset to use in bp_core_load_template().
@@ -264,9 +267,14 @@ function bp_core_set_uri_globals() {
 
 			// Are we viewing a specific user?
 			if ( $after_member_slug ) {
+				// If root profile, we've already queried for the user
+				if ( $root_profile instanceof WP_User ) {
+					$bp->displayed_user->id = $root_profile->ID;
+
 				// Switch the displayed_user based on compatibility mode
-				if ( bp_is_username_compatibility_mode() ) {
+				} elseif ( bp_is_username_compatibility_mode() ) {
 					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $after_member_slug ) );
+
 				} else {
 					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( $after_member_slug );
 				}
