@@ -3087,19 +3087,6 @@ function bp_get_the_post_class( $wp_classes = array() ) {
 		$bp_classes[] = "type-{$bp_class}";
 	}
 
-	// removes the 'page' and 'type-page' post classes
-	// we need to remove these classes since they did not exist before we switched
-	// theme compat to use the 'page' post type
-	$page_key = array_search( 'page', $wp_classes );
-	if ( $page_key !== false ) {
-		unset( $wp_classes[$page_key] );
-	}
-
-	$page_type_key = array_search( 'type-page', $wp_classes );
-	if ( $page_type_key !== false ) {
-		unset( $wp_classes[$page_type_key] );
-	}
-
 	// okay let's merge!
 	return array_unique( array_merge( $bp_classes, $wp_classes ) );
 }
