@@ -133,8 +133,9 @@ $spacing-val-xs: 5px;
 
 // Variables: color definitions
 $body-text:          #141412;
+$light-body:         lighten(#141412, 45%);
 $content-background: #fff;
-$off-white:          lighten(#f9f8ee, 0.7);
+$off-white:          lighten(#f9f8ee, 10%);
 $cream-background:   #f7f5e7;
 $light-background:   #f7f7f7;
 $medium-background:  #ccc;
@@ -366,7 +367,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 // This block contains rules to re-factor the item-body structural element
 // to sit alongside the vert menu
 // As 2013 has an inner sidebar which if active can narrow screen too far
-// for a columner nav we'll only use these rules if no sidebar.
+// for a columner nav we'll only use these rules if no sidebar 'body:not(.sidebar)'.
 
 @media screen and (min-width: 55em) {
 
@@ -1066,6 +1067,21 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user,
 .single-item.groups {
+
+	.entry-header {
+		margin-bottom: 0;
+
+		.entry-title {
+			color: $light-body;
+			@include font-size(32);
+			margin-bottom: $spacing-val-sm;
+			text-align: center;
+			@media screen and (min-width: 46.25em) {
+				text-align: left;
+			}
+		}
+	}
+
 	#buddypress {
 		#item-header-content {
 			#item-meta {
@@ -1199,8 +1215,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 
 				h3 {
-					//background: $dark-background;
-					//color: $content-background;
 					@include font-size(14);
 
 					@media screen and (min-width: 46.25em) {
@@ -1227,11 +1241,49 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 
 				div#item-actions {
+					clear: both;
 					float: right;
 					width: 28%;
+
+					h3 {
+						@include font-size(14);
+					}
 				}
 
 			} // close @media
+
+			#item-header-cover-image {
+	//			#item-header-content {
+	//			}
+
+				#item-actions {
+					border: 0;
+					@media screen and (max-width: 46.25em) {
+						clear: both !important;
+					}
+					float: none;
+					width: auto;
+				}
+
+				@media screen and (min-width: 46.25em) {
+					#item-header-content {
+						padding-left: $spacing-val-sm;
+
+						#item-buttons {
+							margin-top: 0;
+						}
+					}
+
+					#item-actions {
+						border-left: 1px solid $border-light;
+						clear: none;
+						float: right;
+						margin-top: 230px !important;
+						padding-top: 0 !important;
+						width: 20%;
+					}
+				}
+			}
 
 		} // close #item-header
 	} // close #buddypress
@@ -1246,6 +1298,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 */
 
 .bp-user {
+
 	#buddypress {
 		#item-header {
 			padding: $spacing-val-md 0;
@@ -1262,10 +1315,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 			}
 
+			#item-header-content {
+				.user-nicename,
+				span.activity {
+					display: block;
+					text-align: center;
+				}
+			}
+
 			@media screen and (min-width: 46.25em) {
 				#item-header-avatar {
 					float: left;
-					width: 20%;
+					width: auto;
 
 					a {
 						float: left;
@@ -1273,14 +1334,37 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 
 				#item-header-content {
-					float: right;
-					margin-right: 5%;
-					width: 69%;
+					float: none;
+					overflow: hidden;
+
+					.user-nicename,
+					span.activity {
+						text-align: left;
+					}
+
+					#item-meta {
+						margin-top: 0;
+					}
 				}
 
 			} // close @media
 
 		} // close #item-header
+
+		#item-header-cover-image {
+
+			#item-header-content {
+				@media screen and (min-width: 46.25em) {
+					.user-nicename {
+						margin-bottom: $spacing-val-md;
+					}
+
+					#item-buttons {
+						margin: 0;
+					}
+				}
+			}
+		}
 
 	} // close #buddypress
 } // close .bp-user

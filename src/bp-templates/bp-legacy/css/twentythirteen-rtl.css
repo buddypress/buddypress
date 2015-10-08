@@ -772,6 +772,27 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @subsection 6.1 - Item Header Global
 *-----------------------------------------------------------
 */
+.bp-user .entry-header,
+.single-item.groups .entry-header {
+	margin-bottom: 0;
+}
+
+.bp-user .entry-header .entry-title,
+.single-item.groups .entry-header .entry-title {
+	color: #8c8c7f;
+	font-size: 32px;
+	font-size: 2rem;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+@media screen and (min-width: 46.25em) {
+	.bp-user .entry-header .entry-title,
+	.single-item.groups .entry-header .entry-title {
+		text-align: right;
+	}
+}
+
 .bp-user #buddypress #item-header-content #item-meta,
 .single-item.groups #buddypress #item-header-content #item-meta {
 	font-size: 14px;
@@ -920,8 +941,42 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		width: 40%;
 	}
 	.single-item.groups #buddypress div#item-header div#item-actions {
+		clear: both;
 		float: left;
 		width: 28%;
+	}
+	.single-item.groups #buddypress div#item-header div#item-actions h3 {
+		font-size: 14px;
+		font-size: 0.875rem;
+	}
+}
+
+.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+	border: 0;
+	float: none;
+	width: auto;
+}
+
+@media screen and (max-width: 46.25em) {
+	.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+		clear: both !important;
+	}
+}
+
+@media screen and (min-width: 46.25em) {
+	.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content {
+		padding-right: 10px;
+	}
+	.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content #item-buttons {
+		margin-top: 0;
+	}
+	.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+		border-right: 1px solid #eaeaea;
+		clear: none;
+		float: left;
+		margin-top: 230px !important;
+		padding-top: 0 !important;
+		width: 20%;
 	}
 }
 
@@ -948,18 +1003,39 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	float: none;
 }
 
+.bp-user #buddypress #item-header #item-header-content .user-nicename,
+.bp-user #buddypress #item-header #item-header-content span.activity {
+	display: block;
+	text-align: center;
+}
+
 @media screen and (min-width: 46.25em) {
 	.bp-user #buddypress #item-header #item-header-avatar {
 		float: right;
-		width: 20%;
+		width: auto;
 	}
 	.bp-user #buddypress #item-header #item-header-avatar a {
 		float: right;
 	}
 	.bp-user #buddypress #item-header #item-header-content {
-		float: left;
-		margin-left: 5%;
-		width: 69%;
+		float: none;
+		overflow: hidden;
+	}
+	.bp-user #buddypress #item-header #item-header-content .user-nicename,
+	.bp-user #buddypress #item-header #item-header-content span.activity {
+		text-align: right;
+	}
+	.bp-user #buddypress #item-header #item-header-content #item-meta {
+		margin-top: 0;
+	}
+}
+
+@media screen and (min-width: 46.25em) {
+	.bp-user #buddypress #item-header-cover-image #item-header-content .user-nicename {
+		margin-bottom: 20px;
+	}
+	.bp-user #buddypress #item-header-cover-image #item-header-content #item-buttons {
+		margin: 0;
 	}
 }
 
