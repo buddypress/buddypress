@@ -74,6 +74,8 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 			$instance['max_posts'] = 10;
 		}
 
+		$after_widget = $args['after_widget'];
+
 		// Override some of the contextually set parameters for bp_has_activities()
 		$args = array(
 			'action'     => 'new_blog_post',
@@ -116,7 +118,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 		<?php endif; ?>
 
-		<?php echo $args['after_widget']; ?>
+		<?php echo $after_widget; ?>
 	<?php
 	}
 
