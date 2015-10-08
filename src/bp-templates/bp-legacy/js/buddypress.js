@@ -1915,12 +1915,16 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 /* Activity Loop Requesting */
 function bp_activity_request(scope, filter) {
 	/* Save the type and filter to a session cookie */
-	jq.cookie( 'bp-activity-scope', scope, {
-		path: '/'
-	} );
-	jq.cookie( 'bp-activity-filter', filter, {
-		path: '/'
-	} );
+	if ( null !== scope ) {
+		jq.cookie( 'bp-activity-scope', scope, {
+			path: '/'
+		} );
+	}
+	if ( null !== filter ) {
+		jq.cookie( 'bp-activity-filter', filter, {
+			path: '/'
+		} );
+	}
 	jq.cookie( 'bp-activity-oldestpage', 1, {
 		path: '/'
 	} );
