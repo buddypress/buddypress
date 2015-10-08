@@ -551,4 +551,35 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		unset( buddypress()->active_components[ $component ] );
 		$this->deactivated_components[] = $component;
 	}
+
+	/**
+	 * Fake an attachment upload (doesn't actually upload a file).
+	 *
+	 * @param string $file Absolute path to valid file.
+	 * @param int $parent Optional. Post ID to attach the new post to.
+	 * @return int Attachment post ID.
+	 */
+	public function fake_attachment_upload( $file, $parent = 0 ) {
+		$mime = wp_check_filetype( $file );
+		if ( $mime ) {
+			$type = $mime['type'];
+		} else {
+			$type = '';
+		}
+
+		$url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . basename( $file );
+		$attachment = array(
+			'guid'           => 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . $url,
+			'post_content'   => '',
+			'post_mime_type' => $type,
+			'post_parent'    => $parent,
+			'post_title'     => basename( $file ),
+			'post_type'      => 'attachment',
+		);
+
+		$id = wp_insert_attachment( $attachment, $url, $parent );
+		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $url ) );
+
+		return $id;
+	}
 }
