@@ -35,7 +35,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		There are two types of [gallery] shortcodes; one like that, and another with IDs specified.
 
 		Audio shortcodes:
-		[audio src='http://example.com/source.mp3'] 
+		[audio src='http://example.com/source.mp3']
 		[audio src='http://example.com/source.wav' loop='on' autoplay='off' preload='metadata'].
 
 		The following shortcode should be picked up by the shortcode extractor, but not the audio extractor, because
@@ -174,7 +174,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_no_links_from_content_with_invalid_links() {
-		$richtext = "This is some sample text, with links, but not the kinds we want.		
+		$richtext = "This is some sample text, with links, but not the kinds we want.
 		<a href=''>Empty links should be ignore<a/> and
 		<a href='phone:004400'>weird protocols should be ignored, too</a>.
 		";
@@ -279,7 +279,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 
 		$this->assertArrayHasKey( 'images', $media );
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'html' ) ) );
-	
+
 		$this->assertSame( 'http://example.com/image.gif',           $media[0]['url'] );
 		$this->assertSame( 'http://example.com/image-in-a-link.gif', $media[1]['url'] );
 	}
