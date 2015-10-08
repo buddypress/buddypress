@@ -125,6 +125,15 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 				<?php endif; ?>
 
+				<?php
+
+				/**
+				 * Fires inside the display of the login widget form.
+				 *
+				 * @since 2.4.0
+				 */
+				do_action( 'bp_login_widget_form' ); ?>
+
 			</form>
 
 			<?php
