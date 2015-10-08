@@ -260,6 +260,9 @@ class BP_Activity_Activity {
 	/**
 	 * Get activity items, as specified by parameters.
 	 *
+	 * @since 1.0.0
+	 * @since 2.4.0 Introduced the `$fields` parameter.
+	 *
 	 * @see BP_Activity_Activity::get_filter_sql() for a description of the
 	 *      'filter' parameter.
 	 * @see WP_Meta_Query::queries for a description of the 'meta_query'
@@ -272,6 +275,8 @@ class BP_Activity_Activity {
 	 *                                           in no pagination. Default: 1.
 	 *     @type int|bool     $per_page          Number of results per page. Default: 25.
 	 *     @type int|bool     $max               Maximum number of results to return. Default: false (unlimited).
+	 *     @type string       $fields            Activity fields to return. Pass 'ids' to get only the activity IDs.
+	 *                                           'all' returns full activity objects.
 	 *     @type string       $sort              ASC or DESC. Default: 'DESC'.
 	 *     @type array        $exclude           Array of activity IDs to exclude. Default: false.
 	 *     @type array        $in                Array of ids to limit query by (IN). Default: false.
@@ -323,6 +328,7 @@ class BP_Activity_Activity {
 			'page'              => 1,          // The current page
 			'per_page'          => 25,         // Activity items per page
 			'max'               => false,      // Max number of items to return
+			'fields'            => 'all',
 			'sort'              => 'DESC',     // ASC or DESC
 			'exclude'           => false,      // Array of ids to exclude
 			'in'                => false,      // Array of ids to limit query by (IN)
@@ -570,31 +576,37 @@ class BP_Activity_Activity {
 				array_pop( $activity_ids );
 			}
 
-			$activities = self::get_activity_data( $activity_ids );
+			if ( 'ids' === $r['fields'] ) {
+				$activities = array_map( 'intval', $activity_ids );
+			} else {
+				$activities = self::get_activity_data( $activity_ids );
+			}
 		}
 
-		// Get the fullnames of users so we don't have to query in the loop
-		$activities = self::append_user_fullnames( $activities );
+		if ( 'ids' !== $r['fields'] ) {
+			// Get the fullnames of users so we don't have to query in the loop
+			$activities = self::append_user_fullnames( $activities );
 
-		// Get activity meta
-		$activity_ids = array();
-		foreach ( (array) $activities as $activity ) {
-			$activity_ids[] = $activity->id;
+			// Get activity meta
+			$activity_ids = array();
+			foreach ( (array) $activities as $activity ) {
+				$activity_ids[] = $activity->id;
+			}
+
+			if ( ! empty( $activity_ids ) && $r['update_meta_cache'] ) {
+				bp_activity_update_meta_cache( $activity_ids );
+			}
+
+			if ( $activities && $r['display_comments'] ) {
+				$activities = BP_Activity_Activity::append_comments( $activities, $r['spam'] );
+			}
+
+			// Pre-fetch data associated with activity users and other objects
+			BP_Activity_Activity::prefetch_object_data( $activities );
+
+			// Generate action strings
+			$activities = BP_Activity_Activity::generate_action_strings( $activities );
 		}
-
-		if ( ! empty( $activity_ids ) && $r['update_meta_cache'] ) {
-			bp_activity_update_meta_cache( $activity_ids );
-		}
-
-		if ( $activities && $r['display_comments'] ) {
-			$activities = BP_Activity_Activity::append_comments( $activities, $r['spam'] );
-		}
-
-		// Pre-fetch data associated with activity users and other objects
-		BP_Activity_Activity::prefetch_object_data( $activities );
-
-		// Generate action strings
-		$activities = BP_Activity_Activity::generate_action_strings( $activities );
 
 		$retval['activities'] = $activities;
 

@@ -1434,6 +1434,7 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
  *   - 'per_page' (false)
  *
  * @since 1.2.0
+ * @since 2.4.0 Introduced the `$fields` parameter.
  *
  * @see BP_Activity_Activity::get() For more information on accepted arguments
  *      and the format of the returned value.
@@ -1451,6 +1452,7 @@ function bp_activity_get( $args = '' ) {
 
 	$r = bp_parse_args( $args, array(
 		'max'               => false,        // Maximum number of results to return
+		'fields'            => 'all',
 		'page'              => 1,            // page 1 without a per_page will result in no pagination.
 		'per_page'          => false,        // results per page
 		'sort'              => 'DESC',       // sort ASC or DESC
@@ -1482,7 +1484,7 @@ function bp_activity_get( $args = '' ) {
 	) );
 
 	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter_query'] ) && empty( $r['filter'] ) && empty( $r['scope'] )&& empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
+	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && ( 'all' === $r['fields'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter_query'] ) && empty( $r['filter'] ) && empty( $r['scope'] )&& empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
 
 		$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' );
 		if ( false === $activity ) {
@@ -1491,6 +1493,7 @@ function bp_activity_get( $args = '' ) {
 				'page'              => $r['page'],
 				'per_page'          => $r['per_page'],
 				'max'               => $r['max'],
+				'fields'            => $r['fields'],
 				'sort'              => $r['sort'],
 				'search_terms'      => $r['search_terms'],
 				'meta_query'        => $r['meta_query'],

@@ -270,6 +270,7 @@ class BP_Activity_Template {
 			'per_page'          => 20,
 			'page_arg'          => 'acpage',
 			'max'               => false,
+			'fields'            => 'all',
 			'count_total'       => false,
 			'sort'              => false,
 			'include'           => false,
@@ -507,6 +508,7 @@ class BP_Activity_Template {
  * template functions to display a list of activity items.
  *
  * @since 1.0.0
+ * @since 2.4.0 Introduced the `$fields` parameter.
  *
  * @global object $activities_template {@link BP_Activity_Template}
  * @uses groups_is_user_member()
@@ -536,6 +538,8 @@ class BP_Activity_Template {
  *     @type int|bool          $per_page         Number of results per page. Default: 20.
  *     @type string            $page_arg         String used as a query parameter in pagination links. Default: 'acpage'.
  *     @type int|bool          $max              Maximum number of results to return. Default: false (unlimited).
+ *     @type string            $fields           Activity fields to retrieve. 'all' to fetch entire activity objects,
+ *                                               'ids' to get only the activity IDs. Default 'all'.
  *     @type string|bool       $count_total      If true, an additional DB query is run to count the total activity items
  *                                               for the query. Default: false.
  *     @type string            $sort             'ASC' or 'DESC'. Default: 'DESC'.
@@ -661,6 +665,7 @@ function bp_has_activities( $args = '' ) {
 		'per_page'          => 20,           // number of items per page
 		'page_arg'          => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679
 		'max'               => false,        // max number to return
+		'fields'            => 'all',
 		'count_total'       => false,
 		'show_hidden'       => $show_hidden, // Show activity items that are hidden site-wide?
 		'spam'              => 'ham_only',   // Hide spammed items

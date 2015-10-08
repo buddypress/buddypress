@@ -56,6 +56,22 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group fields
+	 * @ticket BP6426
+	 */
+	public function test_get_with_fields_parameter_by_id() {
+		$a = $this->factory->activity->create_many( 3, array(
+			'type' => 'activity_update',
+		) );
+
+		$result = BP_Activity_Activity::get( array(
+			'fields' => 'ids',
+		) );
+		$this->assertEqualSets( $a, $result['activities'] );
+	}
+
+	/**
+	 * @group get
 	 */
 	public function test_hide_all_for_user() {
 		$activity = $this->factory->activity->create( array(
