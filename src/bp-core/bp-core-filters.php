@@ -1078,3 +1078,54 @@ function bp_maybe_load_mentions_scripts_for_blog_content( $load_mentions, $menti
 	return $load_mentions;
 }
 add_filter( 'bp_activity_maybe_load_mentions_scripts', 'bp_maybe_load_mentions_scripts_for_blog_content', 10, 2 );
+
+/**
+ * Injects specific BuddyPress CSS classes into a widget sidebar.
+ *
+ * Helps to standardize styling of BuddyPress widgets within a theme that
+ * does not use dynamic CSS classes in their widget sidebar's 'before_widget'
+ * call.
+ *
+ * @since 2.4.0
+ * @access private
+ *
+ * @global array $wp_registered_widgets Current registered widgets.
+ * @param  array $params                Current sidebar params.
+ * @return array
+ */
+function _bp_core_inject_bp_widget_css_class( $params ) {
+	global $wp_registered_widgets;
+
+	$widget_id = $params[0]['widget_id'];
+
+	// If the current widget isn't a BuddyPress one, stop!
+	// We determine if a widget is a BuddyPress widget, if the widget class
+	// begins with 'bp_'.
+	if ( 0 !== strpos( $wp_registered_widgets[ $widget_id ]['callback'][0]->id_base, 'bp_' ) ) {
+		return $params;
+	}
+
+	// Dynamically add our widget CSS classes for BP widgets if not already there.
+	$classes = array();
+
+	// Try to find 'widget' CSS class.
+	if ( false === strpos( $params[0]['before_widget'], 'widget ' ) ) {
+		$classes[] = 'widget';
+	}
+
+	// Try to find 'buddypress' CSS class.
+	if ( false === strpos( $params[0]['before_widget'], ' buddypress' ) ) {
+		$classes[] = 'buddypress';
+	}
+
+	// Stop if widget already has our CSS classes.
+	if ( empty( $classes ) ) {
+		return $params;
+	}
+
+	// CSS injection time!
+	$params[0]['before_widget'] = str_replace( 'class="', 'class="' . implode( ' ', $classes ) . ' ', $params[0]['before_widget'] );
+
+	return $params;
+}
+add_filter( 'dynamic_sidebar_params', '_bp_core_inject_bp_widget_css_class' );
