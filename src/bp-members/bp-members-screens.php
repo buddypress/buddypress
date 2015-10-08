@@ -464,11 +464,11 @@ class BP_Members_Theme_Compat {
 	public function directory_template_hierarchy( $templates = array() ) {
 
 		// Set up the template hierarchy
-		$hierarchy = array();
+		$new_templates = array();
 		if ( '' !== bp_get_current_member_type() ) {
-			$hierarchy[] = 'members/index-directory-type-' . sanitize_file_name( bp_get_current_member_type() ) . '.php';
+			$new_templates[] = 'members/index-directory-type-' . sanitize_file_name( bp_get_current_member_type() ) . '.php';
 		}
-		$hierarchy[] = 'members/index-directory.php';
+		$new_templates[] = 'members/index-directory.php';
 
 		/**
 		 * Filters the template hierarchy for theme compat and members directory page.
@@ -477,7 +477,7 @@ class BP_Members_Theme_Compat {
 		 *
 		 * @param array $value Array of template paths to add to hierarchy.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_members_directory', $hierarchy );
+		$new_templates = apply_filters( 'bp_template_hierarchy_members_directory', $new_templates );
 
 		// Merge new templates with existing stack
 		// @see bp_get_theme_compat_templates()
