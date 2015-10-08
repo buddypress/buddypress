@@ -840,7 +840,7 @@ class BP_Activity_Activity {
 		$sql = '';
 
 		// Date query
-		if ( ! empty( $date_query ) && is_array( $date_query ) && class_exists( 'BP_Date_Query' ) ) {
+		if ( ! empty( $date_query ) && is_array( $date_query ) ) {
 			$date_query = new BP_Date_Query( $date_query, 'date_recorded' );
 			$sql = preg_replace( '/^\sAND/', '', $date_query->get_sql() );
 		}

@@ -813,7 +813,7 @@ class BP_Notifications_Notification {
 	public static function get_date_query_sql( $date_query = array() ) {
 
 		// Bail if not a proper date query format
-		if ( empty( $date_query ) || ! is_array( $date_query ) || ! class_exists( 'BP_Date_Query' ) ) {
+		if ( empty( $date_query ) || ! is_array( $date_query ) ) {
 			return '';
 		}
 
