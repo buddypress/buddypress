@@ -127,7 +127,11 @@ function messages_screen_conversation() {
 	$bp = buddypress();
 
 	// Decrease the unread count in the nav before it's rendered
-	$bp->bp_nav[$bp->messages->slug]['name'] = sprintf( __( 'Messages <span>%s</span>', 'buddypress' ), bp_get_total_unread_messages_count() );
+	$count    = bp_get_total_unread_messages_count();
+	$class    = ( 0 === $count ) ? 'no-count' : 'count';
+	$nav_name = sprintf( __( 'Messages <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );
+
+	$bp->bp_nav[ $bp->messages->slug ]['name'] = $nav_name;
 
 	/**
 	 * Fires right before the loading of the Messages view screen template file.
