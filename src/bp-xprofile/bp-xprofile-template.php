@@ -835,15 +835,9 @@ function bp_the_profile_field_is_required() {
 	function bp_get_the_profile_field_is_required() {
 		global $field;
 
-		// Define locale variable(s).
 		$retval = false;
 
-		// Super admins can skip required check.
-		if ( bp_current_user_can( 'bp_moderate' ) && !is_admin() ) {
-			$retval = false;
-
-		// All other users will use the field's setting.
-		} elseif ( isset( $field->is_required ) ) {
+		if ( isset( $field->is_required ) ) {
 			$retval = $field->is_required;
 		}
 

@@ -887,7 +887,7 @@ class BP_XProfile_User_Admin {
 					}
 				}
 
-				$is_required[ $field_id ] = xprofile_check_is_required_field( $field_id );
+				$is_required[ $field_id ] = xprofile_check_is_required_field( $field_id ) && ! bp_current_user_can( 'bp_moderate' );
 				if ( $is_required[ $field_id ] && empty( $_POST['field_' . $field_id ] ) ) {
 					$redirect_to = add_query_arg( 'error', '2', $redirect_to );
 					bp_core_redirect( $redirect_to );

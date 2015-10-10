@@ -98,7 +98,7 @@ function xprofile_screen_edit_profile() {
 
 			}
 
-			$is_required[$field_id] = xprofile_check_is_required_field( $field_id );
+			$is_required[ $field_id ] = xprofile_check_is_required_field( $field_id ) && ! bp_current_user_can( 'bp_moderate' );
 			if ( $is_required[$field_id] && empty( $_POST['field_' . $field_id] ) ) {
 				$errors = true;
 			}
