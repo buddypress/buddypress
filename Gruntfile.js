@@ -70,7 +70,7 @@ module.exports = function( grunt ) {
 			}
 		},
 		sass: {
-			admin: {
+			styles: {
 				cwd: SOURCE_DIR,
 				extDot: 'last',
 				expand: true,
