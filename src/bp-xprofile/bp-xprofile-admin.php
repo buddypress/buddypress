@@ -329,7 +329,12 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 	$bp = buddypress();
 
-	$field           = xprofile_get_field( $field_id );
+	if ( is_null( $field_id ) ) {
+		$field = new BP_XProfile_Field();
+	} else {
+		$field = xprofile_get_field( $field_id );
+	}
+
 	$field->group_id = $group_id;
 
 	if ( isset( $_POST['saveField'] ) ) {
