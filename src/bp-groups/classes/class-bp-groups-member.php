@@ -627,6 +627,50 @@ class BP_Groups_Member {
 	}
 
 	/**
+	 * Get the groups of which a specified user is banned from.
+	 *
+	 * @since 2.4
+	 *
+	 * @param int         $user_id ID of the user.
+	 * @param int|bool    $limit   Optional. Max number of results to return.
+	 *                             Default: false (no limit).
+	 * @param int|bool    $page    Optional. Page offset of results to return.
+	 *                             Default: false (no limit).
+	 * @param string|bool $filter  Optional. Limit results to groups whose name or
+	 *                             description field matches search terms.
+	 * @return array {
+	 *     @type array $groups Array of groups returned by paginated query.
+	 *     @type int   $total  Count of groups matching query.
+	 * }
+	 */
+	public static function get_is_banned_of( $user_id, $limit = false, $page = false, $filter = false ) {
+		global $wpdb;
+
+		$bp = buddypress();
+
+		$user_id_sql = $pag_sql = $hidden_sql = $filter_sql = '';
+		$user_id_sql = $wpdb->prepare( 'm.user_id = %d', $user_id );
+
+		if ( $limit && $page ) {
+			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit ), intval( $limit ) );
+	  }
+
+		if ( $filter ) {
+			$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
+			$filter_sql        = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
+		}
+
+		if ( $user_id !== bp_loggedin_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
+			$hidden_sql = " AND g.status != 'hidden'";
+		}
+
+		$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1  ORDER BY m.date_modified ASC {$pag_sql}" );
+		$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id{$hidden_sql}{$filter_sql} AND {$user_id_sql} AND m.is_banned = 1 ORDER BY date_modified ASC" );
+
+		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+	}
+
+	/**
 	 * Get the count of groups of which the specified user is a member.
 	 *
 	 * @param int $user_id Optional. Default: ID of the displayed user.

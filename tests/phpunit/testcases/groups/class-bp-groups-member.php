@@ -93,6 +93,29 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
+	public function test_get_is_banned_of_with_filter() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'RC Cola',
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'Pepsi',
+		) );
+
+		$u = $this->factory->user->create();
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
+
+		$m1 = new BP_Groups_Member( $u, $g1 );
+		$m1->ban();
+		$m2 = new BP_Groups_Member( $u, $g2 );
+		$m2->ban();
+
+		$groups = BP_Groups_Member::get_is_banned_of( $u, false, false, 'eps' );
+
+		$ids = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( $ids, array( $g2 ) );
+	}
+
 	public function test_get_invites_with_exclude() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'RC Cola',
