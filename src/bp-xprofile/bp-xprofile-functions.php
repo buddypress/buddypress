@@ -540,7 +540,7 @@ function xprofile_delete_field_data( $field = '', $user_id = 0 ) {
 }
 
 function xprofile_check_is_required_field( $field_id ) {
-	$field  = new BP_Xprofile_Field( $field_id );
+	$field  = new BP_XProfile_Field( $field_id );
 	$retval = false;
 
 	if ( isset( $field->is_required ) ) {
@@ -558,7 +558,7 @@ function xprofile_check_is_required_field( $field_id ) {
  * @return int $field_id on success, false on failure.
  */
 function xprofile_get_field_id_from_name( $field_name ) {
-	return BP_Xprofile_Field::get_id_from_name( $field_name );
+	return BP_XProfile_Field::get_id_from_name( $field_name );
 }
 
 /**
