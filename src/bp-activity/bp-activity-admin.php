@@ -1591,7 +1591,12 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$actions = apply_filters( 'bp_activity_admin_comment_row_actions', array_filter( $actions ), $item );
 
 		/* translators: 2: activity admin ui date/time */
-		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>', 'buddypress' ), bp_activity_get_permalink( $item['id'] ), get_date_from_gmt( $item['date_recorded'], get_option( 'date_format' ) ), get_date_from_gmt( $item['date_recorded'], get_option( 'time_format' ) ) );
+		printf(
+			__( 'Submitted on <a href="%1$s">%2$s at %3$s</a>', 'buddypress' ),
+			bp_activity_get_permalink( $item['id'] ),
+			date_i18n( bp_get_option( 'date_format' ), strtotime( $item['date_recorded'] ) ),
+			get_date_from_gmt( $item['date_recorded'], bp_get_option( 'time_format' ) )
+		);
 
 		// End timestamp
 		echo '</div>';
