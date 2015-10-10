@@ -114,7 +114,10 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 						<li id="group_<?php echo esc_attr( $group->id ); ?>">
 							<a href="#tabs-<?php echo esc_attr( $group->id ); ?>" class="ui-tab">
-								<?php echo esc_attr( $group->name ); ?>
+								<?php
+								/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
+								echo esc_html( apply_filters( 'bp_get_the_profile_group_name', $group->name ) );
+								?>
 
 								<?php if ( !$group->can_delete ) : ?>
 									<?php _e( '(Primary)', 'buddypress'); ?>
@@ -130,7 +133,10 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 				<?php if ( !empty( $groups ) ) : foreach ( $groups as $group ) : ?>
 
 					<noscript>
-						<h3><?php echo esc_attr( $group->name ); ?></h3>
+						<h3><?php
+						/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
+						echo esc_html( apply_filters( 'bp_get_the_profile_group_name', $group->name ) );
+						?></h3>
 					</noscript>
 
 					<div id="tabs-<?php echo esc_attr( $group->id ); ?>" class="tab-wrapper">
@@ -164,12 +170,18 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 						<?php if ( ! empty( $group->description ) ) : ?>
 
-							<p><?php echo esc_html( $group->description ); ?></p>
+							<p><?php
+							/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
+							echo esc_html( apply_filters( 'bp_get_the_profile_group_description', $group->description ) );
+							?></p>
 
 						<?php endif; ?>
 
 						<fieldset id="<?php echo esc_attr( $group->id ); ?>" class="connectedSortable field-group">
-							<legend class="screen-reader-text"><?php printf( esc_html__( 'Fields for "%s" Group', 'buddypress' ), $group->name ); ?></legend>
+							<legend class="screen-reader-text"><?php
+							/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
+							printf( esc_html__( 'Fields for "%s" Group', 'buddypress' ), apply_filters( 'bp_get_the_profile_group_name', $group->name ) );
+							?></legend>
 
 							<?php
 
