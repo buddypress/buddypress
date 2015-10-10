@@ -264,7 +264,6 @@ function bp_admin_setting_callback_bbpress_configuration() {
  *
  * @since 1.6.0
  *
- * @uses screen_icon() To display the screen icon.
  * @uses settings_fields() To output the hidden fields for the form.
  * @uses do_settings_sections() To output the settings sections.
  */
@@ -276,8 +275,6 @@ function bp_core_admin_settings() {
 	?>
 
 	<div class="wrap">
-
-		<?php screen_icon( 'buddypress' ); ?>
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Settings', 'buddypress' ) ); ?></h2>
 

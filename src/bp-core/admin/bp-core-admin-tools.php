@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) || exit;
 function bp_core_admin_tools() {
 	?>
 	<div class="wrap">
-		<?php screen_icon( 'buddypress'); ?>
 
 		<h2><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h2>
 

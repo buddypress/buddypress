@@ -723,8 +723,6 @@ class BP_XProfile_Group {
 
 		<div class="wrap">
 
-			<?php screen_icon( 'users' ); ?>
-
 			<h2><?php echo esc_html( $title ); ?></h2>
 
 			<?php if ( ! empty( $message ) ) : ?>

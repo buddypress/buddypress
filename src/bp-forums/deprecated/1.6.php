@@ -36,8 +36,6 @@ function bp_forums_bbpress_admin() {
 	$action = bp_get_admin_url( 'admin.php?page=bb-forums-setup&reinstall=1' ); ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress' ); ?>
-
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Forums', 'buddypress' ) ); ?></h2>
 
 		<?php if ( isset( $_POST['submit'] ) ) : ?>

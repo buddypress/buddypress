@@ -893,7 +893,6 @@ class BP_Members_Admin {
 		<?php endif; ?>
 
 		<div class="wrap" id="community-profile-page">
-			<?php screen_icon( 'users' ); ?>
 			<h2><?php echo esc_html( $title ); ?>
 
 				<?php if ( empty( $this->is_self_profile ) ) : ?>
@@ -1847,7 +1846,6 @@ class BP_Members_Admin {
 		?>
 
 		<div class="wrap">
-			<?php screen_icon( 'users' ); ?>
 			<h2><?php _e( 'Users', 'buddypress' ); ?>
 
 				<?php if ( current_user_can( 'create_users' ) ) : ?>
@@ -1968,7 +1966,6 @@ class BP_Members_Admin {
 		?>
 
 		<div class="wrap">
-			<?php screen_icon( 'users' ); ?>
 			<h2><?php echo esc_html( $header_text ); ?></h2>
 			<p><?php echo esc_html( $helper_text ); ?></p>
 

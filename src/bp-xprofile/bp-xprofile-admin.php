@@ -86,8 +86,6 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 	<div class="wrap">
 
-		<?php screen_icon( 'users' ); ?>
-
 		<h2>
 			<?php _ex( 'Profile Fields', 'Settings page header', 'buddypress'); ?>
 			<a id="add_group" class="add-new-h2" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>

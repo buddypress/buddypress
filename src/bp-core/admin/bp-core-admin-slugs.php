@@ -20,7 +20,6 @@ function bp_core_admin_slugs_settings() {
 ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress'); ?>
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Pages', 'buddypress' ) ); ?></h2>
 		<form action="" method="post" id="bp-admin-page-form">

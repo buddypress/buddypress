@@ -567,7 +567,6 @@ function bp_groups_admin_edit() {
 	do_action_ref_array( 'bp_groups_admin_edit', array( &$group ) ); ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress-groups' ); ?>
 		<h2><?php _e( 'Edit Group', 'buddypress' ); ?>
 
 			<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
@@ -664,7 +663,6 @@ function bp_groups_admin_delete() {
 	$base_url  = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress-groups' ); ?>
 		<h2><?php _e( 'Delete Groups', 'buddypress' ) ?></h2>
 		<p><?php _e( 'You are about to delete the following groups:', 'buddypress' ) ?></p>
 
@@ -722,7 +720,6 @@ function bp_groups_admin_index() {
 	do_action( 'bp_groups_admin_index', $messages ); ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress-groups' ); ?>
 		<h2>
 			<?php _e( 'Groups', 'buddypress' ); ?>
 
