@@ -288,12 +288,29 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 	}
 
-	/*__ Horizontal menus __*/
+	/*__ Horizontal menus & small screen __*/
 	#object-nav {
 
 		ul {
 			overflow: hidden;
-			li {float: none;}
+
+			li {
+				@media screen and (max-width: 38.75em) {
+					&:focus,
+					&:hover {
+						background: darken($cream-background, 2%);
+					}
+				}
+
+				float: none;
+			}
+
+			@media screen and (max-width: 38.75em) {
+				li:not(:last-child) {
+					border-bottom: 1px solid $border-light;
+				}
+			}
+
 			li:not(.selected) {
 				a {opacity: 0.7;}
 			}
@@ -452,7 +469,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					border: 0;
 					border-bottom: 1px solid $border-med;
 					overflow: visible;
-					padding-bottom: 0;
+					padding: 0;
 
 					li {
 						float: left;
@@ -1648,6 +1665,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			/* Edit profile */
 
 			#profile-edit-form {
+
 				.button-nav:before,
 				.button-nav:after {
 					content: " ";
@@ -1661,6 +1679,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				ul.button-nav {
 					border-bottom: 1px solid $border-light;
 					margin-left: 0;
+					padding: 0;
 
 					li {
 						float: left;
@@ -1811,9 +1830,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					}
 				}
 
+				.thread-checkbox {
+					padding: 0 0 0 0.3em;
+				}
+
 				td.bulk-select-check,
 				td.thread-from {
-					height: 2.6em;
+					height: 3em;
 					@media screen and (max-width: 38.75em) {
 						height: 5.2em;
 					}
@@ -1834,7 +1857,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 						content: " \2013 \00a0"attr(title);
 						@include font-size(12);
 					}
+
+					.thread-excerpt {
+						@include font-size(14);
+					}
 				}
+
+
 
 				td.thread-options {
 					text-align: right;
@@ -1855,7 +1884,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					line-height: 2;
 					@media screen and (max-width: 38.75em) {
 						clear: both;
-						@include font-size(11);
+						@include font-size(12);
 						width: 100%;
 					}
 				}
@@ -2106,7 +2135,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-		div.message-search {margin-right: $spacing-val-sm;}
 	} // close @media
 
 
@@ -2133,7 +2161,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 // This approach will require refinement and perhaps re-location to
 // a more general typography section to manage BP elements grouped under
 // breakpoints. Provide top/bottom margins for tables, lacking in BP styles
+
 #buddypress {
+
 	table {
 		@include font-size(14);
 		margin: $spacing-val-md 0;
@@ -2142,6 +2172,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			background: lighten($dark-background, 10%);
 			border-color: darken($border-light, 20%);
 			color: $content-background;
+		}
+
+		// twentythirteen removes left padding, replace!
+		th,
+		td {
+			padding: 0.3em;
 		}
 
 		// Reduce the themes inherited paragraph margins in tables
