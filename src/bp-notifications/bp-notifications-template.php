@@ -135,7 +135,6 @@ class BP_Notifications_Template {
 	 * The loop iterator.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $current_notification = -1;
@@ -144,7 +143,6 @@ class BP_Notifications_Template {
 	 * The number of notifications returned by the paged query.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $current_notification_count;
@@ -153,7 +151,6 @@ class BP_Notifications_Template {
 	 * Total number of notifications matching the query.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $total_notification_count;
@@ -162,7 +159,6 @@ class BP_Notifications_Template {
 	 * Array of notifications located by the query.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var array
 	 */
 	public $notifications;
@@ -171,7 +167,6 @@ class BP_Notifications_Template {
 	 * The notification object currently being iterated on.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var object
 	 */
 	public $notification;
@@ -180,7 +175,6 @@ class BP_Notifications_Template {
 	 * A flag for whether the loop is currently being iterated.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -189,7 +183,6 @@ class BP_Notifications_Template {
 	 * The ID of the user to whom the displayed notifications belong.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $user_id;
@@ -198,7 +191,6 @@ class BP_Notifications_Template {
 	 * The page number being requested.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $pag_page;
@@ -207,7 +199,6 @@ class BP_Notifications_Template {
 	 * The $_GET argument used in URLs for determining pagination.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $pag_arg;
@@ -216,7 +207,6 @@ class BP_Notifications_Template {
 	 * The number of items to display per page of results.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $pag_num;
@@ -225,7 +215,6 @@ class BP_Notifications_Template {
 	 * An HTML string containing pagination links.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $pag_links;
@@ -234,7 +223,6 @@ class BP_Notifications_Template {
 	 * A string to match against.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $search_terms;
@@ -243,7 +231,6 @@ class BP_Notifications_Template {
 	 * A database column to order the results by.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $order_by;
@@ -252,7 +239,6 @@ class BP_Notifications_Template {
 	 * The direction to sort the results (ASC or DESC).
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $sort_order;

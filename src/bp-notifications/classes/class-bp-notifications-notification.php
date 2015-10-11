@@ -26,7 +26,6 @@ class BP_Notifications_Notification {
 	 * The notification ID.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $id;
@@ -35,7 +34,6 @@ class BP_Notifications_Notification {
 	 * The ID of the item associated with the notification.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $item_id;
@@ -44,7 +42,6 @@ class BP_Notifications_Notification {
 	 * The ID of the secondary item associated with the notification.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $secondary_item_id = null;
@@ -53,7 +50,6 @@ class BP_Notifications_Notification {
 	 * The ID of the user the notification is associated with.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var int
 	 */
 	public $user_id;
@@ -62,7 +58,6 @@ class BP_Notifications_Notification {
 	 * The name of the component that the notification is for.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $component_name;
@@ -71,7 +66,6 @@ class BP_Notifications_Notification {
 	 * The component action which the notification is related to.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $component_action;
@@ -80,7 +74,6 @@ class BP_Notifications_Notification {
 	 * The date the notification was created.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $date_notified;
@@ -89,7 +82,6 @@ class BP_Notifications_Notification {
 	 * Is the notification new, or has it already been read.
 	 *
 	 * @since 1.9.0
-	 * @access public
 	 * @var bool
 	 */
 	public $is_new;

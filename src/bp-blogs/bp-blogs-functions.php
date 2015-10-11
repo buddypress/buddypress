@@ -836,7 +836,6 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_user_from_blog', 10, 2 );
  * first. See https://buddypress.trac.wordpress.org/ticket/3916.
  *
  * @since 1.6.0
- * @access private
  */
 function bp_blogs_maybe_add_user_to_blog() {
 	if ( ! is_multisite() )

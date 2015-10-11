@@ -95,7 +95,6 @@ class BP_Group_Extension {
 	 * Information about this extension's screens.
 	 *
 	 * @since 1.8.0
-	 * @access public
 	 * @var array
 	 */
 	public $screens = array();
@@ -104,7 +103,6 @@ class BP_Group_Extension {
 	 * The name of the extending class.
 	 *
 	 * @since 1.8.0
-	 * @access public
 	 * @var string
 	 */
 	public $class_name = '';
@@ -113,7 +111,6 @@ class BP_Group_Extension {
 	 * A ReflectionClass object of the current extension.
 	 *
 	 * @since 1.8.0
-	 * @access public
 	 * @var ReflectionClass
 	 */
 	public $class_reflection = null;
@@ -122,7 +119,6 @@ class BP_Group_Extension {
 	 * Parsed configuration parameters for the extension.
 	 *
 	 * @since 1.8.0
-	 * @access public
 	 * @var array
 	 */
 	public $params = array();
@@ -131,7 +127,6 @@ class BP_Group_Extension {
 	 * Raw config params, as passed by the extending class.
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 * @var array
 	 */
 	public $params_raw = array();
@@ -140,7 +135,6 @@ class BP_Group_Extension {
 	 * The ID of the current group.
 	 *
 	 * @since 1.8.0
-	 * @access public
 	 * @var int
 	 */
 	public $group_id = 0;
@@ -148,7 +142,6 @@ class BP_Group_Extension {
 	/**
 	 * The slug of the current extension.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $slug = '';
@@ -156,7 +149,6 @@ class BP_Group_Extension {
 	/**
 	 * The translatable name of the current extension.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $name = '';
@@ -164,7 +156,6 @@ class BP_Group_Extension {
 	/**
 	 * The visibility of the extension tab. 'public' or 'private'.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $visibility = 'public';
@@ -172,7 +163,6 @@ class BP_Group_Extension {
 	/**
 	 * The numeric position of the main nav item.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $nav_item_position = 81;
@@ -180,7 +170,6 @@ class BP_Group_Extension {
 	/**
 	 * Whether to show the nav item.
 	 *
-	 * @access public
 	 * @var bool
 	 */
 	public $enable_nav_item = true;
@@ -189,7 +178,6 @@ class BP_Group_Extension {
 	 * Whether the current user should see the navigation item.
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 * @var bool
 	 */
 	public $user_can_see_nav_item;
@@ -198,7 +186,6 @@ class BP_Group_Extension {
 	 * Whether the current user can visit the tab.
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 * @var bool
 	 */
 	public $user_can_visit;
@@ -206,7 +193,6 @@ class BP_Group_Extension {
 	/**
 	 * The text of the nav item. Defaults to self::name.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $nav_item_name = '';
@@ -216,7 +202,6 @@ class BP_Group_Extension {
 	 *
 	 * Default: 'groups_custom_group_boxes'.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $display_hook = 'groups_custom_group_boxes';
@@ -226,7 +211,6 @@ class BP_Group_Extension {
 	 *
 	 * Default: 'groups/single/plugins'.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $template_file = 'groups/single/plugins';
@@ -237,7 +221,6 @@ class BP_Group_Extension {
 	 * Has the extension been initialized?
 	 *
 	 * @since 1.8.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $initialized = false;
@@ -246,7 +229,6 @@ class BP_Group_Extension {
 	 * Extension properties as set by legacy extensions.
 	 *
 	 * @since 1.8.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $legacy_properties = array();
@@ -258,7 +240,6 @@ class BP_Group_Extension {
 	 * then converted to match the new format for params.
 	 *
 	 * @since 1.8.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $legacy_properties_converted = array();
@@ -267,7 +248,6 @@ class BP_Group_Extension {
 	 * Redirect location as defined by post-edit save callback.
 	 *
 	 * @since 2.1.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $post_save_redirect;
@@ -276,7 +256,6 @@ class BP_Group_Extension {
 	 * Miscellaneous data as set by the __set() magic method.
 	 *
 	 * @since 1.8.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $data = array();
@@ -1081,7 +1060,6 @@ class BP_Group_Extension {
 	 * Hooked to 'bp_screens'.
 	 *
 	 * @since 1.8.0
-	 * @access public So that do_action() has access. Do not call directly.
 	 *
 	 * @see BP_Group_Extension::setup_edit_hooks()
 	 */

@@ -20,7 +20,6 @@ class BP_Akismet {
 	/**
 	 * The activity last marked as spam.
 	 *
-	 * @access protected
 	 * @var BP_Activity_Activity
 	 * @since 1.6.0
 	 */

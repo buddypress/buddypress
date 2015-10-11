@@ -81,7 +81,6 @@ class BP_User_Query {
 	/**
 	 * List of found users and their respective data.
 	 *
-	 * @access public To allow components to manipulate them.
 	 * @since 1.7.0
 	 * @var array
 	 */
@@ -90,7 +89,6 @@ class BP_User_Query {
 	/**
 	 * Total number of found users for the current query.
 	 *
-	 * @access public To allow components to manipulate it.
 	 * @since 1.7.0
 	 * @var int
 	 */
@@ -99,7 +97,6 @@ class BP_User_Query {
 	/**
 	 * List of found user IDs.
 	 *
-	 * @access public To allow components to manipulate it.
 	 * @since 1.7.0
 	 * @var array
 	 */
@@ -108,7 +105,6 @@ class BP_User_Query {
 	/**
 	 * SQL clauses for the user ID query.
 	 *
-	 * @access public To allow components to manipulate it.
 	 * @since 1.7.0
 	 * @var array
 	 */
@@ -118,7 +114,6 @@ class BP_User_Query {
 	 * SQL table where the user ID is being fetched from.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 * @var string
 	 */
 	public $uid_table = '';
@@ -134,7 +129,6 @@ class BP_User_Query {
 	/**
 	 * Standard response when the query should not return any rows.
 	 *
-	 * @access protected
 	 * @since 1.7.0
 	 * @var string
 	 */

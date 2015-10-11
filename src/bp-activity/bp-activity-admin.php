@@ -1218,7 +1218,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * Get name of default primary column
 	 *
 	 * @since 2.3.3
-	 * @access protected
 	 *
 	 * @return string
 	 */

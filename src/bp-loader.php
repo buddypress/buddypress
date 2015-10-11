@@ -317,7 +317,6 @@ class BuddyPress {
 	 * Component global variables.
 	 *
 	 * @since 1.6.0
-	 * @access private
 	 *
 	 * @uses plugin_dir_path() To generate BuddyPress plugin path.
 	 * @uses plugin_dir_url() To generate BuddyPress plugin url.
@@ -449,7 +448,6 @@ class BuddyPress {
 	 * Include required files.
 	 *
 	 * @since 1.6.0
-	 * @access private
 	 *
 	 * @uses is_admin() If in WordPress admin, load additional file.
 	 */
@@ -508,7 +506,6 @@ class BuddyPress {
 	 * Set up the default hooks and actions.
 	 *
 	 * @since 1.6.0
-	 * @access private
 	 *
 	 * @uses register_activation_hook() To register the activation hook.
 	 * @uses register_deactivation_hook() To register the deactivation hook.

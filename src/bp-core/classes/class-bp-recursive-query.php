@@ -20,7 +20,6 @@ abstract class BP_Recursive_Query {
 	 * Query arguments passed to the constructor.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 * @var array
 	 */
 	public $queries = array();
@@ -35,7 +34,6 @@ abstract class BP_Recursive_Query {
 	 * the empty 'join' clause, and only passes the 'where' clause.
 	 *
 	 * @since 2.2.0
-	 * @access protected
 	 *
 	 * @return array
 	 */
@@ -59,7 +57,6 @@ abstract class BP_Recursive_Query {
 	 * automatically from get_sql_clauses().
 	 *
 	 * @since 2.2.0
-	 * @access protected
 	 *
 	 * @param  array $query Query to parse.
 	 * @param  int   $depth Optional. Number of tree levels deep we
@@ -139,7 +136,6 @@ abstract class BP_Recursive_Query {
 	 * Extend this method if your class uses different sanitizing logic.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 *
 	 * @param array $queries Array of query clauses.
 	 *
@@ -207,7 +203,6 @@ abstract class BP_Recursive_Query {
 	 * Must be overridden in a subclass.
 	 *
 	 * @since 2.2.0
-	 * @access protected
 	 *
 	 * @param array $clause       Array of arguments belonging to the clause.
 	 * @param array $parent_query Parent query to which the clause belongs.
@@ -225,7 +220,6 @@ abstract class BP_Recursive_Query {
 	 * Must be overridden in a subclass.
 	 *
 	 * @since 2.2.0
-	 * @access protected
 	 *
 	 * @param array $query Clause to check.
 	 *

@@ -55,7 +55,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * needs are.
 	 *
 	 * @since 1.7.0
-	 * @access private
 	 */
 	protected function setup_globals() {
 		$bp            = buddypress();
@@ -70,7 +69,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * Setup the theme hooks.
 	 *
 	 * @since 1.7.0
-	 * @access private
 	 *
 	 * @uses add_filter() To add various filters
 	 * @uses add_action() To add various actions
@@ -372,7 +370,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * and theme authors should not attempt to use what follows.
 	 *
 	 * @since 1.8.0
-	 * @access private
 	 * @param string $file A filename like buddypress.css.
 	 * @param string $type Optional. Either "js" or "css" (the default).
 	 * @param string $script_handle Optional. If set, used as the script name in `wp_enqueue_script`.

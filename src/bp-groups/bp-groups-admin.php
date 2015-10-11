@@ -1136,7 +1136,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $view = 'all';
@@ -1146,7 +1145,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $group_counts = 0;
@@ -1304,7 +1302,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Get name of default primary column
 	 *
 	 * @since 2.3.3
-	 * @access protected
 	 *
 	 * @return string
 	 */

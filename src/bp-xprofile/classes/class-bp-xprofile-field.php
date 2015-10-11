@@ -125,7 +125,6 @@ class BP_XProfile_Field {
 	 * @since 1.9.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_default_visibility()`.
 	 *
-	 * @access protected
 	 * @var string Default field data visibility.
 	 */
 	protected $default_visibility;
@@ -136,7 +135,6 @@ class BP_XProfile_Field {
 	 * @since 2.3.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_allow_custom_visibility()`.
 	 *
-	 * @access protected
 	 * @var string Members are allowed/disallowed to modify data visibility.
 	 */
 	protected $allow_custom_visibility;
@@ -163,7 +161,6 @@ class BP_XProfile_Field {
 	 * Member types to which the profile field should be applied.
 	 *
 	 * @since 2.4.0
-	 * @access protected
 	 * @var array Array of member types.
 	 */
 	protected $member_types;

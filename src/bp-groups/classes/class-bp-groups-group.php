@@ -17,7 +17,6 @@ class BP_Groups_Group {
 	/**
 	 * ID of the group.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $id;
@@ -25,7 +24,6 @@ class BP_Groups_Group {
 	/**
 	 * User ID of the group's creator.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $creator_id;
@@ -33,7 +31,6 @@ class BP_Groups_Group {
 	/**
 	 * Name of the group.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $name;
@@ -41,7 +38,6 @@ class BP_Groups_Group {
 	/**
 	 * Group slug.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $slug;
@@ -49,7 +45,6 @@ class BP_Groups_Group {
 	/**
 	 * Group description.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $description;
@@ -59,7 +54,6 @@ class BP_Groups_Group {
 	 *
 	 * Core statuses are 'public', 'private', and 'hidden'.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $status;
@@ -67,7 +61,6 @@ class BP_Groups_Group {
 	/**
 	 * Should (legacy) bbPress forums be enabled for this group?
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $enable_forum;
@@ -75,7 +68,6 @@ class BP_Groups_Group {
 	/**
 	 * Date the group was created.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $date_created;
@@ -83,7 +75,6 @@ class BP_Groups_Group {
 	/**
 	 * Data about the group's admins.
 	 *
-	 * @access public
 	 * @var array
 	 */
 	public $admins;
@@ -91,7 +82,6 @@ class BP_Groups_Group {
 	/**
 	 * Data about the group's moderators.
 	 *
-	 * @access public
 	 * @var array
 	 */
 	public $mods;
@@ -99,7 +89,6 @@ class BP_Groups_Group {
 	/**
 	 * Total count of group members.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $total_member_count;
@@ -951,7 +940,6 @@ class BP_Groups_Group {
 	 * AND keyword from the 'where' clause).
 	 *
 	 * @since 1.8.0
-	 * @access protected
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *                          documentation for {@link WP_Meta_Query} for details.
@@ -999,7 +987,6 @@ class BP_Groups_Group {
 	 * Convert the 'type' parameter to 'order' and 'orderby'.
 	 *
 	 * @since 1.8.0
-	 * @access protected
 	 *
 	 * @param string $type The 'type' shorthand param.
 	 *
@@ -1115,7 +1102,6 @@ class BP_Groups_Group {
 	 * Convert the 'orderby' param into a proper SQL term/column.
 	 *
 	 * @since 1.8.0
-	 * @access protected
 	 *
 	 * @param string $orderby Orderby term as passed to get().
 	 *

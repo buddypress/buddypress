@@ -100,7 +100,6 @@ class BP_Groups_Template {
 	/**
 	 * The loop iterator.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $current_group = -1;
@@ -108,7 +107,6 @@ class BP_Groups_Template {
 	/**
 	 * The number of groups returned by the paged query.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $group_count;
@@ -116,7 +114,6 @@ class BP_Groups_Template {
 	/**
 	 * Array of groups located by the query.
 	 *
-	 * @access public
 	 * @var array
 	 */
 	public $groups;
@@ -124,7 +121,6 @@ class BP_Groups_Template {
 	/**
 	 * The group object currently being iterated on.
 	 *
-	 * @access public
 	 * @var object
 	 */
 	public $group;
@@ -132,7 +128,6 @@ class BP_Groups_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
-	 * @access public
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -140,7 +135,6 @@ class BP_Groups_Template {
 	/**
 	 * The page number being requested.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_page;
@@ -148,7 +142,6 @@ class BP_Groups_Template {
 	/**
 	 * The number of items being requested per page.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_num;
@@ -156,7 +149,6 @@ class BP_Groups_Template {
 	/**
 	 * An HTML string containing pagination links.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_links;
@@ -164,7 +156,6 @@ class BP_Groups_Template {
 	/**
 	 * The total number of groups matching the query parameters.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $total_group_count;
@@ -172,7 +163,6 @@ class BP_Groups_Template {
 	/**
 	 * Whether the template loop is for a single group page.
 	 *
-	 * @access public
 	 * @var bool
 	 */
 	public $single_group = false;
@@ -180,7 +170,6 @@ class BP_Groups_Template {
 	/**
 	 * Field to sort by.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $sort_by;
@@ -188,7 +177,6 @@ class BP_Groups_Template {
 	/**
 	 * Sort order.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $order;

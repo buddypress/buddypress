@@ -173,8 +173,6 @@ class BP_Activity_Feed {
 
 	/**
 	 * Setup and validate the class properties.
-	 *
-	 * @access protected
 	 */
 	protected function setup_properties() {
 		$this->id               = sanitize_title( $this->id );
@@ -198,8 +196,6 @@ class BP_Activity_Feed {
 	 *
 	 * Currently, these hooks are used to maintain backwards compatibility with
 	 * the RSS feeds previous to BP 1.8.
-	 *
-	 * @access protected
 	 */
 	protected function setup_hooks() {
 		add_action( 'bp_activity_feed_rss_attributes',   array( $this, 'backpat_rss_attributes' ) );
@@ -272,8 +268,6 @@ class BP_Activity_Feed {
 
 	/**
 	 * Output the feed's item content.
-	 *
-	 * @access protected
 	 */
 	protected function feed_content() {
 		bp_activity_content_body();
@@ -303,8 +297,6 @@ class BP_Activity_Feed {
 	 * Most of this class method is derived from {@link WP::send_headers()}.
 	 *
 	 * @since 1.9.0
-	 *
-	 * @access protected
 	 */
 	protected function http_headers() {
 		// set up some additional headers if not on a directory page
@@ -379,8 +371,6 @@ class BP_Activity_Feed {
 
 	/**
 	 * Output the RSS feed.
-	 *
-	 * @access protected
 	 */
 	protected function output() {
 		$this->http_headers();

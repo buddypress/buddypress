@@ -16,7 +16,6 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @see bp_register_member_type()
 	 *
-	 * @access public
 	 * @since  2.2.0
 	 * @var    array
 	 */

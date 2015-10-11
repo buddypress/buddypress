@@ -675,7 +675,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Setup xProfile User Admin.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @uses buddypress() to get BuddyPress main instance.
@@ -699,7 +698,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Constructor method.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 */
 	public function __construct() {
@@ -709,7 +707,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Set admin-related actions and filters.
 	 *
-	 * @access private
 	 * @since 2.0.0
 	 */
 	private function setup_actions() {
@@ -726,7 +723,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Enqueue needed scripts.
 	 *
-	 * @access public
 	 * @since 2.3.0
 	 *
 	 * @param int $screen_id Screen ID being displayed.
@@ -758,7 +754,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Register the xProfile metabox on Community Profile admin page.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param int    $user_id       ID of the user being edited.
@@ -833,7 +828,6 @@ class BP_XProfile_User_Admin {
 	 * Loaded before the page is rendered, this function is processing form
 	 * requests.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param string $doaction    Action being run.
@@ -962,7 +956,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Render the xprofile metabox for Community Profile screen.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object for the user being edited.
@@ -1069,7 +1062,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Render the fallback metabox in case a user has been marked as a spammer.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object for the user being edited.
@@ -1083,7 +1075,6 @@ class BP_XProfile_User_Admin {
 	/**
 	 * Render the Avatar metabox to moderate inappropriate images.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object for the user being edited.

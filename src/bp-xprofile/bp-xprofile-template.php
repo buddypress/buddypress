@@ -22,7 +22,6 @@ class BP_XProfile_Data_Template {
 	 * The loop iterator.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $current_group = -1;
@@ -31,7 +30,6 @@ class BP_XProfile_Data_Template {
 	 * The number of groups returned by the paged query.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $group_count;
@@ -40,7 +38,6 @@ class BP_XProfile_Data_Template {
 	 * Array of groups located by the query.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var array
 	 */
 	public $groups;
@@ -49,7 +46,6 @@ class BP_XProfile_Data_Template {
 	 * The group object currently being iterated on.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var object
 	 */
 	public $group;
@@ -58,7 +54,6 @@ class BP_XProfile_Data_Template {
 	 * The current field.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $current_field = -1;
@@ -67,7 +62,6 @@ class BP_XProfile_Data_Template {
 	 * The field count.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $field_count;
@@ -76,7 +70,6 @@ class BP_XProfile_Data_Template {
 	 * Field has data.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var bool
 	 */
 	public $field_has_data;
@@ -85,7 +78,6 @@ class BP_XProfile_Data_Template {
 	 * The field.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $field;
@@ -94,7 +86,6 @@ class BP_XProfile_Data_Template {
 	 * A flag for whether the loop is currently being iterated.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -103,7 +94,6 @@ class BP_XProfile_Data_Template {
 	 * The user ID.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $user_id;

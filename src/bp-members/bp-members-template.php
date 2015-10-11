@@ -213,7 +213,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The loop iterator.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $current_member = -1;
@@ -221,7 +220,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The number of members returned by the paged query.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $member_count;
@@ -229,7 +227,6 @@ class BP_Core_Members_Template {
 	/**
 	 * Array of members located by the query.
 	 *
-	 * @access public
 	 * @var array
 	 */
 	public $members;
@@ -237,7 +234,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The member object currently being iterated on.
 	 *
-	 * @access public
 	 * @var object
 	 */
 	public $member;
@@ -245,7 +241,6 @@ class BP_Core_Members_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
-	 * @access public
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -253,7 +248,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The type of member being requested. Used for ordering results.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $type;
@@ -261,7 +255,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The unique string used for pagination queries.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_arg;
@@ -269,7 +262,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The page number being requested.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_page;
@@ -277,7 +269,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The number of items being requested per page.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_num;
@@ -285,7 +276,6 @@ class BP_Core_Members_Template {
 	/**
 	 * An HTML string containing pagination links.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_links;
@@ -293,7 +283,6 @@ class BP_Core_Members_Template {
 	/**
 	 * The total number of members matching the query parameters.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $total_member_count;

@@ -90,7 +90,6 @@ class BP_Admin {
 	/**
 	 * Set admin-related globals.
 	 *
-	 * @access private
 	 * @since 1.6.0
 	 */
 	private function setup_globals() {
@@ -114,7 +113,6 @@ class BP_Admin {
 	 * Include required files.
 	 *
 	 * @since 1.6.0
-	 * @access private
 	 */
 	private function includes() {
 		require( $this->admin_dir . 'bp-core-admin-actions.php'    );
@@ -128,7 +126,6 @@ class BP_Admin {
 	/**
 	 * Set up the admin hooks, actions, and filters.
 	 *
-	 * @access private
 	 * @since 1.6.0
 	 *
 	 * @uses add_action() To add various actions.

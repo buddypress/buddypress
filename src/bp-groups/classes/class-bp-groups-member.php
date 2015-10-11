@@ -17,7 +17,6 @@ class BP_Groups_Member {
 	/**
 	 * ID of the membership.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $id;
@@ -25,7 +24,6 @@ class BP_Groups_Member {
 	/**
 	 * ID of the group associated with the membership.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $group_id;
@@ -33,7 +31,6 @@ class BP_Groups_Member {
 	/**
 	 * ID of the user associated with the membership.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $user_id;
@@ -41,7 +38,6 @@ class BP_Groups_Member {
 	/**
 	 * ID of the user whose invitation initiated the membership.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $inviter_id;
@@ -49,7 +45,6 @@ class BP_Groups_Member {
 	/**
 	 * Whether the member is an admin of the group.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $is_admin;
@@ -57,7 +52,6 @@ class BP_Groups_Member {
 	/**
 	 * Whether the member is a mod of the group.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $is_mod;
@@ -65,7 +59,6 @@ class BP_Groups_Member {
 	/**
 	 * Whether the member is banned from the group.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $is_banned;
@@ -75,7 +68,6 @@ class BP_Groups_Member {
 	 *
 	 * Eg, 'Group Admin'.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $user_title;
@@ -85,7 +77,6 @@ class BP_Groups_Member {
 	 *
 	 * This value is updated when, eg, invitations are accepted.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	var $date_modified;
@@ -93,7 +84,6 @@ class BP_Groups_Member {
 	/**
 	 * Whether the membership has been confirmed.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $is_confirmed;
@@ -104,7 +94,6 @@ class BP_Groups_Member {
 	 * In BP core, these are limited to the optional message users can
 	 * include when requesting membership to a private group.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	var $comments;
@@ -117,7 +106,6 @@ class BP_Groups_Member {
 	 * Invites), but the Send button has not been pressed, so the
 	 * invitee has not yet been notified.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	var $invite_sent;
@@ -125,7 +113,6 @@ class BP_Groups_Member {
 	/**
 	 * WP_User object representing the membership's user.
 	 *
-	 * @access public
 	 * @var WP_User
 	 */
 	var $user;

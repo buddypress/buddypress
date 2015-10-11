@@ -24,7 +24,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * See {@see BP_Activity_Query::__construct()} for information on query arguments.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 * @var array
 	 */
 	public $queries = array();
@@ -33,7 +32,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Table alias.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 * @var string
 	 */
 	public $table_alias = '';
@@ -44,7 +42,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * See the 'wp_bp_activity' DB table schema.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 * @var array
 	 */
 	public $db_columns = array(
@@ -87,7 +84,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Generates WHERE SQL clause to be appended to a main query.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 *
 	 * @param string $alias An existing table alias that is compatible with the current query clause.
 	 *                      Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
@@ -112,7 +108,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Generate WHERE clauses for a first-order clause.
 	 *
 	 * @since 2.2.0
-	 * @access protected
 	 *
 	 * @param  array $clause       Array of arguments belonging to the clause.
 	 * @param  array $parent_query Parent query to which the clause belongs.
@@ -225,7 +220,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Determine whether a clause is first-order.
 	 *
 	 * @since 2.2.0
-	 * @access protected
 	 *
 	 * @param array $query Clause to check.
 	 *
@@ -242,7 +236,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * See {@link BP_Activity_Query::db_tables}.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 *
 	 * @param string $column The user-supplied column name.
 	 *

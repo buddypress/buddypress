@@ -19,7 +19,6 @@ class BP_Groups_Component extends BP_Component {
 	 * Auto-join group when non group member performs group activity.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var bool
 	 */
 	public $auto_join;
@@ -28,7 +27,6 @@ class BP_Groups_Component extends BP_Component {
 	 * The group being currently accessed.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var BP_Groups_Group
 	 */
 	public $current_group;
@@ -37,7 +35,6 @@ class BP_Groups_Component extends BP_Component {
 	 * Default group extension.
 	 *
 	 * @since 1.6.0
-	 * @access public
 	 * @todo Is this used anywhere? Is this a duplicate of $default_extension?
 	 */
 	var $default_component;
@@ -46,7 +43,6 @@ class BP_Groups_Component extends BP_Component {
 	 * Default group extension.
 	 *
 	 * @since 1.6.0
-	 * @access public
 	 * @var string
 	 */
 	public $default_extension;
@@ -55,7 +51,6 @@ class BP_Groups_Component extends BP_Component {
 	 * Illegal group names/slugs.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var array
 	 */
 	public $forbidden_names;
@@ -64,7 +59,6 @@ class BP_Groups_Component extends BP_Component {
 	 * Group creation/edit steps (e.g. Details, Settings, Avatar, Invites).
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var array
 	 */
 	public $group_creation_steps;
@@ -73,7 +67,6 @@ class BP_Groups_Component extends BP_Component {
 	 * Types of group statuses (Public, Private, Hidden).
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var array
 	 */
 	public $valid_status;

@@ -58,7 +58,6 @@ class BP_Members_Admin {
 	/**
 	 * Screen id for edit user's profile page.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $user_page = '';
@@ -66,7 +65,6 @@ class BP_Members_Admin {
 	/**
 	 * Setup BP Members Admin.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @uses buddypress() to get BuddyPress main instance.
@@ -88,7 +86,6 @@ class BP_Members_Admin {
 	/**
 	 * Constructor method.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 */
 	public function __construct() {
@@ -99,7 +96,6 @@ class BP_Members_Admin {
 	/**
 	 * Set admin-related globals.
 	 *
-	 * @access private
 	 * @since 2.0.0
 	 */
 	private function setup_globals() {
@@ -158,7 +154,6 @@ class BP_Members_Admin {
 	/**
 	 * Set admin-related actions and filters.
 	 *
-	 * @access private
 	 * @since 2.0.0
 	 */
 	private function setup_actions() {
@@ -245,7 +240,6 @@ class BP_Members_Admin {
 	 * This might be replaced by more granular capabilities
 	 * in the future.
 	 *
-	 * @access public
 	 * @since 2.1.0
 	 *
 	 * @param int $user_id ID of the user being checked for edit ability.
@@ -362,7 +356,6 @@ class BP_Members_Admin {
 	/**
 	 * Create the /user/ admin Profile submenus for all members.
 	 *
-	 * @access public
 	 * @since 2.1.0
 	 *
 	 * @uses add_submenu_page() To add the Edit Profile page in Profile section.
@@ -401,7 +394,6 @@ class BP_Members_Admin {
 	/**
 	 * Create the All Users / Profile > Edit Profile and All Users Signups submenus.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @uses add_submenu_page() To add the Edit Profile page in Users/Profile section.
@@ -476,7 +468,6 @@ class BP_Members_Admin {
 	/**
 	 * Highlight the Users menu if on Edit Profile and check if on the user's admin profile.
 	 *
-	 * @access public
 	 * @since 2.1.0
 	 */
 	public function profile_admin_head() {
@@ -536,7 +527,6 @@ class BP_Members_Admin {
 	 * we want them to show up as a row action of the WP panel, not as separate
 	 * subnav items under the Users menu.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 */
 	public function admin_head() {
@@ -549,7 +539,6 @@ class BP_Members_Admin {
 	/**
 	 * Add some specific styling to the Edit User and Edit User's Profile page.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 */
 	public function enqueue_scripts() {
@@ -605,7 +594,6 @@ class BP_Members_Admin {
 	/**
 	 * Create the Profile navigation in Edit User & Edit Profile pages.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param object|null $user   User to create profile navigation for.
@@ -669,7 +657,6 @@ class BP_Members_Admin {
 	 * setup, including: processing form requests, registering contextual
 	 * help, and setting up screen options.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 */
 	public function user_admin_load() {
@@ -845,7 +832,6 @@ class BP_Members_Admin {
 	/**
 	 * Display the user's profile.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 */
 	public function user_admin() {
@@ -954,7 +940,6 @@ class BP_Members_Admin {
 	 * - Update profile fields if xProfile component is active
 	 * - Spam/Unspam user
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
@@ -1031,7 +1016,6 @@ class BP_Members_Admin {
 	/**
 	 * Render the fallback metabox in case a user has been marked as a spammer.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
@@ -1045,7 +1029,6 @@ class BP_Members_Admin {
 	/**
 	 * Render the Stats metabox to moderate inappropriate images.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
@@ -1096,7 +1079,6 @@ class BP_Members_Admin {
 	 * Render the Member Type metabox.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 *
 	 * @param WP_User $user The WP_User object to be edited.
 	 */
@@ -1127,7 +1109,6 @@ class BP_Members_Admin {
 	 * Process changes from the Member Type metabox.
 	 *
 	 * @since 2.2.0
-	 * @access public
 	 */
 	public function process_member_type_update() {
 		if ( ! isset( $_POST['bp-member-type-nonce'] ) || ! isset( $_POST['bp-members-profile-member-type'] ) ) {
@@ -1161,7 +1142,6 @@ class BP_Members_Admin {
 	/**
 	 * Add a link to Profile in Users listing row actions.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param array|string $actions WordPress row actions (edit, delete).
@@ -1221,7 +1201,6 @@ class BP_Members_Admin {
 	/**
 	 * Add a filter to edit profile url in WP Admin Bar.
 	 *
-	 * @access public
 	 * @since 2.1.0
 	 */
 	public function add_edit_profile_url_filter() {
@@ -1231,7 +1210,6 @@ class BP_Members_Admin {
 	/**
 	 * Filter the profile url.
 	 *
-	 * @access public
 	 * @since 2.1.0
 	 *
 	 * @uses  user_admin_url()
@@ -1252,7 +1230,6 @@ class BP_Members_Admin {
 	/**
 	 * Remove the filter to edit profile url in WP Admin Bar.
 	 *
-	 * @access public
 	 * @since 2.1.0
 	 */
 	public function remove_edit_profile_url_filter() {
@@ -1264,7 +1241,6 @@ class BP_Members_Admin {
 	/**
 	 * Display the admin preferences about signups pagination.
 	 *
-	 * @access public
 	 * @since 2.0.0
 	 *
 	 * @param int    $value

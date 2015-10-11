@@ -17,7 +17,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * The loop iterator.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $current_thread = -1;
@@ -25,7 +24,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * The number of threads returned by the paged query.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $current_thread_count = 0;
@@ -33,7 +31,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * Total number of threads matching the query params.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $total_thread_count = 0;
@@ -41,7 +38,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * Array of threads located by the query.
 	 *
-	 * @access public
 	 * @var array
 	 */
 	public $threads = array();
@@ -49,7 +45,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * The thread object currently being iterated on.
 	 *
-	 * @access public
 	 * @var object
 	 */
 	public $thread = false;
@@ -57,7 +52,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
-	 * @access public
 	 * @var bool
 	 */
 	public $in_the_loop = false;
@@ -65,7 +59,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * User ID of the current inbox.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $user_id = 0;
@@ -73,7 +66,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * The current "box" view ('notices', 'sentbox', 'inbox').
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $box = 'inbox';
@@ -81,7 +73,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * The page number being requested.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $pag_page = 1;
@@ -89,7 +80,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * The number of items being requested per page.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $pag_num = 10;
@@ -97,7 +87,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * An HTML string containing pagination links.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_links = '';
@@ -105,7 +94,6 @@ class BP_Messages_Box_Template {
 	/**
 	 * Search terms for limiting the thread query.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $search_terms = '';
@@ -1771,7 +1759,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The loop iterator.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $current_message = -1;
@@ -1779,7 +1766,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * Number of messages returned by the paged query.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $message_count = 0;
@@ -1787,7 +1773,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The message object currently being iterated on.
 	 *
-	 * @access public
 	 * @var object
 	 */
 	public $message;
@@ -1795,7 +1780,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * Thread that the current messages belong to.
 	 *
-	 * @access public
 	 * @var BP_Messages_Thread
 	 */
 	public $thread;
@@ -1803,7 +1787,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
-	 * @access public
 	 * @var bool
 	 */
 	public $in_the_loop = false;
@@ -1811,7 +1794,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The page number being requested.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $pag_page = 1;
@@ -1819,7 +1801,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The number of items being requested per page.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $pag_num = 10;
@@ -1827,7 +1808,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * An HTML string containing pagination links.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $pag_links = '';
@@ -1835,7 +1815,6 @@ class BP_Messages_Thread_Template {
 	/**
 	 * The total number of messages matching the query.
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $total_message_count = 0;

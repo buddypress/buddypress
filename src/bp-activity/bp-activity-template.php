@@ -117,7 +117,6 @@ class BP_Activity_Template {
 	 * The loop iterator.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $current_activity = -1;
@@ -126,7 +125,6 @@ class BP_Activity_Template {
 	 * The activity count.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $activity_count;
@@ -135,7 +133,6 @@ class BP_Activity_Template {
 	 * The total activity count.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $total_activity_count;
@@ -144,7 +141,6 @@ class BP_Activity_Template {
 	 * Array of activities located by the query.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var array
 	 */
 	public $activities;
@@ -153,7 +149,6 @@ class BP_Activity_Template {
 	 * The activity object currently being iterated on.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var object
 	 */
 	public $activity;
@@ -162,7 +157,6 @@ class BP_Activity_Template {
 	 * A flag for whether the loop is currently being iterated.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -179,7 +173,6 @@ class BP_Activity_Template {
 	 * The page number being requested.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $pag_page;
@@ -188,7 +181,6 @@ class BP_Activity_Template {
 	 * The number of items being requested per page.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var int
 	 */
 	public $pag_num;
@@ -197,7 +189,6 @@ class BP_Activity_Template {
 	 * An HTML string containing pagination links.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $pag_links;
@@ -206,7 +197,6 @@ class BP_Activity_Template {
 	 * The displayed user's full name.
 	 *
 	 * @since 1.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $full_name;

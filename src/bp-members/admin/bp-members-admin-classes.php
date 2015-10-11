@@ -23,7 +23,6 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $signup_counts = 0;
@@ -410,7 +409,6 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @access public
 	 * @var int
 	 */
 	public $signup_counts = 0;
@@ -605,7 +603,6 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * Prevents regular users row actions to be output.
 	 *
 	 * @since 2.4.0
-	 * @access protected
 	 *
 	 * @param object $signup_object Signup being acted upon.
 	 * @param string $column_name   Current column name.
