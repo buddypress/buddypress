@@ -762,7 +762,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	/**
 	 * Allow plugins to add their custom column.
 	 *
-	 * @since BuddyPress 2.1.0
+	 * @since 2.1.0
 	 *
 	 * @param object|null $signup_object The signup data object.
 	 * @param string      $column_name   The column name.

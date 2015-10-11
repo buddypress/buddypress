@@ -10,7 +10,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	/**
 	 * A flag indicating whether an autocommit has been detected inside of a test.
 	 *
-	 * @since BuddyPress (2.4.0)
+	 * @since 2.4.0
 	 *
 	 * @var bool
 	 */
@@ -19,7 +19,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	/**
 	 * A list of components that have been deactivated during a test.
 	 *
-	 * @since BuddyPress (2.4.0)
+	 * @since 2.4.0
 	 *
 	 * @var array
 	 */
@@ -528,7 +528,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	/**
 	 * Set a flag that an autocommit has taken place inside of a test method.
 	 *
-	 * @since BuddyPress (2.4.0)
+	 * @since 2.4.0
 	 */
 	public function set_autocommit_flag() {
 		$this->autocommitted = true;
@@ -537,7 +537,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	/**
 	 * Deactivate a component for the duration of a test.
 	 *
-	 * @since BuddyPress (2.4.0)
+	 * @since 2.4.0
 	 *
 	 * @param string $component Component name.
 	 */
