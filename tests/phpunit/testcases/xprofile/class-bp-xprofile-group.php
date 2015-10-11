@@ -421,6 +421,6 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		// Get the field
 		$e1 = new BP_XProfile_Group( $g1 );
 
-		$this->assertSame( $pristine_name, $e1->name );
+		$this->assertSame( "Test ' Name", $e1->name );
 	}
 }
