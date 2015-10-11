@@ -255,7 +255,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 
 	// The breakpoint for main & sidebar could cut in earlier, elements wrap to blocks/columns
-	// but margins & padding still in effect style.css L:2781.
+	// but margins & padding still in effect for sidebar style.css L:2781.
 
 	@include small-up {
 		#primary {
@@ -267,7 +267,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				margin: 0;
 			}
 
-			.entry-content {
+			.entry-content,
+			.content-bottom-widgets {
 				margin-left: 7.6923%;
 				margin-right: 7.6923%;
 			}
@@ -287,8 +288,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			margin-right: -100%;
 			width: 70%;
 
-			.entry-header {
-				margin: 0 7.6923%;
+			.entry-content,
+			.content-bottom-widgets {
+				margin-left: 0;
+				margin-right: 0;
 			}
 		}
 
@@ -375,9 +378,26 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		ul {
 			overflow: hidden;
-			li {float: none;}
+
+			li {
+				float: none;
+			}
+
+			@media screen and (max-width: 38.75em) {
+				li:not(:last-child) {
+					border-bottom: 1px solid $border-light;
+				}
+			}
+
 			li:not(.selected) {
 				a {opacity: 0.7;}
+
+				@media screen and (max-width: 38.75em) {
+					&:focus,
+					&:hover {
+						background: darken($cream-background, 2%);
+					}
+				}
 			}
 
 			@media screen and (min-width: 38.75em) {
@@ -453,17 +473,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 // This block contains rules to re-factor the item-body structural element
 // to sit alongside the vert menu
-// As 2016 has an inner sidebar which if active can narrow screen too far
-// for a columner nav we'll only use these rules if no sidebar.
+// 2016 right sidebar is displayed if the widget sidebar has widgets;
+// we'll only display object nav as a vert menu if sidebar not present.
 
 @media screen and (min-width: 55em) {
 
-	.bp-user #buddypress,
-	.single-item.groups #buddypress {
-	//	background: $light-background;
-	}
-
-	body:not(.sidebar) {
+	body.no-sidebar {
 		#buddypress {
 
 			#item-header,

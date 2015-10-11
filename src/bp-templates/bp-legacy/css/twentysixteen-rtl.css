@@ -86,7 +86,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	.buddypress #primary .entry-header {
 		margin: 0;
 	}
-	.buddypress #primary .entry-content {
+	.buddypress #primary .entry-content,
+	.buddypress #primary .content-bottom-widgets {
 		margin-right: 7.6923%;
 		margin-left: 7.6923%;
 	}
@@ -104,8 +105,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		margin-left: -100%;
 		width: 70%;
 	}
-	.buddypress #primary .entry-header {
-		margin: 0 7.6923%;
+	.buddypress #primary .entry-content,
+	.buddypress #primary .content-bottom-widgets {
+		margin-right: 0;
+		margin-left: 0;
 	}
 	.buddypress .sidebar {
 		float: right;
@@ -160,8 +163,21 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	float: none;
 }
 
+@media screen and (max-width: 38.75em) {
+	#buddypress #object-nav ul li:not(:last-child) {
+		border-bottom: 1px solid #eaeaea;
+	}
+}
+
 #buddypress #object-nav ul li:not(.selected) a {
 	opacity: 0.7;
+}
+
+@media screen and (max-width: 38.75em) {
+	#buddypress #object-nav ul li:not(.selected):focus,
+	#buddypress #object-nav ul li:not(.selected):hover {
+		background: #f4f2df;
+	}
 }
 
 @media screen and (min-width: 38.75em) {
@@ -221,41 +237,41 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 /*__ Vertical menu User Account / Group single screens __*/
 @media screen and (min-width: 55em) {
-	body:not(.sidebar) #buddypress #item-header,
-	body:not(.sidebar) #buddypress #item-body {
+	body.no-sidebar #buddypress #item-header,
+	body.no-sidebar #buddypress #item-body {
 		background: #fff;
 	}
-	body:not(.sidebar) #buddypress #object-nav {
+	body.no-sidebar #buddypress #object-nav {
 		border-left: 1px solid #ddd;
 		float: right;
 		margin-left: -1px;
 		width: 200px;
 	}
-	body:not(.sidebar) #buddypress #object-nav ul {
+	body.no-sidebar #buddypress #object-nav ul {
 		background: none;
 		border-bottom: 0;
 		padding: 0;
 	}
-	body:not(.sidebar) #buddypress #object-nav ul li {
+	body.no-sidebar #buddypress #object-nav ul li {
 		float: none;
 		overflow: hidden;
 	}
-	body:not(.sidebar) #buddypress #object-nav ul li span {
+	body.no-sidebar #buddypress #object-nav ul li span {
 		background: #fff;
 		border-radius: 10%;
 		float: left;
 		margin-left: 2px;
 	}
-	body:not(.sidebar) #buddypress #item-body {
+	body.no-sidebar #buddypress #item-body {
 		border-right: 1px solid #ddd;
 		overflow: hidden;
 		padding: 0 20px 0 0;
 		width: auto;
 	}
-	body:not(.sidebar) #buddypress #item-body #subnav {
+	body.no-sidebar #buddypress #item-body #subnav {
 		margin: 0 -20px 0 0;
 	}
-	body:not(.sidebar) #buddypress #item-body #subnav ul {
+	body.no-sidebar #buddypress #item-body #subnav ul {
 		margin-top: 0;
 	}
 }
