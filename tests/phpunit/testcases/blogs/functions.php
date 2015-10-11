@@ -711,6 +711,78 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		remove_filter( 'bp_is_blog_public', '__return_zero' );
 	}
 
+	/**
+	 * @group bp_blogs_record_comment
+	 * @group unique
+	 */
+	public function test_bp_blogs_record_comment_no_duplicate_activity_comments() {
+		// save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+		$this->activity_saved_comment_count = 0;
+		$this->comment_saved_count = 0;
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		add_action( 'bp_activity_add', array( $this, 'count_activity_comment_saved' ) );
+		add_action( 'wp_insert_comment', array( $this, 'count_post_comment_saved' ) );
+		add_action( 'edit_comment', array( $this, 'count_post_comment_saved' ) );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test Duplicate activity comments',
+		) );
+
+		// grab the activity ID for the activity comment
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		$a2 = bp_activity_new_comment( array(
+			'content'     => 'activity comment should be unique',
+			'user_id'     => $u,
+			'activity_id' => $a1,
+		) );
+
+		$activities = bp_activity_get( array(
+			'type'             => 'activity_comment',
+			'display_comments' => 'stream',
+			'search_terms'     => 'activity comment should be unique',
+		) );
+
+		$this->assertTrue( count( $activities['activities'] ) === 1, 'An activity comment should be unique' );
+
+		$this->assertTrue( 2 === $this->activity_saved_comment_count, 'An activity comment should be saved only twice' );
+		$this->assertTrue( 1 === $this->comment_saved_count, 'A comment should be saved only once' );
+
+		// reset
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		remove_action( 'bp_activity_add', array( $this, 'count_activity_comment_saved' ) );
+		remove_action( 'wp_insert_comment', array( $this, 'count_post_comment_saved' ) );
+		remove_action( 'edit_comment', array( $this, 'count_post_comment_saved' ) );
+
+		$this->activity_saved_comment_count = 0;
+		$this->comment_saved_count = 0;
+		$this->set_current_user( $old_user );
+	}
+
+	public function count_activity_comment_saved() {
+		$this->activity_saved_comment_count += 1;
+	}
+
+	public function count_post_comment_saved() {
+		$this->comment_saved_count += 1;
+	}
+
 	protected function activity_exists_for_post( $post_id ) {
 		$a = bp_activity_get( array(
 			'component' => buddypress()->blogs->id,
