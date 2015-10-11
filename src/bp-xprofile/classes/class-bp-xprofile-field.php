@@ -1104,8 +1104,11 @@ class BP_XProfile_Field {
 				$this->description = $_POST['description'];
 				$this->is_required = $_POST['required'];
 				$this->type        = $_POST['fieldtype'];
-				$this->order_by    = $_POST["sort_order_{$this->type}"];
 				$this->field_order = $_POST['field_order'];
+
+				if ( ! empty( $_POST["sort_order_{$this->type}"] ) ) {
+					$this->order_by = $_POST["sort_order_{$this->type}"];
+				}
 			}
 		} else {
 			$title  = __( 'Edit Field', 'buddypress' );
