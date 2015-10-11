@@ -105,20 +105,20 @@ class BP_Core_Friends_Widget extends WP_Widget {
 
 		<?php if ( bp_has_members( $members_args ) ) : ?>
 			<div class="item-options" id="friends-list-options">
-				<a href="<?php bp_members_directory_permalink(); ?>" id="newest-friends" <?php if ( $instance['friend_default'] == 'newest' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></a>
-				| <a href="<?php bp_members_directory_permalink(); ?>" id="recently-active-friends" <?php if ( $instance['friend_default'] == 'active' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></a>
-				| <a href="<?php bp_members_directory_permalink(); ?>" id="popular-friends" <?php if ( $instance['friend_default'] == 'popular' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ) ?></a>
+				<a href="<?php bp_members_directory_permalink(); ?>" id="newest-friends" <?php if ( $instance['friend_default'] == 'newest' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ); ?></a>
+				| <a href="<?php bp_members_directory_permalink(); ?>" id="recently-active-friends" <?php if ( $instance['friend_default'] == 'active' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ); ?></a>
+				| <a href="<?php bp_members_directory_permalink(); ?>" id="popular-friends" <?php if ( $instance['friend_default'] == 'popular' ) : ?>class="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ); ?></a>
 			</div>
 
 			<ul id="friends-list" class="item-list">
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 					<li class="vcard">
 						<div class="item-avatar">
-							<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_avatar() ?></a>
+							<a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_avatar(); ?></a>
 						</div>
 
 						<div class="item">
-							<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
+							<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_name(); ?></a></div>
 							<div class="item-meta">
 								<span class="activity">
 								<?php
@@ -189,16 +189,16 @@ class BP_Core_Friends_Widget extends WP_Widget {
 		$link_title	= (bool) $instance['link_title'];
 		?>
 
-		<p><label for="<?php echo $this->get_field_id( 'link_title' ) ?>"><input type="checkbox" name="<?php echo $this->get_field_name('link_title') ?>" id="<?php echo $this->get_field_id( 'link_title' ) ?>" value="1" <?php checked( $link_title ) ?> /> <?php _e( 'Link widget title to Members directory', 'buddypress' ) ?></label></p>
+		<p><label for="<?php echo $this->get_field_id( 'link_title' ); ?>"><input type="checkbox" name="<?php echo $this->get_field_name('link_title'); ?>" id="<?php echo $this->get_field_id( 'link_title' ); ?>" value="1" <?php checked( $link_title ); ?> /> <?php _e( 'Link widget title to Members directory', 'buddypress' ); ?></label></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'max_friends' ); ?>"><?php _e( 'Max friends to show:', 'buddypress' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_friends' ); ?>" name="<?php echo $this->get_field_name( 'max_friends' ); ?>" type="text" value="<?php echo absint( $max_friends ); ?>" style="width: 30%" /></label></p>
 
 		<p>
 			<label for="<?php echo $this->get_field_id( 'friend_default' ) ?>"><?php _e( 'Default friends to show:', 'buddypress' ); ?></label>
-			<select name="<?php echo $this->get_field_name( 'friend_default' ) ?>" id="<?php echo $this->get_field_id( 'friend_default' ) ?>">
-				<option value="newest" <?php selected( $friend_default, 'newest' ); ?>><?php _e( 'Newest', 'buddypress' ) ?></option>
-				<option value="active" <?php selected( $friend_default, 'active' );?>><?php _e( 'Active', 'buddypress' ) ?></option>
-				<option value="popular"  <?php selected( $friend_default, 'popular' ); ?>><?php _e( 'Popular', 'buddypress' ) ?></option>
+			<select name="<?php echo $this->get_field_name( 'friend_default' ); ?>" id="<?php echo $this->get_field_id( 'friend_default' ); ?>">
+				<option value="newest" <?php selected( $friend_default, 'newest' ); ?>><?php _e( 'Newest', 'buddypress' ); ?></option>
+				<option value="active" <?php selected( $friend_default, 'active' );?>><?php _e( 'Active', 'buddypress' ); ?></option>
+				<option value="popular"  <?php selected( $friend_default, 'popular' ); ?>><?php _e( 'Popular', 'buddypress' ); ?></option>
 			</select>
 		</p>
 
@@ -243,17 +243,17 @@ function bp_core_ajax_widget_friends() {
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 			<li class="vcard">
 				<div class="item-avatar">
-					<a href="<?php bp_member_permalink() ?>"><?php bp_member_avatar() ?></a>
+					<a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar(); ?></a>
 				</div>
 
 				<div class="item">
-					<div class="item-title fn"><a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name() ?>"><?php bp_member_name() ?></a></div>
+					<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_name(); ?></a></div>
 					<?php if ( 'active' == $type ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_last_active() ?></span></div>
+						<div class="item-meta"><span class="activity"><?php bp_member_last_active(); ?></span></div>
 					<?php elseif ( 'newest' == $type ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_registered() ?></span></div>
+						<div class="item-meta"><span class="activity"><?php bp_member_registered(); ?></span></div>
 					<?php elseif ( bp_is_active( 'friends' ) ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count() ?></span></div>
+						<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count(); ?></span></div>
 					<?php endif; ?>
 				</div>
 			</li>
@@ -261,7 +261,7 @@ function bp_core_ajax_widget_friends() {
 
 	<?php else: ?>
 		<?php echo "-1[[SPLIT]]<li>"; ?>
-		<?php _e( 'There were no members found, please try another filter.', 'buddypress' ) ?>
+		<?php _e( 'There were no members found, please try another filter.', 'buddypress' ); ?>
 		<?php echo "</li>"; ?>
 	<?php endif;
 }
