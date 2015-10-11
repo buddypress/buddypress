@@ -51,7 +51,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 			<thead>
 				<tr>
-					<th scope="col" class="thread-checkbox bulk-select-all"><label class="bp-screen-reader-text" for="select-all-messages"><?php _e( 'Select all', 'buddypress' ); ?></label><input id="select-all-messages" type="checkbox"></th>
+					<th scope="col" class="thread-checkbox bulk-select-all"><input id="select-all-messages" type="checkbox"><label class="bp-screen-reader-text" for="select-all-messages"><?php _e( 'Select all', 'buddypress' ); ?></label></th>
 					<th scope="col" class="thread-from"><?php _e( 'From', 'buddypress' ); ?></th>
 					<th scope="col" class="thread-info"><?php _e( 'Subject', 'buddypress' ); ?></th>
 
