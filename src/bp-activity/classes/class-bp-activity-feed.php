@@ -1,12 +1,12 @@
 <?php
 /**
- * BuddyPress Activity Classes
+ * BuddyPress Activity Classes.
  *
  * @package BuddyPress
  * @subpackage ActivityFeeds
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -15,10 +15,12 @@ defined( 'ABSPATH' ) || exit;
  * You should only construct a new feed when you've validated that you're on
  * the appropriate screen.
  *
+ * @since 1.8.0
+ *
  * See {@link bp_activity_action_sitewide_feed()} as an example.
  *
  * @param array $args {
- *   @type string $id	            Required. Internal id for the feed; should be alphanumeric only.
+ *   @type string $id               Required. Internal id for the feed; should be alphanumeric only.
  *   @type string $title            Optional. RSS feed title.
  *   @type string $link             Optional. Relevant link for the RSS feed.
  *   @type string $description      Optional. RSS feed description.
@@ -30,7 +32,6 @@ defined( 'ABSPATH' ) || exit;
  *   @type string $max              Optional. Number of feed items to display.
  *   @type array  $activity_args    Optional. Arguments passed to {@link bp_has_activities()}
  * }
- * @since 1.8.0
  */
 class BP_Activity_Feed {
 
@@ -48,7 +49,7 @@ class BP_Activity_Feed {
 	/**
 	 * Magic method for checking the existence of a certain data variable.
 	 *
-	 * @param string $key
+	 * @param string $key Property to check.
 	 *
 	 * @return bool Whether or not data variable exists.
 	 */
@@ -57,7 +58,7 @@ class BP_Activity_Feed {
 	/**
 	 * Magic method for getting a certain data variable.
 	 *
-	 * @param string $key
+	 * @param string $key Property to get.
 	 *
 	 * @return mixed Data in variable if available or null.
 	 */
@@ -90,45 +91,45 @@ class BP_Activity_Feed {
 		if ( false === (bool) apply_filters( 'bp_activity_enable_feeds', true ) ) {
 			global $wp_query;
 
-			// set feed flag to false
+			// Set feed flag to false.
 			$wp_query->is_feed = false;
 
 			return false;
 		}
 
-		// Setup data
+		// Setup data.
 		$this->data = wp_parse_args( $args, array(
-			// Internal identifier for the RSS feed - should be alphanumeric only
+			// Internal identifier for the RSS feed - should be alphanumeric only.
 			'id'               => '',
 
-			// RSS title - should be plain-text
+			// RSS title - should be plain-text.
 			'title'            => '',
 
-			// relevant link for the RSS feed
+			// Relevant link for the RSS feed.
 			'link'             => '',
 
-			// RSS description - should be plain-text
+			// RSS description - should be plain-text.
 			'description'      => '',
 
 			// Time-to-live - number of minutes to cache the data before an aggregator
 			// requests it again.  This is only acknowledged if the RSS client supports it
 			//
-			// See: http://www.rssboard.org/rss-profile#element-channel-ttl
-			//      http://www.kbcafe.com/rss/rssfeedstate.html#ttl
+			// See: http://www.rssboard.org/rss-profile#element-channel-ttl.
+			// See: http://www.kbcafe.com/rss/rssfeedstate.html#ttl.
 			'ttl'              => '30',
 
 			// Syndication module - similar to ttl, but not really supported by RSS
 			// clients
 			//
-			// See: http://web.resource.org/rss/1.0/modules/syndication/#description
-			//      http://www.kbcafe.com/rss/rssfeedstate.html#syndicationmodule
+			// See: http://web.resource.org/rss/1.0/modules/syndication/#description.
+			// See: http://www.kbcafe.com/rss/rssfeedstate.html#syndicationmodule.
 			'update_period'    => 'hourly',
 			'update_frequency' => 2,
 
-			// Number of items to display
+			// Number of items to display.
 			'max'              => 50,
 
-			// Activity arguments passed to bp_has_activities()
+			// Activity arguments passed to bp_has_activities().
 			'activity_args'    => array()
 		) );
 
@@ -141,10 +142,10 @@ class BP_Activity_Feed {
 		 */
 		do_action_ref_array( 'bp_activity_feed_prefetch', array( &$this ) );
 
-		// Setup class properties
+		// Setup class properties.
 		$this->setup_properties();
 
-		// Check if id is valid
+		// Check if id is valid.
 		if ( empty( $this->id ) ) {
 			_doing_it_wrong( 'BP_Activity_Feed', __( "RSS feed 'id' must be defined", 'buddypress' ), 'BP 1.8' );
 			return false;
@@ -159,13 +160,13 @@ class BP_Activity_Feed {
 		 */
 		do_action_ref_array( 'bp_activity_feed_postfetch', array( &$this ) );
 
-		// Setup feed hooks
+		// Setup feed hooks.
 		$this->setup_hooks();
 
-		// Output the feed
+		// Output the feed.
 		$this->output();
 
-		// Kill the rest of the output
+		// Kill the rest of the output.
 		die();
 	}
 
@@ -241,7 +242,7 @@ class BP_Activity_Feed {
 	public function backpat_item_elements() {
 		switch ( $this->id ) {
 
-			// sitewide and friends feeds use the 'personal' hook
+			// Sitewide and friends feeds use the 'personal' hook.
 			case 'sitewide' :
 			case 'friends' :
 				$id = 'personal';
@@ -274,7 +275,7 @@ class BP_Activity_Feed {
 
 		switch ( $this->id ) {
 
-			// also output parent activity item if we're on a specific feed
+			// Also output parent activity item if we're on a specific feed.
 			case 'favorites' :
 			case 'friends' :
 			case 'mentions' :
@@ -299,8 +300,8 @@ class BP_Activity_Feed {
 	 * @since 1.9.0
 	 */
 	protected function http_headers() {
-		// set up some additional headers if not on a directory page
-		// this is done b/c BP uses pseudo-pages
+		// Set up some additional headers if not on a directory page
+		// this is done b/c BP uses pseudo-pages.
 		if ( ! bp_is_directory() ) {
 			global $wp_query;
 
@@ -308,46 +309,46 @@ class BP_Activity_Feed {
 			status_header( 200 );
 		}
 
-		// Set content-type
+		// Set content-type.
 		@header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 		send_nosniff_header();
 
-		// Cache-related variables
+		// Cache-related variables.
 		$last_modified      = mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false );
 		$modified_timestamp = strtotime( $last_modified );
 		$etag               = md5( $last_modified );
 
-		// Set cache-related headers
+		// Set cache-related headers.
 		@header( 'Last-Modified: ' . $last_modified );
 		@header( 'Pragma: no-cache' );
 		@header( 'ETag: ' . '"' . $etag . '"' );
 
-		// First commit of BuddyPress! (Easter egg)
+		// First commit of BuddyPress! (Easter egg).
 		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT');
 
-		// Get ETag from supported user agents
+		// Get ETag from supported user agents.
 		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
 			$client_etag = wp_unslash( $_SERVER['HTTP_IF_NONE_MATCH'] );
 
-			// Remove quotes from ETag
+			// Remove quotes from ETag.
 			$client_etag = trim( $client_etag, '"' );
 
-			// Strip suffixes from ETag if they exist (eg. "-gzip")
+			// Strip suffixes from ETag if they exist (eg. "-gzip").
 			$etag_suffix_pos = strpos( $client_etag, '-' );
 			if ( ! empty( $etag_suffix_pos ) ) {
 				$client_etag = substr( $client_etag, 0, $etag_suffix_pos );
 			}
 
-		// No ETag found
+		// No ETag found.
 		} else {
 			$client_etag = false;
 		}
 
-		// Get client last modified timestamp from supported user agents
+		// Get client last modified timestamp from supported user agents.
 		$client_last_modified      = empty( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ? '' : trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
 		$client_modified_timestamp = $client_last_modified ? strtotime( $client_last_modified ) : 0;
 
-		// Set 304 status if feed hasn't been updated since last fetch
+		// Set 304 status if feed hasn't been updated since last fetch.
 		if ( ( $client_last_modified && $client_etag ) ?
 				 ( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) ) :
 				 ( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) ) ) {
@@ -356,11 +357,11 @@ class BP_Activity_Feed {
 			$status = false;
 		}
 
-		// If feed hasn't changed as reported by the user agent, set 304 status header
+		// If feed hasn't changed as reported by the user agent, set 304 status header.
 		if ( ! empty( $status ) ) {
 			status_header( $status );
 
-			// cached response, so stop now!
+			// Cached response, so stop now!
 			if ( $status == 304 ) {
 				exit();
 			}

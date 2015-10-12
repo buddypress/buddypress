@@ -7,7 +7,7 @@
  * @subpackage ActivityCache
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * using querying activitymeta inline.
  *
  * @param int|string|array|bool $activity_ids Accepts a single activity ID, or a comma-
- *                                            separated list or array of activity ids
+ *                                            separated list or array of activity ids.
  */
 function bp_activity_update_meta_cache( $activity_ids = false ) {
 	$bp = buddypress();
@@ -40,7 +40,7 @@ function bp_activity_update_meta_cache( $activity_ids = false ) {
  *
  * @since 2.0.0
  *
- * @param BP_Activity_Activity $activity
+ * @param BP_Activity_Activity $activity Activity object.
  */
 function bp_activity_clear_cache_for_activity( $activity ) {
 	wp_cache_delete( $activity->id, 'bp_activity' );

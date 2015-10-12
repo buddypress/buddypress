@@ -989,8 +989,8 @@ add_filter( 'bp_activity_can_comment', 'bp_blogs_disable_activity_commenting' );
  *
  * @since 2.0.0
  *
- * @param bool   $retval  Are replies allowed for this activity reply?
- * @param object $comment The activity comment object.
+ * @param bool         $retval  Are replies allowed for this activity reply?
+ * @param object|array $comment The activity comment object.
  *
  * @return bool
  */

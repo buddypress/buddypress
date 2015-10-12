@@ -6,7 +6,7 @@
  * @subpackage ActivityQuery
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -56,7 +56,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * @param array $query {
 	 *     Array of query clauses.
-	 *
 	 *     @type array {
 	 *         @type string $column   Required. The column to query against. Basically, any DB column in the main
 	 *                                'wp_bp_activity' table.
@@ -87,7 +86,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * @param string $alias An existing table alias that is compatible with the current query clause.
 	 *                      Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
-	 *
 	 * @return string SQL fragment to append to the main WHERE clause.
 	 */
 	public function get_sql( $alias = 'a' ) {
@@ -97,10 +95,10 @@ class BP_Activity_Query extends BP_Recursive_Query {
 
 		$sql = $this->get_sql_clauses();
 
-		// we only need the 'where' clause
+		// We only need the 'where' clause.
 		//
-		// also trim trailing "AND" clause from parent BP_Recursive_Query class
-		// since it's not necessary for our needs
+		// Also trim trailing "AND" clause from parent BP_Recursive_Query class
+		// since it's not necessary for our needs.
 		return preg_replace( '/^\sAND/', '', $sql['where'] );
 	}
 
@@ -111,7 +109,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * @param  array $clause       Array of arguments belonging to the clause.
 	 * @param  array $parent_query Parent query to which the clause belongs.
-	 *
 	 * @return array {
 	 *     @type array $where Array of subclauses for the WHERE statement.
 	 *     @type array $join  Empty array. Not used.
@@ -137,7 +134,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 			$clause['compare'] = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
 		}
 
-		// default 'compare' to '=' if no valid operator is found
+		// Default 'compare' to '=' if no valid operator is found.
 		if ( ! in_array( $clause['compare'], array(
 			'=', '!=', '>', '>=', '<', '<=',
 			'LIKE', 'NOT LIKE',
@@ -155,7 +152,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 		// Next, Build the WHERE clause.
 		$where = '';
 
-		// value.
+		// Value.
 		if ( isset( $clause['value'] ) ) {
 			if ( in_array( $compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 				if ( ! is_array( $value ) ) {
@@ -163,13 +160,13 @@ class BP_Activity_Query extends BP_Recursive_Query {
 				}
 			}
 
-			// tinyint
+			// Tinyint.
 			if ( ! empty( $column ) && true === in_array( $column, array( 'hide_sitewide', 'is_spam' ) ) ) {
 				$sql_chunks['where'][] = $wpdb->prepare( "{$alias}{$column} = %d", $value );
 
 			} else {
 				switch ( $compare ) {
-					// IN uses different syntax
+					// IN uses different syntax.
 					case 'IN' :
 					case 'NOT IN' :
 						$in_sql = BP_Activity_Activity::get_in_operator_sql( "{$alias}{$column}", $value );
@@ -222,7 +219,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @since 2.2.0
 	 *
 	 * @param array $query Clause to check.
-	 *
 	 * @return bool
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -238,7 +234,6 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * @since 2.2.0
 	 *
 	 * @param string $column The user-supplied column name.
-	 *
 	 * @return string A validated column name value.
 	 */
 	public function validate_column( $column = '' ) {

@@ -607,7 +607,7 @@ function bp_core_get_user_displaynames( $user_ids ) {
 /**
  * Fetch the display name for a user.
  *
- * @param int|string $user_id_or_username User ID or username.
+ * @param int|string|bool $user_id_or_username User ID or username.
  *
  * @return string|bool The display name for the user in question, or false if
  *                     user not found.

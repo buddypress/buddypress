@@ -8,7 +8,7 @@
  * @subpackage ActivityCore
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -46,7 +46,7 @@ class BP_Activity_Component extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 
-		// Files to include
+		// Files to include.
 		$includes = array(
 			'cssjs',
 			'actions',
@@ -59,7 +59,7 @@ class BP_Activity_Component extends BP_Component {
 			'cache'
 		);
 
-		// Load Akismet support if Akismet is configured
+		// Load Akismet support if Akismet is configured.
 		$akismet_key = bp_get_option( 'wordpress_api_key' );
 
 		/** This filter is documented in bp-activity/bp-activity-actions.php */
@@ -89,18 +89,18 @@ class BP_Activity_Component extends BP_Component {
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
 
-		// Define a slug, if necessary
+		// Define a slug, if necessary.
 		if ( ! defined( 'BP_ACTIVITY_SLUG' ) ) {
 			define( 'BP_ACTIVITY_SLUG', $this->id );
 		}
 
-		// Global tables for activity component
+		// Global tables for activity component.
 		$global_tables = array(
 			'table_name'      => $bp->table_prefix . 'bp_activity',
 			'table_name_meta' => $bp->table_prefix . 'bp_activity_meta',
 		);
 
-		// Metadata tables for groups component
+		// Metadata tables for groups component.
 		$meta_tables = array(
 			'activity' => $bp->table_prefix . 'bp_activity_meta',
 		);
@@ -137,12 +137,12 @@ class BP_Activity_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Stop if there is no user displayed or logged in
+		// Stop if there is no user displayed or logged in.
 		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
-		// Determine user to use
+		// Determine user to use.
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
 		} elseif ( bp_loggedin_user_domain() ) {
@@ -154,7 +154,7 @@ class BP_Activity_Component extends BP_Component {
 		$slug          = bp_get_activity_slug();
 		$activity_link = trailingslashit( $user_domain . $slug );
 
-		// Add 'Activity' to the main navigation
+		// Add 'Activity' to the main navigation.
 		$main_nav = array(
 			'name'                => _x( 'Activity', 'Profile activity screen nav', 'buddypress' ),
 			'slug'                => $slug,
@@ -164,7 +164,7 @@ class BP_Activity_Component extends BP_Component {
 			'item_css_id'         => $this->id
 		);
 
-		// Add the subnav items to the activity nav item if we are using a theme that supports this
+		// Add the subnav items to the activity nav item if we are using a theme that supports this.
 		$sub_nav[] = array(
 			'name'            => _x( 'Personal', 'Profile activity screen sub nav', 'buddypress' ),
 			'slug'            => 'just-me',
@@ -174,7 +174,7 @@ class BP_Activity_Component extends BP_Component {
 			'position'        => 10
 		);
 
-		// @ mentions
+		// Check @mentions.
 		if ( bp_activity_do_mentions() ) {
 			$sub_nav[] = array(
 				'name'            => _x( 'Mentions', 'Profile activity screen sub nav', 'buddypress' ),
@@ -187,7 +187,7 @@ class BP_Activity_Component extends BP_Component {
 			);
 		}
 
-		// Favorite activity items
+		// Favorite activity items.
 		if ( bp_activity_can_favorite() ) {
 			$sub_nav[] = array(
 				'name'            => _x( 'Favorites', 'Profile activity screen sub nav', 'buddypress' ),
@@ -200,7 +200,7 @@ class BP_Activity_Component extends BP_Component {
 			);
 		}
 
-		// Additional menu if friends is active
+		// Additional menu if friends is active.
 		if ( bp_is_active( 'friends' ) ) {
 			$sub_nav[] = array(
 				'name'            => _x( 'Friends', 'Profile activity screen sub nav', 'buddypress' ),
@@ -213,7 +213,7 @@ class BP_Activity_Component extends BP_Component {
 			) ;
 		}
 
-		// Additional menu if groups is active
+		// Additional menu if groups is active.
 		if ( bp_is_active( 'groups' ) ) {
 			$sub_nav[] = array(
 				'name'            => _x( 'Groups', 'Profile activity screen sub nav', 'buddypress' ),
@@ -249,13 +249,13 @@ class BP_Activity_Component extends BP_Component {
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
-		// Menus for logged in user
+		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
 
-			// Setup the logged in user variables
+			// Setup the logged in user variables.
 			$activity_link = trailingslashit( bp_loggedin_user_domain() . bp_get_activity_slug() );
 
-			// Unread message count
+			// Unread message count.
 			if ( bp_activity_do_mentions() ) {
 				$count = bp_get_total_mention_count_for_user( bp_loggedin_user_id() );
 				if ( !empty( $count ) ) {
@@ -265,7 +265,7 @@ class BP_Activity_Component extends BP_Component {
 				}
 			}
 
-			// Add the "Activity" sub menu
+			// Add the "Activity" sub menu.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
@@ -273,7 +273,7 @@ class BP_Activity_Component extends BP_Component {
 				'href'   => $activity_link
 			);
 
-			// Personal
+			// Personal.
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-personal',
@@ -281,7 +281,7 @@ class BP_Activity_Component extends BP_Component {
 				'href'   => $activity_link
 			);
 
-			// Mentions
+			// Mentions.
 			if ( bp_activity_do_mentions() ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
@@ -291,8 +291,7 @@ class BP_Activity_Component extends BP_Component {
 				);
 			}
 
-			// Favorites
-			// Favorite activity items
+			// Favorite activity items.
 			if ( bp_activity_can_favorite() ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
@@ -337,7 +336,7 @@ class BP_Activity_Component extends BP_Component {
 	 */
 	public function setup_title() {
 
-		// Adjust title based on view
+		// Adjust title based on view.
 		if ( bp_is_activity_component() ) {
 			$bp = buddypress();
 
@@ -363,7 +362,7 @@ class BP_Activity_Component extends BP_Component {
 	 */
 	public function setup_actions() {
 
-		// Spam prevention
+		// Spam prevention.
 		add_action( 'bp_include', 'bp_activity_setup_akismet' );
 
 		parent::setup_actions();
@@ -376,7 +375,7 @@ class BP_Activity_Component extends BP_Component {
 	 */
 	public function setup_cache_groups() {
 
-		// Global groups
+		// Global groups.
 		wp_cache_add_global_groups( array(
 			'bp_activity',
 			'bp_activity_comments',

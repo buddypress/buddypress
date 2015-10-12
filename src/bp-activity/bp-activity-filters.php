@@ -6,12 +6,12 @@
  * @subpackage ActivityFilters
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Filters *******************************************************************/
 
-// Apply WordPress defined filters
+// Apply WordPress defined filters.
 add_filter( 'bp_get_activity_action',                'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content',               'bp_activity_filter_kses', 1 );
@@ -77,7 +77,7 @@ add_filter( 'bp_get_activity_feed_item_description', 'stripslashes_deep', 5 );
 
 add_filter( 'bp_activity_primary_link_before_save',  'esc_url_raw' );
 
-// Apply BuddyPress-defined filters
+// Apply BuddyPress-defined filters.
 add_filter( 'bp_get_activity_content',               'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_parent_content',        'bp_activity_make_nofollow_filter' );
@@ -100,10 +100,10 @@ add_filter( 'bp_get_total_mention_count_for_user',  'bp_core_number_format' );
 
 /** Actions *******************************************************************/
 
-// At-name filter
+// At-name filter.
 add_action( 'bp_activity_before_save', 'bp_activity_at_name_filter_updates' );
 
-// Activity stream moderation
+// Activity stream moderation.
 add_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
 add_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys',  2, 1 );
 
@@ -141,12 +141,12 @@ function bp_activity_get_moderated_activity_types() {
  */
 function bp_activity_check_moderation_keys( $activity ) {
 
-	// Only check specific types of activity updates
+	// Only check specific types of activity updates.
 	if ( !in_array( $activity->type, bp_activity_get_moderated_activity_types() ) )
 		return;
 
 	// Unset the activity component so activity stream update fails
-	// @todo This is temporary until some kind of moderation is built
+	// @todo This is temporary until some kind of moderation is built.
 	if ( !bp_core_check_for_moderation( $activity->user_id, '', $activity->content ) )
 		$activity->component = false;
 }
@@ -160,11 +160,11 @@ function bp_activity_check_moderation_keys( $activity ) {
  */
 function bp_activity_check_blacklist_keys( $activity ) {
 
-	// Only check specific types of activity updates
+	// Only check specific types of activity updates.
 	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types() ) )
 		return;
 
-	// Mark as spam
+	// Mark as spam.
 	if ( ! bp_core_check_for_blacklist( $activity->user_id, '', $activity->content ) )
 		bp_activity_mark_as_spam( $activity, 'by_blacklist' );
 }
@@ -178,7 +178,6 @@ function bp_activity_check_blacklist_keys( $activity ) {
  * @uses wp_kses()
  *
  * @param string $content The activity content.
- *
  * @return string $content Filtered activity content.
  */
 function bp_activity_filter_kses( $content ) {
@@ -222,7 +221,6 @@ function bp_activity_filter_kses( $content ) {
  *
  * @param string $content     The contents of a given item.
  * @param int    $activity_id The activity id. Deprecated.
- *
  * @return string $content Content filtered for mentions.
  */
 function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
@@ -232,7 +230,7 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 		return $content;
 	}
 
-	// Try to find mentions
+	// Try to find mentions.
 	$usernames = bp_activity_find_mentions( $content );
 
 	// No mentions? Stop now!
@@ -240,11 +238,11 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 		return $content;
 
 	// We don't want to link @mentions that are inside of links, so we
-	// temporarily remove them
+	// temporarily remove them.
 	$replace_count = 0;
 	$replacements = array();
 	foreach ( $usernames as $username ) {
-		// prevent @ name linking inside <a> tags
+		// Prevent @ name linking inside <a> tags.
 		preg_match_all( '/(<a.*?(?!<\/a>)@' . $username . '.*?<\/a>)/', $content, $content_matches );
 		if ( ! empty( $content_matches[1] ) ) {
 			foreach ( $content_matches[1] as $replacement ) {
@@ -255,19 +253,19 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 		}
 	}
 
-	// Linkify the mentions with the username
+	// Linkify the mentions with the username.
 	foreach ( (array) $usernames as $user_id => $username ) {
 		$content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $content );
 	}
 
-	// put everything back
+	// Put everything back.
 	if ( ! empty( $replacements ) ) {
 		foreach ( $replacements as $placeholder => $original ) {
 			$content = str_replace( $placeholder, $original, $content );
 		}
 	}
 
-	// Return the content
+	// Return the content.
 	return $content;
 }
 
@@ -281,7 +279,7 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
  *
  * @uses bp_activity_find_mentions()
  *
- * @param BP_Activity_Activity $activity
+ * @param BP_Activity_Activity $activity Activity Object.
  */
 function bp_activity_at_name_filter_updates( $activity ) {
 	// Are mentions disabled?
@@ -293,20 +291,20 @@ function bp_activity_at_name_filter_updates( $activity ) {
 	if ( ! empty( $activity->is_spam ) )
 		return;
 
-	// Try to find mentions
+	// Try to find mentions.
 	$usernames = bp_activity_find_mentions( $activity->content );
 
 	// We have mentions!
 	if ( ! empty( $usernames ) ) {
-		// Replace @mention text with userlinks
+		// Replace @mention text with userlinks.
 		foreach( (array) $usernames as $user_id => $username ) {
 			$activity->content = preg_replace( '/(@' . $username . '\b)/', "<a href='" . bp_core_get_user_domain( $user_id ) . "' rel='nofollow'>@$username</a>", $activity->content );
 		}
 
-		// Add our hook to send @mention emails after the activity item is saved
+		// Add our hook to send @mention emails after the activity item is saved.
 		add_action( 'bp_activity_after_save', 'bp_activity_at_name_send_emails' );
 
-		// temporary variable to avoid having to run bp_activity_find_mentions() again
+		// Temporary variable to avoid having to run bp_activity_find_mentions() again.
 		buddypress()->activity->mentioned_users = $usernames;
 	}
 }
@@ -331,13 +329,13 @@ function bp_activity_at_name_send_emails( $activity ) {
 	if ( empty( buddypress()->activity->mentioned_users ) )
 		return;
 
-	// Grab our temporary variable from bp_activity_at_name_filter_updates()
+	// Grab our temporary variable from bp_activity_at_name_filter_updates().
 	$usernames = buddypress()->activity->mentioned_users;
 
-	// Get rid of temporary variable
+	// Get rid of temporary variable.
 	unset( buddypress()->activity->mentioned_users );
 
-	// Send @mentions and setup BP notifications
+	// Send @mentions and setup BP notifications.
 	foreach( (array) $usernames as $user_id => $username ) {
 
 		/**
@@ -352,7 +350,7 @@ function bp_activity_at_name_send_emails( $activity ) {
 			bp_activity_at_message_notification( $activity->id, $user_id );
 		}
 
-		// Updates mention count for the user
+		// Updates mention count for the user.
 		bp_activity_update_mention_count_for_user( $user_id, $activity->id );
 	}
 }
@@ -363,7 +361,6 @@ function bp_activity_at_name_send_emails( $activity ) {
  * @since 1.2.0
  *
  * @param string $text Activity text.
- *
  * @return string $text Text with rel=nofollow added to any links.
  */
 function bp_activity_make_nofollow_filter( $text ) {
@@ -376,7 +373,6 @@ function bp_activity_make_nofollow_filter( $text ) {
 	 * @since 1.2.0
 	 *
 	 * @param array $matches Items matched by preg_replace_callback() in bp_activity_make_nofollow_filter().
-	 *
 	 * @return string $text Link with rel=nofollow added.
 	 */
 	function bp_activity_make_nofollow_filter_callback( $matches ) {
@@ -401,7 +397,6 @@ function bp_activity_make_nofollow_filter( $text ) {
  * @uses apply_filters() To call the 'bp_activity_truncate_entry' hook.
  *
  * @param string $text The original activity entry text.
- *
  * @return string $excerpt The truncated text.
  */
 function bp_activity_truncate_entry( $text ) {
@@ -419,7 +414,7 @@ function bp_activity_truncate_entry( $text ) {
 		isset( $activities_template->activity->type ) && ! in_array( $activities_template->activity->type, array( 'new_blog_post', ), true )
 	);
 
-	// The full text of the activity update should always show on the single activity screen
+	// The full text of the activity update should always show on the single activity screen.
 	if ( ! $maybe_truncate_text || bp_is_single_activity() ) {
 		return $text;
 	}
@@ -442,13 +437,14 @@ function bp_activity_truncate_entry( $text ) {
 	 */
 	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
 
-	// Run the text through the excerpt function. If it's too short, the original text will be
-	// returned.
+	// Run the text through the excerpt function. If it's too short, the original text will be returned.
 	$excerpt        = bp_create_excerpt( $text, $excerpt_length, array( 'ending' => __( '&hellip;', 'buddypress' ) ) );
 
-	// If the text returned by bp_create_excerpt() is different from the original text (ie it's
-	// been truncated), add the "Read More" link. Note that bp_create_excerpt() is stripping
-	// shortcodes, so we have strip them from the $text before the comparison
+	/*
+	 * If the text returned by bp_create_excerpt() is different from the original text (ie it's
+	 * been truncated), add the "Read More" link. Note that bp_create_excerpt() is stripping
+	 * shortcodes, so we have strip them from the $text before the comparison.
+	 */
 	if ( $excerpt != strip_shortcodes( $text ) ) {
 		$id = !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
 
@@ -475,7 +471,6 @@ function bp_activity_truncate_entry( $text ) {
  * @uses bp_activity_do_heartbeat() to check if heartbeat is required.
  *
  * @param array $js_handles The original dependencies.
- *
  * @return array $js_handles The new dependencies.
  */
 function bp_activity_get_js_dependencies( $js_handles = array() ) {
@@ -495,8 +490,7 @@ add_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10
  *
  * @since 2.0.0
  *
- * @param string $classes
- *
+ * @param string $classes Array of classes for most recent activity item.
  * @return string $classes
  */
 function bp_activity_newest_class( $classes = '' ) {
@@ -515,8 +509,7 @@ function bp_activity_newest_class( $classes = '' ) {
  *
  * @since 2.0.0
  *
- * @param string $classes
- *
+ * @param string $classes Array of classes for timestamp.
  * @return string $classes
  */
 function bp_activity_timestamp_class( $classes = '' ) {
@@ -544,9 +537,8 @@ add_filter( 'bp_get_activity_css_class', 'bp_activity_timestamp_class', 9, 1 );
  *
  * @uses bp_activity_get_last_updated() to get the recorded date of the last activity.
  *
- * @param array $response
- * @param array $data
- *
+ * @param array $response Array containing Heartbeat API response.
+ * @param array $data     Array containing data for Heartbeat API response.
  * @return array $response
  */
 function bp_activity_heartbeat_last_recorded( $response = array(), $data = array() ) {
@@ -555,7 +547,7 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 	}
 
 	// Use the querystring argument stored in the cookie (to preserve
-	// filters), but force the offset to get only new items
+	// filters), but force the offset to get only new items.
 	$activity_latest_args = bp_parse_args(
 		bp_ajax_querystring( 'activity' ),
 		array( 'since' => date( 'Y-m-d H:i:s', $data['bp_activity_last_recorded'] ) ),
@@ -569,7 +561,7 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 	$newest_activities = array();
 	$last_activity_recorded = 0;
 
-	// Temporarily add a just-posted class for new activity items
+	// Temporarily add a just-posted class for new activity items.
 	add_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 
 	ob_start();
@@ -590,7 +582,7 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 	$newest_activities['last_recorded'] = $last_activity_recorded;
 	ob_end_clean();
 
-	// Remove the temporary filter
+	// Remove the temporary filter.
 	remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 
 	if ( ! empty( $newest_activities['last_recorded'] ) ) {
@@ -608,7 +600,6 @@ add_filter( 'heartbeat_nopriv_received', 'bp_activity_heartbeat_last_recorded', 
  * @since 2.0.0
  *
  * @param array $strings Localized strings.
- *
  * @return array $strings
  */
 function bp_activity_heartbeat_strings( $strings = array() ) {
@@ -671,12 +662,11 @@ add_filter( 'bp_core_get_js_strings', 'bp_activity_heartbeat_strings', 10, 1 );
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- *
- * @return array
+ * @return array $retval
  */
 function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() ) {
 
-	// Determine the user_id
+	// Determine the user_id.
 	if ( ! empty( $filter['user_id'] ) ) {
 		$user_id = $filter['user_id'];
 	} else {
@@ -702,7 +692,7 @@ function bp_activity_filter_just_me_scope( $retval = array(), $filter = array() 
 		),
 		$show_hidden,
 
-		// overrides
+		// Overrides.
 		'override' => array(
 			'display_comments' => 'stream',
 			'filter'           => array( 'user_id' => 0 ),
@@ -721,12 +711,11 @@ add_filter( 'bp_activity_set_just-me_scope_args', 'bp_activity_filter_just_me_sc
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- *
- * @return array
+ * @return array $retval
  */
 function bp_activity_filter_favorites_scope( $retval = array(), $filter = array() ) {
 
-	// Determine the user_id
+	// Determine the user_id.
 	if ( ! empty( $filter['user_id'] ) ) {
 		$user_id = $filter['user_id'];
 	} else {
@@ -735,7 +724,7 @@ function bp_activity_filter_favorites_scope( $retval = array(), $filter = array(
 			: bp_loggedin_user_id();
 	}
 
-	// Determine the favorites
+	// Determine the favorites.
 	$favs = bp_activity_get_user_favorites( $user_id );
 	if ( empty( $favs ) ) {
 		$favs = array( 0 );
@@ -759,7 +748,7 @@ function bp_activity_filter_favorites_scope( $retval = array(), $filter = array(
 		),
 		$show_hidden,
 
-		// overrides
+		// Overrides.
 		'override' => array(
 			'display_comments' => true,
 			'filter'           => array( 'user_id' => 0 ),
@@ -779,8 +768,7 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_activity_filter_favorite
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- *
- * @return array
+ * @return array $retval
  */
 function bp_activity_filter_mentions_scope( $retval = array(), $filter = array() ) {
 
@@ -789,7 +777,7 @@ function bp_activity_filter_mentions_scope( $retval = array(), $filter = array()
 		return $retval;
 	}
 
-	// Determine the user_id
+	// Determine the user_id.
 	if ( ! empty( $filter['user_id'] ) ) {
 		$user_id = $filter['user_id'];
 	} else {
@@ -818,10 +806,10 @@ function bp_activity_filter_mentions_scope( $retval = array(), $filter = array()
 		),
 		$show_hidden,
 
-		// overrides
+		// Overrides.
 		'override' => array(
 
-			// clear search terms so 'mentions' scope works with other scopes
+			// Clear search terms so 'mentions' scope works with other scopes.
 			'search_terms' => false,
 
 			'display_comments' => 'stream',

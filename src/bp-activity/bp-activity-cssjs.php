@@ -6,7 +6,7 @@
  * @subpackage ActivityScripts
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -19,7 +19,7 @@ function bp_activity_mentions_script() {
 		return;
 	}
 
-	// Special handling for New/Edit screens in wp-admin
+	// Special handling for New/Edit screens in wp-admin.
 	if ( is_admin() ) {
 		if (
 			! get_current_screen() ||
@@ -63,7 +63,6 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_activity_mentions_script' );
  *
  * @param array  $settings   An array with TinyMCE config.
  * @param string $editor_id Unique editor identifier, e.g. 'content'.
- *
  * @return array  $mceInit   An array with TinyMCE config.
  */
 function bp_add_mentions_on_tinymce_init( $settings, $editor_id ) {

@@ -10,7 +10,7 @@
  * @subpackage ActivityScreens
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -252,14 +252,14 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
 function bp_activity_screen_single_activity_permalink() {
 	$bp = buddypress();
 
-	// No displayed user or not viewing activity component
+	// No displayed user or not viewing activity component.
 	if ( !bp_is_activity_component() )
 		return false;
 
 	if ( ! bp_current_action() || !is_numeric( bp_current_action() ) )
 		return false;
 
-	// Get the activity details
+	// Get the activity details.
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action(), 'show_hidden' => true, 'spam' => 'ham_only', ) );
 
 	// 404 if activity does not exist
@@ -271,26 +271,26 @@ function bp_activity_screen_single_activity_permalink() {
 		$activity = $activity['activities'][0];
 	}
 
-	// Default access is true
+	// Default access is true.
 	$has_access = true;
 
-	// If activity is from a group, do an extra cap check
+	// If activity is from a group, do an extra cap check.
 	if ( isset( $bp->groups->id ) && $activity->component == $bp->groups->id ) {
 
-		// Activity is from a group, but groups is currently disabled
+		// Activity is from a group, but groups is currently disabled.
 		if ( !bp_is_active( 'groups') ) {
 			bp_do_404();
 			return;
 		}
 
 		// Check to see if the group is not public, if so, check the
-		// user has access to see this activity
+		// user has access to see this activity.
 		if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) ) {
 
-			// Group is not public
+			// Group is not public.
 			if ( 'public' != $group->status ) {
 
-				// User is not a member of group
+				// User is not a member of group.
 				if ( !groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
 					$has_access = false;
 				}
@@ -317,13 +317,13 @@ function bp_activity_screen_single_activity_permalink() {
 	 */
 	do_action( 'bp_activity_screen_single_activity_permalink', $activity, $has_access );
 
-	// Access is specifically disallowed
+	// Access is specifically disallowed.
 	if ( false === $has_access ) {
 
-		// User feedback
+		// User feedback.
 		bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
 
-		// Redirect based on logged in status
+		// Redirect based on logged in status.
 		if ( is_user_logged_in() ) {
 			$url = bp_loggedin_user_domain();
 
@@ -441,11 +441,11 @@ class BP_Activity_Theme_Compat {
 	 */
 	public function is_activity() {
 
-		// Bail if not looking at a group
+		// Bail if not looking at a group.
 		if ( ! bp_is_activity_component() )
 			return;
 
-		// Activity Directory
+		// Activity Directory.
 		if ( ! bp_displayed_user_id() && ! bp_current_action() ) {
 			bp_update_is_directory( true, 'activity' );
 
@@ -456,7 +456,7 @@ class BP_Activity_Theme_Compat {
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 
-		// Single activity
+		// Single activity.
 		} elseif ( bp_is_single_activity() ) {
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
@@ -474,7 +474,6 @@ class BP_Activity_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
@@ -491,7 +490,7 @@ class BP_Activity_Theme_Compat {
 		) );
 
 		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;
@@ -535,7 +534,6 @@ class BP_Activity_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
@@ -552,7 +550,7 @@ class BP_Activity_Theme_Compat {
 		) );
 
 		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;

@@ -8,7 +8,7 @@
  * @subpackage ActivityActions
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -50,15 +50,15 @@ add_action( 'bp_init', 'bp_register_activity_actions', 8 );
  */
 function bp_activity_action_permalink_router() {
 
-	// Not viewing activity
+	// Not viewing activity.
 	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'p' ) )
 		return false;
 
-	// No activity to display
+	// No activity to display.
 	if ( ! bp_action_variable( 0 ) || ! is_numeric( bp_action_variable( 0 ) ) )
 		return false;
 
-	// Get the activity details
+	// Get the activity details.
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_action_variable( 0 ), 'show_hidden' => true ) );
 
 	// 404 if activity does not exist
@@ -69,31 +69,31 @@ function bp_activity_action_permalink_router() {
 		$activity = $activity['activities'][0];
 	}
 
-	// Do not redirect at default
+	// Do not redirect at default.
 	$redirect = false;
 
-	// Redirect based on the type of activity
+	// Redirect based on the type of activity.
 	if ( bp_is_active( 'groups' ) && $activity->component == buddypress()->groups->id ) {
 
-		// Activity is a user update
+		// Activity is a user update.
 		if ( ! empty( $activity->user_id ) ) {
 			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 
-		// Activity is something else
+		// Activity is something else.
 		} else {
 
-			// Set redirect to group activity stream
+			// Set redirect to group activity stream.
 			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) ) {
 				$redirect = bp_get_group_permalink( $group ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 			}
 		}
 
-	// Set redirect to users' activity stream
+	// Set redirect to users' activity stream.
 	} elseif ( ! empty( $activity->user_id ) ) {
 		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 	}
 
-	// If set, add the original query string back onto the redirect URL
+	// If set, add the original query string back onto the redirect URL.
 	if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
 		$query_frags = array();
 		wp_parse_str( $_SERVER['QUERY_STRING'], $query_frags );
@@ -111,7 +111,7 @@ function bp_activity_action_permalink_router() {
 		bp_core_redirect( bp_get_root_domain() );
 	}
 
-	// Redirect to the actual activity permalink page
+	// Redirect to the actual activity permalink page.
 	bp_core_redirect( $redirect );
 }
 add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
@@ -120,8 +120,6 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
  * Delete specific activity item and redirect to previous page.
  *
  * @since 1.1.0
- *
- * @param int $activity_id Activity id to be deleted. Defaults to 0.
  *
  * @uses bp_is_activity_component()
  * @uses bp_is_current_action()
@@ -134,28 +132,29 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
  * @uses do_action() Calls 'bp_activity_action_delete_activity' hook to allow actions to be taken after the activity is deleted.
  * @uses bp_core_redirect()
  *
+ * @param int $activity_id Activity id to be deleted. Defaults to 0.
  * @return bool False on failure.
  */
 function bp_activity_action_delete_activity( $activity_id = 0 ) {
 
-	// Not viewing activity or action is not delete
+	// Not viewing activity or action is not delete.
 	if ( !bp_is_activity_component() || !bp_is_current_action( 'delete' ) )
 		return false;
 
 	if ( empty( $activity_id ) && bp_action_variable( 0 ) )
 		$activity_id = (int) bp_action_variable( 0 );
 
-	// Not viewing a specific activity item
+	// Not viewing a specific activity item.
 	if ( empty( $activity_id ) )
 		return false;
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'bp_activity_delete_link' );
 
-	// Load up the activity item
+	// Load up the activity item.
 	$activity = new BP_Activity_Activity( $activity_id );
 
-	// Check access
+	// Check access.
 	if ( ! bp_activity_user_can_delete( $activity ) )
 		return false;
 
@@ -169,7 +168,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	 */
 	do_action( 'bp_activity_before_action_delete_activity', $activity_id, $activity->user_id );
 
-	// Delete the activity item and provide user feedback
+	// Delete the activity item and provide user feedback.
 	if ( bp_activity_delete( array( 'id' => $activity_id, 'user_id' => $activity->user_id ) ) )
 		bp_core_add_message( __( 'Activity deleted successfully', 'buddypress' ) );
 	else
@@ -185,7 +184,7 @@ function bp_activity_action_delete_activity( $activity_id = 0 ) {
 	 */
 	do_action( 'bp_activity_action_delete_activity', $activity_id, $activity->user_id );
 
-	// Check for the redirect query arg, otherwise let WP handle things
+	// Check for the redirect query arg, otherwise let WP handle things.
  	if ( !empty( $_GET['redirect_to'] ) )
 		bp_core_redirect( esc_url( $_GET['redirect_to'] ) );
 	else
@@ -199,20 +198,19 @@ add_action( 'bp_actions', 'bp_activity_action_delete_activity' );
  * @since 1.6.0
  *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
- *
  * @return bool False on failure.
  */
 function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	$bp = buddypress();
 
-	// Not viewing activity, or action is not spam, or Akismet isn't present
+	// Not viewing activity, or action is not spam, or Akismet isn't present.
 	if ( !bp_is_activity_component() || !bp_is_current_action( 'spam' ) || empty( $bp->activity->akismet ) )
 		return false;
 
 	if ( empty( $activity_id ) && bp_action_variable( 0 ) )
 		$activity_id = (int) bp_action_variable( 0 );
 
-	// Not viewing a specific activity item
+	// Not viewing a specific activity item.
 	if ( empty( $activity_id ) )
 		return false;
 
@@ -220,12 +218,12 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	if ( !bp_activity_user_can_mark_spam() )
 		return false;
 
-	// Load up the activity item
+	// Load up the activity item.
 	$activity = new BP_Activity_Activity( $activity_id );
 	if ( empty( $activity->id ) )
 		return false;
 
-	// Check nonce
+	// Check nonce.
 	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );
 
 	/**
@@ -238,11 +236,11 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 */
 	do_action( 'bp_activity_before_action_spam_activity', $activity->id, $activity );
 
-	// Mark as spam
+	// Mark as spam.
 	bp_activity_mark_as_spam( $activity );
 	$activity->save();
 
-	// Tell the user the spamming has been successful
+	// Tell the user the spamming has been successful.
 	bp_core_add_message( __( 'The activity item has been marked as spam and is no longer visible.', 'buddypress' ) );
 
 	/**
@@ -255,7 +253,7 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	 */
 	do_action( 'bp_activity_action_spam_activity', $activity_id, $activity->user_id );
 
-	// Check for the redirect query arg, otherwise let WP handle things
+	// Check for the redirect query arg, otherwise let WP handle things.
  	if ( !empty( $_GET['redirect_to'] ) )
 		bp_core_redirect( esc_url( $_GET['redirect_to'] ) );
 	else
@@ -286,11 +284,11 @@ add_action( 'bp_actions', 'bp_activity_action_spam_activity' );
  */
 function bp_activity_action_post_update() {
 
-	// Do not proceed if user is not logged in, not viewing activity, or not posting
+	// Do not proceed if user is not logged in, not viewing activity, or not posting.
 	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'post' ) )
 		return false;
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'post_update', '_wpnonce_post_update' );
 
 	/**
@@ -326,17 +324,17 @@ function bp_activity_action_post_update() {
 		$item_id = apply_filters( 'bp_activity_post_update_item_id', $_POST['whats-new-post-in'] );
 	}
 
-	// No activity content so provide feedback and redirect
+	// No activity content so provide feedback and redirect.
 	if ( empty( $content ) ) {
 		bp_core_add_message( __( 'Please enter some content to post.', 'buddypress' ), 'error' );
 		bp_core_redirect( wp_get_referer() );
 	}
 
-	// No existing item_id
+	// No existing item_id.
 	if ( empty( $item_id ) ) {
 		$activity_id = bp_activity_post_update( array( 'content' => $content ) );
 
-	// Post to groups object
+	// Post to groups object.
 	} elseif ( 'groups' == $object && bp_is_active( 'groups' ) ) {
 		if ( (int) $item_id ) {
 			$activity_id = groups_post_update( array( 'content' => $content, 'group_id' => $item_id ) );
@@ -356,13 +354,13 @@ function bp_activity_action_post_update() {
 		$activity_id = apply_filters( 'bp_activity_custom_update', $object, $item_id, $content );
 	}
 
-	// Provide user feedback
+	// Provide user feedback.
 	if ( !empty( $activity_id ) )
 		bp_core_add_message( __( 'Update Posted!', 'buddypress' ) );
 	else
 		bp_core_add_message( __( 'There was an error when posting your update. Please try again.', 'buddypress' ), 'error' );
 
-	// Redirect
+	// Redirect.
 	bp_core_redirect( wp_get_referer() );
 }
 add_action( 'bp_actions', 'bp_activity_action_post_update' );
@@ -390,7 +388,7 @@ function bp_activity_action_post_comment() {
 	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'reply' ) )
 		return false;
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'new_activity_comment', '_wpnonce_new_activity_comment' );
 
 	/**
@@ -453,7 +451,7 @@ function bp_activity_action_mark_favorite() {
 	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'favorite' ) )
 		return false;
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'mark_favorite' );
 
 	if ( bp_activity_add_user_favorite( bp_action_variable( 0 ) ) )
@@ -487,7 +485,7 @@ function bp_activity_action_remove_favorite() {
 	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'unfavorite' ) )
 		return false;
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'unmark_favorite' );
 
 	if ( bp_activity_remove_user_favorite( bp_action_variable( 0 ) ) )
@@ -517,7 +515,7 @@ function bp_activity_action_sitewide_feed() {
 	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'feed' ) || bp_is_user() || ! empty( $bp->groups->current_group ) )
 		return false;
 
-	// setup the feed
+	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed( array(
 		'id'            => 'sitewide',
 
@@ -547,7 +545,7 @@ function bp_activity_action_personal_feed() {
 		return false;
 	}
 
-	// setup the feed
+	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed( array(
 		'id'            => 'personal',
 
@@ -580,7 +578,7 @@ function bp_activity_action_friends_feed() {
 		return false;
 	}
 
-	// setup the feed
+	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed( array(
 		'id'            => 'friends',
 
@@ -613,11 +611,11 @@ function bp_activity_action_my_groups_feed() {
 		return false;
 	}
 
-	// get displayed user's group IDs
+	// Get displayed user's group IDs.
 	$groups    = groups_get_user_groups();
 	$group_ids = implode( ',', $groups['groups'] );
 
-	// setup the feed
+	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed( array(
 		'id'            => 'mygroups',
 
@@ -656,7 +654,7 @@ function bp_activity_action_mentions_feed() {
 		return false;
 	}
 
-	// setup the feed
+	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed( array(
 		'id'            => 'mentions',
 
@@ -689,11 +687,11 @@ function bp_activity_action_favorites_feed() {
 		return false;
 	}
 
-	// get displayed user's favorite activity IDs
+	// Get displayed user's favorite activity IDs.
 	$favs = bp_activity_get_user_favorites( bp_displayed_user_id() );
 	$fav_ids = implode( ',', (array) $favs );
 
-	// setup the feed
+	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed( array(
 		'id'            => 'favorites',
 
@@ -716,17 +714,17 @@ add_action( 'bp_actions', 'bp_activity_action_favorites_feed' );
 function bp_activity_setup_akismet() {
 	$bp = buddypress();
 
-	// Bail if Akismet is not active
+	// Bail if Akismet is not active.
 	if ( ! defined( 'AKISMET_VERSION' ) ) {
 		return;
 	}
 
-	// Bail if older version of Akismet
+	// Bail if older version of Akismet.
 	if ( ! class_exists( 'Akismet' ) ) {
 		return;
 	}
 
-	// Bail if no Akismet key is set
+	// Bail if no Akismet key is set.
 	if ( ! bp_get_option( 'wordpress_api_key' ) && ! defined( 'WPCOM_API_KEY' ) ) {
 		return;
 	}
@@ -742,7 +740,7 @@ function bp_activity_setup_akismet() {
 		return;
 	}
 
-	// Instantiate Akismet for BuddyPress
+	// Instantiate Akismet for BuddyPress.
 	$bp->activity->akismet = new BP_Akismet();
 }
 
@@ -827,7 +825,7 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 
 	// Unpublishing a previously published post.
 	} elseif ( 'publish' === $old_status ) {
-		// Some form of pending status - only remove the activity entry
+		// Some form of pending status - only remove the activity entry.
 		bp_activity_post_type_unpublish( $post->ID, $post );
 	}
 }

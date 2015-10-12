@@ -1,12 +1,12 @@
 <?php
 /**
- * BuddyPress Activity Classes
+ * BuddyPress Activity Classes.
  *
  * @package BuddyPress
  * @subpackage ActivityClasses
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 require dirname( __FILE__ ) . '/classes/class-bp-activity-activity.php';
