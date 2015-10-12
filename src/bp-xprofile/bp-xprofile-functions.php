@@ -1020,6 +1020,39 @@ function bp_xprofile_fullname_field_name() {
 }
 
 /**
+ * Is rich text enabled for this profile field?
+ *
+ * By default, rich text is enabled for textarea fields and disabled for all other field types.
+ *
+ * @since 2.4.0
+ *
+ * @param int $field_id Optional. Default current field ID.
+ * @return bool
+ */
+function bp_xprofile_is_richtext_enabled_for_field( $field_id = null ) {
+	if ( ! $field_id ) {
+		$field_id = bp_get_the_profile_field_id();
+	}
+
+	$field = xprofile_get_field( $field_id );
+
+	$enabled = false;
+	if ( $field instanceof BP_XProfile_Field ) {
+		$enabled = (bool) $field->type_obj->supports_richtext;
+	}
+
+	/**
+	 * Filters whether richtext is enabled for the given field.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param bool $enabled  True if richtext is enabled for the field, otherwise false.
+	 * @param int  $field_id ID of the field.
+	 */
+	return apply_filters( 'bp_xprofile_is_richtext_enabled_for_field', $enabled, $field_id );
+}
+
+/**
  * Get visibility levels out of the $bp global.
  *
  * @return array

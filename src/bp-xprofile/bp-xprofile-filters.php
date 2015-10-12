@@ -23,14 +23,14 @@ add_filter( 'bp_get_the_profile_field_value',           'convert_chars'      );
 add_filter( 'bp_get_the_profile_field_value',           'wpautop'            );
 add_filter( 'bp_get_the_profile_field_value',           'force_balance_tags' );
 add_filter( 'bp_get_the_profile_field_value',           'make_clickable'     );
-add_filter( 'bp_get_the_profile_field_value',           'esc_html',        8 );
+add_filter( 'bp_get_the_profile_field_value',           'bp_xprofile_escape_field_data', 8, 3 );
 add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 9 );
 add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value',         1, 2 );
 add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value_by_type', 8, 3 );
 add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',          9, 3 );
 
 add_filter( 'bp_get_the_profile_field_edit_value',      'force_balance_tags' );
-add_filter( 'bp_get_the_profile_field_edit_value',      'esc_html'           );
+add_filter( 'bp_get_the_profile_field_edit_value',      'bp_xprofile_escape_field_data', 10, 3 );
 
 add_filter( 'bp_get_the_profile_group_name',            'stripslashes' );
 add_filter( 'bp_get_the_profile_group_description',     'stripslashes' );
@@ -39,7 +39,7 @@ add_filter( 'bp_get_the_profile_field_edit_value',      'stripslashes' );
 add_filter( 'bp_get_the_profile_field_name',            'stripslashes' );
 add_filter( 'bp_get_the_profile_field_description',     'stripslashes' );
 
-add_filter( 'xprofile_get_field_data',                  'wp_filter_kses', 1 );
+add_filter( 'xprofile_get_field_data',                  'xprofile_filter_kses', 1 );
 add_filter( 'xprofile_field_name_before_save',          'wp_filter_kses', 1 );
 add_filter( 'xprofile_field_description_before_save',   'wp_filter_kses', 1 );
 
@@ -123,6 +123,20 @@ function xprofile_filter_kses( $content, $data_obj = null ) {
 
 	$xprofile_allowedtags             = $allowedtags;
 	$xprofile_allowedtags['a']['rel'] = array();
+
+	// If the field supports rich text, we must allow tags that appear in wp_editor().
+	if ( $data_obj instanceof BP_XProfile_ProfileData && bp_xprofile_is_richtext_enabled_for_field( $data_obj->field_id ) ) {
+		$richtext_tags = array(
+			'img'  => array( 'id' => 1, 'class' => 1, 'src' => 1, 'alt' => 1, 'width' => 1, 'height' => 1 ),
+			'ul'   => array( 'id' => 1, 'class' => 1 ),
+			'ol'   => array( 'id' => 1, 'class' => 1 ),
+			'li'   => array( 'id' => 1, 'class' => 1 ),
+			'span' => array( 'style' => 1 ),
+			'p'    => array( 'style' => 1 ),
+		);
+
+		$xprofile_allowedtags = array_merge( $allowedtags, $richtext_tags );
+	}
 
 	/**
 	 * Filters the allowed tags for use within xprofile_filter_kses().
@@ -274,6 +288,35 @@ function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id
 function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $field_type_obj ) {
 	if ( method_exists( $field_type_obj, 'pre_validate_filter' ) ) {
 		$value = call_user_func( array( $field_type_obj, 'pre_validate_filter' ), $value );
+	}
+
+	return $value;
+}
+
+/**
+ * Escape field value for display.
+ *
+ * Most field values are simply run through esc_html(). Those that support rich text (by default, `textarea` only)
+ * are sanitized using kses, which allows a whitelist of HTML tags.
+ *
+ * @since 2.4.0
+ *
+ * @param string $value      Field value.
+ * @param string $field_type Field type.
+ * @param int    $field_id   Field ID.
+ * @return string
+ */
+function bp_xprofile_escape_field_data( $value, $field_type, $field_id ) {
+	if ( bp_xprofile_is_richtext_enabled_for_field( $field_id ) ) {
+		// xprofile_filter_kses() expects a BP_XProfile_ProfileData object.
+		$data_obj = null;
+		if ( bp_is_user() ) {
+			$data_obj = new BP_XProfile_ProfileData( $field_id, bp_displayed_user_id() );
+		}
+
+		$value = xprofile_filter_kses( $value, $data_obj );
+	} else {
+		$value = esc_html( $value );
 	}
 
 	return $value;

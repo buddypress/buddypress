@@ -913,4 +913,30 @@ Bar!';
 		$this->assertEquals( $field_1, $field_2 );
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
+
+	/**
+	 * @ticket BP5625
+	 */
+	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_true_for_textareas() {
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'textarea',
+		) );
+
+		$this->assertTrue( bp_xprofile_is_richtext_enabled_for_field( $f ) );
+	}
+
+	/**
+	 * @ticket BP5625
+	 */
+	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_false_for_non_textareas() {
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'radio',
+		) );
+
+		$this->assertFalse( bp_xprofile_is_richtext_enabled_for_field( $f ) );
+	}
 }

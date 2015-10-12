@@ -73,6 +73,14 @@ abstract class BP_XProfile_Field_Type {
 	public $supports_multiple_defaults = false;
 
 	/**
+	 * If the field type supports rich text by default.
+	 *
+	 * @since 2.4.0
+	 * @var bool
+	 */
+	public $supports_richtext = false;
+
+	/**
 	 * If object is created by an BP_XProfile_Field object.
 	 *
 	 * @since 2.0.0

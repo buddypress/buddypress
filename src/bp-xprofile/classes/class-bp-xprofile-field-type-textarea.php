@@ -26,6 +26,7 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 		$this->category = _x( 'Single Fields', 'xprofile field type category', 'buddypress' );
 		$this->name     = _x( 'Multi-line Text Area', 'xprofile field type', 'buddypress' );
+		$this->supports_richtext = true;
 
 		$this->set_format( '/^.*$/m', 'replace' );
 
@@ -59,10 +60,7 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 			unset( $raw_properties['user_id'] );
 		}
 
-		$r = bp_parse_args( $raw_properties, array(
-			'cols' => 40,
-			'rows' => 5,
-		) ); ?>
+		$richtext_enabled = bp_xprofile_is_richtext_enabled_for_field(); ?>
 
 		<label for="<?php bp_the_profile_field_input_name(); ?>">
 			<?php bp_the_profile_field_name(); ?>
@@ -72,11 +70,46 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
-		do_action( bp_get_the_profile_field_errors_action() ); ?>
+		do_action( bp_get_the_profile_field_errors_action() );
 
-		<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
+		if ( ! $richtext_enabled ) {
+			$r = wp_parse_args( $raw_properties, array(
+				'cols' => 40,
+				'rows' => 5,
+			) );
 
-		<?php
+			?>
+
+			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
+
+			<?php
+
+		} else {
+
+			/**
+			 * Filters the arguments passed to `wp_editor()` in richtext xprofile fields.
+			 *
+			 * @since 2.4.0
+			 *
+			 * @param array $args {
+			 *     Array of optional arguments. See `wp_editor()`.
+			 *     @type bool $teeny         Whether to use the teeny version of TinyMCE. Default true.
+			 *     @type bool $media_buttons Whether to show media buttons. Default false.
+			 *     @type bool $quicktags     Whether to show the quicktags buttons. Default true.
+			 * }
+			 */
+			$editor_args = apply_filters( 'bp_xprofile_field_type_textarea_editor_args', array(
+				'teeny'         => true,
+				'media_buttons' => false,
+				'quicktags'     => true,
+			) );
+
+			wp_editor(
+				bp_get_the_profile_field_edit_value(),
+				bp_get_the_profile_field_input_name(),
+				$editor_args
+			);
+		}
 	}
 
 	/**
@@ -89,14 +122,33 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$r = bp_parse_args( $raw_properties, array(
-			'cols' => 40,
-			'rows' => 5,
-		) ); ?>
+		$richtext_enabled = bp_xprofile_is_richtext_enabled_for_field();
 
-		<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>></textarea>
+		if ( ! $richtext_enabled ) {
 
-		<?php
+			$r = bp_parse_args( $raw_properties, array(
+				'cols' => 40,
+				'rows' => 5,
+			) ); ?>
+
+			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>></textarea>
+
+			<?php
+		} else {
+
+			/** This filter is documented in bp-xprofile/classes/class-bp-xprofile-field-type-textarea.php */
+			$editor_args = apply_filters( 'bp_xprofile_field_type_textarea_editor_args', array(
+				'teeny'         => true,
+				'media_buttons' => false,
+				'quicktags'     => true,
+			) );
+
+			wp_editor(
+				'',
+				'xprofile_textarea_' . bp_get_the_profile_field_id(),
+				$editor_args
+			);
+		}
 	}
 
 	/**

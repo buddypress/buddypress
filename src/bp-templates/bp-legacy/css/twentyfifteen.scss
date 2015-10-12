@@ -2040,6 +2040,17 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 	select {border: 1px solid rgba($border-color, 0.5);}
 
+	// Overrides for embedded WP editors.
+	.wp-editor-wrap {
+		a.button,
+		button,
+		input[type=submit],
+		input[type=button],
+		input[type=reset] {
+			padding: 0 5px 1px;
+		}
+	}
+
 } // close #buddypress
 
 
