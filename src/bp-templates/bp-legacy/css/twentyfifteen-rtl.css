@@ -1708,6 +1708,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	border: 1px solid rgba(153, 153, 153, 0.5);
 }
 
+#buddypress .wp-editor-wrap a.button,
+#buddypress .wp-editor-wrap button,
+#buddypress .wp-editor-wrap input[type=submit],
+#buddypress .wp-editor-wrap input[type=button],
+#buddypress .wp-editor-wrap input[type=reset] {
+	padding: 0 5px 1px;
+}
+
 #buddypress .standard-form li,
 #buddypress .group-create-form li {
 	float: none;
