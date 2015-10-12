@@ -5257,10 +5257,6 @@ function bp_group_avatar_delete_link() {
 		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
 	}
 
-function bp_group_avatar_edit_form() {
-	groups_avatar_upload();
-}
-
 function bp_custom_group_boxes() {
 	do_action( 'groups_custom_group_boxes' );
 }
