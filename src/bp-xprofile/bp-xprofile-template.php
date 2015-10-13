@@ -1336,9 +1336,9 @@ function bp_the_profile_field_required_label() {
 		$retval = '';
 
 		if ( bp_get_the_profile_field_is_required() ) {
-			$translated_string = __( ' (required)', 'buddypress' );
+			$translated_string = __( '(required)', 'buddypress' );
 
-			$retval = '<span class="bp-required-field-label">';
+			$retval = ' <span class="bp-required-field-label">';
 			$retval .= apply_filters( 'bp_get_the_profile_field_required_label', $translated_string, bp_get_the_profile_field_id() );
 			$retval .= '</span>';
 
