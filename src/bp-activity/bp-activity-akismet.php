@@ -606,7 +606,7 @@ class BP_Akismet {
 			return;
 
 		echo '<div class="akismet-history"><div>';
-		printf( _x( '<span>%1$s</span> &mdash; %2$s', 'x hours ago - akismet cleared this item', 'buddypress' ), bp_core_time_since( $history[2] ), esc_html( $history[1] ) );
+		printf( _x( '%1$s &mdash; %2$s', 'x hours ago - akismet cleared this item', 'buddypress' ), '<span>' . bp_core_time_since( $history[2] ) . '</span>', esc_html( $history[1] ) );
 		echo '</div></div>';
 	}
 

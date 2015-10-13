@@ -740,7 +740,7 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 					$datef = __( 'M j, Y @ G:i', 'buddypress' );
 					$date  = date_i18n( $datef, strtotime( $item->date_recorded ) );
 					?>
-					<span id="timestamp"><?php printf( __( 'Submitted on: <strong>%1$s</strong>', 'buddypress' ), $date ); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e( 'Edit', 'buddypress' ); ?></a>
+					<span id="timestamp"><?php printf( __( 'Submitted on: %s', 'buddypress' ), '<strong>' . $date . '</strong>' ); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e( 'Edit', 'buddypress' ); ?></a>
 
 					<div id='timestampdiv' class='hide-if-js'>
 						<?php touch_time( 1, 0, 5 ); ?>
