@@ -992,7 +992,7 @@ class BP_Members_Admin {
 						$datef = __( 'M j, Y @ G:i', 'buddypress' );
 						$date  = date_i18n( $datef, strtotime( $user->user_registered ) );
 						?>
-						<span id="timestamp"><?php printf( __( 'Registered on: <strong>%1$s</strong>', 'buddypress' ), $date ); ?></span>
+						<span id="timestamp"><?php printf( __( 'Registered on: %s', 'buddypress' ), '<strong>' . $date . '</strong>' ); ?></span>
 					</div>
 				</div> <!-- #misc-publishing-actions -->
 
