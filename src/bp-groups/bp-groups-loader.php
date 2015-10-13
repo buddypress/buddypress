@@ -561,7 +561,7 @@ class BP_Groups_Component extends BP_Component {
 				 * Only add the members subnav if it's not the home's nav
 				 */
 				$sub_nav[] = array(
-					'name'            => sprintf( _x( 'Members <span>%s</span>', 'My Group screen nav', 'buddypress' ), number_format( $this->current_group->total_member_count ) ),
+					'name'            => sprintf( _x( 'Members %s', 'My Group screen nav', 'buddypress' ), '<span>' . number_format( $this->current_group->total_member_count ) . '</span>' ),
 					'slug'            => 'members',
 					'parent_url'      => $group_link,
 					'parent_slug'     => $this->current_group->slug,

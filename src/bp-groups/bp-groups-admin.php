@@ -525,21 +525,21 @@ function bp_groups_admin_edit() {
 		}
 
 		if ( ! empty( $error_new ) ) {
-			$messages[] = sprintf( __( 'The following users could not be added to the group: <em>%s</em>', 'buddypress' ), implode( ', ', $error_new ) );
+			$messages[] = sprintf( __( 'The following users could not be added to the group: %s', 'buddypress' ), '<em>' . implode( ', ', $error_new ) . '</em>' );
 		}
 
 		if ( ! empty( $success_new ) ) {
-			$messages[] = sprintf( __( 'The following users were successfully added to the group: <em>%s</em>', 'buddypress' ), implode( ', ', $success_new ) );
+			$messages[] = sprintf( __( 'The following users were successfully added to the group: %s', 'buddypress' ), '<em>' . implode( ', ', $success_new ) . '</em>' );
 		}
 
 		if ( ! empty( $error_modified ) ) {
 			$error_modified = bp_groups_admin_get_usernames_from_ids( $error_modified );
-			$messages[] = sprintf( __( 'An error occurred when trying to modify the following members: <em>%s</em>', 'buddypress' ), implode( ', ', $error_modified ) );
+			$messages[] = sprintf( __( 'An error occurred when trying to modify the following members: %s', 'buddypress' ), '<em>' . implode( ', ', $error_modified ) . '</em>' );
 		}
 
 		if ( ! empty( $success_modified ) ) {
 			$success_modified = bp_groups_admin_get_usernames_from_ids( $success_modified );
-			$messages[] = sprintf( __( 'The following members were successfully modified: <em>%s</em>', 'buddypress' ), implode( ', ', $success_modified ) );
+			$messages[] = sprintf( __( 'The following members were successfully modified: %s', 'buddypress' ), '<em>' . implode( ', ', $success_modified ) . '</em>' );
 		}
 	}
 
