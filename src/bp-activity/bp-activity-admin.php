@@ -699,7 +699,10 @@ function bp_activity_admin_edit() {
 			</form>
 
 		<?php else : ?>
-			<p><?php printf( __( 'No activity found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), esc_url( bp_get_admin_url( 'admin.php?page=bp-activity' ) ) ); ?></p>
+			<p>
+				<?php _e( 'No activity found with this ID.', 'buddypress' ); ?>
+				<a href="<?php echo esc_url( bp_get_admin_url( 'admin.php?page=bp-activity' ) ); ?>"><?php _e( 'Go back and try again.', 'buddypress' ); ?></a>
+			</p>
 		<?php endif; ?>
 
 	</div><!-- .wrap -->
@@ -1649,7 +1652,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		// Activity permalink
 		$activity_permalink = '';
 		if ( ! $item['is_spam'] ) {
-			$activity_permalink = sprintf( __( '<a href="%1$s" class="comments-view-item-link">View Activity</a>', 'buddypress' ), bp_activity_get_permalink( $item['id'], (object) $item ) );
+			$activity_permalink = '<a href="' . bp_activity_get_permalink( $item['id'], (object) $item ) . '" class="comments-view-item-link">' . __( 'View Activity', 'buddypress' ) . '</a>';
 		}
 
 		/**
