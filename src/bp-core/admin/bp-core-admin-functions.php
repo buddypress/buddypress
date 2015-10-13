@@ -570,7 +570,7 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 			break;
 
 		case 'bp-profile-overview' :
-			$retval = __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.<br /><br />Note: Any fields in the first group will appear on the signup page.', 'buddypress' );
+			$retval = __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.', 'buddypress' ) . '<br /><br />' . __( 'Note: Any fields in the first group will appear on the signup page.', 'buddypress' );
 			break;
 
 		default:

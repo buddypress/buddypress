@@ -165,15 +165,18 @@ function bp_forums_bbpress_install_wizard() {
 
 				switch ( $result ) {
 					case 1:
-						_e( '<p>All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.</p>', 'buddypress' );
+						echo '<p>';
+						_e( 'All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.', 'buddypress' );
+						echo '</p>';
 						break;
 					default:
 						// Just write the contents to screen.
-						_e( '<p>A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.</p>', 'buddypress' ); ?>
-
+						echo '<p>';
+						_e( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.', 'buddypress' );
+						echo '</p>';
+						?>
 						<textarea style="display:block; margin-top: 30px; width: 80%;" rows="50"><?php echo esc_textarea( $result ); ?></textarea>
-
-					<?php
+						<?php
 						break;
 				}
 			} else { ?>
