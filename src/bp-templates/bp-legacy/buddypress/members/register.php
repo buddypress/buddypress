@@ -175,7 +175,13 @@
 
 							if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
 								<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
-									<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?> <a href="#" class="visibility-toggle-link"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></a>
+									<?php
+									printf(
+										__( 'This field can be seen by: %s', 'buddypress' ),
+										'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+									);
+									?>
+									<a href="#" class="visibility-toggle-link"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></a>
 								</p>
 
 								<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
@@ -190,7 +196,12 @@
 								</div>
 							<?php else : ?>
 								<p class="field-visibility-settings-notoggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
-									<?php printf( __( 'This field can be seen by: <span class="current-visibility-level">%s</span>', 'buddypress' ), bp_get_the_profile_field_visibility_level_label() ) ?>
+									<?php
+									printf(
+										__( 'This field can be seen by: %s', 'buddypress' ),
+										'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+									);
+									?>
 								</p>
 							<?php endif ?>
 
