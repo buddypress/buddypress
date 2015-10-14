@@ -1020,7 +1020,12 @@ class BP_XProfile_User_Admin {
 
 					<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>">
 
-						<?php printf( __( 'This field can be seen by: <span class="%s">%s</span>', 'buddypress' ), esc_attr( 'current-visibility-level' ), bp_get_the_profile_field_visibility_level_label() ); ?>
+						<?php
+						printf(
+							__( 'This field can be seen by: %s', 'buddypress' ),
+							'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+						);
+						?>
 
 						<?php if ( $can_change_visibility ) : ?>
 
