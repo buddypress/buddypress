@@ -775,6 +775,63 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->set_current_user( $old_user );
 	}
 
+	/**
+	 * @group bp_blogs_record_comment
+	 */
+	public function test_bp_blogs_record_comment_should_record_parent_blog_post_activity_if_not_found() {
+		// Save the current user and override logged-in user
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+
+		// Get user details
+		$user = get_userdata( $u );
+
+		// Let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// Create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+		) );
+
+		// Now, delete the activity item for the blog post
+		bp_activity_delete( array(
+			'component'         => buddypress()->blogs->id,
+			'type'              => 'new_blog_post',
+			'item_id'           => get_current_blog_id(),
+			'secondary_item_id' => $post_id,
+		) );
+
+		// Add a comment to blog post
+		wp_new_comment( array(
+			'comment_post_ID' => $post_id,
+			'user_id' => $u,
+			'comment_content' => 'Dummy comment',
+			'comment_author' => 'Dumbo',
+			'comment_author_url' => 'http://buddypress.org',
+
+			// Important to pass check in bp_blogs_record_comment()
+			'comment_author_email' => $user->user_email
+		) );
+
+		// Fetch the activity ID for the blog post to see if it exists
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		// Assert that activity item for blog post was created after adding a comment
+		$this->assertNotNull( $a1, 'Activity item was not created for existing blog post when recording post comment.' );
+
+		$this->set_current_user( $old_user );
+	}
+
 	public function count_activity_comment_saved() {
 		$this->activity_saved_comment_count += 1;
 	}
