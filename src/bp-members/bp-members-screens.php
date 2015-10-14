@@ -679,7 +679,7 @@ class BP_Registration_Theme_Compat {
 
 		// Activation page
 		} else {
-			$title = __( 'Activate your Account', 'buddypress' );
+			$title = __( 'Activate Your Account', 'buddypress' );
 
 			if ( bp_account_was_activated() ) {
 				$title = __( 'Account Activated', 'buddypress' );

@@ -96,7 +96,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
 	// your language doesn't have this restriction, feel free to use a more
 	// natural translation.
 	$profile_link = trailingslashit( bp_core_get_user_domain( $activity->user_id ) . bp_get_profile_slug() );
-	$action	      = sprintf( __( '%s&#8217;s profile was updated', 'buddypress' ), '<a href="' . $profile_link . '">' . bp_core_get_user_displayname( $activity->user_id ) . '</a>' );
+	$action	      = sprintf( __( "%s's profile was updated", 'buddypress' ), '<a href="' . $profile_link . '">' . bp_core_get_user_displayname( $activity->user_id ) . '</a>' );
 
 	/**
 	 * Filters the formatted 'updated_profile' activity stream action.

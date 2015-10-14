@@ -758,7 +758,7 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 
 	// Activation page
 	} elseif ( bp_is_activation_page() ) {
-		$title_parts = array( __( 'Activate your Account', 'buddypress' ) );
+		$title_parts = array( __( 'Activate Your Account', 'buddypress' ) );
 
 	// Group creation page
 	} elseif ( bp_is_group_create() ) {

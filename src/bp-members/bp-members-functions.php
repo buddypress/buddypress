@@ -1975,7 +1975,7 @@ function bp_core_activate_signup( $key ) {
 		} elseif ( $key == wp_hash( $user_id ) ) {
 			// Change the user's status so they become active
 			if ( ! $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 0 WHERE ID = %d", $user_id ) ) ) {
-				return new WP_Error( 'invalid_key', __( 'Invalid activation key', 'buddypress' ) );
+				return new WP_Error( 'invalid_key', __( 'Invalid activation key.', 'buddypress' ) );
 			}
 
 			bp_delete_user_meta( $user_id, 'activation_key' );

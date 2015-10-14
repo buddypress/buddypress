@@ -48,10 +48,10 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 			<h5><?php _e( 'Crop Your New Profile Photo', 'buddypress' ); ?></h5>
 
-			<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Profile Photo to crop', 'buddypress' ); ?>" />
+			<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Profile photo to crop', 'buddypress' ); ?>" />
 
 			<div id="avatar-crop-pane">
-				<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-crop-preview" class="avatar" alt="<?php esc_attr_e( 'Profile Photo preview', 'buddypress' ); ?>" />
+				<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-crop-preview" class="avatar" alt="<?php esc_attr_e( 'Profile photo preview', 'buddypress' ); ?>" />
 			</div>
 
 			<input type="submit" name="avatar-crop-submit" id="avatar-crop-submit" value="<?php esc_attr_e( 'Crop Image', 'buddypress' ); ?>" />

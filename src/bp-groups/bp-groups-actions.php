@@ -340,7 +340,7 @@ function groups_action_create_group() {
 			if ( !bp_core_avatar_handle_crop( array( 'object' => 'group', 'avatar_dir' => 'group-avatars', 'item_id' => $bp->groups->current_group->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
 				bp_core_add_message( __( 'There was an error saving the group profile photo, please try uploading again.', 'buddypress' ), 'error' );
 			else
-				bp_core_add_message( __( 'The group profile photo was uploaded successfully!', 'buddypress' ) );
+				bp_core_add_message( __( 'The group profile photo was uploaded successfully.', 'buddypress' ) );
 		}
 	}
 
