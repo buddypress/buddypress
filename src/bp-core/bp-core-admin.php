@@ -765,6 +765,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/ramiy/">Rami Yushuvaev</a>,
 				<a href="https://profiles.wordpress.org/ritteshpatel/">Ritesh Patel</a>,
+				<a href="https://profiles.wordpress.org/SergeyBiryukov/">Sergey Biryukov (SergeyBiryukov)</a>,
 				<a href="https://profiles.wordpress.org/shanebp/">shanebp</a>,
 				<a href="https://profiles.wordpress.org/slaffik/">Slava UA</a>,
 				<a href="https://profiles.wordpress.org/netweb/">Stephen Edgar (netweb)</a>,
