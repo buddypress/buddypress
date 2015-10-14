@@ -1,7 +1,8 @@
 /**** BP Members Profile Administration Screens ****/
 
 div#profile-page.wrap form#your-profile {
-	position:relative;
+	position: relative;
+	padding-top: 50px;
 }
 
 div#profile-page.wrap form#your-profile h3:first-of-type {
@@ -10,7 +11,7 @@ div#profile-page.wrap form#your-profile h3:first-of-type {
 
 div#profile-page.wrap form#your-profile #profile-nav {
 	position: absolute;
-	top: -3.65em;
+	top: 0;
 	width: 97%;
 }
 
