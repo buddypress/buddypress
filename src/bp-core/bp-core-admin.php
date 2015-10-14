@@ -738,6 +738,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/needle/">Christian Wach</a>,
 				<a href="https://profiles.wordpress.org/damland/">damland</a>,
 				<a href="https://profiles.wordpress.org/danbp/">danbp</a>,
+				<a href="https://profiles.wordpress.org/daniluk4000/">daniluk4000</a>,
 				<a href="https://profiles.wordpress.org/davidtcarson/">David Carson</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
 				<a href="https://profiles.wordpress.org/valendesigns/">Derek Herman</a>,
