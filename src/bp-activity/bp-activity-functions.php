@@ -2149,9 +2149,9 @@ function bp_activity_new_comment( $args = '' ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int   $comment_id ID of the newly posted activity comment.
-	 * @param array $r          Array of parsed comment arguments.
-	 * @param int   $activity   ID of the activity item being commented on.
+	 * @param int                  $comment_id ID of the newly posted activity comment.
+	 * @param array                $r          Array of parsed comment arguments.
+	 * @param BP_Activity_Activity $activity   Activity item being commented on.
 	 */
 	do_action( 'bp_activity_comment_posted', $comment_id, $r, $activity );
 
