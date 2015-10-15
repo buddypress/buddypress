@@ -212,23 +212,29 @@ function bp_get_template_stack() {
 	$wp_current_filter[] = $tag;
 
 	// Sort
-	if ( ! isset( $merged_filters[ $tag ] ) ) {
-		ksort( $wp_filter[$tag] );
-		$merged_filters[ $tag ] = true;
+	if ( class_exists( 'WP_Hook' ) ) {
+		$filter = $wp_filter[ $tag ]->callbacks;
+	} else {
+		$filter = &$wp_filter[ $tag ];
+
+		if ( ! isset( $merged_filters[ $tag ] ) ) {
+			ksort( $filter );
+			$merged_filters[ $tag ] = true;
+		}
 	}
 
 	// Ensure we're always at the beginning of the filter array
-	reset( $wp_filter[ $tag ] );
+	reset( $filter );
 
 	// Loop through 'bp_template_stack' filters, and call callback functions
 	do {
-		foreach( (array) current( $wp_filter[$tag] ) as $the_ ) {
+		foreach( (array) current( $filter ) as $the_ ) {
 			if ( ! is_null( $the_['function'] ) ) {
 				$args[1] = $stack;
 				$stack[] = call_user_func_array( $the_['function'], array_slice( $args, 1, (int) $the_['accepted_args'] ) );
 			}
 		}
-	} while ( next( $wp_filter[$tag] ) !== false );
+	} while ( next( $filter ) !== false );
 
 	// Remove 'bp_template_stack' from the current filter array
 	array_pop( $wp_current_filter );
