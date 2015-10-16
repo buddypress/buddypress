@@ -1367,7 +1367,7 @@ class BP_XProfile_Field {
 			<h3><label for="default-visibility"><?php esc_html_e( 'Visibility', 'buddypress' ); ?></label></h3>
 			<div class="inside">
 				<div>
-					<select name="default-visibility" >
+					<select name="default-visibility" id="default-visibility">
 
 						<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
