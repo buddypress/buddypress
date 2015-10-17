@@ -259,18 +259,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress {
 
-	// active/current states all navs
-	div.item-list-tabs {
-		ul {
-			li.selected {
-				a {
-					background: $dark-background;
-					color: #fff;
-					opacity: 1;
-				}
-			}
-		}
-	}
 	// Global Nav Styles
 	div.item-list-tabs {
 		ul {
@@ -287,8 +275,55 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 	}
+}
+// .bp-user #object-nav @ small screen as a dropdown
 
+.bp-user {
+	#buddypress {
+		@media screen and (max-width: 38.75em) {
+
+			#object-nav {
+				background: $cream-background;
+				border: 1px solid $border-light;
+				overflow: visible;
+				padding: $spacing-val-sm;
+
+				ul {
+					border: 0;
+					height: 0;
+					// all latest vendor releases handle transitions, so no prefixes used.
+					transition: height 0.3s ease-in-out 0.7s;
+					visibility: hidden;
+				}
+
+				&:before {
+					content: "Menu \021E9";
+					display: inline;
+					opacity: 0.7;
+				}
+
+				&:hover,
+				&:focus {
+					&:before {content: "Menu \021E7";}
+
+					ul {
+						height: 320px;
+						opacity: 1;
+						overflow-y: auto;
+						visibility: visible;
+					}
+				}
+			}
+
+			#subnav {clear: both;}
+
+		} // close @media
+	}
+}
 	/*__ Horizontal menus & small screen __*/
+
+#buddypress {
+
 	#object-nav {
 
 		ul {
@@ -370,8 +405,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			li.selected,
 			li.current {
 				a {
-					background: $dark-background;
-					color: #fff;
+					background: none;
 					opacity: 1;
 				}
 			}
@@ -1589,8 +1623,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user {
 	.entry-title {margin-bottom: 0.5em;}
-
-	#buddypress {
+}
 
 /**
 *--------------------------------------------
@@ -1598,9 +1631,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *--------------------------------------------
 */
 
+.bp-user {
+
+	#buddypress {
+
 		table {
 			th {@include font-size(14)}
-			td {@include font-size(12)}
+			td {@include font-size(13)}
 
 			@media screen and (min-width: 46.25em) {
 				th {@include font-size(16)}
@@ -1645,12 +1682,19 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 		} // close .notifications-options-nav
+	} // close #buddypress
+} // close .bp-user
 
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.2 - Extended Profiles
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
+
 		.profile {
 			.bp-widget {
 				h4 {
@@ -1662,7 +1706,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 				table {margin-top: 0;}
 			}
-			/* Edit profile */
 
 			#profile-edit-form {
 
@@ -1718,12 +1761,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 			}
 		} // close .profile
+	} // close #buddyPress
+} // close .bp-user
 
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.3 - Groups
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
 
 		#groups-list {
 			li {
@@ -1735,12 +1784,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 			}
 		}
+	}
+}
 
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.5 - Private Messaging
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
 
 		#message-thread {
 		//Single message view
@@ -1827,6 +1882,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 					@media screen and (max-width: 46.25em) {
 						padding-top: 0;
+						span.icon:before {font-size: 14px;}
 					}
 				}
 
@@ -1862,8 +1918,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 						@include font-size(14);
 					}
 				}
-
-
 
 				td.thread-options {
 					text-align: right;
@@ -1952,6 +2006,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 			}
 		}
+	} // close #buddypress
+} // close .bp-user
 
 /**
 	*------------------------------
@@ -1959,8 +2015,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	*------------------------------
 	*/
 
+.bp-user {
+
+	#buddypress {
+
 		#settings-form {
-			// 'p' = email notification screen sub heading
+			padding: 0 $spacing-val-sm;
+		// 'p' = email notification screen sub heading
 			> p {
 				@include font-size(20);
 				margin: $spacing-val-md 0 $spacing-val-sm;
@@ -1999,7 +2060,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-	} // close #BuddyPress
+	} // close #buddyPress
 
 } // close .bp-user
 
