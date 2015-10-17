@@ -200,6 +200,14 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 	// Calculate a renderable output for each notification type
 	foreach ( $grouped_notifications as $component_name => $action_arrays ) {
 
+		// We prefer that extended profile component-related notifications use
+		// the component_name of 'xprofile'. However, the extended profile child
+		// object in the $bp object is keyed as 'profile', which is where we need
+		// to look for the registered notification callback.
+		if ( 'xprofile' == $component_name ) {
+			$component_name = 'profile';
+		}
+
 		// Skip if group is empty
 		if ( empty( $action_arrays ) ) {
 			continue;
@@ -609,6 +617,11 @@ function bp_notifications_get_registered_components() {
 	// Loop through components, look for callbacks, add to return value
 	foreach ( $active_components as $component ) {
 		if ( !empty( $bp->$component->notification_callback ) ) {
+			$component_names[] = $component;
+		}
+		// The extended profile component is identified in the active_components array as 'xprofile'.
+		// However, the extended profile child object has the key 'profile' in the $bp object.
+		if ( 'xprofile' == $component && ! empty( $bp->profile->notification_callback ) ) {
 			$component_names[] = $component;
 		}
 	}

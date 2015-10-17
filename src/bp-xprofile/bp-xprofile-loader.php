@@ -67,6 +67,7 @@ class BP_XProfile_Component extends BP_Component {
 			'settings',
 			'template',
 			'functions',
+			'notifications',
 		);
 
 		if ( is_admin() ) {
