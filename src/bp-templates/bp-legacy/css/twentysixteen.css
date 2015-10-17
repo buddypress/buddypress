@@ -137,8 +137,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *----------------------------------------------------------
 */
 #buddypress div.item-list-tabs ul li.selected a {
-	background: #555;
-	color: #fff;
+	background: inherit;
 	opacity: 1;
 }
 
@@ -152,6 +151,40 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress div.item-list-tabs ul li a span {
 	border-radius: 25%;
+}
+
+@media screen and (max-width: 38.75em) {
+	.bp-user #buddypress #object-nav {
+		background: #f7f5e7;
+		border: 1px solid #eaeaea;
+		overflow: visible;
+		padding: 10px;
+	}
+	.bp-user #buddypress #object-nav ul {
+		border: 0;
+		height: 0;
+		transition: height 0.3s ease-in-out 0.7s;
+		visibility: hidden;
+	}
+	.bp-user #buddypress #object-nav:before {
+		content: "Menu \021E9";
+		display: inline;
+		opacity: 0.7;
+	}
+	.bp-user #buddypress #object-nav:hover:before,
+	.bp-user #buddypress #object-nav:focus:before {
+		content: "Menu \021E7";
+	}
+	.bp-user #buddypress #object-nav:hover ul,
+	.bp-user #buddypress #object-nav:focus ul {
+		height: 320px;
+		opacity: 1;
+		overflow-y: auto;
+		visibility: visible;
+	}
+	.bp-user #buddypress #subnav {
+		clear: both;
+	}
 }
 
 /*__ Horizontal menus __*/
@@ -226,13 +259,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#buddypress div#subnav.item-list-tabs ul li.last {
 		text-align: right;
 	}
-}
-
-#budypress div.item-list-tabs ul li.selected a,
-#budypress div.item-list-tabs ul li.current a {
-	background: #555;
-	color: #fff;
-	opacity: 1;
 }
 
 /*__ Vertical menu User Account / Group single screens __*/
@@ -384,14 +410,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress .activity-meta .button:focus,
 #buddypress .activity-meta .button:hover {
-	background: #e37a5a;
-	color: #f7f5e7;
+	background: inherit;
+	color: #000;
 }
 
 #buddypress .action .generic-button a:focus,
 #buddypress .action .generic-button a:hover {
-	background: #e37a5a;
-	color: #f7f5e7;
+	background: inherit;
+	color: #000;
 }
 
 #buddypress ul.item-list li {
@@ -1160,36 +1186,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	margin-bottom: 0.5em;
 }
 
-.bp-user #buddypress {
-	/**
+/**
 *--------------------------------------------
 * @subsection 6.2.2.1 - classes, pag, filters
 *--------------------------------------------
 */
-	/**
-	*-------------------------------------------
-	* @subsection 6.2.2.2 - Extended Profiles
-	*-------------------------------------------
-	*/
-	/**
-	*-------------------------------------------
-	* @subsection 6.2.2.3 - Groups
-	*-------------------------------------------
-	*/
-	/**
-	*-------------------------------------------
-	* @subsection 6.2.2.5 - Private Messaging
-	*-------------------------------------------
-	*/
-	/* Auto Complete background */
-	/* Sitewide Notices loop */
-	/**
-	*------------------------------
-	* @subsection 6.2.2.6 - Settings
-	*------------------------------
-	*/
-}
-
 .bp-user #buddypress table th {
 	font-size: 14px;
 	font-size: 0.875rem;
@@ -1260,6 +1261,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	width: 40%;
 }
 
+/**
+	*-------------------------------------------
+	* @subsection 6.2.2.2 - Extended Profiles
+	*-------------------------------------------
+	*/
 .bp-user #buddypress .profile {
 	/* Edit profile */
 }
@@ -1325,11 +1331,25 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-size: inherit;
 }
 
+/**
+	*-------------------------------------------
+	* @subsection 6.2.2.3 - Groups
+	*-------------------------------------------
+	*/
 @media screen and (min-width: 77.5em) {
 	.bp-user #buddypress #groups-list li .item {
 		left: 5%;
 		width: 50%;
 	}
+}
+
+/**
+	*-------------------------------------------
+	* @subsection 6.2.2.5 - Private Messaging
+	*-------------------------------------------
+	*/
+.bp-user #buddypress {
+	/* Auto Complete background */
 }
 
 .bp-user #buddypress #message-thread a {
@@ -1522,6 +1542,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	padding-left: 0.2em;
 }
 
+/**
+	*------------------------------
+	* @subsection 6.2.2.6 - Settings
+	*------------------------------
+	*/
 .bp-user #buddypress #settings-form > p {
 	font-size: 20px;
 	font-size: 1.25rem;
@@ -1628,7 +1653,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress li.groups-members-search form input[type='text'] {
 	float: left;
 	margin: 0;
-	width: 100%;
+	width: 70%;
 }
 
 #buddypress div.dir-search form input[type='text'],

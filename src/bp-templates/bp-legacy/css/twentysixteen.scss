@@ -1,3 +1,4 @@
+
 // Stylesheet Guidence Notes
 // Table of content represents a guide to sections of the sheet.
 // Note that not all sections may be described in the body of the
@@ -345,14 +346,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		ul {
 			li.selected {
 				a {
-					background: $dark-background;
-					color: #fff;
+					background: inherit;
 					opacity: 1;
 				}
 			}
 		}
 	}
-	// Global Nav Styles
+	// global nav styles
 	div.item-list-tabs {
 		ul {
 			background-color: $cream-background;
@@ -370,6 +370,55 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	} // close item-list-tabs
 
 } // close #buddypress
+
+// .bp-user #object-nav @ small screen as a dropdown
+
+.bp-user {
+
+	#buddypress {
+
+		@media screen and (max-width: 38.75em) {
+
+			#object-nav {
+				background: $cream-background;
+				border: 1px solid $border-light;
+				overflow: visible;
+				padding: $spacing-val-sm;
+
+				ul {
+					border: 0;
+					height: 0;
+					// all latest vendor releases handle transitions, so no prefixes used.
+					transition: height 0.3s ease-in-out 0.7s;
+					visibility: hidden;
+				}
+
+				&:before {
+					content: "Menu \021E9";
+					display: inline;
+					opacity: 0.7;
+				}
+
+				&:hover,
+				&:focus {
+					&:before {content: "Menu \021E7";}
+
+					ul {
+						height: 320px;
+						opacity: 1;
+						overflow-y: auto;
+						visibility: visible;
+					}
+				}
+			}
+
+			#subnav {
+				clear: both;
+			}
+
+		} // close @media
+	}
+}
 
 	/*__ Horizontal menus __*/
 #buddypress {
@@ -451,23 +500,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 } // close #buddypress
 
-#budypress {
-
-	// active/current states all navs
-	div.item-list-tabs {
-		ul {
-			li.selected,
-			li.current {
-				a {
-					background: $dark-background;
-					color: #fff;
-					opacity: 1;
-				}
-			}
-		}
-	}
-
-} // close #buddypress
 
 	/*__ Vertical menu User Account / Group single screens __*/
 
@@ -659,8 +691,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		.button {
 			&:focus,
 			&:hover {
-				background: lighten($background-hover, 10%);
-				color: $cream-background;
+				background: inherit;
+				color: #000;
 			}
 		}
 	}
@@ -670,8 +702,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			a {
 				&:focus,
 				&:hover {
-					background: lighten($background-hover, 10%);
-					color: $cream-background;
+					background: inherit;
+					color: #000;
 				}
 			}
 		}
@@ -1559,14 +1591,16 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user {
 	.entry-title {margin-bottom: 0.5em;}
-
-	#buddypress {
+}
 
 /**
 *--------------------------------------------
 * @subsection 6.2.2.1 - classes, pag, filters
 *--------------------------------------------
 */
+.bp-user {
+
+	#buddypress {
 
 		table {
 			th {@include font-size(14)}
@@ -1616,11 +1650,19 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		} // close .notifications-options-nav
 
+	} //close #buddypress
+} // close .bp-user
+
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.2 - Extended Profiles
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
+
 		.profile {
 			.bp-widget {
 				h4 {
@@ -1687,11 +1729,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		} // close .profile
 
+	} // close #buddypress
+} // close .bp-user
+
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.3 - Groups
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
 
 		#groups-list {
 			li {
@@ -1704,11 +1753,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
+	} // close #buddypress
+} // close .bp-user
+
 /**
 	*-------------------------------------------
 	* @subsection 6.2.2.5 - Private Messaging
 	*-------------------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
 
 		#message-thread {
 		//Single message view
@@ -1893,7 +1949,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-		/* Sitewide Notices loop */
 		.sitewide-notices {
 			tr {
 				td:first-child {
@@ -1911,11 +1966,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
+	} // #buddypress
+} // close .bp-user
+
 /**
 	*------------------------------
 	* @subsection 6.2.2.6 - Settings
 	*------------------------------
 	*/
+
+.bp-user {
+
+	#buddypress {
 
 		#settings-form {
 			// 'p' = email notification screen sub heading
@@ -1957,7 +2019,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-	} // close #BuddyPress
+	} // close #buddyPress
 
 } // close .bp-user
 
@@ -2049,7 +2111,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			input[type='text'] {
 				float: left;
 				margin: 0;
-				width: 100%;
+				width: 70%;
 			}
 
 			input[type='text'],
