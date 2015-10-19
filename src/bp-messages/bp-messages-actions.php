@@ -84,23 +84,24 @@ function bp_messages_action_create_message() {
 			$recipients = apply_filters( 'bp_messages_recipients', $recipients );
 
 			// Attempt to send the message
-			$thread_id  = messages_new_message( array(
+			$send = messages_new_message( array(
 				'recipients' => $recipients,
 				'subject'    => $_POST['subject'],
-				'content'    => $_POST['content']
+				'content'    => $_POST['content'],
+				'error_type' => 'wp_error'
 			) );
 
 			// Send the message and redirect to it
-			if ( ! empty( $thread_id ) ) {
+			if ( true === is_int( $send ) ) {
 				$success     = true;
 				$feedback    = __( 'Message successfully sent.', 'buddypress' );
 				$view        = trailingslashit( $member_messages . 'view' );
-				$redirect_to = trailingslashit( $view . $thread_id );
+				$redirect_to = trailingslashit( $view . $send );
 
 			// Message could not be sent
 			} else {
 				$success  = false;
-				$feedback = __( 'Message was not sent. Please try again.', 'buddypress' );
+				$feedback = $send->get_error_message();
 			}
 		}
 	}

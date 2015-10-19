@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Create a new message.
  *
+ * @since 2.4.0 Added 'error_type' as an additional $args parameter.
+ *
  * @param array|string $args {
  *     Array of arguments.
  *     @type int    $sender_id  Optional. ID of the user who is sending the
@@ -31,6 +33,7 @@ defined( 'ABSPATH' ) || exit;
  *                              threads, 'No Subject' will be used if no $subject is provided.
  *     @type string $content    Content of the message. Cannot be empty.
  *     @type string $date_sent  Date sent, in 'Y-m-d H:i:s' format. Default: current date/time.
+ *     @type string $error_type Optional. Error type. Either 'bool' or 'wp_error'. Default: 'bool'.
  * }
  * @return int|bool ID of the message thread on success, false on failure.
  */
@@ -43,12 +46,26 @@ function messages_new_message( $args = '' ) {
 		'recipients' => array(), // Can be an array of usernames, user_ids or mixed.
 		'subject'    => false,
 		'content'    => false,
-		'date_sent'  => bp_core_current_time()
+		'date_sent'  => bp_core_current_time(),
+		'error_type' => 'bool'
 	), 'messages_new_message' );
 
 	// Bail if no sender or no content
 	if ( empty( $r['sender_id'] ) || empty( $r['content'] ) ) {
-		return false;
+		if ( 'wp_error' === $r['error_type'] ) {
+			if ( empty( $r['sender_id'] ) ) {
+				$error_code = 'messages_empty_sender';
+				$feedback = __( 'Your message was not sent. Please use a valid sender.', 'buddypress' );
+			} else {
+				$error_code = 'messages_empty_content';
+				$feedback = __( 'Your message was not sent. Please enter some content.', 'buddypress' );
+			}
+
+			return new WP_Error( $error_code, $feedback );
+
+		} else {
+			return false;
+		}
 	}
 
 	// Create a new message object
@@ -82,7 +99,11 @@ function messages_new_message( $args = '' ) {
 
 		// Bail if no recipients
 		if ( empty( $r['recipients'] ) ) {
-			return false;
+			if ( 'wp_error' === $r['error_type'] ) {
+				return new WP_Error( 'message_empty_recipients', __( 'Message could not be sent. Please enter a recipient.', 'buddypress' ) );
+			} else {
+				return false;
+			}
 		}
 
 		// Set a default subject if none exists
@@ -138,7 +159,11 @@ function messages_new_message( $args = '' ) {
 		// Remove duplicates & bail if no recipients
 		$recipient_ids = array_unique( $recipient_ids );
 		if ( empty( $recipient_ids ) ) {
-			return false;
+			if ( 'wp_error' === $r['error_type'] ) {
+				return new WP_Error( 'message_invalid_recipients', __( 'Message could not be sent because you have entered an invalid username. Please try again.', 'buddypress' ) );
+			} else {
+				return false;
+			}
 		}
 
 		// Format this to match existing recipients
