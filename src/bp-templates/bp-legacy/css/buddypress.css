@@ -1174,8 +1174,12 @@ a.bp-title-button {
 	color: #440;
 }
 #buddypress div#item-header {
-	overflow: hidden;
 	position: relative;
+}
+#buddypress #item-header:after {
+	clear: both;
+	content: "";
+	display: table;
 }
 #buddypress div#item-header div#item-header-content {
 	float: left;
