@@ -1173,9 +1173,10 @@ a.bp-title-button {
 	border: 1px solid #cb2;
 	color: #440;
 }
-#buddypress div#item-header {
-	overflow: hidden;
-	position: relative;
+#buddypress #item-header:after {
+	clear: both;
+	content: "";
+	display: table;
 }
 #buddypress div#item-header div#item-header-content {
 	float: right;
@@ -1407,6 +1408,10 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 /*--------------------------------------------------------------
 3.8.1 - Cover Image
 --------------------------------------------------------------*/
+
+#buddypress #cover-image-container {
+	position: relative;
+}
 
 #buddypress #header-cover-image {
 	background-color: #c5c5c5;
