@@ -81,19 +81,23 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	public function test_bp_core_fetch_avatar_parameter_conservation() {
 		// First, run the check with custom parameters, specifying no gravatar.
 		$this->params = array(
-			'item_id'    => 1406,
-			'object'     => 'custom_object',
-			'type'       => 'full',
-			'avatar_dir' => 'custom-dir',
-			'width'      => 48,
-			'height'     => 54,
-			'class'      => 'custom-class',
-			'css_id'     => 'custom-css-id',
-			'alt'        => 'custom alt',
-			'email'      => 'avatar@avatar.org',
-			'no_grav'    => true,
-			'html'       => true,
-			'title'      => 'custom-title',
+			'item_id'       => 1406,
+			'object'        => 'custom_object',
+			'type'          => 'full',
+			'avatar_dir'    => 'custom-dir',
+			'width'         => 48,
+			'height'        => 54,
+			'class'         => 'custom-class',
+			'css_id'        => 'custom-css-id',
+			'alt'           => 'custom alt',
+			'email'         => 'avatar@avatar.org',
+			'no_grav'       => true,
+			'html'          => true,
+			'title'         => 'custom-title',
+			'extra_attr'    => 'data-testing="buddypress"',
+			'scheme'        => 'http',
+			'rating'        => get_option( 'avatar_rating' ),
+			'force_default' => false,
 		);
 
 		// Check to make sure the custom parameters survived the function all the way up to output
@@ -131,16 +135,16 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 				$default_grav = $bp->grav_default->{$this->params['object']};
 			}
 
-			$avatar_url = $host . md5( strtolower( $this->params['email'] ) ) . '?d=' . $default_grav . '&amp;s=' . $this->params['width'];
+			$avatar_url = $host . md5( strtolower( $this->params['email'] ) ) . '?d=' . $default_grav . '&#038;s=' . $this->params['width'];
 
 			// Gravatar rating; http://bit.ly/89QxZA
-			$rating = get_option( 'avatar_rating' );
+			$rating = strtolower( get_option( 'avatar_rating' ) );
 			if ( ! empty( $rating ) ) {
-				$avatar_url .= "&amp;r={$rating}";
+				$avatar_url .= "&#038;r={$rating}";
 			}
 		}
 
-		$expected_html = '<img src="' . $avatar_url . '" id="' . $this->params['css_id'] . '" class="' . $this->params['class'] . ' ' . $this->params['object'] . '-' . $this->params['item_id'] . '-avatar avatar-' . $this->params['width'] . ' photo" width="' . $this->params['width'] . '" height="' . $this->params['height'] . '" alt="' . $this->params['alt'] . '" title="' . $this->params['title'] . '" />';
+		$expected_html = '<img src="' . $avatar_url . '" id="' . $this->params['css_id'] . '" class="' . $this->params['class'] . ' ' . $this->params['object'] . '-' . $this->params['item_id'] . '-avatar avatar-' . $this->params['width'] . ' photo" width="' . $this->params['width'] . '" height="' . $this->params['height'] . '" alt="' . $this->params['alt'] . '" title="' . $this->params['title'] . '" ' . $this->params['extra_attr'] . ' />';
 
 		$this->assertEquals( $html, $expected_html );
 	}
