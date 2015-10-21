@@ -457,10 +457,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	line-height: 1.4;
 }
 
-#buddypress form#whats-new-form textarea {
-	width: 100%;
-}
-
 @media screen and (max-width: 30em) {
 	#buddypress form#whats-new-form #whats-new-post-in-box select {
 		font-size: 14px;
@@ -491,11 +487,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#buddypress form#whats-new-form #whats-new-options #whats-new-post-in-box {
 		order: 1;
 	}
-}
-
-#buddypress form#whats-new-form #whats-new-options[style] {
-	min-height: 6rem;
-	overflow: visible;
 }
 
 #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {

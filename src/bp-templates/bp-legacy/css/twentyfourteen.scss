@@ -672,17 +672,7 @@ $nav-background-border: #bebebe;
 			margin-bottom: $spacing-val-xs;
 		}
 
-		textarea#whats-new {
-			width: 100%;
-		}
-
 		#whats-new-content {
-
-			#whats-new-options[style] {
-				// Have to override the BP fixed height
-				height: auto !important;
-			}
-
 			@media screen and (max-width: 594px) {
 				#whats-new-options {
 					display: flex;

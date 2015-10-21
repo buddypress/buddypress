@@ -125,12 +125,14 @@ Hello, this is the BuddyPress Legacy stylesheet.
 }
 #buddypress form#whats-new-form textarea {
 	background: #fff;
+	box-sizing: border-box;
 	color: #555;
 	font-family: inherit;
 	font-size: medium;
-	height: 20px;
+	height: 2.2em;
+	line-height: 1.4;
 	padding: 6px;
-	width: 98%;
+	width: 100%;
 }
 body.no-js #buddypress form#whats-new-form textarea {
 	height: 50px;
@@ -143,9 +145,10 @@ body.no-js #buddypress form#whats-new-form textarea {
 	float: left;
 	margin-top: 12px;
 }
-#buddypress #whats-new-options {
-	overflow: auto;
-	height: 0;
+#buddypress #whats-new-options:after {
+	clear: both;
+	content: "";
+	display: table;
 }
 body.no-js #buddypress #whats-new-options {
 	height: auto;

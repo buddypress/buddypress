@@ -424,14 +424,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	margin-bottom: 5px;
 }
 
-#buddypress form#whats-new-form textarea#whats-new {
-	width: 100%;
-}
-
-#buddypress form#whats-new-form #whats-new-content #whats-new-options[style] {
-	height: auto !important;
-}
-
 @media screen and (max-width: 594px) {
 	#buddypress form#whats-new-form #whats-new-content #whats-new-options {
 		display: flex;

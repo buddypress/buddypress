@@ -522,21 +522,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	line-height: 1.4;
 }
 
-#buddypress form#whats-new-form textarea {
-	width: 100%;
-}
-
 @media screen and (max-width: 46.25em) {
 	#buddypress form#whats-new-form #whats-new-content {
 		clear: right;
 		margin: 10px 0 20px;
 		padding: 10px 0 0;
 	}
-}
-
-#buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] {
-	min-height: 6rem;
-	overflow: visible;
 }
 
 #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box {

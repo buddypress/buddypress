@@ -872,7 +872,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			line-height: 1.4;
 		}
 
-		textarea {width: 100%;}
 		// corrective measure for clipped elements due to JS inline styling
 
 		@media screen and (max-width: 46.25em) {
@@ -885,9 +884,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		#whats-new-content.active {
 			#whats-new-options[style] {
-				min-height: 6rem; // unit open to debate px value might be better.
-				overflow: visible;
-
 				#whats-new-post-in-box {
 					border: 1px solid rgba($border-color, 0.5);
 					float: left;

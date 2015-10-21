@@ -32,12 +32,10 @@ jq(document).ready( function() {
 	if ( $whats_new.length && bp_get_querystring('r') ) {
 		var $member_nicename = $whats_new.val();
 
-		jq('#whats-new-options').animate({
-			height:'50px'
-		});
+		jq('#whats-new-options').slideDown();
 
 		$whats_new.animate({
-			height:'50px'
+			height:'3.8em'
 		});
 
 		jq.scrollTo( $whats_new, 500, {
@@ -46,20 +44,23 @@ jq(document).ready( function() {
 		} );
 
 		$whats_new.val('').focus().val( $member_nicename );
+	} else {
+		jq('#whats-new-options').hide();
 	}
 
 	/**** Activity Posting ********************************************************/
 
 	/* Textarea focus */
 	$whats_new.focus( function(){
-		jq('#whats-new-options').animate({
-			height:'50px'
+		jq( '#whats-new-options' ).slideDown();
+
+		jq( this ).animate({
+			height:'3.8em'
 		});
-		jq('#whats-new-form textarea').animate({
-			height:'50px'
-		});
+
 		jq('#aw-whats-new-submit').prop('disabled', false);
 
+		jq( this ).parent().addClass( 'active' );
 		jq( '#whats-new-content' ).addClass( 'active' );
 
 		var $whats_new_form = jq('form#whats-new-form'),
@@ -83,22 +84,32 @@ jq(document).ready( function() {
 		}
 	});
 
-	/* On blur, shrink if it's empty */
-	$whats_new.blur( function(){
-		if ( document.activeElement !== this ) {
-			if (!this.value.match(/\S+/)) {
-				this.value = '';
-				jq('#whats-new-options').animate({
-					height:'0'
+	/* For the "What's New" form, do the following on focusout. */
+	jq( '#whats-new-form' ).on( 'focusout', function( e ) {
+		var elem = jq( this );
+
+		// Let child hover actions passthrough.
+		// This allows click events to go through without focusout.
+		setTimeout( function () {
+			if ( ! elem.find(':hover').length ) {
+				// Do not slide up if textarea has content.
+				if ( '' !== $whats_new.val() ) {
+					return;
+				}
+
+				$whats_new.animate({
+					height:'2.2em'
 				});
-				jq('form#whats-new-form textarea').animate({
-					height:'20px'
-				});
-				jq('#aw-whats-new-submit').prop('disabled', true);
+
+				jq( '#whats-new-options' ).slideUp();
+
+				jq('#aw-whats-new-submit').prop( 'disabled', true );
+
 				jq( '#whats-new-content' ).removeClass( 'active' );
+				$whats_new.parent().removeClass( 'active' );
 			}
-		}
-	});
+		}, 0 );
+	} );
 
 	/* New posts */
 	jq('#aw-whats-new-submit').on( 'click', function() {
@@ -230,11 +241,9 @@ jq(document).ready( function() {
 				activity_last_recorded  = 0;
 			}
 
-			jq('#whats-new-options').animate({
-				height:'0px'
-			});
+			jq('#whats-new-options').slideUp();
 			jq('#whats-new-form textarea').animate({
-				height:'20px'
+				height:'2.2em'
 			});
 			jq('#aw-whats-new-submit').prop('disabled', true).removeClass('loading');
 			jq( '#whats-new-content' ).removeClass( 'active' );
