@@ -104,13 +104,31 @@ jq(document).ready( function() {
 	jq('#aw-whats-new-submit').on( 'click', function() {
 		var last_date_recorded = 0,
 			button = jq(this),
-			form   = button.closest('form#whats-new-form');
+			form   = button.closest('form#whats-new-form'),
+			inputs = {}, post_data;
 
-		form.children().each( function() {
-			if ( jq.nodeName(this, 'textarea') || jq.nodeName(this, 'input') ) {
+		// Get all inputs and organize them into an object {name: value}
+		jq.each( form.serializeArray(), function( key, input ) {
+			// Only include public extra data
+			if ( '_' !== input.name.substr( 0, 1 ) && 'whats-new' !== input.name.substr( 0, 9 ) ) {
+				if ( ! inputs[ input.name ] ) {
+					inputs[ input.name ] = input.value;
+				} else {
+					// Checkboxes/dropdown list can have multiple selected value
+					if ( ! jq.isArray( inputs[ input.name ] ) ) {
+						inputs[ input.name ] = new Array( inputs[ input.name ], input.value );
+					} else {
+						inputs[ input.name ].push( input.value );
+					}
+				}
+			}
+		} );
+
+		form.find( '*' ).each( function() {
+			if ( jq.nodeName( this, 'textarea' ) || jq.nodeName( this, 'input' ) ) {
 				jq(this).prop( 'disabled', true );
 			}
-		});
+		} );
 
 		/* Remove any errors */
 		jq('div.error').remove();
@@ -145,7 +163,7 @@ jq(document).ready( function() {
 			object = jq('#whats-new-post-object').val();
 		}
 
-		jq.post( ajaxurl, {
+		post_data = jq.extend( {
 			action: 'post_update',
 			'cookie': bp_get_cookies(),
 			'_wpnonce_post_update': jq('#_wpnonce_post_update').val(),
@@ -154,11 +172,11 @@ jq(document).ready( function() {
 			'item_id': item_id,
 			'since': last_date_recorded,
 			'_bp_as_nonce': jq('#_bp_as_nonce').val() || ''
-		},
-		function(response) {
+		}, inputs );
 
-			form.children().each( function() {
-				if ( jq.nodeName(this, 'textarea') || jq.nodeName(this, 'input') ) {
+		jq.post( ajaxurl, post_data, function( response ) {
+			form.find( '*' ).each( function() {
+				if ( jq.nodeName( this, 'textarea' ) || jq.nodeName( this, 'input' ) ) {
 					jq(this).prop( 'disabled', false );
 				}
 			});
@@ -205,6 +223,7 @@ jq(document).ready( function() {
 				jq('li.new-update').hide().slideDown( 300 );
 				jq('li.new-update').removeClass( 'new-update' );
 				jq('#whats-new').val('');
+				form.get(0).reset();
 
 				// reset vars to get newest activities
 				newest_activities = '';
