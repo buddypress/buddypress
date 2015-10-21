@@ -35,18 +35,14 @@ do_action( 'bp_before_member_header' ); ?>
 				<h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
 			<?php endif; ?>
 
-			<div id="item-buttons">
-
-				<?php
+			<div id="item-buttons"><?php
 
 				/**
 				 * Fires in the member header actions section.
 				 *
 				 * @since 1.2.6
 				 */
-				do_action( 'bp_member_header_actions' ); ?>
-
-			</div><!-- #item-buttons -->
+				do_action( 'bp_member_header_actions' ); ?></div><!-- #item-buttons -->
 
 			<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 

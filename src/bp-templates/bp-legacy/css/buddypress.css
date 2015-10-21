@@ -1407,6 +1407,9 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	overflow: auto;
 	list-style: none;
 }
+#buddypress #item-buttons:empty {
+	display: none;
+}
 
 /*--------------------------------------------------------------
 3.8.1 - Cover Image

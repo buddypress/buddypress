@@ -29,18 +29,14 @@ do_action( 'bp_before_group_header' ); ?>
 
 		<div id="item-header-content">
 
-			<div id="item-buttons">
-
-				<?php
+			<div id="item-buttons"><?php
 
 				/**
 				 * Fires in the group header actions section.
 				 *
 				 * @since 1.2.6
 				 */
-				do_action( 'bp_group_header_actions' ); ?>
-
-			</div><!-- #item-buttons -->
+				do_action( 'bp_group_header_actions' ); ?></div><!-- #item-buttons -->
 
 			<?php
 

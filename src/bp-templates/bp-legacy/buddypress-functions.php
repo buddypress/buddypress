@@ -1851,7 +1851,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 			color: #FFF;
 			text-rendering: optimizelegibility;
 			text-shadow: 0px 0px 3px rgba( 0, 0, 0, 0.8 );
-			margin: 0;
+			margin: 0 0 .6em;
 			font-size:200%;
 		}
 
@@ -1866,13 +1866,14 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 		}
 
 		#buddypress #item-header-cover-image #item-buttons {
-			overflow:hidden;
-			margin: 20px 0 10px;
+			margin: 0 0 10px;
 			padding: 0 0 5px;
 		}
 
-		#buddypress #item-header-cover-image #item-buttons:before {
-			content:"\00a0";
+		#buddypress #item-header-cover-image #item-buttons:after {
+			clear: both;
+			content: "";
+			display: table;
 		}
 
 		@media screen and (max-width: 782px) {
