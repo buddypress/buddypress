@@ -56,6 +56,7 @@ class BP_Messages_Notice {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param int $id Optional. The ID of the current notice.
 	 */
 	public function __construct( $id = null ) {
@@ -211,14 +212,14 @@ class BP_Messages_Notice {
 	 *     @type int $pag_num  Number of notices per page. Defaults to 20.
 	 *     @type int $pag_page The page number.  Defaults to 1.
 	 * }
-	 * @return array
+	 * @return object List of notices to display.
 	 */
 	public static function get_notices( $args = array() ) {
 		global $wpdb;
 
 		$r = wp_parse_args( $args, array(
-			'pag_num'  => 20, // Number of notices per page
-			'pag_page' => 1   // Page number
+			'pag_num'  => 20, // Number of notices per page.
+			'pag_page' => 1   // Page number.
 		) );
 
 		$limit_sql = '';

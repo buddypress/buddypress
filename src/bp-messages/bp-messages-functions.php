@@ -39,10 +39,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function messages_new_message( $args = '' ) {
 
-	// Parse the default arguments
+	// Parse the default arguments.
 	$r = bp_parse_args( $args, array(
 		'sender_id'  => bp_loggedin_user_id(),
-		'thread_id'  => false,   // false for a new message, thread id for a reply to a thread.
+		'thread_id'  => false,   // False for a new message, thread id for a reply to a thread.
 		'recipients' => array(), // Can be an array of usernames, user_ids or mixed.
 		'subject'    => false,
 		'content'    => false,
@@ -50,7 +50,7 @@ function messages_new_message( $args = '' ) {
 		'error_type' => 'bool'
 	), 'messages_new_message' );
 
-	// Bail if no sender or no content
+	// Bail if no sender or no content.
 	if ( empty( $r['sender_id'] ) || empty( $r['content'] ) ) {
 		if ( 'wp_error' === $r['error_type'] ) {
 			if ( empty( $r['sender_id'] ) ) {
@@ -68,7 +68,7 @@ function messages_new_message( $args = '' ) {
 		}
 	}
 
-	// Create a new message object
+	// Create a new message object.
 	$message            = new BP_Messages_Message;
 	$message->thread_id = $r['thread_id'];
 	$message->sender_id = $r['sender_id'];
@@ -89,7 +89,7 @@ function messages_new_message( $args = '' ) {
 			unset( $message->recipients[ $r['sender_id'] ] );
 		}
 
-		// Set a default reply subject if none was sent
+		// Set a default reply subject if none was sent.
 		if ( empty( $message->subject ) ) {
 			$message->subject = sprintf( __( 'Re: %s', 'buddypress' ), $thread->messages[0]->subject );
 		}
@@ -97,7 +97,7 @@ function messages_new_message( $args = '' ) {
 	// ...otherwise use the recipients passed
 	} else {
 
-		// Bail if no recipients
+		// Bail if no recipients.
 		if ( empty( $r['recipients'] ) ) {
 			if ( 'wp_error' === $r['error_type'] ) {
 				return new WP_Error( 'message_empty_recipients', __( 'Message could not be sent. Please enter a recipient.', 'buddypress' ) );
@@ -106,42 +106,42 @@ function messages_new_message( $args = '' ) {
 			}
 		}
 
-		// Set a default subject if none exists
+		// Set a default subject if none exists.
 		if ( empty( $message->subject ) ) {
 			$message->subject = __( 'No Subject', 'buddypress' );
 		}
 
-		// Setup the recipients array
+		// Setup the recipients array.
 		$recipient_ids 	    = array();
 
-		// Invalid recipients are added to an array, for future enhancements
+		// Invalid recipients are added to an array, for future enhancements.
 		$invalid_recipients = array();
 
-		// Loop the recipients and convert all usernames to user_ids where needed
+		// Loop the recipients and convert all usernames to user_ids where needed.
 		foreach( (array) $r['recipients'] as $recipient ) {
 
-			// Trim spaces and skip if empty
+			// Trim spaces and skip if empty.
 			$recipient = trim( $recipient );
 			if ( empty( $recipient ) ) {
 				continue;
 			}
 
 			// Check user_login / nicename columns first
-			// @see http://buddypress.trac.wordpress.org/ticket/5151
+			// @see http://buddypress.trac.wordpress.org/ticket/5151.
 			if ( bp_is_username_compatibility_mode() ) {
 				$recipient_id = bp_core_get_userid( urldecode( $recipient ) );
 			} else {
 				$recipient_id = bp_core_get_userid_from_nicename( $recipient );
 			}
 
-			// Check against user ID column if no match and if passed recipient is numeric
+			// Check against user ID column if no match and if passed recipient is numeric.
 			if ( empty( $recipient_id ) && is_numeric( $recipient ) ) {
 				if ( bp_core_get_core_userdata( (int) $recipient ) ) {
 					$recipient_id = (int) $recipient;
 				}
 			}
 
-			// Decide which group to add this recipient to
+			// Decide which group to add this recipient to.
 			if ( empty( $recipient_id ) ) {
 				$invalid_recipients[] = $recipient;
 			} else {
@@ -156,7 +156,7 @@ function messages_new_message( $args = '' ) {
 			unset( $recipient_ids[ $self_send ] );
 		}
 
-		// Remove duplicates & bail if no recipients
+		// Remove duplicates & bail if no recipients.
 		$recipient_ids = array_unique( $recipient_ids );
 		if ( empty( $recipient_ids ) ) {
 			if ( 'wp_error' === $r['error_type'] ) {
@@ -166,14 +166,14 @@ function messages_new_message( $args = '' ) {
 			}
 		}
 
-		// Format this to match existing recipients
+		// Format this to match existing recipients.
 		foreach( (array) $recipient_ids as $i => $recipient_id ) {
 			$message->recipients[$i]          = new stdClass;
 			$message->recipients[$i]->user_id = $recipient_id;
 		}
 	}
 
-	// Bail if message failed to send
+	// Bail if message failed to send.
 	if ( ! $message->send() ) {
 		return false;
 	}
@@ -187,7 +187,7 @@ function messages_new_message( $args = '' ) {
 	 */
 	do_action_ref_array( 'messages_message_sent', array( &$message ) );
 
-	// Return the thread ID
+	// Return the thread ID.
 	return $message->thread_id;
 }
 
@@ -196,7 +196,6 @@ function messages_new_message( $args = '' ) {
  *
  * @param string $subject Subject of the notice.
  * @param string $message Content of the notice.
- *
  * @return bool True on success, false on failure.
  */
 function messages_send_notice( $subject, $message ) {
@@ -210,7 +209,7 @@ function messages_send_notice( $subject, $message ) {
 		$notice->message   = $message;
 		$notice->date_sent = bp_core_current_time();
 		$notice->is_active = 1;
-		$notice->save(); // send it.
+		$notice->save(); // Send it.
 
 		/**
 		 * Fires after a notice has been successfully sent.
@@ -229,8 +228,7 @@ function messages_send_notice( $subject, $message ) {
 /**
  * Delete message thread(s).
  *
- * @param int|array Thread ID or array of thread IDs.
- *
+ * @param int|array $thread_ids Thread ID or array of thread IDs.
  * @return bool True on success, false on failure.
  */
 function messages_delete_thread( $thread_ids ) {
@@ -283,7 +281,6 @@ function messages_delete_thread( $thread_ids ) {
  *
  * @param int $thread_id ID of the thread.
  * @param int $user_id   Optional. ID of the user. Default: ID of the logged-in user.
- *
  * @return int|null Message ID if the user has access, otherwise null.
  */
 function messages_check_thread_access( $thread_id, $user_id = 0 ) {
@@ -348,7 +345,6 @@ function messages_remove_callback_values() {
  * Get the unread messages count for a user.
  *
  * @param int $user_id Optional. ID of the user. Default: ID of the logged-in user.
- *
  * @return int
  */
 function messages_get_unread_count( $user_id = 0 ) {
@@ -364,7 +360,6 @@ function messages_get_unread_count( $user_id = 0 ) {
  *
  * @param int $user_id    ID of the user.
  * @param int $message_id ID of the message.
- *
  * @return int|null Returns the ID of the message if the user is the
  *                  sender, otherwise null.
  */
@@ -376,7 +371,6 @@ function messages_is_user_sender( $user_id, $message_id ) {
  * Get the ID of the sender of a message.
  *
  * @param int $message_id ID of the message.
- *
  * @return int|null The ID of the sender if found, otherwise null.
  */
 function messages_get_message_sender( $message_id ) {
@@ -387,7 +381,6 @@ function messages_get_message_sender( $message_id ) {
  * Check whether a message thread exists.
  *
  * @param int $thread_id ID of the thread.
- *
  * @return int|null The message thread ID on success, null on failure.
  */
 function messages_is_valid_thread( $thread_id ) {
@@ -425,23 +418,22 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  * @param string|bool $meta_key   Meta key to delete. Default false.
  * @param string|bool $meta_value Meta value to delete. Default false.
  * @param bool        $delete_all Whether or not to delete all meta data.
- *
  * @return bool
  */
 function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
-	// Legacy - if no meta_key is passed, delete all for the item
+	// Legacy - if no meta_key is passed, delete all for the item.
 	if ( empty( $meta_key ) ) {
 		global $wpdb;
 
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->messagemeta} WHERE message_id = %d", $message_id ) );
 
-		// With no meta_key, ignore $delete_all
+		// With no meta_key, ignore $delete_all.
 		$delete_all = false;
 	} else {
 		$keys = array( $meta_key );
 	}
 
-	// no keys, so stop now!
+	// No keys, so stop now!
 	if ( empty( $keys ) ) {
 		return false;
 	}
@@ -467,7 +459,6 @@ function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = 
  * @param int    $message_id ID of the message to retrieve meta for.
  * @param string $meta_key   Meta key to retrieve. Default empty string.
  * @param bool   $single     Whether or not to fetch all or a single value.
- *
  * @return mixed
  */
 function bp_messages_get_meta( $message_id, $meta_key = '', $single = true ) {
@@ -489,8 +480,7 @@ function bp_messages_get_meta( $message_id, $meta_key = '', $single = true ) {
  * @param string|bool $meta_key   Meta key to update.
  * @param string|bool $meta_value Meta value to update.
  * @param string      $prev_value If specified, only update existing metadata entries with
- * 		                          the specified value. Otherwise, update all entries.
- *
+ *                                the specified value. Otherwise, update all entries.
  * @return mixed
  */
 function bp_messages_update_meta( $message_id, $meta_key, $meta_value, $prev_value = '' ) {
@@ -512,8 +502,8 @@ function bp_messages_update_meta( $message_id, $meta_key, $meta_value, $prev_val
  * @param string|bool $meta_key   Meta key to update.
  * @param string|bool $meta_value Meta value to update.
  * @param bool        $unique     Whether the specified metadata key should be
- * 		                          unique for the object. If true, and the object
- * 		                          already has a value for the specified metadata key,
+ *                                unique for the object. If true, and the object
+ *                                already has a value for the specified metadata key,
  *                                no change will be made.
  * @return mixed
  */

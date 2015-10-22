@@ -107,7 +107,7 @@ class BP_Messages_Box_Template {
 	 */
 	public function __construct( $args = array() ) {
 
-		// Backward compatibility with old method of passing arguments
+		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
 			_deprecated_argument( __METHOD__, '2.2.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
@@ -279,7 +279,7 @@ class BP_Messages_Box_Template {
 			 * @since 1.5.0
 			 */
 			do_action( 'messages_box_loop_end' );
-			// Do some cleaning up after the loop
+			// Do some cleaning up after the loop.
 			$this->rewind_threads();
 		}
 
@@ -305,7 +305,7 @@ class BP_Messages_Box_Template {
 			$last_message_index     = count( $this->thread->messages ) - 1;
 			$this->thread->messages = array_reverse( (array) $this->thread->messages );
 
-			// Set up the last message data
+			// Set up the last message data.
 			if ( count($this->thread->messages) > 1 ) {
 				if ( 'inbox' == $this->box ) {
 					foreach ( (array) $this->thread->messages as $key => $message ) {
@@ -332,7 +332,7 @@ class BP_Messages_Box_Template {
 			$this->thread->last_message_content = $this->thread->messages[ $last_message_index ]->message;
 		}
 
-		// loop has just started
+		// Loop has just started.
 		if ( 0 == $this->current_thread ) {
 
 			/**
@@ -378,7 +378,7 @@ class BP_Messages_Box_Template {
 function bp_has_message_threads( $args = array() ) {
 	global $messages_template;
 
-	// The default box the user is looking at
+	// The default box the user is looking at.
 	$current_action = bp_current_action();
 	switch ( $current_action ) {
 		case 'sentbox' :
@@ -395,10 +395,10 @@ function bp_has_message_threads( $args = array() ) {
 	// @todo displayed user for moderators that get this far?
 	$user_id = bp_loggedin_user_id();
 
-	// Search Terms
+	// Search Terms.
 	$search_terms = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
 
-	// Parse the arguments
+	// Parse the arguments.
 	$r = bp_parse_args( $args, array(
 		'user_id'      => $user_id,
 		'box'          => $default_box,
@@ -406,11 +406,11 @@ function bp_has_message_threads( $args = array() ) {
 		'max'          => false,
 		'type'         => 'all',
 		'search_terms' => $search_terms,
-		'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679
+		'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
 		'meta_query'   => array()
 	), 'has_message_threads' );
 
-	// Load the messages loop global up with messages
+	// Load the messages loop global up with messages.
 	$messages_template = new BP_Messages_Box_Template( $r );
 
 	/**
@@ -541,6 +541,7 @@ function bp_message_thread_content() {
 	 * the thread of which you *are* the member.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @return string The raw content of the last message in the thread.
 	 */
 	function bp_get_message_thread_content() {
@@ -855,7 +856,6 @@ function bp_message_thread_total_count( $thread_id = false ) {
 	 *
 	 * @param int|bool $thread_id Optional. ID of the thread.
 	 *                            Defaults to current thread ID.
-	 *
 	 * @return int
 	 */
 	function bp_get_message_thread_total_count( $thread_id = false ) {
@@ -896,7 +896,6 @@ function bp_message_thread_total_and_unread_count( $thread_id = false ) {
 	 * Get markup for the current thread's total and unread count.
 	 *
 	 * @param int|bool $thread_id Optional. ID of the thread. Default: current thread ID.
-	 *
 	 * @return string Markup displaying the total and unread count for the thread.
 	 */
 	function bp_get_message_thread_total_and_unread_count( $thread_id = false ) {
@@ -1072,8 +1071,6 @@ function bp_messages_pagination() {
 
 /**
  * Generate the "Viewing message x to y (of z messages)" string for a loop.
- *
- * @return string
  */
 function bp_messages_pagination_count() {
 	global $messages_template;
@@ -1100,15 +1097,15 @@ function bp_messages_pagination_count() {
  */
 function bp_message_search_form() {
 
-	// Get the default search text
+	// Get the default search text.
 	$default_search_value = bp_get_search_default_text( 'messages' );
 
-	// Setup a few values based on what's being searched for
+	// Setup a few values based on what's being searched for.
 	$search_submitted     = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
 	$search_placeholder   = ( $search_submitted === $default_search_value ) ? ' placeholder="' .  esc_attr( $search_submitted ) . '"' : '';
 	$search_value         = ( $search_submitted !== $default_search_value ) ? ' value="'       .  esc_attr( $search_submitted ) . '"' : '';
 
-	// Start the output buffer, so form can be filtered
+	// Start the output buffer, so form can be filtered.
 	ob_start(); ?>
 
 	<form action="" method="get" id="search-message-form">
@@ -1119,7 +1116,7 @@ function bp_message_search_form() {
 
 	<?php
 
-	// Get the search form from the above output buffer
+	// Get the search form from the above output buffer.
 	$search_form_html = ob_get_clean();
 
 	/**
@@ -1202,7 +1199,7 @@ function bp_messages_subject_value() {
 	 */
 	function bp_get_messages_subject_value() {
 
-		// Sanitized in bp-messages-filters.php
+		// Sanitized in bp-messages-filters.php.
 		$subject = ! empty( $_POST['subject'] )
 			? $_POST['subject']
 			: '';
@@ -1233,7 +1230,7 @@ function bp_messages_content_value() {
 	 */
 	function bp_get_messages_content_value() {
 
-		// Sanitized in bp-messages-filters.php
+		// Sanitized in bp-messages-filters.php.
 		$content = ! empty( $_POST['content'] )
 			? $_POST['content']
 			: '';
@@ -1650,7 +1647,7 @@ function bp_send_message_button() {
 	 */
 	function bp_get_send_message_button() {
 		// Note: 'bp_get_send_message_button' is a legacy filter. Use
-		// 'bp_get_send_message_button_args' instead. See #4536
+		// 'bp_get_send_message_button_args' instead. See #4536.
 		return apply_filters( 'bp_get_send_message_button',
 
 			/**
@@ -1735,7 +1732,7 @@ function bp_message_get_recipient_usernames() {
 	 */
 	function bp_get_message_get_recipient_usernames() {
 
-		// Sanitized in bp-messages-filters.php
+		// Sanitized in bp-messages-filters.php.
 		$recipients = isset( $_GET['r'] )
 			? $_GET['r']
 			: '';
@@ -1749,7 +1746,6 @@ function bp_message_get_recipient_usernames() {
 		 */
 		return apply_filters( 'bp_get_message_get_recipient_usernames', $recipients );
 	}
-
 
 /**
  * Message Thread Template Class
@@ -1824,9 +1820,9 @@ class BP_Messages_Thread_Template {
 	 *
 	 * @see BP_Messages_Thread::populate() for full parameter info.
 	 *
-	 * @param int    $thread_id
-	 * @param string $order
-	 * @param array  $args
+	 * @param int    $thread_id ID of the message thread to display.
+	 * @param string $order     Order to show the thread's messages in.
+	 * @param array  $args      Array of arguments for the query.
 	 */
 	public function __construct( $thread_id = 0, $order = 'ASC', $args = array() ) {
 		$this->thread        = new BP_Messages_Thread( $thread_id, $order, $args );
@@ -1892,7 +1888,7 @@ class BP_Messages_Thread_Template {
 			 * @since 1.1.0
 			 */
 			do_action( 'thread_loop_end' );
-			// Do some cleaning up after the loop
+			// Do some cleaning up after the loop.
 			$this->rewind_messages();
 		}
 
@@ -1913,7 +1909,7 @@ class BP_Messages_Thread_Template {
 		$this->in_the_loop = true;
 		$this->message     = $this->next_message();
 
-		// loop has just started
+		// Loop has just started.
 		if ( 0 === $this->current_message ) {
 
 			/**
@@ -1953,7 +1949,7 @@ function bp_thread_has_messages( $args = '' ) {
 		$r['thread_id'] = (int) bp_action_variable( 0 );
 	}
 
-	// Set up extra args
+	// Set up extra args.
 	$extra_args = $r;
 	unset( $extra_args['thread_id'], $extra_args['order'] );
 
@@ -2191,13 +2187,13 @@ function bp_the_thread_message_css_class() {
 
 		$classes = array();
 
-		// Zebra-striping
+		// Zebra-striping.
 		$classes[] = bp_get_the_thread_message_alt_class();
 
-		// ID of the sender
+		// ID of the sender.
 		$classes[] = 'sent-by-' . intval( $thread_template->message->sender_id );
 
-		// Whether the sender is the same as the logged-in user
+		// Whether the sender is the same as the logged-in user.
 		if ( bp_loggedin_user_id() == $thread_template->message->sender_id ) {
 			$classes[] = 'sent-by-me';
 		}
@@ -2324,12 +2320,16 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 
 /**
  * Output a link to the sender of the current message.
+ *
+ * @since 1.1.0
  */
 function bp_the_thread_message_sender_link() {
 	echo esc_url( bp_get_the_thread_message_sender_link() );
 }
 	/**
 	 * Get a link to the sender of the current message.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -2348,12 +2348,16 @@ function bp_the_thread_message_sender_link() {
 
 /**
  * Output the display name of the sender of the current message.
+ *
+ * @since 1.1.0
  */
 function bp_the_thread_message_sender_name() {
 	echo esc_html( bp_get_the_thread_message_sender_name() );
 }
 	/**
 	 * Get the display name of the sender of the current message.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -2378,12 +2382,16 @@ function bp_the_thread_message_sender_name() {
 
 /**
  * Output the URL for deleting the current thread.
+ *
+ * @since 1.5.0
  */
 function bp_the_thread_delete_link() {
 	echo esc_url( bp_get_the_thread_delete_link() );
 }
 	/**
 	 * Get the URL for deleting the current thread.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @return string URL
 	 */
@@ -2402,12 +2410,16 @@ function bp_the_thread_delete_link() {
 
 /**
  * Output the 'Sent x hours ago' string for the current message.
+ *
+ * @since 1.1.0
  */
 function bp_the_thread_message_time_since() {
 	echo bp_get_the_thread_message_time_since();
 }
 	/**
 	 * Generate the 'Sent x hours ago' string for the current message.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -2455,12 +2467,16 @@ function bp_the_thread_message_date_sent() {
 
 /**
  * Output the content of the current message in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_thread_message_content() {
 	echo bp_get_the_thread_message_content();
 }
 	/**
 	 * Get the content of the current message in the loop.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -2504,7 +2520,6 @@ add_action( 'thread_loop_start', 'bp_messages_embed' );
  *                         functions like this one to filter.
  * @param int    $id       The ID of the message item.
  * @param string $cachekey The cache key generated in BP_Embed::parse_oembed().
- *
  * @return mixed The cached embeds for this message item.
  */
 function bp_embed_message_cache( $cache, $id, $cachekey ) {
@@ -2522,8 +2537,6 @@ function bp_embed_message_cache( $cache, $id, $cachekey ) {
  *                         functions like this one to filter.
  * @param string $cachekey The cache key generated in BP_Embed::parse_oembed().
  * @param int    $id       The ID of the message item.
- *
- * @return bool True on success, false on failure.
  */
 function bp_embed_message_save_cache( $cache, $cachekey, $id ) {
 	bp_messages_update_meta( $id, $cachekey, $cache );

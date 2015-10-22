@@ -99,8 +99,7 @@ class BP_Messages_Message {
 	/**
 	 * Send a message.
 	 *
-	 * @return int|bool ID of the newly created message on success, false
-	 *                  on failure.
+	 * @return int|bool ID of the newly created message on success, false on failure.
 	 */
 	public function send() {
 		global $wpdb;
@@ -136,7 +135,7 @@ class BP_Messages_Message {
 			$new_thread = true;
 		}
 
-		// First insert the message into the messages table
+		// First insert the message into the messages table.
 		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, %s )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) )
 			return false;
 
@@ -145,17 +144,17 @@ class BP_Messages_Message {
 		$recipient_ids = array();
 
 		if ( $new_thread ) {
-			// Add an recipient entry for all recipients
+			// Add an recipient entry for all recipients.
 			foreach ( (array) $this->recipients as $recipient ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $recipient->user_id, $this->thread_id ) );
 				$recipient_ids[] = $recipient->user_id;
 			}
 
-			// Add a sender recipient entry if the sender is not in the list of recipients
+			// Add a sender recipient entry if the sender is not in the list of recipients.
 			if ( !in_array( $this->sender_id, $recipient_ids ) )
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, sender_only ) VALUES ( %d, %d, 1 )", $this->sender_id, $this->thread_id ) );
 		} else {
-			// Update the unread count for all recipients
+			// Update the unread count for all recipients.
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = unread_count + 1, sender_only = 0, is_deleted = 0 WHERE thread_id = %d AND user_id != %d", $this->thread_id, $this->sender_id ) );
 		}
 
@@ -176,7 +175,7 @@ class BP_Messages_Message {
 	/**
 	 * Get a list of recipients for a message.
 	 *
-	 * @return array
+	 * @return object $value List of recipients for a message.
 	 */
 	public function get_recipients() {
 		global $wpdb;
@@ -192,8 +191,7 @@ class BP_Messages_Message {
 	 * Get list of recipient IDs from their usernames.
 	 *
 	 * @param array $recipient_usernames Usernames of recipients.
-	 *
-	 * @return array
+	 * @return array $recipient_ids Array of Recepient IDs.
 	 */
 	public static function get_recipient_ids( $recipient_usernames ) {
 		if ( !$recipient_usernames )
@@ -214,7 +212,6 @@ class BP_Messages_Message {
 	 * Get the ID of the message last sent by the logged-in user for a given thread.
 	 *
 	 * @param int $thread_id ID of the thread.
-	 *
 	 * @return int|null ID of the message if found, otherwise null.
 	 */
 	public static function get_last_sent_for_user( $thread_id ) {
@@ -230,7 +227,6 @@ class BP_Messages_Message {
 	 *
 	 * @param int $user_id    ID of the user.
 	 * @param int $message_id ID of the message.
-	 *
 	 * @return int|null Returns the ID of the message if the user is the
 	 *                  sender, otherwise null.
 	 */
@@ -246,7 +242,6 @@ class BP_Messages_Message {
 	 * Get the ID of the sender of a message.
 	 *
 	 * @param int $message_id ID of the message.
-	 *
 	 * @return int|null The ID of the sender if found, otherwise null.
 	 */
 	public static function get_message_sender( $message_id ) {

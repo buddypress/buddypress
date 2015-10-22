@@ -19,8 +19,6 @@ function bp_messages_register_widgets() {
 }
 add_action( 'bp_register_widgets', 'bp_messages_register_widgets' );
 
-/** Sitewide Notices widget ***************************************************/
-
 /**
  * A widget that displays sitewide notices.
  *
@@ -29,7 +27,7 @@ add_action( 'bp_register_widgets', 'bp_messages_register_widgets' );
 class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 
 	/**
-	 * Constructor method
+	 * Constructor method.
 	 */
 	function __construct() {
 		parent::__construct(
@@ -56,7 +54,7 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 			return;
 		}
 
-		// Don't display the widget if there are no Notices to show
+		// Don't display the widget if there are no Notices to show.
 		$notices = BP_Messages_Notice::get_active();
 		if ( empty( $notices ) ) {
 			return;
@@ -98,7 +96,6 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance See {@WP_Widget::update()}.
 	 * @param array $old_instance See {@WP_Widget::update()}.
-	 *
 	 * @return array $instance See {@WP_Widget::update()}.
 	 */
 	public function update( $new_instance, $old_instance ) {

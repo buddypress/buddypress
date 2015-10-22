@@ -112,7 +112,7 @@ function messages_screen_compose() {
  */
 function messages_screen_conversation() {
 
-	// Bail if not viewing a single message
+	// Bail if not viewing a single message.
 	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'view' ) ) {
 		return false;
 	}
@@ -123,10 +123,10 @@ function messages_screen_conversation() {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
 	}
 
-	// Load up BuddyPress one time
+	// Load up BuddyPress one time.
 	$bp = buddypress();
 
-	// Decrease the unread count in the nav before it's rendered
+	// Decrease the unread count in the nav before it's rendered.
 	$count    = bp_get_total_unread_messages_count();
 	$class    = ( 0 === $count ) ? 'no-count' : 'count';
 	$nav_name = sprintf( __( 'Messages <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );
