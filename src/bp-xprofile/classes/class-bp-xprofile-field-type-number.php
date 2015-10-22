@@ -91,19 +91,10 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 	public function admin_field_html( array $raw_properties = array() ) {
 		$r = bp_parse_args( $raw_properties, array(
 			'type' => 'number'
-		) );
+		) ); ?>
 
-		if ( is_admin() ) : ?>
-
-			<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'Number field', 'buddypress' ); ?></label>
-			<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
-
-		<?php else : ?>
-
-			<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
-
-		<?php endif; ?>
-
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'Number field', 'buddypress' ); ?></label>
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 	<?php
 	}
 

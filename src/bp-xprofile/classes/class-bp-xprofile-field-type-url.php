@@ -93,18 +93,10 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 
 		$r = bp_parse_args( $raw_properties, array(
 			'type' => 'url'
-		) ); 
+		) ); ?>
 
-		if ( is_admin() ) : ?>
-
-			<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'URL', 'buddypress' ); ?></label>
-			<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
-
-		<?php else : ?>
-
-			<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
-
-		<?php endif; ?>
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'URL', 'buddypress' ); ?></label>
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 
 		<?php
 	}
