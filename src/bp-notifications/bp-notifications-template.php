@@ -265,7 +265,7 @@ class BP_Notifications_Template {
 	 */
 	public function __construct( $args = array() ) {
 
-		// Parse arguments
+		// Parse arguments.
 		$r = wp_parse_args( $args, array(
 			'id'                => false,
 			'user_id'           => 0,
@@ -285,9 +285,7 @@ class BP_Notifications_Template {
 			'date_query'        => false
 		) );
 
-		// Overrides
-
-		// Sort order direction
+		// Sort order direction.
 		$orders = array( 'ASC', 'DESC' );
 		if ( ! empty( $_GET['sort_order'] ) && in_array( $_GET['sort_order'], $orders ) ) {
 			$r['sort_order'] = $_GET['sort_order'];
@@ -295,7 +293,7 @@ class BP_Notifications_Template {
 			$r['sort_order'] = in_array( $r['sort_order'], $orders ) ? $r['sort_order'] : 'DESC';
 		}
 
-		// Setup variables
+		// Setup variables.
 		$this->pag_arg      = sanitize_key( $r['page_arg'] );
 		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
 		$this->pag_num      = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
@@ -321,7 +319,7 @@ class BP_Notifications_Template {
 			'per_page'          => $this->pag_num,
 		);
 
-		// Setup the notifications to loop through
+		// Setup the notifications to loop through.
 		$this->notifications            = BP_Notifications_Notification::get( $this->query_vars );
 		$this->total_notification_count = BP_Notifications_Notification::get_total_count( $this->query_vars );
 
@@ -456,7 +454,7 @@ class BP_Notifications_Template {
 		$this->in_the_loop  = true;
 		$this->notification = $this->next_notification();
 
-		// loop has just started
+		// Loop has just started.
 		if ( 0 === $this->current_notification ) {
 
 			/**
@@ -491,30 +489,29 @@ class BP_Notifications_Template {
  *     @type string $page_arg URL argument to use for pagination.
  *                            Default: 'npage'.
  * }
- *
  * @return bool
  */
 function bp_has_notifications( $args = '' ) {
 
-	// Get the default is_new argument
+	// Get the default is_new argument.
 	if ( bp_is_current_action( 'unread' ) ) {
 		$is_new = 1;
 	} elseif ( bp_is_current_action( 'read' ) ) {
 		$is_new = 0;
 
-	// not on a notifications page? default to fetch new notifications
+	// Not on a notifications page? default to fetch new notifications.
 	} else {
 		$is_new = 1;
 	}
 
-	// Get the user ID
+	// Get the user ID.
 	if ( bp_displayed_user_id() ) {
 		$user_id = bp_displayed_user_id();
 	} else {
 		$user_id = bp_loggedin_user_id();
 	}
 
-	// Parse the args
+	// Parse the args.
 	$r = bp_parse_args( $args, array(
 		'id'                => false,
 		'user_id'           => $user_id,
@@ -530,16 +527,16 @@ function bp_has_notifications( $args = '' ) {
 		'page'              => 1,
 		'per_page'          => 25,
 
-		// these are additional arguments that are not available in
-		// BP_Notifications_Notification::get()
+		// These are additional arguments that are not available in
+		// BP_Notifications_Notification::get().
 		'max'               => false,
 		'page_arg'          => 'npage',
 	), 'has_notifications' );
 
-	// Get the notifications
+	// Get the notifications.
 	$query_loop = new BP_Notifications_Template( $r );
 
-	// Setup the global query loop
+	// Setup the global query loop.
 	buddypress()->notifications->query_loop = $query_loop;
 
 	/**
@@ -756,14 +753,14 @@ function bp_the_notification_time_since() {
 	 */
 	function bp_get_the_notification_time_since() {
 
-		// Get the notified date
+		// Get the notified date.
 		$date_notified = bp_get_the_notification_date_notified();
 
-		// Notified date has legitimate data
+		// Notified date has legitimate data.
 		if ( '0000-00-00 00:00:00' !== $date_notified ) {
 			$retval = bp_core_time_since( $date_notified );
 
-		// Notified date is empty, so return a fun string
+		// Notified date is empty, so return a fun string.
 		} else {
 			$retval = __( 'Date not found', 'buddypress' );
 		}
@@ -798,7 +795,7 @@ function bp_the_notification_description() {
 		$bp           = buddypress();
 		$notification = $bp->notifications->query_loop->notification;
 
-		// Callback function exists
+		// Callback function exists.
 		if ( isset( $bp->{ $notification->component_name }->notification_callback ) && is_callable( $bp->{ $notification->component_name }->notification_callback ) ) {
 			$description = call_user_func( $bp->{ $notification->component_name }->notification_callback, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 );
 
@@ -806,7 +803,7 @@ function bp_the_notification_description() {
 		} elseif ( isset( $bp->{ $notification->component_name }->format_notification_function ) && function_exists( $bp->{ $notification->component_name }->format_notification_function ) ) {
 			$description = call_user_func( $bp->{ $notification->component_name }->format_notification_function, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 );
 
-		// Allow non BuddyPress components to hook in
+		// Allow non BuddyPress components to hook in.
 		} else {
 
 			/** This filter is documented in bp-notifications/bp-notifications-functions.php */
@@ -842,7 +839,7 @@ function bp_the_notification_mark_read_link() {
 	 */
 	function bp_get_the_notification_mark_read_link() {
 
-		// Start the output buffer
+		// Start the output buffer.
 		ob_start(); ?>
 
 		<a href="<?php bp_the_notification_mark_read_url(); ?>" class="mark-read primary"><?php _e( 'Read', 'buddypress' ); ?></a>
@@ -873,24 +870,24 @@ function bp_the_notification_mark_read_url() {
 }
 	/**
 	 * Return the URL used for marking a single notification as read.
- 	 *
+	 *
 	 * @since 2.1.0
 	 */
 	function bp_get_the_notification_mark_read_url() {
 
-		// Get the notification ID
+		// Get the notification ID.
 		$id   = bp_get_the_notification_id();
 
-		// Get the args to add to the URL
+		// Get the args to add to the URL.
 		$args = array(
 			'action'          => 'read',
 			'notification_id' => $id
 		);
 
-		// Add the args to the URL
+		// Add the args to the URL.
 		$url = add_query_arg( $args, bp_get_notifications_unread_permalink() );
 
-		// Add the nonce
+		// Add the nonce.
 		$url = wp_nonce_url( $url, 'bp_notification_mark_read_' . $id );
 
 		/**
@@ -920,7 +917,7 @@ function bp_the_notification_mark_unread_link() {
 	 */
 	function bp_get_the_notification_mark_unread_link() {
 
-		// Start the output buffer
+		// Start the output buffer.
 		ob_start(); ?>
 
 		<a href="<?php bp_the_notification_mark_unread_url(); ?>" class="mark-unread primary"><?php _ex( 'Unread',  'Notification screen action', 'buddypress' ); ?></a>
@@ -951,24 +948,24 @@ function bp_the_notification_mark_unread_url() {
 }
 	/**
 	 * Return the URL used for marking a single notification as unread.
- 	 *
+	 *
 	 * @since 2.1.0
 	 */
 	function bp_get_the_notification_mark_unread_url() {
 
-		// Get the notification ID
+		// Get the notification ID.
 		$id   = bp_get_the_notification_id();
 
-		// Get the args to add to the URL
+		// Get the args to add to the URL.
 		$args = array(
 			'action'          => 'unread',
 			'notification_id' => $id
 		);
 
-		// Add the args to the URL
+		// Add the args to the URL.
 		$url = add_query_arg( $args, bp_get_notifications_read_permalink() );
 
-		// Add the nonce
+		// Add the nonce.
 		$url = wp_nonce_url( $url, 'bp_notification_mark_unread_' . $id );
 
 		/**
@@ -1031,7 +1028,7 @@ function bp_the_notification_delete_link() {
 	 */
 	function bp_get_the_notification_delete_link() {
 
-		// Start the output buffer
+		// Start the output buffer.
 		ob_start(); ?>
 
 		<a href="<?php bp_the_notification_delete_url(); ?>" class="delete secondary confirm"><?php _e( 'Delete', 'buddypress' ); ?></a>
@@ -1070,26 +1067,26 @@ function bp_the_notification_delete_url() {
 	 */
 	function bp_get_the_notification_delete_url() {
 
-		// URL to add nonce to
+		// URL to add nonce to.
 		if ( bp_is_current_action( 'unread' ) ) {
 			$link = bp_get_notifications_unread_permalink();
 		} elseif ( bp_is_current_action( 'read' ) ) {
 			$link = bp_get_notifications_read_permalink();
 		}
 
-		// Get the ID
+		// Get the ID.
 		$id = bp_get_the_notification_id();
 
-		// Get the args to add to the URL
+		// Get the args to add to the URL.
 		$args = array(
 			'action'          => 'delete',
 			'notification_id' => $id
 		);
 
-		// Add the args
+		// Add the args.
 		$url = add_query_arg( $args, $link );
 
-		// Add the nonce
+		// Add the nonce.
 		$url = wp_nonce_url( $url, 'bp_notification_delete_' . $id );
 
 		/**
@@ -1105,8 +1102,9 @@ function bp_the_notification_delete_url() {
 /**
  * Output the action links for the current notification.
  *
- * @param array|string $args Array of arguments.
  * @since 1.9.0
+ *
+ * @param array|string $args Array of arguments.
  */
 function bp_the_notification_action_links( $args = '' ) {
 	echo bp_get_the_notification_action_links( $args );
@@ -1122,12 +1120,11 @@ function bp_the_notification_action_links( $args = '' ) {
 	 *     @type string $sep    HTML between the links.
 	 *     @type array  $links  Array of links to implode by 'sep'.
 	 * }
-	 *
 	 * @return string HTML links for actions to take on single notifications.
 	 */
 	function bp_get_the_notification_action_links( $args = '' ) {
 
-		// Parse
+		// Parse.
 		$r = wp_parse_args( $args, array(
 			'before' => '',
 			'after'  => '',
@@ -1138,7 +1135,7 @@ function bp_the_notification_action_links( $args = '' ) {
 			)
 		) );
 
-		// Build the links
+		// Build the links.
 		$retval = $r['before'] . implode( $r['links'], $r['sep'] ) . $r['after'];
 
 		/**
@@ -1225,11 +1222,11 @@ function bp_notifications_pagination_links() {
  */
 function bp_notifications_sort_order_form() {
 
-	// Setup local variables
+	// Setup local variables.
 	$orders   = array( 'DESC', 'ASC' );
 	$selected = 'DESC';
 
-	// Check for a custom sort_order
+	// Check for a custom sort_order.
 	if ( !empty( $_REQUEST['sort_order'] ) ) {
 		if ( in_array( $_REQUEST['sort_order'], $orders ) ) {
 			$selected = $_REQUEST['sort_order'];

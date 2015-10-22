@@ -6,7 +6,6 @@
  *
  * @package BuddyPress
  * @subpackage NotificationsClasses
- *
  * @since 1.9.0
  */
 

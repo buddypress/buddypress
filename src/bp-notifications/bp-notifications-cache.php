@@ -2,10 +2,9 @@
 /**
  * Functions related to notifications caching.
  *
- * @since 2.0.0
- *
  * @package BuddyPress
  * @subpackage NotificationsCache
+ * @since 2.0.0
  */
 
 // Exit if accessed directly.
@@ -67,7 +66,7 @@ add_action( 'bp_notification_after_save', 'bp_notifications_clear_all_for_user_c
  */
 function bp_notifications_clear_all_for_user_cache_before_delete( $args ) {
 
-	// Pull up a list of items matching the args (those about te be deleted)
+	// Pull up a list of items matching the args (those about te be deleted).
 	$ns = BP_Notifications_Notification::get( $args );
 
 	$user_ids = array();
@@ -92,11 +91,11 @@ add_action( 'bp_notification_before_delete', 'bp_notifications_clear_all_for_use
  */
 function bp_notifications_clear_all_for_user_cache_before_update( $update_args, $where_args ) {
 
-	// User ID is passed in where arugments
+	// User ID is passed in where arugments.
 	if ( ! empty( $where_args['user_id'] ) ) {
 		bp_notifications_clear_all_for_user_cache( $where_args['user_id'] );
 
-	// Get user ID from Notification ID
+	// Get user ID from Notification ID.
 	} elseif ( ! empty( $where_args['id'] ) ) {
 		$n = bp_notifications_get_notification( $where_args['id'] );
 		bp_notifications_clear_all_for_user_cache( $n->user_id );
