@@ -484,7 +484,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function tearDown_wp_mail( $args ) {
 		if ( ! empty( self::$cached_SERVER_NAME ) ) {
 			$_SERVER['SERVER_NAME'] = self::$cached_SERVER_NAME;
-			unset( $this->cached_SERVER_NAME );
+			self::$cached_SERVER_NAME = '';
 		} else {
 			unset( $_SERVER['SERVER_NAME'] );
 		}
