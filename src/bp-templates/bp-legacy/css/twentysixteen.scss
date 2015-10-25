@@ -736,9 +736,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				img.avatar {
 					display: inline-block;
 					float: none;
+					margin-bottom: $spacing-val-sm;
 
 					// Quite early on we need to move avatars to the left(right)
-					@media screen and (min-width: 38.75em) {
+					@include small-up {
 						display: block;
 						float: left;
 					}
@@ -763,13 +764,24 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				.item-title {
 					@include font-size(18);
 					line-height: 1.2;
+					text-align: center;
+
+					@include small-up {
+						text-align: left;
+					}
+
+					width: 100%;
 
 					.update {
+						display: block;
 						@include font-size(12);
 
 						@include medium-up {
 							@include font-size(14);
 						}
+
+						padding: $spacing-val-sm 0;
+						text-align: left;
 					}
 				}
 
@@ -783,7 +795,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 
 				.item {
-					left: 10%;
+					left: 5%;
 					margin-left: 0;
 					position: relative;
 					width: 55%;
@@ -2107,7 +2119,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			input[type='text'] {
 				float: left;
 				margin: 0;
-				width: 70%;
+				width: 100%;
 			}
 
 			input[type='text'],

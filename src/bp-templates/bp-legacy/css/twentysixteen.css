@@ -442,9 +442,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress ul.item-list li .item-avatar img.avatar {
 	display: inline-block;
 	float: none;
+	margin-bottom: 10px;
 }
 
-@media screen and (min-width: 38.75em) {
+@media screen and (min-width: 44.375em) {
 	#buddypress ul.item-list li .item-avatar img.avatar {
 		display: block;
 		float: left;
@@ -474,11 +475,22 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-size: 18px;
 	font-size: 1.125rem;
 	line-height: 1.2;
+	text-align: center;
+	width: 100%;
+}
+
+@media screen and (min-width: 44.375em) {
+	#buddypress ul.item-list li .item .item-title {
+		text-align: left;
+	}
 }
 
 #buddypress ul.item-list li .item .item-title .update {
+	display: block;
 	font-size: 12px;
 	font-size: 0.75rem;
+	padding: 10px 0;
+	text-align: left;
 }
 
 @media screen and (min-width: 61.5625em) {
@@ -495,7 +507,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		float: left;
 	}
 	#buddypress ul.item-list li .item {
-		left: 10%;
+		left: 5%;
 		margin-left: 0;
 		position: relative;
 		width: 55%;
@@ -1644,7 +1656,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress li.groups-members-search form input[type='text'] {
 	float: left;
 	margin: 0;
-	width: 70%;
+	width: 100%;
 }
 
 #buddypress div.dir-search form input[type='text'],
