@@ -868,7 +868,8 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 
 	?>
 
-	<select name="bp-activities-type">
+	<label for="bp-activities-type" class="screen-reader-text"><?php esc_html_e( 'Select activity type', 'buddypress' ); ?></label>
+	<select name="bp-activities-type" id="bp-activities-type">
 		<?php foreach ( $actions as $k => $v ) : ?>
 			<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k,  $selected ); ?>><?php echo esc_html( $v ); ?></option>
 		<?php endforeach; ?>
