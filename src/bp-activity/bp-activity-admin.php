@@ -733,8 +733,8 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 
 			<div id="misc-publishing-actions">
 				<div class="misc-pub-section" id="comment-status-radio">
-					<label class="approved"><input type="radio" name="activity_status" value="ham" <?php checked( $item->is_spam, 0 ); ?>><?php _e( 'Approved', 'buddypress' ); ?></label><br />
-					<label class="spam"><input type="radio" name="activity_status" value="spam" <?php checked( $item->is_spam, 1 ); ?>><?php _e( 'Spam', 'buddypress' ); ?></label>
+					<label class="approved" for="activity-status-approved"><input type="radio" name="activity_status" id="activity-status-approved" value="ham" <?php checked( $item->is_spam, 0 ); ?>><?php _e( 'Approved', 'buddypress' ); ?></label><br />
+					<label class="spam" for="activity-status-spam"><input type="radio" name="activity_status" id="activity-status-spam" value="spam" <?php checked( $item->is_spam, 1 ); ?>><?php _e( 'Spam', 'buddypress' ); ?></label>
 				</div>
 
 				<div class="misc-pub-section curtime misc-pub-section-last">
