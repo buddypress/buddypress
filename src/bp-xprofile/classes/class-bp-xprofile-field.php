@@ -1325,16 +1325,16 @@ class BP_XProfile_Field {
 				<ul>
 					<?php foreach ( $member_types as $member_type ) : ?>
 					<li>
-						<label>
-							<input name="member-types[]" class="member-type-selector" type="checkbox" value="<?php echo $member_type->name; ?>" <?php checked( in_array( $member_type->name, $field_member_types ) ); ?>/>
+						<label for="member-type-<?php echo $member_type->labels['name']; ?>">
+							<input name="member-types[]" id="member-type-<?php echo $member_type->labels['name']; ?>" class="member-type-selector" type="checkbox" value="<?php echo $member_type->name; ?>" <?php checked( in_array( $member_type->name, $field_member_types ) ); ?>/>
 							<?php echo $member_type->labels['name']; ?>
 						</label>
 					</li>
 					<?php endforeach; ?>
 
 					<li>
-						<label>
-							<input name="member-types[]" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types ) ); ?>/>
+						<label for="member-type-none">
+							<input name="member-types[]" id="member-type-none" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types ) ); ?>/>
 							<?php _e( 'Users with no member type', 'buddypress' ); ?>
 						</label>
 					</li>
