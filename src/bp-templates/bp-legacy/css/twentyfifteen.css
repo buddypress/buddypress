@@ -1709,6 +1709,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress .standard-form li,
 #buddypress .group-create-form li {
 	float: none;
+	list-style: none;
 }
 
 #buddypress .standard-form input[type='text'],

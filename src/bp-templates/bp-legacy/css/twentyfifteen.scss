@@ -2015,9 +2015,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *-------------------------------------------------------------------------------
 */
 
+#buddypress {
+
 // Match BP form elements to Themes(2015) styling where styles
 // are not inherited or being overriden.
-#buddypress {
 
 	div.activity-comments {
 		form {
@@ -2055,7 +2056,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 	.standard-form,
 	.group-create-form {
-		li {float: none;}
+		li {
+			float: none;
+			list-style: none;
+		}
+
 		input[type='text'],
 		textarea {
 			width: 100%;
