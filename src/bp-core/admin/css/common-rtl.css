@@ -66,6 +66,33 @@ body.index_page_bp-about span.dashicons {
 	}
 }
 
+/* About Page - since 2.4.0 (WP 4.4-trunk) */
+
+.about-wrap .headline-feature {
+	margin-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.about-wrap .headline-feature p {
+	font-size: 1.15em;
+	margin: 1.25em;
+	text-align: center;
+}
+
+.about-wrap .headline-feature h3 {
+	font-size: 1.75em;
+	font-weight: normal;
+	margin: 1.25em 0 0.6em;
+	text-align: center;
+}
+
+.about-wrap .feature-section {
+	margin-top: 40px;
+}
+
+.about-wrap  .changelog .feature-section {
+	margin-top: 0;
+}
+
 /* User's Lists
 ------------------------------------------------------------------------------*/
 

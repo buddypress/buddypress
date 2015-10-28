@@ -560,73 +560,72 @@ class BP_Admin {
 			<?php endif; ?>
 
 			<div class="headline-feature">
-				<h3><?php esc_html_e( 'Upload Profile Pictures with Drag and Drop', 'buddypress' ); ?></h3>
+				<h3><?php esc_html_e( 'Cover Images For Members And Groups', 'buddypress' ); ?></h3>
 
 				<div class="featured-image">
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/avatar-ui.gif' ); ?>" alt="<?php esc_attr_e( 'Revamped Profile Picture Upload UI', 'buddypress' ); ?>">
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/group-cover-image.png' ); ?>" alt="<?php esc_attr_e( 'Cover Images for Members and Groups', 'buddypress' ); ?>" width="843" height="377">
 				</div>
-
-				<div class="feature-section">
-					<h3><?php esc_html_e( 'Built with the Attachments API, the new foundation for BuddyPress media management.', 'buddypress' ); ?></h3>
-					<p><?php esc_html_e( 'You can drag and drop any image you choose to upload as your profile photo. The interface is mobile-ready and now includes integration with phone and laptop cameras. This is an example of what can be developed using the new Attachments API, the long-awaited foundation for media-related BuddyPress components and features.', 'buddypress' ); ?> <a href="https://codex.buddypress.org/plugindev/bp_attachment/"><?php esc_html_e( 'Learn more &rarr;', 'buddypress' ); ?></a></p>
+				<div>
+					 <p><?php printf( __( 'Your community can now upload cover photos for their user profiles and groups. <a href="%s">Learn more &rarr;</a>', 'buddypress' ), esc_url( 'https://codex.buddypress.org/themes/buddypress-cover-images/' ) ); ?></p>
 				</div>
-
 				<div class="clear"></div>
+
 			</div>
 
-			<div class="feature-list finer-points">
-				<h2><?php esc_html_e( 'The Finer Points', 'buddypress' ); ?></h2>
+			<hr>
 
-				<div class="feature-section col two-col">
-					<div>
-						<span class=" dashicons dashicons-admin-users"></span>
-						<h4><?php esc_html_e( 'Member Type Directories', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Create directories of member types in your site using the Member Type API.', 'buddypress' ); ?></p>
-					</div>
-
-					<div class="template-pack last-feature">
-						<span class=" dashicons dashicons-admin-appearance"></span>
-						<h4><?php esc_html_e( 'Companion Stylesheets For Themes', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Improved styling and integration of BuddyPress components with bundled WordPress themes, Twenty Fifteen and Twenty Fourteen.', 'buddypress' ); ?></p>
-					</div>
-
-					<div class="group-invites">
-						<span class=" dashicons dashicons-admin-post"></span>
-						<h4><?php esc_html_e( 'Blog Post Activity', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'BuddyPress now generates better excerpts in the activity streams for posts containing images or other embedded media content.', 'buddypress' ); ?></p>
-					</div>
-
-					<div class="last-feature">
-						<span class=" dashicons dashicons-star-filled"></span>
-						<h4><?php esc_html_e( 'Star Private Messages ', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Mark important messages in your inbox from your friends with a star.', 'buddypress' ); ?></p>
-					</div>
+			<div class="feature-section two-col">
+				<div>
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/member-type-field.png' ); ?>" alt="<?php esc_attr_e( 'Profile Field for Member Type', 'buddypress' ); ?>">
+					<h3><?php esc_html_e( 'Profile Fields For Specific Member Types', 'buddypress' ); ?></h3>
+					<p><?php printf( __( 'You can create profile fields which are available to one or more <a href="%s">custom member types</a>.', 'buddypress' ), esc_url( 'https://codex.buddypress.org/developer/member-types/' ) ); ?></p>
+				</div>
+				<div class="last-feature">
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/theme-stylesheets.png' ); ?>" alt="<?php esc_attr_e( 'BuddyPress Companion Stylesheets', 'buddypress' ); ?>">
+					<h3><?php esc_html_e( 'More Companion Stylesheets For Themes', 'buddypress' ); ?></h3>
+					<p><?php esc_html_e( 'BuddyPress looks and works better than ever with WordPress theme Twenty Thirteen, and the upcoming Twenty Sixteen.', 'buddypress' ); ?></p>
 				</div>
 			</div>
 
-			<div class="feature-list">
-				<h2><?php esc_html_e( 'Under the Hood', 'buddypress' ); ?></h2>
+			<div class="feature-section two-col">
+				<div>
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/group-home-page.png' ); ?>" alt="<?php esc_attr_e( 'Customize your group home page', 'buddypress' ); ?>">
+					<h3><?php esc_html_e( 'Customizable Group Home Page', 'buddypress' ); ?></h3>
+					<p><?php esc_html_e( 'You can customize each and every Group\'s home page by using the new front page template hierarchy.', 'buddypress' ); ?> <a href="https://bpdevel.wordpress.com/2015/10/03/get-ready-2-4-0-will-introduce-important-changes-in-groups-homes/"><?php esc_html_e( 'Learn how &rarr;', 'buddypress' ); ?></a></p>
+				</div>
+				<div class="last-feature">
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/accessibility.gif' ); ?>" alt="<?php esc_attr_e( 'Accessibility Upgrades', 'buddypress' ); ?>">
+					<h3><?php esc_html_e( 'Accessibility Upgrades', 'buddypress' ); ?></h3>
+					<p><?php _e( 'We\'re making BuddyPress more usable and accessible for everyone, from the frontend templates to the backend admin screens.', 'buddypress' ); ?></p>
+				</div>
+
+			</div>
+
+			<div class="changelog">
+				<h3><?php esc_html_e( 'Under The Hood', 'buddypress' ); ?></h3>
 
 				<div class="feature-section col two-col">
 					<div>
-						<h4><?php esc_html_e( 'Components can register new features', 'buddypress' ); ?></h4>
-						<p><?php _e( 'Plugin developers can register new features or check if a component feature is registered using the <code>BP_Component</code> class.', 'buddypress' ); ?></p>
+						<h4><?php esc_html_e( 'User Experience', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( "Enhancements to the What's New form bring better user experience for your community, and make it easier for developers to add new features.", 'buddypress' ); ?></p>
 
 						<h4><?php esc_html_e( 'Cache Improvements', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Improved caching for the following components: Messages, Profiles, Members &amp; Member Types, and Friends.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Continued object and query cache enhancements have been implemented across different components to improve performance.', 'buddypress' ); ?></p>
 					</div>
 					<div class="last-feature">
 						<h4><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Continued improvements to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Regular updates to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
 
-						<h4><?php esc_html_e( 'User Documentation', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'The BuddyPress Codex is maintained and updated regularly with new articles and tutorials.', 'buddypress' ); ?></p>
+						<h4><?php esc_html_e( 'Constant Refinements', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'The BuddyPress codebase is continuously tested and updated with the latest WordPress enhancements and features.', 'buddypress' ); ?></p>
 					</div>
 				</div>
 			</div>
 
-			<p><?php _ex( 'Learn more:', 'About screen, website links', 'buddypress' ); ?> <a href="https://buddypress.org/blog/"><?php _ex( 'News', 'About screen, link to project blog', 'buddypress' ); ?></a> &bullet; <a href="https://buddypress.org/suppport/"><?php _ex( 'Support', 'About screen, link to support site', 'buddypress' ); ?></a> &bullet; <a href="https://codex.buddypress.org/"><?php _ex( 'Documentation', 'About screen, link to documentation', 'buddypress' ); ?></a> &bullet; <a href="https://bpdevel.wordpress.com/"><?php _ex( 'Development Blog', 'About screen, link to development blog', 'buddypress' ); ?></a></p>
+			<p><?php _ex( 'Learn more:', 'About screen, website links', 'buddypress' ); ?> <a href="https://buddypress.org/blog/"><?php _ex( 'News', 'About screen, link to project blog', 'buddypress' ); ?></a> &bullet; <a href="https://buddypress.org/support/"><?php _ex( 'Support', 'About screen, link to support site', 'buddypress' ); ?></a> &bullet; <a href="https://codex.buddypress.org/"><?php _ex( 'Documentation', 'About screen, link to documentation', 'buddypress' ); ?></a> &bullet; <a href="https://bpdevel.wordpress.com/"><?php _ex( 'Development Blog', 'About screen, link to development blog', 'buddypress' ); ?></a></p>
 			<p><?php _ex( 'Twitter:', 'official Twitter accounts:', 'buddypress' ); ?> <a href="https://twitter.com/buddypress/"><?php _ex( 'BuddyPress', '@buddypress twitter account name', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/bptrac/"><?php _ex( 'Trac', '@bptrac twitter account name', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/buddypressdev/"><?php _ex( 'Development', '@buddypressdev twitter account name', 'buddypress' ); ?></a></p>
+
+		</div>
 
 		<?php
 	}
@@ -799,14 +798,21 @@ class BP_Admin {
 
 		// Switch welcome text based on whether this is a new installation or not
 		$welcome_text = ( self::is_new_install() )
-			? __( 'Thank you for installing BuddyPress! BuddyPress %s gives you the components you need to turn your WordPress powered site into a thriving membership community.', 'buddypress' )
+			? __( 'Thank you for installing BuddyPress! BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.', 'buddypress' )
 			: __( 'BuddyPress %s comes with a bunch of great improvements we think you&#8217;re really going to like.', 'buddypress' );
 
 		?>
 
 		<h1><?php printf( esc_html__( 'Welcome to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h1>
+
 		<div class="about-text">
-			<?php printf( $welcome_text, self::display_version() ); ?>
+			<?php
+			if ( self::is_new_install() ) {
+				echo $welcome_text;
+			} else {
+				printf( $welcome_text, self::display_version() );
+			}
+			?>
 		</div>
 
 		<div class="bp-badge"></div>
