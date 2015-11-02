@@ -68,10 +68,10 @@ function bp_core_screen_signup() {
 	if ( ! bp_is_current_component( 'register' ) || bp_current_action() )
 		return;
 
-	// Not a directory
+	// Not a directory.
 	bp_update_is_directory( false, 'register' );
 
-	// If the user is logged in, redirect away from here
+	// If the user is logged in, redirect away from here.
 	if ( is_user_logged_in() ) {
 
 		$redirect_to = bp_is_component_front_page( 'register' )
@@ -95,7 +95,7 @@ function bp_core_screen_signup() {
  	if ( !bp_get_signup_allowed() ) {
 		$bp->signup->step = 'registration-disabled';
 
-	// If the signup page is submitted, validate and save
+	// If the signup page is submitted, validate and save.
 	} elseif ( isset( $_POST['signup_submit'] ) && bp_verify_nonce_request( 'bp_new_signup' ) ) {
 
 	    /**
@@ -105,62 +105,62 @@ function bp_core_screen_signup() {
 		 */
 		do_action( 'bp_signup_pre_validate' );
 
-		// Check the base account details for problems
+		// Check the base account details for problems.
 		$account_details = bp_core_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
 
-		// If there are errors with account details, set them for display
+		// If there are errors with account details, set them for display.
 		if ( !empty( $account_details['errors']->errors['user_name'] ) )
 			$bp->signup->errors['signup_username'] = $account_details['errors']->errors['user_name'][0];
 
 		if ( !empty( $account_details['errors']->errors['user_email'] ) )
 			$bp->signup->errors['signup_email'] = $account_details['errors']->errors['user_email'][0];
 
-		// Check that both password fields are filled in
+		// Check that both password fields are filled in.
 		if ( empty( $_POST['signup_password'] ) || empty( $_POST['signup_password_confirm'] ) )
 			$bp->signup->errors['signup_password'] = __( 'Please make sure you enter your password twice', 'buddypress' );
 
-		// Check that the passwords match
+		// Check that the passwords match.
 		if ( ( !empty( $_POST['signup_password'] ) && !empty( $_POST['signup_password_confirm'] ) ) && $_POST['signup_password'] != $_POST['signup_password_confirm'] )
 			$bp->signup->errors['signup_password'] = __( 'The passwords you entered do not match.', 'buddypress' );
 
 		$bp->signup->username = $_POST['signup_username'];
 		$bp->signup->email = $_POST['signup_email'];
 
-		// Now we've checked account details, we can check profile information
+		// Now we've checked account details, we can check profile information.
 		if ( bp_is_active( 'xprofile' ) ) {
 
-			// Make sure hidden field is passed and populated
+			// Make sure hidden field is passed and populated.
 			if ( isset( $_POST['signup_profile_field_ids'] ) && !empty( $_POST['signup_profile_field_ids'] ) ) {
 
-				// Let's compact any profile field info into an array
+				// Let's compact any profile field info into an array.
 				$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
 
-				// Loop through the posted fields formatting any datebox values then validate the field
+				// Loop through the posted fields formatting any datebox values then validate the field.
 				foreach ( (array) $profile_field_ids as $field_id ) {
 					if ( !isset( $_POST['field_' . $field_id] ) ) {
 						if ( !empty( $_POST['field_' . $field_id . '_day'] ) && !empty( $_POST['field_' . $field_id . '_month'] ) && !empty( $_POST['field_' . $field_id . '_year'] ) )
 							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] ) );
 					}
 
-					// Create errors for required fields without values
+					// Create errors for required fields without values.
 					if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST[ 'field_' . $field_id ] ) && ! bp_current_user_can( 'bp_moderate' ) )
 						$bp->signup->errors['field_' . $field_id] = __( 'This is a required field', 'buddypress' );
 				}
 
-			// This situation doesn't naturally occur so bounce to website root
+			// This situation doesn't naturally occur so bounce to website root.
 			} else {
 				bp_core_redirect( bp_get_root_domain() );
 			}
 		}
 
-		// Finally, let's check the blog details, if the user wants a blog and blog creation is enabled
+		// Finally, let's check the blog details, if the user wants a blog and blog creation is enabled.
 		if ( isset( $_POST['signup_with_blog'] ) ) {
 			$active_signup = bp_core_get_root_option( 'registration' );
 
 			if ( 'blog' == $active_signup || 'all' == $active_signup ) {
 				$blog_details = bp_core_validate_blog_signup( $_POST['signup_blog_url'], $_POST['signup_blog_title'] );
 
-				// If there are errors with blog details, set them for display
+				// If there are errors with blog details, set them for display.
 				if ( !empty( $blog_details['errors']->errors['blogname'] ) )
 					$bp->signup->errors['signup_blog_url'] = $blog_details['errors']->errors['blogname'][0];
 
@@ -179,8 +179,10 @@ function bp_core_screen_signup() {
 		// Add any errors to the action for the field in the template for display.
 		if ( !empty( $bp->signup->errors ) ) {
 			foreach ( (array) $bp->signup->errors as $fieldname => $error_message ) {
-				// addslashes() and stripslashes() to avoid create_function()
-				// syntax errors when the $error_message contains quotes
+				/*
+				 * The addslashes() and stripslashes() used to avoid create_function()
+				 * syntax errors when the $error_message contains quotes.
+				 */
 
 				/**
 				 * Filters the error message in the loop.
@@ -199,20 +201,20 @@ function bp_core_screen_signup() {
 
 			if ( 'none' != $active_signup ) {
 
-				// Make sure the extended profiles module is enabled
+				// Make sure the extended profiles module is enabled.
 				if ( bp_is_active( 'xprofile' ) ) {
-					// Let's compact any profile field info into usermeta
+					// Let's compact any profile field info into usermeta.
 					$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
 
-					// Loop through the posted fields formatting any datebox values then add to usermeta - @todo This logic should be shared with the same in xprofile_screen_edit_profile()
+					// Loop through the posted fields formatting any datebox values then add to usermeta - @todo This logic should be shared with the same in xprofile_screen_edit_profile().
 					foreach ( (array) $profile_field_ids as $field_id ) {
 						if ( ! isset( $_POST['field_' . $field_id] ) ) {
 
 							if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
-								// Concatenate the values
+								// Concatenate the values.
 								$date_value = $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
 
-								// Turn the concatenated value into a timestamp
+								// Turn the concatenated value into a timestamp.
 								$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
 							}
 						}
@@ -224,14 +226,14 @@ function bp_core_screen_signup() {
 							$usermeta['field_' . $field_id . '_visibility'] = $_POST['field_' . $field_id . '_visibility'];
 					}
 
-					// Store the profile field ID's in usermeta
+					// Store the profile field ID's in usermeta.
 					$usermeta['profile_field_ids'] = $_POST['signup_profile_field_ids'];
 				}
 
-				// Hash and store the password
+				// Hash and store the password.
 				$usermeta['password'] = wp_hash_password( $_POST['signup_password'] );
 
-				// If the user decided to create a blog, save those details to usermeta
+				// If the user decided to create a blog, save those details to usermeta.
 				if ( 'blog' == $active_signup || 'all' == $active_signup )
 					$usermeta['public'] = ( isset( $_POST['signup_blog_privacy'] ) && 'public' == $_POST['signup_blog_privacy'] ) ? true : false;
 
@@ -244,7 +246,7 @@ function bp_core_screen_signup() {
 				 */
 				$usermeta = apply_filters( 'bp_signup_usermeta', $usermeta );
 
-				// Finally, sign up the user and/or blog
+				// Finally, sign up the user and/or blog.
 				if ( isset( $_POST['signup_with_blog'] ) && is_multisite() )
 					$wp_user_id = bp_core_signup_blog( $blog_details['domain'], $blog_details['path'], $blog_details['blog_title'], $_POST['signup_username'], $_POST['signup_email'], $usermeta );
 				else
@@ -293,12 +295,12 @@ add_action( 'bp_screens', 'bp_core_screen_signup' );
  */
 function bp_core_screen_activation() {
 
-	// Bail if not viewing the activation page
+	// Bail if not viewing the activation page.
 	if ( ! bp_is_current_component( 'activate' ) ) {
 		return false;
 	}
 
-	// If the user is already logged in, redirect away from here
+	// If the user is already logged in, redirect away from here.
 	if ( is_user_logged_in() ) {
 
 		// If activation page is also front page, set to members directory to
@@ -307,7 +309,7 @@ function bp_core_screen_activation() {
 			? bp_get_members_directory_permalink()
 			: bp_get_root_domain();
 
-		// Trailing slash it, as we expect these URL's to be
+		// Trailing slash it, as we expect these URL's to be.
 		$redirect_to = trailingslashit( $redirect_to );
 
 		/**
@@ -319,22 +321,22 @@ function bp_core_screen_activation() {
 		 */
 		$redirect_to = apply_filters( 'bp_loggedin_activate_page_redirect_to', $redirect_to );
 
-		// Redirect away from the activation page
+		// Redirect away from the activation page.
 		bp_core_redirect( $redirect_to );
 	}
 
-	// grab the key (the old way)
+	// Grab the key (the old way).
 	$key = isset( $_GET['key'] ) ? $_GET['key'] : '';
 
-	// grab the key (the new way)
+	// Grab the key (the new way).
 	if ( empty( $key ) ) {
 		$key = bp_current_action();
 	}
 
-	// Get BuddyPress
+	// Get BuddyPress.
 	$bp = buddypress();
 
-	// we've got a key; let's attempt to activate the signup
+	// We've got a key; let's attempt to activate the signup.
 	if ( ! empty( $key ) ) {
 
 		/**
@@ -347,7 +349,7 @@ function bp_core_screen_activation() {
 		 */
 		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $key ) );
 
-		// If there were errors, add a message and redirect
+		// If there were errors, add a message and redirect.
 		if ( ! empty( $user->errors ) ) {
 			bp_core_add_message( $user->get_error_message(), 'error' );
 			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
@@ -356,7 +358,7 @@ function bp_core_screen_activation() {
 		$hashed_key = wp_hash( $key );
 
 		// Check if the signup avatar folder exists. If it does, move the folder to
-		// the BP user avatars directory
+		// the BP user avatars directory.
 		if ( file_exists( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key ) ) {
 			@rename( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key, bp_core_avatar_upload_path() . '/avatars/' . $user );
 		}
@@ -404,12 +406,12 @@ class BP_Members_Theme_Compat {
 	 */
 	public function is_members() {
 
-		// Bail if not looking at the members component or a user's page
+		// Bail if not looking at the members component or a user's page.
 		if ( ! bp_is_members_component() && ! bp_is_user() ) {
 			return;
 		}
 
-		// Members Directory
+		// Members Directory.
 		if ( ! bp_current_action() && ! bp_current_item() ) {
 			bp_update_is_directory( true, 'members' );
 
@@ -424,7 +426,7 @@ class BP_Members_Theme_Compat {
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 
-		// User page
+		// User page.
 		} elseif ( bp_is_user() ) {
 
 			// If we're on a single activity permalink page, we shouldn't use the members
@@ -458,12 +460,11 @@ class BP_Members_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param array $templates The templates from bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates = array() ) {
 
-		// Set up the template hierarchy
+		// Set up the template hierarchy.
 		$new_templates = array();
 		if ( '' !== bp_get_current_member_type() ) {
 			$new_templates[] = 'members/index-directory-type-' . sanitize_file_name( bp_get_current_member_type() ) . '.php';
@@ -480,7 +481,7 @@ class BP_Members_Theme_Compat {
 		$new_templates = apply_filters( 'bp_template_hierarchy_members_directory', $new_templates );
 
 		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;
@@ -526,11 +527,10 @@ class BP_Members_Theme_Compat {
 	 *
 	 * @param string $templates The templates from
 	 *                          bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
-		// Setup some variables we're going to reference in our custom templates
+		// Setup some variables we're going to reference in our custom templates.
 		$user_nicename = buddypress()->displayed_user->userdata->user_nicename;
 
 		/**
@@ -549,7 +549,7 @@ class BP_Members_Theme_Compat {
 		) );
 
 		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;
@@ -611,15 +611,15 @@ class BP_Registration_Theme_Compat {
 	 */
 	public function is_registration() {
 
-		// Bail if not looking at the registration or activation page
+		// Bail if not looking at the registration or activation page.
 		if ( ! bp_is_register_page() && ! bp_is_activation_page() ) {
 			return;
 		}
 
-		// Not a directory
+		// Not a directory.
 		bp_update_is_directory( false, 'register' );
 
-		// Setup actions
+		// Setup actions.
 		add_filter( 'bp_get_buddypress_template',                array( $this, 'template_hierarchy' ) );
 		add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'dummy_post'    ) );
 		add_filter( 'bp_replace_the_content',                    array( $this, 'dummy_content' ) );
@@ -636,7 +636,6 @@ class BP_Registration_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function template_hierarchy( $templates ) {
@@ -657,7 +656,7 @@ class BP_Registration_Theme_Compat {
 		) );
 
 		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;
@@ -669,7 +668,7 @@ class BP_Registration_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function dummy_post() {
-		// Registration page
+		// Registration page.
 		if ( bp_is_register_page() ) {
 			$title = __( 'Create an Account', 'buddypress' );
 
@@ -677,7 +676,7 @@ class BP_Registration_Theme_Compat {
 				$title = __( 'Check Your Email To Activate Your Account!', 'buddypress' );
 			}
 
-		// Activation page
+		// Activation page.
 		} else {
 			$title = __( 'Activate Your Account', 'buddypress' );
 

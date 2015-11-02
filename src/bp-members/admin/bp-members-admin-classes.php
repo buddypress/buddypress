@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Members List Classes
+ * BuddyPress Members List Classes.
  *
  * @package BuddyPress
  * @subpackage MembersAdminClasses
@@ -88,12 +88,12 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @uses WP_Users_List_Table::get_views() to get the users views
+	 * @uses WP_Users_List_Table::get_views() to get the users views.
 	 */
 	public function get_views() {
 		$views = parent::get_views();
 
-		// Remove the 'current' class from the 'All' link
+		// Remove the 'current' class from the 'All' link.
 		$views['all']        = str_replace( 'class="current"', '', $views['all'] );
 		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', esc_url( add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
 
@@ -108,7 +108,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $which
+	 * @param array $which Current table nav item.
 	 */
 	public function extra_tablenav( $which ) {
 		return;
@@ -171,7 +171,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 		} else {
 			$link = false;
 
-			// Specific case when BuddyPress is not network activated
+			// Specific case when BuddyPress is not network activated.
 			if ( is_multisite() && current_user_can( 'manage_network_users') ) {
 				$link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( network_admin_url( 'settings.php'       ) ), esc_html__( 'Edit settings', 'buddypress' ) );
 			} elseif ( current_user_can( 'manage_options' ) ) {
@@ -205,7 +205,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 		$style = '';
 		foreach ( $this->items as $userid => $signup_object ) {
 
-			// Avoid a notice error appearing since 4.3.0
+			// Avoid a notice error appearing since 4.3.0.
 			if ( isset( $signup_object->id ) ) {
 				$signup_object->ID = $signup_object->id;
 			}
@@ -226,8 +226,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @param string      $style         Styles for the row.
 	 * @param string      $role          Role to be assigned to user.
 	 * @param int         $numposts      Numper of posts.
-	 *
-	 * @return string
+	 * @return void
 	 */
 	public function single_row( $signup_object = null, $style = '', $role = '', $numposts = 0 ) {
 		echo '<tr' . $style . ' id="signup-' . esc_attr( $signup_object->id ) . '">';
@@ -259,7 +258,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	public function column_username( $signup_object = null ) {
 		$avatar	= get_avatar( $signup_object->user_email, 32 );
 
-		// Activation email link
+		// Activation email link.
 		$email_link = add_query_arg(
 			array(
 				'page'	    => 'bp-signups',
@@ -269,7 +268,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			bp_get_admin_url( 'users.php' )
 		);
 
-		// Activate link
+		// Activate link.
 		$activate_link = add_query_arg(
 			array(
 				'page'      => 'bp-signups',
@@ -279,7 +278,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			bp_get_admin_url( 'users.php' )
 		);
 
-		// Delete link
+		// Delete link.
 		$delete_link = add_query_arg(
 			array(
 				'page'      => 'bp-signups',
@@ -363,8 +362,6 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @since 2.0.0
 	 *
 	 * @param object $signup_object Signup object instance.
-	 *
-	 * @return int
 	 */
 	public function column_count_sent( $signup_object = null ) {
 		echo absint( $signup_object->count_sent );
@@ -377,7 +374,6 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @param object|null $signup_object The signup data object.
 	 * @param string      $column_name   The column name.
-	 *
 	 * @return string
 	 */
 	function column_default( $signup_object = null, $column_name = '' ) {
@@ -397,6 +393,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 endif;
 
 if ( class_exists( 'WP_MS_Users_List_Table' ) ) :
+
 /**
  * List table class for signups network admin page.
  *
@@ -414,7 +411,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	public $signup_counts = 0;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 2.0.0
 	 */
@@ -480,7 +477,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	public function get_views() {
 		$views = parent::get_views();
 
-		// Remove the 'current' class from the 'All' link
+		// Remove the 'current' class from the 'All' link.
 		$views['all']        = str_replace( 'class="current"', '', $views['all'] );
 		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', esc_url( add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
 
@@ -573,7 +570,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 		$style = '';
 		foreach ( $this->items as $userid => $signup_object ) {
 
-			// Avoid a notice error appearing since 4.3.0
+			// Avoid a notice error appearing since 4.3.0.
 			if ( isset( $signup_object->id ) ) {
 				$signup_object->ID = $signup_object->id;
 			}
@@ -607,7 +604,6 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 * @param object $signup_object Signup being acted upon.
 	 * @param string $column_name   Current column name.
 	 * @param string $primary       Primary column name.
-	 *
 	 * @return string
 	 */
 	protected function handle_row_actions( $signup_object = null, $column_name = '', $primary = '' ) {
@@ -638,7 +634,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	public function column_username( $signup_object = null ) {
 		$avatar	= get_avatar( $signup_object->user_email, 32 );
 
-		// Activation email link
+		// Activation email link.
 		$email_link = add_query_arg(
 			array(
 				'page'	    => 'bp-signups',
@@ -648,7 +644,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			bp_get_admin_url( 'users.php' )
 		);
 
-		// Activate link
+		// Activate link.
 		$activate_link = add_query_arg(
 			array(
 				'page'      => 'bp-signups',
@@ -658,7 +654,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			bp_get_admin_url( 'users.php' )
 		);
 
-		// Delete link
+		// Delete link.
 		$delete_link = add_query_arg(
 			array(
 				'page'      => 'bp-signups',
@@ -763,7 +759,6 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	 *
 	 * @param object|null $signup_object The signup data object.
 	 * @param string      $column_name   The column name.
-	 *
 	 * @return string
 	 */
 	function column_default( $signup_object = null, $column_name = '' ) {

@@ -34,17 +34,17 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 */
 	public function __construct() {
 
-		// Setup widget name & description
+		// Setup widget name & description.
 		$name        = _x( '(BuddyPress) Members', 'widget name', 'buddypress' );
 		$description = __( 'A dynamic list of recently active, popular, and newest members', 'buddypress' );
 
-		// Call WP_Widget constructor
+		// Call WP_Widget constructor.
 		parent::__construct( false, $name, array(
 			'description' => $description,
 			'classname'   => 'widget_bp_core_members_widget buddypress widget',
 		) );
 
-		// Maybe enqueue JS for widget
+		// Maybe enqueue JS for widget.
 		if ( is_active_widget( false, false, $this->id_base ) && ! is_admin() && ! is_network_admin() ) {
 			wp_enqueue_script( 'bp-widget-members' );
 		}
@@ -60,7 +60,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		// Get widget settings
+		// Get widget settings.
 		$settings = $this->parse_settings( $instance );
 
 		/**
@@ -85,13 +85,13 @@ class BP_Core_Members_Widget extends WP_Widget {
 		 */
 		$separator = apply_filters( 'bp_members_widget_separator', '|' );
 
-		// Output before widget HTMl, title (and maybe content before & after it)
+		// Output before widget HTMl, title (and maybe content before & after it).
 		echo $args['before_widget']
 		   . $args['before_title']
 		   . $title
 		   . $args['after_title'];
 
-		// Setup args for querying members
+		// Setup args for querying members.
 		$members_args = array(
 			'user_id'         => 0,
 			'type'            => $settings['member_default'],
@@ -164,8 +164,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 *
-	 * @return array $instance     The parsed options to be saved.
+	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -183,11 +182,11 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 *
 	 * @param array $instance Widget instance settings.
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function form( $instance ) {
 
-		// Get widget settings
+		// Get widget settings.
 		$settings       = $this->parse_settings( $instance );
 		$title          = strip_tags( $settings['title'] );
 		$max_members    = strip_tags( $settings['max_members'] );
@@ -232,10 +231,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $instance Widget instance settings.
-	 *
 	 * @uses bp_parse_args() To merge widget settings into defaults.
 	 *
+	 * @param array $instance Widget instance settings.
 	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
@@ -277,7 +275,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		// Get widget settings
+		// Get widget settings.
 		$settings = $this->parse_settings( $instance );
 
 		/**
@@ -297,7 +295,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		   . $title
 		   . $args['after_title'];
 
-		// Setup args for querying members
+		// Setup args for querying members.
 		$members_args = array(
 			'user_id'         => 0,
 			'type'            => 'online',
@@ -337,8 +335,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 *
-	 * @return array $instance     The parsed options to be saved.
+	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance                = $old_instance;
@@ -352,12 +349,11 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 * Output the Who's Online widget options form.
 	 *
 	 * @param array $instance Widget instance settings.
-	 *
-	 * @return string
+	 * @return void
 	 */
 	public function form( $instance ) {
 
-		// Get widget settings
+		// Get widget settings.
 		$settings    = $this->parse_settings( $instance );
 		$title       = strip_tags( $settings['title'] );
 		$max_members = strip_tags( $settings['max_members'] ); ?>
@@ -384,10 +380,9 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $instance Widget instance settings.
-	 *
 	 * @uses bp_parse_args() To merge widget settings into defaults.
 	 *
+	 * @param array $instance Widget instance settings.
 	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
@@ -427,7 +422,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		// Get widget settings
+		// Get widget settings.
 		$settings = $this->parse_settings( $instance );
 
 		/**
@@ -447,7 +442,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		   . $title
 		   . $args['after_title'];
 
-		// Setup args for querying members
+		// Setup args for querying members.
 		$members_args = array(
 			'user_id'         => 0,
 			'type'            => 'active',
@@ -487,7 +482,6 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 *
 	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -502,12 +496,11 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 * Output the Recently Active widget options form.
 	 *
 	 * @param array $instance Widget instance settings.
-	 *
-	 * @return string
+	 * @return void
 	 */
 	public function form( $instance ) {
 
-		// Get widget settings
+		// Get widget settings.
 		$settings    = $this->parse_settings( $instance );
 		$title       = strip_tags( $settings['title'] );
 		$max_members = strip_tags( $settings['max_members'] ); ?>
@@ -534,10 +527,9 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $instance Widget instance settings.
-	 *
 	 * @uses bp_parse_args() To merge widget settings into defaults.
 	 *
+	 * @param array $instance Widget instance settings.
 	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
@@ -559,19 +551,19 @@ function bp_core_ajax_widget_members() {
 
 	check_ajax_referer( 'bp_core_widget_members' );
 
-	// Setup some variables to check
+	// Setup some variables to check.
 	$filter      = ! empty( $_POST['filter']      ) ? $_POST['filter']                : 'recently-active-members';
 	$max_members = ! empty( $_POST['max-members'] ) ? absint( $_POST['max-members'] ) : 5;
 
-	// Determine the type of members query to perform
+	// Determine the type of members query to perform.
 	switch ( $filter ) {
 
-		// Newest activated
+		// Newest activated.
 		case 'newest-members' :
 			$type = 'newest';
 			break;
 
-		// Popular by friends
+		// Popular by friends.
 		case 'popular-members' :
 			if ( bp_is_active( 'friends' ) ) {
 				$type = 'popular';
@@ -580,14 +572,14 @@ function bp_core_ajax_widget_members() {
 			}
 			break;
 
-		// Default
+		// Default.
 		case 'recently-active-members' :
 		default :
 			$type = 'active';
 			break;
 	}
 
-	// Setup args for querying members
+	// Setup args for querying members.
 	$members_args = array(
 		'user_id'         => 0,
 		'type'            => $type,
@@ -597,9 +589,9 @@ function bp_core_ajax_widget_members() {
 		'search_terms'    => false,
 	);
 
-	// Query for members
+	// Query for members.
 	if ( bp_has_members( $members_args ) ) : ?>
-		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this. ?>
+		<?php echo '0[[SPLIT]]'; // Return valid result. TODO: remove this. ?>
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 			<li class="vcard">
 				<div class="item-avatar">
