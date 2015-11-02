@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param int $friendship_id ID of the friendship whose two members should
  *                           have their friends cache busted.
- *
  * @return bool
  */
 function friends_clear_friend_object_cache( $friendship_id ) {
@@ -28,7 +27,7 @@ function friends_clear_friend_object_cache( $friendship_id ) {
 	wp_cache_delete( 'friends_friend_ids_' .    $friendship->friend_user_id,    'bp' );
 }
 
-// List actions to clear object caches on
+// List actions to clear object caches on.
 add_action( 'friends_friendship_accepted', 'friends_clear_friend_object_cache' );
 add_action( 'friends_friendship_deleted',  'friends_clear_friend_object_cache' );
 
@@ -68,7 +67,7 @@ add_action( 'friends_friendship_accepted',  'bp_friends_clear_request_cache_on_s
  * @since 2.0.0
  *
  * @param int                   $friendship_id The friendship ID.
- * @param BP_Friends_Friendship $friendship
+ * @param BP_Friends_Friendship $friendship Friendship object.
  */
 function bp_friends_clear_request_cache_on_remove( $friendship_id, BP_Friends_Friendship $friendship ) {
 	bp_friends_clear_request_cache( $friendship->friend_user_id );
@@ -76,7 +75,7 @@ function bp_friends_clear_request_cache_on_remove( $friendship_id, BP_Friends_Fr
 add_action( 'friends_friendship_withdrawn', 'bp_friends_clear_request_cache_on_remove', 10, 2 );
 add_action( 'friends_friendship_rejected',  'bp_friends_clear_request_cache_on_remove', 10, 2 );
 
-// List actions to clear super cached pages on, if super cache is installed
+// List actions to clear super cached pages on, if super cache is installed.
 add_action( 'friends_friendship_rejected',  'bp_core_clear_cache' );
 add_action( 'friends_friendship_accepted',  'bp_core_clear_cache' );
 add_action( 'friends_friendship_deleted',   'bp_core_clear_cache' );

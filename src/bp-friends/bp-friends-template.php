@@ -262,7 +262,6 @@ function bp_potential_friend_id( $user_id = 0 ) {
 	 *
 	 * @param int $user_id Optional. If provided, the function will simply
 	 *                     return this value.
-	 *
 	 * @return int ID of potential friend.
 	 */
 	function bp_get_potential_friend_id( $user_id = 0 ) {
@@ -290,7 +289,6 @@ function bp_potential_friend_id( $user_id = 0 ) {
  *
  * @param int $user_id ID of the potential friend. Default: the value of
  *                     {@link bp_get_potential_friend_id()}.
- *
  * @return string 'is_friend', 'not_friends', or 'pending'.
  */
 function bp_is_friend( $user_id = 0 ) {
@@ -331,7 +329,6 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	 * @param int  $potential_friend_id ID of the user to whom the button
 	 *                                  applies. Default: value of {@link bp_get_potential_friend_id()}.
 	 * @param bool $friend_status       Not currently used.
-	 *
 	 * @return string HTML for the Add Friend button.
 	 */
 	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
@@ -356,8 +353,8 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . $potential_friend_id . '/', 'friends_withdraw_friendship' ),
 					'link_text'         => __( 'Cancel Friendship Request', 'buddypress' ),
 					'link_title'        => __( 'Cancel Friendship Requested', 'buddypress' ),
-					'link_id'			=> 'friend-' . $potential_friend_id,
-					'link_rel'			=> 'remove',
+					'link_id'           => 'friend-' . $potential_friend_id,
+					'link_rel'          => 'remove',
 					'link_class'        => 'friendship-button pending_friend requested'
 				);
 				break;
@@ -429,7 +426,6 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
  *
  * @param int $user_id Optional. Default: the displayed user's ID, or the
  *                     logged-in user's ID.
- *
  * @return string|bool A comma-separated list of friend IDs if any are found,
  *                     otherwise false.
  */
@@ -454,7 +450,6 @@ function bp_get_friend_ids( $user_id = 0 ) {
  *
  * @param int $user_id ID of the user whose requests are being retrieved.
  *                     Defaults to displayed user.
- *
  * @return array|int An array of user IDs if found, or a 0 if none are found.
  */
 function bp_get_friendship_requests( $user_id = 0 ) {
@@ -583,7 +578,6 @@ function bp_total_friend_count( $user_id = 0 ) {
 	 * Return the total friend count for a given user.
 	 *
 	 * @param int $user_id See {@link friends_get_total_friend_count()}.
-	 *
 	 * @return int Total friend count.
 	 */
 	function bp_get_total_friend_count( $user_id = 0 ) {
@@ -614,7 +608,6 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 	 *
 	 * @param int $user_id ID of the user whose requests are being counted.
 	 *                     Default: ID of the logged-in user.
-	 *
 	 * @return int Friend count.
 	 */
 	function bp_friend_get_total_requests_count( $user_id = 0 ) {
@@ -640,7 +633,7 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
  *
  * @uses bp_friends_get_profile_stats() to get the stats.
  *
- * @param array|string $args before|after|user_id
+ * @param array|string $args before|after|user_id.
  */
 function bp_friends_profile_stats( $args = '' ) {
 	echo bp_friends_get_profile_stats( $args );
@@ -652,13 +645,12 @@ add_action( 'bp_members_admin_user_stats', 'bp_friends_profile_stats', 7, 1 );
  *
  * @since 2.0.0
  *
- * @param array|string $args before|after|user_id
- *
+ * @param array|string $args before|after|user_id.
  * @return string HTML for stats output.
  */
 function bp_friends_get_profile_stats( $args = '' ) {
 
-	// Parse the args
+	// Parse the args.
 	$r = bp_parse_args( $args, array(
 		'before'  => '<li class="bp-friends-profile-stats">',
 		'after'   => '</li>',
@@ -667,18 +659,18 @@ function bp_friends_get_profile_stats( $args = '' ) {
 		'output'  => ''
 	), 'friends_get_profile_stats' );
 
-	// Allow completely overloaded output
+	// Allow completely overloaded output.
 	if ( empty( $r['output'] ) ) {
 
-		// Only proceed if a user ID was passed
+		// Only proceed if a user ID was passed.
 		if ( ! empty( $r['user_id'] ) ) {
 
-			// Get the user's friends
+			// Get the user's friends.
 			if ( empty( $r['friends'] ) ) {
 				$r['friends'] = absint( friends_get_total_friend_count( $r['user_id'] ) );
 			}
 
-			// If friends exist, show some formatted output
+			// If friends exist, show some formatted output.
 			$r['output'] = $r['before'] . sprintf( _n( '%s friend', '%s friends', $r['friends'], 'buddypress' ), '<strong>' . $r['friends'] . '</strong>' ) . $r['after'];
 		}
 	}

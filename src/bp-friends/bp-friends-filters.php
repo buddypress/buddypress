@@ -26,20 +26,20 @@ defined( 'ABSPATH' ) || exit;
 function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql ) {
 	global $wpdb;
 
-	// stop if user isn't logged in
+	// Stop if user isn't logged in.
 	if ( ! is_user_logged_in() ) {
 		return;
 	}
 
 	$bp = buddypress();
 
-	// Fetch whether or not the user is a friend of the current user
+	// Fetch whether or not the user is a friend of the current user.
 	$friend_status = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ( {$user_ids_sql} ) ) OR (initiator_user_id IN ( {$user_ids_sql} ) AND friend_user_id = %d )", bp_loggedin_user_id(), bp_loggedin_user_id() ) );
 
-	// Keep track of members that have a friendship status with the current user
+	// Keep track of members that have a friendship status with the current user.
 	$friend_user_ids = array();
 
-	// The "friend" is the user ID in the pair who is *not* the logged in user
+	// The "friend" is the user ID in the pair who is *not* the logged in user.
 	foreach ( (array) $friend_status as $fs ) {
 		$friend_id = bp_loggedin_user_id() == $fs->initiator_user_id ? $fs->friend_user_id : $fs->initiator_user_id;
 		$friend_user_ids[] = $friend_id;
@@ -56,7 +56,7 @@ function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query
 		}
 	}
 
-	// The rest are not friends with the current user, so set status accordingly
+	// The rest are not friends with the current user, so set status accordingly.
 	$not_friends = array_diff( $user_query->user_ids, $friend_user_ids );
 	foreach ( (array) $not_friends as $nf ) {
 		if ( bp_loggedin_user_id() == $nf ) {

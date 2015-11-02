@@ -148,11 +148,11 @@ class BP_Friends_Friendship {
 		 */
 		do_action_ref_array( 'friends_friendship_before_save', array( &$this ) );
 
-		// Update
+		// Update.
 		if (!empty( $this->id ) ) {
 			$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->friends->table_name} SET initiator_user_id = %d, friend_user_id = %d, is_confirmed = %d, is_limited = %d, date_created = %s WHERE id = %d", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created, $this->id ) );
 
-		// Save
+		// Save.
 		} else {
 			$result = $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->friends->table_name} ( initiator_user_id, friend_user_id, is_confirmed, is_limited, date_created ) VALUES ( %d, %d, %d, %d, %s )", $this->initiator_user_id, $this->friend_user_id, $this->is_confirmed, $this->is_limited, $this->date_created ) );
 			$this->id = $wpdb->insert_id;
@@ -170,6 +170,11 @@ class BP_Friends_Friendship {
 		return $result;
 	}
 
+	/**
+	 * Delete the current friendship from the database.
+	 *
+	 * @return bool|int
+	 */
 	public function delete() {
 		global $wpdb;
 
@@ -189,7 +194,6 @@ class BP_Friends_Friendship {
 	 * @param bool $assoc_arr            Optional. True to receive an array of arrays
 	 *                                   keyed as 'user_id' => $user_id; false to get a one-dimensional
 	 *                                   array of user IDs. Default: false.
-	 *
 	 * @return array $fids IDs of friends for provided user.
 	 */
 	public static function get_friend_user_ids( $user_id, $friend_requests_only = false, $assoc_arr = false ) {
@@ -223,7 +227,6 @@ class BP_Friends_Friendship {
 	 *
 	 * @param int $user_id   The ID of the first user.
 	 * @param int $friend_id The ID of the second user.
-	 *
 	 * @return int|bool The ID of the friendship object if found, otherwise false.
 	 */
 	public static function get_friendship_id( $user_id, $friend_id ) {
@@ -239,7 +242,6 @@ class BP_Friends_Friendship {
 	 *
 	 * @param int $user_id The ID of the user who has received the
 	 *                     friendship requests.
-	 *
 	 * @return array|bool An array of user IDs, or false if none are found.
 	 */
 	public static function get_friendship_request_user_ids( $user_id ) {
@@ -264,7 +266,6 @@ class BP_Friends_Friendship {
 	 * @param int $user_id Optional. ID of the user whose friendships you
 	 *                     are counting. Default: displayed user (if any), otherwise
 	 *                     logged-in user.
-	 *
 	 * @return int Friend count for the user.
 	 */
 	public static function total_friend_count( $user_id = 0 ) {
@@ -275,12 +276,14 @@ class BP_Friends_Friendship {
 
 		$bp = buddypress();
 
-		/* This is stored in 'total_friend_count' usermeta.
-		   This function will recalculate, update and return. */
+		/*
+		 * This is stored in 'total_friend_count' usermeta.
+		 * This function will recalculate, update and return.
+		 */
 
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d OR friend_user_id = %d) AND is_confirmed = 1", $user_id, $user_id ) );
 
-		// Do not update meta if user has never had friends
+		// Do not update meta if user has never had friends.
 		if ( empty( $count ) && !bp_get_user_meta( $user_id, 'total_friend_count', true ) )
 			return 0;
 
@@ -308,13 +311,15 @@ class BP_Friends_Friendship {
 	public static function search_friends( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb;
 
-		// TODO: Optimize this function.
+		/*
+		 * TODO: Optimize this function.
+		 */
 
 		if ( empty( $user_id ) )
 			$user_id = bp_loggedin_user_id();
 
 		// Only search for matching strings at the beginning of the
-		// name (@todo - figure out why this restriction)
+		// name (@todo - figure out why this restriction).
 		$search_terms_like = bp_esc_like( $filter ) . '%';
 
 		$pag_sql = '';
@@ -332,7 +337,7 @@ class BP_Friends_Friendship {
 
 		$bp = buddypress();
 
-		// filter the user_ids based on the search criteria.
+		// Filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
 			$sql       = $wpdb->prepare( "SELECT DISTINCT user_id FROM {$bp->profile->table_name_data} WHERE user_id IN ({$fids}) AND value LIKE %s {$pag_sql}", $search_terms_like );
 			$total_sql = $wpdb->prepare( "SELECT COUNT(DISTINCT user_id) FROM {$bp->profile->table_name_data} WHERE user_id IN ({$fids}) AND value LIKE %s", $search_terms_like );
@@ -356,13 +361,12 @@ class BP_Friends_Friendship {
 	 * Note that 'pending' means that $initiator_userid has sent a friend
 	 * request to $possible_friend_userid that has not yet been approved,
 	 * while 'awaiting_response' is the other way around ($possible_friend_userid
-	 * sent the initial request)
+	 * sent the initial request).
 	 *
 	 * @param int $initiator_userid       The ID of the user who is the initiator
 	 *                                    of the potential friendship/request.
 	 * @param int $possible_friend_userid The ID of the user who is the
 	 *                                    recipient of the potential friendship/request.
-	 *
 	 * @return string $value The friendship status, from among 'not_friends',
 	 *                       'is_friend', 'pending', and 'awaiting_response'.
 	 */
@@ -397,7 +401,6 @@ class BP_Friends_Friendship {
 	 *
 	 * @param array $user_ids IDs of users whose last_active meta is
 	 *                        being queried.
-	 *
 	 * @return array $retval Array of last_active values + user_ids.
 	 */
 	public static function get_bulk_last_active( $user_ids ) {
@@ -405,7 +408,7 @@ class BP_Friends_Friendship {
 
 		$last_activities = BP_Core_User::get_last_activity( $user_ids );
 
-		// Sort and structure as expected in legacy function
+		// Sort and structure as expected in legacy function.
 		usort( $last_activities, create_function( '$a, $b', '
 			if ( $a["date_recorded"] == $b["date_recorded"] ) {
 				return 0;
@@ -430,7 +433,6 @@ class BP_Friends_Friendship {
 	 * Mark a friendship as accepted.
 	 *
 	 * @param int $friendship_id ID of the friendship to be accepted.
-	 *
 	 * @return int Number of database rows updated.
 	 */
 	public static function accept($friendship_id) {
@@ -445,7 +447,6 @@ class BP_Friends_Friendship {
 	 * Remove a friendship or a friendship request INITIATED BY the logged-in user.
 	 *
 	 * @param int $friendship_id ID of the friendship to be withdrawn.
-	 *
 	 * @return int Number of database rows deleted.
 	 */
 	public static function withdraw($friendship_id) {
@@ -460,7 +461,6 @@ class BP_Friends_Friendship {
 	 * Remove a friendship or a friendship request MADE OF the logged-in user.
 	 *
 	 * @param int $friendship_id ID of the friendship to be rejected.
-	 *
 	 * @return int Number of database rows deleted.
 	 */
 	public static function reject($friendship_id) {
@@ -481,14 +481,13 @@ class BP_Friends_Friendship {
 	 * @param int    $limit   Optional. Max number of records to return.
 	 * @param int    $page    Optional. Number of the page to return. Default:
 	 *                        false (no pagination - return all results).
-	 *
 	 * @return array $filtered_ids IDs of users who match the query.
 	 */
 	public static function search_users( $filter, $user_id, $limit = null, $page = null ) {
 		global $wpdb;
 
 		// Only search for matching strings at the beginning of the
-		// name (@todo - figure out why this restriction)
+		// name (@todo - figure out why this restriction).
 		$search_terms_like = bp_esc_like( $filter ) . '%';
 
 		$usermeta_table = $wpdb->base_prefix . 'usermeta';
@@ -500,7 +499,7 @@ class BP_Friends_Friendship {
 
 		$bp = buddypress();
 
-		// filter the user_ids based on the search criteria.
+		// Filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
 			$sql = $wpdb->prepare( "SELECT DISTINCT d.user_id as id FROM {$bp->profile->table_name_data} d, {$users_table} u WHERE d.user_id = u.id AND d.value LIKE %s ORDER BY d.value DESC {$pag_sql}", $search_terms_like );
 		} else {
@@ -521,14 +520,13 @@ class BP_Friends_Friendship {
 	 * @todo Why does this exist, and why is it in bp-friends?
 	 *
 	 * @param string $filter Search term.
-	 *
 	 * @return int Count of users matching the search term.
 	 */
 	public static function search_users_count( $filter ) {
 		global $wpdb;
 
 		// Only search for matching strings at the beginning of the
-		// name (@todo - figure out why this restriction)
+		// name (@todo - figure out why this restriction).
 		$search_terms_like = bp_esc_like( $filter ) . '%';
 
 		$usermeta_table = $wpdb->prefix . 'usermeta';
@@ -536,7 +534,7 @@ class BP_Friends_Friendship {
 
 		$bp = buddypress();
 
-		// filter the user_ids based on the search criteria.
+		// Filter the user_ids based on the search criteria.
 		if ( bp_is_active( 'xprofile' ) ) {
 			$sql = $wpdb->prepare( "SELECT COUNT(DISTINCT d.user_id) FROM {$bp->profile->table_name_data} d, {$users_table} u WHERE d.user_id = u.id AND d.value LIKE %s", $search_terms_like );
 		} else {
@@ -557,7 +555,6 @@ class BP_Friends_Friendship {
 	 * @todo Why does this exist, and why is it in bp-friends?
 	 *
 	 * @param array $user_ids Array of user IDs.
-	 *
 	 * @return array User IDs, sorted by the associated display names.
 	 */
 	public static function sort_by_name( $user_ids ) {
@@ -579,7 +576,6 @@ class BP_Friends_Friendship {
 	 * @param int $user_id       ID of the user whose friends are being retrieved.
 	 * @param int $total_friends Optional. Number of random friends to get.
 	 *                           Default: 5.
-	 *
 	 * @return array|bool An array of random friend user IDs on success;
 	 *                    false if none are found.
 	 */
@@ -595,7 +591,7 @@ class BP_Friends_Friendship {
 			$fids[] = ( $results[$i]->friend_user_id == $user_id ) ? $results[$i]->initiator_user_id : $results[$i]->friend_user_id;
 		}
 
-		// remove duplicates
+		// Remove duplicates.
 		if ( count( $fids ) > 0 )
 			return array_flip( array_flip( $fids ) );
 		else
@@ -613,27 +609,26 @@ class BP_Friends_Friendship {
 	 *
 	 * @param int $user_id  ID of the user whose friends are being counted.
 	 * @param int $group_id ID of the group friends are being invited to.
-	 *
 	 * @return int $invitable_count Eligible friend count.
 	 */
 	public static function get_invitable_friend_count( $user_id, $group_id ) {
 
-		// Setup some data we'll use below
+		// Setup some data we'll use below.
 		$is_group_admin  = BP_Groups_Member::check_is_admin( $user_id, $group_id );
 		$friend_ids      = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 		$invitable_count = 0;
 
 		for ( $i = 0, $count = count( $friend_ids ); $i < $count; ++$i ) {
 
-			// If already a member, they cannot be invited again
+			// If already a member, they cannot be invited again.
 			if ( BP_Groups_Member::check_is_member( (int) $friend_ids[$i], $group_id ) )
 				continue;
 
-			// If user already has invite, they cannot be added
+			// If user already has invite, they cannot be added.
 			if ( BP_Groups_Member::check_has_invite( (int) $friend_ids[$i], $group_id )  )
 				continue;
 
-			// If user is not group admin and friend is banned, they cannot be invited
+			// If user is not group admin and friend is banned, they cannot be invited.
 			if ( ( false === $is_group_admin ) && BP_Groups_Member::check_is_banned( (int) $friend_ids[$i], $group_id ) )
 				continue;
 
@@ -647,7 +642,6 @@ class BP_Friends_Friendship {
 	 * Get the friend user IDs for a given friendship.
 	 *
 	 * @param int $friendship_id ID of the friendship.
-	 *
 	 * @return object friend_user_id and initiator_user_id.
 	 */
 	public static function get_user_ids_for_friendship( $friendship_id ) {
@@ -668,10 +662,10 @@ class BP_Friends_Friendship {
 
 		$bp = buddypress();
 
-		// Get friends of $user_id
+		// Get friends of $user_id.
 		$friend_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
 
-		// Delete all friendships related to $user_id
+		// Delete all friendships related to $user_id.
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->friends->table_name} WHERE friend_user_id = %d OR initiator_user_id = %d", $user_id, $user_id ) );
 
 		// Delete friend request notifications for members who have a
@@ -680,7 +674,7 @@ class BP_Friends_Friendship {
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->notifications->table_name} WHERE component_name = 'friends' AND ( component_action = 'friendship_request' OR component_action = 'friendship_accepted' ) AND item_id = %d", $user_id ) );
 		}
 
-		// Loop through friend_ids and update their counts
+		// Loop through friend_ids and update their counts.
 		foreach ( (array) $friend_ids as $friend_id ) {
 			BP_Friends_Friendship::total_friend_count( $friend_id );
 		}

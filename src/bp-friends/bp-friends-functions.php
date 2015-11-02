@@ -25,7 +25,6 @@ defined( 'ABSPATH' ) || exit;
  *                               running friends_add_friend() will result in a friendship request.
  *                               When true, running friends_add_friend() will result in an accepted
  *                               friendship, with no notifications being sent. Default: false.
- *
  * @return bool True on success, false on failure.
  */
 function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = false ) {
@@ -35,12 +34,12 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 		return false;
 	}
 
-	// Check if already friends, and bail if so
+	// Check if already friends, and bail if so.
 	if ( friends_check_friendship( $initiator_userid, $friend_userid ) ) {
 		return true;
 	}
 
-	// Setup the friendship data
+	// Setup the friendship data.
 	$friendship = new BP_Friends_Friendship;
 	$friendship->initiator_user_id = $initiator_userid;
 	$friendship->friend_user_id    = $friend_userid;
@@ -52,16 +51,16 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 		$friendship->is_confirmed = 1;
 	}
 
-	// Bail if friendship could not be saved (how sad!)
+	// Bail if friendship could not be saved (how sad!).
 	if ( ! $friendship->save() ) {
 		return false;
 	}
 
-	// Send notifications
+	// Send notifications.
 	if ( empty( $force_accept ) ) {
 		$action = 'requested';
 
-	// Update friend totals
+	// Update friend totals.
 	} else {
 		$action = 'accepted';
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id, 'add' );
@@ -92,7 +91,6 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
  *
  * @param int $initiator_userid ID of the friendship initiator.
  * @param int $friend_userid    ID of the friend user.
- *
  * @return bool True on success, false on failure.
  */
 function friends_remove_friend( $initiator_userid, $friend_userid ) {
@@ -112,7 +110,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 	 */
 	do_action( 'friends_before_friendship_delete', $friendship_id, $initiator_userid, $friend_userid );
 
-	// Remove the activity stream items about the friendship id
+	// Remove the activity stream items about the friendship id.
 	friends_delete_activity( array( 'item_id' => $friendship_id, 'type' => 'friendship_created', 'user_id' => 0 ) );
 
 	/**
@@ -154,18 +152,17 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
  * Also initiates a "friendship_accepted" activity item.
  *
  * @param int $friendship_id ID of the pending friendship object.
- *
  * @return bool True on success, false on failure.
  */
 function friends_accept_friendship( $friendship_id ) {
 
-	// Get the friendship data
+	// Get the friendship data.
 	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
 
-	// Accepting friendship
+	// Accepting friendship.
 	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::accept( $friendship_id ) ) {
 
-		// Bump the friendship counts
+		// Bump the friendship counts.
 		friends_update_friend_totals( $friendship->initiator_user_id, $friendship->friend_user_id );
 
 		/**
@@ -190,7 +187,6 @@ function friends_accept_friendship( $friendship_id ) {
  * Mark a friendship request as rejected.
  *
  * @param int $friendship_id ID of the pending friendship object.
- *
  * @return bool True on success, false on failure.
  */
 function friends_reject_friendship( $friendship_id ) {
@@ -219,7 +215,6 @@ function friends_reject_friendship( $friendship_id ) {
  * @param int $initiator_userid ID of the friendship initiator - this is the
  *                              user who requested the friendship, and is doing the withdrawing.
  * @param int $friend_userid    ID of the requested friend.
- *
  * @return bool True on success, false on failure.
  */
 function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
@@ -252,7 +247,6 @@ function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
  *
  * @param int $user_id            ID of the first user.
  * @param int $possible_friend_id ID of the other user.
- *
  * @return bool Returns true if the two users are friends, otherwise false.
  */
 function friends_check_friendship( $user_id, $possible_friend_id ) {
@@ -270,14 +264,13 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
  *
  * @param int $user_id            ID of the first user.
  * @param int $possible_friend_id ID of the other user.
- *
  * @return string Friend status of the two users.
  */
 function friends_check_friendship_status( $user_id, $possible_friend_id ) {
 	global $members_template;
 
-	// check the BP_User_Query first
-	// @see bp_friends_filter_user_query_populate_extras()
+	// Check the BP_User_Query first
+	// @see bp_friends_filter_user_query_populate_extras().
 	if ( ! empty( $members_template->in_the_loop ) ) {
 		if ( isset( $members_template->member->friendship_status ) ) {
 			return $members_template->member->friendship_status;
@@ -291,7 +284,6 @@ function friends_check_friendship_status( $user_id, $possible_friend_id ) {
  * Get the friend count of a given user.
  *
  * @param int $user_id ID of the user whose friends are being counted.
- *
  * @return int Friend count of the user.
  */
 function friends_get_total_friend_count( $user_id = 0 ) {
@@ -316,7 +308,6 @@ function friends_get_total_friend_count( $user_id = 0 ) {
  * Check whether a given user has any friends.
  *
  * @param int $user_id ID of the user whose friends are being checked.
- *
  * @return bool True if the user has friends, otherwise false.
  */
 function friends_check_user_has_friends( $user_id ) {
@@ -336,7 +327,6 @@ function friends_check_user_has_friends( $user_id ) {
  *
  * @param int $initiator_user_id ID of the first user.
  * @param int $friend_user_id    ID of the second user.
- *
  * @return int|bool ID of the friendship if found, otherwise false.
  */
 function friends_get_friendship_id( $initiator_user_id, $friend_user_id ) {
@@ -352,7 +342,6 @@ function friends_get_friendship_id( $initiator_user_id, $friend_user_id ) {
  * @param bool $assoc_arr            Optional. True to receive an array of arrays keyed as
  *                                   'user_id' => $user_id; false to get a one-dimensional
  *                                   array of user IDs. Default: false.
- *
  * @return array
  */
 function friends_get_friend_user_ids( $user_id, $friend_requests_only = false, $assoc_arr = false ) {
@@ -368,7 +357,6 @@ function friends_get_friend_user_ids( $user_id, $friend_requests_only = false, $
  * @param int    $pag_num      Optional. Max number of friends to return.
  * @param int    $pag_page     Optional. The page of results to return. Default: null (no
  *                             pagination - return all results).
- *
  * @return array|bool On success, an array: {
  *     @type array $friends IDs of friends returned by the query.
  *     @type int   $count   Total number of friends (disregarding
@@ -383,7 +371,6 @@ function friends_search_friends( $search_terms, $user_id, $pag_num = 10, $pag_pa
  * Get a list of IDs of users who have requested friendship of a given user.
  *
  * @param int $user_id The ID of the user who has received the friendship requests.
- *
  * @return array|bool An array of user IDs, or false if none are found.
  */
 function friends_get_friendship_request_user_ids( $user_id ) {
@@ -402,7 +389,6 @@ function friends_get_friendship_request_user_ids( $user_id ) {
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- *
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
@@ -432,7 +418,6 @@ function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filte
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- *
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
@@ -462,7 +447,6 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
  *                         Default: 0 (no pagination; show all results).
  * @param string $filter   Optional. Limit results to those matching a search
  *                         string.
- *
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_newest( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
@@ -487,7 +471,6 @@ function friends_get_newest( $user_id, $per_page = 0, $page = 0, $filter = '' ) 
  *      arguments and return value.
  *
  * @param array $friend_ids See BP_Friends_Friendship::get_bulk_last_active().
- *
  * @return array $user_ids See BP_Friends_Friendship::get_bulk_last_active().
  */
 function friends_get_bulk_last_active( $friend_ids ) {
@@ -505,19 +488,18 @@ function friends_get_bulk_last_active( $friend_ids ) {
  * @param int $user_id  User ID whose friends to see can be invited. Default:
  *                      ID of the logged-in user.
  * @param int $group_id Group to check possible invitations against.
- *
  * @return mixed False if no friends, array of users if friends.
  */
 function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 
-	// Default to logged in user id
+	// Default to logged in user id.
 	if ( empty( $user_id ) )
 		$user_id = bp_loggedin_user_id();
 
-	// Only group admins can invited previously banned users
+	// Only group admins can invited previously banned users.
 	$user_is_admin = (bool) groups_is_user_admin( $user_id, $group_id );
 
-	// Assume no friends
+	// Assume no friends.
 	$friends = array();
 
 	/**
@@ -533,7 +515,7 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 		'per_page' => 0
 	) );
 
-	// User has friends
+	// User has friends.
 	if ( bp_has_members( $args ) ) {
 
 		/**
@@ -546,21 +528,21 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 		 */
 		while ( bp_members() ) :
 
-			// Load the member
+			// Load the member.
 			bp_the_member();
 
-			// Get the user ID of the friend
+			// Get the user ID of the friend.
 			$friend_user_id = bp_get_member_user_id();
 
-			// Skip friend if already in the group
+			// Skip friend if already in the group.
 			if ( groups_is_user_member( $friend_user_id, $group_id ) )
 				continue;
 
-			// Skip friend if not group admin and user banned from group
+			// Skip friend if not group admin and user banned from group.
 			if ( ( false === $user_is_admin ) && groups_is_user_banned( $friend_user_id, $group_id ) )
 				continue;
 
-			// Friend is safe, so add it to the array of possible friends
+			// Friend is safe, so add it to the array of possible friends.
 			$friends[] = array(
 				'id'        => $friend_user_id,
 				'full_name' => bp_get_member_name()
@@ -569,7 +551,7 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 		endwhile;
 	}
 
-	// If no friends, explicitly set to false
+	// If no friends, explicitly set to false.
 	if ( empty( $friends ) )
 		$friends = false;
 
@@ -596,7 +578,6 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
  *
  * @param int $user_id  ID of the user whose friends are being counted.
  * @param int $group_id ID of the group friends are being invited to.
- *
  * @return int $invitable_count Eligible friend count.
  */
 function friends_count_invitable_friends( $user_id, $group_id ) {
@@ -608,7 +589,6 @@ function friends_count_invitable_friends( $user_id, $group_id ) {
  *
  * @param int $user_id Optional. ID of the user whose friendships you are
  *                     counting. Default: displayed user (if any), otherwise logged-in user.
- *
  * @return int Friend count for the user.
  */
 function friends_get_friend_count_for_user( $user_id ) {
@@ -624,7 +604,6 @@ function friends_get_friend_count_for_user( $user_id ) {
  *                             pagination - show all results).
  * @param int    $pag_page     Number of the page being requested. Default: 0 (no
  *                             pagination - show all results).
- *
  * @return array Array of BP_Core_User objects corresponding to friends.
  */
 function friends_search_users( $search_terms, $user_id, $pag_num = 0, $pag_page = 0 ) {
@@ -645,7 +624,6 @@ function friends_search_users( $search_terms, $user_id, $pag_num = 0, $pag_page 
  * Has a friendship been confirmed (accepted)?
  *
  * @param int $friendship_id The ID of the friendship being checked.
- *
  * @return bool True if the friendship is confirmed, otherwise false.
  */
 function friends_is_friendship_confirmed( $friendship_id ) {
@@ -701,7 +679,7 @@ function friends_remove_data( $user_id ) {
 
 	BP_Friends_Friendship::delete_all_for_user( $user_id );
 
-	// Remove usermeta
+	// Remove usermeta.
 	bp_delete_user_meta( $user_id, 'total_friend_count' );
 
 	/**
@@ -739,7 +717,7 @@ function bp_friends_prime_mentions_results() {
 	}
 
 	$friends_query = array(
-		'count_total'     => '',                    // Prevents total count
+		'count_total'     => '',                    // Prevents total count.
 		'populate_extras' => false,
 
 		'type'            => 'alphabetical',

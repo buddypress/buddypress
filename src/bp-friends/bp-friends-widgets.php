@@ -156,7 +156,6 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The parameters saved by the user.
 	 * @param array $old_instance The parameters as previously saved to the database.
-	 *
 	 * @return array $instance The processed settings to save.
 	 */
 	function update( $new_instance, $old_instance ) {
@@ -173,8 +172,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 * Render the widget edit form.
 	 *
 	 * @param array $instance The saved widget settings.
-	 *
-	 * @return string
+	 * @return void
 	 */
 	function form( $instance ) {
 		$defaults = array(
@@ -239,7 +237,7 @@ function bp_core_ajax_widget_friends() {
 	);
 
 	if ( bp_has_members( $members_args ) ) : ?>
-		<?php echo '0[[SPLIT]]'; // return valid result. TODO: remove this. ?>
+		<?php echo '0[[SPLIT]]'; // Return valid result. TODO: remove this. ?>
 		<?php while ( bp_members() ) : bp_the_member(); ?>
 			<li class="vcard">
 				<div class="item-avatar">

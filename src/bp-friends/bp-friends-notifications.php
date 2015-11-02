@@ -23,7 +23,6 @@ defined( 'ABSPATH' ) || exit;
  * @param int $friendship_id ID of the friendship object.
  * @param int $initiator_id  ID of the user who initiated the request.
  * @param int $friend_id     ID of the request recipient.
- *
  * @return bool
  */
 function friends_notification_new_request( $friendship_id, $initiator_id, $friend_id ) {
@@ -39,7 +38,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 	$settings_link     = trailingslashit( bp_core_get_user_domain( $friend_id ) .  $settings_slug . '/notifications' );
 	$initiator_link    = bp_core_get_user_domain( $initiator_id );
 
-	// Set up and send the message
+	// Set up and send the message.
 	$to       = $ud->user_email;
 	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'New friendship request from %s', 'buddypress' ), $initiator_name ) ) );
 	$message  = sprintf( __(
@@ -52,7 +51,7 @@ To view %3$s\'s profile: %4$s
 ---------------------
 ', 'buddypress' ), $initiator_name, $all_requests_link, $initiator_name, $initiator_link );
 
-	// Only show the disable notifications line if the settings component is enabled
+	// Only show the disable notifications line if the settings component is enabled.
 	if ( bp_is_active( 'settings' ) ) {
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 	}
@@ -115,7 +114,6 @@ add_action( 'friends_friendship_requested', 'friends_notification_new_request', 
  * @param int $friendship_id ID of the friendship object.
  * @param int $initiator_id  ID of the user who initiated the request.
  * @param int $friend_id     ID of the request recipient.
- *
  * @return bool
  */
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
@@ -130,7 +128,7 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
 	$settings_link = trailingslashit( bp_core_get_user_domain( $initiator_id ) . $settings_slug . '/notifications' );
 
-	// Set up and send the message
+	// Set up and send the message.
 	$to       = $ud->user_email;
 	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( '%s accepted your friendship request', 'buddypress' ), $friend_name ) ) );
 	$message  = sprintf( __(
@@ -141,7 +139,7 @@ To view %2$s\'s profile: %3$s
 ---------------------
 ', 'buddypress' ), $friend_name, $friend_name, $friend_link );
 
-	// Only show the disable notifications line if the settings component is enabled
+	// Only show the disable notifications line if the settings component is enabled.
 	if ( bp_is_active( 'settings' ) ) {
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 	}
@@ -206,7 +204,6 @@ add_action( 'friends_friendship_accepted', 'friends_notification_accepted_reques
  *                                  waiting for the user.
  * @param string $format            'string' for BuddyBar-compatible notifications;
  *                                  'array' for WP Toolbar. Default: 'string'.
- *
  * @return array|string
  */
 function friends_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
@@ -218,7 +215,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			// $action and $amount are used to generate dynamic filter names.
 			$action = 'accepted';
 
-			// Set up the string and the filter
+			// Set up the string and the filter.
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( '%d friends accepted your friendship requests', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
@@ -234,7 +231,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 			$action = 'request';
 
-			// Set up the string and the filter
+			// Set up the string and the filter.
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( 'You have %d pending friendship requests', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
@@ -246,7 +243,7 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 			break;
 	}
 
-	// Return either an HTML link or an array, depending on the requested format
+	// Return either an HTML link or an array, depending on the requested format.
 	if ( 'string' == $format ) {
 
 		/**
@@ -331,6 +328,7 @@ add_action( 'friends_screen_my_friends', 'bp_friends_mark_friendship_accepted_no
  * Notify one use that another user has requested their virtual friendship.
  *
  * @since 1.9.0
+ *
  * @param int $friendship_id     The unique ID of the friendship.
  * @param int $initiator_user_id The friendship initiator user ID.
  * @param int $friend_user_id    The friendship request receiver user ID.
@@ -355,8 +353,8 @@ add_action( 'friends_friendship_requested', 'bp_friends_friendship_requested_not
  *
  * @since 1.9.0
  *
- * @param int    $friendship_id (not used)
- * @param object $friendship
+ * @param int    $friendship_id Friendship ID (not used).
+ * @param object $friendship    Friendship object.
  */
 function bp_friends_mark_friendship_rejected_notifications_by_item_id( $friendship_id, $friendship ) {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -376,15 +374,15 @@ add_action( 'friends_friendship_rejected', 'bp_friends_mark_friendship_rejected_
  */
 function bp_friends_add_friendship_accepted_notification( $friendship_id, $initiator_user_id, $friend_user_id ) {
 
-	// Bail if notifications is not active
+	// Bail if notifications is not active.
 	if ( ! bp_is_active( 'notifications' ) ) {
 		return;
 	}
 
-	// Remove the friend request notice
+	// Remove the friend request notice.
 	bp_notifications_mark_notifications_by_item_id( $friend_user_id, $initiator_user_id, buddypress()->friends->id, 'friendship_request' );
 
-	// Add a friend accepted notice for the initiating user
+	// Add a friend accepted notice for the initiating user.
 	bp_notifications_add_notification(  array(
 		'user_id'           => $initiator_user_id,
 		'item_id'           => $friend_user_id,
@@ -402,8 +400,8 @@ add_action( 'friends_friendship_accepted', 'bp_friends_add_friendship_accepted_n
  *
  * @since 1.9.0
  *
- * @param int    $friendship_id (not used)
- * @param object $friendship
+ * @param int    $friendship_id Friendship ID (not used).
+ * @param object $friendship    Friendship Object.
  */
 function bp_friends_mark_friendship_withdrawn_notifications_by_item_id( $friendship_id, $friendship ) {
 	if ( bp_is_active( 'notifications' ) ) {
@@ -417,7 +415,7 @@ add_action( 'friends_friendship_withdrawn', 'bp_friends_mark_friendship_withdraw
  *
  * @since 1.9.0
  *
- * @param int $user_id
+ * @param int $user_id ID of the user whose notifications are removed.
  */
 function bp_friends_remove_notifications_data( $user_id = 0 ) {
 	if ( bp_is_active( 'notifications' ) ) {
