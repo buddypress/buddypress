@@ -492,7 +492,7 @@ function xprofile_ajax_reorder_fields() {
 
 	$field_group_id = $_POST['field_group_id'];
 
-	foreach ( (array) $order['field'] as $position => $field_id ) {
+	foreach ( (array) $order['draggable_field'] as $position => $field_id ) {
 		xprofile_update_field_position( (int) $field_id, (int) $position, (int) $field_group_id );
 	}
 }
@@ -530,7 +530,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 	$field = $admin_field; ?>
 
-	<fieldset class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
+	<fieldset id="draggable_field_<?php echo esc_attr( $field->id ); ?>"class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
