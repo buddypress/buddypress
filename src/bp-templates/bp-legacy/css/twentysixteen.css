@@ -1352,7 +1352,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	*-------------------------------------------
 	*/
 .bp-user #buddypress {
-	/* Auto Complete background */
+	/* Sitewide Notices loop */
 }
 
 .bp-user #buddypress #message-thread a {
@@ -1434,6 +1434,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	.bp-user #buddypress #message-threads tr td.thread-options {
 		padding-top: 0;
 	}
+}
+
+.bp-user #buddypress #message-threads tr td.thread-star {
+	vertical-align: middle;
+}
+
+.bp-user #buddypress #message-threads tr td.thread-star .message-action-star {
+	line-height: 1.2;
 }
 
 .bp-user #buddypress #message-threads tr td.bulk-select-check,
@@ -1519,30 +1527,55 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	width: 30px;
 }
 
-.bp-user #buddypress .acfb-holder li.friend-tab {
-	margin-right: 0;
+.bp-user #buddypress #message-threads.sitewide-notices td {
+	width: 100%;
 }
 
-.bp-user #buddypress .acfb-holder li.friend-tab a {
-	border-bottom: 0;
-}
-
-.bp-user #buddypress .acfb-holder li.friend-tab a img {
-	display: inline;
-	height: 20px;
-	margin-right: 0.5em;
-	width: 20px !important;
-}
-
-.bp-user #buddypress .sitewide-notices tr td:first-child {
-	display: none;
-}
-
-.bp-user #buddypress .sitewide-notices td strong {
+.bp-user #buddypress #message-threads.sitewide-notices td strong {
 	background: #6e6e6e;
 	color: #fff;
 	display: block;
+	margin-bottom: 0.4em;
 	padding-left: 0.2em;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td a {
+	display: inline-block;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td:first-child {
+	display: none;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td:nth-child(2) strong {
+	margin: -8px -8px 8px;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td:first-child + td + td {
+	border-bottom: 0;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td:first-child + td + td span {
+	line-height: 1;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td:last-child {
+	border-bottom-color: #b7b7b7;
+	line-height: 1;
+	text-align: right;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child {
+	line-height: 0;
+	margin-left: 0.7em;
+	text-indent: -999em;
+}
+
+.bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child::after {
+	content: attr(title);
+	display: block;
+	line-height: initial;
+	text-indent: 0;
 }
 
 /**

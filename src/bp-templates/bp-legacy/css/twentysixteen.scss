@@ -1836,6 +1836,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		} // close message-thread  Singular view!
 
 		#message-threads {
+
 			thead {
 				tr {
 					background: lighten($dark-background, 10%);
@@ -1859,6 +1860,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 					@media screen and (max-width: 46.25em) {
 						padding-top: 0;
+					}
+				}
+
+				td.thread-star {
+					vertical-align: middle;
+
+					.message-action-star {
+						line-height: 1.2;
 					}
 				}
 
@@ -1937,39 +1946,62 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-	/* Auto Complete background */
-		.acfb-holder {
-
-			li.friend-tab {
-				margin-right: 0;
-
-				a {
-					border-bottom: 0;
-
-					img {
-						// this is the tiny user avatar
-						display: inline;
-						height: 20px;
-						margin-right: 0.5em;
-						width: 20px !important; // override inline style
-					}
-				}
-			}
-		}
-
-		.sitewide-notices {
-			tr {
-				td:first-child {
-					display: none;
-				}
-			}
+		/* Sitewide Notices loop */
+		#message-threads.sitewide-notices {
 
 			td {
+				width: 100%;
+
 				strong {
 					background: lighten($dark-background, 10%);
 					color: $content-background;
 					display: block;
+					margin-bottom: 0.4em;
 					padding-left: 0.2em;
+				}
+
+				a {
+					display: inline-block;
+				}
+			}
+
+			td:first-child {
+				display: none;
+			}
+
+			td:nth-child(2) {
+				strong {
+					margin: -8px -8px 8px;
+				}
+			}
+
+			td:first-child + td + td {
+			// notice date
+				border-bottom: 0;
+
+				span {
+					line-height: 1;
+				}
+			}
+
+			td:last-child {
+			// notice actions
+				border-bottom-color: darken($border-light, 20%);
+				line-height: 1;
+				text-align: right;
+
+				a:last-child {
+				// hide the 'x' text
+					line-height: 0;
+					margin-left: 0.7em;
+					text-indent: -999em;
+				}
+
+				a:last-child::after {
+					content: attr(title);
+					display: block;
+					line-height: initial;
+					text-indent: 0;
 				}
 			}
 		}
