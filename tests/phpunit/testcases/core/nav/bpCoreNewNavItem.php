@@ -124,4 +124,70 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$this->assertFalse( $retval );
 	}
 
+	public function test_existence_of_access_protected_user_nav() {
+		$bp_nav = buddypress()->bp_nav;
+
+		$u = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u2 );
+
+		$this->go_to( bp_core_get_user_domain( $u ) );
+
+		$expected = array(
+			'name'                    => 'Settings',
+			'slug'                    => 'settings',
+			'link'                    => trailingslashit( bp_loggedin_user_domain() . 'settings' ),
+			'css_id'                  => 'settings',
+			'show_for_displayed_user' => false,
+			'position'                => 100,
+			'screen_function'         => 'bp_settings_screen_general',
+			'default_subnav_slug'     => 'general'
+		);
+
+		$this->assertSame( buddypress()->bp_nav['settings'], $expected );
+
+		// Clean up
+		buddypress()->bp_nav = $bp_nav;
+		$this->set_current_user( $old_current_user );
+	}
+
+	public function test_creation_of_access_protected_user_nav() {
+		// The nav item must be added to bp_nav, even if the current user
+		// can't visit that nav item.
+		$bp_nav = buddypress()->bp_nav;
+
+		$u = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u2 );
+
+		$this->go_to( bp_core_get_user_domain( $u ) );
+
+		bp_core_new_nav_item( array(
+			'name'                    => 'Woof',
+			'slug'                    => 'woof',
+			'show_for_displayed_user' => false,
+			'position'                => 35,
+			'screen_function'         => 'woof_screen_function',
+			'default_subnav_slug'     => 'woof-one'
+		) );
+
+		$expected = array(
+			'name'                    => 'Woof',
+			'slug'                    => 'woof',
+			'link'                    => trailingslashit( bp_loggedin_user_domain() . 'woof' ),
+			'css_id'                  => 'woof',
+			'show_for_displayed_user' => false,
+			'position'                => 35,
+			'screen_function'         => 'woof_screen_function',
+			'default_subnav_slug'     => 'woof-one'
+		);
+
+		$this->assertSame( buddypress()->bp_nav['woof'], $expected );
+
+		// Clean up
+		buddypress()->bp_nav = $bp_nav;
+		$this->set_current_user( $old_current_user );
+	}
 }

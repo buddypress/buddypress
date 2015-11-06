@@ -56,7 +56,10 @@ function bp_core_new_nav_item( $args = '' ) {
 	}
 
 	// Then, hook the screen function for the added nav item.
-	bp_core_register_nav_screen_function( $r );
+	$hooked = bp_core_register_nav_screen_function( $r );
+	if ( false === $hooked ){
+		return false;
+	}
 
 	/**
 	 * Fires after adding an item to the main BuddyPress navigation array.
@@ -118,15 +121,6 @@ function bp_core_create_nav_link( $args = '' ) {
 
 	// If this is for site admins only and the user is not one, don't create the nav item.
 	if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
-	}
-
-	/**
-	 * If this nav item is hidden for the displayed user, and
-	 * the logged in user is not the displayed user
-	 * looking at their own profile, don't create the nav item.
-	 */
-	if ( empty( $r['show_for_displayed_user'] ) && ! bp_user_has_access() ) {
 		return false;
 	}
 
@@ -414,8 +408,10 @@ function bp_core_new_subnav_item( $args = '' ) {
 	}
 
 	// Then, hook the screen function for the added subnav item.
-	bp_core_register_subnav_screen_function( $args );
-
+	$hooked = bp_core_register_subnav_screen_function( $args );
+	if ( false === $hooked ) {
+		return false;
+	}
 }
 
 /**
