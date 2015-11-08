@@ -530,6 +530,11 @@ function bp_get_theme_compat_feature( $feature = '' ) {
 function bp_register_theme_compat_default_features() {
 	global $content_width;
 
+	// Do not set up default features on deactivation
+	if ( bp_is_deactivation() ) {
+		return;
+	}
+
 	// If the current theme doesn't need theme compat, bail at this point.
 	if ( ! bp_use_theme_compat_with_current_theme() ) {
 		return;
