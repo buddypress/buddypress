@@ -303,11 +303,7 @@ function bp_settings_action_notifications() {
 
 	check_admin_referer( 'bp_settings_notifications' );
 
-	if ( isset( $_POST['notifications'] ) ) {
-		foreach ( (array) $_POST['notifications'] as $key => $value ) {
-			bp_update_user_meta( (int) bp_displayed_user_id(), $key, $value );
-		}
-	}
+	bp_settings_update_notification_settings( bp_displayed_user_id(), (array) $_POST['notifications'] );
 
 	// Switch feedback for super admins
 	if ( bp_is_my_profile() ) {
