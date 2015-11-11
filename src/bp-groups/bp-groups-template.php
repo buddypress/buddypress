@@ -5033,9 +5033,11 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 		/**
 		 * Filters the array of friends who can be invited to a group.
 		 *
-		 * @since 1.0.0
+		 * @since 2.4.0
 		 *
 		 * @param array $items Array of friends.
+		 * @param array $r     Parsed arguments from bp_get_new_group_invite_friend_list()
+		 * @param array $args  Unparsed arguments from bp_get_new_group_invite_friend_list()
 		 */
 		$invitable_friends = apply_filters( 'bp_get_new_group_invite_friend_list', $items, $r, $args );
 
