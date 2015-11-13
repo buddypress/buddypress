@@ -1253,11 +1253,13 @@ function groups_send_invites( $user_id, $group_id ) {
 	 * Fires after the sending of invites for a group.
 	 *
 	 * @since 1.0.0
+	 * @since 2.5.0 Added $user_id to passed parameters.
 	 *
 	 * @param int   $group_id      ID of the group who's being invited to.
 	 * @param array $invited_users Array of users being invited to the group.
+	 * @param int   $user_id       ID of the inviting user.
 	 */
-	do_action( 'groups_send_invites', $group_id, $invited_users );
+	do_action( 'groups_send_invites', $group_id, $invited_users, $user_id );
 }
 
 /**
