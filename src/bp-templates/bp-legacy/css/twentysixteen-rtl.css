@@ -171,12 +171,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		display: inline;
 		opacity: 0.7;
 	}
-	.bp-user #buddypress #object-nav:hover:before,
-	.bp-user #buddypress #object-nav:focus:before {
+	.bp-user #buddypress #object-nav:hover:before, .bp-user #buddypress #object-nav:focus:before {
 		content: "Menu \021E7";
 	}
-	.bp-user #buddypress #object-nav:hover ul,
-	.bp-user #buddypress #object-nav:focus ul {
+	.bp-user #buddypress #object-nav:hover ul, .bp-user #buddypress #object-nav:focus ul {
 		height: 320px;
 		opacity: 1;
 		overflow-y: auto;
@@ -207,8 +205,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 @media screen and (max-width: 38.75em) {
-	#buddypress #object-nav ul li:not(.selected):focus,
-	#buddypress #object-nav ul li:not(.selected):hover {
+	#buddypress #object-nav ul li:not(.selected):focus, #buddypress #object-nav ul li:not(.selected):hover {
 		background: #f4f2df;
 	}
 }
@@ -354,8 +351,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	min-height: 0;
 }
 
-#buddypress div.pagination:before,
-#buddypress div.pagination:after {
+#buddypress div.pagination:before, #buddypress div.pagination:after {
 	height: 0;
 	width: 0;
 }
@@ -408,14 +404,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-family: "Source Sans Pro", Helvetica, sans-serif;
 }
 
-#buddypress .activity-meta .button:focus,
-#buddypress .activity-meta .button:hover {
+#buddypress .activity-meta .button:focus, #buddypress .activity-meta .button:hover {
 	background: inherit;
 	color: #000;
 }
 
-#buddypress .action .generic-button a:focus,
-#buddypress .action .generic-button a:hover {
+#buddypress .action .generic-button a:focus, #buddypress .action .generic-button a:hover {
 	background: inherit;
 	color: #000;
 }
@@ -726,14 +720,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	padding: 10px;
 }
 
-#buddypress #activity-stream .load-more:focus,
-#buddypress #activity-stream .load-more:hover {
+#buddypress #activity-stream .load-more:focus, #buddypress #activity-stream .load-more:hover {
 	background: #f4f4f4;
 	border: 1px solid rgba(159, 209, 226, 0.3);
 }
 
-#buddypress #activity-stream .load-more:focus a,
-#buddypress #activity-stream .load-more:hover a {
+#buddypress #activity-stream .load-more:focus a, #buddypress #activity-stream .load-more:hover a {
 	font-style: italic;
 }
 
@@ -797,8 +789,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	text-align: center;
 }
 
-#buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel:focus,
-#buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel:hover {
+#buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel:focus, #buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel:hover {
 	background: #ededed;
 }
 
@@ -1274,7 +1265,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress .profile .bp-widget h4 {
-	background: #6e6e6e;
+	background: #6f6f6f;
 	color: #fff;
 	margin-bottom: 0;
 	padding: 0.4em;
@@ -1360,7 +1351,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-thread #message-subject {
-	background: #6e6e6e;
+	background: #6f6f6f;
 	color: #fff;
 	padding: 0.3em 0.2em 0.3em 0;
 }
@@ -1411,7 +1402,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-threads thead tr {
-	background: #6e6e6e;
+	background: #6f6f6f;
 }
 
 .bp-user #buddypress #message-threads tr td {
@@ -1471,7 +1462,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-threads tr td.thread-info a::after {
-	content: " ‖  " attr(title);
+	content: " ‖ " attr(title);
 	font-size: 12px;
 	font-size: 0.75rem;
 }
@@ -1532,7 +1523,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-threads.sitewide-notices td strong {
-	background: #6e6e6e;
+	background: #6f6f6f;
 	color: #fff;
 	display: block;
 	margin-bottom: 0.4em;
@@ -1767,7 +1758,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress table tr th {
-	background: #6e6e6e;
+	background: #6f6f6f;
 	border-color: #b7b7b7;
 	color: #fff;
 }
