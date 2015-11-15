@@ -51,7 +51,6 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 *
 	 * @param array $elements  See {@link Walker::walk()}.
 	 * @param int   $max_depth See {@link Walker::walk()}.
-	 *
 	 * @return string See {@link Walker::walk()}.
 	 */
 	public function walk( $elements, $max_depth ) {
@@ -60,15 +59,15 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		$args   = array_slice( $func_args, 2 );
 		$output = '';
 
-		if ( $max_depth < -1 ) // invalid parameter
+		if ( $max_depth < -1 ) // Invalid parameter.
 			return $output;
 
-		if ( empty( $elements ) ) // nothing to walk
+		if ( empty( $elements ) ) // Nothing to walk.
 			return $output;
 
 		$parent_field = $this->db_fields['parent'];
 
-		// flat display
+		// Flat display.
 		if ( -1 == $max_depth ) {
 
 			$empty_array = array();
@@ -118,8 +117,8 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 			$this->display_element( $e, $children_elements, $max_depth, 0, $args, $output );
 
 		/*
-		 * if we are displaying all levels, and remaining children_elements is not empty,
-		 * then we got orphans, which should be displayed regardless
+		 * If we are displaying all levels, and remaining children_elements is not empty,
+		 * then we got orphans, which should be displayed regardless.
 		 */
 		if ( ( $max_depth == 0 ) && count( $children_elements ) > 0 ) {
 			$empty_array = array();
@@ -148,7 +147,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * @param int    $id     Menu item ID. Optional.
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		// If we're someway down the tree, indent the HTML with the appropriate number of tabs
+		// If we're someway down the tree, indent the HTML with the appropriate number of tabs.
 		$indent = $depth ? str_repeat( "\t", $depth ) : '';
 
 		/**
@@ -164,7 +163,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		$class_names = ! empty( $class_names ) ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		// Add HTML ID
-		$id = sanitize_html_class( $item->css_id . '-personal-li' );  // Backpat with BP pre-1.7
+		$id = sanitize_html_class( $item->css_id . '-personal-li' );  // Backpat with BP pre-1.7.
 
 		/**
 		 * Filters the value to be used for the nav menu ID attribute.
@@ -181,10 +180,10 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		// Opening tag; closing tag is handled in Walker_Nav_Menu::end_el().
 		$output .= $indent . '<li' . $id . $class_names . '>';
 
-		// Add href attribute
+		// Add href attribute.
 		$attributes = ! empty( $item->link ) ? ' href="' . esc_url( $item->link ) . '"' : '';
 
-		// Construct the link
+		// Construct the link.
 		$item_output = $args->before;
 		$item_output .= '<a' . $attributes . '>';
 

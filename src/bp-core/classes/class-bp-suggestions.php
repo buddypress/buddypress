@@ -56,8 +56,9 @@ abstract class BP_Suggestions {
 	/**
 	 * Constructor.
 	 *
-	 * @param array $args Optional. If set, used as the parameters for the suggestions service query.
 	 * @since 2.1.0
+	 *
+	 * @param array $args Optional. If set, used as the parameters for the suggestions service query.
 	 */
 	public function __construct( array $args = array() ) {
 		if ( ! empty( $args ) ) {
@@ -68,13 +69,14 @@ abstract class BP_Suggestions {
 	/**
 	 * Set the parameters for the suggestions service query.
 	 *
+	 * @since 2.1.0
+	 *
 	 * @param array $args {
 	 *     @type int    $limit Maximum number of results to display. Optional, default: 16.
 	 *     @type string $type  The name of the suggestion service to use for the request. Mandatory.
 	 *     @type string $term  The suggestion service will try to find results that contain this string.
 	 *                         Mandatory.
 	 * }
-	 * @since 2.1.0
 	 */
 	public function set_query( array $args = array() ) {
 		$this->args = wp_parse_args( $args, $this->default_args );

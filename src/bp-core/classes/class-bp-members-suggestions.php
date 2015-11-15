@@ -83,7 +83,7 @@ class BP_Members_Suggestions extends BP_Suggestions {
 	 */
 	public function get_suggestions() {
 		$user_query = array(
-			'count_total'     => '',  // Prevents total count
+			'count_total'     => '',  // Prevents total count.
 			'populate_extras' => false,
 			'type'            => 'alphabetical',
 

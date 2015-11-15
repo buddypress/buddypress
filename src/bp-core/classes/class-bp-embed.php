@@ -31,7 +31,7 @@ class BP_Embed extends WP_Embed {
 		// Make sure we populate the WP_Embed handlers array.
 		// These are providers that use a regex callback on the URL in question.
 		// Do not confuse with oEmbed providers, which require an external ping.
-		// Used in WP_Embed::shortcode()
+		// Used in WP_Embed::shortcode().
 		$this->handlers = $wp_embed->handlers;
 
 		if ( bp_use_embed_in_activity() ) {
@@ -82,7 +82,6 @@ class BP_Embed extends WP_Embed {
 	 *
 	 * @param array  $attr Shortcode attributes.
 	 * @param string $url  The URL attempting to be embeded.
-	 *
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	public function shortcode( $attr, $url = '' ) {
@@ -92,11 +91,11 @@ class BP_Embed extends WP_Embed {
 		$rawattr = $attr;
 		$attr = wp_parse_args( $attr, wp_embed_defaults() );
 
-		// kses converts & into &amp; and we need to undo this
-		// See https://core.trac.wordpress.org/ticket/11311
+		// Use kses to convert & into &amp; and we need to undo this
+		// See https://core.trac.wordpress.org/ticket/11311.
 		$url = str_replace( '&amp;', '&', $url );
 
-		// Look for known internal handlers
+		// Look for known internal handlers.
 		ksort( $this->handlers );
 		foreach ( $this->handlers as $priority => $handlers ) {
 			foreach ( $handlers as $hid => $handler ) {
@@ -136,11 +135,11 @@ class BP_Embed extends WP_Embed {
 		 */
 		$attr['discover'] = ( apply_filters( 'bp_embed_oembed_discover', false ) && current_user_can( 'unfiltered_html' ) );
 
-		// Set up a new WP oEmbed object to check URL with registered oEmbed providers
+		// Set up a new WP oEmbed object to check URL with registered oEmbed providers.
 		require_once( ABSPATH . WPINC . '/class-oembed.php' );
 		$oembed_obj = _wp_oembed_get_object();
 
-		// If oEmbed discovery is true, skip oEmbed provider check
+		// If oEmbed discovery is true, skip oEmbed provider check.
 		$is_oembed_link = false;
 		if ( !$attr['discover'] ) {
 			foreach ( (array) $oembed_obj->providers as $provider_matchmask => $provider ) {
@@ -150,7 +149,7 @@ class BP_Embed extends WP_Embed {
 					$is_oembed_link = true;
 			}
 
-			// If url doesn't match a WP oEmbed provider, stop parsing
+			// If url doesn't match a WP oEmbed provider, stop parsing.
 			if ( !$is_oembed_link )
 				return $this->maybe_make_link( $url );
 		}
@@ -175,17 +174,16 @@ class BP_Embed extends WP_Embed {
 	 * @param array  $attr    Shortcode attributes from {@link WP_Embed::shortcode()}.
 	 * @param array  $rawattr Untouched shortcode attributes from
 	 *                        {@link WP_Embed::shortcode()}.
-	 *
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	public function parse_oembed( $id, $url, $attr, $rawattr ) {
 		$id = intval( $id );
 
 		if ( $id ) {
-			// Setup the cachekey
+			// Setup the cachekey.
 			$cachekey = '_oembed_' . md5( $url . serialize( $attr ) );
 
-			// Let components / plugins grab their cache
+			// Let components / plugins grab their cache.
 			$cache = '';
 
 			/**
@@ -202,7 +200,7 @@ class BP_Embed extends WP_Embed {
 			 */
 			$cache = apply_filters( 'bp_embed_get_cache', $cache, $id, $cachekey, $url, $attr, $rawattr );
 
-			// Grab cache and return it if available
+			// Grab cache and return it if available.
 			if ( !empty( $cache ) ) {
 
 				/**
@@ -217,7 +215,7 @@ class BP_Embed extends WP_Embed {
 				 */
 				return apply_filters( 'bp_embed_oembed_html', $cache, $url, $attr, $rawattr );
 
-			// If no cache, ping the oEmbed provider and cache the result
+			// If no cache, ping the oEmbed provider and cache the result.
 			} else {
 				$html = wp_oembed_get( $url, $attr );
 				$cache = ( $html ) ? $html : $url;
@@ -235,7 +233,7 @@ class BP_Embed extends WP_Embed {
 				 */
 				do_action( 'bp_embed_update_cache', $cache, $cachekey, $id );
 
-				// If there was a result, return it
+				// If there was a result, return it.
 				if ( $html ) {
 
 					/** This filter is documented in bp-core/classes/class-bp-embed.php */
@@ -244,7 +242,7 @@ class BP_Embed extends WP_Embed {
 			}
 		}
 
-		// Still unknown
+		// Still unknown.
 		return $this->maybe_make_link( $url );
 	}
 }

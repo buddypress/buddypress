@@ -28,7 +28,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @uses BP_Attachment::__construct()
 	 */
 	public function __construct() {
-		// Allowed avatar types
+		// Allowed avatar types.
 		$allowed_types = bp_core_get_allowed_avatar_types();
 
 		parent::__construct( array(
@@ -36,7 +36,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			'file_input'            => 'file',
 			'original_max_filesize' => bp_core_avatar_original_max_filesize(),
 
-			// Specific errors for avatars
+			// Specific errors for avatars.
 			'upload_error_strings'  => array(
 				9  => sprintf( __( 'That photo is too big. Please upload one smaller than %s', 'buddypress' ), size_format( bp_core_avatar_original_max_filesize() ) ),
 				10 => sprintf( _n( 'Please upload only this file type: %s.', 'Please upload only these file types: %s.', count( $allowed_types ), 'buddypress' ), self::get_avatar_types( $allowed_types ) ),
@@ -50,7 +50,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @param array $allowed_types Array of allowed avatar types.
-	 *
 	 * @return string comma separated list of allowed avatar types.
 	 */
 	public static function get_avatar_types( $allowed_types = array() ) {
@@ -91,25 +90,24 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @uses   bp_core_check_avatar_type()
 	 *
 	 * @param  array $file the temporary file attributes (before it has been moved).
-	 *
 	 * @return array the file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
-		// Bail if already an error
+		// Bail if already an error.
 		if ( ! empty( $file['error'] ) ) {
 			return $file;
 		}
 
-		// File size is too big
+		// File size is too big.
 		if ( ! bp_core_check_avatar_size( array( 'file' => $file ) ) ) {
 			$file['error'] = 9;
 
-		// File is of invalid type
+		// File is of invalid type.
 		} elseif ( ! bp_core_check_avatar_type( array( 'file' => $file ) ) ) {
 			$file['error'] = 10;
 		}
 
-		// Return with error code attached
+		// Return with error code attached.
 		return $file;
 	}
 
@@ -121,21 +119,21 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @uses  bp_core_avatar_original_max_width()
 	 *
-	 * @param string $file the absolute path to the file.
-	 *
+	 * @param string $file               The absolute path to the file.
+	 * @param int    $ui_available_width Available width for the UI.
 	 * @return mixed
 	 */
 	public static function shrink( $file = '', $ui_available_width = 0 ) {
-		// Get image size
+		// Get image size.
 		$avatar_data = parent::get_image_data( $file );
 
-		// Init the edit args
+		// Init the edit args.
 		$edit_args = array();
 
 		// Defaults to the Avatar original max width constant.
 		$original_max_width = bp_core_avatar_original_max_width();
 
-		// The ui_available_width is defined and it's smaller than the Avatar original max width
+		// The ui_available_width is defined and it's smaller than the Avatar original max width.
 		if ( ! empty( $ui_available_width ) && $ui_available_width < $original_max_width ) {
 			/**
 			 * In this case, to make sure the content of the image will be fully displayed
@@ -149,7 +147,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			}
 		}
 
-		// Do we need to resize the image ?
+		// Do we need to resize the image?
 		if ( isset( $avatar_data['width'] ) && $avatar_data['width'] > $original_max_width ) {
 			$edit_args = array(
 				'max_w' => $original_max_width,
@@ -157,7 +155,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			);
 		}
 
-		// Do we need to rotate the image ?
+		// Do we need to rotate the image?
 		$angles = array(
 			3 => 180,
 			6 => -90,
@@ -168,11 +166,11 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			$edit_args['rotate'] = $angles[ $avatar_data['meta']['orientation'] ];
 		}
 
-		// No need to edit the avatar, original file will be used
+		// No need to edit the avatar, original file will be used.
 		if ( empty( $edit_args ) ) {
 			return false;
 
-		// Add the file to the edit arguments
+		// Add the file to the edit arguments.
 		} else {
 			$edit_args['file'] = $file;
 		}
@@ -189,8 +187,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @uses  bp_core_avatar_full_height()
 	 *
 	 * @param string $file the absolute path to the file.
-	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function is_too_small( $file = '' ) {
 		$uploaded_image = @getimagesize( $file );
@@ -217,12 +214,11 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @uses bp_core_avatar_dimension()
 	 * @uses BP_Attachment::crop
 	 *
-	 * @param array $args
-	 *
+	 * @param array $args Array of arguments for the cropping.
 	 * @return array The cropped avatars (full and thumb).
 	 */
 	public function crop( $args = array() ) {
-		// Bail if the original file is missing
+		// Bail if the original file is missing.
 		if ( empty( $args['original_file'] ) ) {
 			return false;
 		}
@@ -234,7 +230,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		$relative_path = $args['original_file'];
 		$absolute_path = $this->upload_path . $relative_path;
 
-		// Bail if the avatar is not available
+		// Bail if the avatar is not available.
 		if ( ! file_exists( $absolute_path ) )  {
 			return false;
 		}
@@ -249,12 +245,12 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', $this->upload_path . '/' . $args['avatar_dir'] . '/' . $args['item_id'], $args['item_id'], $args['object'], $args['avatar_dir'] );
 		}
 
-		// Bail if the avatar folder is missing for this item_id
+		// Bail if the avatar folder is missing for this item_id.
 		if ( ! file_exists( $avatar_folder_dir ) ) {
 			return false;
 		}
 
-		// Delete the existing avatar files for the object
+		// Delete the existing avatar files for the object.
 		$existing_avatar = bp_core_fetch_avatar( array(
 			'object'  => $args['object'],
 			'item_id' => $args['item_id'],
@@ -269,7 +265,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			bp_core_delete_existing_avatar( array( 'object' => $args['object'], 'item_id' => $args['item_id'], 'avatar_path' => $avatar_folder_dir ) );
 		}
 
-		// Make sure we at least have minimal data for cropping
+		// Make sure we at least have minimal data for cropping.
 		if ( empty( $args['crop_w'] ) ) {
 			$args['crop_w'] = bp_core_avatar_full_width();
 		}
@@ -278,7 +274,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			$args['crop_h'] = bp_core_avatar_full_height();
 		}
 
-		// Get the file extension
+		// Get the file extension.
 		$data = @getimagesize( $absolute_path );
 		$ext  = $data['mime'] == 'image/png' ? 'png' : 'jpg';
 
@@ -300,10 +296,10 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			$avatar_types[ $key_type ] = parent::crop( $args );
 		}
 
-		// Remove the original
+		// Remove the original.
 		@unlink( $absolute_path );
 
-		// Return the full and thumb cropped avatars
+		// Return the full and thumb cropped avatars.
 		return $avatar_types;
 	}
 
@@ -354,21 +350,21 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @return array The javascript localization data.
 	 */
 	public function script_data() {
-		// Get default script data
+		// Get default script data.
 		$script_data = parent::script_data();
 
-		// Defaults to Avatar Backbone script
+		// Defaults to Avatar Backbone script.
 		$js_scripts = array( 'bp-avatar' );
 
-		// Default object
+		// Default object.
 		$object = '';
 
-		// Get the possible item ids
+		// Get the possible item ids.
 		$user_id  = $this->get_user_id();
 		$group_id = $this->get_group_id();
 
 		if ( ! empty( $user_id ) ) {
-			// Should we load the the Webcam Avatar javascript file
+			// Should we load the the Webcam Avatar javascript file.
 			if ( bp_avatar_use_webcam() ) {
 				$js_scripts = array( 'bp-webcam' );
 			}
@@ -383,7 +379,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 				),
 			);
 
-			// Set feedback messages
+			// Set feedback messages.
 			$script_data['feedback_messages'] = array(
 				1 => __( 'There was a problem cropping your profile photo.', 'buddypress' ),
 				2 => __( 'Your new profile photo was uploaded successfully.', 'buddypress' ),
@@ -401,7 +397,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 				),
 			);
 
-			// Set feedback messages
+			// Set feedback messages.
 			$script_data['feedback_messages'] = array(
 				1 => __( 'There was a problem cropping the group profile photo.', 'buddypress' ),
 				2 => __( 'The group profile photo was uploaded successfully.', 'buddypress' ),
@@ -421,13 +417,13 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			$script_data['bp_params'] = apply_filters( 'bp_attachment_avatar_params', array() );
 		}
 
-		// Include the specific css
+		// Include the specific css.
 		$script_data['extra_css'] = array( 'bp-avatar' );
 
-		// Include the specific css
+		// Include the specific css.
 		$script_data['extra_js']  = $js_scripts;
 
-		// Set the object to contextualize the filter
+		// Set the object to contextualize the filter.
 		if ( isset( $script_data['bp_params']['object'] ) ) {
 			$object = $script_data['bp_params']['object'];
 		}

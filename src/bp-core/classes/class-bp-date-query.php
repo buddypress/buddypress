@@ -10,6 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 if ( class_exists( 'WP_Date_Query' ) ) :
+
 /**
  * BuddyPress date query class.
  *
@@ -33,8 +34,8 @@ class BP_Date_Query extends WP_Date_Query {
 	/**
 	 * Constructor.
 	 *
-	 * @param array  $date_query
-	 * @param string $column
+	 * @param array  $date_query Date query arguments.
+	 * @param string $column     THe DB column to query against.
 	 *
 	 * @see WP_Date_Query::__construct()
 	 */
@@ -58,7 +59,6 @@ class BP_Date_Query extends WP_Date_Query {
 	 * Registers our date column with WP Date Query to pass validation.
 	 *
 	 * @param array $retval Current DB columns.
-	 *
 	 * @return array
 	 */
 	public function register_date_column( $retval = array() ) {

@@ -6,7 +6,7 @@
  * @subpackage Core
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -18,12 +18,12 @@ defined( 'ABSPATH' ) || exit;
  */
 class BP_Attachment_Cover_Image extends BP_Attachment {
 	/**
-	 * The constuctor
+	 * The constuctor.
 	 *
 	 * @since 2.4.0
 	 */
 	public function __construct() {
-		// Allowed cover image types & upload size
+		// Allowed cover image types & upload size.
 		$allowed_types        = bp_attachments_get_allowed_types( 'cover_image' );
 		$max_upload_file_size = bp_attachments_get_max_upload_file_size( 'cover_image' );
 
@@ -34,7 +34,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 			'base_dir'              => bp_attachments_uploads_dir_get( 'dir' ),
 			'required_wp_files'     => array( 'file', 'image' ),
 
-			// Specific errors for cover images
+			// Specific errors for cover images.
 			'upload_error_strings'  => array(
 				11  => sprintf( __( 'That image is too big. Please upload one smaller than %s', 'buddypress' ), size_format( $max_upload_file_size ) ),
 				12  => sprintf( _n( 'Please upload only this file type: %s.', 'Please upload only these file types: %s.', count( $allowed_types ), 'buddypress' ), self::get_cover_image_types( $allowed_types ) ),
@@ -48,8 +48,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param array $allowed_types Array of allowed cover image types.
-	 *
-	 * @return string comma separated list of allowed cover image types.
+	 * @return string $value Comma-separated list of allowed cover image types.
 	 */
 	public static function get_cover_image_types( $allowed_types = array() ) {
 		$types = array_map( 'strtoupper', $allowed_types );
@@ -65,39 +64,38 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param  array $file the temporary file attributes (before it has been moved).
-	 *
-	 * @return array the file with extra errors if needed.
+	 * @param array $file The temporary file attributes (before it has been moved).
+	 * @return array $file The file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
-		// Bail if already an error
+		// Bail if already an error.
 		if ( ! empty( $file['error'] ) ) {
 			return $file;
 		}
 
-		// File size is too big
+		// File size is too big.
 		if ( $file['size'] > $this->original_max_filesize ) {
 			$file['error'] = 11;
 
-		// File is of invalid type
+		// File is of invalid type.
 		} elseif ( ! bp_attachments_check_filetype( $file['tmp_name'], $file['name'], bp_attachments_get_allowed_mimes( 'cover_image' ) ) ) {
 			$file['error'] = 12;
 		}
 
-		// Return with error code attached
+		// Return with error code attached.
 		return $file;
 	}
 
 	/**
-	 * Set the directory when uploading a file
+	 * Set the directory when uploading a file.
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param  array $upload_dir The original Uploads dir.
-	 * @return array upload data (path, url, basedir...)
+	 * @param array $upload_dir The original Uploads dir.
+	 * @return array $value Upload data (path, url, basedir...).
 	 */
 	public function upload_dir_filter( $upload_dir = array() ) {
-		// Default values are for profiles
+		// Default values are for profiles.
 		$object_id = bp_displayed_user_id();
 
 		if ( empty( $object_id ) ) {
@@ -106,13 +104,13 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 
 		$object_directory = 'members';
 
-		// We're in a group, edit default values
+		// We're in a group, edit default values.
 		if ( bp_is_group() || bp_is_group_create() ) {
 			$object_id        = bp_get_current_group_id();
 			$object_directory = 'groups';
 		}
 
-		// Set the subdir
+		// Set the subdir.
 		$subdir  = '/' . $object_directory . '/' . $object_id . '/cover-image';
 
 		/**
@@ -120,7 +118,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		 *
 		 * @since 2.4.0
 		 *
-		 * @param array $value       Array containing the path, URL, and other helpful settings.
+		 * @param array $value      Array containing the path, URL, and other helpful settings.
 		 * @param array $upload_dir The original Uploads dir.
 		 */
 		return apply_filters( 'bp_attachments_cover_image_upload_dir', array(
@@ -138,7 +136,8 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param string $file the absolute path to the file.
+	 * @param string $file       The absolute path to the file.
+	 * @param array  $dimensions Array of dimensions for the cover image.
 	 * @return mixed
 	 */
 	public function fit( $file = '', $dimensions = array() ) {
@@ -146,13 +145,13 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 			return false;
 		}
 
-		// Get image size
+		// Get image size.
 		$cover_data = parent::get_image_data( $file );
 
-		// Init the edit args
+		// Init the edit args.
 		$edit_args = array();
 
-		// Do we need to resize the image ?
+		// Do we need to resize the image?
 		if ( ( isset( $cover_data['width'] ) && $cover_data['width'] > $dimensions['width'] ) ||
 		( isset( $cover_data['height'] ) && $cover_data['height'] > $dimensions['height'] ) ) {
 			$edit_args = array(
@@ -162,7 +161,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 			);
 		}
 
-		// Do we need to rotate the image ?
+		// Do we need to rotate the image?
 		$angles = array(
 			3 => 180,
 			6 => -90,
@@ -173,16 +172,16 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 			$edit_args['rotate'] = $angles[ $cover_data['meta']['orientation'] ];
 		}
 
-		// No need to edit the avatar, original file will be used
+		// No need to edit the avatar, original file will be used.
 		if ( empty( $edit_args ) ) {
 			return false;
 
-		// Add the file to the edit arguments
+		// Add the file to the edit arguments.
 		} else {
 			$edit_args = array_merge( $edit_args, array( 'file' => $file, 'save' => false ) );
 		}
 
-		// Get the editor so that we can use a specific save method
+		// Get the editor so that we can use a specific save method.
 		$editor = parent::edit_image( 'cover_image', $edit_args );
 
 		if ( is_wp_error( $editor ) )  {
@@ -191,17 +190,17 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 			return false;
 		}
 
-		// Save the new image file
+		// Save the new image file.
 		return $editor->save( $this->generate_filename( $file ) );
 	}
 
 	/**
-	 * Generate a filename for the cover image
+	 * Generate a filename for the cover image.
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param  string $file the absolute path to the file.
-	 * @return string       the absolute path to the new file name
+	 * @param string $file The absolute path to the file.
+	 * @return string $value The absolute path to the new file name.
 	 */
 	public function generate_filename( $file = '' ) {
 		if ( empty( $file ) || ! file_exists( $file ) ) {
@@ -217,14 +216,14 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	}
 
 	/**
-	 * Build script datas for the Uploader UI
+	 * Build script datas for the Uploader UI.
 	 *
 	 * @since 2.4.0
 	 *
-	 * @return array the javascript localization data
+	 * @return array The javascript localization data
 	 */
 	public function script_data() {
-		// Get default script data
+		// Get default script data.
 		$script_data = parent::script_data();
 
 		if ( bp_is_user() ) {
@@ -239,7 +238,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 				),
 			);
 
-			// Set feedback messages
+			// Set feedback messages.
 			$script_data['feedback_messages'] = array(
 				1 => __( 'Your new cover image was uploaded successfully.', 'buddypress' ),
 				2 => __( 'There was a problem deleting your cover image. Please try again.', 'buddypress' ),
@@ -257,15 +256,16 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 				),
 			);
 
-			// Set feedback messages
+			// Set feedback messages.
 			$script_data['feedback_messages'] = array(
 				1 => __( 'The group cover image was uploaded successfully.', 'buddypress' ),
 				2 => __( 'There was a problem deleting the group cover image. Please try again.', 'buddypress' ),
 				3 => __( 'The group cover image was deleted successfully!', 'buddypress' ),
 			);
 		} else {
+
 			/**
-			 * Use this filter to include specific BuddyPress params for your object.
+			 * Filters the cover image params to include specific BuddyPress params for your object.
 			 * e.g. Cover image for blogs single item.
 			 *
 			 * @since 2.4.0
@@ -275,10 +275,17 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 			$script_data['bp_params'] = apply_filters( 'bp_attachment_cover_image_params', array() );
 		}
 
-		// Include our specific js & css
+		// Include our specific js & css.
 		$script_data['extra_js']  = array( 'bp-cover-image' );
 		$script_data['extra_css'] = array( 'bp-avatar' );
 
+		/**
+		 * Filters the cover image script data.
+		 *
+		 * @since 2.4.0
+		 *
+		 * @param array $script_data Array of data for the cover image.
+		 */
 		return apply_filters( 'bp_attachments_cover_image_script_data', $script_data );
 	}
 }
