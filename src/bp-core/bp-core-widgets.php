@@ -155,7 +155,6 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 *
 	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -169,7 +168,6 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 * Output the login widget options form.
 	 *
 	 * @param array $instance Settings for this widget.
-	 *
 	 * @return void
 	 */
 	public function form( $instance = array() ) {

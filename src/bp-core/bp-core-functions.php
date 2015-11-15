@@ -46,6 +46,7 @@ function bp_db_version() {
 	 * Return the BuddyPress database version.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @return string The BuddyPress database version.
 	 */
 	function bp_get_db_version() {
@@ -108,10 +109,10 @@ function bp_core_get_table_prefix() {
  *
  * @since 2.2.0
  *
- * @param  array      $items The items to be sorted. Its constituent items can be either associative arrays or objects.
- * @param  string|int $key   The array index or property name to sort by.
- * @param  string     $type  Sort type. 'alpha' for alphabetical, 'num' for numeric. Default: 'alpha'.
- * @return array      $items The sorted array.
+ * @param array      $items The items to be sorted. Its constituent items can be either associative arrays or objects.
+ * @param string|int $key   The array index or property name to sort by.
+ * @param string     $type  Sort type. 'alpha' for alphabetical, 'num' for numeric. Default: 'alpha'.
+ * @return array $items The sorted array.
  */
 function bp_sort_by_key( $items, $key, $type = 'alpha' ) {
 	usort( $items, create_function( '$a, $b', '
@@ -157,9 +158,9 @@ function bp_sort_by_key( $items, $key, $type = 'alpha' ) {
  *
  * @since 1.9.0
  *
- * @param  array      $items The items to be sorted. Its constituent items can be either associative arrays or objects.
- * @param  string|int $key   The array index or property name to sort by.
- * @return array      $items The sorted array.
+ * @param array      $items The items to be sorted. Its constituent items can be either associative arrays or objects.
+ * @param string|int $key   The array index or property name to sort by.
+ * @return array $items The sorted array.
  */
 function bp_alpha_sort_by_key( $items, $key ) {
 	return bp_sort_by_key( $items, $key, 'alpha' );
@@ -170,12 +171,11 @@ function bp_alpha_sort_by_key( $items, $key ) {
  *
  * @param int  $number   The number to be formatted.
  * @param bool $decimals Whether to use decimals. See {@link number_format_i18n()}.
- *
  * @return string The formatted number.
  */
 function bp_core_number_format( $number = 0, $decimals = false ) {
 
-	// Force number to 0 if needed
+	// Force number to 0 if needed.
 	if ( ! is_numeric( $number ) ) {
 		$number = 0;
 	}
@@ -226,7 +226,6 @@ function bp_core_number_format( $number = 0, $decimals = false ) {
  *
  * @param array $old_args_keys Old argument indexs, keyed to their positions.
  * @param array $func_args     The parameters passed to the originating function.
- *
  * @return array $new_args The parsed arguments.
  */
 function bp_core_parse_args_array( $old_args_keys, $func_args ) {
@@ -255,12 +254,11 @@ function bp_core_parse_args_array( $old_args_keys, $func_args ) {
  * @param string|array $args       Value to merge with $defaults.
  * @param array        $defaults   Array that serves as the defaults.
  * @param string       $filter_key String to key the filters from.
- *
  * @return array Merged user defined values with defaults.
  */
 function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 
-	// Setup a temporary array from $args
+	// Setup a temporary array from $args.
 	if ( is_object( $args ) ) {
 		$r = get_object_vars( $args );
 	} elseif ( is_array( $args ) ) {
@@ -269,7 +267,7 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 		wp_parse_str( $args, $r );
 	}
 
-	// Passively filter the args before the parse
+	// Passively filter the args before the parse.
 	if ( !empty( $filter_key ) ) {
 
 		/**
@@ -284,12 +282,12 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 		$r = apply_filters( 'bp_before_' . $filter_key . '_parse_args', $r );
 	}
 
-	// Parse
+	// Parse.
 	if ( is_array( $defaults ) && !empty( $defaults ) ) {
 		$r = array_merge( $defaults, $r );
 	}
 
-	// Aggressively filter the args after the parse
+	// Aggressively filter the args after the parse.
 	if ( !empty( $filter_key ) ) {
 
 		/**
@@ -304,7 +302,7 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 		$r = apply_filters( 'bp_after_' . $filter_key . '_parse_args', $r );
 	}
 
-	// Return the parsed results
+	// Return the parsed results.
 	return $r;
 }
 
@@ -315,21 +313,20 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
  *
  * @since 2.2.0
  *
- * @param  string $page_arg The $_REQUEST argument to look for.
- * @param  int    $page     The original page value to fall back to.
- *
- * @return int              A sanitized integer value, good for pagination.
+ * @param string $page_arg The $_REQUEST argument to look for.
+ * @param int    $page     The original page value to fall back to.
+ * @return int A sanitized integer value, good for pagination.
  */
 function bp_sanitize_pagination_arg( $page_arg = '', $page = 1 ) {
 
-	// Check if request overrides exist
+	// Check if request overrides exist.
 	if ( isset( $_REQUEST[ $page_arg ] ) ) {
 
-		// Get the absolute integer value of the override
+		// Get the absolute integer value of the override.
 		$int = absint( $_REQUEST[ $page_arg ] );
 
 		// If override is 0, do not use it. This prevents unlimited result sets.
-		// @see https://buddypress.trac.wordpress.org/ticket/5796
+		// @see https://buddypress.trac.wordpress.org/ticket/5796.
 		if ( $int ) {
 			$page = $int;
 		}
@@ -347,7 +344,6 @@ function bp_sanitize_pagination_arg( $page_arg = '', $page = 1 ) {
  * @since 1.8.0
  *
  * @param string $order The 'order' string, as passed to the SQL constructor.
- *
  * @return string The sanitized value 'DESC' or 'ASC'.
  */
 function bp_esc_sql_order( $order = '' ) {
@@ -368,7 +364,6 @@ function bp_esc_sql_order( $order = '' ) {
  * @see wpdb::esc_like() for more details on proper use.
  *
  * @param string $text The raw text to be escaped.
- *
  * @return string Text in the form of a LIKE phrase. Not SQL safe. Run through
  *                wpdb::prepare() before use.
  */
@@ -419,7 +414,7 @@ function bp_is_username_compatibility_mode() {
  */
 function bp_use_wp_admin_bar() {
 
-	// Default to true (to avoid loading deprecated BuddyBar code)
+	// Default to true (to avoid loading deprecated BuddyBar code).
 	$use_admin_bar = true;
 
 	// Has the WP Toolbar constant been explicitly opted into?
@@ -463,8 +458,8 @@ function bp_core_get_packaged_component_ids() {
 		'notifications',
 	);
 
-	// only add legacy forums if it is enabled
-	// prevents conflicts with bbPress, which also uses the same 'forums' id
+	// Only add legacy forums if it is enabled
+	// prevents conflicts with bbPress, which also uses the same 'forums' id.
 	if ( class_exists( 'BP_Forums_Component' ) ) {
 		$components[] = 'forums';
 	}
@@ -480,14 +475,13 @@ function bp_core_get_packaged_component_ids() {
  * @param string $status 'active' to return only pages associated with active components, 'all' to return all saved
  *                       pages. When running save routines, use 'all' to avoid removing data related to inactive
  *                       components. Default: 'active'.
- *
  * @return array|string An array of page IDs, keyed by component names, or an
  *                      empty string if the list is not found.
  */
 function bp_core_get_directory_page_ids( $status = 'active' ) {
 	$page_ids = bp_get_option( 'bp-pages' );
 
-	// Ensure that empty indexes are unset. Should only matter in edge cases
+	// Ensure that empty indexes are unset. Should only matter in edge cases.
 	if ( !empty( $page_ids ) && is_array( $page_ids ) ) {
 		foreach( (array) $page_ids as $component_name => $page_id ) {
 			if ( empty( $component_name ) || empty( $page_id ) ) {
@@ -525,7 +519,7 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 /**
  * Store the list of BP directory pages in the appropriate meta table.
  *
- * bp-pages data is stored in site_options (falls back to options on non-MS),
+ * The bp-pages data is stored in site_options (falls back to options on non-MS),
  * in an array keyed by blog_id. This allows you to change your
  * bp_get_root_blog_id() and go through the setup process again.
  *
@@ -548,20 +542,20 @@ function bp_core_update_directory_page_ids( $blog_page_ids ) {
 function bp_core_get_directory_pages() {
 	global $wpdb;
 
-	// Look in cache first
+	// Look in cache first.
 	$pages = wp_cache_get( 'directory_pages', 'bp' );
 
 	if ( false === $pages ) {
 
-		// Set pages as standard class
+		// Set pages as standard class.
 		$pages = new stdClass;
 
-		// Get pages and IDs
+		// Get pages and IDs.
 		$page_ids = bp_core_get_directory_page_ids();
 		if ( !empty( $page_ids ) ) {
 
 			// Always get page data from the root blog, except on multiblog mode, when it comes
-			// from the current blog
+			// from the current blog.
 			$posts_table_name = bp_is_multiblog_mode() ? $wpdb->posts : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts';
 			$page_ids_sql     = implode( ',', wp_parse_id_list( $page_ids ) );
 			$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " );
@@ -578,7 +572,7 @@ function bp_core_get_directory_pages() {
 						$pages->{$component_id}->title = $page_name->post_title;
 						$slug[]                        = $page_name->post_name;
 
-						// Get the slug
+						// Get the slug.
 						while ( $page_name->post_parent != 0 ) {
 							$parent                 = $wpdb->get_results( $wpdb->prepare( "SELECT post_name, post_parent FROM {$posts_table_name} WHERE ID = %d", $page_name->post_parent ) );
 							$slug[]                 = $parent[0]->post_name;
@@ -634,7 +628,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
 	$pages = bp_core_get_directory_page_ids( 'all' );
 
-	// Delete any existing pages
+	// Delete any existing pages.
 	if ( 'delete' === $existing ) {
 		foreach ( (array) $pages as $page_id ) {
 			wp_delete_post( $page_id, true );
@@ -660,7 +654,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	}
 
 	// Register and Activate are not components, but need pages when
-	// registration is enabled
+	// registration is enabled.
 	if ( bp_get_signup_allowed() ) {
 		foreach ( array( 'register', 'activate' ) as $slug ) {
 			if ( ! isset( $pages[ $slug ] ) ) {
@@ -669,21 +663,21 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 		}
 	}
 
-	// No need for a Sites directory unless we're on multisite
+	// No need for a Sites directory unless we're on multisite.
 	if ( ! is_multisite() && isset( $pages_to_create['sites'] ) ) {
 		unset( $pages_to_create['sites'] );
 	}
 
-	// Members must always have a page, no matter what
+	// Members must always have a page, no matter what.
 	if ( ! isset( $pages['members'] ) && ! isset( $pages_to_create['members'] ) ) {
 		$pages_to_create['members'] = $page_titles['members'];
 	}
 
-	// Create the pages
+	// Create the pages.
 	foreach ( $pages_to_create as $component_name => $page_name ) {
 		$exists = get_page_by_path( $component_name );
 
-		// If page already exists, use it
+		// If page already exists, use it.
 		if ( ! empty( $exists ) ) {
 			$pages[ $component_name ] = $exists->ID;
 		} else {
@@ -697,7 +691,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 		}
 	}
 
-	// Save the page mapping
+	// Save the page mapping.
 	bp_update_option( 'bp-pages', $pages );
 
 	// If we had to switch_to_blog, go back to the original site.
@@ -710,6 +704,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
  * Remove the entry from bp_pages when the corresponding WP page is deleted.
  *
  * Bails early on multisite installations when not viewing the root site.
+ *
  * @link https://buddypress.trac.wordpress.org/ticket/6226
  *
  * @since 2.2.0
@@ -718,7 +713,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
  */
 function bp_core_on_directory_page_delete( $post_id ) {
 
-	// Stop if we are not on the main BP root blog
+	// Stop if we are not on the main BP root blog.
 	if ( ! bp_is_root_blog() ) {
 		return;
 	}
@@ -755,7 +750,6 @@ add_action( 'delete_post', 'bp_core_on_directory_page_delete' );
  * @since 1.5.0
  *
  * @param string $root_slug The root slug, which comes from $bp->pages->[component]->slug.
- *
  * @return string The short slug for use in the middle of URLs.
  */
 function bp_core_component_slug_from_root_slug( $root_slug ) {
@@ -792,26 +786,26 @@ function bp_core_add_root_component( $slug ) {
 
 	$match = false;
 
-	// Check if the slug is registered in the $bp->pages global
+	// Check if the slug is registered in the $bp->pages global.
 	foreach ( (array) $bp->pages as $key => $page ) {
 		if ( $key == $slug || $page->slug == $slug ) {
 			$match = true;
 		}
 	}
 
-	// Maybe create the add_root array
+	// Maybe create the add_root array.
 	if ( empty( $bp->add_root ) ) {
 		$bp->add_root = array();
 	}
 
-	// If there was no match, add a page for this root component
+	// If there was no match, add a page for this root component.
 	if ( empty( $match ) ) {
 		$add_root_items   = $bp->add_root();
 		$add_root_items[] = $slug;
 		$bp->add_root     = $add_root_items;
 	}
 
-	// Make sure that this component is registered as requiring a top-level directory
+	// Make sure that this component is registered as requiring a top-level directory.
 	if ( isset( $bp->{$slug} ) ) {
 		$bp->loaded_components[$bp->{$slug}->slug] = $bp->{$slug}->id;
 		$bp->{$slug}->has_directory = true;
@@ -823,7 +817,7 @@ function bp_core_add_root_component( $slug ) {
  */
 function bp_core_create_root_component_page() {
 
-	// Get BuddyPress
+	// Get BuddyPress.
 	$bp = buddypress();
 
 	$new_page_ids = array();
@@ -889,7 +883,7 @@ function bp_do_register_theme_directory() {
 	// If bp-default exists in another theme directory, bail.
 	// This ensures that the version of bp-default in the regular themes
 	// directory will always take precedence, as part of a migration away
-	// from the version packaged with BuddyPress
+	// from the version packaged with BuddyPress.
 	foreach ( array_values( (array) $GLOBALS['wp_theme_directories'] ) as $directory ) {
 		if ( is_dir( $directory . '/bp-default' ) ) {
 			return false;
@@ -897,10 +891,10 @@ function bp_do_register_theme_directory() {
 	}
 
 	// If the current theme is bp-default (or a bp-default child), BP
-	// should register its directory
+	// should register its directory.
 	$register = 'bp-default' === get_stylesheet() || 'bp-default' === get_template();
 
-	// Legacy sites continue to have the theme registered
+	// Legacy sites continue to have the theme registered.
 	if ( empty( $register ) && ( 1 == get_site_option( '_bp_retain_bp_default' ) ) ) {
 		$register = true;
 	}
@@ -920,7 +914,7 @@ function bp_do_register_theme_directory() {
 /**
  * Return the domain for the root blog.
  *
- * eg: http://example.com OR https://example.com
+ * Eg: http://example.com OR https://example.com
  *
  * @uses get_blog_option() WordPress function to fetch blog meta.
  *
@@ -1008,7 +1002,7 @@ function bp_core_get_site_path() {
 		if ( count( $site_path ) < 2 ) {
 			$site_path = '/';
 		} else {
-			// Unset the first three segments (http(s)://example.com part)
+			// Unset the first three segments (http(s)://example.com part).
 			unset( $site_path[0] );
 			unset( $site_path[1] );
 			unset( $site_path[2] );
@@ -1041,7 +1035,6 @@ function bp_core_get_site_path() {
  * @param bool   $gmt  True to use GMT (rather than local) time. Default: true.
  * @param string $type See the 'type' parameter in {@link current_time()}.
  *                     Default: 'mysql'.
- *
  * @return string Current time in 'Y-m-d h:i:s' format.
  */
 function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
@@ -1079,7 +1072,6 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
  *                               or as a date string of the format 'Y-m-d h:i:s'.
  * @param int|bool   $newer_date Optional. Unix timestamp of date to compare older
  *                               date to. Default: false (current time).
- *
  * @return string String representing the time since the older date, eg
  *         "2 hours and 50 minutes".
  */
@@ -1126,7 +1118,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 */
 	$ago_text       = apply_filters( 'bp_core_time_since_ago_text',       __( '%s ago',    'buddypress' ) );
 
-	// array of time period chunks
+	// Array of time period chunks.
 	$chunks = array(
 		YEAR_IN_SECONDS,
 		30 * DAY_IN_SECONDS,
@@ -1150,7 +1142,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 */
 	$newer_date = ( !$newer_date ) ? bp_core_current_time( true, 'timestamp' ) : $newer_date;
 
-	// Difference in seconds
+	// Difference in seconds.
 	$since = $newer_date - $older_date;
 
 	// Something went wrong with date calculation and we ended up with a negative date.
@@ -1165,24 +1157,24 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 */
 	} else {
 
-		// Step one: the first chunk
+		// Step one: the first chunk.
 		for ( $i = 0, $j = count( $chunks ); $i < $j; ++$i ) {
 			$seconds = $chunks[$i];
 
-			// Finding the biggest chunk (if the chunk fits, break)
+			// Finding the biggest chunk (if the chunk fits, break).
 			$count = floor( $since / $seconds );
 			if ( 0 != $count ) {
 				break;
 			}
 		}
 
-		// If $i iterates all the way to $j, then the event happened 0 seconds ago
+		// If $i iterates all the way to $j, then the event happened 0 seconds ago.
 		if ( !isset( $chunks[$i] ) ) {
 			$output = $right_now_text;
 
 		} else {
 
-			// Set output var
+			// Set output var.
 			switch ( $seconds ) {
 				case YEAR_IN_SECONDS :
 					$output = sprintf( _n( '%s year',   '%s years',   $count, 'buddypress' ), $count );
@@ -1211,12 +1203,12 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 			// condition fails in the case of minutes and seconds.
 			// We've left the quirk in place, since fractions of a
 			// minute are not a useful piece of information for our
-			// purposes
+			// purposes.
 			if ( $i + 2 < $j ) {
 				$seconds2 = $chunks[$i + 1];
 				$count2   = floor( ( $since - ( $seconds * $count ) ) / $seconds2 );
 
-				// Add to output var
+				// Add to output var.
 				if ( 0 != $count2 ) {
 					$output .= _x( ',', 'Separator in time since', 'buddypress' ) . ' ';
 
@@ -1242,14 +1234,14 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 				}
 			}
 
-			// No output, so happened right now
+			// No output, so happened right now.
 			if ( ! (int) trim( $output ) ) {
 				$output = $right_now_text;
 			}
 		}
 	}
 
-	// Append 'ago' to the end of time-since if not 'right now'
+	// Append 'ago' to the end of time-since if not 'right now'.
 	if ( $output != $right_now_text ) {
 		$output = sprintf( $ago_text, $output );
 	}
@@ -1277,19 +1269,19 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  */
 function bp_core_add_message( $message, $type = '' ) {
 
-	// Success is the default
+	// Success is the default.
 	if ( empty( $type ) ) {
 		$type = 'success';
 	}
 
-	// Send the values to the cookie for page reload display
+	// Send the values to the cookie for page reload display.
 	@setcookie( 'bp-message',      $message, time() + 60 * 60 * 24, COOKIEPATH );
 	@setcookie( 'bp-message-type', $type,    time() + 60 * 60 * 24, COOKIEPATH );
 
-	// Get BuddyPress
+	// Get BuddyPress.
 	$bp = buddypress();
 
-	/***
+	/**
 	 * Send the values to the $bp global so we can still output messages
 	 * without a page reload
 	 */
@@ -1311,7 +1303,7 @@ function bp_core_add_message( $message, $type = '' ) {
  */
 function bp_core_setup_message() {
 
-	// Get BuddyPress
+	// Get BuddyPress.
 	$bp = buddypress();
 
 	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) ) {
@@ -1342,7 +1334,7 @@ add_action( 'bp_actions', 'bp_core_setup_message', 5 );
  */
 function bp_core_render_message() {
 
-	// Get BuddyPress
+	// Get BuddyPress.
 	$bp = buddypress();
 
 	if ( !empty( $bp->template_message ) ) :
@@ -1394,31 +1386,31 @@ function bp_core_render_message() {
  */
 function bp_core_record_activity() {
 
-	// Bail if user is not logged in
+	// Bail if user is not logged in.
 	if ( ! is_user_logged_in() ) {
 		return false;
 	}
 
-	// Get the user ID
+	// Get the user ID.
 	$user_id = bp_loggedin_user_id();
 
-	// Bail if user is not active
+	// Bail if user is not active.
 	if ( bp_is_user_inactive( $user_id ) ) {
 		return false;
 	}
 
-	// Get the user's last activity
+	// Get the user's last activity.
 	$activity = bp_get_user_last_activity( $user_id );
 
-	// Make sure it's numeric
+	// Make sure it's numeric.
 	if ( ! is_numeric( $activity ) ) {
 		$activity = strtotime( $activity );
 	}
 
-	// Get current time
+	// Get current time.
 	$current_time = bp_core_current_time();
 
-	// Use this action to detect the very first activity for a given member
+	// Use this action to detect the very first activity for a given member.
 	if ( empty( $activity ) ) {
 
 		/**
@@ -1433,7 +1425,7 @@ function bp_core_record_activity() {
 		do_action( 'bp_first_activity_for_member', $user_id );
 	}
 
-	// If it's been more than 5 minutes, record a newer last-activity time
+	// If it's been more than 5 minutes, record a newer last-activity time.
 	if ( empty( $activity ) || ( strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) ) ) {
 		bp_update_user_last_activity( $user_id, $current_time );
 	}
@@ -1448,17 +1440,16 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  *
  * @param int|string $last_activity_date The date of last activity.
  * @param string     $string             A sprintf()-able statement of the form 'active %s'.
- *
  * @return string $last_active A string of the form '3 years ago'.
  */
 function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 
-	// Setup a default string if none was passed
+	// Setup a default string if none was passed.
 	$string = empty( $string )
-		? '%s'     // Gettext placeholder
+		? '%s'     // Gettext placeholder.
 		: $string;
 
-	// Use the string if a last activity date was passed
+	// Use the string if a last activity date was passed.
 	$last_active = empty( $last_activity_date )
 		? __( 'Not recently active', 'buddypress' )
 		: sprintf( $string, bp_core_time_since( $last_activity_date ) );
@@ -1498,7 +1489,6 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
  * @uses apply_filters() Filter 'bp_get_user_meta_key' to modify keys individually.
  *
  * @param string|bool $key The usermeta meta_key.
- *
  * @return string $key The usermeta meta_key.
  */
 function bp_get_user_meta_key( $key = false ) {
@@ -1528,9 +1518,8 @@ function bp_get_user_meta_key( $key = false ) {
  * @param int    $user_id The ID of the user whose meta you're fetching.
  * @param string $key     The meta key to retrieve.
  * @param bool   $single  Whether to return a single value.
- *
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
- *         is true.
+ *               is true.
  */
 function bp_get_user_meta( $user_id, $key, $single = false ) {
 	return get_user_meta( $user_id, bp_get_user_meta_key( $key ), $single );
@@ -1552,7 +1541,6 @@ function bp_get_user_meta( $user_id, $key, $single = false ) {
  * @param string $key        The meta key to set.
  * @param mixed  $value      Metadata value.
  * @param mixed  $prev_value Optional. Previous value to check before removing.
- *
  * @return bool False on failure, true on success.
  */
 function bp_update_user_meta( $user_id, $key, $value, $prev_value = '' ) {
@@ -1574,7 +1562,6 @@ function bp_update_user_meta( $user_id, $key, $value, $prev_value = '' ) {
  * @param int    $user_id The ID of the user whose meta you're deleting.
  * @param string $key     The meta key to delete.
  * @param mixed  $value   Optional. Metadata value.
- *
  * @return bool False for failure. True for success.
  */
 function bp_delete_user_meta( $user_id, $key, $value = '' ) {
@@ -1590,7 +1577,7 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
  */
 function bp_embed_init() {
 
-	// Get BuddyPress
+	// Get BuddyPress.
 	$bp = buddypress();
 
 	if ( empty( $bp->embed ) ) {
@@ -1708,16 +1695,15 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	 * @param string $scheme The scheme to use. Default is 'admin', which
 	 *                       obeys {@link force_ssl_admin()} and {@link is_ssl()}. 'http'
 	 *                       or 'https' can be passed to force those schemes.
-	 *
 	 * @return string Admin url link with optional path appended.
 	 */
 	function bp_get_admin_url( $path = '', $scheme = 'admin' ) {
 
-		// Links belong in network admin
+		// Links belong in network admin.
 		if ( bp_core_do_network_admin() ) {
 			$url = network_admin_url( $path, $scheme );
 
-		// Links belong in site admin
+		// Links belong in site admin.
 		} else {
 			$url = admin_url( $path, $scheme );
 		}
@@ -1742,7 +1728,7 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
  */
 function bp_core_do_network_admin() {
 
-	// Default
+	// Default.
 	$retval = bp_is_network_activated();
 
 	if ( bp_is_multiblog_mode() ) {
@@ -1792,20 +1778,19 @@ function bp_core_admin_hook() {
  * @since 1.5.0
  *
  * @param int $blog_id Optional. Default: the ID of the current blog.
- *
  * @return bool $is_root_blog Returns true if this is bp_get_root_blog_id().
  */
 function bp_is_root_blog( $blog_id = 0 ) {
 
-	// Assume false
+	// Assume false.
 	$is_root_blog = false;
 
-	// Use current blog if no ID is passed
+	// Use current blog if no ID is passed.
 	if ( empty( $blog_id ) || ! is_int( $blog_id ) ) {
 		$blog_id = get_current_blog_id();
 	}
 
-	// Compare to root blog ID
+	// Compare to root blog ID.
 	if ( bp_get_root_blog_id() === $blog_id ) {
 		$is_root_blog = true;
 	}
@@ -1875,17 +1860,17 @@ function bp_get_root_blog_id() {
  */
 function bp_is_multiblog_mode() {
 
-	// Setup some default values
+	// Setup some default values.
 	$retval         = false;
 	$is_multisite   = is_multisite();
 	$network_active = bp_is_network_activated();
 	$is_multiblog   = defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG;
 
-	// Multisite, Network Activated, and Specifically Multiblog
+	// Multisite, Network Activated, and Specifically Multiblog.
 	if ( $is_multisite && $network_active && $is_multiblog ) {
 		$retval = true;
 
-	// Multisite, but not network activated
+	// Multisite, but not network activated.
 	} elseif ( $is_multisite && ! $network_active ) {
 		$retval = true;
 	}
@@ -1914,14 +1899,14 @@ function bp_is_multiblog_mode() {
  */
 function bp_is_network_activated() {
 
-	// Default to is_multisite()
+	// Default to is_multisite().
 	$retval  = is_multisite();
 
-	// Check the sitewide plugins array
+	// Check the sitewide plugins array.
 	$base    = buddypress()->basename;
 	$plugins = get_site_option( 'active_sitewide_plugins' );
 
-	// Override is_multisite() if not network activated
+	// Override is_multisite() if not network activated.
 	if ( ! is_array( $plugins ) || ! isset( $plugins[ $base ] ) ) {
 		$retval = false;
 	}
@@ -2055,41 +2040,40 @@ function bp_do_404( $redirect = 'remove_canonical_direct' ) {
  *
  * @param string $action    Action nonce.
  * @param string $query_arg Where to look for nonce in $_REQUEST.
- *
  * @return bool True if the nonce is verified, otherwise false.
  */
 function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 
-	/** Home URL **************************************************************/
+	/* Home URL **************************************************************/
 
 	// Parse home_url() into pieces to remove query-strings, strange characters,
 	// and other funny things that plugins might to do to it.
 	$parsed_home = parse_url( home_url( '/', ( is_ssl() ? 'https' : 'http' ) ) );
 
-	// Maybe include the port, if it's included in home_url()
+	// Maybe include the port, if it's included in home_url().
 	if ( isset( $parsed_home['port'] ) ) {
 		$parsed_host = $parsed_home['host'] . ':' . $parsed_home['port'];
 	} else {
 		$parsed_host = $parsed_home['host'];
 	}
 
-	// Set the home URL for use in comparisons
+	// Set the home URL for use in comparisons.
 	$home_url = trim( strtolower( $parsed_home['scheme'] . '://' . $parsed_host . $parsed_home['path'] ), '/' );
 
-	/** Requested URL *********************************************************/
+	/* Requested URL *********************************************************/
 
-	// Maybe include the port, if it's included in home_url()
+	// Maybe include the port, if it's included in home_url().
 	if ( isset( $parsed_home['port'] ) && false === strpos( $_SERVER['HTTP_HOST'], ':' ) ) {
 		$request_host = $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'];
 	} else {
 		$request_host = $_SERVER['HTTP_HOST'];
 	}
 
-	// Build the currently requested URL
+	// Build the currently requested URL.
 	$scheme        = is_ssl() ? 'https://' : 'http://';
 	$requested_url = strtolower( $scheme . $request_host . $_SERVER['REQUEST_URI'] );
 
-	/** Look for match ********************************************************/
+	/* Look for match ********************************************************/
 
 	/**
 	 * Filters the requested URL being nonce-verified.
@@ -2102,10 +2086,10 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 	 */
 	$matched_url = apply_filters( 'bp_verify_nonce_request_url', $requested_url );
 
-	// Check the nonce
+	// Check the nonce.
 	$result = isset( $_REQUEST[$query_arg] ) ? wp_verify_nonce( $_REQUEST[$query_arg], $action ) : false;
 
-	// Nonce check failed
+	// Nonce check failed.
 	if ( empty( $result ) || empty( $action ) || ( strpos( $matched_url, $home_url ) !== 0 ) ) {
 		$result = false;
 	}
@@ -2129,6 +2113,7 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
  * Return true|false if this is a POST request.
  *
  * @since 1.9.0
+ *
  * @return bool
  */
 function bp_is_post_request() {
@@ -2139,6 +2124,7 @@ function bp_is_post_request() {
  * Return true|false if this is a GET request.
  *
  * @since 1.9.0
+ *
  * @return bool
  */
 function bp_is_get_request() {
@@ -2179,14 +2165,14 @@ function bp_core_load_buddypress_textdomain() {
 		trailingslashit( WP_LANG_DIR ),
 	) );
 
-	// Try custom locations in WP_LANG_DIR
+	// Try custom locations in WP_LANG_DIR.
 	foreach ( $locations as $location ) {
 		if ( load_textdomain( 'buddypress', $location . $mofile_custom ) ) {
 			return true;
 		}
  	}
 
-	// default to WP and glotpress
+	// Default to WP and glotpress.
 	return load_plugin_textdomain( $domain );
 }
 add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
@@ -2318,15 +2304,15 @@ add_action( 'bp_init', 'bp_remove_adjacent_posts_rel_link' );
  */
 function bp_nav_menu_get_loggedin_pages() {
 
-	// Try to catch the cached version first
+	// Try to catch the cached version first.
 	if ( ! empty( buddypress()->wp_nav_menu_items->loggedin ) ) {
 		return buddypress()->wp_nav_menu_items->loggedin;
 	}
 
-	// Pull up a list of items registered in BP's top-level nav array
+	// Pull up a list of items registered in BP's top-level nav array.
 	$bp_menu_items = buddypress()->bp_nav;
 
-	// Alphabetize
+	// Alphabetize.
 	$bp_menu_items = bp_alpha_sort_by_key( $bp_menu_items, 'name' );
 
 	// Some BP nav menu items will not be represented in bp_nav, because
@@ -2337,7 +2323,7 @@ function bp_nav_menu_get_loggedin_pages() {
 		'link' => wp_logout_url(),
 	);
 
-	// If there's nothing to show, we're done
+	// If there's nothing to show, we're done.
 	if ( count( $bp_menu_items ) < 1 ) {
 		return false;
 	}
@@ -2346,7 +2332,7 @@ function bp_nav_menu_get_loggedin_pages() {
 
 	foreach ( $bp_menu_items as $bp_item ) {
 
-		// Remove <span>number</span>
+		// Remove <span>number</span>.
 		$item_name = preg_replace( '/([.0-9]+)/', '', $bp_item['name'] );
 		$item_name = trim( strip_tags( $item_name ) );
 
@@ -2388,7 +2374,7 @@ function bp_nav_menu_get_loggedin_pages() {
  */
 function bp_nav_menu_get_loggedout_pages() {
 
-	// Try to catch the cached version first
+	// Try to catch the cached version first.
 	if ( ! empty( buddypress()->wp_nav_menu_items->loggedout ) ) {
 		return buddypress()->wp_nav_menu_items->loggedout;
 	}
@@ -2404,7 +2390,7 @@ function bp_nav_menu_get_loggedout_pages() {
 	);
 
 	// The Register page will not always be available (ie, when
-	// registration is disabled)
+	// registration is disabled).
 	$bp_directory_page_ids = bp_core_get_directory_page_ids();
 
 	if( ! empty( $bp_directory_page_ids['register'] ) ) {
@@ -2416,7 +2402,7 @@ function bp_nav_menu_get_loggedout_pages() {
 		);
 	}
 
-	// If there's nothing to show, we're done
+	// If there's nothing to show, we're done.
 	if ( count( $bp_menu_items ) < 1 ) {
 		return false;
 	}
@@ -2457,7 +2443,6 @@ function bp_nav_menu_get_loggedout_pages() {
  *
  * @param string $slug The slug of the nav item: login, register, or one of the
  *                     slugs from buddypress()->bp_nav.
- *
  * @return string $nav_item_url The URL generated for the current user.
  */
 function bp_nav_menu_get_item_url( $slug ) {
@@ -2481,8 +2466,7 @@ function bp_nav_menu_get_item_url( $slug ) {
  *
  * @since 2.1.0
  *
- * @param array $args
- *
+ * @param array $args Array of args for the suggestions.
  * @return array|WP_Error Array of results. If there were any problems, returns a WP_Error object.
  */
 function bp_core_get_suggestions( $args ) {
@@ -2565,20 +2549,20 @@ function bp_upload_dir() {
 	if ( empty( $bp->upload_dir ) ) {
 		$need_switch = (bool) ( is_multisite() && ! bp_is_root_blog() );
 
-		// Maybe juggle to root blog
+		// Maybe juggle to root blog.
 		if ( true === $need_switch ) {
 			switch_to_blog( bp_get_root_blog_id() );
 		}
 
-		// Get the upload directory (maybe for root blog)
+		// Get the upload directory (maybe for root blog).
 		$wp_upload_dir = wp_upload_dir();
 
-		// Maybe juggle back to current blog
+		// Maybe juggle back to current blog.
 		if ( true === $need_switch ) {
 			restore_current_blog();
 		}
 
-		// Bail if an error occurred
+		// Bail if an error occurred.
 		if ( ! empty( $wp_upload_dir['error'] ) ) {
 			return false;
 		}

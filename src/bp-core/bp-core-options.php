@@ -18,88 +18,87 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_get_default_options() {
 
-	// Default options
+	// Default options.
 	$options = array (
 
-		/** Components ********************************************************/
+		/* Components ********************************************************/
 
 		'bp-deactivated-components'            => array(),
 
-		/** bbPress ***********************************************************/
+		/* bbPress ***********************************************************/
 
-		// Legacy bbPress config location
+		// Legacy bbPress config location.
 		'bb-config-location'                   => ABSPATH . 'bb-config.php',
 
-		/** XProfile **********************************************************/
+		/* XProfile **********************************************************/
 
-		// Base profile groups name
+		// Base profile groups name.
 		'bp-xprofile-base-group-name'          => 'Base',
 
-		// Base fullname field name
+		// Base fullname field name.
 		'bp-xprofile-fullname-field-name'      => 'Name',
 
-		/** Blogs *************************************************************/
+		/* Blogs *************************************************************/
 
-		// Used to decide if blogs need indexing
+		// Used to decide if blogs need indexing.
 		'bp-blogs-first-install'               => false,
 
-		/** Settings **********************************************************/
+		/* Settings **********************************************************/
 
-		// Disable the WP to BP profile sync
+		// Disable the WP to BP profile sync.
 		'bp-disable-profile-sync'              => false,
 
-		// Hide the Toolbar for logged out users
+		// Hide the Toolbar for logged out users.
 		'hide-loggedout-adminbar'              => false,
 
-		// Avatar uploads
+		// Avatar uploads.
 		'bp-disable-avatar-uploads'            => false,
 
-		// Cover image uploads
+		// Cover image uploads.
 		'bp-disable-cover-image-uploads'       => false,
 
-		// Group Profile Photos
+		// Group Profile Photos.
 		'bp-disable-group-avatar-uploads'      => false,
 
-		// Group Cover image uploads
+		// Group Cover image uploads.
 		'bp-disable-group-cover-image-uploads' => false,
 
-		// Allow users to delete their own accounts
+		// Allow users to delete their own accounts.
 		'bp-disable-account-deletion'          => false,
 
-		// Allow comments on blog and forum activity items
+		// Allow comments on blog and forum activity items.
 		'bp-disable-blogforum-comments'        => true,
 
 		// The ID for the current theme package.
 		'_bp_theme_package_id'                 => 'legacy',
 
-		/** Groups ************************************************************/
+		/* Groups ************************************************************/
 
 		// @todo Move this into the groups component
-
-		// Restrict group creation to super admins
+		// Restrict group creation to super admins.
 		'bp_restrict_group_creation'           => false,
 
-		/** Akismet ***********************************************************/
+		/* Akismet ***********************************************************/
 
-		// Users from all sites can post
+		// Users from all sites can post.
 		'_bp_enable_akismet'                   => true,
 
-		/** Activity HeartBeat ************************************************/
+		/* Activity HeartBeat ************************************************/
 
-		// HeartBeat is on to refresh activities
+		// HeartBeat is on to refresh activities.
 		'_bp_enable_heartbeat_refresh'         => true,
 
-		/** BuddyBar **********************************************************/
+		/* BuddyBar **********************************************************/
 
-		// Force the BuddyBar
+		// Force the BuddyBar.
 		'_bp_force_buddybar'                   => false,
 
-		/** Legacy theme *********************************************/
+		/* Legacy theme *********************************************/
 
-		// Whether to register the bp-default themes directory
+		// Whether to register the bp-default themes directory.
 		'_bp_retain_bp_default'                => false,
 
-		/** Widgets **************************************************/
+		/* Widgets **************************************************/
 		'widget_bp_core_login_widget'                => false,
 		'widget_bp_core_members_widget'              => false,
 		'widget_bp_core_whos_online_widget'          => false,
@@ -132,10 +131,10 @@ function bp_get_default_options() {
  */
 function bp_add_options() {
 
-	// Get the default options and values
+	// Get the default options and values.
 	$options = bp_get_default_options();
 
-	// Add default options
+	// Add default options.
 	foreach ( $options as $key => $value ) {
 		bp_add_option( $key, $value );
 	}
@@ -166,10 +165,10 @@ function bp_add_options() {
  */
 function bp_delete_options() {
 
-	// Get the default options and values
+	// Get the default options and values.
 	$options = bp_get_default_options();
 
-	// Add default options
+	// Add default options.
 	foreach ( array_keys( $options ) as $key ) {
 		delete_option( $key );
 	}
@@ -197,10 +196,10 @@ function bp_delete_options() {
  */
 function bp_setup_option_filters() {
 
-	// Get the default options and values
+	// Get the default options and values.
 	$options = bp_get_default_options();
 
-	// Add filters to each BuddyPress option
+	// Add filters to each BuddyPress option.
 	foreach ( array_keys( $options ) as $key ) {
 		add_filter( 'pre_option_' . $key, 'bp_pre_get_option' );
 	}
@@ -223,24 +222,23 @@ function bp_setup_option_filters() {
  * @since 1.6.0
  *
  * @param bool $value Optional. Default value false.
- *
  * @return mixed False if not overloaded, mixed if set.
  */
 function bp_pre_get_option( $value = false ) {
 	$bp = buddypress();
 
-	// Get the name of the current filter so we can manipulate it
+	// Get the name of the current filter so we can manipulate it.
 	$filter = current_filter();
 
-	// Remove the filter prefix
+	// Remove the filter prefix.
 	$option = str_replace( 'pre_option_', '', $filter );
 
-	// Check the options global for preset value
+	// Check the options global for preset value.
 	if ( ! empty( $bp->options[ $option ] ) ) {
 		$value = $bp->options[ $option ];
 	}
 
-	// Always return a value, even if false
+	// Always return a value, even if false.
 	return $value;
 }
 
@@ -259,7 +257,6 @@ function bp_pre_get_option( $value = false ) {
  * @param string $option_name The option to be retrieved.
  * @param string $default     Optional. Default value to be returned if the option
  *                            isn't set. See {@link get_blog_option()}.
- *
  * @return mixed The value for the option.
  */
 function bp_get_option( $option_name, $default = '' ) {
@@ -285,7 +282,6 @@ function bp_get_option( $option_name, $default = '' ) {
  *
  * @param string $option_name The option key to be set.
  * @param mixed  $value       The value to be set.
- *
  * @return bool True on success, false on failure.
  */
 function bp_add_option( $option_name, $value ) {
@@ -305,7 +301,6 @@ function bp_add_option( $option_name, $value ) {
  *
  * @param string $option_name The option key to be set.
  * @param string $value       The value to be set.
- *
  * @return bool True on success, false on failure.
  */
 function bp_update_option( $option_name, $value ) {
@@ -324,7 +319,6 @@ function bp_update_option( $option_name, $value ) {
  * @uses bp_get_root_blog_id()
  *
  * @param string $option_name The option key to be deleted.
- *
  * @return bool True on success, false on failure.
  */
 function bp_delete_option( $option_name ) {
@@ -341,8 +335,7 @@ function bp_delete_option( $option_name ) {
  *
  * @deprecated 1.6.0
  *
- * @param array $keys
- *
+ * @param array $keys Array of site options.
  * @return bool
  */
 function bp_core_activate_site_options( $keys = array() ) {
@@ -384,7 +377,7 @@ function bp_core_activate_site_options( $keys = array() ) {
 function bp_core_get_root_options() {
 	global $wpdb;
 
-	// Get all the BuddyPress settings, and a few useful WP ones too
+	// Get all the BuddyPress settings, and a few useful WP ones too.
 	$root_blog_options                   = bp_get_default_options();
 	$root_blog_options['registration']   = '0';
 	$root_blog_options['avatar_default'] = 'mysteryman';
@@ -393,7 +386,7 @@ function bp_core_get_root_options() {
 	// Do some magic to get all the root blog options in 1 swoop
 	// Check cache first - We cache here instead of using the standard WP
 	// settings cache because the current blog may not be the root blog,
-	// and it's not practical to access the cache across blogs
+	// and it's not practical to access the cache across blogs.
 	$root_blog_options_meta = wp_cache_get( 'root_blog_options', 'bp' );
 
 	if ( false === $root_blog_options_meta ) {
@@ -402,7 +395,7 @@ function bp_core_get_root_options() {
 		$blog_options_query     = "SELECT option_name AS name, option_value AS value FROM {$blog_options_table} WHERE option_name IN ( {$blog_options_keys} )";
 		$root_blog_options_meta = $wpdb->get_results( $blog_options_query );
 
-		// On Multisite installations, some options must always be fetched from sitemeta
+		// On Multisite installations, some options must always be fetched from sitemeta.
 		if ( is_multisite() ) {
 
 			/**
@@ -425,63 +418,63 @@ function bp_core_get_root_options() {
 			$sitemeta_options_query = $wpdb->prepare( "SELECT meta_key AS name, meta_value AS value FROM {$wpdb->sitemeta} WHERE meta_key IN ( {$sitemeta_options_keys} ) AND site_id = %d", $current_site->id );
 			$network_options_meta   = $wpdb->get_results( $sitemeta_options_query );
 
-			// Sitemeta comes second in the merge, so that network 'registration' value wins
+			// Sitemeta comes second in the merge, so that network 'registration' value wins.
 			$root_blog_options_meta = array_merge( $root_blog_options_meta, $network_options_meta );
 		}
 
-		// Missing some options, so do some one-time fixing
+		// Missing some options, so do some one-time fixing.
 		if ( empty( $root_blog_options_meta ) || ( count( $root_blog_options_meta ) < count( $root_blog_option_keys ) ) ) {
 
-			// Get a list of the keys that are already populated
+			// Get a list of the keys that are already populated.
 			$existing_options = array();
 			foreach( $root_blog_options_meta as $already_option ) {
 				$existing_options[$already_option->name] = $already_option->value;
 			}
 
-			// Unset the query - We'll be resetting it soon
+			// Unset the query - We'll be resetting it soon.
 			unset( $root_blog_options_meta );
 
-			// Loop through options
+			// Loop through options.
 			foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
 
 				if ( isset( $existing_options[$old_meta_key] ) ) {
 					continue;
 				}
 
-				// Get old site option
+				// Get old site option.
 				if ( is_multisite() ) {
 					$old_meta_value = get_site_option( $old_meta_key );
 				}
 
-				// No site option so look in root blog
+				// No site option so look in root blog.
 				if ( empty( $old_meta_value ) ) {
 					$old_meta_value = bp_get_option( $old_meta_key, $old_meta_default );
 				}
 
-				// Update the root blog option
+				// Update the root blog option.
 				bp_update_option( $old_meta_key, $old_meta_value );
 
-				// Update the global array
+				// Update the global array.
 				$root_blog_options_meta[$old_meta_key] = $old_meta_value;
 
-				// Clear out the value for the next time around
+				// Clear out the value for the next time around.
 				unset( $old_meta_value );
 			}
 
 			$root_blog_options_meta = array_merge( $root_blog_options_meta, $existing_options );
 			unset( $existing_options );
 
-		// We're all matched up
+		// We're all matched up.
 		} else {
-			// Loop through our results and make them usable
+			// Loop through our results and make them usable.
 			foreach ( $root_blog_options_meta as $root_blog_option ) {
 				$root_blog_options[$root_blog_option->name] = $root_blog_option->value;
 			}
 
-			// Copy the options no the return val
+			// Copy the options no the return val.
 			$root_blog_options_meta = $root_blog_options;
 
-			// Clean up our temporary copy
+			// Clean up our temporary copy.
 			unset( $root_blog_options );
 		}
 
@@ -508,7 +501,6 @@ function bp_core_get_root_options() {
  * @since 2.3.0
  *
  * @param  string $option Name of the option key.
- *
  * @return mixed Value, if found.
  */
 function bp_core_get_root_option( $option ) {
@@ -537,7 +529,6 @@ function bp_core_get_root_option( $option ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if profile sync is enabled, otherwise false.
  */
 function bp_disable_profile_sync( $default = false ) {
@@ -561,7 +552,6 @@ function bp_disable_profile_sync( $default = false ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if the admin bar should be hidden for logged-out users,
  *              otherwise false.
  */
@@ -586,7 +576,6 @@ function bp_hide_loggedout_adminbar( $default = true ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if avatar uploads are disabled, otherwise false.
  */
 function bp_disable_avatar_uploads( $default = true ) {
@@ -610,7 +599,6 @@ function bp_disable_avatar_uploads( $default = true ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: false.
- *
  * @return bool True if cover image uploads are disabled, otherwise false.
  */
 function bp_disable_cover_image_uploads( $default = false ) {
@@ -635,7 +623,6 @@ function bp_disable_cover_image_uploads( $default = false ) {
  *
  * @param bool|null $default Optional. Fallback value if not found in the database.
  *                           Defaults to the value of `bp_disable_avatar_uploads()`.
- *
  * @return bool True if group avatar uploads are disabled, otherwise false.
  */
 function bp_disable_group_avatar_uploads( $default = null ) {
@@ -669,7 +656,6 @@ function bp_disable_group_avatar_uploads( $default = null ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: false.
- *
  * @return bool True if group cover image uploads are disabled, otherwise false.
  */
 function bp_disable_group_cover_image_uploads( $default = false ) {
@@ -693,7 +679,6 @@ function bp_disable_group_cover_image_uploads( $default = false ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if users are able to delete their own accounts, otherwise
  *              false.
  */
@@ -719,7 +704,6 @@ function bp_disable_account_deletion( $default = false ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: false.
- *
  * @return bool True if activity comments are disabled for blog and forum
  *              items, otherwise false.
  */
@@ -745,7 +729,6 @@ function bp_disable_blogforum_comments( $default = false ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if group creation is restricted, otherwise false.
  */
 function bp_restrict_group_creation( $default = true ) {
@@ -769,7 +752,6 @@ function bp_restrict_group_creation( $default = true ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if the BuddyBar should be forced on, otherwise false.
  */
 function bp_force_buddybar( $default = true ) {
@@ -802,7 +784,6 @@ function bp_group_forums_root_id( $default = '0' ) {
 	 * @uses bp_get_option() To get the root forum ID from the database.
 	 *
 	 * @param bool|string $default Optional. Default: '0'.
-	 *
 	 * @return int The ID of the group forums root forum.
 	 */
 	function bp_get_group_forums_root_id( $default = '0' ) {
@@ -826,7 +807,6 @@ function bp_group_forums_root_id( $default = '0' ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if group forums are active, otherwise false.
  */
 function bp_is_group_forums_active( $default = true ) {
@@ -850,7 +830,6 @@ function bp_is_group_forums_active( $default = true ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if Akismet is enabled, otherwise false.
  */
 function bp_is_akismet_active( $default = true ) {
@@ -874,7 +853,6 @@ function bp_is_akismet_active( $default = true ) {
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
- *
  * @return bool True if Heartbeat refresh is enabled, otherwise false.
  */
 function bp_is_activity_heartbeat_active( $default = true ) {
@@ -898,7 +876,6 @@ function bp_is_activity_heartbeat_active( $default = true ) {
  *
  * @param string $default Optional. Fallback value if not found in the database.
  *                        Default: 'legacy'.
- *
  * @return string ID of the theme package.
  */
 function bp_get_theme_package_id( $default = 'legacy' ) {

@@ -26,7 +26,6 @@ defined( 'ABSPATH' ) || exit;
  *                     eg 'friends' for 'friends.php'.
  * @param string $name Optional. Template part name. Used to generate
  *                     secondary filenames, eg 'personal' for 'activity-personal.php'.
- *
  * @return string Path to located template. See {@link bp_locate_template()}.
  */
 function bp_get_template_part( $slug, $name = null ) {
@@ -43,7 +42,7 @@ function bp_get_template_part( $slug, $name = null ) {
 	 */
 	do_action( 'get_template_part_' . $slug, $slug, $name );
 
-	// Setup possible parts
+	// Setup possible parts.
 	$templates = array();
 	if ( isset( $name ) ) {
 		$templates[] = $slug . '-' . $name . '.php';
@@ -61,7 +60,7 @@ function bp_get_template_part( $slug, $name = null ) {
 	 */
 	$templates = apply_filters( 'bp_get_template_part', $templates, $slug, $name );
 
-	// Return the part that is found
+	// Return the part that is found.
 	return bp_locate_template( $templates, true, false );
 }
 
@@ -79,35 +78,34 @@ function bp_get_template_part( $slug, $name = null ) {
  *                                     found. If false, the path will be returned. Default: false.
  * @param bool         $require_once   Optional. Whether to require_once or require. Has
  *                                     no effect if $load is false. Default: true.
- *
  * @return string The template filename if one is located.
  */
 function bp_locate_template( $template_names, $load = false, $require_once = true ) {
 
-	// No file found yet
+	// No file found yet.
 	$located            = false;
 	$template_locations = bp_get_template_stack();
 
-	// Try to find a template file
+	// Try to find a template file.
 	foreach ( (array) $template_names as $template_name ) {
 
-		// Continue if template is empty
+		// Continue if template is empty.
 		if ( empty( $template_name ) ) {
 			continue;
 		}
 
-		// Trim off any slashes from the template name
+		// Trim off any slashes from the template name.
 		$template_name  = ltrim( $template_name, '/' );
 
-		// Loop through template stack
+		// Loop through template stack.
 		foreach ( (array) $template_locations as $template_location ) {
 
-			// Continue if $template_location is empty
+			// Continue if $template_location is empty.
 			if ( empty( $template_location ) ) {
 				continue;
 			}
 
-			// Check child theme first
+			// Check child theme first.
 			if ( file_exists( trailingslashit( $template_location ) . $template_name ) ) {
 				$located = trailingslashit( $template_location ) . $template_name;
 				break 2;
@@ -124,7 +122,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	 */
 	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once );
 
-	// Maybe load the template if one was located
+	// Maybe load the template if one was located.
 	$use_themes = defined( 'WP_USE_THEMES' ) && WP_USE_THEMES;
 	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 	if ( ( $use_themes || $doing_ajax ) && ( true == $load ) && ! empty( $located ) ) {
@@ -146,17 +144,16 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
  * @param string $location_callback Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter as passed to
  *                                  add_filter(). Default: 10.
- *
  * @return bool See {@link add_filter()}.
  */
 function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
 
-	// Bail if no location, or function/method is not callable
+	// Bail if no location, or function/method is not callable.
 	if ( empty( $location_callback ) || ! is_callable( $location_callback ) ) {
 		return false;
 	}
 
-	// Add location callback to template stack
+	// Add location callback to template stack.
 	return add_filter( 'bp_template_stack', $location_callback, (int) $priority );
 }
 
@@ -170,17 +167,16 @@ function bp_register_template_stack( $location_callback = '', $priority = 10 ) {
  * @param string $location_callback Callback function that returns the stack location.
  * @param int    $priority          Optional. The priority parameter passed to
  *                                  {@link bp_register_template_stack()}. Default: 10.
- *
  * @return bool See {@link remove_filter()}.
  */
 function bp_deregister_template_stack( $location_callback = '', $priority = 10 ) {
 
-	// Bail if no location, or function/method is not callable
+	// Bail if no location, or function/method is not callable.
 	if ( empty( $location_callback ) || ! is_callable( $location_callback ) ) {
 		return false;
 	}
 
-	// Add location callback to template stack
+	// Add location callback to template stack.
 	return remove_filter( 'bp_template_stack', $location_callback, (int) $priority );
 }
 
@@ -198,20 +194,19 @@ function bp_deregister_template_stack( $location_callback = '', $priority = 10 )
  * @global array $merged_filters    Merges the filter hooks using this function.
  * @global array $wp_current_filter Stores the list of current filters with
  *                                  the current one last.
- *
  * @return array The filtered value after all hooked functions are applied to it.
  */
 function bp_get_template_stack() {
 	global $wp_filter, $merged_filters, $wp_current_filter;
 
-	// Setup some default variables
+	// Setup some default variables.
 	$tag  = 'bp_template_stack';
 	$args = $stack = array();
 
-	// Add 'bp_template_stack' to the current filter array
+	// Add 'bp_template_stack' to the current filter array.
 	$wp_current_filter[] = $tag;
 
-	// Sort
+	// Sort.
 	if ( class_exists( 'WP_Hook' ) ) {
 		$filter = $wp_filter[ $tag ]->callbacks;
 	} else {
@@ -223,10 +218,10 @@ function bp_get_template_stack() {
 		}
 	}
 
-	// Ensure we're always at the beginning of the filter array
+	// Ensure we're always at the beginning of the filter array.
 	reset( $filter );
 
-	// Loop through 'bp_template_stack' filters, and call callback functions
+	// Loop through 'bp_template_stack' filters, and call callback functions.
 	do {
 		foreach( (array) current( $filter ) as $the_ ) {
 			if ( ! is_null( $the_['function'] ) ) {
@@ -236,10 +231,10 @@ function bp_get_template_stack() {
 		}
 	} while ( next( $filter ) !== false );
 
-	// Remove 'bp_template_stack' from the current filter array
+	// Remove 'bp_template_stack' from the current filter array.
 	array_pop( $wp_current_filter );
 
-	// Remove empties and duplicates
+	// Remove empties and duplicates.
 	$stack = array_unique( array_filter( $stack ) );
 
 	/**
@@ -263,24 +258,23 @@ function bp_get_template_stack() {
  * @param string $name See {@link bp_get_template_part()}.
  * @param bool   $echo If true, template content will be echoed. If false,
  *                     returned. Default: true.
- *
  * @return string|null If $echo, returns the template content.
  */
 function bp_buffer_template_part( $slug, $name = null, $echo = true ) {
 	ob_start();
 
-	// Remove 'bp_replace_the_content' filter to prevent infinite loops
+	// Remove 'bp_replace_the_content' filter to prevent infinite loops.
 	remove_filter( 'the_content', 'bp_replace_the_content' );
 
 	bp_get_template_part( $slug, $name );
 
-	// Remove 'bp_replace_the_content' filter to prevent infinite loops
+	// Remove 'bp_replace_the_content' filter to prevent infinite loops.
 	add_filter( 'the_content', 'bp_replace_the_content' );
 
-	// Get the output buffer contents
+	// Get the output buffer contents.
 	$output = ob_get_clean();
 
-	// Echo or return the output buffer contents
+	// Echo or return the output buffer contents.
 	if ( true === $echo ) {
 		echo $output;
 	} else {
@@ -304,7 +298,6 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true ) {
  *
  * @param string $type      Filename without extension.
  * @param array  $templates An optional list of template candidates.
- *
  * @return string Full path to file.
  */
 function bp_get_query_template( $type, $templates = array() ) {
@@ -351,7 +344,6 @@ function bp_get_query_template( $type, $templates = array() ) {
  * @since 1.7.0
  *
  * @param array $templates Templates we are looking for.
- *
  * @return array Possible subfolders to look in.
  */
 function bp_get_template_locations( $templates = array() ) {
@@ -378,16 +370,15 @@ function bp_get_template_locations( $templates = array() ) {
  * @since 1.7.0
  *
  * @param array $stacks Array of template locations.
- *
  * @return array() Array of all template locations registered so far.
  */
 function bp_add_template_stack_locations( $stacks = array() ) {
 	$retval = array();
 
-	// Get alternate locations
+	// Get alternate locations.
 	$locations = bp_get_template_locations();
 
-	// Loop through locations and stacks and combine
+	// Loop through locations and stacks and combine.
 	foreach ( (array) $stacks as $stack ) {
 		foreach ( (array) $locations as $custom_location ) {
 			$retval[] = untrailingslashit( trailingslashit( $stack ) . $custom_location );
@@ -410,21 +401,21 @@ function bp_add_template_stack_locations( $stacks = array() ) {
  *
  * @since 1.7.0
  *
- * @param WP_Query $posts_query
+ * @param WP_Query $posts_query WP_Query object.
  */
 function bp_parse_query( $posts_query ) {
 
-	// Bail if $posts_query is not the main loop
+	// Bail if $posts_query is not the main loop.
 	if ( ! $posts_query->is_main_query() ) {
 		return;
 	}
 
-	// Bail if filters are suppressed on this query
+	// Bail if filters are suppressed on this query.
 	if ( true == $posts_query->get( 'suppress_filters' ) ) {
 		return;
 	}
 
-	// Bail if in admin
+	// Bail if in admin.
 	if ( is_admin() ) {
 		return;
 	}
@@ -453,8 +444,7 @@ function bp_parse_query( $posts_query ) {
  *
  * @since 1.7.0
  *
- * @param string $template
- *
+ * @param string $template The path to the template file that is being used.
  * @return string The path to the template file that is being used.
  */
 function bp_template_include_theme_supports( $template = '' ) {
@@ -491,7 +481,6 @@ function bp_template_include_theme_supports( $template = '' ) {
  * @since 1.8.0
  *
  * @param mixed $template Default: false.
- *
  * @return mixed False if empty. Template name if template included.
  */
 function bp_set_template_included( $template = false ) {
@@ -522,12 +511,12 @@ function bp_is_template_included() {
 function bp_load_theme_functions() {
 	global $pagenow, $wp_query;
 
-	// do not load our custom BP functions file if theme compat is disabled
+	// Do not load our custom BP functions file if theme compat is disabled.
 	if ( ! bp_use_theme_compat_with_current_theme() ) {
 		return;
 	}
 
-	// Do not include on BuddyPress deactivation
+	// Do not include on BuddyPress deactivation.
 	if ( bp_is_deactivation() ) {
 		return;
 	}
@@ -535,12 +524,12 @@ function bp_load_theme_functions() {
 	// If the $wp_query global is empty (the main query has not been run,
 	// or has been reset), load_template() will fail at setting certain
 	// global values. This does not happen on a normal page load, but can
-	// cause problems when running automated tests
+	// cause problems when running automated tests.
 	if ( ! is_a( $wp_query, 'WP_Query' ) ) {
 		return;
 	}
 
-	// Only include if not installing or if activating via wp-activate.php
+	// Only include if not installing or if activating via wp-activate.php.
 	if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
 		bp_locate_template( 'buddypress-functions.php', true );
 	}

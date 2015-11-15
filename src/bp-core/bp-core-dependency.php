@@ -489,7 +489,6 @@ function bp_after_setup_theme() {
  * @see WP::parse_request() for a description of parameters.
  *
  * @param array $query_vars See {@link WP::parse_request()}.
- *
  * @return array $query_vars See {@link WP::parse_request()}.
  */
 function bp_request( $query_vars = array() ) {
@@ -511,9 +510,7 @@ function bp_request( $query_vars = array() ) {
  *
  * @param string $redirect_to     See 'login_redirect'.
  * @param string $redirect_to_raw See 'login_redirect'.
- *
- * @param bool   $user See 'login_redirect'.
- *
+ * @param bool   $user            See 'login_redirect'.
  * @return string
  */
 function bp_login_redirect( $redirect_to = '', $redirect_to_raw = '', $user = false ) {
@@ -540,7 +537,6 @@ function bp_login_redirect( $redirect_to = '', $redirect_to_raw = '', $user = fa
  * @uses apply_filters()
  *
  * @param string $template See 'template_include'.
- *
  * @return string Template file to use.
  */
 function bp_template_include( $template = '' ) {
@@ -585,8 +581,7 @@ function bp_generate_rewrite_rules( $wp_rewrite ) {
  *
  * @uses apply_filters() Calls 'bp_allowed_themes' with the allowed themes list.
  *
- * @param array $themes
- *
+ * @param array $themes The path of the template to include.
  * @return array
  */
 function bp_allowed_themes( $themes ) {
@@ -607,21 +602,22 @@ function bp_allowed_themes( $themes ) {
  * The main action used for handling theme-side POST requests.
  *
  * @since 1.9.0
+ *
  * @uses do_action()
  */
 function bp_post_request() {
 
-	// Bail if not a POST action
+	// Bail if not a POST action.
 	if ( ! bp_is_post_request() ) {
 		return;
 	}
 
-	// Bail if no action
+	// Bail if no action.
 	if ( empty( $_POST['action'] ) ) {
 		return;
 	}
 
-	// Sanitize the POST action
+	// Sanitize the POST action.
 	$action = sanitize_key( $_POST['action'] );
 
 	/**
@@ -650,21 +646,22 @@ function bp_post_request() {
  * The main action used for handling theme-side GET requests.
  *
  * @since 1.9.0
+ *
  * @uses do_action()
  */
 function bp_get_request() {
 
-	// Bail if not a POST action
+	// Bail if not a POST action.
 	if ( ! bp_is_get_request() ) {
 		return;
 	}
 
-	// Bail if no action
+	// Bail if no action.
 	if ( empty( $_GET['action'] ) ) {
 		return;
 	}
 
-	// Sanitize the GET action
+	// Sanitize the GET action.
 	$action = sanitize_key( $_GET['action'] );
 
 	/**

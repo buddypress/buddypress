@@ -74,12 +74,12 @@ class BP_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	protected function start() {
-		// Sanity check
+		// Sanity check.
 		if ( ! bp_use_theme_compat_with_current_theme() ) {
 			return;
 		}
 
-		// Setup methods
+		// Setup methods.
 		$this->setup_globals();
 		$this->setup_actions();
 	}
@@ -111,7 +111,6 @@ class BP_Theme_Compat {
 	 *
 	 * @param string $property Property name.
 	 * @param mixed  $value    Property value.
-	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function __set( $property, $value ) {
@@ -124,7 +123,6 @@ class BP_Theme_Compat {
 	 * @since 1.7.0
 	 *
 	 * @param string $property Property name.
-	 *
 	 * @return mixed The value of the property if it exists, otherwise an
 	 *               empty string.
 	 */
@@ -145,12 +143,12 @@ class BP_Theme_Compat {
 function bp_setup_theme_compat( $theme = '' ) {
 	$bp = buddypress();
 
-	// Make sure theme package is available, set to default if not
+	// Make sure theme package is available, set to default if not.
 	if ( ! isset( $bp->theme_compat->packages[$theme] ) || ! is_a( $bp->theme_compat->packages[$theme], 'BP_Theme_Compat' ) ) {
 		$theme = 'legacy';
 	}
 
-	// Set the active theme compat theme
+	// Set the active theme compat theme.
 	$bp->theme_compat->theme = $bp->theme_compat->packages[$theme];
 }
 
@@ -229,7 +227,7 @@ function bp_get_theme_compat_version() {
 /**
  * Get the absolute path of the theme package being used.
  *
- * or set manually. Tricky theme authors can override the default and include
+ * Or set manually. Tricky theme authors can override the default and include
  * their own BuddyPress compatibility layers for their themes.
  *
  * @since 1.7.0
@@ -323,27 +321,27 @@ function bp_detect_theme_compat_with_current_theme() {
 		return buddypress()->theme_compat->use_with_current_theme;
 	}
 
-	// theme compat enabled by default
+	// Theme compat enabled by default.
 	$theme_compat = true;
 
 	// If the theme supports 'buddypress', bail.
 	if ( current_theme_supports( 'buddypress' ) ) {
 		$theme_compat = false;
 
-	// If the theme doesn't support BP, do some additional checks
+	// If the theme doesn't support BP, do some additional checks.
 	} else {
-		// Bail if theme is a derivative of bp-default
+		// Bail if theme is a derivative of bp-default.
 		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
 			$theme_compat = false;
 
-		// Brute-force check for a BP template
-		// Examples are clones of bp-default
+		// Brute-force check for a BP template.
+		// Examples are clones of bp-default.
 		} elseif ( locate_template( 'members/members-loop.php', false, false ) ) {
 			$theme_compat = false;
 		}
 	}
 
-	// set a flag in the buddypress() singleton so we don't have to run this again
+	// Set a flag in the buddypress() singleton so we don't have to run this again.
 	buddypress()->theme_compat->use_with_current_theme = $theme_compat;
 
 	return $theme_compat;
@@ -372,7 +370,6 @@ function bp_is_theme_compat_active() {
  * @since 1.7.0
  *
  * @param bool $set True to set the flag to true, false to set it to false.
- *
  * @return bool Returns the value of $set.
  */
 function bp_set_theme_compat_active( $set = true ) {
@@ -390,7 +387,6 @@ function bp_set_theme_compat_active( $set = true ) {
  * @since 1.7.0
  *
  * @param array $templates The template stack.
- *
  * @return array The template stack (value of $templates).
  */
 function bp_set_theme_compat_templates( $templates = array() ) {
@@ -408,7 +404,6 @@ function bp_set_theme_compat_templates( $templates = array() ) {
  * @since 1.7.0
  *
  * @param string $template The template currently in use.
- *
  * @return string The template currently in use (value of $template).
  */
 function bp_set_theme_compat_template( $template = '' ) {
@@ -426,7 +421,6 @@ function bp_set_theme_compat_template( $template = '' ) {
  * @since 1.7.0
  *
  * @param string $template The template originally selected by WP.
- *
  * @return string The template originally selected by WP (value of $template).
  */
 function bp_set_theme_compat_original_template( $template = '' ) {
@@ -440,21 +434,21 @@ function bp_set_theme_compat_original_template( $template = '' ) {
  *
  * @since 2.4.0
  *
- * @param  string $theme_id the theme id (eg: legacy)
- * @param  array  $feature  an associative array (eg: array( name => 'feature_name', 'settings' => array() ))
+ * @param  string $theme_id The theme id (eg: legacy).
+ * @param  array  $feature  An associative array (eg: array( name => 'feature_name', 'settings' => array() )).
  */
 function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
 	if ( empty( $theme_id ) || empty( $feature['name'] ) ) {
 		return;
 	}
 
-	// Get BuddyPress instance
+	// Get BuddyPress instance.
 	$bp = buddypress();
 
-	// Get current theme compat theme
+	// Get current theme compat theme.
 	$theme_compat_theme = $bp->theme_compat->theme;
 
-	// Bail if the Theme Compat theme is not in use
+	// Bail if the Theme Compat theme is not in use.
 	if ( $theme_id !== bp_get_theme_compat_id() ) {
 		return;
 	}
@@ -464,19 +458,19 @@ function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
 		$features = array();
 	}
 
-	// Bail if the feature is already registered or no settings were provided
+	// Bail if the feature is already registered or no settings were provided.
 	if ( isset( $features[ $feature['name'] ] ) || empty( $feature['settings'] ) ) {
 		return;
 	}
 
-	// Add the feature
+	// Add the feature.
 	$features[ $feature['name'] ] = (object) $feature['settings'];
 
-	// The feature is attached to components
+	// The feature is attached to components.
 	if ( isset( $features[ $feature['name'] ]->components ) ) {
-		// Set the feature for each concerned component
+		// Set the feature for each concerned component.
 		foreach ( (array) $features[ $feature['name'] ]->components as $component ) {
-			// The xProfile component is specific
+			// The xProfile component is specific.
 			if ( 'xprofile' === $component ) {
 				$component = 'profile';
 			}
@@ -491,7 +485,7 @@ function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
 		}
 	}
 
-	// Finally update the theme compat features
+	// Finally update the theme compat features.
 	$theme_compat_theme->__set( 'features', $features );
 }
 
@@ -500,14 +494,14 @@ function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
  *
  * @since 2.4.0
  *
- * @param  string $feature the feature (eg: cover_image)
- * @return object          the feature settings.
+ * @param  string $feature The feature (eg: cover_image).
+ * @return object          The feature settings.
  */
 function bp_get_theme_compat_feature( $feature = '' ) {
-	// Get current theme compat theme
+	// Get current theme compat theme.
 	$theme_compat_theme = buddypress()->theme_compat->theme;
 
-	// Get features
+	// Get features.
 	$features = $theme_compat_theme->__get( 'features' );
 
 	if ( ! isset( $features[ $feature ] ) ) {
@@ -525,12 +519,12 @@ function bp_get_theme_compat_feature( $feature = '' ) {
  *
  * @since 2.4.0
  *
- * @global $content_width the content width of the theme
+ * @global string $content_width the content width of the theme
  */
 function bp_register_theme_compat_default_features() {
 	global $content_width;
 
-	// Do not set up default features on deactivation
+	// Do not set up default features on deactivation.
 	if ( bp_is_deactivation() ) {
 		return;
 	}
@@ -545,7 +539,7 @@ function bp_register_theme_compat_default_features() {
 		return;
 	}
 
-	// Get the theme
+	// Get the theme.
 	$current_theme = wp_get_theme();
 	$theme_handle  = $current_theme->get_stylesheet();
 	$parent        = $current_theme->parent();
@@ -559,7 +553,7 @@ function bp_register_theme_compat_default_features() {
 	 * than the width used by BuddyPress, so we need to manually set the
 	 * content width for the concerned themes.
 	 *
-	 * array( stylesheet => content width used by BuddyPress )
+	 * Example: array( stylesheet => content width used by BuddyPress )
 	 */
 	$bp_content_widths = array(
 		'twentyfifteen'  => 1300,
@@ -567,11 +561,11 @@ function bp_register_theme_compat_default_features() {
 		'twentythirteen' => 890,
 	);
 
-	// Default values
+	// Default values.
 	$bp_content_width = (int) $content_width;
 	$bp_handle        = 'bp-legacy-css';
 
-	// Specific to themes having companion stylesheets
+	// Specific to themes having companion stylesheets.
 	if ( isset( $bp_content_widths[ $theme_handle ] ) ) {
 		$bp_content_width = $bp_content_widths[ $theme_handle ];
 		$bp_handle        = 'bp-' . $theme_handle;
@@ -606,7 +600,6 @@ function bp_register_theme_compat_default_features() {
  * @since 1.7.0
  *
  * @param string $template The template name to check.
- *
  * @return bool True if the value of $template is the same as the
  *              "original_template" originally selected by WP. Otherwise false.
  */
@@ -636,21 +629,21 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  */
 function bp_register_theme_package( $theme = array(), $override = true ) {
 
-	// Create new BP_Theme_Compat object from the $theme array
+	// Create new BP_Theme_Compat object from the $theme array.
 	if ( is_array( $theme ) ) {
 		$theme = new BP_Theme_Compat( $theme );
 	}
 
-	// Bail if $theme isn't a proper object
+	// Bail if $theme isn't a proper object.
 	if ( ! is_a( $theme, 'BP_Theme_Compat' ) ) {
 		return;
 	}
 
-	// Load up BuddyPress
+	// Load up BuddyPress.
 	$bp = buddypress();
 
 	// Only set if the theme package was not previously registered or if the
-	// override flag is set
+	// override flag is set.
 	if ( empty( $bp->theme_compat->packages[$theme->id] ) || ( true === $override ) ) {
 		$bp->theme_compat->packages[$theme->id] = $theme;
 	}
@@ -675,7 +668,7 @@ function bp_register_theme_package( $theme = array(), $override = true ) {
 function bp_theme_compat_reset_post( $args = array() ) {
 	global $wp_query, $post;
 
-	// Switch defaults if post is set
+	// Switch defaults if post is set.
 	if ( isset( $wp_query->post ) ) {
 		$dummy = wp_parse_args( $args, array(
 			'ID'                    => $wp_query->post->ID,
@@ -744,19 +737,19 @@ function bp_theme_compat_reset_post( $args = array() ) {
 		) );
 	}
 
-	// Bail if dummy post is empty
+	// Bail if dummy post is empty.
 	if ( empty( $dummy ) ) {
 		return;
 	}
 
-	// Set the $post global
+	// Set the $post global.
 	$post = new WP_Post( (object) $dummy );
 
-	// Copy the new post global into the main $wp_query
+	// Copy the new post global into the main $wp_query.
 	$wp_query->post       = $post;
 	$wp_query->posts      = array( $post );
 
-	// Prevent comments form from appearing
+	// Prevent comments form from appearing.
 	$wp_query->post_count = 1;
 	$wp_query->is_404     = $dummy['is_404'];
 	$wp_query->is_page    = $dummy['is_page'];
@@ -764,7 +757,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	$wp_query->is_archive = $dummy['is_archive'];
 	$wp_query->is_tax     = $dummy['is_tax'];
 
-	// Clean up the dummy post
+	// Clean up the dummy post.
 	unset( $dummy );
 
 	/**
@@ -776,10 +769,10 @@ function bp_theme_compat_reset_post( $args = array() ) {
 		status_header( 200 );
 	}
 
-	// If we are resetting a post, we are in theme compat
+	// If we are resetting a post, we are in theme compat.
 	bp_set_theme_compat_active( true );
 
-	// If we are in theme compat, we don't need the 'Edit' post link
+	// If we are in theme compat, we don't need the 'Edit' post link.
 	add_filter( 'get_edit_post_link', 'bp_core_filter_edit_post_link', 10, 2 );
 }
 
@@ -807,7 +800,6 @@ function bp_theme_compat_reset_post( $args = array() ) {
  * @uses bp_set_theme_compat_template() To set the global theme compat template.
  *
  * @param string $template Template name.
- *
  * @return string $template Template name.
  */
 function bp_template_include_theme_compat( $template = '' ) {
@@ -828,7 +820,7 @@ function bp_template_include_theme_compat( $template = '' ) {
 	 */
 	do_action( 'bp_template_include_reset_dummy_post_data' );
 
-	// Bail if the template already matches a BuddyPress template
+	// Bail if the template already matches a BuddyPress template.
 	if ( ! empty( buddypress()->theme_compat->found_template ) ) {
 		return $template;
 	}
@@ -855,7 +847,7 @@ function bp_template_include_theme_compat( $template = '' ) {
 
 		add_filter( 'the_content', 'bp_replace_the_content' );
 
-		// Add BuddyPress's head action to wp_head
+		// Add BuddyPress's head action to wp_head.
 		if ( ! has_action( 'wp_head', 'bp_head' ) ) {
 			add_action( 'wp_head', 'bp_head' );
 		}
@@ -881,12 +873,11 @@ function bp_template_include_theme_compat( $template = '' ) {
  * @since 1.7.0
  *
  * @param string $content Original post content.
- *
  * @return string $content Post content, potentially modified.
  */
 function bp_replace_the_content( $content = '' ) {
 
-	// Bail if not the main loop where theme compat is happening
+	// Bail if not the main loop where theme compat is happening.
 	if ( ! bp_do_theme_compat() ) {
 		return $content;
 	}
@@ -904,20 +895,20 @@ function bp_replace_the_content( $content = '' ) {
 	 */
 	$new_content = apply_filters( 'bp_replace_the_content', $content );
 
-	// Juggle the content around and try to prevent unsightly comments
+	// Juggle the content around and try to prevent unsightly comments.
 	if ( ! empty( $new_content ) && ( $new_content !== $content ) ) {
 
-		// Set the content to be the new content
+		// Set the content to be the new content.
 		$content = $new_content;
 
-		// Clean up after ourselves
+		// Clean up after ourselves.
 		unset( $new_content );
 
-		// Reset the $post global
+		// Reset the $post global.
 		wp_reset_postdata();
 	}
 
-	// Return possibly hi-jacked content
+	// Return possibly hi-jacked content.
 	return $content;
 }
 
@@ -950,7 +941,6 @@ function bp_do_theme_compat() {
  * @param int|bool $priority Optional. If present, only those callbacks attached
  *                           at a given priority will be removed. Otherwise, all callbacks
  *                           attached to the tag will be removed, regardless of priority.
- *
  * @return bool True on success.
  */
 function bp_remove_all_filters( $tag, $priority = false ) {
@@ -958,36 +948,36 @@ function bp_remove_all_filters( $tag, $priority = false ) {
 
 	$bp = buddypress();
 
-	// Filters exist
+	// Filters exist.
 	if ( isset( $wp_filter[$tag] ) ) {
 
-		// Filters exist in this priority
+		// Filters exist in this priority.
 		if ( ! empty( $priority ) && isset( $wp_filter[$tag][$priority] ) ) {
 
-			// Store filters in a backup
+			// Store filters in a backup.
 			$bp->filters->wp_filter[$tag][$priority] = $wp_filter[$tag][$priority];
 
-			// Unset the filters
+			// Unset the filters.
 			unset( $wp_filter[$tag][$priority] );
 
-		// Priority is empty
+		// Priority is empty.
 		} else {
 
-			// Store filters in a backup
+			// Store filters in a backup.
 			$bp->filters->wp_filter[$tag] = $wp_filter[$tag];
 
-			// Unset the filters
+			// Unset the filters.
 			unset( $wp_filter[$tag] );
 		}
 	}
 
-	// Check merged filters
+	// Check merged filters.
 	if ( isset( $merged_filters[$tag] ) ) {
 
-		// Store filters in a backup
+		// Store filters in a backup.
 		$bp->filters->merged_filters[$tag] = $merged_filters[$tag];
 
-		// Unset the filters
+		// Unset the filters.
 		unset( $merged_filters[$tag] );
 	}
 
@@ -1006,7 +996,6 @@ function bp_remove_all_filters( $tag, $priority = false ) {
  * @param int|bool $priority Optional. If present, only those filters that were originally
  *                           attached to the tag with $priority will be restored. Otherwise,
  *                           all available filters will be restored, regardless of priority.
- *
  * @return bool True on success.
  */
 function bp_restore_all_filters( $tag, $priority = false ) {
@@ -1014,36 +1003,36 @@ function bp_restore_all_filters( $tag, $priority = false ) {
 
 	$bp = buddypress();
 
-	// Filters exist
+	// Filters exist.
 	if ( isset( $bp->filters->wp_filter[$tag] ) ) {
 
-		// Filters exist in this priority
+		// Filters exist in this priority.
 		if ( ! empty( $priority ) && isset( $bp->filters->wp_filter[$tag][$priority] ) ) {
 
-			// Store filters in a backup
+			// Store filters in a backup.
 			$wp_filter[$tag][$priority] = $bp->filters->wp_filter[$tag][$priority];
 
-			// Unset the filters
+			// Unset the filters.
 			unset( $bp->filters->wp_filter[$tag][$priority] );
 
-		// Priority is empty
+		// Priority is empty.
 		} else {
 
-			// Store filters in a backup
+			// Store filters in a backup.
 			$wp_filter[$tag] = $bp->filters->wp_filter[$tag];
 
-			// Unset the filters
+			// Unset the filters.
 			unset( $bp->filters->wp_filter[$tag] );
 		}
 	}
 
-	// Check merged filters
+	// Check merged filters.
 	if ( isset( $bp->filters->merged_filters[$tag] ) ) {
 
-		// Store filters in a backup
+		// Store filters in a backup.
 		$merged_filters[$tag] = $bp->filters->merged_filters[$tag];
 
-		// Unset the filters
+		// Unset the filters.
 		unset( $bp->filters->merged_filters[$tag] );
 	}
 
@@ -1057,7 +1046,6 @@ function bp_restore_all_filters( $tag, $priority = false ) {
  *
  * @param bool $open    True if open, false if closed.
  * @param int  $post_id ID of the post to check.
- *
  * @return bool True if open, false if closed.
  */
 function bp_comments_open( $open, $post_id = 0 ) {
@@ -1093,7 +1081,6 @@ function bp_comments_open( $open, $post_id = 0 ) {
  * @since 1.9.2
  *
  * @param string $retval The current post content.
- *
  * @return string $retval
  */
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
@@ -1101,7 +1088,7 @@ function bp_theme_compat_toggle_is_page( $retval = '' ) {
 
 	$wp_query->is_page = false;
 
-	// Set a switch so we know that we've toggled these WP_Query properties
+	// Set a switch so we know that we've toggled these WP_Query properties.
 	buddypress()->theme_compat->is_page_toggled = true;
 
 	return $retval;
@@ -1118,18 +1105,18 @@ add_filter( 'bp_replace_the_content', 'bp_theme_compat_toggle_is_page', 9999 );
  */
 function bp_theme_compat_loop_end( $query ) {
 
-	// Get BuddyPress
+	// Get BuddyPress.
 	$bp = buddypress();
 
-	// Bail if page is not toggled
+	// Bail if page is not toggled.
 	if ( ! isset( $bp->theme_compat->is_page_toggled ) ) {
 		return;
 	}
 
-	// Revert our toggled WP_Query properties
+	// Revert our toggled WP_Query properties.
 	$query->is_page = true;
 
-	// Unset our switch
+	// Unset our switch.
 	unset( $bp->theme_compat->is_page_toggled );
 }
 add_action( 'loop_end', 'bp_theme_compat_loop_end' );

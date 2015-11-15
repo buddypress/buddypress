@@ -43,7 +43,7 @@ add_action( 'widgets_init',            'bp_widgets_init',           10    );
 add_action( 'generate_rewrite_rules',  'bp_generate_rewrite_rules', 10    );
 
 /**
- * bp_loaded - Attached to 'plugins_loaded' above.
+ * The bp_loaded hook - Attached to 'plugins_loaded' above.
  *
  * Attach various loader actions to the bp_loaded action.
  * The load order helps to execute code at the correct time.
@@ -58,7 +58,7 @@ add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
 add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
 
 /**
- * bp_init - Attached to 'init' above.
+ * The bp_init hook - Attached to 'init' above.
  *
  * Attach various initialization actions to the bp_init action.
  * The load order helps to execute code at the correct time.
@@ -76,7 +76,7 @@ add_action( 'bp_init', 'bp_add_rewrite_rules',       30 );
 add_action( 'bp_init', 'bp_add_permastructs',        40 );
 
 /**
- * bp_template_redirect - Attached to 'template_redirect' above.
+ * The bp_template_redirect hook - Attached to 'template_redirect' above.
  *
  * Attach various template actions to the bp_template_redirect action.
  * The load order helps to execute code at the correct time.

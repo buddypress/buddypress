@@ -39,8 +39,17 @@ if ( !is_multisite() ) {
 	$wpdb->blogid      = BP_ROOT_BLOG;
 
 	if ( !function_exists( 'get_blog_option' ) ) {
+
 		/**
+		 * Retrieve blog option.
+		 *
 		 * @see get_blog_option()
+		 *
+		 * @param int    $blog_id     Blog ID to fetch for. Not used.
+		 * @param string $option_name Option name to fetch.
+		 * @param bool   $default     Whether or not default.
+		 *
+		 * @return mixed
 		 */
 		function get_blog_option( $blog_id, $option_name, $default = false ) {
 			return get_option( $option_name, $default );
@@ -48,8 +57,17 @@ if ( !is_multisite() ) {
 	}
 
 	if ( ! function_exists( 'add_blog_option' ) ) {
+
 		/**
+		 * Add blog option
+		 *
 		 * @see add_blog_option()
+		 *
+		 * @param int    $blog_id      Blog ID to add for. Not used.
+		 * @param string $option_name  Option name to add.
+		 * @param mixed  $option_value Option value to add.
+		 *
+		 * @return mixed
 		 */
 		function add_blog_option( $blog_id, $option_name, $option_value ) {
 			return add_option( $option_name, $option_value );
@@ -57,8 +75,17 @@ if ( !is_multisite() ) {
 	}
 
 	if ( !function_exists( 'update_blog_option' ) ) {
+
 		/**
+		 * Update blog option.
+		 *
 		 * @see update_blog_option()
+		 *
+		 * @param int    $blog_id     Blog ID to update for. Not used.
+		 * @param string $option_name Option name to update.
+		 * @param mixed  $value       Option value to update.
+		 *
+		 * @return mixed
 		 */
 		function update_blog_option( $blog_id, $option_name, $value ) {
 			return update_option( $option_name, $value );
@@ -66,8 +93,16 @@ if ( !is_multisite() ) {
 	}
 
 	if ( !function_exists( 'delete_blog_option' ) ) {
+
 		/**
+		 * Delete blog option.
+		 *
 		 * @see delete_blog_option()
+		 *
+		 * @param int    $blog_id     Blog ID to delete for. Not used.
+		 * @param string $option_name Option name to delete.
+		 *
+		 * @return mixed
 		 */
 		function delete_blog_option( $blog_id, $option_name ) {
 			return delete_option( $option_name );
@@ -75,8 +110,16 @@ if ( !is_multisite() ) {
 	}
 
 	if ( !function_exists( 'switch_to_blog' ) ) {
+
 		/**
+		 * Switch to specified blog.
+		 *
 		 * @see switch_to_blog()
+		 *
+		 * @param mixed $new_blog   New blog to switch to. Not used.
+		 * @param null  $deprecated Whether or not deprecated. Not used.
+		 *
+		 * @return int
 		 */
 		function switch_to_blog( $new_blog, $deprecated = null ) {
 			return bp_get_root_blog_id();
@@ -84,8 +127,13 @@ if ( !is_multisite() ) {
 	}
 
 	if ( !function_exists( 'restore_current_blog' ) ) {
+
 		/**
+		 * Restore current blog.
+		 *
 		 * @see restore_current_blog()
+		 *
+		 * @return int
 		 */
 		function restore_current_blog() {
 			return bp_get_root_blog_id();
@@ -93,8 +141,16 @@ if ( !is_multisite() ) {
 	}
 
 	if ( !function_exists( 'get_blogs_of_user' ) ) {
+
 		/**
+		 * Retrive blogs associated with user.
+		 *
 		 * @see get_blogs_of_user()
+		 *
+		 * @param int  $user_id ID of the user. Not used.
+		 * @param bool $all     Whether or not to return all. Not used.
+		 *
+		 * @return false
 		 */
 		function get_blogs_of_user( $user_id, $all = false ) {
 			return false;
@@ -103,7 +159,16 @@ if ( !is_multisite() ) {
 
 	if ( !function_exists( 'update_blog_status' ) ) {
 		/**
+		 * Whether or not to update blog status.
+		 *
 		 * @see update_blog_status()
+		 *
+		 * @param int    $blog_id    Blog to update status for. Not used.
+		 * @param mixed  $pref       Preference. Not used.
+		 * @param string $value      Value. Not used.
+		 * @param null   $deprecated Whether or not deprecated. Not used.
+		 *
+		 * @return true
 		 */
 		function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 			return true;
@@ -112,7 +177,11 @@ if ( !is_multisite() ) {
 
 	if ( !function_exists( 'is_subdomain_install' ) ) {
 		/**
+		 * Whether or not if subdomain install.
+		 *
 		 * @see is_subdomain_install()
+		 *
+		 * @return bool
 		 */
 		function is_subdomain_install() {
 			if ( ( defined( 'VHOST' ) && 'yes' == VHOST ) || ( defined( 'SUBDOMAIN_INSTALL' ) && SUBDOMAIN_INSTALL ) )
@@ -130,7 +199,6 @@ if ( !is_multisite() ) {
  * @todo Why is this function defined in this file?
  *
  * @param string|bool $prefix Global table prefix.
- *
  * @return string SQL chunk.
  */
 function bp_core_get_status_sql( $prefix = false ) {
@@ -154,19 +222,18 @@ if ( !function_exists( 'mb_strlen' ) ) {
 	 *
 	 * @param string $str String to be measured.
 	 * @param string $enc Optional. Encoding type. Ignored.
-	 *
 	 * @return int String length.
 	 */
 	function mb_strlen( $str, $enc = '' ) {
 		$counts = count_chars( $str );
 		$total = 0;
 
-		// Count ASCII bytes
+		// Count ASCII bytes.
 		for( $i = 0; $i < 0x80; $i++ ) {
 			$total += $counts[$i];
 		}
 
-		// Count multibyte sequence heads
+		// Count multibyte sequence heads.
 		for( $i = 0xc0; $i < 0xff; $i++ ) {
 			$total += $counts[$i];
 		}
@@ -182,7 +249,6 @@ if ( !function_exists( 'mb_strpos' ) ) {
 	 * @param string $needle String to search for.
 	 * @param int    $offset Optional. Start position for the search. Default: 0.
 	 * @param string $encoding Optional. Encoding type. Ignored.
-	 *
 	 * @return int|bool Position of needle in haystack if found, else false.
 	 */
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
@@ -207,7 +273,6 @@ if ( !function_exists( 'mb_strrpos' ) ) {
 	 * @param string $needle String to search for.
 	 * @param int    $offset Optional. Start position for the search. Default: 0.
 	 * @param string $encoding Optional. Encoding type. Ignored.
-	 *
 	 * @return int Position of last needle in haystack if found, else false.
 	 */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {

@@ -133,7 +133,6 @@ add_action( 'add_site_option', 'bp_core_clear_root_options_cache' );
  *
  * @param array  $item_ids    ID list.
  * @param string $cache_group The cache group to check against.
- *
  * @return array
  */
 function bp_get_non_cached_ids( $item_ids, $cache_group ) {
@@ -174,19 +173,18 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  *     @type string       $cache_key_prefix Optional. The prefix to use when creating
  *                                          cache key names. Default: the value of $meta_table.
  * }
- *
  * @return array|bool Metadata cache for the specified objects, or false on failure.
  */
 function bp_update_meta_cache( $args = array() ) {
 	global $wpdb;
 
 	$defaults = array(
-		'object_ids' 	   => array(), // Comma-separated list or array of item ids
-		'object_type' 	   => '',      // Canonical component id: groups, members, etc
-		'cache_group'      => '',      // Cache group
-		'meta_table' 	   => '',      // Name of the table containing the metadata
-		'object_column'    => '',      // DB column for the object ids (group_id, etc)
-		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg 'bp_groups_groupmeta'
+		'object_ids' 	   => array(), // Comma-separated list or array of item ids.
+		'object_type' 	   => '',      // Canonical component id: groups, members, etc.
+		'cache_group'      => '',      // Cache group.
+		'meta_table' 	   => '',      // Name of the table containing the metadata.
+		'object_column'    => '',      // DB column for the object ids (group_id, etc).
+		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg 'bp_groups_groupmeta'.
 	);
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
@@ -212,7 +210,7 @@ function bp_update_meta_cache( $args = array() ) {
 
 	$cache = array();
 
-	// Get meta info
+	// Get meta info.
 	if ( ! empty( $uncached_ids ) ) {
 		$id_list   = join( ',', wp_parse_id_list( $uncached_ids ) );
 		$meta_list = $wpdb->get_results( esc_sql( "SELECT {$object_column}, meta_key, meta_value FROM {$meta_table} WHERE {$object_column} IN ({$id_list})" ), ARRAY_A );
@@ -223,19 +221,19 @@ function bp_update_meta_cache( $args = array() ) {
 				$mkey = $metarow['meta_key'];
 				$mval = $metarow['meta_value'];
 
-				// Force subkeys to be array type:
+				// Force subkeys to be array type.
 				if ( !isset( $cache[$mpid] ) || !is_array( $cache[$mpid] ) )
 					$cache[$mpid] = array();
 				if ( !isset( $cache[$mpid][$mkey] ) || !is_array( $cache[$mpid][$mkey] ) )
 					$cache[$mpid][$mkey] = array();
 
-				// Add a value to the current pid/key:
+				// Add a value to the current pid/key.
 				$cache[$mpid][$mkey][] = $mval;
 			}
 		}
 
 		foreach ( $uncached_ids as $uncached_id ) {
-			// Cache empty values as well
+			// Cache empty values as well.
 			if ( ! isset( $cache[ $uncached_id ] ) ) {
 				$cache[ $uncached_id ] = array();
 			}

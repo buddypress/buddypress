@@ -16,7 +16,7 @@ if ( !class_exists( 'BP_Admin' ) ) :
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
- * @todo Break this apart into each applicable Component
+ * @todo Break this apart into each applicable Component.
  *
  * @since 1.6.0
  */
@@ -96,16 +96,16 @@ class BP_Admin {
 		$bp = buddypress();
 
 		// Paths and URLs
-		$this->admin_dir  = trailingslashit( $bp->plugin_dir  . 'bp-core/admin' ); // Admin path
-		$this->admin_url  = trailingslashit( $bp->plugin_url  . 'bp-core/admin' ); // Admin url
-		$this->images_url = trailingslashit( $this->admin_url . 'images'        ); // Admin images URL
-		$this->css_url    = trailingslashit( $this->admin_url . 'css'           ); // Admin css URL
-		$this->js_url     = trailingslashit( $this->admin_url . 'js'            ); // Admin css URL
+		$this->admin_dir  = trailingslashit( $bp->plugin_dir  . 'bp-core/admin' ); // Admin path.
+		$this->admin_url  = trailingslashit( $bp->plugin_url  . 'bp-core/admin' ); // Admin url.
+		$this->images_url = trailingslashit( $this->admin_url . 'images'        ); // Admin images URL.
+		$this->css_url    = trailingslashit( $this->admin_url . 'css'           ); // Admin css URL.
+		$this->js_url     = trailingslashit( $this->admin_url . 'js'            ); // Admin css URL.
 
-		// Main settings page
+		// Main settings page.
 		$this->settings_page = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
 
-		// Main capability
+		// Main capability.
 		$this->capability = bp_core_do_network_admin() ? 'manage_network_options' : 'manage_options';
 	}
 
@@ -133,42 +133,42 @@ class BP_Admin {
 	 */
 	private function setup_actions() {
 
-		/** General Actions ***************************************************/
+		/* General Actions ***************************************************/
 
-		// Add some page specific output to the <head>
+		// Add some page specific output to the <head>.
 		add_action( 'bp_admin_head',            array( $this, 'admin_head'  ), 999 );
 
-		// Add menu item to settings menu
+		// Add menu item to settings menu.
 		add_action( bp_core_admin_hook(),       array( $this, 'admin_menus' ), 5 );
 
-		// Enqueue all admin JS and CSS
+		// Enqueue all admin JS and CSS.
 		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		/** BuddyPress Actions ************************************************/
+		/* BuddyPress Actions ************************************************/
 
-		// Load the BuddyPress metabox in the WP Nav Menu Admin UI
+		// Load the BuddyPress metabox in the WP Nav Menu Admin UI.
 		add_action( 'load-nav-menus.php', 'bp_admin_wp_nav_menu_meta_box' );
 
-		// Add settings
+		// Add settings.
 		add_action( 'bp_register_admin_settings', array( $this, 'register_admin_settings' ) );
 
-		// Add a link to BuddyPress About page to the admin bar
+		// Add a link to BuddyPress About page to the admin bar.
 		add_action( 'admin_bar_menu', array( $this, 'admin_bar_about_link' ), 15 );
 
-		// Add a description of new BuddyPress tools in the available tools page
+		// Add a description of new BuddyPress tools in the available tools page.
 		add_action( 'tool_box',            'bp_core_admin_available_tools_intro' );
 		add_action( 'bp_network_tool_box', 'bp_core_admin_available_tools_intro' );
 
-		// On non-multisite, catch
+		// On non-multisite, catch.
 		add_action( 'load-users.php', 'bp_core_admin_user_manage_spammers' );
 
-		/** Filters ***********************************************************/
+		/* Filters ***********************************************************/
 
-		// Add link to settings page
+		// Add link to settings page.
 		add_filter( 'plugin_action_links',               array( $this, 'modify_plugin_action_links' ), 10, 2 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2 );
 
-		// Add "Mark as Spam" row actions on users.php
+		// Add "Mark as Spam" row actions on users.php.
 		add_filter( 'ms_user_row_actions', 'bp_core_admin_user_row_actions', 10, 2 );
 		add_filter( 'user_row_actions',    'bp_core_admin_user_row_actions', 10, 2 );
 	}
@@ -184,12 +184,12 @@ class BP_Admin {
 	 */
 	public function admin_menus() {
 
-		// Bail if user cannot moderate
+		// Bail if user cannot moderate.
 		if ( ! bp_current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		// About
+		// About.
 		add_dashboard_page(
 			__( 'Welcome to BuddyPress',  'buddypress' ),
 			__( 'Welcome to BuddyPress',  'buddypress' ),
@@ -198,7 +198,7 @@ class BP_Admin {
 			array( $this, 'about_screen' )
 		);
 
-		// Credits
+		// Credits.
 		add_dashboard_page(
 			__( 'Welcome to BuddyPress',  'buddypress' ),
 			__( 'Welcome to BuddyPress',  'buddypress' ),
@@ -209,7 +209,7 @@ class BP_Admin {
 
 		$hooks = array();
 
-		// Changed in BP 1.6 . See bp_core_admin_backpat_menu()
+		// Changed in BP 1.6 . See bp_core_admin_backpat_menu().
 		$hooks[] = add_menu_page(
 			__( 'BuddyPress', 'buddypress' ),
 			__( 'BuddyPress', 'buddypress' ),
@@ -228,7 +228,7 @@ class BP_Admin {
 			'bp_core_admin_backpat_page'
 		);
 
-		// Add the option pages
+		// Add the option pages.
 		$hooks[] = add_submenu_page(
 			$this->settings_page,
 			__( 'BuddyPress Components', 'buddypress' ),
@@ -257,7 +257,7 @@ class BP_Admin {
 		);
 
 		// For consistency with non-Multisite, we add a Tools menu in
-		// the Network Admin as a home for our Tools panel
+		// the Network Admin as a home for our Tools panel.
 		if ( is_multisite() && bp_core_do_network_admin() ) {
 			$tools_parent = 'network-tools';
 
@@ -268,7 +268,7 @@ class BP_Admin {
 				$tools_parent,
 				'bp_core_tools_top_level_item',
 				'',
-				24 // just above Settings
+				24 // Just above Settings.
 			);
 
 			$hooks[] = add_submenu_page(
@@ -292,7 +292,7 @@ class BP_Admin {
 			'bp_core_admin_tools'
 		);
 
-		// Fudge the highlighted subnav item when on a BuddyPress admin page
+		// Fudge the highlighted subnav item when on a BuddyPress admin page.
 		foreach( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 		}
@@ -309,55 +309,55 @@ class BP_Admin {
 	 */
 	public function register_admin_settings() {
 
-		/** Main Section ******************************************************/
+		/* Main Section ******************************************************/
 
-		// Add the main section
+		// Add the main section.
 		add_settings_section( 'bp_main', __( 'Main Settings', 'buddypress' ), 'bp_admin_setting_callback_main_section', 'buddypress' );
 
-		// Hide toolbar for logged out users setting
+		// Hide toolbar for logged out users setting.
 		add_settings_field( 'hide-loggedout-adminbar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_admin_bar', 'buddypress', 'bp_main' );
 		register_setting( 'buddypress', 'hide-loggedout-adminbar', 'intval' );
 
-		// Only show 'switch to Toolbar' option if the user chose to retain the BuddyBar during the 1.6 upgrade
+		// Only show 'switch to Toolbar' option if the user chose to retain the BuddyBar during the 1.6 upgrade.
 		if ( (bool) bp_get_option( '_bp_force_buddybar', false ) ) {
 			add_settings_field( '_bp_force_buddybar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_force_buddybar', 'buddypress', 'bp_main' );
 			register_setting( 'buddypress', '_bp_force_buddybar', 'bp_admin_sanitize_callback_force_buddybar' );
 		}
 
-		// Allow account deletion
+		// Allow account deletion.
 		add_settings_field( 'bp-disable-account-deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
 		register_setting( 'buddypress', 'bp-disable-account-deletion', 'intval' );
 
-		/** XProfile Section **************************************************/
+		/* XProfile Section **************************************************/
 
 		if ( bp_is_active( 'xprofile' ) ) {
 
-			// Add the main section
+			// Add the main section.
 			add_settings_section( 'bp_xprofile', _x( 'Profile Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress' );
 
-			// Avatars
+			// Avatars.
 			add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_avatar_uploads', 'buddypress', 'bp_xprofile' );
 			register_setting( 'buddypress', 'bp-disable-avatar-uploads', 'intval' );
 
-			// Cover images
+			// Cover images.
 			if ( bp_is_active( 'xprofile', 'cover_image' ) ) {
 				add_settings_field( 'bp-disable-cover-image-uploads', __( 'Cover Image Uploads', 'buddypress' ), 'bp_admin_setting_callback_cover_image_uploads', 'buddypress', 'bp_xprofile' );
 				register_setting( 'buddypress', 'bp-disable-cover-image-uploads', 'intval' );
 			}
 
-			// Profile sync setting
+			// Profile sync setting.
 			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
 			register_setting  ( 'buddypress', 'bp-disable-profile-sync', 'intval' );
 		}
 
-		/** Groups Section ****************************************************/
+		/* Groups Section ****************************************************/
 
 		if ( bp_is_active( 'groups' ) ) {
 
-			// Add the main section
+			// Add the main section.
 			add_settings_section( 'bp_groups', __( 'Groups Settings',  'buddypress' ), 'bp_admin_setting_callback_groups_section', 'buddypress' );
 
-			// Allow subscriptions setting
+			// Allow subscriptions setting.
 			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation', 'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
 			register_setting( 'buddypress', 'bp_restrict_group_creation', 'intval' );
 
@@ -372,34 +372,34 @@ class BP_Admin {
 			}
 		}
 
-		/** Forums ************************************************************/
+		/* Forums ************************************************************/
 
 		if ( bp_is_active( 'forums' ) ) {
 
-			// Add the main section
+			// Add the main section.
 			add_settings_section( 'bp_forums', __( 'Legacy Group Forums', 'buddypress' ), 'bp_admin_setting_callback_bbpress_section', 'buddypress' );
 
-			// Allow subscriptions setting
+			// Allow subscriptions setting.
 			add_settings_field( 'bb-config-location', __( 'bbPress Configuration', 'buddypress' ), 'bp_admin_setting_callback_bbpress_configuration', 'buddypress', 'bp_forums' );
 			register_setting( 'buddypress', 'bb-config-location', '' );
 		}
 
-		/** Activity Section **************************************************/
+		/* Activity Section **************************************************/
 
 		if ( bp_is_active( 'activity' ) ) {
 
-			// Add the main section
+			// Add the main section.
 			add_settings_section( 'bp_activity', __( 'Activity Settings', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress' );
 
-			// Activity commenting on blog and forum posts
+			// Activity commenting on blog and forum posts.
 			add_settings_field( 'bp-disable-blogforum-comments', __( 'Blog &amp; Forum Comments', 'buddypress' ), 'bp_admin_setting_callback_blogforum_comments', 'buddypress', 'bp_activity' );
 			register_setting( 'buddypress', 'bp-disable-blogforum-comments', 'bp_admin_sanitize_callback_blogforum_comments' );
 
-			// Activity Heartbeat refresh
+			// Activity Heartbeat refresh.
 			add_settings_field( '_bp_enable_heartbeat_refresh', __( 'Activity auto-refresh', 'buddypress' ), 'bp_admin_setting_callback_heartbeat', 'buddypress', 'bp_activity' );
 			register_setting( 'buddypress', '_bp_enable_heartbeat_refresh', 'intval' );
 
-			// Allow activity akismet
+			// Allow activity akismet.
 			if ( is_plugin_active( 'akismet/akismet.php' ) && defined( 'AKISMET_VERSION' ) ) {
 				add_settings_field( '_bp_enable_akismet', __( 'Akismet', 'buddypress' ), 'bp_admin_setting_callback_activity_akismet', 'buddypress', 'bp_activity' );
 				register_setting( 'buddypress', '_bp_enable_akismet', 'intval' );
@@ -432,17 +432,16 @@ class BP_Admin {
 	 *
 	 * @param array  $links Links array in which we would prepend our link.
 	 * @param string $file  Current plugin basename.
-	 *
 	 * @return array Processed links.
 	 */
 	public function modify_plugin_action_links( $links, $file ) {
 
-		// Return normal links if not BuddyPress
+		// Return normal links if not BuddyPress.
 		if ( plugin_basename( buddypress()->basename ) != $file ) {
 			return $links;
 		}
 
-		// Add a few links to the existing links array
+		// Add a few links to the existing links array.
 		return array_merge( $links, array(
 			'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => 'bp-components' ), bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
 			'about'    => '<a href="' . esc_url( add_query_arg( array( 'page' => 'bp-about'      ), bp_get_admin_url( 'index.php'          ) ) ) . '">' . esc_html__( 'About',    'buddypress' ) . '</a>'
@@ -456,14 +455,14 @@ class BP_Admin {
 	 */
 	public function admin_head() {
 
-		// Settings pages
+		// Settings pages.
 		remove_submenu_page( $this->settings_page, 'bp-page-settings' );
 		remove_submenu_page( $this->settings_page, 'bp-settings'      );
 
-		// Network Admin Tools
+		// Network Admin Tools.
 		remove_submenu_page( 'network-tools', 'network-tools' );
 
-		// About and Credits pages
+		// About and Credits pages.
 		remove_submenu_page( 'index.php', 'bp-about'   );
 		remove_submenu_page( 'index.php', 'bp-credits' );
 	}
@@ -796,7 +795,7 @@ class BP_Admin {
 	 */
 	public static function welcome_text() {
 
-		// Switch welcome text based on whether this is a new installation or not
+		// Switch welcome text based on whether this is a new installation or not.
 		$welcome_text = ( self::is_new_install() )
 			? __( 'Thank you for installing BuddyPress! BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.', 'buddypress' )
 			: __( 'BuddyPress %s comes with a bunch of great improvements we think you&#8217;re really going to like.', 'buddypress' );
@@ -824,7 +823,8 @@ class BP_Admin {
 	 * Output tab navigation for `What's New` and `Credits` pages.
 	 *
 	 * @since 2.2.0
-	 * @param string $tab
+	 *
+	 * @param string $tab Tab to highlight as active.
 	 */
 	public static function tab_navigation( $tab = 'whats_new' ) {
 	?>
@@ -864,19 +864,19 @@ class BP_Admin {
 	 */
 	public static function display_version() {
 
-		// Use static variable to prevent recalculations
+		// Use static variable to prevent recalculations.
 		static $display = '';
 
-		// Only calculate on first run
+		// Only calculate on first run.
 		if ( '' === $display ) {
 
-			// Get current version
+			// Get current version.
 			$version = bp_get_version();
 
-			// Check for prerelease hyphen
+			// Check for prerelease hyphen.
 			$pre     = strpos( $version, '-' );
 
-			// Strip prerelease suffix
+			// Strip prerelease suffix.
 			$display = ( false !== $pre )
 				? substr( $version, 0, $pre )
 				: $version;
@@ -886,7 +886,7 @@ class BP_Admin {
 		return $display;
 	}
 }
-endif; // class_exists check
+endif; // End class_exists check.
 
 /**
  * Setup BuddyPress Admin.
@@ -901,7 +901,6 @@ function bp_admin() {
 
 
 	// These are strings we may use to describe maintenance/security releases, where we aim for no new strings.
-
 	_n_noop( 'Maintenance Release', 'Maintenance Releases', 'buddypress' );
 	_n_noop( 'Security Release', 'Security Releases', 'buddypress' );
 	_n_noop( 'Maintenance and Security Release', 'Maintenance and Security Releases', 'buddypress' );

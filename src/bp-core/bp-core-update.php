@@ -6,7 +6,7 @@
  * @subpackage Updater
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -60,7 +60,6 @@ function bp_is_update() {
  * @uses buddypress()
  *
  * @param string $basename BuddyPress basename.
- *
  * @return bool True if activating BuddyPress, false if not.
  */
 function bp_is_activation( $basename = '' ) {
@@ -107,7 +106,6 @@ function bp_is_activation( $basename = '' ) {
  * @uses buddypress()
  *
  * @param string $basename BuddyPress basename.
- *
  * @return bool True if deactivating BuddyPress, false if not.
  */
 function bp_is_deactivation( $basename = '' ) {

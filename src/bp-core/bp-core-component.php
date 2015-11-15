@@ -19,9 +19,6 @@ if ( !class_exists( 'BP_Component' ) ) :
  * internally by BuddyPress to create the bundled components, but can be
  * extended to create other really neat things.
  *
- * @package BuddyPress
- * @subpackage Component
- *
  * @since 1.5.0
  */
 class BP_Component {
@@ -160,23 +157,23 @@ class BP_Component {
 	 */
 	public function start( $id = '', $name = '', $path = '', $params = array() ) {
 
-		// Internal identifier of component
+		// Internal identifier of component.
 		$this->id   = $id;
 
-		// Internal component name
+		// Internal component name.
 		$this->name = $name;
 
-		// Path for includes
+		// Path for includes.
 		$this->path = $path;
 
-		// Miscellaneous component parameters that need to be set early on
+		// Miscellaneous component parameters that need to be set early on.
 		if ( ! empty( $params ) ) {
-			// Sets the position for our menu under the WP Toolbar's "My Account" menu
+			// Sets the position for our menu under the WP Toolbar's "My Account" menu.
 			if ( ! empty( $params['adminbar_myaccount_order'] ) ) {
 				$this->adminbar_myaccount_order = (int) $params['adminbar_myaccount_order'];
 			}
 
-			// Register features
+			// Register features.
 			if ( ! empty( $params['features'] ) ) {
 				$this->features = array_map( 'sanitize_title', (array) $params['features'] );
 			}
@@ -185,13 +182,13 @@ class BP_Component {
 				$this->search_query_arg = sanitize_title( $params['search_query_arg'] );
 			}
 
-		// Set defaults if not passed
+		// Set defaults if not passed.
 		} else {
-			// new component menus are added before the settings menu if not set
+			// New component menus are added before the settings menu if not set.
 			$this->adminbar_myaccount_order = 90;
 		}
 
-		// Move on to the next step
+		// Move on to the next step.
 		$this->setup_actions();
 	}
 
@@ -221,7 +218,8 @@ class BP_Component {
 	 */
 	public function setup_globals( $args = array() ) {
 
-		/** Slugs *************************************************************/
+		/** Slugs ************************************************************
+		 */
 
 		// If a WP directory page exists for the component, it should
 		// be the default value of 'root_slug'.
@@ -292,19 +290,20 @@ class BP_Component {
 		 */
 		$this->notification_callback = apply_filters( 'bp_' . $this->id . '_notification_callback', $r['notification_callback'] );
 
-		// Set the global table names, if applicable
+		// Set the global table names, if applicable.
 		if ( ! empty( $r['global_tables'] ) ) {
 			$this->register_global_tables( $r['global_tables'] );
 		}
 
-		// Set the metadata table, if applicable
+		// Set the metadata table, if applicable.
 		if ( ! empty( $r['meta_tables'] ) ) {
 			$this->register_meta_tables( $r['meta_tables'] );
 		}
 
-		/** BuddyPress ********************************************************/
+		/** BuddyPress *******************************************************
+		 */
 
-		// Register this component in the loaded components array
+		// Register this component in the loaded components array.
 		buddypress()->loaded_components[$this->slug] = $this->id;
 
 		/**
@@ -349,21 +348,21 @@ class BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 
-		// Bail if no files to include
+		// Bail if no files to include.
 		if ( ! empty( $includes ) ) {
 			$slashed_path = trailingslashit( $this->path );
 
-			// Loop through files to be included
+			// Loop through files to be included.
 			foreach ( (array) $includes as $file ) {
 
 				$paths = array(
 
-					// Passed with no extension
+					// Passed with no extension.
 					'bp-' . $this->id . '/bp-' . $this->id . '-' . $file  . '.php',
 					'bp-' . $this->id . '-' . $file . '.php',
 					'bp-' . $this->id . '/' . $file . '.php',
 
-					// Passed with extension
+					// Passed with extension.
 					$file,
 					'bp-' . $this->id . '-' . $file,
 					'bp-' . $this->id . '/' . $file,
@@ -398,10 +397,10 @@ class BP_Component {
 	 */
 	public function setup_actions() {
 
-		// Setup globals
+		// Setup globals.
 		add_action( 'bp_setup_globals',          array( $this, 'setup_globals'          ), 10 );
 
-		// Set up canonical stack
+		// Set up canonical stack.
 		add_action( 'bp_setup_canonical_stack',  array( $this, 'setup_canonical_stack'  ), 10 );
 
 		// Include required files. Called early to ensure that BP core
@@ -411,37 +410,37 @@ class BP_Component {
 		// extending this base class.
 		add_action( 'bp_include',                array( $this, 'includes'               ), 8 );
 
-		// Setup navigation
+		// Setup navigation.
 		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ), 10 );
 
-		// Setup WP Toolbar menus
+		// Setup WP Toolbar menus.
 		add_action( 'bp_setup_admin_bar',        array( $this, 'setup_admin_bar'        ), $this->adminbar_myaccount_order );
 
-		// Setup component title
+		// Setup component title.
 		add_action( 'bp_setup_title',            array( $this, 'setup_title'            ), 10 );
 
-		// Setup cache groups
+		// Setup cache groups.
 		add_action( 'bp_setup_cache_groups',     array( $this, 'setup_cache_groups'     ), 10 );
 
-		// Register post types
+		// Register post types.
 		add_action( 'bp_register_post_types',    array( $this, 'register_post_types'    ), 10 );
 
-		// Register taxonomies
+		// Register taxonomies.
 		add_action( 'bp_register_taxonomies',    array( $this, 'register_taxonomies'    ), 10 );
 
-		// Add the rewrite tags
+		// Add the rewrite tags.
 		add_action( 'bp_add_rewrite_tags',       array( $this, 'add_rewrite_tags'       ), 10 );
 
-		// Add the rewrite rules
+		// Add the rewrite rules.
 		add_action( 'bp_add_rewrite_rules',      array( $this, 'add_rewrite_rules'      ), 10 );
 
-		// Add the permalink structure
+		// Add the permalink structure.
 		add_action( 'bp_add_permastructs',       array( $this, 'add_permastructs'       ), 10 );
 
-		// Allow components to parse the main query
+		// Allow components to parse the main query.
 		add_action( 'bp_parse_query',            array( $this, 'parse_query'            ), 10 );
 
-		// Generate rewrite rules
+		// Generate rewrite rules.
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
 		/**
@@ -477,11 +476,11 @@ class BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// No sub nav items without a main nav item
+		// No sub nav items without a main nav item.
 		if ( !empty( $main_nav ) ) {
 			bp_core_new_nav_item( $main_nav );
 
-			// Sub nav items are not required
+			// Sub nav items are not required.
 			if ( !empty( $sub_nav ) ) {
 				foreach( (array) $sub_nav as $nav ) {
 					bp_core_new_subnav_item( $nav );
@@ -513,12 +512,12 @@ class BP_Component {
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
-		// Bail if this is an ajax request
+		// Bail if this is an ajax request.
 		if ( defined( 'DOING_AJAX' ) ) {
 			return;
 		}
 
-		// Do not proceed if BP_USE_WP_ADMIN_BAR constant is not set or is false
+		// Do not proceed if BP_USE_WP_ADMIN_BAR constant is not set or is false.
 		if ( ! bp_use_wp_admin_bar() ) {
 			return;
 		}
@@ -537,13 +536,13 @@ class BP_Component {
 		// Do we have Toolbar menus to add?
 		if ( !empty( $wp_admin_nav ) ) {
 
-			// Set this objects menus
+			// Set this objects menus.
 			$this->admin_menu = $wp_admin_nav;
 
-			// Define the WordPress global
+			// Define the WordPress global.
 			global $wp_admin_bar;
 
-			// Add each admin menu
+			// Add each admin menu.
 			foreach( $this->admin_menu as $admin_menu ) {
 				$wp_admin_bar->add_menu( $admin_menu );
 			}
@@ -617,13 +616,13 @@ class BP_Component {
 		 */
 		$tables = apply_filters( 'bp_' . $this->id . '_global_tables', $tables );
 
-		// Add to the BuddyPress global object
+		// Add to the BuddyPress global object.
 		if ( !empty( $tables ) && is_array( $tables ) ) {
 			foreach ( $tables as $global_name => $table_name ) {
 				$this->$global_name = $table_name;
 			}
 
-			// Keep a record of the metadata tables in the component
+			// Keep a record of the metadata tables in the component.
 			$this->global_tables = $tables;
 		}
 
@@ -670,7 +669,7 @@ class BP_Component {
 				$wpdb->{$meta_prefix . 'meta'} = $table_name;
 			}
 
-			// Keep a record of the metadata tables in the component
+			// Keep a record of the metadata tables in the component.
 			$this->meta_tables = $tables;
 		}
 

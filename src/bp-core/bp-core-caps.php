@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 function bp_get_current_blog_roles() {
 	global $wp_roles;
 
-	// Sanity check on roles global variable
+	// Sanity check on roles global variable.
 	$roles = isset( $wp_roles->roles )
 		? $wp_roles->roles
 		: array();
@@ -63,12 +63,12 @@ function bp_get_current_blog_roles() {
 function bp_add_caps() {
 	global $wp_roles;
 
-	// Load roles if not set
+	// Load roles if not set.
 	if ( ! isset( $wp_roles ) ) {
 		$wp_roles = new WP_Roles();
 	}
 
-	// Loop through available roles and add them
+	// Loop through available roles and add them.
 	foreach( $wp_roles->role_objects as $role ) {
 		foreach ( bp_get_caps_for_role( $role->name ) as $cap ) {
 			$role->add_cap( $cap );
@@ -99,12 +99,12 @@ function bp_add_caps() {
 function bp_remove_caps() {
 	global $wp_roles;
 
-	// Load roles if not set
+	// Load roles if not set.
 	if ( ! isset( $wp_roles ) ) {
 		$wp_roles = new WP_Roles();
 	}
 
-	// Loop through available roles and remove them
+	// Loop through available roles and remove them.
 	foreach( $wp_roles->role_objects as $role ) {
 		foreach ( bp_get_caps_for_role( $role->name ) as $cap ) {
 			$role->remove_cap( $cap );
@@ -135,7 +135,6 @@ function bp_remove_caps() {
  * @param string $cap     See {@link WP_User::has_cap()}.
  * @param int    $user_id See {@link WP_User::has_cap()}.
  * @param mixed  $args    See {@link WP_User::has_cap()}.
- *
  * @return array Actual capabilities for meta capability. See {@link WP_User::has_cap()}.
  */
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
@@ -164,7 +163,7 @@ function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
  */
 function bp_get_community_caps() {
 
-	// Forum meta caps
+	// Forum meta caps.
 	$caps = array();
 
 	/**
@@ -185,7 +184,6 @@ function bp_get_community_caps() {
  * @uses apply_filters() Allow return value to be filtered.
  *
  * @param string $role The role for which you're loading caps.
- *
  * @return array Capabilities for $role.
  */
 function bp_get_caps_for_role( $role = '' ) {
@@ -193,16 +191,16 @@ function bp_get_caps_for_role( $role = '' ) {
 	// Which role are we looking for?
 	switch ( $role ) {
 
-		// Administrator
+		// Administrator.
 		case 'administrator' :
 			$caps = array(
-				// Misc
+				// Misc.
 				'bp_moderate',
 			);
 
 			break;
 
-		// All other default WordPress blog roles
+		// All other default WordPress blog roles.
 		case 'editor'      :
 		case 'author'      :
 		case 'contributor' :
@@ -242,22 +240,22 @@ function bp_get_caps_for_role( $role = '' ) {
  */
 function bp_set_current_user_default_role() {
 
-	// Bail if not multisite or not root blog
+	// Bail if not multisite or not root blog.
 	if ( ! is_multisite() || ! bp_is_root_blog() ) {
 		return;
 	}
 
-	// Bail if user is not logged in or already a member
+	// Bail if user is not logged in or already a member.
 	if ( ! is_user_logged_in() || is_user_member_of_blog() ) {
 		return;
 	}
 
-	// Bail if user is not active
+	// Bail if user is not active.
 	if ( bp_is_user_inactive() ) {
 		return;
 	}
 
-	// Set the current users default role
+	// Set the current users default role.
 	buddypress()->current_user->set_role( bp_get_option( 'default_role', 'subscriber' ) );
 }
 
@@ -273,7 +271,6 @@ function bp_set_current_user_default_role() {
  *     @type int   $blog_id Optional. Blog ID. Defaults to the BP root blog.
  *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.
  * }
- *
  * @return bool True if the user has the cap for the given parameters.
  */
 function bp_current_user_can( $capability, $args = array() ) {
@@ -291,7 +288,7 @@ function bp_current_user_can( $capability, $args = array() ) {
 		unset( $args['blog_id'] );
 	}
 
-	// Use root blog if no ID passed
+	// Use root blog if no ID passed.
 	if ( empty( $blog_id ) ) {
 		$blog_id = bp_get_root_blog_id();
 	}
@@ -340,27 +337,26 @@ function bp_current_user_can( $capability, $args = array() ) {
  * @param string $cap     The caps being tested for in WP_User::has_cap().
  * @param int    $user_id ID of the user being checked against.
  * @param array  $args    Miscellaneous arguments passed to the user_has_cap filter.
- *
  * @return array $allcaps The user's cap list, with 'bp_moderate' appended, if relevant.
  */
 function _bp_enforce_bp_moderate_cap_for_admins( $caps = array(), $cap = '', $user_id = 0, $args = array() ) {
 
-	// Bail if not checking the 'bp_moderate' cap
+	// Bail if not checking the 'bp_moderate' cap.
 	if ( 'bp_moderate' !== $cap ) {
 		return $caps;
 	}
 
-	// Bail if BuddyPress is not network activated
+	// Bail if BuddyPress is not network activated.
 	if ( bp_is_network_activated() ) {
 		return $caps;
 	}
 
-	// Never trust inactive users
+	// Never trust inactive users.
 	if ( bp_is_user_inactive( $user_id ) ) {
 		return $caps;
 	}
 
-	// Only users that can 'manage_options' on this site can 'bp_moderate'
+	// Only users that can 'manage_options' on this site can 'bp_moderate'.
 	return array( 'manage_options' );
 }
 add_filter( 'map_meta_cap', '_bp_enforce_bp_moderate_cap_for_admins', 10, 4 );

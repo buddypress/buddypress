@@ -11,6 +11,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Creates the Core component.
+ */
 class BP_Core extends BP_Component {
 
 	/**
@@ -50,7 +53,8 @@ class BP_Core extends BP_Component {
 		 */
 		do_action( 'bp_core_loaded' );
 
-		/** Components ********************************************************/
+		/** Components *******************************************************
+		 */
 
 		/**
 		 * Filters the included and optional components.
@@ -70,7 +74,7 @@ class BP_Core extends BP_Component {
 		 */
 		$bp->required_components = apply_filters( 'bp_required_components', array( 'members' ) );
 
-		// Get a list of activated components
+		// Get a list of activated components.
 		if ( $active_components = bp_get_option( 'bp-active-components' ) ) {
 
 			/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
@@ -85,10 +89,10 @@ class BP_Core extends BP_Component {
 			 */
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', array_values( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_keys( $bp->active_components ) ) ) );
 
-		// Pre 1.5 Backwards compatibility
+		// Pre 1.5 Backwards compatibility.
 		} elseif ( $deactivated_components = bp_get_option( 'bp-deactivated-components' ) ) {
 
-			// Trim off namespace and filename
+			// Trim off namespace and filename.
 			foreach ( array_keys( (array) $deactivated_components ) as $component ) {
 				$trimmed[] = str_replace( '.php', '', str_replace( 'bp-', '', $component ) );
 			}
@@ -96,40 +100,40 @@ class BP_Core extends BP_Component {
 			/** This filter is documented in bp-core/bp-core-loader.php */
 			$bp->deactivated_components = apply_filters( 'bp_deactivated_components', $trimmed );
 
-			// Setup the active components
+			// Setup the active components.
 			$active_components     = array_fill_keys( array_diff( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), array_values( $bp->deactivated_components ) ), '1' );
 
 			/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
 			$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
 
-		// Default to all components active
+		// Default to all components active.
 		} else {
 
-			// Set globals
+			// Set globals.
 			$bp->deactivated_components = array();
 
-			// Setup the active components
+			// Setup the active components.
 			$active_components     = array_fill_keys( array_values( array_merge( $bp->optional_components, $bp->required_components ) ), '1' );
 
 			/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
 			$bp->active_components = apply_filters( 'bp_active_components', $bp->active_components );
 		}
 
-		// Loop through optional components
+		// Loop through optional components.
 		foreach( $bp->optional_components as $component ) {
 			if ( bp_is_active( $component ) && file_exists( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) ) {
 				include( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
 			}
 		}
 
-		// Loop through required components
+		// Loop through required components.
 		foreach( $bp->required_components as $component ) {
 			if ( file_exists( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' ) ) {
 				include( $bp->plugin_dir . '/bp-' . $component . '/bp-' . $component . '-loader.php' );
 			}
 		}
 
-		// Add Core to required components
+		// Add Core to required components.
 		$bp->required_components[] = 'core';
 
 		/**
@@ -175,40 +179,43 @@ class BP_Core extends BP_Component {
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
 
-		/** Database **********************************************************/
+		/** Database *********************************************************
+		 */
 
-		// Get the base database prefix
+		// Get the base database prefix.
 		if ( empty( $bp->table_prefix ) ) {
 			$bp->table_prefix = bp_core_get_table_prefix();
 		}
 
-		// The domain for the root of the site where the main blog resides
+		// The domain for the root of the site where the main blog resides.
 		if ( empty( $bp->root_domain ) ) {
 			$bp->root_domain = bp_core_get_root_domain();
 		}
 
-		// Fetches all of the core BuddyPress settings in one fell swoop
+		// Fetches all of the core BuddyPress settings in one fell swoop.
 		if ( empty( $bp->site_options ) ) {
 			$bp->site_options = bp_core_get_root_options();
 		}
 
-		// The names of the core WordPress pages used to display BuddyPress content
+		// The names of the core WordPress pages used to display BuddyPress content.
 		if ( empty( $bp->pages ) ) {
 			$bp->pages = bp_core_get_directory_pages();
 		}
 
-		/** Basic current user data *******************************************/
+		/** Basic current user data ******************************************
+		 */
 
-		// Logged in user is the 'current_user'
+		// Logged in user is the 'current_user'.
 		$current_user            = wp_get_current_user();
 
 		// The user ID of the user who is currently logged in.
 		$bp->loggedin_user       = new stdClass;
 		$bp->loggedin_user->id   = isset( $current_user->ID ) ? $current_user->ID : 0;
 
-		/** Avatars ***********************************************************/
+		/** Avatars **********************************************************
+		 */
 
-		// Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar
+		// Fetches the default Gravatar image to use if the user/group/blog has no avatar or gravatar.
 		$bp->grav_default        = new stdClass;
 
 		/**
@@ -270,7 +277,7 @@ class BP_Core extends BP_Component {
 	 */
 	public function setup_cache_groups() {
 
-		// Global groups
+		// Global groups.
 		wp_cache_add_global_groups( array(
 			'bp'
 		) );

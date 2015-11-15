@@ -27,7 +27,7 @@ function bp_core_register_common_scripts() {
 	 */
 	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
 
-		// Legacy
+		// Legacy.
 		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js",        'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-widget-members' => array( 'file' => "{$url}widget-members{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js",   'dependencies' => array( 'jquery' ), 'footer' => false ),
@@ -132,10 +132,10 @@ function bp_core_avatar_scripts() {
 		return false;
 	}
 
-	// Enqueue the Attachments scripts for the Avatar UI
+	// Enqueue the Attachments scripts for the Avatar UI.
 	bp_attachments_enqueue_scripts( 'BP_Attachment_Avatar' );
 
-	// Add Some actions for Theme backcompat
+	// Add Some actions for Theme backcompat.
 	add_action( 'bp_after_profile_avatar_upload_content', 'bp_avatar_template_check' );
 	add_action( 'bp_after_group_admin_content',           'bp_avatar_template_check' );
 	add_action( 'bp_after_group_avatar_creation_step',    'bp_avatar_template_check' );
@@ -152,7 +152,7 @@ function bp_core_cover_image_scripts() {
 		return false;
 	}
 
-	// Enqueue the Attachments scripts for the Cover Image UI
+	// Enqueue the Attachments scripts for the Cover Image UI.
 	bp_attachments_enqueue_scripts( 'BP_Attachment_Cover_Image' );
 }
 add_action( 'bp_enqueue_scripts', 'bp_core_cover_image_scripts' );
@@ -184,48 +184,47 @@ function bp_core_add_cropper_inline_js() {
 		return;
 	}
 
-	// Get avatar full width and height
+	// Get avatar full width and height.
 	$full_height = bp_core_avatar_full_height();
 	$full_width  = bp_core_avatar_full_width();
 
-	// Calculate Aspect Ratio
+	// Calculate Aspect Ratio.
 	if ( !empty( $full_height ) && ( $full_width != $full_height ) ) {
 		$aspect_ratio = $full_width / $full_height;
 	} else {
 		$aspect_ratio = 1;
 	}
 
-	// Default cropper coordinates
-
-	// Smaller than full-width: cropper defaults to entire image
+	// Default cropper coordinates.
+	// Smaller than full-width: cropper defaults to entire image.
 	if ( $image[0] < $full_width ) {
 		$crop_left  = 0;
 		$crop_right = $image[0];
 
-	// Less than 2x full-width: cropper defaults to full-width
+	// Less than 2x full-width: cropper defaults to full-width.
 	} elseif ( $image[0] < ( $full_width * 2 ) ) {
 		$padding_w  = round( ( $image[0] - $full_width ) / 2 );
 		$crop_left  = $padding_w;
 		$crop_right = $image[0] - $padding_w;
 
-	// Larger than 2x full-width: cropper defaults to 1/2 image width
+	// Larger than 2x full-width: cropper defaults to 1/2 image width.
 	} else {
 		$crop_left  = round( $image[0] / 4 );
 		$crop_right = $image[0] - $crop_left;
 	}
 
-	// Smaller than full-height: cropper defaults to entire image
+	// Smaller than full-height: cropper defaults to entire image.
 	if ( $image[1] < $full_height ) {
 		$crop_top    = 0;
 		$crop_bottom = $image[1];
 
-	// Less than double full-height: cropper defaults to full-height
+	// Less than double full-height: cropper defaults to full-height.
 	} elseif ( $image[1] < ( $full_height * 2 ) ) {
 		$padding_h   = round( ( $image[1] - $full_height ) / 2 );
 		$crop_top    = $padding_h;
 		$crop_bottom = $image[1] - $padding_h;
 
-	// Larger than 2x full-height: cropper defaults to 1/2 image height
+	// Larger than 2x full-height: cropper defaults to 1/2 image height.
 	} else {
 		$crop_top    = round( $image[1] / 4 );
 		$crop_bottom = $image[1] - $crop_top;
@@ -272,8 +271,6 @@ function bp_core_add_cropper_inline_js() {
 
 /**
  * Output the inline CSS for the BP image cropper.
- *
- * @package BuddyPress Core
  */
 function bp_core_add_cropper_inline_css() {
 ?>
@@ -361,18 +358,18 @@ function bp_core_get_js_dependencies() {
  *
  * @since 2.4.0
  *
- * @param  bool $return true to get the inline css
+ * @param  bool $return True to get the inline css.
  * @return string|array the inline css or an associative array containing
  *                      the css rules and the style handle
  */
 function bp_add_cover_image_inline_css( $return = false ) {
 	$bp = buddypress();
 
-	// Find the component of the current item
+	// Find the component of the current item.
 	if ( bp_is_user() ) {
 
 		// User is not allowed to upload cover images
-		// no need to carry on
+		// no need to carry on.
 		if ( bp_disable_cover_image_uploads() ) {
 			return;
 		}
@@ -384,7 +381,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 	} elseif ( bp_is_group() ) {
 
 		// Users are not allowed to upload cover images for their groups
-		// no need to carry on
+		// no need to carry on.
 		if ( bp_disable_group_cover_image_uploads() ) {
 			return;
 		}
@@ -402,7 +399,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 		return;
 	}
 
-	// Get the settings of the cover image feature for the current component
+	// Get the settings of the cover image feature for the current component.
 	$params = bp_attachments_get_cover_image_settings( $cover_image_object['component'] );
 
 	// Bail if no params.
@@ -410,7 +407,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 		return;
 	}
 
-	// Try to call the callback
+	// Try to call the callback.
 	if ( is_callable( $params['callback'] ) ) {
 
 		$object_dir = $cover_image_object['component'];
@@ -438,10 +435,10 @@ function bp_add_cover_image_inline_css( $return = false ) {
 			'height'      => (int) $params['height'],
 		) ) );
 
-		// Finally add the inline css to the handle
+		// Finally add the inline css to the handle.
 		if ( ! empty( $inline_css ) ) {
 
-			// Used to get the css when Ajax setting the cover image
+			// Used to get the css when Ajax setting the cover image.
 			if ( true === $return ) {
 				return array(
 					'css_rules' => '<style type="text/css">' . "\n" . $inline_css . "\n" . '</style>',

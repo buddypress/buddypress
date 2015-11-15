@@ -43,7 +43,7 @@ add_filter( 'template_include',        'bp_template_include',    10    );
 add_filter( 'login_redirect',          'bp_login_redirect',      10, 3 );
 add_filter( 'map_meta_cap',            'bp_map_meta_caps',       10, 4 );
 
-// Add some filters to feedback messages
+// Add some filters to feedback messages.
 add_filter( 'bp_core_render_message_content', 'wptexturize'       );
 add_filter( 'bp_core_render_message_content', 'convert_smilies'   );
 add_filter( 'bp_core_render_message_content', 'convert_chars'     );
@@ -61,10 +61,10 @@ add_filter( 'bp_core_render_message_content', 'wp_kses_data', 5   );
 add_filter( 'bp_template_include',   'bp_template_include_theme_supports', 2, 1 );
 add_filter( 'bp_template_include',   'bp_template_include_theme_compat',   4, 2 );
 
-// Filter BuddyPress template locations
+// Filter BuddyPress template locations.
 add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations' );
 
-// Turn comments off for BuddyPress pages
+// Turn comments off for BuddyPress pages.
 add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
 
 /**
@@ -74,12 +74,11 @@ add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
  *
  * @param array $pages List of excluded page IDs, as passed to the
  *                     'wp_list_pages_excludes' filter.
- *
  * @return array The exclude list, with BP's pages added.
  */
 function bp_core_exclude_pages( $pages = array() ) {
 
-	// Bail if not the root blog
+	// Bail if not the root blog.
 	if ( ! bp_is_root_blog() )
 		return $pages;
 
@@ -114,12 +113,11 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * @uses buddypress() gets BuddyPress main instance
  *
  * @param object|null $object The post type object used in the meta box.
- *
  * @return object|null The $object, with a query argument to remove register and activate pages id.
  */
 function bp_core_exclude_pages_from_nav_menu_admin( $object = null ) {
 
-	// Bail if not the root blog
+	// Bail if not the root blog.
 	if ( ! bp_is_root_blog() ) {
 		return $object;
 	}
@@ -159,7 +157,6 @@ add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_adm
  *
  * @param array   $retval CSS classes for the current menu page in the menu.
  * @param WP_Post $page   The page properties for the current menu item.
- *
  * @return array
  */
 function bp_core_menu_highlight_parent_page( $retval, $page ) {
@@ -169,26 +166,26 @@ function bp_core_menu_highlight_parent_page( $retval, $page ) {
 
 	$page_id = false;
 
-	// loop against all BP component pages
+	// Loop against all BP component pages.
 	foreach ( (array) buddypress()->pages as $component => $bp_page ) {
-		// handles the majority of components
+		// Handles the majority of components.
 		if ( bp_is_current_component( $component ) ) {
 	                $page_id = (int) $bp_page->id;
 		}
 
-		// stop if not on a user page
+		// Stop if not on a user page.
 		if ( ! bp_is_user() && ! empty( $page_id ) ) {
 			break;
 		}
 
-		// members component requires an explicit check due to overlapping components
+		// Members component requires an explicit check due to overlapping components.
 		if ( bp_is_user() && 'members' === $component ) {
 			$page_id = (int) $bp_page->id;
 			break;
 		}
 	}
 
-	// duplicate some logic from Walker_Page::start_el() to highlight menu items
+	// Duplicate some logic from Walker_Page::start_el() to highlight menu items.
 	if ( ! empty( $page_id ) ) {
 		$_bp_page = get_post( $page_id );
 		if ( in_array( $page->ID, $_bp_page->ancestors, true ) ) {
@@ -217,7 +214,6 @@ add_filter( 'page_css_class', 'bp_core_menu_highlight_parent_page', 10, 2 );
  *
  * @param array   $retval CSS classes for the current nav menu item in the menu.
  * @param WP_Post $item   The properties for the current nav menu item.
- *
  * @return array
  */
 function bp_core_menu_highlight_nav_menu_item( $retval, $item ) {
@@ -226,10 +222,10 @@ function bp_core_menu_highlight_nav_menu_item( $retval, $item ) {
 		return $retval;
 	}
 
-	// get the WP page
+	// Get the WP page.
 	$page   = get_post( $item->object_id );
 
-	// see if we should add our highlight CSS classes for the page
+	// See if we should add our highlight CSS classes for the page.
 	$retval = bp_core_menu_highlight_parent_page( $retval, $page );
 
 	return $retval;
@@ -261,7 +257,6 @@ add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
  *
  * @param array $comments The array of comments supplied to the comments template.
  * @param int   $post_id  The post ID.
- *
  * @return array $comments The modified comment array.
  */
 function bp_core_filter_comments( $comments, $post_id ) {
@@ -304,17 +299,16 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
  * @param string  $redirect_to_raw The unsanitized redirect_to URL ($_REQUEST['redirect_to']).
  * @param WP_User $user            The WP_User object corresponding to a successfully
  *                                 logged-in user. Otherwise a WP_Error object.
- *
  * @return string The redirect URL.
  */
 function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 
-	// Only modify the redirect if we're on the main BP blog
+	// Only modify the redirect if we're on the main BP blog.
 	if ( !bp_is_root_blog() ) {
 		return $redirect_to;
 	}
 
-	// Only modify the redirect once the user is logged in
+	// Only modify the redirect once the user is logged in.
 	if ( !is_a( $user, 'WP_User' ) ) {
 		return $redirect_to;
 	}
@@ -339,7 +333,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 
 	// If a 'redirect_to' parameter has been passed that contains 'wp-admin', verify that the
 	// logged-in user has any business to conduct in the Dashboard before allowing the
-	// redirect to go through
+	// redirect to go through.
 	if ( !empty( $redirect_to ) && ( false === strpos( $redirect_to, 'wp-admin' ) || user_can( $user, 'edit_posts' ) ) ) {
 		return $redirect_to;
 	}
@@ -369,13 +363,12 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  * This filter will not fire when a user is registered by the site admin.
  *
  * @param string $welcome_email Complete email passed through WordPress.
- *
  * @return string Filtered $welcome_email with the password replaced
  *                by '[User Set]'.
  */
 function bp_core_filter_user_welcome_email( $welcome_email ) {
 
-	// Don't touch the email when a user is registered by the site admin
+	// Don't touch the email when a user is registered by the site admin.
 	if ( ( is_admin() || is_network_admin() ) && buddypress()->members->admin->signups_page != get_current_screen()->id ) {
 		return $welcome_email;
 	}
@@ -384,7 +377,7 @@ function bp_core_filter_user_welcome_email( $welcome_email ) {
 		return $welcome_email;
 	}
 
-	// Don't touch the email if we don't have a custom registration template
+	// Don't touch the email if we don't have a custom registration template.
 	if ( ! bp_has_custom_signup_page() ) {
 		return $welcome_email;
 	}
@@ -407,17 +400,16 @@ add_filter( 'update_welcome_user_email', 'bp_core_filter_user_welcome_email' );
  * @param int    $blog_id       ID of the blog user is joining.
  * @param int    $user_id       ID of the user joining.
  * @param string $password      Password of user.
- *
  * @return string Filtered $welcome_email with $password replaced by '[User Set]'.
  */
 function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
 
-	// Don't touch the email when a user is registered by the site admin
+	// Don't touch the email when a user is registered by the site admin.
 	if ( ( is_admin() || is_network_admin() ) && buddypress()->members->admin->signups_page != get_current_screen()->id ) {
 		return $welcome_email;
 	}
 
-	// Don't touch the email if we don't have a custom registration template
+	// Don't touch the email if we don't have a custom registration template.
 	if ( ! bp_has_custom_signup_page() )
 		return $welcome_email;
 
@@ -439,19 +431,18 @@ add_filter( 'update_welcome_email', 'bp_core_filter_blog_welcome_email', 10, 4 )
  * @param string $title      The site title.
  * @param string $user       The user's login name.
  * @param string $user_email The user's email address.
- * @param string $key        The activation key created in wpmu_signup_blog()
+ * @param string $key        The activation key created in wpmu_signup_blog().
  * @param array  $meta       By default, contains the requested privacy setting and
  *                           lang_id.
- *
  * @return bool True on success, false on failure.
  */
 function bp_core_activation_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta ) {
 
-	// Set up activation link
+	// Set up activation link.
 	$activate_url = bp_get_activation_page() ."?key=$key";
 	$activate_url = esc_url( $activate_url );
 
-	// Email contents
+	// Email contents.
 	$message = sprintf( __( "%1\$s,\n\n\n\nThanks for registering! To complete the activation of your account and blog, please click the following link:\n\n%2\$s\n\n\n\nAfter you activate, you can visit your blog here:\n\n%3\$s", 'buddypress' ), $user, $activate_url, esc_url( "http://{$domain}{$path}" ) );
 	$subject = bp_get_email_subject( array( 'text' => sprintf( __( 'Activate %s', 'buddypress' ), 'http://' . $domain . $path ) ) );
 
@@ -503,10 +494,10 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	 */
 	$message = apply_filters( 'bp_core_activation_signup_blog_notification_message', $message, $domain, $path, $title, $user, $user_email, $key, $meta );
 
-	// Send the email
+	// Send the email.
 	wp_mail( $to, $subject, $message );
 
-	// Set up the $admin_email to pass to the filter
+	// Set up the $admin_email to pass to the filter.
 	$admin_email = bp_get_option( 'admin_email' );
 
 	/**
@@ -527,7 +518,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	 */
 	do_action( 'bp_core_sent_blog_signup_email', $admin_email, $subject, $message, $domain, $path, $title, $user, $user_email, $key, $meta );
 
-	// Return false to stop the original WPMU function from continuing
+	// Return false to stop the original WPMU function from continuing.
 	return false;
 }
 add_filter( 'wpmu_signup_blog_notification', 'bp_core_activation_signup_blog_notification', 1, 7 );
@@ -539,21 +530,20 @@ add_filter( 'wpmu_signup_blog_notification', 'bp_core_activation_signup_blog_not
  *
  * @param string $user       The user's login name.
  * @param string $user_email The user's email address.
- * @param string $key        The activation key created in wpmu_signup_user()
+ * @param string $key        The activation key created in wpmu_signup_user().
  * @param array  $meta       By default, an empty array.
- *
  * @return bool|string True on success, false on failure.
  */
 function bp_core_activation_signup_user_notification( $user, $user_email, $key, $meta ) {
 
 	if ( is_admin() ) {
-		// If the user is created from the WordPress Add User screen, don't send BuddyPress signup notifications
+		// If the user is created from the WordPress Add User screen, don't send BuddyPress signup notifications.
 		if( in_array( get_current_screen()->id, array( 'user', 'user-network' ) ) ) {
-			// If the Super Admin want to skip confirmation email
+			// If the Super Admin want to skip confirmation email.
 			if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
 				return false;
 
-			// WordPress will manage the signup process
+			// WordPress will manage the signup process.
 			} else {
 				return $user;
 			}
@@ -561,7 +551,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 		/**
 		 * There can be a case where the user was created without the skip confirmation
 		 * And the super admin goes in pending accounts to resend it. In this case, as the
-		 * meta['password'] is not set, the activation url must be WordPress one
+		 * meta['password'] is not set, the activation url must be WordPress one.
 		 */
 		} elseif ( buddypress()->members->admin->signups_page == get_current_screen()->id ) {
 			$is_hashpass_in_meta = maybe_unserialize( $meta );
@@ -572,11 +562,11 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 		}
 	}
 
-	// Set up activation link
+	// Set up activation link.
 	$activate_url = bp_get_activation_page() . "?key=$key";
 	$activate_url = esc_url( $activate_url );
 
-	// Email contents
+	// Email contents.
 	$message = sprintf( __( "Thanks for registering! To complete the activation of your account please click the following link:\n\n%1\$s\n\n", 'buddypress' ), $activate_url );
 	$subject = bp_get_email_subject( array( 'text' => __( 'Activate Your Account', 'buddypress' ) ) );
 
@@ -619,10 +609,10 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	 */
 	$message = apply_filters( 'bp_core_activation_signup_user_notification_message', $message, $user, $user_email, $key, $meta );
 
-	// Send the email
+	// Send the email.
 	wp_mail( $to, $subject, $message );
 
-	// Set up the $admin_email to pass to the filter
+	// Set up the $admin_email to pass to the filter.
 	$admin_email = bp_get_option( 'admin_email' );
 
 	/**
@@ -640,7 +630,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	 */
 	do_action( 'bp_core_sent_user_signup_email', $admin_email, $subject, $message, $user, $user_email, $key, $meta );
 
-	// Return false to stop the original WPMU function from continuing
+	// Return false to stop the original WPMU function from continuing.
 	return false;
 }
 add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_notification', 1, 4 );
@@ -656,57 +646,56 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
  * @param  string $title       Original page title.
  * @param  string $sep         How to separate the various items within the page title.
  * @param  string $seplocation Direction to display title.
- *
  * @return string              New page title.
  */
 function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'right' ) {
 	global $bp, $paged, $page, $_wp_theme_features;
 
-	// If this is not a BP page, just return the title produced by WP
+	// If this is not a BP page, just return the title produced by WP.
 	if ( bp_is_blog_page() ) {
 		return $title;
 	}
 
-	// If this is a 404, let WordPress handle it
+	// If this is a 404, let WordPress handle it.
 	if ( is_404() ) {
 		return $title;
 	}
 
-	// If this is the front page of the site, return WP's title
+	// If this is the front page of the site, return WP's title.
 	if ( is_front_page() || is_home() ) {
 		return $title;
 	}
 
-	// Return WP's title if not a BuddyPress page
+	// Return WP's title if not a BuddyPress page.
 	if ( ! is_buddypress() ) {
 		return $title;
 	}
 
-	// Setup an empty title parts array
+	// Setup an empty title parts array.
 	$title_parts = array();
 
 	// Is there a displayed user, and do they have a name?
 	$displayed_user_name = bp_get_displayed_user_fullname();
 
-	// Displayed user
+	// Displayed user.
 	if ( ! empty( $displayed_user_name ) && ! is_404() ) {
 
-		// Get the component's ID to try and get its name
+		// Get the component's ID to try and get its name.
 		$component_id = $component_name = bp_current_component();
 
-		// Set empty subnav name
+		// Set empty subnav name.
 		$component_subnav_name = '';
 
-		// Use the component nav name
+		// Use the component nav name.
 		if ( ! empty( $bp->bp_nav[$component_id] ) ) {
 			$component_name = _bp_strip_spans_from_title( $bp->bp_nav[ $component_id ]['name'] );
 
-		// Fall back on the component ID
+		// Fall back on the component ID.
 		} elseif ( ! empty( $bp->{$component_id}->id ) ) {
 			$component_name = ucwords( $bp->{$component_id}->id );
 		}
 
-		// Append action name if we're on a member component sub-page
+		// Append action name if we're on a member component sub-page.
 		if ( ! empty( $bp->bp_options_nav[ $component_id ] ) && ! empty( $bp->canonical_stack['action'] ) ) {
 			$component_subnav_name = wp_filter_object_list( $bp->bp_options_nav[ $component_id ], array( 'slug' => bp_current_action() ), 'and', 'name' );
 
@@ -715,69 +704,69 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 			}
 		}
 
-		// If on the user profile's landing page, just use the fullname
+		// If on the user profile's landing page, just use the fullname.
 		if ( bp_is_current_component( $bp->default_component ) && ( bp_get_requested_url() === bp_displayed_user_domain() ) ) {
 			$title_parts[] = $displayed_user_name;
 
-		// Use component name on member pages
+		// Use component name on member pages.
 		} else {
 			$title_parts = array_merge( $title_parts, array_map( 'strip_tags', array(
 				$displayed_user_name,
 				$component_name,
 			) ) );
 
-			// If we have a subnav name, add it separately for localization
+			// If we have a subnav name, add it separately for localization.
 			if ( ! empty( $component_subnav_name ) ) {
 				$title_parts[] = strip_tags( $component_subnav_name );
 			}
 		}
 
-	// A single group
+	// A single group.
 	} elseif ( bp_is_active( 'groups' ) && ! empty( $bp->groups->current_group ) && ! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ] ) ) {
 		$subnav      = isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ bp_current_action() ]['name'] ) ? $bp->bp_options_nav[ $bp->groups->current_group->slug ][ bp_current_action() ]['name'] : '';
 		$title_parts = array( $bp->bp_options_title, $subnav );
 
-	// A single item from a component other than groups
+	// A single item from a component other than groups.
 	} elseif ( bp_is_single_item() ) {
 		$title_parts = array( $bp->bp_options_title, $bp->bp_options_nav[ bp_current_item() ][ bp_current_action() ]['name'] );
 
-	// An index or directory
+	// An index or directory.
 	} elseif ( bp_is_directory() ) {
 		$current_component = bp_current_component();
 
-		// No current component (when does this happen?)
+		// No current component (when does this happen?).
 		$title_parts = array( _x( 'Directory', 'component directory title', 'buddypress' ) );
 
 		if ( ! empty( $current_component ) ) {
 			$title_parts = array( bp_get_directory_title( $current_component ) );
  		}
 
-	// Sign up page
+	// Sign up page.
 	} elseif ( bp_is_register_page() ) {
 		$title_parts = array( __( 'Create an Account', 'buddypress' ) );
 
-	// Activation page
+	// Activation page.
 	} elseif ( bp_is_activation_page() ) {
 		$title_parts = array( __( 'Activate Your Account', 'buddypress' ) );
 
-	// Group creation page
+	// Group creation page.
 	} elseif ( bp_is_group_create() ) {
 		$title_parts = array( __( 'Create a Group', 'buddypress' ) );
 
-	// Blog creation page
+	// Blog creation page.
 	} elseif ( bp_is_create_blog() ) {
 		$title_parts = array( __( 'Create a Site', 'buddypress' ) );
 	}
 
-	// Strip spans
+	// Strip spans.
 	$title_parts = array_map( '_bp_strip_spans_from_title', $title_parts );
 
-	// sep on right, so reverse the order
+	// Sep on right, so reverse the order.
 	if ( 'right' == $seplocation ) {
 		$title_parts = array_reverse( $title_parts );
 	}
 
-	// Get the blog name, so we can check if the original $title included it
+	// Get the blog name, so we can check if the original $title included it.
 	$blogname = get_bloginfo( 'name', 'display' );
 
 	/**
@@ -788,7 +777,7 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 	 */
 	$title_tag_compatibility = (bool) ( ! empty( $_wp_theme_features['title-tag'] ) || strstr( $title, $blogname ) );
 
-	// Append the site title to title parts if theme supports title tag
+	// Append the site title to title parts if theme supports title tag.
 	if ( true === $title_tag_compatibility ) {
 		$title_parts[] = $blogname;
 
@@ -797,13 +786,13 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 		}
 	}
 
-	// Pad the separator with 1 space on each side
+	// Pad the separator with 1 space on each side.
 	$prefix = str_pad( $sep, strlen( $sep ) + 2, ' ', STR_PAD_BOTH );
 
-	// Join the parts together
+	// Join the parts together.
 	$new_title = join( $prefix, array_filter( $title_parts ) );
 
-	// Append the prefix for pre `title-tag` compatibility
+	// Append the prefix for pre `title-tag` compatibility.
 	if ( false === $title_tag_compatibility ) {
 		$new_title = $new_title . $prefix;
 	}
@@ -831,8 +820,7 @@ add_filter( 'bp_modify_page_title', 'esc_html'        );
  * This is a temporary function for compatibility with WordPress versions
  * less than 4.0, and should be removed at a later date.
  *
- * @param  string $title_part
- *
+ * @param string $title_part Title part to clean up.
  * @return string
  */
 function _bp_strip_spans_from_title( $title_part = '' ) {
@@ -850,7 +838,6 @@ function _bp_strip_spans_from_title( $title_part = '' ) {
  * @since 1.9.0
  *
  * @param WP_Post $menu_item The menu item.
- *
  * @return WP_Post The modified WP_Post object.
  */
 function bp_setup_nav_menu_item( $menu_item ) {
@@ -858,7 +845,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 		return $menu_item;
 	}
 
-	// Prevent a notice error when using the customizer
+	// Prevent a notice error when using the customizer.
 	$menu_classes = $menu_item->classes;
 
 	if ( is_array( $menu_classes ) ) {
@@ -866,10 +853,10 @@ function bp_setup_nav_menu_item( $menu_item ) {
 	}
 
 	// We use information stored in the CSS class to determine what kind of
-	// menu item this is, and how it should be treated
+	// menu item this is, and how it should be treated.
 	preg_match( '/\sbp-(.*)-nav/', $menu_classes, $matches );
 
-	// If this isn't a BP menu item, we can stop here
+	// If this isn't a BP menu item, we can stop here.
 	if ( empty( $matches[1] ) ) {
 		return $menu_item;
 	}
@@ -893,7 +880,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 
 			break;
 
-		// Don't show the Register link to logged-in users
+		// Don't show the Register link to logged-in users.
 		case 'register' :
 			if ( is_user_logged_in() ) {
 				$menu_item->_invalid = true;
@@ -902,7 +889,7 @@ function bp_setup_nav_menu_item( $menu_item ) {
 			break;
 
 		// All other BP nav items are specific to the logged-in user,
-		// and so are not relevant to logged-out users
+		// and so are not relevant to logged-out users.
 		default:
 			if ( is_user_logged_in() ) {
 				$menu_item->url = bp_nav_menu_get_item_url( $matches[1] );
@@ -913,11 +900,11 @@ function bp_setup_nav_menu_item( $menu_item ) {
 			break;
 	}
 
-	// If component is deactivated, make sure menu item doesn't render
+	// If component is deactivated, make sure menu item doesn't render.
 	if ( empty( $menu_item->url ) ) {
 		$menu_item->_invalid = true;
 
-	// Highlight the current page
+	// Highlight the current page.
 	} else {
 		$current = bp_get_requested_url();
 		if ( strpos( $current, $menu_item->url ) !== false ) {
@@ -935,14 +922,14 @@ function bp_setup_nav_menu_item( $menu_item ) {
 add_filter( 'wp_setup_nav_menu_item', 'bp_setup_nav_menu_item', 10, 1 );
 
 /**
- * Populate BuddyPress user nav items for the customizer
+ * Populate BuddyPress user nav items for the customizer.
  *
  * @since  2.3.3
  *
- * @param  array   $items  The array of menu items
- * @param  string  $type   The requested type
- * @param  string  $object The requested object name
- * @param  integer $page   The page num being requested
+ * @param  array   $items  The array of menu items.
+ * @param  string  $type   The requested type.
+ * @param  string  $object The requested object name.
+ * @param  integer $page   The page num being requested.
  * @return array           The paginated BuddyPress user nav items.
  */
 function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $object = '', $page = 0 ) {
@@ -972,7 +959,7 @@ function bp_customizer_nav_menus_get_items( $items = array(), $type = '', $objec
 add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_items', 10, 4 );
 
 /**
- * Set BuddyPress item navs for the customizer
+ * Set BuddyPress item navs for the customizer.
  *
  * @since  2.3.3
  *
@@ -1011,7 +998,6 @@ add_filter( 'customize_nav_menu_available_item_types', 'bp_customizer_nav_menus_
  * @access private Do not use.
  *
  * @param string $q SQL query.
- *
  * @return string
  */
 function bp_filter_metaid_column_name( $q ) {
@@ -1043,7 +1029,6 @@ function bp_filter_metaid_column_name( $q ) {
  *
  * @param  string $edit_link The edit link.
  * @param  int    $post_id   Post ID.
- *
  * @return bool|string Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
  *                     otherwise
  */
@@ -1063,7 +1048,6 @@ function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
  *
  * @param bool $load_mentions    True to load mentions assets, false otherwise.
  * @param bool $mentions_enabled True if mentions are enabled.
- *
  * @return bool True if mentions scripts should be loaded.
  */
 function bp_maybe_load_mentions_scripts_for_blog_content( $load_mentions, $mentions_enabled ) {

@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * script requires it. So we need to make sure the current WordPress
  * match with our needs.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
  * @return bool True if WordPress is 3.9+, false otherwise.
  */
@@ -25,13 +25,13 @@ function bp_attachments_is_wp_version_supported() {
 }
 
 /**
- * Get the Attachments Uploads dir data
+ * Get the Attachments Uploads dir data.
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  string        $data The data to get. Possible values are: 'dir', 'basedir' & 'baseurl'
- *                       Leave empty to get all datas.
- * @return string|array  The needed Upload dir data.
+ * @param string $data The data to get. Possible values are: 'dir', 'basedir' & 'baseurl'.
+ *                     Leave empty to get all datas.
+ * @return string|array The needed Upload dir data.
  */
 function bp_attachments_uploads_dir_get( $data = '' ) {
 	$attachments_dir = 'buddypress';
@@ -42,7 +42,7 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 	} else {
 		$upload_data = bp_upload_dir();
 
-		// Build the Upload data array for BuddyPress attachments
+		// Build the Upload data array for BuddyPress attachments.
 		foreach ( $upload_data as $key => $value ) {
 			if ( 'basedir' === $key || 'baseurl' === $key ) {
 				$upload_data[ $key ] = trailingslashit( $value ) . $attachments_dir;
@@ -51,7 +51,7 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 			}
 		}
 
-		// Add the dir to the array
+		// Add the dir to the array.
 		$upload_data['dir'] = $attachments_dir;
 
 		if ( empty( $data ) ) {
@@ -64,22 +64,22 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 	/**
 	 * Filter here to edit the Attachments upload dir data.
 	 *
-	 * @since  2.4.0
+	 * @since 2.4.0
 	 *
-	 * @param  string|array $retval      The needed Upload dir data or the full array of data
-	 * @param  string       $data        The data requested
+	 * @param string|array $retval The needed Upload dir data or the full array of data
+	 * @param string       $data   The data requested
 	 */
 	return apply_filters( 'bp_attachments_uploads_dir_get', $retval, $data );
 }
 
 /**
- * Get the max upload file size for any attachment
+ * Get the max upload file size for any attachment.
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  string $type A string to inform about the type of attachment
- *                      we wish to get the max upload file size for
- * @return int    max upload file size for any attachment
+ * @param string $type A string to inform about the type of attachment
+ *                     we wish to get the max upload file size for.
+ * @return int Max upload file size for any attachment.
  */
 function bp_attachments_get_max_upload_file_size( $type = '' ) {
 	$fileupload_maxk = bp_core_get_root_option( 'fileupload_maxk' );
@@ -93,33 +93,33 @@ function bp_attachments_get_max_upload_file_size( $type = '' ) {
 	/**
 	 * Filter here to edit the max upload file size.
 	 *
-	 * @since  2.4.0
+	 * @since 2.4.0
 	 *
-	 * @param  int    $fileupload_maxk Max upload file size for any attachment
-	 * @param  string $type            The attachment type (eg: 'avatar' or 'cover_image')
+	 * @param int    $fileupload_maxk Max upload file size for any attachment.
+	 * @param string $type            The attachment type (eg: 'avatar' or 'cover_image').
 	 */
 	return apply_filters( 'bp_attachments_get_max_upload_file_size', $fileupload_maxk, $type );
 }
 
 /**
- * Get allowed types for any attachment
+ * Get allowed types for any attachment.
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  string $type  The extension types to get.
- *                       Default: 'avatar'
- * @return array         The list of allowed extensions for attachments
+ * @param string $type The extension types to get.
+ *                     Default: 'avatar'.
+ * @return array The list of allowed extensions for attachments.
  */
 function bp_attachments_get_allowed_types( $type = 'avatar' ) {
-	// Defaults to BuddyPress supported image extensions
+	// Defaults to BuddyPress supported image extensions.
 	$exts = array( 'jpeg', 'gif', 'png' );
 
 	/**
 	 * It's not a BuddyPress feature, get the allowed extensions
-	 * matching the $type requested
+	 * matching the $type requested.
 	 */
 	if ( 'avatar' !== $type && 'cover_image' !== $type ) {
-		// Reset the default exts
+		// Reset the default exts.
 		$exts = array();
 
 		switch ( $type ) {
@@ -135,9 +135,9 @@ function bp_attachments_get_allowed_types( $type = 'avatar' ) {
 				$allowed_mimes = get_allowed_mime_types();
 
 				/**
-				 * Search for allowed mimes matching the type
+				 * Search for allowed mimes matching the type.
 				 *
-				 * eg: using 'application/vnd.oasis' as the $type
+				 * Eg: using 'application/vnd.oasis' as the $type
 				 * parameter will get all OpenOffice extensions supported
 				 * by WordPress and allowed for the current user.
 				 */
@@ -147,7 +147,7 @@ function bp_attachments_get_allowed_types( $type = 'avatar' ) {
 
 				$allowed_types = array_keys( $allowed_mimes );
 
-				// Loop to explode keys using '|'
+				// Loop to explode keys using '|'.
 				foreach ( $allowed_types as $allowed_type ) {
 					$t = explode( '|', $allowed_type );
 					$exts = array_merge( $exts, (array) $t );
@@ -159,10 +159,10 @@ function bp_attachments_get_allowed_types( $type = 'avatar' ) {
 	/**
 	 * Filter here to edit the allowed extensions by attachment type.
 	 *
-	 * @since  2.4.0
+	 * @since 2.4.0
 	 *
-	 * @param  array  $exts List of allowed extensions
-	 * @param  string $type The requested file type
+	 * @param array  $exts List of allowed extensions.
+	 * @param string $type The requested file type.
 	 */
 	return apply_filters( 'bp_attachments_get_allowed_types', $exts, $type );
 }
@@ -172,9 +172,9 @@ function bp_attachments_get_allowed_types( $type = 'avatar' ) {
  *
  * @since 2.4.0
  *
- * @param  string $type         The extension types to get (Optional).
- * @param  array $allowed_types List of allowed extensions
- * @return array                List of allowed mime types
+ * @param string $type          The extension types to get (Optional).
+ * @param array  $allowed_types List of allowed extensions.
+ * @return array List of allowed mime types.
  */
 function bp_attachments_get_allowed_mimes( $type = '', $allowed_types = array() ) {
 	if ( empty( $allowed_types ) ) {
@@ -195,15 +195,15 @@ function bp_attachments_get_allowed_mimes( $type = '', $allowed_types = array() 
 }
 
 /**
- * Check the uploaded attachment type is allowed
+ * Check the uploaded attachment type is allowed.
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  string $file          Full path to the file.
- * @param  string $filename      The name of the file (may differ from $file due to $file being
- *                               in a tmp directory).
- * @param  array  $allowed_mimes The attachment allowed mimes (Required)
- * @return bool                  True if the attachment type is allowed. False otherwise
+ * @param string $file          Full path to the file.
+ * @param string $filename      The name of the file (may differ from $file due to $file being
+ *                              in a tmp directory).
+ * @param array  $allowed_mimes The attachment allowed mimes (Required).
+ * @return bool True if the attachment type is allowed. False otherwise
  */
 function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
 	$filetype = wp_check_filetype_and_ext( $file, $filename, $allowed_mimes );
@@ -220,8 +220,8 @@ function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
  *
  * @since 2.4.0
  *
- * @param  string $type        The attachment type to create (avatar or cover_image). Default: avatar.
- * @param  array  $args {
+ * @param string $type The attachment type to create (avatar or cover_image). Default: avatar.
+ * @param array  $args {
  *     @type int    $item_id   The ID of the object (Required). Default: 0.
  *     @type string $object    The object type (eg: group, user, blog) (Required). Default: 'user'.
  *     @type string $component The component for the object (eg: groups, xprofile, blogs). Default: ''.
@@ -231,7 +231,7 @@ function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
  *     @type int    $crop_x    The horizontal starting point of the crop. Default: 0.
  *     @type int    $crop_y    The vertical starting point of the crop. Default: 0.
  * }
- * @return bool  True on success, false otherwise.
+ * @return bool True on success, false otherwise.
  */
 function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 	if ( empty( $type ) || ( $type !== 'avatar' && $type !== 'cover_image' ) ) {
@@ -253,12 +253,12 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 		return false;
 	}
 
-	// Make sure the file path is safe
+	// Make sure the file path is safe.
 	if ( 0 !== validate_file( $r['image'] ) ) {
 		return false;
 	}
 
-	// Set the component if not already done
+	// Set the component if not already done.
 	if ( empty( $r['component'] ) ) {
 		if ( 'user' === $r['object'] ) {
 			$r['component'] = 'xprofile';
@@ -276,16 +276,16 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 		return false;
 	}
 
-	// Init the Attachment data
+	// Init the Attachment data.
 	$attachment_data = array();
 
 	if ( 'avatar' === $type ) {
-		// Set crop width for the avatar if not given
+		// Set crop width for the avatar if not given.
 		if ( empty( $r['crop_w'] ) ) {
 			$r['crop_w'] = bp_core_avatar_full_width();
 		}
 
-		// Set crop height for the avatar if not given
+		// Set crop height for the avatar if not given.
 		if ( empty( $r['crop_h'] ) ) {
 			$r['crop_h'] = bp_core_avatar_full_height();
 		}
@@ -293,7 +293,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 		if ( is_callable( $r['component'] . '_avatar_upload_dir' ) ) {
 			$dir_args = array( $r['item_id'] );
 
-			// In case  of xprofile, we need an extra argument
+			// In case  of xprofile, we need an extra argument.
 			if ( 'xprofile' === $r['component'] ) {
 				$dir_args = array( false, $r['item_id'] );
 			}
@@ -303,17 +303,17 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 	} elseif ( 'cover_image' === $type ) {
 		$attachment_data = bp_attachments_uploads_dir_get();
 
-		// Default to members for xProfile
+		// Default to members for xProfile.
 		$object_subdir = 'members';
 
 		if ( 'xprofile' !== $r['component'] ) {
 			$object_subdir = sanitize_key( $r['component'] );
 		}
 
-		// Set Subdir
+		// Set Subdir.
 		$attachment_data['subdir'] = $object_subdir . '/' . $r['item_id'] . '/cover-image';
 
-		// Set Path
+		// Set Path.
 		$attachment_data['path'] = trailingslashit( $attachment_data['basedir'] ) . $attachment_data['subdir'];
 	}
 
@@ -321,23 +321,23 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 		return false;
 	}
 
-	// It's not a regular upload, we may need to create some folders
+	// It's not a regular upload, we may need to create some folders.
 	if ( ! is_dir( $attachment_data['path'] ) ) {
 		if ( ! wp_mkdir_p( $attachment_data['path'] ) ) {
 			return false;
 		}
 	}
 
-	// Set the image name and path
+	// Set the image name and path.
 	$image_file_name = wp_unique_filename( $attachment_data['path'], basename( $r['image'] ) );
 	$image_file_path = $attachment_data['path'] . '/' . $image_file_name;
 
-	// Copy the image file into the avatar dir
+	// Copy the image file into the avatar dir.
 	if ( ! copy( $r['image'], $image_file_path ) ) {
 		return false;
 	}
 
-	// Init the response
+	// Init the response.
 	$created = false;
 
 	// It's an avatar, we need to crop it.
@@ -353,7 +353,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 			'crop_y'        => $r['crop_y']
 		) );
 
-	// It's a cover image we need to fit it to feature's dimensions
+	// It's a cover image we need to fit it to feature's dimensions.
 	} elseif ( 'cover_image' === $type ) {
 		$cover_image = bp_attachments_cover_image_generate_file( array(
 			'file'            => $image_file_path,
@@ -364,32 +364,32 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 		$created = ! empty( $cover_image['cover_file'] );
 	}
 
-	// Remove copied file if it fails
+	// Remove copied file if it fails.
 	if ( ! $created ) {
 		@unlink( $image_file_path );
 	}
 
-	// Return the response
+	// Return the response.
 	return $created;
 }
 
 /**
- * Get the url or the path for a type of attachment
+ * Get the url or the path for a type of attachment.
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  string $data whether to get the url or the path
- * @param  array  $args {
+ * @param string $data whether to get the url or the path.
+ * @param array  $args {
  *     @type string $object_dir  The object dir (eg: members/groups). Defaults to members.
  *     @type int    $item_id     The object id (eg: a user or a group id). Defaults to current user.
  *     @type string $type        The type of the attachment which is also the subdir where files are saved.
  *                               Defaults to 'cover-image'
  *     @type string $file        The name of the file.
  * }
- * @return string|bool the url or the path to the attachment, false otherwise
+ * @return string|bool The url or the path to the attachment, false otherwise
  */
 function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
-	// Default value
+	// Default value.
 	$attachment_data = false;
 
 	$r = bp_parse_args( $args, array(
@@ -399,7 +399,7 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 		'file'       => '',
 	), 'attachments_get_attachment_src' );
 
-	// Get BuddyPress Attachments Uploads Dir datas
+	// Get BuddyPress Attachments Uploads Dir datas.
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
 
 	$type_subdir = $r['object_dir'] . '/' . $r['item_id'] . '/' . $r['type'];
@@ -423,11 +423,11 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	} else {
 		$file = false;
 
-		// Open the directory and get the first file
+		// Open the directory and get the first file.
 		if ( $att_dir = opendir( $type_dir ) ) {
 
 			while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
-				// Look for the first file having the type in its name
+				// Look for the first file having the type in its name.
 				if ( false !== strpos( $attachment_file, $r['type'] ) && empty( $file ) ) {
 					$file = $attachment_file;
 					break;
@@ -452,11 +452,12 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 /**
  * Delete an attachment for the given arguments
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  array $args
- * @see    bp_attachments_get_attachment() For more information on accepted arguments.
- * @return bool True if the attachment was deleted, false otherwise
+ * @see bp_attachments_get_attachment() For more information on accepted arguments.
+ *
+ * @param array $args Array of arguments for the attachment deletion.
+ * @return bool True if the attachment was deleted, false otherwise.
  */
 function bp_attachments_delete_file( $args = array() ) {
 	$attachment_path = bp_attachments_get_attachment( 'path', $args );
@@ -472,9 +473,9 @@ function bp_attachments_delete_file( $args = array() ) {
 /**
  * Get the BuddyPress Plupload settings.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
- * @return array list of BuddyPress Plupload settings.
+ * @return array List of BuddyPress Plupload settings.
  */
 function bp_attachments_get_plupload_default_settings() {
 
@@ -522,7 +523,7 @@ function bp_attachments_get_plupload_default_settings() {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $params Default Plupload parameters array.
+	 * @param array $settings Default Plupload parameters array.
 	 */
 	return apply_filters( 'bp_attachments_get_plupload_default_settings', $settings );
 }
@@ -530,12 +531,12 @@ function bp_attachments_get_plupload_default_settings() {
 /**
  * Builds localization strings for the BuddyPress Uploader scripts.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
  * @return array Plupload default localization strings.
  */
 function bp_attachments_get_plupload_l10n() {
-	// Localization strings
+	// Localization strings.
 	return apply_filters( 'bp_attachments_get_plupload_l10n', array(
 			'queue_limit_exceeded'      => __( 'You have attempted to queue too many files.', 'buddypress' ),
 			'file_exceeds_size_limit'   => __( '%s exceeds the maximum upload size for this site.', 'buddypress' ),
@@ -566,13 +567,12 @@ function bp_attachments_get_plupload_l10n() {
 /**
  * Enqueues the script needed for the Uploader UI.
  *
- * @see  BP_Attachment::script_data() && BP_Attachment_Avatar::script_data() for examples showing how
+ * @see BP_Attachment::script_data() && BP_Attachment_Avatar::script_data() for examples showing how
  * to set specific script data.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
- * @param  string $class name of the class extending BP_Attachment (eg: BP_Attachment_Avatar).
- *
+ * @param string $class Name of the class extending BP_Attachment (eg: BP_Attachment_Avatar).
  * @return null|WP_Error
  */
 function bp_attachments_enqueue_scripts( $class = '' ) {
@@ -585,7 +585,7 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		return new WP_Error( 'missing_parameter' );
 	}
 
-	// Get an instance of the class and get the script data
+	// Get an instance of the class and get the script data.
 	$attachment = new $class;
 	$script_data  = $attachment->script_data();
 
@@ -606,29 +606,29 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		return new WP_Error( 'missing_parameter' );
 	}
 
-	// Get the BuddyPress uploader strings
+	// Get the BuddyPress uploader strings.
 	$strings = bp_attachments_get_plupload_l10n();
 
-	// Get the BuddyPress uploader settings
+	// Get the BuddyPress uploader settings.
 	$settings = bp_attachments_get_plupload_default_settings();
 
-	// Set feedback messages
+	// Set feedback messages.
 	if ( ! empty( $args['feedback_messages'] ) ) {
 		$strings['feedback_messages'] = $args['feedback_messages'];
 	}
 
-	// Use a temporary var to ease manipulation
+	// Use a temporary var to ease manipulation.
 	$defaults = $settings['defaults'];
 
-	// Set the upload action
+	// Set the upload action.
 	$defaults['multipart_params']['action'] = $args['action'];
 
-	// Set BuddyPress upload parameters if provided
+	// Set BuddyPress upload parameters if provided.
 	if ( ! empty( $args['bp_params'] ) ) {
 		$defaults['multipart_params']['bp_params'] = $args['bp_params'];
 	}
 
-	// Merge other arguments
+	// Merge other arguments.
 	$ui_args = array_intersect_key( $args, array(
 		'file_data_name' => true,
 		'browse_button'  => true,
@@ -642,10 +642,10 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		$defaults['filters']['max_file_size'] = $args['max_file_size'] . 'b';
 	}
 
-	// Specific to BuddyPress Avatars
+	// Specific to BuddyPress Avatars.
 	if ( 'bp_avatar_upload' === $defaults['multipart_params']['action'] ) {
 
-		// Include the cropping informations for avatars
+		// Include the cropping informations for avatars.
 		$settings['crop'] = array(
 			'full_h'  => bp_core_avatar_full_height(),
 			'full_w'  => bp_core_avatar_full_width(),
@@ -654,25 +654,25 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		// Avatar only need 1 file and 1 only!
 		$defaults['multi_selection'] = false;
 
-		// Does the object already has an avatar set
+		// Does the object already has an avatar set.
 		$has_avatar = $defaults['multipart_params']['bp_params']['has_avatar'];
 
-		// What is the object the avatar belongs to
+		// What is the object the avatar belongs to.
 		$object = $defaults['multipart_params']['bp_params']['object'];
 
-		// Init the Avatar nav
+		// Init the Avatar nav.
 		$avatar_nav = array(
 			'upload' => array( 'id' => 'upload', 'caption' => __( 'Upload', 'buddypress' ), 'order' => 0  ),
 
-			// The delete view will only show if the object has an avatar
+			// The delete view will only show if the object has an avatar.
 			'delete' => array( 'id' => 'delete', 'caption' => __( 'Delete', 'buddypress' ), 'order' => 100, 'hide' => (int) ! $has_avatar ),
 		);
 
-		// Create the Camera Nav if the WebCam capture feature is enabled
+		// Create the Camera Nav if the WebCam capture feature is enabled.
 		if ( bp_avatar_use_webcam() && 'user' === $object ) {
 			$avatar_nav['camera'] = array( 'id' => 'camera', 'caption' => __( 'Take Photo', 'buddypress' ), 'order' => 10 );
 
-			// Set warning messages
+			// Set warning messages.
 			$strings['camera_warnings'] = array(
 				'requesting'  => __( 'Please allow us to access to your camera.', 'buddypress'),
 				'loading'     => __( 'Please wait as we access your camera.', 'buddypress' ),
@@ -690,8 +690,9 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param array $avatar_nav An associative array of available nav items where each item is an array organized this way:
-		 * $avatar_nav[ $nav_item_id ] {
+		 * @param array  $avatar_nav {
+		 *     An associative array of available nav items where each item is an array organized this way:
+		 *     $avatar_nav[ $nav_item_id ].
 		 *     @type string $nav_item_id The nav item id in lower case without special characters or space.
 		 *     @type string $caption     The name of the item nav that will be displayed in the nav.
 		 *     @type int    $order       An integer to specify the priority of the item nav, choose one.
@@ -699,32 +700,32 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		 *     @type int    $hide        If set to 1 the item nav will be hidden
 		 *                               (only used for the delete nav item).
 		 * }
-		 * @param string $object the object the avatar belongs to (eg: user or group)
+		 * @param string $object The object the avatar belongs to (eg: user or group).
 		 */
 		$settings['nav'] = bp_sort_by_key( apply_filters( 'bp_attachments_avatar_nav', $avatar_nav, $object ), 'order', 'num' );
 
-	// Specific to BuddyPress cover images
+	// Specific to BuddyPress cover images.
 	} elseif ( 'bp_cover_image_upload' === $defaults['multipart_params']['action'] ) {
 
 		// Cover images only need 1 file and 1 only!
 		$defaults['multi_selection'] = false;
 
-		// Default cover component is xprofile
+		// Default cover component is xprofile.
 		$cover_component = 'xprofile';
 
-		// Get the object we're editing the cover image of
+		// Get the object we're editing the cover image of.
 		$object = $defaults['multipart_params']['bp_params']['object'];
 
-		// Set the cover component according to the object
+		// Set the cover component according to the object.
 		if ( 'group' === $object ) {
 			$cover_component = 'groups';
 		} elseif ( 'user' !== $object ) {
 			$cover_component = apply_filters( 'bp_attachments_cover_image_ui_component', $cover_component );
 		}
-		// Get cover image advised dimensions
+		// Get cover image advised dimensions.
 		$cover_dimensions = bp_attachments_get_cover_image_dimensions( $cover_component );
 
-		// Set warning messages
+		// Set warning messages.
 		$strings['cover_image_warnings'] = apply_filters( 'bp_attachments_cover_image_ui_warnings', array(
 			'dimensions'  => sprintf(
 					__( 'For better results, make sure to upload an image that is larger than %1$spx wide, and %2$spx tall.', 'buddypress' ),
@@ -734,7 +735,7 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		) );
 	}
 
-	// Set Plupload settings
+	// Set Plupload settings.
 	$settings['defaults'] = $defaults;
 
 	/**
@@ -782,11 +783,10 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 /**
  * Check the current user's capability to edit an avatar for a given object.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
- * @param  string $capability The capability to check.
- * @param  array  $args       An array containing the item_id and the object to check.
- *
+ * @param string $capability The capability to check.
+ * @param array  $args       An array containing the item_id and the object to check.
  * @return bool
  */
 function bp_attachments_current_user_can( $capability, $args = array() ) {
@@ -797,14 +797,14 @@ function bp_attachments_current_user_can( $capability, $args = array() ) {
 		 * Needed avatar arguments are set.
 		 */
 		if ( isset( $args['item_id'] ) && isset( $args['object'] ) ) {
-			// Group profile photo
+			// Group profile photo.
 			if ( bp_is_active( 'groups' ) && 'group' === $args['object'] ) {
 				if ( bp_is_group_create() ) {
 					$can = (bool) groups_is_user_creator( bp_loggedin_user_id(), $args['item_id'] ) || bp_current_user_can( 'bp_moderate' );
 				} else {
 					$can = (bool) groups_is_user_admin( bp_loggedin_user_id(), $args['item_id'] ) || bp_current_user_can( 'bp_moderate' );
 				}
-			// User profile photo
+			// User profile photo.
 			} elseif ( bp_is_active( 'xprofile' ) && 'user' === $args['object'] ) {
 				$can = bp_loggedin_user_id() === (int) $args['item_id'] || bp_current_user_can( 'bp_moderate' );
 			}
@@ -827,11 +827,11 @@ function bp_attachments_current_user_can( $capability, $args = array() ) {
 /**
  * Send a JSON response back to an Ajax upload request.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
- * @param  bool  $success  True for a success, false otherwise.
- * @param  bool  $is_html4 True if the Plupload runtime used is html4, false otherwise.
- * @param  mixed $data     Data to encode as JSON, then print and die.
+ * @param bool  $success  True for a success, false otherwise.
+ * @param bool  $is_html4 True if the Plupload runtime used is html4, false otherwise.
+ * @param mixed $data     Data to encode as JSON, then print and die.
  */
 function bp_attachments_json_response( $success, $is_html4 = false, $data = null ) {
 	$response = array( 'success' => $success );
@@ -840,7 +840,7 @@ function bp_attachments_json_response( $success, $is_html4 = false, $data = null
 		$response['data'] = $data;
 	}
 
-	// Send regular json response
+	// Send regular json response.
 	if ( ! $is_html4 ) {
 		wp_send_json( $response );
 
@@ -862,7 +862,6 @@ function bp_attachments_json_response( $success, $is_html4 = false, $data = null
  * @since 2.3.0
  *
  * @param string $slug Template part slug. eg 'uploader' for 'uploader.php'.
- *
  * @return bool
  */
 function bp_attachments_get_template_part( $slug ) {
@@ -891,16 +890,16 @@ function bp_attachments_get_template_part( $slug ) {
 /**
  * Get the cover image settings
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  string $component the component to get the settings for ("xprofile" for user or "groups")
- * @return array            the cover image settings
+ * @param string $component The component to get the settings for ("xprofile" for user or "groups").
+ * @return array The cover image settings.
  */
 function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
-	// Default parameters
+	// Default parameters.
 	$args = array();
 
-	// First look in BP Theme Compat
+	// First look in BP Theme Compat.
 	$cover_image = bp_get_theme_compat_feature( 'cover_image' );
 
 	if ( ! empty( $cover_image ) ) {
@@ -910,12 +909,12 @@ function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
 	/**
 	 * Then let people override/set the feature using this dynamic filter
 	 *
-	 * eg: for the user's profile cover image use :
+	 * Eg: for the user's profile cover image use:
 	 * add_filter( 'bp_before_xprofile_cover_image_settings_parse_args', 'your_filter', 10, 1 );
 	 *
 	 * @since  2.4.0
 	 *
-	 * @param array $settings the cover image settings
+	 * @param array $settings The cover image settings
 	 */
 	$settings = bp_parse_args( $args, array(
 		'components'    => array(),
@@ -930,25 +929,25 @@ function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
 		return false;
 	}
 
-	// Current component is not supported
+	// Current component is not supported.
 	if ( ! in_array( $component, $settings['components'] ) ) {
 		return false;
 	}
 
-	// Finally return the settings
+	// Finally return the settings.
 	return $settings;
 }
 
 /**
  * Get cover image Width and Height
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  string $component the BuddyPress component concerned ("xprofile" for user or "groups")
- * @return array             an associative array containing the advised width and height for the cover image
+ * @param string $component The BuddyPress component concerned ("xprofile" for user or "groups").
+ * @return array An associative array containing the advised width and height for the cover image.
  */
 function bp_attachments_get_cover_image_dimensions( $component = 'xprofile' ) {
-	// Let's prevent notices when setting the warning strings
+	// Let's prevent notices when setting the warning strings.
 	$default = array( 'width' => 0, 'height' => 0 );
 
 	$settings = bp_attachments_get_cover_image_settings( $component );
@@ -957,27 +956,27 @@ function bp_attachments_get_cover_image_dimensions( $component = 'xprofile' ) {
 		return false;
 	}
 
-	// Get width and height
+	// Get width and height.
 	$wh = array_intersect_key( $settings, $default );
 
 	/**
 	 * Filter here to edit the cover image dimensions if needed.
 	 *
-	 * @since  2.4.0
+	 * @since 2.4.0
 	 *
-	 * @param  array  $wh        an associative array containing the width and height values
-	 * @param  array  $settings  an associative array containing all the feature settings
-	 * @param  string $compnent  the requested component
+	 * @param array  $wh       An associative array containing the width and height values.
+	 * @param array  $settings An associative array containing all the feature settings.
+	 * @param string $compnent The requested component.
 	 */
 	return apply_filters( 'bp_attachments_get_cover_image_dimensions', $wh, $settings, $component );
 }
 
 /**
- * Are we on a page to edit a cover image ?
+ * Are we on a page to edit a cover image?
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @return bool True if on a page to edit a cover image, false otherwise
+ * @return bool True if on a page to edit a cover image, false otherwise.
  */
 function bp_attachments_cover_image_is_edit() {
 	$retval = false;
@@ -1004,12 +1003,12 @@ function bp_attachments_cover_image_is_edit() {
 }
 
 /**
- * Does the user has a cover image ?
+ * Does the user has a cover image?
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  int $user_id
- * @return bool True if the user has a cover image, false otherwise
+ * @param int $user_id User ID to retrieve cover image for.
+ * @return bool True if the user has a cover image, false otherwise.
  */
 function bp_attachments_get_user_has_cover_image( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
@@ -1024,12 +1023,12 @@ function bp_attachments_get_user_has_cover_image( $user_id = 0 ) {
 }
 
 /**
- * Does the group has a cover image ?
+ * Does the group has a cover image?
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @param  int $group_id
- * @return bool True if the group has a cover image, false otherwise
+ * @param int $group_id Group ID to check cover image existence for.
+ * @return bool True if the group has a cover image, false otherwise.
  */
 function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
 	if ( empty( $group_id ) ) {
@@ -1049,21 +1048,21 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
  *
  * @since 2.4.0
  *
- * @param  array  $args {
+ * @param array                     $args {
  *     @type string $file            The absolute path to the image. Required.
  *     @type string $component       The component for the object (eg: groups, xprofile). Required.
  *     @type string $cover_image_dir The Cover image dir to write the image into. Required.
  * }
- * @param  BP_Attachment_Cover_Image $cover_image_class The class to use to fit the cover image.
- * @return bool|array          An array containing cover image data on success, false otherwise.
+ * @param BP_Attachment_Cover_Image $cover_image_class The class to use to fit the cover image.
+ * @return bool|array An array containing cover image data on success, false otherwise.
  */
 function bp_attachments_cover_image_generate_file( $args = array(), $cover_image_class = null ) {
-	// Bail if an argument is missing
+	// Bail if an argument is missing.
 	if ( empty( $args['file'] ) || empty( $args['component'] ) || empty( $args['cover_image_dir'] ) ) {
 		return false;
 	}
 
-	// Get advised dimensions for the cover image
+	// Get advised dimensions for the cover image.
 	$dimensions = bp_attachments_get_cover_image_dimensions( $args['component'] );
 
 	// No dimensions or the file does not match with the cover image dir, stop!
@@ -1080,11 +1079,11 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 		return false;
 	}
 
-	// Resize the image so that it fit with the cover image dimensions
+	// Resize the image so that it fit with the cover image dimensions.
 	$cover_image  = $cover_image_class->fit( $args['file'], $dimensions );
 	$is_too_small = false;
 
-	// Image is too small in width and height
+	// Image is too small in width and height.
 	if ( empty( $cover_image ) ) {
 		$cover_file = $cover_image_class->generate_filename( $args['file'] );
 		@rename( $args['file'], $cover_file );
@@ -1094,7 +1093,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 	} elseif ( ! empty( $cover_image['path'] ) ) {
 		$cover_file = $cover_image['path'];
 
-		// Image is too small in width or height
+		// Image is too small in width or height.
 		if ( $cover_image['width'] < $dimensions['width'] || $cover_image['height'] < $dimensions['height'] ) {
 			$is_too_small = true;
 		}
@@ -1110,7 +1109,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 
 	if ( $att_dir = opendir( $args['cover_image_dir'] ) ) {
 		while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
-			// skip directories and the new cover image
+			// Skip directories and the new cover image.
 			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
 				@unlink( $args['cover_image_dir'] . '/' . $attachment_file );
 			}
@@ -1128,13 +1127,13 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 /**
  * Ajax Upload and set a cover image
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
- * @return  string|null A json object containing success data if the upload succeeded
- *                      error message otherwise.
+ * @return string|null A json object containing success data if the upload succeeded
+ *                     error message otherwise.
  */
 function bp_attachments_cover_image_ajax_upload() {
-	// Bail if not a POST action
+	// Bail if not a POST action.
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 		wp_die();
 	}
@@ -1148,13 +1147,13 @@ function bp_attachments_cover_image_ajax_upload() {
 		$is_html4 = true;
 	}
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'bp-uploader' );
 
-	// Init the BuddyPress parameters
+	// Init the BuddyPress parameters.
 	$bp_params = array();
 
-	// We need it to carry on
+	// We need it to carry on.
 	if ( ! empty( $_POST['bp_params'] ) ) {
 		$bp_params = bp_parse_args( $_POST['bp_params'], array(
 			'object'  => 'user',
@@ -1164,12 +1163,12 @@ function bp_attachments_cover_image_ajax_upload() {
 		bp_attachments_json_response( false, $is_html4 );
 	}
 
-	// We need the object to set the uploads dir filter
+	// We need the object to set the uploads dir filter.
 	if ( empty( $bp_params['object'] ) ) {
 		bp_attachments_json_response( false, $is_html4 );
 	}
 
-	// Capability check
+	// Capability check.
 	if ( ! bp_attachments_current_user_can( 'edit_cover_image', $bp_params ) ) {
 		bp_attachments_json_response( false, $is_html4 );
 	}
@@ -1177,7 +1176,7 @@ function bp_attachments_cover_image_ajax_upload() {
 	$bp          = buddypress();
 	$needs_reset = array();
 
-	// Member's cover image
+	// Member's cover image.
 	if ( 'user' === $bp_params['object'] ) {
 		$object_data = array( 'dir' => 'members', 'component' => 'xprofile' );
 
@@ -1186,7 +1185,7 @@ function bp_attachments_cover_image_ajax_upload() {
 			$bp->displayed_user->id = $bp_params['item_id'];
 		}
 
-	// Group's cover image
+	// Group's cover image.
 	} elseif ( 'group' === $bp_params['object'] ) {
 		$object_data = array( 'dir' => 'groups', 'component' => 'groups' );
 
@@ -1198,12 +1197,12 @@ function bp_attachments_cover_image_ajax_upload() {
 			) );
 		}
 
-	// Other object's cover image
+	// Other object's cover image.
 	} else {
 		$object_data = apply_filters( 'bp_attachments_cover_image_object_dir', array(), $bp_params['object'] );
 	}
 
-	// Stop here in case of a missing parameter for the object
+	// Stop here in case of a missing parameter for the object.
 	if ( empty( $object_data['dir'] ) || empty( $object_data['component'] ) ) {
 		bp_attachments_json_response( false, $is_html4 );
 	}
@@ -1211,7 +1210,7 @@ function bp_attachments_cover_image_ajax_upload() {
 	$cover_image_attachment = new BP_Attachment_Cover_Image();
 	$uploaded = $cover_image_attachment->upload( $_FILES );
 
-	// Reset objects
+	// Reset objects.
 	if ( ! empty( $needs_reset ) ) {
 		if ( ! empty( $needs_reset['component'] ) ) {
 			$bp->{$needs_reset['component']}->{$needs_reset['key']} = $needs_reset['value'];
@@ -1221,24 +1220,24 @@ function bp_attachments_cover_image_ajax_upload() {
 	}
 
 	if ( ! empty( $uploaded['error'] ) ) {
-		// Upload error response
+		// Upload error response.
 		bp_attachments_json_response( false, $is_html4, array(
 			'type'    => 'upload_error',
 			'message' => sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $uploaded['error'] ),
 		) );
 	}
 
-	// Default error message
+	// Default error message.
 	$error_message = __( 'There was a problem uploading the cover image.', 'buddypress' );
 
-	// Get BuddyPress Attachments Uploads Dir datas
+	// Get BuddyPress Attachments Uploads Dir datas.
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
 
 	$cover_subdir = $object_data['dir'] . '/' . $bp_params['item_id'] . '/cover-image';
 	$cover_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $cover_subdir;
 
 	if ( ! is_dir( $cover_dir ) ) {
-		// Upload error response
+		// Upload error response.
 		bp_attachments_json_response( false, $is_html4, array(
 			'type'    => 'upload_error',
 			'message' => $error_message,
@@ -1259,25 +1258,25 @@ function bp_attachments_cover_image_ajax_upload() {
 	), $cover_image_attachment );
 
 	if ( ! $cover ) {
-		// Upload error response
+		// Upload error response.
 		bp_attachments_json_response( false, $is_html4, array(
 			'type'    => 'upload_error',
 			'message' => $error_message,
 		) );
 	}
 
-	// Build the url to the file
+	// Build the url to the file.
 	$cover_url = trailingslashit( $bp_attachments_uploads_dir['baseurl'] ) . $cover_subdir . '/' . $cover['cover_basename'];
 
-	// Init Feedback code, 1 is success
+	// Init Feedback code, 1 is success.
 	$feedback_code = 1;
 
-	// 0 is the size warning
+	// 0 is the size warning.
 	if ( $cover['is_too_small'] ) {
 		$feedback_code = 0;
 	}
 
-	// Set the name of the file
+	// Set the name of the file.
 	$name = $_FILES['file']['name'];
 	$name_parts = pathinfo( $name );
 	$name = trim( substr( $name, 0, - ( 1 + strlen( $name_parts['extension'] ) ) ) );
@@ -1296,7 +1295,7 @@ function bp_attachments_cover_image_ajax_upload() {
 	 */
 	do_action( $object_data['component'] . '_cover_image_uploaded', (int) $bp_params['item_id'] );
 
-	// Finally return the cover image url to the UI
+	// Finally return the cover image url to the UI.
 	bp_attachments_json_response( true, $is_html4, array(
 		'name'          => $name,
 		'url'           => $cover_url,
@@ -1325,43 +1324,43 @@ function bp_attachments_cover_image_ajax_delete() {
 		wp_send_json_error();
 	}
 
-	// Check the nonce
+	// Check the nonce.
 	check_admin_referer( 'bp_delete_cover_image', 'nonce' );
 
-	// Capability check
+	// Capability check.
 	if ( ! bp_attachments_current_user_can( 'edit_cover_image', $cover_image_data ) ) {
 		wp_send_json_error();
 	}
 
-	// Set object for the user's case
+	// Set object for the user's case.
 	if ( 'user' === $cover_image_data['object'] ) {
 		$component = 'xprofile';
 		$dir       = 'members';
 
-	// Set it for any other cases
+	// Set it for any other cases.
 	} else {
 		$component = $cover_image_data['object'] . 's';
 		$dir       = $component;
 	}
 
-	// Handle delete
+	// Handle delete.
 	if ( bp_attachments_delete_file( array( 'item_id' => $cover_image_data['item_id'], 'object_dir' => $dir, 'type' => 'cover-image' ) ) ) {
 
-		// Defaults no cover image
+		// Defaults no cover image.
 		$response = array(
 			'reset_url'     => '',
 			'feedback_code' => 3 ,
 		);
 
-		// Get cover image settings in case there's a default header
+		// Get cover image settings in case there's a default header.
 		$cover_params = bp_attachments_get_cover_image_settings( $component );
 
-		// Check if there's a default cover
+		// Check if there's a default cover.
 		if ( ! empty( $cover_params['default_cover'] ) ) {
 			$response['reset_url'] = $cover_params['default_cover'];
 		}
 
-		// Finally send the reset url
+		// Finally send the reset url.
 		wp_send_json_success( $response );
 
 	} else {
