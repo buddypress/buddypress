@@ -110,8 +110,7 @@ function bp_admin_setting_callback_heartbeat() {
  *
  * @since 1.6.0
  *
- * @param bool $value
- *
+ * @param bool $value Whether or not to sanitize.
  * @return bool
  */
 function bp_admin_sanitize_callback_blogforum_comments( $value = false ) {
@@ -231,9 +230,10 @@ function bp_admin_setting_callback_group_cover_image_uploads() {
 function bp_admin_setting_callback_bbpress_section() { }
 
 /**
- * bb-config.php location field.
+ * The bb-config.php location field.
  *
  * @since 1.6.0
+ *
  * @uses checked() To display the checked attribute.
  * @uses bp_get_option() To get the config location.
  * @uses bp_form_option() To get the sanitized form option.
@@ -269,7 +269,7 @@ function bp_admin_setting_callback_bbpress_configuration() {
  */
 function bp_core_admin_settings() {
 
-	// We're saving our own options, until the WP Settings API is updated to work with Multisite
+	// We're saving our own options, until the WP Settings API is updated to work with Multisite.
 	$form_action = add_query_arg( 'page', 'bp-settings', bp_get_admin_url( 'admin.php' ) );
 
 	?>
@@ -305,7 +305,7 @@ function bp_core_admin_settings_save() {
 		check_admin_referer( 'buddypress-options' );
 
 		// Because many settings are saved with checkboxes, and thus will have no values
-		// in the $_POST array when unchecked, we loop through the registered settings
+		// in the $_POST array when unchecked, we loop through the registered settings.
 		if ( isset( $wp_settings_fields['buddypress'] ) ) {
 			foreach( (array) $wp_settings_fields['buddypress'] as $section => $settings ) {
 				foreach( $settings as $setting_name => $setting ) {
@@ -332,7 +332,7 @@ function bp_core_admin_settings_save() {
 		foreach( $legacy_options as $legacy_option ) {
 			// Note: Each of these options is represented by its opposite in the UI
 			// Ie, the Profile Syncing option reads "Enable Sync", so when it's checked,
-			// the corresponding option should be unset
+			// the corresponding option should be unset.
 			$value = isset( $_POST[$legacy_option] ) ? '' : 1;
 			bp_update_option( $legacy_option, $value );
 		}
@@ -349,9 +349,9 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
  *
  * @uses bp_get_bp_form_option()
  *
- * @param string $option
- * @param string $default
- * @param bool   $slug
+ * @param string $option  Form option to echo.
+ * @param string $default Form option default.
+ * @param bool   $slug    Form option slug.
  */
 function bp_form_option( $option, $default = '' , $slug = false ) {
 	echo bp_get_form_option( $option, $default, $slug );
@@ -365,15 +365,14 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 	 * @uses esc_attr()
 	 * @uses apply_filters()
 	 *
-	 * @param string $option
-	 * @param string $default
-	 * @param bool   $slug
-	 *
+	 * @param string $option  Form option to return.
+	 * @param string $default Form option default.
+	 * @param bool   $slug    Form option slug.
 	 * @return string
 	 */
 	function bp_get_form_option( $option, $default = '', $slug = false ) {
 
-		// Get the option and sanitize it
+		// Get the option and sanitize it.
 		$value = bp_get_option( $option, $default );
 
 		// Slug?
@@ -387,11 +386,11 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 			 * @param string $value Value being returned for the requested option.
 			 */
 			$value = esc_attr( apply_filters( 'editable_slug', $value ) );
-		} else { // Not a slug
+		} else { // Not a slug.
 			$value = esc_attr( $value );
 		}
 
-		// Fallback to default
+		// Fallback to default.
 		if ( empty( $value ) )
 			$value = $default;
 

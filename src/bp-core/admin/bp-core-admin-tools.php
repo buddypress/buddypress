@@ -74,7 +74,7 @@ function bp_admin_repair_handler() {
 
 	check_admin_referer( 'bp-do-counts' );
 
-	// Stores messages
+	// Stores messages.
 	$messages = array();
 
 	wp_cache_flush();
@@ -103,7 +103,7 @@ function bp_admin_repair_list() {
 
 	// Members:
 	// - member count
-	// - last_activity migration (2.0)
+	// - last_activity migration (2.0).
 	$repair_list[20] = array(
 		'bp-total-member-count',
 		__( 'Count total members', 'buddypress' ),
@@ -117,7 +117,7 @@ function bp_admin_repair_list() {
 	);
 
 	// Friends:
-	// - user friend count
+	// - user friend count.
 	if ( bp_is_active( 'friends' ) ) {
 		$repair_list[0] = array(
 			'bp-user-friends',
@@ -127,7 +127,7 @@ function bp_admin_repair_list() {
 	}
 
 	// Groups:
-	// - user group count
+	// - user group count.
 	if ( bp_is_active( 'groups' ) ) {
 		$repair_list[10] = array(
 			'bp-group-count',
@@ -137,7 +137,7 @@ function bp_admin_repair_list() {
 	}
 
 	// Blogs:
-	// - user blog count
+	// - user blog count.
 	if ( bp_is_active( 'blogs' ) ) {
 		$repair_list[90] = array(
 			'bp-blog-records',
@@ -182,7 +182,7 @@ function bp_admin_repair_friend_count() {
 
 	$bp = buddypress();
 
-	// Walk through all users on the site
+	// Walk through all users on the site.
 	$total_users = $wpdb->get_row( "SELECT count(ID) as c FROM {$wpdb->users}" )->c;
 
 	$updated = array();
@@ -190,11 +190,11 @@ function bp_admin_repair_friend_count() {
 		$per_query = 500;
 		$offset = 0;
 		while ( $offset < $total_users ) {
-			// Only bother updating counts for users who actually have friendships
+			// Only bother updating counts for users who actually have friendships.
 			$friendships = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id FROM {$bp->friends->table_name} WHERE is_confirmed = 1 AND ( ( initiator_user_id > %d AND initiator_user_id <= %d ) OR ( friend_user_id > %d AND friend_user_id <= %d ) )", $offset, $offset + $per_query, $offset, $offset + $per_query ) );
 
 			// The previous query will turn up duplicates, so we
-			// filter them here
+			// filter them here.
 			foreach ( $friendships as $friendship ) {
 				if ( ! isset( $updated[ $friendship->initiator_user_id ] ) ) {
 					BP_Friends_Friendship::total_friend_count( $friendship->initiator_user_id );
@@ -240,14 +240,14 @@ function bp_admin_repair_group_count() {
 
 	$bp = buddypress();
 
-	// Walk through all users on the site
+	// Walk through all users on the site.
 	$total_users = $wpdb->get_row( "SELECT count(ID) as c FROM {$wpdb->users}" )->c;
 
 	if ( $total_users > 0 ) {
 		$per_query = 500;
 		$offset = 0;
 		while ( $offset < $total_users ) {
-			// But only bother to update counts for users that have groups
+			// But only bother to update counts for users that have groups.
 			$users = $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE is_confirmed = 1 AND is_banned = 0 AND user_id > %d AND user_id <= %d", $offset, $offset + $per_query ) );
 
 			foreach ( $users as $user ) {
@@ -272,21 +272,21 @@ function bp_admin_repair_group_count() {
  */
 function bp_admin_repair_blog_records() {
 
-	// Description of this tool, displayed to the user
+	// Description of this tool, displayed to the user.
 	$statement = __( 'Repopulating Blogs records&hellip; %s', 'buddypress' );
 
-	// Default to failure text
+	// Default to failure text.
 	$result    = __( 'Failed!',   'buddypress' );
 
-	// Default to unrepaired
+	// Default to unrepaired.
 	$repair    = false;
 
-	// Run function if blogs component is active
+	// Run function if blogs component is active.
 	if ( bp_is_active( 'blogs' ) ) {
 		$repair = bp_blogs_record_existing_blogs();
 	}
 
-	// Setup success/fail messaging
+	// Setup success/fail messaging.
 	if ( true === $repair ) {
 		$result = __( 'Complete!', 'buddypress' );
 	}
@@ -327,7 +327,6 @@ function bp_admin_repair_last_activity() {
  *
  * @param string      $message Feedback message.
  * @param string|bool $class   Unused.
- *
  * @return bool
  */
 function bp_admin_tools_feedback( $message, $class = false ) {
