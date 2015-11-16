@@ -648,7 +648,7 @@ class BP_Admin {
 
 			<p class="about-description"><?php _e( 'BuddyPress is created by a worldwide network of friendly folks like these.', 'buddypress' ); ?></p>
 
-			<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h4>
+			<h3 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
 				<li class="wp-person" id="wp-person-johnjamesjacoby">
 					<a href="https://profiles.wordpress.org/johnjamesjacoby"><img src="//www.gravatar.com/avatar/81ec16063d89b162d55efe72165c105f?s=60" class="gravatar" alt="John James Jacoby" /></a>
@@ -667,7 +667,7 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php _e( 'Core Team', 'buddypress' ); ?></h4>
+			<h3 class="wp-people-group"><?php _e( 'Core Team', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-core-team">
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a href="https://profiles.wordpress.org/r-a-y"><img src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60" class="gravatar" alt="Ray" /></a>
@@ -701,7 +701,7 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h4 class="wp-people-group"><?php _e( 'Recent Rockstars', 'buddypress' ); ?></h4>
+			<h3 class="wp-people-group"><?php _e( 'Recent Rockstars', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-rockstars">
 				<li class="wp-person" id="wp-person-henry-wright">
 					<a href="https://profiles.wordpress.org/henry.wright"><img src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=60" class="gravatar" alt="Henry Wright" /></a>
@@ -726,7 +726,7 @@ class BP_Admin {
 
 			</ul>
 
-			<h4 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h4>
+			<h3 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h3>
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/ankit-k-gupta/">Ankit K Gupta</a>,
 				<a href="https://profiles.wordpress.org/anthonyvalera/">anthonyvalera</a>,
@@ -776,7 +776,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/willgladstone/">willgladstone</a>.
 			</p>
 
-			<h4 class="wp-people-group"><?php _e( 'External Libraries', 'buddypress' ); ?></h4>
+			<h3 class="wp-people-group"><?php _e( 'External Libraries', 'buddypress' ); ?></h3>
 			<p class="wp-credits-list">
 				<a href="https://github.com/ichord/At.js">At.js</a>,
 				<a href="https://github.com/ichord/Caret.js">Caret.js</a>,
