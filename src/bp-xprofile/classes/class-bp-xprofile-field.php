@@ -1220,7 +1220,7 @@ class BP_XProfile_Field {
 		do_action( 'xprofile_field_before_submitbox', $this ); ?>
 
 		<div id="submitdiv" class="postbox">
-			<h3><?php esc_html_e( 'Submit', 'buddypress' ); ?></h3>
+			<h2><?php esc_html_e( 'Submit', 'buddypress' ); ?></h2>
 			<div class="inside">
 				<div id="submitcomment" class="submitbox">
 					<div id="major-publishing-actions">
@@ -1286,7 +1286,7 @@ class BP_XProfile_Field {
 		</div>
 
 		<div class="postbox">
-			<h3><?php echo esc_html_x( 'Description', 'XProfile admin edit field', 'buddypress' ); ?></h3>
+			<h2><?php echo esc_html_x( 'Description', 'XProfile admin edit field', 'buddypress' ); ?></h2>
 			<div class="inside">
 				<label for="description" class="screen-reader-text"><?php esc_html_e( 'Add description', 'buddypress' ); ?></label>
 				<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
@@ -1318,7 +1318,7 @@ class BP_XProfile_Field {
 		?>
 
 		<div id="member-types-div" class="postbox">
-			<h3><?php _e( 'Member Types', 'buddypress' ); ?></h3>
+			<h2><?php _e( 'Member Types', 'buddypress' ); ?></h2>
 			<div class="inside">
 				<p class="description"><?php _e( 'This field should be available to:', 'buddypress' ); ?></p>
 
@@ -1364,7 +1364,7 @@ class BP_XProfile_Field {
 		} ?>
 
 		<div class="postbox">
-			<h3><label for="default-visibility"><?php esc_html_e( 'Visibility', 'buddypress' ); ?></label></h3>
+			<h2><label for="default-visibility"><?php esc_html_e( 'Visibility', 'buddypress' ); ?></label></h2>
 			<div class="inside">
 				<div>
 					<select name="default-visibility" id="default-visibility">
@@ -1413,7 +1413,7 @@ class BP_XProfile_Field {
 		} ?>
 
 		<div class="postbox">
-			<h3><label for="required"><?php esc_html_e( 'Requirement', 'buddypress' ); ?></label></h3>
+			<h2><label for="required"><?php esc_html_e( 'Requirement', 'buddypress' ); ?></label></h2>
 			<div class="inside">
 				<select name="required" id="required">
 					<option value="0"<?php selected( $this->is_required, '0' ); ?>><?php esc_html_e( 'Not Required', 'buddypress' ); ?></option>
@@ -1440,7 +1440,7 @@ class BP_XProfile_Field {
 		} ?>
 
 		<div class="postbox">
-			<h3><label for="fieldtype"><?php esc_html_e( 'Type', 'buddypress'); ?></label></h3>
+			<h2><label for="fieldtype"><?php esc_html_e( 'Type', 'buddypress'); ?></label></h2>
 			<div class="inside">
 				<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
 
