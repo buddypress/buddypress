@@ -589,7 +589,7 @@ function bp_groups_admin_edit() {
 						<div id="post-body-content">
 							<div id="postdiv">
 								<div id="bp_groups_name" class="postbox">
-									<h3><?php _e( 'Name and Description', 'buddypress' ); ?></h3>
+									<h2><?php _e( 'Name and Description', 'buddypress' ); ?></h2>
 									<div class="inside">
 										<label for="bp-groups-name" class="screen-reader-text"><?php _e( 'Group Name', 'buddypress' ); ?></label>
 										<input type="text" name="bp-groups-name" id="bp-groups-name" value="<?php echo esc_attr( stripslashes( $group_name ) ) ?>" />
@@ -858,12 +858,12 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 
 		<div class="bp-groups-member-type" id="bp-groups-member-type-<?php echo esc_attr( $member_type ) ?>">
 
-			<h4><?php switch ( $member_type ) :
+			<h3><?php switch ( $member_type ) :
 					case 'admin'  : esc_html_e( 'Administrators', 'buddypress' ); break;
 					case 'mod'    : esc_html_e( 'Moderators',     'buddypress' ); break;
 					case 'member' : esc_html_e( 'Members',        'buddypress' ); break;
 					case 'banned' : esc_html_e( 'Banned Members', 'buddypress' ); break;
-			endswitch; ?></h4>
+			endswitch; ?></h3>
 
 			<div class="bp-group-admin-pagination table-top">
 				<?php echo $pagination[ $member_type ] ?>
