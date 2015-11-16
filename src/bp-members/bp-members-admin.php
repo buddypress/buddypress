@@ -877,7 +877,7 @@ class BP_Members_Admin {
 		<?php endif; ?>
 
 		<div class="wrap" id="community-profile-page">
-			<h2><?php echo esc_html( $title ); ?>
+			<h1><?php echo esc_html( $title ); ?>
 
 				<?php if ( empty( $this->is_self_profile ) ) : ?>
 
@@ -892,7 +892,7 @@ class BP_Members_Admin {
 					<?php endif; ?>
 
 				<?php endif; ?>
-			</h2>
+			</h1>
 
 			<?php if ( ! empty( $user ) ) :
 
@@ -1815,7 +1815,7 @@ class BP_Members_Admin {
 		?>
 
 		<div class="wrap">
-			<h2><?php _e( 'Users', 'buddypress' ); ?>
+			<h1><?php _e( 'Users', 'buddypress' ); ?>
 
 				<?php if ( current_user_can( 'create_users' ) ) : ?>
 
@@ -1832,7 +1832,7 @@ class BP_Members_Admin {
 				}
 
 				?>
-			</h2>
+			</h1>
 
 			<?php // Display each signups on its own row. ?>
 			<?php $bp_members_signup_list_table->views(); ?>
@@ -1934,7 +1934,7 @@ class BP_Members_Admin {
 		?>
 
 		<div class="wrap">
-			<h2><?php echo esc_html( $header_text ); ?></h2>
+			<h1><?php echo esc_html( $header_text ); ?></h1>
 			<p><?php echo esc_html( $helper_text ); ?></p>
 
 			<ol class="bp-signups-list">

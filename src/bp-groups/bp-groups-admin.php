@@ -567,13 +567,13 @@ function bp_groups_admin_edit() {
 	do_action_ref_array( 'bp_groups_admin_edit', array( &$group ) ); ?>
 
 	<div class="wrap">
-		<h2><?php _e( 'Edit Group', 'buddypress' ); ?>
+		<h1><?php _e( 'Edit Group', 'buddypress' ); ?>
 
 			<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
 				<a class="add-new-h2" href="<?php echo trailingslashit( bp_get_groups_directory_permalink() . 'create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
 			<?php endif; ?>
 
-		</h2>
+		</h1>
 
 		<?php // If the user has just made a change to an group, display the status messages ?>
 		<?php if ( !empty( $messages ) ) : ?>
@@ -663,7 +663,7 @@ function bp_groups_admin_delete() {
 	$base_url  = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<h2><?php _e( 'Delete Groups', 'buddypress' ) ?></h2>
+		<h1><?php _e( 'Delete Groups', 'buddypress' ) ?></h1>
 		<p><?php _e( 'You are about to delete the following groups:', 'buddypress' ) ?></p>
 
 		<ul class="bp-group-delete-list">
@@ -720,7 +720,7 @@ function bp_groups_admin_index() {
 	do_action( 'bp_groups_admin_index', $messages ); ?>
 
 	<div class="wrap">
-		<h2>
+		<h1>
 			<?php _e( 'Groups', 'buddypress' ); ?>
 
 			<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
@@ -730,7 +730,7 @@ function bp_groups_admin_index() {
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
 				<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ); ?></span>
 			<?php endif; ?>
-		</h2>
+		</h1>
 
 		<?php // If the user has just made a change to an group, display the status messages ?>
 		<?php if ( !empty( $messages ) ) : ?>

@@ -723,7 +723,7 @@ class BP_XProfile_Group {
 
 		<div class="wrap">
 
-			<h2><?php echo esc_html( $title ); ?></h2>
+			<h1><?php echo esc_html( $title ); ?></h1>
 
 			<?php if ( ! empty( $message ) ) : ?>
 

@@ -86,10 +86,10 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 	<div class="wrap">
 
-		<h2>
+		<h1>
 			<?php _ex( 'Profile Fields', 'Settings page header', 'buddypress'); ?>
 			<a id="add_group" class="add-new-h2" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
-		</h2>
+		</h1>
 
 		<form action="" id="profile-field-form" method="post">
 

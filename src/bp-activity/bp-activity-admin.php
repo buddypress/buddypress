@@ -656,7 +656,7 @@ function bp_activity_admin_edit() {
 	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) ); ?>
 
 	<div class="wrap">
-		<h2><?php printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?></h2>
+		<h1><?php printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?></h1>
 
 		<?php if ( ! empty( $activity ) ) : ?>
 
@@ -978,7 +978,7 @@ function bp_activity_admin_index() {
 	do_action( 'bp_activity_admin_index', $messages ); ?>
 
 	<div class="wrap">
-		<h2>
+		<h1>
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
 				<?php printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>
 			<?php else : ?>
@@ -988,7 +988,7 @@ function bp_activity_admin_index() {
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
 				<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ); ?></span>
 			<?php endif; ?>
-		</h2>
+		</h1>
 
 		<?php // If the user has just made a change to an activity item, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>

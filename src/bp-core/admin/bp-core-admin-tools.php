@@ -20,7 +20,7 @@ function bp_core_admin_tools() {
 	?>
 	<div class="wrap">
 
-		<h2><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h2>
+		<h1><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h1>
 
 		<p>
 			<?php esc_html_e( 'BuddyPress keeps track of various relationships between users, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?>
@@ -374,7 +374,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 function bp_core_admin_available_tools_page() {
 	?>
 	<div class="wrap">
-		<h2><?php esc_attr_e( 'Tools', 'buddypress' ) ?></h2>
+		<h1><?php esc_attr_e( 'Tools', 'buddypress' ) ?></h1>
 
 		<?php
 
