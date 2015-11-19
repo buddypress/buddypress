@@ -623,7 +623,6 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 		// Main Gravatar URL args
 		$url_args = array(
-			'd' => $default_grav,
 			's' => $params['width']
 		);
 
@@ -633,6 +632,10 @@ function bp_core_fetch_avatar( $args = '' ) {
 		}
 		if ( ! empty( $params['rating'] ) ) {
 			$url_args['r'] = strtolower( $params['rating'] );
+		}
+		// Only set default image if 'Gravatar Logo' is not requested
+		if ( 'gravatar_default' !== $default_grav ) {
+			$url_args['d'] = $default_grav;
 		}
 
 		// Set up the Gravatar URL
