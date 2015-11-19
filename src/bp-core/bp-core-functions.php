@@ -543,7 +543,7 @@ function bp_core_get_directory_pages() {
 	global $wpdb;
 
 	// Look in cache first.
-	$pages = wp_cache_get( 'directory_pages', 'bp' );
+	$pages = wp_cache_get( 'directory_pages', 'bp_pages' );
 
 	if ( false === $pages ) {
 
@@ -587,7 +587,7 @@ function bp_core_get_directory_pages() {
 			}
 		}
 
-		wp_cache_set( 'directory_pages', $pages, 'bp' );
+		wp_cache_set( 'directory_pages', $pages, 'bp_pages' );
 	}
 
 	/**
