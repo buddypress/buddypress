@@ -135,13 +135,35 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 				$default_grav = $bp->grav_default->{$this->params['object']};
 			}
 
-			$avatar_url = $host . md5( strtolower( $this->params['email'] ) ) . '?d=' . $default_grav . '&#038;s=' . $this->params['width'];
+			$avatar_url = $host . md5( strtolower( $this->params['email'] ) );
+
+			// Main Gravatar URL args.
+			$url_args = array(
+				's' => $this->params['width']
+			);
+
+			// Force default.
+			if ( ! empty( $this->params['force_default'] ) ) {
+				$url_args['f'] = 'y';
+			}
 
 			// Gravatar rating; http://bit.ly/89QxZA
 			$rating = strtolower( get_option( 'avatar_rating' ) );
 			if ( ! empty( $rating ) ) {
-				$avatar_url .= "&#038;r={$rating}";
+				$url_args['r'] = $rating;
 			}
+
+			// Default avatar.
+			if ( 'gravatar_default' !== $default_grav ) {
+				$url_args['d'] = $default_grav;
+			}
+
+			// Set up the Gravatar URL.
+			$avatar_url = esc_url( add_query_arg(
+				rawurlencode_deep( array_filter( $url_args ) ),
+				$avatar_url
+			) );
+
 		}
 
 		$expected_html = '<img src="' . $avatar_url . '" id="' . $this->params['css_id'] . '" class="' . $this->params['class'] . ' ' . $this->params['object'] . '-' . $this->params['item_id'] . '-avatar avatar-' . $this->params['width'] . ' photo" width="' . $this->params['width'] . '" height="' . $this->params['height'] . '" alt="' . $this->params['alt'] . '" title="' . $this->params['title'] . '" ' . $this->params['extra_attr'] . ' />';
