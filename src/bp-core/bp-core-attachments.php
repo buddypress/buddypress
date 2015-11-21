@@ -42,6 +42,11 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 	} else {
 		$upload_data = bp_upload_dir();
 
+		// Return empty string, if Uploads data are not available
+		if ( ! $upload_data ) {
+			return $retval;
+		}
+
 		// Build the Upload data array for BuddyPress attachments
 		foreach ( $upload_data as $key => $value ) {
 			if ( 'basedir' === $key || 'baseurl' === $key ) {
@@ -303,6 +308,11 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 	} elseif ( 'cover_image' === $type ) {
 		$attachment_data = bp_attachments_uploads_dir_get();
 
+		// The BP Attachments Uploads Dir is not set, stop.
+		if ( ! $attachment_data ) {
+			return false;
+		}
+
 		// Default to members for xProfile
 		$object_subdir = 'members';
 
@@ -401,6 +411,11 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 
 	// Get BuddyPress Attachments Uploads Dir datas
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
+
+	// The BP Attachments Uploads Dir is not set, stop.
+	if ( ! $bp_attachments_uploads_dir ) {
+		return $attachment_data;
+	}
 
 	$type_subdir = $r['object_dir'] . '/' . $r['item_id'] . '/' . $r['type'];
 	$type_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $type_subdir;
@@ -1233,6 +1248,14 @@ function bp_attachments_cover_image_ajax_upload() {
 
 	// Get BuddyPress Attachments Uploads Dir datas
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
+
+	// The BP Attachments Uploads Dir is not set, stop.
+	if ( ! $bp_attachments_uploads_dir ) {
+		bp_attachments_json_response( false, $is_html4, array(
+			'type'    => 'upload_error',
+			'message' => $error_message,
+		) );
+	}
 
 	$cover_subdir = $object_data['dir'] . '/' . $bp_params['item_id'] . '/cover-image';
 	$cover_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $cover_subdir;
