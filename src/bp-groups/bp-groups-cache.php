@@ -23,7 +23,6 @@ defined( 'ABSPATH' ) || exit;
  * $group_ids and adds it to WP cache. This improves efficiency when using
  * groupmeta within a loop context.
  *
- *
  * @param int|string|array|bool $group_ids Accepts a single group_id, or a
  *                                         comma-separated list or array of
  *                                         group ids.
@@ -77,8 +76,8 @@ add_action( 'groups_settings_updated', 'bp_groups_delete_group_cache' );
  *
  * @since 2.0.0
  *
- * @param int $meta_id
- * @param int $group_id
+ * @param int $meta_id Meta ID.
+ * @param int $group_id Group ID.
  */
 function bp_groups_delete_group_cache_on_metadata_change( $meta_id, $group_id ) {
 	wp_cache_delete( $group_id, 'bp_groups' );
@@ -95,7 +94,7 @@ add_action( 'added_group_meta', 'bp_groups_delete_group_cache_on_metadata_change
  * @param BP_Groups_Group $group_obj Group object.
  */
 function bp_groups_clear_group_creator_cache( $group_id, $group_obj ) {
-	// Clears the 'total groups' for this user
+	// Clears the 'total groups' for this user.
 	groups_clear_group_user_object_cache( $group_obj->id, $group_obj->creator_id );
 }
 add_action( 'groups_created_group', 'bp_groups_clear_group_creator_cache', 10, 2 );
@@ -109,7 +108,7 @@ add_action( 'groups_created_group', 'bp_groups_clear_group_creator_cache', 10, 2
  * @param array           $user_ids  User IDs who were in this group.
  */
 function bp_groups_clear_group_members_caches( $group_obj, $user_ids ) {
-	// Clears the 'total groups' cache for each member in a group
+	// Clears the 'total groups' cache for each member in a group.
 	foreach ( (array) $user_ids as $user_id )
 		groups_clear_group_user_object_cache( $group_obj->id, $user_id );
 }
@@ -199,7 +198,7 @@ add_action( 'groups_delete_group',   'groups_clear_group_administrator_cache' );
  *
  * @since 2.1.0
  *
- * @param BP_Groups_Member $member
+ * @param BP_Groups_Member $member Member object.
  */
 function groups_clear_group_administrator_cache_on_member_save( BP_Groups_Member $member ) {
 	groups_clear_group_administrator_cache( $member->group_id );

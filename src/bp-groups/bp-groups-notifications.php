@@ -65,14 +65,14 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 
 	foreach ( (array) $user_ids as $user_id ) {
 
-		// Continue if member opted out of receiving this email
+		// Continue if member opted out of receiving this email.
 		if ( 'no' === bp_get_user_meta( $user_id, 'notification_groups_group_updated', true ) ) {
 			continue;
 		}
 
 		$ud = bp_core_get_core_userdata( $user_id );
 
-		// Set up and send the message
+		// Set up and send the message.
 		$to = $ud->user_email;
 
 		$group_link    = bp_get_group_permalink( $group );
@@ -149,12 +149,11 @@ To view the group: %3$s
  * @param int $admin_id           ID of the group admin.
  * @param int $group_id           ID of the group.
  * @param int $membership_id      ID of the group membership object.
- *
  * @return false|null False on failure.
  */
 function groups_notification_new_membership_request( $requesting_user_id = 0, $admin_id = 0, $group_id = 0, $membership_id = 0 ) {
 
-	// Trigger a BuddyPress Notification
+	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_notifications_add_notification( array(
 			'user_id'           => $admin_id,
@@ -165,30 +164,30 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 		) );
 	}
 
-	// Bail if member opted out of receiving this email
+	// Bail if member opted out of receiving this email.
 	if ( 'no' === bp_get_user_meta( $admin_id, 'notification_groups_membership_request', true ) ) {
 		return false;
 	}
 
-	// Username of the user requesting a membership: %1$s in mail
+	// Username of the user requesting a membership: %1$s in mail.
 	$requesting_user_name = bp_core_get_user_displayname( $requesting_user_id );
 	$group                = groups_get_group( array( 'group_id' => $group_id ) );
 
-	// Group Administrator user's data
+	// Group Administrator user's data.
 	$ud             = bp_core_get_core_userdata( $admin_id );
 	$group_requests = bp_get_group_permalink( $group ) . 'admin/membership-requests';
 
-	// Link to the user's profile who's requesting a membership: %3$s in mail
+	// Link to the user's profile who's requesting a membership: %3$s in mail.
 	$profile_link   = bp_core_get_user_domain( $requesting_user_id );
 
 	$settings_slug  = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
-	// Link to the group administrator email settings: %s in "disable notifications" part of the email
+	// Link to the group administrator email settings: %s in "disable notifications" part of the email.
 	$settings_link  = bp_core_get_user_domain( $admin_id ) . $settings_slug . '/notifications/';
 
 	// Fetch the message, if there's one to fetch.
 	$membership = new BP_Groups_Member( false, false, $membership_id );
 
-	// Set up and send the message
+	// Set up and send the message.
 	$to       = $ud->user_email;
 	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for group: %s', 'buddypress' ), $group->name ) ) );
 
@@ -224,7 +223,7 @@ To view %4$s\'s profile: %5$s
 ', 'buddypress' ), $requesting_user_name, $group->name, $group_requests, $requesting_user_name, $profile_link );
 	}
 
-	// Only show the disable notifications line if the settings component is enabled
+	// Only show the disable notifications line if the settings component is enabled.
 	if ( bp_is_active( 'settings' ) ) {
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 	}
@@ -288,15 +287,14 @@ To view %4$s\'s profile: %5$s
  * @param int  $group_id           ID of the group.
  * @param bool $accepted           Optional. Whether the membership request was accepted.
  *                                 Default: true.
- *
  * @return false|null
  */
 function groups_notification_membership_request_completed( $requesting_user_id = 0, $group_id = 0, $accepted = true ) {
 
-	// Trigger a BuddyPress Notification
+	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
 
-		// What type of acknowledgement
+		// What type of acknowledgement.
 		$type = ! empty( $accepted )
 			? 'membership_request_accepted'
 			: 'membership_request_rejected';
@@ -309,7 +307,7 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 		) );
 	}
 
-	// Bail if member opted out of receiving this email
+	// Bail if member opted out of receiving this email.
 	if ( 'no' === bp_get_user_meta( $requesting_user_id, 'notification_membership_request_completed', true ) ) {
 		return false;
 	}
@@ -321,7 +319,7 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 	$settings_link = bp_core_get_user_domain( $requesting_user_id ) . $settings_slug . '/notifications/';
 	$to            = $ud->user_email;
 
-	// Set up and send the message
+	// Set up and send the message.
 	if ( ! empty( $accepted ) ) {
 		$subject = bp_get_email_subject( array( 'text' => sprintf( __( 'Membership request for group "%s" accepted', 'buddypress' ), $group->name ) ) );
 		$message = sprintf( __(
@@ -343,7 +341,7 @@ To submit another request please log in and visit: %2$s
 ', 'buddypress' ), $group->name, $group_link );
 	}
 
-	// Only show the disable notifications line if the settings component is enabled
+	// Only show the disable notifications line if the settings component is enabled.
 	if ( bp_is_active( 'settings' ) ) {
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 	}
@@ -403,7 +401,6 @@ add_action( 'groups_membership_rejected', 'groups_notification_membership_reques
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return false|null False on failure.
  */
 function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
@@ -417,7 +414,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 		$type        = 'member_promoted_to_mod';
 	}
 
-	// Trigger a BuddyPress Notification
+	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_notifications_add_notification( array(
 			'user_id'           => $user_id,
@@ -427,7 +424,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 		) );
 	}
 
-	// Bail if admin opted out of receiving this email
+	// Bail if admin opted out of receiving this email.
 	if ( 'no' === bp_get_user_meta( $user_id, 'notification_groups_admin_promotion', true ) ) {
 		return false;
 	}
@@ -438,7 +435,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 	$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
 	$settings_link = bp_core_get_user_domain( $user_id ) . $settings_slug . '/notifications/';
 
-	// Set up and send the message
+	// Set up and send the message.
 	$to       = $ud->user_email;
 	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'You have been promoted in the group: "%s"', 'buddypress' ), $group->name ) ) );
 	$message  = sprintf( __(
@@ -449,7 +446,7 @@ To view the group please visit: %3$s
 ---------------------
 ', 'buddypress' ), $promoted_to, $group->name, $group_link );
 
-	// Only show the disable notifications line if the settings component is enabled
+	// Only show the disable notifications line if the settings component is enabled.
 	if ( bp_is_active( 'settings' ) ) {
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 	}
@@ -510,12 +507,11 @@ add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10,
  * @param BP_Groups_Group  $group           Group object.
  * @param BP_Groups_Member $member          Member object.
  * @param int              $inviter_user_id ID of the user who sent the invite.
- *
  * @return null|false False on failure.
  */
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 
-	// Bail if member has already been invited
+	// Bail if member has already been invited.
 	if ( ! empty( $member->invite_sent ) ) {
 		return;
 	}
@@ -526,10 +522,10 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	$inviter_link = bp_core_get_user_domain( $inviter_user_id );
 	$group_link   = bp_get_group_permalink( $group );
 
-	// Setup the ID for the invited user
+	// Setup the ID for the invited user.
 	$invited_user_id = $member->user_id;
 
-	// Trigger a BuddyPress Notification
+	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_notifications_add_notification( array(
 			'user_id'          => $invited_user_id,
@@ -539,7 +535,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		) );
 	}
 
-	// Bail if member opted out of receiving this email
+	// Bail if member opted out of receiving this email.
 	if ( 'no' === bp_get_user_meta( $invited_user_id, 'notification_groups_invite', true ) ) {
 		return false;
 	}
@@ -550,7 +546,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	$invited_link  = bp_core_get_user_domain( $invited_user_id );
 	$invites_link  = trailingslashit( $invited_link . bp_get_groups_slug() . '/invites' );
 
-	// Set up and send the message
+	// Set up and send the message.
 	$to       = $invited_ud->user_email;
 	$subject  = bp_get_email_subject( array( 'text' => sprintf( __( 'You have an invitation to the group: "%s"', 'buddypress' ), $group->name ) ) );
 	$message  = sprintf( __(
@@ -565,7 +561,7 @@ To view %5$s\'s profile visit: %6$s
 ---------------------
 ', 'buddypress' ), $inviter_name, $group->name, $invites_link, $group_link, $inviter_name, $inviter_link );
 
-	// Only show the disable notifications line if the settings component is enabled
+	// Only show the disable notifications line if the settings component is enabled.
 	if ( bp_is_active( 'settings' ) ) {
 		$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
 	}
@@ -633,7 +629,6 @@ To view %5$s\'s profile visit: %6$s
  *                                  waiting for the user.
  * @param string $format            'string' for BuddyBar-compatible notifications; 'array'
  *                                  for WP Toolbar. Default: 'string'.
- *
  * @return string
  */
 function groups_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
@@ -648,8 +643,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$amount = 'single';
 
 			// Set up the string and the filter
-			// Because different values are passed to the filters, we'll return the
-			// values inline
+			// because different values are passed to the filters,
+			// we'll return values inline.
 			if ( (int) $total_items > 1 ) {
 				$text = sprintf( __( '%1$d new membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
 				$amount = 'multiple';
@@ -1260,14 +1255,14 @@ add_action( 'groups_delete_invite', 'bp_groups_accept_invite_mark_notifications'
  */
 function bp_groups_screen_my_groups_mark_notifications() {
 
-	// Delete group request notifications for the user
+	// Delete group request notifications for the user.
 	if ( isset( $_GET['n'] ) && bp_is_active( 'notifications' ) ) {
 
-		// Get the necessary ID's
+		// Get the necessary ID's.
 		$group_id = buddypress()->groups->id;
 		$user_id  = bp_loggedin_user_id();
 
-		// Mark notifications read
+		// Mark notifications read.
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'membership_request_accepted' );
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'membership_request_rejected' );
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_mod'      );

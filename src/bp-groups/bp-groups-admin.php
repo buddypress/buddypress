@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 // Include WP's list table class.
 if ( !class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
-// per_page screen option. Has to be hooked in extremely early.
+// The per_page screen option. Has to be hooked in extremely early.
 if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['page'] )
 	add_filter( 'set-screen-option', 'bp_groups_admin_screen_options', 10, 3 );
 
@@ -28,7 +28,7 @@ if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['pag
  */
 function bp_groups_add_admin_menu() {
 
-	// Add our screen
+	// Add our screen.
 	$hook = add_menu_page(
 		_x( 'Groups', 'Admin Groups page title', 'buddypress' ),
 		_x( 'Groups', 'Admin Groups menu', 'buddypress' ),
@@ -52,7 +52,6 @@ add_action( bp_core_admin_hook(), 'bp_groups_add_admin_menu' );
  * @since 1.7.0
  *
  * @param array $custom_menus Array of BP top-level menu items.
- *
  * @return array Menu item array, with Groups added.
  */
 function bp_groups_admin_menu_order( $custom_menus = array() ) {
@@ -75,10 +74,10 @@ add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
 function bp_groups_admin_load() {
 	global $bp_groups_list_table;
 
-	// Build redirection URL
+	// Build redirection URL.
 	$redirect_to = remove_query_arg( array( 'action', 'action2', 'gid', 'deleted', 'error', 'updated', 'success_new', 'error_new', 'success_modified', 'error_modified' ), $_SERVER['REQUEST_URI'] );
 
-	// Decide whether to load the dev version of the CSS and JavaScript
+	// Decide whether to load the dev version of the CSS and JavaScript.
 	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : 'min.';
 
 	$doaction = bp_admin_list_table_current_bulk_action();
@@ -92,7 +91,7 @@ function bp_groups_admin_load() {
 	 */
 	do_action( 'bp_groups_admin_load', $doaction );
 
-	// Edit screen
+	// Edit screen.
 	if ( 'do_delete' == $doaction && ! empty( $_GET['gid'] ) ) {
 
 		check_admin_referer( 'bp-groups-delete' );
@@ -111,7 +110,7 @@ function bp_groups_admin_load() {
 		bp_core_redirect( $redirect_to );
 
 	} elseif ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
-		// columns screen option
+		// Columns screen option.
 		add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
 		get_current_screen()->add_help_tab( array(
@@ -122,7 +121,7 @@ function bp_groups_admin_load() {
 				'<p>' . __( 'The Name and Description box is fixed in place, but you can reposition all the other boxes using drag and drop, and can minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to hide or unhide, or to choose a 1- or 2-column layout for this screen.', 'buddypress' ) . '</p>'
 		) );
 
-		// Help panel - sidebar links
+		// Help panel - sidebar links.
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 			'<p><a href="https://buddypress.org/support">' . __( 'Support Forums', 'buddypress' ) . '</a></p>'
@@ -141,19 +140,19 @@ function bp_groups_admin_load() {
 		 */
 		do_action( 'bp_groups_admin_meta_boxes' );
 
-		// Enqueue JavaScript files
+		// Enqueue JavaScript files.
 		wp_enqueue_script( 'postbox' );
 		wp_enqueue_script( 'dashboard' );
 
-	// Index screen
+	// Index screen.
 	} else {
-		// Create the Groups screen list table
+		// Create the Groups screen list table.
 		$bp_groups_list_table = new BP_Groups_List_Table();
 
-		// per_page screen option
+		// The per_page screen option.
 		add_screen_option( 'per_page', array( 'label' => _x( 'Groups', 'Groups per page (screen options)', 'buddypress' )) );
 
-		// Help panel - overview text
+		// Help panel - overview text.
 		get_current_screen()->add_help_tab( array(
 			'id'      => 'bp-groups-overview',
 			'title'   => __( 'Overview', 'buddypress' ),
@@ -170,7 +169,7 @@ function bp_groups_admin_load() {
 				'<p>' . __( 'If you click "Delete" under a specific group, or select a number of groups and then choose Delete from the Bulk Actions menu, you will be led to a page where you&#8217;ll be asked to confirm the permanent deletion of the group(s).', 'buddypress' ) . '</p>',
 		) );
 
-		// Help panel - sidebar links
+		// Help panel - sidebar links.
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 			'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
@@ -179,7 +178,7 @@ function bp_groups_admin_load() {
 
 	$bp = buddypress();
 
-	// Enqueue CSS and JavaScript
+	// Enqueue CSS and JavaScript.
 	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin.{$min}js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
 	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
 		'add_member_placeholder' => __( 'Start typing a username to add a new member.', 'buddypress' ),
@@ -194,7 +193,7 @@ function bp_groups_admin_load() {
 
 
 	if ( $doaction && 'save' == $doaction ) {
-		// Get group ID
+		// Get group ID.
 		$group_id = isset( $_REQUEST['gid'] ) ? (int) $_REQUEST['gid'] : '';
 
 		$redirect_to = add_query_arg( array(
@@ -202,30 +201,29 @@ function bp_groups_admin_load() {
 			'action' => 'edit'
 		), $redirect_to );
 
-		// Check this is a valid form submission
+		// Check this is a valid form submission.
 		check_admin_referer( 'edit-group_' . $group_id );
 
-		// Get the group from the database
+		// Get the group from the database.
 		$group = groups_get_group( 'group_id=' . $group_id );
 
-		// If the group doesn't exist, just redirect back to the index
+		// If the group doesn't exist, just redirect back to the index.
 		if ( empty( $group->slug ) ) {
 			wp_redirect( $redirect_to );
 			exit;
 		}
 
-		// Check the form for the updated properties
-
-		// Store errors
+		// Check the form for the updated properties.
+		// Store errors.
 		$error = 0;
 		$success_new = $error_new = $success_modified = $error_modified = array();
 
 		// Group name and description are handled with
-		// groups_edit_base_group_details()
+		// groups_edit_base_group_details().
 		if ( !groups_edit_base_group_details( $group_id, $_POST['bp-groups-name'], $_POST['bp-groups-description'], 0 ) ) {
 			$error = $group_id;
 
-			// using negative integers for different error messages... eek!
+			// Using negative integers for different error messages... eek!
 			if ( empty( $_POST['bp-groups-name'] ) && empty( $_POST['bp-groups-description'] ) ) {
 				$error = -3;
 			} elseif ( empty( $_POST['bp-groups-name'] ) ) {
@@ -235,7 +233,7 @@ function bp_groups_admin_load() {
 			}
 		}
 
-		// Enable discussion forum
+		// Enable discussion forum.
 		$enable_forum   = ( isset( $_POST['group-show-forum'] ) ) ? 1 : 0;
 
 		/**
@@ -262,7 +260,7 @@ function bp_groups_admin_load() {
 			$error = $group_id;
 		}
 
-		// Process new members
+		// Process new members.
 		$user_names = array();
 
 		if ( ! empty( $_POST['bp-groups-new-members'] ) ) {
@@ -275,7 +273,7 @@ function bp_groups_admin_load() {
 				$un = trim( $user_name );
 
 				// Make sure the user exists before attempting
-				// to add to the group
+				// to add to the group.
 				$user = get_user_by( 'slug', $un );
 
 				if ( empty( $user ) ) {
@@ -290,11 +288,11 @@ function bp_groups_admin_load() {
 			}
 		}
 
-		// Process member role changes
+		// Process member role changes.
 		if ( ! empty( $_POST['bp-groups-role'] ) && ! empty( $_POST['bp-groups-existing-role'] ) ) {
 
 			// Before processing anything, make sure you're not
-			// attempting to remove the all user admins
+			// attempting to remove the all user admins.
 			$admin_count = 0;
 			foreach ( (array) $_POST['bp-groups-role'] as $new_role ) {
 				if ( 'admin' == $new_role ) {
@@ -310,7 +308,7 @@ function bp_groups_admin_load() {
 
 			} else {
 
-				// Process only those users who have had their roles changed
+				// Process only those users who have had their roles changed.
 				foreach ( (array) $_POST['bp-groups-role'] as $user_id => $new_role ) {
 
 					$existing_role = isset( $_POST['bp-groups-existing-role'][$user_id] ) ? $_POST['bp-groups-existing-role'][$user_id] : '';
@@ -320,20 +318,20 @@ function bp_groups_admin_load() {
 						switch ( $new_role ) {
 							case 'mod' :
 								// Admin to mod is a demotion. Demote to
-								// member, then fall through
+								// member, then fall through.
 								if ( 'admin' == $existing_role ) {
 									groups_demote_member( $user_id, $group_id );
 								}
 
 							case 'admin' :
 								// If the user was banned, we must
-								// unban first
+								// unban first.
 								if ( 'banned' == $existing_role ) {
 									groups_unban_member( $user_id, $group_id );
 								}
 
 								// At this point, each existing_role
-								// is a member, so promote
+								// is a member, so promote.
 								$result = groups_promote_member( $user_id, $group_id, $new_role );
 
 								break;
@@ -361,7 +359,7 @@ function bp_groups_admin_load() {
 								break;
 						}
 
-						// Store the success or failure
+						// Store the success or failure.
 						if ( $result ) {
 							$success_modified[] = $user_id;
 						} else {
@@ -381,13 +379,12 @@ function bp_groups_admin_load() {
 		 */
 		do_action( 'bp_group_admin_edit_after', $group_id );
 
-		// Create the redirect URL
-
+		// Create the redirect URL.
 		if ( $error ) {
-			// This means there was an error updating group details
+			// This means there was an error updating group details.
 			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
 		} else {
-			// Group details were update successfully
+			// Group details were update successfully.
 			$redirect_to = add_query_arg( 'updated', 1, $redirect_to );
 		}
 
@@ -437,14 +434,13 @@ function bp_groups_admin_load() {
  * @param string $value     Will always be false unless another plugin filters it first.
  * @param string $option    Screen option name.
  * @param string $new_value Screen option form value.
- *
  * @return string Option value. False to abandon update.
  */
 function bp_groups_admin_screen_options( $value, $option, $new_value ) {
 	if ( 'toplevel_page_bp_groups_per_page' != $option && 'toplevel_page_bp_groups_network_per_page' != $option )
 		return $value;
 
-	// Per page
+	// Per page.
 	$new_value = (int) $new_value;
 	if ( $new_value < 1 || $new_value > 999 )
 		return $value;
@@ -458,18 +454,18 @@ function bp_groups_admin_screen_options( $value, $option, $new_value ) {
  * @since 1.7.0
  */
 function bp_groups_admin() {
-	// Decide whether to load the index or edit screen
+	// Decide whether to load the index or edit screen.
 	$doaction = bp_admin_list_table_current_bulk_action();
 
-	// Display the single group edit screen
+	// Display the single group edit screen.
 	if ( 'edit' == $doaction && ! empty( $_GET['gid'] ) ) {
 		bp_groups_admin_edit();
 
-	// Display the group deletion confirmation screen
+	// Display the group deletion confirmation screen.
 	} elseif ( 'delete' == $doaction && ! empty( $_GET['gid'] ) ) {
 		bp_groups_admin_delete();
 
-	// Otherwise, display the groups index screen
+	// Otherwise, display the groups index screen.
 	} else {
 		bp_groups_admin_index();
 	}
@@ -487,7 +483,7 @@ function bp_groups_admin_edit() {
 
 	$messages = array();
 
-	// If the user has just made a change to a group, build status messages
+	// If the user has just made a change to a group, build status messages.
 	if ( !empty( $_REQUEST['no_admins'] ) || ! empty( $_REQUEST['error'] ) || ! empty( $_REQUEST['updated'] ) || ! empty( $_REQUEST['error_new'] ) || ! empty( $_REQUEST['success_new'] ) || ! empty( $_REQUEST['error_modified'] ) || ! empty( $_REQUEST['success_modified'] ) ) {
 		$no_admins        = ! empty( $_REQUEST['no_admins']        ) ? 1                                             : 0;
 		$errors           = ! empty( $_REQUEST['error']            ) ? $_REQUEST['error']                            : '';
@@ -545,13 +541,13 @@ function bp_groups_admin_edit() {
 
 	$is_error = ! empty( $no_admins ) || ! empty( $errors ) || ! empty( $error_new ) || ! empty( $error_modified );
 
-	// Get the group from the database
+	// Get the group from the database.
 	$group      = groups_get_group( 'group_id=' . $_GET['gid'] );
 
 	/** This filter is documented in bp-groups/bp-groups-template.php */
 	$group_name = isset( $group->name ) ? apply_filters( 'bp_get_group_name', $group->name ) : '';
 
-	// Construct URL for form
+	// Construct URL for form.
 	$form_url = remove_query_arg( array( 'action', 'deleted', 'no_admins', 'error', 'error_new', 'success_new', 'error_modified', 'success_modified' ), $_SERVER['REQUEST_URI'] );
 	$form_url = add_query_arg( 'action', 'save', $form_url );
 
@@ -575,7 +571,7 @@ function bp_groups_admin_edit() {
 
 		</h1>
 
-		<?php // If the user has just made a change to an group, display the status messages ?>
+		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>
 			<div id="moderated" class="<?php echo ( $is_error ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "</p><p>", $messages ); ?></p></div>
 		<?php endif; ?>
@@ -651,10 +647,10 @@ function bp_groups_admin_delete() {
 	$groups    = groups_get_groups( array(
 		'include'     => $group_ids,
 		'show_hidden' => true,
-		'per_page'    => null, // Return all results
+		'per_page'    => null, // Return all results.
 	) );
 
-	// Create a new list of group ids, based on those that actually exist
+	// Create a new list of group ids, based on those that actually exist.
 	$gids = array();
 	foreach ( $groups['groups'] as $group ) {
 		$gids[] = $group->id;
@@ -696,7 +692,7 @@ function bp_groups_admin_index() {
 
 	$messages = array();
 
-	// If the user has just made a change to a group, build status messages
+	// If the user has just made a change to a group, build status messages.
 	if ( ! empty( $_REQUEST['deleted'] ) ) {
 		$deleted  = ! empty( $_REQUEST['deleted'] ) ? (int) $_REQUEST['deleted'] : 0;
 
@@ -705,7 +701,7 @@ function bp_groups_admin_index() {
 		}
 	}
 
-	// Prepare the group items for display
+	// Prepare the group items for display.
 	$bp_groups_list_table->prepare_items();
 
 	/**
@@ -732,12 +728,12 @@ function bp_groups_admin_index() {
 			<?php endif; ?>
 		</h1>
 
-		<?php // If the user has just made a change to an group, display the status messages ?>
+		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>
 			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
 		<?php endif; ?>
 
-		<?php // Display each group on its own row ?>
+		<?php // Display each group on its own row. ?>
 		<?php $bp_groups_list_table->views(); ?>
 
 		<form id="bp-groups-form" action="" method="get">
@@ -799,6 +795,8 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
  * Output the markup for a single group's Add New Members metabox.
  *
  * @since 1.7.0
+ *
+ * @param BP_Groups_Group $item The BP_Groups_Group object for the current group.
  */
 function bp_groups_admin_edit_metabox_add_new_members( $item ) {
 	?>
@@ -820,7 +818,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 
 	// Pull up a list of group members, so we can separate out the types
 	// We'll also keep track of group members here to place them into a
-	// JavaScript variable, which will help with group member autocomplete
+	// JavaScript variable, which will help with group member autocomplete.
 	$members = array(
 		'admin'  => array(),
 		'mod'    => array(),
@@ -850,10 +848,10 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 		$pagination[ $type ] = bp_groups_admin_create_pagination_links( $member_type_query, $type );
 	}
 
-	// Echo out the JavaScript variable
+	// Echo out the JavaScript variable.
 	echo '<script type="text/javascript">var group_id = "' . esc_js( $item->id ) . '";</script>';
 
-	// Loop through each member type
+	// Loop through each member type.
 	foreach ( $members as $member_type => $type_users ) : ?>
 
 		<div class="bp-groups-member-type" id="bp-groups-member-type-<?php echo esc_attr( $member_type ) ?>">
@@ -1007,7 +1005,6 @@ function bp_groups_admin_edit_metabox_status( $item ) {
  *
  * @param BP_Group_Member_Query $query       A BP_Group_Member_Query object.
  * @param string                $member_type member|mod|admin|banned.
- *
  * @return string Pagination links HTML.
  */
 function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, $member_type ) {
@@ -1017,14 +1014,14 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
 		return $pagination;
 	}
 
-	// The key used to paginate this member type in the $_GET global
+	// The key used to paginate this member type in the $_GET global.
 	$qs_key = $member_type . '_page';
 	$url_base = remove_query_arg( array( $qs_key, 'updated', 'success_modified' ), $_SERVER['REQUEST_URI'] );
 
 	$page     = isset( $_GET[ $qs_key ] ) ? absint( $_GET[ $qs_key ] ) : 1;
 	$per_page = 10; // @todo Make this customizable?
 
-	// Don't show anything if there's no pagination
+	// Don't show anything if there's no pagination.
 	if ( 1 === $page && $query->total_users <= $per_page ) {
 		return $pagination;
 	}
@@ -1064,7 +1061,6 @@ function bp_groups_admin_create_pagination_links( BP_Group_Member_Query $query, 
  * @since 1.7.0
  *
  * @param array $user_ids Array of user IDs.
- *
  * @return array Array of user_logins corresponding to $user_ids.
  */
 function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
@@ -1086,7 +1082,7 @@ function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
  */
 function bp_groups_admin_autocomplete_handler() {
 
-	// Bail if user user shouldn't be here, or is a large network
+	// Bail if user user shouldn't be here, or is a large network.
 	if ( ! current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) ) {
 		wp_die( -1 );
 	}
@@ -1111,7 +1107,7 @@ function bp_groups_admin_autocomplete_handler() {
 		foreach ( $suggestions as $user ) {
 
 			$matches[] = array(
-				// translators: 1: user_login, 2: user_email
+				// Translators: 1: user_login, 2: user_email.
 				'label' => sprintf( __( '%1$s (%2$s)', 'buddypress' ), $user->name, $user->ID ),
 				'value' => $user->ID,
 			);
@@ -1132,7 +1128,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	/**
 	 * The type of view currently being displayed.
 	 *
-	 * e.g. "All", "Pending", "Approved", "Spam"...
+	 * E.g. "All", "Pending", "Approved", "Spam"...
 	 *
 	 * @since 1.7.0
 	 *
@@ -1185,14 +1181,14 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		$screen = get_current_screen();
 
-		// Option defaults
+		// Option defaults.
 		$include_id   = false;
 		$search_terms = false;
 
-		// Set current page
+		// Set current page.
 		$page = $this->get_pagenum();
 
-		// Set per page from the screen options
+		// Set per page from the screen options.
 		$per_page = $this->get_items_per_page( str_replace( '-', '_', "{$screen->id}_per_page" ) );
 
 		// Sort order.
@@ -1201,7 +1197,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			$order = ( 'desc' == strtolower( $_REQUEST['order'] ) ) ? 'DESC' : 'ASC';
 		}
 
-		// Order by - default to newest
+		// Order by - default to newest.
 		$orderby = 'last_activity';
 		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			switch ( $_REQUEST['orderby'] ) {
@@ -1228,21 +1224,21 @@ class BP_Groups_List_Table extends WP_List_Table {
 		if ( !empty( $_REQUEST['gid'] ) )
 			$include_id = (int) $_REQUEST['gid'];
 
-		// Set the current view
+		// Set the current view.
 		if ( isset( $_GET['group_status'] ) && in_array( $_GET['group_status'], array( 'public', 'private', 'hidden' ) ) ) {
 			$this->view = $_GET['group_status'];
 		}
 
-		// We'll use the ids of group types for the 'include' param
+		// We'll use the ids of group types for the 'include' param.
 		$this->group_type_ids = BP_Groups_Group::get_group_type_ids();
 
-		// Pass a dummy array if there are no groups of this type
+		// Pass a dummy array if there are no groups of this type.
 		$include = false;
 		if ( 'all' != $this->view && isset( $this->group_type_ids[ $this->view ] ) ) {
 			$include = ! empty( $this->group_type_ids[ $this->view ] ) ? $this->group_type_ids[ $this->view ] : array( 0 );
 		}
 
-		// Get group type counts for display in the filter tabs
+		// Get group type counts for display in the filter tabs.
 		$this->group_counts = array();
 		foreach ( $this->group_type_ids as $group_type => $group_ids ) {
 			$this->group_counts[ $group_type ] = count( $group_ids );
@@ -1269,10 +1265,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 			}
 		}
 
-		// Set raw data to display
+		// Set raw data to display.
 		$this->items = $groups;
 
-		// Store information needed for handling table pagination
+		// Store information needed for handling table pagination.
 		$this->set_pagination_args( array(
 			'per_page'    => $per_page,
 			'total_items' => $groups_template->total_group_count,
@@ -1306,7 +1302,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	protected function get_default_primary_column_name() {
-		// comment column is mapped to Group's name
+		// Comment column is mapped to Group's name.
 		return 'comment';
 	}
 
@@ -1323,7 +1319,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Output the Groups data table.
 	 *
 	 * @since 1.7.0
-	*/
+	 */
 	public function display() {
 		$this->display_tablenav( 'top' ); ?>
 
@@ -1497,8 +1493,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 2.3.3
 	 * @since 2.3.4 Visibility set to public for compatibility with WP < 4.0.0.
 	 *
-	 * @param array $actions The list of actions
-	 * @param bool $always_visible Whether the actions should be always visible
+	 * @param array $actions        The list of actions.
+	 * @param bool  $always_visible Whether the actions should be always visible.
 	 * @return string
 	 */
 	public function row_actions( $actions, $always_visible = false ) {
@@ -1558,17 +1554,17 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	public function column_comment( $item = array() ) {
 
-		// Preorder items: Edit | Delete | View
+		// Preorder items: Edit | Delete | View.
 		$actions = array(
 			'edit'   => '',
 			'delete' => '',
 			'view'   => '',
 		);
 
-		// We need the group object for some BP functions
+		// We need the group object for some BP functions.
 		$item_obj = (object) $item;
 
-		// Build actions URLs
+		// Build actions URLs.
 		$base_url   = bp_get_admin_url( 'admin.php?page=bp-groups&amp;gid=' . $item['id'] );
 		$delete_url = wp_nonce_url( $base_url . "&amp;action=delete", 'bp-groups-delete' );
 		$edit_url   = $base_url . '&amp;action=edit';
@@ -1584,15 +1580,14 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 */
 		$group_name = apply_filters_ref_array( 'bp_get_group_name', array( $item['name'] ), $item );
 
-		// Rollover actions
-
-		// Edit
+		// Rollover actions.
+		// Edit.
 		$actions['edit']   = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url   ), __( 'Edit',   'buddypress' ) );
 
-		// Delete
+		// Delete.
 		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
 
-		// Visit
+		// Visit.
 		$actions['view']   = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View',   'buddypress' ) );
 
 		/**
@@ -1605,7 +1600,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 */
 		$actions = apply_filters( 'bp_groups_admin_comment_row_actions', array_filter( $actions ), $item );
 
-		// Get group name and avatar
+		// Get group name and avatar.
 		$avatar = '';
 
 		if ( buddypress()->avatar->show_avatars ) {
@@ -1658,7 +1653,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$status_desc = '';
 
 		// @todo This should be abstracted out somewhere for the whole
-		// Groups component
+		// Groups component.
 		switch ( $status ) {
 			case 'public' :
 				$status_desc = __( 'Public', 'buddypress' );
@@ -1731,7 +1726,6 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @param array  $item        Information about the current row.
 	 * @param string $column_name The column name.
-	 *
 	 * @return string
 	 */
 	public function column_default( $item = array(), $column_name = '' ) {

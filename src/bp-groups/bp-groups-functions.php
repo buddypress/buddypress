@@ -35,12 +35,12 @@ function bp_groups_has_directory() {
  * support and pass through the groups_get_group filter.
  *
  * @param array|string $args {
- *	Array of al arguments.
- *	@type int  $group_id        ID of the group.
- *	@type bool $load_users      No longer used.
- *	@type bool $populate_extras Whether to fetch membership data and other
- *	                            extra information about the group.
- *                              Default: false.
+ *     Array of al arguments.
+ *     @type int  $group_id        ID of the group.
+ *     @type bool $load_users      No longer used.
+ *     @type bool $populate_extras Whether to fetch membership data and other
+ *                                 extra information about the group.
+ *                                 Default: false.
  * }
  * @return BP_Groups_Group $group The group object.
  */
@@ -83,7 +83,7 @@ function groups_get_group( $args = '' ) {
  *     @type string   $description  Optional. The group's description.
  *     @type string   $slug         The group slug.
  *     @type string   $status       The group's status. Accepts 'public', 'private' or
-                                    'hidden'. Defaults to 'public'.
+ *                                  'hidden'. Defaults to 'public'.
  *     @type int      $enable_forum Optional. Whether the group has a forum enabled.
  *                                  If the legacy forums are enabled for this group
  *                                  or if a bbPress forum is enabled for the group,
@@ -109,25 +109,25 @@ function groups_create_group( $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
 
-	// Pass an existing group ID
+	// Pass an existing group ID.
 	if ( ! empty( $group_id ) ) {
 		$group = groups_get_group( array( 'group_id' => (int) $group_id ) );
 		$name  = ! empty( $name ) ? $name : $group->name;
 		$slug  = ! empty( $slug ) ? $slug : $group->slug;
 		$description = ! empty( $description ) ? $description : $group->description;
 
-		// Groups need at least a name
+		// Groups need at least a name.
 		if ( empty( $name ) ) {
 			return false;
 		}
 
-	// Create a new group
+	// Create a new group.
 	} else {
-		// Instantiate new group object
+		// Instantiate new group object.
 		$group = new BP_Groups_Group;
 	}
 
-	// Set creator ID
+	// Set creator ID.
 	if ( $creator_id ) {
 		$group->creator_id = (int) $creator_id;
 	} elseif ( is_user_logged_in() ) {
@@ -138,12 +138,12 @@ function groups_create_group( $args = '' ) {
 		return false;
 	}
 
-	// Validate status
+	// Validate status.
 	if ( ! groups_is_valid_status( $status ) ) {
 		return false;
 	}
 
-	// Set group name
+	// Set group name.
 	$group->name         = $name;
 	$group->description  = $description;
 	$group->slug         = $slug;
@@ -151,12 +151,12 @@ function groups_create_group( $args = '' ) {
 	$group->enable_forum = (int) $enable_forum;
 	$group->date_created = $date_created;
 
-	// Save group
+	// Save group.
 	if ( ! $group->save() ) {
 		return false;
 	}
 
-	// If this is a new group, set up the creator as the first member and admin
+	// If this is a new group, set up the creator as the first member and admin.
 	if ( empty( $group_id ) ) {
 		$member                = new BP_Groups_Member;
 		$member->group_id      = $group->id;
@@ -216,7 +216,6 @@ function groups_create_group( $args = '' ) {
  * @param string $group_desc     Description of the group.
  * @param bool   $notify_members Whether to send an email notification to group
  *                               members about changes in these details.
- *
  * @return bool True on success, false on failure.
  */
 function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $notify_members ) {
@@ -262,7 +261,6 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
  * @param string      $status        Group status. 'public', 'private', 'hidden'.
  * @param string|bool $invite_status Optional. Who is allowed to send invitations
  *                                   to the group. 'members', 'mods', or 'admins'.
- *
  * @return bool True on success, false on failure.
  */
 function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false ) {
@@ -270,14 +268,14 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 	$group->enable_forum = $enable_forum;
 
-	/***
+	/**
 	 * Before we potentially switch the group status, if it has been changed to public
 	 * from private and there are outstanding membership requests, auto-accept those requests.
 	 */
 	if ( 'private' == $group->status && 'public' == $status )
 		groups_accept_all_pending_membership_requests( $group->id );
 
-	// Now update the status
+	// Now update the status.
 	$group->status = $status;
 
 	if ( !$group->save() )
@@ -290,7 +288,7 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
 		}
 	}
 
-	// Set the invite status
+	// Set the invite status.
 	if ( $invite_status )
 		groups_update_groupmeta( $group->id, 'invite_status', $invite_status );
 
@@ -314,7 +312,6 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
  * @since 1.0.0
  *
  * @param int $group_id ID of the group to delete.
- *
  * @return bool True on success, false on failure.
  */
 function groups_delete_group( $group_id ) {
@@ -328,15 +325,15 @@ function groups_delete_group( $group_id ) {
 	 */
 	do_action( 'groups_before_delete_group', $group_id );
 
-	// Get the group object
+	// Get the group object.
 	$group = groups_get_group( array( 'group_id' => $group_id ) );
 
-	// Bail if group cannot be deleted
+	// Bail if group cannot be deleted.
 	if ( ! $group->delete() ) {
 		return false;
 	}
 
-	// Remove all outstanding invites for this group
+	// Remove all outstanding invites for this group.
 	groups_delete_all_group_invites( $group_id );
 
 	/**
@@ -355,7 +352,6 @@ function groups_delete_group( $group_id ) {
  * Check a group status (eg 'private') against the whitelist of registered statuses.
  *
  * @param string $status Status to check.
- *
  * @return bool True if status is allowed, otherwise false.
  */
 function groups_is_valid_status( $status ) {
@@ -368,7 +364,6 @@ function groups_is_valid_status( $status ) {
  * Provide a unique, sanitized version of a group slug.
  *
  * @param string $slug Group slug to check.
- *
  * @return string $slug A unique and sanitized slug.
  */
 function groups_check_slug( $slug ) {
@@ -394,7 +389,6 @@ function groups_check_slug( $slug ) {
  * Get a group slug by its ID.
  *
  * @param int $group_id The numeric ID of the group.
- *
  * @return string The group's slug.
  */
 function groups_get_slug( $group_id ) {
@@ -408,7 +402,6 @@ function groups_get_slug( $group_id ) {
  * @since 1.6.0
  *
  * @param string $group_slug The group's slug.
- *
  * @return int The ID.
  */
 function groups_get_id( $group_slug ) {
@@ -423,7 +416,6 @@ function groups_get_id( $group_slug ) {
  * @param int $group_id ID of the group.
  * @param int $user_id  Optional. ID of the user. Defaults to the currently
  *                      logged-in user.
- *
  * @return bool True on success, false on failure.
  */
 function groups_leave_group( $group_id, $user_id = 0 ) {
@@ -464,7 +456,6 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
  * @param int $group_id ID of the group.
  * @param int $user_id  Optional. ID of the user. Defaults to the currently
  *                      logged-in user.
- *
  * @return bool True on success, false on failure.
  */
 function groups_join_group( $group_id, $user_id = 0 ) {
@@ -480,7 +471,7 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	if ( groups_check_for_membership_request( $user_id, $group_id ) )
 		groups_delete_membership_request( null, $user_id, $group_id );
 
-	// User is already a member, just return true
+	// User is already a member, just return true.
 	if ( groups_is_user_member( $user_id, $group_id ) )
 		return true;
 
@@ -503,7 +494,7 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	else
 		$group = $bp->groups->current_group;
 
-	// Record this in activity streams
+	// Record this in activity streams.
 	groups_record_activity( array(
 		'type'    => 'joined_group',
 		'item_id' => $group_id,
@@ -529,7 +520,6 @@ function groups_join_group( $group_id, $user_id = 0 ) {
  * Get a list of group administrators.
  *
  * @param int $group_id ID of the group.
- *
  * @return array Info about group admins (user_id + date_modified).
  */
 function groups_get_group_admins( $group_id ) {
@@ -540,7 +530,6 @@ function groups_get_group_admins( $group_id ) {
  * Get a list of group moderators.
  *
  * @param int $group_id ID of the group.
- *
  * @return array Info about group admins (user_id + date_modified).
  */
 function groups_get_group_mods( $group_id ) {
@@ -579,7 +568,7 @@ function groups_get_group_mods( $group_id ) {
  */
 function groups_get_group_members( $args = array() ) {
 
-	// Backward compatibility with old method of passing arguments
+	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args ) || func_num_args() > 1 ) {
 		_deprecated_argument( __METHOD__, '2.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
@@ -611,14 +600,14 @@ function groups_get_group_members( $args = array() ) {
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group()
 	// is deprecated. func_get_args() can't be passed to a function in PHP
-	// 5.2.x, so we create a variable
+	// 5.2.x, so we create a variable.
 	$func_args = func_get_args();
 	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, $func_args ) ) {
 		$retval = BP_Groups_Member::get_all_for_group( $r['group_id'], $r['per_page'], $r['page'], $r['exclude_admins_mods'], $r['exclude_banned'], $r['exclude'] );
 	} else {
 
-		// exclude_admins_mods and exclude_banned are legacy arguments.
-		// Convert to group_role
+		// Both exclude_admins_mods and exclude_banned are legacy arguments.
+		// Convert to group_role.
 		if ( empty( $r['group_role'] ) ) {
 			$r['group_role'] = array( 'member' );
 
@@ -632,7 +621,7 @@ function groups_get_group_members( $args = array() ) {
 			}
 		}
 
-		// Perform the group member query (extends BP_User_Query)
+		// Perform the group member query (extends BP_User_Query).
 		$members = new BP_Group_Member_Query( array(
 			'group_id'       => $r['group_id'],
 			'per_page'       => $r['per_page'],
@@ -643,7 +632,7 @@ function groups_get_group_members( $args = array() ) {
 			'type'           => $r['type'],
 		) );
 
-		// Structure the return value as expected by the template functions
+		// Structure the return value as expected by the template functions.
 		$retval = array(
 			'members' => array_values( $members->results ),
 			'count'   => $members->total_users,
@@ -657,7 +646,6 @@ function groups_get_group_members( $args = array() ) {
  * Get the member count for a group.
  *
  * @param int $group_id Group ID.
- *
  * @return int Count of confirmed members for the group.
  */
 function groups_get_total_member_count( $group_id ) {
@@ -681,19 +669,19 @@ function groups_get_total_member_count( $group_id ) {
 function groups_get_groups( $args = '' ) {
 
 	$defaults = array(
-		'type'              => false,    // active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts
-		'order'             => 'DESC',   // 'ASC' or 'DESC'
-		'orderby'           => 'date_created', // date_created, last_activity, total_member_count, name, random
-		'user_id'           => false,    // Pass a user_id to limit to only groups that this user is a member of
-		'include'           => false,    // Only include these specific groups (group_ids)
-		'exclude'           => false,    // Do not include these specific groups (group_ids)
-		'search_terms'      => false,    // Limit to groups that match these search terms
-		'meta_query'        => false,    // Filter by groupmeta. See WP_Meta_Query for syntax
-		'show_hidden'       => false,    // Show hidden groups to non-admins
-		'per_page'          => 20,       // The number of results to return per page
-		'page'              => 1,        // The page to return if limiting per page
-		'populate_extras'   => true,     // Fetch meta such as is_banned and is_member
-		'update_meta_cache' => true,   // Pre-fetch groupmeta for queried groups
+		'type'              => false,          // Active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts.
+		'order'             => 'DESC',         // 'ASC' or 'DESC'
+		'orderby'           => 'date_created', // date_created, last_activity, total_member_count, name, random.
+		'user_id'           => false,          // Pass a user_id to limit to only groups that this user is a member of.
+		'include'           => false,          // Only include these specific groups (group_ids).
+		'exclude'           => false,          // Do not include these specific groups (group_ids).
+		'search_terms'      => false,          // Limit to groups that match these search terms.
+		'meta_query'        => false,          // Filter by groupmeta. See WP_Meta_Query for syntax.
+		'show_hidden'       => false,          // Show hidden groups to non-admins.
+		'per_page'          => 20,             // The number of results to return per page.
+		'page'              => 1,              // The page to return if limiting per page.
+		'populate_extras'   => true,           // Fetch meta such as is_banned and is_member.
+		'update_meta_cache' => true,           // Pre-fetch groupmeta for queried groups.
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -768,7 +756,6 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
  * Get the count of groups of which the specified user is a member.
  *
  * @param int $user_id Optional. Default: ID of the displayed user.
- *
  * @return int Group count.
  */
 function groups_total_groups_for_user( $user_id = 0 ) {
@@ -815,8 +802,7 @@ function groups_get_current_group() {
 /**
  * Generate the avatar upload directory path for a given group.
  *
- * @param int $group_id Optional. ID of the group. Default: ID of the
- *                      current group.
+ * @param int $group_id Optional. ID of the group. Default: ID of the current group.
  * @return string
  */
 function groups_avatar_upload_dir( $group_id = 0 ) {
@@ -856,7 +842,6 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool
  */
 function groups_is_user_admin( $user_id, $group_id ) {
@@ -868,7 +853,6 @@ function groups_is_user_admin( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool
  */
 function groups_is_user_mod( $user_id, $group_id ) {
@@ -880,7 +864,6 @@ function groups_is_user_mod( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool
  */
 function groups_is_user_member( $user_id, $group_id ) {
@@ -898,7 +881,6 @@ function groups_is_user_banned( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool
  */
 function groups_is_user_creator( $user_id, $group_id ) {
@@ -946,7 +928,7 @@ function groups_post_update( $args = '' ) {
 	if ( !bp_current_user_can( 'bp_moderate' ) && !groups_is_user_member( $user_id, $group_id ) )
 		return false;
 
-	// Record this in activity streams
+	// Record this in activity streams.
 	$activity_action  = sprintf( __( '%1$s posted an update in the group %2$s', 'buddypress'), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $bp->groups->current_group ) . '">' . esc_attr( $bp->groups->current_group->name ) . '</a>' );
 	$activity_content = $content;
 
@@ -999,10 +981,10 @@ function groups_post_update( $args = '' ) {
  * Get IDs of users with outstanding invites to a given group from a specified user.
  *
  * @param int               $user_id ID of the inviting user.
- * @param int|bool          $limit Limit to restrict to.
- * @param int|bool          $page
- * @param string|array|bool $exclude
- *
+ * @param int|bool          $limit   Limit to restrict to.
+ * @param int|bool          $page    Optional. Page offset of results to return.
+ * @param string|array|bool $exclude Array of comma-separated list of group IDs
+ *                                   to exclude from results.
  * @return array $value IDs of users who have been invited to the group by the
  *                      user but have not yet accepted.
  */
@@ -1020,7 +1002,6 @@ function groups_get_invites_for_user( $user_id = 0, $limit = false, $page = fals
  * @since 2.0.0
  *
  * @param int $user_id The user ID.
- *
  * @return int
  */
 function groups_get_invite_count_for_user( $user_id = 0 ) {
@@ -1063,11 +1044,11 @@ function groups_invite_user( $args = '' ) {
 	if ( empty( $user_id ) || empty( $group_id ) )
 		return false;
 
-	// if the user has already requested membership, accept the request
+	// If the user has already requested membership, accept the request.
 	if ( $membership_id = groups_check_for_membership_request( $user_id, $group_id ) ) {
 		groups_accept_membership_request( $membership_id, $user_id, $group_id );
 
-	// Otherwise, create a new invitation
+	// Otherwise, create a new invitation.
 	} elseif ( ! groups_is_user_member( $user_id, $group_id ) && ! groups_check_user_has_invite( $user_id, $group_id, 'all' ) ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;
@@ -1099,7 +1080,6 @@ function groups_invite_user( $args = '' ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_uninvite_user( $user_id, $group_id ) {
@@ -1127,13 +1107,12 @@ function groups_uninvite_user( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool True when the user is a member of the group, otherwise false.
  */
 function groups_accept_invite( $user_id, $group_id ) {
 
 	// If the user is already a member (because BP at one point allowed two invitations to
-	// slip through), delete all existing invitations/requests and return true
+	// slip through), delete all existing invitations/requests and return true.
 	if ( groups_is_user_member( $user_id, $group_id ) ) {
 		if ( groups_check_user_has_invite( $user_id, $group_id ) ) {
 			groups_delete_invite( $user_id, $group_id );
@@ -1153,12 +1132,12 @@ function groups_accept_invite( $user_id, $group_id ) {
 		return false;
 	}
 
-	// Remove request to join
+	// Remove request to join.
 	if ( $member->check_for_membership_request( $user_id, $group_id ) ) {
 		$member->delete_request( $user_id, $group_id );
 	}
 
-	// Modify group meta
+	// Modify group meta.
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 
 	/**
@@ -1179,7 +1158,6 @@ function groups_accept_invite( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_reject_invite( $user_id, $group_id ) {
@@ -1204,7 +1182,6 @@ function groups_reject_invite( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the invited user.
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_delete_invite( $user_id, $group_id ) {
@@ -1242,7 +1219,7 @@ function groups_send_invites( $user_id, $group_id ) {
 	for ( $i = 0, $count = count( $invited_users ); $i < $count; ++$i ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_id );
 
-		// Send the actual invite
+		// Send the actual invite.
 		groups_notification_group_invites( $group, $member, $user_id );
 
 		$member->invite_sent = 1;
@@ -1267,7 +1244,6 @@ function groups_send_invites( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the inviting user.
  * @param int $group_id ID of the group.
- *
  * @return array $value IDs of users who have been invited to the group by the
  *                      user but have not yet accepted.
  */
@@ -1286,7 +1262,6 @@ function groups_get_invites_for_group( $user_id, $group_id ) {
  * @param int    $group_id ID of potential group.
  * @param string $type     Optional. Use 'sent' to check for sent invites,
  *                         'all' to check for all. Default: 'sent'.
- *
  * @return bool True if an invitation is found, otherwise false.
  */
 function groups_check_user_has_invite( $user_id, $group_id, $type = 'sent' ) {
@@ -1297,7 +1272,6 @@ function groups_check_user_has_invite( $user_id, $group_id, $type = 'sent' ) {
  * Delete all invitations to a given group.
  *
  * @param int $group_id ID of the group whose invitations are being deleted.
- *
  * @return int|null Number of rows records deleted on success, null on failure.
  */
 function groups_delete_all_group_invites( $group_id ) {
@@ -1312,7 +1286,6 @@ function groups_delete_all_group_invites( $group_id ) {
  * @param int    $user_id  ID of the user.
  * @param int    $group_id ID of the group.
  * @param string $status   The new status. 'mod' or 'admin'.
- *
  * @return bool True on success, false on failure.
  */
 function groups_promote_member( $user_id, $group_id, $status ) {
@@ -1344,7 +1317,6 @@ function groups_promote_member( $user_id, $group_id, $status ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_demote_member( $user_id, $group_id ) {
@@ -1372,7 +1344,6 @@ function groups_demote_member( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_ban_member( $user_id, $group_id ) {
@@ -1400,7 +1371,6 @@ function groups_ban_member( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_unban_member( $user_id, $group_id ) {
@@ -1430,7 +1400,6 @@ function groups_unban_member( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_remove_member( $user_id, $group_id ) {
@@ -1461,20 +1430,19 @@ function groups_remove_member( $user_id, $group_id ) {
  *
  * @param int $requesting_user_id ID of the user requesting membership.
  * @param int $group_id           ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_send_membership_request( $requesting_user_id, $group_id ) {
 
-	// Prevent duplicate requests
+	// Prevent duplicate requests.
 	if ( groups_check_for_membership_request( $requesting_user_id, $group_id ) )
 		return false;
 
-	// Check if the user is already a member or is banned
+	// Check if the user is already a member or is banned.
 	if ( groups_is_user_member( $requesting_user_id, $group_id ) || groups_is_user_banned( $requesting_user_id, $group_id ) )
 		return false;
 
-	// Check if the user is already invited - if so, simply accept invite
+	// Check if the user is already invited - if so, simply accept invite.
 	if ( groups_check_user_has_invite( $requesting_user_id, $group_id ) ) {
 		groups_accept_invite( $requesting_user_id, $group_id );
 		return true;
@@ -1493,7 +1461,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 	if ( $requesting_user->save() ) {
 		$admins = groups_get_group_admins( $group_id );
 
-		// Saved okay, now send the email notification
+		// Saved okay, now send the email notification.
 		for ( $i = 0, $count = count( $admins ); $i < $count; ++$i )
 			groups_notification_new_membership_request( $requesting_user_id, $admins[$i]->user_id, $group_id, $requesting_user->id );
 
@@ -1525,7 +1493,6 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
  * @param int $group_id      Optional. ID of the group to which membership is being
  *                           requested. Provide this value along with $user_id to
  *                           override $membership_id.
- *
  * @return bool True on success, false on failure.
  */
 function groups_accept_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -1571,7 +1538,6 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
  * @param int $group_id      Optional. ID of the group to which membership is being
  *                           requested. Provide this value along with $user_id to
  *                           override $membership_id.
- *
  * @return bool True on success, false on failure.
  */
 function groups_reject_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -1603,7 +1569,6 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
  * @param int $group_id      Optional. ID of the group to which membership is being
  *                           requested. Provide this value along with $user_id to
  *                           override $membership_id.
- *
  * @return bool True on success, false on failure.
  */
 function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
@@ -1623,7 +1588,6 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
  * @return int|null ID of the membership if found, otherwise false.
  */
 function groups_check_for_membership_request( $user_id, $group_id ) {
@@ -1634,7 +1598,6 @@ function groups_check_for_membership_request( $user_id, $group_id ) {
  * Accept all pending membership requests to a group.
  *
  * @param int $group_id ID of the group.
- *
  * @return bool True on success, false on failure.
  */
 function groups_accept_all_pending_membership_requests( $group_id ) {
@@ -1671,17 +1634,16 @@ function groups_accept_all_pending_membership_requests( $group_id ) {
  *                                for all groups. Otherwise, only delete matching
  *                                metadata entries for the specified group.
  *                                Default: false.
- *
  * @return bool True on success, false on failure.
  */
 function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;
 
-	// Legacy - if no meta_key is passed, delete all for the item
+	// Legacy - if no meta_key is passed, delete all for the item.
 	if ( empty( $meta_key ) ) {
 		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->groupmeta} WHERE group_id = %d", $group_id ) );
 
-		// With no meta_key, ignore $delete_all
+		// With no meta_key, ignore $delete_all.
 		$delete_all = false;
 	} else {
 		$keys = array( $meta_key );
@@ -1707,7 +1669,6 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
  * @param bool   $single   Optional. If true, return only the first value of the
  *                         specified meta_key. This parameter has no effect if
  *                         meta_key is empty.
- *
  * @return mixed Metadata value.
  */
 function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
@@ -1727,7 +1688,6 @@ function groups_get_groupmeta( $group_id, $meta_key = '', $single = true ) {
  * @param mixed  $prev_value Optional. If specified, only update existing
  *                           metadata entries with the specified value.
  *                           Otherwise, update all entries.
- *
  * @return bool|int $retval Returns false on failure. On successful update of existing
  *                          metadata, returns true. On successful creation of new metadata,
  *                          returns the integer ID of the new metadata row.
@@ -1752,7 +1712,6 @@ function groups_update_groupmeta( $group_id, $meta_key, $meta_value, $prev_value
  *                           for the given key. If true, and the object already
  *                           has a value for the key, no change will be made.
  *                           Default: false.
- *
  * @return int|bool The meta ID on successful update, false on failure.
  */
 function groups_add_groupmeta( $group_id, $meta_key, $meta_value, $unique = false ) {

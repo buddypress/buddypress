@@ -68,7 +68,7 @@ function groups_screen_group_invites() {
 	$group_id = (int)bp_action_variable( 1 );
 
 	if ( bp_is_action_variable( 'accept' ) && is_numeric( $group_id ) ) {
-		// Check the nonce
+		// Check the nonce.
 		if ( !check_admin_referer( 'groups_accept_invite' ) )
 			return false;
 
@@ -77,7 +77,7 @@ function groups_screen_group_invites() {
 		} else {
 			bp_core_add_message( __('Group invite accepted', 'buddypress') );
 
-			// Record this in activity streams
+			// Record this in activity streams.
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 
 			groups_record_activity( array(
@@ -95,7 +95,7 @@ function groups_screen_group_invites() {
 		bp_core_redirect( $redirect_to );
 
 	} elseif ( bp_is_action_variable( 'reject' ) && is_numeric( $group_id ) ) {
-		// Check the nonce
+		// Check the nonce.
 		if ( !check_admin_referer( 'groups_reject_invite' ) )
 			return false;
 
@@ -182,7 +182,7 @@ function groups_screen_group_forum() {
 	if ( ! bp_is_single_item() )
 		return false;
 
-	// Fetch the details we need
+	// Fetch the details we need.
 	$topic_slug	= (string)bp_action_variable( 1 );
 	$topic_id       = bp_forums_get_topic_id_from_slug( $topic_slug );
 	$forum_id       = groups_get_groupmeta( $bp->groups->current_group->id, 'forum_id' );
@@ -193,19 +193,19 @@ function groups_screen_group_forum() {
 
 	if ( !empty( $topic_slug ) && !empty( $topic_id ) ) {
 
-		// Posting a reply
+		// Posting a reply.
 		if ( !$user_is_banned && !bp_action_variable( 2 ) && isset( $_POST['submit_reply'] ) ) {
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_new_reply' );
 
-			// Auto join this user if they are not yet a member of this group
+			// Auto join this user if they are not yet a member of this group.
 			if ( bp_groups_auto_join() && !bp_current_user_can( 'bp_moderate' ) && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 				groups_join_group( $bp->groups->current_group->id, bp_loggedin_user_id() );
 			}
 
 			$topic_page = isset( $_GET['topic_page'] ) ? $_GET['topic_page'] : false;
 
-			// Don't allow reply flooding
+			// Don't allow reply flooding.
 			if ( bp_forums_reply_exists( $_POST['reply_text'], $topic_id, bp_loggedin_user_id() ) ) {
 				bp_core_add_message( __( 'It looks like you\'ve already said that!', 'buddypress' ), 'error' );
 			} else {
@@ -227,9 +227,9 @@ function groups_screen_group_forum() {
 			bp_core_redirect( $redirect );
 		}
 
-		// Sticky a topic
+		// Sticky a topic.
 		elseif ( bp_is_action_variable( 'stick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_stick_topic' );
 
 			if ( !bp_forums_sticky_topic( array( 'topic_id' => $topic_id ) ) ) {
@@ -249,9 +249,9 @@ function groups_screen_group_forum() {
 			bp_core_redirect( wp_get_referer() );
 		}
 
-		// Un-Sticky a topic
+		// Un-Sticky a topic.
 		elseif ( bp_is_action_variable( 'unstick', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_unstick_topic' );
 
 			if ( !bp_forums_sticky_topic( array( 'topic_id' => $topic_id, 'mode' => 'unstick' ) ) ) {
@@ -271,9 +271,9 @@ function groups_screen_group_forum() {
 			bp_core_redirect( wp_get_referer() );
 		}
 
-		// Close a topic
+		// Close a topic.
 		elseif ( bp_is_action_variable( 'close', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_close_topic' );
 
 			if ( !bp_forums_openclose_topic( array( 'topic_id' => $topic_id ) ) ) {
@@ -293,9 +293,9 @@ function groups_screen_group_forum() {
 			bp_core_redirect( wp_get_referer() );
 		}
 
-		// Open a topic
+		// Open a topic.
 		elseif ( bp_is_action_variable( 'open', 2 ) && ( bp_is_item_admin() || bp_is_item_mod() ) ) {
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_open_topic' );
 
 			if ( !bp_forums_openclose_topic( array( 'topic_id' => $topic_id, 'mode' => 'open' ) ) ) {
@@ -315,9 +315,9 @@ function groups_screen_group_forum() {
 			bp_core_redirect( wp_get_referer() );
 		}
 
-		// Delete a topic
+		// Delete a topic.
 		elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'delete', 2 ) && !bp_action_variable( 3 ) ) {
-			// Fetch the topic
+			// Fetch the topic.
 			$topic = bp_forums_get_topic_details( $topic_id );
 
 			/* Check the logged in user can delete this topic */
@@ -325,7 +325,7 @@ function groups_screen_group_forum() {
 				bp_core_redirect( wp_get_referer() );
 			}
 
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_delete_topic' );
 
 			/**
@@ -354,18 +354,18 @@ function groups_screen_group_forum() {
 			bp_core_redirect( bp_get_group_permalink( groups_get_current_group() ) . 'forum/' );
 		}
 
-		// Editing a topic
+		// Editing a topic.
 		elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'edit', 2 ) && !bp_action_variable( 3 ) ) {
-			// Fetch the topic
+			// Fetch the topic.
 			$topic = bp_forums_get_topic_details( $topic_id );
 
-			// Check the logged in user can edit this topic
+			// Check the logged in user can edit this topic.
 			if ( ! bp_is_item_admin() && ! bp_is_item_mod() && ( (int) bp_loggedin_user_id() != (int) $topic->topic_poster ) ) {
 				bp_core_redirect( wp_get_referer() );
 			}
 
 			if ( isset( $_POST['save_changes'] ) ) {
-				// Check the nonce
+				// Check the nonce.
 				check_admin_referer( 'bp_forums_edit_topic' );
 
 				$topic_tags = !empty( $_POST['topic_tags'] ) ? $_POST['topic_tags'] : false;
@@ -396,17 +396,17 @@ function groups_screen_group_forum() {
 			 */
 			bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/home' ) );
 
-		// Delete a post
+		// Delete a post.
 		} elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'delete', 2 ) && $post_id = bp_action_variable( 4 ) ) {
-			// Fetch the post
+			// Fetch the post.
 			$post = bp_forums_get_post( $post_id );
 
-			// Check the logged in user can edit this topic
+			// Check the logged in user can edit this topic.
 			if ( ! bp_is_item_admin() && ! bp_is_item_mod() && ( (int) bp_loggedin_user_id() != (int) $post->poster_id ) ) {
 				bp_core_redirect( wp_get_referer() );
 			}
 
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_delete_post' );
 
 			/**
@@ -434,19 +434,19 @@ function groups_screen_group_forum() {
 			do_action( 'groups_delete_forum_post', $post_id );
 			bp_core_redirect( wp_get_referer() );
 
-		// Editing a post
+		// Editing a post.
 		} elseif ( empty( $user_is_banned ) && bp_is_action_variable( 'edit', 2 ) && $post_id = bp_action_variable( 4 ) ) {
 
-			// Fetch the post
+			// Fetch the post.
 			$post = bp_forums_get_post( $post_id );
 
-			// Check the logged in user can edit this topic
+			// Check the logged in user can edit this topic.
 			if ( ! bp_is_item_admin() && ! bp_is_item_mod() && ( (int) bp_loggedin_user_id() != (int) $post->poster_id ) ) {
 				bp_core_redirect( wp_get_referer() );
 			}
 
 			if ( isset( $_POST['save_changes'] ) ) {
-				// Check the nonce
+				// Check the nonce.
 				check_admin_referer( 'bp_forums_edit_post' );
 
 				$topic_page = isset( $_GET['topic_page'] ) ? $_GET['topic_page'] : false;
@@ -475,7 +475,7 @@ function groups_screen_group_forum() {
 			/** This filter is documented in bp-groups/bp-groups-screens.php */
 			bp_core_load_template( apply_filters( 'groups_template_group_forum_topic_edit', 'groups/single/home' ) );
 
-		// Standard topic display
+		// Standard topic display.
 		} else {
 			if ( !empty( $user_is_banned ) ) {
 				bp_core_add_message( __( "You have been banned from this group.", 'buddypress' ) );
@@ -491,23 +491,23 @@ function groups_screen_group_forum() {
 			bp_core_load_template( apply_filters( 'groups_template_group_forum_topic', 'groups/single/home' ) );
 		}
 
-	// Forum topic does not exist
+	// Forum topic does not exist.
 	} elseif ( !empty( $topic_slug ) && empty( $topic_id ) ) {
 		bp_do_404();
 		return;
 
 	} else {
-		// Posting a topic
+		// Posting a topic.
 		if ( isset( $_POST['submit_topic'] ) && bp_is_active( 'forums' ) ) {
 
-			// Check the nonce
+			// Check the nonce.
 			check_admin_referer( 'bp_forums_new_topic' );
 
 			if ( $user_is_banned ) {
 				$error_message = __( "You have been banned from this group.", 'buddypress' );
 
 			} elseif ( bp_groups_auto_join() && !bp_current_user_can( 'bp_moderate' ) && 'public' == $bp->groups->current_group->status && !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
-				// Auto join this user if they are not yet a member of this group
+				// Auto join this user if they are not yet a member of this group.
 				groups_join_group( $bp->groups->current_group->id, bp_loggedin_user_id() );
 			}
 
@@ -568,7 +568,7 @@ function groups_screen_group_members() {
 
 	$bp = buddypress();
 
-	// Refresh the group member count meta
+	// Refresh the group member count meta.
 	groups_update_groupmeta( $bp->groups->current_group->id, 'total_member_count', groups_get_total_member_count( $bp->groups->current_group->id ) );
 
 	/**
@@ -697,7 +697,7 @@ function groups_screen_group_request_membership() {
 	if ( 'private' != $bp->groups->current_group->status )
 		return false;
 
-	// If the user is already invited, accept invitation
+	// If the user is already invited, accept invitation.
 	if ( groups_check_user_has_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 		if ( groups_accept_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
 			bp_core_add_message( __( 'Group invite accepted', 'buddypress' ) );
@@ -709,7 +709,7 @@ function groups_screen_group_request_membership() {
 	// If the user has submitted a request, send it.
 	if ( isset( $_POST['group-request-send']) ) {
 
-		// Check the nonce
+		// Check the nonce.
 		if ( !check_admin_referer( 'groups_request_membership' ) )
 			return false;
 
@@ -808,9 +808,9 @@ function groups_screen_group_admin_edit_details() {
 
 		$bp = buddypress();
 
-		// If the edit form has been submitted, save the edited details
+		// If the edit form has been submitted, save the edited details.
 		if ( isset( $_POST['save'] ) ) {
-			// Check the nonce
+			// Check the nonce.
 			if ( !check_admin_referer( 'groups_edit_group_details' ) )
 				return false;
 
@@ -868,21 +868,21 @@ function groups_screen_group_admin_settings() {
 
 	$bp = buddypress();
 
-	// If the edit form has been submitted, save the edited details
+	// If the edit form has been submitted, save the edited details.
 	if ( isset( $_POST['save'] ) ) {
 		$enable_forum   = ( isset($_POST['group-show-forum'] ) ) ? 1 : 0;
 
-		// Checked against a whitelist for security
+		// Checked against a whitelist for security.
 		/** This filter is documented in bp-groups/bp-groups-admin.php */
 		$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
 		$status         = ( in_array( $_POST['group-status'], (array) $allowed_status ) ) ? $_POST['group-status'] : 'public';
 
-		// Checked against a whitelist for security
+		// Checked against a whitelist for security.
 		/** This filter is documented in bp-groups/bp-groups-admin.php */
 		$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
 		$invite_status	       = isset( $_POST['group-invite-status'] ) && in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
 
-		// Check the nonce
+		// Check the nonce.
 		if ( !check_admin_referer( 'groups_edit_group_settings' ) )
 			return false;
 
@@ -932,16 +932,16 @@ function groups_screen_group_admin_avatar() {
 	if ( 'group-avatar' != bp_get_group_current_admin_tab() )
 		return false;
 
-	// If the logged-in user doesn't have permission or if avatar uploads are disabled, then stop here
+	// If the logged-in user doesn't have permission or if avatar uploads are disabled, then stop here.
 	if ( ! bp_is_item_admin() || bp_disable_group_avatar_uploads() || ! buddypress()->avatar->show_avatars )
 		return false;
 
 	$bp = buddypress();
 
-	// If the group admin has deleted the admin avatar
+	// If the group admin has deleted the admin avatar.
 	if ( bp_is_action_variable( 'delete', 1 ) ) {
 
-		// Check the nonce
+		// Check the nonce.
 		check_admin_referer( 'bp_group_avatar_delete' );
 
 		if ( bp_core_delete_existing_avatar( array( 'item_id' => $bp->groups->current_group->id, 'object' => 'group' ) ) ) {
@@ -959,23 +959,23 @@ function groups_screen_group_admin_avatar() {
 
 	if ( !empty( $_FILES ) ) {
 
-		// Check the nonce
+		// Check the nonce.
 		check_admin_referer( 'bp_avatar_upload' );
 
-		// Pass the file to the avatar upload handler
+		// Pass the file to the avatar upload handler.
 		if ( bp_core_avatar_handle_upload( $_FILES, 'groups_avatar_upload_dir' ) ) {
 			$bp->avatar_admin->step = 'crop-image';
 
-			// Make sure we include the jQuery jCrop file for image cropping
+			// Make sure we include the jQuery jCrop file for image cropping.
 			add_action( 'wp_print_scripts', 'bp_core_add_jquery_cropper' );
 		}
 
 	}
 
-	// If the image cropping is done, crop the image and save a full/thumb version
+	// If the image cropping is done, crop the image and save a full/thumb version.
 	if ( isset( $_POST['avatar-crop-submit'] ) ) {
 
-		// Check the nonce
+		// Check the nonce.
 		check_admin_referer( 'bp_avatar_cropstore' );
 
 		$args = array(
@@ -1026,7 +1026,7 @@ function groups_screen_group_admin_cover_image() {
 		return false;
 	}
 
-	// If the logged-in user doesn't have permission or if cover image uploads are disabled, then stop here
+	// If the logged-in user doesn't have permission or if cover image uploads are disabled, then stop here.
 	if ( ! bp_is_item_admin() || ! bp_group_use_cover_image_header() ) {
 		return false;
 	}
@@ -1101,7 +1101,7 @@ function groups_screen_group_admin_manage_members() {
 			if ( !check_admin_referer( 'groups_demote_member' ) )
 				return false;
 
-			// Stop sole admins from abandoning their group
+			// Stop sole admins from abandoning their group.
 			$group_admins = groups_get_group_admins( $bp->groups->current_group->id );
 			if ( 1 == count( $group_admins ) && $group_admins[0]->user_id == $user_id )
 				bp_core_add_message( __( 'This group must have at least one admin', 'buddypress' ), 'error' );
@@ -1248,7 +1248,7 @@ function groups_screen_group_admin_requests() {
 			if ( !check_admin_referer( 'groups_accept_membership_request' ) )
 				return false;
 
-			// Accept the membership request
+			// Accept the membership request.
 			if ( !groups_accept_membership_request( $membership_id ) )
 				bp_core_add_message( __( 'There was an error accepting the membership request. Please try again.', 'buddypress' ), 'error' );
 			else
@@ -1259,7 +1259,7 @@ function groups_screen_group_admin_requests() {
 			if ( !check_admin_referer( 'groups_reject_membership_request' ) )
 				return false;
 
-			// Reject the membership request
+			// Reject the membership request.
 			if ( !groups_reject_membership_request( $membership_id ) )
 				bp_core_add_message( __( 'There was an error rejecting the membership request. Please try again.', 'buddypress' ), 'error' );
 			else
@@ -1466,11 +1466,11 @@ class BP_Groups_Theme_Compat {
 	 */
 	public function is_group() {
 
-		// Bail if not looking at a group
+		// Bail if not looking at a group.
 		if ( ! bp_is_groups_component() )
 			return;
 
-		// Group Directory
+		// Group Directory.
 		if ( ! bp_current_action() && ! bp_current_item() ) {
 			bp_update_is_directory( true, 'groups' );
 
@@ -1485,13 +1485,13 @@ class BP_Groups_Theme_Compat {
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 
-		// Creating a group
+		// Creating a group.
 		} elseif ( bp_is_groups_component() && bp_is_current_action( 'create' ) ) {
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'create_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'create_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'create_content'    ) );
 
-		// Group page
+		// Group page.
 		} elseif ( bp_is_single_item() ) {
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
@@ -1526,8 +1526,8 @@ class BP_Groups_Theme_Compat {
 			'groups/index-directory.php'
 		) );
 
-		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// Merge new templates with existing stack.
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;
@@ -1572,7 +1572,6 @@ class BP_Groups_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function create_template_hierarchy( $templates ) {
@@ -1588,8 +1587,8 @@ class BP_Groups_Theme_Compat {
 			'groups/index-create.php'
 		) );
 
-		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// Merge new templates with existing stack.
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( $new_templates, $templates );
 
 		return $templates;
@@ -1640,7 +1639,7 @@ class BP_Groups_Theme_Compat {
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function single_template_hierarchy( $templates ) {
-		// Setup some variables we're going to reference in our custom templates
+		// Setup some variables we're going to reference in our custom templates.
 		$group = groups_get_current_group();
 
 		/**
@@ -1658,8 +1657,8 @@ class BP_Groups_Theme_Compat {
 			'groups/single/index.php'
 		) );
 
-		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// Merge new templates with existing stack.
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;

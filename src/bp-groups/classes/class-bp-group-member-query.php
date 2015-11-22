@@ -57,15 +57,15 @@ class BP_Group_Member_Query extends BP_User_Query {
 	public function setup_hooks() {
 		// Take this early opportunity to set the default 'type' param
 		// to 'last_joined', which will ensure that BP_User_Query
-		// trusts our order and does not try to apply its own
+		// trusts our order and does not try to apply its own.
 		if ( empty( $this->query_vars_raw['type'] ) ) {
 			$this->query_vars_raw['type'] = 'last_joined';
 		}
 
-		// Set the sort order
+		// Set the sort order.
 		add_action( 'bp_pre_user_query', array( $this, 'set_orderby' ) );
 
-		// Set up our populate_extras method
+		// Set up our populate_extras method.
 		add_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
 	}
 
@@ -99,7 +99,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		$group_member_ids = $this->get_group_member_ids();
 
 		// If the group member query returned no users, bail with an
-		// array that will guarantee no matches for BP_User_Query
+		// array that will guarantee no matches for BP_User_Query.
 		if ( empty( $group_member_ids ) ) {
 			return array( 0 );
 		}
@@ -133,36 +133,36 @@ class BP_Group_Member_Query extends BP_User_Query {
 			'order'   => '',
 		);
 
-		/** WHERE clauses *****************************************************/
+		/* WHERE clauses *****************************************************/
 
-		// Group id
+		// Group id.
 		$sql['where'][] = $wpdb->prepare( "group_id = %d", $this->query_vars['group_id'] );
 
-		// is_confirmed
+		// If is_confirmed.
 		$is_confirmed = ! empty( $this->query_vars['is_confirmed'] ) ? 1 : 0;
 		$sql['where'][] = $wpdb->prepare( "is_confirmed = %d", $is_confirmed );
 
-		// invite_sent
+		// If invite_sent.
 		if ( ! is_null( $this->query_vars['invite_sent'] ) ) {
 			$invite_sent = ! empty( $this->query_vars['invite_sent'] ) ? 1 : 0;
 			$sql['where'][] = $wpdb->prepare( "invite_sent = %d", $invite_sent );
 		}
 
-		// inviter_id
+		// If inviter_id.
 		if ( ! is_null( $this->query_vars['inviter_id'] ) ) {
 			$inviter_id = $this->query_vars['inviter_id'];
 
-			// Empty: inviter_id = 0. (pass false, 0, or empty array)
+			// Empty: inviter_id = 0. (pass false, 0, or empty array).
 			if ( empty( $inviter_id ) ) {
 				$sql['where'][] = "inviter_id = 0";
 
-			// The string 'any' matches any non-zero value (inviter_id != 0)
+			// The string 'any' matches any non-zero value (inviter_id != 0).
 			} elseif ( 'any' === $inviter_id ) {
 				$sql['where'][] = "inviter_id != 0";
 
-			// Assume that a list of inviter IDs has been passed
+			// Assume that a list of inviter IDs has been passed.
 			} else {
-				// Parse and sanitize
+				// Parse and sanitize.
 				$inviter_ids = wp_parse_id_list( $inviter_id );
 				if ( ! empty( $inviter_ids ) ) {
 					$inviter_ids_sql = implode( ',', $inviter_ids );
@@ -179,7 +179,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 			$roles = explode( ',', $roles );
 		}
 
-		// Sanitize: Only 'admin', 'mod', 'member', and 'banned' are valid
+		// Sanitize: Only 'admin', 'mod', 'member', and 'banned' are valid.
 		$allowed_roles = array( 'admin', 'mod', 'member', 'banned' );
 		foreach ( $roles as $role_key => $role_value ) {
 			if ( ! in_array( $role_value, $allowed_roles ) ) {
@@ -191,7 +191,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		// When querying for a set of roles containing 'member' (for
 		// which there is no dedicated is_ column), figure out a list
-		// of columns *not* to match
+		// of columns *not* to match.
 		$roles_sql = '';
 		if ( in_array( 'member', $roles ) ) {
 			$role_columns = array();
@@ -204,7 +204,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 			}
 
 		// When querying for a set of roles *not* containing 'member',
-		// simply construct a list of is_* = 1 clauses
+		// simply construct a list of is_* = 1 clauses.
 		} else {
 			$role_columns = array();
 			foreach ( $roles as $role ) {
@@ -225,7 +225,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// We fetch group members in order of last_joined, regardless
 		// of 'type'. If the 'type' value is not 'last_joined' or
 		// 'first_joined', the order will be overridden in
-		// BP_Group_Member_Query::set_orderby()
+		// BP_Group_Member_Query::set_orderby().
 		$sql['orderby'] = "ORDER BY date_modified";
 		$sql['order']   = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
 
@@ -271,12 +271,12 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// do its own (non-group-specific) ordering.
 		if ( in_array( $query->query_vars['type'], array( 'last_joined', 'first_joined', 'group_activity' ) ) ) {
 
-			// Group Activity DESC
+			// Group Activity DESC.
 			if ( 'group_activity' == $query->query_vars['type'] ) {
 				$gm_ids = $this->get_gm_ids_ordered_by_activity( $query, $gm_ids );
 			}
 
-			// The first param in the FIELD() clause is the sort column id
+			// The first param in the FIELD() clause is the sort column id.
 			$gm_ids = array_merge( array( 'u.id' ), wp_parse_id_list( $gm_ids ) );
 			$gm_ids_sql = implode( ',', $gm_ids );
 
@@ -284,7 +284,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		}
 
 		// Prevent this filter from running on future BP_User_Query
-		// instances on the same page
+		// instances on the same page.
 		remove_action( 'bp_pre_user_query', array( $this, 'set_orderby' ) );
 	}
 
@@ -292,7 +292,6 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * Fetch additional data required in bp_group_has_members() loops.
 	 *
 	 * Additional data fetched:
-	 *
 	 *      - is_banned
 	 *      - date_modified
 	 *
@@ -312,7 +311,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		foreach ( (array) $extras as $extra ) {
 			if ( isset( $this->results[ $extra->user_id ] ) ) {
-				// user_id is provided for backward compatibility
+				// The user_id is provided for backward compatibility.
 				$this->results[ $extra->user_id ]->user_id       = (int) $extra->user_id;
 				$this->results[ $extra->user_id ]->is_admin      = (int) $extra->is_admin;
 				$this->results[ $extra->user_id ]->is_mod        = (int) $extra->is_mod;
@@ -327,7 +326,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 			}
 		}
 
-		// Don't filter other BP_User_Query objects on the same page
+		// Don't filter other BP_User_Query objects on the same page.
 		remove_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
 	}
 
@@ -338,7 +337,6 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @param BP_User_Query $query  BP_User_Query object.
 	 * @param array         $gm_ids array of group member ids.
-	 *
 	 * @return array
 	 */
 	public function get_gm_ids_ordered_by_activity( $query, $gm_ids = array() ) {

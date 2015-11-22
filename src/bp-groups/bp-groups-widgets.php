@@ -9,15 +9,22 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/* Register widgets for groups component */
+/**
+ * Register widgets for groups component
+ */
 function groups_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Groups_Widget");') );
 }
 add_action( 'bp_register_widgets', 'groups_register_widgets' );
 
-/*** GROUPS WIDGET *****************/
-
+/**
+ * GROUPS WIDGET
+ */
 class BP_Groups_Widget extends WP_Widget {
+
+	/**
+	 * Working as a group, we get things done better.
+	 */
 	function __construct() {
 		$widget_ops = array(
 			'description' => __( 'A dynamic list of recently active, popular, and newest groups', 'buddypress' ),
@@ -40,6 +47,12 @@ class BP_Groups_Widget extends WP_Widget {
 		$this->_construct();
 	}
 
+	/**
+	 * Extends our frontend output method.
+	 *
+	 * @param array $args     Array of arguments for the widget.
+	 * @param array $instance Widget instance data.
+	 */
 	function widget( $args, $instance ) {
 
 		/**
@@ -145,6 +158,13 @@ class BP_Groups_Widget extends WP_Widget {
 	<?php
 	}
 
+	/**
+	 * Extends our update method.
+	 *
+	 * @param array $new_instance New instance data.
+	 * @param array $old_instance Original instance data.
+	 * @return array
+	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
@@ -156,6 +176,12 @@ class BP_Groups_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Extends our form method.
+	 *
+	 * @param array $instance Current instance.
+	 * @return mixed
+	 */
 	function form( $instance ) {
 		$defaults = array(
 			'title'         => __( 'Groups', 'buddypress' ),

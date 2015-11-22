@@ -144,8 +144,8 @@ class BP_Groups_Group {
 	/**
 	 * Constructor method.
 	 *
-	 * @param int|null $id Optional. If the ID of an existing group is provided,
-	 *                     the object will be pre-populated with info about that group.
+	 * @param int|null $id   Optional. If the ID of an existing group is provided,
+	 *                       the object will be pre-populated with info about that group.
 	 * @param array    $args {
 	 *     Array of optional arguments.
 	 *     @type bool $populate_extras Whether to fetch "extra" data about the group
@@ -170,26 +170,26 @@ class BP_Groups_Group {
 	public function populate() {
 		global $wpdb;
 
-		// Get BuddyPress
+		// Get BuddyPress.
 		$bp    = buddypress();
 
-		// Check cache for group data
+		// Check cache for group data.
 		$group = wp_cache_get( $this->id, 'bp_groups' );
 
-		// Cache missed, so query the DB
+		// Cache missed, so query the DB.
 		if ( false === $group ) {
 			$group = $wpdb->get_row( $wpdb->prepare( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id = %d", $this->id ) );
 
 			wp_cache_set( $this->id, $group, 'bp_groups' );
 		}
 
-		// No group found so set the ID and bail
+		// No group found so set the ID and bail.
 		if ( empty( $group ) || is_wp_error( $group ) ) {
 			$this->id = 0;
 			return;
 		}
 
-		// Group found so setup the object variables
+		// Group found so setup the object variables.
 		$this->id           = $group->id;
 		$this->creator_id   = $group->creator_id;
 		$this->name         = stripslashes( $group->name );
@@ -211,7 +211,7 @@ class BP_Groups_Group {
 			 */
 			$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );
 
-			// Add admins and moderators to their respective arrays
+			// Add admins and moderators to their respective arrays.
 			foreach ( (array) $admin_mods as $user ) {
 				if ( !empty( $user->is_admin ) ) {
 					$this->admins[] = $user;
@@ -221,11 +221,11 @@ class BP_Groups_Group {
 			}
 
 			// Set up some specific group vars from meta. Excluded
-			// from the bp_groups cache because it's cached independently
+			// from the bp_groups cache because it's cached independently.
 			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
 			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
 
-			// Set user-specific data
+			// Set user-specific data.
 			$user_id          = bp_loggedin_user_id();
 			$this->is_member  = BP_Groups_Member::check_is_member( $user_id, $this->id );
 			$this->is_invited = BP_Groups_Member::check_has_invite( $user_id, $this->id );
@@ -234,10 +234,10 @@ class BP_Groups_Group {
 			// If this is a private or hidden group, does the current user have access?
 			if ( ( 'private' === $this->status ) || ( 'hidden' === $this->status ) ) {
 
-				// Assume user does not have access to hidden/private groups
+				// Assume user does not have access to hidden/private groups.
 				$this->user_has_access = false;
 
-				// Group members or community moderators have access
+				// Group members or community moderators have access.
 				if ( ( $this->is_member && is_user_logged_in() ) || bp_current_user_can( 'bp_moderate' ) ) {
 					$this->user_has_access = true;
 				}
@@ -276,22 +276,22 @@ class BP_Groups_Group {
 		 */
 		do_action_ref_array( 'groups_group_before_save', array( &$this ) );
 
-		// Groups need at least a name
+		// Groups need at least a name.
 		if ( empty( $this->name ) ) {
 			return false;
 		}
 
-		// Set slug with group title if not passed
+		// Set slug with group title if not passed.
 		if ( empty( $this->slug ) ) {
 			$this->slug = sanitize_title( $this->name );
 		}
 
-		// Sanity check
+		// Sanity check.
 		if ( empty( $this->slug ) ) {
 			return false;
 		}
 
-		// Check for slug conflicts if creating new group
+		// Check for slug conflicts if creating new group.
 		if ( empty( $this->id ) ) {
 			$this->slug = groups_check_slug( $this->slug );
 		}
@@ -369,17 +369,17 @@ class BP_Groups_Group {
 	public function delete() {
 		global $wpdb;
 
-		// Delete groupmeta for the group
+		// Delete groupmeta for the group.
 		groups_delete_groupmeta( $this->id );
 
-		// Fetch the user IDs of all the members of the group
+		// Fetch the user IDs of all the members of the group.
 		$user_ids    = BP_Groups_Member::get_group_member_ids( $this->id );
 		$user_id_str = esc_sql( implode( ',', wp_parse_id_list( $user_ids ) ) );
 
-		// Modify group count usermeta for members
+		// Modify group count usermeta for members.
 		$wpdb->query( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_id_str} )" );
 
-		// Now delete all group member entries
+		// Now delete all group member entries.
 		BP_Groups_Member::delete_all( $this->id );
 
 		/**
@@ -396,7 +396,7 @@ class BP_Groups_Group {
 
 		$bp = buddypress();
 
-		// Finally remove the group entry from the DB
+		// Finally remove the group entry from the DB.
 		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name} WHERE id = %d", $this->id ) ) )
 			return false;
 
@@ -411,7 +411,6 @@ class BP_Groups_Group {
 	 * @param string      $slug       Slug to check.
 	 * @param string|bool $table_name Optional. Name of the table to check
 	 *                                against. Default: $bp->groups->table_name.
-	 *
 	 * @return string|null ID of the group, if one is found, else null.
 	 */
 	public static function group_exists( $slug, $table_name = false ) {
@@ -432,7 +431,6 @@ class BP_Groups_Group {
 	 * Alias of {@link BP_Groups_Group::group_exists()}.
 	 *
 	 * @param string $slug See {@link BP_Groups_Group::group_exists()}.
-	 *
 	 * @return string|null See {@link BP_Groups_Group::group_exists()}.
 	 */
 	public static function get_id_from_slug( $slug ) {
@@ -444,7 +442,6 @@ class BP_Groups_Group {
 	 *
 	 * @param int $user_id ID of the inviting user.
 	 * @param int $group_id ID of the group.
-	 *
 	 * @return array IDs of users who have been invited to the group by the
 	 *               user but have not yet accepted.
 	 */
@@ -514,7 +511,6 @@ class BP_Groups_Group {
 	 * @param string|bool $sort_by Column to sort by. Default: false (default
 	 *        sort).
 	 * @param string|bool $order   ASC or DESC. Default: false (default sort).
-	 *
 	 * @return array {
 	 *     @type array $groups Array of matched and paginated group objects.
 	 *     @type int   $total  Total count of groups matching the query.
@@ -551,7 +547,6 @@ class BP_Groups_Group {
 	 * Check for the existence of a slug.
 	 *
 	 * @param string $slug Slug to check.
-	 *
 	 * @return string|null The slug, if found. Otherwise null.
 	 */
 	public static function check_slug( $slug ) {
@@ -566,7 +561,6 @@ class BP_Groups_Group {
 	 * Get the slug for a given group ID.
 	 *
 	 * @param int $group_id ID of the group.
-	 *
 	 * @return string|null The slug, if found. Otherwise null.
 	 */
 	public static function get_slug( $group_id ) {
@@ -581,7 +575,6 @@ class BP_Groups_Group {
 	 * Check whether a given group has any members.
 	 *
 	 * @param int $group_id ID of the group.
-	 *
 	 * @return bool True if the group has members, otherwise false.
 	 */
 	public static function has_members( $group_id ) {
@@ -601,7 +594,6 @@ class BP_Groups_Group {
 	 * Check whether a group has outstanding membership requests.
 	 *
 	 * @param int $group_id ID of the group.
-	 *
 	 * @return int|null The number of outstanding requests, or null if
 	 *                  none are found.
 	 */
@@ -648,7 +640,7 @@ class BP_Groups_Group {
 	 * @see WP_Meta_Query::queries for a description of the 'meta_query'
 	 *      parameter format.
 	 *
-	 * @param array {
+	 * @param array $args {
 	 *     Array of parameters. All items are optional.
 	 *     @type string       $type              Optional. Shorthand for certain orderby/
 	 *                                           order combinations. 'newest', 'active', 'popular',
@@ -691,7 +683,7 @@ class BP_Groups_Group {
 	public static function get( $args = array() ) {
 		global $wpdb;
 
-		// Backward compatibility with old method of passing arguments
+		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args ) || func_num_args() > 1 ) {
 			_deprecated_argument( __METHOD__, '1.7', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
@@ -782,13 +774,13 @@ class BP_Groups_Group {
 			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
 		}
 
-		/** Order/orderby ********************************************/
+		/* Order/orderby ********************************************/
 
 		$order   = $r['order'];
 		$orderby = $r['orderby'];
 
 		// If a 'type' parameter was passed, parse it and overwrite
-		// 'order' and 'orderby' params passed to the function
+		// 'order' and 'orderby' params passed to the function.
 		if (  ! empty( $r['type'] ) ) {
 
 			/**
@@ -803,7 +795,7 @@ class BP_Groups_Group {
 
 			// If an invalid type is passed, $order_orderby will be
 			// an array with empty values. In this case, we stick
-			// with the default values of $order and $orderby
+			// with the default values of $order and $orderby.
 			if ( ! empty( $order_orderby['order'] ) ) {
 				$order = $order_orderby['order'];
 			}
@@ -813,7 +805,7 @@ class BP_Groups_Group {
 			}
 		}
 
-		// Sanitize 'order'
+		// Sanitize 'order'.
 		$order = bp_esc_sql_order( $order );
 
 		/**
@@ -827,7 +819,7 @@ class BP_Groups_Group {
 		 */
 		$orderby = apply_filters( 'bp_groups_get_orderby_converted_by_term', self::convert_orderby_to_order_by_term( $orderby ), $orderby, $r['type'] );
 
-		// Random order is a special case
+		// Random order is a special case.
 		if ( 'rand()' === $orderby ) {
 			$sql[] = "ORDER BY rand()";
 		} else {
@@ -869,22 +861,22 @@ class BP_Groups_Group {
 		}
 
 		// Temporary implementation of meta_query for total count
-		// See #5099
+		// See #5099.
 		if ( ! empty( $meta_query_sql['where'] ) ) {
-			// Join the groupmeta table
+			// Join the groupmeta table.
 			$total_sql['select'] .= ", ". substr( $meta_query_sql['join'], 0, -2 );
 
-			// Modify the meta_query clause from paged_sql for our syntax
+			// Modify the meta_query clause from paged_sql for our syntax.
 			$meta_query_clause = preg_replace( '/^\s*AND/', '', $meta_query_sql['where'] );
 			$total_sql['where'][] = $meta_query_clause;
 		}
 
-		// Already escaped in the paginated results block
+		// Already escaped in the paginated results block.
 		if ( ! empty( $include ) ) {
 			$total_sql['where'][] = "g.id IN ({$include})";
 		}
 
-		// Already escaped in the paginated results block
+		// Already escaped in the paginated results block.
 		if ( ! empty( $exclude ) ) {
 			$total_sql['where'][] = "g.id NOT IN ({$exclude})";
 		}
@@ -915,12 +907,12 @@ class BP_Groups_Group {
 			$group_ids[] = $group->id;
 		}
 
-		// Populate some extra information instead of querying each time in the loop
+		// Populate some extra information instead of querying each time in the loop.
 		if ( !empty( $r['populate_extras'] ) ) {
 			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $r['type'] );
 		}
 
-		// Grab all groupmeta
+		// Grab all groupmeta.
 		if ( ! empty( $r['update_meta_cache'] ) ) {
 			bp_groups_update_meta_cache( $group_ids );
 		}
@@ -943,7 +935,6 @@ class BP_Groups_Group {
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *                          documentation for {@link WP_Meta_Query} for details.
-	 *
 	 * @return array $sql_array 'join' and 'where' clauses.
 	 */
 	protected static function get_meta_query_sql( $meta_query = array() ) {
@@ -958,7 +949,7 @@ class BP_Groups_Group {
 			$groups_meta_query = new WP_Meta_Query( $meta_query );
 
 			// WP_Meta_Query expects the table name at
-			// $wpdb->group
+			// $wpdb->group.
 			$wpdb->groupmeta = buddypress()->groups->table_name_groupmeta;
 
 			$meta_sql = $groups_meta_query->get_sql( 'group', 'g', 'id' );
@@ -970,7 +961,7 @@ class BP_Groups_Group {
 			//
 			// @todo It may be better in the long run to refactor
 			// the more general query syntax to accord better with
-			// BP/WP convention
+			// BP/WP convention.
 			preg_match_all( '/JOIN (.+?) ON/', $meta_sql['join'], $matches_a );
 			preg_match_all( '/ON \((.+?)\)/', $meta_sql['join'], $matches_b );
 
@@ -991,8 +982,8 @@ class BP_Groups_Group {
 	 * @param string $type The 'type' shorthand param.
 	 *
 	 * @return array {
-	 *	@type string $order   SQL-friendly order string.
-	 *	@type string $orderby SQL-friendly orderby column name.
+	 *     @type string $order   SQL-friendly order string.
+	 *     @type string $orderby SQL-friendly orderby column name.
 	 * }
 	 */
 	protected static function convert_type_to_order_orderby( $type = '' ) {
@@ -1043,7 +1034,6 @@ class BP_Groups_Group {
 	 *                                           information about the groups. Default: true.
 	 * @param string|array|bool $exclude         Optional. Array or comma-separated list of group
 	 *                                           IDs to exclude from results.
-	 *
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
 	 *                         paginated query.
@@ -1104,7 +1094,6 @@ class BP_Groups_Group {
 	 * @since 1.8.0
 	 *
 	 * @param string $orderby Orderby term as passed to get().
-	 *
 	 * @return string $order_by_term SQL-friendly orderby term.
 	 */
 	protected static function convert_orderby_to_order_by_term( $orderby ) {
@@ -1149,7 +1138,6 @@ class BP_Groups_Group {
 	 *                                           information about the groups. Default: true.
 	 * @param string|array|bool $exclude         Optional. Array or comma-separated list of group
 	 *                                           IDs to exclude from results.
-	 *
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
 	 *                         paginated query.
@@ -1228,7 +1216,7 @@ class BP_Groups_Group {
 
 		$pag_sql = $hidden_sql = $exclude_sql = '';
 
-		// Multibyte compliance
+		// Multibyte compliance.
 		if ( function_exists( 'mb_strlen' ) ) {
 			if ( mb_strlen( $letter, 'UTF-8' ) > 1 || is_numeric( $letter ) || !$letter ) {
 				return false;
@@ -1286,7 +1274,6 @@ class BP_Groups_Group {
 	 *                                           information about the groups. Default: true.
 	 * @param string|array|bool $exclude         Optional. Array or comma-separated list of group
 	 *                                           IDs to exclude from results.
-	 *
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
 	 *                         paginated query.
@@ -1344,7 +1331,6 @@ class BP_Groups_Group {
 	 * $populate_extras parameter.
 	 *
 	 * Data fetched:
-	 *
 	 *     - Logged-in user's status within each group (is_member,
 	 *       is_confirmed, is_pending, is_banned)
 	 *
@@ -1352,7 +1338,6 @@ class BP_Groups_Group {
 	 * @param string|array $group_ids    Array or comma-separated list of IDs matching
 	 *                                   $paged_groups.
 	 * @param string|bool  $type         Not used.
-	 *
 	 * @return array $paged_groups
 	 */
 	public static function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
@@ -1363,17 +1348,17 @@ class BP_Groups_Group {
 
 		$bp = buddypress();
 
-		// Sanitize group IDs
+		// Sanitize group IDs.
 		$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
 
-		// Fetch the logged-in user's status within each group
+		// Fetch the logged-in user's status within each group.
 		if ( is_user_logged_in() ) {
 			$user_status_results = $wpdb->get_results( $wpdb->prepare( "SELECT group_id, is_confirmed, invite_sent FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_banned = 0", bp_loggedin_user_id() ) );
 		} else {
 			$user_status_results = array();
 		}
 
-		// Reindex
+		// Reindex.
 		$user_status = array();
 		foreach ( $user_status_results as $user_status_result ) {
 			$user_status[ $user_status_result->group_id ] = $user_status_result;
@@ -1385,15 +1370,15 @@ class BP_Groups_Group {
 
 			if ( isset( $user_status[ $gid ] ) ) {
 
-				// is_confirmed means the user is a member
+				// The is_confirmed means the user is a member.
 				if ( $user_status[ $gid ]->is_confirmed ) {
 					$is_member = '1';
 
-				// invite_sent means the user has been invited
+				// The invite_sent means the user has been invited.
 				} elseif ( $user_status[ $gid ]->invite_sent ) {
 					$is_invited = '1';
 
-				// User has sent request, but has not been confirmed
+				// User has sent request, but has not been confirmed.
 				} else {
 					$is_pending = '1';
 				}
@@ -1427,7 +1412,6 @@ class BP_Groups_Group {
 	 * Delete all invitations to a given group.
 	 *
 	 * @param int $group_id ID of the group whose invitations are being deleted.
-	 *
 	 * @return int|null Number of rows records deleted on success, null on
 	 *                  failure.
 	 */
@@ -1464,7 +1448,6 @@ class BP_Groups_Group {
 	 *
 	 * @param string $type Optional. If 'unreplied', count will be limited to
 	 *                     those topics that have received no replies.
-	 *
 	 * @return int Forum topic count.
 	 */
 	public static function get_global_forum_topic_count( $type ) {
@@ -1478,7 +1461,7 @@ class BP_Groups_Group {
 		/**
 		 * Filters the portion of the SQL related to global count of forum topics in public groups.
 		 *
-		 * https://buddypress.trac.wordpress.org/ticket/4306.
+		 * See https://buddypress.trac.wordpress.org/ticket/4306.
 		 *
 		 * @since 1.6.0
 		 *
@@ -1487,7 +1470,7 @@ class BP_Groups_Group {
 		 */
 		$extra_sql = apply_filters( 'get_global_forum_topic_count_extra_sql', $bp->groups->filter_sql, $type );
 
-		// Make sure the $extra_sql begins with an AND
+		// Make sure the $extra_sql begins with an AND.
 		if ( 'AND' != substr( trim( strtoupper( $extra_sql ) ), 0, 3 ) )
 			$extra_sql = ' AND ' . $extra_sql;
 
@@ -1498,7 +1481,6 @@ class BP_Groups_Group {
 	 * Get the member count for a group.
 	 *
 	 * @param int $group_id Group ID.
-	 *
 	 * @return int Count of confirmed members for the group.
 	 */
 	public static function get_total_member_count( $group_id ) {
@@ -1517,7 +1499,6 @@ class BP_Groups_Group {
 	 * @param string      $status       Which group type to count. 'public', 'private',
 	 *                                  'hidden', or 'all'. Default: 'public'.
 	 * @param string|bool $search_terms Provided search terms.
-	 *
 	 * @return int The topic count
 	 */
 	public static function get_global_topic_count( $status = 'public', $search_terms = false ) {
