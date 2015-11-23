@@ -6,7 +6,7 @@
  * @subpackage BlogsScreens
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -95,15 +95,15 @@ class BP_Blogs_Theme_Compat {
 	 */
 	public function is_blogs() {
 
-		// Bail if not looking at a group
+		// Bail if not looking at a group.
 		if ( ! bp_is_blogs_component() )
 			return;
 
-		// Bail if looking at a users sites
+		// Bail if looking at a users sites.
 		if ( bp_is_user() )
 			return;
 
-		// Blog Directory
+		// Blog Directory.
 		if ( is_multisite() && ! bp_current_action() ) {
 			bp_update_is_directory( true, 'blogs' );
 
@@ -119,7 +119,7 @@ class BP_Blogs_Theme_Compat {
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 
-		// Create blog
+		// Create blog.
 		} elseif ( is_user_logged_in() && bp_blog_signup_enabled() ) {
 			add_filter( 'bp_get_buddypress_template',                array( $this, 'create_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'create_dummy_post' ) );
@@ -138,7 +138,6 @@ class BP_Blogs_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
@@ -155,7 +154,7 @@ class BP_Blogs_Theme_Compat {
 		) );
 
 		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;
@@ -201,7 +200,6 @@ class BP_Blogs_Theme_Compat {
 	 * @since 1.8.0
 	 *
 	 * @param string $templates The templates from bp_get_theme_compat_templates().
-	 *
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function create_template_hierarchy( $templates ) {
@@ -218,7 +216,7 @@ class BP_Blogs_Theme_Compat {
 		) );
 
 		// Merge new templates with existing stack
-		// @see bp_get_theme_compat_templates()
+		// @see bp_get_theme_compat_templates().
 		$templates = array_merge( (array) $new_templates, $templates );
 
 		return $templates;
@@ -231,7 +229,7 @@ class BP_Blogs_Theme_Compat {
 	 */
 	public function create_dummy_post() {
 
-		// Title based on ability to create blogs
+		// Title based on ability to create blogs.
 		if ( is_user_logged_in() && bp_blog_signup_enabled() ) {
 			$title = __( 'Create a Site', 'buddypress' );
 		} else {

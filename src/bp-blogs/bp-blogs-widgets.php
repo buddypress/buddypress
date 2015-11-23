@@ -6,7 +6,7 @@
  * @subpackage BlogsWidgets
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -76,7 +76,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 		$after_widget = $args['after_widget'];
 
-		// Override some of the contextually set parameters for bp_has_activities()
+		// Override some of the contextually set parameters for bp_has_activities().
 		$args = array(
 			'action'     => 'new_blog_post',
 			'max'        => $instance['max_posts'],
@@ -127,7 +127,6 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 *
 	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -144,7 +143,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	 *
 	 * @param array $instance Settings for this widget.
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array(

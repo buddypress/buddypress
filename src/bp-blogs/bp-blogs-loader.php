@@ -10,9 +10,12 @@
  * @subpackage BlogsCore
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Creates our Blogs component.
+ */
 class BP_Blogs_Component extends BP_Component {
 
 	/**
@@ -51,7 +54,7 @@ class BP_Blogs_Component extends BP_Component {
 			define ( 'BP_BLOGS_SLUG', $this->id );
 		}
 
-		// Global tables for messaging component
+		// Global tables for messaging component.
 		$global_tables = array(
 			'table_name'          => $bp->table_prefix . 'bp_user_blogs',
 			'table_name_blogmeta' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
@@ -65,7 +68,7 @@ class BP_Blogs_Component extends BP_Component {
 		$args = array(
 			'slug'                  => BP_BLOGS_SLUG,
 			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG,
-			'has_directory'         => is_multisite(), // Non-multisite installs don't need a top-level Sites directory, since there's only one site
+			'has_directory'         => is_multisite(), // Non-multisite installs don't need a top-level Sites directory, since there's only one site.
 			'directory_title'       => _x( 'Sites', 'component directory title', 'buddypress' ),
 			'notification_callback' => 'bp_blogs_format_notifications',
 			'search_string'         => __( 'Search sites...', 'buddypress' ),
@@ -74,17 +77,17 @@ class BP_Blogs_Component extends BP_Component {
 			'meta_tables'           => $meta_tables,
 		);
 
-		// Setup the globals
+		// Setup the globals.
 		parent::setup_globals( $args );
 
-		/*
+		/**
 		 * Filters if a blog is public.
 		 *
 		 * In case the config is not multisite, the blog_public option is ignored.
 		 *
 		 * @since 2.3.0
 		 *
-		 * @oaram int $value Whether or not the blog is public.
+		 * @param int $value Whether or not the blog is public.
 		 */
 		if ( 0 !== apply_filters( 'bp_is_blog_public', (int) get_option( 'blog_public' ) ) || ! is_multisite() ) {
 
@@ -116,7 +119,7 @@ class BP_Blogs_Component extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 
-		// Files to include
+		// Files to include.
 		$includes = array(
 			'cache',
 			'actions',
@@ -132,7 +135,7 @@ class BP_Blogs_Component extends BP_Component {
 			$includes[] = 'widgets';
 		}
 
-		// Include the files
+		// Include the files.
 		parent::includes( $includes );
 	}
 
@@ -157,7 +160,7 @@ class BP_Blogs_Component extends BP_Component {
 			return false;
 		}
 
-		// Determine user to use
+		// Determine user to use.
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
 		} elseif ( bp_loggedin_user_domain() ) {
@@ -169,7 +172,7 @@ class BP_Blogs_Component extends BP_Component {
 		$slug       = bp_get_blogs_slug();
 		$parent_url = trailingslashit( $user_domain . $slug );
 
-		// Add 'Sites' to the main navigation
+		// Add 'Sites' to the main navigation.
 		$count    = (int) bp_get_total_blog_count_for_user();
 		$class    = ( 0 === $count ) ? 'no-count' : 'count';
 		$nav_text = sprintf( __( 'Sites <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count )  );
@@ -191,7 +194,7 @@ class BP_Blogs_Component extends BP_Component {
 			'position'        => 10
 		);
 
-		// Setup navigation
+		// Setup navigation.
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
@@ -204,7 +207,6 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
 	 *                            for description.
-	 *
 	 * @return bool
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
@@ -218,13 +220,13 @@ class BP_Blogs_Component extends BP_Component {
 			return false;
 		}
 
-		// Menus for logged in user
+		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
 
-			// Setup the logged in user variables
+			// Setup the logged in user variables.
 			$blogs_link = trailingslashit( bp_loggedin_user_domain() . bp_get_blogs_slug() );
 
-			// Add the "Sites" sub menu
+			// Add the "Sites" sub menu.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
@@ -232,7 +234,7 @@ class BP_Blogs_Component extends BP_Component {
 				'href'   => $blogs_link
 			);
 
-			// My Sites
+			// My Sites.
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-my-sites',
@@ -240,7 +242,7 @@ class BP_Blogs_Component extends BP_Component {
 				'href'   => $blogs_link
 			);
 
-			// Create a Site
+			// Create a Site.
 			if ( bp_blog_signup_enabled() ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
@@ -255,11 +257,11 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the title for pages and <title>
+	 * Set up the title for pages and <title>.
 	 */
 	public function setup_title() {
 
-		// Set up the component options navigation for Site
+		// Set up the component options navigation for Site.
 		if ( bp_is_blogs_component() ) {
 			$bp = buddypress();
 
@@ -269,7 +271,7 @@ class BP_Blogs_Component extends BP_Component {
 				}
 
 			// If we are not viewing the logged in user, set up the current
-			// users avatar and name
+			// users avatar and name.
 			} else {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => bp_displayed_user_id(),
@@ -290,7 +292,7 @@ class BP_Blogs_Component extends BP_Component {
 	 */
 	public function setup_cache_groups() {
 
-		// Global groups
+		// Global groups.
 		wp_cache_add_global_groups( array(
 			'blog_meta'
 		) );
@@ -305,9 +307,8 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @see bp_activity_get_post_type_tracking_args() for information on parameters.
 	 *
-	 * @param object|null $params
-	 * @param string|int  $post_type
-	 *
+	 * @param object|null $params    Tracking arguments.
+	 * @param string|int  $post_type Post type to track.
 	 * @return object
 	 */
 	public function post_tracking_args( $params = null, $post_type = 0 ) {
