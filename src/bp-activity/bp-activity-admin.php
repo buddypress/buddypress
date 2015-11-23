@@ -360,9 +360,8 @@ function bp_activity_admin_load() {
 		// "We'd like to shoot the monster, could you move, please?"
 		foreach ( $activity_ids as $activity_id ) {
 			// @todo: Check the permissions on each
-			//if ( ! current_user_can( 'bp_edit_activity', $activity_id ) )
+			// if ( ! current_user_can( 'bp_edit_activity', $activity_id ) )
 			// continue;
-
 			// Get the activity from the database.
 			$activity = new BP_Activity_Activity( $activity_id );
 			if ( empty( $activity->component ) ) {
@@ -565,7 +564,7 @@ function bp_activity_admin_load() {
 		 *
 		 * @since 1.6.0
 		 *
-		 * @param array Array holding activity object and ID that holds error.
+		 * @param array $value Array holding activity object and ID that holds error.
 		 */
 		do_action_ref_array( 'bp_activity_admin_edit_after', array( &$activity, $error ) );
 
@@ -1650,7 +1649,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		<div class="response-links">
 
 		<?php
-		// Activity permalink
+		// Activity permalink.
 		$activity_permalink = '';
 		if ( ! $item['is_spam'] ) {
 			$activity_permalink = '<a href="' . bp_activity_get_permalink( $item['id'], (object) $item ) . '" class="comments-view-item-link">' . __( 'View Activity', 'buddypress' ) . '</a>';

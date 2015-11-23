@@ -9,7 +9,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/** Filters *******************************************************************/
+/* Filters *******************************************************************/
 
 // Apply WordPress defined filters.
 add_filter( 'bp_get_activity_action',                'bp_activity_filter_kses', 1 );
@@ -98,7 +98,7 @@ add_filter( 'bp_get_activity_content',      'bp_activity_truncate_entry', 5 );
 add_filter( 'bp_get_total_favorite_count_for_user', 'bp_core_number_format' );
 add_filter( 'bp_get_total_mention_count_for_user',  'bp_core_number_format' );
 
-/** Actions *******************************************************************/
+/* Actions *******************************************************************/
 
 // At-name filter.
 add_action( 'bp_activity_before_save', 'bp_activity_at_name_filter_updates' );

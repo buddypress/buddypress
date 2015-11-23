@@ -254,7 +254,7 @@ class BP_Akismet {
 		 *
 		 * @since 1.6.0
 		 *
-		 * @param array Array of default activity types for Akismet to check.
+		 * @param array $value Array of default activity types for Akismet to check.
 		 */
 		return apply_filters( 'bp_akismet_get_activity_types', array( 'activity_comment', 'activity_update' ) );
 	}

@@ -479,7 +479,7 @@ class BP_Activity_Activity {
 		 *
 		 * @since 1.6.0
 		 *
-		 * @param array Array of indexes in preferred order.
+		 * @param array $value Array of indexes in preferred order.
 		 */
 		$indexes = apply_filters( 'bp_activity_preferred_index_order', array( 'user_id', 'item_id', 'secondary_item_id', 'date_recorded', 'component', 'type', 'hide_sitewide', 'is_spam' ) );
 

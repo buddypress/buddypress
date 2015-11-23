@@ -105,7 +105,7 @@ function bp_activity_action_permalink_router() {
 	 *
 	 * @since 1.2.2
 	 *
-	 * @param array Array with url to redirect to and activity related to the redirect.
+	 * @param array $value Array with url to redirect to and activity related to the redirect.
 	 */
 	if ( ! $redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) ) {
 		bp_core_redirect( bp_get_root_domain() );

@@ -1426,16 +1426,16 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
 function bp_activity_get( $args = '' ) {
 
 	$r = bp_parse_args( $args, array(
-		'max'               => false,        // Maximum number of results to return
+		'max'               => false,        // Maximum number of results to return.
 		'fields'            => 'all',
-		'page'              => 1,            // page 1 without a per_page will result in no pagination.
+		'page'              => 1,            // Page 1 without a per_page will result in no pagination.
 		'per_page'          => false,        // results per page
 		'sort'              => 'DESC',       // sort ASC or DESC
-		'display_comments'  => false,        // false for no comments. 'stream' for within stream display, 'threaded' for below each activity item
+		'display_comments'  => false,        // False for no comments. 'stream' for within stream display, 'threaded' for below each activity item.
 
 		'search_terms'      => false,        // Pass search terms as a string
 		'meta_query'        => false,        // Filter by activity meta. See WP_Meta_Query for format
-		'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format
+		'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format.
 		'filter_query'      => false,
 		'show_hidden'       => false,        // Show activity items that are hidden site-wide?
 		'exclude'           => false,        // Comma-separated list of activity IDs to exclude.
