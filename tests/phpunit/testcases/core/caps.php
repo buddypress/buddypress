@@ -46,11 +46,44 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		$this->assertFalse( $cant );
 	}
 
+	/**
+	 * @group bp_xprofile_change_field_visibility
+	 */
+	public function test_bp_current_user_can_should_pass_null_in_args_parameter_if_empty() {
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+
+		/**
+		 * Fake bp_get_the_profile_field_id() to pretend we're in the field loop and
+		 * to avoid notices when checking 'bp_xprofile_change_field_visibility' cap
+		 */
+		$GLOBALS['field'] = new stdClass;
+		$GLOBALS['field']->id = 1;
+
+		// Capture the cap's $args
+		add_filter( 'bp_xprofile_map_meta_caps', array( $this, 'check_cap_args' ), 10, 4 );
+
+		// Use a cap check that depends on a null value for a cap's args
+		bp_current_user_can( 'bp_xprofile_change_field_visibility' );
+
+		// Assert!
+		$this->assertEquals( null, $this->test_args[0] );
+
+		// Reset
+		remove_filter( 'bp_xprofile_map_meta_caps', array( $this, 'check_cap_args' ), 10, 4 );
+		unset( $GLOBALS['field'], $this->test_args );
+	}
+
 	public function grant_cap_foo( $allcaps, $caps ) {
 		if ( bp_is_root_blog() ) {
 			$allcaps['foo'] = 1;
 		}
 
 		return $allcaps;
+	}
+
+	public function check_cap_args( $caps, $cap, $user_id, $args ) {
+		$this->test_args = $args;
+		return $caps;
 	}
 }
