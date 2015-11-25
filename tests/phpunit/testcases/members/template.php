@@ -42,7 +42,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		bp_has_members( $template_args );
 
-		preg_match( '/&#038;s=(.*)\'/', $members_template->pag_links, $matches );
+		preg_match( '/&#038;members_search=(.*)\'/', $members_template->pag_links, $matches );
 
 		$this->assertEquals( urldecode( $matches[1] ), urldecode( $template_args['search_terms'] ) );
 
