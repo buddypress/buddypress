@@ -977,10 +977,12 @@ jq(document).ready( function() {
 
 			// Search terms
 			if ( jq('div.dir-search input').length ) {
-				search_terms =  jq('.dir-search input').val();
+				search_terms =  jq('.dir-search input');
 
-				if ( ! search_terms && bp_get_querystring('s') ) {
+				if ( ! search_terms.val() && bp_get_querystring( search_terms.attr( 'name' ) ) ) {
 					search_terms = jq('.dir-search input').prop('placeholder');
+				} else {
+					search_terms = search_terms.val();
 				}
 			}
 
