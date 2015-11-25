@@ -945,7 +945,7 @@ jq(document).ready( function() {
 		var target = jq(event.target),
 			el,
 			css_id, object, search_terms, pagination_id, template,
-			url_parameters,	page_number,
+			page_number,
 			$gm_search,
 			caller;
 
@@ -970,11 +970,6 @@ jq(document).ready( function() {
 			pagination_id = jq(target).closest('.pagination-links').attr('id');
 			template = null;
 
-			url_parameters = target.attr('href').split( '&' );
-			// The page number is the first parameter.
-			page_number = url_parameters[0].split( '=' );
-			page_number = page_number[1];
-
 			// Search terms
 			if ( jq('div.dir-search input').length ) {
 				search_terms =  jq('.dir-search input');
@@ -984,6 +979,22 @@ jq(document).ready( function() {
 				} else {
 					search_terms = search_terms.val();
 				}
+			}
+
+			// Page number
+			if ( jq(target).hasClass('next') || jq(target).hasClass('prev') ) {
+				page_number = jq('.pagination span.current').html();
+			} else {
+				page_number = jq(target).html();
+			}
+
+			// Remove any non-numeric characters from page number text (commas, etc.)
+			page_number = Number( page_number.replace(/\D/g,'') );
+
+			if ( jq(target).hasClass('next') ) {
+				page_number++;
+			} else if ( jq(target).hasClass('prev') ) {
+				page_number--;
 			}
 
 			// The Group Members page has a different selector for
