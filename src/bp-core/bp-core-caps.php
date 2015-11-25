@@ -291,6 +291,11 @@ function bp_current_user_can( $capability, $args = array() ) {
 		unset( $args['blog_id'] );
 	}
 
+	// Backward compatibility for older bp_current_user_can() checks
+	if ( empty( $args ) ) {
+		$args = null;
+	}
+
 	// Use root blog if no ID passed
 	if ( empty( $blog_id ) ) {
 		$blog_id = bp_get_root_blog_id();
