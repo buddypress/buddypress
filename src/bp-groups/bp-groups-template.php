@@ -660,10 +660,12 @@ function bp_group_id( $group = false ) {
 		 * Filters the ID of the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
-		 * @param int $id ID of the current group in the loop.
+		 * @param int    $id    ID of the current group in the loop.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_id', $group->id );
+		return apply_filters( 'bp_get_group_id', $group->id, $group );
 	}
 
 /**
@@ -767,10 +769,12 @@ function bp_group_name( $group = false ) {
 		 * Filters the name of the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
-		 * @param string $name Name of the current group in the loop.
+		 * @param string $name  Name of the current group in the loop.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_name', $group->name );
+		return apply_filters( 'bp_get_group_name', $group->name, $group );
 	}
 
 /**
@@ -811,10 +815,12 @@ function bp_get_group_type( $group = false ) {
 	 * Filters the type for the current group in the loop.
 	 *
 	 * @since 1.0.0
+	 * @since 2.5.0 Added the `$group` parameter.
 	 *
-	 * @param string $type Type for the current group in the loop.
+	 * @param string $type  Type for the current group in the loop.
+	 * @param object $group Group object.
 	 */
-	return apply_filters( 'bp_get_group_type', $type );
+	return apply_filters( 'bp_get_group_type', $type, $group );
 }
 /**
  * Output the status of the current group in the loop.
@@ -843,10 +849,12 @@ function bp_group_status( $group = false ) {
 		 * Filters the status of the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $status Status of the current group in the loop.
+		 * @param object $group  Group object.
 		 */
-		return apply_filters( 'bp_get_group_status', $group->status );
+		return apply_filters( 'bp_get_group_status', $group->status, $group );
 	}
 
 /**
@@ -1036,10 +1044,12 @@ function bp_group_last_active( $group = false ) {
 			 * Filters the 'last active' string for the current gorup in the loop.
 			 *
 			 * @since 1.0.0
+			 * @since 2.5.0 Added the `$group` parameter.
 			 *
 			 * @param string $value Determined last active value for the current group.
+			 * @param object $group Group object.
 			 */
-			return apply_filters( 'bp_get_group_last_active', bp_core_time_since( $last_active ) );
+			return apply_filters( 'bp_get_group_last_active', bp_core_time_since( $last_active ), $group );
 		}
 	}
 
@@ -1070,10 +1080,12 @@ function bp_group_permalink( $group = false ) {
 		 * Filters the permalink for the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Permalink for the current group in the loop.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_permalink', trailingslashit( bp_get_groups_directory_permalink() . $group->slug . '/' ) );
+		return apply_filters( 'bp_get_group_permalink', trailingslashit( bp_get_groups_directory_permalink() . $group->slug . '/' ), $group );
 	}
 
 /**
@@ -1103,10 +1115,12 @@ function bp_group_admin_permalink( $group = false ) {
 		 * Filters the permalink for the admin section of the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Permalink for the admin section of the current group in the loop.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_admin_permalink', trailingslashit( bp_get_group_permalink( $group ) . 'admin' ) );
+		return apply_filters( 'bp_get_group_admin_permalink', trailingslashit( bp_get_group_permalink( $group ) . 'admin' ), $group );
 	}
 
 /**
@@ -1136,10 +1150,12 @@ function bp_group_slug( $group = false ) {
 		 * Filters the slug for the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
-		 * @param string $slug Slug for the current group in the loop.
+		 * @param string $slug  Slug for the current group in the loop.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_slug', $group->slug );
+		return apply_filters( 'bp_get_group_slug', $group->slug, $group );
 	}
 
 /**
@@ -1169,10 +1185,12 @@ function bp_group_description( $group = false ) {
 		 * Filters the description for the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Description for the current group.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_description', stripslashes($group->description) );
+		return apply_filters( 'bp_get_group_description', stripslashes( $group->description ), $group );
 	}
 
 /**
@@ -1205,15 +1223,16 @@ function bp_group_description_editable( $group = false ) {
 		/**
 		 * Filters the permalink for the current group in the loop, for use in a textarea.
 		 *
-		 * 'bp_get_group_description_editable' does not have the formatting
-	     * filters that 'bp_get_group_description' has, which makes it
-	     * appropriate for "raw" editing.
+		 * 'bp_get_group_description_editable' does not have the formatting filters that
+		 * 'bp_get_group_description' has, which makes it appropriate for "raw" editing.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $description Description for the current group in the loop.
+		 * @param object $group       Group object.
 		 */
-		return apply_filters( 'bp_get_group_description_editable', $group->description );
+		return apply_filters( 'bp_get_group_description_editable', $group->description, $group );
 	}
 
 /**
@@ -1313,7 +1332,15 @@ function bp_group_is_public( $group = false ) {
 			$group =& $groups_template->group;
 		}
 
-		return apply_filters( 'bp_get_group_is_public', $group->is_public );
+		/**
+		 * Filters whether the current group in the loop is public.
+		 *
+		 * @since 2.5.0 Added the `$group` parameter.
+		 *
+		 * @param bool   $public True if the group is public.
+		 * @param object $group Group object.
+		 */
+		return apply_filters( 'bp_get_group_is_public', $group->is_public, $group );
 	}
 
 /**
@@ -1343,10 +1370,12 @@ function bp_group_date_created( $group = false ) {
 		 * Filters the created date of the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Created date for the current group.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_date_created', bp_core_time_since( strtotime( $group->date_created ) ) );
+		return apply_filters( 'bp_get_group_date_created', bp_core_time_since( strtotime( $group->date_created ) ), $group );
 	}
 
 /**
@@ -1376,10 +1405,12 @@ function bp_group_creator_username( $group = false ) {
 		 * Filters the username of the creator of the current group in the loop.
 		 *
 		 * @since 1.7.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Username of the group creator.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_creator_username', bp_core_get_user_displayname( $group->creator_id ) );
+		return apply_filters( 'bp_get_group_creator_username', bp_core_get_user_displayname( $group->creator_id ), $group );
 	}
 
 /**
@@ -1409,10 +1440,12 @@ function bp_group_creator_id( $group = false ) {
 		 * Filters the user ID of the creator of the current group in the loop.
 		 *
 		 * @since 1.7.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param int $creator_id User ID of the group creator.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_creator_id', $group->creator_id );
+		return apply_filters( 'bp_get_group_creator_id', $group->creator_id, $group );
 	}
 
 /**
@@ -1442,10 +1475,12 @@ function bp_group_creator_permalink( $group = false ) {
 		 * Filters the permalink of the creator of the current group in the loop.
 		 *
 		 * @since 1.7.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Permalink of the group creator.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_creator_permalink', bp_core_get_user_domain( $group->creator_id ) );
+		return apply_filters( 'bp_get_group_creator_permalink', bp_core_get_user_domain( $group->creator_id ), $group );
 	}
 
 /**
@@ -1526,10 +1561,12 @@ function bp_group_creator_avatar( $group = false, $args = array() ) {
 		 * Filters the avatar of the creator of the current group in the loop.
 		 *
 		 * @since 1.7.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $avatar Avatar of the group creator.
+		 * @param object $group  Group object.
 		 */
-		return apply_filters( 'bp_get_group_creator_avatar', $avatar );
+		return apply_filters( 'bp_get_group_creator_avatar', $avatar, $group );
 	}
 
 /**
@@ -1678,10 +1715,12 @@ function bp_group_admin_ids( $group = false, $format = 'string' ) {
 	 * This filter may return either an array or a comma separated string.
 	 *
 	 * @since 1.5.0
+	 * @since 2.5.0 Added the `$group` parameter.
 	 *
 	 * @param array|string $admin_ids List of user IDs for a group's admins.
+	 * @param object       $group     Group object.
 	 */
-	return apply_filters( 'bp_group_admin_ids', $admin_ids );
+	return apply_filters( 'bp_group_admin_ids', $admin_ids, $group );
 }
 
 /**
@@ -1720,10 +1759,12 @@ function bp_group_mod_ids( $group = false, $format = 'string' ) {
 	 * This filter may return either an array or a comma separated string.
 	 *
 	 * @since 1.5.0
+	 * @since 2.5.0 Added the `$group` parameter.
 	 *
 	 * @param array|string $admin_ids List of user IDs for a group's moderators.
+	 * @param object       $group     Group object.
 	 */
-	return apply_filters( 'bp_group_mod_ids', $mod_ids );
+	return apply_filters( 'bp_group_mod_ids', $mod_ids, $group );
 }
 
 /**
@@ -1750,10 +1791,12 @@ function bp_group_all_members_permalink() {
 		 * Filters the permalink of the Members page for the current group in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Permalink of the Members page for the current group.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . 'members' );
+		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . 'members', $group );
 	}
 
 /**
@@ -1922,10 +1965,12 @@ function bp_group_total_members( $group = false ) {
 		 * Filters the total member count for a group.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
-		 * @param int $total_member_count Total member count for a group.
+		 * @param int    $total_member_count Total member count for a group.
+		 * @param object $group              Group object.
 		 */
-		return apply_filters( 'bp_get_group_total_members', $group->total_member_count );
+		return apply_filters( 'bp_get_group_total_members', $group->total_member_count, $group );
 	}
 
 /**
@@ -1984,10 +2029,12 @@ function bp_group_forum_permalink() {
 		 * Filters the URL of the Forum page of a group.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value URL permalink for the Forum Page.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . 'forum' );
+		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . 'forum', $group );
 	}
 
 /**
@@ -2484,10 +2531,12 @@ function bp_group_has_moderators( $group = false ) {
 	 * Filters whether a group has moderators.
 	 *
 	 * @since 1.0.0
+	 * @since 2.5.0 Added the `$group` parameter.
 	 *
-	 * @param array $value Array of user IDs who are a moderator of the provided group.
+	 * @param array  $value Array of user IDs who are a moderator of the provided group.
+	 * @param object $group Group object.
 	 */
-	return apply_filters( 'bp_group_has_moderators', groups_get_group_mods( $group->id ) );
+	return apply_filters( 'bp_group_has_moderators', groups_get_group_mods( $group->id ), $group );
 }
 
 /**
@@ -2606,10 +2655,12 @@ function bp_group_member_demote_link( $user_id = 0 ) {
 		 * Filters a URL for demoting a user to member.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value URL to use for demoting a user to member.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id, 'groups_demote_member' ) );
+		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id, 'groups_demote_member' ), $group );
 	}
 
 /**
@@ -2730,10 +2781,12 @@ function bp_group_member_remove_link( $user_id = 0 ) {
 		 * Filters a URL for removing a member from a group.
 		 *
 		 * @since 1.2.6
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value URL to use for removing a member.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_member_remove_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/remove/' . $user_id, 'groups_remove_member' ) );
+		return apply_filters( 'bp_get_group_member_remove_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/remove/' . $user_id, 'groups_remove_member' ), $group );
 	}
 
 /**
@@ -2843,10 +2896,12 @@ function bp_group_form_action( $page ) {
 		 * Filters the 'action' attribute for a group form.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Action attribute for a group form.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . $page );
+		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . $page, $group );
 	}
 
 /**
@@ -2880,10 +2935,12 @@ function bp_group_admin_form_action( $page = false ) {
 		 * Filters the 'action' attribute for a group admin form.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Action attribute for a group admin form.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . 'admin/' . $page );
+		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . 'admin/' . $page, $group );
 	}
 
 /**
@@ -2932,10 +2989,12 @@ function bp_group_is_member( $group = false ) {
 	 * Filters whether current user is member of a group.
 	 *
 	 * @since 1.2.4
+	 * @since 2.5.0 Added the `$group` parameter.
 	 *
-	 * @param bool $is_member If user is a member of group or not.
+	 * @param bool   $is_member If user is a member of group or not.
+	 * @param object $group     Group object.
 	 */
-	return apply_filters( 'bp_group_is_member', !empty( $group->is_member ) );
+	return apply_filters( 'bp_group_is_member', ! empty( $group->is_member ), $group );
 }
 
 /**
@@ -2956,10 +3015,12 @@ function bp_group_is_invited( $group = false ) {
 	 * Filters whether current user has an outstanding invite to current group in loop.
 	 *
 	 * @since 2.1.0
+	 * @since 2.5.0 Added the `$group` parameter.
 	 *
-	 * @param bool $is_invited If user has an outstanding group invite.
+	 * @param bool   $is_invited If user has an outstanding group invite.
+	 * @param object $group      Group object.
 	 */
-	return apply_filters( 'bp_group_is_invited', ! empty( $group->is_invited ) );
+	return apply_filters( 'bp_group_is_invited', ! empty( $group->is_invited ), $group );
 }
 
 /**
@@ -3018,10 +3079,12 @@ function bp_group_is_user_banned( $group = false, $user_id = 0 ) {
 	 * Filters whether current user has been banned from current group in loop.
 	 *
 	 * @since 1.5.0
+	 * @since 2.5.0 Added the `$group` parameter.
 	 *
-	 * @param bool $is_invited If user has been from current group.
+	 * @param bool   $is_invited If user has been from current group.
+	 * @param object $group      Group object.
 	 */
-	return (bool) apply_filters( 'bp_group_is_user_banned', $retval );
+	return (bool) apply_filters( 'bp_group_is_user_banned', $retval, $group );
 }
 
 /**
@@ -3050,10 +3113,12 @@ function bp_group_accept_invite_link() {
 		 * Filters the URL for accepting an invitation to a group.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value URL for accepting an invitation to a group.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ) );
+		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ), $group );
 	}
 
 /**
@@ -3082,10 +3147,12 @@ function bp_group_reject_invite_link() {
 		 * Filters the URL for rejecting an invitation to a group.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value URL for rejecting an invitation to a group.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ) );
+		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ), $group );
 	}
 
 /**
@@ -3112,10 +3179,12 @@ function bp_group_leave_confirm_link() {
 		 * Filters the URL for confirming a request to leave a group.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value URL for confirming a request to leave a group.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group/yes', 'groups_leave_group' ) );
+		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group/yes', 'groups_leave_group' ), $group );
 	}
 
 /**
@@ -3142,10 +3211,12 @@ function bp_group_leave_reject_link() {
 		 * Filters the URL for rejecting a request to leave a group.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value URL for rejecting a request to leave a group.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_leave_reject_link', bp_get_group_permalink( $group ) );
+		return apply_filters( 'bp_get_group_leave_reject_link', bp_get_group_permalink( $group ), $group );
 	}
 
 /**
@@ -3172,10 +3243,12 @@ function bp_group_send_invite_form_action() {
 		 * Filters the 'action' attribute for a group send invite form.
 		 *
 		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $value Action attribute for a group send invite form.
+		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_send_invite_form_action', bp_get_group_permalink( $group ) . 'send-invites/send' );
+		return apply_filters( 'bp_group_send_invite_form_action', bp_get_group_permalink( $group ) . 'send-invites/send', $group );
 	}
 
 /**
@@ -3252,10 +3325,12 @@ function bp_group_new_topic_button( $group = false ) {
 		 * Filters the HTML button for creating a new topic in a group.
 		 *
 		 * @since 1.5.0
+		 * @since 2.5.0 Added the `$group` parameter.
 		 *
 		 * @param string $button HTML button for a new topic.
+		 * @param object $group  Group object.
 		 */
-		return bp_get_button( apply_filters( 'bp_get_group_new_topic_button', $button ) );
+		return bp_get_button( apply_filters( 'bp_get_group_new_topic_button', $button, $group ) );
 	}
 
 /**
@@ -4337,6 +4412,15 @@ function bp_groups_get_front_template( $group = null ) {
 		return $group->front_template;
 	}
 
+	/**
+	 * Filters the hierarchy of group front templates corresponding to a specific group.
+	 *
+	 * @since 2.4.0
+	 * @since 2.5.0 Added the `$group` parameter.
+	 *
+	 * @param array  $template_names Array of template paths.
+	 * @param object $group          Group object.
+	 */
 	$template_names = apply_filters( 'bp_groups_get_front_template', array(
 		'groups/single/front-id-'     . sanitize_file_name( $group->id )     . '.php',
 		'groups/single/front-slug-'   . sanitize_file_name( $group->slug )   . '.php',
