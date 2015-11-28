@@ -99,11 +99,13 @@ class BP_Groups_Widget extends WP_Widget {
 
 		echo $before_title . $title . $after_title;
 
+		$max_groups = ! empty( $instance['max_groups'] ) ? (int) $instance['max_groups'] : 5;
+
 		$group_args = array(
 			'user_id'         => $user_id,
 			'type'            => $instance['group_default'],
-			'per_page'        => $instance['max_groups'],
-			'max'             => $instance['max_groups'],
+			'per_page'        => $max_groups,
+			'max'             => $max_groups,
 		);
 
 		?>
@@ -144,7 +146,7 @@ class BP_Groups_Widget extends WP_Widget {
 				<?php endwhile; ?>
 			</ul>
 			<?php wp_nonce_field( 'groups_widget_groups_list', '_wpnonce-groups' ); ?>
-			<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo esc_attr( $instance['max_groups'] ); ?>" />
+			<input type="hidden" name="groups_widget_max" id="groups_widget_max" value="<?php echo esc_attr( $max_groups ); ?>" />
 
 		<?php else: ?>
 
