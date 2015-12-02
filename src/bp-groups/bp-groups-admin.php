@@ -310,10 +310,12 @@ function bp_groups_admin_load() {
 
 				// Process only those users who have had their roles changed.
 				foreach ( (array) $_POST['bp-groups-role'] as $user_id => $new_role ) {
+					$user_id = (int) $user_id;
 
 					$existing_role = isset( $_POST['bp-groups-existing-role'][$user_id] ) ? $_POST['bp-groups-existing-role'][$user_id] : '';
 
 					if ( $existing_role != $new_role ) {
+						$result = false;
 
 						switch ( $new_role ) {
 							case 'mod' :
