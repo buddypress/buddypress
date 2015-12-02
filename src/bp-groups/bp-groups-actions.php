@@ -209,7 +209,7 @@ function groups_action_create_group() {
 			if ( ! empty( $_POST['friends'] ) ) {
 				foreach ( (array) $_POST['friends'] as $friend ) {
 					groups_invite_user( array(
-						'user_id'  => $friend,
+						'user_id'  => (int) $friend,
 						'group_id' => $bp->groups->new_group_id,
 					) );
 				}
