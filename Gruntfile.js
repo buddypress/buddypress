@@ -26,6 +26,12 @@ module.exports = function( grunt ) {
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
+		checkDependencies: {
+			options: {
+				packageManager: 'npm'
+			},
+			src: {}
+		},
 		jshint: {
 			options: grunt.file.readJSON( '.jshintrc' ),
 			grunt: {
@@ -252,7 +258,7 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['jsvalidate:src', 'jshint', 'scsslint', 'sass', 'cssjanus'] );
+	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'scsslint', 'sass', 'cssjanus'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
 	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );
