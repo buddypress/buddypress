@@ -544,7 +544,7 @@ function bp_groups_admin_edit() {
 	$is_error = ! empty( $no_admins ) || ! empty( $errors ) || ! empty( $error_new ) || ! empty( $error_modified );
 
 	// Get the group from the database.
-	$group      = groups_get_group( 'group_id=' . $_GET['gid'] );
+	$group      = groups_get_group( 'group_id=' . (int) $_GET['gid'] );
 
 	/** This filter is documented in bp-groups/bp-groups-template.php */
 	$group_name = isset( $group->name ) ? apply_filters( 'bp_get_group_name', $group->name ) : '';
