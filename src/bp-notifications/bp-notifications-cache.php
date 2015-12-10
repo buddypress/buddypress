@@ -25,11 +25,11 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_notifications_update_meta_cache( $notification_ids = false ) {
 	bp_update_meta_cache( array(
-		'object_ids' 	   => $notification_ids,
-		'object_type' 	   => buddypress()->notifications->id,
+		'object_ids'       => $notification_ids,
+		'object_type'      => buddypress()->notifications->id,
 		'cache_group'      => 'notification_meta',
 		'object_column'    => 'notification_id',
-		'meta_table' 	   => buddypress()->notifications->table_name_meta,
+		'meta_table'       => buddypress()->notifications->table_name_meta,
 		'cache_key_prefix' => 'bp_notifications_meta'
 	) );
 }
