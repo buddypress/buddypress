@@ -241,7 +241,7 @@ Fixes over 10 bugs.
 == Changelog ==
 
 = 2.4.3 =
-See: https://codex.buddypress.org/releases/version-2-4-2/
+See: https://codex.buddypress.org/releases/version-2-4-3/
 
 = 2.4.2 =
 See: https://codex.buddypress.org/releases/version-2-4-2/
