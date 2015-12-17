@@ -413,7 +413,7 @@ class BP_Members_Admin {
 		);
 
 		// Only show sign-ups where they belong.
-		if ( ! is_multisite() || is_network_admin() ) {
+		if ( ( ! bp_is_network_activated() && ! is_network_admin() ) || ( is_network_admin() && bp_is_network_activated() ) ) {
 
 			// Manage signups.
 			$hooks['signups'] = $this->signups_page = add_users_page(
