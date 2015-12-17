@@ -422,7 +422,7 @@ function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array
 	foreach ( array( 'bp_activity_admin_filter', 'bp_activity_front_filter', 'bp_activity_new_post', 'bp_activity_new_post_ms' ) as $label_type ) {
 		if ( ! empty( $args[ $label_type ] ) ) {
 			$wp_post_types[ $post_type ]->labels->{$label_type} = $args[ $label_type ];
-			unset( $args[ $post_type ] );
+			unset( $args[ $label_type ] );
 		}
 	}
 

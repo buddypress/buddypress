@@ -1088,6 +1088,44 @@ Bar!';
 	}
 
 	/**
+	 * @group bp_activity_set_post_type_tracking_args
+	 * @group activity_tracking
+	 */
+	public function test_bp_activity_set_post_type_tracking_args_check_post_type_global() {
+		$labels = array(
+			'bp_activity_admin_filter' => 'New Foo',
+			'bp_activity_front_filter' => 'Foos',
+		);
+
+		$bp_activity_args = array(
+			'action_id'    => 'new_foo',
+			'contexts'     => array( 'activity' ),
+			'position'     => 40,
+		);
+
+		register_post_type( 'foo', array(
+			'labels'      => $labels,
+			'supports'    => array( 'buddypress-activity' ),
+			'bp_activity' => $bp_activity_args
+		) );
+
+		$register_bp_activity = get_post_type_object( 'foo' )->bp_activity;
+		_unregister_post_type( 'foo' );
+
+		register_post_type( 'foo', array(
+			'label'       => 'foo',
+			'supports'    => array( 'buddypress-activity' ),
+		) );
+
+		bp_activity_set_post_type_tracking_args( 'foo', $labels + $bp_activity_args );
+
+		$set_bp_activity = get_post_type_object( 'foo' )->bp_activity;
+		_unregister_post_type( 'foo' );
+
+		$this->assertSame( $set_bp_activity, $register_bp_activity );
+	}
+
+	/**
 	 * @group bp_activity_new_comment
 	 * @group cache
 	 */
