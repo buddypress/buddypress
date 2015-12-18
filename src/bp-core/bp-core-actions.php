@@ -65,6 +65,7 @@ add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
  *                                                   v---Load order
  */
 add_action( 'bp_init', 'bp_core_set_uri_globals',    2  );
+add_action( 'bp_init', 'bp_register_post_types',     3  );
 add_action( 'bp_init', 'bp_register_taxonomies',     3  );
 add_action( 'bp_init', 'bp_setup_globals',           4  );
 add_action( 'bp_init', 'bp_setup_canonical_stack',   5  );

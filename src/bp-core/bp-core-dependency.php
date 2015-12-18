@@ -74,6 +74,21 @@ function bp_register_taxonomies() {
 }
 
 /**
+ * Fire the 'bp_register_post_types' action, where plugins should register post types.
+ *
+ * @since BuddyPress (2.5.0)
+ */
+function bp_register_post_types() {
+
+	/**
+	 * Fires inside the 'bp_register_post_types' function, where plugins should register post types.
+	 *
+	 * @since BuddyPress (2.5.0)
+	 */
+	do_action( 'bp_register_post_types' );
+}
+
+/**
  * Fire the 'bp_setup_globals' action, where plugins should initialize global settings.
  */
 function bp_setup_globals() {
