@@ -142,6 +142,8 @@ class BP_Admin {
 		add_action( bp_core_admin_hook(),       array( $this, 'admin_menus' ), 5 );
 
 		// Enqueue all admin JS and CSS.
+		add_action( 'bp_admin_enqueue_scripts', array( $this, 'admin_register_styles' ), 1 );
+		add_action( 'bp_admin_enqueue_scripts', array( $this, 'admin_register_scripts' ), 1 );
 		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		/* BuddyPress Actions ************************************************/
@@ -473,24 +475,7 @@ class BP_Admin {
 	 * @since 1.6.0
 	 */
 	public function enqueue_scripts() {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-		$file = $this->css_url . "common{$min}.css";
-
-		/**
-		 * Filters the BuddyPress Core Admin CSS file path.
-		 *
-		 * @since 1.6.0
-		 *
-		 * @param string $file File path for the admin CSS.
-		 */
-		$file = apply_filters( 'bp_core_admin_common_css', $file );
-		wp_enqueue_style( 'bp-admin-common-css', $file, array(), bp_get_version() );
-
-		wp_style_add_data( 'bp-admin-common-css', 'rtl', true );
-		if ( $min ) {
-			wp_style_add_data( 'bp-admin-common-css', 'suffix', $min );
-		}
+		wp_enqueue_style( 'bp-admin-common-css' );
 	}
 
 	/** About *****************************************************************/
@@ -887,6 +872,79 @@ class BP_Admin {
 
 		// Done!
 		return $display;
+	}
+
+	/**
+	 * Register styles commonly used by BuddyPress wp-admin screens.
+	 *
+	 * @since 2.5.0
+	 */
+	public function admin_register_styles() {
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$url = $this->css_url;
+
+		/**
+		 * Filters the BuddyPress Core Admin CSS file path.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param string $file File path for the admin CSS.
+		 */
+		$common_css = apply_filters( 'bp_core_admin_common_css', "{$url}common{$min}.css" );
+
+		/**
+		 * Filters the BuddyPress admin stylesheet files to register.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $value Array of admin stylesheet file information to register.
+		 */
+		$styles = apply_filters( 'bp_core_admin_register_styles', array(
+			// Legacy
+			'bp-admin-common-css' => array(
+				'file'         => $common_css,
+				'dependencies' => array(),
+			),
+		) );
+
+
+		$version = bp_get_version();
+
+		foreach ( $styles as $id => $style ) {
+			wp_register_style( $id, $style['file'], $style['dependencies'], $version );
+			wp_style_add_data( $id, 'rtl', true );
+
+			if ( $min ) {
+				wp_style_add_data( $id, 'suffix', $min );
+			}
+		}
+	}
+
+	/**
+	 * Register JS commonly used by BuddyPress wp-admin screens.
+	 *
+	 * @since 2.5.0
+	 */
+	public function admin_register_scripts() {
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$url = $this->js_url;
+
+		/**
+		 * Filters the BuddyPress admin JS files to register.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $value Array of admin JS file information to register.
+		 */
+		$scripts = apply_filters( 'bp_core_admin_register_scripts', array(
+		) );
+
+
+		$version = bp_get_version();
+
+		foreach ( $scripts as $id => $script ) {
+			wp_register_script( $id, $script['file'], $script['dependencies'], $version, $script['footer'] );
+		}
 	}
 }
 endif; // End class_exists check.
