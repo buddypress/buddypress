@@ -701,7 +701,7 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h3 class="wp-people-group"><?php _e( 'Recent Rockstars', 'buddypress' ); ?></h3>
+			<h3 class="wp-people-group"><?php _e( '&#x1f31f;Recent Rockstars&#x1f31f;', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-rockstars">
 				<li class="wp-person" id="wp-person-henry-wright">
 					<a href="https://profiles.wordpress.org/henry.wright"><img src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=60" class="gravatar" alt="Henry Wright" /></a>
@@ -776,11 +776,14 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/willgladstone/">willgladstone</a>.
 			</p>
 
-			<h3 class="wp-people-group"><?php _e( 'External Libraries', 'buddypress' ); ?></h3>
+			<h3 class="wp-people-group"><?php _e( '&#x1f496;With our thanks to these Open Source projects&#x1f496;', 'buddypress' ); ?></h3>
 			<p class="wp-credits-list">
 				<a href="https://github.com/ichord/At.js">At.js</a>,
+				<a href="https://bbpress.org">bbPress</a>,
 				<a href="https://github.com/ichord/Caret.js">Caret.js</a>,
-				<a href="https://github.com/carhartl/jquery-cookie">jquery.cookie</a>.
+				<a href="https://github.com/carhartl/jquery-cookie">jquery.cookie</a>,
+				<a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a>,
+				<a href="https://wordpress.org">WordPress</a>.
 			</p>
 
 		</div>
