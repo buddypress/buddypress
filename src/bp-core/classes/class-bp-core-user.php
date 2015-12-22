@@ -444,13 +444,13 @@ class BP_Core_User {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param string $letter          The letter the users names are to start with.
-	 * @param int    $limit           The number of users we wish to retrive.
-	 * @param int    $page            The page number we are currently on, used in conjunction
-	 *                                with $limit to get the start position for the limit.
-	 * @param bool   $populate_extras If we should populate extra user fields.
-	 * @param string $exclude         Comma-separated IDs of users whose results
-	 *                                aren't to be fetched.
+	 * @param string   $letter          The letter the users names are to start with.
+	 * @param int|null $limit           The number of users we wish to retrive.
+	 * @param int      $page            The page number we are currently on, used in conjunction
+	 *                                  with $limit to get the start position for the limit.
+	 * @param bool     $populate_extras If we should populate extra user fields.
+	 * @param string   $exclude         Comma-separated IDs of users whose results
+	 *                                  aren't to be fetched.
 	 * @return mixed False on error, otherwise associative array of results.
 	 */
 	public static function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
@@ -531,11 +531,11 @@ class BP_Core_User {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param array $user_ids        The user IDs of the users who we wish to
-	 *                               fetch information on.
-	 * @param int   $limit           The limit of results we want.
-	 * @param int   $page            The page we are on for pagination.
-	 * @param bool  $populate_extras If we should populate extra user fields.
+	 * @param array    $user_ids        The user IDs of the users who we wish to
+	 *                                  fetch information on.
+	 * @param int|null $limit           The limit of results we want.
+	 * @param int      $page            The page we are on for pagination.
+	 * @param bool     $populate_extras If we should populate extra user fields.
 	 * @return array Associative array.
 	 */
 	public static function get_specific_users( $user_ids, $limit = null, $page = 1, $populate_extras = true ) {
@@ -626,11 +626,11 @@ class BP_Core_User {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param string  $search_terms    The terms to search the profile table
-	 *                                 value column for.
-	 * @param int     $limit           The limit of results we want.
-	 * @param int     $page            The page we are on for pagination.
-	 * @param boolean $populate_extras If we should populate extra user fields.
+	 * @param string   $search_terms    The terms to search the profile table
+	 *                                  value column for.
+	 * @param int|null $limit           The limit of results we want.
+	 * @param int      $page            The page we are on for pagination.
+	 * @param boolean  $populate_extras If we should populate extra user fields.
 	 * @return array Associative array.
 	 */
 	public static function search_users( $search_terms, $limit = null, $page = 1, $populate_extras = true ) {

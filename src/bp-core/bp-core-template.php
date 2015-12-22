@@ -311,6 +311,8 @@ function bp_site_name() {
 	 * Returns the name of the BP site. Used in RSS headers.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @return string
 	 */
 	function bp_get_site_name() {
 

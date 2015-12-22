@@ -143,7 +143,7 @@ class BP_User_Query {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string|array $query See {@link BP_User_Query}.
+	 * @param string|array|null $query See {@link BP_User_Query}.
 	 */
 	public function __construct( $query = null ) {
 

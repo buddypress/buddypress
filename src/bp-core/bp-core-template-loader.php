@@ -23,10 +23,10 @@ defined( 'ABSPATH' ) || exit;
  * @uses load_template()
  * @uses get_template_part()
  *
- * @param string $slug Template part slug. Used to generate filenames,
- *                     eg 'friends' for 'friends.php'.
- * @param string $name Optional. Template part name. Used to generate
- *                     secondary filenames, eg 'personal' for 'activity-personal.php'.
+ * @param string      $slug Template part slug. Used to generate filenames,
+ *                          eg 'friends' for 'friends.php'.
+ * @param string|null $name Optional. Template part name. Used to generate
+ *                          secondary filenames, eg 'personal' for 'activity-personal.php'.
  * @return string Path to located template. See {@link bp_locate_template()}.
  */
 function bp_get_template_part( $slug, $name = null ) {
@@ -255,10 +255,10 @@ function bp_get_template_stack() {
  *
  * @see bp_get_template_part() for a description of $slug and $name params.
  *
- * @param string $slug See {@link bp_get_template_part()}.
- * @param string $name See {@link bp_get_template_part()}.
- * @param bool   $echo If true, template content will be echoed. If false,
- *                     returned. Default: true.
+ * @param string      $slug See {@link bp_get_template_part()}.
+ * @param string|null $name See {@link bp_get_template_part()}.
+ * @param bool        $echo If true, template content will be echoed. If false,
+ *                          returned. Default: true.
  * @return string|null If $echo, returns the template content.
  */
 function bp_buffer_template_part( $slug, $name = null, $echo = true ) {
@@ -371,7 +371,7 @@ function bp_get_template_locations( $templates = array() ) {
  * @since 1.7.0
  *
  * @param array $stacks Array of template locations.
- * @return array() Array of all template locations registered so far.
+ * @return array Array of all template locations registered so far.
  */
 function bp_add_template_stack_locations( $stacks = array() ) {
 	$retval = array();

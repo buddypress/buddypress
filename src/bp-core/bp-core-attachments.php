@@ -1069,7 +1069,7 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
  *     @type string $component       The component for the object (eg: groups, xprofile). Required.
  *     @type string $cover_image_dir The Cover image dir to write the image into. Required.
  * }
- * @param BP_Attachment_Cover_Image $cover_image_class The class to use to fit the cover image.
+ * @param BP_Attachment_Cover_Image|null $cover_image_class The class to use to fit the cover image.
  * @return bool|array An array containing cover image data on success, false otherwise.
  */
 function bp_attachments_cover_image_generate_file( $args = array(), $cover_image_class = null ) {

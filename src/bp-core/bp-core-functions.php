@@ -2559,6 +2559,8 @@ function bp_core_get_suggestions( $args ) {
  * @uses  switch_to_blog()
  * @uses  wp_upload_dir()
  * @uses  restore_current_blog()
+ *
+ * @return string
  */
 function bp_upload_dir() {
 	$bp = buddypress();
