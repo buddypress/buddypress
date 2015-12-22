@@ -1791,9 +1791,9 @@ function bp_activity_post_update( $args = '' ) {
  *
  * @since 2.2.0
  *
- * @param int     $post_id ID of the new post.
- * @param WP_Post $post    Post object.
- * @param int     $user_id ID of the post author.
+ * @param int          $post_id ID of the new post.
+ * @param WP_Post|null $post    Post object.
+ * @param int          $user_id ID of the post author.
  * @return int|bool The ID of the activity on success. False on error.
  */
 function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0 ) {
@@ -1928,7 +1928,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
  *
  * @since 2.2.0
  *
- * @param WP_Post $post Post item.
+ * @param WP_Post|null $post Post item.
  * @return bool True on success, false on failure.
  */
 function bp_activity_post_type_update( $post = null ) {
@@ -1996,8 +1996,8 @@ function bp_activity_post_type_update( $post = null ) {
  *
  * @since 2.2.0
  *
- * @param  int     $post_id ID of the post being unpublished.
- * @param  WP_Post $post    Post object.
+ * @param int          $post_id ID of the post being unpublished.
+ * @param WP_Post|null $post    Post object.
  * @return bool True on success, false on failure.
  */
 function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
