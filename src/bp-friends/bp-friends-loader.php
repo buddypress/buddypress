@@ -6,6 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage Friends
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

@@ -13,6 +13,7 @@
  *
  * @package BuddyPress
  * @subpackage Admin
+ * @since 2.3.0
  * @see bp-core-actions.php
  * @see bp-core-filters.php
  */

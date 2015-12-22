@@ -8,6 +8,7 @@
  *
  * @package BuddyPress
  * @subpackage TemplateFunctions
+ * @since 1.7.0
  */
 
 // Exit if accessed directly.

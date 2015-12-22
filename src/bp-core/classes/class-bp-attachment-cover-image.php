@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Core
+ * @since 2.4.0
  */
 
 // Exit if accessed directly.

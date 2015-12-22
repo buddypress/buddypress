@@ -8,6 +8,7 @@
  *
  * @package BuddyPress
  * @subpackage NotificationsActions
+ * @since 1.9.0
  */
 
 // Exit if accessed directly.

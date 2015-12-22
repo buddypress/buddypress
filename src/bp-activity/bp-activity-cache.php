@@ -2,9 +2,9 @@
 /**
  * Functions related to the BuddyPress Activity component and the WP Cache.
  *
- * @since 1.6.0
- * @package    BuddyPress
+ * @package BuddyPress
  * @subpackage ActivityCache
+ * @since 1.6.0
  */
 
 // Exit if accessed directly.

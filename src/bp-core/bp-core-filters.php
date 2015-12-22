@@ -16,6 +16,8 @@
  *
  * @package BuddyPress
  * @subpackage Core
+ * @since 1.5.0
+ *
  * @see bp-core-actions.php
  */
 

@@ -2,10 +2,9 @@
 /**
  * Functions related to starring private messages.
  *
- * @since 2.3.0
- *
  * @package BuddyPress
  * @subpackage MessagesStar
+ * @since 2.3.0
  */
 
 // Exit if accessed directly.

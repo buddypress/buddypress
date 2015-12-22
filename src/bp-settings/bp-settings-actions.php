@@ -5,6 +5,7 @@
  * @todo split actions into separate screen functions
  * @package BuddyPress
  * @subpackage SettingsActions
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

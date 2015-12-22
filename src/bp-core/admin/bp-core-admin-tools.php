@@ -2,10 +2,9 @@
 /**
  * BuddyPress Tools panel.
  *
- * @since 2.0.0
- *
  * @package BuddyPress
  * @subpackage Core
+ * @since 2.0.0
  */
 
 // Exit if accessed directly.

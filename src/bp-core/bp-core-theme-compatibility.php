@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage ThemeCompatibility
+ * @since 1.7.0
  */
 
 // Exit if accessed directly.

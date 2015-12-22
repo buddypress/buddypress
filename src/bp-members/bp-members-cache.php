@@ -2,10 +2,9 @@
 /**
  * Caching functions specific to BuddyPress Members.
  *
- * @since 2.2.0
- *
  * @package BuddyPress
  * @subpackage MembersCache
+ * @since 2.2.0
  */
 
 // Exit if accessed directly.

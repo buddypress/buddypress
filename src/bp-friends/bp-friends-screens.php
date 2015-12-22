@@ -8,6 +8,7 @@
  *
  * @package BuddyPress
  * @subpackage FriendsScreens
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

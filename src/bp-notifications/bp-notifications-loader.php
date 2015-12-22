@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * BuddyPress Member Notifications Loader.
  *

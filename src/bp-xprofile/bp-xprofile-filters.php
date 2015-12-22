@@ -6,6 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage XProfileFilters
+ * @since 1.0.0
  */
 
 // Exit if accessed directly.

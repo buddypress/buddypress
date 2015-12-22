@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage MembersClasses
+ * @since 2.0.0
  */
 
 // Exit if accessed directly.

@@ -1,4 +1,12 @@
 <?php
+/**
+ * BuddyPress XProfile Notifications.
+ *
+ * @package    BuddyPress
+ * @subpackage XProfileSettings
+ * @since 1.0.0
+ */
+
 /** Notifications *************************************************************/
 
 /**

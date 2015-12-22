@@ -8,6 +8,7 @@
  *
  * @package BuddyPress
  * @subpackage GroupsScreens
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

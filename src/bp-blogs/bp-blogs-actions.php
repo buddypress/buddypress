@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage BlogsActions
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

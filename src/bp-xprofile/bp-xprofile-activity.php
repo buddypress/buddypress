@@ -7,6 +7,7 @@
  *
  * @package BuddyPress
  * @subpackage XProfileActivity
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

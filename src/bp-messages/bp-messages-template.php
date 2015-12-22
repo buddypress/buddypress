@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage MessagesTemplate
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

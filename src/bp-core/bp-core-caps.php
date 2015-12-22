@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Capabilities
+ * @since 1.6.0
  */
 
 // Exit if accessed directly.

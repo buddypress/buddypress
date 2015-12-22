@@ -6,7 +6,8 @@
  * for the user and for this specific component.
  *
  * @package BuddyPress
- * @subpackage FriendsActivity
+ * @subpackage FriendsNotifications
+ * @since 1.0.0
  */
 
 // Exit if accessed directly.

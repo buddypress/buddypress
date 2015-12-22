@@ -2,13 +2,15 @@
 /**
  * WordPress Abstraction.
  *
- * @package BuddyPress
- *
  * The functions within this file will detect the version of WordPress you are
  * running and will alter the environment so BuddyPress can run regardless.
  *
  * The code below mostly contains function mappings. This file is subject to
  * change at any time.
+ *
+ * @package BuddyPress
+ * @subpackage WPAbstraction
+ * @since 1.2.0
  */
 
 // Exit if accessed directly.

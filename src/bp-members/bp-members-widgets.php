@@ -3,6 +3,8 @@
  * BuddyPress Members Widgets.
  *
  * @package BuddyPress
+ * @subpackage MembersWidgets
+ * @since 2.2.0
  */
 
 // Exit if accessed directly.

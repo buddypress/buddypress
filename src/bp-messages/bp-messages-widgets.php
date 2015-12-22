@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Messages
+ * @since 1.9.0
  */
 
 // Exit if accessed directly.

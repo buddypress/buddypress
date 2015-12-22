@@ -2,12 +2,13 @@
 /**
  * BuddyPress Filters & Actions.
  *
- * @package BuddyPress
- * @subpackage Hooks
- *
  * This file contains the actions and filters that are used through-out BuddyPress.
  * They are consolidated here to make searching for them easier, and to help
  * developers understand at a glance the order in which things occur.
+ *
+ * @package BuddyPress
+ * @subpackage Hooks
+ * @since 1.6.0
  */
 
 // Exit if accessed directly.

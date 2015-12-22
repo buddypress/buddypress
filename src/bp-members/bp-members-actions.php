@@ -8,6 +8,7 @@
  *
  * @package BuddyPress
  * @subpackage MembersActions
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.

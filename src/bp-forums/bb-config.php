@@ -8,6 +8,7 @@
  *
  * @package BuddyPress
  * @subpackage ForumsbbPressConfig
+ * @since 1.1.0
  */
 
 header("HTTP/1.0 403 Forbidden"); die;

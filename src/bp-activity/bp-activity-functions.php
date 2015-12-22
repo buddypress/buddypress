@@ -6,6 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage ActivityFunctions
+ * @since 1.5.0
  */
 
 // Exit if accessed directly.
