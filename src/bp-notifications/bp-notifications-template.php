@@ -837,6 +837,8 @@ function bp_the_notification_mark_read_link() {
 	 * Return the mark read link for the current notification.
 	 *
 	 * @since 1.9.0
+	 *
+	 * @return string
 	 */
 	function bp_get_the_notification_mark_read_link() {
 
@@ -873,6 +875,8 @@ function bp_the_notification_mark_read_url() {
 	 * Return the URL used for marking a single notification as read.
 	 *
 	 * @since 2.1.0
+	 *
+	 * @return string
 	 */
 	function bp_get_the_notification_mark_read_url() {
 
@@ -915,6 +919,8 @@ function bp_the_notification_mark_unread_link() {
 	 * Return the mark unread link for the current notification.
 	 *
 	 * @since 1.9.0
+	 *
+	 * @return string
 	 */
 	function bp_get_the_notification_mark_unread_link() {
 
@@ -951,6 +957,8 @@ function bp_the_notification_mark_unread_url() {
 	 * Return the URL used for marking a single notification as unread.
 	 *
 	 * @since 2.1.0
+	 *
+	 * @return string
 	 */
 	function bp_get_the_notification_mark_unread_url() {
 
@@ -993,6 +1001,8 @@ function bp_the_notification_mark_link() {
 	 * Return the mark link for the current notification.
 	 *
 	 * @since 1.9.0
+	 *
+	 * @return string
 	 */
 	function bp_get_the_notification_mark_link() {
 
@@ -1026,6 +1036,8 @@ function bp_the_notification_delete_link() {
 	 * Return the delete link for the current notification.
 	 *
 	 * @since 1.9.0
+	 *
+	 * @return string
 	 */
 	function bp_get_the_notification_delete_link() {
 
