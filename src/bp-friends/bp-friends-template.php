@@ -24,6 +24,8 @@ function bp_friends_slug() {
 	 * Return the friends component slug.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return string
 	 */
 	function bp_get_friends_slug() {
 
@@ -51,6 +53,8 @@ function bp_friends_root_slug() {
 	 * Return the friends component root slug.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @return string
 	 */
 	function bp_get_friends_root_slug() {
 

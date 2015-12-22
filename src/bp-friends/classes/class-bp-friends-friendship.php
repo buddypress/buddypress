@@ -85,9 +85,9 @@ class BP_Friends_Friendship {
 	/**
 	 * Constructor method.
 	 *
-	 * @param int  $id                      Optional. The ID of an existing friendship.
-	 * @param bool $is_request              Deprecated.
-	 * @param bool $populate_friend_details True if friend details should be queried.
+	 * @param int|null $id                      Optional. The ID of an existing friendship.
+	 * @param bool     $is_request              Deprecated.
+	 * @param bool     $populate_friend_details True if friend details should be queried.
 	 */
 	public function __construct( $id = null, $is_request = false, $populate_friend_details = true ) {
 		$this->is_request = $is_request;
@@ -296,12 +296,12 @@ class BP_Friends_Friendship {
 	/**
 	 * Search the friends of a user by a search string.
 	 *
-	 * @param string $filter  The search string, matched against xprofile
+	 * @param string   $filter  The search string, matched against xprofile
 	 *                        fields (if available), or usermeta 'nickname' field.
-	 * @param int    $user_id ID of the user whose friends are being searched.
-	 * @param int    $limit   Optional. Max number of friends to return.
-	 * @param int    $page    Optional. The page of results to return. Default:
-	 *                        null (no pagination - return all results).
+	 * @param int      $user_id ID of the user whose friends are being searched.
+	 * @param int|null $limit   Optional. Max number of friends to return.
+	 * @param int|null $page    Optional. The page of results to return. Default:
+	 *                          null (no pagination - return all results).
 	 *
 	 * @return array|bool On success, an array: {
 	 *     @type array $friends IDs of friends returned by the query.
@@ -477,11 +477,11 @@ class BP_Friends_Friendship {
 	 *
 	 * @todo Why does this exist, and why is it in bp-friends?
 	 *
-	 * @param string $filter  String to search by.
-	 * @param int    $user_id A user ID param that is unused.
-	 * @param int    $limit   Optional. Max number of records to return.
-	 * @param int    $page    Optional. Number of the page to return. Default:
-	 *                        false (no pagination - return all results).
+	 * @param string   $filter  String to search by.
+	 * @param int      $user_id A user ID param that is unused.
+	 * @param int|null $limit   Optional. Max number of records to return.
+	 * @param int|null $page    Optional. Number of the page to return. Default:
+	 *                          false (no pagination - return all results).
 	 * @return array $filtered_ids IDs of users who match the query.
 	 */
 	public static function search_users( $filter, $user_id, $limit = null, $page = null ) {
