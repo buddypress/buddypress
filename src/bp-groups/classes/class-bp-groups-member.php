@@ -1001,11 +1001,11 @@ class BP_Groups_Member {
 	 * @deprecated 1.8.0
 	 *
 	 * @param int        $group_id            ID of the group being queried for.
-	 * @param bool/int   $limit               Max amount to return.
-	 * @param bool/int   $page                Pagination value.
+	 * @param bool|int   $limit               Max amount to return.
+	 * @param bool|int   $page                Pagination value.
 	 * @param bool       $exclude_admins_mods Whether or not to exclude admins and moderators.
 	 * @param bool       $exclude_banned      Whether or not to exclude banned members.
-	 * @param bool/array $exclude             Array of user IDs to exclude.
+	 * @param bool|array $exclude             Array of user IDs to exclude.
 	 * @return mixed
 	 */
 	public static function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
