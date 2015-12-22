@@ -1245,6 +1245,8 @@ function bp_get_user_last_activity( $user_id = 0 ) {
  * be called directly from the BuddyPress Tools panel.
  *
  * @since 2.0.0
+ *
+ * @return bool
  */
 function bp_last_activity_migrate() {
 	global $wpdb;
@@ -2260,9 +2262,9 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
  *
  * @since 1.2.2
  *
- * @param WP_User|WP_Error $user     Either the WP_User or the WP_Error object.
- * @param string           $username The inputted, attempted username.
- * @param string           $password The inputted, attempted password.
+ * @param WP_User|WP_Error|null $user     Either the WP_User or the WP_Error object.
+ * @param string                $username The inputted, attempted username.
+ * @param string                $password The inputted, attempted password.
  * @return WP_User|WP_Error
  */
 function bp_core_signup_disable_inactive( $user = null, $username = '', $password ='' ) {

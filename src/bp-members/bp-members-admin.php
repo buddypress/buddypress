@@ -941,7 +941,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User $user The WP_User object to be edited.
+	 * @param WP_User|null $user The WP_User object to be edited.
 	 */
 	public function user_admin_status_metabox( $user = null ) {
 
@@ -1017,7 +1017,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User $user The WP_User object to be edited.
+	 * @param WP_User|null $user The WP_User object to be edited.
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 	?>
@@ -1030,7 +1030,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User $user The WP_User object to be edited.
+	 * @param WP_User|null $user The WP_User object to be edited.
 	 */
 	public function user_admin_stats_metabox( $user = null ) {
 
@@ -1079,7 +1079,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param WP_User $user The WP_User object to be edited.
+	 * @param WP_User|null $user The WP_User object to be edited.
 	 */
 	public function user_admin_member_type_metabox( $user = null ) {
 
@@ -1145,7 +1145,7 @@ class BP_Members_Admin {
 	 * @since 2.0.0
 	 *
 	 * @param array|string $actions WordPress row actions (edit, delete).
-	 * @param object       $user    The object for the user row.
+	 * @param object|null  $user    The object for the user row.
 	 * @return array Merged actions.
 	 */
 	public function row_actions( $actions = '', $user = null ) {
@@ -1268,7 +1268,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User_Query $query The users query.
+	 * @param WP_User_Query|null $query The users query.
 	 * @return WP_User_Query The users query without the signups.
 	 */
 	public function remove_signups_from_user_query( $query = null ) {
