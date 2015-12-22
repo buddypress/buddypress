@@ -58,7 +58,7 @@ class BP_Messages_Notice {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $id Optional. The ID of the current notice.
+	 * @param int|null $id Optional. The ID of the current notice.
 	 */
 	public function __construct( $id = null ) {
 		if ( $id ) {

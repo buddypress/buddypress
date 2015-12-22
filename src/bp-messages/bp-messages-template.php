@@ -1305,6 +1305,8 @@ function bp_messages_bulk_management_dropdown() {
  * Return whether or not the notice is currently active.
  *
  * @since 1.6.0
+ *
+ * @return bool
  */
 function bp_messages_is_active_notice() {
 	global $messages_template;
@@ -1331,6 +1333,7 @@ function bp_messages_is_active_notice() {
  * @since 1.0.0
  * @deprecated 1.6.0
  * @uses bp_get_message_is_active_notice()
+ * @return bool
  */
 function bp_message_is_active_notice() {
 	echo bp_get_message_is_active_notice();
