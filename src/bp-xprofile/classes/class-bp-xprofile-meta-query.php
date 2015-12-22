@@ -96,10 +96,10 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $type              Type of meta, eg 'user', 'post'.
-	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
-	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
-	 * @param object $context           Optional. The main query object.
+	 * @param string      $type              Type of meta, eg 'user', 'post'.
+	 * @param string      $primary_table     Database table where the object being filtered is stored (eg wp_users).
+	 * @param string      $primary_id_column ID column for the filtered object in $primary_table.
+	 * @param object|null $context           Optional. The main query object.
 	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.

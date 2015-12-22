@@ -757,9 +757,9 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int    $user_id       ID of the user being edited.
-	 * @param string $screen_id     Screen ID to load the metabox in.
-	 * @param object $stats_metabox Context and priority for the stats metabox.
+	 * @param int         $user_id       ID of the user being edited.
+	 * @param string      $screen_id     Screen ID to load the metabox in.
+	 * @param object|null $stats_metabox Context and priority for the stats metabox.
 	 */
 	public function register_metaboxes( $user_id = 0, $screen_id = '', $stats_metabox = null ) {
 
@@ -959,8 +959,8 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User $user The WP_User object for the user being edited.
-	 * @param array   $args Aray of arguments for metaboxes.
+	 * @param WP_User|null $user The WP_User object for the user being edited.
+	 * @param array        $args Aray of arguments for metaboxes.
 	 */
 	public function user_admin_profile_metaboxes( $user = null, $args = array() ) {
 
@@ -1070,7 +1070,7 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User $user The WP_User object for the user being edited.
+	 * @param WP_User|null $user The WP_User object for the user being edited.
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 	?>
@@ -1083,7 +1083,7 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param WP_User $user The WP_User object for the user being edited.
+	 * @param WP_User|null $user The WP_User object for the user being edited.
 	 */
 	public function user_admin_avatar_metabox( $user = null ) {
 

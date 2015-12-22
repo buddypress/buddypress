@@ -666,7 +666,7 @@ add_action( 'bp_setup_globals', 'xprofile_override_user_fullnames', 100 );
  * @param string $directory The root directory name. Optional.
  * @param int    $user_id   The user ID. Optional.
  *
- * @return array() Array containing the path, URL, and other helpful settings.
+ * @return array Array containing the path, URL, and other helpful settings.
  */
 function xprofile_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 
@@ -1027,7 +1027,7 @@ function bp_xprofile_fullname_field_name() {
  *
  * @since 2.4.0
  *
- * @param int $field_id Optional. Default current field ID.
+ * @param int|null $field_id Optional. Default current field ID.
  * @return bool
  */
 function bp_xprofile_is_richtext_enabled_for_field( $field_id = null ) {

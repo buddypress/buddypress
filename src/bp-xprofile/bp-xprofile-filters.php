@@ -114,8 +114,8 @@ function bp_xprofile_sanitize_field_default( $field_default = '' ) {
 /**
  * Run profile field values through kses with filterable allowed tags.
  *
- * @param string $content  Content to filter.
- * @param object $data_obj The BP_XProfile_ProfileData object.
+ * @param string      $content  Content to filter.
+ * @param object|null $data_obj The BP_XProfile_ProfileData object.
  *
  * @return string $content
  */
@@ -154,10 +154,10 @@ function xprofile_filter_kses( $content, $data_obj = null ) {
 /**
  * Safely runs profile field data through kses and force_balance_tags.
  *
- * @param string $field_value Field value being santized.
- * @param int    $field_id    Field ID being sanitized.
- * @param bool   $reserialize Whether to reserialize arrays before returning. Defaults to true.
- * @param object $data_obj    The BP_XProfile_ProfileData object.
+ * @param string      $field_value Field value being santized.
+ * @param int         $field_id    Field ID being sanitized.
+ * @param bool        $reserialize Whether to reserialize arrays before returning. Defaults to true.
+ * @param object|null $data_obj    The BP_XProfile_ProfileData object.
  *
  * @return string
  */
@@ -239,9 +239,9 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
  * @since 2.1.0
  * @since 2.4.0 Added `$field_id` parameter.
  *
- * @param mixed  $field_value Field value.
- * @param string $field_type  Field type.
- * @param int    $field_id    Optional. ID of the field.
+ * @param mixed      $field_value Field value.
+ * @param string     $field_type  Field type.
+ * @param string|int $field_id    Optional. ID of the field.
  *
  * @return mixed
  */

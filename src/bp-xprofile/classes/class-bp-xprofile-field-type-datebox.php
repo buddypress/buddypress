@@ -307,9 +307,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
-	 * @param string $field_value The date value, as saved in the database. Typically, this is a MySQL-formatted
-	 *                            date string (Y-m-d H:i:s).
-	 * @param int    $field_id    Optional. ID of the field.
+	 * @param string     $field_value The date value, as saved in the database. Typically, this is a MySQL-formatted
+	 *                                date string (Y-m-d H:i:s).
+	 * @param string|int $field_id    Optional. ID of the field.
 	 *
 	 * @return string Date formatted by bp_format_time().
 	 */

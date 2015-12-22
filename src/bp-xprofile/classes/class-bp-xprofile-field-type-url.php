@@ -128,8 +128,8 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
-	 * @param string $submitted_value Raw value submitted by the user.
-	 * @param int    $field_id        Optional. ID of the field.
+	 * @param string     $submitted_value Raw value submitted by the user.
+	 * @param string|int $field_id        Optional. ID of the field.
 	 *
 	 * @return string
 	 */
@@ -158,8 +158,8 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
-	 * @param string $field_value The URL value, as saved in the database.
-	 * @param int    $field_id    Optional. ID of the field.
+	 * @param string     $field_value The URL value, as saved in the database.
+	 * @param string|int $field_id    Optional. ID of the field.
 	 *
 	 * @return string URL converted to a link.
 	 */
