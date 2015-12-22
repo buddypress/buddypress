@@ -1277,8 +1277,8 @@ function bp_blogs_get_blogs_for_user( $user_id, $show_hidden = false ) {
  *
  * @see BP_Blogs_Blog::get_all() for a description of parameters and return values.
  *
- * @param int $limit See {@BP_Blogs_Blog::get_all()}.
- * @param int $page  See {@BP_Blogs_Blog::get_all()}.
+ * @param int|null $limit See {@BP_Blogs_Blog::get_all()}.
+ * @param int|null $page  See {@BP_Blogs_Blog::get_all()}.
  * @return array See {@BP_Blogs_Blog::get_all()}.
  */
 function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
@@ -1290,8 +1290,8 @@ function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
  *
  * @see BP_Blogs_Blog::get() for a description of parameters and return values.
  *
- * @param int $limit See {@BP_Blogs_Blog::get()}.
- * @param int $page  See {@BP_Blogs_Blog::get()}.
+ * @param int|null $limit See {@BP_Blogs_Blog::get()}.
+ * @param int|null $page  See {@BP_Blogs_Blog::get()}.
  * @return array See {@BP_Blogs_Blog::get()}.
  */
 function bp_blogs_get_random_blogs( $limit = null, $page = null ) {

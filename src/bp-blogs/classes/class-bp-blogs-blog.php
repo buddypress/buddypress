@@ -44,7 +44,7 @@ class BP_Blogs_Blog {
 	/**
 	 * Constructor method.
 	 *
-	 * @param int $id Optional. The ID of the blog.
+	 * @param int|null $id Optional. The ID of the blog.
 	 */
 	public function __construct( $id = null ) {
 		if ( !empty( $id ) ) {
@@ -269,9 +269,9 @@ class BP_Blogs_Blog {
 	/**
 	 * Delete the record of a given blog for a specific user.
 	 *
-	 * @param int $blog_id The blog being removed.
-	 * @param int $user_id Optional. The ID of the user from whom the blog is
-	 *                     being removed. If absent, defaults to the logged-in user ID.
+	 * @param int      $blog_id The blog being removed.
+	 * @param int|null $user_id Optional. The ID of the user from whom the blog is
+	 *                          being removed. If absent, defaults to the logged-in user ID.
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public static function delete_blog_for_user( $blog_id, $user_id = null ) {
@@ -288,8 +288,8 @@ class BP_Blogs_Blog {
 	/**
 	 * Delete all of a user's blog associations in the BP tables.
 	 *
-	 * @param int $user_id Optional. The ID of the user whose blog associations
-	 *                     are being deleted. If absent, defaults to logged-in user ID.
+	 * @param int|null $user_id Optional. The ID of the user whose blog associations
+	 *                          are being deleted. If absent, defaults to logged-in user ID.
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public static function delete_blogs_for_user( $user_id = null ) {
@@ -389,8 +389,8 @@ class BP_Blogs_Blog {
 	 * $user_id parameter, or when the logged-in user has the bp_moderate
 	 * cap.
 	 *
-	 * @param int $user_id Optional. ID of the user whose blogs are being
-	 *                     queried. Defaults to logged-in user.
+	 * @param int|null $user_id Optional. ID of the user whose blogs are being
+	 *                          queried. Defaults to logged-in user.
 	 * @return int Blog count for the user.
 	 */
 	public static function total_blog_count_for_user( $user_id = null ) {
@@ -415,11 +415,11 @@ class BP_Blogs_Blog {
 	 * Matches against blog names and descriptions, as stored in the BP
 	 * blogmeta table.
 	 *
-	 * @param string $filter The search term.
-	 * @param int    $limit  Optional. The maximum number of items to return.
-	 *                       Default: null (no limit).
-	 * @param int    $page   Optional. The page of results to return. Default:
-	 *                       null (no limit).
+	 * @param string   $filter The search term.
+	 * @param int|null $limit  Optional. The maximum number of items to return.
+	 *                         Default: null (no limit).
+	 * @param int|null $page   Optional. The page of results to return. Default:
+	 *                         null (no limit).
 	 * @return array Multidimensional results array, structured as follows:
 	 *               'blogs' - Array of located blog objects.
 	 *               'total' - A count of the total blogs matching the query.
@@ -453,10 +453,10 @@ class BP_Blogs_Blog {
 	 * Query will include hidden blogs if the logged-in user has the
 	 * 'bp_moderate' cap.
 	 *
-	 * @param int $limit Optional. The maximum number of items to return.
-	 *                   Default: null (no limit).
-	 * @param int $page  Optional. The page of results to return. Default:
-	 *                   null (no limit).
+	 * @param int|null $limit Optional. The maximum number of items to return.
+	 *                        Default: null (no limit).
+	 * @param int|null $page  Optional. The page of results to return. Default:
+	 *                        null (no limit).
 	 * @return array Multidimensional results array, structured as follows:
 	 *               'blogs' - Array of located blog objects.
 	 *               'total' - A count of the total blogs.
@@ -481,11 +481,11 @@ class BP_Blogs_Blog {
 	 * Query will include hidden blogs if the logged-in user has the
 	 * 'bp_moderate' cap.
 	 *
-	 * @param string $letter The letter you're looking for.
-	 * @param int    $limit  Optional. The maximum number of items to return.
-	 *                       Default: null (no limit).
-	 * @param int    $page   Optional. The page of results to return. Default:
-	 *                       null (no limit).
+	 * @param string   $letter The letter you're looking for.
+	 * @param int|null $limit  Optional. The maximum number of items to return.
+	 *                         Default: null (no limit).
+	 * @param int|null $page   Optional. The page of results to return. Default:
+	 *                         null (no limit).
 	 * @return array Multidimensional results array, structured as follows:
 	 *               'blogs' - Array of located blog objects.
 	 *               'total' - A count of the total blogs matching the query.
