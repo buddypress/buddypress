@@ -2194,8 +2194,11 @@ function bp_activity_get_activity_id( $args = '' ) {
 	 * Filters the activity ID being requested.
 	 *
 	 * @since 1.2.0
+	 * @since 2.5.0 Added the `$r` and `$args` parameters.
 	 *
 	 * @param BP_Activity_Activity $value ID returned by BP_Activity_Activity get_id() method with provided arguments.
+	 * @param array                $r     Parsed function arguments.
+	 * @param array                $args  Arguments passed to the function.
 	 */
 	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id(
 		$r['user_id'],
@@ -2206,7 +2209,7 @@ function bp_activity_get_activity_id( $args = '' ) {
 		$r['action'],
 		$r['content'],
 		$r['date_recorded']
-	) );
+	), $r, $args );
 }
 
 /**
