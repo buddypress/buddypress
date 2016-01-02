@@ -229,6 +229,26 @@ function bp_init() {
 }
 
 /**
+ * Fire the 'bp_customize_register' action when the Customizer has loaded,
+ * allowing scripts and styles to be initialized.
+ *
+ * @since 2.5.0
+ *
+ * @param WP_Customize_Manager $customizer Customizer instance.
+ */
+function bp_customize_register( WP_Customize_Manager $customizer ) {
+
+	/**
+	 * Fires once the Customizer has loaded, allow scripts and styles to be initialized.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param WP_Customize_Manager $customizer Customizer instance.
+	 */
+	do_action( 'bp_customize_register', $customizer );
+}
+
+/**
  * Fire the 'bp_loaded' action, which fires after BP's core plugin files have been loaded.
  *
  * Attached to 'plugins_loaded'.
