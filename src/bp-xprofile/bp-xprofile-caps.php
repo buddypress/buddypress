@@ -23,7 +23,6 @@ defined( 'ABSPATH' ) || exit;
  * @uses get_post() To get the post.
  * @uses get_post_type_object() To get the post type object.
  * @uses apply_filters() Calls 'bp_map_meta_caps' with caps, cap, user id and args.
- *
  * @return array Actual capabilities for meta capability.
  */
 function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {

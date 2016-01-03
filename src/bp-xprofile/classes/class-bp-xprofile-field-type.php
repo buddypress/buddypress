@@ -19,6 +19,7 @@ abstract class BP_XProfile_Field_Type {
 
 	/**
 	 * Validation regex rules for field type.
+	 *
 	 * @since 2.0.0
 	 * @var array Field type validation regexes.
 	 */

@@ -164,6 +164,11 @@ class BP_XProfile_Data_Template {
 		$this->user_id     = $r['user_id'];
 	}
 
+	/**
+	 * Whether or not the loop has field groups.
+	 *
+	 * @return bool
+	 */
 	public function has_groups() {
 		if ( ! empty( $this->group_count ) ) {
 			return true;
@@ -172,6 +177,11 @@ class BP_XProfile_Data_Template {
 		return false;
 	}
 
+	/**
+	 * Increments to the next group of fields.
+	 *
+	 * @return object
+	 */
 	public function next_group() {
 		$this->current_group++;
 
@@ -195,6 +205,9 @@ class BP_XProfile_Data_Template {
 		return $this->group;
 	}
 
+	/**
+	 * Rewinds to the start of the groups list.
+	 */
 	public function rewind_groups() {
 		$this->current_group = -1;
 		if ( $this->group_count > 0 ) {
@@ -202,6 +215,11 @@ class BP_XProfile_Data_Template {
 		}
 	}
 
+	/**
+	 * Kicks off the profile groups.
+	 *
+	 * @return bool
+	 */
 	public function profile_groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
 			return true;
@@ -222,6 +240,9 @@ class BP_XProfile_Data_Template {
 		return false;
 	}
 
+	/**
+	 * Sets up the profile group.
+	 */
 	public function the_profile_group() {
 		global $group;
 
@@ -242,6 +263,11 @@ class BP_XProfile_Data_Template {
 
 	/** Fields ****************************************************************/
 
+	/**
+	 * Increments to the next field.
+	 *
+	 * @return int
+	 */
 	public function next_field() {
 		$this->current_field++;
 
@@ -250,6 +276,9 @@ class BP_XProfile_Data_Template {
 		return $this->field;
 	}
 
+	/**
+	 * Rewinds to the start of the fields.
+	 */
 	public function rewind_fields() {
 		$this->current_field = -1;
 		if ( $this->field_count > 0 ) {
@@ -257,6 +286,11 @@ class BP_XProfile_Data_Template {
 		}
 	}
 
+	/**
+	 * Whether or not the loop has fields.
+	 *
+	 * @return bool
+	 */
 	public function has_fields() {
 		$has_data = false;
 
@@ -271,6 +305,11 @@ class BP_XProfile_Data_Template {
 		return $has_data;
 	}
 
+	/**
+	 * Kick off the profile fields.
+	 *
+	 * @return bool
+	 */
 	public function profile_fields() {
 		if ( $this->current_field + 1 < $this->field_count ) {
 			return true;
@@ -282,6 +321,9 @@ class BP_XProfile_Data_Template {
 		return false;
 	}
 
+	/**
+	 * Set up the profile fields.
+	 */
 	public function the_profile_field() {
 		global $field;
 
@@ -368,24 +410,51 @@ function bp_has_profile( $args = '' ) {
 	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template );
 }
 
+/**
+ * Start off the profile groups.
+ *
+ * @return mixed
+ */
 function bp_profile_groups() {
 	global $profile_template;
 	return $profile_template->profile_groups();
 }
 
+/**
+ * Set up the profile groups.
+ *
+ * @return mixed
+ */
 function bp_the_profile_group() {
 	global $profile_template;
 	return $profile_template->the_profile_group();
 }
 
+/**
+ * Whether or not the group has fields to display.
+ *
+ * @return mixed
+ */
 function bp_profile_group_has_fields() {
 	global $profile_template;
 	return $profile_template->has_fields();
 }
 
+/**
+ * Output the class attribute for a field.
+ *
+ * @param string|bool $class Extra classes to append to class attribute.
+ */
 function bp_field_css_class( $class = false ) {
 	echo bp_get_field_css_class( $class );
 }
+
+	/**
+	 * Return the class attribute for a field.
+	 *
+	 * @param string|bool $class Extra classes to append to class attribute.
+	 * @return string
+	 */
 	function bp_get_field_css_class( $class = false ) {
 		global $profile_template;
 
@@ -436,11 +505,21 @@ function bp_field_css_class( $class = false ) {
 		return apply_filters( 'bp_get_field_css_class', ' class="' . implode( ' ', $css_classes ) . '"' );
 	}
 
+/**
+ * Whether or not the XProfile field has data to display.
+ *
+ * @return mixed
+ */
 function bp_field_has_data() {
 	global $profile_template;
 	return $profile_template->field_has_data;
 }
 
+/**
+ * Whether or not the XProfile field has public data to display.
+ *
+ * @return bool
+ */
 function bp_field_has_public_data() {
 	global $profile_template;
 
@@ -451,14 +530,23 @@ function bp_field_has_public_data() {
 	return false;
 }
 
+/**
+ * Output the XProfile group ID.
+ */
 function bp_the_profile_group_id() {
 	echo bp_get_the_profile_group_id();
 }
+
+	/**
+	 * Return the XProfile group ID.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_group_id() {
 		global $group;
 
 		/**
-		 * Filters the profile group ID.
+		 * Filters the XProfile group ID.
 		 *
 		 * @since 1.1.0
 		 *
@@ -467,14 +555,23 @@ function bp_the_profile_group_id() {
 		return apply_filters( 'bp_get_the_profile_group_id', $group->id );
 	}
 
+/**
+ * Output the XProfile group name.
+ */
 function bp_the_profile_group_name() {
 	echo bp_get_the_profile_group_name();
 }
+
+	/**
+	 * Return the XProfile group name.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_group_name() {
 		global $group;
 
 		/**
-		 * Filters the profile group name.
+		 * Filters the XProfile group name.
 		 *
 		 * @since 1.0.0
 		 *
@@ -483,14 +580,23 @@ function bp_the_profile_group_name() {
 		return apply_filters( 'bp_get_the_profile_group_name', $group->name );
 	}
 
+/**
+ * Output the XProfile group slug.
+ */
 function bp_the_profile_group_slug() {
 	echo bp_get_the_profile_group_slug();
 }
+
+	/**
+	 * Return the XProfile group slug.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_group_slug() {
 		global $group;
 
 		/**
-		 * Filters the profile group slug.
+		 * Filters the XProfile group slug.
 		 *
 		 * @since 1.1.0
 		 *
@@ -499,14 +605,23 @@ function bp_the_profile_group_slug() {
 		return apply_filters( 'bp_get_the_profile_group_slug', sanitize_title( $group->name ) );
 	}
 
+/**
+ * Output the XProfile group description.
+ */
 function bp_the_profile_group_description() {
 	echo bp_get_the_profile_group_description();
 }
+
+	/**
+	 * Return the XProfile group description.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_group_description() {
 		global $group;
 
 		/**
-		 * Filters the profile group description.
+		 * Filters the XProfile group description.
 		 *
 		 * @since 1.0.0
 		 *
@@ -515,9 +630,18 @@ function bp_the_profile_group_description() {
 		return apply_filters( 'bp_get_the_profile_group_description', $group->description );
 	}
 
+/**
+ * Output the XProfile group edit form action.
+ */
 function bp_the_profile_group_edit_form_action() {
 	echo bp_get_the_profile_group_edit_form_action();
 }
+
+	/**
+	 * Return the XProfile group edit form action.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_group_edit_form_action() {
 		global $group;
 
@@ -525,7 +649,7 @@ function bp_the_profile_group_edit_form_action() {
 		$form_action = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . $group->id );
 
 		/**
-		 * Filters the action for the profile group edit form.
+		 * Filters the action for the XProfile group edit form.
 		 *
 		 * @since 1.1.0
 		 *
@@ -535,9 +659,18 @@ function bp_the_profile_group_edit_form_action() {
 		return apply_filters( 'bp_get_the_profile_group_edit_form_action', $form_action );
 	}
 
+/**
+ * Output the XProfile group field IDs.
+ */
 function bp_the_profile_group_field_ids() {
 	echo bp_get_the_profile_group_field_ids();
 }
+
+	/**
+	 * Return the XProfile group field IDs.
+	 *
+	 * @return string
+	 */
 	function bp_get_the_profile_group_field_ids() {
 		global $group;
 
@@ -589,24 +722,42 @@ function bp_the_profile_field_ids() {
 		return apply_filters( 'bp_get_the_profile_field_ids', $field_ids );
 	}
 
+/**
+ * Return the XProfile fields.
+ *
+ * @return mixed
+ */
 function bp_profile_fields() {
 	global $profile_template;
 	return $profile_template->profile_fields();
 }
 
+/**
+ * Sets up the XProfile field.
+ *
+ * @return mixed
+ */
 function bp_the_profile_field() {
 	global $profile_template;
 	return $profile_template->the_profile_field();
 }
 
+/**
+ * Output the XProfile field ID.
+ */
 function bp_the_profile_field_id() {
 	echo bp_get_the_profile_field_id();
 }
+
+	/**
+	 * Return the XProfile field ID.
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_id() {
 		global $field;
 
 		/**
-		 * Filters the profile field ID.
+		 * Filters the XProfile field ID.
 		 *
 		 * @since 1.1.0
 		 *
@@ -615,14 +766,23 @@ function bp_the_profile_field_id() {
 		return apply_filters( 'bp_get_the_profile_field_id', $field->id );
 	}
 
+/**
+ * Outputs the XProfile field name.
+ */
 function bp_the_profile_field_name() {
 	echo bp_get_the_profile_field_name();
 }
+
+	/**
+	 * Returns the XProfile field name.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_name() {
 		global $field;
 
 		/**
-		 * Filters the profile field name.
+		 * Filters the XProfile field name.
 		 *
 		 * @since 1.0.0
 		 *
@@ -631,16 +791,25 @@ function bp_the_profile_field_name() {
 		return apply_filters( 'bp_get_the_profile_field_name', $field->name );
 	}
 
+/**
+ * Outputs the XProfile field value.
+ */
 function bp_the_profile_field_value() {
 	echo bp_get_the_profile_field_value();
 }
+
+	/**
+	 * Returns the XProfile field value.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_value() {
 		global $field;
 
 		$field->data->value = bp_unserialize_profile_field( $field->data->value );
 
 		/**
-		 * Filters the profile field value.
+		 * Filters the XProfile field value.
 		 *
 		 * @since 1.0.0
 		 *
@@ -651,9 +820,18 @@ function bp_the_profile_field_value() {
 		return apply_filters( 'bp_get_the_profile_field_value', $field->data->value, $field->type, $field->id );
 	}
 
+/**
+ * Outputs the XProfile field edit value.
+ */
 function bp_the_profile_field_edit_value() {
 	echo bp_get_the_profile_field_edit_value();
 }
+
+	/**
+	 * Returns the XProfile field edit value.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_edit_value() {
 		global $field;
 
@@ -680,7 +858,7 @@ function bp_the_profile_field_edit_value() {
 		$field_value = isset( $field->data->value ) ? bp_unserialize_profile_field( $field->data->value ) : '';
 
 		/**
-		 * Filters the profile field edit value.
+		 * Filters the XProfile field edit value.
 		 *
 		 * @since 1.1.0
 		 *
@@ -691,14 +869,23 @@ function bp_the_profile_field_edit_value() {
 		return apply_filters( 'bp_get_the_profile_field_edit_value', $field_value, $field->type, $field->id );
 	}
 
+/**
+ * Outputs the XProfile field type.
+ */
 function bp_the_profile_field_type() {
 	echo bp_get_the_profile_field_type();
 }
+
+	/**
+	 * Returns the XProfile field type.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_type() {
 		global $field;
 
 		/**
-		 * Filters the profile field type.
+		 * Filters the XProfile field type.
 		 *
 		 * @since 1.1.0
 		 *
@@ -707,14 +894,23 @@ function bp_the_profile_field_type() {
 		return apply_filters( 'bp_the_profile_field_type', $field->type );
 	}
 
+/**
+ * Outputs the XProfile field description.
+ */
 function bp_the_profile_field_description() {
 	echo bp_get_the_profile_field_description();
 }
+
+	/**
+	 * Returns the XProfile field description.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_description() {
 		global $field;
 
 		/**
-		 * Filters the profile field description.
+		 * Filters the XProfile field description.
 		 *
 		 * @since 1.1.0
 		 *
@@ -723,9 +919,18 @@ function bp_the_profile_field_description() {
 		return apply_filters( 'bp_get_the_profile_field_description', $field->description );
 	}
 
+/**
+ * Outputs the XProfile field input name.
+ */
 function bp_the_profile_field_input_name() {
 	echo bp_get_the_profile_field_input_name();
 }
+
+	/**
+	 * Retursn the XProfile field input name.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_input_name() {
 		global $field;
 
@@ -820,9 +1025,17 @@ function bp_the_profile_field_options( $args = array() ) {
 		return $html;
 	}
 
+/**
+ * Render whether or not a profile field is required.
+ */
 function bp_the_profile_field_is_required() {
 	echo bp_get_the_profile_field_is_required();
 }
+
+	/**
+	 * Return whether or not a profile field is required.
+	 * @return mixed|void
+	 */
 	function bp_get_the_profile_field_is_required() {
 		global $field;
 
@@ -843,13 +1056,16 @@ function bp_the_profile_field_is_required() {
 	}
 
 /**
- * Echo the visibility level of this field.
+ * Output the visibility level of this field.
  */
 function bp_the_profile_field_visibility_level() {
 	echo bp_get_the_profile_field_visibility_level();
 }
+
 	/**
 	 * Return the visibility level of this field.
+	 *
+	 * @return mixed|void
 	 */
 	function bp_get_the_profile_field_visibility_level() {
 		global $field;
@@ -879,8 +1095,11 @@ function bp_the_profile_field_visibility_level() {
 function bp_the_profile_field_visibility_level_label() {
 	echo bp_get_the_profile_field_visibility_level_label();
 }
+
 	/**
 	 * Return the visibility level label of this field.
+	 *
+	 * @return mixed|void
 	 */
 	function bp_get_the_profile_field_visibility_level_label() {
 		global $field;
@@ -906,7 +1125,12 @@ function bp_the_profile_field_visibility_level_label() {
 		return apply_filters( 'bp_get_the_profile_field_visibility_level_label', $fields[ $level ]['label'] );
 	}
 
-
+/**
+ * Return unserialized profile field data.
+ *
+ * @param string $value Content to maybe unserialize.
+ * @return mixed|string
+ */
 function bp_unserialize_profile_field( $value ) {
 	if ( is_serialized($value) ) {
 		$field_value = maybe_unserialize($value);
@@ -917,9 +1141,21 @@ function bp_unserialize_profile_field( $value ) {
 	return $value;
 }
 
+/**
+ * Output XProfile field data.
+ *
+ * @param string|array $args Array of arguments for field data.
+ */
 function bp_profile_field_data( $args = '' ) {
 	echo bp_get_profile_field_data( $args );
 }
+
+	/**
+	 * Return XProfile field data.
+	 *
+	 * @param string|array $args Array of arguments for field data.
+	 * @return mixed|void
+	 */
 	function bp_get_profile_field_data( $args = '' ) {
 
 		$r = wp_parse_args( $args, array(
@@ -1053,6 +1289,12 @@ function bp_get_profile_group_tabs() {
 	return join( '', $tabs );
 }
 
+/**
+ * Output the XProfile group name.
+ *
+ * @param bool $deprecated Deprecated boolean parameter.
+ * @return mixed|void
+ */
 function bp_profile_group_name( $deprecated = true ) {
 	if ( !$deprecated ) {
 		return bp_get_profile_group_name();
@@ -1060,6 +1302,12 @@ function bp_profile_group_name( $deprecated = true ) {
 		echo bp_get_profile_group_name();
 	}
 }
+
+	/**
+	 * Return the XProfile group name.
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_profile_group_name() {
 
 		// Check action variable.
@@ -1081,6 +1329,9 @@ function bp_profile_group_name( $deprecated = true ) {
 		return apply_filters( 'bp_get_profile_group_name', $group->name );
 	}
 
+/**
+ * Render a formatted string displaying when a profile was last updated.
+ */
 function bp_profile_last_updated() {
 
 	$last_updated = bp_get_profile_last_updated();
@@ -1091,6 +1342,12 @@ function bp_profile_last_updated() {
 		echo $last_updated;
 	}
 }
+
+	/**
+	 * Return a formatted string displaying when a profile was last updated.
+	 *
+	 * @return bool|mixed|void
+	 */
 	function bp_get_profile_last_updated() {
 
 		$last_updated = bp_get_user_meta( bp_displayed_user_id(), 'profile_last_updated', true );
@@ -1110,9 +1367,20 @@ function bp_profile_last_updated() {
 		return false;
 	}
 
+/**
+ * Display the current profile group ID.
+ */
 function bp_current_profile_group_id() {
 	echo bp_get_current_profile_group_id();
 }
+
+	/**
+	 * Return the current profile group ID.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return mixed|void
+	 */
 	function bp_get_current_profile_group_id() {
 		$profile_group_id = bp_action_variable( 1 );
 		if ( empty( $profile_group_id ) ) {
@@ -1131,9 +1399,19 @@ function bp_current_profile_group_id() {
 		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id );
 	}
 
+/**
+ * Render an avatar delete link.
+ */
 function bp_avatar_delete_link() {
 	echo bp_get_avatar_delete_link();
 }
+
+	/**
+	 * Return an avatar delete link.
+	 *
+	 * @since 1.1.0
+	 * @return mixed|void
+	 */
 	function bp_get_avatar_delete_link() {
 
 		/**
@@ -1146,6 +1424,9 @@ function bp_avatar_delete_link() {
 		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_profile_slug() . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
 	}
 
+/**
+ * Render an edit profile button.
+ */
 function bp_edit_profile_button() {
 	bp_button( array(
 		'id'                => 'edit_profile',
@@ -1173,7 +1454,6 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 	 * Return the field visibility radio buttons.
 	 *
 	 * @param array|string $args Args for the radio buttons.
-	 *
 	 * @return string $retval
 	 */
 	function bp_profile_get_visibility_radio_buttons( $args = '' ) {
@@ -1252,7 +1532,6 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 	 * @since 2.0.0
 	 *
 	 * @param array|string $args Args for the select list.
-	 *
 	 * @return string $retval
 	 */
 	function bp_profile_get_settings_visibility_select( $args = '' ) {
@@ -1319,8 +1598,6 @@ function bp_profile_settings_visibility_select( $args = '' ) {
  * Output the 'required' markup in extended profile field labels.
  *
  * @since 2.4.0
- *
- * @return string HTML for the required label.
  */
 function bp_the_profile_field_required_label() {
 	echo bp_get_the_profile_field_required_label();

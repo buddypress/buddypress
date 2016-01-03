@@ -479,6 +479,8 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 
 /**
  * Handles the ajax reordering of fields within a group.
+ *
+ * @since 1.0.0
  */
 function xprofile_ajax_reorder_fields() {
 
@@ -501,6 +503,8 @@ add_action( 'wp_ajax_xprofile_reorder_fields', 'xprofile_ajax_reorder_fields' );
 
 /**
  * Handles the reordering of field groups.
+ *
+ * @since 1.5.0
  */
 function xprofile_ajax_reorder_field_groups() {
 
@@ -521,6 +525,8 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
 
 /**
  * Handles the WYSIWYG display of each profile field on the edit screen.
+ *
+ * @since 1.5.0
  *
  * @param object $admin_field Admin field.
  * @param object $admin_group Admin group object.

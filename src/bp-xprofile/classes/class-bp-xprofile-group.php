@@ -10,13 +10,15 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Class to help set up XProfile Groups.
+ */
 class BP_XProfile_Group {
 
 	/**
 	 * Field group ID.
 	 *
 	 * @since 1.1.0
-	 *
 	 * @var int ID of field group
 	 */
 	public $id = null;
@@ -25,7 +27,6 @@ class BP_XProfile_Group {
 	 * Field group name.
 	 *
 	 * @since 1.1.0
-	 *
 	 * @var string Name of field group
 	 */
 	public $name;
@@ -34,7 +35,6 @@ class BP_XProfile_Group {
 	 * Field group Description.
 	 *
 	 * @since 1.1.0
-	 *
 	 * @var string Description of field group
 	 */
 	public $description;
@@ -43,7 +43,6 @@ class BP_XProfile_Group {
 	 * Group deletion boolean.
 	 *
 	 * @since 1.1.0
-	 *
 	 * @var bool Can this group be deleted?
 	 */
 	public $can_delete;
@@ -52,7 +51,6 @@ class BP_XProfile_Group {
 	 * Group order.
 	 *
 	 * @since 1.1.0
-	 *
 	 * @var int Group order relative to other groups
 	 */
 	public $group_order;
@@ -61,7 +59,6 @@ class BP_XProfile_Group {
 	 * Group fields.
 	 *
 	 * @since 1.1.0
-	 *
 	 * @var array Fields of group
 	 */
 	public $fields;
@@ -179,7 +176,8 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object  $wpdb
+	 * @global object $wpdb
+	 *
 	 * @return boolean
 	 */
 	public function delete() {
@@ -234,8 +232,6 @@ class BP_XProfile_Group {
 	/**
 	 * Populates the BP_XProfile_Group object with profile field groups, fields,
 	 * and field data
-	 *
-	 * @package BuddyPress XProfile
 	 *
 	 * @global object $wpdb WordPress DB access object.
 	 *
@@ -500,7 +496,6 @@ class BP_XProfile_Group {
 	 * @since 2.0.0
 	 *
 	 * @param array $group_ids Array of IDs.
-	 *
 	 * @return array
 	 */
 	protected static function get_group_data( $group_ids ) {
@@ -591,9 +586,9 @@ class BP_XProfile_Group {
 	 * @since 1.5.0
 	 *
 	 * @global $wpdb $wpdb
+	 *
 	 * @param  int $field_group_id ID of the group the field belongs to.
 	 * @param  int $position       Field group position.
-	 *
 	 * @return boolean
 	 */
 	public static function update_position( $field_group_id, $position ) {
@@ -618,7 +613,6 @@ class BP_XProfile_Group {
 	 *
 	 * @param int   $user_id The profile owner's user_id.
 	 * @param array $fields  The database results returned by the get() query.
-	 *
 	 * @return array $fields The database results, with field_visibility added
 	 */
 	public static function fetch_visibility_level( $user_id = 0, $fields = array() ) {

@@ -13,6 +13,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Creates our XProfile component.
+ */
 class BP_XProfile_Component extends BP_Component {
 
 	/**
@@ -53,7 +56,7 @@ class BP_XProfile_Component extends BP_Component {
 	/**
 	 * Include files.
 	 *
-	 * @param array $includes
+	 * @param array $includes Array of files to include.
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
@@ -236,7 +239,7 @@ class BP_XProfile_Component extends BP_Component {
 			);
 		}
 
-		// Change Cover image
+		// Change Cover image.
 		if ( bp_displayed_user_use_cover_image_header() ) {
 			$sub_nav[] = array(
 				'name'            => _x( 'Change Cover Image', 'Profile header sub menu', 'buddypress' ),
@@ -409,7 +412,6 @@ class BP_XProfile_Component extends BP_Component {
 	 * @since 2.0.0
 	 *
 	 * @param array $wp_admin_nav The settings adminbar nav array.
-	 *
 	 * @return array
 	 */
 	public function setup_settings_admin_nav( $wp_admin_nav ) {
@@ -429,6 +431,9 @@ class BP_XProfile_Component extends BP_Component {
 	}
 }
 
+/**
+ * Bootstrap the XProfile component.
+ */
 function bp_setup_xprofile() {
 	$bp = buddypress();
 

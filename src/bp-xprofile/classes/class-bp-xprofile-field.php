@@ -10,13 +10,15 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Class to help set up XProfile fields.
+ */
 class BP_XProfile_Field {
 
 	/**
 	 * Field ID.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var int ID of field.
 	 */
 	public $id;
@@ -25,7 +27,6 @@ class BP_XProfile_Field {
 	 * Field group ID.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var int Field group ID for field.
 	 */
 	public $group_id;
@@ -34,7 +35,6 @@ class BP_XProfile_Field {
 	 * Field parent ID.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var int Parent ID of field.
 	 */
 	public $parent_id;
@@ -43,7 +43,6 @@ class BP_XProfile_Field {
 	 * Field type.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var string Field type.
 	 */
 	public $type;
@@ -52,7 +51,6 @@ class BP_XProfile_Field {
 	 * Field name.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var string Field name.
 	 */
 	public $name;
@@ -61,7 +59,6 @@ class BP_XProfile_Field {
 	 * Field description.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var string Field description.
 	 */
 	public $description;
@@ -70,7 +67,6 @@ class BP_XProfile_Field {
 	 * Required field?
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var bool Is field required to be filled out?
 	 */
 	public $is_required;
@@ -79,7 +75,6 @@ class BP_XProfile_Field {
 	 * Deletable field?
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var int Can field be deleted?
 	 */
 	public $can_delete = '1';
@@ -88,7 +83,6 @@ class BP_XProfile_Field {
 	 * Field position.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var int Field position.
 	 */
 	public $field_order;
@@ -97,7 +91,6 @@ class BP_XProfile_Field {
 	 * Option order.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var int Option order.
 	 */
 	public $option_order;
@@ -106,7 +99,6 @@ class BP_XProfile_Field {
 	 * Order child fields.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var string Order child fields by.
 	 */
 	public $order_by;
@@ -115,7 +107,6 @@ class BP_XProfile_Field {
 	 * Is this the default option?
 	 *
 	 * @since 1.0.0
-	 *
 	 * @var bool Is this the default option for this field?
 	 */
 	public $is_default_option;
@@ -125,7 +116,6 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.9.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_default_visibility()`.
-	 *
 	 * @var string Default field data visibility.
 	 */
 	protected $default_visibility;
@@ -135,7 +125,6 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_allow_custom_visibility()`.
-	 *
 	 * @var string Members are allowed/disallowed to modify data visibility.
 	 */
 	protected $allow_custom_visibility;
@@ -144,7 +133,6 @@ class BP_XProfile_Field {
 	 * Field type option.
 	 *
 	 * @since 2.0.0
-	 *
 	 * @var BP_XProfile_Field_Type Field type object used for validation.
 	 */
 	public $type_obj = null;
@@ -153,7 +141,6 @@ class BP_XProfile_Field {
 	 * Field data for user ID.
 	 *
 	 * @since 2.0.0
-	 *
 	 * @var BP_XProfile_ProfileData Field data for user ID.
 	 */
 	public $data;
@@ -322,7 +309,6 @@ class BP_XProfile_Field {
 	 * @global object $wpdb
 	 *
 	 * @param boolean $delete_data Whether or not to delete data.
-	 *
 	 * @return boolean
 	 */
 	public function delete( $delete_data = false ) {
@@ -485,7 +471,7 @@ class BP_XProfile_Field {
 			 */
 			do_action_ref_array( 'xprofile_field_after_save', array( $this ) );
 
-			// Recreate type_obj in case someone changed $this->type via a filter
+			// Recreate type_obj in case someone changed $this->type via a filter.
 			$this->type_obj            = bp_xprofile_create_field_type( $this->type );
 			$this->type_obj->field_obj = $this;
 
@@ -501,7 +487,6 @@ class BP_XProfile_Field {
 	 * @since 1.2.0
 	 *
 	 * @param int $user_id ID of the user to get field data for.
-	 *
 	 * @return object
 	 */
 	public function get_field_data( $user_id = 0 ) {
@@ -516,7 +501,6 @@ class BP_XProfile_Field {
 	 * @global object $wpdb
 	 *
 	 * @param bool $for_editing Whether or not the field is for editing.
-	 *
 	 * @return array
 	 */
 	public function get_children( $for_editing = false ) {
@@ -638,7 +622,6 @@ class BP_XProfile_Field {
 	 *                            registered types.
 	 * @param bool  $append       Whether to append to existing member types. If false, all existing member type
 	 *                            associations will be deleted before adding your `$member_types`. Default false.
-	 *
 	 * @return array Member types for the current field, after being saved.
 	 */
 	public function set_member_types( $member_types, $append = false ) {
@@ -809,8 +792,14 @@ class BP_XProfile_Field {
 		return $this->allow_custom_visibility;
 	}
 
-	/** Static Methods ********************************************************/
+	/* Static Methods ********************************************************/
 
+	/**
+	 * Get the type for provided field ID.
+	 *
+	 * @param int $field_id Field ID to get type of.
+	 * @return bool|null|string
+	 */
 	public static function get_type( $field_id = 0 ) {
 		global $wpdb;
 
@@ -839,7 +828,6 @@ class BP_XProfile_Field {
 	 * @global object $wpdb
 	 *
 	 * @param int $group_id ID of the field group to delete fields from.
-	 *
 	 * @return boolean
 	 */
 	public static function delete_for_group( $group_id = 0 ) {
@@ -870,7 +858,6 @@ class BP_XProfile_Field {
 	 * @global object $wpdb
 	 *
 	 * @param string $field_name Name of the field to query the ID for.
-	 *
 	 * @return boolean
 	 */
 	public static function get_id_from_name( $field_name = '' ) {
@@ -897,7 +884,6 @@ class BP_XProfile_Field {
 	 * @param int      $field_id       ID of the field to update.
 	 * @param int|null $position       Field position to update.
 	 * @param int|null $field_group_id ID of the field group.
-	 *
 	 * @return boolean
 	 */
 	public static function update_position( $field_id, $position = null, $field_group_id = null ) {
@@ -933,7 +919,6 @@ class BP_XProfile_Field {
 	 *
 	 * @param string|array $member_types Member type or array of member types. Use 'any' to return unrestricted
 	 *                                   fields (those available for anyone, regardless of member type).
-	 *
 	 * @return array Multi-dimensional array, with field IDs as top-level keys, and arrays of member types
 	 *               associated with each field as values.
 	 */
@@ -1074,8 +1059,7 @@ class BP_XProfile_Field {
 	}
 
 	/**
-	 * This function populates the items for radio buttons checkboxes and drop
-	 * down boxes.
+	 * Populates the items for radio buttons, checkboxes, and dropdown boxes.
 	 */
 	public function render_admin_form_children() {
 		foreach ( array_keys( bp_xprofile_get_field_types() ) as $field_type ) {
@@ -1488,7 +1472,6 @@ class BP_XProfile_Field {
 	 * @since 2.3.0
 	 *
 	 * @param int $field_id ID of field to check.
-	 *
 	 * @return bool
 	 */
 	private function is_default_field( $field_id = 0 ) {

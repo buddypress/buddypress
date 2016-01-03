@@ -84,7 +84,7 @@ function bp_xprofile_action_settings() {
 	 */
 	do_action( 'bp_xprofile_settings_before_save' );
 
-	/** Save ******************************************************************/
+	/* Save ******************************************************************/
 
 	// Only save if there are field ID's being posted.
 	if ( ! empty( $_POST['field_ids'] ) ) {
@@ -116,7 +116,7 @@ function bp_xprofile_action_settings() {
 		}
 	}
 
-	/** Other *****************************************************************/
+	/* Other *****************************************************************/
 
 	/**
 	 * Fires after saving xprofile field visibilities.

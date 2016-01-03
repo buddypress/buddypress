@@ -21,7 +21,6 @@
  *                                  waiting for the user.
  * @param string $format            'string' for BuddyBar-compatible notifications; 'array'
  *                                  for WP Toolbar. Default: 'string'.
- *
  * @return string
  */
 function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
@@ -32,7 +31,6 @@ function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $
 			 * Allows plugins to filter extended profile-related custom notifications.
 			 * Notifications must have a 'component_name' of 'xprofile' to be routed
 			 * to this function.
-			 *
 			 *
 			 * @since 2.4.0
 			 *

@@ -10,19 +10,66 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Class for XProfile Profile Data setup.
+ *
+ * @since 1.6.0
+ */
 class BP_XProfile_ProfileData {
+
+	/**
+	 * XProfile ID.
+	 *
+	 * @var int $id
+	 */
 	public $id;
+
+	/**
+	 * User ID.
+	 *
+	 * @var int $user_id
+	 */
 	public $user_id;
+
+	/**
+	 * XProfile field ID.
+	 *
+	 * @var int $field_id
+	 */
 	public $field_id;
+
+	/**
+	 * XProfile field value.
+	 *
+	 * @var string $value
+	 */
 	public $value;
+
+	/**
+	 * XProfile field last updated time.
+	 *
+	 * @var string $last_updated
+	 */
 	public $last_updated;
 
+	/**
+	 * BP_XProfile_ProfileData constructor.
+	 *
+	 * @param null $field_id Field ID to instantiate.
+	 * @param null $user_id  User ID to instantiate for.
+	 */
 	public function __construct( $field_id = null, $user_id = null ) {
 		if ( !empty( $field_id ) ) {
 			$this->populate( $field_id, $user_id );
 		}
 	}
 
+	/**
+	 * Populates the XProfile profile data.
+	 *
+	 * @param int $field_id Field ID to populate.
+	 * @param int $user_id  User ID to populate for.
+	 */
 	public function populate( $field_id, $user_id ) {
 		global $wpdb;
 
@@ -110,6 +157,11 @@ class BP_XProfile_ProfileData {
 		return apply_filters_ref_array( 'xprofile_data_is_valid_field', array( (bool)$retval, $this ) );
 	}
 
+	/**
+	 * Save the data for the XProfile field.
+	 *
+	 * @return bool
+	 */
 	public function save() {
 		global $wpdb;
 
@@ -207,7 +259,6 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @param int   $user_id   ID of user whose data is being queried.
 	 * @param array $field_ids Array of field IDs to query for.
-	 *
 	 * @return array
 	 */
 	public static function get_data_for_user( $user_id, $field_ids ) {
@@ -273,7 +324,6 @@ class BP_XProfile_ProfileData {
 	 * Get all of the profile information for a specific user.
 	 *
 	 * @param int $user_id ID of the user.
-	 *
 	 * @return array
 	 */
 	public static function get_all_for_user( $user_id ) {
@@ -320,7 +370,6 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @param int $field_id Field ID being queried for.
 	 * @param int $user_id  User ID associated with field.
-	 *
 	 * @return int $fielddata_id
 	 */
 	public static function get_fielddataid_byid( $field_id, $user_id ) {
@@ -351,7 +400,6 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @param int            $field_id ID of the field.
 	 * @param int|array|null $user_ids ID or IDs of user(s).
-	 *
 	 * @return string|array Single value if a single user is queried,
 	 *                      otherwise an array of results.
 	 */
@@ -427,6 +475,13 @@ class BP_XProfile_ProfileData {
 		}
 	}
 
+	/**
+	 * Get profile field values by field name and user ID.
+	 *
+	 * @param array|string $fields  Field(s) to get.
+	 * @param int|null     $user_id User ID to get field data for.
+	 * @return array|bool
+	 */
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
 		global $wpdb;
 
@@ -482,6 +537,12 @@ class BP_XProfile_ProfileData {
 		return $new_values;
 	}
 
+	/**
+	 * Delete field.
+	 *
+	 * @param int $field_id ID of the field to delete.
+	 * @return bool
+	 */
 	public static function delete_for_field( $field_id ) {
 		global $wpdb;
 
@@ -494,6 +555,12 @@ class BP_XProfile_ProfileData {
 		return true;
 	}
 
+	/**
+	 * Get time for last XProfile field data update by user.
+	 *
+	 * @param int $user_id User ID to get time for.
+	 * @return null|string
+	 */
 	public static function get_last_updated( $user_id ) {
 		global $wpdb;
 
@@ -504,6 +571,12 @@ class BP_XProfile_ProfileData {
 		return $last_updated;
 	}
 
+	/**
+	 * Delete all data for provided user ID.
+	 *
+	 * @param int $user_id User ID to remove data for.
+	 * @return false|int
+	 */
 	public static function delete_data_for_user( $user_id ) {
 		global $wpdb;
 
@@ -512,6 +585,13 @@ class BP_XProfile_ProfileData {
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d", $user_id ) );
 	}
 
+	/**
+	 * Get random field type by user ID.
+	 *
+	 * @param int    $user_id          User ID to query for.
+	 * @param string $exclude_fullname SQL portion used to exclude by field ID.
+	 * @return array|null|object
+	 */
 	public static function get_random( $user_id, $exclude_fullname ) {
 		global $wpdb;
 
@@ -522,6 +602,12 @@ class BP_XProfile_ProfileData {
 		return $wpdb->get_results( $wpdb->prepare( "SELECT pf.type, pf.name, pd.value FROM {$bp->profile->table_name_data} pd INNER JOIN {$bp->profile->table_name_fields} pf ON pd.field_id = pf.id AND pd.user_id = %d {$exclude_sql} ORDER BY RAND() LIMIT 1", $user_id ) );
 	}
 
+	/**
+	 * Get fullname for provided user ID.
+	 *
+	 * @param int $user_id ID of the user to query.
+	 * @return mixed
+	 */
 	public static function get_fullname( $user_id = 0 ) {
 
 		if ( empty( $user_id ) ) {
