@@ -148,6 +148,8 @@ function bp_core_admin_components_options() {
 			break;
 	} ?>
 
+	<h3 class="screen-reader-text"><?php _e( 'Filter components list', 'buddypress' ); ?></h3>
+
 	<ul class="subsubsub">
 		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'all'      ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'all'      ) : ?>class="current"<?php endif; ?>><?php printf( _nx( 'All <span class="count">(%s)</span>',      'All <span class="count">(%s)</span>',      $all_count,         'plugins', 'buddypress' ), number_format_i18n( $all_count                    ) ); ?></a> | </li>
 		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'active'   ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'active'   ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Active <span class="count">(%s)</span>',   'Active <span class="count">(%s)</span>',   count( $active_components   ), 'buddypress' ), number_format_i18n( count( $active_components   ) ) ); ?></a> | </li>
@@ -155,6 +157,8 @@ function bp_core_admin_components_options() {
 		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'mustuse'  ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'mustuse'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', count( $required_components ), 'buddypress' ), number_format_i18n( count( $required_components ) ) ); ?></a> | </li>
 		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'retired'  ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'retired'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Retired <span class="count">(%s)</span>',  'Retired <span class="count">(%s)</span>',  count( $retired_components ),  'buddypress' ), number_format_i18n( count( $retired_components  ) ) ); ?></a></li>
 	</ul>
+
+	<h3 class="screen-reader-text"><?php _e( 'Components list', 'buddypress' ); ?></h3>
 
 	<table class="widefat fixed plugins" cellspacing="0">
 		<thead>
