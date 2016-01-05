@@ -22,7 +22,7 @@ function bp_core_admin_tools() {
 		<h1><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h1>
 
 		<p>
-			<?php esc_html_e( 'BuddyPress keeps track of various relationships between users, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?>
+			<?php esc_html_e( 'BuddyPress keeps track of various relationships between members, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?>
 			<?php esc_html_e( 'Use the tools below to manually recalculate these relationships.', 'buddypress' ); ?>
 		</p>
 		<p class="description"><?php esc_html_e( 'Some of these tools create substantial database overhead. Avoid running more than one repair job at a time.', 'buddypress' ); ?></p>
@@ -31,7 +31,7 @@ function bp_core_admin_tools() {
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
-						<th scope="row"><?php esc_html_e( 'Data to Repair:', 'buddypress' ) ?></th>
+						<th scope="row"><?php esc_html_e( 'Repair tools', 'buddypress' ) ?></th>
 						<td>
 							<fieldset>
 								<legend class="screen-reader-text"><span><?php esc_html_e( 'Repair', 'buddypress' ) ?></span></legend>
@@ -105,13 +105,13 @@ function bp_admin_repair_list() {
 	// - last_activity migration (2.0).
 	$repair_list[20] = array(
 		'bp-total-member-count',
-		__( 'Count total members', 'buddypress' ),
+		__( 'Repair total members count.', 'buddypress' ),
 		'bp_admin_repair_count_members',
 	);
 
 	$repair_list[25] = array(
 		'bp-last-activity',
-		__( 'Repair user "last activity" data', 'buddypress' ),
+		__( 'Repair member "last activity" data.', 'buddypress' ),
 		'bp_admin_repair_last_activity',
 	);
 
@@ -120,7 +120,7 @@ function bp_admin_repair_list() {
 	if ( bp_is_active( 'friends' ) ) {
 		$repair_list[0] = array(
 			'bp-user-friends',
-			__( 'Count friends for each user', 'buddypress' ),
+			__( 'Repair total friends count for each member.', 'buddypress' ),
 			'bp_admin_repair_friend_count',
 		);
 	}
@@ -130,7 +130,7 @@ function bp_admin_repair_list() {
 	if ( bp_is_active( 'groups' ) ) {
 		$repair_list[10] = array(
 			'bp-group-count',
-			__( 'Count groups for each user', 'buddypress' ),
+			__( 'Repair total groups count for each member.', 'buddypress' ),
 			'bp_admin_repair_group_count',
 		);
 	}
@@ -140,7 +140,7 @@ function bp_admin_repair_list() {
 	if ( bp_is_active( 'blogs' ) ) {
 		$repair_list[90] = array(
 			'bp-blog-records',
-			__( 'Repopulate blogs records', 'buddypress' ),
+			__( 'Repopulate site tracking records.', 'buddypress' ),
 			'bp_admin_repair_blog_records',
 		);
 	}
