@@ -233,4 +233,65 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		// assert
 		$this->assertEquals( 2, buddypress()->notifications->query_loop->total_notification_count );
 	}
+
+	/**
+	 * @group bp_notifications_delete_notifications_on_user_delete
+	 * @ticket BP6681
+	 */
+	public function test_bp_notifications_delete_notifications_on_user_delete_should_delete_all_notifications() {
+		$u = $this->factory->user->create();
+
+		// Create notifications
+		$n1 = $this->factory->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		$n2 = $this->factory->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		$n3 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id'        => $u,
+		) );
+
+		$n4 = $this->factory->notification->create( array(
+			'component_name'   => 'friends',
+			'component_action' => 'friendship_request',
+			'user_id'          => $u,
+		) );
+
+		// Create notification for non-core component
+		$n5 = $this->factory->notification->create( array(
+			'component_name'    => 'foo',
+			'component_action'  => 'bar',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		global $wpdb, $bp;
+
+		/**
+		 * Can't use BP_Notifications_Notification::get(), because class::parse_args,
+		 * checks against bp_notifications_get_registered_components()
+		 * and if component is disabled it will be ignored.
+		 */
+		$query = $wpdb->prepare( "SELECT id FROM {$bp->notifications->table_name} WHERE user_id = %d and is_new = 1", $u );
+
+		// Make sure notifications have been added.
+		$found1 = $wpdb->get_col( $query );
+		$this->assertEqualSets( array( $n1, $n2, $n3, $n4, $n5 ), $found1 );
+
+		wp_delete_user( $u );
+
+		// Check if notifications are deleted.
+		$found2 = $wpdb->get_col( $query );
+		$this->assertEmpty( $found2 );
+	}
 }
