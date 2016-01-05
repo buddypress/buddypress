@@ -525,6 +525,89 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group scope
+	 * @ticket BP6720
+	 */
+	public function test_bp_has_activities_scope_friends_should_respect_id_order_when_record_dates_are_same() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		friends_add_friend( $u1, $u2, true );
+
+		// Friend's very fast status updates.
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u2,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', 1451944920 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'user_id' => $u2,
+			'type' => 'activity_update',
+			'recorded_time' => date( 'Y-m-d H:i:s', 1451944920 ),
+		) );
+
+		global $activities_template;
+		$reset_activities_template = $activities_template;
+
+		// Get activities in 'friends' scope
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'friends',
+		) );
+
+		$found = $activities_template->activities;
+
+		// Clean up!
+		$activities_template = $reset_activities_template;
+
+		$this->assertEquals( array( $a2, $a1 ), wp_list_pluck( $found, 'id' ) );
+	}
+
+	/**
+	 * @group scope
+	 * @ticket BP6720
+	 */
+	public function test_bp_has_activities_scope_groups_should_respect_id_order_when_record_dates_are_same() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Two user join first user's group same time
+		$a1 = $this->factory->activity->create( array(
+			'user_id'   => $u2,
+			'component' => 'groups',
+			'item_id'   => $g1,
+			'type'      => 'joined_group',
+			'recorded_time' => date( 'Y-m-d H:i:s', 1451944920 ),
+		) );
+		$a2 = $this->factory->activity->create( array(
+			'user_id'   => $u3,
+			'component' => 'groups',
+			'item_id'   => $g1,
+			'type'      => 'joined_group',
+			'recorded_time' => date( 'Y-m-d H:i:s', 1451944920 ),
+		) );
+
+		global $activities_template;
+		$reset_activities_template = $activities_template;
+
+		// Get activities in 'groups' scope
+		bp_has_activities( array(
+			'user_id' => $u1,
+			'scope' => 'groups',
+		) );
+
+		$found = $activities_template->activities;
+
+		// Clean up!
+		$activities_template = $reset_activities_template;
+
+		$this->assertEquals( array( $a2, $a1 ), wp_list_pluck( $found, 'id' ) );
+	}
+
+	/**
 	 * @group filter_query
 	 * @group BP_Activity_Query
 	 */
