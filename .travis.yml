@@ -23,7 +23,6 @@ env:
     - WP_VERSION=4.1
     - WP_VERSION=4.0
     - WP_VERSION=3.9
-    - WP_VERSION=3.8
 
 matrix:
   fast_finish: true
@@ -39,8 +38,6 @@ matrix:
       env: WP_VERSION=4.0
     - php: 7.0
       env: WP_VERSION=3.9
-    - php: 7.0
-      env: WP_VERSION=3.8
   allow_failures:
     - php: nightly
 

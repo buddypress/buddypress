@@ -1,7 +1,7 @@
 === BuddyPress ===
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, social, community, networks, networking
-Requires at least: 3.8
+Requires at least: 3.9
 Tested up to: 4.3.1
 Stable tag: 2.4.2
 License: GPLv2 or later
