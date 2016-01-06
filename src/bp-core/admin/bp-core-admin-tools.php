@@ -63,20 +63,20 @@ function bp_core_admin_tools() {
  * @since 2.0.0
  */
 function bp_admin_repair_handler() {
-	if ( ! bp_is_post_request() ) {
-		return;
-	}
-
-	if ( empty( $_POST['bp-tools-submit'] ) ) {
+	if ( ! bp_is_post_request() || empty( $_POST['bp-tools-submit'] ) ) {
 		return;
 	}
 
 	check_admin_referer( 'bp-do-counts' );
 
-	// Stores messages.
-	$messages = array();
+	// Bail if user cannot moderate.
+	$capability = bp_core_do_network_admin() ? 'manage_network_options' : 'manage_options';
+	if ( ! bp_current_user_can( $capability ) ) {
+		return;
+	}
 
 	wp_cache_flush();
+	$messages = array();
 
 	foreach ( (array) bp_admin_repair_list() as $item ) {
 		if ( isset( $item[2] ) && isset( $_POST[$item[0]] ) && 1 === absint( $_POST[$item[0]] ) && is_callable( $item[2] ) ) {
