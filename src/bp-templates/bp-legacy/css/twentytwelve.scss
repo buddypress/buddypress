@@ -290,9 +290,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					&:hover {
 						color: #555;
 					}
+					// Keep links from inheriting :visited states
+					&:visited {
+						color: #21759b;
+					}
 
 					span {border-radius: 25%;}
 				}
+
 			}
 		}
 	} // close item-list-tabs
@@ -437,10 +442,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#buddypress {
 		div#subnav.item-list-tabs {
 			li.last {
-//				float: right;
 				margin-left: 0;
 				text-align: right;
-//				width: 230px;
+
 				@media screen and (max-width: 30em) {
 					clear: left;
 					float: none;
@@ -637,6 +641,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress {
 	ul.item-list {
+		border-top: 0;
+
 		li {
 			overflow: hidden !important;
 
@@ -691,7 +697,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 
 				.item-title {
-					@include font-size(18);
+					@include font-size(16);
 					line-height: 1.2;
 					text-align: center;
 
@@ -701,7 +707,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 					width: 100%;
 
-					> a {text-decoration: none;}
+					> a {
+						text-decoration: none;
+
+						&:visited { color: #21759b;}
+					}
 
 					.update {
 						display: block;
@@ -714,9 +724,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 						padding: $spacing-val-sm 0;
 						text-align: left;
 					}
-				}
+				}  // close .item-title
 
-			}
+			} // close .item
 
 			@include medium-up {
 				.item-avatar,
@@ -732,7 +742,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					width: 55%;
 
 					.item-title {
-						@include font-size(22)
+						@include font-size(18)
 					}
 				}
 
@@ -745,8 +755,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				// remove BP margin left
 				margin-left: 0;
 				padding: $spacing-val-md 0 $spacing-val-xs;
-				// push the actions to the right
 
+				// push the actions to the right
 				@include medium-up {
 					clear: none;
 					float: right;
@@ -840,7 +850,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 						float: right;
 						margin: 0;
 						min-height: 1.5em;
-						padding-left: 0.4em;
+						padding: 0 0 0 0.4em;
 					}
 				}
 
@@ -851,6 +861,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 					#whats-new-submit {
 						float: right;
+
+						input {
+							padding: 0;
+						}
 					}
 				}
 
@@ -907,6 +921,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			.activity-header {
 				@include font-size(14);
+
+				a:visited {
+					color: #21759b;
+				}
 			}
 
 			@media screen and (min-width: 46.25em) {
@@ -915,7 +933,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					float: left;
 					margin-right: $spacing-val-sm;
 					text-align: left;
-					a {border-bottom: 0;}
+
+					a {
+						border-bottom: 0;
+					}
 				}
 
 				.activity-content {
@@ -954,7 +975,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				.activity-meta {
 					a {
 						@include font-size(12);
-						padding: 2px 4px;
 					}
 				}
 			}
@@ -1003,7 +1023,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			&:hover {
 				background: darken($light-background, 1%);
 				border: 1px solid rgba(#9fd1e2, 0.3);
-				a { font-style: italic; }
 			}
 
 			a {
@@ -1057,14 +1076,19 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			> ul {
 				background: rgba($light-background, 0.6);
-				border-left: 1px solid $border-light;
-				margin: 2em 0 0 2px;
+				margin: $spacing-val-sm 0 0 2px;
 
 				> li {
 
 					&:hover * {
 						color: #555;
 					}
+
+					.acomment-meta,
+					.acomment-content {
+						@include font-size(12);
+					}
+
 				}
 
 			}
@@ -1192,6 +1216,17 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *-------------------------------------------------------------------------------
 */
 
+.bp-user {
+	#buddypress {
+	// On object nav links, table links (notifications etc) we don't really need :visited
+	// inheritance, so set pseudo class to :link color.
+		a {
+			&:visited {
+				color: #21759b;
+			}
+		}
+	}
+}
 
 /**
 *-----------------------------------------------------------
@@ -1212,6 +1247,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 	}
 
+	@media screen and (max-width: 37.500em) {
+		h1,
+		#item-header-content {
+			text-align: center;
+		}
+	}
+
 	@media screen and (max-width: 46.25em) {
 		main {
 			header.entry-header {
@@ -1220,23 +1262,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 	}
 
-	@media screen and (max-width: 37.500em) {
-		h1,
-		#item-header-content {
-			text-align: center;
-		}
-	}
-
 	#buddypress {
-		@media screen and (max-width: 46.25em) {
-			#item-header {
-				.generic-button {
-					float: none;
-					margin: 1.5em 0 0 0;
-				}
-			}
-		}
-
 		@media screen and (max-width: 37.500em) {
 			h1 {
 				margin-bottom: 0;
@@ -1251,8 +1277,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			#item-header-content {
 				width: 100%;
 			}
+		} // close @media
+
+		@media screen and (max-width: 46.25em) {
+			#item-header {
+				.generic-button {
+					float: none;
+					margin: 1.5em 0 0 0;
+				}
+			}
 		}
-	}
+	} // close #buddypress
+
 }
 
 /**
@@ -1338,6 +1374,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					@include font-size(14);
 					padding: 0.2em;
 				}
+
+				#group-admins,
+				#group-mods {
+					li {
+						margin: 0;
+					}
+				}
+
 			} // close item-actions
 
 			@media screen and (min-width: 46.25em) {
@@ -1365,7 +1409,32 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		} // close #item-header
 	} // close #buddypress
-} // close .groups
+
+	// These rules handle the specific instance of Cover Images on single groups
+	// activated & attempt to address positioning concerns arising from themes
+	// breakpoints.
+	// Due to cover image styles being applied via embedded styles & thus carrying
+	// heavier weight than linked styles the use !important to override may be required.
+	#buddypress {
+		#cover-image-container {
+			#item-header-cover-image {
+				@media screen and (max-width: 64em) {
+					#item-actions {
+						border: 0;
+						clear: both;
+						margin-top: 0 !important;
+						max-width: 100% !important;
+						padding-top: 0 !important;
+						width: auto;
+
+						h3 {border-bottom: 1px solid $border-light;}
+					}
+				}
+			}
+		}
+	}
+
+} // close .single-item.groups
 
 /**
 *-----------------------------------------------------
@@ -1613,7 +1682,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			float: left;
 			width: 100%;
 			@media screen and (min-width: 37.500em) {
-				width: 50%;
+				width: 40%;
 			}
 
 			select,
@@ -1626,15 +1695,23 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			select {
 				float: left;
 				margin-right: 0;
-				width: 60%;
+				width: 49%;
+
+				@media screen and (min-width: 37.500em) {
+					width: auto;
+				}
 			}
 
 			input {
-				float: right;
+				float: left;
 				font-family: inherit;
 				line-height: 20px;
 				margin-left: 1%;
-				width: 39%;
+				width: 50%;
+
+				@media screen and (min-width: 37.500em) {
+					width: auto;
+				}
 
 				&[disabled="disabled"]:focus,
 				&[disabled="disabled"]:hover {
@@ -1703,6 +1780,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					}
 				} //.button-nav
 
+				.field-visibility-settings-toggle {
+					margin: $spacing-val-xs 0 $spacing-val-md;
+				}
+
 				.field-visibility-settings-toggle,
 				.field-visibility-settings {
 					@include font-size(14);
@@ -1710,9 +1791,17 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 				.field-visibility-settings-close,
 				.visibility-toggle-link {
-					background: $dark-background;
-					color: #fff;
-					padding: 0.2em 0.5em;
+					background: lighten($dark-background, 10%);
+					@include border-radius(2px);
+					color: #eee;
+					font-weight: bold;
+					padding: 0.1em 0.5em;
+					text-decoration: none;
+
+					&:focus,
+					&:hover {
+						color: #fff;
+					}
 				}
 			} // close profile form
 
@@ -1918,8 +2007,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			tr.unread {
 				td {
-					background: rgba($unread, 0.4);
-					border-color: $border-color;
+					border-color: $border-light;
 				}
 			}
 
@@ -2105,7 +2193,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress {
 
-// Match BP form elements to Themes(2016) styling where styles
+// Match BP form elements to Themes(2012) styling where styles
 // are not inherited or being overriden.
 	div.activity-comments {
 
@@ -2155,7 +2243,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		margin: $spacing-val-sm 0;
 
 		// Stylise the seach form elements, in part this deals with padding
-		// issues on the submit & sizing issues between bp styles & 2016
+		// issues on the submit & sizing issues between bp styles & 2012
 
 		form { // *sigh* only to bludgeon over specified rules
 			border: 1px solid rgba($border-color, 0.6);
@@ -2166,28 +2254,27 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				width: 70%;
 			}
 
-			input[type='text'] {
-				float: left;
-				margin: 0;
-				width: 100%;
-			}
-
 			input[type='text'],
 			input[type='submit'] {
 				@include font-size(14);
 				border: 0;
-				line-height: inherit;
+				border-radius: 0;
+				line-height: 1.8;
+				min-height: 2rem;
 			}
 
 			input[type='text'] {
 				border-right: 1px solid rgba($border-color, 0.6);
-				padding: 0.2em 0 0.2em 0.2em;
+				float: left;
+				margin: 0;
+				padding: 0 0.2em 0;
+				width: 100%;
 			}
 
 			input[type='submit'] {
 				float: right;
 				font-weight: normal;
-				padding: 0.2em 1em;
+				padding: 0 1em;
 				text-align: center;
 				text-transform: none;
 				width: 30%;
