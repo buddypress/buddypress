@@ -203,9 +203,9 @@ class BP_Groups_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'group_default' ); ?>"><?php _e('Default groups to show:', 'buddypress'); ?></label>
 			<select name="<?php echo $this->get_field_name( 'group_default' ); ?>" id="<?php echo $this->get_field_id( 'group_default' ); ?>">
-				<option value="newest" <?php if ( $group_default == 'newest' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Newest', 'buddypress' ) ?></option>
-				<option value="active" <?php if ( $group_default == 'active' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Active', 'buddypress' ) ?></option>
-				<option value="popular"  <?php if ( $group_default == 'popular' ) : ?>selected="selected"<?php endif; ?>><?php _e( 'Popular', 'buddypress' ) ?></option>
+				<option value="newest" <?php selected( $group_default, 'newest' ); ?>><?php _e( 'Newest', 'buddypress' ) ?></option>
+				<option value="active" <?php selected( $group_default, 'active' ); ?>><?php _e( 'Active', 'buddypress' ) ?></option>
+				<option value="popular"  <?php selected( $group_default, 'popular' ); ?>><?php _e( 'Popular', 'buddypress' ) ?></option>
 			</select>
 		</p>
 	<?php
