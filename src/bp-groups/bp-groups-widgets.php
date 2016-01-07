@@ -40,15 +40,6 @@ class BP_Groups_Widget extends WP_Widget {
 	}
 
 	/**
-	 * PHP4 constructor
-	 *
-	 * For backward compatibility only
-	 */
-	function bp_groups_widget() {
-		$this->_construct();
-	}
-
-	/**
 	 * Extends our frontend output method.
 	 *
 	 * @param array $args     Array of arguments for the widget.
