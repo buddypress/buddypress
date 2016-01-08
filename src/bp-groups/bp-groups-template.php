@@ -3723,7 +3723,7 @@ function bp_total_group_count_for_user( $user_id = 0 ) {
 	 * @since 1.0.0
 	 *
 	 * @param int $user_id User ID to get group membership count.
-	 * @return int
+	 * @return string
 	 */
 	function bp_get_total_group_count_for_user( $user_id = 0 ) {
 		$count = groups_total_groups_for_user( $user_id );
