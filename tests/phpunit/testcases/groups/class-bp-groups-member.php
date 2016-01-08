@@ -1196,4 +1196,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$members = new BP_Group_Member_Query( array( 'group_id' => $g1 ) );
 		$this->assertEqualSets( array( $u1, $u2, $u3 ), $members->user_ids );
 	}
+
+	/**
+	 * @group total_group_count
+	 * @ticket BP6813
+	 */
+	public function test_total_group_count_should_return_integer() {
+		$this->assertInternalType( 'int', BP_Groups_Member::total_group_count( 123 ) );
+	}
 }

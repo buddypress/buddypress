@@ -434,9 +434,8 @@ class BP_Groups_Component extends BP_Component {
 
 		// Only grab count if we're on a user page.
 		if ( bp_is_user() ) {
-			$count    = bp_get_total_group_count_for_user();
-			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf( _x( 'Groups <span class="%s">%s</span>', 'Group screen nav with counter', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );
+			$class    = ( 0 === groups_total_groups_for_user( bp_displayed_user_id() ) ) ? 'no-count' : 'count';
+			$nav_name = sprintf( _x( 'Groups <span class="%s">%s</span>', 'Group screen nav with counter', 'buddypress' ), esc_attr( $class ), bp_get_total_group_count_for_user() );
 		} else {
 			$nav_name = _x( 'Groups', 'Group screen nav without counter', 'buddypress' );
 		}

@@ -771,7 +771,7 @@ function groups_total_groups_for_user( $user_id = 0 ) {
 		wp_cache_set( 'bp_total_groups_for_user_' . $user_id, $count, 'bp' );
 	}
 
-	return $count;
+	return (int) $count;
 }
 
 /**
