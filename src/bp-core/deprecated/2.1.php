@@ -16,38 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.1.0
  */
 function bp_core_register_deprecated_scripts() {
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	$url = buddypress()->plugin_url . 'bp-core/deprecated/js/';
-
-	$scripts = apply_filters( 'bp_core_register_deprecated_scripts', array(
-
-		// Messages
-		'bp-jquery-autocomplete'    => array(
-			'file'          => "{$url}autocomplete/jquery.autocomplete{$min}.js",
-			'dependencies' => array( 'jquery' ),
-		),
-
-		'bp-jquery-autocomplete-fb' => array(
-			'file'         => "{$url}autocomplete/jquery.autocompletefb{$min}.js",
-			'dependencies' => array( 'jquery' ),
-		),
-
-		'bp-jquery-bgiframe' => array(
-			'file'         => "{$url}autocomplete/jquery.bgiframe{$min}.js",
-			'dependencies' => array( 'jquery' ),
-		),
-
-		'bp-jquery-dimensions' => array(
-			'file'         => "{$url}autocomplete/jquery.dimensions{$min}.js",
-			'dependencies' => array( 'jquery' ),
-		),
-	) );
-
-	foreach ( $scripts as $id => $script ) {
-		wp_register_script( $id, $script['file'], $script['dependencies'], bp_get_version(), true );
-	}
+	// Scripts undeprecated as of 2.5.0.
 }
-add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_scripts', 1 );
 
 /**
  * Register (not enqueue) styles that used to be used by BuddyPress.
@@ -55,27 +25,8 @@ add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_scripts', 1 );
  * @since 2.1.0
  */
 function bp_core_register_deprecated_styles() {
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	$url = buddypress()->plugin_url . 'bp-core/deprecated/css/';
-
-	$styles = apply_filters( 'bp_core_register_deprecated_styles', array(
-		// Messages
-		'bp-messages-autocomplete' => array(
-			'file'         => "{$url}autocomplete/jquery.autocompletefb{$min}.css",
-			'dependencies' => array(),
-		)
-	) );
-
-	foreach ( $styles as $id => $style ) {
-		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
-
-		wp_style_add_data( $id, 'rtl', true );
-		if ( $min ) {
-			wp_style_add_data( $id, 'suffix', $min );
-		}
-	}
+	// Scripts undeprecated as of 2.5.0.
 }
-add_action( 'bp_enqueue_scripts', 'bp_core_register_deprecated_styles', 1 );
 
 /** BuddyBar *****************************************************************/
 
