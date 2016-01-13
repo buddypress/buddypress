@@ -177,11 +177,11 @@ $unread:             #9dc3c8;
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
-the WordPress Twentysixteen theme.
+the WordPress Twentytwelve theme.
 
 This sheet supports the primary BuddyPress styles in buddypress.css
 
-If you are running as a child theme of twentysixteen this stylesheet will be
+If you are running as a child theme of twentytwelve this stylesheet will be
 loaded by default. If you want to modify the styles the normal BP Theme Compat
 hierarchy works and you can copy the file to buddypress/css/ or community/css/
 in your child themes root & either start over or modify the rulesets.
@@ -863,7 +863,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 						float: right;
 
 						input {
-							padding: 0;
+							padding: 2px 6px;
 						}
 					}
 				}
@@ -1005,7 +1005,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					@include font-size(14);
 					margin-bottom: $spacing-val-xs;
 					@media screen and (min-width: 37.500em) {
-						display: inline-block;
+						float: left;
 						margin-bottom: 0;
 					}
 					padding: 0.2em 0.5em;
@@ -1125,27 +1125,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			} // close .ac-form
 
 		} // close .activity-comments
-
-		// as class name states this form is a reply to the original act item 'root'
-		// We'll position this below the reply button to avoid having to scroll past
-		// existing comments but only if li parent has class 'has-comments'.
-		li.has-comments {
-			.activity-comments {
-
-				.ac-form.root {
-					background: #fff;
-					left: 0;
-					@media screen and (min-width: 46.25em) {
-						left: 10px;
-					}
-					padding: 10px;
-					position: absolute;
-					top: 10px;
-					@include calc(width, "100% - 10px");
-				}
-
-			}
-		}
 
 	} // close #activity-steam
 
@@ -1392,7 +1371,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 
 //				#item-header-avatar {
-//					//width: 21%;
+//					width: 21%;
 //				}
 
 				#item-header-content {
@@ -1451,7 +1430,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			#item-header-avatar {
 				text-align: center;
-				width: 100%;
 
 				img.avatar,
 				a {
@@ -1472,7 +1450,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			@media screen and (min-width: 46.25em) {
 				#item-header-avatar {
 					float: left;
-					width: 20%;
 
 					a {
 						float: left;

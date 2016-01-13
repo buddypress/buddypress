@@ -2,11 +2,11 @@
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
-the WordPress Twentysixteen theme.
+the WordPress Twentytwelve theme.
 
 This sheet supports the primary BuddyPress styles in buddypress.css
 
-If you are running as a child theme of twentysixteen this stylesheet will be
+If you are running as a child theme of twentytwelve this stylesheet will be
 loaded by default. If you want to modify the styles the normal BP Theme Compat
 hierarchy works and you can copy the file to buddypress/css/ or community/css/
 in your child themes root & either start over or modify the rulesets.
@@ -579,7 +579,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		float: left;
 	}
 	#buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-submit input {
-		padding: 0;
+		padding: 2px 6px;
 	}
 }
 
@@ -696,7 +696,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 @media screen and (min-width: 37.5em) {
 	#buddypress #activity-stream .activity-content .activity-meta a {
-		display: inline-block;
+		float: right;
 		margin-bottom: 0;
 	}
 }
@@ -794,23 +794,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel:focus, #buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel:hover {
 	background: #ededed;
-}
-
-#buddypress #activity-stream li.has-comments .activity-comments .ac-form.root {
-	background: #fff;
-	right: 0;
-	padding: 10px;
-	position: absolute;
-	top: 10px;
-	width: -webkit-calc(100% - 10px);
-	width: -moz-calc(100% - 10px);
-	width: calc(100% - 10px);
-}
-
-@media screen and (min-width: 46.25em) {
-	#buddypress #activity-stream li.has-comments .activity-comments .ac-form.root {
-		right: 10px;
-	}
 }
 
 /**
@@ -1052,7 +1035,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user #buddypress #item-header #item-header-avatar {
 	text-align: center;
-	width: 100%;
 }
 
 .bp-user #buddypress #item-header #item-header-avatar img.avatar,
@@ -1069,7 +1051,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 @media screen and (min-width: 46.25em) {
 	.bp-user #buddypress #item-header #item-header-avatar {
 		float: right;
-		width: 20%;
 	}
 	.bp-user #buddypress #item-header #item-header-avatar a {
 		float: right;
