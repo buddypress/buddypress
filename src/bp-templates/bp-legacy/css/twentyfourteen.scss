@@ -279,6 +279,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					width: 50%;
 				}
 			}
+
 			@media screen and (min-width: 594px) {
 				li {
 					width: auto;
@@ -1252,6 +1253,7 @@ body.activity-permalink {
 			#search-members-form {
 				@include box-model(border-box);
 				float: left;
+
 				@media screen and (max-width: 400px) {
 					margin: 0;
 					width: 100%;
@@ -1260,6 +1262,7 @@ body.activity-permalink {
 						input[type="text"] {width: 100%;}
 					}
 				}
+
 				@media screen and (min-width: 783px) {
 					margin-left: 3px;
 				}
@@ -1455,6 +1458,7 @@ body.activity-permalink {
 			td.thread-from {
 				border-left: 0;
 				height: 2.6em;
+
 				@media screen and (max-width: 320px) {
 					height: 5.2em;
 				}
@@ -1495,6 +1499,7 @@ body.activity-permalink {
 				display: block;
 				float: right;
 				line-height: 2;
+
 				@media screen and (max-width: 320px) {
 					clear: both;
 					@include font-size(11);
@@ -1850,4 +1855,3 @@ body.activity-permalink {
 	 }
 	}
 }
-

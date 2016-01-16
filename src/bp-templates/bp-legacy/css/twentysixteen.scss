@@ -726,9 +726,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			// Undo BP floats to center avatars initially mobile up
 			.item-avatar {
 				margin-bottom: $spacing-val-sm;
+
 				@media screen and (min-width: 38.75em) {
 					margin-bottom: 0;
 				}
+
 				text-align: center;
 
 				a {border-bottom: 0;}
@@ -748,6 +750,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			.item {
 				overflow: hidden;
+
 				@media screen and (min-width: 46.25em) {
 					margin-left: 15%;
 				}
@@ -1042,6 +1045,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				a {
 					display: block;
 					margin-bottom: $spacing-val-xs;
+
 					@media screen and (min-width: 38.75em) {
 						display: inline-block;
 						margin-bottom: 0;
@@ -1087,6 +1091,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					@media screen and (min-width: 46.25em) {
 						@include font-size(20);
 					}
+
 					margin-bottom: $spacing-val-lg;
 					p {padding: $spacing-val-md;}
 				}
@@ -1358,6 +1363,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					@media screen and (min-width: 46.25em) {
 						@include font-size(16);
 					}
+
 					padding: 0.2em;
 				}
 			} // close item-actions
@@ -1569,6 +1575,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				background: $content-background;
 				padding: $spacing-val-md 0;
 			}
+
 			width: 100%;
 
 			#search-members-form {
@@ -1631,6 +1638,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			border: 1px solid rgba($border-color, 0.5);
 			float: left;
 			width: 100%;
+
 			@media screen and (min-width: 38.75em) {
 				width: 300px;
 			}
@@ -1874,6 +1882,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				td.bulk-select-check,
 				td.thread-from {
 					height: 3em;
+
 					@media screen and (max-width: 38.75em) {
 						height: 5.2em;
 					}
@@ -1913,6 +1922,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					display: block;
 					float: right;
 					line-height: 2;
+
 					@media screen and (max-width: 38.75em) {
 						clear: both;
 						@include font-size(11);

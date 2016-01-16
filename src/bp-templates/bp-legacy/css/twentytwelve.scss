@@ -649,9 +649,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			// Undo BP floats to center avatars initially mobile up
 			.item-avatar {
 				margin-bottom: $spacing-val-sm;
+
 				@media screen and (min-width: 37.500em) {
 					margin-bottom: 0;
 				}
+
 				text-align: center;
 
 				a {border-bottom: 0;}
@@ -677,6 +679,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				@media screen and (min-width: 61.5625em) {
 					margin-left: 15%;
 				}
+
 				overflow: hidden;
 
 				.item-meta {
@@ -1004,10 +1007,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					display: block;
 					@include font-size(14);
 					margin-bottom: $spacing-val-xs;
+
 					@media screen and (min-width: 37.500em) {
 						float: left;
 						margin-bottom: 0;
 					}
+
 					padding: 0.2em 0.5em;
 				}
 			}
@@ -1049,6 +1054,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					@media screen and (min-width: 46.25em) {
 						@include font-size(20);
 					}
+
 					margin-bottom: $spacing-val-lg;
 					p {padding: $spacing-val-md;}
 				}
@@ -1601,6 +1607,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				background: $content-background;
 				padding: $spacing-val-md 0;
 			}
+
 			width: 100%;
 
 			#search-members-form {
@@ -1658,6 +1665,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		.messages-options-nav {
 			float: left;
 			width: 100%;
+
 			@media screen and (min-width: 37.500em) {
 				width: 40%;
 			}
@@ -1935,6 +1943,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				td.bulk-select-check,
 				td.thread-from {
 					height: 3em;
+
 					@media screen and (max-width: 37.500em) {
 						height: 5.2em;
 					}
@@ -1974,6 +1983,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					display: block;
 					float: right;
 					line-height: 2;
+
 					@media screen and (max-width: 37.500em) {
 						clear: both;
 						@include font-size(11);
