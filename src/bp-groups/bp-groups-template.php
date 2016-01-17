@@ -461,39 +461,53 @@ class BP_Groups_Template {
  *
  * @param array|string $args {
  *     Array of parameters. All items are optional.
- *     @type string       $type            Shorthand for certain orderby/
- *                                         order combinations. 'newest',
- *                                         'active', 'popular', 'alphabetical',
- *                                         'random'. When present, will override
- *                                         orderby and order params. Default: null.
- *     @type string       $orderby         Property to sort by.
- *                                         'date_created', 'last_activity', 'total_member_count',
- *                                         'name', 'random'. Default: 'date_created'.
- *     @type string       $order           Sort order. 'ASC' or 'DESC'.
- *                                         Default: 'DESC'.
- *     @type int          $per_page        Number of items to return per page
- *                                         of results. Default: null (no limit).
- *     @type int          $page            Page offset of results to return.
- *                                         Default: null (no limit).
- *     @type int          $user_id         If provided, results will be limited
- *                                         to groups of which the specified user
- *                                         is a member. Default: null.
- *     @type string       $search_terms    If provided, only groups whose names or descriptions match the search terms
- *                                         will be returned. Default: value of `$_REQUEST['groups_search']` or
- *                                         `$_REQUEST['s']`, if present. Otherwise false.
- *     @type array        $meta_query      An array of meta_query conditions.
- *                                         See {@link WP_Meta_Query::queries} for description.
- *     @type array|string $include         Array or comma-separated list of
- *                                         group IDs. Results will be limited
- *                                         to groups within the list. Default: false.
- *     @type bool         $populate_extras Whether to fetch additional information
- *                                         (such as member count) about groups.
- *                                         Default: true.
- *     @type array|string $exclude         Array or comma-separated list of group IDs.
- *                                         Results will exclude the listed groups.
- *                                         Default: false.
- *     @type bool         $show_hidden     Whether to include hidden groups in
- *                                         results. Default: false.
+ *     @type string       $type              Shorthand for certain orderby/
+ *                                           order combinations. 'newest',
+ *                                           'active', 'popular', 'alphabetical',
+ *                                           'random'. When present, will override
+ *                                           orderby and order params. Default: null.
+ *     @type string       $order             Sort order. 'ASC' or 'DESC'.
+ *                                           Default: 'DESC'.
+ *     @type string       $orderby           Property to sort by.
+ *                                           'date_created', 'last_activity', 'total_member_count',
+ *                                           'name', 'random'. Default: 'last_activity'.
+ *     @type int          $page              Page offset of results to return.
+ *                                           Default: 1 (first page of results).
+ *     @type int          $per_page          Number of items to return per page
+ *                                           of results. Default: 20.
+ *     @type int          $max               Does NOT affect query. May change the
+ *                                           reported number of total groups found,
+ *                                           but not the actual number of found
+ *                                           groups. Default: false.
+ *     @type bool         $show_hidden       Whether to include hidden groups in
+ *                                           results. Default: false.
+ *     @type string       $page_arg          Query argument used for pagination.
+ *                                           Default: 'grpage'.
+ *     @type int          $user_id           If provided, results will be limited
+ *                                           to groups of which the specified user
+ *                                           is a member.
+ *                                           Default: value of bp_displayed_user_id().
+ *     @type string       $slug              If provided, only the group with the
+ *                                           matching slug will be returned.
+ *                                           Default: false.
+ *     @type string       $search_terms      If provided, only groups whose names or
+ *                                           descriptions match the search terms will
+ *                                           be returned. Default: value of
+ *                                           `$_REQUEST['groups_search']` or
+ *                                           `$_REQUEST['s']`, if present. Otherwise false.
+ *     @type array        $meta_query        An array of meta_query conditions.
+ *                                           See {@link WP_Meta_Query::queries} for description.
+ *     @type array|string $include           Array or comma-separated list of
+ *                                           group IDs. Results will be limited
+ *                                           to groups within the list. Default: false.
+ *     @type bool         $populate_extras   Whether to fetch additional information
+ *                                           (such as member count) about groups.
+ *                                           Default: true.
+ *     @type array|string $exclude           Array or comma-separated list of group IDs.
+ *                                           Results will exclude the listed groups.
+ *                                           Default: false.
+ *     @type bool         $update_meta_cache Whether to fetch groupmeta for queried groups.
+ *                                           Default: true.
  * }
  * @return bool True if there are groups to display that match the params
  */
