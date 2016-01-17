@@ -893,8 +893,6 @@ function groups_is_user_creator( $user_id, $group_id ) {
 /**
  * Post an Activity status update affiliated with a group.
  *
- * @todo Should bail out when the Activity component is not active.
- *
  * @param array|string $args {
  *     Array of arguments.
  *     @type string $content  The content of the update.
@@ -903,9 +901,13 @@ function groups_is_user_creator( $user_id, $group_id ) {
  *     @type int    $group_id Optional. ID of the group to be affiliated with the
  *                            update. Default: ID of the current group.
  * }
- * @return int
+ * @return int|bool Returns the ID of the new activity item on success, or false on failure.
  */
 function groups_post_update( $args = '' ) {
+	if ( ! bp_is_active( 'activity' ) ) {
+		return false;
+	}
+
 	$bp = buddypress();
 
 	$defaults = array(
