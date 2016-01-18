@@ -43,6 +43,8 @@ class BP_Activity_Feed {
 	 * updated using PHP 5.2+ methods.
 	 *
 	 * @see BP_Feed::__construct() This is where $data is added.
+	 *
+	 * @since 1.8.0
 	 * @var array
 	 */
 	protected $data;
@@ -50,8 +52,9 @@ class BP_Activity_Feed {
 	/**
 	 * Magic method for checking the existence of a certain data variable.
 	 *
-	 * @param string $key Property to check.
+	 * @since 1.8.0
 	 *
+	 * @param string $key Property to check.
 	 * @return bool Whether or not data variable exists.
 	 */
 	public function __isset( $key ) { return isset( $this->data[$key] ); }
@@ -59,8 +62,9 @@ class BP_Activity_Feed {
 	/**
 	 * Magic method for getting a certain data variable.
 	 *
-	 * @param string $key Property to get.
+	 * @since 1.8.0
 	 *
+	 * @param string $key Property to get.
 	 * @return mixed Data in variable if available or null.
 	 */
 	public function __get( $key ) { return isset( $this->data[$key] ) ? $this->data[$key] : null; }
@@ -77,6 +81,8 @@ class BP_Activity_Feed {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 1.8.0
 	 *
 	 * @param array $args Optional.
 	 */
@@ -175,6 +181,8 @@ class BP_Activity_Feed {
 
 	/**
 	 * Setup and validate the class properties.
+	 *
+	 * @since 1.8.0
 	 */
 	protected function setup_properties() {
 		$this->id               = sanitize_title( $this->id );
@@ -198,6 +206,8 @@ class BP_Activity_Feed {
 	 *
 	 * Currently, these hooks are used to maintain backwards compatibility with
 	 * the RSS feeds previous to BP 1.8.
+	 *
+	 * @since 1.8.0
 	 */
 	protected function setup_hooks() {
 		add_action( 'bp_activity_feed_rss_attributes',   array( $this, 'backpat_rss_attributes' ) );
@@ -209,6 +219,8 @@ class BP_Activity_Feed {
 
 	/**
 	 * Fire a hook to ensure backward compatibility for RSS attributes.
+	 *
+	 * @since 1.8.0
 	 */
 	public function backpat_rss_attributes() {
 
@@ -224,6 +236,8 @@ class BP_Activity_Feed {
 
 	/**
 	 * Fire a hook to ensure backward compatibility for channel elements.
+	 *
+	 * @since 1.8.0
 	 */
 	public function backpat_channel_elements() {
 
@@ -239,6 +253,8 @@ class BP_Activity_Feed {
 
 	/**
 	 * Fire a hook to ensure backward compatibility for item elements.
+	 *
+	 * @since 1.8.0
 	 */
 	public function backpat_item_elements() {
 		switch ( $this->id ) {
@@ -270,6 +286,8 @@ class BP_Activity_Feed {
 
 	/**
 	 * Output the feed's item content.
+	 *
+	 * @since 1.8.0
 	 */
 	protected function feed_content() {
 		bp_activity_content_body();
@@ -373,6 +391,8 @@ class BP_Activity_Feed {
 
 	/**
 	 * Output the RSS feed.
+	 *
+	 * @since 1.8.0
 	 */
 	protected function output() {
 		$this->http_headers();

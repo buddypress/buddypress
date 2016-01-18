@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * in $activity_ids and adds it to the WP cache. This improves efficiency when
  * using querying activitymeta inline.
  *
+ * @since 1.6.0
+ *
  * @param int|string|array|bool $activity_ids Accepts a single activity ID, or a comma-
  *                                            separated list or array of activity ids.
  */

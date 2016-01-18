@@ -118,7 +118,7 @@ class BP_Activity_Template {
 	/**
 	 * The loop iterator.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $current_activity = -1;
@@ -126,7 +126,7 @@ class BP_Activity_Template {
 	/**
 	 * The activity count.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $activity_count;
@@ -134,7 +134,7 @@ class BP_Activity_Template {
 	/**
 	 * The total activity count.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $total_activity_count;
@@ -142,7 +142,7 @@ class BP_Activity_Template {
 	/**
 	 * Array of activities located by the query.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var array
 	 */
 	public $activities;
@@ -150,7 +150,7 @@ class BP_Activity_Template {
 	/**
 	 * The activity object currently being iterated on.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var object
 	 */
 	public $activity;
@@ -158,7 +158,7 @@ class BP_Activity_Template {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -174,7 +174,7 @@ class BP_Activity_Template {
 	/**
 	 * The page number being requested.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_page;
@@ -182,7 +182,7 @@ class BP_Activity_Template {
 	/**
 	 * The number of items being requested per page.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_num;
@@ -190,7 +190,7 @@ class BP_Activity_Template {
 	/**
 	 * An HTML string containing pagination links.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $pag_links;
@@ -198,7 +198,7 @@ class BP_Activity_Template {
 	/**
 	 * The displayed user's full name.
 	 *
-	 * @since 1.5.0
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $full_name;
@@ -208,6 +208,8 @@ class BP_Activity_Template {
 	 *
 	 * The arguments passed to this class constructor are of the same
 	 * format as {@link BP_Activity_Activity::get()}.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @see BP_Activity_Activity::get() for a description of the argument
 	 *      structure, as well as default values.
@@ -394,6 +396,8 @@ class BP_Activity_Template {
 	/**
 	 * Whether there are activity items available in the loop.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @see bp_has_activities()
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
@@ -409,6 +413,8 @@ class BP_Activity_Template {
 	/**
 	 * Set up the next activity item and iterate index.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return object The next activity item to iterate over.
 	 */
 	public function next_activity() {
@@ -420,6 +426,8 @@ class BP_Activity_Template {
 
 	/**
 	 * Rewind the posts and reset post index.
+	 *
+	 * @since 1.0.0
 	 */
 	public function rewind_activities() {
 		$this->current_activity = -1;
@@ -434,6 +442,8 @@ class BP_Activity_Template {
 	 * This method is used by {@link bp_activities()} as part of the while loop
 	 * that controls iteration inside the activities loop, eg:
 	 *     while ( bp_activities() ) { ...
+	 *
+	 * @since 1.0.0
 	 *
 	 * @see bp_activities()
 	 *
@@ -467,6 +477,8 @@ class BP_Activity_Template {
 	 * Used by {@link bp_the_activity()} to set up the current activity item
 	 * data while looping, so that template tags used during that iteration
 	 * make reference to the current activity item.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @see bp_the_activity()
 	 */

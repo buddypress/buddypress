@@ -1255,6 +1255,8 @@ add_action( 'bp_register_activity_actions', 'bp_activity_register_activity_actio
 /**
  * Generate an activity action string for an activity item.
  *
+ * @since 2.0.0
+ *
  * @param object $activity Activity data object.
  * @return string|bool Returns false if no callback is found, otherwise returns
  *                     the formatted action string.

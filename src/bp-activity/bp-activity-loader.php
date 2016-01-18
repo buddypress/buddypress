@@ -389,6 +389,8 @@ class BP_Activity_Component extends BP_Component {
 
 /**
  * Bootstrap the Activity component.
+ *
+ * @since 1.6.0
  */
 function bp_setup_activity() {
 	buddypress()->activity = new BP_Activity_Component();

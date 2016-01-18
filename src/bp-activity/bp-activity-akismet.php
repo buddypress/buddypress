@@ -22,7 +22,6 @@ class BP_Akismet {
 	 * The activity last marked as spam.
 	 *
 	 * @since 1.6.0
-	 *
 	 * @var BP_Activity_Activity
 	 */
 	protected $last_activity = null;
