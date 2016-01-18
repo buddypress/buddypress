@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register activity actions for the Groups component.
  *
+ * @since 1.1.0
+ *
  * @return bool|null False on failure.
  */
 function groups_register_activity_actions() {
@@ -269,7 +271,6 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_groups_prefetch_activity_obj
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- *
  * @return array
  */
 function bp_groups_filter_activity_scope( $retval = array(), $filter = array() ) {
@@ -331,6 +332,8 @@ add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scop
  * A wrapper for {@link bp_activity_add()} that provides some Groups-specific
  * defaults.
  *
+ * @since 1.0.0
+ *
  * @see bp_activity_add() for more detailed description of parameters and
  *      return values.
  *
@@ -384,6 +387,8 @@ function groups_record_activity( $args = '' ) {
 
 /**
  * Update the last_activity meta value for a given group.
+ *
+ * @since 1.0.0
  *
  * @param int $group_id Optional. The ID of the group whose last_activity is
  *                      being updated. Default: the current group's ID.

@@ -113,6 +113,8 @@ function bp_groups_filter_kses( $content = '' ) {
 
 /**
  * Filter bbPress query SQL when on group pages or on forums directory.
+ *
+ * @since 1.1.0
  */
 function groups_add_forum_privacy_sql() {
 	add_filter( 'get_topics_fields', 'groups_add_forum_fields_sql' );
@@ -124,6 +126,8 @@ add_filter( 'bbpress_init', 'groups_add_forum_privacy_sql' );
 /**
  * Add fields to bbPress query for group-specific data.
  *
+ * @since 1.1.0
+ *
  * @param string $sql SQL statement to amend.
  * @return string
  */
@@ -134,6 +138,8 @@ function groups_add_forum_fields_sql( $sql = '' ) {
 
 /**
  * Add JOINed tables to bbPress query for group-specific data.
+ *
+ * @since 1.1.0
  *
  * @param string $sql SQL statement to amend.
  * @return string
@@ -149,8 +155,9 @@ function groups_add_forum_tables_sql( $sql = '' ) {
 /**
  * Add WHERE clauses to bbPress query for group-specific data and access protection.
  *
- * @param string $sql SQL Statement to amend.
+ * @since 1.1.0
  *
+ * @param string $sql SQL Statement to amend.
  * @return string
  */
 function groups_add_forum_where_sql( $sql = '' ) {
@@ -201,10 +208,11 @@ function groups_add_forum_where_sql( $sql = '' ) {
 /**
  * Modify bbPress caps for bp-forums.
  *
+ * @since 1.1.0
+ *
  * @param bool   $value Original value for current_user_can check.
  * @param string $cap   Capability checked.
  * @param array  $args  Arguments for the caps.
- *
  * @return bool
  */
 function groups_filter_bbpress_caps( $value, $cap, $args ) {

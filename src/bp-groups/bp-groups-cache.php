@@ -24,6 +24,8 @@ defined( 'ABSPATH' ) || exit;
  * $group_ids and adds it to WP cache. This improves efficiency when using
  * groupmeta within a loop context.
  *
+ * @since 1.6.0
+ *
  * @param int|string|array|bool $group_ids Accepts a single group_id, or a
  *                                         comma-separated list or array of
  *                                         group ids.
@@ -45,6 +47,8 @@ function bp_groups_update_meta_cache( $group_ids = false ) {
 
 /**
  * Clear the cached group count.
+ *
+ * @since 1.0.0
  *
  * @param int $group_id Not used.
  */
@@ -163,6 +167,8 @@ add_action( 'groups_send_invites', 'bp_groups_clear_invite_count_on_send', 10, 2
 
 /**
  * Clear a user's cached group count.
+ *
+ * @since 1.2.0
  *
  * @param int $group_id The group ID. Not used in this function.
  * @param int $user_id  The user ID.

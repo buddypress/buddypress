@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Creates our Groups component.
+ *
+ * @since 1.5.0
  */
 class BP_Groups_Component extends BP_Component {
 
@@ -688,6 +690,8 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Set up the component entries in the WordPress Admin Bar.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
 	 *      parameter array.
 	 *
@@ -751,6 +755,8 @@ class BP_Groups_Component extends BP_Component {
 
 	/**
 	 * Set up the title for pages and <title>.
+	 *
+	 * @since 1.5.0
 	 */
 	public function setup_title() {
 

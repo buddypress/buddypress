@@ -254,6 +254,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * We only override BP_User_Query's native ordering in case of the
 	 * 'last_joined' and 'first_joined' $type parameters.
 	 *
+	 * @since 1.8.1
+	 *
 	 * @param BP_User_Query $query BP_User_Query object.
 	 */
 	public function set_orderby( $query ) {

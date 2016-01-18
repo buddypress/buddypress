@@ -92,6 +92,10 @@ add_action( 'bp_actions', 'bp_groups_group_access_protection' );
 
 /**
  * Catch and process group creation form submissions.
+ *
+ * @since 1.2.0
+ *
+ * @return bool
  */
 function groups_action_create_group() {
 
@@ -356,6 +360,10 @@ add_action( 'bp_actions', 'groups_action_create_group' );
 
 /**
  * Catch and process "Join Group" button clicks.
+ *
+ * @since 1.0.0
+ *
+ * @return bool
  */
 function groups_action_join_group() {
 
@@ -409,6 +417,8 @@ add_action( 'bp_actions', 'groups_action_join_group' );
  * another function handles this. See {@link bp_legacy_theme_ajax_joinleave_group()}.
  *
  * @since 1.2.4
+ *
+ * @return bool
  */
 function groups_action_leave_group() {
 	if ( ! bp_is_single_item() || ! bp_is_groups_component() || ! bp_is_current_action( 'leave-group' ) ) {
@@ -452,6 +462,8 @@ add_action( 'bp_actions', 'groups_action_leave_group' );
 /**
  * Sort the group creation steps.
  *
+ * @since 1.1.0
+ *
  * @return false|null False on failure.
  */
 function groups_action_sort_creation_steps() {
@@ -488,6 +500,8 @@ function groups_action_sort_creation_steps() {
 
 /**
  * Catch requests for a random group page (example.com/groups/?random-group) and redirect.
+ *
+ * @since 1.2.0
  */
 function groups_action_redirect_to_random_group() {
 

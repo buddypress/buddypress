@@ -84,8 +84,6 @@ defined( 'ABSPATH' ) || exit;
  * Prior to BuddyPress 1.7, group extension configurations were set slightly
  * differently. The legacy method is still supported, though deprecated.
  *
- * @package BuddyPress
- * @subpackage Groups
  * @since 1.1.0
  */
 class BP_Group_Extension {
@@ -143,6 +141,7 @@ class BP_Group_Extension {
 	/**
 	 * The slug of the current extension.
 	 *
+	 * @since 1.1.0
 	 * @var string
 	 */
 	public $slug = '';
@@ -150,6 +149,7 @@ class BP_Group_Extension {
 	/**
 	 * The translatable name of the current extension.
 	 *
+	 * @since 1.1.0
 	 * @var string
 	 */
 	public $name = '';
@@ -157,6 +157,7 @@ class BP_Group_Extension {
 	/**
 	 * The visibility of the extension tab. 'public' or 'private'.
 	 *
+	 * @since 1.1.0
 	 * @var string
 	 */
 	public $visibility = 'public';
@@ -164,6 +165,7 @@ class BP_Group_Extension {
 	/**
 	 * The numeric position of the main nav item.
 	 *
+	 * @since 1.1.0
 	 * @var int
 	 */
 	public $nav_item_position = 81;
@@ -171,6 +173,7 @@ class BP_Group_Extension {
 	/**
 	 * Whether to show the nav item.
 	 *
+	 * @since 1.1.0
 	 * @var bool
 	 */
 	public $enable_nav_item = true;
@@ -194,6 +197,7 @@ class BP_Group_Extension {
 	/**
 	 * The text of the nav item. Defaults to self::name.
 	 *
+	 * @since 1.1.0
 	 * @var string
 	 */
 	public $nav_item_name = '';
@@ -203,6 +207,7 @@ class BP_Group_Extension {
 	 *
 	 * Default: 'groups_custom_group_boxes'.
 	 *
+	 * @since 1.1.0
 	 * @var string
 	 */
 	public $display_hook = 'groups_custom_group_boxes';
@@ -212,6 +217,7 @@ class BP_Group_Extension {
 	 *
 	 * Default: 'groups/single/plugins'.
 	 *
+	 * @since 1.1.0
 	 * @var string
 	 */
 	public $template_file = 'groups/single/plugins';
@@ -272,12 +278,16 @@ class BP_Group_Extension {
 	/**
 	 * The content of the group tab.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @param int|null $group_id ID of the group to display.
 	 */
 	public function display( $group_id = null ) {}
 
 	/**
-	 * Content displayed in a widget sidebar, if applicable
+	 * Content displayed in a widget sidebar, if applicable.
+	 *
+	 * @since 1.1.0
 	 */
 	public function widget_display() {}
 
@@ -651,6 +661,8 @@ class BP_Group_Extension {
 	/**
 	 * Check whether the current user meets an access condition.
 	 *
+	 * @since 2.1.0
+	 *
 	 * @param string $access_condition 'anyone', 'loggedin', 'member',
 	 *                                 'mod', 'admin' or 'noone'.
 	 * @return bool
@@ -758,6 +770,8 @@ class BP_Group_Extension {
 
 	/**
 	 * Hook the main display method, and loads the template file.
+	 *
+	 * @since 1.1.0
 	 */
 	public function _display_hook() {
 		add_action( 'bp_template_content', array( &$this, 'call_display' ) );
@@ -1668,6 +1682,8 @@ class BP_Group_Extension {
 
 /**
  * Register a new Group Extension.
+ *
+ * @since 1.1.0
  *
  * @param string $group_extension_class Name of the Extension class.
  * @return false|null Returns false on failure, otherwise null.

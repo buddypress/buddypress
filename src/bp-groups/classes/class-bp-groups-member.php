@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage GroupsClasses
- * @since 1.0.0
+ * @since 1.6.0
  */
 
 // Exit if accessed directly.
@@ -18,6 +18,7 @@ class BP_Groups_Member {
 	/**
 	 * ID of the membership.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $id;
@@ -25,6 +26,7 @@ class BP_Groups_Member {
 	/**
 	 * ID of the group associated with the membership.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $group_id;
@@ -32,6 +34,7 @@ class BP_Groups_Member {
 	/**
 	 * ID of the user associated with the membership.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $user_id;
@@ -39,6 +42,7 @@ class BP_Groups_Member {
 	/**
 	 * ID of the user whose invitation initiated the membership.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $inviter_id;
@@ -46,6 +50,7 @@ class BP_Groups_Member {
 	/**
 	 * Whether the member is an admin of the group.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $is_admin;
@@ -53,6 +58,7 @@ class BP_Groups_Member {
 	/**
 	 * Whether the member is a mod of the group.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $is_mod;
@@ -60,6 +66,7 @@ class BP_Groups_Member {
 	/**
 	 * Whether the member is banned from the group.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $is_banned;
@@ -69,6 +76,7 @@ class BP_Groups_Member {
 	 *
 	 * Eg, 'Group Admin'.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $user_title;
@@ -78,6 +86,7 @@ class BP_Groups_Member {
 	 *
 	 * This value is updated when, eg, invitations are accepted.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	var $date_modified;
@@ -85,6 +94,7 @@ class BP_Groups_Member {
 	/**
 	 * Whether the membership has been confirmed.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $is_confirmed;
@@ -95,6 +105,7 @@ class BP_Groups_Member {
 	 * In BP core, these are limited to the optional message users can
 	 * include when requesting membership to a private group.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	var $comments;
@@ -107,6 +118,7 @@ class BP_Groups_Member {
 	 * Invites), but the Send button has not been pressed, so the
 	 * invitee has not yet been notified.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	var $invite_sent;
@@ -114,12 +126,15 @@ class BP_Groups_Member {
 	/**
 	 * WP_User object representing the membership's user.
 	 *
+	 * @since 1.6.0
 	 * @var WP_User
 	 */
 	var $user;
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int      $user_id  Optional. Along with $group_id, can be used to
 	 *                           look up a membership.
@@ -153,6 +168,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Populate the object's properties.
+	 *
+	 * @since 1.6.0
 	 */
 	public function populate() {
 		global $wpdb;
@@ -187,6 +204,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Save the membership data to the database.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @return bool True on success, false on failure.
 	 */
@@ -262,6 +281,8 @@ class BP_Groups_Member {
 	/**
 	 * Promote a member to a new status.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param string $status The new status. 'mod' or 'admin'.
 	 * @return bool True on success, false on failure.
 	 */
@@ -284,6 +305,8 @@ class BP_Groups_Member {
 	/**
 	 * Demote membership to Member status (non-admin, non-mod).
 	 *
+	 * @since 1.6.0
+	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function demote() {
@@ -296,6 +319,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Ban the user from the group.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @return bool True on success, false on failure.
 	 */
@@ -312,6 +337,8 @@ class BP_Groups_Member {
 	/**
 	 * Unban the user from the group.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function unban() {
@@ -325,6 +352,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Mark a pending invitation as accepted.
+	 *
+	 * @since 1.6.0
 	 */
 	public function accept_invite() {
 		$this->inviter_id    = 0;
@@ -334,6 +363,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Confirm a membership request.
+	 *
+	 * @since 1.6.0
 	 */
 	public function accept_request() {
 		$this->is_confirmed = 1;
@@ -342,6 +373,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Remove the current membership.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @return bool True on success, false on failure.
 	 */
@@ -410,6 +443,8 @@ class BP_Groups_Member {
 	/**
 	 * Delete a membership, based on user + group IDs.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
 	 * @return True on success, false on failure.
@@ -452,6 +487,8 @@ class BP_Groups_Member {
 	/**
 	 * Get the IDs of the groups of which a specified user is a member.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int      $user_id ID of the user.
 	 * @param int|bool $limit   Optional. Max number of results to return.
 	 *                          Default: false (no limit).
@@ -487,6 +524,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Get the IDs of the groups of which a specified user is a member, sorted by the date joined.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int         $user_id ID of the user.
 	 * @param int|bool    $limit   Optional. Max number of results to return.
@@ -529,6 +568,8 @@ class BP_Groups_Member {
 	/**
 	 * Get the IDs of the groups of which a specified user is an admin.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int         $user_id ID of the user.
 	 * @param int|bool    $limit   Optional. Max number of results to return.
 	 *                             Default: false (no limit).
@@ -569,6 +610,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Get the IDs of the groups of which a specified user is a moderator.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int         $user_id ID of the user.
 	 * @param int|bool    $limit   Optional. Max number of results to return.
@@ -611,7 +654,7 @@ class BP_Groups_Member {
 	/**
 	 * Get the groups of which a specified user is banned from.
 	 *
-	 * @since 2.4
+	 * @since 2.4.0
 	 *
 	 * @param int         $user_id ID of the user.
 	 * @param int|bool    $limit   Optional. Max number of results to return.
@@ -655,6 +698,8 @@ class BP_Groups_Member {
 	/**
 	 * Get the count of groups of which the specified user is a member.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $user_id Optional. Default: ID of the displayed user.
 	 * @return int Group count.
 	 */
@@ -675,6 +720,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Get a user's outstanding group invitations.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int               $user_id ID of the invitee.
 	 * @param int|bool          $limit   Optional. Max number of results to return.
@@ -733,6 +780,8 @@ class BP_Groups_Member {
 	/**
 	 * Check whether a user has an outstanding invitation to a given group.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int    $user_id  ID of the potential invitee.
 	 * @param int    $group_id ID of the group.
 	 * @param string $type     If 'sent', results are limited to those invitations
@@ -756,6 +805,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Delete an invitation, by specifying user ID and group ID.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @global WPDB $wpdb
 	 *
@@ -786,6 +837,8 @@ class BP_Groups_Member {
 	/**
 	 * Delete an unconfirmed membership request, by user ID and group ID.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
 	 * @return int Number of records deleted.
@@ -803,6 +856,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Check whether a user is an admin of a given group.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
@@ -822,6 +877,8 @@ class BP_Groups_Member {
 	/**
 	 * Check whether a user is a mod of a given group.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
 	 * @return mixed
@@ -840,6 +897,8 @@ class BP_Groups_Member {
 	/**
 	 * Check whether a user is a member of a given group.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
 	 * @return mixed
@@ -857,6 +916,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Check whether a user is banned from a given group.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
@@ -897,6 +958,8 @@ class BP_Groups_Member {
 	/**
 	 * Check whether a user has an outstanding membership request for a given group.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
 	 * @return int|null ID of the membership if found, otherwise false.
@@ -914,6 +977,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Get a list of randomly selected IDs of groups that the member belongs to.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $user_id      ID of the user.
 	 * @param int $total_groups Max number of group IDs to return. Default: 5.
@@ -935,6 +1000,8 @@ class BP_Groups_Member {
 	/**
 	 * Get the IDs of all a given group's members.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $group_id ID of the group.
 	 * @return array IDs of all group members.
 	 */
@@ -948,6 +1015,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Get a list of all a given group's admins.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $group_id ID of the group.
 	 * @return array Info about group admins (user_id + date_modified).
@@ -970,6 +1039,8 @@ class BP_Groups_Member {
 	/**
 	 * Get a list of all a given group's moderators.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $group_id ID of the group.
 	 * @return array Info about group mods (user_id + date_modified).
 	 */
@@ -983,6 +1054,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Get the IDs users with outstanding membership requests to the group.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $group_id ID of the group.
 	 * @return array IDs of users with outstanding membership requests.
@@ -998,7 +1071,7 @@ class BP_Groups_Member {
 	/**
 	 * Get members of a group.
 	 *
-	 * @deprecated 1.8.0
+	 * @deprecated 1.6.0
 	 *
 	 * @param int        $group_id            ID of the group being queried for.
 	 * @param bool|int   $limit               Max amount to return.
@@ -1089,6 +1162,8 @@ class BP_Groups_Member {
 
 	/**
 	 * Delete all memberships for a given group.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $group_id ID of the group.
 	 * @return int Number of records deleted.

@@ -11,7 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Register widgets for groups component
+ * Register widgets for groups component.
+ *
+ * @since 1.0.0
  */
 function groups_register_widgets() {
 	add_action('widgets_init', create_function('', 'return register_widget("BP_Groups_Widget");') );
@@ -19,12 +21,16 @@ function groups_register_widgets() {
 add_action( 'bp_register_widgets', 'groups_register_widgets' );
 
 /**
- * GROUPS WIDGET
+ * Groups widget.
+ *
+ * @since 1.0.3
  */
 class BP_Groups_Widget extends WP_Widget {
 
 	/**
 	 * Working as a group, we get things done better.
+	 *
+	 * @since 1.0.3
 	 */
 	public function __construct() {
 		$widget_ops = array(
@@ -41,6 +47,8 @@ class BP_Groups_Widget extends WP_Widget {
 
 	/**
 	 * Extends our frontend output method.
+	 *
+	 * @since 1.0.3
 	 *
 	 * @param array $args     Array of arguments for the widget.
 	 * @param array $instance Widget instance data.
@@ -158,6 +166,8 @@ class BP_Groups_Widget extends WP_Widget {
 	/**
 	 * Extends our update method.
 	 *
+	 * @since 1.0.3
+	 *
 	 * @param array $new_instance New instance data.
 	 * @param array $old_instance Original instance data.
 	 * @return array
@@ -175,6 +185,8 @@ class BP_Groups_Widget extends WP_Widget {
 
 	/**
 	 * Extends our form method.
+	 *
+	 * @since 1.0.3
 	 *
 	 * @param array $instance Current instance.
 	 * @return mixed
@@ -212,6 +224,11 @@ class BP_Groups_Widget extends WP_Widget {
 	}
 }
 
+/**
+ * AJAX callback for the Groups List widget.
+ *
+ * @since 1.0.0
+ */
 function groups_ajax_widget_groups_list() {
 
 	check_ajax_referer( 'groups_widget_groups_list' );

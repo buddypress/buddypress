@@ -12,12 +12,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * BuddyPress Group object.
+ *
+ * @since 1.6.0
  */
 class BP_Groups_Group {
 
 	/**
 	 * ID of the group.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	public $id;
@@ -25,6 +28,7 @@ class BP_Groups_Group {
 	/**
 	 * User ID of the group's creator.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	public $creator_id;
@@ -32,6 +36,7 @@ class BP_Groups_Group {
 	/**
 	 * Name of the group.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	public $name;
@@ -39,6 +44,7 @@ class BP_Groups_Group {
 	/**
 	 * Group slug.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	public $slug;
@@ -46,6 +52,7 @@ class BP_Groups_Group {
 	/**
 	 * Group description.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	public $description;
@@ -55,6 +62,7 @@ class BP_Groups_Group {
 	 *
 	 * Core statuses are 'public', 'private', and 'hidden'.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	public $status;
@@ -62,6 +70,7 @@ class BP_Groups_Group {
 	/**
 	 * Should (legacy) bbPress forums be enabled for this group?
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	public $enable_forum;
@@ -69,6 +78,7 @@ class BP_Groups_Group {
 	/**
 	 * Date the group was created.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	public $date_created;
@@ -76,6 +86,7 @@ class BP_Groups_Group {
 	/**
 	 * Data about the group's admins.
 	 *
+	 * @since 1.6.0
 	 * @var array
 	 */
 	public $admins;
@@ -83,6 +94,7 @@ class BP_Groups_Group {
 	/**
 	 * Data about the group's moderators.
 	 *
+	 * @since 1.6.0
 	 * @var array
 	 */
 	public $mods;
@@ -90,6 +102,7 @@ class BP_Groups_Group {
 	/**
 	 * Total count of group members.
 	 *
+	 * @since 1.6.0
 	 * @var int
 	 */
 	public $total_member_count;
@@ -145,6 +158,8 @@ class BP_Groups_Group {
 	/**
 	 * Constructor method.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int|null $id   Optional. If the ID of an existing group is provided,
 	 *                       the object will be pre-populated with info about that group.
 	 * @param array    $args {
@@ -167,6 +182,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Set up data about the current group.
+	 *
+	 * @since 1.6.0
 	 */
 	public function populate() {
 		global $wpdb;
@@ -250,6 +267,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Save the current group to the database.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @return bool True on success, false on failure.
 	 */
@@ -365,6 +384,8 @@ class BP_Groups_Group {
 	/**
 	 * Delete the current group.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function delete() {
@@ -409,6 +430,8 @@ class BP_Groups_Group {
 	/**
 	 * Get whether a group exists for a given slug.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param string      $slug       Slug to check.
 	 * @param string|bool $table_name Optional. Name of the table to check
 	 *                                against. Default: $bp->groups->table_name.
@@ -431,6 +454,8 @@ class BP_Groups_Group {
 	 *
 	 * Alias of {@link BP_Groups_Group::group_exists()}.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param string $slug See {@link BP_Groups_Group::group_exists()}.
 	 * @return string|null See {@link BP_Groups_Group::group_exists()}.
 	 */
@@ -440,6 +465,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Get IDs of users with outstanding invites to a given group from a specified user.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $user_id ID of the inviting user.
 	 * @param int $group_id ID of the group.
@@ -456,6 +483,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Get a list of a user's groups, filtered by a search string.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param string   $filter  Search term. Matches against 'name' and
 	 *                          'description' fields.
@@ -503,6 +532,8 @@ class BP_Groups_Group {
 	/**
 	 * Get a list of groups, filtered by a search string.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param string      $filter  Search term. Matches against 'name' and
 	 *                             'description' fields.
 	 * @param int|null    $limit   Optional. The max number of results to return.
@@ -547,6 +578,8 @@ class BP_Groups_Group {
 	/**
 	 * Check for the existence of a slug.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param string $slug Slug to check.
 	 * @return string|null The slug, if found. Otherwise null.
 	 */
@@ -561,6 +594,8 @@ class BP_Groups_Group {
 	/**
 	 * Get the slug for a given group ID.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $group_id ID of the group.
 	 * @return string|null The slug, if found. Otherwise null.
 	 */
@@ -574,6 +609,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Check whether a given group has any members.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $group_id ID of the group.
 	 * @return bool True if the group has members, otherwise false.
@@ -594,6 +631,8 @@ class BP_Groups_Group {
 	/**
 	 * Check whether a group has outstanding membership requests.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $group_id ID of the group.
 	 * @return int|null The number of outstanding requests, or null if
 	 *                  none are found.
@@ -608,6 +647,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Get outstanding membership requests for a group.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int      $group_id ID of the group.
 	 * @param int|null $limit    Optional. Max number of results to return.
@@ -640,6 +681,8 @@ class BP_Groups_Group {
 	 *
 	 * @see WP_Meta_Query::queries for a description of the 'meta_query'
 	 *      parameter format.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param array $args {
 	 *     Array of parameters. All items are optional.
@@ -1023,6 +1066,8 @@ class BP_Groups_Group {
 	/**
 	 * Get a list of groups, sorted by those that have the most legacy forum topics.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int|null          $limit           Optional. The max number of results to return.
 	 *                                           Default: null (no limit).
 	 * @param int|null          $page            Optional. The page offset of results to return.
@@ -1129,6 +1174,8 @@ class BP_Groups_Group {
 	/**
 	 * Get a list of groups, sorted by those that have the most legacy forum posts.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int|null          $limit           Optional. The max number of results to return.
 	 *                                           Default: null (no limit).
 	 * @param int|null          $page            Optional. The page offset of results to return.
@@ -1196,6 +1243,8 @@ class BP_Groups_Group {
 	/**
 	 * Get a list of groups whose names start with a given letter.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param string            $letter          The letter.
 	 * @param int|null          $limit           Optional. The max number of results to return.
 	 *                                           Default: null (no limit).
@@ -1262,6 +1311,8 @@ class BP_Groups_Group {
 	 * Get a list of random groups.
 	 *
 	 * Use BP_Groups_Group::get() with 'type' = 'random' instead.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int|null          $limit           Optional. The max number of results to return.
 	 *                                           Default: null (no limit).
@@ -1334,6 +1385,8 @@ class BP_Groups_Group {
 	 * Data fetched:
 	 *     - Logged-in user's status within each group (is_member,
 	 *       is_confirmed, is_pending, is_banned)
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param array        $paged_groups Array of groups.
 	 * @param string|array $group_ids    Array or comma-separated list of IDs matching
@@ -1412,6 +1465,8 @@ class BP_Groups_Group {
 	/**
 	 * Delete all invitations to a given group.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $group_id ID of the group whose invitations are being deleted.
 	 * @return int|null Number of rows records deleted on success, null on
 	 *                  failure.
@@ -1430,6 +1485,8 @@ class BP_Groups_Group {
 	 * Will include hidden groups in the count only if
 	 * current_user_can( 'bp_moderate' ).
 	 *
+	 * @since 1.6.0
+	 *
 	 * @return int Group count.
 	 */
 	public static function get_total_group_count() {
@@ -1446,6 +1503,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Get global count of forum topics in public groups (legacy forums).
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param string $type Optional. If 'unreplied', count will be limited to
 	 *                     those topics that have received no replies.
@@ -1480,6 +1539,8 @@ class BP_Groups_Group {
 
 	/**
 	 * Get the member count for a group.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @param int $group_id Group ID.
 	 * @return int Count of confirmed members for the group.
