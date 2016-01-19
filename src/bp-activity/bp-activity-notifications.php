@@ -499,22 +499,24 @@ add_action( 'bp_activity_sent_mention_email', 'bp_activity_at_mention_add_notifi
  * Mark at-mention notifications as read when users visit their Mentions page.
  *
  * @since 1.5.0
+ * @since 2.5.0 Add the $user_id parameter
  *
+ * @param int $user_id The id of the user whose notifications are marked as read.
  * @uses bp_notifications_mark_all_notifications_by_type()
  */
-function bp_activity_remove_screen_notifications() {
+function bp_activity_remove_screen_notifications( $user_id = 0 ) {
 	if ( ! bp_is_active( 'notifications' ) ) {
 		return;
 	}
 
-	// Only mark read if you're looking at your own mentions.
-	if ( ! bp_is_my_profile() ) {
+	// Only mark read if the current user is looking at his own mentions.
+	if ( empty( $user_id ) || (int) $user_id !== (int) bp_loggedin_user_id() ) {
 		return;
 	}
 
-	bp_notifications_mark_notifications_by_type( bp_loggedin_user_id(), buddypress()->activity->id, 'new_at_mention' );
+	bp_notifications_mark_notifications_by_type( $user_id, buddypress()->activity->id, 'new_at_mention' );
 }
-add_action( 'bp_activity_screen_mentions', 'bp_activity_remove_screen_notifications' );
+add_action( 'bp_activity_clear_new_mentions', 'bp_activity_remove_screen_notifications', 10, 1 );
 
 /**
  * Mark at-mention notification as read when user visits the activity with the mention.

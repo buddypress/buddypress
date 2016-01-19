@@ -133,6 +133,15 @@ function bp_activity_find_mentions( $content ) {
 function bp_activity_clear_new_mentions( $user_id ) {
 	bp_delete_user_meta( $user_id, 'bp_new_mention_count' );
 	bp_delete_user_meta( $user_id, 'bp_new_mentions'      );
+
+	/**
+	 * Fires once mentions has been reset for a given user.
+	 *
+	 * @since  2.5.0
+	 *
+	 * @param  int $user_id The id of the user whose unread mentions are being reset.
+	 */
+	do_action( 'bp_activity_clear_new_mentions', $user_id );
 }
 
 /**
