@@ -482,7 +482,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 
 		// Remove the 'current' class from the 'All' link.
 		$views['all']        = str_replace( 'class="current"', '', $views['all'] );
-		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', esc_url( add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
+		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', esc_url( add_query_arg( 'page', 'bp-signups', network_admin_url( 'users.php' ) ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
 
 		return $views;
 	}
@@ -646,7 +646,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 				'signup_id' => $signup_object->id,
 				'action'    => 'resend',
 			),
-			bp_get_admin_url( 'users.php' )
+			network_admin_url( 'users.php' )
 		);
 
 		// Activate link.
@@ -656,7 +656,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 				'signup_id' => $signup_object->id,
 				'action'    => 'activate',
 			),
-			bp_get_admin_url( 'users.php' )
+			network_admin_url( 'users.php' )
 		);
 
 		// Delete link.
@@ -666,7 +666,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 				'signup_id' => $signup_object->id,
 				'action'    => 'delete',
 			),
-			bp_get_admin_url( 'users.php' )
+			network_admin_url( 'users.php' )
 		);
 
 		echo $avatar . sprintf( '<strong><a href="%1$s" class="edit" title="%2$s">%3$s</a></strong><br/>', esc_url( $activate_link ), esc_attr__( 'Activate', 'buddypress' ), $signup_object->user_login );

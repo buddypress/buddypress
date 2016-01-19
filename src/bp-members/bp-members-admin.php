@@ -202,8 +202,18 @@ class BP_Members_Admin {
 
 			// Reorganise the views navigation in users.php and signups page.
 			if ( current_user_can( $this->capability ) ) {
-				add_filter( "views_{$this->users_screen}", array( $this, 'signup_filter_view'    ), 10, 1 );
-				add_filter( 'set-screen-option',           array( $this, 'signup_screen_options' ), 10, 3 );
+				$user_screen = $this->users_screen;
+
+				/**
+				 * Users screen on multiblog is users, but signups
+				 * need to be managed in the network for this case
+				 */
+				if ( bp_is_network_activated() && bp_is_multiblog_mode() && false === strpos( $user_screen, '-network' ) ) {
+					$user_screen .= '-network';
+				}
+
+				add_filter( "views_{$user_screen}", array( $this, 'signup_filter_view'    ), 10, 1 );
+				add_filter( 'set-screen-option',    array( $this, 'signup_screen_options' ), 10, 3 );
 			}
 		}
 	}
@@ -1324,7 +1334,14 @@ class BP_Members_Admin {
 		}
 
 		$signups = BP_Signup::count_signups();
-		$url     = add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) );
+
+		if ( is_network_admin() ) {
+			$base_url = network_admin_url( 'users.php' );
+		} else {
+			$base_url = bp_get_admin_url( 'users.php' );
+		}
+
+		$url     = add_query_arg( 'page', 'bp-signups', $base_url );
 		$text    = sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $signups ) . ')</span>' );
 
 		$views['registered'] = sprintf( '<a href="%1$s" class="%2$s">%3$s</a>', esc_url( $url ), $class, $text );
@@ -1394,7 +1411,7 @@ class BP_Members_Admin {
 		// Prepare the display of the Community Profile screen.
 		if ( ! in_array( $doaction, $allowed_actions ) || ( -1 == $doaction ) ) {
 
-			if ( bp_core_do_network_admin() ) {
+			if ( is_network_admin() ) {
 				$bp_members_signup_list_table = self::get_list_table_class( 'BP_Members_MS_List_Table', 'ms-users' );
 			} else {
 				$bp_members_signup_list_table = self::get_list_table_class( 'BP_Members_List_Table', 'users' );
@@ -1783,11 +1800,17 @@ class BP_Members_Admin {
 		// Prepare the group items for display.
 		$bp_members_signup_list_table->prepare_items();
 
+		if ( is_network_admin() ) {
+			$form_url = network_admin_url( 'users.php' );
+		} else {
+			$form_url = bp_get_admin_url( 'users.php' );
+		}
+
 		$form_url = add_query_arg(
 			array(
 				'page' => 'bp-signups',
 			),
-			bp_get_admin_url( 'users.php' )
+			$form_url
 		);
 
 		$search_form_url = remove_query_arg(
@@ -1923,11 +1946,17 @@ class BP_Members_Admin {
 			'signup_ids' => implode( ',', $signup_ids )
 		);
 
-		$cancel_url = add_query_arg( $url_args, bp_get_admin_url( 'users.php' ) );
+		if ( is_network_admin() ) {
+			$base_url = network_admin_url( 'users.php' );
+		} else {
+			$base_url = bp_get_admin_url( 'users.php' );
+		}
+
+		$cancel_url = add_query_arg( $url_args, $base_url );
 		$action_url = wp_nonce_url(
 			add_query_arg(
 				array_merge( $url_args, $action_args ),
-				bp_get_admin_url( 'users.php' )
+				$base_url
 			),
 			'signups_' . $action
 		);
