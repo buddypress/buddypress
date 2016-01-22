@@ -100,6 +100,36 @@ function bp_members_root_slug() {
 	}
 
 /**
+ * Output the member type base slug.
+ *
+ * @since 2.5.0
+ */
+function bp_members_member_type_base() {
+	echo esc_url( bp_get_members_member_type_base() );
+}
+	/**
+	 * Get the member type base slug.
+	 *
+	 * The base slug is the string used as the base prefix when generating member type directory URLs.
+	 * For example, in example.com/members/type/foo/, 'foo' is the member type and 'type' is the
+	 * base slug.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @return string
+	 */
+	function bp_get_members_member_type_base() {
+		/**
+		 * Filters the member type URL base.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string $base
+		 */
+		return apply_filters( 'bp_members_member_type_base', _x( 'type', 'member type URL base', 'buddypress' ) );
+	}
+
+/**
  * Output member directory permalink.
  *
  * @since 1.5.0

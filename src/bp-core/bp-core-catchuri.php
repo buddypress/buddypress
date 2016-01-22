@@ -282,7 +282,7 @@ function bp_core_set_uri_globals() {
 			}
 
 			// Is this a member type directory?
-			if ( ! bp_displayed_user_id() && $after_member_slug === apply_filters( 'bp_members_member_type_base', _x( 'type', 'member type URL base', 'buddypress' ) ) && ! empty( $bp_uri[ $uri_offset + 2 ] ) ) {
+			if ( ! bp_displayed_user_id() && $after_member_slug === bp_get_members_member_type_base() && ! empty( $bp_uri[ $uri_offset + 2 ] ) ) {
 				$matched_types = bp_get_member_types( array(
 					'has_directory'  => true,
 					'directory_slug' => $bp_uri[ $uri_offset + 2 ],
