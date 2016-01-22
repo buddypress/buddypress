@@ -159,6 +159,54 @@ function bp_members_directory_permalink() {
 	}
 
 /**
+ * Output member type directory permalink.
+ *
+ * @since 2.5.0
+ *
+ * @uses bp_get_member_type_directory_permalink()
+ *
+ * @param string $member_type Optional. Member type.
+ */
+function bp_member_type_directory_permalink( $member_type = '' ) {
+	echo esc_url( bp_get_member_type_directory_permalink( $member_type ) );
+}
+	/**
+	 * Return member type directory permalink.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $member_type Optional. Member type. Defaults to current member type.
+	 * @return string Member type directory URL on success, an empty string on failure.
+	 */
+	function bp_get_member_type_directory_permalink( $member_type = '' ) {
+
+		if ( $member_type ) {
+			$_member_type = $member_type;
+		} else {
+			// Fall back on the current member type.
+			$_member_type = bp_get_current_member_type();
+		}
+
+		$type = bp_get_member_type_object( $_member_type );
+
+		// Bail when member type is not found or has no directory.
+		if ( ! $type || ! $type->has_directory ) {
+			return '';
+		}
+
+		/**
+		 * Filters the member type directory permalink.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $value       Member type directory permalink.
+		 * @param object $type        Member type object.
+		 * @param string $member_type Member type name, as passed to the function.
+		 */
+		return apply_filters( 'bp_get_member_type_directory_permalink', trailingslashit( bp_get_members_directory_permalink() . bp_get_members_member_type_base() . '/' . $type->directory_slug ), $type, $member_type );
+	}
+
+/**
  * Output the sign-up slug.
  *
  * @since 1.5.0
