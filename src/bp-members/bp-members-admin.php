@@ -1446,6 +1446,16 @@ class BP_Members_Admin {
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
+
+			// Add accessible hidden headings and text for the Pending Users screen.
+			if ( bp_get_major_wp_version() >= 4.4 ) {
+				get_current_screen()->set_screen_reader_content( array(
+					'heading_views'      => __( 'Filter users list', 'buddypress' ),
+					'heading_pagination' => __( 'Pending users list navigation', 'buddypress' ),
+					'heading_list'       => __( 'Pending users list', 'buddypress' ),
+				) ); 
+			}
+
 		} else {
 			if ( ! empty( $_REQUEST['signup_ids' ] ) ) {
 				$signups = wp_parse_id_list( $_REQUEST['signup_ids' ] );
