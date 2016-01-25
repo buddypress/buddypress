@@ -173,6 +173,13 @@ function bp_groups_admin_load() {
 			'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 			'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 		);
+
+		// Add accessible hidden heading and text for Groups screen pagination.
+		if ( bp_get_major_wp_version() >= 4.4 ) {
+			get_current_screen()->set_screen_reader_content( array(
+				'heading_pagination' => __( 'Groups list navigation', 'buddypress' ),
+			) );
+		}
 	}
 
 	$bp = buddypress();
@@ -1322,6 +1329,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	public function display() {
 		$this->display_tablenav( 'top' ); ?>
 
+		<h2 class="screen-reader-text"><?php _e( 'Groups list', 'buddypress' ); ?></h2>
+
 		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 			<thead>
 				<tr>
@@ -1387,6 +1396,8 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	public function get_views() {
 		$url_base = bp_get_admin_url( 'admin.php?page=bp-groups' ); ?>
+
+		<h2 class="screen-reader-text"><?php _e( 'Filter groups list', 'buddypress' ); ?></h2>
 
 		<ul class="subsubsub">
 			<li class="all"><a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' == $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
