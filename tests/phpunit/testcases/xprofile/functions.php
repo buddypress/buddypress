@@ -939,4 +939,107 @@ Bar!';
 
 		$this->assertFalse( bp_xprofile_is_richtext_enabled_for_field( $f ) );
 	}
+
+	/**
+	 * @group bp_get_field_css_class
+	 */
+	public function test_bp_get_field_css_class_empty_param() {
+		// Fake the global
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$profile_template = new stdClass;
+		// Avoid the 'alt' class being added
+		$profile_template->current_field = 2;
+		$profile_template->field = new stdClass;
+		$profile_template->field->id = 145;
+		$profile_template->field->name = 'Pie';
+		$profile_template->field->type = 'textbox';
+
+		$expected_classes = array(
+			'optional-field',
+			'field_' . $profile_template->field->id,
+			'field_' . sanitize_title( $profile_template->field->name ),
+			'field_type_' . sanitize_title( $profile_template->field->type ),
+			'visibility-public'
+			);
+
+		$classes = bp_get_field_css_class();
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $classes, $matches );
+		$ret_classes = explode( ' ', $matches[1] );
+		$this->assertEqualSets( $expected_classes, $ret_classes );
+
+		// Clean up!
+		$profile_template = $reset_profile_template;
+	}
+
+	/**
+	 * @group bp_get_field_css_class
+	 */
+	public function test_bp_get_field_css_class_space_delimited_string() {
+		// Fake the global
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$profile_template = new stdClass;
+		// Avoid the 'alt' class being added
+		$profile_template->current_field = 2;
+		$profile_template->field = new stdClass;
+		$profile_template->field->id = 145;
+		$profile_template->field->name = 'Pie';
+		$profile_template->field->type = 'textbox';
+
+		$expected_classes = array(
+			'optional-field',
+			'field_' . $profile_template->field->id,
+			'field_' . sanitize_title( $profile_template->field->name ),
+			'field_type_' . sanitize_title( $profile_template->field->type ),
+			'visibility-public',
+			'rhubarb',
+			'apple'
+			);
+
+		$classes = bp_get_field_css_class( 'rhubarb apple' );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $classes, $matches );
+		$ret_classes = explode( ' ', $matches[1] );
+		$this->assertEqualSets( $expected_classes, $ret_classes );
+
+		// Clean up!
+		$profile_template = $reset_profile_template;
+	}
+
+	/**
+	 * @group bp_get_field_css_class
+	 */
+	public function test_bp_get_field_css_class_array() {
+		// Fake the global
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$profile_template = new stdClass;
+		// Avoid the 'alt' class being added
+		$profile_template->current_field = 2;
+		$profile_template->field = new stdClass;
+		$profile_template->field->id = 145;
+		$profile_template->field->name = 'Pie';
+		$profile_template->field->type = 'textbox';
+
+		$expected_classes = array(
+			'optional-field',
+			'field_' . $profile_template->field->id,
+			'field_' . sanitize_title( $profile_template->field->name ),
+			'field_type_' . sanitize_title( $profile_template->field->type ),
+			'visibility-public',
+			'blueberry',
+			'gooseberry'
+			);
+
+		$classes = bp_get_field_css_class( array( 'blueberry', 'gooseberry' ) );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $classes, $matches );
+		$ret_classes = explode( ' ', $matches[1] );
+		$this->assertEqualSets( $expected_classes, $ret_classes );
+
+		// Clean up!
+		$profile_template = $reset_profile_template;
+	}
 }

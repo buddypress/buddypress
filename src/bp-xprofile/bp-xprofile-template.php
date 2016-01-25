@@ -443,7 +443,13 @@ function bp_profile_group_has_fields() {
 /**
  * Output the class attribute for a field.
  *
- * @param string|bool $class Extra classes to append to class attribute.
+ * @since 1.0.0
+ *
+ * @param array|string $class Extra classes to append to class attribute.
+ *                            Pass mutiple class names as an array or
+ *                            space-delimited string.
+ *
+ * @return string
  */
 function bp_field_css_class( $class = false ) {
 	echo bp_get_field_css_class( $class );
@@ -461,7 +467,10 @@ function bp_field_css_class( $class = false ) {
 		$css_classes = array();
 
 		if ( ! empty( $class ) ) {
-			$css_classes[] = sanitize_title( esc_attr( $class ) );
+			if ( ! is_array( $class ) ) {
+				$class = preg_split( '#\s+#', $class );
+			}
+			$css_classes = array_map( 'sanitize_html_class', $class );
 		}
 
 		// Set a class with the field ID.
