@@ -345,10 +345,10 @@ function bp_activity_at_name_send_emails( $activity ) {
 		 * @since 1.6.0
 		 * @since 2.5.0 Introduced `$user_id` and `$activity` parameters.
 		 *
-		 * @param bool  $value     Whether or not BuddyPress should send a notification to the mentioned users.
-		 * @param array $usernames Array of users potentially notified.
-		 * @param int   $user_id   ID of the current user being notified.
-		 * @param BP_Activity_Activity $activity Activity object.
+		 * @param bool                 $value     Whether or not BuddyPress should send a notification to the mentioned users.
+		 * @param array                $usernames Array of users potentially notified.
+		 * @param int                  $user_id   ID of the current user being notified.
+		 * @param BP_Activity_Activity $activity  Activity object.
 		 */
 		if ( apply_filters( 'bp_activity_at_name_do_notifications', true, $usernames, $user_id, $activity ) ) {
 			bp_activity_at_message_notification( $activity->id, $user_id );
