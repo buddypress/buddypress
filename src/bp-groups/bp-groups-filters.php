@@ -65,6 +65,9 @@ add_filter( 'bp_get_group_total_for_member',     'bp_core_number_format' );
 add_filter( 'bp_get_group_total_members',        'bp_core_number_format' );
 add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 
+// Activity component integration.
+add_filter( 'bp_activity_at_name_do_notifications', 'bp_groups_disable_at_mention_notification_for_non_public_groups', 10, 4 );
+
 /**
  * Filter output of Group Description through WordPress's KSES API.
  *
@@ -284,3 +287,25 @@ function bp_groups_maybe_load_mentions_scripts( $load_mentions, $mentions_enable
 	return $load_mentions;
 }
 add_filter( 'bp_activity_maybe_load_mentions_scripts', 'bp_groups_maybe_load_mentions_scripts', 10, 2 );
+
+/**
+ * Disable at-mention notifications for users who are not a member of the non-public group where the activity appears.
+ *
+ * @since 2.5.0
+ *
+ * @param bool                 $send      Whether to send the notification.
+ * @param array                $usernames Array of all usernames being notified.
+ * @param int                  $user_id   ID of the user to be notified.
+ * @param BP_Activity_Activity $activity  Activity object.
+ * @return bool
+ */
+function bp_groups_disable_at_mention_notification_for_non_public_groups( $send, $usernames, $user_id, BP_Activity_Activity $activity ) {
+	if ( 'groups' === $activity->component ) {
+		$group = groups_get_group( array( 'group_id' => $activity->item_id ) );
+		if ( 'public' !== $group->status && ! groups_is_user_member( $user_id, $group->id ) ) {
+			$send = false;
+		}
+	}
+
+	return $send;
+}
