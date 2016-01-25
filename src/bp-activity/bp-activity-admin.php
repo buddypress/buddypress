@@ -296,6 +296,13 @@ function bp_activity_admin_load() {
 			'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 			'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 		);
+
+		// Add accessible hidden heading and text for Activity screen pagination.
+		if ( bp_get_major_wp_version() >= 4.4 ) {
+			get_current_screen()->set_screen_reader_content( array(
+				'heading_pagination' => __( 'Activity list navigation', 'buddypress' ),
+			) );
+		}
 	}
 
 	// Enqueue CSS and JavaScript.
@@ -1242,6 +1249,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function display() {
 		$this->display_tablenav( 'top' ); ?>
 
+		<h2 class="screen-reader-text"><?php _e( 'Activities list', 'buddypress' ); ?></h2>
+
 		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 			<thead>
 				<tr>
@@ -1300,6 +1309,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	function get_views() {
 		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) ); ?>
+
+		<h2 class="screen-reader-text"><?php _e( 'Filter activities list', 'buddypress' ); ?></h2>
 
 		<ul class="subsubsub">
 			<li class="all"><a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'spam' != $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
