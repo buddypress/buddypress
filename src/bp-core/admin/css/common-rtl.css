@@ -126,7 +126,7 @@ body.users_page_bp-signups td.count_sent {
 
 /* Tools */
 #adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
-    content: "";
+	content: "";
 }
 
 /* Components
@@ -223,10 +223,32 @@ body.users_page_bp-signups td.count_sent {
 	content: "\f454";
 }
 
-#bp-admin-component-form .widefat th {
-    display: table-cell;
-    vertical-align: top;
+.settings_page_bp-components tr.core td.plugin-title span:before {
+	content: "\f448";
 }
+
+.settings_page_bp-components tr.members td.plugin-title span:before {
+	content: "\f307";
+}
+
+#bp-admin-component-form .wp-list-table.plugins .plugin-title {
+	width: 25%;
+}
+
+@media screen and ( max-width: 782px ) {
+	.settings_page_bp-components td.plugin-title span {
+		margin-top: 5px;
+	}
+	#bp-admin-component-form .wp-list-table.plugins .plugin-title {
+		display: block;
+		width: auto;
+	}
+	#bp-admin-component-form .subsubsub {
+		margin-bottom: 0;
+		padding-bottom: 35px;
+	}
+}
+
 
 /* Version Badge */
 

@@ -160,22 +160,14 @@ function bp_core_admin_components_options() {
 
 	<h3 class="screen-reader-text"><?php _e( 'Components list', 'buddypress' ); ?></h3>
 
-	<table class="widefat fixed plugins" cellspacing="0">
+	<table class="wp-list-table widefat plugins">
 		<thead>
 			<tr>
-				<th scope="col" id="cb" class="manage-column column-cb check-column">&nbsp;</th>
-				<th scope="col" id="name" class="manage-column column-name" style="width: 190px;"><?php _e( 'Component', 'buddypress' ); ?></th>
+				<td id="cb" class="manage-column column-cb check-column"><input id="cb-select-all-1" type="checkbox" disabled><label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Bulk selection is disabled', 'buddypress' ); ?></label></td>
+				<th scope="col" id="name" class="manage-column column-title column-primary"><?php _e( 'Component', 'buddypress' ); ?></th>
 				<th scope="col" id="description" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
-
-		<tfoot>
-			<tr>
-				<th scope="col" class="manage-column column-cb check-column">&nbsp;</th>
-				<th scope="col" class="manage-column column-name" style="width: 190px;"><?php _e( 'Component', 'buddypress' ); ?></th>
-				<th scope="col" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
-			</tr>
-		</tfoot>
 
 		<tbody id="the-list">
 
@@ -190,33 +182,29 @@ function bp_core_admin_components_options() {
 					endif; ?>
 
 					<tr id="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( $name ) . ' ' . esc_attr( $class ); ?>">
-						<th scope="row">
+						<th scope="row" class="check-column">
 
 							<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) : ?>
 
-								<input type="checkbox" id="bp_components[<?php echo esc_attr( $name ); ?>]" name="bp_components[<?php echo esc_attr( $name ); ?>]" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
+								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> /><label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text"><?php printf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) ); ?></label>
+
+							<?php else : ?>
+
+								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1" checked="checked" disabled><label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text"><?php printf( __( '%s is a required component', 'buddypress' ), esc_html( $labels['title'] ) ); ?></label>
 
 							<?php endif; ?>
 
 						</th>
-						<td class="plugin-title" style="width: 190px;">
+						<td class="plugin-title column-primary">
 							<span></span>
-							<label for="bp_components[<?php echo esc_attr( $name ); ?>]">
-								<strong><?php echo esc_html( $labels['title'] ); ?></strong>
-							</label>
-
-							<div class="row-actions-visible">
-
-							</div>
+							<strong><?php echo esc_html( $labels['title'] ); ?></strong>
 						</td>
 
 						<td class="column-description desc">
 							<div class="plugin-description">
 								<p><?php echo $labels['description']; ?></p>
 							</div>
-							<div class="active second plugin-version-author-uri">
 
-							</div>
 						</td>
 					</tr>
 
@@ -231,6 +219,15 @@ function bp_core_admin_components_options() {
 			<?php endif; ?>
 
 		</tbody>
+
+		<tfoot>
+			<tr>
+				<td class="manage-column column-cb check-column"><input id="cb-select-all-2" type="checkbox" disabled><label class="screen-reader-text" for="cb-select-all-2"><?php _e( 'Bulk selection is disabled', 'buddypress' ); ?></label></td>
+				<th class="manage-column column-title column-primary"><?php _e( 'Component', 'buddypress' ); ?></th>
+				<th class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
+			</tr>
+		</tfoot>
+
 	</table>
 
 	<input type="hidden" name="bp_components[members]" value="1" />
