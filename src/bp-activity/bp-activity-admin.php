@@ -1016,7 +1016,7 @@ function bp_activity_admin_index() {
 				<td colspan="4">
 					<form method="get" action="">
 
-						<h5 id="bp-replyhead"><?php _e( 'Reply to Activity', 'buddypress' ); ?></h5>
+						<h3 id="bp-replyhead"><?php _e( 'Reply to Activity', 'buddypress' ); ?></h3>
 						<?php wp_editor( '', 'bp-activities', array( 'dfw' => false, 'media_buttons' => false, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), 'tinymce' => false, ) ); ?>
 
 						<p id="bp-replysubmit" class="submit">
