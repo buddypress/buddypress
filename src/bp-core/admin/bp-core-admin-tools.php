@@ -145,6 +145,14 @@ function bp_admin_repair_list() {
 		);
 	}
 
+	// Emails:
+	// - reinstall emails.
+	$repair_list[100] = array(
+		'bp-reinstall-emails',
+		__( 'Reinstall emails (delete and restore from defaults).', 'buddypress' ),
+		'bp_admin_reinstall_emails',
+	);
+
 	ksort( $repair_list );
 
 	/**
@@ -409,4 +417,32 @@ function bp_core_admin_available_tools_intro() {
 		</p>
 	</div>
 	<?php
+}
+
+/**
+ * Delete emails and restore from defaults.
+ *
+ * @since 2.5.0
+ *
+ * @return array
+ */
+function bp_admin_reinstall_emails() {
+	$emails = get_posts( array(
+		'fields'           => 'ids',
+		'post_status'      => 'publish',
+		'post_type'        => bp_get_email_post_type(),
+		'posts_per_page'   => 200,
+		'suppress_filters' => false,
+	) );
+
+	if ( $emails ) {
+		foreach ( $emails as $email_id ) {
+			wp_trash_post( $email_id );
+		}
+	}
+
+	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
+	bp_core_install_emails();
+
+	return array( 0, __( 'Emails have been successfully reinstalled.', 'buddypress' ) );
 }
