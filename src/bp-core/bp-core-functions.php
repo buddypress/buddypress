@@ -2746,6 +2746,229 @@ function bp_get_email_tax_type_labels() {
 		'view_item'             => _x( 'View Email Situation', 'email type taxonomy label', 'buddypress' ),
 	) );
 }
+
+
+/** Email *****************************************************************/
+
+/**
+ * Get an BP_Email object for the specified email type.
+ *
+ * This function pre-populates the object with the subject, content, and template from the appropriate
+ * email post type item. It does not replace placeholder tokens in the content with real values.
+ *
+ * @since 2.5.0
+ *
+ * @param string $email_type Unique identifier for a particular type of email.
+ * @return BP_Email|WP_Error BP_Email object, or WP_Error if there was a problem.
+ */
+function bp_get_email( $email_type ) {
+	$args = array(
+		'no_found_rows'    => true,
+		'numberposts'      => 1,
+		'post_status'      => 'publish',
+		'post_type'        => bp_get_email_post_type(),
+		'suppress_filters' => false,
+
+		'tax_query'        => array(
+			array(
+				'field'    => 'slug',
+				'taxonomy' => bp_get_email_tax_type(),
+				'terms'    => $email_type,
+			)
+		),
+	);
+
+	/**
+	 * Filters arguments used to find an email post type object.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param array  $args       Arguments for get_posts() used to fetch a post object.
+	 * @param string $email_type Unique identifier for a particular type of email.
+	 */
+	$args = apply_filters( 'bp_get_email_args', $args, $email_type );
+	$post = get_posts( $args );
+	if ( ! $post ) {
+		return new WP_Error( 'missing_email', __FUNCTION__, array( $email_type, $args ) );
+	}
+
+	/**
+	 * Filters arguments used to create the BP_Email object.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param WP_Post $post       Post object containing the contents of the email.
+	 * @param string  $email_type Unique identifier for a particular type of email.
+	 * @param array   $args       Arguments used with get_posts() to fetch a post object.
+	 * @param WP_Post[] All posts retrieved by get_posts( $args ). May only contain $post.
+	 */
+	$post  = apply_filters( 'bp_get_email_post', $post[0], $email_type, $args, $post );
+	$email = new BP_Email( $email_type );
+
+
+	/*
+	 * Set some email properties for convenience.
+	 */
+
+	// Post object (sets subject, content, template).
+	$email->set_post_object( $post );
+
+	/**
+	 * Filters the BP_Email object returned by bp_get_email().
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param BP_Email $email      An object representing a single email, ready for mailing.
+	 * @param WP_Post  $post       Post object containing the contents of the email.
+	 * @param string   $email_type Unique identifier for a particular type of email.
+	 * @param array    $args       Arguments used with get_posts() to fetch a post object.
+	 * @param WP_Post[] All posts retrieved by get_posts( $args ). May only contain $post.
+	 */
+	return apply_filters( 'bp_get_email', $email, $email_type, $args, $post );
+}
+
+/**
+ * Send email, similar to WordPress' wp_mail().
+ *
+ * A true return value does not automatically mean that the user received the
+ * email successfully. It just only means that the method used was able to
+ * process the request without any errors.
+ *
+ * @since 2.5.0
+ *
+ * @param string $email_type Type of email being sent.
+ * @param string|array|int|WP_User $to Either a email address, user ID, WP_User object,
+ *                                     or an array containg the address and name.
+ * @param array $args {
+ *     Optional. Array of extra. parameters.
+ *
+ *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
+ * }
+ * @return bool|WP_Error True if the email was sent successfully. Otherwise, a WP_Error object
+ *                       describing why the email failed to send. The contents will vary based
+ *                       on the email delivery class you are using.
+ */
+function bp_send_email( $email_type, $to, $args = array() ) {
+	static $is_default_wpmail = null;
+	static $wp_html_emails    = null;
+
+	// Has wp_mail() been filtered to send HTML emails?
+	if ( is_null( $wp_html_emails ) ) {
+		/** This filter is documented in wp-includes/pluggable.php */
+		$wp_html_emails = apply_filters( 'wp_mail_content_type', 'text/plain' ) === 'text/html';
+	}
+
+	// wp_mail() is a pluggable function. Has it been re-defined by another plugin?
+	if ( is_null( $is_default_wpmail ) ) {
+		try {
+			$mirror            = new ReflectionFunction( 'wp_mail' );
+			$is_default_wpmail = substr( $mirror->getFileName(), -strlen( 'pluggable.php' ) ) === 'pluggable.php';
+		} catch ( Exception $e ) {
+			$is_default_wpmail = true;
+		}
+	}
+
+	$args = bp_parse_args( $args, array(
+		'tokens' => array(),
+	), 'send_email' );
+
+
+	/*
+	 * Build the email.
+	 */
+
+	$email = bp_get_email( $email_type );
+	if ( is_wp_error( $email ) ) {
+		return $email;
+	}
+
+	// From, subject, content are set automatically.
+	$email->set_to( $to );
+	$email->set_tokens( $args['tokens'] );
+
+	$status = $email->validate();
+	if ( is_wp_error( $status ) ) {
+		return $status;
+	}
+
+	/**
+	 * Filter this to skip BP's email handling and instead send everything to wp_mail().
+	 *
+	 * This is done if wp_mail_content_type() has been configured for HTML,
+	 * or if wp_mail() has been redeclared (it's a pluggable function).
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param bool $use_wp_mail Whether to fallback to the regular wp_mail() function or not.
+	 */
+	$must_use_wpmail = apply_filters( 'bp_mail_use_wp_mail', $wp_html_emails || ! $is_default_wpmail );
+
+	if ( $must_use_wpmail ) {
+		$to = $email->get( 'to' );
+
+		return wp_mail(
+			array_shift( $to )->get_address(),
+			$email->get( 'subject', 'replace-tokens' ),
+			$email->get( 'content_plaintext', 'replace-tokens' )
+		);
+	}
+
+
+	/*
+	 * Send the email.
+	 */
+
+	/**
+	 * Filter the email delivery class.
+	 *
+	 * Defaults to BP_PHPMailer, which as you can guess, implements PHPMailer.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $deliver_class The email delivery class name.
+	 * @param string $email_type Type of email being sent.
+	 * @param string[]|string $to Array or comma-separated list of email addresses to the email to.
+	 * @param array $args {
+	 *     Optional. Array of extra parameters.
+	 *
+	 *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
+	 * }
+	 */
+	$delivery_class = apply_filters( 'bp_send_email_delivery_class', 'BP_PHPMailer', $email_type, $to, $args );
+	if ( ! class_exists( $delivery_class ) ) {
+		return new WP_Error( 'missing_class', __CLASS__, $this );
+	}
+
+	$delivery = new $delivery_class();
+	$status   = $delivery->bp_email( $email );
+
+	if ( is_wp_error( $status ) ) {
+		/**
+		 * Fires after BuddyPress has tried - and failed - to send an email.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param WP_Error $status A WP_Error object describing why the email failed to send. The contents
+		 *                         will vary based on the email delivery class you are using.
+		 * @param BP_Email $email The email we tried to send.
+		 */
+ 		do_action( 'bp_send_email_failure', $status, $email );
+
+	} else {
+		/**
+		 * Fires after BuddyPress has succesfully sent an email.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param bool $status True if the email was sent successfully.
+		 * @param BP_Email $email The email sent.
+		 */
+		do_action( 'bp_send_email_success', $status, $email );
+	}
+
+	return $status;
+}
+
 /**
  * Return email appearance settings.
  *
