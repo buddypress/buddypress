@@ -2591,3 +2591,39 @@ function bp_upload_dir() {
 
 	return $bp->upload_dir;
 }
+
+/**
+ * Return email appearance settings.
+ *
+ * @since 2.5.0
+ *
+ * @return array
+ */
+function bp_email_get_appearance_settings() {
+	$default_args = array(
+		'body_bg'           => '#FFFFFF',
+		'body_text_color'   => '#555555',
+		'body_text_size'    => 15,
+		'email_bg'          => '#F7F3F0',
+		'footer_bg'         => '#F7F3F0',
+		'footer_text_color' => '#525252',
+		'footer_text_size'  => 12,
+		'header_bg'         => '#F7F3F0',
+		'highlight_color'   => '#D84800',
+		'header_text_color' => '#000000',
+		'header_text_size'  => 30,
+
+		'footer_text' => sprintf(
+			/* translators: email disclaimer, e.g. "© 2016 Site Name". */
+			_x( '&copy; %s %s', 'email', 'buddypress' ),
+			date_i18n( 'Y' ),
+			bp_get_option( 'blogname' )
+		),
+	);
+
+	return bp_parse_args(
+		get_option( 'bp_email_options', array() ),
+		$default_args,
+		'email_appearance_settings'
+	);
+}
