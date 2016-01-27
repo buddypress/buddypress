@@ -53,6 +53,13 @@ add_filter( 'bp_core_render_message_content', 'wpautop'           );
 add_filter( 'bp_core_render_message_content', 'shortcode_unautop' );
 add_filter( 'bp_core_render_message_content', 'wp_kses_data', 5   );
 
+// Emails.
+add_filter( 'bp_email_set_content_html', 'wp_filter_post_kses', 6 );
+add_filter( 'bp_email_set_content_html', 'stripslashes', 8 );
+add_filter( 'bp_email_set_content_plaintext', 'wp_strip_all_tags', 6 );
+add_filter( 'bp_email_set_subject', 'sanitize_text_field', 6 );
+
+
 /**
  * Template Compatibility.
  *
@@ -1038,3 +1045,44 @@ function _bp_core_inject_bp_widget_css_class( $params ) {
 	return $params;
 }
 add_filter( 'dynamic_sidebar_params', '_bp_core_inject_bp_widget_css_class' );
+
+/**
+ * Add email link styles to rendered email template.
+ *
+ * This is only used when the email content has been merged into the email template.
+ *
+ * @since 2.5.0
+ *
+ * @param string $value Property value.
+ * @param string $property_name
+ * @param string $transform How the return value was transformed.
+ * @return string Updated value.
+ */
+function bp_email_add_link_color_to_template( $value, $property_name, $transform ) {
+	if ( $property_name !== 'template' || $transform !== 'add-content' ) {
+		return $value;
+	}
+
+	$settings    = bp_email_get_appearance_settings();
+	$replacement = 'style="color: ' . esc_attr( $settings['highlight_color'] ) . ';';
+
+	// Find all links.
+	preg_match_all( '#<a[^>]+>#i', $value, $links, PREG_SET_ORDER );
+	foreach ( $links as $link ) {
+		$new_link = $link = array_shift( $link );
+
+		// Add/modify style property.
+		if ( strpos( $link, 'style="' ) !== false ) {
+			$new_link = str_replace( 'style="', $replacement, $link );
+		} else {
+			$new_link = str_replace( '<a ', "<a {$replacement}\" ", $link );
+		}
+
+		if ( $new_link !== $link ) {
+			$value = str_replace( $link, $new_link, $value );
+		}
+	}
+
+	return $value;
+}
+add_filter( 'bp_email_get_property', 'bp_email_add_link_color_to_template', 6, 3 );
