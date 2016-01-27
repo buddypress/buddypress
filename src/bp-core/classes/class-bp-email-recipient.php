@@ -57,7 +57,7 @@ class BP_Email_Recipient {
 
 		// User ID, WP_User object.
 		if ( is_int( $email_or_user ) || is_object( $email_or_user ) ) {
-			$this->user_object = is_object( $email_or_user ) ? $email_or_user : get_user_by( 'ID', $email_or_user );
+			$this->user_object = is_object( $email_or_user ) ? $email_or_user : get_user_by( 'id', $email_or_user );
 
 			if ( $this->user_object ) {
 				// This is escaped with esc_html in bp_core_get_user_displayname()
