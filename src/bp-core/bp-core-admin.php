@@ -116,6 +116,7 @@ class BP_Admin {
 	 * @since 1.6.0
 	 */
 	private function includes() {
+		require( $this->admin_dir . 'bp-core-admin-classes.php'    );
 		require( $this->admin_dir . 'bp-core-admin-actions.php'    );
 		require( $this->admin_dir . 'bp-core-admin-settings.php'   );
 		require( $this->admin_dir . 'bp-core-admin-functions.php'  );
@@ -174,6 +175,9 @@ class BP_Admin {
 		// Add "Mark as Spam" row actions on users.php.
 		add_filter( 'ms_user_row_actions', 'bp_core_admin_user_row_actions', 10, 2 );
 		add_filter( 'user_row_actions',    'bp_core_admin_user_row_actions', 10, 2 );
+
+		// Emails
+		add_filter( 'bp_admin_menu_order', array( $this, 'emails_admin_menu_order' ), 20 );
 	}
 
 	/**
@@ -295,7 +299,14 @@ class BP_Admin {
 			'bp_core_admin_tools'
 		);
 
-		// Fudge the highlighted subnav item when on a BuddyPress admin page.
+		$hooks[] = add_theme_page(
+			_x( 'Emails', 'screen heading', 'buddypress' ),
+			_x( 'Emails', 'screen heading', 'buddypress' ),
+			$this->capability,
+			'bp-emails-customizer-redirect',
+			'bp_email_redirect_to_customizer'
+		);
+
 		foreach( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 		}
@@ -767,6 +778,7 @@ class BP_Admin {
 				<a href="https://github.com/ichord/At.js">At.js</a>,
 				<a href="https://bbpress.org">bbPress</a>,
 				<a href="https://github.com/ichord/Caret.js">Caret.js</a>,
+				<a href="http://tedgoas.github.io/Cerberus/">Cerberus</a>,
 				<a href="https://github.com/carhartl/jquery-cookie">jquery.cookie</a>,
 				<a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a>,
 				<a href="https://wordpress.org">WordPress</a>.
@@ -873,6 +885,23 @@ class BP_Admin {
 
 		// Done!
 		return $display;
+	}
+
+	/**
+	 * Add Emails menu item to custom menus array.
+	 *
+	 * Several BuddyPress components have top-level menu items in the Dashboard,
+	 * which all appear together in the middle of the Dashboard menu. This function
+	 * adds the Emails screen to the array of these menu items.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param array $custom_menus The list of top-level BP menu items.
+	 * @return array $custom_menus List of top-level BP menu items, with Emails added.
+	 */
+	public function emails_admin_menu_order( $custom_menus = array() ) {
+		array_push( $custom_menus, 'edit.php?post_type=' . bp_get_email_post_type() );
+		return $custom_menus;
 	}
 
 	/**

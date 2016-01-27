@@ -811,6 +811,94 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 }
 
 /**
+ * In admin emails list, for non-en_US locales, add notice explaining how to reinstall emails.
+ *
+ * If BuddyPress installs before its translations are in place, tell people how to reinstall
+ * the emails so they have their contents in their site's language.
+ *
+ * @since 2.5.0
+ */
+function bp_admin_email_maybe_add_translation_notice() {
+	if ( get_current_screen()->post_type !== bp_get_email_post_type() || get_locale() === 'en_US' ) {
+		return;
+	}
+
+	// If user can't access BP Tools, there's no point showing the message.
+	if ( ! current_user_can( buddypress()->admin->capability ) ) {
+		return;
+	}
+
+	bp_core_add_admin_notice(
+		sprintf(
+			__( 'Are your emails in the wrong language? Go to <a href="%s">BuddyPress Tools and run the "reinstall emails"</a> tool.', 'buddypress' ),
+			bp_get_admin_url( 'tools.php?page=bp-tools' )
+		),
+		'updated'
+	);
+}
+add_action( 'admin_head-edit.php', 'bp_admin_email_maybe_add_translation_notice' );
+
+/**
+ * In emails editor, add notice linking to token documentation on Codex.
+ *
+ * @since 2.5.0
+ */
+function bp_admin_email_add_codex_notice() {
+	if ( get_current_screen()->post_type !== bp_get_email_post_type() ) {
+		return;
+	}
+
+	bp_core_add_admin_notice(
+		sprintf(
+			__( 'Phrases wrapped in braces <code>{{ }}</code> are email tokens. <a href="%s">Learn about tokens on the BuddyPress Codex</a>.', 'buddypress' ),
+			esc_url( 'https://codex.buddypress.org/emails/email-tokens/' )
+		),
+		'error'
+	);
+}
+add_action( 'admin_head-post.php', 'bp_admin_email_add_codex_notice' );
+
+/**
+ * Display metabox for email taxonomy type.
+ *
+ * Shows the term description in a list, rather than the term name itself.
+ *
+ * @since 2.5.0
+ *
+ * @param WP_Post $post Post object.
+ * @param array   $box {
+ *     Tags meta box arguments.
+ *
+ *     @type string   $id       Meta box ID.
+ *     @type string   $title    Meta box title.
+ *     @type callable $callback Meta box display callback.
+ * }
+ */
+function bp_email_tax_type_metabox( $post, $box ) {
+	$r = array(
+		'taxonomy' => bp_get_email_tax_type()
+	);
+
+	$tax_name = esc_attr( $r['taxonomy'] );
+	$taxonomy = get_taxonomy( $r['taxonomy'] );
+	?>
+	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
+		<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
+			<?php
+			$name = ( $tax_name == 'category' ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
+			echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
+			?>
+			<ul id="<?php echo $tax_name; ?>checklist" data-wp-lists="list:<?php echo $tax_name; ?>" class="categorychecklist form-no-clear">
+				<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $tax_name, 'walker' => new BP_Walker_Category_Checklist ) ); ?>
+			</ul>
+		</div>
+
+		<p><?php esc_html_e( 'Choose when this email will be sent.', 'buddypress' ); ?></p>
+	</div>
+	<?php
+}
+
+/**
  * Restrict various items from view if editing a BuddyPress menu.
  *
  * If a person is editing a BP menu item, that person should not be able to

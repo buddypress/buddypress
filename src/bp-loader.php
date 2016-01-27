@@ -422,6 +422,10 @@ class BuddyPress {
 
 		$this->current_user   = new stdClass();
 		$this->displayed_user = new stdClass();
+
+		/** Post types and taxonomies *****************************************/
+		$this->email_post_type     = apply_filters( 'bp_email_post_type', 'bp-email' );
+		$this->email_taxonomy_type = apply_filters( 'bp_email_tax_type', 'bp-email-type' );
 	}
 
 	/**

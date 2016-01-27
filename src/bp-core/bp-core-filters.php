@@ -1086,3 +1086,59 @@ function bp_email_add_link_color_to_template( $value, $property_name, $transform
 	return $value;
 }
 add_filter( 'bp_email_get_property', 'bp_email_add_link_color_to_template', 6, 3 );
+
+/**
+ * Find and render the template for Email posts (the Customizer and admin previews).
+ *
+ * Misuses the `template_include` filter which expects a string, but as we need to replace
+ * the `{{{content}}}` token with the post's content, we use object buffering to load the
+ * template, replace the token, and render it.
+ *
+ * The function returns an empty string to prevent WordPress rendering another template.
+ *
+ * @since 2.5.0
+ *
+ * @param string $template Path to template (probably single.php).
+ * @return string
+ */
+function bp_core_render_email_template( $template ) {
+	if ( get_post_type() !== bp_get_email_post_type() || ! is_single() ) {
+		return $template;
+	}
+
+	/**
+	 * Filter template used to display Email posts.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $template Path to current template (probably single.php).
+	 */
+	$email_template = apply_filters( 'bp_core_render_email_template',
+		bp_locate_template( bp_email_get_template( get_queried_object() ), false ),
+		$template
+	);
+
+	if ( ! $email_template ) {
+		return $template;
+	}
+
+	ob_start();
+	include( $email_template );
+	$template = ob_get_contents();
+	ob_end_clean();
+
+	echo str_replace( '{{{content}}}', nl2br( get_post()->post_content ), $template );
+
+	/*
+	 * Link colours are applied directly in the email template before sending, so we
+	 * need to add an extra style here to set the colour for the Customizer or preview.
+	 */
+	$settings = bp_email_get_appearance_settings();
+	printf(
+		'<style>a { color: %s; }</style>',
+		esc_attr( $settings['highlight_color'] )
+	);
+
+	return '';
+}
+add_action( 'bp_template_include', 'bp_core_render_email_template', 12 );

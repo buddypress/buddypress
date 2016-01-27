@@ -285,6 +285,33 @@ class BP_Core extends BP_Component {
 
 		parent::setup_cache_groups();
 	}
+
+	/**
+	 * Set up post types.
+	 *
+	 * @since BuddyPress (2.4.0)
+	 */
+	public function register_post_types() {
+
+		// Emails
+		register_post_type(
+			bp_get_email_post_type(),
+			apply_filters( 'bp_register_email_post_type', array(
+				'description'       => _x( 'BuddyPress emails', 'email post type description', 'buddypress' ),
+				'labels'            => bp_get_email_post_type_labels(),
+				'menu_icon'         => 'dashicons-email',
+				'public'            => false,
+				'publicly_queryable' => bp_current_user_can( 'bp_moderate' ),
+				'query_var'         => false,
+				'rewrite'           => false,
+				'show_in_admin_bar' => false,
+				'show_ui'           => bp_current_user_can( 'bp_moderate' ),
+				'supports'          => bp_get_email_post_type_supports(),
+			) )
+		);
+
+		parent::register_post_types();
+	}
 }
 
 /**

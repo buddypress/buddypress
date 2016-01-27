@@ -2592,6 +2592,160 @@ function bp_upload_dir() {
 	return $bp->upload_dir;
 }
 
+
+/** Post Types *****************************************************************/
+
+/**
+ * Output the name of the email post type.
+ *
+ * @since 2.5.0
+ */
+function bp_email_post_type() {
+	echo bp_get_email_post_type();
+}
+	/**
+	 * Returns the name of the email post type.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @return string The name of the email post type.
+	 */
+	function bp_get_email_post_type() {
+
+		/**
+		 * Filters the name of the email post type.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $post_type Email post type name.
+		 */
+		return apply_filters( 'bp_get_email_post_type', buddypress()->email_post_type );
+	}
+
+/**
+ * Return labels used by the email post type.
+ *
+ * @since 2.5.0
+ *
+ * @return array
+ */
+function bp_get_email_post_type_labels() {
+
+	/**
+	 * Filters email post type labels.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string[] $labels Associative array (name => label).
+	 */
+	return apply_filters( 'bp_get_email_post_type_labels', array(
+		'add_new'               => _x( 'Add New', 'email post type label', 'buddypress' ),
+		'add_new_item'          => _x( 'Add a New Email', 'email post type label', 'buddypress' ),
+		'all_items'             => _x( 'All Emails', 'email post type label', 'buddypress' ),
+		'edit_item'             => _x( 'Edit Email', 'email post type label', 'buddypress' ),
+		'filter_items_list'     => _x( 'Filter email list', 'email post type label', 'buddypress' ),
+		'items_list'            => _x( 'Email list', 'email post type label', 'buddypress' ),
+		'items_list_navigation' => _x( 'Email list navigation', 'email post type label', 'buddypress' ),
+		'name'                  => _x( 'Emails', 'email post type name', 'buddypress' ),
+		'new_item'              => _x( 'New Email', 'email post type label', 'buddypress' ),
+		'not_found'             => _x( 'No emails found', 'email post type label', 'buddypress' ),
+		'not_found_in_trash'    => _x( 'No emails found in Trash', 'email post type label', 'buddypress' ),
+		'search_items'          => _x( 'Search Emails', 'email post type label', 'buddypress' ),
+		'singular_name'         => _x( 'Email', 'email post type singular name', 'buddypress' ),
+		'uploaded_to_this_item' => _x( 'Uploaded to this email', 'email post type label', 'buddypress' ),
+		'view_item'             => _x( 'View Email', 'email post type label', 'buddypress' ),
+	) );
+}
+
+/**
+ * Return array of features that the email post type supports.
+ *
+ * @since 2.5.0
+ *
+ * @return array
+ */
+function bp_get_email_post_type_supports() {
+
+	/**
+	 * Filters the features that the email post type supports.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string[] $features Supported features.
+	 */
+	return apply_filters( 'bp_get_email_post_type_supports', array(
+		'custom-fields',
+		'editor',
+		'excerpt',
+		'revisions',
+		'title',
+	) );
+}
+
+
+/** Taxonomies *****************************************************************/
+
+/**
+ * Output the name of the email type taxonomy.
+ *
+ * @since 2.5.0
+ */
+function bp_email_tax_type() {
+	echo bp_get_email_tax_type();
+}
+	/**
+	 * Return the name of the email type taxonomy.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @return string The unique email taxonomy type ID.
+	 */
+	function bp_get_email_tax_type() {
+
+		/**
+		 * Filters the name of the email type taxonomy.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $taxonomy Email type taxonomy name.
+		 */
+		return apply_filters( 'bp_get_email_tax_type', buddypress()->email_taxonomy_type );
+	}
+
+/**
+ * Return labels used by the email type taxonomy.
+ *
+ * @since 2.5.0
+ *
+ * @return string[]
+ */
+function bp_get_email_tax_type_labels() {
+
+	/**
+	 * Filters email type taxonomy labels.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string[] $labels Associative array (name => label).
+	 */
+	return apply_filters( 'bp_get_email_tax_type_labels', array(
+		'add_new_item'          => _x( 'New Email Situation', 'email type taxonomy label', 'buddypress' ),
+		'all_items'             => _x( 'All Email Situations', 'email type taxonomy label', 'buddypress' ),
+		'edit_item'             => _x( 'Edit Email Situations', 'email type taxonomy label', 'buddypress' ),
+		'items_list'            => _x( 'Email list', 'email type taxonomy label', 'buddypress' ),
+		'items_list_navigation' => _x( 'Email list navigation', 'email type taxonomy label', 'buddypress' ),
+		'menu_name'             => _x( 'Situations', 'email type taxonomy label', 'buddypress' ),
+		'name'                  => _x( 'Situation', 'email type taxonomy name', 'buddypress' ),
+		'new_item_name'         => _x( 'New email situation name', 'email type taxonomy label', 'buddypress' ),
+		'not_found'             => _x( 'No email situations found.', 'email type taxonomy label', 'buddypress' ),
+		'no_terms'              => _x( 'No email situations', 'email type taxonomy label', 'buddypress' ),
+		'popular_items'         => _x( 'Popular Email Situation', 'email type taxonomy label', 'buddypress' ),
+		'search_items'          => _x( 'Search Emails', 'email type taxonomy label', 'buddypress' ),
+		'singular_name'         => _x( 'Email', 'email type taxonomy singular name', 'buddypress' ),
+		'update_item'           => _x( 'Update Email Situation', 'email type taxonomy label', 'buddypress' ),
+		'view_item'             => _x( 'View Email Situation', 'email type taxonomy label', 'buddypress' ),
+	) );
+}
 /**
  * Return email appearance settings.
  *
@@ -2626,4 +2780,29 @@ function bp_email_get_appearance_settings() {
 		$default_args,
 		'email_appearance_settings'
 	);
+}
+
+/**
+ * Get the paths to possible templates for the specified email object.
+ *
+ * @since 2.5.0
+ *
+ * @param WP_Post $object Post to get email template for.
+ * @return string[]
+ */
+function bp_email_get_template( WP_Post $object ) {
+	$single = "single-{$object->post_type}";
+
+	/**
+	 * Filter the possible template paths for the specified email object.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string[] $templates
+	 */
+	return apply_filters( 'bp_email_get_template', array(
+		"{$single}-{$object->post_name}.php",
+		"{$single}.php",
+		"assets/emails/{$single}.php",
+	), $object );
 }
