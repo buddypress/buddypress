@@ -707,4 +707,18 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$this->assertTrue( empty( $not_image ) );
 	}
+
+	public function test_emails_should_have_correct_link_color() {
+		$appearance = bp_email_get_appearance_settings();
+
+		$content    = '<a href="http://example.com">example</a>';
+		$link_color = 'style="color: ' . esc_attr( $appearance['highlight_color'] ) . ';';
+		$result     = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
+		$this->assertContains( $link_color, $result );
+
+		$content     = '<a href="http://example.com" style="display: block">example</a>';
+		$link_color .= 'display: block';
+		$result      = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
+		$this->assertContains( $link_color, $result );
+	}
 }

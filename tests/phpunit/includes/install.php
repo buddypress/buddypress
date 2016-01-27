@@ -13,6 +13,7 @@ $multisite = ! empty( $argv[3] );
 
 require_once $config_file_path;
 require_once $tests_dir_path . '/includes/functions.php';
+require_once $tests_dir_path . '/includes/mock-mailer.php';
 
 function _load_buddypress() {
 	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/bp-loader.php';
@@ -47,6 +48,11 @@ $wpdb->select( DB_NAME, $wpdb->dbh );
 foreach ( $wpdb->get_col( "SHOW TABLES LIKE '" . $wpdb->prefix . "bp%'" ) as $bp_table ) {
 	$wpdb->query( "DROP TABLE {$bp_table}" );
 }
+
+function _bp_mock_mailer( $class ) {
+	return 'BP_UnitTest_Mailer';
+}
+tests_add_filter( 'bp_send_email_delivery_class', '_bp_mock_mailer' );
 
 // Install BuddyPress
 bp_version_updater();
