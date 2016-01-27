@@ -935,6 +935,12 @@ class BP_Admin {
 				'file'         => $common_css,
 				'dependencies' => array(),
 			),
+
+			// 2.5
+			'bp-customizer-controls' => array(
+				'file'         => "{$url}customizer-controls{$min}.css",
+				'dependencies' => array(),
+			),
 		) );
 
 
@@ -967,8 +973,13 @@ class BP_Admin {
 		 * @param array $value Array of admin JS file information to register.
 		 */
 		$scripts = apply_filters( 'bp_core_admin_register_scripts', array(
+			// 2.5
+			'bp-customizer-controls' => array(
+				'file'         => "{$url}customizer-controls{$min}.js",
+				'dependencies' => array( 'jquery' ),
+				'footer'       => true,
+			),
 		) );
-
 
 		$version = bp_get_version();
 
