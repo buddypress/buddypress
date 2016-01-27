@@ -100,45 +100,18 @@ function bp_settings_action_general() {
 					);
 
 					bp_update_user_meta( bp_displayed_user_id(), 'pending_email_change', $pending_email );
-
-					$email_text = sprintf(
-						__( 'Dear %1$s,
-
-You recently changed the email address associated with your account on %2$s.
-If this is correct, please click on the following link to complete the change:
-%3$s
-
-You can safely ignore and delete this email if you do not want to take this action or if you have received this email in error.
-
-This email has been sent to %4$s.
-
-Regards,
-%5$s
-%6$s', 'buddypress' ),
-						bp_core_get_user_displayname( bp_displayed_user_id() ),
-						bp_get_site_name(),
-						esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?verify_email_change=' . $hash ),
-						$user_email,
-						bp_get_site_name(),
-						bp_get_root_domain()
-					);
-
-					/**
-					 * Filter the email text sent when a user changes emails.
-					 *
-					 * @since 2.1.0
-					 *
-					 * @param string  $email_text     Text of the email.
-					 * @param string  $new_user_email New user email that the
-					 *                                current user has changed to.
-					 * @param string  $old_user_email Existing email address
-					 *                                for the current user.
-					 * @param WP_User $update_user    Userdata object for the current user.
-					 */
-					$content = apply_filters( 'bp_new_user_email_content', $email_text, $user_email, $old_user_email, $update_user );
+					$verify_link = bp_displayed_user_domain() . bp_get_settings_slug() . '/?verify_email_change=' . $hash;
 
 					// Send the verification email
-					wp_mail( $user_email, sprintf( __( '[%s] Verify your new email address', 'buddypress' ), wp_specialchars_decode( bp_get_site_name() ) ), $content );
+					$args = array(
+						'tokens' => array(
+							'displayname'    => bp_core_get_user_displayname( bp_displayed_user_id() ),
+							'old-user.email' => $old_user_email,
+							'user.email'     => $user_email,
+							'verify.url'     => esc_url( $verify_link ),
+						),
+					);
+					bp_send_email( 'settings-verify-email-change', bp_displayed_user_id(), $args );
 
 					// We mark that the change has taken place so as to ensure a
 					// success message, even though verification is still required

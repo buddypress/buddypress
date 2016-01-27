@@ -1066,6 +1066,7 @@ function bp_registration_needs_activation() {
  * sanitize_option, we want to reverse this for the plain text arena of emails.
  *
  * @since 1.7.0
+ * @since 2.5.0 No longer used by BuddyPress, but not deprecated in case any existing plugins use it.
  *
  * @see https://buddypress.trac.wordpress.org/ticket/4401
  *

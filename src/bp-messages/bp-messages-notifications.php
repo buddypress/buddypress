@@ -26,8 +26,6 @@ defined( 'ABSPATH' ) || exit;
  * }
  */
 function messages_notification_new_message( $raw_args = array() ) {
-
-	// Cast possible $message object as an array.
 	if ( is_object( $raw_args ) ) {
 		$args = (array) $raw_args;
 	} else {
@@ -42,107 +40,48 @@ function messages_notification_new_message( $raw_args = array() ) {
 	// Barf.
 	extract( $args );
 
-	// Get the sender display name.
+	if ( empty( $recipients ) ) {
+		return;
+	}
+
 	$sender_name = bp_core_get_user_displayname( $sender_id );
 
-	// Bail if no recipients.
-	if ( ! empty( $recipients ) ) {
-
-		foreach ( $recipients as $recipient ) {
-
-			if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
-				continue;
-			}
-
-			// User data and links.
-			$ud = get_userdata( $recipient->user_id );
-
-			// Bail if user cannot be found.
-			if ( empty( $ud ) ) {
-				continue;
-			}
-
-			$message_link  = bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() .'/';
-			$settings_slug = function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings';
-			$settings_link = bp_core_get_user_domain( $recipient->user_id ) . $settings_slug . '/notifications/';
-
-			// Sender info.
-			$sender_name   = stripslashes( $sender_name );
-			$subject       = stripslashes( wp_filter_kses( $subject ) );
-			$content       = stripslashes( wp_filter_kses( $message ) );
-
-			// Set up and send the message.
-			$email_to      = $ud->user_email;
-			$email_subject = bp_get_email_subject( array( 'text' => sprintf( __( 'New message from %s', 'buddypress' ), $sender_name ) ) );
-
-			$email_content = sprintf( __(
-'%1$s sent you a new message:
-
-Subject: %2$s
-
-"%3$s"
-
-To view and read your messages please log in and visit: %4$s
-
----------------------
-', 'buddypress' ), $sender_name, $subject, $content, $message_link );
-
-			// Only show the disable notifications line if the settings component is enabled.
-			if ( bp_is_active( 'settings' ) ) {
-				$email_content .= sprintf( __( 'To disable these notifications, please log in and go to: %s', 'buddypress' ), $settings_link );
-			}
-
-			/**
-			 * Filters the user email that the message notification will be sent to.
-			 *
-			 * @since 1.2.0
-			 *
-			 * @param string  $email_to User email the notification is being sent to.
-			 * @param WP_User $ud       WP_User object of who is receiving the message.
-			 */
-			$email_to      = apply_filters( 'messages_notification_new_message_to',      $email_to, $ud );
-
-			/**
-			 * Filters the message notification subject that will be sent to user.
-			 *
-			 * @since 1.2.0
-			 *
-			 * @param string  $email_subject Email notification subject text.
-			 * @param string  $sender_name   Name of the person who sent the message.
-			 * @param WP_User $ud            WP_User object of who is receiving the message.
-			 */
-			$email_subject = apply_filters( 'messages_notification_new_message_subject', $email_subject, $sender_name, $ud );
-
-			/**
-			 * Filters the message notification message that will be sent to user.
-			 *
-			 * @since 1.2.0
-			 *
-			 * @param string  $email_content Email notification message text.
-			 * @param string  $sender_name   Name of the person who sent the message.
-			 * @param string  $subject       Email notification subject text.
-			 * @param string  $content       Content of the message.
-			 * @param string  $message_link  URL permalink for the message.
-			 * @param string  $settings_link URL permalink for the user's notification settings area.
-			 * @param WP_User $ud            WP_User object of who is receiving the message.
-			 */
-			$email_content = apply_filters( 'messages_notification_new_message_message', $email_content, $sender_name, $subject, $content, $message_link, $settings_link, $ud );
-
-			wp_mail( $email_to, $email_subject, $email_content );
+	// Send an email to each recipient.
+	foreach ( $recipients as $recipient ) {
+		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
+			continue;
 		}
+
+		// User data and links.
+		$ud = get_userdata( $recipient->user_id );
+		if ( empty( $ud ) ) {
+			continue;
+		}
+
+		$args = array(
+			'tokens' => array(
+				'usermessage' => wp_strip_all_tags( $message ),
+				'message.url' => esc_url( bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() . '/' ),
+				'sender.name' => $sender_name,
+				'usersubject' => sanitize_text_field( $subject ),
+			),
+		);
+		bp_send_email( 'messages-unread', $ud, $args );
 	}
 
 	/**
 	 * Fires after the sending of a new message email notification.
 	 *
 	 * @since 1.5.0
+	 * @deprecated 2.5.0 Use the filters in BP_Email.
+	 *                   $email_subject and $email_content arguments unset and deprecated.
 	 *
 	 * @param array  $recipients    User IDs of recipients.
-	 * @param string $email_subject Email notification subject text.
-	 * @param string $email_content Email notification message text.
-	 * @param array  $$args         Array of originally provided arguments.
+	 * @param string $email_subject Deprecated in 2.5; now an empty string.
+	 * @param string $email_content Deprecated in 2.5; now an empty string.
+	 * @param array  $args          Array of originally provided arguments.
 	 */
-	do_action( 'bp_messages_sent_notification_email', $recipients, $email_subject, $email_content, $args );
+	do_action( 'bp_messages_sent_notification_email', $recipients, '', '', $args );
 }
 add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
 

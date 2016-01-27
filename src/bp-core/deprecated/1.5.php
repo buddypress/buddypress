@@ -367,8 +367,6 @@ To view and respond to the message, log in and visit: %4$s
 ---------------------
 ', 'buddypress' ), $poster_name, $group->name, $content, $message_link );
 
-			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
-
 			/* Send the message */
 			$to = apply_filters( 'groups_at_message_notification_to', $to );
 			$subject = apply_filters( 'groups_at_message_notification_subject', $subject, $group, $poster_name );
