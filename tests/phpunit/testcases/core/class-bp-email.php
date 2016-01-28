@@ -4,8 +4,22 @@
  * @group BP_Email
  */
 class BP_Tests_Email extends BP_UnitTestCase {
+	protected $u1;
+	protected $u2;
+
 	public function setUp() {
 		parent::setUp();
+
+		$this->u1 = $this->factory->user->create( array(
+			'display_name' => 'Unit Test',
+			'user_email'   => 'test1@example.com',
+		) );
+
+		$this->u2 = $this->factory->user->create( array(
+			'display_name' => 'Unit Test2',
+			'user_email'   => 'test2@example.com',
+		) );
+
 		remove_filter( 'bp_email_get_headers', 'bp_email_set_default_headers', 6, 4 );
 		remove_filter( 'bp_email_get_tokens', 'bp_email_set_default_tokens', 6, 4 );
 	}
@@ -154,5 +168,58 @@ class BP_Tests_Email extends BP_UnitTestCase {
 		$email->set_content_type( 'html' );
 
 		$this->assertSame( '<b>hello world</b><b>hello world</b>', $email->get_content() );
+	}
+
+	public function test_multiple_recipients_are_supported_by_address() {
+		$email1 = 'test1@example.com';
+		$email2 = 'test2@example.com';
+		$email  = new BP_Email( 'fake_type' );
+
+		$email->set_to( array( $email1, $email2 ) );
+		$addresses = $email->get_to();
+
+		$this->assertCount( 2, $addresses );
+		$this->assertSame( $email1, $addresses[0]->get_address() );
+		$this->assertSame( $email2, $addresses[1]->get_address() );
+	}
+
+	public function test_multiple_recipients_are_supported_by_wp_user_object() {
+		$user1 = get_user_by( 'id', $this->u1 );
+		$user2 = get_user_by( 'id', $this->u2 );
+		$email = new BP_Email( 'fake_type' );
+
+		$email->set_to( array( $user1, $user2 ) );
+		$addresses = $email->get_to();
+
+		$this->assertCount( 2, $addresses );
+		$this->assertSame( $user1->user_email, $addresses[0]->get_address() );
+		$this->assertSame( $user2->user_email, $addresses[1]->get_address() );
+	}
+
+	public function test_multiple_recipients_are_supported_by_wp_user_id() {
+		$user1 = get_user_by( 'id', $this->u1 );
+		$user2 = get_user_by( 'id', $this->u2 );
+		$email = new BP_Email( 'fake_type' );
+		$email->set_to( array( $this->u1, $this->u2 ) );
+		$addresses = $email->get_to();
+
+		$this->assertCount( 2, $addresses );
+		$this->assertSame( $user1->user_email, $addresses[0]->get_address() );
+		$this->assertSame( $user2->user_email, $addresses[1]->get_address() );
+	}
+
+	public function test_multiple_recipients_are_supported() {
+		$user1 = get_user_by( 'id', $this->u1 );
+		$user2 = get_user_by( 'id', $this->u2 );
+		$user3 = 'test3@example.com';
+		$email = new BP_Email( 'fake_type' );
+
+		$email->set_to( array( $user1, $this->u2, $user3 ) );
+		$addresses = $email->get_to();
+
+		$this->assertCount( 3, $addresses );
+		$this->assertSame( $user1->user_email, $addresses[0]->get_address() );
+		$this->assertSame( $user2->user_email, $addresses[1]->get_address() );
+		$this->assertSame( $user3,             $addresses[2]->get_address() );
 	}
 }
