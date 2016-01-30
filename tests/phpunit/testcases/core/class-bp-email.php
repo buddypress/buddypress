@@ -222,4 +222,33 @@ class BP_Tests_Email extends BP_UnitTestCase {
 		$this->assertSame( $user2->user_email, $addresses[1]->get_address() );
 		$this->assertSame( $user3,             $addresses[2]->get_address() );
 	}
+
+	public function test_replacing_existing_recipients_with_new_recipients() {
+		$email              = new BP_Email( 'fake_type' );
+		$original_recipient = 'test1@example.com';
+		$new_recipient      = 'test2@example.com';
+
+		$email->set_to( $original_recipient );
+		$addresses = $email->get_to();
+		$this->assertSame( $original_recipient, $addresses[0]->get_address() );
+
+		$email->set_to( $new_recipient );
+		$addresses = $email->get_to();
+		$this->assertSame( $new_recipient, $addresses[0]->get_address() );
+	}
+
+	public function test_appending_new_recipients_to_existing_recipients() {
+		$email              = new BP_Email( 'fake_type' );
+		$original_recipient = 'test1@example.com';
+		$new_recipient      = 'test2@example.com';
+
+		$email->set_to( $original_recipient );
+		$addresses = $email->get_to();
+		$this->assertSame( $original_recipient, $addresses[0]->get_address() );
+
+		$email->set_to( $new_recipient, '', 'add' );
+		$addresses = $email->get_to();
+		$this->assertSame( $original_recipient, $addresses[0]->get_address() );
+		$this->assertSame( $new_recipient, $addresses[1]->get_address() );
+	}
 }

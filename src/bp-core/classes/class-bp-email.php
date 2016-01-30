@@ -521,10 +521,12 @@ class BP_Email {
 	 * @param string|array|int|WP_User $bcc_address Either a email address, user ID, WP_User object,
 	 *                                              or an array containing any combination of the above.
 	 * @param string $name Optional. If $bcc_address is a string, this is the recipient's name.
+	 * @param string $operation Optional. If "replace", $to_address replaces current setting (default).
+	 *                          If "add", $to_address is added to the current setting.
 	 * @return BP_Email
 	 */
-	public function set_bcc( $bcc_address, $name = '' ) {
-		$bcc = array();
+	public function set_bcc( $bcc_address, $name = '', $operation = 'replace' ) {
+		$bcc = ( $operation !== 'replace' ) ? $this->bcc : array();
 
 		if ( is_array( $bcc_address ) ) {
 			foreach ( $bcc_address as $address ) {
@@ -532,7 +534,7 @@ class BP_Email {
 			}
 
 		} else {
-			$bcc = array( new BP_Email_Recipient( $bcc_address, $name ) );
+			$bcc[] = new BP_Email_Recipient( $bcc_address, $name );
 		}
 
 		/**
@@ -544,9 +546,11 @@ class BP_Email {
 		 * @param string|array|int|WP_User $bcc_address Either a email address, user ID, WP_User object,
 		 *                                              or an array containing any combination of the above.
 		 * @param string $name Optional. If $bcc_address is a string, this is the recipient's name.
+		 * @param string $operation If "replace", $to_address replaced previous recipients. If "add",
+		 *                          $to_address was added to the array of recipients.
 		 * @param BP_Email $this Current instance of the email type class.
 		 */
-		$this->bcc = apply_filters( 'bp_email_set_bcc', $bcc, $bcc_address, $name, $this );
+		$this->bcc = apply_filters( 'bp_email_set_bcc', $bcc, $bcc_address, $name, $operation, $this );
 
 		return $this;
 	}
@@ -565,10 +569,12 @@ class BP_Email {
 	 * @param string|array|int|WP_User $cc_address Either a email address, user ID, WP_User object,
 	 *                                             or an array containing any combination of the above.
 	 * @param string $name Optional. If $cc_address is a string, this is the recipient's name.
+	 * @param string $operation Optional. If "replace", $to_address replaces current setting (default).
+	 *                          If "add", $to_address is added to the current setting.
 	 * @return BP_Email
 	 */
-	public function set_cc( $cc_address, $name = '' ) {
-		$cc = array();
+	public function set_cc( $cc_address, $name = '', $operation = 'replace' ) {
+		$cc = ( $operation !== 'replace' ) ? $this->cc : array();
 
 		if ( is_array( $cc_address ) ) {
 			foreach ( $cc_address as $address ) {
@@ -576,7 +582,7 @@ class BP_Email {
 			}
 
 		} else {
-			$cc = array( new BP_Email_Recipient( $cc_address, $name ) );
+			$cc[] = new BP_Email_Recipient( $cc_address, $name );
 		}
 
 		/**
@@ -588,9 +594,11 @@ class BP_Email {
 		 * @param string|array|int|WP_User $cc_address Either a email address, user ID, WP_User object,
 		 *                                             or an array containing any combination of the above.
 		 * @param string $name Optional. If $cc_address is a string, this is the recipient's name.
+		 * @param string $operation If "replace", $to_address replaced previous recipients. If "add",
+		 *                          $to_address was added to the array of recipients.
 		 * @param BP_Email $this Current instance of the email type class.
 		 */
-		$this->cc = apply_filters( 'bp_email_set_cc', $cc, $cc_address, $name, $this );
+		$this->cc = apply_filters( 'bp_email_set_cc', $cc, $cc_address, $name, $operation, $this );
 
 		return $this;
 	}
@@ -833,10 +841,12 @@ class BP_Email {
 	 * @param string|array|int|WP_User $to_address Either a email address, user ID, WP_User object,
 	 *                                             or an array containing any combination of the above.
 	 * @param string $name Optional. If $to_address is a string, this is the recipient's name.
+	 * @param string $operation Optional. If "replace", $to_address replaces current setting (default).
+	 *                          If "add", $to_address is added to the current setting.
 	 * @return BP_Email
 	 */
-	public function set_to( $to_address, $name = '' ) {
-		$to = array();
+	public function set_to( $to_address, $name = '', $operation = 'replace' ) {
+		$to = ( $operation !== 'replace' ) ? $this->to : array();
 
 		if ( is_array( $to_address ) ) {
 			foreach ( $to_address as $address ) {
@@ -844,7 +854,7 @@ class BP_Email {
 			}
 
 		} else {
-			$to = array( new BP_Email_Recipient( $to_address, $name ) );
+			$to[] = new BP_Email_Recipient( $to_address, $name );
 		}
 
 		/**
@@ -855,9 +865,11 @@ class BP_Email {
 		 * @param BP_Email_Recipient[] "To" recipients.
 		 * @param string $to_address "To" address.
 		 * @param string $name "To" name.
+		 * @param string $operation If "replace", $to_address replaced previous recipients. If "add",
+		 *                          $to_address was added to the array of recipients.
 		 * @param BP_Email $this Current instance of the email type class.
 		 */
-		$this->to = apply_filters( 'bp_email_set_to', $to, $to_address, $name, $this );
+		$this->to = apply_filters( 'bp_email_set_to', $to, $to_address, $name, $operation, $this );
 
 		return $this;
 	}
