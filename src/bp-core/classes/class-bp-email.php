@@ -736,7 +736,7 @@ class BP_Email {
 
 			// Load the template.
 			bp_locate_template( bp_email_get_template( $this->post_object ), true, false );
- 			$this->template( ob_get_contents() );
+ 			$this->set_template( ob_get_contents() );
 
 			ob_end_clean();
 		}
@@ -929,11 +929,11 @@ class BP_Email {
 
 		// BCC, CC, and token properties are optional.
 		if (
-			! $this->get( 'from' ) ||
-			! $this->get( 'to' ) ||
-			! $this->get( 'subject' ) ||
-			! $this->get( 'content' ) ||
-			! $this->get( 'template' )
+			! $this->get_from() ||
+			! $this->get_to() ||
+			! $this->get_subject() ||
+			! $this->get_content() ||
+			! $this->get_template()
 		) {
 			$retval = new WP_Error( 'missing_parameter', __CLASS__, $this );
 		}
