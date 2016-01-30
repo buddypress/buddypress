@@ -2762,6 +2762,14 @@ function bp_get_email_tax_type_labels() {
  * @return BP_Email|WP_Error BP_Email object, or WP_Error if there was a problem.
  */
 function bp_get_email( $email_type ) {
+	$switched = false;
+
+	// Switch to the root blog, where the email posts live.
+	if ( ! bp_is_root_blog() ) {
+		switch_to_blog( bp_get_root_blog_id() );
+		$switched = true;
+	}
+
 	$args = array(
 		'no_found_rows'    => true,
 		'numberposts'      => 1,
@@ -2789,6 +2797,10 @@ function bp_get_email( $email_type ) {
 	$args = apply_filters( 'bp_get_email_args', $args, $email_type );
 	$post = get_posts( $args );
 	if ( ! $post ) {
+		if ( $switched ) {
+			restore_current_blog();
+		}
+
 		return new WP_Error( 'missing_email', __FUNCTION__, array( $email_type, $args ) );
 	}
 
@@ -2824,7 +2836,13 @@ function bp_get_email( $email_type ) {
 	 * @param array    $args       Arguments used with get_posts() to fetch a post object.
 	 * @param WP_Post[] All posts retrieved by get_posts( $args ). May only contain $post.
 	 */
-	return apply_filters( 'bp_get_email', $email, $email_type, $args, $post );
+	$retval = apply_filters( 'bp_get_email', $email, $email_type, $args, $post );
+
+	if ( $switched ) {
+		restore_current_blog();
+	}
+
+	return $retval;
 }
 
 /**
