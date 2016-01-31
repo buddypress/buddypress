@@ -392,6 +392,14 @@ function bp_email_get_customizer_controls() {
  * @since 2.5.0
  */
 function bp_email_redirect_to_customizer() {
+	$switched = false;
+
+	// Switch to the root blog, where the email posts live.
+	if ( ! bp_is_root_blog() ) {
+		switch_to_blog( bp_get_root_blog_id() );
+		$switched = true;
+	}
+
 	$email = get_posts( array(
 		'fields'           => 'ids',
 		'orderby'          => 'rand',
@@ -416,6 +424,10 @@ function bp_email_redirect_to_customizer() {
 		),
 		admin_url( 'customize.php' )
 	);
+
+	if ( $switched ) {
+		restore_current_blog();
+	}
 
 	printf(
 		'<script type="text/javascript">window.location = "%s";</script>',

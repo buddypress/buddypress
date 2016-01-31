@@ -427,6 +427,14 @@ function bp_core_admin_available_tools_intro() {
  * @return array
  */
 function bp_admin_reinstall_emails() {
+	$switched = false;
+
+	// Switch to the root blog, where the email posts live.
+	if ( ! bp_is_root_blog() ) {
+		switch_to_blog( bp_get_root_blog_id() );
+		$switched = true;
+	}
+
 	$emails = get_posts( array(
 		'fields'           => 'ids',
 		'post_status'      => 'publish',
@@ -443,6 +451,10 @@ function bp_admin_reinstall_emails() {
 
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 	bp_core_install_emails();
+
+	if ( $switched ) {
+		restore_current_blog();
+	}
 
 	return array( 0, __( 'Emails have been successfully reinstalled.', 'buddypress' ) );
 }
