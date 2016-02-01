@@ -149,7 +149,7 @@ class BP_PHPMailer implements BP_Email_Delivery {
 	 *
 	 * @return string
 	 */
-	static public function get_hostname() {
+	public static function get_hostname() {
 		if ( is_multisite() ) {
 			return get_current_site()->domain;  // From fix_phpmailer_messageid()
 		}
