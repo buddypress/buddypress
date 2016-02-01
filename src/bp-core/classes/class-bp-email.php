@@ -453,7 +453,7 @@ class BP_Email {
 	 *
 	 * @param string $transform Optional. How to transform the return value.
 	 *                          Accepts 'raw' (default) or 'replace-tokens'.
-	 * @return BP_Email_Recipient "To" recipients.
+	 * @return BP_Email_Recipient[] "To" recipients.
 	 */
 	public function get_to( $transform = 'raw' ) {
 		return $this->get( 'to', $transform );
