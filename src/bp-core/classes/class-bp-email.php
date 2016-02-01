@@ -243,7 +243,7 @@ class BP_Email {
 				// Fall through.
 
 			case 'replace-tokens':
-				$retval = self::replace_tokens( $retval, $this->get_tokens( 'raw' ) );
+				$retval = bp_core_replace_tokens_in_text( $retval, $this->get_tokens( 'raw' ) );
 				// Fall through.
 
 			case 'raw':
@@ -947,55 +947,5 @@ class BP_Email {
 		 * @param BP_Email $this Current instance of the email type class.
 		 */
 		return apply_filters( 'bp_email_validate', $retval, $this );
-	}
-
-
-	/*
-	 * Utility functions.
-	 *
-	 * Unlike other methods in this class, utility functions are not chainable.
-	 */
-
-	/**
-	 * Replace all tokens in the input with appropriate values.
-	 *
-	 * Unlike most other methods in this class, this one is not chainable.
-	 *
-	 * @since 2.5.0
-	 *
-	 * @param string $text
-	 * @param array $tokens Token names and replacement values for the $text.
-	 * @return string
-	 */
-	public static function replace_tokens( $text, $tokens ) {
-		$unescaped = array();
-		$escaped   = array();
-
-		foreach ( $tokens as $token => $value ) {
-			if ( is_callable( $value ) ) {
-				$value = call_user_func( $value );
-			}
-
-			// Some tokens are objects or arrays for backwards compatibilty. See bp_core_deprecated_email_filters().
-			if ( ! is_scalar( $value ) ) {
-				continue;
-			}
-
-			$unescaped[ '{{{' . $token . '}}}' ] = $value;
-			$escaped[ '{{' . $token . '}}' ]     = esc_html( $value );
-		}
-
-		$text = strtr( $text, $unescaped );  // Do first.
-		$text = strtr( $text, $escaped );
-
-		/**
-		 * Filters text that has had tokens replaced.
-		 *
-		 * @since 2.5.0
-		 *
-		 * @param string $text
-		 * @param array $tokens Token names and replacement values for the $text.
-		 */
-		return apply_filters( 'bp_email_replace_tokens', $text, $tokens );
 	}
 }

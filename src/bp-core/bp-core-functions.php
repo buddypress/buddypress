@@ -3047,3 +3047,46 @@ function bp_email_get_template( WP_Post $object ) {
 		"assets/emails/{$single}.php",
 	), $object );
 }
+
+/**
+ * Replace all tokens in the input text with appropriate values.
+ *
+ * Intended for use with the email system introduced in BuddyPress 2.5.0.
+ *
+ * @since 2.5.0
+ *
+ * @param string $text
+ * @param array $tokens Token names and replacement values for the $text.
+ * @return string
+ */
+function bp_core_replace_tokens_in_text( $text, $tokens ) {
+	$unescaped = array();
+	$escaped   = array();
+
+	foreach ( $tokens as $token => $value ) {
+		if ( is_callable( $value ) ) {
+			$value = call_user_func( $value );
+		}
+
+		// Tokens could be objects or arrays.
+		if ( ! is_scalar( $value ) ) {
+			continue;
+		}
+
+		$unescaped[ '{{{' . $token . '}}}' ] = $value;
+		$escaped[ '{{' . $token . '}}' ]     = esc_html( $value );
+	}
+
+	$text = strtr( $text, $unescaped );  // Do first.
+	$text = strtr( $text, $escaped );
+
+	/**
+	 * Filters text that has had tokens replaced.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $text
+	 * @param array $tokens Token names and replacement values for the $text.
+	 */
+	return apply_filters( 'bp_core_replace_tokens_in_text', $text, $tokens );
+}
