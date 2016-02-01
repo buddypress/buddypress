@@ -256,7 +256,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group groups_reject_membership_request
- 	 * @group group_membership_requests
+	 * @group group_membership_requests
 	 * @group group_membership
 	 */
 	public function test_bp_groups_reject_membership_request_remove_request() {

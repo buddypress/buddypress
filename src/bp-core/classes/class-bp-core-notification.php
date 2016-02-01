@@ -178,7 +178,7 @@ class BP_Core_Notification {
 			? ' AND is_new = 1 '
 			: '';
 
- 		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d {$is_new}", $user_id ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d {$is_new}", $user_id ) );
 	}
 
 	/**

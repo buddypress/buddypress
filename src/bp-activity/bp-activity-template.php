@@ -2220,7 +2220,7 @@ function bp_activity_is_favorite() {
 		 *
 		 * @param bool $value Whether or not the current activity item is in the current user's favorites.
 		 */
- 		return (bool) apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs ) );
+		return (bool) apply_filters( 'bp_get_activity_is_favorite', in_array( $activities_template->activity->id, (array) $activities_template->my_favs ) );
 	}
 
 /**
@@ -3407,7 +3407,7 @@ function bp_activity_filter_links( $args = false ) {
 		 *
 		 * @param string $value All of the links to be displayed to the user.
 		 */
- 		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
+		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
 	}
 
 /**

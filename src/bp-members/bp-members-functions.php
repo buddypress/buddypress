@@ -1738,7 +1738,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 	 *
 	 * @param array $result Results of user validation including errors, if any.
 	 */
- 	return apply_filters( 'bp_core_validate_user_signup', $result );
+	return apply_filters( 'bp_core_validate_user_signup', $result );
 }
 
 /**

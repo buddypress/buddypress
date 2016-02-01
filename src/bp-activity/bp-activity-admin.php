@@ -308,8 +308,8 @@ function bp_activity_admin_load() {
 	// Enqueue CSS and JavaScript.
 	wp_enqueue_script( 'bp_activity_admin_js', $bp->plugin_url . "bp-activity/admin/js/admin.{$min}js",   array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
 	wp_localize_script( 'bp_activity_admin_js', 'bp_activity_admin_vars', array(
- 	  	'page'   => get_current_screen()->id
- 	) );
+		'page' => get_current_screen()->id
+	) );
 	wp_enqueue_style( 'bp_activity_admin_css', $bp->plugin_url . "bp-activity/admin/css/admin.{$min}css", array(),                               bp_get_version()       );
 
 	wp_style_add_data( 'bp_activity_admin_css', 'rtl', true );

@@ -204,7 +204,7 @@ function bp_core_register_nav_screen_function( $args = '' ) {
 		return false;
 	}
 
- 	/**
+	/**
 	 * If this nav item is hidden for the displayed user, and
 	 * the logged in user is not the displayed user
 	 * looking at their own profile, don't don't register this screen function.
@@ -214,10 +214,10 @@ function bp_core_register_nav_screen_function( $args = '' ) {
 	}
 
 	/**
- 	 * If the nav item is visible, we are not viewing a user, and this is a root
+	 * If the nav item is visible, we are not viewing a user, and this is a root
 	 * component, don't attach the default subnav function so we can display a
 	 * directory or something else.
- 	 */
+	 */
 	if ( ( -1 != $r['position'] ) && bp_is_root_component( $r['slug'] ) && ! bp_displayed_user_id() ) {
 		return;
 	}

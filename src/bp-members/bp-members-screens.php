@@ -93,7 +93,7 @@ function bp_core_screen_signup() {
 
 	$bp->signup->step = 'request-details';
 
- 	if ( !bp_get_signup_allowed() ) {
+	if ( !bp_get_signup_allowed() ) {
 		$bp->signup->step = 'registration-disabled';
 
 	// If the signup page is submitted, validate and save.

@@ -1565,7 +1565,7 @@ function bp_is_current_component( $component = '' ) {
 	 * @param bool   $is_current_component Whether or not the current page belongs to specified component.
 	 * @param string $component            Name of the component being checked.
 	 */
- 	return apply_filters( 'bp_is_current_component', $is_current_component, $component );
+	return apply_filters( 'bp_is_current_component', $is_current_component, $component );
 }
 
 /**

@@ -755,7 +755,7 @@ add_action( 'delete_post', 'bp_core_on_directory_page_delete' );
  */
 function bp_core_component_slug_from_root_slug( $root_slug ) {
 	$slug_chunks = explode( '/', $root_slug );
- 	$slug        = array_pop( $slug_chunks );
+	$slug        = array_pop( $slug_chunks );
 
 	/**
 	 * Filters the default component slug from a WP page root_slug.
@@ -765,7 +765,7 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
 	 * @param string $slug      Short slug for use in the middle of URLs.
 	 * @param string $root_slug The root slug which comes from $bp->pages-[component]->slug.
 	 */
- 	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug );
+	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug );
 }
 
 /**
@@ -2171,7 +2171,7 @@ function bp_core_load_buddypress_textdomain() {
 		if ( load_textdomain( 'buddypress', $location . $mofile_custom ) ) {
 			return true;
 		}
- 	}
+	}
 
 	// Default to WP and glotpress.
 	return load_plugin_textdomain( $domain );
@@ -2970,7 +2970,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 		 *                         will vary based on the email delivery class you are using.
 		 * @param BP_Email $email The email we tried to send.
 		 */
- 		do_action( 'bp_send_email_failure', $status, $email );
+		do_action( 'bp_send_email_failure', $status, $email );
 
 	} else {
 		/**

@@ -106,7 +106,7 @@ function groups_action_create_group() {
 	if ( !is_user_logged_in() )
 		return false;
 
- 	if ( !bp_user_can_create_groups() ) {
+	if ( !bp_user_can_create_groups() ) {
 		bp_core_add_message( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), 'error' );
 		bp_core_redirect( bp_get_groups_directory_permalink() );
 	}

@@ -424,7 +424,7 @@ class BP_Activity_Feed {
 	<language><?php bloginfo_rss( 'language' ); ?></language>
 	<ttl><?php echo $this->ttl; ?></ttl>
 	<sy:updatePeriod><?php echo $this->update_period; ?></sy:updatePeriod>
- 	<sy:updateFrequency><?php echo $this->update_frequency; ?></sy:updateFrequency>
+	<sy:updateFrequency><?php echo $this->update_frequency; ?></sy:updateFrequency>
 	<?php
 
 	/**

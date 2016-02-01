@@ -222,7 +222,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 
 	// Valid field values of 0 or '0' get caught by empty(), so we have an extra check for these. See #BP5731.
- 	if ( ! isset( $field_value ) || empty( $field_value ) && ( '0' !== $field_value ) ) {
+	if ( ! isset( $field_value ) || empty( $field_value ) && ( '0' !== $field_value ) ) {
 		return false;
 	}
 

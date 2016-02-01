@@ -1445,21 +1445,21 @@ function bp_core_get_allowed_avatar_types() {
 	$allowed_types = bp_attachments_get_allowed_types( 'avatar' );
 
 	/**
- 	 * Filters the list of allowed image types.
- 	 *
- 	 * @since 2.3.0
- 	 *
- 	 * @param array $allowed_types List of image types.
- 	 */
- 	$avatar_types = (array) apply_filters( 'bp_core_get_allowed_avatar_types', $allowed_types );
+	 * Filters the list of allowed image types.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param array $allowed_types List of image types.
+	 */
+	$avatar_types = (array) apply_filters( 'bp_core_get_allowed_avatar_types', $allowed_types );
 
- 	if ( empty( $avatar_types ) ) {
- 		$avatar_types = $allowed_types;
- 	} else {
- 		$avatar_types = array_intersect( $allowed_types, $avatar_types );
- 	}
+	if ( empty( $avatar_types ) ) {
+		$avatar_types = $allowed_types;
+	} else {
+		$avatar_types = array_intersect( $allowed_types, $avatar_types );
+	}
 
- 	return array_values( $avatar_types );
+	return array_values( $avatar_types );
 }
 
 /**

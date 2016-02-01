@@ -27,7 +27,7 @@ function bp_core_email_from_name_filter() {
 	 *
 	 * @param string $value Value to set the "From" name to.
 	 */
- 	return apply_filters( 'bp_core_email_from_name_filter', bp_get_option( 'blogname', 'WordPress' ) );
+	return apply_filters( 'bp_core_email_from_name_filter', bp_get_option( 'blogname', 'WordPress' ) );
 }
 
 /**

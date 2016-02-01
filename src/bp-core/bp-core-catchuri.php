@@ -552,10 +552,10 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  */
 function bp_core_no_access( $args = '' ) {
 
- 	// Build the redirect URL.
- 	$redirect_url  = is_ssl() ? 'https://' : 'http://';
- 	$redirect_url .= $_SERVER['HTTP_HOST'];
- 	$redirect_url .= $_SERVER['REQUEST_URI'];
+	// Build the redirect URL.
+	$redirect_url  = is_ssl() ? 'https://' : 'http://';
+	$redirect_url .= $_SERVER['HTTP_HOST'];
+	$redirect_url .= $_SERVER['REQUEST_URI'];
 
 	$defaults = array(
 		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php

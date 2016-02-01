@@ -458,7 +458,7 @@ function bp_adminbar_authors_menu() {
 				'height'  => 15,
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $author->display_name )
 			) );
- 			echo ' ' . $author->display_name . '</a>';
+			echo ' ' . $author->display_name . '</a>';
 			echo '<div class="admin-bar-clear"></div>';
 			echo '</li>';
 		}
