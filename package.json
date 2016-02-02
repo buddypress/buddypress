@@ -3,7 +3,7 @@
   "bugs": {
     "url": "https://buddypress.trac.wordpress.org/"
   },
-  "description": "BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.",
+  "description": "BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-checktextdomain": "~1.0.0",

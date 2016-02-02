@@ -798,7 +798,7 @@ class BP_Admin {
 
 		// Switch welcome text based on whether this is a new installation or not.
 		$welcome_text = ( self::is_new_install() )
-			? __( 'Thank you for installing BuddyPress! BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.', 'buddypress' )
+			? __( 'Thank you for installing BuddyPress! BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.', 'buddypress' )
 			: __( 'BuddyPress %s comes with a bunch of great improvements we think you&#8217;re really going to like.', 'buddypress' );
 
 		?>

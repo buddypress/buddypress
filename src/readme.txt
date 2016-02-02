@@ -7,7 +7,7 @@ Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-BuddyPress helps you run any kind of social network on your WordPress, with member profiles, activity streams, user groups, messaging, and more.
+BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.
 
 == Description ==
 
