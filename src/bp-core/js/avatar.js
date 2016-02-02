@@ -15,6 +15,8 @@ window.bp = window.bp || {};
 
 	bp.Avatar = {
 		start: function() {
+			var self = this;
+
 			/**
 			 * Remove the bp-legacy UI
 			 *
@@ -42,20 +44,14 @@ window.bp = window.bp || {};
 
 			/**
 			 * In Administration screens we're using Thickbox
-			 * We need to make sure to reset the views if it's closed
+			 * We need to make sure to reset the views if it's closed or opened
 			 */
 			$( 'body.wp-admin' ).on( 'tb_unload', '#TB_window', function() {
-				// Reset to the uploader view
-				bp.Avatar.nav.trigger( 'bp-avatar-view:changed', 'upload' );
+				self.resetViews();
+			} );
 
-				// Reset to the uploader nav
-				_.each( bp.Avatar.navItems.models, function( model ) {
-					if ( model.id === 'upload' ) {
-						model.set( { active: 1 } );
-					} else {
-						model.set( { active: 0 } );
-					}
-				} );
+			$( 'body.wp-admin' ).on( 'click', '.bp-xprofile-avatar-user-edit', function() {
+				self.resetViews();
 			} );
 		},
 
@@ -120,6 +116,20 @@ window.bp = window.bp || {};
 					this.deleteView();
 					break;
 			}
+		},
+
+		resetViews: function() {
+			// Reset to the uploader view
+			this.nav.trigger( 'bp-avatar-view:changed', 'upload' );
+
+			// Reset to the uploader nav
+			_.each( this.navItems.models, function( model ) {
+				if ( model.id === 'upload' ) {
+					model.set( { active: 1 } );
+				} else {
+					model.set( { active: 0 } );
+				}
+			} );
 		},
 
 		setupNav: function() {

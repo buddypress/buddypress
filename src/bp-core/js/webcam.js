@@ -89,6 +89,8 @@ window.bp = window.bp || {};
 			} else if ( navigator.mozGetUserMedia ) {
 				video.src = stream;
 				video.play();
+			} else if ( video.srcObject !== undefined ) {
+				video.srcObject = stream;
 			} else if ( window.URL ) {
 				video.src = window.URL.createObjectURL( stream );
 			} else {
@@ -212,7 +214,7 @@ window.bp = window.bp || {};
 			bp.WebCam.displayWarning( 'requesting' );
 
 			if ( navigator.getUserMedia ) {
-				navigator.getUserMedia( { video:true }, bp.WebCam.gotStream, bp.WebCams.noStream );
+				navigator.getUserMedia( { video:true }, bp.WebCam.gotStream, bp.WebCam.noStream );
 			}  else if ( navigator.oGetUserMedia ) {
 				navigator.oGetUserMedia( { video:true }, bp.WebCam.gotStream, bp.WebCam.noStream );
 			} else if ( navigator.mozGetUserMedia ) {

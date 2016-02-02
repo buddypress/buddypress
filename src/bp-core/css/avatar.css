@@ -170,7 +170,15 @@ div.bp-avatar-nav {
 	text-align: center;
 }
 
-.drag-drop-inside p.drag-drop-info {margin-top: 0;}
+.drag-drop-inside p.drag-drop-info {
+	margin-top: 0;
+}
+
+@supports (-ms-accelerator:true) {
+	.drag-drop-inside p.drag-drop-info {
+		display: block;
+	}
+}
 
 #avatar-to-crop {
 	margin: 0 auto 20px ;

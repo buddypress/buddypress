@@ -1936,7 +1936,7 @@ function bp_avatar_is_front_edit() {
  * @return bool True to load the Webcam Avatar UI part. False otherwise.
  */
 function bp_avatar_use_webcam() {
-	global $is_safari, $is_IE;
+	global $is_safari, $is_IE, $is_chrome;
 
 	/**
 	 * Do not use the webcam feature for mobile devices
@@ -1951,7 +1951,7 @@ function bp_avatar_use_webcam() {
 	 *
 	 * @see  http://caniuse.com/#feat=stream
 	 */
-	if ( $is_safari || $is_IE ) {
+	if ( $is_safari || $is_IE || ( $is_chrome && ! is_ssl() ) ) {
 		return false;
 	}
 
