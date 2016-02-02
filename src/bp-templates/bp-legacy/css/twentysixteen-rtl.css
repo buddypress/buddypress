@@ -1851,10 +1851,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @section 10.0 - Ajax Loading, Widgets, General classes
 *-------------------------------------------------------------------------------
 */
-#buddypress {
-	/* Auto Complete background */
-}
-
 #buddypress .acfb-holder li.friend-tab {
 	background: #9fd1e2;
 	border: inherit;

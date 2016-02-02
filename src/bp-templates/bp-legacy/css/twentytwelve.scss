@@ -352,7 +352,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 }
 
-	/*__ Horizontal menus __*/
+/*__ Horizontal menus __*/
 #buddypress {
 
 	#object-nav {
@@ -456,7 +456,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 }
 
-	/*__ Vertical menu User Account / Group single screens __*/
+/*__ Vertical menu User Account / Group single screens __*/
 
 // This block contains rules to re-factor the item-body structural element
 // to sit alongside the vert menu
@@ -1203,8 +1203,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user {
 	#buddypress {
-	// On object nav links, table links (notifications etc) we don't really need :visited
-	// inheritance, so set pseudo class to :link color.
+		// On object nav links, table links (notifications etc) we don't really need :visited
+		// inheritance, so set pseudo class to :link color.
 		a {
 			&:visited {
 				color: #21759b;
@@ -1375,10 +1375,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				#item-header-content {
 					float: left;
 				}
-
-//				#item-header-avatar {
-//					width: 21%;
-//				}
 
 				#item-header-content {
 					margin-left: 4%;
@@ -1835,7 +1831,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#buddypress {
 
 		#message-thread {
-		//Single message view
+			//Single message view
 			a {
 				border-bottom: 0;
 			}
@@ -2060,7 +2056,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 			td:first-child + td + td {
-			// notice date
+				// notice date
 				border-bottom: 0;
 
 				span {
@@ -2069,13 +2065,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 			td:last-child {
-			// notice actions
+				// notice actions
 				line-height: 1;
 				padding-bottom: 1em;
 				text-align: right;
 
 				a:last-child {
-				// hide the 'x' text
+					// hide the 'x' text
 					line-height: 0;
 					margin-left: 0.7em;
 					text-indent: -999em;
@@ -2161,7 +2157,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @section 7.0 - Forms  - General
 *-------------------------------------------------------------------------------
 */
-	// Attempt to reset form control widths
+
+// Attempt to reset form control widths
 #main {
 	#buddypress {
 		.standard-form {
@@ -2180,8 +2177,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress {
 
-// Match BP form elements to Themes(2012) styling where styles
-// are not inherited or being overriden.
+	// Match BP form elements to Themes(2012) styling where styles
+	// are not inherited or being overriden.
 	div.activity-comments {
 
 		form {
@@ -2436,7 +2433,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 */
 
 #buddypress {
-	/* Auto Complete background */
+
 	.acfb-holder {
 
 		li.friend-tab {

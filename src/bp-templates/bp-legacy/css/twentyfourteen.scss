@@ -829,7 +829,6 @@ body.activity-permalink {
 #buddypress {
 	.activity {
 		.activity-comments {
-		//	border-left: 1px solid $border-light;
 			margin-left: 0;
 			margin-top: 5px;
 
@@ -1424,10 +1423,11 @@ body.activity-permalink {
 		border-right: 1px solid $border-med;
 
 		tbody > tr:first-child {
+
 			td.bulk-select-check,
 			td.thread-from {
 				border-top: 1px solid $border-med;
-		 }
+			}
 		}
 
 		tr {
@@ -1580,7 +1580,7 @@ body.activity-permalink {
 		}
 
 		td:first-child + td + td {
-		// notice date
+			// notice date
 			border-bottom: 0;
 
 			span {
@@ -1589,13 +1589,13 @@ body.activity-permalink {
 		}
 
 		td:last-child {
-		// notice actions
+			// notice actions
 			border-bottom-color: $border-med;
 			line-height: 1;
 			text-align: right;
 
 			a:last-child {
-			// hide the 'x' text
+				// hide the 'x' text
 				line-height: 0;
 				margin-left: 0.7em;
 				text-indent: -999em;
@@ -1708,8 +1708,8 @@ body.activity-permalink {
 		float: none;
 		margin: $spacing-val-sm 0;
 
-// Stylise the seach form elements, in part this deals with padding
-// issues on the submit & sizing issues between bp styles & twentyfourteen
+		// Stylise the seach form elements, in part this deals with padding
+		// issues on the submit & sizing issues between bp styles & twentyfourteen
 		form {
 			border: 1px solid #ccc;
 			overflow: hidden;
@@ -1746,7 +1746,7 @@ body.activity-permalink {
 				width: 20%;
 			}
 
-			}// close form
+		}// close form
 
 	} // close .dir-search, .message-search
 
@@ -1846,12 +1846,11 @@ body.activity-permalink {
 */
 
 #buddypress {
-	/* Auto Complete background */
 	.acfb-holder {
 
 		li.friend-tab {
 			background: $notice-info;
 			border: inherit;
-	 }
+		}
 	}
 }

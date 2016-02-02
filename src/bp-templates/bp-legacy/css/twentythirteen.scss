@@ -321,7 +321,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		} // close @media
 	}
 }
-	/*__ Horizontal menus & small screen __*/
+/*__ Horizontal menus & small screen __*/
 
 #buddypress {
 
@@ -415,7 +415,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 } // close #buddypress
 
-	/*__ Vertical menu User Account / Group single screens __*/
+/*__ Vertical menu User Account / Group single screens __*/
 
 // This block contains rules to re-factor the item-body structural element
 // to sit alongside the vert menu
@@ -423,11 +423,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 // for a columner nav we'll only use these rules if no sidebar 'body:not(.sidebar)'.
 
 @media screen and (min-width: 55em) {
-
-	.bp-user #buddypress,
-	.single-item.groups #buddypress {
-	//	background: $light-background;
-	}
 
 	body:not(.sidebar) {
 		#buddypress {
@@ -1322,8 +1317,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			} // close @media
 
 			#item-header-cover-image {
-	//			#item-header-content {
-	//			}
 
 				#item-actions {
 					border: 0;
@@ -1822,7 +1815,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#buddypress {
 
 		#message-thread {
-		//Single message view
+			//Single message view
 			a {
 				border-bottom: 0;
 			}
@@ -1995,7 +1988,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-	/* Auto Complete background */
 		.acfb-holder {
 
 			li.friend-tab {
@@ -2015,7 +2007,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-		/* Sitewide Notices loop */
 		.sitewide-notices {
 			tr {
 				td:first-child {
@@ -2047,7 +2038,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		#settings-form {
 			padding: 0 $spacing-val-sm;
-		// 'p' = email notification screen sub heading
+			// 'p' = email notification screen sub heading
 			> p {
 				@include font-size(20);
 				margin: $spacing-val-md 0 $spacing-val-sm;
@@ -2095,7 +2086,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @section 7.0 - Forms  - General
 *-------------------------------------------------------------------------------
 */
-	// Attempt to reset form control widths
+// Attempt to reset form control widths
 #main {
 	#buddypress {
 		.standard-form {
@@ -2114,8 +2105,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress {
 
-// Match BP form elements to Themes(2013) styling where styles
-// are not inherited or being overriden.
+	// Match BP form elements to Themes(2013) styling where styles
+	// are not inherited or being overriden.
 	div.activity-comments {
 
 		form {
@@ -2384,12 +2375,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 */
 
 #buddypress {
-	/* Auto Complete background */
 	.acfb-holder {
 
 		li.friend-tab {
 			background: $notice-info;
 			border: inherit;
-	 }
+		}
 	}
 }

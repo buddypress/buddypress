@@ -1411,11 +1411,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	* @subsection 6.2.2.5 - Private Messaging
 	*-------------------------------------------
 	*/
-.bp-user #buddypress {
-	/* Auto Complete background */
-	/* Sitewide Notices loop */
-}
-
 .bp-user #buddypress #message-thread a {
 	border-bottom: 0;
 }
@@ -1926,10 +1921,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @section 10.0 - Ajax Loading, Widgets, General classes
 *-------------------------------------------------------------------------------
 */
-#buddypress {
-	/* Auto Complete background */
-}
-
 #buddypress .acfb-holder li.friend-tab {
 	background: #9fd1e2;
 	border: inherit;
