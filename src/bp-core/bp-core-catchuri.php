@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  *   - http:// example.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *   - OUTSIDE ROOT: http:// example.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
  *
- *	Example:
+ * Example:
  *    - http://example.com/members/andy/profile/edit/group/5/
  *    - $bp->current_component: string 'xprofile'
  *    - $bp->current_action: string 'edit'
@@ -77,12 +77,14 @@ function bp_core_set_uri_globals() {
 		}
 	}
 
-	// If running off blog other than root, any subdirectory names must be
-	// removed from $bp_uri. This includes two cases:
-	//
-	// 1. when WP is installed in a subdirectory,
-	// 2. when BP is running on secondary blog of a subdirectory
-	// multisite installation. Phew!
+	/*
+	 * If running off blog other than root, any subdirectory names must be
+	 * removed from $bp_uri. This includes two cases:
+	 *
+	 * 1. when WP is installed in a subdirectory,
+	 * 2. when BP is running on secondary blog of a subdirectory
+	 * multisite installation. Phew!
+	 */
 	if ( is_multisite() && !is_subdomain_install() && ( bp_is_multiblog_mode() || 1 != bp_get_root_blog_id() ) ) {
 
 		// Blow chunks.
@@ -130,9 +132,11 @@ function bp_core_set_uri_globals() {
 	// Reset the keys by merging with an empty array.
 	$bp_uri = array_merge( array(), $bp_uri );
 
-	// If a component is set to the front page, force its name into $bp_uri
-	// so that $current_component is populated (unless a specific WP post is being requested
-	// via a URL parameter, usually signifying Preview mode).
+	/*
+	 * If a component is set to the front page, force its name into $bp_uri
+	 * so that $current_component is populated (unless a specific WP post is being requested
+	 * via a URL parameter, usually signifying Preview mode).
+	 */
 	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) && empty( $_GET['p'] ) && empty( $_GET['page_id'] ) ) {
 		$post = get_post( get_option( 'page_on_front' ) );
 		if ( !empty( $post ) ) {
@@ -390,6 +394,8 @@ function bp_core_enable_root_profiles() {
  * Loads:
  *   wp-content/themes/[activated_theme]/members/index.php
  *
+ * @since 1.0.0
+ *
  * @param array $templates Array of templates to attempt to load.
  */
 function bp_core_load_template( $templates ) {
@@ -493,6 +499,8 @@ function bp_core_load_template( $templates ) {
 
 /**
  * Redirect away from /profile URIs if XProfile is not enabled.
+ *
+ * @since 1.0.0
  */
 function bp_core_catch_profile_uri() {
 	if ( !bp_is_active( 'xprofile' ) ) {

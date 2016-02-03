@@ -52,6 +52,7 @@ class BP_Theme_Compat {
 	/**
 	 * Template package properties, as passed to the constructor.
 	 *
+	 * @since 1.7.0
 	 * @var array
 	 */
 	protected $_data = array();

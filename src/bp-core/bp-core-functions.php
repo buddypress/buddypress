@@ -83,6 +83,8 @@ function bp_db_version_raw() {
  *
  * The filter is intended primarily for use in multinetwork installations.
  *
+ * @since 1.2.6
+ *
  * @global object $wpdb WordPress database object.
  *
  * @return string Filtered database prefix.
@@ -170,6 +172,8 @@ function bp_alpha_sort_by_key( $items, $key ) {
 /**
  * Format numbers the BuddyPress way.
  *
+ * @since 1.2.0
+ *
  * @param int  $number   The number to be formatted.
  * @param bool $decimals Whether to use decimals. See {@link number_format_i18n()}.
  * @return string The formatted number.
@@ -250,7 +254,7 @@ function bp_core_parse_args_array( $old_args_keys, $func_args ) {
  * the optional $filter_key parameter. If no $filter_key is passed, no filters
  * are applied.
  *
- * @since r7704
+ * @since 2.0.0
  *
  * @param string|array $args       Value to merge with $defaults.
  * @param array        $defaults   Array that serves as the defaults.
@@ -776,6 +780,8 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
  * WordPress pages and this function is now a convenience for compatibility
  * with the new method.
  *
+ * @since 1.0.0
+ *
  * @param string $slug The slug of the component being added to the root list.
  */
 function bp_core_add_root_component( $slug ) {
@@ -815,6 +821,8 @@ function bp_core_add_root_component( $slug ) {
 
 /**
  * Create WordPress pages to be used as BP component directories.
+ *
+ * @since 1.5.0
  */
 function bp_core_create_root_component_page() {
 
@@ -841,6 +849,8 @@ function bp_core_create_root_component_page() {
  * Add illegal blog names to WP so that root components will not conflict with blog names on a subdirectory installation.
  *
  * For example, it would stop someone creating a blog with the slug "groups".
+ *
+ * @since 1.0.0
  *
  * @todo Deprecate?
  */
@@ -917,6 +927,8 @@ function bp_do_register_theme_directory() {
  *
  * Eg: http://example.com OR https://example.com
  *
+ * @since 1.0.0
+ *
  * @uses get_blog_option() WordPress function to fetch blog meta.
  *
  * @return string The domain URL for the blog.
@@ -937,6 +949,8 @@ function bp_core_get_root_domain() {
 
 /**
  * Perform a status-safe wp_redirect() that is compatible with BP's URI parser.
+ *
+ * @since 1.0.0
  *
  * @uses wp_safe_redirect()
  *
@@ -987,6 +1001,8 @@ function bp_get_referer_path() {
 
 /**
  * Get the path of the current site.
+ *
+ * @since 1.0.0
  *
  * @global object $current_site
  *
@@ -1064,6 +1080,8 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
  * Note that fractions of minutes are not represented in the return string. So
  * an interval of 3 minutes will be represented by "3 minutes ago", as will an
  * interval of 3 minutes 59 seconds.
+ *
+ * @since 1.0.0
  *
  * @uses apply_filters() Filter 'bp_core_time_since_pre' to bypass BP's calculations.
  * @uses apply_filters() Filter 'bp_core_time_since' to modify BP's calculations.
@@ -1264,6 +1282,8 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 /**
  * Add a feedback (error/success) message to the WP cookie so it can be displayed after the page reloads.
  *
+ * @since 1.0.0
+ *
  * @param string $message Feedback message to be displayed.
  * @param string $type    Message type. 'updated', 'success', 'error', 'warning'.
  *                        Default: 'success'.
@@ -1300,6 +1320,8 @@ function bp_core_add_message( $message, $type = '' ) {
  * After the message is displayed, it removes the message vars from the cookie
  * so that the message is not shown to the user multiple times.
  *
+ * @since 1.1.0
+ *
  * @uses setcookie() Sets a cookie value for the user.
  */
 function bp_core_setup_message() {
@@ -1332,6 +1354,8 @@ add_action( 'bp_actions', 'bp_core_setup_message', 5 );
  *
  * The hook action 'template_notices' is used to call this function, it is not
  * called directly.
+ *
+ * @since 1.1.0
  */
 function bp_core_render_message() {
 
@@ -1379,6 +1403,8 @@ function bp_core_render_message() {
  * the user was last active. This function will update that time as a usermeta
  * setting for the user every 5 minutes while the user is actively browsing the
  * site.
+ *
+ * @since 1.0.0
  *
  * @uses bp_update_user_meta() BP function to update user metadata in the
  *       usermeta table.
@@ -1435,6 +1461,8 @@ add_action( 'wp_head', 'bp_core_record_activity' );
 
 /**
  * Format last activity string based on time since date given.
+ *
+ * @since 1.0.0
  *
  * @uses bp_core_time_since() This function will return an English
  *       representation of the time elapsed.
@@ -1756,6 +1784,8 @@ function bp_core_do_network_admin() {
  *
  *     add_action( bp_core_admin_hook(), 'myplugin_dashboard_panel_setup' );
  *
+ * @since 1.5.0
+ *
  * @return string $hook The proper hook ('network_admin_menu' or 'admin_menu').
  */
 function bp_core_admin_hook() {
@@ -1927,6 +1957,8 @@ function bp_is_network_activated() {
 /**
  * Set the "is_directory" global.
  *
+ * @since 1.5.0
+ *
  * @param bool   $is_directory Optional. Default: false.
  * @param string $component    Optional. Component name. Default: the current
  *                             component.
@@ -1951,6 +1983,8 @@ function bp_update_is_directory( $is_directory = false, $component = '' ) {
 /**
  * Set the "is_item_admin" global.
  *
+ * @since 1.5.0
+ *
  * @param bool   $is_item_admin Optional. Default: false.
  * @param string $component     Optional. Component name. Default: the current
  *                              component.
@@ -1974,6 +2008,8 @@ function bp_update_is_item_admin( $is_item_admin = false, $component = '' ) {
 
 /**
  * Set the "is_item_mod" global.
+ *
+ * @since 1.5.0
  *
  * @param bool   $is_item_mod Optional. Default: false.
  * @param string $component   Optional. Component name. Default: the current
@@ -2138,6 +2174,8 @@ function bp_is_get_request() {
 /**
  * Load the buddypress translation file for current language.
  *
+ * @since 1.0.2
+ *
  * @see load_textdomain() for a description of return values.
  *
  * @return bool True on success, false on failure.
@@ -2180,6 +2218,8 @@ add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
 /**
  * A JavaScript-free implementation of the search functions in BuddyPress.
+ *
+ * @since 1.0.1
  *
  * @param string $slug The slug to redirect to for searching.
  */
@@ -2254,6 +2294,8 @@ add_action( 'bp_init', 'bp_core_action_search_site', 7 );
 
 /**
  * Print the generation time in the footer of the site.
+ *
+ * @since 1.0.0
  */
 function bp_core_print_generation_time() {
 ?>
@@ -2617,7 +2659,7 @@ function bp_email_post_type() {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $post_type Email post type name.
+		 * @param string $value Email post type name.
 		 */
 		return apply_filters( 'bp_get_email_post_type', buddypress()->email_post_type );
 	}
@@ -2636,7 +2678,7 @@ function bp_get_email_post_type_labels() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string[] $labels Associative array (name => label).
+	 * @param array $value Associative array (name => label).
 	 */
 	return apply_filters( 'bp_get_email_post_type_labels', array(
 		'add_new'               => _x( 'Add New', 'email post type label', 'buddypress' ),
@@ -2671,7 +2713,7 @@ function bp_get_email_post_type_supports() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string[] $features Supported features.
+	 * @param array $value Supported features.
 	 */
 	return apply_filters( 'bp_get_email_post_type_supports', array(
 		'custom-fields',
@@ -2707,7 +2749,7 @@ function bp_email_tax_type() {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $taxonomy Email type taxonomy name.
+		 * @param string $value Email type taxonomy name.
 		 */
 		return apply_filters( 'bp_get_email_tax_type', buddypress()->email_taxonomy_type );
 	}
@@ -2717,7 +2759,7 @@ function bp_email_tax_type() {
  *
  * @since 2.5.0
  *
- * @return string[]
+ * @return array
  */
 function bp_get_email_tax_type_labels() {
 
@@ -2726,7 +2768,7 @@ function bp_get_email_tax_type_labels() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string[] $labels Associative array (name => label).
+	 * @param array $value Associative array (name => label).
 	 */
 	return apply_filters( 'bp_get_email_tax_type_labels', array(
 		'add_new_item'          => _x( 'New Email Situation', 'email type taxonomy label', 'buddypress' ),
@@ -2812,7 +2854,7 @@ function bp_get_email( $email_type ) {
 	 * @param WP_Post $post       Post object containing the contents of the email.
 	 * @param string  $email_type Unique identifier for a particular type of email.
 	 * @param array   $args       Arguments used with get_posts() to fetch a post object.
-	 * @param WP_Post[] All posts retrieved by get_posts( $args ). May only contain $post.
+	 * @param WP_Post $post       All posts retrieved by get_posts( $args ). May only contain $post.
 	 */
 	$post  = apply_filters( 'bp_get_email_post', $post[0], $email_type, $args, $post );
 	$email = new BP_Email( $email_type );
@@ -2831,10 +2873,9 @@ function bp_get_email( $email_type ) {
 	 * @since 2.5.0
 	 *
 	 * @param BP_Email $email      An object representing a single email, ready for mailing.
-	 * @param WP_Post  $post       Post object containing the contents of the email.
 	 * @param string   $email_type Unique identifier for a particular type of email.
 	 * @param array    $args       Arguments used with get_posts() to fetch a post object.
-	 * @param WP_Post[] All posts retrieved by get_posts( $args ). May only contain $post.
+	 * @param WP_Post  $post       All posts retrieved by get_posts( $args ). May only contain $post.
 	 */
 	$retval = apply_filters( 'bp_get_email', $email, $email_type, $args, $post );
 
@@ -2854,10 +2895,10 @@ function bp_get_email( $email_type ) {
  *
  * @since 2.5.0
  *
- * @param string $email_type Type of email being sent.
- * @param string|array|int|WP_User $to Either a email address, user ID, WP_User object,
- *                                     or an array containing any combination of the above.
- * @param array $args {
+ * @param string                   $email_type Type of email being sent.
+ * @param string|array|int|WP_User $to         Either a email address, user ID, WP_User object,
+ *                                             or an array containg the address and name.
+ * @param array                    $args {
  *     Optional. Array of extra. parameters.
  *
  *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
@@ -2876,7 +2917,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 		$wp_html_emails = apply_filters( 'wp_mail_content_type', 'text/plain' ) === 'text/html';
 	}
 
-	// wp_mail() is a pluggable function. Has it been re-defined by another plugin?
+	// Since wp_mail() is a pluggable function, has it been re-defined by another plugin?
 	if ( is_null( $is_default_wpmail ) ) {
 		try {
 			$mirror            = new ReflectionFunction( 'wp_mail' );
@@ -2943,10 +2984,10 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $deliver_class The email delivery class name.
-	 * @param string $email_type Type of email being sent.
-	 * @param string[]|string $to Array or comma-separated list of email addresses to the email to.
-	 * @param array $args {
+	 * @param string       $deliver_class The email delivery class name.
+	 * @param string       $email_type    Type of email being sent.
+	 * @param array|string $to            Array or comma-separated list of email addresses to the email to.
+	 * @param array        $args {
 	 *     Optional. Array of extra parameters.
 	 *
 	 *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
@@ -2961,6 +3002,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	$status   = $delivery->bp_email( $email );
 
 	if ( is_wp_error( $status ) ) {
+
 		/**
 		 * Fires after BuddyPress has tried - and failed - to send an email.
 		 *
@@ -2968,18 +3010,19 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 		 *
 		 * @param WP_Error $status A WP_Error object describing why the email failed to send. The contents
 		 *                         will vary based on the email delivery class you are using.
-		 * @param BP_Email $email The email we tried to send.
+		 * @param BP_Email $email  The email we tried to send.
 		 */
 		do_action( 'bp_send_email_failure', $status, $email );
 
 	} else {
+
 		/**
 		 * Fires after BuddyPress has succesfully sent an email.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param bool $status True if the email was sent successfully.
-		 * @param BP_Email $email The email sent.
+		 * @param bool     $status True if the email was sent successfully.
+		 * @param BP_Email $email  The email sent.
 		 */
 		do_action( 'bp_send_email_success', $status, $email );
 	}
@@ -3029,7 +3072,7 @@ function bp_email_get_appearance_settings() {
  * @since 2.5.0
  *
  * @param WP_Post $object Post to get email template for.
- * @return string[]
+ * @return array
  */
 function bp_email_get_template( WP_Post $object ) {
 	$single = "single-{$object->post_type}";
@@ -3039,7 +3082,8 @@ function bp_email_get_template( WP_Post $object ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string[] $templates
+	 * @param array   $value  Array of possible template paths.
+	 * @param WP_Post $object WP_Post object.
 	 */
 	return apply_filters( 'bp_email_get_template', array(
 		"{$single}-{$object->post_name}.php",

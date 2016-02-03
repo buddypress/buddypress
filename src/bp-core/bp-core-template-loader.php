@@ -187,9 +187,9 @@ function bp_deregister_template_stack( $location_callback = '', $priority = 10 )
  * Calls the functions added to the 'bp_template_stack' filter hook, and return
  * an array of the template locations.
  *
- * @see bp_register_template_stack()
- *
  * @since 1.7.0
+ *
+ * @see bp_register_template_stack()
  *
  * @global array $wp_filter         Stores all of the filters.
  * @global array $merged_filters    Merges the filter hooks using this function.

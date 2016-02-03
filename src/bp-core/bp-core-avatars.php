@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Set up the constants we need for avatar support.
+ *
+ * @since 1.2.0
  */
 function bp_core_set_avatar_constants() {
 
@@ -104,6 +106,7 @@ add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
  * locally:
  *    add_filter( 'bp_core_fetch_avatar_no_grav', '__return_true' );
  *
+ * @since 1.1.0
  * @since 2.4.0 Added 'extra_attr', 'scheme', 'rating' and 'force_default' for $args.
  *              These are inherited from WordPress 4.2.0. See {@link get_avatar()}.
  *
@@ -633,7 +636,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( ! empty( $params['rating'] ) ) {
 			$url_args['r'] = strtolower( $params['rating'] );
 		}
-		// Only set default image if 'Gravatar Logo' is not requested
+		// Only set default image if 'Gravatar Logo' is not requested.
 		if ( 'gravatar_default' !== $default_grav ) {
 			$url_args['d'] = $default_grav;
 		}
@@ -673,6 +676,8 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 /**
  * Delete an existing avatar.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     Array of function parameters.
@@ -817,6 +822,8 @@ add_action( 'wp_ajax_bp_avatar_delete', 'bp_avatar_ajax_delete' );
  * size is within limits, and that it has an accepted file extension (jpg, gif,
  * png). If everything checks out, crop the image and move it to its real
  * location.
+ *
+ * @since 1.1.0
  *
  * @see bp_core_check_avatar_upload()
  * @see bp_core_check_avatar_type()
@@ -1117,6 +1124,8 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
  *  crop_x - The horizontal starting point of the crop
  *  crop_y - The vertical starting point of the crop
  *
+ * @since 1.1.0
+ *
  * @param array|string $args {
  *     Array of function parameters.
  *
@@ -1317,6 +1326,7 @@ add_action( 'wp_ajax_bp_avatar_set', 'bp_avatar_ajax_set' );
  *
  * See 'get_avatar' filter description in wp-includes/pluggable.php.
  *
+ * @since 1.1.0
  * @since 2.4.0 Added $args parameter to coincide with WordPress 4.2.0.
  *
  * @param string            $avatar  The avatar path passed to 'get_avatar'.
@@ -1413,6 +1423,8 @@ add_filter( 'get_avatar', 'bp_core_fetch_avatar_filter', 10, 6 );
 /**
  * Is the current avatar upload error-free?
  *
+ * @since 1.0.0
+ *
  * @param array $file The $_FILES array.
  * @return bool True if no errors are found. False if there are errors.
  */
@@ -1425,6 +1437,8 @@ function bp_core_check_avatar_upload( $file ) {
 
 /**
  * Is the file size of the current avatar upload permitted?
+ *
+ * @since 1.0.0
  *
  * @param array $file The $_FILES array.
  * @return bool True if the avatar is under the size limit, otherwise false.
@@ -1477,6 +1491,8 @@ function bp_core_get_allowed_avatar_mimes() {
  * Does the current avatar upload have an allowed file type?
  *
  * Permitted file types are JPG, GIF and PNG.
+ *
+ * @since 1.0.0
  *
  * @param array $file The $_FILES array.
  * @return bool True if the file extension is permitted, otherwise false.
@@ -1565,6 +1581,8 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 /**
  * Get the absolute upload path for the WP installation.
  *
+ * @since 1.2.0
+ *
  * @uses bp_core_get_upload_dir() To get upload directory info.
  *
  * @return string Absolute path to WP upload directory.
@@ -1583,6 +1601,8 @@ function bp_core_avatar_upload_path() {
 
 /**
  * Get the raw base URL for root site upload location.
+ *
+ * @since 1.2.0
  *
  * @uses bp_core_get_upload_dir() To get upload directory info.
  *
@@ -1849,13 +1869,13 @@ function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
  *
  * @since  2.2.0
  *
- * @param  WP_Query|null $posts_query the main query object.
- *
  * @uses   bp_is_group_create()
  * @uses   bp_is_group_admin_page()
  * @uses   bp_is_group_admin_screen() to check for a group admin screen
  * @uses   bp_action_variable() to check for the group's avatar creation step
  * @uses   bp_is_user_change_avatar() to check for the user's change profile screen
+ *
+ * @param WP_Query|null $posts_query The main query object.
  */
 function bp_core_avatar_reset_query( $posts_query = null ) {
 	$reset_w = false;
@@ -1933,6 +1953,7 @@ function bp_avatar_is_front_edit() {
  *
  * @global $is_safari
  * @global $is_IE
+ *
  * @return bool True to load the Webcam Avatar UI part. False otherwise.
  */
 function bp_avatar_use_webcam() {

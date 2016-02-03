@@ -334,8 +334,9 @@ function bp_current_user_can( $capability, $args = array() ) {
  *
  * Plugin authors: Please do not use this function; thank you. :)
  *
- * @access private
  * @since 1.6.0
+ *
+ * @access private
  *
  * @see WP_User::has_cap()
  *

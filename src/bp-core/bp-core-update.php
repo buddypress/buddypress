@@ -42,14 +42,14 @@ function bp_is_install() {
  */
 function bp_is_update() {
 
-	// Current DB version of this site (per site in a multisite network)
+	// Current DB version of this site (per site in a multisite network).
 	$current_db   = bp_get_option( '_bp_db_version' );
 	$current_live = bp_get_db_version();
 
-	// Compare versions (cast as int and bool to be safe)
+	// Compare versions (cast as int and bool to be safe).
 	$is_update = (bool) ( (int) $current_db < (int) $current_live );
 
-	// Return the product of version comparison
+	// Return the product of version comparison.
 	return $is_update;
 }
 
@@ -73,24 +73,24 @@ function bp_is_activation( $basename = '' ) {
 		$action = $_REQUEST['action2'];
 	}
 
-	// Bail if not activating
+	// Bail if not activating.
 	if ( empty( $action ) || !in_array( $action, array( 'activate', 'activate-selected' ) ) ) {
 		return false;
 	}
 
-	// The plugin(s) being activated
+	// The plugin(s) being activated.
 	if ( $action == 'activate' ) {
 		$plugins = isset( $_GET['plugin'] ) ? array( $_GET['plugin'] ) : array();
 	} else {
 		$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 	}
 
-	// Set basename if empty
+	// Set basename if empty.
 	if ( empty( $basename ) && !empty( $bp->basename ) ) {
 		$basename = $bp->basename;
 	}
 
-	// Bail if no basename
+	// Bail if no basename.
 	if ( empty( $basename ) ) {
 		return false;
 	}
@@ -119,24 +119,24 @@ function bp_is_deactivation( $basename = '' ) {
 		$action = $_REQUEST['action2'];
 	}
 
-	// Bail if not deactivating
+	// Bail if not deactivating.
 	if ( empty( $action ) || !in_array( $action, array( 'deactivate', 'deactivate-selected' ) ) ) {
 		return false;
 	}
 
-	// The plugin(s) being deactivated
+	// The plugin(s) being deactivated.
 	if ( 'deactivate' == $action ) {
 		$plugins = isset( $_GET['plugin'] ) ? array( $_GET['plugin'] ) : array();
 	} else {
 		$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 	}
 
-	// Set basename if empty
+	// Set basename if empty.
 	if ( empty( $basename ) && !empty( $bp->basename ) ) {
 		$basename = $bp->basename;
 	}
 
-	// Bail if no basename
+	// Bail if no basename.
 	if ( empty( $basename ) ) {
 		return false;
 	}
@@ -186,7 +186,7 @@ function bp_setup_updater() {
  */
 function bp_version_updater() {
 
-	// Get the raw database version
+	// Get the raw database version.
 	$raw_db_version = (int) bp_get_db_version_raw();
 
 	/**
@@ -206,19 +206,19 @@ function bp_version_updater() {
 
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 
-	// Install BP schema and activate only Activity and XProfile
+	// Install BP schema and activate only Activity and XProfile.
 	if ( bp_is_install() ) {
 
-		// Apply schema and set Activity and XProfile components as active
+		// Apply schema and set Activity and XProfile components as active.
 		bp_core_install( $default_components );
 		bp_update_option( 'bp-active-components', $default_components );
 		bp_core_add_page_mappings( $default_components, 'delete' );
 		bp_core_install_emails();
 
-	// Upgrades
+	// Upgrades.
 	} else {
 
-		// Run the schema install to update tables
+		// Run the schema install to update tables.
 		bp_core_install();
 
 		// 1.5.0
@@ -268,9 +268,9 @@ function bp_version_updater() {
 		}
 	}
 
-	/** All done! *************************************************************/
+	/* All done! *************************************************************/
 
-	// Bump the version
+	// Bump the version.
 	bp_version_bump();
 }
 
@@ -289,7 +289,7 @@ function bp_pre_schema_upgrade() {
 
 	// 2.3.0: Change index lengths to account for utf8mb4.
 	if ( $raw_db_version < 9695 ) {
-		// table_name => columns.
+		// Map table_name => columns.
 		$tables = array(
 			$bp_prefix . 'bp_activity_meta'       => array( 'meta_key' ),
 			$bp_prefix . 'bp_groups_groupmeta'    => array( 'meta_key' ),
@@ -320,7 +320,7 @@ function bp_pre_schema_upgrade() {
  */
 function bp_update_to_1_5() {
 
-	// Delete old database version options
+	// Delete old database version options.
 	delete_site_option( 'bp-activity-db-version' );
 	delete_site_option( 'bp-blogs-db-version'    );
 	delete_site_option( 'bp-friends-db-version'  );
@@ -338,13 +338,13 @@ function bp_update_to_1_5() {
  */
 function bp_update_to_1_6() {
 
-	// Delete possible site options
+	// Delete possible site options.
 	delete_site_option( 'bp-db-version'       );
 	delete_site_option( '_bp_db_version'      );
 	delete_site_option( 'bp-core-db-version'  );
 	delete_site_option( '_bp-core-db-version' );
 
-	// Delete possible blog options
+	// Delete possible blog options.
 	delete_blog_option( bp_get_root_blog_id(), 'bp-db-version'       );
 	delete_blog_option( bp_get_root_blog_id(), 'bp-core-db-version'  );
 	delete_site_option( bp_get_root_blog_id(), '_bp-core-db-version' );
@@ -362,19 +362,19 @@ function bp_update_to_1_6() {
  */
 function bp_update_to_1_9() {
 
-	// Setup hardcoded keys
+	// Setup hardcoded keys.
 	$active_components_key      = 'bp-active-components';
 	$notifications_component_id = 'notifications';
 
-	// Get the active components
+	// Get the active components.
 	$active_components          = bp_get_option( $active_components_key );
 
-	// Add notifications
+	// Add notifications.
 	if ( ! in_array( $notifications_component_id, $active_components ) ) {
 		$active_components[ $notifications_component_id ] = 1;
 	}
 
-	// Update the active components option
+	// Update the active components option.
 	bp_update_option( $active_components_key, $active_components );
 }
 
@@ -411,26 +411,26 @@ function bp_update_to_1_9_2() {
  */
 function bp_update_to_2_0() {
 
-	/** Install activity tables for 'last_activity' ***************************/
+	/* Install activity tables for 'last_activity' ***************************/
 
 	bp_core_install_activity_streams();
 
-	/** Migrate 'last_activity' data ******************************************/
+	/* Migrate 'last_activity' data ******************************************/
 
 	bp_last_activity_migrate();
 
-	/** Migrate signups data **************************************************/
+	/* Migrate signups data **************************************************/
 
 	if ( ! is_multisite() ) {
 
-		// Maybe install the signups table
+		// Maybe install the signups table.
 		bp_core_maybe_install_signups();
 
-		// Run the migration script
+		// Run the migration script.
 		bp_members_migrate_signups();
 	}
 
-	/** Add BP options to the options table ***********************************/
+	/* Add BP options to the options table ***********************************/
 
 	bp_add_options();
 }
@@ -460,7 +460,7 @@ function bp_update_to_2_0_1() {
  */
 function bp_update_to_2_2() {
 
-	// Also handled by `bp_core_install()`
+	// Also handled by `bp_core_install()`.
 	if ( bp_is_active( 'messages' ) ) {
 		bp_core_install_private_messaging();
 	}
@@ -483,7 +483,7 @@ function bp_update_to_2_2() {
  */
 function bp_update_to_2_3() {
 
-	// Also handled by `bp_core_install()`
+	// Also handled by `bp_core_install()`.
 	if ( bp_is_active( 'notifications' ) ) {
 		bp_core_install_notifications();
 	}
@@ -507,15 +507,14 @@ function bp_update_to_2_5() {
  *
  * @global $wpdb
  * @uses   buddypress()
- *
  */
 function bp_migrate_new_member_activity_component() {
 	global $wpdb;
 	$bp = buddypress();
 
-	// Update the component for the new_member type
+	// Update the component for the new_member type.
 	$wpdb->update(
-		// Activity table
+		// Activity table.
 		$bp->members->table_name_last_activity,
 		array(
 			'component' => $bp->members->id,
@@ -524,11 +523,11 @@ function bp_migrate_new_member_activity_component() {
 			'component' => 'xprofile',
 			'type'      => 'new_member',
 		),
-		// Data sanitization format
+		// Data sanitization format.
 		array(
 			'%s',
 		),
-		// WHERE sanitization format
+		// WHERE sanitization format.
 		array(
 			'%s',
 			'%s'
@@ -562,18 +561,18 @@ function bp_cleanup_friendship_activities() {
  */
 function bp_add_activation_redirect() {
 
-	// Bail if activating from network, or bulk
+	// Bail if activating from network, or bulk.
 	if ( isset( $_GET['activate-multi'] ) ) {
 		return;
 	}
 
 	// Record that this is a new installation, so we show the right
-	// welcome message
+	// welcome message.
 	if ( bp_is_install() ) {
 		set_transient( '_bp_is_new_install', true, 30 );
 	}
 
-	// Add the transient to redirect
+	// Add the transient to redirect.
 	set_transient( '_bp_activation_redirect', true, 30 );
 }
 
@@ -585,25 +584,23 @@ function bp_add_activation_redirect() {
  * @since 2.0.0
  *
  * @global WPDB $wpdb
- *
- * @return bool|null If signups table exists.
  */
 function bp_core_maybe_install_signups() {
 	global $wpdb;
 
-	// The table to run queries against
+	// The table to run queries against.
 	$signups_table = $wpdb->base_prefix . 'signups';
 
-	// Suppress errors because users shouldn't see what happens next
+	// Suppress errors because users shouldn't see what happens next.
 	$old_suppress  = $wpdb->suppress_errors();
 
-	// Never use bp_core_get_table_prefix() for any global users tables
+	// Never use bp_core_get_table_prefix() for any global users tables.
 	$table_exists  = (bool) $wpdb->get_results( "DESCRIBE {$signups_table};" );
 
 	// Table already exists, so maybe upgrade instead?
 	if ( true === $table_exists ) {
 
-		// Look for the 'signup_id' column
+		// Look for the 'signup_id' column.
 		$column_exists = $wpdb->query( "SHOW COLUMNS FROM {$signups_table} LIKE 'signup_id'" );
 
 		// 'signup_id' column doesn't exist, so run the upgrade
@@ -617,7 +614,7 @@ function bp_core_maybe_install_signups() {
 		bp_core_install_signups();
 	}
 
-	// Restore previous error suppression setting
+	// Restore previous error suppression setting.
 	$wpdb->suppress_errors( $old_suppress );
 }
 
@@ -637,7 +634,7 @@ function bp_activation() {
 	// Force refresh theme roots.
 	delete_site_transient( 'theme_roots' );
 
-	// Add options
+	// Add options.
 	bp_add_options();
 
 	/**

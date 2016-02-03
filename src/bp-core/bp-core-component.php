@@ -37,6 +37,7 @@ class BP_Component {
 	/**
 	 * Unique ID for the component.
 	 *
+	 * @since 1.5.0
 	 * @var string $id
 	 */
 	public $id = '';
@@ -44,6 +45,7 @@ class BP_Component {
 	/**
 	 * Unique slug for the component, for use in query strings and URLs.
 	 *
+	 * @since 1.5.0
 	 * @var string $slug
 	 */
 	public $slug = '';
@@ -51,6 +53,7 @@ class BP_Component {
 	/**
 	 * Does the component need a top-level directory?
 	 *
+	 * @since 1.5.0
 	 * @var bool $has_directory
 	 */
 	public $has_directory = false;
@@ -58,6 +61,7 @@ class BP_Component {
 	/**
 	 * The path to the component's files.
 	 *
+	 * @since 1.5.0
 	 * @var string $path
 	 */
 	public $path = '';
@@ -65,6 +69,7 @@ class BP_Component {
 	/**
 	 * The WP_Query loop for this component.
 	 *
+	 * @since 1.5.0
 	 * @var WP_Query $query
 	 */
 	public $query = false;
@@ -72,6 +77,7 @@ class BP_Component {
 	/**
 	 * The current ID of the queried object.
 	 *
+	 * @since 1.5.0
 	 * @var string $current_id
 	 */
 	public $current_id = '';
@@ -79,6 +85,7 @@ class BP_Component {
 	/**
 	 * Callback for formatting notifications.
 	 *
+	 * @since 1.5.0
 	 * @var callable $notification_callback
 	 */
 	public $notification_callback = '';
@@ -86,6 +93,7 @@ class BP_Component {
 	/**
 	 * WordPress Toolbar links.
 	 *
+	 * @since 1.5.0
 	 * @var array $admin_menu
 	 */
 	public $admin_menu = '';
@@ -93,7 +101,7 @@ class BP_Component {
 	/**
 	 * Placeholder text for component directory search box.
 	 *
-	 * @since 1.5.0
+	 * @since 1.6.0
 	 * @var string $search_string
 	 */
 	public $search_string = '';
@@ -101,7 +109,7 @@ class BP_Component {
 	/**
 	 * Root slug for the component.
 	 *
-	 * @since 1.5.0
+	 * @since 1.6.0
 	 * @var string $root_slug
 	 */
 	public $root_slug = '';
@@ -464,6 +472,8 @@ class BP_Component {
 	/**
 	 * Set up component navigation.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @see bp_core_new_nav_item() For a description of the $main_nav
 	 *      parameter formatting.
 	 * @see bp_core_new_subnav_item() For a description of how each item
@@ -501,6 +511,8 @@ class BP_Component {
 
 	/**
 	 * Set up the component entries in the WordPress Admin Bar.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @see WP_Admin_Bar::add_menu() for a description of the syntax
 	 *      required by each item in the $wp_admin_nav parameter array.

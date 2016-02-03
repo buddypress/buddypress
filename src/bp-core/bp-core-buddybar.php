@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add an item to the main BuddyPress navigation array.
  *
+ * @since 1.1.0
+ *
  * @param array|string $args {
  *     Array describing the new nav item.
  *     @type string      $name                    Display name for the nav item.
@@ -269,6 +271,8 @@ function bp_core_register_nav_screen_function( $args = '' ) {
 /**
  * Modify the default subnav item that loads when a top level nav item is clicked.
  *
+ * @since 1.1.0
+ *
  * @param array|string $args {
  *     @type string   $parent_slug     The slug of the nav item whose default is being changed.
  *     @type callable $screen_function The new default callback function that will run when the nav item is clicked.
@@ -340,6 +344,8 @@ function bp_core_new_nav_default( $args = '' ) {
  * The sorting is split into a separate function because it can only happen
  * after all plugins have had a chance to register their navigation items.
  *
+ * @since 1.0.0
+ *
  * @return bool|null Returns false on failure.
  */
 function bp_core_sort_nav_items() {
@@ -372,6 +378,8 @@ add_action( 'admin_head', 'bp_core_sort_nav_items' );
 
 /**
  * Add a subnav item to the BuddyPress navigation.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     Array describing the new subnav item.
@@ -418,6 +426,8 @@ function bp_core_new_subnav_item( $args = '' ) {
 
 /**
  * Add a subnav link to the BuddyPress navigation.
+ *
+ * @since 2.4.0
  *
  * @param array|string $args {
  *     Array describing the new subnav item.
@@ -505,6 +515,8 @@ function bp_core_create_subnav_link( $args = '' ) {
 
 /**
  * Register a screen function, whether or not a related subnav link exists.
+ *
+ * @since 2.4.0
  *
  * @param array|string $args {
  *     Array describing the new subnav item.
@@ -681,6 +693,8 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item ) {
 /**
  * Sort all subnavigation arrays.
  *
+ * @since 1.1.0
+ *
  * @return bool|null Returns false on failure.
  */
 function bp_core_sort_subnav_items() {
@@ -744,6 +758,8 @@ function bp_nav_item_has_subnav( $nav_item = '' ) {
 /**
  * Remove a nav item from the navigation array.
  *
+ * @since 1.0.0
+ *
  * @param int $parent_id The slug of the parent navigation item.
  * @return bool Returns false on failure, ie if the nav item can't be found.
  */
@@ -773,6 +789,8 @@ function bp_core_remove_nav_item( $parent_id ) {
 /**
  * Remove a subnav item from the navigation array.
  *
+ * @since 1.0.0
+ *
  * @param string $parent_id The slug of the parent navigation item.
  * @param string $slug      The slug of the subnav item to be removed.
  */
@@ -798,6 +816,8 @@ function bp_core_remove_subnav_item( $parent_id, $slug ) {
 
 /**
  * Clear all subnav items from a specific nav item.
+ *
+ * @since 1.0.0
  *
  * @param string $parent_slug The slug of the parent navigation item.
  */

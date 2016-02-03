@@ -16,10 +16,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Prune the WP Super Cache.
  *
- * @see prune_super_cache()
+ * When WP Super Cache is installed, this function will clear cached pages
+ * so that success/error messages or time-sensitive content are not cached.
  *
- * When wp-super-cache is installed this function will clear cached pages
- * so that success/error messages are not cached, or time sensitive content.
+ * @since 1.0.0
+ *
+ * @see prune_super_cache()
  *
  * @return int
  */
@@ -41,6 +43,8 @@ function bp_core_clear_cache() {
 /**
  * Clear all cached objects for a user, or those that a user is part of.
  *
+ * @since 1.0.0
+ *
  * @param string $user_id User ID to delete cache for.
  */
 function bp_core_clear_user_object_cache( $user_id ) {
@@ -49,6 +53,8 @@ function bp_core_clear_user_object_cache( $user_id ) {
 
 /**
  * Clear member count caches and transients.
+ *
+ * @since 1.6.0
  */
 function bp_core_clear_member_count_caches() {
 	wp_cache_delete( 'bp_total_member_count', 'bp' );

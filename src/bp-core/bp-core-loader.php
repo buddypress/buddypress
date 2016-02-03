@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Creates the Core component.
+ *
+ * @since 1.5.0
  */
 class BP_Core extends BP_Component {
 
@@ -147,6 +149,8 @@ class BP_Core extends BP_Component {
 
 	/**
 	 * Include bp-core files.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *

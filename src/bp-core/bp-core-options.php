@@ -334,6 +334,7 @@ function bp_delete_option( $option_name ) {
  *
  * This function is no longer used.
  *
+ * @since 1.2.4
  * @deprecated 1.6.0
  *
  * @param array $keys Array of site options.
@@ -370,6 +371,8 @@ function bp_core_activate_site_options( $keys = array() ) {
  * BuddyPress uses common options to store configuration settings. Many of these
  * settings are needed at run time. Instead of fetching them all and adding many
  * initial queries to each page load, let's fetch them all in one go.
+ *
+ * @since 1.5.0
  *
  * @todo Use settings API and audit these methods.
  *

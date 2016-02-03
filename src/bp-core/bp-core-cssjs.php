@@ -107,6 +107,8 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_styles', 1 );
 
 /**
  * Load the JS for "Are you sure?" .confirm links.
+ *
+ * @since 1.1.0
  */
 function bp_core_confirmation_js() {
 	if ( is_multisite() && ! bp_is_root_blog() ) {
@@ -160,6 +162,8 @@ add_action( 'bp_enqueue_scripts', 'bp_core_cover_image_scripts' );
 
 /**
  * Enqueues jCrop library and hooks BP's custom cropper JS.
+ *
+ * @since 1.1.0
  */
 function bp_core_add_jquery_cropper() {
 	wp_enqueue_style( 'jcrop' );
@@ -170,6 +174,8 @@ function bp_core_add_jquery_cropper() {
 
 /**
  * Output the inline JS needed for the cropper to work on a per-page basis.
+ *
+ * @since 1.1.0
  */
 function bp_core_add_cropper_inline_js() {
 
@@ -272,6 +278,8 @@ function bp_core_add_cropper_inline_js() {
 
 /**
  * Output the inline CSS for the BP image cropper.
+ *
+ * @since 1.1.0
  */
 function bp_core_add_cropper_inline_css() {
 ?>

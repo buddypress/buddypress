@@ -24,6 +24,8 @@ defined( 'ABSPATH' ) || exit;
  * The function will also analyze the current action for the current component
  * to determine whether or not to highlight a particular sub nav item.
  *
+ * @since 1.0.0
+ *
  * @uses bp_get_user_nav() Renders the navigation for a profile of a currently
  *       viewed user.
  *
@@ -208,12 +210,16 @@ function bp_post_author_avatar() {
 
 /**
  * Output the current avatar upload step.
+ *
+ * @since 1.1.0
  */
 function bp_avatar_admin_step() {
 	echo bp_get_avatar_admin_step();
 }
 	/**
 	 * Return the current avatar upload step.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string The current avatar upload step. Returns 'upload-image'
 	 *         if none is found.
@@ -236,12 +242,16 @@ function bp_avatar_admin_step() {
 
 /**
  * Output the URL of the avatar to crop.
+ *
+ * @since 1.1.0
  */
 function bp_avatar_to_crop() {
 	echo bp_get_avatar_to_crop();
 }
 	/**
 	 * Return the URL of the avatar to crop.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string URL of the avatar awaiting cropping.
 	 */
@@ -263,12 +273,16 @@ function bp_avatar_to_crop() {
 
 /**
  * Output the relative file path to the avatar to crop.
+ *
+ * @since 1.1.0
  */
 function bp_avatar_to_crop_src() {
 	echo bp_get_avatar_to_crop_src();
 }
 	/**
 	 * Return the relative file path to the avatar to crop.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Relative file path to the avatar.
 	 */
@@ -303,6 +317,8 @@ function bp_avatar_cropper() {
 
 /**
  * Output the name of the BP site. Used in RSS headers.
+ *
+ * @since 1.0.0
  */
 function bp_site_name() {
 	echo bp_get_site_name();
@@ -415,6 +431,8 @@ function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
  * of the phrase, and bp_word_or_name() will detect which is appropriate, and
  * do the necessary argument swapping for dynamic phrases.
  *
+ * @since 1.0.0
+ *
  * @param string $youtext    The "you" version of the phrase (eg "Your Friends").
  * @param string $nametext   The other-user version of the phrase. Should be in
  *                           a format appropriate for sprintf() - use %s in place of the displayed
@@ -478,6 +496,8 @@ function bp_styles() {
 
 /**
  * Return the "action" attribute for search forms.
+ *
+ * @since 1.0.0
  *
  * @return string URL action attribute for search forms, eg example.com/search/.
  */
@@ -706,6 +726,8 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 /**
  * Create and output a button.
  *
+ * @since 1.2.6
+ *
  * @see bp_get_button()
  *
  * @param array|string $args See {@link BP_Button}.
@@ -715,6 +737,8 @@ function bp_button( $args = '' ) {
 }
 	/**
 	 * Create and return a button.
+	 *
+	 * @since 1.2.6
 	 *
 	 * @see BP_Button for a description of arguments and return value.
 	 *
@@ -751,6 +775,8 @@ function bp_button( $args = '' ) {
  * - `exact` If false, $text will not be cut mid-word.
  * - `html` If true, HTML tags would be handled correctly.
  * - `filter_shortcodes` If true, shortcodes will be stripped before truncating.
+ *
+ * @since 1.0.0
  *
  * @param string $text   String to truncate.
  * @param int    $length Optional. Length of returned string, including ellipsis.
@@ -962,6 +988,8 @@ add_filter( 'bp_create_excerpt', 'force_balance_tags' );
 
 /**
  * Output the total member count for the site.
+ *
+ * @since 1.2.0
  */
 function bp_total_member_count() {
 	echo bp_get_total_member_count();
@@ -977,6 +1005,8 @@ function bp_total_member_count() {
 	 * Before BuddyPress 1.6, this function used bp_core_get_total_member_count(),
 	 * which did not take into account last_activity, and thus often
 	 * resulted in higher counts than shown by member directory pagination.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return int Member count.
 	 */
@@ -1007,6 +1037,8 @@ function bp_blog_signup_allowed() {
 	 * Returns true if is_multisite() and blog creation is enabled at
 	 * Network Admin > Settings.
 	 *
+	 * @since 1.2.0
+	 *
 	 * @return bool True if blog signup is allowed, otherwise false.
 	 */
 	function bp_get_blog_signup_allowed() {
@@ -1026,6 +1058,8 @@ function bp_blog_signup_allowed() {
 /**
  * Check whether an activation has just been completed.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the activation_complete global flag has been set,
  *              otherwise false.
  */
@@ -1044,6 +1078,8 @@ function bp_account_was_activated() {
  * On a normal BuddyPress installation, all registrations require email
  * activation. This filter exists so that customizations that omit activation
  * can remove certain notification text from the registration screen.
+ *
+ * @since 1.2.0
  *
  * @return bool True by default.
  */
@@ -1115,6 +1151,8 @@ function bp_get_email_subject( $args = array() ) {
  * errors if someone copies the templates from the default theme into another
  * WordPress theme without coping the functions from functions.php.
  *
+ * @since 1.2.0
+ *
  * @param string|bool $object Current template component.
  * @return string The AJAX querystring.
  */
@@ -1143,6 +1181,8 @@ function bp_ajax_querystring( $object = false ) {
 /**
  * Return the name of the current component.
  *
+ * @since 1.0.0
+ *
  * @return string Component name.
  */
 function bp_current_component() {
@@ -1163,6 +1203,8 @@ function bp_current_component() {
 
 /**
  * Return the name of the current action.
+ *
+ * @since 1.0.0
  *
  * @return string Action name.
  */
@@ -1185,6 +1227,8 @@ function bp_current_action() {
 /**
  * Return the name of the current item.
  *
+ * @since 1.1.0
+ *
  * @return string|bool
  */
 function bp_current_item() {
@@ -1205,6 +1249,8 @@ function bp_current_item() {
 
 /**
  * Return the value of $bp->action_variables.
+ *
+ * @since 1.0.0
  *
  * @return array|bool $action_variables The action variables array, or false
  *                                      if the array is empty.
@@ -1253,12 +1299,16 @@ function bp_action_variable( $position = 0 ) {
 
 /**
  * Output the "root domain", the URL of the BP root blog.
+ *
+ * @since 1.1.0
  */
 function bp_root_domain() {
 	echo bp_get_root_domain();
 }
 	/**
 	 * Return the "root domain", the URL of the BP root blog.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string URL of the BP root blog.
 	 */
@@ -1393,6 +1443,13 @@ function bp_get_name_from_root_slug( $root_slug = '' ) {
 	return false;
 }
 
+/**
+ * Returns whether or not a user has access.
+ *
+ * @since 1.2.4
+ *
+ * @return bool
+ */
 function bp_user_has_access() {
 	$has_access = bp_current_user_can( 'bp_moderate' ) || bp_is_my_profile();
 
@@ -1438,6 +1495,8 @@ function bp_search_slug() {
 /**
  * Get the ID of the currently displayed user.
  *
+ * @since 1.0.0
+ *
  * @uses apply_filters() Filter 'bp_displayed_user_id' to change this value.
  *
  * @return int $id ID of the currently displayed user.
@@ -1460,6 +1519,8 @@ function bp_displayed_user_id() {
 
 /**
  * Get the ID of the currently logged-in user.
+ *
+ * @since 1.0.0
  *
  * @uses apply_filters() Filter 'bp_loggedin_user_id' to change this value.
  *
@@ -1641,6 +1702,8 @@ function bp_is_action_variable( $action_variable = '', $position = false ) {
 /**
  * Check against the current_item.
  *
+ * @since 1.5.0
+ *
  * @param string $item The item being checked.
  * @return bool True if $item is the current item.
  */
@@ -1660,6 +1723,8 @@ function bp_is_current_item( $item = '' ) {
 
 /**
  * Are we looking at a single item? (group, user, etc).
+ *
+ * @since 1.1.0
  *
  * @return bool True if looking at a single item, otherwise false.
  */
@@ -1683,6 +1748,8 @@ function bp_is_single_item() {
 
 /**
  * Is the logged-in user an admin for the current item?
+ *
+ * @since 1.5.0
  *
  * @return bool True if the current user is an admin for the current item,
  *              otherwise false.
@@ -1708,6 +1775,8 @@ function bp_is_item_admin() {
 /**
  * Is the logged-in user a mod for the current item?
  *
+ * @since 1.5.0
+ *
  * @return bool True if the current user is a mod for the current item,
  *              otherwise false.
  */
@@ -1731,6 +1800,8 @@ function bp_is_item_mod() {
 
 /**
  * Is this a component directory page?
+ *
+ * @since 1.0.0
  *
  * @return bool True if the current page is a component directory, otherwise false.
  */
@@ -1760,6 +1831,8 @@ function bp_is_directory() {
  *
  * This function is on the chopping block. It's currently only used by a few
  * already deprecated functions.
+ *
+ * @since 1.5.0
  *
  * @param string $component_name Component name to check.
  *
@@ -1847,6 +1920,8 @@ function bp_is_component_front_page( $component = '' ) {
  *
  * You can tell if a page is displaying BP content by whether the
  * current_component has been defined.
+ *
+ * @since 1.0.0
  *
  * @return bool True if it's a non-BP page, false otherwise.
  */
@@ -1961,6 +2036,8 @@ function bp_is_active( $component = '', $feature = '' ) {
 /**
  * Check whether the current page is part of the Members component.
  *
+ * @since 1.5.0
+ *
  * @return bool True if the current page is part of the Members component.
  */
 function bp_is_members_component() {
@@ -1969,6 +2046,8 @@ function bp_is_members_component() {
 
 /**
  * Check whether the current page is part of the Profile component.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is part of the Profile component.
  */
@@ -1979,6 +2058,8 @@ function bp_is_profile_component() {
 /**
  * Check whether the current page is part of the Activity component.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of the Activity component.
  */
 function bp_is_activity_component() {
@@ -1987,6 +2068,8 @@ function bp_is_activity_component() {
 
 /**
  * Check whether the current page is part of the Blogs component.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is part of the Blogs component.
  */
@@ -1997,6 +2080,8 @@ function bp_is_blogs_component() {
 /**
  * Check whether the current page is part of the Messages component.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of the Messages component.
  */
 function bp_is_messages_component() {
@@ -2005,6 +2090,8 @@ function bp_is_messages_component() {
 
 /**
  * Check whether the current page is part of the Friends component.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is part of the Friends component.
  */
@@ -2015,6 +2102,8 @@ function bp_is_friends_component() {
 /**
  * Check whether the current page is part of the Groups component.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of the Groups component.
  */
 function bp_is_groups_component() {
@@ -2023,6 +2112,8 @@ function bp_is_groups_component() {
 
 /**
  * Check whether the current page is part of the Forums component.
+ *
+ * @since 1.5.0
  *
  * @return bool True if the current page is part of the Forums component.
  */
@@ -2044,6 +2135,8 @@ function bp_is_notifications_component() {
 /**
  * Check whether the current page is part of the Settings component.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of the Settings component.
  */
 function bp_is_settings_component() {
@@ -2058,6 +2151,8 @@ function bp_is_settings_component() {
  * will return false. If the current component is not part of BuddyPress core,
  * it will return false. If the current component is active, and is part of
  * BuddyPress core, it will return true.
+ *
+ * @since 1.7.0
  *
  * @return bool True if the current component is active and is one of BP's
  *              packaged components.
@@ -2095,6 +2190,8 @@ function bp_is_activity_directory() {
 /**
  * Is the current page a single activity item permalink?
  *
+ * @since 1.5.0
+ *
  * @return bool True if the current page is a single activity item permalink.
  */
 function bp_is_single_activity() {
@@ -2124,6 +2221,8 @@ function bp_is_members_directory() {
  * Will return true for any subpage of the logged-in user's profile, eg
  * http://example.com/members/joe/friends/.
  *
+ * @since 1.2.0
+ *
  * @return bool True if the current page is part of the profile of the logged-in user.
  */
 function bp_is_my_profile() {
@@ -2148,6 +2247,8 @@ function bp_is_my_profile() {
  *
  * Will return true anytime there is a displayed user.
  *
+ * @since 1.5.0
+ *
  * @return bool True if the current page is a user page.
  */
 function bp_is_user() {
@@ -2159,6 +2260,8 @@ function bp_is_user() {
  *
  * Eg http://example.com/members/joe/activity/ (or any subpages thereof).
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is a user's activity stream page.
  */
 function bp_is_user_activity() {
@@ -2169,6 +2272,8 @@ function bp_is_user_activity() {
  * Is the current page a user's Friends activity stream?
  *
  * Eg http://example.com/members/joe/friends/
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is a user's Friends activity stream.
  */
@@ -2196,6 +2301,8 @@ function bp_is_user_friends_activity() {
  *
  * Eg http://example.com/members/joe/groups/
  *
+ * @since 1.5.0
+ *
  * @return bool True if the current page is a user's Groups activity stream.
  */
 function bp_is_user_groups_activity() {
@@ -2220,6 +2327,8 @@ function bp_is_user_groups_activity() {
  *
  * Eg http://example.com/members/joe/profile/ (or a subpage thereof).
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of a user's extended profile.
  */
 function bp_is_user_profile() {
@@ -2231,12 +2340,23 @@ function bp_is_user_profile() {
  *
  * Eg http://example.com/members/joe/profile/edit/ (or a subpage thereof).
  *
+ * @since 1.5.0
+ *
  * @return bool True if the current page is a user's profile edit page.
  */
 function bp_is_user_profile_edit() {
 	return (bool) ( bp_is_profile_component() && bp_is_current_action( 'edit' ) );
 }
 
+/**
+ * Is the current page part of a user's profile avatar editing section?
+ *
+ * Eg http://example.com/members/joe/profile/change-avatar/ (or a subpage thereof).
+ *
+ * @since 1.5.0
+ *
+ * @return bool True if the current page is the user's avatar edit page.
+ */
 function bp_is_user_change_avatar() {
 	return (bool) ( bp_is_profile_component() && bp_is_current_action( 'change-avatar' ) );
 }
@@ -2258,6 +2378,8 @@ function bp_is_user_change_cover_image() {
  * Is this a user's forums page?
  *
  * Eg http://example.com/members/joe/forums/ (or a subpage thereof).
+ *
+ * @since 1.5.0
  *
  * @return bool True if the current page is a user's forums page.
  */
@@ -2305,6 +2427,8 @@ function bp_is_user_forums_replied_to() {
  *
  * Eg http://example.com/members/joe/groups/ (or a subpage thereof).
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is a user's Groups page.
  */
 function bp_is_user_groups() {
@@ -2315,6 +2439,8 @@ function bp_is_user_groups() {
  * Is the current page part of a user's Blogs page?
  *
  * Eg http://example.com/members/joe/blogs/ (or a subpage thereof).
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is a user's Blogs page.
  */
@@ -2327,6 +2453,8 @@ function bp_is_user_blogs() {
  *
  * Eg http://example.com/members/joe/blogs/recent-posts/.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is a user's Recent Blog Posts page.
  */
 function bp_is_user_recent_posts() {
@@ -2337,6 +2465,8 @@ function bp_is_user_recent_posts() {
  * Is the current page a user's Recent Blog Comments page?
  *
  * Eg http://example.com/members/joe/blogs/recent-comments/.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is a user's Recent Blog Comments page.
  */
@@ -2349,6 +2479,8 @@ function bp_is_user_recent_commments() {
  *
  * Eg http://example.com/members/joe/blogs/friends/ (or a subpage thereof).
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is a user's Friends page.
  */
 function bp_is_user_friends() {
@@ -2359,6 +2491,8 @@ function bp_is_user_friends() {
  * Is the current page a user's Friend Requests page?
  *
  * Eg http://example.com/members/joe/friends/requests/.
+ *
+ * @since 1.5.0
  *
  * @return bool True if the current page is a user's Friends Requests page.
  */
@@ -2383,6 +2517,8 @@ function bp_is_user_notifications() {
  * Is this a user's settings page?
  *
  * Eg http://example.com/members/joe/settings/ (or a subpage thereof).
+ *
+ * @since 1.5.0
  *
  * @return bool True if the current page is a user's Settings page.
  */
@@ -2464,6 +2600,8 @@ function bp_is_groups_directory() {
  *
  * Will return true for any subpage of a single group.
  *
+ * @since 1.2.0
+ *
  * @return bool True if the current page is part of a single group.
  */
 function bp_is_group() {
@@ -2482,6 +2620,8 @@ function bp_is_group() {
  * URL will vary depending on which group tab is set to be the "home". By
  * default, it's the group's recent activity.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is a single group's home page.
  */
 function bp_is_group_home() {
@@ -2495,6 +2635,8 @@ function bp_is_group_home() {
 /**
  * Is the current page part of the group creation process?
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of the group creation process.
  */
 function bp_is_group_create() {
@@ -2506,6 +2648,8 @@ function bp_is_group_create() {
  *
  * Eg http://example.com/groups/mygroup/admin/settings/.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of a single group's admin.
  */
 function bp_is_group_admin_page() {
@@ -2516,6 +2660,8 @@ function bp_is_group_admin_page() {
  * Is the current page a group's forum page?
  *
  * Only applies to legacy bbPress forums.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is a group forum page.
  */
@@ -2539,6 +2685,8 @@ function bp_is_group_forum() {
 /**
  * Is the current page a group's activity page?
  *
+ * @since 1.2.1
+ *
  * @return True if the current page is a group's activity page.
  */
 function bp_is_group_activity() {
@@ -2560,6 +2708,8 @@ function bp_is_group_activity() {
  *
  * Only applies to legacy bbPress (1.x) forums.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is part of a group forum topic.
  */
 function bp_is_group_forum_topic() {
@@ -2571,6 +2721,8 @@ function bp_is_group_forum_topic() {
  *
  * Only applies to legacy bbPress (1.x) forums.
  *
+ * @since 1.2.0
+ *
  * @return bool True if the current page is part of a group forum topic edit page.
  */
 function bp_is_group_forum_topic_edit() {
@@ -2581,6 +2733,8 @@ function bp_is_group_forum_topic_edit() {
  * Is the current page a group's Members page?
  *
  * Eg http://example.com/groups/mygroup/members/.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is part of a group's Members page.
  */
@@ -2603,6 +2757,8 @@ function bp_is_group_members() {
  *
  * Eg http://example.com/groups/mygroup/send-invites/.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is a group's Send Invites page.
  */
 function bp_is_group_invites() {
@@ -2614,6 +2770,8 @@ function bp_is_group_invites() {
  *
  * Eg http://example.com/groups/mygroup/request-membership/.
  *
+ * @since 1.2.0
+ *
  * @return bool True if the current page is a group's Request Membership page.
  */
 function bp_is_group_membership_request() {
@@ -2622,6 +2780,8 @@ function bp_is_group_membership_request() {
 
 /**
  * Is the current page a leave group attempt?
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is a Leave Group attempt.
  */
@@ -2659,6 +2819,8 @@ function bp_is_group_custom_front() {
  *
  * Eg http://example.com/sites/create/.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is the Create a Blog page.
  */
 function bp_is_create_blog() {
@@ -2687,6 +2849,8 @@ function bp_is_blogs_directory() {
  *
  * Eg http://example.com/members/joe/messages/ (or a subpage thereof).
  *
+ * @since 1.2.0
+ *
  * @return bool True if the current page is part of a user's Messages pages.
  */
 function bp_is_user_messages() {
@@ -2697,6 +2861,8 @@ function bp_is_user_messages() {
  * Is the current page a user's Messages Inbox?
  *
  * Eg http://example.com/members/joe/messages/inbox/.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is a user's Messages Inbox.
  */
@@ -2713,6 +2879,8 @@ function bp_is_messages_inbox() {
  *
  * Eg http://example.com/members/joe/messages/sentbox/.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is a user's Messages Sentbox.
  */
 function bp_is_messages_sentbox() {
@@ -2723,6 +2891,8 @@ function bp_is_messages_sentbox() {
  * Is the current page a user's Messages Compose screen??
  *
  * Eg http://example.com/members/joe/messages/compose/.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is a user's Messages Compose screen.
  */
@@ -2735,6 +2905,8 @@ function bp_is_messages_compose_screen() {
  *
  * Eg http://example.com/members/joe/messages/notices/.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is the Notices screen.
  */
 function bp_is_notices() {
@@ -2743,6 +2915,8 @@ function bp_is_notices() {
 
 /**
  * Is the current page a single Messages conversation thread?
+ *
+ * @since 1.6.0
  *
  * @return bool True if the current page a single Messages conversation thread?
  */
@@ -2768,6 +2942,8 @@ function bp_is_single( $component, $callback ) {
  *
  * Eg http://example.com/activate/.
  *
+ * @since 1.1.0
+ *
  * @return bool True if the current page is the Activate page.
  */
 function bp_is_activation_page() {
@@ -2778,6 +2954,8 @@ function bp_is_activation_page() {
  * Is the current page the Register page?
  *
  * Eg http://example.com/register/.
+ *
+ * @since 1.1.0
  *
  * @return bool True if the current page is the Register page.
  */
@@ -2790,13 +2968,13 @@ function bp_is_register_page() {
  *
  * @since 2.4.3
  *
- * @param string $seplocation
+ * @param string $seplocation Location for the separator.
  * @return array the title parts
  */
 function bp_get_title_parts( $seplocation = 'right' ) {
 	$bp = buddypress();
 
-	// Defaults to an empty array
+	// Defaults to an empty array.
 	$bp_title_parts = array();
 
 	// If this is not a BP page, return the empty array.
@@ -2925,6 +3103,8 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 
 /**
  * Customize the body class, according to the currently displayed BP content.
+ *
+ * @since 1.1.0
  */
 function bp_the_body_class() {
 	echo bp_get_the_body_class();
@@ -2933,6 +3113,8 @@ function bp_the_body_class() {
 	 * Customize the body class, according to the currently displayed BP content.
 	 *
 	 * Uses the above is_() functions to output a body class for each scenario.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @param array      $wp_classes     The body classes coming from WP.
 	 * @param array|bool $custom_classes Classes that were passed to get_body_class().

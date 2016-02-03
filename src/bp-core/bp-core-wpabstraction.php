@@ -31,7 +31,7 @@ function bp_get_major_wp_version() {
 	return (float) $wp_version;
 }
 
-/**
+/*
  * Only add MS-specific abstraction functions if WordPress is not in multisite mode.
  */
 if ( !is_multisite() ) {
@@ -44,6 +44,8 @@ if ( !is_multisite() ) {
 
 		/**
 		 * Retrieve blog option.
+		 *
+		 * @since 1.0.0
 		 *
 		 * @see get_blog_option()
 		 *
@@ -61,7 +63,9 @@ if ( !is_multisite() ) {
 	if ( ! function_exists( 'add_blog_option' ) ) {
 
 		/**
-		 * Add blog option
+		 * Add blog option.
+		 *
+		 * @since 1.2.0
 		 *
 		 * @see add_blog_option()
 		 *
@@ -81,6 +85,8 @@ if ( !is_multisite() ) {
 		/**
 		 * Update blog option.
 		 *
+		 * @since 1.2.0
+		 *
 		 * @see update_blog_option()
 		 *
 		 * @param int    $blog_id     Blog ID to update for. Not used.
@@ -99,6 +105,8 @@ if ( !is_multisite() ) {
 		/**
 		 * Delete blog option.
 		 *
+		 * @since 1.5.0
+		 *
 		 * @see delete_blog_option()
 		 *
 		 * @param int    $blog_id     Blog ID to delete for. Not used.
@@ -115,6 +123,8 @@ if ( !is_multisite() ) {
 
 		/**
 		 * Switch to specified blog.
+		 *
+		 * @since 1.2.0
 		 *
 		 * @see switch_to_blog()
 		 *
@@ -133,6 +143,8 @@ if ( !is_multisite() ) {
 		/**
 		 * Restore current blog.
 		 *
+		 * @since 1.2.0
+		 *
 		 * @see restore_current_blog()
 		 *
 		 * @return int
@@ -147,6 +159,8 @@ if ( !is_multisite() ) {
 		/**
 		 * Retrive blogs associated with user.
 		 *
+		 * @since 1.2.0
+		 *
 		 * @see get_blogs_of_user()
 		 *
 		 * @param int  $user_id ID of the user. Not used.
@@ -160,8 +174,11 @@ if ( !is_multisite() ) {
 	}
 
 	if ( !function_exists( 'update_blog_status' ) ) {
+
 		/**
 		 * Whether or not to update blog status.
+		 *
+		 * @since 1.2.0
 		 *
 		 * @see update_blog_status()
 		 *
@@ -178,8 +195,11 @@ if ( !is_multisite() ) {
 	}
 
 	if ( !function_exists( 'is_subdomain_install' ) ) {
+
 		/**
 		 * Whether or not if subdomain install.
+		 *
+		 * @since 1.2.5.1
 		 *
 		 * @see is_subdomain_install()
 		 *
@@ -219,6 +239,7 @@ function bp_core_get_status_sql( $prefix = false ) {
  * Borrowed from MediaWiki, under the GPLv2. Thanks!
  */
 if ( !function_exists( 'mb_strlen' ) ) {
+
 	/**
 	 * Fallback implementation of mb_strlen(), hardcoded to UTF-8.
 	 *
@@ -244,6 +265,7 @@ if ( !function_exists( 'mb_strlen' ) ) {
 }
 
 if ( !function_exists( 'mb_strpos' ) ) {
+
 	/**
 	 * Fallback implementation of mb_strpos(), hardcoded to UTF-8.
 	 *
@@ -268,6 +290,7 @@ if ( !function_exists( 'mb_strpos' ) ) {
 }
 
 if ( !function_exists( 'mb_strrpos' ) ) {
+
 	/**
 	 * Fallback implementation of mb_strrpos(), hardcoded to UTF-8.
 	 *

@@ -22,6 +22,8 @@
 
 /**
  * Fire the 'bp_include' action, where plugins should include files.
+ *
+ * @since 1.2.5
  */
 function bp_include() {
 
@@ -35,6 +37,8 @@ function bp_include() {
 
 /**
  * Fire the 'bp_setup_components' action, where plugins should initialize components.
+ *
+ * @since 1.6.0
  */
 function bp_setup_components() {
 
@@ -48,6 +52,8 @@ function bp_setup_components() {
 
 /**
  * Fire the 'bp_setup_canonical_stack' action, where plugins should set up their canonical URL.
+ *
+ * @since 2.1.0
  */
 function bp_setup_canonical_stack() {
 
@@ -91,6 +97,8 @@ function bp_register_post_types() {
 
 /**
  * Fire the 'bp_setup_globals' action, where plugins should initialize global settings.
+ *
+ * @since 1.2.0
  */
 function bp_setup_globals() {
 
@@ -104,6 +112,8 @@ function bp_setup_globals() {
 
 /**
  * Fire the 'bp_setup_nav' action, where plugins should register their navigation items.
+ *
+ * @since 1.2.0
  */
 function bp_setup_nav() {
 
@@ -117,6 +127,8 @@ function bp_setup_nav() {
 
 /**
  * Fire the 'bp_setup_admin_bar' action, where plugins should add items to the WP admin bar.
+ *
+ * @since 1.5.0
  */
 function bp_setup_admin_bar() {
 	if ( bp_use_wp_admin_bar() ) {
@@ -134,6 +146,8 @@ function bp_setup_admin_bar() {
 
 /**
  * Fire the 'bp_setup_title' action, where plugins should modify the page title.
+ *
+ * @since 1.5.0
  */
 function bp_setup_title() {
 
@@ -147,6 +161,8 @@ function bp_setup_title() {
 
 /**
  * Fire the 'bp_register_widgets' action, where plugins should register widgets.
+ *
+ * @since 1.2.0
  */
 function bp_setup_widgets() {
 
@@ -193,6 +209,8 @@ function bp_setup_cache_groups() {
  *
  * We white-list the WordPress customizer which purposely loads the user early.
  *
+ * @since 1.7.0
+ *
  * @link https://buddypress.trac.wordpress.org/ticket/6046
  * @link https://core.trac.wordpress.org/ticket/24169
  *
@@ -217,6 +235,8 @@ function bp_setup_current_user() {
 
 /**
  * Fire the 'bp_init' action, BuddyPress's main initialization hook.
+ *
+ * @since 1.2.5
  */
 function bp_init() {
 
@@ -252,6 +272,8 @@ function bp_customize_register( WP_Customize_Manager $customizer ) {
  * Fire the 'bp_loaded' action, which fires after BP's core plugin files have been loaded.
  *
  * Attached to 'plugins_loaded'.
+ *
+ * @since 1.2.0
  */
 function bp_loaded() {
 
@@ -267,6 +289,8 @@ function bp_loaded() {
  * Fire the 'bp_ready' action, which runs after BP is set up and the page is about to render.
  *
  * Attached to 'wp'.
+ *
+ * @since 1.6.0
  */
 function bp_ready() {
 
@@ -283,6 +307,8 @@ function bp_ready() {
  *
  * Attach potential template actions, such as catching form requests or routing
  * custom URLs.
+ *
+ * @since 1.5.0
  */
 function bp_actions() {
 
@@ -299,6 +325,8 @@ function bp_actions() {
  *
  * Runs just after 'bp_actions'. Use this hook to attach your template
  * loaders.
+ *
+ * @since 1.5.0
  */
 function bp_screens() {
 
@@ -316,6 +344,8 @@ function bp_screens() {
  * Fire 'bp_widgets_init', which runs after widgets have been set up.
  *
  * Hooked to 'widgets_init'.
+ *
+ * @since 1.6.0
  */
 function bp_widgets_init() {
 
@@ -333,8 +363,16 @@ function bp_widgets_init() {
  * Fire 'bp_head', which is used to hook scripts and styles in the <head>.
  *
  * Hooked to 'wp_head'.
+ *
+ * @since 1.6.0
  */
 function bp_head() {
+
+	/**
+	 * Fires inside the 'bp_head' function, which runs on 'wp_head'.
+	 *
+	 * @since 1.6.0
+	 */
 	do_action ( 'bp_head' );
 }
 

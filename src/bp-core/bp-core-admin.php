@@ -15,8 +15,6 @@ if ( !class_exists( 'BP_Admin' ) ) :
 /**
  * Load BuddyPress plugin admin area.
  *
- * @package BuddyPress
- * @subpackage CoreAdministration
  * @todo Break this apart into each applicable Component.
  *
  * @since 1.6.0
@@ -28,6 +26,7 @@ class BP_Admin {
 	/**
 	 * Path to the BuddyPress admin directory.
 	 *
+	 * @since 1.6.0
 	 * @var string $admin_dir
 	 */
 	public $admin_dir = '';
@@ -37,6 +36,7 @@ class BP_Admin {
 	/**
 	 * URL to the BuddyPress admin directory.
 	 *
+	 * @since 1.6.0
 	 * @var string $admin_url
 	 */
 	public $admin_url = '';
@@ -44,6 +44,7 @@ class BP_Admin {
 	/**
 	 * URL to the BuddyPress images directory.
 	 *
+	 * @since 1.6.0
 	 * @var string $images_url
 	 */
 	public $images_url = '';
@@ -51,6 +52,7 @@ class BP_Admin {
 	/**
 	 * URL to the BuddyPress admin CSS directory.
 	 *
+	 * @since 1.6.0
 	 * @var string $css_url
 	 */
 	public $css_url = '';
@@ -58,6 +60,7 @@ class BP_Admin {
 	/**
 	 * URL to the BuddyPress admin JS directory.
 	 *
+	 * @since 1.6.0
 	 * @var string
 	 */
 	public $js_url = '';
@@ -67,6 +70,7 @@ class BP_Admin {
 	/**
 	 * Notices used for user feedback, like saving settings.
 	 *
+	 * @since 1.9.0
 	 * @var array()
 	 */
 	public $notices = array();
@@ -930,7 +934,7 @@ class BP_Admin {
 		 * @param array $value Array of admin stylesheet file information to register.
 		 */
 		$styles = apply_filters( 'bp_core_admin_register_styles', array(
-			// Legacy
+			// Legacy.
 			'bp-admin-common-css' => array(
 				'file'         => $common_css,
 				'dependencies' => array(),

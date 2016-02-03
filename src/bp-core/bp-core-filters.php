@@ -79,6 +79,8 @@ add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
 /**
  * Prevent specific pages (eg 'Activate') from showing on page listings.
  *
+ * @since 1.5.0
+ *
  * @uses bp_is_active() checks if a BuddyPress component is active.
  *
  * @param array $pages List of excluded page IDs, as passed to the
@@ -242,7 +244,31 @@ function bp_core_menu_highlight_nav_menu_item( $retval, $item ) {
 add_filter( 'nav_menu_css_class', 'bp_core_menu_highlight_nav_menu_item', 10, 2 );
 
 /**
+ * Set "From" name in outgoing email to the site name.
+ *
+ * @since 1.0.0
+ *
+ * @uses bp_get_option() fetches the value for a meta_key in the wp_X_options table.
+ *
+ * @return string The blog name for the root blog.
+ */
+function bp_core_email_from_name_filter() {
+
+	/**
+	 * Filters the "From" name in outgoing email to the site name.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $value Value to set the "From" name to.
+	 */
+ 	return apply_filters( 'bp_core_email_from_name_filter', bp_get_option( 'blogname', 'WordPress' ) );
+}
+add_filter( 'wp_mail_from_name', 'bp_core_email_from_name_filter' );
+
+/**
  * Filter the blog post comments array and insert BuddyPress URLs for users.
+ *
+ * @since 1.2.0
  *
  * @param array $comments The array of comments supplied to the comments template.
  * @param int   $post_id  The post ID.
@@ -280,6 +306,8 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
 
 /**
  * When a user logs in, redirect him in a logical way.
+ *
+ * @since 1.2.0
  *
  * @uses apply_filters() Filter 'bp_core_login_redirect' to modify where users
  *       are redirected to on login.
@@ -351,6 +379,8 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  *
  * This filter will not fire when a user is registered by the site admin.
  *
+ * @since 1.2.1
+ *
  * @param string $welcome_email Complete email passed through WordPress.
  * @return string Filtered $welcome_email with the password replaced
  *                by '[User Set]'.
@@ -385,6 +415,8 @@ add_filter( 'update_welcome_user_email', 'bp_core_filter_user_welcome_email' );
  *
  * This filter will not fire when a user is registered by the site admin.
  *
+ * @since 1.2.1
+ *
  * @param string $welcome_email Complete email passed through WordPress.
  * @param int    $blog_id       ID of the blog user is joining.
  * @param int    $user_id       ID of the user joining.
@@ -412,6 +444,10 @@ add_filter( 'update_welcome_email', 'bp_core_filter_blog_welcome_email', 10, 4 )
  *
  * This function filter's WP's 'wpmu_signup_blog_notification', and replaces
  * WP's default welcome email with a BuddyPress-specific message.
+ *
+ * @since 1.0.0
+ *
+ * @see wpmu_signup_blog_notification() for a description of parameters.
  *
  * @param string $domain     The new blog domain.
  * @param string $path       The new blog path.
@@ -442,6 +478,8 @@ add_filter( 'wpmu_signup_blog_notification', 'bp_core_activation_signup_blog_not
 
 /**
  * Notify new users of a successful registration (without blog).
+ *
+ * @since 1.0.0
  *
  * @see wpmu_signup_user_notification() for a full description of params.
  *
@@ -509,10 +547,10 @@ add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_not
 function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'right' ) {
 	global $paged, $page, $_wp_theme_features;
 
-	// Get the BuddyPress title parts
+	// Get the BuddyPress title parts.
 	$bp_title_parts = bp_get_title_parts( $seplocation );
 
-	// If not set, simply return the original title
+	// If not set, simply return the original title.
 	if ( ! $bp_title_parts ) {
 		return $title;
 	}
@@ -528,7 +566,7 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 	 */
 	$title_tag_compatibility = (bool) ( ! empty( $_wp_theme_features['title-tag'] ) || strstr( $title, $blogname ) );
 
-	// Append the site title to title parts if theme supports title tag
+	// Append the site title to title parts if theme supports title tag.
 	if ( true === $title_tag_compatibility ) {
 		$bp_title_parts['site'] = $blogname;
 
@@ -537,13 +575,13 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 		}
 	}
 
-	// Pad the separator with 1 space on each side
+	// Pad the separator with 1 space on each side.
 	$prefix = str_pad( $sep, strlen( $sep ) + 2, ' ', STR_PAD_BOTH );
 
-	// Join the parts together
+	// Join the parts together.
 	$new_title = join( $prefix, array_filter( $bp_title_parts ) );
 
-	// Append the prefix for pre `title-tag` compatibility
+	// Append the prefix for pre `title-tag` compatibility.
 	if ( false === $title_tag_compatibility ) {
 		$new_title = $new_title . $prefix;
 	}
@@ -570,19 +608,19 @@ add_filter( 'bp_modify_page_title', 'esc_html'                    );
  *
  * @since 2.4.3
  *
- * @param array $title The WordPress document title parts
+ * @param array $title The WordPress document title parts.
  * @return array the unchanged title parts or the BuddyPress ones
  */
 function bp_modify_document_title_parts( $title = array() ) {
-	// Get the BuddyPress title parts
+	// Get the BuddyPress title parts.
 	$bp_title_parts = bp_get_title_parts();
 
-	// If not set, simply return the original title
+	// If not set, simply return the original title.
 	if ( ! $bp_title_parts ) {
 		return $title;
 	}
 
-	// Get the separator used by wp_get_document_title()
+	// Get the separator used by wp_get_document_title().
 	$sep = apply_filters( 'document_title_separator', '-' );
 
 	// Build the BuddyPress portion of the title.

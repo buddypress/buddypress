@@ -43,7 +43,7 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 	} else {
 		$upload_data = bp_upload_dir();
 
-		// Return empty string, if Uploads data are not available
+		// Return empty string, if Uploads data are not available.
 		if ( ! $upload_data ) {
 			return $retval;
 		}
@@ -583,10 +583,10 @@ function bp_attachments_get_plupload_l10n() {
 /**
  * Enqueues the script needed for the Uploader UI.
  *
+ * @since 2.3.0
+ *
  * @see BP_Attachment::script_data() && BP_Attachment_Avatar::script_data() for examples showing how
  * to set specific script data.
- *
- * @since 2.3.0
  *
  * @param string $class Name of the class extending BP_Attachment (eg: BP_Attachment_Avatar).
  * @return null|WP_Error
@@ -1064,7 +1064,7 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
  *
  * @since 2.4.0
  *
- * @param array                     $args {
+ * @param array                          $args {
  *     @type string $file            The absolute path to the image. Required.
  *     @type string $component       The component for the object (eg: groups, xprofile). Required.
  *     @type string $cover_image_dir The Cover image dir to write the image into. Required.

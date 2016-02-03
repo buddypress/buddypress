@@ -29,6 +29,8 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.9.0
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -43,6 +45,8 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 	/**
 	 * Display the login widget.
+	 *
+	 * @since 1.9.0
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
@@ -154,6 +158,8 @@ class BP_Core_Login_Widget extends WP_Widget {
 	/**
 	 * Update the login widget options.
 	 *
+	 * @since 1.9.0
+	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
 	 * @return array $instance The parsed options to be saved.
@@ -167,6 +173,8 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 	/**
 	 * Output the login widget options form.
+	 *
+	 * @since 1.9.0
 	 *
 	 * @param array $instance Settings for this widget.
 	 * @return void
