@@ -11,7 +11,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Set "From" name in outgoing email to the site name.
  *
- * @deprecated 2.5.0
+ * @since 1.0.0
+ * @deprecated 2.5.0 Not used. Was hooked to WordPress' "wp_mail_from_name" action.
+ *                   Use the "bp_email_get_from" action instead.
  *
  * @return string The blog name for the root blog.
  */
@@ -22,8 +24,7 @@ function bp_core_email_from_name_filter() {
 	 * Filters the "From" name in outgoing email to the site name.
 	 *
 	 * @since 1.2.0
-	 * @deprecated 2.5.0 Not used any more in BuddyPress core, but left intact for old plugins.
-	 *                   This used to be hooked to WordPress' "wp_mail_from_name" action.
+	 * @deprecated 2.5.0 Not used.
 	 *
 	 * @param string $value Value to set the "From" name to.
 	 */
