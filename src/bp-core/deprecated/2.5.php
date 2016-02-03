@@ -657,12 +657,12 @@ add_filter( 'bp_email_get_property', 'bp_core_deprecated_email_filters', 20, 4 )
  *
  * @since 2.5.0
  *
- * @param BP_Email $email Email object reference.
  * @param bool|WP_Error $delivery_status Bool if the email was sent or not.
  *                                       If a WP_Error, there was a failure.
+ * @param BP_Email $email Email object reference.
  * @return mixed
  */
-function bp_core_deprecated_email_actions( $email, $delivery_status ) {
+function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 	$pre_2_5_emails = array(
 		'activity-comment',
 		'activity-comment-author',
