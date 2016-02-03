@@ -10,6 +10,11 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Creates our Settings component.
+ *
+ * @since 1.5.0
+ */
 class BP_Settings_Component extends BP_Component {
 
 	/**
@@ -31,6 +36,8 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Include files.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @param array $includes Array of values to include. Not used.
 	 */
 	public function includes( $includes = array() ) {
@@ -48,13 +55,13 @@ class BP_Settings_Component extends BP_Component {
 	 * The BP_SETTINGS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @param array $args Array of arguments.
-	 *
 	 * @since 1.5.0
+	 *
+	 * @param array $args Array of arguments.
 	 */
 	public function setup_globals( $args = array() ) {
 
-		// Define a slug, if necessary
+		// Define a slug, if necessary.
 		if ( ! defined( 'BP_SETTINGS_SLUG' ) ) {
 			define( 'BP_SETTINGS_SLUG', $this->id );
 		}
@@ -69,12 +76,14 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Set up navigation.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @param array $main_nav Array of main nav items.
 	 * @param array $sub_nav  Array of sub nav items.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Determine user to use
+		// Determine user to use.
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
 		} elseif ( bp_loggedin_user_domain() ) {
@@ -87,7 +96,7 @@ class BP_Settings_Component extends BP_Component {
 		$slug          = bp_get_settings_slug();
 		$settings_link = trailingslashit( $user_domain . $slug );
 
-		// Add the settings navigation item
+		// Add the settings navigation item.
 		$main_nav = array(
 			'name'                    => __( 'Settings', 'buddypress' ),
 			'slug'                    => $slug,
@@ -97,7 +106,7 @@ class BP_Settings_Component extends BP_Component {
 			'default_subnav_slug'     => 'general'
 		);
 
-		// Add General Settings nav item
+		// Add General Settings nav item.
 		$sub_nav[] = array(
 			'name'            => __( 'General', 'buddypress' ),
 			'slug'            => 'general',
@@ -109,7 +118,7 @@ class BP_Settings_Component extends BP_Component {
 		);
 
 		// Add Email nav item. Formerly called 'Notifications', we
-		// retain the old slug and function names for backward compat
+		// retain the old slug and function names for backward compat.
 		$sub_nav[] = array(
 			'name'            => __( 'Email', 'buddypress' ),
 			'slug'            => 'notifications',
@@ -120,7 +129,7 @@ class BP_Settings_Component extends BP_Component {
 			'user_has_access' => $access
 		);
 
-		// Add Spam Account nav item
+		// Add Spam Account nav item.
 		if ( bp_current_user_can( 'bp_moderate' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Capabilities', 'buddypress' ),
@@ -133,7 +142,7 @@ class BP_Settings_Component extends BP_Component {
 			);
 		}
 
-		// Add Delete Account nav item
+		// Add Delete Account nav item.
 		if ( ( ! bp_disable_account_deletion() && bp_is_my_profile() ) || bp_current_user_can( 'delete_users' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Delete Account', 'buddypress' ),
@@ -152,17 +161,19 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Set up the Toolbar.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @param array $wp_admin_nav Array of Admin Bar items.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
-		// Menus for logged in user
+		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
 
-			// Setup the logged in user variables
+			// Setup the logged in user variables.
 			$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
 
-			// Add main Settings menu
+			// Add main Settings menu.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
@@ -170,7 +181,7 @@ class BP_Settings_Component extends BP_Component {
 				'href'   => $settings_link
 			);
 
-			// General Account
+			// General Account.
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-general',
@@ -188,7 +199,7 @@ class BP_Settings_Component extends BP_Component {
 				);
 			}
 
-			// Delete Account
+			// Delete Account.
 			if ( !bp_current_user_can( 'bp_moderate' ) && ! bp_core_get_root_option( 'bp-disable-account-deletion' ) ) {
 				$wp_admin_nav[] = array(
 					'parent' => 'my-account-' . $this->id,
@@ -203,6 +214,11 @@ class BP_Settings_Component extends BP_Component {
 	}
 }
 
+/**
+ * Instantiates the settings component.
+ *
+ * @since 1.6.0
+ */
 function bp_setup_settings() {
 	buddypress()->settings = new BP_Settings_Component();
 }
