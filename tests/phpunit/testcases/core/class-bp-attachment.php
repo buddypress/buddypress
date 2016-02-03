@@ -461,7 +461,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	public function test_bp_attachment_get_image_data() {
 		$image_data = BP_Attachment::get_image_data( BP_TESTS_DIR . 'assets/upside-down.jpg' );
 
-		$this->assertTrue( 3 === $image_data['meta']['orientation'] );
+		$this->assertTrue( 3 == $image_data['meta']['orientation'] );
 	}
 
 	/**
