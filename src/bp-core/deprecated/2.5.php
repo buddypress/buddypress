@@ -72,8 +72,10 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 		return $value;
 	}
 
+	$original_value = $value;
+
 	if ( $property === 'to' ) {
-		$value          = array_shift( $value );
+		$value          = array_shift( $original_value );
 		$recipient_name = $value->get_name();     // Value - name
 		$value          = $value->get_address();  // Key   - email
 	}
@@ -645,7 +647,8 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 
 	if ( $property === 'to' ) {
 		// We always break apart $to, so we always need to rebuild it.
-		$value = array( new BP_Email_Recipient( $value, $recipient_name ) );
+		array_unshift( $original_value, new BP_Email_Recipient( $value, $recipient_name ) );
+		$value = $original_value;
 	}
 
 	return $value;
