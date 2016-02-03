@@ -32,7 +32,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 
 	public function test_valid_subject() {
 		$message = 'test';
-		$email   = new BP_Email( 'fake_type' );
+		$email   = new BP_Email( 'activity-at-message' );
 
 		$email->set_subject( $message );
 		$this->assertSame( $message, $email->get_subject() );
@@ -40,7 +40,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 
 	public function test_valid_html_content() {
 		$message = '<b>test</b>';
-		$email   = new BP_Email( 'fake_type' );
+		$email   = new BP_Email( 'activity-at-message' );
 
 		$email->set_content_html( $message );
 		$email->set_content_type( 'html' );
@@ -50,7 +50,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 
 	public function test_valid_plaintext_content() {
 		$message = 'test';
-		$email   = new BP_Email( 'fake_type' );
+		$email   = new BP_Email( 'activity-at-message' );
 
 		$email->set_content_plaintext( $message );
 		$email->set_content_type( 'plaintext' );
@@ -60,7 +60,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 
 	public function test_valid_template() {
 		$message = 'test';
-		$email   = new BP_Email( 'fake_type' );
+		$email   = new BP_Email( 'activity-at-message' );
 
 		$email->set_template( $message );
 		$this->assertSame( $message, $email->get_template() );
@@ -69,7 +69,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	public function test_tokens() {
 		$original = array( 'test1' => 'hello', 'test2' => 'world' );
 
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 		$email->set_tokens( $original );
 
 		$this->assertSame(
@@ -84,7 +84,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_headers() {
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 
 		$headers = array( 'custom_header' => 'custom_value' );
 		$email->set_headers( $headers );
@@ -92,7 +92,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_validation() {
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );
 		$email->set_content_html( 'testing' );
 
@@ -100,7 +100,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_invalid_characters_are_stripped_from_tokens() {
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 		$email->set_tokens( array( 'te{st}1' => 'hello world' ) );
 
 		$this->assertSame(
@@ -111,7 +111,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 
 	public function test_token_are_escaped() {
 		$token = '<blink>';
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 		$email->set_content_html( '{{test}}' )->set_tokens( array( 'test' => $token ) );
 
 		$this->assertSame(
@@ -122,7 +122,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 
 	public function test_token_are_not_escaped() {
 		$token = '<blink>';
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 		$email->set_content_html( '{{{test}}}' )->set_tokens( array( 'test' => $token ) );
 
 		$this->assertSame(
@@ -132,7 +132,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_invalid_headers() {
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 
 		$headers = array( 'custom:header' => 'custom:value' );
 		$email->set_headers( $headers );
@@ -141,7 +141,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_validation_with_missing_required_data() {
-		$email  = new BP_Email( 'fake_type' );
+		$email  = new BP_Email( 'activity-at-message' );
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );  // Content
 		$result = $email->validate();
 
@@ -150,7 +150,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_validation_with_missing_template() {
-		$email  = new BP_Email( 'fake_type' );
+		$email  = new BP_Email( 'activity-at-message' );
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );
 		$email->set_content_html( 'testing' )->set_template( '' );
 		$result = $email->validate();
@@ -162,7 +162,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 
 	public function test_invalid_tags_should_be_removed_from_html_content() {
 		$message = '<b>hello world</b><iframe src="https://example.com"></iframe><b>hello world</b>';
-		$email   = new BP_Email( 'fake_type' );
+		$email   = new BP_Email( 'activity-at-message' );
 
 		$email->set_content_html( $message );
 		$email->set_content_type( 'html' );
@@ -173,7 +173,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	public function test_multiple_recipients_are_supported_by_address() {
 		$email1 = 'test1@example.com';
 		$email2 = 'test2@example.com';
-		$email  = new BP_Email( 'fake_type' );
+		$email  = new BP_Email( 'activity-at-message' );
 
 		$email->set_to( array( $email1, $email2 ) );
 		$addresses = $email->get_to();
@@ -186,7 +186,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	public function test_multiple_recipients_are_supported_by_wp_user_object() {
 		$user1 = get_user_by( 'id', $this->u1 );
 		$user2 = get_user_by( 'id', $this->u2 );
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 
 		$email->set_to( array( $user1, $user2 ) );
 		$addresses = $email->get_to();
@@ -199,7 +199,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	public function test_multiple_recipients_are_supported_by_wp_user_id() {
 		$user1 = get_user_by( 'id', $this->u1 );
 		$user2 = get_user_by( 'id', $this->u2 );
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 		$email->set_to( array( $this->u1, $this->u2 ) );
 		$addresses = $email->get_to();
 
@@ -212,7 +212,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 		$user1 = get_user_by( 'id', $this->u1 );
 		$user2 = get_user_by( 'id', $this->u2 );
 		$user3 = 'test3@example.com';
-		$email = new BP_Email( 'fake_type' );
+		$email = new BP_Email( 'activity-at-message' );
 
 		$email->set_to( array( $user1, $this->u2, $user3 ) );
 		$addresses = $email->get_to();
@@ -224,7 +224,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_replacing_existing_recipients_with_new_recipients() {
-		$email              = new BP_Email( 'fake_type' );
+		$email              = new BP_Email( 'activity-at-message' );
 		$original_recipient = 'test1@example.com';
 		$new_recipient      = 'test2@example.com';
 
@@ -238,7 +238,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	}
 
 	public function test_appending_new_recipients_to_existing_recipients() {
-		$email              = new BP_Email( 'fake_type' );
+		$email              = new BP_Email( 'activity-at-message' );
 		$original_recipient = 'test1@example.com';
 		$new_recipient      = 'test2@example.com';
 
