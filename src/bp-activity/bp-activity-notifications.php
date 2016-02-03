@@ -86,6 +86,20 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 
 		bp_send_email( $email_type, $receiver_user_id, $args );
 	}
+
+	/**
+	 * Fires after the sending of an @mention email notification.
+	 *
+	 * @since 1.5.0
+	 * @since 2.5.0 $subject, $message, $content arguments unset and deprecated.
+	 *
+	 * @param BP_Activity_Activity $activity         Activity Item object.
+	 * @param string               $deprecated       Removed in 2.5; now an empty string.
+	 * @param string               $deprecated       Removed in 2.5; now an empty string.
+	 * @param string               $deprecated       Removed in 2.5; now an empty string.
+	 * @param int                  $receiver_user_id The ID of the user who is receiving the update.
+	 */
+	do_action( 'bp_activity_sent_mention_email', $activity, '', '', '', $receiver_user_id );
 }
 
 /**

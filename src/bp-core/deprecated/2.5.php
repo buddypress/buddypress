@@ -664,14 +664,12 @@ add_filter( 'bp_email_get_property', 'bp_core_deprecated_email_filters', 20, 4 )
  */
 function bp_core_deprecated_email_actions( $email, $delivery_status ) {
 	$pre_2_5_emails = array(
-		'activity-at-message',
 		'activity-comment',
 		'activity-comment-author',
 		'core-user-registration',
 		'core-user-registration-with-blog',
 		'friends-request',
 		'friends-request-accepted',
-		'groups-at-message',
 		'groups-details-updated',
 		'groups-invitation',
 		'groups-member-promoted',
@@ -725,21 +723,6 @@ function bp_core_deprecated_email_actions( $email, $delivery_status ) {
 		 * @param array  $deprecated    Removed in 2.5; now an empty array.
 		 */
 		do_action( 'bp_activity_sent_reply_to_reply_email', $tokens['parent-comment-user.id'], $email_subject, $email_content, $tokens['comment.id'], $tokens['commenter.id'], array() );
-
-	} elseif ( $email_type === 'activity-at-message' || $email_type === 'groups-at-message' ) {
-		/**
-		 * Fires after the sending of an @mention email notification.
-		 *
-		 * @since 1.5.0
-		 * @deprecated 2.5.0 Use the filters in BP_Email.
-		 *
-		 * @param BP_Activity_Activity $activity         Activity Item object.
-		 * @param string               $email_subject    Email notification subject text.
-		 * @param string               $email_content    Email notification message text.
-		 * @param string               $content          Content of the @mention.
-		 * @param int                  $receiver_user_id The ID of the user who is receiving the update.
-		 */
-		do_action( 'bp_activity_sent_mention_email', $tokens['activity'], $email_subject, $email_content, $tokens['content'], $tokens['receiver-user.id'] );
 
 	} elseif ( $email_type === 'core-user-registration' ) {
 		if ( ! empty( $tokens['user_id'] ) ) {
