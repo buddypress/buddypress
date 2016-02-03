@@ -34,7 +34,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 		$message = 'test';
 		$email   = new BP_Email( 'activity-at-message' );
 
-		$email->set_subject( $message );
+		$email->set_subject( $message )->set_tokens( array( 'poster.name' => 'example' ) );
 		$this->assertSame( $message, $email->get_subject() );
 	}
 
@@ -94,7 +94,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	public function test_validation() {
 		$email = new BP_Email( 'activity-at-message' );
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );
-		$email->set_content_html( 'testing' );
+		$email->set_content_html( 'testing' )->set_tokens( array( 'poster.name' => 'example' ) );
 
 		$this->assertTrue( $email->validate() );
 	}
@@ -143,6 +143,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	public function test_validation_with_missing_required_data() {
 		$email  = new BP_Email( 'activity-at-message' );
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );  // Content
+		$email->set_tokens( array( 'poster.name' => 'example' ) );
 		$result = $email->validate();
 
 		$this->assertTrue( is_wp_error( $result ) );
@@ -152,7 +153,7 @@ class BP_Tests_Email extends BP_UnitTestCase {
 	public function test_validation_with_missing_template() {
 		$email  = new BP_Email( 'activity-at-message' );
 		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );
-		$email->set_content_html( 'testing' )->set_template( '' );
+		$email->set_content_html( 'testing' )->set_tokens( array( 'poster.name' => 'example' ) )->set_template( '' );
 		$result = $email->validate();
 
 		// Template has a default value, but it can't be blank.
