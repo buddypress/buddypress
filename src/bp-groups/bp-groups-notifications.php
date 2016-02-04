@@ -279,13 +279,12 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	$invited_link = bp_core_get_user_domain( $invited_user_id ) . bp_get_groups_slug();
 	$args         = array(
 		'tokens' => array(
-			'group'                => $group,
-			'group.url'            => bp_get_group_permalink( $group ),
-			'group.name'           => $group->name,
-			'inviter-profile.id'   => $invited_user_id,
-			'inviter-profile.name' => bp_core_get_userlink( $inviter_user_id, true, false, true ),
-			'inviter-profile.url'  => bp_core_get_user_domain( $inviter_user_id ),
-			'invites.url'          => esc_url( $invited_link . '/invites/' ),
+			'group'        => $group,
+			'group.url'    => bp_get_group_permalink( $group ),
+			'group.name'   => $group->name,
+			'inviter.name' => bp_core_get_userlink( $inviter_user_id, true, false, true ),
+			'inviter.url'  => bp_core_get_user_domain( $inviter_user_id ),
+			'invites.url'  => esc_url( $invited_link . '/invites/' ),
 		),
 	);
 	bp_send_email( 'groups-invitation', (int) $invited_user_id, $args );
