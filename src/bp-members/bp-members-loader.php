@@ -89,6 +89,8 @@ class BP_Members_Component extends BP_Component {
 	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
+		global $wpdb;
+
 		$bp = buddypress();
 
 		/** Component Globals ************************************************
@@ -108,7 +110,7 @@ class BP_Members_Component extends BP_Component {
 			'search_string'   => __( 'Search Members...', 'buddypress' ),
 			'global_tables'   => array(
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
-				'table_name_signups'       => bp_core_get_table_prefix() . 'signups',
+				'table_name_signups'       => $wpdb->base_prefix . 'signups', // signups is a global WordPress table
 			)
 		);
 
