@@ -173,7 +173,7 @@ $notice-update:      #ced98c;
 $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
 $unread:             #9dc3c8;
-
+$link-action:         #c82b2b;
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -2012,7 +2012,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-		/* Compose message form */
 		#send_message_form {
 			input,
 			textarea {
@@ -2020,7 +2019,44 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 
-		/* Sitewide Notices loop */
+		.acfb-holder {
+			list-style: none;
+
+			li {margin-left: 0;}
+
+			li.friend-tab {
+				background: lighten($notice-info, 20%);
+				border: inherit;
+				margin-right: 0;
+				padding: 0.5em;
+
+				span.p {
+					// the 'X' close
+					padding-left: $spacing-val-sm;
+
+					&:focus,
+					&:hover {
+						color: $link-action;
+						cursor: pointer;
+					}
+				}
+
+				a {
+					border-bottom: 0;
+					text-decoration: none;
+
+					img {
+						// this is the tiny user avatar
+						display: inline;
+						height: 20px;
+						vertical-align: middle;
+						width: 20px !important; // override inline style
+
+					}
+				}
+			}
+		}
+
 		#message-threads.sitewide-notices {
 			tr {margin: 3em 0;}
 			td {
@@ -2087,6 +2123,25 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 
 	} // #buddypress
+
+	// acfb auto complete name list sits in doc footer before body close
+	.ac_results {
+		background: #eee;
+		padding-left: $spacing-val-sm;
+
+		li {
+			margin: $spacing-val-sm 0;
+
+			&:focus,
+			&:hover {
+				cursor: pointer;
+			}
+
+			img { vertical-align: bottom;}
+
+		}
+	}
+
 } // close .bp-user
 
 /**
@@ -2431,14 +2486,3 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @section 10.0 - Ajax Loading, Widgets, General classes
 *-------------------------------------------------------------------------------
 */
-
-#buddypress {
-
-	.acfb-holder {
-
-		li.friend-tab {
-			background: $notice-info;
-			border: inherit;
-		}
-	}
-}
