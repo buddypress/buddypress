@@ -349,6 +349,23 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
 
 /**
+ * Decode HTML entities for plain-text emails.
+ *
+ * @since 2.5.0
+ *
+ * @param string $retval Current email content.
+ * @param string $prop   Email property to check against.
+ */
+function bp_email_plaintext_entity_decode( $retval, $prop ) {
+	if ( 'content_plaintext' !== $prop ) {
+		return $retval;
+	}
+
+	return html_entity_decode( $retval, ENT_QUOTES );
+}
+add_filter( 'bp_email_get_property', 'bp_email_plaintext_entity_decode', 10, 2 );
+
+/**
  * Replace the generated password in the welcome email with '[User Set]'.
  *
  * On a standard BP installation, users who register themselves also set their
