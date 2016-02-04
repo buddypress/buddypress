@@ -60,10 +60,10 @@ function messages_notification_new_message( $raw_args = array() ) {
 
 		$args = array(
 			'tokens' => array(
-				'usermessage' => wp_strip_all_tags( $message ),
-				'message.url' => esc_url( bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() . '/' ),
+				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
+				'message.url' => esc_url( bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() . '/view/' . $thread_id . '/' ),
 				'sender.name' => $sender_name,
-				'usersubject' => sanitize_text_field( $subject ),
+				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
 			),
 		);
 		bp_send_email( 'messages-unread', $ud, $args );
