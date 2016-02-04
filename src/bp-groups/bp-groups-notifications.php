@@ -77,7 +77,7 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 				'group.name'   => $group->name,
 			),
 		);
-		bp_send_email( 'groups-details-updated', $user_id, $args );
+		bp_send_email( 'groups-details-updated', (int) $user_id, $args );
 	}
 
 	/**
@@ -138,7 +138,7 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 			'requesting-user.name' => bp_core_get_user_displayname( $requesting_user_id ),
 		),
 	);
-	bp_send_email( 'groups-membership-request', $admin_id, $args );
+	bp_send_email( 'groups-membership-request', (int) $admin_id, $args );
 }
 
 /**
@@ -184,9 +184,9 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 	);
 
 	if ( ! empty( $accepted ) ) {
-		bp_send_email( 'groups-membership-request-accepted', $requesting_user_id, $args );
+		bp_send_email( 'groups-membership-request-accepted', (int) $requesting_user_id, $args );
 	} else {
-		bp_send_email( 'groups-membership-request-rejected', $requesting_user_id, $args );
+		bp_send_email( 'groups-membership-request-rejected', (int) $requesting_user_id, $args );
 	}
 }
 add_action( 'groups_membership_accepted', 'groups_notification_membership_request_completed', 10, 3 );
@@ -237,7 +237,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 			'user.id'     => $user_id,
 		),
 	);
-	bp_send_email( 'groups-member-promoted', $user_id, $args );
+	bp_send_email( 'groups-member-promoted', (int) $user_id, $args );
 }
 add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
 
@@ -288,7 +288,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 			'invites.url'          => esc_url( $invited_link . '/invites/' ),
 		),
 	);
-	bp_send_email( 'groups-invitation', $invited_user_id, $args );
+	bp_send_email( 'groups-invitation', (int) $invited_user_id, $args );
 }
 
 /** Notifications *************************************************************/
