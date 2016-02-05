@@ -652,18 +652,18 @@ class BP_Admin {
 			<h3 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
 				<li class="wp-person" id="wp-person-johnjamesjacoby">
-					<a href="https://profiles.wordpress.org/johnjamesjacoby"><img src="//www.gravatar.com/avatar/81ec16063d89b162d55efe72165c105f?s=60" class="gravatar" alt="John James Jacoby" /></a>
-					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby">John James Jacoby</a>
+					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/81ec16063d89b162d55efe72165c105f?s=60"> 
+					John James Jacoby</a>
 					<span class="title"><?php _e( 'Project Lead', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-boonebgorges">
-					<a href="https://profiles.wordpress.org/boonebgorges"><img src="//www.gravatar.com/avatar/9cf7c4541a582729a5fc7ae484786c0c?s=60" class="gravatar" alt="Boone B. Gorges" /></a>
-					<a class="web" href="https://profiles.wordpress.org/boonebgorges">Boone B. Gorges</a>
+					<a class="web" href="https://profiles.wordpress.org/boonebgorges"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/9cf7c4541a582729a5fc7ae484786c0c?s=60">
+					Boone B. Gorges</a>
 					<span class="title"><?php _e( 'Lead Developer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-djpaul">
-					<a href="https://profiles.wordpress.org/djpaul"><img src="//www.gravatar.com/avatar/3bc9ab796299d67ce83dceb9554f75df?s=60" class="gravatar" alt="Paul Gibbs" /></a>
-					<a class="web" href="https://profiles.wordpress.org/djpaul">Paul Gibbs</a>
+					<a class="web" href="https://profiles.wordpress.org/djpaul"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bc9ab796299d67ce83dceb9554f75df?s=60">
+					Paul Gibbs</a>
 					<span class="title"><?php _e( 'Lead Developer', 'buddypress' ); ?></span>
 				</li>
 			</ul>
@@ -671,33 +671,33 @@ class BP_Admin {
 			<h3 class="wp-people-group"><?php _e( 'Core Team', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-core-team">
 				<li class="wp-person" id="wp-person-r-a-y">
-					<a href="https://profiles.wordpress.org/r-a-y"><img src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60" class="gravatar" alt="Ray" /></a>
-					<a class="web" href="https://profiles.wordpress.org/r-a-y">Ray</a>
+					<a class="web" href="https://profiles.wordpress.org/r-a-y"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60">
+					Ray</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-imath">
-					<a href="https://profiles.wordpress.org/imath"><img src="//www.gravatar.com/avatar/8b208ca408dad63888253ee1800d6a03?s=60" class="gravatar" alt="Mathieu Viet" /></a>
-					<a class="web" href="https://profiles.wordpress.org/imath">Mathieu Viet</a>
+					<a class="web" href="https://profiles.wordpress.org/imath"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/8b208ca408dad63888253ee1800d6a03?s=60">
+					Mathieu Viet</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-mercime">
-					<a href="https://profiles.wordpress.org/mercime"><img src="//www.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=60" class="gravatar" alt="Mercime" /></a>
-					<a class="web" href="https://profiles.wordpress.org/mercime">Mercime</a>
+					<a class="web" href="https://profiles.wordpress.org/mercime"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=60">
+					Mercime</a>
 					<span class="title"><?php _e( 'Navigator', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-dcavins">
-					<a href="https://profiles.wordpress.org/dcavins"><img src="//www.gravatar.com/avatar/a5fa7e83d59cb45ebb616235a176595a?s=60" class="gravatar" alt="David Cavins" /></a>
-					<a class="web" href="https://profiles.wordpress.org/dcavins">David Cavins</a>
+					<a class="web" href="https://profiles.wordpress.org/dcavins"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/a5fa7e83d59cb45ebb616235a176595a?s=60">
+					David Cavins</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-tw2113">
-					<a href="https://profiles.wordpress.org/tw2113"><img src="//www.gravatar.com/avatar/a5d7c934621fa1c025b83ee79bc62366?s=60" class="gravatar" alt="Michael Beckwith" /></a>
-					<a class="web" href="https://profiles.wordpress.org/tw2113">Michael Beckwith</a>
+					<a class="web" href="https://profiles.wordpress.org/tw2113"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/a5d7c934621fa1c025b83ee79bc62366?s=60">
+					Michael Beckwith</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-hnla">
-					<a href="https://profiles.wordpress.org/hnla"><img src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60" class="gravatar" alt="Hugo Ashmore" /></a>
-					<a class="web" href="https://profiles.wordpress.org/hnla">Hugo</a>
+					<a class="web" href="https://profiles.wordpress.org/hnla"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60">
+					Hugo</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
 			</ul>
@@ -705,24 +705,24 @@ class BP_Admin {
 			<h3 class="wp-people-group"><?php _e( '&#x1f31f;Recent Rockstars&#x1f31f;', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-rockstars">
 				<li class="wp-person" id="wp-person-henry-wright">
-					<a href="https://profiles.wordpress.org/henry.wright"><img src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=60" class="gravatar" alt="Henry Wright" /></a>
-					<a class="web" href="https://profiles.wordpress.org/henry.wright">Henry Wright</a>
+					<a class="web" href="https://profiles.wordpress.org/henry.wright"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=60">
+					Henry Wright</a>
 				</li>
 				<li class="wp-person" id="wp-person-danbp">
-					<a href="https://profiles.wordpress.org/danbp"><img src="//www.gravatar.com/avatar/0deae2e7003027fbf153500cd3fa5501?s=60" class="gravatar" alt="danbp" /></a>
-					<a class="web" href="https://profiles.wordpress.org/danbp">danbp</a>
+					<a class="web" href="https://profiles.wordpress.org/danbp"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0deae2e7003027fbf153500cd3fa5501?s=60">
+					danbp</a>
 				</li>
 				<li class="wp-person" id="wp-person-shanebp">
-					<a href="https://profiles.wordpress.org/shanebp"><img src="//www.gravatar.com/avatar/ffd294ab5833ba14aaf175f9acc71cc4?s=60" class="gravatar" alt="shanebp" /></a>
-					<a class="web" href="https://profiles.wordpress.org/shanebp">shanebp</a>
+					<a class="web" href="https://profiles.wordpress.org/shanebp"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ffd294ab5833ba14aaf175f9acc71cc4?s=60">
+					shanebp</a>
 				</li>
 				<li class="wp-person" id="wp-person-netweb">
-					<a href="https://profiles.wordpress.org/netweb"><img src="//www.gravatar.com/avatar/97e1620b501da675315ba7cfb740e80f?s=60" class="gravatar" alt="Stephen Edgar" /></a>
-					<a class="web" href="https://profiles.wordpress.org/netweb">Stephen Edgar</a>
+					<a class="web" href="https://profiles.wordpress.org/netweb"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/97e1620b501da675315ba7cfb740e80f?s=60">
+					Stephen Edgar</a>
 				</li>
 				<li class="wp-person" id="wp-person-dimensionmedia">
-					<a href="https://profiles.wordpress.org/dimensionmedia"><img src="//www.gravatar.com/avatar/7735aada1ec39d0c1118bd92ed4551f1?s=60" class="gravatar" alt="David Bisset" /></a>
-					<a class="web" href="https://profiles.wordpress.org/dimensionmedia">David Bisset</a>
+					<a class="web" href="https://profiles.wordpress.org/dimensionmedia"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/7735aada1ec39d0c1118bd92ed4551f1?s=60">
+					David Bisset</a>
 				</li>
 
 			</ul>
