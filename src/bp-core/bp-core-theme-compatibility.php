@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 
 /** Base Class ****************************************************************/
 
-require dirname( __FILE__ ) . '/classes/class-bp-core-theme-compat.php';
+require dirname( __FILE__ ) . '/classes/class-bp-theme-compat.php';
 
 /** Functions *****************************************************************/
 
