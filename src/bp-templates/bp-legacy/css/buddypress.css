@@ -38,7 +38,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 #buddypress div.pagination {
 	background: transparent;
 	border: none;
-	color: #888;
+	color: #767676;
 	font-size: small;
 	margin: 0;
 	position: relative;
@@ -208,7 +208,7 @@ body.activity-permalink #buddypress li.mini .activity-meta {
 	margin-top: 4px;
 }
 #buddypress .activity-list li .activity-inreplyto {
-	color: #888;
+	color: #767676;
 	font-size: 80%;
 }
 #buddypress .activity-list li .activity-inreplyto > p {
@@ -241,7 +241,7 @@ body.activity-permalink #buddypress .activity-list li .activity-header > p {
 }
 #buddypress .activity-list .activity-content .activity-header,
 #buddypress .activity-list .activity-content .comment-header {
-	color: #888;
+	color: #767676;
 	line-height: 220%;
 }
 #buddypress .activity-header {
@@ -324,11 +324,11 @@ body.activity-permalink #buddypress div.activity-meta {
 	padding: 4px 8px;
 }
 #buddypress a.activity-time-since {
-	color: #aaa;
+	color: #767676;
 	text-decoration: none;
 }
 #buddypress a.activity-time-since:hover {
-	color: #888;
+	color: #767676;
 	text-decoration: underline;
 }
 #buddypress a.bp-primary-action,
@@ -339,7 +339,7 @@ body.activity-permalink #buddypress div.activity-meta {
 }
 #buddypress a.bp-primary-action span,
 #buddypress #reply-title small a span {
-	background: #999;
+	background: #767676;
 	color: #fff;
 	font-size: 90%;
 	margin-left: 2px;
@@ -423,7 +423,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	font-size: 90%;
 }
 #buddypress div.activity-comments div.acomment-meta {
-	color: #888;
+	color: #767676;
 	font-size: 80%;
 }
 #buddypress div.activity-comments form.ac-form {
@@ -470,7 +470,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	border: 1px solid #eee;
 }
 #buddypress div.activity-comments form div.ac-reply-content {
-	color: #888;
+	color: #767676;
 	margin-left: 50px;
 	padding-left: 15px;
 }
@@ -482,7 +482,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	margin: 5px 0 5px 40px;
 }
 #buddypress .acomment-options a {
-	color: #999;
+	color: #767676;
 }
 #buddypress .acomment-options a:hover {
 	color: inherit;
@@ -641,7 +641,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	border: 1px solid #ccc;
 	background: #fafafa;
 	border-radius: 0;
-	color: #888;
+	color: #767676;
 	font: inherit;
 	font-size: 100%;
 	padding: 6px;
@@ -666,7 +666,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 }
 #buddypress .standard-form div.checkbox label:nth-child(n+2),
 #buddypress .standard-form div.radio div label {
-	color: #888;
+	color: #767676;
 	font-size: 100%;
 	font-weight: normal;
 	margin: 5px 0 0 0;
@@ -710,7 +710,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	width: 97.5%;
 }
 #buddypress .standard-form p.description {
-	color: #888;
+	color: #767676;
 	font-size: 80%;
 	margin: 5px 0;
 }
@@ -786,7 +786,7 @@ body.no-js #buddypress #messages-bulk-management #select-all-messages {
 a.bp-title-button {
 	background: #fff; /* Old browsers */
 	border: 1px solid #ccc;
-	color: #777;
+	color: #767676;
 	font-size: small;
 	cursor: pointer;
 	outline: none;
@@ -900,7 +900,7 @@ a.bp-title-button {
 
 #buddypress a.loading:hover,
 #buddypress input.loading:hover {
-    color: #777;
+	color: #767676;
 }
 #buddypress input[type="submit"].pending,
 #buddypress input[type="button"].pending,
@@ -913,9 +913,9 @@ a.bp-title-button {
 #buddypress button.disabled,
 #buddypress div.pending a,
 #buddypress a.disabled {
-    border-color: #eee;
-    color: #bbb;
-    cursor: default;
+	border-color: #eee;
+	color: #bbb;
+	cursor: default;
 }
 #buddypress input[type="submit"]:hover.pending,
 #buddypress input[type="button"]:hover.pending,
@@ -928,7 +928,7 @@ a.bp-title-button {
 #buddypress div.pending a:hover,
 #buddypress a.disabled:hover {
 	border-color: #eee;
-    color: #bbb;
+	color: #bbb;
 }
 
 /*--------------------------------------------------------------
@@ -946,7 +946,7 @@ a.bp-title-button {
 	background: #f5f5f5;
 }
 #buddypress ul#topic-post-list li div.poster-meta {
-	color: #888;
+	color: #767676;
 	margin-bottom: 10px;
 }
 #buddypress ul#topic-post-list li div.post-content {
@@ -956,7 +956,7 @@ a.bp-title-button {
 	font-size: 80%;
 }
 #buddypress div.admin-links {
-	color: #888;
+	color: #767676;
 	font-size: 80%;
 	position: absolute;
 	top: 15px;
@@ -1045,7 +1045,7 @@ a.bp-title-button {
 	margin: 0;
 }
 #buddypress table tr td.thread-info p.thread-excerpt {
-	color: #888;
+	color: #767676;
 	font-size: 80%;
 	margin-top: 3px;
 }
@@ -1098,7 +1098,7 @@ a.bp-title-button {
 	padding-left: 35px;
 }
 #buddypress table.forum td p.topic-text {
-	color: #888;
+	color: #767676;
 	font-size: 100%;
 }
 #buddypress table.forum tr > td:first-child,
@@ -1125,7 +1125,7 @@ a.bp-title-button {
 }
 #buddypress table.forum td.td-freshness span.time-since {
 	font-size: 80%;
-	color: #888;
+	color: #767676;
 }
 #buddypress table.forum td img.avatar {
 	float: none;
@@ -1162,7 +1162,7 @@ a.bp-title-button {
 	padding: 0;
 }
 #buddypress span.user-nicename {
-	color: #777;
+	color: #767676;
 	display: inline-block;
 	font-size: 120%;
 	font-weight: bold;
@@ -1190,7 +1190,7 @@ a.bp-title-button {
 	margin: 0 0 15px 0;
 }
 #buddypress div#item-header h2 a {
-	color: #777;
+	color: #767676;
 	text-decoration: none;
 }
 #buddypress div#item-header img.avatar {
@@ -1222,7 +1222,7 @@ a.bp-title-button {
 }
 #buddypress div#item-header div#item-meta {
 	font-size: 80%;
-	color: #aaa;
+	color: #767676;
 	overflow: hidden;
 	margin: 15px 0 5px 0;
 	padding-bottom: 10px;
@@ -1300,11 +1300,11 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	width: 75%;
 }
 #buddypress ul.item-list li div.item-title span {
-	color: #999;
+	color: #767676;
 	font-size: 80%;
 }
 #buddypress ul.item-list li div.item-desc {
-	color: #888;
+	color: #767676;
 	font-size: 80%;
 	margin: 10px 0 0 60px;
 	width: 50%;
@@ -1319,7 +1319,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	text-align: right;
 }
 #buddypress ul.item-list li div.meta {
-	color: #888;
+	color: #767676;
 	font-size: 80%;
 	margin-top: 10px;
 }
@@ -1366,7 +1366,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	background: #eee;
 	border-radius: 50%;
 	border: 1px solid #ccc;
-	color: #999;
+	color: #6c6c6c;
 	display: inline;
 	font-size: 70%;
 	margin-left: 2px;
@@ -1535,11 +1535,11 @@ a.message-action-star:hover {
 	font-size: 18px;
 }
 .message-action-star span.icon:before {
-	color: #aaa;
+	color: #767676;
 	content: "\f154";
 }
 .message-action-unstar span.icon:before {
-	color: #FCDD77;
+	color: #fcdd77;
 	content: "\f155";
 }
 
@@ -1572,7 +1572,7 @@ body.no-js #buddypress .field-visibility-settings-close {
 #buddypress .field-visibility-settings,
 #buddypress .field-visibility-settings-toggle,
 #buddypress .field-visibility-settings-notoggle {
-	color: #888;
+	color: #767676;
 }
 #buddypress .field-visibility-settings-toggle a,
 #buddypress .field-visibility-settings a {
