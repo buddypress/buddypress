@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 
 require dirname( __FILE__ ) . '/classes/class-bp-groups-template.php';
 require dirname( __FILE__ ) . '/classes/class-bp-groups-group-members-template.php';
-require dirname( __FILE__ ) . '/classes/class-bp-groups-memberships-requests-template.php';
+require dirname( __FILE__ ) . '/classes/class-bp-groups-membership-requests-template.php';
 require dirname( __FILE__ ) . '/classes/class-bp-groups-invite-template.php';
 
 /**
