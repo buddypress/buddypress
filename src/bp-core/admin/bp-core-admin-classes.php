@@ -10,4 +10,4 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-require dirname( dirname( __FILE__ ) ) . '/classes/bp-walker-category-checklist.php';
+require dirname( dirname( __FILE__ ) ) . '/classes/class-bp-walker-category-checklist.php';
