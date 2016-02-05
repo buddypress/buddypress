@@ -385,6 +385,16 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 		'position'        => $position,
 	), $component_id, $type, $description, $format_callback, $label, $context );
 
+	// Sort the actions of the affected component.
+	$action_array = (array) $bp->activity->actions->{$component_id};
+	$action_array = bp_sort_by_key( $action_array, 'position', 'num' );
+
+	// Restore keys.
+	$bp->activity->actions->{$component_id} = new stdClass;
+	foreach ( $action_array as $key_ordered ) {
+		$bp->activity->actions->{$component_id}->{$key_ordered['key']} = $key_ordered;
+	}
+
 	return true;
 }
 
@@ -570,18 +580,6 @@ function bp_activity_get_actions() {
 				$post_type->contexts,
 				$post_type->position
 			);
-		}
-	}
-
-	// Sort the actions by their position within each component.
-	foreach ( $bp->activity->actions as $component => $actions ) {
-		$actions = (array) $actions;
-		$temp = bp_sort_by_key( $actions, 'position', 'num' );
-
-		// Restore keys.
-		$bp->activity->actions->{$component} = new stdClass;
-		foreach ( $temp as $key_ordered ) {
-			$bp->activity->actions->{$component}->{$key_ordered['key']} = $key_ordered;
 		}
 	}
 

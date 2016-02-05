@@ -869,56 +869,6 @@ Bar!';
 		$bp->activity->track = array();
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_get_actions
-	 */
-	public function test_bp_activity_get_actions_should_sort_by_position() {
-		$old_actions = bp_activity_get_actions();
-		buddypress()->activity->actions = new stdClass;
-
-		register_post_type( 'foo5', array(
-			'public'      => true,
-			'supports'    => array( 'buddypress-activity' ),
-			'bp_activity' => array(
-				'component_id' => 'foo',
-				'action_id' => 'foo_bar_5',
-				'position' => 5,
-			),
-		) );
-
-		register_post_type( 'foo50', array(
-			'public'      => true,
-			'supports'    => array( 'buddypress-activity' ),
-			'bp_activity' => array(
-				'component_id' => 'foo',
-				'action_id' => 'foo_bar_50',
-				'position' => 50,
-			),
-		) );
-
-		register_post_type( 'foo25', array(
-			'public'      => true,
-			'supports'    => array( 'buddypress-activity' ),
-			'bp_activity' => array(
-				'component_id' => 'foo',
-				'action_id' => 'foo_bar_25',
-				'position' => 25,
-			),
-		) );
-
-		$actions = bp_activity_get_actions();
-
-		$expected = array(
-			'foo_bar_5',
-			'foo_bar_25',
-			'foo_bar_50',
-		);
-		$foo_actions = (array) $actions->foo;
-		$this->assertEquals( $expected, array_values( wp_list_pluck( $foo_actions, 'key' ) ) );
-
-		buddypress()->activity->actions = $old_actions;
-	}
 
 	/**
 	 * @group activity_action
