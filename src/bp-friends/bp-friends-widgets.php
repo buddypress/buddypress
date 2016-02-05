@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-require dirname( __FILE__ ) . '/classes/class-bp-friends-widget.php';
+require dirname( __FILE__ ) . '/classes/class-bp-core-friends-widget.php';
 
 /**
  * Register the friends widget.
