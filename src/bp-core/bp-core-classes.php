@@ -21,6 +21,7 @@ require dirname( __FILE__ ) . '/classes/class-bp-walker-nav-menu-checklist.php';
 require dirname( __FILE__ ) . '/classes/class-bp-suggestions.php';
 require dirname( __FILE__ ) . '/classes/class-bp-members-suggestions.php';
 require dirname( __FILE__ ) . '/classes/class-bp-recursive-query.php';
+require dirname( __FILE__ ) . '/classes/class-bp-core-sort-by-key-callback.php';
 require dirname( __FILE__ ) . '/classes/class-bp-media-extractor.php';
 require dirname( __FILE__ ) . '/classes/class-bp-attachment.php';
 require dirname( __FILE__ ) . '/classes/class-bp-attachment-avatar.php';
