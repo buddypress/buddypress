@@ -1342,10 +1342,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	* @subsection 6.2.2.5 - Private Messaging
 	*-------------------------------------------
 	*/
-.bp-user #buddypress {
-	/* Sitewide Notices loop */
-}
-
 .bp-user #buddypress #message-thread a {
 	border-bottom: 0;
 }
@@ -1518,6 +1514,42 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	width: 30px;
 }
 
+.bp-user #buddypress .acfb-holder {
+	list-style: none;
+}
+
+.bp-user #buddypress .acfb-holder li {
+	margin-right: 0;
+}
+
+.bp-user #buddypress .acfb-holder li.friend-tab {
+	background: #edf7fa;
+	border: inherit;
+	margin-left: 0;
+	padding: 0.5em;
+}
+
+.bp-user #buddypress .acfb-holder li.friend-tab span.p {
+	padding-right: 10px;
+}
+
+.bp-user #buddypress .acfb-holder li.friend-tab span.p:focus, .bp-user #buddypress .acfb-holder li.friend-tab span.p:hover {
+	color: #c82b2b;
+	cursor: pointer;
+}
+
+.bp-user #buddypress .acfb-holder li.friend-tab a {
+	border-bottom: 0;
+	text-decoration: none;
+}
+
+.bp-user #buddypress .acfb-holder li.friend-tab a img {
+	display: inline;
+	height: 20px;
+	vertical-align: middle;
+	width: 20px !important;
+}
+
 .bp-user #buddypress #message-threads.sitewide-notices td {
 	width: 100%;
 }
@@ -1567,6 +1599,23 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	display: block;
 	line-height: initial;
 	text-indent: 0;
+}
+
+.bp-user .ac_results {
+	background: #eee;
+	padding-right: 10px;
+}
+
+.bp-user .ac_results ul {
+	margin: 0;
+}
+
+.bp-user .ac_results li {
+	margin: 10px 0;
+}
+
+.bp-user .ac_results li:focus, .bp-user .ac_results li:hover {
+	cursor: pointer;
 }
 
 /**

@@ -1053,11 +1053,6 @@ body.activity-permalink #buddypress {
 	* @subsection 6.2.2.5 - Messaging
 	*------------------------------
 	*/
-#buddypress {
-	/* Read Single thread */
-	/* Sitewide Notices loop */
-}
-
 #buddypress table#message-threads {
 	border-left: 1px solid rgba(0, 0, 0, 0.2);
 	border-right: 1px solid rgba(0, 0, 0, 0.2);
@@ -1197,6 +1192,43 @@ body.activity-permalink #buddypress {
 	margin-left: 0;
 }
 
+#buddypress .acfb-holder {
+	list-style: none;
+	margin: 0;
+}
+
+#buddypress .acfb-holder li {
+	margin-left: 0;
+}
+
+#buddypress .acfb-holder li.friend-tab {
+	background: #edf7fa;
+	border: inherit;
+	margin-right: 0;
+	padding: 0.5em;
+}
+
+#buddypress .acfb-holder li.friend-tab span.p {
+	padding-left: 10px;
+}
+
+#buddypress .acfb-holder li.friend-tab span.p:focus, #buddypress .acfb-holder li.friend-tab span.p:hover {
+	color: #c82b2b;
+	cursor: pointer;
+}
+
+#buddypress .acfb-holder li.friend-tab a {
+	border-bottom: 0;
+	text-decoration: none;
+}
+
+#buddypress .acfb-holder li.friend-tab a img {
+	display: inline;
+	height: 20px;
+	vertical-align: middle;
+	width: 20px !important;
+}
+
 #buddypress #message-threads.sitewide-notices td {
 	width: 100%;
 }
@@ -1245,6 +1277,23 @@ body.activity-permalink #buddypress {
 	display: block;
 	line-height: initial;
 	text-indent: 0;
+}
+
+.bp-user .ac_results {
+	background: #eee;
+	padding-left: 10px;
+}
+
+.bp-user .ac_results ul {
+	margin: 0;
+}
+
+.bp-user .ac_results li {
+	margin: 10px 0;
+}
+
+.bp-user .ac_results li:focus, .bp-user .ac_results li:hover {
+	cursor: pointer;
 }
 
 /**
@@ -1445,7 +1494,3 @@ body.activity-permalink #buddypress {
 * @section 10.0 - Ajax Loading, Widgets, General classes
 *-------------------------------------------------------------------------------
 */
-#buddypress .acfb-holder li.friend-tab {
-	background: #9fd1e2;
-	border: inherit;
-}

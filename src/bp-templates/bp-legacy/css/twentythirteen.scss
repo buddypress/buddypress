@@ -152,6 +152,7 @@ $notice-update:      #ced98c;
 $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
 $unread:             #dce5ff;
+$link-action:        #c82b2b;
 
 /*--------------------------------------------------------------
 
@@ -1989,18 +1990,38 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 
 		.acfb-holder {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+
+			li {margin-left: 0;}
 
 			li.friend-tab {
+				background: lighten($notice-info, 20%);
+				border: inherit;
 				margin-right: 0;
+				padding: 0.5em;
+
+				span.p {
+					// the 'X' close
+					padding-left: $spacing-val-sm;
+
+					&:focus,
+					&:hover {
+						color: $link-action;
+						cursor: pointer;
+					}
+				}
 
 				a {
 					border-bottom: 0;
+					text-decoration: none;
 
 					img {
 						// this is the tiny user avatar
 						display: inline;
 						height: 20px;
-						margin-right: 0.5em;
+						vertical-align: middle;
 						width: 20px !important; // override inline style
 					}
 				}
@@ -2024,6 +2045,28 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 		}
 	} // close #buddypress
+
+	// acfb auto complete name list sits in doc footer before body close
+	.ac_results {
+		background: #eee;
+		padding-left: $spacing-val-sm;
+
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		li {
+			margin: $spacing-val-sm 0;
+
+			&:focus,
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+
 } // close .bp-user
 
 /**
@@ -2373,13 +2416,3 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @section 10.0 - Ajax Loading, Widgets, General classes
 *-------------------------------------------------------------------------------
 */
-
-#buddypress {
-	.acfb-holder {
-
-		li.friend-tab {
-			background: $notice-info;
-			border: inherit;
-		}
-	}
-}
