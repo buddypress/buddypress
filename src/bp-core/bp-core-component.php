@@ -10,4 +10,4 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-require dirname( __FILE__ ) . '/classes/class-bp-core-component.php';
+require dirname( __FILE__ ) . '/classes/class-bp-component.php';
