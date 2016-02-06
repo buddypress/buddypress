@@ -145,6 +145,7 @@ class BP_Admin {
 		add_action( 'bp_admin_head',            array( $this, 'admin_head'  ), 999 );
 
 		// Add menu item to settings menu.
+		add_action( 'admin_menu',               array( $this, 'site_admin_menus' ), 5 );
 		add_action( bp_core_admin_hook(),       array( $this, 'admin_menus' ), 5 );
 
 		// Enqueue all admin JS and CSS.
@@ -185,7 +186,9 @@ class BP_Admin {
 	}
 
 	/**
-	 * Add the navigational menu elements.
+	 * Register site- or network-admin nav menu elements.
+	 *
+	 * Contextually hooked to site or network-admin depending on current configuration.
 	 *
 	 * @since 1.6.0
 	 *
@@ -303,13 +306,52 @@ class BP_Admin {
 			'bp_core_admin_tools'
 		);
 
-		$hooks[] = add_theme_page(
-			_x( 'Emails', 'screen heading', 'buddypress' ),
-			_x( 'Emails', 'screen heading', 'buddypress' ),
-			$this->capability,
-			'bp-emails-customizer-redirect',
-			'bp_email_redirect_to_customizer'
-		);
+		// For network-wide configs, add a link to (the root site's) Emails screen.
+		if ( is_network_admin() && bp_is_network_activated() ) {
+			$email_labels = bp_get_email_post_type_labels();
+			$email_url    = get_admin_url( bp_get_root_blog_id(), 'edit.php?post_type=' . bp_get_email_post_type() );
+
+			$hooks[] = add_menu_page(
+				$email_labels['name'],
+				$email_labels['name'],
+				$this->capability,
+				'',
+				'',
+				'dashicons-email',
+				26
+			);
+
+			// Hack: change the link to point to the root site's admin, not the network admin.
+			$GLOBALS['menu'][26][2] = esc_url_raw( $email_url );
+		}
+
+		foreach( $hooks as $hook ) {
+			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
+		}
+	}
+
+	/**
+	 * Register site-admin nav menu elements.
+	 *
+	 * @since 2.5.0
+	 */
+	public function site_admin_menus() {
+		if ( ! bp_current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$hooks = array();
+
+		if ( bp_is_root_blog() ) {
+			// Appearance > Emails.
+			$hooks[] = add_theme_page(
+				_x( 'Emails', 'screen heading', 'buddypress' ),
+				_x( 'Emails', 'screen heading', 'buddypress' ),
+				$this->capability,
+				'bp-emails-customizer-redirect',
+				'bp_email_redirect_to_customizer'
+			);
+		}
 
 		foreach( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
@@ -905,6 +947,14 @@ class BP_Admin {
 	 */
 	public function emails_admin_menu_order( $custom_menus = array() ) {
 		array_push( $custom_menus, 'edit.php?post_type=' . bp_get_email_post_type() );
+
+		if ( is_network_admin() && bp_is_network_activated() ) {
+			array_push(
+				$custom_menus,
+				get_admin_url( bp_get_root_blog_id(), 'edit.php?post_type=' . bp_get_email_post_type() )
+			);
+		}
+
 		return $custom_menus;
 	}
 
