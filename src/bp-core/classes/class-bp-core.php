@@ -298,7 +298,7 @@ class BP_Core extends BP_Component {
 	public function register_post_types() {
 
 		// Emails
-		if ( bp_is_root_blog() ) {
+		if ( bp_is_root_blog() && ! is_network_admin() ) {
 			register_post_type(
 				bp_get_email_post_type(),
 				apply_filters( 'bp_register_email_post_type', array(
