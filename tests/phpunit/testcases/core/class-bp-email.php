@@ -3,7 +3,7 @@
  * @group core
  * @group BP_Email
  */
-class BP_Tests_Email extends BP_UnitTestCase {
+class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	protected $u1;
 	protected $u2;
 
