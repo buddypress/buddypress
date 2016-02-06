@@ -652,7 +652,7 @@ class BP_Admin {
 			<h3 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
 				<li class="wp-person" id="wp-person-johnjamesjacoby">
-					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/81ec16063d89b162d55efe72165c105f?s=60"> 
+					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/81ec16063d89b162d55efe72165c105f?s=60">
 					John James Jacoby</a>
 					<span class="title"><?php _e( 'Project Lead', 'buddypress' ); ?></span>
 				</li>
