@@ -187,6 +187,6 @@ $settings = bp_email_get_appearance_settings();
 		</div>
 	</center>
 </td></tr></table>
-<?php if ( is_customize_preview() ) wp_footer(); ?>
+<?php if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) wp_footer(); ?>
 </body>
 </html>
