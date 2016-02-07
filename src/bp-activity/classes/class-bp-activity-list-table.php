@@ -84,6 +84,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// Option defaults.
 		$filter           = array();
+		$filter_query     = false;
 		$include_id       = false;
 		$search_terms     = false;
 		$sort             = 'DESC';
@@ -110,8 +111,26 @@ class BP_Activity_List_Table extends WP_List_Table {
 		}*/
 
 		// Filter.
-		if ( !empty( $_REQUEST['activity_type'] ) )
+		if ( ! empty( $_REQUEST['activity_type'] ) ) {
 			$filter = array( 'action' => $_REQUEST['activity_type'] );
+
+			/**
+			 * Filter here to override the filter with a filter query
+			 *
+			 * @since  2.5.0
+			 *
+			 * @param array $filter
+			 */
+			$has_filter_query = apply_filters( 'bp_activity_list_table_filter_activity_type_items', $filter );
+
+			if ( ! empty( $has_filter_query['filter_query'] ) ) {
+				// Reset the filter
+				$filter       = array();
+
+				// And use the filter query instead
+				$filter_query = $has_filter_query['filter_query'];
+			}
+		}
 
 		// Are we doing a search?
 		if ( !empty( $_REQUEST['s'] ) )
@@ -139,6 +158,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'page'             => $page,
 			'per_page'         => $per_page,
 			'search_terms'     => $search_terms,
+			'filter_query'     => $filter_query,
 			'show_hidden'      => true,
 			// 'sort'             => $sort,
 			'spam'             => $spam,
@@ -742,50 +762,28 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * functions from working as intended.
 	 *
 	 * @since 2.0.0
+	 * @since 2.5.0 Include Post type activities types
 	 *
 	 * @param array $item An array version of the BP_Activity_Activity object.
 	 * @return bool $can_comment
 	 */
 	protected function can_comment( $item  ) {
-		$can_comment = true;
+		$can_comment = bp_activity_type_supports( $item['type'], 'comment-reply' );
 
-		if ( $this->disable_blogforum_comments ) {
-			switch ( $item['type'] ) {
-				case 'new_blog_post' :
-				case 'new_blog_comment' :
-				case 'new_forum_topic' :
-				case 'new_forum_post' :
-					$can_comment = false;
-					break;
+		if ( ! $this->disable_blogforum_comments && bp_is_active( 'blogs' ) ) {
+			$parent_activity = false;
+
+			if ( bp_activity_type_supports( $item['type'], 'post-type-comment-tracking' ) ) {
+				$parent_activity = (object) $item;
+			} elseif ( 'activity_comment' === $item['type'] ) {
+				$parent_activity = new BP_Activity_Activity( $item['item_id'] );
 			}
 
-		// Activity comments supported.
-		} else {
-			// Activity comment.
-			if ( 'activity_comment' == $item['type'] ) {
-				// Blogs.
-				if ( bp_is_active( 'blogs' ) ) {
-					// Grab the parent activity entry.
-					$parent_activity = new BP_Activity_Activity( $item['item_id'] );
+			if ( isset( $parent_activity->type ) && bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'post_type' ) ) {
+				// Fetch blog post comment depth and if the blog post's comments are open.
+				bp_blogs_setup_activity_loop_globals( $parent_activity );
 
-					// Fetch blog post comment depth and if the blog post's comments are open.
-					bp_blogs_setup_activity_loop_globals( $parent_activity );
-
-					// Check if the activity item can be replied to.
-					if ( false === bp_blogs_can_comment_reply( true, $item ) ) {
-						$can_comment = false;
-					}
-				}
-
-			// Blog post.
-			} elseif ( 'new_blog_post' == $item['type'] ) {
-				if ( bp_is_active( 'blogs' ) ) {
-					bp_blogs_setup_activity_loop_globals( (object) $item );
-
-					if ( empty( buddypress()->blogs->allow_comments[$item['id']] ) ) {
-						$can_comment = false;
-					}
-				}
+				$can_comment = bp_blogs_can_comment_reply( true, $item );
 			}
 		}
 
@@ -793,10 +791,12 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 * Filters if an activity item can be commented on or not.
 		 *
 		 * @since 2.0.0
+		 * @since 2.5.0 Add a second parameter to include the activity item into the filter.
 		 *
-		 * @param bool $can_comment Whether an activity item can be commented on or not.
+		 * @param bool  $can_comment Whether an activity item can be commented on or not.
+		 * @param array $item        An array version of the BP_Activity_Activity object.
 		 */
-		return apply_filters( 'bp_activity_list_table_can_comment', $can_comment );
+		return apply_filters( 'bp_activity_list_table_can_comment', $can_comment, $item );
 	}
 
 	/**
