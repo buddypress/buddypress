@@ -37,6 +37,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			'ajax'     => false,
 			'plural'   => 'signups',
 			'singular' => 'signup',
+			'screen'   => buddypress()->members->admin->users_screen,
 		) );
 	}
 
@@ -90,13 +91,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @uses WP_Users_List_Table::get_views() to get the users views.
 	 */
 	public function get_views() {
-		$views = parent::get_views();
-
-		// Remove the 'current' class from the 'All' link.
-		$views['all']        = str_replace( 'class="current"', '', $views['all'] );
-		$views['registered'] = sprintf( '<a href="%1$s" class="current">%2$s</a>', esc_url( add_query_arg( 'page', 'bp-signups', bp_get_admin_url( 'users.php' ) ) ), sprintf( _x( 'Pending %s', 'signup users', 'buddypress' ), '<span class="count">(' . number_format_i18n( $this->signup_counts ) . ')</span>' ) );
-
-		return $views;
+		return parent::get_views();
 	}
 
 	/**
