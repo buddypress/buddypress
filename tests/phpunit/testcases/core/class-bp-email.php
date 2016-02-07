@@ -19,15 +19,6 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 			'display_name' => 'Unit Test2',
 			'user_email'   => 'test2@example.com',
 		) );
-
-		remove_filter( 'bp_email_get_headers', 'bp_email_set_default_headers', 6, 4 );
-		remove_filter( 'bp_email_get_tokens', 'bp_email_set_default_tokens', 6, 4 );
-	}
-
-	public function tearDown() {
-		add_filter( 'bp_email_get_tokens', 'bp_email_set_default_tokens', 6, 4 );
-		add_filter( 'bp_email_get_headers', 'bp_email_set_default_headers', 6, 4 );
-		parent::tearDown();
 	}
 
 	public function test_valid_subject() {
@@ -67,28 +58,31 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	public function test_tokens() {
-		$original = array( 'test1' => 'hello', 'test2' => 'world' );
+		$email          = new BP_Email( 'activity-at-message' );
+		$default_tokens = $email->get_tokens();
+		$tokens         = array( 'test1' => 'hello', 'test2' => 'world' );
 
-		$email = new BP_Email( 'activity-at-message' );
-		$email->set_tokens( $original );
+		$email->set_tokens( $tokens );
 
 		$this->assertSame(
-			array( 'test1', 'test2' ),
+			array_keys( $tokens + $default_tokens ),
 			array_keys( $email->get_tokens() )
 		);
 
 		$this->assertSame(
-			array( 'hello', 'world' ),
+			array_values( $tokens + $default_tokens ),
 			array_values( $email->get_tokens() )
 		);
 	}
 
 	public function test_headers() {
-		$email = new BP_Email( 'activity-at-message' );
+		$email           = new BP_Email( 'activity-at-message' );
+		$default_headers = $email->get_headers();
+		$headers         = array( 'custom_header' => 'custom_value' );
 
-		$headers = array( 'custom_header' => 'custom_value' );
 		$email->set_headers( $headers );
-		$this->assertSame( $headers, $email->get_headers() );
+
+		$this->assertSame( $headers + $default_headers, $email->get_headers() );
 	}
 
 	public function test_validation() {
@@ -100,11 +94,13 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	public function test_invalid_characters_are_stripped_from_tokens() {
-		$email = new BP_Email( 'activity-at-message' );
+		$email          = new BP_Email( 'activity-at-message' );
+		$default_tokens = $email->get_tokens();
+
 		$email->set_tokens( array( 'te{st}1' => 'hello world' ) );
 
 		$this->assertSame(
-			array( 'test1' ),
+			array_keys( array( 'test1' => 'hello world' ) + $default_tokens ),
 			array_keys( $email->get_tokens() )
 		);
 	}
@@ -132,12 +128,14 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	public function test_invalid_headers() {
-		$email = new BP_Email( 'activity-at-message' );
+		$email           = new BP_Email( 'activity-at-message' );
+		$default_headers = $email->get_headers();
+		$headers         = array( 'custom:header' => 'custom:value' );
 
-		$headers = array( 'custom:header' => 'custom:value' );
 		$email->set_headers( $headers );
-		$this->assertNotSame( $headers, $email->get( 'headers' ) );
-		$this->assertSame( array( 'customheader' => 'customvalue' ), $email->get_headers() );
+
+		$this->assertNotSame( $headers + $default_headers, $email->get( 'headers' ) );
+		$this->assertSame( array( 'customheader' => 'customvalue' ) + $default_headers, $email->get( 'headers' ) );
 	}
 
 	public function test_validation_with_missing_required_data() {
