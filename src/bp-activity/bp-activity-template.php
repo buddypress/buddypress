@@ -3029,48 +3029,27 @@ function bp_activity_can_comment() {
 	global $activities_template;
 	$bp = buddypress();
 
-	// Assume activity can be commented on.
-	$can_comment = true;
+	// Determine ability to comment based on activity type name.
+	$activity_type = bp_get_activity_type();
 
-	// Determine ability to comment based on activity action name.
-	$activity_action = bp_get_activity_action_name();
+	// Get the 'comment-reply' support for the current activity type.
+	$can_comment = bp_activity_type_supports( $activity_type, 'comment-reply' );
 
-	$turn_off = 0;
-	if ( ! empty( $activities_template->disable_blogforum_replies ) ) {
-		$turn_off = 1;
+	// Neutralize activity_comment.
+	if ( 'activity_comment' === $activity_type ) {
+		$can_comment = false;
 	}
-
-	$maybe_turn_off = array_fill_keys( array(
-		'new_blog_post',
-		'new_blog_comment',
-		'new_forum_topic',
-		'new_forum_post',
-	), $turn_off );
-
-	$maybe_turn_off['activity_comment'] = 1;
-
-	// Fetch all the tracked post types once.
-	if ( empty( $bp->activity->track ) ) {
-		$bp->activity->track = bp_activity_get_post_types_tracking_args();
-	}
-
-	foreach ( $bp->activity->track as $action => $tracking_args ) {
-		if ( empty( $tracking_args->activity_comment ) ) {
-			$maybe_turn_off[ $action ] = $turn_off;
-		}
-	}
-
-	$can_comment = empty( $maybe_turn_off[ $activity_action ] );
 
 	/**
 	 * Filters whether a comment can be made on an activity item.
 	 *
 	 * @since 1.5.0
+	 * @since 2.5.0 Use $activity_type instead of $activity_name for the second parameter.
 	 *
 	 * @param bool   $can_comment     Status on if activity can be commented on.
-	 * @param string $activity_action Current activity action being checked on.
+	 * @param string $activity_type   Current activity type being checked on.
 	 */
-	return apply_filters( 'bp_activity_can_comment', $can_comment, $activity_action );
+	return apply_filters( 'bp_activity_can_comment', $can_comment, $activity_type );
 }
 
 /**

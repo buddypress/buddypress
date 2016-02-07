@@ -438,8 +438,21 @@ function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array
 		return false;
 	}
 
+	$activity_labels = array(
+		/* Post labels */
+		'bp_activity_admin_filter',
+		'bp_activity_front_filter',
+		'bp_activity_new_post',
+		'bp_activity_new_post_ms',
+		/* Comment labels */
+		'bp_activity_comments_admin_filter',
+		'bp_activity_comments_front_filter',
+		'bp_activity_new_comment',
+		'bp_activity_new_comment_ms'
+	);
+
 	// Labels are loaded into the post type object.
-	foreach ( array( 'bp_activity_admin_filter', 'bp_activity_front_filter', 'bp_activity_new_post', 'bp_activity_new_post_ms' ) as $label_type ) {
+	foreach ( $activity_labels as $label_type ) {
 		if ( ! empty( $args[ $label_type ] ) ) {
 			$wp_post_types[ $post_type ]->labels->{$label_type} = $args[ $label_type ];
 			unset( $args[ $label_type ] );
@@ -456,6 +469,7 @@ function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array
  * Get tracking arguments for a specific post type.
  *
  * @since 2.2.0
+ * @since 2.5.0 Add post type comments tracking args
  *
  * @param  string $post_type Name of the post type.
  * @return object The tracking arguments of the post type.
@@ -465,17 +479,20 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
 		return false;
 	}
 
-	$post_type_object = get_post_type_object( $post_type );
+	$post_type_object           = get_post_type_object( $post_type );
+	$post_type_support_comments = post_type_supports( $post_type, 'comments' );
 
 	$post_type_activity = array(
-		'component_id'      => buddypress()->activity->id,
-		'action_id'         => 'new_' . $post_type,
-		'format_callback'   => 'bp_activity_format_activity_action_custom_post_type_post',
-		'front_filter'      => $post_type_object->labels->name,
-		'contexts'          => array( 'activity' ),
-		'position'          => 0,
-		'singular'          => strtolower( $post_type_object->labels->singular_name ),
-		'activity_comment' => ! post_type_supports( $post_type, 'comments' ),
+		'component_id'            => buddypress()->activity->id,
+		'action_id'               => 'new_' . $post_type,
+		'format_callback'         => 'bp_activity_format_activity_action_custom_post_type_post',
+		'front_filter'            => $post_type_object->labels->name,
+		'contexts'                => array( 'activity' ),
+		'position'                => 0,
+		'singular'                => strtolower( $post_type_object->labels->singular_name ),
+		'activity_comment'        => ! $post_type_support_comments,
+		'comment_action_id'       => false,
+		'comment_format_callback' => 'bp_activity_format_activity_action_custom_post_type_comment',
 	);
 
 	if ( ! empty( $post_type_object->bp_activity ) ) {
@@ -508,6 +525,52 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
 		$post_type_activity->new_post_type_action_ms = $post_type_object->labels->bp_activity_new_post_ms;
 	}
 
+	// If the post type supports comments and has a comment action id, build the comments tracking args
+	if ( $post_type_support_comments && ! empty( $post_type_activity->comment_action_id ) ) {
+		// Init a new container for the activity type for comments
+		$post_type_activity->comments_tracking = new stdClass();
+
+		// Build the activity type for comments
+		$post_type_activity->comments_tracking->component_id = $post_type_activity->component_id;
+		$post_type_activity->comments_tracking->action_id    = $post_type_activity->comment_action_id;
+
+		// Try to get the comments admin filter from the post type labels.
+		if ( ! empty( $post_type_object->labels->bp_activity_comments_admin_filter ) ) {
+			$post_type_activity->comments_tracking->admin_filter = $post_type_object->labels->bp_activity_comments_admin_filter;
+
+		// Fall back to a generic name.
+		} else {
+			$post_type_activity->comments_tracking->admin_filter = _x( 'New item comment posted', 'Post Type generic comments activity admin filter', 'buddypress' );
+		}
+
+		$post_type_activity->comments_tracking->format_callback = $post_type_activity->comment_format_callback;
+
+		// Check for the comments front filter in the post type labels.
+		if ( ! empty( $post_type_object->labels->bp_activity_comments_front_filter ) ) {
+			$post_type_activity->comments_tracking->front_filter = $post_type_object->labels->bp_activity_comments_front_filter;
+
+		// Fall back to a generic name.
+		} else {
+			$post_type_activity->comments_tracking->front_filter = sprintf( __( '%s comments', 'buddypress' ), $post_type_object->labels->singular_name );
+		}
+
+		$post_type_activity->comments_tracking->contexts = $post_type_activity->contexts;
+		$post_type_activity->comments_tracking->position = (int) $post_type_activity->position + 1;
+
+		// Try to get the action for new post type comment action on non-multisite installations.
+		if ( ! empty( $post_type_object->labels->bp_activity_new_comment ) ) {
+			$post_type_activity->comments_tracking->new_post_type_comment_action = $post_type_object->labels->bp_activity_new_comment;
+		}
+
+		// Try to get the action for new post type comment action on multisite installations.
+		if ( ! empty( $post_type_object->labels->bp_activity_new_comment_ms ) ) {
+			$post_type_activity->comments_tracking->new_post_type_comment_action_ms = $post_type_object->labels->bp_activity_new_comment_ms;
+		}
+	}
+
+	// Finally make sure we'll be able to find the post type this activity type is associated to.
+	$post_type_activity->post_type = $post_type;
+
 	/**
 	 * Filters tracking arguments for a specific post type.
 	 *
@@ -523,6 +586,7 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
  * Get tracking arguments for all post types.
  *
  * @since 2.2.0
+ * @since 2.5.0 Include post type comments tracking args if needed
  *
  * @return array List of post types with their tracking arguments.
  */
@@ -536,6 +600,20 @@ function bp_activity_get_post_types_tracking_args() {
 		$track_post_type = bp_activity_get_post_type_tracking_args( $post_type );
 
 		if ( ! empty( $track_post_type ) ) {
+			// Set the post type comments tracking args
+			if ( ! empty( $track_post_type->comments_tracking->action_id ) ) {
+				// Used to check support for comment tracking by activity type (new_post_type_comment)
+				$track_post_type->comments_tracking->comments_tracking = true;
+
+				// Used to be able to find the post type this activity type is associated to.
+				$track_post_type->comments_tracking->post_type = $post_type;
+
+				$post_types_tracking_args[ $track_post_type->comments_tracking->action_id ] = $track_post_type->comments_tracking;
+
+				// Used to check support for comment tracking by activity type (new_post_type)
+				$track_post_type->comments_tracking = true;
+			}
+
 			$post_types_tracking_args[ $track_post_type->action_id ] = $track_post_type;
 		}
 
@@ -550,6 +628,117 @@ function bp_activity_get_post_types_tracking_args() {
 	 *                                        their tracking arguments.
 	 */
 	return apply_filters( 'bp_activity_get_post_types_tracking_args', $post_types_tracking_args );
+}
+
+/**
+ * Check if the *Post Type* activity supports a specific feature.
+ *
+ * @since 2.5.0
+ *
+ * @param  string $activity_type The activity type to check.
+ * @param  string $feature       The feature to check. Currently supports:
+ *                               'post-type-comment-tracking', 'post-type-comment-reply' & 'comment-reply'.
+ *                               See inline doc for more info.
+ * @return bool
+ */
+function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
+	$retval = false;
+
+	$bp = buddypress();
+
+	switch ( $feature ) {
+		/**
+		 * Does this activity type support comment tracking?
+		 *
+		 * eg. 'new_blog_post' and 'new_blog_comment' will both return true.
+		 */
+		case 'post-type-comment-tracking' :
+			// Set the activity track global if not set yet
+			if ( empty( $bp->activity->track ) ) {
+				$bp->activity->track = bp_activity_get_post_types_tracking_args();
+			}
+
+			if ( ! empty( $bp->activity->track[ $activity_type ]->comments_tracking ) ) {
+				$retval = true;
+			}
+			break;
+
+		/**
+		 * Is this a parent activity type that support post comments?
+		 *
+		 * eg. 'new_blog_post' will return true; 'new_blog_comment' will return false.
+		 */
+		case 'post-type-comment-reply' :
+			// Set the activity track global if not set yet.
+			if ( empty( $bp->activity->track ) ) {
+				$bp->activity->track = bp_activity_get_post_types_tracking_args();
+			}
+
+			if ( ! empty( $bp->activity->track[ $activity_type ]->comments_tracking ) && ! empty( $bp->activity->track[ $activity_type ]->comment_action_id ) ) {
+				$retval = true;
+			}
+			break;
+
+		/**
+		 * Does this activity type support comment & reply?
+		 */
+		case 'comment-reply' :
+			// Set the activity track global if not set yet.
+			if ( empty( $bp->activity->track ) ) {
+				$bp->activity->track = bp_activity_get_post_types_tracking_args();
+			}
+
+			// Post Type activities
+			if ( ! empty( $bp->activity->track[ $activity_type ] ) ) {
+				if ( isset( $bp->activity->track[ $activity_type ]->activity_comment ) ) {
+					$retval = $bp->activity->track[ $activity_type ]->activity_comment;
+				}
+
+				// Eventually override with comment synchronization feature.
+				if ( isset( $bp->activity->track[ $activity_type ]->comments_tracking ) ) {
+					$retval = $bp->activity->track[ $activity_type ]->comments_tracking && ! bp_disable_blogforum_comments();
+				}
+
+			// Retired Forums component
+			} elseif ( 'new_forum_topic' === $activity_type || 'new_forum_post' === $activity_type ) {
+				$retval = ! bp_disable_blogforum_comments();
+
+			// By Default, all other activity types are supporting comments.
+			} else {
+				$retval = true;
+			}
+			break;
+	}
+
+	return $retval;
+}
+
+/**
+ * Get a specific tracking argument for a given activity type
+ *
+ * @since 2.5.0
+ *
+ * @param  string       $activity_type the activity type.
+ * @param  string       $arg           the key of the tracking argument.
+ * @return mixed        the value of the tracking arg, false if not found.
+ */
+function bp_activity_post_type_get_tracking_arg( $activity_type, $arg = '' ) {
+	if ( empty( $activity_type ) || empty( $arg ) ) {
+		return false;
+	}
+
+	$bp = buddypress();
+
+	// Set the activity track global if not set yet
+	if ( empty( $bp->activity->track ) ) {
+		$bp->activity->track = bp_activity_get_post_types_tracking_args();
+	}
+
+	if ( isset( $bp->activity->track[ $activity_type ]->{$arg} ) ) {
+		return $bp->activity->track[ $activity_type ]->{$arg};
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -1401,6 +1590,57 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
 	 * @param BP_Activity_Activity $activity Activity item object.
 	 */
 	return apply_filters( 'bp_activity_custom_post_type_post_action', $action, $activity );
+}
+
+/**
+ * Format activity action strings for custom post types comments.
+ *
+ * @since 2.5.0
+ *
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
+ *
+ * @return string
+ */
+function bp_activity_format_activity_action_custom_post_type_comment( $action, $activity ) {
+	$bp = buddypress();
+
+	// Fetch all the tracked post types once.
+	if ( empty( $bp->activity->track ) ) {
+		$bp->activity->track = bp_activity_get_post_types_tracking_args();
+	}
+
+	if ( empty( $activity->type ) || empty( $bp->activity->track[ $activity->type ] ) ) {
+		return $action;
+	}
+
+	$user_link = bp_core_get_userlink( $activity->user_id );
+
+	if ( is_multisite() ) {
+		$blog_link = '<a href="' . esc_url( get_home_url( $activity->item_id ) ) . '">' . get_blog_option( $activity->item_id, 'blogname' ) . '</a>';
+
+		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action_ms ) ) {
+			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_comment_action_ms, $user_link, $activity->primary_link, $blog_link );
+		} else {
+			$action = sprintf( _x( '%1$s commented on the <a href="%2$s">item</a>, on the site %3$s', 'Activity Custom Post Type comment action', 'buddypress' ), $user_link, $activity->primary_link, $blog_link );
+		}
+	} else {
+		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action ) ) {
+			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_comment_action, $user_link, $activity->primary_link );
+		} else {
+			$action = sprintf( _x( '%1$s commented on the <a href="%2$s">item</a>', 'Activity Custom Post Type post comment action', 'buddypress' ), $user_link, $activity->primary_link );
+		}
+	}
+
+	/**
+	 * Filters the formatted custom post type activity comment action string.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string               $action   Activity action string value.
+	 * @param BP_Activity_Activity $activity Activity item object.
+	 */
+	return apply_filters( 'bp_activity_custom_post_type_comment_action', $action, $activity );
 }
 
 /*
