@@ -763,8 +763,6 @@ Bar!';
 			return;
 		}
 
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -800,10 +798,6 @@ Bar!';
 		$this->assertSame( $expected, $a_obj->action );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -815,8 +809,6 @@ Bar!';
 		if ( ! is_multisite() ) {
 			return;
 		}
-
-		$bp = buddypress();
 
 		$b = $this->factory->blog->create();
 		$u = $this->factory->user->create();
@@ -863,10 +855,6 @@ Bar!';
 		$expected = sprintf( '%s wrote a new %s, on the site %s', $user_link, $post_link, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
 
 		$this->assertSame( $expected, $a_obj->action );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 
@@ -878,8 +866,6 @@ Bar!';
 		if ( is_multisite() ) {
 			return;
 		}
-
-		$bp = buddypress();
 
 		$labels = array(
 			'name'                 => 'bars',
@@ -924,10 +910,6 @@ Bar!';
 		$this->assertSame( $expected, $a_obj->action );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->foo_bar );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -939,9 +921,6 @@ Bar!';
 		if ( ! is_multisite() ) {
 			return;
 		}
-
-		$bp = buddypress();
-		$reset = $bp->activity->actions;
 
 		$b = $this->factory->blog->create();
 		$u = $this->factory->user->create();
@@ -991,10 +970,6 @@ Bar!';
 		$expected = sprintf( '%1$s shared a new <a href="%2$s">bar</a>, on the site %3$s', $user_link, $post_url, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
 
 		$this->assertSame( $expected, $a_obj->action );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -1031,10 +1006,6 @@ Bar!';
 		$this->assertSame( $bp->blogs->id, $a['activities'][0]->component );
 
 		remove_post_type_support( 'page', 'buddypress-activity' );
-
-		// Reset globals
-		unset( $bp->activity->actions->blogs->new_page );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -1073,6 +1044,81 @@ Bar!';
 		_unregister_post_type( 'foo' );
 
 		$this->assertSame( $set_bp_activity, $register_bp_activity );
+	}
+
+	/**
+	 * @group activity_action
+	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_activity_format_activity_action_custom_post_type_comment() {
+		if ( is_multisite() ) {
+			$b = $this->factory->blog->create();
+			switch_to_blog( $b );
+			add_filter( 'comment_flood_filter', '__return_false' );
+		} else {
+			$b = get_current_blog_id();
+		}
+
+		$u = $this->factory->user->create();
+		$userdata = get_userdata( $u );
+
+		$labels = array(
+			'name'                       => 'bars',
+			'singular_name'              => 'bar',
+			'bp_activity_new_comment'    => __( '%1$s commented on the <a href="%2$s">bar</a>', 'buddypress' ),
+			'bp_activity_new_comment_ms' => __( '%1$s commented on the <a href="%2$s">bar</a>, on the site %3$s', 'buddypress' ),
+		);
+
+		register_post_type( 'foo', array(
+			'labels'   => $labels,
+			'public'   => true,
+			'supports' => array( 'buddypress-activity', 'comments' ),
+			'bp_activity' => array(
+				'action_id'         => 'new_bar',
+				'comment_action_id' => 'new_bar_comment',
+			),
+		) );
+
+		// Build the actions to fetch the tracking args
+		bp_activity_get_actions();
+
+		$p = $this->factory->post->create( array(
+			'post_author' => $u,
+			'post_type'   => 'foo',
+		) );
+
+		$c = wp_new_comment( array(
+			'comment_post_ID'      => $p,
+			'comment_author'       => $userdata->user_nicename,
+			'comment_author_url'   => 'http://buddypress.org',
+			'comment_author_email' => $userdata->user_email,
+			'comment_content'      => 'this is a blog comment',
+			'comment_type'         => '',
+			'comment_parent'       => 0,
+			'user_id'              => $u,
+		) );
+
+		$a = bp_activity_get_activity_id( array( 'type' => 'new_bar_comment' ) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$user_link    = bp_core_get_userlink( $u );
+		$comment_url  = get_comment_link( $c );
+
+		_unregister_post_type( 'foo' );
+
+		if ( is_multisite() ) {
+			$blog_url  = get_blog_option( $a_obj->item_id, 'home' );
+			restore_current_blog();
+			remove_filter( 'comment_flood_filter', '__return_false' );
+
+			$expected = sprintf( $labels['bp_activity_new_comment_ms'], $user_link, $comment_url, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
+		} else {
+			$expected = sprintf( $labels['bp_activity_new_comment'], $user_link, $comment_url );
+		}
+
+		$this->assertSame( $expected, $a_obj->action );
 	}
 
 	/**

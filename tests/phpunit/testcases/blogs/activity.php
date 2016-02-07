@@ -156,6 +156,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * @group activity_action
 	 * @group bp_blogs_format_activity_action_new_blog_comment
+	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_comment_ms_nonrootblog() {
 		if ( ! is_multisite() ) {
@@ -318,9 +319,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$bp = buddypress();
-		$activity_actions = $bp->activity->actions;
-		$bp->activity->actions = new stdClass();
+		buddypress()->activity->actions = new stdClass();
 
 		$u = $this->factory->user->create();
 		$p = wp_insert_post( array(
@@ -346,10 +345,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$expected = sprintf( '%s wrote a new post, %s', $user_link, $post_link );
 
 		$this->assertSame( $expected, $a_obj['activities'][0]->action );
-
-		// Reset activity actions
-		$bp->activity->actions = $activity_actions;
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -361,9 +356,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$bp = buddypress();
-		$activity_actions = $bp->activity->actions;
-		$bp->activity->actions = new stdClass();
+		buddypress()->activity->actions = new stdClass();
 
 		$u = $this->factory->user->create();
 		$p = wp_insert_post( array(
@@ -407,10 +400,277 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		) );
 
 		$this->assertSame( $expected, $a_obj['activities'][0]->action );
+	}
 
-		// Reset activity actions
-		$bp->activity->actions = $activity_actions;
-		$bp->activity->track = array();
+	/**
+	 * @group bp_blogs_sync_add_from_activity_comment
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_blogs_sync_add_from_activity_comment() {
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test activity comment to post comment',
+		) );
+
+		// grab the activity ID for the activity comment
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		$a2 = bp_activity_new_comment( array(
+			'content'     => 'this content shoud be in a new post comment',
+			'user_id'     => $u,
+			'activity_id' => $a1,
+		) );
+
+		$approved_comments = get_approved_comments( $post_id );
+		$comment = reset( $approved_comments );
+
+		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+
+		// reset
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_blogs_sync_delete_from_activity_comment
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_blogs_sync_delete_from_activity_comment() {
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test activity comment to post comment',
+		) );
+
+		// grab the activity ID for the activity comment
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		$a2 = bp_activity_new_comment( array(
+			'content'     => 'the generated comment should be deleted once the activity comment is removed',
+			'user_id'     => $u,
+			'activity_id' => $a1,
+		) );
+
+		bp_activity_delete_comment( $a1, $a2 );
+
+		$post_comments = get_comments( array( 'post_id' => $post_id ) );
+
+		$this->assertEmpty( $post_comments, 'A post comment should be deleted when the corresponding activity is' );
+
+		// reset
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_blogs_sync_activity_edit_to_post_comment
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_unspam_activity_comment() {
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test activity comment to post comment',
+		) );
+
+		// grab the activity ID for the activity comment
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		$a2 = bp_activity_new_comment( array(
+			'content'     => 'the generated comment should be spamed/unspamed once the activity comment is spamed/unspamed',
+			'user_id'     => $u,
+			'activity_id' => $a1,
+		) );
+
+		$activity = new BP_Activity_Activity( $a2 );
+
+		bp_activity_mark_as_spam( $activity );
+		$activity->save();
+
+		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
+
+		$this->assertEmpty( $post_comments, 'A post comment should be spammed when the corresponding activity is spammed' );
+
+		bp_activity_mark_as_ham( $activity );
+		$activity->save();
+
+		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
+		$comment = reset( $post_comments );
+
+		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+
+		// reset
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_blogs_sync_activity_edit_to_post_comment
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_activity_comment_unspam_post_comment() {
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test activity comment to post comment',
+		) );
+
+		// grab the activity ID for the activity comment
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		$a2 = bp_activity_new_comment( array(
+			'content'     => 'the generated comment should be spamed/unspamed once the activity comment is spamed/unspamed',
+			'user_id'     => $u,
+			'activity_id' => $a1,
+		) );
+
+		$c = bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' );
+
+		$activity = new BP_Activity_Activity( $a2 );
+
+		bp_activity_mark_as_spam( $activity );
+		$activity->save();
+
+		wp_unspam_comment( $c );
+
+		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
+		$comment = reset( $post_comments );
+
+		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+
+		// reset
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_blogs_sync_activity_edit_to_post_comment
+	 * @group post_type_comment_activities
+	 * @group imath
+	 */
+	public function test_bp_blogs_sync_activity_edit_to_post_comment_trash_comment_ham_activity() {
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test activity comment to post comment',
+		) );
+
+		// grab the activity ID for the activity comment
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		$a2 = bp_activity_new_comment( array(
+			'content'     => 'the generated comment should be spamed/unspamed once the activity comment is spamed/unspamed',
+			'user_id'     => $u,
+			'activity_id' => $a1,
+		) );
+
+		$c = bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' );
+
+		wp_trash_comment( $c );
+
+		$activity = new BP_Activity_Activity( $a2 );
+
+		bp_activity_mark_as_ham( $activity );
+		$activity->save();
+
+		$post_comments = get_comments( array( 'post_id' => $post_id, 'status' => 'approve' ) );
+		$comment = reset( $post_comments );
+
+		$this->assertTrue( (int) $comment->comment_ID === (int) bp_activity_get_meta( $a2, 'bp_blogs_post_comment_id' ), 'The comment ID should be in the activity meta' );
+		$this->assertTrue( (int) $a2 === (int) get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true ), 'The activity ID should be in the comment meta' );
+
+		// reset
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		$this->set_current_user( $old_user );
 	}
 
 	/**

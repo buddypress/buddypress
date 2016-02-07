@@ -9,8 +9,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -28,10 +26,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		$this->assertTrue( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Published post type should have activity' );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -39,8 +33,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_to_publish() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -68,10 +60,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Updating a post type should not create a new activity' );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -79,8 +67,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_password() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -106,10 +92,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Password protected post type should not have activity' );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -117,8 +99,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_trash() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -141,10 +121,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Unpublished post type should not have activity' );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	protected function activity_exists_for_post( $post_id, $action ) {

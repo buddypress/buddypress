@@ -10,11 +10,6 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$bp = buddypress();
-
-		$this->activity_actions = $bp->activity->actions;
-		$bp->activity->actions = new stdClass();
-
 		$this->custom_post_types = array( 'using_old_filter' );
 
 		register_post_type( 'using_old_filter', array(
@@ -35,10 +30,6 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 		_unregister_post_type( 'using_old_filter' );
 		remove_filter( 'bp_blogs_record_post_post_types',    array( $this, 'filter_post_types'), 10, 1 );
 		remove_filter( 'bp_blogs_record_comment_post_types', array( $this, 'filter_post_types'), 10, 1 );
-
-		// Reset activity actions
-		$bp->activity->actions = $this->activity_actions;
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -64,6 +55,7 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 
 	/**
 	 * @goup bp_blogs_record_comment
+	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_record_comment() {
 		$u = $this->factory->user->create();
@@ -89,6 +81,7 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 
 	/**
 	 * @goup bp_blogs_record_comment_sync_activity_comment
+	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_record_comment_sync_activity_comment() {
 		$u = $this->factory->user->create();

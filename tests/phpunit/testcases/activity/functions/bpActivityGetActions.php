@@ -133,8 +133,9 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 		_unregister_post_type( 'foo' );
 
 		$expected = array(
-			'new_foo'       => 'new_foo',
-			'new_blog_post' => 'new_blog_post',
+			'new_foo'          => 'new_foo',
+			'new_blog_post'    => 'new_blog_post',
+			'new_blog_comment' => 'new_blog_comment',
 		);
 
 		$this->assertSame( $expected, wp_list_pluck( (array) $actions->blogs, 'key' ) );
@@ -146,7 +147,8 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	public function test_sort_new_post_type_twice() {
 		$actions = bp_activity_get_actions();
 		$expected = array(
-			'new_blog_post' => 'new_blog_post',
+			'new_blog_post'    => 'new_blog_post',
+			'new_blog_comment' => 'new_blog_comment',
 		);
 		$this->assertSame( $expected, wp_list_pluck( (array) $actions->blogs, 'key' ) );
 
@@ -166,8 +168,9 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 		_unregister_post_type( 'foo' );
 
 		$expected = array(
-			'new_foo'       => 'new_foo',
-			'new_blog_post' => 'new_blog_post',
+			'new_foo'          => 'new_foo',
+			'new_blog_post'    => 'new_blog_post',
+			'new_blog_comment' => 'new_blog_comment',
 		);
 
 		$this->assertSame( $expected, wp_list_pluck( (array) $actions->blogs, 'key' ) );

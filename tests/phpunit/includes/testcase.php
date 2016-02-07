@@ -49,6 +49,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 		// Clean up after autocommits.
 		add_action( 'bp_blogs_recorded_existing_blogs', array( $this, 'set_autocommit_flag' ) );
+
+		// Make sure Activity actions are reset before each test
+		$this->reset_bp_activity_actions();
+
+		// Make sure all Post types activities globals are reset before each test
+		$this->reset_bp_activity_post_types_globals();
 	}
 
 	public function tearDown() {
@@ -95,6 +101,33 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		buddypress()->pages                 = array();
 
 		parent::clean_up_global_scope();
+	}
+
+	protected function reset_bp_activity_actions() {
+		buddypress()->activity->actions = new stdClass();
+
+		/**
+		 * Populate the global with default activity actions only
+		 * before each test.
+		 */
+		do_action( 'bp_register_activity_actions' );
+	}
+
+	protected function reset_bp_activity_post_types_globals() {
+		global $wp_post_types;
+
+		// Remove all remaining tracking arguments to each post type
+		foreach ( $wp_post_types as $post_type => $post_type_arg ) {
+			if ( post_type_supports( $post_type, 'buddypress-activity' ) ) {
+				remove_post_type_support( $post_type, 'buddypress-activity' );
+			}
+
+			if ( isset( $post_type_arg->bp_activity ) ) {
+				unset( $post_type_arg->bp_activity );
+			}
+		}
+
+		buddypress()->activity->track = array();
 	}
 
 	function assertPreConditions() {
