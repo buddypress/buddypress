@@ -797,7 +797,12 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 	if ( $new_status === $old_status ) {
 		// An edit of an existing post should update the existing activity item.
 		if ( $new_status == 'publish' ) {
-			bp_activity_post_type_update( $post );
+			$edit = bp_activity_post_type_update( $post );
+
+			// Post was never recorded into activity stream, so record it now!
+			if ( null === $edit ) {
+				bp_activity_post_type_publish( $post->ID, $post );
+			}
 		}
 
 		return;
