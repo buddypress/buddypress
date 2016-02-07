@@ -803,6 +803,22 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 			if ( null === $edit ) {
 				bp_activity_post_type_publish( $post->ID, $post );
 			}
+
+		// Allow plugins to eventually deal with other post statuses.
+		} else {
+			/**
+			 * Fires when editing the post and the new status is not 'publish'.
+			 *
+			 * This is a variable filter that is dependent on the post type
+			 * being untrashed.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param WP_Post $post Post data.
+			 * @param string $new_status New status for the post.
+			 * @param string $old_status Old status for the post.
+			 */
+			do_action( 'bp_activity_post_type_edit_' . $post->post_type, $post, $new_status, $old_status );
 		}
 
 		return;
@@ -833,6 +849,22 @@ function bp_activity_catch_transition_post_type_status( $new_status, $old_status
 	} elseif ( 'publish' === $old_status ) {
 		// Some form of pending status - only remove the activity entry.
 		bp_activity_post_type_unpublish( $post->ID, $post );
+
+	// For any other cases, allow plugins to eventually deal with it.
+	} else {
+		/**
+		 * Fires when the old and the new post status are not 'publish'.
+		 *
+		 * This is a variable filter that is dependent on the post type
+		 * being untrashed.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param WP_Post $post Post data.
+		 * @param string $new_status New status for the post.
+		 * @param string $old_status Old status for the post.
+		 */
+		do_action( 'bp_activity_post_type_transition_status_' . $post->post_type, $post, $new_status, $old_status );
 	}
 }
 add_action( 'transition_post_status', 'bp_activity_catch_transition_post_type_status', 10, 3 );
