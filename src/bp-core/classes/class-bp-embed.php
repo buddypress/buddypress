@@ -127,14 +127,25 @@ class BP_Embed extends WP_Embed {
 		 */
 		$id = apply_filters( 'embed_post_id', 0 );
 
+		$unfiltered_html   = current_user_can( 'unfiltered_html' );
+		$default_discovery = false;
+
+		// Since 4.4, WordPress is now an oEmbed provider.
+		if ( function_exists( 'wp_oembed_register_route' ) ) {
+			$unfiltered_html   = true;
+			$default_discovery = true;
+		}
+
 		/**
 		 * Filters whether or not oEmbed discovery is on.
 		 *
 		 * @since 1.5.0
+		 * @since 2.5.0 Default status of oEmbed discovery has been switched
+		 *              to true to apply changes introduced in WordPress 4.4
 		 *
-		 * @param bool $value Current status of oEmbed discovery.
+		 * @param bool $default_discovery Current status of oEmbed discovery.
 		 */
-		$attr['discover'] = ( apply_filters( 'bp_embed_oembed_discover', false ) && current_user_can( 'unfiltered_html' ) );
+		$attr['discover'] = ( apply_filters( 'bp_embed_oembed_discover', $default_discovery ) && $unfiltered_html );
 
 		// Set up a new WP oEmbed object to check URL with registered oEmbed providers.
 		require_once( ABSPATH . WPINC . '/class-oembed.php' );
