@@ -477,12 +477,14 @@ add_action( 'bp_activity_post_type_published', 'bp_blogs_publish_post_activity_m
  * Updates a blog post's activity meta entry during a post edit.
  *
  * @since 2.2.0
+ * @since 2.5.0 Add the post type tracking args object parameter
  *
- * @param WP_Post              $post     Post object.
- * @param BP_Activity_Activity $activity Activity object.
+ * @param WP_Post              $post                 Post object.
+ * @param BP_Activity_Activity $activity             Activity object.
+ * @param object               $activity_post_object The post type tracking args object.
  */
-function bp_blogs_update_post_activity_meta( $post, $activity ) {
-	if ( empty( $activity->id ) || 'post' != $post->post_type ) {
+function bp_blogs_update_post_activity_meta( $post, $activity, $activity_post_object ) {
+	if ( empty( $activity->id ) || empty( $activity_post_object->action_id ) ) {
 		return;
 	}
 
@@ -491,57 +493,59 @@ function bp_blogs_update_post_activity_meta( $post, $activity ) {
 	if ( $post->post_title !== $existing_title ) {
 		bp_activity_update_meta( $activity->id, 'post_title', $post->post_title );
 
-		// Now update activity meta for post comments... sigh.
-		add_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
-		$comments = get_comments( array( 'post_id' => $post->ID ) );
-		remove_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
+		if ( ! empty( $activity_post_object->comments_tracking->action_id ) ) {
+			// Now update activity meta for post comments... sigh.
+			add_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
+			$comments = get_comments( array( 'post_id' => $post->ID ) );
+			remove_filter( 'comments_clauses', 'bp_blogs_comments_clauses_select_by_id' );
 
-		if ( ! empty( $comments ) ) {
-			$activity_ids = array();
-			$comment_ids  = wp_list_pluck( $comments, 'comment_ID' );
+			if ( ! empty( $comments ) ) {
+				$activity_ids = array();
+				$comment_ids  = wp_list_pluck( $comments, 'comment_ID' );
 
-			// Set up activity args.
-			$args = array(
-				'update_meta_cache' => false,
-				'show_hidden'       => true,
-				'per_page'          => 99999,
-			);
+				// Set up activity args.
+				$args = array(
+					'update_meta_cache' => false,
+					'show_hidden'       => true,
+					'per_page'          => 99999,
+				);
 
-			// Query for old-style "new_blog_comment" activity items.
-			$args['filter'] = array(
-				'object'       => buddypress()->blogs->id,
-				'action'       => 'new_blog_comment',
-				'secondary_id' => implode( ',', $comment_ids ),
-			);
+				// Query for old-style "new_blog_comment" activity items.
+				$args['filter'] = array(
+					'object'       => $activity_post_object->comments_tracking->component_id,
+					'action'       => $activity_post_object->comments_tracking->action_id,
+					'secondary_id' => implode( ',', $comment_ids ),
+				);
 
-			$activities = bp_activity_get( $args );
-			if ( ! empty( $activities['activities'] ) ) {
-				$activity_ids = (array) wp_list_pluck( $activities['activities'], 'id' );
-			}
-
-			// Query for activity comments connected to a blog post.
-			unset( $args['filter'] );
-			$args['meta_query'] = array( array(
-				'key'     => 'bp_blogs_post_comment_id',
-				'value'   => $comment_ids,
-				'compare' => 'IN',
-			) );
-			$args['type'] = 'activity_comment';
-			$args['display_comments'] = 'stream';
-
-			$activities = bp_activity_get( $args );
-			if ( ! empty( $activities['activities'] ) ) {
-				$activity_ids = array_merge( $activity_ids, (array) wp_list_pluck( $activities['activities'], 'id' ) );
-			}
-
-			// Update activity meta for all found activity items.
-			if ( ! empty( $activity_ids ) ) {
-				foreach ( $activity_ids as $aid ) {
-					bp_activity_update_meta( $aid, 'post_title', $post->post_title );
+				$activities = bp_activity_get( $args );
+				if ( ! empty( $activities['activities'] ) ) {
+					$activity_ids = (array) wp_list_pluck( $activities['activities'], 'id' );
 				}
-			}
 
-			unset( $activities, $activity_ids, $comment_ids, $comments );
+				// Query for activity comments connected to a blog post.
+				unset( $args['filter'] );
+				$args['meta_query'] = array( array(
+					'key'     => 'bp_blogs_' . $post->post_type . '_comment_id',
+					'value'   => $comment_ids,
+					'compare' => 'IN',
+				) );
+				$args['type'] = 'activity_comment';
+				$args['display_comments'] = 'stream';
+
+				$activities = bp_activity_get( $args );
+				if ( ! empty( $activities['activities'] ) ) {
+					$activity_ids = array_merge( $activity_ids, (array) wp_list_pluck( $activities['activities'], 'id' ) );
+				}
+
+				// Update activity meta for all found activity items.
+				if ( ! empty( $activity_ids ) ) {
+					foreach ( $activity_ids as $aid ) {
+						bp_activity_update_meta( $aid, 'post_title', $post->post_title );
+					}
+				}
+
+				unset( $activities, $activity_ids, $comment_ids, $comments );
+			}
 		}
 	}
 
@@ -552,186 +556,130 @@ function bp_blogs_update_post_activity_meta( $post, $activity ) {
 		bp_activity_delete_meta( $activity->id, 'post_comment_status' );
 	}
 }
-add_action( 'bp_activity_post_type_updated', 'bp_blogs_update_post_activity_meta', 10, 2 );
+add_action( 'bp_activity_post_type_updated', 'bp_blogs_update_post_activity_meta', 10, 3 );
 
 /**
- * Record a new blog comment in the BuddyPress activity stream.
+ * Update Activity and blogs meta and eventually sync comment with activity comment
  *
- * Only posts the item if blog is public and post is not password-protected.
+ * @since  2.5.0
  *
- * @param int         $comment_id  ID of the comment being recorded.
- * @param bool|string $is_approved Optional. The $is_approved value passed to
- *                                 the 'comment_post' action. Default: true.
- * @return bool|object Returns false on failure, the comment object on success.
+ * @param  int|bool   $activity_id          ID of recorded activity, or false if sync is active.
+ * @param  WP_Comment $comment              The comment object.
+ * @param  array      $activity_args        Array of activity arguments.
+ * @param  object     $activity_post_object The post type tracking args object.
+ * @return int|bool   Returns false if no activity, the activity id otherwise.
  */
-function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
-	// Bail if activity component is not active.
-	if ( ! bp_is_active( 'activity' ) ) {
-		return;
+function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null, $activity_args = array(), $activity_post_object = null ) {
+	if ( empty( $activity_args ) || empty( $comment->post->ID ) || empty( $activity_post_object->comment_action_id ) ) {
+		return false;
 	}
 
-	// Get the users comment.
-	$recorded_comment = get_comment( $comment_id );
-
-	// Don't record activity if the comment hasn't been approved.
-	if ( empty( $is_approved ) )
-		return false;
-
-	// Don't record activity if no email address has been included.
-	if ( empty( $recorded_comment->comment_author_email ) )
-		return false;
-
-	// Don't record activity if the comment has already been marked as spam.
-	if ( 'spam' === $is_approved )
-		return false;
-
-	// Get the user by the comment author email.
-	$user = get_user_by( 'email', $recorded_comment->comment_author_email );
-
-	// If user isn't registered, don't record activity.
-	if ( empty( $user ) )
-		return false;
-
-	// Get the user_id.
-	$user_id = (int) $user->ID;
-
-	// Get blog and post data.
+	// Set the current blog id.
 	$blog_id = get_current_blog_id();
 
-	// If blog is not trackable, do not record the activity.
-	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) )
-		return false;
+	// These activity metadatas are used to build the new_blog_comment action string
+	if ( ! empty( $activity_id ) && ! empty( $activity_args['item_id'] ) && 'new_blog_comment' === $activity_post_object->comment_action_id ) {
+		// add some post info in activity meta
+		bp_activity_update_meta( $activity_id, 'post_title', $comment->post->post_title );
+		bp_activity_update_meta( $activity_id, 'post_url',   esc_url_raw( add_query_arg( 'p', $comment->post->ID, home_url( '/' ) ) ) );
+	}
 
-	$recorded_comment->post = get_post( $recorded_comment->comment_post_ID );
+	// Sync comment - activity comment
+	if ( ! bp_disable_blogforum_comments() ) {
 
-	if ( empty( $recorded_comment->post ) || is_wp_error( $recorded_comment->post ) )
-		return false;
+		if ( ! empty( $_REQUEST['action'] ) ) {
+			$existing_activity_id = get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true );
 
-	// If this is a password protected post, don't record the comment.
-	if ( !empty( $recorded_comment->post->post_password ) )
-		return false;
-
-	// Don't record activity if the comment's associated post isn't a WordPress Post.
-	if ( !in_array( $recorded_comment->post->post_type, apply_filters( 'bp_blogs_record_comment_post_types', array( 'post' ) ) ) )
-		return false;
-
-	$is_blog_public = apply_filters( 'bp_is_blog_public', (int)get_blog_option( $blog_id, 'blog_public' ) );
-
-	// If blog is public allow activity to be posted.
-	if ( $is_blog_public ) {
-
-		// Get activity related links.
-		$post_permalink = get_permalink( $recorded_comment->comment_post_ID );
-		$comment_link   = get_comment_link( $recorded_comment->comment_ID );
-
-		// Setup activity args.
-		$args = array();
-
-		$args['user_id']       = $user_id;
-		$args['content']       = apply_filters_ref_array( 'bp_blogs_activity_new_comment_content', array( $recorded_comment->comment_content, &$recorded_comment, $comment_link ) );
-		$args['primary_link']  = apply_filters_ref_array( 'bp_blogs_activity_new_comment_primary_link', array( $comment_link,     &$recorded_comment ) );
-		$args['recorded_time'] = $recorded_comment->comment_date_gmt;
-
-		// Setup some different activity args depending if activity commenting is
-		// enabled or not.
-		// if cannot comment, record separate activity entry
-		// this is the old way of doing things.
-		if ( bp_disable_blogforum_comments() ) {
-			$args['type']              = 'new_blog_comment';
-			$args['item_id']           = $blog_id;
-			$args['secondary_item_id'] = $comment_id;
-
-			// Record the activity entry.
-			$activity_id = bp_blogs_record_activity( $args );
-
-			// Add some post info in activity meta.
-			bp_activity_update_meta( $activity_id, 'post_title', $recorded_comment->post->post_title );
-			bp_activity_update_meta( $activity_id, 'post_url',   add_query_arg( 'p', $recorded_comment->post->ID, home_url( '/' ) ) );
-
-		// Record comment as BP activity comment under the parent 'new_blog_post'
-		// activity item.
-		} else {
-			// This is a comment edit
-			// check to see if corresponding activity entry already exists.
-			if ( ! empty( $_REQUEST['action'] ) ) {
-				$existing_activity_id = get_comment_meta( $comment_id, 'bp_activity_comment_id', true );
-
-				if ( ! empty( $existing_activity_id ) ) {
-					$args['id'] = $existing_activity_id;
-				}
+			if ( ! empty( $existing_activity_id ) ) {
+				$activity_args['id'] = $existing_activity_id;
 			}
+		}
 
-			// Find the parent 'new_blog_post' activity entry.
+		if ( empty( $activity_post_object ) ) {
+			$activity_post_object = bp_activity_get_post_type_tracking_args( $comment->post->post_type );
+		}
+
+		if ( isset( $activity_post_object->action_id ) && isset( $activity_post_object->component_id ) ) {
+			// find the parent 'new_post_type' activity entry
 			$parent_activity_id = bp_activity_get_activity_id( array(
-				'component'         => 'blogs',
-				'type'              => 'new_blog_post',
+				'component'         => $activity_post_object->component_id,
+				'type'              => $activity_post_object->action_id,
 				'item_id'           => $blog_id,
-				'secondary_item_id' => $recorded_comment->comment_post_ID
+				'secondary_item_id' => $comment->comment_post_ID
 			) );
 
 			// Try to create a new activity item for the parent blog post.
 			if ( empty( $parent_activity_id ) ) {
-				$parent_activity_id = bp_activity_post_type_publish( $recorded_comment->comment_post_ID, $recorded_comment->post );
-			}
-
-			// We found the parent activity entry
-			// so let's go ahead and reconfigure some activity args.
-			if ( ! empty( $parent_activity_id ) ) {
-				// Set the 'item_id' with the parent activity entry ID.
-				$args['item_id'] = $parent_activity_id;
-
-				// Now see if the WP parent comment has a BP activity ID.
-				$comment_parent = 0;
-				if ( ! empty( $recorded_comment->comment_parent ) ) {
-					$comment_parent = get_comment_meta( $recorded_comment->comment_parent, 'bp_activity_comment_id', true );
-				}
-
-				// WP parent comment does not have a BP activity ID
-				// so set to 'new_blog_post' activity ID.
-				if ( empty( $comment_parent ) ) {
-					$comment_parent = $parent_activity_id;
-				}
-
-				$args['secondary_item_id'] = $comment_parent;
-				$args['component']         = 'activity';
-				$args['type']              = 'activity_comment';
-
-			// Could not find corresponding parent activity entry
-			// so wipe out $args array.
-			} else {
-				$args = array();
-			}
-
-			// Record in activity streams.
-			if ( ! empty( $args ) ) {
-				// @todo should we use bp_activity_new_comment()? that function will also send
-				// an email to people in the activity comment thread.
-				//
-				// What if a site already has some comment email notification plugin setup?
-				// this is why I decided to go with bp_activity_add() to avoid any conflict
-				// with existing comment email notification plugins.
-				$comment_activity_id = bp_activity_add( $args );
-
-				if ( empty( $args['id'] ) ) {
-					// Add meta to activity comment.
-					bp_activity_update_meta( $comment_activity_id, 'bp_blogs_post_comment_id', $comment_id );
-					bp_activity_update_meta( $comment_activity_id, 'post_title', $recorded_comment->post->post_title );
-					bp_activity_update_meta( $comment_activity_id, 'post_url', add_query_arg( 'p', $recorded_comment->post->ID, home_url( '/' ) ) );
-
-					// Add meta to comment.
-					add_comment_meta( $comment_id, 'bp_activity_comment_id', $comment_activity_id );
-				}
+				$parent_activity_id = bp_activity_post_type_publish( $comment->post->ID, $comment->post );
 			}
 		}
 
-		// Update the blogs last active date.
-		bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
+		// we found the parent activity entry
+		// so let's go ahead and reconfigure some activity args
+		if ( ! empty( $parent_activity_id ) ) {
+			// set the parent activity entry ID
+			$activity_args['activity_id'] = $parent_activity_id;
+
+			// now see if the WP parent comment has a BP activity ID
+			$comment_parent = 0;
+			if ( ! empty( $comment->comment_parent ) ) {
+				$comment_parent = get_comment_meta( $comment->comment_parent, 'bp_activity_comment_id', true );
+			}
+
+			// WP parent comment does not have a BP activity ID
+			// so set to 'new_' . post_type activity ID
+			if ( empty( $comment_parent ) ) {
+				$comment_parent = $parent_activity_id;
+			}
+
+			$activity_args['parent_id']         = $comment_parent;
+			$activity_args['skip_notification'] = true;
+
+		// could not find corresponding parent activity entry
+		// so wipe out $args array
+		} else {
+			$activity_args = array();
+		}
+
+		// Record in activity streams
+		if ( ! empty( $activity_args ) ) {
+			$activity_id = bp_activity_new_comment( $activity_args );
+
+			if ( empty( $activity_args['id'] ) ) {
+				// The activity metadata to inform about the corresponding comment ID
+				bp_activity_update_meta( $activity_id, "bp_blogs_{$comment->post->post_type}_comment_id", $comment->comment_ID );
+
+				// The comment metadata to inform about the corresponding activity ID
+				add_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', $activity_id );
+
+				// These activity metadatas are used to build the new_blog_comment action string
+				if ( 'new_blog_comment' === $activity_post_object->comment_action_id ) {
+					bp_activity_update_meta( $activity_id, 'post_title', $comment->post->post_title );
+					bp_activity_update_meta( $activity_id, 'post_url', esc_url_raw( add_query_arg( 'p', $comment->post->ID, home_url( '/' ) ) ) );
+				}
+			}
+		}
 	}
 
-	return $recorded_comment;
+	// Update the blogs last active date
+	bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
+
+	if ( 'new_blog_comment' === $activity_post_object->comment_action_id ) {
+		/**
+		 * Fires after BuddyPress has recorded metadata about a published blog post comment.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param int     $value    Comment ID of the blog post comment being recorded.
+		 * @param WP_Post $post  WP_Comment object for the current blog post.
+		 * @param string  $value ID of the user associated with the current blog post comment.
+		 */
+		do_action( 'bp_blogs_new_blog_comment', $comment->comment_ID, $comment, bp_loggedin_user_id() );
+	}
+
+	return $activity_id;
 }
-add_action( 'comment_post', 'bp_blogs_record_comment', 10, 2 );
-add_action( 'edit_comment', 'bp_blogs_record_comment', 10    );
+add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment', 10, 4 );
 
 /**
  * Record a user's association with a blog.
@@ -984,80 +932,83 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 add_action( 'delete_post', 'bp_blogs_remove_post' );
 
 /**
- * Remove a blog comment activity item from the activity stream.
+ * Remove a synced activity comment from the activity stream.
  *
- * @param int $comment_id ID of the comment to be removed.
+ * @since 2.5.0
+ *
+ * @param bool   $deleted              True when a comment post type activity was successfully removed.
+ * @param int    $comment_id           ID of the comment to be removed.
+ * @param object $activity_post_object The post type tracking args object.
+ * @param string $activity_type        The post type comment activity type.
+ *
+ * @return bool True on success. False on error.
  */
-function bp_blogs_remove_comment( $comment_id ) {
-	global $wpdb;
-
-	// Activity comments are disabled for blog posts
-	// which means that individual activity items exist for blog comments.
-	if ( bp_disable_blogforum_comments() ) {
-		// Delete the individual activity stream item.
-		bp_blogs_delete_activity( array(
-			'item_id'           => $wpdb->blogid,
-			'secondary_item_id' => $comment_id,
-			'type'              => 'new_blog_comment'
-		) );
-
-	// Activity comments are enabled for blog posts
-	// remove the associated activity item.
-	} else {
-		// Get associated activity ID from comment meta.
+function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_post_object, $activity_type = '' ) {
+	// Remove synced activity comments, if needed.
+	if ( ! bp_disable_blogforum_comments() ) {
+		// Get associated activity ID from comment meta
 		$activity_id = get_comment_meta( $comment_id, 'bp_activity_comment_id', true );
 
-		// Delete the associated activity comment.
-		//
-		// Also removes child post comments and associated activity comments.
-		if ( ! empty( $activity_id ) && bp_is_active( 'activity' ) ) {
-			// Fetch the activity comments for the activity item.
+		/**
+		 * Delete the associated activity comment & also remove
+		 * child post comments and associated activity comments.
+		 */
+		if ( ! empty( $activity_id ) ) {
+			// fetch the activity comments for the activity item
 			$activity = bp_activity_get( array(
 				'in'               => $activity_id,
 				'display_comments' => 'stream',
 				'spam'             => 'all',
 			) );
 
-			// Get all activity comment IDs for the pending deleted item.
+			// get all activity comment IDs for the pending deleted item
 			if ( ! empty( $activity['activities'] ) ) {
 				$activity_ids   = bp_activity_recurse_comments_activity_ids( $activity );
 				$activity_ids[] = $activity_id;
 
-				// Delete activity items.
+				// delete activity items
 				foreach ( $activity_ids as $activity_id ) {
 					bp_activity_delete( array(
 						'id' => $activity_id
 					) );
 				}
 
-				// Remove associated blog comments.
+				// remove associated blog comments
 				bp_blogs_remove_associated_blog_comments( $activity_ids );
 
-				// Rebuild activity comment tree.
+				// rebuild activity comment tree
 				BP_Activity_Activity::rebuild_activity_comment_tree( $activity['activities'][0]->item_id );
+
+				// Set the result
+				$deleted = true;
 			}
 		}
 	}
 
-	/**
-	 * Fires after a blog comment activity item was removed from activity stream.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $blogid     Item ID for the blog associated with the removed comment.
-	 * @param int $comment_id ID of the comment being removed.
-	 * @param int $value      ID of the current logged in user.
-	 */
-	do_action( 'bp_blogs_remove_comment', $wpdb->blogid, $comment_id, bp_loggedin_user_id() );
+	// Backcompat for comments about the 'post' post type.
+	if ( 'new_blog_comment' === $activity_type ) {
+		/**
+		 * Fires after a blog comment activity item was removed from activity stream.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $value      ID for the blog associated with the removed comment.
+		 * @param int $comment_id ID of the comment being removed.
+		 * @param int $value      ID of the current logged in user.
+		 */
+		do_action( 'bp_blogs_remove_comment', get_current_blog_id(), $comment_id, bp_loggedin_user_id() );
+	}
+
+	return $deleted;
 }
-add_action( 'delete_comment', 'bp_blogs_remove_comment' );
+add_action( 'bp_activity_post_type_remove_comment', 'bp_blogs_post_type_remove_comment', 10, 4 );
 
 /**
  * Removes blog comments that are associated with activity comments.
  *
  * @since 2.0.0
  *
- * @see bp_blogs_remove_comment()
+ * @see bp_blogs_remove_synced_comment()
  * @see bp_blogs_sync_delete_from_activity_comment()
  *
  * @param array $activity_ids The activity IDs to check association with blog
@@ -1092,88 +1043,6 @@ function bp_blogs_remove_associated_blog_comments( $activity_ids = array(), $for
 		}
 	}
 }
-
-/**
- * When a blog comment status transition occurs, update the relevant activity's status.
- *
- * @since 1.6.0
- *
- * @param string $new_status New comment status.
- * @param string $old_status Previous comment status.
- * @param object $comment    Comment data.
- */
-function bp_blogs_transition_activity_status( $new_status, $old_status, $comment ) {
-
-	// Check the Activity component is active.
-	if ( ! bp_is_active( 'activity' ) )
-		return;
-
-	/**
-	 * Activity currently doesn't have any concept of a trash, or an unapproved/approved state.
-	 *
-	 * If a blog comment transitions to a "delete" or "hold" status, delete the activity item.
-	 * If a blog comment transitions to trashed, or spammed, mark the activity as spam.
-	 * If a blog comment transitions to approved (and the activity exists), mark the activity as ham.
-	 * If a blog comment transitions to unapproved (and the activity exists), mark the activity as spam.
-	 * Otherwise, record the comment into the activity stream.
-	 */
-
-	// This clause was moved in from bp_blogs_remove_comment() in BuddyPress 1.6. It handles delete/hold.
-	if ( in_array( $new_status, array( 'delete', 'hold' ) ) ) {
-		return bp_blogs_remove_comment( $comment->comment_ID );
-
-	// These clauses handle trash, spam, and un-spams.
-	} elseif ( in_array( $new_status, array( 'trash', 'spam', 'unapproved' ) ) ) {
-		$action = 'spam_activity';
-	} elseif ( 'approved' == $new_status ) {
-		$action = 'ham_activity';
-	}
-
-	// Get the activity.
-	if ( bp_disable_blogforum_comments() ) {
-		$activity_id = bp_activity_get_activity_id( array(
-			'component'         => buddypress()->blogs->id,
-			'item_id'           => get_current_blog_id(),
-			'secondary_item_id' => $comment->comment_ID,
-			'type'              => 'new_blog_comment'
-		) );
-	} else {
-		$activity_id = get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true );
-	}
-
-	// Check activity item exists.
-	if ( empty( $activity_id ) ) {
-		// If no activity exists, but the comment has been approved, record it into the activity table.
-		if ( 'approved' == $new_status ) {
-			return bp_blogs_record_comment( $comment->comment_ID, true );
-		}
-
-		return;
-	}
-
-	// Create an activity object.
-	$activity = new BP_Activity_Activity( $activity_id );
-	if ( empty( $activity->component ) )
-		return;
-
-	// Spam/ham the activity if it's not already in that state.
-	if ( 'spam_activity' == $action && ! $activity->is_spam ) {
-		bp_activity_mark_as_spam( $activity );
-	} elseif ( 'ham_activity' == $action) {
-		bp_activity_mark_as_ham( $activity );
-	}
-
-	// Add "new_blog_comment" to the whitelisted activity types, so that the activity's Akismet history is generated.
-	$comment_akismet_history = create_function( '$t', '$t[] = "new_blog_comment"; return $t;' );
-	add_filter( 'bp_akismet_get_activity_types', $comment_akismet_history );
-
-	// Save the updated activity.
-	$activity->save();
-
-	// Remove the "new_blog_comment" activity type whitelist so we don't break anything.
-	remove_filter( 'bp_akismet_get_activity_types', $comment_akismet_history );
-}
-add_action( 'transition_comment_status', 'bp_blogs_transition_activity_status', 10, 3 );
 
 /**
  * Get the total number of blogs being tracked by BuddyPress.

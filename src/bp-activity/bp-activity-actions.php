@@ -951,3 +951,4 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 	// Remove the "new_blog_comment" activity type whitelist so we don't break anything
 	remove_filter( 'bp_akismet_get_activity_types', $comment_akismet_history );
 }
+add_action( 'transition_comment_status', 'bp_activity_transition_post_type_comment_status', 10, 3 );

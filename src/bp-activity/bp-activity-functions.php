@@ -2482,6 +2482,8 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 
 	return $activity_id;
 }
+add_action( 'comment_post', 'bp_activity_post_type_comment', 10, 2 );
+add_action( 'edit_comment', 'bp_activity_post_type_comment', 10    );
 
 /**
  * Remove an activity item when a comment about a post type is deleted.
@@ -2547,6 +2549,7 @@ function bp_activity_post_type_remove_comment( $comment_id = 0, $activity_post_o
 
 	return $deleted;
 }
+add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
 
 /**
  * Add an activity comment.

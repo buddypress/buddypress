@@ -873,3 +873,47 @@ function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 	}
 }
 add_action( 'bp_send_email_success', 'bp_core_deprecated_email_actions', 20, 2 );
+
+/**
+ * When a blog comment status transition occurs, update the relevant activity's status.
+ *
+ * @since 1.6.0
+ * @deprecated 2.5.0
+ *
+ * @param string $new_status New comment status.
+ * @param string $old_status Previous comment status.
+ * @param object $comment Comment data.
+ */
+function bp_blogs_transition_activity_status( $new_status, $old_status, $comment ) {
+	_deprecated_function( __FUNCTION__, '2.5.0', 'bp_activity_transition_post_type_comment_status()' );
+	bp_activity_transition_post_type_comment_status( $new_status, $old_status, $comment );
+}
+
+/**
+ * Record a new blog comment in the BuddyPress activity stream.
+ *
+ * Only posts the item if blog is public and post is not password-protected.
+ *
+ * @deprecated 2.5.0
+ *
+ * @param int $comment_id ID of the comment being recorded.
+ * @param bool|string $is_approved Optional. The $is_approved value passed to
+ *        the 'comment_post' action. Default: true.
+ * @return bool|object Returns false on failure, the comment object on success.
+ */
+function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
+	_deprecated_function( __FUNCTION__, '2.5.0', 'bp_activity_post_type_comment()' );
+	bp_activity_post_type_comment( $comment_id, $is_approved );
+}
+
+/**
+ * Remove a blog comment activity item from the activity stream.
+ *
+ * @deprecated 2.5.0
+ *
+ * @param int $comment_id ID of the comment to be removed.
+ */
+function bp_blogs_remove_comment( $comment_id ) {
+	_deprecated_function( __FUNCTION__, '2.5.0', 'bp_activity_post_type_remove_comment()' );
+	bp_activity_post_type_remove_comment( $comment_id );
+}

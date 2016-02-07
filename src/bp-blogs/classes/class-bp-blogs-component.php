@@ -106,9 +106,6 @@ class BP_Blogs_Component extends BP_Component {
 				add_post_type_support( $post_type, 'buddypress-activity' );
 			}
 		}
-
-		// Filter the generic track parameters for the 'post' post type.
-		add_filter( 'bp_activity_get_post_type_tracking_args', array( $this, 'post_tracking_args' ), 10, 2 );
 	}
 
 	/**
@@ -128,9 +125,12 @@ class BP_Blogs_Component extends BP_Component {
 			'classes',
 			'template',
 			'filters',
-			'activity',
 			'functions',
 		);
+
+		if ( bp_is_active( 'activity' ) ) {
+			$includes[] = 'activity';
+		}
 
 		if ( is_multisite() ) {
 			$includes[] = 'widgets';
@@ -299,49 +299,5 @@ class BP_Blogs_Component extends BP_Component {
 		) );
 
 		parent::setup_cache_groups();
-	}
-
-	/**
-	 * Set up the tracking arguments for the 'post' post type.
-	 *
-	 * @since 2.2.0
-	 *
-	 * @see bp_activity_get_post_type_tracking_args() for information on parameters.
-	 *
-	 * @param object|null $params    Tracking arguments.
-	 * @param string|int  $post_type Post type to track.
-	 * @return object
-	 */
-	public function post_tracking_args( $params = null, $post_type = 0 ) {
-
-		/**
-		 * Filters the post types to track for the Blogs component.
-		 *
-		 * @since 1.5.0
-		 * @deprecated 2.3.0
-		 *
-		 * Make sure plugins still using 'bp_blogs_record_post_post_types'
-		 * to track their post types will generate new_blog_post activities
-		 * See https://buddypress.trac.wordpress.org/ticket/6306
-		 *
-		 * @param array $value Array of post types to track.
-		 */
-		$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
-		$post_types_array = array_flip( $post_types );
-
-		if ( ! isset( $post_types_array[ $post_type ] ) ) {
-			return $params;
-		}
-
-		// Set specific params for the 'post' post type.
-		$params->component_id    = $this->id;
-		$params->action_id       = 'new_blog_post';
-		$params->admin_filter    = __( 'New post published', 'buddypress' );
-		$params->format_callback = 'bp_blogs_format_activity_action_new_blog_post';
-		$params->front_filter    = __( 'Posts', 'buddypress' );
-		$params->contexts        = array( 'activity', 'member' );
-		$params->position        = 5;
-
-		return $params;
 	}
 }

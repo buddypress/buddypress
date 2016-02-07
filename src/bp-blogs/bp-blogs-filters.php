@@ -61,7 +61,7 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
 }
 
 /**
- * Check whether the current post can be published.
+ * Check whether the current activity about a post or a comment can be published.
  *
  * Abstracted from the deprecated `bp_blogs_record_post()`.
  *
@@ -121,3 +121,4 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 	return $return;
 }
 add_filter( 'bp_activity_post_pre_publish', 'bp_blogs_post_pre_publish', 10, 4 );
+add_filter( 'bp_activity_post_pre_comment', 'bp_blogs_post_pre_publish', 10, 4 );

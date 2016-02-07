@@ -84,7 +84,7 @@ function bp_core_is_user_spammer( $user_id = 0 ) {
 
 /**
  * @deprecated 1.6.0
- * @deprecated No longer used; see bp_blogs_transition_activity_status()
+ * @deprecated No longer used; see bp_activity_transition_post_type_comment_status()
  */
 function bp_blogs_manage_comment( $comment_id, $comment_status ) {
 	_deprecated_function( __FUNCTION__, '1.6', 'No longer used' );
