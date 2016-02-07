@@ -812,10 +812,6 @@ function bp_activity_filter_mentions_scope( $retval = array(), $filter = array()
 
 		// Overrides.
 		'override' => array(
-
-			// Clear search terms so 'mentions' scope works with other scopes.
-			'search_terms' => false,
-
 			'display_comments' => 'stream',
 			'filter'           => array( 'user_id' => 0 ),
 			'show_hidden'      => true
