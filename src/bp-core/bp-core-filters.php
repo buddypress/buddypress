@@ -896,6 +896,11 @@ function _bp_core_inject_bp_widget_css_class( $params ) {
 
 	$widget_id = $params[0]['widget_id'];
 
+	// If callback isn't an array, bail.
+	if ( false === is_array( $wp_registered_widgets[ $widget_id ]['callback'] ) ) {
+		return $params;
+	}
+
 	// If the current widget isn't a BuddyPress one, stop!
 	// We determine if a widget is a BuddyPress widget, if the widget class
 	// begins with 'bp_'.
