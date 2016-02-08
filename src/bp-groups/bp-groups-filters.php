@@ -300,6 +300,11 @@ add_filter( 'bp_activity_maybe_load_mentions_scripts', 'bp_groups_maybe_load_men
  * @return bool
  */
 function bp_groups_disable_at_mention_notification_for_non_public_groups( $send, $usernames, $user_id, BP_Activity_Activity $activity ) {
+	// Skip the check for administrators, who can get notifications from non-public groups.
+	if ( user_can( $user_id, 'bp_moderate' ) ) {
+		return $send;
+	}
+
 	if ( 'groups' === $activity->component ) {
 		$group = groups_get_group( array( 'group_id' => $activity->item_id ) );
 		if ( 'public' !== $group->status && ! groups_is_user_member( $user_id, $group->id ) ) {
