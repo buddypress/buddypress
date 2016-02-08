@@ -3079,7 +3079,7 @@ function bp_core_replace_tokens_in_text( $text, $tokens ) {
 	$escaped   = array();
 
 	foreach ( $tokens as $token => $value ) {
-		if ( is_callable( $value ) ) {
+		if ( ! is_string( $value ) && is_callable( $value ) ) {
 			$value = call_user_func( $value );
 		}
 
