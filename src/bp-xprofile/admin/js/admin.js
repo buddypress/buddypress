@@ -76,12 +76,23 @@ function add_option(forWhat) {
  * @param {string} forWhat Value of the field to show options for
  */
 function show_options( forWhat ) {
+	var do_autolink;
+
 	for ( var i = 0; i < XProfileAdmin.supports_options_field_types.length; i++ ) {
 		document.getElementById( XProfileAdmin.supports_options_field_types[i] ).style.display = 'none';
 	}
 
 	if ( XProfileAdmin.supports_options_field_types.indexOf( forWhat ) >= 0 ) {
 		document.getElementById( forWhat ).style.display = '';
+		do_autolink = 'on';
+	} else {
+		jQuery( '#do-autolink' ).val( '' );
+		do_autolink = '';
+	}
+
+	// Only overwrite the do_autolink setting if no setting is saved in the database.
+	if ( '' === XProfileAdmin.do_autolink ) {
+		jQuery( '#do-autolink' ).val( do_autolink );
 	}
 }
 

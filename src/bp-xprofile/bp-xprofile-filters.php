@@ -328,7 +328,11 @@ function bp_xprofile_escape_field_data( $value, $field_type, $field_id ) {
  * - Not run on datebox field types.
  * - Not run on values without commas with less than 5 words.
  * - URL's are made clickable.
- * - To disable: remove_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 2 );
+ *
+ * To disable globally:
+ *     remove_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 3 );
+ *
+ * To disable for a single field, use the 'Autolink' settings in Dashboard > Users > Profile Fields.
  *
  * @since 1.1.0
  *
@@ -337,6 +341,11 @@ function bp_xprofile_escape_field_data( $value, $field_type, $field_id ) {
  * @return string
  */
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
+	global $field;
+
+	if ( ! $field->get_do_autolink() ) {
+		return $field_value;
+	}
 
 	if ( 'datebox' === $field_type ) {
 		return $field_value;

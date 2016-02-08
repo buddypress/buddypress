@@ -52,6 +52,7 @@ function xprofile_add_admin_js() {
 		// "please enter options for this field" section.
 		$strings = array(
 			'supports_options_field_types' => array(),
+			'do_autolink' => '',
 		);
 
 		foreach ( bp_xprofile_get_field_types() as $field_type => $field_type_class ) {
@@ -59,6 +60,14 @@ function xprofile_add_admin_js() {
 			if ( $field->supports_options ) {
 				$strings['supports_options_field_types'][] = $field_type;
 			}
+		}
+
+		// Load 'autolink' setting into JS so that we can provide smart defaults when switching field type.
+		if ( ! empty( $_GET['field_id'] ) ) {
+			$field_id = intval( $_GET['field_id'] );
+
+			// Pull the raw data from the DB so we can tell whether the admin has saved a value yet.
+			$strings['do_autolink'] = bp_xprofile_get_meta( $field_id, 'field', 'do_autolink' );
 		}
 
 		wp_localize_script( 'xprofile-admin-js', 'XProfileAdmin', $strings );

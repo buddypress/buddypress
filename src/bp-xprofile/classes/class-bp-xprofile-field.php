@@ -130,6 +130,15 @@ class BP_XProfile_Field {
 	protected $allow_custom_visibility;
 
 	/**
+	 * Whether values from this field are autolinked to directory searches.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @var bool
+	 */
+	public $do_autolink;
+
+	/**
 	 * Field type option.
 	 *
 	 * @since 2.0.0
@@ -792,6 +801,31 @@ class BP_XProfile_Field {
 		return $this->allow_custom_visibility;
 	}
 
+	/**
+	 * Get whether the field values should be auto-linked to a directory search.
+	 *
+	 * Lazy-loaded to reduce overhead.
+	 *
+	 * Defaults to true for multi and default fields, false for single fields.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @return bool
+	 */
+	public function get_do_autolink() {
+		if ( ! isset( $this->do_autolink ) ) {
+			$do_autolink = bp_xprofile_get_meta( $this->id, 'field', 'do_autolink' );
+
+			if ( '' === $do_autolink ) {
+				$this->do_autolink = $this->is_default_field() || $this->type_obj->supports_options;
+			} else {
+				$this->do_autolink = 'on' === $do_autolink;
+			}
+		}
+
+		return $this->do_autolink;
+	}
+
 	/* Static Methods ********************************************************/
 
 	/**
@@ -1138,6 +1172,10 @@ class BP_XProfile_Field {
 							// Output the field visibility metaboxes.
 							$this->visibility_metabox();
 
+							// Output the autolink metabox.
+							$this->autolink_metabox();
+
+
 							/**
 							 * Fires after XProfile Field sidebar metabox.
 							 *
@@ -1408,6 +1446,41 @@ class BP_XProfile_Field {
 		</div>
 
 	<?php
+	}
+
+	/**
+	 * Private method used to output autolink metabox.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @return void If default field id 1.
+	 */
+	private function autolink_metabox() {
+
+		// Default field cannot have custom visibility.
+		if ( true === $this->is_default_field() ) {
+			return;
+		}
+
+		?>
+
+		<div class="postbox">
+			<h2><label for="do-autolink"><?php esc_html_e( 'Autolink', 'buddypress' ); ?></label></h2>
+			<div class="inside">
+				<p class="description"><?php esc_html_e( 'On user profiles, link this field to a search of the Members directory, using the field value as a search term:', 'buddypress' ); ?></p>
+
+				<p>
+					<label>
+						<select name="do_autolink" id="do-autolink">
+							<option value="on" <?php selected( $this->get_do_autolink() ); ?>><?php esc_html_e( 'Enabled', 'buddypress' ); ?></option>
+							<option value="" <?php selected( $this->get_do_autolink(), false ); ?>><?php esc_html_e( 'Disabled', 'buddypress' ); ?></option>
+						</select>
+					</label>
+				</p>
+			</div>
+		</div>
+
+		<?php
 	}
 
 	/**
