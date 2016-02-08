@@ -674,7 +674,7 @@ function bp_groups_admin_delete() {
 
 		<ul class="bp-group-delete-list">
 		<?php foreach ( $groups['groups'] as $group ) : ?>
-			<li><?php echo esc_html( $group->name ) ?></li>
+			<li><?php echo apply_filters( 'bp_get_group_name', $group->name, $group ); ?></li>
 		<?php endforeach; ?>
 		</ul>
 
