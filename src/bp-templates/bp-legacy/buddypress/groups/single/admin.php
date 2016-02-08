@@ -313,7 +313,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 
 
 	<div class="bp-widget">
-		<h4><?php _e("Members", "buddypress"); ?></h4>
+		<h4><?php _e( "Members", 'buddypress' ); ?></h4>
 
 		<?php if ( bp_group_has_members( 'per_page=15&exclude_banned=0' ) ) : ?>
 
