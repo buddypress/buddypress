@@ -42,6 +42,15 @@
 			</span>
 
 			<a class="button confirm" href="<?php bp_the_thread_delete_link(); ?>" title="<?php esc_attr_e( "Delete Conversation", 'buddypress' ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+
+			<?php
+			
+			/**
+			 * Fires after the action links in the header of a single message thread.
+			 *
+			 * @since 2.5.0
+			 */
+			do_action( 'bp_after_message_thread_recipients' ); ?>
 		</p>
 
 		<?php

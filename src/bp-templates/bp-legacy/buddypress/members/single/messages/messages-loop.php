@@ -131,6 +131,15 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 							<?php endif; ?>
 							 |
 							<a class="delete" href="<?php bp_message_thread_delete_link(); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+
+							<?php
+
+							/**
+							 * Fires after the thread options links for each message in the messages loop list.
+							 *
+							 * @since 2.5.0
+							 */
+							do_action( 'bp_messages_thread_options' ); ?>
 						</td>
 					</tr>
 
