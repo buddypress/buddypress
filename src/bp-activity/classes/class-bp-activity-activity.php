@@ -476,6 +476,19 @@ class BP_Activity_Activity {
 		$where_sql = 'WHERE ' . join( ' AND ', $where_conditions );
 
 		/**
+		 * Filter the MySQL JOIN clause for the main activity query.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $join_sql   JOIN clause.
+		 * @param array  $r          Method parameters.
+		 * @param string $select_sql Current SELECT MySQL statement.
+		 * @param string $from_sql   Current FROM MySQL statement.
+		 * @param string $where_sql  Current WHERE MySQL statement.
+		 */
+		$join_sql = apply_filters( 'bp_activity_get_join_sql', $join_sql, $r, $select_sql, $from_sql, $where_sql );
+
+		/**
 		 * Filters the preferred order of indexes for activity item.
 		 *
 		 * @since 1.6.0
