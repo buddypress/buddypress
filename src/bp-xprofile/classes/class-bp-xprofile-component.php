@@ -318,36 +318,40 @@ class BP_XProfile_Component extends BP_Component {
 
 			// View Profile.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-public',
-				'title'  => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
-				'href'   => $profile_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-public',
+				'title'    => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
+				'href'     => $profile_link,
+				'position' => 10
 			);
 
 			// Edit Profile.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-edit',
-				'title'  => _x( 'Edit', 'My Account Profile sub nav', 'buddypress' ),
-				'href'   => trailingslashit( $profile_link . 'edit' )
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-edit',
+				'title'    => _x( 'Edit', 'My Account Profile sub nav', 'buddypress' ),
+				'href'     => trailingslashit( $profile_link . 'edit' ),
+				'position' => 20
 			);
 
 			// Edit Avatar.
 			if ( buddypress()->avatar->show_avatars ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-change-avatar',
-					'title'  => _x( 'Change Profile Photo', 'My Account Profile sub nav', 'buddypress' ),
-					'href'   => trailingslashit( $profile_link . 'change-avatar' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-change-avatar',
+					'title'    => _x( 'Change Profile Photo', 'My Account Profile sub nav', 'buddypress' ),
+					'href'     => trailingslashit( $profile_link . 'change-avatar' ),
+					'position' => 30
 				);
 			}
 
 			if ( bp_displayed_user_use_cover_image_header() ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-change-cover-image',
-					'title'  => _x( 'Change Cover Image', 'My Account Profile sub nav', 'buddypress' ),
-					'href'   => trailingslashit( $profile_link . 'change-cover-image' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-change-cover-image',
+					'title'    => _x( 'Change Cover Image', 'My Account Profile sub nav', 'buddypress' ),
+					'href'     => trailingslashit( $profile_link . 'change-cover-image' ),
+					'position' => 40
 				);
 			}
 		}

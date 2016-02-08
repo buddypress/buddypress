@@ -276,49 +276,54 @@ class BP_Activity_Component extends BP_Component {
 
 			// Personal.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-personal',
-				'title'  => _x( 'Personal', 'My Account Activity sub nav', 'buddypress' ),
-				'href'   => $activity_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-personal',
+				'title'    => _x( 'Personal', 'My Account Activity sub nav', 'buddypress' ),
+				'href'     => $activity_link,
+				'position' => 10
 			);
 
 			// Mentions.
 			if ( bp_activity_do_mentions() ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-mentions',
-					'title'  => $title,
-					'href'   => trailingslashit( $activity_link . 'mentions' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-mentions',
+					'title'    => $title,
+					'href'     => trailingslashit( $activity_link . 'mentions' ),
+					'position' => 20
 				);
 			}
 
 			// Favorite activity items.
 			if ( bp_activity_can_favorite() ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-favorites',
-					'title'  => _x( 'Favorites', 'My Account Activity sub nav', 'buddypress' ),
-					'href'   => trailingslashit( $activity_link . 'favorites' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-favorites',
+					'title'    => _x( 'Favorites', 'My Account Activity sub nav', 'buddypress' ),
+					'href'     => trailingslashit( $activity_link . 'favorites' ),
+					'position' => 30
 				);
 			}
 
 			// Friends?
 			if ( bp_is_active( 'friends' ) ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-friends',
-					'title'  => _x( 'Friends', 'My Account Activity sub nav', 'buddypress' ),
-					'href'   => trailingslashit( $activity_link . bp_get_friends_slug() )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-friends',
+					'title'    => _x( 'Friends', 'My Account Activity sub nav', 'buddypress' ),
+					'href'     => trailingslashit( $activity_link . bp_get_friends_slug() ),
+					'position' => 40
 				);
 			}
 
 			// Groups?
 			if ( bp_is_active( 'groups' ) ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-groups',
-					'title'  => _x( 'Groups', 'My Account Activity sub nav', 'buddypress' ),
-					'href'   => trailingslashit( $activity_link . bp_get_groups_slug() )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-groups',
+					'title'    => _x( 'Groups', 'My Account Activity sub nav', 'buddypress' ),
+					'href'     => trailingslashit( $activity_link . bp_get_groups_slug() ),
+					'position' => 50
 				);
 			}
 		}

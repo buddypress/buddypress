@@ -183,29 +183,32 @@ class BP_Settings_Component extends BP_Component {
 
 			// General Account.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-general',
-				'title'  => __( 'General', 'buddypress' ),
-				'href'   => $settings_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-general',
+				'title'    => __( 'General', 'buddypress' ),
+				'href'     => $settings_link,
+				'position' => 10
 			);
 
 			// Notifications - only add the tab when there is something to display there.
 			if ( has_action( 'bp_notification_settings' ) ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-notifications',
-					'title'  => __( 'Email', 'buddypress' ),
-					'href'   => trailingslashit( $settings_link . 'notifications' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-notifications',
+					'title'    => __( 'Email', 'buddypress' ),
+					'href'     => trailingslashit( $settings_link . 'notifications' ),
+					'position' => 20
 				);
 			}
 
-			// Delete Account.
+			// Delete Account
 			if ( !bp_current_user_can( 'bp_moderate' ) && ! bp_core_get_root_option( 'bp-disable-account-deletion' ) ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-delete-account',
-					'title'  => __( 'Delete Account', 'buddypress' ),
-					'href'   => trailingslashit( $settings_link . 'delete-account' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-delete-account',
+					'title'    => __( 'Delete Account', 'buddypress' ),
+					'href'     => trailingslashit( $settings_link . 'delete-account' ),
+					'position' => 90
 				);
 			}
 		}

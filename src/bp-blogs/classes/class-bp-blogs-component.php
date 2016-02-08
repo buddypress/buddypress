@@ -237,19 +237,21 @@ class BP_Blogs_Component extends BP_Component {
 
 			// My Sites.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-my-sites',
-				'title'  => __( 'My Sites', 'buddypress' ),
-				'href'   => $blogs_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-my-sites',
+				'title'    => __( 'My Sites', 'buddypress' ),
+				'href'     => $blogs_link,
+				'position' => 10
 			);
 
 			// Create a Site.
 			if ( bp_blog_signup_enabled() ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-create',
-					'title'  => __( 'Create a Site', 'buddypress' ),
-					'href'   => trailingslashit( bp_get_blogs_directory_permalink() . 'create' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-create',
+					'title'    => __( 'Create a Site', 'buddypress' ),
+					'href'     => trailingslashit( bp_get_blogs_directory_permalink() . 'create' ),
+					'position' => 99
 				);
 			}
 		}

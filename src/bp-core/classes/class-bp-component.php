@@ -548,6 +548,28 @@ class BP_Component {
 
 		// Do we have Toolbar menus to add?
 		if ( !empty( $wp_admin_nav ) ) {
+			// Fill in position if one wasn't passed for backpat.
+			$pos = 0;
+			$not_set_pos = 1;
+			foreach( $wp_admin_nav as $key => $nav ) {
+				if ( ! isset( $nav['position'] ) ) {
+					$wp_admin_nav[$key]['position'] = $pos + $not_set_pos;
+
+					if ( 9 !== $not_set_pos ) {
+						++$not_set_pos;
+					}
+				} else {
+					$pos = $nav['position'];
+
+					// Reset not set pos to 1
+					if ( $pos % 10 === 0 ) {
+						$not_set_pos = 1;
+					}
+				}
+			}
+
+			// Sort admin nav by position.
+			$wp_admin_nav = bp_sort_by_key( $wp_admin_nav, 'position', 'num' );
 
 			// Set this objects menus.
 			$this->admin_menu = $wp_admin_nav;

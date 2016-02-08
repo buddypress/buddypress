@@ -202,18 +202,20 @@ class BP_Notifications_Component extends BP_Component {
 
 			// Unread.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-unread',
-				'title'  => $unread,
-				'href'   => $notifications_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-unread',
+				'title'    => $unread,
+				'href'     => $notifications_link,
+				'position' => 10
 			);
 
 			// Read.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-read',
-				'title'  => _x( 'Read', 'My Account Notification sub nav', 'buddypress' ),
-				'href'   => trailingslashit( $notifications_link . 'read' ),
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-read',
+				'title'    => _x( 'Read', 'My Account Notification sub nav', 'buddypress' ),
+				'href'     => trailingslashit( $notifications_link . 'read' ),
+				'position' => 20
 			);
 		}
 

@@ -253,45 +253,50 @@ class BP_Messages_Component extends BP_Component {
 
 			// Inbox.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-inbox',
-				'title'  => $inbox,
-				'href'   => $messages_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-inbox',
+				'title'    => $inbox,
+				'href'     => $messages_link,
+				'position' => 10
 			);
 
 			// Starred.
 			if ( bp_is_active( $this->id, 'star' ) ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-starred',
-					'title'  => __( 'Starred', 'buddypress' ),
-					'href'   => trailingslashit( $messages_link . bp_get_messages_starred_slug() )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-starred',
+					'title'    => __( 'Starred', 'buddypress' ),
+					'href'     => trailingslashit( $messages_link . bp_get_messages_starred_slug() ),
+					'position' => 11
 				);
 			}
 
 			// Sent Messages.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-sentbox',
-				'title'  => __( 'Sent', 'buddypress' ),
-				'href'   => trailingslashit( $messages_link . 'sentbox' )
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-sentbox',
+				'title'    => __( 'Sent', 'buddypress' ),
+				'href'     => trailingslashit( $messages_link . 'sentbox' ),
+				'position' => 20
 			);
 
 			// Compose Message.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-compose',
-				'title'  => __( 'Compose', 'buddypress' ),
-				'href'   => trailingslashit( $messages_link . 'compose' )
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-compose',
+				'title'    => __( 'Compose', 'buddypress' ),
+				'href'     => trailingslashit( $messages_link . 'compose' ),
+				'position' => 30
 			);
 
 			// Site Wide Notices.
 			if ( bp_current_user_can( 'bp_moderate' ) ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-notices',
-					'title'  => __( 'All Member Notices', 'buddypress' ),
-					'href'   => trailingslashit( $messages_link . 'notices' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-notices',
+					'title'    => __( 'All Member Notices', 'buddypress' ),
+					'href'     => trailingslashit( $messages_link . 'notices' ),
+					'position' => 90
 				);
 			}
 		}

@@ -203,18 +203,20 @@ class BP_Friends_Component extends BP_Component {
 
 			// My Friends.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-friendships',
-				'title'  => _x( 'Friendships', 'My Account Friends menu sub nav', 'buddypress' ),
-				'href'   => $friends_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-friendships',
+				'title'    => _x( 'Friendships', 'My Account Friends menu sub nav', 'buddypress' ),
+				'href'     => $friends_link,
+				'position' => 10
 			);
 
 			// Requests.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-requests',
-				'title'  => $pending,
-				'href'   => trailingslashit( $friends_link . 'requests' )
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-requests',
+				'title'    => $pending,
+				'href'     => trailingslashit( $friends_link . 'requests' ),
+				'position' => 20
 			);
 		}
 

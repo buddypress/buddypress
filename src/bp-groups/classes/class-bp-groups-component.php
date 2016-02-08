@@ -721,27 +721,30 @@ class BP_Groups_Component extends BP_Component {
 
 			// My Groups.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-memberships',
-				'title'  => _x( 'Memberships', 'My Account Groups sub nav', 'buddypress' ),
-				'href'   => $groups_link
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-memberships',
+				'title'    => _x( 'Memberships', 'My Account Groups sub nav', 'buddypress' ),
+				'href'     => $groups_link,
+				'position' => 10
 			);
 
 			// Invitations.
 			$wp_admin_nav[] = array(
-				'parent' => 'my-account-' . $this->id,
-				'id'     => 'my-account-' . $this->id . '-invites',
-				'title'  => $pending,
-				'href'   => trailingslashit( $groups_link . 'invites' )
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . '-invites',
+				'title'    => $pending,
+				'href'     => trailingslashit( $groups_link . 'invites' ),
+				'position' => 30
 			);
 
 			// Create a Group.
 			if ( bp_user_can_create_groups() ) {
 				$wp_admin_nav[] = array(
-					'parent' => 'my-account-' . $this->id,
-					'id'     => 'my-account-' . $this->id . '-create',
-					'title'  => _x( 'Create a Group', 'My Account Groups sub nav', 'buddypress' ),
-					'href'   => trailingslashit( bp_get_groups_directory_permalink() . 'create' )
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-create',
+					'title'    => _x( 'Create a Group', 'My Account Groups sub nav', 'buddypress' ),
+					'href'     => trailingslashit( bp_get_groups_directory_permalink() . 'create' ),
+					'position' => 90
 				);
 			}
 		}
