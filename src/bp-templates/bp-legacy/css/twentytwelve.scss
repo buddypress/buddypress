@@ -930,6 +930,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 			}
 
+			.activity-inner {
+				img {height: auto;}
+			}
+
 			@media screen and (min-width: 46.25em) {
 
 				.activity-avatar {

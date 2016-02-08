@@ -628,6 +628,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	color: #21759b;
 }
 
+#buddypress #activity-stream li .activity-inner img {
+	height: auto;
+}
+
 @media screen and (min-width: 46.25em) {
 	#buddypress #activity-stream li .activity-avatar {
 		float: left;
