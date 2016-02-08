@@ -146,6 +146,7 @@ div.bp-avatar-nav {
 }
 
 .drag-drop #drag-drop-area {
+	box-sizing: border-box;
 	display: table;
 	height: 100%;
 	width: 100%;
