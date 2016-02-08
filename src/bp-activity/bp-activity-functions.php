@@ -118,7 +118,14 @@ function bp_activity_find_mentions( $content ) {
 		return false;
 	}
 
-	return $mentioned_users;
+	/**
+	 * Filters the mentioned users.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param array $mentioned_users Associative array with user IDs as keys and usernames as values.
+	 */
+	return apply_filters( 'bp_activity_mentioned_users', $mentioned_users );
 }
 
 /**
