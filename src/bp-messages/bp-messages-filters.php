@@ -33,6 +33,13 @@ add_filter( 'messages_message_subject_before_save', 'force_balance_tags' );
 add_filter( 'messages_notice_message_before_save',  'force_balance_tags' );
 add_filter( 'messages_notice_subject_before_save',  'force_balance_tags' );
 
+if ( function_exists( 'wp_encode_emoji' ) ) {
+	add_filter( 'messages_message_subject_before_save', 'wp_encode_emoji' );
+	add_filter( 'messages_message_content_before_save', 'wp_encode_emoji' );
+	add_filter( 'messages_notice_message_before_save',  'wp_encode_emoji' );
+	add_filter( 'messages_notice_subject_before_save',  'wp_encode_emoji' );
+}
+
 add_filter( 'bp_get_message_notice_subject',     'wptexturize' );
 add_filter( 'bp_get_message_notice_text',        'wptexturize' );
 add_filter( 'bp_get_message_thread_subject',     'wptexturize' );
