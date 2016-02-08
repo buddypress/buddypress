@@ -269,7 +269,7 @@ class BP_XProfile_Field {
 
 		// Create the field type and store a reference back to this object.
 		$this->type_obj            = bp_xprofile_create_field_type( $this->type );
-		$this->type_obj->field_obj = $this;;
+		$this->type_obj->field_obj = $this;
 	}
 
 	/**
