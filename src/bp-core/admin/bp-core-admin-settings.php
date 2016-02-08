@@ -279,7 +279,7 @@ function bp_core_admin_settings() {
 
 		<h1><?php _e( 'BuddyPress Settings', 'buddypress' ); ?> </h1>
 
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Settings', 'buddypress' ) ); ?></h2>
+		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Options', 'buddypress' ) ); ?></h2>
 
 		<form action="<?php echo esc_url( $form_action ) ?>" method="post">
 

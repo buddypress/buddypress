@@ -263,8 +263,8 @@ class BP_Admin {
 
 		$hooks[] = add_submenu_page(
 			$this->settings_page,
-			__( 'BuddyPress Settings', 'buddypress' ),
-			__( 'BuddyPress Settings', 'buddypress' ),
+			__( 'BuddyPress Options', 'buddypress' ),
+			__( 'BuddyPress Options', 'buddypress' ),
 			$this->capability,
 			'bp-settings',
 			'bp_core_admin_settings'

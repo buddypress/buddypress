@@ -429,7 +429,7 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 		),
 		'2' => array(
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
-			'name' => __( 'Settings', 'buddypress' )
+			'name' => __( 'Options', 'buddypress' )
 		),
 	);
 
