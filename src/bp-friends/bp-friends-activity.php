@@ -384,3 +384,23 @@ function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_use
 	) );
 }
 add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 4 );
+
+/**
+ * Deletes friendship activity items when a user is deleted.
+ *
+ * @since 2.5.0
+ *
+ * @param int $user_id The ID of the user being deleted.
+ */
+function bp_friends_delete_activity_on_user_delete( $user_id = 0 ) {
+	if ( ! bp_is_active( 'activity' ) ) {
+		return;
+	}
+
+	bp_activity_delete( array(
+		'component'         => buddypress()->friends->id,
+		'type'              => 'friendship_created',
+		'secondary_item_id' => $user_id
+	) );
+}
+add_action( 'friends_remove_data', 'bp_friends_delete_activity_on_user_delete' );
