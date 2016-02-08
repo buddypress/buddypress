@@ -36,6 +36,8 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 * @param array $instance The widget settings, as saved by the user.
 	 */
 	function widget( $args, $instance ) {
+		global $members_template;
+
 		extract( $args );
 
 		if ( ! bp_displayed_user_id() ) {
@@ -77,6 +79,9 @@ class BP_Core_Friends_Widget extends WP_Widget {
 			'max'             => absint( $instance['max_friends'] ),
 			'populate_extras' => 1,
 		);
+
+		// Back up the global.
+		$old_members_template = $members_template;
 
 		?>
 
@@ -124,8 +129,10 @@ class BP_Core_Friends_Widget extends WP_Widget {
 
 		<?php endif; ?>
 
-		<?php echo $after_widget; ?>
-	<?php
+		<?php echo $after_widget;
+
+		// Restore the global.
+		$members_template = $old_members_template;
 	}
 
 	/**

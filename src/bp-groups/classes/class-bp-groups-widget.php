@@ -44,6 +44,7 @@ class BP_Groups_Widget extends WP_Widget {
 	 * @param array $instance Widget instance data.
 	 */
 	public function widget( $args, $instance ) {
+		global $groups_template;
 
 		/**
 		 * Filters the user ID to use with the widget instance.
@@ -100,6 +101,9 @@ class BP_Groups_Widget extends WP_Widget {
 			'max'             => $max_groups,
 		);
 
+		// Back up the global.
+		$old_groups_template = $groups_template;
+
 		?>
 
 		<?php if ( bp_has_groups( $group_args ) ) : ?>
@@ -149,8 +153,10 @@ class BP_Groups_Widget extends WP_Widget {
 
 		<?php endif; ?>
 
-		<?php echo $after_widget; ?>
-	<?php
+		<?php echo $after_widget;
+
+		// Restore the global.
+		$groups_template = $old_groups_template;
 	}
 
 	/**

@@ -35,6 +35,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
+		global $activities_template;
 
 		$title = ! empty( $instance['title'] )
 			? esc_html( $instance['title'] )
@@ -74,7 +75,12 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 			'scope'      => false,
 			'object'     => false,
 			'primary_id' => false
-		); ?>
+		);
+
+		// Back up global.
+		$old_activities_template = $activities_template;
+
+		?>
 
 		<?php if ( bp_has_activities( $args ) ) : ?>
 
@@ -107,8 +113,10 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 		<?php endif; ?>
 
-		<?php echo $after_widget; ?>
-	<?php
+		<?php echo $after_widget;
+
+		// Restore the global.
+		$activities_template = $old_activities_template;
 	}
 
 	/**

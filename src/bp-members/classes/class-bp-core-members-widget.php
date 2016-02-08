@@ -47,6 +47,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
+		global $members_template;
 
 		// Get widget settings.
 		$settings = $this->parse_settings( $instance );
@@ -87,7 +88,12 @@ class BP_Core_Members_Widget extends WP_Widget {
 			'max'             => $settings['max_members'],
 			'populate_extras' => true,
 			'search_terms'    => false,
-		); ?>
+		);
+
+		// Back up the global.
+		$old_members_template = $members_template;
+
+		?>
 
 		<?php if ( bp_has_members( $members_args ) ) : ?>
 
@@ -145,6 +151,9 @@ class BP_Core_Members_Widget extends WP_Widget {
 		<?php endif; ?>
 
 		<?php echo $args['after_widget'];
+
+		// Restore the global.
+		$members_template = $old_members_template;
 	}
 
 	/**
