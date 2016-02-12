@@ -205,6 +205,15 @@ function bp_version_updater() {
 	) );
 
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
+	$switched_to_root_blog = false;
+
+	// Make sure the current blog is set to the root blog
+	if ( ! bp_is_root_blog() ) {
+		switch_to_blog( bp_get_root_blog_id() );
+		bp_register_taxonomies();
+
+		$switched_to_root_blog = true;
+	}
 
 	// Install BP schema and activate only Activity and XProfile.
 	if ( bp_is_install() ) {
@@ -272,6 +281,10 @@ function bp_version_updater() {
 
 	// Bump the version.
 	bp_version_bump();
+
+	if ( $switched_to_root_blog ) {
+		restore_current_blog();
+	}
 }
 
 /**
