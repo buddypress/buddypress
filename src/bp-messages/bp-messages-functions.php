@@ -175,7 +175,16 @@ function messages_new_message( $args = '' ) {
 	}
 
 	// Bail if message failed to send.
-	if ( ! $message->send() ) {
+	$send = $message->send();
+	if ( false === is_int( $send ) ) {
+		if ( 'wp_error' === $r['error_type'] ) {
+			if ( is_wp_error( $send ) ) {
+				return $send;
+			} else {
+				return new WP_Error( 'message_generic_error', __( 'Message was not sent. Please try again.', 'buddypress' ) );
+			}
+		}
+
 		return false;
 	}
 

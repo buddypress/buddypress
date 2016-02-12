@@ -58,4 +58,35 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 
 		$this->assertSame( 'Message could not be sent because you have entered an invalid username. Please try again.', $t1->get_error_message() );
 	}
+
+	/**
+	 * @group messages_new_message
+	 */
+	public function test_messages_new_message_wp_error_generic() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// Emulate a plugin disabling messages.
+		add_action( 'messages_message_before_save', array( $this, 'remove_recipients_before_save' ) );
+
+		// send a private message
+		$t1 = messages_new_message( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'A new message',
+			'content'    => 'Hey there!',
+			'error_type' => 'wp_error'
+		) );
+
+		$this->assertNotEmpty( $t1->get_error_code() );
+
+		remove_action( 'messages_message_before_save', array( $this, 'remove_recipients_before_save' ) );
+	}
+
+	/**
+	 * Helper method for test_messages_new_message_wp_error_generic().
+	 */
+	public function remove_recipients_before_save( $message ) {
+		$message->recipients = array();
+	}
 }
