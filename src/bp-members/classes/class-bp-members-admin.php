@@ -1324,9 +1324,10 @@ class BP_Members_Admin {
 	 * @return array The views with the signup view added.
 	 */
 	public function signup_filter_view( $views = array() ) {
+		global $role;
 
 		// Remove the 'current' class from All if we're on the signups view.
-		if ( $this->signups_page == get_current_screen()->id ) {
+		if ( 'registered' === $role ) {
 			$views['all'] = str_replace( 'class="current"', '', $views['all'] );
 			$class        = 'current';
 		} else {

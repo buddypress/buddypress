@@ -37,7 +37,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 			'ajax'     => false,
 			'plural'   => 'signups',
 			'singular' => 'signup',
-			'screen'   => buddypress()->members->admin->users_screen,
+			'screen'   => get_current_screen()->id,
 		) );
 	}
 
@@ -85,14 +85,35 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	}
 
 	/**
-	 * Get the views : the links above the WP List Table.
+	 * Display the users screen views
 	 *
-	 * @since 2.0.0
+	 * @since 2.5.0
 	 *
-	 * @uses WP_MS_Users_List_Table::get_views() to get the users views.
+	 * @global string $role The name of role the users screens is filtered by
 	 */
-	public function get_views() {
-		return parent::get_views();
+	public function views() {
+		global $role;
+
+		// Used to reset the role
+		$reset_role = $role;
+
+		// Temporarly set the role to registered
+		$role = 'registered';
+
+		// Used to reset the screen id once views are displayed
+		$reset_screen_id = $this->screen->id;
+
+		// Temporarly set the screen id to the users one
+		$this->screen->id = 'users-network';
+
+		// Use the parent function so that other plugins can safely add views
+		parent::views();
+
+		// Reset the role
+		$role = $reset_role;
+
+		// Reset the screen id
+		$this->screen->id = $reset_screen_id;
 	}
 
 	/**
