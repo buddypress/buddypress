@@ -451,6 +451,19 @@ function bp_admin_reinstall_emails() {
 		}
 	}
 
+	// Make sure we have no orphaned email type terms.
+	$email_types = get_terms( bp_get_email_tax_type(), array(
+		'fields'                 => 'ids',
+		'hide_empty'             => false,
+		'update_term_meta_cache' => false,
+	) );
+
+	if ( $email_types ) {
+		foreach ( $email_types as $term_id ) {
+			wp_delete_term( (int) $term_id, bp_get_email_tax_type() );
+		}
+	}
+
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 	bp_core_install_emails();
 
