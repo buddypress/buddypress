@@ -432,6 +432,8 @@ function bp_admin_reinstall_emails() {
 	// Switch to the root blog, where the email posts live.
 	if ( ! bp_is_root_blog() ) {
 		switch_to_blog( bp_get_root_blog_id() );
+		bp_register_taxonomies();
+
 		$switched = true;
 	}
 

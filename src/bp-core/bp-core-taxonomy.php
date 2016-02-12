@@ -26,7 +26,7 @@ function bp_register_default_taxonomies() {
 	) );
 
 	// Email type.
-	if ( bp_is_root_blog() && ! is_network_admin() ) {
+	if ( bp_is_root_blog() ) {
 		register_taxonomy(
 			bp_get_email_tax_type(),
 			bp_get_email_post_type(),
