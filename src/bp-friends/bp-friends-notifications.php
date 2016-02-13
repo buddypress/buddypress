@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * When a friendship is requested, an email and a BP notification are sent to
  * the user of whom friendship has been requested ($friend_id).
  *
- * @since 1.0
+ * @since 1.0.0
  *
  * @param int $friendship_id ID of the friendship object.
  * @param int $initiator_id  ID of the user who initiated the request.
@@ -52,7 +52,7 @@ add_action( 'friends_friendship_requested', 'friends_notification_new_request', 
  * When a friendship request is accepted, an email and a BP notification are
  * sent to the user who requested the friendship ($initiator_id).
  *
- * @since 1.0
+ * @since 1.0.0
  *
  * @param int $friendship_id ID of the friendship object.
  * @param int $initiator_id  ID of the user who initiated the request.
@@ -80,6 +80,8 @@ add_action( 'friends_friendship_accepted', 'friends_notification_accepted_reques
 
 /**
  * Notification formatting callback for bp-friends notifications.
+ *
+ * @since 1.0.0
  *
  * @param string $action            The kind of notification being rendered.
  * @param int    $item_id           The primary item ID.
@@ -176,6 +178,8 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 /**
  * Clear friend-related notifications when ?new=1
+ *
+ * @since 1.2.0
  */
 function friends_clear_friend_notifications() {
 	if ( isset( $_GET['new'] ) && bp_is_active( 'notifications' ) ) {

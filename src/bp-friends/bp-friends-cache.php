@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Clear friends-related cache for members of a specific friendship.
  *
+ * @since 1.0.0
+ *
  * @param int $friendship_id ID of the friendship whose two members should
  *                           have their friends cache busted.
  * @return bool

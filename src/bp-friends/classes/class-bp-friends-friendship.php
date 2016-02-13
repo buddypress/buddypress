@@ -12,12 +12,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * BuddyPress Friendship object.
+ *
+ * @since 1.0.0
  */
 class BP_Friends_Friendship {
 
 	/**
 	 * ID of the friendship.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $id;
@@ -25,6 +28,7 @@ class BP_Friends_Friendship {
 	/**
 	 * User ID of the friendship initiator.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $initiator_user_id;
@@ -32,6 +36,7 @@ class BP_Friends_Friendship {
 	/**
 	 * User ID of the 'friend' - the one invited to the friendship.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $friend_user_id;
@@ -39,6 +44,7 @@ class BP_Friends_Friendship {
 	/**
 	 * Has the friendship been confirmed/accepted?
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $is_confirmed;
@@ -48,6 +54,7 @@ class BP_Friends_Friendship {
 	 *
 	 * Not currently used by BuddyPress.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $is_limited;
@@ -55,6 +62,7 @@ class BP_Friends_Friendship {
 	/**
 	 * Date the friendship was created.
 	 *
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $date_created;
@@ -64,6 +72,7 @@ class BP_Friends_Friendship {
 	 *
 	 * Not currently used in BuddyPress.
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $is_request;
@@ -71,6 +80,7 @@ class BP_Friends_Friendship {
 	/**
 	 * Should additional friend details be queried?
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $populate_friend_details;
@@ -78,12 +88,15 @@ class BP_Friends_Friendship {
 	/**
 	 * Details about the friend.
 	 *
+	 * @since 1.0.0
 	 * @var BP_Core_User
 	 */
 	public $friend;
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @param int|null $id                      Optional. The ID of an existing friendship.
 	 * @param bool     $is_request              Deprecated.
@@ -101,6 +114,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Set up data about the current friendship.
+	 *
+	 * @since 1.0.0
 	 */
 	public function populate() {
 		global $wpdb;
@@ -126,6 +141,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Save the current friendship to the database.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return bool True on success, false on failure.
 	 */
@@ -174,6 +191,8 @@ class BP_Friends_Friendship {
 	/**
 	 * Delete the current friendship from the database.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return bool|int
 	 */
 	public function delete() {
@@ -188,6 +207,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Get the IDs of a given user's friends.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int  $user_id              ID of the user whose friends are being retrieved.
 	 * @param bool $friend_requests_only Optional. Whether to fetch
@@ -226,6 +247,8 @@ class BP_Friends_Friendship {
 	/**
 	 * Get the ID of the friendship object, if any, between a pair of users.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param int $user_id   The ID of the first user.
 	 * @param int $friend_id The ID of the second user.
 	 * @return int|bool The ID of the friendship object if found, otherwise false.
@@ -240,6 +263,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Get a list of IDs of users who have requested friendship of a given user.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param int $user_id The ID of the user who has received the
 	 *                     friendship requests.
@@ -263,6 +288,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Get a total friend count for a given user.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int $user_id Optional. ID of the user whose friendships you
 	 *                     are counting. Default: displayed user (if any), otherwise
@@ -296,13 +323,14 @@ class BP_Friends_Friendship {
 	/**
 	 * Search the friends of a user by a search string.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string   $filter  The search string, matched against xprofile
 	 *                        fields (if available), or usermeta 'nickname' field.
 	 * @param int      $user_id ID of the user whose friends are being searched.
 	 * @param int|null $limit   Optional. Max number of friends to return.
 	 * @param int|null $page    Optional. The page of results to return. Default:
 	 *                          null (no pagination - return all results).
-	 *
 	 * @return array|bool On success, an array: {
 	 *     @type array $friends IDs of friends returned by the query.
 	 *     @type int   $count   Total number of friends (disregarding
@@ -364,6 +392,8 @@ class BP_Friends_Friendship {
 	 * while 'awaiting_response' is the other way around ($possible_friend_userid
 	 * sent the initial request).
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param int $initiator_userid       The ID of the user who is the initiator
 	 *                                    of the potential friendship/request.
 	 * @param int $possible_friend_userid The ID of the user who is the
@@ -400,6 +430,8 @@ class BP_Friends_Friendship {
 	 *
 	 * @todo Why is this in the Friends component?
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array $user_ids IDs of users whose last_active meta is
 	 *                        being queried.
 	 * @return array $retval Array of last_active values + user_ids.
@@ -433,6 +465,8 @@ class BP_Friends_Friendship {
 	/**
 	 * Mark a friendship as accepted.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param int $friendship_id ID of the friendship to be accepted.
 	 * @return int Number of database rows updated.
 	 */
@@ -447,6 +481,8 @@ class BP_Friends_Friendship {
 	/**
 	 * Remove a friendship or a friendship request INITIATED BY the logged-in user.
 	 *
+	 * @since 1.6.0
+	 *
 	 * @param int $friendship_id ID of the friendship to be withdrawn.
 	 * @return int Number of database rows deleted.
 	 */
@@ -460,6 +496,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Remove a friendship or a friendship request MADE OF the logged-in user.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int $friendship_id ID of the friendship to be rejected.
 	 * @return int Number of database rows deleted.
@@ -476,6 +514,8 @@ class BP_Friends_Friendship {
 	 * Search users.
 	 *
 	 * @todo Why does this exist, and why is it in bp-friends?
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string   $filter  String to search by.
 	 * @param int      $user_id A user ID param that is unused.
@@ -520,6 +560,8 @@ class BP_Friends_Friendship {
 	 *
 	 * @todo Why does this exist, and why is it in bp-friends?
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $filter Search term.
 	 * @return int Count of users matching the search term.
 	 */
@@ -555,6 +597,8 @@ class BP_Friends_Friendship {
 	 *
 	 * @todo Why does this exist, and why is it in bp-friends?
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array $user_ids Array of user IDs.
 	 * @return array User IDs, sorted by the associated display names.
 	 */
@@ -573,6 +617,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Get a list of random friend IDs.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int $user_id       ID of the user whose friends are being retrieved.
 	 * @param int $total_friends Optional. Number of random friends to get.
@@ -608,6 +654,8 @@ class BP_Friends_Friendship {
 	 * - users who have a pending invite to the group
 	 * - users who have been banned from the group
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param int $user_id  ID of the user whose friends are being counted.
 	 * @param int $group_id ID of the group friends are being invited to.
 	 * @return int $invitable_count Eligible friend count.
@@ -642,6 +690,8 @@ class BP_Friends_Friendship {
 	/**
 	 * Get the friend user IDs for a given friendship.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param int $friendship_id ID of the friendship.
 	 * @return object friend_user_id and initiator_user_id.
 	 */
@@ -655,6 +705,8 @@ class BP_Friends_Friendship {
 
 	/**
 	 * Delete all friendships and friend notifications related to a user.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int $user_id ID of the user being expunged.
 	 */

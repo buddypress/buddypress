@@ -218,6 +218,8 @@ add_action( 'bp_directory_members_actions', 'bp_member_add_friend_button' );
 
 /**
  * Output the friend count for the current member in the loop.
+ *
+ * @since 1.2.0
  */
 function bp_member_total_friend_count() {
 	echo bp_get_member_total_friend_count();
@@ -226,6 +228,8 @@ function bp_member_total_friend_count() {
 	 * Return the friend count for the current member in the loop.
 	 *
 	 * Return value is a string of the form "x friends".
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string A string of the form "x friends".
 	 */
@@ -253,6 +257,8 @@ function bp_member_total_friend_count() {
 /**
  * Output the ID of the current user in the friend request loop.
  *
+ * @since 1.2.6
+ *
  * @see bp_get_potential_friend_id() for a description of arguments.
  *
  * @param int $user_id See {@link bp_get_potential_friend_id()}.
@@ -262,6 +268,8 @@ function bp_potential_friend_id( $user_id = 0 ) {
 }
 	/**
 	 * Return the ID of current user in the friend request loop.
+	 *
+	 * @since 1.2.6
 	 *
 	 * @global object $friends_template
 	 *
@@ -292,6 +300,8 @@ function bp_potential_friend_id( $user_id = 0 ) {
  *
  * Returns - 'is_friend', 'not_friends', 'pending'.
  *
+ * @since 1.2.6
+ *
  * @param int $user_id ID of the potential friend. Default: the value of
  *                     {@link bp_get_potential_friend_id()}.
  * @return string 'is_friend', 'not_friends', or 'pending'.
@@ -320,6 +330,8 @@ function bp_is_friend( $user_id = 0 ) {
 /**
  * Output the Add Friend button.
  *
+ * @since 1.0.0
+ *
  * @see bp_get_add_friend_button() for information on arguments.
  *
  * @param int      $potential_friend_id See {@link bp_get_add_friend_button()}.
@@ -330,6 +342,8 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 }
 	/**
 	 * Create the Add Friend button.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @param int  $potential_friend_id ID of the user to whom the button
 	 *                                  applies. Default: value of {@link bp_get_potential_friend_id()}.
@@ -429,6 +443,8 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 /**
  * Get a comma-separated list of IDs of a user's friends.
  *
+ * @since 1.2.0
+ *
  * @param int $user_id Optional. Default: the displayed user's ID, or the
  *                     logged-in user's ID.
  * @return string|bool A comma-separated list of friend IDs if any are found,
@@ -452,6 +468,8 @@ function bp_get_friend_ids( $user_id = 0 ) {
  *
  * Note that we return a 0 if no pending requests are found. This is necessary
  * because of the structure of the $include parameter in bp_has_members().
+ *
+ * @since 1.2.0
  *
  * @param int $user_id ID of the user whose requests are being retrieved.
  *                     Defaults to displayed user.
@@ -486,12 +504,16 @@ function bp_get_friendship_requests( $user_id = 0 ) {
 
 /**
  * Output the ID of the friendship between the logged-in user and the current user in the loop.
+ *
+ * @since 1.2.0
  */
 function bp_friend_friendship_id() {
 	echo bp_get_friend_friendship_id();
 }
 	/**
 	 * Return the ID of the friendship between the logged-in user and the current user in the loop.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return int ID of the friendship.
 	 */
@@ -515,12 +537,16 @@ function bp_friend_friendship_id() {
 
 /**
  * Output the URL for accepting the current friendship request in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_friend_accept_request_link() {
 	echo bp_get_friend_accept_request_link();
 }
 	/**
 	 * Return the URL for accepting the current friendship request in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string accept-friendship URL.
 	 */
@@ -544,12 +570,16 @@ function bp_friend_accept_request_link() {
 
 /**
  * Output the URL for rejecting the current friendship request in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_friend_reject_request_link() {
 	echo bp_get_friend_reject_request_link();
 }
 	/**
 	 * Return the URL for rejecting the current friendship request in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string reject-friendship URL.
 	 */
@@ -574,6 +604,8 @@ function bp_friend_reject_request_link() {
 /**
  * Output the total friend count for a given user.
  *
+ * @since 1.2.0
+ *
  * @param int $user_id See {@link friends_get_total_friend_count()}.
  */
 function bp_total_friend_count( $user_id = 0 ) {
@@ -581,6 +613,8 @@ function bp_total_friend_count( $user_id = 0 ) {
 }
 	/**
 	 * Return the total friend count for a given user.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param int $user_id See {@link friends_get_total_friend_count()}.
 	 * @return int Total friend count.
@@ -601,6 +635,8 @@ function bp_total_friend_count( $user_id = 0 ) {
 /**
  * Output the total friendship request count for a given user.
  *
+ * @since 1.2.0
+ *
  * @see bp_friend_get_total_requests_count() for description of arguments.
  *
  * @param int $user_id See {@link bp_friend_get_total_requests_count().
@@ -610,6 +646,8 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 }
 	/**
 	 * Return the total friendship request count for a given user.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param int $user_id ID of the user whose requests are being counted.
 	 *                     Default: ID of the logged-in user.

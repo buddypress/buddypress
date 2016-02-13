@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Catch and process the My Friends page.
+ *
+ * @since 1.0.0
  */
 function friends_screen_my_friends() {
 
@@ -38,6 +40,8 @@ function friends_screen_my_friends() {
 
 /**
  * Catch and process the Requests page.
+ *
+ * @since 1.0.0
  */
 function friends_screen_requests() {
 	if ( bp_is_action_variable( 'accept', 0 ) && is_numeric( bp_action_variable( 1 ) ) ) {
@@ -93,6 +97,8 @@ function friends_screen_requests() {
 
 /**
  * Add Friends-related settings to the Settings > Notifications page.
+ *
+ * @since 1.0.0
  */
 function friends_screen_notification_settings() {
 

@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Defines the BuddyPress Friends Component.
+ *
+ * @since 1.5.0
  */
 class BP_Friends_Component extends BP_Component {
 
@@ -35,6 +37,8 @@ class BP_Friends_Component extends BP_Component {
 
 	/**
 	 * Include bp-friends files.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
@@ -225,6 +229,8 @@ class BP_Friends_Component extends BP_Component {
 
 	/**
 	 * Set up the title for pages and <title>.
+	 *
+	 * @since 1.5.0
 	 */
 	public function setup_title() {
 

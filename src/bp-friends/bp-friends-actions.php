@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Catch and process friendship requests.
+ *
+ * @since 1.0.1
  */
 function friends_action_add_friend() {
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'add-friend' ) )
@@ -54,6 +56,8 @@ add_action( 'bp_init', 'friends_action_add_friend' );
 
 /**
  * Catch and process Remove Friendship requests.
+ *
+ * @since 1.0.1
  */
 function friends_action_remove_friend() {
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'remove-friend' ) )

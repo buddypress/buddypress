@@ -16,6 +16,8 @@ require dirname( __FILE__ ) . '/classes/class-bp-friends-component.php';
 
 /**
  * Set up the bp-forums component.
+ *
+ * @since 1.6.0
  */
 function bp_setup_friends() {
 	buddypress()->friends = new BP_Friends_Component();
