@@ -116,7 +116,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 
 				<?php if ( bp_get_signup_allowed() ) : ?>
 
-					<span class="bp-login-widget-register-link"><?php printf( __( '<a href="%s" title="Register for a new account">Register</a>', 'buddypress' ), bp_get_signup_page() ); ?></span>
+					<span class="bp-login-widget-register-link"><a href="<?php echo esc_url( bp_get_signup_page() ); ?>" title="<?php esc_attr_e( 'Register for a new account', 'buddypress' ); ?>"><?php _e( 'Register', 'buddypress' ); ?></a></span>
 
 				<?php endif; ?>
 
