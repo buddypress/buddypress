@@ -206,10 +206,13 @@ abstract class BP_XProfile_Field_Type {
 			$validated = true;
 		}
 
-		// If there's a whitelist set, also check the $value.
+		// If there's a whitelist set, make sure that each value is a whitelisted value.
 		if ( ( true === $validated ) && ! empty( $values ) && ! empty( $this->validation_whitelist ) ) {
 			foreach ( (array) $values as $value ) {
-				$validated = in_array( $value, $this->validation_whitelist, true );
+				if ( ! in_array( $value, $this->validation_whitelist, true ) ) {
+					$validated = false;
+					break;
+				}
 			}
 		}
 
