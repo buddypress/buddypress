@@ -695,7 +695,7 @@ function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 
 	// Backpat for pre-2.5 emails only.
 	if ( ! in_array( $email_type, $pre_2_5_emails, true ) ) {
-		return $value;
+		return;
 	}
 
 	if ( $email_type === 'activity-comment' ) {
