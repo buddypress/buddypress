@@ -126,7 +126,17 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	// Maybe load the template if one was located.
 	$use_themes = defined( 'WP_USE_THEMES' ) && WP_USE_THEMES;
 	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
-	if ( ( $use_themes || $doing_ajax ) && ( true == $load ) && ! empty( $located ) ) {
+
+	/**
+	 * Filter here to allow/disallow template loading.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param bool $value True to load the template, false otherwise.
+	 */
+	$load_template = (bool) apply_filters( 'bp_locate_template_and_load', $use_themes || $doing_ajax );
+
+	if ( $load_template && ( true == $load ) && ! empty( $located ) ) {
 		load_template( $located, $require_once );
 	}
 

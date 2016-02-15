@@ -735,7 +735,12 @@ class BP_Email {
 			ob_start();
 
 			// Load the template.
+			add_filter( 'bp_locate_template_and_load', '__return_true' );
+
 			bp_locate_template( bp_email_get_template( $this->post_object ), true, false );
+
+			remove_filter( 'bp_locate_template_and_load', '__return_true' );
+
 			$this->set_template( ob_get_contents() );
 
 			ob_end_clean();
