@@ -927,7 +927,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 }
 
-@media screen and (max-width: 37.5em) {
+@media screen and (max-width: 50em) {
 	.single-item.groups #buddypress div#item-header {
 		display: flex;
 		flex-direction: column;
@@ -959,6 +959,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	padding-bottom: 48px;
 }
 
+.single-item.groups #buddypress div#item-header #item-header-content {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .single-item.groups #buddypress div#item-header div#item-actions {
 	margin: 0 !important;
 	width: 100%;
@@ -969,7 +975,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		border-right: 1px solid #eaeaea;
 		clear: none;
 		float: left;
-		margin-top: 225px !important;
 		padding-right: 0.2em;
 		width: 30%;
 	}
@@ -1003,12 +1008,29 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		float: right;
 	}
 	.single-item.groups #buddypress div#item-header #item-header-content {
-		margin-right: 4%;
-		width: 40%;
+		margin-right: 2%;
+		padding: 0 0.5em;
 	}
 	.single-item.groups #buddypress div#item-header div#item-actions {
 		float: left;
 		width: 28%;
+	}
+}
+
+@media screen and (min-width: 64em) {
+	.single-item.groups #buddypress div#item-header #item-header-content {
+		width: 40%;
+	}
+}
+
+.single-item.groups #buddypress #cover-image-container #item-header-cover-image #item-actions {
+	margin-top: 225px !important;
+}
+
+@media screen and (min-width: 50em) and (max-width: 60em) {
+	.single-item.groups #buddypress #cover-image-container #item-header-cover-image #item-header-content {
+		max-width: 60% !important;
+		width: 60% !important;
 	}
 }
 

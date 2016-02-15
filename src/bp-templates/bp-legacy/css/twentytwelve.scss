@@ -1300,7 +1300,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		// Move visual flow of avatar & item-actions at narrow width,
 		// avatar first after group title
-		@media screen and (max-width: 37.500em) {
+		@media screen and (max-width: 50em) {
 			div#item-header {
 				display: flex;
 				flex-direction: column;
@@ -1337,6 +1337,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		div#item-header {
 			padding-bottom: $spacing-val-lg;
 
+			#item-header-content {
+				@include box-model(border-box);
+			}
+
 			div#item-actions {
 				margin: 0 !important;
 				width: 100%;
@@ -1345,7 +1349,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					border-left: 1px solid $border-light;
 					clear: none;
 					float: right;
-					margin-top: 225px !important;
 					padding-left: 0.2em;
 					width: 30%;
 				} // close @media
@@ -1381,8 +1384,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				}
 
 				#item-header-content {
-					margin-left: 4%;
-					width: 40%;
+					margin-left: 2%;
+					padding: 0 0.5em;
 				}
 
 				div#item-actions {
@@ -1392,6 +1395,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			} // close @media
 
+			@media screen and (min-width: 64em) {
+				#item-header-content {
+					width: 40%;
+				}
+			}
 		} // close #item-header
 	} // close #buddypress
 
@@ -1399,11 +1407,24 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	// activated & attempt to address positioning concerns arising from themes
 	// breakpoints.
 	// Due to cover image styles being applied via embedded styles & thus carrying
-	// heavier weight than linked styles the use !important to override may be required.
+	// heavier weight than linked styles the use of !important to override may be required.
 	#buddypress {
 		#cover-image-container {
 			#item-header-cover-image {
+
+				#item-actions {
+					margin-top: 225px !important;
+				}
+
+				@media screen and (min-width: 50em) and (max-width: 60em) {
+					#item-header-content {
+						max-width: 60% !important;
+						width: 60% !important;
+					}
+				}
+
 				@media screen and (max-width: 64em) {
+
 					#item-actions {
 						border: 0;
 						clear: both;
@@ -1414,7 +1435,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 						h3 {border-bottom: 1px solid $border-light;}
 					}
-				}
+				} // @media
+
+
 			}
 		}
 	}
