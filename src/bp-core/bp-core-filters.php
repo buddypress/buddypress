@@ -1025,8 +1025,8 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 		$recipient = array_shift( $recipient );
 		$user_obj  = $recipient->get_user( 'search-email' );
 
-		$tokens['recipient.address'] = $recipient->get_address();
-		$tokens['recipient.name']    = $recipient->get_name();
+		$tokens['recipient.email'] = $recipient->get_address();
+		$tokens['recipient.name']  = $recipient->get_name();
 
 		if ( $user_obj ) {
 			// Unsubscribe link.
