@@ -167,6 +167,6 @@ class BP_Email_Recipient {
 		 *                          Accepts 'raw' (default) or 'search-email'.
 		 * @param BP_Email $recipient $this Current instance of the email recipient class.
 		 */
-		return apply_filters( 'bp_email_recipient_get_name', $this->user_object, $transform, $this );
+		return apply_filters( 'bp_email_recipient_get_user', $this->user_object, $transform, $this );
 	}
 }
