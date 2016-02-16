@@ -87,6 +87,9 @@ function bp_email_init_customizer( WP_Customize_Manager $wp_customize ) {
 			bp_get_version(),
 			true
 		);
+
+		// Include the preview loading style
+		add_action( 'wp_footer', array( $wp_customize, 'customize_preview_loading_style' ) );
 	}
 }
 add_action( 'bp_customize_register', 'bp_email_init_customizer' );
