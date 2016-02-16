@@ -680,7 +680,7 @@ function bp_core_install_emails() {
 		'friends-request-accepted'           => __( 'Recipient has had a friend request accepted by a member.', 'buddypress' ),
 		'groups-details-updated'             => __( "A group's details were updated.", 'buddypress' ),
 		'groups-invitation'                  => __( 'A member has sent a group invitation to the recipient.', 'buddypress' ),
-		'groups-member-promoted'             => __( "Recipient's status within a group have changed.", 'buddypress' ),
+		'groups-member-promoted'             => __( "Recipient's status within a group has changed.", 'buddypress' ),
 		'groups-membership-request'          => __( 'A member has requested permission to join a group.', 'buddypress' ),
 		'messages-unread'                    => __( 'Recipient has received a private message.', 'buddypress' ),
 		'settings-verify-email-change'       => __( 'Recipient has changed their email address.', 'buddypress' ),
