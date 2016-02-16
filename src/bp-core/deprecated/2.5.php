@@ -746,7 +746,7 @@ function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 		do_action( 'bp_activity_sent_reply_to_reply_email', $tokens['parent-comment-user.id'], $email_subject, $email_content, $tokens['comment.id'], $tokens['commenter.id'], array() );
 
 	} elseif ( $email_type === 'core-user-registration' ) {
-		if ( ! empty( $tokens['user_id'] ) ) {
+		if ( ! empty( $tokens['user.id'] ) ) {
 			/**
 			 * Fires after the sending of activation email to a newly registered user.
 			 *
