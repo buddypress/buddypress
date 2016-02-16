@@ -204,6 +204,21 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 		}
 
 	} elseif ( $email_type === 'core-user-registration' ) {
+		// Filters are different according to the WordPress config.
+		if ( is_multisite() ) {
+			$registration_filters = array(
+				'to'      => 'bp_core_activation_signup_user_notification_to',
+				'subject' => 'bp_core_activation_signup_user_notification_subject',
+				'content' => 'bp_core_activation_signup_user_notification_message',
+			);
+		} else {
+			$registration_filters = array(
+				'to'      => 'bp_core_signup_send_validation_email_to',
+				'subject' => 'bp_core_signup_send_validation_email_subject',
+				'content' => 'bp_core_signup_send_validation_email_message',
+			);
+		}
+
 		if ( $property === 'to' ) {
 			/**
 			 * Filters the email that the notification is going to upon successful registration without blog.
@@ -218,7 +233,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $key            The activation key created in wpmu_signup_blog().
 			 * @param array $meta            Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( 'bp_core_activation_signup_user_notification_to', $value, $tokens['recipient.name'], $value, $tokens['key'], array() );
+			$value = apply_filters( $registration_filters['to'], $value, $tokens['recipient.name'], $value, $tokens['key'], array() );
 
 		} elseif ( $property === 'subject' ) {
 			/**
@@ -233,7 +248,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $key             The activation key created in wpmu_signup_blog().
 			 * @param array $meta             Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( 'bp_core_activation_signup_user_notification_subject', $value, $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key'], array() );
+			$value = apply_filters( $registration_filters['subject'], $value, $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key'], array() );
 
 		} elseif ( $property === 'content' ) {
 			/**
@@ -248,7 +263,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string $key             The activation key created in wpmu_signup_blog().
 			 * @param array $meta             Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( 'bp_core_activation_signup_user_notification_message', $value, $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key'], array() );
+			$value = apply_filters( $registration_filters['content'], $value, $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key'], array() );
 		}
 
 	} elseif ( $email_type === 'core-user-registration-with-blog' ) {
