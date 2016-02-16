@@ -512,11 +512,18 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 		}
 	}
 
+	$user_id = 0;
+	$user_object = get_user_by( 'login', $user );
+	if ( $user_object ) {
+		$user_id = $user_object->ID;
+	}
+
 	$args = array(
 		'tokens' => array(
 			'activate.url' => esc_url( trailingslashit( bp_get_activation_page() ) . "{$key}/" ),
 			'key'          => $key,
 			'user.email'   => $user_email,
+			'user.id'      => $user_id,
 		),
 	);
 	bp_send_email( 'core-user-registration', array( array( $user_email => $user ) ), $args );

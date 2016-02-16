@@ -2211,7 +2211,6 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $use
 		'tokens' => array(
 			'activate.url' => esc_url( trailingslashit( bp_get_activation_page() ) . "{$key}/" ),
 			'key'          => $key,
-			'user'         => '',
 			'user.email'   => $user_email,
 			'user.id'      => $user_id,
 		),
