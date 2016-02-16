@@ -1020,10 +1020,11 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 	$tokens['site.name']        = wp_specialchars_decode( bp_get_option( 'blogname' ), ENT_QUOTES );
 
 	// Default values for tokens set conditionally below.
-	$tokens['email.preheader'] = '';
-	$tokens['recipient.email'] = '';
-	$tokens['recipient.name']  = '';
-	$tokens['unsubscribe']     = '';
+	$tokens['email.preheader']     = '';
+	$tokens['recipient.email']     = '';
+	$tokens['recipient.name']      = '';
+	$tokens['recipient.username']  = '';
+	$tokens['unsubscribe']         = '';
 
 
 	// Who is the email going to?
@@ -1035,6 +1036,10 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 		$tokens['recipient.email'] = $recipient->get_address();
 		$tokens['recipient.name']  = $recipient->get_name();
 
+		if ( ! $user_obj && $tokens['recipient.email'] ) {
+			$user_obj = get_user_by( 'email', $tokens['recipient.email'] );
+		}
+
 		if ( $user_obj ) {
 			// Unsubscribe link.
 			$tokens['unsubscribe'] = esc_url( sprintf(
@@ -1042,6 +1047,7 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 				bp_core_get_user_domain( $user_obj->ID ),
 				function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings'
 			) );
+			$tokens['recipient.username'] = $user_obj->user_login;
 		}
 	}
 

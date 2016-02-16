@@ -226,14 +226,14 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 			 *
-			 * @param string $value          User email the notification is being sent to.
-			 * @param string $recipient_name The user's login name.
-			 * @param array $value           User email the notification is being sent to (again).
-			 *                               Array key is email address, value is the name.
-			 * @param string $key            The activation key created in wpmu_signup_blog().
-			 * @param array $meta            Removed in 2.5; now an empty array.
+			 * @param string $value              User email the notification is being sent to.
+			 * @param string $recipient_username The user's login name.
+			 * @param array $value               User email the notification is being sent to (again).
+			 *                                   Array key is email address, value is the name.
+			 * @param string $key                The activation key created in wpmu_signup_blog().
+			 * @param array $meta                Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( $registration_filters['to'], $value, $tokens['recipient.name'], $value, $tokens['key'], array() );
+			$value = apply_filters( $registration_filters['to'], $value, $tokens['recipient.username'], $value, $tokens['key'], array() );
 
 		} elseif ( $property === 'subject' ) {
 			/**
@@ -242,13 +242,13 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 			 *
-			 * @param string $value           Email notification subject text.
-			 * @param string $recipient_name  The user's login name.
-			 * @param string $recipient_email The user's email address.
-			 * @param string $key             The activation key created in wpmu_signup_blog().
-			 * @param array $meta             Removed in 2.5; now an empty array.
+			 * @param string $value              Email notification subject text.
+			 * @param string $recipient_username The user's login name.
+			 * @param string $recipient_email    The user's email address.
+			 * @param string $key                The activation key created in wpmu_signup_blog().
+			 * @param array $meta                Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( $registration_filters['subject'], $value, $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key'], array() );
+			$value = apply_filters( $registration_filters['subject'], $value, $tokens['recipient.username'], $tokens['recipient.email'], $tokens['key'], array() );
 
 		} elseif ( $property === 'content' ) {
 			/**
@@ -257,13 +257,13 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 			 *
-			 * @param string $value           The message to use.
-			 * @param string $recipient_name  The user's login name.
-			 * @param string $recipient_email The user's email address.
-			 * @param string $key             The activation key created in wpmu_signup_blog().
-			 * @param array $meta             Removed in 2.5; now an empty array.
+			 * @param string $value              The message to use.
+			 * @param string $recipient_username The user's login name.
+			 * @param string $recipient_email    The user's email address.
+			 * @param string $key                The activation key created in wpmu_signup_blog().
+			 * @param array $meta                Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( $registration_filters['content'], $value, $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key'], array() );
+			$value = apply_filters( $registration_filters['content'], $value, $tokens['recipient.username'], $tokens['recipient.email'], $tokens['key'], array() );
 		}
 
 	} elseif ( $email_type === 'core-user-registration-with-blog' ) {
@@ -274,16 +274,16 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 			 *
-			 * @param string $value           User email the notification is being sent to.
-			 * @param string $domain          The new blog domain.
-			 * @param string $path            The new blog path.
-			 * @param string $title           The site title.
-			 * @param string $recipient_name  The user's login name.
-			 * @param string $recipient_email The user's email address.
-			 * @param string $key             The activation key created in wpmu_signup_blog().
-			 * @param array  $meta            Removed in 2.5; now an empty array.
+			 * @param string $value              User email the notification is being sent to.
+			 * @param string $domain             The new blog domain.
+			 * @param string $path               The new blog path.
+			 * @param string $title              The site title.
+			 * @param string $recipient_username The user's login name.
+			 * @param string $recipient_email    The user's email address.
+			 * @param string $key                The activation key created in wpmu_signup_blog().
+			 * @param array  $meta               Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( 'bp_core_activation_signup_blog_notification_to', $value, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key_blog'], array() );
+			$value = apply_filters( 'bp_core_activation_signup_blog_notification_to', $value, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.username'], $tokens['recipient.email'], $tokens['key_blog'], array() );
 
 		} elseif ( $property === 'subject' ) {
 			/**
@@ -292,16 +292,16 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 			 *
-			 * @param string $value           The subject to use.
-			 * @param string $domain          The new blog domain.
-			 * @param string $path            The new blog path.
-			 * @param string $title           The site title.
-			 * @param string $recipient_name  The user's login name.
-			 * @param string $recipient_email The user's email address.
-			 * @param string $key             The activation key created in wpmu_signup_blog().
-			 * @param array  $meta            Removed in 2.5; now an empty array.
+			 * @param string $value              The subject to use.
+			 * @param string $domain             The new blog domain.
+			 * @param string $path               The new blog path.
+			 * @param string $title              The site title.
+			 * @param string $recipient_username The user's login name.
+			 * @param string $recipient_email    The user's email address.
+			 * @param string $key                The activation key created in wpmu_signup_blog().
+			 * @param array  $meta               Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( 'bp_core_activation_signup_blog_notification_subject', $value, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key_blog'], array() );
+			$value = apply_filters( 'bp_core_activation_signup_blog_notification_subject', $value, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.username'], $tokens['recipient.email'], $tokens['key_blog'], array() );
 
 		} elseif ( $property === 'content' ) {
 			/**
@@ -310,16 +310,16 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @since 1.2.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 			 *
-			 * @param string $value           The message to use.
-			 * @param string $domain          The new blog domain.
-			 * @param string $path            The new blog path.
-			 * @param string $title           The site title.
-			 * @param string $recipient_name  The user's login name.
-			 * @param string $recipient_email The user's email address.
-			 * @param string $key             The activation key created in wpmu_signup_blog().
-			 * @param array  $meta            Removed in 2.5; now an empty array.
+			 * @param string $value              The message to use.
+			 * @param string $domain             The new blog domain.
+			 * @param string $path               The new blog path.
+			 * @param string $title              The site title.
+			 * @param string $recipient_username The user's login name.
+			 * @param string $recipient_email    The user's email address.
+			 * @param string $key                The activation key created in wpmu_signup_blog().
+			 * @param array  $meta               Removed in 2.5; now an empty array.
 			 */
-			$value = apply_filters( 'bp_core_activation_signup_blog_notification_message', $value, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key_blog'], array() );
+			$value = apply_filters( 'bp_core_activation_signup_blog_notification_message', $value, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.username'], $tokens['recipient.email'], $tokens['key_blog'], array() );
 		}
 
 	} elseif ( $email_type === 'friends-request' ) {
@@ -767,15 +767,15 @@ function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 			 * @since 1.5.0
 			 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 			 *
-			 * @param string $admin_email     Admin Email address for the site.
-			 * @param string $email_subject   Subject used in the notification email.
-			 * @param string $email_content   Message used in the notification email.
-			 * @param string $recipient_name  The user's login name.
-			 * @param string $recipient_email The user's email address.
-			 * @param string $key             The activation key created in wpmu_signup_blog().
-			 * @param array  $meta            Removed in 2.5; now an empty array.
+			 * @param string $admin_email        Admin Email address for the site.
+			 * @param string $email_subject      Subject used in the notification email.
+			 * @param string $email_content      Message used in the notification email.
+			 * @param string $recipient_username The user's login name.
+			 * @param string $recipient_email    The user's email address.
+			 * @param string $key                The activation key created in wpmu_signup_blog().
+			 * @param array  $meta               Removed in 2.5; now an empty array.
 			 */
-			do_action( 'bp_core_sent_user_signup_email', bp_get_option( 'admin_email' ), $email_subject, $email_content, $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key'], array() );
+			do_action( 'bp_core_sent_user_signup_email', bp_get_option( 'admin_email' ), $email_subject, $email_content, $tokens['recipient.username'], $tokens['recipient.email'], $tokens['key'], array() );
 		}
 
 	} elseif ( $email_type === 'core-user-registration-with-blog' ) {
@@ -785,18 +785,18 @@ function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 		 * @since 1.5.0
 		 * @deprecated 2.5.0 Use the filters in BP_Email. $meta argument unset and deprecated.
 		 *
-		 * @param string $admin_email     Admin Email address for the site.
-		 * @param string $email_subject   Subject used in the notification email.
-		 * @param string $email_content   Message used in the notification email.
-		 * @param string $domain          The new blog domain.
-		 * @param string $path            The new blog path.
-		 * @param string $title           The site title.
-		 * @param string $recipient_name  The user's login name.
-		 * @param string $recipient_email The user's email address.
-		 * @param string $key             The activation key created in wpmu_signup_blog().
-		 * @param array  $meta            Removed in 2.5; now an empty array.
+		 * @param string $admin_email        Admin Email address for the site.
+		 * @param string $email_subject      Subject used in the notification email.
+		 * @param string $email_content      Message used in the notification email.
+		 * @param string $domain             The new blog domain.
+		 * @param string $path               The new blog path.
+		 * @param string $title              The site title.
+		 * @param string $recipient_username The user's login name.
+		 * @param string $recipient_email    The user's email address.
+		 * @param string $key                The activation key created in wpmu_signup_blog().
+		 * @param array  $meta               Removed in 2.5; now an empty array.
 		 */
-		do_action( 'bp_core_sent_blog_signup_email', bp_get_option( 'admin_email' ), $email_subject, $email_content, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.name'], $tokens['recipient.email'], $tokens['key_blog'], array() );
+		do_action( 'bp_core_sent_blog_signup_email', bp_get_option( 'admin_email' ), $email_subject, $email_content, $tokens['domain'], $tokens['path'], $tokens['title'], $tokens['recipient.username'], $tokens['recipient.email'], $tokens['key_blog'], array() );
 
 	} elseif ( $email_type === 'friends-request' ) {
 		/**
