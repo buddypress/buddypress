@@ -586,7 +586,7 @@ class BP_Signup {
 
 				// Send the validation email.
 				} else {
-					bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key );
+					bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key, $signup->user_login );
 				}
 			}
 

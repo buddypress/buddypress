@@ -1839,7 +1839,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		 *                               signup data, xprofile data, etc).
 		 */
 		if ( apply_filters( 'bp_core_signup_send_activation_key', true, $user_id, $user_email, $activation_key, $usermeta ) ) {
-			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key );
+			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key, $user_login );
 		}
 	}
 
@@ -2199,11 +2199,14 @@ function bp_core_signup_avatar_upload_dir() {
 /**
  * Send activation email to a newly registered user.
  *
- * @param int    $user_id    ID of the new user.
- * @param string $user_email Email address of the new user.
- * @param string $key        Activation key.
+ * @since  2.5.0 Add the $user_login parameter.
+ *
+ * @param int|bool $user_id    ID of the new user, false if BP_SIGNUPS_SKIP_USER_CREATION is true.
+ * @param string   $user_email Email address of the new user.
+ * @param string   $key        Activation key.
+ * @param string   $user_login Optional. The user login name.
  */
-function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
+function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $user_login = '' ) {
 	$args = array(
 		'tokens' => array(
 			'activate.url' => esc_url( trailingslashit( bp_get_activation_page() ) . "{$key}/" ),
@@ -2213,7 +2216,14 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key ) {
 			'user.id'      => $user_id,
 		),
 	);
-	bp_send_email( 'core-user-registration', $user_id, $args );
+
+	if ( $user_id ) {
+		$to = $user_id;
+	} else {
+		$to = array( array( $user_email => $user_login ) );
+	}
+
+	bp_send_email( 'core-user-registration', $to, $args );
 }
 
 /**
