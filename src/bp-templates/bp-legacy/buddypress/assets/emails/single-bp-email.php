@@ -5,6 +5,7 @@
  * Magic numbers:
  *  1.618 = golden mean.
  *  1.35  = default body_text_size multipler. Gives default heading of 20px.
+ *
  * @since 2.5.0
  *
  * @package BuddyPress
@@ -97,7 +98,7 @@ $settings = bp_email_get_appearance_settings();
 		}
 
 		/* What it does: Uses a better rendering method when resizing images in IE. */
-		/* & manages img max widths to ensure content body images  don't exceed template width */
+		/* & manages img max widths to ensure content body images don't exceed template width. */
 		img {
 			-ms-interpolation-mode:bicubic;
 			height: auto;
@@ -138,7 +139,23 @@ $settings = bp_email_get_appearance_settings();
 			<table cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; border-top: 7px solid <?php echo esc_attr( $settings['highlight_color'] ); ?>" class="header_bg">
 				<tr>
 					<td style="text-align: center; padding: 15px 0; font-family: sans-serif; mso-height-rule: exactly; font-weight: bold; color: <?php echo esc_attr( $settings['header_text_color'] ); ?>; font-size: <?php echo esc_attr( $settings['header_text_size'] . 'px' ); ?>" class="header_text_color header_text_size">
-						<?php echo bp_get_option( 'blogname' ); ?>
+						<?php
+						/**
+						 * Fires before the display of the email template header.
+						 *
+						 * @since 2.5.0
+						 */
+						do_action( 'bp_before_email_header' );
+
+						echo bp_get_option( 'blogname' );
+
+						/**
+						 * Fires after the display of the email template header.
+						 *
+						 * @since 2.5.0
+						 */
+						do_action( 'bp_after_email_header' );
+						?>
 					</td>
 				</tr>
 			</table>
@@ -171,9 +188,27 @@ $settings = bp_email_get_appearance_settings();
 			<table cellspacing="0" cellpadding="0" border="0" align="left" width="100%" style="max-width: 600px; border-radius: 5px;" bgcolor="<?php echo esc_attr( $settings['footer_bg'] ); ?>" class="footer_bg">
 				<tr>
 					<td style="padding: 20px; width: 100%; font-size: <?php echo esc_attr( $settings['footer_text_size'] . 'px' ); ?>; font-family: sans-serif; mso-height-rule: exactly; line-height: <?php echo esc_attr( floor( $settings['footer_text_size'] * 1.618 ) . 'px' ) ?>; text-align: left; color: <?php echo esc_attr( $settings['footer_text_color'] ); ?>;" class="footer_text_color footer_text_size">
+						<?php
+						/**
+						 * Fires before the display of the email template footer.
+						 *
+						 * @since 2.5.0
+						 */
+						do_action( 'bp_before_email_footer' );
+						?>
+
 						<span class="footer_text"><?php echo nl2br( stripslashes( $settings['footer_text'] ) ); ?></span>
 						<br><br>
 						<a href="{{{unsubscribe}}}" style="text-decoration: underline;"><?php _ex( 'unsubscribe', 'email', 'buddypress' ); ?></a>
+
+						<?php
+						/**
+						 * Fires after the display of the email template footer.
+						 *
+						 * @since 2.5.0
+						 */
+						do_action( 'bp_after_email_footer' );
+						?>
 					</td>
 				</tr>
 			</table>
