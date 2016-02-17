@@ -3682,3 +3682,37 @@ function bp_nav_menu( $args = array() ) {
 		return $nav_menu;
 	}
 }
+
+/**
+ * Prints the Recipient Salutation.
+ *
+ * @since  2.5.0
+ *
+ * @param  array $settings Email Settings.
+ */
+function bp_email_the_salutation( $settings = array() ) {
+	echo bp_email_get_salutation( $settings );
+}
+
+	/**
+	 * Gets the Recipient Salutation.
+	 *
+	 * @since  2.5.0
+	 *
+	 * @param  array  $settings Email Settings.
+	 * @return string The Recipient Salutation.
+	 */
+	function bp_email_get_salutation( $settings = array() ) {
+		$token = '{{recipient.name}}';
+
+		/**
+		 * Filters The Recipient Salutation inside the Email Template.
+		 *
+		 * @since  2.5.0
+		 *
+		 * @param string $value    The Recipient Salutation.
+		 * @param array  $settings Email Settings.
+		 * @param string $token    The Recipient token.
+		 */
+		return apply_filters( 'bp_email_get_salutation', sprintf( _x( 'Hi %s,', 'recipient salutation', 'buddypress' ), $token ), $settings, $token );
+	}
