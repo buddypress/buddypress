@@ -479,7 +479,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 			 * @param string          $group_link    URL permalink for the group that the invite was related to.
 			 * @param string          $settings_link Removed in 2.5; now an empty string.
 			 */
-			$value = apply_filters_ref_array( 'groups_notification_group_invites_message', array( $value, &$tokens['group'], $tokens['inviter-profile.name'], $tokens['inviter-profile.url'], $tokens['invites.url'], $tokens['group.url'], '' ) );
+			$value = apply_filters_ref_array( 'groups_notification_group_invites_message', array( $value, &$tokens['group'], $tokens['inviter.name'], $tokens['inviter.url'], $tokens['invites.url'], $tokens['group.url'], '' ) );
 		}
 
 	} elseif ( $email_type === 'groups-member-promoted' ) {
@@ -840,7 +840,7 @@ function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 		 * @param string          $email_content    Email notification message text.
 		 * @param BP_Groups_Group $group            Group object.
 		 */
-		do_action( 'bp_groups_sent_invited_email', $tokens['inviter-profile.id'], $email_subject, $email_content, $tokens['group'] );
+		do_action( 'bp_groups_sent_invited_email', $tokens['inviter.id'], $email_subject, $email_content, $tokens['group'] );
 
 	} elseif ( $email_type === 'groups-member-promoted' ) {
 		/**
