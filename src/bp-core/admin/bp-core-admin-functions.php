@@ -899,6 +899,37 @@ function bp_email_tax_type_metabox( $post, $box ) {
 }
 
 /**
+ * Custom metaboxes used by our 'bp-email' post type.
+ *
+ * @since 2.5.0
+ */
+function bp_email_custom_metaboxes() {
+	// Remove default 'Excerpt' metabox and replace with our own.
+	remove_meta_box( 'postexcerpt', null, 'normal' );
+	add_meta_box( 'postexcerpt', __( 'Plain text email content', 'buddypress' ), 'bp_email_plaintext_metabox', null, 'normal', 'high' );
+}
+add_action( 'add_meta_boxes_' . bp_get_email_post_type(), 'bp_email_custom_metaboxes' );
+
+/**
+ * Customized version of the 'Excerpt' metabox for our 'bp-email' post type.
+ *
+ * We are using the 'Excerpt' metabox as our plain-text email content editor.
+ *
+ * @since 2.5.0
+ *
+ * @param WP_Post $post
+ */
+function bp_email_plaintext_metabox( $post ) {
+?>
+
+	<label class="screen-reader-text" for="excerpt"><?php _e( 'Plain text email content', 'buddypress' ); ?></label><textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+
+	<p><?php _e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
+
+<?php
+}
+
+/**
  * Restrict various items from view if editing a BuddyPress menu.
  *
  * If a person is editing a BP menu item, that person should not be able to

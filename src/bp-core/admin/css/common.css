@@ -278,3 +278,8 @@ body.users_page_bp-signups td.count_sent {
 		right: auto;
 	}
 }
+
+/* Emails - Edit page */
+body.post-type-bp-email #excerpt {
+	height: auto;
+}
