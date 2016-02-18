@@ -351,6 +351,16 @@ class BP_Admin {
 				'bp-emails-customizer-redirect',
 				'bp_email_redirect_to_customizer'
 			);
+
+			// Emails > Customize.
+			$hooks[] = add_submenu_page(
+				'edit.php?post_type=' . bp_get_email_post_type(),
+				_x( 'Customize', 'email menu label', 'buddypress' ),
+				_x( 'Customize', 'email menu label', 'buddypress' ),
+				$this->capability,
+				'bp-emails-customizer-redirect',
+				'bp_email_redirect_to_customizer'
+			);
 		}
 
 		foreach( $hooks as $hook ) {
