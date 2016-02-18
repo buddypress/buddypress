@@ -556,7 +556,7 @@ class BP_Members_Admin {
 			return;
 		}
 
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 		$css = $this->css_url . "admin{$min}.css";
 
 		/**

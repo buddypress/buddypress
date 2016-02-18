@@ -214,7 +214,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @uses wp_enqueue_style() To enqueue the styles
 	 */
 	public function enqueue_styles() {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 
 		// Locate the BP stylesheet.
 		$ltr = $this->locate_asset_in_stack( "buddypress{$min}.css",     'css' );
@@ -275,7 +275,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @since 1.7.0
 	 */
 	public function enqueue_scripts() {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 
 		// Locate the BP JS file.
 		$asset = $this->locate_asset_in_stack( "buddypress{$min}.js", 'js' );

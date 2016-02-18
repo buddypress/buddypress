@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.1.0
  */
 function bp_core_register_common_scripts() {
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	$min = bp_core_get_minified_asset_suffix();
 	$url = buddypress()->plugin_url . 'bp-core/js/';
 
 	/**
@@ -63,7 +63,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
  * @since 2.1.0
  */
 function bp_core_register_common_styles() {
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	$min = bp_core_get_minified_asset_suffix();
 	$url = buddypress()->plugin_url . 'bp-core/css/';
 
 	/**

@@ -962,7 +962,7 @@ class BP_Admin {
 	 * @since 2.5.0
 	 */
 	public function admin_register_styles() {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 		$url = $this->css_url;
 
 		/**
@@ -1014,7 +1014,7 @@ class BP_Admin {
 	 * @since 2.5.0
 	 */
 	public function admin_register_scripts() {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 		$url = $this->js_url;
 
 		/**

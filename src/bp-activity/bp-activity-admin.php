@@ -201,12 +201,9 @@ add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxe
 function bp_activity_admin_load() {
 	global $bp_activity_list_table;
 
-	$bp = buddypress();
-
-	// Decide whether to load the dev version of the CSS and JavaScript.
-	$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : 'min.';
-
+	$bp       = buddypress();
 	$doaction = bp_admin_list_table_current_bulk_action();
+	$min      = bp_core_get_minified_asset_suffix();
 
 	/**
 	 * Fires at top of Activity admin page.
@@ -308,11 +305,11 @@ function bp_activity_admin_load() {
 	}
 
 	// Enqueue CSS and JavaScript.
-	wp_enqueue_script( 'bp_activity_admin_js', $bp->plugin_url . "bp-activity/admin/js/admin.{$min}js",   array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
+	wp_enqueue_script( 'bp_activity_admin_js', $bp->plugin_url . "bp-activity/admin/js/admin{$min}.js",   array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
 	wp_localize_script( 'bp_activity_admin_js', 'bp_activity_admin_vars', array(
 		'page' => get_current_screen()->id
 	) );
-	wp_enqueue_style( 'bp_activity_admin_css', $bp->plugin_url . "bp-activity/admin/css/admin.{$min}css", array(),                               bp_get_version()       );
+	wp_enqueue_style( 'bp_activity_admin_css', $bp->plugin_url . "bp-activity/admin/css/admin{$min}.css", array(),                               bp_get_version()       );
 
 	wp_style_add_data( 'bp_activity_admin_css', 'rtl', true );
 	if ( $min ) {

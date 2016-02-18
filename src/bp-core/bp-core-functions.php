@@ -2313,6 +2313,24 @@ function _bp_strip_spans_from_title( $title_part = '' ) {
 	return trim( $title );
 }
 
+/**
+ * Get the correct filename suffix for minified assets.
+ *
+ * @since 2.5.0
+ *
+ * @return string
+ */
+function bp_core_get_minified_asset_suffix() {
+	$ext = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+	// Ensure the assets can be located when running from /src/.
+	if ( defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src' ) {
+		$ext = str_replace( '.min', '', $ext );
+	}
+
+	return $ext;
+}
+
 /** Nav Menu ******************************************************************/
 
 /**

@@ -19,7 +19,7 @@ function messages_add_autocomplete_js() {
 	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
 		add_action( 'wp_head', 'messages_autocomplete_init_jsblock' );
 
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 		$url = buddypress()->plugin_url . 'bp-messages/js/';
 
 		wp_enqueue_script( 'bp-jquery-autocomplete', "{$url}autocomplete/jquery.autocomplete{$min}.js", array( 'jquery' ), bp_get_version() );
@@ -37,7 +37,7 @@ add_action( 'bp_enqueue_scripts', 'messages_add_autocomplete_js' );
  */
 function messages_add_autocomplete_css() {
 	if ( bp_is_messages_component() && bp_is_current_action( 'compose' ) ) {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 		$url = buddypress()->plugin_url . 'bp-messages/css/';
 
 		wp_register_style( 'bp-messages-autocomplete', "{$url}autocomplete/jquery.autocompletfb{$min}.css", array(), bp_get_version() );
