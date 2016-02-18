@@ -2950,7 +2950,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	 *
 	 * @param bool $use_wp_mail Whether to fallback to the regular wp_mail() function or not.
 	 */
-	$must_use_wpmail = apply_filters( 'bp_mail_use_wp_mail', $wp_html_emails || ! $is_default_wpmail );
+	$must_use_wpmail = apply_filters( 'bp_email_use_wp_mail', $wp_html_emails || ! $is_default_wpmail );
 
 	if ( $must_use_wpmail ) {
 		$to = $email->get( 'to' );
