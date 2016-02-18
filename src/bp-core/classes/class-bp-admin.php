@@ -313,7 +313,7 @@ class BP_Admin {
 
 			$hooks[] = add_menu_page(
 				$email_labels['name'],
-				$email_labels['name'],
+				$email_labels['menu_name'],
 				$this->capability,
 				'',
 				'',
