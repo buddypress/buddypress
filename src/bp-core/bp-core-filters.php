@@ -1024,7 +1024,7 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 	$tokens['recipient.email']     = '';
 	$tokens['recipient.name']      = '';
 	$tokens['recipient.username']  = '';
-	$tokens['unsubscribe']         = '';
+	$tokens['unsubscribe']         = site_url( 'wp-login.php' );
 
 
 	// Who is the email going to?
