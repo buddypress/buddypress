@@ -1101,6 +1101,8 @@ function bp_core_render_email_template( $template ) {
 	$template = ob_get_contents();
 	ob_end_clean();
 
+	// Make sure we add a <title> tag so WP Customizer picks it up.
+	$template = str_replace( '<head>', '<head><title>' . esc_html_x( 'BuddyPress Emails', 'screen heading', 'buddypress' ) . '</title>', $template );
 	echo str_replace( '{{{content}}}', nl2br( get_post()->post_content ), $template );
 
 	/*
