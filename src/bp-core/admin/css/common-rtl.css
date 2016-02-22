@@ -1,138 +1,208 @@
-/**
- * CSS that is always loaded when in wp-admin
- *
- * @since 1.6.0
- */
+/*------------------------------------------------------------------------------
 
-/* Welcome Screen
+This stylesheet is always loaded in wp-admin.
+
+@since 1.6.0
+@since 2.5.0
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS:
+--------------------------------------------------------------------------------
+1.0 Welcome Screen
+	1.1 Version Badge
+	1.2 About Panel
+		1.2.1 Headline Feature
+		1.2.2 Columns
+		1.2.3 Features Section
+		1.2.4 Changelog Section
+2.0 Dashicons
+	2.1 Top level menus
+	2.2 Settings - Components
+	2.3 Tools
+3.0 User's Lists
+4.0 Emails - Edit page
 ------------------------------------------------------------------------------*/
 
-body.dashboard_page_bp-about span.dashicons,
-body.index_page_bp-about span.dashicons {
-	float: right;
-	clear: right;
-	margin: 15px 0 0 15px ;
-	height: 90px;
-	width: 90px;
-	background-color: #cccccc;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	border: 1px solid #c1c1c1;
-	font-size: 65px;
-	line-height: 90px;
-	color: #999;
+/*------------------------------------------------------------------------------
+ * 1.0 Welcome Screen
+ *----------------------------------------------------------------------------*/
+
+/*
+ * 1.1 Version Badge
+ */
+.bp-badge {
+	color: #d84800;
+	display: inline-block;
+	font: normal 150px/1 'dashicons' !important;
+}
+
+.bp-badge:before {
+	content: "\f448";
+}
+
+.about-wrap .bp-badge {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+@media only screen and (max-width: 500px) {
+	.about-wrap .bp-badge {
+		position: relative;
+		margin: 10px auto;
+		top: auto;
+		left: auto;
+	}
+}
+
+/*
+ * 1.2 About Panel
+ */
+
+/*
+ * 1.2.1 Headline Feature
+ */
+.index_page_bp-about .about-wrap .headline-feature,
+.dashboard_page_bp-about .about-wrap .headline-feature {
+	margin-bottom: 2em;
 	text-align: center;
 }
 
-/* About Page - since 2.3.3 (WP 4.3) */
-
-.about-wrap .two-col > div {
-	position: relative;
-	width: 47.6%;
-	margin-left: 4.799999999%;
-	float: right;
-}
-
-.about-wrap [class$=col] .last-feature {
-	margin-left: 0;
-}
-
-.about-wrap .feature-list.finer-points h4,
-.about-wrap .feature-list.finer-points p {
-	margin-right: 115px;
-}
-
-@media screen and ( max-width: 782px ) {
-	.about-wrap .two-col > div {
-		width: 100%;
-		margin: 30px 0 0;
-		padding: 0 0 30px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	}
-	body.dashboard_page_bp-about span.dashicons,
-	body.index_page_bp-about span.dashicons {
-		font-size: 55px;
-		line-height: 70px;
-		height: 70px;
-		width: 70px;
-	}
-	.about-wrap .feature-list h2 {
-	  margin: 30px 0 0;
-	  text-align: center;
-	}
-	.about-wrap .feature-list.finer-points h4,
-	.about-wrap .feature-list.finer-points p {
-		margin-right: 90px;
-	}
-}
-
-/* About Page - since 2.4.0 (WP 4.4-trunk) */
-
-.about-wrap .headline-feature {
-	margin-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.about-wrap .headline-feature p {
-	font-size: 1.15em;
-	margin: 1.25em;
-	text-align: center;
-}
-
-.about-wrap .headline-feature h3 {
-	font-size: 1.75em;
+.index_page_bp-about .about-wrap .headline-feature h3,
+.index_page_bp-about .headline-feature .headline-title,
+.dashboard_page_bp-about .about-wrap .headline-feature h3,
+.dashboard_page_bp-about .headline-feature .headline-title {
+	font-size: 2.2em;
 	font-weight: normal;
+	line-height: 1.3;
 	margin: 1.25em 0 0.6em;
 	text-align: center;
 }
 
-.about-wrap .feature-section {
-	margin-top: 40px;
+.index_page_bp-about .about-wrap .headline-feature p,
+.dashboard_page_bp-about .about-wrap .headline-feature p {
+	font-size: 1.15em;
+	margin: 1.15em auto 0.6em;
 }
 
-.about-wrap  .changelog .feature-section {
+.index_page_bp-about .about-wrap .headline-feature .introduction,
+.dashboard_page_bp-about .about-wrap .headline-feature .introduction {
+	font-weight: 600;
+}
+
+/*
+ * 1.2.2 Columns
+ */
+.index_page_bp-about .about-wrap .two-col > div,
+.dashboard_page_bp-about .about-wrap .two-col > div {
+	float: right;
+	margin-left: 4.799999999%;
+	position: relative;
+	width: 47.6%;
+}
+
+.index_page_bp-about .about-wrap .two-col .last-feature,
+.dashboard_page_bp-about .about-wrap .two-col .last-feature {
+	margin-left: 0;
+}
+
+/*
+ * 1.2.3 Features Section
+ */
+.index_page_bp-about .bp-features-section,
+.dashboard_page_bp-about .bp-features-section {
+	margin-bottom: 2em;
+}
+
+.index_page_bp-about .about-wrap .feature-section,
+.dashboard_page_bp-about .about-wrap .feature-section {
+	clear: both;
+	margin-top: 2em;
+	overflow: hidden;
+	padding-bottom: 0;
+}
+
+.index_page_bp-about .about-wrap .changelog .feature-section,
+.dashboard_page_bp-about .about-wrap .changelog .feature-section {
 	margin-top: 0;
 }
 
-/* User's Lists
-------------------------------------------------------------------------------*/
-
-body.site-users-php th#role,
-body.users-php th#role,
-body.users_page_bp-signups th#count_sent {
-	width: 10%;
+.index_page_bp-about .about-wrap .feature-section h3,
+.dashboard_page_bp-about .about-wrap .feature-section h3 {
+	font-size: 1.25em;
+	line-height: 1.5em;
+	margin: 0 0 0.6em;
 }
 
-body.site-users-php th#name,
-body.site-users-php th#email,
-body.users-php th#name,
-body.users-php th#registered,
-body.users-php th#email,
-body.users_page_bp-signups th#name,
-body.users_page_bp-signups th#registered,
-body.users_page_bp-signups th#email,
-body.users_page_bp-signups th#date_sent {
-	width: 15%;
+.index_page_bp-about .about-wrap .changelog h4,
+.dashboard_page_bp-about .about-wrap .changelog h4 {
+	color: #23282d;
+	font-size: 1em;
+	margin: 1.4em 0 0.6em;
 }
 
-body.users-php th#blogs,
-body.users_page_bp-signups th#blogs {
-	width: 20%;
+/*
+ * 1.2.4 Changelog Section
+ */
+.index_page_bp-about .about-wrap .changelog,
+.dashboard_page_bp-about .about-wrap .changelog {
+	border-top: 1px solid #eee;
+	margin-bottom: 3em;
 }
 
-body.users_page_bp-signups th.column-count_sent,
-body.users_page_bp-signups td.count_sent {
+.index_page_bp-about .about-wrap .changelog .changelog-title,
+.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
+	font-size: 1.25em;
+	line-height: 1.5em;
+	margin: 1.25em 0 .6em;
 	text-align: center;
 }
 
-/* Tools */
-#adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
-	content: "";
+@media screen and ( max-width: 782px ) {
+	.index_page_bp-about .about-wrap .headline-feature,
+	.dashboard_page_bp-about .about-wrap .headline-feature {
+		max-width: 100%;
+	}
+	.index_page_bp-about .about-wrap .headline-feature h3,
+	.dahsboard_page_bp-about .about-wrap .headline-feature h3,
+	.index_page_bp-about .about-wrap .headline-feature .headline-title,
+	.dashboard_page_bp-about .about-wrap .headline-feature .headline-title {
+		font-size: 2em;
+	}
+	.index_page_bp-about .bp-features-section,
+	.dashboard_page_bp-about .bp-features-section {
+		margin-bottom: 0;
+	}
+	.index_page_bp-about .about-wrap .feature-section,
+	.dashboard_page_bp-about .about-wrap .feature-section {
+		margin-top: 0;
+	}
+	.index_page_bp-about .about-wrap .two-col > div,
+	.dashboard_page_bp-about .about-wrap .two-col > div {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		margin-top: 1.25em;
+		padding-bottom: 1em;
+		width: 100%;
+	}
+	.index_page_bp-about .changelog .two-col > div,
+	.dashboard_page_bp-about .changelog .two-col > div {
+		margin-top: 0;
+		padding-bottom: 0;
+	}
+	.index_page_bp-about .about-wrap .changelog .changelog-title,
+	.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
+		text-align: right;
+	}
 }
 
-/* Components
-------------------------------------------------------------------------------*/
 
-/* Dashicons */
+/*------------------------------------------------------------------------------
+ * 2.0 Dashicons
+ *----------------------------------------------------------------------------*/
+
+/*
+ * 2.1 Top level menus
+ */
 #adminmenu #toplevel_page_bp-activity .wp-menu-image:before,
 #adminmenu #toplevel_page_bp-activity_user .wp-menu-image:before,
 #adminmenu #toplevel_page_bp-activity_network .wp-menu-image:before {
@@ -174,7 +244,9 @@ body.users_page_bp-signups td.count_sent {
 	content: "\f448";
 }
 
-/* Settings - Dashicons (WP 3.8+) */
+/*
+ * 2.2 Settings - Components
+ */
 .settings_page_bp-components td.plugin-title span {
 	float: right;
 	width: 18px;
@@ -249,37 +321,49 @@ body.users_page_bp-signups td.count_sent {
 	}
 }
 
-
-/* Version Badge */
-
-.bp-badge {
-	font: normal 150px/1 'dashicons' !important;
-	color: #D84800;
-	display: inline-block;
+/*
+ * 2.3 Tools
+ */
+#adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
+	content: "";
 }
 
-.bp-badge:before {
-	content: "\f448";
+
+/*------------------------------------------------------------------------------
+ * 3.0 User's Lists
+ *----------------------------------------------------------------------------*/
+body.site-users-php th#role,
+body.users-php th#role,
+body.users_page_bp-signups th#count_sent {
+	width: 10%;
 }
 
-.about-wrap .bp-badge {
-	position: absolute;
-	top: 0;
-	left: 0;
+body.site-users-php th#name,
+body.site-users-php th#email,
+body.users-php th#name,
+body.users-php th#registered,
+body.users-php th#email,
+body.users_page_bp-signups th#name,
+body.users_page_bp-signups th#registered,
+body.users_page_bp-signups th#email,
+body.users_page_bp-signups th#date_sent {
+	width: 15%;
 }
 
-/* About Page - since 2.3.3 (WP 4.3) */
-
-@media only screen and (max-width: 500px) {
-	.about-wrap .bp-badge {
-		position: relative;
-		margin: 10px auto;
-		top: auto;
-		left: auto;
-	}
+body.users-php th#blogs,
+body.users_page_bp-signups th#blogs {
+	width: 20%;
 }
 
-/* Emails - Edit page */
+body.users_page_bp-signups th.column-count_sent,
+body.users_page_bp-signups td.count_sent {
+	text-align: center;
+}
+
+
+/*------------------------------------------------------------------------------
+ * 4.0 Emails - Edit Page
+ *----------------------------------------------------------------------------*/
 body.post-type-bp-email #excerpt {
 	height: auto;
 }
