@@ -612,69 +612,74 @@ class BP_Admin {
 			<?php endif; ?>
 
 			<div class="headline-feature">
-				<h3><?php esc_html_e( 'Cover Images For Members And Groups', 'buddypress' ); ?></h3>
+				<h3 class="headline-title"><?php esc_html_e( 'Customizable BuddyPress Emails', 'buddypress' ); ?></h3>
 
 				<div class="featured-image">
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/group-cover-image.png' ); ?>" alt="<?php esc_attr_e( 'Cover Images for Members and Groups', 'buddypress' ); ?>" width="843" height="377">
+					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/bp-emails-feature.png' ); ?>" alt="<?php esc_html_e( 'Change colors of the email template using the Customizer.', 'buddypress' ); ?>">
 				</div>
-				<div>
-					 <p><?php printf( __( 'Your community can now upload cover photos for their user profiles and groups. <a href="%s">Learn more &rarr;</a>', 'buddypress' ), esc_url( 'https://codex.buddypress.org/themes/buddypress-cover-images/' ) ); ?></p>
-				</div>
+
+				<p class="introduction"><?php _e( 'Keep your users coming back with beautiful and flexible email notifications.', 'buddypress' ); ?>  </p>
+				<p><?php _e( 'Edit the content of your emails, create new email templates, or change the design of the template in the Customizer. These are just a few of the customizations you can make to engage your users and increase their participation in your community with the new email features.', 'buddypress' ); ?> <a href="https://codex.buddypress.org/emails/"><?php esc_html_e( 'Learn more &rarr;', 'buddypress' ); ?></a></p>
+
 				<div class="clear"></div>
-
 			</div>
 
-			<hr>
+			<hr />
 
-			<div class="feature-section two-col">
-				<div>
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/member-type-field.png' ); ?>" alt="<?php esc_attr_e( 'Profile Field for Member Type', 'buddypress' ); ?>">
-					<h3><?php esc_html_e( 'Profile Fields For Specific Member Types', 'buddypress' ); ?></h3>
-					<p><?php printf( __( 'You can create profile fields which are available to one or more <a href="%s">custom member types</a>.', 'buddypress' ), esc_url( 'https://codex.buddypress.org/developer/member-types/' ) ); ?></p>
-				</div>
-				<div class="last-feature">
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/theme-stylesheets.png' ); ?>" alt="<?php esc_attr_e( 'BuddyPress Companion Stylesheets', 'buddypress' ); ?>">
-					<h3><?php esc_html_e( 'More Companion Stylesheets For Themes', 'buddypress' ); ?></h3>
-					<p><?php esc_html_e( 'BuddyPress looks and works better than ever with WordPress theme Twenty Thirteen, and the upcoming Twenty Sixteen.', 'buddypress' ); ?></p>
-				</div>
-			</div>
+			<div class="bp-features-section">
 
-			<div class="feature-section two-col">
-				<div>
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/group-home-page.png' ); ?>" alt="<?php esc_attr_e( 'Customize your group home page', 'buddypress' ); ?>">
-					<h3><?php esc_html_e( 'Customizable Group Home Page', 'buddypress' ); ?></h3>
-					<p><?php esc_html_e( 'You can customize each and every Group\'s home page by using the new front page template hierarchy.', 'buddypress' ); ?> <a href="https://bpdevel.wordpress.com/2015/10/03/get-ready-2-4-0-will-introduce-important-changes-in-groups-homes/"><?php esc_html_e( 'Learn how &rarr;', 'buddypress' ); ?></a></p>
+				<div class="feature-section two-col">
+					<div>
+						<h3 class="feature-title"><?php esc_html_e( 'Post Type Comments Tracking', 'buddypress' ); ?></h3>
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/post-type.png' ); ?>" alt="<?php esc_attr_e( 'Registered post types', 'buddypress' ); ?>">
+						<p><?php esc_html_e( 'New Activity functions help you track post type comments in sync with the Blogs component when activated.', 'buddypress' ); ?></p>
+					</div>
+					<div class="last-feature">
+						<h3 class="feature-title"><?php esc_html_e( 'Twenty Twelve Companion Stylesheet', 'buddypress' ); ?></h3>
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/twentytwelve.png' ); ?>" alt="<?php esc_attr_e( 'BuddyPress styles Twenty Twelve', 'buddypress' ); ?>">
+						<p><?php esc_html_e( 'BuddyPress components never looked so fine as they do now in the Twenty Twelve theme.', 'buddypress' ); ?></p>
+					</div>
 				</div>
-				<div class="last-feature">
-					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/accessibility.gif' ); ?>" alt="<?php esc_attr_e( 'Accessibility Upgrades', 'buddypress' ); ?>">
-					<h3><?php esc_html_e( 'Accessibility Upgrades', 'buddypress' ); ?></h3>
-					<p><?php _e( 'We\'re making BuddyPress more usable and accessible for everyone, from the frontend templates to the backend admin screens.', 'buddypress' ); ?></p>
+
+				<div class="feature-section two-col">
+					<div>
+						<h3 class="feature-title"><?php esc_html_e( 'Support for Emojis', 'buddypress' ); ?></h3>
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/emoji-feature.png' ); ?>" alt="<?php esc_attr_e( 'Fun with Emojies', 'buddypress' ); ?>">
+						<p><?php esc_html_e( 'Have fun and be merry! You can now use Emojis in activity updates, messages, and group descriptions.', 'buddypress' ); ?></p>
+
+					</div>
+					<div class="last-feature">
+						<h3 class="feature-title"><?php esc_html_e( 'Autolink Settings for Profile Fields', 'buddypress' ); ?></h3>
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/autolink-feature.png' ); ?>" alt="<?php esc_attr_e( 'Autolink settings in the profile fields panel', 'buddypress' ); ?>">
+						<p><?php _e( 'Administrators can enable or disable autolink settings for each new profile field type.', 'buddypress' ); ?></p>
+					</div>
 				</div>
 
 			</div>
 
 			<div class="changelog">
-				<h3><?php esc_html_e( 'Under The Hood', 'buddypress' ); ?></h3>
+				<h3 class="changelog-title"><?php esc_html_e( 'Under The Hood', 'buddypress' ); ?></h3>
 
 				<div class="feature-section col two-col">
 					<div>
-						<h4><?php esc_html_e( 'User Experience', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( "Enhancements to the What's New form bring better user experience for your community, and make it easier for developers to add new features.", 'buddypress' ); ?></p>
-
-						<h4><?php esc_html_e( 'Cache Improvements', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Continued object and query cache enhancements have been implemented across different components to improve performance.', 'buddypress' ); ?></p>
+						<h4 class="title"><?php esc_html_e( 'Localization Improvements', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'We continue to improve on localization for translation editors so that BuddyPress will be available for everyone in their own language.', 'buddypress' ); ?></p>
+						<h4 class="title"><?php esc_html_e( 'Accessibility Upgrades', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Continued improvements in the frontend and backend to make BuddyPress usable for everyone.', 'buddypress' ); ?></p>
 					</div>
-					<div class="last-feature">
-						<h4><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Regular updates to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
 
-						<h4><?php esc_html_e( 'Constant Refinements', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'The BuddyPress codebase is continuously tested and updated with the latest WordPress enhancements and features.', 'buddypress' ); ?></p>
+					<div class="last-feature">
+						<h4 class="title"><?php esc_html_e( 'Enhanced Multisite Support', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'BuddyPress is already primed for all multisite configurations available. We just made it better.', 'buddypress' ); ?></p>
+						<h4 class="title"><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Regular updates to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
 					</div>
 				</div>
+
 			</div>
 
 			<p><?php _ex( 'Learn more:', 'About screen, website links', 'buddypress' ); ?> <a href="https://buddypress.org/blog/"><?php _ex( 'News', 'About screen, link to project blog', 'buddypress' ); ?></a> &bullet; <a href="https://buddypress.org/support/"><?php _ex( 'Support', 'About screen, link to support site', 'buddypress' ); ?></a> &bullet; <a href="https://codex.buddypress.org/"><?php _ex( 'Documentation', 'About screen, link to documentation', 'buddypress' ); ?></a> &bullet; <a href="https://bpdevel.wordpress.com/"><?php _ex( 'Development Blog', 'About screen, link to development blog', 'buddypress' ); ?></a></p>
+
 			<p><?php _ex( 'Twitter:', 'official Twitter accounts:', 'buddypress' ); ?> <a href="https://twitter.com/buddypress/"><?php _ex( 'BuddyPress', '@buddypress twitter account name', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/bptrac/"><?php _ex( 'Trac', '@bptrac twitter account name', 'buddypress' ); ?></a> &bullet; <a href="https://twitter.com/buddypressdev/"><?php _ex( 'Development', '@buddypressdev twitter account name', 'buddypress' ); ?></a></p>
 
 		</div>
@@ -843,7 +848,7 @@ class BP_Admin {
 		// Switch welcome text based on whether this is a new installation or not.
 		$welcome_text = ( self::is_new_install() )
 			? __( 'Thank you for installing BuddyPress! BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.', 'buddypress' )
-			: __( 'BuddyPress %s comes with a bunch of great improvements we think you&#8217;re really going to like.', 'buddypress' );
+			: __( 'Thank you for updating! BuddyPress %s has many new features that you will enjoy.', 'buddypress' );
 
 		?>
 
