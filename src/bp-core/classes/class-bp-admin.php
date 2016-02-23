@@ -342,7 +342,8 @@ class BP_Admin {
 
 		$hooks = array();
 
-		if ( bp_is_root_blog() ) {
+		// Require WP 4.0+.
+		if ( bp_is_root_blog() && version_compare( $GLOBALS['wp_version'], '4.0', '>=' ) ) {
 			// Appearance > Emails.
 			$hooks[] = add_theme_page(
 				_x( 'Emails', 'screen heading', 'buddypress' ),
