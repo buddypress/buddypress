@@ -828,10 +828,16 @@ function bp_admin_email_maybe_add_translation_notice() {
 		return;
 	}
 
+	if ( bp_core_do_network_admin() ) {
+		$admin_page = 'admin.php';
+	} else {
+		$admin_page = 'tools.php';
+	}
+
 	bp_core_add_admin_notice(
 		sprintf(
 			__( 'Are your emails in the wrong language? Go to <a href="%s">BuddyPress Tools and run the "reinstall emails"</a> tool.', 'buddypress' ),
-			bp_get_admin_url( 'tools.php?page=bp-tools' )
+			esc_url( add_query_arg( 'page', 'bp-tools', bp_get_admin_url( $admin_page ) ) )
 		),
 		'updated'
 	);
