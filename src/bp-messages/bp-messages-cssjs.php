@@ -40,7 +40,7 @@ function messages_add_autocomplete_css() {
 		$min = bp_core_get_minified_asset_suffix();
 		$url = buddypress()->plugin_url . 'bp-messages/css/';
 
-		wp_register_style( 'bp-messages-autocomplete', "{$url}autocomplete/jquery.autocompletfb{$min}.css", array(), bp_get_version() );
+		wp_enqueue_style( 'bp-messages-autocomplete', "{$url}autocomplete/jquery.autocompletefb{$min}.css", array(), bp_get_version() );
 
 		wp_style_add_data( 'bp-messages-autocomplete', 'rtl', true );
 		if ( $min ) {
