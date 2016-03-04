@@ -279,8 +279,8 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$is_private = !empty( $_POST['blog_public'] ) && (int) $_POST['blog_public'] ? false : true;
 	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private );
 
-	// Only record this activity if the blog is public.
-	if ( !$is_private && !$no_activity && bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
+	// Only record this activity if the activity component is active and the blog is public.
+	if ( bp_is_active( 'activity' ) && !$is_private && !$no_activity && bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
 
 		// Record this in activity streams.
 		bp_blogs_record_activity( array(
@@ -815,12 +815,18 @@ function bp_blogs_remove_blog( $blog_id ) {
 
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
-	// Delete activity stream item.
-	bp_blogs_delete_activity( array(
-		'item_id'   => $blog_id,
-		'component' => buddypress()->blogs->id,
-		'type'      => 'new_blog'
-	) );
+	/**
+	 * Delete activity stream item only if the Activity component is active
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/6937
+	 */
+	if ( bp_is_active( 'activity' ) ) {
+		bp_blogs_delete_activity( array(
+			'item_id'   => $blog_id,
+			'component' => buddypress()->blogs->id,
+			'type'      => 'new_blog'
+		) );
+	}
 
 	/**
 	 * Fires after a "blog created" item has been removed from blogs
@@ -857,12 +863,18 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 
-	// Delete activity stream item.
-	bp_blogs_delete_activity( array(
-		'item_id'   => $blog_id,
-		'component' => buddypress()->blogs->id,
-		'type'      => 'new_blog'
-	) );
+	/**
+	 * Delete activity stream item only if the Activity component is active
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/6937
+	 */
+	if ( bp_is_active( 'activity' ) ) {
+		bp_blogs_delete_activity( array(
+			'item_id'   => $blog_id,
+			'component' => buddypress()->blogs->id,
+			'type'      => 'new_blog'
+		) );
+	}
 
 	/**
 	 * Fires after a blog has been removed from the tracker for a specific user.
@@ -910,13 +922,19 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	 */
 	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
 
-	// Delete activity stream item.
-	bp_blogs_delete_activity( array(
-		'item_id'           => $blog_id,
-		'secondary_item_id' => $post_id,
-		'component'         => buddypress()->blogs->id,
-		'type'              => 'new_blog_post'
-	) );
+	/**
+	 * Delete activity stream item only if the Activity component is active
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/6937
+	 */
+	if ( bp_is_active( 'activity' ) ) {
+		bp_blogs_delete_activity( array(
+			'item_id'           => $blog_id,
+			'secondary_item_id' => $post_id,
+			'component'         => buddypress()->blogs->id,
+			'type'              => 'new_blog_post'
+		) );
+	}
 
 	/**
 	 * Fires after removal of a blog post activity item from the activity stream.
@@ -1108,12 +1126,18 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 	// If this is regular blog, delete all data for that blog.
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
-	// Delete activity stream item.
-	bp_blogs_delete_activity( array(
-		'item_id'   => $blog_id,
-		'component' => buddypress()->blogs->id,
-		'type'      => false
-	) );
+	/**
+	 * Delete activity stream item only if the Activity component is active
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/6937
+	 */
+	if ( bp_is_active( 'activity' ) ) {
+		bp_blogs_delete_activity( array(
+			'item_id'   => $blog_id,
+			'component' => buddypress()->blogs->id,
+			'type'      => false
+		) );
+	}
 
 	/**
 	 * Fires after all data related to a given blog has been removed from blogs tracker
