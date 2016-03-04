@@ -58,7 +58,7 @@ jQuery.fn.autoCompletefb = function(options)
 			var l = jQuery(ln).attr('href');
 			var v = '<li class="'+f+'" id="un-'+un+'"><span><a href="'+l+'">'+d[0]+'</a></span> <span class="p">X</span></li>';
 
-			var x = jQuery(settings.inputClass,tmp).closest('li').before(v);
+			var x = jQuery(settings.inputClass,tmp).before(v);
 			jQuery('#send-to-usernames').addClass(un);
 
 			jQuery('.p',x[0].previousSibling).click(function(){
