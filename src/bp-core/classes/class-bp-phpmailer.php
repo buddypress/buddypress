@@ -75,7 +75,7 @@ class BP_PHPMailer implements BP_Email_Delivery {
 
 		$recipient = $email->get_from();
 		try {
-			$phpmailer->SetFrom( $recipient->get_address(), $recipient->get_name() );
+			$phpmailer->SetFrom( $recipient->get_address(), $recipient->get_name(), false );
 		} catch ( phpmailerException $e ) {
 		}
 
