@@ -437,7 +437,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 		}
 
 		$inline_css = call_user_func_array( $params['callback'], array( array(
-			'cover_image' => esc_url( $cover_image ),
+			'cover_image' => esc_url_raw( $cover_image ),
 			'component'   => sanitize_key( $cover_image_object['component'] ),
 			'object_id'   => (int) $cover_image_object['object']->id,
 			'width'       => (int) $params['width'],
