@@ -538,155 +538,8 @@ function bp_core_install_emails() {
 		'post_type'   => bp_get_email_post_type(),
 	);
 
-	$emails = array(
-		'activity-comment' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] {{poster.name}} replied to one of your updates', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "{{poster.name}} replied to one of your updates:\n\n<blockquote>&quot;{{usermessage}}&quot;</blockquote>\n\n<a href=\"{{{thread.url}}}\">Go to the discussion</a> to reply or catch up on the conversation.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{poster.name}} replied to one of your updates:\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{thread.url}}}", 'buddypress' ),
-		),
-		'activity-comment-author' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] {{poster.name}} replied to one of your comments', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "{{poster.name}} replied to one of your comments:\n\n<blockquote>&quot;{{usermessage}}&quot;</blockquote>\n\n<a href=\"{{{thread.url}}}\">Go to the discussion</a> to reply or catch up on the conversation.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{poster.name}} replied to one of your comments:\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{thread.url}}}", 'buddypress' ),
-		),
-		'activity-at-message' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] {{poster.name}} mentioned you in a status update', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "{{poster.name}} mentioned you in a status update:\n\n<blockquote>&quot;{{usermessage}}&quot;</blockquote>\n\n<a href=\"{{{mentioned.url}}}\">Go to the discussion</a> to reply or catch up on the conversation.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{poster.name}} mentioned you in a status update:\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{mentioned.url}}}", 'buddypress' ),
-		),
-		'groups-at-message' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] {{poster.name}} mentioned you in an update', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "{{poster.name}} mentioned you in the group \"{{group.name}}\":\n\n<blockquote>&quot;{{usermessage}}&quot;</blockquote>\n\n<a href=\"{{{mentioned.url}}}\">Go to the discussion</a> to reply or catch up on the conversation.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{poster.name}} mentioned you in the group \"{{group.name}}\":\n\n\"{{usermessage}}\"\n\nGo to the discussion to reply or catch up on the conversation: {{{mentioned.url}}}", 'buddypress' ),
-		),
-		'core-user-registration' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] Activate your account', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Thanks for registering!\n\nTo complete the activation of your account, go to the following link: <a href=\"{{{activate.url}}}\">{{{activate.url}}}</a>", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "Thanks for registering!\n\nTo complete the activation of your account, go to the following link: {{{activate.url}}}", 'buddypress' ),
-		),
-		'core-user-registration-with-blog' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] Activate {{{user-site.url}}}', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Thanks for registering!\n\nTo complete the activation of your account and site, go to the following link: <a href=\"{{{activate-site.url}}}\">{{{activate-site.url}}}</a>.\n\nAfter you activate, you can visit your site at <a href=\"{{{user-site.url}}}\">{{{user-site.url}}}</a>.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "Thanks for registering!\n\nTo complete the activation of your account and site, go to the following link: {{{activate-site.url}}}\n\nAfter you activate, you can visit your site at {{{user-site.url}}}.", 'buddypress' ),
-		),
-		'friends-request' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] New friendship request from {{initiator.name}}', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "<a href=\"{{{initiator.url}}}\">{{initiator.name}}</a> wants to add you as a friend.\n\nTo accept this request and manage all of your pending requests, visit: <a href=\"{{{friend-requests.url}}}\">{{{friend-requests.url}}}</a>", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{initiator.name}} wants to add you as a friend.\n\nTo accept this request and manage all of your pending requests, visit: {{{friend-requests.url}}}\n\nTo view {{initiator.name}}'s profile, visit: {{{initiator.url}}}", 'buddypress' ),
-		),
-		'friends-request-accepted' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] {{friend.name}} accepted your friendship request', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "<a href=\"{{{friendship.url}}}\">{{friend.name}}</a> accepted your friend request.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{friend.name}} accepted your friend request.\n\nTo learn more about them, visit their profile: {{{friendship.url}}}", 'buddypress' ),
-		),
-		'groups-details-updated' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] Group details updated', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Group details for the group &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; were updated:\n<blockquote>{{changed_text}}</blockquote>", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "Group details for the group &quot;{{group.name}}&quot; were updated:\n\n{{changed_text}}\n\nTo view the group, visit: {{{group.url}}}", 'buddypress' ),
-		),
-		'groups-invitation' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] You have an invitation to the group: "{{group.name}}"', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "<a href=\"{{{inviter.url}}}\">{{inviter.name}}</a> has invited you to join the group: &quot;{{group.name}}&quot;.\n<a href=\"{{{invites.url}}}\">Go here to accept your invitation</a> or <a href=\"{{{group.url}}}\">visit the group</a> to learn more.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{inviter.name}} has invited you to join the group: &quot;{{group.name}}&quot;.\n\nTo accept your invitation, visit: {{{invites.url}}}\n\nTo learn more about the group, visit {{{group.url}}}.\nTo view {{inviter.name}}'s profile, visit: {{{inviter.url}}}", 'buddypress' ),
-		),
-		'groups-member-promoted' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] You have been promoted in the group: "{{group.name}}"', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "You have been promoted to <b>{{promoted_to}}</b> in the group &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot;.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "You have been promoted to {{promoted_to}} in the group: &quot;{{group.name}}&quot;.\n\nTo visit the group, go to: {{{group.url}}}", 'buddypress' ),
-		),
-		'groups-membership-request' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] Membership request for group: {{group.name}}', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "<a href=\"{{{profile.url}}}\">{{requesting-user.name}}</a> wants to join the group &quot;{{group.name}}&quot;. As you are an administrator of this group, you must either accept or reject the membership request.\n\n<a href=\"{{{group-requests.url}}}\">Go here to manage this</a> and all other pending requests.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{requesting-user.name}} wants to join the group &quot;{{group.name}}&quot;. As you are the administrator of this group, you must either accept or reject the membership request.\n\nTo manage this and all other pending requests, visit: {{{group-requests.url}}}\n\nTo view {{requesting-user.name}}'s profile, visit: {{{profile.url}}}", 'buddypress' ),
-		),
-		'messages-unread' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] New message from {{sender.name}}', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "{{sender.name}} sent you a new message: &quot;{{usersubject}}&quot;\n\n<blockquote>&quot;{{usermessage}}&quot;</blockquote>\n\n<a href=\"{{{message.url}}}\">Go to the discussion</a> to reply or catch up on the conversation.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{sender.name}} sent you a new message: &quot;{{usersubject}}&quot;\n\n&quot;{{usermessage}}&quot;\n\nGo to the discussion to reply or catch up on the conversation: {{{message.url}}}", 'buddypress' ),
-		),
-		'settings-verify-email-change' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] Verify your new email address', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "You recently changed the email address associated with your account on {{site.name}}. If this is correct, <a href=\"{{{verify.url}}}\">go here to confirm the change</a>.\n\nOtherwise, you can safely ignore and delete this email if you have changed your mind, or if you think you have received this email in error.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "You recently changed the email address associated with your account on {{site.name}}. If this is correct, go to the following link to confirm the change: {{{verify.url}}}\n\nOtherwise, you can safely ignore and delete this email if you have changed your mind, or if you think you have received this email in error.", 'buddypress' ),
-		),
-		'groups-membership-request-accepted' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" accepted', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Your membership request for the group &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; has been accepted.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "Your membership request for the group &quot;{{group.name}}&quot; has been accepted.\n\nTo view the group, visit: {{{group.url}}}", 'buddypress' ),
-		),
-		'groups-membership-request-rejected' => array(
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" rejected', 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Your membership request for the group &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; has been rejected.", 'buddypress' ),
-			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "Your membership request for the group &quot;{{group.name}}&quot; has been rejected.\n\nTo request membership again, visit: {{{group.url}}}", 'buddypress' ),
-		),
-	);
-
-	$descriptions = array(
-		'activity-comment'                   => __( 'A member has replied to an activity update that the recipient posted.', 'buddypress' ),
-		'activity-comment-author'            => __( 'A member has replied to a comment on an activity update that the recipient posted.', 'buddypress' ),
-		'activity-at-message'                => __( 'Recipient was mentioned in an activity update.', 'buddypress' ),
-		'groups-at-message'                  => __( 'Recipient was mentioned in a group activity update.', 'buddypress' ),
-		'core-user-registration'             => __( 'Recipient has registered for an account.', 'buddypress' ),
-		'core-user-registration-with-blog'   => __( 'Recipient has registered for an account and site.', 'buddypress' ),
-		'friends-request'                    => __( 'A member has sent a friend request to the recipient.', 'buddypress' ),
-		'friends-request-accepted'           => __( 'Recipient has had a friend request accepted by a member.', 'buddypress' ),
-		'groups-details-updated'             => __( "A group's details were updated.", 'buddypress' ),
-		'groups-invitation'                  => __( 'A member has sent a group invitation to the recipient.', 'buddypress' ),
-		'groups-member-promoted'             => __( "Recipient's status within a group has changed.", 'buddypress' ),
-		'groups-membership-request'          => __( 'A member has requested permission to join a group.', 'buddypress' ),
-		'messages-unread'                    => __( 'Recipient has received a private message.', 'buddypress' ),
-		'settings-verify-email-change'       => __( 'Recipient has changed their email address.', 'buddypress' ),
-		'groups-membership-request-accepted' => __( 'Recipient had requested to join a group, which was accepted.', 'buddypress' ),
-		'groups-membership-request-rejected' => __( 'Recipient had requested to join a group, which was rejected.', 'buddypress' ),
-	);
+	$emails       = bp_email_get_schema();
+	$descriptions = bp_email_get_type_schema();
 
 	// Add these emails to the database.
 	foreach ( $emails as $id => $email ) {
@@ -695,9 +548,10 @@ function bp_core_install_emails() {
 			continue;
 		}
 
-		$term_ids = wp_set_post_terms( $post_id, $id, bp_get_email_tax_type() );
-		foreach ( $term_ids as $term_id ) {
-			wp_update_term( (int) $term_id, bp_get_email_tax_type(), array(
+		$tt_ids = wp_set_object_terms( $post_id, $id, bp_get_email_tax_type() );
+		foreach ( $tt_ids as $tt_id ) {
+			$term = get_term_by( 'term_taxonomy_id', (int) $tt_id, bp_get_email_tax_type() );
+			wp_update_term( (int) $term->term_id, bp_get_email_tax_type(), array(
 				'description' => $descriptions[ $id ],
 			) );
 		}
