@@ -410,6 +410,27 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 		'file'       => '',
 	), 'attachments_get_attachment_src' );
 
+	/**
+	 * Filters whether or not to handle fetching a BuddyPress image attachment.
+	 *
+	 * If you want to override this function, make sure you return false.
+	 *
+	 * @since 2.5.1
+	 *
+	 * @param null|string $value If null is returned, proceed with default behaviour. Otherwise, value returned verbatim.
+	 * @param array $r {
+	 *     @type string $object_dir The object dir (eg: members/groups). Defaults to members.
+	 *     @type int    $item_id    The object id (eg: a user or a group id). Defaults to current user.
+	 *     @type string $type       The type of the attachment which is also the subdir where files are saved.
+	 *                              Defaults to 'cover-image'
+	 *     @type string $file       The name of the file.
+	 * }
+	 */
+	$pre_filter = apply_filters( 'bp_attachments_pre_get_attachment', null, $r );
+	if ( $pre_filter !== null ) {
+		return $pre_filter;
+	}
+
 	// Get BuddyPress Attachments Uploads Dir datas.
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
 
@@ -477,6 +498,20 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
  */
 function bp_attachments_delete_file( $args = array() ) {
 	$attachment_path = bp_attachments_get_attachment( 'path', $args );
+
+	/**
+	 * Filters whether or not to handle deleting an existing BuddyPress attachment.
+	 *
+	 * If you want to override this function, make sure you return false.
+	 *
+	 * @since 2.5.1
+	 *
+	 * @param bool $value Whether or not to delete the BuddyPress attachment.
+	 * @param array Array of arguments for the attachment deletion.
+	 */
+	if ( ! apply_filters( 'bp_attachments_pre_delete_file', true, $args ) ) {
+		return true;
+	}
 
 	if ( empty( $attachment_path ) ) {
 		return false;
@@ -1221,6 +1256,23 @@ function bp_attachments_cover_image_ajax_upload() {
 	// Stop here in case of a missing parameter for the object.
 	if ( empty( $object_data['dir'] ) || empty( $object_data['component'] ) ) {
 		bp_attachments_json_response( false, $is_html4 );
+	}
+
+	/**
+	 * Filters whether or not to handle cover image uploading.
+	 *
+	 * If you want to override this function, make sure you return an array with the 'result' key set.
+	 *
+	 * @since 2.5.1
+	 *
+	 * @param array $value
+	 * @param array $bp_params
+	 * @param array $needs_reset Stores original value of certain globals we need to revert to later.
+	 * @param array $object_data
+	 */
+	$pre_filter = apply_filters( 'bp_attachments_pre_cover_image_ajax_upload', array(), $bp_params, $needs_reset, $object_data );
+	if ( isset( $pre_filter['result'] ) ) {
+		bp_attachments_json_response( $pre_filter['result'], $is_html4, $pre_filter );
 	}
 
 	$cover_image_attachment = new BP_Attachment_Cover_Image();
