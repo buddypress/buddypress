@@ -558,7 +558,7 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
 
 		// Fall back to a generic name.
 		} else {
-			$post_type_activity->comments_tracking->front_filter = sprintf( __( '%s comments', 'buddypress' ), $post_type_object->labels->singular_name );
+			$post_type_activity->comments_tracking->front_filter = _x( 'Item comments', 'Post Type generic comments activity front filter', 'buddypress' );
 		}
 
 		$post_type_activity->comments_tracking->contexts = $post_type_activity->contexts;
