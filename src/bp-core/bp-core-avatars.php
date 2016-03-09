@@ -703,6 +703,31 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
 
+	/**
+	 * Filters whether or not to handle deleting an existing avatar.
+	 *
+	 * If you want to override this function, make sure you return false.
+	 *
+	 * @since 2.5.1
+	 *
+	 * @param bool $value Whether or not to delete the avatar.
+	 * @param array $args {
+	 *     Array of function parameters.
+	 *
+	 *     @type bool|int    $item_id    ID of the item whose avatar you're deleting.
+	 *                                   Defaults to the current item of type $object.
+	 *     @type string      $object     Object type of the item whose avatar you're
+	 *                                   deleting. 'user', 'group', 'blog', or custom.
+	 *                                   Default: 'user'.
+	 *     @type bool|string $avatar_dir Subdirectory where avatar is located.
+	 *                                   Default: false, which falls back on the default location
+	 *                                   corresponding to the $object.
+	 * }
+	 */
+	if ( ! apply_filters( 'bp_core_pre_delete_existing_avatar', true, $args ) ) {
+		return true;
+	}
+
 	if ( empty( $item_id ) ) {
 		if ( 'user' == $object )
 			$item_id = bp_displayed_user_id();
@@ -1067,6 +1092,21 @@ add_action( 'wp_ajax_bp_avatar_upload', 'bp_avatar_ajax_upload' );
 function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 	if ( empty( $data ) || empty( $item_id ) ) {
 		return false;
+	}
+
+	/**
+	 * Filters whether or not to handle avatar webcam capture.
+	 *
+	 * If you want to override this function, make sure you return false.
+	 *
+	 * @since 2.5.1
+	 *
+	 * @param bool   $value   Whether or not to crop.
+	 * @param string $data    Base64 encoded image.
+	 * @param int    $item_id Item to associate.
+	 */
+	if ( ! apply_filters( 'bp_avatar_pre_handle_capture', true, $data, $item_id ) ) {
+		return true;
 	}
 
 	$avatar_dir = bp_core_avatar_upload_path() . '/avatars';
