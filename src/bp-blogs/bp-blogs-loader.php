@@ -14,7 +14,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-require dirname( __FILE__ ) . '/classes/class-bp-blogs-component.php';
+if ( ! buddypress()->do_autoload ) {
+	require dirname( __FILE__ ) . '/classes/class-bp-blogs-component.php';
+}
 
 /**
  * Set up the bp-blogs component.

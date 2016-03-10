@@ -122,11 +122,14 @@ class BP_Blogs_Component extends BP_Component {
 			'cache',
 			'actions',
 			'screens',
-			'classes',
 			'template',
 			'filters',
 			'functions',
 		);
+
+		if ( ! buddypress()->do_autoload ) {
+			$includes[] = 'classes';
+		}
 
 		if ( bp_is_active( 'activity' ) ) {
 			$includes[] = 'activity';

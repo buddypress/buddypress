@@ -54,7 +54,6 @@ class BP_Members_Component extends BP_Component {
 		// Always include these files.
 		$includes = array(
 			'actions',
-			'classes',
 			'filters',
 			'screens',
 			'template',
@@ -63,6 +62,10 @@ class BP_Members_Component extends BP_Component {
 			'widgets',
 			'cache',
 		);
+
+		if ( ! buddypress()->do_autoload ) {
+			$includes[] = 'classes';
+		}
 
 		if ( bp_is_active( 'activity' ) ) {
 			$includes[] = 'activity';

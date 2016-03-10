@@ -66,13 +66,16 @@ class BP_XProfile_Component extends BP_Component {
 			'activity',
 			'screens',
 			'caps',
-			'classes',
 			'filters',
 			'settings',
 			'template',
 			'functions',
 			'notifications',
 		);
+
+		if ( ! buddypress()->do_autoload ) {
+			$includes[] = 'classes';
+		}
 
 		if ( is_admin() ) {
 			$includes[] = 'admin';

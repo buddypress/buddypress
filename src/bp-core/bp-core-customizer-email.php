@@ -47,7 +47,9 @@ function bp_email_init_customizer( WP_Customize_Manager $wp_customize ) {
 	/**
 	 * BP_Customizer_Control_Range class.
 	 */
-	require_once dirname( __FILE__ ) . '/classes/class-bp-customizer-control-range.php';
+	if ( ! buddypress()->do_autoload ) {
+		require_once dirname( __FILE__ ) . '/classes/class-bp-customizer-control-range.php';
+	}
 
 	/**
 	 * Fires to let plugins register extra Customizer controls for emails.

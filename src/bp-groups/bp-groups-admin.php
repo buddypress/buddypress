@@ -16,7 +16,9 @@ defined( 'ABSPATH' ) || exit;
 // Include WP's list table class.
 if ( !class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
-require dirname( __FILE__ ) . '/classes/class-bp-groups-list-table.php';
+if ( ! buddypress()->do_autoload ) {
+	require dirname( __FILE__ ) . '/classes/class-bp-groups-list-table.php';
+}
 
 // The per_page screen option. Has to be hooked in extremely early.
 if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['page'] )

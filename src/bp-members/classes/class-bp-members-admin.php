@@ -1366,7 +1366,10 @@ class BP_Members_Admin {
 
 		if ( ! empty( $required ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php' );
-			require_once( buddypress()->members->admin->admin_dir . 'bp-members-admin-classes.php' );
+
+			if ( ! buddypress()->do_autoload ) {
+				require_once( buddypress()->members->admin->admin_dir . 'bp-members-admin-classes.php' );
+			}
 		}
 
 		return new $class();

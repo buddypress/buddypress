@@ -50,13 +50,16 @@ class BP_Friends_Component extends BP_Component {
 			'actions',
 			'screens',
 			'filters',
-			'classes',
 			'activity',
 			'template',
 			'functions',
 			'notifications',
 			'widgets',
 		);
+
+		if ( ! buddypress()->do_autoload ) {
+			$includes[] = 'classes';
+		}
 
 		parent::includes( $includes );
 	}

@@ -10,7 +10,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-require dirname( __FILE__ ) . '/classes/class-bp-members-component.php';
+if ( ! buddypress()->do_autoload ) {
+	require dirname( __FILE__ ) . '/classes/class-bp-members-component.php';
+}
 
 /**
  * Set up the bp-members component.

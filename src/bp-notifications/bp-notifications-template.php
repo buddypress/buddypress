@@ -10,7 +10,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-require dirname( __FILE__ ) . '/classes/class-bp-notifications-template.php';
+if ( ! buddypress()->do_autoload ) {
+	require dirname( __FILE__ ) . '/classes/class-bp-notifications-template.php';
+}
 
 /**
  * Output the notifications component slug.
