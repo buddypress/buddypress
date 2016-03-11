@@ -608,7 +608,14 @@ class BuddyPress {
 		// Sanitize class name.
 		$class = strtolower( str_replace( '_', '-', $class ) );
 
-		require dirname( __FILE__ ) . "/bp-{$component}/classes/class-{$class}.php";
+		$path = dirname( __FILE__ ) . "/bp-{$component}/classes/class-{$class}.php";
+
+		// Sanity check.
+		if ( ! file_exists( $path ) ) {
+			return;
+		}
+
+		require $path;
 	}
 
 	/**
