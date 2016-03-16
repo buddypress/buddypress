@@ -71,7 +71,7 @@
 
 				<?php /***** Basic Account Details ******/ ?>
 
-				<h4><?php _e( 'Account Details', 'buddypress' ); ?></h4>
+				<h2><?php _e( 'Account Details', 'buddypress' ); ?></h2>
 
 				<label for="signup_username"><?php _e( 'Username', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 				<?php
@@ -153,7 +153,7 @@
 
 				<div class="register-section" id="profile-details-section">
 
-					<h4><?php _e( 'Profile Details', 'buddypress' ); ?></h4>
+					<h2><?php _e( 'Profile Details', 'buddypress' ); ?></h2>
 
 					<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
 					<?php if ( bp_is_active( 'xprofile' ) ) : if ( bp_has_profile( array( 'profile_group_id' => 1, 'fetch_field_data' => false ) ) ) : while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
@@ -261,7 +261,7 @@
 
 				<div class="register-section" id="blog-details-section">
 
-					<h4><?php _e( 'Blog Details', 'buddypress' ); ?></h4>
+					<h2><?php _e( 'Blog Details', 'buddypress' ); ?></h2>
 
 					<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes, I\'d like to create a new site', 'buddypress' ); ?></label></p>
 
