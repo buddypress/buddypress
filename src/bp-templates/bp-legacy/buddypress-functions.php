@@ -86,7 +86,6 @@ class BP_Legacy extends BP_Theme_Compat {
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles'   ) ); // Enqueue theme CSS
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts'  ) ); // Enqueue theme JS
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
-		add_action( 'bp_head',            array( $this, 'head_scripts'     ) ); // Output some extra JS in the <head>.
 
 		/** Body no-js Class **************************************************/
 
@@ -427,23 +426,6 @@ class BP_Legacy extends BP_Theme_Compat {
 		}
 
 		return $retval;
-	}
-
-	/**
-	 * Put some scripts in the header, like AJAX url for wp-lists.
-	 *
-	 * @since 1.7.0
-	 */
-	public function head_scripts() {
-	?>
-
-		<script type="text/javascript">
-			/* <![CDATA[ */
-			var ajaxurl = '<?php echo bp_core_ajax_url(); ?>';
-			/* ]]> */
-		</script>
-
-	<?php
 	}
 
 	/**
