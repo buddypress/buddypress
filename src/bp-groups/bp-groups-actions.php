@@ -122,8 +122,8 @@ function groups_action_create_group() {
 		unset( $bp->groups->current_create_step );
 		unset( $bp->groups->completed_create_steps );
 
-		setcookie( 'bp_new_group_id', false, time() - 1000, COOKIEPATH );
-		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH );
+		setcookie( 'bp_new_group_id', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_completed_create_steps', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 		$reset_steps = true;
 		$keys        = array_keys( $bp->groups->group_creation_steps );
@@ -252,8 +252,8 @@ function groups_action_create_group() {
 			$bp->groups->completed_create_steps[] = bp_get_groups_current_create_step();
 
 		// Reset cookie info.
-		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH );
-		setcookie( 'bp_completed_create_steps', base64_encode( json_encode( $bp->groups->completed_create_steps ) ), time()+60*60*24, COOKIEPATH );
+		setcookie( 'bp_new_group_id', $bp->groups->new_group_id, time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		setcookie( 'bp_completed_create_steps', base64_encode( json_encode( $bp->groups->completed_create_steps ) ), time()+60*60*24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 		// If we have completed all steps and hit done on the final step we
 		// can redirect to the completed group.
@@ -262,8 +262,8 @@ function groups_action_create_group() {
 			unset( $bp->groups->current_create_step );
 			unset( $bp->groups->completed_create_steps );
 
-			setcookie( 'bp_new_group_id', false, time() - 3600, COOKIEPATH );
-			setcookie( 'bp_completed_create_steps', false, time() - 3600, COOKIEPATH );
+			setcookie( 'bp_new_group_id', false, time() - 3600, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+			setcookie( 'bp_completed_create_steps', false, time() - 3600, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 			// Once we completed all steps, record the group creation in the activity stream.
 			groups_record_activity( array(

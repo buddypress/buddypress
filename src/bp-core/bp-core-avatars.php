@@ -1038,8 +1038,9 @@ function bp_avatar_ajax_upload() {
 		// Remove template message.
 		$bp->template_message      = false;
 		$bp->template_message_type = false;
-		@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH );
-		@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH );
+
+		@setcookie( 'bp-message', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+		@setcookie( 'bp-message-type', false, time() - 1000, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 	}
 
 	if ( empty( $avatar ) ) {
