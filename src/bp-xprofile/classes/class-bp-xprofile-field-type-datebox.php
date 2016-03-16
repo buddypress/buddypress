@@ -78,12 +78,12 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			'name' => bp_get_the_profile_field_input_name() . '_year'
 		) ); ?>
 
-		<div class="datebox">
+		<fieldset class="datebox">
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_day">
+			<legend>
 				<?php bp_the_profile_field_name(); ?>
 				<?php bp_the_profile_field_required_label(); ?>
-			</label>
+			</legend>
 
 			<?php
 
@@ -123,7 +123,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				) ); ?>
 			</select>
 
-		</div>
+		</fieldset>
 	<?php
 	}
 
