@@ -70,7 +70,7 @@ do_action( 'bp_before_group_header' ); ?>
 
 			<?php if ( bp_group_is_visible() ) : ?>
 
-				<h3><?php _e( 'Group Admins', 'buddypress' ); ?></h3>
+				<h2><?php _e( 'Group Admins', 'buddypress' ); ?></h2>
 
 				<?php bp_group_list_admins();
 
@@ -90,7 +90,7 @@ do_action( 'bp_before_group_header' ); ?>
 					 */
 					do_action( 'bp_before_group_menu_mods' ); ?>
 
-					<h3><?php _e( 'Group Mods' , 'buddypress' ); ?></h3>
+					<h2><?php _e( 'Group Mods' , 'buddypress' ); ?></h2>
 
 					<?php bp_group_list_mods();
 
