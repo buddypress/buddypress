@@ -817,7 +817,7 @@ class BP_XProfile_Field {
 			$do_autolink = bp_xprofile_get_meta( $this->id, 'field', 'do_autolink' );
 
 			if ( '' === $do_autolink ) {
-				$this->do_autolink = $this->is_default_field() || $this->type_obj->supports_options;
+				$this->do_autolink = $this->type_obj->supports_options;
 			} else {
 				$this->do_autolink = 'on' === $do_autolink;
 			}
@@ -1456,12 +1456,6 @@ class BP_XProfile_Field {
 	 * @return void If default field id 1.
 	 */
 	private function autolink_metabox() {
-
-		// Default field cannot have custom visibility.
-		if ( true === $this->is_default_field() ) {
-			return;
-		}
-
 		?>
 
 		<div class="postbox">
