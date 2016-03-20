@@ -2332,7 +2332,7 @@ function bp_core_wpsignup_redirect() {
 	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
 
 	// Not at the WP core signup page and action is not register.
-	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( $_SERVER['SCRIPT_NAME'], 'wp-signup.php' ) && ( 'register' != $action ) ) {
+	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( 'wp-signup.php', $_SERVER['SCRIPT_NAME'] ) && ( 'register' != $action ) ) {
 		return;
 	}
 
