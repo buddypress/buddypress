@@ -250,4 +250,18 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 		$this->assertSame( $original_recipient, $addresses[0]->get_address() );
 		$this->assertSame( $new_recipient, $addresses[1]->get_address() );
 	}
+
+	public function test_sending_email() {
+		$user1  = get_user_by( 'id', $this->u1 );
+		$result = bp_send_email( 'core-user-registration', $this->u1, array(
+			'tokens' => array(
+				'activate.url' => 'http://example.com',
+				'key'          => '123',
+				'user.email'   => $user1->user_email,
+				'user.id'      => $this->u1,
+			),
+		) );
+
+		$this->assertTrue( $result );
+	}
 }
