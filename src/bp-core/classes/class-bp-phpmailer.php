@@ -65,7 +65,7 @@ class BP_PHPMailer implements BP_Email_Delivery {
 		$content_plaintext  = PHPMailer::normalizeBreaks( $email->get_content_plaintext( 'replace-tokens' ) );
 
 		if ( $email->get( 'content_type' ) === 'html' ) {
-			$phpmailer->msgHTML( $email->get_template( 'add-content' ), '', 'wp_strip_all_tags' );
+			$phpmailer->msgHTML( $email->get_template( 'add-content' ) );
 			$phpmailer->AltBody = $content_plaintext;
 
 		} else {
