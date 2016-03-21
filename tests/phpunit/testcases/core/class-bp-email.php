@@ -252,6 +252,9 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	public function test_sending_email() {
+		require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin-schema.php' );
+		bp_core_install_emails();
+
 		$user1  = get_user_by( 'id', $this->u1 );
 		$result = bp_send_email( 'core-user-registration', $this->u1, array(
 			'tokens' => array(
