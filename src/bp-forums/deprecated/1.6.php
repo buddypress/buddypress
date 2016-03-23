@@ -137,18 +137,22 @@ function bp_forums_bbpress_install_wizard() {
 		case 'existing':
 			if ( isset( $_REQUEST['doinstall'] ) && ( 1 == (int) $_REQUEST['doinstall'] ) ) {
 				if ( !bp_forums_configure_existing_install() ) {
-					_e( 'The bb-config.php file was not found at that location. Please try again.', 'buddypress' );
+					/* translators: %s: bb-config.php */
+					printf( __( 'The %s file was not found at that location. Please try again.', 'buddypress' ), '<code>bb-config.php</code>' );
 				} else {
 					?>
 					<h3><?php _e( 'Forums were set up correctly using your existing bbPress install!', 'buddypress' ) ?></h3>
-					<p><?php _e( 'BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the bb-config.php file in the same location.', 'buddypress' ) ?></p><?php
+					<?php /* translators: %s: bb-config.php */ ?>
+					<p><?php printf( __( 'BuddyPress will now use its internal copy of bbPress to run the forums on your site. If you wish, you can remove your old bbPress installation files, as long as you keep the %s file in the same location.', 'buddypress' ), '<code>bb-config.php</code>' ); ?></p><?php
 				}
 			} else { ?>
 
 					<form action="" method="post">
 						<h3><?php _e( 'Existing bbPress Installation', 'buddypress' ) ?></h3>
-						<p><?php _e( "BuddyPress can make use of your existing bbPress install. Just provide the location of your <code>bb-config.php</code> file, and BuddyPress will do the rest.", 'buddypress' ) ?></p>
-						<p><label><code>bb-config.php</code> file location:</label><br /><input style="width: 50%" type="text" name="bbconfigloc" id="bbconfigloc" value="<?php echo str_replace( 'buddypress', '', $_SERVER['DOCUMENT_ROOT'] ) ?>" /></p>
+						<?php /* translators: %s: bb-config.php */ ?>
+						<p><?php printf( __( 'BuddyPress can make use of your existing bbPress install. Just provide the location of your %s file, and BuddyPress will do the rest.', 'buddypress' ), '<code>bb-config.php</code>' ); ?></p>
+						<?php /* translators: %s: bb-config.php */ ?>
+						<p><label><?php printf( __( '%s file location:', 'buddypress' ), '<code>bb-config.php</code>' ); ?></label><br /><input style="width: 50%" type="text" name="bbconfigloc" id="bbconfigloc" value="<?php echo esc_attr( str_replace( 'buddypress', '', $_SERVER['DOCUMENT_ROOT'] ) ) ?>" /></p>
 						<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Complete Installation', 'buddypress' ) ?>" /></p>
 						<input type="hidden" name="step" value="existing" />
 						<input type="hidden" name="doinstall" value="1" />
@@ -166,13 +170,15 @@ function bp_forums_bbpress_install_wizard() {
 				switch ( $result ) {
 					case 1:
 						echo '<p>';
-						_e( 'All done! Configuration settings have been saved to the file <code>bb-config.php</code> in the root of your WordPress install.', 'buddypress' );
+						/* translators: %s: bb-config.php */
+						printf( __( 'All done! Configuration settings have been saved to the %s file in the root of your WordPress install.', 'buddypress' ), '<code>bb-config.php</code>' );
 						echo '</p>';
 						break;
 					default:
 						// Just write the contents to screen.
 						echo '<p>';
-						_e( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named <code>bb-config.php</code> in the root directory of your WordPress installation before you can start using the forum functionality.', 'buddypress' );
+						/* translators: %s: bb-config.php */
+						printf( __( 'A configuration file could not be created. No problem, but you will need to save the text shown below into a file named %s in the root directory of your WordPress installation before you can start using the forum functionality.', 'buddypress' ), '<code>bb-config.php</code>' );
 						echo '</p>';
 						?>
 						<textarea style="display:block; margin-top: 30px; width: 80%;" rows="50"><?php echo esc_textarea( $result ); ?></textarea>
