@@ -435,8 +435,17 @@ class BP_Groups_Component extends BP_Component {
 
 		// Only grab count if we're on a user page.
 		if ( bp_is_user() ) {
-			$class    = ( 0 === groups_total_groups_for_user( bp_displayed_user_id() ) ) ? 'no-count' : 'count';
-			$nav_name = sprintf( _x( 'Groups <span class="%s">%s</span>', 'Group screen nav with counter', 'buddypress' ), esc_attr( $class ), bp_get_total_group_count_for_user() );
+			$class = ( 0 === groups_total_groups_for_user( bp_displayed_user_id() ) ) ? 'no-count' : 'count';
+
+			$nav_name = sprintf(
+				/* translators: %s: Group count for the current user */
+				_x( 'Groups %s', 'Group screen nav with counter', 'buddypress' ),
+				sprintf(
+					'<span class="%s">%s</span>',
+					esc_attr( $class ),
+					bp_get_total_group_count_for_user()
+				)
+			);
 		} else {
 			$nav_name = _x( 'Groups', 'Group screen nav without counter', 'buddypress' );
 		}
@@ -710,8 +719,17 @@ class BP_Groups_Component extends BP_Component {
 			$pending = _x( 'No Pending Invites', 'My Account Groups sub nav', 'buddypress' );
 
 			if ( ! empty( $count['total'] ) ) {
-				$title   = sprintf( _x( 'Groups <span class="count">%s</span>',          'My Account Groups nav',     'buddypress' ), bp_core_number_format( $count ) );
-				$pending = sprintf( _x( 'Pending Invites <span class="count">%s</span>', 'My Account Groups sub nav', 'buddypress' ), bp_core_number_format( $count ) );
+				$title = sprintf(
+					/* translators: %s: Group invitation count for the current user */
+					_x( 'Groups %s', 'My Account Groups nav', 'buddypress' ),
+					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+				);
+
+				$pending = sprintf(
+					/* translators: %s: Group invitation count for the current user */
+					_x( 'Pending Invites %s', 'My Account Groups sub nav', 'buddypress' ),
+					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+				);
 			}
 
 			// Add the "My Account" sub menus.
