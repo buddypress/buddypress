@@ -934,7 +934,14 @@ class BP_Members_Admin {
 
 			<?php else : ?>
 
-				<p><?php printf( __( 'No user found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), esc_url( bp_get_admin_url( 'users.php' ) ) ); ?></p>
+				<p><?php
+					printf(
+						'%1$s <a href="%2$s">%3$s</a>',
+						__( 'No user found with this ID.', 'buddypress' ),
+						esc_url( bp_get_admin_url( 'users.php' ) ),
+						__( 'Go back and try again.', 'buddypress' )
+					);
+				?></p>
 
 			<?php endif; ?>
 

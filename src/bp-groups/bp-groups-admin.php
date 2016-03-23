@@ -627,7 +627,16 @@ function bp_groups_admin_edit() {
 			</form>
 
 		<?php else : ?>
-			<p><?php printf( __( 'No group found with this ID. <a href="%s">Go back and try again</a>.', 'buddypress' ), esc_url( bp_get_admin_url( 'admin.php?page=bp-groups' ) ) ); ?></p>
+
+			<p><?php
+				printf(
+					'%1$s <a href="%2$s">%3$s</a>',
+					__( 'No group found with this ID.', 'buddypress' ),
+					esc_url( bp_get_admin_url( 'admin.php?page=bp-groups' ) ),
+					__( 'Go back and try again.', 'buddypress' )
+				);
+			?></p>
+
 		<?php endif; ?>
 
 	</div><!-- .wrap -->

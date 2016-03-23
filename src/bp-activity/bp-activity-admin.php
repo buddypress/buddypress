@@ -706,10 +706,16 @@ function bp_activity_admin_edit() {
 			</form>
 
 		<?php else : ?>
-			<p>
-				<?php _e( 'No activity found with this ID.', 'buddypress' ); ?>
-				<a href="<?php echo esc_url( bp_get_admin_url( 'admin.php?page=bp-activity' ) ); ?>"><?php _e( 'Go back and try again.', 'buddypress' ); ?></a>
-			</p>
+
+			<p><?php
+				printf(
+					'%1$s <a href="%2$s">%3$s</a>',
+					__( 'No activity found with this ID.', 'buddypress' ),
+					esc_url( bp_get_admin_url( 'admin.php?page=bp-activity' ) ),
+					__( 'Go back and try again.', 'buddypress' )
+				);
+			?></p>
+
 		<?php endif; ?>
 
 	</div><!-- .wrap -->
