@@ -149,7 +149,15 @@ class BP_Messages_Component extends BP_Component {
 		if ( bp_is_user() && bp_user_has_access() ) {
 			$count    = bp_get_total_unread_messages_count();
 			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf( __( 'Messages <span class="%s">%s</span>', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );
+			$nav_name = sprintf(
+				/* translators: %s: Unread message count for the current user */
+				__( 'Messages %s', 'buddypress' ),
+				sprintf(
+					'<span class="%s">%s</span>',
+					esc_attr( $class ),
+					bp_core_number_format( $count )
+				)
+			);
 		} else {
 			$nav_name = __( 'Messages', 'buddypress' );
 		}
@@ -239,8 +247,16 @@ class BP_Messages_Component extends BP_Component {
 			// Unread message count.
 			$count = messages_get_unread_count();
 			if ( !empty( $count ) ) {
-				$title = sprintf( __( 'Messages <span class="count">%s</span>', 'buddypress' ), bp_core_number_format( $count ) );
-				$inbox = sprintf( __( 'Inbox <span class="count">%s</span>',    'buddypress' ), bp_core_number_format( $count ) );
+				$title = sprintf(
+					/* translators: %s: Unread message count for the current user */
+					__( 'Messages %s', 'buddypress' ),
+					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+				);
+				$inbox = sprintf(
+					/* translators: %s: Unread message count for the current user */
+					__( 'Inbox %s', 'buddypress' ),
+					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+				);
 			} else {
 				$title = __( 'Messages', 'buddypress' );
 				$inbox = __( 'Inbox',    'buddypress' );
