@@ -586,7 +586,7 @@ function bp_groups_admin_edit() {
 			<div id="moderated" class="<?php echo ( $is_error ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "</p><p>", $messages ); ?></p></div>
 		<?php endif; ?>
 
-		<?php if ( ! empty( $group ) ) : ?>
+		<?php if ( $group->id ) : ?>
 
 			<form action="<?php echo esc_url( $form_url ); ?>" id="bp-groups-edit-form" method="post">
 				<div id="poststuff">
