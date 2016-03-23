@@ -1110,8 +1110,8 @@ function bp_blogs_validate_blog_signup() {
 	if ( is_subdomain_install() )
 		$domain = $blogname . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
 
-	wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
-	bp_blogs_confirm_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
+	$blog_id = wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
+	bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta, $blog_id );
 	return true;
 }
 
@@ -1133,20 +1133,38 @@ function bp_blogs_validate_blog_form() {
 /**
  * Display a message after successful blog registration.
  *
+ * @since 2.6.0 Introduced `$blog_id` parameter.
+ *
  * @param string       $domain     The new blog's domain.
  * @param string       $path       The new blog's path.
  * @param string       $blog_title The new blog's title.
  * @param string       $user_name  The user name of the user who created the blog. Unused.
  * @param string       $user_email The email of the user who created the blog. Unused.
  * @param string|array $meta       Meta values associated with the new blog. Unused.
+ * @param int          $blog_id    ID of the newly created blog.
  */
-function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = '' ) {
-	$protocol = is_ssl() ? 'https://' : 'http://';
-	$blog_url = $protocol . $domain . $path; ?>
+function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = '', $blog_id = null ) {
+	switch_to_blog( $blog_id );
+	$blog_url  = set_url_scheme( home_url() );
+	$login_url = set_url_scheme( wp_login_url() );
+	restore_current_blog();
 
+	?>
 	<p><?php _e( 'Congratulations! You have successfully registered a new site.', 'buddypress' ) ?></p>
 	<p>
-		<?php printf(__( '<a href="%1$s">%2$s</a> is your new site.  <a href="%3$s">Login</a> as "%4$s" using your existing password.', 'buddypress' ), $blog_url, $blog_url, $blog_url . "wp-login.php", $user_name ); ?>
+		<?php printf(
+			'%s %s',
+			sprintf(
+				__( '%s is your new site.', 'buddypress' ),
+				sprintf( '<a href="%s">%s</a>', esc_url( $blog_url ), esc_url( $blog_url ) )
+			),
+			sprintf(
+				/* translators: 1: Login URL, 2: User name */
+				__( '<a href="%1$s">Log in</a> as "%2$s" using your existing password.', 'buddypress' ),
+				esc_url( $login_url ),
+				esc_html( $user_name )
+			)
+		); ?>
 	</p>
 
 <?php
