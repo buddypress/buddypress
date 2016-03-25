@@ -561,6 +561,7 @@ class BuddyPress {
 			'BP_Attachment'                => 'core',
 			'BP_Button'                    => 'core',
 			'BP_Component'                 => 'core',
+			'BP_Customizer_Control_Range'  => 'core',
 			'BP_Date_Query'                => 'core',
 			'BP_Email_Delivery'            => 'core',
 			'BP_Email_Recipient'           => 'core',
