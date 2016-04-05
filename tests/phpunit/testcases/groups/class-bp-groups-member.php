@@ -1086,6 +1086,70 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group groups_invite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_send_invites_fail_on_empty_group_id() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// Create draft invitation with empty inviter_id
+		$invite_created = groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => 0,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		$this->assertFalse( $invite_created );
+	}
+
+	/**
+	 * @group groups_invite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_send_invites_fail_on_empty_user_id() {
+		$u1 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation with empty inviter_id
+		$invite_created = groups_invite_user( array(
+			'user_id'       => 0,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		$this->assertFalse( $invite_created );
+	}
+
+	/**
+	 * @group groups_invite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_send_invites_fail_on_empty_inviter_id() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation with empty inviter_id
+		$invite_created = groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => 0,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		$this->assertFalse( $invite_created );
+	}
+
+	/**
 	 * @group groups_send_membership_request
 	 * @group group_membership_requests
 	 * @group group_membership

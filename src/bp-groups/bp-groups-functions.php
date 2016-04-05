@@ -1100,8 +1100,9 @@ function groups_invite_user( $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
 
-	if ( empty( $user_id ) || empty( $group_id ) )
+	if ( ! $user_id || ! $group_id || ! $inviter_id ) {
 		return false;
+	}
 
 	// If the user has already requested membership, accept the request.
 	if ( $membership_id = groups_check_for_membership_request( $user_id, $group_id ) ) {
