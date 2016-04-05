@@ -636,6 +636,17 @@ function bp_core_fetch_avatar( $args = '' ) {
 		if ( ! empty( $params['rating'] ) ) {
 			$url_args['r'] = strtolower( $params['rating'] );
 		}
+
+		/**
+		 * Filters the Gravatar "d" parameter.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string $default_grav The avatar default.
+		 * @param array $params The avatar's data.
+		 */
+		$default_grav = apply_filters( 'bp_core_avatar_default', $default_grav, $params );
+
 		// Only set default image if 'Gravatar Logo' is not requested.
 		if ( 'gravatar_default' !== $default_grav ) {
 			$url_args['d'] = $default_grav;
