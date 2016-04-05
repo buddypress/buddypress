@@ -615,6 +615,13 @@ function bp_member_class( $classes = array() ) {
 			$classes[] = 'is-current-user';
 		}
 
+		// Add current user member types.
+		if ( $member_types = bp_get_member_type( $members_template->member->id, false ) ) {
+			foreach ( $member_types as $member_type ) {
+				$classes[] = sprintf( 'member-type-%s', esc_attr( $member_type ) );
+			}
+		}
+
 		/**
 		 * Filters the determined classes to add to the HTML element.
 		 *
