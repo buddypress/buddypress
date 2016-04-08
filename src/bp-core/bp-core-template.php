@@ -3586,12 +3586,6 @@ function bp_nav_menu( $args = array() ) {
 
 	// Create custom walker if one wasn't set.
 	if ( empty( $args->walker ) ) {
-
-		// Temporary fix for fatals (jjj)
-		if ( ! class_exists( 'BP_Walker_Nav_Menu' ) ) {
-			require_once dirname( __FILE__ ) . '/classes/class-bp-walker-nav-menu.php';
-		}
-
 		$args->walker = new BP_Walker_Nav_Menu;
 	}
 

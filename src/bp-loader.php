@@ -576,7 +576,7 @@ class BuddyPress {
 			'BP_User_Query'                => 'core',
 			'BP_Walker_Category_Checklist' => 'core',
 			'BP_Walker_Nav_Menu_Checklist' => 'core',
-			'BP_Walker_Nav_Menu_Menu'      => 'core',
+			'BP_Walker_Nav_Menu'           => 'core',
 
 			'BP_Core_Friends_Widget' => 'friends',
 
