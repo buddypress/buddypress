@@ -142,7 +142,7 @@ div.bp-avatar-nav {
 
 .drag-drop .drag-drop-inside p.drag-drop-buttons {
 	margin: auto;
-	text-align: auto;
+	text-align: inherit;
 }
 
 .drag-drop #drag-drop-area {
