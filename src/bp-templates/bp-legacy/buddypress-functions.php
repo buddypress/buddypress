@@ -1755,7 +1755,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 	$top_offset  = bp_core_avatar_full_height() - 10;
 	$left_offset = bp_core_avatar_full_width() + 20;
 
-	$cover_image = isset( $params['cover_image'] ) ? 'background-image: url(' . $params['cover_image'] . ');' : '';
+	$cover_image = ( !empty( $params['cover_image'] ) ) ? 'background-image: url(' . $params['cover_image'] . ');' : '';
 
 	$hide_avatar_style = '';
 
