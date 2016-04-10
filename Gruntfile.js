@@ -277,7 +277,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [ 'jsvalidate:src', 'jshint' ] );
 
 	// Travis CI Tasks.
-	grunt.registerTask('travis:js', 'Runs Grunt build task.', [ 'build' ]);
+	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', [ 'build' ]);
 	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
 
 	// Patch task.
