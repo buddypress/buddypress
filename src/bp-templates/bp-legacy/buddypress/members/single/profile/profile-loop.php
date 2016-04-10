@@ -1,4 +1,13 @@
-<?php do_action( 'bp_before_profile_loop_content' ); ?>
+<?php
+/**
+ * BuddyPress - Members Profile Loop
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+/** This action is documented in bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php */
+do_action( 'bp_before_profile_loop_content' ); ?>
 
 <?php if ( bp_has_profile() ) : ?>
 
@@ -6,11 +15,14 @@
 
 		<?php if ( bp_profile_group_has_fields() ) : ?>
 
-			<?php do_action( 'bp_before_profile_field_content' ); ?>
+			<?php
+
+			/** This action is documented in bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php */
+			do_action( 'bp_before_profile_field_content' ); ?>
 
 			<div class="bp-widget <?php bp_the_profile_group_slug(); ?>">
 
-				<h4><?php bp_the_profile_group_name(); ?></h4>
+				<h2><?php bp_the_profile_group_name(); ?></h2>
 
 				<table class="profile-fields">
 
@@ -28,21 +40,37 @@
 
 						<?php endif; ?>
 
-						<?php do_action( 'bp_profile_field_item' ); ?>
+						<?php
+
+						/**
+						 * Fires after the display of a field table row for profile data.
+						 *
+						 * @since 1.1.0
+						 */
+						do_action( 'bp_profile_field_item' ); ?>
 
 					<?php endwhile; ?>
 
 				</table>
 			</div>
 
-			<?php do_action( 'bp_after_profile_field_content' ); ?>
+			<?php
+
+			/** This action is documented in bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php */
+			do_action( 'bp_after_profile_field_content' ); ?>
 
 		<?php endif; ?>
 
 	<?php endwhile; ?>
 
-	<?php do_action( 'bp_profile_field_buttons' ); ?>
+	<?php
+
+	/** This action is documented in bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php */
+	do_action( 'bp_profile_field_buttons' ); ?>
 
 <?php endif; ?>
 
-<?php do_action( 'bp_after_profile_loop_content' ); ?>
+<?php
+
+/** This action is documented in bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php */
+do_action( 'bp_after_profile_loop_content' ); ?>

@@ -1,19 +1,19 @@
 <?php
-
 /**
- * BuddyPress Admin Slug Functions
+ * BuddyPress Admin Slug Functions.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
+ * @since 2.3.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Renders the page mapping admin panel.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  * @todo Use settings API
  * @uses bp_core_admin_component_options()
  */
@@ -21,7 +21,8 @@ function bp_core_admin_slugs_settings() {
 ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress'); ?>
+
+		<h1><?php _e( 'BuddyPress Settings', 'buddypress' ); ?> </h1>
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Pages', 'buddypress' ) ); ?></h2>
 		<form action="" method="post" id="bp-admin-page-form">
@@ -41,30 +42,24 @@ function bp_core_admin_slugs_settings() {
 }
 
 /**
- * Creates reusable markup for page setup on the Components and Pages dashboard panel.
+ * Generate a list of directory pages, for use when building Components panel markup.
  *
- * @package BuddyPress
- * @since BuddyPress (1.6.0)
- * @todo Use settings API
+ * @since 2.4.1
+ *
+ * @return array
  */
-function bp_core_admin_slugs_options() {
+function bp_core_admin_get_directory_pages() {
 	$bp = buddypress();
-
-	// Get the existing WP pages
-	$existing_pages = bp_core_get_directory_page_ids();
-
-	// Set up an array of components (along with component names) that have
-	// directory pages.
 	$directory_pages = array();
 
-	// Loop through loaded components and collect directories
+	// Loop through loaded components and collect directories.
 	if ( is_array( $bp->loaded_components ) ) {
 		foreach( $bp->loaded_components as $component_slug => $component_id ) {
 
-			// Only components that need directories should be listed here
+			// Only components that need directories should be listed here.
 			if ( isset( $bp->{$component_id} ) && !empty( $bp->{$component_id}->has_directory ) ) {
 
-				// component->name was introduced in BP 1.5, so we must provide a fallback
+				// The component->name property was introduced in BP 1.5, so we must provide a fallback.
 				$directory_pages[$component_id] = !empty( $bp->{$component_id}->name ) ? $bp->{$component_id}->name : ucwords( $component_id );
 			}
 		}
@@ -75,11 +70,53 @@ function bp_core_admin_slugs_options() {
 	/**
 	 * Filters the loaded components needing directory page association to a WordPress page.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @param array $directory_pages Array of available components to set associations for.
 	 */
-	$directory_pages = apply_filters( 'bp_directory_pages', $directory_pages );
+	return apply_filters( 'bp_directory_pages', $directory_pages );
+}
+
+/**
+ * Generate a list of static pages, for use when building Components panel markup.
+ *
+ * By default, this list contains 'register' and 'activate'.
+ *
+ * @since 2.4.1
+ *
+ * @return array
+ */
+function bp_core_admin_get_static_pages() {
+	$static_pages = array(
+		'register' => __( 'Register', 'buddypress' ),
+		'activate' => __( 'Activate', 'buddypress' ),
+	);
+
+	/**
+	 * Filters the default static pages for BuddyPress setup.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param array $static_pages Array of static default static pages.
+	 */
+	return apply_filters( 'bp_static_pages', $static_pages );
+}
+
+/**
+ * Creates reusable markup for page setup on the Components and Pages dashboard panel.
+ *
+ * @package BuddyPress
+ * @since 1.6.0
+ * @todo Use settings API
+ */
+function bp_core_admin_slugs_options() {
+	$bp = buddypress();
+
+	// Get the existing WP pages
+	$existing_pages = bp_core_get_directory_page_ids();
+
+	// Set up an array of components (along with component names) that have directory pages.
+	$directory_pages = bp_core_admin_get_directory_pages();
 
 	if ( !empty( $directory_pages ) ) : ?>
 
@@ -129,7 +166,7 @@ function bp_core_admin_slugs_options() {
 				 *
 				 * Allows plugins to add their own directory associations.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 */
 				do_action( 'bp_active_external_directories' ); ?>
 
@@ -142,20 +179,7 @@ function bp_core_admin_slugs_options() {
 
 	/** Static Display ********************************************************/
 
-	// Static pages
-	$static_pages = array(
-		'register' => __( 'Register', 'buddypress' ),
-		'activate' => __( 'Activate', 'buddypress' ),
-	);
-
-	/**
-	 * Filters the default static pages for BuddyPress setup.
-	 *
-	 * @since BuddyPress (1.6.0)
-	 *
-	 * @param array $static_pages Array of static default static pages.
-	 */
-	$static_pages = apply_filters( 'bp_static_pages', $static_pages );
+	$static_pages = bp_core_admin_get_static_pages();
 
 	if ( !empty( $static_pages ) ) : ?>
 
@@ -202,7 +226,7 @@ function bp_core_admin_slugs_options() {
 				/**
 				 * Fires after the display of default static pages for BuddyPress setup.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 */
 				do_action( 'bp_active_external_pages' ); ?>
 
@@ -214,9 +238,9 @@ function bp_core_admin_slugs_options() {
 }
 
 /**
- * Handle saving of the BuddyPress slugs
+ * Handle saving of the BuddyPress slugs.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  * @todo Use settings API
  */
 function bp_core_admin_slugs_setup_handler() {
@@ -225,17 +249,17 @@ function bp_core_admin_slugs_setup_handler() {
 		if ( !check_admin_referer( 'bp-admin-pages-setup' ) )
 			return false;
 
-		// Then, update the directory pages
+		// Then, update the directory pages.
 		if ( isset( $_POST['bp_pages'] ) ) {
+			$valid_pages = array_merge( bp_core_admin_get_directory_pages(), bp_core_admin_get_static_pages() );
 
-			$directory_pages = array();
-
+			$new_directory_pages = array();
 			foreach ( (array) $_POST['bp_pages'] as $key => $value ) {
-				if ( !empty( $value ) ) {
-					$directory_pages[$key] = (int) $value;
+				if ( isset( $valid_pages[ $key ] ) ) {
+					$new_directory_pages[ $key ] = (int) $value;
 				}
 			}
-			bp_core_update_directory_page_ids( $directory_pages );
+			bp_core_update_directory_page_ids( $new_directory_pages );
 		}
 
 		$base_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings', 'updated' => 'true' ), 'admin.php' ) );

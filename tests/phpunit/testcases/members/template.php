@@ -3,22 +3,6 @@
  * @group members
  */
 class BP_Tests_Members_Template extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$new_user = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$this->set_current_user( $new_user );
-
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
-
 	public function test_bp_has_members_include_on_user_page() {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
@@ -58,7 +42,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		bp_has_members( $template_args );
 
-		preg_match( '/&#038;s=(.*)\'/', $members_template->pag_links, $matches );
+		preg_match( '/&#038;members_search=(.*)\'/', $members_template->pag_links, $matches );
 
 		$this->assertEquals( urldecode( $matches[1] ), urldecode( $template_args['search_terms'] ) );
 
@@ -143,6 +127,60 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$members = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
 		$member_ids = wp_list_pluck( $members, 'ID' );
 		$this->assertEquals( array( $users[1]), $member_ids );
+
+		$GLOBALS['members_template'] = $old_members_template;
+	}
+
+	/**
+	 * @group bp_has_members
+	 * @ticket BP6286
+	 */
+	public function test_bp_has_members_should_infer_member_type_from_get_param() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		global $members_template;
+		$old_members_template = $members_template;
+
+		$old_get = $_GET;
+		$_GET['member_type'] = 'bar';
+
+		bp_has_members();
+
+		$members = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
+		$member_ids = wp_list_pluck( $members, 'ID' );
+		$this->assertEquals( array( $users[1] ), $member_ids );
+
+		$GLOBALS['members_template'] = $old_members_template;
+	}
+
+	/**
+	 * @group bp_has_members
+	 * @ticket BP6286
+	 */
+	public function test_bp_has_members_should_infer_member_type_from_get_param_comma_sep() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_register_member_type( 'baz' );
+		$users = $this->factory->user->create_many( 4 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+		bp_set_member_type( $users[2], 'baz' );
+
+		global $members_template;
+		$old_members_template = $members_template;
+
+		$old_get = $_GET;
+		$_GET['member_type'] = 'foo,bar';
+
+		bp_has_members();
+
+		$members = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
+		$member_ids = wp_list_pluck( $members, 'ID' );
+		$this->assertEqualSets( array( $users[0], $users[1] ), $member_ids );
 
 		$GLOBALS['members_template'] = $old_members_template;
 	}

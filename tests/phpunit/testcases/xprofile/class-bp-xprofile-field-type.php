@@ -4,14 +4,6 @@
  * @group BP_XProfile_Field_Type
  */
 class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public function test_unregistered_field_type_returns_textbox() {
 		$field = bp_xprofile_create_field_type( 'fakeyfield' );
 		$this->assertEquals( get_class( $field ), 'BP_XProfile_Field_Type_Placeholder' );
@@ -46,7 +38,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
 		$this->assertTrue( $field->is_valid( array( 'cheese', 'pepporoni' ) ) );
 		$this->assertTrue( $field->is_valid( array( 'cheese' ) ) );
-		$this->assertFalse( $field->is_valid( array( 'cheese', 'pepporoni', 'pinapple' ) ) );
+		$this->assertFalse( $field->is_valid( array( 'cheese', 'pinapple', 'pepporoni' ) ) );
 		$this->assertFalse( $field->is_valid( array( 'pinapple' ) ) );
 	}
 
@@ -112,7 +104,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
 		$this->assertTrue( $field->is_valid( array( 123 ) ) );
 		$this->assertTrue( $field->is_valid( array( 456 ) ) );
-		$this->assertFalse( $field->is_valid( array( 123, 456, 789 ) ) );
+		$this->assertFalse( $field->is_valid( array( 789, 456, 123 ) ) );
 		$this->assertFalse( $field->is_valid( array( 789 ) ) );
 	}
 
@@ -122,7 +114,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
 		$this->assertTrue( $field->is_valid( array( 'cheese', 'pepporoni' ) ) );
 		$this->assertTrue( $field->is_valid( array( 'cheese' ) ) );
-		$this->assertFalse( $field->is_valid( array( 'cheese', 'pepporoni', 'pinapple' ) ) );
+		$this->assertFalse( $field->is_valid( array(  'pinapple', 'cheese', 'pepporoni' ) ) );
 		$this->assertFalse( $field->is_valid( array( 'pinapple' ) ) );
 		$this->assertFalse( $field->is_valid( '' ) );
 	}
@@ -140,7 +132,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
 		$this->assertTrue( $field->is_valid( array( 'cheese', 'pepporoni' ) ) );
 		$this->assertTrue( $field->is_valid( array( 'cheese' ) ) );
-		$this->assertFalse( $field->is_valid( array( 'cheese', 'pepporoni', 'pinapple' ) ) );
+		$this->assertFalse( $field->is_valid( array( 'pepporoni', 'cheese', 'pinapple' ) ) );
 		$this->assertFalse( $field->is_valid( array( 'pinapple' ) ) );
 		$this->assertFalse( $field->is_valid( '' ) );
 	}

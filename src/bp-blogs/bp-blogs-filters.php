@@ -1,11 +1,10 @@
 <?php
-
 /**
  * Filters related to the Blogs component.
  *
  * @package BuddyPress
- * @subpackage Blogs
- * @since BuddyPress (1.6.0)
+ * @subpackage BlogFilters
+ * @since 1.6.0
  */
 
 /** Display Filters **********************************************************/
@@ -24,7 +23,7 @@ add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
 /**
  * Ensure that the 'Create a new site' link at wp-admin/my-sites.php points to the BP blog signup.
  *
- * @since BuddyPress (1.6.0)
+ * @since 1.6.0
  *
  * @uses apply_filters() Filter 'bp_blogs_creation_location' to alter the
  *       returned value.
@@ -37,7 +36,7 @@ function bp_blogs_creation_location( $url ) {
 	/**
 	 * Filters the 'Create a new site' link URL.
 	 *
-	 * @since BuddyPress (1.6.0)
+	 * @since 1.6.0
 	 *
 	 * @param string $value URL for the 'Create a new site' signup page.
 	 */
@@ -48,11 +47,11 @@ add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
 /**
  * Only select comments by ID instead of all fields when using get_comments().
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @see bp_blogs_update_post_activity_meta()
  *
- * @param array Current SQL clauses in array format
+ * @param array $retval Current SQL clauses in array format.
  * @return array
  */
 function bp_blogs_comments_clauses_select_by_id( $retval ) {
@@ -62,16 +61,16 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
 }
 
 /**
- * Check whether the current post can be published.
+ * Check whether the current activity about a post or a comment can be published.
  *
  * Abstracted from the deprecated `bp_blogs_record_post()`.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  *
- * @param  bool $return  Whether the post should be published.
- * @param  int  $blog_id ID of the blog.
- * @param  int  $post_id ID of the post.
- * @param  int  $user_id ID of the post author.
+ * @param bool $return  Whether the post should be published.
+ * @param int  $blog_id ID of the blog.
+ * @param int  $post_id ID of the post.
+ * @param int  $user_id ID of the post author.
  * @return bool True to authorize the post to be published, otherwise false.
  */
 function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
@@ -86,17 +85,19 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 	 * Stop infinite loops with WordPress MU Sitewide Tags.
 	 * That plugin changed the way its settings were stored at some point. Thus the dual check.
 	 */
-	if ( ! empty( $bp->site_options['sitewide_tags_blog'] ) ) {
-		$st_options = maybe_unserialize( $bp->site_options['sitewide_tags_blog'] );
+	$sitewide_tags_blog_settings = bp_core_get_root_option( 'sitewide_tags_blog' );
+	if ( ! empty( $sitewide_tags_blog_settings ) ) {
+		$st_options = maybe_unserialize( $sitewide_tags_blog_settings );
 		$tags_blog_id = isset( $st_options['tags_blog_id'] ) ? $st_options['tags_blog_id'] : 0;
 	} else {
-		$tags_blog_id = isset( $bp->site_options['tags_blog_id'] ) ? $bp->site_options['tags_blog_id'] : 0;
+		$tags_blog_id = bp_core_get_root_option( 'sitewide_tags_blog' );
+		$tags_blog_id = intval( $tags_blog_id );
 	}
 
 	/**
 	 * Filters whether or not BuddyPress should block sitewide tags activity.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param bool $value Current status of the sitewide tags activity.
 	 */
@@ -107,7 +108,7 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 	/**
 	 * Filters whether or not the current blog is public.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param int $value Value from the blog_public option for the current blog.
 	 */
@@ -120,3 +121,4 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 	return $return;
 }
 add_filter( 'bp_activity_post_pre_publish', 'bp_blogs_post_pre_publish', 10, 4 );
+add_filter( 'bp_activity_post_pre_comment', 'bp_blogs_post_pre_publish', 10, 4 );

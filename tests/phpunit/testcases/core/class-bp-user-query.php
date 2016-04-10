@@ -5,20 +5,6 @@
  * @group BP_User_Query
  */
 class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
-
 	/**
 	 * Checks that user_id returns friends
 	 */
@@ -38,7 +24,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @ticket 4938
+	 * @ticket BP4938
 	 */
 	public function test_bp_user_query_friends_with_include() {
 		$u1 = $this->factory->user->create();
@@ -78,6 +64,32 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$friends = is_array( $q->results ) ? array_values( $q->results ) : array();
 		$friend_ids = wp_list_pluck( $friends, 'ID' );
 		$this->assertEquals( $friend_ids, array() );
+	}
+
+	/**
+	 * @group user_ids
+	 */
+	public function test_bp_user_query_user_ids_with_invalid_user_id() {
+		$now = time();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// invalid user ID
+		$u3 = $u2 + 1;
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $u1 );
+
+		// pass 'user_ids' to user query to trigger this bug
+		$q = new BP_User_Query( array(
+			'user_ids' => array( $u2, $u3 )
+		) );
+
+		// $q->user_ids property should now not contain invalid user IDs
+		$this->assertNotContains( $u3, $q->user_ids );
+
+		// clean up
+		$this->set_current_user( $old_user );
 	}
 
 	public function test_bp_user_query_sort_by_popular() {
@@ -497,6 +509,214 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $users[0] ), $found );
 	}
 
+	/**
+	 * @group member_types
+	 * @ticket BP6334
+	 */
+	public function test_should_return_no_results_when_no_users_match_the_specified_member_type() {
+		bp_register_member_type( 'foo' );
+		$users = $this->factory->user->create_many( 3 );
+
+		$q = new BP_User_Query( array(
+			'member_type' => 'foo, baz',
+		) );
+
+		$this->assertEmpty( $q->results );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__in_single_value() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type__in' => 'bar',
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEquals( array( $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__in_array_with_single_value() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type__in' => array( 'bar' ),
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEquals( array( $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__in_comma_separated_values() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type__in' => 'foo, bar',
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__in_array_with_multiple_values() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type__in' => array( 'foo', 'bar' ),
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[0], $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__in_comma_separated_values_should_discard_non_existent_taxonomies() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type__in' => 'foo, baz',
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[0] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_should_return_no_results_when_no_users_match_the_specified_member_type__in() {
+		bp_register_member_type( 'foo' );
+		$users = $this->factory->user->create_many( 3 );
+
+		$q = new BP_User_Query( array(
+			'member_type__in' => 'foo, baz',
+		) );
+
+		$this->assertEmpty( $q->results );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type_should_take_precedence_over_member_type__in() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type__in' => 'foo',
+			'member_type' => 'bar'
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[1] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__not_in_returns_members_from_other_types_and_members_with_no_types() {
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'member_type__not_in' => 'foo',
+		) );
+
+		$found = array_values( wp_list_pluck( $q->results, 'ID' ) );
+		$this->assertEqualSets( array( $users[1], $users[2] ), $found );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_should_return_no_results_when_all_users_match_the_specified_member_type__not_in() {
+		bp_register_member_type( 'foo' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'foo' );
+		bp_set_member_type( $users[2], 'foo' );
+
+		$q = new BP_User_Query( array(
+			'member_type__not_in' => 'foo',
+		) );
+
+		$this->assertEmpty( $q->results );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__not_in_takes_precedence_over_member_type() {
+		bp_register_member_type( 'foo' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'foo' );
+		bp_set_member_type( $users[2], 'foo' );
+
+		$q = new BP_User_Query( array(
+			'member_type__not_in' => 'foo',
+			'member_type' => 'foo'
+		) );
+
+		$this->assertEmpty( $q->results );
+	}
+
+	/**
+	 * @group member_types
+	 */
+	public function test_member_type__not_in_takes_precedence_over_member_type__in() {
+		bp_register_member_type( 'foo' );
+		$users = $this->factory->user->create_many( 3 );
+		bp_set_member_type( $users[0], 'foo' );
+		bp_set_member_type( $users[1], 'foo' );
+		bp_set_member_type( $users[2], 'foo' );
+
+		$q = new BP_User_Query( array(
+			'member_type__not_in' => 'foo',
+			'member_type__in' => 'foo'
+		) );
+
+		$this->assertEmpty( $q->results );
+	}
 
 	/**
 	 * @group cache

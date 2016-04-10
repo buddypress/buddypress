@@ -13,10 +13,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->filter_fired = '';
 	}
 
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	/**
 	 * @group friends_get_friendship_request_user_ids
 	 * @group friends_add_friend

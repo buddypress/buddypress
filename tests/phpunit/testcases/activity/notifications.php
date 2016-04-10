@@ -242,6 +242,33 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_activity_remove_screen_notifications
+	 * @group mentions
+	 * @ticket BP6687
+	 */
+	public function test_bp_activity_remove_screen_notifications_on_new_mentions_cleared() {
+		$this->create_notifications();
+
+		$notifications = BP_Notifications_Notification::get( array(
+			'item_id' => $this->a1,
+		) );
+
+		// Double check it's there
+		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
+		$this->assertEquals( 1, bp_get_total_mention_count_for_user( $this->u1 ) );
+
+		// Clear notifications for $this->u1
+		bp_activity_clear_new_mentions( $this->u1 );
+
+		$notifications = BP_Notifications_Notification::get( array(
+			'item_id' => $this->a1,
+		) );
+
+		$this->assertEmpty( $notifications, 'Notifications should be cleared when new mention metas are removed' );
+		$this->assertEmpty( bp_get_total_mention_count_for_user( $this->u1 ) );
+	}
+
+	/**
 	 * Creates two notifications for $u1, one of which is for mentions
 	 */
 	protected function create_notifications() {

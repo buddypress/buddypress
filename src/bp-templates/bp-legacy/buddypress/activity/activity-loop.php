@@ -1,4 +1,17 @@
-<?php do_action( 'bp_before_activity_loop' ); ?>
+<?php
+/**
+ * BuddyPress - Activity Loop
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+/**
+ * Fires before the start of the activity loop.
+ *
+ * @since 1.2.0
+ */
+do_action( 'bp_before_activity_loop' ); ?>
 
 <?php if ( bp_has_activities( bp_ajax_querystring( 'activity' ) ) ) : ?>
 
@@ -36,7 +49,14 @@
 
 <?php endif; ?>
 
-<?php do_action( 'bp_after_activity_loop' ); ?>
+<?php
+
+/**
+ * Fires after the finish of the activity loop.
+ *
+ * @since 1.2.0
+ */
+do_action( 'bp_after_activity_loop' ); ?>
 
 <?php if ( empty( $_POST['page'] ) ) : ?>
 

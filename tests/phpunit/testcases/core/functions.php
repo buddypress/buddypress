@@ -190,7 +190,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_format_time
 	 */
-	public function test_bp_format_time_gmt_offset() {
+	public function test_bp_format_time_gmt_offset_no_timezone_string() {
 		$time          = 1395169200;
 		$gmt_offset    = '-6';
 		$just_date     = false;
@@ -199,7 +199,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'date_format', 'F j, Y' );
 		update_option( 'time_format', 'g:i a' );
 		update_option( 'gmt_offset', $gmt_offset );
-		delete_option( 'timezone_string' );
+		update_option( 'timezone_string', '' );
 
 		$this->assertEquals( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
@@ -207,7 +207,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_format_time
 	 */
-	public function test_bp_format_time_timezone_string() {
+	public function test_bp_format_time_timezone_string_no_gmt_offset() {
 		$time           = 1395169200;
 		$timzone_string = 'America/Chicago';
 		$just_date      = false;
@@ -216,9 +216,43 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		update_option( 'date_format', 'F j, Y' );
 		update_option( 'time_format', 'g:i a' );
 		update_option( 'timezone_string', $timzone_string );
-		delete_option( 'gmt_offset' );
+		update_option( 'gmt_offset', '0' );
 
-		$this->assertEquals( 'March 18, 2014 at 1:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+		$this->assertEquals( 'March 18, 2014 at 2:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+	}
+
+	/**
+	 * @group bp_format_time
+	 */
+	public function test_bp_format_time_gmt_offset_no_localize() {
+		$time          = 1395169200;
+		$gmt_offset    = '-6';
+		$just_date     = false;
+		$localize_time = false;
+
+		update_option( 'date_format', 'F j, Y' );
+		update_option( 'time_format', 'g:i a' );
+		update_option( 'gmt_offset', $gmt_offset );
+		update_option( 'timezone_string', '' );
+
+		$this->assertEquals( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
+	}
+
+	/**
+	 * @group bp_format_time
+	 */
+	public function test_bp_format_time_timezone_string_no_localize() {
+		$time           = 1395169200;
+		$timzone_string = 'America/Chicago';
+		$just_date      = false;
+		$localize_time  = false;
+
+		update_option( 'date_format', 'F j, Y' );
+		update_option( 'time_format', 'g:i a' );
+		update_option( 'timezone_string', $timzone_string );
+		update_option( 'gmt_offset', '0' );
+
+		$this->assertEquals( 'March 18, 2014 at 7:00 pm', bp_format_time( $time, $just_date, $localize_time ) );
 	}
 
 	/**
@@ -452,278 +486,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_core_get_directory_page_ids
-	 */
-	public function test_bp_core_get_directory_page_ids_on_directory_page_to_trash() {
-		$old_page_ids = bp_core_get_directory_page_ids();
-
-		// Grab the and remove the first page.
-		foreach ( $old_page_ids as $component => $page_id ) {
-			$p = $page_id;
-			unset( $old_page_ids[ $component ] );
-			break;
-		}
-
-		// Move page to trash.
-		wp_delete_post( $p, false );
-
-		$new_page_ids = bp_core_get_directory_page_ids();
-
-		$this->assertEquals( $old_page_ids, $new_page_ids );
-	}
-
-	/**
-	 * @group bp_core_get_directory_page_ids
-	 */
-	public function test_bp_core_get_directory_page_ids_on_directory_page_delete() {
-		$old_page_ids = bp_core_get_directory_page_ids();
-
-		// Grab the and remove the first page.
-		foreach ( $old_page_ids as $component => $page_id ) {
-			$p = $page_id;
-			unset( $old_page_ids[ $component ] );
-			break;
-		}
-
-		// Force delete page.
-		wp_delete_post( $p, true );
-
-		$new_page_ids = bp_core_get_directory_page_ids();
-
-		$this->assertEquals( $old_page_ids, $new_page_ids );
-	}
-
-	/**
-	 * @group bp_core_get_directory_page_ids
-	 */
-	public function test_bp_core_get_directory_page_ids_on_non_directory_page_delete() {
-		$old_page_ids = bp_core_get_directory_page_ids();
-
-		$p = $this->factory->post->create( array(
-			'post_status' => 'publish',
-			'post_type' => 'page',
-		) );
-
-		// Force delete page.
-		wp_delete_post( $p, true );
-
-		$new_page_ids = bp_core_get_directory_page_ids();
-
-		$this->assertEquals( $old_page_ids, $new_page_ids );
-	}
-
-	/**
-	 * @group bp_core_get_directory_page_ids
-	 */
-	public function test_bp_core_get_directory_page_ids_non_active_component() {
-		$old_page_ids = bp_core_get_directory_page_ids();
-		$bp = buddypress();
-
-		// Grab the and remove the first page.
-		foreach ( $old_page_ids as $component => $page_id ) {
-			$p = $page_id;
-			$c = $component;
-			unset( $old_page_ids[ $component ] );
-			break;
-		}
-
-		// Deactivate component.
-		unset( $bp->active_components[ $c ] );
-
-		$new_page_ids = bp_core_get_directory_page_ids();
-
-		// Restore components.
-		$bp->active_components[ $c ] = 1;
-
-		$this->assertEquals( $old_page_ids, $new_page_ids );
-	}
-
-	/**
-	 * @group bp_core_get_directory_page_ids
-	 */
-	public function test_bp_core_get_directory_page_ids_should_contain_register_and_activet_pages_when_registration_is_open() {
-		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		$ac = buddypress()->active_components;
-		bp_core_add_page_mappings( array_keys( $ac ) );
-
-		$page_ids = bp_core_get_directory_page_ids();
-		$page_names = array_keys( $page_ids );
-
-		$this->assertContains( 'register', $page_names );
-		$this->assertContains( 'activate', $page_names );
-
-		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-	}
-
-	/**
-	 * @group bp_core_get_directory_page_ids
-	 */
-	public function test_bp_core_get_directory_page_ids_should_not_contain_register_and_activet_pages_when_registration_is_closed() {
-
-		// Make sure the pages exist, to verify they're filtered out.
-		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-		$ac = buddypress()->active_components;
-		bp_core_add_page_mappings( array_keys( $ac ) );
-		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		// Get page ids
-		$page_ids = bp_core_get_directory_page_ids();
-
-		// Need to delete these pages as previously created.
-		wp_delete_post( $page_ids['register'], true );
-		wp_delete_post( $page_ids['activate'], true );
-
-		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-		bp_core_add_page_mappings( array_keys( $ac ) );
-		$page_ids = bp_core_get_directory_page_ids();
-		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-
-		$page_names = array_keys( $page_ids );
-
-		$this->assertNotContains( 'register', $page_names );
-		$this->assertNotContains( 'activate', $page_names );
-	}
-
-	/**
-	 * @group bp_core_get_directory_pages
-	 */
-	public function test_bp_core_get_directory_pages_register_activate_page_created_signups_allowed() {
-		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		$ac = buddypress()->active_components;
-		bp_core_add_page_mappings( array_keys( $ac ) );
-		$directory_pages = bp_core_get_directory_pages();
-
-		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		$this->assertTrue( isset( $directory_pages->register ) );
-		$this->assertTrue( isset( $directory_pages->activate ) );
-
-		$r = get_post( $directory_pages->register->id );
-		$this->assertTrue( 'publish' == $r->post_status );
-
-		$a = get_post( $directory_pages->activate->id );
-		$this->assertTrue( 'publish' == $a->post_status );
-	}
-
-	/**
-	 * @group bp_core_get_directory_pages
-	 */
-	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_allowed() {
-		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-
-		$ac = buddypress()->active_components;
-		bp_core_add_page_mappings( array_keys( $ac ) );
-
-		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-
-		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		$directory_pages = bp_core_get_directory_pages();
-
-		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		$this->assertFalse( isset( $directory_pages->register ) );
-		$this->assertFalse( isset( $directory_pages->activate ) );
-	}
-
-	/**
-	 * @group bp_core_get_directory_pages
-	 */
-	public function test_bp_core_get_directory_pages_register_activate_page_created_signups_notallowed() {
-		add_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		$ac = buddypress()->active_components;
-		bp_core_add_page_mappings( array_keys( $ac ) );
-
-		remove_filter( 'bp_get_signup_allowed', '__return_true', 999 );
-
-		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-
-		$directory_pages = bp_core_get_directory_pages();
-
-		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-
-		$this->assertTrue( isset( $directory_pages->register ) );
-		$this->assertTrue( isset( $directory_pages->activate ) );
-
-		$r = get_post( $directory_pages->register->id );
-		$this->assertTrue( 'publish' == $r->post_status );
-
-		$a = get_post( $directory_pages->activate->id );
-		$this->assertTrue( 'publish' == $a->post_status );
-	}
-
-	/**
-	 * @group bp_core_get_directory_pages
-	 */
-	public function test_bp_core_get_directory_pages_register_activate_page_notcreated_signups_notallowed() {
-
-		add_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-
-		$ac = buddypress()->active_components;
-		bp_core_add_page_mappings( array_keys( $ac ) );
-		$directory_pages = bp_core_get_directory_pages();
-
-		remove_filter( 'bp_get_signup_allowed', '__return_false', 999 );
-
-		$this->assertFalse( isset( $directory_pages->register ) );
-		$this->assertFalse( isset( $directory_pages->activate ) );
-	}
-
-	/**
-	 * @group bp_core_get_directory_pages
-	 */
-	public function test_bp_core_get_directory_pages_pages_settings_update() {
-		// Set the cache
-		$pages = bp_core_get_directory_pages();
-
-		// Mess with it but put it back
-		$v = bp_get_option( 'bp-pages' );
-		bp_update_option( 'bp-pages', 'foo' );
-
-		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp' ) );
-
-		bp_update_option( 'bp-pages', $v );
-	}
-
-	/**
-	 * @group bp_core_get_directory_pages
-	 */
-	public function test_bp_core_get_directory_pages_multisite_delete_post_with_same_bp_page_id() {
-		if ( ! is_multisite() ) {
-			return;
-		}
-
-		$dir_pages = bp_core_get_directory_pages();
-
-		// create a blog
-		$u = $this->factory->user->create();
-		$b1 = $this->factory->blog->create( array( 'user_id' => $u ) );
-
-		// switch to blog and create some dummy posts until we reach a post ID that
-		// matches our BP activity page ID
-		switch_to_blog( $b1 );
-		$p = $this->factory->post->create();
-		while( $p <= $dir_pages->activity->id ) {
-			$p = $this->factory->post->create();
-		}
-
-		// delete the post that matches the BP activity page ID on this sub-site
-		wp_delete_post( $dir_pages->activity->id, true );
-
-		// restore blog
-		restore_current_blog();
-
-		// refetch BP directory pages
-		$dir_pages = bp_core_get_directory_pages();
-
-		// Now verify that our BP activity page was not wiped out
-		$this->assertNotEmpty( $dir_pages->activity );
-	}
-
-	/**
 	 * @group bp_core_get_root_options
 	 */
 	public function test_bp_core_get_root_options_cache_invalidate() {
@@ -756,6 +518,32 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 				$this->assertFalse( wp_cache_get( 'root_blog_options', 'bp' ), 'Cache not invalidated after updating "' . $ms_key . '"' );
 			}
 		}
+	}
+
+	/**
+	 * @group bp_core_get_root_option
+	 */
+	public function test_bp_core_get_root_option_with_unpopulated_cache() {
+		// Back up and unset global cache.
+		$old_options = buddypress()->site_options;
+		unset( buddypress()->site_options );
+
+		$this->assertSame( $old_options['avatar_default'], bp_core_get_root_option( 'avatar_default' ) );
+
+		// Clean up.
+		buddypress()->site_options = $old_options;
+	}
+
+	/**
+	 * @group bp_core_get_root_option
+	 */
+	public function test_bp_core_get_root_option_with_populated_cache() {
+		// Back up and unset global cache.
+		$old_options = buddypress()->site_options;
+		buddypress()->site_options = bp_core_get_root_options();
+		$expected = buddypress()->site_options['avatar_default'];
+
+		$this->assertSame( $expected, bp_core_get_root_option( 'avatar_default' ) );
 	}
 
 	/**
@@ -809,5 +597,128 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		if ( $tz_backup ) {
 			date_default_timezone_set( $tz_backup );
 		}
+	}
+
+	/**
+	 * @group bp_attachments
+	 * @group bp_upload_dir
+	 */
+	public function test_bp_upload_dir() {
+		$expected_upload_dir = wp_upload_dir();
+
+		if ( is_multisite() ) {
+			$b = $this->factory->blog->create();
+			switch_to_blog( $b );
+		}
+
+		$tested_upload_dir = bp_upload_dir();
+
+		if ( is_multisite() ) {
+			restore_current_blog();
+		}
+
+		$this->assertSame( $expected_upload_dir, $tested_upload_dir );
+	}
+
+	/**
+	 * @group bp_is_active
+	 */
+	public function test_bp_is_active_component() {
+		$bp = buddypress();
+		$reset_active_components = $bp->active_components;
+
+		$this->assertTrue( bp_is_active( 'members' ) );
+
+		$this->assertFalse( bp_is_active( 'foo' ) );
+
+		// Create and activate the foo component
+		$bp->foo = new BP_Component;
+		$bp->foo->id   = 'foo';
+		$bp->foo->slug = 'foo';
+		$bp->foo->name = 'Foo';
+		$bp->active_components[ $bp->foo->id ] = 1;
+
+		$this->assertTrue( bp_is_active( 'foo' ) );
+
+		add_filter( 'bp_is_active', '__return_false' );
+
+		$this->assertFalse( bp_is_active( 'foo' ) );
+
+		remove_filter( 'bp_is_active', '__return_false' );
+
+		// Reset buddypress() vars
+		$bp->active_components = $reset_active_components;
+	}
+
+	/**
+	 * @group bp_is_active
+	 */
+	public function test_bp_is_active_feature() {
+		$bp = buddypress();
+		$reset_active_components = $bp->active_components;
+
+		// Create and activate the foo component
+		$bp->foo = new BP_Component;
+		$bp->foo->id   = 'foo';
+		$bp->foo->slug = 'foo';
+		$bp->foo->name = 'Foo';
+		$bp->active_components[ $bp->foo->id ] = 1;
+
+		// foo did not register 'bar' as a feature
+		$this->assertFalse( bp_is_active( 'foo', 'bar' ) );
+
+		// fake registering the 'bar' feature
+		$bp->foo->features = array( 'bar' );
+		$this->assertTrue( bp_is_active( 'foo', 'bar' ) );
+
+		// test the feature filter
+		add_filter( 'bp_is_foo_bar_active', '__return_false' );
+		$this->assertFalse( bp_is_active( 'foo', 'bar' ) );
+		remove_filter( 'bp_is_foo_bar_active', '__return_false' );
+
+		// test the main component filter
+		add_filter( 'bp_is_active', '__return_false' );
+		$this->assertFalse( bp_is_active( 'foo', 'bar' ) );
+		remove_filter( 'bp_is_active', '__return_false' );
+
+		// Reset buddypress() vars
+		$bp->active_components = $reset_active_components;
+	}
+
+	/**
+	 * @group bp_attachments
+	 */
+	public function test_bp_attachments_get_allowed_types() {
+		$supported = array( 'jpeg', 'gif', 'png' );
+
+		$avatar = bp_attachments_get_allowed_types( 'avatar' );
+		$this->assertSame( $supported, $avatar );
+
+		$cover_image = bp_attachments_get_allowed_types( 'cover_image' );
+		$this->assertSame( $supported, $cover_image );
+
+		$images = bp_attachments_get_allowed_types( 'image/' );
+
+		foreach ( $images as $image ) {
+			if ( 'image' !== wp_ext2type( $image ) ) {
+				$not_image = $image;
+			}
+		}
+
+		$this->assertTrue( empty( $not_image ) );
+	}
+
+	public function test_emails_should_have_correct_link_color() {
+		$appearance = bp_email_get_appearance_settings();
+
+		$content    = '<a href="http://example.com">example</a>';
+		$link_color = 'style="color: ' . esc_attr( $appearance['highlight_color'] ) . ';';
+		$result     = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
+		$this->assertContains( $link_color, $result );
+
+		$content     = '<a href="http://example.com" style="display: block">example</a>';
+		$link_color .= 'display: block';
+		$result      = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
+		$this->assertContains( $link_color, $result );
 	}
 }

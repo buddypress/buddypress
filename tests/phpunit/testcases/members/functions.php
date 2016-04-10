@@ -3,19 +3,6 @@
  * @group members
  */
 class BP_Tests_Members_Functions extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
 
 	/**
 	 * @ticket BP4915
@@ -588,5 +575,16 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function notification_filter_callback( $value ) {
 		$this->filter_fired = current_filter();
 		return $value;
+	}
+
+	/**
+	 * @ticket BP6208
+	 *
+	 * Note - it's not possible to test this when registration is not configured properly,
+	 * because `bp_has_custom_signup_page()` stores its value in a static variable that cannot
+	 * be toggled.
+	 */
+	public function test_wp_registration_url_should_return_bp_register_page_when_register_page_is_configured_properly() {
+		$this->assertSame( bp_get_signup_page(), wp_registration_url() );
 	}
 }

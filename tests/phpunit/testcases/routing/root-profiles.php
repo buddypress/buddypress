@@ -42,6 +42,29 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 		$this->assertEquals( $this->u->ID, bp_displayed_user_id() );
 	}
 
+	/**
+	 * @ticket BP6475
+	 */
+	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
+		$p = $this->factory->post->create( array(
+			'post_type' => 'page',
+			'post_name' => 'foo',
+		) );
+
+		$members_page = get_page_by_path( 'members' );
+		wp_update_post( array(
+			'ID' => $members_page->ID,
+			'post_parent' => $p,
+		) );
+
+		$domain = home_url( $this->u->user_nicename );
+		$this->go_to( $domain );
+
+		$this->assertTrue( bp_is_user() );
+		$this->assertTrue( bp_is_my_profile() );
+		$this->assertEquals( $this->u->ID, bp_displayed_user_id() );
+	}
+
 	public function test_member_activity_page() {
 		$url = home_url( $this->u->user_nicename ) . '/' . bp_get_activity_slug();
 		$this->go_to( $url );

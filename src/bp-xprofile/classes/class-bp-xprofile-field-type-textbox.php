@@ -1,26 +1,27 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
+ * @since 2.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Textbox xprofile field type.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 
 	/**
-	 * Constructor for the textbox field type
+	 * Constructor for the textbox field type.
 	 *
-	 * @since BuddyPress (2.0.0)
- 	 */
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -32,7 +33,7 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 		/**
 		 * Fires inside __construct() method for BP_XProfile_Field_Type_Textbox class.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param BP_XProfile_Field_Type_Textbox $this Current instance of
 		 *                                             the field type text box.
@@ -42,15 +43,17 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 
 	/**
 	 * Output the edit field HTML for this field type.
-	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/input.text.html permitted attributes} that you want to add.
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *                              {@link http://dev.w3.org/html5/markup/input.text.html permitted attributes}
+	 *                              that you want to add.
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that certain other fields
+		// User_id is a special optional parameter that certain other fields
 		// types pass to {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			unset( $raw_properties['user_id'] );
@@ -63,9 +66,7 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 
 		<label for="<?php bp_the_profile_field_input_name(); ?>">
 			<?php bp_the_profile_field_name(); ?>
-			<?php if ( bp_get_the_profile_field_is_required() ) : ?>
-				<?php esc_html_e( '(required)', 'buddypress' ); ?>
-			<?php endif; ?>
+			<?php bp_the_profile_field_required_label(); ?>
 		</label>
 
 		<?php
@@ -83,8 +84,9 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
-	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 
@@ -92,6 +94,7 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 			'type' => 'text'
 		) ); ?>
 
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'Textbox', 'buddypress' ); ?></label>
 		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 
 		<?php
@@ -101,9 +104,11 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 	 * This method usually outputs HTML for this field type's children options on the wp-admin Profile Fields
 	 * "Add Field" and "Edit Field" screens, but for this field type, we don't want it, so it's stubbed out.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
-	 * @since BuddyPress (2.0.0)
+	 * @param string            $control_type  Optional. HTML input type used to render the
+	 *                                         current field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
 }

@@ -21,6 +21,22 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @dataProvider illegal_names
+	 * @ticket BP5192
+	 */
+	public function test_illegal_names( $name ) {
+		$this->assertWPError( bp_register_member_type( $name ) );
+	}
+
+	public function illegal_names() {
+		return array(
+			array( 'any' ),
+			array( 'null' ),
+			array( '_none' ),
+		);
+	}
+
+	/**
 	 * @ticket BP6139
 	 */
 	public function test_bp_register_member_type_should_sanitize_member_type_key() {
@@ -71,6 +87,54 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		// 'name' is set to upper-case version of member type name.
 		$this->assertSame( 'Foo', $object->labels['name'] );
 		$this->assertSame( 'Bar', $object->labels['singular_name'] );
+	}
+
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_has_directory_should_default_to_true() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => true,
+		) );
+
+		$this->assertTrue( $object->has_directory );
+		$this->assertSame( 'foo', $object->directory_slug );
+	}
+
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_has_directory_true() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => true,
+		) );
+
+		$this->assertTrue( $object->has_directory );
+		$this->assertSame( 'foo', $object->directory_slug );
+	}
+
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_should_store_has_directory_false() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => false,
+		) );
+
+		$this->assertFalse( $object->has_directory );
+		$this->assertSame( '', $object->directory_slug );
+	}
+
+	/**
+	 * @ticket BP6286
+	 */
+	public function test_bp_register_member_type_should_store_has_directory_string() {
+		$object = bp_register_member_type( 'foo', array(
+			'has_directory' => 'foos',
+		) );
+
+		$this->assertTrue( $object->has_directory );
+		$this->assertSame( 'foos', $object->directory_slug );
 	}
 
 	public function test_bp_get_member_type_object_should_return_null_for_non_existent_member_type() {
@@ -214,7 +278,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		global $wpdb;
 
 		// Offset IDs.
-		$dummy_terms = $this->factory->tag->create_many( 5 );
+		$dummy_terms = $this->factory->tag->create_many( 7 );
 
 		$u1 = $this->factory->user->create();
 		bp_register_member_type( 'foo' );
@@ -234,5 +298,98 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$terms = get_terms( 'bp_member_type', array( 'hide_empty' => false, 'fields' => 'all' ) );
 
 		$this->assertSame( 'foo', bp_get_member_type( $new_user_id, true ) );
+	}
+
+	/**
+	 * @group BP6188
+	 */
+	public function test_bp_remove_member_type_should_return_false_when_member_type_is_empty() {
+		$this->assertFalse( bp_remove_member_type( 5, '' ) );
+	}
+
+	/**
+	 * @group BP6188
+	 */
+	public function test_bp_remove_member_type_should_return_false_when_member_type_is_invalid() {
+		$this->assertFalse( bp_remove_member_type( 5, 'foo' ) );
+	}
+
+	/**
+	 * @group BP6188
+	 */
+	public function test_bp_remove_member_type_should_return_false_when_member_is_not_of_provided_type() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_set_member_type( $u1, 'bar' );
+
+		$this->assertFalse( bp_remove_member_type( $u1, 'foo' ) );
+		$types = bp_get_member_type( $u1, false );
+		$this->assertEquals( array( 'bar' ), $types );
+	}
+
+	/**
+	 * @group BP6188
+	 */
+	public function test_bp_remove_member_type_should_return_true_for_successful_deletion() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_set_member_type( $u1, 'foo' );
+		bp_set_member_type( $u1, 'bar', true );
+
+		$this->assertTrue( bp_remove_member_type( $u1, 'foo' ) );
+		$types = bp_get_member_type( $u1, false );
+		$this->assertEquals( array( 'bar' ), $types );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	function test_bp_has_member_type_should_return_false_when_member_type_is_empty() {
+		$this->assertFalse( bp_has_member_type( 5, '' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	function test_bp_has_member_type_should_return_false_when_member_type_is_invalid() {
+		$this->assertFalse( bp_has_member_type( 5, 'foo' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	public function test_bp_has_member_type_should_return_false_when_member_id_is_empty() {
+		bp_register_member_type( 'foo' );
+
+		$this->assertFalse( bp_has_member_type( '', 'foo' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	public function test_bp_has_member_type_should_return_false_when_member_is_not_of_provided_type() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_set_member_type( $u1, 'bar' );
+
+		$this->assertFalse( bp_has_member_type( $u1, 'foo' ) );
+	}
+
+	/**
+	 * @group BP6138
+	 */
+	public function test_bp_has_member_type_should_return_true_on_success() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_register_member_type( 'bar' );
+		bp_set_member_type( $u1, 'foo' );
+		bp_set_member_type( $u1, 'bar', true );
+
+		$this->assertTrue( bp_has_member_type( $u1, 'foo' ) );
+		$types = bp_get_member_type( $u1, false );
+		$this->assertEqualSets( array( 'bar', 'foo' ), $types );
 	}
 }

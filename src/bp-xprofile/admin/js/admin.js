@@ -1,6 +1,6 @@
 /* exported add_option, show_options, hide, fixHelper */
 /* jshint scripturl: true */
-/* global XProfileAdmin */
+/* global XProfileAdmin, ajaxurl */
 
 /**
  * Add option for the forWhat type.
@@ -76,12 +76,23 @@ function add_option(forWhat) {
  * @param {string} forWhat Value of the field to show options for
  */
 function show_options( forWhat ) {
+	var do_autolink;
+
 	for ( var i = 0; i < XProfileAdmin.supports_options_field_types.length; i++ ) {
 		document.getElementById( XProfileAdmin.supports_options_field_types[i] ).style.display = 'none';
 	}
 
 	if ( XProfileAdmin.supports_options_field_types.indexOf( forWhat ) >= 0 ) {
 		document.getElementById( forWhat ).style.display = '';
+		do_autolink = 'on';
+	} else {
+		jQuery( '#do-autolink' ).val( '' );
+		do_autolink = '';
+	}
+
+	// Only overwrite the do_autolink setting if no setting is saved in the database.
+	if ( '' === XProfileAdmin.do_autolink ) {
+		jQuery( '#do-autolink' ).val( do_autolink );
 	}
 }
 
@@ -94,6 +105,34 @@ function hide( id ) {
 	// the field id is [fieldtype]option[iterator] and not [fieldtype]div[iterator]
 	var field_id = id.replace( 'div', 'option' );
 	document.getElementById( field_id ).value = '';
+}
+
+/**
+ * @summary Toggles "no member type" notice.
+ *
+ * @since 2.4.0
+ */
+function toggle_no_member_type_notice() {
+	var $member_type_checkboxes = jQuery( 'input.member-type-selector' );
+
+	// No checkboxes? Nothing to do.
+	if ( ! $member_type_checkboxes.length ) {
+		return;
+	}
+
+	var has_checked = false;
+	$member_type_checkboxes.each( function() {
+		if ( jQuery( this ).is( ':checked' ) ) {
+			has_checked = true;
+			return false;
+		}
+	} );
+
+	if ( has_checked ) {
+		jQuery( 'p.member-type-none-notice' ).addClass( 'hide' );
+	} else {
+		jQuery( 'p.member-type-none-notice' ).removeClass( 'hide' );
+	}
 }
 
 var fixHelper = function(e, ui) {
@@ -152,6 +191,12 @@ jQuery( document ).ready( function() {
 	// Set focus in Field Title, if we're on the right page
 	jQuery( '#bp-xprofile-add-field #title' ).focus();
 
+	// Set up the notice that shows when no member types are selected for a field.
+	toggle_no_member_type_notice();
+	jQuery( 'input.member-type-selector' ).on( 'change', function() {
+		toggle_no_member_type_notice();
+	} );
+
 	// Set up deleting options ajax
 	jQuery( 'a.ajax-option-delete' ).on( 'click', function() {
 		var theId = this.id.split( '-' );
@@ -200,7 +245,7 @@ jQuery( document ).ready( function() {
 	// Allow reordering of fields within groups
 	jQuery( 'fieldset.field-group' ).sortable({
 		cursor: 'move',
-		opacity: 1,
+		opacity: 0.7,
 		items: 'fieldset',
 		tolerance: 'pointer',
 
@@ -217,10 +262,7 @@ jQuery( document ).ready( function() {
 	})
 
 	// Disallow text selection
-	.disableSelection()
-
-	// Change cursor to move if JS is enabled
-	.css( 'cursor', 'move' );
+	.disableSelection();
 
 	// Allow reordering of field options
 	enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );

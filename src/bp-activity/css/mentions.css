@@ -42,7 +42,7 @@
 }
 .atwho-view strong {
 	background: #EFEFEF;
-	font: bold;
+	font-weight: bold;
 }
 .atwho-view .username strong {
 	color: #D54E21;

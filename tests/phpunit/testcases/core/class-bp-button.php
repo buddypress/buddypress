@@ -5,18 +5,6 @@
  * @group BP_Button
  */
 class BP_Tests_BP_Button extends BP_UnitTestCase {
-	protected $old_current_user;
-
-	public function setUp() {
-		$this->old_current_user = get_current_user_id();
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		$this->set_current_user( $this->old_current_user );
-		parent::tearDown();
-	}
-
 	/**
 	 * @group block_self
 	 */

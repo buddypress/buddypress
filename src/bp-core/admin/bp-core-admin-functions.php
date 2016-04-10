@@ -1,13 +1,13 @@
 <?php
-
 /**
- * BuddyPress Common Admin Functions
+ * BuddyPress Common Admin Functions.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
+ * @since 2.3.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Menu **********************************************************************/
@@ -15,8 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.
  *
- * @package BuddyPress Core
- * @uses bp_current_user_can() returns true if the current user is a site admin, false if not
+ * @uses bp_current_user_can() returns true if the current user is a site admin, false if not.
  */
 function bp_core_admin_menu_init() {
 	add_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
@@ -32,13 +31,14 @@ function bp_core_admin_menu_init() {
  * @global array $_parent_pages
  * @global array $_registered_pages
  * @global array $submenu
- * @since BuddyPress (1.6.0)
+ *
+ * @since 1.6.0
  */
 function bp_core_admin_backpat_menu() {
 	global $_parent_pages, $_registered_pages, $submenu;
 
 	// If there's no bp-general-settings menu (perhaps because the current
-	// user is not an Administrator), there's nothing to do here
+	// user is not an Administrator), there's nothing to do here.
 	if ( ! isset( $submenu['bp-general-settings'] ) ) {
 		return;
 	}
@@ -52,11 +52,11 @@ function bp_core_admin_backpat_menu() {
 		return;
 	}
 
-	// This removes the top-level menu
+	// This removes the top-level menu.
 	remove_submenu_page( 'bp-general-settings', 'bp-general-settings' );
 	remove_menu_page( 'bp-general-settings' );
 
-	// These stop people accessing the URL directly
+	// These stop people accessing the URL directly.
 	unset( $_parent_pages['bp-general-settings'] );
 	unset( $_registered_pages['toplevel_page_bp-general-settings'] );
 }
@@ -71,17 +71,18 @@ add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
  *
  * @global string $plugin_page
  * @global array $submenu
- * @since BuddyPress (1.6.0)
+ *
+ * @since 1.6.0
  */
 function bp_core_modify_admin_menu_highlight() {
 	global $plugin_page, $submenu_file;
 
-	// This tweaks the Settings subnav menu to show only one BuddyPress menu item
+	// This tweaks the Settings subnav menu to show only one BuddyPress menu item.
 	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings', ) ) ) {
 		$submenu_file = 'bp-components';
 	}
 
-	// Network Admin > Tools
+	// Network Admin > Tools.
 	if ( in_array( $plugin_page, array( 'bp-tools', 'available-tools' ) ) ) {
 		$submenu_file = $plugin_page;
 	}
@@ -93,7 +94,9 @@ function bp_core_modify_admin_menu_highlight() {
  * will never appear.
  *
  * @see bp_core_admin_backpat_menu()
- * @since BuddyPress (1.6.0)
+ *
+ * @since 1.6.0
+ *
  * @todo Add convenience links into the markup once new positions are finalised.
  */
 function bp_core_admin_backpat_page() {
@@ -101,7 +104,6 @@ function bp_core_admin_backpat_page() {
 	$settings_url = add_query_arg( 'page', 'bp-components', $url ); ?>
 
 	<div class="wrap">
-		<?php screen_icon( 'buddypress' ); ?>
 		<h2><?php _e( 'Why have all my BuddyPress menus disappeared?', 'buddypress' ); ?></h2>
 
 		<p><?php _e( "Don't worry! We've moved the BuddyPress options into more convenient and easier to find locations. You're seeing this page because you are running a legacy BuddyPress plugin which has not been updated.", 'buddypress' ); ?></p>
@@ -114,19 +116,19 @@ function bp_core_admin_backpat_page() {
 /** Notices *******************************************************************/
 
 /**
- * Print admin messages to admin_notices or network_admin_notices
+ * Print admin messages to admin_notices or network_admin_notices.
  *
  * BuddyPress combines all its messages into a single notice, to avoid a preponderance of yellow
  * boxes.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
- * @uses bp_current_user_can() to check current user permissions before showing the notices
+ * @uses bp_current_user_can() to check current user permissions before showing the notices.
  * @uses bp_is_root_blog()
  */
 function bp_core_print_admin_notices() {
 
-	// Only the super admin should see messages
+	// Only the super admin should see messages.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
 	}
@@ -158,30 +160,30 @@ add_action( 'admin_notices',         'bp_core_print_admin_notices' );
 add_action( 'network_admin_notices', 'bp_core_print_admin_notices' );
 
 /**
- * Add an admin notice to the BP queue
+ * Add an admin notice to the BP queue.
  *
  * Messages added with this function are displayed in BuddyPress's general purpose admin notices
  * box. It is recommended that you hook this function to admin_init, so that your messages are
  * loaded in time.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @param string $notice The notice you are adding to the queue.
- * @param string $type The notice type; optional. Usually either "updated" or "error".
+ * @param string $type   The notice type; optional. Usually either "updated" or "error".
  */
 function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
 
-	// Do not add if the notice is empty
+	// Do not add if the notice is empty.
 	if ( empty( $notice ) ) {
 		return;
 	}
 
-	// Double check the object before referencing it
+	// Double check the object before referencing it.
 	if ( ! isset( buddypress()->admin->notices ) ) {
 		buddypress()->admin->notices = array();
 	}
 
-	// Add the notice
+	// Add the notice.
 	buddypress()->admin->notices[] = array(
 		'message' => $notice,
 		'type'    => $type,
@@ -189,37 +191,38 @@ function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
 }
 
 /**
- * Verify that some BP prerequisites are set up properly, and notify the admin if not
+ * Verify that some BP prerequisites are set up properly, and notify the admin if not.
  *
  * On every Dashboard page, this function checks the following:
- *   - that pretty permalinks are enabled
- *   - that every BP component that needs a WP page for a directory has one
- *   - that no WP page has multiple BP components associated with it
+ *   - that pretty permalinks are enabled.
+ *   - that every BP component that needs a WP page for a directory has one.
+ *   - that no WP page has multiple BP components associated with it.
  * The administrator will be shown a notice for each check that fails.
  *
  * @global WPDB $wpdb WordPress DB object
  * @global WP_Rewrite $wp_rewrite
- * @since BuddyPress (1.2.0)
+ *
+ * @since 1.2.0
  */
 function bp_core_activation_notice() {
 	global $wp_rewrite, $wpdb;
 
-	// Only the super admin gets warnings
+	// Only the super admin gets warnings.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
 	}
 
-	// Bail in user admin
+	// Bail in user admin.
 	if ( is_user_admin() ) {
 		return;
 	}
 
-	// On multisite installs, don't load on a non-root blog, unless do_network_admin is overridden
+	// On multisite installs, don't load on a non-root blog, unless do_network_admin is overridden.
 	if ( is_multisite() && bp_core_do_network_admin() && ! bp_is_root_blog() ) {
 		return;
 	}
 
-	// Bail if in network admin, and BuddyPress is not network activated
+	// Bail if in network admin, and BuddyPress is not network activated.
 	if ( is_network_admin() && ! bp_is_network_activated() ) {
 		return;
 	}
@@ -238,21 +241,21 @@ function bp_core_activation_notice() {
 		}
 	}
 
-	// Add notice if no rewrite rules are enabled
+	// Add notice if no rewrite rules are enabled.
 	if ( empty( $wp_rewrite->permalink_structure ) ) {
 		bp_core_add_admin_notice( sprintf( __( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ), admin_url( 'options-permalink.php' ) ), 'error' );
 	}
 
-	// Get BuddyPress instance
+	// Get BuddyPress instance.
 	$bp = buddypress();
 
 	/**
-	 * Check for orphaned BP components (BP component is enabled, no WP page exists)
+	 * Check for orphaned BP components (BP component is enabled, no WP page exists).
 	 */
 	$orphaned_components = array();
 	$wp_page_components  = array();
 
-	// Only components with 'has_directory' require a WP page to function
+	// Only components with 'has_directory' require a WP page to function.
 	foreach( array_keys( $bp->loaded_components ) as $component_id ) {
 		if ( !empty( $bp->{$component_id}->has_directory ) ) {
 			$wp_page_components[] = array(
@@ -276,7 +279,8 @@ function bp_core_activation_notice() {
 		);
 	}
 
-	// On the first admin screen after a new installation, this isn't set, so grab it to suppress a misleading error message.
+	// On the first admin screen after a new installation, this isn't set, so grab it to suppress
+	// a misleading error message.
 	if ( empty( $bp->pages->members ) ) {
 		$bp->pages = bp_core_get_directory_pages();
 	}
@@ -289,7 +293,7 @@ function bp_core_activation_notice() {
 
 	// Special case: If the Forums component is orphaned, but the bbPress 1.x installation is
 	// not correctly set up, don't show a nag. (In these cases, it's probably the case that the
-	// user is using bbPress 2.x; see https://buddypress.trac.wordpress.org/ticket/4292
+	// user is using bbPress 2.x; see https://buddypress.trac.wordpress.org/ticket/4292.
 	if ( isset( $bp->forums->name ) && in_array( $bp->forums->name, $orphaned_components ) && !bp_forums_is_installed_correctly() ) {
 		$forum_key = array_search( $bp->forums->name, $orphaned_components );
 		unset( $orphaned_components[$forum_key] );
@@ -298,7 +302,15 @@ function bp_core_activation_notice() {
 
 	if ( !empty( $orphaned_components ) ) {
 		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf( __( 'The following active BuddyPress Components do not have associated WordPress Pages: %2$s. <a href="%1$s">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $orphaned_components ) . '</strong>' );
+		$notice    = sprintf(
+			'%1$s <a href="%2$s">%3$s</a>',
+			sprintf(
+				__( 'The following active BuddyPress Components do not have associated WordPress Pages: %s.', 'buddypress' ),
+				'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $orphaned_components ) ) . '</strong>'
+			),
+			esc_url( $admin_url ),
+			__( 'Repair', 'buddypress' )
+		);
 
 		bp_core_add_admin_notice( $notice );
 	}
@@ -313,44 +325,52 @@ function bp_core_activation_notice() {
 			$dupe_names[] = $bp->pages->{$dupe_component}->title;
 		}
 
-		// Make sure that there are no duplicate duplicates :)
+		// Make sure that there are no duplicate duplicates :).
 		$dupe_names = array_unique( $dupe_names );
 	}
 
-	// If there are duplicates, post a message about them
+	// If there are duplicates, post a message about them.
 	if ( !empty( $dupe_names ) ) {
 		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf( __( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %2$s. <a href="%1$s">Repair</a>', 'buddypress' ), $admin_url, '<strong>' . implode( '</strong>, <strong>', $dupe_names ) . '</strong>' );
+		$notice    = sprintf(
+			'%1$s <a href="%2$s">%3$s</a>',
+			sprintf(
+				__( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %s.', 'buddypress' ),
+				'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $dupe_names ) ) . '</strong>'
+			),
+			esc_url( $admin_url ),
+			__( 'Repair', 'buddypress' )
+		);
 
 		bp_core_add_admin_notice( $notice );
 	}
 }
 
 /**
- * Redirect user to BuddyPress's What's New page on activation
+ * Redirect user to BuddyPress's What's New page on activation.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
- * @internal Used internally to redirect BuddyPress to the about page on activation
+ * @internal Used internally to redirect BuddyPress to the about page on activation.
  *
- * @uses get_transient() To see if transient to redirect exists
- * @uses delete_transient() To delete the transient if it exists
- * @uses is_network_admin() To bail if being network activated
- * @uses wp_safe_redirect() To redirect
- * @uses add_query_arg() To help build the URL to redirect to
- * @uses admin_url() To get the admin URL to index.php
+ * @uses get_transient() To see if transient to redirect exists.
+ * @uses delete_transient() To delete the transient if it exists.
+ * @uses is_network_admin() To bail if being network activated.
+ * @uses wp_safe_redirect() To redirect.
+ * @uses add_query_arg() To help build the URL to redirect to.
+ * @uses admin_url() To get the admin URL to index.php.
  */
 function bp_do_activation_redirect() {
 
-	// Bail if no activation redirect
+	// Bail if no activation redirect.
 	if ( ! get_transient( '_bp_activation_redirect' ) ) {
 		return;
 	}
 
-	// Delete the redirect transient
+	// Delete the redirect transient.
 	delete_transient( '_bp_activation_redirect' );
 
-	// Bail if activating from network, or bulk
+	// Bail if activating from network, or bulk.
 	if ( isset( $_GET['activate-multi'] ) ) {
 		return;
 	}
@@ -361,16 +381,17 @@ function bp_do_activation_redirect() {
 		delete_transient( '_bp_is_new_install' );
 	}
 
-	// Redirect to BuddyPress about page
+	// Redirect to BuddyPress about page.
 	wp_safe_redirect( add_query_arg( $query_args, bp_get_admin_url( 'index.php' ) ) );
 }
 
 /** UI/Styling ****************************************************************/
 
 /**
- * Output the tabs in the admin area
+ * Output the tabs in the admin area.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
+ *
  * @param string $active_tab Name of the tab that is active. Optional.
  */
 function bp_core_admin_tabs( $active_tab = '' ) {
@@ -381,13 +402,13 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	/**
 	 * Filters the admin tabs to be displayed.
 	 *
-	 * @since BuddyPress (1.9.0)
+	 * @since 1.9.0
 	 *
 	 * @param array $value Array of tabs to output to the admin area.
 	 */
 	$tabs         = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab ) );
 
-	// Loop through tabs and build navigation
+	// Loop through tabs and build navigation.
 	foreach ( array_values( $tabs ) as $tab_data ) {
 		$is_current = (bool) ( $tab_data['name'] == $active_tab );
 		$tab_class  = $is_current ? $active_class : $idle_class;
@@ -399,7 +420,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	/**
 	 * Fires after the output of tabs for the admin area.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_admin_tabs' );
 }
@@ -407,8 +428,10 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 /**
  * Get the data for the tabs in the admin area.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
+ *
  * @param string $active_tab Name of the tab that is active. Optional.
+ * @return string
  */
 function bp_core_get_admin_tabs( $active_tab = '' ) {
 	$tabs = array(
@@ -422,14 +445,14 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 		),
 		'2' => array(
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
-			'name' => __( 'Settings', 'buddypress' )
+			'name' => __( 'Options', 'buddypress' )
 		),
 	);
 
-	// If forums component is active, add additional tab
+	// If forums component is active, add additional tab.
 	if ( bp_is_active( 'forums' ) && class_exists( 'BP_Forums_Component' ) ) {
 
-		// enqueue thickbox
+		// Enqueue thickbox.
 		wp_enqueue_script( 'thickbox' );
 		wp_enqueue_style( 'thickbox' );
 
@@ -442,7 +465,7 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 	/**
 	 * Filters the tab data used in our wp-admin screens.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param array $tabs Tab data.
 	 */
@@ -452,10 +475,12 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 /** Help **********************************************************************/
 
 /**
- * adds contextual help to BuddyPress admin pages
+ * Adds contextual help to BuddyPress admin pages.
  *
- * @since BuddyPress (1.7.0)
- * @todo Make this part of the BP_Component class and split into each component
+ * @since 1.7.0
+ * @todo Make this part of the BP_Component class and split into each component.
+ *
+ * @param string $screen Current screen.
  */
 function bp_core_add_contextual_help( $screen = '' ) {
 
@@ -463,17 +488,17 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 	switch ( $screen->id ) {
 
-		// Component page
+		// Component page.
 		case 'settings_page_bp-components' :
 
-			// help tabs
+			// Help tabs.
 			$screen->add_help_tab( array(
 				'id'      => 'bp-comp-overview',
 				'title'   => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-comp-overview' ),
 			) );
 
-			// help panel - sidebar links
+			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/">Managing Components</a>', 'buddypress' ) . '</p>' .
@@ -481,17 +506,17 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			);
 			break;
 
-		// Pages page
+		// Pages page.
 		case 'settings_page_bp-page-settings' :
 
-			// Help tabs
+			// Help tabs.
 			$screen->add_help_tab( array(
 				'id' => 'bp-page-overview',
 				'title' => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-page-overview' ),
 			) );
 
-			// Help panel - sidebar links
+			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/#settings-buddypress-pages">Managing Pages</a>', 'buddypress' ) . '</p>' .
@@ -500,17 +525,17 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 			break;
 
-		// Settings page
+		// Settings page.
 		case 'settings_page_bp-settings' :
 
-			// Help tabs
+			// Help tabs.
 			$screen->add_help_tab( array(
 				'id'      => 'bp-settings-overview',
 				'title'   => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-settings-overview' ),
 			) );
 
-			// Help panel - sidebar links
+			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/#settings-buddypress-settings">Managing Settings</a>', 'buddypress' ) . '</p>' .
@@ -519,17 +544,17 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 			break;
 
-		// Profile fields page
+		// Profile fields page.
 		case 'users_page_bp-profile-setup' :
 
-			// Help tabs
+			// Help tabs.
 			$screen->add_help_tab( array(
 				'id'      => 'bp-profile-overview',
 				'title'   => __( 'Overview', 'buddypress' ),
 				'content' => bp_core_add_contextual_help_content( 'bp-profile-overview' ),
 			) );
 
-			// Help panel - sidebar links
+			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
 				'<p>' . __( '<a href="https://codex.buddypress.org/administrator-guide/extended-profiles/">Managing Profile Fields</a>', 'buddypress' ) . '</p>' .
@@ -542,9 +567,12 @@ function bp_core_add_contextual_help( $screen = '' ) {
 add_action( 'contextual_help', 'bp_core_add_contextual_help' );
 
 /**
- * renders contextual help content to contextual help tabs
+ * Renders contextual help content to contextual help tabs.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
+ *
+ * @param string $tab Current help content tab.
+ * @return string
  */
 function bp_core_add_contextual_help_content( $tab = '' ) {
 
@@ -562,7 +590,7 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 			break;
 
 		case 'bp-profile-overview' :
-			$retval = __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.</br></br>Note: Any fields in the first group will appear on the signup page.', 'buddypress' );
+			$retval = __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.', 'buddypress' ) . '<br /><br />' . __( 'Note: Any fields in the first group will appear on the signup page.', 'buddypress' );
 			break;
 
 		default:
@@ -570,7 +598,7 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 			break;
 	}
 
-	// Wrap text in a paragraph tag
+	// Wrap text in a paragraph tag.
 	if ( !empty( $retval ) ) {
 		$retval = '<p>' . $retval . '</p>';
 	}
@@ -581,25 +609,25 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 /** Separator *****************************************************************/
 
 /**
- * Add a separator to the WordPress admin menus
+ * Add a separator to the WordPress admin menus.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
- * @uses bp_current_user_can() To check users capability on root blog
+ * @uses bp_current_user_can() To check users capability on root blog.
  */
 function bp_admin_separator() {
 
-	// Bail if BuddyPress is not network activated and viewing network admin
+	// Bail if BuddyPress is not network activated and viewing network admin.
 	if ( is_network_admin() && ! bp_is_network_activated() ) {
 		return;
 	}
 
-	// Bail if BuddyPress is network activated and viewing site admin
+	// Bail if BuddyPress is network activated and viewing site admin.
 	if ( ! is_network_admin() && bp_is_network_activated() ) {
 		return;
 	}
 
-	// Prevent duplicate separators when no core menu items exist
+	// Prevent duplicate separators when no core menu items exist.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
 	}
@@ -616,17 +644,18 @@ function bp_admin_separator() {
 }
 
 /**
- * Tell WordPress we have a custom menu order
+ * Tell WordPress we have a custom menu order.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
- * @param bool $menu_order Menu order
- * @uses bp_current_user_can() To check users capability on root blog
- * @return bool Always true
+ * @uses bp_current_user_can() To check users capability on root blog.
+ *
+ * @param bool $menu_order Menu order.
+ * @return bool Always true.
  */
 function bp_admin_custom_menu_order( $menu_order = false ) {
 
-	// Bail if user cannot see admin pages
+	// Bail if user cannot see admin pages.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return $menu_order;
 	}
@@ -635,87 +664,89 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
 }
 
 /**
- * Move our custom separator above our custom post types
+ * Move our custom separator above our custom post types.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
  *
- * @param array $menu_order Menu Order
- * @uses bp_current_user_can() To check users capability on root blog
- * @return array Modified menu order
+ * @uses bp_current_user_can() To check users capability on root blog.
+ *
+ * @param array $menu_order Menu Order.
+ * @return array Modified menu order.
  */
 function bp_admin_menu_order( $menu_order = array() ) {
 
-	// Bail if user cannot see admin pages
+	// Bail if user cannot see admin pages.
 	if ( empty( $menu_order ) || ! bp_current_user_can( 'bp_moderate' ) ) {
 		return $menu_order;
 	}
 
-	// Initialize our custom order array
+	// Initialize our custom order array.
 	$bp_menu_order = array();
 
-	// Menu values
+	// Menu values.
 	$last_sep     = is_network_admin() ? 'separator1' : 'separator2';
 
 	/**
 	 * Filters the custom admin menus.
 	 *
-	 * @since BuddyPress (1.7.0)
+	 * @since 1.7.0
 	 *
 	 * @param array $value Empty array.
 	 */
 	$custom_menus = (array) apply_filters( 'bp_admin_menu_order', array() );
 
-	// Bail if no components have top level admin pages
+	// Bail if no components have top level admin pages.
 	if ( empty( $custom_menus ) ) {
 		return $menu_order;
 	}
 
-	// Add our separator to beginning of array
+	// Add our separator to beginning of array.
 	array_unshift( $custom_menus, 'separator-buddypress' );
 
-	// Loop through menu order and do some rearranging
+	// Loop through menu order and do some rearranging.
 	foreach ( (array) $menu_order as $item ) {
 
-		// Position BuddyPress menus above appearance
+		// Position BuddyPress menus above appearance.
 		if ( $last_sep == $item ) {
 
-			// Add our custom menus
+			// Add our custom menus.
 			foreach( (array) $custom_menus as $custom_menu ) {
 				if ( array_search( $custom_menu, $menu_order ) ) {
 					$bp_menu_order[] = $custom_menu;
 				}
 			}
 
-			// Add the appearance separator
+			// Add the appearance separator.
 			$bp_menu_order[] = $last_sep;
 
-		// Skip our menu items
+		// Skip our menu items.
 		} elseif ( ! in_array( $item, $custom_menus ) ) {
 			$bp_menu_order[] = $item;
 		}
 	}
 
-	// Return our custom order
+	// Return our custom order.
 	return $bp_menu_order;
 }
 
 /** Utility  *****************************************************************/
 
 /**
- * When using a WP_List_Table, get the currently selected bulk action
+ * When using a WP_List_Table, get the currently selected bulk action.
  *
  * WP_List_Tables have bulk actions at the top and at the bottom of the tables,
  * and the inputs have different keys in the $_REQUEST array. This function
  * reconciles the two values and returns a single action being performed.
  *
- * @since BuddyPress (1.7.0)
+ * @since 1.7.0
+ *
  * @return string
  */
 function bp_admin_list_table_current_bulk_action() {
 
 	$action = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 
-	// If the bottom is set, let it override the action
+	// If the bottom is set, let it override the action.
 	if ( ! empty( $_REQUEST['action2'] ) && $_REQUEST['action2'] != "-1" ) {
 		$action = $_REQUEST['action2'];
 	}
@@ -726,9 +757,9 @@ function bp_admin_list_table_current_bulk_action() {
 /** Menus *********************************************************************/
 
 /**
- * Register meta box and associated JS for BuddyPress WP Nav Menu .
+ * Register meta box and associated JS for BuddyPress WP Nav Menu.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_admin_wp_nav_menu_meta_box() {
 	if ( ! bp_is_root_blog() ) {
@@ -743,7 +774,7 @@ function bp_admin_wp_nav_menu_meta_box() {
 /**
  * Build and populate the BuddyPress accordion on Appearance > Menus.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  *
  * @global $nav_menu_selected_id
  */
@@ -796,6 +827,131 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 }
 
 /**
+ * In admin emails list, for non-en_US locales, add notice explaining how to reinstall emails.
+ *
+ * If BuddyPress installs before its translations are in place, tell people how to reinstall
+ * the emails so they have their contents in their site's language.
+ *
+ * @since 2.5.0
+ */
+function bp_admin_email_maybe_add_translation_notice() {
+	if ( get_current_screen()->post_type !== bp_get_email_post_type() || get_locale() === 'en_US' ) {
+		return;
+	}
+
+	// If user can't access BP Tools, there's no point showing the message.
+	if ( ! current_user_can( buddypress()->admin->capability ) ) {
+		return;
+	}
+
+	if ( bp_core_do_network_admin() ) {
+		$admin_page = 'admin.php';
+	} else {
+		$admin_page = 'tools.php';
+	}
+
+	bp_core_add_admin_notice(
+		sprintf(
+			__( 'Are your emails in the wrong language? Go to <a href="%s">BuddyPress Tools and run the "reinstall emails"</a> tool.', 'buddypress' ),
+			esc_url( add_query_arg( 'page', 'bp-tools', bp_get_admin_url( $admin_page ) ) )
+		),
+		'updated'
+	);
+}
+add_action( 'admin_head-edit.php', 'bp_admin_email_maybe_add_translation_notice' );
+
+/**
+ * In emails editor, add notice linking to token documentation on Codex.
+ *
+ * @since 2.5.0
+ */
+function bp_admin_email_add_codex_notice() {
+	if ( get_current_screen()->post_type !== bp_get_email_post_type() ) {
+		return;
+	}
+
+	bp_core_add_admin_notice(
+		sprintf(
+			__( 'Phrases wrapped in braces <code>{{ }}</code> are email tokens. <a href="%s">Learn about tokens on the BuddyPress Codex</a>.', 'buddypress' ),
+			esc_url( 'https://codex.buddypress.org/emails/email-tokens/' )
+		),
+		'error'
+	);
+}
+add_action( 'admin_head-post.php', 'bp_admin_email_add_codex_notice' );
+
+/**
+ * Display metabox for email taxonomy type.
+ *
+ * Shows the term description in a list, rather than the term name itself.
+ *
+ * @since 2.5.0
+ *
+ * @param WP_Post $post Post object.
+ * @param array   $box {
+ *     Tags meta box arguments.
+ *
+ *     @type string   $id       Meta box ID.
+ *     @type string   $title    Meta box title.
+ *     @type callable $callback Meta box display callback.
+ * }
+ */
+function bp_email_tax_type_metabox( $post, $box ) {
+	$r = array(
+		'taxonomy' => bp_get_email_tax_type()
+	);
+
+	$tax_name = esc_attr( $r['taxonomy'] );
+	$taxonomy = get_taxonomy( $r['taxonomy'] );
+	?>
+	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
+		<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
+			<?php
+			$name = ( $tax_name == 'category' ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
+			echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
+			?>
+			<ul id="<?php echo $tax_name; ?>checklist" data-wp-lists="list:<?php echo $tax_name; ?>" class="categorychecklist form-no-clear">
+				<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => $tax_name, 'walker' => new BP_Walker_Category_Checklist ) ); ?>
+			</ul>
+		</div>
+
+		<p><?php esc_html_e( 'Choose when this email will be sent.', 'buddypress' ); ?></p>
+	</div>
+	<?php
+}
+
+/**
+ * Custom metaboxes used by our 'bp-email' post type.
+ *
+ * @since 2.5.0
+ */
+function bp_email_custom_metaboxes() {
+	// Remove default 'Excerpt' metabox and replace with our own.
+	remove_meta_box( 'postexcerpt', null, 'normal' );
+	add_meta_box( 'postexcerpt', __( 'Plain text email content', 'buddypress' ), 'bp_email_plaintext_metabox', null, 'normal', 'high' );
+}
+add_action( 'add_meta_boxes_' . bp_get_email_post_type(), 'bp_email_custom_metaboxes' );
+
+/**
+ * Customized version of the 'Excerpt' metabox for our 'bp-email' post type.
+ *
+ * We are using the 'Excerpt' metabox as our plain-text email content editor.
+ *
+ * @since 2.5.0
+ *
+ * @param WP_Post $post
+ */
+function bp_email_plaintext_metabox( $post ) {
+?>
+
+	<label class="screen-reader-text" for="excerpt"><?php _e( 'Plain text email content', 'buddypress' ); ?></label><textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+
+	<p><?php _e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
+
+<?php
+}
+
+/**
  * Restrict various items from view if editing a BuddyPress menu.
  *
  * If a person is editing a BP menu item, that person should not be able to
@@ -807,9 +963,9 @@ function bp_admin_do_wp_nav_menu_meta_box() {
  * - URL - This field is automatically generated by BP on output, so this
  *   field is useless and can cause confusion.
  *
- * Note: These restrictions are only enforced if javascript is enabled.
+ * Note: These restrictions are only enforced if JavaScript is enabled.
  *
- * @since BuddyPress (1.9.0)
+ * @since 1.9.0
  */
 function bp_admin_wp_nav_menu_restrict_items() {
 ?>
@@ -830,33 +986,33 @@ function bp_admin_wp_nav_menu_restrict_items() {
 /**
  * Add "Mark as Spam/Ham" button to user row actions.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
- * @param array $actions User row action links.
+ * @param array  $actions     User row action links.
  * @param object $user_object Current user information.
  * @return array $actions User row action links.
  */
 function bp_core_admin_user_row_actions( $actions, $user_object ) {
 
-	// Setup the $user_id variable from the current user object
+	// Setup the $user_id variable from the current user object.
 	$user_id = 0;
 	if ( !empty( $user_object->ID ) ) {
 		$user_id = absint( $user_object->ID );
 	}
 
-	// Bail early if user cannot perform this action, or is looking at themselves
+	// Bail early if user cannot perform this action, or is looking at themselves.
 	if ( current_user_can( 'edit_user', $user_id ) && ( bp_loggedin_user_id() !== $user_id ) ) {
 
-		// Admin URL could be single site or network
+		// Admin URL could be single site or network.
 		$url = bp_get_admin_url( 'users.php' );
 
-		// If spammed, create unspam link
+		// If spammed, create unspam link.
 		if ( bp_is_user_spammer( $user_id ) ) {
 			$url             = add_query_arg( array( 'action' => 'ham', 'user' => $user_id ), $url );
 			$unspam_link     = wp_nonce_url( $url, 'bp-spam-user' );
 			$actions['ham']  = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $unspam_link ), esc_html__( 'Not Spam', 'buddypress' ) );
 
-		// If not already spammed, create spam link
+		// If not already spammed, create spam link.
 		} else {
 			$url             = add_query_arg( array( 'action' => 'spam', 'user' => $user_id ), $url );
 			$spam_link       = wp_nonce_url( $url, 'bp-spam-user' );
@@ -864,34 +1020,34 @@ function bp_core_admin_user_row_actions( $actions, $user_object ) {
 		}
 	}
 
-	// Create a "View" link
+	// Create a "View" link.
 	$url             = bp_core_get_user_domain( $user_id );
 	$actions['view'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), esc_html__( 'View', 'buddypress' ) );
 
-	// Return new actions
+	// Return new actions.
 	return $actions;
 }
 
 /**
  * Catch requests to mark individual users as spam/ham from users.php.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_core_admin_user_manage_spammers() {
 
-	// Print our inline scripts on non-Multisite
+	// Print our inline scripts on non-Multisite.
 	add_action( 'admin_footer', 'bp_core_admin_user_spammed_js' );
 
 	$action  = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : false;
 	$updated = isset( $_REQUEST['updated'] ) ? $_REQUEST['updated'] : false;
 	$mode    = isset( $_POST['mode'] ) ? $_POST['mode'] : false;
 
-	// if this is a multisite, bulk request, stop now!
+	// If this is a multisite, bulk request, stop now!
 	if ( 'list' == $mode ) {
 		return;
 	}
 
-	// Process a spam/ham request
+	// Process a spam/ham request.
 	if ( ! empty( $action ) && in_array( $action, array( 'spam', 'ham' ) ) ) {
 
 		check_admin_referer( 'bp-spam-user' );
@@ -906,15 +1062,15 @@ function bp_core_admin_user_manage_spammers() {
 
 		$status = ( $action == 'spam' ) ? 'spam' : 'ham';
 
-		// Process the user
+		// Process the user.
 		bp_core_process_spammer_status( $user_id, $status );
 
-		$redirect = add_query_arg( array( 'updated' => 'marked-' . $status ), $redirect);
+		$redirect = add_query_arg( array( 'updated' => 'marked-' . $status ), $redirect );
 
 		wp_redirect( $redirect );
 	}
 
-	// Display feedback
+	// Display feedback.
 	if ( ! empty( $updated ) && in_array( $updated, array( 'marked-spam', 'marked-ham' ) ) ) {
 
 		if ( 'marked-spam' === $updated ) {
@@ -930,7 +1086,7 @@ function bp_core_admin_user_manage_spammers() {
 /**
  * Inline script that adds the 'site-spammed' class to spammed users.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 function bp_core_admin_user_spammed_js() {
 	?>

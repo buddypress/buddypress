@@ -1,3 +1,13 @@
+<?php
+/**
+ * BuddyPress - Members Unread Notifications
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <?php if ( bp_has_notifications() ) : ?>
 
 	<div id="pag-top" class="pagination no-ajax">

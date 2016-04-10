@@ -279,4 +279,34 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$actual = wp_list_pluck( $n, 'id' );
 		$this->assertEquals( $expected, $actual );
 	}
+
+	/**
+	 * @group pagination
+	 * @group BP6229
+	 */
+	public function test_get_paged_sql() {
+		$u = $this->factory->user->create();
+
+		$notifications = array();
+		for ( $i = 1; $i <= 6; $i++ ) {
+			$notifications[] = $this->factory->notification->create( array(
+				'component_name' => 'activity',
+				'secondary_item_id' => $i,
+				'user_id' => $u,
+				'is_new' => true,
+			) );
+		}
+
+		$found = BP_Notifications_Notification::get( array(
+			'user_id' => $u,
+			'is_new' => true,
+			'page' => 2,
+			'per_page' => 2,
+			'order_by' => 'id',
+		) );
+
+		// Check that the correct number of items are pulled up
+		$expected = array( $notifications[2], $notifications[3] );
+		$this->assertEquals( $expected, wp_list_pluck( $found, 'id' ) );
+	}
 }

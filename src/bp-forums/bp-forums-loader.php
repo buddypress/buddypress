@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress Forums Loader
+ * BuddyPress Forums Loader.
  *
  * A discussion forums component. Comes bundled with bbPress stand-alone.
  *
@@ -9,10 +8,11 @@
  * plugin instead.
  *
  * @package BuddyPress
- * @subpackage Forums
+ * @subpackage ForumsLoader
+ * @since 1.5.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 class BP_Forums_Component extends BP_Component {
@@ -20,7 +20,7 @@ class BP_Forums_Component extends BP_Component {
 	/**
 	 * Start the forums component creation process.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		parent::start(
@@ -39,7 +39,7 @@ class BP_Forums_Component extends BP_Component {
 	 * The BP_FORUMS_SLUG constant is deprecated, and only used here for
 	 * backwards compatibility.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
@@ -48,17 +48,21 @@ class BP_Forums_Component extends BP_Component {
 	public function setup_globals( $args = array() ) {
 		$bp = buddypress();
 
-		// Define the parent forum ID
-		if ( !defined( 'BP_FORUMS_PARENT_FORUM_ID' ) )
+		// Define the parent forum ID.
+		if ( ! defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ) {
 			define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
+		}
 
-		// Define a slug, if necessary
-		if ( !defined( 'BP_FORUMS_SLUG' ) )
+		// Define a slug, if necessary.
+		if ( ! defined( 'BP_FORUMS_SLUG' ) ) {
 			define( 'BP_FORUMS_SLUG', $this->id );
+		}
 
-		// The location of the bbPress stand-alone config file
-		if ( isset( $bp->site_options['bb-config-location'] ) )
-			$this->bbconfig = $bp->site_options['bb-config-location'];
+		// The location of the bbPress stand-alone config file.
+		$bbconfig = bp_core_get_root_option( 'bb-config-location' );
+		if ( '' !== $bbconfig ) {
+			$this->bbconfig = $bbconfig;
+		}
 
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
@@ -82,7 +86,7 @@ class BP_Forums_Component extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 
-		// Files to include
+		// Files to include.
 		$includes = array(
 			'actions',
 			'screens',
@@ -92,11 +96,12 @@ class BP_Forums_Component extends BP_Component {
 			'functions',
 		);
 
-		// bbPress stand-alone
-		if ( !defined( 'BB_PATH' ) )
+		// bbPress stand-alone.
+		if ( ! defined( 'BB_PATH' ) ) {
 			$includes[] = 'bbpress-sa';
+		}
 
-		// Admin-specific code
+		// Admin-specific code.
 		if ( is_admin() ) {
 			$includes[] = 'deprecated/1.6';
 			$includes[] = 'deprecated/1.7';
@@ -108,36 +113,28 @@ class BP_Forums_Component extends BP_Component {
 	/**
 	 * Set up component navigation.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_nav() for a description of arguments.
 	 *
 	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
-	 *        description.
-	 * @param array $sub_nav Optional. See BP_Component::setup_nav() for
-	 *        description.
+	 *                        description.
+	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Stop if forums haven't been set up yet
-		if ( !bp_forums_is_installed_correctly() )
+		// Stop if forums haven't been set up yet.
+		if ( ! bp_forums_is_installed_correctly() ) {
 			return;
+		}
 
-		// Stop if there is no user displayed or logged in
-		if ( !is_user_logged_in() && !bp_displayed_user_id() )
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
+		}
 
-		// Add 'Forums' to the main navigation
-		$main_nav = array(
-			'name'                => __( 'Forums', 'buddypress' ),
-			'slug'                => $this->slug,
-			'position'            => 80,
-			'screen_function'     => 'bp_member_forums_screen_topics',
-			'default_subnav_slug' => 'topics',
-			'item_css_id'         => $this->id
-		);
-
-		// Determine user to use
+		// Determine user to use.
 		if ( bp_displayed_user_domain() ) {
 			$user_domain = bp_displayed_user_domain();
 		} elseif ( bp_loggedin_user_domain() ) {
@@ -146,26 +143,37 @@ class BP_Forums_Component extends BP_Component {
 			return;
 		}
 
-		// User link
-		$forums_link = trailingslashit( $user_domain . $this->slug );
+		// User link.
+		$slug        = bp_get_forums_slug();
+		$forums_link = trailingslashit( $user_domain . $slug );
 
-		// Additional menu if friends is active
+		// Add 'Forums' to the main navigation.
+		$main_nav = array(
+			'name'                => __( 'Forums', 'buddypress' ),
+			'slug'                => $slug,
+			'position'            => 80,
+			'screen_function'     => 'bp_member_forums_screen_topics',
+			'default_subnav_slug' => 'topics',
+			'item_css_id'         => $this->id
+		);
+
+		// Topics started.
 		$sub_nav[] = array(
 			'name'            => __( 'Topics Started', 'buddypress' ),
 			'slug'            => 'topics',
 			'parent_url'      => $forums_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'bp_member_forums_screen_topics',
 			'position'        => 20,
 			'item_css_id'     => 'topics'
 		);
 
-		// Additional menu if friends is active
+		// Topics replied to.
 		$sub_nav[] = array(
 			'name'            => __( 'Replied To', 'buddypress' ),
 			'slug'            => 'replies',
 			'parent_url'      => $forums_link,
-			'parent_slug'     => $this->slug,
+			'parent_slug'     => $slug,
 			'screen_function' => 'bp_member_forums_screen_replies',
 			'position'        => 40,
 			'item_css_id'     => 'replies'
@@ -177,38 +185,38 @@ class BP_Forums_Component extends BP_Component {
 	/**
 	 * Set up bp-forums integration with the WordPress admin bar.
 	 *
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_admin_bar() for a description of arguments.
 	 *
 	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
-	 *        for description.
+	 *                            for description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
-		// Menus for logged in user
+		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
 
-			// Setup the logged in user variables
-			$forums_link = trailingslashit( bp_loggedin_user_domain() . $this->slug );
+			// Setup the logged in user variables.
+			$forums_link = trailingslashit( bp_loggedin_user_domain() . bp_get_forums_slug() );
 
-			// Add the "My Account" sub menus
+			// Add the "My Account" sub menus.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => __( 'Forums', 'buddypress' ),
-				'href'   => trailingslashit( $forums_link )
+				'href'   => $forums_link
 			);
 
-			// Topics
+			// Topics.
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-topics-started',
 				'title'  => __( 'Topics Started', 'buddypress' ),
-				'href'   => trailingslashit( $forums_link . 'topics' )
+				'href'   => $forums_link
 			);
 
-			// Replies
+			// Replies.
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-replies',
@@ -216,7 +224,7 @@ class BP_Forums_Component extends BP_Component {
 				'href'   => trailingslashit( $forums_link . 'replies' )
 			);
 
-			// Favorites
+			// Favorites.
 			$wp_admin_nav[] = array(
 				'parent' => 'my-account-' . $this->id,
 				'id'     => 'my-account-' . $this->id . '-favorite-topics',
@@ -232,10 +240,11 @@ class BP_Forums_Component extends BP_Component {
 	 * Set up the title for pages and the <title> element.
 	 */
 	public function setup_title() {
-		$bp = buddypress();
 
-		// Adjust title based on view
+		// Adjust title based on view.
 		if ( bp_is_forums_component() ) {
+			$bp = buddypress();
+
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __( 'Forums', 'buddypress' );
 			} else {

@@ -108,7 +108,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		friends_add_friend( $u2, $u1 );
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
 
-		// Set current user to u1 to accepte the friendship
+		// Set current user to u1 to accept the friendship
 		$this->set_current_user( $u1 );
 		friends_accept_friendship( $friendship_id );
 
@@ -183,6 +183,40 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		) );
 
 		$this->assertTrue( count( $check['activities'] ) == 1 );
+	}
+
+	/**
+	 * @group friends_delete_activity
+	 */
+	public function test_delete_friendship_activity_on_user_delete() {
+		$old_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		friends_add_friend( $u2, $u1 );
+		$friendship_id = friends_get_friendship_id( $u2, $u1 );
+
+		// Set current user to u1 to accept the friendship
+		$this->set_current_user( $u1 );
+		friends_accept_friendship( $friendship_id );
+
+		// Reset the current user
+		$this->set_current_user( $old_user );
+
+		// Delete $u1.
+		wp_delete_user( $u1 );
+
+		// 'friendship_created' activity item should not exist.
+		$friendship_activity = bp_activity_get( array(
+			'component' => buddypress()->friends->id,
+			'filter'    => array(
+				'action' => array( 'friendship_created' ),
+				'primary_id' => $friendship_id,
+			)
+		) );
+
+		$this->assertEmpty( $friendship_activity['activities'] );
 	}
 }
 

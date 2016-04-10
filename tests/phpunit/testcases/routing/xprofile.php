@@ -19,17 +19,17 @@ class BP_Tests_Routing_XProfile extends BP_UnitTestCase {
 	}
 
 	function test_member_profile() {
-		$this->go_to( bp_core_get_user_domain( bp_loggedin_user_id() ) . buddypress()->profile->slug );
+		$this->go_to( bp_core_get_user_domain( bp_loggedin_user_id() ) . bp_get_profile_slug() );
 		$this->assertTrue( bp_is_user_profile() );
 	}
 
 	function test_member_profile_edit() {
-		$this->go_to( bp_core_get_user_domain( bp_loggedin_user_id() ) . buddypress()->profile->slug . '/edit' );
+		$this->go_to( bp_core_get_user_domain( bp_loggedin_user_id() ) . bp_get_profile_slug() . '/edit' );
 		$this->assertTrue( bp_is_user_profile_edit() );
 	}
 
 	function test_member_profile_change_avatar() {
-		$this->go_to( bp_core_get_user_domain( bp_loggedin_user_id() ) . buddypress()->profile->slug . '/change-avatar' );
+		$this->go_to( bp_core_get_user_domain( bp_loggedin_user_id() ) . bp_get_profile_slug() . '/change-avatar' );
 		$this->assertTrue( bp_is_user_change_avatar() );
 	}
 }

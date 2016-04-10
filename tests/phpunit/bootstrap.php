@@ -17,3 +17,4 @@ require WP_TESTS_DIR . '/includes/bootstrap.php';
 
 // Load the BP-specific testing tools
 require BP_TESTS_DIR . '/includes/testcase.php';
+require BP_TESTS_DIR . '/includes/testcase-emails.php';

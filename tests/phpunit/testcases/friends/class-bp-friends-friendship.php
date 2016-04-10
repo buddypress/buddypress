@@ -4,20 +4,6 @@
  * @group friends
  */
 class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
-
 	public function test_search_friends() {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
@@ -25,6 +11,26 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		xprofile_set_field_data( 1, $u2, 'Cool Dude' );
 		xprofile_set_field_data( 1, $u3, 'Rock And Roll America Yeah' );
+
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+
+		$friends = BP_Friends_Friendship::search_friends( 'Coo', $u1 );
+		$this->assertEquals( array( $u2 ), $friends['friends'] );
+	}
+
+	/**
+	 * @ticket BP6546
+	 */
+	public function test_search_friends_with_xprofile_inactive() {
+		$this->deactivate_component( 'xprofile' );
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		add_user_meta( $u2, 'nickname', 'Cool Dude' );
+		add_user_meta( $u3, 'nickname', 'Rock And Roll America Yeah' );
 
 		friends_add_friend( $u1, $u2, true );
 		friends_add_friend( $u1, $u3, true );

@@ -12,7 +12,6 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
 
@@ -67,7 +66,6 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
 
@@ -121,7 +119,6 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$u = $this->factory->user->create();
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $g,
 		) );
 
@@ -146,5 +143,25 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $g, 'xprofile_group_meta' ) );
 		$this->assertFalse( wp_cache_get( $f, 'xprofile_field_meta' ) );
 		$this->assertFalse( wp_cache_get( $d->id, 'xprofile_data_meta' ) );
+	}
+
+	/**
+	 * @ticket BP6638
+	 */
+	public function test_field_cache_should_be_invalidated_on_save() {
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'name' => 'Foo',
+		) );
+
+		$field = xprofile_get_field( $f );
+		$this->assertSame( 'Foo', $field->name );
+
+		$field->name = 'Bar';
+		$this->assertNotEmpty( $field->save() );
+
+		$field_2 = xprofile_get_field( $f );
+		$this->assertSame( 'Bar', $field_2->name );
 	}
 }

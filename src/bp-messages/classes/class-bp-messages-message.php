@@ -1,12 +1,13 @@
 <?php
 /**
- * BuddyPress Messages Classes
+ * BuddyPress Messages Classes.
  *
  * @package BuddyPress
  * @subpackage MessagesClasses
+ * @since 1.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -65,7 +66,7 @@ class BP_Messages_Message {
 	/**
 	 * Constructor.
 	 *
-	 * @param int $id Optional. ID of the message.
+	 * @param int|null $id Optional. ID of the message.
 	 */
 	public function __construct( $id = null ) {
 		$this->date_sent = bp_core_current_time();
@@ -99,8 +100,7 @@ class BP_Messages_Message {
 	/**
 	 * Send a message.
 	 *
-	 * @return int|bool ID of the newly created message on success, false
-	 *         on failure.
+	 * @return int|bool ID of the newly created message on success, false on failure.
 	 */
 	public function send() {
 		global $wpdb;
@@ -118,9 +118,9 @@ class BP_Messages_Message {
 		 *
 		 * Please use this hook to filter the properties above. Each part will be passed in.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
-		 * @param BP_Messages_Message Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_message_before_save', array( &$this ) );
 
@@ -136,7 +136,7 @@ class BP_Messages_Message {
 			$new_thread = true;
 		}
 
-		// First insert the message into the messages table
+		// First insert the message into the messages table.
 		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, %s )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) )
 			return false;
 
@@ -145,17 +145,17 @@ class BP_Messages_Message {
 		$recipient_ids = array();
 
 		if ( $new_thread ) {
-			// Add an recipient entry for all recipients
+			// Add an recipient entry for all recipients.
 			foreach ( (array) $this->recipients as $recipient ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, unread_count ) VALUES ( %d, %d, 1 )", $recipient->user_id, $this->thread_id ) );
 				$recipient_ids[] = $recipient->user_id;
 			}
 
-			// Add a sender recipient entry if the sender is not in the list of recipients
+			// Add a sender recipient entry if the sender is not in the list of recipients.
 			if ( !in_array( $this->sender_id, $recipient_ids ) )
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, sender_only ) VALUES ( %d, %d, 1 )", $this->sender_id, $this->thread_id ) );
 		} else {
-			// Update the unread count for all recipients
+			// Update the unread count for all recipients.
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = unread_count + 1, sender_only = 0, is_deleted = 0 WHERE thread_id = %d AND user_id != %d", $this->thread_id, $this->sender_id ) );
 		}
 
@@ -164,9 +164,9 @@ class BP_Messages_Message {
 		/**
 		 * Fires after the current message item has been saved.
 		 *
-		 * @since BuddyPress (1.0.0)
+		 * @since 1.0.0
 		 *
-		 * @param BP_Messages_Message Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_message_after_save', array( &$this ) );
 
@@ -176,7 +176,7 @@ class BP_Messages_Message {
 	/**
 	 * Get a list of recipients for a message.
 	 *
-	 * @return array
+	 * @return object $value List of recipients for a message.
 	 */
 	public function get_recipients() {
 		global $wpdb;
@@ -192,7 +192,7 @@ class BP_Messages_Message {
 	 * Get list of recipient IDs from their usernames.
 	 *
 	 * @param array $recipient_usernames Usernames of recipients.
-	 * @return array
+	 * @return array $recipient_ids Array of Recepient IDs.
 	 */
 	public static function get_recipient_ids( $recipient_usernames ) {
 		if ( !$recipient_usernames )
@@ -226,10 +226,10 @@ class BP_Messages_Message {
 	/**
 	 * Check whether a user is the sender of a message.
 	 *
-	 * @param int $user_id ID of the user.
+	 * @param int $user_id    ID of the user.
 	 * @param int $message_id ID of the message.
 	 * @return int|null Returns the ID of the message if the user is the
-	 *         sender, otherwise null.
+	 *                  sender, otherwise null.
 	 */
 	public static function is_user_sender( $user_id, $message_id ) {
 		global $wpdb;

@@ -1,26 +1,27 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
+ * @since 2.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Multi-selectbox xprofile field type.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 
 	/**
-	 * Constructor for the multi-selectbox field type
+	 * Constructor for the multi-selectbox field type.
 	 *
-	 * @since BuddyPress (2.0.0)
- 	 */
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -36,7 +37,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 		/**
 		 * Fires inside __construct() method for BP_XProfile_Field_Type_Multiselectbox class.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param BP_XProfile_Field_Type_Multiselectbox $this Current instance of
 		 *                                                    the field type multiple select box.
@@ -49,12 +50,15 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/select.html permitted attributes} that you want to add.
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *                              {@link http://dev.w3.org/html5/markup/select.html permitted attributes}
+	 *                              that you want to add.
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that we pass to
+		// User_id is a special optional parameter that we pass to
 		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
@@ -69,7 +73,10 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			'name'     => bp_get_the_profile_field_input_name() . '[]',
 		) ); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>[]"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php _e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>[]">
+			<?php bp_the_profile_field_name(); ?>
+			<?php bp_the_profile_field_required_label(); ?>
+		</label>
 
 		<?php
 
@@ -103,8 +110,9 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
-	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 		$original_option_values = maybe_unserialize( BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] ) );
@@ -121,7 +129,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			$selected = '';
 
 			// Check for updated posted values, but errors preventing them from
-			// being saved first time
+			// being saved first time.
 			foreach( $option_values as $i => $option_value ) {
 				if ( isset( $_POST['field_' . $this->field_obj->id] ) && $_POST['field_' . $this->field_obj->id][$i] != $option_value ) {
 					if ( ! empty( $_POST['field_' . $this->field_obj->id][$i] ) ) {
@@ -131,15 +139,15 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			}
 
 			// Run the allowed option name through the before_save filter, so
-			// we'll be sure to get a match
+			// we'll be sure to get a match.
 			$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
 
-			// First, check to see whether the user-entered value matches
+			// First, check to see whether the user-entered value matches.
 			if ( in_array( $allowed_options, $option_values ) ) {
 				$selected = ' selected="selected"';
 			}
 
-			// Then, if the user has not provided a value, check for defaults
+			// Then, if the user has not provided a value, check for defaults.
 			if ( ! is_array( $original_option_values ) && empty( $option_values ) && ! empty( $options[$k]->is_default_option ) ) {
 				$selected = ' selected="selected"';
 			}
@@ -147,7 +155,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			/**
 			 * Filters the HTML output for options in a multiselect input.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $value    Option tag for current value being rendered.
 			 * @param object $value    Current option being rendered for.
@@ -166,14 +174,16 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
-	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 		$r = bp_parse_args( $raw_properties, array(
 			'multiple' => 'multiple'
 		) ); ?>
 
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'Select', 'buddypress' ); ?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>
@@ -182,13 +192,16 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	}
 
 	/**
-	 * Output HTML for this field type's children options on the wp-admin Profile Fields "Add Field" and "Edit Field" screens.
+	 * Output HTML for this field type's children options on the wp-admin Profile Fields,
+	 * "Add Field" and "Edit Field" screens.
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
-	 * @since BuddyPress (2.0.0)
+	 * @param string            $control_type  Optional. HTML input type used to render the current
+	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
 		parent::admin_new_field_html( $current_field, 'checkbox' );

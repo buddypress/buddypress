@@ -5,18 +5,6 @@
  * @group functions
  */
 class BP_Tests_Groups_Functions extends BP_UnitTestCase {
-	protected $old_current_user_id = 0;
-
-	public function setUp() {
-		parent::setUp();
-		$this->old_current_user = get_current_user_id();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
-
 	public function test_creating_new_group_as_authenticated_user() {
 		$u = $this->factory->user->create();
 		wp_set_current_user( $u );
@@ -49,6 +37,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 		groups_join_group( $g2, $u2 );
 
+		// Set the current user so the leave group request goes through.
+		$this->set_current_user( $u2 );
 		groups_leave_group( $g1, $u2 );
 		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
@@ -121,13 +111,20 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_accept_membership_request
 	 */
 	public function test_total_group_count_groups_accept_membership_request() {
-		$u = $this->factory->user->create();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u2 );
+
 		$g = $this->factory->group->create();
-		groups_send_membership_request( $u, $g );
+		groups_send_membership_request( $u1, $g );
 
-		groups_accept_membership_request( 0, $u, $g );
+		groups_accept_membership_request( 0, $u1, $g );
 
-		$this->assertEquals( 1, bp_get_user_meta( $u, 'total_group_count', true ) );
+		$this->assertEquals( 1, bp_get_user_meta( $u1, 'total_group_count', true ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**
@@ -518,6 +515,24 @@ Bar!';
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
+	}
+
+	/**
+	 * @group groupmeta
+	 * @group groups_delete_groupmeta
+	 * @ticket BP6326
+	 */
+	public function test_groups_delete_groupmeta_with_no_meta_key_when_group_has_metadata() {
+		global $wpdb;
+
+		$g = $this->factory->group->create();
+		$m = groups_get_groupmeta( $g );
+		foreach ( $m as $mk => $mv ) {
+			groups_delete_groupmeta( $g, $mk );
+		}
+
+		$found = groups_delete_groupmeta( $g );
+		$this->assertTrue( $found );
 	}
 
 	/**

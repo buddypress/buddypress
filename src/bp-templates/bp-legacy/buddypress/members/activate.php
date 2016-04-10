@@ -1,12 +1,39 @@
+<?php
+/**
+ * BuddyPress - Members Activate
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+?>
+
 <div id="buddypress">
 
-	<?php do_action( 'bp_before_activation_page' ); ?>
+	<?php
+
+	/**
+	 * Fires before the display of the member activation page.
+	 *
+	 * @since 1.1.0
+	 */
+	do_action( 'bp_before_activation_page' ); ?>
 
 	<div class="page" id="activate-page">
 
-		<?php do_action( 'template_notices' ); ?>
+		<?php
 
-		<?php do_action( 'bp_before_activate_content' ); ?>
+		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+		do_action( 'template_notices' ); ?>
+
+		<?php
+
+		/**
+		 * Fires before the display of the member activation page content.
+		 *
+		 * @since 1.1.0
+		 */
+		do_action( 'bp_before_activate_content' ); ?>
 
 		<?php if ( bp_account_was_activated() ) : ?>
 
@@ -33,10 +60,24 @@
 
 		<?php endif; ?>
 
-		<?php do_action( 'bp_after_activate_content' ); ?>
+		<?php
+
+		/**
+		 * Fires after the display of the member activation page content.
+		 *
+		 * @since 1.1.0
+		 */
+		do_action( 'bp_after_activate_content' ); ?>
 
 	</div><!-- .page -->
 
-	<?php do_action( 'bp_after_activation_page' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of the member activation page.
+	 *
+	 * @since 1.1.0
+	 */
+	do_action( 'bp_after_activation_page' ); ?>
 
 </div><!-- #buddypress -->

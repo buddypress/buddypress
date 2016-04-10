@@ -303,7 +303,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 			'user_id' => $u,
 		) );
 
-		$expected = sprintf( __( '%s&#8217;s profile was updated', 'buddypress' ), '<a href="' . bp_core_get_user_domain( $u ) . buddypress()->profile->slug . '/">' . bp_core_get_user_displayname( $u ) . '</a>' );
+		$expected = sprintf( __( "%s's profile was updated", 'buddypress' ), '<a href="' . bp_core_get_user_domain( $u ) . bp_get_profile_slug() . '/">' . bp_core_get_user_displayname( $u ) . '</a>' );
 
 		$a_obj = new BP_Activity_Activity( $a );
 
@@ -314,7 +314,6 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$this->updated_profile_data['u'] = $this->factory->user->create();
 		$this->updated_profile_data['g'] = $this->factory->xprofile_group->create();
 		$this->updated_profile_data['f'] = $this->factory->xprofile_field->create( array(
-			'type' => 'textbox',
 			'field_group_id' => $this->updated_profile_data['g'],
 		) );
 

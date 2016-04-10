@@ -4,9 +4,10 @@
  *
  * @package BuddyPress
  * @subpackage GroupsClasses
+ * @since 1.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 require dirname( __FILE__ ) . '/classes/class-bp-group-extension.php';

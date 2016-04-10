@@ -1,33 +1,33 @@
 <?php
 /**
- * BuddyPress Groups Classes
+ * BuddyPress Groups Classes.
  *
  * @package BuddyPress
  * @subpackage GroupsClasses
+ * @since 2.1.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Adds support for user at-mentions (for users in a specific Group) to the Suggestions API.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 
 	/**
 	 * Default arguments for this suggestions service.
 	 *
-	 * @since BuddyPress (2.1.0)
-	 * @access protected
+	 * @since 2.1.0
 	 * @var array $args {
-	 *     @type int $group_id Positive integers will restrict the search to members in that group.
-	 *           Negative integers will restrict the search to members in every other group.
-	 *     @type int $limit Maximum number of results to display. Default: 16.
-	 *     @type bool $only_friends If true, only match the current user's friends. Default: false.
-	 *     @type string $term The suggestion service will try to find results that contain this string.
-	 *           Mandatory.
+	 *     @type int    $group_id     Positive integers will restrict the search to members in that group.
+	 *                                Negative integers will restrict the search to members in every other group.
+	 *     @type int    $limit        Maximum number of results to display. Default: 16.
+	 *     @type bool   $only_friends If true, only match the current user's friends. Default: false.
+	 *     @type string $term         The suggestion service will try to find results that contain this string.
+	 *                                Mandatory.
 	 * }
 	 */
 	protected $default_args = array(
@@ -42,8 +42,9 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	/**
 	 * Validate and sanitise the parameters for the suggestion service query.
 	 *
+	 * @since 2.1.0
+	 *
 	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
-	 * @since BuddyPress (2.1.0)
 	 */
 	public function validate() {
 		$this->args['group_id'] = (int) $this->args['group_id'];
@@ -51,7 +52,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		/**
 		 * Filters the arguments used to validate and sanitize suggestion service query.
 		 *
-		 * @since BuddyPress (2.1.0)
+		 * @since 2.1.0
 		 *
 		 * @param array                        $args  Array of arguments for the suggestion service query.
 		 * @param BP_Groups_Member_Suggestions $this  Instance of the current suggestion class.
@@ -76,7 +77,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		/**
 		 * Filters the validation results for the suggestion service query.
 		 *
-		 * @since BuddyPress (2.1.0)
+		 * @since 2.1.0
 		 *
 		 * @param bool|WP_Error                $value True if valid, WP_Error if not.
 		 * @param BP_Groups_Member_Suggestions $this  Instance of the current suggestion class.
@@ -87,12 +88,13 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	/**
 	 * Find and return a list of username suggestions that match the query.
 	 *
+	 * @since 2.1.0
+	 *
 	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
-	 * @since BuddyPress (2.1.0)
 	 */
 	public function get_suggestions() {
 		$user_query = array(
-			'count_total'     => '',  // Prevents total count
+			'count_total'     => '',  // Prevents total count.
 			'populate_extras' => false,
 			'type'            => 'alphabetical',
 
@@ -115,7 +117,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		// Negative Group IDs will restrict the search to members in every other group.
 		} else {
 			$group_query = array(
-				'count_total'     => '',  // Prevents total count
+				'count_total'     => '',  // Prevents total count.
 				'populate_extras' => false,
 				'type'            => 'alphabetical',
 
@@ -135,7 +137,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		/**
 		 * Filters the arguments for the user query for the Suggestion API.
 		 *
-		 * @since BuddyPress (2.1.0)
+		 * @since 2.1.0
 		 *
 		 * @param array                        $user_query Array of arguments for the query.
 		 * @param BP_Groups_Member_Suggestions $this       Instance of the current suggestion class.
@@ -165,7 +167,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		/**
 		 * Filters the results of the member suggestions user query.
 		 *
-		 * @since BuddyPress (2.1.0)
+		 * @since 2.1.0
 		 *
 		 * @param array                        $results Array of member suggestions.
 		 * @param BP_Groups_Member_Suggestions $this    Instance of the current suggestion class.

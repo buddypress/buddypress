@@ -4,14 +4,14 @@
 /**
  * Activity reply object for the activity index screen
  *
- * @since BuddyPress (1.6)
+ * @since 1.6.0
  */
 var activityReply = {
 
 	/**
 	 * Attach event handler functions to the relevant elements.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since 1.6.0
 	 */
 	init : function() {
 		$(document).on( 'click', '.row-actions a.reply',              activityReply.open );
@@ -29,7 +29,7 @@ var activityReply = {
 	/**
 	 * Reveals the entire row when "reply" is pressed.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since 1.6.0
 	 */
 	open : function() {
 		// Hide the container row, and move it to the new location
@@ -46,7 +46,7 @@ var activityReply = {
 	/**
 	 * Hide and reset the entire row when "cancel", or escape, are pressed.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since 1.6.0
 	 */
 	close : function() {
 		// Hide the container row
@@ -66,7 +66,7 @@ var activityReply = {
 	/**
 	 * Submits "form" via AJAX back to WordPress.
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since 1.6.0
 	 */
 	send : function() {
 		// Hide any existing error message, and show the loading spinner
@@ -100,7 +100,7 @@ var activityReply = {
 	/**
 	 * send() error message handler
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since 1.6.0
 	 */
 	error : function( r ) {
 		var er = r.statusText;
@@ -118,7 +118,7 @@ var activityReply = {
 	/**
 	 * send() success handler
 	 *
-	 * @since BuddyPress (1.6)
+	 * @since 1.6.0
 	 */
 	show : function ( xml ) {
 		var bg, id, response;

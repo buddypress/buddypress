@@ -4,22 +4,7 @@
  * @group avatars
  */
 class BP_Tests_Avatars extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
 	private $params = array();
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->administrator    = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		wp_set_current_user( $this->administrator );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		wp_set_current_user( $this->old_current_user );
-	}
 
 	private function clean_existing_avatars( $type = 'user' ) {
 		if ( 'user' === $type ) {
@@ -31,26 +16,8 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->rrmdir( bp_core_avatar_upload_path() . '/' . $avatar_dir );
 	}
 
-	private function rrmdir( $dir ) {
-		$d = glob( $dir . '/*' );
-
-		if ( empty( $d ) ) {
-			return;
-		}
-
-		foreach ( $d as $file ) {
-			if ( is_dir( $file ) ) {
-				$this->rrmdir( $file );
-			} else {
-				@unlink( $file );
-			}
-		}
-
-		@rmdir( $dir );
-	}
-
 	/**
-	 * @ticket 4948
+	 * @ticket BP4948
 	 */
 	function test_avatars_on_non_root_blog() {
 		// Do not pass 'Go', do not collect $200
@@ -58,12 +25,14 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			return;
 		}
 
+		$u = $this->factory->user->create();
+
 		// get BP root blog's upload directory data
 		$upload_dir = wp_upload_dir();
 
 		// create new subsite
 		$blog_id = $this->factory->blog->create( array(
-			'user_id' => $this->administrator,
+			'user_id' => $u,
 			'title'   => 'Test Title',
 			'path'    => '/path' . rand() . time() . '/',
 		) );
@@ -112,19 +81,23 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	public function test_bp_core_fetch_avatar_parameter_conservation() {
 		// First, run the check with custom parameters, specifying no gravatar.
 		$this->params = array(
-			'item_id'    => 1406,
-			'object'     => 'custom_object',
-			'type'       => 'full',
-			'avatar_dir' => 'custom-dir',
-			'width'      => 48,
-			'height'     => 54,
-			'class'      => 'custom-class',
-			'css_id'     => 'custom-css-id',
-			'alt'        => 'custom alt',
-			'email'      => 'avatar@avatar.org',
-			'no_grav'    => true,
-			'html'       => true,
-			'title'      => 'custom-title',
+			'item_id'       => 1406,
+			'object'        => 'custom_object',
+			'type'          => 'full',
+			'avatar_dir'    => 'custom-dir',
+			'width'         => 48,
+			'height'        => 54,
+			'class'         => 'custom-class',
+			'css_id'        => 'custom-css-id',
+			'alt'           => 'custom alt',
+			'email'         => 'avatar@avatar.org',
+			'no_grav'       => true,
+			'html'          => true,
+			'title'         => 'custom-title',
+			'extra_attr'    => 'data-testing="buddypress"',
+			'scheme'        => 'http',
+			'rating'        => get_option( 'avatar_rating' ),
+			'force_default' => false,
 		);
 
 		// Check to make sure the custom parameters survived the function all the way up to output
@@ -162,16 +135,38 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 				$default_grav = $bp->grav_default->{$this->params['object']};
 			}
 
-			$avatar_url = $host . md5( strtolower( $this->params['email'] ) ) . '?d=' . $default_grav . '&amp;s=' . $this->params['width'];
+			$avatar_url = $host . md5( strtolower( $this->params['email'] ) );
+
+			// Main Gravatar URL args.
+			$url_args = array(
+				's' => $this->params['width']
+			);
+
+			// Force default.
+			if ( ! empty( $this->params['force_default'] ) ) {
+				$url_args['f'] = 'y';
+			}
 
 			// Gravatar rating; http://bit.ly/89QxZA
-			$rating = get_option( 'avatar_rating' );
+			$rating = strtolower( get_option( 'avatar_rating' ) );
 			if ( ! empty( $rating ) ) {
-				$avatar_url .= "&amp;r={$rating}";
+				$url_args['r'] = $rating;
 			}
+
+			// Default avatar.
+			if ( 'gravatar_default' !== $default_grav ) {
+				$url_args['d'] = $default_grav;
+			}
+
+			// Set up the Gravatar URL.
+			$avatar_url = esc_url( add_query_arg(
+				rawurlencode_deep( array_filter( $url_args ) ),
+				$avatar_url
+			) );
+
 		}
 
-		$expected_html = '<img src="' . $avatar_url . '" id="' . $this->params['css_id'] . '" class="' . $this->params['class'] . ' ' . $this->params['object'] . '-' . $this->params['item_id'] . '-avatar avatar-' . $this->params['width'] . ' photo" width="' . $this->params['width'] . '" height="' . $this->params['height'] . '" alt="' . $this->params['alt'] . '" title="' . $this->params['title'] . '" />';
+		$expected_html = '<img src="' . $avatar_url . '" id="' . $this->params['css_id'] . '" class="' . $this->params['class'] . ' ' . $this->params['object'] . '-' . $this->params['item_id'] . '-avatar avatar-' . $this->params['width'] . ' photo" width="' . $this->params['width'] . '" height="' . $this->params['height'] . '" alt="' . $this->params['alt'] . '" title="' . $this->params['title'] . '" ' . $this->params['extra_attr'] . ' />';
 
 		$this->assertEquals( $html, $expected_html );
 	}
@@ -216,5 +211,107 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $avatar, $matches );
 		$classes = explode( ' ', $matches[1] );
 		$this->assertSame( $expected, array_intersect_key( $expected, $classes ) );
+	}
+
+	/**
+	 * @group bp_core_check_avatar_type
+	 */
+	public function test_bp_core_check_avatar_type() {
+		$plugin_dir = trailingslashit( buddypress()->plugin_dir );
+
+		$file = array(
+			'file' => array(
+				'name' => 'humans.txt',
+				'type' => 'text/plain',
+				'tmp_name' => $plugin_dir . 'humans.txt',
+			)
+		);
+
+		$this->assertFalse( bp_core_check_avatar_type( $file ) );
+
+		$file = array(
+			'file' => array(
+				'name' => 'mystery-man.jpg',
+				'type' => 'image/jpeg',
+				'tmp_name' => $plugin_dir . 'bp-core/images/mystery-man.jpg',
+			)
+		);
+
+		$this->assertTrue( bp_core_check_avatar_type( $file ) );
+
+		$file = array(
+			'file' => array(
+				'name' => 'mystery-man.jpg',
+				'type' => 'application/octet-stream',
+				'tmp_name' => $plugin_dir . 'bp-core/images/mystery-man.jpg',
+			)
+		);
+
+		$this->assertTrue( bp_core_check_avatar_type( $file ), 'flash is using application/octet-stream for image uploads' );
+	}
+
+	/**
+	 * @group bp_core_check_avatar_type
+	 * @group bp_core_get_allowed_avatar_types
+	 */
+	public function test_bp_core_get_allowed_avatar_types_filter() {
+		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
+
+		$this->assertEquals( array( 'jpeg', 'gif', 'png' ), bp_core_get_allowed_avatar_types() );
+
+		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
+
+		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
+
+		$this->assertEquals( array( 'gif', 'png' ), bp_core_get_allowed_avatar_types() );
+
+		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
+
+		add_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
+
+		$this->assertEquals( array( 'jpeg', 'gif', 'png' ), bp_core_get_allowed_avatar_types() );
+
+		remove_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
+	}
+
+	/**
+	 * @group bp_core_check_avatar_type
+	 * @group bp_core_get_allowed_avatar_mimes
+	 */
+	public function test_bp_core_get_allowed_avatar_mimes() {
+		$mimes = bp_core_get_allowed_avatar_mimes();
+
+		$this->assertEqualSets( array( 'jpeg', 'gif', 'png', 'jpg' ), array_keys( $mimes ) );
+		$this->assertEqualSets( array( 'image/jpeg', 'image/gif', 'image/png', 'image/jpeg' ), array_values( $mimes ) );
+
+		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
+
+		$this->assertEqualSets( array( 'image/jpeg', 'image/gif', 'image/png', 'image/jpeg' ), array_values( bp_core_get_allowed_avatar_mimes() ) );
+
+		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
+
+		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
+
+		$this->assertEqualSets( array( 'image/gif', 'image/png' ), array_values( bp_core_get_allowed_avatar_mimes() ) );
+
+		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
+
+		add_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
+
+		$this->assertEqualSets( array( 'image/jpeg', 'image/gif', 'image/png', 'image/jpeg' ), array_values( bp_core_get_allowed_avatar_mimes() ) );
+
+		remove_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
+	}
+
+	public function avatar_types_filter_add_type( $types ) {
+		$types[] = 'bmp';
+
+		return $types;
+	}
+
+	public function avatar_types_filter_remove_type( $types ) {
+		$jpeg = array_shift( $types );
+
+		return $types;
 	}
 }

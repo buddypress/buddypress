@@ -144,13 +144,13 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'post_name'  => $bp->foo->slug,
 		) ) );
 
-		$page_ids = array_merge( $new_page_ids, (array) bp_core_get_directory_page_ids() );
+		$page_ids = array_merge( $new_page_ids, (array) bp_core_get_directory_page_ids( 'all' ) );
 		bp_core_update_directory_page_ids( $page_ids );
 
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $reset_active_components );
 		bp_core_add_page_mappings( $bp->active_components );
 
-		$this->assertContains( $bp->foo->id, array_keys( bp_core_get_directory_page_ids() ) );
+		$this->assertContains( $bp->foo->id, array_keys( bp_core_get_directory_page_ids( 'all' ) ) );
 
 		// Reset buddypress() vars
 		$bp->active_components = $reset_active_components;
@@ -217,5 +217,45 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		// Reset buddypress() vars
 		$bp->pages = $reset_bp_pages;
 		$bp->admin->notices = $reset_admin_notices;
+	}
+
+	/**
+	 * @ticket BP6936
+	 */
+	public function test_email_type_descriptions_should_match_when_split_terms_exist() {
+		global $wpdb;
+
+		// Delete all existing email types and descriptions.
+		$emails = get_posts( array(
+			'fields' => 'ids',
+			'post_type' => bp_get_email_post_type(),
+		) );
+		foreach ( $emails as $email ) {
+			wp_delete_post( $email, true );
+		}
+
+		$descriptions = get_terms( bp_get_email_tax_type(), array(
+			'fields' => 'ids',
+			'hide_empty' => false,
+		) );
+		foreach ( $descriptions as $description ) {
+			wp_delete_term( (int) $description, bp_get_email_tax_type() );
+		}
+
+		// Fake the existence of split terms by offsetting the term_taxonomy table.
+		$wpdb->insert( $wpdb->term_taxonomy, array( 'term_id' => 9999, 'taxonomy' => 'post_tag', 'description' => 'foo description', 'parent' => 0, 'count' => 0 ) );
+
+		require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin-schema.php' );
+		bp_core_install_emails();
+
+		$d_terms = get_terms( bp_get_email_tax_type(), array(
+			'hide_empty' => false,
+		) );
+
+		$correct_descriptions = bp_email_get_type_schema();
+		foreach ( $d_terms as $d_term ) {
+			$correct_description = $correct_descriptions[ $d_term->slug ];
+			$this->assertSame( $correct_description, $d_term->description );
+		}
 	}
 }

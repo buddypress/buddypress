@@ -4,18 +4,20 @@
  *
  * @package BuddyPress
  * @subpackage Core
+ * @since 2.1.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 if ( class_exists( 'WP_Date_Query' ) ) :
+
 /**
  * BuddyPress date query class.
  *
  * Extends the {@link WP_Date_Query} class for use with BuddyPress.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  *
  * @param array $date_query {
  *     Date query arguments.  See first parameter of {@link WP_Date_Query::__construct()}.
@@ -32,6 +34,9 @@ class BP_Date_Query extends WP_Date_Query {
 
 	/**
 	 * Constructor.
+	 *
+	 * @param array  $date_query Date query arguments.
+	 * @param string $column     THe DB column to query against.
 	 *
 	 * @see WP_Date_Query::__construct()
 	 */
@@ -54,7 +59,7 @@ class BP_Date_Query extends WP_Date_Query {
 	/**
 	 * Registers our date column with WP Date Query to pass validation.
 	 *
-	 * @param array $retval Current DB columns
+	 * @param array $retval Current DB columns.
 	 * @return array
 	 */
 	public function register_date_column( $retval = array() ) {

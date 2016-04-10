@@ -3,10 +3,11 @@
  * BuddyPress Forums Filters.
  *
  * @package BuddyPress
- * @subpackage Forums
+ * @subpackage ForumsFilters
+ * @since 1.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /* Apply WordPress defined filters */
@@ -86,7 +87,7 @@ function bp_forums_filter_kses( $content ) {
 	/**
 	 * Filters the allowed HTML tags for forum posts.
 	 *
-	 * @since BuddyPress (1.2.0)
+	 * @since 1.2.0
 	 *
 	 * @param array $forums_allowedtags Array of allowed HTML tags.
 	 */
@@ -97,9 +98,9 @@ function bp_forums_filter_kses( $content ) {
 /**
  * Get a link for a forum topic tags directory.
  *
- * @param string $link Link passed from filter.
- * @param string $tag Name of the tag.
- * @param string $page Page number, passed from the filter.
+ * @param string $link    Link passed from filter.
+ * @param string $tag     Name of the tag.
+ * @param string $page    Page number, passed from the filter.
  * @param string $context Passed from the filter but unused here.
  * @return string Link of the form http://example.com/forums/tag/tagname/.
  */
@@ -107,7 +108,7 @@ function bp_forums_filter_tag_link( $link, $tag, $page, $context ) {
 	/**
 	 * Filters the link for a forum topic tags directory.
 	 *
-	 * @since BuddyPress (1.1.0)
+	 * @since 1.1.0
 	 *
 	 * @param string $value Link for the forum topic tag directory.
 	 */
@@ -141,10 +142,10 @@ function bp_forums_make_nofollow_filter( $text ) {
  *
  * @see bp_modify_page_title()
  *
- * @param string $title New page title; see {@link bp_modify_page_title()}.
+ * @param string $title          New page title; see {@link bp_modify_page_title()}.
  * @param string $original_title Original page title.
- * @param string $sep How to separate the various items within the page title.
- * @param string $seplocation Direction to display title.
+ * @param string $sep            How to separate the various items within the page title.
+ * @param string $seplocation    Direction to display title.
  * @return string Page title with forum topic title appended.
  */
 function bp_forums_add_forum_topic_to_page_title( $title, $original_title, $sep, $seplocation  ) {
@@ -183,7 +184,7 @@ add_filter( 'bp_get_the_topic_text',           'bp_forums_strip_mentions_on_post
  *
  * This filter is added in bp_has_forum_topics().
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @param string $sql SQL fragment.
  * @return string $sql SQL fragment of the form "DISTINCT t.topic_id, ".
@@ -199,7 +200,7 @@ function bp_forums_add_replied_distinct_sql( $sql ) {
  *
  * This filter is added in bp_has_forum_topics().
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @global object $bbdb The bbPress database global.
  *
@@ -219,7 +220,7 @@ function bp_forums_add_replied_join_sql( $sql ) {
  *
  * This filter is added in bp_has_forum_topics().
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @global object $wpdb The WordPress database global.
  *
@@ -231,7 +232,7 @@ function bp_forums_add_replied_where_sql( $sql ) {
 
 	$sql .= $wpdb->prepare( " AND p.poster_id = %s ", bp_displayed_user_id() );
 
-	// Remove any topic_author information
+	// Remove any topic_author information.
 	$sql = str_replace( " AND t.topic_poster = '" . bp_displayed_user_id() . "'", '', $sql );
 
 	return $sql;

@@ -3,10 +3,11 @@
  * BuddyPress Activity Classes
  *
  * @package BuddyPress
- * @subpackage Activity
+ * @subpackage ActivityQuery
+ * @since 2.2.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -15,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * This is notably used in {@link BP_Activity_Activity::get()} with the
  * 'filter_query' parameter.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  */
 class BP_Activity_Query extends BP_Recursive_Query {
 	/**
@@ -23,8 +24,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * See {@see BP_Activity_Query::__construct()} for information on query arguments.
 	 *
-	 * @since BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 * @var array
 	 */
 	public $queries = array();
@@ -32,8 +32,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Table alias.
 	 *
-	 * @since BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 * @var string
 	 */
 	public $table_alias = '';
@@ -43,8 +42,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 *
 	 * See the 'wp_bp_activity' DB table schema.
 	 *
-	 * @since BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 * @var array
 	 */
 	public $db_columns = array(
@@ -55,18 +53,17 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Constructor.
 	 *
-	 * @since BuddyPress (2.2.0)
+	 * @since 2.2.0
 	 *
 	 * @param array $query {
 	 *     Array of query clauses.
-	 *
 	 *     @type array {
 	 *         @type string $column   Required. The column to query against. Basically, any DB column in the main
 	 *                                'wp_bp_activity' table.
 	 *         @type string $value    Required. Value to filter by.
 	 *         @type string $compare  Optional. The comparison operator. Default '='.
 	 *                                Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'LIKE',
-	 *                                'NOT LIKE', BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', 'RLIKE'
+	 *                                'NOT LIKE', BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', 'RLIKE'.
 	 *         @type string $relation Optional. The boolean relationship between the activity queries.
 	 *                                Accepts 'OR', 'AND'. Default 'AND'.
 	 *         @type array {
@@ -86,11 +83,10 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Generates WHERE SQL clause to be appended to a main query.
 	 *
-	 * @since BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 *
 	 * @param string $alias An existing table alias that is compatible with the current query clause.
-	 *               Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
+	 *                      Default: 'a'. BP_Activity_Activity::get() uses 'a', so we default to that.
 	 * @return string SQL fragment to append to the main WHERE clause.
 	 */
 	public function get_sql( $alias = 'a' ) {
@@ -100,18 +96,17 @@ class BP_Activity_Query extends BP_Recursive_Query {
 
 		$sql = $this->get_sql_clauses();
 
-		// we only need the 'where' clause
+		// We only need the 'where' clause.
 		//
-		// also trim trailing "AND" clause from parent BP_Recursive_Query class
-		// since it's not necessary for our needs
+		// Also trim trailing "AND" clause from parent BP_Recursive_Query class
+		// since it's not necessary for our needs.
 		return preg_replace( '/^\sAND/', '', $sql['where'] );
 	}
 
 	/**
 	 * Generate WHERE clauses for a first-order clause.
 	 *
-	 * @since BuddyPress (2.2.0)
-	 * @access protected
+	 * @since 2.2.0
 	 *
 	 * @param  array $clause       Array of arguments belonging to the clause.
 	 * @param  array $parent_query Parent query to which the clause belongs.
@@ -140,7 +135,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 			$clause['compare'] = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
 		}
 
-		// default 'compare' to '=' if no valid operator is found
+		// Default 'compare' to '=' if no valid operator is found.
 		if ( ! in_array( $clause['compare'], array(
 			'=', '!=', '>', '>=', '<', '<=',
 			'LIKE', 'NOT LIKE',
@@ -158,7 +153,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 		// Next, Build the WHERE clause.
 		$where = '';
 
-		// value.
+		// Value.
 		if ( isset( $clause['value'] ) ) {
 			if ( in_array( $compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 				if ( ! is_array( $value ) ) {
@@ -166,13 +161,13 @@ class BP_Activity_Query extends BP_Recursive_Query {
 				}
 			}
 
-			// tinyint
+			// Tinyint.
 			if ( ! empty( $column ) && true === in_array( $column, array( 'hide_sitewide', 'is_spam' ) ) ) {
 				$sql_chunks['where'][] = $wpdb->prepare( "{$alias}{$column} = %d", $value );
 
 			} else {
 				switch ( $compare ) {
-					// IN uses different syntax
+					// IN uses different syntax.
 					case 'IN' :
 					case 'NOT IN' :
 						$in_sql = BP_Activity_Activity::get_in_operator_sql( "{$alias}{$column}", $value );
@@ -222,10 +217,9 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Determine whether a clause is first-order.
 	 *
-	 * @since BuddyPress (2.2.0)
-	 * @access protected
+	 * @since 2.2.0
 	 *
-	 * @param  array $query Clause to check.
+	 * @param array $query Clause to check.
 	 * @return bool
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -238,8 +232,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 * Column names are checked against a whitelist of known tables.
 	 * See {@link BP_Activity_Query::db_tables}.
 	 *
-	 * @since BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 *
 	 * @param string $column The user-supplied column name.
 	 * @return string A validated column name value.

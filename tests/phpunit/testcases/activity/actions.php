@@ -3,27 +3,12 @@
  * @group activity
  */
 class BP_Tests_Activity_Actions extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
 
 	/**
 	 * @group bp_activity_catch_transition_post_type_status
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -41,10 +26,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		$this->assertTrue( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Published post type should have activity' );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -52,8 +33,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_to_publish() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -70,21 +49,62 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		// 'new' => 'publish'
 		$this->assertTrue( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Published post type should have activity' );
 
-		// Delete the activity
-		bp_activity_post_type_unpublish( $post_id, $post );
-
-		$post->post_status = 'publish';
-		$post->post_content .= ' foo';
-
-		wp_update_post( $post );
-
-		$this->assertFalse( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Updating a post type should not create a new activity' );
-
 		_unregister_post_type( 'foo' );
+	}
 
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
+	/**
+	 * @group bp_activity_catch_transition_post_type_status
+	 * @group activity_tracking
+	 */
+	public function test_bp_activity_catch_transition_post_type_status_publish_existing_post() {
+		$u = $this->factory->user->create();
+
+		$labels = array(
+			'bp_activity_admin_filter' => 'New Foo',
+			'bp_activity_front_filter' => 'Foos',
+		        'bp_activity_new_post'    => '%1$s posted a new <a href="%2$s">foo</a>',
+		        'bp_activity_new_post_ms' => '%1$s posted a new <a href="%2$s">foo</a>, on the site %3$s',
+		);
+
+		/**
+		 * 'public' must be set to true, otherwise bp_activity_get_post_types_tracking_args() fails.
+		 */
+		register_post_type( 'foo', array(
+			'labels'      => $labels,
+			'public'      => true,
+			'supports'    => array( 'buddypress-activity' ),
+			'bp_activity' => array(
+				'action_id'    => 'new_foo',
+				'contexts'     => array( 'activity' ),
+				'position'     => 40,
+			)
+		) );
+
+		// Temporarily remove post type activity hook so activity item isn't created.
+		remove_action( 'transition_post_status', 'bp_activity_catch_transition_post_type_status', 10, 3 );
+
+		// Create the initial post.
+		$p = $this->factory->post->create( array(
+			'post_author' => $u,
+			'post_type'   => 'foo',
+		) );
+
+		$this->assertEmpty( bp_activity_get_activity_id( array( 'type' => 'new_foo' ) ) );
+
+		// Add the post type activity hook back.
+		add_action( 'transition_post_status', 'bp_activity_catch_transition_post_type_status', 10, 3 );
+
+		// Emulate updating a post; this should create an activity item.
+		wp_update_post( array(
+			'ID'     => $p,
+			'post_title' => 'This is an edit',
+		) );
+
+		// Assert!
+		$this->assertNotEmpty( bp_activity_get_activity_id( array( 'type' => 'new_foo' ) ), 'Activity item was not created during an edit of an existing WordPress post.' );
+
+		// Clean up.
+		_unregister_post_type( 'foo' );
 	}
 
 	/**
@@ -92,8 +112,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_password() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -119,10 +137,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Password protected post type should not have activity' );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -130,8 +144,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_trash() {
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -154,10 +166,6 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		$this->assertFalse( $this->activity_exists_for_post( $post_id, 'new_foo' ), 'Unpublished post type should not have activity' );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	protected function activity_exists_for_post( $post_id, $action ) {

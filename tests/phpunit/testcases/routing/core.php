@@ -17,7 +17,6 @@ class BP_Tests_Routing_Core extends BP_UnitTestCase {
 		parent::tearDown();
 		$this->set_current_user( $this->old_current_user );
 	}
-
 	function test_wordpress_page() {
 		$this->go_to( '/' );
 		$this->assertEmpty( bp_current_component() );

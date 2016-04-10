@@ -1,23 +1,23 @@
 <?php
-
 /**
- * BuddyPress XProfile CSS and JS
+ * BuddyPress XProfile CSS and JS.
  *
  * @package BuddyPress
  * @subpackage XProfileScripts
+ * @since 1.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Enqueue the CSS for XProfile admin styling
+ * Enqueue the CSS for XProfile admin styling.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  */
 function xprofile_add_admin_css() {
 	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 
 		wp_enqueue_style( 'xprofile-admin-css', buddypress()->plugin_url . "bp-xprofile/admin/css/admin{$min}.css", array(), bp_get_version() );
 
@@ -27,12 +27,12 @@ function xprofile_add_admin_css() {
 		}
 	}
 }
-add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_css' );
+add_action( 'bp_admin_enqueue_scripts', 'xprofile_add_admin_css' );
 
 /**
- * Enqueue the jQuery libraries for handling drag/drop/sort
+ * Enqueue the jQuery libraries for handling drag/drop/sort.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  */
 function xprofile_add_admin_js() {
 	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
@@ -43,15 +43,16 @@ function xprofile_add_admin_js() {
 		wp_enqueue_script( 'jquery-ui-droppable' );
 		wp_enqueue_script( 'jquery-ui-sortable'  );
 
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = bp_core_get_minified_asset_suffix();
 		wp_enqueue_script( 'xprofile-admin-js', buddypress()->plugin_url . "bp-xprofile/admin/js/admin{$min}.js", array( 'jquery', 'jquery-ui-sortable' ), bp_get_version() );
 
 		// Localize strings.
 		// supports_options_field_types is a dynamic list of field
 		// types that support options, for use in showing/hiding the
-		// "please enter options for this field" section
+		// "please enter options for this field" section.
 		$strings = array(
 			'supports_options_field_types' => array(),
+			'do_autolink' => '',
 		);
 
 		foreach ( bp_xprofile_get_field_types() as $field_type => $field_type_class ) {
@@ -61,7 +62,15 @@ function xprofile_add_admin_js() {
 			}
 		}
 
+		// Load 'autolink' setting into JS so that we can provide smart defaults when switching field type.
+		if ( ! empty( $_GET['field_id'] ) ) {
+			$field_id = intval( $_GET['field_id'] );
+
+			// Pull the raw data from the DB so we can tell whether the admin has saved a value yet.
+			$strings['do_autolink'] = bp_xprofile_get_meta( $field_id, 'field', 'do_autolink' );
+		}
+
 		wp_localize_script( 'xprofile-admin-js', 'XProfileAdmin', $strings );
 	}
 }
-add_action( 'admin_enqueue_scripts', 'xprofile_add_admin_js', 1 );
+add_action( 'bp_admin_enqueue_scripts', 'xprofile_add_admin_js', 1 );

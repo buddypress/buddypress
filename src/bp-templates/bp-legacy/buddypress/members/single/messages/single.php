@@ -1,6 +1,22 @@
-<div id="message-thread" role="main">
+<?php
+/**
+ * BuddyPress - Members Single Message
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
 
-	<?php do_action( 'bp_before_message_thread_content' ); ?>
+?>
+<div id="message-thread">
+
+	<?php
+
+	/**
+	 * Fires before the display of a single member message thread content.
+	 *
+	 * @since 1.1.0
+	 */
+	do_action( 'bp_before_message_thread_content' ); ?>
 
 	<?php if ( bp_thread_has_messages() ) : ?>
 
@@ -13,7 +29,7 @@
 
 					<?php _e( 'You are alone in this conversation.', 'buddypress' ); ?>
 
-				<?php elseif ( 5 <= bp_get_thread_recipients_count() ) : ?>
+				<?php elseif ( bp_get_max_thread_recipients_to_list() <= bp_get_thread_recipients_count() ) : ?>
 
 					<?php printf( __( 'Conversation between %s recipients.', 'buddypress' ), number_format_i18n( bp_get_thread_recipients_count() ) ); ?>
 
@@ -25,56 +41,48 @@
 
 			</span>
 
-			<a class="button confirm" href="<?php bp_the_thread_delete_link(); ?>" title="<?php esc_attr_e( "Delete Conversation", "buddypress" ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+			<a class="button confirm" href="<?php bp_the_thread_delete_link(); ?>" title="<?php esc_attr_e( "Delete Conversation", 'buddypress' ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+
+			<?php
+			
+			/**
+			 * Fires after the action links in the header of a single message thread.
+			 *
+			 * @since 2.5.0
+			 */
+			do_action( 'bp_after_message_thread_recipients' ); ?>
 		</p>
 
-		<?php do_action( 'bp_before_message_thread_list' ); ?>
+		<?php
+
+		/**
+		 * Fires before the display of the message thread list.
+		 *
+		 * @since 1.1.0
+		 */
+		do_action( 'bp_before_message_thread_list' ); ?>
 
 		<?php while ( bp_thread_messages() ) : bp_thread_the_message(); ?>
-
-			<div class="message-box <?php bp_the_thread_message_css_class(); ?>">
-
-				<div class="message-metadata">
-
-					<?php do_action( 'bp_before_message_meta' ); ?>
-
-					<?php bp_the_thread_message_sender_avatar( 'type=thumb&width=30&height=30' ); ?>
-
-					<?php if ( bp_get_the_thread_message_sender_link() ) : ?>
-
-						<strong><a href="<?php bp_the_thread_message_sender_link(); ?>" title="<?php bp_the_thread_message_sender_name(); ?>"><?php bp_the_thread_message_sender_name(); ?></a></strong>
-
-					<?php else : ?>
-
-						<strong><?php bp_the_thread_message_sender_name(); ?></strong>
-
-					<?php endif; ?>
-
-					<span class="activity"><?php bp_the_thread_message_time_since(); ?></span>
-
-					<?php do_action( 'bp_after_message_meta' ); ?>
-
-				</div><!-- .message-metadata -->
-
-				<?php do_action( 'bp_before_message_content' ); ?>
-
-				<div class="message-content">
-
-					<?php bp_the_thread_message_content(); ?>
-
-				</div><!-- .message-content -->
-
-				<?php do_action( 'bp_after_message_content' ); ?>
-
-				<div class="clear"></div>
-
-			</div><!-- .message-box -->
-
+			<?php bp_get_template_part( 'members/single/messages/message' ); ?>
 		<?php endwhile; ?>
 
-		<?php do_action( 'bp_after_message_thread_list' ); ?>
+		<?php
 
-		<?php do_action( 'bp_before_message_thread_reply' ); ?>
+		/**
+		 * Fires after the display of the message thread list.
+		 *
+		 * @since 1.1.0
+		 */
+		do_action( 'bp_after_message_thread_list' ); ?>
+
+		<?php
+
+		/**
+		 * Fires before the display of the message thread reply form.
+		 *
+		 * @since 1.1.0
+		 */
+		do_action( 'bp_before_message_thread_reply' ); ?>
 
 		<form id="send-reply" action="<?php bp_messages_form_action(); ?>" method="post" class="standard-form">
 
@@ -82,7 +90,10 @@
 
 				<div class="message-metadata">
 
-					<?php do_action( 'bp_before_message_meta' ); ?>
+					<?php
+
+					/** This action is documented in bp-templates/bp-legacy/buddypress-functions.php */
+					do_action( 'bp_before_message_meta' ); ?>
 
 					<div class="avatar-box">
 						<?php bp_loggedin_user_avatar( 'type=thumb&height=30&width=30' ); ?>
@@ -90,17 +101,35 @@
 						<strong><?php _e( 'Send a Reply', 'buddypress' ); ?></strong>
 					</div>
 
-					<?php do_action( 'bp_after_message_meta' ); ?>
+					<?php
+
+					/** This action is documented in bp-templates/bp-legacy/buddypress-functions.php */
+					do_action( 'bp_after_message_meta' ); ?>
 
 				</div><!-- .message-metadata -->
 
 				<div class="message-content">
 
-					<?php do_action( 'bp_before_message_reply_box' ); ?>
+					<?php
 
+					/**
+					 * Fires before the display of the message reply box.
+					 *
+					 * @since 1.1.0
+					 */
+					do_action( 'bp_before_message_reply_box' ); ?>
+
+					<label for="message_content" class="bp-screen-reader-text"><?php _e( 'Reply to Message', 'buddypress' ); ?></label>
 					<textarea name="content" id="message_content" rows="15" cols="40"></textarea>
 
-					<?php do_action( 'bp_after_message_reply_box' ); ?>
+					<?php
+
+					/**
+					 * Fires after the display of the message reply box.
+					 *
+					 * @since 1.1.0
+					 */
+					do_action( 'bp_after_message_reply_box' ); ?>
 
 					<div class="submit">
 						<input type="submit" name="send" value="<?php esc_attr_e( 'Send Reply', 'buddypress' ); ?>" id="send_reply_button"/>
@@ -116,10 +145,24 @@
 
 		</form><!-- #send-reply -->
 
-		<?php do_action( 'bp_after_message_thread_reply' ); ?>
+		<?php
+
+		/**
+		 * Fires after the display of the message thread reply form.
+		 *
+		 * @since 1.1.0
+		 */
+		do_action( 'bp_after_message_thread_reply' ); ?>
 
 	<?php endif; ?>
 
-	<?php do_action( 'bp_after_message_thread_content' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of a single member message thread content.
+	 *
+	 * @since 1.1.0
+	 */
+	do_action( 'bp_after_message_thread_content' ); ?>
 
 </div>

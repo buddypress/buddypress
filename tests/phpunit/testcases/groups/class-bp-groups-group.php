@@ -4,13 +4,6 @@
  * @group BP_Groups_Group
  */
 class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
 
 	/** __construct()  ***************************************************/
 
@@ -1042,11 +1035,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
  * Stub class for accessing protected methods
  */
 class _BP_Groups_Group extends BP_Groups_Group {
-	static public function _convert_type_to_order_orderby( $type ) {
+	public static function _convert_type_to_order_orderby( $type ) {
 		return self::convert_type_to_order_orderby( $type );
 	}
 
-	static public function _convert_orderby_to_order_by_term( $term ) {
+	public static function _convert_orderby_to_order_by_term( $term ) {
 		return self::convert_orderby_to_order_by_term( $term );
 	}
 }

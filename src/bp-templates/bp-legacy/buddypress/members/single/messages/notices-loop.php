@@ -1,4 +1,17 @@
-<?php do_action( 'bp_before_notices_loop' ); ?>
+<?php
+/**
+ * BuddyPress - Members Single Messages Notice Loop
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+/**
+ * Fires before the members notices loop.
+ *
+ * @since 1.2.0
+ */
+do_action( 'bp_before_notices_loop' ); ?>
 
 <?php if ( bp_has_message_threads() ) : ?>
 
@@ -14,10 +27,24 @@
 
 	</div><!-- .pagination -->
 
-	<?php do_action( 'bp_after_notices_pagination' ); ?>
-	<?php do_action( 'bp_before_notices' ); ?>
+	<?php
 
-	<table id="message-threads" class="messages-notices">
+	/**
+	 * Fires after the members notices pagination display.
+	 *
+	 * @since 1.2.0
+	 */
+	do_action( 'bp_after_notices_pagination' ); ?>
+	<?php
+
+	/**
+	 * Fires before the members notice items.
+	 *
+	 * @since 1.2.0
+	 */
+	do_action( 'bp_before_notices' ); ?>
+
+	<table id="message-threads" class="messages-notices sitewide-notices">
 		<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
 			<tr id="notice-<?php bp_message_notice_id(); ?>" class="<?php bp_message_css_class(); ?>">
 				<td width="1%"></td>
@@ -36,17 +63,31 @@
 					<span class="activity"><?php _e( 'Sent:', 'buddypress' ); ?> <?php bp_message_notice_post_date(); ?></span>
 				</td>
 
-				<?php do_action( 'bp_notices_list_item' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the display of a member notice list item.
+				 *
+				 * @since 1.2.0
+				 */
+				do_action( 'bp_notices_list_item' ); ?>
 
 				<td width="10%">
 					<a class="button" href="<?php bp_message_activate_deactivate_link(); ?>" class="confirm"><?php bp_message_activate_deactivate_text(); ?></a>
-					<a class="button" href="<?php bp_message_notice_delete_link(); ?>" class="confirm" title="<?php esc_attr_e( "Delete Message", "buddypress" ); ?>">x</a>
+					<a class="button" href="<?php bp_message_notice_delete_link(); ?>" class="confirm" title="<?php esc_attr_e( "Delete Message", 'buddypress' ); ?>">x</a>
 				</td>
 			</tr>
 		<?php endwhile; ?>
 	</table><!-- #message-threads -->
 
-	<?php do_action( 'bp_after_notices' ); ?>
+	<?php
+
+	/**
+	 * Fires after the members notice items.
+	 *
+	 * @since 1.2.0
+	 */
+	do_action( 'bp_after_notices' ); ?>
 
 <?php else: ?>
 
@@ -56,4 +97,11 @@
 
 <?php endif;?>
 
-<?php do_action( 'bp_after_notices_loop' ); ?>
+<?php
+
+/**
+ * Fires after the members notices loop.
+ *
+ * @since 1.2.0
+ */
+do_action( 'bp_after_notices_loop' ); ?>

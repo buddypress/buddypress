@@ -4,16 +4,6 @@
  * @group BP_Group_Member_Query
  */
 class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		$this->current_user = get_current_user_id();
-		$this->set_current_user( 0 );
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		$this->set_current_user( $this->current_user );
-		parent::tearDown();
-	}
 
 	/**
 	 * Make sure that a manual 'include' param is parsed correctly with

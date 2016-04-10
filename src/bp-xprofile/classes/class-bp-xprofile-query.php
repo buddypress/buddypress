@@ -1,63 +1,60 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
+ * @since 2.2.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Class for generating SQL clauses to filter a user query by xprofile data.
  *
- * @since BuddyPress (2.2.0)
+ * @since 2.2.0
  */
 class BP_XProfile_Query {
+
 	/**
 	 * Array of xprofile queries.
 	 *
 	 * See {@see WP_XProfile_Query::__construct()} for information on parameters.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
-	 * @var    array
+	 * @since 2.2.0
+	 * @var array
 	 */
 	public $queries = array();
 
 	/**
 	 * Database table that where the metadata's objects are stored (eg $wpdb->users).
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
-	 * @var    string
+	 * @since 2.2.0
+	 * @var string
 	 */
 	public $primary_table;
 
 	/**
 	 * Column in primary_table that represents the ID of the object.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
-	 * @var    string
+	 * @since 2.2.0
+	 * @var string
 	 */
 	public $primary_id_column;
 
 	/**
 	 * A flat list of table aliases used in JOIN clauses.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access protected
-	 * @var    array
+	 * @since 2.2.0
+	 * @var array
 	 */
 	protected $table_aliases = array();
 
 	/**
 	 * Constructor.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 *
 	 * @param array $xprofile_query {
 	 *     Array of xprofile query clauses.
@@ -92,10 +89,9 @@ class BP_XProfile_Query {
 	 *
 	 * Eliminates empty items and ensures that a 'relation' is set.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 *
-	 * @param  array $queries Array of query clauses.
+	 * @param array $queries Array of query clauses.
 	 * @return array Sanitized array of query clauses.
 	 */
 	public function sanitize_query( $queries ) {
@@ -159,8 +155,7 @@ class BP_XProfile_Query {
 	 *
 	 * A first-order query clause is one that has either a 'key' or a 'value' array key.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access protected
+	 * @since 2.2.0
 	 *
 	 * @param  array $query XProfile query arguments.
 	 * @return bool  Whether the query clause is a first-order clause.
@@ -172,23 +167,25 @@ class BP_XProfile_Query {
 	/**
 	 * Return the appropriate alias for the given field type if applicable.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 *
-	 * @param  string $type MySQL type to cast `value`.
+	 * @param string $type MySQL type to cast `value`.
 	 * @return string MySQL type.
 	 */
 	public function get_cast_for_type( $type = '' ) {
-		if ( empty( $type ) )
+		if ( empty( $type ) ) {
 			return 'CHAR';
+		}
 
 		$meta_type = strtoupper( $type );
 
-		if ( ! preg_match( '/^(?:BINARY|CHAR|DATE|DATETIME|SIGNED|UNSIGNED|TIME|NUMERIC(?:\(\d+(?:,\s?\d+)?\))?|DECIMAL(?:\(\d+(?:,\s?\d+)?\))?)$/', $meta_type ) )
+		if ( ! preg_match( '/^(?:BINARY|CHAR|DATE|DATETIME|SIGNED|UNSIGNED|TIME|NUMERIC(?:\(\d+(?:,\s?\d+)?\))?|DECIMAL(?:\(\d+(?:,\s?\d+)?\))?)$/', $meta_type ) ) {
 			return 'CHAR';
+		}
 
-		if ( 'NUMERIC' == $meta_type )
+		if ( 'NUMERIC' === $meta_type ) {
 			$meta_type = 'SIGNED';
+		}
 
 		return $meta_type;
 	}
@@ -199,8 +196,7 @@ class BP_XProfile_Query {
 	 * Called by the public {@see BP_XProfile_Query::get_sql()}, this method is abstracted out to maintain parity
 	 * with WP's Query classes.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access protected
+	 * @since 2.2.0
 	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
@@ -229,10 +225,9 @@ class BP_XProfile_Query {
 	 *
 	 * If nested subqueries are found, this method recurses the tree to produce the properly nested SQL.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access protected
+	 * @since 2.2.0
 	 *
-	 * @param  array $query Query to parse.
+	 * @param  array $query Query to parse. Passed by reference.
 	 * @param  int   $depth Optional. Number of tree levels deep we currently are. Used to calculate indentation.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
@@ -310,8 +305,7 @@ class BP_XProfile_Query {
 	/**
 	 * Generates SQL clauses to be appended to a main query.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 *
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
@@ -322,8 +316,7 @@ class BP_XProfile_Query {
 	 *     @type string $where SQL fragment to append to the main WHERE clause.
 	 * }
 	 */
-	public function get_sql( $primary_table, $primary_id_column, $context = null ) {
-		global $wpdb;
+	public function get_sql( $primary_table, $primary_id_column ) {
 
 		$this->primary_table     = $primary_table;
 		$this->primary_id_column = $primary_id_column;
@@ -346,8 +339,7 @@ class BP_XProfile_Query {
 	 *
 	 * "First-order" means that it's an array with a 'field' or 'value'.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access public
+	 * @since 2.2.0
 	 *
 	 * @param array $clause       Query clause.
 	 * @param array $parent_query Parent query array.
@@ -419,7 +411,7 @@ class BP_XProfile_Query {
 		// Next, build the WHERE clause.
 		$where = '';
 
-		// field_id.
+		// Field_id.
 		if ( array_key_exists( 'field', $clause ) ) {
 			// Convert field name to ID if necessary.
 			if ( ! is_numeric( $clause['field'] ) ) {
@@ -434,7 +426,7 @@ class BP_XProfile_Query {
 			}
 		}
 
-		// value.
+		// Value.
 		if ( array_key_exists( 'value', $clause ) ) {
 			$field_value = $clause['value'];
 			$field_type = $this->get_cast_for_type( isset( $clause['type'] ) ? $clause['type'] : '' );
@@ -496,11 +488,10 @@ class BP_XProfile_Query {
 	 * operator and relation between the clauses allows for a shared table join. In the case of BP_XProfile_Query,
 	 * this * only applies to IN clauses that are connected by the relation OR.
 	 *
-	 * @since  BuddyPress (2.2.0)
-	 * @access protected
+	 * @since 2.2.0
 	 *
-	 * @param  array       $clause       Query clause.
-	 * @param  array       $parent_query Parent query of $clause.
+	 * @param array $clause       Query clause.
+	 * @param array $parent_query Parent query of $clause.
 	 * @return string|bool Table alias if found, otherwise false.
 	 */
 	protected function find_compatible_table_alias( $clause, $parent_query ) {

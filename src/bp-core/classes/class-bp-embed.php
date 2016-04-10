@@ -4,9 +4,10 @@
  *
  * @package BuddyPress
  * @subpackage Core
+ * @since 1.5.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -14,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Extends WP_Embed class for use with BuddyPress.
  *
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @see WP_Embed
  */
@@ -31,7 +32,7 @@ class BP_Embed extends WP_Embed {
 		// Make sure we populate the WP_Embed handlers array.
 		// These are providers that use a regex callback on the URL in question.
 		// Do not confuse with oEmbed providers, which require an external ping.
-		// Used in WP_Embed::shortcode()
+		// Used in WP_Embed::shortcode().
 		$this->handlers = $wp_embed->handlers;
 
 		if ( bp_use_embed_in_activity() ) {
@@ -57,7 +58,7 @@ class BP_Embed extends WP_Embed {
 		/**
 		 * Filters the BuddyPress Core oEmbed setup.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param BP_Embed $this Current instance of the BP_Embed. Passed by reference.
 		 */
@@ -80,8 +81,8 @@ class BP_Embed extends WP_Embed {
 	 * @uses _wp_oembed_get_object()
 	 * @uses WP_Embed::maybe_make_link()
 	 *
-	 * @param array $attr Shortcode attributes.
-	 * @param string $url The URL attempting to be embeded.
+	 * @param array  $attr Shortcode attributes.
+	 * @param string $url  The URL attempting to be embeded.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	public function shortcode( $attr, $url = '' ) {
@@ -91,11 +92,11 @@ class BP_Embed extends WP_Embed {
 		$rawattr = $attr;
 		$attr = wp_parse_args( $attr, wp_embed_defaults() );
 
-		// kses converts & into &amp; and we need to undo this
-		// See https://core.trac.wordpress.org/ticket/11311
+		// Use kses to convert & into &amp; and we need to undo this
+		// See https://core.trac.wordpress.org/ticket/11311.
 		$url = str_replace( '&amp;', '&', $url );
 
-		// Look for known internal handlers
+		// Look for known internal handlers.
 		ksort( $this->handlers );
 		foreach ( $this->handlers as $priority => $handlers ) {
 			foreach ( $handlers as $hid => $handler ) {
@@ -105,7 +106,7 @@ class BP_Embed extends WP_Embed {
 						/**
 						 * Filters the oEmbed handler result for the provided URL.
 						 *
-						 * @since BuddyPress (1.5.0)
+						 * @since 1.5.0
 						 *
 						 * @param string $return Handler callback for the oEmbed.
 						 * @param string $url    URL attempting to be embedded.
@@ -120,26 +121,37 @@ class BP_Embed extends WP_Embed {
 		/**
 		 * Filters the embed object ID.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param int $value Value of zero.
 		 */
 		$id = apply_filters( 'embed_post_id', 0 );
 
+		$unfiltered_html   = current_user_can( 'unfiltered_html' );
+		$default_discovery = false;
+
+		// Since 4.4, WordPress is now an oEmbed provider.
+		if ( function_exists( 'wp_oembed_register_route' ) ) {
+			$unfiltered_html   = true;
+			$default_discovery = true;
+		}
+
 		/**
 		 * Filters whether or not oEmbed discovery is on.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
+		 * @since 2.5.0 Default status of oEmbed discovery has been switched
+		 *              to true to apply changes introduced in WordPress 4.4
 		 *
-		 * @param bool $value Current status of oEmbed discovery.
+		 * @param bool $default_discovery Current status of oEmbed discovery.
 		 */
-		$attr['discover'] = ( apply_filters( 'bp_embed_oembed_discover', false ) && current_user_can( 'unfiltered_html' ) );
+		$attr['discover'] = ( apply_filters( 'bp_embed_oembed_discover', $default_discovery ) && $unfiltered_html );
 
-		// Set up a new WP oEmbed object to check URL with registered oEmbed providers
+		// Set up a new WP oEmbed object to check URL with registered oEmbed providers.
 		require_once( ABSPATH . WPINC . '/class-oembed.php' );
 		$oembed_obj = _wp_oembed_get_object();
 
-		// If oEmbed discovery is true, skip oEmbed provider check
+		// If oEmbed discovery is true, skip oEmbed provider check.
 		$is_oembed_link = false;
 		if ( !$attr['discover'] ) {
 			foreach ( (array) $oembed_obj->providers as $provider_matchmask => $provider ) {
@@ -149,7 +161,7 @@ class BP_Embed extends WP_Embed {
 					$is_oembed_link = true;
 			}
 
-			// If url doesn't match a WP oEmbed provider, stop parsing
+			// If url doesn't match a WP oEmbed provider, stop parsing.
 			if ( !$is_oembed_link )
 				return $this->maybe_make_link( $url );
 		}
@@ -169,27 +181,27 @@ class BP_Embed extends WP_Embed {
 	 * @uses WP_Embed::maybe_make_link() Process URL for hyperlinking on
 	 *       oEmbed failure.
 	 *
-	 * @param int $id ID to do the caching for.
-	 * @param string $url The URL attempting to be embedded.
-	 * @param array $attr Shortcode attributes from {@link WP_Embed::shortcode()}.
-	 * @param array $rawattr Untouched shortcode attributes from
-	 *        {@link WP_Embed::shortcode()}.
+	 * @param int    $id      ID to do the caching for.
+	 * @param string $url     The URL attempting to be embedded.
+	 * @param array  $attr    Shortcode attributes from {@link WP_Embed::shortcode()}.
+	 * @param array  $rawattr Untouched shortcode attributes from
+	 *                        {@link WP_Embed::shortcode()}.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
 	public function parse_oembed( $id, $url, $attr, $rawattr ) {
 		$id = intval( $id );
 
 		if ( $id ) {
-			// Setup the cachekey
+			// Setup the cachekey.
 			$cachekey = '_oembed_' . md5( $url . serialize( $attr ) );
 
-			// Let components / plugins grab their cache
+			// Let components / plugins grab their cache.
 			$cache = '';
 
 			/**
 			 * Filters the cache value to be used in the oEmbed, if exists.
 			 *
-			 * @since BuddyPress (1.5.0)
+			 * @since 1.5.0
 			 *
 			 * @param string $cache    Empty initial cache value.
 			 * @param int    $id       ID that the caching is for.
@@ -200,13 +212,13 @@ class BP_Embed extends WP_Embed {
 			 */
 			$cache = apply_filters( 'bp_embed_get_cache', $cache, $id, $cachekey, $url, $attr, $rawattr );
 
-			// Grab cache and return it if available
+			// Grab cache and return it if available.
 			if ( !empty( $cache ) ) {
 
 				/**
 				 * Filters the found cache for the provided URL.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 *
 				 * @param string $cache   Cached HTML markup for embed.
 				 * @param string $url     The URL being embedded.
@@ -215,7 +227,7 @@ class BP_Embed extends WP_Embed {
 				 */
 				return apply_filters( 'bp_embed_oembed_html', $cache, $url, $attr, $rawattr );
 
-			// If no cache, ping the oEmbed provider and cache the result
+			// If no cache, ping the oEmbed provider and cache the result.
 			} else {
 				$html = wp_oembed_get( $url, $attr );
 				$cache = ( $html ) ? $html : $url;
@@ -225,7 +237,7 @@ class BP_Embed extends WP_Embed {
 				 *
 				 * Lets components / plugins save their cache.
 				 *
-				 * @since BuddyPress (1.5.0)
+				 * @since 1.5.0
 				 *
 				 * @param string $cache    Newly cached HTML markup for embed.
 				 * @param string $cachekey Key to use for the caching in the database.
@@ -233,7 +245,7 @@ class BP_Embed extends WP_Embed {
 				 */
 				do_action( 'bp_embed_update_cache', $cache, $cachekey, $id );
 
-				// If there was a result, return it
+				// If there was a result, return it.
 				if ( $html ) {
 
 					/** This filter is documented in bp-core/classes/class-bp-embed.php */
@@ -242,7 +254,7 @@ class BP_Embed extends WP_Embed {
 			}
 		}
 
-		// Still unknown
+		// Still unknown.
 		return $this->maybe_make_link( $url );
 	}
 }

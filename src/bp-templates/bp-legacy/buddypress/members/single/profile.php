@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Profile
  *
@@ -15,9 +14,16 @@
 	</ul>
 </div><!-- .item-list-tabs -->
 
-<?php do_action( 'bp_before_profile_content' ); ?>
+<?php
 
-<div class="profile" role="main">
+/**
+ * Fires before the display of member profile content.
+ *
+ * @since 1.1.0
+ */
+do_action( 'bp_before_profile_content' ); ?>
+
+<div class="profile">
 
 <?php switch ( bp_current_action() ) :
 
@@ -29,6 +35,11 @@
 	// Change Avatar
 	case 'change-avatar' :
 		bp_get_template_part( 'members/single/profile/change-avatar' );
+		break;
+
+	// Change Cover Image
+	case 'change-cover-image' :
+		bp_get_template_part( 'members/single/profile/change-cover-image' );
 		break;
 
 	// Compose
@@ -51,4 +62,11 @@
 endswitch; ?>
 </div><!-- .profile -->
 
-<?php do_action( 'bp_after_profile_content' ); ?>
+<?php
+
+/**
+ * Fires after the display of member profile content.
+ *
+ * @since 1.1.0
+ */
+do_action( 'bp_after_profile_content' ); ?>

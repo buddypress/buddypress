@@ -1,7 +1,6 @@
 <?php
-
 /**
- * BuddyPress Friends Actions
+ * BuddyPress Friends Actions.
  *
  * Action functions are exactly the same as screen functions, however they do
  * not have a template screen associated with them. Usually they will send the
@@ -9,13 +8,16 @@
  *
  * @package BuddyPress
  * @subpackage FriendsActions
+ * @since 1.5.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Catch and process friendship requests.
+ *
+ * @since 1.0.1
  */
 function friends_action_add_friend() {
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'add-friend' ) )
@@ -54,6 +56,8 @@ add_action( 'bp_init', 'friends_action_add_friend' );
 
 /**
  * Catch and process Remove Friendship requests.
+ *
+ * @since 1.0.1
  */
 function friends_action_remove_friend() {
 	if ( !bp_is_friends_component() || !bp_is_current_action( 'remove-friend' ) )

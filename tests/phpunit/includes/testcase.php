@@ -1,11 +1,5 @@
 <?php
 
-/**
- * WP's test suite wipes out BP's directory page mappings with _delete_all_posts()
- * We must reestablish them before our tests can be successfully run
- */
-bp_core_add_page_mappings( bp_get_option( 'bp-active-components' ), 'delete' );
-
 require_once dirname( __FILE__ ) . '/factory.php';
 
 class BP_UnitTestCase extends WP_UnitTestCase {
@@ -13,7 +7,32 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	protected $temp_has_bp_moderate = array();
 	protected static $cached_SERVER_NAME = null;
 
+	/**
+	 * A flag indicating whether an autocommit has been detected inside of a test.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @var bool
+	 */
+	protected $autocommitted = false;
+
+	/**
+	 * A list of components that have been deactivated during a test.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @var array
+	 */
+	protected $deactivated_components = array();
+
 	public static function setUpBeforeClass() {
+
+		/*
+		 * WP's test suite wipes out BP's directory page mappings with `_delete_all_posts()`.
+		 * We must reestablish them before our tests can be successfully run.
+		 */
+		bp_core_add_page_mappings( bp_get_option( 'bp-active-components' ), 'delete' );
+
 		// Fake WP mail globals, to avoid errors
 		add_filter( 'wp_mail', array( 'BP_UnitTestCase', 'setUp_wp_mail' ) );
 		add_filter( 'wp_mail_from', array( 'BP_UnitTestCase', 'tearDown_wp_mail' ) );
@@ -22,56 +41,93 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		// There's a bug in the multisite tests that causes the
-		// transaction rollback to fail for the first user created,
-		// which busts every other attempt to create users. This is a
-		// hack workaround.
-		global $wpdb;
-		if ( is_multisite() ) {
-			$user_1 = get_user_by( 'login', 'user 1' );
-			if ( $user_1 ) {
-				$wpdb->delete( $wpdb->users, array( 'ID' => $user_1->ID ) );
-				clean_user_cache( $user_1 );
-			}
-		}
-
-
 		$this->factory = new BP_UnitTest_Factory;
 
 		// Fixes warnings in multisite functions
 		$_SERVER['REMOTE_ADDR'] = '';
+		global $wpdb;
+
+		// Clean up after autocommits.
+		add_action( 'bp_blogs_recorded_existing_blogs', array( $this, 'set_autocommit_flag' ) );
+
+		// Make sure Activity actions are reset before each test
+		$this->reset_bp_activity_actions();
+
+		// Make sure all Post types activities globals are reset before each test
+		$this->reset_bp_activity_post_types_globals();
+	}
+
+	public function tearDown() {
+		global $wpdb;
+
+		remove_action( 'bp_blogs_recorded_existing_blogs', array( $this, 'set_autocommit_flag' ) );
+
+		parent::tearDown();
+
+		// If we detect that a COMMIT has been triggered during the test, clean up blog and user fixtures.
+		if ( $this->autocommitted ) {
+			if ( is_multisite() ) {
+				foreach ( $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs WHERE blog_id != 1" ) as $blog_id ) {
+					wpmu_delete_blog( $blog_id, true );
+				}
+			}
+
+			foreach ( $wpdb->get_col( "SELECT ID FROM $wpdb->users WHERE ID != 1" ) as $user_id ) {
+				if ( is_multisite() ) {
+					wpmu_delete_user( $user_id );
+				} else {
+					wp_delete_user( $user_id );
+				}
+			}
+		}
+
+		$this->commit_transaction();
+
+		// Reactivate any components that have been deactivated.
+		foreach ( $this->deactivated_components as $component ) {
+			buddypress()->active_components[ $component ] = 1;
+		}
+		$this->deactivated_components = array();
 	}
 
 	function clean_up_global_scope() {
 		buddypress()->bp_nav                = buddypress()->bp_options_nav = buddypress()->action_variables = buddypress()->canonical_stack = buddypress()->unfiltered_uri = $GLOBALS['bp_unfiltered_uri'] = array();
-		buddypress()->current_component     = buddypress()->current_item = buddypress()->current_action = '';
+		buddypress()->current_component     = buddypress()->current_item = buddypress()->current_action = buddypress()->current_member_type = '';
 		buddypress()->unfiltered_uri_offset = 0;
 		buddypress()->is_single_item        = false;
 		buddypress()->current_user          = new stdClass();
 		buddypress()->displayed_user        = new stdClass();
 		buddypress()->loggedin_user         = new stdClass();
+		buddypress()->pages                 = array();
 
 		parent::clean_up_global_scope();
 	}
 
-	function tearDown() {
-		parent::tearDown();
+	protected function reset_bp_activity_actions() {
+		buddypress()->activity->actions = new stdClass();
 
 		/**
-		 * Sites created by the WP_UnitTest_Factory_For_Blog sometimes are not removed when the current
-		 * transaction is rolled back. This requires further investigation to understand the root cause
-		 * but for now, we'll empty out the blogs table manually.
+		 * Populate the global with default activity actions only
+		 * before each test.
 		 */
-		global $wpdb;
+		do_action( 'bp_register_activity_actions' );
+	}
 
-		if ( is_multisite() ) {
-			$blogs = wp_get_sites();
-			foreach ( $blogs as $blog ) {
-				if ( (int) $blog['blog_id'] !== 1 ) {
-					wpmu_delete_blog( $blog['blog_id'], true );
-				}
+	protected function reset_bp_activity_post_types_globals() {
+		global $wp_post_types;
+
+		// Remove all remaining tracking arguments to each post type
+		foreach ( $wp_post_types as $post_type => $post_type_arg ) {
+			if ( post_type_supports( $post_type, 'buddypress-activity' ) ) {
+				remove_post_type_support( $post_type, 'buddypress-activity' );
+			}
+
+			if ( isset( $post_type_arg->bp_activity ) ) {
+				unset( $post_type_arg->bp_activity );
 			}
 		}
+
+		buddypress()->activity->track = array();
 	}
 
 	function assertPreConditions() {
@@ -142,7 +198,61 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			// Get a cleaned-up version of the wp_version string
 			// (strip -src, -alpha, etc which may trip up version_compare())
 			$wp_version = (float) $GLOBALS['wp_version'];
-			if ( version_compare( $wp_version, '3.9', '>=' ) ) {
+			if ( version_compare( $wp_version, '4.4', '>=' ) ) {
+				if ( ! $current_site = wp_cache_get( 'current_network', 'site-options' ) ) {
+					// Are there even two networks installed?
+					$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
+					if ( 1 === $wpdb->num_rows ) {
+						$current_site = new WP_Network( $one_network );
+						wp_cache_add( 'current_network', $current_site, 'site-options' );
+					} elseif ( 0 === $wpdb->num_rows ) {
+						ms_not_installed( $domain, $path );
+					}
+				}
+				if ( empty( $current_site ) ) {
+					$current_site = WP_Network::get_by_path( $domain, $path, 1 );
+				}
+
+				// The network declared by the site trumps any constants.
+				if ( $current_blog && $current_blog->site_id != $current_site->id ) {
+					$current_site = WP_Network::get_instance( $current_blog->site_id );
+				}
+
+				if ( empty( $current_site ) ) {
+					do_action( 'ms_network_not_found', $domain, $path );
+
+					ms_not_installed( $domain, $path );
+				} elseif ( $path === $current_site->path ) {
+					$current_blog = get_site_by_path( $domain, $path );
+				} else {
+					// Search the network path + one more path segment (on top of the network path).
+					$current_blog = get_site_by_path( $domain, $path, substr_count( $current_site->path, '/' ) );
+				}
+
+				// Figure out the current network's main site.
+				if ( empty( $current_site->blog_id ) ) {
+					if ( $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
+						$current_site->blog_id = $current_blog->blog_id;
+					} elseif ( ! $current_site->blog_id = wp_cache_get( 'network:' . $current_site->id . ':main_site', 'site-options' ) ) {
+						$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s",
+							$current_site->domain, $current_site->path ) );
+						wp_cache_add( 'network:' . $current_site->id . ':main_site', $current_site->blog_id, 'site-options' );
+					}
+				}
+
+				$blog_id = $current_blog->blog_id;
+				$public  = $current_blog->public;
+
+				if ( empty( $current_blog->site_id ) ) {
+					// This dates to [MU134] and shouldn't be relevant anymore,
+					// but it could be possible for arguments passed to insert_blog() etc.
+					$current_blog->site_id = 1;
+				}
+
+				$site_id = $current_blog->site_id;
+				wp_load_core_site_options( $site_id );
+
+			} elseif ( version_compare( $wp_version, '3.9', '>=' ) ) {
 
 				if ( is_admin() ) {
 					$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
@@ -309,6 +419,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			'date_modified' => bp_core_current_time(),
 			'is_confirmed'  => 1,
 			'is_admin'      => 0,
+			'is_mod'        => 0,
 			'invite_sent'   => 0,
 			'inviter_id'    => 0,
 		) );
@@ -318,6 +429,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$new_member->user_id       = $user_id;
 		$new_member->inviter_id    = 0;
 		$new_member->is_admin      = $r['is_admin'];
+		$new_member->is_mod        = $r['is_mod'];
 		$new_member->user_title    = '';
 		$new_member->date_modified = $r['date_modified'];
 		$new_member->is_confirmed  = $r['is_confirmed'];
@@ -405,7 +517,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function tearDown_wp_mail( $args ) {
 		if ( ! empty( self::$cached_SERVER_NAME ) ) {
 			$_SERVER['SERVER_NAME'] = self::$cached_SERVER_NAME;
-			unset( $this->cached_SERVER_NAME );
+			self::$cached_SERVER_NAME = '';
 		} else {
 			unset( $_SERVER['SERVER_NAME'] );
 		}
@@ -420,5 +532,87 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function commit_transaction() {
 		global $wpdb;
 		$wpdb->query( 'COMMIT;' );
+	}
+
+	/**
+	 * Clean up created directories/files
+	 */
+	public function rrmdir( $dir ) {
+		// Make sure we are only removing files/dir from uploads
+		if ( 0 !== strpos( $dir, bp_core_avatar_upload_path() ) ) {
+			return;
+		}
+
+		$d = glob( $dir . '/*' );
+
+		if ( ! empty( $d ) ) {
+			foreach ( $d as $file ) {
+				if ( is_dir( $file ) ) {
+					$this->rrmdir( $file );
+				} else {
+					@unlink( $file );
+				}
+			}
+		}
+
+		@rmdir( $dir );
+	}
+
+	/**
+	 * Set a flag that an autocommit has taken place inside of a test method.
+	 *
+	 * @since 2.4.0
+	 */
+	public function set_autocommit_flag() {
+		$this->autocommitted = true;
+	}
+
+	/**
+	 * Deactivate a component for the duration of a test.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $component Component name.
+	 */
+	public function deactivate_component( $component ) {
+		$is_active = isset( buddypress()->active_components[ $component ] );
+
+		if ( ! isset( $component ) ) {
+			return false;
+		}
+
+		unset( buddypress()->active_components[ $component ] );
+		$this->deactivated_components[] = $component;
+	}
+
+	/**
+	 * Fake an attachment upload (doesn't actually upload a file).
+	 *
+	 * @param string $file Absolute path to valid file.
+	 * @param int $parent Optional. Post ID to attach the new post to.
+	 * @return int Attachment post ID.
+	 */
+	public function fake_attachment_upload( $file, $parent = 0 ) {
+		$mime = wp_check_filetype( $file );
+		if ( $mime ) {
+			$type = $mime['type'];
+		} else {
+			$type = '';
+		}
+
+		$url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . basename( $file );
+		$attachment = array(
+			'guid'           => 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . $url,
+			'post_content'   => '',
+			'post_mime_type' => $type,
+			'post_parent'    => $parent,
+			'post_title'     => basename( $file ),
+			'post_type'      => 'attachment',
+		);
+
+		$id = wp_insert_attachment( $attachment, $url, $parent );
+		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $url ) );
+
+		return $id;
 	}
 }

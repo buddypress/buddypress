@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Members Loop
  *
@@ -9,9 +8,16 @@
  * @subpackage bp-legacy
  */
 
-?>
+/**
+ * Fires before the display of the members loop.
+ *
+ * @since 1.2.0
+ */
+do_action( 'bp_before_members_loop' ); ?>
 
-<?php do_action( 'bp_before_members_loop' ); ?>
+<?php if ( bp_get_current_member_type() ) : ?>
+	<p class="current-member-type"><?php bp_current_member_type_message() ?></p>
+<?php endif; ?>
 
 <?php if ( bp_has_members( bp_ajax_querystring( 'members' ) ) ) : ?>
 
@@ -31,13 +37,20 @@
 
 	</div>
 
-	<?php do_action( 'bp_before_directory_members_list' ); ?>
+	<?php
 
-	<ul id="members-list" class="item-list" role="main">
+	/**
+	 * Fires before the display of the members list.
+	 *
+	 * @since 1.1.0
+	 */
+	do_action( 'bp_before_directory_members_list' ); ?>
+
+	<ul id="members-list" class="item-list">
 
 	<?php while ( bp_members() ) : bp_the_member(); ?>
 
-		<li>
+		<li <?php bp_member_class(); ?>>
 			<div class="item-avatar">
 				<a href="<?php bp_member_permalink(); ?>"><?php bp_member_avatar(); ?></a>
 			</div>
@@ -56,7 +69,14 @@
 
 				<div class="item-meta"><span class="activity"><?php bp_member_last_active(); ?></span></div>
 
-				<?php do_action( 'bp_directory_members_item' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the display of a directory member item.
+				 *
+				 * @since 1.1.0
+				 */
+				do_action( 'bp_directory_members_item' ); ?>
 
 				<?php
 				 /***
@@ -71,7 +91,14 @@
 
 			<div class="action">
 
-				<?php do_action( 'bp_directory_members_actions' ); ?>
+				<?php
+
+				/**
+				 * Fires inside the members action HTML markup to display actions.
+				 *
+				 * @since 1.1.0
+				 */
+				do_action( 'bp_directory_members_actions' ); ?>
 
 			</div>
 
@@ -82,7 +109,14 @@
 
 	</ul>
 
-	<?php do_action( 'bp_after_directory_members_list' ); ?>
+	<?php
+
+	/**
+	 * Fires after the display of the members list.
+	 *
+	 * @since 1.1.0
+	 */
+	do_action( 'bp_after_directory_members_list' ); ?>
 
 	<?php bp_member_hidden_fields(); ?>
 
@@ -110,4 +144,11 @@
 
 <?php endif; ?>
 
-<?php do_action( 'bp_after_members_loop' ); ?>
+<?php
+
+/**
+ * Fires after the display of the members loop.
+ *
+ * @since 1.2.0
+ */
+do_action( 'bp_after_members_loop' ); ?>

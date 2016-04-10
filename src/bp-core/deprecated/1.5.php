@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Core
- * @deprecated Since 1.5
+ * @deprecated Since 1.5.0
  */
 
 // Exit if accessed directly
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /** Loader ********************************************************************/
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_setup_root_components() {
 	do_action( 'bp_setup_root_components' );
@@ -28,8 +28,10 @@ add_action( 'bp_init', 'bp_setup_root_components', 6 );
  * This function originally served as a wrapper when WordPress and WordPress MU were separate entities.
  * Use is_multisite() instead.
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use is_multisite()
+ *
+ * @return bool
  */
 function bp_core_is_multisite() {
 	_deprecated_function( __FUNCTION__, '1.5', 'is_multisite()' );
@@ -41,27 +43,27 @@ function bp_core_is_multisite() {
  *
  * Checks if current blog is root blog of site. Deprecated in 1.5.
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use is_main_site()
  * @package BuddyPress
- * @param int $blog_id optional blog id to test (default current blog)
+ * @param int|string $blog_id optional blog id to test (default current blog)
  * @return bool True if not multisite or $blog_id is main site
- * @since BuddyPress (1.2.6)
+ * @since 1.2.6
  */
 function bp_core_is_main_site( $blog_id = '' ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'is_main_site()' );
 	return is_main_site( $blog_id );
 }
 
-/**
- * WPMU version of is_super_admin()
- *
- * @deprecated BuddyPress (1.5)
- * @deprecated Use is_super_admin()
- * @param int $user_id Optional. Defaults to logged-in user
- * @return bool True if is super admin
- */
 if ( !function_exists( 'is_site_admin' ) ) {
+	/**
+	 * WPMU version of is_super_admin()
+	 *
+	 * @deprecated 1.5.0
+	 * @deprecated Use is_super_admin()
+	 * @param int|bool $user_id Optional. Defaults to logged-in user
+	 * @return bool True if is super admin
+	 */
 	function is_site_admin( $user_id = false ) {
 		_deprecated_function( __FUNCTION__, '1.5', 'is_super_admin()' );
 		return is_super_admin( $user_id );
@@ -74,9 +76,11 @@ if ( !function_exists( 'is_site_admin' ) ) {
  * In BuddyPress 1.1 - 1.2.x, this function provided a better version of add_menu_page()
  * that allowed positioning of menus. Deprecated in 1.5 in favour of a WP core function.
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use add_menu_page().
- * @since BuddyPress (1.1)
+ * @since 1.1.0
+ *
+ * @return string
  */
 function bp_core_add_admin_menu_page( $args = '' ) {
 	global $_registered_pages, $admin_page_hooks, $menu;
@@ -121,7 +125,7 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 /** Activity ******************************************************************/
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_is_activity_permalink() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_single_activity' );
@@ -131,7 +135,7 @@ function bp_is_activity_permalink() {
 /** Core **********************************************************************/
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_core_get_wp_profile() {
 	_deprecated_function( __FUNCTION__, '1.5' );
@@ -204,7 +208,7 @@ function bp_core_get_wp_profile() {
 }
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use bp_is_my_profile()
  */
 function bp_is_home() {
@@ -215,7 +219,7 @@ function bp_is_home() {
 /**
  * Is the user on the front page of the site?
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use is_front_page()
  * @return bool
  */
@@ -227,7 +231,7 @@ function bp_is_front_page() {
 /**
  * Is the front page of the site set to the Activity component?
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use bp_is_component_front_page( 'activity' )
  * @return bool
  */
@@ -237,7 +241,7 @@ function bp_is_activity_front_page() {
 }
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated use bp_is_user()
  */
 function bp_is_member() {
@@ -246,7 +250,7 @@ function bp_is_member() {
 }
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated use bp_loggedin_user_link()
  */
 function bp_loggedinuser_link() {
@@ -258,7 +262,7 @@ function bp_loggedinuser_link() {
  * Only show the search form if there are available objects to search for.
  * Deprecated in 1.5; not used anymore.
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @return bool
  */
 function bp_search_form_enabled() {
@@ -269,9 +273,9 @@ function bp_search_form_enabled() {
 /**
  * Template tag version of bp_get_page_title()
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use wp_title()
- * @since BuddyPress (1.0)
+ * @since 1.0.0
  */
 function bp_page_title() {
 	echo bp_get_page_title();
@@ -280,9 +284,11 @@ function bp_page_title() {
 	 * Prior to BuddyPress 1.5, this was used to generate the page's <title> text.
 	 * Now, just simply use wp_title().
 	 *
-	 * @deprecated BuddyPress (1.5)
+	 * @deprecated 1.5.0
 	 * @deprecated Use wp_title()
-	 * @since BuddyPress (1.0)
+	 * @since 1.0.0
+	 *
+	 * @return string
 	 */
 	function bp_get_page_title() {
 		_deprecated_function( __FUNCTION__, '1.5', 'wp_title()' );
@@ -297,9 +303,9 @@ function bp_page_title() {
 /**
  * Generate a link to log out. Last used in BP 1.2-beta. You should be using wp_logout_url().
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Use wp_logout_url()
- * @since BuddyPress (1.0)
+ * @since 1.0.0
  */
 function bp_log_out_link() {
 	_deprecated_function( __FUNCTION__, '1.5', 'wp_logout_url()' );
@@ -311,7 +317,7 @@ function bp_log_out_link() {
 /**
  * Send an email and a BP notification on receipt of an @-mention in a group
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated Deprecated in favor of the more general bp_activity_at_message_notification()
  */
 function groups_at_message_notification( $content, $poster_user_id, $group_id, $activity_id ) {
@@ -361,8 +367,6 @@ To view and respond to the message, log in and visit: %4$s
 ---------------------
 ', 'buddypress' ), $poster_name, $group->name, $content, $message_link );
 
-			$message .= sprintf( __( 'To disable these notifications please log in and go to: %s', 'buddypress' ), $settings_link );
-
 			/* Send the message */
 			$to = apply_filters( 'groups_at_message_notification_to', $to );
 			$subject = apply_filters( 'groups_at_message_notification_subject', $subject, $group, $poster_name );
@@ -377,13 +381,18 @@ To view and respond to the message, log in and visit: %4$s
 
 /**
  * BP 1.5 simplified notification functions a bit
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
+ *
+ * @return mixed
  */
 function bp_core_delete_notifications_for_user_by_type( $user_id, $component_name, $component_action ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_core_delete_notifications_by_type()' );
 	return BP_Core_Notification::delete_for_user_by_type( $user_id, $component_name, $component_action );
 }
 
+/**
+ * @return mixed
+ */
 function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_core_delete_notifications_by_item_id()' );
 	return BP_Core_Notification::delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id );
@@ -391,7 +400,7 @@ function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $
 
 /**
  * In BP 1.5, these functions were renamed for greater consistency
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_forum_directory_permalink() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_forums_directory_permalink()' );
@@ -404,7 +413,7 @@ function bp_forum_directory_permalink() {
 
 /**
  * Last used by core in BP 1.1. The markup was merged into DTheme's header.php template.
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_search_form() {
 	_deprecated_function( __FUNCTION__, '1.1', 'No longer required.' );
@@ -424,7 +433,7 @@ function bp_search_form() {
 
 /**
  * Some _is_ function had their names normalized
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_is_profile_edit() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_profile_edit()' );
@@ -432,7 +441,7 @@ function bp_is_profile_edit() {
 }
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_is_change_avatar() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_change_avatar()' );
@@ -440,7 +449,7 @@ function bp_is_change_avatar() {
 }
 
 /**
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  */
 function bp_is_friend_requests() {
 	_deprecated_function( __FUNCTION__, '1.5', 'bp_is_user_friend_requests()' );
@@ -452,7 +461,7 @@ function bp_is_friend_requests() {
  * eg: http://example.com/groups/the-group NOT http://example.com/members/andy/groups/the-group
  * You should be using bp_is_root_component().
  *
- * @deprecated BuddyPress (1.5)
+ * @deprecated 1.5.0
  * @deprecated bp_is_root_component()
  * @return bool True if root component, else false.
  */
@@ -467,8 +476,8 @@ function bp_core_is_root_component( $component_name ) {
  * Contains functions which were moved out of BP-Default's functions.php
  * in BuddyPress 1.5.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.5)
+ * @deprecated 1.5.0
+ * @since 1.5.0
  */
 function bp_dtheme_deprecated() {
 	if ( !function_exists( 'bp_dtheme_wp_pages_filter' ) ) :
@@ -477,12 +486,12 @@ function bp_dtheme_deprecated() {
 	 * Settings > Reading screen for selecting the page to show on front to
 	 * include "Activity Stream." As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated BuddyPress (1.5)
+	 * @deprecated 1.5.0
 	 * @deprecated No longer required.
 	 * @param string $page_html A list of pages as a dropdown (select list)
 	 * @return string
 	 * @see wp_dropdown_pages()
-	 * @since BuddyPress (1.2)
+	 * @since 1.2.0
 	 */
 	function bp_dtheme_wp_pages_filter( $page_html ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -495,12 +504,12 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this function hijacked the saving of page on front setting to save the activity stream setting.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated BuddyPress (1.5)
+	 * @deprecated 1.5.0
 	 * @deprecated No longer required.
 	 * @param string $oldvalue Previous value of get_option( 'page_on_front' )
 	 * @param string $oldvalue New value of get_option( 'page_on_front' )
-	 * @return string
-	 * @since BuddyPress (1.2)
+	 * @return bool|string
+	 * @since 1.2.0
 	 */
 	function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -516,11 +525,11 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this function loaded the activity stream template if the front page display settings allow.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated BuddyPress (1.5)
+	 * @deprecated 1.5.0
 	 * @deprecated No longer required.
 	 * @param string $template Absolute path to the page template
 	 * @return string
-	 * @since BuddyPress (1.2)
+	 * @since 1.2.0
 	 */
 	function bp_dtheme_page_on_front_template( $template ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -533,9 +542,9 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this forced the page ID as a string to stop the get_posts query from kicking up a fuss.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated BuddyPress (1.5)
+	 * @deprecated 1.5.0
 	 * @deprecated No longer required.
-	 * @since BuddyPress (1.2)
+	 * @since 1.2.0
 	 */
 	function bp_dtheme_fix_get_posts_on_activity_front() {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -547,11 +556,11 @@ function bp_dtheme_deprecated() {
 	 * In BuddyPress 1.2.x, this was used as part of the code that set the activity stream to be on the front page.
 	 * As of 1.5.x, it is no longer required.
 	 *
-	 * @deprecated BuddyPress (1.5)
+	 * @deprecated 1.5.0
 	 * @deprecated No longer required.
 	 * @param array $posts Posts as retrieved by WP_Query
 	 * @return array
-	 * @since BuddyPress (1.2.5)
+	 * @since 1.2.5
 	 */
 	function bp_dtheme_fix_the_posts_on_activity_front( $posts ) {
 		_deprecated_function( __FUNCTION__, '1.5', "No longer required." );
@@ -561,12 +570,12 @@ function bp_dtheme_deprecated() {
 
 	if ( !function_exists( 'bp_dtheme_add_blog_comments_js' ) ) :
 	/**
-	 * In BuddyPress 1.2.x, this added the javascript needed for blog comment replies.
-	 * As of 1.5.x, we recommend that you enqueue the comment-reply javascript in your theme's header.php.
+	 * In BuddyPress 1.2.x, this added the JavaScript needed for blog comment replies.
+	 * As of 1.5.x, we recommend that you enqueue the comment-reply JavaScript in your theme's header.php.
 	 *
-	 * @deprecated BuddyPress (1.5)
+	 * @deprecated 1.5.0
 	 * @deprecated Enqueue the comment-reply script in your theme's header.php.
-	 * @since BuddyPress (1.2)
+	 * @since 1.2.0
 	 */
 	function bp_dtheme_add_blog_comments_js() {
 		_deprecated_function( __FUNCTION__, '1.5', "Enqueue the comment-reply script in your theme's header.php." );
@@ -582,8 +591,8 @@ add_action( 'after_setup_theme', 'bp_dtheme_deprecated', 15 );
  * components, and moved into a new Settings component. This function is no
  * longer needed as the nav structure is set up by the {@link BP_Component} class.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_add_settings_nav() {
 	_deprecated_function( __FUNCTION__, '1.5' );
@@ -595,8 +604,8 @@ function bp_core_add_settings_nav() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_general_settings() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -608,8 +617,8 @@ function bp_core_screen_general_settings() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_general_settings_title() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -621,8 +630,8 @@ function bp_core_screen_general_settings_title() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_general_settings_content() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -634,8 +643,8 @@ function bp_core_screen_general_settings_content() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_notification_settings() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -647,8 +656,8 @@ function bp_core_screen_notification_settings() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_notification_settings_title() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -660,8 +669,8 @@ function bp_core_screen_notification_settings_title() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_notification_settings_content() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -673,8 +682,8 @@ function bp_core_screen_notification_settings_content() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_delete_account() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -686,8 +695,8 @@ function bp_core_screen_delete_account() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_delete_account_title() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
@@ -699,8 +708,8 @@ function bp_core_screen_delete_account_title() {
  * longer needed as new template files for the Settings component were
  * introduced.
  *
- * @deprecated BuddyPress (1.5)
- * @since BuddyPress (1.6)
+ * @deprecated 1.5.0
+ * @since 1.6.0
  */
 function bp_core_screen_delete_account_content() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );

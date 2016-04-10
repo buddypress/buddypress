@@ -1,26 +1,27 @@
 <?php
 /**
- * BuddyPress XProfile Classes
+ * BuddyPress XProfile Classes.
  *
  * @package BuddyPress
  * @subpackage XProfileClasses
+ * @since 2.0.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Datebox xprofile field type.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  */
 class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 	/**
-	 * Constructor for the datebox field type
+	 * Constructor for the datebox field type.
 	 *
-	 * @since BuddyPress (2.0.0)
- 	 */
+	 * @since 2.0.0
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -32,7 +33,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		/**
 		 * Fires inside __construct() method for BP_XProfile_Field_Type_Datebox class.
 		 *
-		 * @since BuddyPress (2.0.0)
+		 * @since 2.0.0
 		 *
 		 * @param BP_XProfile_Field_Type_Datebox $this Current instance of
 		 *                                             the field type datebox.
@@ -45,12 +46,15 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
-	 * @param array $raw_properties Optional key/value array of {@link http://dev.w3.org/html5/markup/input.html permitted attributes} that you want to add.
-	 * @since BuddyPress (2.0.0)
+	 * @since 2.0.0
+	 *
+	 * @param array $raw_properties Optional key/value array of
+	 *                              {@link http://dev.w3.org/html5/markup/input.html permitted attributes}
+	 *                              that you want to add.
 	 */
 	public function edit_field_html( array $raw_properties = array() ) {
 
-		// user_id is a special optional parameter that we pass to
+		// User_id is a special optional parameter that we pass to.
 		// {@link bp_the_profile_field_options()}.
 		if ( isset( $raw_properties['user_id'] ) ) {
 			$user_id = (int) $raw_properties['user_id'];
@@ -74,9 +78,13 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			'name' => bp_get_the_profile_field_input_name() . '_year'
 		) ); ?>
 
-		<div class="datebox">
+		<fieldset class="datebox">
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_day"><?php bp_the_profile_field_name(); ?> <?php if ( bp_get_the_profile_field_is_required() ) : ?><?php esc_html_e( '(required)', 'buddypress' ); ?><?php endif; ?></label>
+			<legend>
+				<?php bp_the_profile_field_name(); ?>
+				<?php bp_the_profile_field_required_label(); ?>
+			</legend>
+
 			<?php
 
 			/**
@@ -87,10 +95,11 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			 * where the 12 is the field ID. Simply replace the 12 with
 			 * your needed target ID.
 			 *
-			 * @since BuddyPress (1.8.0)
+			 * @since 1.8.0
 			 */
 			do_action( bp_get_the_profile_field_errors_action() ); ?>
 
+			<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="bp-screen-reader-text"><?php esc_html_e( 'Select day', 'buddypress' ); ?></label>
 			<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
 				<?php bp_the_profile_field_options( array(
 					'type'    => 'day',
@@ -98,6 +107,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				) ); ?>
 			</select>
 
+			<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="bp-screen-reader-text"><?php esc_html_e( 'Select month', 'buddypress' ); ?></label>
 			<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
 				<?php bp_the_profile_field_options( array(
 					'type'    => 'month',
@@ -105,6 +115,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				) ); ?>
 			</select>
 
+			<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="bp-screen-reader-text"><?php esc_html_e( 'Select year', 'buddypress' ); ?></label>
 			<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
 				<?php bp_the_profile_field_options( array(
 					'type'    => 'year',
@@ -112,7 +123,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				) ); ?>
 			</select>
 
-		</div>
+		</fieldset>
 	<?php
 	}
 
@@ -127,8 +138,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param array $args Optional. The arguments passed to {@link bp_the_profile_field_options()}.
-	 * @since BuddyPress (2.0.0)
 	 */
 	public function edit_field_options_html( array $args = array() ) {
 
@@ -139,19 +151,19 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$html       = '';
 		$eng_months = array( 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' );
 
-		// Set day, month, year defaults
+		// Set day, month, year defaults.
 		if ( ! empty( $date ) ) {
 
-			// If Unix timestamp
+			// If Unix timestamp.
 			if ( is_numeric( $date ) ) {
 				$day   = date( 'j', $date );
 				$month = date( 'F', $date );
 				$year  = date( 'Y', $date );
 
-			// If MySQL timestamp
+			// If MySQL timestamp.
 			} else {
 				$day   = mysql2date( 'j', $date );
-				$month = mysql2date( 'F', $date, false ); // Not localized, so that selected() works below
+				$month = mysql2date( 'F', $date, false ); // Not localized, so that selected() works below.
 				$year  = mysql2date( 'Y', $date );
 			}
 		}
@@ -178,7 +190,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			$year     = ( $year != $new_year ) ? $new_year : $year;
 		}
 
-		// $type will be passed by calling function when needed
+		// $type will be passed by calling function when needed.
 		switch ( $args['type'] ) {
 			case 'day':
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $day, 0, false ), /* translators: no option picked in select box */ __( '----', 'buddypress' ) );
@@ -223,7 +235,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		/**
 		 * Filters the output for the profile field datebox.
 		 *
-		 * @since BuddyPress (1.1.0)
+		 * @since 1.1.0
 		 *
 		 * @param string $html  HTML output for the field.
 		 * @param string $value Which date type is being rendered for.
@@ -241,8 +253,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
-	 * @since BuddyPress (2.0.0)
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 
@@ -261,14 +274,17 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			'name' => bp_get_the_profile_field_input_name() . '_year'
 		) ); ?>
 
+		<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="screen-reader-text"><?php esc_html_e( 'Select day', 'buddypress' ); ?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'day' ) ); ?>
 		</select>
 
+		<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="screen-reader-text"><?php esc_html_e( 'Select month', 'buddypress' ); ?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'month' ) ); ?>
 		</select>
 
+		<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="screen-reader-text"><?php esc_html_e( 'Select year', 'buddypress' ); ?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'year' ) ); ?>
 		</select>
@@ -280,24 +296,28 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * This method usually outputs HTML for this field type's children options on the wp-admin Profile Fields
 	 * "Add Field" and "Edit Field" screens, but for this field type, we don't want it, so it's stubbed out.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param BP_XProfile_Field $current_field The current profile field on the add/edit screen.
-	 * @param string $control_type Optional. HTML input type used to render the current field's child options.
-	 * @since BuddyPress (2.0.0)
+	 * @param string            $control_type  Optional. HTML input type used to render the current
+	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {}
 
 	/**
 	 * Format Date values for display.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
+	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
-	 * @param string $field_value The date value, as saved in the database.
-	 *        Typically, this is a MySQL-formatted date string (Y-m-d H:i:s).
+	 * @param string     $field_value The date value, as saved in the database. Typically, this is a MySQL-formatted
+	 *                                date string (Y-m-d H:i:s).
+	 * @param string|int $field_id    Optional. ID of the field.
 	 * @return string Date formatted by bp_format_time().
 	 */
-	public static function display_filter( $field_value ) {
+	public static function display_filter( $field_value, $field_id = '' ) {
 
-		// If Unix timestamp
+		// If Unix timestamp.
 		if ( ! is_numeric( $field_value ) ) {
 			$field_value = strtotime( $field_value );
 		}

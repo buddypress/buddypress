@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Activity Stream Comment
  *
@@ -10,9 +9,12 @@
  * @subpackage bp-legacy
  */
 
-?>
-
-<?php do_action( 'bp_before_activity_comment' ); ?>
+/**
+ * Fires before the display of an activity comment.
+ *
+ * @since 1.5.0
+ */
+do_action( 'bp_before_activity_comment' ); ?>
 
 <li id="acomment-<?php bp_activity_comment_id(); ?>">
 	<div class="acomment-avatar">
@@ -44,11 +46,25 @@
 
 		<?php endif; ?>
 
-		<?php do_action( 'bp_activity_comment_options' ); ?>
+		<?php
+
+		/**
+		 * Fires after the defualt comment action options display.
+		 *
+		 * @since 1.6.0
+		 */
+		do_action( 'bp_activity_comment_options' ); ?>
 
 	</div>
 
 	<?php bp_activity_recurse_comments( bp_activity_current_comment() ); ?>
 </li>
 
-<?php do_action( 'bp_after_activity_comment' ); ?>
+<?php
+
+/**
+ * Fires after the display of an activity comment.
+ *
+ * @since 1.5.0
+ */
+do_action( 'bp_after_activity_comment' ); ?>

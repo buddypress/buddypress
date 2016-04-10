@@ -4,9 +4,10 @@
  *
  * @package BuddyPress
  * @subpackage Core
+ * @since 2.1.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -15,19 +16,19 @@ defined( 'ABSPATH' ) || exit;
  * This class is in the Core component because it's required by a class in the Groups component,
  * and Groups is loaded before Members (alphabetical order).
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 class BP_Members_Suggestions extends BP_Suggestions {
 
 	/**
 	 * Default arguments for this suggestions service.
 	 *
-	 * @since BuddyPress (2.1.0)
+	 * @since 2.1.0
 	 * @var array $args {
-	 *     @type int $limit Maximum number of results to display. Default: 16.
-	 *     @type bool $only_friends If true, only match the current user's friends. Default: false.
-	 *     @type string $term The suggestion service will try to find results that contain this string.
-	 *           Mandatory.
+	 *     @type int    $limit        Maximum number of results to display. Default: 16.
+	 *     @type bool   $only_friends If true, only match the current user's friends. Default: false.
+	 *     @type string $term         The suggestion service will try to find results that contain this string.
+	 *                                Mandatory.
 	 * }
 	 */
 	protected $default_args = array(
@@ -41,11 +42,21 @@ class BP_Members_Suggestions extends BP_Suggestions {
 	/**
 	 * Validate and sanitise the parameters for the suggestion service query.
 	 *
+	 * @since 2.1.0
+	 *
 	 * @return true|WP_Error If validation fails, return a WP_Error object. On success, return true (bool).
-	 * @since BuddyPress (2.1.0)
 	 */
 	public function validate() {
 		$this->args['only_friends'] = (bool) $this->args['only_friends'];
+
+		/**
+		 * Filters the members suggestions args for the current user.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param array                  $args Array of arguments for the member suggestions.
+		 * @param BP_Members_Suggestions $this Current BP_Members_Suggestions instance.
+		 */
 		$this->args                 = apply_filters( 'bp_members_suggestions_args', $this->args, $this );
 
 		// Check for invalid or missing mandatory parameters.
@@ -53,18 +64,27 @@ class BP_Members_Suggestions extends BP_Suggestions {
 			return new WP_Error( 'missing_requirement' );
 		}
 
+		/**
+		 * Filters the validation status for the suggestion service query.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param bool|WP_Error          $value Results of validation check.
+		 * @param BP_Members_Suggestions $this  Current BP_Members_Suggestions instance.
+		 */
 		return apply_filters( 'bp_members_suggestions_validate_args', parent::validate(), $this );
 	}
 
 	/**
 	 * Find and return a list of username suggestions that match the query.
 	 *
+	 * @since 2.1.0
+	 *
 	 * @return array|WP_Error Array of results. If there were problems, returns a WP_Error object.
-	 * @since BuddyPress (2.1.0)
 	 */
 	public function get_suggestions() {
 		$user_query = array(
-			'count_total'     => '',  // Prevents total count
+			'count_total'     => '',  // Prevents total count.
 			'populate_extras' => false,
 			'type'            => 'alphabetical',
 
@@ -79,6 +99,14 @@ class BP_Members_Suggestions extends BP_Suggestions {
 			$user_query['user_id'] = get_current_user_id();
 		}
 
+		/**
+		 * Filters the members suggestions query args.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param array                  $user_query Array of query arguments.
+		 * @param BP_Members_Suggestions $this       Current BP_Members_Suggestions instance.
+		 */
 		$user_query = apply_filters( 'bp_members_suggestions_query_args', $user_query, $this );
 		if ( is_wp_error( $user_query ) ) {
 			return $user_query;
@@ -97,6 +125,14 @@ class BP_Members_Suggestions extends BP_Suggestions {
 			$results[] = $result;
 		}
 
+		/**
+		 * Filters the members suggestions results.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param array                  $results Array of users to suggest.
+		 * @param BP_Members_Suggestions $this    Current BP_Members_Suggestions instance.
+		 */
 		return apply_filters( 'bp_members_suggestions_get_suggestions', $results, $this );
 	}
 }

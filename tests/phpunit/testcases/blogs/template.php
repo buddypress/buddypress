@@ -366,4 +366,64 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$_REQUEST = $request;
 	}
+
+	/**
+	 * @ticket BP6519
+	 */
+	public function test_bp_blog_get_avatar_should_respect_title_parameter() {
+		global $blogs_template;
+
+		if ( isset( $blogs_template ) ) {
+			$_blogs_template = $blogs_template;
+		}
+
+		$user = $this->factory->user->create_and_get();
+
+		$blogs_template = new stdClass;
+		$blogs_template->blog = new stdClass;
+		$blogs_template->blog->blog_id = get_current_blog_id();
+		$blogs_template->blog->admin_user_id = $user->ID;
+		$blogs_template->blog->admin_user_email = $user->user_email;
+
+		$actual = bp_get_blog_avatar( array(
+			'title' => 'Foo',
+		) );
+
+		if ( isset( $_blogs_template ) ) {
+			$blogs_template = $_blogs_template;
+		} else {
+			unset( $blogs_template );
+		}
+
+		$this->assertContains( 'title="Foo"', $actual );
+	}
+
+	/**
+	 * @ticket BP6519
+	 */
+	public function test_bp_blog_get_avatar_title_attribute_should_default_to_user_displayname() {
+		global $blogs_template;
+
+		if ( isset( $blogs_template ) ) {
+			$_blogs_template = $blogs_template;
+		}
+
+		$user = $this->factory->user->create_and_get();
+
+		$blogs_template = new stdClass;
+		$blogs_template->blog = new stdClass;
+		$blogs_template->blog->blog_id = get_current_blog_id();
+		$blogs_template->blog->admin_user_id = $user->ID;
+		$blogs_template->blog->admin_user_email = $user->user_email;
+
+		$actual = bp_get_blog_avatar();
+
+		if ( isset( $_blogs_template ) ) {
+			$blogs_template = $_blogs_template;
+		} else {
+			unset( $blogs_template );
+		}
+
+		$this->assertContains( 'title="Profile picture of site author ' . bp_core_get_user_displayname( $user->ID ) . '"', $actual );
+	}
 }

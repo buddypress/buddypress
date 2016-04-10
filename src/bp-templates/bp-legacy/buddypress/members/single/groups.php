@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BuddyPress - Users Groups
  *
@@ -24,7 +23,14 @@
 					<option value="newest"><?php _e( 'Newly Created', 'buddypress' ); ?></option>
 					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
 
-					<?php do_action( 'bp_member_group_order_options' ); ?>
+					<?php
+
+					/**
+					 * Fires inside the members group order options select input.
+					 *
+					 * @since 1.2.0
+					 */
+					do_action( 'bp_member_group_order_options' ); ?>
 
 				</select>
 			</li>
@@ -40,6 +46,12 @@ switch ( bp_current_action() ) :
 
 	// Home/My Groups
 	case 'my-groups' :
+
+		/**
+		 * Fires before the display of member groups content.
+		 *
+		 * @since 1.2.0
+		 */
 		do_action( 'bp_before_member_groups_content' ); ?>
 
 		<div class="groups mygroups">
@@ -48,7 +60,14 @@ switch ( bp_current_action() ) :
 
 		</div>
 
-		<?php do_action( 'bp_after_member_groups_content' );
+		<?php
+
+		/**
+		 * Fires after the display of member groups content.
+		 *
+		 * @since 1.2.0
+		 */
+		do_action( 'bp_after_member_groups_content' );
 		break;
 
 	// Group Invitations

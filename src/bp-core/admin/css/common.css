@@ -1,156 +1,208 @@
-/**
- * CSS that is always loaded when in wp-admin
- *
- * @since BuddyPress (1.6)
+/*------------------------------------------------------------------------------
+
+This stylesheet is always loaded in wp-admin.
+
+@since 1.6.0
+@since 2.5.0
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS:
+--------------------------------------------------------------------------------
+1.0 Welcome Screen
+	1.1 Version Badge
+	1.2 About Panel
+		1.2.1 Headline Feature
+		1.2.2 Columns
+		1.2.3 Features Section
+		1.2.4 Changelog Section
+2.0 Dashicons
+	2.1 Top level menus
+	2.2 Settings - Components
+	2.3 Tools
+3.0 User's Lists
+4.0 Emails - Edit page
+------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------------
+ * 1.0 Welcome Screen
+ *----------------------------------------------------------------------------*/
+
+/*
+ * 1.1 Version Badge
+ */
+.bp-badge {
+	color: #d84800;
+	display: inline-block;
+	font: normal 150px/1 'dashicons' !important;
+}
+
+.bp-badge:before {
+	content: "\f448";
+}
+
+.about-wrap .bp-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+@media only screen and (max-width: 500px) {
+	.about-wrap .bp-badge {
+		position: relative;
+		margin: 10px auto;
+		top: auto;
+		right: auto;
+	}
+}
+
+/*
+ * 1.2 About Panel
  */
 
-/* Welcome Screen
-------------------------------------------------------------------------------*/
+/*
+ * 1.2.1 Headline Feature
+ */
+.index_page_bp-about .about-wrap .headline-feature,
+.dashboard_page_bp-about .about-wrap .headline-feature {
+	margin-bottom: 2em;
+	text-align: center;
+}
 
-body.dashboard_page_bp-about span.dashicons,
-body.index_page_bp-about span.dashicons {
+.index_page_bp-about .about-wrap .headline-feature h3,
+.index_page_bp-about .headline-feature .headline-title,
+.dashboard_page_bp-about .about-wrap .headline-feature h3,
+.dashboard_page_bp-about .headline-feature .headline-title {
+	font-size: 2.2em;
+	font-weight: normal;
+	line-height: 1.3;
+	margin: 1.25em 0 0.6em;
+	text-align: center;
+}
+
+.index_page_bp-about .about-wrap .headline-feature p,
+.dashboard_page_bp-about .about-wrap .headline-feature p {
+	font-size: 1.15em;
+	margin: 1.15em auto 0.6em;
+}
+
+.index_page_bp-about .about-wrap .headline-feature .introduction,
+.dashboard_page_bp-about .about-wrap .headline-feature .introduction {
+	font-weight: 600;
+}
+
+/*
+ * 1.2.2 Columns
+ */
+.index_page_bp-about .about-wrap .two-col > div,
+.dashboard_page_bp-about .about-wrap .two-col > div {
 	float: left;
-	clear: left;
-	margin: 15px 15px 0 0 ;
-	height: 90px;
-	width: 90px;
-	background-color: #cccccc;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	border: 1px solid #c1c1c1;
-	font-size: 65px;
-	line-height: 90px;
-	color: #999;
+	margin-right: 4.799999999%;
+	position: relative;
+	width: 47.6%;
+}
+
+.index_page_bp-about .about-wrap .two-col .last-feature,
+.dashboard_page_bp-about .about-wrap .two-col .last-feature {
+	margin-right: 0;
+}
+
+/*
+ * 1.2.3 Features Section
+ */
+.index_page_bp-about .bp-features-section,
+.dashboard_page_bp-about .bp-features-section {
+	margin-bottom: 2em;
+}
+
+.index_page_bp-about .about-wrap .feature-section,
+.dashboard_page_bp-about .about-wrap .feature-section {
+	clear: both;
+	margin-top: 2em;
+	overflow: hidden;
+	padding-bottom: 0;
+}
+
+.index_page_bp-about .about-wrap .changelog .feature-section,
+.dashboard_page_bp-about .about-wrap .changelog .feature-section {
+	margin-top: 0;
+}
+
+.index_page_bp-about .about-wrap .feature-section h3,
+.dashboard_page_bp-about .about-wrap .feature-section h3 {
+	font-size: 1.25em;
+	line-height: 1.5em;
+	margin: 0 0 0.6em;
+}
+
+.index_page_bp-about .about-wrap .changelog h4,
+.dashboard_page_bp-about .about-wrap .changelog h4 {
+	color: #23282d;
+	font-size: 1em;
+	margin: 1.4em 0 0.6em;
+}
+
+/*
+ * 1.2.4 Changelog Section
+ */
+.index_page_bp-about .about-wrap .changelog,
+.dashboard_page_bp-about .about-wrap .changelog {
+	border-top: 1px solid #eee;
+	margin-bottom: 3em;
+}
+
+.index_page_bp-about .about-wrap .changelog .changelog-title,
+.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
+	font-size: 1.25em;
+	line-height: 1.5em;
+	margin: 1.25em 0 .6em;
 	text-align: center;
 }
 
-/* User's Lists
-------------------------------------------------------------------------------*/
-
-body.site-users-php th#role,
-body.users-php th#role,
-body.users_page_bp-signups th#count_sent {
-	width: 10%;
+@media screen and ( max-width: 782px ) {
+	.index_page_bp-about .about-wrap .headline-feature,
+	.dashboard_page_bp-about .about-wrap .headline-feature {
+		max-width: 100%;
+	}
+	.index_page_bp-about .about-wrap .headline-feature h3,
+	.dahsboard_page_bp-about .about-wrap .headline-feature h3,
+	.index_page_bp-about .about-wrap .headline-feature .headline-title,
+	.dashboard_page_bp-about .about-wrap .headline-feature .headline-title {
+		font-size: 2em;
+	}
+	.index_page_bp-about .bp-features-section,
+	.dashboard_page_bp-about .bp-features-section {
+		margin-bottom: 0;
+	}
+	.index_page_bp-about .about-wrap .feature-section,
+	.dashboard_page_bp-about .about-wrap .feature-section {
+		margin-top: 0;
+	}
+	.index_page_bp-about .about-wrap .two-col > div,
+	.dashboard_page_bp-about .about-wrap .two-col > div {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		margin-top: 1.25em;
+		padding-bottom: 1em;
+		width: 100%;
+	}
+	.index_page_bp-about .changelog .two-col > div,
+	.dashboard_page_bp-about .changelog .two-col > div {
+		margin-top: 0;
+		padding-bottom: 0;
+	}
+	.index_page_bp-about .about-wrap .changelog .changelog-title,
+	.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
+		text-align: left;
+	}
 }
 
-body.site-users-php th#name,
-body.site-users-php th#email,
-body.users-php th#name,
-body.users-php th#registered,
-body.users-php th#email,
-body.users_page_bp-signups th#name,
-body.users_page_bp-signups th#registered,
-body.users_page_bp-signups th#email,
-body.users_page_bp-signups th#date_sent {
-	width: 15%;
-}
 
-body.users-php th#blogs,
-body.users_page_bp-signups th#blogs {
-	width: 20%;
-}
+/*------------------------------------------------------------------------------
+ * 2.0 Dashicons
+ *----------------------------------------------------------------------------*/
 
-body.users_page_bp-signups th.column-count_sent,
-body.users_page_bp-signups td.count_sent {
-	text-align: center;
-}
-
-/* Icon 32's
-------------------------------------------------------------------------------*/
-
-body.branch-3-6 div#icon-buddypress,
-body.branch-3-7 div#icon-buddypress {
-	background: url('../images/icons32.png') no-repeat -370px -6px;
-}
-
-body.branch-3-6 div#icon-buddypress-activity,
-body.branch-3-7 div#icon-buddypress-activity {
-	background: url('../images/icons32.png') no-repeat -10px -6px;
-}
-
-body.branch-3-6 div#icon-buddypress-groups,
-body.branch-3-7 div#icon-buddypress-groups {
-	background: url('../images/icons32.png') no-repeat -250px -6px;
-}
-
-/* Menu Icons
-------------------------------------------------------------------------------*/
-
-/* Backpat */
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
-	background-image: url('../images/menu.png') !important;
-	background-position: -178px -34px;
-}
-
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-components:hover .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-components.wp-has-current-submenu .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-components:hover .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-general-settings:hover .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-components.wp-has-current-submenu .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-general-settings.wp-has-current-submenu .wp-menu-image {
-	background-position: -178px -2px;
-}
-
-/* Activity */
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image {
-	background-image: url('../images/menu.png');
-	background-position: 0 -34px;
-}
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity.current .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity_network:hover .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity_network.current .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity_network.wp-has-current-submenu .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity:hover .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity.current .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity.wp-has-current-submenu .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity_network:hover .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity_network.current .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity_network.wp-has-current-submenu .wp-menu-image {
-	background-position: 0 -2px;
-}
-
-/* Groups */
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image {
-	background-image: url('../images/menu.png');
-	background-position: -61px -34px;
-}
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups:hover .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups.current .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups.wp-has-current-submenu .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups_network:hover .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups_network.current .wp-menu-image,
-body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-submenu .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups:hover .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups.current .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups.wp-has-current-submenu .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network:hover .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network.current .wp-menu-image,
-body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-submenu .wp-menu-image {
-	background-position: -61px -2px;
-}
-
-/* Tools */
-#adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
-    content: "";
-}
-
-/* Components
-------------------------------------------------------------------------------*/
-
-/* Dashicons */
+/*
+ * 2.1 Top level menus
+ */
 #adminmenu #toplevel_page_bp-activity .wp-menu-image:before,
 #adminmenu #toplevel_page_bp-activity_user .wp-menu-image:before,
 #adminmenu #toplevel_page_bp-activity_network .wp-menu-image:before {
@@ -192,23 +244,9 @@ body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network.wp-has-current-s
 	content: "\f448";
 }
 
-/* Dashicons overrides for backward compatibility */
-body.branch-3-6 #adminmenu #toplevel_page_bp-activity .wp-menu-image:before,
-body.branch-3-6 #adminmenu #toplevel_page_bp-activity_network .wp-menu-image:before,
-body.branch-3-6 #adminmenu #toplevel_page_bp-groups .wp-menu-image:before,
-body.branch-3-6 #adminmenu #toplevel_page_bp-groups_network .wp-menu-image:before,
-body.branch-3-6 #adminmenu li.toplevel_page_bp-components .wp-menu-image,
-body.branch-3-6 #adminmenu li.toplevel_page_bp-general-settings .wp-menu-image,
-body.branch-3-7 #adminmenu #toplevel_page_bp-activity .wp-menu-image:before,
-body.branch-3-7 #adminmenu #toplevel_page_bp-activity_network .wp-menu-image:before,
-body.branch-3-7 #adminmenu #toplevel_page_bp-groups .wp-menu-image:before,
-body.branch-3-7 #adminmenu #toplevel_page_bp-groups_network .wp-menu-image:before,
-body.branch-3-7 #adminmenu li.toplevel_page_bp-components .wp-menu-image,
-body.branch-3-7 #adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
-	content: "";
-}
-
-/* Settings - Dashicons (WP 3.8+) */
+/*
+ * 2.2 Settings - Components
+ */
 .settings_page_bp-components td.plugin-title span {
 	float: left;
 	width: 18px;
@@ -257,196 +295,75 @@ body.branch-3-7 #adminmenu li.toplevel_page_bp-general-settings .wp-menu-image {
 	content: "\f454";
 }
 
-/* Settings - Legacy (< WP 3.8) */
-body.branch-3-6.settings_page_bp-components tr.activity td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.notifications td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.xprofile td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.settings td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.groups td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.messages td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.forums td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.blogs td.plugin-title span:before,
-body.branch-3-6.settings_page_bp-components tr.friends td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.activity td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.notifications td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.xprofile td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.settings td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.groups td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.messages td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.forums td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.blogs td.plugin-title span:before,
-body.branch-3-7.settings_page_bp-components tr.friends td.plugin-title span:before {
-	content: "";
-}
-
-body.branch-3-6.settings_page_bp-components td.plugin-title span,
-body.branch-3-7.settings_page_bp-components td.plugin-title span {
-	background-image: url('../images/menu.png');
-	background-position: -4px -40px;
-	background-repeat: no-repeat;
-}
-
-body.branch-3-6.settings_page_bp-components tr.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.active td.plugin-title span {
-	background-position-y: -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.activity td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.activity td.plugin-title span {
-	background-position: -4px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.activity.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.activity.active td.plugin-title span {
-	background-position: -4px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.xprofile td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.xprofile td.plugin-title span {
-	background-image: url('../images/menu-wp.png');
-	background-position: -305px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.xprofile.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.xprofile.active td.plugin-title span {
-	background-position: -305px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.settings td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.settings td.plugin-title span {
-	background-image: url('../images/menu-wp.png');
-	background-position: -334px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.settings.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.settings.active td.plugin-title span {
-	background-position: -334px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.groups td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.groups td.plugin-title span {
-	background-position: -66px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.groups.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.groups.active td.plugin-title span {
-	background-position: -66px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.messages td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.messages td.plugin-title span {
-	background-position: -154px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.messages.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.messages.active td.plugin-title span {
-	background-position: -154px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.forums td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.forums td.plugin-title span {
-	background-image: url('../images/menu-wp.png');
-	background-position: -36px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.forums.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.forums.active td.plugin-title span {
-	background-position: -36px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.blogs td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.blogs td.plugin-title span {
-	background-position: -125px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.blogs.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.blogs.active td.plugin-title span {
-	background-position: -125px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.friends td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.friends td.plugin-title span {
-	background-position: -95px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.friends.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.friends.active td.plugin-title span {
-	background-position: -95px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.core td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.core td.plugin-title span {
-	background-position: -184px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.core.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.core.active td.plugin-title span {
-	background-position: -184px -7px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.members td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.members td.plugin-title span {
-	background-position: -36px -40px;
-}
-
-body.branch-3-6.settings_page_bp-components tr.members.active td.plugin-title span,
-body.branch-3-7.settings_page_bp-components tr.members.active td.plugin-title span {
-	background-position: -36px -7px;
-}
-
-#bp-admin-component-form .widefat th {
-    display: table-cell;
-    vertical-align: top;
-}
-
-/* Version Badge */
-
-.bp-badge {
-	font: normal 150px/1 'dashicons' !important;
-	color: #D84800;
-	display: inline-block;
-}
-
-.bp-badge:before {
+.settings_page_bp-components tr.core td.plugin-title span:before {
 	content: "\f448";
 }
 
-.about-wrap .bp-badge {
-	position: absolute;
-	top: 0;
-	right: 0;
+.settings_page_bp-components tr.members td.plugin-title span:before {
+	content: "\f307";
 }
 
-/* HiDPI
-------------------------------------------------------------------------------*/
+#bp-admin-component-form .wp-list-table.plugins .plugin-title {
+	width: 25%;
+}
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
-
-	/* Icon 32 */
-	body.branch-3-6 div#icon-buddypress,
-	body.branch-3-6 div#icon-buddypress-activity,
-	body.branch-3-6 div#icon-buddypress-groups,
-	body.branch-3-7 div#icon-buddypress,
-	body.branch-3-7 div#icon-buddypress-activity,
-	body.branch-3-7 div#icon-buddypress-groups {
-		background-image: url('../images/icons64.png');
-		background-size: 419px 45px;
+@media screen and ( max-width: 782px ) {
+	.settings_page_bp-components td.plugin-title span {
+		margin-top: 5px;
 	}
-
-	/* Backpat */
-	body.branch-3-6 ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
-	body.branch-3-6 ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image,
-	body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image,
-	body.branch-3-6 ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image,
-	body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image,
-	body.branch-3-6 ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image,
-	body.branch-3-7 ul#adminmenu li.toplevel_page_bp-components .wp-menu-image,
-	body.branch-3-7 ul#adminmenu li.toplevel_page_bp-general-settings .wp-menu-image,
-	body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity .wp-menu-image,
-	body.branch-3-7 ul#adminmenu li.toplevel_page_bp-activity_network .wp-menu-image,
-	body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups .wp-menu-image,
-	body.branch-3-7 ul#adminmenu li.toplevel_page_bp-groups_network .wp-menu-image {
-		background-image: url('../images/menu-2x.png') !important;
-		background-size: 209px 64px;
+	#bp-admin-component-form .wp-list-table.plugins .plugin-title {
+		display: block;
+		width: auto;
 	}
+	#bp-admin-component-form .subsubsub {
+		margin-bottom: 0;
+		padding-bottom: 35px;
+	}
+}
+
+/*
+ * 2.3 Tools
+ */
+#adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
+	content: "";
+}
+
+
+/*------------------------------------------------------------------------------
+ * 3.0 User's Lists
+ *----------------------------------------------------------------------------*/
+body.site-users-php th#role,
+body.users-php th#role,
+body.users_page_bp-signups th#count_sent {
+	width: 10%;
+}
+
+body.site-users-php th#name,
+body.site-users-php th#email,
+body.users-php th#name,
+body.users-php th#registered,
+body.users-php th#email,
+body.users_page_bp-signups th#name,
+body.users_page_bp-signups th#registered,
+body.users_page_bp-signups th#email,
+body.users_page_bp-signups th#date_sent {
+	width: 15%;
+}
+
+body.users-php th#blogs,
+body.users_page_bp-signups th#blogs {
+	width: 20%;
+}
+
+body.users_page_bp-signups th.column-count_sent,
+body.users_page_bp-signups td.count_sent {
+	text-align: center;
+}
+
+
+/*------------------------------------------------------------------------------
+ * 4.0 Emails - Edit Page
+ *----------------------------------------------------------------------------*/
+body.post-type-bp-email #excerpt {
+	height: auto;
 }

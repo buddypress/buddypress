@@ -3,19 +3,6 @@
  * @group activity
  */
 class BP_Tests_Activity_Functions extends BP_UnitTestCase {
-	protected $old_current_user = 0;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-		$this->set_current_user( $this->old_current_user );
-	}
 
 	/**
 	 * @ticket BP4488
@@ -37,7 +24,207 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	/**
 	 * @group delete
 	 */
-	public function test_delete_activity_and_meta() {
+	public function test_delete_activity_by_id() {
+
+		// create an activity update
+		$activity = $this->factory->activity->create( array(
+			'type' => 'activity_update'
+		) );
+
+		// now delete the activity item
+		bp_activity_delete( array(
+			'id' => $activity
+		) );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( array(
+			'id' => $activity
+		) );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_by_type() {
+
+		// Setup criteria
+		$criteria = array(
+			'type' => 'activity_update'
+		);
+
+		// create an activity update
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+
+		// now delete the activity items
+		bp_activity_delete( $criteria );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( $criteria );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_by_component() {
+
+		// Setup criteria
+		$criteria = array(
+			'component' => 'xprofile'
+		);
+
+		// create an activity update
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+
+		// now delete the activity items
+		bp_activity_delete( $criteria );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( $criteria );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_by_user_id() {
+
+		// Setup criteria
+		$criteria = array(
+			'user_id' => '1'
+		);
+
+		// create an activity update
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+		$this->factory->activity->create( $criteria );
+
+		// now delete the activity items
+		bp_activity_delete( $criteria );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( $criteria );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_meta() {
+
+		// create an activity update
+		$activity = $this->factory->activity->create( array(
+			'type' => 'activity_update'
+		) );
+
+		// add some meta to the activity items
+		bp_activity_update_meta( $activity, 'foo', 'bar' );
+
+		// now delete the parent activity item meta entry
+		bp_activity_delete_meta(  $activity, 'foo', 'bar' );
+
+		// now fetch activity meta for the deleted activity entries
+		$m1 = bp_activity_get_meta( $activity );
+
+		// test if activity meta entries still exist
+		$this->assertEmpty( $m1 );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_all_meta() {
+
+		// create an activity update
+		$activity = $this->factory->activity->create( array(
+			'type' => 'activity_update'
+		) );
+
+		// add some meta to the activity items
+		bp_activity_update_meta( $activity, 'foo1', 'bar' );
+		bp_activity_update_meta( $activity, 'foo2', 'bar' );
+		bp_activity_update_meta( $activity, 'foo3', 'bar' );
+		bp_activity_update_meta( $activity, 'foo4', 'bar' );
+		bp_activity_update_meta( $activity, 'foo5', 'bar' );
+
+		// now delete the parent activity item meta entry
+		bp_activity_delete_meta( $activity );
+
+		// now fetch activity meta for the deleted activity entries
+		$m1 = bp_activity_get_meta( $activity );
+		$m2 = bp_activity_get_meta( $activity );
+		$m3 = bp_activity_get_meta( $activity );
+		$m4 = bp_activity_get_meta( $activity );
+		$m5 = bp_activity_get_meta( $activity );
+
+		// test if activity meta entries still exist
+		$this->assertEmpty( $m1 );
+		$this->assertEmpty( $m2 );
+		$this->assertEmpty( $m3 );
+		$this->assertEmpty( $m4 );
+		$this->assertEmpty( $m5 );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_and_comments() {
+
+		// create an activity update
+		$parent_activity = $this->factory->activity->create( array(
+			'type' => 'activity_update',
+		) );
+
+		// create some activity comments
+		$comment_one = $this->factory->activity->create( array(
+			'type'              => 'activity_comment',
+			'item_id'           => $parent_activity,
+			'secondary_item_id' => $parent_activity,
+		) );
+
+		$comment_two = $this->factory->activity->create( array(
+			'type'              => 'activity_comment',
+			'item_id'           => $parent_activity,
+			'secondary_item_id' => $parent_activity,
+		) );
+
+		// now delete the parent activity item
+		// this should hopefully delete the associated comments and meta entries
+		bp_activity_delete( array(
+			'id' => $parent_activity
+		) );
+
+		// now fetch the deleted activity entries
+		$get = bp_activity_get( array(
+			'in'               => array( $parent_activity, $comment_one, $comment_two ),
+			'display_comments' => 'stream'
+		) );
+
+		// activities should equal zero
+		$this->assertEquals( 0, $get['total'] );
+	}
+
+	/**
+	 * @group delete
+	 */
+	public function test_delete_activity_meta_for_comments() {
+
 		// create an activity update
 		$parent_activity = $this->factory->activity->create( array(
 			'type' => 'activity_update',
@@ -66,15 +253,6 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		bp_activity_delete( array(
 			'id' => $parent_activity
 		) );
-
-		// now fetch the deleted activity entries
-		$get = bp_activity_get( array(
-			'in'               => array( $parent_activity, $comment_one, $comment_two ),
-			'display_comments' => 'stream'
-		) );
-
-		// activities should equal zero
-		$this->assertEquals( 0, $get['total'] );
 
 		// now fetch activity meta for the deleted activity entries
 		$m1 = bp_activity_get_meta( $parent_activity );
@@ -585,8 +763,6 @@ Bar!';
 			return;
 		}
 
-		$bp = buddypress();
-
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
 			'public'   => true,
@@ -622,10 +798,6 @@ Bar!';
 		$this->assertSame( $expected, $a_obj->action );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -637,8 +809,6 @@ Bar!';
 		if ( ! is_multisite() ) {
 			return;
 		}
-
-		$bp = buddypress();
 
 		$b = $this->factory->blog->create();
 		$u = $this->factory->user->create();
@@ -685,62 +855,8 @@ Bar!';
 		$expected = sprintf( '%s wrote a new %s, on the site %s', $user_link, $post_link, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
 
 		$this->assertSame( $expected, $a_obj->action );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
-	/**
-	 * @group activity_action
-	 * @group bp_activity_get_actions
-	 */
-	public function test_bp_activity_get_actions_should_sort_by_position() {
-		$old_actions = bp_activity_get_actions();
-		buddypress()->activity->actions = new stdClass;
-
-		register_post_type( 'foo5', array(
-			'public'      => true,
-			'supports'    => array( 'buddypress-activity' ),
-			'bp_activity' => array(
-				'component_id' => 'foo',
-				'action_id' => 'foo_bar_5',
-				'position' => 5,
-			),
-		) );
-
-		register_post_type( 'foo50', array(
-			'public'      => true,
-			'supports'    => array( 'buddypress-activity' ),
-			'bp_activity' => array(
-				'component_id' => 'foo',
-				'action_id' => 'foo_bar_50',
-				'position' => 50,
-			),
-		) );
-
-		register_post_type( 'foo25', array(
-			'public'      => true,
-			'supports'    => array( 'buddypress-activity' ),
-			'bp_activity' => array(
-				'component_id' => 'foo',
-				'action_id' => 'foo_bar_25',
-				'position' => 25,
-			),
-		) );
-
-		$actions = bp_activity_get_actions();
-
-		$expected = array(
-			'foo_bar_5',
-			'foo_bar_25',
-			'foo_bar_50',
-		);
-		$foo_actions = (array) $actions->foo;
-		$this->assertEquals( $expected, array_values( wp_list_pluck( $foo_actions, 'key' ) ) );
-
-		buddypress()->activity->actions = $old_actions;
-	}
 
 	/**
 	 * @group activity_action
@@ -750,8 +866,6 @@ Bar!';
 		if ( is_multisite() ) {
 			return;
 		}
-
-		$bp = buddypress();
 
 		$labels = array(
 			'name'                 => 'bars',
@@ -796,10 +910,6 @@ Bar!';
 		$this->assertSame( $expected, $a_obj->action );
 
 		_unregister_post_type( 'foo' );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->foo_bar );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -811,9 +921,6 @@ Bar!';
 		if ( ! is_multisite() ) {
 			return;
 		}
-
-		$bp = buddypress();
-		$reset = $bp->activity->actions;
 
 		$b = $this->factory->blog->create();
 		$u = $this->factory->user->create();
@@ -863,10 +970,6 @@ Bar!';
 		$expected = sprintf( '%1$s shared a new <a href="%2$s">bar</a>, on the site %3$s', $user_link, $post_url, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
 
 		$this->assertSame( $expected, $a_obj->action );
-
-		// Reset globals
-		unset( $bp->activity->actions->activity->new_foo );
-		$bp->activity->track = array();
 	}
 
 	/**
@@ -903,10 +1006,119 @@ Bar!';
 		$this->assertSame( $bp->blogs->id, $a['activities'][0]->component );
 
 		remove_post_type_support( 'page', 'buddypress-activity' );
+	}
 
-		// Reset globals
-		unset( $bp->activity->actions->blogs->new_page );
-		$bp->activity->track = array();
+	/**
+	 * @group bp_activity_set_post_type_tracking_args
+	 * @group activity_tracking
+	 */
+	public function test_bp_activity_set_post_type_tracking_args_check_post_type_global() {
+		$labels = array(
+			'bp_activity_admin_filter' => 'New Foo',
+			'bp_activity_front_filter' => 'Foos',
+		);
+
+		$bp_activity_args = array(
+			'action_id'    => 'new_foo',
+			'contexts'     => array( 'activity' ),
+			'position'     => 40,
+		);
+
+		register_post_type( 'foo', array(
+			'labels'      => $labels,
+			'supports'    => array( 'buddypress-activity' ),
+			'bp_activity' => $bp_activity_args
+		) );
+
+		$register_bp_activity = get_post_type_object( 'foo' )->bp_activity;
+		_unregister_post_type( 'foo' );
+
+		register_post_type( 'foo', array(
+			'label'       => 'foo',
+			'supports'    => array( 'buddypress-activity' ),
+		) );
+
+		bp_activity_set_post_type_tracking_args( 'foo', $labels + $bp_activity_args );
+
+		$set_bp_activity = get_post_type_object( 'foo' )->bp_activity;
+		_unregister_post_type( 'foo' );
+
+		$this->assertSame( $set_bp_activity, $register_bp_activity );
+	}
+
+	/**
+	 * @group activity_action
+	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_activity_format_activity_action_custom_post_type_comment() {
+		if ( is_multisite() ) {
+			$b = $this->factory->blog->create();
+			switch_to_blog( $b );
+			add_filter( 'comment_flood_filter', '__return_false' );
+		} else {
+			$b = get_current_blog_id();
+		}
+
+		$u = $this->factory->user->create();
+		$userdata = get_userdata( $u );
+
+		$labels = array(
+			'name'                       => 'bars',
+			'singular_name'              => 'bar',
+			'bp_activity_new_comment'    => __( '%1$s commented on the <a href="%2$s">bar</a>', 'buddypress' ),
+			'bp_activity_new_comment_ms' => __( '%1$s commented on the <a href="%2$s">bar</a>, on the site %3$s', 'buddypress' ),
+		);
+
+		register_post_type( 'foo', array(
+			'labels'   => $labels,
+			'public'   => true,
+			'supports' => array( 'buddypress-activity', 'comments' ),
+			'bp_activity' => array(
+				'action_id'         => 'new_bar',
+				'comment_action_id' => 'new_bar_comment',
+			),
+		) );
+
+		// Build the actions to fetch the tracking args
+		bp_activity_get_actions();
+
+		$p = $this->factory->post->create( array(
+			'post_author' => $u,
+			'post_type'   => 'foo',
+		) );
+
+		$c = wp_new_comment( array(
+			'comment_post_ID'      => $p,
+			'comment_author'       => $userdata->user_nicename,
+			'comment_author_url'   => 'http://buddypress.org',
+			'comment_author_email' => $userdata->user_email,
+			'comment_content'      => 'this is a blog comment',
+			'comment_type'         => '',
+			'comment_parent'       => 0,
+			'user_id'              => $u,
+		) );
+
+		$a = bp_activity_get_activity_id( array( 'type' => 'new_bar_comment' ) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$user_link    = bp_core_get_userlink( $u );
+		$comment_url  = get_comment_link( $c );
+
+		_unregister_post_type( 'foo' );
+
+		if ( is_multisite() ) {
+			$blog_url  = get_blog_option( $a_obj->item_id, 'home' );
+			restore_current_blog();
+			remove_filter( 'comment_flood_filter', '__return_false' );
+
+			$expected = sprintf( $labels['bp_activity_new_comment_ms'], $user_link, $comment_url, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
+		} else {
+			$expected = sprintf( $labels['bp_activity_new_comment'], $user_link, $comment_url );
+		}
+
+		$this->assertSame( $expected, $a_obj->action );
 	}
 
 	/**
@@ -914,30 +1126,33 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_comment_caches() {
-		$a1 = $this->factory->activity->create();
+		$u = $this->factory->user->create();
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u,
+		) );
 		$a2 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a1,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a3 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a2,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a4 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a5 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// prime caches
@@ -953,7 +1168,7 @@ Bar!';
 			'activity_id' => $a1,
 			'parent_id' => $a4,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// should be empty
@@ -965,30 +1180,33 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_activity_caches() {
-		$a1 = $this->factory->activity->create();
+		$u = $this->factory->user->create();
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u,
+		) );
 		$a2 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a1,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a3 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a2,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a4 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 		$a5 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a3,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// prime caches
@@ -1020,7 +1238,7 @@ Bar!';
 			'activity_id' => $a1,
 			'parent_id' => $a4,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// should be empty
@@ -1034,13 +1252,16 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_delete_comment_clear_cache() {
+		$u = $this->factory->user->create();
 		// add new activity update and comment to this update
-		$a1 = $this->factory->activity->create();
+		$a1 = $this->factory->activity->create( array(
+			'user_id' => $u,
+		) );
 		$a2 = bp_activity_new_comment( array(
 			'activity_id' => $a1,
 			'parent_id' => $a1,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		// prime cache
@@ -1061,6 +1282,7 @@ Bar!';
 	 * @group BP5907
 	 */
 	public function test_bp_activity_comment_on_deleted_activity() {
+		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
 		bp_activity_delete_by_activity_id( $a );
@@ -1069,7 +1291,7 @@ Bar!';
 			'activity_id' => $a,
 			'parent_id' => $a,
 			'content' => 'foo',
-			'user_id' => 1,
+			'user_id' => $u,
 		) );
 
 		$this->assertEmpty( $c );
@@ -1083,11 +1305,17 @@ Bar!';
 		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
+		// bp_activity_add_user_favorite() requires a logged-in user.
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u );
+
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
 
 		$this->assertFalse( bp_activity_add_user_favorite( $a, $u ) );
 		$this->assertSame( array( $a ), bp_activity_get_user_favorites( $u ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**
@@ -1097,7 +1325,13 @@ Bar!';
 	public function test_add_user_favorite_not_yet_favorited() {
 		$u = $this->factory->user->create();
 		$a = $this->factory->activity->create();
+
+		// bp_activity_add_user_favorite() requires a logged-in user.
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u );
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**
@@ -1109,12 +1343,18 @@ Bar!';
 		$u2 = $this->factory->user->create();
 		$a = $this->factory->activity->create();
 
+		// bp_activity_add_user_favorite() requires a logged-in user.
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u1 );
+
 		// Only favorite for user 1
 		bp_activity_add_user_favorite( $a, $u1 );
 
 		// Removing for user 2 should fail
 		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**

@@ -5,14 +5,6 @@
  * @group functions
  */
 class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public function test_get_hidden_field_types_for_user_loggedout() {
 		$duser = $this->factory->user->create();
 
@@ -71,7 +63,6 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		$meta_value = 'Foo!
@@ -110,7 +101,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
@@ -129,7 +119,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
@@ -147,7 +136,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 		) );
 
 		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
@@ -541,7 +529,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 			'name' => 'Neato',
 		) );
 		xprofile_set_field_data( $f, $u, 'foo' );
@@ -566,7 +553,6 @@ Bar!';
 		$g = $this->factory->xprofile_group->create();
 		$f = $this->factory->xprofile_field->create( array(
 			'field_group_id' => $g,
-			'type' => 'textbox',
 			'name' => 'Kewl',
 		) );
 		xprofile_set_field_data( $f, $u, 'foo' );
@@ -617,8 +603,9 @@ Bar!';
 		$display_name = 'Bar Foo';
 
 		$_POST = array(
-		    'display_name' => $display_name,
-		    'email'        => 'foo@bar.com',
+			'display_name' => $display_name,
+			'email' => 'foo@bar.com',
+			'nickname' => 'foobar',
 		);
 
 		$id = edit_user( $id );
@@ -653,6 +640,65 @@ Bar!';
 
 	/**
 	 * @group xprofile_insert_field
+	 * @ticket BP6354
+	 */
+	public function test_xprofile_insert_field_should_process_falsey_values_for_boolean_params_on_existing_fields() {
+		$g = $this->factory->xprofile_group->create();
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'type' => 'textbox',
+			'name' => 'Foo',
+			'is_required' => true,
+			'can_delete' => true,
+			'is_default_option' => true,
+			'parent_id' => 13,
+			'field_order' => 5,
+			'option_order' => 8,
+			'description' => 'foo',
+			'order_by' => 'custom',
+		) );
+
+		$this->assertNotEmpty( $f );
+
+		$field = new BP_XProfile_Field( $f );
+		$this->assertEquals( 1, $field->is_required );
+		$this->assertEquals( 1, $field->can_delete );
+		$this->assertEquals( 1, $field->is_default_option );
+		$this->assertEquals( 13, $field->parent_id );
+		$this->assertEquals( 5, $field->field_order );
+		$this->assertEquals( 8, $field->option_order );
+		$this->assertEquals( 'foo', $field->description );
+		$this->assertEquals( 'custom', $field->order_by );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'type' => 'textbox',
+			'name' => 'Foo',
+			'is_required' => false,
+			'can_delete' => false,
+			'is_default_option' => false,
+			'parent_id' => 0,
+			'field_order' => 0,
+			'option_order' => 0,
+			'description' => '',
+			'order_by' => '',
+		) );
+
+		$this->assertNotEmpty( $f );
+
+		$field = new BP_XProfile_Field( $f );
+		$this->assertEquals( 0, $field->is_required );
+		$this->assertEquals( 0, $field->can_delete );
+		$this->assertEquals( 0, $field->is_default_option );
+		$this->assertEquals( 0, $field->parent_id );
+		$this->assertEquals( 0, $field->field_order );
+		$this->assertEquals( 0, $field->option_order );
+		$this->assertEquals( '', $field->description );
+		$this->assertEquals( '', $field->order_by );
+	}
+
+	/**
+	 * @group xprofile_insert_field
 	 */
 	public function test_xprofile_insert_field_type_option_option_order() {
 		$g = $this->factory->xprofile_group->create();
@@ -676,6 +722,131 @@ Bar!';
 	}
 
 	/**
+	 * @group xprofile_insert_field
+	 * @ticket BP6137
+	 */
+	public function test_xprofile_insert_field_should_set_is_default_option_to_false_for_new_option() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'field_order' => 5,
+			'is_default_option' => false,
+		) );
+
+		$this->assertNotEmpty( $f );
+		$field = new BP_XProfile_Field( $f );
+		$this->assertEquals( 0, $field->is_default_option );
+	}
+
+	/**
+	 * @group xprofile_insert_field
+	 * @ticket BP6137
+	 */
+	public function test_xprofile_insert_field_should_set_is_default_option_to_true_for_new_option() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'field_order' => 5,
+			'is_default_option' => true,
+		) );
+
+		$this->assertNotEmpty( $f );
+		$field = new BP_XProfile_Field( $f );
+		$this->assertEquals( 1, $field->is_default_option );
+	}
+
+	/**
+	 * @group xprofile_insert_field
+	 * @ticket BP6137
+	 */
+	public function test_xprofile_insert_field_should_set_is_default_option_to_false_for_existing_option() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'field_order' => 5,
+			'is_default_option' => true,
+		) );
+
+		$this->assertNotEmpty( $f );
+		$field = new BP_XProfile_Field( $f );
+		$this->assertEquals( 1, $field->is_default_option );
+
+		$f = xprofile_insert_field( array(
+			'field_id' => $f,
+			'field_group_id' => $g,
+			'type' => 'textbox',
+			'is_default_option' => false,
+		) );
+
+		$field2 = new BP_XProfile_Field( $f );
+		$this->assertEquals( 0, $field2->is_default_option );
+	}
+
+	/**
+	 * @group xprofile_insert_field
+	 * @ticket BP6137
+	 */
+	public function test_xprofile_insert_field_should_set_is_default_option_to_true_for_existing_option() {
+		$g = $this->factory->xprofile_group->create();
+		$parent = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Parent',
+		) );
+
+		$f = xprofile_insert_field( array(
+			'field_group_id' => $g,
+			'parent_id' => $parent,
+			'type' => 'option',
+			'name' => 'Option 1',
+			'field_order' => 5,
+			'is_default_option' => false,
+		) );
+
+		$this->assertNotEmpty( $f );
+		$field = new BP_XProfile_Field( $f );
+		$this->assertEquals( 0, $field->is_default_option );
+
+		$f = xprofile_insert_field( array(
+			'field_id' => $f,
+			'field_group_id' => $g,
+			'type' => 'textbox',
+			'is_default_option' => true,
+		) );
+
+		$field2 = new BP_XProfile_Field( $f );
+
+		$this->assertEquals( 1, $field2->is_default_option );
+	}
+
+	/**
 	 * @group xprofile_update_field_group_position
 	 * @group bp_profile_get_field_groups
 	 */
@@ -696,5 +867,179 @@ Bar!';
 
 		// assert!
 		$this->assertEquals( array( 1, $g1, $g3, $g2 ), wp_list_pluck( $field_groups, 'id' ) );
+	}
+
+	/**
+	 * @ticket BP6638
+	 */
+	public function test_xprofile_get_field_should_return_bp_xprofile_field_object() {
+		global $wpdb;
+
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Foo',
+		) );
+
+		$field = xprofile_get_field( $f );
+
+		$this->assertTrue( $field instanceof BP_XProfile_Field );
+	}
+
+	/**
+	 * @ticket BP6638
+	 * @group cache
+	 */
+	public function test_xprofile_get_field_should_prime_field_cache() {
+		global $wpdb;
+
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'selectbox',
+			'name' => 'Foo',
+		) );
+
+		$num_queries = $wpdb->num_queries;
+
+		// Prime the cache.
+		$field_1 = xprofile_get_field( $f );
+		$num_queries++;
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+
+		// No more queries.
+		$field_2 = xprofile_get_field( $f );
+		$this->assertEquals( $field_1, $field_2 );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @ticket BP5625
+	 */
+	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_true_for_textareas() {
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'textarea',
+		) );
+
+		$this->assertTrue( bp_xprofile_is_richtext_enabled_for_field( $f ) );
+	}
+
+	/**
+	 * @ticket BP5625
+	 */
+	public function test_bp_xprofie_is_richtext_enabled_for_field_should_default_to_false_for_non_textareas() {
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type' => 'radio',
+		) );
+
+		$this->assertFalse( bp_xprofile_is_richtext_enabled_for_field( $f ) );
+	}
+
+	/**
+	 * @group bp_get_field_css_class
+	 */
+	public function test_bp_get_field_css_class_empty_param() {
+		// Fake the global
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$profile_template = new stdClass;
+		// Avoid the 'alt' class being added
+		$profile_template->current_field = 2;
+		$profile_template->field = new stdClass;
+		$profile_template->field->id = 145;
+		$profile_template->field->name = 'Pie';
+		$profile_template->field->type = 'textbox';
+
+		$expected_classes = array(
+			'optional-field',
+			'field_' . $profile_template->field->id,
+			'field_' . sanitize_title( $profile_template->field->name ),
+			'field_type_' . sanitize_title( $profile_template->field->type ),
+			'visibility-public'
+			);
+
+		$classes = bp_get_field_css_class();
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $classes, $matches );
+		$ret_classes = explode( ' ', $matches[1] );
+		$this->assertEqualSets( $expected_classes, $ret_classes );
+
+		// Clean up!
+		$profile_template = $reset_profile_template;
+	}
+
+	/**
+	 * @group bp_get_field_css_class
+	 */
+	public function test_bp_get_field_css_class_space_delimited_string() {
+		// Fake the global
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$profile_template = new stdClass;
+		// Avoid the 'alt' class being added
+		$profile_template->current_field = 2;
+		$profile_template->field = new stdClass;
+		$profile_template->field->id = 145;
+		$profile_template->field->name = 'Pie';
+		$profile_template->field->type = 'textbox';
+
+		$expected_classes = array(
+			'optional-field',
+			'field_' . $profile_template->field->id,
+			'field_' . sanitize_title( $profile_template->field->name ),
+			'field_type_' . sanitize_title( $profile_template->field->type ),
+			'visibility-public',
+			'rhubarb',
+			'apple'
+			);
+
+		$classes = bp_get_field_css_class( 'rhubarb apple' );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $classes, $matches );
+		$ret_classes = explode( ' ', $matches[1] );
+		$this->assertEqualSets( $expected_classes, $ret_classes );
+
+		// Clean up!
+		$profile_template = $reset_profile_template;
+	}
+
+	/**
+	 * @group bp_get_field_css_class
+	 */
+	public function test_bp_get_field_css_class_array() {
+		// Fake the global
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$profile_template = new stdClass;
+		// Avoid the 'alt' class being added
+		$profile_template->current_field = 2;
+		$profile_template->field = new stdClass;
+		$profile_template->field->id = 145;
+		$profile_template->field->name = 'Pie';
+		$profile_template->field->type = 'textbox';
+
+		$expected_classes = array(
+			'optional-field',
+			'field_' . $profile_template->field->id,
+			'field_' . sanitize_title( $profile_template->field->name ),
+			'field_type_' . sanitize_title( $profile_template->field->type ),
+			'visibility-public',
+			'blueberry',
+			'gooseberry'
+			);
+
+		$classes = bp_get_field_css_class( array( 'blueberry', 'gooseberry' ) );
+		preg_match( '/class=["\']?([^"\']*)["\' ]/is', $classes, $matches );
+		$ret_classes = explode( ' ', $matches[1] );
+		$this->assertEqualSets( $expected_classes, $ret_classes );
+
+		// Clean up!
+		$profile_template = $reset_profile_template;
 	}
 }

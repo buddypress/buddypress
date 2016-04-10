@@ -7,3 +7,9 @@ system( WP_PHP_BINARY . ' ' . escapeshellarg( dirname( __FILE__ ) . '/install.ph
 
 // Bootstrap BP
 require dirname( __FILE__ ) . '/../../../src/bp-loader.php';
+
+require_once( dirname( __FILE__ ) . '/mock-mailer.php' );
+function _bp_mock_mailer( $class ) {
+	return 'BP_UnitTest_Mailer';
+}
+tests_add_filter( 'bp_send_email_delivery_class', '_bp_mock_mailer' );

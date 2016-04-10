@@ -1,22 +1,23 @@
 <?php
-
 /**
- * BuddyPress DB schema
+ * BuddyPress DB schema.
  *
  * @package BuddyPress
  * @subpackage CoreAdministration
+ * @since 2.3.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get the DB schema to use for BuddyPress components
+ * Get the DB schema to use for BuddyPress components.
  *
- * @since BuddyPress (1.1.0)
+ * @since 1.1.0
  *
  * @global $wpdb $wpdb
- * @return string The default database character-set, if set
+ *
+ * @return string The default database character-set, if set.
  */
 function bp_core_set_charset() {
 	global $wpdb;
@@ -27,65 +28,67 @@ function bp_core_set_charset() {
 }
 
 /**
- * Main installer
+ * Main installer.
  *
  * Can be passed an optional array of components to explicitly run installation
  * routines on, typically the first time a component is activated in Settings.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
- * @param array $active_components Components to install
+ * @param array|bool $active_components Components to install.
  */
 function bp_core_install( $active_components = false ) {
 
-	// If no components passed, get all the active components from the main site
+	bp_pre_schema_upgrade();
+
+	// If no components passed, get all the active components from the main site.
 	if ( empty( $active_components ) ) {
 
 		/** This filter is documented in bp-core/admin/bp-core-admin-components.php */
 		$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 	}
 
-	// Install Activity Streams even when inactive (to store last_activity data)
+	// Install Activity Streams even when inactive (to store last_activity data).
 	bp_core_install_activity_streams();
 
-	// Install the signups table
+	// Install the signups table.
 	bp_core_maybe_install_signups();
 
-	// Notifications
+	// Notifications.
 	if ( !empty( $active_components['notifications'] ) ) {
 		bp_core_install_notifications();
 	}
 
-	// Friend Connections
+	// Friend Connections.
 	if ( !empty( $active_components['friends'] ) ) {
 		bp_core_install_friends();
 	}
 
-	// Extensible Groups
+	// Extensible Groups.
 	if ( !empty( $active_components['groups'] ) ) {
 		bp_core_install_groups();
 	}
 
-	// Private Messaging
+	// Private Messaging.
 	if ( !empty( $active_components['messages'] ) ) {
 		bp_core_install_private_messaging();
 	}
 
-	// Extended Profiles
+	// Extended Profiles.
 	if ( !empty( $active_components['xprofile'] ) ) {
 		bp_core_install_extended_profiles();
 	}
 
-	// Blog tracking
+	// Blog tracking.
 	if ( !empty( $active_components['blogs'] ) ) {
 		bp_core_install_blog_tracking();
 	}
 }
 
 /**
- * Install database tables for the Notifications component
+ * Install database tables for the Notifications component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
@@ -114,13 +117,22 @@ function bp_core_install_notifications() {
 				KEY useritem (user_id,is_new)
 			) {$charset_collate};";
 
+	$sql[] = "CREATE TABLE {$bp_prefix}bp_notifications_meta (
+				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				notification_id bigint(20) NOT NULL,
+				meta_key varchar(255) DEFAULT NULL,
+				meta_value longtext DEFAULT NULL,
+				KEY notification_id (notification_id),
+				KEY meta_key (meta_key(191))
+			) {$charset_collate};";
+
 	dbDelta( $sql );
 }
 
 /**
- * Install database tables for the Activity component
+ * Install database tables for the Activity component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
@@ -164,16 +176,16 @@ function bp_core_install_activity_streams() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY activity_id (activity_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
 /**
- * Install database tables for the Notifications component
+ * Install database tables for the Notifications component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
@@ -199,9 +211,9 @@ function bp_core_install_friends() {
 }
 
 /**
- * Install database tables for the Groups component
+ * Install database tables for the Groups component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
@@ -252,16 +264,16 @@ function bp_core_install_groups() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY group_id (group_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
 /**
- * Install database tables for the Messages component
+ * Install database tables for the Messages component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
@@ -312,16 +324,16 @@ function bp_core_install_private_messaging() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY message_id (message_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
 }
 
 /**
- * Install database tables for the Profiles component
+ * Install database tables for the Profiles component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
@@ -334,7 +346,7 @@ function bp_core_install_extended_profiles() {
 	$charset_collate = bp_core_set_charset();
 	$bp_prefix       = bp_core_get_table_prefix();
 
-	// These values should only be updated if they are not already present
+	// These values should only be updated if they are not already present.
 	if ( ! bp_get_option( 'bp-xprofile-base-group-name' ) ) {
 		bp_update_option( 'bp-xprofile-base-group-name', _x( 'General', 'First field-group name', 'buddypress' ) );
 	}
@@ -389,12 +401,12 @@ function bp_core_install_extended_profiles() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY object_id (object_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
 
-	// Insert the default group and fields
+	// Insert the default group and fields.
 	$insert_sql = array();
 
 	if ( ! $wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_groups WHERE id = 1" ) ) {
@@ -409,9 +421,9 @@ function bp_core_install_extended_profiles() {
 }
 
 /**
- * Install database tables for the Sites component
+ * Install database tables for the Sites component.
  *
- * @since BuddyPress (1.0.0)
+ * @since 1.0.0
  *
  * @uses bp_core_set_charset()
  * @uses bp_core_get_table_prefix()
@@ -436,7 +448,7 @@ function bp_core_install_blog_tracking() {
 				meta_key varchar(255) DEFAULT NULL,
 				meta_value longtext DEFAULT NULL,
 				KEY blog_id (blog_id),
-				KEY meta_key (meta_key)
+				KEY meta_key (meta_key(191))
 			) {$charset_collate};";
 
 	dbDelta( $sql );
@@ -447,7 +459,7 @@ function bp_core_install_blog_tracking() {
 /**
  * Install the signups table.
  *
- * @since BuddyPress (2.0.0)
+ * @since 2.0.0
  *
  * @global $wpdb
  * @uses wp_get_db_schema() to get WordPress ms_global schema
@@ -455,21 +467,21 @@ function bp_core_install_blog_tracking() {
 function bp_core_install_signups() {
 	global $wpdb;
 
-	// Signups is not there and we need it so let's create it
+	// Signups is not there and we need it so let's create it.
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 	require_once( ABSPATH                  . 'wp-admin/includes/upgrade.php'     );
 
-	// Never use bp_core_get_table_prefix() for any global users tables
+	// Never use bp_core_get_table_prefix() for any global users tables.
 	$wpdb->signups = $wpdb->base_prefix . 'signups';
 
-	// Use WP's core CREATE TABLE query
+	// Use WP's core CREATE TABLE query.
 	$create_queries = wp_get_db_schema( 'ms_global' );
 	if ( ! is_array( $create_queries ) ) {
 		$create_queries = explode( ';', $create_queries );
 		$create_queries = array_filter( $create_queries );
 	}
 
-	// Filter out all the queries except wp_signups
+	// Filter out all the queries except wp_signups.
 	foreach ( $create_queries as $key => $query ) {
 		if ( preg_match( "|CREATE TABLE ([^ ]*)|", $query, $matches ) ) {
 			if ( trim( $matches[1], '`' ) !== $wpdb->signups ) {
@@ -478,7 +490,7 @@ function bp_core_install_signups() {
 		}
 	}
 
-	// Run WordPress's database upgrader
+	// Run WordPress's database upgrader.
 	if ( ! empty( $create_queries ) ) {
 		dbDelta( $create_queries );
 	}
@@ -489,9 +501,9 @@ function bp_core_install_signups() {
  *
  * This is necessary because WordPress's `pre_schema_upgrade()` function wraps
  * table ALTER's in multisite checks, and other plugins may have installed their
- * own sign-ups table; Eg: Gravity Forms User Registration Add On
+ * own sign-ups table; Eg: Gravity Forms User Registration Add On.
  *
- * @since BuddyPress (2.0.1)
+ * @since 2.0.1
  *
  * @see pre_schema_upgrade()
  * @link https://core.trac.wordpress.org/ticket/27855 WordPress Trac Ticket
@@ -502,15 +514,53 @@ function bp_core_install_signups() {
 function bp_core_upgrade_signups() {
 	global $wpdb;
 
-	// Bail if global tables should not be upgraded
+	// Bail if global tables should not be upgraded.
 	if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
 		return;
 	}
 
-	// Never use bp_core_get_table_prefix() for any global users tables
+	// Never use bp_core_get_table_prefix() for any global users tables.
 	$wpdb->signups = $wpdb->base_prefix . 'signups';
 
-	// Attempt to alter the signups table
+	// Attempt to alter the signups table.
 	$wpdb->query( "ALTER TABLE {$wpdb->signups} ADD signup_id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST" );
 	$wpdb->query( "ALTER TABLE {$wpdb->signups} DROP INDEX domain" );
+}
+
+/**
+ * Add default emails.
+ *
+ * @since 2.5.0
+ */
+function bp_core_install_emails() {
+	$defaults = array(
+		'post_status' => 'publish',
+		'post_type'   => bp_get_email_post_type(),
+	);
+
+	$emails       = bp_email_get_schema();
+	$descriptions = bp_email_get_type_schema();
+
+	// Add these emails to the database.
+	foreach ( $emails as $id => $email ) {
+		$post_id = wp_insert_post( bp_parse_args( $email, $defaults, 'install_email_' . $id ) );
+		if ( ! $post_id ) {
+			continue;
+		}
+
+		$tt_ids = wp_set_object_terms( $post_id, $id, bp_get_email_tax_type() );
+		foreach ( $tt_ids as $tt_id ) {
+			$term = get_term_by( 'term_taxonomy_id', (int) $tt_id, bp_get_email_tax_type() );
+			wp_update_term( (int) $term->term_id, bp_get_email_tax_type(), array(
+				'description' => $descriptions[ $id ],
+			) );
+		}
+	}
+
+	/**
+	 * Fires after BuddyPress adds the posts for its emails.
+	 *
+	 * @since 2.5.0
+	 */
+	do_action( 'bp_core_install_emails' );
 }

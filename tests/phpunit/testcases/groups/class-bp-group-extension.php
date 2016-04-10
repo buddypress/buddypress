@@ -7,14 +7,6 @@ include_once BP_TESTS_DIR . '/assets/group-extensions.php';
  * @group BP_Group_Extension
  */
 class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public function test_parse_legacy_properties() {
 		$class_name = 'BPTest_Group_Extension_Parse_Legacy_Properties';
 		$class_slug = sanitize_title( $class_name );

@@ -4,14 +4,6 @@
  * @group BP_Groups_Member
  */
 class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-	}
-
 	public static function invite_user_to_group( $user_id, $group_id, $inviter_id ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;
@@ -23,6 +15,18 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$invite->save();
 		return $invite->id;
+	}
+
+	public static function create_group_membership_request( $user_id, $group_id ) {
+		$request                = new BP_Groups_Member;
+		$request->group_id      = $group_id;
+		$request->user_id       = $user_id;
+		$request->date_modified = bp_core_current_time();
+		$request->inviter_id    = 0;
+		$request->is_confirmed  = 0;
+
+		$request->save();
+		return $request->id;
 	}
 
 	public function test_get_recently_joined_with_filter() {
@@ -89,6 +93,29 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $ids, array( $g2 ) );
 	}
 
+	public function test_get_is_banned_of_with_filter() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'RC Cola',
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'Pepsi',
+		) );
+
+		$u = $this->factory->user->create();
+		self::add_user_to_group( $u, $g1 );
+		self::add_user_to_group( $u, $g2 );
+
+		$m1 = new BP_Groups_Member( $u, $g1 );
+		$m1->ban();
+		$m2 = new BP_Groups_Member( $u, $g2 );
+		$m2->ban();
+
+		$groups = BP_Groups_Member::get_is_banned_of( $u, false, false, 'eps' );
+
+		$ids = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( $ids, array( $g2 ) );
+	}
+
 	public function test_get_invites_with_exclude() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'RC Cola',
@@ -133,31 +160,34 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_user_can_send_invites() {
 		$u_nonmembers = $this->factory->user->create();
-		$u_members = $this->factory->user->create();
-		$u_mods = $this->factory->user->create();
-		$u_admins = $this->factory->user->create();
-		$u_siteadmin = $this->factory->user->create();
+		$u_members    = $this->factory->user->create();
+		$u_mods       = $this->factory->user->create();
+		$u_admins     = $this->factory->user->create();
+		$u_siteadmin  = $this->factory->user->create();
+
 		$user_siteadmin = new WP_User( $u_siteadmin );
 		$user_siteadmin->add_role( 'administrator' );
 
 		$g = $this->factory->group->create();
 
-		$now = time();
+		$time = time() - 60;
 		$old_current_user = get_current_user_id();
 
 		// Create member-level user
 		$this->add_user_to_group( $u_members, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
+
 		// Create mod-level user
 		$this->add_user_to_group( $u_mods, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 		$m_mod = new BP_Groups_Member( $u_mods, $g );
 		$m_mod->promote( 'mod' );
+
 		// Create admin-level user
 		$this->add_user_to_group( $u_admins, $g, array(
-			'date_modified' => date( 'Y-m-d H:i:s', $now - 60 ),
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
 		) );
 		$m_admin = new BP_Groups_Member( $u_admins, $g );
 		$m_admin->promote( 'admin' );
@@ -223,5 +253,1019 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$this->set_current_user( $old_current_user );
 	}
-}
 
+	/**
+	 * @group groups_reject_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_membership_request_remove_request() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		// Membership requests should be removed.
+		self::create_group_membership_request( $u1, $g );
+		groups_reject_membership_request( null, $u1, $g );
+		$u1_has_request = groups_check_for_membership_request( $u1, $g );
+		$this->assertEquals( 0, $u1_has_request );
+	}
+
+	/**
+	 * @group groups_reject_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_membership_request_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$this->add_user_to_group( $u1, $g );
+
+		// Confirmed memberships should be left intact.
+		groups_reject_membership_request( null, $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_reject_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_membership_request_leave_invites_intact() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// Outstanding invitations should be left intact.
+		self::invite_user_to_group( $u2, $g, $u1 );
+		groups_reject_membership_request( null, $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
+		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
+	}
+
+	/**
+	 * @group groups_delete_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_membership_request_remove_request() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		// Membership requests should be removed.
+		self::create_group_membership_request( $u1, $g );
+		groups_delete_membership_request( null, $u1, $g );
+		$u1_has_request = groups_check_for_membership_request( $u1, $g );
+		$this->assertEquals( 0, $u1_has_request );
+	}
+
+	/**
+	 * @group groups_delete_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_membership_request_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$this->add_user_to_group( $u1, $g );
+
+		// Confirmed memberships should be left intact.
+		groups_delete_membership_request( null, $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_delete_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_membership_request_leave_invites_intact() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// Outstanding invitations should be left intact.
+		self::invite_user_to_group( $u2, $g, $u1 );
+		groups_delete_membership_request( null, $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g );
+		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
+	}
+
+	/**
+	 * @group groups_reject_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_invite_remove_invite() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// The invitation should be removed.
+		self::invite_user_to_group( $u2, $g, $u1 );
+		groups_reject_invite( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
+		$this->assertEquals( 0, $u2_has_invite );
+	}
+
+	/**
+	 * @group groups_reject_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_invite_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// Confirmed memberships should be left intact.
+		groups_reject_invite( $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_reject_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_reject_invite_leave_requests_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		// Membership requests should be left intact.
+		self::create_group_membership_request( $u1, $g );
+		groups_reject_invite( $u1, $g );
+		$u1_has_request = groups_check_for_membership_request( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
+	}
+
+	/**
+	 * @group groups_delete_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_invite_remove_invite() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// The invitation should be removed.
+		self::invite_user_to_group( $u2, $g, $u1 );
+		groups_delete_invite( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
+		$this->assertEquals( 0, $u2_has_invite );
+	}
+
+	/**
+	 * @group groups_delete_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_invite_remove_draft_invite() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g  = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// Create the draft invitation.
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $u1
+		) );
+
+		// Check that the invite got created.
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
+		$this->assertTrue( is_numeric( $u2_has_invite ) && $u2_has_invite > 0 );
+
+		// The invitation should be removed.
+		groups_delete_invite( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
+		$this->assertEquals( 0, $u2_has_invite );
+	}
+
+	/**
+	 * @group groups_delete_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_invite_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g  = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		groups_delete_invite( $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_delete_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_delete_invite_leave_requests_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		// Membership requests should be left intact.
+		self::create_group_membership_request( $u1, $g );
+		groups_delete_invite( $u1, $g );
+		$u1_has_request = groups_check_for_membership_request( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
+	}
+
+	/**
+	 * @group groups_uninvite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_uninvite_user_remove_invite() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// The invitation should be removed.
+		self::invite_user_to_group( $u2, $g, $u1 );
+		groups_uninvite_user( $u2, $g );
+		$u2_has_invite = groups_check_user_has_invite( $u2, $g, 'all' );
+		$this->assertEquals( 0, $u2_has_invite );
+	}
+
+	/**
+	 * @group groups_uninvite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_uninvite_user_leave_memberships_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		$time = time() - 60;
+		$this->add_user_to_group( $u1, $g, array(
+			'date_modified' => date( 'Y-m-d H:i:s', $time ),
+		) );
+
+		// Confirmed memberships should be left intact.
+		groups_is_user_member( $u1, $g );
+		groups_uninvite_user( $u1, $g );
+		$u1_is_member = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_is_member ) && $u1_is_member > 0 );
+	}
+
+	/**
+	 * @group groups_uninvite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_bp_groups_uninvite_user_leave_requests_intact() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array(
+			'status' => 'private',
+		) );
+
+		// Membership requests should be left intact.
+		self::create_group_membership_request( $u1, $g );
+		groups_uninvite_user( $u1, $g );
+		$u1_has_request = groups_check_for_membership_request( $u1, $g );
+		$this->assertTrue( is_numeric( $u1_has_request ) && $u1_has_request > 0 );
+	}
+
+	/**
+	 * @group groups_join_group
+	 * @group group_membership
+	 */
+	public function test_groups_join_group_basic_join() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create();
+
+		groups_join_group( $g, $u1 );
+		$membership_id = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $membership_id ) && $membership_id > 0 );
+	}
+
+	/**
+	 * @group groups_join_group
+	 * @group group_membership
+	 */
+	public function test_groups_join_group_basic_join_use_current_user() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create();
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u1 );
+
+		groups_join_group( $g );
+		$membership_id = groups_is_user_member( $u1, $g );
+		$this->assertTrue( is_numeric( $membership_id ) && $membership_id > 0 );
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_join_group
+	 * @group group_membership
+	 */
+	public function test_groups_join_group_already_member() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create();
+		$this->add_user_to_group( $u1, $g );
+
+		$this->assertTrue( groups_join_group( $g, $u1 ) );
+	}
+
+	/**
+	 * @group groups_join_group
+	 * @group group_membership
+	 */
+	public function test_groups_join_group_cleanup_invites() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create();
+		$this->add_user_to_group( $u1, $g );
+
+		$m1 = new BP_Groups_Member( $u1, $g );
+		$m1->promote( 'admin' );
+
+		self::invite_user_to_group( $u2, $g, $u1 );
+
+		groups_join_group( $g, $u2 );
+		// Upon joining the group, outstanding invitations should be cleaned up.
+		$this->assertEquals( null, groups_check_user_has_invite( $u2, $g, 'any' ) );
+	}
+
+	/**
+	 * @group groups_join_group
+	 * @group group_membership
+	 */
+	public function test_groups_join_group_cleanup_requests() {
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create();
+		self::create_group_membership_request( $u1, $g );
+
+		groups_join_group( $g, $u1 );
+		// Upon joining the group, outstanding requests should be cleaned up.
+		$this->assertEquals( null, groups_check_for_membership_request( $u1, $g ) );
+	}
+
+	/**
+	 * @group groups_leave_group
+	 * @group group_membership
+	 */
+	public function test_groups_leave_group_basic_leave_self_initiated() {
+		$old_current_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u2 = $this->factory->user->create();
+		$this->add_user_to_group( $u2, $g );
+
+		$before = groups_get_total_member_count( $g );
+		$this->set_current_user( $u2 );
+		groups_leave_group( $g, $u2 );
+		$after = groups_get_total_member_count( $g );
+
+		$this->assertEquals( $before - 1, $after );
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_leave_group
+	 * @group group_membership
+	 */
+	public function test_groups_leave_group_basic_leave_use_current_user() {
+		$old_current_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u2 = $this->factory->user->create();
+		$this->add_user_to_group( $u2, $g );
+
+		$before = groups_get_total_member_count( $g );
+		$this->set_current_user( $u2 );
+		groups_leave_group( $g );
+		$after = groups_get_total_member_count( $g );
+
+		$this->assertEquals( $before - 1, $after );
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_leave_group
+	 * @group group_membership
+	 */
+	public function test_groups_leave_group_basic_leave_group_admin_initiated() {
+		$old_current_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u2 = $this->factory->user->create();
+		$this->add_user_to_group( $u2, $g );
+
+		$before = groups_get_total_member_count( $g );
+		$this->set_current_user( $u1 );
+		groups_leave_group( $g, $u2 );
+		$after = groups_get_total_member_count( $g );
+
+		$this->assertEquals( $before - 1, $after );
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_leave_group
+	 * @group group_membership
+	 */
+	public function test_groups_leave_group_basic_leave_site_admin_initiated() {
+		$old_current_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$u1_siteadmin = new WP_User( $u1 );
+		$u1_siteadmin->add_role( 'administrator' );
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u2 = $this->factory->user->create();
+		$this->add_user_to_group( $u2, $g );
+
+		$before = groups_get_total_member_count( $g );
+		$this->set_current_user( $u1 );
+		groups_leave_group( $g, $u2 );
+		$after = groups_get_total_member_count( $g );
+
+		$this->assertEquals( $before - 1, $after );
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_leave_group
+	 * @group group_membership
+	 */
+	public function test_groups_leave_group_single_admin_prevent_leave() {
+		$old_current_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u2 = $this->factory->user->create();
+		$this->add_user_to_group( $u2, $g );
+
+		$before = groups_get_total_member_count( $g );
+		$this->set_current_user( $u1 );
+		groups_leave_group( $g, $u1 );
+		$after = groups_get_total_member_count( $g );
+
+		$this->assertEquals( $before, $after );
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_leave_group
+	 * @group group_membership
+	 */
+	public function test_groups_leave_group_multiple_admins_allow_leave() {
+		$old_current_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u2 = $this->factory->user->create();
+		$this->add_user_to_group( $u2, $g );
+		$m2 = new BP_Groups_Member( $u2, $g );
+		$m2->promote( 'admin' );
+
+		$before = groups_get_total_member_count( $g );
+		$this->set_current_user( $u1 );
+		groups_leave_group( $g, $u1 );
+		$after = groups_get_total_member_count( $g );
+
+		$this->assertEquals( $before - 1, $after );
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_get_invites_for_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_get_invites_for_user() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g3 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		self::invite_user_to_group( $u2, $g1, $u1 );
+		self::invite_user_to_group( $u2, $g2, $u1 );
+		self::invite_user_to_group( $u2, $g3, $u1 );
+
+		$groups = groups_get_invites_for_user( $u2 );
+
+		$this->assertEqualSets( array( $g1, $g2, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group groups_get_invites_for_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_get_invites_for_user_infer_user() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g3 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		self::invite_user_to_group( $u2, $g1, $u1 );
+		self::invite_user_to_group( $u2, $g2, $u1 );
+		self::invite_user_to_group( $u2, $g3, $u1 );
+
+		$this->set_current_user( $u2 );
+		$groups = groups_get_invites_for_user();
+		$this->assertEqualSets( array( $g1, $g2, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	/**
+	 * @group groups_get_invites_for_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_get_invites_for_user_with_exclude() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g3 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		self::invite_user_to_group( $u2, $g1, $u1 );
+		self::invite_user_to_group( $u2, $g2, $u1 );
+		self::invite_user_to_group( $u2, $g3, $u1 );
+
+		$groups = groups_get_invites_for_user( $u2, false, false, array( $g2 ) );
+		$this->assertEqualSets( array( $g1, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group groups_get_invite_count_for_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_get_invite_count_for_user() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$g3 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		self::invite_user_to_group( $u2, $g1, $u1 );
+		self::invite_user_to_group( $u2, $g2, $u1 );
+		self::invite_user_to_group( $u2, $g3, $u1 );
+
+		$this->assertEquals( 3, groups_get_invite_count_for_user( $u2 ) );
+	}
+
+	/**
+	 * @group groups_get_invite_count_for_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_get_invite_count_for_user_ignore_drafts() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation.
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// groups_get_invite_count_for_user should ignore draft invitations.
+		$this->assertEquals( 0, groups_get_invite_count_for_user( $u2 ) );
+	}
+
+	/**
+	 * @group groups_invite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_invite_user() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Check that the draft invitation has been created.
+		$draft = groups_check_user_has_invite( $u2, $g1, 'all' );
+		$this->assertTrue( is_numeric( $draft ) && $draft > 0 );
+	}
+
+	/**
+	 * @group groups_send_invites
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_send_invites() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Send the invitation
+		groups_send_invites( $u1, $g1 );
+
+		// Check that the invitation has been sent.
+		$sent = groups_check_user_has_invite( $u2, $g1, $type = 'sent' );
+		$this->assertTrue( is_numeric( $sent ) && $sent > 0 );
+	}
+
+	/**
+	 * @group groups_accept_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_accept_invite() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Send the invitation
+		groups_send_invites( $u1, $g1 );
+
+		// Accept the invitation
+		groups_accept_invite( $u2, $g1 );
+
+		// Check that the user is a member of the group.
+		$member = groups_is_user_member( $u2, $g1 );
+		$this->assertTrue( is_numeric( $member ) && $member > 0 );
+		// Check that the invite has been removed.
+		$invite = groups_check_user_has_invite( $u2, $g1, 'all' );
+		$this->assertTrue( is_null( $invite ) );
+	}
+
+	/**
+	 * @group groups_accept_invite
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_accept_invite_removes_membership_requests() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Create membership request
+		groups_send_membership_request( $u2, $g1 );
+		$request = groups_check_for_membership_request( $u2, $g1 );
+		$this->assertTrue( is_numeric( $request ) && $request > 0 );
+
+		// Send the invitation
+		groups_send_invites( $u1, $g1 );
+
+		// Accept the invitation
+		groups_accept_invite( $u2, $g1 );
+
+		// Check that the membership request has been removed.
+		$this->assertTrue( 0 == groups_check_for_membership_request( $u2, $g1 ) );
+	}
+
+	/**
+	 * @group groups_send_invites
+	 * @group group_invitations
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_groups_sent_invite_plus_request_equals_member() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Send the invitation
+		groups_send_invites( $u1, $g1 );
+
+		// Create membership request
+		groups_send_membership_request( $u2, $g1 );
+
+		// User should now be a group member
+		$member = groups_is_user_member( $u2, $g1 );
+		$this->assertTrue( is_numeric( $member ) && $member > 0 );
+	}
+
+	/**
+	 * @group groups_delete_all_group_invites
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_delete_all_group_invites() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		self::invite_user_to_group( $u2, $g1, $u1 );
+		self::invite_user_to_group( $u3, $g1, $u1 );
+
+		groups_delete_all_group_invites( $g1 );
+
+		// Get group invitations of any type, from any user in the group.
+		$invitees = new BP_Group_Member_Query( array(
+			'group_id'     => $g1,
+			'is_confirmed' => 0,
+			'invite_sent'  => null,
+			'inviter_id'   => 'any',
+		) );
+
+		$this->assertTrue( empty( $invitees->results ) );
+	}
+
+	/**
+	 * @group groups_invite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_send_invites_fail_on_empty_group_id() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+
+		// Create draft invitation with empty inviter_id
+		$invite_created = groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => 0,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		$this->assertFalse( $invite_created );
+	}
+
+	/**
+	 * @group groups_invite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_send_invites_fail_on_empty_user_id() {
+		$u1 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation with empty inviter_id
+		$invite_created = groups_invite_user( array(
+			'user_id'       => 0,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		$this->assertFalse( $invite_created );
+	}
+
+	/**
+	 * @group groups_invite_user
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_send_invites_fail_on_empty_inviter_id() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation with empty inviter_id
+		$invite_created = groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => 0,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		$this->assertFalse( $invite_created );
+	}
+
+	/**
+	 * @group groups_send_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_groups_send_membership_request() {
+		$u1 = $this->factory->user->create();
+		$g1 = $this->factory->group->create();
+
+		// Create membership request
+		groups_send_membership_request( $u1, $g1 );
+
+		$request = groups_check_for_membership_request( $u1, $g1 );
+		$this->assertTrue( is_numeric( $request ) && $request > 0 );
+	}
+
+	/**
+	 * @group groups_accept_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_groups_accept_membership_request_by_membership_id() {
+		$u1 = $this->factory->user->create();
+		$g1 = $this->factory->group->create();
+
+		// Create membership request
+		groups_send_membership_request( $u1, $g1 );
+
+		// Get group invitations of any type, from any user in the group.
+		$member = new BP_Groups_Member( $u1, $g1 );
+
+		groups_accept_membership_request( $member->id );
+
+		// User should now be a group member.
+		$member = groups_is_user_member( $u1, $g1 );
+
+		$this->assertTrue( is_numeric( $member ) && $member > 0 );
+	}
+
+	/**
+	 * @group groups_accept_membership_request
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_groups_accept_membership_request_by_user_id_group_id() {
+		$u1 = $this->factory->user->create();
+		$g1 = $this->factory->group->create();
+
+		// Create membership request
+		groups_send_membership_request( $u1, $g1 );
+
+		groups_accept_membership_request( null, $u1, $g1 );
+
+		// User should now be a group member
+		$member = groups_is_user_member( $u1, $g1 );
+		$this->assertTrue( is_numeric( $member ) && $member > 0 );
+	}
+
+	/**
+	 * @group groups_send_invites
+	 * @group group_invitations
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_groups_membership_request_plus_invite_equals_member() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create membership request
+		groups_send_membership_request( $u2, $g1 );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Send the invitation
+		groups_send_invites( $u1, $g1 );
+
+		// User should now be a group member
+		$member = groups_is_user_member( $u2, $g1 );
+		$this->assertTrue( is_numeric( $member ) && $member > 0 );
+	}
+
+	/**
+	 * @group groups_accept_all_pending_membership_requests
+	 * @group group_membership_requests
+	 * @group group_membership
+	 */
+	public function test_groups_accept_all_pending_membership_requests() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$g1 = $this->factory->group->create();
+
+		// Create membership request
+		groups_send_membership_request( $u1, $g1 );
+		groups_send_membership_request( $u2, $g1 );
+		groups_send_membership_request( $u3, $g1 );
+
+		groups_accept_all_pending_membership_requests( $g1 );
+
+		// All users should now be group members.
+		$members = new BP_Group_Member_Query( array( 'group_id' => $g1 ) );
+		$this->assertEqualSets( array( $u1, $u2, $u3 ), $members->user_ids );
+	}
+
+	/**
+	 * @group total_group_count
+	 * @ticket BP6813
+	 */
+	public function test_total_group_count_should_return_integer() {
+		$this->assertInternalType( 'int', BP_Groups_Member::total_group_count( 123 ) );
+	}
+}

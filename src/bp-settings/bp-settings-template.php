@@ -1,21 +1,19 @@
 <?php
-
 /**
- * BuddyPress Settings Template Functions
+ * BuddyPress Settings Template Functions.
  *
  * @package BuddyPress
  * @subpackage SettingsTemplate
+ * @since 1.5.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Output the settings component slug
+ * Output the settings component slug.
  *
- * @package BuddyPress
- * @subpackage SettingsTemplate
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @uses bp_get_settings_slug()
  */
@@ -23,18 +21,18 @@ function bp_settings_slug() {
 	echo bp_get_settings_slug();
 }
 	/**
-	 * Return the settings component slug
+	 * Return the settings component slug.
 	 *
-	 * @package BuddyPress
-	 * @subpackage SettingsTemplate
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
+	 *
+	 * @return string
 	 */
 	function bp_get_settings_slug() {
 
 		/**
 		 * Filters the Settings component slug.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $slug Settings component slug.
 		 */
@@ -42,11 +40,9 @@ function bp_settings_slug() {
 	}
 
 /**
- * Output the settings component root slug
+ * Output the settings component root slug.
  *
- * @package BuddyPress
- * @subpackage SettingsTemplate
- * @since BuddyPress (1.5.0)
+ * @since 1.5.0
  *
  * @uses bp_get_settings_root_slug()
  */
@@ -54,18 +50,18 @@ function bp_settings_root_slug() {
 	echo bp_get_settings_root_slug();
 }
 	/**
-	 * Return the settings component root slug
+	 * Return the settings component root slug.
 	 *
-	 * @package BuddyPress
-	 * @subpackage SettingsTemplate
-	 * @since BuddyPress (1.5.0)
+	 * @since 1.5.0
+	 *
+	 * @return string
 	 */
 	function bp_get_settings_root_slug() {
 
 		/**
 		 * Filters the Settings component root slug.
 		 *
-		 * @since BuddyPress (1.5.0)
+		 * @since 1.5.0
 		 *
 		 * @param string $root_slug Settings component root slug.
 		 */
@@ -75,7 +71,7 @@ function bp_settings_root_slug() {
 /**
  * Add the 'pending email change' message to the settings page.
  *
- * @since BuddyPress (2.1.0)
+ * @since 2.1.0
  */
 function bp_settings_pending_email_notice() {
 	$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change', true );
@@ -91,7 +87,16 @@ function bp_settings_pending_email_notice() {
 	?>
 
 	<div id="message" class="bp-template-notice error">
-		<p><?php printf( __( 'There is a pending change of your email address to <code>%1$s</code>.<br />Check your email (<code>%2$s</code>) for the verification link. <a href="%3$s">Cancel</a>', 'buddypress' ), $pending_email['newemail'], bp_get_displayed_user_email(), esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1' ) ) ?></p>
+		<p><?php printf(
+			__( 'There is a pending change of your email address to %s.', 'buddypress' ),
+			'<code>' . esc_html( $pending_email['newemail'] ) . '</code>'
+		); ?>
+		<br />
+		<?php printf(
+			__( 'Check your email (%1$s) for the verification link, or <a href="%s">cancel the pending change</a>.', 'buddypress' ),
+			'<code>' . esc_html( $pending_email['newemail'] ) . '</code>',
+			esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1' )
+		); ?></p>
 	</div>
 
 	<?php

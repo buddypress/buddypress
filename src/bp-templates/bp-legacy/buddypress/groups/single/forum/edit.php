@@ -1,4 +1,17 @@
-<?php do_action( 'bp_before_group_forum_edit_form' ); ?>
+<?php
+/**
+ * BuddyPress - Groups Single Forum Edit.
+ *
+ * @package BuddyPress
+ * @subpackage bp-legacy
+ */
+
+/**
+ * Fires at the top of the group forum edit form.
+ *
+ * @since 1.2.4
+ */
+do_action( 'bp_before_group_forum_edit_form' ); ?>
 
 <?php if ( bp_has_forum_topic_posts() ) : ?>
 
@@ -34,7 +47,14 @@
 
 			<?php endif; ?>
 
-			<?php do_action( 'bp_group_forum_topic_meta' ); ?>
+			<?php
+
+			/**
+			 * Fires at the end of the group forum topic meta section.
+			 *
+			 * @since 1.2.5
+			 */
+			do_action( 'bp_group_forum_topic_meta' ); ?>
 
 		</div>
 
@@ -42,7 +62,14 @@
 
 			<div id="edit-topic">
 
-				<?php do_action( 'bp_group_before_edit_forum_topic' ); ?>
+				<?php
+
+				/**
+				 * Fires before the group forum topic form fields.
+				 *
+				 * @since 1.2.0
+				 */
+				do_action( 'bp_group_before_edit_forum_topic' ); ?>
 
 				<label for="topic_title"><?php _e( 'Title:', 'buddypress' ); ?></label>
 				<input type="text" name="topic_title" id="topic_title" value="<?php bp_the_topic_title(); ?>" maxlength="100" />
@@ -50,10 +77,17 @@
 				<label for="topic_text"><?php _e( 'Content:', 'buddypress' ); ?></label>
 				<textarea name="topic_text" id="topic_text"><?php bp_the_topic_text(); ?></textarea>
 
-				<label><?php _e( 'Tags (comma separated):', 'buddypress' ); ?></label>
+				<label for="topic_tags"><?php _e( 'Tags (comma separated):', 'buddypress' ); ?></label>
 				<input type="text" name="topic_tags" id="topic_tags" value="<?php bp_forum_topic_tag_list(); ?>" />
 
-				<?php do_action( 'bp_group_after_edit_forum_topic' ); ?>
+				<?php
+
+				/**
+				 * Fires after the group forum topic form fields.
+				 *
+				 * @since 1.2.0
+				 */
+				do_action( 'bp_group_after_edit_forum_topic' ); ?>
 
 				<p class="submit"><input type="submit" name="save_changes" id="save_changes" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" /></p>
 
@@ -65,11 +99,26 @@
 
 			<div id="edit-post">
 
-				<?php do_action( 'bp_group_before_edit_forum_post' ); ?>
+				<?php
 
+				/**
+				 * Fires before the group edit forum textarea.
+				 *
+				 * @since 1.2.0
+				 */
+				do_action( 'bp_group_before_edit_forum_post' ); ?>
+
+				<label for="post_text" class="bp-screen-reader-text"><?php _e( 'Edit text', 'buddypress' ); ?></label>
 				<textarea name="post_text" id="post_text"><?php bp_the_topic_post_edit_text(); ?></textarea>
 
-				<?php do_action( 'bp_group_after_edit_forum_post' ); ?>
+				<?php
+
+				/**
+				 * Fires after the group edit forum textarea.
+				 *
+				 * @since 1.2.0
+				 */
+				do_action( 'bp_group_after_edit_forum_post' ); ?>
 
 				<p class="submit"><input type="submit" name="save_changes" id="save_changes" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" /></p>
 
@@ -89,4 +138,11 @@
 
 <?php endif;?>
 
-<?php do_action( 'bp_after_group_forum_edit_form' ); ?>
+<?php
+
+/**
+ * Fires at the end of the group forum edit form.
+ *
+ * @since 1.2.4
+ */
+do_action( 'bp_after_group_forum_edit_form' ); ?>
