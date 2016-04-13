@@ -58,8 +58,13 @@ before_install:
     - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
     # prepare for running the tests
     - cd $plugin_dir
-    - npm install -g grunt-cli
     - gem install scss_lint
+    # setup NodeJS version using NVM
+    - node --version
+    - nvm install 4
+    - node --version
+    - npm install -g grunt-cli
+    - npm --version
 
 # before_script: Failures in this section will result in build status 'errored'
 before_script:
