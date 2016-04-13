@@ -53,8 +53,7 @@ class BP_PHPMailer implements BP_Email_Delivery {
 		 */
 
 		$phpmailer->IsMail();
-		$phpmailer->CharSet  = bp_get_option( 'blog_charset' );
-		$phpmailer->Hostname = self::get_hostname();
+		$phpmailer->CharSet = bp_get_option( 'blog_charset' );
 
 
 		/*
@@ -143,14 +142,11 @@ class BP_PHPMailer implements BP_Email_Delivery {
 	 * Get an appropriate hostname for the email. Varies depending on site configuration.
 	 *
 	 * @since 2.5.0
+	 * @deprecated 2.5.3 No longer used.
 	 *
 	 * @return string
 	 */
 	public static function get_hostname() {
-		if ( is_multisite() ) {
-			return get_current_site()->domain;  // From fix_phpmailer_messageid()
-		}
-
-		return preg_replace( '#^https?://#i', '', bp_get_option( 'home' ) );
+		return '';
 	}
 }
