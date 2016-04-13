@@ -178,11 +178,6 @@ module.exports = function( grunt ) {
 				expand: true,
 				ext: '.min.js',
 				src: BP_JS
-			},
-			options: {
-				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-				'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
-				'https://wordpress.org/plugins/buddypress/ */\n'
 			}
 		},
 		scsslint: {
@@ -200,12 +195,7 @@ module.exports = function( grunt ) {
 				extDot: 'last',
 				expand: true,
 				ext: '.min.css',
-				src: BP_CSS,
-				options: {
-					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-					'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
-					'https://wordpress.org/plugins/buddypress/ */'
-				}
+				src: BP_CSS
 			}
 		},
 		phpunit: {
