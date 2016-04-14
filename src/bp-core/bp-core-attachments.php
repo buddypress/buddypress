@@ -1033,7 +1033,7 @@ function bp_attachments_cover_image_is_edit() {
 	$retval = false;
 
 	$current_component = bp_current_component();
-	if ( 'profile' === $current_component ) {
+	if ( bp_is_active( 'xprofile' ) && bp_is_current_component( 'xprofile' ) ) {
 		$current_component = 'xprofile';
 	}
 
