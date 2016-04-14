@@ -222,7 +222,10 @@ function bp_setup_current_user() {
 	// If the current user is being setup before the "init" action has fired,
 	// strange (and difficult to debug) role/capability issues will occur.
 	if ( ! isset( $GLOBALS['wp_customize'] ) && ! did_action( 'after_setup_theme' ) ) {
-		_doing_it_wrong( __FUNCTION__, __( 'The current user is being initialized without using $wp->init().', 'buddypress' ), '1.7' );
+		$e = new Exception;
+		$trace = $e->getTraceAsString();
+
+		_doing_it_wrong( __FUNCTION__, __( 'The current user is being initialized without using $wp->init().', 'buddypress' ) . "\n===\nTrace:\n" . substr( $trace, strpos( $trace, '#6' ) ) . "\n===\n", '1.7' );
 	}
 
 	/**
