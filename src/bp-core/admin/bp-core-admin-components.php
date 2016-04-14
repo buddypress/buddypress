@@ -198,7 +198,7 @@ function bp_core_admin_components_options() {
 
 						</th>
 						<td class="plugin-title column-primary">
-							<span></span>
+							<span aria-hidden="true"></span>
 							<strong><?php echo esc_html( $labels['title'] ); ?></strong>
 						</td>
 
