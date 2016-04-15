@@ -19,6 +19,8 @@ if ( ! buddypress()->do_autoload ) {
 
 /**
  * Handle the display of the profile page by loading the correct template file.
+ *
+ * @since 1.5.0
  */
 function bp_members_screen_display_profile() {
 
@@ -41,6 +43,8 @@ function bp_members_screen_display_profile() {
 
 /**
  * Handle the display of the members directory index.
+ *
+ * @since 1.5.0
  */
 function bp_members_screen_index() {
 	if ( bp_is_members_directory() ) {
@@ -67,6 +71,8 @@ add_action( 'bp_screens', 'bp_members_screen_index' );
 
 /**
  * Handle the loading of the signup screen.
+ *
+ * @since 1.1.0
  */
 function bp_core_screen_signup() {
 	$bp = buddypress();
@@ -101,7 +107,7 @@ function bp_core_screen_signup() {
 	if ( !bp_get_signup_allowed() ) {
 		$bp->signup->step = 'registration-disabled';
 
-	// If the signup page is submitted, validate and save.
+		// If the signup page is submitted, validate and save.
 	} elseif ( isset( $_POST['signup_submit'] ) && bp_verify_nonce_request( 'bp_new_signup' ) ) {
 
 	    /**
@@ -153,7 +159,7 @@ function bp_core_screen_signup() {
 						$bp->signup->errors['field_' . $field_id] = __( 'This is a required field', 'buddypress' );
 				}
 
-			// This situation doesn't naturally occur so bounce to website root.
+				// This situation doesn't naturally occur so bounce to website root.
 			} else {
 				bp_core_redirect( bp_get_root_domain() );
 			}
@@ -296,6 +302,8 @@ add_action( 'bp_screens', 'bp_core_screen_signup' );
 
 /**
  * Handle the loading of the Activate screen.
+ *
+ * @since 1.1.0
  *
  * @todo Move the actual activation process into an action in bp-members-actions.php
  */

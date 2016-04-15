@@ -70,6 +70,8 @@ function bp_members_format_activity_action_new_member( $action, $activity ) {
 /**
  * Create a "became a registered user" activity item when a user activates his account.
  *
+ * @since 1.2.2
+ *
  * @param array $user Array of userdata passed to bp_core_activated_user hook.
  * @return bool
  */

@@ -52,7 +52,7 @@ add_action( 'bp_user_query_populate_extras', 'bp_members_prefetch_member_type' )
  *
  * Called when the user is deleted or marked as spam.
  *
- * @since BuddyPres (2.2.0)
+ * @since 2.2.0
  *
  * @param int $user_id ID of the deleted user.
  */

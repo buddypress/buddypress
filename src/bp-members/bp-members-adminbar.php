@@ -44,7 +44,7 @@ function bp_members_admin_bar_my_account_menu() {
 			'class'  => 'ab-sub-secondary'
 		) ) );
 
-	// Show login and sign-up links.
+		// Show login and sign-up links.
 	} elseif ( !empty( $wp_admin_bar ) ) {
 
 		add_filter ( 'show_admin_bar', '__return_true' );

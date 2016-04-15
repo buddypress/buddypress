@@ -93,25 +93,25 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	public function views() {
 		global $role;
 
-		// Used to reset the role
+		// Used to reset the role.
 		$reset_role = $role;
 
-		// Temporarly set the role to registered
+		// Temporarly set the role to registered.
 		$role = 'registered';
 
-		// Used to reset the screen id once views are displayed
+		// Used to reset the screen id once views are displayed.
 		$reset_screen_id = $this->screen->id;
 
-		// Temporarly set the screen id to the users one
+		// Temporarly set the screen id to the users one.
 		$this->screen->id = 'users';
 
-		// Use the parent function so that other plugins can safely add views
+		// Use the parent function so that other plugins can safely add views.
 		parent::views();
 
-		// Reset the role
+		// Reset the role.
 		$role = $reset_role;
 
-		// Reset the screen id
+		// Reset the screen id.
 		$this->screen->id = $reset_screen_id;
 	}
 
