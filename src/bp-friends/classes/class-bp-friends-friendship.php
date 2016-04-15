@@ -106,7 +106,7 @@ class BP_Friends_Friendship {
 		$this->is_request = $is_request;
 
 		if ( !empty( $id ) ) {
-			$this->id                      = $id;
+			$this->id                      = (int) $id;
 			$this->populate_friend_details = $populate_friend_details;
 			$this->populate( $this->id );
 		}
@@ -123,10 +123,10 @@ class BP_Friends_Friendship {
 		$bp = buddypress();
 
 		if ( $friendship = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->friends->table_name} WHERE id = %d", $this->id ) ) ) {
-			$this->initiator_user_id = $friendship->initiator_user_id;
-			$this->friend_user_id    = $friendship->friend_user_id;
-			$this->is_confirmed      = $friendship->is_confirmed;
-			$this->is_limited        = $friendship->is_limited;
+			$this->initiator_user_id = (int) $friendship->initiator_user_id;
+			$this->friend_user_id    = (int) $friendship->friend_user_id;
+			$this->is_confirmed      = (int) $friendship->is_confirmed;
+			$this->is_limited        = (int) $friendship->is_limited;
 			$this->date_created      = $friendship->date_created;
 		}
 
