@@ -115,10 +115,9 @@ function bp_profile_group_has_fields() {
  *
  * @since 1.0.0
  *
- * @param array|string $class Extra classes to append to class attribute.
- *                            Pass mutiple class names as an array or
- *                            space-delimited string.
- *
+ * @param array|string|false $class Extra classes to append to class attribute.
+ *                                  Pass mutiple class names as an array or
+ *                                  space-delimited string.
  * @return string
  */
 function bp_field_css_class( $class = false ) {

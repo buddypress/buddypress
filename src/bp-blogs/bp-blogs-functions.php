@@ -563,11 +563,11 @@ add_action( 'bp_activity_post_type_updated', 'bp_blogs_update_post_activity_meta
  *
  * @since  2.5.0
  *
- * @param  int|bool   $activity_id          ID of recorded activity, or false if sync is active.
- * @param  WP_Comment $comment              The comment object.
- * @param  array      $activity_args        Array of activity arguments.
- * @param  object     $activity_post_object The post type tracking args object.
- * @return int|bool   Returns false if no activity, the activity id otherwise.
+ * @param  int|bool        $activity_id          ID of recorded activity, or false if sync is active.
+ * @param  WP_Comment|null $comment              The comment object.
+ * @param  array           $activity_args        Array of activity arguments.
+ * @param  object|null     $activity_post_object The post type tracking args object.
+ * @return int|bool Returns false if no activity, the activity id otherwise.
  */
 function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null, $activity_args = array(), $activity_post_object = null ) {
 	if ( empty( $activity_args ) || empty( $comment->post->ID ) || empty( $activity_post_object->comment_action_id ) ) {

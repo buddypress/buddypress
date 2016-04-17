@@ -334,7 +334,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object $signup_object The signup data object.
+	 * @param object|null $signup_object The signup data object.
 	 */
 	public function column_name( $signup_object = null ) {
 		echo esc_html( $signup_object->user_name );

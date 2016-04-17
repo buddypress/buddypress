@@ -1141,7 +1141,7 @@ function bp_blogs_validate_blog_form() {
  * @param string       $user_name  The user name of the user who created the blog. Unused.
  * @param string       $user_email The email of the user who created the blog. Unused.
  * @param string|array $meta       Meta values associated with the new blog. Unused.
- * @param int          $blog_id    ID of the newly created blog.
+ * @param int|null     $blog_id    ID of the newly created blog.
  */
 function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = '', $blog_id = null ) {
 	switch_to_blog( $blog_id );

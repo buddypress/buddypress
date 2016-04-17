@@ -1063,7 +1063,7 @@ function bp_activity_check_exists_by_content( $content ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param BP_Activity_Activity $content_exists ID of the activity if found, else null.
+	 * @param BP_Activity_Activity $value ID of the activity if found, else null.
 	 */
 	return apply_filters( 'bp_activity_check_exists_by_content', BP_Activity_Activity::check_exists_by_content( $content ) );
 }
@@ -2304,10 +2304,9 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
  *
  * @since 2.5.0
  *
- * @param  int  $comment_id  ID of the comment.
- * @param  bool $is_approved Whether the comment is approved or not.
- * @param  object $activity_post_object the post type tracking args object.
- *
+ * @param  int         $comment_id           ID of the comment.
+ * @param  bool        $is_approved          Whether the comment is approved or not.
+ * @param  object|null $activity_post_object The post type tracking args object.
  * @return int|bool The ID of the activity on success. False on error.
  */
 function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $activity_post_object = null ) {
@@ -2497,9 +2496,8 @@ add_action( 'edit_comment', 'bp_activity_post_type_comment', 10    );
  *
  * @since 2.5.0
  *
- * @param  int    $comment_id           ID of the comment.
- * @param  object $activity_post_object The post type tracking args object.
- *
+ * @param  int         $comment_id           ID of the comment.
+ * @param  object|null $activity_post_object The post type tracking args object.
  * @return bool True on success. False on error.
  */
 function bp_activity_post_type_remove_comment( $comment_id = 0, $activity_post_object = null ) {

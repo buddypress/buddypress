@@ -1814,6 +1814,8 @@ function bp_forums_tag_name() {
 	 * Return the currently viewed tag name.
 	 *
 	 * @todo Deprecate? Seems unused
+	 *
+	 * @return bool|string
 	 */
 	function bp_get_forums_tag_name() {
 		$tag_name = bp_is_directory() && bp_is_forums_component() ? bp_action_variable( 0 ) : false;
