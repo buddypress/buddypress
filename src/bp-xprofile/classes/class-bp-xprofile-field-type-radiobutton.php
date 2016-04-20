@@ -132,7 +132,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 				$selected = ' checked="checked"';
 			}
 
-			$new_html = sprintf( '<label for="%3$s"><input %1$s type="radio" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
+			$new_html = sprintf( '<label for="%3$s" class="option-label"><input %1$s type="radio" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
 				$selected,
 				esc_attr( "field_{$this->field_obj->id}" ),
 				esc_attr( "option_{$options[$k]->id}" ),
