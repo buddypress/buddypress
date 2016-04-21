@@ -287,4 +287,91 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'content' => sprintf( 'Hello! @%s', $u2_mentionname ),
 		) );
 	}
+
+	/**
+	 * @group bp_activity_format_notifications
+	 */
+	public function test_bp_activity_format_notifications_new_at_mention() {
+		$this->test_format_filter = array();
+
+		// Current user is $this->u1, so $this->u2 posted the mention
+		$a = $this->factory->activity->create( array(
+			'user_id' => $this->u2,
+			'component' => buddypress()->activity->id,
+			'type' => 'activity_update',
+			'content' => 'fake new_at_mention activity',
+		) );
+
+		add_filter( 'bp_activity_single_at_mentions_notification', array( $this, 'format_notification_filter' ), 10, 1 );
+		add_filter( 'bp_activity_multiple_at_mentions_notification', array( $this, 'format_notification_filter' ), 10, 1 );
+
+		$format_tests = array(
+			'array_single'    => bp_activity_format_notifications( 'new_at_mention', $a, $this->u2, 1, 'array' ),
+			'string_single'   => bp_activity_format_notifications( 'new_at_mention', $a, $this->u2, 1 ),
+			'array_multiple'  => bp_activity_format_notifications( 'new_at_mention', $a, $this->u2, 2, 'array' ),
+			'string_multiple' => bp_activity_format_notifications( 'new_at_mention', $a, $this->u2, 2 ),
+		);
+
+		remove_filter( 'bp_activity_single_at_mentions_notification', array( $this, 'format_notification_filter' ), 10, 1 );
+		remove_filter( 'bp_activity_multiple_at_mentions_notification', array( $this, 'format_notification_filter' ), 10, 1 );
+
+		$single = sprintf( __( '%1$s mentioned you', 'buddypress' ), bp_core_get_user_displayname( $this->u2 ) );
+		$multiple = 'You have 2 new mentions';
+
+		$this->assertContains( $single, $format_tests['string_single'] );
+		$this->assertContains( $single, $format_tests['array_single']['text'] );
+		$this->assertContains( $multiple, $format_tests['string_multiple'] );
+		$this->assertContains( $multiple, $format_tests['array_multiple']['text'] );
+
+		// Check filters
+		$this->assertTrue( 4 === count( $this->test_format_filter ) );
+	}
+
+	public function format_notification_filter( $return ) {
+		$this->test_format_filter[] = current_filter();
+		return $return;
+	}
+
+	/**
+	 * @group bp_activity_update_reply_add_notification
+	 * @group bp_activity_comment_reply_add_notification
+	 */
+	public function test_bp_activity_comment_add_notification() {
+		$a = $this->factory->activity->create( array(
+			'user_id' => $this->u1,
+			'component' => buddypress()->activity->id,
+			'type' => 'activity_update',
+			'content' => 'Please comment this activity.',
+		) );
+
+		$c = bp_activity_new_comment( array(
+			'content'     => 'this is the comment',
+			'user_id'     => $this->u2,
+			'activity_id' => $a, // ID of the root activity item.
+			'parent_id'   => false  // ID of a parent comment (optional).
+		) );
+
+		$u3 = $this->factory->user->create();
+
+		$r3 = bp_activity_new_comment( array(
+			'content'     => 'this is a reply to a comment',
+			'user_id'     => $u3,
+			'activity_id' => $a, // ID of the root activity item.
+			'parent_id'   => $c  // ID of a parent comment (optional).
+		) );
+
+		$u1_notifications = BP_Notifications_Notification::get( array(
+			'user_id' => $this->u1,
+		) );
+
+		$expected_commenters = array( $this->u2, $u3 );
+		$this->assertEquals( $expected_commenters, wp_list_pluck( $u1_notifications, 'secondary_item_id' ) );
+
+		$u2_notifications = BP_Notifications_Notification::get( array(
+			'user_id' => $this->u2,
+		) );
+
+		$expected_commenter = array( $u3 );
+		$this->assertEquals( $expected_commenter, wp_list_pluck( $u2_notifications, 'secondary_item_id' ) );
+	}
 }
