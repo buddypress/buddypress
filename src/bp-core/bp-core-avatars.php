@@ -175,7 +175,7 @@ add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
  *                                   local avatar. In some cases, this may be undesirable, in which
  *                                   case 'no_grav' should be set to true. To disable Gravatar
  *                                   fallbacks globally, see the 'bp_core_fetch_avatar_no_grav' filter.
- *                                   Default: false.
+ *                                   Default: true for groups, otherwise false.
  *     @type bool       $html        Whether to return an <img> HTML element, vs a raw URL
  *                                   to an avatar. If false, <img>-specific arguments (like 'css_id')
  *                                   will be ignored. Default: true.
@@ -211,7 +211,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		'css_id'        => false,
 		'alt'           => '',
 		'email'         => false,
-		'no_grav'       => false,
+		'no_grav'       => null,
 		'html'          => true,
 		'title'         => '',
 		'extra_attr'    => '',
@@ -564,6 +564,11 @@ function bp_core_fetch_avatar( $args = '' ) {
 		}
 	}
 
+	// By default, Gravatar is not pinged for groups.
+	if ( null === $params['no_grav'] ) {
+		$params['no_grav'] = 'group' === $params['object'];
+	}
+
 	/**
 	 * Filters whether or not to skip Gravatar check.
 	 *
@@ -671,7 +676,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		 * @param string $value  Default avatar for non-gravatar requests.
 		 * @param array  $params Array of parameters for the avatar request.
 		 */
-		$gravatar = apply_filters( 'bp_core_default_avatar_' . $params['object'], bp_core_avatar_default( 'local' ), $params );
+		$gravatar = apply_filters( 'bp_core_default_avatar_' . $params['object'], bp_core_avatar_default( 'local', $params ), $params );
 	}
 
 	if ( true === $params['html'] ) {
@@ -1845,13 +1850,15 @@ function bp_core_avatar_original_max_filesize() {
  * Get the URL of the 'full' default avatar.
  *
  * @since 1.5.0
+ * @since 2.6.0 Introduced `$params` and `$object_type` parameters.
  *
- * @param string $type 'local' if the fallback should be the locally-hosted version
- *                     of the mystery-person, 'gravatar' if the fallback should be
- *                     Gravatar's version. Default: 'gravatar'.
+ * @param string $type   'local' if the fallback should be the locally-hosted version
+ *                       of the mystery person, 'gravatar' if the fallback should be
+ *                       Gravatar's version. Default: 'gravatar'.
+ * @param array  $params Parameters passed to bp_core_fetch_avatar().
  * @return string The URL of the default avatar.
  */
-function bp_core_avatar_default( $type = 'gravatar' ) {
+function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
 	// Local override.
 	if ( defined( 'BP_AVATAR_DEFAULT' ) ) {
 		$avatar = BP_AVATAR_DEFAULT;
@@ -1869,10 +1876,12 @@ function bp_core_avatar_default( $type = 'gravatar' ) {
 	 * Filters the URL of the 'full' default avatar.
 	 *
 	 * @since 1.5.0
+	 * @since 2.6.0 Added `$params`.
 	 *
 	 * @param string $avatar URL of the default avatar.
+	 * @param array  $params Params provided to bp_core_fetch_avatar().
 	 */
-	return apply_filters( 'bp_core_avatar_default', $avatar );
+	return apply_filters( 'bp_core_avatar_default', $avatar, $params );
 }
 
 /**
@@ -1882,13 +1891,15 @@ function bp_core_avatar_default( $type = 'gravatar' ) {
  * defined.
  *
  * @since 1.5.0
+ * @since 2.6.0 Introduced `$object_type` parameter.
  *
- * @param string $type 'local' if the fallback should be the locally-hosted version
- *                     of the mystery-person, 'gravatar' if the fallback should be
- *                     Gravatar's version. Default: 'gravatar'.
+ * @param string $type   'local' if the fallback should be the locally-hosted version
+ *                       of the mystery person, 'gravatar' if the fallback should be
+ *                       Gravatar's version. Default: 'gravatar'.
+ * @param array  $params Parameters passed to bp_core_fetch_avatar().
  * @return string The URL of the default avatar thumb.
  */
-function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
+function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
 	// Local override.
 	if ( defined( 'BP_AVATAR_DEFAULT_THUMB' ) ) {
 		$avatar = BP_AVATAR_DEFAULT_THUMB;
@@ -1906,10 +1917,12 @@ function bp_core_avatar_default_thumb( $type = 'gravatar' ) {
 	 * Filters the URL of the 'thumb' default avatar.
 	 *
 	 * @since 1.5.0
+	 * @since 2.6.0 Added `$params`.
 	 *
 	 * @param string $avatar URL of the default avatar.
+	 * @param string $params Params provided to bp_core_fetch_avatar().
 	 */
-	return apply_filters( 'bp_core_avatar_thumb', $avatar );
+	return apply_filters( 'bp_core_avatar_thumb', $avatar, $params );
 }
 
 /**
