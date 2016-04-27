@@ -745,6 +745,18 @@ class BP_XProfile_Group {
 									<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
 								</div>
 							</div>
+
+							<?php
+
+							/**
+							 * Fires after the XProfile group description field is rendered in wp-admin.
+							 *
+							 * @since 2.6.0
+							 *
+							 * @param BP_XProfile_Group $this Current XProfile group.
+							 */
+							do_action( 'xprofile_group_admin_after_description', $this ); ?>
+
 						</div><!-- #post-body-content -->
 
 						<div id="postbox-container-1" class="postbox-container">
