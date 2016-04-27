@@ -270,18 +270,36 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 					$component_action_items[0]->item_id,
 					$component_action_items[0]->secondary_item_id,
 					$action_item_count,
-					$format
+					$format,
+					$component_action_name, // Duplicated so plugins can check the canonical action name.
+					$component_name
 				);
 
 				// Function should return an object.
 				if ( 'object' === $format ) {
 
 					/**
-					 * Filters the notifications for a user.
+					 * Filters the notification content for notifications created by plugins.
+					 *
+					 * If your plugin extends the {@link BP_Component} class, you should use the
+					 * 'notification_callback' parameter in your extended
+					 * {@link BP_Component::setup_globals()} method instead.
 					 *
 					 * @since 1.9.0
+					 * @since 2.6.0 Added $component_action_name and $component_name as parameters.
 					 *
-					 * @param array $ref_array Array of properties for the current notification being rendered.
+					 * @param string $content               Component action. Deprecated. Do not do checks against this! Use
+					 *                                      the 6th parameter instead - $component_action_name.
+					 * @param int    $item_id               Notification item ID.
+					 * @param int    $secondary_item_id     Notification secondary item ID.
+					 * @param int    $action_item_count     Number of notifications with the same action.
+					 * @param string $format                Format of return. Either 'string' or 'object'.
+					 * @param string $component_action_name Canonical notification action.
+					 * @param string $component_name        Notification component ID.
+					 *
+					 * @return string|array If $format is 'string', return a string of the notification content.
+					 *                      If $format is 'object', return an array formatted like:
+					 *                      array( 'text' => 'CONTENT', 'link' => 'LINK' )
 					 */
 					$content = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
 
