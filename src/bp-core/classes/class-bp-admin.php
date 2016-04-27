@@ -174,6 +174,10 @@ class BP_Admin {
 		// On non-multisite, catch.
 		add_action( 'load-users.php', 'bp_core_admin_user_manage_spammers' );
 
+		// Emails.
+		add_filter( 'manage_' . bp_get_email_post_type() . '_posts_columns',       array( $this, 'emails_register_situation_column' ) );
+		add_action( 'manage_' . bp_get_email_post_type() . '_posts_custom_column', array( $this, 'emails_display_situation_column_data' ), 10, 2 );
+
 		/* Filters ***********************************************************/
 
 		// Add link to settings page.
@@ -892,6 +896,47 @@ class BP_Admin {
 		</h2>
 
 	<?php
+	}
+
+	/** Emails ****************************************************************/
+
+	/**
+	 * Registers 'Situations' column on Emails dashboard page.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param  array $columns Current column data.
+	 * @return array
+	 */
+	public function emails_register_situation_column( $columns = array() ) {
+		$situation = array(
+			'situation' => _x( 'Situations', 'Email post type', 'buddypress' )
+		);
+
+		// Inject our 'Situations' column just before the last 'Date' column.
+		return array_slice( $columns, 0, -1, true ) + $situation + array_slice( $columns, -1, null, true );
+	}
+
+	/**
+	 * Output column data for our custom 'Situations' column.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param string $column  Current column name.
+	 * @param int    $post_id Current post ID.
+	 */
+	public function emails_display_situation_column_data( $column = '', $post_id = 0 ) {
+		if ( 'situation' !== $column ) {
+			return;
+		}
+
+		// Grab email situations for the current post.
+		$situations = wp_list_pluck( get_the_terms( $post_id, bp_get_email_tax_type() ), 'description' );
+
+		// Output each situation as a list item.
+		echo '<ul><li>';
+		echo implode( '</li><li>', $situations );
+		echo '</li></ul>';
 	}
 
 	/** Helpers ***************************************************************/
