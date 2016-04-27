@@ -252,6 +252,21 @@ function bp_init() {
 }
 
 /**
+ * Fire the 'bp_rest_api_init' action, where BuddyPress registers REST API endpoints.
+ *
+ * @since 2.6.0
+ */
+function bp_rest_api_init() {
+
+	/**
+	 * Fires the 'bp_rest_api_init' function, where BuddyPress registers REST API endpoints.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'bp_rest_api_init' );
+}
+
+/**
  * Fire the 'bp_customize_register' action when the Customizer has loaded,
  * allowing scripts and styles to be initialized.
  *
