@@ -2264,20 +2264,6 @@ function bp_core_action_search_site( $slug = '' ) {
 add_action( 'bp_init', 'bp_core_action_search_site', 7 );
 
 /**
- * Print the generation time in the footer of the site.
- *
- * @since 1.0.0
- */
-function bp_core_print_generation_time() {
-?>
-
-<!-- Generated in <?php timer_stop(1); ?> seconds. (<?php echo get_num_queries(); ?> q) -->
-
-	<?php
-}
-add_action( 'wp_footer', 'bp_core_print_generation_time' );
-
-/**
  * Remove "prev" and "next" relational links from <head> on BuddyPress pages.
  *
  * WordPress automatically generates these relational links to the current
