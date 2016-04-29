@@ -340,100 +340,18 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 }
 
 /**
- * Return a list of component information, optionally filtered by type.
+ * Return a list of component information.
  *
  * We use this information both to build the markup for the admin screens, as
  * well as to do some processing on settings data submitted from those screens.
  *
  * @since 1.7.0
  *
- * @param string $type 'all', 'optional', 'retired', 'required'.
- * @return array An array of requested component data.
+ * @param string $type Optional; component type to fetch. Default value is 'all', or 'optional', 'retired', 'required'.
+ * @return array Requested components' data.
  */
 function bp_core_admin_get_components( $type = 'all' ) {
-
-	// Required components.
-	$required_components = array(
-		'core' => array(
-			'title'       => __( 'BuddyPress Core', 'buddypress' ),
-			'description' => __( 'It&#8216;s what makes <del>time travel</del> BuddyPress possible!', 'buddypress' )
-		),
-		'members' => array(
-			'title'       => __( 'Community Members', 'buddypress' ),
-			'description' => __( 'Everything in a BuddyPress community revolves around its members.', 'buddypress' )
-		),
-	);
-
-	// Retired components.
-	$retired_components = array(
-		'forums' => array(
-			'title'       => __( 'Group Forums', 'buddypress' ),
-			'description' => sprintf( __( 'BuddyPress Forums are retired. Use %s.', 'buddypress' ), '<a href="https://bbpress.org/">bbPress</a>' )
-		),
-	);
-
-	// Optional core components.
-	$optional_components = array(
-		'xprofile' => array(
-			'title'       => __( 'Extended Profiles', 'buddypress' ),
-			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' )
-		),
-		'settings' => array(
-			'title'       => __( 'Account Settings', 'buddypress' ),
-			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' )
-		),
-		'friends'  => array(
-			'title'       => __( 'Friend Connections', 'buddypress' ),
-			'description' => __( 'Let your users make connections so they can track the activity of others and focus on the people they care about the most.', 'buddypress' )
-		),
-		'messages' => array(
-			'title'       => __( 'Private Messaging', 'buddypress' ),
-			'description' => __( 'Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members.', 'buddypress' )
-		),
-		'activity' => array(
-			'title'       => __( 'Activity Streams', 'buddypress' ),
-			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting, and @mentions, all with full RSS feed and email notification support.', 'buddypress' )
-		),
-		'notifications' => array(
-			'title'       => __( 'Notifications', 'buddypress' ),
-			'description' => __( 'Notify members of relevant activity with a toolbar bubble and/or via email, and allow them to customize their notification settings.', 'buddypress' )
-		),
-		'groups'   => array(
-			'title'       => __( 'User Groups', 'buddypress' ),
-			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings.', 'buddypress' )
-		),
-		'forums'   => array(
-			'title'       => __( 'Group Forums (Legacy)', 'buddypress' ),
-			'description' => __( 'Group forums allow for focused, bulletin-board style conversations.', 'buddypress' )
-		),
-		'blogs'    => array(
-			'title'       => __( 'Site Tracking', 'buddypress' ),
-			'description' => __( 'Record activity for new posts and comments from your site.', 'buddypress' )
-		)
-	);
-
-
-	// Add blogs tracking if multisite.
-	if ( is_multisite() ) {
-		$optional_components['blogs']['description'] = __( 'Record activity for new sites, posts, and comments across your network.', 'buddypress' );
-	}
-
-	switch ( $type ) {
-		case 'required' :
-			$components = $required_components;
-			break;
-		case 'optional' :
-			$components = $optional_components;
-			break;
-		case 'retired' :
-			$components = $retired_components;
-			break;
-		case 'all' :
-		default :
-			$components = array_merge( $required_components, $optional_components, $retired_components );
-			break;
-
-	}
+	$components = bp_core_get_components( $type );
 
 	/**
 	 * Filters the list of component information.
