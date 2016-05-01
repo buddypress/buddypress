@@ -1776,7 +1776,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 				}
 
 				#buddypress div#item-header #item-header-cover-image #item-header-content {
-					margin-left:auto;
+					margin-left: auto;
 				}
 			';
 		}
@@ -1790,8 +1790,8 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 		}
 
 		#buddypress #create-group-form #header-cover-image {
-			position: relative;
 			margin: 1em 0;
+			position: relative;
 		}
 
 		.bp-user #buddypress #item-header {
@@ -1802,7 +1802,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 			margin-top: '. $avatar_offset .'px;
 			float: left;
 			overflow: visible;
-			width:auto;
+			width: auto;
 		}
 
 		#buddypress div#item-header #item-header-cover-image #item-header-content {
@@ -1810,40 +1810,40 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 			float: left;
 			margin-left: ' . $left_offset . 'px;
 			margin-top: -' . $top_offset . 'px;
-			width:auto;
+			width: auto;
 		}
 
 		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
 		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
+			clear: none;
 			margin-top: ' . $params["height"] . 'px;
 			margin-left: 0;
-			clear: none;
 			max-width: 50%;
 		}
 
 		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
-			padding-top: 20px;
 			max-width: 20%;
+			padding-top: 20px;
 		}
 
 		' . $hide_avatar_style . '
 
-		#buddypress div#item-header-cover-image h2 a,
-		#buddypress div#item-header-cover-image h2 {
-			color: #FFF;
+		#buddypress div#item-header-cover-image .user-nicename a,
+		#buddypress div#item-header-cover-image .user-nicename {
+			font-size: 200%;
+			color: #fff;
+			margin: 0 0 0.6em;
 			text-rendering: optimizelegibility;
-			text-shadow: 0px 0px 3px rgba( 0, 0, 0, 0.8 );
-			margin: 0 0 .6em;
-			font-size:200%;
+			text-shadow: 0 0 3px rgba( 0, 0, 0, 0.8 );
 		}
 
 		#buddypress #item-header-cover-image #item-header-avatar img.avatar {
-			border: solid 2px #FFF;
 			background: rgba( 255, 255, 255, 0.8 );
+			border: solid 2px #fff;
 		}
 
 		#buddypress #item-header-cover-image #item-header-avatar a {
-			border: none;
+			border: 0;
 			text-decoration: none;
 		}
 
@@ -1862,22 +1862,22 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 			#buddypress #item-header-cover-image #item-header-avatar,
 			.bp-user #buddypress #item-header #item-header-cover-image #item-header-avatar,
 			#buddypress div#item-header #item-header-cover-image #item-header-content {
-				width:100%;
-				text-align:center;
+				width: 100%;
+				text-align: center;
 			}
 
 			#buddypress #item-header-cover-image #item-header-avatar a {
-				display:inline-block;
+				display: inline-block;
 			}
 
 			#buddypress #item-header-cover-image #item-header-avatar img {
-				margin:0;
+				margin: 0;
 			}
 
 			#buddypress div#item-header #item-header-cover-image #item-header-content,
 			body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
 			body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
-				margin:0;
+				margin: 0;
 			}
 
 			body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
@@ -1889,17 +1889,17 @@ function bp_legacy_theme_cover_image( $params = array() ) {
 			#buddypress div#item-header-cover-image h2 {
 				color: inherit;
 				text-shadow: none;
-				margin:25px 0 0;
-				font-size:200%;
+				margin: 25px 0 0;
+				font-size: 200%;
 			}
 
 			#buddypress #item-header-cover-image #item-buttons div {
-				float:none;
-				display:inline-block;
+				float: none;
+				display: inline-block;
 			}
 
 			#buddypress #item-header-cover-image #item-buttons:before {
-				content:"";
+				content: "";
 			}
 
 			#buddypress #item-header-cover-image #item-buttons {
