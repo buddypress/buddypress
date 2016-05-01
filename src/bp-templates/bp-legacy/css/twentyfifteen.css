@@ -894,7 +894,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 }
 
-.single-item.groups #buddypress div#item-header div#item-actions h3 {
+.single-item.groups #buddypress div#item-header div#item-actions h2 {
 	background: #555;
 	color: #fff;
 	font-size: 14px;
@@ -903,7 +903,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 @media screen and (min-width: 46.25em) {
-	.single-item.groups #buddypress div#item-header div#item-actions h3 {
+	.single-item.groups #buddypress div#item-header div#item-actions h2 {
 		font-size: 16px;
 		font-size: 1.6rem;
 	}

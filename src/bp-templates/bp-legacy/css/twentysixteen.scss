@@ -1323,7 +1323,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				#item-actions {
 					order: 3;
 
-					h3 {
+					h2 {
 						border-bottom: 1px solid $border-light;
 						text-align: center;
 					}
@@ -1355,9 +1355,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					padding-left: 0;
 				}
 
-				h3 {
-					//background: $dark-background;
-					//color: $content-background;
+				h2 {
 					@include font-size(14);
 
 					@media screen and (min-width: 46.25em) {
