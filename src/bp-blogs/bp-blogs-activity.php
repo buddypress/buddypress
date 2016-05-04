@@ -606,6 +606,124 @@ function bp_blogs_comments_open( $activity ) {
 	return $open;
 }
 
+/** SITE TRACKING *******************************************************/
+
+/**
+ * Add an activity entry for a newly-created site.
+ *
+ * Hooked to the 'bp_blogs_new_blog' action.
+ *
+ * @since 2.6.0
+ *
+ * @param BP_Blogs_Blog $recorded_blog Current site being recorded. Passed by reference.
+ * @param bool          $is_private    Whether the current site being recorded is private.
+ * @param bool          $is_recorded   Whether the current site was recorded.
+ */
+function bp_blogs_record_activity_on_site_creation( $recorded_blog, $is_private, $is_recorded, $no_activity ) {
+	// Only record this activity if the blog is public.
+	if ( ! $is_private && ! $no_activity && bp_blogs_is_blog_trackable( $recorded_blog->blog_id, $recorded_blog->user_id ) ) {
+		bp_blogs_record_activity( array(
+			'user_id'      => $recorded_blog->user_id,
+			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', bp_blogs_get_blogmeta( $recorded_blog->blog_id, 'url' ), $recorded_blog->blog_id ),
+			'type'         => 'new_blog',
+			'item_id'      => $recorded_blog->blog_id
+		) );
+	}
+}
+add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity_on_site_creation', 10, 4 );
+
+/**
+ * Deletes the 'new_blog' activity entry when a site is deleted.
+ *
+ * @since 2.6.0
+ *
+ * @param int $blog_id Site ID.
+ */
+function bp_blogs_delete_new_blog_activity_for_site( $blog_id ) {
+	bp_blogs_delete_activity( array(
+		'item_id'   => $blog_id,
+		'component' => buddypress()->blogs->id,
+		'type'      => 'new_blog'
+	) );
+}
+add_action( 'bp_blogs_remove_blog',          'bp_blogs_delete_new_blog_activity_for_site' );
+add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_delete_new_blog_activity_for_site' );
+
+/**
+ * Delete all 'blogs' activity items for a site when the site is deleted.
+ *
+ * @since 2.6.0
+ *
+ * @param int $blog_id Site ID.
+ */
+function bp_blogs_delete_activity_for_site( $blog_id ) {
+	bp_blogs_delete_activity( array(
+		'item_id'   => $blog_id,
+		'component' => buddypress()->blogs->id,
+		'type'      => false
+	) );
+}
+add_action( 'bp_blogs_remove_data_for_blog', 'bp_blogs_delete_activity_for_site' );
+
+/**
+ * Remove a blog post activity item from the activity stream.
+ *
+ * @since 1.0.0
+ *
+ * @param int $post_id ID of the post to be removed.
+ * @param int $blog_id Optional. Defaults to current blog ID.
+ * @param int $user_id Optional. Defaults to the logged-in user ID. This param
+ *                     is currently unused in the function (but is passed to hooks).
+ * @return bool
+ */
+function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
+	global $wpdb;
+
+	if ( empty( $wpdb->blogid ) ) {
+		return false;
+	}
+
+	$post_id = (int) $post_id;
+
+	if ( ! $blog_id ) {
+		$blog_id = (int) $wpdb->blogid;
+	}
+
+	if ( ! $user_id ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	/**
+	 * Fires before removal of a blog post activity item from the activity stream.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param int $blog_id ID of the blog associated with the post that was removed.
+	 * @param int $post_id ID of the post that was removed.
+	 * @param int $user_id ID of the user having the blog removed for.
+	 */
+	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
+
+	bp_blogs_delete_activity( array(
+		'item_id'           => $blog_id,
+		'secondary_item_id' => $post_id,
+		'component'         => buddypress()->blogs->id,
+		'type'              => 'new_blog_post'
+	) );
+
+	/**
+	 * Fires after removal of a blog post activity item from the activity stream.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $blog_id ID of the blog associated with the post that was removed.
+	 * @param int $post_id ID of the post that was removed.
+	 * @param int $user_id ID of the user having the blog removed for.
+	 */
+	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $user_id );
+}
+add_action( 'delete_post', 'bp_blogs_remove_post' );
+
 /** POST COMMENT SYNCHRONIZATION ****************************************/
 
 /**
