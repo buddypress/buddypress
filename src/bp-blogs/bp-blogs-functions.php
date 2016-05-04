@@ -295,12 +295,14 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	 * Fires after BuddyPress has been made aware of a new site for activity tracking.
 	 *
 	 * @since 1.0.0
+	 * @since 2.6.0 Added $no_activity as a parameter.
 	 *
 	 * @param BP_Blogs_Blog $recorded_blog Current blog being recorded. Passed by reference.
 	 * @param bool          $is_private    Whether or not the current blog being recorded is private.
 	 * @param bool          $is_recorded   Whether or not the current blog was recorded.
+	 * @param bool          $no_activity   Whether to skip recording an activity item for this blog creation.
 	 */
-	do_action_ref_array( 'bp_blogs_new_blog', array( &$recorded_blog, $is_private, $is_recorded ) );
+	do_action_ref_array( 'bp_blogs_new_blog', array( &$recorded_blog, $is_private, $is_recorded, $no_activity ) );
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
