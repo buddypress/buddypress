@@ -8,7 +8,7 @@
 
 ?>
 
-<h2><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h2>
+<h4><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h4>
 
 <?php
 
