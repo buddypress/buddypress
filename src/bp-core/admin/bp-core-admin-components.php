@@ -150,7 +150,10 @@ function bp_core_admin_components_options() {
 			break;
 	} ?>
 
-	<h3 class="screen-reader-text"><?php _e( 'Filter components list', 'buddypress' ); ?></h3>
+	<h3 class="screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Filter components list', 'buddypress' );
+	?></h3>
 
 	<ul class="subsubsub">
 		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'all'      ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'all'      ) : ?>class="current"<?php endif; ?>><?php printf( _nx( 'All <span class="count">(%s)</span>',      'All <span class="count">(%s)</span>',      $all_count,         'plugins', 'buddypress' ), number_format_i18n( $all_count                    ) ); ?></a> | </li>

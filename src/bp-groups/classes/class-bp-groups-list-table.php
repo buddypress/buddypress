@@ -216,7 +216,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 	public function display() {
 		$this->display_tablenav( 'top' ); ?>
 
-		<h2 class="screen-reader-text"><?php _e( 'Groups list', 'buddypress' ); ?></h2>
+		<h2 class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Groups list', 'buddypress' );
+		?></h2>
 
 		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 			<thead>
@@ -284,7 +287,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 	public function get_views() {
 		$url_base = bp_get_admin_url( 'admin.php?page=bp-groups' ); ?>
 
-		<h2 class="screen-reader-text"><?php _e( 'Filter groups list', 'buddypress' ); ?></h2>
+		<h2 class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Filter groups list', 'buddypress' );
+		?></h2>
 
 		<ul class="subsubsub">
 			<li class="all"><a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' == $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>

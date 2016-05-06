@@ -179,6 +179,7 @@ function bp_groups_admin_load() {
 		// Add accessible hidden heading and text for Groups screen pagination.
 		if ( bp_get_major_wp_version() >= 4.4 ) {
 			get_current_screen()->set_screen_reader_content( array(
+				/* translators: accessibility text */
 				'heading_pagination' => __( 'Groups list navigation', 'buddypress' ),
 			) );
 		}
