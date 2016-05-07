@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Creates our XProfile component.
+ *
+ * @since 1.5.0
  */
 class BP_XProfile_Component extends BP_Component {
 
@@ -30,6 +32,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * The acceptable visibility levels for xprofile fields.
 	 *
 	 * @see bp_xprofile_get_visibility_levels()
+	 *
 	 * @since 1.6.0
 	 * @var array
 	 */
@@ -55,6 +58,8 @@ class BP_XProfile_Component extends BP_Component {
 
 	/**
 	 * Include files.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @param array $includes Array of files to include.
 	 */
@@ -177,6 +182,8 @@ class BP_XProfile_Component extends BP_Component {
 
 	/**
 	 * Set up navigation.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance
 	 *
@@ -301,6 +308,8 @@ class BP_XProfile_Component extends BP_Component {
 	/**
 	 * Set up the Admin Bar.
 	 *
+	 * @since 1.5.0
+	 *
 	 * @param array $wp_admin_nav Admin Bar items.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
@@ -373,6 +382,8 @@ class BP_XProfile_Component extends BP_Component {
 
 	/**
 	 * Sets up the title for pages and <title>.
+	 *
+	 * @since 1.5.0
 	 */
 	public function setup_title() {
 

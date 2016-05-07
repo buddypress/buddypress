@@ -82,8 +82,7 @@ add_filter( 'xprofile_field_default_before_save', 'bp_xprofile_sanitize_field_de
  *
  * @since 2.3.0
  *
- * @param  mixed $field_options Options to sanitize.
- *
+ * @param mixed $field_options Options to sanitize.
  * @return mixed
  */
 function bp_xprofile_sanitize_field_options( $field_options = '' ) {
@@ -99,8 +98,7 @@ function bp_xprofile_sanitize_field_options( $field_options = '' ) {
  *
  * @since 2.3.0
  *
- * @param  mixed $field_default Field defaults to sanitize.
- *
+ * @param mixed $field_default Field defaults to sanitize.
  * @return mixed
  */
 function bp_xprofile_sanitize_field_default( $field_default = '' ) {
@@ -114,9 +112,10 @@ function bp_xprofile_sanitize_field_default( $field_default = '' ) {
 /**
  * Run profile field values through kses with filterable allowed tags.
  *
+ * @since 1.5.0
+ *
  * @param string      $content  Content to filter.
  * @param object|null $data_obj The BP_XProfile_ProfileData object.
- *
  * @return string $content
  */
 function xprofile_filter_kses( $content, $data_obj = null ) {
@@ -154,11 +153,12 @@ function xprofile_filter_kses( $content, $data_obj = null ) {
 /**
  * Safely runs profile field data through kses and force_balance_tags.
  *
+ * @since 1.2.6
+ *
  * @param string      $field_value Field value being santized.
  * @param int         $field_id    Field ID being sanitized.
  * @param bool        $reserialize Whether to reserialize arrays before returning. Defaults to true.
  * @param object|null $data_obj    The BP_XProfile_ProfileData object.
- *
  * @return string
  */
 function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, $reserialize = true, $data_obj = null ) {
@@ -216,7 +216,6 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
  *
  * @param string $field_value XProfile field_value to be filtered.
  * @param string $field_type  XProfile field_type to be filtered.
- *
  * @return string $field_value Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
@@ -242,7 +241,6 @@ function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
  * @param mixed      $field_value Field value.
  * @param string     $field_type  Field type.
  * @param string|int $field_id    Optional. ID of the field.
- *
  * @return mixed
  */
 function xprofile_filter_format_field_value_by_type( $field_value, $field_type = '', $field_id = '' ) {
@@ -393,9 +391,10 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
  * This filter loops through the comments return by a normal WordPress request
  * and swaps out user data with BP xprofile data, where available.
  *
+ * @since 1.2.0
+ *
  * @param array $comments Comments to filter in.
  * @param int   $post_id  Post ID the comments are for.
- *
  * @return array $comments
  */
 function xprofile_filter_comments( $comments, $post_id = 0 ) {

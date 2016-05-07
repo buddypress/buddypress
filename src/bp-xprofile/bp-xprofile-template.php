@@ -83,6 +83,8 @@ function bp_has_profile( $args = '' ) {
 /**
  * Start off the profile groups.
  *
+ * @since 1.0.0
+ *
  * @return mixed
  */
 function bp_profile_groups() {
@@ -93,6 +95,8 @@ function bp_profile_groups() {
 /**
  * Set up the profile groups.
  *
+ * @since 1.0.0
+ *
  * @return mixed
  */
 function bp_the_profile_group() {
@@ -102,6 +106,8 @@ function bp_the_profile_group() {
 
 /**
  * Whether or not the group has fields to display.
+ *
+ * @since 1.0.0
  *
  * @return mixed
  */
@@ -115,10 +121,9 @@ function bp_profile_group_has_fields() {
  *
  * @since 1.0.0
  *
- * @param array|string|false $class Extra classes to append to class attribute.
- *                                  Pass mutiple class names as an array or
- *                                  space-delimited string.
- * @return string
+ * @param mixed $class Extra classes to append to class attribute.
+ *                     Pass mutiple class names as an array or
+ *                     space-delimited string.
  */
 function bp_field_css_class( $class = false ) {
 	echo bp_get_field_css_class( $class );
@@ -126,6 +131,8 @@ function bp_field_css_class( $class = false ) {
 
 	/**
 	 * Return the class attribute for a field.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @param string|bool $class Extra classes to append to class attribute.
 	 * @return string
@@ -186,6 +193,10 @@ function bp_field_css_class( $class = false ) {
 /**
  * Whether or not the XProfile field has data to display.
  *
+ * @since 1.0.0
+ *
+ * @global object $profile_template
+ *
  * @return mixed
  */
 function bp_field_has_data() {
@@ -195,6 +206,10 @@ function bp_field_has_data() {
 
 /**
  * Whether or not the XProfile field has public data to display.
+ *
+ * @since 1.0.0
+ *
+ * @global object $profile_template
  *
  * @return bool
  */
@@ -210,6 +225,8 @@ function bp_field_has_public_data() {
 
 /**
  * Output the XProfile group ID.
+ *
+ * @since 1.0.0
  */
 function bp_the_profile_group_id() {
 	echo bp_get_the_profile_group_id();
@@ -217,6 +234,8 @@ function bp_the_profile_group_id() {
 
 	/**
 	 * Return the XProfile group ID.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -235,6 +254,8 @@ function bp_the_profile_group_id() {
 
 /**
  * Output the XProfile group name.
+ *
+ * @since 1.0.0
  */
 function bp_the_profile_group_name() {
 	echo bp_get_the_profile_group_name();
@@ -242,6 +263,8 @@ function bp_the_profile_group_name() {
 
 	/**
 	 * Return the XProfile group name.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return mixed|void
 	 */
@@ -260,6 +283,8 @@ function bp_the_profile_group_name() {
 
 /**
  * Output the XProfile group slug.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_group_slug() {
 	echo bp_get_the_profile_group_slug();
@@ -267,6 +292,8 @@ function bp_the_profile_group_slug() {
 
 	/**
 	 * Return the XProfile group slug.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -285,6 +312,8 @@ function bp_the_profile_group_slug() {
 
 /**
  * Output the XProfile group description.
+ *
+ * @since 1.0.0
  */
 function bp_the_profile_group_description() {
 	echo bp_get_the_profile_group_description();
@@ -292,6 +321,8 @@ function bp_the_profile_group_description() {
 
 	/**
 	 * Return the XProfile group description.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return mixed|void
 	 */
@@ -310,6 +341,8 @@ function bp_the_profile_group_description() {
 
 /**
  * Output the XProfile group edit form action.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_group_edit_form_action() {
 	echo bp_get_the_profile_group_edit_form_action();
@@ -317,6 +350,8 @@ function bp_the_profile_group_edit_form_action() {
 
 	/**
 	 * Return the XProfile group edit form action.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -339,6 +374,8 @@ function bp_the_profile_group_edit_form_action() {
 
 /**
  * Output the XProfile group field IDs.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_group_field_ids() {
 	echo bp_get_the_profile_group_field_ids();
@@ -346,6 +383,8 @@ function bp_the_profile_group_field_ids() {
 
 	/**
 	 * Return the XProfile group field IDs.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -403,6 +442,8 @@ function bp_the_profile_field_ids() {
 /**
  * Return the XProfile fields.
  *
+ * @since 1.0.0
+ *
  * @return mixed
  */
 function bp_profile_fields() {
@@ -413,6 +454,8 @@ function bp_profile_fields() {
 /**
  * Sets up the XProfile field.
  *
+ * @since 1.0.0
+ *
  * @return mixed
  */
 function bp_the_profile_field() {
@@ -422,6 +465,8 @@ function bp_the_profile_field() {
 
 /**
  * Output the XProfile field ID.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_field_id() {
 	echo bp_get_the_profile_field_id();
@@ -429,6 +474,9 @@ function bp_the_profile_field_id() {
 
 	/**
 	 * Return the XProfile field ID.
+	 *
+	 * @since 1.1.0
+	 *
 	 * @return mixed|void
 	 */
 	function bp_get_the_profile_field_id() {
@@ -446,6 +494,8 @@ function bp_the_profile_field_id() {
 
 /**
  * Outputs the XProfile field name.
+ *
+ * @since 1.0.0
  */
 function bp_the_profile_field_name() {
 	echo bp_get_the_profile_field_name();
@@ -453,6 +503,8 @@ function bp_the_profile_field_name() {
 
 	/**
 	 * Returns the XProfile field name.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return mixed|void
 	 */
@@ -471,6 +523,8 @@ function bp_the_profile_field_name() {
 
 /**
  * Outputs the XProfile field value.
+ *
+ * @since 1.0.0
  */
 function bp_the_profile_field_value() {
 	echo bp_get_the_profile_field_value();
@@ -478,6 +532,8 @@ function bp_the_profile_field_value() {
 
 	/**
 	 * Returns the XProfile field value.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return mixed|void
 	 */
@@ -500,6 +556,8 @@ function bp_the_profile_field_value() {
 
 /**
  * Outputs the XProfile field edit value.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_field_edit_value() {
 	echo bp_get_the_profile_field_edit_value();
@@ -507,6 +565,8 @@ function bp_the_profile_field_edit_value() {
 
 	/**
 	 * Returns the XProfile field edit value.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -549,6 +609,8 @@ function bp_the_profile_field_edit_value() {
 
 /**
  * Outputs the XProfile field type.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_field_type() {
 	echo bp_get_the_profile_field_type();
@@ -556,6 +618,8 @@ function bp_the_profile_field_type() {
 
 	/**
 	 * Returns the XProfile field type.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -574,6 +638,8 @@ function bp_the_profile_field_type() {
 
 /**
  * Outputs the XProfile field description.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_field_description() {
 	echo bp_get_the_profile_field_description();
@@ -581,6 +647,8 @@ function bp_the_profile_field_description() {
 
 	/**
 	 * Returns the XProfile field description.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -599,6 +667,8 @@ function bp_the_profile_field_description() {
 
 /**
  * Outputs the XProfile field input name.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_field_input_name() {
 	echo bp_get_the_profile_field_input_name();
@@ -606,6 +676,8 @@ function bp_the_profile_field_input_name() {
 
 	/**
 	 * Retursn the XProfile field input name.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return mixed|void
 	 */
@@ -705,6 +777,8 @@ function bp_the_profile_field_options( $args = array() ) {
 
 /**
  * Render whether or not a profile field is required.
+ *
+ * @since 1.1.0
  */
 function bp_the_profile_field_is_required() {
 	echo bp_get_the_profile_field_is_required();
@@ -712,6 +786,9 @@ function bp_the_profile_field_is_required() {
 
 	/**
 	 * Return whether or not a profile field is required.
+	 *
+	 * @since 1.1.0
+	 *
 	 * @return mixed|void
 	 */
 	function bp_get_the_profile_field_is_required() {
@@ -735,6 +812,8 @@ function bp_the_profile_field_is_required() {
 
 /**
  * Output the visibility level of this field.
+ *
+ * @since 1.6.0
  */
 function bp_the_profile_field_visibility_level() {
 	echo bp_get_the_profile_field_visibility_level();
@@ -742,6 +821,8 @@ function bp_the_profile_field_visibility_level() {
 
 	/**
 	 * Return the visibility level of this field.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @return mixed|void
 	 */
@@ -769,6 +850,8 @@ function bp_the_profile_field_visibility_level() {
 
 /**
  * Echo the visibility level label of this field.
+ *
+ * @since 1.6.0
  */
 function bp_the_profile_field_visibility_level_label() {
 	echo bp_get_the_profile_field_visibility_level_label();
@@ -776,6 +859,8 @@ function bp_the_profile_field_visibility_level_label() {
 
 	/**
 	 * Return the visibility level label of this field.
+	 *
+	 * @since 1.6.0
 	 *
 	 * @return mixed|void
 	 */
@@ -806,6 +891,8 @@ function bp_the_profile_field_visibility_level_label() {
 /**
  * Return unserialized profile field data.
  *
+ * @since 1.0.0
+ *
  * @param string $value Content to maybe unserialize.
  * @return mixed|string
  */
@@ -822,7 +909,9 @@ function bp_unserialize_profile_field( $value ) {
 /**
  * Output XProfile field data.
  *
- * @param string|array $args Array of arguments for field data.
+ * @since 1.2.0
+ *
+ * @param string|array $args Array of arguments for field data. See {@link bp_get_profile_field_data}
  */
 function bp_profile_field_data( $args = '' ) {
 	echo bp_get_profile_field_data( $args );
@@ -831,8 +920,15 @@ function bp_profile_field_data( $args = '' ) {
 	/**
 	 * Return XProfile field data.
 	 *
-	 * @param string|array $args Array of arguments for field data.
-	 * @return mixed|void
+	 * @since 1.2.0
+	 *
+	 * @param string|array $args {
+	 *    Array of arguments for field data.
+	 *
+	 *    @type string|int|bool $field   Field identifier.
+	 *    @type int             $user_id ID of the user to get field data for.
+	 * }
+     * @return mixed|void
 	 */
 	function bp_get_profile_field_data( $args = '' ) {
 
@@ -970,6 +1066,8 @@ function bp_get_profile_group_tabs() {
 /**
  * Output the XProfile group name.
  *
+ * @since 1.0.0
+ *
  * @param bool $deprecated Deprecated boolean parameter.
  * @return mixed|void
  */
@@ -983,6 +1081,8 @@ function bp_profile_group_name( $deprecated = true ) {
 
 	/**
 	 * Return the XProfile group name.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return mixed|void
 	 */
@@ -1009,6 +1109,8 @@ function bp_profile_group_name( $deprecated = true ) {
 
 /**
  * Render a formatted string displaying when a profile was last updated.
+ *
+ * @since 1.0.0
  */
 function bp_profile_last_updated() {
 
@@ -1023,6 +1125,8 @@ function bp_profile_last_updated() {
 
 	/**
 	 * Return a formatted string displaying when a profile was last updated.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return bool|mixed|void
 	 */
@@ -1047,6 +1151,8 @@ function bp_profile_last_updated() {
 
 /**
  * Display the current profile group ID.
+ *
+ * @since 1.1.0
  */
 function bp_current_profile_group_id() {
 	echo bp_get_current_profile_group_id();
@@ -1079,6 +1185,8 @@ function bp_current_profile_group_id() {
 
 /**
  * Render an avatar delete link.
+ *
+ * @since 1.1.0
  */
 function bp_avatar_delete_link() {
 	echo bp_get_avatar_delete_link();
@@ -1088,6 +1196,7 @@ function bp_avatar_delete_link() {
 	 * Return an avatar delete link.
 	 *
 	 * @since 1.1.0
+	 *
 	 * @return mixed|void
 	 */
 	function bp_get_avatar_delete_link() {
@@ -1104,6 +1213,8 @@ function bp_avatar_delete_link() {
 
 /**
  * Render an edit profile button.
+ *
+ * @since 1.0.0
  */
 function bp_edit_profile_button() {
 	bp_button( array(
@@ -1123,7 +1234,9 @@ function bp_edit_profile_button() {
 /**
  * Echo the field visibility radio buttons.
  *
- * @param array|string $args Args for the radio buttons.
+ * @since 1.6.0
+ *
+ * @param array|string $args Args for the radio buttons. See {@link bp_profile_get_visibility_radio_buttons}
  */
 function bp_profile_visibility_radio_buttons( $args = '' ) {
 	echo bp_profile_get_visibility_radio_buttons( $args );
@@ -1131,8 +1244,19 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 	/**
 	 * Return the field visibility radio buttons.
 	 *
-	 * @param array|string $args Args for the radio buttons.
-	 * @return string $retval
+	 * @since 1.6.0
+	 *
+	 * @param array|string $args {
+	 *    Args for the radio buttons.
+	 *
+	 *    @type int    $field_id     ID of the field to render.
+	 *    @type string $before       Markup to render before the field.
+	 *    @type string $after        Markup to render after the field.
+	 *    @type string $before_radio Markup to render before the radio button.
+	 *    @type string $after_radio  Markup to render after the radio button.
+	 *    @type string $class        Class to apply to the field markup.
+	 * }
+     * @return string $retval
 	 */
 	function bp_profile_get_visibility_radio_buttons( $args = '' ) {
 
@@ -1199,7 +1323,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
  *
  * @since 2.0.0
  *
- * @param array|string $args Args for the select list.
+ * @param array|string $args Args for the select list. See {@link bp_profile_get_settings_visibility_select}
  */
 function bp_profile_settings_visibility_select( $args = '' ) {
 	echo bp_profile_get_settings_visibility_select( $args );
@@ -1209,7 +1333,14 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array|string $args Args for the select list.
+	 * @param array|string $args {
+	 *    Args for the select list.
+	 *
+	 *    @type int    $field_id ID of the field to render.
+	 *    @type string $before   Markup to render before the field.
+	 *    @type string $after    Markup to render after the field.
+	 *    @type string $class    Class to apply to the field markup.
+	 * }
 	 * @return string $retval
 	 */
 	function bp_profile_get_settings_visibility_select( $args = '' ) {

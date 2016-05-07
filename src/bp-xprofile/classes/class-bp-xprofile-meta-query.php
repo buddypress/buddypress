@@ -32,7 +32,6 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * @since 2.3.0
 	 *
 	 * @param array $query Meta query arguments.
-	 *
 	 * @return bool Whether the query clause is a first-order clause.
 	 */
 	protected function is_first_order_clause( $query ) {
@@ -40,7 +39,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	}
 
 	/**
-	 * Constructs a meta query based on 'meta_*' query vars
+	 * Constructs a meta query based on 'meta_*' query vars.
 	 *
 	 * @since 2.3.0
 	 *
@@ -100,7 +99,6 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * @param string      $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string      $primary_id_column ID column for the filtered object in $primary_table.
 	 * @param object|null $context           Optional. The main query object.
-	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
 	 *
@@ -159,7 +157,6 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * @param array  $parent_query Parent query array.
 	 * @param string $clause_key   Optional. The array key used to name the clause in the original `$meta_query`
 	 *                             parameters. If not provided, a key will be generated automatically.
-	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
 	 *

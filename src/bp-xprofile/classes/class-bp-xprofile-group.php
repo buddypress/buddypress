@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Class to help set up XProfile Groups.
+ *
+ * @since 1.0.0
  */
 class BP_XProfile_Group {
 
@@ -19,7 +21,7 @@ class BP_XProfile_Group {
 	 * Field group ID.
 	 *
 	 * @since 1.1.0
-	 * @var int ID of field group
+	 * @var int ID of field group.
 	 */
 	public $id = null;
 
@@ -27,7 +29,7 @@ class BP_XProfile_Group {
 	 * Field group name.
 	 *
 	 * @since 1.1.0
-	 * @var string Name of field group
+	 * @var string Name of field group.
 	 */
 	public $name;
 
@@ -35,7 +37,7 @@ class BP_XProfile_Group {
 	 * Field group Description.
 	 *
 	 * @since 1.1.0
-	 * @var string Description of field group
+	 * @var string Description of field group.
 	 */
 	public $description;
 
@@ -51,7 +53,7 @@ class BP_XProfile_Group {
 	 * Group order.
 	 *
 	 * @since 1.1.0
-	 * @var int Group order relative to other groups
+	 * @var int Group order relative to other groups.
 	 */
 	public $group_order;
 
@@ -59,7 +61,7 @@ class BP_XProfile_Group {
 	 * Group fields.
 	 *
 	 * @since 1.1.0
-	 * @var array Fields of group
+	 * @var array Fields of group.
 	 */
 	public $fields;
 
@@ -84,7 +86,6 @@ class BP_XProfile_Group {
 	 * @global $wpdb $wpdb
 	 *
 	 * @param int $id Field group ID.
-	 *
 	 * @return boolean
 	 */
 	public function populate( $id ) {
@@ -231,7 +232,9 @@ class BP_XProfile_Group {
 
 	/**
 	 * Populates the BP_XProfile_Group object with profile field groups, fields,
-	 * and field data
+	 * and field data.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @global object $wpdb WordPress DB access object.
 	 *

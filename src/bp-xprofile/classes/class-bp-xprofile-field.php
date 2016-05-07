@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Class to help set up XProfile fields.
+ *
+ * @since 1.0.0
  */
 class BP_XProfile_Field {
 
@@ -133,7 +135,6 @@ class BP_XProfile_Field {
 	 * Whether values from this field are autolinked to directory searches.
 	 *
 	 * @since 2.5.0
-	 *
 	 * @var bool
 	 */
 	public $do_autolink;
@@ -214,6 +215,8 @@ class BP_XProfile_Field {
 
 	/**
 	 * Retrieve a `BP_XProfile_Field` instance.
+	 *
+	 * @since 2.4.0
 	 *
 	 * @static
 	 *

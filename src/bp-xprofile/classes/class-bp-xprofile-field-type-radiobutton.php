@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 	/**
-	 * Constructor for the radio button field type
+	 * Constructor for the radio button field type.
 	 *
 	 * @since 2.0.0
 	 */
