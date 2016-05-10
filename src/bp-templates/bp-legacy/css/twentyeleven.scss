@@ -1449,9 +1449,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 					padding-left: 0;
 				}
 
-				h2 {
+				h3 {
 					@include font-size(14);
-					padding: 0.2em;
+					font-weight: bold;
+					line-height: 1.4;
 				}
 
 				#group-admins,

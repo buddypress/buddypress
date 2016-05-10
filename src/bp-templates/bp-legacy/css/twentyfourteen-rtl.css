@@ -703,7 +703,7 @@ body.activity-permalink #buddypress {
 	width: auto;
 }
 
-.single-item.groups #buddypress #item-header #item-actions h2 {
+.single-item.groups #buddypress #item-header #item-actions h3 {
 	font-size: 20px;
 	font-size: 1.25rem;
 }

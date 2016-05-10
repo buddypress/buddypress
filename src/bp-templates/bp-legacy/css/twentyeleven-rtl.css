@@ -1019,10 +1019,11 @@ body.buddypress:not(.page-template-sidebar-page) #content .entry-content {
 	padding-right: 0;
 }
 
-.single-item.groups #buddypress div#item-header div#item-actions h2 {
+.single-item.groups #buddypress div#item-header div#item-actions h3 {
 	font-size: 14px;
 	font-size: 0.9333333333rem;
-	padding: 0.2em;
+	font-weight: bold;
+	line-height: 1.4;
 }
 
 .single-item.groups #buddypress div#item-header div#item-actions #group-admins li,
