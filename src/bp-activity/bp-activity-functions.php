@@ -2571,6 +2571,7 @@ add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
  * @uses do_action() To call the 'bp_activity_comment_posted' hook.
  *
  * @param array|string $args {
+ *     An array of arguments.
  *     @type int    $id                Optional. Pass an ID to update an existing comment.
  *     @type string $content           The content of the comment.
  *     @type int    $user_id           Optional. The ID of the user making the comment.
