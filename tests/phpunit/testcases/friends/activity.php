@@ -218,5 +218,17 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 
 		$this->assertEmpty( $friendship_activity['activities'] );
 	}
+
+	public function test_delete_user_with_no_activities() {
+		$old_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		bp_activity_remove_all_user_data( $u1 );
+		wp_cache_delete( $u1, 'bp_last_activity' );
+		wp_delete_user( $u1 );
+
+		$this->set_current_user( $old_user );
+	}
 }
 
