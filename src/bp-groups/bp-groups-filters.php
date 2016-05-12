@@ -54,7 +54,7 @@ add_filter( 'groups_group_description_before_save', 'force_balance_tags' );
 add_filter( 'groups_group_name_before_save',        'trim' );
 add_filter( 'groups_group_description_before_save', 'trim' );
 
-// Support emojis.
+// Support emoji.
 if ( function_exists( 'wp_encode_emoji' ) ) {
 	add_filter( 'groups_group_description_before_save', 'wp_encode_emoji' );
 }

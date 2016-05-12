@@ -651,9 +651,9 @@ class BP_Admin {
 
 				<div class="feature-section two-col">
 					<div>
-						<h3 class="feature-title"><?php esc_html_e( 'Support for Emojis', 'buddypress' ); ?></h3>
-						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/emoji-feature.png' ); ?>" alt="<?php esc_attr_e( 'Fun with Emojies', 'buddypress' ); ?>">
-						<p><?php esc_html_e( 'Have fun and be merry! You can now use Emojis in activity updates, messages, and group descriptions.', 'buddypress' ); ?></p>
+						<h3 class="feature-title"><?php esc_html_e( 'Support for emoji', 'buddypress' ); ?></h3>
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/emoji-feature.png' ); ?>" alt="<?php esc_attr_e( 'Fun with emoji', 'buddypress' ); ?>">
+						<p><?php esc_html_e( 'Have fun and be merry! You can now use emoji in activity updates, messages, and group descriptions.', 'buddypress' ); ?></p>
 
 					</div>
 					<div class="last-feature">
