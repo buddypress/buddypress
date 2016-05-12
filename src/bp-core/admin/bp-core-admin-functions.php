@@ -564,7 +564,10 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			break;
 	}
 }
-add_action( 'contextual_help', 'bp_core_add_contextual_help' );
+add_action( 'load-settings_page_bp-components', 'bp_core_add_contextual_help' );
+add_action( 'load-settings_page_bp-page-settings', 'bp_core_add_contextual_help' );
+add_action( 'load-settings_page_bp-settings', 'bp_core_add_contextual_help' );
+add_action( 'load-users_page_bp-profile-setup', 'bp_core_add_contextual_help' );
 
 /**
  * Renders contextual help content to contextual help tabs.
