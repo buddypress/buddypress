@@ -60,7 +60,11 @@ class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
 			}
 		}
 
-		return $this->backcompat_nav[ $offset ];
+		if ( isset( $this->backcompat_nav[ $offset ] ) ) {
+			return $this->backcompat_nav[ $offset ];
+		}
+
+		return false;
 	}
 
 	/**
