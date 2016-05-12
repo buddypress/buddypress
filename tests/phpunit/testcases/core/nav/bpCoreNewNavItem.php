@@ -5,6 +5,9 @@
  */
 class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_user_nav() {
 		$bp_nav = buddypress()->bp_nav;
 
@@ -33,13 +36,18 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 			'default_subnav_slug'     => 'foo-sub'
 		);
 
-		$this->assertSame( buddypress()->bp_nav['foo'], $expected );
+		foreach ( $expected as $k => $v ) {
+			$this->assertEquals( $v, buddypress()->bp_nav['foo'][ $k ] );
+		}
 
 		// Clean up
 		buddypress()->bp_nav = $bp_nav;
 		$this->set_current_user( $old_current_user );
 	}
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_group_nav() {
 		$bp_nav = buddypress()->bp_nav;
 
@@ -89,6 +97,9 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$this->assertFalse( bp_core_new_nav_item( $args ) );
 	}
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_css_id_should_fall_back_on_slug() {
 		$args = array(
 			'name' => 'Foo',
@@ -99,6 +110,9 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$this->assertSame( 'foo', buddypress()->bp_nav['foo']['css_id'] );
 	}
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_css_id_should_be_respected() {
 		$args = array(
 			'name' => 'Foo',
@@ -124,6 +138,9 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$this->assertFalse( $retval );
 	}
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_existence_of_access_protected_user_nav() {
 		$bp_nav = buddypress()->bp_nav;
 
@@ -145,13 +162,18 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 			'default_subnav_slug'     => 'general'
 		);
 
-		$this->assertSame( buddypress()->bp_nav['settings'], $expected );
+		foreach ( $expected as $k => $v ) {
+			$this->assertEquals( $v, buddypress()->bp_nav['settings'][ $k ] );
+		}
 
 		// Clean up
 		buddypress()->bp_nav = $bp_nav;
 		$this->set_current_user( $old_current_user );
 	}
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_creation_of_access_protected_user_nav() {
 		// The nav item must be added to bp_nav, even if the current user
 		// can't visit that nav item.
@@ -184,7 +206,9 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 			'default_subnav_slug'     => 'woof-one'
 		);
 
-		$this->assertSame( buddypress()->bp_nav['woof'], $expected );
+		foreach ( $expected as $k => $v ) {
+			$this->assertEquals( $v, buddypress()->bp_nav['woof'][ $k ] );
+		}
 
 		// Clean up
 		buddypress()->bp_nav = $bp_nav;

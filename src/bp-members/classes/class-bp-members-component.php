@@ -150,6 +150,9 @@ class BP_Members_Component extends BP_Component {
 		// The domain for the user currently being displayed.
 		$bp->displayed_user->domain   = bp_core_get_user_domain( bp_displayed_user_id() );
 
+		// Initialize the nav for the members component.
+		$this->nav = new BP_Core_Nav();
+
 		/** Signup ***********************************************************
 		 */
 

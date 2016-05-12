@@ -5,6 +5,9 @@
  * @group nav
  */
 class BP_Tests_Core_Nav_BpCoreRemoveNavItem extends BP_UnitTestCase {
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_should_remove_subnav_items() {
 		$bp = buddypress();
 
@@ -37,6 +40,9 @@ class BP_Tests_Core_Nav_BpCoreRemoveNavItem extends BP_UnitTestCase {
 		$bp->bp_options_nav = $_bp_options_nav;
 	}
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	public function test_should_remove_nav_item() {
 		$bp = buddypress();
 

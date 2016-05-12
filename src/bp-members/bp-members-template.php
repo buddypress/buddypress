@@ -1290,12 +1290,12 @@ function bp_get_loggedin_user_nav() {
 	$bp = buddypress();
 
 	// Loop through each navigation item.
-	foreach( (array) $bp->bp_nav as $nav_item ) {
+	foreach ( (array) $bp->members->nav->get_primary() as $nav_item ) {
 
 		$selected = '';
 
 		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( !bp_is_directory() && !empty( $bp->active_components[bp_current_component()] ) && $bp->active_components[bp_current_component()] == $nav_item['css_id'] ) {
+		if ( ! bp_is_directory() && ! empty( $bp->active_components[ bp_current_component() ] ) && $bp->active_components[ bp_current_component() ] == $nav_item->css_id ) {
 			$selected = ' class="current selected"';
 		}
 
@@ -1307,7 +1307,7 @@ function bp_get_loggedin_user_nav() {
 			$selected = '';
 
 			if ( bp_is_active( 'friends' ) ) {
-				if ( $nav_item['css_id'] == $bp->friends->id ) {
+				if ( $nav_item->css_id == $bp->friends->id ) {
 					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) ) {
 						$selected = ' class="current selected"';
 					}
@@ -1316,7 +1316,7 @@ function bp_get_loggedin_user_nav() {
 		}
 
 		// Echo out the final list item.
-		echo apply_filters_ref_array( 'bp_get_loggedin_user_nav_' . $nav_item['css_id'], array( '<li id="li-nav-' . $nav_item['css_id'] . '" ' . $selected . '><a id="my-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>', &$nav_item ) );
+		echo apply_filters_ref_array( 'bp_get_loggedin_user_nav_' . $nav_item->css_id, array( '<li id="li-nav-' . $nav_item->css_id . '" ' . $selected . '><a id="my-' . $nav_item->css_id . '" href="' . $nav_item->link . '">' . $nav_item->name . '</a></li>', &$nav_item ) );
 	}
 
 	// Always add a log out list item to the end of the navigation.
@@ -1333,19 +1333,20 @@ function bp_get_loggedin_user_nav() {
 function bp_get_displayed_user_nav() {
 	$bp = buddypress();
 
-	foreach ( (array) $bp->bp_nav as $user_nav_item ) {
-		if ( empty( $user_nav_item['show_for_displayed_user'] ) && !bp_is_my_profile() )
+	foreach ( $bp->members->nav->get_primary() as $user_nav_item ) {
+		if ( empty( $user_nav_item->show_for_displayed_user ) && ! bp_is_my_profile() ) {
 			continue;
+		}
 
 		$selected = '';
-		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
+		if ( bp_is_current_component( $user_nav_item->slug ) ) {
 			$selected = ' class="current selected"';
 		}
 
 		if ( bp_loggedin_user_domain() ) {
-			$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $user_nav_item['link'] );
+			$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $user_nav_item->link );
 		} else {
-			$link = trailingslashit( bp_displayed_user_domain() . $user_nav_item['link'] );
+			$link = trailingslashit( bp_displayed_user_domain() . $user_nav_item->link );
 		}
 
 		/**
@@ -1359,7 +1360,7 @@ function bp_get_displayed_user_nav() {
 		 * @param array  $user_nav_item Array holding parts used to construct tab list item.
 		 *                              Passed by reference.
 		 */
-		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
+		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item->css_id, array( '<li id="' . $user_nav_item->css_id . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item->css_id . '" href="' . $link . '">' . $user_nav_item->name . '</a></li>', &$user_nav_item ) );
 	}
 }
 

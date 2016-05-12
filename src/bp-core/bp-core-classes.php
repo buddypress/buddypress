@@ -30,3 +30,10 @@ require dirname( __FILE__ ) . '/classes/class-bp-email-recipient.php';
 require dirname( __FILE__ ) . '/classes/class-bp-email.php';
 require dirname( __FILE__ ) . '/classes/class-bp-email-delivery.php';
 require dirname( __FILE__ ) . '/classes/class-bp-phpmailer.php';
+require dirname( __FILE__ ) . '/classes/class-bp-core-nav.php';
+require dirname( __FILE__ ) . '/classes/class-bp-core-nav-item.php';
+
+if ( buddypress()->do_nav_backcompat ) {
+	require dirname( __FILE__ ) . '/classes/class-bp-core-bp-nav-backcompat.php';
+	require dirname( __FILE__ ) . '/classes/class-bp-core-bp-options-nav-backcompat.php';
+}

@@ -302,7 +302,7 @@ class BP_XProfile_Component extends BP_Component {
 			'screen_function' => 'bp_xprofile_screen_settings',
 			'position'        => 30,
 			'user_has_access' => bp_core_can_edit_settings()
-		) );
+		), 'members' );
 	}
 
 	/**

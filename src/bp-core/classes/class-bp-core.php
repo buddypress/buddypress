@@ -254,6 +254,12 @@ class BP_Core extends BP_Component {
 		// bp-notifications instead.
 		$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
 
+		// Backward compatibility for plugins modifying the legacy bp_nav and bp_options_nav global properties.
+		if ( buddypress()->do_nav_backcompat ) {
+			$bp->bp_nav         = new BP_Core_BP_Nav_BackCompat();
+			$bp->bp_options_nav = new BP_Core_BP_Options_Nav_BackCompat();
+		}
+
 		/**
 		 * Used to determine if user has admin rights on current content. If the
 		 * logged in user is viewing their own profile and wants to delete

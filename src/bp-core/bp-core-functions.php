@@ -2443,11 +2443,8 @@ function bp_nav_menu_get_loggedin_pages() {
 		return buddypress()->wp_nav_menu_items->loggedin;
 	}
 
-	// Pull up a list of items registered in BP's top-level nav array.
-	$bp_menu_items = buddypress()->bp_nav;
-
-	// Alphabetize.
-	$bp_menu_items = bp_alpha_sort_by_key( $bp_menu_items, 'name' );
+	// Pull up a list of items registered in BP's primary nav for the member.
+	$bp_menu_items = buddypress()->members->nav->get_primary();
 
 	// Some BP nav menu items will not be represented in bp_nav, because
 	// they are not real BP components. We add them manually here.
@@ -2575,7 +2572,7 @@ function bp_nav_menu_get_loggedout_pages() {
  * @since 1.9.0
  *
  * @param string $slug The slug of the nav item: login, register, or one of the
- *                     slugs from buddypress()->bp_nav.
+ *                     slugs from the members navigation.
  * @return string $nav_item_url The URL generated for the current user.
  */
 function bp_nav_menu_get_item_url( $slug ) {
