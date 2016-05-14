@@ -502,15 +502,15 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
  */
 function bp_core_get_directory_page_id( $component = null ) {
         if ( ! $component ) {
-                $component = bp_current_component();
-        }
+		$component = bp_current_component();
+	}
 
 	$bp_pages = bp_core_get_directory_page_ids( 'all' );
 
 	$page_id = false;
 	if ( $component && isset( $bp_pages[ $component ] ) ) {
 		$page_id = (int) $bp_pages[ $component ];
-        }
+	}
 
         return $page_id;
 }
