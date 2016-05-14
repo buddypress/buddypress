@@ -3050,7 +3050,7 @@ function bp_email_get_appearance_settings() {
 	);
 
 	return bp_parse_args(
-		get_option( 'bp_email_options', array() ),
+		bp_get_option( 'bp_email_options', array() ),
 		$default_args,
 		'email_appearance_settings'
 	);
