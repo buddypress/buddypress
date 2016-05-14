@@ -737,7 +737,7 @@ class BP_Group_Extension {
 				'screen_function' => array( &$this, '_display_hook' ),
 				'user_has_access' => $user_can_see_nav_item,
 				'no_access_url'   => $group_permalink,
-			) );
+			), 'groups' );
 		}
 
 		// If the user can visit the screen, we register it.
@@ -752,7 +752,7 @@ class BP_Group_Extension {
 				'screen_function' => array( &$this, '_display_hook' ),
 				'user_has_access' => $user_can_visit,
 				'no_access_url'   => $group_permalink,
-			) );
+			), 'groups' );
 
 			// When we are viewing the extension display page, set the title and options title.
 			if ( bp_is_current_action( $this->slug ) ) {
@@ -967,7 +967,7 @@ class BP_Group_Extension {
 		}
 
 		// Add the tab to the manage navigation.
-		bp_core_new_subnav_item( $subnav_args );
+		bp_core_new_subnav_item( $subnav_args, 'groups' );
 
 		// Catch the edit screen and forward it to the plugin template.
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $screen['slug'], 0 ) ) {

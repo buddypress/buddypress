@@ -253,6 +253,9 @@ class BP_Groups_Component extends BP_Component {
 			// Check once if the current group has a custom front template.
 			$this->current_group->front_template = bp_groups_get_front_template( $this->current_group );
 
+			// Initialize the nav for the groups component.
+			$this->nav = new BP_Core_Nav( $this->current_group->id );
+
 		// Set current_group to 0 to prevent debug errors.
 		} else {
 			$this->current_group = 0;
@@ -496,15 +499,18 @@ class BP_Groups_Component extends BP_Component {
 			// Reset sub nav.
 			$sub_nav = array();
 
-			// Add 'Groups' to the main navigation.
-			$main_nav = array(
+			/*
+			 * The top-level Groups item is called 'Memberships' for legacy reasons.
+			 * It does not appear in the interface.
+			 */
+			bp_core_new_nav_item( array(
 				'name'                => __( 'Memberships', 'buddypress' ),
 				'slug'                => $this->current_group->slug,
 				'position'            => -1, // Do not show in BuddyBar.
 				'screen_function'     => 'groups_screen_group_home',
 				'default_subnav_slug' => $this->default_extension,
 				'item_css_id'         => $this->id
-			);
+			), 'groups' );
 
 			$group_link = bp_get_group_permalink( $this->current_group );
 
@@ -675,7 +681,9 @@ class BP_Groups_Component extends BP_Component {
 				), $default_params );
 			}
 
-			parent::setup_nav( $main_nav, $sub_nav );
+			foreach ( $sub_nav as $nav ) {
+				bp_core_new_subnav_item( $nav, 'groups' );
+			}
 		}
 
 		if ( isset( $this->current_group->user_has_access ) ) {

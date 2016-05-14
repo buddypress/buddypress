@@ -934,7 +934,7 @@ class BP_Core_User {
 
 		$existing = self::get_last_activity( $user_id );
 
-		if ( empty( $existing ) ) {
+		if ( empty( $existing ) || empty( $existing[ $user_id ]['activity_id'] ) ) {
 			return false;
 		}
 

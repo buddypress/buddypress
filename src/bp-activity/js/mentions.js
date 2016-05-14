@@ -248,7 +248,7 @@ window.bp = window.bp || {};
 			return;
 		} else {
 			$( window.tinyMCE.activeEditor.contentDocument.activeElement )
-				.atwho( 'setIframe', $( '#content_ifr' )[0] )
+				.atwho( 'setIframe', $( '.wp-editor-wrap iframe' )[0] )
 				.bp_mentions( bp.mentions.users );
 		}
 	};

@@ -217,6 +217,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group enable_nav_item
+	 * @expectedIncorrectUsage bp_nav
 	 */
 	public function test_enable_nav_item_true() {
 		$old_options_nav = buddypress()->bp_options_nav;
@@ -239,6 +240,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group enable_nav_item
+	 * @expectedIncorrectUsage bp_nav
 	 */
 	public function test_enable_nav_item_false() {
 		$old_options_nav = buddypress()->bp_options_nav;
@@ -261,6 +263,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group visibility
+	 * @expectedIncorrectUsage bp_nav
 	 */
 	public function test_visibility_private() {
 		$old_options_nav = buddypress()->bp_options_nav;
@@ -298,6 +301,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group visibility
+	 * @expectedIncorrectUsage bp_nav
 	 *
 	 * visibility=public + status=private results in adding the item to
 	 * the nav. However, BP_Groups_Component::setup_globals() bounces the

@@ -19,6 +19,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.5.0
 	 */
 	public function __construct() {
 		$name        = _x( "(BuddyPress) Who's Online", 'widget name', 'buddypress' );
@@ -31,6 +33,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 	/**
 	 * Display the Who's Online widget.
+	 *
+	 * @since 1.0.3
 	 *
 	 * @see WP_Widget::widget() for description of parameters.
 	 *
@@ -106,6 +110,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	/**
 	 * Update the Who's Online widget options.
 	 *
+	 * @since 1.0.3
+	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
 	 * @return array $instance The parsed options to be saved.
@@ -120,6 +126,8 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 
 	/**
 	 * Output the Who's Online widget options form.
+	 *
+	 * @since 1.0.3
 	 *
 	 * @param array $instance Widget instance settings.
 	 * @return void

@@ -489,12 +489,12 @@ class BP_Component {
 
 		// No sub nav items without a main nav item.
 		if ( !empty( $main_nav ) ) {
-			bp_core_new_nav_item( $main_nav );
+			bp_core_new_nav_item( $main_nav, 'members' );
 
 			// Sub nav items are not required.
 			if ( !empty( $sub_nav ) ) {
 				foreach( (array) $sub_nav as $nav ) {
-					bp_core_new_subnav_item( $nav );
+					bp_core_new_subnav_item( $nav, 'members' );
 				}
 			}
 		}

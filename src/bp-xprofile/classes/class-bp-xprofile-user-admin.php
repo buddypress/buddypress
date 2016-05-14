@@ -143,8 +143,9 @@ class BP_XProfile_User_Admin {
 				);
 			endwhile;
 
-		// If member is already a spammer, show a generic metabox.
+
 		} else {
+			// If member is already a spammer, show a generic metabox.
 			add_meta_box(
 				'bp_xprofile_user_admin_empty_profile',
 				_x( 'User marked as a spammer', 'xprofile user-admin edit screen', 'buddypress' ),
@@ -198,9 +199,8 @@ class BP_XProfile_User_Admin {
 
 			bp_core_redirect( $redirect_to );
 
-		// Update profile fields.
 		} elseif ( isset( $_POST['field_ids'] ) ) {
-
+			// Update profile fields.
 			// Check the nonce.
 			check_admin_referer( 'edit-bp-profile_' . $user_id );
 

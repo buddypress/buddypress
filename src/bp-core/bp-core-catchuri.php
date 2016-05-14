@@ -210,13 +210,27 @@ function bp_core_set_uri_globals() {
 	}
 
 	// URLs with BP_ENABLE_ROOT_PROFILES enabled won't be caught above.
-	if ( empty( $matches ) && bp_core_enable_root_profiles() ) {
+	if ( empty( $matches ) && bp_core_enable_root_profiles() && ! empty( $bp_uri[0] ) ) {
 
 		// Switch field based on compat.
 		$field = bp_is_username_compatibility_mode() ? 'login' : 'slug';
 
+		/**
+		 * Filter the portion of the URI that is the displayed user's slug.
+		 *
+		 * eg. example.com/ADMIN (when root profiles is enabled)
+		 *     example.com/members/ADMIN (when root profiles isn't enabled)
+		 *
+		 * ADMIN would be the displayed user's slug.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string $member_slug
+		 */
+		$member_slug = apply_filters( 'bp_core_set_uri_globals_member_slug', $bp_uri[0] );
+
 		// Make sure there's a user corresponding to $bp_uri[0].
-		if ( !empty( $bp->pages->members ) && !empty( $bp_uri[0] ) && $root_profile = get_user_by( $field, $bp_uri[0] ) ) {
+		if ( ! empty( $bp->pages->members ) && $root_profile = get_user_by( $field, $member_slug ) ) {
 
 			// Force BP to recognize that this is a members page.
 			$matches[]  = 1;
@@ -272,6 +286,10 @@ function bp_core_set_uri_globals() {
 
 			// Are we viewing a specific user?
 			if ( $after_member_slug ) {
+
+				/** This filter is documented in bp-core/bp-core-catchuri.php */
+				$after_member_slug = apply_filters( 'bp_core_set_uri_globals_member_slug', $after_member_slug );
+
 				// If root profile, we've already queried for the user.
 				if ( $root_profile instanceof WP_User ) {
 					$bp->displayed_user->id = $root_profile->ID;

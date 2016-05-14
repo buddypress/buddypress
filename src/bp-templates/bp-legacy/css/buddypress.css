@@ -616,6 +616,12 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 /*--------------------------------------------------------------
 3.5 - Forms
 --------------------------------------------------------------*/
+
+#buddypress form fieldset {
+	border: 0;
+	padding: 0;
+}
+
 #buddypress .standard-form textarea,
 #buddypress .standard-form input[type=text],
 #buddypress .standard-form input[type=text],
@@ -671,6 +677,10 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	font-size: 100%;
 	font-weight: normal;
 	margin: 5px 0 0 0;
+}
+#buddypress .standard-form .checkbox label input,
+#buddypress .standard-form .radio label input {
+	margin-right: 3px;
 }
 #buddypress .standard-form#sidebar-login-form label {
 	margin-top: 5px;

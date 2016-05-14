@@ -172,10 +172,17 @@ class BP_Email {
 		}
 
 		// This was escaped with esc_html on the way into the database in sanitize_option().
-		$site_name = wp_specialchars_decode( bp_get_option( 'blogname' ), ENT_QUOTES );
+		$from_name    = wp_specialchars_decode( bp_get_option( 'blogname' ), ENT_QUOTES );
+		$from_address = "wordpress@$domain";
 
-		$this->set_from( "wordpress@$domain", $site_name );
-		$this->set_reply_to( bp_get_option( 'admin_email' ), $site_name );
+		/** This filter is documented in wp-includes/pluggable.php */
+		$from_address = apply_filters( 'wp_mail_from', $from_address );
+
+		/** This filter is documented in wp-includes/pluggable.php */
+		$from_name = apply_filters( 'wp_mail_from_name', $from_name );
+
+		$this->set_from( $from_address, $from_name );
+		$this->set_reply_to( bp_get_option( 'admin_email' ), $from_name );
 
 		/**
 		 * Fires inside __construct() method for BP_Email class.

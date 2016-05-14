@@ -54,7 +54,7 @@ add_filter( 'groups_group_description_before_save', 'force_balance_tags' );
 add_filter( 'groups_group_name_before_save',        'trim' );
 add_filter( 'groups_group_description_before_save', 'trim' );
 
-// Support emojis.
+// Support emoji.
 if ( function_exists( 'wp_encode_emoji' ) ) {
 	add_filter( 'groups_group_description_before_save', 'wp_encode_emoji' );
 }
@@ -72,6 +72,10 @@ add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 
 // Activity component integration.
 add_filter( 'bp_activity_at_name_do_notifications', 'bp_groups_disable_at_mention_notification_for_non_public_groups', 10, 4 );
+
+// Default group avatar.
+add_filter( 'bp_core_avatar_default',       'bp_groups_default_avatar', 10, 3 );
+add_filter( 'bp_core_avatar_default_thumb', 'bp_groups_default_avatar', 10, 3 );
 
 /**
  * Filter output of Group Description through WordPress's KSES API.
@@ -318,4 +322,27 @@ function bp_groups_disable_at_mention_notification_for_non_public_groups( $send,
 	}
 
 	return $send;
+}
+
+/**
+ * Use the mystery group avatar for groups.
+ *
+ * @since 2.6.0
+ *
+ * @param string $avatar Current avatar src.
+ * @param array  $params Avatar params.
+ * @return string
+ */
+function bp_groups_default_avatar( $avatar, $params ) {
+	if ( isset( $params['object'] ) && 'group' === $params['object'] ) {
+		if ( isset( $params['type'] ) && 'thumb' === $params['type'] ) {
+			$file = 'mystery-group-50.png';
+		} else {
+			$file = 'mystery-group.png';
+		}
+
+		$avatar = buddypress()->plugin_url . "bp-core/images/$file";
+	}
+
+	return $avatar;
 }

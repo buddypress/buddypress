@@ -493,6 +493,29 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 }
 
 /**
+ * Get the page ID corresponding to a component directory.
+ *
+ * @since 2.6.0
+ *
+ * @param string $component The slug representing the component. Defaults to the current component.
+ * @return int|bool The ID of the directory page associated with the component. False if none is found.
+ */
+function bp_core_get_directory_page_id( $component = null ) {
+        if ( ! $component ) {
+                $component = bp_current_component();
+        }
+
+	$bp_pages = bp_core_get_directory_page_ids( 'all' );
+
+	$page_id = false;
+	if ( $component && isset( $bp_pages[ $component ] ) ) {
+		$page_id = (int) $bp_pages[ $component ];
+        }
+
+        return $page_id;
+}
+
+/**
  * Store the list of BP directory pages in the appropriate meta table.
  *
  * The bp-pages data is stored in site_options (falls back to options on non-MS),
@@ -2264,20 +2287,6 @@ function bp_core_action_search_site( $slug = '' ) {
 add_action( 'bp_init', 'bp_core_action_search_site', 7 );
 
 /**
- * Print the generation time in the footer of the site.
- *
- * @since 1.0.0
- */
-function bp_core_print_generation_time() {
-?>
-
-<!-- Generated in <?php timer_stop(1); ?> seconds. (<?php echo get_num_queries(); ?> q) -->
-
-	<?php
-}
-add_action( 'wp_footer', 'bp_core_print_generation_time' );
-
-/**
  * Remove "prev" and "next" relational links from <head> on BuddyPress pages.
  *
  * WordPress automatically generates these relational links to the current
@@ -2331,6 +2340,105 @@ function bp_core_get_minified_asset_suffix() {
 	return $ext;
 }
 
+/**
+ * Return a list of component information.
+ *
+ * @since 2.6.0
+ *
+ * @param string $type Optional; component type to fetch. Default value is 'all', or 'optional', 'retired', 'required'.
+ * @return array Requested components' data.
+ */
+function bp_core_get_components( $type = 'all' ) {
+	$required_components = array(
+		'core' => array(
+			'title'       => __( 'BuddyPress Core', 'buddypress' ),
+			'description' => __( 'It&#8216;s what makes <del>time travel</del> BuddyPress possible!', 'buddypress' )
+		),
+		'members' => array(
+			'title'       => __( 'Community Members', 'buddypress' ),
+			'description' => __( 'Everything in a BuddyPress community revolves around its members.', 'buddypress' )
+		),
+	);
+
+	$retired_components = array(
+		'forums' => array(
+			'title'       => __( 'Group Forums', 'buddypress' ),
+			'description' => sprintf( __( 'BuddyPress Forums are retired. Use %s.', 'buddypress' ), '<a href="https://bbpress.org/">bbPress</a>' )
+		),
+	);
+
+	$optional_components = array(
+		'xprofile' => array(
+			'title'       => __( 'Extended Profiles', 'buddypress' ),
+			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' )
+		),
+		'settings' => array(
+			'title'       => __( 'Account Settings', 'buddypress' ),
+			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' )
+		),
+		'friends'  => array(
+			'title'       => __( 'Friend Connections', 'buddypress' ),
+			'description' => __( 'Let your users make connections so they can track the activity of others and focus on the people they care about the most.', 'buddypress' )
+		),
+		'messages' => array(
+			'title'       => __( 'Private Messaging', 'buddypress' ),
+			'description' => __( 'Allow your users to talk to each other directly and in private. Not just limited to one-on-one discussions, messages can be sent between any number of members.', 'buddypress' )
+		),
+		'activity' => array(
+			'title'       => __( 'Activity Streams', 'buddypress' ),
+			'description' => __( 'Global, personal, and group activity streams with threaded commenting, direct posting, favoriting, and @mentions, all with full RSS feed and email notification support.', 'buddypress' )
+		),
+		'notifications' => array(
+			'title'       => __( 'Notifications', 'buddypress' ),
+			'description' => __( 'Notify members of relevant activity with a toolbar bubble and/or via email, and allow them to customize their notification settings.', 'buddypress' )
+		),
+		'groups'   => array(
+			'title'       => __( 'User Groups', 'buddypress' ),
+			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings.', 'buddypress' )
+		),
+		'forums'   => array(
+			'title'       => __( 'Group Forums (Legacy)', 'buddypress' ),
+			'description' => __( 'Group forums allow for focused, bulletin-board style conversations.', 'buddypress' )
+		),
+		'blogs'    => array(
+			'title'       => __( 'Site Tracking', 'buddypress' ),
+			'description' => __( 'Record activity for new posts and comments from your site.', 'buddypress' )
+		)
+	);
+
+	// Add blogs tracking if multisite.
+	if ( is_multisite() ) {
+		$optional_components['blogs']['description'] = __( 'Record activity for new sites, posts, and comments across your network.', 'buddypress' );
+	}
+
+	switch ( $type ) {
+		case 'required' :
+			$components = $required_components;
+			break;
+		case 'optional' :
+			$components = $optional_components;
+			break;
+		case 'retired' :
+			$components = $retired_components;
+			break;
+		case 'all' :
+		default :
+			$components = array_merge( $required_components, $optional_components, $retired_components );
+			break;
+	}
+
+	/**
+	 * Filters the list of component information.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param array  $components Array of component information.
+	 * @param string $type       Type of component list requested.
+	 *                           Possible values are 'all', 'optional', 'retired', 'required'.
+	 */
+	return apply_filters( 'bp_core_get_components', $components, $type );
+}
+
 /** Nav Menu ******************************************************************/
 
 /**
@@ -2358,11 +2466,8 @@ function bp_nav_menu_get_loggedin_pages() {
 		return buddypress()->wp_nav_menu_items->loggedin;
 	}
 
-	// Pull up a list of items registered in BP's top-level nav array.
-	$bp_menu_items = buddypress()->bp_nav;
-
-	// Alphabetize.
-	$bp_menu_items = bp_alpha_sort_by_key( $bp_menu_items, 'name' );
+	// Pull up a list of items registered in BP's primary nav for the member.
+	$bp_menu_items = buddypress()->members->nav->get_primary();
 
 	// Some BP nav menu items will not be represented in bp_nav, because
 	// they are not real BP components. We add them manually here.
@@ -2490,7 +2595,7 @@ function bp_nav_menu_get_loggedout_pages() {
  * @since 1.9.0
  *
  * @param string $slug The slug of the nav item: login, register, or one of the
- *                     slugs from buddypress()->bp_nav.
+ *                     slugs from the members navigation.
  * @return string $nav_item_url The URL generated for the current user.
  */
 function bp_nav_menu_get_item_url( $slug ) {
@@ -3242,9 +3347,9 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '[{{{site.name}}}] Verify your new email address', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "You recently changed the email address associated with your account on {{site.name}}. If this is correct, <a href=\"{{{verify.url}}}\">go here to confirm the change</a>.\n\nOtherwise, you can safely ignore and delete this email if you have changed your mind, or if you think you have received this email in error.", 'buddypress' ),
+			'post_content' => __( "You recently changed the email address associated with your account on {{site.name}} to {{user.email}}. If this is correct, <a href=\"{{{verify.url}}}\">go here to confirm the change</a>.\n\nOtherwise, you can safely ignore and delete this email if you have changed your mind, or if you think you have received this email in error.", 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "You recently changed the email address associated with your account on {{site.name}}. If this is correct, go to the following link to confirm the change: {{{verify.url}}}\n\nOtherwise, you can safely ignore and delete this email if you have changed your mind, or if you think you have received this email in error.", 'buddypress' ),
+			'post_excerpt' => __( "You recently changed the email address associated with your account on {{site.name}} to {{user.email}}. If this is correct, go to the following link to confirm the change: {{{verify.url}}}\n\nOtherwise, you can safely ignore and delete this email if you have changed your mind, or if you think you have received this email in error.", 'buddypress' ),
 		),
 		'groups-membership-request-accepted' => array(
 			/* translators: do not remove {} brackets or translate its contents. */

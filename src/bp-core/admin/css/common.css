@@ -367,3 +367,11 @@ body.users_page_bp-signups td.count_sent {
 body.post-type-bp-email #excerpt {
 	height: auto;
 }
+
+body.post-type-bp-email th#situation {
+	width: 20%;
+}
+
+body.post-type-bp-email td.column-situation ul {
+	margin: 0;
+}

@@ -123,10 +123,6 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	 */
 	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once );
 
-	// Maybe load the template if one was located.
-	$use_themes = defined( 'WP_USE_THEMES' ) && WP_USE_THEMES;
-	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
-
 	/**
 	 * Filter here to allow/disallow template loading.
 	 *
@@ -134,9 +130,9 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	 *
 	 * @param bool $value True to load the template, false otherwise.
 	 */
-	$load_template = (bool) apply_filters( 'bp_locate_template_and_load', $use_themes || $doing_ajax );
+	$load_template = (bool) apply_filters( 'bp_locate_template_and_load', true );
 
-	if ( $load_template && ( true == $load ) && ! empty( $located ) ) {
+	if ( $load_template && $load && ! empty( $located ) ) {
 		load_template( $located, $require_once );
 	}
 

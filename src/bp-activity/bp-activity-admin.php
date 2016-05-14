@@ -301,6 +301,7 @@ function bp_activity_admin_load() {
 		// Add accessible hidden heading and text for Activity screen pagination.
 		if ( bp_get_major_wp_version() >= 4.4 ) {
 			get_current_screen()->set_screen_reader_content( array(
+				/* translators: accessibility text */
 				'heading_pagination' => __( 'Activity list navigation', 'buddypress' ),
 			) );
 		}

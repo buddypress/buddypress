@@ -35,6 +35,8 @@ function bp_members_has_directory() {
  *
  * In general, fallback values are only used during initial BP page creation,
  * when no slugs have been explicitly defined.
+ *
+ * @since 1.5.0
  */
 function bp_core_define_slugs() {
 	$bp = buddypress();
@@ -74,6 +76,8 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
  * Since BuddyPress 1.7, bp_core_get_users() uses BP_User_Query. If you
  * need backward compatibility with BP_Core_User::get_users(), filter the
  * bp_use_legacy_user_query value, returning true.
+ *
+ * @since 1.2.0
  *
  * @param array|string $args {
  *     Array of arguments. All are optional. See {@link BP_User_Query} for
@@ -158,6 +162,8 @@ function bp_core_get_users( $args = '' ) {
 /**
  * Return the domain for the passed user: e.g. http://example.com/members/andy/.
  *
+ * @since 1.0.0
+ *
  * @param int         $user_id       The ID of the user.
  * @param string|bool $user_nicename Optional. user_nicename of the user.
  * @param string|bool $user_login    Optional. user_login of the user.
@@ -197,6 +203,8 @@ function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_lo
 
 /**
  * Fetch everything in the wp_users table for a user, without any usermeta.
+ *
+ * @since 1.2.0
  *
  * @param int $user_id The ID of the user.
  * @return array
@@ -292,6 +300,8 @@ function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
  *
  * This function is sensitive to the BP_ENABLE_USERNAME_COMPATIBILITY_MODE,
  * so it will return the user_login or user_nicename as appropriate.
+ *
+ * @since 1.0.0
  *
  * @param int         $user_id       User ID to check.
  * @param string|bool $user_nicename Optional. user_nicename of user being checked.
@@ -435,6 +445,8 @@ function bp_members_get_user_nicename( $user_id ) {
 /**
  * Return the email address for the user based on user ID.
  *
+ * @since 1.0.0
+ *
  * @param int $uid User ID to check.
  * @return string The email for the matched user. Empty string if no user
  *                matched the $uid.
@@ -472,6 +484,8 @@ function bp_core_get_user_email( $uid ) {
  * Eg: <a href="http://andy.example.com/">Andy Peatling</a>
  *
  * Optional parameters will return just the name or just the URL.
+ *
+ * @since 1.0.0
  *
  * @param int  $user_id   User ID to check.
  * @param bool $no_anchor Disable URL and HTML and just return full name.
@@ -598,6 +612,8 @@ function bp_core_get_user_displaynames( $user_ids ) {
 /**
  * Fetch the display name for a user.
  *
+ * @since 1.0.1
+ *
  * @param int|string|bool $user_id_or_username User ID or username.
  * @return string|bool The display name for the user in question, or false if
  *                     user not found.
@@ -643,6 +659,8 @@ add_filter( 'bp_core_get_user_displayname', 'esc_html'      );
 /**
  * Return the user link for the user based on user email address.
  *
+ * @since 1.0.0
+ *
  * @param string $email The email address for the user.
  * @return string The link to the users home base. False on no match.
  */
@@ -661,6 +679,8 @@ function bp_core_get_userlink_by_email( $email ) {
 
 /**
  * Return the user link for the user based on the supplied identifier.
+ *
+ * @since 1.0.0
  *
  * @param string $username If BP_ENABLE_USERNAME_COMPATIBILITY_MODE is set,
  *                         this should be user_login, otherwise it should
@@ -691,6 +711,8 @@ function bp_core_get_userlink_by_username( $username ) {
  * account for users who have logged activity (last_active). See
  * {@link bp_core_get_active_member_count()}.
  *
+ * @since 1.2.0
+ *
  * @return int The total number of members.
  */
 function bp_core_get_total_member_count() {
@@ -716,6 +738,8 @@ function bp_core_get_total_member_count() {
 
 /**
  * Return the total number of members, limited to those members with last_activity.
+ *
+ * @since 1.6.0
  *
  * @return int The number of active members.
  */
@@ -919,6 +943,8 @@ add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
 /**
  * Check whether a user has been marked as a spammer.
  *
+ * @since 1.6.0
+ *
  * @param int $user_id The ID for the user.
  * @return bool True if spammer, otherwise false.
  */
@@ -982,6 +1008,8 @@ function bp_is_user_spammer( $user_id = 0 ) {
 
 /**
  * Check whether a user has been marked as deleted.
+ *
+ * @since 1.6.0
  *
  * @param int $user_id The ID for the user.
  * @return bool True if deleted, otherwise false.
@@ -1214,6 +1242,8 @@ add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning'
 /**
  * Get the last activity for a given user.
  *
+ * @since 1.9.0
+ *
  * @param int $user_id The ID of the user.
  * @return string Time of last activity, in 'Y-m-d H:i:s' format, or an empty
  *                string if none is found.
@@ -1292,6 +1322,8 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
  * Process account deletion requests.
  *
  * Primarily used for self-deletions, as requested through Settings.
+ *
+ * @since 1.0.0
  *
  * @param int $user_id Optional. ID of the user to be deleted. Default: the
  *                     logged-in user.
@@ -1379,6 +1411,8 @@ add_action( 'delete_user', 'bp_core_delete_avatar_on_user_delete' );
  *
  * Uses multibyte functions when available on the PHP build.
  *
+ * @since 1.0.0
+ *
  * @param string $str String to be upper-cased.
  * @return string
  */
@@ -1425,6 +1459,8 @@ add_filter( 'authenticate', 'bp_core_boot_spammer', 30 );
 /**
  * Delete last_activity data for the user when the user is deleted.
  *
+ * @since 1.0.0
+ *
  * @param int $user_id The user ID for the user to delete usermeta for.
  */
 function bp_core_remove_data( $user_id ) {
@@ -1441,6 +1477,8 @@ add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
 
 /**
  * Check whether the logged-in user can edit settings for the displayed user.
+ *
+ * @since 1.5.0
  *
  * @return bool True if editing is allowed, otherwise false.
  */
@@ -1464,6 +1502,8 @@ function bp_core_can_edit_settings() {
 
 /**
  * Flush illegal names by getting and setting 'illegal_names' site option.
+ *
+ * @since 1.2.5
  */
 function bp_core_flush_illegal_names() {
 	$illegal_names = get_site_option( 'illegal_names' );
@@ -1472,6 +1512,8 @@ function bp_core_flush_illegal_names() {
 
 /**
  * Add BuddyPress-specific items to the illegal_names array.
+ *
+ * @since 1.2.7
  *
  * @param array|string $value    Illegal names as being saved defined in
  *                               Multisite settings.
@@ -1641,6 +1683,8 @@ function bp_core_add_validation_error_messages( WP_Error $errors, $validation_re
 /**
  * Validate a user name and email address when creating a new user.
  *
+ * @since 1.2.2
+ *
  * @param string $user_name  Username to validate.
  * @param string $user_email Email address to validate.
  * @return array Results of user validation including errors, if any.
@@ -1744,6 +1788,8 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 /**
  * Validate blog URL and title provided at signup.
  *
+ * @since 1.2.2
+ *
  * @todo Why do we have this wrapper?
  *
  * @param string $blog_url   Blog URL requested during registration.
@@ -1767,6 +1813,8 @@ function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
 
 /**
  * Process data submitted at user registration and convert to a signup object.
+ *
+ * @since 1.2.0
  *
  * @todo There appears to be a bug in the return value on success.
  *
@@ -1865,6 +1913,8 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 /**
  * Create a blog and user based on data supplied at user registration.
  *
+ * @since 1.2.2
+ *
  * @param string $blog_domain Domain requested by user.
  * @param string $blog_path   Path requested by user.
  * @param string $blog_title  Title as entered by user.
@@ -1893,6 +1943,8 @@ function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name,
 
 /**
  * Activate a signup, as identified by an activation key.
+ *
+ * @since 1.2.2
  *
  * @param string $key Activation key.
  * @return int|bool User ID on success, false on failure.
@@ -2135,6 +2187,8 @@ function bp_members_migrate_signups() {
  * This only happens when a user is registered in wp-admin by an administrator;
  * during normal registration, XProfile data is provided directly by the user.
  *
+ * @since 1.2.0
+ *
  * @param int $user_id ID of the user.
  * @return bool
  */
@@ -2162,6 +2216,8 @@ add_action( 'user_register', 'bp_core_map_user_registration' );
 
 /**
  * Get the avatar storage directory for use during registration.
+ *
+ * @since 1.1.0
  *
  * @return string|bool Directory path on success, false on failure.
  */
@@ -2199,7 +2255,8 @@ function bp_core_signup_avatar_upload_dir() {
 /**
  * Send activation email to a newly registered user.
  *
- * @since  2.5.0 Add the $user_login parameter.
+ * @since 1.2.2
+ * @since 2.5.0 Add the $user_login parameter.
  *
  * @param int|bool $user_id    ID of the new user, false if BP_SIGNUPS_SKIP_USER_CREATION is true.
  * @param string   $user_email Email address of the new user.
@@ -2321,6 +2378,8 @@ add_action( 'login_form_bp-resend-activation', 'bp_members_login_resend_activati
 
 /**
  * Redirect away from wp-signup.php if BP registration templates are present.
+ *
+ * @since 1.1.0
  */
 function bp_core_wpsignup_redirect() {
 
@@ -2741,5 +2800,13 @@ add_action( 'delete_user', 'bp_remove_member_type_on_user_delete' );
  * @return string
  */
 function bp_get_current_member_type() {
+
+	/**
+	 * Filters the "current" member type, if one is provided, in member directories.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $value "Current" member type.
+	 */
 	return apply_filters( 'bp_get_current_member_type', buddypress()->current_member_type );
 }

@@ -169,15 +169,29 @@ function bp_has_notifications( $args = '' ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
+	// Set the component action (by default false to get all actions)
+	$component_action = false;
+
+	if ( isset( $_REQUEST['type'] ) ) {
+		$component_action = sanitize_key( $_REQUEST['type'] );
+	}
+
+	// Set the search terms (by default an empty string to get all notifications)
+	$search_terms = '';
+
+	if ( isset( $_REQUEST['s'] ) ) {
+		$search_terms = stripslashes( $_REQUEST['s'] );
+	}
+
 	// Parse the args.
 	$r = bp_parse_args( $args, array(
 		'id'                => false,
 		'user_id'           => $user_id,
 		'secondary_item_id' => false,
 		'component_name'    => bp_notifications_get_registered_components(),
-		'component_action'  => false,
+		'component_action'  => $component_action,
 		'is_new'            => $is_new,
-		'search_terms'      => isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '',
+		'search_terms'      => $search_terms,
 		'order_by'          => 'date_notified',
 		'sort_order'        => 'DESC',
 		'meta_query'        => false,
@@ -465,7 +479,7 @@ function bp_the_notification_description() {
 		} else {
 
 			/** This filter is documented in bp-notifications/bp-notifications-functions.php */
-			$description = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', array( $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1 ) );
+			$description = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', array( $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1, 'string', $notification->component_action, $notification->component_name ) );
 		}
 
 		/**

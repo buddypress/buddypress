@@ -16,6 +16,8 @@ if ( ! buddypress()->do_autoload ) {
 
 /**
  * Set up the bp-members component.
+ *
+ * @since 1.6.0
  */
 function bp_setup_members() {
 	buddypress()->members = new BP_Members_Component();

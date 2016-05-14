@@ -19,6 +19,8 @@ if ( ! buddypress()->do_autoload ) {
 
 /**
  * Bootstrap the XProfile component.
+ *
+ * @since 1.6.0
  */
 function bp_setup_xprofile() {
 	$bp = buddypress();

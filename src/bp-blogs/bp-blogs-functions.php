@@ -279,28 +279,18 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$is_private = !empty( $_POST['blog_public'] ) && (int) $_POST['blog_public'] ? false : true;
 	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private );
 
-	// Only record this activity if the activity component is active and the blog is public.
-	if ( bp_is_active( 'activity' ) && !$is_private && !$no_activity && bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
-
-		// Record this in activity streams.
-		bp_blogs_record_activity( array(
-			'user_id'      => $recorded_blog->user_id,
-			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', $url, $recorded_blog->blog_id ),
-			'type'         => 'new_blog',
-			'item_id'      => $recorded_blog->blog_id
-		) );
-	}
-
 	/**
 	 * Fires after BuddyPress has been made aware of a new site for activity tracking.
 	 *
 	 * @since 1.0.0
+	 * @since 2.6.0 Added $no_activity as a parameter.
 	 *
 	 * @param BP_Blogs_Blog $recorded_blog Current blog being recorded. Passed by reference.
 	 * @param bool          $is_private    Whether or not the current blog being recorded is private.
 	 * @param bool          $is_recorded   Whether or not the current blog was recorded.
+	 * @param bool          $no_activity   Whether to skip recording an activity item for this blog creation.
 	 */
-	do_action_ref_array( 'bp_blogs_new_blog', array( &$recorded_blog, $is_private, $is_recorded ) );
+	do_action_ref_array( 'bp_blogs_new_blog', array( &$recorded_blog, $is_private, $is_recorded, $no_activity ) );
 }
 add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
 
@@ -563,11 +553,11 @@ add_action( 'bp_activity_post_type_updated', 'bp_blogs_update_post_activity_meta
  *
  * @since  2.5.0
  *
- * @param  int|bool   $activity_id          ID of recorded activity, or false if sync is active.
- * @param  WP_Comment $comment              The comment object.
- * @param  array      $activity_args        Array of activity arguments.
- * @param  object     $activity_post_object The post type tracking args object.
- * @return int|bool   Returns false if no activity, the activity id otherwise.
+ * @param  int|bool        $activity_id          ID of recorded activity, or false if sync is active.
+ * @param  WP_Comment|null $comment              The comment object.
+ * @param  array           $activity_args        Array of activity arguments.
+ * @param  object|null     $activity_post_object The post type tracking args object.
+ * @return int|bool Returns false if no activity, the activity id otherwise.
  */
 function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null, $activity_args = array(), $activity_post_object = null ) {
 	if ( empty( $activity_args ) || empty( $comment->post->ID ) || empty( $activity_post_object->comment_action_id ) ) {
@@ -816,19 +806,6 @@ function bp_blogs_remove_blog( $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
 
 	/**
-	 * Delete activity stream item only if the Activity component is active
-	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6937
-	 */
-	if ( bp_is_active( 'activity' ) ) {
-		bp_blogs_delete_activity( array(
-			'item_id'   => $blog_id,
-			'component' => buddypress()->blogs->id,
-			'type'      => 'new_blog'
-		) );
-	}
-
-	/**
 	 * Fires after a "blog created" item has been removed from blogs
 	 * tracker and activity stream.
 	 *
@@ -887,67 +864,6 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	do_action( 'bp_blogs_remove_blog_for_user', $blog_id, $user_id );
 }
 add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
-
-/**
- * Remove a blog post activity item from the activity stream.
- *
- * @param int $post_id ID of the post to be removed.
- * @param int $blog_id Optional. Defaults to current blog ID.
- * @param int $user_id Optional. Defaults to the logged-in user ID. This param
- *                     is currently unused in the function (but is passed to hooks).
- * @return bool
- */
-function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
-	global $wpdb;
-
-	if ( empty( $wpdb->blogid ) )
-		return false;
-
-	$post_id = (int) $post_id;
-
-	if ( !$blog_id )
-		$blog_id = (int) $wpdb->blogid;
-
-	if ( !$user_id )
-		$user_id = bp_loggedin_user_id();
-
-	/**
-	 * Fires before removal of a blog post activity item from the activity stream.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param int $blog_id ID of the blog associated with the post that was removed.
-	 * @param int $post_id ID of the post that was removed.
-	 * @param int $user_id ID of the user having the blog removed for.
-	 */
-	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
-
-	/**
-	 * Delete activity stream item only if the Activity component is active
-	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6937
-	 */
-	if ( bp_is_active( 'activity' ) ) {
-		bp_blogs_delete_activity( array(
-			'item_id'           => $blog_id,
-			'secondary_item_id' => $post_id,
-			'component'         => buddypress()->blogs->id,
-			'type'              => 'new_blog_post'
-		) );
-	}
-
-	/**
-	 * Fires after removal of a blog post activity item from the activity stream.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $blog_id ID of the blog associated with the post that was removed.
-	 * @param int $post_id ID of the post that was removed.
-	 * @param int $user_id ID of the user having the blog removed for.
-	 */
-	do_action( 'bp_blogs_remove_post', $blog_id, $post_id, $user_id );
-}
-add_action( 'delete_post', 'bp_blogs_remove_post' );
 
 /**
  * Remove a synced activity comment from the activity stream.
@@ -1125,19 +1041,6 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 
 	// If this is regular blog, delete all data for that blog.
 	BP_Blogs_Blog::delete_blog_for_all( $blog_id );
-
-	/**
-	 * Delete activity stream item only if the Activity component is active
-	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6937
-	 */
-	if ( bp_is_active( 'activity' ) ) {
-		bp_blogs_delete_activity( array(
-			'item_id'   => $blog_id,
-			'component' => buddypress()->blogs->id,
-			'type'      => false
-		) );
-	}
 
 	/**
 	 * Fires after all data related to a given blog has been removed from blogs tracker

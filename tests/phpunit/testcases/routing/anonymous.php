@@ -10,6 +10,7 @@ class BP_Tests_Routing_Anonymous extends BP_UnitTestCase {
 
 	function test_nav_menu() {
 		$this->go_to( '/' );
-		$this->assertEmpty( buddypress()->bp_nav );
+		$nav = buddypress()->members->nav->get_item_nav();
+		$this->assertEmpty( $nav );
 	}
 }

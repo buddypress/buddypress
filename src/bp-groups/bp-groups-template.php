@@ -599,7 +599,7 @@ function bp_group_avatar( $args = '' ) {
 			'css_id'     => $r['id'],
 			'class'      => $r['class'],
 			'width'      => $r['width'],
-			'height'     => $r['height']
+			'height'     => $r['height'],
 		) );
 
 		// If No avatar found, provide some backwards compatibility.
@@ -4705,7 +4705,6 @@ function bp_new_group_avatar( $args = '' ) {
 			'class'   => 'avatar',
 			'id'      => 'avatar-crop-preview',
 			'alt'     => __( 'Group photo', 'buddypress' ),
-			'no_grav' => false
 		), 'get_new_group_avatar' );
 
 		// Merge parsed arguments with object specific data.
@@ -5148,14 +5147,17 @@ function bp_get_group_has_avatar( $group_id = false ) {
 		$group_id = bp_get_current_group_id();
 	}
 
-	$group_avatar = bp_core_fetch_avatar( array(
+	$avatar_args = array(
 		'item_id' => $group_id,
 		'object'  => 'group',
 		'no_grav' => true,
 		'html'    => false,
-	) );
+		'type'    => 'thumb',
+	);
 
-	if ( bp_core_avatar_default( 'local' ) === $group_avatar ) {
+	$group_avatar = bp_core_fetch_avatar( $avatar_args );
+
+	if ( bp_core_avatar_default( 'local', $avatar_args ) === $group_avatar ) {
 		return false;
 	}
 

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Output the "options nav", the secondary-level single item navigation menu.
  *
- * Uses the $bp->bp_options_nav global to render out the sub navigation for the
+ * Uses the component's nav global to render out the sub navigation for the
  * current component. Each component adds to its sub navigation array within
  * its own setup_nav() function.
  *
@@ -40,35 +40,50 @@ function bp_get_options_nav( $parent_slug = '' ) {
 	$component_index = !empty( $bp->displayed_user ) ? bp_current_component() : bp_get_root_slug( bp_current_component() );
 	$selected_item   = bp_current_action();
 
+	// Default to the Members nav.
 	if ( ! bp_is_single_item() ) {
-		if ( !isset( $bp->bp_options_nav[$component_index] ) || count( $bp->bp_options_nav[$component_index] ) < 1 ) {
-			return false;
-		} else {
-			$the_index = $component_index;
+		// Set the parent slug, if not provided.
+		if ( empty( $parent_slug ) ) {
+			$parent_slug = $component_index;
 		}
+
+		$secondary_nav_items = $bp->members->nav->get_secondary( array( 'parent_slug' => $parent_slug ) );
+
+		if ( ! $secondary_nav_items ) {
+			return false;
+		}
+
+	// For a single item, try to use the component's nav.
 	} else {
 		$current_item = bp_current_item();
+		$single_item_component = bp_current_component();
 
+		// Adjust the selected nav item for the current single item if needed.
 		if ( ! empty( $parent_slug ) ) {
 			$current_item  = $parent_slug;
 			$selected_item = bp_action_variable( 0 );
 		}
 
-		if ( !isset( $bp->bp_options_nav[$current_item] ) || count( $bp->bp_options_nav[$current_item] ) < 1 ) {
-			return false;
+		// If the nav is not defined by the parent component, look in the Members nav.
+		if ( ! isset( $bp->{$single_item_component}->nav ) ) {
+			$secondary_nav_items = $bp->members->nav->get_secondary( array( 'parent_slug' => $current_item ) );
 		} else {
-			$the_index = $current_item;
+			$secondary_nav_items = $bp->{$single_item_component}->nav->get_secondary( array( 'parent_slug' => $current_item ) );
+		}
+
+		if ( ! $secondary_nav_items ) {
+			return false;
 		}
 	}
 
 	// Loop through each navigation item.
-	foreach ( (array) $bp->bp_options_nav[$the_index] as $subnav_item ) {
-		if ( empty( $subnav_item['user_has_access'] ) ) {
+	foreach ( $secondary_nav_items as $subnav_item ) {
+		if ( empty( $subnav_item->user_has_access ) ) {
 			continue;
 		}
 
 		// If the current action or an action variable matches the nav item id, then add a highlight CSS class.
-		if ( $subnav_item['slug'] == $selected_item ) {
+		if ( $subnav_item->slug === $selected_item ) {
 			$selected = ' class="current selected"';
 		} else {
 			$selected = '';
@@ -88,7 +103,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
 		 * @param array  $subnav_item   Submenu array item being displayed.
 		 * @param string $selected_item Current action.
 		 */
-		echo apply_filters( 'bp_get_options_nav_' . $subnav_item['css_id'], '<li id="' . esc_attr( $subnav_item['css_id'] . '-' . $list_type . '-li' ) . '" ' . $selected . '><a id="' . esc_attr( $subnav_item['css_id'] ) . '" href="' . esc_url( $subnav_item['link'] ) . '">' . $subnav_item['name'] . '</a></li>', $subnav_item, $selected_item );
+		echo apply_filters( 'bp_get_options_nav_' . $subnav_item->css_id, '<li id="' . esc_attr( $subnav_item->css_id . '-' . $list_type . '-li' ) . '" ' . $selected . '><a id="' . esc_attr( $subnav_item->css_id ) . '" href="' . esc_url( $subnav_item->link ) . '">' . $subnav_item->name . '</a></li>', $subnav_item, $selected_item );
 	}
 }
 
@@ -3010,22 +3025,34 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		// Set empty subnav name.
 		$component_subnav_name = '';
 
+		if ( ! empty( $bp->members->nav ) ) {
+			$primary_nav_item = $bp->members->nav->get_primary( array( 'slug' => $component_id ), false );
+			$primary_nav_item = reset( $primary_nav_item );
+		}
+
 		// Use the component nav name.
-		if ( ! empty( $bp->bp_nav[$component_id] ) ) {
-			$component_name = _bp_strip_spans_from_title( $bp->bp_nav[ $component_id ]['name'] );
+		if ( ! empty( $primary_nav_item->name ) ) {
+			$component_name = _bp_strip_spans_from_title( $primary_nav_item->name );
 
 		// Fall back on the component ID.
 		} elseif ( ! empty( $bp->{$component_id}->id ) ) {
 			$component_name = ucwords( $bp->{$component_id}->id );
 		}
 
-		// Append action name if we're on a member component sub-page.
-		if ( ! empty( $bp->bp_options_nav[ $component_id ] ) && ! empty( $bp->canonical_stack['action'] ) ) {
-			$component_subnav_name = wp_filter_object_list( $bp->bp_options_nav[ $component_id ], array( 'slug' => bp_current_action() ), 'and', 'name' );
+		if ( ! empty( $bp->members->nav ) ) {
+			$secondary_nav_item = $bp->members->nav->get_secondary( array(
+				'parent_slug' => $component_id,
+				'slug'        => bp_current_action()
+			), false );
 
-			if ( ! empty( $component_subnav_name ) ) {
-				$component_subnav_name = array_shift( $component_subnav_name );
+			if ( $secondary_nav_item ) {
+				$secondary_nav_item = reset( $secondary_nav_item );
 			}
+		}
+
+		// Append action name if we're on a member component sub-page.
+		if ( ! empty( $secondary_nav_item->name ) && ! empty( $bp->canonical_stack['action'] ) ) {
+			$component_subnav_name = $secondary_nav_item->name;
 		}
 
 		// If on the user profile's landing page, just use the fullname.
@@ -3045,14 +3072,28 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 			}
 		}
 
-	// A single group.
-	} elseif ( bp_is_active( 'groups' ) && ! empty( $bp->groups->current_group ) && ! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ] ) ) {
-		$subnav      = isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ bp_current_action() ]['name'] ) ? $bp->bp_options_nav[ $bp->groups->current_group->slug ][ bp_current_action() ]['name'] : '';
-		$bp_title_parts = array( $bp->bp_options_title, $subnav );
-
-	// A single item from a component other than groups.
+	// A single item from a component other than Members.
 	} elseif ( bp_is_single_item() ) {
-		$bp_title_parts = array( $bp->bp_options_title, $bp->bp_options_nav[ bp_current_item() ][ bp_current_action() ]['name'] );
+		$component_id = bp_current_component();
+
+		if ( ! empty( $bp->{$component_id}->nav ) ) {
+			$secondary_nav_item = $bp->{$component_id}->nav->get_secondary( array(
+				'parent_slug' => bp_current_item(),
+				'slug'        => bp_current_action()
+			), false );
+
+			if ( $secondary_nav_item ) {
+				$secondary_nav_item = reset( $secondary_nav_item );
+			}
+		}
+
+		$single_item_subnav = '';
+
+		if ( ! empty( $secondary_nav_item->name ) ) {
+			$single_item_subnav = $secondary_nav_item->name;
+		}
+
+		$bp_title_parts = array( $bp->bp_options_title, $single_item_subnav );
 
 	// An index or directory.
 	} elseif ( bp_is_directory() ) {
@@ -3428,79 +3469,58 @@ function _bp_nav_menu_sort( $a, $b ) {
  * Get the items registered in the primary and secondary BuddyPress navigation menus.
  *
  * @since 1.7.0
+ * @since 2.6.0 Introduced the `$component` parameter.
  *
+ * @param string $component Optional. Component whose nav items are being fetched.
  * @return array A multidimensional array of all navigation items.
  */
-function bp_get_nav_menu_items() {
-	$menus = $selected_menus = array();
+function bp_get_nav_menu_items( $component = 'members' ) {
+	$bp    = buddypress();
+	$menus = array();
 
-	// Get the second level menus.
-	foreach ( (array) buddypress()->bp_options_nav as $parent_menu => $sub_menus ) {
-
-		// The root menu's ID is "xprofile", but the Profile submenus are using "profile". See BP_Core::setup_nav().
-		if ( 'profile' === $parent_menu ) {
-			$parent_menu = 'xprofile';
-		}
-
-		// Sort the items in this menu's navigation by their position property.
-		$second_level_menus = (array) $sub_menus;
-		usort( $second_level_menus, '_bp_nav_menu_sort' );
-
-		// Iterate through the second level menus.
-		foreach( $second_level_menus as $sub_nav ) {
-
-			// Skip items we don't have access to.
-			if ( empty( $sub_nav['user_has_access'] ) ) {
-				continue;
-			}
-
-			// Add this menu.
-			$menu         = new stdClass;
-			$menu->class  = array( 'menu-child' );
-			$menu->css_id = $sub_nav['css_id'];
-			$menu->link   = $sub_nav['link'];
-			$menu->name   = $sub_nav['name'];
-			$menu->parent = $parent_menu;  // Associate this sub nav with a top-level menu.
-
-			// If we're viewing this item's screen, record that we need to mark its parent menu to be selected.
-			if ( $sub_nav['slug'] == bp_current_action() ) {
-				$menu->class[]    = 'current-menu-item';
-				$selected_menus[] = $parent_menu;
-			}
-
-			$menus[] = $menu;
-		}
+	if ( ! isset( $bp->{$component}->nav ) ) {
+		return $menus;
 	}
 
-	// Get the top-level menu parts (Friends, Groups, etc) and sort by their position property.
-	$top_level_menus = (array) buddypress()->bp_nav;
-	usort( $top_level_menus, '_bp_nav_menu_sort' );
-
-	// Iterate through the top-level menus.
-	foreach ( $top_level_menus as $nav ) {
-
-		// Skip items marked as user-specific if you're not on your own profile.
-		if ( empty( $nav['show_for_displayed_user'] ) && ! bp_core_can_edit_settings()  ) {
-			continue;
-		}
-
+	// Get the item nav and build the menus.
+	foreach ( $bp->{$component}->nav->get_item_nav() as $nav_menu ) {
 		// Get the correct menu link. See https://buddypress.trac.wordpress.org/ticket/4624.
-		$link = bp_loggedin_user_domain() ? str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $nav['link'] ) : trailingslashit( bp_displayed_user_domain() . $nav['link'] );
+		$link = bp_loggedin_user_domain() ? str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $nav_menu->link ) : trailingslashit( bp_displayed_user_domain() . $nav_menu->link );
 
 		// Add this menu.
 		$menu         = new stdClass;
 		$menu->class  = array( 'menu-parent' );
-		$menu->css_id = $nav['css_id'];
-		$menu->link   = $link;
-		$menu->name   = $nav['name'];
+		$menu->css_id = $nav_menu->css_id;
+		$menu->link   = $nav_menu->link;
+		$menu->name   = $nav_menu->name;
 		$menu->parent = 0;
 
-		// Check if we need to mark this menu as selected.
-		if ( in_array( $nav['css_id'], $selected_menus ) ) {
-			$menu->class[] = 'current-menu-parent';
+		if ( ! empty( $nav_menu->children ) ) {
+			$submenus = array();
+
+			foreach( $nav_menu->children as $sub_menu ) {
+				$submenu = new stdClass;
+				$submenu->class  = array( 'menu-child' );
+				$submenu->css_id = $sub_menu->css_id;
+				$submenu->link   = $sub_menu->link;
+				$submenu->name   = $sub_menu->name;
+				$submenu->parent = $nav_menu->slug;
+
+				// If we're viewing this item's screen, record that we need to mark its parent menu to be selected.
+				if ( $sub_menu->slug == bp_current_action() ) {
+					$menu->class[]    = 'current-menu-parent';
+					$submenu->class[] = 'current-menu-item';
+				}
+
+				$submenus[] = $submenu;
+			}
 		}
 
 		$menus[] = $menu;
+
+		if ( ! empty( $submenus ) ) {
+			$menus = array_merge( $menus, $submenus );
+		}
 	}
 
 	/**

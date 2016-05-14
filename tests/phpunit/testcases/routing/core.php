@@ -22,9 +22,12 @@ class BP_Tests_Routing_Core extends BP_UnitTestCase {
 		$this->assertEmpty( bp_current_component() );
 	}
 
+	/**
+	 * @expectedIncorrectUsage bp_nav
+	 */
 	function test_nav_menu() {
 		$this->go_to( '/' );
-		$this->assertArrayHasKey( 'activity', buddypress()->bp_nav );
-		$this->assertArrayHasKey( 'profile',  buddypress()->bp_nav );
+		$this->assertTrue( isset( buddypress()->bp_nav['activity'] ) );
+		$this->assertTrue( isset( buddypress()->bp_nav['profile'] ) );
 	}
 }

@@ -18,6 +18,8 @@ if ( ! buddypress()->do_autoload ) {
  * Creates the administration interface menus and checks to see if the DB
  * tables are set up.
  *
+ * @since 1.0.0
+ *
  * @uses bp_current_user_can() returns true if the current user is a site admin, false if not.
  * @uses add_users_page() Adds a submenu tab to a top level tab in the admin area.
  *
@@ -37,6 +39,8 @@ add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
 /**
  * Handles all actions for the admin area for creating, editing and deleting
  * profile groups and fields.
+ *
+ * @since 1.0.0
  *
  * @param string $message Message to display.
  * @param string $type    Type of action to be displayed.
@@ -70,7 +74,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 }
 
 /**
- * Output the main XProfile management screen
+ * Output the main XProfile management screen.
  *
  * @since 2.3.0
  *
@@ -242,6 +246,8 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 /**
  * Handles the adding or editing of groups.
  *
+ * @since 1.0.0
+ *
  * @param int|null $group_id Group ID to manage.
  */
 function xprofile_admin_manage_group( $group_id = null ) {
@@ -305,6 +311,8 @@ function xprofile_admin_manage_group( $group_id = null ) {
 /**
  * Handles the deletion of profile data groups.
  *
+ * @since 1.0.0
+ *
  * @param int $group_id ID of the group to delete.
  */
 function xprofile_admin_delete_group( $group_id ) {
@@ -335,6 +343,8 @@ function xprofile_admin_delete_group( $group_id ) {
 
 /**
  * Handles the adding or editing of profile field data for a user.
+ *
+ * @since 1.0.0
  *
  * @param int      $group_id ID of the group.
  * @param int|null $field_id ID of the field being managed.
@@ -452,6 +462,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
  * Handles the deletion of a profile field (or field option).
  *
  * @since 1.0.0
+ *
  * @global string $message The feedback message to show.
  * @global $type The type of feedback message to show.
  *

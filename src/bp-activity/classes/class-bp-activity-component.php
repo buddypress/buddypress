@@ -53,6 +53,7 @@ class BP_Activity_Component extends BP_Component {
 			'actions',
 			'screens',
 			'filters',
+			'adminbar',
 			'template',
 			'functions',
 			'notifications',

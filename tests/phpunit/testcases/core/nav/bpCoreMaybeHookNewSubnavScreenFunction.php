@@ -82,11 +82,13 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$old_bp_nav = buddypress()->bp_nav;
 		$old_default_component = buddypress()->default_component;
 		buddypress()->default_component = 'foo';
-		buddypress()->bp_nav = array(
-			'foo' => array(
-				'show_for_displayed_user' => true,
-			),
-		);
+
+		bp_core_new_nav_item( array(
+			'slug' => 'foo',
+			'name' => 'Foo',
+			'screen_function' => 'foo',
+			'default_subnav_item' => 'bar',
+		) );
 
 		$subnav_item = array(
 			'user_has_access' => false,
@@ -94,13 +96,14 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 
 		// Just test relevant info
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
-		$this->assertSame( 'failure', $found['status'] );
-		$this->assertSame( bp_core_get_user_domain( $u2 ), $found['redirect_args']['root'] );
 
 		// Clean up
 		$this->set_current_user( $old_current_user );
 		buddypress()->default_component = $old_default_component;
 		buddypress()->bp_nav = $old_bp_nav;
+
+		$this->assertSame( 'failure', $found['status'] );
+		$this->assertSame( bp_core_get_user_domain( $u2 ), $found['redirect_args']['root'] );
 	}
 
 	public function test_user_has_access_false_user_logged_in_others_profile_default_component_not_accessible() {
@@ -114,11 +117,14 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$old_bp_nav = buddypress()->bp_nav;
 		$old_default_component = buddypress()->default_component;
 		buddypress()->default_component = 'foo';
-		buddypress()->bp_nav = array(
-			'foo' => array(
-				'show_for_displayed_user' => false,
-			),
-		);
+
+		bp_core_new_nav_item( array(
+			'slug' => 'foo',
+			'name' => 'Foo',
+			'screen_function' => 'foo',
+			'default_subnav_item' => 'bar',
+			'show_for_displayed_user' => false,
+		) );
 
 		$subnav_item = array(
 			'user_has_access' => false,
@@ -126,13 +132,14 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 
 		// Just test relevant info
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
-		$this->assertSame( 'failure', $found['status'] );
-		$this->assertSame( bp_core_get_user_domain( $u2 ) . bp_get_activity_slug() . '/', $found['redirect_args']['root'] );
 
 		// Clean up
 		$this->set_current_user( $old_current_user );
 		buddypress()->default_component = $old_default_component;
 		buddypress()->bp_nav = $old_bp_nav;
+
+		$this->assertSame( 'failure', $found['status'] );
+		$this->assertSame( bp_core_get_user_domain( $u2 ) . bp_get_activity_slug() . '/', $found['redirect_args']['root'] );
 	}
 
 	public function test_user_has_access_false_user_logged_in_group() {

@@ -47,15 +47,15 @@ function bp_groups_group_admin_menu() {
 	) );
 
 	// Index of the Manage tabs parent slug.
-	$nav_index = $bp->groups->current_group->slug . '_manage';
+	$secondary_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $bp->groups->current_group->slug . '_manage' ) );
 
 	// Check if current group has Manage tabs.
-	if ( empty( $bp->bp_options_nav[ $nav_index ] ) ) {
+	if ( ! $secondary_nav_items ) {
 		return;
 	}
 
 	// Build the Group Admin menus.
-	foreach ( $bp->bp_options_nav[ $nav_index ] as $menu ) {
+	foreach ( $secondary_nav_items as $menu ) {
 		/**
 		 * Should we add the current manage link in the Group's "Edit" Admin Bar menu ?
 		 *
@@ -63,19 +63,19 @@ function bp_groups_group_admin_menu() {
 		 * to also add the link to the "edit screen" of their group component. To do so, set the
 		 * the 'show_in_admin_bar' argument of your edit screen to true
 		 */
-		if ( $menu['show_in_admin_bar'] ) {
-			$title = sprintf( _x( 'Edit Group %s', 'Group WP Admin Bar manage links', 'buddypress' ), $menu['name'] );
+		if ( $menu->show_in_admin_bar ) {
+			$title = sprintf( _x( 'Edit Group %s', 'Group WP Admin Bar manage links', 'buddypress' ), $menu->name );
 
 			// Title is specific for delete.
-			if ( 'delete-group' == $menu['slug'] ) {
-				$title = sprintf( _x( '%s Group', 'Group WP Admin Bar delete link', 'buddypress' ), $menu['name'] );
+			if ( 'delete-group' == $menu->slug ) {
+				$title = sprintf( _x( '%s Group', 'Group WP Admin Bar delete link', 'buddypress' ), $menu->name );
 			}
 
 			$wp_admin_bar->add_menu( array(
 				'parent' => $bp->group_admin_menu_id,
-				'id'     => $menu['slug'],
+				'id'     => $menu->slug,
 				'title'  => $title,
-				'href'   => bp_get_groups_action_link( 'admin/' . $menu['slug'] )
+				'href'   => bp_get_groups_action_link( 'admin/' . $menu->slug )
 			) );
 		}
 	}

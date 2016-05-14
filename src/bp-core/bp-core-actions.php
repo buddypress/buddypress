@@ -32,6 +32,7 @@ defined( 'ABSPATH' ) || exit;
   */
 add_action( 'plugins_loaded',          'bp_loaded',                 10    );
 add_action( 'init',                    'bp_init',                   10    );
+add_action( 'rest_api_init',           'bp_rest_api_init',          20    ); // After WP core.
 add_action( 'customize_register',      'bp_customize_register',     20    ); // After WP core.
 add_action( 'parse_query',             'bp_parse_query',            2     ); // Early for overrides.
 add_action( 'wp',                      'bp_ready',                  10    );

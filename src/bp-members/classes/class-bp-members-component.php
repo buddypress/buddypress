@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Defines the BuddyPress Members Component.
+ *
+ * @since 1.5.0
  */
 class BP_Members_Component extends BP_Component {
 
@@ -44,6 +46,8 @@ class BP_Members_Component extends BP_Component {
 
 	/**
 	 * Include bp-members files.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
@@ -113,7 +117,7 @@ class BP_Members_Component extends BP_Component {
 			'search_string'   => __( 'Search Members...', 'buddypress' ),
 			'global_tables'   => array(
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
-				'table_name_signups'       => $wpdb->base_prefix . 'signups', // signups is a global WordPress table
+				'table_name_signups'       => $wpdb->base_prefix . 'signups', // Signups is a global WordPress table.
 			)
 		);
 
@@ -145,6 +149,9 @@ class BP_Members_Component extends BP_Component {
 
 		// The domain for the user currently being displayed.
 		$bp->displayed_user->domain   = bp_core_get_user_domain( bp_displayed_user_id() );
+
+		// Initialize the nav for the members component.
+		$this->nav = new BP_Core_Nav();
 
 		/** Signup ***********************************************************
 		 */
@@ -282,6 +289,8 @@ class BP_Members_Component extends BP_Component {
 
 	/**
 	 * Set up the title for pages and <title>.
+	 *
+	 * @since 1.5.0
 	 */
 	public function setup_title() {
 		$bp = buddypress();

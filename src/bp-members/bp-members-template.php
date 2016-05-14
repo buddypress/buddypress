@@ -293,6 +293,8 @@ function bp_activate_slug() {
  * global, enabling the use of BuddyPress templates and template functions to
  * display a list of members.
  *
+ * @since 1.2.0
+ *
  * @global object $members_template {@link BP_Members_Template}
  *
  * @param array|string $args {
@@ -438,6 +440,8 @@ function bp_has_members( $args = '' ) {
 /**
  * Set up the current member inside the loop.
  *
+ * @since 1.2.0
+ *
  * @return object
  */
 function bp_the_member() {
@@ -448,6 +452,8 @@ function bp_the_member() {
 /**
  * Check whether there are more members to iterate over.
  *
+ * @since 1.2.0
+ *
  * @return bool
  */
 function bp_members() {
@@ -457,12 +463,16 @@ function bp_members() {
 
 /**
  * Output the members pagination count.
+ *
+ * @since 1.2.0
  */
 function bp_members_pagination_count() {
 	echo bp_get_members_pagination_count();
 }
 	/**
 	 * Generate the members pagination count.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @return string
 	 */
@@ -515,12 +525,16 @@ function bp_members_pagination_count() {
 
 /**
  * Output the members pagination links.
+ *
+ * @since 1.2.0
  */
 function bp_members_pagination_links() {
 	echo bp_get_members_pagination_links();
 }
 	/**
 	 * Fetch the members pagination links.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string
 	 */
@@ -540,6 +554,8 @@ function bp_members_pagination_links() {
 /**
  * Output the ID of the current member in the loop.
  *
+ * @since 1.2.0
+ *
  * @uses bp_get_member_user_id()
  */
 function bp_member_user_id() {
@@ -547,6 +563,8 @@ function bp_member_user_id() {
 }
 	/**
 	 * Get the ID of the current member in the loop.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string Member ID.
 	 */
@@ -580,7 +598,6 @@ function bp_member_class( $classes = array() ) {
 	 * @since 1.7.0
 	 *
 	 * @param array $classes Array of custom classes.
-	 *
 	 * @return string Row class of the member
 	 */
 	function bp_get_member_class( $classes = array() ) {
@@ -591,7 +608,7 @@ function bp_member_class( $classes = array() ) {
 			$pos_in_loop = (int) $members_template->current_member;
 			$classes[]   = ( $pos_in_loop % 2 ) ? 'even' : 'odd';
 
-		// If we've only one member in the loop, don't bother with odd and even.
+			// If we've only one member in the loop, don't bother with odd and even.
 		} else {
 			$classes[] = 'bp-single-member';
 		}
@@ -638,12 +655,16 @@ function bp_member_class( $classes = array() ) {
 
 /**
  * Output nicename of current member in the loop.
+ *
+ * @since 1.2.5
  */
 function bp_member_user_nicename() {
 	echo bp_get_member_user_nicename();
 }
 	/**
 	 * Get the nicename of the current member in the loop.
+	 *
+	 * @since 1.2.5
 	 *
 	 * @return string Members nicename.
 	 */
@@ -662,12 +683,16 @@ function bp_member_user_nicename() {
 
 /**
  * Output login for current member in the loop.
+ *
+ * @since 1.2.5
  */
 function bp_member_user_login() {
 	echo bp_get_member_user_login();
 }
 	/**
 	 * Get the login of the current member in the loop.
+	 *
+	 * @since 1.2.5
 	 *
 	 * @return string Member's login.
 	 */
@@ -686,12 +711,16 @@ function bp_member_user_login() {
 
 /**
  * Output the email address for the current member in the loop.
+ *
+ * @since 1.2.5
  */
 function bp_member_user_email() {
 	echo bp_get_member_user_email();
 }
 	/**
 	 * Get the email address of the current member in the loop.
+	 *
+	 * @since 1.2.5
 	 *
 	 * @return string Member's email address.
 	 */
@@ -711,6 +740,8 @@ function bp_member_user_email() {
 /**
  * Check whether the current member in the loop is the logged-in user.
  *
+ * @since 1.2.5
+ *
  * @return bool
  */
 function bp_member_is_loggedin_user() {
@@ -729,6 +760,8 @@ function bp_member_is_loggedin_user() {
 /**
  * Output a member's avatar.
  *
+ * @since 1.2.0
+ *
  * @see bp_get_member_avatar() for description of arguments.
  *
  * @param array|string $args See {@link bp_get_member_avatar()}.
@@ -746,6 +779,8 @@ function bp_member_avatar( $args = '' ) {
 }
 	/**
 	 * Get a member's avatar.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
@@ -793,12 +828,16 @@ function bp_member_avatar( $args = '' ) {
 
 /**
  * Output the permalink for the current member in the loop.
+ *
+ * @since 1.2.0
  */
 function bp_member_permalink() {
 	echo bp_get_member_permalink();
 }
 	/**
 	 * Get the permalink for the current member in the loop.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string
 	 */
@@ -817,16 +856,22 @@ function bp_member_permalink() {
 
 	/**
 	 * Alias of {@link bp_member_permalink()}.
+	 *
+	 * @since 1.2.0
 	 */
 	function bp_member_link() { echo bp_get_member_permalink(); }
 
 	/**
 	 * Alias of {@link bp_get_member_permalink()}.
+	 *
+	 * @since 1.2.0
 	 */
 	function bp_get_member_link() { return bp_get_member_permalink(); }
 
 /**
  * Output display name of current member in the loop.
+ *
+ * @since 1.2.0
  */
 function bp_member_name() {
 
@@ -846,6 +891,8 @@ function bp_member_name() {
 	 * When this field is empty, we try to get an alternative name from the
 	 * WP users table, in the following order of preference: display_name,
 	 * user_nicename, user_login.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string The user's fullname for display.
 	 */
@@ -887,6 +934,8 @@ function bp_member_name() {
 /**
  * Output the current member's last active time.
  *
+ * @since 1.2.0
+ *
  * @param array $args See {@link bp_get_member_last_active()}.
  */
 function bp_member_last_active( $args = array() ) {
@@ -894,6 +943,8 @@ function bp_member_last_active( $args = array() ) {
 }
 	/**
 	 * Return the current member's last active time.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
@@ -925,7 +976,7 @@ function bp_member_last_active( $args = array() ) {
 				? bp_core_get_last_activity( $members_template->member->last_activity, $r['active_format'] )
 				: bp_core_time_since( $members_template->member->last_activity );
 
-		// Member has never logged in or been active.
+			// Member has never logged in or been active.
 		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
 		}
@@ -944,6 +995,8 @@ function bp_member_last_active( $args = array() ) {
 /**
  * Output the latest update of the current member in the loop.
  *
+ * @since 1.2.0
+ *
  * @param array|string $args Array of arguments for latest update.
  */
 function bp_member_latest_update( $args = '' ) {
@@ -951,6 +1004,8 @@ function bp_member_latest_update( $args = '' ) {
 }
 	/**
 	 * Get the latest update from the current member in the loop.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param array|string $args {
 	 *     Array of optional arguments.
@@ -1006,6 +1061,8 @@ function bp_member_latest_update( $args = '' ) {
 /**
  * Output a piece of user profile data.
  *
+ * @since 1.2.0
+ *
  * @see bp_get_member_profile_data() for a description of params.
  *
  * @param array|string $args See {@link bp_get_member_profile_data()}.
@@ -1019,6 +1076,8 @@ function bp_member_profile_data( $args = '' ) {
 	 * When used in a bp_has_members() loop, this function will attempt
 	 * to fetch profile data cached in the template global. It is also safe
 	 * to use outside of the loop.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param array|string $args {
 	 *     Array of config parameters.
@@ -1087,12 +1146,16 @@ function bp_member_profile_data( $args = '' ) {
 
 /**
  * Output the 'registered [x days ago]' string for the current member.
+ *
+ * @since 1.2.0
  */
 function bp_member_registered() {
 	echo bp_get_member_registered();
 }
 	/**
 	 * Get the 'registered [x days ago]' string for the current member.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string
 	 */
@@ -1113,6 +1176,8 @@ function bp_member_registered() {
 
 /**
  * Output a random piece of profile data for the current member in the loop.
+ *
+ * @since 1.2.0
  */
 function bp_member_random_profile_data() {
 	global $members_template;
@@ -1126,6 +1191,8 @@ function bp_member_random_profile_data() {
 
 /**
  * Output hidden input for preserving member search params on form submit.
+ *
+ * @since 1.2.0
  */
 function bp_member_hidden_fields() {
 	$query_arg = bp_core_get_component_search_query_arg( 'members' );
@@ -1145,6 +1212,8 @@ function bp_member_hidden_fields() {
 
 /**
  * Output the Members directory search form.
+ *
+ * @since 1.0.0
  */
 function bp_directory_members_search_form() {
 
@@ -1173,12 +1242,16 @@ function bp_directory_members_search_form() {
 
 /**
  * Output the total member count.
+ *
+ * @since 1.2.0
  */
 function bp_total_site_member_count() {
 	echo bp_get_total_site_member_count();
 }
 	/**
 	 * Get the total site member count.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return int
 	 */
@@ -1208,6 +1281,8 @@ function bp_total_site_member_count() {
  * The function will also analyze the current component the user is in, to
  * determine whether or not to highlight a particular nav item.
  *
+ * @since 1.1.0
+ *
  * @todo Move to a back-compat file?
  * @deprecated Does not seem to be called anywhere in BP core.
  */
@@ -1215,12 +1290,12 @@ function bp_get_loggedin_user_nav() {
 	$bp = buddypress();
 
 	// Loop through each navigation item.
-	foreach( (array) $bp->bp_nav as $nav_item ) {
+	foreach ( (array) $bp->members->nav->get_primary() as $nav_item ) {
 
 		$selected = '';
 
 		// If the current component matches the nav item id, then add a highlight CSS class.
-		if ( !bp_is_directory() && !empty( $bp->active_components[bp_current_component()] ) && $bp->active_components[bp_current_component()] == $nav_item['css_id'] ) {
+		if ( ! bp_is_directory() && ! empty( $bp->active_components[ bp_current_component() ] ) && $bp->active_components[ bp_current_component() ] == $nav_item->css_id ) {
 			$selected = ' class="current selected"';
 		}
 
@@ -1232,7 +1307,7 @@ function bp_get_loggedin_user_nav() {
 			$selected = '';
 
 			if ( bp_is_active( 'friends' ) ) {
-				if ( $nav_item['css_id'] == $bp->friends->id ) {
+				if ( $nav_item->css_id == $bp->friends->id ) {
 					if ( friends_check_friendship( bp_loggedin_user_id(), bp_displayed_user_id() ) ) {
 						$selected = ' class="current selected"';
 					}
@@ -1241,7 +1316,7 @@ function bp_get_loggedin_user_nav() {
 		}
 
 		// Echo out the final list item.
-		echo apply_filters_ref_array( 'bp_get_loggedin_user_nav_' . $nav_item['css_id'], array( '<li id="li-nav-' . $nav_item['css_id'] . '" ' . $selected . '><a id="my-' . $nav_item['css_id'] . '" href="' . $nav_item['link'] . '">' . $nav_item['name'] . '</a></li>', &$nav_item ) );
+		echo apply_filters_ref_array( 'bp_get_loggedin_user_nav_' . $nav_item->css_id, array( '<li id="li-nav-' . $nav_item->css_id . '" ' . $selected . '><a id="my-' . $nav_item->css_id . '" href="' . $nav_item->link . '">' . $nav_item->name . '</a></li>', &$nav_item ) );
 	}
 
 	// Always add a log out list item to the end of the navigation.
@@ -1252,23 +1327,26 @@ function bp_get_loggedin_user_nav() {
 
 /**
  * Render the navigation markup for the displayed user.
+ *
+ * @since 1.1.0
  */
 function bp_get_displayed_user_nav() {
 	$bp = buddypress();
 
-	foreach ( (array) $bp->bp_nav as $user_nav_item ) {
-		if ( empty( $user_nav_item['show_for_displayed_user'] ) && !bp_is_my_profile() )
+	foreach ( $bp->members->nav->get_primary() as $user_nav_item ) {
+		if ( empty( $user_nav_item->show_for_displayed_user ) && ! bp_is_my_profile() ) {
 			continue;
+		}
 
 		$selected = '';
-		if ( bp_is_current_component( $user_nav_item['slug'] ) ) {
+		if ( bp_is_current_component( $user_nav_item->slug ) ) {
 			$selected = ' class="current selected"';
 		}
 
 		if ( bp_loggedin_user_domain() ) {
-			$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $user_nav_item['link'] );
+			$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $user_nav_item->link );
 		} else {
-			$link = trailingslashit( bp_displayed_user_domain() . $user_nav_item['link'] );
+			$link = trailingslashit( bp_displayed_user_domain() . $user_nav_item->link );
 		}
 
 		/**
@@ -1282,7 +1360,7 @@ function bp_get_displayed_user_nav() {
 		 * @param array  $user_nav_item Array holding parts used to construct tab list item.
 		 *                              Passed by reference.
 		 */
-		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item['css_id'], array( '<li id="' . $user_nav_item['css_id'] . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item['css_id'] . '" href="' . $link . '">' . $user_nav_item['name'] . '</a></li>', &$user_nav_item ) );
+		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item->css_id, array( '<li id="' . $user_nav_item->css_id . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item->css_id . '" href="' . $link . '">' . $user_nav_item->name . '</a></li>', &$user_nav_item ) );
 	}
 }
 
@@ -1305,6 +1383,8 @@ function bp_displayed_user_use_cover_image_header() {
 /**
  * Output the logged-in user's avatar.
  *
+ * @since 1.1.0
+ *
  * @see bp_get_loggedin_user_avatar() for a description of params.
  *
  * @param array|string $args Array of arguments for logged in user avatar.
@@ -1314,6 +1394,8 @@ function bp_loggedin_user_avatar( $args = '' ) {
 }
 	/**
 	 * Get the logged-in user's avatar.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
@@ -1354,6 +1436,8 @@ function bp_loggedin_user_avatar( $args = '' ) {
 /**
  * Output the displayed user's avatar.
  *
+ * @since 1.1.0
+ *
  * @see bp_get_displayed_user_avatar() for a description of params.
  *
  * @param array|string $args Array of arguments for displayed user avatar.
@@ -1363,6 +1447,8 @@ function bp_displayed_user_avatar( $args = '' ) {
 }
 	/**
 	 * Get the displayed user's avatar.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
@@ -1402,12 +1488,16 @@ function bp_displayed_user_avatar( $args = '' ) {
 
 /**
  * Output the email address of the displayed user.
+ *
+ * @since 1.5.0
  */
 function bp_displayed_user_email() {
 	echo bp_get_displayed_user_email();
 }
 	/**
 	 * Get the email address of the displayed user.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @return string
 	 */
@@ -1433,6 +1523,8 @@ function bp_displayed_user_email() {
 /**
  * Output the "active [x days ago]" string for a user.
  *
+ * @since 1.0.0
+ *
  * @see bp_get_last_activity() for a description of parameters.
  *
  * @param int $user_id See {@link bp_get_last_activity()}.
@@ -1450,6 +1542,8 @@ function bp_last_activity( $user_id = 0 ) {
 }
 	/**
 	 * Get the "active [x days ago]" string for a user.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @param int $user_id ID of the user. Default: displayed user ID.
 	 * @return string
@@ -1473,6 +1567,8 @@ function bp_last_activity( $user_id = 0 ) {
 
 /**
  * Output the calculated first name of the displayed or logged-in user.
+ *
+ * @since 1.2.0
  */
 function bp_user_firstname() {
 	echo bp_get_user_firstname();
@@ -1481,6 +1577,8 @@ function bp_user_firstname() {
 	 * Output the first name of a user.
 	 *
 	 * Simply takes all the characters before the first space in a name.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param string|bool $name Full name to use when generating first name.
 	 *                          Defaults to displayed user's first name, or to
@@ -1512,12 +1610,16 @@ function bp_user_firstname() {
 
 /**
  * Output the link for the logged-in user's profile.
+ *
+ * @since 1.2.4
  */
 function bp_loggedin_user_link() {
 	echo bp_get_loggedin_user_link();
 }
 	/**
 	 * Get the link for the logged-in user's profile.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
@@ -1535,12 +1637,16 @@ function bp_loggedin_user_link() {
 
 /**
  * Output the link for the displayed user's profile.
+ *
+ * @since 1.2.4
  */
 function bp_displayed_user_link() {
 	echo bp_get_displayed_user_link();
 }
 	/**
 	 * Get the link for the displayed user's profile.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
@@ -1565,11 +1671,15 @@ function bp_displayed_user_link() {
 
 /**
  * Alias of {@link bp_displayed_user_id()}.
+ *
+ * @since 1.0.0
  */
 function bp_current_user_id() { return bp_displayed_user_id(); }
 
 /**
  * Generate the link for the displayed user's profile.
+ *
+ * @since 1.0.0
  *
  * @return string
  */
@@ -1589,6 +1699,8 @@ function bp_displayed_user_domain() {
 /**
  * Generate the link for the logged-in user's profile.
  *
+ * @since 1.0.0
+ *
  * @return string
  */
 function bp_loggedin_user_domain() {
@@ -1606,12 +1718,16 @@ function bp_loggedin_user_domain() {
 
 /**
  * Output the displayed user's display name.
+ *
+ * @since 1.0.0
  */
 function bp_displayed_user_fullname() {
 	echo bp_get_displayed_user_fullname();
 }
 	/**
 	 * Get the displayed user's display name.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string
 	 */
@@ -1630,18 +1746,24 @@ function bp_displayed_user_fullname() {
 
 	/**
 	 * Alias of {@link bp_get_displayed_user_fullname()}.
+	 *
+	 * @since 1.0.0
 	 */
 	function bp_user_fullname() { echo bp_get_displayed_user_fullname(); }
 
 
 /**
  * Output the logged-in user's display name.
+ *
+ * @since 1.0.0
  */
 function bp_loggedin_user_fullname() {
 	echo bp_get_loggedin_user_fullname();
 }
 	/**
 	 * Get the logged-in user's display name.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
@@ -1660,12 +1782,16 @@ function bp_loggedin_user_fullname() {
 
 /**
  * Output the username of the displayed user.
+ *
+ * @since 1.2.0
  */
 function bp_displayed_user_username() {
 	echo bp_get_displayed_user_username();
 }
 	/**
 	 * Get the username of the displayed user.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string
 	 */
@@ -1690,12 +1816,16 @@ function bp_displayed_user_username() {
 
 /**
  * Output the username of the logged-in user.
+ *
+ * @since 1.2.0
  */
 function bp_loggedin_user_username() {
 	echo bp_get_loggedin_user_username();
 }
 	/**
 	 * Get the username of the logged-in user.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string
 	 */
@@ -1737,6 +1867,13 @@ function bp_current_member_type_message() {
 
 		$message = sprintf( __( 'Viewing members of the type: %s', 'buddypress' ), '<strong>' . $type_object->labels['singular_name'] . '</strong>' );
 
+		/**
+		 * Filters the current member type message.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string $message Message to filter.
+		 */
 		return apply_filters( 'bp_get_current_member_type_message', $message );
 	}
 
@@ -1763,12 +1900,16 @@ function bp_has_custom_signup_page() {
 
 /**
  * Output the URL to the signup page.
+ *
+ * @since 1.0.0
  */
 function bp_signup_page() {
 	echo esc_url( bp_get_signup_page() );
 }
 	/**
 	 * Get the URL to the signup page.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -1796,6 +1937,7 @@ function bp_signup_page() {
  *
  * @uses bp_get_activate_slug() To make sure there is a slug assigned to the page.
  * @uses bp_locate_template() To make sure a template exists to provide output.
+ *
  * @return boolean True if page and template exist, false if not.
  */
 function bp_has_custom_activation_page() {
@@ -1809,12 +1951,16 @@ function bp_has_custom_activation_page() {
 
 /**
  * Output the URL of the activation page.
+ *
+ * @since 1.0.0
  */
 function bp_activation_page() {
 	echo esc_url( bp_get_activation_page() );
 }
 	/**
 	 * Get the URL of the activation page.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string
 	 */
@@ -1837,12 +1983,16 @@ function bp_activation_page() {
 
 /**
  * Output the username submitted during signup.
+ *
+ * @since 1.1.0
  */
 function bp_signup_username_value() {
 	echo bp_get_signup_username_value();
 }
 	/**
 	 * Get the username submitted during signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @todo This should be properly escaped.
 	 *
@@ -1865,12 +2015,16 @@ function bp_signup_username_value() {
 
 /**
  * Output the user email address submitted during signup.
+ *
+ * @since 1.1.0
  */
 function bp_signup_email_value() {
 	echo bp_get_signup_email_value();
 }
 	/**
 	 * Get the email address submitted during signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @todo This should be properly escaped.
 	 *
@@ -1893,12 +2047,16 @@ function bp_signup_email_value() {
 
 /**
  * Output the 'signup_with_blog' value submitted during signup.
+ *
+ * @since 1.1.0
  */
 function bp_signup_with_blog_value() {
 	echo bp_get_signup_with_blog_value();
 }
 	/**
 	 * Get the 'signup_with_blog' value submitted during signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -1919,12 +2077,16 @@ function bp_signup_with_blog_value() {
 
 /**
  * Output the 'signup_blog_url' value submitted at signup.
+ *
+ * @since 1.1.0
  */
 function bp_signup_blog_url_value() {
 	echo bp_get_signup_blog_url_value();
 }
 	/**
 	 * Get the 'signup_blog_url' value submitted at signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @todo Should be properly escaped.
 	 *
@@ -1981,12 +2143,16 @@ function bp_signup_subdomain_base() {
 
 /**
  * Output the 'signup_blog_titl' value submitted at signup.
+ *
+ * @since 1.1.0
  */
 function bp_signup_blog_title_value() {
 	echo bp_get_signup_blog_title_value();
 }
 	/**
 	 * Get the 'signup_blog_title' value submitted at signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @todo Should be properly escaped.
 	 *
@@ -2009,12 +2175,16 @@ function bp_signup_blog_title_value() {
 
 /**
  * Output the 'signup_blog_privacy' value submitted at signup.
+ *
+ * @since 1.1.0
  */
 function bp_signup_blog_privacy_value() {
 	echo bp_get_signup_blog_privacy_value();
 }
 	/**
 	 * Get the 'signup_blog_privacy' value submitted at signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @todo Should be properly escaped.
 	 *
@@ -2037,12 +2207,16 @@ function bp_signup_blog_privacy_value() {
 
 /**
  * Output the avatar dir used during signup.
+ *
+ * @since 1.1.0
  */
 function bp_signup_avatar_dir_value() {
 	echo bp_get_signup_avatar_dir_value();
 }
 	/**
 	 * Get the avatar dir used during signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -2073,12 +2247,16 @@ function bp_signup_avatar_dir_value() {
 
 /**
  * Output the current signup step.
+ *
+ * @since 1.1.0
  */
 function bp_current_signup_step() {
 	echo bp_get_current_signup_step();
 }
 	/**
 	 * Get the current signup step.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string
 	 */
@@ -2089,6 +2267,8 @@ function bp_current_signup_step() {
 /**
  * Output the user avatar during signup.
  *
+ * @since 1.1.0
+ *
  * @see bp_get_signup_avatar() for description of arguments.
  *
  * @param array|string $args See {@link bp_get_signup_avatar(}.
@@ -2098,6 +2278,8 @@ function bp_signup_avatar( $args = '' ) {
 }
 	/**
 	 * Get the user avatar during signup.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @see bp_core_fetch_avatar() for description of arguments.
 	 *
@@ -2135,7 +2317,7 @@ function bp_signup_avatar( $args = '' ) {
 				'class'      => $class
 			) );
 
-		// No avatar DIR was found.
+			// No avatar DIR was found.
 		} else {
 
 			// Set default gravatar type.
@@ -2172,6 +2354,8 @@ function bp_signup_avatar( $args = '' ) {
 /**
  * Output whether signup is allowed.
  *
+ * @since 1.1.0
+ *
  * @todo Remove this function. Echoing a bool is pointless.
  */
 function bp_signup_allowed() {
@@ -2179,6 +2363,8 @@ function bp_signup_allowed() {
 }
 	/**
 	 * Is user signup allowed?
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return bool
 	 */
@@ -2228,6 +2414,8 @@ add_action( 'bp_head', 'bp_members_activity_feed' );
 /**
  * Output a link to a members component subpage.
  *
+ * @since 1.5.0
+ *
  * @see bp_get_members_component_link() for description of parameters.
  *
  * @param string      $component See {@bp_get_members_component_link()}.
@@ -2240,6 +2428,8 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 }
 	/**
 	 * Generate a link to a members component subpage.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @param string       $component  ID of the component (eg 'friends').
 	 * @param string       $action     Optional. 'action' slug (eg 'invites').
