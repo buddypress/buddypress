@@ -1865,11 +1865,26 @@ function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
 
 	// Use the local default image.
 	} elseif ( 'local' === $type ) {
-		$avatar = buddypress()->plugin_url . 'bp-core/images/mystery-man.jpg';
+		$size = '';
+		if (
+			( isset( $params['type'] ) && 'thumb' === $params['type'] && bp_core_avatar_thumb_width() <= 50 ) ||
+			( isset( $params['width'] ) && $params['width'] <= 50 )
+		) {
+
+			$size = '-50';
+		}
+
+		$avatar = buddypress()->plugin_url . "bp-core/images/mystery-man{$size}.jpg";
 
 	// Use Gravatar's mystery person as fallback.
 	} else {
-		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . bp_core_avatar_full_width();
+		$size = '';
+		if ( isset( $params['type'] ) && 'thumb' === $params['type'] ) {
+			$size = bp_core_avatar_thumb_width();
+		} else {
+			$size = bp_core_avatar_full_width();
+		}
+		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . $size;
 	}
 
 	/**

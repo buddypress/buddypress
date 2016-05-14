@@ -314,4 +314,56 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 
 		return $types;
 	}
+
+	/**
+	 * @group BP7056
+	 */
+	public function test_no_grav_default_should_respect_thumb_type() {
+		$found = bp_core_fetch_avatar( array(
+			'item_id' => 12345,
+			'object' => 'user',
+			'type' => 'thumb',
+			'no_grav' => true,
+			'html' => false,
+		) );
+
+		$this->assertContains( 'mystery-man-50.jpg', $found );
+	}
+
+	/**
+	 * @group BP7056
+	 */
+	public function test_no_grav_default_should_return_thumb_avatar_for_small_enough_width() {
+		$found = bp_core_fetch_avatar( array(
+			'item_id' => 12345,
+			'object' => 'user',
+			'type' => 'full',
+			'width' => '50',
+			'no_grav' => true,
+			'html' => false,
+		) );
+
+		$this->assertContains( 'mystery-man-50.jpg', $found );
+	}
+
+	/**
+	 * @group BP7056
+	 */
+	public function test_no_grav_default_should_return_full_avatar_for_thumb_when_thumb_width_is_too_wide() {
+		add_filter( 'bp_core_avatar_thumb_width', array( $this, 'filter_thumb_width' ) );
+		$found = bp_core_fetch_avatar( array(
+			'item_id' => 12345,
+			'object' => 'user',
+			'type' => 'thumb',
+			'no_grav' => true,
+			'html' => false,
+		) );
+		remove_filter( 'bp_core_avatar_thumb_width', array( $this, 'filter_thumb_width' ) );
+
+		$this->assertContains( 'mystery-man.jpg', $found );
+	}
+
+	public function filter_thumb_width() {
+		return 51;
+	}
 }
