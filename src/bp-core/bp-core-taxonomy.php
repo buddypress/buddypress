@@ -26,23 +26,21 @@ function bp_register_default_taxonomies() {
 	) );
 
 	// Email type.
-	if ( bp_is_root_blog() ) {
-		register_taxonomy(
-			bp_get_email_tax_type(),
-			bp_get_email_post_type(),
-			apply_filters( 'bp_register_email_tax_type', array(
-				'description'   => _x( 'BuddyPress email types', 'email type taxonomy description', 'buddypress' ),
-				'labels'        => bp_get_email_tax_type_labels(),
-				'meta_box_cb'   => 'bp_email_tax_type_metabox',
-				'public'        => false,
-				'query_var'     => false,
-				'rewrite'       => false,
-				'show_in_menu'  => false,
-				'show_tagcloud' => false,
-				'show_ui'       => bp_current_user_can( 'bp_moderate' ),
-			) )
-		);
-	}
+	register_taxonomy(
+		bp_get_email_tax_type(),
+		bp_get_email_post_type(),
+		apply_filters( 'bp_register_email_tax_type', array(
+			'description'   => _x( 'BuddyPress email types', 'email type taxonomy description', 'buddypress' ),
+			'labels'        => bp_get_email_tax_type_labels(),
+			'meta_box_cb'   => 'bp_email_tax_type_metabox',
+			'public'        => false,
+			'query_var'     => false,
+			'rewrite'       => false,
+			'show_in_menu'  => false,
+			'show_tagcloud' => false,
+			'show_ui'       => bp_is_root_blog() && bp_current_user_can( 'bp_moderate' ),
+		) )
+	);
 }
 add_action( 'bp_register_taxonomies', 'bp_register_default_taxonomies' );
 
