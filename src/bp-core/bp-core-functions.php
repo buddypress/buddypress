@@ -493,6 +493,29 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 }
 
 /**
+ * Get the page ID corresponding to a component directory.
+ *
+ * @since 2.6.0
+ *
+ * @param string $component The slug representing the component. Defaults to the current component.
+ * @return int|bool The ID of the directory page associated with the component. False if none is found.
+ */
+function bp_core_get_directory_page_id( $component = null ) {
+        if ( ! $component ) {
+                $component = bp_current_component();
+        }
+
+	$bp_pages = bp_core_get_directory_page_ids( 'all' );
+
+	$page_id = false;
+	if ( $component && isset( $bp_pages[ $component ] ) ) {
+		$page_id = (int) $bp_pages[ $component ];
+        }
+
+        return $page_id;
+}
+
+/**
  * Store the list of BP directory pages in the appropriate meta table.
  *
  * The bp-pages data is stored in site_options (falls back to options on non-MS),
