@@ -59,7 +59,6 @@ add_filter( 'bp_email_set_content_html', 'stripslashes', 8 );
 add_filter( 'bp_email_set_content_plaintext', 'wp_strip_all_tags', 6 );
 add_filter( 'bp_email_set_subject', 'sanitize_text_field', 6 );
 
-
 /**
  * Template Compatibility.
  *
@@ -353,17 +352,28 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  *
  * @since 2.5.0
  *
- * @param string $retval Current email content.
- * @param string $prop   Email property to check against.
+ * @param string $retval    Current email content.
+ * @param string $prop      Email property to check against.
+ * @param string $transform Either 'raw' or 'replace-tokens'.
  */
-function bp_email_plaintext_entity_decode( $retval, $prop ) {
-	if ( 'content_plaintext' !== $prop ) {
-		return $retval;
-	}
+function bp_email_plaintext_entity_decode( $retval, $prop, $transform ) {
+	switch ( $prop ) {
+		case 'content_plaintext' :
+		case 'subject' :
+			// Only decode if 'replace-tokens' is the current type.
+			if ( 'replace-tokens' === $transform ) {
+				return html_entity_decode( $retval, ENT_QUOTES );
+			} else {
+				return $retval;
+			}
+			break;
 
-	return html_entity_decode( $retval, ENT_QUOTES );
+		default :
+			return $retval;
+			break;
+	}
 }
-add_filter( 'bp_email_get_property', 'bp_email_plaintext_entity_decode', 10, 2 );
+add_filter( 'bp_email_get_property', 'bp_email_plaintext_entity_decode', 10, 3 );
 
 /**
  * Replace the generated password in the welcome email with '[User Set]'.
