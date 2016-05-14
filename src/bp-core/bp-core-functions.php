@@ -501,7 +501,7 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
  * @return int|bool The ID of the directory page associated with the component. False if none is found.
  */
 function bp_core_get_directory_page_id( $component = null ) {
-        if ( ! $component ) {
+	if ( ! $component ) {
 		$component = bp_current_component();
 	}
 
@@ -512,7 +512,7 @@ function bp_core_get_directory_page_id( $component = null ) {
 		$page_id = (int) $bp_pages[ $component ];
 	}
 
-        return $page_id;
+	return $page_id;
 }
 
 /**
