@@ -212,6 +212,20 @@ function groups_clear_group_administrator_cache_on_member_save( BP_Groups_Member
 }
 add_action( 'groups_member_after_save', 'groups_clear_group_administrator_cache_on_member_save' );
 
+/**
+ * Clear the group type cache for a group.
+ *
+ * Called when group is deleted.
+ *
+ * @since 2.6.0
+ *
+ * @param int $group_id The group ID.
+ */
+function groups_clear_group_type_cache( $group_id = 0 ) {
+	wp_cache_delete( $group_id, 'bp_groups_group_type' );
+}
+add_action( 'groups_delete_group', 'groups_clear_group_type_cache' );
+
 /* List actions to clear super cached pages on, if super cache is installed */
 add_action( 'groups_join_group',                 'bp_core_clear_cache' );
 add_action( 'groups_leave_group',                'bp_core_clear_cache' );

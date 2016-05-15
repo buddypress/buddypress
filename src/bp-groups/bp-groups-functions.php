@@ -683,6 +683,7 @@ function groups_get_total_member_count( $group_id ) {
  * Get a collection of groups, based on the parameters passed.
  *
  * @since 1.2.0
+ * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
  *
  * @param array|string $args {
  *     Array of arguments. Supports all arguments of
@@ -703,6 +704,9 @@ function groups_get_groups( $args = '' ) {
 		'include'           => false,          // Only include these specific groups (group_ids).
 		'exclude'           => false,          // Do not include these specific groups (group_ids).
 		'search_terms'      => false,          // Limit to groups that match these search terms.
+		'group_type'         => '',
+		'group_type__in'     => '',
+		'group_type__not_in' => '',
 		'meta_query'        => false,          // Filter by groupmeta. See WP_Meta_Query for syntax.
 		'show_hidden'       => false,          // Show hidden groups to non-admins.
 		'per_page'          => 20,             // The number of results to return per page.
@@ -719,6 +723,9 @@ function groups_get_groups( $args = '' ) {
 		'include'           => $r['include'],
 		'exclude'           => $r['exclude'],
 		'search_terms'      => $r['search_terms'],
+		'group_type'         => $r['group_type'],
+		'group_type__in'     => $r['group_type__in'],
+		'group_type__not_in' => $r['group_type__not_in'],
 		'meta_query'        => $r['meta_query'],
 		'show_hidden'       => $r['show_hidden'],
 		'per_page'          => $r['per_page'],
@@ -1850,3 +1857,290 @@ function groups_remove_data_for_user( $user_id ) {
 add_action( 'wpmu_delete_user',  'groups_remove_data_for_user' );
 add_action( 'delete_user',       'groups_remove_data_for_user' );
 add_action( 'bp_make_spam_user', 'groups_remove_data_for_user' );
+
+/** Group Types ***************************************************************/
+
+/**
+ * Register a group type.
+ *
+ * @since 2.6.0
+ *
+ * @param string $group_type Unique string identifier for the group type.
+ * @param array  $args {
+ *     Array of arguments describing the group type.
+ *
+ *     @type array $labels {
+ *         Array of labels to use in various parts of the interface.
+ *
+ *         @type string $name          Default name. Should typically be plural.
+ *         @type string $singular_name Singular name.
+ *     }
+ * }
+ * @return object|WP_Error Group type object on success, WP_Error object on failure.
+ */
+function bp_groups_register_group_type( $group_type, $args = array() ) {
+	$bp = buddypress();
+
+	if ( isset( $bp->groups->types[ $group_type ] ) ) {
+		return new WP_Error( 'bp_group_type_exists', __( 'Group type already exists.', 'buddypress' ), $group_type );
+	}
+
+	$r = bp_parse_args( $args, array(
+		'labels'        => array(),
+	), 'register_group_type' );
+
+	$group_type = sanitize_key( $group_type );
+
+	/**
+	 * Filters the list of illegal group type names.
+	 *
+	 * - 'any' is a special pseudo-type, representing items unassociated with any group type.
+	 * - 'null' is a special pseudo-type, representing users without any type.
+	 * - '_none' is used internally to denote an item that should not apply to any group types.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param array $illegal_names Array of illegal names.
+	 */
+	$illegal_names = apply_filters( 'bp_group_type_illegal_names', array( 'any', 'null', '_none' ) );
+	if ( in_array( $group_type, $illegal_names, true ) ) {
+		return new WP_Error( 'bp_group_type_illegal_name', __( 'You may not register a group type with this name.', 'buddypress' ), $group_type );
+	}
+
+	// Store the group type name as data in the object (not just as the array key).
+	$r['name'] = $group_type;
+
+	// Make sure the relevant labels have been filled in.
+	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $r['name'] );
+	$r['labels'] = array_merge( array(
+		'name'          => $default_name,
+		'singular_name' => $default_name,
+	), $r['labels'] );
+
+	$bp->groups->types[ $group_type ] = $type = (object) $r;
+
+	/**
+	 * Fires after a group type is registered.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param string $group_type Group type identifier.
+	 * @param object $type       Group type object.
+	 */
+	do_action( 'bp_groups_register_group_type', $group_type, $type );
+
+	return $type;
+}
+
+/**
+ * Get a list of all registered group type objects.
+ *
+ * @since 2.6.0
+ *
+ * @see bp_groups_register_group_type() for accepted arguments.
+ *
+ * @param array|string $args     Optional. An array of key => value arguments to match against
+ *                               the group type objects. Default empty array.
+ * @param string       $output   Optional. The type of output to return. Accepts 'names'
+ *                               or 'objects'. Default 'names'.
+ * @param string       $operator Optional. The logical operation to perform. 'or' means only one
+ *                               element from the array needs to match; 'and' means all elements
+ *                               must match. Accepts 'or' or 'and'. Default 'and'.
+ * @return array       $types    A list of groups type names or objects.
+ */
+function bp_groups_get_group_types( $args = array(), $output = 'names', $operator = 'and' ) {
+	$types = buddypress()->groups->types;
+
+	$types = wp_filter_object_list( $types, $args, $operator );
+
+	/**
+	 * Filters the array of group type objects.
+	 *
+	 * This filter is run before the $output filter has been applied, so that
+	 * filtering functions have access to the entire group type objects.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param array  $types     group type objects, keyed by name.
+	 * @param array  $args      Array of key=>value arguments for filtering.
+	 * @param string $operator  'or' to match any of $args, 'and' to require all.
+	 */
+	$types = apply_filters( 'bp_groups_get_group_types', $types, $args, $operator );
+
+	if ( 'names' === $output ) {
+		$types = wp_list_pluck( $types, 'name' );
+	}
+
+	return $types;
+}
+
+/**
+ * Retrieve a group type object by name.
+ *
+ * @since 2.6.0
+ *
+ * @param string $group_type The name of the group type.
+ * @return object A group type object.
+ */
+function bp_groups_get_group_type_object( $group_type ) {
+	$types = bp_groups_get_group_types( array(), 'objects' );
+
+	if ( empty( $types[ $group_type ] ) ) {
+		return null;
+	}
+
+	return $types[ $group_type ];
+}
+
+/**
+ * Set type for a group.
+ *
+ * @since 2.6.0
+ *
+ * @param int    $group      ID of the group.
+ * @param string $group_type Group type.
+ * @param bool   $append     Optional. True to append this to existing types for group,
+ *                           false to replace. Default: false.
+ * @return array $retval See bp_set_object_terms().
+ */
+function bp_groups_set_group_type( $group_id, $group_type, $append = false ) {
+	// Pass an empty group type to remove group's type.
+	if ( ! empty( $group_type ) && ! bp_groups_get_group_type_object( $group_type ) ) {
+		return false;
+	}
+
+	$retval = bp_set_object_terms( $group_id, $group_type, 'bp_group_type', $append );
+
+	// Bust the cache if the type has been updated.
+	if ( ! is_wp_error( $retval ) ) {
+		wp_cache_delete( $group_id, 'bp_groups_group_type' );
+
+		/**
+		 * Fires just after a group type has been changed.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param int    $group_id   ID of the group whose group type has been updated.
+		 * @param string $group_type Group type.
+		 * @param bool   $append     Whether the type is being appended to existing types.
+		 */
+		do_action( 'bp_groups_set_group_type', $group_id, $group_type, $append );
+	}
+
+	return $retval;
+}
+
+/**
+ * Get type for a group.
+ *
+ * @since 2.6.0
+ *
+ * @param int  $group_id ID of the group.
+ * @param bool $single   Optional. Whether to return a single type string. If multiple types are found
+ *                       for the group, the oldest one will be returned. Default: true.
+ * @return string|array|bool On success, returns a single group type (if `$single` is true) or an array of group
+ *                           types (if `$single` is false). Returns false on failure.
+ */
+function bp_groups_get_group_type( $group_id, $single = true ) {
+	$types = wp_cache_get( $group_id, 'bp_groups_group_type' );
+
+	if ( false === $types ) {
+		$types = bp_get_object_terms( $group_id, 'bp_group_type' );
+
+		if ( ! is_wp_error( $types ) ) {
+			$types = wp_list_pluck( $types, 'name' );
+			wp_cache_set( $group_id, $types, 'bp_groups_group_type' );
+		}
+	}
+
+	$type = false;
+	if ( ! empty( $types ) ) {
+		if ( $single ) {
+			$type = end( $types );
+		} else {
+			$type = $types;
+		}
+	}
+
+	/**
+	 * Filters a groups's group type(s).
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param string|array $type     Group type.
+	 * @param int          $group_id ID of the group.
+	 * @param bool         $single   Whether to return a single type srting, or an array.
+	 */
+	return apply_filters( 'bp_groups_get_group_type', $type, $group_id, $single );
+}
+
+/**
+ * Remove type for a group.
+ *
+ * @since 2.6.0
+ *
+ * @param int            $group      ID of the user.
+ * @param string         $group_type Group type.
+ * @return bool|WP_Error $deleted    True on success. False or WP_Error on failure.
+ */
+function bp_groups_remove_group_type( $group_id, $group_type ) {
+	if ( empty( $group_type ) || ! bp_groups_get_group_type_object( $group_type ) ) {
+		return false;
+	}
+
+	$deleted = bp_remove_object_terms( $group_id, $group_type, 'bp_group_type' );
+
+	// Bust the case, if the type has been removed.
+	if ( ! is_wp_error( $deleted ) ) {
+		wp_cache_delete( $group_id, 'bp_groups_group_type' );
+
+		/**
+		 * Fires just after a group's group type has been removed.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param int    $group      ID of the group whose group type has been removed.
+		 * @param string $group_type Group type.
+		 */
+		do_action( 'bp_groups_remove_group_type', $group_id, $group_type );
+	}
+
+	return $deleted;
+}
+
+/**
+ * Check whether the given group has a certain group type.
+ *
+ * @since 2.6.0
+ *
+ * @param  int    $group_id   ID of the group.
+ * @param  srting $group_type Group type.
+ * @return bool   Whether the group has the give group type.
+ */
+function bp_groups_has_group_type( $group_id, $group_type ) {
+	if ( empty( $group_type ) || ! bp_groups_get_group_type_object( $group_type ) ) {
+		return false;
+	}
+
+	// Get all group's group types.
+	$types = bp_groups_get_group_type( $group_id, false );
+
+	if ( ! is_array( $types ) ) {
+		return false;
+	}
+
+	return in_array( $group_type, $types );
+}
+
+/**
+ * Delete a group's type when the group is deleted.
+ *
+ * @since 2.6.0
+ *
+ * @param  int   $group_id ID of the group.
+ * @return array $value    See {@see bp_groups_set_group_type()}.
+ */
+function bp_remove_group_type_on_group_delete( $group_id = 0 ) {
+	bp_groups_set_group_type( $group_id, '' );
+}
+add_action( 'groups_delete_group', 'bp_remove_group_type_on_group_delete' );

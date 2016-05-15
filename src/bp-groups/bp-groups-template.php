@@ -102,6 +102,7 @@ function bp_groups_directory_permalink() {
  * Start the Groups Template Loop.
  *
  * @since 1.0.0
+ * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
  *
  * @param array|string $args {
  *     Array of parameters. All items are optional.
@@ -139,6 +140,10 @@ function bp_groups_directory_permalink() {
  *                                           be returned. Default: value of
  *                                           `$_REQUEST['groups_search']` or
  *                                           `$_REQUEST['s']`, if present. Otherwise false.
+ *     @type array|string $group_type         Array or comma-separated list of group types to limit results to.
+ *     @type array|string $group_type__in     Array or comma-separated list of group types to limit results to.
+ *     @type array|string $group_type__not_in Array or comma-separated list of group types that will be
+ *                                            excluded from results.
  *     @type array        $meta_query        An array of meta_query conditions.
  *                                           See {@link WP_Meta_Query::queries} for description.
  *     @type array|string $include           Array or comma-separated list of
@@ -206,6 +211,9 @@ function bp_has_groups( $args = '' ) {
 		'user_id'           => bp_displayed_user_id(),
 		'slug'              => $slug,
 		'search_terms'      => $search_terms,
+		'group_type'         => '',
+		'group_type__in'     => '',
+		'group_type__not_in' => '',
 		'meta_query'        => false,
 		'include'           => false,
 		'exclude'           => false,
@@ -226,6 +234,9 @@ function bp_has_groups( $args = '' ) {
 		'user_id'           => (int) $r['user_id'],
 		'slug'              => $r['slug'],
 		'search_terms'      => $r['search_terms'],
+		'group_type'         => $r['group_type'],
+		'group_type__in'     => $r['group_type__in'],
+		'group_type__not_in' => $r['group_type__not_in'],
 		'meta_query'        => $r['meta_query'],
 		'include'           => $r['include'],
 		'exclude'           => $r['exclude'],

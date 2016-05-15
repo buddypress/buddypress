@@ -683,6 +683,7 @@ class BP_Groups_Group {
 	 *      parameter format.
 	 *
 	 * @since 1.6.0
+	 * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
 	 *
 	 * @param array $args {
 	 *     Array of parameters. All items are optional.
@@ -704,6 +705,10 @@ class BP_Groups_Group {
 	 *     @type string       $search_terms      Optional. If provided, only groups whose names
 	 *                                           or descriptions match the search terms will be
 	 *                                           returned. Default: false.
+	 *     @type array|string $group_type         Array or comma-separated list of group types to limit results to.
+	 *     @type array|string $group_type__in     Array or comma-separated list of group types to limit results to.
+	 *     @type array|string $group_type__not_in Array or comma-separated list of group types that will be
+	 *                                            excluded from results.
 	 *     @type array        $meta_query        Optional. An array of meta_query conditions.
 	 *                                           See {@link WP_Meta_Query::queries} for description.
 	 *     @type array|string $value             Optional. Array or comma-separated list of group IDs.
@@ -755,6 +760,9 @@ class BP_Groups_Group {
 			'page'              => null,
 			'user_id'           => 0,
 			'search_terms'      => false,
+			'group_type'         => '',
+			'group_type__in'     => '',
+			'group_type__not_in' => '',
 			'meta_query'        => false,
 			'include'           => false,
 			'populate_extras'   => true,
@@ -802,6 +810,24 @@ class BP_Groups_Group {
 
 		if ( ! empty( $meta_query_sql['where'] ) ) {
 			$sql['meta'] = $meta_query_sql['where'];
+		}
+
+		// Only use 'group_type__in', if 'group_type' is not set.
+		if ( empty( $r['group_type'] ) && ! empty( $r['group_type__in']) ) {
+			$r['group_type'] = $r['group_type__in'];
+		}
+
+		// Group types to exclude. This has priority over inclusions.
+		if ( ! empty( $r['group_type__not_in'] ) ) {
+			$group_type_clause = self::get_sql_clause_for_group_types( $r['group_type__not_in'], 'NOT IN' );
+
+		// Group types to include.
+		} elseif ( ! empty( $r['group_type'] ) ) {
+			$group_type_clause = self::get_sql_clause_for_group_types( $r['group_type'], 'IN' );
+		}
+
+		if ( ! empty( $group_type_clause ) ) {
+			$sql['group_type'] = $group_type_clause;
 		}
 
 		if ( ! empty( $r['user_id'] ) ) {
@@ -913,6 +939,11 @@ class BP_Groups_Group {
 			// Modify the meta_query clause from paged_sql for our syntax.
 			$meta_query_clause = preg_replace( '/^\s*AND/', '', $meta_query_sql['where'] );
 			$total_sql['where'][] = $meta_query_clause;
+		}
+
+		// Trim leading 'AND' to match `$total_sql` query style.
+		if ( ! empty( $group_type_clause ) ) {
+			$total_sql['where'][] = preg_replace( '/^\s*AND\s*/', '', $group_type_clause );
 		}
 
 		// Already escaped in the paginated results block.
@@ -1623,5 +1654,73 @@ class BP_Groups_Group {
 		$ids['hidden']  = $wpdb->get_col( "SELECT id FROM {$bp->groups->table_name} WHERE status = 'hidden'" );
 
 		return $ids;
+	}
+
+	/**
+	 * Get SQL clause for group type(s).
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param  string|array $group_types Group type(s).
+	 * @param  string       $operator    'IN' or 'NOT IN'.
+	 * @return string       $clause      SQL clause.
+	 */
+	protected static function get_sql_clause_for_group_types( $group_types, $operator ) {
+		global $wpdb;
+
+		// Sanitize operator.
+		if ( 'NOT IN' !== $operator ) {
+			$operator = 'IN';
+		}
+
+		// Parse and sanitize types.
+		if ( ! is_array( $group_types ) ) {
+			$group_types = preg_split( '/[,\s+]/', $group_types );
+		}
+
+		$types = array();
+		foreach ( $group_types as $gt ) {
+			if ( bp_groups_get_group_type_object( $gt ) ) {
+				$types[] = $gt;
+			}
+		}
+
+		$tax_query = new WP_Tax_Query( array(
+			array(
+				'taxonomy' => 'bp_group_type',
+				'field'    => 'name',
+				'operator' => $operator,
+				'terms'    => $types,
+			),
+		) );
+
+		$switched = false;
+		if ( ! bp_is_root_blog() ) {
+			switch_to_blog( bp_get_root_blog_id() );
+			$switched = true;
+		}
+
+		$sql_clauses = $tax_query->get_sql( 'g', 'id' );
+
+		if ( $switched ) {
+			restore_current_blog();
+		}
+
+		$clause = '';
+
+		// The no_results clauses are the same between IN and NOT IN.
+		if ( false !== strpos( $sql_clauses['where'], '0 = 1' ) ) {
+			$clause = $sql_clauses['where'];
+
+		// The tax_query clause generated for NOT IN can be used almost as-is.
+		} elseif ( 'NOT IN' === $operator ) {
+			$clause = $sql_clauses['where'];
+
+		// IN clauses must be converted to a subquery.
+		} elseif ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $sql_clauses['where'], $matches ) ) {
+			$clause = " AND g.id IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
+		}
+
+		return $clause;
 	}
 }

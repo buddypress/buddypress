@@ -840,4 +840,16 @@ class BP_Groups_Component extends BP_Component {
 
 		parent::setup_cache_groups();
 	}
+
+	/**
+	 * Set up taxonomies.
+	 *
+	 * @since 2.6.0
+	 */
+	public function register_taxonomies() {
+		// Group Type.
+		register_taxonomy( 'bp_group_type', 'bp_group', array(
+			'public' => false,
+		) );
+	}
 }
