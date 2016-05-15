@@ -11,17 +11,15 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 		parent::setUp();
 
 		buddypress()->groups->types = array();
-
-		self::$u1 = $this->factory->user->create( array(
-			'user_email' => 'group-types-tests@example.com',
-			'user_login' => 'grouptypestests',
-		) );
 	}
 
 	public static function setUpBeforeClass() {
 		$f = new BP_UnitTest_Factory();
 
-		self::$u1 = $f->user->create();
+		self::$u1 = $f->user->create( array(
+			'user_email' => 'group-types-tests@example.com',
+			'user_login' => 'grouptypestests',
+		) );
 	}
 
 	public static function tearDownAfterClass() {
