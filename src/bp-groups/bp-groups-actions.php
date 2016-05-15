@@ -15,6 +15,21 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Fire the 'bp_groups_register_group_types' action.
+ *
+ * @since 2.6.0
+ */
+function bp_groups_register_group_types() {
+	/**
+	 * Fires when it's appropriate to register group types.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'bp_groups_register_group_types' );
+}
+add_action( 'bp_loaded', 'bp_groups_register_group_types', 8 );
+
+/**
  * Protect access to single groups.
  *
  * @since 2.1.0
