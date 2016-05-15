@@ -75,6 +75,16 @@ class BP_Groups_Component extends BP_Component {
 	public $valid_status;
 
 	/**
+	 * Group types.
+	 *
+	 * @see bp_groups_register_group_type()
+	 *
+	 * @since 2.6.0
+	 * @var array
+	 */
+	public $types = array();
+
+	/**
 	 * Start the groups component creation process.
 	 *
 	 * @since 1.5.0
