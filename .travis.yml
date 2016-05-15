@@ -17,23 +17,25 @@ php:
 # WordPress comes from the Git mirror, where 'master' mirrors svn 'trunk' and
 # x.y mirrors the latest from the x.y branch
 env:
-    - WP_VERSION=master
-    - WP_VERSION=4.5
-    - WP_VERSION=4.4
-    - WP_VERSION=4.3
-    - WP_VERSION=4.2
-    - WP_VERSION=4.1
+    - WP_VERSION=master BP_TRAVISCI=travis:phpunit
+    - WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
+    - WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
+    - WP_VERSION=4.3 BP_TRAVISCI=travis:phpunit
+    - WP_VERSION=4.2 BP_TRAVISCI=travis:phpunit
+    - WP_VERSION=4.1 BP_TRAVISCI=travis:phpunit
 
 matrix:
   fast_finish: true
   include:
     - php: nightly
-      env: WP_VERSION=master
+      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
+    - php: 7.0
+      env: WP_VERSION=master BP_TRAVISCI=travis:grunt
   exclude:
     - php: 7.0
-      env: WP_VERSION=4.2
+      env: WP_VERSION=4.2 BP_TRAVISCI=travis:phpunit
     - php: 7.0
-      env: WP_VERSION=4.1
+      env: WP_VERSION=4.1 BP_TRAVISCI=travis:phpunit
   allow_failures:
     - php: nightly
 
@@ -71,7 +73,7 @@ before_script:
     - npm install
 
 # Run tests
-script: grunt travis
+script: grunt $BP_TRAVISCI
 
 notifications:
     email: false
