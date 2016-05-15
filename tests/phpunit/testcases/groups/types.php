@@ -12,7 +12,10 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 
 		buddypress()->groups->types = array();
 
-		self::$u1 = $this->factory->user->create();
+		self::$u1 = $this->factory->user->create( array(
+			'user_email' => 'group-types-tests@example.com',
+			'user_login' => 'grouptypestests',
+		) );
 	}
 
 	public static function setUpBeforeClass() {
