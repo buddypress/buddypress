@@ -134,6 +134,19 @@ function bp_groups_admin_load() {
 		add_meta_box( 'bp_group_add_members', _x( 'Add New Members', 'group admin edit screen', 'buddypress' ), 'bp_groups_admin_edit_metabox_add_new_members', get_current_screen()->id, 'normal', 'core' );
 		add_meta_box( 'bp_group_members', _x( 'Manage Members', 'group admin edit screen', 'buddypress' ), 'bp_groups_admin_edit_metabox_members', get_current_screen()->id, 'normal', 'core' );
 
+		// Group Type metabox. Only added if group types have been registered.
+		$group_types = bp_groups_get_group_types();
+		if ( ! empty( $group_types ) ) {
+			add_meta_box(
+				'bp_groups_admin_group_type',
+				_x( 'Group Type', 'groups admin edit screen', 'buddypress' ),
+				'bp_groups_admin_edit_metabox_group_type',
+				get_current_screen()->id,
+				'side',
+				'core'
+			);
+		}
+
 		/**
 		 * Fires after the registration of all of the default group meta boxes.
 		 *
@@ -1011,6 +1024,70 @@ function bp_groups_admin_edit_metabox_status( $item ) {
 
 <?php
 }
+
+/**
+ * Render the Group Type metabox.
+ *
+ * @since 2.6.0
+ *
+ * @param BP_Groups_Group|null $user The BP_Groups_Group object corresponding to the group being edited.
+ */
+function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null ) {
+
+	// Bail if no group ID.
+	if ( empty( $group->id ) ) {
+		return;
+	}
+
+	$types = bp_groups_get_group_types( array(), 'objects' );
+	$current_type = bp_groups_get_group_type( $group->id );
+	?>
+
+	<label for="bp-groups-group-type" class="screen-reader-text"><?php esc_html_e( 'Select group type', 'buddypress' ); ?></label>
+	<select name="bp-groups-group-type" id="bp-groups-group-type">
+		<option value="" <?php selected( '', $current_type ); ?>><?php /* translators: no option picked in select box */ esc_attr_e( '----', 'buddypress' ) ?></option>
+		<?php foreach ( $types as $type ) : ?>
+			<option value="<?php echo esc_attr( $type->name ) ?>" <?php selected( $type->name, $current_type ) ?>><?php echo esc_html( $type->labels['singular_name'] ) ?></option>
+		<?php endforeach; ?>
+	</select>
+
+	<?php
+
+	wp_nonce_field( 'bp-group-type-change-' . $group->id, 'bp-group-type-nonce' );
+}
+
+/**
+ * Process changes from the Group Type metabox.
+ *
+ * @since 2.6.0
+ */
+function bp_groups_process_group_type_update( $group_id ) {
+	if ( ! isset( $_POST['bp-group-type-nonce'] ) || ! isset( $_POST['bp-groups-group-type'] ) ) {
+		return;
+	}
+
+	check_admin_referer( 'bp-group-type-change-' . $group_id, 'bp-group-type-nonce' );
+
+	// Permission check.
+	if ( ! current_user_can( 'bp_moderate' ) ) {
+		return;
+	}
+
+	// Group type string must either reference a valid group type, or be empty.
+	$group_type = wp_unslash( $_POST['bp-groups-group-type'] );
+	if ( $group_type && ! bp_groups_get_group_type_object( $group_type ) ) {
+		return;
+	}
+
+	/*
+	 * If an invalid group type is passed, someone's doing something
+	 * fishy with the POST request, so we can fail silently.
+	 */
+	if ( bp_groups_set_group_type( $group_id, $group_type ) ) {
+		// @todo Success messages can't be posted because other stuff happens on the page load.
+	}
+}
+add_action( 'bp_group_admin_edit_after', 'bp_groups_process_group_type_update' );
 
 /**
  * Create pagination links out of a BP_Group_Member_Query.
