@@ -687,40 +687,36 @@ class BP_Groups_Group {
 	 *
 	 * @param array $args {
 	 *     Array of parameters. All items are optional.
-	 *     @type string       $type              Optional. Shorthand for certain orderby/
-	 *                                           order combinations. 'newest', 'active', 'popular',
-	 *                                           'alphabetical', 'random'. When present, will override
-	 *                                           orderby and order params. Default: null.
-	 *     @type string       $orderby           Optional. Property to sort by.
-	 *                                           'date_created', 'last_activity', 'total_member_count',
-	 *                                           'name', 'random'. Default: 'date_created'.
-	 *     @type string       $order             Optional. Sort order. 'ASC' or 'DESC'.
-	 *                                           Default: 'DESC'.
-	 *     @type int          $per_page          Optional. Number of items to return per page
-	 *                                           of results. Default: null (no limit).
-	 *     @type int          $page              Optional. Page offset of results to return.
-	 *                                           Default: null (no limit).
-	 *     @type int          $user_id           Optional. If provided, results will be limited to groups
-	 *                                           of which the specified user is a member. Default: null.
-	 *     @type string       $search_terms      Optional. If provided, only groups whose names
-	 *                                           or descriptions match the search terms will be
-	 *                                           returned. Default: false.
+	 *     @type string       $type               Optional. Shorthand for certain orderby/order combinations.
+	 *                                            'newest', 'active', 'popular', 'alphabetical', 'random'.
+	 *                                            When present, will override orderby and order params.
+	 *                                            Default: null.
+	 *     @type string       $orderby            Optional. Property to sort by. 'date_created', 'last_activity',
+	 *                                            'total_member_count', 'name', 'random'. Default: 'date_created'.
+	 *     @type string       $order              Optional. Sort order. 'ASC' or 'DESC'. Default: 'DESC'.
+	 *     @type int          $per_page           Optional. Number of items to return per page of results.
+	 *                                            Default: null (no limit).
+	 *     @type int          $page               Optional. Page offset of results to return.
+	 *                                            Default: null (no limit).
+	 *     @type int          $user_id            Optional. If provided, results will be limited to groups
+	 *                                            of which the specified user is a member. Default: null.
+	 *     @type string       $search_terms       Optional. If provided, only groups whose names or descriptions
+	 *                                            match the search terms will be returned. Default: false.
 	 *     @type array|string $group_type         Array or comma-separated list of group types to limit results to.
 	 *     @type array|string $group_type__in     Array or comma-separated list of group types to limit results to.
 	 *     @type array|string $group_type__not_in Array or comma-separated list of group types that will be
 	 *                                            excluded from results.
-	 *     @type array        $meta_query        Optional. An array of meta_query conditions.
-	 *                                           See {@link WP_Meta_Query::queries} for description.
-	 *     @type array|string $value             Optional. Array or comma-separated list of group IDs.
-	 *                                           Results will be limited to groups within the
-	 *                                           list. Default: false.
-	 *     @type bool         $populate_extras   Whether to fetch additional information
-	 *                                           (such as member count) about groups. Default: true.
-	 *     @type array|string $exclude           Optional. Array or comma-separated list of group IDs.
-	 *                                           Results will exclude the listed groups. Default: false.
-	 *     @type bool         $update_meta_cache Whether to pre-fetch groupmeta for
-	 *                                           the returned groups. Default: true.
-	 *     @type bool         $show_hidden       Whether to include hidden groups in results. Default: false.
+	 *     @type array        $meta_query         Optional. An array of meta_query conditions.
+	 *                                            See {@link WP_Meta_Query::queries} for description.
+	 *     @type array|string $value              Optional. Array or comma-separated list of group IDs. Results
+	 *                                            will be limited to groups within the list. Default: false.
+	 *     @type bool         $populate_extras    Whether to fetch additional information
+	 *                                            (such as member count) about groups. Default: true.
+	 *     @type array|string $exclude            Optional. Array or comma-separated list of group IDs.
+	 *                                            Results will exclude the listed groups. Default: false.
+	 *     @type bool         $update_meta_cache  Whether to pre-fetch groupmeta for the returned groups.
+	 *                                            Default: true.
+	 *     @type bool         $show_hidden        Whether to include hidden groups in results. Default: false.
 	 * }
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
@@ -753,22 +749,22 @@ class BP_Groups_Group {
 		}
 
 		$defaults = array(
-			'type'              => null,
-			'orderby'           => 'date_created',
-			'order'             => 'DESC',
-			'per_page'          => null,
-			'page'              => null,
-			'user_id'           => 0,
-			'search_terms'      => false,
+			'type'               => null,
+			'orderby'            => 'date_created',
+			'order'              => 'DESC',
+			'per_page'           => null,
+			'page'               => null,
+			'user_id'            => 0,
+			'search_terms'       => false,
 			'group_type'         => '',
 			'group_type__in'     => '',
 			'group_type__not_in' => '',
-			'meta_query'        => false,
-			'include'           => false,
-			'populate_extras'   => true,
-			'update_meta_cache' => true,
-			'exclude'           => false,
-			'show_hidden'       => false,
+			'meta_query'         => false,
+			'include'            => false,
+			'populate_extras'    => true,
+			'update_meta_cache'  => true,
+			'exclude'            => false,
+			'show_hidden'        => false,
 		);
 
 		$r = wp_parse_args( $args, $defaults );

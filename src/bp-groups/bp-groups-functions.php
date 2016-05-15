@@ -697,43 +697,43 @@ function groups_get_total_member_count( $group_id ) {
 function groups_get_groups( $args = '' ) {
 
 	$defaults = array(
-		'type'              => false,          // Active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts.
-		'order'             => 'DESC',         // 'ASC' or 'DESC'
-		'orderby'           => 'date_created', // date_created, last_activity, total_member_count, name, random.
-		'user_id'           => false,          // Pass a user_id to limit to only groups that this user is a member of.
-		'include'           => false,          // Only include these specific groups (group_ids).
-		'exclude'           => false,          // Do not include these specific groups (group_ids).
-		'search_terms'      => false,          // Limit to groups that match these search terms.
+		'type'               => false,          // Active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts.
+		'order'              => 'DESC',         // 'ASC' or 'DESC'
+		'orderby'            => 'date_created', // date_created, last_activity, total_member_count, name, random.
+		'user_id'            => false,          // Pass a user_id to limit to only groups that this user is a member of.
+		'include'            => false,          // Only include these specific groups (group_ids).
+		'exclude'            => false,          // Do not include these specific groups (group_ids).
+		'search_terms'       => false,          // Limit to groups that match these search terms.
 		'group_type'         => '',
 		'group_type__in'     => '',
 		'group_type__not_in' => '',
-		'meta_query'        => false,          // Filter by groupmeta. See WP_Meta_Query for syntax.
-		'show_hidden'       => false,          // Show hidden groups to non-admins.
-		'per_page'          => 20,             // The number of results to return per page.
-		'page'              => 1,              // The page to return if limiting per page.
-		'populate_extras'   => true,           // Fetch meta such as is_banned and is_member.
-		'update_meta_cache' => true,           // Pre-fetch groupmeta for queried groups.
+		'meta_query'         => false,          // Filter by groupmeta. See WP_Meta_Query for syntax.
+		'show_hidden'        => false,          // Show hidden groups to non-admins.
+		'per_page'           => 20,             // The number of results to return per page.
+		'page'               => 1,              // The page to return if limiting per page.
+		'populate_extras'    => true,           // Fetch meta such as is_banned and is_member.
+		'update_meta_cache'  => true,           // Pre-fetch groupmeta for queried groups.
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 
 	$groups = BP_Groups_Group::get( array(
-		'type'              => $r['type'],
-		'user_id'           => $r['user_id'],
-		'include'           => $r['include'],
-		'exclude'           => $r['exclude'],
-		'search_terms'      => $r['search_terms'],
+		'type'               => $r['type'],
+		'user_id'            => $r['user_id'],
+		'include'            => $r['include'],
+		'exclude'            => $r['exclude'],
+		'search_terms'       => $r['search_terms'],
 		'group_type'         => $r['group_type'],
 		'group_type__in'     => $r['group_type__in'],
 		'group_type__not_in' => $r['group_type__not_in'],
-		'meta_query'        => $r['meta_query'],
-		'show_hidden'       => $r['show_hidden'],
-		'per_page'          => $r['per_page'],
-		'page'              => $r['page'],
-		'populate_extras'   => $r['populate_extras'],
-		'update_meta_cache' => $r['update_meta_cache'],
-		'order'             => $r['order'],
-		'orderby'           => $r['orderby'],
+		'meta_query'         => $r['meta_query'],
+		'show_hidden'        => $r['show_hidden'],
+		'per_page'           => $r['per_page'],
+		'page'               => $r['page'],
+		'populate_extras'    => $r['populate_extras'],
+		'update_meta_cache'  => $r['update_meta_cache'],
+		'order'              => $r['order'],
+		'orderby'            => $r['orderby'],
 	) );
 
 	/**
