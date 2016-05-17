@@ -228,15 +228,15 @@ class BP_Groups_List_Table extends WP_List_Table {
 				</tr>
 			</thead>
 
+			<tbody id="the-comment-list">
+				<?php $this->display_rows_or_placeholder(); ?>
+			</tbody>
+
 			<tfoot>
 				<tr>
 					<?php $this->print_column_headers( false ); ?>
 				</tr>
 			</tfoot>
-
-			<tbody id="the-comment-list">
-				<?php $this->display_rows_or_placeholder(); ?>
-			</tbody>
 		</table>
 		<?php
 
