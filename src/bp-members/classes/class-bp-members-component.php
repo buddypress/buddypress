@@ -153,6 +153,11 @@ class BP_Members_Component extends BP_Component {
 		// Initialize the nav for the members component.
 		$this->nav = new BP_Core_Nav();
 
+		// If A user is displayed, check if there is a front template
+		if ( bp_get_displayed_user() ) {
+			$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
+		}
+
 		/** Signup ***********************************************************
 		 */
 
@@ -178,15 +183,14 @@ class BP_Members_Component extends BP_Component {
 
 		/** Default Profile Component ****************************************
 		 */
-
-		if ( defined( 'BP_DEFAULT_COMPONENT' ) && BP_DEFAULT_COMPONENT ) {
+		if ( bp_displayed_user_has_front_template() ) {
+			$bp->default_component = 'front';
+		} elseif ( defined( 'BP_DEFAULT_COMPONENT' ) && BP_DEFAULT_COMPONENT ) {
 			$bp->default_component = BP_DEFAULT_COMPONENT;
+		} elseif ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
+			$bp->default_component = bp_get_activity_slug();
 		} else {
-			if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
-				$bp->default_component = bp_get_activity_slug();
-			} else {
-				$bp->default_component = ( 'xprofile' === $bp->profile->id ) ? 'profile' : $bp->profile->id;
-			}
+			$bp->default_component = ( 'xprofile' === $bp->profile->id ) ? 'profile' : $bp->profile->id;
 		}
 
 		/** Canonical Component Stack ****************************************
@@ -242,13 +246,15 @@ class BP_Members_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Bail if XProfile component is active.
-		if ( bp_is_active( 'xprofile' ) ) {
+		// Don't set up navigation if there's no member.
+		if ( ! is_user_logged_in() && ! bp_is_user() ) {
 			return;
 		}
 
-		// Don't set up navigation if there's no member.
-		if ( ! is_user_logged_in() && ! bp_is_user() ) {
+		$is_xprofile_active = bp_is_active( 'xprofile' );
+
+		// Bail if XProfile component is active and there's no custom front page for the user.
+		if ( ! bp_displayed_user_has_front_template() && $is_xprofile_active ) {
 			return;
 		}
 
@@ -261,30 +267,100 @@ class BP_Members_Component extends BP_Component {
 			return;
 		}
 
-		$slug         = bp_get_profile_slug();
-		$profile_link = trailingslashit( $user_domain . $slug );
+		// Set slug to profile in case the xProfile component is not active
+		$slug = bp_get_profile_slug();
 
-		// Setup the main navigation.
-		$main_nav = array(
-			'name'                => _x( 'Profile', 'Member profile main navigation', 'buddypress' ),
-			'slug'                => $slug,
-			'position'            => 20,
-			'screen_function'     => 'bp_members_screen_display_profile',
-			'default_subnav_slug' => 'public',
-			'item_css_id'         => buddypress()->profile->id
-		);
+		// Defaults to empty navs
+		$this->main_nav = array();
+		$this->sub_nav  = array();
 
-		// Setup the subnav items for the member profile.
-		$sub_nav[] = array(
+		if ( ! $is_xprofile_active ) {
+			$this->main_nav = array(
+				'name'                => _x( 'Profile', 'Member profile main navigation', 'buddypress' ),
+				'slug'                => $slug,
+				'position'            => 20,
+				'screen_function'     => 'bp_members_screen_display_profile',
+				'default_subnav_slug' => 'public',
+				'item_css_id'         => buddypress()->profile->id
+			);
+		}
+
+		/**
+		 * Setup the subnav items for the member profile.
+		 *
+		 * This is required in case there's a custom front or in case the xprofile component
+		 * is not active.
+		 */
+		$this->sub_nav = array(
 			'name'            => _x( 'View', 'Member profile view', 'buddypress' ),
 			'slug'            => 'public',
-			'parent_url'      => $profile_link,
+			'parent_url'      => trailingslashit( $user_domain . $slug ),
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_members_screen_display_profile',
 			'position'        => 10
 		);
 
+		/**
+		 * If there's a front template the members component nav
+		 * will be there to display the user's front page.
+		 */
+		if ( bp_displayed_user_has_front_template() ) {
+			$main_nav = array(
+				'name'                => _x( 'Home', 'Member Home page', 'buddypress' ),
+				'slug'                => 'front',
+				'position'            => 5,
+				'screen_function'     => 'bp_members_screen_display_profile',
+				'default_subnav_slug' => 'public',
+			);
+
+			// We need a dummy subnav for the front page to load.
+			$front_subnav = $this->sub_nav;
+			$front_subnav['parent_slug'] = 'front';
+
+			// In case the subnav is displayed in the front template
+			$front_subnav['parent_url'] = trailingslashit( $user_domain . 'front' );
+
+			// Set the subnav
+			$sub_nav[] = $front_subnav;
+
+			/**
+			 * If the profile component is not active, we need to create a new
+			 * nav to display the WordPress profile.
+			 */
+			if ( ! $is_xprofile_active ) {
+				add_action( 'bp_members_setup_nav', array( $this, 'setup_profile_nav' ) );
+			}
+
+		/**
+		 * If there's no front template and xProfile is not active, the members
+		 * component nav will be there to display the WordPress profile
+		 */
+		} else {
+			$main_nav  = $this->main_nav;
+			$sub_nav[] = $this->sub_nav;
+		}
+
+
 		parent::setup_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Set up a profile nav in case the xProfile
+	 * component is not active and a front template is
+	 * used.
+	 *
+	 * @since 2.6.0
+	 */
+	public function setup_profile_nav() {
+		if ( empty( $this->main_nav ) || empty( $this->sub_nav ) ) {
+			return;
+		}
+
+		// Add the main nav
+		bp_core_new_nav_item( $this->main_nav, 'members' );
+
+		// Add the sub nav item.
+		bp_core_new_subnav_item( $this->sub_nav, 'members' );
 	}
 
 	/**

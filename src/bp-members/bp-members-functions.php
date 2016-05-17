@@ -2480,6 +2480,31 @@ function bp_live_spammer_login_error() {
 }
 add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' );
 
+/**
+ * Get the displayed user Object
+ *
+ * @since 2.6.0
+ *
+ * @return object The displayed user object, null otherwise.
+ */
+function bp_get_displayed_user() {
+	$bp = buddypress();
+
+	$displayed_user = null;
+	if ( ! empty( $bp->displayed_user->id ) ) {
+		$displayed_user = $bp->displayed_user;
+	}
+
+	/**
+	 * Filters the displayed_user object corresponding to the displayed member.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param object $displayed_user The displayed_user object.
+	 */
+	return apply_filters( 'bp_get_displayed_user', $displayed_user );
+}
+
 /** Member Types *************************************************************/
 
 /**

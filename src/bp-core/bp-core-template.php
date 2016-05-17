@@ -2271,6 +2271,19 @@ function bp_is_user() {
 }
 
 /**
+ * Is the current page a user custom front page?
+ *
+ * Will return true anytime there is a custom front page for the displayed user.
+ *
+ * @since 2.6.0
+ *
+ * @return bool True if the current page is a user custom front page.
+ */
+function bp_is_user_front() {
+	return (bool) ( bp_is_user() && bp_is_current_component( 'front' ) );
+}
+
+/**
  * Is the current page a user's activity stream page?
  *
  * Eg http://example.com/members/joe/activity/ (or any subpages thereof).

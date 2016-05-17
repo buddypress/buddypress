@@ -1326,6 +1326,98 @@ function bp_get_loggedin_user_nav() {
 }
 
 /**
+ * Output the contents of the current user's home page.
+ *
+ * @since 2.6.0
+ */
+function bp_displayed_user_front_template_part() {
+	$located = bp_displayed_user_get_front_template();
+
+	if ( false !== $located ) {
+		$slug = str_replace( '.php', '', $located );
+		$name = null;
+
+		/**
+		 * Let plugins adding an action to bp_get_template_part get it from here
+		 *
+		 * @param string $slug Template part slug requested.
+		 * @param string $name Template part name requested.
+		 */
+		do_action( 'get_template_part_' . $slug, $slug, $name );
+
+		load_template( $located, true );
+	}
+
+	return $located;
+}
+
+/**
+ * Locate a custom user front template if it exists.
+ *
+ * @since 2.6.0
+ *
+ * @param  object|null $displayed_user Optional. Falls back to current user if not passed.
+ * @return string|bool                 Path to front template on success; boolean false on failure.
+ */
+function bp_displayed_user_get_front_template( $displayed_user = null ) {
+	if ( ! is_object( $displayed_user ) || empty( $displayed_user->id ) ) {
+		$displayed_user = bp_get_displayed_user();
+	}
+
+	if ( ! isset( $displayed_user->id ) ) {
+		return false;
+	}
+
+	if ( isset( $displayed_user->front_template ) ) {
+		return $displayed_user->front_template;
+	}
+
+	// Init the hierarchy
+	$template_names = array(
+		'members/single/front-id-' . sanitize_file_name( $displayed_user->id ) . '.php',
+		'members/single/front-nicename-' . sanitize_file_name( $displayed_user->userdata->user_nicename ) . '.php',
+	);
+
+	/**
+	 * Check for member types and add it to the hierarchy
+	 *
+	 * Make sure to register your member
+	 * type using the hook 'bp_register_member_types'
+	 */
+	if ( bp_get_member_types() ) {
+		$displayed_user_member_type = bp_get_member_type( $displayed_user->id );
+		if ( ! $displayed_user_member_type ) {
+			$displayed_user_member_type = 'none';
+		}
+
+		$template_names[] = 'members/single/front-member-type-' . sanitize_file_name( $displayed_user_member_type )   . '.php';
+	}
+
+	// Add The generic template to the end of the hierarchy
+	$template_names[] = 'members/single/front.php';
+
+	/**
+	 * Filters the hierarchy of user front templates corresponding to a specific user.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param array  $template_names Array of template paths.
+	 */
+	return bp_locate_template( apply_filters( 'bp_displayed_user_get_front_template', $template_names ), false, true );
+}
+
+/**
+ * Check if the displayed user has a custom front template.
+ *
+ * @since 2.6.0
+ */
+function bp_displayed_user_has_front_template() {
+	$displayed_user = bp_get_displayed_user();
+
+	return ! empty( $displayed_user->front_template );
+}
+
+/**
  * Render the navigation markup for the displayed user.
  *
  * @since 1.1.0
