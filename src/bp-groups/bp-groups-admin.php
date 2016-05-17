@@ -568,8 +568,7 @@ function bp_groups_admin_edit() {
 	// Get the group from the database.
 	$group      = groups_get_group( 'group_id=' . (int) $_GET['gid'] );
 
-	/** This filter is documented in bp-groups/bp-groups-template.php */
-	$group_name = isset( $group->name ) ? apply_filters( 'bp_get_group_name', $group->name ) : '';
+	$group_name = isset( $group->name ) ? bp_get_group_name( $group ) : '';
 
 	// Construct URL for form.
 	$form_url = remove_query_arg( array( 'action', 'deleted', 'no_admins', 'error', 'error_new', 'success_new', 'error_modified', 'success_modified' ), $_SERVER['REQUEST_URI'] );
@@ -697,7 +696,7 @@ function bp_groups_admin_delete() {
 
 		<ul class="bp-group-delete-list">
 		<?php foreach ( $groups['groups'] as $group ) : ?>
-			<li><?php echo apply_filters( 'bp_get_group_name', $group->name, $group ); ?></li>
+			<li><?php echo esc_html( bp_get_group_name( $group ) ); ?></li>
 		<?php endforeach; ?>
 		</ul>
 

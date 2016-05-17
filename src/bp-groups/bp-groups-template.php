@@ -5854,21 +5854,18 @@ function bp_current_group_name() {
 	 * @return string The name of the current group, if there is one.
 	 */
 	function bp_get_current_group_name() {
-		$current_group      = groups_get_current_group();
-		$current_group_name = isset( $current_group->name ) ? $current_group->name : '';
-
-		/** This filter is documented in bp-groups/bp-groups-template.php */
-		$name               = apply_filters( 'bp_get_group_name', $current_group_name );
+		$current_group = groups_get_current_group();
+		$current_name  = bp_get_group_name( $current_group );
 
 		/**
 		 * Filters the name of the current group.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $name          Name of the current group.
+		 * @param string $current_name  Name of the current group.
 		 * @param object $current_group Instance holding the current group.
 		 */
-		return apply_filters( 'bp_get_current_group_name', $name, $current_group );
+		return apply_filters( 'bp_get_current_group_name', $current_name, $current_group );
 	}
 
 /**
