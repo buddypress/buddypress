@@ -1533,6 +1533,8 @@ function bp_loggedin_user_avatar( $args = '' ) {
 		 * @since 1.1.0
 		 *
 		 * @param string $value User avatar string.
+		 * @param array  $r     Array of parsed arguments.
+		 * @param array  $args  Array of initial arguments.
 		 */
 		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( $r ), $r, $args );
 	}
@@ -1586,6 +1588,8 @@ function bp_displayed_user_avatar( $args = '' ) {
 		 * @since 1.1.0
 		 *
 		 * @param string $value User avatar string.
+		 * @param array  $r     Array of parsed arguments.
+		 * @param array  $args  Array of initial arguments.
 		 */
 		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( $r ), $r, $args );
 	}
