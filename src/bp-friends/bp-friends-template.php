@@ -496,10 +496,12 @@ function bp_get_friendship_requests( $user_id = 0 ) {
 	 * Filters the total pending friendship requests for a user.
 	 *
 	 * @since 1.2.0
+	 * @since 2.6.0 Added the `$user_id` parameter.
 	 *
-	 * @param array|int An array of user IDs if found, or a 0 if none are found.
+	 * @param array|int $requests An array of user IDs if found, or a 0 if none are found.
+	 * @param int       $user_id  ID of the queried user.
 	 */
-	return apply_filters( 'bp_get_friendship_requests', $requests );
+	return apply_filters( 'bp_get_friendship_requests', $requests, $user_id );
 }
 
 /**
@@ -562,10 +564,12 @@ function bp_friend_accept_request_link() {
 		 * Filters the URL for accepting the current friendship request in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.6.0 Added the `$friendship_id` parameter.
 		 *
-		 * @param string $value Accept-friendship URL.
+		 * @param string $value         Accept-friendship URL.
+		 * @param int    $friendship_id ID of the friendship.
 		 */
-		return apply_filters( 'bp_get_friend_accept_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/accept/' . $friendship_id, 'friends_accept_friendship' ) );
+		return apply_filters( 'bp_get_friend_accept_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/accept/' . $friendship_id, 'friends_accept_friendship' ), $friendship_id );
 	}
 
 /**
@@ -595,10 +599,12 @@ function bp_friend_reject_request_link() {
 		 * Filters the URL for rejecting the current friendship request in the loop.
 		 *
 		 * @since 1.0.0
+		 * @since 2.6.0 Added the `$friendship_id` parameter.
 		 *
-		 * @param string $value Reject-friendship URL.
+		 * @param string $value         Reject-friendship URL.
+		 * @param int    $friendship_id ID of the friendship.
 		 */
-		return apply_filters( 'bp_get_friend_reject_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/reject/' . $friendship_id, 'friends_reject_friendship' ) );
+		return apply_filters( 'bp_get_friend_reject_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/reject/' . $friendship_id, 'friends_reject_friendship' ), $friendship_id );
 	}
 
 /**
@@ -625,10 +631,12 @@ function bp_total_friend_count( $user_id = 0 ) {
 		 * Filters the total friend count for a given user.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param int $value Total friend count.
+		 * @param int $value   Total friend count.
+		 * @param int $user_id ID of the queried user.
 		 */
-		return apply_filters( 'bp_get_total_friend_count', friends_get_total_friend_count( $user_id ) );
+		return apply_filters( 'bp_get_total_friend_count', friends_get_total_friend_count( $user_id ), $user_id );
 	}
 	add_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
 
@@ -661,10 +669,12 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
 		 * Filters the total friendship request count for a given user.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param int $value Friendship request count.
+		 * @param int $value   Friendship request count.
+		 * @param int $user_id ID of the queried user.
 		 */
-		return apply_filters( 'bp_friend_get_total_requests_count', count( BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) ) );
+		return apply_filters( 'bp_friend_get_total_requests_count', count( BP_Friends_Friendship::get_friend_user_ids( $user_id, true ) ), $user_id );
 	}
 
 /** Stats **********************************************************************/
