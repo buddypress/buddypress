@@ -1164,7 +1164,7 @@ function bp_activity_avatar( $args = '' ) {
 		 *
 		 * @since 1.1.3
 		 *
-		 * @param array $value Array of arguments calculated for use with bp_core_fetch_avatar.
+		 * @param array $value HTML image element containing the activity avatar.
 		 */
 		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array(
 			'item_id' => $item_id,
