@@ -2879,10 +2879,12 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		 * Filters the latest update excerpt.
 		 *
 		 * @since 1.2.10
+		 * @since 2.6.0  Added the `$user_id` parameter.
 		 *
-		 * @param string $value The excerpt for the latest update.
+		 * @param string $value   The excerpt for the latest update.
+		 * @param int    $user_id ID of the queried user.
 		 */
-		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ) );
+		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ), $user_id );
 
 		$latest_update = sprintf(
 			'%s <a href="%s">%s</a>',
@@ -2895,10 +2897,12 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		 * Filters the latest update excerpt with view link appended to the end.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
 		 * @param string $latest_update The latest update with "view" link appended to it.
+		 * @param int    $user_id       ID of the queried user.
 		 */
-		return apply_filters( 'bp_get_activity_latest_update', $latest_update );
+		return apply_filters( 'bp_get_activity_latest_update', $latest_update, $user_id );
 	}
 
 /**
@@ -3168,10 +3172,12 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
 		 * Filters the total favorite count for a user.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param int|bool $retval Total favorite count for a user. False on no favorites.
+		 * @param int|bool $retval  Total favorite count for a user. False on no favorites.
+		 * @param int      $user_id ID of the queried user.
 		 */
-		return apply_filters( 'bp_get_total_favorite_count_for_user', $retval );
+		return apply_filters( 'bp_get_total_favorite_count_for_user', $retval, $user_id );
 	}
 
 
@@ -3216,10 +3222,12 @@ function bp_total_mention_count_for_user( $user_id = 0 ) {
 		 * Filters the total mention count for a user.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param int|bool $retval Total mention count for a user. False on no mentions.
+		 * @param int|bool $retval  Total mention count for a user. False on no mentions.
+		 * @param int      $user_id ID of the queried user.
 		 */
-		return apply_filters( 'bp_get_total_mention_count_for_user', $retval );
+		return apply_filters( 'bp_get_total_mention_count_for_user', $retval, $user_id );
 	}
 
 /**
