@@ -876,10 +876,12 @@ function bp_total_blog_count_for_user( $user_id = 0 ) {
 		 * Filters the total number of blogs for a given user.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param int $value Total number of blogs for a given user.
+		 * @param int $value   Total number of blogs for a given user.
+		 * @param int $user_id ID of the queried user.
 		 */
-		return apply_filters( 'bp_get_total_blog_count_for_user', bp_blogs_total_blogs_for_user( $user_id ) );
+		return apply_filters( 'bp_get_total_blog_count_for_user', bp_blogs_total_blogs_for_user( $user_id ), $user_id );
 	}
 	add_filter( 'bp_get_total_blog_count_for_user', 'bp_core_number_format' );
 
