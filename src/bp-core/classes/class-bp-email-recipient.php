@@ -55,19 +55,23 @@ class BP_Email_Recipient {
 	public function __construct( $email_or_user, $name = '' ) {
 		$name = sanitize_text_field( $name );
 
-		// User ID, WP_User object.
-		if ( is_int( $email_or_user ) || is_object( $email_or_user ) ) {
-			$this->user_object = is_object( $email_or_user ) ? $email_or_user : get_user_by( 'id', $email_or_user );
+		// User ID, email address or WP_User object.
+		if ( is_int( $email_or_user ) || ( is_string( $email_or_user ) && is_email( $email_or_user ) ) || is_object( $email_or_user ) ) {
+			// We already have a WP user.
+			if ( is_object( $email_or_user ) ) {
+				$this->user_object = $email_or_user;
 
-			if ( $this->user_object ) {
-				// This is escaped with esc_html in bp_core_get_user_displayname()
-				$name = wp_specialchars_decode( bp_core_get_user_displayname( $this->user_object->ID ), ENT_QUOTES );
-
-				$this->address = $this->user_object->user_email;
-				$this->name    = sanitize_text_field( $name );
+			// Query for WP user by user ID.
+			} elseif ( is_int( $email_or_user ) ) {
+				$this->user_object = get_user_by( 'id', $email_or_user );
 			}
 
-		// Array, address, and name.
+			// Set email address.
+			if ( empty( $this->user_object ) && is_email( $email_or_user ) ) {
+				$address = $email_or_user;
+			}
+
+		// Array or miscellaneous string.
 		} else {
 			if ( ! is_array( $email_or_user ) ) {
 				$email_or_user = array( $email_or_user => $name );
@@ -80,11 +84,30 @@ class BP_Email_Recipient {
 				$address = key( $email_or_user );
 				$name    = current( $email_or_user );
 			}
+		}
 
-			if ( is_email( $address ) ) {
-				$this->address = sanitize_email( $address );
-			}
+		// Set address if we have one.
+		if ( ! empty( $address ) ) {
+			$this->address = sanitize_email( $address );
+		}
 
+		// Still no user object; try to query user by email address.
+		if ( empty( $this->user_object ) ) {
+			$this->get_user( 'search-email' );
+		}
+
+		// We have a user object; so set address and name from DB.
+		if ( $this->user_object ) {
+			// This is escaped with esc_html in bp_core_get_user_displayname()
+			$wp_name = wp_specialchars_decode( bp_core_get_user_displayname( $this->user_object->ID ), ENT_QUOTES );
+
+			$this->address = $this->user_object->user_email;
+			$this->name    = sanitize_text_field( $wp_name );
+
+		}
+
+		// Custom name override.
+		if ( $name ) {
 			$this->name = $name;
 		}
 
