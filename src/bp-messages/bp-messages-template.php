@@ -304,10 +304,12 @@ function bp_message_thread_view_link( $thread_id = 0 ) {
 		 * Filters the permalink of a particular thread.
 		 *
 		 * @since 1.0.0
+		 * @since 2.6.0 Added the `$thread_id` parameter.
 		 *
-		 * @param string $value permalink of a particular thread.
+		 * @param string $value     Permalink of a particular thread.
+		 * @param int    $thread_id ID of the thread.
 		 */
-		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id ) );
+		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id ), $thread_id );
 	}
 
 /**
@@ -546,10 +548,12 @@ function bp_message_thread_total_count( $thread_id = false ) {
 		 * Filters the current thread's total message count.
 		 *
 		 * @since 2.2.0
+		 * @since 2.6.0 Added the `$thread_id` parameter.
 		 *
-		 * @param int $count Current thread total message count.
+		 * @param int $count     Current thread total message count.
+		 * @param int $thread_id ID of the queried thread.
 		 */
-		return apply_filters( 'bp_get_message_thread_total_count', $count );
+		return apply_filters( 'bp_get_message_thread_total_count', $count, $thread_id );
 	}
 
 /**
