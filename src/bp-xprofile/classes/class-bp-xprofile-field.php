@@ -237,11 +237,11 @@ class BP_XProfile_Field {
 
 			$field = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
 
-			wp_cache_add( $field->id, $field, 'bp_xprofile_fields' );
-
 			if ( ! $field ) {
 				return false;
 			}
+
+			wp_cache_add( $field->id, $field, 'bp_xprofile_fields' );
 		}
 
 		$_field = new BP_XProfile_Field();

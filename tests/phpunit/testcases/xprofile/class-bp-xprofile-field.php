@@ -174,4 +174,13 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
+
+	/**
+	 * @ticket BP7073
+	 */
+	public function test_bad_field_id_should_not_be_cached() {
+		BP_XProfile_Field::get_instance( 12345 );
+
+		$this->assertFalse( wp_cache_get( 12345, 'bp_xprofile_fields' ) );
+	}
 }
