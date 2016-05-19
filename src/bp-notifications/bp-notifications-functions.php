@@ -701,7 +701,7 @@ function bp_notifications_delete_meta( $notification_id, $meta_key = '', $meta_v
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	foreach ( $keys as $key ) {
-		$retval = delete_metadata( 'notifications', $notification_id, $key, $meta_value, $delete_all );
+		$retval = delete_metadata( 'notification', $notification_id, $key, $meta_value, $delete_all );
 	}
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
@@ -726,7 +726,7 @@ function bp_notifications_delete_meta( $notification_id, $meta_key = '', $meta_v
  */
 function bp_notifications_get_meta( $notification_id = 0, $meta_key = '', $single = true ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
-	$retval = get_metadata( 'notifications', $notification_id, $meta_key, $single );
+	$retval = get_metadata( 'notification', $notification_id, $meta_key, $single );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	/**
@@ -761,7 +761,7 @@ function bp_notifications_get_meta( $notification_id = 0, $meta_key = '', $singl
  */
 function bp_notifications_update_meta( $notification_id, $meta_key, $meta_value, $prev_value = '' ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
-	$retval = update_metadata( 'notifications', $notification_id, $meta_key, $meta_value, $prev_value );
+	$retval = update_metadata( 'notification', $notification_id, $meta_key, $meta_value, $prev_value );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	return $retval;
@@ -782,7 +782,7 @@ function bp_notifications_update_meta( $notification_id, $meta_key, $meta_value,
  */
 function bp_notifications_add_meta( $notification_id, $meta_key, $meta_value, $unique = false ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
-	$retval = add_metadata( 'notifications', $notification_id, $meta_key, $meta_value, $unique );
+	$retval = add_metadata( 'notification', $notification_id, $meta_key, $meta_value, $unique );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 
 	return $retval;

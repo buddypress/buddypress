@@ -124,6 +124,60 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_notifications_update_meta_cache
+	 */
+	public function test_bp_notifications_update_meta_cache() {
+		$u = $this->factory->user->create();
+
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id'        => $u
+		) );
+
+		$n2 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id'        => $u
+		) );
+
+		// Add cache for each notification.
+		bp_notifications_update_meta( $n1, 'meta', 'data' );
+		bp_notifications_update_meta( $n1, 'data', 'meta' );
+		bp_notifications_update_meta( $n2, 'meta', 'human' );
+
+		// Prime cache.
+		bp_notifications_get_meta( $n1, 'meta' );
+
+		// Ensure an empty cache for second notification.
+		wp_cache_delete( $n2, 'notification_meta' );
+
+		// Update notification meta cache.
+		bp_notifications_update_meta_cache( array( $n1, $n2 ) );
+
+		$expected = array(
+			$n1 => array(
+				'meta' => array(
+					'data',
+				),
+				'data' => array(
+					'meta',
+				),
+			),
+			$n2 => array(
+				'meta' => array(
+					'human',
+				),
+			),
+		);
+
+		$found = array(
+			$n1 => wp_cache_get( $n1, 'notification_meta' ),
+			$n2 => wp_cache_get( $n2, 'notification_meta' ),
+		);
+
+		$this->assertEquals( $expected, $found );
+	}
+
+	/**
 	 * @group bp_notifications_add_notification
 	 */
 	public function test_bp_notifications_add_notification_no_dupes() {
