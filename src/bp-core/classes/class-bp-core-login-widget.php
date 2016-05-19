@@ -27,8 +27,9 @@ class BP_Core_Login_Widget extends WP_Widget {
 			false,
 			_x( '(BuddyPress) Log In', 'Title of the login widget', 'buddypress' ),
 			array(
-				'description' => __( 'Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in.', 'buddypress' ),
-				'classname' => 'widget_bp_core_login_widget buddypress widget',
+				'description'                 => __( 'Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in.', 'buddypress' ),
+				'classname'                   => 'widget_bp_core_login_widget buddypress widget',
+				'customize_selective_refresh' => true,
 			)
 		);
 	}

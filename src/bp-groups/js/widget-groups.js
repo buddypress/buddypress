@@ -1,4 +1,15 @@
 jQuery(document).ready( function() {
+	groups_widget_click_handler();
+
+	// WP 4.5 - Customizer selective refresh support.
+	if ( 'undefined' !== typeof wp && wp.customize && wp.customize.selectiveRefresh ) {
+		wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function() {
+			groups_widget_click_handler();
+		} );
+	}
+});
+
+function groups_widget_click_handler() {
 	jQuery('.widget div#groups-list-options a').on('click',
 		function() {
 			var link = this;
@@ -23,7 +34,7 @@ jQuery(document).ready( function() {
 			return false;
 		}
 	);
-});
+}
 
 function groups_widget_response(response) {
 	response = response.substr(0, response.length-1);

@@ -30,12 +30,13 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		// Call WP_Widget constructor.
 		parent::__construct( false, $name, array(
-			'description' => $description,
-			'classname'   => 'widget_bp_core_members_widget buddypress widget',
+			'description'                 => $description,
+			'classname'                   => 'widget_bp_core_members_widget buddypress widget',
+			'customize_selective_refresh' => true,
 		) );
 
 		// Maybe enqueue JS for widget.
-		if ( is_active_widget( false, false, $this->id_base ) && ! is_admin() && ! is_network_admin() ) {
+		if ( is_customize_preview() || is_active_widget( false, false, $this->id_base ) && ! is_admin() && ! is_network_admin() ) {
 			wp_enqueue_script( 'bp-widget-members' );
 		}
 	}

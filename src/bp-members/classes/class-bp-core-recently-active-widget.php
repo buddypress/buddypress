@@ -26,8 +26,9 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		$name        = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' );
 		$description = __( 'Profile photos of recently active members', 'buddypress' );
 		parent::__construct( false, $name, array(
-			'description' => $description,
-			'classname'   => 'widget_bp_core_recently_active_widget buddypress widget',
+			'description'                 => $description,
+			'classname'                   => 'widget_bp_core_recently_active_widget buddypress widget',
+			'customize_selective_refresh' => true,
 		) );
 	}
 

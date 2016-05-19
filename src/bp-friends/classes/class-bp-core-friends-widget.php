@@ -24,10 +24,16 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$widget_ops = array(
-			'description' => __( 'A dynamic list of recently active, popular, and newest Friends of the displayed member.  Widget is only shown when viewing a member profile.', 'buddypress' ),
-			'classname' => 'widget_bp_core_friends_widget buddypress widget',
+			'description'                 => __( 'A dynamic list of recently active, popular, and newest Friends of the displayed member.  Widget is only shown when viewing a member profile.', 'buddypress' ),
+			'classname'                   => 'widget_bp_core_friends_widget buddypress widget',
+			'customize_selective_refresh' => true,
 		);
 		parent::__construct( false, $name = _x( '(BuddyPress) Friends', 'widget name', 'buddypress' ), $widget_ops );
+
+		if ( is_customize_preview() || is_active_widget( false, false, $this->id_base ) && ! is_admin() && ! is_network_admin() ) {
+			$min = bp_core_get_minified_asset_suffix();
+			wp_enqueue_script( 'bp_core_widget_friends-js', buddypress()->plugin_url . "bp-friends/js/widget-friends{$min}.js", array( 'jquery' ), bp_get_version() );
+		}
 
 	}
 
@@ -47,9 +53,6 @@ class BP_Core_Friends_Widget extends WP_Widget {
 		if ( ! bp_displayed_user_id() ) {
 			return;
 		}
-
-		$min = bp_core_get_minified_asset_suffix();
-		wp_enqueue_script( 'bp_core_widget_friends-js', buddypress()->plugin_url . "bp-friends/js/widget-friends{$min}.js", array( 'jquery' ), bp_get_version() );
 
 		$user_id = bp_displayed_user_id();
 		$link = trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() );
