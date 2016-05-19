@@ -535,6 +535,46 @@ function bp_core_catch_profile_uri() {
 }
 
 /**
+ * Members user shortlink redirector.
+ *
+ * Redirects x.com/members/me/* to x.com/members/{LOGGED_IN_USER_SLUG}/*
+ *
+ * @since 2.6.0
+ *
+ * @param string $member_slug The current member slug.
+ */
+function bp_core_members_shortlink_redirector( $member_slug ) {
+	/**
+	 * Shortlink slug to redirect to logged-in user.
+	 *
+	 * x.com/members/me/* will redirect to x.com/members/{LOGGED_IN_USER_SLUG}/*
+	 *
+	 * @since 2.6.0
+	 *
+	 * @var string $slug Defaults to 'me'.
+	 */
+	$me_slug = apply_filters( 'bp_core_members_shortlink_slug', 'me' );
+
+	// Check if we're on our special shortlink slug. If not, bail.
+	if ( $me_slug !== $member_slug ) {
+		return $member_slug;
+	}
+
+	// If logged out, redirect user to login.
+	if ( false === is_user_logged_in() ) {
+		// Add our login redirector hook.
+		add_action( 'template_redirect', 'bp_core_no_access', 0 );
+
+		return $member_slug;
+	}
+
+	$user = wp_get_current_user();
+
+	return bp_core_get_username( $user->ID, $user->user_nicename, $user->user_login );
+}
+add_filter( 'bp_core_set_uri_globals_member_slug', 'bp_core_members_shortlink_redirector' );
+
+/**
  * Catch unauthorized access to certain BuddyPress pages and redirect accordingly.
  *
  * @since 1.5.0
