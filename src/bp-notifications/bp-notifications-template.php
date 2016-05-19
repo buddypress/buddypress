@@ -215,11 +215,13 @@ function bp_has_notifications( $args = '' ) {
 	 * Filters whether or not the user has notifications to display.
 	 *
 	 * @since 1.9.0
+	 * @since 2.6.0 Added the `$r` parameter.
 	 *
 	 * @param bool                      $value      Whether or not there are notifications to display.
 	 * @param BP_Notifications_Template $query_loop BP_Notifications_Template object instance.
+	 * @param array                     $r          Array of arguments passed into the BP_Notifications_Template class.
 	 */
-	return apply_filters( 'bp_has_notifications', $query_loop->has_notifications(), $query_loop );
+	return apply_filters( 'bp_has_notifications', $query_loop->has_notifications(), $query_loop, $r );
 }
 
 /**
@@ -826,10 +828,12 @@ function bp_the_notification_action_links( $args = '' ) {
 		 * Filters the action links for the current notification.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $retval HTML links for actions to take on single notifications.
+		 * @param array  $r      Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_the_notification_action_links', $retval );
+		return apply_filters( 'bp_get_the_notification_action_links', $retval, $r );
 	}
 
 /**

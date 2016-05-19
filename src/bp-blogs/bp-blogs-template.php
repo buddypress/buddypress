@@ -631,10 +631,12 @@ function bp_blog_latest_post( $args = array() ) {
 		 * Filters the HTML markup result for the latest blog post in loop.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $retval HTML markup for the latest post.
+		 * @param array  $r      Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_blog_latest_post', $retval );
+		return apply_filters( 'bp_get_blog_latest_post', $retval, $r );
 	}
 
 /**

@@ -73,11 +73,13 @@ function bp_has_profile( $args = '' ) {
 	 * Filters whether or not a group has a profile to display.
 	 *
 	 * @since 1.1.0
+	 * @since 2.6.0 Added the `$r` parameter.
 	 *
 	 * @param bool   $has_groups       Whether or not there are group profiles to display.
 	 * @param string $profile_template Current profile template being used.
+	 * @param array  $r                Array of arguments passed into the BP_XProfile_Data_Template class.
 	 */
-	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template );
+	return apply_filters( 'bp_has_profile', $profile_template->has_groups(), $profile_template, $r );
 }
 
 /**
@@ -882,10 +884,12 @@ function bp_the_profile_field_visibility_level_label() {
 		 * Filters the profile field visibility level label.
 		 *
 		 * @since 1.6.0
+		 * @since 2.6.0 Added the `$level` parameter.
 		 *
 		 * @param string $retval Field visibility level label.
+		 * @param string $level  Field visibility level.
 		 */
-		return apply_filters( 'bp_get_the_profile_field_visibility_level_label', $fields[ $level ]['label'] );
+		return apply_filters( 'bp_get_the_profile_field_visibility_level_label', $fields[ $level ]['label'], $level );
 	}
 
 /**
@@ -941,10 +945,12 @@ function bp_profile_field_data( $args = '' ) {
 		 * Filters the profile field data.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param mixed $value Profile data for a specific field for the user.
+		 * @param array $r     Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_profile_field_data', xprofile_get_field_data( $r['field'], $r['user_id'] ) );
+		return apply_filters( 'bp_get_profile_field_data', xprofile_get_field_data( $r['field'], $r['user_id'] ), $r );
 	}
 
 /**

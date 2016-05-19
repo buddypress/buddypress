@@ -682,8 +682,10 @@ function bp_message_thread_avatar( $args = '' ) {
 		 * Filters the avatar for the last sender in the current message thread.
 		 *
 		 * @since 1.0.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $value User avatar string.
+		 * @param array  $r     Array of parsed arguments.
 		 */
 		return apply_filters( 'bp_get_message_thread_avatar', bp_core_fetch_avatar( array(
 			'item_id' => $messages_template->thread->last_sender_id,
@@ -693,7 +695,7 @@ function bp_message_thread_avatar( $args = '' ) {
 			'class'   => $r['class'],
 			'width'   => $r['width'],
 			'height'  => $r['height'],
-		) ) );
+		) ), $r );
 	}
 
 /**
@@ -1808,8 +1810,10 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 		 * Filters the avatar for the current message sender.
 		 *
 		 * @since 1.1.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $value <img> tag containing the avatar value.
+		 * @param array  $r     Array of parsed arguments.
 		 */
 		return apply_filters( 'bp_get_the_thread_message_sender_avatar_thumb', bp_core_fetch_avatar( array(
 			'item_id' => $thread_template->message->sender_id,
@@ -1817,7 +1821,7 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 			'width'   => $r['width'],
 			'height'  => $r['height'],
 			'alt'     => bp_core_get_user_displayname( $thread_template->message->sender_id )
-		) ) );
+		) ), $r );
 	}
 
 /**

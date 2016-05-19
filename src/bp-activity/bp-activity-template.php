@@ -3014,10 +3014,12 @@ function bp_activity_filter_links( $args = false ) {
 		 * Filters all of the constructed filter links.
 		 *
 		 * @since 1.1.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $value All of the links to be displayed to the user.
+		 * @param array  $r     Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ) );
+		return apply_filters( 'bp_get_activity_filter_links', implode( "\n", $component_links ), $r );
 	}
 
 /**
