@@ -1101,10 +1101,12 @@ function bp_profile_group_name( $deprecated = true ) {
 		 * Filters the profile group name.
 		 *
 		 * @since 1.0.0
+		 * @since 2.6.0 Added the `$group_id` parameter
 		 *
-		 * @param string $name Name of the profile group.
+		 * @param string $name     Name of the profile group.
+		 * @param int    $group_id ID of the profile group.
 		 */
-		return apply_filters( 'bp_get_profile_group_name', $group->name );
+		return apply_filters( 'bp_get_profile_group_name', $group->name, $group_id );
 	}
 
 /**
