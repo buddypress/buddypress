@@ -629,6 +629,10 @@ class BP_Notifications_Notification {
 	 *                                           false (no pagination - all items).
 	 *     @type int          $per_page          Number of items to show per page. Default:
 	 *                                           false (no pagination - all items).
+	 *     @type array        $meta_query        Array of meta_query conditions. See WP_Meta_Query::queries.
+	 *     @type array        $date_query        Array of date_query conditions. See first parameter of
+	 *                                           WP_Date_Query::__construct().
+	 *     @type bool         $update_meta_cache Whether to update meta cache. Default: true.
 	 * }
 	 * @return array Located notifications.
 	 */
@@ -681,7 +685,14 @@ class BP_Notifications_Notification {
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} {$order_sql} {$pag_sql}";
 
-		return $wpdb->get_results( $sql );
+		$results = $wpdb->get_results( $sql );
+
+		// Update meta cache.
+		if ( true === $r['update_meta_cache'] ) {
+			bp_notifications_update_meta_cache( wp_list_pluck( $results, 'id' ) );
+		}
+
+		return $results;
 	}
 
 	/**
