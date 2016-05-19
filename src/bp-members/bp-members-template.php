@@ -1651,10 +1651,12 @@ function bp_last_activity( $user_id = 0 ) {
 		 * Filters the 'active [x days ago]' string for a user.
 		 *
 		 * @since 1.5.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param string $value Formatted 'active [x days ago]' string.
+		 * @param string $value   Formatted 'active [x days ago]' string.
+		 * @param int    $user_id ID of the user.
 		 */
-		return apply_filters( 'bp_get_last_activity', $last_activity );
+		return apply_filters( 'bp_get_last_activity', $last_activity, $user_id );
 	}
 
 /**
