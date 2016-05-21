@@ -821,6 +821,16 @@ class BP_Groups_Member {
 			return false;
 		}
 
+		/**
+		 * Fires before a group invitation is deleted.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param int $user_id  ID of the user.
+		 * @param int $group_id ID of the group.
+		 */
+		do_action( 'bp_groups_member_before_delete_invite', $user_id, $group_id );
+
 		$table_name = buddypress()->groups->table_name_members;
 
 		$sql = "DELETE FROM {$table_name}
@@ -1053,6 +1063,23 @@ class BP_Groups_Member {
 	}
 
 	/**
+	 * Get group membership objects by ID (or an array of IDs).
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param int|string|array $membership_ids Single membership ID or comma-separated/array list of membership IDs.
+	 * @return array
+	 */
+	public static function get_memberships_by_id( $membership_ids ) {
+		global $wpdb;
+
+		$bp = buddypress();
+
+		$membership_ids = implode( ',', wp_parse_id_list( $membership_ids ) );
+		return $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name_members} WHERE id IN ({$membership_ids})" );
+	}
+
+	/**
 	 * Get the IDs users with outstanding membership requests to the group.
 	 *
 	 * @since 1.6.0
@@ -1158,6 +1185,24 @@ class BP_Groups_Member {
 		}
 
 		return array( 'members' => $members, 'count' => $total_member_count );
+	}
+
+	/**
+	 * Get all membership IDs for a user.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param int $user_id ID of the user.
+	 * @return array
+	 */
+	public static function get_membership_ids_for_user( $user_id ) {
+		global $wpdb;
+
+		$bp = buddypress();
+
+		$group_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d ORDER BY id ASC", $user_id ) );
+
+		return $group_ids;
 	}
 
 	/**

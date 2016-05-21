@@ -1422,68 +1422,13 @@ class BP_Groups_Group {
 	 * @return array $paged_groups
 	 */
 	public static function get_group_extras( &$paged_groups, &$group_ids, $type = false ) {
-		global $wpdb;
+		$user_id = bp_loggedin_user_id();
 
-		if ( empty( $group_ids ) )
-			return $paged_groups;
-
-		$bp = buddypress();
-
-		// Sanitize group IDs.
-		$group_ids = implode( ',', wp_parse_id_list( $group_ids ) );
-
-		// Fetch the logged-in user's status within each group.
-		if ( is_user_logged_in() ) {
-			$user_status_results = $wpdb->get_results( $wpdb->prepare( "SELECT group_id, is_confirmed, invite_sent FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id IN ( {$group_ids} ) AND is_banned = 0", bp_loggedin_user_id() ) );
-		} else {
-			$user_status_results = array();
-		}
-
-		// Reindex.
-		$user_status = array();
-		foreach ( $user_status_results as $user_status_result ) {
-			$user_status[ $user_status_result->group_id ] = $user_status_result;
-		}
-
-		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
-			$is_member = $is_invited = $is_pending = '0';
-			$gid = $paged_groups[ $i ]->id;
-
-			if ( isset( $user_status[ $gid ] ) ) {
-
-				// The is_confirmed means the user is a member.
-				if ( $user_status[ $gid ]->is_confirmed ) {
-					$is_member = '1';
-
-				// The invite_sent means the user has been invited.
-				} elseif ( $user_status[ $gid ]->invite_sent ) {
-					$is_invited = '1';
-
-				// User has sent request, but has not been confirmed.
-				} else {
-					$is_pending = '1';
-				}
-			}
-
-			$paged_groups[ $i ]->is_member = $is_member;
-			$paged_groups[ $i ]->is_invited = $is_invited;
-			$paged_groups[ $i ]->is_pending = $is_pending;
-		}
-
-		if ( is_user_logged_in() ) {
-			$user_banned = $wpdb->get_col( $wpdb->prepare( "SELECT group_id FROM {$bp->groups->table_name_members} WHERE is_banned = 1 AND user_id = %d AND group_id IN ( {$group_ids} )", bp_loggedin_user_id() ) );
-		} else {
-			$user_banned = array();
-		}
-
-		for ( $i = 0, $count = count( $paged_groups ); $i < $count; ++$i ) {
-			$paged_groups[$i]->is_banned = false;
-
-			foreach ( (array) $user_banned as $group_id ) {
-				if ( $group_id == $paged_groups[$i]->id ) {
-					$paged_groups[$i]->is_banned = true;
-				}
-			}
+		foreach ( $paged_groups as &$group ) {
+			$group->is_member  = groups_is_user_member( $user_id, $group->id ) ? '1' : '0';
+			$group->is_invited = groups_is_user_invited( $user_id, $group->id ) ? '1' : '0';
+			$group->is_pending = groups_is_user_pending( $user_id, $group->id ) ? '1' : '0';
+			$group->is_banned  = (bool) groups_is_user_banned( $user_id, $group->id );
 		}
 
 		return $paged_groups;

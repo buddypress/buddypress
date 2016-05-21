@@ -845,7 +845,9 @@ class BP_Groups_Component extends BP_Component {
 			'bp_groups',
 			'bp_group_admins',
 			'bp_group_invite_count',
-			'group_meta'
+			'group_meta',
+			'bp_groups_memberships',
+			'bp_groups_memberships_for_user',
 		) );
 
 		parent::setup_cache_groups();

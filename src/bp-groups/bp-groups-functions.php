@@ -791,6 +791,115 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
 }
 
 /**
+ * Get a list of groups of which the specified user is a member.
+ *
+ * @since 2.6.0
+ *
+ * @param int $user_id ID of the user.
+ * @param array $args {
+ *     Array of optional args.
+ *     @param bool|null   $is_confirmed Whether to return only confirmed memberships. Pass `null` to disable this
+ *                                      filter. Default: true.
+ *     @param bool|null   $is_banned    Whether to return only banned memberships. Pass `null` to disable this filter.
+ *                                      Default: false.
+ *     @param bool|null   $is_admin     Whether to return only admin memberships. Pass `null` to disable this filter.
+ *                                      Default: false.
+ *     @param bool|null   $is_mod       Whether to return only mod memberships. Pass `null` to disable this filter.
+ *                                      Default: false.
+ *     @param bool|null   $invite_sent  Whether to return only memberships with 'invite_sent'. Pass `null` to disable
+ *                                      this filter. Default: false.
+ *     @param string      $orderby      Field to order by. Accepts 'id' (membership ID), 'group_id', 'date_modified'.
+ *                                      Default: 'group_id'.
+ *     @param string      $order        Sort order. Accepts 'ASC' or 'DESC'. Default: 'ASC'.
+ * }
+ * @return array Array of matching group memberships, keyed by group ID.
+ */
+function bp_get_user_groups( $user_id, $args = array() ) {
+	$r = bp_parse_args( $args, array(
+		'is_confirmed' => true,
+		'is_banned'    => false,
+		'is_admin'     => false,
+		'is_mod'       => false,
+		'invite_sent'  => null,
+		'orderby'      => 'group_id',
+		'order'        => 'ASC',
+	), 'get_user_groups' );
+
+	$user_id = intval( $user_id );
+
+	$membership_ids = wp_cache_get( $user_id, 'bp_groups_memberships_for_user' );
+	if ( false === $membership_ids ) {
+		$membership_ids = BP_Groups_Member::get_membership_ids_for_user( $user_id );
+		wp_cache_set( $user_id, $membership_ids, 'bp_groups_memberships_for_user' );
+	}
+
+	// Prime the membership cache.
+	$uncached_membership_ids = bp_get_non_cached_ids( $membership_ids, 'bp_groups_memberships' );
+	if ( ! empty( $uncached_membership_ids ) ) {
+		$uncached_memberships = BP_Groups_Member::get_memberships_by_id( $uncached_membership_ids );
+
+		foreach ( $uncached_memberships as $uncached_membership ) {
+			wp_cache_set( $uncached_membership->id, $uncached_membership, 'bp_groups_memberships' );
+		}
+	}
+
+	// Populate group membership array from cache.
+	$groups = array();
+	foreach ( $membership_ids as $membership_id ) {
+		$membership = wp_cache_get( $membership_id, 'bp_groups_memberships' );
+
+		// Sanity check.
+		if ( ! isset( $membership->group_id ) ) {
+			continue;
+		}
+
+		$group_id = (int) $membership->group_id;
+
+		$groups[ $group_id ] = $membership;
+	}
+
+	// Normalize group data.
+	foreach ( $groups as &$group ) {
+		// Integer values.
+		foreach ( array( 'id', 'group_id', 'user_id', 'inviter_id' ) as $index ) {
+			$group->{$index} = intval( $group->{$index} );
+		}
+
+		// Boolean values.
+		foreach ( array( 'is_admin', 'is_mod', 'is_confirmed', 'is_banned', 'invite_sent' ) as $index ) {
+			$group->{$index} = (bool) $group->{$index};
+		}
+	}
+
+	// Assemble filter array for use in `wp_list_filter()`.
+	$filters = wp_array_slice_assoc( $r, array( 'is_confirmed', 'is_banned', 'is_admin', 'is_mod', 'invite_sent' ) );
+	foreach ( $filters as $filter_name => $filter_value ) {
+		if ( is_null( $filter_value ) ) {
+			unset( $filters[ $filter_name ] );
+		}
+	}
+
+	if ( ! empty( $filters ) ) {
+		$groups = wp_list_filter( $groups, $filters );
+	}
+
+	// By default, results are ordered by membership id.
+	if ( 'group_id' === $r['orderby'] ) {
+		ksort( $groups );
+	} elseif ( in_array( $r['orderby'], array( 'id', 'date_modified' ) ) ) {
+		$groups = bp_sort_by_key( $groups, $r['orderby'] );
+	}
+
+	// By default, results are ordered ASC.
+	if ( 'DESC' === strtoupper( $r['order'] ) ) {
+		// `true` to preserve keys.
+		$groups = array_reverse( $groups, true );
+	}
+
+	return $groups;
+}
+
+/**
  * Get the count of groups of which the specified user is a member.
  *
  * @since 1.0.0
@@ -889,7 +998,17 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
  * @return bool
  */
 function groups_is_user_admin( $user_id, $group_id ) {
-	return BP_Groups_Member::check_is_admin( $user_id, $group_id );
+	$is_admin = false;
+
+	$user_groups = bp_get_user_groups( $user_id, array(
+		'is_admin' => true,
+	) );
+
+	if ( isset( $user_groups[ $group_id ] ) ) {
+		$is_admin = $user_groups[ $group_id ]->id;
+	}
+
+	return $is_admin;
 }
 
 /**
@@ -902,7 +1021,17 @@ function groups_is_user_admin( $user_id, $group_id ) {
  * @return bool
  */
 function groups_is_user_mod( $user_id, $group_id ) {
-	return BP_Groups_Member::check_is_mod( $user_id, $group_id );
+	$is_mod = false;
+
+	$user_groups = bp_get_user_groups( $user_id, array(
+		'is_mod' => true,
+	) );
+
+	if ( isset( $user_groups[ $group_id ] ) ) {
+		$is_mod = $user_groups[ $group_id ]->id;
+	}
+
+	return $is_mod;
 }
 
 /**
@@ -915,7 +1044,18 @@ function groups_is_user_mod( $user_id, $group_id ) {
  * @return bool
  */
 function groups_is_user_member( $user_id, $group_id ) {
-	return BP_Groups_Member::check_is_member( $user_id, $group_id );
+	$is_member = false;
+
+	$user_groups = bp_get_user_groups( $user_id, array(
+		'is_admin' => null,
+		'is_mod' => null,
+	) );
+
+	if ( isset( $user_groups[ $group_id ] ) ) {
+		$is_member = $user_groups[ $group_id ]->id;
+	}
+
+	return $is_member;
 }
 
 /**
@@ -929,7 +1069,66 @@ function groups_is_user_member( $user_id, $group_id ) {
  * @return bool
  */
 function groups_is_user_banned( $user_id, $group_id ) {
-	return BP_Groups_Member::check_is_banned( $user_id, $group_id );
+	$is_banned = false;
+
+	$user_groups = bp_get_user_groups( $user_id, array(
+		'is_confirmed' => null,
+		'is_banned' => true,
+	) );
+
+	if ( isset( $user_groups[ $group_id ] ) ) {
+		$is_banned = $user_groups[ $group_id ]->id;
+	}
+
+	return $is_banned;
+}
+
+/**
+ * Check whether a user has an outstanding invitation to a group.
+ *
+ * @since 2.6.0
+ *
+ * @param int $user_id ID of the user.
+ * @param int $group_id ID of the group.
+ * @return int|null ID of the membership if found.
+ */
+function groups_is_user_invited( $user_id, $group_id ) {
+	$is_invited = false;
+
+	$user_groups = bp_get_user_groups( $user_id, array(
+		'invite_sent' => true,
+		'is_confirmed' => false,
+	) );
+
+	if ( isset( $user_groups[ $group_id ] ) ) {
+		$is_invited = $user_groups[ $group_id ]->id;
+	}
+
+	return $is_invited;
+}
+
+/**
+ * Check whether a user has a pending membership request for a group.
+ *
+ * @since 2.6.0
+ *
+ * @param int $user_id ID of the user.
+ * @param int $group_id ID of the group.
+ * @return int|null ID of the membership if found.
+ */
+function groups_is_user_pending( $user_id, $group_id ) {
+	$is_pending = false;
+
+	$user_groups = bp_get_user_groups( $user_id, array(
+		'invite_sent' => false,
+		'is_confirmed' => false,
+	) );
+
+	if ( isset( $user_groups[ $group_id ] ) ) {
+		$is_pending = $user_groups[ $group_id ]->id;
+	}
+
+	return $is_pending;
 }
 
 /**

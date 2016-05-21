@@ -1268,4 +1268,36 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	public function test_total_group_count_should_return_integer() {
 		$this->assertInternalType( 'int', BP_Groups_Member::total_group_count( 123 ) );
 	}
+
+	/**
+	 * @group get_memberships_by_id
+	 */
+	public function test_get_memberships_by_id_with_single_id() {
+		$users = $this->factory->user->create_many( 2 );
+		$groups = $this->factory->group->create_many( 2 );
+
+		$m0 = $this->add_user_to_group( $users[0], $groups[0] );
+		$m1 = $this->add_user_to_group( $users[1], $groups[1] );
+
+		$found = BP_Groups_Member::get_memberships_by_id( $m0 );
+
+		$this->assertSame( 1, count( $found ) );
+		$this->assertEquals( $m0, $found[0]->id );
+	}
+
+	/**
+	 * @group get_memberships_by_id
+	 */
+	public function test_get_memberships_by_id_with_multiple_ids() {
+		$users = $this->factory->user->create_many( 2 );
+		$groups = $this->factory->group->create_many( 2 );
+
+		$m0 = $this->add_user_to_group( $users[0], $groups[0] );
+		$m1 = $this->add_user_to_group( $users[1], $groups[1] );
+
+		$found = BP_Groups_Member::get_memberships_by_id( array( $m0, $m1 ) );
+
+		$this->assertSame( 2, count( $found ) );
+		$this->assertEqualSets( array( $m0, $m1 ), wp_list_pluck( $found, 'id' ) );
+	}
 }
