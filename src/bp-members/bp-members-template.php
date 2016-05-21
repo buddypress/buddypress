@@ -1153,7 +1153,7 @@ function bp_member_profile_data( $args = '' ) {
 		 * @param string|bool $data Profile data if found, otherwise false.
 		 * @param array       $r    Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_member_profile_data', $data );
+		return apply_filters( 'bp_get_member_profile_data', $data, $r );
 	}
 
 /**
