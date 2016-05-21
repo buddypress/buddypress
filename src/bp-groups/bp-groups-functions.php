@@ -995,7 +995,7 @@ function groups_avatar_upload_dir( $group_id = 0 ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @return bool
+ * @return int|bool ID of the membership if the user is admin, otherwise false.
  */
 function groups_is_user_admin( $user_id, $group_id ) {
 	$is_admin = false;
@@ -1018,7 +1018,7 @@ function groups_is_user_admin( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @return bool
+ * @return int|bool ID of the membership if the user is mod, otherwise false.
  */
 function groups_is_user_mod( $user_id, $group_id ) {
 	$is_mod = false;
@@ -1041,7 +1041,7 @@ function groups_is_user_mod( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @return bool
+ * @return int|bool ID of the membership if the user is member, otherwise false.
  */
 function groups_is_user_member( $user_id, $group_id ) {
 	$is_member = false;
@@ -1065,8 +1065,7 @@ function groups_is_user_member( $user_id, $group_id ) {
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- *
- * @return bool
+ * @return int|bool ID of the membership if the user is banned, otherwise false.
  */
 function groups_is_user_banned( $user_id, $group_id ) {
 	$is_banned = false;
@@ -1090,7 +1089,7 @@ function groups_is_user_banned( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @return int|null ID of the membership if found.
+ * @return int|bool ID of the membership if the user is invited, otherwise false.
  */
 function groups_is_user_invited( $user_id, $group_id ) {
 	$is_invited = false;
@@ -1114,7 +1113,7 @@ function groups_is_user_invited( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @return int|null ID of the membership if found.
+ * @return int|bool ID of the membership if the user is pending, otherwise false.
  */
 function groups_is_user_pending( $user_id, $group_id ) {
 	$is_pending = false;
