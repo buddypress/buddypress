@@ -112,8 +112,7 @@ div#community-profile-page p.not-activated {
 .bp-profile-field p {
 	font-size: 14px;
 }
-.bp-profile-field .datebox > label,
-.bp-profile-field .radio > label,
+
 .bp-profile-field > label {  /* label takes on left side 200px */
 	display: inline-block;
 	font-weight: 600;
@@ -163,4 +162,24 @@ div#community-profile-page p.not-activated {
 #normal-sortables .field-visibility-settings legend {  /* id required for css selector weight */
 	font-size: 16px;
 	margin-bottom: 10px;
+}
+
+#your-profile .bp-profile-field .checkbox legend,
+#your-profile .bp-profile-field .datebox legend,
+#your-profile .bp-profile-field .radio legend {
+	display: inline-block;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.4em;
+	text-align: left;
+	vertical-align: middle;
+	width: 192px;
+}
+
+#your-profile .bp-profile-field .radio legend {
+	vertical-align: top;
+}
+
+.bp-profile-field .radio .clear-value {
+	margin-top: 10px;
 }
