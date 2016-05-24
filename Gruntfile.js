@@ -258,9 +258,9 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['checkDependencies',  'jshint', 'scsslint', 'sass', 'cssjanus'] );
+	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'scsslint', 'sass', 'cssjanus'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
-	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify',  'cssmin', 'makepot', 'exec:bpdefault'] );
+	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
 	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );
 
 	// Testing tasks.
@@ -274,10 +274,10 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit'] );
 
-	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [  'jshint' ] );
+	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [ 'jsvalidate:src', 'jshint' ] );
 
 	// Travis CI Task
-	grunt.registerTask( 'travis', [ 'jshint', 'checktextdomain', 'test'] );
+	grunt.registerTask( 'travis', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
 
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );
