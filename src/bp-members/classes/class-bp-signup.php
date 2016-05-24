@@ -736,7 +736,7 @@ class BP_Signup {
 		foreach ( $signups as $signup ) {
 			$user_id = username_exists( $signup->user_login );
 
-			if ( ! empty( $user_id ) && $signup->activation_key == wp_hash( $user_id ) ) {
+			if ( ! empty( $user_id ) && $signup->activation_key === bp_get_user_meta( $user_id, 'activation_key', true ) ) {
 
 				if ( 2 != self::check_user_status( $user_id ) ) {
 

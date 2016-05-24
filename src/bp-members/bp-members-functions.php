@@ -1791,7 +1791,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		// Format data.
 		$user_login     = preg_replace( '/\s+/', '', sanitize_user( $user_login, true ) );
 		$user_email     = sanitize_email( $user_email );
-		$activation_key = substr( md5( time() . rand() . $user_email ), 0, 16 );
+		$activation_key = wp_generate_password( 32, false );
 
 		/**
 		 * WordPress's default behavior is to create user accounts
@@ -1813,7 +1813,6 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 				return $user_id;
 			}
 
-			$activation_key = wp_hash( $user_id );
 			bp_update_user_meta( $user_id, 'activation_key', $activation_key );
 		}
 
@@ -1937,13 +1936,13 @@ function bp_core_activate_signup( $key ) {
 
 		$user_id = username_exists( $signup->user_login );
 
-		// Create the user.
+		// Create the user. This should only be necessary if BP_SIGNUPS_SKIP_USER_CREATION is true.
 		if ( ! $user_id ) {
 			$user_id = wp_create_user( $signup->user_login, $password, $signup->user_email );
 
-		// If a user ID is found, this may be a legacy signup, or one
-		// created locally for backward compatibility. Process it.
-		} elseif ( $key == wp_hash( $user_id ) ) {
+		// Otherwise, update the existing user's status.
+		} elseif ( $key === bp_get_user_meta( $user_id, 'activation_key', true ) || $key === wp_hash( $user_id ) ) {
+
 			// Change the user's status so they become active.
 			if ( ! $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET user_status = 0 WHERE ID = %d", $user_id ) ) ) {
 				return new WP_Error( 'invalid_key', __( 'Invalid activation key.', 'buddypress' ) );
@@ -2103,7 +2102,7 @@ function bp_members_migrate_signups() {
 
 		// Rebuild the activation key, if missing.
 		if ( empty( $signup->activation_key ) ) {
-			$signup->activation_key = wp_hash( $signup->ID );
+			$signup->activation_key = wp_generate_password( 32, false );
 		}
 
 		if ( bp_is_active( 'xprofile' ) ) {

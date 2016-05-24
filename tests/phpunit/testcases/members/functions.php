@@ -261,7 +261,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$u_obj = new WP_User( $u );
 
 		// Fake an old-style registration
-		$key = wp_hash( $u_obj->ID );
+		$key = wp_generate_password( 32, false );
 		update_user_meta( $u, 'activation_key', $key );
 
 		global $wpdb;
@@ -295,7 +295,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$u_obj = new WP_User( $u );
 
 		// Fake an old-style registration
-		$key = wp_hash( $u_obj->ID );
+		$key = wp_generate_password( 32, false );
 		update_user_meta( $u, 'activation_key', $key );
 
 		// ...but ensure that user_status is 0. This mimics the

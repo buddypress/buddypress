@@ -359,14 +359,6 @@ function bp_core_screen_activation() {
 			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
 		}
 
-		$hashed_key = wp_hash( $key );
-
-		// Check if the signup avatar folder exists. If it does, move the folder to
-		// the BP user avatars directory.
-		if ( file_exists( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key ) ) {
-			@rename( bp_core_avatar_upload_path() . '/avatars/signups/' . $hashed_key, bp_core_avatar_upload_path() . '/avatars/' . $user );
-		}
-
 		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
 		$bp->activation_complete = true;
 	}
