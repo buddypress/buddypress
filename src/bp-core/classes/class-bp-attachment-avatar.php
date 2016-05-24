@@ -292,7 +292,8 @@ class BP_Attachment_Avatar extends BP_Attachment {
 				$args['dst_h'] = bp_core_avatar_full_height();
 			}
 
-			$args['dst_file'] = $avatar_folder_dir . '/' . wp_hash( $absolute_path . time() ) . '-bp' . $key_type . '.' . $ext;
+			$filename         = wp_unique_filename( $avatar_folder_dir, uniqid() . "-bp{$key_type}.{$ext}" );
+			$args['dst_file'] = $avatar_folder_dir . '/' . $filename;
 
 			$avatar_types[ $key_type ] = parent::crop( $args );
 		}

@@ -94,7 +94,7 @@ function bp_settings_action_general() {
 
 				// Store a hash to enable email validation.
 				if ( false === $email_error ) {
-					$hash = wp_hash( $_POST['email'] );
+					$hash = wp_generate_password( 32, false );
 
 					$pending_email = array(
 						'hash'     => $hash,
