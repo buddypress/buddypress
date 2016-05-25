@@ -43,7 +43,7 @@ function bp_notifications_add_notification( $args = array() ) {
 		'date_notified'     => bp_core_current_time(),
 		'is_new'            => 1,
 		'allow_duplicate'   => false,
-	), 'notifications_add_notification' );;
+	), 'notifications_add_notification' );
 
 	// Check for existing duplicate notifications.
 	if ( ! $r['allow_duplicate'] ) {
