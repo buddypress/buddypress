@@ -375,3 +375,10 @@ body.post-type-bp-email th#situation {
 body.post-type-bp-email td.column-situation ul {
 	margin: 0;
 }
+
+body.post-type-bp-email .categorydiv label {
+	display: block;
+	float: left;
+	padding-left: 25px;
+	text-indent: -25px;
+}
