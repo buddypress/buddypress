@@ -128,7 +128,7 @@ div#community-profile-page p.not-activated {
 	vertical-align: top;
 }
 .bp-profile-field .description {  /* description also sits in the right side column */
-	margin: 10px 200px 10px 0;
+	margin: 10px 200px 12px 0;
 	text-align: right;
 }
 .clear-value {  /* 'clear value' option also sits in the right side column */
@@ -160,8 +160,8 @@ div#community-profile-page p.not-activated {
 	margin-bottom: 15px;
 }
 #normal-sortables .field-visibility-settings legend {  /* id required for css selector weight */
-	font-size: 16px;
-	margin-bottom: 10px;
+	font-size: 14px;
+	font-weight:600;
 }
 
 #your-profile .bp-profile-field .checkbox legend,
@@ -177,9 +177,76 @@ div#community-profile-page p.not-activated {
 }
 
 #your-profile .bp-profile-field .radio legend {
+	margin-bottom: 20px;
 	vertical-align: top;
 }
 
 .bp-profile-field .radio .clear-value {
 	margin-top: 10px;
+}
+
+@media screen and (max-width: 782px) {
+	#your-profile .bp-profile-field .checkbox legend,
+	#your-profile .bp-profile-field .datebox legend,
+	#your-profile .bp-profile-field .radio legend,
+	.bp-profile-field label {
+		clear: right;
+		display: block;
+		margin-bottom: 12px;
+	}
+	.bp-profile-field .checkbox > label,
+	.bp-profile-field .checkbox > label + label {
+		margin-right: 50px;
+	}
+	.bp-profile-field .checkbox label,
+	.bp-profile-field .radio label {
+		line-height: 1.4em;
+		margin-bottom: 12px;
+		vertical-align: middle;
+	}
+	.bp-profile-field .checkbox input[type="checkbox"],
+	.bp-profile-field .radio input[type="radio"] {
+		vertical-align: top;
+	}
+	.bp-profile-field .clear-value,
+	.bp-profile-field .description,
+	.bp-profile-field input[type="email"],
+	.bp-profile-field input[type="number"],
+	.bp-profile-field input[type="radio"],
+	.bp-profile-field input[type="text"],
+	.bp-profile-field input[type="url"],
+	.bp-profile-field select:nth-of-type(1),
+	.bp-profile-field .wp-editor-wrap,
+	.field-visibility-settings-notoggle,
+	.field-visibility-settings-toggle {
+		clear: right;
+		margin-right: 50px;
+	}
+	.field-visibility-settings {
+		margin-right: 100px;
+	}
+	#your-profile .field_multiselectbox select {
+		height: auto;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.bp-profile-field .checkbox > label,
+	.bp-profile-field .checkbox > label + label,
+	.bp-profile-field .clear-value,
+	.bp-profile-field .description,
+	.bp-profile-field input[type="email"],
+	.bp-profile-field input[type="number"],
+	.bp-profile-field input[type="radio"],
+	.bp-profile-field input[type="text"],
+	.bp-profile-field input[type="url"],
+	.bp-profile-field select:nth-of-type(1),
+	.bp-profile-field .wp-editor-wrap,
+	.field-visibility-settings-notoggle,
+	.field-visibility-settings-toggle {
+		margin-right: 0;
+	}
+	.field-visibility-settings {
+		margin-right: 50px;
+	}
 }
