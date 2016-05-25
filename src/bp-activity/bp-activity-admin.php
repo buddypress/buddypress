@@ -677,6 +677,10 @@ function bp_activity_admin_edit() {
 								<div id="bp_activity_action" class="postbox">
 									<h2><?php _e( 'Action', 'buddypress' ); ?></h2>
 									<div class="inside">
+										<label for="bp-activities-action" class="screen-reader-text"><?php
+											/* translators: accessibility text */
+											_e( 'Edit activity action', 'buddypress' );
+										?></label>
 										<?php wp_editor( stripslashes( $activity->action ), 'bp-activities-action', array( 'media_buttons' => false, 'textarea_rows' => 7, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>
 								</div>
@@ -684,6 +688,10 @@ function bp_activity_admin_edit() {
 								<div id="bp_activity_content" class="postbox">
 									<h2><?php _e( 'Content', 'buddypress' ); ?></h2>
 									<div class="inside">
+										<label for="bp-activities-content" class="screen-reader-text"><?php
+											/* translators: accessibility text */
+											_e( 'Edit activity content', 'buddypress' );
+										?></label>
 										<?php wp_editor( stripslashes( $activity->content ), 'bp-activities-content', array( 'media_buttons' => false, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>
 								</div>
@@ -1025,6 +1033,10 @@ function bp_activity_admin_index() {
 					<form method="get" action="">
 
 						<h3 id="bp-replyhead"><?php _e( 'Reply to Activity', 'buddypress' ); ?></h3>
+						<label for="bp-activities" class="screen-reader-text"><?php
+								/* translators: accessibility text */
+								_e( 'Reply', 'buddypress' );
+							?></label>
 						<?php wp_editor( '', 'bp-activities', array( 'dfw' => false, 'media_buttons' => false, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), 'tinymce' => false, ) ); ?>
 
 						<p id="bp-replysubmit" class="submit">
