@@ -86,7 +86,7 @@ body#bp-default #admin-bar-logo {
 	padding: 0;
 	float: right;
 	position: relative;
-	background: url('../images/admin-menu-arrow.gif') 12% 53% no-repeat;
+	background: url('../images/admin-menu-arrow.gif') 88% 53% no-repeat;
 	padding-left: 11px;
 }
 #wp-admin-bar ul li.no-arrow {
@@ -121,9 +121,9 @@ body#bp-default #admin-bar-logo {
 	-webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius-topleft: 0;
-	-webkit-border-top-right-radius: 0;
 	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+	-moz-border-radius-topleft: 0;
 	-webkit-border-top-left-radius: 0;
 }
 #wp-admin-bar ul li > ul {
