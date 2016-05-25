@@ -8,7 +8,7 @@ module.exports = function( grunt ) {
 			'**/*.css'
 		],
 
-		// CSS exclusions, for excluding files from certain tasks, e.g. cssjanus
+		// CSS exclusions, for excluding files from certain tasks, e.g. rtlcss
 		BP_EXCLUDED_CSS = [
 			'!**/*-rtl.css'
 		],
@@ -91,15 +91,22 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
-		cssjanus: {
+		rtlcss: {
+			options: {
+				opts: {
+					processUrls: false,
+					autoRename: false,
+					clean: true
+				},
+				saveUnmodified: false
+			},
 			core: {
 				expand: true,
 				cwd: SOURCE_DIR,
 				dest: SOURCE_DIR,
 				extDot: 'last',
 				ext: '-rtl.css',
-				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC ),
-				options: { generateExactDuplicates: true }
+				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC )
 			}
 		},
 		checktextdomain: {
@@ -248,7 +255,7 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'scsslint', 'sass', 'cssjanus'] );
+	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'scsslint', 'sass', 'rtlcss'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
 	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );

@@ -11,9 +11,9 @@
 	top: 0;
 	z-index: 1000; /* >999 for wp-admin */
 }
-/* @noflip */
+/* rtl:ignore */
 .atwho-view {
-	left: 0; 
+	left: 0;
 }
 .atwho-view ul {
 	background: #FFF;
