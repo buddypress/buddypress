@@ -30,11 +30,19 @@ class BP_Core_Friends_Widget extends WP_Widget {
 		);
 		parent::__construct( false, $name = _x( '(BuddyPress) Friends', 'widget name', 'buddypress' ), $widget_ops );
 
-		if ( is_customize_preview() || is_active_widget( false, false, $this->id_base ) && ! is_admin() && ! is_network_admin() ) {
-			$min = bp_core_get_minified_asset_suffix();
-			wp_enqueue_script( 'bp_core_widget_friends-js', buddypress()->plugin_url . "bp-friends/js/widget-friends{$min}.js", array( 'jquery' ), bp_get_version() );
+		if ( is_customize_preview() || is_active_widget( false, false, $this->id_base ) ) {
+			add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
+	}
 
+	/**
+	 * Enqueue scripts.
+	 *
+	 * @since 2.6.0
+	 */
+	public function enqueue_scripts() {
+		$min = bp_core_get_minified_asset_suffix();
+		wp_enqueue_script( 'bp_core_widget_friends-js', buddypress()->plugin_url . "bp-friends/js/widget-friends{$min}.js", array( 'jquery' ), bp_get_version() );
 	}
 
 	/**
