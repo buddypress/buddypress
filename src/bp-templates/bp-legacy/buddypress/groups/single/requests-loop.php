@@ -29,19 +29,28 @@
 	<ul id="request-list" class="item-list">
 		<?php while ( bp_group_membership_requests() ) : bp_group_the_membership_request(); ?>
 
-			<li>
-				<?php bp_group_request_user_avatar_thumb(); ?>
-				<h4><?php bp_group_request_user_link(); ?> <span class="comments"><?php bp_group_request_comment(); ?></span></h4>
-				<span class="activity"><?php bp_group_request_time_since_requested(); ?></span>
+			<li class="item-list group-request-list">
 
-				<?php
+				<div class="item-avatar"><?php bp_group_request_user_avatar_thumb(); ?></div>
 
-				/**
-				 * Fires inside the groups membership request list loop.
-				 *
-				 * @since 1.1.0
-				 */
-				do_action( 'bp_group_membership_requests_admin_item' ); ?>
+				<div class="item">
+
+					<div class="item-title"><?php bp_group_request_user_link(); ?> </div>
+
+					<span class="activity"><?php bp_group_request_time_since_requested(); ?></span>
+
+					<p class="comments"><?php bp_group_request_comment(); ?></p>
+
+					<?php
+
+					/**
+					 * Fires inside the groups membership request list loop.
+					 *
+					 * @since 1.1.0
+					 */
+					do_action( 'bp_group_membership_requests_admin_item' ); ?>
+
+				</div>
 
 				<div class="action">
 
