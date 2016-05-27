@@ -42,68 +42,98 @@ function bp_notifications_slug() {
 	}
 
 /**
- * Output the notifications permalink.
+ * Output the notifications permalink for a user.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter.
+ *
+ * @param int $user_id The user ID.
  */
-function bp_notifications_permalink() {
-	echo bp_get_notifications_permalink();
+function bp_notifications_permalink( $user_id = 0 ) {
+	echo bp_get_notifications_permalink( $user_id );
 }
 	/**
 	 * Return the notifications permalink.
 	 *
 	 * @since 1.9.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string Notifications permalink.
 	 */
-	function bp_get_notifications_permalink() {
-		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
+	function bp_get_notifications_permalink( $user_id = 0 ) {
+		if ( 0 === $user_id ) {
+			$user_id = bp_loggedin_user_id();
+			$domain  = bp_loggedin_user_domain();
+		} else {
+			$domain = bp_core_get_user_domain( (int) $user_id );
+		}
+
+		$retval = trailingslashit( $domain . bp_get_notifications_slug() );
 
 		/**
 		 * Filters the notifications permalink.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $retval Permalink for the notifications.
+		 * @param string $retval  Permalink for the notifications.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_notifications_permalink', $retval );
+		return apply_filters( 'bp_get_notifications_permalink', $retval, $user_id );
 	}
 
 /**
- * Output the unread notifications permalink.
+ * Output the unread notifications permalink for a user.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter.
+ *
+ * @param int $user_id The user ID.
  */
-function bp_notifications_unread_permalink() {
-	echo bp_get_notifications_unread_permalink();
+function bp_notifications_unread_permalink( $user_id = 0 ) {
+	echo bp_get_notifications_unread_permalink( $user_id );
 }
 	/**
 	 * Return the unread notifications permalink.
 	 *
-	 * @since 1.9.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string Unread notifications permalink.
 	 */
-	function bp_get_notifications_unread_permalink() {
-		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() . '/unread' );
+	function bp_get_notifications_unread_permalink( $user_id = 0 ) {
+		if ( 0 === $user_id ) {
+			$user_id = bp_loggedin_user_id();
+			$domain  = bp_loggedin_user_domain();
+		} else {
+			$domain = bp_core_get_user_domain( (int) $user_id );
+		}
+
+		$retval = trailingslashit( $domain . bp_get_notifications_slug() . '/unread' );
 
 		/**
 		 * Filters the unread notifications permalink.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $retval Permalink for the unread notifications.
+		 * @param string $retval  Permalink for the unread notifications.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_notifications_unread_permalink', $retval );
+		return apply_filters( 'bp_get_notifications_unread_permalink', $retval, $user_id );
 	}
 
 /**
- * Output the read notifications permalink.
+ * Output the read notifications permalink for a user.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter.
+ *
+ * @param int $user_id The user ID.
  */
-function bp_notifications_read_permalink() {
-	echo bp_get_notifications_read_permalink();
+function bp_notifications_read_permalink( $user_id = 0 ) {
+	echo bp_get_notifications_read_permalink( $user_id );
 }
 	/**
 	 * Return the read notifications permalink.
@@ -112,17 +142,26 @@ function bp_notifications_read_permalink() {
 	 *
 	 * @return string Read notifications permalink.
 	 */
-	function bp_get_notifications_read_permalink() {
-		$retval = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() . '/read' );
+	function bp_get_notifications_read_permalink( $user_id = 0 ) {
+		if ( 0 === $user_id ) {
+			$user_id = bp_loggedin_user_id();
+			$domain  = bp_loggedin_user_domain();
+		} else {
+			$domain = bp_core_get_user_domain( (int) $user_id );
+		}
+
+		$retval = trailingslashit( $domain . bp_get_notifications_slug() . '/read' );
 
 		/**
 		 * Filters the read notifications permalink.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $retval Permalink for the read notifications.
+		 * @param string $retval  Permalink for the read notifications.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_notifications_unread_permalink', $retval );
+		return apply_filters( 'bp_get_notifications_unread_permalink', $retval, $user_id );
 	}
 
 /** The Loop ******************************************************************/
@@ -500,25 +539,30 @@ function bp_the_notification_description() {
  * Output the mark read link for the current notification.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter.
  *
- * @uses bp_get_the_notification_mark_read_link()
+ * @param int $user_id The user ID.
  */
-function bp_the_notification_mark_read_link() {
-	echo bp_get_the_notification_mark_read_link();
+function bp_the_notification_mark_read_link( $user_id = 0 ) {
+	echo bp_get_the_notification_mark_read_link( $user_id );
 }
 	/**
 	 * Return the mark read link for the current notification.
 	 *
 	 * @since 1.9.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string
 	 */
-	function bp_get_the_notification_mark_read_link() {
+	function bp_get_the_notification_mark_read_link( $user_id = 0 ) {
+		// Set default user ID to use.
+		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
 
 		// Start the output buffer.
 		ob_start(); ?>
 
-		<a href="<?php bp_the_notification_mark_read_url(); ?>" class="mark-read primary"><?php _e( 'Read', 'buddypress' ); ?></a>
+		<a href="<?php bp_the_notification_mark_read_url( $user_id ); ?>" class="mark-read primary"><?php _e( 'Read', 'buddypress' ); ?></a>
 
 		<?php $retval = ob_get_clean();
 
@@ -526,10 +570,12 @@ function bp_the_notification_mark_read_link() {
 		 * Filters the mark read link for the current notification.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $retval HTML for the mark read link for the current notification.
+		 * @param string $retval  HTML for the mark read link for the current notification.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_the_notification_mark_read_link', $retval );
+		return apply_filters( 'bp_get_the_notification_mark_read_link', $retval, $user_id );
 	}
 
 /**
@@ -538,20 +584,23 @@ function bp_the_notification_mark_read_link() {
  * Since this function directly outputs a URL, it is escaped.
  *
  * @since 2.1.0
+ * @since 2.6.0 Added $user_id as a parameter.
  *
- * @uses bp_get_the_notification_mark_read_url()
+ * @param int $user_id The user ID.
  */
-function bp_the_notification_mark_read_url() {
-	echo esc_url( bp_get_the_notification_mark_read_url() );
+function bp_the_notification_mark_read_url( $user_id = 0 ) {
+	echo esc_url( bp_get_the_notification_mark_read_url( $user_id ) );
 }
 	/**
 	 * Return the URL used for marking a single notification as read.
 	 *
 	 * @since 2.1.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string
 	 */
-	function bp_get_the_notification_mark_read_url() {
+	function bp_get_the_notification_mark_read_url( $user_id = 0 ) {
 
 		// Get the notification ID.
 		$id   = bp_get_the_notification_id();
@@ -562,8 +611,11 @@ function bp_the_notification_mark_read_url() {
 			'notification_id' => $id
 		);
 
+		// Set default user ID to use.
+		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
+
 		// Add the args to the URL.
-		$url = add_query_arg( $args, bp_get_notifications_unread_permalink() );
+		$url = add_query_arg( $args, bp_get_notifications_unread_permalink( $user_id ) );
 
 		// Add the nonce.
 		$url = wp_nonce_url( $url, 'bp_notification_mark_read_' . $id );
@@ -572,35 +624,42 @@ function bp_the_notification_mark_read_url() {
 		 * Filters the URL used for marking a single notification as read.
 		 *
 		 * @since 2.1.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $url URL to use for marking the single notification as read.
+		 * @param string $url     URL to use for marking the single notification as read.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_the_notification_mark_read_url', $url );
+		return apply_filters( 'bp_get_the_notification_mark_read_url', $url, $user_id );
 	}
 
 /**
  * Output the mark unread link for the current notification.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter.
  *
- * @uses bp_get_the_notification_mark_unread_link()
+ * @param int $user_id The user ID.
  */
-function bp_the_notification_mark_unread_link() {
+function bp_the_notification_mark_unread_link( $user_id = 0 ) {
 	echo bp_get_the_notification_mark_unread_link();
 }
 	/**
 	 * Return the mark unread link for the current notification.
 	 *
 	 * @since 1.9.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string
 	 */
-	function bp_get_the_notification_mark_unread_link() {
+	function bp_get_the_notification_mark_unread_link( $user_id = 0 ) {
+		// Set default user ID to use.
+		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
 
 		// Start the output buffer.
 		ob_start(); ?>
 
-		<a href="<?php bp_the_notification_mark_unread_url(); ?>" class="mark-unread primary"><?php _ex( 'Unread',  'Notification screen action', 'buddypress' ); ?></a>
+		<a href="<?php bp_the_notification_mark_unread_url( $user_id ); ?>" class="mark-unread primary"><?php _ex( 'Unread',  'Notification screen action', 'buddypress' ); ?></a>
 
 		<?php $retval = ob_get_clean();
 
@@ -608,10 +667,12 @@ function bp_the_notification_mark_unread_link() {
 		 * Filters the link used for marking a single notification as unread.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $retval HTML for the mark unread link for the current notification.
+		 * @param string $retval  HTML for the mark unread link for the current notification.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_the_notification_mark_unread_link', $retval );
+		return apply_filters( 'bp_get_the_notification_mark_unread_link', $retval, $user_id );
 	}
 
 /**
@@ -620,20 +681,23 @@ function bp_the_notification_mark_unread_link() {
  * Since this function directly outputs a URL, it is escaped.
  *
  * @since 2.1.0
+ * @since 2.6.0 Added $user_id as a parameter.
  *
- * @uses bp_get_the_notification_mark_unread_url()
+ * @param int $user_id The user ID.
  */
-function bp_the_notification_mark_unread_url() {
-	echo esc_url( bp_get_the_notification_mark_unread_url() );
+function bp_the_notification_mark_unread_url( $user_id = 0 ) {
+	echo esc_url( bp_get_the_notification_mark_unread_url( $user_id ) );
 }
 	/**
 	 * Return the URL used for marking a single notification as unread.
 	 *
 	 * @since 2.1.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string
 	 */
-	function bp_get_the_notification_mark_unread_url() {
+	function bp_get_the_notification_mark_unread_url( $user_id = 0 ) {
 
 		// Get the notification ID.
 		$id   = bp_get_the_notification_id();
@@ -644,8 +708,11 @@ function bp_the_notification_mark_unread_url() {
 			'notification_id' => $id
 		);
 
+		// Set default user ID to use.
+		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
+
 		// Add the args to the URL.
-		$url = add_query_arg( $args, bp_get_notifications_read_permalink() );
+		$url = add_query_arg( $args, bp_get_notifications_read_permalink( $user_id ) );
 
 		// Add the nonce.
 		$url = wp_nonce_url( $url, 'bp_notification_mark_unread_' . $id );
@@ -654,65 +721,79 @@ function bp_the_notification_mark_unread_url() {
 		 * Filters the URL used for marking a single notification as unread.
 		 *
 		 * @since 2.1.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $url URL to use for marking the single notification as unread.
+		 * @param string $url     URL to use for marking the single notification as unread.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_the_notification_mark_unread_url', $url );
+		return apply_filters( 'bp_get_the_notification_mark_unread_url', $url, $user_id );
 	}
 
 /**
  * Output the mark link for the current notification.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter.
  *
- * @uses bp_get_the_notification_mark_unread_link()
+ * @param int $user_id The user ID.
  */
-function bp_the_notification_mark_link() {
-	echo bp_get_the_notification_mark_link();
+function bp_the_notification_mark_link( $user_id = 0 ) {
+	echo bp_get_the_notification_mark_link( $user_id );
 }
 	/**
 	 * Return the mark link for the current notification.
 	 *
 	 * @since 1.9.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string
 	 */
-	function bp_get_the_notification_mark_link() {
+	function bp_get_the_notification_mark_link( $user_id = 0 ) {
+		// Set default user ID to use.
+		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
 
 		if ( bp_is_current_action( 'read' ) ) {
-			$retval = bp_get_the_notification_mark_unread_link();
+			$retval = bp_get_the_notification_mark_unread_link( $user_id );
 		} else {
-			$retval = bp_get_the_notification_mark_read_link();
+			$retval = bp_get_the_notification_mark_read_link( $user_id );
 		}
 
 		/**
 		 * Filters the mark link for the current notification.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $retval The mark link for the current notification.
+		 * @param string $retval  The mark link for the current notification.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_the_notification_mark_link', $retval );
+		return apply_filters( 'bp_get_the_notification_mark_link', $retval, $user_id );
 	}
 
 /**
  * Output the delete link for the current notification.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter.
  *
- * @uses bp_get_the_notification_delete_link()
+ * @param int $user_id The user ID.
  */
-function bp_the_notification_delete_link() {
-	echo bp_get_the_notification_delete_link();
+function bp_the_notification_delete_link( $user_id = 0 ) {
+	echo bp_get_the_notification_delete_link( $user_id );
 }
 	/**
 	 * Return the delete link for the current notification.
 	 *
 	 * @since 1.9.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string
 	 */
-	function bp_get_the_notification_delete_link() {
+	function bp_get_the_notification_delete_link( $user_id = 0 ) {
+		// Set default user ID to use.
+		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
 
 		// Start the output buffer.
 		ob_start(); ?>
@@ -725,10 +806,12 @@ function bp_the_notification_delete_link() {
 		 * Filters the delete link for the current notification.
 		 *
 		 * @since 1.9.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $retval HTML for the delete link for the current notification.
+		 * @param string $retval  HTML for the delete link for the current notification.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_the_notification_delete_link', $retval );
+		return apply_filters( 'bp_get_the_notification_delete_link', $retval, $user_id );
 	}
 
 /**
@@ -737,27 +820,31 @@ function bp_the_notification_delete_link() {
  * Since this function directly outputs a URL, it is escaped.
  *
  * @since 2.1.0
+ * @since 2.6.0 Added $user_id as a parameter.
  *
- * @uses esc_url()
- * @uses bp_get_the_notification_delete_url()
+ * @param int $user_id The user ID.
  */
-function bp_the_notification_delete_url() {
-	echo esc_url( bp_get_the_notification_delete_url() );
+function bp_the_notification_delete_url( $user_id = 0 ) {
+	echo esc_url( bp_get_the_notification_delete_url( $user_id ) );
 }
 	/**
 	 * Return the URL used for deleting a single notification.
 	 *
 	 * @since 2.1.0
+	 * @since 2.6.0 Added $user_id as a parameter.
 	 *
+	 * @param int $user_id The user ID.
 	 * @return string
 	 */
-	function bp_get_the_notification_delete_url() {
+	function bp_get_the_notification_delete_url( $user_id = 0 ) {
+		// Set default user ID to use.
+		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
 
 		// URL to add nonce to.
 		if ( bp_is_current_action( 'unread' ) ) {
-			$link = bp_get_notifications_unread_permalink();
+			$link = bp_get_notifications_unread_permalink( $user_id );
 		} elseif ( bp_is_current_action( 'read' ) ) {
-			$link = bp_get_notifications_read_permalink();
+			$link = bp_get_notifications_read_permalink( $user_id );
 		}
 
 		// Get the ID.
@@ -779,16 +866,19 @@ function bp_the_notification_delete_url() {
 		 * Filters the URL used for deleting a single notification.
 		 *
 		 * @since 2.1.0
+		 * @since 2.6.0 Added $user_id as a parameter.
 		 *
-		 * @param string $url URL used for deleting a single notification.
+		 * @param string $url     URL used for deleting a single notification.
+		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_the_notification_delete_url', $url );
+		return apply_filters( 'bp_get_the_notification_delete_url', $url, $user_id );
 	}
 
 /**
  * Output the action links for the current notification.
  *
  * @since 1.9.0
+ * @since 2.6.0 Added $user_id as a parameter to $args.
  *
  * @param array|string $args Array of arguments.
  */
@@ -799,16 +889,20 @@ function bp_the_notification_action_links( $args = '' ) {
 	 * Return the action links for the current notification.
 	 *
 	 * @since 1.9.0
+	 * @since 2.6.0 Added $user_id as a parameter to $args.
 	 *
 	 * @param array|string $args {
-	 *     @type string $before HTML before the links.
-	 *     @type string $after  HTML after the links.
-	 *     @type string $sep    HTML between the links.
-	 *     @type array  $links  Array of links to implode by 'sep'.
+	 *     @type string $before  HTML before the links.
+	 *     @type string $after   HTML after the links.
+	 *     @type string $sep     HTML between the links.
+	 *     @type array  $links   Array of links to implode by 'sep'.
+	 *     @type int    $user_id User ID to fetch action links for. Defaults to displayed user ID.
 	 * }
 	 * @return string HTML links for actions to take on single notifications.
 	 */
 	function bp_get_the_notification_action_links( $args = '' ) {
+		// Set default user ID to use.
+		$user_id = isset( $args['user_id'] ) ? $args['user_id'] : bp_displayed_user_id();
 
 		// Parse.
 		$r = wp_parse_args( $args, array(
@@ -816,8 +910,8 @@ function bp_the_notification_action_links( $args = '' ) {
 			'after'  => '',
 			'sep'    => ' | ',
 			'links'  => array(
-				bp_get_the_notification_mark_link(),
-				bp_get_the_notification_delete_link()
+				bp_get_the_notification_mark_link( $user_id ),
+				bp_get_the_notification_delete_link( $user_id )
 			)
 		) );
 

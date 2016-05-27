@@ -98,7 +98,7 @@ function bp_notifications_get_notification( $id ) {
  * @return bool True on success, false on failure.
  */
 function bp_notifications_delete_notification( $id ) {
-	if ( ! bp_notifications_check_notification_access( bp_loggedin_user_id(), $id ) ) {
+	if ( ! bp_notifications_check_notification_access( bp_displayed_user_id(), $id ) ) {
 		return false;
 	}
 
@@ -117,7 +117,7 @@ function bp_notifications_delete_notification( $id ) {
  * @return bool True on success, false on failure.
  */
 function bp_notifications_mark_notification( $id, $is_new = false ) {
-	if ( ! bp_notifications_check_notification_access( bp_loggedin_user_id(), $id ) ) {
+	if ( ! bp_notifications_check_notification_access( bp_displayed_user_id(), $id ) ) {
 		return false;
 	}
 
