@@ -72,68 +72,108 @@ function bp_blogs_get_blogs( $args = '' ) {
 /**
  * Populate the BP blogs table with existing blogs.
  *
- * @since 1.0.0
+ * Warning: By default, this will remove all existing records from the BP
+ * blogs and blogmeta tables before re-populating the tables.
  *
- * @global object $wpdb WordPress database object.
- * @uses get_users()
- * @uses bp_blogs_record_blog()
+ * @since 1.0.0
+ * @since 2.6.0 Accepts $args as a parameter.
+ *
+ * @param array $args {
+ *     Array of arguments.
+ *     @type int   $offset   The offset to use.
+ *     @type int   $limit    The number of blogs to record at one time.
+ *     @type array $blog_ids Blog IDs to record. If empty, all blogs will be recorded.
+ *     @type array $site_id  The network site ID to use.
+ * }
  *
  * @return bool
  */
-function bp_blogs_record_existing_blogs() {
+function bp_blogs_record_existing_blogs( $args = array() ) {
 	global $wpdb;
 
 	// Query for all sites in network.
-	if ( is_multisite() ) {
+	$r = bp_parse_args( $args, array(
+		'offset'   => false === bp_get_option( '_bp_record_blogs_offset' ) ? 0 : bp_get_option( '_bp_record_blogs_offset' ),
+		'limit'    => 50,
+		'blog_ids' => array(),
+		'site_id'  => $wpdb->siteid
+	), 'record_existing_blogs' );
 
-		// Get blog ID's if not a large network.
-		if ( ! wp_is_large_network() ) {
-			$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $wpdb->siteid ) );
+	// Truncate all BP blogs tables if starting fresh
+	if ( empty( $r['offset'] ) && empty( $r['blog_ids'] ) ) {
+		$bp = buddypress();
 
-			// If error running this query, set blog ID's to false.
-			if ( is_wp_error( $blog_ids ) ) {
-				$blog_ids = false;
-			}
-
-		// Large networks are not currently supported.
-		} else {
-			$blog_ids = false;
+		// Truncate user blogs table
+		$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name}" );
+		if ( is_wp_error( $truncate ) ) {
+			return false;
 		}
+
+		// Truncate user blogmeta table
+		$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
+		if ( is_wp_error( $truncate ) ) {
+			return false;
+		}
+	}
+
+	// Multisite
+	if ( is_multisite() ) {
+		$sql = array();
+		$sql['select'] = $wpdb->prepare( "SELECT blog_id, last_updated FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $r['site_id'] );
+
+		// Omit root blog if large network
+		if ( wp_is_large_network( 'users' ) ) {
+			$sql['omit_root_blog'] = $wpdb->prepare( "AND blog_id != %d", bp_get_root_blog_id() );
+		}
+
+		// Filter by selected blog IDs
+		if ( ! empty( $r['blog_ids'] ) ) {
+			$in        = implode( ',', wp_parse_id_list( $r['blog_ids'] ) );
+			$sql['in'] = "AND blog_id IN ({$in})";
+		}
+
+		$sql['orderby'] = 'ORDER BY blog_id ASC';
+
+		$sql['limit'] = $wpdb->prepare( "LIMIT %d", $r['limit'] );
+
+		if ( ! empty( $r['offset'] ) ) {
+			$sql['offset'] = $wpdb->prepare( "OFFSET %d", $r['offset'] );
+		}
+
+		$blogs = $wpdb->get_results( implode( ' ', $sql ) );
 
 	// Record a single site.
 	} else {
-		$blog_ids = $wpdb->blogid;
+		// Just record blog for the current user only.
+		$record = bp_blogs_record_blog( $wpdb->blogid, get_current_user_id(), true );
+
+		if ( false === $record ) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	// Bail if there are no blogs in the network.
-	if ( empty( $blog_ids ) ) {
-		return false;
-	}
+	 // Bail if there are no blogs
+	 if ( empty( $blogs ) ) {
+		// Make sure we remove our offset marker
+		if ( is_multisite() ) {
+			bp_delete_option( '_bp_record_blogs_offset' );
+		}
 
-	// Get BuddyPress.
-	$bp = buddypress();
-
-	// Truncate user blogs table.
-	$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name}" );
-	if ( is_wp_error( $truncate ) ) {
-		return false;
-	}
-
-	// Truncate user blogsmeta table.
-	$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
-	if ( is_wp_error( $truncate ) ) {
 		return false;
 	}
 
 	// Loop through users of blogs and record the relationship.
-	foreach ( (array) $blog_ids as $blog_id ) {
+	foreach ( (array) $blogs as $blog ) {
 
 		// Ensure that the cache is clear after the table TRUNCATE above.
-		wp_cache_delete( $blog_id, 'blog_meta' );
+		wp_cache_delete( $blog->blog_id, 'blog_meta' );
 
 		// Get all users.
 		$users = get_users( array(
-			'blog_id' => $blog_id
+			'blog_id' => $blog->blog_id,
+			'fields'  => 'ID'
 		) );
 
 		// Continue on if no users exist for this site (how did this happen?).
@@ -142,8 +182,42 @@ function bp_blogs_record_existing_blogs() {
 		}
 
 		// Loop through users and record their relationship to this blog.
-		foreach ( (array) $users as $user ) {
-			bp_blogs_add_user_to_blog( $user->ID, false, $blog_id );
+		foreach ( (array) $users as $user_id ) {
+			bp_blogs_add_user_to_blog( $user_id, false, $blog->blog_id );
+
+			// Clear cache
+			bp_blogs_clear_blog_object_cache( $blog->blog_id, $user_id );
+		}
+
+		// Update blog last activity timestamp
+		if ( ! empty( $blog->last_updated ) && false !== strtotime( $blog->last_updated ) ) {
+			bp_blogs_update_blogmeta( $blog->blog_id, 'last_activity', $blog->last_updated );
+		}
+	}
+
+	// See if we need to do this again
+	if ( is_multisite() && empty( $r['blog_ids'] ) ) {
+		$sql['offset'] = $wpdb->prepare( " OFFSET %d", $r['limit'] + $r['offset'] );
+
+		// Check if there are more blogs to record
+		$blog_ids = $wpdb->get_results( implode( ' ', $sql ) );
+
+		// We have more blogs; record offset and re-run function
+		if ( ! empty( $blog_ids  ) ) {
+			bp_update_option( '_bp_record_blogs_offset', $r['limit'] + $r['offset'] );
+			bp_blogs_record_existing_blogs( array(
+				'offset'   => $r['limit'] + $r['offset'],
+				'limit'    => $r['limit'],
+				'blog_ids' => $r['blog_ids'],
+				'site_id'  => $r['site_id']
+			) );
+
+			// Bail since we have more blogs to record.
+			return;
+
+		// No more blogs; delete offset marker
+		} else {
+			bp_delete_option( '_bp_record_blogs_offset' );
 		}
 	}
 

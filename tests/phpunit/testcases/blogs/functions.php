@@ -984,6 +984,38 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->comment_saved_count += 1;
 	}
 
+	/**
+	 * @group bp_blogs_record_existing_blogs
+	 */
+	public function test_bp_blogs_record_existing_blogs_limit() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$old_user = get_current_user_id();
+
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+
+		// Create three sites.
+		$this->factory->blog->create_many( 3, array(
+			'user_id' => $u
+		) );
+
+		// Record each site one at a time
+		bp_blogs_record_existing_blogs( array(
+			'limit' => 1
+		) );
+
+		// Assert!
+		$blogs = bp_blogs_get_blogs( array(
+			'user_id' => $u
+		) );
+		$this->assertSame( 3, (int) $blogs['total'] );
+
+		$this->set_current_user( $old_user );
+	}
+
 	protected function activity_exists_for_post( $post_id ) {
 		$a = bp_activity_get( array(
 			'component' => buddypress()->blogs->id,

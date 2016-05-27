@@ -473,3 +473,24 @@ function bp_admin_reinstall_emails() {
 
 	return array( 0, __( 'Emails have been successfully reinstalled.', 'buddypress' ) );
 }
+
+/**
+ * Add notice on the "Tools > BuddyPress" page if more sites need recording.
+ *
+ * This notice only shows up in the network admin dashboard.
+ *
+ * @since 2.6.0
+ */
+function bp_core_admin_notice_repopulate_blogs_resume() {
+	$screen = get_current_screen();
+	if ( 'tools_page_bp-tools-network' !== $screen->id ) {
+		return;
+	}
+
+	if ( '' === bp_get_option( '_bp_record_blogs_offset' ) ) {
+		return;
+	}
+
+	echo '<div class="error"><p>' . __( 'It looks like you have more sites to record. Resume recording by checking the "Repopulate site tracking records" option.', 'buddypress' ) . '</p></div>';
+}
+add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resume' );
