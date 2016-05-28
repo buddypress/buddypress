@@ -45,6 +45,29 @@ function bp_register_default_taxonomies() {
 add_action( 'bp_register_taxonomies', 'bp_register_default_taxonomies' );
 
 /**
+ * Gets the ID of the site that BP should use for taxonomy term storage.
+ *
+ * Defaults to the root blog ID.
+ *
+ * @since 2.6.0
+ *
+ * @return int
+ */
+function bp_get_taxonomy_term_site_id( $taxonomy = '' ) {
+	$site_id = bp_get_root_blog_id();
+
+	/**
+	 * Filters the ID of the site where BP should store taxonomy terms.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param int    $site_id
+	 * @param string $taxonomy
+	 */
+	return (int) apply_filters( 'bp_get_taxonomy_term_site_id', $site_id, $taxonomy );
+}
+
+/**
  * Set taxonomy terms on a BuddyPress object.
  *
  * @since 2.2.0
@@ -58,16 +81,18 @@ add_action( 'bp_register_taxonomies', 'bp_register_default_taxonomies' );
  * @return array Array of term taxonomy IDs.
  */
 function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
-	$is_root_blog = bp_is_root_blog();
+	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
 
-	if ( ! $is_root_blog ) {
-		switch_to_blog( bp_get_root_blog_id() );
+	$switched = false;
+	if ( $site_id !== get_current_blog_id() ) {
+		switch_to_blog( $site_id );
 		bp_register_taxonomies();
+		$switched = true;
 	}
 
 	$retval = wp_set_object_terms( $object_id, $terms, $taxonomy, $append );
 
-	if ( ! $is_root_blog ) {
+	if ( ! $switched ) {
 		restore_current_blog();
 	}
 
@@ -87,17 +112,28 @@ function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
  * @return array
  */
 function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
-	$is_root_blog = bp_is_root_blog();
-
-	if ( ! $is_root_blog ) {
-		switch_to_blog( bp_get_root_blog_id() );
-		bp_register_taxonomies();
+	// Different taxonomies must be stored on different sites.
+	$taxonomy_site_map = array();
+	foreach ( (array) $taxonomies as $taxonomy ) {
+		$taxonomy_site_id = bp_get_taxonomy_term_site_id( $taxonomy );
+		$taxonomy_site_map[ $taxonomy_site_id ][] = $taxonomy;
 	}
 
-	$retval = wp_get_object_terms( $object_ids, $taxonomies, $args );
+	$retval = array();
+	foreach ( $taxonomy_site_map as $taxonomy_site_id => $site_taxonomies ) {
+		$switched = false;
+		if ( $taxonomy_site_id !== get_current_blog_id() ) {
+			switch_to_blog( $site_id );
+			bp_register_taxonomies();
+			$switched = true;
+		}
 
-	if ( ! $is_root_blog ) {
-		restore_current_blog();
+		$site_terms = wp_get_object_terms( $object_ids, $site_taxonomies, $args );
+		$retval     = array_merge( $retval, $site_terms );
+
+		if ( ! $switched ) {
+			restore_current_blog();
+		}
 	}
 
 	return $retval;
@@ -116,16 +152,18 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
  * @return bool|WP_Error True on success, false or WP_Error on failure.
  */
 function bp_remove_object_terms( $object_id, $terms, $taxonomy ) {
-	$is_root_blog = bp_is_root_blog();
+	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
 
-	if ( ! $is_root_blog ) {
-		switch_to_blog( bp_get_root_blog_id() );
+	$switched = false;
+	if ( $site_id !== get_current_blog_id() ) {
+		switch_to_blog( $site_id );
 		bp_register_taxonomies();
+		$switched = true;
 	}
 
 	$retval = wp_remove_object_terms( $object_id, $terms, $taxonomy );
 
-	if ( ! $is_root_blog ) {
+	if ( ! $switched ) {
 		restore_current_blog();
 	}
 
