@@ -1541,10 +1541,29 @@ function groups_get_invites_for_group( $user_id, $group_id ) {
  * @param int    $group_id ID of potential group.
  * @param string $type     Optional. Use 'sent' to check for sent invites,
  *                         'all' to check for all. Default: 'sent'.
- * @return bool True if an invitation is found, otherwise false.
+ * @return int|bool ID of the membership if found, otherwise false.
  */
 function groups_check_user_has_invite( $user_id, $group_id, $type = 'sent' ) {
-	return BP_Groups_Member::check_has_invite( $user_id, $group_id, $type );
+	$invite = false;
+
+	$args = array(
+		'is_confirmed' => false,
+		'is_banned'    => null,
+		'is_admin'     => null,
+		'is_mod'       => null,
+	);
+
+	if ( 'sent' === $type ) {
+		$args['invite_sent'] = true;
+	}
+
+	$user_groups = bp_get_user_groups( $user_id, $args );
+
+	if ( isset( $user_groups[ $group_id ] ) && 0 !== $user_groups[ $group_id ]->inviter_id ) {
+		$invite = $user_groups[ $group_id ]->id;
+	}
+
+	return $invite;
 }
 
 /**
@@ -1889,10 +1908,23 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
- * @return int|null ID of the membership if found, otherwise false.
+ * @return int|bool ID of the membership if found, otherwise false.
  */
 function groups_check_for_membership_request( $user_id, $group_id ) {
-	return BP_Groups_Member::check_for_membership_request( $user_id, $group_id );
+	$request = false;
+
+	$user_groups = bp_get_user_groups( $user_id, array(
+		'is_confirmed' => false,
+		'is_banned'    => false,
+		'is_admin'     => null,
+		'is_mod'       => null
+	) );
+
+	if ( isset( $user_groups[ $group_id ] ) && 0 === $user_groups[ $group_id ]->inviter_id ) {
+		$request = $user_groups[ $group_id ]->id;
+	}
+
+	return $request;
 }
 
 /**

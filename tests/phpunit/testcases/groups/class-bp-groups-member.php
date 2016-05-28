@@ -990,7 +990,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $member ) && $member > 0 );
 		// Check that the invite has been removed.
 		$invite = groups_check_user_has_invite( $u2, $g1, 'all' );
-		$this->assertTrue( is_null( $invite ) );
+		$this->assertFalse( $invite );
 	}
 
 	/**
