@@ -1278,7 +1278,7 @@ function bp_legacy_theme_ajax_invite_user() {
 
 		// Users who have previously requested membership do not need
 		// another invitation created for them.
-		if ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
+		if ( groups_check_for_membership_request( $friend_id, $group_id ) ) {
 			$user_status = 'is_pending';
 
 		// Create the user invitation.

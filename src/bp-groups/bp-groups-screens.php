@@ -690,7 +690,7 @@ function groups_remove_group_invite() {
 	if ( ! bp_groups_user_can_send_invites( $group_id ) ) {
 		$message = __( 'You are not allowed to send or remove invites', 'buddypress' );
 		$error = 'error';
-	} elseif ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
+	} elseif ( groups_check_for_membership_request( $friend_id, $group_id ) ) {
 		$message = __( 'The member requested to join the group', 'buddypress' );
 		$error = 'error';
 	} elseif ( ! groups_uninvite_user( $friend_id, $group_id ) ) {

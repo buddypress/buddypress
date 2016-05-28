@@ -245,9 +245,9 @@ class BP_Groups_Group {
 
 			// Set user-specific data.
 			$user_id          = bp_loggedin_user_id();
-			$this->is_member  = BP_Groups_Member::check_is_member( $user_id, $this->id );
-			$this->is_invited = BP_Groups_Member::check_has_invite( $user_id, $this->id );
-			$this->is_pending = BP_Groups_Member::check_for_membership_request( $user_id, $this->id );
+			$this->is_member  = groups_is_user_member( $user_id, $this->id );
+			$this->is_invited = groups_check_user_has_invite( $user_id, $this->id );
+			$this->is_pending = groups_check_for_membership_request( $user_id, $this->id );
 
 			// If this is a private or hidden group, does the current user have access?
 			if ( ( 'private' === $this->status ) || ( 'hidden' === $this->status ) ) {
