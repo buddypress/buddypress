@@ -207,7 +207,9 @@ function bp_setup_cache_groups() {
 /**
  * Set up the currently logged-in user.
  *
- * We white-list the WordPress customizer which purposely loads the user early.
+ * We white-list the WordPress Customizer which purposely loads the user early.
+ * If the current user is being setup before the "init" action has fired,
+ * strange (and difficult to debug) role/capability issues will occur.
  *
  * @since 1.7.0
  *
@@ -218,10 +220,12 @@ function bp_setup_cache_groups() {
  * @uses do_action() Calls 'bp_setup_current_user'.
  */
 function bp_setup_current_user() {
+	$skip_warning = (
+		( isset( $_REQUEST['wp_customize'] ) && 'on' === $_REQUEST['wp_customize'] ) ||
+		( is_admin() && 'customize.php' === basename( $_SERVER['PHP_SELF'] ) )
+	);
 
-	// If the current user is being setup before the "init" action has fired,
-	// strange (and difficult to debug) role/capability issues will occur.
-	if ( ! isset( $GLOBALS['wp_customize'] ) && ! did_action( 'after_setup_theme' ) ) {
+	if ( ! $skip_warning && ! did_action( 'after_setup_theme' ) ) {
 		$e = new Exception;
 		$trace = $e->getTraceAsString();
 
