@@ -1077,11 +1077,6 @@ function bp_is_user_deleted( $user_id = 0 ) {
  *
  * @since 1.6.0
  *
- * @uses is_user_logged_in() To check if user is logged in
- * @uses bp_loggedin_user_id() To get current user ID
- * @uses bp_is_user_spammer() To check if user is spammer
- * @uses bp_is_user_deleted() To check if user is deleted
- *
  * @param int $user_id The user ID to check.
  * @return bool True if active, otherwise false.
  */
@@ -1118,10 +1113,6 @@ function bp_is_user_active( $user_id = 0 ) {
  *
  * @todo No need for the user fallback checks, since they're done in
  *       bp_is_user_active().
- *
- * @uses is_user_logged_in() To check if user is logged in.
- * @uses bp_get_displayed_user_id() To get current user ID.
- * @uses bp_is_user_active() To check if user is active.
  *
  * @param int $user_id The user ID to check.
  * @return bool True if inactive, otherwise false.

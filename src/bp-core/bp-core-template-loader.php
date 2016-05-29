@@ -19,10 +19,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.7.0
  *
- * @uses bp_locate_template()
- * @uses load_template()
- * @uses get_template_part()
- *
  * @param string      $slug Template part slug. Used to generate filenames,
  *                          eg 'friends' for 'friends.php'.
  * @param string|null $name Optional. Template part name. Used to generate
@@ -299,10 +295,6 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true ) {
  *
  * @since 1.7.0
  *
- * @uses bp_set_theme_compat_templates()
- * @uses bp_locate_template()
- * @uses bp_set_theme_compat_template()
- *
  * @param string $type      Filename without extension.
  * @param array  $templates An optional list of template candidates.
  * @return string Full path to file.
@@ -513,7 +505,6 @@ function bp_is_template_included() {
  * @since 1.7.0
  *
  * @global string $pagenow
- * @uses bp_locate_template()
  */
 function bp_load_theme_functions() {
 	global $pagenow, $wp_query;

@@ -50,11 +50,6 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 * @since 2.4.0 Add the $upload_dir_filter_args argument to the $arguments array
-	 * @uses                                    sanitize_key()
-	 * @uses                                    wp_max_upload_size()
-	 * @uses                                    bp_parse_args()
-	 * @uses                                    BP_Attachment->set_upload_error_strings()
-	 * @uses                                    BP_Attachment->set_upload_dir()
 	 *
 	 * @param array|string $args {
 	 *     @type int    $original_max_filesize  Maximum file size in kilobytes. Defaults to php.ini settings.
@@ -115,7 +110,6 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses bp_upload_dir()
 	 */
 	public function set_upload_dir() {
 		// Set the directory, path, & url variables.
@@ -203,10 +197,6 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses   wp_handle_upload()        To upload the file
-	 * @uses   add_filter()              To temporarly overrides WordPress uploads data
-	 * @uses   remove_filter()           To stop overriding WordPress uploads data
-	 * @uses   apply_filters()           Call 'bp_attachment_upload_overrides' to include specific upload overrides
 	 *
 	 * @param  array       $file              The appropriate entry the from $_FILES superglobal.
 	 * @param  string      $upload_dir_filter A specific filter to be applied to 'upload_dir' (optional).
@@ -303,7 +293,6 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses get_allowed_mime_types()
 	 */
 	protected function validate_mime_types() {
 		$wp_mimes = get_allowed_mime_types();
@@ -354,7 +343,6 @@ abstract class BP_Attachment {
 	 * @since 2.3.0
 	 * @since 2.4.0 Add the $upload_dir parameter to the method
 	 *
-	 * @uses apply_filters() call 'bp_attachment_upload_dir' to eventually override the upload location
 	 *       regarding to context
 	 *
 	 * @param  array $upload_dir The original Uploads dir.
@@ -389,7 +377,6 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses wp_mkdir_p()
 	 */
 	public function create_dir() {
 		// Bail if no specific base dir is set.
@@ -426,7 +413,6 @@ abstract class BP_Attachment {
 	 *     @type int    $src_abs       Optional. If the source crop points are absolute.
 	 *     @type string $dst_file      Optional. The destination file to write to.
 	 * }
-	 * @uses wp_crop_image()
 	 *
 	 * @return string|WP_Error New filepath on success, WP_Error on failure.
 	 */

@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.
  *
- * @uses bp_current_user_can() returns true if the current user is a site admin, false if not.
  */
 function bp_core_admin_menu_init() {
 	add_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
@@ -123,8 +122,6 @@ function bp_core_admin_backpat_page() {
  *
  * @since 1.5.0
  *
- * @uses bp_current_user_can() to check current user permissions before showing the notices.
- * @uses bp_is_root_blog()
  */
 function bp_core_print_admin_notices() {
 
@@ -353,12 +350,6 @@ function bp_core_activation_notice() {
  *
  * @internal Used internally to redirect BuddyPress to the about page on activation.
  *
- * @uses get_transient() To see if transient to redirect exists.
- * @uses delete_transient() To delete the transient if it exists.
- * @uses is_network_admin() To bail if being network activated.
- * @uses wp_safe_redirect() To redirect.
- * @uses add_query_arg() To help build the URL to redirect to.
- * @uses admin_url() To get the admin URL to index.php.
  */
 function bp_do_activation_redirect() {
 
@@ -616,7 +607,6 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
  *
  * @since 1.7.0
  *
- * @uses bp_current_user_can() To check users capability on root blog.
  */
 function bp_admin_separator() {
 
@@ -651,8 +641,6 @@ function bp_admin_separator() {
  *
  * @since 1.7.0
  *
- * @uses bp_current_user_can() To check users capability on root blog.
- *
  * @param bool $menu_order Menu order.
  * @return bool Always true.
  */
@@ -670,8 +658,6 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
  * Move our custom separator above our custom post types.
  *
  * @since 1.7.0
- *
- * @uses bp_current_user_can() To check users capability on root blog.
  *
  * @param array $menu_order Menu Order.
  * @return array Modified menu order.

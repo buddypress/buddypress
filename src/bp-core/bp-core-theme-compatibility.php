@@ -57,8 +57,6 @@ function bp_setup_theme_compat( $theme = '' ) {
  *
  * @since 1.7.0
  *
- * @uses apply_filters()
- *
  * @return string ID of the theme package in use.
  */
 function bp_get_theme_compat_id() {
@@ -80,8 +78,6 @@ function bp_get_theme_compat_id() {
  * default and include their own BuddyPress compatibility layers for their themes.
  *
  * @since 1.7.0
- *
- * @uses apply_filters()
  *
  * @return string Name of the theme package currently in use.
  */
@@ -105,8 +101,6 @@ function bp_get_theme_compat_name() {
  *
  * @since 1.7.0
  *
- * @uses apply_filters()
- *
  * @return string The version string of the theme package currently in use.
  */
 function bp_get_theme_compat_version() {
@@ -128,8 +122,6 @@ function bp_get_theme_compat_version() {
  * their own BuddyPress compatibility layers for their themes.
  *
  * @since 1.7.0
- *
- * @uses apply_filters()
  *
  * @return string The absolute path of the theme package currently in use.
  */
@@ -154,8 +146,6 @@ function bp_get_theme_compat_dir() {
  *
  * @since 1.7.0
  *
- * @uses apply_filters()
- *
  * @return string URL of the theme package currently in use.
  */
 function bp_get_theme_compat_url() {
@@ -177,8 +167,6 @@ function bp_get_theme_compat_url() {
  * do so using bp_detect_theme_compat_with_current_theme().
  *
  * @since 1.9.0
- *
- * @uses bp_detect_theme_compat_with_current_theme()
  *
  * @return bool True if the current theme needs theme compatibility.
  */
@@ -677,24 +665,6 @@ function bp_theme_compat_reset_post( $args = array() ) {
  * Reset main query vars and filter 'the_content' to output a BuddyPress template part as needed.
  *
  * @since 1.7.0
- *
- * @uses bp_is_single_user() To check if page is single user.
- * @uses bp_get_single_user_template() To get user template.
- * @uses bp_is_single_user_edit() To check if page is single user edit.
- * @uses bp_get_single_user_edit_template() To get user edit template.
- * @uses bp_is_single_view() To check if page is single view.
- * @uses bp_get_single_view_template() To get view template.
- * @uses bp_is_forum_edit() To check if page is forum edit.
- * @uses bp_get_forum_edit_template() To get forum edit template.
- * @uses bp_is_topic_merge() To check if page is topic merge.
- * @uses bp_get_topic_merge_template() To get topic merge template.
- * @uses bp_is_topic_split() To check if page is topic split.
- * @uses bp_get_topic_split_template() To get topic split template.
- * @uses bp_is_topic_edit() To check if page is topic edit.
- * @uses bp_get_topic_edit_template() To get topic edit template.
- * @uses bp_is_reply_edit() To check if page is reply edit.
- * @uses bp_get_reply_edit_template() To get reply edit template.
- * @uses bp_set_theme_compat_template() To set the global theme compat template.
  *
  * @param string $template Template name.
  * @return string $template Template name.

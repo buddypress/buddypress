@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  * @todo Use settings API
- * @uses bp_core_admin_component_options()
  */
 function bp_core_admin_slugs_settings() {
 ?>

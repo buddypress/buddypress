@@ -41,8 +41,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @uses BP_Legacy::setup_globals()
-	 * @uses BP_Legacy::setup_actions()
 	 */
 	public function __construct() {
 		parent::start();
@@ -70,8 +68,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @uses add_filter() To add various filters
-	 * @uses add_action() To add various actions
 	 */
 	protected function setup_actions() {
 
@@ -210,7 +206,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @since 1.7.0
 	 * @since 2.3.0 Support custom CSS file named after the current theme or parent theme.
 	 *
-	 * @uses wp_enqueue_style() To enqueue the styles
 	 */
 	public function enqueue_styles() {
 		$min = bp_core_get_minified_asset_suffix();
@@ -513,7 +508,6 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @since 2.2.0
 	 *
 	 * @param  array $templates Array of templates.
-	 * @uses   apply_filters() call 'bp_legacy_theme_compat_page_templates_directory_only' and return false
 	 *                         to use the defined page template for component's directory and its single items
 	 * @return array
 	 */
@@ -606,7 +600,6 @@ function bp_legacy_theme_group_create_button( $title ) {
  *
  * @since 2.2.0
  *
- * @uses   bp_group_create_nav_item() to output the create a Group nav item.
  */
 function bp_legacy_theme_group_create_nav() {
 	bp_group_create_nav_item();
@@ -636,7 +629,6 @@ function bp_legacy_theme_blog_create_button( $title ) {
  *
  * @since 2.2.0
  *
- * @uses   bp_blog_create_nav_item() to output the Create a Site nav item
  */
 function bp_legacy_theme_blog_create_nav() {
 	bp_blog_create_nav_item();

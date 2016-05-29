@@ -162,7 +162,6 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses bp_parse_args() To merge widget settings into defaults.
 	 *
 	 * @param array $instance Widget instance settings.
 	 * @return array

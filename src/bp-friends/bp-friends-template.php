@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  *
- * @uses bp_get_friends_slug()
  */
 function bp_friends_slug() {
 	echo bp_get_friends_slug();
@@ -44,7 +43,6 @@ function bp_friends_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_friends_root_slug()
  */
 function bp_friends_root_slug() {
 	echo bp_get_friends_root_slug();
@@ -683,8 +681,6 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
  * Display the number of friends in user's profile.
  *
  * @since 2.0.0
- *
- * @uses bp_friends_get_profile_stats() to get the stats.
  *
  * @param array|string $args before|after|user_id.
  */

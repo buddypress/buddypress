@@ -57,9 +57,6 @@ function bp_get_current_blog_roles() {
  *
  * @since 1.6.0
  *
- * @uses get_role() To get the administrator, default and moderator roles.
- * @uses WP_Role::add_cap() To add various capabilities.
- * @uses do_action() Calls 'bp_add_caps'.
  */
 function bp_add_caps() {
 	global $wp_roles;
@@ -93,9 +90,6 @@ function bp_add_caps() {
  *
  * @since 1.6.0
  *
- * @uses get_role() To get the administrator and default roles.
- * @uses WP_Role::remove_cap() To remove various capabilities.
- * @uses do_action() Calls 'bp_remove_caps'.
  */
 function bp_remove_caps() {
 	global $wp_roles;
@@ -129,7 +123,6 @@ function bp_remove_caps() {
  *
  * @see WP_User::has_cap() for description of the arguments passed to the
  *      'map_meta_cap' filter.
- * @uses apply_filters() Calls 'bp_map_meta_caps' with caps, cap, user ID and
  *       args.
  *
  * @param array  $caps    See {@link WP_User::has_cap()}.
@@ -158,8 +151,6 @@ function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
  *
  * @since 1.6.0
  *
- * @uses apply_filters() Calls 'bp_get_community_caps' with the capabilities.
- *
  * @return array Community capabilities.
  */
 function bp_get_community_caps() {
@@ -181,8 +172,6 @@ function bp_get_community_caps() {
  * Return an array of capabilities based on the role that is being requested.
  *
  * @since 1.6.0
- *
- * @uses apply_filters() Allow return value to be filtered.
  *
  * @param string $role The role for which you're loading caps.
  * @return array Capabilities for $role.
@@ -232,12 +221,6 @@ function bp_get_caps_for_role( $role = '' ) {
  *
  * @global BuddyPress $bp Global BuddyPress settings object.
  *
- * @uses is_multisite()
- * @uses bp_allow_global_access()
- * @uses bp_is_user_inactive()
- * @uses is_user_logged_in()
- * @uses current_user_can()
- * @uses WP_User::set_role()
  */
 function bp_set_current_user_default_role() {
 

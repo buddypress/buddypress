@@ -26,7 +26,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @uses bp_get_user_nav() Renders the navigation for a profile of a currently
  *       viewed user.
  *
  * @param string $parent_slug Options nav slug.
@@ -1483,7 +1482,6 @@ function bp_user_has_access() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_search_slug()
  */
 function bp_search_slug() {
 	echo bp_get_search_slug();
@@ -1512,8 +1510,6 @@ function bp_search_slug() {
  *
  * @since 1.0.0
  *
- * @uses apply_filters() Filter 'bp_displayed_user_id' to change this value.
- *
  * @return int $id ID of the currently displayed user.
  */
 function bp_displayed_user_id() {
@@ -1536,8 +1532,6 @@ function bp_displayed_user_id() {
  * Get the ID of the currently logged-in user.
  *
  * @since 1.0.0
- *
- * @uses apply_filters() Filter 'bp_loggedin_user_id' to change this value.
  *
  * @return int ID of the logged-in user.
  */

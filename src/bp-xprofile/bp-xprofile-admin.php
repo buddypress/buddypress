@@ -20,9 +20,6 @@ if ( ! buddypress()->do_autoload ) {
  *
  * @since 1.0.0
  *
- * @uses bp_current_user_can() returns true if the current user is a site admin, false if not.
- * @uses add_users_page() Adds a submenu tab to a top level tab in the admin area.
- *
  * @return bool
  */
 function xprofile_add_admin_menu() {

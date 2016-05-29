@@ -18,7 +18,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @uses bp_activity_set_action() To setup the individual actions.
  */
 function xprofile_register_activity_actions() {
 
@@ -114,8 +113,6 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  *
  * @since 1.0.0
  *
- * @uses bp_activity_add() Adds an entry to the activity component tables for a specific activity.
- *
  * @param array|string $args String containing all variables used after bp_parse_args() call.
  * @return array
  */
@@ -149,7 +146,6 @@ function xprofile_record_activity( $args = '' ) {
  *
  * @since 1.0.0
  *
- * @uses bp_activity_delete() Deletes an entry to the activity component tables
  *                            for a specific activity.
  *
  * @param array|string $args Containing all variables used after bp_parse_args() call.
@@ -205,7 +201,6 @@ function xprofile_register_activity_action( $key, $value ) {
  * @since 1.0.0
  * @since 2.3.4 Add new parameter to get the user id the avatar was set for.
  *
- * @uses bp_activity_add() Adds an entry to the activity component tables for a
  *                         specific activity
  *
  * @param int $user_id The user id the avatar was set for.

@@ -19,7 +19,6 @@ if ( ! buddypress()->do_autoload ) {
  *
  * @since 1.5.0
  *
- * @uses bp_get_blogs_slug()
  */
 function bp_blogs_slug() {
 	echo bp_get_blogs_slug();
@@ -48,7 +47,6 @@ function bp_blogs_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_blogs_root_slug()
  */
 function bp_blogs_root_slug() {
 	echo bp_get_blogs_root_slug();
@@ -77,7 +75,6 @@ function bp_blogs_root_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_blogs_directory_permalink()
  */
 function bp_blogs_directory_permalink() {
 	echo esc_url( bp_get_blogs_directory_permalink() );
@@ -87,10 +84,6 @@ function bp_blogs_directory_permalink() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses apply_filters()
-	 * @uses trailingslashit()
-	 * @uses bp_get_root_domain()
-	 * @uses bp_get_blogs_root_slug()
 	 *
 	 * @return string The URL of the Blogs directory.
 	 */
@@ -718,7 +711,6 @@ function bp_blog_latest_post_permalink() {
  *
  * @since 1.7.0
  *
- * @uses bp_get_blog_latest_post_content()
  */
 function bp_blog_latest_post_content() {
 	echo bp_get_blog_latest_post_content();
@@ -1341,8 +1333,6 @@ function bp_blog_create_nav_item() {
  *
  * @since 2.2.0
  *
- * @uses bp_blog_create_nav_item() to output the Create a Site nav item.
- *
  * @return string HTML Output
  */
 function bp_blog_backcompat_create_nav_item() {
@@ -1422,8 +1412,6 @@ function bp_blogs_visit_blog_button( $args = '' ) {
  * Display the number of blogs in user's profile.
  *
  * @since 2.0.0
- *
- * @uses bp_blogs_admin_get_profile_stats() to get the stats.
  *
  * @param array|string $args Before|after|user_id.
  */

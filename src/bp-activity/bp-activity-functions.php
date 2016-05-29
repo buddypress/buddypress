@@ -40,8 +40,6 @@ function bp_activity_has_directory() {
  *
  * @since 1.8.0
  *
- * @uses apply_filters() To call 'bp_activity_do_mentions' hook.
- *
  * @return bool $retval True to enable mentions, false to disable.
  */
 function bp_activity_do_mentions() {
@@ -133,8 +131,6 @@ function bp_activity_find_mentions( $content ) {
  *
  * @since 1.5.0
  *
- * @uses bp_delete_user_meta()
- *
  * @param int $user_id The id of the user whose unread mentions are being reset.
  */
 function bp_activity_clear_new_mentions( $user_id ) {
@@ -160,9 +156,6 @@ function bp_activity_clear_new_mentions( $user_id ) {
  * Currently, only used in {@link bp_activity_delete()}.
  *
  * @since 1.5.0
- *
- * @uses bp_activity_find_mentions()
- * @uses bp_activity_update_mention_count_for_user()
  *
  * @param int    $activity_id The unique id for the activity item.
  * @param string $action      Can be 'delete' or 'add'. Defaults to 'add'.
@@ -199,9 +192,6 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
  * for @mentions.
  *
  * @since 1.7.0
- *
- * @uses bp_get_user_meta()
- * @uses bp_update_user_meta()
  *
  * @param int    $user_id     The user ID.
  * @param int    $activity_id The unique ID for the activity item.
@@ -787,8 +777,6 @@ function bp_activity_get_actions() {
  *
  * @since 1.1.0
  *
- * @uses apply_filters() To call the 'bp_activity_get_action' hook.
- *
  * @param string $component_id The unique string ID of the component.
  * @param string $key          The action key.
  * @return string|bool Action value if found, otherwise false.
@@ -858,9 +846,6 @@ function bp_activity_get_types() {
  *
  * @since 1.2.0
  *
- * @uses bp_get_user_meta()
- * @uses apply_filters() To call the 'bp_activity_get_user_favorites' hook.
- *
  * @param int $user_id ID of the user whose favorites are being queried.
  * @return array IDs of the user's favorite activity items.
  */
@@ -888,14 +873,6 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
  * Add an activity stream item as a favorite for a user.
  *
  * @since 1.2.0
- *
- * @uses is_user_logged_in()
- * @uses bp_get_user_meta()
- * @uses bp_activity_get_meta()
- * @uses bp_update_user_meta()
- * @uses bp_activity_update_meta()
- * @uses do_action() To call the 'bp_activity_add_user_favorite' hook.
- * @uses do_action() To call the 'bp_activity_add_user_favorite_fail' hook.
  *
  * @param int $activity_id ID of the activity item being favorited.
  * @param int $user_id     ID of the user favoriting the activity item.
@@ -971,13 +948,6 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
  *
  * @since 1.2.0
  *
- * @uses is_user_logged_in()
- * @uses bp_get_user_meta()
- * @uses bp_activity_get_meta()
- * @uses bp_activity_update_meta()
- * @uses bp_update_user_meta()
- * @uses do_action() To call the 'bp_activity_remove_user_favorite' hook.
- *
  * @param int $activity_id ID of the activity item being unfavorited.
  * @param int $user_id     ID of the user unfavoriting the activity item.
  * @return bool True on success, false on failure.
@@ -1050,9 +1020,6 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
  *
  * @since 1.1.0
  *
- * @uses BP_Activity_Activity::check_exists_by_content() {@link BP_Activity_Activity}
- * @uses apply_filters() To call the 'bp_activity_check_exists_by_content' hook.
- *
  * @param string $content The content to filter by.
  * @return int|null The ID of the located activity item. Null if none is found.
  */
@@ -1073,9 +1040,6 @@ function bp_activity_check_exists_by_content( $content ) {
  *
  * @since 1.0.0
  *
- * @uses BP_Activity_Activity::get_last_updated() {@link BP_Activity_Activity}
- * @uses apply_filters() To call the 'bp_activity_get_last_updated' hook.
- *
  * @return string Date last updated.
  */
 function bp_activity_get_last_updated() {
@@ -1094,8 +1058,6 @@ function bp_activity_get_last_updated() {
  * Retrieve the number of favorite activity stream items a user has.
  *
  * @since 1.2.0
- *
- * @uses BP_Activity_Activity::total_favorite_count() {@link BP_Activity_Activity}
  *
  * @param int $user_id ID of the user whose favorite count is being requested.
  * @return int Total favorite count for the user.
@@ -1159,8 +1121,6 @@ function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = ''
  * Get metadata for a given activity item.
  *
  * @since 1.2.0
- *
- * @uses apply_filters() To call the 'bp_activity_get_meta' hook.
  *
  * @param int    $activity_id ID of the activity item whose metadata is being requested.
  * @param string $meta_key    Optional. If present, only the metadata matching
@@ -1238,12 +1198,6 @@ function bp_activity_add_meta( $activity_id, $meta_key, $meta_value, $unique = f
  * Completely remove a user's activity data.
  *
  * @since 1.5.0
- *
- * @uses is_user_logged_in()
- * @uses bp_activity_delete()
- * @uses bp_delete_user_meta()
- * @uses do_action() To call the 'bp_activity_remove_data' hook.
- * @uses do_action() To call the 'bp_activity_remove_all_user_data' hook.
  *
  * @param int $user_id ID of the user whose activity is being deleted.
  * @return bool
@@ -1671,11 +1625,6 @@ function bp_activity_format_activity_action_custom_post_type_comment( $action, $
  *
  * @see BP_Activity_Activity::get() For more information on accepted arguments
  *      and the format of the returned value.
- * @uses wp_parse_args()
- * @uses wp_cache_get()
- * @uses wp_cache_set()
- * @uses BP_Activity_Activity::get() {@link BP_Activity_Activity}
- * @uses apply_filters_ref_array() To call the 'bp_activity_get' hook.
  *
  * @param array|string $args See BP_Activity_Activity::get() for description.
  * @return array $activity See BP_Activity_Activity::get() for description.
@@ -1782,9 +1731,6 @@ function bp_activity_get( $args = '' ) {
  * @since 1.2.0
  *
  * @see BP_Activity_Activity::get() For more information on accepted arguments.
- * @uses wp_parse_args()
- * @uses apply_filters() To call the 'bp_activity_get_specific' hook.
- * @uses BP_Activity_Activity::get() {@link BP_Activity_Activity}
  *
  * @param array|string $args {
  *     All arguments and defaults are shared with BP_Activity_Activity::get(),
@@ -1836,12 +1782,6 @@ function bp_activity_get_specific( $args = '' ) {
  * Add an activity item.
  *
  * @since 1.1.0
- *
- * @uses wp_parse_args()
- * @uses BP_Activity_Activity::save() {@link BP_Activity_Activity}
- * @uses BP_Activity_Activity::rebuild_activity_comment_tree() {@link BP_Activity_Activity}
- * @uses wp_cache_delete()
- * @uses do_action() To call the 'bp_activity_add' hook.
  *
  * @param array|string $args {
  *     An array of arguments.
@@ -1948,17 +1888,6 @@ function bp_activity_add( $args = '' ) {
  * Post an activity update.
  *
  * @since 1.2.0
- *
- * @uses wp_parse_args()
- * @uses bp_is_user_inactive()
- * @uses bp_core_get_userlink()
- * @uses bp_activity_add()
- * @uses apply_filters() To call the 'bp_activity_new_update_action' hook.
- * @uses apply_filters() To call the 'bp_activity_new_update_content' hook.
- * @uses apply_filters() To call the 'bp_activity_new_update_primary_link' hook.
- * @uses bp_update_user_meta()
- * @uses wp_filter_kses()
- * @uses do_action() To call the 'bp_activity_posted_update' hook.
  *
  * @param array|string $args {
  *     @type string $content The content of the activity update.
@@ -2563,13 +2492,6 @@ add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
  * @since 2.5.0 Add a new possible parameter $skip_notification for the array of arguments.
  *              Add the $primary_link parameter for the array of arguments.
  *
- * @uses wp_parse_args()
- * @uses bp_activity_add()
- * @uses apply_filters() To call the 'bp_activity_comment_action' hook.
- * @uses apply_filters() To call the 'bp_activity_comment_content' hook.
- * @uses wp_cache_delete()
- * @uses do_action() To call the 'bp_activity_comment_posted' hook.
- *
  * @param array|string $args {
  *     An array of arguments.
  *     @type int    $id                Optional. Pass an ID to update an existing comment.
@@ -2710,9 +2632,6 @@ function bp_activity_new_comment( $args = '' ) {
  * @since 1.2.0
  *
  * @see BP_Activity_Activity::get() For more information on accepted arguments.
- * @uses wp_parse_args()
- * @uses apply_filters() To call the 'bp_activity_get_activity_id' hook.
- * @uses BP_Activity_Activity::save() {@link BP_Activity_Activity}
  *
  * @param array|string $args See BP_Activity_Activity::get() for description.
  * @return int $activity_id The ID of the activity item found.
@@ -2768,15 +2687,6 @@ function bp_activity_get_activity_id( $args = '' ) {
  * @since 1.0.0
  *
  * @see BP_Activity_Activity::get() For more information on accepted arguments.
- * @uses wp_parse_args()
- * @uses bp_activity_adjust_mention_count()
- * @uses BP_Activity_Activity::delete() {@link BP_Activity_Activity}
- * @uses do_action() To call the 'bp_before_activity_delete' hook.
- * @uses bp_get_user_meta()
- * @uses bp_delete_user_meta()
- * @uses do_action() To call the 'bp_activity_delete' hook.
- * @uses do_action() To call the 'bp_activity_deleted_activities' hook.
- * @uses wp_cache_delete()
  *
  * @param array|string $args To delete specific activity items, use
  *                           $args = array( 'id' => $ids ); Otherwise, to use
@@ -2862,8 +2772,6 @@ function bp_activity_delete( $args = '' ) {
 	 * @since 1.1.0
 	 * @deprecated 1.2.0
 	 *
-	 * @uses wp_parse_args()
-	 * @uses bp_activity_delete()
 	 *
 	 * @param array|string $args See BP_Activity_Activity::get for a
 	 *                           description of accepted arguments.
@@ -2887,7 +2795,6 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @uses bp_activity_delete()
 	 *
 	 * @param int $activity_id ID of the activity item to be deleted.
 	 * @return bool True on success, false on failure.
@@ -2904,7 +2811,6 @@ function bp_activity_delete( $args = '' ) {
 	 * @since 1.1.0
 	 * @deprecated 1.2.0
 	 *
-	 * @uses bp_activity_delete()
 	 *
 	 * @param int    $user_id   The user id.
 	 * @param string $content   The activity id.
@@ -2929,7 +2835,6 @@ function bp_activity_delete( $args = '' ) {
 	 * @since 1.1.0
 	 * @deprecated 1.2.0
 	 *
-	 * @uses bp_activity_delete()
 	 *
 	 * @param int    $user_id   The user id.
 	 * @param string $component The activity component.
@@ -2947,11 +2852,6 @@ function bp_activity_delete( $args = '' ) {
  *
  * @since 1.2.0
  *
- * @uses apply_filters() To call the 'bp_activity_delete_comment_pre' hook.
- * @uses bp_activity_delete_children()
- * @uses bp_activity_delete()
- * @uses BP_Activity_Activity::rebuild_activity_comment_tree() {@link BP_Activity_Activity}
- * @uses do_action() To call the 'bp_activity_delete_comment' hook.
  * @todo Why is an activity id required? We could look this up.
  * @todo Why do we encourage users to call this function directly? We could just
  *       as easily examine the activity type in bp_activity_delete() and then
@@ -3017,9 +2917,6 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @uses BP_Activity_Activity::get_child_comments() {@link BP_Activity_Activity}
-	 * @uses bp_activity_delete_children()
-	 * @uses bp_activity_delete()
 	 *
 	 * @param int $activity_id The ID of the "root" activity, ie the
 	 *                         comment's oldest ancestor.
@@ -3054,10 +2951,6 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
  * have it available.
  *
  * @since 1.2.0
- *
- * @uses bp_get_root_domain()
- * @uses bp_get_activity_root_slug()
- * @uses apply_filters_ref_array() To call the 'bp_activity_get_permalink' hook.
  *
  * @param int         $activity_id  The unique id of the activity object.
  * @param object|bool $activity_obj Optional. The activity object.
@@ -3110,8 +3003,6 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
  *
  * @since 1.2.0
  *
- * @uses BP_Activity_Activity::hide_all_for_user() {@link BP_Activity_Activity}
- *
  * @param int $user_id The ID of the user whose activity is being hidden.
  * @return bool True on success, false on failure.
  */
@@ -3132,9 +3023,6 @@ function bp_activity_hide_user_activity( $user_id ) {
  * As of BuddyPress 2.3, this function is no longer in use.
  *
  * @since 1.2.0
- *
- * @uses esc_attr()
- * @uses apply_filters() To call the 'bp_activity_thumbnail_content_images' hook.
  *
  * @param string      $content The content of the activity item.
  * @param string|bool $link    Optional. The unescaped URL that the image should link
@@ -3494,9 +3382,6 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
  *
- * @uses add_filter() To attach 'bp_get_activity_id' to 'embed_post_id'.
- * @uses add_filter() To attach 'bp_embed_activity_cache' to 'bp_embed_get_cache'.
- * @uses add_action() To attach 'bp_embed_activity_save_cache' to 'bp_embed_update_cache'.
  */
 function bp_activity_embed() {
 	add_filter( 'embed_post_id',         'bp_get_activity_id'                  );
@@ -3519,9 +3404,6 @@ add_action( 'activity_loop_start', 'bp_activity_embed' );
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
  *
- * @uses add_filter() To attach 'bp_get_activity_comment_id' to 'embed_post_id'.
- * @uses add_filter() To attach 'bp_embed_activity_cache' to 'bp_embed_get_cache'.
- * @uses add_action() To attach 'bp_embed_activity_save_cache' to 'bp_embed_update_cache'.
  */
 function bp_activity_comment_embed() {
 	add_filter( 'embed_post_id',         'bp_get_activity_comment_id'          );
@@ -3536,9 +3418,6 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
  * @since 1.5.0
  *
  * @see BP_Embed
- * @uses add_filter() To attach create_function() to 'embed_post_id'.
- * @uses add_filter() To attach 'bp_embed_activity_cache' to 'bp_embed_get_cache'.
- * @uses add_action() To attach 'bp_embed_activity_save_cache' to 'bp_embed_update_cache'.
  *
  * @param object $activity The activity that is being expanded.
  */
@@ -3561,7 +3440,6 @@ add_action( 'bp_legacy_theme_get_single_activity_content', 'bp_dtheme_embed_read
  * @since 1.5.0
  *
  * @see bp_activity_comment_embed()
- * @uses remove_filter() To remove 'bp_get_activity_comment_id' from 'embed_post_id'.
  */
 function bp_activity_comment_embed_after_recurse() {
 	remove_filter( 'embed_post_id', 'bp_get_activity_comment_id' );
@@ -3576,7 +3454,6 @@ add_action( 'bp_after_activity_comment', 'bp_activity_comment_embed_after_recurs
  * @since 1.5.0
  *
  * @see BP_Embed::parse_oembed()
- * @uses bp_activity_get_meta()
  *
  * @param string $cache    An empty string passed by BP_Embed::parse_oembed() for
  *                         functions like this one to filter.
@@ -3596,7 +3473,6 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
  * @since 1.5.0
  *
  * @see BP_Embed::parse_oembed()
- * @uses bp_activity_update_meta()
  *
  * @param string $cache    An empty string passed by BP_Embed::parse_oembed() for
  *                         functions like this one to filter.
@@ -3612,10 +3488,7 @@ function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
  *
  * @since 2.0.0
  *
- * @uses bp_is_activity_heartbeat_active() to check if heartbeat setting is on.
- * @uses bp_is_activity_directory() to check if the current page is the activity
  *       directory.
- * @uses bp_is_group_activity() to check if on a single group, the current page
  *       is the group activities.
  *
  * @return bool True if activity heartbeat is enabled, otherwise false.

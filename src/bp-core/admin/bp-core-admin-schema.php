@@ -90,9 +90,6 @@ function bp_core_install( $active_components = false ) {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_notifications() {
 	$sql             = array();
@@ -134,9 +131,6 @@ function bp_core_install_notifications() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_activity_streams() {
 	$sql             = array();
@@ -187,9 +181,6 @@ function bp_core_install_activity_streams() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_friends() {
 	$sql             = array();
@@ -215,9 +206,6 @@ function bp_core_install_friends() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_groups() {
 	$sql             = array();
@@ -275,9 +263,6 @@ function bp_core_install_groups() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_private_messaging() {
 	$sql             = array();
@@ -335,9 +320,6 @@ function bp_core_install_private_messaging() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_extended_profiles() {
 	global $wpdb;
@@ -425,9 +407,6 @@ function bp_core_install_extended_profiles() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_blog_tracking() {
 	$sql             = array();
@@ -462,7 +441,6 @@ function bp_core_install_blog_tracking() {
  * @since 2.0.0
  *
  * @global $wpdb
- * @uses wp_get_db_schema() to get WordPress ms_global schema
  */
 function bp_core_install_signups() {
 	global $wpdb;

@@ -17,25 +17,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.2.0
  *
- * @uses bp_notifications_add_notification()
- * @uses bp_get_user_meta()
- * @uses bp_core_get_user_displayname()
- * @uses bp_activity_get_permalink()
- * @uses bp_core_get_user_domain()
- * @uses bp_get_settings_slug()
- * @uses bp_activity_filter_kses()
- * @uses bp_core_get_core_userdata()
- * @uses wp_specialchars_decode()
- * @uses get_blog_option()
- * @uses bp_is_active()
- * @uses bp_is_group()
- * @uses bp_get_current_group_name()
- * @uses apply_filters() To call the 'bp_activity_at_message_notification_to' hook.
- * @uses apply_filters() To call the 'bp_activity_at_message_notification_subject' hook.
- * @uses apply_filters() To call the 'bp_activity_at_message_notification_message' hook.
- * @uses wp_mail()
- * @uses do_action() To call the 'bp_activity_sent_mention_email' hook.
- *
  * @param int $activity_id      The ID of the activity update.
  * @param int $receiver_user_id The ID of the user who is receiving the update.
  */
@@ -107,26 +88,6 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
  *
  * @since 1.2.0
  * @since 2.5.0 Updated to use new email APIs.
- *
- * @uses bp_get_user_meta()
- * @uses bp_core_get_user_displayname()
- * @uses bp_activity_get_permalink()
- * @uses bp_core_get_user_domain()
- * @uses bp_get_settings_slug()
- * @uses bp_activity_filter_kses()
- * @uses bp_core_get_core_userdata()
- * @uses wp_specialchars_decode()
- * @uses get_blog_option()
- * @uses bp_get_root_blog_id()
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_to' hook.
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_subject' hook.
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_message' hook.
- * @uses wp_mail()
- * @uses do_action() To call the 'bp_activity_sent_reply_to_update_email' hook.
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_to' hook.
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_subject' hook.
- * @uses apply_filters() To call the 'bp_activity_new_comment_notification_comment_author_message' hook.
- * @uses do_action() To call the 'bp_activity_sent_reply_to_reply_email' hook.
  *
  * @param int   $comment_id   The comment id.
  * @param int   $commenter_id The ID of the user who posted the comment.
@@ -241,13 +202,6 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
  * Format notifications related to activity.
  *
  * @since 1.5.0
- *
- * @uses bp_loggedin_user_domain()
- * @uses bp_get_activity_slug()
- * @uses bp_core_get_user_displayname()
- * @uses apply_filters() To call the 'bp_activity_multiple_at_mentions_notification' hook.
- * @uses apply_filters() To call the 'bp_activity_single_at_mentions_notification' hook.
- * @uses do_action() To call 'activity_format_notifications' hook.
  *
  * @param string $action            The type of activity item. Just 'new_at_mention' for now.
  * @param int    $item_id           The activity ID.
@@ -453,7 +407,6 @@ add_action( 'bp_activity_sent_reply_to_reply_notification', 'bp_activity_comment
  * @since 2.5.0 Add the $user_id parameter
  *
  * @param int $user_id The id of the user whose notifications are marked as read.
- * @uses bp_notifications_mark_all_notifications_by_type()
  */
 function bp_activity_remove_screen_notifications( $user_id = 0 ) {
 	if ( ! bp_is_active( 'notifications' ) ) {

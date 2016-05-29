@@ -146,18 +146,6 @@ class BP_Core_User {
 
 	/**
 	 * Populate the instantiated class with data based on the User ID provided.
-	 *
-	 * @uses bp_core_get_userurl() Returns the URL with no HTML markup for
-	 *       a user based on their user id.
-	 * @uses bp_core_get_userlink() Returns a HTML formatted link for a
-	 *       user with the user's full name as the link text.
-	 * @uses bp_core_get_user_email() Returns the email address for the
-	 *       user based on user ID.
-	 * @uses bp_get_user_meta() BP function returns the value of passed
-	 *       usermeta name from usermeta table.
-	 * @uses bp_core_fetch_avatar() Returns HTML formatted avatar for a user
-	 * @uses bp_profile_last_updated_date() Returns the last updated date
-	 *       for a user.
 	 */
 	public function populate() {
 

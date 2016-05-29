@@ -3414,8 +3414,6 @@ function bp_group_create_nav_item() {
  *
  * @since 2.2.0
  *
- * @uses bp_group_create_nav_item() to output the create a Group nav item.
- *
  * @return string HTML Output
  */
 function bp_group_backcompat_create_nav_item() {
@@ -4298,9 +4296,6 @@ function bp_groups_members_filter() {
  *
  * @since 1.5.0
  *
- * @uses apply_filters() To call 'bp_user_can_create_groups'.
- * @uses bp_get_option() To retrieve value of 'bp_restrict_group_creation'. Defaults to 0.
- * @uses bp_current_user_can() To determine if current user if super admin.
  * @return bool True if user can create groups. False otherwise.
  */
 function bp_user_can_create_groups() {
@@ -4781,7 +4776,6 @@ function bp_groups_current_create_step() {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses apply_filters() Filter bp_get_groups_current_create_step to modify.
 	 *
 	 * @return string $current_create_step
 	 */
@@ -5061,7 +5055,6 @@ function bp_group_current_admin_tab() {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses apply_filters() Filter bp_get_current_group_admin_tab to modify return value.
 	 *
 	 * @return string $tab The current tab's slug.
 	 */
@@ -5088,8 +5081,6 @@ function bp_group_current_admin_tab() {
  * Outputs the current group avatar.
  *
  * @since 1.0.0
- *
- * @uses bp_get_group_current_avatar() to get the avatar of the current group.
  *
  * @param string $type Thumb or full.
  */
@@ -5787,7 +5778,6 @@ function bp_current_group_id() {
 	 * Returns the ID of the current group.
 	 *
 	 * @since 1.5.0
-	 * @uses apply_filters() Filter bp_get_current_group_id to modify this output.
 	 *
 	 * @return int $current_group_id The id of the current group, if there is one.
 	 */
@@ -5818,7 +5808,6 @@ function bp_current_group_slug() {
 	 * Returns the slug of the current group.
 	 *
 	 * @since 1.5.0
-	 * @uses apply_filters() Filter bp_get_current_group_slug to modify this output.
 	 *
 	 * @return string $current_group_slug The slug of the current group, if there is one.
 	 */
@@ -5849,7 +5838,6 @@ function bp_current_group_name() {
 	 * Returns the name of the current group.
 	 *
 	 * @since 1.5.0
-	 * @uses apply_filters() Filter bp_get_current_group_name to modify this output.
 	 *
 	 * @return string The name of the current group, if there is one.
 	 */
@@ -5880,7 +5868,6 @@ function bp_current_group_description() {
 	 * Returns the description of the current group.
 	 *
 	 * @since 2.1.0
-	 * @uses apply_filters() Filter bp_get_current_group_description to modify
 	 *                       this output.
 	 *
 	 * @return string The description of the current group, if there is one.
@@ -5986,7 +5973,6 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
  *
  * @param array|string $args before|after|user_id
  *
- * @uses bp_groups_get_profile_stats() to get the stats.
  */
 function bp_groups_profile_stats( $args = '' ) {
 	echo bp_groups_get_profile_stats( $args );

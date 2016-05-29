@@ -725,8 +725,6 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  * @see BP_Members_Component::setup_globals() where
  *      $bp->canonical_stack['base_url'] and ['component'] may be set.
  * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set.
- * @uses bp_get_canonical_url()
- * @uses bp_get_requested_url()
  */
 function bp_redirect_canonical() {
 
@@ -795,8 +793,6 @@ function bp_rel_canonical() {
  * Get the canonical URL of the current page.
  *
  * @since 1.6.0
- *
- * @uses apply_filters() Filter bp_get_canonical_url to modify return value.
  *
  * @param array $args {
  *     Optional array of arguments.
@@ -933,7 +929,6 @@ function bp_get_requested_url() {
  *
  * @since 1.6.0
  *
- * @uses bp_is_blog_page()
  */
 function _bp_maybe_remove_redirect_canonical() {
 	if ( ! bp_is_blog_page() )

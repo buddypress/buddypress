@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  *
- * @uses bp_get_settings_slug()
  */
 function bp_settings_slug() {
 	echo bp_get_settings_slug();
@@ -44,7 +43,6 @@ function bp_settings_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_settings_root_slug()
  */
 function bp_settings_root_slug() {
 	echo bp_get_settings_root_slug();

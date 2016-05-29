@@ -126,9 +126,6 @@ function bp_get_default_options() {
  *
  * @since 1.6.0
  *
- * @uses bp_get_default_options() To get default options.
- * @uses add_option() Adds default options.
- * @uses do_action() Calls 'bp_add_options'.
  */
 function bp_add_options() {
 
@@ -160,9 +157,6 @@ function bp_add_options() {
  *
  * @since 1.6.0
  *
- * @uses bp_get_default_options() To get default options.
- * @uses delete_option() Removes default options.
- * @uses do_action() Calls 'bp_delete_options'.
  */
 function bp_delete_options() {
 
@@ -191,9 +185,6 @@ function bp_delete_options() {
  *
  * @since 1.6.0
  *
- * @uses bp_get_default_options() To get default options.
- * @uses add_filter() To add filters to 'pre_option_{$key}'.
- * @uses do_action() Calls 'bp_add_option_filters'.
  */
 function bp_setup_option_filters() {
 
@@ -253,8 +244,6 @@ function bp_pre_get_option( $value = false ) {
  *
  * @since 1.2.0
  *
- * @uses bp_get_root_blog_id()
- *
  * @param string $option_name The option to be retrieved.
  * @param string $default     Optional. Default value to be returned if the option
  *                            isn't set. See {@link get_blog_option()}.
@@ -298,8 +287,6 @@ function bp_add_option( $option_name, $value ) {
  *
  * @since 1.5.0
  *
- * @uses bp_get_root_blog_id()
- *
  * @param string $option_name The option key to be set.
  * @param string $value       The value to be set.
  * @return bool True on success, false on failure.
@@ -316,8 +303,6 @@ function bp_update_option( $option_name, $value ) {
  * setup.
  *
  * @since 1.5.0
- *
- * @uses bp_get_root_blog_id()
  *
  * @param string $option_name The option key to be deleted.
  * @return bool True on success, false on failure.
@@ -529,8 +514,6 @@ function bp_core_get_root_option( $option ) {
  *
  * @since 1.6.0
  *
- * @uses bp_get_option() To get the profile sync option.
- *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
  * @return bool True if profile sync is enabled, otherwise false.
@@ -551,8 +534,6 @@ function bp_disable_profile_sync( $default = false ) {
  * Is the Toolbar hidden for logged out users?
  *
  * @since 1.6.0
- *
- * @uses bp_get_option() To get the logged out Toolbar option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
@@ -576,8 +557,6 @@ function bp_hide_loggedout_adminbar( $default = true ) {
  *
  * @since 1.6.0
  *
- * @uses bp_get_option() To get the avatar uploads option.
- *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
  * @return bool True if avatar uploads are disabled, otherwise false.
@@ -598,8 +577,6 @@ function bp_disable_avatar_uploads( $default = true ) {
  * Are members able to upload their own cover images?
  *
  * @since 2.4.0
- *
- * @uses bp_get_option() To get the cover image uploads option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: false.
@@ -656,8 +633,6 @@ function bp_disable_group_avatar_uploads( $default = null ) {
  *
  * @since 2.4.0
  *
- * @uses bp_get_option() To get the group cover image uploads option.
- *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: false.
  * @return bool True if group cover image uploads are disabled, otherwise false.
@@ -678,8 +653,6 @@ function bp_disable_group_cover_image_uploads( $default = false ) {
  * Are members able to delete their own accounts?
  *
  * @since 1.6.0
- *
- * @uses bp_get_option() To get the account deletion option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
@@ -704,7 +677,6 @@ function bp_disable_account_deletion( $default = false ) {
  * @since 1.6.0
  *
  * @todo split and move into blog and forum components.
- * @uses bp_get_option() To get the blog/forum comments option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: false.
@@ -729,7 +701,6 @@ function bp_disable_blogforum_comments( $default = false ) {
  * @since 1.6.0
  *
  * @todo Move into groups component.
- * @uses bp_get_option() To get the group creation.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
@@ -751,8 +722,6 @@ function bp_restrict_group_creation( $default = true ) {
  * Should the old BuddyBar be forced in place of the WP admin bar?
  *
  * @since 1.6.0
- *
- * @uses bp_get_option() To get the BuddyBar option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
@@ -785,7 +754,6 @@ function bp_group_forums_root_id( $default = '0' ) {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses bp_get_option() To get the root forum ID from the database.
 	 *
 	 * @param bool|string $default Optional. Default: '0'.
 	 * @return int The ID of the group forums root forum.
@@ -806,8 +774,6 @@ function bp_group_forums_root_id( $default = '0' ) {
  * Check whether BuddyPress Group Forums are enabled.
  *
  * @since 1.6.0
- *
- * @uses bp_get_option() To get the group forums option.
  *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
@@ -830,8 +796,6 @@ function bp_is_group_forums_active( $default = true ) {
  *
  * @since 1.6.0
  *
- * @uses bp_get_option() To get the Akismet option.
- *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
  * @return bool True if Akismet is enabled, otherwise false.
@@ -853,8 +817,6 @@ function bp_is_akismet_active( $default = true ) {
  *
  * @since 2.0.0
  *
- * @uses bp_get_option() To get the Heartbeat option.
- *
  * @param bool $default Optional. Fallback value if not found in the database.
  *                      Default: true.
  * @return bool True if Heartbeat refresh is enabled, otherwise false.
@@ -875,8 +837,6 @@ function bp_is_activity_heartbeat_active( $default = true ) {
  * Get the current theme package ID.
  *
  * @since 1.7.0
- *
- * @uses get_option() To get the theme package option.
  *
  * @param string $default Optional. Fallback value if not found in the database.
  *                        Default: 'legacy'.

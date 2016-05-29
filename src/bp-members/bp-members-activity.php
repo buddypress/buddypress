@@ -15,8 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.2.0
  *
- * @uses bp_activity_set_action()
- * @uses buddypress()
  */
 function bp_members_register_activity_actions() {
 

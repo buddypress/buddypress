@@ -139,11 +139,6 @@ class BuddyPress {
 	 * @since 1.7.0
 	 *
 	 * @static object $instance
-	 * @uses BuddyPress::constants() Setup the constants (mostly deprecated).
-	 * @uses BuddyPress::setup_globals() Setup the globals needed.
-	 * @uses BuddyPress::legacy_constants() Setup the legacy constants (deprecated).
-	 * @uses BuddyPress::includes() Include the required files.
-	 * @uses BuddyPress::setup_actions() Setup the hooks and actions.
 	 * @see buddypress()
 	 *
 	 * @return BuddyPress The one true BuddyPress.
@@ -254,11 +249,6 @@ class BuddyPress {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses is_multisite()
-	 * @uses get_current_site()
-	 * @uses get_current_blog_id()
-	 * @uses plugin_dir_path()
-	 * @uses plugin_dir_url()
 	 */
 	private function constants() {
 
@@ -335,9 +325,6 @@ class BuddyPress {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses plugin_dir_path() To generate BuddyPress plugin path.
-	 * @uses plugin_dir_url() To generate BuddyPress plugin url.
-	 * @uses apply_filters() Calls various filters.
 	 */
 	private function setup_globals() {
 
@@ -476,7 +463,6 @@ class BuddyPress {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses is_admin() If in WordPress admin, load additional file.
 	 */
 	private function includes() {
 		if ( function_exists( 'spl_autoload_register' ) ) {
@@ -639,9 +625,6 @@ class BuddyPress {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses register_activation_hook() To register the activation hook.
-	 * @uses register_deactivation_hook() To register the deactivation hook.
-	 * @uses add_action() To add various actions.
 	 */
 	private function setup_actions() {
 

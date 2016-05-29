@@ -65,7 +65,6 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @uses buddypress() to get BuddyPress main instance.
 	 */
 	public static function register_members_admin() {
 		if ( ! is_admin() ) {
@@ -368,7 +367,6 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @uses add_submenu_page() To add the Edit Profile page in Profile section.
 	 */
 	public function user_profile_menu() {
 
@@ -406,7 +404,6 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @uses add_submenu_page() To add the Edit Profile page in Users/Profile section.
 	 */
 	public function admin_menus() {
 
@@ -1228,7 +1225,6 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @uses  user_admin_url()
 	 *
 	 * @param string $profile_link Profile Link for admin bar.
 	 * @param string $url          Profile URL.

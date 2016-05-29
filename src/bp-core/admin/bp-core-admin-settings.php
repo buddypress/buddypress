@@ -22,7 +22,6 @@ function bp_admin_setting_callback_main_section() { }
  *
  * @since 1.6.0
  *
- * @uses bp_form_option() To output the option value.
  */
 function bp_admin_setting_callback_admin_bar() {
 ?>
@@ -38,7 +37,6 @@ function bp_admin_setting_callback_admin_bar() {
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_account_deletion() {
 ?>
@@ -63,7 +61,6 @@ function bp_admin_setting_callback_activity_section() { }
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_activity_akismet() {
 ?>
@@ -132,7 +129,6 @@ function bp_admin_setting_callback_xprofile_section() { }
  *
  * @since 1.6.0
  *
- * @uses bp_form_option() To output the option value.
  */
 function bp_admin_setting_callback_profile_sync() {
 ?>
@@ -148,7 +144,6 @@ function bp_admin_setting_callback_profile_sync() {
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_avatar_uploads() {
 ?>
@@ -185,7 +180,6 @@ function bp_admin_setting_callback_groups_section() { }
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_group_creation() {
 ?>
@@ -235,9 +229,6 @@ function bp_admin_setting_callback_bbpress_section() { }
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
- * @uses bp_get_option() To get the config location.
- * @uses bp_form_option() To get the sanitized form option.
  */
 function bp_admin_setting_callback_bbpress_configuration() {
 
@@ -265,8 +256,6 @@ function bp_admin_setting_callback_bbpress_configuration() {
  *
  * @since 1.6.0
  *
- * @uses settings_fields() To output the hidden fields for the form.
- * @uses do_settings_sections() To output the settings sections.
  */
 function bp_core_admin_settings() {
 
@@ -350,8 +339,6 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
  *
  * @since 1.6.0
  *
- * @uses bp_get_bp_form_option()
- *
  * @param string $option  Form option to echo.
  * @param string $default Form option default.
  * @param bool   $slug    Form option slug.
@@ -364,9 +351,6 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses bp_get_option()
-	 * @uses esc_attr()
-	 * @uses apply_filters()
 	 *
 	 * @param string $option  Form option to return.
 	 * @param string $default Form option default.

@@ -19,7 +19,6 @@ if ( ! buddypress()->do_autoload ) {
  *
  * @since 1.6.0
  *
- * @uses BP_Admin
  */
 function bp_admin() {
 	buddypress()->admin = new BP_Admin();

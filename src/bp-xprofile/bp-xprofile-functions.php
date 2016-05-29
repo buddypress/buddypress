@@ -327,8 +327,6 @@ function xprofile_delete_field( $field_id ) {
  *
  * @since 1.0.0
  *
- * @uses BP_XProfile_ProfileData::get_value_byid() Fetches the value based on the params passed.
- *
  * @param mixed  $field        The ID of the field, or the $name of the field.
  * @param int    $user_id      The ID of the user.
  * @param string $multi_format How should array data be returned? 'comma' if you want a
@@ -388,8 +386,6 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
  * A simple function to set profile data for a specific field for a specific user.
  *
  * @since 1.0.0
- *
- * @uses xprofile_get_field_id_from_name() Gets the ID from the field based on the name.
  *
  * @param int|string $field       The ID of the field, or the $name of the field.
  * @param int        $user_id     The ID of the user.
@@ -603,7 +599,6 @@ function xprofile_get_field_id_from_name( $field_name ) {
  * @global BuddyPress $bp           The one true BuddyPress instance.
  * @global object     $wpdb         WordPress DB access object.
  * @global object     $current_user WordPress global variable containing current logged in user information.
- * @uses xprofile_format_profile_field() Formats profile field data so it is suitable for display.
  *
  * @param int  $user_id          User ID of the user to get random data for.
  * @param bool $exclude_fullname Optional; whether or not to exclude the full name field as random data.
@@ -1159,7 +1154,6 @@ function bp_xprofile_get_visibility_levels() {
  * @since 1.6.0
  *
  * @see BP_XProfile_Group::get()
- * @uses apply_filters() Filter bp_xprofile_get_hidden_fields_for_user to modify visibility levels,
  *   or if you have added your own custom levels.
  *
  * @param int $displayed_user_id The id of the user the profile fields belong to.

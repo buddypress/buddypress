@@ -903,8 +903,6 @@ function bp_core_reset_subnav_items( $parent_slug, $component = 'members' ) {
  *
  * @since 1.5.0
  *
- * @uses get_user_option()
- *
  * @param string $context Context of this preference check. 'admin' or 'front'.
  * @param int    $user    Optional. ID of the user to check. Default: 0 (which falls back to the logged-in user's ID).
  * @return bool True if the toolbar should be showing for this user.

@@ -240,8 +240,6 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
  *
  * @since 1.7.0
  *
- * @uses apply_filters()
- *
  * @param int $blog_id ID of the blog being checked.
  * @param int $user_id Optional. ID of the user for whom access is being checked.
  * @return bool True if blog is recordable, otherwise false.
@@ -271,9 +269,6 @@ function bp_blogs_is_blog_recordable( $blog_id, $user_id = 0 ) {
  *
  * @since 1.7.0
  *
- * @uses bp_blogs_is_blog_recordable
- * @uses apply_filters()
- *
  * @param int $blog_id ID of the blog being checked.
  * @param int $user_id Optional. ID of the user for whom access is being checked.
  * @return bool True if blog is trackable, otherwise false.
@@ -299,8 +294,6 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
  * Make BuddyPress aware of a new site so that it can track its activity.
  *
  * @since 1.0.0
- *
- * @uses BP_Blogs_Blog
  *
  * @param int  $blog_id     ID of the blog being recorded.
  * @param int  $user_id     ID of the user for whom the blog is being recorded.

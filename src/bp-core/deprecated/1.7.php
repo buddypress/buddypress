@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  * @deprecated 1.7.0
- * @uses bp_get_maintenance_mode() To get the BuddyPress maintenance mode
  */
 function bp_maintenance_mode() {
 	echo bp_get_maintenance_mode();

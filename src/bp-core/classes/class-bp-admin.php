@@ -82,9 +82,6 @@ class BP_Admin {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses BP_Admin::setup_globals() Setup the globals needed.
-	 * @uses BP_Admin::includes() Include the required files.
-	 * @uses BP_Admin::setup_actions() Setup the hooks and actions.
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -137,8 +134,6 @@ class BP_Admin {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses add_action() To add various actions.
-	 * @uses add_filter() To add various filters.
 	 */
 	private function setup_actions() {
 
@@ -199,8 +194,6 @@ class BP_Admin {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses add_management_page() To add the Recount page in Tools section.
-	 * @uses add_options_page() To add the Forums settings page in Settings
 	 *       section.
 	 */
 	public function admin_menus() {
@@ -381,9 +374,6 @@ class BP_Admin {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses add_settings_section() To add our own settings section.
-	 * @uses add_settings_field() To add various settings fields.
-	 * @uses register_setting() To register various settings.
 	 */
 	public function register_admin_settings() {
 

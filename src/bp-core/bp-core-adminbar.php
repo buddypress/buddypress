@@ -55,17 +55,6 @@ add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
  * @since 1.2.0
  *
  * @global string $wp_version
- * @uses bp_get_option()
- * @uses is_user_logged_in()
- * @uses bp_use_wp_admin_bar()
- * @uses show_admin_bar()
- * @uses add_action() To hook 'bp_adminbar_logo' to 'bp_adminbar_logo'.
- * @uses add_action() To hook 'bp_adminbar_login_menu' to 'bp_adminbar_menus'.
- * @uses add_action() To hook 'bp_adminbar_account_menu' to 'bp_adminbar_menus'.
- * @uses add_action() To hook 'bp_adminbar_thisblog_menu' to 'bp_adminbar_menus'.
- * @uses add_action() To hook 'bp_adminbar_random_menu' to 'bp_adminbar_menus'.
- * @uses add_action() To hook 'bp_core_admin_bar' to 'wp_footer'.
- * @uses add_action() To hook 'bp_core_admin_bar' to 'admin_footer'.
  */
 function bp_core_load_admin_bar() {
 

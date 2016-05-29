@@ -132,10 +132,6 @@ class BP_Activity_Component extends BP_Component {
 	 * @since 1.5.0
 	 *
 	 * @see BP_Component::setup_nav() for a description of arguments.
-	 * @uses bp_is_active()
-	 * @uses is_user_logged_in()
-	 * @uses bp_get_friends_slug()
-	 * @uses bp_get_groups_slug()
 	 *
 	 * @param array $main_nav Optional. See BP_Component::setup_nav() for description.
 	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for description.
@@ -241,13 +237,6 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
 	 *      parameter array.
-	 * @uses is_user_logged_in()
-	 * @uses trailingslashit()
-	 * @uses bp_get_total_mention_count_for_user()
-	 * @uses bp_loggedin_user_id()
-	 * @uses bp_is_active()
-	 * @uses bp_get_friends_slug()
-	 * @uses bp_get_groups_slug()
 	 *
 	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a
 	 *                            description.
@@ -344,9 +333,6 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses bp_is_activity_component()
-	 * @uses bp_is_my_profile()
-	 * @uses bp_core_fetch_avatar()
 	 */
 	public function setup_title() {
 

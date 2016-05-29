@@ -1640,8 +1640,6 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
  *
  * @since 1.2.0
  *
- * @uses bp_core_get_upload_dir() To get upload directory info.
- *
  * @return string Absolute path to WP upload directory.
  */
 function bp_core_avatar_upload_path() {
@@ -1660,8 +1658,6 @@ function bp_core_avatar_upload_path() {
  * Get the raw base URL for root site upload location.
  *
  * @since 1.2.0
- *
- * @uses bp_core_get_upload_dir() To get upload directory info.
  *
  * @return string Full URL to current upload location.
  */
@@ -1948,12 +1944,6 @@ function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
  * notices, we need to make sure this 'week' query var is reset to 0.
  *
  * @since  2.2.0
- *
- * @uses   bp_is_group_create()
- * @uses   bp_is_group_admin_page()
- * @uses   bp_is_group_admin_screen() to check for a group admin screen
- * @uses   bp_action_variable() to check for the group's avatar creation step
- * @uses   bp_is_user_change_avatar() to check for the user's change profile screen
  *
  * @param WP_Query|null $posts_query The main query object.
  */

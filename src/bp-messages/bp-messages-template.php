@@ -1007,7 +1007,6 @@ function bp_messages_is_active_notice() {
  *
  * @since 1.0.0
  * @deprecated 1.6.0
- * @uses bp_get_message_is_active_notice()
  * @return bool
  */
 function bp_message_is_active_notice() {
@@ -1021,7 +1020,6 @@ function bp_message_is_active_notice() {
 	 *
 	 * @since 1.0.0
 	 * @deprecated 1.6.0
-	 * @uses bp_messages_is_active_notice()
 	 */
 	function bp_get_message_is_active_notice() {
 
@@ -1218,7 +1216,6 @@ function bp_message_activate_deactivate_text() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_messages_slug()
  */
 function bp_messages_slug() {
 	echo bp_get_messages_slug();
@@ -1307,7 +1304,6 @@ function bp_send_private_message_link() {
  *
  * @since 1.2.6
  *
- * @uses bp_get_send_message_button()
  */
 function bp_send_private_message_button() {
 	echo bp_get_send_message_button();
@@ -1954,7 +1950,6 @@ function bp_the_thread_message_date_sent() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @uses strtotime() To convert the message string into a usable timestamp.
 	 *
 	 * @return int
 	 */

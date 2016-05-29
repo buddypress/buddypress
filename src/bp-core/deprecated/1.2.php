@@ -16,8 +16,6 @@
  *
  * @param array $args
  *
- * @uses BP_Activity_Activity::get() {@link BP_Activity_Activity}
- *
  * @return object $activity The activity/activities object
  */
 function bp_activity_get_sitewide( $args = '' ) {

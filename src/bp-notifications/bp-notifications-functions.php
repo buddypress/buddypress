@@ -716,8 +716,6 @@ function bp_notifications_delete_meta( $notification_id, $meta_key = '', $meta_v
  *
  * @since 2.3.0
  *
- * @uses apply_filters() To call the 'bp_notifications_get_meta' hook.
- *
  * @param int    $notification_id ID of the notification item whose metadata is being requested.
  * @param string $meta_key        Optional. If present, only the metadata matching
  *                                that meta key will be returned. Otherwise, all metadata for the

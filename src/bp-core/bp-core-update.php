@@ -17,9 +17,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.7.0
  *
- * @uses get_option()
- * @uses bp_get_db_version() To get BuddyPress's database version.
- *
  * @return bool True if this is a fresh BP install, otherwise false.
  */
 function bp_is_install() {
@@ -34,9 +31,6 @@ function bp_is_install() {
  * an update.
  *
  * @since 1.6.0
- *
- * @uses get_option()
- * @uses bp_get_db_version() To get BuddyPress's database version.
  *
  * @return bool True if update, otherwise false.
  */
@@ -57,8 +51,6 @@ function bp_is_update() {
  * Determine whether BuddyPress is in the process of being activated.
  *
  * @since 1.6.0
- *
- * @uses buddypress()
  *
  * @param string $basename BuddyPress basename.
  * @return bool True if activating BuddyPress, false if not.
@@ -104,8 +96,6 @@ function bp_is_activation( $basename = '' ) {
  *
  * @since 1.6.0
  *
- * @uses buddypress()
- *
  * @param string $basename BuddyPress basename.
  * @return bool True if deactivating BuddyPress, false if not.
  */
@@ -150,8 +140,6 @@ function bp_is_deactivation( $basename = '' ) {
  *
  * @since 1.6.0
  *
- * @uses bp_get_db_version() To get BuddyPress's database version.
- * @uses bp_update_option() To update BuddyPress's database version.
  */
 function bp_version_bump() {
 	bp_update_option( '_bp_db_version', bp_get_db_version() );
@@ -519,7 +507,6 @@ function bp_update_to_2_5() {
  * @since 2.2.0
  *
  * @global $wpdb
- * @uses   buddypress()
  */
 function bp_migrate_new_member_activity_component() {
 	global $wpdb;
@@ -553,7 +540,6 @@ function bp_migrate_new_member_activity_component() {
  *
  * @since 2.2.0
  *
- * @uses bp_activity_delete() to delete the corresponding friendship activities.
  */
 function bp_cleanup_friendship_activities() {
 	bp_activity_delete( array(
@@ -570,7 +556,6 @@ function bp_cleanup_friendship_activities() {
  *
  * @internal Used internally to redirect BuddyPress to the about page on activation.
  *
- * @uses set_transient() To drop the activation transient for 30 seconds.
  */
 function bp_add_activation_redirect() {
 
@@ -640,7 +625,6 @@ function bp_core_maybe_install_signups() {
  *
  * @since 1.6.0
  *
- * @uses do_action() Calls 'bp_activation' hook.
  */
 function bp_activation() {
 
@@ -670,7 +654,6 @@ function bp_activation() {
  *
  * @since 1.6.0
  *
- * @uses do_action() Calls 'bp_deactivation' hook.
  */
 function bp_deactivation() {
 
@@ -705,7 +688,6 @@ function bp_deactivation() {
  *
  * @since 1.6.0
  *
- * @uses do_action() Calls 'bp_uninstall' hook.
  */
 function bp_uninstall() {
 

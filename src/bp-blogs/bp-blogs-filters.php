@@ -25,7 +25,6 @@ add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
  *
  * @since 1.6.0
  *
- * @uses apply_filters() Filter 'bp_blogs_creation_location' to alter the
  *       returned value.
  *
  * @param string $url The original URL (points to wp-signup.php by default).

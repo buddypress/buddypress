@@ -720,8 +720,6 @@ function bp_get_the_profile_field_errors_action() {
  *
  * @since 1.1.0
  *
- * @uses bp_get_the_profile_field_options()
- *
  * @param array $args Specify type for datebox. Allowed 'day', 'month', 'year'.
  */
 function bp_the_profile_field_options( $args = array() ) {
@@ -732,8 +730,6 @@ function bp_the_profile_field_options( $args = array() ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @uses BP_XProfile_Field::get_children()
-	 * @uses BP_XProfile_ProfileData::get_value_byid()
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.

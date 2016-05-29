@@ -179,9 +179,6 @@ function bp_activity_check_blacklist_keys( $activity ) {
  *
  * @since 1.1.0
  *
- * @uses apply_filters() To call the 'bp_activity_allowed_tags' hook.
- * @uses wp_kses()
- *
  * @param string $content The activity content.
  * @return string $content Filtered activity content.
  */
@@ -282,8 +279,6 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
  *
  * @since 1.5.0
  *
- * @uses bp_activity_find_mentions()
- *
  * @param BP_Activity_Activity $activity Activity Object.
  */
 function bp_activity_at_name_filter_updates( $activity ) {
@@ -318,9 +313,6 @@ function bp_activity_at_name_filter_updates( $activity ) {
  * Sends emails and BP notifications for users @-mentioned in an activity item.
  *
  * @since 1.7.0
- *
- * @uses bp_activity_at_message_notification()
- * @uses bp_activity_update_mention_count_for_user()
  *
  * @param BP_Activity_Activity $activity The BP_Activity_Activity object.
  */
@@ -396,14 +388,6 @@ function bp_activity_make_nofollow_filter( $text ) {
  *
  * @since 1.5.0
  *
- * @uses bp_is_single_activity()
- * @uses apply_filters() To call the 'bp_activity_excerpt_append_text' hook.
- * @uses apply_filters() To call the 'bp_activity_excerpt_length' hook.
- * @uses bp_create_excerpt()
- * @uses bp_get_activity_id()
- * @uses bp_get_activity_thread_permalink()
- * @uses apply_filters() To call the 'bp_activity_truncate_entry' hook.
- *
  * @param string $text The original activity entry text.
  * @return string $excerpt The truncated text.
  */
@@ -476,8 +460,6 @@ function bp_activity_truncate_entry( $text ) {
  *
  * @since 2.0.0
  *
- * @uses bp_activity_do_heartbeat() to check if heartbeat is required.
- *
  * @param array $js_handles The original dependencies.
  * @return array $js_handles The new dependencies.
  */
@@ -542,8 +524,6 @@ add_filter( 'bp_get_activity_css_class', 'bp_activity_timestamp_class', 9, 1 );
  * Use WordPress Heartbeat API to check for latest activity update.
  *
  * @since 2.0.0
- *
- * @uses bp_activity_get_last_updated() to get the recorded date of the last activity.
  *
  * @param array $response Array containing Heartbeat API response.
  * @param array $data     Array containing data for Heartbeat API response.

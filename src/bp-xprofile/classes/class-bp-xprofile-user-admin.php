@@ -23,7 +23,6 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @uses buddypress() to get BuddyPress main instance.
 	 */
 	public static function register_xprofile_user_admin() {
 

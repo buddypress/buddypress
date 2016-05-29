@@ -21,7 +21,6 @@ if ( ! buddypress()->do_autoload ) {
  *
  * @since 2.4.0
  *
- * @uses bp_get_profile_slug()
  */
 function bp_profile_slug() {
 	echo bp_get_profile_slug();
@@ -50,7 +49,6 @@ function bp_profile_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_members_slug()
  */
 function bp_members_slug() {
 	echo bp_get_members_slug();
@@ -79,7 +77,6 @@ function bp_members_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_members_root_slug()
  */
 function bp_members_root_slug() {
 	echo bp_get_members_root_slug();
@@ -138,7 +135,6 @@ function bp_members_member_type_base() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_members_directory_permalink()
  */
 function bp_members_directory_permalink() {
 	echo esc_url( bp_get_members_directory_permalink() );
@@ -166,8 +162,6 @@ function bp_members_directory_permalink() {
  * Output member type directory permalink.
  *
  * @since 2.5.0
- *
- * @uses bp_get_member_type_directory_permalink()
  *
  * @param string $member_type Optional. Member type.
  */
@@ -215,7 +209,6 @@ function bp_member_type_directory_permalink( $member_type = '' ) {
  *
  * @since 1.5.0
  *
- * @uses bp_get_signup_slug()
  */
 function bp_signup_slug() {
 	echo bp_get_signup_slug();
@@ -253,7 +246,6 @@ function bp_signup_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_activate_slug()
  */
 function bp_activate_slug() {
 	echo bp_get_activate_slug();
@@ -558,7 +550,6 @@ function bp_members_pagination_links() {
  *
  * @since 1.2.0
  *
- * @uses bp_get_member_user_id()
  */
 function bp_member_user_id() {
 	echo bp_get_member_user_id();
@@ -1994,9 +1985,6 @@ function bp_current_member_type_message() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_signup_slug() To make sure there is a slug assigned to the page.
- * @uses bp_locate_template() To make sure a template exists to provide output.
- *
  * @return bool True if page and template exist, false if not.
  */
 function bp_has_custom_signup_page() {
@@ -2044,9 +2032,6 @@ function bp_signup_page() {
  * Do we have a working custom activation page?
  *
  * @since 1.5.0
- *
- * @uses bp_get_activate_slug() To make sure there is a slug assigned to the page.
- * @uses bp_locate_template() To make sure a template exists to provide output.
  *
  * @return boolean True if page and template exist, false if not.
  */

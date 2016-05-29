@@ -80,8 +80,6 @@ add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
  *
  * @since 1.5.0
  *
- * @uses bp_is_active() checks if a BuddyPress component is active.
- *
  * @param array $pages List of excluded page IDs, as passed to the
  *                     'wp_list_pages_excludes' filter.
  * @return array The exclude list, with BP's pages added.
@@ -118,9 +116,6 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * Prevent specific pages (eg 'Activate') from showing in the Pages meta box of the Menu Administration screen.
  *
  * @since 2.0.0
- *
- * @uses bp_is_root_blog() checks if current blog is root blog.
- * @uses buddypress() gets BuddyPress main instance
  *
  * @param object|null $object The post type object used in the meta box.
  * @return object|null The $object, with a query argument to remove register and activate pages id.
@@ -286,7 +281,6 @@ add_filter( 'comments_array', 'bp_core_filter_comments', 10, 2 );
  *
  * @since 1.2.0
  *
- * @uses apply_filters() Filter 'bp_core_login_redirect' to modify where users
  *       are redirected to on login.
  *
  * @param string  $redirect_to     The URL to be redirected to, sanitized in wp-login.php.

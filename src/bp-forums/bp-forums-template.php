@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  *
- * @uses bp_get_forums_slug()
  */
 function bp_forums_slug() {
 	echo bp_get_forums_slug();
@@ -43,7 +42,6 @@ function bp_forums_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_forums_root_slug()
  */
 function bp_forums_root_slug() {
 	echo bp_get_forums_root_slug();
@@ -71,7 +69,6 @@ function bp_forums_root_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_forums_directory_permalink()
  */
 function bp_forums_directory_permalink() {
 	echo esc_url( bp_get_forums_directory_permalink() );
@@ -81,10 +78,6 @@ function bp_forums_directory_permalink() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses apply_filters()
-	 * @uses trailingslashit()
-	 * @uses bp_get_root_domain()
-	 * @uses bp_get_forums_root_slug()
 	 *
 	 * @return string The permalink for the forums component directory.
 	 */
@@ -480,7 +473,6 @@ class BP_Forums_Template_Forum {
  *
  * @since 1.1.0
  *
- * @uses apply_filters() Filter 'bp_has_topics' to manipulate the
  *       $forums_template global before it's rendered, or to modify the value
  *       of has_topics().
  *
@@ -1950,7 +1942,6 @@ function bp_forum_topic_new_reply_link() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses apply_filters() Filter bp_get_forum_topic_new_reply_link to
 	 *       modify.
 	 *
 	 * @return string The URL for the New Reply link.

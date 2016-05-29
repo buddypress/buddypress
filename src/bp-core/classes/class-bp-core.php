@@ -24,7 +24,6 @@ class BP_Core extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses BP_Core::bootstrap()
 	 */
 	public function __construct() {
 		parent::start(

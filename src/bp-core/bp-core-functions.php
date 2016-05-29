@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @uses bp_get_version() To get the BuddyPress version.
  */
 function bp_version() {
 	echo bp_get_version();
@@ -38,7 +37,6 @@ function bp_version() {
  *
  * @since 1.6.0
  *
- * @uses bp_get_db_version() To get the BuddyPress database version.
  */
 function bp_db_version() {
 	echo bp_get_db_version();
@@ -59,7 +57,6 @@ function bp_db_version() {
  *
  * @since 1.6.0
  *
- * @uses bp_get_db_version_raw() To get the current database BuddyPress version.
  */
 function bp_db_version_raw() {
 	echo bp_get_db_version_raw();
@@ -358,7 +355,6 @@ function bp_esc_like( $text ) {
  *
  * @since 1.5.0
  *
- * @uses apply_filters() Filter 'bp_is_username_compatibility_mode' to alter.
  * @todo Move to members component?
  *
  * @return bool False when compatibility mode is disabled, true when enabled.
@@ -383,8 +379,6 @@ function bp_is_username_compatibility_mode() {
  * of BP 1.5. For BP 1.6, the WP Toolbar is the default.
  *
  * @since 1.5.0
- *
- * @uses apply_filters() Filter 'bp_use_wp_admin_bar' to alter.
  *
  * @return bool Default: true. False when WP Toolbar support is disabled.
  */
@@ -923,8 +917,6 @@ function bp_do_register_theme_directory() {
  *
  * @since 1.0.0
  *
- * @uses get_blog_option() WordPress function to fetch blog meta.
- *
  * @return string The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
@@ -945,8 +937,6 @@ function bp_core_get_root_domain() {
  * Perform a status-safe wp_redirect() that is compatible with BP's URI parser.
  *
  * @since 1.0.0
- *
- * @uses wp_safe_redirect()
  *
  * @param string $location The redirect URL.
  * @param int    $status   Optional. The numeric code to give in the redirect
@@ -1076,9 +1066,6 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
  * interval of 3 minutes 59 seconds.
  *
  * @since 1.0.0
- *
- * @uses apply_filters() Filter 'bp_core_time_since_pre' to bypass BP's calculations.
- * @uses apply_filters() Filter 'bp_core_time_since' to modify BP's calculations.
  *
  * @param int|string $older_date The earlier time from which you're calculating
  *                               the time elapsed. Enter either as an integer Unix timestamp,
@@ -1316,7 +1303,6 @@ function bp_core_add_message( $message, $type = '' ) {
  *
  * @since 1.1.0
  *
- * @uses setcookie() Sets a cookie value for the user.
  */
 function bp_core_setup_message() {
 
@@ -1400,7 +1386,6 @@ function bp_core_render_message() {
  *
  * @since 1.0.0
  *
- * @uses bp_update_user_meta() BP function to update user metadata in the
  *       usermeta table.
  *
  * @return bool|null Returns false if there is nothing to do.
@@ -1458,7 +1443,6 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  *
  * @since 1.0.0
  *
- * @uses bp_core_time_since() This function will return an English
  *       representation of the time elapsed.
  *
  * @param int|string $last_activity_date The date of last activity.
@@ -1509,8 +1493,6 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
  *
  * @since 1.5.0
  *
- * @uses apply_filters() Filter 'bp_get_user_meta_key' to modify keys individually.
- *
  * @param string|bool $key The usermeta meta_key.
  * @return string $key The usermeta meta_key.
  */
@@ -1536,7 +1518,6 @@ function bp_get_user_meta_key( $key = false ) {
  * @since 1.5.0
  *
  * @see get_user_meta() For complete details about parameters and return values.
- * @uses bp_get_user_meta_key() For a filterable version of the meta key.
  *
  * @param int    $user_id The ID of the user whose meta you're fetching.
  * @param string $key     The meta key to retrieve.
@@ -1558,7 +1539,6 @@ function bp_get_user_meta( $user_id, $key, $single = false ) {
  * @since 1.5.0
  *
  * @see update_user_meta() For complete details about parameters and return values.
- * @uses bp_get_user_meta_key() For a filterable version of the meta key.
  *
  * @param int    $user_id    The ID of the user whose meta you're setting.
  * @param string $key        The meta key to set.
@@ -1580,7 +1560,6 @@ function bp_update_user_meta( $user_id, $key, $value, $prev_value = '' ) {
  * @since 1.5.0
  *
  * @see delete_user_meta() For complete details about parameters and return values.
- * @uses bp_get_user_meta_key() For a filterable version of the meta key.
  *
  * @param int    $user_id The ID of the user whose meta you're deleting.
  * @param string $key     The meta key to delete.
@@ -1709,9 +1688,6 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses bp_core_do_network_admin()
-	 * @uses network_admin_url()
-	 * @uses admin_url()
 	 *
 	 * @param string $path   Optional. The sub-path under /wp-admin to be
 	 *                       appended to the admin URL.
@@ -1742,9 +1718,6 @@ function bp_admin_url( $path = '', $scheme = 'admin' ) {
  * to hook into certain areas of WordPress's admin.
  *
  * @since 1.5.0
- *
- * @uses bp_is_network_activated()
- * @uses bp_is_multiblog_mode()
  *
  * @return bool True if the BP admin screen should appear in the Network Admin,
  *              otherwise false.
@@ -1877,8 +1850,6 @@ function bp_get_root_blog_id() {
  * down this road unless you specifically need to.
  *
  * @since 1.5.0
- *
- * @uses apply_filters() Filter 'bp_is_multiblog_mode' to alter.
  *
  * @return bool False when multiblog mode is disabled; true when enabled.
  *              Default: false.
@@ -2066,8 +2037,6 @@ function bp_do_404( $redirect = 'remove_canonical_direct' ) {
  * To avoid security exploits within the theme.
  *
  * @since 1.6.0
- *
- * @uses do_action() Calls 'bp_verify_nonce_request' on $action.
  *
  * @param string $action    Action nonce.
  * @param string $query_arg Where to look for nonce in $_REQUEST.
@@ -2689,12 +2658,6 @@ function bp_core_get_suggestions( $args ) {
  * once to get what we need.
  *
  * @since 2.3.0
- *
- * @uses  is_multisite()
- * @uses  bp_is_root_blog()
- * @uses  switch_to_blog()
- * @uses  wp_upload_dir()
- * @uses  restore_current_blog()
  *
  * @return string
  */

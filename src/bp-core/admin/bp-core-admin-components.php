@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @uses bp_core_admin_component_options()
  */
 function bp_core_admin_components_settings() {
 ?>
