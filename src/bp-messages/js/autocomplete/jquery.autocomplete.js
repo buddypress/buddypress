@@ -9,12 +9,13 @@
  *
  * Revision: $Id: jquery.autocomplete.js 4485 2008-01-20 13:52:47Z joern.zaefferer $
  *
+ * Namespaced for BuddyPress as $.fn.autocompletebp, to avoid conflicts with other autocomplete scripts.
  */
 
 ;(function($) {
 
 $.fn.extend({
-	autocomplete: function(urlOrData, options) {
+	autocompletebp: function(urlOrData, options) {
 		var isUrl = typeof urlOrData == "string";
 		options = $.extend({}, $.Autocompleter.defaults, {
 			url: isUrl ? urlOrData : null,

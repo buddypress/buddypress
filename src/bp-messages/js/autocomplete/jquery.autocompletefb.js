@@ -46,7 +46,7 @@ jQuery.fn.autoCompletefb = function(options)
 		acfb.removeFind(this);
 	});
 
-	jQuery(settings.inputClass,tmp).autocomplete(settings.urlLookup,settings.acOptions);
+	jQuery(settings.inputClass,tmp).autocompletebp(settings.urlLookup,settings.acOptions);
 	jQuery(settings.inputClass,tmp).result(function(e,d,f){
 		var f = settings.foundClass.replace(/\./,'');
 		var d = String(d).split(' (');
