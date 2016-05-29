@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Bootstrap bbPress 1.x, and manipulate globals to integrate with BuddyPress.
  *
+ * @since 1.1.0
+ *
  * @return bool|null Returns false on failure.
  */
 function bp_forums_load_bbpress() {
@@ -156,12 +158,16 @@ add_action( 'bbpress_init', 'bp_forums_load_bbpress' );
 /**
  * Get the current bbPress user.
  *
+ * @since 1.1.0
+ *
  * @return object $current_user Current user object from WordPress.
  */
 function bb_get_current_user() { global $current_user; return $current_user; }
 
 /**
  * Get userdata for a bbPress user.
+ *
+ * @since 1.1.0
  *
  * @param int $user_id User ID.
  * @return object User data from WordPress.
@@ -173,14 +179,27 @@ function bb_get_user( $user_id ) { return get_userdata( $user_id ); }
  *
  * Noop.
  *
+ * @since 1.1.0
+ *
  * @param array $users Array of users.
  */
 function bb_cache_users( $users ) {}
 
 /**
  * The bbPress plugin needs this class for its usermeta manipulation.
+ *
+ * @since 1.1.0
  */
 class BP_Forums_BB_Auth {
+
+	/**
+	 * Update usermeta data.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $args Array of arguments.
+	 * @return bool
+	 */
 	function update_meta( $args = '' ) {
 		$defaults = array( 'id' => 0, 'meta_key' => null, 'meta_value' => null, 'meta_table' => 'usermeta', 'meta_field' => 'user_id', 'cache_group' => 'users' );
 		$args = wp_parse_args( $args, $defaults );
@@ -198,11 +217,19 @@ class BP_Forums_BB_Auth {
  * of BPDB which extend the appropriate base class.
  */
 if ( ! class_exists( 'BPDB' ) ) :
+
+	/**
+	 * WPDB class extension.
+	 *
+	 * @since 1.1.0
+	 */
 	class BPDB extends WPDB {
 		var $db_servers = array();
 
 		/**
 		 * Constructor.
+		 *
+		 * @since 1.1.0
 		 *
 		 * @see WPDB::__construct() for description of parameters.
 		 */
@@ -225,6 +252,8 @@ if ( ! class_exists( 'BPDB' ) ) :
 		 * the collation check always failed. The capability is long
 		 * supported by WordPress' minimum required MySQL version, so
 		 * this is safe.
+		 *
+		 * @since 1.1.0
 		 *
 		 * @see WPDB::has_cap() for a description of parameters and
 		 *      return values.
@@ -279,6 +308,8 @@ if ( ! class_exists( 'BPDB' ) ) :
 		/**
 		 * Stub for escape_deep() compatibility.
 		 *
+		 * @since 1.1.0
+		 *
 		 * @see WPDB::escape_deep() for description of parameters and
 		 *      return values.
 		 *
@@ -295,6 +326,8 @@ endif; // End class_exists( 'BPDB' ).
  * Convert object to given output format.
  *
  * The bbPress plugin needs this to convert vars.
+ *
+ * @since 1.1.0
  *
  * @param object $object Object to convert.
  * @param string $output Type of object to return. OBJECT, ARRAY_A, or ARRAY_N.
@@ -317,6 +350,8 @@ function backpress_convert_object( &$object, $output ) {
  *
  * Copied from wp-admin/includes/upgrade.php, this will take care of creating
  * the bbPress stand-alone tables without loading a conflicting WP Admin.
+ *
+ * @since 1.5.0
  *
  * @see dbDelta() for a description of parameters and return value.
  *
