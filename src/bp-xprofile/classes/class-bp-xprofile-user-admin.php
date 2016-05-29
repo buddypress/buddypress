@@ -250,14 +250,38 @@ class BP_XProfile_User_Admin {
 			$errors = false;
 
 			// Now we've checked for required fields, let's save the values.
+			$old_values = $new_values = array();
 			foreach ( (array) $posted_field_ids as $field_id ) {
 
-				// Certain types of fields (checkboxes, multiselects) may come
-				// through empty. Save them as an empty array so that they don't
-				// get overwritten by the default on the next edit.
+				/*
+				 * Certain types of fields (checkboxes, multiselects) may come
+				 * through empty. Save them as an empty array so that they don't
+				 * get overwritten by the default on the next edit.
+				 */
 				$value = isset( $_POST['field_' . $field_id] ) ? $_POST['field_' . $field_id] : '';
 
-				if ( ! xprofile_set_field_data( $field_id, $user_id, $value, $is_required[ $field_id ] ) ) {
+				$visibility_level = ! empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
+				/*
+				 * Save the old and new values. They will be
+				 * passed to the filter and used to determine
+				 * whether an activity item should be posted.
+				 */
+				$old_values[ $field_id ] = array(
+					'value'      => xprofile_get_field_data( $field_id, $user_id ),
+					'visibility' => xprofile_get_field_visibility_level( $field_id, $user_id ),
+				);
+
+				// Update the field data and visibility level.
+				xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
+				$field_updated = xprofile_set_field_data( $field_id, $user_id, $value, $is_required[ $field_id ] );
+				$value         = xprofile_get_field_data( $field_id, $user_id );
+
+				$new_values[ $field_id ] = array(
+					'value'      => $value,
+					'visibility' => xprofile_get_field_visibility_level( $field_id, $user_id ),
+				);
+
+				if ( ! $field_updated ) {
 					$errors = true;
 				} else {
 
@@ -271,22 +295,21 @@ class BP_XProfile_User_Admin {
 					 */
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
 				}
-
-				// Save the visibility level.
-				$visibility_level = ! empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
-				xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
 			}
 
 			/**
-			 * Fires after all of the profile fields have been saved.
+			 * Fires after all XProfile fields have been saved for the current profile.
 			 *
 			 * @since 1.0.0
+			 * @since 2.6.0 Added $old_values and $new_values parameters.
 			 *
-			 * @param int   $user_id          ID of the user whose data is being saved.
-			 * @param array $posted_field_ids IDs of the fields that were submitted.
-			 * @param bool  $errors           Whether or not errors occurred during saving.
+			 * @param int   $user_id          ID for the user whose profile is being saved.
+			 * @param array $posted_field_ids Array of field IDs that were edited.
+			 * @param bool  $errors           Whether or not any errors occurred.
+			 * @param array $old_values       Array of original values before update.
+			 * @param array $new_values       Array of newly saved values after update.
 			 */
-			do_action( 'xprofile_updated_profile', $user_id, $posted_field_ids, $errors );
+			do_action( 'xprofile_updated_profile', $user_id, $posted_field_ids, $errors, $old_values, $new_values );
 
 			// Set the feedback messages.
 			if ( ! empty( $errors ) ) {
