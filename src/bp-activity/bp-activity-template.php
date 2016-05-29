@@ -2517,7 +2517,7 @@ function bp_activity_permalink_id() {
  * @uses bp_get_activity_permalink_id()
  */
 function bp_activity_thread_permalink() {
-	echo bp_get_activity_thread_permalink();
+	echo esc_url( bp_get_activity_thread_permalink() );
 }
 
 	/**
@@ -2553,7 +2553,7 @@ function bp_activity_thread_permalink() {
  * @uses bp_get_activity_permalink_id()
  */
 function bp_activity_comment_permalink() {
-	echo bp_get_activity_comment_permalink();
+	echo esc_url( bp_get_activity_comment_permalink() );
 }
 	/**
 	 * Return the activity comment permalink.
