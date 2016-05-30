@@ -164,7 +164,10 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 	public function admin_field_html( array $raw_properties = array() ) {
 		?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'Select', 'buddypress' ); ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Select', 'buddypress' );
+		?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $raw_properties ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>

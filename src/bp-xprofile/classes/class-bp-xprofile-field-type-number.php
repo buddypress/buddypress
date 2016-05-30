@@ -94,7 +94,10 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 			'type' => 'number'
 		) ); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'Number field', 'buddypress' ); ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Number field', 'buddypress' );
+		?></label>
 		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 	<?php
 	}

@@ -162,12 +162,18 @@ function bp_core_admin_components_options() {
 		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'retired'  ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'retired'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Retired <span class="count">(%s)</span>',  'Retired <span class="count">(%s)</span>',  count( $retired_components ),  'buddypress' ), number_format_i18n( count( $retired_components  ) ) ); ?></a></li>
 	</ul>
 
-	<h3 class="screen-reader-text"><?php _e( 'Components list', 'buddypress' ); ?></h3>
+	<h3 class="screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Components list', 'buddypress' );
+	?></h3>
 
 	<table class="wp-list-table widefat plugins">
 		<thead>
 			<tr>
-				<td id="cb" class="manage-column column-cb check-column"><input id="cb-select-all-1" type="checkbox" disabled><label class="screen-reader-text" for="cb-select-all-1"><?php _e( 'Bulk selection is disabled', 'buddypress' ); ?></label></td>
+				<td id="cb" class="manage-column column-cb check-column"><input id="cb-select-all-1" type="checkbox" disabled><label class="screen-reader-text" for="cb-select-all-1"><?php
+					/* translators: accessibility text */
+					_e( 'Bulk selection is disabled', 'buddypress' );
+				?></label></td>
 				<th scope="col" id="name" class="manage-column column-title column-primary"><?php _e( 'Component', 'buddypress' ); ?></th>
 				<th scope="col" id="description" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
 			</tr>
@@ -226,7 +232,10 @@ function bp_core_admin_components_options() {
 
 		<tfoot>
 			<tr>
-				<td class="manage-column column-cb check-column"><input id="cb-select-all-2" type="checkbox" disabled><label class="screen-reader-text" for="cb-select-all-2"><?php _e( 'Bulk selection is disabled', 'buddypress' ); ?></label></td>
+				<td class="manage-column column-cb check-column"><input id="cb-select-all-2" type="checkbox" disabled><label class="screen-reader-text" for="cb-select-all-2"><?php
+					/* translators: accessibility text */
+					_e( 'Bulk selection is disabled', 'buddypress' );
+				?></label></td>
 				<th class="manage-column column-title column-primary"><?php _e( 'Component', 'buddypress' ); ?></th>
 				<th class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
 			</tr>

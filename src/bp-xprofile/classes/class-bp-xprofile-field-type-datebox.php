@@ -99,7 +99,10 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			 */
 			do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php esc_html_e( 'Select day', 'buddypress' ); ?></label>
+			<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
+				/* translators: accessibility text */
+				esc_html_e( 'Select day', 'buddypress' );
+			?></label>
 			<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
 				<?php bp_the_profile_field_options( array(
 					'type'    => 'day',
@@ -107,7 +110,10 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				) ); ?>
 			</select>
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php esc_html_e( 'Select month', 'buddypress' ); ?></label>
+			<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
+				/* translators: accessibility text */
+				esc_html_e( 'Select month', 'buddypress' );
+			?></label>
 			<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
 				<?php bp_the_profile_field_options( array(
 					'type'    => 'month',
@@ -115,7 +121,10 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				) ); ?>
 			</select>
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php esc_html_e( 'Select year', 'buddypress' ); ?></label>
+			<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
+				/* translators: accessibility text */
+				esc_html_e( 'Select year', 'buddypress' );
+			?></label>
 			<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
 				<?php bp_the_profile_field_options( array(
 					'type'    => 'year',
@@ -274,17 +283,26 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			'name' => bp_get_the_profile_field_input_name() . '_year'
 		) ); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="screen-reader-text"><?php esc_html_e( 'Select day', 'buddypress' ); ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Select day', 'buddypress' );
+		?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'day' ) ); ?>
 		</select>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="screen-reader-text"><?php esc_html_e( 'Select month', 'buddypress' ); ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Select month', 'buddypress' );
+		?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'month' ) ); ?>
 		</select>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="screen-reader-text"><?php esc_html_e( 'Select year', 'buddypress' ); ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Select year', 'buddypress' );
+		?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
 			<?php bp_the_profile_field_options( array( 'type' => 'year' ) ); ?>
 		</select>

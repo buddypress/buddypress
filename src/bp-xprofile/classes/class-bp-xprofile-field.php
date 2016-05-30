@@ -1314,7 +1314,10 @@ class BP_XProfile_Field {
 		<div class="postbox">
 			<h2><?php echo esc_html_x( 'Description', 'XProfile admin edit field', 'buddypress' ); ?></h2>
 			<div class="inside">
-				<label for="description" class="screen-reader-text"><?php esc_html_e( 'Add description', 'buddypress' ); ?></label>
+				<label for="description" class="screen-reader-text"><?php
+					/* translators: accessibility text */
+					esc_html_e( 'Add description', 'buddypress' );
+				?></label>
 				<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
 			</div>
 		</div>
@@ -1467,7 +1470,10 @@ class BP_XProfile_Field {
 				<p class="description"><?php esc_html_e( 'On user profiles, link this field to a search of the Members directory, using the field value as a search term.', 'buddypress' ); ?></p>
 
 				<p>
-					<label for="do-autolink" class="screen-reader-text"><?php esc_html_e( 'Autolink status for this field', 'buddypress' ); ?></label>
+					<label for="do-autolink" class="screen-reader-text"><?php
+						/* translators: accessibility text */
+						esc_html_e( 'Autolink status for this field', 'buddypress' );
+					?></label>
 					<select name="do_autolink" id="do-autolink">
 						<option value="on" <?php selected( $this->get_do_autolink() ); ?>><?php esc_html_e( 'Enabled', 'buddypress' ); ?></option>
 						<option value="" <?php selected( $this->get_do_autolink(), false ); ?>><?php esc_html_e( 'Disabled', 'buddypress' ); ?></option>

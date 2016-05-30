@@ -1106,9 +1106,15 @@ class BP_Members_Admin {
 		$current_type = bp_get_member_type( $user->ID );
 		?>
 
-		<label for="bp-members-profile-member-type" class="screen-reader-text"><?php esc_html_e( 'Select member type', 'buddypress' ); ?></label>
+		<label for="bp-members-profile-member-type" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Select member type', 'buddypress' );
+		?></label>
 		<select name="bp-members-profile-member-type" id="bp-members-profile-member-type">
-			<option value="" <?php selected( '', $current_type ); ?>><?php /* translators: no option picked in select box */ esc_attr_e( '----', 'buddypress' ) ?></option>
+			<option value="" <?php selected( '', $current_type ); ?>><?php
+				/* translators: no option picked in select box */
+				esc_attr_e( '----', 'buddypress' );
+			?></option>
 			<?php foreach ( $types as $type ) : ?>
 				<option value="<?php echo esc_attr( $type->name ) ?>" <?php selected( $type->name, $current_type ) ?>><?php echo esc_html( $type->labels['singular_name'] ) ?></option>
 			<?php endforeach; ?>

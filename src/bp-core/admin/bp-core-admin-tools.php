@@ -34,7 +34,10 @@ function bp_core_admin_tools() {
 						<th scope="row"><?php esc_html_e( 'Repair tools', 'buddypress' ) ?></th>
 						<td>
 							<fieldset>
-								<legend class="screen-reader-text"><span><?php esc_html_e( 'Repair', 'buddypress' ) ?></span></legend>
+								<legend class="screen-reader-text"><span><?php
+									/* translators: accessibility text */
+									esc_html_e( 'Repair', 'buddypress' );
+								?></span></legend>
 
 								<?php foreach ( bp_admin_repair_list() as $item ) : ?>
 

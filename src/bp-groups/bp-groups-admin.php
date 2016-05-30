@@ -610,13 +610,19 @@ function bp_groups_admin_edit() {
 								<div id="bp_groups_name" class="postbox">
 									<h2><?php _e( 'Name and Description', 'buddypress' ); ?></h2>
 									<div class="inside">
-										<label for="bp-groups-name" class="screen-reader-text"><?php _e( 'Group Name', 'buddypress' ); ?></label>
+										<label for="bp-groups-name" class="screen-reader-text"><?php
+											/* translators: accessibility text */
+											_e( 'Group Name', 'buddypress' );
+										?></label>
 										<input type="text" name="bp-groups-name" id="bp-groups-name" value="<?php echo esc_attr( stripslashes( $group_name ) ) ?>" />
 										<div id="bp-groups-permalink-box">
 											<strong><?php esc_html_e( 'Permalink:', 'buddypress' ) ?></strong> <span id="sample-permalink"><?php bp_group_permalink( $group ) ?></span> <a href="<?php echo bp_group_permalink( $group ) ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'Visit Group', 'buddypress' ) ?></a>
 										</div>
 
-										<label for="bp-groups-description" class="screen-reader-text"><?php _e( 'Group Description', 'buddypress' ); ?></label>
+										<label for="bp-groups-description" class="screen-reader-text"><?php
+											/* translators: accessibility text */
+											_e( 'Group Description', 'buddypress' );
+										?></label>
 										<?php wp_editor( stripslashes( $group->description ), 'bp-groups-description', array( 'media_buttons' => false, 'teeny' => true, 'textarea_rows' => 5, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>
 								</div>
@@ -833,7 +839,10 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
 function bp_groups_admin_edit_metabox_add_new_members( $item ) {
 	?>
 
-	<label for="bp-groups-new-members" class="screen-reader-text"><?php _e( 'Add new members', 'buddypress' ); ?></label>
+	<label for="bp-groups-new-members" class="screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Add new members', 'buddypress' );
+	?></label>
 	<input name="bp-groups-new-members" id="bp-groups-new-members" class="bp-suggest-user" placeholder="<?php esc_attr_e( 'Enter a comma-separated list of user logins.', 'buddypress' ) ?>" />
 	<ul id="bp-groups-new-members-list"></ul>
 	<?php
@@ -927,7 +936,10 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 						</td>
 
 						<td class="urole-column">
-							<label for="bp-groups-role-<?php echo esc_attr( $type_user->ID ); ?>" class="screen-reader-text"><?php _e( 'Select group role for member', 'buddypress' ); ?></label>
+							<label for="bp-groups-role-<?php echo esc_attr( $type_user->ID ); ?>" class="screen-reader-text"><?php
+								/* translators: accessibility text */
+								_e( 'Select group role for member', 'buddypress' );
+							?></label>
 							<select class="bp-groups-role" id="bp-groups-role-<?php echo esc_attr( $type_user->ID ); ?>" name="bp-groups-role[<?php echo esc_attr( $type_user->ID ); ?>]">
 								<optgroup label="<?php esc_attr_e( 'Roles', 'buddypress' ); ?>">
 									<option class="admin"  value="admin"  <?php selected( 'admin',  $member_type ); ?>><?php esc_html_e( 'Administrator', 'buddypress' ); ?></option>
@@ -1042,7 +1054,10 @@ function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null 
 	$current_type = bp_groups_get_group_type( $group->id );
 	?>
 
-	<label for="bp-groups-group-type" class="screen-reader-text"><?php esc_html_e( 'Select group type', 'buddypress' ); ?></label>
+	<label for="bp-groups-group-type" class="screen-reader-text"><?php
+		/* translators: accessibility text */
+		esc_html_e( 'Select group type', 'buddypress' );
+	?></label>
 	<select name="bp-groups-group-type" id="bp-groups-group-type">
 		<option value="" <?php selected( '', $current_type ); ?>><?php /* translators: no option picked in select box */ esc_attr_e( '----', 'buddypress' ) ?></option>
 		<?php foreach ( $types as $type ) : ?>

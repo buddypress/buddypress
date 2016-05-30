@@ -243,7 +243,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function display() {
 		$this->display_tablenav( 'top' ); ?>
 
-		<h2 class="screen-reader-text"><?php _e( 'Activities list', 'buddypress' ); ?></h2>
+		<h2 class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Activities list', 'buddypress' );
+		?></h2>
 
 		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 			<thead>

@@ -785,7 +785,10 @@ function bp_message_search_form() {
 	ob_start(); ?>
 
 	<form action="" method="get" id="search-message-form">
-		<label for="messages_search" class="bp-screen-reader-text"><?php esc_html_e( 'Search Messages', 'buddypress' ); ?></label>
+		<label for="messages_search" class="bp-screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Search Messages', 'buddypress' );
+		?></label>
 		<input type="text" name="s" id="messages_search"<?php echo $search_placeholder . $search_value; ?> />
 		<input type="submit" class="button" id="messages_search_submit" name="messages_search_submit" value="<?php esc_html_e( 'Search', 'buddypress' ); ?>" />
 	</form>
@@ -927,10 +930,10 @@ function bp_messages_content_value() {
 function bp_messages_options() {
 ?>
 
-	<label for="message-type-select" class="bp-screen-reader-text">
-		<?php _e( 'Select:', 'buddypress' ) ?>
-	 </label>
-
+	<label for="message-type-select" class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Select:', 'buddypress' );
+	?></label>
 	<select name="message-type-select" id="message-type-select">
 		<option value=""><?php _e( 'Select', 'buddypress' ); ?></option>
 		<option value="read"><?php _ex('Read', 'Message dropdown filter', 'buddypress') ?></option>
@@ -957,7 +960,9 @@ function bp_messages_options() {
  */
 function bp_messages_bulk_management_dropdown() {
 	?>
-	<label class="bp-screen-reader-text" for="messages-select"><?php _e( 'Select Bulk Action', 'buddypress' ); ?></label>
+	<label class="bp-screen-reader-text" for="messages-select"><?php
+		_e( 'Select Bulk Action', 'buddypress' );
+	?></label>
 	<select name="messages_bulk_action" id="messages-select">
 		<option value="" selected="selected"><?php _e( 'Bulk Actions', 'buddypress' ); ?></option>
 		<option value="read"><?php _e( 'Mark read', 'buddypress' ); ?></option>
