@@ -200,7 +200,10 @@ do_action( 'bp_before_create_group_page' ); ?>
 						<p><?php _e( "Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
 
 						<p>
-							<label for="file" class="bp-screen-reader-text"><?php _e( 'Select an image', 'buddypress' ); ?></label>
+							<label for="file" class="bp-screen-reader-text"><?php
+								/* translators: accessibility text */
+								_e( 'Select an image', 'buddypress' );
+							?></label>
 							<input type="file" name="file" id="file" />
 							<input type="submit" name="upload" id="upload" value="<?php esc_attr_e( 'Upload Image', 'buddypress' ); ?>" />
 							<input type="hidden" name="action" id="action" value="bp_avatar_upload" />

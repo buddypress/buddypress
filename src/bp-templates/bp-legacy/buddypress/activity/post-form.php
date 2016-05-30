@@ -33,7 +33,10 @@
 
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">
-			<label for="whats-new" class="bp-screen-reader-text"><?php _e( 'Post what\'s new', 'buddypress' ); ?></label>
+			<label for="whats-new" class="bp-screen-reader-text"><?php
+				/* translators: accessibility text */
+				_e( 'Post what\'s new', 'buddypress' );
+			?></label>
 			<textarea class="bp-suggestions" name="whats-new" id="whats-new" cols="50" rows="10"
 				<?php if ( bp_is_group() ) : ?>data-suggestions-group-id="<?php echo esc_attr( (int) bp_get_current_group_id() ); ?>" <?php endif; ?>
 			><?php if ( isset( $_GET['r'] ) ) : ?>@<?php echo esc_textarea( $_GET['r'] ); ?> <?php endif; ?></textarea>
@@ -50,7 +53,10 @@
 
 					<?php _e( 'Post in', 'buddypress' ); ?>:
 
-					<label for="whats-new-post-in" class="bp-screen-reader-text"><?php _e( 'Post in', 'buddypress' ); ?></label>
+					<label for="whats-new-post-in" class="bp-screen-reader-text"><?php
+						/* translators: accessibility text */
+						_e( 'Post in', 'buddypress' );
+					?></label>
 					<select id="whats-new-post-in" name="whats-new-post-in">
 						<option selected="selected" value="0"><?php _e( 'My Profile', 'buddypress' ); ?></option>
 

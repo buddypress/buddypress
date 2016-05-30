@@ -51,7 +51,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 			<thead>
 				<tr>
-					<th scope="col" class="thread-checkbox bulk-select-all"><input id="select-all-messages" type="checkbox"><label class="bp-screen-reader-text" for="select-all-messages"><?php _e( 'Select all', 'buddypress' ); ?></label></th>
+					<th scope="col" class="thread-checkbox bulk-select-all"><input id="select-all-messages" type="checkbox"><label class="bp-screen-reader-text" for="select-all-messages"><?php
+						/* translators: accessibility text */
+						_e( 'Select all', 'buddypress' );
+					?></label></th>
 					<th scope="col" class="thread-from"><?php _e( 'From', 'buddypress' ); ?></th>
 					<th scope="col" class="thread-info"><?php _e( 'Subject', 'buddypress' ); ?></th>
 
@@ -68,7 +71,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 					do_action( 'bp_messages_inbox_list_header' ); ?>
 
 					<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
-						<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php _e( 'Star', 'buddypress' ); ?></span></span></th>
+						<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php
+							/* translators: accessibility text */
+							_e( 'Star', 'buddypress' );
+						?></span></span></th>
 					<?php endif; ?>
 
 					<th scope="col" class="thread-options"><?php _e( 'Actions', 'buddypress' ); ?></th>
@@ -81,7 +87,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php if ( bp_message_thread_has_unread() ) : ?> unread<?php else: ?> read<?php endif; ?>">
 						<td class="bulk-select-check">
-							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text"><?php _e( 'Select this message', 'buddypress' ); ?></span></label>
+							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text"><?php
+								/* translators: accessibility text */
+								_e( 'Select this message', 'buddypress' );
+							?></span></label>
 						</td>
 
 						<?php if ( 'sentbox' != bp_current_action() ) : ?>
