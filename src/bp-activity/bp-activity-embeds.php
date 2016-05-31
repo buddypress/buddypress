@@ -145,7 +145,7 @@ function bp_activity_embed_excerpt( $content = '' ) {
 			$content = $GLOBALS['activities_template']->activity->content;
 		}
 
-		/**
+		/*
 		 * bp_activity_truncate_entry() includes the 'Read More' link, which is why
 		 * we're using this instead of bp_create_excerpt().
 		 */
