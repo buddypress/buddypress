@@ -475,6 +475,24 @@ function bp_enqueue_scripts() {
 }
 
 /**
+ * Fires the 'bp_enqueue_embed_scripts' action in the <head> for BP oEmbeds.
+ *
+ * @since 2.6.0
+ */
+function bp_enqueue_embed_scripts() {
+	if ( ! is_buddypress() ) {
+		return;
+	}
+
+	/**
+	 * Enqueue CSS and JS files for BuddyPress embeds.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action ( 'bp_enqueue_embed_scripts' );
+}
+
+/**
  * Fire the 'bp_add_rewrite_tag' action, where BP adds its custom rewrite tags.
  *
  * @since 1.8.0
