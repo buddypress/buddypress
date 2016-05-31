@@ -2209,7 +2209,7 @@ function bp_core_load_buddypress_textdomain() {
 	// Default to WP and glotpress.
 	return load_plugin_textdomain( $domain );
 }
-add_action ( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
+add_action( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
 /**
  * A JavaScript-free implementation of the search functions in BuddyPress.

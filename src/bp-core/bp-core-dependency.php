@@ -376,7 +376,7 @@ function bp_widgets_init() {
 	 *
 	 * @since 1.6.0
 	 */
-	do_action ( 'bp_widgets_init' );
+	do_action( 'bp_widgets_init' );
 }
 
 /**
@@ -393,7 +393,7 @@ function bp_head() {
 	 *
 	 * @since 1.6.0
 	 */
-	do_action ( 'bp_head' );
+	do_action( 'bp_head' );
 }
 
 /** Theme Permissions *********************************************************/
@@ -471,7 +471,7 @@ function bp_enqueue_scripts() {
 	 *
 	 * @since 1.6.0
 	 */
-	do_action ( 'bp_enqueue_scripts' );
+	do_action( 'bp_enqueue_scripts' );
 }
 
 /**
@@ -489,7 +489,7 @@ function bp_enqueue_embed_scripts() {
 	 *
 	 * @since 2.6.0
 	 */
-	do_action ( 'bp_enqueue_embed_scripts' );
+	do_action( 'bp_enqueue_embed_scripts' );
 }
 
 /**
@@ -556,7 +556,7 @@ function bp_setup_theme() {
 	 *
 	 * @since 1.6.0
 	 */
-	do_action ( 'bp_setup_theme' );
+	do_action( 'bp_setup_theme' );
 }
 
 /**
@@ -579,7 +579,7 @@ function bp_after_setup_theme() {
 	 *
 	 * @since 1.7.0
 	 */
-	do_action ( 'bp_after_setup_theme' );
+	do_action( 'bp_after_setup_theme' );
 }
 
 /** Theme Compatibility Filter ************************************************/
