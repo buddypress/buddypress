@@ -3389,10 +3389,27 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
  */
 function bp_activity_embed() {
 	add_filter( 'embed_post_id',         'bp_get_activity_id'                  );
+	add_filter( 'oembed_dataparse',      'bp_activity_oembed_dataparse', 10, 2 );
 	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
 add_action( 'activity_loop_start', 'bp_activity_embed' );
+
+/**
+ * Cache full oEmbed response from oEmbed.
+ *
+ * @since 2.6.0
+ *
+ * @param string $retval Current oEmbed result.
+ * @param object $data   Full oEmbed response.
+ * @param string $url    URL used for the oEmbed request.
+ * @return string
+ */
+function bp_activity_oembed_dataparse( $retval, $data ) {
+	buddypress()->activity->oembed_response = $data;
+
+	return $retval;
+}
 
 /**
  * Set up activity oEmbed cache while recursing through activity comments.
@@ -3485,6 +3502,12 @@ function bp_embed_activity_cache( $cache, $id, $cachekey ) {
  */
 function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
 	bp_activity_update_meta( $id, $cachekey, $cache );
+
+	// Cache full oEmbed response.
+	if ( true === isset( buddypress()->activity->oembed_response ) ) {
+		$cachekey = str_replace( '_oembed', '_oembed_response', $cachekey );
+		bp_activity_update_meta( $id, $cachekey, buddypress()->activity->oembed_response );
+	}
 }
 
 /**
