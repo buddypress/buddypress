@@ -123,7 +123,7 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	foreach ( $taxonomy_site_map as $taxonomy_site_id => $site_taxonomies ) {
 		$switched = false;
 		if ( $taxonomy_site_id !== get_current_blog_id() ) {
-			switch_to_blog( $site_id );
+			switch_to_blog( $taxonomy_site_id );
 			bp_register_taxonomies();
 			$switched = true;
 		}
