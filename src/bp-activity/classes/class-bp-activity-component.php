@@ -32,6 +32,7 @@ class BP_Activity_Component extends BP_Component {
 			array(
 				'adminbar_myaccount_order' => 10,
 				'search_query_arg' => 'activity_search',
+				'features' => array( 'embeds' )
 			)
 		);
 	}
@@ -70,6 +71,11 @@ class BP_Activity_Component extends BP_Component {
 		/** This filter is documented in bp-activity/bp-activity-actions.php */
 		if ( defined( 'AKISMET_VERSION' ) && class_exists( 'Akismet' ) && ( ! empty( $akismet_key ) || defined( 'WPCOM_API_KEY' ) ) && apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) ) {
 			$includes[] = 'akismet';
+		}
+
+		// Embeds - only applicable for WP 4.5+
+		if ( bp_get_major_wp_version() >= 4.5 && bp_is_active( $this->id, 'embeds' ) ) {
+			$includes[] = 'embeds';
 		}
 
 		if ( is_admin() ) {
