@@ -3226,8 +3226,12 @@ function bp_activity_create_summary( $content, $activity ) {
 	}
 
 	// Generate a text excerpt for this activity item (and remove any oEmbeds URLs).
-	$summary = strip_shortcodes( html_entity_decode( strip_tags( $content ) ) );
-	$summary = bp_create_excerpt( preg_replace( '#^\s*(https?://[^\s"]+)\s*$#im', '', $summary ) );
+	$summary = bp_create_excerpt( html_entity_decode( $content ), 225, array(
+		'html' => false,
+		'filter_shortcodes' => true,
+		'strip_tags'        => true,
+		'remove_links'      => true
+	) );
 
 	if ( $use_media_type === 'embeds' ) {
 		$summary .= PHP_EOL . PHP_EOL . $extracted_media['url'];
