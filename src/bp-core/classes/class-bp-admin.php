@@ -826,6 +826,7 @@ class BP_Admin {
 				<a href="https://bbpress.org">bbPress</a>,
 				<a href="https://github.com/ichord/Caret.js">Caret.js</a>,
 				<a href="http://tedgoas.github.io/Cerberus/">Cerberus</a>,
+				<a href="http://ionicons.com/">Ionicons</a>,
 				<a href="https://github.com/carhartl/jquery-cookie">jquery.cookie</a>,
 				<a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a>,
 				<a href="https://wordpress.org">WordPress</a>.
