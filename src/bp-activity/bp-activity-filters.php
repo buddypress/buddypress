@@ -387,11 +387,16 @@ function bp_activity_make_nofollow_filter( $text ) {
  * This method can only be used inside the Activity loop.
  *
  * @since 1.5.0
+ * @since 2.6.0 Added $args parameter.
  *
  * @param string $text The original activity entry text.
+ * @param array  $args {
+ *     Optional parameters. See $options argument of {@link bp_create_excerpt()}
+ *     for all available parameters.
+ * }
  * @return string $excerpt The truncated text.
  */
-function bp_activity_truncate_entry( $text ) {
+function bp_activity_truncate_entry( $text, $args = array() ) {
 	global $activities_template;
 
 	/**
@@ -407,7 +412,7 @@ function bp_activity_truncate_entry( $text ) {
 	);
 
 	// The full text of the activity update should always show on the single activity screen.
-	if ( ! $maybe_truncate_text || bp_is_single_activity() ) {
+	if ( empty( $args['force_truncate'] ) && ( ! $maybe_truncate_text || bp_is_single_activity() ) ) {
 		return $text;
 	}
 
@@ -429,15 +434,17 @@ function bp_activity_truncate_entry( $text ) {
 	 */
 	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
 
+	$args = wp_parse_args( $args, array( 'ending' => __( '&hellip;', 'buddypress' ) ) );
+
 	// Run the text through the excerpt function. If it's too short, the original text will be returned.
-	$excerpt        = bp_create_excerpt( $text, $excerpt_length, array( 'ending' => __( '&hellip;', 'buddypress' ) ) );
+	$excerpt        = bp_create_excerpt( $text, $excerpt_length, $args );
 
 	/*
 	 * If the text returned by bp_create_excerpt() is different from the original text (ie it's
 	 * been truncated), add the "Read More" link. Note that bp_create_excerpt() is stripping
 	 * shortcodes, so we have strip them from the $text before the comparison.
 	 */
-	if ( $excerpt != strip_shortcodes( $text ) ) {
+	if ( strlen( $excerpt ) > strlen( strip_shortcodes( $text ) ) ) {
 		$id = !empty( $activities_template->activity->current_comment->id ) ? 'acomment-read-more-' . $activities_template->activity->current_comment->id : 'activity-read-more-' . bp_get_activity_id();
 
 		$excerpt = sprintf( '%1$s<span class="activity-read-more" id="%2$s"><a href="%3$s" rel="nofollow">%4$s</a></span>', $excerpt, $id, bp_get_activity_thread_permalink(), $append_text );
