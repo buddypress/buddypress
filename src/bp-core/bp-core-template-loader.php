@@ -62,6 +62,20 @@ function bp_get_template_part( $slug, $name = null ) {
 }
 
 /**
+ * Get an asset template part.
+ *
+ * Basically the same as {@link bp_get_template_part()}, but with 'assets/'
+ * prepended to the slug.
+ *
+ * @since 2.6.0
+ *
+ * @see bp_get_template_part() for full documentation.
+ */
+function bp_get_asset_template_part( $slug, $name = null ) {
+	return bp_get_template_part( "assets/{$slug}", $name );
+}
+
+/**
  * Retrieve the name of the highest priority template file that exists.
  *
  * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
