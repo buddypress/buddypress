@@ -670,6 +670,10 @@ function bp_theme_compat_reset_post( $args = array() ) {
  * @return string $template Template name.
  */
 function bp_template_include_theme_compat( $template = '' ) {
+	// If embed template, bail.
+	if ( true === function_exists( 'is_embed' ) && is_embed() ) {
+		return $template;
+	}
 
 	// If the current theme doesn't need theme compat, bail at this point.
 	if ( ! bp_use_theme_compat_with_current_theme() ) {
