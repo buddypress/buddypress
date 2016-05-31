@@ -1668,6 +1668,38 @@ function bp_use_embed_in_private_messages() {
 	return apply_filters( 'bp_use_embed_in_private_messages', !defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) || !BP_EMBED_DISABLE_PRIVATE_MESSAGES );
 }
 
+/**
+ * Extracts media metadata from a given content.
+ *
+ * @since 2.6.0
+ *
+ * @param  string     $content The content to check.
+ * @param  string|int $type    The type to check. Can also use a bitmask. See the class constants in the
+ *                             BP_Media_Extractor class for more info.
+ * @return array|bool          If media exists, will return array of media metadata. Else, boolean false.
+ */
+function bp_core_extract_media_from_content( $content = '', $type = 'all' ) {
+	if ( is_string( $type ) ) {
+		$class = new ReflectionClass( 'BP_Media_Extractor' );
+		$bitmask = $class->getConstant( strtoupper( $type ) );
+	} else {
+		$bitmask = (int) $type;
+	}
+
+	// Type isn't valid, so bail.
+	if ( empty( $bitmask ) ) {
+		return false;
+	}
+
+	$x = new BP_Media_Extractor;
+	$media = $x->extract( $content, $bitmask );
+
+	unset( $media['has'] );
+	$retval = array_filter( $media );
+
+	return ! empty( $retval ) ? $retval : false;
+}
+
 /** Admin *********************************************************************/
 
 /**
