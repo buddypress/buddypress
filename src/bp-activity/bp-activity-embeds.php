@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_activity_setup_oembed() {
 	if ( bp_get_major_wp_version() >= 4.5 && bp_is_active( 'activity', 'embeds' ) ) {
-		buddypress()->activity->oembed = new BP_Activity_oEmbed_Component;
+		buddypress()->activity->oembed = new BP_Activity_oEmbed_Extension;
 	}
 
 	add_filter( 'bp_activity_get_embed_excerpt', 'wptexturize' );

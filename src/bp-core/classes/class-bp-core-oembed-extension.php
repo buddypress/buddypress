@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.6.0
  */
-abstract class BP_oEmbed_Component {
+abstract class BP_Core_oEmbed_Extension {
 
 	/** START PROPERTIES ****************************************************/
 

@@ -9,14 +9,12 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-require_once( buddypress()->plugin_dir . '/bp-core/classes/class-bp-oembed-component.php' );
-
 /**
  * oEmbed handler to respond and render single activity items.
  *
  * @since 2.6.0
  */
-class BP_Activity_oEmbed_Component extends BP_oEmbed_Component {
+class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	/**
 	 * Custom oEmbed slug endpoint.
 	 *
