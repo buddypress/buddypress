@@ -1,4 +1,6 @@
-/**** BP Members Profile Administration Screens ****/
+/**** BP Members Profile Administration Screens
+* TO DO: Organize and clean up stylesheet.
+****/
 
 div#profile-page.wrap form#your-profile {
 	position: relative;
@@ -141,10 +143,15 @@ div#community-profile-page p.not-activated {
 	margin-right: 200px;
 	width: auto;
 }
-.field_type_radio .radio div:not(.field-visibility-settings) label {  /* force radio buttons to new lines */
+.field_type_radio .radio .input-options label,
+.field_type_checkbox .checkbox .input-options label {
+	/* force checkboxes and radio buttons to new lines */
 	display: block;
 }
-.field_type_radio .radio div:not(.field-visibility-settings) {  /* make the radio buttons sit in the right side column */
+.field_type_checkbox .checkbox .input-options,
+.field_type_datebox .datebox .input-options,
+.field_type_radio .radio .input-options {
+	/* make the checkboxes, select menus, and radio buttons sit in the right side column */
 	display: inline-block;
 }
 .field-visibility-settings-notoggle,
@@ -167,7 +174,7 @@ div#community-profile-page p.not-activated {
 #your-profile .bp-profile-field .checkbox legend,
 #your-profile .bp-profile-field .datebox legend,
 #your-profile .bp-profile-field .radio legend {
-	display: inline-block;
+	float:right; /* Firefox will not apply display: inline-block to legends */
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.4em;
@@ -176,9 +183,9 @@ div#community-profile-page p.not-activated {
 	width: 192px;
 }
 
-#your-profile .bp-profile-field .radio legend {
+#your-profile .bp-profile-field .radio legend,
+#your-profile .bp-profile-field .checkbox legend {
 	margin-bottom: 20px;
-	vertical-align: top;
 }
 
 .bp-profile-field .radio .clear-value {
@@ -190,13 +197,10 @@ div#community-profile-page p.not-activated {
 	#your-profile .bp-profile-field .datebox legend,
 	#your-profile .bp-profile-field .radio legend,
 	.bp-profile-field label {
+		float: none;
 		clear: right;
 		display: block;
 		margin-bottom: 12px;
-	}
-	.bp-profile-field .checkbox > label,
-	.bp-profile-field .checkbox > label + label {
-		margin-right: 50px;
 	}
 	.bp-profile-field .checkbox label,
 	.bp-profile-field .radio label {
@@ -210,6 +214,7 @@ div#community-profile-page p.not-activated {
 	}
 	.bp-profile-field .clear-value,
 	.bp-profile-field .description,
+	.bp-profile-field input[type="checkbox"],
 	.bp-profile-field input[type="email"],
 	.bp-profile-field input[type="number"],
 	.bp-profile-field input[type="radio"],
@@ -231,10 +236,9 @@ div#community-profile-page p.not-activated {
 }
 
 @media screen and (max-width: 480px) {
-	.bp-profile-field .checkbox > label,
-	.bp-profile-field .checkbox > label + label,
 	.bp-profile-field .clear-value,
 	.bp-profile-field .description,
+	.bp-profile-field input[type="checkbox"],
 	.bp-profile-field input[type="email"],
 	.bp-profile-field input[type="number"],
 	.bp-profile-field input[type="radio"],
