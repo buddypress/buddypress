@@ -150,6 +150,49 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 }
 
 /**
+ * Get file data of the highest priority asset that exists.
+ *
+ * Similar to {@link bp_locate_template()}, but for files like CSS and JS.
+ *
+ * @since 2.6.0
+ *
+ * @param  string     Relative filename to search for.
+ * @return array|bool Array of asset data if one is located (includes absolute filepath and URI).
+ *                    Boolean false on failure.
+ */
+function bp_locate_template_asset( $filename ) {
+	// Ensure assets can be located when running from /src/.
+	if ( defined( 'BP_SOURCE_SUBDIRECTORY' ) && 'src' === BP_SOURCE_SUBDIRECTORY ) {
+		$filename = str_replace( '.min', '', $filename );
+	}
+
+	// Use bp_locate_template() to find our asset.
+	$located = bp_locate_template( $filename, false );
+	if ( false === $located ) {
+		return false;
+	}
+
+	// Set up data array.
+	$data = array();
+	$data['file'] = $data['uri'] = $located;
+
+	$find = array(
+		get_theme_root(),
+		buddypress()->plugin_dir
+	);
+
+	$replace = array(
+		get_theme_root_uri(),
+		buddypress()->plugin_url
+	);
+
+	// Make sure URI path is relative to site URL.
+	$data['uri'] = str_replace( $find, $replace, $data['uri'] );
+
+	return $data;
+}
+
+/**
  * Register a new template stack location.
  *
  * This allows for templates to live in places beyond just the parent/child
