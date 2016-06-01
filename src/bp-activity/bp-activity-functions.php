@@ -3325,6 +3325,8 @@ function bp_activity_user_can_mark_spam() {
  *
  * @since 1.6.0
  *
+ * @todo We should probably save $source to activity meta.
+ *
  * @param BP_Activity_Activity $activity The activity item to be spammed.
  * @param string               $source   Optional. Default is "by_a_person" (ie, a person has
  *                                       manually marked the activity as spam). BP core also

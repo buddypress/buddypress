@@ -155,13 +155,19 @@ function bp_activity_get_moderated_activity_types() {
 function bp_activity_check_moderation_keys( $activity ) {
 
 	// Only check specific types of activity updates.
-	if ( !in_array( $activity->type, bp_activity_get_moderated_activity_types() ) )
+	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types() ) ) {
 		return;
+	}
 
-	// Unset the activity component so activity stream update fails
+	// Send back the error so activity update fails.
 	// @todo This is temporary until some kind of moderation is built.
-	if ( !bp_core_check_for_moderation( $activity->user_id, '', $activity->content ) )
+	$moderate = bp_core_check_for_moderation( $activity->user_id, '', $activity->content, 'wp_error' );
+	if ( is_wp_error( $moderate ) ) {
+		$activity->errors = $moderate;
+
+		// Backpat.
 		$activity->component = false;
+	}
 }
 
 /**
@@ -174,12 +180,19 @@ function bp_activity_check_moderation_keys( $activity ) {
 function bp_activity_check_blacklist_keys( $activity ) {
 
 	// Only check specific types of activity updates.
-	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types() ) )
+	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types() ) ) {
 		return;
+	}
 
-	// Mark as spam.
-	if ( ! bp_core_check_for_blacklist( $activity->user_id, '', $activity->content ) )
-		bp_activity_mark_as_spam( $activity, 'by_blacklist' );
+	// Send back the error so activity update fails.
+	// @todo This is temporary until some kind of trash status is built.
+	$blacklist = bp_core_check_for_blacklist( $activity->user_id, '', $activity->content, 'wp_error' );
+	if ( is_wp_error( $blacklist ) ) {
+		$activity->errors = $blacklist;
+
+		// Backpat.
+		$activity->component = false;
+	}
 }
 
 /**
