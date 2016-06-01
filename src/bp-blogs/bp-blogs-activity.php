@@ -948,7 +948,7 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 	remove_action( 'transition_comment_status',     'bp_activity_transition_post_type_comment_status', 10, 3 );
 	remove_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment',          10, 4 );
 
-	if ( 1 === (int) $activity->is_spam && 'spam' !== $post_comment_status ) {
+	if ( 1 === $activity->is_spam && 'spam' !== $post_comment_status ) {
 		wp_spam_comment( $post_comment_id );
 	} elseif ( ! $activity->is_spam ) {
 		if ( 'spam' === $post_comment_status  ) {

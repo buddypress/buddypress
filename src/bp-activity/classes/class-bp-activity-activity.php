@@ -107,7 +107,7 @@ class BP_Activity_Activity {
 	 * @since 1.1.0
 	 * @var int
 	 */
-	var $hide_sitewide = false;
+	var $hide_sitewide = 0;
 
 	/**
 	 * Node boundary start for activity or activity comment.
@@ -142,7 +142,7 @@ class BP_Activity_Activity {
 	 */
 	public function __construct( $id = false ) {
 		if ( !empty( $id ) ) {
-			$this->id = $id;
+			$this->id = (int) $id;
 			$this->populate();
 		}
 	}
@@ -175,10 +175,10 @@ class BP_Activity_Activity {
 			$this->action            = $row->action;
 			$this->content           = $row->content;
 			$this->date_recorded     = $row->date_recorded;
-			$this->hide_sitewide     = $row->hide_sitewide;
+			$this->hide_sitewide     = (int) $row->hide_sitewide;
 			$this->mptt_left         = (int) $row->mptt_left;
 			$this->mptt_right        = (int) $row->mptt_right;
-			$this->is_spam           = $row->is_spam;
+			$this->is_spam           = (int) $row->is_spam;
 		}
 
 		// Generate dynamic 'action' when possible.
@@ -708,7 +708,20 @@ class BP_Activity_Activity {
 
 		// Now fetch data from the cache.
 		foreach ( $activity_ids as $activity_id ) {
-			$activities[] = wp_cache_get( $activity_id, 'bp_activity' );
+			// Integer casting.
+			$activity = wp_cache_get( $activity_id, 'bp_activity' );
+			if ( ! empty( $activity ) ) {
+				$activity->id                = (int) $activity->id;
+				$activity->user_id           = (int) $activity->user_id;
+				$activity->item_id           = (int) $activity->item_id;
+				$activity->secondary_item_id = (int) $activity->secondary_item_id;
+				$activity->hide_sitewide     = (int) $activity->hide_sitewide;
+				$activity->mptt_left         = (int) $activity->mptt_left;
+				$activity->mptt_right        = (int) $activity->mptt_right;
+				$activity->is_spam           = (int) $activity->is_spam;
+			}
+
+			$activities[] = $activity;
 		}
 
 		// Then fetch user data.
@@ -1071,7 +1084,9 @@ class BP_Activity_Activity {
 
 		if ( ! empty( $where_args ) ) {
 			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
-			return $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
+			$result = $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
+
+			return is_numeric( $result ) ? (int) $result : false;
 		}
 
 		return false;
@@ -1763,7 +1778,9 @@ class BP_Activity_Activity {
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE content = %s", $content ) );
+		$result = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->activity->table_name} WHERE content = %s", $content ) );
+
+		return is_numeric( $result ) ? (int) $result : false;
 	}
 
 	/**

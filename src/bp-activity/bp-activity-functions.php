@@ -169,7 +169,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	}
 
 	// Get activity object.
-	$activity  = new BP_Activity_Activity( (int) $activity_id );
+	$activity  = new BP_Activity_Activity( $activity_id );
 
 	// Try to find mentions.
 	$usernames = bp_activity_find_mentions( strip_tags( $activity->content ) );
@@ -2556,7 +2556,7 @@ function bp_activity_new_comment( $args = '' ) {
 	}
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publicly.
-	$is_hidden = ( (int) $activity->hide_sitewide ) ? 1 : 0;
+	$is_hidden = $activity->hide_sitewide ? 1 : 0;
 
 	/**
 	 * Filters the content of a new comment.

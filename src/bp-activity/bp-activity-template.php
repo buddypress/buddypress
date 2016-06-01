@@ -1563,7 +1563,7 @@ function bp_activity_user_can_delete( $activity = false ) {
 		// Users are allowed to delete their own activity. This is actually
 		// quite powerful, because doing so also deletes all comments to that
 		// activity item. We should revisit this eventually.
-		if ( isset( $activity->user_id ) && ( (int) $activity->user_id === bp_loggedin_user_id() ) ) {
+		if ( isset( $activity->user_id ) && ( $activity->user_id === bp_loggedin_user_id() ) ) {
 			$can_delete = true;
 		}
 
@@ -1616,7 +1616,7 @@ function bp_activity_parent_content( $args = '' ) {
 		}
 
 		// Get the ID of the parent activity content.
-		$parent_id = (int) $activities_template->activity->item_id;
+		$parent_id = $activities_template->activity->item_id;
 
 		// Bail if no parent content.
 		if ( empty( $activities_template->activity_parents[ $parent_id ] ) ) {
@@ -1680,7 +1680,7 @@ function bp_activity_parent_user_id() {
 		}
 
 		// Get the ID of the parent activity content.
-		$parent_id = (int) $activities_template->activity->item_id;
+		$parent_id = $activities_template->activity->item_id;
 
 		// Bail if no parent item.
 		if ( empty( $activities_template->activity_parents[ $parent_id ] ) ) {

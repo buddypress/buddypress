@@ -103,7 +103,7 @@ function bp_activity_embed_has_activity( $activity_id = 0 ) {
 		$activity = reset( $activity );
 
 		// No need to requery if we already got the embed activity
-		if ( (int) $activity_id === (int) $activity->id ) {
+		if ( (int) $activity_id === $activity->id ) {
 			return $activities_template->has_activities();
 		}
 	}

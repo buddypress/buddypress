@@ -579,9 +579,9 @@ function bp_activity_admin_load() {
 
 		// If an error occurred, pass back the activity ID that failed.
 		if ( $error )
-			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
+			$redirect_to = add_query_arg( 'error', $error, $redirect_to );
 		else
-			$redirect_to = add_query_arg( 'updated', (int) $activity->id, $redirect_to );
+			$redirect_to = add_query_arg( 'updated', $activity->id, $redirect_to );
 
 		/**
 		 * Filters URL to redirect to after saving.

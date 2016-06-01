@@ -281,7 +281,7 @@ function bp_activity_screen_single_activity_permalink() {
 		} else {
 			$url = sprintf(
 				site_url( 'wp-login.php?redirect_to=%s' ),
-				urlencode( esc_url_raw( bp_activity_get_permalink( (int) bp_current_action() ) ) )
+				urlencode( esc_url_raw( bp_activity_get_permalink( bp_current_action() ) ) )
 			);
 		}
 
