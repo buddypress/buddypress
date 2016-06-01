@@ -54,31 +54,33 @@ function bp_activity_embed_excerpt_onclick_location_filter( $text ) {
 /**
  * Add inline styles for BP activity embeds.
  *
- * This is subject to change or be removed entirely for a different system.
- * Potentially for BP_Legacy::locate_asset_in_stack().
- *
  * @since  2.6.0
- * @access private
  */
-function _bp_activity_embed_add_inline_styles() {
+function bp_activity_embed_add_inline_styles() {
 	if ( false === bp_is_single_activity() ) {
 		return;
 	}
 
-	ob_start();
-	if ( is_rtl() ) {
-		bp_get_asset_template_part( 'embeds/css-activity', 'rtl' );
-	} else {
-		bp_get_asset_template_part( 'embeds/css-activity' );
-	}
-	$css = ob_get_clean();
+	$min = bp_core_get_minified_asset_suffix();
 
-	// Rudimentary CSS protection.
+	if ( is_rtl() ) {
+		$css = bp_locate_template_asset( "assets/embeds/activity-rtl{$min}.css" );
+	} else {
+		$css = bp_locate_template_asset( "assets/embeds/activity{$min}.css" );
+	}
+
+	// Bail if file wasn't found.
+	if ( false === $css ) {
+		return;
+	}
+
+	// Grab contents of CSS file and do some rudimentary CSS protection.
+	$css = file_get_contents( $css['file'] );
 	$css = wp_kses( $css, array( "\'", '\"' ) );
 
 	printf( '<style type="text/css">%s</style>', $css );
 }
-add_action( 'embed_head', '_bp_activity_embed_add_inline_styles', 20 );
+add_action( 'embed_head', 'bp_activity_embed_add_inline_styles', 20 );
 
 /**
  * Query for the activity item on the activity embed template.
