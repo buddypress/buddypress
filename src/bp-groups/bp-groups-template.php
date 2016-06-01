@@ -3620,6 +3620,12 @@ function bp_group_has_members( $args = '' ) {
 		$exclude_admins_mods = 0;
 	}
 
+	$search_terms_default = null;
+	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
+		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+	}
+
 	$r = wp_parse_args( $args, array(
 		'group_id'            => bp_get_current_group_id(),
 		'page'                => 1,
@@ -3629,7 +3635,7 @@ function bp_group_has_members( $args = '' ) {
 		'exclude_admins_mods' => $exclude_admins_mods,
 		'exclude_banned'      => 1,
 		'group_role'          => false,
-		'search_terms'        => null,
+		'search_terms'        => $search_terms_default,
 		'type'                => 'last_joined',
 	) );
 
