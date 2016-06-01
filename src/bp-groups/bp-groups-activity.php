@@ -379,7 +379,8 @@ function groups_record_activity( $args = '' ) {
 		'item_id'           => false,
 		'secondary_item_id' => false,
 		'recorded_time'     => bp_core_current_time(),
-		'hide_sitewide'     => $hide_sitewide
+		'hide_sitewide'     => $hide_sitewide,
+		'error_type'        => 'bool'
 	) );
 
 	return bp_activity_add( $r );

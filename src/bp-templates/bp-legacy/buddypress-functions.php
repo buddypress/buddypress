@@ -919,11 +919,11 @@ function bp_legacy_theme_post_update() {
 	}
 
 	if ( ! $object && bp_is_active( 'activity' ) ) {
-		$activity_id = bp_activity_post_update( array( 'content' => $_POST['content'] ) );
+		$activity_id = bp_activity_post_update( array( 'content' => $_POST['content'], 'error_type' => 'wp_error' ) );
 
 	} elseif ( 'groups' === $object ) {
 		if ( $item_id && bp_is_active( 'groups' ) )
-			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $item_id ) );
+			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $item_id, 'error_type' => 'wp_error' ) );
 
 	} else {
 
@@ -931,8 +931,11 @@ function bp_legacy_theme_post_update() {
 		$activity_id = apply_filters( 'bp_activity_custom_update', false, $object, $item_id, $_POST['content'] );
 	}
 
-	if ( empty( $activity_id ) )
+	if ( false === $activity_id ) {
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . __( 'There was a problem posting your update. Please try again.', 'buddypress' ) . '</p></div>' );
+	} elseif ( is_wp_error( $activity_id ) && $activity_id->get_error_code() ) {
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . $activity_id->get_error_message() . '</p></div>' );
+	}
 
 	$last_recorded = ! empty( $_POST['since'] ) ? date( 'Y-m-d H:i:s', intval( $_POST['since'] ) ) : 0;
 	if ( $last_recorded ) {
@@ -997,15 +1000,11 @@ function bp_legacy_theme_new_activity_comment() {
 		'activity_id' => $_POST['form_id'],
 		'content'     => $_POST['content'],
 		'parent_id'   => $_POST['comment_id'],
+		'error_type'  => 'wp_error'
 	) );
 
-	if ( ! $comment_id ) {
-		if ( ! empty( $bp->activity->errors['new_comment'] ) && is_wp_error( $bp->activity->errors['new_comment'] ) ) {
-			$feedback = $bp->activity->errors['new_comment']->get_error_message();
-			unset( $bp->activity->errors['new_comment'] );
-		}
-
-		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html( $feedback ) . '</p></div>' );
+	if ( is_wp_error( $comment_id ) ) {
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html( $comment_id->get_error_message() ) . '</p></div>' );
 	}
 
 	// Load the new activity item into the $activities_template global.

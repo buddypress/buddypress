@@ -1149,6 +1149,7 @@ function groups_is_user_creator( $user_id, $group_id ) {
  * Post an Activity status update affiliated with a group.
  *
  * @since 1.2.0
+ * @since 2.6.0 Added 'error_type' parameter to $args.
  *
  * @param array|string $args {
  *     Array of arguments.
@@ -1168,9 +1169,10 @@ function groups_post_update( $args = '' ) {
 	$bp = buddypress();
 
 	$defaults = array(
-		'content'  => false,
-		'user_id'  => bp_loggedin_user_id(),
-		'group_id' => 0
+		'content'    => false,
+		'user_id'    => bp_loggedin_user_id(),
+		'group_id'   => 0,
+		'error_type' => 'bool'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1211,11 +1213,12 @@ function groups_post_update( $args = '' ) {
 	$content_filtered = apply_filters( 'groups_activity_new_update_content', $activity_content );
 
 	$activity_id = groups_record_activity( array(
-		'user_id' => $user_id,
-		'action'  => $action,
-		'content' => $content_filtered,
-		'type'    => 'activity_update',
-		'item_id' => $group_id
+		'user_id'    => $user_id,
+		'action'     => $action,
+		'content'    => $content_filtered,
+		'type'       => 'activity_update',
+		'item_id'    => $group_id,
+		'error_type' => $error_type
 	) );
 
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );

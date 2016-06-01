@@ -134,6 +134,24 @@ class BP_Activity_Activity {
 	var $is_spam;
 
 	/**
+	 * Error holder.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @var WP_Error
+	 */
+	public $errors;
+
+	/**
+	 * Error type to return. Either 'bool' or 'wp_error'.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @var string
+	 */
+	public $error_type = 'bool';
+
+	/**
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
@@ -141,6 +159,9 @@ class BP_Activity_Activity {
 	 * @param int|bool $id Optional. The ID of a specific activity item.
 	 */
 	public function __construct( $id = false ) {
+		// Instantiate errors object.
+		$this->errors = new WP_Error;
+
 		if ( !empty( $id ) ) {
 			$this->id = (int) $id;
 			$this->populate();
@@ -235,8 +256,22 @@ class BP_Activity_Activity {
 		 */
 		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
 
+		if ( 'wp_error' === $this->error_type && $this->errors->get_error_code() ) {
+			return $this->errors;
+		}
+
 		if ( empty( $this->component ) || empty( $this->type ) ) {
-			return false;
+			if ( 'bool' === $this->error_type ) {
+				return false;
+			} else {
+				if ( empty( $this->component ) ) {
+					$this->errors->add( 'bp_activity_missing_component' );
+				} else {
+					$this->errors->add( 'bp_activity_missing_type' );
+				}
+
+				return $this->errors;
+			}
 		}
 
 		if ( empty( $this->primary_link ) ) {

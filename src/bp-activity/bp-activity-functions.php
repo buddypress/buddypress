@@ -1782,6 +1782,7 @@ function bp_activity_get_specific( $args = '' ) {
  * Add an activity item.
  *
  * @since 1.1.0
+ * @since 2.6.0 Added 'error_type' parameter to $args.
  *
  * @param array|string $args {
  *     An array of arguments.
@@ -1813,6 +1814,7 @@ function bp_activity_get_specific( $args = '' ) {
  *     @type bool     $hide_sitewide     Should the item be hidden on sitewide streams?
  *                                       Default: false.
  *     @type bool     $is_spam           Should the item be marked as spam? Default: false.
+ *     @type string   $error_type        Optional. Error type. Either 'bool' or 'wp_error'. Default: 'bool'.
  * }
  * @return int|bool The ID of the activity on success. False on error.
  */
@@ -1831,6 +1833,7 @@ function bp_activity_add( $args = '' ) {
 		'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded.
 		'hide_sitewide'     => false,                  // Should this be hidden on the sitewide activity stream?
 		'is_spam'           => false,                  // Is this activity item to be marked as spam?
+		'error_type'        => 'bool'
 	), 'activity_add' );
 
 	// Make sure we are backwards compatible.
@@ -1854,11 +1857,16 @@ function bp_activity_add( $args = '' ) {
 	$activity->date_recorded     = $r['recorded_time'];
 	$activity->hide_sitewide     = $r['hide_sitewide'];
 	$activity->is_spam           = $r['is_spam'];
+	$activity->error_type        = $r['error_type'];
 	$activity->action            = ! empty( $r['action'] )
-										? $r['action']
-										: bp_activity_generate_action_string( $activity );
+						? $r['action']
+						: bp_activity_generate_action_string( $activity );
 
-	if ( ! $activity->save() ) {
+	$save = $activity->save();
+
+	if ( 'wp_error' === $r['error_type'] && is_wp_error( $save ) ) {
+		return $save;
+	} elseif ('bool' === $r['error_type'] && false === $save ) {
 		return false;
 	}
 
@@ -1898,8 +1906,9 @@ function bp_activity_add( $args = '' ) {
 function bp_activity_post_update( $args = '' ) {
 
 	$r = wp_parse_args( $args, array(
-		'content' => false,
-		'user_id' => bp_loggedin_user_id()
+		'content'    => false,
+		'user_id'    => bp_loggedin_user_id(),
+		'error_type' => 'bool',
 	) );
 
 	if ( empty( $r['content'] ) || !strlen( trim( $r['content'] ) ) ) {
@@ -1939,7 +1948,12 @@ function bp_activity_post_update( $args = '' ) {
 		'primary_link' => $add_primary_link,
 		'component'    => buddypress()->activity->id,
 		'type'         => 'activity_update',
+		'error_type'   => $r['error_type']
 	) );
+
+	if ( is_wp_error( $activity_id ) ) {
+		return $activity_id;
+	}
 
 	/**
 	 * Filters the latest update content for the activity item.
@@ -2491,6 +2505,7 @@ add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
  * @since 1.2.0
  * @since 2.5.0 Add a new possible parameter $skip_notification for the array of arguments.
  *              Add the $primary_link parameter for the array of arguments.
+ * @since 2.6.0 Added 'error_type' parameter to $args.
  *
  * @param array|string $args {
  *     An array of arguments.
@@ -2507,17 +2522,12 @@ add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
  *                                     Defaults to an empty string.
  *     @type bool   $skip_notification Optional. false to send a comment notification, false otherwise.
  *                                     Defaults to false.
+ *     @type string $error_type        Optional. Error type. Either 'bool' or 'wp_error'. Default: 'bool'.
  * }
  * @return int|bool The ID of the comment on success, otherwise false.
  */
 function bp_activity_new_comment( $args = '' ) {
-	$bp       = buddypress();
-	$errors   = new WP_Error();
-	$feedback = __( 'There was an error posting your reply. Please try again.', 'buddypress' );
-
-	if ( empty( $bp->activity->errors ) ) {
-		$bp->activity->errors = array();
-	}
+	$bp = buddypress();
 
 	$r = wp_parse_args( $args, array(
 		'id'                => false,
@@ -2527,14 +2537,31 @@ function bp_activity_new_comment( $args = '' ) {
 		'parent_id'         => false, // ID of a parent comment (optional).
 		'primary_link'      => '',
 		'skip_notification' => false,
+		'error_type'        => 'bool'
 	) );
+
+	// Error type is boolean; need to initialize some variables for backpat.
+	if ( 'bool' === $r['error_type'] ) {
+		if ( empty( $bp->activity->errors ) ) {
+			$bp->activity->errors = array();
+		}
+	}
+
+	// Default error message.
+	$feedback = __( 'There was an error posting your reply. Please try again.', 'buddypress' );
 
 	// Bail if missing necessary data.
 	if ( empty( $r['content'] ) || empty( $r['user_id'] ) || empty( $r['activity_id'] ) ) {
-		$errors->add( 'missing_data', $feedback );
-		$bp->activity->errors['new_comment'] = $errors;
+		$error = new WP_Error( 'missing_data', $feedback );
 
-		return false;
+		if ( 'wp_error' === $r['error_type'] ) {
+			return $error;
+
+		// Backpat.
+		} else {
+			$bp->activity->errors['new_comment'] = $error;
+			return false;
+		}
 	}
 
 	// Maybe set current activity ID as the parent.
@@ -2549,10 +2576,17 @@ function bp_activity_new_comment( $args = '' ) {
 
 	// Bail if the parent activity does not exist.
 	if ( empty( $activity->date_recorded ) ) {
-		$errors->add( 'missing_activity', __( 'Sorry, the item you are replying to no longer exists.', 'buddypress' ) );
-		$bp->activity->errors['new_comment'] = $errors;
+		$error = new WP_Error( 'missing_activity', __( 'The item you were replying to no longer exists.', 'buddypress' ) );
 
-		return false;
+		if ( 'wp_error' === $r['error_type'] ) {
+			return $error;
+
+		// Backpat.
+		} else {
+			$bp->activity->errors['new_comment'] = $error;
+			return false;
+		}
+
 	}
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publicly.
@@ -2577,8 +2611,14 @@ function bp_activity_new_comment( $args = '' ) {
 		'user_id'           => $r['user_id'],
 		'item_id'           => $activity_id,
 		'secondary_item_id' => $r['parent_id'],
-		'hide_sitewide'     => $is_hidden
+		'hide_sitewide'     => $is_hidden,
+		'error_type'        => $r['error_type']
 	) );
+
+	// Return WP Error.
+	if ( is_wp_error( $comment_id ) && 'wp_error' === $r['error_type'] ) {
+		return $comment_id;
+	}
 
 	// Comment caches are stored only with the top-level item.
 	wp_cache_delete( $activity_id, 'bp_activity_comments' );
@@ -2619,8 +2659,15 @@ function bp_activity_new_comment( $args = '' ) {
 	}
 
 	if ( empty( $comment_id ) ) {
-		$errors->add( 'comment_failed', $feedback );
-		$bp->activity->errors['new_comment'] = $errors;
+		$error = new WP_Error( 'comment_failed', $feedback );
+
+		if ( 'wp_error' === $r['error_type'] ) {
+			return $error;
+
+		// Backpat.
+		} else {
+			$bp->activity->errors['new_comment'] = $error;
+		}
 	}
 
 	return $comment_id;
