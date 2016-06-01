@@ -5,14 +5,12 @@ module.exports = function( grunt ) {
 		BUILD_DIR = 'build/',
 
 		BP_CSS = [
-			'**/*.css',
-			'**/css-*.php'
+			'**/*.css'
 		],
 
 		// CSS exclusions, for excluding files from certain tasks, e.g. rtlcss
 		BP_EXCLUDED_CSS = [
-			'!**/*-rtl.css',
-			'!**/*-rtl.php'
+			'!**/*-rtl.css'
 		],
 
 		BP_JS = [
@@ -107,14 +105,8 @@ module.exports = function( grunt ) {
 				cwd: SOURCE_DIR,
 				dest: SOURCE_DIR,
 				extDot: 'last',
-				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC ),
-				rename: function ( dest, src ) {
-					if ( src.endsWith( '.php' ) ) {
-						return dest + src.replace( '.php', '-rtl.php' );
-					} else {
-						return dest + src.replace( '.css', '-rtl.css' );
-					}
-				}
+				ext: '-rtl.css',
+				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC )
 			}
 		},
 		checktextdomain: {
