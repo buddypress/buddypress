@@ -37,7 +37,7 @@ add_action( 'bp_loaded', 'bp_activity_setup_oembed' );
  * @return string
  */
 function bp_activity_embed_excerpt_onclick_location_filter( $text ) {
-	return preg_replace_callback( '/<a href=\"([^\"]*)\"/iU', 'bp_activity_embed_excerpt_onclick_location_filter_callback', $text );
+	return preg_replace_callback( '/<a\s+[^>]*href=\"([^\"]*)\"/iU', 'bp_activity_embed_excerpt_onclick_location_filter_callback', $text );
 }
 	/**
 	 * Add onclick="top.location.href" to a link.
