@@ -751,6 +751,12 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 		return;
 	}
 
+	// Do not sync if the activity comment was marked as spam.
+	$activity = new BP_Activity_Activity( $comment_id );
+	if ( $activity->is_spam ) {
+		return;
+	}
+
 	// Get userdata.
 	if ( $params['user_id'] == bp_loggedin_user_id() ) {
 		$user = buddypress()->loggedin_user->userdata;

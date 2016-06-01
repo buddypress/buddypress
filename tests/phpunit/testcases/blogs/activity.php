@@ -674,6 +674,60 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_blogs_sync_activity_edit_to_post_comment
+	 * @group post_type_comment_activities
+	 */
+	public function test_spammed_activity_comment_should_not_create_post_comment() {
+		$old_user = get_current_user_id();
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+		$userdata = get_userdata( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items.
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post.
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test activity comment to post comment',
+		) );
+
+		// Grab the activity ID for the activity comment.
+		$a1 = bp_activity_get_activity_id( array(
+			'type'      => 'new_blog_post',
+			'component' => buddypress()->blogs->id,
+			'filter'    => array(
+				'item_id' => get_current_blog_id(),
+				'secondary_item_id' => $post_id
+			),
+		) );
+
+		// Update 'Comment blacklist' section to include some words we want to block.
+		update_option( 'blacklist_keys', 'yolo' );
+
+		// Create spammed activity comment.
+		$a2 = bp_activity_new_comment( array(
+			'content'     => 'this activity comment shoud not be created as a new post comment. yolo.',
+			'user_id'     => $u,
+			'activity_id' => $a1,
+		) );
+
+		// Grab post comments.
+		$approved_comments = get_approved_comments( $post_id );
+		$comment = reset( $approved_comments );
+
+		// Assert that post comment wasn't created.
+		$this->assertEmpty( $comment );
+
+		// Reset.
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		update_option( 'blacklist_keys', '' );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
 	 */
