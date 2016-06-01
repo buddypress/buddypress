@@ -85,52 +85,56 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				<?php bp_the_profile_field_required_label(); ?>
 			</legend>
 
-			<?php
+			<div class="input-options datebox-selects">
 
-			/**
-			 * Fires after field label and displays associated errors for the field.
-			 *
-			 * This is a dynamic hook that is dependent on the associated
-			 * field ID. The hooks will be similar to `bp_field_12_errors`
-			 * where the 12 is the field ID. Simply replace the 12 with
-			 * your needed target ID.
-			 *
-			 * @since 1.8.0
-			 */
-			do_action( bp_get_the_profile_field_errors_action() ); ?>
+				<?php
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
-				/* translators: accessibility text */
-				esc_html_e( 'Select day', 'buddypress' );
-			?></label>
-			<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
-				<?php bp_the_profile_field_options( array(
-					'type'    => 'day',
-					'user_id' => $user_id
-				) ); ?>
-			</select>
+				/**
+				 * Fires after field label and displays associated errors for the field.
+				 *
+				 * This is a dynamic hook that is dependent on the associated
+				 * field ID. The hooks will be similar to `bp_field_12_errors`
+				 * where the 12 is the field ID. Simply replace the 12 with
+				 * your needed target ID.
+				 *
+				 * @since 1.8.0
+				 */
+				do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
-				/* translators: accessibility text */
-				esc_html_e( 'Select month', 'buddypress' );
-			?></label>
-			<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
-				<?php bp_the_profile_field_options( array(
-					'type'    => 'month',
-					'user_id' => $user_id
-				) ); ?>
-			</select>
+				<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
+					/* translators: accessibility text */
+					esc_html_e( 'Select day', 'buddypress' );
+				?></label>
+				<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
+					<?php bp_the_profile_field_options( array(
+						'type'    => 'day',
+						'user_id' => $user_id
+					) ); ?>
+				</select>
 
-			<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
-				/* translators: accessibility text */
-				esc_html_e( 'Select year', 'buddypress' );
-			?></label>
-			<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
-				<?php bp_the_profile_field_options( array(
-					'type'    => 'year',
-					'user_id' => $user_id
-				) ); ?>
-			</select>
+				<label for="<?php bp_the_profile_field_input_name(); ?>_month" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
+					/* translators: accessibility text */
+					esc_html_e( 'Select month', 'buddypress' );
+				?></label>
+				<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
+					<?php bp_the_profile_field_options( array(
+						'type'    => 'month',
+						'user_id' => $user_id
+					) ); ?>
+				</select>
+
+				<label for="<?php bp_the_profile_field_input_name(); ?>_year" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
+					/* translators: accessibility text */
+					esc_html_e( 'Select year', 'buddypress' );
+				?></label>
+				<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
+					<?php bp_the_profile_field_options( array(
+						'type'    => 'year',
+						'user_id' => $user_id
+					) ); ?>
+				</select>
+
+			</div>
 
 		</fieldset>
 	<?php

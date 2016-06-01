@@ -111,7 +111,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 		$option_value = BP_XProfile_ProfileData::get_value_byid( $this->field_obj->id, $args['user_id'] );
 		$options      = $this->field_obj->get_children();
 
-		$html = sprintf( '<div id="%s">', esc_attr( 'field_' . $this->field_obj->id ) );
+		$html = '';
 
 		for ( $k = 0, $count = count( $options ); $k < $count; ++$k ) {
 
@@ -154,7 +154,10 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 			$html .= apply_filters( 'bp_get_the_profile_field_options_radio', $new_html, $options[$k], $this->field_obj->id, $selected, $k );
 		}
 
-		echo $html . '</div>';
+		printf( '<div id="%1$s" class="input-options radio-button-options">%2$s</div>',
+			esc_attr( 'field_' . $this->field_obj->id ),
+			$html
+		);
 	}
 
 	/**

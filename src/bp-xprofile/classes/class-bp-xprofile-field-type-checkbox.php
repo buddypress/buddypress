@@ -176,7 +176,10 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', $new_html, $options[$k], $this->field_obj->id, $selected, $k );
 		}
 
-		echo $html;
+		printf( '<div id="%1$s" class="input-options checkbox-options">%2$s</div>',
+			esc_attr( 'field_' . $this->field_obj->id ),
+			$html
+		);
 	}
 
 	/**
