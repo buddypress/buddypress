@@ -47,13 +47,15 @@ function bp_core_check_for_flood( $user_id = 0 ) {
  * Check for moderation keys and too many links.
  *
  * @since 1.6.0
+ * @since 2.6.0 Added $error_type parameter.
  *
- * @param int    $user_id Topic or reply author ID.
- * @param string $title   The title of the content.
- * @param string $content The content being posted.
+ * @param int    $user_id    User ID.
+ * @param string $title      The title of the content.
+ * @param string $content    The content being posted.
+ * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
  * @return bool True if test is passed, false if fail.
  */
-function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' ) {
+function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
 
 	/**
 	 * Filters whether or not to bypass checking for moderation keys and too many links.
@@ -127,7 +129,11 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 
 		// Das ist zu viele links!
 		if ( $num_links >= $max_links ) {
-			return false;
+			if ( 'bool' === $error_type ) {
+				return false;
+			} else {
+				return new WP_Error( 'bp_moderation_too_many_links', __( 'You have inputted too many links', 'buddypress' ) );
+			}
 		}
 	}
 
@@ -164,9 +170,11 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 
 				// Check each user data for current word.
 				if ( preg_match( $pattern, $post_data ) ) {
-
-					// Post does not pass.
-					return false;
+					if ( 'bool' === $error_type ) {
+						return false;
+					} else {
+						return new WP_Error( 'bp_moderation_word_match', _x( 'You have inputted an inappropriate word.', 'Comment moderation', 'buddypress' ) );
+					}
 				}
 			}
 		}
@@ -180,13 +188,17 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
  * Check for blocked keys.
  *
  * @since 1.6.0
+ * @since 2.6.0 Added $error_type parameter.
  *
- * @param int    $user_id Topic or reply author ID.
- * @param string $title   The title of the content.
- * @param string $content The content being posted.
+ * @todo Why don't we use wp_blacklist_check() for this?
+ *
+ * @param int    $user_id    User ID.
+ * @param string $title      The title of the content.
+ * @param string $content    The content being posted.
+ * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
  * @return bool True if test is passed, false if fail.
  */
-function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' ) {
+function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
 
 	/**
 	 * Filters whether or not to bypass checking for blocked keys.
@@ -271,9 +283,11 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 
 			// Check each user data for current word.
 			if ( preg_match( $pattern, $post_data ) ) {
-
-				// Post does not pass.
-				return false;
+				if ( 'bool' === $error_type ) {
+					return false;
+				} else {
+					return new WP_Error( 'bp_moderation_blacklist_match', _x( 'You have inputted an inappropriate word.', 'Comment blacklist', 'buddypress' ) );
+				}
 			}
 		}
 	}
