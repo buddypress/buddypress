@@ -379,6 +379,22 @@ do_action( 'bp_before_group_admin_content' ); ?>
 				<?php endwhile; ?>
 			</ul>
 
+			<?php if ( bp_group_member_needs_pagination() ) : ?>
+
+				<div class="pagination no-ajax">
+
+					<div id="member-count" class="pag-count">
+						<?php bp_group_member_pagination_count(); ?>
+					</div>
+
+					<div id="member-admin-pagination" class="pagination-links">
+						<?php bp_group_member_admin_pagination(); ?>
+					</div>
+
+				</div>
+
+			<?php endif; ?>
+
 		<?php else: ?>
 
 			<div id="message" class="info">
