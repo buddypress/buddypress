@@ -39,8 +39,7 @@ abstract class BP_Core_oEmbed_Extension {
 
 		// Some rudimentary logic checking.
 		if ( empty( $this->slug_endpoint ) ) {
-			$class = get_class( $this );
-			throw new LogicException( $class . ' class must define $slug_endpoint property' );
+			return;
 		}
 
 		$this->setup_hooks();
