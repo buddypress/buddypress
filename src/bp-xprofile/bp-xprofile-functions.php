@@ -827,9 +827,8 @@ function xprofile_sync_wp_profile( $user_id = 0 ) {
 	bp_update_user_meta( $user_id, 'first_name', $firstname );
 	bp_update_user_meta( $user_id, 'last_name',  $lastname  );
 
-	global $wpdb;
-
-	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->users} SET display_name = %s WHERE ID = %d", $fullname, $user_id ) );
+	wp_update_user( array( 'ID' => $user_id, 'display_name' => $fullname ) );
+	wp_cache_delete( 'bp_core_userdata_' . $user_id, 'bp' );
 }
 add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
 add_action( 'bp_core_signup_user',      'xprofile_sync_wp_profile' );
