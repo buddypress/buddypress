@@ -22,14 +22,6 @@ function bp_activity_setup_oembed() {
 	if ( version_compare( $GLOBALS['wp_version'], '4.5', '>=' ) && bp_is_active( 'activity', 'embeds' ) ) {
 		buddypress()->activity->oembed = new BP_Activity_oEmbed_Extension;
 	}
-
-	add_filter( 'bp_activity_get_embed_excerpt', 'wptexturize' );
-	add_filter( 'bp_activity_get_embed_excerpt', 'convert_chars' );
-	add_filter( 'bp_activity_get_embed_excerpt', 'make_clickable', 9 );
-	add_filter( 'bp_activity_get_embed_excerpt', 'bp_activity_embed_excerpt_onclick_location_filter' );
-	add_filter( 'bp_activity_get_embed_excerpt', 'bp_activity_at_name_filter' );
-	add_filter( 'bp_activity_get_embed_excerpt', 'convert_smilies', 20 );
-	add_filter( 'bp_activity_get_embed_excerpt', 'wpautop', 30 );
 }
 add_action( 'bp_loaded', 'bp_activity_setup_oembed' );
 

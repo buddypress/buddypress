@@ -43,6 +43,7 @@ add_filter( 'bp_get_activity_content',               'wptexturize' );
 add_filter( 'bp_get_activity_parent_content',        'wptexturize' );
 add_filter( 'bp_get_activity_latest_update',         'wptexturize' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'wptexturize' );
+add_filter( 'bp_activity_get_embed_excerpt',         'wptexturize' );
 
 add_filter( 'bp_get_activity_action',                'convert_smilies' );
 add_filter( 'bp_get_activity_content_body',          'convert_smilies' );
@@ -50,6 +51,7 @@ add_filter( 'bp_get_activity_content',               'convert_smilies' );
 add_filter( 'bp_get_activity_parent_content',        'convert_smilies' );
 add_filter( 'bp_get_activity_latest_update',         'convert_smilies' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'convert_smilies' );
+add_filter( 'bp_activity_get_embed_excerpt',         'convert_smilies' );
 
 add_filter( 'bp_get_activity_action',                'convert_chars' );
 add_filter( 'bp_get_activity_content_body',          'convert_chars' );
@@ -57,11 +59,13 @@ add_filter( 'bp_get_activity_content',               'convert_chars' );
 add_filter( 'bp_get_activity_parent_content',        'convert_chars' );
 add_filter( 'bp_get_activity_latest_update',         'convert_chars' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'convert_chars' );
+add_filter( 'bp_activity_get_embed_excerpt',         'convert_chars' );
 
 add_filter( 'bp_get_activity_action',                'wpautop' );
 add_filter( 'bp_get_activity_content_body',          'wpautop' );
 add_filter( 'bp_get_activity_content',               'wpautop' );
 add_filter( 'bp_get_activity_feed_item_description', 'wpautop' );
+add_filter( 'bp_activity_get_embed_excerpt',         'wpautop' );
 
 add_filter( 'bp_get_activity_action',                'make_clickable', 9 );
 add_filter( 'bp_get_activity_content_body',          'make_clickable', 9 );
@@ -70,6 +74,7 @@ add_filter( 'bp_get_activity_parent_content',        'make_clickable', 9 );
 add_filter( 'bp_get_activity_latest_update',         'make_clickable', 9 );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'make_clickable', 9 );
 add_filter( 'bp_get_activity_feed_item_description', 'make_clickable', 9 );
+add_filter( 'bp_activity_get_embed_excerpt',         'make_clickable', 9 );
 
 add_filter( 'bp_acomment_name',                      'stripslashes_deep', 5 );
 add_filter( 'bp_get_activity_action',                'stripslashes_deep', 5 );
@@ -94,6 +99,7 @@ add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter
 add_filter( 'group_forum_topic_text_before_save',    'bp_activity_at_name_filter' );
 add_filter( 'group_forum_post_text_before_save',     'bp_activity_at_name_filter' );
 add_filter( 'the_content',                           'bp_activity_at_name_filter' );
+add_filter( 'bp_activity_get_embed_excerpt',         'bp_activity_at_name_filter' );
 
 add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
 
@@ -102,6 +108,8 @@ add_filter( 'bp_get_activity_content',      'bp_activity_truncate_entry', 5 );
 
 add_filter( 'bp_get_total_favorite_count_for_user', 'bp_core_number_format' );
 add_filter( 'bp_get_total_mention_count_for_user',  'bp_core_number_format' );
+
+add_filter( 'bp_activity_get_embed_excerpt', 'bp_activity_embed_excerpt_onclick_location_filter', 9 );
 
 /* Actions *******************************************************************/
 
