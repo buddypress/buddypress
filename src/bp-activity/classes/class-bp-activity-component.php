@@ -74,7 +74,7 @@ class BP_Activity_Component extends BP_Component {
 		}
 
 		// Embeds - only applicable for WP 4.5+
-		if ( bp_get_major_wp_version() >= 4.5 && bp_is_active( $this->id, 'embeds' ) ) {
+		if ( version_compare( $GLOBALS['wp_version'], '4.5', '>=' ) && bp_is_active( $this->id, 'embeds' ) ) {
 			$includes[] = 'embeds';
 		}
 
