@@ -788,9 +788,10 @@ class BP_User_Query {
 		) );
 
 		// Switch to the root blog, where member type taxonomies live.
+		$site_id  = bp_get_taxonomy_term_site_id( 'bp_member_type' );
 		$switched = false;
-		if ( ! bp_is_root_blog() ) {
-			switch_to_blog( bp_get_root_blog_id() );
+		if ( $site_id !== get_current_blog_id() ) {
+			switch_to_blog( $site_id );
 			$switched = true;
 		}
 
