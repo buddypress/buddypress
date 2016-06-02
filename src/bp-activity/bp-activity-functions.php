@@ -1951,7 +1951,8 @@ function bp_activity_post_update( $args = '' ) {
 		'error_type'   => $r['error_type']
 	) );
 
-	if ( is_wp_error( $activity_id ) ) {
+	// Bail on failure.
+	if ( false === $activity_id || is_wp_error( $activity_id ) ) {
 		return $activity_id;
 	}
 
@@ -2615,8 +2616,8 @@ function bp_activity_new_comment( $args = '' ) {
 		'error_type'        => $r['error_type']
 	) );
 
-	// Return WP Error.
-	if ( is_wp_error( $comment_id ) && 'wp_error' === $r['error_type'] ) {
+	// Bail on failure.
+	if ( false === $comment_id || is_wp_error( $comment_id ) ) {
 		return $comment_id;
 	}
 
