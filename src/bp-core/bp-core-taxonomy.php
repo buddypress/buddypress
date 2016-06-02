@@ -92,7 +92,7 @@ function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 
 	$retval = wp_set_object_terms( $object_id, $terms, $taxonomy, $append );
 
-	if ( ! $switched ) {
+	if ( $switched ) {
 		restore_current_blog();
 	}
 
@@ -131,7 +131,7 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 		$site_terms = wp_get_object_terms( $object_ids, $site_taxonomies, $args );
 		$retval     = array_merge( $retval, $site_terms );
 
-		if ( ! $switched ) {
+		if ( $switched ) {
 			restore_current_blog();
 		}
 	}
@@ -163,7 +163,7 @@ function bp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 
 	$retval = wp_remove_object_terms( $object_id, $terms, $taxonomy );
 
-	if ( ! $switched ) {
+	if ( $switched ) {
 		restore_current_blog();
 	}
 
