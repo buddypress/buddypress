@@ -703,8 +703,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			),
 		) );
 
-		// Update 'Comment blacklist' section to include some words we want to block.
-		update_option( 'blacklist_keys', 'yolo' );
+		// Set activity item to spam.
+		add_action( 'bp_activity_before_save', array( $this, 'set_activity_to_spam' ) );
 
 		// Create spammed activity comment.
 		$a2 = bp_activity_new_comment( array(
@@ -722,7 +722,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		// Reset.
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
-		update_option( 'blacklist_keys', '' );
+		remove_action( 'bp_activity_before_save', array( $this, 'set_activity_to_spam' ) );
 
 		$this->set_current_user( $old_user );
 	}
@@ -752,5 +752,12 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function new_comment_passthrough( $a, $b ) {
 		$this->comment_post_id = isset( $b->comment_post_ID ) ? $b->comment_post_ID : '';
 		return $a;
+	}
+
+	/**
+	 * Explicitly set activity to spam.
+	 */
+	public function set_activity_to_spam( $activity ) {
+		$activity->is_spam = 1;
 	}
 }
