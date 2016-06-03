@@ -210,11 +210,13 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $key     The slug of the main item.
-	 * @param string $sub_key The slug of the sub item.
+	 * @param string $slug        The slug of the main item.
+	 * @param string $parent_slug The slug of the sub item.
 	 * @return bool|callable|array False on failure, the screen function(s) on success.
 	 */
-	public function delete_nav( $slug, $parent_slug = '' ) {
+	public function delete_nav( $slug = '', $parent_slug = '' ) {
+
+		// Bail if slug is empty
 		if ( empty( $slug ) ) {
 			return false;
 		}
