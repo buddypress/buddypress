@@ -3509,7 +3509,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 		$menu         = new stdClass;
 		$menu->class  = array( 'menu-parent' );
 		$menu->css_id = $nav_menu->css_id;
-		$menu->link   = $nav_menu->link;
+		$menu->link   = $link;
 		$menu->name   = $nav_menu->name;
 		$menu->parent = 0;
 
