@@ -37,8 +37,8 @@
 				/* translators: accessibility text */
 				_e( 'Post what\'s new', 'buddypress' );
 			?></label>
-			<textarea class="bp-suggestions" name="whats-new" id="whats-new" cols="50" rows="10"
-				<?php if ( bp_is_group() ) : ?>data-suggestions-group-id="<?php echo esc_attr( (int) bp_get_current_group_id() ); ?>" <?php endif; ?><?php if ( isset( $_GET['r'] ) ) : ?>@<?php echo esc_textarea( $_GET['r'] ); ?> <?php endif; ?></textarea>
+			<textarea class="bp-suggestions" name="whats-new" id="whats-new" cols="50" rows="10" <?php if ( bp_is_group() ) : ?>data-suggestions-group-id="<?php echo esc_attr( (int) bp_get_current_group_id() ); ?>" <?php endif; ?>
+><?php if ( isset( $_GET['r'] ) ) : ?>@<?php echo esc_textarea( $_GET['r'] ); ?> <?php endif; ?></textarea>
 		</div>
 
 		<div id="whats-new-options">
