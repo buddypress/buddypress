@@ -783,7 +783,7 @@ function bp_core_remove_nav_item( $slug, $component = null ) {
 	// Backward compatibility for removing group nav items using the group slug as `$parent_slug`.
 	if ( ! $component && bp_is_active( 'groups' ) && isset( $bp->groups->nav ) ) {
 		if ( $bp->groups->nav->get_primary( array( 'slug' => $slug ) ) ) {
-			return bp_core_remove_nav_item( $slug, 'groups' );
+			$component = 'groups';
 		}
 	}
 
@@ -834,7 +834,7 @@ function bp_core_remove_subnav_item( $parent_slug, $slug, $component = null ) {
 	// Backward compatibility for removing group nav items using the group slug as `$parent_slug`.
 	if ( ! $component && bp_is_active( 'groups' ) && isset( $bp->groups->nav ) ) {
 		if ( $bp->groups->nav->get_primary( array( 'slug' => $parent_slug ) ) ) {
-			return bp_core_remove_subnav_item( $slug, $parent_slug, 'groups' );
+			$component = 'groups';
 		}
 	}
 
