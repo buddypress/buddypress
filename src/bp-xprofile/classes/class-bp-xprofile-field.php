@@ -943,6 +943,9 @@ class BP_XProfile_Field {
 			$sql = $wpdb->prepare( "UPDATE {$table_name} SET group_id = %d WHERE parent_id = %d", $field_group_id, $field_id );
 			$wpdb->query( $sql );
 
+			// Invalidate profile field cache.
+			wp_cache_delete( $field_id, 'bp_xprofile_fields' );
+
 			return $parent;
 		}
 

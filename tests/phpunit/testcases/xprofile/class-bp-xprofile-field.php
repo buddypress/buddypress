@@ -183,4 +183,25 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 
 		$this->assertFalse( wp_cache_get( 12345, 'bp_xprofile_fields' ) );
 	}
+
+	/**
+	 * @ticket BP7112
+	 */
+	public function test_update_position_should_invalidate_cache() {
+		$group = $this->factory->xprofile_group->create();
+		$field = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $group,
+		) );
+
+		// Prime cache.
+		$fetched_field = xprofile_get_field( $field );
+		$new_field_order = 12345;
+
+		// Update field position.
+		BP_XProfile_Field::update_position( $field, $new_field_order, $group );
+
+		// Cache call should miss; fresh data should be fetched.
+		$updated_fetched_field = xprofile_get_field( $field );
+		$this->assertEquals( $new_field_order, $updated_fetched_field->field_order );
+	}
 }
