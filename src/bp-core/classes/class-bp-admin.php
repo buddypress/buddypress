@@ -791,6 +791,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/danbrellis/">danbrellis</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
 				<a href="https://profiles.wordpress.org/wpdennis/">Dennis (wpdennis)</a>,
+				<a href="https://profiles.wordpress.org/emrikol/">emrikol</a>,
 				<a href="https://profiles.wordpress.org/wdfee/">Fee (wdfee)</a>,
 				<a href="https://profiles.wordpress.org/garrett-eclipse/">Garrett Hyder (garrett-eclipse)</a>,
 				<a href="https://profiles.wordpress.org/pento/">Gary Pendergast (pento)</a>,
