@@ -249,6 +249,11 @@ function bp_activity_screen_single_activity_permalink() {
 		}
 	}
 
+	// If activity author does not match displayed user, block access.
+	if ( true === $has_access && bp_displayed_user_id() !== $activity->user_id ) {
+		$has_access = false;
+	}
+
 	/**
 	 * Filters the access permission for a single activity view.
 	 *
