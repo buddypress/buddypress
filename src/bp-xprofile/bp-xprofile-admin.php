@@ -186,6 +186,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 						<fieldset id="<?php echo esc_attr( $group->id ); ?>" class="connectedSortable field-group">
 							<legend class="screen-reader-text"><?php
 							/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
+							/* translators: accessibility text */
 							printf( esc_html__( 'Fields for "%s" Group', 'buddypress' ), apply_filters( 'bp_get_the_profile_group_name', $group->name ) );
 							?></legend>
 

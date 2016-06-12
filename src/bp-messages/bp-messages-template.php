@@ -581,6 +581,7 @@ function bp_message_thread_total_and_unread_count( $thread_id = false ) {
 		$unread = bp_get_message_thread_unread_count( $thread_id );
 
 		return sprintf(
+			/* translators: 1: total number, 2: accessibility text: number of unread messages */
 			'<span class="thread-count">(%1$s)</span> <span class="bp-screen-reader-text">%2$s</span>',
 			number_format_i18n( $total ),
 			sprintf( _n( '%d unread', '%d unread', $unread, 'buddypress' ), number_format_i18n( $unread ) )

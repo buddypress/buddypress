@@ -428,6 +428,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @param array $item A singular item (one full row).
 	 */
 	public function column_cb( $item = array() ) {
+		/* translators: accessibility text */
 		printf( '<label class="screen-reader-text" for="gid-%1$d">' . __( 'Select group %1$d', 'buddypress' ) . '</label><input type="checkbox" name="gid[]" value="%1$d" id="gid-%1$d" />', $item['id'] );
 	}
 

@@ -497,6 +497,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @param array $item A singular item (one full row).
 	 */
 	function column_cb( $item ) {
+		/* translators: accessibility text */
 		printf( '<label class="screen-reader-text" for="aid-%1$d">' . __( 'Select activity item %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', $item['id'] );
 	}
 

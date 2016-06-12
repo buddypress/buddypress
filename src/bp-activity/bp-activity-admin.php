@@ -1043,9 +1043,9 @@ function bp_activity_admin_index() {
 
 						<h3 id="bp-replyhead"><?php _e( 'Reply to Activity', 'buddypress' ); ?></h3>
 						<label for="bp-activities" class="screen-reader-text"><?php
-								/* translators: accessibility text */
-								_e( 'Reply', 'buddypress' );
-							?></label>
+							/* translators: accessibility text */
+							_e( 'Reply', 'buddypress' );
+						?></label>
 						<?php wp_editor( '', 'bp-activities', array( 'dfw' => false, 'media_buttons' => false, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), 'tinymce' => false, ) ); ?>
 
 						<p id="bp-replysubmit" class="submit">

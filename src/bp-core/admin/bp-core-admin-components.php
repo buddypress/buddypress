@@ -196,11 +196,15 @@ function bp_core_admin_components_options() {
 
 							<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) : ?>
 
-								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> /><label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text"><?php printf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) ); ?></label>
+								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> /><label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text"><?php
+									/* translators: accessibility text */
+									printf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) ); ?></label>
 
 							<?php else : ?>
 
-								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1" checked="checked" disabled><label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text"><?php printf( __( '%s is a required component', 'buddypress' ), esc_html( $labels['title'] ) ); ?></label>
+								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1" checked="checked" disabled><label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text"><?php
+									/* translators: accessibility text */
+									printf( __( '%s is a required component', 'buddypress' ), esc_html( $labels['title'] ) ); ?></label>
 
 							<?php endif; ?>
 
