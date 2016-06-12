@@ -132,7 +132,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
 			if ( 'bool' === $error_type ) {
 				return false;
 			} else {
-				return new WP_Error( 'bp_moderation_too_many_links', __( 'You have inputted too many links', 'buddypress' ) );
+				return new WP_Error( 'bp_moderation_too_many_links', __( 'You have posted too many links', 'buddypress' ) );
 			}
 		}
 	}
@@ -173,7 +173,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
 					if ( 'bool' === $error_type ) {
 						return false;
 					} else {
-						return new WP_Error( 'bp_moderation_word_match', _x( 'You have inputted an inappropriate word.', 'Comment moderation', 'buddypress' ) );
+						return new WP_Error( 'bp_moderation_word_match', _x( 'You have posted an inappropriate word.', 'Comment moderation', 'buddypress' ) );
 					}
 				}
 			}
@@ -286,7 +286,7 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', 
 				if ( 'bool' === $error_type ) {
 					return false;
 				} else {
-					return new WP_Error( 'bp_moderation_blacklist_match', _x( 'You have inputted an inappropriate word.', 'Comment blacklist', 'buddypress' ) );
+					return new WP_Error( 'bp_moderation_blacklist_match', _x( 'You have posted an inappropriate word.', 'Comment blacklist', 'buddypress' ) );
 				}
 			}
 		}
