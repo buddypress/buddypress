@@ -456,6 +456,17 @@ function bp_core_load_template( $templates ) {
 	 * @param array  $filtered_templates Array of templates to attempt to load.
 	 */
 	$located_template = apply_filters( 'bp_located_template', $template, $filtered_templates );
+
+	/*
+	 * If current page is an embed, wipe out bp-default template.
+	 *
+	 * Wiping out the bp-default template allows WordPress to use their special
+	 * embed template, which is what we want.
+	 */
+	if ( function_exists( 'is_embed' ) && is_embed() ) {
+		$located_template = '';
+	}
+
 	if ( !empty( $located_template ) ) {
 		// Template was located, lets set this as a valid page and not a 404.
 		status_header( 200 );
