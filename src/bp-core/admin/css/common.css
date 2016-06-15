@@ -12,9 +12,8 @@ TABLE OF CONTENTS:
 	1.1 Version Badge
 	1.2 About Panel
 		1.2.1 Headline Feature
-		1.2.2 Columns
-		1.2.3 Features Section
-		1.2.4 Changelog Section
+		1.2.2 Features Section
+		1.2.3 Changelog Section
 2.0 Dashicons
 	2.1 Top level menus
 	2.2 Settings - Components
@@ -62,136 +61,213 @@ TABLE OF CONTENTS:
 /*
  * 1.2.1 Headline Feature
  */
-.index_page_bp-about .about-wrap .headline-feature,
-.dashboard_page_bp-about .about-wrap .headline-feature {
-	margin-bottom: 2em;
+.index_page_bp-about .bp-headline-feature,
+.dashboard_page_bp-about .bp-headline-feature {
+	margin-bottom: 3em;
 	text-align: center;
 }
 
-.index_page_bp-about .about-wrap .headline-feature h3,
-.index_page_bp-about .headline-feature .headline-title,
-.dashboard_page_bp-about .about-wrap .headline-feature h3,
-.dashboard_page_bp-about .headline-feature .headline-title {
+.index_page_bp-about .bp-headline-feature h3,
+.index_page_bp-about .bp-headline-feature .headline-title,
+.dashboard_page_bp-about .bp-headline-feature h3,
+.dashboard_page_bp-about .bp-headline-feature .headline-title {
 	font-size: 2.2em;
-	font-weight: normal;
 	line-height: 1.3;
 	margin: 1.25em 0 0.6em;
 	text-align: center;
 }
 
-.index_page_bp-about .about-wrap .headline-feature p,
-.dashboard_page_bp-about .about-wrap .headline-feature p {
+.index_page_bp-about .bp-headline-feature p,
+.dashboard_page_bp-about .bp-headline-feature p {
 	font-size: 1.15em;
 	margin: 1.15em auto 0.6em;
+	max-width: 80%;
 }
 
-.index_page_bp-about .about-wrap .headline-feature .introduction,
-.dashboard_page_bp-about .about-wrap .headline-feature .introduction {
+.index_page_bp-about .bp-headline-feature .introduction,
+.dashboard_page_bp-about .bp-headline-feature .introduction {
 	font-weight: 600;
 }
 
+
 /*
- * 1.2.2 Columns
+ * 1.2.2 Features Section
  */
-.index_page_bp-about .about-wrap .two-col > div,
-.dashboard_page_bp-about .about-wrap .two-col > div {
+.index_page_bp-about .bp-features-section,
+.dashboard_page_bp-about .bp-features-section {
+	clear: both;
+	margin-bottom: 2em;
+	margin-top: 2em;
+	padding-bottom: 0;
+}
+
+.index_page_bp-about .bp-features-section h3,
+.dashboard_page_bp-about .bp-features-section h3 {
+	font-size: 1.8em;
+	font-weight: normal;
+	line-height: 1.5em;
+	margin: 0 0 0.6em;
+	text-align: center;
+}
+
+.index_page_bp-about .bp-feature,
+.dashboard_page_bp-about .bp-feature {
+	clear: both;
+	overflow: hidden;
+	margin-bottom: 3em;
+	margin-top: 3em;
+}
+
+.index_page_bp-about .bp-feature::after,
+.dashboard_page_bp-about .bp-feature::after {
+	content: '';
+}
+
+.index_page_bp-about .bp-feature h4,
+.dashboard_page_bp-about .bp-feature h4 {
+	color: #23282d;
+	display: inline-block;
+	font-size: 1.4em;
+	font-weight: normal;
+	margin-bottom: 0.6em;
+	margin-top: 0;
+	width: 47%;
+}
+
+.index_page_bp-about .bp-feature p,
+.dashboard_page_bp-about .bp-feature p {
+	font-size: 1.15em;
+	width: 47%;
+}
+
+.index_page_bp-about .bp-feature.opposite h4,
+.dashboard_page_bp-about .bp-feature.opposite h4,
+.index_page_bp-about .bp-feature.opposite p,
+.dashboard_page_bp-about .bp-feature.opposite p {
+	float: right;
+}
+
+.index_page_bp-about .bp-feature img,
+.dashboard_page_bp-about .bp-feature img {
+	clear: right;
+	float: right;
+	margin-left: 2.5%;
+	width: 50%;
+	max-width: 50%;
+}
+
+.index_page_bp-about .bp-feature.opposite img,
+.dashboard_page_bp-about .bp-feature.opposite img{
+	clear: left;
+	float: left;
+	margin-left: 0;
+	margin-right: 2.5%;
+}
+
+
+/*
+ * 1.2.3 Changelog Section
+ */
+.index_page_bp-about .bp-changelog-section,
+.dashboard_page_bp-about .bp-changelog-section {
+	border-top: 1px solid #ccc;
+	clear: both;
+	margin-bottom: 3em;
+	margin-top: 2em;
+	padding-bottom: 0;
+}
+
+.index_page_bp-about .bp-changelog-section::after,
+.dashboard_page_bp-about .bp-changelog-section::after {
+	content: '';
+}
+
+.index_page_bp-about .bp-changelog-section .changelog-title,
+.dashboard_page_bp-about .bp-changelog-section .changelog-title {
+	color: #23282d;
+	font-size: 1.6em;
+	font-weight: normal;
+	line-height: 1.5;
+	margin: 1.25em 0 .6em;
+	text-align: center;
+}
+
+.index_page_bp-about .bp-changelog-section .two-col > div,
+.dashboard_page_bp-about .bp-changelog-section .two-col > div {
 	float: left;
 	margin-right: 4.799999999%;
 	position: relative;
 	width: 47.6%;
 }
 
-.index_page_bp-about .about-wrap .two-col .last-feature,
-.dashboard_page_bp-about .about-wrap .two-col .last-feature {
+.index_page_bp-about .bp-changelog-section .two-col > div.last-feature,
+.dashboard_page_bp-about .bp-changelog-section .two-col > div.last-feature {
 	margin-right: 0;
 }
 
-/*
- * 1.2.3 Features Section
- */
-.index_page_bp-about .bp-features-section,
-.dashboard_page_bp-about .bp-features-section {
-	margin-bottom: 2em;
-}
-
-.index_page_bp-about .about-wrap .feature-section,
-.dashboard_page_bp-about .about-wrap .feature-section {
-	clear: both;
-	margin-top: 2em;
-	overflow: hidden;
-	padding-bottom: 0;
-}
-
-.index_page_bp-about .about-wrap .changelog .feature-section,
-.dashboard_page_bp-about .about-wrap .changelog .feature-section {
-	margin-top: 0;
-}
-
-.index_page_bp-about .about-wrap .feature-section h3,
-.dashboard_page_bp-about .about-wrap .feature-section h3 {
-	font-size: 1.25em;
-	line-height: 1.5em;
-	margin: 0 0 0.6em;
-}
-
-.index_page_bp-about .about-wrap .changelog h4,
-.dashboard_page_bp-about .about-wrap .changelog h4 {
-	color: #23282d;
-	font-size: 1em;
-	margin: 1.4em 0 0.6em;
-}
-
-/*
- * 1.2.4 Changelog Section
- */
-.index_page_bp-about .about-wrap .changelog,
-.dashboard_page_bp-about .about-wrap .changelog {
-	border-top: 1px solid #eee;
+.index_page_bp-about .bp-changelog,
+.dashboard_page_bp-about .bp-changelog {
 	margin-bottom: 3em;
 }
 
-.index_page_bp-about .about-wrap .changelog .changelog-title,
-.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
-	font-size: 1.25em;
-	line-height: 1.5em;
-	margin: 1.25em 0 .6em;
-	text-align: center;
+.index_page_bp-about .bp-changelog h4,
+.dashboard_page_bp-about .bp-changelog h4 {
+	font-size: 1.15em;
+	margin-top: 1.5em;
+	margin-bottom: 0.6em;
+}
+
+.index_page_bp-about .bp-changelog p,
+.dashboard_page_bp-about .bp-changelog p {
+	font-size: 1.05em;
+	margin-top: 0.75em;
+}
+
+.bp-assets {
+	clear: both;
+	margin-bottom: 2em;
+	padding-top: 3em;
 }
 
 @media screen and ( max-width: 782px ) {
-	.index_page_bp-about .about-wrap .headline-feature,
-	.dashboard_page_bp-about .about-wrap .headline-feature {
+	.index_page_bp-about .bp-headline-feature,
+	.dashboard_page_bp-about .bp-headline-feature {
 		max-width: 100%;
 	}
-	.index_page_bp-about .about-wrap .headline-feature h3,
-	.dahsboard_page_bp-about .about-wrap .headline-feature h3,
-	.index_page_bp-about .about-wrap .headline-feature .headline-title,
-	.dashboard_page_bp-about .about-wrap .headline-feature .headline-title {
-		font-size: 2em;
+	.index_page_bp-about .bp-headline-feature .headline-title,
+	.dashboard_page_bp-about .bp-headline-feature .headline-title {
+		font-size: 1.5em;
+		line-height: 1.5;
+		text-align: left;
 	}
 	.index_page_bp-about .bp-features-section,
 	.dashboard_page_bp-about .bp-features-section {
 		margin-bottom: 0;
+		margin-top: 2em;
 	}
-	.index_page_bp-about .about-wrap .feature-section,
-	.dashboard_page_bp-about .about-wrap .feature-section {
-		margin-top: 0;
-	}
-	.index_page_bp-about .about-wrap .two-col > div,
-	.dashboard_page_bp-about .about-wrap .two-col > div {
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		margin-top: 1.25em;
-		padding-bottom: 1em;
-		width: 100%;
-	}
-	.index_page_bp-about .changelog .two-col > div,
-	.dashboard_page_bp-about .changelog .two-col > div {
-		margin-top: 0;
-		padding-bottom: 0;
-	}
-	.index_page_bp-about .about-wrap .changelog .changelog-title,
-	.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
+	.index_page_bp-about .bp-features-section h3,
+	.dashboard_page_bp-about .bp-features-section h3,
+	.index_page_bp-about .bp-changelog-section .changelog-title,
+	.dashboard_page_bp-about .bp-changelog-section .changelog-title {
+		font-size: 1.5em;
+		line-height: 1.5;
 		text-align: left;
+	}
+	.index_page_bp-about .bp-features-section h4,
+	.dashboard_page_bp-about .bp-features-section h4,
+	.index_page_bp-about .bp-changelog-section h4,
+	.dashboard_page_bp-about .bp-changelog-section h4 {
+		font-size: 1.25em;
+		font-weight: normal;
+		line-height: 1.25;
+		margin-top: 0.6em;
+		text-align: left;
+	}
+	.index_page_bp-about .bp-changelog-section .two-col > div,
+	.dashboard_page_bp-about .bp-changelog-section .two-col > div {
+		margin-top: 0;
+		padding-bottom: 0.5em;
+		width: 100%;
 	}
 }
 
