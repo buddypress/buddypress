@@ -64,9 +64,9 @@ function bp_activity_embed_add_inline_styles() {
 	$min = bp_core_get_minified_asset_suffix();
 
 	if ( is_rtl() ) {
-		$css = bp_locate_template_asset( "assets/embeds/activity-rtl{$min}.css" );
+		$css = bp_locate_template_asset( "css/embeds-activity-rtl{$min}.css" );
 	} else {
-		$css = bp_locate_template_asset( "assets/embeds/activity{$min}.css" );
+		$css = bp_locate_template_asset( "css/embeds-activity{$min}.css" );
 	}
 
 	// Bail if file wasn't found.
