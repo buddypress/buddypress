@@ -793,6 +793,22 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
 /**
  * Get a list of groups of which the specified user is a member.
  *
+ * Get a list of the groups to which this member belongs,
+ * filtered by group membership status and role.
+ * Usage examples: Used with no arguments specified,
+ *
+ *    bp_get_user_groups( bp_loggedin_user_id() );
+ *
+ * returns an array of the groups in which the logged-in user
+ * is an unpromoted member. To fetch an array of all groups that
+ * the current user belongs to, in any membership role,
+ * member, moderator or administrator, use
+ *
+ *    bp_get_user_groups( $user_id, array(
+ *        'is_admin' => null,
+ *        'is_mod' => null,
+ *    ) );
+ *
  * @since 2.6.0
  *
  * @param int $user_id ID of the user.
