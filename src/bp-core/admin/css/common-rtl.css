@@ -127,8 +127,7 @@ TABLE OF CONTENTS:
 .dashboard_page_bp-about .bp-feature h4 {
 	color: #23282d;
 	display: inline-block;
-	font-size: 1.4em;
-	font-weight: normal;
+	font-size: 1.25em;
 	margin-bottom: 0.6em;
 	margin-top: 0;
 	width: 47%;
@@ -185,10 +184,10 @@ TABLE OF CONTENTS:
 .index_page_bp-about .bp-changelog-section .changelog-title,
 .dashboard_page_bp-about .bp-changelog-section .changelog-title {
 	color: #23282d;
-	font-size: 1.6em;
-	font-weight: normal;
+	font-size: 1.8em;
+	font-weight: 300;
 	line-height: 1.5;
-	margin: 1.25em 0 .6em;
+	margin: 1.25em 0 0.6em;
 	text-align: center;
 }
 
@@ -238,7 +237,10 @@ TABLE OF CONTENTS:
 	.dashboard_page_bp-about .bp-headline-feature .headline-title {
 		font-size: 1.5em;
 		line-height: 1.5;
-		text-align: right;
+	}
+	.index_page_bp-about .bp-headline-feature p,
+	.dashboard_page_bp-about .bp-headline-feature p {
+		max-width: 100%;
 	}
 	.index_page_bp-about .bp-features-section,
 	.dashboard_page_bp-about .bp-features-section {
@@ -249,19 +251,49 @@ TABLE OF CONTENTS:
 	.dashboard_page_bp-about .bp-features-section h3,
 	.index_page_bp-about .bp-changelog-section .changelog-title,
 	.dashboard_page_bp-about .bp-changelog-section .changelog-title {
-		font-size: 1.5em;
+		font-size: 1.8em;
+		font-weight: 300;
 		line-height: 1.5;
-		text-align: right;
 	}
 	.index_page_bp-about .bp-features-section h4,
 	.dashboard_page_bp-about .bp-features-section h4,
 	.index_page_bp-about .bp-changelog-section h4,
 	.dashboard_page_bp-about .bp-changelog-section h4 {
 		font-size: 1.25em;
-		font-weight: normal;
 		line-height: 1.25;
 		margin-top: 0.6em;
 		text-align: right;
+	}
+	.index_page_bp-about .bp-feature,
+	.dashboard_page_bp-about .bp-feature {
+		margin-bottom: 1em;
+		margin-top: 1em;
+	}
+	.index_page_bp-about .bp-feature h4,
+	.dashboard_page_bp-about .bp-feature h4,
+	.index_page_bp-about .bp-feature p,
+	.dashboard_page_bp-about .bp-feature p {
+		width: 100%;
+	}
+	.index_page_bp-about .bp-feature.opposite h4,
+	.dashboard_page_bp-about .bp-feature.opposite h4,
+	.index_page_bp-about .bp-feature.opposite p,
+	.dashboard_page_bp-about .bp-feature.opposite p {
+		float: none;
+	}
+	.index_page_bp-about .bp-feature img,
+	.dashboard_page_bp-about .bp-feature img {
+		clear: right;
+		float: none;
+		margin-right: 0;
+		width: 100%;
+		max-width: 100%;
+	}
+	.index_page_bp-about .bp-feature.opposite img,
+	.dashboard_page_bp-about .bp-feature.opposite img{
+		clear: right;
+		float: none;
+		margin-left: 0;
 	}
 	.index_page_bp-about .bp-changelog-section .two-col > div,
 	.dashboard_page_bp-about .bp-changelog-section .two-col > div {
