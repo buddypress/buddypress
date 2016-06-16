@@ -178,12 +178,12 @@ function bp_locate_template_asset( $filename ) {
 
 	$find = array(
 		get_theme_root(),
-		buddypress()->plugin_dir
+		bp_get_theme_compat_dir()
 	);
 
 	$replace = array(
 		get_theme_root_uri(),
-		buddypress()->plugin_url
+		bp_get_theme_compat_url()
 	);
 
 	// Make sure URI path is relative to site URL.
