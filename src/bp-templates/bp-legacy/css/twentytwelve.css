@@ -949,7 +949,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	.single-item.groups #buddypress div#item-header #item-actions {
 		order: 3;
 	}
-	.single-item.groups #buddypress div#item-header #item-actions h2 {
+	.single-item.groups #buddypress div#item-header #item-actions h3 {
 		border-bottom: 1px solid #eaeaea;
 		text-align: center;
 	}
