@@ -4186,6 +4186,7 @@ function bp_groups_front_template_part() {
  * Locate a custom group front template if it exists.
  *
  * @since 2.4.0
+ * @since 2.6.0 Adds the Group Type to the front template hierarchy.
  *
  * @param  BP_Groups_Group|null $group Optional. Falls back to current group if not passed.
  * @return string|bool                 Path to front template on success; boolean false on failure.
@@ -4203,6 +4204,25 @@ function bp_groups_get_front_template( $group = null ) {
 		return $group->front_template;
 	}
 
+	$template_names = array(
+		'groups/single/front-id-'     . sanitize_file_name( $group->id )     . '.php',
+		'groups/single/front-slug-'   . sanitize_file_name( $group->slug )   . '.php',
+	);
+
+	if ( bp_groups_get_group_types() ) {
+		$group_type = bp_groups_get_group_type( $group->id );
+		if ( ! $group_type ) {
+			$group_type = 'none';
+		}
+
+		$template_names[] = 'groups/single/front-group-type-' . sanitize_file_name( $group_type )   . '.php';
+	}
+
+	$template_names = array_merge( $template_names, array(
+		'groups/single/front-status-' . sanitize_file_name( $group->status ) . '.php',
+		'groups/single/front.php'
+	) );
+
 	/**
 	 * Filters the hierarchy of group front templates corresponding to a specific group.
 	 *
@@ -4212,14 +4232,7 @@ function bp_groups_get_front_template( $group = null ) {
 	 * @param array  $template_names Array of template paths.
 	 * @param object $group          Group object.
 	 */
-	$template_names = apply_filters( 'bp_groups_get_front_template', array(
-		'groups/single/front-id-'     . sanitize_file_name( $group->id )     . '.php',
-		'groups/single/front-slug-'   . sanitize_file_name( $group->slug )   . '.php',
-		'groups/single/front-status-' . sanitize_file_name( $group->status ) . '.php',
-		'groups/single/front.php'
-	) );
-
-	return bp_locate_template( $template_names, false, true );
+	return bp_locate_template( apply_filters( 'bp_groups_get_front_template', $template_names, $group ), false, true );
 }
 
 /**
