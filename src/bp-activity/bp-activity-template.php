@@ -2420,24 +2420,17 @@ function bp_activity_comment_permalink() {
 	 *
 	 * @since 1.8.0
 	 *
-	 *
 	 * @return string $link The activity comment permalink.
 	 */
 	function bp_get_activity_comment_permalink() {
 		global $activities_template;
 
-		// Check that comment exists.
+		$link = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity );
+
+		// Used for filter below.
 		$comment_id = isset( $activities_template->activity->current_comment->id )
 			? $activities_template->activity->current_comment->id
 			: 0;
-
-		// Setup the comment link.
-		$comment_link = ! empty( $comment_id )
-			? '#acomment-' .$comment_id
-			: false;
-
-		// Append comment ID to end of activity permalink.
-		$link = bp_activity_get_permalink( $activities_template->activity->id, $activities_template->activity ) . $comment_link;
 
 		/**
 		 * Filters the activity comment permalink.
