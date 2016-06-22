@@ -798,6 +798,22 @@ class BP_Admin {
 					<a class="web" href="https://profiles.wordpress.org/dimensionmedia"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/7735aada1ec39d0c1118bd92ed4551f1?s=60">
 					David Bisset</a>
 				</li>
+				<li class="wp-person" id="wp-person-offereins">
+					<a class="web" href="https://profiles.wordpress.org/Offereins"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/2404ed0a35bb41aedefd42b0a7be61c1?s=60">
+					Laurens Offereins</a>
+				</li>
+				<li class="wp-person" id="wp-person-garrett-eclipse">
+					<a class="web" href="https://profiles.wordpress.org/garrett-eclipse"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/7f68f24441c61514d5d0e1451bb5bc9d?s=60">
+					Garrett Hyder</a>
+				</li>
+				<li class="wp-person" id="wp-person-thebrandonallen">
+					<a class="web" href="https://profiles.wordpress.org/thebrandonallen"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/6d3f77bf3c9ca94c406dea401b566950?s=60">
+					Brandon Allen</a>
+				</li>
+				<li class="wp-person" id="wp-person-ramiy">
+					<a class="web" href="https://profiles.wordpress.org/ramiy"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ce2a269e424156d79cb0c4e1d4d82db1?s=60">
+					Rami Yushuvaev</a>
+				</li>
 
 			</ul>
 
