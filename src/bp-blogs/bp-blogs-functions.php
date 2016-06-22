@@ -715,6 +715,18 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 					bp_activity_update_meta( $activity_id, 'post_url', esc_url_raw( add_query_arg( 'p', $comment->post->ID, home_url( '/' ) ) ) );
 				}
 			}
+
+			/**
+			 * Fires after an activity comment is added from a WP post comment.
+			 *
+			 * @since 2.6.0
+			 *
+			 * @param int        $activity_id          The activity comment ID.
+			 * @param WP_Comment $post_type_comment    WP Comment object.
+			 * @param array      $activity_args        Activity comment arguments.
+			 * @param object     $activity_post_object The post type tracking args object.
+			 */
+			do_action( 'bp_blogs_comment_sync_activity_comment', $activity_id, $comment, $activity_args, $activity_post_object );
 		}
 	}
 

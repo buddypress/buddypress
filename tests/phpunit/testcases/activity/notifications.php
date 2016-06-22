@@ -374,4 +374,91 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$expected_commenter = array( $u3 );
 		$this->assertEquals( $expected_commenter, wp_list_pluck( $u2_notifications, 'secondary_item_id' ) );
 	}
+
+	/**
+	 * @ticket BP7135
+	 */
+	public function test_activity_reply_notifications_for_blog_comment_to_activity_comment_sync() {
+		$old_user = get_current_user_id();
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		$this->set_current_user( $u1 );
+		$userdata = get_userdata( $u1 );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// Silence comment flood errors.
+		add_filter( 'comment_flood_filter', '__return_false' );
+
+		// create the blog post
+		$post_id = $this->factory->post->create( array(
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+			'post_title'  => 'Test post',
+		) );
+
+		$this->set_current_user( $u2 );
+		$userdata = get_userdata( $u2 );
+
+		$c1 = wp_new_comment( array(
+			'comment_post_ID'      => $post_id,
+			'comment_author'       => $userdata->user_nicename,
+			'comment_author_url'   => 'http://buddypress.org',
+			'comment_author_email' => $userdata->user_email,
+			'comment_content'      => 'this is a blog comment',
+			'comment_type'         => '',
+			'comment_parent'       => 0,
+			'user_id'              => $u2,
+		) );
+		// Approve the comment
+		$this->factory->comment->update_object( $c1, array( 'comment_approved' => 1 ) );
+
+		$this->set_current_user( $u3 );
+		$userdata = get_userdata( $u3 );
+
+		$c2 = wp_new_comment( array(
+			'comment_post_ID'      => $post_id,
+			'comment_author'       => $userdata->user_nicename,
+			'comment_author_url'   => 'http://buddypress.org',
+			'comment_author_email' => $userdata->user_email,
+			'comment_content'      => 'this is a blog comment',
+			'comment_type'         => '',
+			'comment_parent'       => $c1,
+			'user_id'              => $u3,
+		) );
+		// Approve the comment
+		$this->factory->comment->update_object( $c2, array( 'comment_approved' => 1 ) );
+
+		// Get activity IDs.
+		$ac1 = get_comment_meta( $c1, 'bp_activity_comment_id', true );
+		$ac2 = get_comment_meta( $c2, 'bp_activity_comment_id', true );
+
+		// Check if notifications exists for user 1.
+		$n1 = BP_Notifications_Notification::get( array(
+			'component_name' => 'activity',
+			'user_id'        => $u1
+		) );
+		$this->assertEquals( 2, count( $n1 ) );
+		$this->assertEquals(
+			array( $ac1, $ac2 ),
+			wp_list_pluck( $n1, 'item_id' )
+		);
+
+		// Check if notification exists for user 2.
+		$n2 = BP_Notifications_Notification::get( array(
+			'component_action' => 'comment_reply',
+			'item_id'          => $ac2,
+			'user_id'          => $u2
+		) );
+		$this->assertNotEmpty( $n2 );
+
+		// Reset.
+		$this->set_current_user( $old_user );
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		remove_filter( 'comment_flood_filter', '__return_false' );
+	}
+
 }
