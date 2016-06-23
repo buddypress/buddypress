@@ -51,6 +51,7 @@ add_action( 'bp_register_taxonomies', 'bp_register_default_taxonomies' );
  *
  * @since 2.6.0
  *
+ * @param string $taxonomy Taxonomy slug to check for.
  * @return int
  */
 function bp_get_taxonomy_term_site_id( $taxonomy = '' ) {
@@ -61,8 +62,8 @@ function bp_get_taxonomy_term_site_id( $taxonomy = '' ) {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param int    $site_id
-	 * @param string $taxonomy
+	 * @param int    $site_id  Site ID to cehck for.
+	 * @param string $taxonomy Taxonomy slug to check for.
 	 */
 	return (int) apply_filters( 'bp_get_taxonomy_term_site_id', $site_id, $taxonomy );
 }

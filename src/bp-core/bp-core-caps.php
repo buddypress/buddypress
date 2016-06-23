@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.1.0
  *
- * @return array
+ * @return object
  */
 function bp_get_current_blog_roles() {
 	global $wp_roles;
@@ -56,7 +56,6 @@ function bp_get_current_blog_roles() {
  * This is called on plugin activation.
  *
  * @since 1.6.0
- *
  */
 function bp_add_caps() {
 	global $wp_roles;
@@ -89,7 +88,6 @@ function bp_add_caps() {
  * This is called on plugin deactivation.
  *
  * @since 1.6.0
- *
  */
 function bp_remove_caps() {
 	global $wp_roles;
@@ -218,9 +216,6 @@ function bp_get_caps_for_role( $role = '' ) {
  * already have a role or capability on.
  *
  * @since 1.6.0
- *
- * @global BuddyPress $bp Global BuddyPress settings object.
- *
  */
 function bp_set_current_user_default_role() {
 
@@ -272,7 +267,7 @@ function bp_current_user_can( $capability, $args = array() ) {
 		unset( $args['blog_id'] );
 	}
 
-	// Backward compatibility for older bp_current_user_can() checks
+	// Backward compatibility for older bp_current_user_can() checks.
 	if ( empty( $args ) ) {
 		$args = null;
 	}

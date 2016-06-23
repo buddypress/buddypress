@@ -4,6 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Core
+ * @since 2.6.0
  */
 
 // Exit if accessed directly.
@@ -71,6 +72,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
+	 * @param string $url URL to validate.
 	 * @return int Your item ID
 	 */
 	abstract protected function validate_url_to_item_id( $url );
@@ -80,7 +82,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  int   $item_id Your item ID to do checks against.
+	 * @param int $item_id Your item ID to do checks against.
 	 * @return array Should contain 'content', 'title', 'author_url', 'author_name' as array
 	 *               keys. 'author_url' and 'author_name' is optional; the rest are required.
 	 */
@@ -94,7 +96,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  int    $item_id Your item ID to do checks against.
+	 * @param int $item_id Your item ID to do checks against.
 	 * @return string Fallback HTML you want to output.
 	 */
 	abstract protected function set_fallback_html( $item_id );
@@ -122,7 +124,6 @@ abstract class BP_Core_oEmbed_Extension {
 	 * @since 2.6.0
 	 *
 	 * @param int $item_id The item ID to do checks for.
-	 * @return string
 	 */
 	protected function set_iframe_title( $item_id ) {}
 
@@ -145,7 +146,7 @@ abstract class BP_Core_oEmbed_Extension {
 	protected function set_permalink() {
 		$url = bp_get_requested_url();
 
-		// Remove querystring from bp_get_requested_url()
+		// Remove querystring from bp_get_requested_url().
 		if ( false !== strpos( bp_get_requested_url(), '?' ) ) {
 			$url = substr( bp_get_requested_url(), 0, strpos( bp_get_requested_url(), '?' ) );
 		}
@@ -239,7 +240,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $template File path to current embed template.
+	 * @param string $template File path to current embed template.
 	 * @return string
 	 */
 	public function setup_template_parts( $template ) {
@@ -263,6 +264,9 @@ abstract class BP_Core_oEmbed_Extension {
 	 * and inject our own template for BuddyPress use.
 	 *
 	 * @since 2.6.0
+	 *
+	 * @param string $slug Template slug.
+	 * @param string $name Template name.
 	 */
 	public function content_buffer_start( $slug, $name ) {
 		if ( 'embed' !== $slug || 'content' !== $name ) {
@@ -280,6 +284,8 @@ abstract class BP_Core_oEmbed_Extension {
 	 * and inject our own template for BuddyPress use.
 	 *
 	 * @since 2.6.0
+	 *
+	 * @param string $name Template name.
 	 */
 	public function content_buffer_end( $name ) {
 		if ( 'embed' !== $name || is_404() ) {
@@ -318,7 +324,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $retval Current discovery links.
+	 * @param string $retval Current discovery links.
 	 * @return string
 	 */
 	public function add_oembed_discovery_links( $retval ) {
@@ -353,8 +359,8 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @link http://oembed.com/ View the 'Response parameters' section for more details.
 	 *
-	 * @param  array $item  Custom oEmbed response data.
-	 * @param  int   $width The requested width.
+	 * @param array $item  Custom oEmbed response data.
+	 * @param int   $width The requested width.
 	 * @return array
 	 */
 	protected function get_oembed_response_data( $item, $width ) {
@@ -403,7 +409,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  WP_REST_Request $request Full data about the request.
+	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_Error|array oEmbed response data or WP_Error on failure.
 	 */
 	public function get_item( $request ) {
@@ -508,7 +514,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @see bp_activity_embed_rest_route_callback()
 	 *
-	 * @param  string $retval Current embed URL
+	 * @param string $retval Current embed URL.
 	 * @return string
 	 */
 	public function filter_embed_url( $retval ) {
@@ -520,7 +526,7 @@ abstract class BP_Core_oEmbed_Extension {
 		$url = trailingslashit( $url );
 
 		// This is for the 'WordPress Embed' block
-		// @see bp_activity_embed_comments_button()
+		// @see bp_activity_embed_comments_button().
 		if ( 'the_permalink' !== current_filter() ) {
 			$url = add_query_arg( 'embed', 'true', trailingslashit( $url ) );
 
@@ -540,7 +546,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $retval Current embed HTML
+	 * @param string $retval Current embed HTML.
 	 * @return string
 	 */
 	public function filter_embed_html( $retval ) {
@@ -567,7 +573,7 @@ abstract class BP_Core_oEmbed_Extension {
 			$retval = str_replace( '<iframe', '<iframe style="max-width:100%"', $retval );
 		}
 
-		// Remove default <blockquote>
+		// Remove default <blockquote>.
 		$retval = substr( $retval, strpos( $retval, '</blockquote>' ) + 13 );
 
 		// Set up new fallback HTML
@@ -594,7 +600,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @see add_oembed_discovery_links()
 	 *
-	 * @param  string $retval Current oEmbed endpoint URL
+	 * @param string $retval Current oEmbed endpoint URL.
 	 * @return string
 	 */
 	public function filter_rest_url( $retval = '' ) {

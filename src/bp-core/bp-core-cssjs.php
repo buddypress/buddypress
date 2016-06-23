@@ -35,16 +35,16 @@ function bp_core_register_common_scripts() {
 		'bp-jquery-cookie'  => array( 'file' => "{$url}jquery-cookie{$min}.js",  'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-jquery-scroll-to' => array( 'file' => "{$url}jquery-scroll-to{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 
-		// 2.1
+		// Version 2.1.
 		'jquery-caret' => array( 'file' => "{$url}jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => true ),
 		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ), 'footer' => true ),
 
-		// 2.3
+		// Version 2.3.
 		'bp-plupload' => array( 'file' => "{$url}bp-plupload{$min}.js", 'dependencies' => array( 'plupload', 'jquery', 'json2', 'wp-backbone' ), 'footer' => true ),
 		'bp-avatar'   => array( 'file' => "{$url}avatar{$min}.js", 'dependencies' => array( 'jcrop' ), 'footer' => true ),
 		'bp-webcam'   => array( 'file' => "{$url}webcam{$min}.js", 'dependencies' => array( 'bp-avatar' ), 'footer' => true ),
 
-		// 2.4
+		// Version 2.4.
 		'bp-cover-image' => array( 'file' => "{$url}cover-image{$min}.js", 'dependencies' => array(), 'footer' => true ),
 
 	) );
@@ -106,7 +106,7 @@ add_action( 'bp_enqueue_scripts',       'bp_core_register_common_styles', 1 );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_styles', 1 );
 
 /**
- * Load the JS for "Are you sure?" .confirm links.
+ * Load the JS for "Are you sure?" confirm links.
  *
  * @since 1.1.0
  */
@@ -128,7 +128,7 @@ add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );
 /**
  * Enqueues the css and js required by the Avatar UI.
  *
- * @since  2.3.0
+ * @since 2.3.0
  */
 function bp_core_avatar_scripts() {
 	if ( ! bp_avatar_is_front_edit() ) {
@@ -148,7 +148,7 @@ add_action( 'bp_enqueue_scripts', 'bp_core_avatar_scripts' );
 /**
  * Enqueues the css and js required by the Cover Image UI.
  *
- * @since  2.4.0
+ * @since 2.4.0
  */
 function bp_core_cover_image_scripts() {
 	if ( ! bp_attachments_cover_image_is_edit() ) {
@@ -361,11 +361,11 @@ function bp_core_get_js_dependencies() {
 }
 
 /**
- * Add inline css to display the component's single item cover image
+ * Add inline css to display the component's single item cover image.
  *
  * @since 2.4.0
  *
- * @param  bool $return True to get the inline css.
+ * @param bool $return True to get the inline css.
  * @return string|array the inline css or an associative array containing
  *                      the css rules and the style handle
  */

@@ -61,7 +61,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * Set Upload Dir data for avatars.
 	 *
 	 * @since 2.3.0
-	 *
 	 */
 	public function set_upload_dir() {
 		if ( bp_core_avatar_upload_path() && bp_core_avatar_url() ) {
@@ -81,8 +80,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 *
-	 * @param  array $file the temporary file attributes (before it has been moved).
+	 * @param array $file the temporary file attributes (before it has been moved).
 	 * @return array the file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
@@ -109,7 +107,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 * @since 2.4.0 Add the $ui_available_width parameter, to inform about the Avatar UI width.
-	 *
 	 *
 	 * @param string $file               The absolute path to the file.
 	 * @param int    $ui_available_width Available width for the UI.

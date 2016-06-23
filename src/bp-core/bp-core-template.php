@@ -2399,7 +2399,7 @@ function bp_is_user_change_avatar() {
  *
  * Eg http://example.com/members/joe/profile/change-cover-image/ (or a subpage thereof).
  *
- * @since  2.4.0
+ * @since 2.4.0
  *
  * @return bool True if the current page is a user's profile edit cover image page.
  */
@@ -3154,7 +3154,7 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 	 *
 	 * @since 2.4.3
 	 *
-	 * @param  array $bp_title_parts Current BuddyPress title parts
+	 * @param array $bp_title_parts Current BuddyPress title parts.
 	 * @return array
 	 */
 	return (array) apply_filters( 'bp_get_title_parts', $bp_title_parts );
@@ -3724,9 +3724,9 @@ function bp_nav_menu( $args = array() ) {
 /**
  * Prints the Recipient Salutation.
  *
- * @since  2.5.0
+ * @since 2.5.0
  *
- * @param  array $settings Email Settings.
+ * @param array $settings Email Settings.
  */
 function bp_email_the_salutation( $settings = array() ) {
 	echo bp_email_get_salutation( $settings );
@@ -3735,9 +3735,9 @@ function bp_email_the_salutation( $settings = array() ) {
 	/**
 	 * Gets the Recipient Salutation.
 	 *
-	 * @since  2.5.0
+	 * @since 2.5.0
 	 *
-	 * @param  array  $settings Email Settings.
+	 * @param array $settings Email Settings.
 	 * @return string The Recipient Salutation.
 	 */
 	function bp_email_get_salutation( $settings = array() ) {
@@ -3746,7 +3746,7 @@ function bp_email_the_salutation( $settings = array() ) {
 		/**
 		 * Filters The Recipient Salutation inside the Email Template.
 		 *
-		 * @since  2.5.0
+		 * @since 2.5.0
 		 *
 		 * @param string $value    The Recipient Salutation.
 		 * @param array  $settings Email Settings.

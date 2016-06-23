@@ -125,7 +125,6 @@ function bp_get_default_options() {
  * Non-destructive, so existing settings will not be overridden.
  *
  * @since 1.6.0
- *
  */
 function bp_add_options() {
 
@@ -156,7 +155,6 @@ function bp_add_options() {
  * Currently unused.
  *
  * @since 1.6.0
- *
  */
 function bp_delete_options() {
 
@@ -184,7 +182,6 @@ function bp_delete_options() {
  * Currently unused.
  *
  * @since 1.6.0
- *
  */
 function bp_setup_option_filters() {
 
@@ -489,7 +486,7 @@ function bp_core_get_root_options() {
  *
  * @since 2.3.0
  *
- * @param  string $option Name of the option key.
+ * @param string $option Name of the option key.
  * @return mixed Value, if found.
  */
 function bp_core_get_root_option( $option ) {
@@ -753,7 +750,6 @@ function bp_group_forums_root_id( $default = '0' ) {
 	 * Return the group forums root parent forum id.
 	 *
 	 * @since 1.6.0
-	 *
 	 *
 	 * @param bool|string $default Optional. Default: '0'.
 	 * @return int The ID of the group forums root forum.

@@ -648,7 +648,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		 * @since 2.6.0
 		 *
 		 * @param string $default_grav The avatar default.
-		 * @param array $params The avatar's data.
+		 * @param array  $params       The avatar's data.
 		 */
 		$default_grav = apply_filters( 'bp_core_avatar_default', $default_grav, $params );
 
@@ -726,7 +726,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param bool $value Whether or not to delete the avatar.
+	 * @param bool  $value Whether or not to delete the avatar.
 	 * @param array $args {
 	 *     Array of function parameters.
 	 *
@@ -805,7 +805,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
  *
  * @since 2.3.0
  *
- * @return string|null A json object containing success data if the avatar was deleted
+ * @return string|null A JSON object containing success data if the avatar was deleted,
  *                     error message otherwise.
  */
 function bp_avatar_ajax_delete() {
@@ -948,8 +948,8 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
  *
  * @since 2.3.0
  *
- * @return  string|null A json object containing success data if the upload succeeded
- *                      error message otherwise.
+ * @return string|null A JSON object containing success data if the upload succeeded
+ *                     error message otherwise.
  */
 function bp_avatar_ajax_upload() {
 	// Bail if not a POST action.
@@ -959,7 +959,7 @@ function bp_avatar_ajax_upload() {
 
 	/**
 	 * Sending the json response will be different if
-	 * the current Plupload runtime is html4
+	 * the current Plupload runtime is html4.
 	 */
 	$is_html4 = false;
 	if ( ! empty( $_POST['html4' ] ) ) {
@@ -1171,16 +1171,6 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 /**
  * Crop an uploaded avatar.
  *
- * $args has the following parameters:
- *  object - What component the avatar is for, e.g. "user"
- *  avatar_dir  The absolute path to the avatar
- *  item_id - Item ID
- *  original_file - The absolute path to the original avatar file
- *  crop_w - Crop width
- *  crop_h - Crop height
- *  crop_x - The horizontal starting point of the crop
- *  crop_y - The vertical starting point of the crop
- *
  * @since 1.1.0
  *
  * @param array|string $args {
@@ -1246,8 +1236,8 @@ function bp_core_avatar_handle_crop( $args = '' ) {
  *
  * @since 2.3.0
  *
- * @return  string|null A json object containing success data if the crop/capture succeeded
- *                      error message otherwise.
+ * @return string|null A JSON object containing success data if the crop/capture succeeded
+ *                     error message otherwise.
  */
 function bp_avatar_ajax_set() {
 	// Bail if not a POST action.
@@ -1511,6 +1501,8 @@ function bp_core_check_avatar_size( $file ) {
  * Get allowed avatar types.
  *
  * @since 2.3.0
+ *
+ * @return array
  */
 function bp_core_get_allowed_avatar_types() {
 	$allowed_types = bp_attachments_get_allowed_types( 'avatar' );
@@ -1537,6 +1529,8 @@ function bp_core_get_allowed_avatar_types() {
  * Get allowed avatar mime types.
  *
  * @since 2.3.0
+ *
+ * @return array
  */
 function bp_core_get_allowed_avatar_mimes() {
 	$allowed_types  = bp_core_get_allowed_avatar_types();
@@ -1943,7 +1937,7 @@ function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
  * parameter of the WordPress main query to this posted var. To avoid
  * notices, we need to make sure this 'week' query var is reset to 0.
  *
- * @since  2.2.0
+ * @since 2.2.0
  *
  * @param WP_Query|null $posts_query The main query object.
  */
@@ -1977,7 +1971,7 @@ add_action( 'bp_parse_query', 'bp_core_avatar_reset_query', 10, 1 );
 /**
  * Checks whether Avatar UI should be loaded.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
  * @return bool True if Avatar UI should load, false otherwise.
  */
@@ -2009,7 +2003,7 @@ function bp_avatar_is_front_edit() {
 	 * - Load the avatar UI for a component that is !groups or !user (return true regarding your conditions)
 	 * - Completely disable the avatar UI introduced in 2.3 (eg: __return_false())
 	 *
-	 * @since  2.3.0
+	 * @since 2.3.0
 	 *
 	 * @param bool $retval Whether or not to load the Avatar UI.
 	 */
@@ -2019,7 +2013,7 @@ function bp_avatar_is_front_edit() {
 /**
  * Checks whether the Webcam Avatar UI part should be loaded.
  *
- * @since  2.3.0
+ * @since 2.3.0
  *
  * @global $is_safari
  * @global $is_IE
@@ -2040,7 +2034,7 @@ function bp_avatar_use_webcam() {
 	/**
 	 * Bail when the browser does not support getUserMedia.
 	 *
-	 * @see  http://caniuse.com/#feat=stream
+	 * @see http://caniuse.com/#feat=stream
 	 */
 	if ( $is_safari || $is_IE || ( $is_chrome && ! is_ssl() ) ) {
 		return false;
@@ -2060,7 +2054,7 @@ function bp_avatar_use_webcam() {
 /**
  * Template function to load the Avatar UI javascript templates.
  *
- * @since  2.3.0
+ * @since 2.3.0
  */
 function bp_avatar_get_templates() {
 	if ( ! bp_avatar_is_front_edit() ) {
@@ -2076,7 +2070,7 @@ function bp_avatar_get_templates() {
  * If the "avatar templates" are not including the new template tag, this will
  * help users to get the avatar UI.
  *
- * @since  2.3.0
+ * @since 2.3.0
  */
 function bp_avatar_template_check() {
 	if ( ! bp_avatar_is_front_edit() ) {

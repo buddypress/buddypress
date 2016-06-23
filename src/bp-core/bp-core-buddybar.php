@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type bool|string $default_subnav_slug     Optional. The slug of the default subnav item to select when the nav
  *                                                item is clicked.
  * }
- * @param string $component The component the navigation is attached to. Defaults to 'members'.
+ * @param string       $component The component the navigation is attached to. Defaults to 'members'.
  * @return bool|null Returns false on failure.
  */
 function bp_core_new_nav_item( $args, $component = 'members' ) {
@@ -107,7 +107,7 @@ function bp_core_new_nav_item( $args, $component = 'members' ) {
  *     @type bool|string $default_subnav_slug     Optional. The slug of the default subnav item to select when the nav
  *                                                item is clicked.
  * }
- * @param string $component Optional. Component that the nav belongs to.
+ * @param string       $component Optional. Component that the nav belongs to.
  * @return bool|BP_Nav_Item Returns false on failure, new nav item on success.
  */
 function bp_core_create_nav_link( $args = '', $component = 'members' ) {
@@ -321,7 +321,7 @@ function bp_core_new_nav_default( $args = '' ) {
 		}
 	}
 
-	// Edit the screen function for the parent nav
+	// Edit the screen function for the parent nav.
 	$bp->members->nav->edit_nav( array(
 		'screen_function'     => &$r['screen_function'],
 		'default_subnav_slug' => $r['subnav_slug'],
@@ -394,7 +394,7 @@ function bp_core_new_nav_default( $args = '' ) {
  *     @type bool        $show_in_admin_bar Optional. Whether the nav item should be added into the group's "Edit"
  *                                          Admin Bar menu for group admins. Default: false.
  * }
- * @param string $component The component the navigation is attached to. Defaults to 'members'.
+ * @param string       $component The component the navigation is attached to. Defaults to 'members'.
  * @return bool|null Returns false on failure.
  */
 function bp_core_new_subnav_item( $args, $component = null ) {
@@ -405,7 +405,7 @@ function bp_core_new_subnav_item( $args, $component = null ) {
 		 * Assume that this item is intended to belong to the current group if:
 		 * a) the 'parent_slug' is the same as the slug of the current group, or
 		 * b) the 'parent_slug' starts with the slug of the current group, and the members nav doesn't have
-		 *    a primary item with that slug
+		 *    a primary item with that slug.
 		 */
 		$group_slug = bp_get_current_group_slug();
 		if (
@@ -474,8 +474,8 @@ function bp_core_new_subnav_item( $args, $component = null ) {
  *                                          the group's "Edit" Admin Bar menu for group admins.
  *                                          Default: false.
  * }
- * @param string $component The component the navigation is attached to. Defaults to 'members'.
- * @return bool|BP_Nav_Item Returns false on failure, new nav item on success.
+ * @param string       $component The component the navigation is attached to. Defaults to 'members'.
+ * @return bool|object Returns false on failure, new BP_Nav_Item instance on success.
  */
 function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 	$bp = buddypress();
@@ -568,7 +568,7 @@ function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
  *                                       the group's "Edit" Admin Bar menu for group admins.
  *                                       Default: false.
  * }
- * @param string $component The component the navigation is attached to. Defaults to 'members'.
+ * @param string       $component The component the navigation is attached to. Defaults to 'members'.
  * @return bool|null Returns false on failure.
  */
 function bp_core_register_subnav_screen_function( $args = '', $component = 'members' ) {

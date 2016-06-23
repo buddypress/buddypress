@@ -963,7 +963,7 @@ function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
 	 * Eg: for the user's profile cover image use:
 	 * add_filter( 'bp_before_xprofile_cover_image_settings_parse_args', 'your_filter', 10, 1 );
 	 *
-	 * @since  2.4.0
+	 * @since 2.4.0
 	 *
 	 * @param array $settings The cover image settings
 	 */
@@ -990,7 +990,7 @@ function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
 }
 
 /**
- * Get cover image Width and Height
+ * Get cover image Width and Height.
  *
  * @since 2.4.0
  *

@@ -52,7 +52,6 @@ if ( !is_multisite() ) {
 		 * @param int    $blog_id     Blog ID to fetch for. Not used.
 		 * @param string $option_name Option name to fetch.
 		 * @param bool   $default     Whether or not default.
-		 *
 		 * @return mixed
 		 */
 		function get_blog_option( $blog_id, $option_name, $default = false ) {
@@ -72,7 +71,6 @@ if ( !is_multisite() ) {
 		 * @param int    $blog_id      Blog ID to add for. Not used.
 		 * @param string $option_name  Option name to add.
 		 * @param mixed  $option_value Option value to add.
-		 *
 		 * @return mixed
 		 */
 		function add_blog_option( $blog_id, $option_name, $option_value ) {
@@ -92,7 +90,6 @@ if ( !is_multisite() ) {
 		 * @param int    $blog_id     Blog ID to update for. Not used.
 		 * @param string $option_name Option name to update.
 		 * @param mixed  $value       Option value to update.
-		 *
 		 * @return mixed
 		 */
 		function update_blog_option( $blog_id, $option_name, $value ) {
@@ -111,7 +108,6 @@ if ( !is_multisite() ) {
 		 *
 		 * @param int    $blog_id     Blog ID to delete for. Not used.
 		 * @param string $option_name Option name to delete.
-		 *
 		 * @return mixed
 		 */
 		function delete_blog_option( $blog_id, $option_name ) {
@@ -130,7 +126,6 @@ if ( !is_multisite() ) {
 		 *
 		 * @param mixed $new_blog   New blog to switch to. Not used.
 		 * @param null  $deprecated Whether or not deprecated. Not used.
-		 *
 		 * @return int
 		 */
 		function switch_to_blog( $new_blog, $deprecated = null ) {
@@ -165,7 +160,6 @@ if ( !is_multisite() ) {
 		 *
 		 * @param int  $user_id ID of the user. Not used.
 		 * @param bool $all     Whether or not to return all. Not used.
-		 *
 		 * @return false
 		 */
 		function get_blogs_of_user( $user_id, $all = false ) {
@@ -186,7 +180,6 @@ if ( !is_multisite() ) {
 		 * @param mixed  $pref       Preference. Not used.
 		 * @param string $value      Value. Not used.
 		 * @param null   $deprecated Whether or not deprecated. Not used.
-		 *
 		 * @return true
 		 */
 		function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {

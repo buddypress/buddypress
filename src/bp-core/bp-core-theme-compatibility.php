@@ -319,8 +319,8 @@ function bp_set_theme_compat_original_template( $template = '' ) {
  *
  * @since 2.4.0
  *
- * @param  string $theme_id The theme id (eg: legacy).
- * @param  array  $feature  An associative array (eg: array( name => 'feature_name', 'settings' => array() )).
+ * @param string $theme_id The theme id (eg: legacy).
+ * @param array  $feature  An associative array (eg: array( name => 'feature_name', 'settings' => array() )).
  */
 function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
 	if ( empty( $theme_id ) || empty( $feature['name'] ) ) {
@@ -379,8 +379,8 @@ function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
  *
  * @since 2.4.0
  *
- * @param  string $feature The feature (eg: cover_image).
- * @return object          The feature settings.
+ * @param string $feature The feature (eg: cover_image).
+ * @return object The feature settings.
  */
 function bp_get_theme_compat_feature( $feature = '' ) {
 	// Get current theme compat theme.
@@ -397,7 +397,7 @@ function bp_get_theme_compat_feature( $feature = '' ) {
 }
 
 /**
- * Setup the theme's features
+ * Setup the theme's features.
  *
  * Note: BP Legacy's buddypress-functions.php is not loaded in WP Administration
  * as it's loaded using bp_locate_template(). That's why this function is here.
@@ -646,7 +646,7 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	unset( $dummy );
 
 	/**
-	 * Force the header back to 200 status if not a deliberate 404
+	 * Force the header back to 200 status if not a deliberate 404.
 	 *
 	 * @see https://bbpress.trac.wordpress.org/ticket/1973
 	 */

@@ -939,7 +939,7 @@ class BP_Admin {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  array $columns Current column data.
+	 * @param array $columns Current column data.
 	 * @return array
 	 */
 	public function emails_register_situation_column( $columns = array() ) {

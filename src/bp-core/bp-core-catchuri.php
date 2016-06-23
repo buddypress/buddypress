@@ -218,7 +218,7 @@ function bp_core_set_uri_globals() {
 		/**
 		 * Filter the portion of the URI that is the displayed user's slug.
 		 *
-		 * eg. example.com/ADMIN (when root profiles is enabled)
+		 * Eg. example.com/ADMIN (when root profiles is enabled)
 		 *     example.com/members/ADMIN (when root profiles isn't enabled)
 		 *
 		 * ADMIN would be the displayed user's slug.
@@ -553,16 +553,18 @@ function bp_core_catch_profile_uri() {
  * @since 2.6.0
  *
  * @param string $member_slug The current member slug.
+ * @return string $member_slug The current member slug.
  */
 function bp_core_members_shortlink_redirector( $member_slug ) {
+
 	/**
 	 * Shortlink slug to redirect to logged-in user.
 	 *
-	 * x.com/members/me/* will redirect to x.com/members/{LOGGED_IN_USER_SLUG}/*
+	 * The x.com/members/me/* url will redirect to x.com/members/{LOGGED_IN_USER_SLUG}/*
 	 *
 	 * @since 2.6.0
 	 *
-	 * @var string $slug Defaults to 'me'.
+	 * @param string $slug Defaults to 'me'.
 	 */
 	$me_slug = apply_filters( 'bp_core_members_shortlink_slug', 'me' );
 
@@ -635,9 +637,9 @@ function bp_core_no_access( $args = '' ) {
 	$redirect_url .= $_SERVER['REQUEST_URI'];
 
 	$defaults = array(
-		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php
-		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in
-		'root'     => bp_get_root_domain(),	// the landing page you get redirected to when a user doesn't have access
+		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php.
+		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in.
+		'root'     => bp_get_root_domain(), // the landing page you get redirected to when a user doesn't have access.
 		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
 	);
 
@@ -654,7 +656,7 @@ function bp_core_no_access( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	/*
-	 * @ignore Ignore these filters and use 'bp_core_no_access' above
+	 * @ignore Ignore these filters and use 'bp_core_no_access' above.
 	 */
 	$mode     = apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
 	$redirect = apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
@@ -664,7 +666,7 @@ function bp_core_no_access( $args = '' ) {
 
 	switch ( $mode ) {
 
-		// Option to redirect to wp-login.php
+		// Option to redirect to wp-login.php.
 		// Error message is displayed with bp_core_no_access_wp_login_error().
 		case 2 :
 			if ( !empty( $redirect ) ) {
@@ -675,7 +677,7 @@ function bp_core_no_access( $args = '' ) {
 
 			break;
 
-		// Redirect to root with "redirect_to" parameter
+		// Redirect to root with "redirect_to" parameter.
 		// Error message is displayed with bp_core_add_message().
 		case 1 :
 		default :
@@ -939,7 +941,6 @@ function bp_get_requested_url() {
  * notice in future versions of BuddyPress.
  *
  * @since 1.6.0
- *
  */
 function _bp_maybe_remove_redirect_canonical() {
 	if ( ! bp_is_blog_page() )

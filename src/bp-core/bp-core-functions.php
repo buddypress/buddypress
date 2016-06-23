@@ -1673,8 +1673,8 @@ function bp_use_embed_in_private_messages() {
  *
  * @since 2.6.0
  *
- * @param  string     $content The content to check.
- * @param  string|int $type    The type to check. Can also use a bitmask. See the class constants in the
+ * @param string     $content The content to check.
+ * @param string|int $type    The type to check. Can also use a bitmask. See the class constants in the
  *                             BP_Media_Extractor class for more info.
  * @return array|bool          If media exists, will return array of media metadata. Else, boolean false.
  */
@@ -3189,8 +3189,8 @@ function bp_email_get_template( WP_Post $object ) {
  *
  * @since 2.5.0
  *
- * @param string $text
- * @param array $tokens Token names and replacement values for the $text.
+ * @param string $text   Text to replace tokens in.
+ * @param array  $tokens Token names and replacement values for the $text.
  * @return string
  */
 function bp_core_replace_tokens_in_text( $text, $tokens ) {
@@ -3227,7 +3227,7 @@ function bp_core_replace_tokens_in_text( $text, $tokens ) {
 
 /**
  * Get a list of emails for populating the email post type.
- *t
+ *
  * @since 2.5.1
  *
  * @return array
