@@ -1280,7 +1280,6 @@ function bp_blog_create_button() {
 			'id'         => 'create_blog',
 			'component'  => 'blogs',
 			'link_text'  => __( 'Create a Site', 'buddypress' ),
-			'link_title' => __( 'Create a Site', 'buddypress' ),
 			'link_class' => 'blog-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_blogs_directory_permalink() . 'create' ),
 			'wrapper'    => false,
@@ -1377,7 +1376,6 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	 *     @type string $link_href         Permalink of the current blog in the loop.
 	 *     @type string $link_class        Default: 'blog-button visit'.
 	 *     @type string $link_text         Default: 'Visit Site'.
-	 *     @type string $link_title        Default: 'Visit Site'.
 	 * }
 	 * @return string The HTML for the Visit button.
 	 */
@@ -1391,7 +1389,6 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 			'link_href'         => bp_get_blog_permalink(),
 			'link_class'        => 'blog-button visit',
 			'link_text'         => __( 'Visit Site', 'buddypress' ),
-			'link_title'        => __( 'Visit Site', 'buddypress' ),
 		);
 
 		$button = wp_parse_args( $args, $defaults );

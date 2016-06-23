@@ -3162,8 +3162,6 @@ function bp_send_public_message_button( $args = '' ) {
 	 *     @type string $wrapper_id        Default: 'post-mention'.
 	 *     @type string $link_href         Default: the public message link for
 	 *                                     the current member in the loop.
-	 *     @type string $link_title        Default: 'Send a public message on your
-	 *                                     activity stream.'.
 	 *     @type string $link_text         Default: 'Public Message'.
 	 *     @type string $link_class        Default: 'activity-button mention'.
 	 * }
@@ -3178,7 +3176,6 @@ function bp_send_public_message_button( $args = '' ) {
 			'block_self'        => true,
 			'wrapper_id'        => 'post-mention',
 			'link_href'         => bp_get_send_public_message_link(),
-			'link_title'        => __( 'Send a public message on your activity stream.', 'buddypress' ),
 			'link_text'         => __( 'Public Message', 'buddypress' ),
 			'link_class'        => 'activity-button mention'
 		) );

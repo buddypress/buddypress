@@ -369,7 +369,6 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . $potential_friend_id . '/', 'friends_withdraw_friendship' ),
 					'link_text'         => __( 'Cancel Friendship Request', 'buddypress' ),
-					'link_title'        => __( 'Cancel Friendship Requested', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'remove',
 					'link_class'        => 'friendship-button pending_friend requested'
@@ -386,7 +385,6 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/',
 					'link_text'         => __( 'Friendship Requested', 'buddypress' ),
-					'link_title'        => __( 'Friendship Requested', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'remove',
 					'link_class'        => 'friendship-button awaiting_response_friend requested'
@@ -403,7 +401,6 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/remove-friend/' . $potential_friend_id . '/', 'friends_remove_friend' ),
 					'link_text'         => __( 'Cancel Friendship', 'buddypress' ),
-					'link_title'        => __( 'Cancel Friendship', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'remove',
 					'link_class'        => 'friendship-button is_friend remove'
@@ -420,7 +417,6 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/add-friend/' . $potential_friend_id . '/', 'friends_add_friend' ),
 					'link_text'         => __( 'Add Friend', 'buddypress' ),
-					'link_title'        => __( 'Add Friend', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'add',
 					'link_class'        => 'friendship-button not_friends add'

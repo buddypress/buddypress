@@ -481,13 +481,13 @@ class BP_XProfile_User_Admin {
 				$community_url = add_query_arg( $query_args, buddypress()->members->admin->edit_profile_url );
 				$delete_link   = wp_nonce_url( $community_url, 'delete_avatar' ); ?>
 
-				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a>
+				<a href="<?php echo esc_url( $delete_link ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a>
 
 			<?php endif;
 
 			// Load the Avatar UI templates if user avatar uploads are enabled and current WordPress version is supported.
 			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) && bp_attachments_is_wp_version_supported() ) : ?>
-				<a href="#TB_inline?width=800px&height=400px&inlineId=bp-xprofile-avatar-editor" title="<?php esc_attr_e( 'Edit Profile Photo', 'buddypress' );?>" class="thickbox bp-xprofile-avatar-user-edit"><?php esc_html_e( 'Edit Profile Photo', 'buddypress' ); ?></a>
+				<a href="#TB_inline?width=800px&height=400px&inlineId=bp-xprofile-avatar-editor" class="thickbox bp-xprofile-avatar-user-edit"><?php esc_html_e( 'Edit Profile Photo', 'buddypress' ); ?></a>
 				<div id="bp-xprofile-avatar-editor" style="display:none;">
 					<?php bp_attachments_get_template_part( 'avatars/index' ); ?>
 				</div>

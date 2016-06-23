@@ -2248,7 +2248,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 					<?php echo bp_core_get_userlink( $mod->user_id ); ?>
 
 					<span class="small">
-						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="button confirm mod-promote-to-admin" title="<?php esc_attr_e( 'Promote to Admin', 'buddypress' ); ?>"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
+						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="button confirm mod-promote-to-admin"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
 						<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
 					</span>
 				</h5>
@@ -3162,7 +3162,6 @@ function bp_group_new_topic_button( $group = false ) {
 			'link_class'        => 'group-button show-hide-new',
 			'link_id'           => 'new-topic-button',
 			'link_text'         => __( 'New Topic', 'buddypress' ),
-			'link_title'        => __( 'New Topic', 'buddypress' ),
 		);
 
 		/**
@@ -3232,7 +3231,6 @@ function bp_group_join_button( $group = false ) {
 				'wrapper_id'        => 'groupbutton-' . $group->id,
 				'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ),
 				'link_text'         => __( 'Leave Group', 'buddypress' ),
-				'link_title'        => __( 'Leave Group', 'buddypress' ),
 				'link_class'        => 'group-button leave-group',
 			);
 
@@ -3254,7 +3252,6 @@ function bp_group_join_button( $group = false ) {
 						'wrapper_id'        => 'groupbutton-' . $group->id,
 						'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ),
 						'link_text'         => __( 'Join Group', 'buddypress' ),
-						'link_title'        => __( 'Join Group', 'buddypress' ),
 						'link_class'        => 'group-button join-group',
 					);
 					break;
@@ -3273,7 +3270,6 @@ function bp_group_join_button( $group = false ) {
 							'wrapper_id'        => 'groupbutton-' . $group->id,
 							'link_href'         => add_query_arg( 'redirect_to', bp_get_group_permalink( $group ), bp_get_group_accept_invite_link( $group ) ),
 							'link_text'         => __( 'Accept Invitation', 'buddypress' ),
-							'link_title'        => __( 'Accept Invitation', 'buddypress' ),
 							'link_class'        => 'group-button accept-invite',
 						);
 
@@ -3289,7 +3285,6 @@ function bp_group_join_button( $group = false ) {
 							'wrapper_id'        => 'groupbutton-' . $group->id,
 							'link_href'         => bp_get_group_permalink( $group ),
 							'link_text'         => __( 'Request Sent', 'buddypress' ),
-							'link_title'        => __( 'Request Sent', 'buddypress' ),
 							'link_class'        => 'group-button pending membership-requested',
 						);
 
@@ -3305,7 +3300,6 @@ function bp_group_join_button( $group = false ) {
 							'wrapper_id'        => 'groupbutton-' . $group->id,
 							'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ),
 							'link_text'         => __( 'Request Membership', 'buddypress' ),
-							'link_title'        => __( 'Request Membership', 'buddypress' ),
 							'link_class'        => 'group-button request-membership',
 						);
 					}
@@ -3354,7 +3348,6 @@ function bp_group_create_button() {
 			'id'         => 'create_group',
 			'component'  => 'groups',
 			'link_text'  => __( 'Create a Group', 'buddypress' ),
-			'link_title' => __( 'Create a Group', 'buddypress' ),
 			'link_class' => 'group-create no-ajax',
 			'link_href'  => trailingslashit( bp_get_groups_directory_permalink() . 'create' ),
 			'wrapper'    => false,
