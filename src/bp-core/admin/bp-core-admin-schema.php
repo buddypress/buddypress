@@ -11,23 +11,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get the DB schema to use for BuddyPress components.
- *
- * @since 1.1.0
- *
- * @global $wpdb $wpdb
- *
- * @return string The default database character-set, if set.
- */
-function bp_core_set_charset() {
-	global $wpdb;
-
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-	return !empty( $wpdb->charset ) ? "DEFAULT CHARACTER SET {$wpdb->charset}" : '';
-}
-
-/**
  * Main installer.
  *
  * Can be passed an optional array of components to explicitly run installation
@@ -93,7 +76,7 @@ function bp_core_install( $active_components = false ) {
  */
 function bp_core_install_notifications() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_notifications (
@@ -134,7 +117,7 @@ function bp_core_install_notifications() {
  */
 function bp_core_install_activity_streams() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_activity (
@@ -184,7 +167,7 @@ function bp_core_install_activity_streams() {
  */
 function bp_core_install_friends() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_friends (
@@ -209,7 +192,7 @@ function bp_core_install_friends() {
  */
 function bp_core_install_groups() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_groups (
@@ -266,7 +249,7 @@ function bp_core_install_groups() {
  */
 function bp_core_install_private_messaging() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_messages (
@@ -325,7 +308,7 @@ function bp_core_install_extended_profiles() {
 	global $wpdb;
 
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	// These values should only be updated if they are not already present.
@@ -410,7 +393,7 @@ function bp_core_install_extended_profiles() {
  */
 function bp_core_install_blog_tracking() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_user_blogs (

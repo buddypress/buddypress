@@ -191,6 +191,7 @@ function bp_version_updater() {
 		'notifications' => 1,
 	) );
 
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 	$switched_to_root_blog = false;
 
