@@ -220,9 +220,20 @@ function bp_the_blog() {
 /**
  * Output the blogs pagination count.
  *
- * @global object $blogs_template {@link BP_Blogs_Template}
+ * @since 1.0.0
  */
 function bp_blogs_pagination_count() {
+	echo bp_get_blogs_pagination_count();
+}
+
+/**
+ * Get the blogs pagination count.
+ *
+ * @since 2.7.0
+ *
+ * @global object $blogs_template {@link BP_Blogs_Template}
+ */
+function bp_get_blogs_pagination_count() {
 	global $blogs_template;
 
 	$start_num = intval( ( $blogs_template->pag_page - 1 ) * $blogs_template->pag_num ) + 1;
@@ -236,7 +247,17 @@ function bp_blogs_pagination_count() {
 		$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s site', 'Viewing %1$s - %2$s of %3$s sites', $blogs_template->total_blog_count, 'buddypress' ), $from_num, $to_num, $total );
 	}
 
-	echo $message;
+	/**
+	 * Filters the "Viewing x-y of z blogs" pagination message.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $message  "Viewing x-y of z blogs" text.
+	 * @param string $from_num Total amount for the low value in the range.
+	 * @param string $to_num   Total amount for the high value in the range.
+	 * @param string $total    Total amount of blogs found.
+	 */
+	return apply_filters( 'bp_get_blogs_pagination_count', $message, $from_num, $to_num, $total );
 }
 
 /**
