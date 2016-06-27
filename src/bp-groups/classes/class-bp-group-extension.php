@@ -763,7 +763,7 @@ class BP_Group_Extension {
 		}
 
 		// Hook the group home widget.
-		if ( ! bp_current_action() && bp_is_current_action( 'home' ) ) {
+		if ( bp_is_group_home() ) {
 			add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
 	}

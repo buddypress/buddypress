@@ -845,4 +845,46 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$this->set_current_user( $old_current_user );
 	}
+
+	/**
+	 * @ticket BP7131
+	 */
+	public function test_widget_on_group_home_page() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+
+		$e1 = new BPTest_Group_Extension_Widget_Method();
+		$e1->_register();
+
+		ob_start();
+		bp_custom_group_boxes();
+		$content = ob_get_clean();
+
+		$this->assertTrue( $content === 'Widget Displayed' );
+	}
+
+	/**
+	 * @ticket BP7131
+	 */
+	public function test_widget_on_group_members_page() {
+		$g = $this->factory->group->create( array(
+			'status' => 'public',
+		) );
+		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+
+		$this->go_to( trailingslashit( bp_get_group_permalink( $g_obj ) ) . 'members/' );
+
+		$e1 = new BPTest_Group_Extension_Widget_Method();
+		$e1->_register();
+
+		ob_start();
+		bp_custom_group_boxes();
+		$content = ob_get_clean();
+
+		$this->assertFalse( $content === 'Widget Displayed' );
+	}
 }
