@@ -797,10 +797,6 @@ class BP_User_Query {
 
 		$sql_clauses = $tax_query->get_sql( 'u', $this->uid_name );
 
-		if ( $switched ) {
-			restore_current_blog();
-		}
-
 		$clause = '';
 
 		// The no_results clauses are the same between IN and NOT IN.
@@ -814,6 +810,10 @@ class BP_User_Query {
 		// IN clauses must be converted to a subquery.
 		} elseif ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $sql_clauses['where'], $matches ) ) {
 			$clause = "u.{$this->uid_name} IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
+		}
+
+		if ( $switched ) {
+			restore_current_blog();
 		}
 
 		return $clause;
