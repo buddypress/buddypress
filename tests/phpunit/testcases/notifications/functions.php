@@ -348,4 +348,55 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$found2 = $wpdb->get_col( $query );
 		$this->assertEmpty( $found2 );
 	}
+
+	/**
+	 * @group  notification_callback
+	 * @ticket BP7141
+	 */
+	public function test_notification_callback_parameter_integrity() {
+		$u = $this->factory->user->create();
+
+		$n = $this->factory->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		// Override activity notification callback so we can test integrity.
+		buddypress()->activity->notification_callback = array( $this, 'dummy_notification_callback' );
+
+		// Fetch notifications with string format.
+		bp_notifications_get_notifications_for_user( $u, 'string' );
+
+		// Assert!
+		// @todo When we cast all numeric strings as integers, this needs to be changed.
+		$expected = array(
+			'action'            => 'new_at_mention',
+			'item_id'           => '99',
+			'secondary_item_id' => '0',
+			'total_items'       => 1,
+			'id'                => (string) $n,
+			'format'            => 'string'
+		);
+		$this->assertEquals( $expected, $this->n_args );
+
+		// Fetch notifications with object format this time.
+		bp_notifications_get_notifications_for_user( $u, 'object' );
+
+		// Assert!
+		$expected['format'] = 'array';
+		$this->assertEquals( $expected, $this->n_args );
+
+		// Reset!
+		buddypress()->activity->notification_callback = 'bp_activity_format_notifications';
+		unset( $this->n_args );
+	}
+
+	/**
+	 * Used in test_notification_callback_parameter_integrity() test.
+	 */
+	public function dummy_notification_callback( $action, $item_id, $secondary_item_id, $total_items, $format = 'string', $id = 0 ) {
+		$this->n_args = compact( 'action', 'item_id', 'secondary_item_id', 'total_items', 'id', 'format' );
+	}
 }
