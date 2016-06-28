@@ -295,6 +295,54 @@ function bp_current_user_can( $capability, $args = array() ) {
 }
 
 /**
+ * Check whether the specified user has a given capability on a given site.
+ *
+ * @since 2.7.0
+ *
+ * @param int       $user_id
+ * @param string    $capability Capability or role name.
+ * @param array|int $args {
+ *     Array of extra arguments applicable to the capability check.
+ *
+ *     @type int   $site_id Optional. Site ID. Defaults to the BP root blog.
+ *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.
+ * }
+ * @return bool True if the user has the cap for the given parameters.
+ */
+function bp_user_can( $user_id, $capability, $args = array() ) {
+	$site_id = bp_get_root_blog_id();
+
+	// Get the site ID if set, but don't pass along to user_can().
+	if ( isset( $args['site_id'] ) ) {
+		$site_id = (int) $args['site_id'];
+		unset( $args['site_id'] );
+	}
+
+	$switched = is_multisite() ? switch_to_blog( $site_id ) : false;
+	$args     = array( $user_id, $capability, $args );
+	$retval   = call_user_func_array( 'user_can', $args );
+
+	/**
+	 * Filters whether or not the specified user has a given capability on a given site.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param bool   $retval     Whether or not the current user has the capability.
+	 * @param int    $user_id
+	 * @param string $capability The capability being checked for.
+	 * @param int    $site_id    Site ID. Defaults to the BP root blog.
+	 * @param array  $args       Array of extra arguments passed.
+	 */
+	$retval = (bool) apply_filters( 'bp_user_can', $retval, $user_id, $capability, $site_id, $args );
+
+	if ( $switched ) {
+		restore_current_blog();
+	}
+
+	return $retval;
+}
+
+/**
  * Temporary implementation of 'bp_moderate' cap.
  *
  * In BuddyPress 1.6, the 'bp_moderate' cap was introduced. In order to
