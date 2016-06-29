@@ -439,8 +439,9 @@ class BP_XProfile_ProfileData {
 		}
 
 		$is_single = false;
-		if ( ! is_array( $user_ids ) ) {
-			$user_ids  = array( $user_ids );
+		$user_ids  = wp_parse_id_list( $user_ids );
+
+		if ( 1 === count( $user_ids ) ) {
 			$is_single = true;
 		}
 
