@@ -618,6 +618,12 @@ class BuddyPress {
 			return;
 		}
 
+		// Sanity check 2 - Check if component is active before loading class.
+		// Skip if PHPUnit is running.
+		if ( 'core' !== $component && false === bp_is_active( $component ) && false === function_exists( 'tests_add_filter' ) ) {
+			return;
+		}
+
 		require $path;
 	}
 
