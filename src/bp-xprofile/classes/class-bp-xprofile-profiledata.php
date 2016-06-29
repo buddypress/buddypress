@@ -438,12 +438,12 @@ class BP_XProfile_ProfileData {
 			$user_ids = bp_displayed_user_id();
 		}
 
-		$is_single = false;
-		$user_ids  = wp_parse_id_list( $user_ids );
-
-		if ( 1 === count( $user_ids ) ) {
-			$is_single = true;
+		$return_single_result = false;
+		if ( ! is_array( $user_ids ) ) {
+			$return_single_result = true;
 		}
+
+		$user_ids = wp_parse_id_list( $user_ids );
 
 		// Assemble uncached IDs.
 		$uncached_ids = array();
@@ -495,7 +495,7 @@ class BP_XProfile_ProfileData {
 		}
 
 		// If a single ID was passed, just return the value.
-		if ( $is_single ) {
+		if ( $return_single_result ) {
 			return $data[0]->value;
 
 		// Otherwise return the whole array.
