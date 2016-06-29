@@ -27,7 +27,7 @@ function bp_groups_register_group_types() {
 	 */
 	do_action( 'bp_groups_register_group_types' );
 }
-add_action( 'bp_loaded', 'bp_groups_register_group_types', 8 );
+add_action( 'bp_init', 'bp_groups_register_group_types', 1 );
 
 /**
  * Protect access to single groups.
