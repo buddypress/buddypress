@@ -118,10 +118,16 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 
 == Upgrade Notice ==
 
+= 2.6.1 =
+See: https://codex.buddypress.org/releases/version-2-6-1/
+
 = 2.6.0 =
 Major revision. For more information about the most recent changes, visit https://codex.buddypress.org/releases/version-2-6-0/
 
 == Changelog ==
+
+= 2.6.1 =
+See: https://codex.buddypress.org/releases/version-2-6-1/
 
 = 2.6.0 =
 See: https://codex.buddypress.org/releases/version-2-6-0/
