@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw21
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, social, community, networks, networking
 Requires at least: 4.1
 Tested up to: 4.5.3
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,142 +118,16 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 
 == Upgrade Notice ==
 
+= 2.6.1 =
+See: https://codex.buddypress.org/releases/version-2-6-1/
+
 = 2.6.0 =
 See: https://codex.buddypress.org/releases/version-2-6-0/
 
-= 2.5.3 =
-See: https://codex.buddypress.org/releases/version-2-5-3/
-
-= 2.5.2 =
-See: https://codex.buddypress.org/releases/version-2-5-2/
-
-= 2.5.1 =
-See: https://codex.buddypress.org/releases/version-2-5-1/
-
-= 2.5 =
-See: https://codex.buddypress.org/releases/version-2-5-0/
-
-= 2.4.3 =
-See: https://codex.buddypress.org/releases/version-2-4-3/
-
-= 2.4.2 =
-See: https://codex.buddypress.org/releases/version-2-4-2/
-
-= 2.4.1 =
-See: https://codex.buddypress.org/releases/version-2-4-1/
-
-= 2.4 =
-See: https://codex.buddypress.org/releases/version-2-4-0/
-
-= 2.3.5 =
-See: https://codex.buddypress.org/releases/version-2-3-5/
-
-= 2.3.4 =
-See: https://codex.buddypress.org/releases/version-2-3-4/
-
-= 2.3.3 =
-See: https://codex.buddypress.org/releases/version-2-3-3/
-
-= 2.3.2 =
-See: https://codex.buddypress.org/releases/version-2-3-2/
-
-= 2.3.1 =
-See: https://codex.buddypress.org/releases/version-2-3-1/
-
-= 2.3.0 =
-See: https://codex.buddypress.org/releases/version-2-3-0/
-
-= 2.2.3.1 =
-See: https://codex.buddypress.org/releases/version-2-2-3-1/
-
-= 2.2.3 =
-See: https://codex.buddypress.org/releases/version-2-2-3/
-
-= 2.2.2.1 =
-See: https://codex.buddypress.org/releases/version-2-2-2-1/
-
-= 2.2.2 =
-See: https://codex.buddypress.org/releases/version-2-2-2/
-
-= 2.2.1 =
-See: https://codex.buddypress.org/releases/version-2-2-1/
-
-= 2.2 =
-See: https://codex.buddypress.org/releases/version-2-2/
-
-= 2.1 =
-See: https://codex.buddypress.org/releases/version-2-1/
-
-= 2.0.3 =
-See: https://codex.buddypress.org/releases/version-2-0-3/
-
-= 2.0.2 =
-See: https://codex.buddypress.org/releases/version-2-0-2/
-
-= 2.0.1 =
-See: https://codex.buddypress.org/releases/version-2-0-1/
-
-= 2.0 =
-See: https://codex.buddypress.org/releases/version-2-0/
-
-= 1.9.2 =
-See: https://codex.buddypress.org/releases/version-1-9-2/
-
-= 1.9.1 =
-See: https://codex.buddypress.org/releases/version-1-9-1/
-
-= 1.9 =
-See: https://codex.buddypress.org/releases/version-1-9/
-
-= 1.8.1 =
-See: https://codex.buddypress.org/releases/version-1-8-1/
-
-= 1.8 =
-See: https://codex.buddypress.org/releases/version-1-8/
-
-= 1.7.3 =
-See: https://codex.buddypress.org/releases/version-1-7-3/
-
-= 1.7.2 =
-See: https://codex.buddypress.org/releases/version-1-7-2/
-
-= 1.7.1 =
-See: https://codex.buddypress.org/releases/version-1-7-1/
-
-= 1.7 =
-See: https://codex.buddypress.org/releases/version-1-7/
-
-= 1.6.5 =
-See: https://codex.buddypress.org/releases/version-1-6-5/
-
-= 1.6.4 =
-See: https://codex.buddypress.org/releases/version-1-6-4/
-
-= 1.6.3 =
-See: https://codex.buddypress.org/releases/version-1-6-3/
-
-= 1.6.2 =
-Compatibility with WordPress 3.5
-
-= 1.6.1 =
-Fixes 4 bugs
-
-= 1.6 =
-See: https://codex.buddypress.org/releases/version-1-6/
-
-= 1.5 =
-See: https://codex.buddypress.org/releases/version-1-5/
-
-= 1.2.9 =
-Compatibility with WordPress 3.2
-
-= 1.2.8 =
-Compatibility with WordPress 3.1
-
-= 1.2.7 =
-Fixes over 10 bugs.
-
 == Changelog ==
+
+= 2.6.1 =
+See: https://codex.buddypress.org/releases/version-2-6-1/
 
 = 2.6.0 =
 See: https://codex.buddypress.org/releases/version-2-6-0/
