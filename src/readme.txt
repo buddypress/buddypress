@@ -180,38 +180,5 @@ See: https://codex.buddypress.org/releases/version-2-2-1/
 = 2.2 =
 See: https://codex.buddypress.org/releases/version-2-2/
 
-= 2.1 =
-See: https://codex.buddypress.org/releases/version-2-1/
-
-= 2.0.3 =
-See: https://codex.buddypress.org/releases/version-2-0-3/
-
-= 2.0.2 =
-See: https://codex.buddypress.org/releases/version-2-0-2/
-
-= 2.0.1 =
-See: https://codex.buddypress.org/releases/version-2-0-1/
-
-= 2.0 =
-See: https://codex.buddypress.org/releases/version-2-0/
-
-= 1.9 =
-See: https://codex.buddypress.org/releases/version-1-9/
-
-= 1.8.1 =
-See: https://codex.buddypress.org/releases/version-1-8-1/
-
-= 1.8 =
-See: https://codex.buddypress.org/releases/version-1-8/
-
-= 1.7 =
-See: https://codex.buddypress.org/releases/version-1-7/
-
-= 1.6 =
-See: https://codex.buddypress.org/releases/version-1-6/
-
-= 1.5 =
-See: https://codex.buddypress.org/releases/version-1-5/
-
 = Older =
 See: https://codex.buddypress.org/releases/
