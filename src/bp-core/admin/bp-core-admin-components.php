@@ -276,6 +276,7 @@ function bp_core_admin_components_settings_handler() {
 		$bp = buddypress();
 
 		// Save settings and upgrade schema.
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		require_once( $bp->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 
 		$submitted = stripslashes_deep( $_POST['bp_components'] );
