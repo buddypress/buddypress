@@ -371,6 +371,10 @@ class BP_XProfile_Group {
 		// Fetch the fields.
 		$field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids_in} ) AND parent_id = 0 {$exclude_fields_sql} {$in_sql} ORDER BY field_order" );
 
+		foreach( $groups as $group ) {
+			$group->fields = array();
+		}
+
 		// Bail if no fields.
 		if ( empty( $field_ids ) ) {
 			return $groups;
