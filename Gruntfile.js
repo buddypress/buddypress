@@ -248,6 +248,11 @@ module.exports = function( grunt ) {
 			options: {
 				tracUrl: 'buddypress.trac.wordpress.org'
 			}
+		},
+		upload_patch: {
+			options: {
+				tracUrl: 'buddypress.trac.wordpress.org'
+			}
 		}
 	});
 
