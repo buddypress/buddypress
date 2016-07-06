@@ -587,4 +587,54 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_wp_registration_url_should_return_bp_register_page_when_register_page_is_configured_properly() {
 		$this->assertSame( bp_get_signup_page(), wp_registration_url() );
 	}
+
+	/**
+	 * @group bp_core_activate_signup
+	 */
+	public function test_bp_core_activate_signup_password() {
+		global $wpdb;
+
+
+		$signups = array( 'no-blog' =>
+			array( 'signup_id' => $this->factory->signup->create( array(
+					'user_login'     => 'noblog',
+					'user_email'     => 'noblog@example.com',
+					'activation_key' => 'no-blog',
+					'meta' => array(
+						'field_1' => 'Foo Bar',
+						'password' => 'foobar',
+					),
+			) ),
+				'password' => 'foobar',
+			),
+		);
+
+		if ( is_multisite() ) {
+			$signups['ms-blog'] = array( 'signup_id' => $this->factory->signup->create( array(
+					'user_login'     => 'msblog',
+					'user_email'     => 'msblog@example.com',
+					'domain'         => get_current_site()->domain,
+					'path'           => get_current_site()->path . 'ms-blog',
+					'title'          => 'Ding Dang',
+					'activation_key' => 'ms-blog',
+					'meta' => array(
+						'field_1'  => 'Ding Dang',
+						'password' => 'dingdang',
+					),
+				) ),
+				'password' => 'dingdang',
+			);
+		}
+
+		// Neutralize db errors
+		$suppress = $wpdb->suppress_errors();
+
+		foreach ( $signups as $key => $data ) {
+			$u = bp_core_activate_signup( $key );
+
+			$this->assertEquals( get_userdata( $u )->user_pass, $data['password'] );
+		}
+
+		$wpdb->suppress_errors( $suppress );
+	}
 }
