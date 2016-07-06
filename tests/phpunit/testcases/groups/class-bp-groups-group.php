@@ -613,6 +613,21 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	public function test_filter_user_groups_normal_search_middle_of_string() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Cool Group',
+			'description' => 'This group is for mandocellos and oboes.',
+		) );
+		$g2 = $this->factory->group->create();
+		$u = $this->factory->user->create();
+		self::add_user_to_group( $u, $g1 );
+
+		$groups = BP_Groups_Group::filter_user_groups( 'cello', $u );
+
+		$found = wp_list_pluck( $groups['groups'], 'group_id' );
+		$this->assertEquals( array( $g1 ), $found );
+	}
+
 	public function test_filter_user_groups_search_with_underscores() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',

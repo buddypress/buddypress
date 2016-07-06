@@ -506,7 +506,7 @@ class BP_Groups_Group {
 		if ( empty( $user_id ) )
 			$user_id = bp_displayed_user_id();
 
-		$search_terms_like = bp_esc_like( $filter ) . '%';
+		$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
 
 		$pag_sql = $order_sql = $hidden_sql = '';
 
