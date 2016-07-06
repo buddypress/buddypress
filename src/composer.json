@@ -1,6 +1,6 @@
 {
   "name": "buddypress/buddypress",
-  "description": "BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.",
+  "description": "BuddyPress helps site builders and WordPress developers add community features to their websites, with user profile fields, activity streams, messaging, and notifications.",
   "type": "wordpress-plugin",
   "keywords": [
     "activity",

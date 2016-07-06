@@ -12,7 +12,7 @@
 /**
  * Plugin Name: BuddyPress
  * Plugin URI:  https://buddypress.org/
- * Description: BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.
+ * Description: BuddyPress helps site builders and WordPress developers add community features to their websites, with user profile fields, activity streams, messaging, and notifications.
  * Author:      The BuddyPress Community
  * Author URI:  https://buddypress.org/
  * Version:     2.7-alpha
