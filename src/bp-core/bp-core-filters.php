@@ -1030,7 +1030,6 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 	$tokens['recipient.email']     = '';
 	$tokens['recipient.name']      = '';
 	$tokens['recipient.username']  = '';
-	$tokens['unsubscribe']         = site_url( 'wp-login.php' );
 
 
 	// Who is the email going to?
@@ -1047,14 +1046,20 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 		}
 
 		if ( $user_obj ) {
-			// Unsubscribe link.
-			$tokens['unsubscribe'] = esc_url( sprintf(
-				'%s%s/notifications/',
-				bp_core_get_user_domain( $user_obj->ID ),
-				function_exists( 'bp_get_settings_slug' ) ? bp_get_settings_slug() : 'settings'
-			) );
 			$tokens['recipient.username'] = $user_obj->user_login;
-		}
+			if ( bp_is_active( 'settings' ) && empty( $tokens['unsubscribe'] ) ) {
+ 			    $tokens['unsubscribe'] = esc_url( sprintf(
+ 			        '%s%s/notifications/',
+ 			        bp_core_get_user_domain( $user_obj->ID ),
+ 			        bp_get_settings_slug()
+ 			    ) );
+			}
+ 		}
+	}
+
+	// Set default unsubscribe link if not passed.
+	if ( empty( $tokens['unsubscribe'] ) ) {
+		$tokens['unsubscribe'] = site_url( 'wp-login.php' );
 	}
 
 	// Email preheader.

@@ -110,3 +110,6 @@ if ( is_admin() ) {
 
 // Activation redirect.
 add_action( 'bp_activation', 'bp_add_activation_redirect' );
+
+// Email unsubscribe.
+add_action( 'bp_get_request_unsubscribe', 'bp_email_unsubscribe_handler' );

@@ -54,6 +54,11 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 			$group_name = bp_get_current_group_name();
 		}
 
+		$unsubscribe_args = array(
+			'user_id'           => $receiver_user_id,
+			'notification_type' => $email_type,
+		);
+
 		$args = array(
 			'tokens' => array(
 				'activity'         => $activity,
@@ -62,6 +67,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 				'mentioned.url'    => $message_link,
 				'poster.name'      => $poster_name,
 				'receiver-user.id' => $receiver_user_id,
+				'unsubscribe' 	   => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 			),
 		);
 
@@ -113,6 +119,12 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 
 		// Send an email if the user hasn't opted-out.
 		if ( 'no' != bp_get_user_meta( $original_activity->user_id, 'notification_activity_new_reply', true ) ) {
+
+			$unsubscribe_args = array(
+				'user_id'           => $original_activity->user_id,
+				'notification_type' => 'activity-comment',
+			);
+
 			$args = array(
 				'tokens' => array(
 					'comment.id'                => $comment_id,
@@ -121,6 +133,7 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 					'original_activity.user_id' => $original_activity->user_id,
 					'poster.name'               => $poster_name,
 					'thread.url'                => esc_url( $thread_link ),
+					'unsubscribe'               => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 				),
 			);
 
@@ -155,6 +168,12 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 
 		// Send an email if the user hasn't opted-out.
 		if ( 'no' != bp_get_user_meta( $parent_comment->user_id, 'notification_activity_new_reply', true ) ) {
+
+			$unsubscribe_args = array(
+				'user_id'           => $parent_comment->user_id,
+				'notification_type' => 'activity-comment-author',
+			);
+
 			$args = array(
 				'tokens' => array(
 					'comment.id'             => $comment_id,
@@ -163,6 +182,7 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 					'parent-comment-user.id' => $parent_comment->user_id,
 					'poster.name'            => $poster_name,
 					'thread.url'             => esc_url( $thread_link ),
+					'unsubscribe'            => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 				),
 			);
 
@@ -178,7 +198,7 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 		 * @param int                  $comment_id     ID for the newly received comment.
 		 * @param int                  $commenter_id   ID of the user who made the comment.
 		 * @param array                $params         Arguments used with the original activity comment.
- 		 */
+		 */
 		do_action( 'bp_activity_sent_reply_to_reply_notification', $parent_comment, $comment_id, $commenter_id, $params );
 	}
 }

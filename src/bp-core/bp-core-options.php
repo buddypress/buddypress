@@ -73,6 +73,9 @@ function bp_get_default_options() {
 		// The ID for the current theme package.
 		'_bp_theme_package_id'                 => 'legacy',
 
+		// Email unsubscribe salt.
+		'bp-emails-unsubscribe-salt'           => base64_encode( wp_generate_password( 64, true, true ) ),
+
 		/* Groups ************************************************************/
 
 		// @todo Move this into the groups component

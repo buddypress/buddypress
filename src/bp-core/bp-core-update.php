@@ -263,6 +263,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 10440 ) {
 			bp_update_to_2_5();
 		}
+
+		// Version 2.7.0.
+		if ( $raw_db_version < 10940 ) {
+			bp_update_to_2_7();
+		}
 	}
 
 	/* All done! *************************************************************/
@@ -497,6 +502,17 @@ function bp_update_to_2_3() {
  */
 function bp_update_to_2_5() {
 	bp_core_install_emails();
+}
+
+/**
+ * 2.7.0 update routine.
+ *
+ * - Add email unsubscribe salt.
+ *
+ * @since 2.7.0
+ */
+function bp_update_to_2_7() {
+	bp_add_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
 }
 
 /**

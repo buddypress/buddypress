@@ -58,12 +58,18 @@ function messages_notification_new_message( $raw_args = array() ) {
 			continue;
 		}
 
+		$unsubscribe_args = array(
+			'user_id'           => $recipient->user_id,
+			'notification_type' => 'messages-unread',
+		);
+
 		$args = array(
 			'tokens' => array(
 				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
 				'message.url' => esc_url( bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() . '/view/' . $thread_id . '/' ),
 				'sender.name' => $sender_name,
 				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
+				'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 			),
 		);
 		bp_send_email( 'messages-unread', $ud, $args );

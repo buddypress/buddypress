@@ -500,7 +500,7 @@ function bp_core_install_emails() {
 	);
 
 	$emails       = bp_email_get_schema();
-	$descriptions = bp_email_get_type_schema();
+	$descriptions = bp_email_get_type_schema( 'description' );
 
 	// Add these emails to the database.
 	foreach ( $emails as $id => $email ) {

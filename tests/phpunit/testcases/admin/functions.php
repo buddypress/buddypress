@@ -252,7 +252,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'hide_empty' => false,
 		) );
 
-		$correct_descriptions = bp_email_get_type_schema();
+		$correct_descriptions = bp_email_get_type_schema( 'description' );
 		foreach ( $d_terms as $d_term ) {
 			$correct_description = $correct_descriptions[ $d_term->slug ];
 			$this->assertSame( $correct_description, $d_term->description );
