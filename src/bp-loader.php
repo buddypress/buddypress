@@ -618,9 +618,15 @@ class BuddyPress {
 			return;
 		}
 
-		// Sanity check 2 - Check if component is active before loading class.
-		// Skip if PHPUnit is running.
-		if ( 'core' !== $component && false === bp_is_active( $component ) && false === function_exists( 'tests_add_filter' ) ) {
+		/*
+		 * Sanity check 2 - Check if component is active before loading class.
+		 * Skip if PHPUnit is running, or BuddyPress is installing for the first time.
+		 */
+		if (
+			! in_array( $component, array( 'core', 'members' ), true ) &&
+			! bp_is_active( $component ) &&
+			! function_exists( 'tests_add_filter' )
+		) {
 			return;
 		}
 
