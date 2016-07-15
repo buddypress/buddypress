@@ -391,7 +391,7 @@ class BP_Core_Nav {
 				$children = $this->get_secondary( array( 'parent_slug' => $primary_nav->slug, 'user_has_access' => true ) );
 
 				if ( $children ) {
-					$primary_nav_items[ $key_nav ] = clone( $primary_nav );
+					$primary_nav_items[ $key_nav ] = clone $primary_nav;
 					$primary_nav_items[ $key_nav ]->children = $children;
 				}
 			}
