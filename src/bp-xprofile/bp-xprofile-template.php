@@ -961,7 +961,7 @@ function bp_profile_get_field_groups() {
 	$groups = wp_cache_get( 'all', 'bp_xprofile_groups' );
 	if ( false === $groups ) {
 		$groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
-		wp_cache_set( 'all', $groups, 'bp_xprofile' );
+		wp_cache_set( 'all', $groups, 'bp_xprofile_groups' );
 	}
 
 	/**
