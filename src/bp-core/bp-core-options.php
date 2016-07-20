@@ -18,12 +18,6 @@ defined( 'ABSPATH' ) || exit;
  * @return array Filtered option names and values.
  */
 function bp_get_default_options() {
-	static $email_unsubscribe_salt = null;
-
-	// Only generate this once to prevent loops in wp_rand() on WP < 4.4.
-	if ( $email_unsubscribe_salt === null ) {
-		$email_unsubscribe_salt = base64_encode( wp_generate_password( 64, true, true ) );
-	}
 
 	// Default options.
 	$options = array (
@@ -80,7 +74,7 @@ function bp_get_default_options() {
 		'_bp_theme_package_id'                 => 'legacy',
 
 		// Email unsubscribe salt.
-		'bp-emails-unsubscribe-salt'           => $email_unsubscribe_salt,
+		'bp-emails-unsubscribe-salt'           => base64_encode( wp_generate_password( 64, true, true ) ),
 
 		/* Groups ************************************************************/
 
