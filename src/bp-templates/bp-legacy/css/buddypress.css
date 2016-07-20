@@ -786,7 +786,7 @@ body.no-js #buddypress #messages-bulk-management #select-all-messages {
 	padding: 5px;
 	width: 160px;
 }
-#buddypress button,
+#buddypress .standard-form button,
 #buddypress a.button,
 #buddypress input[type=submit],
 #buddypress input[type=button],
@@ -805,7 +805,7 @@ a.bp-title-button {
 	text-align: center;
 	text-decoration: none;
 }
-#buddypress button:hover,
+#buddypress .standard-form button:hover,
 #buddypress a.button:hover,
 #buddypress a.button:focus,
 #buddypress input[type=submit]:hover,
