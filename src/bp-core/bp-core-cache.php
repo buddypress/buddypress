@@ -115,7 +115,17 @@ add_action( 'update_option', 'bp_core_clear_directory_pages_cache_settings_edit'
  * @param string $option Option name.
  */
 function bp_core_clear_root_options_cache( $option ) {
+	foreach ( array( 'add_option', 'add_site_option', 'update_option', 'update_site_option' ) as $action ) {
+		remove_action( $action, 'bp_core_clear_root_options_cache' );
+	}
+
+	// Surrounding code prevents infinite loops on WP < 4.4.
 	$keys = array_keys( bp_get_default_options() );
+
+	foreach ( array( 'add_option', 'add_site_option', 'update_option', 'update_site_option' ) as $action ) {
+		add_action( $action, 'bp_core_clear_root_options_cache' );
+	}
+
 	$keys = array_merge( $keys, array(
 		'registration',
 		'avatar_default',
