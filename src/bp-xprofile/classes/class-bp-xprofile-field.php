@@ -203,8 +203,18 @@ class BP_XProfile_Field {
 			$user_id = isset( $userdata->ID ) ? $userdata->ID : 0;
 		}
 
-		$bp    = buddypress();
-		$field = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id ) );
+		$field = wp_cache_get( $id, 'bp_xprofile_fields' );
+		if ( false === $field ) {
+			$bp = buddypress();
+
+			$field = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $id ) );
+
+			if ( ! $field ) {
+				return false;
+			}
+
+			wp_cache_add( $id, $field, 'bp_xprofile_fields' );
+		}
 
 		$this->fill_data( $field );
 
@@ -231,23 +241,7 @@ class BP_XProfile_Field {
 			return false;
 		}
 
-		$field = wp_cache_get( $field_id, 'bp_xprofile_fields' );
-		if ( false === $field ) {
-			$bp = buddypress();
-
-			$field = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
-
-			if ( ! $field ) {
-				return false;
-			}
-
-			wp_cache_add( $field->id, $field, 'bp_xprofile_fields' );
-		}
-
-		$_field = new BP_XProfile_Field();
-		$_field->fill_data( $field );
-
-		return $_field;
+		return new self( $field_id );
 	}
 
 	/**
