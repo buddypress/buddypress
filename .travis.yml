@@ -22,7 +22,6 @@ env:
     - WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
     - WP_VERSION=4.3 BP_TRAVISCI=travis:phpunit
     - WP_VERSION=4.2 BP_TRAVISCI=travis:phpunit
-    - WP_VERSION=4.1 BP_TRAVISCI=travis:phpunit
 
 matrix:
   fast_finish: true
@@ -34,8 +33,6 @@ matrix:
   exclude:
     - php: 7.0
       env: WP_VERSION=4.2 BP_TRAVISCI=travis:phpunit
-    - php: 7.0
-      env: WP_VERSION=4.1 BP_TRAVISCI=travis:phpunit
   allow_failures:
     - php: nightly
 
