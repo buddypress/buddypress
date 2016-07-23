@@ -660,7 +660,7 @@ class BP_Admin {
 				<div class="bp-feature">
 					<h4 class="feature-title"><?php esc_html_e( 'New Navigation API', 'buddypress' ); ?></h4>
 					<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/new-nav-api.png' ); ?>" alt="<?php esc_attr_e( 'Sample code for using the new navigation API', 'buddypress' ); ?>">
-					<p><?php esc_html_e( 'The member and group navigation system has been totally rewritten, making it easier than ever to customize BuddyPress nav items.', 'buddypress' ); ?> <a href="https://buddypress.trac.wordpress.org/changeset/10745"><?php esc_html_e( 'Read the informative commit message.', 'buddypress' ); ?></a></p>
+					<p><?php esc_html_e( 'The member and group navigation system has been totally rewritten, making it easier than ever to customize BuddyPress nav items.', 'buddypress' ); ?> <a href="https://codex.buddypress.org/developer/navigation-api/"><?php esc_html_e( 'Read the informative commit message.', 'buddypress' ); ?></a></p>
 				</div>
 
 				<div class="bp-feature opposite">
