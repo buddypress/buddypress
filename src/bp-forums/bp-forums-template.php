@@ -1451,21 +1451,16 @@ function bp_the_topic_total_post_count() {
 	function bp_get_the_topic_total_post_count() {
 		global $forum_template;
 
-		if ( $forum_template->topic->topic_posts == 1 ) {
+		$output = _n( '%d post', '%d posts', (int) $forum_template->topic->topic_posts, 'buddypress' );
 
-			/**
-			 * Filters a 'x posts' string with the number of posts in the current topic.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param string $value 'X posts' string value for the current topic.
-			 */
-			return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( __( '%d post', 'buddypress' ), $forum_template->topic->topic_posts ) );
-		} else {
-
-			/** This filter is documented in bp-forums/bp-forums-template.php */
-			return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( __( '%d posts', 'buddypress' ), $forum_template->topic->topic_posts ) );
-		}
+		/**
+		 * Filters a 'x posts' string with the number of posts in the current topic.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value 'X posts' string value for the current topic.
+		 */
+		return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( $output, $forum_template->topic->topic_posts ) );
 	}
 
 /**
