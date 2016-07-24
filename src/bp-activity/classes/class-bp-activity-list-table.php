@@ -428,8 +428,26 @@ class BP_Activity_List_Table extends WP_List_Table {
 				<option value="" <?php selected( ! $selected ); ?>><?php _e( 'View all actions', 'buddypress' ); ?></option>
 
 				<?php foreach ( $activity_actions as $component => $actions ) : ?>
+					<?php
+					// Older avatar activity items use 'profile' for component. See r4273.
+					if ( $component === 'profile' ) {
+						$component = 'xprofile';
+					}
 
-					<optgroup label="<?php echo ucfirst( $component ); ?>">
+					if ( bp_is_active( $component ) ) {
+						if ( $component === 'xprofile' ) {
+							$component_name = buddypress()->profile->name;
+						} else {
+							$component_name = buddypress()->$component->name;
+						}
+
+					} else {
+						// Prevent warnings by other plugins if a component is disabled but the activity type has been registered.
+						$component_name = ucfirst( $component );
+					}
+					?>
+
+					<optgroup label="<?php echo esc_html( $component_name ); ?>">
 
 						<?php foreach ( $actions as $action_key => $action_values ) : ?>
 
