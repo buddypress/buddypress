@@ -26,7 +26,7 @@ class BP_Tests_Activity_Filters extends BP_UnitTestCase {
 
 		// mentions normal text should be replaced
 		$at_name_in_text = sprintf( 'Hello @%s', $u1_mention_name );
-		$at_name_in_text_final = "Hello <a href='" . $u1_domain . "' rel='nofollow'>@$u1_mention_name</a>";
+		$at_name_in_text_final = "Hello <a class='bp-suggestions-mention' href='" . $u1_domain . "' rel='nofollow'>@$u1_mention_name</a>";
 		$this->assertEquals( $at_name_in_text_final, bp_activity_at_name_filter( $at_name_in_text ) );
 
 		// mentions inside links sholudn't be replaced
