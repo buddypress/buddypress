@@ -310,14 +310,11 @@ if ( ! class_exists( 'BPDB' ) ) :
 		 *
 		 * @since 1.1.0
 		 *
-		 * @see WPDB::escape_deep() for description of parameters and
-		 *      return values.
-		 *
 		 * @param mixed $data See {@link WPDB::escape_deep()}.
 		 * @return mixed $data See {@link WPDB::escape_deep()}.
 		 */
 		function escape_deep( $data ) {
-			return $this->escape( $data );
+			return esc_sql( $data );
 		}
 	}
 endif; // End class_exists( 'BPDB' ).
