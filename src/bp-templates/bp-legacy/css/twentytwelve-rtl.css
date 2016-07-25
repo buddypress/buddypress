@@ -949,7 +949,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	.single-item.groups #buddypress div#item-header #item-actions {
 		order: 3;
 	}
-	.single-item.groups #buddypress div#item-header #item-actions h3 {
+	.single-item.groups #buddypress div#item-header #item-actions h2 {
 		border-bottom: 1px solid #eaeaea;
 		text-align: center;
 	}
@@ -991,7 +991,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	padding-right: 0;
 }
 
-.single-item.groups #buddypress div#item-header div#item-actions h3 {
+.single-item.groups #buddypress div#item-header div#item-actions h2 {
 	font-size: 14px;
 	font-size: 1rem;
 	padding: 0.2em;
@@ -1043,7 +1043,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		padding-top: 0 !important;
 		width: auto;
 	}
-	.single-item.groups #buddypress #cover-image-container #item-header-cover-image #item-actions h3 {
+	.single-item.groups #buddypress #cover-image-container #item-header-cover-image #item-actions h2 {
 		border-bottom: 1px solid #eaeaea;
 	}
 }

@@ -1303,7 +1303,7 @@ body.page-template-onecolumn-page {
 				#item-actions {
 					order: 3;
 
-					h3 {
+					h2 {
 						border-bottom: 1px solid $border-light;
 						text-align: center;
 					}
@@ -1339,7 +1339,7 @@ body.page-template-onecolumn-page {
 					padding-left: 0;
 				}
 
-				h3 {
+				h2 {
 					@include font-size(14);
 					font-weight: bold;
 					line-height: 1.4;
@@ -1411,7 +1411,7 @@ body.page-template-onecolumn-page {
 						padding-top: 0 !important;
 						width: auto;
 
-						h3 {border-bottom: 1px solid $border-light;}
+						h2 {border-bottom: 1px solid $border-light;}
 					}
 				} // @media
 			}

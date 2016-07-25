@@ -1413,7 +1413,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				#item-actions {
 					order: 3;
 
-					h3 {
+					h2 {
 						border-bottom: 1px solid $border-light;
 						text-align: center;
 					}
@@ -1449,7 +1449,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 					padding-left: 0;
 				}
 
-				h3 {
+				h2 {
 					@include font-size(14);
 					font-weight: bold;
 					line-height: 1.4;
@@ -1521,7 +1521,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 						padding-top: 0 !important;
 						width: auto;
 
-						h3 {border-bottom: 1px solid $border-light;}
+						h2 {border-bottom: 1px solid $border-light;}
 					}
 				} // @media
 			}

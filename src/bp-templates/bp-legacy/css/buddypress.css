@@ -1243,6 +1243,7 @@ a.bp-title-button {
 	text-align: right;
 	width: 20%;
 }
+#buddypress div#item-header div#item-actions h2,
 #buddypress div#item-header div#item-actions h3 {
 	margin: 0 0 5px 0;
 }
