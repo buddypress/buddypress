@@ -1342,7 +1342,7 @@ body.buddypress:not(.page-template-sidebar-page) #content .entry-content {
 	* @subsection 6.2.2.2 - Extended Profiles
 	*-------------------------------------------
 	*/
-.bp-user #buddypress .profile .bp-widget h4 {
+.bp-user #buddypress .profile .bp-widget h2 {
 	background: #6f6f6f;
 	color: #fff;
 	margin-bottom: 0;

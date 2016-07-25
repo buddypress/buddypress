@@ -1557,7 +1557,7 @@ a.message-action-star:hover {
 3.10 - Extended Profiles
 --------------------------------------------------------------*/
 
-#buddypress div.profile h4 {
+#buddypress div.profile h2 {
 	margin-bottom: auto;
 	margin-top: 15px;
 }

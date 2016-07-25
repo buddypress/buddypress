@@ -996,7 +996,7 @@ body.activity-permalink #buddypress {
 	* 6.2.2.2 - Extended Profiles
 	*------------------------------
 	*/
-#buddypress .profile .bp-widget h4 {
+#buddypress .profile .bp-widget h2 {
 	background: #999;
 	color: #fff;
 	padding: 0.4em 0.2em;
