@@ -8,7 +8,7 @@
 
 ?>
 
-<h4><?php _e( 'Change Cover Image', 'buddypress' ); ?></h4>
+<h2><?php _e( 'Change Cover Image', 'buddypress' ); ?></h2>
 
 <?php
 
