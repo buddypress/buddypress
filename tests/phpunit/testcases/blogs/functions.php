@@ -1016,6 +1016,100 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->set_current_user( $old_user );
 	}
 
+	/**
+	 * @group bp_blogs_remove_blog
+	 */
+	public function test_bp_blogs_remove_blog() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$reset_post = $_POST;
+		$old_user = get_current_user_id();
+
+		// Simulate a new "BuddyPress generated" blog
+		$_POST['blog_public'] = 1;
+
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+
+		// Create three sites.
+		$b = $this->factory->blog->create( array(
+			'user_id' => $u
+		) );
+
+		$activity = bp_activity_get( array(
+			'filter' => array(
+				'object'     => 'blogs',
+				'action'     => 'new_blog',
+				'primary_id' => $b,
+			),
+		) );
+
+		$new_blog = array_map( 'intval', wp_list_pluck( $activity['activities'], 'item_id', 'id' ) );
+		$this->assertSame( $b, reset( $new_blog ) );
+
+		// Removing the blog should delete the activity and the blog association.
+		wpmu_delete_blog( $b );
+
+		$deleted = bp_activity_get( array(
+			'in' => array_keys( $new_blog ),
+		) );
+
+		$this->assertEmpty( $deleted['activities'] );
+		$this->assertEmpty( BP_Blogs_Blog::is_recorded( $b ) );
+
+		$_POST = $reset_post;
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @group bp_blogs_remove_blog_for_user
+	 */
+	public function test_bp_blogs_remove_blog_for_user_is_contributor() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$reset_post = $_POST;
+		$old_user = get_current_user_id();
+
+		// Simulate a new "BuddyPress generated" blog
+		$_POST['blog_public'] = 1;
+
+		$u = $this->factory->user->create();
+		$this->set_current_user( $u );
+
+		// Create three sites.
+		$b = $this->factory->blog->create( array(
+			'user_id' => $u
+		) );
+
+		$u2 = $this->factory->user->create();
+		add_user_to_blog( $b, $u2, 'contributor' );
+
+		$u2_blogs = BP_Blogs_Blog::get_blog_ids_for_user( $u2 );
+		$this->assertContains( $b, $u2_blogs, 'The user should be associated to the blog as he is a contributor' );
+
+		remove_user_from_blog( $u2, $b );
+		$u2_blogs = BP_Blogs_Blog::get_blog_ids_for_user( $u2 );
+		$this->assertNotContains( $b, $u2_blogs, 'The user should not be associated anymore to the blog' );
+
+		$activity = bp_activity_get( array(
+			'filter' => array(
+				'object'     => 'blogs',
+				'action'     => 'new_blog',
+				'primary_id' => $b,
+			),
+		) );
+
+		$new_blog = array_map( 'intval', wp_list_pluck( $activity['activities'], 'item_id', 'id' ) );
+		$this->assertSame( $b, reset( $new_blog ), 'The new_blog activity should not be deleted when a contributor is removed from the blog.' );
+
+		$_POST = $reset_post;
+		$this->set_current_user( $old_user );
+	}
+
 	protected function activity_exists_for_post( $post_id ) {
 		$a = bp_activity_get( array(
 			'component' => buddypress()->blogs->id,

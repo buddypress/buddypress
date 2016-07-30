@@ -639,15 +639,25 @@ add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity_on_site_creation', 10
  *
  * @param int $blog_id Site ID.
  */
-function bp_blogs_delete_new_blog_activity_for_site( $blog_id ) {
-	bp_blogs_delete_activity( array(
+function bp_blogs_delete_new_blog_activity_for_site( $blog_id, $user_id = 0 ) {
+	$args = array(
 		'item_id'   => $blog_id,
 		'component' => buddypress()->blogs->id,
 		'type'      => 'new_blog'
-	) );
+	);
+
+	/**
+	 * In the case a user is removed, make sure he is the author of the 'new_blog' activity
+	 * when trying to delete it.
+	 */
+	if ( ! empty( $user_id ) ) {
+		$args['user_id'] = $user_id;
+	}
+
+	bp_blogs_delete_activity( $args );
 }
-add_action( 'bp_blogs_remove_blog',          'bp_blogs_delete_new_blog_activity_for_site' );
-add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_delete_new_blog_activity_for_site' );
+add_action( 'bp_blogs_remove_blog',          'bp_blogs_delete_new_blog_activity_for_site', 10, 1 );
+add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_delete_new_blog_activity_for_site', 10, 2 );
 
 /**
  * Delete all 'blogs' activity items for a site when the site is deleted.
