@@ -920,19 +920,6 @@ function bp_blogs_remove_blog_for_user( $user_id, $blog_id ) {
 	BP_Blogs_Blog::delete_blog_for_user( $blog_id, $user_id );
 
 	/**
-	 * Delete activity stream item only if the Activity component is active
-	 *
-	 * @see https://buddypress.trac.wordpress.org/ticket/6937
-	 */
-	if ( bp_is_active( 'activity' ) ) {
-		bp_blogs_delete_activity( array(
-			'item_id'   => $blog_id,
-			'component' => buddypress()->blogs->id,
-			'type'      => 'new_blog'
-		) );
-	}
-
-	/**
 	 * Fires after a blog has been removed from the tracker for a specific user.
 	 *
 	 * @since 1.0.0
