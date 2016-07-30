@@ -721,4 +721,25 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$result      = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
 		$this->assertContains( $link_color, $result );
 	}
+
+	/**
+	 * @group bp_core_add_page_mappings
+	 */
+	public function test_bp_core_add_page_mappings() {
+		$bp = buddypress();
+		$reset_bp_pages = $bp->pages;
+
+		$expected = array( 'activity', 'groups', 'members' );
+		if ( is_multisite() ) {
+			$expected = array( 'activity', 'blogs', 'groups', 'members' );
+		}
+
+		bp_core_add_page_mappings( $bp->active_components );
+		$bp_pages = array_keys( bp_get_option( 'bp-pages' ) );
+		sort( $bp_pages );
+
+		$this->assertEquals( $expected, $bp_pages );
+
+		$bp->pages = $reset_bp_pages;
+	}
 }

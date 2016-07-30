@@ -208,11 +208,14 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$missing_pages = array();
 		foreach( buddypress()->admin->notices as $notice ) {
+			if ( false !== strpos( $notice['message'], 'BuddyPress is almost ready' ) ) {
+				continue;
+			}
+
 			preg_match_all( '/<strong>(.+?)<\/strong>/', $notice['message'], $missing_pages );
 		}
 
-		$this->assertNotContains( 'Register', $missing_pages[1] );
-		$this->assertNotContains( 'Activate', $missing_pages[1] );
+		$this->assertEmpty( $missing_pages );
 
 		// Reset buddypress() vars
 		$bp->pages = $reset_bp_pages;

@@ -633,7 +633,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	$page_titles = array(
 		'activity' => _x( 'Activity', 'Page title for the Activity directory.',       'buddypress' ),
 		'groups'   => _x( 'Groups',   'Page title for the Groups directory.',         'buddypress' ),
-		'sites'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
+		'blogs'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
 		'members'  => _x( 'Members',  'Page title for the Members directory.',        'buddypress' ),
 		'activate' => _x( 'Activate', 'Page title for the user activation screen.',   'buddypress' ),
 		'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
@@ -657,8 +657,8 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	}
 
 	// No need for a Sites directory unless we're on multisite.
-	if ( ! is_multisite() && isset( $pages_to_create['sites'] ) ) {
-		unset( $pages_to_create['sites'] );
+	if ( ! is_multisite() && isset( $pages_to_create['blogs'] ) ) {
+		unset( $pages_to_create['blogs'] );
 	}
 
 	// Members must always have a page, no matter what.
