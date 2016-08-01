@@ -859,36 +859,6 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 		}
 	}
 
-	// Populate group membership array from cache.
-	$groups = array();
-	foreach ( $membership_ids as $membership_id ) {
-		$membership = wp_cache_get( $membership_id, 'bp_groups_memberships' );
-
-		// Sanity check.
-		if ( ! isset( $membership->group_id ) ) {
-			continue;
-		}
-
-		$group_id = (int) $membership->group_id;
-
-		$groups[ $group_id ] = $membership;
-	}
-
-	// Normalize group data.
-	$int_keys  = array( 'id', 'group_id', 'user_id', 'inviter_id' );
-	$bool_keys = array( 'is_admin', 'is_mod', 'is_confirmed', 'is_banned', 'invite_sent' );
-	foreach ( $groups as &$group ) {
-		// Integer values.
-		foreach ( $int_keys as $index ) {
-			$group->{$index} = intval( $group->{$index} );
-		}
-
-		// Boolean values.
-		foreach ( $bool_keys as $index ) {
-			$group->{$index} = (bool) $group->{$index};
-		}
-	}
-
 	// Assemble filter array for use in `wp_list_filter()`.
 	$filters = wp_array_slice_assoc( $r, array( 'is_confirmed', 'is_banned', 'is_admin', 'is_mod', 'invite_sent' ) );
 	foreach ( $filters as $filter_name => $filter_value ) {
@@ -897,8 +867,37 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 		}
 	}
 
-	if ( ! empty( $filters ) ) {
-		$groups = wp_list_filter( $groups, $filters );
+	// Populate group membership array from cache, and normalize.
+	$groups    = array();
+	$int_keys  = array( 'id', 'group_id', 'user_id', 'inviter_id' );
+	$bool_keys = array( 'is_admin', 'is_mod', 'is_confirmed', 'is_banned', 'invite_sent' );
+	foreach ( $membership_ids as $membership_id ) {
+		$membership = wp_cache_get( $membership_id, 'bp_groups_memberships' );
+
+		// Sanity check.
+		if ( ! isset( $membership->group_id ) ) {
+			continue;
+		}
+
+		// Integer values.
+		foreach ( $int_keys as $index ) {
+			$membership->{$index} = intval( $membership->{$index} );
+		}
+
+		// Boolean values.
+		foreach ( $bool_keys as $index ) {
+			$membership->{$index} = (bool) $membership->{$index};
+		}
+
+		foreach ( $filters as $filter_name => $filter_value ) {
+			if ( ! isset( $membership->{$filter_name} ) || $filter_value != $membership->{$filter_name} ) {
+				continue 2;
+			}
+		}
+
+		$group_id = (int) $membership->group_id;
+
+		$groups[ $group_id ] = $membership;
 	}
 
 	// By default, results are ordered by membership id.
