@@ -6,6 +6,10 @@ sudo: false
 
 language: php
 
+cache:
+  directories:
+    node_modules
+
 php:
     - 5.2
     - 5.3
