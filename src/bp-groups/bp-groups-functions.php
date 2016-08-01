@@ -875,14 +875,16 @@ function bp_get_user_groups( $user_id, $args = array() ) {
 	}
 
 	// Normalize group data.
+	$int_keys  = array( 'id', 'group_id', 'user_id', 'inviter_id' );
+	$bool_keys = array( 'is_admin', 'is_mod', 'is_confirmed', 'is_banned', 'invite_sent' );
 	foreach ( $groups as &$group ) {
 		// Integer values.
-		foreach ( array( 'id', 'group_id', 'user_id', 'inviter_id' ) as $index ) {
+		foreach ( $int_keys as $index ) {
 			$group->{$index} = intval( $group->{$index} );
 		}
 
 		// Boolean values.
-		foreach ( array( 'is_admin', 'is_mod', 'is_confirmed', 'is_banned', 'invite_sent' ) as $index ) {
+		foreach ( $bool_keys as $index ) {
 			$group->{$index} = (bool) $group->{$index};
 		}
 	}
