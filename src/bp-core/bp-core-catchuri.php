@@ -698,16 +698,18 @@ function bp_core_no_access( $args = '' ) {
 }
 
 /**
- * Add an error message to wp-login.php.
- *
- * Hooks into the "bpnoaccess" action defined in bp_core_no_access().
+ * Add a custom BuddyPress no access error message to wp-login.php.
  *
  * @since 1.5.0
+ * @since 2.7.0 Hook moved to 'wp_login_errors' made available since WP 3.6.0.
  *
- * @global string $error Error message to pass to wp-login.php.
+ * @param  WP_Error $errors Current error container.
+ * @return WP_Error
  */
-function bp_core_no_access_wp_login_error() {
-	global $error;
+function bp_core_no_access_wp_login_error( $errors ) {
+	if ( empty( $_GET['action'] ) || 'bpnoaccess' !== $_GET['action'] ) {
+		return $errors;
+	}
 
 	/**
 	 * Filters the error message for wp-login.php when needing to log in before accessing.
@@ -717,12 +719,27 @@ function bp_core_no_access_wp_login_error() {
 	 * @param string $value Error message to display.
 	 * @param string $value URL to redirect user to after successful login.
 	 */
-	$error = apply_filters( 'bp_wp_login_error', __( 'You must log in to access the page you requested.', 'buddypress' ), $_REQUEST['redirect_to'] );
+	$message = apply_filters( 'bp_wp_login_error', __( 'You must log in to access the page you requested.', 'buddypress' ), $_REQUEST['redirect_to'] );
 
-	// Shake shake shake!.
-	add_action( 'login_head', 'wp_shake_js', 12 );
+	$errors->add( 'bp_no_access', $message );
+
+	return $errors;
 }
-add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
+add_filter( 'wp_login_errors', 'bp_core_no_access_wp_login_error' );
+
+/**
+ * Add our custom error code to WP login's shake error codes.
+ *
+ * @since 2.7.0
+ *
+ * @param  array $codes Array of WP error codes.
+ * @return array
+ */
+function bp_core_login_filter_shake_codes( $codes ) {
+	$codes[] = 'bp_no_access';
+	return $codes;
+}
+add_filter( 'shake_error_codes', 'bp_core_login_filter_shake_codes' );
 
 /**
  * Canonicalize BuddyPress URLs.
