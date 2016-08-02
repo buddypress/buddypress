@@ -57,7 +57,6 @@ add_action( 'bp_loaded', 'bp_setup_components',         2  );
 add_action( 'bp_loaded', 'bp_include',                  4  );
 add_action( 'bp_loaded', 'bp_setup_cache_groups',       5  );
 add_action( 'bp_loaded', 'bp_setup_widgets',            6  );
-add_action( 'bp_loaded', 'bp_register_member_types',    8  );
 add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
 add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
 
@@ -68,9 +67,9 @@ add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
  * The load order helps to execute code at the correct time.
  *                                                   v---Load order
  */
+add_action( 'bp_init', 'bp_register_post_types',     2  );
+add_action( 'bp_init', 'bp_register_taxonomies',     2  );
 add_action( 'bp_init', 'bp_core_set_uri_globals',    2  );
-add_action( 'bp_init', 'bp_register_post_types',     3  );
-add_action( 'bp_init', 'bp_register_taxonomies',     3  );
 add_action( 'bp_init', 'bp_setup_globals',           4  );
 add_action( 'bp_init', 'bp_setup_canonical_stack',   5  );
 add_action( 'bp_init', 'bp_setup_nav',               6  );
@@ -79,6 +78,11 @@ add_action( 'bp_init', 'bp_core_load_admin_bar_css', 12 );
 add_action( 'bp_init', 'bp_add_rewrite_tags',        20 );
 add_action( 'bp_init', 'bp_add_rewrite_rules',       30 );
 add_action( 'bp_init', 'bp_add_permastructs',        40 );
+
+/**
+ * The bp_register_taxonomies hook - Attached to 'bp_init' @ priority 2 above.
+ */
+add_action( 'bp_register_taxonomies', 'bp_register_member_types' );
 
 /**
  * The bp_template_redirect hook - Attached to 'template_redirect' above.
