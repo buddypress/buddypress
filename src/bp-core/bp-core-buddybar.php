@@ -152,7 +152,7 @@ function bp_core_create_nav_link( $args = '', $component = 'members' ) {
 	);
 
 	// Add the item to the nav.
-	$retval = buddypress()->{$component}->nav->add_nav( $nav_item );
+	buddypress()->{$component}->nav->add_nav( $nav_item );
 
 	/**
 	 * Fires after a link is added to the main BuddyPress nav.
@@ -167,7 +167,7 @@ function bp_core_create_nav_link( $args = '', $component = 'members' ) {
 	 */
 	do_action( 'bp_core_create_nav_link', $r, $args, $defaults, $component );
 
-	return $retval;
+	return $nav_item;
 }
 
 /**
@@ -536,7 +536,9 @@ function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 		'show_in_admin_bar' => (bool) $r['show_in_admin_bar'],
 	);
 
-	return buddypress()->{$component}->nav->add_nav( $subnav_item );
+	buddypress()->{$component}->nav->add_nav( $subnav_item );
+
+	return $subnav_item;
 }
 
 /**
