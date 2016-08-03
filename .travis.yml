@@ -6,10 +6,10 @@ sudo: false
 
 language: php
 
-cache:
-  apt: true
-  directories:
-    - /tmp/wordpress/src/wp-content/plugins/buddypress/node_modules
+#cache:
+#  apt: true
+#  directories:
+#    - /tmp/wordpress/src/wp-content/plugins/buddypress/node_modules
 
 php:
   - 5.2
