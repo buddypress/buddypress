@@ -37,9 +37,9 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 	font-weight: bold;
 }
 .bp-groups-settings-section label {
-	clear: left;
+	clear: right;
 	display: block;
-	float: left;
+	float: right;
 	vertical-align: middle;
 }
 #bp-groups-permalink-box {
