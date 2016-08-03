@@ -28,15 +28,19 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 #bp-groups-new-members-list {
 	margin: 0;
 }
-#bp_group_settings legend {
-	margin: 10px 0;
-	font-weight: bold;
-}
-#bp_group_settings ul {
-	margin: 0;
-}
 .bp-groups-settings-section {
 	margin-top: 10px;
+	line-height: 2em;
+}
+.bp-groups-settings-section legend {
+	margin-top: 10px;
+	font-weight: bold;
+}
+.bp-groups-settings-section label {
+	clear: left;
+	display: block;
+	float: left;
+	vertical-align: middle;
 }
 #bp-groups-permalink-box {
 	line-height: 24px;
@@ -83,4 +87,10 @@ table.bp-group-members .uname-column {
 table.bp-group-members .urole-column {
 	padding-left: 20px;
 	padding-right: 20px;
+}
+
+@media screen and (max-width: 782px) {
+	.bp-groups-settings-section label {
+		margin: 0.25em 0;
+	}
 }
