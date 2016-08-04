@@ -135,6 +135,7 @@ TABLE OF CONTENTS:
 
 .index_page_bp-about .bp-feature p,
 .dashboard_page_bp-about .bp-feature p {
+	float: left;
 	font-size: 1.15em;
 	width: 47%;
 }
