@@ -21,10 +21,11 @@
   } ],
   "support": {
     "forum": "https://buddypress.org/support/",
-    "irc": "irc://irc.freenode.net/buddypress-dev",
+    "docs": "https://codex.buddypress.org/",
     "issues": "https://buddypress.trac.wordpress.org/",
-    "wiki": "https://codex.buddypress.org/",
-    "source": "https://buddypress.trac.wordpress.org/browser"
+    "rss": "https://buddypress.org/feed/",
+    "source": "https://buddypress.trac.wordpress.org/browser/",
+    "wiki": "https://codex.buddypress.org/"
   },
   "require": {
     "composer/installers": "~1.0",
