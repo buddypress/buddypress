@@ -35,8 +35,8 @@ matrix:
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
     - php: 7.0
       env: WP_VERSION=master BP_TRAVISCI=travis:grunt
-    - php: 7.0
-      env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
+    - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
+      php: 7.0
     - php: hhvm
       sudo: required
       dist: trusty
@@ -53,7 +53,7 @@ matrix:
   allow_failures:
     - php: nightly
     - php: hhvm
-    - env: BP_TRAVISCI=travis:codecoverage WP_VERSION=master
+    - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
 
 # before_install: Failures in this section will result in build status 'errored'
 before_install:
