@@ -234,7 +234,7 @@ module.exports = function( grunt ) {
 			find_phpunit: {
 				command: 'which phpunit',
 				stdout: false,
-				callback: function (error, stdout, stderr) {
+				callback: function (error, stdout) {
 					grunt.config.set( 'BP_PHPUNIT', stdout );
 				}
 			}
