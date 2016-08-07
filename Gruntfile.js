@@ -213,6 +213,11 @@ module.exports = function( grunt ) {
 			'multisite': {
 				cmd: 'phpunit',
 				args: ['-c', 'tests/phpunit/multisite.xml']
+			},
+			// Requires PHP 7+
+			'codecoverage': {
+				cmd: 'phpdbg',
+				args: ['-qrr', 'phpunit', '-c', 'codecoverage.xml', '--coverage-clover', 'clover.xml' ]
 			}
 		},
 		exec: {
@@ -274,13 +279,14 @@ module.exports = function( grunt ) {
 		}, this.async() );
 	});
 
-	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit'] );
+	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit:default', 'phpunit:multisite'] );
 
 	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [ 'jsvalidate:src', 'jshint' ] );
 
 	// Travis CI Tasks.
 	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', [ 'build' ]);
 	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
+	grunt.registerTask( 'travis:codecoverage', 'Runs PHPUnit tasks with code-coverage generation. Requires PHP7+.', [ 'phpunit:codecoverage' ]);
 
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );

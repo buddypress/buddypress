@@ -35,6 +35,8 @@ matrix:
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
     - php: 7.0
       env: WP_VERSION=master BP_TRAVISCI=travis:grunt
+    - php: 7.0
+      env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
     - php: hhvm
       sudo: required
       dist: trusty
@@ -51,6 +53,7 @@ matrix:
   allow_failures:
     - php: nightly
     - php: hhvm
+    - env: BP_TRAVISCI=travis:codecoverage WP_VERSION=master
 
 # before_install: Failures in this section will result in build status 'errored'
 before_install:
@@ -62,6 +65,8 @@ before_install:
   - plugin_dir=$WP_DEVELOP_DIR/src/wp-content/plugins/$plugin_slug
   - cd ..
   - mv $plugin_slug $plugin_dir
+  # Disable xdebug if running codecoverage (use phpdbg instead).
+  - if [[ "$BP_TRAVISCI" == "travis:codecoverage" ]] ; then phpenv config-rm xdebug.ini; fi
   # set up tests config
   - cd $WP_DEVELOP_DIR
   - echo $WP_DEVELOP_DIR
@@ -89,6 +94,12 @@ before_script:
 
 # Run tests
 script: grunt $BP_TRAVISCI
+
++after_script:
+- |
+  if [[ "$BP_TRAVISCI" == "travis:codecoverage" ]] ; then
+    bash <(curl -s https://codecov.io/bash)
+  fi
 
 notifications:
   email: false
