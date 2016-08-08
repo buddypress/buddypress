@@ -1,0 +1,23 @@
+<phpunit
+	bootstrap="bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite>
+			<directory suffix=".php">./testcases/</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../../src/</directory>
+			<file>../../bp-loader.php</file>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-clover" target="../../clover.xml"/>
+	</logging>
+</phpunit>

@@ -214,10 +214,9 @@ module.exports = function( grunt ) {
 				cmd: 'phpunit',
 				args: ['-c', 'tests/phpunit/multisite.xml']
 			},
-			// Requires PHP 7+
 			'codecoverage': {
-				cmd: 'phpdbg',
-				args: ['-qrr', grunt.config.get( 'BP_PHPUNIT' ), '-c', 'codecoverage.xml', '--coverage-clover', 'clover.xml' ]
+				cmd: 'phpunit',
+				args: ['-c', 'tests/phpunit/codecoverage.xml' ]
 			}
 		},
 		exec: {
@@ -230,13 +229,6 @@ module.exports = function( grunt ) {
 				command: 'svn export --force https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
 				cwd: BUILD_DIR,
 				stdout: false
-			},
-			find_phpunit: {
-				command: 'which phpunit',
-				stdout: false,
-				callback: function (error, stdout) {
-					grunt.config.set( 'BP_PHPUNIT', stdout );
-				}
 			}
 		},
 		jsvalidate:{
@@ -293,7 +285,7 @@ module.exports = function( grunt ) {
 	// Travis CI Tasks.
 	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', [ 'build' ]);
 	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
-	grunt.registerTask( 'travis:codecoverage', 'Runs PHPUnit tasks with code-coverage generation. Requires PHP7+.', [ 'exec:find_phpunit', 'phpunit:codecoverage' ]);
+	grunt.registerTask( 'travis:codecoverage', 'Runs PHPUnit tasks with code-coverage generation.', ['phpunit:codecoverage'] );
 
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );
