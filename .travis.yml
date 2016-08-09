@@ -95,10 +95,10 @@ before_script:
 # Run tests
 script: grunt $BP_TRAVISCI
 
-+after_script:
+after_script:
 - |
   if [[ "$BP_TRAVISCI" == "travis:codecoverage" ]] ; then
-    bash <(curl -s https://codecov.io/bash)
+    bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
   fi
 
 notifications:
