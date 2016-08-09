@@ -13,6 +13,31 @@
 	</ul>
 </div><!-- .item-list-tabs -->
 
+<?php /* Add headings before respective forms. */ ?>
+
+<?php if ( bp_is_group_admin_screen( 'edit-details' ) ) : ?>
+	<h2 class="bp-screen-reader-text"><?php _e( 'Manage Group Details', 'buddypress' ); ?></h2>
+
+<?php elseif ( bp_is_group_admin_screen( 'group-settings' ) ) : ?>
+	<h2 class="bp-screen-reader-text"><?php _e( 'Manage Group Settings', 'buddypress' ); ?></h2>
+
+<?php elseif ( bp_is_group_admin_screen( 'manage-members' ) ) : ?>
+	<h2 class="bp-screen-reader-text"><?php _e( 'Manage Members', 'buddypress' ); ?></h2>
+
+<?php elseif ( bp_is_group_admin_screen( 'group-avatar' ) ) : ?>
+	<h2 class="bp-screen-reader-text"><?php _e( 'Group Avatar', 'buddypress' ); ?></h2>
+
+<?php elseif ( bp_is_group_admin_screen( 'group-cover-image' ) ) : ?>
+	<h2><?php _e( 'Cover Image', 'buddypress' ); ?></h2>
+
+<?php elseif ( bp_is_group_admin_screen( 'membership-requests' ) ) : ?>
+	<h2 class="bp-screen-reader-text"><?php _e( 'Manage Membership Requests', 'buddypress' ); ?></h2>
+
+<?php elseif ( bp_is_group_admin_screen( 'delete-group' ) ) : ?>
+	<h2 class="bp-screen-reader-text"><?php _e( 'Delete Group', 'buddypress' ); ?></h2>
+
+<?php endif; ?>
+
 <form action="<?php bp_group_admin_form_action(); ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data">
 
 <?php
@@ -226,8 +251,6 @@ do_action( 'bp_before_group_admin_content' ); ?>
 
 <?php /* Group Cover image Settings */ ?>
 <?php if ( bp_is_group_admin_screen( 'group-cover-image' ) ) : ?>
-
-	<h4><?php _e( 'Change Cover Image', 'buddypress' ); ?></h4>
 
 	<?php
 
