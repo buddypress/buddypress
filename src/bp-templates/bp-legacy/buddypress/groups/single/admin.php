@@ -289,7 +289,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 	do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 	<div class="bp-widget">
-		<h4><?php _e( 'Administrators', 'buddypress' ); ?></h4>
+		<h3><?php _e( 'Administrators', 'buddypress' ); ?></h3>
 
 		<?php if ( bp_has_members( '&include='. bp_group_admin_ids() ) ) : ?>
 
@@ -317,7 +317,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 
 	<?php if ( bp_group_has_moderators() ) : ?>
 		<div class="bp-widget">
-			<h4><?php _e( 'Moderators', 'buddypress' ); ?></h4>
+			<h3><?php _e( 'Moderators', 'buddypress' ); ?></h3>
 
 			<?php if ( bp_has_members( '&include=' . bp_group_mod_ids() ) ) : ?>
 				<ul id="mods-list" class="item-list single-line">
@@ -343,7 +343,7 @@ do_action( 'bp_before_group_admin_content' ); ?>
 
 
 	<div class="bp-widget">
-		<h4><?php _e( "Members", 'buddypress' ); ?></h4>
+		<h3><?php _e( "Members", 'buddypress' ); ?></h3>
 
 		<?php if ( bp_group_has_members( 'per_page=15&exclude_banned=0' ) ) : ?>
 

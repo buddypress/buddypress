@@ -1060,7 +1060,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @subsection 6.2.1.1 - Group Management
 *-----------------------------------------
 */
-.groups #group-settings-form h4 {
+.groups #group-settings-form h3 {
 	background: #555;
 	color: #fff;
 	padding: 0.2em;

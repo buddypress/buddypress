@@ -813,7 +813,7 @@ body.activity-permalink #buddypress {
 }
 
 /* Manage Members */
-.groups.manage-members #group-settings-form h4 {
+.groups.manage-members #group-settings-form h3 {
 	margin-top: 40px;
 }
 
