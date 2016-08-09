@@ -20,7 +20,7 @@
 
 	<?php if ( bp_thread_has_messages() ) : ?>
 
-		<h3 id="message-subject"><?php bp_the_thread_subject(); ?></h3>
+		<h2 id="message-subject"><?php bp_the_thread_subject(); ?></h2>
 
 		<p id="message-recipients">
 			<span class="highlight">
