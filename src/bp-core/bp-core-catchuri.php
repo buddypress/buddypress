@@ -1015,3 +1015,35 @@ function _bp_maybe_remove_rel_canonical() {
 	}
 }
 add_action( 'wp_head', '_bp_maybe_remove_rel_canonical', 8 );
+
+/**
+ * Stop WordPress performing a DB query for its main loop.
+ *
+ * As of WordPress 4.6, it is possible to bypass the main WP_Query entirely.
+ * This saves us one unnecessary database query! :)
+ *
+ * @since 2.7.0
+ *
+ * @param  null     $retval Current return value for filter.
+ * @param  WP_Query $query  Current WordPress query object.
+ * @return null|array
+ */
+function bp_core_filter_wp_query( $retval, $query ) {
+	if ( ! $query->is_main_query() ) {
+		return $retval;
+	}
+
+	/*
+	 * If not on a BP single page, bail.
+	 * It's too early to use bp_is_single_item() here.
+	 */
+	if ( ! bp_is_group() || ! bp_is_user() || ! bp_is_single_activity() ) {
+		return $retval;
+	}
+
+	$query->found_posts   = 0;
+	$query->max_num_pages = 0;
+
+	// Return something other than a null value to bypass WP_Query.
+	return array();
+}

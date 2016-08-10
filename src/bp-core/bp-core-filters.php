@@ -75,6 +75,9 @@ add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations' );
 // Turn comments off for BuddyPress pages.
 add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
 
+// Prevent DB query for WP's main loop.
+add_filter( 'posts_pre_query', 'bp_core_filter_wp_query', 10, 2 );
+
 /**
  * Prevent specific pages (eg 'Activate') from showing on page listings.
  *
