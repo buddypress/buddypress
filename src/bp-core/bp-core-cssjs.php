@@ -29,15 +29,15 @@ function bp_core_register_common_scripts() {
 	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
 
 		// Legacy.
-		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js",        'dependencies' => array( 'jquery' ), 'footer' => false ),
+		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-widget-members' => array( 'file' => "{$url}widget-members{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js",   'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-cookie'  => array( 'file' => "{$url}jquery-cookie{$min}.js",  'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-scroll-to' => array( 'file' => "{$url}jquery-scroll-to{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
+		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js", ' ' => array( 'jquery' ), 'footer' => false ),
+		'bp-jquery-cookie'  => array( 'file' => "{$url}vendor/jquery-cookie{$min}.js",   'dependencies' => array( 'jquery' ), 'footer' => false ),
+		'bp-jquery-scroll-to' => array( 'file' => "{$url}vendor/jquery-scroll-to{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 
 		// Version 2.1.
-		'jquery-caret' => array( 'file' => "{$url}jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => true ),
-		'jquery-atwho' => array( 'file' => "{$url}jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ), 'footer' => true ),
+		'jquery-caret' => array( 'file' => "{$url}vendor/jquery.caret{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => true ),
+		'jquery-atwho' => array( 'file' => "{$url}vendor/jquery.atwho{$min}.js", 'dependencies' => array( 'jquery', 'jquery-caret' ), 'footer' => true ),
 
 		// Version 2.3.
 		'bp-plupload' => array( 'file' => "{$url}bp-plupload{$min}.js", 'dependencies' => array( 'plupload', 'jquery', 'json2', 'wp-backbone' ), 'footer' => true ),
@@ -48,8 +48,8 @@ function bp_core_register_common_scripts() {
 		'bp-cover-image' => array( 'file' => "{$url}cover-image{$min}.js", 'dependencies' => array(), 'footer' => true ),
 
 		// Version 2.7.
-		'bp-moment'    => array( 'file' => "{$url}moment{$min}.js", 'dependencies' => array(), 'footer' => true ),
-		'bp-livestamp' => array( 'file' => "{$url}livestamp{$min}.js", 'dependencies' => array( 'jquery', 'bp-moment' ), 'footer' => true ),
+		'bp-moment'    => array( 'file' => "{$url}vendor/moment{$min}.js", 'dependencies' => array(), 'footer' => true ),
+		'bp-livestamp' => array( 'file' => "{$url}vendor/livestamp{$min}.js", 'dependencies' => array( 'jquery', 'bp-moment' ), 'footer' => true ),
 	) );
 
 	$version = bp_get_version();
