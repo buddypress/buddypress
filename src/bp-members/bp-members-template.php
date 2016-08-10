@@ -1151,7 +1151,21 @@ function bp_member_profile_data( $args = '' ) {
 		 * @param string|bool $data Profile data if found, otherwise false.
 		 * @param array       $r    Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_member_profile_data', $data, $r );
+		$data = apply_filters( 'bp_get_member_profile_data', $data, $r );
+
+		/**
+		 * Filters the resulting piece of member profile data by field type.
+		 *
+		 * This is a dynamic filter based on field type of the current field requested.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param string|bool $data Profile data if found, otherwise false.
+		 * @param array       $r    Array of parsed arguments.
+		 */
+		$data = apply_filters( 'bp_get_member_profile_data_' . $profile_data[ $r['field'] ]['field_type'], $data, $r );
+
+		return $data;
 	}
 
 /**
