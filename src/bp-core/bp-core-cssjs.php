@@ -31,8 +31,8 @@ function bp_core_register_common_scripts() {
 		// Legacy.
 		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-widget-members' => array( 'file' => "{$url}widget-members{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js", ' ' => array( 'jquery' ), 'footer' => false ),
-		'bp-jquery-cookie'  => array( 'file' => "{$url}vendor/jquery-cookie{$min}.js",   'dependencies' => array( 'jquery' ), 'footer' => false ),
+		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
+		'bp-jquery-cookie'  => array( 'file' => "{$url}vendor/jquery-cookie{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-jquery-scroll-to' => array( 'file' => "{$url}vendor/jquery-scroll-to{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 
 		// Version 2.1.
