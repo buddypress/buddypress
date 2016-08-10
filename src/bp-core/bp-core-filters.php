@@ -574,7 +574,7 @@ function bp_modify_page_title( $title = '', $sep = '&raquo;', $seplocation = 'ri
 	 * @link https://buddypress.trac.wordpress.org/ticket/6107
 	 * @see wp_title()
 	 */
-	$title_tag_compatibility = (bool) ( ! empty( $_wp_theme_features['title-tag'] ) || strstr( $title, $blogname ) );
+	$title_tag_compatibility = (bool) ( ! empty( $_wp_theme_features['title-tag'] ) || ( $blogname && strstr( $title, $blogname ) ) );
 
 	// Append the site title to title parts if theme supports title tag.
 	if ( true === $title_tag_compatibility ) {
