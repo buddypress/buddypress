@@ -868,10 +868,12 @@ class BP_Admin {
 				<a href="https://github.com/ichord/At.js">At.js</a>,
 				<a href="https://bbpress.org">bbPress</a>,
 				<a href="https://github.com/ichord/Caret.js">Caret.js</a>,
-				<a href="http://tedgoas.github.io/Cerberus/">Cerberus</a>,
-				<a href="http://ionicons.com/">Ionicons</a>,
+				<a href="https://tedgoas.github.io/Cerberus/">Cerberus</a>,
+				<a href="https://ionicons.com/">Ionicons</a>,
 				<a href="https://github.com/carhartl/jquery-cookie">jquery.cookie</a>,
+				<a href="https://mattbradley.github.io/livestampjs/">Livestamp.js</a>,
 				<a href="https://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a>,
+				<a href="http://momentjs.com/">Moment.js</a>,
 				<a href="https://wordpress.org">WordPress</a>.
 			</p>
 

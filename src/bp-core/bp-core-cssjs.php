@@ -47,6 +47,9 @@ function bp_core_register_common_scripts() {
 		// Version 2.4.
 		'bp-cover-image' => array( 'file' => "{$url}cover-image{$min}.js", 'dependencies' => array(), 'footer' => true ),
 
+		// Version 2.7.
+		'bp-moment'    => array( 'file' => "{$url}moment{$min}.js", 'dependencies' => array(), 'footer' => true ),
+		'bp-livestamp' => array( 'file' => "{$url}livestamp{$min}.js", 'dependencies' => array( 'jquery', 'bp-moment' ), 'footer' => true ),
 	) );
 
 	$version = bp_get_version();
@@ -460,3 +463,90 @@ function bp_add_cover_image_inline_css( $return = false ) {
 	}
 }
 add_action( 'bp_enqueue_scripts', 'bp_add_cover_image_inline_css', 11 );
+
+/**
+ * Enqueues livestamp.js on BuddyPress pages.
+ *
+ * @since 2.7.0
+ */
+function bp_core_add_livestamp() {
+	if ( ! is_buddypress() ) {
+		return;
+	}
+
+	bp_core_enqueue_livestamp();
+}
+add_action( 'bp_enqueue_scripts', 'bp_core_add_livestamp' );
+
+/**
+ * Enqueue and localize livestamp.js script.
+ *
+ * @since 2.7.0
+ */
+function bp_core_enqueue_livestamp() {
+	// If bp-livestamp isn't enqueued, do it now.
+	if ( wp_script_is( 'bp-livestamp' ) ) {
+		return;
+	}
+
+	wp_enqueue_script( 'bp-livestamp' );
+
+	// We're only localizing the relative time strings for moment.js since that's all we need for now.
+	wp_localize_script( 'bp-livestamp', 'BP_Moment_i18n', array(
+		'future' => __( 'in %s',         'buddypress' ),
+		'past'   => __( '%s ago',        'buddypress' ),
+		's'      => __( 'a few seconds', 'buddypress' ),
+		'm'      => __( 'a minute',      'buddypress' ),
+		'mm'     => __( '%d minutes',    'buddypress' ),
+		'h'      => __( 'an hour',       'buddypress' ),
+		'hh'     => __( '%d hours',      'buddypress' ),
+		'd'      => __( 'a day',         'buddypress' ),
+		'dd'     => __( '%d days',       'buddypress' ),
+		'M'      => __( 'a month',       'buddypress' ),
+		'MM'     => __( '%d months',     'buddypress' ),
+		'y'      => __( 'a year',        'buddypress' ),
+		'yy'     => __( '%d years',      'buddypress' ),
+	) );
+
+	if ( function_exists( 'wp_add_inline_script' ) ) {
+		wp_add_inline_script ( 'bp-livestamp', bp_core_moment_js_config() );
+	} else {
+		add_action( 'wp_footer', '_bp_core_moment_js_config_footer', 20 );
+	}
+}
+
+/**
+ * Return moment.js config.
+ *
+ * @since 2.7.0
+ *
+ * @return string
+ */
+function bp_core_moment_js_config() {
+	$inline_js = <<<EOD
+jQuery(function() {
+	moment.locale( 'bp', {
+		relativeTime : BP_Moment_i18n
+	});
+});
+EOD;
+
+	return $inline_js;
+}
+
+/**
+ * Print moment.js config in page footer.
+ *
+ * Will be removed once we set our minimum version of WP 4.5.
+ *
+ * @since 2.7.0
+ *
+ * @access private
+ */
+function _bp_core_moment_js_config_footer() {
+	if ( ! wp_script_is( 'bp-livestamp' ) ) {
+		return;
+	}
+
+	printf( '<script>%s</script>', bp_core_moment_js_config() );
+}

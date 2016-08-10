@@ -933,7 +933,7 @@ function bp_member_name() {
  *
  * @since 1.2.0
  *
- * @param array $args See {@link bp_get_member_last_active()}.
+ * @param array $args {@see bp_get_member_last_active()}.
  */
 function bp_member_last_active( $args = array() ) {
 	echo bp_get_member_last_active( $args );
@@ -942,13 +942,14 @@ function bp_member_last_active( $args = array() ) {
 	 * Return the current member's last active time.
 	 *
 	 * @since 1.2.0
+	 * @since 2.7.0 Added 'relative' as a parameter to $args.
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
-	 *     @type mixed $active_format If true, formatted "active 5 minutes
-	 *                                ago". If false, formatted "5 minutes ago".
-	 *                                If string, should be sprintf'able like
-	 *                                'last seen %s ago'.
+	 *     @type mixed $active_format If true, formatted "active 5 minutes ago". If false, formatted "5 minutes
+	 *                                ago". If string, should be sprintf'able like 'last seen %s ago'.
+	 *     @type bool  $relative      If true, will return relative time "5 minutes ago". If false, will return
+	 *                                date from database. Default: true.
 	 * }
 	 * @return string
 	 */
@@ -957,7 +958,8 @@ function bp_member_last_active( $args = array() ) {
 
 		// Parse the activity format.
 		$r = bp_parse_args( $args, array(
-			'active_format' => true
+			'active_format' => true,
+			'relative'      => true,
 		) );
 
 		// Backwards compatibility for anyone forcing a 'true' active_format.
@@ -967,13 +969,18 @@ function bp_member_last_active( $args = array() ) {
 
 		// Member has logged in at least one time.
 		if ( isset( $members_template->member->last_activity ) ) {
+			// We do not want relative time, so return now.
+			// @todo Should the 'bp_member_last_active' filter be applied here?
+			if ( ! $r['relative'] ) {
+				return esc_attr( $members_template->member->last_activity );
+			}
 
 			// Backwards compatibility for pre 1.5 'ago' strings.
 			$last_activity = ! empty( $r['active_format'] )
 				? bp_core_get_last_activity( $members_template->member->last_activity, $r['active_format'] )
 				: bp_core_time_since( $members_template->member->last_activity );
 
-			// Member has never logged in or been active.
+		// Member has never logged in or been active.
 		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
 		}
@@ -1151,19 +1158,40 @@ function bp_member_profile_data( $args = '' ) {
  * Output the 'registered [x days ago]' string for the current member.
  *
  * @since 1.2.0
+ * @since 2.7.0 Added $args as a parameter.
+ *
+ * @param array $args Optional. {@see bp_get_member_registered()}
  */
-function bp_member_registered() {
-	echo bp_get_member_registered();
+function bp_member_registered( $args = array() ) {
+	echo bp_get_member_registered( $args );
 }
 	/**
 	 * Get the 'registered [x days ago]' string for the current member.
 	 *
 	 * @since 1.2.0
+	 * @since 2.7.0 Added $args as a parameter.
+	 *
+	 * @param array $args {
+	 *     Array of optional parameters.
+	 *
+	 *     @type bool $relative Optional. If true, returns relative registered date. eg. registered 5 months ago.
+	 *                          If false, returns registered date value from database.
+	 * }
 	 *
 	 * @return string
 	 */
-	function bp_get_member_registered() {
+	function bp_get_member_registered( $args = array() ) {
 		global $members_template;
+
+		$r = wp_parse_args( $args, array(
+			'relative' => true,
+		) );
+
+		// We do not want relative time, so return now.
+		// @todo Should the 'bp_member_registered' filter be applied here?
+		if ( ! $r['relative'] ) {
+			return esc_attr( $members_template->member->user_registered );
+		}
 
 		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, _x( 'registered %s', 'Records the timestamp that the user registered into the activity stream', 'buddypress' ) ) );
 

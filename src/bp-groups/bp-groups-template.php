@@ -684,33 +684,49 @@ function bp_group_use_cover_image_header() {
  * Output the 'last active' string for the current group in the loop.
  *
  * @since 1.0.0
+ * @since 2.7.0 Added $args as a parameter.
  *
- * @param object|bool $group Optional. Group object.
- *                           Default: current group in loop.
+ * @param object|bool  $group Optional. Group object. Default: current group in loop.
+ * @param array|string $args Optional. {@see bp_get_group_last_active()}.
  */
-function bp_group_last_active( $group = false ) {
-	echo bp_get_group_last_active( $group );
+function bp_group_last_active( $group = false, $args = array() ) {
+	echo bp_get_group_last_active( $group, $args );
 }
 	/**
 	 * Return the 'last active' string for the current group in the loop.
 	 *
 	 * @since 1.0.0
+	 * @since 2.7.0 Added $args as a parameter.
 	 *
-	 * @param object|bool $group Optional. Group object.
-	 *                           Default: current group in loop.
+	 * @param object|bool  $group Optional. Group object. Default: current group in loop.
+	 * @param array|string $args {
+	 *     Array of optional parameters.
+	 *
+	 *     @type bool $relative Optional. If true, returns relative activity date. eg. active 5 months ago.
+	 *                          If false, returns active date value from database. Default: true.
+	 * }
 	 * @return string
 	 */
-	function bp_get_group_last_active( $group = false ) {
+	function bp_get_group_last_active( $group = false, $args = array() ) {
 		global $groups_template;
 
 		if ( empty( $group ) ) {
 			$group =& $groups_template->group;
 		}
 
-		$last_active = $group->last_activity;
+		$r = wp_parse_args( $args, array(
+			'relative' => true,
+		) );
 
-		if ( !$last_active ) {
+		$last_active = $group->last_activity;
+		if ( ! $last_active ) {
 			$last_active = groups_get_groupmeta( $group->id, 'last_activity' );
+		}
+
+		// We do not want relative time, so return now.
+		// @todo Should the 'bp_get_group_last_active' filter be applied here?
+		if ( ! $r['relative'] ) {
+			return esc_attr( $last_active );
 		}
 
 		if ( empty( $last_active ) ) {
@@ -718,7 +734,7 @@ function bp_group_last_active( $group = false ) {
 		} else {
 
 			/**
-			 * Filters the 'last active' string for the current gorup in the loop.
+			 * Filters the 'last active' string for the current group in the loop.
 			 *
 			 * @since 1.0.0
 			 * @since 2.5.0 Added the `$group` parameter.
@@ -1052,27 +1068,44 @@ function bp_group_is_public( $group = false ) {
  * Output the created date of the current group in the loop.
  *
  * @since 1.0.0
+ * @since 2.7.0 Added $args as a parameter.
  *
- * @param object|bool $group Optional. Group object.
- *                           Default: current group in loop.
+ * @param object|bool  $group Optional. Group object. Default: current group in loop.
+ * @param array|string $args  {@see bp_get_group_date_created()}.
  */
-function bp_group_date_created( $group = false ) {
-	echo bp_get_group_date_created( $group );
+function bp_group_date_created( $group = false, $args = array() ) {
+	echo bp_get_group_date_created( $group, $args );
 }
 	/**
 	 * Return the created date of the current group in the loop.
 	 *
 	 * @since 1.0.0
+	 * @since 2.7.0 Added $args as a parameter.
 	 *
-	 * @param object|bool $group Optional. Group object.
-	 *                           Default: current group in loop.
+	 * @param object|bool  $group Optional. Group object. Default: current group in loop.
+	 * @param array|string $args {
+	 *     Array of optional parameters.
+	 *
+	 *     @type bool $relative Optional. If true, returns relative created date. eg. active 5 months ago.
+	 *                          If false, returns created date value from database. Default: true.
+	 * }
 	 * @return string
 	 */
-	function bp_get_group_date_created( $group = false ) {
+	function bp_get_group_date_created( $group = false, $args = array() ) {
 		global $groups_template;
+
+		$r = wp_parse_args( $args, array(
+			'relative' => true,
+		) );
 
 		if ( empty( $group ) ) {
 			$group =& $groups_template->group;
+		}
+
+		// We do not want relative time, so return now.
+		// @todo Should the 'bp_get_group_date_created' filter be applied here?
+		if ( ! $r['relative'] ) {
+			return esc_attr( $group->date_created );
 		}
 
 		/**
@@ -3970,19 +4003,43 @@ function bp_group_member_css_class() {
 }
 
 /**
+ * Output the joined date for the current member in the group member loop.
+ *
  * @since 1.0.0
+ * @since 2.7.0 Added $args as a parameter.
+ *
+ * @param array|string $args {@see bp_get_group_member_joined_since()}
+ * @return string
  */
-function bp_group_member_joined_since() {
-	echo bp_get_group_member_joined_since();
+function bp_group_member_joined_since( $args = array() ) {
+	echo bp_get_group_member_joined_since( $args );
 }
-
 	/**
-	 * @since 1.0.0
+	 * Return the joined date for the current member in the group member loop.
 	 *
-	 * @return mixed|void
+	 * @since 1.0.0
+	 * @since 2.7.0 Added $args as a parameter.
+	 *
+	 * @param array|string $args {
+	 *     Array of optional parameters.
+	 *
+	 *     @type bool $relative Optional. If true, returns relative joined date. eg. joined 5 months ago.
+	 *                          If false, returns joined date value from database. Default: true.
+	 * }
+	 * @return string
 	 */
-	function bp_get_group_member_joined_since() {
+	function bp_get_group_member_joined_since( $args = array() ) {
 		global $members_template;
+
+		$r = wp_parse_args( $args, array(
+			'relative' => true,
+		) );
+
+		// We do not want relative time, so return now.
+		// @todo Should the 'bp_get_group_member_joined_since' filter be applied here?
+		if ( ! $r['relative'] ) {
+			return esc_attr( $members_template->member->date_modified );
+		}
 
 		/**
 		 * Filters the joined since time for the current member in the loop.

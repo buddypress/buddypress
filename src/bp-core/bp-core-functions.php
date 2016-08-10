@@ -1258,6 +1258,34 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	return apply_filters( 'bp_core_time_since', $output, $older_date, $newer_date );
 }
 
+/**
+ * Output an ISO-8601 date from a date string.
+ *
+ * @since 2.7.0
+ *
+ * @param string String of date to convert. Timezone should be UTC before using this.
+ * @return string
+ */
+ function bp_core_iso8601_date( $timestamp = '' ) {
+	echo bp_core_get_iso8601_date( $timestamp );
+}
+	/**
+	 * Return an ISO-8601 date from a date string.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string String of date to convert. Timezone should be UTC before using this.
+	 * @return string
+	 */
+	 function bp_core_get_iso8601_date( $timestamp = '' ) {
+		if ( ! $timestamp ) {
+			return '';
+		}
+
+		$date = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) );
+		return $date->format( DateTime::ISO8601 );
+	}
+
 /** Messages ******************************************************************/
 
 /**

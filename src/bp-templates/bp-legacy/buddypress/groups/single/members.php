@@ -56,7 +56,7 @@
 				</a>
 
 				<h5><?php bp_group_member_link(); ?></h5>
-				<span class="activity"><?php bp_group_member_joined_since(); ?></span>
+				<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_member_joined_since( array( 'relative' => false ) ) ); ?>"><?php bp_group_member_joined_since(); ?></span>
 
 				<?php
 

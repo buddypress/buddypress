@@ -68,7 +68,7 @@ do_action( 'bp_before_group_header' );
 
 <div id="item-header-content">
 	<span class="highlight"><?php bp_group_type(); ?></span>
-	<span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
+	<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
 
 	<?php
 
