@@ -112,21 +112,7 @@ class BP_Notifications_Notification {
 	 * @return bool True on success, false on failure.
 	 */
 	public function save() {
-
-		// Return value.
 		$retval = false;
-
-		// Default data and format.
-		$data = array(
-			'user_id'           => $this->user_id,
-			'item_id'           => $this->item_id,
-			'secondary_item_id' => $this->secondary_item_id,
-			'component_name'    => $this->component_name,
-			'component_action'  => $this->component_action,
-			'date_notified'     => $this->date_notified,
-			'is_new'            => $this->is_new,
-		);
-		$data_format = array( '%d', '%d', '%d', '%s', '%s', '%s', '%d' );
 
 		/**
 		 * Fires before the current notification item gets saved.
@@ -138,6 +124,17 @@ class BP_Notifications_Notification {
 		 * @param BP_Notifications_Notification $value Current instance of the notification item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_notification_before_save', array( &$this ) );
+
+		$data = array(
+			'user_id'           => $this->user_id,
+			'item_id'           => $this->item_id,
+			'secondary_item_id' => $this->secondary_item_id,
+			'component_name'    => $this->component_name,
+			'component_action'  => $this->component_action,
+			'date_notified'     => $this->date_notified,
+			'is_new'            => $this->is_new,
+		);
+		$data_format = array( '%d', '%d', '%d', '%s', '%s', '%s', '%d' );
 
 		// Update.
 		if ( ! empty( $this->id ) ) {
