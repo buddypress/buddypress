@@ -843,6 +843,7 @@ a.bp-title-button {
 	float: left;
 }
 
+#buddypress form.standard-form .main-column ul#friend-list h3,
 #buddypress form.standard-form .main-column ul#friend-list h4 {
 	clear:none;
 }
@@ -1304,6 +1305,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	margin: 0 10px 0 0;
 }
 #buddypress ul.item-list li div.item-title,
+#buddypress ul.item-list li h3,
 #buddypress ul.item-list li h4 {
 	font-weight: normal;
 	font-size: 90%;
@@ -1742,6 +1744,7 @@ body.register #buddypress div.page ul {
 		position: relative;
 		margin-bottom:1em;
 	}
+	#buddypress form.standard-form .main-column ul#friend-list h3,
 	#buddypress form.standard-form .main-column ul#friend-list h4{
 		width:100%;
 	}
