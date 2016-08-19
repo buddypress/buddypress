@@ -1117,7 +1117,7 @@ function bp_group_date_created( $group = false, $args = array() ) {
 		 * @param string $value Created date for the current group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_date_created', bp_core_time_since( strtotime( $group->date_created ) ), $group );
+		return apply_filters( 'bp_get_group_date_created', bp_core_time_since( $group->date_created ), $group );
 	}
 
 /**
@@ -5434,7 +5434,7 @@ function bp_group_request_time_since_requested() {
 	 *
 	 * @param string $value Formatted time since membership was requested.
 	 */
-	echo apply_filters( 'bp_group_request_time_since_requested', sprintf( __( 'requested %s', 'buddypress' ), bp_core_time_since( strtotime( $requests_template->request->date_modified ) ) ) );
+	echo apply_filters( 'bp_group_request_time_since_requested', sprintf( __( 'requested %s', 'buddypress' ), bp_core_time_since( $requests_template->request->date_modified ) ) );
 }
 
 /**

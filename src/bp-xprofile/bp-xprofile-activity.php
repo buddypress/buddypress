@@ -307,7 +307,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		 */
 		$throttle_period = apply_filters( 'bp_xprofile_updated_profile_activity_throttle_time', HOUR_IN_SECONDS * 2 );
 		$then            = strtotime( $existing['activities'][0]->date_recorded );
-		$now             = strtotime( bp_core_current_time() );
+		$now             = bp_core_current_time( true, 'timestamp' );
 
 		// Bail if throttled.
 		if ( ( $now - $then ) < $throttle_period ) {

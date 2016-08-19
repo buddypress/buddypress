@@ -1442,7 +1442,7 @@ function bp_core_record_activity() {
 	}
 
 	// Get current time.
-	$current_time = bp_core_current_time();
+	$current_time = bp_core_current_time( true, 'timestamp' );
 
 	// Use this action to detect the very first activity for a given member.
 	if ( empty( $activity ) ) {
@@ -1460,7 +1460,7 @@ function bp_core_record_activity() {
 	}
 
 	// If it's been more than 5 minutes, record a newer last-activity time.
-	if ( empty( $activity ) || ( strtotime( $current_time ) >= strtotime( '+5 minutes', $activity ) ) ) {
+	if ( empty( $activity ) || ( $current_time >= strtotime( '+5 minutes', $activity ) ) ) {
 		bp_update_user_last_activity( $user_id, $current_time );
 	}
 }

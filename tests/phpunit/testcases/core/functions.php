@@ -600,6 +600,18 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_time_since
+	 */
+	public function test_bp_core_time_since_mysql_and_unix_timestamp_return_same_value() {
+		$mysql_date   = '2008-03-25 17:13:55';
+
+		$ts_mysql     = bp_core_time_since( $mysql_date );
+		$ts_timestamp = bp_core_time_since( strtotime( $mysql_date ) );
+
+		$this->assertSame( $ts_mysql, $ts_timestamp );
+	}
+
+	/**
 	 * @group bp_attachments
 	 * @group bp_upload_dir
 	 */

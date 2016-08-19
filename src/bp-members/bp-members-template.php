@@ -610,7 +610,7 @@ function bp_member_class( $classes = array() ) {
 		if ( ! empty( $members_template->member->last_activity ) ) {
 
 			// Calculate some times.
-			$current_time  = strtotime( bp_core_current_time() );
+			$current_time  = bp_core_current_time( true, 'timestamp' );
 			$last_activity = strtotime( $members_template->member->last_activity );
 			$still_online  = strtotime( '+5 minutes', $last_activity );
 
