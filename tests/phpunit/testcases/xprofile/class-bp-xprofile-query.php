@@ -472,6 +472,38 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 		$this->assertEqualSets( $expected, array_keys( $q->results ) );
 	}
 
+	/**
+	 * @ticket BP7202
+	 */
+	public function test_relation_and_with_compare_not_in() {
+		$this->create_fields( 1 );
+		$this->create_users( 4 );
+
+		xprofile_set_field_data( $this->fields[0], $this->users[0], 'boo' );
+		xprofile_set_field_data( $this->fields[0], $this->users[3], 'far' );
+		xprofile_set_field_data( $this->fields[0], $this->users[1], 'foo' );
+		xprofile_set_field_data( $this->fields[0], $this->users[2], 'bar' );
+
+		$q = new BP_User_Query( array(
+			'xprofile_query' => array(
+				'relation' => 'AND',
+				array(
+					'field' => $this->fields[0],
+					'compare' => 'NOT IN',
+					'value' => array( 'foo', 'bar' )
+				),
+				array(
+					'field' => $this->fields[0],
+					'compare' => '!=',
+					'value' => 'far',
+				),
+			),
+		) );
+
+		$expected = array( $this->users[0] );
+		$this->assertEqualSets( $expected, array_keys( $q->results ) );
+	}
+
 	public function test_relation_or_with_compare_not_exists() {
 		$this->create_fields( 2 );
 		$this->create_users( 4 );
@@ -565,6 +597,31 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 
 		$expected = array( $this->users[0], $this->users[1] );
 		$this->assertEqualSets( $expected, array_keys( $q->results ) );
+	}
+
+	/**
+	 * @group BP7202
+	 */
+	public function test_find_compatible_table_alias_should_match_negative_siblings_joined_with_relation_and() {
+		$this->create_fields( 1 );
+
+		$q = new BP_XProfile_Query( array(
+			'relation' => 'AND',
+			array(
+				'field' => $this->fields[0],
+				'compare' => '!=',
+				'value' => 'foo',
+			),
+			array(
+				'field' => $this->fields[0],
+				'compare' => 'NOT IN',
+				'value' => array( 'bar', 'baz' ),
+			)
+		) );
+
+		$sql = $q->get_sql( buddypress()->profile->table_name_data, 'user_id' );
+
+		$this->assertSame( 1, substr_count( $sql['join'], 'INNER JOIN' ) );
 	}
 
 	/** Helpers **********************************************************/
