@@ -1461,7 +1461,7 @@ function bp_core_record_activity() {
 
 	// If it's been more than 5 minutes, record a newer last-activity time.
 	if ( empty( $activity ) || ( $current_time >= strtotime( '+5 minutes', $activity ) ) ) {
-		bp_update_user_last_activity( $user_id, $current_time );
+		bp_update_user_last_activity( $user_id, date( 'Y-m-d H:i:s', $current_time ) );
 	}
 }
 add_action( 'wp_head', 'bp_core_record_activity' );
