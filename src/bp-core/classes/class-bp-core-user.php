@@ -811,6 +811,8 @@ class BP_Core_User {
 		$retval = array();
 		foreach ( $user_ids as $user_id ) {
 			$retval[ $user_id ] = wp_cache_get( $user_id, 'bp_last_activity' );
+			$retval[ $user_id ]['user_id']     = (int) $retval[ $user_id ]['user_id'];
+			$retval[ $user_id ]['activity_id'] = (int) $retval[ $user_id ]['activity_id'];
 		}
 
 		return $retval;
