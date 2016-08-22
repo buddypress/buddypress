@@ -473,7 +473,6 @@ class BP_XProfile_Group {
 
 		// Merge the field array back in with the group array.
 		foreach( (array) $groups as $group ) {
-
 			// Indexes may have been shifted after previous deletions, so we get a
 			// fresh one each time through the loop.
 			$index = array_search( $group, $groups );
@@ -560,6 +559,13 @@ class BP_XProfile_Group {
 					wp_cache_set( $gdata->id, $gdata, 'bp_xprofile_groups' );
 				}
 			}
+		}
+
+		// Integer casting.
+		foreach ( (array) $groups as $key => $data ) {
+			$groups[ $key ]->id          = (int) $groups[ $key ]->id;
+			$groups[ $key ]->group_order = (int) $groups[ $key ]->group_order;
+			$groups[ $key ]->can_delete  = (int) $groups[ $key ]->can_delete;
 		}
 
 		// Reset indexes & return.

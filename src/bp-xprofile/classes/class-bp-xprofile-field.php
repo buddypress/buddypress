@@ -257,10 +257,21 @@ class BP_XProfile_Field {
 			$args = (array) $args;
 		}
 
+		$int_fields = array(
+			'id', 'is_required', 'group_id', 'parent_id', 'is_default_option',
+			'field_order', 'option_order', 'can_delete'
+		);
+
 		foreach ( $args as $k => $v ) {
 			if ( 'name' === $k || 'description' === $k ) {
 				$v = stripslashes( $v );
 			}
+
+			// Cast numeric strings as integers.
+			if ( true === in_array( $k, $int_fields ) ) {
+				$v = (int) $v;
+			}
+
 			$this->{$k} = $v;
 		}
 
@@ -889,7 +900,7 @@ class BP_XProfile_Field {
 	 * @global object $wpdb
 	 *
 	 * @param string $field_name Name of the field to query the ID for.
-	 * @return boolean
+	 * @return int|null Field ID on success; null on failure.
 	 */
 	public static function get_id_from_name( $field_name = '' ) {
 		global $wpdb;
@@ -902,7 +913,9 @@ class BP_XProfile_Field {
 
 		$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s AND parent_id = 0", $field_name );
 
-		return $wpdb->get_var( $sql );
+		$query = $wpdb->get_var( $sql );
+
+		return is_numeric( $query ) ? (int) $query : $query;
 	}
 
 	/**
