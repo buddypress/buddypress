@@ -175,7 +175,7 @@ class BP_Groups_Group {
 		) );
 
 		if ( !empty( $id ) ) {
-			$this->id = $id;
+			$this->id = (int) $id;
 			$this->populate();
 		}
 	}
@@ -208,13 +208,13 @@ class BP_Groups_Group {
 		}
 
 		// Group found so setup the object variables.
-		$this->id           = $group->id;
-		$this->creator_id   = $group->creator_id;
+		$this->id           = (int) $group->id;
+		$this->creator_id   = (int) $group->creator_id;
 		$this->name         = stripslashes( $group->name );
 		$this->slug         = $group->slug;
 		$this->description  = stripslashes( $group->description );
 		$this->status       = $group->status;
-		$this->enable_forum = $group->enable_forum;
+		$this->enable_forum = (int) $group->enable_forum;
 		$this->date_created = $group->date_created;
 
 		// Are we getting extra group data?
@@ -231,6 +231,10 @@ class BP_Groups_Group {
 
 			// Add admins and moderators to their respective arrays.
 			foreach ( (array) $admin_mods as $user ) {
+				$user->user_id  = (int) $user->user_id;
+				$user->is_admin = (int) $user->is_admin;
+				$user->is_mod   = (int) $user->is_mod;
+
 				if ( !empty( $user->is_admin ) ) {
 					$this->admins[] = $user;
 				} else {
@@ -241,7 +245,7 @@ class BP_Groups_Group {
 			// Set up some specific group vars from meta. Excluded
 			// from the bp_groups cache because it's cached independently.
 			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
-			$this->total_member_count = groups_get_groupmeta( $this->id, 'total_member_count' );
+			$this->total_member_count = (int) groups_get_groupmeta( $this->id, 'total_member_count' );
 
 			// Set user-specific data.
 			$user_id          = bp_loggedin_user_id();
@@ -435,7 +439,7 @@ class BP_Groups_Group {
 	 * @param string      $slug       Slug to check.
 	 * @param string|bool $table_name Optional. Name of the table to check
 	 *                                against. Default: $bp->groups->table_name.
-	 * @return string|null ID of the group, if one is found, else null.
+	 * @return int|null Group ID if found; null if not.
 	 */
 	public static function group_exists( $slug, $table_name = false ) {
 		global $wpdb;
@@ -446,7 +450,9 @@ class BP_Groups_Group {
 		if ( empty( $slug ) )
 			return false;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table_name} WHERE slug = %s", strtolower( $slug ) ) );
+		$query = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table_name} WHERE slug = %s", strtolower( $slug ) ) );
+
+		return is_numeric( $query ) ? (int) $query : $query;
 	}
 
 	/**

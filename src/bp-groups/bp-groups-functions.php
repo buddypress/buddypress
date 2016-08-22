@@ -114,7 +114,7 @@ function groups_create_group( $args = '' ) {
 
 	// Pass an existing group ID.
 	if ( ! empty( $group_id ) ) {
-		$group = groups_get_group( array( 'group_id' => (int) $group_id ) );
+		$group = groups_get_group( array( 'group_id' => $group_id ) );
 		$name  = ! empty( $name ) ? $name : $group->name;
 		$slug  = ! empty( $slug ) ? $slug : $group->slug;
 		$description = ! empty( $description ) ? $description : $group->description;
@@ -415,10 +415,10 @@ function groups_get_slug( $group_id ) {
  * @since 1.6.0
  *
  * @param string $group_slug The group's slug.
- * @return int The ID.
+ * @return int|null The group ID on success; null on failure.
  */
 function groups_get_id( $group_slug ) {
-	return (int)BP_Groups_Group::group_exists( $group_slug );
+	return BP_Groups_Group::group_exists( $group_slug );
 }
 
 /** User Actions **************************************************************/
