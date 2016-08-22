@@ -48,7 +48,7 @@ class BP_Blogs_Blog {
 	 */
 	public function __construct( $id = null ) {
 		if ( !empty( $id ) ) {
-			$this->id = $id;
+			$this->id = (int) $id;
 			$this->populate();
 		}
 	}
@@ -63,8 +63,8 @@ class BP_Blogs_Blog {
 
 		$blog = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->blogs->table_name} WHERE id = %d", $this->id ) );
 
-		$this->user_id = $blog->user_id;
-		$this->blog_id = $blog->blog_id;
+		$this->user_id = (int) $blog->user_id;
+		$this->blog_id = (int) $blog->blog_id;
 	}
 
 	/**
@@ -243,6 +243,12 @@ class BP_Blogs_Blog {
 
 		$paged_blogs = BP_Blogs_Blog::get_blog_extras( $paged_blogs, $blog_ids, $type );
 
+		// Integer casting.
+		foreach ( (array) $paged_blogs as $key => $data ) {
+			$paged_blogs[ $key ]->blog_id       = (int) $paged_blogs[ $key ]->blog_id;
+			$paged_blogs[ $key ]->admin_user_id = (int) $paged_blogs[ $key ]->admin_user_id;
+		}
+
 		if ( $update_meta_cache ) {
 			bp_blogs_update_meta_cache( $blog_ids );
 		}
@@ -338,8 +344,8 @@ class BP_Blogs_Blog {
 		$user_blogs = array();
 		foreach ( (array) $blogs as $blog ) {
 			$user_blogs[$blog->blog_id] = new stdClass;
-			$user_blogs[$blog->blog_id]->id = $blog->id;
-			$user_blogs[$blog->blog_id]->blog_id = $blog->blog_id;
+			$user_blogs[$blog->blog_id]->id = (int) $blog->id;
+			$user_blogs[$blog->blog_id]->blog_id = (int) $blog->blog_id;
 			$user_blogs[$blog->blog_id]->siteurl = ( is_ssl() ) ? 'https://' . $blog->domain . $blog->path : 'http://' . $blog->domain . $blog->path;
 			$user_blogs[$blog->blog_id]->name = $blog->name;
 		}
@@ -364,7 +370,7 @@ class BP_Blogs_Blog {
 		if ( !$user_id )
 			$user_id = bp_displayed_user_id();
 
-		return $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$bp->blogs->table_name} WHERE user_id = %d", $user_id ) );
+		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM {$bp->blogs->table_name} WHERE user_id = %d", $user_id ) ) );
 	}
 
 	/**
@@ -379,7 +385,9 @@ class BP_Blogs_Blog {
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
+		$query = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->blogs->table_name} WHERE blog_id = %d", $blog_id ) );
+
+		return is_numeric( $query ) ? (int) $query : $query;
 	}
 
 	/**
@@ -444,7 +452,12 @@ class BP_Blogs_Blog {
 		$paged_blogs = $wpdb->get_results( "SELECT DISTINCT bm.blog_id FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND {$search_terms_sql} ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC{$pag_sql}" );
 		$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT bm.blog_id) FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE ( ( bm.meta_key = 'name' OR bm.meta_key = 'description' ) AND {$search_terms_sql} ) {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY meta_value ASC" );
 
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+		// Integer casting.
+		foreach ( (array) $paged_blogs as $key => $data ) {
+			$paged_blogs[ $key ]->blog_id = (int) $paged_blogs[ $key ]->blog_id;
+		}
+
+		return array( 'blogs' => $paged_blogs, 'total' => (int) $total_blogs );
 	}
 
 	/**
@@ -472,7 +485,12 @@ class BP_Blogs_Blog {
 		$paged_blogs = $wpdb->get_results( "SELECT DISTINCT b.blog_id FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$hidden_sql} {$pag_sql}" );
 		$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT b.blog_id) FROM {$bp->blogs->table_name} b LEFT JOIN {$wpdb->base_prefix}blogs wb ON b.blog_id = wb.blog_id WHERE wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 {$hidden_sql}" );
 
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+		// Integer casting.
+		foreach ( (array) $paged_blogs as $key => $data ) {
+			$paged_blogs[ $key ]->blog_id = (int) $paged_blogs[ $key ]->blog_id;
+		}
+
+		return array( 'blogs' => $paged_blogs, 'total' => (int) $total_blogs );
 	}
 
 	/**
@@ -509,7 +527,12 @@ class BP_Blogs_Blog {
 		$paged_blogs = $wpdb->get_results( "SELECT DISTINCT bm.blog_id FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE bm.meta_key = 'name' AND {$letter_sql} {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY bm.meta_value ASC{$pag_sql}" );
 		$total_blogs = $wpdb->get_var( "SELECT COUNT(DISTINCT bm.blog_id) FROM {$bp->blogs->table_name_blogmeta} bm LEFT JOIN {$wpdb->base_prefix}blogs wb ON bm.blog_id = wb.blog_id WHERE bm.meta_key = 'name' AND {$letter_sql} {$hidden_sql} AND wb.mature = 0 AND wb.spam = 0 AND wb.archived = '0' AND wb.deleted = 0 ORDER BY bm.meta_value ASC" );
 
-		return array( 'blogs' => $paged_blogs, 'total' => $total_blogs );
+		// Integer casting.
+		foreach ( (array) $paged_blogs as $key => $data ) {
+			$paged_blogs[ $key ]->blog_id = (int) $paged_blogs[ $key ]->blog_id;
+		}
+
+		return array( 'blogs' => $paged_blogs, 'total' => (int) $total_blogs );
 	}
 
 	/**
