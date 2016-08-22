@@ -88,9 +88,9 @@ class BP_Messages_Message {
 		$bp = buddypress();
 
 		if ( $message = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE id = %d", $id ) ) ) {
-			$this->id        = $message->id;
-			$this->thread_id = $message->thread_id;
-			$this->sender_id = $message->sender_id;
+			$this->id        = (int) $message->id;
+			$this->thread_id = (int) $message->thread_id;
+			$this->sender_id = (int) $message->sender_id;
 			$this->subject   = $message->subject;
 			$this->message   = $message->message;
 			$this->date_sent = $message->date_sent;
@@ -220,7 +220,9 @@ class BP_Messages_Message {
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND thread_id = %d ORDER BY date_sent DESC LIMIT 1", bp_loggedin_user_id(), $thread_id ) );
+		$query = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND thread_id = %d ORDER BY date_sent DESC LIMIT 1", bp_loggedin_user_id(), $thread_id ) );
+
+		return is_numeric( $query ) ? (int) $query : $query;
 	}
 
 	/**
@@ -236,7 +238,9 @@ class BP_Messages_Message {
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND id = %d", $user_id, $message_id ) );
+		$query = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE sender_id = %d AND id = %d", $user_id, $message_id ) );
+
+		return is_numeric( $query ) ? (int) $query : $query;
 	}
 
 	/**
@@ -250,6 +254,8 @@ class BP_Messages_Message {
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE id = %d", $message_id ) );
+		$query = $wpdb->get_var( $wpdb->prepare( "SELECT sender_id FROM {$bp->messages->table_name_messages} WHERE id = %d", $message_id ) );
+
+		return is_numeric( $query ) ? (int) $query : $query;
 	}
 }

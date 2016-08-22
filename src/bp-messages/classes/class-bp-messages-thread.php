@@ -254,6 +254,11 @@ class BP_Messages_Thread {
 			wp_cache_set( 'thread_recipients_' . $thread_id, $recipients, 'bp_messages' );
 		}
 
+		// Cast all items from the messages DB table as integers.
+		foreach ( (array) $recipients as $key => $data ) {
+			$recipients[ $key ] = (object) array_map( 'intval', (array) $data );
+		}
+
 		/**
 		 * Filters the recipients of a message thread.
 		 *
@@ -289,6 +294,13 @@ class BP_Messages_Thread {
 			$messages = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->messages->table_name_messages} WHERE thread_id = %d ORDER BY date_sent ASC", $thread_id ) );
 
 			wp_cache_set( $thread_id, (array) $messages, 'bp_messages_threads' );
+		}
+
+		// Integer casting.
+		foreach ( $messages as $key => $data ) {
+			$messages[ $key ]->id        = (int) $messages[ $key ]->id;
+			$messages[ $key ]->thread_id = (int) $messages[ $key ]->thread_id;
+			$messages[ $key ]->sender_id = (int) $messages[ $key ]->sender_id;
 		}
 
 		return $messages;

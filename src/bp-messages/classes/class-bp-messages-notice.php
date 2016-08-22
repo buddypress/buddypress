@@ -62,7 +62,7 @@ class BP_Messages_Notice {
 	 */
 	public function __construct( $id = null ) {
 		if ( $id ) {
-			$this->id = $id;
+			$this->id = (int) $id;
 			$this->populate();
 		}
 	}
@@ -85,7 +85,7 @@ class BP_Messages_Notice {
 			$this->subject   = $notice->subject;
 			$this->message   = $notice->message;
 			$this->date_sent = $notice->date_sent;
-			$this->is_active = $notice->is_active;
+			$this->is_active = (int) $notice->is_active;
 		}
 	}
 
@@ -231,6 +231,12 @@ class BP_Messages_Notice {
 		$bp = buddypress();
 
 		$notices = $wpdb->get_results( "SELECT * FROM {$bp->messages->table_name_notices} ORDER BY date_sent DESC {$limit_sql}" );
+
+		// Integer casting.
+		foreach ( (array) $notices as $key => $data ) {
+			$notices[ $key ]->id        = (int) $notices[ $key ]->id;
+			$notices[ $key ]->is_active = (int) $notices[ $key ]->is_active;
+		}
 
 		return $notices;
 	}
