@@ -241,7 +241,7 @@ class BP_Friends_Friendship {
 			}
 		}
 
-		return $fids;
+		return array_map( 'intval', $fids );
 	}
 
 	/**
@@ -251,14 +251,16 @@ class BP_Friends_Friendship {
 	 *
 	 * @param int $user_id   The ID of the first user.
 	 * @param int $friend_id The ID of the second user.
-	 * @return int|bool The ID of the friendship object if found, otherwise false.
+	 * @return int|null The ID of the friendship object if found, otherwise null.
 	 */
 	public static function get_friendship_id( $user_id, $friend_id ) {
 		global $wpdb;
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->friends->table_name} WHERE ( initiator_user_id = %d AND friend_user_id = %d ) OR ( initiator_user_id = %d AND friend_user_id = %d ) AND is_confirmed = 1", $user_id, $friend_id, $friend_id, $user_id ) );
+		$query = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->friends->table_name} WHERE ( initiator_user_id = %d AND friend_user_id = %d ) OR ( initiator_user_id = %d AND friend_user_id = %d ) AND is_confirmed = 1", $user_id, $friend_id, $friend_id, $user_id ) );
+
+		return is_numeric( $query ) ? (int) $query : $query;
 	}
 
 	/**
@@ -281,6 +283,11 @@ class BP_Friends_Friendship {
 			$friend_requests = $wpdb->get_col( $wpdb->prepare( "SELECT initiator_user_id FROM {$bp->friends->table_name} WHERE friend_user_id = %d AND is_confirmed = 0", $user_id ) );
 
 			wp_cache_set( $user_id, $friend_requests, 'bp_friends_requests' );
+		}
+
+		// Integer casting.
+		if ( ! empty( $friend_requests ) ) {
+			$friend_requests = array_map( 'intval', $friend_requests );
 		}
 
 		return $friend_requests;
@@ -381,7 +388,7 @@ class BP_Friends_Friendship {
 		if ( empty( $filtered_friend_ids ) )
 			return false;
 
-		return array( 'friends' => $filtered_friend_ids, 'total' => (int) $total_friend_ids );
+		return array( 'friends' => array_map( 'intval', $filtered_friend_ids ), 'total' => (int) $total_friend_ids );
 	}
 
 	/**
