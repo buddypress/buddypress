@@ -10,89 +10,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/** Email *********************************************************************/
-
-/**
- * Email message recipients to alert them of a new unread private message.
- *
- * @since 1.0.0
- *
- * @param array|BP_Messages_Message $raw_args {
- *     Array of arguments. Also accepts a BP_Messages_Message object.
- *     @type array  $recipients    User IDs of recipients.
- *     @type string $email_subject Subject line of message.
- *     @type string $email_content Content of message.
- *     @type int    $sender_id     User ID of sender.
- * }
- */
-function messages_notification_new_message( $raw_args = array() ) {
-	if ( is_object( $raw_args ) ) {
-		$args = (array) $raw_args;
-	} else {
-		$args = $raw_args;
-	}
-
-	// These should be extracted below.
-	$recipients    = array();
-	$email_subject = $email_content = '';
-	$sender_id     = 0;
-
-	// Barf.
-	extract( $args );
-
-	if ( empty( $recipients ) ) {
-		return;
-	}
-
-	$sender_name = bp_core_get_user_displayname( $sender_id );
-
-	// Send an email to each recipient.
-	foreach ( $recipients as $recipient ) {
-		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
-			continue;
-		}
-
-		// User data and links.
-		$ud = get_userdata( $recipient->user_id );
-		if ( empty( $ud ) ) {
-			continue;
-		}
-
-		$unsubscribe_args = array(
-			'user_id'           => $recipient->user_id,
-			'notification_type' => 'messages-unread',
-		);
-
-		$args = array(
-			'tokens' => array(
-				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
-				'message.url' => esc_url( bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() . '/view/' . $thread_id . '/' ),
-				'sender.name' => $sender_name,
-				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
-				'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
-			),
-		);
-		bp_send_email( 'messages-unread', $ud, $args );
-	}
-
-	/**
-	 * Fires after the sending of a new message email notification.
-	 *
-	 * @since 1.5.0
-	 * @deprecated 2.5.0 Use the filters in BP_Email.
-	 *                   $email_subject and $email_content arguments unset and deprecated.
-	 *
-	 * @param array  $recipients    User IDs of recipients.
-	 * @param string $email_subject Deprecated in 2.5; now an empty string.
-	 * @param string $email_content Deprecated in 2.5; now an empty string.
-	 * @param array  $args          Array of originally provided arguments.
-	 */
-	do_action( 'bp_messages_sent_notification_email', $recipients, '', '', $args );
-}
-add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );
-
-/** Notifications *************************************************************/
-
 /**
  * Format notifications for the Messages component.
  *
@@ -230,7 +147,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
  * @param BP_Messages_Message $message Message object.
  */
 function bp_messages_message_sent_add_notification( $message ) {
-	if ( bp_is_active( 'notifications' ) && ! empty( $message->recipients ) ) {
+	if ( ! empty( $message->recipients ) ) {
 		foreach ( (array) $message->recipients as $recipient ) {
 			bp_notifications_add_notification( array(
 				'user_id'           => $recipient->user_id,
@@ -252,30 +169,28 @@ add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification'
  * @since 1.9.0
  */
 function bp_messages_screen_conversation_mark_notifications() {
-	if ( bp_is_active( 'notifications' ) ) {
-		global $thread_template;
+	global $thread_template;
 
-		// Get unread PM notifications for the user.
-		$new_pm_notifications = BP_Notifications_Notification::get( array(
-			'user_id'           => bp_loggedin_user_id(),
-			'component_name'    => buddypress()->messages->id,
-			'component_action'  => 'new_message',
-			'is_new'            => 1,
-		) );
-		$unread_message_ids = wp_list_pluck( $new_pm_notifications, 'item_id' );
+	// Get unread PM notifications for the user.
+	$new_pm_notifications = BP_Notifications_Notification::get( array(
+		'user_id'           => bp_loggedin_user_id(),
+		'component_name'    => buddypress()->messages->id,
+		'component_action'  => 'new_message',
+		'is_new'            => 1,
+	) );
+	$unread_message_ids = wp_list_pluck( $new_pm_notifications, 'item_id' );
 
-		// No unread PMs, so stop!
-		if ( empty( $unread_message_ids ) ) {
-			return;
-		}
+	// No unread PMs, so stop!
+	if ( empty( $unread_message_ids ) ) {
+		return;
+	}
 
-		// Get the unread message ids for this thread only.
-		$message_ids = array_intersect( $unread_message_ids, wp_list_pluck( $thread_template->thread->messages, 'id' ) );
+	// Get the unread message ids for this thread only.
+	$message_ids = array_intersect( $unread_message_ids, wp_list_pluck( $thread_template->thread->messages, 'id' ) );
 
-		// Mark each notification for each PM message as read.
-		foreach ( $message_ids as $message_id ) {
-			bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), (int) $message_id, buddypress()->messages->id, 'new_message' );
-		}
+	// Mark each notification for each PM message as read.
+	foreach ( $message_ids as $message_id ) {
+		bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), (int) $message_id, buddypress()->messages->id, 'new_message' );
 	}
 }
 add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notifications', 10 );
@@ -289,10 +204,6 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
  * @param array $message_ids IDs of the messages.
  */
 function bp_messages_message_delete_notifications( $thread_id, $message_ids ) {
-	if ( ! bp_is_active( 'notifications' ) ) {
-		return;
-	}
-
 	// For each recipient, delete notifications corresponding to each message.
 	$thread = new BP_Messages_Thread( $thread_id );
 	foreach ( $thread->get_recipients() as $recipient ) {

@@ -524,3 +524,84 @@ function bp_messages_add_meta( $message_id, $meta_key, $meta_value, $unique = fa
 
 	return $retval;
 }
+
+/** Email *********************************************************************/
+
+/**
+ * Email message recipients to alert them of a new unread private message.
+ *
+ * @since 1.0.0
+ *
+ * @param array|BP_Messages_Message $raw_args {
+ *     Array of arguments. Also accepts a BP_Messages_Message object.
+ *     @type array  $recipients    User IDs of recipients.
+ *     @type string $email_subject Subject line of message.
+ *     @type string $email_content Content of message.
+ *     @type int    $sender_id     User ID of sender.
+ * }
+ */
+function messages_notification_new_message( $raw_args = array() ) {
+	if ( is_object( $raw_args ) ) {
+		$args = (array) $raw_args;
+	} else {
+		$args = $raw_args;
+	}
+
+	// These should be extracted below.
+	$recipients    = array();
+	$email_subject = $email_content = '';
+	$sender_id     = 0;
+
+	// Barf.
+	extract( $args );
+
+	if ( empty( $recipients ) ) {
+		return;
+	}
+
+	$sender_name = bp_core_get_user_displayname( $sender_id );
+
+	// Send an email to each recipient.
+	foreach ( $recipients as $recipient ) {
+		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
+			continue;
+		}
+
+		// User data and links.
+		$ud = get_userdata( $recipient->user_id );
+		if ( empty( $ud ) ) {
+			continue;
+		}
+
+		$unsubscribe_args = array(
+			'user_id'           => $recipient->user_id,
+			'notification_type' => 'messages-unread',
+		);
+
+		$args = array(
+			'tokens' => array(
+				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
+				'message.url' => esc_url( bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() . '/view/' . $thread_id . '/' ),
+				'sender.name' => $sender_name,
+				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
+				'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+			),
+		);
+		bp_send_email( 'messages-unread', $ud, $args );
+	}
+
+	/**
+	 * Fires after the sending of a new message email notification.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 2.5.0 Use the filters in BP_Email.
+	 *                   $email_subject and $email_content arguments unset and deprecated.
+	 *
+	 * @param array  $recipients    User IDs of recipients.
+	 * @param string $email_subject Deprecated in 2.5; now an empty string.
+	 * @param string $email_content Deprecated in 2.5; now an empty string.
+	 * @param array  $args          Array of originally provided arguments.
+	 */
+	do_action( 'bp_messages_sent_notification_email', $recipients, '', '', $args );
+}
+add_action( 'messages_message_sent', 'messages_notification_new_message', 10 );

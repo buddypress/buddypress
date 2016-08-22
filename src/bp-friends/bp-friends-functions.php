@@ -795,3 +795,78 @@ function bp_friends_prime_mentions_results() {
 	) );
 }
 add_action( 'bp_activity_mentions_prime_results', 'bp_friends_prime_mentions_results' );
+
+/** Emails ********************************************************************/
+
+/**
+ * Send notifications related to a new friendship request.
+ *
+ * When a friendship is requested, an email and a BP notification are sent to
+ * the user of whom friendship has been requested ($friend_id).
+ *
+ * @since 1.0.0
+ *
+ * @param int $friendship_id ID of the friendship object.
+ * @param int $initiator_id  ID of the user who initiated the request.
+ * @param int $friend_id     ID of the request recipient.
+ */
+function friends_notification_new_request( $friendship_id, $initiator_id, $friend_id ) {
+	if ( 'no' == bp_get_user_meta( (int) $friend_id, 'notification_friends_friendship_request', true ) ) {
+		return;
+	}
+
+	$unsubscribe_args = array(
+		'user_id'           => $friend_id,
+		'notification_type' => 'friends-request',
+	);
+
+	$args = array(
+		'tokens' => array(
+			'friend-requests.url' => esc_url( bp_core_get_user_domain( $friend_id ) . bp_get_friends_slug() . '/requests/' ),
+			'friend.id'           => $friend_id,
+			'friendship.id'       => $friendship_id,
+			'initiator.id'        => $initiator_id,
+			'initiator.url'       => esc_url( bp_core_get_user_domain( $initiator_id ) ),
+			'initiator.name'      => bp_core_get_user_displayname( $initiator_id ),
+			'unsubscribe'         => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+		),
+	);
+	bp_send_email( 'friends-request', $friend_id, $args );
+}
+add_action( 'friends_friendship_requested', 'friends_notification_new_request', 10, 3 );
+
+/**
+ * Send notifications related to the acceptance of a friendship request.
+ *
+ * When a friendship request is accepted, an email and a BP notification are
+ * sent to the user who requested the friendship ($initiator_id).
+ *
+ * @since 1.0.0
+ *
+ * @param int $friendship_id ID of the friendship object.
+ * @param int $initiator_id  ID of the user who initiated the request.
+ * @param int $friend_id     ID of the request recipient.
+ */
+function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
+	if ( 'no' == bp_get_user_meta( (int) $initiator_id, 'notification_friends_friendship_accepted', true ) ) {
+		return;
+	}
+
+	$unsubscribe_args = array(
+		'user_id'           => $initiator_id,
+		'notification_type' => 'friends-request-accepted',
+	);
+
+	$args = array(
+		'tokens' => array(
+			'friend.id'      => $friend_id,
+			'friendship.url' => esc_url( bp_core_get_user_domain( $friend_id ) ),
+			'friend.name'    => bp_core_get_user_displayname( $friend_id ),
+			'friendship.id'  => $friendship_id,
+			'initiator.id'   => $initiator_id,
+			'unsubscribe'	   => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+		),
+	);
+	bp_send_email( 'friends-request-accepted', $initiator_id, $args );
+}
+add_action( 'friends_friendship_accepted', 'friends_notification_accepted_request', 10, 3 );

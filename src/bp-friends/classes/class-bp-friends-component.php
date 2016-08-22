@@ -53,9 +53,13 @@ class BP_Friends_Component extends BP_Component {
 			'activity',
 			'template',
 			'functions',
-			'notifications',
 			'widgets',
 		);
+
+		// Conditional includes.
+		if ( bp_is_active( 'notifications' ) ) {
+			$includes[] = 'notifications';
+		}
 
 		if ( ! buddypress()->do_autoload ) {
 			$includes[] = 'classes';

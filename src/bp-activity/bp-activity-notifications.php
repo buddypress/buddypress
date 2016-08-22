@@ -10,214 +10,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/* Emails *********************************************************************/
-
-/**
- * Send email and BP notifications when a user is mentioned in an update.
- *
- * @since 1.2.0
- *
- * @param int $activity_id      The ID of the activity update.
- * @param int $receiver_user_id The ID of the user who is receiving the update.
- */
-function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) {
-	$notifications = BP_Core_Notification::get_all_for_user( $receiver_user_id, 'all' );
-
-	// Don't leave multiple notifications for the same activity item.
-	foreach( $notifications as $notification ) {
-		if ( $activity_id == $notification->item_id ) {
-			return;
-		}
-	}
-
-	$activity     = new BP_Activity_Activity( $activity_id );
-	$email_type   = 'activity-at-message';
-	$group_name   = '';
-	$message_link = bp_activity_get_permalink( $activity_id );
-	$poster_name  = bp_core_get_user_displayname( $activity->user_id );
-
-	remove_filter( 'bp_get_activity_content_body', 'convert_smilies' );
-	remove_filter( 'bp_get_activity_content_body', 'wpautop' );
-	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
-
-	/** This filter is documented in bp-activity/bp-activity-template.php */
-	$content = apply_filters( 'bp_get_activity_content_body', $activity->content );
-
-	add_filter( 'bp_get_activity_content_body', 'convert_smilies' );
-	add_filter( 'bp_get_activity_content_body', 'wpautop' );
-	add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
-
-	// Now email the user with the contents of the message (if they have enabled email notifications).
-	if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
-		if ( bp_is_active( 'groups' ) && bp_is_group() ) {
-			$email_type = 'groups-at-message';
-			$group_name = bp_get_current_group_name();
-		}
-
-		$unsubscribe_args = array(
-			'user_id'           => $receiver_user_id,
-			'notification_type' => $email_type,
-		);
-
-		$args = array(
-			'tokens' => array(
-				'activity'         => $activity,
-				'usermessage'      => wp_strip_all_tags( $content ),
-				'group.name'       => $group_name,
-				'mentioned.url'    => $message_link,
-				'poster.name'      => $poster_name,
-				'receiver-user.id' => $receiver_user_id,
-				'unsubscribe' 	   => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
-			),
-		);
-
-		bp_send_email( $email_type, $receiver_user_id, $args );
-	}
-
-	/**
-	 * Fires after the sending of an @mention email notification.
-	 *
-	 * @since 1.5.0
-	 * @since 2.5.0 $subject, $message, $content arguments unset and deprecated.
-	 *
-	 * @param BP_Activity_Activity $activity         Activity Item object.
-	 * @param string               $deprecated       Removed in 2.5; now an empty string.
-	 * @param string               $deprecated       Removed in 2.5; now an empty string.
-	 * @param string               $deprecated       Removed in 2.5; now an empty string.
-	 * @param int                  $receiver_user_id The ID of the user who is receiving the update.
-	 */
-	do_action( 'bp_activity_sent_mention_email', $activity, '', '', '', $receiver_user_id );
-}
-
-/**
- * Send email and BP notifications when an activity item receives a comment.
- *
- * @since 1.2.0
- * @since 2.5.0 Updated to use new email APIs.
- *
- * @param int   $comment_id   The comment id.
- * @param int   $commenter_id The ID of the user who posted the comment.
- * @param array $params       {@link bp_activity_new_comment()}.
- */
-function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 0, $params = array() ) {
-	$original_activity = new BP_Activity_Activity( $params['activity_id'] );
-	$poster_name       = bp_core_get_user_displayname( $commenter_id );
-	$thread_link       = bp_activity_get_permalink( $params['activity_id'] );
-
-	remove_filter( 'bp_get_activity_content_body', 'convert_smilies' );
-	remove_filter( 'bp_get_activity_content_body', 'wpautop' );
-	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
-
-	/** This filter is documented in bp-activity/bp-activity-template.php */
-	$content = apply_filters( 'bp_get_activity_content_body', $params['content'] );
-
-	add_filter( 'bp_get_activity_content_body', 'convert_smilies' );
-	add_filter( 'bp_get_activity_content_body', 'wpautop' );
-	add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
-
-	if ( $original_activity->user_id != $commenter_id ) {
-
-		// Send an email if the user hasn't opted-out.
-		if ( 'no' != bp_get_user_meta( $original_activity->user_id, 'notification_activity_new_reply', true ) ) {
-
-			$unsubscribe_args = array(
-				'user_id'           => $original_activity->user_id,
-				'notification_type' => 'activity-comment',
-			);
-
-			$args = array(
-				'tokens' => array(
-					'comment.id'                => $comment_id,
-					'commenter.id'              => $commenter_id,
-					'usermessage'               => wp_strip_all_tags( $content ),
-					'original_activity.user_id' => $original_activity->user_id,
-					'poster.name'               => $poster_name,
-					'thread.url'                => esc_url( $thread_link ),
-					'unsubscribe'               => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
-				),
-			);
-
-			bp_send_email( 'activity-comment', $original_activity->user_id, $args );
-		}
-
-		/**
-		 * Fires at the point that notifications should be sent for activity comments.
-		 *
-		 * @since 2.6.0
-		 *
-		 * @param BP_Activity_Activity $original_activity The original activity.
-		 * @param int                  $comment_id        ID for the newly received comment.
-		 * @param int                  $commenter_id      ID of the user who made the comment.
-		 * @param array                $params            Arguments used with the original activity comment.
-		 */
-		do_action( 'bp_activity_sent_reply_to_update_notification', $original_activity, $comment_id, $commenter_id, $params );
-	}
-
-
-	/*
-	 * If this is a reply to another comment, send an email notification to the
-	 * author of the immediate parent comment.
-	 */
-	if ( empty( $params['parent_id'] ) || ( $params['activity_id'] == $params['parent_id'] ) ) {
-		return;
-	}
-
-	$parent_comment = new BP_Activity_Activity( $params['parent_id'] );
-
-	if ( $parent_comment->user_id != $commenter_id && $original_activity->user_id != $parent_comment->user_id ) {
-
-		// Send an email if the user hasn't opted-out.
-		if ( 'no' != bp_get_user_meta( $parent_comment->user_id, 'notification_activity_new_reply', true ) ) {
-
-			$unsubscribe_args = array(
-				'user_id'           => $parent_comment->user_id,
-				'notification_type' => 'activity-comment-author',
-			);
-
-			$args = array(
-				'tokens' => array(
-					'comment.id'             => $comment_id,
-					'commenter.id'           => $commenter_id,
-					'usermessage'            => wp_strip_all_tags( $content ),
-					'parent-comment-user.id' => $parent_comment->user_id,
-					'poster.name'            => $poster_name,
-					'thread.url'             => esc_url( $thread_link ),
-					'unsubscribe'            => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
-				),
-			);
-
-			bp_send_email( 'activity-comment-author', $parent_comment->user_id, $args );
-		}
-
-		/**
-		 * Fires at the point that notifications should be sent for comments on activity replies.
-		 *
-		 * @since 2.6.0
-		 *
-		 * @param BP_Activity_Activity $parent_comment The parent activity.
-		 * @param int                  $comment_id     ID for the newly received comment.
-		 * @param int                  $commenter_id   ID of the user who made the comment.
-		 * @param array                $params         Arguments used with the original activity comment.
-		 */
-		do_action( 'bp_activity_sent_reply_to_reply_notification', $parent_comment, $comment_id, $commenter_id, $params );
-	}
-}
-
-/**
- * Helper method to map action arguments to function parameters.
- *
- * @since 1.9.0
- *
- * @param int   $comment_id ID of the comment being notified about.
- * @param array $params     Parameters to use with notification.
- */
-function bp_activity_new_comment_notification_helper( $comment_id, $params ) {
-	bp_activity_new_comment_notification( $comment_id, $params['user_id'], $params );
-}
-add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_helper', 10, 2 );
-
-/** Notifications *************************************************************/
-
 /**
  * Format notifications related to activity.
  *
@@ -359,8 +151,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
  * @param int    $receiver_user_id   ID of user receiving notification.
  */
 function bp_activity_at_mention_add_notification( $activity, $subject, $message, $content, $receiver_user_id ) {
-	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
+	bp_notifications_add_notification( array(
 			'user_id'           => $receiver_user_id,
 			'item_id'           => $activity->id,
 			'secondary_item_id' => $activity->user_id,
@@ -368,8 +159,7 @@ function bp_activity_at_mention_add_notification( $activity, $subject, $message,
 			'component_action'  => 'new_at_mention',
 			'date_notified'     => bp_core_current_time(),
 			'is_new'            => 1,
-		) );
-	}
+	) );
 }
 add_action( 'bp_activity_sent_mention_email', 'bp_activity_at_mention_add_notification', 10, 5 );
 
@@ -383,17 +173,15 @@ add_action( 'bp_activity_sent_mention_email', 'bp_activity_at_mention_add_notifi
  * @param int                  $commenter_id ID of the user who made the comment.
  */
 function bp_activity_update_reply_add_notification( $activity, $comment_id, $commenter_id ) {
-	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'           => $activity->user_id,
-			'item_id'           => $comment_id,
-			'secondary_item_id' => $commenter_id,
-			'component_name'    => buddypress()->activity->id,
-			'component_action'  => 'update_reply',
-			'date_notified'     => bp_core_current_time(),
-			'is_new'            => 1,
-		) );
-	}
+	bp_notifications_add_notification( array(
+		'user_id'           => $activity->user_id,
+		'item_id'           => $comment_id,
+		'secondary_item_id' => $commenter_id,
+		'component_name'    => buddypress()->activity->id,
+		'component_action'  => 'update_reply',
+		'date_notified'     => bp_core_current_time(),
+		'is_new'            => 1,
+	) );
 }
 add_action( 'bp_activity_sent_reply_to_update_notification', 'bp_activity_update_reply_add_notification', 10, 3 );
 
@@ -407,17 +195,15 @@ add_action( 'bp_activity_sent_reply_to_update_notification', 'bp_activity_update
  * @param int                  $commenter_id     ID of the user who made the comment.
  */
 function bp_activity_comment_reply_add_notification( $activity_comment, $comment_id, $commenter_id ) {
-	if ( bp_is_active( 'notifications' ) ) {
-		bp_notifications_add_notification( array(
-			'user_id'           => $activity_comment->user_id,
-			'item_id'           => $comment_id,
-			'secondary_item_id' => $commenter_id,
-			'component_name'    => buddypress()->activity->id,
-			'component_action'  => 'comment_reply',
-			'date_notified'     => bp_core_current_time(),
-			'is_new'            => 1,
-		) );
-	}
+	bp_notifications_add_notification( array(
+		'user_id'           => $activity_comment->user_id,
+		'item_id'           => $comment_id,
+		'secondary_item_id' => $commenter_id,
+		'component_name'    => buddypress()->activity->id,
+		'component_action'  => 'comment_reply',
+		'date_notified'     => bp_core_current_time(),
+		'is_new'            => 1,
+	) );
 }
 add_action( 'bp_activity_sent_reply_to_reply_notification', 'bp_activity_comment_reply_add_notification', 10, 3 );
 
@@ -430,10 +216,6 @@ add_action( 'bp_activity_sent_reply_to_reply_notification', 'bp_activity_comment
  * @param int $user_id The id of the user whose notifications are marked as read.
  */
 function bp_activity_remove_screen_notifications( $user_id = 0 ) {
-	if ( ! bp_is_active( 'notifications' ) ) {
-		return;
-	}
-
 	// Only mark read if the current user is looking at his own mentions.
 	if ( empty( $user_id ) || (int) $user_id !== (int) bp_loggedin_user_id() ) {
 		return;
@@ -451,10 +233,6 @@ add_action( 'bp_activity_clear_new_mentions', 'bp_activity_remove_screen_notific
  * @param BP_Activity_Activity $activity Activity object.
  */
 function bp_activity_remove_screen_notifications_single_activity_permalink( $activity ) {
-	if ( ! bp_is_active( 'notifications' ) ) {
-		return;
-	}
-
 	if ( ! is_user_logged_in() ) {
 		return;
 	}
@@ -473,7 +251,7 @@ add_action( 'bp_activity_screen_single_activity_permalink', 'bp_activity_remove_
  * @since 2.6.0
  */
 function bp_activity_remove_screen_notifications_for_non_mentions() {
-	if ( false === bp_is_active( 'notifications' ) || false === is_singular() || false === is_user_logged_in() || empty( $_GET['nid'] ) ) {
+	if ( false === is_singular() || false === is_user_logged_in() || empty( $_GET['nid'] ) ) {
 		return;
 	}
 
@@ -500,7 +278,7 @@ add_action( 'bp_screens', 'bp_activity_remove_screen_notifications_for_non_menti
 function bp_activity_at_mention_delete_notification( $activity_ids_deleted = array() ) {
 	// Let's delete all without checking if content contains any mentions
 	// to avoid a query to get the activity.
-	if ( bp_is_active( 'notifications' ) && ! empty( $activity_ids_deleted ) ) {
+	if ( ! empty( $activity_ids_deleted ) ) {
 		foreach ( $activity_ids_deleted as $activity_id ) {
 			bp_notifications_delete_all_notifications_by_type( $activity_id, buddypress()->activity->id );
 		}
@@ -522,7 +300,7 @@ add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_not
  */
 function bp_activity_add_notification_for_synced_blog_comment( $activity_id, $post_type_comment, $activity_args, $activity_post_object ) {
 	// If activity comments are disabled for WP posts, stop now!
-	if ( bp_disable_blogforum_comments() || empty( $activity_id ) || false === bp_is_active( 'notifications' ) ) {
+	if ( bp_disable_blogforum_comments() || empty( $activity_id ) ) {
 		return;
 	}
 

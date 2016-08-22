@@ -57,9 +57,13 @@ class BP_Activity_Component extends BP_Component {
 			'adminbar',
 			'template',
 			'functions',
-			'notifications',
 			'cache'
 		);
+
+		// Notifications support.
+		if ( bp_is_active( 'notifications' ) ) {
+			$includes[] = 'notifications';
+		}
 
 		if ( ! buddypress()->do_autoload ) {
 			$includes[] = 'classes';
