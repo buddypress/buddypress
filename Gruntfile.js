@@ -173,6 +173,12 @@ module.exports = function( grunt ) {
 						dot: true,
 						expand: true,
 						src: ['**', '!**/.{svn,git}/**'].concat( BP_EXCLUDED_MISC )
+					},
+					{
+						dest: BUILD_DIR,
+						dot: true,
+						expand: true,
+						src: ['composer.json']
 					}
 				]
 			}
