@@ -678,7 +678,7 @@ class BP_Groups_Member {
 
 		if ( $limit && $page ) {
 			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit ), intval( $limit ) );
-	  }
+		}
 
 		if ( $filter ) {
 			$search_terms_like = '%' . bp_esc_like( $filter ) . '%';

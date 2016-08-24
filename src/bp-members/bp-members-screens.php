@@ -110,7 +110,7 @@ function bp_core_screen_signup() {
 		// If the signup page is submitted, validate and save.
 	} elseif ( isset( $_POST['signup_submit'] ) && bp_verify_nonce_request( 'bp_new_signup' ) ) {
 
-	    /**
+		/**
 		 * Fires before the validation of a new signup.
 		 *
 		 * @since 2.0.0
@@ -181,7 +181,7 @@ function bp_core_screen_signup() {
 			}
 		}
 
-	    /**
+		/**
 		 * Fires after the validation of a new signup.
 		 *
 		 * @since 1.1.0

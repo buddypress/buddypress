@@ -283,13 +283,13 @@ if ( ! class_exists( 'BPDB' ) ) :
 		function init( $args ) {
 			if ( 4 == func_num_args() ) {
 				$args = array(
-						'user'     => $args,
-						'password' => func_get_arg( 1 ),
-						'name'     => func_get_arg( 2 ),
-						'host'     => func_get_arg( 3 ),
-						'charset'  => defined( 'BBDB_CHARSET' ) ? BBDB_CHARSET : false,
-						'collate'  => defined( 'BBDB_COLLATE' ) ? BBDB_COLLATE : false,
-					     );
+					'user'     => $args,
+					'password' => func_get_arg( 1 ),
+					'name'     => func_get_arg( 2 ),
+					'host'     => func_get_arg( 3 ),
+					'charset'  => defined( 'BBDB_CHARSET' ) ? BBDB_CHARSET : false,
+					'collate'  => defined( 'BBDB_COLLATE' ) ? BBDB_COLLATE : false,
+				);
 			}
 
 			$defaults = array(

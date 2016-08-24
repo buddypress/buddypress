@@ -1736,7 +1736,7 @@ function groups_remove_member( $user_id, $group_id ) {
 
 	if ( ! bp_is_item_admin() ) {
 		return false;
-  	}
+	}
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 

@@ -178,7 +178,7 @@ function bp_core_menu_highlight_parent_page( $retval, $page ) {
 	foreach ( (array) buddypress()->pages as $component => $bp_page ) {
 		// Handles the majority of components.
 		if ( bp_is_current_component( $component ) ) {
-	                $page_id = (int) $bp_page->id;
+			$page_id = (int) $bp_page->id;
 		}
 
 		// Stop if not on a user page.
@@ -1051,13 +1051,13 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 		if ( $user_obj ) {
 			$tokens['recipient.username'] = $user_obj->user_login;
 			if ( bp_is_active( 'settings' ) && empty( $tokens['unsubscribe'] ) ) {
- 			    $tokens['unsubscribe'] = esc_url( sprintf(
- 			        '%s%s/notifications/',
- 			        bp_core_get_user_domain( $user_obj->ID ),
- 			        bp_get_settings_slug()
- 			    ) );
+				$tokens['unsubscribe'] = esc_url( sprintf(
+					'%s%s/notifications/',
+					bp_core_get_user_domain( $user_obj->ID ),
+					bp_get_settings_slug()
+				) );
 			}
- 		}
+		}
 	}
 
 	// Set default unsubscribe link if not passed.

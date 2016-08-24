@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * near the bottom of this file.
  *
  *           v--WordPress Actions       v--BuddyPress Sub-actions
-  */
+ */
 add_action( 'plugins_loaded',          'bp_loaded',                 10    );
 add_action( 'init',                    'bp_init',                   10    );
 add_action( 'rest_api_init',           'bp_rest_api_init',          20    ); // After WP core.

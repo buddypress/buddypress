@@ -214,9 +214,9 @@ function bp_core_register_nav_screen_function( $args = '' ) {
 	}
 
 	/**
-	* If this is for site admins only and the user is not one,
-	* don't register this screen function.
-	*/
+	 * If this is for site admins only and the user is not one,
+	 * don't register this screen function.
+	 */
 	if ( ! empty( $r['site_admin_only'] ) && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
 	}
