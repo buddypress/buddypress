@@ -88,10 +88,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		$separator = apply_filters( 'bp_members_widget_separator', '|' );
 
 		// Output before widget HTMl, title (and maybe content before & after it).
-		echo $args['before_widget']
-		   . $args['before_title']
-		   . $title
-		   . $args['after_title'];
+		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title'];
 
 		// Setup args for querying members.
 		$members_args = array(

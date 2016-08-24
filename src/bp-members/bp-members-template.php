@@ -1990,6 +1990,7 @@ function bp_loggedin_user_username() {
 		 */
 		return apply_filters( 'bp_get_loggedin_user_username', $username );
 	}
+
 /**
  * Echo the current member type message.
  *

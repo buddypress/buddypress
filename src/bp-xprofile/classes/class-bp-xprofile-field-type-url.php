@@ -144,10 +144,10 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 		}
 
 		// Run some checks on the submitted value.
-		if ( false === strpos( $submitted_value, ':'  )
-		     && substr( $submitted_value, 0, 1 ) !== '/'
-		     && substr( $submitted_value, 0, 1 ) !== '#'
-		     && ! preg_match( '/^[a-z0-9-]+?\.php/i', $submitted_value )
+		if ( false === strpos( $submitted_value, ':'  ) &&
+			substr( $submitted_value, 0, 1 ) !== '/' &&
+			substr( $submitted_value, 0, 1 ) !== '#' &&
+			! preg_match( '/^[a-z0-9-]+?\.php/i', $submitted_value )
 		) {
 			$submitted_value = 'http://' . $submitted_value;
 		}

@@ -61,9 +61,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 		$title = apply_filters( 'widget_title', $settings['title'], $settings, $this->id_base );
 
 		echo $args['before_widget'];
-		echo $args['before_title']
-		   . $title
-		   . $args['after_title'];
+		echo $args['before_title'] . $title . $args['after_title'];
 
 		// Setup args for querying members.
 		$members_args = array(

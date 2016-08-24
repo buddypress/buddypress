@@ -60,10 +60,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		 */
 		$title = apply_filters( 'widget_title', $settings['title'], $settings, $this->id_base );
 
-		echo $args['before_widget']
-		   . $args['before_title']
-		   . $title
-		   . $args['after_title'];
+		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title'];
 
 		// Setup args for querying members.
 		$members_args = array(
