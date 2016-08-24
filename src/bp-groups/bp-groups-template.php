@@ -548,7 +548,7 @@ function bp_group_avatar( $args = '' ) {
 	 * @since 1.0.0
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and return values.
-
+	 *
 	 * @param array|string $args {
 	 *     Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see {@link bp_core_fetch_avatar()}.
