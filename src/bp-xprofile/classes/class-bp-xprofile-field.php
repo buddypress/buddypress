@@ -504,7 +504,7 @@ class BP_XProfile_Field {
 	 * @since 1.2.0
 	 *
 	 * @param int $user_id ID of the user to get field data for.
-	 * @return object
+	 * @return BP_XProfile_ProfileData
 	 */
 	public function get_field_data( $user_id = 0 ) {
 		return new BP_XProfile_ProfileData( $this->id, $user_id );

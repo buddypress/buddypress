@@ -964,7 +964,7 @@ function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single
  * @param int    $object_id   ID of the object the metadata belongs to.
  * @param string $object_type Type of object. 'group', 'field', or 'data'.
  * @param string $meta_key    Key of the metadata being updated.
- * @param mixed  $meta_value  Value of the metadata being updated.
+ * @param string $meta_value  Value of the metadata being updated.
  * @param mixed  $prev_value  Optional. If specified, only update existing
  *                            metadata entries with the specified value.
  *                            Otherwise update all entries.

@@ -266,10 +266,10 @@ function bp_the_group() {
  *
  * @since 1.0.0
  *
- * @param object|bool $group Optional. Group object. Default: current group in loop.
+ * @param BP_Groups_Group $group Optional. Group object. Default: current group in loop.
  * @return bool
  */
-function bp_group_is_visible( $group = false ) {
+function bp_group_is_visible( $group = null ) {
 	global $groups_template;
 
 	if ( bp_current_user_can( 'bp_moderate' ) ) {
@@ -751,10 +751,9 @@ function bp_group_last_active( $group = false, $args = array() ) {
  *
  * @since 1.0.0
  *
- * @param object|bool $group Optional. Group object.
- *                           Default: current group in loop.
+ * @param BP_Groups_Group $group Optional. Group object. Default: current group in loop.
  */
-function bp_group_permalink( $group = false ) {
+function bp_group_permalink( $group = null ) {
 	echo bp_get_group_permalink( $group );
 }
 	/**
@@ -762,11 +761,10 @@ function bp_group_permalink( $group = false ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object|bool $group Optional. Group object.
-	 *                           Default: current group in loop.
+	 * @param BP_Groups_Group $group Optional. Group object. Default: current group in loop.
 	 * @return string
 	 */
-	function bp_get_group_permalink( $group = false ) {
+	function bp_get_group_permalink( $group = null ) {
 		global $groups_template;
 
 		if ( empty( $group ) ) {
@@ -1242,12 +1240,11 @@ function bp_group_creator_permalink( $group = false ) {
  *
  * @since 1.7.0
  *
- * @param object|bool $group   Optional. Group object.
- *                             Default: current group in loop.
- * @param int         $user_id ID of the user.
+ * @param BP_Groups_Group $group   Optional. Group object. Default: current group in loop.
+ * @param int             $user_id ID of the user.
  * @return bool
  */
-function bp_is_group_creator( $group = false, $user_id = 0 ) {
+function bp_is_group_creator( $group = null, $user_id = 0 ) {
 	global $groups_template;
 
 	if ( empty( $group ) ) {
@@ -3225,7 +3222,7 @@ function bp_group_join_button( $group = false ) {
 	 * @since 1.0.0
 	 *
 	 * @param object|bool $group Single group object.
-	 * @return mixed
+	 * @return false|string
 	 */
 	function bp_get_group_join_button( $group = false ) {
 		global $groups_template;
@@ -4955,7 +4952,7 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 	 * @since 1.0.0
 	 *
 	 * @param array $args Array of arguments for friends list output.
-	 * @return mixed HTML list of checkboxes, or false
+	 * @return false|string HTML list of checkboxes, or false
 	 */
 	function bp_get_new_group_invite_friend_list( $args = array() ) {
 

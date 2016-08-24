@@ -1540,7 +1540,7 @@ function bp_insert_activity_meta( $content = '' ) {
  *
  * @global object $activities_template {@link BP_Activity_Template}
  *
- * @param object|bool $activity Optional. Falls back on the current item in the loop.
+ * @param BP_Activity_Activity $activity Optional. Falls back on the current item in the loop.
  * @return bool True if can delete, false otherwise.
  */
 function bp_activity_user_can_delete( $activity = false ) {
