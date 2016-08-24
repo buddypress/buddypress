@@ -6,9 +6,9 @@ sudo: false
 
 language: php
 
-cache:
-  directories:
-    - $HOME/.composer/cache
+#cache:
+#  apt: true
+#  directories:
 #    - /tmp/wordpress/src/wp-content/plugins/buddypress/node_modules
 
 php:

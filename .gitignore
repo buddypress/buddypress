@@ -15,7 +15,6 @@ pids
 logs
 results
 src/vendor
-vendor
 
 node_modules
 npm-debug.log
