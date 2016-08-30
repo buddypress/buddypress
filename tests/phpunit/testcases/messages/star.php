@@ -14,22 +14,22 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create the thread
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
 
 		// create a reply
-		$this->factory->message->create( array(
-			'thread_id'  => $t1,
+		$message_2 = $this->factory->message->create_and_get( array(
+			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "That's a spoon",
 		) );
 
-		// grab the message ids as individual variables
-		list( $m1, $m2 ) = $this->get_message_ids( $t1 );
+		$m1 = $message_1->id;
+		$m2 = $message_2->id;
 
 		// star the second message
 		$star = bp_messages_star_set_action( array(
@@ -62,22 +62,23 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create the thread
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
 
 		// create a reply
-		$this->factory->message->create( array(
-			'thread_id'  => $t1,
+		$message_2 = $this->factory->message->create_and_get( array(
+			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "That's a spoon",
 		) );
 
-		// grab the message ids as individual variables
-		list( $m1, $m2 ) = $this->get_message_ids( $t1 );
+		$m1 = $message_1->id;
+		$m2 = $message_2->id;
+		$t1 = $message_1->thread_id;
 
 		// star all messages
 		bp_messages_star_set_action( array(
@@ -115,26 +116,28 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create three threads
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'A',
 		) );
-		$t2 = $this->factory->message->create( array(
+		$message_2 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'B',
 		) );
-		$t3 = $this->factory->message->create( array(
+		$message_3 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'C',
 		) );
 
 		// grab the message ids as individual variables
-		list( $m1 ) = $this->get_message_ids( $t1 );
-		list( $m2 ) = $this->get_message_ids( $t2 );
-		list( $m3 ) = $this->get_message_ids( $t3 );
+		$m1 = $message_1->id;
+		$m2 = $message_2->id;
+		$m3 = $message_3->id;
+
+		$t2 = $message_2->thread_id;
 
 		// star all threads
 		bp_messages_star_set_action( array(

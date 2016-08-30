@@ -13,19 +13,19 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create initial thread
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 		) );
 
 		// create some replies to thread
-		$this->factory->message->create( array(
-			'thread_id' => $t1,
+		$message_2 = $this->factory->message->create_and_get( array(
+			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
 		) );
-		$this->factory->message->create( array(
-			'thread_id' => $t1,
+		$message_3 = $this->factory->message->create_and_get( array(
+			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
 		) );
@@ -33,7 +33,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$messages_template = new BP_Messages_Box_Template( array( 'user_id' => $u1 ) );
 
 		$this->assertEquals( 1, $messages_template->thread_count );
-		$this->assertSame( array( $t1 ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
+		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
 	/**
@@ -46,19 +46,19 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create initial thread
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 		) );
 
 		// create some replies to thread
-		$this->factory->message->create( array(
-			'thread_id' => $t1,
+		$message_2 = $this->factory->message->create_and_get( array(
+			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
 		) );
-		$this->factory->message->create( array(
-			'thread_id' => $t1,
+		$message_3 = $this->factory->message->create_and_get( array(
+			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
 		) );
@@ -66,7 +66,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$messages_template = new BP_Messages_Box_Template( $u1 );
 
 		$this->assertEquals( 1, $messages_template->thread_count );
-		$this->assertSame( array( $t1 ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
+		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
 	}
 
 	/**
@@ -78,12 +78,12 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create some threads
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
-		$t2 = $this->factory->message->create( array(
+		$message_2 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
@@ -95,20 +95,23 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			'recipients' => array( $u2 ),
 		) );
 
+		$t1 = $message_1->thread_id;
+		$t2 = $message_2->thread_id;
+
 		// create some replies for thread 1
-		$this->factory->message->create( array(
+		$message_3 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "That's a spoon",
 		) );
-		$this->factory->message->create( array(
+		$message_4 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'content'    => "I see you've played knivey-spooney before.",
 		) );
-		$this->factory->message->create( array(
+		$message_5 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -116,22 +119,22 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		) );
 
 		// create some replies for thread 2
-		$this->factory->message->create( array(
+		$message_6 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t2,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "Oy yourself.",
 		) );
 
-		// grab the message ids as individual variables for thread 1
-		$thread = new BP_Messages_Thread( $t1 );
-		$mids = wp_list_pluck( $thread->messages, 'id' );
-		list( $m1, $m2, $m3, $m4 ) = $mids;
+		// belong to $t1
+		$m1 = $message_1->id;
+		$m3 = $message_3->id;
+		$m4 = $message_4->id;
+		$m5 = $message_5->id;
 
-		// grab the message ids as individual variables for thread 2
-		$thread = new BP_Messages_Thread( $t2 );
-		$mids = wp_list_pluck( $thread->messages, 'id' );
-		list( $m5, $m6 ) = $mids;
+		// belong to $t2
+		$m2 = $message_2->id;
+		$m6 = $message_6->id;
 
 		// add meta for some of the messages
 		bp_messages_update_meta( $m1, 'utensil',  'knive' );
@@ -144,7 +147,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		bp_messages_update_meta( $m3, "starred_by_user_{$u2}", true );
 
-		bp_messages_update_meta( $m5, "starred_by_user_{$u2}", true );
+		bp_messages_update_meta( $m6, "starred_by_user_{$u2}", true );
 
 		// now, do the message thread loop query
 		global $messages_template;
@@ -170,12 +173,12 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create some threads
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
-		$t2 = $this->factory->message->create( array(
+		$message_2 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
@@ -187,20 +190,23 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			'recipients' => array( $u2 ),
 		) );
 
+		$t1 = $message_1->thread_id;
+		$t2 = $message_2->thread_id;
+
 		// create some replies for thread 1
-		$this->factory->message->create( array(
+		$message_3 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "That's a spoon",
 		) );
-		$this->factory->message->create( array(
+		$message_4 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'content'    => "I see you've played knivey-spooney before.",
 		) );
-		$this->factory->message->create( array(
+		$message_5 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -208,22 +214,22 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		) );
 
 		// create some replies for thread 2
-		$this->factory->message->create( array(
+		$message_6 = $this->factory->message->create_and_get( array(
 			'thread_id'  => $t2,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "Oy yourself.",
 		) );
 
-		// grab the message ids as individual variables for thread 1
-		$thread = new BP_Messages_Thread( $t1 );
-		$mids = wp_list_pluck( $thread->messages, 'id' );
-		list( $m1, $m2, $m3, $m4 ) = $mids;
+		// belong to $t1
+		$m1 = $message_1->id;
+		$m3 = $message_3->id;
+		$m4 = $message_4->id;
+		$m5 = $message_5->id;
 
-		// grab the message ids as individual variables for thread 2
-		$thread = new BP_Messages_Thread( $t2 );
-		$mids = wp_list_pluck( $thread->messages, 'id' );
-		list( $m5, $m6 ) = $mids;
+		// belong to $t2
+		$m2 = $message_2->id;
+		$m6 = $message_6->id;
 
 		// add meta for some of the messages
 		bp_messages_update_meta( $m1, 'utensil',  'knive' );
@@ -236,7 +242,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		bp_messages_update_meta( $m3, "starred_by_user_{$u2}", true );
 
-		bp_messages_update_meta( $m5, "starred_by_user_{$u2}", true );
+		bp_messages_update_meta( $m6, "starred_by_user_{$u2}", true );
 
 		// now, do the message thread loop query
 		global $messages_template;
