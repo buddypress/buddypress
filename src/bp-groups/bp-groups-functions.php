@@ -2295,10 +2295,18 @@ function bp_groups_get_group_type( $group_id, $single = true ) {
 	$types = wp_cache_get( $group_id, 'bp_groups_group_type' );
 
 	if ( false === $types ) {
-		$types = bp_get_object_terms( $group_id, 'bp_group_type' );
+		$raw_types = bp_get_object_terms( $group_id, 'bp_group_type' );
 
-		if ( ! is_wp_error( $types ) ) {
-			$types = wp_list_pluck( $types, 'name' );
+		if ( ! is_wp_error( $raw_types ) ) {
+			$types = array();
+
+			// Only include currently registered group types.
+			foreach ( $raw_types as $gtype ) {
+				if ( bp_groups_get_group_type_object( $gtype->name ) ) {
+					$types[] = $gtype->name;
+				}
+			}
+
 			wp_cache_set( $group_id, $types, 'bp_groups_group_type' );
 		}
 	}

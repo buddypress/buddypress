@@ -251,4 +251,16 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 
 		$this->assertEqualSets( array( 'bar' ), $types );
 	}
+
+	public function test_groups_get_type_should_not_return_unregistered_types() {
+		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		bp_groups_register_group_type( 'foo' );
+		bp_groups_set_group_type( $g, 'foo' );
+
+		// Directly set a type that hasn't been registered.
+		bp_set_object_terms( $g, 'ugh', 'bp_group_type', true );
+
+		$type = bp_groups_get_group_type( $g, false );
+		$this->assertEquals( array( 'foo' ), $type );
+	}
 }
