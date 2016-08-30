@@ -2747,10 +2747,18 @@ function bp_get_member_type( $user_id, $single = true ) {
 	$types = wp_cache_get( $user_id, 'bp_member_member_type' );
 
 	if ( false === $types ) {
-		$types = bp_get_object_terms( $user_id, 'bp_member_type' );
+		$raw_types = bp_get_object_terms( $user_id, 'bp_member_type' );
 
-		if ( ! is_wp_error( $types ) ) {
-			$types = wp_list_pluck( $types, 'name' );
+		if ( ! is_wp_error( $raw_types ) ) {
+			$types =  array();
+
+			// Only include currently registered group types.
+			foreach ( $raw_types as $mtype ) {
+				if ( bp_get_member_type_object( $mtype->name ) ) {
+					$types[] = $mtype->name;
+				}
+			}
+
 			wp_cache_set( $user_id, $types, 'bp_member_member_type' );
 		}
 	}

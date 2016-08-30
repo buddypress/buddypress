@@ -392,4 +392,16 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$types = bp_get_member_type( $u1, false );
 		$this->assertEqualSets( array( 'bar', 'foo' ), $types );
 	}
+
+	public function test_bp_get_member_type_should_not_return_unregistered_types() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_set_member_type( $u1, 'foo' );
+
+		// Directly set a type that hasn't been registered.
+		bp_set_object_terms( $u1, 'ugh', 'bp_member_type', true );
+
+		$type = bp_get_member_type( $u1, false );
+		$this->assertEquals( array( 'foo' ), $type );
+	}
 }
