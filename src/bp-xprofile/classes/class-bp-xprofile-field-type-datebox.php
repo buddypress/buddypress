@@ -453,7 +453,6 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		}
 
 		$class = $current_field->type != $type ? 'display: none;' : '';
-		$current_type_obj = bp_xprofile_create_field_type( $type );
 
 		$settings = self::get_field_settings( $current_field->id );
 		?>
@@ -600,9 +599,24 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		return $formatted;
 	}
 
+	/**
+	 * Gets the default date formats available when configuring a Date field.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return array
+	 */
 	public function get_date_formats() {
 		$date_formats = array_unique( apply_filters( 'date_formats', array( __( 'F j, Y', 'buddypress' ), 'Y-m-d', 'm/d/Y', 'd/m/Y' ) ) );
 
+
+		/**
+		 * Filters the available date formats for XProfile date fields.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param array $date_formats
+		 */
 		return apply_filters( 'bp_xprofile_date_field_date_formats', $date_formats );
 	}
 }
