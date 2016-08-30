@@ -1106,6 +1106,19 @@ class BP_XProfile_Field {
 	}
 
 	/**
+	 * Save miscellaneous settings for this field.
+	 *
+	 * Some field types have type-specific settings, which are saved here.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param array $settings Array of settings.
+	 */
+	public function admin_save_settings( $settings ) {
+		return $this->type_obj->admin_save_settings( $this->id, $settings );
+	}
+
+	/**
 	 * Populates the items for radio buttons, checkboxes, and dropdown boxes.
 	 */
 	public function render_admin_form_children() {

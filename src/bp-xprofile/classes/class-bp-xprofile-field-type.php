@@ -82,6 +82,14 @@ abstract class BP_XProfile_Field_Type {
 	public $supports_richtext = false;
 
 	/**
+	 * If the field type has a type-specific settings section on the Edit Field panel.
+	 *
+	 * @since 2.7.0
+	 * @var bool|null Boolean if set explicitly by the type object, otherwise null.
+	 */
+	protected $do_settings_section = null;
+
+	/**
 	 * If object is created by an BP_XProfile_Field object.
 	 *
 	 * @since 2.0.0
@@ -226,6 +234,23 @@ abstract class BP_XProfile_Field_Type {
 		 * @param BP_XProfile_Field_Type $this      Current instance of the BP_XProfile_Field_Type class.
 		 */
 		return (bool) apply_filters( 'bp_xprofile_field_type_is_valid', $validated, $values, $this );
+	}
+
+	/**
+	 * Check whether the current field type should have a settings ("options") section on the Edit Field panel.
+	 *
+	 * Falls back on `supports_options` if no value is set by the field type.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return bool
+	 */
+	public function do_settings_section() {
+		if ( null === $this->do_settings_section ) {
+			$this->do_settings_section = $this->supports_options;
+		}
+
+		return (bool) $this->do_settings_section;
 	}
 
 	/**
@@ -450,6 +475,18 @@ abstract class BP_XProfile_Field_Type {
 	public static function display_filter( $field_value, $field_id = '' ) {
 		return $field_value;
 	}
+
+	/**
+	 * Save miscellaneous settings related to this field type.
+	 *
+	 * Override in a specific field type if it requires an admin save routine.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int   $field_id Field ID.
+	 * @param array $settings Array of settings.
+	 */
+	public function admin_save_settings( $field_id, $settings ) {}
 
 	/** Protected *************************************************************/
 

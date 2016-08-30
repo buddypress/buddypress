@@ -284,3 +284,21 @@ p.member-type-none-notice {
 	display: none;
 	visibility: hidden;
 }
+
+.form-table.bp-date-options {
+	margin: 0 8px;
+}
+
+.form-table.bp-date-options th {
+	width: 150px;
+}
+
+.date-format-label {
+	display: inline-block;
+	width: 150px;
+}
+
+.date-format-custom-value,
+.date-range-numeric {
+	width: 56px;
+}

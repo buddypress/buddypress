@@ -78,11 +78,11 @@ function add_option(forWhat) {
 function show_options( forWhat ) {
 	var do_autolink;
 
-	for ( var i = 0; i < XProfileAdmin.supports_options_field_types.length; i++ ) {
-		document.getElementById( XProfileAdmin.supports_options_field_types[i] ).style.display = 'none';
+	for ( var i = 0; i < XProfileAdmin.do_settings_section_field_types.length; i++ ) {
+		document.getElementById( XProfileAdmin.do_settings_section_field_types[i] ).style.display = 'none';
 	}
 
-	if ( XProfileAdmin.supports_options_field_types.indexOf( forWhat ) >= 0 ) {
+	if ( XProfileAdmin.do_settings_section_field_types.indexOf( forWhat ) >= 0 ) {
 		document.getElementById( forWhat ).style.display = '';
 		do_autolink = 'on';
 	} else {
@@ -269,6 +269,47 @@ jQuery( document ).ready( function() {
 
 	// Handle title placeholder text the WordPress way
 	titleHint( 'title' );
+
+	// On Date fields, selecting a date_format radio button should change the Custom value.
+	var $date_format = jQuery( 'input[name="date_format"]' );
+	var $date_format_custom_value = jQuery( '#date-format-custom-value' );
+	var $date_format_sample = jQuery( '#date-format-custom-sample' );
+	$date_format.click( function( e ) {
+		switch ( e.target.value ) {
+			case 'elapsed' :
+				$date_format_custom_value.val( '' );
+				$date_format_sample.html( '' );
+			break;
+
+			case 'custom' :
+			break;
+
+			default :
+				$date_format_custom_value.val( e.target.value );
+				$date_format_sample.html( jQuery( e.target ).siblings( '.date-format-label' ).html() );
+			break;
+		}
+	} );
+
+	// Clicking into the custom date format field should select the Custom radio button.
+	var $date_format_custom = jQuery( '#date-format-custom' );
+	$date_format_custom_value.focus( function() {
+		$date_format_custom.prop( 'checked', 'checked' );
+	} );
+
+	// Validate custom date field.
+	var $date_format_spinner = jQuery( '#date-format-custom-spinner' );
+	$date_format_custom_value.change( function( e ) {
+		$date_format_spinner.addClass( 'is-active' );
+		jQuery.post( ajaxurl, {
+			action: 'date_format',
+			date: e.target.value
+		},
+		function( response ) {
+			$date_format_spinner.removeClass( 'is-active' );
+			$date_format_sample.html( response );
+		} );
+	} );
 
 	// tabs init with a custom tab template and an "add" callback filling in the content
 	var $tab_items,

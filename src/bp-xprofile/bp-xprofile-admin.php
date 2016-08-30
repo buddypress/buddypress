@@ -432,6 +432,11 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 					bp_xprofile_update_field_meta( $field_id, 'do_autolink', 'off' );
 				}
 
+				if ( $field->type_obj->do_settings_section() ) {
+					$settings = isset( $_POST['field_settings'] ) ? wp_unslash( $_POST['field_settings'] ) : array();
+					$field->admin_save_settings( $settings );
+				}
+
 				/**
 				 * Fires at the end of the process to save a field for a user, if successful.
 				 *
