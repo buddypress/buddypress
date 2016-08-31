@@ -1711,6 +1711,7 @@ function bp_activity_get( $args = '' ) {
 			'in'               => $r['in'],
 			'spam'             => $r['spam'],
 			'count_total'      => $r['count_total'],
+			'fields'           => $r['fields'],
 		) );
 	}
 
