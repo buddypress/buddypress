@@ -585,6 +585,71 @@ function bp_search_form_type_select() {
 }
 
 /**
+ * Output the 'name' attribute for search form input element.
+ *
+ * @since 2.7.0
+ *
+ * @param string $component See bp_get_search_input_name().
+ */
+function bp_search_input_name( $component = '' ) {
+	echo esc_attr( bp_get_search_input_name( $component ) );
+}
+
+/**
+ * Get the 'name' attribute for the search form input element.
+ *
+ * @since 2.7.0
+ *
+ * @param string $component Component name. Defaults to current component.
+ * @return string Text for the 'name' attribute.
+ */
+function bp_get_search_input_name( $component = '' ) {
+	if ( ! $component ) {
+		$component = bp_current_component();
+	}
+
+	$bp = buddypress();
+
+	$name = '';
+	if ( isset( $bp->{$component}->id ) ) {
+		$name = $bp->{$component}->id . '_search';
+	}
+
+	return $name;
+}
+
+/**
+ * Output the placeholder text for the search box for a given component.
+ *
+ * @since 2.7.0
+ *
+ * @param string $component See bp_get_search_placeholder().
+ */
+function bp_search_placeholder( $component = '' ) {
+	echo esc_attr( bp_get_search_placeholder( $component ) );
+}
+
+/**
+ * Get the placeholder text for the search box for a given component.
+ *
+ * @since 2.7.0
+ *
+ * @param string $component Component name. Defaults to current component.
+ * @return string Placeholder text for the search field.
+ */
+function bp_get_search_placeholder( $component = '' ) {
+	$query_arg = bp_core_get_component_search_query_arg( $component );
+
+	if ( $query_arg && ! empty( $_REQUEST[ $query_arg ] ) ) {
+		$placeholder = wp_unslash( $_REQUEST[ $query_arg ] );
+	} else {
+		$placeholder = bp_get_search_default_text( $component );
+	}
+
+	return $placeholder;
+}
+
+/**
  * Output the default text for the search box for a given component.
  *
  * @since 1.5.0

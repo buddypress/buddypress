@@ -33,12 +33,20 @@ do_action( 'bp_before_directory_members_page' ); ?>
 	 */
 	do_action( 'bp_before_directory_members_content' ); ?>
 
-	<div id="members-dir-search" class="dir-search" role="search">
-		<?php bp_directory_members_search_form(); ?>
-	</div><!-- #members-dir-search -->
+	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+	<?php if ( has_filter( 'bp_directory_members_search_form' ) ) : ?>
+
+		<div id="members-dir-search" class="dir-search" role="search">
+			<?php bp_directory_members_search_form(); ?>
+		</div><!-- #members-dir-search -->
+
+	<?php else: ?>
+
+		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+	<?php endif; ?>
 
 	<?php
-
 	/**
 	 * Fires before the display of the members list tabs.
 	 *

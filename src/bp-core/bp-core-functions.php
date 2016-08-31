@@ -850,11 +850,17 @@ function bp_core_add_illegal_names() {
  * Get the 'search' query argument for a given component.
  *
  * @since 2.4.0
+ * @since 2.7.0 The `$component` parameter was made optional, with the current component
+ *              as the fallback value.
  *
- * @param string $component Component name.
+ * @param string $component Optional. Component name. Defaults to current component.
  * @return string|bool Query argument on success. False on failure.
  */
-function bp_core_get_component_search_query_arg( $component ) {
+function bp_core_get_component_search_query_arg( $component = null ) {
+	if ( ! $component ) {
+		$component = bp_current_component();
+	}
+
 	$query_arg = false;
 	if ( isset( buddypress()->{$component}->search_query_arg ) ) {
 		$query_arg = sanitize_title( buddypress()->{$component}->search_query_arg );

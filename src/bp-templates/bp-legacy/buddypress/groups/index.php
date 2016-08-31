@@ -33,9 +33,18 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	 */
 	do_action( 'bp_before_directory_groups_content' ); ?>
 
-	<div id="group-dir-search" class="dir-search" role="search">
-		<?php bp_directory_groups_search_form(); ?>
-	</div><!-- #group-dir-search -->
+	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+	<?php if ( has_filter( 'bp_directory_groups_search_form' ) ) : ?>
+
+		<div id="group-dir-search" class="dir-search" role="search">
+			<?php bp_directory_groups_search_form(); ?>
+		</div><!-- #group-dir-search -->
+
+	<?php else: ?>
+
+		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+	<?php endif; ?>
 
 	<form action="" method="post" id="groups-directory-form" class="dir-form">
 

@@ -29,11 +29,19 @@
 		 */
 		do_action( 'bp_before_directory_forums_content' ); ?>
 
-		<div id="forums-dir-search" class="dir-search" role="search">
+		<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+		<?php if ( has_filter( 'bp_directory_forums_search_form' ) ) : ?>
 
-			<?php bp_directory_forums_search_form(); ?>
+			<div id="forums-dir-search" class="dir-search" role="search">
+				<?php bp_directory_forums_search_form(); ?>
+			</div>
 
-		</div>
+		<?php else: ?>
+
+			<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+		<?php endif; ?>
+
 	</form>
 
 	<?php

@@ -33,9 +33,18 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	 */
 	do_action( 'bp_before_directory_blogs_content' ); ?>
 
-	<div id="blog-dir-search" class="dir-search" role="search">
-		<?php bp_directory_blogs_search_form(); ?>
-	</div><!-- #blog-dir-search -->
+	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+	<?php if ( has_filter( 'bp_directory_blogs_search_form' ) ) : ?>
+
+		<div id="blog-dir-search" class="dir-search" role="search">
+			<?php bp_directory_blogs_search_form(); ?>
+		</div><!-- #blog-dir-search -->
+
+	<?php else : ?>
+
+		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+	<?php endif; ?>
 
 	<?php
 
