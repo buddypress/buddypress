@@ -52,7 +52,7 @@ function friends_action_add_friend() {
 
 	return false;
 }
-add_action( 'bp_init', 'friends_action_add_friend' );
+add_action( 'bp_actions', 'friends_action_add_friend' );
 
 /**
  * Catch and process Remove Friendship requests.
@@ -92,4 +92,4 @@ function friends_action_remove_friend() {
 
 	return false;
 }
-add_action( 'bp_init', 'friends_action_remove_friend' );
+add_action( 'bp_actions', 'friends_action_remove_friend' );
