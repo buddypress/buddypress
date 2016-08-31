@@ -105,10 +105,11 @@ class BP_Legacy extends BP_Theme_Compat {
 
 			// Group buttons.
 			if ( bp_is_active( 'groups' ) ) {
-				add_action( 'bp_group_header_actions',          'bp_group_join_button',               5 );
-				add_action( 'bp_group_header_actions',          'bp_group_new_topic_button',         20 );
-				add_action( 'bp_directory_groups_actions',      'bp_group_join_button'                  );
-				add_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav', 999 );
+				add_action( 'bp_group_header_actions',          'bp_group_join_button',               5      );
+				add_action( 'bp_group_header_actions',          'bp_group_new_topic_button',         20      );
+				add_action( 'bp_directory_groups_actions',      'bp_group_join_button'                       );
+				add_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav', 999      );
+				add_action( 'bp_after_group_admin_content',     'bp_legacy_groups_admin_screen_hidden_input' );
 			}
 
 			// Blog button.
@@ -603,6 +604,19 @@ function bp_legacy_theme_group_create_button( $title ) {
  */
 function bp_legacy_theme_group_create_nav() {
 	bp_group_create_nav_item();
+}
+
+/**
+ * Renders the group ID hidden input on group admin screens.
+ *
+ * @since 2.7.0
+ *
+ * @return string html
+ */
+function bp_legacy_groups_admin_screen_hidden_input() {
+	?>
+ 	<input type="hidden" name="group-id" id="group-id" value="<?php bp_group_id(); ?>" />
+	<?php
 }
 
 /**
