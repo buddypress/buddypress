@@ -257,9 +257,9 @@ function bp_set_current_user_default_role() {
 function bp_current_user_can( $capability, $args = array() ) {
 	// Backward compatibility for older $blog_id parameter.
 	if ( is_int( $args ) ) {
-		$blog_id = $args;
+		$site_id = $args;
 		$args = array();
-		$args['site_id'] = $args;
+		$args['site_id'] = $site_id;
 
 	// New format for second parameter.
 	} elseif ( is_array( $args ) && isset( $args['blog_id'] ) ) {
