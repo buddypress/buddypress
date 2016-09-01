@@ -1710,6 +1710,7 @@ function bp_activity_get( $args = '' ) {
 			'exclude'          => $r['exclude'],
 			'in'               => $r['in'],
 			'spam'             => $r['spam'],
+			'update_meta_cache' => $r['update_meta_cache'],
 			'count_total'      => $r['count_total'],
 			'fields'           => $r['fields'],
 		) );
