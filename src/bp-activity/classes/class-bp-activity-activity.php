@@ -645,7 +645,13 @@ class BP_Activity_Activity {
 			 */
 			$activity_ids_sql = apply_filters( 'bp_activity_paged_activities_sql', $activity_ids_sql, $r );
 
-			$activity_ids = $wpdb->get_col( $activity_ids_sql );
+			$cached = bp_core_get_incremented_cache( $activity_ids_sql, 'bp_activity' );
+			if ( false === $cached ) {
+				$activity_ids = $wpdb->get_col( $activity_ids_sql );
+				bp_core_set_incremented_cache( $activity_ids_sql, 'bp_activity', $activity_ids );
+			} else {
+				$activity_ids = $cached;
+			}
 
 			$retval['has_more_items'] = ! empty( $per_page ) && count( $activity_ids ) > $per_page;
 
@@ -702,7 +708,13 @@ class BP_Activity_Activity {
 			 * @param string $sort      Sort direction for query.
 			 */
 			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
-			$total_activities     = $wpdb->get_var( $total_activities_sql );
+			$cached = bp_core_get_incremented_cache( $total_activities_sql, 'bp_activity' );
+			if ( false === $cached ) {
+				$total_activities = $wpdb->get_var( $total_activities_sql );
+				bp_core_set_incremented_cache( $total_activities_sql, 'bp_activity', $total_activities );
+			} else {
+				$total_activities = $cached;
+			}
 
 			if ( !empty( $r['max'] ) ) {
 				if ( (int) $total_activities > (int) $r['max'] ) {

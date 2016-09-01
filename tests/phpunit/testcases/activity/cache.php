@@ -83,4 +83,193 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 
 		$this->assertSame( 'bar foo', $a_fp['activities'][0]->content );
 	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_should_be_cached() {
+		global $wpdb;
+
+		$u = $this->factory->user->create();
+		$a = $this->factory->activity->create( array(
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar',
+		) );
+
+		$activity_args = array(
+			'per_page' => 10,
+			'fields' => 'ids',
+			'count_total' => true,
+		);
+
+		$a1 = bp_activity_get( $activity_args );
+
+		$num_queries = $wpdb->num_queries;
+
+		$a2 = bp_activity_get( $activity_args );
+
+		$this->assertEqualSets( $a1, $a2 );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_cache_should_be_skipped_for_different_query_params() {
+		global $wpdb;
+
+		$u = $this->factory->user->create();
+		$a = $this->factory->activity->create( array(
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar',
+		) );
+
+		$activity_args = array(
+			'per_page' => 10,
+			'fields' => 'ids',
+			'count_total' => true,
+			'filter' => array(
+				'component' => buddypress()->activity->id,
+			),
+		);
+
+		$a1 = bp_activity_get( $activity_args );
+
+		$num_queries = $wpdb->num_queries;
+
+		// This is enough to make the ID and COUNT clause miss the cache.
+		$activity_args['filter']['action'] = 'activity_update';
+		$a2 = bp_activity_get( $activity_args );
+
+		$this->assertEqualSets( $a1, $a2 );
+
+		// Two extra queries: one for the IDs, one for the count.
+		$n = $num_queries + 2;
+		$this->assertSame( $num_queries + 2, $wpdb->num_queries );
+	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_cache_should_be_invalidated_by_activity_add() {
+		global $wpdb;
+
+		$u = $this->factory->user->create();
+		$a1 = $this->factory->activity->create( array(
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar',
+		) );
+
+		$activity_args = array(
+			'per_page' => 10,
+			'fields' => 'ids',
+			'count_total' => true,
+		);
+
+		$q1 = bp_activity_get( $activity_args );
+
+		// Bust the cache.
+		$a2 = $this->factory->activity->create( array(
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar',
+		) );
+
+		$num_queries = $wpdb->num_queries;
+
+		$q2 = bp_activity_get( $activity_args );
+
+		$expected = array( $a1, $a2 );
+
+		$this->assertEqualSets( $expected, $q2['activities'] );
+		$this->assertEquals( 2, $q2['total'] );
+		$this->assertSame( $num_queries + 2, $wpdb->num_queries );
+	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_cache_should_be_invalidated_by_activity_edit() {
+		global $wpdb;
+
+		$u = $this->factory->user->create();
+		$a = $this->factory->activity->create( array(
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar',
+		) );
+
+		$activity_args = array(
+			'per_page' => 10,
+			'fields' => 'ids',
+			'count_total' => true,
+		);
+
+		$q1 = bp_activity_get( $activity_args );
+
+		// Bust the cache.
+		$this->factory->activity->create( array(
+			'id'            => $a,
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar baz',
+		) );
+
+		$num_queries = $wpdb->num_queries;
+
+		$q2 = bp_activity_get( $activity_args );
+
+		$this->assertEqualSets( $q1, $q2 );
+		$this->assertSame( $num_queries + 2, $wpdb->num_queries );
+	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_cache_should_be_invalidated_by_activity_delete() {
+		global $wpdb;
+
+		$u = $this->factory->user->create();
+		$a = $this->factory->activity->create( array(
+			'component'     => buddypress()->activity->id,
+			'type'          => 'activity_update',
+			'user_id'       => $u,
+			'content'       => 'foo bar',
+		) );
+
+		$activity_args = array(
+			'per_page' => 10,
+			'fields' => 'ids',
+			'count_total' => true,
+		);
+
+		$q1 = bp_activity_get( $activity_args );
+
+		// Bust the cache.
+		bp_activity_delete( array(
+			'id' => $a,
+		) );
+
+		$num_queries = $wpdb->num_queries;
+
+		$q2 = bp_activity_get( $activity_args );
+
+		$this->assertEqualSets( array(), $q2['activities'] );
+		$this->assertEquals( 0, $q2['total'] );
+		$this->assertSame( $num_queries + 2, $wpdb->num_queries );
+	}
 }

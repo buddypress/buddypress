@@ -63,3 +63,19 @@ function bp_activity_clear_cache_for_deleted_activity( $deleted_ids ) {
 	}
 }
 add_action( 'bp_activity_deleted_activities', 'bp_activity_clear_cache_for_deleted_activity' );
+
+/**
+ * Reset cache incrementor for the Activity component.
+ *
+ * Called whenever an activity item is created, updated, or deleted, this
+ * function effectively invalidates all cached results of activity queries.
+ *
+ * @since 2.7.0
+ *
+ * @return bool True on success, false on failure.
+ */
+function bp_activity_reset_cache_incrementor() {
+	return bp_core_reset_incrementor( 'bp_activity' );
+}
+add_action( 'bp_activity_delete', 'bp_activity_reset_cache_incrementor' );
+add_action( 'bp_activity_add', 'bp_activity_reset_cache_incrementor' );
