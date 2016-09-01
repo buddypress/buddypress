@@ -243,55 +243,55 @@ function bp_set_current_user_default_role() {
  *
  * @since 1.6.0
  * @since 2.4.0 Second argument modified to accept an array, rather than `$blog_id`.
+ * @since 2.7.0 Deprecated $args['blog_id'] in favor of $args['site_id'].
  *
  * @param string    $capability Capability or role name.
  * @param array|int $args {
  *     Array of extra arguments applicable to the capability check.
- *     @type int   $blog_id Optional. Blog ID. Defaults to the BP root blog.
+ *     @type int   $site_id Optional. Blog ID. Defaults to the BP root blog.
+ *     @type int   $blog_id Deprecated. Use $site_id instead.
  *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.
  * }
  * @return bool True if the user has the cap for the given parameters.
  */
 function bp_current_user_can( $capability, $args = array() ) {
-	$blog_id = 0;
-
 	// Backward compatibility for older $blog_id parameter.
 	if ( is_int( $args ) ) {
 		$blog_id = $args;
 		$args = array();
+		$args['site_id'] = $args;
 
 	// New format for second parameter.
 	} elseif ( is_array( $args ) && isset( $args['blog_id'] ) ) {
 		// Get the blog ID if set, but don't pass along to `current_user_can_for_blog()`.
-		$blog_id = (int) $args['blog_id'];
+		$args['site_id'] = (int) $args['blog_id'];
 		unset( $args['blog_id'] );
 	}
 
-	// Backward compatibility for older bp_current_user_can() checks.
-	if ( empty( $args ) ) {
-		$args = null;
-	}
+	// Cast $args as an array.
+	$args = (array) $args;
 
 	// Use root blog if no ID passed.
-	if ( empty( $blog_id ) ) {
-		$blog_id = bp_get_root_blog_id();
+	if ( empty( $args['site_id'] ) ) {
+		$args['site_id'] = bp_get_root_blog_id();
 	}
 
-	$args   = array( $blog_id, $capability, $args );
-	$retval = call_user_func_array( 'current_user_can_for_blog', $args );
+	// Call bp_user_can().
+	$retval = bp_user_can( bp_loggedin_user_id(), $capability, $args );
 
 	/**
 	 * Filters whether or not the current user has a given capability.
 	 *
 	 * @since 1.6.0
 	 * @since 2.4.0 Pass `$args` variable.
+	 * @since 2.7.0 Change format of $args variable array.
 	 *
 	 * @param bool   $retval     Whether or not the current user has the capability.
 	 * @param string $capability The capability being checked for.
 	 * @param int    $blog_id    Blog ID. Defaults to the BP root blog.
-	 * @param array  $args       Array of extra arguments passed.
+	 * @param array  $args       Array of extra arguments as originally passed.
 	 */
-	return (bool) apply_filters( 'bp_current_user_can', $retval, $capability, $blog_id, $args );
+	return (bool) apply_filters( 'bp_current_user_can', $retval, $capability, $args['site_id'], $args );
 }
 
 /**
@@ -319,8 +319,7 @@ function bp_user_can( $user_id, $capability, $args = array() ) {
 	}
 
 	$switched = is_multisite() ? switch_to_blog( $site_id ) : false;
-	$args     = array( $user_id, $capability, $args );
-	$retval   = call_user_func_array( 'user_can', $args );
+	$retval   = call_user_func_array( 'user_can', array( $user_id, $capability, $args ) );
 
 	/**
 	 * Filters whether or not the specified user has a given capability on a given site.

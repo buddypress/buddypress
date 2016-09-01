@@ -28,8 +28,8 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 			$caps = array( 'exist' ); // Must allow for logged-out users during registration.
 
 			// You may pass args manually: $field_id, $profile_user_id.
-			$field_id        = isset( $args[0] ) ? (int)$args[0] : bp_get_the_profile_field_id();
-			$profile_user_id = isset( $args[1] ) ? (int)$args[1] : bp_displayed_user_id();
+			$field_id        = ! empty( $args[0] ) ? (int) $args[0] : bp_get_the_profile_field_id();
+			$profile_user_id = isset( $args[1] )   ? (int) $args[1] : bp_displayed_user_id();
 
 			// Visibility on the fullname field is not editable.
 			if ( 1 == $field_id ) {
