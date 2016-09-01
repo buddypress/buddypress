@@ -1665,56 +1665,26 @@ function bp_activity_get( $args = '' ) {
 		'filter' => array()
 	) );
 
-	// Attempt to return a cached copy of the first page of sitewide activity.
-	if ( ( 1 === (int) $r['page'] ) && empty( $r['max'] ) && ( 'all' === $r['fields'] ) && empty( $r['search_terms'] ) && empty( $r['meta_query'] ) && empty( $r['date_query'] ) && empty( $r['filter_query'] ) && empty( $r['filter'] ) && empty( $r['scope'] )&& empty( $r['exclude'] ) && empty( $r['in'] ) && ( 'DESC' === $r['sort'] ) && empty( $r['exclude'] ) && ( 'ham_only' === $r['spam'] ) ) {
-
-		$activity = wp_cache_get( 'bp_activity_sitewide_front', 'bp' );
-		if ( false === $activity ) {
-
-			$activity = BP_Activity_Activity::get( array(
-				'page'              => $r['page'],
-				'per_page'          => $r['per_page'],
-				'max'               => $r['max'],
-				'fields'            => $r['fields'],
-				'sort'              => $r['sort'],
-				'search_terms'      => $r['search_terms'],
-				'meta_query'        => $r['meta_query'],
-				'date_query'        => $r['date_query'],
-				'filter_query'      => $r['filter_query'],
-				'filter'            => $r['filter'],
-				'scope'             => $r['scope'],
-				'display_comments'  => $r['display_comments'],
-				'show_hidden'       => $r['show_hidden'],
-				'spam'              => $r['spam'],
-				'update_meta_cache' => $r['update_meta_cache'],
-				'count_total'       => $r['count_total'],
-			) );
-
-			wp_cache_set( 'bp_activity_sitewide_front', $activity, 'bp' );
-		}
-
-	} else {
-		$activity = BP_Activity_Activity::get( array(
-			'page'             => $r['page'],
-			'per_page'         => $r['per_page'],
-			'max'              => $r['max'],
-			'sort'             => $r['sort'],
-			'search_terms'     => $r['search_terms'],
-			'meta_query'       => $r['meta_query'],
-			'date_query'       => $r['date_query'],
-			'filter_query'     => $r['filter_query'],
-			'filter'           => $r['filter'],
-			'scope'            => $r['scope'],
-			'display_comments' => $r['display_comments'],
-			'show_hidden'      => $r['show_hidden'],
-			'exclude'          => $r['exclude'],
-			'in'               => $r['in'],
-			'spam'             => $r['spam'],
-			'update_meta_cache' => $r['update_meta_cache'],
-			'count_total'      => $r['count_total'],
-			'fields'           => $r['fields'],
-		) );
-	}
+	$activity = BP_Activity_Activity::get( array(
+		'page'              => $r['page'],
+		'per_page'          => $r['per_page'],
+		'max'               => $r['max'],
+		'sort'              => $r['sort'],
+		'search_terms'      => $r['search_terms'],
+		'meta_query'        => $r['meta_query'],
+		'date_query'        => $r['date_query'],
+		'filter_query'      => $r['filter_query'],
+		'filter'            => $r['filter'],
+		'scope'             => $r['scope'],
+		'display_comments'  => $r['display_comments'],
+		'show_hidden'       => $r['show_hidden'],
+		'exclude'           => $r['exclude'],
+		'in'                => $r['in'],
+		'spam'              => $r['spam'],
+		'update_meta_cache' => $r['update_meta_cache'],
+		'count_total'       => $r['count_total'],
+		'fields'            => $r['fields'],
+	) );
 
 	/**
 	 * Filters the requested activity item(s).
