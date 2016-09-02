@@ -804,7 +804,29 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 			</ul>
 		</div>
 
+		<?php
+		$removed_args = array(
+			'action',
+			'customlink-tab',
+			'edit-menu-item',
+			'menu-item',
+			'page-tab',
+			'_wpnonce',
+		);
+		?>
+
 		<p class="button-controls">
+			<span class="list-controls">
+				<a href="<?php
+				echo esc_url( add_query_arg(
+					array(
+						$post_type_name . '-tab' => 'all',
+						'selectall'              => 1,
+					),
+					remove_query_arg( $removed_args )
+				) );
+				?>#buddypress-menu" class="select-all"><?php _e( 'Select All', 'buddypress' ); ?></a>
+			</span>
 			<span class="add-to-menu">
 				<input type="submit"<?php if ( function_exists( 'wp_nav_menu_disabled_check' ) ) : wp_nav_menu_disabled_check( $nav_menu_selected_id ); endif; ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'buddypress' ); ?>" name="add-custom-menu-item" id="submit-buddypress-menu" />
 				<span class="spinner"></span>
