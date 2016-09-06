@@ -67,6 +67,28 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP7248
+	 */
+	public function test_include_array_contaning_only_0_should_result_in_no_results_query() {
+		$q = new BP_User_Query( array(
+			'include' => array( 0 ),
+		) );
+
+		$this->assertContains( '0 = 1', $q->uid_clauses['where'] );
+	}
+
+	/**
+	 * @ticket BP7248
+	 */
+	public function test_include_array_contaning_0_but_also_real_IDs_should_not_result_in_no_results_query() {
+		$q = new BP_User_Query( array(
+			'include' => array( 0, 1 ),
+		) );
+
+		$this->assertNotContains( '0 = 1', $q->uid_clauses['where'] );
+	}
+
+	/**
 	 * @group user_ids
 	 */
 	public function test_bp_user_query_user_ids_with_invalid_user_id() {

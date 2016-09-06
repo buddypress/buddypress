@@ -364,7 +364,11 @@ class BP_User_Query {
 		// 'include' - User ids to include in the results.
 		$include     = false !== $include ? wp_parse_id_list( $include ) : array();
 		$include_ids = $this->get_include_ids( $include );
-		if ( ! empty( $include_ids ) ) {
+
+		// An array containing nothing but 0 should always fail.
+		if ( 1 === count( $include_ids ) && 0 == reset( $include_ids ) ) {
+			$sql['where'][] = $this->no_results['where'];
+		} elseif ( ! empty( $include_ids ) ) {
 			$include_ids    = implode( ',', wp_parse_id_list( $include_ids ) );
 			$sql['where'][] = "u.{$this->uid_name} IN ({$include_ids})";
 		}
