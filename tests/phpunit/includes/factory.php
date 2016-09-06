@@ -13,6 +13,7 @@ class BP_UnitTest_Factory extends WP_UnitTest_Factory {
 		$this->xprofile_field = new BP_UnitTest_Factory_For_XProfileField( $this );
 		$this->notification = new BP_UnitTest_Factory_For_Notification( $this );
 		$this->signup = new BP_UnitTest_Factory_For_Signup( $this );
+		$this->friendship = new BP_UnitTest_Factory_For_Friendship( $this );
 	}
 }
 
@@ -266,5 +267,77 @@ class BP_UnitTest_Factory_For_Signup extends WP_UnitTest_Factory_For_Thing {
 
 	public function get_object_by_id( $id ) {
 		return new BP_Signup( $id );
+	}
+}
+
+/**
+ * Factory for friendships.
+ *
+ * @since 2.7.0
+ */
+class BP_UnitTest_Factory_For_Friendship extends WP_UnitTest_Factory_For_Thing {
+	/**
+	 * Constructor.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param $factory WP_UnitTest_Factory
+	 */
+	public function __construct( $factory = null ) {
+		parent::__construct( $factory );
+	}
+
+	/**
+	 * Create friendship object.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param array $args Array of arguments.
+	 * @return int Friendship ID.
+	 */
+	public function create_object( $args ) {
+		$friendship = new BP_Friends_Friendship();
+
+		foreach ( array( 'initiator_user_id', 'friend_user_id' ) as $arg ) {
+			if ( isset( $args[ $arg ] ) ) {
+				$friendship->$arg = $args[ $arg ];
+			} else {
+				$friendship->$arg = $this->factory->user->create();
+			}
+		}
+
+		foreach ( array( 'is_confirmed', 'is_limited', 'date_created' ) as $arg ) {
+			if ( isset( $args[ $arg ] ) ) {
+				$friendship->$arg = $args[ $arg ];
+			}
+		}
+
+		$friendship->save();
+
+		return $friendship->id;
+	}
+
+	/**
+	 * Update a friendship object.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @todo Implement.
+	 *
+	 * @param int   $id     ID of the friendship.
+	 * @param array $fields Fields to update.
+	 */
+	public function update_object( $id, $fields ) {}
+
+	/**
+	 * Get a friendship object by its ID.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int $id
+	 * @return BP_Friends_Friendship
+	 */
+	public function get_object_by_id( $id ) {
+		return new BP_Friends_Friendship( $id );
 	}
 }
