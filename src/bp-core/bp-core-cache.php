@@ -357,5 +357,5 @@ function bp_core_get_incrementor( $group ) {
  * @return bool True on success, false on failure.
  */
 function bp_core_reset_incrementor( $group ) {
-	wp_cache_delete( 'incrementor', $group );
+	return wp_cache_delete( 'incrementor', $group );
 }
