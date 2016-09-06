@@ -15,7 +15,7 @@ if ( ! buddypress()->do_autoload ) {
 }
 
 /**
- * Instantiates the settings component.
+ * Set up the bp-settings component.
  *
  * @since 1.6.0
  */

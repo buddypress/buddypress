@@ -17,7 +17,7 @@ if ( ! buddypress()->do_autoload ) {
 }
 
 /**
- * Set up the bp-forums component.
+ * Set up the bp-friends component.
  *
  * @since 1.6.0
  */

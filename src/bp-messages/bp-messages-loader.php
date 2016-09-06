@@ -17,7 +17,9 @@ if ( ! buddypress()->do_autoload ) {
 }
 
 /**
- * Bootstrap the Messages component.
+ * Set up the bp-messages component.
+ *
+ * @since 1.5.0
  */
 function bp_setup_messages() {
 	buddypress()->messages = new BP_Messages_Component();

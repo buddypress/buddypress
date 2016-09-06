@@ -18,7 +18,7 @@ if ( ! buddypress()->do_autoload ) {
 }
 
 /**
- * Bootstrap the XProfile component.
+ * Set up the bp-xprofile component.
  *
  * @since 1.6.0
  */

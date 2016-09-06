@@ -19,7 +19,7 @@ if ( ! buddypress()->do_autoload ) {
 }
 
 /**
- * Bootstrap the Notifications component.
+ * Set up the bp-groups component.
  *
  * @since 1.5.0
  */

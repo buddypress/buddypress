@@ -20,6 +20,8 @@ if ( ! buddypress()->do_autoload ) {
 
 /**
  * Set up the bp-blogs component.
+ *
+ * @since 1.5.0
  */
 function bp_setup_blogs() {
 	buddypress()->blogs = new BP_Blogs_Component();

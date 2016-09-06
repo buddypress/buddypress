@@ -18,11 +18,9 @@ if ( ! buddypress()->do_autoload ) {
 }
 
 /**
- * Set up the BuddyPress Core component.
+ * Set up the bp-core component.
  *
  * @since 1.6.0
- *
- * @global BuddyPress $bp BuddyPress global settings object.
  */
 function bp_setup_core() {
 	buddypress()->core = new BP_Core();

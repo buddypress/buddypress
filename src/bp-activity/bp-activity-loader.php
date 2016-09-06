@@ -17,7 +17,7 @@ if ( ! buddypress()->do_autoload ) {
 }
 
 /**
- * Bootstrap the Activity component.
+ * Set up the bp-activity component.
  *
  * @since 1.6.0
  */
