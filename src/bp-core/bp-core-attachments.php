@@ -52,6 +52,11 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 		foreach ( $upload_data as $key => $value ) {
 			if ( 'basedir' === $key || 'baseurl' === $key ) {
 				$upload_data[ $key ] = trailingslashit( $value ) . $attachments_dir;
+
+				// Fix for HTTPS.
+				if ( 'baseurl' === $key && is_ssl() ) {
+					$upload_data[ $key ] = str_replace( 'http://', 'https://', $upload_data[ $key ] ); 
+				}
 			} else {
 				unset( $upload_data[ $key ] );
 			}
