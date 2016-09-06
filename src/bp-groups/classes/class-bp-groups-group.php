@@ -977,7 +977,7 @@ class BP_Groups_Group {
 		 * @param array  $r         Array of parsed arguments for the get method.
 		 */
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r );
-		$total_groups     = $wpdb->get_var( $total_groups_sql );
+		$total_groups     = (int) $wpdb->get_var( $total_groups_sql );
 
 		$group_ids = array();
 		foreach ( (array) $paged_groups as $group ) {
@@ -992,6 +992,18 @@ class BP_Groups_Group {
 		// Grab all groupmeta.
 		if ( ! empty( $r['update_meta_cache'] ) ) {
 			bp_groups_update_meta_cache( $group_ids );
+		}
+
+		// Set up integer properties needing casting.
+		$int_props = array(
+			'id', 'creator_id', 'enable_forum', 'total_member_count',
+		);
+
+		// Integer casting.
+		foreach ( $paged_groups as $key => $g ) {
+			foreach ( $int_props as $int_prop ) {
+				$paged_groups[ $key ]->{$int_prop} = (int) $paged_groups[ $key ]->{$int_prop};
+			}
 		}
 
 		unset( $sql, $total_sql );
@@ -1431,9 +1443,9 @@ class BP_Groups_Group {
 		$user_id = bp_loggedin_user_id();
 
 		foreach ( $paged_groups as &$group ) {
-			$group->is_member  = groups_is_user_member( $user_id, $group->id ) ? '1' : '0';
-			$group->is_invited = groups_is_user_invited( $user_id, $group->id ) ? '1' : '0';
-			$group->is_pending = groups_is_user_pending( $user_id, $group->id ) ? '1' : '0';
+			$group->is_member  = groups_is_user_member( $user_id, $group->id )  ? 1 : 0;
+			$group->is_invited = groups_is_user_invited( $user_id, $group->id ) ? 1 : 0;
+			$group->is_pending = groups_is_user_pending( $user_id, $group->id ) ? 1 : 0;
 			$group->is_banned  = (bool) groups_is_user_banned( $user_id, $group->id );
 		}
 
