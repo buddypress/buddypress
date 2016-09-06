@@ -2097,7 +2097,7 @@ function bp_activity_comment_delete_link() {
 	 *                      activity comment.
 	 */
 	function bp_get_activity_comment_delete_link() {
-		$link = wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/delete/' . bp_get_activity_comment_id() . '?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
+		$link = wp_nonce_url( bp_get_activity_directory_permalink() . 'delete/' . bp_get_activity_comment_id() . '?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
 
 		/**
 		 * Filters the link used for deleting the activity comment currently being displayed.
