@@ -284,3 +284,73 @@ p.member-type-none-notice {
 	display: none;
 	visibility: hidden;
 }
+
+/* xProfile Field Type - Date */
+
+.form-table.bp-date-options {
+	margin: 0 8px;
+}
+
+.form-table.bp-date-options th {
+	width: 150px;
+}
+
+.form-table td .date-format-section select {
+	margin-top: -2px;
+}
+
+.date-format-label {
+	display: inline-block;
+	width: 150px;
+}
+
+.date-format-custom-value,
+.date-range-numeric {
+	width: 56px;
+}
+
+.bp-date-range-type-label {
+	float: right;
+	font-style: italic;
+	width: 80px;
+}
+
+.bp-date-range-type-values {
+	margin-left: 25px;
+	padding-right: 100px;
+}
+
+@media screen and (max-width: 782px) {
+	.bp-date-formats .bp-date-format-option:first-of-type {
+		margin-top: 1em;
+	}
+	.bp-range-types .bp-date-format-option {
+		margin-bottom: 1em;
+		margin-top: 1em;
+	}
+	.form-table td input.date-format-custom-value,
+	.form-table td input.date-range-numeric {
+		display: inline-block;
+		margin-left: 10px;
+		width: 56px;
+	}
+	.form-table td .bp-date-range-type-values select {
+		display: inline-block;
+		width: auto;
+	}
+	.bp-date-range-type-label {
+		float: none;
+		width: auto;
+	}
+	.bp-date-range-type-values {
+		padding-right: 0;
+		margin-right: 35px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.form-table .bp-range-types label {
+		clear: both;
+		display: block;
+	}
+}
