@@ -433,7 +433,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				}
 
 				if ( $field->type_obj->do_settings_section() ) {
-					$settings = isset( $_POST['field_settings'] ) ? wp_unslash( $_POST['field_settings'] ) : array();
+					$settings = isset( $_POST['field-settings'] ) ? wp_unslash( $_POST['field-settings'] ) : array();
 					$field->admin_save_settings( $settings );
 				}
 
