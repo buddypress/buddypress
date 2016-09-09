@@ -272,4 +272,90 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		$this->assertEquals( 0, $q2['total'] );
 		$this->assertSame( $num_queries + 2, $wpdb->num_queries );
 	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_cache_should_be_invalidated_by_activitymeta_add() {
+		global $wpdb;
+
+		$activities = $this->factory->activity->create_many( 2 );
+		bp_activity_add_meta( $activities[0], 'foo', 'bar' );
+
+		$activity_args = array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+			),
+		);
+
+		$q1 = bp_activity_get( $activity_args );
+		$this->assertEqualSets( array( $activities[0] ), wp_list_pluck( $q1['activities'], 'id' ) );
+
+		bp_activity_add_meta( $activities[1], 'foo', 'bar' );
+
+		$q2 = bp_activity_get( $activity_args );
+		$this->assertEqualSets( array( $activities[0], $activities[1] ), wp_list_pluck( $q2['activities'], 'id' ) );
+	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_cache_should_be_invalidated_by_activitymeta_update() {
+		global $wpdb;
+
+		$activities = $this->factory->activity->create_many( 2 );
+		bp_activity_add_meta( $activities[0], 'foo', 'bar' );
+		bp_activity_add_meta( $activities[1], 'foo', 'baz' );
+
+		$activity_args = array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+			),
+		);
+
+		$q1 = bp_activity_get( $activity_args );
+		$this->assertEqualSets( array( $activities[0] ), wp_list_pluck( $q1['activities'], 'id' ) );
+
+		bp_activity_update_meta( $activities[1], 'foo', 'bar' );
+
+		$q2 = bp_activity_get( $activity_args );
+		$this->assertEqualSets( array( $activities[0], $activities[1] ), wp_list_pluck( $q2['activities'], 'id' ) );
+	}
+
+	/**
+	 * @ticket BP7237
+	 * @ticket BP6643
+	 */
+	public function test_query_cache_should_be_invalidated_by_activitymeta_delete() {
+		global $wpdb;
+
+		$activities = $this->factory->activity->create_many( 2 );
+		bp_activity_add_meta( $activities[0], 'foo', 'bar' );
+		bp_activity_add_meta( $activities[1], 'foo', 'bar' );
+
+		$activity_args = array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+			),
+		);
+
+		$q1 = bp_activity_get( $activity_args );
+		$this->assertEqualSets( array( $activities[0], $activities[1] ), wp_list_pluck( $q1['activities'], 'id' ) );
+
+		bp_activity_delete_meta( $activities[1], 'foo', 'bar' );
+
+		$q2 = bp_activity_get( $activity_args );
+		$this->assertEqualSets( array( $activities[0] ), wp_list_pluck( $q2['activities'], 'id' ) );
+	}
 }
