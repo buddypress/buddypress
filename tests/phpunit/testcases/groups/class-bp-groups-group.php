@@ -396,6 +396,33 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 */
+	public function test_get_with_type_alphabetical() {
+		$time = time();
+		$g1 = $this->factory->group->create( array(
+			'name' => 'A Group',
+			'date_created' => bp_core_current_time(),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'D Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'name' => 'B Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
+		) );
+		$g4 = $this->factory->group->create( array(
+			'name' => 'C Group',
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
+		) );
+
+		$groups = BP_Groups_Group::get( array( 'type' => 'alphabetical' ) );
+		$found = wp_parse_id_list( wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertEquals( array( $g1, $g3, $g4, $g2 ), $found );
+	}
+
+	/**
+	 * @group get
 	 * @group group_meta_query
 	 * @ticket BP5099
 	 */
@@ -563,7 +590,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_convert_orderby_to_order_by_term_last_activity() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( 'last_activity', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'last_activity' ) );
+		$this->assertEquals( 'gm_last_activity.meta_value', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'last_activity' ) );
 	}
 
 	/**
@@ -571,7 +598,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_convert_orderby_to_order_by_term_total_member_count() {
 		$c = new _BP_Groups_Group();
-		$this->assertEquals( 'CONVERT(gm1.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_member_count' ) );
+		$this->assertEquals( 'CONVERT(gm_total_member_count.meta_value, SIGNED)', _BP_Groups_Group::_convert_orderby_to_order_by_term( 'total_member_count' ) );
 	}
 
 	/**

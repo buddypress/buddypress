@@ -105,7 +105,7 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 * @var int
 	 */
-	public $total_member_count;
+	protected $total_member_count;
 
 	/**
 	 * Is the current user a member of this group?
@@ -137,7 +137,7 @@ class BP_Groups_Group {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	public $last_activity;
+	protected $last_activity;
 
 	/**
 	 * If this is a private or hidden group, does the current user have access?
@@ -241,11 +241,6 @@ class BP_Groups_Group {
 					$this->mods[] = $user;
 				}
 			}
-
-			// Set up some specific group vars from meta. Excluded
-			// from the bp_groups cache because it's cached independently.
-			$this->last_activity      = groups_get_groupmeta( $this->id, 'last_activity' );
-			$this->total_member_count = (int) groups_get_groupmeta( $this->id, 'total_member_count' );
 
 			// Set user-specific data.
 			$user_id          = bp_loggedin_user_id();
@@ -427,6 +422,49 @@ class BP_Groups_Group {
 			return false;
 
 		return true;
+	}
+
+	/**
+	 * Magic getter.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $key Property name.
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		switch ( $key ) {
+			case 'last_activity' :
+				return groups_get_groupmeta( $this->id, 'last_activity' );
+
+			case 'total_member_count' :
+				return (int) groups_get_groupmeta( $this->id, 'total_member_count' );
+
+			default :
+			break;
+		}
+	}
+
+	/**
+	 * Magic issetter.
+	 *
+	 * Used to maintain backward compatibility for properties that are now
+	 * accessible only via magic method.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $key Property name.
+	 * @return bool
+	 */
+	public function __isset( $key ) {
+		switch ( $key ) {
+			case 'last_activity' :
+			case 'total_member_count' :
+				return true;
+
+			default :
+				return false;
+		}
 	}
 
 	/** Static Methods ****************************************************/
@@ -777,31 +815,28 @@ class BP_Groups_Group {
 
 		$bp = buddypress();
 
-		$sql       = array();
-		$total_sql = array();
+		$sql = array(
+			'select'     => "SELECT DISTINCT g.id",
+			'from'       => "{$bp->groups->table_name} g",
+			'where'      => '',
+			'orderby'    => '',
+			'pagination' => '',
+		);
 
-		$sql['select'] = "SELECT DISTINCT g.id, g.*, gm1.meta_value AS total_member_count, gm2.meta_value AS last_activity";
-		$sql['from']   = " FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2,";
-
-		if ( ! empty( $r['user_id'] ) ) {
-			$sql['members_from'] = " {$bp->groups->table_name_members} m,";
-		}
-
-		$sql['group_from'] = " {$bp->groups->table_name} g WHERE";
 
 		if ( ! empty( $r['user_id'] ) ) {
-			$sql['user_where'] = " g.id = m.group_id AND";
+			$sql['from'] .= " JOIN {$bp->groups->table_name_members} m ON ( g.id = m.group_id )";
 		}
 
-		$sql['where'] = " g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count'";
+		$where_conditions = array();
 
 		if ( empty( $r['show_hidden'] ) ) {
-			$sql['hidden'] = " AND g.status != 'hidden'";
+			$where_conditions['hidden'] = "g.status != 'hidden'";
 		}
 
 		if ( ! empty( $r['search_terms'] ) ) {
 			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
-			$sql['search'] = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
+			$where_conditions['search'] = $wpdb->prepare( "( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
 		}
 
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
@@ -811,7 +846,7 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $meta_query_sql['where'] ) ) {
-			$sql['meta'] = $meta_query_sql['where'];
+			$where_conditions['meta'] = $meta_query_sql['where'];
 		}
 
 		// Only use 'group_type__in', if 'group_type' is not set.
@@ -829,21 +864,21 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $group_type_clause ) ) {
-			$sql['group_type'] = $group_type_clause;
+			$where_conditions['group_type'] = $group_type_clause;
 		}
 
 		if ( ! empty( $r['user_id'] ) ) {
-			$sql['user'] = $wpdb->prepare( " AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
+			$where_conditions['user'] = $wpdb->prepare( "m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
 		}
 
 		if ( ! empty( $r['include'] ) ) {
 			$include        = implode( ',', wp_parse_id_list( $r['include'] ) );
-			$sql['include'] = " AND g.id IN ({$include})";
+			$where_conditions['include'] = "g.id IN ({$include})";
 		}
 
 		if ( ! empty( $r['exclude'] ) ) {
 			$exclude        = implode( ',', wp_parse_id_list( $r['exclude'] ) );
-			$sql['exclude'] = " AND g.id NOT IN ({$exclude})";
+			$where_conditions['exclude'] = "g.id NOT IN ({$exclude})";
 		}
 
 		/* Order/orderby ********************************************/
@@ -877,6 +912,16 @@ class BP_Groups_Group {
 			}
 		}
 
+		// 'total_member_count' and 'last_activity' sorts require additional table joins.
+		if ( 'total_member_count' === $orderby ) {
+			$sql['from'] .= " JOIN {$bp->groups->table_name_groupmeta} gm_total_member_count ON ( g.id = gm_total_member_count.group_id )";
+			$where_conditions['total_member_count'] = "gm_total_member_count.meta_key = 'total_member_count'";
+		} elseif ( 'last_activity' === $orderby ) {
+
+			$sql['from'] .= " JOIN {$bp->groups->table_name_groupmeta} gm_last_activity on ( g.id = gm_last_activity.group_id )";
+			$where_conditions['last_activity'] = "gm_last_activity.meta_key = 'last_activity'";
+		}
+
 		// Sanitize 'order'.
 		$order = bp_esc_sql_order( $order );
 
@@ -893,14 +938,22 @@ class BP_Groups_Group {
 
 		// Random order is a special case.
 		if ( 'rand()' === $orderby ) {
-			$sql[] = "ORDER BY rand()";
+			$sql['orderby'] = "ORDER BY rand()";
 		} else {
-			$sql[] = "ORDER BY {$orderby} {$order}";
+			$sql['orderby'] = "ORDER BY {$orderby} {$order}";
 		}
 
 		if ( ! empty( $r['per_page'] ) && ! empty( $r['page'] ) && $r['per_page'] != -1 ) {
 			$sql['pagination'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) );
 		}
+
+		$where = '';
+		if ( ! empty( $where_conditions ) ) {
+			$sql['where'] = implode( ' AND ', $where_conditions );
+			$where = "WHERE {$sql['where']}";
+		}
+
+		$paged_groups_sql = "{$sql['select']} FROM {$sql['from']} {$where} {$sql['orderby']} {$sql['pagination']}";
 
 		/**
 		 * Filters the pagination SQL statement.
@@ -911,61 +964,24 @@ class BP_Groups_Group {
 		 * @param array  $sql   Array of SQL parts before concatenation.
 		 * @param array  $r     Array of parsed arguments for the get method.
 		 */
-		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', join( ' ', (array) $sql ), $sql, $r );
-		$paged_groups     = $wpdb->get_results( $paged_groups_sql );
+		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', $paged_groups_sql, $sql, $r );
+		$paged_group_ids  = $wpdb->get_col( $paged_groups_sql );
 
-		$total_sql['select'] = "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name} g, {$bp->groups->table_name_groupmeta} gm";
-
-		if ( ! empty( $r['user_id'] ) ) {
-			$total_sql['select'] .= ", {$bp->groups->table_name_members} m";
+		$uncached_group_ids = bp_get_non_cached_ids( $paged_group_ids, 'bp_groups' );
+		if ( $uncached_group_ids ) {
+			$group_ids_sql = implode( ',', array_map( 'intval', $uncached_group_ids ) );
+			$group_data_objects = $wpdb->get_results( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id IN ({$group_ids_sql})" );
+			foreach ( $group_data_objects as $group_data_object ) {
+				wp_cache_set( $group_data_object->id, $group_data_object, 'bp_groups' );
+			}
 		}
 
-		if ( ! empty( $sql['hidden'] ) ) {
-			$total_sql['where'][] = "g.status != 'hidden'";
+		$paged_groups = array();
+		foreach ( $paged_group_ids as $paged_group_id ) {
+			$paged_groups[] = new BP_Groups_Group( $paged_group_id );
 		}
 
-		if ( ! empty( $sql['search'] ) ) {
-			$total_sql['where'][] = $wpdb->prepare( "( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
-		}
-
-		if ( ! empty( $r['user_id'] ) ) {
-			$total_sql['where'][] = $wpdb->prepare( "m.group_id = g.id AND m.user_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0", $r['user_id'] );
-		}
-
-		// Temporary implementation of meta_query for total count
-		// See #5099.
-		if ( ! empty( $meta_query_sql['where'] ) ) {
-			// Join the groupmeta table.
-			$total_sql['select'] .= ", ". substr( $meta_query_sql['join'], 0, -2 );
-
-			// Modify the meta_query clause from paged_sql for our syntax.
-			$meta_query_clause = preg_replace( '/^\s*AND/', '', $meta_query_sql['where'] );
-			$total_sql['where'][] = $meta_query_clause;
-		}
-
-		// Trim leading 'AND' to match `$total_sql` query style.
-		if ( ! empty( $group_type_clause ) ) {
-			$total_sql['where'][] = preg_replace( '/^\s*AND\s*/', '', $group_type_clause );
-		}
-
-		// Already escaped in the paginated results block.
-		if ( ! empty( $include ) ) {
-			$total_sql['where'][] = "g.id IN ({$include})";
-		}
-
-		// Already escaped in the paginated results block.
-		if ( ! empty( $exclude ) ) {
-			$total_sql['where'][] = "g.id NOT IN ({$exclude})";
-		}
-
-		$total_sql['where'][] = "g.id = gm.group_id";
-		$total_sql['where'][] = "gm.meta_key = 'last_activity'";
-
-		$t_sql = $total_sql['select'];
-
-		if ( ! empty( $total_sql['where'] ) ) {
-			$t_sql .= " WHERE " . join( ' AND ', (array) $total_sql['where'] );
-		}
+		$total_groups_sql = "SELECT COUNT(DISTINCT g.id) FROM {$sql['from']} $where";
 
 		/**
 		 * Filters the SQL used to retrieve total group results.
@@ -976,7 +992,7 @@ class BP_Groups_Group {
 		 * @param array  $total_sql Array of SQL parts for the query.
 		 * @param array  $r         Array of parsed arguments for the get method.
 		 */
-		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $t_sql, $total_sql, $r );
+		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $total_groups_sql, $sql, $r );
 		$total_groups     = (int) $wpdb->get_var( $total_groups_sql );
 
 		$group_ids = array();
@@ -996,7 +1012,7 @@ class BP_Groups_Group {
 
 		// Set up integer properties needing casting.
 		$int_props = array(
-			'id', 'creator_id', 'enable_forum', 'total_member_count',
+			'id', 'creator_id', 'enable_forum'
 		);
 
 		// Integer casting.
@@ -1015,10 +1031,7 @@ class BP_Groups_Group {
 	 * Get the SQL for the 'meta_query' param in BP_Activity_Activity::get()
 	 *
 	 * We use WP_Meta_Query to do the heavy lifting of parsing the
-	 * meta_query array and creating the necessary SQL clauses. However,
-	 * since BP_Activity_Activity::get() builds its SQL differently than
-	 * WP_Query, we have to alter the return value (stripping the leading
-	 * AND keyword from the 'where' clause).
+	 * meta_query array and creating the necessary SQL clauses.
 	 *
 	 * @since 1.8.0
 	 *
@@ -1042,22 +1055,8 @@ class BP_Groups_Group {
 			$wpdb->groupmeta = buddypress()->groups->table_name_groupmeta;
 
 			$meta_sql = $groups_meta_query->get_sql( 'group', 'g', 'id' );
-
-			// BP_Groups_Group::get uses the comma syntax for table
-			// joins, which means that we have to do some regex to
-			// convert the INNER JOIN and move the ON clause to a
-			// WHERE condition
-			//
-			// @todo It may be better in the long run to refactor
-			// the more general query syntax to accord better with
-			// BP/WP convention.
-			preg_match_all( '/JOIN (.+?) ON/', $meta_sql['join'], $matches_a );
-			preg_match_all( '/ON \((.+?)\)/', $meta_sql['join'], $matches_b );
-
-			if ( ! empty( $matches_a[1] ) && ! empty( $matches_b[1] ) ) {
-				$sql_array['join']  = implode( ',', $matches_a[1] ) . ', ';
-				$sql_array['where'] = $meta_sql['where'] . ' AND ' . implode( ' AND ', $matches_b[1] );
-			}
+			$sql_array['join']  = $meta_sql['join'];
+			$sql_array['where'] = self::strip_leading_and( $meta_sql['where'] );
 		}
 
 		return $sql_array;
@@ -1197,11 +1196,11 @@ class BP_Groups_Group {
 				break;
 
 			case 'last_activity' :
-				$order_by_term = 'last_activity';
+				$order_by_term = 'gm_last_activity.meta_value';
 				break;
 
 			case 'total_member_count' :
-				$order_by_term = 'CONVERT(gm1.meta_value, SIGNED)';
+				$order_by_term = 'CONVERT(gm_total_member_count.meta_value, SIGNED)';
 				break;
 
 			case 'name' :
@@ -1666,15 +1665,15 @@ class BP_Groups_Group {
 
 		// The no_results clauses are the same between IN and NOT IN.
 		if ( false !== strpos( $sql_clauses['where'], '0 = 1' ) ) {
-			$clause = $sql_clauses['where'];
+			$clause = self::strip_leading_and( $sql_clauses['where'] );
 
 		// The tax_query clause generated for NOT IN can be used almost as-is.
 		} elseif ( 'NOT IN' === $operator ) {
-			$clause = $sql_clauses['where'];
+			$clause = self::strip_leading_and( $sql_clauses['where'] );
 
 		// IN clauses must be converted to a subquery.
 		} elseif ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $sql_clauses['where'], $matches ) ) {
-			$clause = " AND g.id IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
+			$clause = " g.id IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
 		}
 
 		if ( $switched ) {
@@ -1682,5 +1681,20 @@ class BP_Groups_Group {
 		}
 
 		return $clause;
+	}
+
+	/**
+	 * Strips the leading AND and any surrounding whitespace from a string.
+	 *
+	 * Used here to normalize SQL fragments generated by `WP_Meta_Query` and
+	 * other utility classes.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $s String.
+	 * @return string
+	 */
+	protected static function strip_leading_and( $s ) {
+		return preg_replace( '/^\s*AND\s*/', '', $s );
 	}
 }
