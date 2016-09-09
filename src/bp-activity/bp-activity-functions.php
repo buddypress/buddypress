@@ -1663,7 +1663,7 @@ function bp_activity_get( $args = '' ) {
 		 * );
 		 */
 		'filter' => array()
-	) );
+	), 'activity_get' );
 
 	$activity = BP_Activity_Activity::get( array(
 		'page'              => $r['page'],
