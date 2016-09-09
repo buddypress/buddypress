@@ -291,7 +291,7 @@ add_action( 'added_group_meta',        'bp_groups_reset_cache_incrementor' );
  */
 function bp_groups_reset_cache_incrementor_on_group_term_change( $object_id, $terms, $tt_ids, $taxonomy ) {
 	$tax_object = get_taxonomy( $taxonomy );
-	if ( $tax_object && in_array( 'bp_group', $tax_object->object_type ) ) {
+	if ( $tax_object && in_array( 'bp_group', $tax_object->object_type, true ) ) {
 		return bp_groups_reset_cache_incrementor();
 	}
 
@@ -314,7 +314,7 @@ add_action( 'bp_set_object_terms', 'bp_groups_reset_cache_incrementor_on_group_t
  */
 function bp_groups_reset_cache_incrementor_on_group_term_remove( $object_id, $terms, $taxonomy ) {
 	$tax_object = get_taxonomy( $taxonomy );
-	if ( $tax_object && in_array( 'bp_group', $tax_object->object_type ) ) {
+	if ( $tax_object && in_array( 'bp_group', $tax_object->object_type, true ) ) {
 		return bp_groups_reset_cache_incrementor();
 	}
 
