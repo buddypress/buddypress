@@ -1525,7 +1525,7 @@ class BP_XProfile_Field {
 		<div class="postbox">
 			<h2><label for="fieldtype"><?php esc_html_e( 'Type', 'buddypress'); ?></label></h2>
 			<div class="inside">
-				<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)" style="width: 30%">
+				<select name="fieldtype" id="fieldtype" onchange="show_options(this.value)">
 
 					<?php bp_xprofile_admin_form_field_types( $this->type ); ?>
 

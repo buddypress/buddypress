@@ -320,6 +320,12 @@ p.member-type-none-notice {
 	padding-right: 100px;
 }
 
+#bp-xprofile-add-field select#fieldtype {
+	max-width: 100%;
+	word-wrap: break-word;
+	word-break: break-all; /* e.g. Chinese, Japanese, Korean chars */
+}
+
 @media screen and (max-width: 782px) {
 	.bp-date-formats .bp-date-format-option:first-of-type {
 		margin-top: 1em;
