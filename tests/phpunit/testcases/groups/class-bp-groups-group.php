@@ -566,6 +566,67 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
+	 * @group group_types
+	 * @ticket BP5451
+	 * @ticket BP6643
+	 */
+	public function test_get_query_caches_should_be_busted_by_group_term_change() {
+		global $wpdb;
+
+		bp_groups_register_group_type( 'foo' );
+		bp_groups_register_group_type( 'bar' );
+
+		$groups = $this->factory->group->create_many( 2 );
+		bp_groups_set_group_type( $groups[0], 'foo' );
+		bp_groups_set_group_type( $groups[1], 'bar' );
+
+		$found1 = BP_Groups_Group::get( array(
+			'group_type' => 'foo',
+		) );
+
+		$this->assertEqualSets( array( $groups[0] ), wp_list_pluck( $found1['groups'], 'id' ) );
+
+		bp_groups_set_group_type( $groups[1], 'foo' );
+
+		$found2 = BP_Groups_Group::get( array(
+			'group_type' => 'foo',
+		) );
+
+		$this->assertEqualSets( array( $groups[0], $groups[1] ), wp_list_pluck( $found2['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group cache
+	 * @group group_types
+	 * @ticket BP5451
+	 * @ticket BP6643
+	 */
+	public function test_get_query_caches_should_be_busted_by_group_term_removal() {
+		global $wpdb;
+
+		bp_groups_register_group_type( 'foo' );
+
+		$groups = $this->factory->group->create_many( 2 );
+		bp_groups_set_group_type( $groups[0], 'foo' );
+		bp_groups_set_group_type( $groups[1], 'foo' );
+
+		$found1 = BP_Groups_Group::get( array(
+			'group_type' => 'foo',
+		) );
+
+		$this->assertEqualSets( array( $groups[0], $groups[1] ), wp_list_pluck( $found1['groups'], 'id' ) );
+
+		bp_groups_remove_group_type( $groups[1], 'foo' );
+
+		$found2 = BP_Groups_Group::get( array(
+			'group_type' => 'foo',
+		) );
+
+		$this->assertEqualSets( array( $groups[0] ), wp_list_pluck( $found2['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group cache
 	 * @ticket BP5451
 	 * @ticket BP6643
 	 */

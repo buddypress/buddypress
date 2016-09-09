@@ -275,6 +275,53 @@ add_action( 'updated_group_meta',      'bp_groups_reset_cache_incrementor' );
 add_action( 'deleted_group_meta',      'bp_groups_reset_cache_incrementor' );
 add_action( 'added_group_meta',        'bp_groups_reset_cache_incrementor' );
 
+/**
+ * Reset cache incrementor for Groups component when a group's taxonomy terms change.
+ *
+ * We infer that a group is being affected by looking at the objects belonging
+ * to the taxonomy being affected.
+ *
+ * @since 2.7.0
+ *
+ * @param int    $object_id ID of the item whose terms are being modified.
+ * @param array  $terms     Array of object terms.
+ * @param array  $tt_ids    Array of term taxonomy IDs.
+ * @param string $taxonomy  Taxonomy slug.
+ * @return bool True on success, false on failure.
+ */
+function bp_groups_reset_cache_incrementor_on_group_term_change( $object_id, $terms, $tt_ids, $taxonomy ) {
+	$tax_object = get_taxonomy( $taxonomy );
+	if ( $tax_object && in_array( 'bp_group', $tax_object->object_type ) ) {
+		return bp_groups_reset_cache_incrementor();
+	}
+
+	return false;
+}
+add_action( 'bp_set_object_terms', 'bp_groups_reset_cache_incrementor_on_group_term_change', 10, 4 );
+
+/**
+ * Reset cache incrementor for Groups component when a group's taxonomy terms are removed.
+ *
+ * We infer that a group is being affected by looking at the objects belonging
+ * to the taxonomy being affected.
+ *
+ * @since 2.7.0
+ *
+ * @param int    $object_id ID of the item whose terms are being modified.
+ * @param array  $terms     Array of object terms.
+ * @param string $taxonomy  Taxonomy slug.
+ * @return bool True on success, false on failure.
+ */
+function bp_groups_reset_cache_incrementor_on_group_term_remove( $object_id, $terms, $taxonomy ) {
+	$tax_object = get_taxonomy( $taxonomy );
+	if ( $tax_object && in_array( 'bp_group', $tax_object->object_type ) ) {
+		return bp_groups_reset_cache_incrementor();
+	}
+
+	return false;
+}
+add_action( 'bp_remove_object_terms', 'bp_groups_reset_cache_incrementor_on_group_term_remove', 10, 3 );
+
 /* List actions to clear super cached pages on, if super cache is installed */
 add_action( 'groups_join_group',                 'bp_core_clear_cache' );
 add_action( 'groups_leave_group',                'bp_core_clear_cache' );
