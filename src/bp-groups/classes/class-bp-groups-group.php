@@ -823,7 +823,6 @@ class BP_Groups_Group {
 			'pagination' => '',
 		);
 
-
 		if ( ! empty( $r['user_id'] ) ) {
 			$sql['from'] .= " JOIN {$bp->groups->table_name_members} m ON ( g.id = m.group_id )";
 		}
@@ -965,7 +964,14 @@ class BP_Groups_Group {
 		 * @param array  $r     Array of parsed arguments for the get method.
 		 */
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', $paged_groups_sql, $sql, $r );
-		$paged_group_ids  = $wpdb->get_col( $paged_groups_sql );
+
+		$cached = bp_core_get_incremented_cache( $paged_groups_sql, 'bp_groups' );
+		if ( false === $cached ) {
+			$paged_group_ids = $wpdb->get_col( $paged_groups_sql );
+			bp_core_set_incremented_cache( $paged_groups_sql, 'bp_groups', $paged_group_ids );
+		} else {
+			$paged_group_ids = $cached;
+		}
 
 		$uncached_group_ids = bp_get_non_cached_ids( $paged_group_ids, 'bp_groups' );
 		if ( $uncached_group_ids ) {
@@ -993,7 +999,14 @@ class BP_Groups_Group {
 		 * @param array  $r         Array of parsed arguments for the get method.
 		 */
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $total_groups_sql, $sql, $r );
-		$total_groups     = (int) $wpdb->get_var( $total_groups_sql );
+
+		$cached = bp_core_get_incremented_cache( $total_groups_sql, 'bp_groups' );
+		if ( false === $cached ) {
+			$total_groups = (int) $wpdb->get_var( $total_groups_sql );
+			bp_core_set_incremented_cache( $total_groups_sql, 'bp_groups', $total_groups );
+		} else {
+			$total_groups = (int) $cached;
+		}
 
 		$group_ids = array();
 		foreach ( (array) $paged_groups as $group ) {

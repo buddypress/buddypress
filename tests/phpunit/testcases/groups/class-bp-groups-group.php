@@ -507,6 +507,114 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( '12', count( $groups['groups'] ) );
 	}
 
+	/**
+	 * @group cache
+	 * @ticket BP5451
+	 * @ticket BP6643
+	 */
+	public function test_get_queries_should_be_cached() {
+		global $wpdb;
+
+		$g = $this->factory->group->create();
+
+		$found1 = BP_Groups_Group::get();
+
+		$num_queries = $wpdb->num_queries;
+
+		$found2 = BP_Groups_Group::get();
+
+		$this->assertEqualSets( $found1, $found2 );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group cache
+	 * @ticket BP5451
+	 * @ticket BP6643
+	 */
+	public function test_get_query_caches_should_be_busted_by_groupmeta_update() {
+		global $wpdb;
+
+		$groups = $this->factory->group->create_many( 2 );
+		groups_update_groupmeta( $groups[0], 'foo', 'bar' );
+		groups_update_groupmeta( $groups[1], 'foo', 'bar' );
+
+		$found1 = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+			),
+		) );
+
+		$this->assertEqualSets( array( $groups[0], $groups[1] ), wp_list_pluck( $found1['groups'], 'id' ) );
+
+		groups_update_groupmeta( $groups[1], 'foo', 'baz' );
+
+		$found2 = BP_Groups_Group::get( array(
+			'meta_query' => array(
+				array(
+					'key' => 'foo',
+					'value' => 'bar',
+				),
+			),
+		) );
+
+		$this->assertEqualSets( array( $groups[0] ), wp_list_pluck( $found2['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group cache
+	 * @ticket BP5451
+	 * @ticket BP6643
+	 */
+	public function test_get_query_caches_should_be_busted_by_group_save() {
+		global $wpdb;
+
+		$groups = $this->factory->group->create_many( 2 );
+		groups_update_groupmeta( $groups[0], 'foo', 'bar' );
+		groups_update_groupmeta( $groups[1], 'foo', 'bar' );
+
+		$found1 = BP_Groups_Group::get( array(
+			'search_terms' => 'Foo',
+		) );
+
+		$this->assertEmpty( $found1['groups'] );
+
+		$group0 = groups_get_group( array( 'group_id' => $groups[0] ) );
+		$group0->name = 'Foo';
+		$group0->save();
+
+		$found2 = BP_Groups_Group::get( array(
+			'search_terms' => 'Foo',
+		) );
+
+		$this->assertEqualSets( array( $groups[0] ), wp_list_pluck( $found2['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group cache
+	 * @ticket BP5451
+	 * @ticket BP6643
+	 */
+	public function test_get_query_caches_should_be_busted_by_group_delete() {
+		global $wpdb;
+
+		$groups = $this->factory->group->create_many( 2 );
+
+		$found1 = BP_Groups_Group::get();
+
+		$this->assertEqualSets( $groups, wp_list_pluck( $found1['groups'], 'id' ) );
+
+		$group0 = groups_get_group( array( 'group_id' => $groups[0] ) );
+		$group0->delete();
+
+		$found2 = BP_Groups_Group::get();
+
+		$this->assertEqualSets( array( $groups[1] ), wp_list_pluck( $found2['groups'], 'id' ) );
+	}
+
 	/** convert_type_to_order_orderby() **********************************/
 
 	/**

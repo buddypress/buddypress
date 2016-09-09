@@ -253,6 +253,28 @@ add_action( 'bp_groups_member_before_delete', 'bp_groups_clear_user_group_cache_
 add_action( 'bp_groups_member_before_delete_invite', 'bp_groups_clear_user_group_cache_on_other_events', 10, 2 );
 add_action( 'groups_accept_invite', 'bp_groups_clear_user_group_cache_on_other_events', 10, 2 );
 
+/**
+ * Reset cache incrementor for the Groups component.
+ *
+ * This function invalidates all cached results of group queries,
+ * whenever one of the following events takes place:
+ *   - A group is created or updated.
+ *   - A group is deleted.
+ *   - A group's metadata is modified.
+ *
+ * @since 2.7.0
+ *
+ * @return bool True on success, false on failure.
+ */
+function bp_groups_reset_cache_incrementor() {
+	return bp_core_reset_incrementor( 'bp_groups' );
+}
+add_action( 'groups_group_after_save', 'bp_groups_reset_cache_incrementor' );
+add_action( 'bp_groups_delete_group',  'bp_groups_reset_cache_incrementor' );
+add_action( 'updated_group_meta',      'bp_groups_reset_cache_incrementor' );
+add_action( 'deleted_group_meta',      'bp_groups_reset_cache_incrementor' );
+add_action( 'added_group_meta',        'bp_groups_reset_cache_incrementor' );
+
 /* List actions to clear super cached pages on, if super cache is installed */
 add_action( 'groups_join_group',                 'bp_core_clear_cache' );
 add_action( 'groups_leave_group',                'bp_core_clear_cache' );
