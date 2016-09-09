@@ -91,13 +91,25 @@ function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 		$switched = true;
 	}
 
-	$retval = wp_set_object_terms( $object_id, $terms, $taxonomy, $append );
+	$tt_ids = wp_set_object_terms( $object_id, $terms, $taxonomy, $append );
 
 	if ( $switched ) {
 		restore_current_blog();
 	}
 
-	return $retval;
+	/**
+	 * Fires when taxonomy terms have been set on BuddyPress objects.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int    $object_id Object ID.
+	 * @param array  $terms     Term or terms to remove.
+	 * @param array  $tt_ids    Array of term taxonomy IDs.
+	 * @param string $taxonomy  Taxonomy name.
+	 */
+	do_action( 'bp_set_object_terms', $object_id, $terms, $tt_ids, $taxonomy );
+
+	return $tt_ids;
 }
 
 /**
@@ -167,6 +179,17 @@ function bp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 	if ( $switched ) {
 		restore_current_blog();
 	}
+
+	/**
+	 * Fires when taxonomy terms have been removed from BuddyPress objects.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int    $object_id Object ID.
+	 * @param array  $terms     Term or terms to remove.
+	 * @param string $taxonomy  Taxonomy name.
+	 */
+	do_action( 'bp_remove_object_terms', $object_id, $terms, $taxonomy );
 
 	return $retval;
 }
