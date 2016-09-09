@@ -13,6 +13,13 @@
 	</ul>
 </div><!-- .item-list-tabs -->
 
+<?php
+/**
+ * Fires before the group admin form and content.
+ *
+ * @since 2.7.0
+ */
+do_action( 'bp_before_group_admin_form' ); ?>
 
 <form action="<?php bp_group_admin_form_action(); ?>" name="group-settings-form" id="group-settings-form" class="standard-form" method="post" enctype="multipart/form-data">
 
@@ -53,3 +60,11 @@
 	do_action( 'bp_after_group_admin_content' ); ?>
 
 </form><!-- #group-settings-form -->
+
+<?php
+/**
+ * Fires after the group admin form and content.
+ *
+ * @since 2.7.0
+ */
+do_action( 'bp_after_group_admin_form' ); ?>
