@@ -694,14 +694,14 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
  * @return array
  */
 function bp_core_get_directory_page_default_titles() {
- return array(
- 	'activity' => _x( 'Activity', 'Page title for the Activity directory.',       'buddypress' ),
- 	'groups'   => _x( 'Groups',   'Page title for the Groups directory.',         'buddypress' ),
- 	'blogs'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
- 	'members'  => _x( 'Members',  'Page title for the Members directory.',        'buddypress' ),
- 	'activate' => _x( 'Activate', 'Page title for the user activation screen.',   'buddypress' ),
- 	'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
- );
+	return array(
+		'activity' => _x( 'Activity', 'Page title for the Activity directory.',       'buddypress' ),
+		'groups'   => _x( 'Groups',   'Page title for the Groups directory.',         'buddypress' ),
+		'blogs'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
+		'members'  => _x( 'Members',  'Page title for the Members directory.',        'buddypress' ),
+		'activate' => _x( 'Activate', 'Page title for the user activation screen.',   'buddypress' ),
+		'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
+	);
 }
 
 /**

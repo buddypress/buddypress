@@ -6,7 +6,7 @@
  * shows blogs the member can post to in their profiles, and caches useful
  * information from those blogs to make querying blogs in bulk more performant.
  *
-	* @package BuddyPress
+ * @package BuddyPress
  * @subpackage BlogsCore
  * @since 1.5.0
  */
@@ -44,7 +44,7 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-		* @see BP_Component::setup_globals() for description of parameters.
+	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
 	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
@@ -154,7 +154,7 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
 	 *                        description.
-		* @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
 	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
