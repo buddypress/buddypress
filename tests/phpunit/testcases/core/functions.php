@@ -429,6 +429,80 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_sort_by_key
+	 */
+	public function test_bp_sort_by_key_arrays_num_preserve_keys() {
+		$items = array(
+			'p' => array(
+				'foo' => 'bar',
+				'value' => 5,
+			),
+			'q' => array(
+				'foo' => 'bar',
+				'value' => 10,
+			),
+			'r' => array(
+				'foo' => 'bar',
+				'value' => 1,
+			),
+		);
+
+		$expected = array(
+			'r' => array(
+				'foo' => 'bar',
+				'value' => 1,
+			),
+			'p' => array(
+				'foo' => 'bar',
+				'value' => 5,
+			),
+			'q' => array(
+				'foo' => 'bar',
+				'value' => 10,
+			),
+		);
+
+		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
+	}
+
+	/**
+	 * @group bp_sort_by_key
+	 */
+	public function test_bp_sort_by_key_num_should_respect_0_preserve_keys() {
+		$items = array(
+			's' => array(
+				'foo' => 'bar',
+				'value' => 2,
+			),
+			't' => array(
+				'foo' => 'bar',
+				'value' => 0,
+			),
+			'u' => array(
+				'foo' => 'bar',
+				'value' => 4,
+			),
+		);
+
+		$expected = array(
+			't' => array(
+				'foo' => 'bar',
+				'value' => 0,
+			),
+			's' => array(
+				'foo' => 'bar',
+				'value' => 2,
+			),
+			'u' => array(
+				'foo' => 'bar',
+				'value' => 4,
+			),
+		);
+
+		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
+	}
+
+	/**
 	 * @group pagination
 	 * @group bp_sanitize_pagination_arg
 	 */

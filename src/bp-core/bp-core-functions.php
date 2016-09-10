@@ -108,14 +108,23 @@ function bp_core_get_table_prefix() {
  * your own awkward callback function for usort().
  *
  * @since 2.2.0
+ * @since 2.7.0 Added $preserve_keys parameter.
  *
- * @param array      $items The items to be sorted. Its constituent items can be either associative arrays or objects.
- * @param string|int $key   The array index or property name to sort by.
- * @param string     $type  Sort type. 'alpha' for alphabetical, 'num' for numeric. Default: 'alpha'.
+ * @param array      $items         The items to be sorted. Its constituent items
+ *                                  can be either associative arrays or objects.
+ * @param string|int $key           The array index or property name to sort by.
+ * @param string     $type          Sort type. 'alpha' for alphabetical, 'num'
+ *                                  for numeric. Default: 'alpha'.
+ * @param bool       $preserve_keys Whether to keep the keys or not.
+ *
  * @return array $items The sorted array.
  */
-function bp_sort_by_key( $items, $key, $type = 'alpha' ) {
-	usort( $items, array( new BP_Core_Sort_By_Key_Callback( $key, $type ), 'sort_callback' ) );
+function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false ) {
+	if ( true === $preserve_keys ) {
+		uasort( $items, array( new BP_Core_Sort_By_Key_Callback( $key, $type ), 'sort_callback' ) );
+	} else {
+		usort( $items, array( new BP_Core_Sort_By_Key_Callback( $key, $type ), 'sort_callback' ) );
+	}
 
 	return $items;
 }
