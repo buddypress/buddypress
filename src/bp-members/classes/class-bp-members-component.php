@@ -108,12 +108,16 @@ class BP_Members_Component extends BP_Component {
 			define( 'BP_MEMBERS_SLUG', $this->id );
 		}
 
+		// Fetch the default directory title.
+		$default_directory_titles = bp_core_get_directory_page_default_titles();
+		$default_directory_title  = $default_directory_titles[$this->id];
+
 		// Override any passed args.
 		$args = array(
 			'slug'            => BP_MEMBERS_SLUG,
 			'root_slug'       => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : BP_MEMBERS_SLUG,
 			'has_directory'   => true,
-			'directory_title' => _x( 'Members', 'component directory title', 'buddypress' ),
+			'directory_title' => isset( $bp->pages->members->title ) ? $bp->pages->members->title : $default_directory_title,
 			'search_string'   => __( 'Search Members...', 'buddypress' ),
 			'global_tables'   => array(
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',

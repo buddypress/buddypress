@@ -6,7 +6,7 @@
  * shows blogs the member can post to in their profiles, and caches useful
  * information from those blogs to make querying blogs in bulk more performant.
  *
- * @package BuddyPress
+	* @package BuddyPress
  * @subpackage BlogsCore
  * @since 1.5.0
  */
@@ -44,7 +44,7 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @see BP_Component::setup_globals() for description of parameters.
+		* @see BP_Component::setup_globals() for description of parameters.
 	 *
 	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
@@ -65,12 +65,16 @@ class BP_Blogs_Component extends BP_Component {
 			'blog' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
 		);
 
+		// Fetch the default directory title.
+		$default_directory_titles = bp_core_get_directory_page_default_titles();
+		$default_directory_title  = $default_directory_titles[$this->id];
+
 		// All globals for blogs component.
 		$args = array(
 			'slug'                  => BP_BLOGS_SLUG,
 			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG,
 			'has_directory'         => is_multisite(), // Non-multisite installs don't need a top-level Sites directory, since there's only one site.
-			'directory_title'       => _x( 'Sites', 'component directory title', 'buddypress' ),
+			'directory_title'       => isset( $bp->pages->blogs->title ) ? $bp->pages->blogs->title : $default_directory_title,
 			'notification_callback' => 'bp_blogs_format_notifications',
 			'search_string'         => __( 'Search sites...', 'buddypress' ),
 			'autocomplete_all'      => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ),
@@ -150,7 +154,7 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
 	 *                        description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+		* @param array $sub_nav  Optional. See BP_Component::setup_nav() for
 	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
