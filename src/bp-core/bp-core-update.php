@@ -509,7 +509,6 @@ function bp_update_to_2_5() {
  * 2.7.0 update routine.
  *
  * - Add email unsubscribe salt.
- *
  * - Save legacy directory titles to the corresponding WP pages.
  *
  * @since 2.7.0
@@ -518,7 +517,7 @@ function bp_update_to_2_7() {
 	bp_add_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
 
 	// Update post_titles
-	bp_270_migrate_directory_page_titles();
+	bp_migrate_directory_page_titles();
 }
 
 /**
@@ -577,7 +576,7 @@ function bp_cleanup_friendship_activities() {
  *
  * @since 2.7.0
  */
-function bp_270_migrate_directory_page_titles() {
+function bp_migrate_directory_page_titles() {
 	$bp_pages = bp_core_get_directory_page_ids( 'all' );
 
 	$default_titles = bp_core_get_directory_page_default_titles();
