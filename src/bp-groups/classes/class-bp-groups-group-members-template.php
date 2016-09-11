@@ -239,10 +239,11 @@ class BP_Groups_Group_Members_Template {
 			 *
 			 * @since 1.0.0
 			 * @since 2.3.0 `$this` parameter added.
+			 * @since 2.7.0 Action renamed from `loop_end`.
 			 *
 			 * @param BP_Groups_Group_Members_Template $this Instance of the current Members template.
 			 */
-			do_action( 'loop_end', $this );
+			do_action( 'group_members_loop_end', $this );
 
 			// Do some cleaning up after the loop.
 			$this->rewind_members();
@@ -269,10 +270,11 @@ class BP_Groups_Group_Members_Template {
 			 *
 			 * @since 1.0.0
 			 * @since 2.3.0 `$this` parameter added.
+			 * @since 2.7.0 Action renamed from `loop_start`.
 			 *
 			 * @param BP_Groups_Group_Members_Template $this Instance of the current Members template.
 			 */
-			do_action( 'loop_start', $this );
+			do_action( 'group_members_loop_start', $this );
 		}
 	}
 }
