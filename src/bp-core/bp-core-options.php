@@ -13,6 +13,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Get the default site options and their values.
  *
+ * Default values should not be set by calls to `get_option()` or `get_site_option()` due to
+ * these causing load order problems with `bp_core_clear_root_options_cache()`; see #BP7227.
+ *
  * @since 1.6.0
  *
  * @return array Filtered option names and values.
@@ -74,7 +77,7 @@ function bp_get_default_options() {
 		'_bp_theme_package_id'                 => 'legacy',
 
 		// Email unsubscribe salt.
-		'bp-emails-unsubscribe-salt'           => base64_encode( wp_generate_password( 64, true, true ) ),
+		'bp-emails-unsubscribe-salt'           => '',
 
 		/* Groups ************************************************************/
 
