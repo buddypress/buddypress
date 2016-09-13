@@ -70,7 +70,7 @@ function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = 
  */
 function groups_update_group_forum( $group_id ) {
 
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 
 	/**
 	 * Bail in the following three situations:

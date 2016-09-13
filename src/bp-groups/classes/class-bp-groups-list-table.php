@@ -139,7 +139,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		// If we're viewing a specific group, flatten all activities into a single array.
 		if ( $include_id ) {
-			$groups = array( (array) groups_get_group( 'group_id=' . $include_id ) );
+			$groups = array( (array) groups_get_group( $include_id ) );
 		} else {
 			$groups_args = array(
 				'include'  => $include,

@@ -71,7 +71,7 @@ function bp_activity_action_permalink_router() {
 		} else {
 
 			// Set redirect to group activity stream.
-			if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) ) {
+			if ( $group = groups_get_group( $activity->item_id ) ) {
 				$redirect = bp_get_group_permalink( $group ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 			}
 		}

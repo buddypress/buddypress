@@ -120,10 +120,7 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 
 		$this->set_current_user( $u );
 
-		$group = groups_get_group( array(
-			'group_id' => $g,
-			'populate_extras' => true,
-		) );
+		$group = groups_get_group( $g );
 
 		$found = get_echo( 'bp_group_status_message', array( $group ) );
 
@@ -142,10 +139,7 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 
 		// Fake the current group.
 		$GLOBALS['groups_template'] = new stdClass;
-		$GLOBALS['groups_template']->group = groups_get_group( array(
-			'group_id' => $groups[0],
-			'populate_extras' => true,
-		) );
+		$GLOBALS['groups_template']->group = groups_get_group( $groups[0] );
 
 		groups_send_membership_request( $u, $groups[1] );
 

@@ -98,10 +98,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
 function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group = groups_get_group( array(
-		'group_id'        => $activity->item_id,
-		'populate_extras' => false,
-	) );
+	$group      = groups_get_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	$action = sprintf( __( '%1$s created the group %2$s', 'buddypress'), $user_link, $group_link );
@@ -129,10 +126,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group = groups_get_group( array(
-		'group_id'        => $activity->item_id,
-		'populate_extras' => false,
-	) );
+	$group      = groups_get_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	$action = sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), $user_link, $group_link );
@@ -171,10 +165,7 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 function bp_groups_format_activity_action_group_details_updated( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group = groups_get_group( array(
-		'group_id'        => $activity->item_id,
-		'populate_extras' => false,
-	) );
+	$group      = groups_get_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/*
@@ -360,7 +351,7 @@ function groups_record_activity( $args = '' ) {
 		if ( bp_get_current_group_id() == $args['item_id'] ) {
 			$group = groups_get_current_group();
 		} else {
-			$group = groups_get_group( array( 'group_id' => $args['item_id'] ) );
+			$group = groups_get_group( $args['item_id'] );
 		}
 
 		if ( isset( $group->status ) && 'public' != $group->status ) {
@@ -430,7 +421,7 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	}
 
 	// Get the group so we can get it's name.
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 
 	/**
 	 * Filters the 'membership_accepted' activity actions.

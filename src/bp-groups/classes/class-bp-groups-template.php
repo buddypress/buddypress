@@ -195,10 +195,7 @@ class BP_Groups_Template {
 				$group = groups_get_current_group();
 
 			} else {
-				$group = groups_get_group( array(
-					'group_id'        => BP_Groups_Group::get_id_from_slug( $r['slug'] ),
-					'populate_extras' => $r['populate_extras'],
-				) );
+				$group = groups_get_group( BP_Groups_Group::get_id_from_slug( $r['slug'] ) );
 			}
 
 			// Backwards compatibility - the 'group_id' variable is not part of the

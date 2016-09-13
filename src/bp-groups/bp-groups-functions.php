@@ -42,10 +42,10 @@ function bp_groups_has_directory() {
  * @param int $group_id ID of the group.
  * @return BP_Groups_Group $group The group object.
  */
-function groups_get_group( $args = '' ) {
+function groups_get_group( $group_id ) {
 	// Backward compatibilty.
-	if ( is_array( $args ) && isset( $args['group_id'] ) ) {
-		$group_id = $args['group_id'];
+	if ( is_array( $group_id ) && isset( $group_id['group_id'] ) ) {
+		$group_id = $group_id['group_id'];
 	}
 
 	$group = new BP_Groups_Group( $group_id );
@@ -104,7 +104,7 @@ function groups_create_group( $args = '' ) {
 
 	// Pass an existing group ID.
 	if ( ! empty( $group_id ) ) {
-		$group = groups_get_group( array( 'group_id' => $group_id ) );
+		$group = groups_get_group( $group_id );
 		$name  = ! empty( $name ) ? $name : $group->name;
 		$slug  = ! empty( $slug ) ? $slug : $group->slug;
 		$description = ! empty( $description ) ? $description : $group->description;
@@ -218,7 +218,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 	if ( empty( $group_name ) || empty( $group_desc ) )
 		return false;
 
-	$group     = groups_get_group( array( 'group_id' => $group_id ) );
+	$group     = groups_get_group( $group_id );
 	$old_group = clone $group;
 
 	$group->name        = $group_name;
@@ -262,7 +262,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
  */
 function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false ) {
 
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 	$group->enable_forum = $enable_forum;
 
 	/**
@@ -323,7 +323,7 @@ function groups_delete_group( $group_id ) {
 	do_action( 'groups_before_delete_group', $group_id );
 
 	// Get the group object.
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 
 	// Bail if group cannot be deleted.
 	if ( ! $group->delete() ) {
@@ -395,7 +395,7 @@ function groups_check_slug( $slug ) {
  * @return string The group's slug.
  */
 function groups_get_slug( $group_id ) {
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 	return !empty( $group->slug ) ? $group->slug : '';
 }
 
@@ -497,7 +497,7 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	$bp = buddypress();
 
 	if ( !isset( $bp->groups->current_group ) || !$bp->groups->current_group || $group_id != $bp->groups->current_group->id )
-		$group = groups_get_group( array( 'group_id' => $group_id ) );
+		$group = groups_get_group( $group_id );
 	else
 		$group = $bp->groups->current_group;
 
@@ -1194,7 +1194,7 @@ function groups_post_update( $args = '' ) {
 	if ( empty( $content ) || !strlen( trim( $content ) ) || empty( $user_id ) || empty( $group_id ) )
 		return false;
 
-	$bp->groups->current_group = groups_get_group( array( 'group_id' => $group_id ) );
+	$bp->groups->current_group = groups_get_group( $group_id );
 
 	// Be sure the user is a member of the group before posting.
 	if ( !bp_current_user_can( 'bp_moderate' ) && !groups_is_user_member( $user_id, $group_id ) )
@@ -1502,7 +1502,7 @@ function groups_send_invites( $user_id, $group_id ) {
 
 	// Send friend invites.
 	$invited_users = groups_get_invites_for_group( $user_id, $group_id );
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 
 	for ( $i = 0, $count = count( $invited_users ); $i < $count; ++$i ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_id );

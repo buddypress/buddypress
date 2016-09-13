@@ -583,9 +583,7 @@ class BP_Group_Extension {
 			if ( false === $this->enable_nav_item ) {
 				$this->params['access'] = 'noone';
 			} else {
-				$group = groups_get_group( array(
-					'group_id' => $this->group_id,
-				) );
+				$group = groups_get_group( $this->group_id );
 
 				if ( ! empty( $group->status ) && 'public' === $group->status ) {
 					// Tabs in public groups are accessible to anyone by default.
@@ -668,9 +666,7 @@ class BP_Group_Extension {
 	 * @return bool
 	 */
 	protected function user_meets_access_condition( $access_condition ) {
-		$group = groups_get_group( array(
-			'group_id' => $this->group_id,
-		) );
+		$group = groups_get_group( $this->group_id );
 
 		switch ( $access_condition ) {
 			case 'admin' :
@@ -850,9 +846,7 @@ class BP_Group_Extension {
 		$user_can_visit = $this->user_can_visit();
 
 		if ( ! $user_can_visit && is_user_logged_in() ) {
-			$current_group = groups_get_group( array(
-				'group_id' => $this->group_id,
-			) );
+			$current_group = groups_get_group( $this->group_id );
 
 			$no_access_args['message'] = __( 'You do not have access to this content.', 'buddypress' );
 			$no_access_args['root'] = bp_get_group_permalink( $current_group ) . 'home/';

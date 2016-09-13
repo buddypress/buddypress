@@ -227,7 +227,7 @@ function bp_groups_admin_load() {
 		check_admin_referer( 'edit-group_' . $group_id );
 
 		// Get the group from the database.
-		$group = groups_get_group( 'group_id=' . $group_id );
+		$group = groups_get_group( $group_id );
 
 		// If the group doesn't exist, just redirect back to the index.
 		if ( empty( $group->slug ) ) {
@@ -566,7 +566,7 @@ function bp_groups_admin_edit() {
 	$is_error = ! empty( $no_admins ) || ! empty( $errors ) || ! empty( $error_new ) || ! empty( $error_modified );
 
 	// Get the group from the database.
-	$group      = groups_get_group( 'group_id=' . (int) $_GET['gid'] );
+	$group      = groups_get_group( (int) $_GET['gid'] );
 
 	$group_name = isset( $group->name ) ? bp_get_group_name( $group ) : '';
 

@@ -223,7 +223,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$old_options_nav = buddypress()->bp_options_nav;
 
 		$g = $this->factory->group->create();
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$class_name = 'BPTest_Group_Extension_Enable_Nav_Item_True';
 		$e = new $class_name();
@@ -246,7 +246,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$old_options_nav = buddypress()->bp_options_nav;
 
 		$g = $this->factory->group->create();
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$class_name = 'BPTest_Group_Extension_Enable_Nav_Item_False';
 		$e = new $class_name();
@@ -272,7 +272,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'private',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$class_name = 'BPTest_Group_Extension_Visibility_Private';
 		$e = new $class_name();
@@ -316,7 +316,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'private',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$class_name = 'BPTest_Group_Extension_Visibility_Public';
 		$e = new $class_name();
@@ -352,7 +352,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
 
 		$this->set_current_user( 0 );
@@ -378,7 +378,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Access_Anyone();
@@ -415,7 +415,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -457,7 +457,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -501,7 +501,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -547,7 +547,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -593,7 +593,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( 0 );
@@ -634,7 +634,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( 0 );
@@ -675,7 +675,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -717,7 +717,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -761,7 +761,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -807,7 +807,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$u = $this->factory->user->create();
 		$old_current_user = get_current_user_id();
@@ -853,7 +853,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
 
@@ -874,7 +874,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create( array(
 			'status' => 'public',
 		) );
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 
 		$this->go_to( trailingslashit( bp_get_group_permalink( $g_obj ) ) . 'members/' );
 

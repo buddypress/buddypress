@@ -55,7 +55,7 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 
 				// Fix for HTTPS.
 				if ( 'baseurl' === $key && is_ssl() ) {
-					$upload_data[ $key ] = str_replace( 'http://', 'https://', $upload_data[ $key ] ); 
+					$upload_data[ $key ] = str_replace( 'http://', 'https://', $upload_data[ $key ] );
 				}
 			} else {
 				unset( $upload_data[ $key ] );
@@ -1247,10 +1247,7 @@ function bp_attachments_cover_image_ajax_upload() {
 
 		if ( ! bp_get_current_group_id() && ! empty( $bp_params['item_id'] ) ) {
 			$needs_reset = array( 'component' => 'groups', 'key' => 'current_group', 'value' => $bp->groups->current_group );
-			$bp->groups->current_group = groups_get_group( array(
-				'group_id'        => $bp_params['item_id'],
-				'populate_extras' => false,
-			) );
+			$bp->groups->current_group = groups_get_group( $bp_params['item_id'] );
 		}
 
 	// Other object's cover image.

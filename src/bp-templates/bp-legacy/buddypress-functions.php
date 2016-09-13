@@ -1448,7 +1448,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 	if ( groups_is_user_banned( bp_loggedin_user_id(), $group_id ) )
 		return;
 
-	if ( ! $group = groups_get_group( array( 'group_id' => $group_id ) ) )
+	if ( ! $group = groups_get_group( $group_id ) )
 		return;
 
 	if ( ! groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {

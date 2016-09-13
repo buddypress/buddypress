@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @param BP_Groups_Group|null $old_group Group before new details were saved.
  */
 function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 
 	if ( $old_group instanceof BP_Groups_Group ) {
 		$changed = array();
@@ -135,7 +135,7 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 		'notification_type' => 'groups-membership-request',
 	);
 
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 	$args  = array(
 		'tokens' => array(
 			'admin.id'             => $admin_id,
@@ -184,7 +184,7 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 		return;
 	}
 
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 	$args  = array(
 		'tokens' => array(
 			'group'              => $group,
@@ -260,7 +260,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 		'notification_type' => 'groups-member-promoted',
 	);
 
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 	$args  = array(
 		'tokens' => array(
 			'group'       => $group,
@@ -356,7 +356,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 			$requesting_user_id = $secondary_item_id;
 
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 			$amount = 'single';
 
@@ -460,7 +460,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_accepted':
 			$group_id = $item_id;
 
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 			$amount = 'single';
 
@@ -549,7 +549,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_rejected':
 			$group_id = $item_id;
 
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 			$amount = 'single';
 
@@ -637,7 +637,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_admin':
 			$group_id = $item_id;
 
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 			$amount = 'single';
 
@@ -719,7 +719,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_mod':
 			$group_id = $item_id;
 
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 			$amount = 'single';
 
@@ -800,7 +800,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 		case 'group_invite':
 			$group_id = $item_id;
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
 			$group_link = bp_get_group_permalink( $group );
 			$amount = 'single';
 

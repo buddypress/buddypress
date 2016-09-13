@@ -292,19 +292,13 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	public function test_groups_create_group_dont_delete_description_for_existing_group_when_no_description_is_passed() {
 		$g = $this->factory->group->create();
 
-		$group_before = groups_get_group( array(
-			'group_id' => $g,
-		) );
-
+		$group_before = groups_get_group( $g );
 		groups_create_group( array(
 			'group_id' => $g,
 			'enable_forum' => 1,
 		) );
 
-		$group_after = groups_get_group( array(
-			'group_id' => $g,
-		) );
-
+		$group_after = groups_get_group( $g );
 		$this->assertSame( $group_before->description, $group_after->description );
 	}
 

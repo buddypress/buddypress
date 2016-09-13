@@ -89,7 +89,7 @@ function groups_screen_group_invites() {
 			bp_core_add_message( __('Group invite accepted', 'buddypress') );
 
 			// Record this in activity streams.
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
 
 			groups_record_activity( array(
 				'type'    => 'joined_group',

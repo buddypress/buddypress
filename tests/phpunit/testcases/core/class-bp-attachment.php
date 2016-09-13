@@ -275,10 +275,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		$g = $this->factory->group->create();
 
-		$bp->groups->current_group = groups_get_group( array(
-			'group_id'        => $g,
-			'populate_extras' => true,
-		) );
+		$bp->groups->current_group = groups_get_group( $g );
 
 		// Upload the file
 		$avatar_attachment = new BP_Attachment_Avatar();

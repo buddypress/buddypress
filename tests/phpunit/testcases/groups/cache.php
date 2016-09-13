@@ -73,7 +73,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$g = $this->factory->group->create();
 
 		// Prime cache
-		groups_get_group( array( 'group_id' => $g, ) );
+		groups_get_group( $g );
 
 		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
 
@@ -92,7 +92,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 
 		// Prime cache
 		groups_update_groupmeta( $g, 'foo', 'bar' );
-		groups_get_group( array( 'group_id' => $g ) );
+		groups_get_group( $g );
 
 		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
 
@@ -108,7 +108,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$g = $this->factory->group->create();
 
 		// Prime cache
-		groups_get_group( array( 'group_id' => $g ) );
+		groups_get_group( $g );
 
 		// fake an activity
 		$a = new stdClass;
@@ -133,7 +133,7 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		$g2 = $this->factory->group->create();
 
 		// Prime cache
-		groups_get_group( array( 'group_id' => $g1 ) );
+		groups_get_group( $g1 );
 
 		// fake activities
 		$a1 = new stdClass;

@@ -1373,19 +1373,6 @@ function bp_group_list_admins( $group = false ) {
 		$group =& $groups_template->group;
 	}
 
-	// Fetch group admins if 'populate_extras' flag is false.
-	if ( empty( $group->args['populate_extras'] ) ) {
-		$query = new BP_Group_Member_Query( array(
-			'group_id'   => $group->id,
-			'group_role' => 'admin',
-			'type'       => 'first_joined',
-		) );
-
-		if ( ! empty( $query->results ) ) {
-			$group->admins = $query->results;
-		}
-	}
-
 	if ( ! empty( $group->admins ) ) { ?>
 		<ul id="group-admins">
 			<?php foreach( (array) $group->admins as $admin ) { ?>
@@ -1413,19 +1400,6 @@ function bp_group_list_mods( $group = false ) {
 
 	if ( empty( $group ) ) {
 		$group =& $groups_template->group;
-	}
-
-	// Fetch group mods if 'populate_extras' flag is false.
-	if ( empty( $group->args['populate_extras'] ) ) {
-		$query = new BP_Group_Member_Query( array(
-			'group_id'   => $group->id,
-			'group_role' => 'mod',
-			'type'       => 'first_joined',
-		) );
-
-		if ( ! empty( $query->results ) ) {
-			$group->mods = $query->results;
-		}
 	}
 
 	if ( ! empty( $group->mods ) ) : ?>

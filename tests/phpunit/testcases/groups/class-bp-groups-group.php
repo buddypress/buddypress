@@ -643,7 +643,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertEmpty( $found1['groups'] );
 
-		$group0 = groups_get_group( array( 'group_id' => $groups[0] ) );
+		$group0 = groups_get_group( $groups[0] );
 		$group0->name = 'Foo';
 		$group0->save();
 
@@ -668,7 +668,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertEqualSets( $groups, wp_list_pluck( $found1['groups'], 'id' ) );
 
-		$group0 = groups_get_group( array( 'group_id' => $groups[0] ) );
+		$group0 = groups_get_group( $groups[0] );
 		$group0->delete();
 
 		$found2 = BP_Groups_Group::get();
@@ -1003,7 +1003,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create();
 
 		// Prime cache
-		groups_get_group( array( 'group_id' => $g, ) );
+		groups_get_group( $g );
 
 		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
 
@@ -1021,7 +1021,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g = $this->factory->group->create();
 
 		// Prime cache
-		groups_get_group( array( 'group_id' => $g, ) );
+		groups_get_group( $g );
 
 		$this->assertNotEmpty( wp_cache_get( $g, 'bp_groups' ) );
 

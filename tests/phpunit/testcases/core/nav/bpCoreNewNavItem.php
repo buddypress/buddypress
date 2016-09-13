@@ -56,9 +56,7 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$group = groups_get_group( array(
-			'group_id' => $g,
-		) );
+		$group = groups_get_group( $g );
 
 		$this->go_to( bp_get_group_permalink( $group ) );
 

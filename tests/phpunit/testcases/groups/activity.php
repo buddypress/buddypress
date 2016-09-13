@@ -20,7 +20,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		) );
 
 		$a_obj = new BP_Activity_Activity( $a );
-		$g_obj = groups_get_group( array( 'group_id' => $g, ) );
+		$g_obj = groups_get_group( $g );
 
 		$expected = sprintf( __( '%s created the group %s', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . bp_get_group_permalink( $g_obj ) . '">' . $g_obj->name . '</a>' );
 
@@ -42,7 +42,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		) );
 
 		$a_obj = new BP_Activity_Activity( $a );
-		$g_obj = groups_get_group( array( 'group_id' => $g, ) );
+		$g_obj = groups_get_group( $g );
 
 		$expected = sprintf( __( '%s joined the group %s', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . bp_get_group_permalink( $g_obj ) . '">' . $g_obj->name . '</a>' );
 

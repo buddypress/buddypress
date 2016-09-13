@@ -49,7 +49,7 @@ class BP_Core_Nav_BackCompat extends BP_UnitTestCase {
 			'slug' => 'testgroup',
 		) );
 
-		$group = groups_get_group( array( 'group_id' => $g ) );
+		$group = groups_get_group( $g );
 		$group_permalink = bp_get_group_permalink( $group );
 
 		$this->go_to( $group_permalink );

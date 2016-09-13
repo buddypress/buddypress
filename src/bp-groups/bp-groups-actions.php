@@ -158,7 +158,7 @@ function groups_action_create_group() {
 	// Set the ID of the new group, if it has already been created in a previous step.
 	if ( isset( $_COOKIE['bp_new_group_id'] ) ) {
 		$bp->groups->new_group_id = (int) $_COOKIE['bp_new_group_id'];
-		$bp->groups->current_group = groups_get_group( array( 'group_id' => $bp->groups->new_group_id ) );
+		$bp->groups->current_group = groups_get_group( $bp->groups->new_group_id );
 
 		// Only allow the group creator to continue to edit the new group.
 		if ( ! bp_is_group_creator( $bp->groups->current_group, bp_loggedin_user_id() ) ) {

@@ -313,7 +313,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 				break;
 
 			case 'group' :
-				$item_name = bp_get_group_name( groups_get_group( array( 'group_id' => $params['item_id'] ) ) );
+				$item_name = bp_get_group_name( groups_get_group( $params['item_id'] ) );
 				break;
 
 			case 'user'  :
@@ -1005,10 +1005,7 @@ function bp_avatar_ajax_upload() {
 
 		if ( ! bp_get_current_group_id() && ! empty( $bp_params['item_id'] ) ) {
 			$needs_reset = array( 'component' => 'groups', 'key' => 'current_group', 'value' => $bp->groups->current_group );
-			$bp->groups->current_group = groups_get_group( array(
-				'group_id'        => $bp_params['item_id'],
-				'populate_extras' => false,
-			) );
+			$bp->groups->current_group = groups_get_group( $bp_params['item_id'] );
 		}
 	} else {
 		/**

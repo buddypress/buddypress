@@ -136,7 +136,7 @@ class BP_Groups_Group_Members_Template {
 		 */
 		$current_group = groups_get_current_group();
 		if ( empty( $current_group ) || ( $current_group && $current_group->id !== bp_get_current_group_id() ) ) {
-			$current_group = groups_get_group( array( 'group_id' => $r['group_id'] ) );
+			$current_group = groups_get_group( $r['group_id'] );
 		}
 
 		// Assemble the base URL for pagination.

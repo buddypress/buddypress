@@ -75,7 +75,7 @@ class BP_Tests_Core_Nav_BpCoreRemoveSubnavItem extends BP_UnitTestCase {
 		$g1 = $this->factory->group->create();
 
 		// In group context
-		$g_obj = groups_get_group( array( 'group_id' => $g1 ) );
+		$g_obj = groups_get_group( $g1 );
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
 
 		bp_core_new_subnav_item( array(
