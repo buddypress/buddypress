@@ -77,6 +77,7 @@ function groups_get_group( $group_id ) {
  *     @type string   $slug         The group slug.
  *     @type string   $status       The group's status. Accepts 'public', 'private' or
  *                                  'hidden'. Defaults to 'public'.
+ *     @type int      $parent_id    The ID of the parent group. Default: 0.
  *     @type int      $enable_forum Optional. Whether the group has a forum enabled.
  *                                  If the legacy forums are enabled for this group
  *                                  or if a bbPress forum is enabled for the group,
@@ -95,6 +96,7 @@ function groups_create_group( $args = '' ) {
 		'description'  => '',
 		'slug'         => '',
 		'status'       => 'public',
+		'parent_id'    => 0,
 		'enable_forum' => 0,
 		'date_created' => bp_core_current_time()
 	);
@@ -141,6 +143,7 @@ function groups_create_group( $args = '' ) {
 	$group->description  = $description;
 	$group->slug         = $slug;
 	$group->status       = $status;
+	$group->parent_id    = $parent_id;
 	$group->enable_forum = (int) $enable_forum;
 	$group->date_created = $date_created;
 
@@ -260,7 +263,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
  *                                   to the group. 'members', 'mods', or 'admins'.
  * @return bool True on success, false on failure.
  */
-function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false ) {
+function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false, $parent_id = false ) {
 
 	$group = groups_get_group( $group_id );
 	$group->enable_forum = $enable_forum;
@@ -274,6 +277,11 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
 
 	// Now update the status.
 	$group->status = $status;
+
+	// Update the parent ID if necessary.
+	if ( false !== $parent_id ) {
+		$group->parent_id = $parent_id;
+	}
 
 	if ( !$group->save() )
 		return false;
@@ -674,7 +682,7 @@ function groups_get_total_member_count( $group_id ) {
  *
  * @since 1.2.0
  * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
- * @since 2.7.0 Added `$update_admin_cache` parameter.
+ * @since 2.7.0 Added `$update_admin_cache` and `$parent_id` parameters.
  *
  * @param array|string $args {
  *     Array of arguments. Supports all arguments of
@@ -694,6 +702,7 @@ function groups_get_groups( $args = '' ) {
 		'user_id'            => false,          // Pass a user_id to limit to only groups that this user is a member of.
 		'include'            => false,          // Only include these specific groups (group_ids).
 		'exclude'            => false,          // Do not include these specific groups (group_ids).
+		'parent_id'          => null,           // Get groups that are children of the specified group(s).
 		'search_terms'       => false,          // Limit to groups that match these search terms.
 		'group_type'         => '',
 		'group_type__in'     => '',
@@ -714,6 +723,7 @@ function groups_get_groups( $args = '' ) {
 		'user_id'            => $r['user_id'],
 		'include'            => $r['include'],
 		'exclude'            => $r['exclude'],
+		'parent_id'          => $r['parent_id'],
 		'search_terms'       => $r['search_terms'],
 		'group_type'         => $r['group_type'],
 		'group_type__in'     => $r['group_type__in'],

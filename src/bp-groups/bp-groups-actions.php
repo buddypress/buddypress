@@ -566,3 +566,29 @@ function groups_action_group_feed() {
 	) );
 }
 add_action( 'bp_actions', 'groups_action_group_feed' );
+
+/**
+ * Update orphaned child groups when the parent is deleted.
+ *
+ * @since 2.7.0
+ *
+ * @param BP_Groups_Group $group Instance of the group item being deleted.
+ */
+function bp_groups_update_orphaned_groups_on_group_delete( $group ) {
+	// Get child groups and set the parent to the deleted parent's parent.
+	$grandparent_group_id = $group->parent_id;
+	$child_args = array(
+		'parent_id'         => $group->id,
+		'show_hidden'       => true,
+		'per_page'          => false,
+		'update_meta_cache' => false,
+	);
+	$children = groups_get_groups( $child_args );
+	$children = $children['groups'];
+
+	foreach ( $children as $cgroup ) {
+		$cgroup->parent_id = $grandparent_group_id;
+		$cgroup->save();
+	}
+}
+add_action( 'bp_groups_delete_group', 'bp_groups_update_orphaned_groups_on_group_delete', 10, 2 );

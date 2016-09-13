@@ -518,6 +518,24 @@ function bp_update_to_2_7() {
 
 	// Update post_titles
 	bp_migrate_directory_page_titles();
+
+	/*
+	 * Add `parent_id` column to groups table.
+	 * Also handled by `bp_core_install()`.
+	 */
+	if ( bp_is_active( 'groups' ) ) {
+		bp_core_install_groups();
+
+		// Invalidate all cached group objects.
+		global $wpdb;
+		$bp = buddypress();
+
+		$group_ids = $wpdb->get_col( "SELECT id FROM {$bp->groups->table_name}" );
+
+		foreach ( $group_ids as $group_id ) {
+			wp_cache_delete( $group_id, 'bp_groups' );
+		}
+	}
 }
 
 /**

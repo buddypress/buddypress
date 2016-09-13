@@ -634,4 +634,37 @@ Bar!';
 		groups_accept_invite( $u2, $g );
 		$this->assertEquals( 0, groups_get_invite_count_for_user( $u2 ) );
 	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_update_orphaned_groups_on_group_delete_top_level() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+
+		groups_delete_group( $g1 );
+
+		$child = groups_get_group( array( 'group_id' => $g2 ) );
+		$this->assertEquals( 0, $child->parent_id );
+	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_update_orphaned_groups_on_group_delete_two_levels() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+
+		groups_delete_group( $g2 );
+
+		$child = groups_get_group( array( 'group_id' => $g3 ) );
+		$this->assertEquals( $g1, $child->parent_id );
+	}
 }

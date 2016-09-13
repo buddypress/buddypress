@@ -1705,6 +1705,132 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertEmpty( $groups['groups'] );
 	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_get_by_parent_id() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+		$g4 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'parent_id' => $g1,
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( array( $g2 ), $found );
+	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_get_by_parent_id_ignore_grandparent() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+		$g4 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'parent_id' => $g2,
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( array( $g3 ), $found );
+	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_get_by_parent_id_array() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+		$g4 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'parent_id' => array( $g1, $g2 ),
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g2, $g3 ), $found );
+	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_get_by_parent_id_comma_separated_string() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+		$g4 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'parent_id' => "$g1, $g2",
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g2, $g3 ), $found );
+	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_get_by_parent_id_top_level_groups() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+		$g4 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'parent_id' => 0,
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g1, $g4 ), $found );
+	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_get_by_parent_id_top_level_groups_using_false() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+		$g4 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'parent_id' => false,
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g1, $g4 ), $found );
+	}
 }
 
 /**

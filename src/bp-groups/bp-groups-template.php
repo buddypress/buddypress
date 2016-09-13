@@ -138,6 +138,8 @@ function bp_groups_directory_permalink() {
  *                                            about groups. Default: true.
  *     @type array|string $exclude            Array or comma-separated list of group IDs. Results will exclude
  *                                            the listed groups. Default: false.
+ *     @type array|string $parent_id          Array or comma-separated list of group IDs. Results will include only
+ *                                            child groups of the listed groups. Default: null.
  *     @type bool         $update_meta_cache  Whether to fetch groupmeta for queried groups. Default: true.
  *     @type bool         $update_admin_cache Whether to pre-fetch group admins for queried groups.
  *                                            Defaults to true when on a group directory, where this
@@ -202,6 +204,7 @@ function bp_has_groups( $args = '' ) {
 		'meta_query'         => false,
 		'include'            => false,
 		'exclude'            => false,
+		'parent_id'          => null,
 		'populate_extras'    => true,
 		'update_meta_cache'  => true,
 		'update_admin_cache' => bp_is_groups_directory() || bp_is_user_groups(),
@@ -226,6 +229,7 @@ function bp_has_groups( $args = '' ) {
 		'meta_query'         => $r['meta_query'],
 		'include'            => $r['include'],
 		'exclude'            => $r['exclude'],
+		'parent_id'          => $r['parent_id'],
 		'populate_extras'    => (bool) $r['populate_extras'],
 		'update_meta_cache'  => (bool) $r['update_meta_cache'],
 		'update_admin_cache' => (bool) $r['update_admin_cache'],
