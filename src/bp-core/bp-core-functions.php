@@ -2745,7 +2745,7 @@ function bp_core_get_suggestions( $args ) {
  *
  * @since 2.3.0
  *
- * @return string
+ * @return bool|array
  */
 function bp_upload_dir() {
 	$bp = buddypress();
