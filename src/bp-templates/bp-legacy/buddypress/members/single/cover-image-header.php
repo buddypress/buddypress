@@ -44,7 +44,7 @@ do_action( 'bp_before_member_header' ); ?>
 				 */
 				do_action( 'bp_member_header_actions' ); ?></div><!-- #item-buttons -->
 
-			<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
+			<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
 			<?php
 
