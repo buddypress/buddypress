@@ -1242,6 +1242,63 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP5451
+	 */
+	public function test_admins_property() {
+		$user_1 = $this->factory->user->create_and_get();
+		$g = $this->factory->group->create( array(
+			'creator_id' => $user_1->ID,
+		) );
+
+		$group = new BP_Groups_Group( $g );
+
+		$expected_admin_props = array(
+			'user_id' => $user_1->ID,
+			'user_login' => $user_1->user_login,
+			'user_email' => $user_1->user_email,
+			'user_nicename' => $user_1->user_nicename,
+			'is_admin' => 1,
+			'is_mod' => 0,
+		);
+
+		$found_admin = $group->admins[0];
+		foreach ( $expected_admin_props as $prop => $value ) {
+			$this->assertEquals( $value, $found_admin->{$prop} );
+		}
+	}
+
+	/**
+	 * @ticket BP5451
+	 */
+	public function test_mods_property() {
+		$users = $this->factory->user->create_many( 2 );
+		$user_1 = new WP_User( $users[0] );
+		$user_2 = new WP_User( $users[1] );
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $user_1->ID,
+		) );
+
+		$this->add_user_to_group( $user_2->ID, $g, array( 'is_mod' => 1 ) );
+
+		$group = new BP_Groups_Group( $g );
+
+		$expected_mod_props = array(
+			'user_id' => $user_2->ID,
+			'user_login' => $user_2->user_login,
+			'user_email' => $user_2->user_email,
+			'user_nicename' => $user_2->user_nicename,
+			'is_admin' => 0,
+			'is_mod' => 1,
+		);
+
+		$found_mod = $group->mods[0];
+		foreach ( $expected_mod_props as $prop => $value ) {
+			$this->assertEquals( $value, $found_mod->{$prop} );
+		}
+	}
+
+	/**
 	 * @group group_types
 	 */
 	public function test_group_type_single_value() {

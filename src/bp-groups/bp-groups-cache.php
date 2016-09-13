@@ -184,7 +184,7 @@ add_action( 'groups_uninvite_user', 'groups_clear_group_user_object_cache', 10, 
 add_action( 'groups_remove_member', 'groups_clear_group_user_object_cache', 10, 2 );
 
 /**
- * Clear group administrator cache.
+ * Clear group administrator and moderator cache.
  *
  * @since 2.1.0
  *
@@ -192,15 +192,16 @@ add_action( 'groups_remove_member', 'groups_clear_group_user_object_cache', 10, 
  */
 function groups_clear_group_administrator_cache( $group_id ) {
 	wp_cache_delete( $group_id, 'bp_group_admins' );
+	wp_cache_delete( $group_id, 'bp_group_mods' );
 }
 add_action( 'groups_promote_member', 'groups_clear_group_administrator_cache' );
 add_action( 'groups_demote_member',  'groups_clear_group_administrator_cache' );
 add_action( 'groups_delete_group',   'groups_clear_group_administrator_cache' );
 
 /**
- * Clear group administrator cache when a group member is saved.
+ * Clear group administrator and moderator cache when a group member is saved.
  *
- * This accounts for situations where group administrators are added manually
+ * This accounts for situations where group admins or mods are added manually
  * using {@link BP_Groups_Member::save()}.  Usually via a plugin.
  *
  * @since 2.1.0

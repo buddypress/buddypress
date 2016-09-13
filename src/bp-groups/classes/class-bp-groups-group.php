@@ -89,7 +89,7 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 * @var array
 	 */
-	public $admins;
+	protected $admins;
 
 	/**
 	 * Data about the group's moderators.
@@ -97,7 +97,7 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 * @var array
 	 */
-	public $mods;
+	protected $mods;
 
 	/**
 	 * Total count of group members.
@@ -219,28 +219,6 @@ class BP_Groups_Group {
 
 		// Are we getting extra group data?
 		if ( ! empty( $this->args['populate_extras'] ) ) {
-
-			/**
-			 * Filters the SQL prepared statement used to fetch group admins and mods.
-			 *
-			 * @since 1.5.0
-			 *
-			 * @param string $value SQL select statement used to fetch admins and mods.
-			 */
-			$admin_mods = $wpdb->get_results( apply_filters( 'bp_group_admin_mods_user_join_filter', $wpdb->prepare( "SELECT u.ID as user_id, u.user_login, u.user_email, u.user_nicename, m.is_admin, m.is_mod FROM {$wpdb->users} u, {$bp->groups->table_name_members} m WHERE u.ID = m.user_id AND m.group_id = %d AND ( m.is_admin = 1 OR m.is_mod = 1 )", $this->id ) ) );
-
-			// Add admins and moderators to their respective arrays.
-			foreach ( (array) $admin_mods as $user ) {
-				$user->user_id  = (int) $user->user_id;
-				$user->is_admin = (int) $user->is_admin;
-				$user->is_mod   = (int) $user->is_mod;
-
-				if ( !empty( $user->is_admin ) ) {
-					$this->admins[] = $user;
-				} else {
-					$this->mods[] = $user;
-				}
-			}
 
 			// Set user-specific data.
 			$user_id          = bp_loggedin_user_id();
@@ -440,6 +418,12 @@ class BP_Groups_Group {
 			case 'total_member_count' :
 				return (int) groups_get_groupmeta( $this->id, 'total_member_count' );
 
+			case 'admins' :
+				return $this->get_admins();
+
+			case 'mods' :
+				return $this->get_mods();
+
 			default :
 			break;
 		}
@@ -465,6 +449,85 @@ class BP_Groups_Group {
 			default :
 				return false;
 		}
+	}
+
+	/**
+	 * Get a list of the group's admins.
+	 *
+	 * Used to provide cache-friendly access to the 'admins' property of
+	 * the group object.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return array
+	 */
+	protected function get_admins() {
+		if ( isset( $this->admins ) ) {
+			return $this->admins;
+		}
+
+		$this->set_up_admins_and_mods();
+		return $this->admins;
+	}
+
+	/**
+	 * Get a list of the group's mods.
+	 *
+	 * Used to provide cache-friendly access to the 'mods' property of
+	 * the group object.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return array
+	 */
+	protected function get_mods() {
+		if ( isset( $this->mods ) ) {
+			return $this->mods;
+		}
+
+		$this->set_up_admins_and_mods();
+		return $this->mods;
+	}
+
+	/**
+	 * Set up admins and mods for the current group object.
+	 *
+	 * Called only when the 'admins' or 'mods' property is accessed.
+	 *
+	 * @since 2.7.0
+	 */
+	protected function set_up_admins_and_mods() {
+		$admin_ids = BP_Groups_Member::get_group_administrator_ids( $this->id );
+		$admin_ids_plucked = wp_list_pluck( $admin_ids, 'user_id' );
+
+		$mod_ids = BP_Groups_Member::get_group_moderator_ids( $this->id );
+		$mod_ids_plucked = wp_list_pluck( $mod_ids, 'user_id' );
+
+		$admin_mod_users = get_users( array(
+			'include' => array_merge( $admin_ids_plucked, $mod_ids_plucked ),
+		) );
+
+		$admin_objects = $mod_objects = array();
+		foreach ( $admin_mod_users as $admin_mod_user ) {
+			$obj = new stdClass();
+			$obj->user_id = $admin_mod_user->ID;
+			$obj->user_login = $admin_mod_user->user_login;
+			$obj->user_email = $admin_mod_user->user_email;
+			$obj->user_nicename = $admin_mod_user->user_nicename;
+
+			if ( in_array( $admin_mod_user->ID, $admin_ids_plucked, true ) ) {
+				$obj->is_admin = 1;
+				$obj->is_mod = 0;
+				$admin_objects[] = $obj;
+			} else {
+				$obj->is_admin = 0;
+				$obj->is_mod = 1;
+				$mod_objects[] = $obj;
+			}
+		}
+
+		$this->admins = $admin_objects;
+		$this->mods   = $mod_objects;
 	}
 
 	/** Static Methods ****************************************************/
@@ -1029,7 +1092,7 @@ class BP_Groups_Group {
 
 		// Prefetch all administrator IDs, if requested.
 		if ( $r['update_admin_cache'] ) {
-			BP_Groups_Member::prime_group_administrator_ids_cache( $group_ids );
+			BP_Groups_Member::prime_group_admins_mods_cache( $group_ids );
 		}
 
 		// Set up integer properties needing casting.

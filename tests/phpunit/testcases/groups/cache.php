@@ -181,6 +181,46 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group groups_get_group_mods
+	 */
+	public function test_groups_get_group_mods_cache() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// User 2 joins the group
+		groups_join_group( $g, $u2 );
+
+		// prime cache
+		groups_get_group_mods( $g );
+
+		// promote user 2 to an admin
+		bp_update_is_item_admin( true );
+		groups_promote_member( $u2, $g, 'mod' );
+
+		// assert new cached value
+		$this->assertEquals( 1, count( groups_get_group_mods( $g ) ) );
+	}
+
+	/**
+	 * @group groups_get_group_mods
+	 */
+	public function test_groups_get_group_mods_cache_on_member_save() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// prime cache
+		groups_get_group_mods( $g );
+
+		// promote user 2 to an admin via BP_Groups_Member::save()
+		self::add_user_to_group( $u2, $g, array( 'is_mod' => 1 ) );
+
+		// assert new cached value
+		$this->assertEquals( 1, count( groups_get_group_mods( $g ) ) );
+	}
+
+	/**
 	 * @group groups_get_group_admins
 	 */
 	public function test_groups_get_group_admins_cache_on_member_save() {
