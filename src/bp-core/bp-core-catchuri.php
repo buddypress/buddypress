@@ -1035,12 +1035,13 @@ function bp_core_filter_wp_query( $retval, $query ) {
 
 	/*
 	 * If not on a BP single page, bail.
-	 * It's too early to use bp_is_single_item() here.
+	 * Too early to use bp_is_single_item(), so use BP conditionals.
 	 */
-	if ( ! bp_is_group() || ! bp_is_user() || ! bp_is_single_activity() ) {
+	if ( false === ( bp_is_group() || bp_is_user() || bp_is_single_activity() ) ) {
 		return $retval;
 	}
 
+	// Set default properties as recommended in the 'posts_pre_query' DocBlock.
 	$query->found_posts   = 0;
 	$query->max_num_pages = 0;
 
