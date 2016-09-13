@@ -1308,7 +1308,14 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 			return '';
 		}
 
-		$date = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) );
+		try {
+			$date = new DateTime( $timestamp, new DateTimeZone( 'UTC' ) );
+
+		// Not a valid date, so return blank string.
+		} catch( Exception $e ) {
+			return '';
+		}
+
 		return $date->format( DateTime::ISO8601 );
 	}
 

@@ -256,6 +256,13 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_get_iso8601_date
+	 */
+	public function test_bp_core_get_iso8601_date_invalid_date() {
+		$this->assertEquals( '', bp_core_get_iso8601_date( 'Not a date' ) );
+	}
+
+	/**
 	 * @group bp_sort_by_key
 	 */
 	public function test_bp_sort_by_key_arrays_num() {
