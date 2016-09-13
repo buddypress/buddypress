@@ -36,29 +36,19 @@ function bp_groups_has_directory() {
  * support and pass through the groups_get_group filter.
  *
  * @since 1.2.0
+ * @since 2.7.0 The function signature was changed to accept a group ID only,
+ *              instead of an array containing the group ID.
  *
- * @param array|string $args {
- *     Array of al arguments.
- *     @type int  $group_id        ID of the group.
- *     @type bool $load_users      No longer used.
- *     @type bool $populate_extras Whether to fetch membership data and other
- *                                 extra information about the group.
- *                                 Default: false.
- * }
+ * @param int $group_id ID of the group.
  * @return BP_Groups_Group $group The group object.
  */
 function groups_get_group( $args = '' ) {
-	$r = wp_parse_args( $args, array(
-		'group_id'          => false,
-		'load_users'        => false,
-		'populate_extras'   => false,
-	) );
+	// Backward compatibilty.
+	if ( is_array( $args ) && isset( $args['group_id'] ) ) {
+		$group_id = $args['group_id'];
+	}
 
-	$group_args = array(
-		'populate_extras' => $r['populate_extras'],
-	);
-
-	$group = new BP_Groups_Group( $r['group_id'], $group_args );
+	$group = new BP_Groups_Group( $group_id );
 
 	/**
 	 * Filters a single group object.
