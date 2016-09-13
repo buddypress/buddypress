@@ -728,6 +728,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 1.6.0
 	 * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
+	 * @since 2.7.0 Added `$update_admin_cache` parameter.
 	 *
 	 * @param array $args {
 	 *     Array of parameters. All items are optional.
@@ -760,6 +761,8 @@ class BP_Groups_Group {
 	 *                                            Results will exclude the listed groups. Default: false.
 	 *     @type bool         $update_meta_cache  Whether to pre-fetch groupmeta for the returned groups.
 	 *                                            Default: true.
+	 *     @type bool         $update_admin_cache Whether to pre-fetch administrator IDs for the returned
+	 *                                            groups. Default: false.
 	 *     @type bool         $show_hidden        Whether to include hidden groups in results. Default: false.
 	 * }
 	 * @return array {
@@ -807,6 +810,7 @@ class BP_Groups_Group {
 			'include'            => false,
 			'populate_extras'    => true,
 			'update_meta_cache'  => true,
+			'update_admin_cache' => false,
 			'exclude'            => false,
 			'show_hidden'        => false,
 		);
@@ -1021,6 +1025,11 @@ class BP_Groups_Group {
 		// Grab all groupmeta.
 		if ( ! empty( $r['update_meta_cache'] ) ) {
 			bp_groups_update_meta_cache( $group_ids );
+		}
+
+		// Prefetch all administrator IDs, if requested.
+		if ( $r['update_admin_cache'] ) {
+			BP_Groups_Member::prime_group_administrator_ids_cache( $group_ids );
 		}
 
 		// Set up integer properties needing casting.

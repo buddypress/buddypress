@@ -172,6 +172,7 @@ class BP_Groups_Template {
 			'meta_query'         => false,
 			'populate_extras'    => true,
 			'update_meta_cache'  => true,
+			'update_admin_cache' => false,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -228,6 +229,7 @@ class BP_Groups_Template {
 				'exclude'            => $exclude,
 				'populate_extras'    => $populate_extras,
 				'update_meta_cache'  => $update_meta_cache,
+				'update_admin_cache' => $update_admin_cache,
 				'show_hidden'        => $show_hidden,
 			) );
 		}

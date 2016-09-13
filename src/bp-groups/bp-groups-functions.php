@@ -684,6 +684,7 @@ function groups_get_total_member_count( $group_id ) {
  *
  * @since 1.2.0
  * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
+ * @since 2.7.0 Added `$update_admin_cache` parameter.
  *
  * @param array|string $args {
  *     Array of arguments. Supports all arguments of
@@ -713,6 +714,7 @@ function groups_get_groups( $args = '' ) {
 		'page'               => 1,              // The page to return if limiting per page.
 		'populate_extras'    => true,           // Fetch meta such as is_banned and is_member.
 		'update_meta_cache'  => true,           // Pre-fetch groupmeta for queried groups.
+		'update_admin_cache' => false,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -732,6 +734,7 @@ function groups_get_groups( $args = '' ) {
 		'page'               => $r['page'],
 		'populate_extras'    => $r['populate_extras'],
 		'update_meta_cache'  => $r['update_meta_cache'],
+		'update_admin_cache' => $r['update_admin_cache'],
 		'order'              => $r['order'],
 		'orderby'            => $r['orderby'],
 	) );

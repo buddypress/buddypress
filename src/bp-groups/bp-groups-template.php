@@ -103,6 +103,7 @@ function bp_groups_directory_permalink() {
  *
  * @since 1.0.0
  * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
+ * @since 2.7.0 Added `$update_admin_cache` parameter.
  *
  * @param array|string $args {
  *     Array of parameters. All items are optional.
@@ -138,6 +139,9 @@ function bp_groups_directory_permalink() {
  *     @type array|string $exclude            Array or comma-separated list of group IDs. Results will exclude
  *                                            the listed groups. Default: false.
  *     @type bool         $update_meta_cache  Whether to fetch groupmeta for queried groups. Default: true.
+ *     @type bool         $update_admin_cache Whether to pre-fetch group admins for queried groups.
+ *                                            Defaults to true when on a group directory, where this
+ *                                            information is needed in the loop. Otherwise false.
  * }
  * @return bool True if there are groups to display that match the params
  */
@@ -200,6 +204,7 @@ function bp_has_groups( $args = '' ) {
 		'exclude'            => false,
 		'populate_extras'    => true,
 		'update_meta_cache'  => true,
+		'update_admin_cache' => bp_is_groups_directory() || bp_is_user_groups(),
 	), 'has_groups' );
 
 	// Setup the Groups template global.
@@ -223,6 +228,7 @@ function bp_has_groups( $args = '' ) {
 		'exclude'            => $r['exclude'],
 		'populate_extras'    => (bool) $r['populate_extras'],
 		'update_meta_cache'  => (bool) $r['update_meta_cache'],
+		'update_admin_cache' => (bool) $r['update_admin_cache'],
 	) );
 
 	/**

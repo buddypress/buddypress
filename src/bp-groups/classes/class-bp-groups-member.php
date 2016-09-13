@@ -1043,10 +1043,8 @@ class BP_Groups_Member {
 		$group_admins = wp_cache_get( $group_id, 'bp_group_admins' );
 
 		if ( false === $group_admins ) {
-			$bp = buddypress();
-			$group_admins = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_admin = 1 AND is_banned = 0", $group_id ) );
-
-			wp_cache_set( $group_id, $group_admins, 'bp_group_admins' );
+			self::prime_group_administrator_ids_cache( array( $group_id ) );
+			$group_admins = wp_cache_get( $group_id, 'bp_group_admins' );
 		}
 
 		// Integer casting.
@@ -1055,6 +1053,40 @@ class BP_Groups_Member {
 		}
 
 		return $group_admins;
+	}
+
+	/**
+	 * Prime the bp_group_admins cache for one or more groups.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param array $group_ids IDs of the groups.
+	 * @return bool True on success.
+	 */
+	public static function prime_group_administrator_ids_cache( $group_ids ) {
+		global $wpdb;
+
+		$uncached = bp_get_non_cached_ids( $group_ids, 'bp_group_admins' );
+
+		if ( $uncached ) {
+			$bp = buddypress();
+			$uncached_sql = implode( ',', array_map( 'intval', $uncached ) );
+			$group_admins = $wpdb->get_results( "SELECT user_id, group_id, date_modified FROM {$bp->groups->table_name_members} WHERE group_id IN ({$uncached_sql}) AND is_admin = 1 AND is_banned = 0" );
+
+			$groups = array();
+			if ( $group_admins ) {
+				foreach ( $group_admins as $group_admin ) {
+					$admin_obj = new stdClass();
+					$admin_obj->user_id = $group_admin->user_id;
+					$admin_obj->date_modified = $group_admin->date_modified;
+					$groups[ $group_admin->group_id ][] = $admin_obj;
+				}
+
+				foreach ( $groups as $this_group_id => $this_group_admins ) {
+					wp_cache_set( $this_group_id, $this_group_admins, 'bp_group_admins' );
+				}
+			}
+		}
 	}
 
 	/**
