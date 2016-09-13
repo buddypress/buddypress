@@ -957,10 +957,12 @@ function bp_comments_open( $open, $post_id = 0 ) {
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
 	global $wp_query;
 
-	$wp_query->is_page = false;
+	if ( $wp_query->is_page ) {
+		$wp_query->is_page = false;
 
-	// Set a switch so we know that we've toggled these WP_Query properties.
-	buddypress()->theme_compat->is_page_toggled = true;
+		// Set a switch so we know that we've toggled these WP_Query properties.
+		buddypress()->theme_compat->is_page_toggled = true;
+	}
 
 	return $retval;
 }
