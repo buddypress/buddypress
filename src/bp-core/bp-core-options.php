@@ -414,61 +414,16 @@ function bp_core_get_root_options() {
 			$root_blog_options_meta = array_merge( $root_blog_options_meta, $network_options_meta );
 		}
 
-		// Missing some options, so do some one-time fixing.
-		if ( empty( $root_blog_options_meta ) || ( count( $root_blog_options_meta ) < count( $root_blog_option_keys ) ) ) {
-
-			// Get a list of the keys that are already populated.
-			$existing_options = array();
-			foreach( $root_blog_options_meta as $already_option ) {
-				$existing_options[$already_option->name] = $already_option->value;
-			}
-
-			// Unset the query - We'll be resetting it soon.
-			unset( $root_blog_options_meta );
-
-			// Loop through options.
-			foreach ( $root_blog_options as $old_meta_key => $old_meta_default ) {
-
-				if ( isset( $existing_options[$old_meta_key] ) ) {
-					continue;
-				}
-
-				// Get old site option.
-				if ( is_multisite() ) {
-					$old_meta_value = get_site_option( $old_meta_key );
-				}
-
-				// No site option so look in root blog.
-				if ( empty( $old_meta_value ) ) {
-					$old_meta_value = bp_get_option( $old_meta_key, $old_meta_default );
-				}
-
-				// Update the root blog option.
-				bp_update_option( $old_meta_key, $old_meta_value );
-
-				// Update the global array.
-				$root_blog_options_meta[$old_meta_key] = $old_meta_value;
-
-				// Clear out the value for the next time around.
-				unset( $old_meta_value );
-			}
-
-			$root_blog_options_meta = array_merge( $root_blog_options_meta, $existing_options );
-			unset( $existing_options );
-
-		// We're all matched up.
-		} else {
-			// Loop through our results and make them usable.
-			foreach ( $root_blog_options_meta as $root_blog_option ) {
-				$root_blog_options[$root_blog_option->name] = $root_blog_option->value;
-			}
-
-			// Copy the options no the return val.
-			$root_blog_options_meta = $root_blog_options;
-
-			// Clean up our temporary copy.
-			unset( $root_blog_options );
+		// Loop through our results and make them usable.
+		foreach ( $root_blog_options_meta as $root_blog_option ) {
+			$root_blog_options[$root_blog_option->name] = $root_blog_option->value;
 		}
+
+		// Copy the options no the return val.
+		$root_blog_options_meta = $root_blog_options;
+
+		// Clean up our temporary copy.
+		unset( $root_blog_options );
 
 		wp_cache_set( 'root_blog_options', $root_blog_options_meta, 'bp' );
 	}
