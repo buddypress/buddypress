@@ -113,7 +113,7 @@ class BP_Groups_Group {
 	 * @since 1.2.0
 	 * @var bool
 	 */
-	public $is_member;
+	protected $is_member;
 
 	/**
 	 * Does the current user have an outstanding invitation to this group?
@@ -121,7 +121,7 @@ class BP_Groups_Group {
 	 * @since 1.9.0
 	 * @var bool
 	 */
-	public $is_invited;
+	protected $is_invited;
 
 	/**
 	 * Does the current user have a pending membership request to this group?
@@ -129,7 +129,7 @@ class BP_Groups_Group {
 	 * @since 1.9.0
 	 * @var bool
 	 */
-	public $is_pending;
+	protected $is_pending;
 
 	/**
 	 * Timestamp of the last activity that happened in this group.
@@ -145,7 +145,7 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 * @var bool
 	 */
-	public $user_has_access;
+	protected $user_has_access;
 
 	/**
 	 * Raw arguments passed to the constructor.
@@ -164,16 +164,10 @@ class BP_Groups_Group {
 	 *                       the object will be pre-populated with info about that group.
 	 * @param array    $args {
 	 *     Array of optional arguments.
-	 *     @type bool $populate_extras Whether to fetch "extra" data about the group
-	 *                                 (group admins/mods, access for the current user).
-	 *                                 Default: false.
+	 *     @type bool $populate_extras Deprecated.
 	 * }
 	 */
 	public function __construct( $id = null, $args = array() ) {
-		$this->args = wp_parse_args( $args, array(
-			'populate_extras' => false,
-		) );
-
 		if ( !empty( $id ) ) {
 			$this->id = (int) $id;
 			$this->populate();
@@ -216,30 +210,6 @@ class BP_Groups_Group {
 		$this->status       = $group->status;
 		$this->enable_forum = (int) $group->enable_forum;
 		$this->date_created = $group->date_created;
-
-		// Are we getting extra group data?
-		if ( ! empty( $this->args['populate_extras'] ) ) {
-
-			// Set user-specific data.
-			$user_id          = bp_loggedin_user_id();
-			$this->is_member  = groups_is_user_member( $user_id, $this->id );
-			$this->is_invited = groups_check_user_has_invite( $user_id, $this->id );
-			$this->is_pending = groups_check_for_membership_request( $user_id, $this->id );
-
-			// If this is a private or hidden group, does the current user have access?
-			if ( ( 'private' === $this->status ) || ( 'hidden' === $this->status ) ) {
-
-				// Assume user does not have access to hidden/private groups.
-				$this->user_has_access = false;
-
-				// Group members or community moderators have access.
-				if ( ( $this->is_member && is_user_logged_in() ) || bp_current_user_can( 'bp_moderate' ) ) {
-					$this->user_has_access = true;
-				}
-			} else {
-				$this->user_has_access = true;
-			}
-		}
 	}
 
 	/**
@@ -424,6 +394,18 @@ class BP_Groups_Group {
 			case 'mods' :
 				return $this->get_mods();
 
+			case 'is_member' :
+				return $this->get_is_member();
+
+			case 'is_invited' :
+				return groups_check_user_has_invite( bp_loggedin_user_id(), $this->id );
+
+			case 'is_pending' :
+				return groups_check_for_membership_request( bp_loggedin_user_id(), $this->id );
+
+			case 'user_has_access' :
+				return $this->get_user_has_access();
+
 			default :
 			break;
 		}
@@ -444,10 +426,29 @@ class BP_Groups_Group {
 		switch ( $key ) {
 			case 'last_activity' :
 			case 'total_member_count' :
+			case 'admins' :
+			case 'mods' :
 				return true;
 
 			default :
 				return false;
+		}
+	}
+
+	/**
+	 * Magic setter.
+	 *
+	 * Used to maintain backward compatibility for properties that are now
+	 * accessible only via magic method.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $key Property name.
+	 */
+	public function __set( $key, $value ) {
+		switch ( $key ) {
+			case 'user_has_access' :
+				return $this->user_has_access = (bool) $value;
 		}
 	}
 
@@ -528,6 +529,50 @@ class BP_Groups_Group {
 
 		$this->admins = $admin_objects;
 		$this->mods   = $mod_objects;
+	}
+
+	/**
+	 * Checks whether the logged-in user is a member of the group.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return bool
+	 */
+	protected function get_is_member() {
+		if ( isset( $this->is_member ) ) {
+			return $this->is_member;
+		}
+
+		$this->is_member = groups_is_user_member( bp_loggedin_user_id(), $this->id );
+		return $this->is_member;
+	}
+
+	/**
+	 * Checks whether the logged-in user has access to the group.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return bool
+	 */
+	protected function get_user_has_access() {
+		if ( isset( $this->user_has_access ) ) {
+			return $this->user_has_access;
+		}
+
+		if ( ( 'private' === $this->status ) || ( 'hidden' === $this->status ) ) {
+
+			// Assume user does not have access to hidden/private groups.
+			$this->user_has_access = false;
+
+			// Group members or community moderators have access.
+			if ( ( is_user_logged_in() && $this->get_is_member() ) || bp_current_user_can( 'bp_moderate' ) ) {
+				$this->user_has_access = true;
+			}
+		} else {
+			$this->user_has_access = true;
+		}
+
+		return $this->user_has_access;
 	}
 
 	/** Static Methods ****************************************************/

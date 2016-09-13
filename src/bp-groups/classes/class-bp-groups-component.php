@@ -253,17 +253,6 @@ class BP_Groups_Component extends BP_Component {
 				$this->current_group->is_visible = false;
 			}
 
-			// If this is a private or hidden group, does the user have access?
-			if ( 'private' == $this->current_group->status || 'hidden' == $this->current_group->status ) {
-				if ( $this->current_group->is_user_member && is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) ) {
-					$this->current_group->user_has_access = true;
-				} else {
-					$this->current_group->user_has_access = false;
-				}
-			} else {
-				$this->current_group->user_has_access = true;
-			}
-
 			// Check once if the current group has a custom front template.
 			$this->current_group->front_template = bp_groups_get_front_template( $this->current_group );
 

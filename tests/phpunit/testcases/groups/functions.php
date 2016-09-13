@@ -613,30 +613,6 @@ Bar!';
 	}
 
 	/**
-	 * @group groups_get_group
-	 * @group cache
-	 */
-	public function test_groups_get_group_cache_different_users() {
-		$g = $this->factory->group->create();
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$this->add_user_to_group( $u1, $g );
-
-		$old_user = get_current_user_id();
-		$this->set_current_user( $u1 );
-
-		$group1 = groups_get_group( array( 'group_id' => $g, 'populate_extras' => true ) );
-
-		$this->set_current_user( $u2 );
-
-		$group2 = groups_get_group( array( 'group_id' => $g, 'populate_extras' => true ) );
-
-		$this->assertNotEquals( $group1, $group2 );
-
-		$this->set_current_user( $old_user );
-	}
-
-	/**
 	 * @group counts
 	 */
 	public function test_get_invite_count_for_user() {

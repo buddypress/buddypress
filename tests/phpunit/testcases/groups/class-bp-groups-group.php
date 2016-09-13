@@ -1299,6 +1299,75 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP5451
+	 */
+	public function test_is_member_property() {
+		$users = $this->factory->user->create_many( 2 );
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $users[0],
+		) );
+
+		wp_set_current_user( $users[1] );
+
+		$group_a = new BP_Groups_Group( $g );
+		$this->assertFalse( $group_a->is_member );
+
+		$this->add_user_to_group( $users[1], $g );
+		$group_b = new BP_Groups_Group( $g );
+		$this->assertFalse( $group_b->is_member );
+	}
+
+	/**
+	 * @ticket BP5451
+	 */
+	public function test_is_invited_property() {
+		$users = $this->factory->user->create_many( 2 );
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $users[0],
+		) );
+
+		wp_set_current_user( $users[1] );
+
+		$group_a = new BP_Groups_Group( $g );
+		$this->assertFalse( $group_a->is_invited );
+
+		$this->add_user_to_group( $users[1], $g, array(
+			'invite_sent' => 1,
+			'inviter_id' => $users[0],
+			'is_confirmed' => 0,
+		) );
+		$group_b = new BP_Groups_Group( $g );
+		$this->assertFalse( $group_b->is_invited );
+	}
+
+	/**
+	 * @ticket BP5451
+	 */
+	public function test_is_pending_property() {
+		$users = $this->factory->user->create_many( 2 );
+
+		$g = $this->factory->group->create( array(
+			'creator_id' => $users[0],
+		) );
+
+		wp_set_current_user( $users[1] );
+
+		$group_a = new BP_Groups_Group( $g );
+		$this->assertFalse( $group_a->is_pending );
+
+		$this->add_user_to_group( $users[1], $g, array(
+			'is_confirmed' => 0,
+			'invite_sent' => 0,
+			'inviter_id' => 0,
+		) );
+		$group_b = new BP_Groups_Group( $g );
+		$this->assertFalse( $group_b->is_pending );
+	}
+
+
+	/**
 	 * @group group_types
 	 */
 	public function test_group_type_single_value() {
