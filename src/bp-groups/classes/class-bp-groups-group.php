@@ -440,10 +440,14 @@ class BP_Groups_Group {
 	 */
 	public function __isset( $key ) {
 		switch ( $key ) {
-			case 'last_activity' :
-			case 'total_member_count' :
 			case 'admins' :
+			case 'is_invited' :
+			case 'is_member' :
+			case 'is_pending' :
+			case 'last_activity' :
 			case 'mods' :
+			case 'total_member_count' :
+			case 'user_has_access' :
 				return true;
 
 			default :

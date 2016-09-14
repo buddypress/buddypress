@@ -676,6 +676,25 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $groups[1] ), wp_list_pluck( $found2['groups'], 'id' ) );
 	}
 
+	/**
+	 * @ticket BP5451
+	 */
+	public function test_bp_groups_group_magic_isset_with_empty_check() {
+		$this->old_current_user = get_current_user_id();
+
+		$u = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u ) );
+
+		// Instantiate group object.
+		$this->set_current_user( $u );
+		$group = new BP_Groups_Group( $g );
+
+		// Assert ! empty() check is not false.
+		$this->assertNotFalse( ! empty( $group->is_member ) );
+
+		$this->set_current_user( $this->old_current_user );
+	}
+
 	/** convert_type_to_order_orderby() **********************************/
 
 	/**
