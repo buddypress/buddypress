@@ -61,3 +61,15 @@ function bp_members_clear_member_type_cache( $user_id ) {
 }
 add_action( 'wpmu_delete_user', 'bp_members_clear_member_type_cache' );
 add_action( 'delete_user', 'bp_members_clear_member_type_cache' );
+
+/**
+ * Invalidate activity caches when a user's last_activity value is changed.
+ *
+ * @since 2.7.0
+ *
+ * @return bool True on success, false on failure.
+ */
+function bp_members_reset_activity_cache_incrementor() {
+	return bp_core_reset_incrementor( 'bp_activity_with_last_activity' );
+}
+add_action( 'bp_core_user_updated_last_activity', 'bp_members_reset_activity_cache_incrementor' );
