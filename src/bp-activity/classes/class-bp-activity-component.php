@@ -72,7 +72,7 @@ class BP_Activity_Component extends BP_Component {
 		// Load Akismet support if Akismet is configured.
 		$akismet_key = bp_get_option( 'wordpress_api_key' );
 
-		/** This filter is documented in bp-activity/bp-activity-actions.php */
+		/** This filter is documented in bp-activity/bp-activity-akismet.php */
 		if ( defined( 'AKISMET_VERSION' ) && class_exists( 'Akismet' ) && ( ! empty( $akismet_key ) || defined( 'WPCOM_API_KEY' ) ) && apply_filters( 'bp_activity_use_akismet', bp_is_akismet_active() ) ) {
 			$includes[] = 'akismet';
 		}
@@ -367,19 +367,6 @@ class BP_Activity_Component extends BP_Component {
 		}
 
 		parent::setup_title();
-	}
-
-	/**
-	 * Set up actions necessary for the component.
-	 *
-	 * @since 1.6.0
-	 */
-	public function setup_actions() {
-
-		// Spam prevention.
-		add_action( 'bp_include', 'bp_activity_setup_akismet' );
-
-		parent::setup_actions();
 	}
 
 	/**
