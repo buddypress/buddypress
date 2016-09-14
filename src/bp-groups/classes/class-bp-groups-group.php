@@ -881,8 +881,6 @@ class BP_Groups_Group {
 	 *                                            will be limited to groups within the list. Default: false.
 	 *     @type array|string $parent_id          Optional. Array or comma-separated list of group IDs. Results
 	 *                                            will be limited to children of the specified groups. Default: null.
-	 *     @type bool         $populate_extras    Whether to fetch additional information
-	 *                                            (such as member count) about groups. Default: true.
 	 *     @type array|string $exclude            Optional. Array or comma-separated list of group IDs.
 	 *                                            Results will exclude the listed groups. Default: false.
 	 *     @type bool         $update_meta_cache  Whether to pre-fetch groupmeta for the returned groups.
@@ -935,7 +933,6 @@ class BP_Groups_Group {
 			'meta_query'         => false,
 			'include'            => false,
 			'parent_id'          => null,
-			'populate_extras'    => true,
 			'update_meta_cache'  => true,
 			'update_admin_cache' => false,
 			'exclude'            => false,
@@ -1148,11 +1145,6 @@ class BP_Groups_Group {
 		$group_ids = array();
 		foreach ( (array) $paged_groups as $group ) {
 			$group_ids[] = $group->id;
-		}
-
-		// Populate some extra information instead of querying each time in the loop.
-		if ( !empty( $r['populate_extras'] ) ) {
-			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, $r['type'] );
 		}
 
 		// Grab all groupmeta.

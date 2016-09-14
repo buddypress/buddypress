@@ -134,8 +134,6 @@ function bp_groups_directory_permalink() {
  *                                            See {@link WP_Meta_Query::queries} for description.
  *     @type array|string $include            Array or comma-separated list of group IDs. Results will be limited
  *                                            to groups within the list. Default: false.
- *     @type bool         $populate_extras    Whether to fetch additional information (such as member count)
- *                                            about groups. Default: true.
  *     @type array|string $exclude            Array or comma-separated list of group IDs. Results will exclude
  *                                            the listed groups. Default: false.
  *     @type array|string $parent_id          Array or comma-separated list of group IDs. Results will include only
@@ -205,7 +203,6 @@ function bp_has_groups( $args = '' ) {
 		'include'            => false,
 		'exclude'            => false,
 		'parent_id'          => null,
-		'populate_extras'    => true,
 		'update_meta_cache'  => true,
 		'update_admin_cache' => bp_is_groups_directory() || bp_is_user_groups(),
 	), 'has_groups' );
@@ -230,7 +227,6 @@ function bp_has_groups( $args = '' ) {
 		'include'            => $r['include'],
 		'exclude'            => $r['exclude'],
 		'parent_id'          => $r['parent_id'],
-		'populate_extras'    => (bool) $r['populate_extras'],
 		'update_meta_cache'  => (bool) $r['update_meta_cache'],
 		'update_admin_cache' => (bool) $r['update_admin_cache'],
 	) );

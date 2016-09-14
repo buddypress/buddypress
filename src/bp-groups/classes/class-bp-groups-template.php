@@ -171,7 +171,6 @@ class BP_Groups_Template {
 			'group_type__in'     => '',
 			'group_type__not_in' => '',
 			'meta_query'         => false,
-			'populate_extras'    => true,
 			'update_meta_cache'  => true,
 			'update_admin_cache' => false,
 		);
@@ -226,7 +225,6 @@ class BP_Groups_Template {
 				'include'            => $include,
 				'exclude'            => $exclude,
 				'parent_id'          => $parent_id,
-				'populate_extras'    => $populate_extras,
 				'update_meta_cache'  => $update_meta_cache,
 				'update_admin_cache' => $update_admin_cache,
 				'show_hidden'        => $show_hidden,

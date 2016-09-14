@@ -711,7 +711,6 @@ function groups_get_groups( $args = '' ) {
 		'show_hidden'        => false,          // Show hidden groups to non-admins.
 		'per_page'           => 20,             // The number of results to return per page.
 		'page'               => 1,              // The page to return if limiting per page.
-		'populate_extras'    => true,           // Fetch meta such as is_banned and is_member.
 		'update_meta_cache'  => true,           // Pre-fetch groupmeta for queried groups.
 		'update_admin_cache' => false,
 	);
@@ -732,7 +731,6 @@ function groups_get_groups( $args = '' ) {
 		'show_hidden'        => $r['show_hidden'],
 		'per_page'           => $r['per_page'],
 		'page'               => $r['page'],
-		'populate_extras'    => $r['populate_extras'],
 		'update_meta_cache'  => $r['update_meta_cache'],
 		'update_admin_cache' => $r['update_admin_cache'],
 		'order'              => $r['order'],

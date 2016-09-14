@@ -92,7 +92,6 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	public function get_suggestions() {
 		$user_query = array(
 			'count_total'     => '',  // Prevents total count.
-			'populate_extras' => false,
 			'type'            => 'alphabetical',
 
 			'group_role'      => array( 'admin', 'member', 'mod' ),
@@ -115,7 +114,6 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		} else {
 			$group_query = array(
 				'count_total'     => '',  // Prevents total count.
-				'populate_extras' => false,
 				'type'            => 'alphabetical',
 
 				'group_id'        => absint( $this->args['group_id'] ),
