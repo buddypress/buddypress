@@ -100,10 +100,13 @@ function bp_get_default_options() {
 		// Force the BuddyBar.
 		'_bp_force_buddybar'                   => false,
 
-		/* Legacy theme *********************************************/
+		/* Legacy *********************************************/
 
 		// Whether to register the bp-default themes directory.
 		'_bp_retain_bp_default'                => false,
+
+		// Whether to load deprecated code.
+		'_bp_ignore_deprecated_code'           => true,
 
 		/* Widgets **************************************************/
 		'widget_bp_core_login_widget'                => false,

@@ -265,7 +265,7 @@ function bp_version_updater() {
 		}
 
 		// Version 2.7.0.
-		if ( $raw_db_version < 11079 ) {
+		if ( $raw_db_version < 11105 ) {
 			bp_update_to_2_7();
 		}
 	}
@@ -510,6 +510,7 @@ function bp_update_to_2_5() {
  *
  * - Add email unsubscribe salt.
  * - Save legacy directory titles to the corresponding WP pages.
+ * - Add ignore deprecated code option (false for updates).
  *
  * @since 2.7.0
  */
@@ -536,6 +537,9 @@ function bp_update_to_2_7() {
 			wp_cache_delete( $group_id, 'bp_groups' );
 		}
 	}
+
+	// Load deprecated code for existing installs.
+	bp_add_option( '_bp_ignore_deprecated_code', false );
 }
 
 /**
