@@ -276,8 +276,11 @@ function bp_current_user_can( $capability, $args = array() ) {
 		$args['site_id'] = bp_get_root_blog_id();
 	}
 
+	/** This filter is documented in /bp-core/bp-core-template.php */
+	$current_user_id = apply_filters( 'bp_loggedin_user_id', get_current_user_id() );
+
 	// Call bp_user_can().
-	$retval = bp_user_can( bp_loggedin_user_id(), $capability, $args );
+	$retval = bp_user_can( $current_user_id, $capability, $args );
 
 	/**
 	 * Filters whether or not the current user has a given capability.
