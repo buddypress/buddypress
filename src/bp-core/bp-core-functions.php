@@ -703,7 +703,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
  * @return array
  */
 function bp_core_get_directory_page_default_titles() {
-	return array(
+	$page_default_titles = array(
 		'activity' => _x( 'Activity', 'Page title for the Activity directory.',       'buddypress' ),
 		'groups'   => _x( 'Groups',   'Page title for the Groups directory.',         'buddypress' ),
 		'blogs'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
@@ -711,6 +711,15 @@ function bp_core_get_directory_page_default_titles() {
 		'activate' => _x( 'Activate', 'Page title for the user activation screen.',   'buddypress' ),
 		'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
 	);
+
+	/**
+	 * Filters the default page titles array
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param array $page_default_titles the array of default WP (post_title) titles
+	 */
+	return apply_filters('bp_core_get_directory_page_default_titles', $page_default_titles);
 }
 
 /**
