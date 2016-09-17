@@ -787,7 +787,7 @@ class BP_User_Query {
 
 		$tax_query = new WP_Tax_Query( array(
 			array(
-				'taxonomy' => 'bp_member_type',
+				'taxonomy' => bp_get_member_type_tax_name(),
 				'field'    => 'name',
 				'operator' => $operator,
 				'terms'    => $types,
@@ -795,7 +795,7 @@ class BP_User_Query {
 		) );
 
 		// Switch to the root blog, where member type taxonomies live.
-		$site_id  = bp_get_taxonomy_term_site_id( 'bp_member_type' );
+		$site_id  = bp_get_taxonomy_term_site_id( bp_get_member_type_tax_name() );
 		$switched = false;
 		if ( $site_id !== get_current_blog_id() ) {
 			switch_to_blog( $site_id );

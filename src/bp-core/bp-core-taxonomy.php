@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_register_default_taxonomies() {
 	// Member Type.
-	register_taxonomy( 'bp_member_type', 'user', array(
+	register_taxonomy( bp_get_member_type_tax_name(), 'user', array(
 		'public' => false,
 	) );
 

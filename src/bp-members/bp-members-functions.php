@@ -2506,6 +2506,33 @@ function bp_get_displayed_user() {
 /** Member Types *************************************************************/
 
 /**
+ * Output the slug of the member type taxonomy.
+ *
+ * @since 2.7.0
+ */
+function bp_member_type_tax_name() {
+	echo bp_get_member_type_tax_name();
+}
+
+	/**
+	 * Return the slug of the member type taxonomy.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return string The unique member taxonomy slug.
+	 */
+	function bp_get_member_type_tax_name() {
+		/**
+		 * Filters the slug of the member type taxonomy.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param string $value Member type taxonomy slug.
+		 */
+		return apply_filters( 'bp_get_member_type_tax_name', 'bp_member_type' );
+	}
+
+/**
  * Register a member type.
  *
  * @since 2.2.0
@@ -2676,7 +2703,7 @@ function bp_set_member_type( $user_id, $member_type, $append = false ) {
 		return false;
 	}
 
-	$retval = bp_set_object_terms( $user_id, $member_type, 'bp_member_type', $append );
+	$retval = bp_set_object_terms( $user_id, $member_type, bp_get_member_type_tax_name(), $append );
 
 	// Bust the cache if the type has been updated.
 	if ( ! is_wp_error( $retval ) ) {
@@ -2712,7 +2739,7 @@ function bp_remove_member_type( $user_id, $member_type ) {
 		return false;
 	}
 
-	$deleted = bp_remove_object_terms( $user_id, $member_type, 'bp_member_type' );
+	$deleted = bp_remove_object_terms( $user_id, $member_type, bp_get_member_type_tax_name() );
 
 	// Bust the cache if the type has been removed.
 	if ( ! is_wp_error( $deleted ) ) {
@@ -2747,7 +2774,7 @@ function bp_get_member_type( $user_id, $single = true ) {
 	$types = wp_cache_get( $user_id, 'bp_member_member_type' );
 
 	if ( false === $types ) {
-		$raw_types = bp_get_object_terms( $user_id, 'bp_member_type' );
+		$raw_types = bp_get_object_terms( $user_id, bp_get_member_type_tax_name() );
 
 		if ( ! is_wp_error( $raw_types ) ) {
 			$types =  array();

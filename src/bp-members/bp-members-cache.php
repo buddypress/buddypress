@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 function bp_members_prefetch_member_type( BP_User_Query $bp_user_query ) {
 	$uncached_member_ids = bp_get_non_cached_ids( $bp_user_query->user_ids, 'bp_member_member_type' );
 
-	$member_types = bp_get_object_terms( $uncached_member_ids, 'bp_member_type', array(
+	$member_types = bp_get_object_terms( $uncached_member_ids, bp_get_member_type_tax_name(), array(
 		'fields' => 'all_with_object_id',
 	) );
 
