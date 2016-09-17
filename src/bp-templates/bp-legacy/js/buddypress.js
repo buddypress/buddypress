@@ -308,6 +308,11 @@ jq(document).ready( function() {
 
 		/* Favoriting activity stream items */
 		if ( target.hasClass('fav') || target.hasClass('unfav') ) {
+			/* Bail if a request is in progress */
+			if ( target.hasClass( 'loading' ) ) {
+				return false;
+			}
+
 			type      = target.hasClass('fav') ? 'fav' : 'unfav';
 			parent    = target.closest('.activity-item');
 			parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
