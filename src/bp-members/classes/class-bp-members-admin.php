@@ -215,6 +215,23 @@ class BP_Members_Admin {
 				add_filter( 'set-screen-option',    array( $this, 'signup_screen_options' ), 10, 3 );
 			}
 		}
+
+		/** Users List - Members Types ***************************************
+		 */
+
+		if ( is_admin() && bp_get_member_types() ) {
+
+			// Add "Change type" <select> to WP admin users list table and process bulk members type changes.
+			add_action( 'restrict_manage_users', array( $this, 'users_table_output_type_change_select' ) );
+			add_action( 'load-users.php',        array( $this, 'users_table_process_bulk_type_change'  ) );
+
+			// Add the member type column to the WP admin users list table.
+			add_filter( 'manage_users_columns',       array( $this, 'users_table_add_type_column'    )        );
+			add_filter( 'manage_users_custom_column', array( $this, 'users_table_populate_type_cell' ), 10, 3 );
+
+			// Filter WP admin users list table to include users of the specified type.
+			add_filter( 'pre_get_users', array( $this, 'users_table_filter_by_type' ) );
+		}
 	}
 
 	/**
@@ -1905,6 +1922,7 @@ class BP_Members_Admin {
 	 * @since 2.0.0
 	 *
 	 * @param string $action Delete, activate, or resend activation link.
+	 *
 	 * @return string
 	 */
 	public function signups_admin_manage( $action = '' ) {
@@ -2031,6 +2049,228 @@ class BP_Members_Admin {
 		</div>
 
 		<?php
+	}
+
+	/** Users List Management ****************************************************/
+
+	/**
+	 * Display a dropdown to bulk change the member type of selected user(s).
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $which Where this dropdown is displayed - top or bottom.
+	 */
+	public function users_table_output_type_change_select( $which = 'top' ) {
+
+		// Bail if current user cannot promote users.
+		if ( ! current_user_can( 'promote_users' ) ) {
+			return;
+		}
+
+		// `$which` is only passed in WordPress 4.6+. Avoid duplicating controls in earlier versions.
+		static $displayed = false;
+		if ( version_compare( bp_get_major_wp_version(), '4.6', '<' ) && $displayed ) {
+			return;
+		}
+		$displayed = true;
+
+		$id_name = 'bottom' === $which ? 'bp_change_type2' : 'bp_change_type';
+
+		$types = bp_get_member_types( array(), 'objects' ); ?>
+
+		<label class="screen-reader-text" for="<?php echo $id_name; ?>"><?php _e( 'Change member type to&hellip;', 'buddypress' ) ?></label>
+		<select name="<?php echo $id_name; ?>" id="<?php echo $id_name; ?>" style="display:inline-block;float:none;">
+			<option value=""><?php _e( 'Change member type to&hellip;', 'buddypress' ) ?></option>
+
+			<?php foreach( $types as $type ) : ?>
+
+				<option value="<?php echo esc_attr( $type->name ); ?>"><?php echo $type->labels['name']; ?></option>
+
+			<?php endforeach; ?>
+
+			<option value="remove_member_type"><?php _e( 'No Member Type', 'buddypress' ) ?></option>
+
+		</select>
+		<?php
+		wp_nonce_field( 'bp-bulk-users-change-type-' . bp_loggedin_user_id(), 'bp-bulk-users-change-type-nonce' );
+		submit_button( __( 'Change', 'buddypress' ), 'button', 'bp_change_member_type', false );
+	}
+
+	/**
+	 * Process bulk member type change submission from the WP admin users list table.
+	 *
+	 * @since 2.7.0
+	 */
+	public function users_table_process_bulk_type_change() {
+		// Output the admin notice.
+		$this->users_type_change_notice();
+
+		// Bail if no users specified.
+		if ( empty( $_REQUEST['users'] ) ) {
+			return;
+		}
+
+		// Bail if this isn't a BuddyPress action.
+		if ( ( empty( $_REQUEST['bp_change_type'] ) && empty( $_REQUEST['bp_change_type2'] ) )
+			|| empty( $_REQUEST['bp_change_member_type'] )
+		) {
+			return;
+		}
+
+		// Bail if nonce check fails.
+		check_admin_referer( 'bp-bulk-users-change-type-' . bp_loggedin_user_id(), 'bp-bulk-users-change-type-nonce' );
+
+		// Bail if current user cannot promote users.
+		if ( ! current_user_can( 'promote_users' ) ) {
+			return;
+		}
+
+		$new_type = '';
+		if ( ! empty( $_REQUEST['bp_change_type2'] ) ) {
+			$new_type = sanitize_text_field( $_REQUEST['bp_change_type2'] );
+		} elseif ( ! empty( $_REQUEST['bp_change_type'] ) ) {
+			$new_type = sanitize_text_field( $_REQUEST['bp_change_type'] );
+		}
+
+		// Check that the selected type actually exists.
+		if ( 'remove_member_type' != $new_type && null == bp_get_member_type_object( $new_type ) ) {
+			return;
+		}
+
+		// Run through user ids.
+		$error = false;
+		foreach ( (array) $_REQUEST['users'] as $user_id ) {
+			$user_id = (int) $user_id;
+
+			// Get the old member type to check against.
+			$member_type = bp_get_member_type( $user_id );
+
+			if ( 'remove_member_type' == $new_type ) {
+				// Remove the current member type, if there's one to remove.
+				if ( $member_type ) {
+					$removed = bp_remove_member_type( $user_id, $member_type );
+					if ( false == $removed || is_wp_error( $removed ) ) {
+						$error = true;
+					}
+				}
+			} else {
+				// Set the new member type.
+				if ( $new_type !== $member_type ) {
+					$set = bp_set_member_type( $user_id, $new_type );
+					if ( false == $set || is_wp_error( $set ) ) {
+						$error = true;
+					}
+				}
+			}
+		}
+
+		// If there were any errors, show the error message.
+		if ( $error ) {
+			$redirect = add_query_arg( array( 'updated' => 'member-type-change-error' ), wp_get_referer() );
+		} else {
+			$redirect = add_query_arg( array( 'updated' => 'member-type-change-success' ), wp_get_referer() );
+		}
+
+		wp_redirect( $redirect );
+		exit();
+	}
+
+	/**
+	 * Display an admin notice upon member type bulk update.
+	 *
+	 * @since 2.7.0
+	 */
+	public function users_type_change_notice() {
+		$updated = isset( $_REQUEST['updated'] ) ? $_REQUEST['updated'] : false;
+
+		// Display feedback.
+		if ( $updated && in_array( $updated, array( 'member-type-change-error', 'member-type-change-success' ) ) ) {
+
+			if ( 'member-type-change-error' === $updated ) {
+				$notice = __( 'There was an error while changing member type. Please try again.', 'buddypress' );
+			} else {
+				$notice = __( 'Member type was changed successfully.', 'buddypress' );
+			}
+
+			bp_core_add_admin_notice( $notice );
+		}
+	}
+
+	/**
+	 * Add member type column to the WordPress admin users list table.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param array $columns Users table columns.
+	 *
+	 * @return array $columns
+	 */
+	public function users_table_add_type_column( $columns = array() ) {
+		$columns[ bp_get_member_type_tax_name() ] = _x( 'Member Type', 'Label for the WP users table member type column' , 'buddypress' );
+
+		return $columns;
+	}
+
+	/**
+	 * Return member's type for display in the WP admin users list table.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $retval
+	 * @param string $column_name
+	 * @param int $user_id
+	 *
+	 * @return string Member type as a link to filter all users.
+	 */
+	public function users_table_populate_type_cell( $retval = '', $column_name = '', $user_id = 0 ) {
+		// Only looking for member type column.
+		if ( bp_get_member_type_tax_name() !== $column_name ) {
+			return $retval;
+		}
+
+		// Get the member type.
+		$type = bp_get_member_type( $user_id );
+
+		// Output the
+		if ( $type_obj = bp_get_member_type_object( $type ) ) {
+			$url = add_query_arg( array( 'bp-member-type' => urlencode( $type ) ) );
+			$retval = '<a href="' . esc_url( $url ) . '">' . $type_obj->labels['singular_name'] . '</a>';
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Filter WP Admin users list table to include users of the specified type.
+	 *
+	 * @param WP_Query $query
+	 *
+	 * @since 2.7.0
+	 */
+	public function users_table_filter_by_type( $query ) {
+		global $pagenow;
+
+		if ( is_admin() && 'users.php' === $pagenow && ! empty( $_REQUEST['bp-member-type'] ) ) {
+			$type_slug = sanitize_text_field( $_REQUEST['bp-member-type'] );
+
+			// Check that the type is registered.
+			if ( null == bp_get_member_type_object( $type_slug ) ) {
+				return;
+			}
+
+			// Get the list of users that are assigned to this member type.
+			$type = get_term_by( 'slug', $type_slug, bp_get_member_type_tax_name() );
+
+			if ( empty( $type->term_id ) ) {
+				return;
+			}
+
+			$user_ids = get_objects_in_term( $type->term_id, bp_get_member_type_tax_name() );
+
+			if ( $user_ids && ! is_wp_error( $user_ids ) ) {
+				$query->set( 'include', (array) $user_ids );
+			}
+		}
 	}
 }
 endif; // End class_exists check.
