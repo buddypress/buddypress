@@ -186,14 +186,14 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			)
 		) );
 
-		$this->assertNotFalse( strpos( $b->contents, '<section ' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'data-parent="foo"' ) );
-		$this->assertNotFalse( strpos( $b->contents, '<button ' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'autofocus="autofocus"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'type="submit"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'name="my-button"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, '<section ' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'class="section-class ' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'id="section-id"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'data-parent="foo"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, '<button ' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'autofocus="autofocus"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'type="submit"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'name="my-button"' ) );
 	}
 
 	/**
