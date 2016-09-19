@@ -193,3 +193,50 @@ function bp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 
 	return $retval;
 }
+
+/**
+ * Retrieve IDs of objects in valid taxonomies and terms for BuddyPress-related taxonomies.
+ *
+ * Note that object IDs are from the `bp_get_taxonomy_term_site_id()`, which on some
+ * multisite configurations may not be the same as the current site.
+ *
+ * @since 2.7.0
+ *
+ * @see get_objects_in_term() for a full description of function and parameters.
+ *
+ * @param int|array    $term_ids   Term id or array of term ids of terms that will be used.
+ * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names.
+ * @param array|string $args       Change the order of the object_ids, either ASC or DESC.
+ *
+ * @return WP_Error|array If the taxonomy does not exist, then WP_Error will be returned. On success,
+ *                        the array can be empty, meaning that there are no $object_ids found. When
+ *                        object IDs are found, an array of those IDs will be returned.
+ */
+function bp_get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
+	// Different taxonomies may be stored on different sites.
+	$taxonomy_site_map = array();
+	foreach ( (array) $taxonomies as $taxonomy ) {
+		$taxonomy_site_id = bp_get_taxonomy_term_site_id( $taxonomy );
+		$taxonomy_site_map[ $taxonomy_site_id ][] = $taxonomy;
+	}
+
+	$retval = array();
+	foreach ( $taxonomy_site_map as $taxonomy_site_id => $site_taxonomies ) {
+		$switched = false;
+		if ( $taxonomy_site_id !== get_current_blog_id() ) {
+			switch_to_blog( $taxonomy_site_id );
+			bp_register_taxonomies();
+			$switched = true;
+		}
+
+		$site_objects = get_objects_in_term( $term_ids, $site_taxonomies, $args );
+		$retval       = array_merge( $retval, $site_objects );
+
+		if ( $switched ) {
+			restore_current_blog();
+		}
+	}
+
+	return $retval;
+}
+
