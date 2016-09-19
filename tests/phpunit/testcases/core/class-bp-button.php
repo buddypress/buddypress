@@ -215,14 +215,14 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'link_title' => 'link-title'
 		) );
 
-		$this->assertNotFalse( strpos( $b->contents, '<section ' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'href="http://example.com"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'class="link-class"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'id="link-id"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'rel="nofollow"' ) );
-		$this->assertNotFalse( strpos( $b->contents, 'title="link-title"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, '<section ' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'class="section-class ' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'id="section-id"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'href="http://example.com"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'class="link-class"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'id="link-id"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'rel="nofollow"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, 'title="link-title"' ) );
 	}
 
 	/**
@@ -241,7 +241,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'link_class' => 'old-class'
 		) );
 
-		$this->assertNotFalse( strpos( $b->contents, '<button class="new-class"' ) );
+		$this->assertInternalType( 'int', strpos( $b->contents, '<button class="new-class"' ) );
 	}
 
 	/**
