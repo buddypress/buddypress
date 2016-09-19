@@ -2259,13 +2259,13 @@ class BP_Members_Admin {
 			}
 
 			// Get the list of users that are assigned to this member type.
-			$type = get_term_by( 'slug', $type_slug, bp_get_member_type_tax_name() );
+			$type = bp_get_term_by( 'slug', $type_slug, bp_get_member_type_tax_name() );
 
 			if ( empty( $type->term_id ) ) {
 				return;
 			}
 
-			$user_ids = get_objects_in_term( $type->term_id, bp_get_member_type_tax_name() );
+			$user_ids = bp_get_objects_in_term( $type->term_id, bp_get_member_type_tax_name() );
 
 			if ( $user_ids && ! is_wp_error( $user_ids ) ) {
 				$query->set( 'include', (array) $user_ids );
