@@ -240,3 +240,40 @@ function bp_get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	return $retval;
 }
 
+/**
+ * Get term data for terms in BuddyPress taxonomies.
+ *
+ * Note that term data is from the `bp_get_taxonomy_term_site_id()`, which on some
+ * multisite configurations may not be the same as the current site.
+ *
+ * @since 2.7.0
+ *
+ * @see get_term_by() for a full description of function and parameters.
+ *
+ * @param string     $field    Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'
+ * @param string|int $value    Search for this term value
+ * @param string     $taxonomy Taxonomy name. Optional, if `$field` is 'term_taxonomy_id'.
+ * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N
+ * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
+ *
+ * @return WP_Term|bool WP_Term instance on success. Will return false if `$taxonomy` does not exist
+ *                      or `$term` was not found.
+ */
+function bp_get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
+	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );
+
+	$switched = false;
+	if ( $site_id !== get_current_blog_id() ) {
+		switch_to_blog( $site_id );
+		bp_register_taxonomies();
+		$switched = true;
+	}
+
+	$term = get_term_by( $field, $value, $taxonomy, $output, $filter );
+
+	if ( $switched ) {
+		restore_current_blog();
+	}
+
+	return $term;
+}
