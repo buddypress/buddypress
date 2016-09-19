@@ -162,4 +162,103 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		// clean up
 		$GLOBALS['members_template'] = null;
 	}
+
+	/**
+	 * @ticket BP7226
+	 */
+	public function test_bp_button_new_args() {
+		$b = new BP_Button( array(
+			'id' => 'foo',
+			'component' => 'members',
+			'block_self' => false,
+			'must_be_logged_in' => false,
+			'parent_element' => 'section',
+			'parent_attr' => array(
+				'class' => 'section-class',
+				'id' => 'section-id',
+				'data-parent' => 'foo',
+			),
+			'button_element' => 'button',
+			'button_attr' => array(
+				'autofocus' => 'autofocus',
+				'type' => 'submit',
+				'name' => 'my-button'
+			)
+		) );
+
+		$this->assertNotFalse( strpos( $b->contents, '<section ' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'class="section-class ' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'id="section-id"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'data-parent="foo"' ) );
+		$this->assertNotFalse( strpos( $b->contents, '<button ' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'autofocus="autofocus"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'type="submit"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'name="my-button"' ) );
+	}
+
+	/**
+	 * @ticket BP7226
+	 */
+	public function test_bp_button_deprecated_args_should_still_render() {
+		$b = new BP_Button( array(
+			'id' => 'foo',
+			'component' => 'members',
+			'block_self' => false,
+			'must_be_logged_in' => false,
+			'wrapper' => 'section',
+			'wrapper_class' => 'section-class',
+			'wrapper_id' => 'section-id',
+			'link_href' => 'http://example.com',
+			'link_class' => 'link-class',
+			'link_id' => 'link-id',
+			'link_rel' => 'nofollow',
+			'link_title' => 'link-title'
+		) );
+
+		$this->assertNotFalse( strpos( $b->contents, '<section ' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'class="section-class ' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'id="section-id"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'href="http://example.com"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'class="link-class"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'id="link-id"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'rel="nofollow"' ) );
+		$this->assertNotFalse( strpos( $b->contents, 'title="link-title"' ) );
+	}
+
+	/**
+	 * @ticket BP7226
+	 */
+	public function test_bp_button_new_element_attrs_have_precedence_over_deprecated_element_attrs() {
+		$b = new BP_Button( array(
+			'id' => 'foo',
+			'component' => 'members',
+			'block_self' => false,
+			'must_be_logged_in' => false,
+			'button_element' => 'button',
+			'button_attr' => array(
+				'class' => 'new-class',
+			),
+			'link_class' => 'old-class'
+		) );
+
+		$this->assertNotFalse( strpos( $b->contents, '<button class="new-class"' ) );
+	}
+
+	/**
+	 * @ticket BP7226
+	 */
+	public function test_bp_button_new_element_attrs_should_not_render_for_empty_attrs() {
+		$b = new BP_Button( array(
+			'id' => 'foo',
+			'component' => 'members',
+			'block_self' => false,
+			'must_be_logged_in' => false,
+			'button_element' => 'button',
+			'button_attr' => array(
+				'class' => '',
+			),
+		) );
+
+		$this->assertFalse( strpos( $b->contents, '<button class=""' ) );
+	}
 }
