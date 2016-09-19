@@ -52,12 +52,16 @@ class BP_Button {
 	/**
 	 * The button ID.
 	 *
+	 * @since 1.2.6
+	 *
 	 * @var string
 	 */
 	public $id = '';
 
 	/**
 	 * The name of the component that the button belongs to.
+	 *
+	 * @since 1.2.6
 	 *
 	 * @var string
 	 */
@@ -66,12 +70,16 @@ class BP_Button {
 	/**
 	 * Does the user need to be logged in to see this button?
 	 *
+	 * @since 1.2.6
+	 *
 	 * @var bool
 	 */
 	public $must_be_logged_in = true;
 
 	/**
 	 * Whether the button should be hidden when viewing your own profile.
+	 *
+	 * @since 1.2.6
 	 *
 	 * @var bool
 	 */
@@ -120,11 +128,16 @@ class BP_Button {
 	/**
 	 * The contents of the button link.
 	 *
+	 * @since 1.2.6
+	 *
 	 * @var string
 	 */
 	public $link_text = '';
 
-	/** HTML result
+	/**
+	 * HTML result.
+	 *
+	 * @since 1.2.6
 	 *
 	 * @var string
 	 */
@@ -135,6 +148,7 @@ class BP_Button {
 	/**
 	 * The type of DOM element to use for a wrapper.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Use $parent_element instead.
 	 *
 	 * @var string|bool
@@ -144,6 +158,7 @@ class BP_Button {
 	/**
 	 * The DOM class of the button wrapper.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Set 'class' key in $parent_attr instead.
 	 *
 	 * @var string
@@ -153,6 +168,7 @@ class BP_Button {
 	/**
 	 * The DOM ID of the button wrapper.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Set 'id' key in $parent_attr instead.
 	 *
 	 * @var string
@@ -162,6 +178,7 @@ class BP_Button {
 	/**
 	 * The destination link of the button.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Set 'href' key in $button_attr instead.
 	 *
 	 * @var string
@@ -171,6 +188,7 @@ class BP_Button {
 	/**
 	 * The DOM class of the button link.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Set 'class' key in $button_attr instead.
 	 *
 	 * @var string
@@ -180,6 +198,7 @@ class BP_Button {
 	/**
 	 * The DOM ID of the button link.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Set 'id' key in $button_attr instead.
 	 *
 	 * @var string
@@ -189,6 +208,7 @@ class BP_Button {
 	/**
 	 * The DOM rel value of the button link.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Set 'rel' key in $button_attr instead.
 	 *
 	 * @var string
@@ -198,6 +218,7 @@ class BP_Button {
 	/**
 	 * Title of the button link.
 	 *
+	 * @since      1.2.6
 	 * @deprecated 2.7.0 Set 'title' key in $button_attr instead.
 	 *
 	 * @var string
