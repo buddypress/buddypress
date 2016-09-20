@@ -122,15 +122,29 @@ class BP_Friends_Friendship {
 
 		$bp = buddypress();
 
-		if ( $friendship = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->friends->table_name} WHERE id = %d", $this->id ) ) ) {
-			$this->initiator_user_id = (int) $friendship->initiator_user_id;
-			$this->friend_user_id    = (int) $friendship->friend_user_id;
-			$this->is_confirmed      = (int) $friendship->is_confirmed;
-			$this->is_limited        = (int) $friendship->is_limited;
-			$this->date_created      = $friendship->date_created;
+		// Check cache for friendship data.
+		$friendship = wp_cache_get( $this->id, 'bp_friends_friendships' );
+
+		// Cache missed, so query the DB.
+		if ( false === $friendship ) {
+			$friendship = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->friends->table_name} WHERE id = %d", $this->id ) );
+
+			wp_cache_set( $this->id, $friendship, 'bp_friends_friendships' );
 		}
 
-		if ( !empty( $this->populate_friend_details ) ) {
+		// No friendship found so set the ID and bail.
+		if ( empty( $friendship ) || is_wp_error( $friendship ) ) {
+			$this->id = 0;
+			return;
+		}
+
+		$this->initiator_user_id = (int) $friendship->initiator_user_id;
+		$this->friend_user_id    = (int) $friendship->friend_user_id;
+		$this->is_confirmed      = (int) $friendship->is_confirmed;
+		$this->is_limited        = (int) $friendship->is_limited;
+		$this->date_created      = $friendship->date_created;
+
+		if ( ! empty( $this->populate_friend_details ) ) {
 			if ( $this->friend_user_id == bp_displayed_user_id() ) {
 				$this->friend = new BP_Core_User( $this->initiator_user_id );
 			} else {
@@ -707,11 +721,18 @@ class BP_Friends_Friendship {
 	 * @return object friend_user_id and initiator_user_id.
 	 */
 	public static function get_user_ids_for_friendship( $friendship_id ) {
-		global $wpdb;
 
-		$bp = buddypress();
+		$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
 
-		return $wpdb->get_row( $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} WHERE id = %d", $friendship_id ) );
+		if ( empty( $friendship->id ) ) {
+			return null;
+		}
+
+		$retval = new StdClass;
+		$retval->friend_user_id = $friendship->friend_user_id;
+		$retval->initiator_user_id = $friendship->initiator_user_id;
+
+		return $retval;
 	}
 
 	/**

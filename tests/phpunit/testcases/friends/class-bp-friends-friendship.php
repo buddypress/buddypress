@@ -147,4 +147,28 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 		$f2 = new BP_Friends_Friendship( $fid );
 		$this->assertEquals( 1, $f2->is_confirmed );
 	}
+
+	/**
+	 * @group friendship_caching
+	 */
+	public function test_new_bp_friends_friendship_object_should_hit_friendship_object_cache() {
+		global $wpdb;
+		$now = time();
+		$u1 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$u2 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		friends_add_friend( $u1, $u2, true );
+		$fid = friends_get_friendship_id( $u1, $u2 );
+
+		$friendship_obj = new BP_Friends_Friendship( $fid, false, false );
+		$first_query_count = $wpdb->num_queries;
+		// Create it again.
+		$friendship_obj = new BP_Friends_Friendship( $fid, false, false );
+
+		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+	}
 }
