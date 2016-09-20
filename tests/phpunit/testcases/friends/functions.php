@@ -27,9 +27,15 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		friends_add_friend( $u2, $u1 );
 		friends_add_friend( $u3, $u1 );
 
+		// Set the time of the earlier friendship for reliable ordering of the results.
+		$fid = friends_get_friendship_id( $u2, $u1 );
+		$friendship = new BP_Friends_Friendship( $fid, false, false );
+		$friendship->date_created = date( 'Y-m-d H:i:s', time() - 60 );
+		$friendship->save();
+
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u2, $u3 ), $requests );
+		$this->assertEquals( array( $u3, $u2 ), $requests );
 
 		// accept friendship
 		$old_user = get_current_user_id();
@@ -54,6 +60,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// request friendship
 		friends_add_friend( $u2, $u1 );
+		// Set the time of the earlier friendship for reliable ordering of the results.
+		$fid = friends_get_friendship_id( $u2, $u1 );
+		$friendship = new BP_Friends_Friendship( $fid, false, false );
+		$friendship->date_created = date( 'Y-m-d H:i:s', time() - 60 );
+		$friendship->save();
 
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
@@ -64,7 +75,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u2, $u3 ), $requests );
+		$this->assertEquals( array( $u3, $u2 ), $requests );
 	}
 
 	/**
