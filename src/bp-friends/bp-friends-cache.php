@@ -45,6 +45,10 @@ add_action( 'friends_friendship_deleted',  'friends_clear_friend_object_cache' )
  * @return bool
  */
 function bp_friends_clear_bp_friends_friendships_cache( $friendship_id, $initiator_user_id, $friend_user_id ) {
+	// Clear friendship ID cache for each user.
+	wp_cache_delete( $initiator_user_id, 'bp_friends_friendships_for_user' );
+	wp_cache_delete( $friend_user_id,    'bp_friends_friendships_for_user' );
+
 	// Clear the friendship object cache.
 	wp_cache_delete( $friendship_id, 'bp_friends_friendships' );
 }
@@ -61,6 +65,10 @@ add_action( 'friends_friendship_deleted',   'bp_friends_clear_bp_friends_friends
  * @param BP_Friends_Friendship $friendship Friendship object.
  */
 function bp_friends_clear_bp_friends_friendships_cache_remove( $friendship_id, BP_Friends_Friendship $friendship ) {
+	// Clear friendship ID cache for each user.
+	wp_cache_delete( $friendship->initiator_user_id, 'bp_friends_friendships_for_user' );
+	wp_cache_delete( $friendship->friend_user_id,    'bp_friends_friendships_for_user' );
+
 	// Clear the friendship object cache.
 	wp_cache_delete( $friendship_id, 'bp_friends_friendships' );
 }
