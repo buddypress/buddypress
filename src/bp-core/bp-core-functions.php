@@ -717,9 +717,9 @@ function bp_core_get_directory_page_default_titles() {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $page_default_titles the array of default WP (post_title) titles
+	 * @param array $page_default_titles the array of default WP (post_title) titles.
 	 */
-	return apply_filters('bp_core_get_directory_page_default_titles', $page_default_titles);
+	return apply_filters( 'bp_core_get_directory_page_default_titles', $page_default_titles );
 }
 
 /**
