@@ -72,6 +72,36 @@ function bp_groups_root_slug() {
 	}
 
 /**
+ * Output the group type base slug.
+ *
+ * @since 2.7.0
+ */
+function bp_groups_group_type_base() {
+	echo esc_url( bp_get_groups_group_type_base() );
+}
+	/**
+	 * Get the group type base slug.
+	 *
+	 * The base slug is the string used as the base prefix when generating group
+	 * type directory URLs. For example, in example.com/groups/type/foo/, 'foo' is
+	 * the group type and 'type' is the base slug.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return string
+	 */
+	function bp_get_groups_group_type_base() {
+		/**
+		 * Filters the group type URL base.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param string $base
+		 */
+		return apply_filters( 'bp_groups_group_type_base', _x( 'type', 'group type URL base', 'buddypress' ) );
+	}
+
+/**
  * Output group directory permalink.
  *
  * @since 1.5.0
@@ -173,6 +203,16 @@ function bp_has_groups( $args = '' ) {
 		$slug = bp_get_current_group_slug();
 	}
 
+	$group_type = bp_get_current_group_directory_type();
+	if ( ! $group_type && ! empty( $_GET['group_type'] ) ) {
+		if ( is_array( $_GET['group_type'] ) ) {
+			$group_type = $_GET['group_type'];
+		} else {
+			// Can be a comma-separated list.
+			$group_type = explode( ',', $_GET['group_type'] );
+		}
+	}
+
 	// Default search string (too soon to escape here).
 	$search_query_arg = bp_core_get_component_search_query_arg( 'groups' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
@@ -196,7 +236,7 @@ function bp_has_groups( $args = '' ) {
 		'user_id'            => bp_displayed_user_id(),
 		'slug'               => $slug,
 		'search_terms'       => $search_terms,
-		'group_type'         => '',
+		'group_type'         => $group_type,
 		'group_type__in'     => '',
 		'group_type__not_in' => '',
 		'meta_query'         => false,
@@ -5077,6 +5117,36 @@ function bp_groups_filter_title() {
 	}
 	do_action( 'bp_groups_filter_title' );
 }
+
+/**
+ * Echo the current group type message.
+ *
+ * @since 2.7.0
+ */
+function bp_current_group_directory_type_message() {
+	echo bp_get_current_group_directory_type_message();
+}
+	/**
+	 * Generate the current group type message.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return string
+	 */
+	function bp_get_current_group_directory_type_message() {
+		$type_object = bp_groups_get_group_type_object( bp_get_current_group_directory_type() );
+
+		$message = sprintf( __( 'Viewing groups of the type: %s', 'buddypress' ), '<strong>' . $type_object->labels['singular_name'] . '</strong>' );
+
+		/**
+		 * Filters the current group type message.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param string $message Message to filter.
+		 */
+		return apply_filters( 'bp_get_current_group_type_message', $message );
+	}
 
 /**
  * Is the current page a specific group admin screen?

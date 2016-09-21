@@ -40,7 +40,7 @@ class BP_Groups_Theme_Compat {
 			return;
 
 		// Group Directory.
-		if ( ! bp_current_action() && ! bp_current_item() ) {
+		if ( bp_is_groups_directory() ) {
 			bp_update_is_directory( true, 'groups' );
 
 			/**

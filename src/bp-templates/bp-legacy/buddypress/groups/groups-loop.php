@@ -19,6 +19,10 @@
  */
 do_action( 'bp_before_groups_loop' ); ?>
 
+<?php if ( bp_get_current_group_directory_type() ) : ?>
+	<p class="current-group-type"><?php bp_current_group_directory_type_message() ?></p>
+<?php endif; ?>
+
 <?php if ( bp_has_groups( bp_ajax_querystring( 'groups' ) ) ) : ?>
 
 	<div id="pag-top" class="pagination">

@@ -85,6 +85,16 @@ class BP_Groups_Component extends BP_Component {
 	public $types = array();
 
 	/**
+	 * Current directory group type.
+	 *
+	 * @see groups_directory_groups_setup()
+	 *
+	 * @since 2.7.0
+	 * @var string
+	 */
+	public $current_directory_type = '';
+
+	/**
 	 * Start the groups component creation process.
 	 *
 	 * @since 1.5.0

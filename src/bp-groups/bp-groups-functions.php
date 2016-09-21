@@ -2445,6 +2445,25 @@ function bp_groups_has_group_type( $group_id, $group_type ) {
 }
 
 /**
+ * Get the "current" group type, if one is provided, in group directories.
+ *
+ * @since 2.7.0
+ *
+ * @return string
+ */
+function bp_get_current_group_directory_type() {
+
+	/**
+	 * Filters the "current" group type, if one is provided, in group directories.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $value "Current" group type.
+	 */
+	return apply_filters( 'bp_get_current_group_directory_type', buddypress()->groups->current_directory_type );
+}
+
+/**
  * Delete a group's type when the group is deleted.
  *
  * @since 2.6.0

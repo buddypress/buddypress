@@ -2686,7 +2686,7 @@ function bp_is_user_settings_profile() {
  * @return True if the current page is the groups directory.
  */
 function bp_is_groups_directory() {
-	if ( bp_is_groups_component() && ! bp_current_action() && ! bp_current_item() ) {
+	if ( bp_is_groups_component() && ! bp_is_group() && ( ! bp_current_action() || ( bp_action_variable() && bp_is_current_action( bp_get_groups_group_type_base() ) ) ) ) {
 		return true;
 	}
 
