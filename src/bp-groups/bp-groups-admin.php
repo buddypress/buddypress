@@ -1224,3 +1224,101 @@ function bp_groups_admin_autocomplete_handler() {
 	wp_die( json_encode( $matches ) );
 }
 add_action( 'wp_ajax_bp_group_admin_member_autocomplete', 'bp_groups_admin_autocomplete_handler' );
+
+/**
+ * Process input from the Group Type bulk change select.
+ *
+ * @since 2.7.0
+ *
+ * @param string $doaction Current $_GET action being performed in admin screen.
+ */
+function bp_groups_admin_process_group_type_bulk_changes( $doaction ) {
+	// Bail if no groups are specified or if this isn't a relevant action.
+	if ( empty( $_REQUEST['gid'] )
+		|| ( empty( $_REQUEST['bp_change_type'] ) && empty( $_REQUEST['bp_change_type2'] ) )
+		|| empty( $_REQUEST['bp_change_group_type'] )
+	) {
+		return;
+	}
+
+	// Bail if nonce check fails.
+	check_admin_referer( 'bp-bulk-groups-change-type-' . bp_loggedin_user_id(), 'bp-bulk-groups-change-type-nonce' );
+
+	if ( ! bp_current_user_can( 'bp_moderate' )  ) {
+		return;
+	}
+
+	$new_type = '';
+	if ( ! empty( $_REQUEST['bp_change_type2'] ) ) {
+		$new_type = sanitize_text_field( $_REQUEST['bp_change_type2'] );
+	} elseif ( ! empty( $_REQUEST['bp_change_type'] ) ) {
+		$new_type = sanitize_text_field( $_REQUEST['bp_change_type'] );
+	}
+
+	// Check that the selected type actually exists.
+	if ( 'remove_group_type' !== $new_type && null === bp_groups_get_group_type_object( $new_type ) ) {
+		$error = true;
+	} else {
+		// Run through group ids.
+		$error = false;
+		foreach ( (array) $_REQUEST['gid'] as $group_id ) {
+			$group_id = (int) $group_id;
+
+			// Get the old group type to check against.
+			$group_type = bp_groups_get_group_type( $group_id );
+
+			if ( 'remove_group_type' === $new_type ) {
+				// Remove the current group type, if there's one to remove.
+				if ( $group_type ) {
+					$removed = bp_groups_remove_group_type( $group_id, $group_type );
+					if ( false === $removed || is_wp_error( $removed ) ) {
+						$error = true;
+					}
+				}
+			} else {
+				// Set the new group type.
+				if ( $new_type !== $group_type ) {
+					$set = bp_groups_set_group_type( $group_id, $new_type );
+					if ( false === $set || is_wp_error( $set ) ) {
+						$error = true;
+					}
+				}
+			}
+		}
+	}
+
+	// If there were any errors, show the error message.
+	if ( $error ) {
+		$redirect = add_query_arg( array( 'updated' => 'group-type-change-error' ), wp_get_referer() );
+	} else {
+		$redirect = add_query_arg( array( 'updated' => 'group-type-change-success' ), wp_get_referer() );
+	}
+
+	wp_redirect( $redirect );
+	exit();
+}
+add_action( 'bp_groups_admin_load', 'bp_groups_admin_process_group_type_bulk_changes' );
+
+/**
+ * Display an admin notice upon group type bulk update.
+ *
+ * @since 2.7.0
+ */
+function bp_groups_admin_groups_type_change_notice() {
+	$updated = isset( $_REQUEST['updated'] ) ? $_REQUEST['updated'] : false;
+
+	// Display feedback.
+	if ( $updated && in_array( $updated, array( 'group-type-change-error', 'group-type-change-success' ), true ) ) {
+
+		if ( 'group-type-change-error' === $updated ) {
+			$notice = __( 'There was an error while changing group type. Please try again.', 'buddypress' );
+			$type   = 'error';
+		} else {
+			$notice = __( 'Group type was changed successfully.', 'buddypress' );
+			$type   = 'updated';
+		}
+
+		bp_core_add_admin_notice( $notice, $type );
+	}
+}
+add_action( bp_core_admin_hook(), 'bp_groups_admin_groups_type_change_notice' );
