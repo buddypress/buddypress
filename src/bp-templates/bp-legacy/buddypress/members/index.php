@@ -109,6 +109,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 			</ul>
 		</div>
 
+		<h2 class="bp-screen-reader-text"><?php _e( 'Members directory', 'buddypress' ); ?></h2>
+
 		<div id="members-dir-list" class="members dir-list">
 			<?php bp_get_template_part( 'members/members-loop' ); ?>
 		</div><!-- #members-dir-list -->

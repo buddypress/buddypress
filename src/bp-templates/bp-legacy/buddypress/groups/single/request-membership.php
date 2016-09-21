@@ -14,6 +14,8 @@
 do_action( 'bp_before_group_request_membership_content' ); ?>
 
 <?php if ( !bp_group_has_requested_membership() ) : ?>
+	<h2 class="bp-screen-reader-text"><?php _e( 'Request form', 'buddypress' ); ?></h2>
+
 	<p><?php printf( __( "You are requesting to become a member of the group '%s'.", 'buddypress' ), bp_get_group_name( false ) ); ?></p>
 
 	<form action="<?php bp_group_form_action('request-membership' ); ?>" method="post" name="request-membership-form" id="request-membership-form" class="standard-form">

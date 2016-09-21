@@ -107,6 +107,8 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 			</ul>
 		</div>
 
+		<h2 class="bp-screen-reader-text"><?php _e( 'Groups directory', 'buddypress' ); ?></h2>
+
 		<div id="groups-dir-list" class="groups dir-list">
 			<?php bp_get_template_part( 'groups/groups-loop' ); ?>
 		</div><!-- #groups-dir-list -->

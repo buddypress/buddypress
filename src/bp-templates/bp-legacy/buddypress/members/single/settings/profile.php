@@ -13,6 +13,8 @@
  */
 do_action( 'bp_before_member_settings_template' ); ?>
 
+<h2 class="bp-screen-reader-text"><?php _e( 'Profile visibility settings', 'buddypress' ); ?></h2>
+
 <form action="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() . '/profile' ); ?>" method="post" class="standard-form" id="settings-form">
 
 	<?php if ( bp_xprofile_get_settings_fields() ) : ?>

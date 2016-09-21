@@ -54,6 +54,12 @@ switch ( bp_current_action() ) :
 		 */
 		do_action( 'bp_before_member_groups_content' ); ?>
 
+		<?php if ( is_user_logged_in() ) : ?>
+			<h2 class="bp-screen-reader-text"><?php _e( 'My groups', 'buddypress' ); ?></h2>
+		<?php else : ?>
+			<h2 class="bp-screen-reader-text"><?php _e( 'Member\'s groups', 'buddypress' ); ?></h2>
+		<?php endif; ?>
+
 		<div class="groups mygroups">
 
 			<?php bp_get_template_part( 'groups/groups-loop' ); ?>

@@ -53,6 +53,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 1: Basic group details */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-details' ) ) : ?>
 
+				<h2 class="bp-screen-reader-text"><?php _e( 'Group Details', 'buddypress' ); ?></h2>
+
 				<?php
 
 				/**
@@ -88,6 +90,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 			<?php /* Group creation step 2: Group settings */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-settings' ) ) : ?>
+
+				<h2 class="bp-screen-reader-text"><?php _e( 'Group Settings', 'buddypress' ); ?></h2>
 
 				<?php
 
@@ -185,6 +189,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 3: Avatar Uploads */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-avatar' ) ) : ?>
 
+				<h2 class="bp-screen-reader-text"><?php _e( 'Group Avatar', 'buddypress' ); ?></h2>
+
 				<?php
 
 				/**
@@ -265,6 +271,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 4: Cover image */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-cover-image' ) ) : ?>
 
+				<h2 class="bp-screen-reader-text"><?php _e( 'Cover Image', 'buddypress' ); ?></h2>
+
 				<?php
 
 				/**
@@ -295,6 +303,8 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 			<?php /* Group creation step 5: Invite friends to group */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-invites' ) ) : ?>
+
+				<h2 class="bp-screen-reader-text"><?php _e( 'Group Invites', 'buddypress' ); ?></h2>
 
 				<?php
 

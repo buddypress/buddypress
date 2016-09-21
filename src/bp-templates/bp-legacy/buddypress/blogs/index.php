@@ -113,6 +113,8 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 			</ul>
 		</div>
 
+		<h2 class="bp-screen-reader-text"><?php _e( 'Sites directory', 'buddypress' ); ?></h2>
+
 		<div id="blogs-dir-list" class="blogs dir-list">
 
 			<?php bp_get_template_part( 'blogs/blogs-loop' ); ?>

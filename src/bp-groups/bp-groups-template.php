@@ -4290,6 +4290,8 @@ function bp_groups_members_template_part() {
 		</ul>
 	</div>
 
+	<h2 class="bp-screen-reader-text"><?php _e( 'Members', 'buddypress' ); ?></h2>
+
 	<div id="members-group-list" class="group_members dir-list">
 
 		<?php bp_get_template_part( 'groups/single/members' ); ?>
