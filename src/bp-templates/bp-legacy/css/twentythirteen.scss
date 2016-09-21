@@ -143,7 +143,7 @@ $dark-background:    #555;
 $border-color:       #d4d0ba;    // border color is varied using rgba
 $border-light:       #eaeaea; // BP dividers
 $border-med:         #ddd;
-$background-hover:   #db572f; // 2013 link background hover
+$background-hover:   #bd4b28; // 2013 link background hover
 $bp-button-hover:    #ededed; // this is the default BP button hover background
 $notice-error:       #c85a6e;
 $notice-warning:     #d05656;
@@ -346,10 +346,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				li:not(:last-child) {
 					border-bottom: 1px solid $border-light;
 				}
-			}
-
-			li:not(.selected) {
-				a {opacity: 0.7;}
 			}
 
 			@media screen and (min-width: 38.75em) {
@@ -597,7 +593,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		.button {
 			&:focus,
 			&:hover {
-				background: lighten($background-hover, 10%);
+				background: $background-hover;
 				color: $cream-background;
 			}
 		}
@@ -608,7 +604,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			a {
 				&:focus,
 				&:hover {
-					background: lighten($background-hover, 10%);
+					background: $background-hover;
 					color: $cream-background;
 				}
 			}
@@ -938,8 +934,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				p {
 					background-color: $light-background;
 					border: 1px solid rgba($border-light, 0.6);
+					color: #727272;
 					margin-top: 0;
 					padding: 0 0.2em;
+
+					a.activity-time-since {
+						color: #727272;
+					}
 				}
 
 				img.avatar {
@@ -1022,6 +1023,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			ul {
 				background: rgba($light-background, 0.6);
 				margin: 15px 0 0 2px;
+			}
+
+			a {
+				color: #ac0404;
+			}
+
+			.acomment-meta {
+				color: #737373;
 			}
 
 			.ac-form {
