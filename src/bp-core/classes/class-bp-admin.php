@@ -193,8 +193,6 @@ class BP_Admin {
 	 * Contextually hooked to site or network-admin depending on current configuration.
 	 *
 	 * @since 1.6.0
-	 *
-	 *       section.
 	 */
 	public function admin_menus() {
 
