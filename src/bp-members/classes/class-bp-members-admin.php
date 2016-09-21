@@ -2063,7 +2063,7 @@ class BP_Members_Admin {
 	public function users_table_output_type_change_select( $which = 'top' ) {
 
 		// Bail if current user cannot promote users.
-		if ( ! current_user_can( 'promote_users' ) ) {
+		if ( ! bp_current_user_can( 'promote_users' ) ) {
 			return;
 		}
 
@@ -2084,7 +2084,7 @@ class BP_Members_Admin {
 
 			<?php foreach( $types as $type ) : ?>
 
-				<option value="<?php echo esc_attr( $type->name ); ?>"><?php echo $type->labels['name']; ?></option>
+				<option value="<?php echo esc_attr( $type->name ); ?>"><?php esc_html_e( $type->labels['singular_name'] ); ?></option>
 
 			<?php endforeach; ?>
 
@@ -2105,13 +2105,9 @@ class BP_Members_Admin {
 		// Output the admin notice.
 		$this->users_type_change_notice();
 
-		// Bail if no users specified.
-		if ( empty( $_REQUEST['users'] ) ) {
-			return;
-		}
-
-		// Bail if this isn't a BuddyPress action.
-		if ( ( empty( $_REQUEST['bp_change_type'] ) && empty( $_REQUEST['bp_change_type2'] ) )
+		// Bail if no users are specified or if this isn't a BuddyPress action.
+		if ( empty( $_REQUEST['users'] )
+			|| ( empty( $_REQUEST['bp_change_type'] ) && empty( $_REQUEST['bp_change_type2'] ) )
 			|| empty( $_REQUEST['bp_change_member_type'] )
 		) {
 			return;
@@ -2121,7 +2117,7 @@ class BP_Members_Admin {
 		check_admin_referer( 'bp-bulk-users-change-type-' . bp_loggedin_user_id(), 'bp-bulk-users-change-type-nonce' );
 
 		// Bail if current user cannot promote users.
-		if ( ! current_user_can( 'promote_users' ) ) {
+		if ( ! bp_current_user_can( 'promote_users' ) ) {
 			return;
 		}
 
@@ -2133,32 +2129,32 @@ class BP_Members_Admin {
 		}
 
 		// Check that the selected type actually exists.
-		if ( 'remove_member_type' != $new_type && null == bp_get_member_type_object( $new_type ) ) {
-			return;
-		}
+		if ( 'remove_member_type' != $new_type && null === bp_get_member_type_object( $new_type ) ) {
+			$error = true;
+		} else {
+			// Run through user ids.
+			$error = false;
+			foreach ( (array) $_REQUEST['users'] as $user_id ) {
+				$user_id = (int) $user_id;
 
-		// Run through user ids.
-		$error = false;
-		foreach ( (array) $_REQUEST['users'] as $user_id ) {
-			$user_id = (int) $user_id;
+				// Get the old member type to check against.
+				$member_type = bp_get_member_type( $user_id );
 
-			// Get the old member type to check against.
-			$member_type = bp_get_member_type( $user_id );
-
-			if ( 'remove_member_type' == $new_type ) {
-				// Remove the current member type, if there's one to remove.
-				if ( $member_type ) {
-					$removed = bp_remove_member_type( $user_id, $member_type );
-					if ( false == $removed || is_wp_error( $removed ) ) {
-						$error = true;
+				if ( 'remove_member_type' === $new_type ) {
+					// Remove the current member type, if there's one to remove.
+					if ( $member_type ) {
+						$removed = bp_remove_member_type( $user_id, $member_type );
+						if ( false === $removed || is_wp_error( $removed ) ) {
+							$error = true;
+						}
 					}
-				}
-			} else {
-				// Set the new member type.
-				if ( $new_type !== $member_type ) {
-					$set = bp_set_member_type( $user_id, $new_type );
-					if ( false == $set || is_wp_error( $set ) ) {
-						$error = true;
+				} else {
+					// Set the new member type.
+					if ( $new_type !== $member_type ) {
+						$set = bp_set_member_type( $user_id, $new_type );
+						if ( false === $set || is_wp_error( $set ) ) {
+							$error = true;
+						}
 					}
 				}
 			}
@@ -2184,15 +2180,17 @@ class BP_Members_Admin {
 		$updated = isset( $_REQUEST['updated'] ) ? $_REQUEST['updated'] : false;
 
 		// Display feedback.
-		if ( $updated && in_array( $updated, array( 'member-type-change-error', 'member-type-change-success' ) ) ) {
+		if ( $updated && in_array( $updated, array( 'member-type-change-error', 'member-type-change-success' ), true ) ) {
 
 			if ( 'member-type-change-error' === $updated ) {
 				$notice = __( 'There was an error while changing member type. Please try again.', 'buddypress' );
+				$type   = 'error';
 			} else {
 				$notice = __( 'Member type was changed successfully.', 'buddypress' );
+				$type   = 'updated';
 			}
 
-			bp_core_add_admin_notice( $notice );
+			bp_core_add_admin_notice( $notice, $type );
 		}
 	}
 
@@ -2234,7 +2232,7 @@ class BP_Members_Admin {
 		// Output the
 		if ( $type_obj = bp_get_member_type_object( $type ) ) {
 			$url = add_query_arg( array( 'bp-member-type' => urlencode( $type ) ) );
-			$retval = '<a href="' . esc_url( $url ) . '">' . $type_obj->labels['singular_name'] . '</a>';
+			$retval = '<a href="' . esc_url( $url ) . '">' . esc_html( $type_obj->labels['singular_name'] ) . '</a>';
 		}
 
 		return $retval;
