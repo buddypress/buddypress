@@ -2247,17 +2247,29 @@ function bp_groups_get_group_type_object( $group_type ) {
  * Set type for a group.
  *
  * @since 2.6.0
+ * @since 2.7.0 $group_type parameter also accepts an array of group types now.
  *
- * @param int    $group      ID of the group.
- * @param string $group_type Group type.
- * @param bool   $append     Optional. True to append this to existing types for group,
- *                           false to replace. Default: false.
+ * @param int          $group      ID of the group.
+ * @param string|array $group_type Group type or array of group types to set.
+ * @param bool         $append     Optional. True to append this to existing types for group,
+ *                                 false to replace. Default: false.
  * @return array $retval See bp_set_object_terms().
  */
 function bp_groups_set_group_type( $group_id, $group_type, $append = false ) {
 	// Pass an empty group type to remove group's type.
-	if ( ! empty( $group_type ) && ! bp_groups_get_group_type_object( $group_type ) ) {
+	if ( ! empty( $group_type ) && is_string( $group_type ) && ! bp_groups_get_group_type_object( $group_type ) ) {
 		return false;
+	}
+
+	// Cast as array.
+	$group_type = (array) $group_type;
+
+	// Validate group types.
+	foreach ( $group_type as $type ) {
+		// Remove any invalid group types.
+		if ( is_null( bp_groups_get_group_type_object( $type ) ) ) {
+			unset( $group_type[ $type ] );
+		}
 	}
 
 	$retval = bp_set_object_terms( $group_id, $group_type, 'bp_group_type', $append );
@@ -2271,9 +2283,9 @@ function bp_groups_set_group_type( $group_id, $group_type, $append = false ) {
 		 *
 		 * @since 2.6.0
 		 *
-		 * @param int    $group_id   ID of the group whose group type has been updated.
-		 * @param string $group_type Group type.
-		 * @param bool   $append     Whether the type is being appended to existing types.
+		 * @param int          $group_id   ID of the group whose group type has been updated.
+		 * @param string|array $group_type Group type or array of group types.
+		 * @param bool         $append     Whether the type is being appended to existing types.
 		 */
 		do_action( 'bp_groups_set_group_type', $group_id, $group_type, $append );
 	}
