@@ -276,7 +276,7 @@ class BP_Core_Nav {
 			unset( $this->nav[ $this->object_id ][ $nav_item->slug ] );
 
 			// Return the deleted item's screen functions.
-			return array_unique( $screen_functions );
+			return $screen_functions;
 		}
 	}
 
