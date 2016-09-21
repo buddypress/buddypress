@@ -149,6 +149,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	padding: 0;
 }
 
+#buddypress div.item-list-tabs ul li a {
+	color: #0073c1;
+}
+
 #buddypress div.item-list-tabs ul li a span {
 	border-radius: 25%;
 }
@@ -198,10 +202,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#buddypress #object-nav ul li:not(:last-child) {
 		border-bottom: 1px solid #eaeaea;
 	}
-}
-
-#buddypress #object-nav ul li:not(.selected) a {
-	opacity: 0.7;
 }
 
 @media screen and (max-width: 38.75em) {
@@ -651,6 +651,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-size: 0.875rem;
 }
 
+#buddypress #activity-stream li .activity-content .activity-header a {
+	color: #0075c4;
+}
+
 @media screen and (min-width: 46.25em) {
 	#buddypress #activity-stream li .activity-avatar {
 		float: right;
@@ -693,6 +697,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress #activity-stream .activity-content .activity-header p {
 	background-color: #f7f7f7;
 	border: 1px solid rgba(234, 234, 234, 0.6);
+	color: #727272;
 	margin-top: 0;
 	padding: 0 0.2em;
 }
@@ -767,7 +772,16 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress #activity-stream .activity-comments ul {
 	background: rgba(247, 247, 247, 0.6);
+	color: #737373;
 	margin: 15px 2px 0 0;
+}
+
+#buddypress #activity-stream .activity-comments ul a {
+	color: #0077c7;
+}
+
+#buddypress #activity-stream .activity-comments .acomment-meta {
+	color: #737373;
 }
 
 #buddypress #activity-stream .activity-comments .ac-form input[type="submit"],
@@ -1193,6 +1207,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 .bp-user #buddypress table td {
 	font-size: 12px;
 	font-size: 0.75rem;
+}
+
+.bp-user #buddypress table a {
+	color: #0074c2;
 }
 
 @media screen and (min-width: 61.5625em) {
@@ -1693,6 +1711,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress .standard-form textarea {
 	border-color: rgba(212, 208, 186, 0.5);
 	border-width: 1px;
+}
+
+#buddypress .standard-form select {
+	color: #737373;
 }
 
 #buddypress #signup_form.standard-form div.submit {
