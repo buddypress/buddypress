@@ -180,7 +180,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 	 */
 	do_action( 'bp_before_directory_activity_list' ); ?>
 
-	<div class="activity">
+	<div class="activity" aria-live="polite" aria-atomic="true" aria-relevant="all">
 
 		<?php bp_get_template_part( 'activity/activity-loop' ); ?>
 

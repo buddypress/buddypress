@@ -125,7 +125,7 @@ class BP_Groups_Widget extends WP_Widget {
 				<a href="<?php bp_groups_directory_permalink(); ?>" id="popular-groups" <?php if ( $instance['group_default'] == 'popular' ) : ?> class="selected"<?php endif; ?>><?php _e("Popular", 'buddypress') ?></a>
 			</div>
 
-			<ul id="groups-list" class="item-list">
+			<ul id="groups-list" class="item-list" aria-live="polite" aria-relevant="all" aria-atomic="true">
 				<?php while ( bp_groups() ) : bp_the_group(); ?>
 					<li <?php bp_group_class(); ?>>
 						<div class="item-avatar">

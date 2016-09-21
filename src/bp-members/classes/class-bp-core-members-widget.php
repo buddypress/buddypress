@@ -120,7 +120,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 			</div>
 
-			<ul id="members-list" class="item-list">
+			<ul id="members-list" class="item-list" aria-live="polite" aria-relevant="all" aria-atomic="true">
 
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 

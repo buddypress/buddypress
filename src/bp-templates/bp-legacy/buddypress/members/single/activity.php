@@ -61,7 +61,7 @@ do_action( 'bp_after_member_activity_post_form' );
  */
 do_action( 'bp_before_member_activity_content' ); ?>
 
-<div class="activity">
+<div class="activity" aria-live="polite" aria-atomic="true" aria-relevant="all">
 
 	<?php bp_get_template_part( 'activity/activity-loop' ) ?>
 
