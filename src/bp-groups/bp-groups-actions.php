@@ -210,6 +210,11 @@ function groups_action_create_group() {
 				bp_core_redirect( trailingslashit( bp_get_groups_directory_permalink() . 'create/step/' . bp_get_groups_current_create_step() ) );
 			}
 
+			// Save group types.
+			if ( ! empty( $_POST['group-types'] ) ) {
+				bp_groups_set_group_type( $bp->groups->new_group_id, $_POST['group-types'] );
+			}
+
 			/**
 			 * Filters the allowed invite statuses.
 			 *

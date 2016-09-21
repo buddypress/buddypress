@@ -67,6 +67,32 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 
 </fieldset>
 
+<?php // Group type selection ?>
+<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ): ?>
+
+	<fieldset class="group-create-types">
+		<legend><?php _e( 'Group Types', 'buddypress' ); ?></legend>
+
+		<p><?php _e( 'Select the types this group should be a part of.', 'buddypress' ); ?></p>
+
+		<?php foreach ( $group_types as $type ) : ?>
+			<div class="checkbox">
+				<label for="<?php printf( 'group-type-%s', $type->name ); ?>">
+					<input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', $type->name ); ?>" value="<?php esc_attr_e( $type->name ); ?>" <?php checked( bp_groups_has_group_type( bp_get_current_group_id(), $type->name ) ); ?>/> <?php esc_html_e( $type->labels['name'] ); ?>
+					<?php
+						if ( ! empty( $type->description ) ) {
+							printf( __( '&ndash; %s', 'buddypress' ), '<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>' );
+						}
+					?>
+				</label>
+			</div>
+
+		<?php endforeach; ?>
+
+	</fieldset>
+
+<?php endif; ?>
+
 <fieldset class="group-create-invitations">
 
 	<legend><?php _e( 'Group Invitations', 'buddypress' ); ?></legend>

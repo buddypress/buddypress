@@ -83,6 +83,8 @@ do_action( 'bp_before_group_header' );
 
 		<?php bp_group_description(); ?>
 
+		<?php bp_group_type_list(); ?>
+
 		<div id="item-buttons">
 
 			<?php

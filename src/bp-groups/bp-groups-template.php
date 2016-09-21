@@ -129,6 +129,166 @@ function bp_groups_directory_permalink() {
 	}
 
 /**
+ * Output group type directory permalink.
+ *
+ * @since 2.7.0
+ *
+ * @param string $group_type Optional. Group type.
+ */
+function bp_group_type_directory_permalink( $group_type = '' ) {
+	echo esc_url( bp_get_group_type_directory_permalink( $group_type ) );
+}
+	/**
+	 * Return group type directory permalink.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $group_type Optional. Group type. Defaults to current group type.
+	 * @return string Group type directory URL on success, an empty string on failure.
+	 */
+	function bp_get_group_type_directory_permalink( $group_type = '' ) {
+
+		if ( $group_type ) {
+			$_group_type = $group_type;
+		} else {
+			// Fall back on the current group type.
+			$_group_type = bp_get_current_group_directory_type();
+		}
+
+		$type = bp_groups_get_group_type_object( $_group_type );
+
+		// Bail when member type is not found or has no directory.
+		if ( ! $type || ! $type->has_directory ) {
+			return '';
+		}
+
+		/**
+		 * Filters the group type directory permalink.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param string $value       Group type directory permalink.
+		 * @param object $type        Group type object.
+		 * @param string $member_type Group type name, as passed to the function.
+		 */
+		return apply_filters( 'bp_get_group_type_directory_permalink', trailingslashit( bp_get_groups_directory_permalink() . bp_get_groups_group_type_base() . '/' . $type->directory_slug ), $type, $group_type );
+	}
+
+/**
+ * Output group type directory link.
+ *
+ * @since 2.7.0
+ *
+ * @param string $group_type Unique group type identifier as used in bp_groups_register_group_type().
+ */
+function bp_group_type_directory_link( $group_type = '' ) {
+	echo bp_get_group_type_directory_link( $group_type );
+}
+	/**
+	 * Return group type directory link.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $group_type Unique group type identifier as used in bp_groups_register_group_type().
+	 * @return string
+	 */
+	function bp_get_group_type_directory_link( $group_type = '' ) {
+		if ( empty( $group_type ) ) {
+			return '';
+		}
+
+		return sprintf( '<a href="%s">%s</a>', esc_url( bp_get_group_type_directory_permalink( $group_type ) ), bp_groups_get_group_type_object( $group_type )->labels['name'] );
+	}
+
+/**
+ * Output a comma-delimited list of group types.
+ *
+ * @since 2.7.0
+ * @see   bp_get_group_type_list() for parameter documentation.
+ */
+function bp_group_type_list( $group_id = 0, $r = array() ) {
+	echo bp_get_group_type_list( $group_id, $r );
+}
+	/**
+	 * Return a comma-delimited list of group types.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int $group_id Group ID. Defaults to current group ID if on a group page.
+	 * @param array|string $args {
+	 *     Array of parameters. All items are optional.
+	 *     @type string $parent_element Element to wrap around the list. Defaults to 'p'.
+	 *     @type array  $parent_attr    Element attributes for parent element. Defaults to
+	 *                                  array( 'class' => 'bp-group-type-list' ).
+	 *     @type string $label          Label to add before the list. Defaults to 'Group Types:'.
+	 *     @type string $label_element  Element to wrap around the label. Defaults to 'strong'.
+	 *     @type array  $label_attr     Element attributes for label element. Defaults to array().
+	 * }
+	 * @return string
+	 */
+	function bp_get_group_type_list( $group_id = 0, $r = array() ) {
+		if ( empty( $group_id ) ) {
+			$group_id = bp_get_current_group_id();
+		}
+
+		$r = bp_parse_args( $r, array(
+			'parent_element' => 'p',
+			'parent_attr'    => array(
+				 'class' => 'bp-group-type-list',
+			),
+			'label'          => __( 'Group Types:', 'buddypress' ),
+			'label_element'  => 'strong',
+			'label_attr'     => array()
+		), 'group_type_list' );
+
+		$retval = '';
+
+		if ( $types = bp_groups_get_group_type( $group_id, false ) ) {
+			// Make sure we can show the type in the list.
+			$types = array_intersect( bp_groups_get_group_types( array( 'show_in_list' => true ) ), $types );
+			if ( empty( $types ) ) {
+				return $retval;
+			}
+
+			$before = $after = $label = '';
+
+			// Render parent element.
+			if ( ! empty( $r['parent_element'] ) ) {
+				$parent_elem = new BP_Core_HTML_Element( array(
+					'element' => $r['parent_element'],
+					'attr'    => $r['parent_attr']
+				) );
+
+				// Set before and after.
+				$before = $parent_elem->get( 'open_tag' );
+				$after  = $parent_elem->get( 'close_tag' );
+			}
+
+			// Render label element.
+			if ( ! empty( $r['label_element'] ) ) {
+				$label = new BP_Core_HTML_Element( array(
+					'element'    => $r['label_element'],
+					'attr'       => $r['label_attr'],
+					'inner_html' => esc_html( $r['label'] )
+				) );
+				$label = $label->contents() . ' ';
+
+			// No element, just the label.
+			} else {
+				$label = esc_html( $r['label'] );
+			}
+
+			// Comma-delimit each type into the group type directory link.
+			$label .= implode( ', ', array_map( 'bp_get_group_type_directory_link', $types ) );
+
+			// Retval time!
+			$retval = $before . $label . $after;
+		}
+
+		return $retval;
+	}
+
+/**
  * Start the Groups Template Loop.
  *
  * @since 1.0.0
