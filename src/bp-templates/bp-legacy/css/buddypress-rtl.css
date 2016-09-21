@@ -646,7 +646,7 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	border: 1px solid #ccc;
 	background: #fafafa;
 	border-radius: 0;
-	color: #767676;
+	color: #737373;
 	font: inherit;
 	font-size: 100%;
 	padding: 6px;
@@ -1071,6 +1071,7 @@ a.bp-title-button {
 #buddypress table.messages-notices tr.alt td,
 #buddypress table.forum tr.alt td {
 	background: #f5f5f5;
+	color: #707070;
 }
 #buddypress table.notification-settings {
 	margin-bottom: 20px;
@@ -1169,7 +1170,6 @@ a.bp-title-button {
 #buddypress span.activity {
 	display: inline-block;
 	font-size: small;
-	opacity: 0.8;
 	padding: 0;
 }
 #buddypress span.user-nicename {
@@ -1391,7 +1391,7 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 #buddypress div.item-list-tabs ul li.current a {
 	background-color: #eee;
 	color: #555;
-	opacity: .8;
+	opacity: .9;
 	font-weight: bold;
 }
 #buddypress div.item-list-tabs ul li.selected a span,
@@ -1585,7 +1585,7 @@ body.no-js #buddypress .field-visibility-settings-close {
 #buddypress .field-visibility-settings,
 #buddypress .field-visibility-settings-toggle,
 #buddypress .field-visibility-settings-notoggle {
-	color: #767676;
+	color: #707070;
 }
 #buddypress .field-visibility-settings-toggle a,
 #buddypress .field-visibility-settings a {
@@ -1617,12 +1617,14 @@ body.register #buddypress div.page ul {
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 	background: #f5f5f5;
+	color: #707070;
 }
 #buddypress .tmce-active button.switch-tmce {
 	border-bottom-color: transparent;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 	background: #f5f5f5;
+	color: #707070;
 }
 #buddypress .standard-form .wp-editor-container textarea {
 	width: 100%;
