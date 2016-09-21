@@ -123,6 +123,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 }
 
+#buddypress .item-list-tabs ul a {
+	color: #1b6e08;
+}
+
 .directory #buddypress .item-list-tabs ul:before,
 .directory #buddypress .item-list-tabs ul:after {
 	content: " ";
@@ -160,6 +164,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .directory #buddypress #subnav ul {
 	border-bottom: 0;
+}
+
+.directory #buddypress #subnav a {
+	color: #1b6e08;
 }
 
 /* List last filters global */
@@ -212,7 +220,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		overflow: hidden;
 	}
 	#buddypress #object-nav ul li:focus, #buddypress #object-nav ul li:hover {
-		background: #bebebe;
+		background: #f1f1f1;
 	}
 	#buddypress #object-nav ul li span {
 		border-radius: 10%;
@@ -235,7 +243,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 	#buddypress #item-body #subnav li:focus,
 	#buddypress #item-body #subnav li:hover {
-		background: #bebebe;
+		background: #f1f1f1;
 	}
 	#buddypress #item-body #subnav li.current {
 		background: #f1f1f1;
@@ -552,6 +560,10 @@ body.activity-permalink #buddypress {
 	}
 }
 
+#buddypress .activity .activity-comments a {
+	color: #1b6e08;
+}
+
 #buddypress .activity .activity-comments ul {
 	background: rgba(247, 247, 247, 0.6);
 	margin: 30px 0 0 2px;
@@ -560,6 +572,10 @@ body.activity-permalink #buddypress {
 #buddypress .activity .activity-comments ul ul {
 	border-left: 1px solid rgba(0, 0, 0, 0.1);
 	padding-left: 2%;
+}
+
+#buddypress .activity .activity-comments .acomment-meta {
+	color: #737373;
 }
 
 @media screen and (max-width: 400px) {
@@ -804,7 +820,7 @@ body.activity-permalink #buddypress {
 
 #group-settings-form .radio ul,
 #create-group-form .radio ul {
-	color: #787878;
+	color: #6b6b6b;
 }
 
 #group-settings-form #group-creation-previous,
@@ -840,6 +856,7 @@ body.activity-permalink #buddypress {
 .groups.manage-members #group-settings-form .item-list li img > a,
 .groups.manage-members #group-settings-form .item-list li h5 > a {
 	border-bottom: 0;
+	color: #22830c;
 }
 
 .groups.manage-members #group-settings-form .item-list li span.small {
@@ -997,7 +1014,7 @@ body.activity-permalink #buddypress {
 	*------------------------------
 	*/
 #buddypress .profile .bp-widget h2 {
-	background: #999;
+	background: #949494;
 	color: #fff;
 	padding: 0.4em 0.2em;
 }
@@ -1457,6 +1474,10 @@ body.activity-permalink #buddypress {
 */
 #buddypress table {
 	border-color: rgba(0, 0, 0, 0.2);
+}
+
+#buddypress table .alt a {
+	color: #22820c;
 }
 
 /*__ User Account tables __*/

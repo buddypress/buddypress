@@ -126,7 +126,7 @@ $spacing-val-xs: 5px;
 $content-background:     #fff;
 $dark-back-text-color:   #fff;
 $light-background:       #f7f7f7;
-$medium-background:      #999;
+$medium-background:      #949494;
 $dark-background:        #000;
 $border-color:           #000; // border color can be varied using rgba
 $border-med:             rgba(#000, 0.2);
@@ -286,6 +286,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					width: auto;
 				}
 			}
+
+			a {
+				color: #1b6e08;
+			}
 		}
 	}
 }
@@ -330,6 +334,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#subnav {
 		ul {
 			border-bottom: 0;
+		}
+
+		a {
+			color: #1b6e08;
 		}
 
 	} // close #subnav
@@ -417,7 +425,7 @@ $nav-background-border: #bebebe;
 
 					&:focus,
 					&:hover {
-						background: $nav-background-border;
+						background: lighten($nav-background-border, 20%);
 					}
 
 					span {
@@ -446,7 +454,7 @@ $nav-background-border: #bebebe;
 
 				li:focus,
 				li:hover {
-					background: $nav-background-border;
+					background: lighten($nav-background-border, 20%);
 				}
 
 				li.current {
@@ -837,6 +845,10 @@ body.activity-permalink {
 				margin-left: 70px;
 			}
 
+			a {
+				color: #1b6e08;
+			}
+
 			ul {
 				background: rgba($light-background, 0.6);
 				margin: 30px 0 0 2px;
@@ -845,6 +857,10 @@ body.activity-permalink {
 			ul ul {
 				border-left: 1px solid $border-light;
 				padding-left: 2%;
+			}
+
+			.acomment-meta {
+				color: #737373;
 			}
 
 			// Display the user avatar stacked up to 594px
@@ -1136,7 +1152,7 @@ body.activity-permalink {
 		}
 
 		ul {
-			color: lighten($body-text, 30%);
+			color: lighten($body-text, 25%);
 		}
 	}
 
@@ -1162,7 +1178,11 @@ body.activity-permalink {
 				h5 {
 					clear: none;
 					float: left;
-					> a {border-bottom: 0;}
+
+					> a {
+						border-bottom: 0;
+						color: #22830c;
+					}
 				}
 
 				span.small {
@@ -1848,6 +1868,10 @@ body.activity-permalink {
 #buddypress {
 	table {
 		border-color: $border-med;
+
+		.alt a {
+			color: #22820c;
+		}
 	}
 }
 /*__ User Account tables __*/
