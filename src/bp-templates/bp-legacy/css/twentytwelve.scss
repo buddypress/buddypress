@@ -1098,9 +1098,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					.acomment-content {
 						@include font-size(12);
 					}
-
 				}
 
+			}
+
+			a {
+				color: #737373;
 			}
 
 			.ac-form {
@@ -1801,7 +1804,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				.visibility-toggle-link {
 					background: lighten($dark-background, 10%);
 					@include border-radius(2px);
-					color: #eee;
+					color: #f1f1f1;
 					font-weight: bold;
 					padding: 0.1em 0.5em;
 					text-decoration: none;
