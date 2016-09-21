@@ -53,7 +53,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
 		do_action( 'template_notices' ); ?>
 
-		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Groups directory main navigation' ); ?>">
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Groups directory main navigation', 'buddypress' ); ?>">
 			<ul>
 				<li class="selected" id="groups-all"><a href="<?php bp_groups_directory_permalink(); ?>"><?php printf( __( 'All Groups %s', 'buddypress' ), '<span>' . bp_get_total_group_count() . '</span>' ); ?></a></li>
 
