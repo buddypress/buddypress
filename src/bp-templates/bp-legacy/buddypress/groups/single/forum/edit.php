@@ -17,7 +17,7 @@ do_action( 'bp_before_group_forum_edit_form' ); ?>
 
 	<form action="<?php bp_forum_topic_action(); ?>" method="post" id="forum-topic-form" class="standard-form">
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Forums secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<li>
 					<a href="#post-topic-reply"><?php _e( 'Reply', 'buddypress' ); ?></a>

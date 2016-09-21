@@ -56,7 +56,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 
 	<form action="" method="post" id="members-directory-form" class="dir-form">
 
-		<div class="item-list-tabs" role="navigation">
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Members directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<li class="selected" id="members-all"><a href="<?php bp_members_directory_permalink(); ?>"><?php printf( __( 'All Members %s', 'buddypress' ), '<span>' . bp_get_total_member_count() . '</span>' ); ?></a></li>
 
@@ -76,8 +76,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 			</ul>
 		</div><!-- .item-list-tabs -->
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
-			<ul>
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Members directory secondary navigation', 'buddypress' ); ?>" role="navigation">
 				<?php
 
 				/**

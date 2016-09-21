@@ -35,7 +35,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 		 */
 		do_action( 'bp_before_create_group' ); ?>
 
-		<div class="item-list-tabs no-ajax" id="group-create-tabs" role="navigation">
+		<div class="item-list-tabs no-ajax" id="group-create-tabs">
 			<ul>
 
 				<?php bp_group_creation_tabs(); ?>

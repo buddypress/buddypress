@@ -4269,7 +4269,7 @@ function bp_groups_get_front_template( $group = null ) {
  */
 function bp_groups_members_template_part() {
 	?>
-	<div class="item-list-tabs" id="subnav" role="navigation">
+	<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Group secondary navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>
 			<li class="groups-members-search" role="search">
 				<?php bp_directory_members_search_form(); ?>

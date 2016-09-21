@@ -14,7 +14,7 @@
 do_action( 'bp_before_group_forum_topic' ); ?>
 
 <form action="<?php bp_forum_topic_action(); ?>" method="post" id="forum-topic-form" class="standard-form">
-	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+	<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Forums secondary navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>
 			<?php if ( is_user_logged_in() ) : ?>
 

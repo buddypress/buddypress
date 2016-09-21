@@ -41,7 +41,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 	 */
 	do_action( 'template_notices' ); ?>
 
-	<div class="item-list-tabs activity-type-tabs" role="navigation">
+	<div class="item-list-tabs activity-type-tabs" aria-label="<?php esc_attr_e( 'Sitewide activities navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>
 			<?php
 
@@ -137,7 +137,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 		</ul>
 	</div><!-- .item-list-tabs -->
 
-	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+	<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Activity secondary navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>
 			<li class="feed"><a href="<?php bp_sitewide_activity_feed_link(); ?>" title="<?php esc_attr_e( 'RSS Feed', 'buddypress' ); ?>"><?php _e( 'RSS', 'buddypress' ); ?></a></li>
 

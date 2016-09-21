@@ -18,7 +18,7 @@
 
 		<?php if ( ! bp_is_current_component_core() ) : ?>
 
-		<div class="item-list-tabs no-ajax" id="subnav">
+		<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<?php bp_get_options_nav(); ?>
 

@@ -55,7 +55,7 @@
 
 	<form action="" method="post" id="forums-directory-form" class="dir-form">
 
-		<div class="item-list-tabs" role="navigation">
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Forums directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<li class="selected" id="forums-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() ); ?>"><?php printf( __( 'All Topics %s', 'buddypress' ), '<span>' . bp_get_forum_topic_count() . '</span>' ); ?></a></li>
 
@@ -77,7 +77,7 @@
 			</ul>
 		</div>
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Forums secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 
 				<?php

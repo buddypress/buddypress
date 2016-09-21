@@ -21,7 +21,7 @@ elseif ( bp_is_group_forum_topic() ) :
 
 else : ?>
 
-	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+	<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Group secondary navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>
 
 			<?php if ( is_user_logged_in() ) : ?>
