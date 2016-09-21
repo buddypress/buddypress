@@ -2084,7 +2084,7 @@ class BP_Members_Admin {
 
 			<?php foreach( $types as $type ) : ?>
 
-				<option value="<?php echo esc_attr( $type->name ); ?>"><?php esc_html_e( $type->labels['singular_name'] ); ?></option>
+				<option value="<?php echo esc_attr( $type->name ); ?>"><?php echo esc_html( $type->labels['singular_name'] ); ?></option>
 
 			<?php endforeach; ?>
 

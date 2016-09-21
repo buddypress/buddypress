@@ -760,7 +760,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 				<?php foreach( $types as $type ) : ?>
 
-					<option value="<?php echo esc_attr( $type->name ); ?>"><?php esc_html_e( $type->labels['singular_name'] ); ?></option>
+					<option value="<?php echo esc_attr( $type->name ); ?>"><?php echo esc_html( $type->labels['singular_name'] ); ?></option>
 
 				<?php endforeach; ?>
 
