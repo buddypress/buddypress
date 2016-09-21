@@ -322,7 +322,7 @@ abstract class BP_XProfile_Field_Type {
 
 		<div id="<?php echo esc_attr( $type ); ?>" class="postbox bp-options-box" style="<?php echo esc_attr( $class ); ?> margin-top: 15px;">
 			<h3><?php esc_html_e( 'Please enter options for this Field:', 'buddypress' ); ?></h3>
-			<div class="inside">
+			<div class="inside" aria-live="polite" aria-atomic="true" aria-relevant="all">
 				<p>
 					<label for="sort_order_<?php echo esc_attr( $type ); ?>"><?php esc_html_e( 'Sort Order:', 'buddypress' ); ?></label>
 					<select name="sort_order_<?php echo esc_attr( $type ); ?>" id="sort_order_<?php echo esc_attr( $type ); ?>" >

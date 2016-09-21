@@ -113,7 +113,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 			<?php endif; ?>
 
-			<div id="tabs">
+			<div id="tabs" aria-live="polite" aria-atomic="true" aria-relevant="all">
 				<ul id="field-group-tabs">
 
 					<?php if ( !empty( $groups ) ) : foreach ( $groups as $group ) : ?>
@@ -183,7 +183,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 						<?php endif; ?>
 
-						<fieldset id="<?php echo esc_attr( $group->id ); ?>" class="connectedSortable field-group">
+						<fieldset id="<?php echo esc_attr( $group->id ); ?>" class="connectedSortable field-group" aria-live="polite" aria-atomic="true" aria-relevant="all">
 							<legend class="screen-reader-text"><?php
 							/** This filter is documented in bp-xprofile/bp-xprofile-template.php */
 							/* translators: accessibility text */
