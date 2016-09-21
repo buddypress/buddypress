@@ -335,6 +335,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-family: "Noto Sans", sans-serif;
 }
 
+#buddypress .item-list a.activity-time-since {
+	color: #717171;
+}
+
 #buddypress ul.item-list li {
 	overflow: hidden !important;
 }
@@ -599,6 +603,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress #activity-stream .activity-content .activity-header p {
 	background-color: #f7f7f7;
 	border: 1px solid rgba(234, 234, 234, 0.6);
+	color: #717171;
 	padding: 0 0.2em;
 }
 
@@ -673,6 +678,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	margin: 10px 0 0;
 }
 
+#buddypress #activity-stream .activity-comments a {
+	color: #717171;
+}
+
 #buddypress #activity-stream .activity-comments.has-comments {
 	border-left: 1px solid #eaeaea;
 }
@@ -712,6 +721,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress #activity-stream .activity-comments > ul .acomment-meta {
 	border-bottom: 1px solid #eaeaea;
+	color: #737373;
 	font-style: italic;
 }
 
@@ -1047,7 +1057,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .groups.group-settings #group-settings-form div.radio ul,
 .groups.group-settings #create-group-form div.radio ul {
-	color: rgba(51, 51, 51, 0.6);
+	color: #767676;
 	font-size: 14px;
 	font-size: 1.4rem;
 }

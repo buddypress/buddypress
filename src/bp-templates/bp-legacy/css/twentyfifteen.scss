@@ -522,6 +522,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		.activity-meta {
 			@include default-font-sans();
 		}
+
+		a.activity-time-since {
+			color: #717171;
+		}
 	}
 }
 
@@ -823,6 +827,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				p {
 					background-color: $light-background;
 					border: 1px solid rgba($border-light, 0.6);
+					color: #717171;
 					padding: 0 0.2em;
 				}
 
@@ -903,6 +908,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		.activity-comments {
 			margin: $spacing-val-sm 0 0;
 
+			a {
+				color: #717171;
+			}
+
 			&.has-comments {
 				border-left: 1px solid $border-light;
 			}
@@ -936,7 +945,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					padding-left: 0.2em;
 				}
 
-				.acomment-meta {border-bottom: 1px solid $border-light; font-style: italic;}
+				.acomment-meta {
+					border-bottom: 1px solid $border-light;
+					color: #737373;
+					font-style: italic;
+				}
 
 				// Display the user avatar stacked up to 30em
 				// reduce/widen the content margins
@@ -1327,7 +1340,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 			ul {
-				color: rgba($body-text, 0.6);
+				color: #767676;
 				@include font-size(14);
 			}
 		}
