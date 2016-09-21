@@ -2115,12 +2115,23 @@ add_action( 'bp_make_spam_user', 'groups_remove_data_for_user' );
  * Register a group type.
  *
  * @since 2.6.0
+ * @since 2.7.0 Introduce $has_directory, $show_in_create_screen, $show_in_list, and
+ *              $description as $args parameters.
  *
  * @param string $group_type Unique string identifier for the group type.
  * @param array  $args {
  *     Array of arguments describing the group type.
  *
- *     @type array $labels {
+ *     @type string|bool $has_directory         Set the slug to be used for custom group directory page. eg.
+ *                                              example.com/groups/type/MY_SLUG. Default: false.
+ *     @type bool        $show_in_create_screen Whether this group type is allowed to be selected on the group creation
+ *                                              page. Default: false.
+ *     @type bool|null   $show_in_list          Whether this group type should be shown in lists rendered by
+ *                                              bp_group_type_list(). Default: null. If $show_in_create_screen is true,
+ *                                              this will default to true, unless this is set explicitly to false.
+ *     @type string      $description           A short descriptive summary of what the group type is. Currently shown
+ *                                              on a group's "Manage > Settings" page when selecting group types.
+ *     @type array       $labels {
  *         Array of labels to use in various parts of the interface.
  *
  *         @type string $name          Default name. Should typically be plural.
@@ -2137,7 +2148,11 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 	}
 
 	$r = bp_parse_args( $args, array(
-		'labels'        => array(),
+		'has_directory'         => false,
+		'show_in_create_screen' => false,
+		'show_in_list'          => null,
+		'description'           => '',
+		'labels'                => array(),
 	), 'register_group_type' );
 
 	$group_type = sanitize_key( $group_type );
@@ -2167,6 +2182,32 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 		'name'          => $default_name,
 		'singular_name' => $default_name,
 	), $r['labels'] );
+
+	// Directory slug.
+	if ( ! empty( $r['has_directory'] ) ) {
+		// A string value is intepreted as the directory slug.
+		if ( is_string( $r['has_directory'] ) ) {
+			$directory_slug = $r['has_directory'];
+
+		// Otherwise fall back on group type.
+		} else {
+			$directory_slug = $group_type;
+		}
+
+		// Sanitize for use in URLs.
+		$r['directory_slug'] = sanitize_title( $directory_slug );
+		$r['has_directory']  = true;
+	} else {
+		$r['directory_slug'] = '';
+		$r['has_directory']  = false;
+	}
+
+	// Type lists.
+	if ( true === $r['show_in_create_screen'] && is_null( $r['show_in_list'] ) ) {
+		$r['show_in_list'] = true;
+	} else {
+		$r['show_in_list'] = (bool) $r['show_in_list'];
+	}
 
 	$bp->groups->types[ $group_type ] = $type = (object) $r;
 

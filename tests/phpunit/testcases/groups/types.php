@@ -264,6 +264,43 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 		$this->assertEquals( array( 'foo' ), $type );
 	}
 
+	public function test_bp_groups_register_group_type_show_in_list_true_when_show_in_create_screen_true() {
+		$object = bp_groups_register_group_type( 'foo', array(
+			'show_in_create_screen' => true,
+		) );
+
+		$this->assertTrue( $object->show_in_list );
+	}
+
+	public function test_bp_groups_register_group_type_show_in_list_false_when_show_in_create_screen_false() {
+		$object = bp_groups_register_group_type( 'foo', array(
+			'show_in_create_screen' => false,
+		) );
+
+		$this->assertFalse( $object->show_in_list );
+	}
+
+	public function test_bp_groups_register_group_type_show_in_list_false_and_show_in_create_screen_true() {
+		$object = bp_groups_register_group_type( 'foo', array(
+			'show_in_create_screen' => true,
+			'show_in_list' => false,
+		) );
+
+		$this->assertFalse( $object->show_in_list );
+	}
+
+	public function test_bp_groups_set_group_type_should_remove_types_when_passing_an_empty_value() {
+		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		bp_groups_register_group_type( 'foo' );
+		bp_groups_set_group_type( $g, 'foo' );
+
+		// Make sure it's set up.
+		$this->assertSame( 'foo', bp_groups_get_group_type( $g ) );
+
+		$this->assertSame( array(), bp_groups_set_group_type( $g, '' ) );
+		$this->assertFalse( bp_groups_get_group_type( $g ) );
+	}
+
 	public function test_bp_groups_set_group_type_should_set_multiple_types_when_passing_array_of_types() {
 		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
