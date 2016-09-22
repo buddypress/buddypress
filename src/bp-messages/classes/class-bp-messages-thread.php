@@ -326,31 +326,40 @@ class BP_Messages_Thread {
 	 * has marked the thread as deleted.
 	 *
 	 * @since 1.0.0
+	 * @since 2.7.0 The $user_id parameter was added. Previously the current user
+	 *              was always assumed.
 	 *
 	 * @param int $thread_id The message thread ID.
+	 * @param int $user_id The ID of the user in the thread to mark messages as
+	 *                     deleted for. Defaults to the current logged-in user.
+	 *
 	 * @return bool
 	 */
-	public static function delete( $thread_id = 0 ) {
+	public static function delete( $thread_id = 0, $user_id = 0 ) {
 		global $wpdb;
 
 		$thread_id = (int) $thread_id;
+		$user_id = (int) $user_id;
+
+		if ( empty( $user_id ) ) {
+			$user_id = bp_loggedin_user_id();
+		}
 
 		/**
 		 * Fires before a message thread is marked as deleted.
 		 *
 		 * @since 2.2.0
+		 * @since 2.7.0 The $user_id parameter was added.
 		 *
 		 * @param int $thread_id ID of the thread being deleted.
+		 * @param int $user_id   ID of the user that the thread is being deleted for.
 		 */
-		do_action( 'bp_messages_thread_before_mark_delete', $thread_id );
+		do_action( 'bp_messages_thread_before_mark_delete', $thread_id, $user_id );
 
 		$bp = buddypress();
 
 		// Mark messages as deleted
-		//
-		// @todo the reliance on bp_loggedin_user_id() sucks for plugins
-		// refactor this method to accept a $user_id parameter.
-		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, bp_loggedin_user_id() ) );
+		$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET is_deleted = 1 WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
 
 		// Get the message ids in order to pass to the action.
 		$message_ids = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id ) );
@@ -398,11 +407,13 @@ class BP_Messages_Thread {
 		 * Fires after a message thread is either marked as deleted or deleted.
 		 *
 		 * @since 2.2.0
+		 * @since 2.7.0 The $user_id parameter was added.
 		 *
 		 * @param int   $thread_id   ID of the thread being deleted.
 		 * @param array $message_ids IDs of messages being deleted.
+		 * @param int   $user_id     ID of the user the threads were deleted for.
 		 */
-		do_action( 'bp_messages_thread_after_delete', $thread_id, $message_ids );
+		do_action( 'bp_messages_thread_after_delete', $thread_id, $message_ids, $user_id );
 
 		return true;
 	}

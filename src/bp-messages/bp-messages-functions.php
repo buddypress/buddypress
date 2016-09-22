@@ -236,26 +236,41 @@ function messages_send_notice( $subject, $message ) {
 }
 
 /**
- * Delete message thread(s).
+ * Deletes message thread(s) for a given user.
+ *
+ * Note that "deleting" a thread for a user means removing it from the user's
+ * message boxes. A thread is not deleted from the database until it's been
+ * "deleted" by all recipients.
+ *
+ * @since 2.7.0 The $user_id parameter was added. Previously the current user
+ *              was always assumed.
  *
  * @param int|array $thread_ids Thread ID or array of thread IDs.
+ * @param int       $user_id    ID of the user to delete the threads for. Defaults
+ *                              to the current logged-in user.
  * @return bool True on success, false on failure.
  */
-function messages_delete_thread( $thread_ids ) {
+function messages_delete_thread( $thread_ids, $user_id = 0 ) {
+
+	if ( empty( $user_id ) ) {
+		$user_id = bp_loggedin_user_id();
+	}
 
 	/**
 	 * Fires before specified thread IDs have been deleted.
 	 *
 	 * @since 1.5.0
+	 * @since 2.7.0 The $user_id parameter was added.
 	 *
-	 * @param int|array Thread ID or array of thread IDs that were deleted.
+	 * @param int|array $thread_ids Thread ID or array of thread IDs to be deleted.
+	 * @param int       $user_id    ID of the user the threads are being deleted for.
 	 */
-	do_action( 'messages_before_delete_thread', $thread_ids );
+	do_action( 'messages_before_delete_thread', $thread_ids, $user_id );
 
 	if ( is_array( $thread_ids ) ) {
 		$error = 0;
 		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
-			if ( ! BP_Messages_Thread::delete( $thread_ids[$i] ) ) {
+			if ( ! BP_Messages_Thread::delete( $thread_ids[$i], $user_id ) ) {
 				$error = 1;
 			}
 		}
@@ -268,19 +283,21 @@ function messages_delete_thread( $thread_ids ) {
 		 * Fires after specified thread IDs have been deleted.
 		 *
 		 * @since 1.0.0
+		 * @since 2.7.0 The $user_id parameter was added.
 		 *
 		 * @param int|array Thread ID or array of thread IDs that were deleted.
+		 * @param int       ID of the user that the threads were deleted for.
 		 */
-		do_action( 'messages_delete_thread', $thread_ids );
+		do_action( 'messages_delete_thread', $thread_ids, $user_id );
 
 		return true;
 	} else {
-		if ( ! BP_Messages_Thread::delete( $thread_ids ) ) {
+		if ( ! BP_Messages_Thread::delete( $thread_ids, $user_id ) ) {
 			return false;
 		}
 
 		/** This action is documented in bp-messages/bp-messages-functions.php */
-		do_action( 'messages_delete_thread', $thread_ids );
+		do_action( 'messages_delete_thread', $thread_ids, $user_id );
 
 		return true;
 	}
