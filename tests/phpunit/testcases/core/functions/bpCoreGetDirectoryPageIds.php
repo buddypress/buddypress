@@ -285,4 +285,58 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		// Now verify that our BP activity page was not wiped out
 		$this->assertNotEmpty( $dir_pages->activity );
 	}
+
+	/**
+	 * @ticket BP7193
+	 */
+	public function test_bp_core_get_directory_pages_autocreate_register_pages_single_site() {
+		if ( is_multisite() ) {
+			return;
+		}
+
+		// Emulate being in the admin area.
+		if ( ! class_exists( 'BP_Members_Admin', false ) ) {
+			require BP_PLUGIN_DIR . 'bp-members/classes/class-bp-members-admin.php';
+		}
+		$admin = new BP_Members_Admin;
+		add_action( 'update_option_users_can_register', array( $admin, 'single_site_registration_on' ), 10, 2 );
+
+		// Emulate turning registration on.
+		update_option( 'users_can_register', 1 );
+
+		// Now check directory pages.
+		$pages = bp_core_get_directory_pages();
+
+		$this->assertNotEmpty( $pages->register );
+		$this->assertNotEmpty( $pages->activate );
+
+		remove_action( 'update_option_users_can_register', array( $admin, 'single_site_registration_on' ), 10, 2 );
+	}
+
+	/**
+	 * @ticket BP7193
+	 */
+	public function test_bp_core_get_directory_pages_autocreate_register_pages_multisite() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		// Emulate being in the network admin area.
+		if ( ! class_exists( 'BP_Members_Admin', false ) ) {
+			require BP_PLUGIN_DIR . 'bp-members/classes/class-bp-members-admin.php';
+		}
+		$admin = new BP_Members_Admin;
+		add_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ), 10, 2 );
+
+		// Emulate turning registration on.
+		update_site_option( 'registration', 'user' );
+
+		// Now check directory pages.
+		$pages = bp_core_get_directory_pages();
+
+		$this->assertNotEmpty( $pages->register );
+		$this->assertNotEmpty( $pages->activate );
+
+		remove_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ), 10, 2 );
+	}
 }

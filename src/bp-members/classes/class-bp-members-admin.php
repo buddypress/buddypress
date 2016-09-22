@@ -214,6 +214,10 @@ class BP_Members_Admin {
 				add_filter( "views_{$user_screen}", array( $this, 'signup_filter_view'    ), 10, 1 );
 				add_filter( 'set-screen-option',    array( $this, 'signup_screen_options' ), 10, 3 );
 			}
+
+			// Registration is turned on.
+			add_action( 'update_site_option_registration',  array( $this, 'multisite_registration_on' ),   10, 2 );
+			add_action( 'update_option_users_can_register', array( $this, 'single_site_registration_on' ), 10, 2 );
 		}
 
 		/** Users List - Members Types ***************************************
@@ -231,6 +235,41 @@ class BP_Members_Admin {
 
 			// Filter WP admin users list table to include users of the specified type.
 			add_filter( 'pre_get_users', array( $this, 'users_table_filter_by_type' ) );
+		}
+	}
+
+	/**
+	 * Create registration pages when multisite user registration is turned on.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $option_name Current option name; value is always 'registration'.
+	 * @param string $value
+	 */
+	public function multisite_registration_on( $option_name, $value ) {
+		if ( 'user' === $value || 'all' === $value ) {
+			bp_core_add_page_mappings( array(
+				'register' => 1,
+				'activate' => 1
+			) );
+		}
+	}
+
+	/**
+	 * Create registration pages when single site registration is turned on.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $old_value
+	 * @param string $value
+	 */
+	public function single_site_registration_on( $old_value, $value ) {
+		// Single site.
+		if ( ! is_multisite() && ! empty( $value ) ) {
+			bp_core_add_page_mappings( array(
+				'register' => 1,
+				'activate' => 1
+			) );
 		}
 	}
 
