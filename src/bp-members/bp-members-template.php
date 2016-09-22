@@ -2507,23 +2507,6 @@ function bp_signup_allowed() {
 	 * @return bool
 	 */
 	function bp_get_signup_allowed() {
-		$bp = buddypress();
-
-		$signup_allowed = false;
-
-		if ( is_multisite() ) {
-			$registration = bp_core_get_root_option( 'registration' );
-
-			if ( in_array( $registration, array( 'all', 'user' ) ) ) {
-				$signup_allowed = true;
-			}
-
-		} else {
-			if ( bp_get_option( 'users_can_register') ) {
-				$signup_allowed = true;
-			}
-		}
-
 		/**
 		 * Filters whether or not new signups are allowed.
 		 *
@@ -2531,7 +2514,7 @@ function bp_signup_allowed() {
 		 *
 		 * @param bool $signup_allowed Whether or not new signups are allowed.
 		 */
-		return apply_filters( 'bp_get_signup_allowed', $signup_allowed );
+		return apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
 	}
 
 /**
