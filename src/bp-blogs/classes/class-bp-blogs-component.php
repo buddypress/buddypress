@@ -32,6 +32,7 @@ class BP_Blogs_Component extends BP_Component {
 			array(
 				'adminbar_myaccount_order' => 30,
 				'search_query_arg' => 'sites_search',
+				'features' => array( 'site-icon' )
 			)
 		);
 	}

@@ -476,6 +476,26 @@ function bp_blogs_update_option_thread_comments_depth( $oldvalue, $newvalue ) {
 add_action( 'update_option_thread_comments_depth', 'bp_blogs_update_option_thread_comments_depth', 10, 2 );
 
 /**
+ * Syncs site icon URLs to blogmeta.
+ *
+ * @since 2.7.0
+ *
+ * @param int|string $old_value Old value
+ * @param int|string $new_value New value
+ */
+function bp_blogs_update_option_site_icon( $old_value, $new_value ) {
+	if ( 0 === $new_value ) {
+		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_thumb', 0 );
+		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_full',  0 );
+	} else {
+		// Save site icon URL as blogmeta.
+		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_thumb', get_site_icon_url( bp_core_avatar_thumb_width() ) );
+		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_full',  get_site_icon_url( bp_core_avatar_full_width()  ) );
+	}
+}
+add_action( 'update_option_site_icon', 'bp_blogs_update_option_site_icon', 10, 2 );
+
+/**
  * Deletes the 'url' blogmeta for a site.
  *
  * Hooked to 'refresh_blog_details', which is notably used when editing a site

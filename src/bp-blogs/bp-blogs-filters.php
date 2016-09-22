@@ -121,3 +121,17 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 }
 add_filter( 'bp_activity_post_pre_publish', 'bp_blogs_post_pre_publish', 10, 4 );
 add_filter( 'bp_activity_post_pre_comment', 'bp_blogs_post_pre_publish', 10, 4 );
+
+/**
+ * Registers our custom thumb size with WP's Site Icon feature.
+ *
+ * @since 2.7.0
+ *
+ * @param  array $sizes Current array of custom site icon sizes.
+ * @return array
+ */
+function bp_blogs_register_custom_site_icon_size( $sizes ) {
+	$sizes[] = bp_core_avatar_thumb_width();
+	return $sizes;
+}
+add_filter( 'site_icon_image_sizes', 'bp_blogs_register_custom_site_icon_size' );

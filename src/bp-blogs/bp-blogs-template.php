@@ -345,19 +345,77 @@ function bp_blog_avatar( $args = '' ) {
 			'no_grav' => true,
 		) );
 
-		// Fetch the avatar.
-		$avatar = bp_core_fetch_avatar( array(
-			'item_id'    => $blogs_template->blog->admin_user_id,
-			'title'      => $r['title'],
-			// 'avatar_dir' => 'blog-avatars',
-			// 'object'     => 'blog',
-			'type'       => $r['type'],
-			'alt'        => $r['alt'],
-			'css_id'     => $r['id'],
-			'class'      => $r['class'],
-			'width'      => $r['width'],
-			'height'     => $r['height']
-		) );
+		// Use site icon if available.
+		$avatar = '';
+		if ( bp_is_active( 'blogs', 'site-icon' ) && function_exists( 'has_site_icon' ) ) {
+			$site_icon = bp_blogs_get_blogmeta( bp_get_blog_id(), "site_icon_url_{$r['type']}" );
+
+			// Never attempted to fetch site icon before; do it now!
+			if ( '' === $site_icon ) {
+				switch_to_blog( bp_get_blog_id() );
+
+				// Fetch the other size first.
+				if ( 'full' === $r['type'] ) {
+					$size      = bp_core_avatar_thumb_width();
+					$save_size = 'thumb';
+				} else {
+					$size      = bp_core_avatar_full_width();
+					$save_size = 'full';
+				}
+
+				$site_icon = get_site_icon_url( $size );
+				// Empty site icons get saved as integer 0.
+				if ( empty( $site_icon ) ) {
+					$site_icon = 0;
+				}
+
+				// Sync site icon for other size to blogmeta.
+				bp_blogs_update_blogmeta( bp_get_blog_id(), "site_icon_url_{$save_size}", $site_icon );
+
+				// Now, fetch the size we want.
+				if ( 0 !== $site_icon ) {
+					$size      = 'full' === $r['type'] ? bp_core_avatar_full_width() : bp_core_avatar_thumb_width();
+					$site_icon = get_site_icon_url( $size );
+				}
+
+				// Sync site icon to blogmeta.
+				bp_blogs_update_blogmeta( bp_get_blog_id(), "site_icon_url_{$r['type']}", $site_icon );
+
+				restore_current_blog();
+			}
+
+			// We have a site icon.
+			if ( ! is_numeric( $site_icon ) ) {
+				if ( empty( $r['width'] ) && ! isset( $size ) ) {
+					$size = 'full' === $r['type'] ? bp_core_avatar_full_width() : bp_core_avatar_thumb_width();
+				} else {
+					$size = (int) $r['width'];
+				}
+
+				$avatar = sprintf( '<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" title="%4$s" />',
+					esc_url( $site_icon ),
+					esc_attr( "{$r['class']} avatar-{$size}" ),
+					esc_attr( $size ),
+					sprintf( esc_attr__( 'Site icon for %s', 'buddypress' ), bp_get_blog_name() )
+				);
+			}
+		}
+
+		// Fallback to user ID avatar.
+		if ( '' === $avatar ) {
+			$avatar = bp_core_fetch_avatar( array(
+				'item_id'    => $blogs_template->blog->admin_user_id,
+				'title'      => $r['title'],
+				// 'avatar_dir' => 'blog-avatars',
+				// 'object'     => 'blog',
+				'type'       => $r['type'],
+				'alt'        => $r['alt'],
+				'css_id'     => $r['id'],
+				'class'      => $r['class'],
+				'width'      => $r['width'],
+				'height'     => $r['height']
+			) );
+		}
 
 		/**
 		 * In future BuddyPress versions you will be able to set the avatar for a blog.
