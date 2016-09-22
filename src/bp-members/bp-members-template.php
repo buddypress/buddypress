@@ -829,7 +829,7 @@ function bp_member_avatar( $args = '' ) {
  * @since 1.2.0
  */
 function bp_member_permalink() {
-	echo bp_get_member_permalink();
+	echo esc_url( bp_get_member_permalink() );
 }
 	/**
 	 * Get the permalink for the current member in the loop.
@@ -856,7 +856,7 @@ function bp_member_permalink() {
 	 *
 	 * @since 1.2.0
 	 */
-	function bp_member_link() { echo bp_get_member_permalink(); }
+	function bp_member_link() { echo esc_url( bp_get_member_permalink() ); }
 
 	/**
 	 * Alias of {@link bp_get_member_permalink()}.
@@ -1757,7 +1757,7 @@ function bp_user_firstname() {
  * @since 1.2.4
  */
 function bp_loggedin_user_link() {
-	echo bp_get_loggedin_user_link();
+	echo esc_url( bp_get_loggedin_user_link() );
 }
 	/**
 	 * Get the link for the logged-in user's profile.
@@ -1784,7 +1784,7 @@ function bp_loggedin_user_link() {
  * @since 1.2.4
  */
 function bp_displayed_user_link() {
-	echo bp_get_displayed_user_link();
+	echo esc_url( bp_get_displayed_user_link() );
 }
 	/**
 	 * Get the link for the displayed user's profile.
