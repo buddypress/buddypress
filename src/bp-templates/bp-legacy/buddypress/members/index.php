@@ -77,6 +77,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 		</div><!-- .item-list-tabs -->
 
 		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Members directory secondary navigation', 'buddypress' ); ?>" role="navigation">
+			<ul>
 				<?php
 
 				/**
