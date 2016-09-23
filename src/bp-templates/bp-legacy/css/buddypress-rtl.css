@@ -1420,6 +1420,12 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	overflow: auto;
 	list-style: none;
 }
+#buddypress .group-members-list {
+	width: 100%;
+	margin-top: 1em;
+	clear: both;
+	overflow: auto;
+}
 #buddypress #item-buttons:empty {
 	display: none;
 }
