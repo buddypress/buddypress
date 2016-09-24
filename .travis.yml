@@ -85,7 +85,7 @@ before_install:
   - gem install scss_lint
   # setup NodeJS version using NVM
   - node --version
-  - nvm install 4
+  - nvm install 6
   - node --version
   - npm install -g grunt-cli
   - npm --version
