@@ -710,7 +710,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @param string $column_name Name of the column being rendered.
 	 * @param array  $item        The current group item in the loop.
 	 */
-	public function column_content_group_type( $retval, $column_name, $item ) {
+	public function column_content_group_type( $retval = '', $column_name, $item ) {
 		if ( 'bp_group_type' !== $column_name ) {
 			return $retval;
 		}
@@ -721,7 +721,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// Output the
 		if ( $type_obj = bp_groups_get_group_type_object( $type ) ) {
 			$url         = add_query_arg( array( 'bp-group-type' => urlencode( $type ) ) );
-			$type_string = '<a href="' . esc_url( $url ) . '">' . esc_html( $type_obj->labels['singular_name'] ) . '</a>';
+			$retval = '<a href="' . esc_url( $url ) . '">' . esc_html( $type_obj->labels['singular_name'] ) . '</a>';
 		}
 
 		/**
@@ -729,10 +729,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param string $type_string Markup for the Group Type column.
-		 * @parma array  $item        The current group item in the loop.
+		 * @param string $retval Markup for the Group Type column.
+		 * @parma array  $item   The current group item in the loop.
 		 */
-		echo apply_filters_ref_array( 'bp_groups_admin_get_group_type_column', array( $type_string, $item ) );
+		echo apply_filters_ref_array( 'bp_groups_admin_get_group_type_column', array( $retval, $item ) );
 	}
 
 	/**
