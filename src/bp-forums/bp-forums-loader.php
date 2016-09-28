@@ -268,6 +268,24 @@ class BP_Forums_Component extends BP_Component {
 
 		parent::setup_title();
 	}
+
+	/**
+	 * Disable cache groups due to a caching discrepancy in BackPress.
+	 *
+	 * @since 2.7.0
+	 * @see   https://buddypress.trac.wordpress.org/ticket/4759
+	 */
+	public function setup_cache_groups() {
+		wp_cache_add_non_persistent_groups( array(
+			// Posts.
+			'bb_forums',
+			'bb_query',
+			'bb_cache_posts_post_ids',
+
+			// Topics
+			'bb_post'
+		) );
+	}
 }
 
 /**
