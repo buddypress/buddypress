@@ -399,10 +399,15 @@ class BP_Groups_Group {
 	public function __get( $key ) {
 		switch ( $key ) {
 			case 'last_activity' :
-				return groups_get_groupmeta( $this->id, 'last_activity' );
-
 			case 'total_member_count' :
-				return (int) groups_get_groupmeta( $this->id, 'total_member_count' );
+			case 'forum_id' :
+				$retval = groups_get_groupmeta( $this->id, $key );
+
+				if ( 'last_activity' !== $key ) {
+					$retval = (int) $retval;
+				}
+
+				return $retval;
 
 			case 'admins' :
 				return $this->get_admins();
@@ -448,6 +453,7 @@ class BP_Groups_Group {
 			case 'mods' :
 			case 'total_member_count' :
 			case 'user_has_access' :
+			case 'forum_id' :
 				return true;
 
 			default :
