@@ -248,7 +248,7 @@ function bp_pre_get_option( $value = false ) {
  *
  * The 'bp_get_option' filter is primarily for backward-compatibility.
  *
- * @since 1.2.0
+ * @since 1.5.0
  *
  * @param string $option_name The option to be retrieved.
  * @param string $default     Optional. Default value to be returned if the option
@@ -261,7 +261,7 @@ function bp_get_option( $option_name, $default = '' ) {
 	/**
 	 * Filters the option value for the requested option.
 	 *
-	 * @since 1.2.0
+	 * @since 1.5.0
 	 *
 	 * @param mixed $value The value for the option.
 	 */
