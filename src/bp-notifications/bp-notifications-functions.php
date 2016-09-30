@@ -614,10 +614,12 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
 	 * Filters the count of unread notification items for a user.
 	 *
 	 * @since 1.9.0
+	 * @since 2.7.0 Added user ID parameter.
 	 *
-	 * @param int $count Count of unread notification items for a user.
+	 * @param int $count   Count of unread notification items for a user.
+	 * @param int $user_id User ID for notifications count.
 	 */
-	return apply_filters( 'bp_notifications_get_total_notification_count', (int) $count );
+	return apply_filters( 'bp_notifications_get_total_notification_count', (int) $count, $user_id );
 }
 
 /**
