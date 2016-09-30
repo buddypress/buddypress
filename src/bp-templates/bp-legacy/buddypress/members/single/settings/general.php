@@ -9,7 +9,10 @@
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
 
-<h2 class="bp-screen-reader-text"><?php _e( 'Account settings', 'buddypress' ); ?></h2>
+<h2 class="bp-screen-reader-text"><?php
+	/* translators: accessibility text */
+	_e( 'Account settings', 'buddypress' );
+?></h2>
 
 <form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/general'; ?>" method="post" class="standard-form" id="settings-form">
 

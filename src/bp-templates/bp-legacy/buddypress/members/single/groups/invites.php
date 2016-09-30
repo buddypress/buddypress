@@ -15,7 +15,10 @@ do_action( 'bp_before_group_invites_content' ); ?>
 
 <?php if ( bp_has_groups( 'type=invites&user_id=' . bp_loggedin_user_id() ) ) : ?>
 
-	<h2 class="bp-screen-reader-text"><?php _e( 'Group invitations', 'buddypress' ); ?></h2>
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Group invitations', 'buddypress' );
+	?></h2>
 
 	<ul id="group-list" class="invites item-list">
 

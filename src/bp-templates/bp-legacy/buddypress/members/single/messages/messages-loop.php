@@ -15,7 +15,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 <?php if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) ) ) : ?>
 
-	<h2 class="bp-screen-reader-text"><?php _e( 'Starred messages', 'buddypress' ); ?></h2>
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Starred messages', 'buddypress' );
+	?></h2>
 
 	<div class="pagination no-ajax" id="user-pag">
 

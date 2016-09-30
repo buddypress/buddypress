@@ -10,7 +10,10 @@
 
 <?php if ( bp_has_notifications() ) : ?>
 
-	<h2 class="bp-screen-reader-text"><?php _e( 'Notifications', 'buddypress' ); ?></h2>
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Notifications', 'buddypress' );
+	?></h2>
 
 	<div id="pag-top" class="pagination no-ajax">
 		<div class="pag-count" id="notifications-count-top">

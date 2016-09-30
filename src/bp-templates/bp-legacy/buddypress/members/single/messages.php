@@ -38,9 +38,15 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_before_member_messages_content' ); ?>
 
 		<?php if ( bp_is_messages_inbox() ) : ?>
-			<h2 class="bp-screen-reader-text"><?php _e( 'Messages inbox', 'buddypress' ); ?></h2>
+			<h2 class="bp-screen-reader-text"><?php
+				/* translators: accessibility text */
+				_e( 'Messages inbox', 'buddypress' );
+			?></h2>
 		<?php elseif ( bp_is_messages_sentbox() ) : ?>
-			<h2 class="bp-screen-reader-text"><?php _e( 'Sent Messages', 'buddypress' ); ?></h2>
+			<h2 class="bp-screen-reader-text"><?php
+				/* translators: accessibility text */
+				_e( 'Sent Messages', 'buddypress' );
+			?></h2>
 		<?php endif; ?>
 
 		<div class="messages">
@@ -77,7 +83,10 @@ switch ( bp_current_action() ) :
 		 */
 		do_action( 'bp_before_member_messages_content' ); ?>
 
-		<h2 class="bp-screen-reader-text"><?php _e( 'Sitewide Notices', 'buddypress' ); ?></h2>
+		<h2 class="bp-screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Sitewide Notices', 'buddypress' );
+		?></h2>
 
 		<div class="messages">
 			<?php bp_get_template_part( 'members/single/messages/notices-loop' ); ?>

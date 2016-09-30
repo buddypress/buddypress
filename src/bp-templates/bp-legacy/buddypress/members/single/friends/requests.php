@@ -15,7 +15,10 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 
 <?php if ( bp_has_members( 'type=alphabetical&include=' . bp_get_friendship_requests() ) ) : ?>
 
-	<h2 class="bp-screen-reader-text"><?php _e( 'Friendship requests', 'buddypress' ); ?></h2>
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Friendship requests', 'buddypress' );
+	?></h2>
 
 	<div id="pag-top" class="pagination no-ajax">
 
