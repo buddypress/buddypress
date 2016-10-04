@@ -24,10 +24,15 @@
 		<form action="" name="signup_form" id="signup_form" class="standard-form" method="post" enctype="multipart/form-data">
 
 		<?php if ( 'registration-disabled' == bp_get_current_signup_step() ) : ?>
-			<?php
 
-			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php
+
+				/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+				do_action( 'template_notices' ); ?>
+
+			</div>
+
 			<?php
 
 			/**
@@ -51,10 +56,13 @@
 
 		<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
-			<?php
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php
 
-			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+				/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+				do_action( 'template_notices' ); ?>
+
+			</div>
 
 			<p><?php _e( 'Registering for this site is easy. Just fill in the fields below, and we\'ll get a new account set up for you in no time.', 'buddypress' ); ?></p>
 
@@ -359,10 +367,14 @@
 
 		<?php if ( 'completed-confirmation' == bp_get_current_signup_step() ) : ?>
 
-			<?php
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php
 
-			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+				/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+				do_action( 'template_notices' ); ?>
+
+			</div>
+
 			<?php
 
 			/**
@@ -372,11 +384,13 @@
 			 */
 			do_action( 'bp_before_registration_confirmed' ); ?>
 
-			<?php if ( bp_registration_needs_activation() ) : ?>
-				<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ); ?></p>
-			<?php else : ?>
-				<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ); ?></p>
-			<?php endif; ?>
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php if ( bp_registration_needs_activation() ) : ?>
+					<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ); ?></p>
+				<?php else : ?>
+					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ); ?></p>
+				<?php endif; ?>
+			</div>
 
 			<?php
 

@@ -50,7 +50,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 	 */
 	do_action( 'bp_before_directory_groups_list' ); ?>
 
-	<ul id="groups-list" class="item-list">
+	<ul id="groups-list" class="item-list" aria-live="assertive" aria-atomic="true" aria-relevant="all">
 
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
 

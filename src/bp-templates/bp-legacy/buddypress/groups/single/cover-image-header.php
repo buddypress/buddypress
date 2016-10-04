@@ -118,7 +118,12 @@ do_action( 'bp_before_group_header' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_group_header' );
+do_action( 'bp_after_group_header' ); ?>
 
-/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-do_action( 'template_notices' ); ?>
+<div id="template-notices" role="alert" aria-atomic="true">
+	<?php
+
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
+
+</div>

@@ -230,7 +230,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 
 			<?php endif; ?>
 
-			<ul id="members-list" class="item-list">
+			<ul id="members-list" class="item-list" aria-live="assertive" aria-relevant="all">
 				<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
 
 					<li class="<?php bp_group_member_css_class(); ?>">

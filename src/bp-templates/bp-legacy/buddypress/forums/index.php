@@ -168,10 +168,13 @@
 					<a name="post-new"></a>
 					<h5><?php _e( 'Create New Topic:', 'buddypress' ); ?></h5>
 
+					<div id="template-notices" role="alert" aria-atomic="true">
 					<?php
 
-					/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-					do_action( 'template_notices' ); ?>
+						/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+						do_action( 'template_notices' ); ?>
+
+					</div>
 
 					<label for="topic_title"><?php _e( 'Title:', 'buddypress' ); ?></label>
 					<input type="text" name="topic_title" id="topic_title" value="" maxlength="100" />

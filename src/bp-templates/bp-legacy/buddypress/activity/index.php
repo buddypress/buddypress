@@ -32,14 +32,17 @@ do_action( 'bp_before_directory_activity' ); ?>
 
 	<?php endif; ?>
 
-	<?php
+	<div id="template-notices" role="alert" aria-atomic="true">
+		<?php
 
-	/**
-	 * Fires towards the top of template pages for notice display.
-	 *
-	 * @since 1.0.0
-	 */
-	do_action( 'template_notices' ); ?>
+		/**
+		 * Fires towards the top of template pages for notice display.
+		 *
+		 * @since 1.0.0
+		 */
+		do_action( 'template_notices' ); ?>
+
+	</div>
 
 	<div class="item-list-tabs activity-type-tabs" aria-label="<?php esc_attr_e( 'Sitewide activities navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>

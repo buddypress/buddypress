@@ -43,10 +43,13 @@ do_action( 'bp_before_create_group_page' ); ?>
 			</ul>
 		</div>
 
-		<?php
+		<div id="template-notices" role="alert" aria-atomic="true">
+			<?php
 
-		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-		do_action( 'template_notices' ); ?>
+			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+			do_action( 'template_notices' ); ?>
+
+		</div>
 
 		<div class="item-body" id="group-create-body">
 

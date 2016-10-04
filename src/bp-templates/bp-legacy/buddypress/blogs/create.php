@@ -13,10 +13,13 @@
  */
 do_action( 'bp_before_create_blog_content_template' ); ?>
 
-<?php
+<div id="template-notices" role="alert" aria-atomic="true">
+	<?php
 
-/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-do_action( 'template_notices' ); ?>
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
+
+</div>
 
 <?php
 

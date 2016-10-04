@@ -8,10 +8,14 @@
 
 ?>
 <div id="buddypress">
-	<?php
 
-	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-	do_action( 'template_notices' ); ?>
+	<div id="template-notices" role="alert" aria-atomic="true">
+		<?php
+
+		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+		do_action( 'template_notices' ); ?>
+
+	</div>
 
 	<div class="activity no-ajax">
 		<?php if ( bp_has_activities( 'display_comments=threaded&show_hidden=true&include=' . bp_current_action() ) ) : ?>
