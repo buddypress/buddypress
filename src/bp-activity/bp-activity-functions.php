@@ -1870,10 +1870,13 @@ function bp_activity_add( $args = '' ) {
  * @since 1.2.0
  *
  * @param array|string $args {
- *     @type string $content The content of the activity update.
- *     @type int    $user_id Optional. Defaults to the logged-in user.
+ *     @type string $content    The content of the activity update.
+ *     @type int    $user_id    Optional. Defaults to the logged-in user.
+ *     @type string $error_type Optional. Error type to return. Either 'bool' or 'wp_error'. Defaults to
+ *                              'bool' for boolean. 'wp_error' will return a WP_Error object.
  * }
- * @return int $activity_id The activity id.
+ * @return int|bool|WP_Error $activity_id The activity id on success. On failure, either boolean false or WP_Error
+ *                                        object depending on the 'error_type' $args parameter.
  */
 function bp_activity_post_update( $args = '' ) {
 
