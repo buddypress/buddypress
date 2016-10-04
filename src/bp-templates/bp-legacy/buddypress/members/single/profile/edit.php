@@ -26,7 +26,7 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 		<h2><?php printf( __( "Editing '%s' Profile Group", 'buddypress' ), bp_get_the_profile_group_name() ); ?></h2>
 
 		<?php if ( bp_profile_has_multiple_groups() ) : ?>
-			<ul class="button-nav" aria-label="Profile field groups" role="navigation">
+			<ul class="button-nav" aria-label="<?php esc_attr_e( 'Profile field groups', 'buddypress' ); ?>" role="navigation">
 
 				<?php bp_profile_group_tabs(); ?>
 
