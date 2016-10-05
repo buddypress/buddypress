@@ -1111,9 +1111,8 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	echo '<input name="blog_title" type="text" id="blog_title" value="'.esc_html($blog_title, 1).'" /></p>';
 	?>
 
-	<p>
-		<label for="blog_public_on"><?php _e('Privacy:', 'buddypress') ?></label>
-		<?php _e( 'I would like my site to appear in search engines, and in public listings around this network.', 'buddypress' ); ?>
+	<fieldset class="create-site">
+		<legend class="label"><?php _e('Privacy: I would like my site to appear in search engines, and in public listings around this network', 'buddypress') ?></legend>
 
 		<label class="checkbox" for="blog_public_on">
 			<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if( !isset( $_POST['blog_public'] ) || '1' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
@@ -1123,7 +1122,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 			<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if( isset( $_POST['blog_public'] ) && '0' == $_POST['blog_public'] ) { ?>checked="checked"<?php } ?> />
 			<strong><?php _e( 'No' , 'buddypress'); ?></strong>
 		</label>
-	</p>
+	</fieldset>
 
 	<?php
 

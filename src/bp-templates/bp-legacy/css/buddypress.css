@@ -863,6 +863,22 @@ a.bp-title-button {
 	opacity: .4;
 }
 
+fieldset.register-site {
+	margin-top: 1em;
+}
+
+fieldset.create-site {
+	margin-bottom: 2em;
+}
+
+fieldset.create-site legend {
+	margin-bottom: 1em;
+}
+
+fieldset.create-site label {
+	margin-right: 3em;
+}
+
 .bp-screen-reader-text {
 	position: absolute;
 	margin: -1px;
