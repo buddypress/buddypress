@@ -1046,20 +1046,33 @@ function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null 
 		return;
 	}
 
-	$types = bp_groups_get_group_types( array(), 'objects' );
-	$current_type = bp_groups_get_group_type( $group->id );
+	$types         = bp_groups_get_group_types( array(), 'objects' );
+	$current_types = bp_groups_get_group_type( $group->id, false );
+	$backend_only  = bp_groups_get_group_types( array( 'show_in_create_screen' => false ) );
 	?>
 
 	<label for="bp-groups-group-type" class="screen-reader-text"><?php
 		/* translators: accessibility text */
 		esc_html_e( 'Select group type', 'buddypress' );
 	?></label>
-	<select name="bp-groups-group-type" id="bp-groups-group-type">
-		<option value="" <?php selected( '', $current_type ); ?>><?php /* translators: no option picked in select box */ esc_attr_e( '----', 'buddypress' ) ?></option>
+
+	<ul class="categorychecklist form-no-clear">
 		<?php foreach ( $types as $type ) : ?>
-			<option value="<?php echo esc_attr( $type->name ) ?>" <?php selected( $type->name, $current_type ) ?>><?php echo esc_html( $type->labels['singular_name'] ) ?></option>
+			<li>
+				<label class="selectit"><input value="<?php echo esc_attr( $type->name ) ?>" name="bp-groups-group-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_types ) ); ?>>
+					<?php
+						echo esc_html( $type->labels['singular_name'] );
+						if ( in_array( $type->name, $backend_only ) ) {
+							printf( ' <span class="description">%s</span>', esc_html__( '(Not available on the frontend)', 'buddypress' ) );
+						}
+					?>
+
+				</label>
+			</li>
+
 		<?php endforeach; ?>
-	</select>
+
+	</ul>
 
 	<?php
 
@@ -1072,7 +1085,7 @@ function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null 
  * @since 2.6.0
  */
 function bp_groups_process_group_type_update( $group_id ) {
-	if ( ! isset( $_POST['bp-group-type-nonce'] ) || ! isset( $_POST['bp-groups-group-type'] ) ) {
+	if ( ! isset( $_POST['bp-group-type-nonce'] ) ) {
 		return;
 	}
 
@@ -1083,17 +1096,13 @@ function bp_groups_process_group_type_update( $group_id ) {
 		return;
 	}
 
-	// Group type string must either reference a valid group type, or be empty.
-	$group_type = wp_unslash( $_POST['bp-groups-group-type'] );
-	if ( $group_type && ! bp_groups_get_group_type_object( $group_type ) ) {
-		return;
-	}
+	$group_types = ! empty( $_POST['bp-groups-group-type'] ) ? wp_unslash( $_POST['bp-groups-group-type'] ) : array();
 
 	/*
 	 * If an invalid group type is passed, someone's doing something
 	 * fishy with the POST request, so we can fail silently.
 	 */
-	if ( bp_groups_set_group_type( $group_id, $group_type ) ) {
+	if ( bp_groups_set_group_type( $group_id, $group_types ) ) {
 		// @todo Success messages can't be posted because other stuff happens on the page load.
 	}
 }

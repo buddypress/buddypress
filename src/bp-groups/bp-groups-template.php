@@ -223,6 +223,9 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 	 *     @type string $label          Label to add before the list. Defaults to 'Group Types:'.
 	 *     @type string $label_element  Element to wrap around the label. Defaults to 'strong'.
 	 *     @type array  $label_attr     Element attributes for label element. Defaults to array().
+	 *     @type bool   $show_all       Whether to show all registered group types. Defaults to 'false'. If
+	 *                                 'false', only shows group types with the 'show_in_list' parameter set to
+	 *                                  true. See bp_groups_register_group_type() for more info.
 	 * }
 	 * @return string
 	 */
@@ -238,16 +241,19 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 			),
 			'label'          => __( 'Group Types:', 'buddypress' ),
 			'label_element'  => 'strong',
-			'label_attr'     => array()
+			'label_attr'     => array(),
+			'show_all'       => false,
 		), 'group_type_list' );
 
 		$retval = '';
 
 		if ( $types = bp_groups_get_group_type( $group_id, false ) ) {
 			// Make sure we can show the type in the list.
-			$types = array_intersect( bp_groups_get_group_types( array( 'show_in_list' => true ) ), $types );
-			if ( empty( $types ) ) {
-				return $retval;
+			if ( false === $show_all ) {
+				$types = array_intersect( bp_groups_get_group_types( array( 'show_in_list' => true ) ), $types );
+				if ( empty( $types ) ) {
+					return $retval;
+				}
 			}
 
 			$before = $after = $label = '';

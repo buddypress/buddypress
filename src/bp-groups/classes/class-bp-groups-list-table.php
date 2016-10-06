@@ -715,14 +715,14 @@ class BP_Groups_List_Table extends WP_List_Table {
 			return $retval;
 		}
 
-		// Get the group type.
-		$type = bp_groups_get_group_type( $item['id'] );
-
-		// Output the
-		if ( $type_obj = bp_groups_get_group_type_object( $type ) ) {
-			$url         = add_query_arg( array( 'bp-group-type' => urlencode( $type ) ) );
-			$retval = '<a href="' . esc_url( $url ) . '">' . esc_html( $type_obj->labels['singular_name'] ) . '</a>';
-		}
+		add_filter( 'bp_get_group_type_directory_permalink', array( $this, 'group_type_permalink_use_admin_filter' ), 10, 2 );
+		$retval = bp_get_group_type_list( $item['id'], array(
+			'parent_element' => '',
+			'label_element'  => '',
+			'label'          => '',
+			'show_all'       => true
+		) );
+		remove_filter( 'bp_get_group_type_directory_permalink', array( $this, 'group_type_permalink_use_admin_filter' ), 10, 2 );
 
 		/**
 		 * Filters the markup for the Group Type column.
@@ -733,6 +733,21 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @parma array  $item   The current group item in the loop.
 		 */
 		echo apply_filters_ref_array( 'bp_groups_admin_get_group_type_column', array( $retval, $item ) );
+	}
+
+	/**
+	 * Filters the group type list permalink in the Group Type column.
+	 *
+	 * Changes the group type permalink to use the admin URL.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param  string $retval Current group type permalink.
+	 * @param  object $type   Group type object.
+	 * @return string
+	 */
+	public function group_type_permalink_use_admin_filter( $retval, $type ) {
+		return add_query_arg( array( 'bp-group-type' => urlencode( $type->name ) ) );
 	}
 
 	/**
