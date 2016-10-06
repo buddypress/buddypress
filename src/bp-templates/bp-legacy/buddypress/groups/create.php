@@ -157,8 +157,9 @@ do_action( 'bp_before_create_group_page' ); ?>
 							<div class="checkbox">
 								<label for="<?php printf( 'group-type-%s', $type->name ); ?>"><input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', $type->name ); ?>" value="<?php echo esc_attr( $type->name ); ?>" /> <?php echo esc_html( $type->labels['name'] ); ?>
 									<?php
-										if ( isset( $type->description ) ) {
-											printf( __( '&ndash; %s', 'buddypress' ), '<span class="bp-group-type-desc">' . $type->description . '</span>' );
+										if ( ! empty( $type->description ) ) {
+											/* translators: Group type description shown when creating a group. */
+											printf( __( '&ndash; %s', 'buddypress' ), '<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>' );
 										}
 									?>
 								</label>
