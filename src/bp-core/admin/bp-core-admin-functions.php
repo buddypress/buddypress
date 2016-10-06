@@ -1249,3 +1249,73 @@ function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
 	$checkbox_id = 'checkbox_' . md5( $plugin_data['Name'] );
 	echo "<script type='text/javascript'>document.getElementById('$checkbox_id').disabled = true;</script>";
 }
+
+/**
+ * Add an admin notice to installations that are not running PHP 5.3+.
+ *
+ * @since 2.7.0
+ */
+function bp_core_admin_php53_admin_notice() {
+	if ( ! current_user_can( 'update_core' ) ) {
+		return;
+	}
+
+	if ( bp_core_admin_is_running_php53_or_greater() ) {
+		return;
+	}
+
+	$notice_id = 'bp28-php53';
+	if ( bp_get_option( "bp-dismissed-notice-$notice_id" ) ) {
+		return;
+	}
+
+	$bp  = buddypress();
+	$min = bp_core_get_minified_asset_suffix();
+
+	wp_enqueue_script(
+		'bp-dismissible-admin-notices',
+		"{$bp->plugin_url}bp-core/admin/js/dismissible-admin-notices{$min}.js",
+		array( 'jquery' ),
+		bp_get_version(),
+		true
+	);
+
+	$php_version = PHP_VERSION;
+
+	?>
+
+	<div id="message" class="error notice is-dismissible bp-is-dismissible" data-noticeid="<?php echo esc_attr( $notice_id ); ?>">
+		<p><strong><?php esc_html_e( 'Your site is not ready for BuddyPress 2.8.', 'buddypress' ); ?></strong></p>
+		<p><?php printf( esc_html__( 'Your site is currently running PHP version %s, while BuddyPress 2.8 will require version 5.3+.', 'buddypress' ), $php_version ); ?> <?php printf( __( 'See <a href="%s">the Codex guide</a> for more information.', 'buddypress' ), 'https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/' ); ?></p>
+		<?php wp_nonce_field( "bp-dismissible-notice-$notice_id", "bp-dismissible-nonce-$notice_id" ); ?>
+	</div>
+	<?php
+}
+add_action( 'admin_notices',         'bp_core_admin_php53_admin_notice' );
+add_action( 'network_admin_notices', 'bp_core_admin_php53_admin_notice' );
+
+/**
+ * Catch and process an admin notice dismissal.
+ *
+ * @since 2.7.0
+ */
+function bp_core_admin_notice_dismiss_callback() {
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		wp_send_json_error();
+	}
+
+	if ( empty( $_POST['nonce'] ) || empty( $_POST['notice_id'] ) ) {
+		wp_send_json_error();
+	}
+
+	$notice_id = wp_unslash( $_POST['notice_id'] );
+
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'bp-dismissible-notice-' . $notice_id ) ) {
+		wp_send_json_error();
+	}
+
+	bp_update_option( "bp-dismissed-notice-$notice_id", 1 );
+
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_bp_dismiss_notice', 'bp_core_admin_notice_dismiss_callback' );
