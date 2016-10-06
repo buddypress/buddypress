@@ -1256,6 +1256,11 @@ function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
  * @since 2.7.0
  */
 function bp_core_admin_php53_admin_notice() {
+	// If not on the Plugins page, stop now.
+	if ( 'plugins' !== get_current_screen()->parent_base ) {
+		return;
+	}
+
 	if ( ! current_user_can( 'update_core' ) ) {
 		return;
 	}
