@@ -1666,7 +1666,6 @@ body.register #buddypress div.page ul {
 .widget.buddypress span.activity {
 	display: inline-block;
 	font-size: small;
-	opacity: 0.8;
 	padding: 0;
 }
 
