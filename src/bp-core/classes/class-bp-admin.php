@@ -724,7 +724,7 @@ class BP_Admin {
 			<h3 class="wp-people-group"><?php _e( 'Project Leaders', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
 				<li class="wp-person" id="wp-person-johnjamesjacoby">
-					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/81ec16063d89b162d55efe72165c105f?s=60">
+					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/7a2644fb53ae2f7bfd7143b504af396c?s=60">
 					John James Jacoby</a>
 					<span class="title"><?php _e( 'Project Lead', 'buddypress' ); ?></span>
 				</li>
@@ -740,7 +740,7 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h3 class="wp-people-group"><?php _e( 'Core Team', 'buddypress' ); ?></h3>
+			<h3 class="wp-people-group"><?php _e( 'BuddyPress Team', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-core-team">
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a class="web" href="https://profiles.wordpress.org/r-a-y"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60">
@@ -772,22 +772,25 @@ class BP_Admin {
 					Hugo</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
-			</ul>
-
-			<h3 class="wp-people-group"><?php _e( '&#x1f31f;Recent Rockstars&#x1f31f;', 'buddypress' ); ?></h3>
-			<ul class="wp-people-group " id="wp-people-group-rockstars">
 				<li class="wp-person" id="wp-person-henry-wright">
 					<a class="web" href="https://profiles.wordpress.org/henry.wright"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=60">
 					Henry Wright</a>
+					<span class="title"><?php _e( 'Community Support', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-danbp">
 					<a class="web" href="https://profiles.wordpress.org/danbp"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0deae2e7003027fbf153500cd3fa5501?s=60">
 					danbp</a>
+					<span class="title"><?php _e( 'Community Support', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-shanebp">
 					<a class="web" href="https://profiles.wordpress.org/shanebp"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ffd294ab5833ba14aaf175f9acc71cc4?s=60">
 					shanebp</a>
+					<span class="title"><?php _e( 'Community Support', 'buddypress' ); ?></span>
 				</li>
+			</ul>
+
+			<h3 class="wp-people-group"><?php _e( '&#x1f31f;Recent Rockstars&#x1f31f;', 'buddypress' ); ?></h3>
+			<ul class="wp-people-group " id="wp-people-group-rockstars">
 				<li class="wp-person" id="wp-person-netweb">
 					<a class="web" href="https://profiles.wordpress.org/netweb"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/97e1620b501da675315ba7cfb740e80f?s=60">
 					Stephen Edgar</a>
@@ -812,53 +815,51 @@ class BP_Admin {
 					<a class="web" href="https://profiles.wordpress.org/ramiy"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ce2a269e424156d79cb0c4e1d4d82db1?s=60">
 					Rami Yushuvaev</a>
 				</li>
-
+				<li class="wp-person" id="wp-person-ramiy">
+					<a class="web" href="https://profiles.wordpress.org/slaffik/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ce2a269e424156d79cb0c4e1d4d82db1?s=60">
+					Slava Abakumov</a>
+				</li>
 			</ul>
 
 			<h3 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h3>
 			<p class="wp-credits-list">
-				<a href="https://profiles.wordpress.org/abweb/">abweb</a>,
+				<a href="https://profiles.wordpress.org/jorbin/">Aaron Jorbin (jorbin)</a>,
+				<a href="https://profiles.wordpress.org/abwebstudio1/">abwebstudio1</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
-				<a href="https://profiles.wordpress.org/thebrandonallen/">Brandon Allen (thebrandonallen)</a>,
-				<a href="https://profiles.wordpress.org/chherbst/">chherbst</a>,
-				<a href="https://profiles.wordpress.org/danbrellis/">danbrellis</a>,
+				<a href="https://profiles.wordpress.org/sbrajesh/">Brajesh Singh (sbrajesh)</a>,
+				<a href="https://profiles.wordpress.org/needle/">Christian Wach (needle)</a>,
+				<a href="https://profiles.wordpress.org/danbp/">danbp</a>,
+				<a href="https://profiles.wordpress.org/danielhuesken/">Daniel Hüsken (danielhuesken)</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
+				<a href="https://profiles.wordpress.org/demon_ru/">demon_ru</a>,
 				<a href="https://profiles.wordpress.org/wpdennis/">Dennis (wpdennis)</a>,
-				<a href="https://profiles.wordpress.org/emrikol/">emrikol</a>,
-				<a href="https://profiles.wordpress.org/wdfee/">Fee (wdfee)</a>,
-				<a href="https://profiles.wordpress.org/garrett-eclipse/">Garrett Hyder (garrett-eclipse)</a>,
-				<a href="https://profiles.wordpress.org/pento/">Gary Pendergast (pento)</a>,
-				<a href="https://profiles.wordpress.org/Mamaduka/">George Mamadashvili (Mamaduka)</a>,
+				<a href="https://profiles.wordpress.org/ericlewis/">Eric Andrew Lewis (ericlewis)</a>,
 				<a href="https://profiles.wordpress.org/henrywright/">Henry Wright (henry.wright)</a>,
+				<a href="https://profiles.wordpress.org/herbovec/">herbovec</a>,
 				<a href="https://profiles.wordpress.org/hnla/">Hugo (hnla)</a>,
+				<a href="https://profiles.wordpress.org/jdgrimes/">J.D. Grimes jdgrimes</a>,
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
-				<a href="https://profiles.wordpress.org/kmbdeamorg/">Klaus (kmbdeamorg)</a>,
-				<a href="https://profiles.wordpress.org/sooskriszta/">OC2PS (sooskriszta)</a>,
+				<a href="https://profiles.wordpress.org/dunhakdis/">Joseph G. (dunhakdis)</a>,
+				<a href="https://profiles.wordpress.org/kitsunesolar/">kitsunesolar</a>,
 				<a href="https://profiles.wordpress.org/lakrisgubben/">lakrisgubben</a>,
 				<a href="https://profiles.wordpress.org/Offereins">Laurens Offereins (Offereins)</a>,
-				<a href="https://profiles.wordpress.org/mahadri/">mahadri</a>,
 				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
 				<a href="https://profiles.wordpress.org/mercime/">mercime</a>,
 				<a href="https://profiles.wordpress.org/tw2113/">Michael Beckwith (tw2113)</a>,
-				<a href="https://profiles.wordpress.org/mmcachran/">mmcachran</a>,
-				<a href="https://profiles.wordpress.org/modemlooper/">modemlooper</a>,
-				<a href="https://profiles.wordpress.org/nickmomrik/">Nick Momrik (nickmomrik)</a>,
-				<a href="https://profiles.wordpress.org/OakCreative/">OakCreative</a>,
-				<a href="https://profiles.wordpress.org/oksankaa/">oksankaa</a>,
+				<a href="https://profiles.wordpress.org/michaelbeil/">Michael Beil (michaelbeil)</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
-				<a href="https://profiles.wordpress.org/ramiy/">Rami Yushuvaev (ramiy)</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
-				<a href="https://profiles.wordpress.org/rekmla/">rekmla</a>,
-				<a href="https://profiles.wordpress.org/r0z/">r0z</a>,
-				<a href="https://profiles.wordpress.org/SergeyBiryukov/">Sergey Biryukov (SergeyBiryukov)</a>,
-				<a href="https://profiles.wordpress.org/singhleo/">singhleo</a>,
-				<a href="https://profiles.wordpress.org/slaffik/">Slava UA (slaffik)</a>,
+				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
+				<a href="https://profiles.wordpress.org/scharc/">scharc</a>,
+				<a href="https://profiles.wordpress.org/slaffik/">Slava Abakumov (slaffik)</a>,
+				<a href="https://profiles.wordpress.org/spenser4551/">spenser4551</a>,
 				<a href="https://profiles.wordpress.org/netweb/">Stephen Edgar (netweb)</a>,
+				<a href="https://profiles.wordpress.org/svenl77/">Sven Lehnert (svenl77)</a>,
 				<a href="https://profiles.wordpress.org/tharsheblows/">tharsheblows</a>,
-				<a href="https://profiles.wordpress.org/VibeThemes/">VibeThemes</a>,
-				<a href="https://profiles.wordpress.org/vortfu/">vortfu</a>,
-				<a href="https://profiles.wordpress.org/WeddyWood/">WeddyWood</a>,
-				<a href="https://profiles.wordpress.org/w3dzign/">w3dzign</a>.
+				<a href="https://profiles.wordpress.org/thomaslhotta/">thomaslhotta</a>,
+				<a href="https://profiles.wordpress.org/tomas711/">tomas711</a>,
+				<a href="https://profiles.wordpress.org/venturavan2/">venturavan2</a>,
+				<a href="https://profiles.wordpress.org/wordpressrene/">wordpressrene</a>.
 			</p>
 
 			<h3 class="wp-people-group"><?php _e( '&#x1f496;With our thanks to these Open Source projects&#x1f496;', 'buddypress' ); ?></h3>

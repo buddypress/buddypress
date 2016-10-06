@@ -76,9 +76,21 @@ Title: Core Developer
 Twitter: hnla
 Favourite Food: Sunday Roast or Curries
 
+Name: Henry Wright
+Title: Community Support
+Twitter: henrywright
+Favourite Food: Broccoli
+
+Name: danbp
+Title: Community Support
+Twitter: danbpfr
+
+Name: shanebp
+Title: Community Support
+
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2015/05/09
+Updated: 2016/10/06
 See: http://humanstxt.org/
