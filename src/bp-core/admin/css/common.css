@@ -21,6 +21,7 @@ TABLE OF CONTENTS:
 3.0 User's Lists
 4.0 Emails - Edit page
 5.0 Tools - BuddyPress
+6.0 Plugins page
 ------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------
@@ -535,4 +536,17 @@ body.post-type-bp-email .categorydiv label {
 	.tools_page_bp-tools .checkbox {
 		padding: 0 0 0 30px;
 	}
+}
+
+
+/*------------------------------------------------------------------------------
+ * 6.0 Plugins page
+ *----------------------------------------------------------------------------*/
+#buddypress-update.not-shiny .update-message {
+	border-left: 0;
+	padding-left: 36px;
+}
+
+#buddypress-update.not-shiny .update-message:before {
+	content: "\f534";
 }
