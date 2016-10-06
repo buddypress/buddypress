@@ -155,7 +155,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 						<?php foreach ( $group_types as $type ) : ?>
 							<div class="checkbox">
-								<label for="<?php printf( 'group-type-%s', $type->name ); ?>"><input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', $type->name ); ?>" value="<?php echo esc_attr( $type->name ); ?>" /> <?php echo esc_html( $type->labels['name'] ); ?>
+								<label for="<?php printf( 'group-type-%s', $type->name ); ?>"><input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', $type->name ); ?>" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( true, ! empty( $type->create_screen_checked ) ); ?> /> <?php echo esc_html( $type->labels['name'] ); ?>
 									<?php
 										if ( ! empty( $type->description ) ) {
 											/* translators: Group type description shown when creating a group. */

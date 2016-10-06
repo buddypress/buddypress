@@ -2116,7 +2116,7 @@ add_action( 'bp_make_spam_user', 'groups_remove_data_for_user' );
  *
  * @since 2.6.0
  * @since 2.7.0 Introduce $has_directory, $show_in_create_screen, $show_in_list, and
- *              $description as $args parameters.
+ *              $description, $create_screen_checked as $args parameters.
  *
  * @param string $group_type Unique string identifier for the group type.
  * @param array  $args {
@@ -2131,6 +2131,10 @@ add_action( 'bp_make_spam_user', 'groups_remove_data_for_user' );
  *                                              this will default to true, unless this is set explicitly to false.
  *     @type string      $description           A short descriptive summary of what the group type is. Currently shown
  *                                              on a group's "Manage > Settings" page when selecting group types.
+ *     @type bool        $create_screen_checked If $show_in_create_screen is true, whether we should have our group type
+ *                                              checkbox checked by default. Handy if you want to imply that the group
+ *                                              type should be enforced, but decision lies with the group creator.
+ *                                              Default: false.
  *     @type array       $labels {
  *         Array of labels to use in various parts of the interface.
  *
@@ -2152,6 +2156,7 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 		'show_in_create_screen' => false,
 		'show_in_list'          => null,
 		'description'           => '',
+		'create_screen_checked' => false,
 		'labels'                => array(),
 	), 'register_group_type' );
 
