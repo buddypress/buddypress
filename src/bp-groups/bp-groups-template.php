@@ -249,7 +249,7 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 
 		if ( $types = bp_groups_get_group_type( $group_id, false ) ) {
 			// Make sure we can show the type in the list.
-			if ( false === $show_all ) {
+			if ( false === $r['show_all'] ) {
 				$types = array_intersect( bp_groups_get_group_types( array( 'show_in_list' => true ) ), $types );
 				if ( empty( $types ) ) {
 					return $retval;

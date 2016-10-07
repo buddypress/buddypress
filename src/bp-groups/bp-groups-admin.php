@@ -1047,7 +1047,7 @@ function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null 
 	}
 
 	$types         = bp_groups_get_group_types( array(), 'objects' );
-	$current_types = bp_groups_get_group_type( $group->id, false );
+	$current_types = (array) bp_groups_get_group_type( $group->id, false );
 	$backend_only  = bp_groups_get_group_types( array( 'show_in_create_screen' => false ) );
 	?>
 
