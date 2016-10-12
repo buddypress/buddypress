@@ -19,15 +19,34 @@ function bp_core_register_common_scripts() {
 	$min = bp_core_get_minified_asset_suffix();
 	$url = buddypress()->plugin_url . 'bp-core/js/';
 
-	/**
-	 * Filters the BuddyPress Core javascript files to register.
+	/*
+	 * Moment.js locale.
 	 *
-	 * @since 2.1.0
+	 * Try to map current WordPress locale to a moment.js locale file for loading.
 	 *
-	 * @param array $value Array of javascript file information to register.
+	 * eg. French (France) locale for WP is fr_FR. Here, we try to find fr-fr.js
+	 *     (this file doesn't exist).
 	 */
-	$scripts = apply_filters( 'bp_core_register_common_scripts', array(
+	$locale = sanitize_file_name( strtolower( get_locale() ) );
+	$locale = str_replace( '_', '-', $locale );
+	if ( file_exists( buddypress()->core->path . "bp-core/js/vendor/moment-js/locale/{$locale}{$min}.js" ) ) {
+		$moment_locale_url = $url . "vendor/moment-js/locale/{$locale}{$min}.js";
 
+	/*
+	 * Try to find the short-form locale.
+	 *
+	 * eg. French (France) locale for WP is fr_FR. Here, we try to find fr.js
+	 *     (this exists).
+	 */
+	} else {
+		$locale = substr( $locale, 0, strpos( $locale, '-' ) );
+		if ( file_exists( buddypress()->core->path . "bp-core/js/vendor/moment-js/locale/{$locale}{$min}.js" ) ) {
+			$moment_locale_url = $url . "vendor/moment-js/locale/{$locale}{$min}.js";
+		}
+	}
+
+	// Set up default scripts to register.
+	$scripts = array(
 		// Legacy.
 		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-widget-members' => array( 'file' => "{$url}widget-members{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
@@ -50,7 +69,29 @@ function bp_core_register_common_scripts() {
 		// Version 2.7.
 		'bp-moment'    => array( 'file' => "{$url}vendor/moment-js/moment{$min}.js", 'dependencies' => array(), 'footer' => true ),
 		'bp-livestamp' => array( 'file' => "{$url}vendor/livestamp{$min}.js", 'dependencies' => array( 'jquery', 'bp-moment' ), 'footer' => true ),
-	) );
+	);
+
+	// Version 2.7 - Add Moment.js locale to our $scripts array if we found one.
+	if ( isset( $moment_locale_url ) ) {
+		$scripts['bp-moment-locale'] = array( 'file' => esc_url( $moment_locale_url ), 'dependencies' => array( 'bp-moment' ), 'footer' => true );
+	}
+
+	/**
+	 * Filters the BuddyPress Core javascript files to register.
+	 *
+	 * Default handles include 'bp-confirm', 'bp-widget-members',
+	 * 'bp-jquery-query', 'bp-jquery-cookie', and 'bp-jquery-scroll-to'.
+	 *
+	 * @since 2.1.0 'jquery-caret', 'jquery-atwho' added.
+	 * @since 2.3.0 'bp-plupload', 'bp-avatar', 'bp-webcam' added.
+	 * @since 2.4.0 'bp-cover-image' added.
+	 * @since 2.7.0 'bp-moment', 'bp-livestamp' added.
+	 *              'bp-moment-locale' is added conditionally if a moment.js locale file is found.
+	 *
+	 * @param array $value Array of javascript file information to register.
+	 */
+	$scripts = apply_filters( 'bp_core_register_common_scripts', $scripts );
+
 
 	$version = bp_get_version();
 	foreach ( $scripts as $id => $script ) {
@@ -489,30 +530,21 @@ function bp_core_enqueue_livestamp() {
 		return;
 	}
 
-	wp_enqueue_script( 'bp-livestamp' );
+	/*
+	 * Only enqueue Moment.js locale if we registered it in
+	 * bp_core_register_common_scripts().
+	 */
+	if ( wp_script_is( 'bp-moment-locale', 'registered' ) ) {
+		wp_enqueue_script( 'bp-moment-locale' );
 
-	// We're only localizing the relative time strings for moment.js since that's all we need for now.
-	wp_localize_script( 'bp-livestamp', 'BP_Moment_i18n', array(
-		'future' => __( 'in %s',         'buddypress' ),
-		'past'   => __( '%s ago',        'buddypress' ),
-		's'      => __( 'a few seconds', 'buddypress' ),
-		'm'      => __( 'a minute',      'buddypress' ),
-		'mm'     => __( '%d minutes',    'buddypress' ),
-		'h'      => __( 'an hour',       'buddypress' ),
-		'hh'     => __( '%d hours',      'buddypress' ),
-		'd'      => __( 'a day',         'buddypress' ),
-		'dd'     => __( '%d days',       'buddypress' ),
-		'M'      => __( 'a month',       'buddypress' ),
-		'MM'     => __( '%d months',     'buddypress' ),
-		'y'      => __( 'a year',        'buddypress' ),
-		'yy'     => __( '%d years',      'buddypress' ),
-	) );
-
-	if ( function_exists( 'wp_add_inline_script' ) ) {
-		wp_add_inline_script ( 'bp-livestamp', bp_core_moment_js_config() );
-	} else {
-		add_action( 'wp_footer', '_bp_core_moment_js_config_footer', 20 );
+		if ( function_exists( 'wp_add_inline_script' ) ) {
+			wp_add_inline_script ( 'bp-livestamp', bp_core_moment_js_config() );
+		} else {
+			add_action( 'wp_footer', '_bp_core_moment_js_config_footer', 20 );
+		}
 	}
+
+	wp_enqueue_script( 'bp-livestamp' );
 }
 
 /**
@@ -523,11 +555,14 @@ function bp_core_enqueue_livestamp() {
  * @return string
  */
 function bp_core_moment_js_config() {
+	// Grab the locale from the enqueued JS.
+	$moment_locale = wp_scripts()->query( 'bp-moment-locale' );
+	$moment_locale = substr( $moment_locale->src, strpos( $moment_locale->src, '/moment-js/locale/' ) + 18 );
+	$moment_locale = str_replace( '.js', '', $moment_locale );
+
 	$inline_js = <<<EOD
 jQuery(function() {
-	moment.locale( 'bp', {
-		relativeTime : BP_Moment_i18n
-	});
+	moment.locale( '{$moment_locale}' );
 });
 EOD;
 
@@ -544,7 +579,7 @@ EOD;
  * @access private
  */
 function _bp_core_moment_js_config_footer() {
-	if ( ! wp_script_is( 'bp-livestamp' ) ) {
+	if ( ! wp_script_is( 'bp-moment-locale' ) ) {
 		return;
 	}
 
