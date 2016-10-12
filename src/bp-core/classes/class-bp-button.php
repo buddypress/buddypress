@@ -94,7 +94,7 @@ class BP_Button {
 	 *
 	 * @var string Default: 'div'.
 	 */
-	public $parent_element = 'div';
+	public $parent_element = '';
 
 	/**
 	 * Element attributes for parent element.
@@ -153,7 +153,7 @@ class BP_Button {
 	 *
 	 * @var string|bool
 	 */
-	public $wrapper = '';
+	public $wrapper = 'div';
 
 	/**
 	 * The DOM class of the button wrapper.
@@ -385,7 +385,7 @@ class BP_Button {
 			}
 
 			// Set element.
-			if ( false === $child ) {
+			if ( false === $child && empty( $r[ "{$parent}_element" ] ) ) {
 				$r[ "{$parent}_element" ] = $r[ $prop ];
 
 			// Set attributes.
