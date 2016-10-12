@@ -154,6 +154,13 @@ TABLE OF CONTENTS:
 	width: 47.6%;
 }
 
+
+.index_page_bp-about .bp-feature code,
+.dashboard_page_bp-about .bp-feature code{
+	font-size: 0.95em;
+	line-height: 1.5;
+}
+
 .index_page_bp-about .bp-feature:nth-of-type(2n),
 .dashboard_page_bp-about .bp-feature:nth-of-type(2n) {
 	margin-right: 0;

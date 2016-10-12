@@ -617,13 +617,17 @@ class BP_Admin {
 					<span class="dashicons dashicons-list-view" aria-hidden="true"></span>
 					<h3 class="headline-title"><?php esc_html_e( 'Groups Query Overhaul', 'buddypress' ); ?></h3>
 
-					<p class="introduction"><?php _e( 'Huge performance improvements on sites using persistent caching.', 'buddypress' ); ?> <?php _e( ' ', 'buddypress' ); ?> <a href="https://bpdevel.wordpress.com/2016/09/19/group-queries-have-been-rewritten-for-bp-2-7/"><?php esc_html_e( 'Learn more about the Groups Query rewrite.', 'buddypress' ); ?></a></p>
+					<p class="introduction"><?php
+						/* translators: %s: URL to the development post about this feature */
+						printf( __( 'Huge performance improvements on sites using persistent caching. <a href="%s">Learn more about the Groups Query rewrite</a>.', 'buddypress' ),
+						'https://bpdevel.wordpress.com/2016/09/19/group-queries-have-been-rewritten-for-bp-2-7/' );
+					?></p>
 				</div>
 			</div>
 
 			<div class="bp-features-section">
 
-				<h3 class="headline-title"><?php esc_html_e( 'For Developers &amp; Site Administrators', 'buddypress' ); ?></h3>
+				<h3 class="headline-title"><?php esc_html_e( 'For Developers &amp; Site Builders', 'buddypress' ); ?></h3>
 
 				<div class="bp-feature">
 					<span class="dashicons dashicons-calendar" aria-hidden="true"></span>
@@ -634,7 +638,27 @@ class BP_Admin {
 				<div class="bp-feature opposite">
 					<span class="dashicons dashicons-groups" aria-hidden="true"></span>
 					<h4 class="feature-title"><?php esc_html_e( 'Group Types Integration in Templates', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Enable developers to show Group Types in the front end as well as control where the group type information is rendered.', 'buddypress' ); ?> <a href="https://codex.buddypress.org/developer/group-types/"><?php esc_html_e( 'Learn how to implement this.', 'buddypress' ); ?></a></p>
+					<p><?php
+						/* translators: %s: URL to the BuddyPress Codex article */
+						printf( __( 'Enable developers to show Group Types on the front end as well as control where the group type information is rendered. <a href="%s">Learn how to implement this feature</a>.', 'buddypress' ),
+						'https://codex.buddypress.org/developer/group-types/' );
+					?></p>
+				</div>
+
+				<div class="bp-feature">
+					<span class="dashicons dashicons-admin-multisite" aria-hidden="true"></span>
+					<h4 class="feature-title"><?php esc_html_e( 'Use the Site Icon as Your Site&#8217;s Profile Photo', 'buddypress' ); ?></h4>
+					<p><?php
+						/* translators: %s: URL to the WordPress Codex article */
+						printf( __( 'BuddyPress sets the site admin&#8217;s profile photo as the default site profile photo on the Sites Directory page. You can now <a href="%s">use the Site Icon introduced in WordPress 4.3</a> instead.', 'buddypress' ),
+						'https://codex.wordpress.org/Creating_a_Favicon#WordPress_Version_4.3_or_later' );
+					?></p>
+				</div>
+
+				<div class="bp-feature opposite">
+					<span class="dashicons dashicons-filter" aria-hidden="true"></span>
+					<h4 class="title"><?php esc_html_e( 'Member Type and Group Type Filters in Users and Groups Admin Screens', 'buddypress' ); ?></h4>
+					<p><?php esc_html_e( 'Easily filter your members and groups by type and set types in bulk on the users and groups list tables in the dashboard.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature">
@@ -646,43 +670,52 @@ class BP_Admin {
 				<div class="bp-feature opposite">
 					<span class="dashicons dashicons-email" aria-hidden="true"></span>
 					<h4 class="feature-title"><?php esc_html_e( 'Links to Unsubscribe from Emails', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Improve user experience by facilitating the removal of any or all subscriptions through the new email tokens and unsuscribe links.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature">
-					<span class="dashicons dashicons-filter" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Member Type and Group Type Filters in Users and Groups admin screens', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Easily filter your members and groups by type and set types in bulk on the users and groups list tables in the dashboard.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature opposite">
-					<span class="dashicons dashicons-universal-access" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Accessibility Updates for the Front-end and Back-end', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Continued improvements for universal acceess help make BuddyPress&#39; back- and front-end screens usable for everyone &#40;and on more devices&#41;.', 'buddypress' ); ?></p>
+					<p><?php esc_html_e( 'Improve user experience by facilitating the removal of any or all subscriptions via new email tokens and unsubscribe links.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature">
 					<span class="dashicons dashicons-admin-page" aria-hidden="true"></span>
 					<h4 class="title"><?php esc_html_e( 'Use WP Page Names for Headings of BP Directory Pages', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Whatever you choose as the title of your Activity, Sites, Members, or Groups directory pages in the back end, is what you\'ll get as the heading in the front end.', 'buddypress' ); ?></p>
+					<p><?php esc_html_e( 'Whatever you choose as the title of your Activity, Sites, Members, or Groups directory pages on the back end, is what you&#8217;ll get as the heading on the front end.', 'buddypress' ); ?></p>
+				</div>
+
+				<div class="bp-feature opposite">
+					<span class="dashicons dashicons-universal-access" aria-hidden="true"></span>
+					<h4 class="title"><?php esc_html_e( 'Accessibility Updates for the Front End and Back End', 'buddypress' ); ?></h4>
+					<p><?php esc_html_e( 'Continued improvements for universal access help make BuddyPress back- and front-end screens usable for everyone (and on more devices).', 'buddypress' ); ?></p>
+				</div>
+
+				<div class="bp-feature">
+					<span class="dashicons dashicons-screenoptions" aria-hidden="true"></span>
+					<h4 class="title"><?php
+						/* translators: %s: BP_Button */
+						printf( __( 'Refactored %s Class to Accept New Arguments', 'buddypress' ), '<code>BP_Button</code>' );
+					?></h4>
+					<p><?php esc_html_e( 'Provides developers with improved syntax and more control over the rendering of buttons.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature opposite">
 					<span class="dashicons dashicons-image-filter" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Improvements to a Single Group\'s Management Screens', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Improved markup, new modular group management templates, and a new member search form are just some of the enhancements added to the single group admin screens.', 'buddypress' ); ?></p>
+					<h4 class="title"><?php esc_html_e( 'Improvements to a Single Group&#8217;s Management Screens', 'buddypress' ); ?></h4>
+					<p><?php esc_html_e( 'Improved markup, new modular group management templates, and a new member search form are just some of the enhancements added to the single group admin screens.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature">
 					<span class="dashicons  dashicons-groups" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Support for Querying for Groups by New Column "parent_id"', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Query support for hierarchical groups which allows developers to extend this with their own plugins to add custom front-end functionality as needed.', 'buddypress' ); ?></p>
+					<h4 class="title"><?php
+						/* translators: %s: parent_id */
+						printf( __( 'Support for Querying for Groups by New Column %s', 'buddypress' ), '<code>parent_id</code>' );
+					?></h4>
+					<p><?php esc_html_e( 'Query support for hierarchical groups makes it much easier for developers to add custom front-end functionality.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature opposite">
 					<span class="dashicons dashicons-chart-bar" aria-hidden="true"></span>
 					<h4 class="title"><?php esc_html_e( 'Many, Many Performance Improvements', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Improve performance by removing extra database queries, adding new cache calls, and removing the number of loops in "bp_get_user_groups()".', 'buddypress' ); ?></p>
+					<p><?php
+						/* translators: %s: bp_get_user_groups() */
+						printf( __( 'Improved performance by removing extra database queries, adding new cache calls, and removing the number of loops in %s.', 'buddypress' ), '<code>bp_get_user_groups()</code>' );
+					?></p>
 				</div>
 
 
@@ -691,7 +724,11 @@ class BP_Admin {
 
 			<div class="bp-changelog-section">
 				<h3 class="changelog-title"><?php esc_html_e( 'And so much more!', 'buddypress' ); ?></h3>
-				<p class="bp-changelog-url"><a href="https://codex.buddypress.org/version-2-7-0/"><?php esc_html_e( 'Changelog for BuddyPress 2.7.0.', 'buddypress' ); ?></a></p>
+				<p class="bp-changelog-url"><?php
+					/* translators: %s: URL to the BuddyPress Codex article */
+					printf( __( '<a href="%s">Changelog for BuddyPress 2.7.</a>', 'buddypress' ),
+					'https://codex.buddypress.org/releases/version-2-7-0/' );
+				?></p>
 
 			</div>
 
@@ -841,7 +878,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/henrywright/">Henry Wright (henry.wright)</a>,
 				<a href="https://profiles.wordpress.org/herbovec/">herbovec</a>,
 				<a href="https://profiles.wordpress.org/hnla/">Hugo (hnla)</a>,
-				<a href="https://profiles.wordpress.org/jdgrimes/">J.D. Grimes jdgrimes</a>,
+				<a href="https://profiles.wordpress.org/jdgrimes/">J.D. Grimes (jdgrimes)</a>,
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
 				<a href="https://profiles.wordpress.org/dunhakdis/">Joseph G. (dunhakdis)</a>,
 				<a href="https://profiles.wordpress.org/kitsunesolar/">kitsunesolar</a>,
