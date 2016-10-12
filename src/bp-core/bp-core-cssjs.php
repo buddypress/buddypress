@@ -48,7 +48,7 @@ function bp_core_register_common_scripts() {
 		'bp-cover-image' => array( 'file' => "{$url}cover-image{$min}.js", 'dependencies' => array(), 'footer' => true ),
 
 		// Version 2.7.
-		'bp-moment'    => array( 'file' => "{$url}vendor/moment{$min}.js", 'dependencies' => array(), 'footer' => true ),
+		'bp-moment'    => array( 'file' => "{$url}vendor/moment-js/moment{$min}.js", 'dependencies' => array(), 'footer' => true ),
 		'bp-livestamp' => array( 'file' => "{$url}vendor/livestamp{$min}.js", 'dependencies' => array( 'jquery', 'bp-moment' ), 'footer' => true ),
 	) );
 
