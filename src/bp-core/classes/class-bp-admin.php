@@ -888,6 +888,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/mercime/">mercime</a>,
 				<a href="https://profiles.wordpress.org/tw2113/">Michael Beckwith (tw2113)</a>,
 				<a href="https://profiles.wordpress.org/michaelbeil/">Michael Beil (michaelbeil)</a>,
+				<a href="https://profiles.wordpress.org/swissspidy/">Pascal Birchler (swissspidy)</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
