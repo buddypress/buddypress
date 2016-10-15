@@ -1384,9 +1384,10 @@ add_action( 'wp_ajax_bp_avatar_set', 'bp_avatar_ajax_set' );
 function bp_core_fetch_avatar_filter( $avatar, $user, $size, $default, $alt = '', $args = array() ) {
 	global $pagenow;
 
-	// Do not filter if inside WordPress options page.
-	if ( 'options-discussion.php' == $pagenow )
+	// Don't filter if inside WordPress options page and force_default is true.
+	if ( 'options-discussion.php' === $pagenow && true === $args['force_default'] ) {
 		return $avatar;
+	}
 
 	// If passed an object, assume $user->user_id.
 	if ( is_object( $user ) ) {
