@@ -2386,7 +2386,7 @@ function bp_groups_get_group_type( $group_id, $single = true ) {
 	 *
 	 * @param string|array $type     Group type.
 	 * @param int          $group_id ID of the group.
-	 * @param bool         $single   Whether to return a single type srting, or an array.
+	 * @param bool         $single   Whether to return a single type string, or an array.
 	 */
 	return apply_filters( 'bp_groups_get_group_type', $type, $group_id, $single );
 }
@@ -2431,7 +2431,7 @@ function bp_groups_remove_group_type( $group_id, $group_type ) {
  * @since 2.6.0
  *
  * @param  int    $group_id   ID of the group.
- * @param  srting $group_type Group type.
+ * @param  string $group_type Group type.
  * @return bool   Whether the group has the give group type.
  */
 function bp_groups_has_group_type( $group_id, $group_type ) {
