@@ -876,6 +876,11 @@ jq(document).ready( function() {
 
 	/* When a navigation tab is clicked - e.g. | All Groups | My Groups | */
 	jq('div.item-list-tabs').on( 'click', function(event) {
+		// If on a directory page with a type filter, add no-ajax class.
+		if ( jq( 'body' ).hasClass( 'type' ) && jq( 'body' ).hasClass( 'directory' ) ) {
+			jq(this).addClass( 'no-ajax' );
+		}
+
 		if ( jq(this).hasClass('no-ajax')  || jq( event.target ).hasClass('no-ajax') )  {
 			return;
 		}

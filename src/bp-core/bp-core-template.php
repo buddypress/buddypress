@@ -3312,6 +3312,10 @@ function bp_the_body_class() {
 			if ( bp_is_user_activity() ) {
 				$bp_classes[] = 'my-activity';
 			}
+		} else {
+			if ( bp_get_current_member_type() ) {
+				$bp_classes[] = 'type';
+			}
 		}
 
 		if ( bp_is_my_profile() ) {
