@@ -428,7 +428,7 @@ class BP_Groups_Group {
 				return $this->get_user_has_access();
 
 			default :
-			break;
+				return isset( $this->{$key} ) ? $this->{$key} : null;
 		}
 	}
 
@@ -457,7 +457,7 @@ class BP_Groups_Group {
 				return true;
 
 			default :
-				return false;
+				return isset( $this->{$key} );
 		}
 	}
 
@@ -475,6 +475,9 @@ class BP_Groups_Group {
 		switch ( $key ) {
 			case 'user_has_access' :
 				return $this->user_has_access = (bool) $value;
+
+			default :
+				$this->{$key} = $value;
 		}
 	}
 
