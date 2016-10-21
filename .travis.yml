@@ -14,7 +14,6 @@ cache:
 #    - /tmp/wordpress/src/wp-content/plugins/buddypress/node_modules
 
 php:
-  - 5.2
   - 5.3
   - 5.4
   - 5.5
