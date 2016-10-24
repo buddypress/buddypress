@@ -575,6 +575,13 @@ function bp_group_class( $classes = array() ) {
 		// Group type - public, private, hidden.
 		$classes[] = sanitize_key( $groups_template->group->status );
 
+		// Add current group types.
+		if ( $group_types = bp_groups_get_group_type( bp_get_group_id(), false ) ) {
+			foreach ( $group_types as $group_type ) {
+				$classes[] = sprintf( 'group-type-%s', esc_attr( $group_type ) );
+			}
+		}
+
 		// User's group role.
 		if ( bp_is_user_active() ) {
 
