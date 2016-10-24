@@ -3298,6 +3298,13 @@ function bp_the_body_class() {
 
 		if ( bp_is_user() ) {
 			$bp_classes[] = 'bp-user';
+
+			// Add current user member types.
+			if ( $member_types = bp_get_member_type( bp_displayed_user_id(), false ) ) {
+				foreach( $member_types as $member_type ) {
+					$bp_classes[] = sprintf( 'member-type-%s', esc_attr( $member_type ) );
+				}
+			}
 		}
 
 		if ( ! bp_is_directory() ) {
@@ -3388,6 +3395,13 @@ function bp_the_body_class() {
 
 		if ( bp_is_group() ) {
 			$bp_classes[] = 'group-' . groups_get_current_group()->slug;
+
+			// Add current group types.
+			if ( $group_types = bp_groups_get_group_type( bp_get_current_group_id(), false ) ) {
+				foreach ( $group_types as $group_type ) {
+					$bp_classes[] = sprintf( 'group-type-%s', esc_attr( $group_type ) );
+				}
+			}
 		}
 
 		if ( bp_is_group_leave() ) {
