@@ -348,7 +348,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		$settings = array();
 		foreach ( $defaults as $key => $value ) {
 			$saved = bp_xprofile_get_meta( $field_id, 'field', $key, true );
-			if ( false !== $saved ) {
+
+			if ( $saved ) {
 				$settings[ $key ] = $saved;
 			} else {
 				$settings[ $key ] = $value;
