@@ -667,4 +667,48 @@ Bar!';
 		$child = groups_get_group( array( 'group_id' => $g3 ) );
 		$this->assertEquals( $g1, $child->parent_id );
 	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_integer() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( $g1 );
+
+		$this->assertEquals( $g1, $group->id );
+	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_numeric() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( (string) $g1 );
+
+		$this->assertEquals( $g1, $group->id );
+	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_array() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( array( 'group_id' => $g1 ) );
+
+		$this->assertEquals( $g1, $group->id );
+	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_query_string() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( 'group_id=' . $g1 );
+
+		$this->assertEquals( $g1, $group->id );
+	}
 }

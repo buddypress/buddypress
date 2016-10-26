@@ -43,9 +43,18 @@ function bp_groups_has_directory() {
  * @return BP_Groups_Group $group The group object.
  */
 function groups_get_group( $group_id ) {
-	// Backward compatibilty.
-	if ( is_array( $group_id ) && isset( $group_id['group_id'] ) ) {
-		$group_id = $group_id['group_id'];
+	/*
+	 * Backward compatibilty.
+	 * Old-style arguments take the form of an array or a query string.
+	 */
+	if ( ! is_numeric( $group_id ) ) {
+		$r = wp_parse_args( $group_id, array(
+			'group_id'        => false,
+			'load_users'      => false,
+			'populate_extras' => false,
+		) );
+
+		$group_id = $r['group_id'];
 	}
 
 	$group = new BP_Groups_Group( $group_id );
