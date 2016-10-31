@@ -171,7 +171,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u ) );
 		wp_cache_delete( 'bp_user_fullname_' . $u, 'bp' );
-		wp_cache_delete( "{$u}:1", 'bp_xprofile_data', 'bp' );
+		wp_cache_delete( "{$u}:1", 'bp_xprofile_data' );
 
 		$this->assertSame( '', xprofile_get_field_data( 1, $u ) );
 		$this->assertSame( 'Foo Foo', bp_core_get_user_displayname( $u ) );
@@ -224,7 +224,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$bp = buddypress();
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u2 ) );
 		wp_cache_delete( 'bp_user_fullname_' . $u2, 'bp' );
-		wp_cache_delete( 1, 'bp_xprofile_data_' . $u2, 'bp' );
+		wp_cache_delete( "{$u2}:1", 'bp_xprofile_data' );
 
 		$expected = array(
 			$u1 => 'Foo',
