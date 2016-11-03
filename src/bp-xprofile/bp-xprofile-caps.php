@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	switch ( $cap ) {
 		case 'bp_xprofile_change_field_visibility' :
-			$caps = array( 'exist' ); // Must allow for logged-out users during registration.
+			$caps = array( 'exist' );
 
 			// You may pass args manually: $field_id, $profile_user_id.
 			$field_id        = ! empty( $args[0] ) ? (int) $args[0] : bp_get_the_profile_field_id();
@@ -65,3 +65,22 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 	return apply_filters( 'bp_xprofile_map_meta_caps', $caps, $cap, $user_id, $args );
 }
 add_filter( 'bp_map_meta_caps', 'bp_xprofile_map_meta_caps', 10, 4 );
+
+/**
+ * Grant the 'bp_xprofile_change_field_visibility' cap to logged-out users.
+ *
+ * @since 2.7.1
+ *
+ * @param bool   $user_can
+ * @param int    $user_id
+ * @param string $capability
+ * @return bool
+ */
+function bp_xprofile_grant_bp_xprofile_change_field_visibility_for_logged_out_users( $user_can, $user_id, $capability ) {
+	if ( 'bp_xprofile_change_field_visibility' === $capability && 0 === $user_id ) {
+		$user_can = true;
+	}
+
+	return $user_can;
+}
+add_filter( 'bp_user_can', 'bp_xprofile_grant_bp_xprofile_change_field_visibility_for_logged_out_users', 10, 3 );
