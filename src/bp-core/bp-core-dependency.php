@@ -207,27 +207,12 @@ function bp_setup_cache_groups() {
 /**
  * Set up the currently logged-in user.
  *
- * We white-list the WordPress Customizer which purposely loads the user early.
- * If the current user is being setup before the "init" action has fired,
- * strange (and difficult to debug) role/capability issues will occur.
- *
  * @since 1.7.0
  *
  * @link https://buddypress.trac.wordpress.org/ticket/6046
  * @link https://core.trac.wordpress.org/ticket/24169
  */
 function bp_setup_current_user() {
-	$skip_warning = (
-		( isset( $_REQUEST['wp_customize'] ) && 'on' === $_REQUEST['wp_customize'] ) ||
-		( is_admin() && 'customize.php' === basename( $_SERVER['PHP_SELF'] ) )
-	);
-
-	if ( ! $skip_warning && ! did_action( 'after_setup_theme' ) ) {
-		$e = new Exception;
-		$trace = $e->getTraceAsString();
-
-		_doing_it_wrong( __FUNCTION__, __( 'The current user is being initialized without using $wp->init().', 'buddypress' ) . "\n===\nTrace:\n" . substr( $trace, strpos( $trace, '#6' ) ) . "\n===\n", '1.7' );
-	}
 
 	/**
 	 * Fires to set up the current user setup process.
