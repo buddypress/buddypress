@@ -538,7 +538,7 @@ function bp_update_to_2_7() {
 		}
 	}
 
-	// Load deprecated code for existing installs.
+	// Do not ignore deprecated code for existing installs.
 	bp_add_option( '_bp_ignore_deprecated_code', false );
 }
 

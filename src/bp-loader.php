@@ -306,11 +306,6 @@ class BuddyPress {
 			define( 'BP_ROOT_BLOG', $root_blog_id );
 		}
 
-		// Whether to refrain from loading deprecated functions
-		if ( ! defined( 'BP_IGNORE_DEPRECATED' ) ) {
-			define( 'BP_IGNORE_DEPRECATED', true );
-		}
-
 		// The search slug has to be defined nice and early because of the way
 		// search requests are loaded
 		//
@@ -336,14 +331,12 @@ class BuddyPress {
 		/** Loading ***********************************************************/
 
 		/**
-		 * Whether to load deprecated code or not.
+		 * Should deprecated code be loaded?
 		 *
-		 * @since 2.0.0
-		 * @since 2.7.0 Defaults to false (do not load deprecated code) for new installs.
-		 *
-		 * @const constant BP_IGNORE_DEPRECATED Whether or not to ignore deprecated functionality.
+		 * @since 2.0.0 Defaults to false always
+		 * @since 2.8.0 Defaults to true on upgrades, false for new installs.
 		 */
-		$this->load_deprecated = ! apply_filters( 'bp_ignore_deprecated', BP_IGNORE_DEPRECATED );
+		$this->load_deprecated = ! bp_get_option( '_bp_ignore_deprecated_code', true );
 
 		/** Toolbar ***********************************************************/
 
@@ -457,6 +450,11 @@ class BuddyPress {
 		if ( ! defined( 'BP_DB_VERSION' ) ) {
 			define( 'BP_DB_VERSION', $this->db_version );
 		}
+
+		// Define if deprecated functions should be ignored
+		if ( ! defined( 'BP_IGNORE_DEPRECATED' ) ) {
+			define( 'BP_IGNORE_DEPRECATED', true );
+		}
 	}
 
 	/**
@@ -509,8 +507,8 @@ class BuddyPress {
 			require( $this->plugin_dir . 'bp-core/bp-core-classes.php' );
 		}
 
-		// Skip or load deprecated content
-		if ( $this->load_deprecated || ! bp_get_option( '_bp_ignore_deprecated_code' ) ) {
+		// Maybe load deprecated functionality
+		if ( true === $this->load_deprecated ) {
 			require( $this->plugin_dir . 'bp-core/deprecated/1.2.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );

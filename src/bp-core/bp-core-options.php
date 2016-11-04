@@ -102,10 +102,10 @@ function bp_get_default_options() {
 
 		/* Legacy *********************************************/
 
-		// Whether to register the bp-default themes directory.
+		// Do not register the bp-default themes directory.
 		'_bp_retain_bp_default'                => false,
 
-		// Whether to load deprecated code.
+		// Ignore deprecated code.
 		'_bp_ignore_deprecated_code'           => true,
 
 		/* Widgets **************************************************/
