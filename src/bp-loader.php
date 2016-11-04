@@ -336,7 +336,7 @@ class BuddyPress {
 		 * @since 2.0.0 Defaults to false always
 		 * @since 2.8.0 Defaults to true on upgrades, false for new installs.
 		 */
-		$this->load_deprecated = ! bp_get_option( '_bp_ignore_deprecated_code', true );
+		$this->load_deprecated = false;
 
 		/** Toolbar ***********************************************************/
 
@@ -507,8 +507,8 @@ class BuddyPress {
 			require( $this->plugin_dir . 'bp-core/bp-core-classes.php' );
 		}
 
-		// Maybe load deprecated functionality
-		if ( true === $this->load_deprecated ) {
+		// Maybe load deprecated functionality (this double negative is proof positive!)
+		if ( ! bp_get_option( '_bp_ignore_deprecated_code', ! $this->load_deprecated ) ) {
 			require( $this->plugin_dir . 'bp-core/deprecated/1.2.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/1.5.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/1.6.php' );
