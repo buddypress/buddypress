@@ -207,7 +207,7 @@ function bp_field_has_data() {
 	/**
 	 * Filters whether or not the XProfile field has data to display.
 	 *
-	 * @since 2.7.0
+	 * @since 2.8.0
 	 *
 	 * @param bool   $value            Whether or not there is data to display.
 	 * @param object $profile_template Profile template object.
@@ -232,7 +232,7 @@ function bp_field_has_public_data() {
 	/**
 	 * Filters whether or not the XProfile field has public data to display.
 	 *
-	 * @since 2.7.0
+	 * @since 2.8.0
 	 *
 	 * @param bool   $value            Whether or not there is public data to display.
 	 * @param object $profile_template Profile template object.
