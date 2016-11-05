@@ -203,7 +203,18 @@ function bp_field_css_class( $class = false ) {
  */
 function bp_field_has_data() {
 	global $profile_template;
-	return $profile_template->field_has_data;
+
+	/**
+	 * Filters whether or not the XProfile field has data to display.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param bool   $value            Whether or not there is data to display.
+	 * @param object $profile_template Profile template object.
+	 * @param string $value            Profile field being displayed.
+	 * @param string $value            Profile field ID being displayed.
+	 */
+	return apply_filters( 'bp_field_has_data', $profile_template->field_has_data, $profile_template, $profile_template->field, $profile_template->field->id );
 }
 
 /**
@@ -218,11 +229,17 @@ function bp_field_has_data() {
 function bp_field_has_public_data() {
 	global $profile_template;
 
-	if ( ! empty( $profile_template->field_has_data ) ) {
-		return true;
-	}
-
-	return false;
+	/**
+	 * Filters whether or not the XProfile field has public data to display.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param bool   $value            Whether or not there is public data to display.
+	 * @param object $profile_template Profile template object.
+	 * @param string $value            Profile field being displayed.
+	 * @param string $value            Profile field ID being displayed.
+	 */
+	return apply_filters( 'bp_field_has_public_data', ( ! empty( $profile_template->field_has_data ) ), $profile_template, $profile_template->field, $profile_template->field->id );
 }
 
 /**
