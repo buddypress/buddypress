@@ -75,7 +75,24 @@ class BP_Blogs_Blog {
 	public function save() {
 		global $wpdb;
 
+		/**
+		 * Filters the blog user ID before save.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $value User ID.
+		 * @param int $value Site ID.
+		 */
 		$this->user_id = apply_filters( 'bp_blogs_blog_user_id_before_save', $this->user_id, $this->id );
+
+		/**
+		 * Filters the blog blog ID before save.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $value Blog ID.
+		 * @param int $value Site ID.
+		 */
 		$this->blog_id = apply_filters( 'bp_blogs_blog_id_before_save', $this->blog_id, $this->id );
 
 		/**

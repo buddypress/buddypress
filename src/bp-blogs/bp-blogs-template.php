@@ -645,7 +645,7 @@ function bp_blog_last_active( $args = array() ) {
 		/**
 		 * Filters the last active date of the current blog in the loop.
 		 *
-		 * @since
+		 * @since 1.2.0
 		 *
 		 * @param string $last_activity Last active date.
 		 * @param array  $r             Array of parsed args used to determine formatting.
@@ -1401,6 +1401,13 @@ function bp_blog_create_nav_item() {
 
 		$output = '<li id="blog-create-nav">' . $create_blog_button . '</li>';
 
+		/**
+		 * Filters the Create A Site nav item output.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $output Nav item output.
+		 */
 		return apply_filters( 'bp_get_blog_create_nav_item', $output );
 	}
 

@@ -624,6 +624,15 @@ function bp_blogs_record_activity_on_site_creation( $recorded_blog, $is_private,
 	if ( ! $is_private && ! $no_activity && bp_blogs_is_blog_trackable( $recorded_blog->blog_id, $recorded_blog->user_id ) ) {
 		bp_blogs_record_activity( array(
 			'user_id'      => $recorded_blog->user_id,
+
+			/**
+			 * Filters the activity created blog primary link.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param string $value Blog primary link.
+			 * @param int    $value Blog ID.
+			 */
 			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', bp_blogs_get_blogmeta( $recorded_blog->blog_id, 'url' ), $recorded_blog->blog_id ),
 			'type'         => 'new_blog',
 			'item_id'      => $recorded_blog->blog_id
