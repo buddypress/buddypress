@@ -1001,7 +1001,7 @@ function bp_member_last_active( $args = array() ) {
  *
  * @since 1.2.0
  *
- * @param array|string $args Array of arguments for latest update.
+ * @param array|string $args {@see bp_get_member_latest_update()}.
  */
 function bp_member_latest_update( $args = '' ) {
 	echo bp_get_member_latest_update( $args );
@@ -1524,7 +1524,7 @@ function bp_displayed_user_use_cover_image_header() {
  *
  * @see bp_get_loggedin_user_avatar() for a description of params.
  *
- * @param array|string $args Array of arguments for logged in user avatar.
+ * @param array|string $args {@see bp_get_loggedin_user_avatar()}.
  */
 function bp_loggedin_user_avatar( $args = '' ) {
 	echo bp_get_loggedin_user_avatar( $args );
@@ -1579,7 +1579,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
  *
  * @see bp_get_displayed_user_avatar() for a description of params.
  *
- * @param array|string $args Array of arguments for displayed user avatar.
+ * @param array|string $args {@see bp_get_displayed_user_avatar()}.
  */
 function bp_displayed_user_avatar( $args = '' ) {
 	echo bp_get_displayed_user_avatar( $args );

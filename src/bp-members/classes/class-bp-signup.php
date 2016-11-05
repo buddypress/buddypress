@@ -122,7 +122,17 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $args the argument to retrieve desired signups.
+	 * @param array $args {
+	 *     The argument to retrieve desired signups.
+	 *     @type int         $offset         Offset amount. Default 0.
+	 *     @type int         $number         How many to fetch. Default 1.
+	 *     @type bool|string $usersearch     Whether or not to search for a username. Default false.
+	 *     @type string      $orderby        Order By parameter. Default 'signup_id'.
+	 *     @type string      $order          Order direction. Default 'DESC'.
+	 *     @type bool        $include        Whether or not to include more specific query params.
+	 *     @type string      $activation_key Activation key to search for.
+	 *     @type string      $user_login     Specific user login to return.
+	 * }
 	 * @return array {
 	 *     @type array $signups Located signups.
 	 *     @type int   $total   Total number of signups matching params.
@@ -261,6 +271,7 @@ class BP_Signup {
 		$total_signups = $wpdb->get_var( apply_filters( 'bp_members_signups_count_query', join( ' ', $sql ), $sql, $args, $r ) );
 
 		return array( 'signups' => $paged_signups, 'total' => $total_signups );
+
 	}
 
 	/**
@@ -268,9 +279,18 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $args Array of arguments for signup addition.
-	 * @return int|bool ID of newly created signup on success, false on
-	 *                  failure.
+	 * @param array $args {
+	 *     Array of arguments for signup addition.
+	 *     @type string     $domain         New user's domain.
+	 *     @type string     $path           New user's path.
+	 *     @type string     $title          New user's title.
+	 *     @type string     $user_login     New user's user_login.
+	 *     @type string     $user_email     New user's email address.
+	 *     @type int|string $registered     Time the user registered.
+	 *     @type string     $activation_key New user's activation key.
+	 *     @type string     $meta           New user's user meta.
+	 * }
+	 * @return int|bool ID of newly created signup on success, false on failure.
 	 */
 	public static function add( $args = array() ) {
 		global $wpdb;
@@ -489,7 +509,11 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $args Array of arguments for the signup update.
+	 * @param array $args {
+	 *     Array of arguments for the signup update.
+	 *     @type int $signup_id User signup ID.
+	 *     @type array $meta Meta to update.
+	 * }
 	 * @return int The signup id.
 	 */
 	public static function update( $args = array() ) {
