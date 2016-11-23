@@ -542,9 +542,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 				 * @param string $value             Subdirectory where the requested avatar should be found.
 				 * @param string $html_css_id       ID attribute for avatar.
 				 * @param string $html_width        Width attribute for avatar.
-				 * @param string $html_height       Height attribtue for avatar.
+				 * @param string $html_height       Height attribute for avatar.
 				 * @param string $avatar_folder_url Avatar URL path.
-				 * @param string $avatar_folder_dir Avatar dir path.
+				 * @param string $avatar_folder_dir Avatar DIR path.
 				 */
 				return apply_filters( 'bp_core_fetch_avatar', '<img src="' . $avatar_url . '"' . $html_class . $html_css_id  . $html_width . $html_height . $html_alt . $html_title . $extra_attr . ' />', $params, $params['item_id'], $params['avatar_dir'], $html_css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
 
