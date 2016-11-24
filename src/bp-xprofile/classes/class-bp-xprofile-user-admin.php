@@ -397,7 +397,7 @@ class BP_XProfile_User_Admin {
 
 						<?php if ( $can_change_visibility ) : ?>
 
-							<a href="#" class="button visibility-toggle-link"><?php esc_html_e( 'Change', 'buddypress' ); ?></a>
+							<button type="button" class="button visibility-toggle-link"><?php esc_html_e( 'Change', 'buddypress' ); ?></button>
 
 						<?php endif; ?>
 					</p>
@@ -411,7 +411,7 @@ class BP_XProfile_User_Admin {
 								<?php bp_profile_visibility_radio_buttons(); ?>
 
 							</fieldset>
-							<a class="button field-visibility-settings-close" href="#"><?php esc_html_e( 'Close', 'buddypress' ); ?></a>
+							<button type="button" class="button field-visibility-settings-close"><?php esc_html_e( 'Close', 'buddypress' ); ?></button>
 						</div>
 
 					<?php endif; ?>
