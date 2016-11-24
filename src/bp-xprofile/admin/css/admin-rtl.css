@@ -96,8 +96,8 @@
 	.bp-option a.delete,
 	.field-wrapper a.deletion,
 	.tab-toolbar a.deletion {
-		color: #f00;
-		border-bottom: 1px solid #f00;
+		color: #a00;
+		border-bottom: 1px solid #a00;
 		text-decoration: none;
 		padding: 0;
 	}
