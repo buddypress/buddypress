@@ -19,7 +19,7 @@ Enable registered members to create profiles, have private conversations, make c
 
 = Extensions =
 
-BuddyPress has an ever-increasing array of extended features developed by an active and thriving plugin development community, with hundreds of free-and-open BuddyPress-compatible plugins available. We list them on both <a href="https://buddypress.org/extend/recommended-plugins/">our plugin directory</a> and <a href="https://wordpress.org/plugins/search.php?q=buddypress">WordPress.org</a>. Any plugin can be conveniently installed using the plugin installer in your WordPress Dashboard.
+BuddyPress has an ever-increasing array of extended features developed by an active and thriving plugin development community, with hundreds of free-and-open BuddyPress-compatible plugins available at <a href="https://wordpress.org/plugins/search.php?q=buddypress">WordPress.org</a>. Any plugin can be conveniently installed using the plugin installer in your WordPress Dashboard.
 
 = More Information =
 
@@ -80,8 +80,6 @@ Yes! If your WordPress installation has multisite enabled, BuddyPress will suppo
 = Where can I get support? =
 
 Our community provides free support at <a href="https://buddypress.org/support/">https://buddypress.org/support/</a>.
-
-For dedicated consultations, see our <a href="https://buddypress.org/consulting/">unofficial list</a> of freelancers, contractors, and agencies offering BuddyPress services.
 
 = Where can I find documentation? =
 
