@@ -121,7 +121,7 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 = 2.7.1 =
 See: https://codex.buddypress.org/releases/version-2-7-1/
 
-= 2.7.0 = 
+= 2.7.0 =
 
 See: https://codex.buddypress.org/releases/version-2-7-0/
 
@@ -142,7 +142,7 @@ See: https://codex.buddypress.org/releases/version-2-6-0/
 = 2.7.1 =
 See: https://codex.buddypress.org/releases/version-2-7-1/
 
-= 2.7.0 = 
+= 2.7.0 =
 See: https://codex.buddypress.org/releases/version-2-7-0/
 
 = 2.6.2 =
