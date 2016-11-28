@@ -22,8 +22,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-		remove_filter( 'bp_attachment_upload_overrides',     array( $this, 'filter_overrides' ),       10, 1 );
-		remove_filter( 'upload_dir',                         array( $this, 'filter_upload_dir' ),      20, 1 );
+		remove_filter( 'bp_attachment_upload_overrides',     array( $this, 'filter_overrides' ),       10 );
+		remove_filter( 'upload_dir',                         array( $this, 'filter_upload_dir' ),      20 );
 		add_filter( 'bp_attachments_cover_image_upload_dir', array( $this, 'filter_cover_image_dir' ), 10, 2 );
 		$this->upload_results = array();
 		$this->image_file = '';
@@ -489,7 +489,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$attachment_class->upload( $_FILES );
 
 		// Remove the filter used to fake uploads
-		remove_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20, 1 );
+		remove_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20 );
 
 		$this->assertSame( $attachment_class->original_upload_dir, wp_upload_dir() );
 

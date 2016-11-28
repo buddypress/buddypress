@@ -2837,7 +2837,7 @@ function bp_group_admin_tabs( $group = false ) {
 
 	bp_get_options_nav( $group->slug . '_manage' );
 
-	remove_filter( "bp_get_options_nav_{$css_id}", 'bp_group_admin_tabs_backcompat', 10, 3 );
+	remove_filter( "bp_get_options_nav_{$css_id}", 'bp_group_admin_tabs_backcompat', 10 );
 }
 
 /**

@@ -223,7 +223,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		if ( isset( $this->temp_has_bp_moderate[ $user_id ] ) ) {
 			unset( $this->temp_has_bp_moderate[ $user_id ] );
 		}
-		remove_filter( 'bp_current_user_can', array( $this, 'grant_bp_moderate_cb' ), 10, 2 );
+		remove_filter( 'bp_current_user_can', array( $this, 'grant_bp_moderate_cb' ), 10 );
 	}
 
 	public function grant_bp_moderate_cb( $retval, $capability ) {

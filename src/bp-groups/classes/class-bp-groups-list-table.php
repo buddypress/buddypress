@@ -722,7 +722,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			'label'          => '',
 			'show_all'       => true
 		) );
-		remove_filter( 'bp_get_group_type_directory_permalink', array( $this, 'group_type_permalink_use_admin_filter' ), 10, 2 );
+		remove_filter( 'bp_get_group_type_directory_permalink', array( $this, 'group_type_permalink_use_admin_filter' ), 10 );
 
 		/**
 		 * Filters the markup for the Group Type column.

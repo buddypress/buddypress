@@ -273,11 +273,11 @@ abstract class BP_Attachment {
 
 		// Restore WordPress Uploads data.
 		if ( ! empty( $upload_dir_filter ) ) {
-			remove_filter( 'upload_dir', $upload_dir_filter, 10, $this->upload_dir_filter_args );
+			remove_filter( 'upload_dir', $upload_dir_filter, 10 );
 		}
 
 		// Remove the pre WordPress 4.0 static filter.
-		remove_filter( 'wp_handle_upload_prefilter', array( $this, 'validate_upload' ), 10, 1 );
+		remove_filter( 'wp_handle_upload_prefilter', array( $this, 'validate_upload' ), 10 );
 
 		// Finally return the uploaded file or the error.
 		return $this->attachment;

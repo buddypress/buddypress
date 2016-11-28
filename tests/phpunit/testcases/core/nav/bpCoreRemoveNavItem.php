@@ -92,7 +92,7 @@ class BP_Tests_Core_Nav_BpCoreRemoveNavItem extends BP_UnitTestCase {
 			'screen_function' => $expected,
 		), 'foo' );
 
-		remove_filter( 'bp_is_active', array( $this, 'foo_is_active' ), 10, 2 );
+		remove_filter( 'bp_is_active', array( $this, 'foo_is_active' ), 10 );
 
 		$this->assertNotEmpty( $bp->foo->nav->get_primary( array( 'slug' => 'foo' ), false ) );
 

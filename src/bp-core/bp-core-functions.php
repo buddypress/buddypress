@@ -2372,7 +2372,7 @@ function bp_remove_adjacent_posts_rel_link() {
 		return;
 	}
 
-	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
 }
 add_action( 'bp_init', 'bp_remove_adjacent_posts_rel_link' );
 

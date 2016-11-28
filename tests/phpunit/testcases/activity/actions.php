@@ -81,7 +81,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		) );
 
 		// Temporarily remove post type activity hook so activity item isn't created.
-		remove_action( 'transition_post_status', 'bp_activity_catch_transition_post_type_status', 10, 3 );
+		remove_action( 'transition_post_status', 'bp_activity_catch_transition_post_type_status', 10 );
 
 		// Create the initial post.
 		$p = $this->factory->post->create( array(

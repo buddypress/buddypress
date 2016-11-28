@@ -1141,7 +1141,7 @@ function bp_core_admin_maybe_disable_update_row_for_php53_requirement() {
 
 	$loader = basename( constant( 'BP_PLUGIN_DIR' ) ) . '/bp-loader.php';
 
-	remove_action( "after_plugin_row_{$loader}", 'wp_plugin_update_row', 10, 2 );
+	remove_action( "after_plugin_row_{$loader}", 'wp_plugin_update_row', 10 );
 	add_action( "after_plugin_row_{$loader}", 'bp_core_admin_php52_plugin_row', 10, 2 );
 }
 add_action( 'load-plugins.php', 'bp_core_admin_maybe_disable_update_row_for_php53_requirement', 100 );

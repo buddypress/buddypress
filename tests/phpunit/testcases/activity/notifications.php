@@ -312,8 +312,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'string_multiple' => bp_activity_format_notifications( 'new_at_mention', $a, $this->u2, 2 ),
 		);
 
-		remove_filter( 'bp_activity_single_at_mentions_notification', array( $this, 'format_notification_filter' ), 10, 1 );
-		remove_filter( 'bp_activity_multiple_at_mentions_notification', array( $this, 'format_notification_filter' ), 10, 1 );
+		remove_filter( 'bp_activity_single_at_mentions_notification', array( $this, 'format_notification_filter' ), 10 );
+		remove_filter( 'bp_activity_multiple_at_mentions_notification', array( $this, 'format_notification_filter' ), 10 );
 
 		$single = sprintf( __( '%1$s mentioned you', 'buddypress' ), bp_core_get_user_displayname( $this->u2 ) );
 		$multiple = 'You have 2 new mentions';

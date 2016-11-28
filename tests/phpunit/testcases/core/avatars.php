@@ -108,7 +108,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->params['no_grav'] = false;
 		$avatar = bp_core_fetch_avatar( $this->params );
 
-		remove_filter( 'bp_core_fetch_avatar', array( $this, 'bp_core_fetch_avatar_filter_check' ), 12, 2 );
+		remove_filter( 'bp_core_fetch_avatar', array( $this, 'bp_core_fetch_avatar_filter_check' ), 12 );
 
 		unset( $this->params );
 	}

@@ -310,7 +310,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		$this->assertNotEmpty( $pages->register );
 		$this->assertNotEmpty( $pages->activate );
 
-		remove_action( 'update_option_users_can_register', array( $admin, 'single_site_registration_on' ), 10, 2 );
+		remove_action( 'update_option_users_can_register', array( $admin, 'single_site_registration_on' ), 10 );
 	}
 
 	/**
@@ -337,6 +337,6 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		$this->assertNotEmpty( $pages->register );
 		$this->assertNotEmpty( $pages->activate );
 
-		remove_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ), 10, 2 );
+		remove_action( 'update_site_option_registration', array( $admin, 'multisite_registration_on' ), 10 );
 	}
 }

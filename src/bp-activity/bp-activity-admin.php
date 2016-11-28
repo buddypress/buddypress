@@ -393,8 +393,8 @@ function bp_activity_admin_load() {
 					 * Remove moderation and blacklist checks in case we want to ham an activity
 					 * which contains one of these listed keys.
 					 */
-					remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
-					remove_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys',  2, 1 );
+					remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2 );
+					remove_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys', 2 );
 
 					bp_activity_mark_as_ham( $activity );
 					$result = $activity->save();

@@ -62,7 +62,7 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 		'settings-verify-email-change',
 	);
 
-	remove_filter( 'bp_email_get_property', 'bp_core_deprecated_email_filters', 20, 4 );
+	remove_filter( 'bp_email_get_property', 'bp_core_deprecated_email_filters', 20 );
 	$email_type = $email->get( 'type' );
 	$tokens     = $email->get( 'tokens' );
 	add_filter( 'bp_email_get_property', 'bp_core_deprecated_email_filters', 20, 4 );
@@ -701,7 +701,7 @@ function bp_core_deprecated_email_actions( $delivery_status, $email ) {
 		'settings-verify-email-change',
 	);
 
-	remove_action( 'bp_send_email_success', 'bp_core_deprecated_email_actions', 20, 2 );
+	remove_action( 'bp_send_email_success', 'bp_core_deprecated_email_actions', 20 );
 	$email_content = $email->get( 'content' );
 	$email_subject = $email->get( 'subject' );
 	$email_type    = $email->get( 'type' );

@@ -603,7 +603,7 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 	ob_end_clean();
 
 	// Remove the temporary filter.
-	remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
+	remove_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10 );
 
 	if ( ! empty( $newest_activities['last_recorded'] ) ) {
 		$response['bp_activity_newest_activities'] = $newest_activities;

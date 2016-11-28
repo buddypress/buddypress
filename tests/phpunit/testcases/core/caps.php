@@ -18,7 +18,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		add_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
 		$can  = bp_current_user_can( 'foo', bp_get_root_blog_id() );
 		$cant = bp_current_user_can( 'foo', $b );
-		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
+		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10 );
 
 		$this->assertTrue( $can );
 		$this->assertFalse( $cant );
@@ -40,7 +40,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		add_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
 		$can  = bp_current_user_can( 'foo', array( 'blog_id' => bp_get_root_blog_id() ) );
 		$cant = bp_current_user_can( 'foo', array( 'blog_id' => $b ) );
-		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
+		remove_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10 );
 
 		$this->assertTrue( $can );
 		$this->assertFalse( $cant );

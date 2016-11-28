@@ -58,7 +58,7 @@ class BP_Tests_Core_Functions_BPVerifyNonceRequest extends BP_UnitTestCase {
 		$test = bp_verify_nonce_request( $action, $action );
 
 		// clean up!
-		remove_filter( 'home_url', array( $this, 'add_port_and_subdirectory_to_home_url' ), 10, 3 );
+		remove_filter( 'home_url', array( $this, 'add_port_and_subdirectory_to_home_url' ), 10 );
 		unset( $_REQUEST[$action] );
 
 		// assert!
