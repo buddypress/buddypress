@@ -590,6 +590,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @return string Date formatted by bp_format_time().
 	 */
 	public static function display_filter( $field_value, $field_id = '' ) {
+		if ( ! $field_value ) {
+			return $field_value;
+		}
 
 		// If Unix timestamp.
 		if ( ! is_numeric( $field_value ) ) {

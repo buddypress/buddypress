@@ -204,4 +204,24 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		$updated_fetched_field = xprofile_get_field( $field );
 		$this->assertEquals( $new_field_order, $updated_fetched_field->field_order );
 	}
+
+	/**
+	 * @ticket BP7351
+	 */
+	public function test_empty_datebox_fields_should_not_return_unix_epoch() {
+		$user  = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$group = $this->factory->xprofile_group->create();
+		$field = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $group,
+			'type' => 'datebox',
+		) );
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $user );
+
+		$value = bp_get_profile_field_data( array( 'user_id' => $user, 'field' => $field ) );
+		$this->assertEmpty( $value );
+
+		$this->set_current_user( $old_user );
+	}
 }
