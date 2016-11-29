@@ -880,15 +880,34 @@ fieldset.create-site label {
 }
 
 .bp-screen-reader-text {
-	position: absolute;
-	margin: -1px;
-	padding: 0;
+	clip: rect(1px, 1px, 1px, 1px);
 	height: 1px;
-	width: 1px;
 	overflow: hidden;
-	clip: rect(0 0 0 0);
-	border: 0;
-	word-wrap: normal !important;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+}
+
+.bp-screen-reader-text:focus {
+	background-color: #f1f1f1;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-size: 0.875rem;
+	font-weight: 700;
+	height: auto;
+	right: 5px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000; /* Above WP toolbar. */
 }
 
 /*--------------------------------------------------------------
