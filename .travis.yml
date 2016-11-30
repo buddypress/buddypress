@@ -24,6 +24,7 @@ php:
 # x.y mirrors the latest from the x.y branch
 env:
   - WP_VERSION=master BP_TRAVISCI=travis:phpunit
+  - WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.3 BP_TRAVISCI=travis:phpunit
