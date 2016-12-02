@@ -235,7 +235,31 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *-------------------------------------------------------------------------------
 */
 
+// A conflict between BP's body.no-js being removed only
+// when the DOM is fully loaded & Twentysixteens hardcoded
+// class on the html el & scripting in head at start of DOM
+// causes mobile menu to stay opened too long.
+// This ruleset hides menu if html.js (2016 JS has kicked in) but BP still
+// rendering body.no-js before it's own JS removal kicks in.
+// See trac ticket https://buddypress.trac.wordpress.org/ticket/7314
 
+/**
+* Corrective measure to deal with 2016 / BP handling of no-js
+* classes - hide menu if BP still showing 'no-js'.
+*/
+
+@media screen and (max-width: 905px) {
+
+	html.js {
+
+		body.no-js {
+
+			.site-header-menu {
+				display: none;
+			}
+		}
+	}
+}
 
 .buddypress {
 	// Remove any empty clearing elements, CSS provides clearing.

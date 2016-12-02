@@ -58,6 +58,16 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @section 1.0 - Theme - Structural Elements. overrides, Globals
 *-------------------------------------------------------------------------------
 */
+/**
+* Corrective measure to deal with 2016 / BP handling of no-js
+* classes - hide menu if BP still showing 'no-js'.
+*/
+@media screen and (max-width: 905px) {
+	html.js body.no-js .site-header-menu {
+		display: none;
+	}
+}
+
 .buddypress div.clear {
 	display: none;
 }
