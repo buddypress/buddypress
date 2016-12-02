@@ -145,6 +145,16 @@ div.bp-avatar-nav {
 	text-align: inherit;
 }
 
+.moxie-shim.moxie-shim-html5 {
+	top: 108px !important;
+	right: 40.1% !important;
+	width: 12em;
+}
+
+.moxie-shim.moxie-shim-html5 input {
+	cursor: pointer;
+}
+
 .drag-drop #drag-drop-area {
 	box-sizing: border-box;
 	display: table;
@@ -162,6 +172,10 @@ div.bp-avatar-nav {
 .drag-drop .drag-drop-inside p,
 .drag-drop-inside p.drag-drop-buttons {
 	display: block;
+}
+
+p.drag-drop-buttons input#bp-browse-button {
+	width: 12em;
 }
 
 .drag-drop .drag-drop-inside p {
