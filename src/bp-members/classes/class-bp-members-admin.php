@@ -1040,7 +1040,7 @@ class BP_Members_Admin {
 					/**
 					 * In configs where BuddyPress is not network activated,
 					 * regular admins cannot mark a user as a spammer on front
-					 * end. This prevent them to do it in backend.
+					 * end. This prevent them to do it in the back end.
 					 *
 					 * Also prevent admins from marking themselves or other
 					 * admins as spammers.

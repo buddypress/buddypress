@@ -1063,7 +1063,7 @@ function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null 
 					<?php
 						echo esc_html( $type->labels['singular_name'] );
 						if ( in_array( $type->name, $backend_only ) ) {
-							printf( ' <span class="description">%s</span>', esc_html__( '(Not available on the frontend)', 'buddypress' ) );
+							printf( ' <span class="description">%s</span>', esc_html__( '(Not available on the front end)', 'buddypress' ) );
 						}
 					?>
 

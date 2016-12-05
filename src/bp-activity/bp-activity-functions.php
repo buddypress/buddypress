@@ -406,7 +406,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
  * @param array  $args {
  *     An associative array of tracking parameters. All items are optional.
  *     @type string   $bp_activity_admin_filter String to use in the Dashboard > Activity dropdown.
- *     @type string   $bp_activity_front_filter String to use in frontend dropdown.
+ *     @type string   $bp_activity_front_filter String to use in the front-end dropdown.
  *     @type string   $bp_activity_new_post     String format to use for generating the activity action. Should be a
  *                                              translatable string where %1$s is replaced by a user link and %2$s is
  *                                              the URL of the newly created post.

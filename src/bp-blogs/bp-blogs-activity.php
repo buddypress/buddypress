@@ -832,7 +832,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 	// permalinks to use the post comment link
 	//
 	// @todo since this is done after AJAX posting, the activity comment permalink
-	// doesn't change on the frontend until the next page refresh.
+	// doesn't change on the front end until the next page refresh.
 	$resave_activity = new BP_Activity_Activity( $comment_id );
 	$resave_activity->primary_link = get_comment_link( $post_comment_id );
 

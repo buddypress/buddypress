@@ -46,7 +46,7 @@ class BP_Groups_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Extends our frontend output method.
+	 * Extends our front-end output method.
 	 *
 	 * @since 1.0.3
 	 *

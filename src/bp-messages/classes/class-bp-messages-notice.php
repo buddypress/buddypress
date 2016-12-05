@@ -259,7 +259,7 @@ class BP_Messages_Notice {
 	}
 
 	/**
-	 * Returns the active notice that should be displayed on the frontend.
+	 * Returns the active notice that should be displayed on the front end.
 	 *
 	 * @since 1.0.0
 	 *
