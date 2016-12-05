@@ -97,6 +97,11 @@ function bp_get_asset_template_part( $slug, $name = null ) {
  */
 function bp_locate_template( $template_names, $load = false, $require_once = true ) {
 
+	// Bail when there are no templates to locate
+	if ( empty( $template_names ) ) {
+		return false;
+	}
+
 	// No file found yet.
 	$located            = false;
 	$template_locations = bp_get_template_stack();
