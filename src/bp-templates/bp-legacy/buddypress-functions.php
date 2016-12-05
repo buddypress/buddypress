@@ -1103,16 +1103,18 @@ function bp_legacy_theme_delete_activity_comment() {
 	// Check the nonce.
 	check_admin_referer( 'bp_activity_delete_link' );
 
-	if ( ! is_user_logged_in() )
+	if ( empty( $_POST['id'] ) || ! is_numeric( $_POST['id'] ) ) {
 		exit( '-1' );
+	}
+
+	if ( ! is_user_logged_in() ) {
+		exit( '-1' );
+	}
 
 	$comment = new BP_Activity_Activity( $_POST['id'] );
 
 	// Check access.
 	if ( ! bp_current_user_can( 'bp_moderate' ) && $comment->user_id != bp_loggedin_user_id() )
-		exit( '-1' );
-
-	if ( empty( $_POST['id'] ) || ! is_numeric( $_POST['id'] ) )
 		exit( '-1' );
 
 	/** This action is documented in bp-activity/bp-activity-actions.php */
