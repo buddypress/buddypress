@@ -1474,19 +1474,24 @@ add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
  * @return bool True if editing is allowed, otherwise false.
  */
 function bp_core_can_edit_settings() {
+	$status = false;
+
 	if ( bp_is_my_profile() ) {
-		return true;
+		$status = true;
+	} elseif ( is_super_admin( bp_displayed_user_id() ) && ! is_super_admin() ) {
+		$status = false;
+	} elseif ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'edit_users' ) ) {
+		$status = true;
 	}
 
-	if ( is_super_admin( bp_displayed_user_id() ) && ! is_super_admin() ) {
-		return false;
-	}
-
-	if ( bp_current_user_can( 'bp_moderate' ) || current_user_can( 'edit_users' ) ) {
-		return true;
-	}
-
-	return false;
+	/**
+	 * Filters the status of whether the logged-in user can edit settings for the displayed user or not.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param bool True if editing is allowed, otherwise false.
+	 */
+	return apply_filters( 'bp_core_can_edit_settings', $status );
 }
 
 /** Sign-up *******************************************************************/
