@@ -15,7 +15,7 @@
  * Description: BuddyPress helps site builders and WordPress developers add community features to their websites, with user profile fields, activity streams, messaging, and notifications.
  * Author:      The BuddyPress Community
  * Author URI:  https://buddypress.org/
- * Version:     2.7.2
+ * Version:     2.7.3
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
@@ -330,7 +330,7 @@ class BuddyPress {
 
 		/** Versions **********************************************************/
 
-		$this->version    = '2.7.2';
+		$this->version    = '2.7.3';
 		$this->db_version = 11105;
 
 		/** Loading ***********************************************************/
