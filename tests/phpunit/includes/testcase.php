@@ -140,8 +140,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	function go_to( $url ) {
-		global $wpdb;
-		global $current_site, $current_blog, $blog_id, $switched, $_wp_switched_stack, $public, $table_prefix, $current_user, $wp_roles;
+		global $wpdb, $current_site, $current_blog, $blog_id, $switched, $_wp_switched_stack, $public, $table_prefix, $current_user, $wp_roles;
 
 		// note: the WP and WP_Query classes like to silently fetch parameters
 		// from all over the place (globals, GET, etc), which makes it tricky
@@ -387,7 +386,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 		$GLOBALS['wp']->main($parts['query']);
 
-		$wp_roles->reinit();
+		$wp_roles = new WP_Roles();
 		$current_user = wp_get_current_user();
 		$current_user->for_blog( $blog_id );
 
