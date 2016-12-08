@@ -2697,7 +2697,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		 * @param string $value   The excerpt for the latest update.
 		 * @param int    $user_id ID of the queried user.
 		 */
-		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], 358 ) ) ), $user_id );
+		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], bp_activity_get_excerpt_length() ) ) ), $user_id );
 
 		$latest_update = sprintf(
 			'%s <a href="%s">%s</a>',

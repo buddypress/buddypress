@@ -450,14 +450,7 @@ function bp_activity_truncate_entry( $text, $args = array() ) {
 	 */
 	$append_text    = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
 
-	/**
-	 * Filters the excerpt length for the activity excerpt.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param int $value Number indicating how many words to trim the excerpt down to.
-	 */
-	$excerpt_length = apply_filters( 'bp_activity_excerpt_length', 358 );
+	$excerpt_length = bp_activity_get_excerpt_length();
 
 	$args = wp_parse_args( $args, array( 'ending' => __( '&hellip;', 'buddypress' ) ) );
 

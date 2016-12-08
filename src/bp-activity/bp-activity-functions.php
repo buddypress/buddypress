@@ -3113,6 +3113,24 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 }
 
 /**
+ * Gets the excerpt length for activity items.
+ *
+ * @since 2.8.0
+ *
+ * @return int Character length for activity excerpts.
+ */
+function bp_activity_get_excerpt_length() {
+	/**
+	 * Filters the excerpt length for the activity excerpt.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param int Character length for activity excerpts.
+	 */
+	return (int) apply_filters( 'bp_activity_excerpt_length', 358 );
+}
+
+/**
  * Create a rich summary of an activity item for the activity stream.
  *
  * More than just a simple excerpt, the summary could contain oEmbeds and other types of media.
