@@ -967,6 +967,23 @@ add_action( 'groups_reject_invite', 'bp_groups_accept_invite_mark_notifications'
 add_action( 'groups_delete_invite', 'bp_groups_accept_invite_mark_notifications', 10, 2 );
 
 /**
+ * Mark notifications read when a member's group membership request is granted.
+ *
+ * @since 2.8.0
+ *
+ * @param int $user_id  ID of the user.
+ * @param int $group_id ID of the group.
+ */
+function bp_groups_accept_request_mark_notifications( $user_id, $group_id ) {
+	if ( bp_is_active( 'notifications' ) ) {
+		// First null parameter marks read for all admins.
+		bp_notifications_mark_notifications_by_item_id( null, $group_id, buddypress()->groups->id, 'new_membership_request', $user_id );
+	}
+}
+add_action( 'groups_membership_accepted', 'bp_groups_accept_request_mark_notifications', 10, 2 );
+add_action( 'groups_membership_rejected', 'bp_groups_accept_request_mark_notifications', 10, 2 );
+
+/**
  * Mark notifications read when a member views their group memberships.
  *
  * @since 1.9.0
