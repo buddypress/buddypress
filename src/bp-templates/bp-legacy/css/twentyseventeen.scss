@@ -12,11 +12,11 @@
 // of managing media queries, scalability & flexibility.
 
 // 2017 Media Queries / Breakpoints.
-$small-up-2017:      'min-width: 30em';
-$med-small-up-2017:  'min-width: 48em';
-$medium-up-2017:     'min-width: 55em';
-$large-up-2017:      'min-width: 67em';
-$x-large-up-2017:    'min-width: 79em';
+$small-up-2017:      "min-width: 30em";
+$med-small-up-2017:  "min-width: 48em";
+$medium-up-2017:     "min-width: 55em";
+$large-up-2017:      "min-width: 67em";
+$x-large-up-2017:    "min-width: 79em";
 
 
 // In addition BP will use the em breakpoints as  referenced below to provide
@@ -24,10 +24,10 @@ $x-large-up-2017:    'min-width: 79em';
 // For main structural elements we use the themes values, only using bp breakpoints
 // to manage granular elements in loops etc.
 
-$x-small-only-bp: 'max-width: 22em'; // for xtra small mobile only
-$small-only-bp:   'max-width: 38.75em'; //  small only
-$small-up-bp:     'min-width: 38.75em'; //  small only
-$med-only-bp:     'max-width: 46.25em'; // med small only
+$x-small-only-bp: "max-width: 22em"; // for xtra small mobile only
+$small-only-bp:   "max-width: 38.75em"; //  small only
+$small-up-bp:     "min-width: 38.75em"; //  small only
+$med-only-bp:     "max-width: 46.25em"; // med small only
 
 // Mixins and Variables
 
@@ -39,55 +39,55 @@ $med-only-bp:     'max-width: 46.25em'; // med small only
 //
 
 @mixin x-small-only {
-	@media screen and ( $x-small-only-bp ){
+	@media screen and ($x-small-only-bp){
 		@content;
 	}
 }
 
 @mixin small-only {
-	@media screen and ( $small-only-bp ){
+	@media screen and ($small-only-bp){
 		@content;
 	}
 }
 
 @mixin medium-only-bp {
-	@media screen and ( $med-only-bp ){
+	@media screen and ($med-only-bp){
 		@content;
 	}
 }
 
 @mixin small-up-bp {
-	@media screen and ( $small-up-bp ){
+	@media screen and ($small-up-bp){
 		@content;
 	}
 }
 
 @mixin small-up {
-	@media screen and ( $small-up-2017 ){
+	@media screen and ($small-up-2017){
 		@content;
 	}
 }
 
 @mixin med-small-up {
-	@media screen and ( $med-small-up-2017 ) {
+	@media screen and ($med-small-up-2017) {
 		@content;
 	}
 }
 
 @mixin medium-up {
-	@media screen and ( $medium-up-2017 ) {
+	@media screen and ($medium-up-2017) {
 		@content;
 	}
 }
 
 @mixin large-up {
-	@media screen and ( $large-up-2017 ) {
+	@media screen and ($large-up-2017) {
 		@content;
 	}
 }
 
 @mixin x-large-up {
-	@media screen and ( $x-large-up-2017 ) {
+	@media screen and ($x-large-up-2017) {
 		@content;
 	}
 }
@@ -346,8 +346,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 	}
 
-body.buddypress:not(.has-sidebar),
-body.buddypress:not(.page-two-column) {
+	body.buddypress:not(.has-sidebar),
+	body.buddypress:not(.page-two-column) {
 
 		#primary.content-area {
 			max-width: 100%;
@@ -2031,7 +2031,7 @@ body.buddypress:not(.page-two-column) {
 				td.thread-from {
 					height: 3em;
 
-				@include small-only {
+					@include small-only {
 						height: 5.2em;
 					}
 				}
@@ -2575,7 +2575,7 @@ body.buddypress:not(.page-two-column) {
 
 } // close  #buddypress
 
-// Without direct classes on our mesages ( 'warning' )
+// Without direct classes on our mesages ( 'warning')
 // we need to use the body classes
 // todo: If this is class .warning is included in main BP styles remove from here
 
