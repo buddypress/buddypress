@@ -724,7 +724,7 @@ function groups_get_groups( $args = '' ) {
 		'update_admin_cache' => false,
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args( $args, $defaults, 'groups_get_groups' );
 
 	$groups = BP_Groups_Group::get( array(
 		'type'               => $r['type'],
