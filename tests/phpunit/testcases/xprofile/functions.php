@@ -1048,8 +1048,8 @@ Bar!';
 	 */
 	public function test_field_comma_seperated_values_are_autolinked() {
 		$field_group_id = $this->factory->xprofile_group->create();
-		$field_id = $this->factory->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
-		$GLOBALS['field'] = new BP_XProfile_Field( $this->field_id );
+		$field_id = $this->factory->xprofile_field->create( array( 'field_group_id' => $field_group_id ) );
+		$GLOBALS['field'] = new BP_XProfile_Field( $field_id );
 		$GLOBALS['field']->do_autolink = true;
 
 		$output = xprofile_filter_link_profile_data( 'Hello world this is a test; with, some, words', 'textbox' );
@@ -1064,8 +1064,8 @@ Bar!';
 	 */
 	public function test_field_semicolon_seperated_values_are_autolinked() {
 		$field_group_id = $this->factory->xprofile_group->create();
-		$field_id = $this->factory->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
-		$GLOBALS['field'] = new BP_XProfile_Field( $this->field_id );
+		$field_id = $this->factory->xprofile_field->create( array( 'field_group_id' => $field_group_id ) );
+		$GLOBALS['field'] = new BP_XProfile_Field( $field_id );
 		$GLOBALS['field']->do_autolink = true;
 
 		$output = xprofile_filter_link_profile_data( 'Hello world this is a test with; some; words', 'textbox' );
