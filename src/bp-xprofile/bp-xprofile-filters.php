@@ -349,13 +349,19 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 		return $field_value;
 	}
 
-	if ( !strpos( $field_value, ',' ) && ( count( explode( ' ', $field_value ) ) > 5 ) ) {
+	if ( strpos( $field_value, ',' ) === false && strpos( $field_value, ';' ) === false && ( count( explode( ' ', $field_value ) ) > 5 ) ) {
 		return $field_value;
 	}
 
-	$values = explode( ',', $field_value );
+	if ( strpos( $field_value, ',' ) !== false ) {
+		$list_type = 'comma';
+		$values    = explode( ',', $field_value ); // Comma-separated lists.
+	} else {
+		$list_type = 'semicolon';
+		$values = explode( ';', $field_value ); // Semicolon-separated lists.
+	}
 
-	if ( !empty( $values ) ) {
+	if ( ! empty( $values ) ) {
 		foreach ( (array) $values as $value ) {
 			$value = trim( $value );
 
@@ -379,7 +385,11 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 			}
 		}
 
-		$values = implode( ', ', $new_values );
+		if ( 'comma' === $list_type ) {
+			$values = implode( ', ', $new_values );
+		} else {
+			$values = implode( '; ', $new_values );
+		}
 	}
 
 	return $values;
