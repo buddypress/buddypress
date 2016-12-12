@@ -196,6 +196,15 @@ class BP_Messages_Notice {
 			return false;
 		}
 
+		/**
+		 * Fires after the current message item has been deleted.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param BP_Messages_Notice $this Current instance of the message notice item being deleted.
+		 */
+		do_action( 'messages_notice_after_delete', $this );
+
 		return true;
 	}
 
@@ -238,7 +247,14 @@ class BP_Messages_Notice {
 			$notices[ $key ]->is_active = (int) $notices[ $key ]->is_active;
 		}
 
-		return $notices;
+		/**
+		 * Filters the array of notices, sorted by date and paginated.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array $r Array of parameters.
+		 */
+		return apply_filters( 'messages_notice_get_notices', $notices, $r );
 	}
 
 	/**
@@ -255,7 +271,12 @@ class BP_Messages_Notice {
 
 		$notice_count = $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->messages->table_name_notices}" );
 
-		return $notice_count;
+		/**
+		 * Filters the total number of notices.
+		 *
+		 * @since 2.8.0
+		 */
+		return (int) apply_filters( 'messages_notice_get_total_notice_count', $notice_count );
 	}
 
 	/**
@@ -279,6 +300,11 @@ class BP_Messages_Notice {
 			wp_cache_set( 'active_notice', $notice, 'bp_messages' );
 		}
 
-		return $notice;
+		/**
+		 * Gives ability to filter the active notice that should be displayed on the front end.
+		 *
+		 * @since 2.8.0
+		 */
+		return apply_filters( 'messages_notice_get_active', $notice );
 	}
 }
