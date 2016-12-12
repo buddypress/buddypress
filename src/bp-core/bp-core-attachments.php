@@ -512,7 +512,7 @@ function bp_attachments_delete_file( $args = array() ) {
 	 * @since 2.5.1
 	 *
 	 * @param bool $value Whether or not to delete the BuddyPress attachment.
-	 * @param array Array of arguments for the attachment deletion.
+`	 * @param array $args Array of arguments for the attachment deletion.
 	 */
 	if ( ! apply_filters( 'bp_attachments_pre_delete_file', true, $args ) ) {
 		return true;
@@ -949,7 +949,7 @@ function bp_attachments_get_template_part( $slug ) {
  * @since 2.4.0
  *
  * @param string $component The component to get the settings for ("xprofile" for user or "groups").
- * @return array The cover image settings.
+ * @return array|bool The cover image settings in array, false on failure.
  */
 function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
 	// Default parameters.
@@ -1000,7 +1000,7 @@ function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
  * @since 2.4.0
  *
  * @param string $component The BuddyPress component concerned ("xprofile" for user or "groups").
- * @return array An associative array containing the advised width and height for the cover image.
+ * @return array|bool An associative array containing the advised width and height for the cover image. False if settings are empty.
  */
 function bp_attachments_get_cover_image_dimensions( $component = 'xprofile' ) {
 	// Let's prevent notices when setting the warning strings.
@@ -1185,7 +1185,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
  *
  * @since 2.4.0
  *
- * @return string|null A json object containing success data if the upload succeeded
+ * @return string|null A json object containing success data if the upload succeeded,
  *                     error message otherwise.
  */
 function bp_attachments_cover_image_ajax_upload() {
