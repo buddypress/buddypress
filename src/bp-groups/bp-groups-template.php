@@ -999,7 +999,7 @@ function bp_group_permalink( $group = null ) {
 		 * @param string $value Permalink for the current group in the loop.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_permalink', trailingslashit( bp_get_groups_directory_permalink() . $group->slug . '/' ), $group );
+		return apply_filters( 'bp_get_group_permalink', trailingslashit( bp_get_groups_directory_permalink() . bp_get_group_slug( $group ) . '/' ), $group );
 	}
 
 /**
