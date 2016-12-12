@@ -1577,7 +1577,14 @@ function bp_get_the_thread_recipients() {
  */
 function bp_get_thread_recipients_count() {
 	global $thread_template;
-	return count( $thread_template->thread->recipients );
+	/**
+	 * Filters the total number of recipients in a thread.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param int $count Total recipients number.
+	 */
+	return (int) apply_filters( 'bp_get_thread_recipients_count', count( $thread_template->thread->recipients ) );
 }
 
 /**
