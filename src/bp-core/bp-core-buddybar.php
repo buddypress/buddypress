@@ -90,7 +90,7 @@ function bp_core_new_nav_item( $args, $component = 'members' ) {
  * Add a link to the main BuddyPress navigation.
  *
  * @since 2.4.0
- * @since 2.6.0 Introduced the `$component` parameter. Began returning a BP_Nav_Item object on success.
+ * @since 2.6.0 Introduced the `$component` parameter. Began returning a BP_Core_Nav_Item object on success.
  *
  * @param array|string $args {
  *     Array describing the new nav item.
@@ -108,7 +108,7 @@ function bp_core_new_nav_item( $args, $component = 'members' ) {
  *                                                item is clicked.
  * }
  * @param string       $component Optional. Component that the nav belongs to.
- * @return bool|BP_Nav_Item Returns false on failure, new nav item on success.
+ * @return bool|BP_Core_Nav_Item Returns false on failure, new nav item on success.
  */
 function bp_core_create_nav_link( $args = '', $component = 'members' ) {
 	$bp = buddypress();
@@ -446,7 +446,7 @@ function bp_core_new_subnav_item( $args, $component = null ) {
  * Add a subnav link to the BuddyPress navigation.
  *
  * @since 2.4.0
- * @since 2.6.0 Introduced the `$component` parameter. Began returning a BP_Nav_Item object on success.
+ * @since 2.6.0 Introduced the `$component` parameter. Began returning a BP_Core_Nav_Item object on success.
  *
  * @param array|string $args {
  *     Array describing the new subnav item.
@@ -475,7 +475,7 @@ function bp_core_new_subnav_item( $args, $component = null ) {
  *                                          Default: false.
  * }
  * @param string       $component The component the navigation is attached to. Defaults to 'members'.
- * @return bool|object Returns false on failure, new BP_Nav_Item instance on success.
+ * @return bool|object Returns false on failure, new BP_Core_Nav_Item instance on success.
  */
 function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 	$bp = buddypress();
