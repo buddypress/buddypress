@@ -38,9 +38,10 @@ matrix:
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
     - php: 7.0
       env: WP_VERSION=master BP_TRAVISCI=travis:grunt
-    - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
-      php: 7.0
+    - php: 7.0
+      env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
     - php: hhvm
+      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
       sudo: required
       dist: trusty
       group: edge
