@@ -21,7 +21,7 @@ function bp_forums_add_admin_menu() {
 	$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
 	// Add the administration tab under the "Site Admin" tab for site administrators.
-	$hook = add_submenu_page( $page, __( 'Forums', 'buddypress' ), __( 'Forums', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
+	$hook = add_submenu_page( $page, __( 'Forums (Legacy)', 'buddypress' ), __( 'Forums (Legacy)', 'buddypress' ), 'manage_options', 'bb-forums-setup', "bp_forums_bbpress_admin" );
 
 	// Fudge the highlighted subnav item when on the BuddyPress Forums admin page.
 	add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
