@@ -149,10 +149,7 @@ function bp_core_screen_signup() {
 
 				// Loop through the posted fields formatting any datebox values then validate the field.
 				foreach ( (array) $profile_field_ids as $field_id ) {
-					if ( !isset( $_POST['field_' . $field_id] ) ) {
-						if ( !empty( $_POST['field_' . $field_id . '_day'] ) && !empty( $_POST['field_' . $field_id . '_month'] ) && !empty( $_POST['field_' . $field_id . '_year'] ) )
-							$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $_POST['field_' . $field_id . '_day'] . $_POST['field_' . $field_id . '_month'] . $_POST['field_' . $field_id . '_year'] ) );
-					}
+					bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
 					// Create errors for required fields without values.
 					if ( xprofile_check_is_required_field( $field_id ) && empty( $_POST[ 'field_' . $field_id ] ) && ! bp_current_user_can( 'bp_moderate' ) )
@@ -218,18 +215,12 @@ function bp_core_screen_signup() {
 					// Let's compact any profile field info into usermeta.
 					$profile_field_ids = explode( ',', $_POST['signup_profile_field_ids'] );
 
-					// Loop through the posted fields formatting any datebox values then add to usermeta - @todo This logic should be shared with the same in xprofile_screen_edit_profile().
+					/*
+					 * Loop through the posted fields, formatting any
+					 * datebox values, then add to usermeta.
+					 */
 					foreach ( (array) $profile_field_ids as $field_id ) {
-						if ( ! isset( $_POST['field_' . $field_id] ) ) {
-
-							if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
-								// Concatenate the values.
-								$date_value = $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
-
-								// Turn the concatenated value into a timestamp.
-								$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
-							}
-						}
+						bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
 						if ( !empty( $_POST['field_' . $field_id] ) )
 							$usermeta['field_' . $field_id] = $_POST['field_' . $field_id];
