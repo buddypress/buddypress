@@ -140,7 +140,7 @@ function bp_setup_admin_bar() {
 		 *
 		 * @since 1.5.0
 		 */
-		do_action( 'bp_setup_admin_bar' );
+		do_action( 'bp_setup_admin_bar', array() );
 	}
 }
 
