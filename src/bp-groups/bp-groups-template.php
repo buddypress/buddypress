@@ -4799,7 +4799,7 @@ function bp_new_group_id() {
 		 *
 		 * @param int $new_group_id ID of the new group.
 		 */
-		return apply_filters( 'bp_get_new_group_id', $new_group_id );
+		return (int) apply_filters( 'bp_get_new_group_id', $new_group_id );
 	}
 
 /**

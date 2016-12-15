@@ -60,7 +60,6 @@ if ( function_exists( 'wp_encode_emoji' ) ) {
 }
 
 // Escape output of new group creation details.
-add_filter( 'bp_get_new_group_id',          'esc_attr'     );
 add_filter( 'bp_get_new_group_name',        'esc_attr'     );
 add_filter( 'bp_get_new_group_description', 'esc_textarea' );
 
