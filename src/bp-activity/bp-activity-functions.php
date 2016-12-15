@@ -3768,13 +3768,16 @@ function bp_embed_activity_save_cache( $cache, $cachekey, $id ) {
 function bp_activity_do_heartbeat() {
 	$retval = false;
 
-	if ( ! bp_is_activity_heartbeat_active() ) {
-		return $retval;
-	}
-
-	if ( bp_is_activity_directory() || bp_is_group_activity() ) {
+	if ( bp_is_activity_heartbeat_active() && ( bp_is_activity_directory() || bp_is_group_activity() ) ) {
 		$retval = true;
 	}
 
-	return $retval;
+	/**
+	 * Filters whether the heartbeat feature in the activity stream should be active.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param bool $retval Whether or not activity heartbeat is active.
+	 */
+	return (bool) apply_filters( 'bp_activity_do_heartbeat', $retval );
 }
