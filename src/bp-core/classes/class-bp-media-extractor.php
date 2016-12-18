@@ -469,7 +469,7 @@ class BP_Media_Extractor {
 			if ( ! empty( $matches[2] ) ) {
 				foreach ( $matches[2] as $i => $shortcode_name ) {
 					$attrs = shortcode_parse_atts( $matches[3][ $i ] );
-					$attrs = ( ! $attrs ) ? array() : $attrs;
+					$attrs = ( ! $attrs ) ? array() : (array) $attrs;
 
 					$shortcode               = array();
 					$shortcode['attributes'] = $attrs;             // Attributes.
