@@ -794,7 +794,7 @@ function bp_groups_admin_index() {
  */
 function bp_groups_admin_edit_metabox_settings( $item ) {
 
-	$invite_status = groups_get_groupmeta( $item->id, 'invite_status' ); ?>
+	$invite_status = bp_group_get_invite_status( $item->id ); ?>
 
 	<?php if ( bp_is_active( 'forums' ) ) : ?>
 		<div class="bp-groups-settings-section" id="bp-groups-settings-section-forum">
