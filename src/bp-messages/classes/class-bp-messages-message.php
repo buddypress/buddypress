@@ -192,21 +192,35 @@ class BP_Messages_Message {
 	 * Get list of recipient IDs from their usernames.
 	 *
 	 * @param array $recipient_usernames Usernames of recipients.
-	 * @return array $recipient_ids Array of Recepient IDs.
+	 *
+	 * @return bool|array $recipient_ids Array of Recepient IDs.
 	 */
 	public static function get_recipient_ids( $recipient_usernames ) {
-		if ( !$recipient_usernames )
-			return false;
+		$recipient_ids = false;
+
+		if ( ! $recipient_usernames ) {
+			return $recipient_ids;
+		}
 
 		if ( is_array( $recipient_usernames ) ) {
-			for ( $i = 0, $count = count( $recipient_usernames ); $i < $count; ++$i ) {
-				if ( $rid = bp_core_get_userid( trim($recipient_usernames[$i]) ) ) {
+			$rec_un_count = count( $recipient_usernames );
+
+			for ( $i = 0, $count = $rec_un_count; $i < $count; ++ $i ) {
+				if ( $rid = bp_core_get_userid( trim( $recipient_usernames[ $i ] ) ) ) {
 					$recipient_ids[] = $rid;
 				}
 			}
 		}
 
-		return $recipient_ids;
+		/**
+		 * Filters the array of recipients IDs.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array $recipient_ids Array of recipients IDs that were retrieved based on submitted usernames.
+		 * @param array $recipient_usernames Array of recipients usernames that were submitted by a user.
+		 */
+		return apply_filters( 'messages_message_get_recipient_ids', $recipient_ids, $recipient_usernames );
 	}
 
 	/**
