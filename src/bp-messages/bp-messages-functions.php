@@ -441,11 +441,12 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  *
  * @see delete_metadata() for full documentation excluding $meta_type variable.
  *
- * @param int         $message_id ID of the message to have meta deleted for.
- * @param string|bool $meta_key   Meta key to delete. Default false.
+ * @param int $message_id ID of the message to have meta deleted for.
+ * @param string|bool $meta_key Meta key to delete. Default false.
  * @param string|bool $meta_value Meta value to delete. Default false.
- * @param bool        $delete_all Whether or not to delete all meta data.
- * @return bool
+ * @param bool $delete_all Whether or not to delete all meta data.
+ *
+ * @return bool True on successful delete, false on failure.
  */
 function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	// Legacy - if no meta_key is passed, delete all for the item.
@@ -460,9 +461,11 @@ function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = 
 		$keys = array( $meta_key );
 	}
 
+	$retval = false;
+
 	// No keys, so stop now!
 	if ( empty( $keys ) ) {
-		return false;
+		return $retval;
 	}
 
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
