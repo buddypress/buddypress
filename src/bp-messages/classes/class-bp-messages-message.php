@@ -72,7 +72,7 @@ class BP_Messages_Message {
 		$this->date_sent = bp_core_current_time();
 		$this->sender_id = bp_loggedin_user_id();
 
-		if ( !empty( $id ) ) {
+		if ( ! empty( $id ) ) {
 			$this->populate( $id );
 		}
 	}
@@ -109,8 +109,8 @@ class BP_Messages_Message {
 
 		$this->sender_id = apply_filters( 'messages_message_sender_id_before_save', $this->sender_id, $this->id );
 		$this->thread_id = apply_filters( 'messages_message_thread_id_before_save', $this->thread_id, $this->id );
-		$this->subject   = apply_filters( 'messages_message_subject_before_save',   $this->subject,   $this->id );
-		$this->message   = apply_filters( 'messages_message_content_before_save',   $this->message,   $this->id );
+		$this->subject   = apply_filters( 'messages_message_subject_before_save', $this->subject, $this->id );
+		$this->message   = apply_filters( 'messages_message_content_before_save', $this->message, $this->id );
 		$this->date_sent = apply_filters( 'messages_message_date_sent_before_save', $this->date_sent, $this->id );
 
 		/**
@@ -125,20 +125,22 @@ class BP_Messages_Message {
 		do_action_ref_array( 'messages_message_before_save', array( &$this ) );
 
 		// Make sure we have at least one recipient before sending.
-		if ( empty( $this->recipients ) )
+		if ( empty( $this->recipients ) ) {
 			return false;
+		}
 
 		$new_thread = false;
 
 		// If we have no thread_id then this is the first message of a new thread.
 		if ( empty( $this->thread_id ) ) {
 			$this->thread_id = (int) $wpdb->get_var( "SELECT MAX(thread_id) FROM {$bp->messages->table_name_messages}" ) + 1;
-			$new_thread = true;
+			$new_thread      = true;
 		}
 
 		// First insert the message into the messages table.
-		if ( !$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, %s )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) )
+		if ( ! $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, %s )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) ) {
 			return false;
+		}
 
 		$this->id = $wpdb->insert_id;
 
@@ -152,8 +154,9 @@ class BP_Messages_Message {
 			}
 
 			// Add a sender recipient entry if the sender is not in the list of recipients.
-			if ( !in_array( $this->sender_id, $recipient_ids ) )
+			if ( ! in_array( $this->sender_id, $recipient_ids ) ) {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_recipients} ( user_id, thread_id, sender_only ) VALUES ( %d, %d, 1 )", $this->sender_id, $this->thread_id ) );
+			}
 		} else {
 			// Update the unread count for all recipients.
 			$wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = unread_count + 1, sender_only = 0, is_deleted = 0 WHERE thread_id = %d AND user_id != %d", $this->thread_id, $this->sender_id ) );
@@ -227,6 +230,7 @@ class BP_Messages_Message {
 	 * Get the ID of the message last sent by the logged-in user for a given thread.
 	 *
 	 * @param int $thread_id ID of the thread.
+	 *
 	 * @return int|null ID of the message if found, otherwise null.
 	 */
 	public static function get_last_sent_for_user( $thread_id ) {
@@ -242,8 +246,9 @@ class BP_Messages_Message {
 	/**
 	 * Check whether a user is the sender of a message.
 	 *
-	 * @param int $user_id    ID of the user.
+	 * @param int $user_id ID of the user.
 	 * @param int $message_id ID of the message.
+	 *
 	 * @return int|null Returns the ID of the message if the user is the
 	 *                  sender, otherwise null.
 	 */
@@ -261,6 +266,7 @@ class BP_Messages_Message {
 	 * Get the ID of the sender of a message.
 	 *
 	 * @param int $message_id ID of the message.
+	 *
 	 * @return int|null The ID of the sender if found, otherwise null.
 	 */
 	public static function get_message_sender( $message_id ) {
