@@ -1094,15 +1094,15 @@ function bp_avatar_ajax_upload() {
 }
 add_action( 'wp_ajax_bp_avatar_upload', 'bp_avatar_ajax_upload' );
 
- /**
-  * Handle avatar webcam capture.
-  *
-  * @since 2.3.0
-  *
-  * @param string $data    Base64 encoded image.
-  * @param int    $item_id Item to associate.
-  * @return bool True on success, false on failure.
-  */
+/**
+ * Handle avatar webcam capture.
+ *
+ * @since 2.3.0
+ *
+ * @param string $data    Base64 encoded image.
+ * @param int    $item_id Item to associate.
+ * @return bool True on success, false on failure.
+ */
 function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 	if ( empty( $data ) || empty( $item_id ) ) {
 		return false;
