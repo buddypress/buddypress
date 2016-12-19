@@ -36,7 +36,8 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $date_sent  Date sent, in 'Y-m-d H:i:s' format. Default: current date/time.
  *     @type string $error_type Optional. Error type. Either 'bool' or 'wp_error'. Default: 'bool'.
  * }
- * @return int|bool ID of the message thread on success, false on failure.
+ *
+ * @return int|bool|WP_Error ID of the message thread on success, false on failure.
  */
 function messages_new_message( $args = '' ) {
 
@@ -56,10 +57,10 @@ function messages_new_message( $args = '' ) {
 		if ( 'wp_error' === $r['error_type'] ) {
 			if ( empty( $r['sender_id'] ) ) {
 				$error_code = 'messages_empty_sender';
-				$feedback = __( 'Your message was not sent. Please use a valid sender.', 'buddypress' );
+				$feedback   = __( 'Your message was not sent. Please use a valid sender.', 'buddypress' );
 			} else {
 				$error_code = 'messages_empty_content';
-				$feedback = __( 'Your message was not sent. Please enter some content.', 'buddypress' );
+				$feedback   = __( 'Your message was not sent. Please enter some content.', 'buddypress' );
 			}
 
 			return new WP_Error( $error_code, $feedback );
@@ -113,13 +114,13 @@ function messages_new_message( $args = '' ) {
 		}
 
 		// Setup the recipients array.
-		$recipient_ids 	    = array();
+		$recipient_ids = array();
 
 		// Invalid recipients are added to an array, for future enhancements.
 		$invalid_recipients = array();
 
 		// Loop the recipients and convert all usernames to user_ids where needed.
-		foreach( (array) $r['recipients'] as $recipient ) {
+		foreach ( (array) $r['recipients'] as $recipient ) {
 
 			// Trim spaces and skip if empty.
 			$recipient = trim( $recipient );
@@ -168,9 +169,9 @@ function messages_new_message( $args = '' ) {
 		}
 
 		// Format this to match existing recipients.
-		foreach( (array) $recipient_ids as $i => $recipient_id ) {
-			$message->recipients[$i]          = new stdClass;
-			$message->recipients[$i]->user_id = $recipient_id;
+		foreach ( (array) $recipient_ids as $i => $recipient_id ) {
+			$message->recipients[ $i ]          = new stdClass;
+			$message->recipients[ $i ]->user_id = $recipient_id;
 		}
 	}
 
