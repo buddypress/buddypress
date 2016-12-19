@@ -608,16 +608,28 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
+	 *
+	 * @return false|int Number of threads marked as read or false on error.
 	 */
 	public static function mark_as_read( $thread_id = 0 ) {
 		global $wpdb;
 
-		$bp  = buddypress();
-		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
-		$wpdb->query( $sql );
+		$bp     = buddypress();
+		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id ) );
 
 		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
 		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
+
+		/**
+		 * Fires when messages thread was marked as read.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param int $thread_id The message thread ID.
+		 */
+		do_action( 'messages_thread_mark_as_read', $thread_id );
+
+		return $retval;
 	}
 
 	/**
@@ -626,16 +638,28 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
+	 *
+	 * @return false|int Number of threads marked as unread or false on error.
 	 */
 	public static function mark_as_unread( $thread_id = 0 ) {
 		global $wpdb;
 
-		$bp  = buddypress();
-		$sql = $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id );
-		$wpdb->query( $sql );
+		$bp     = buddypress();
+		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id ) );
 
 		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
 		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
+
+		/**
+		 * Fires when messages thread was marked as unread.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param int $thread_id The message thread ID.
+		 */
+		do_action( 'messages_thread_mark_as_unread', $thread_id );
+
+		return $retval;
 	}
 
 	/**
