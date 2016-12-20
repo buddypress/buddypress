@@ -185,22 +185,25 @@ class BP_Activity_Activity {
 			wp_cache_set( $this->id, $row, 'bp_activity' );
 		}
 
-		if ( ! empty( $row ) ) {
-			$this->id                = (int) $row->id;
-			$this->item_id           = (int) $row->item_id;
-			$this->secondary_item_id = (int) $row->secondary_item_id;
-			$this->user_id           = (int) $row->user_id;
-			$this->primary_link      = $row->primary_link;
-			$this->component         = $row->component;
-			$this->type              = $row->type;
-			$this->action            = $row->action;
-			$this->content           = $row->content;
-			$this->date_recorded     = $row->date_recorded;
-			$this->hide_sitewide     = (int) $row->hide_sitewide;
-			$this->mptt_left         = (int) $row->mptt_left;
-			$this->mptt_right        = (int) $row->mptt_right;
-			$this->is_spam           = (int) $row->is_spam;
+		if ( empty( $row ) ) {
+			$this->id = 0;
+			return;
 		}
+
+		$this->id                = (int) $row->id;
+		$this->item_id           = (int) $row->item_id;
+		$this->secondary_item_id = (int) $row->secondary_item_id;
+		$this->user_id           = (int) $row->user_id;
+		$this->primary_link      = $row->primary_link;
+		$this->component         = $row->component;
+		$this->type              = $row->type;
+		$this->action            = $row->action;
+		$this->content           = $row->content;
+		$this->date_recorded     = $row->date_recorded;
+		$this->hide_sitewide     = (int) $row->hide_sitewide;
+		$this->mptt_left         = (int) $row->mptt_left;
+		$this->mptt_right        = (int) $row->mptt_right;
+		$this->is_spam           = (int) $row->is_spam;
 
 		// Generate dynamic 'action' when possible.
 		$action = bp_activity_generate_action_string( $this );
