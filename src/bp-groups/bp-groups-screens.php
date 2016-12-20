@@ -1065,6 +1065,16 @@ function groups_screen_group_admin_avatar() {
 		if ( !bp_core_avatar_handle_crop( $args ) ) {
 			bp_core_add_message( __( 'There was a problem cropping the group profile photo.', 'buddypress' ), 'error' );
 		} else {
+			/**
+			 * Fires after a group avatar is uploaded.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param int    $group_id ID of the group.
+			 * @param string $type     Avatar type. 'crop' or 'full'.
+			 * @param array  $args     Array of parameters passed to the avatar handler.
+			 */
+			do_action( 'groups_avatar_uploaded', bp_get_current_group_id(), 'crop', $args );
 			bp_core_add_message( __( 'The new group profile photo was uploaded successfully.', 'buddypress' ) );
 		}
 	}

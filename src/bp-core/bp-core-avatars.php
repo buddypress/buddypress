@@ -1293,9 +1293,11 @@ function bp_avatar_ajax_set() {
 			 * @since 2.3.4 Add two new parameters to inform about the user id and
 			 *              about the way the avatar was set (eg: 'crop' or 'camera')
 			 *              Move the action at the right place, once the avatar is set
+			 * @since 2.8.0 Added the `$avatar_data` parameter.
 			 *
-			 * @param string $item_id Inform about the user id the avatar was set for
-			 * @param string $type    Inform about the way the avatar was set ('camera')
+			 * @param string $item_id     Inform about the user id the avatar was set for.
+			 * @param string $type        Inform about the way the avatar was set ('camera').
+			 * @param array  $avatar_data Array of parameters passed to the avatar handler.
 			 */
 			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'] );
 
@@ -1342,18 +1344,11 @@ function bp_avatar_ajax_set() {
 		);
 
 		if ( 'user' === $avatar_data['object'] ) {
-			/**
-			 * Fires if the new avatar was successfully cropped.
-			 *
-			 * @since 1.1.0 Used to inform the avatar was successfully cropped
-			 * @since 2.3.4 Add two new parameters to inform about the user id and
-			 *              about the way the avatar was set (eg: 'crop' or 'camera')
-			 *              Move the action at the right place, once the avatar is set
-			 *
-			 * @param string $item_id Inform about the user id the avatar was set for
-			 * @param string $type Inform about the way the avatar was set ('crop')
-			 */
-			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'] );
+			/** This action is documented in bp-core/bp-core-avatars.php */
+			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
+		} elseif ( 'group' === $avatar_data['object'] ) {
+			/** This action is documented in bp-groups/bp-groups-screens.php */
+			do_action( 'groups_avatar_uploaded', (int) $avatar_data['item_id'], $atavar_data['type'], $r );
 		}
 
 		wp_send_json_success( $return );
