@@ -1299,7 +1299,7 @@ function bp_avatar_ajax_set() {
 			 * @param string $type        Inform about the way the avatar was set ('camera').
 			 * @param array  $avatar_data Array of parameters passed to the avatar handler.
 			 */
-			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'] );
+			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data );
 
 			wp_send_json_success( $return );
 		}
