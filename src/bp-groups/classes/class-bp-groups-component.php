@@ -271,6 +271,11 @@ class BP_Groups_Component extends BP_Component {
 			$this->current_group = 0;
 		}
 
+		// Set up variables specific to the group creation process.
+		if ( bp_is_groups_component() && bp_is_current_action( 'create' ) && bp_user_can_create_groups() && isset( $_COOKIE['bp_new_group_id'] ) ) {
+			$bp->groups->new_group_id = (int) $_COOKIE['bp_new_group_id'];
+		}
+
 		/**
 		 * Filters the list of illegal groups names/slugs.
 		 *
