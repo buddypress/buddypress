@@ -282,18 +282,24 @@ function xprofile_insert_field( $args = '' ) {
  * Get a profile field object.
  *
  * @since 1.1.0
+ * @since 2.8.0 Added `$user_id` and `$get_data` parameters.
  *
- * @param int|object $field ID of the field or object representing field data.
+ * @param int|object $field    ID of the field or object representing field data.
+ * @param int        $user_id  Optional. ID of the user associated with the field.
+ *                             Ignored if `$get_data` is false. If `$get_data` is
+ *                             true, but no `$user_id` is provided, defaults to
+ *                             logged-in user ID.
+ * @param bool       $get_data Whether to fetch data for the specified `$user_id`.
  * @return BP_XProfile_Field|null Field object if found, otherwise null.
  */
-function xprofile_get_field( $field ) {
+function xprofile_get_field( $field, $user_id = null, $get_data = true ) {
 	if ( $field instanceof BP_XProfile_Field ) {
 		$_field = $field;
 	} elseif ( is_object( $field ) ) {
 		$_field = new BP_XProfile_Field();
 		$_field->fill_data( $field );
 	} else {
-		$_field = BP_XProfile_Field::get_instance( $field );
+		$_field = BP_XProfile_Field::get_instance( $field, $user_id, $get_data );
 	}
 
 	if ( ! $_field ) {

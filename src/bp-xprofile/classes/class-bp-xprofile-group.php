@@ -396,7 +396,7 @@ class BP_XProfile_Group {
 		// Pull field objects from the cache.
 		$fields = array();
 		foreach ( $field_ids as $field_id ) {
-			$fields[] = xprofile_get_field( $field_id );
+			$fields[] = xprofile_get_field( $field_id, null, false );
 		}
 
 		// Store field IDs for meta cache priming.

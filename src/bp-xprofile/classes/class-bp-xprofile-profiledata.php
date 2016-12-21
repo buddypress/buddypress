@@ -323,7 +323,7 @@ class BP_XProfile_ProfileData {
 				} else {
 					$d               = new stdClass;
 					$d->id           = '';
-					$d->user_id      = '';
+					$d->user_id      = $user_id;
 					$d->field_id     = $field_id;
 					$d->value        = '';
 					$d->last_updated = '';
@@ -489,7 +489,7 @@ class BP_XProfile_ProfileData {
 					$d = new stdClass;
 					$d->id           = '';
 					$d->user_id      = $id;
-					$d->field_id     = '';
+					$d->field_id     = $field_id;
 					$d->value        = '';
 					$d->last_updated = '';
 				}
