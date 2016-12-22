@@ -732,10 +732,34 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	if ( empty( $original_file ) )
 		return false;
 
-	$original_file = bp_core_avatar_upload_path() . $original_file;
+	if ( 'user' === $object ) {
+		$avatar_dir = 'avatars';
+	} else {
+		$avatar_dir = sanitize_key( $args['object'] ) . '-avatars';
+	}
+
+	$original_file = sprintf( '%s/%s/%s/%s', bp_core_avatar_upload_path(), $avatar_dir, $item_id, basename( $original_file ) );
 
 	if ( !file_exists( $original_file ) )
 		return false;
+
+	// Capability check.
+	$has_cap = bp_current_user_can( 'bp_moderate' );
+	if ( ! $has_cap ) {
+		if ( 'user' === $object ) {
+			$has_cap = bp_loggedin_user_id() === (int) $args['item_id'];
+		} elseif ( 'group' === $object && bp_is_active( 'groups' ) ) {
+			if ( bp_is_group_create() ) {
+				$has_cap = (bool) groups_is_user_creator( bp_loggedin_user_id(), $args['item_id'] );
+			} else {
+				$has_cap = (bool) groups_is_user_admin( bp_loggedin_user_id(), $args['item_id'] );
+			}
+		}
+	}
+
+	if ( ! $has_cap ) {
+		return false;
+	}
 
 	if ( empty( $item_id ) ) {
 		$avatar_folder_dir = apply_filters( 'bp_core_avatar_folder_dir', dirname( $original_file ), $item_id, $object, $avatar_dir );
