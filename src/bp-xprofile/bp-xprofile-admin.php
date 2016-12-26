@@ -560,9 +560,31 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
 function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 	global $field;
 
-	$field = $admin_field; ?>
+	$field = $admin_field;
 
-	<fieldset id="draggable_field_<?php echo esc_attr( $field->id ); ?>"class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
+	$field_edit_url = add_query_arg(
+		array(
+			'page'     => 'bp-profile-setup',
+			'group_id' => (int) $field->group_id,
+			'field_id' => (int) $field->id,
+			'mode'     => 'edit_field'
+		),
+		admin_url( 'users.php' )
+	);
+
+	if ( $field->can_delete ) {
+		$field_delete_url = add_query_arg(
+			array(
+				'page'     => 'bp-profile-setup',
+				'field_id' => (int) $field->id,
+				'mode'     => 'delete_field'
+			),
+			admin_url( 'users.php' ) . '#tabs-' . (int) $field->group_id
+		);
+	}
+	?>
+
+	<fieldset id="draggable_field_<?php echo esc_attr( $field->id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
@@ -613,12 +635,12 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 			<?php endif; ?>
 
 			<div class="actions">
-				<a class="button edit" href="users.php?page=bp-profile-setup&amp;group_id=<?php echo esc_attr( $admin_group->id ); ?>&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=edit_field"><?php _e( 'Edit', 'buddypress' ); ?></a>
+				<a class="button edit" href="<?php echo esc_url( $field_edit_url ); ?>"><?php _e( 'Edit', 'buddypress' ); ?></a>
 
 				<?php if ( $field->can_delete ) : ?>
 
 					<div class="delete-button">
-						<a class="confirm submit-delete deletion" href="users.php?page=bp-profile-setup&amp;field_id=<?php echo esc_attr( $field->id ); ?>&amp;mode=delete_field"><?php _e( 'Delete', 'buddypress' ); ?></a>
+						<a class="confirm submit-delete deletion" href="<?php echo esc_url( $field_delete_url ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
 					</div>
 
 				<?php endif; ?>
