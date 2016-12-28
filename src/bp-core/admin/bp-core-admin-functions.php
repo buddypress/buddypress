@@ -1324,3 +1324,17 @@ function bp_core_admin_notice_dismiss_callback() {
 	wp_send_json_success();
 }
 add_action( 'wp_ajax_bp_dismiss_notice', 'bp_core_admin_notice_dismiss_callback' );
+
+/**
+ * Add a "buddypress" class to body element of wp-admin.
+ *
+ * @since 2.8.0
+ *
+ * @param string $classes CSS classes for the body tag in the admin, a comma separated string.
+ *
+ * @return string
+ */
+function bp_core_admin_body_classes( $classes ) {
+	return $classes . ' buddypress';
+}
+add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
