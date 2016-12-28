@@ -256,7 +256,7 @@ function bp_the_profile_group_id() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return int
 	 */
 	function bp_get_the_profile_group_id() {
 		global $group;
@@ -268,7 +268,7 @@ function bp_the_profile_group_id() {
 		 *
 		 * @param int $id ID for the profile group.
 		 */
-		return apply_filters( 'bp_get_the_profile_group_id', $group->id );
+		return (int) apply_filters( 'bp_get_the_profile_group_id', $group->id );
 	}
 
 /**
@@ -285,7 +285,7 @@ function bp_the_profile_group_name() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_group_name() {
 		global $group;
@@ -314,7 +314,7 @@ function bp_the_profile_group_slug() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_group_slug() {
 		global $group;
@@ -343,7 +343,7 @@ function bp_the_profile_group_description() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_group_description() {
 		global $group;
@@ -372,7 +372,7 @@ function bp_the_profile_group_edit_form_action() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_group_edit_form_action() {
 		global $group;
@@ -496,7 +496,7 @@ function bp_the_profile_field_id() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return int
 	 */
 	function bp_get_the_profile_field_id() {
 		global $field;
@@ -508,7 +508,7 @@ function bp_the_profile_field_id() {
 		 *
 		 * @param int $id ID for the profile field.
 		 */
-		return apply_filters( 'bp_get_the_profile_field_id', $field->id );
+		return (int) apply_filters( 'bp_get_the_profile_field_id', $field->id );
 	}
 
 /**
@@ -525,7 +525,7 @@ function bp_the_profile_field_name() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_name() {
 		global $field;
@@ -554,7 +554,7 @@ function bp_the_profile_field_value() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_value() {
 		global $field;
@@ -587,7 +587,7 @@ function bp_the_profile_field_edit_value() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_edit_value() {
 		global $field;
@@ -640,7 +640,7 @@ function bp_the_profile_field_type() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_type() {
 		global $field;
@@ -669,7 +669,7 @@ function bp_the_profile_field_description() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_description() {
 		global $field;
@@ -698,7 +698,7 @@ function bp_the_profile_field_input_name() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_input_name() {
 		global $field;
@@ -804,7 +804,7 @@ function bp_the_profile_field_is_required() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return bool
 	 */
 	function bp_get_the_profile_field_is_required() {
 		global $field;
@@ -822,7 +822,7 @@ function bp_the_profile_field_is_required() {
 		 *
 		 * @param bool $retval Whether or not the field is required.
 		 */
-		return apply_filters( 'bp_get_the_profile_field_is_required', (bool) $retval );
+		return (bool) apply_filters( 'bp_get_the_profile_field_is_required', $retval );
 	}
 
 /**
@@ -839,7 +839,7 @@ function bp_the_profile_field_visibility_level() {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_visibility_level() {
 		global $field;
@@ -877,7 +877,7 @@ function bp_the_profile_field_visibility_level_label() {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_the_profile_field_visibility_level_label() {
 		global $field;
@@ -945,7 +945,7 @@ function bp_profile_field_data( $args = '' ) {
 	 *    @type string|int|bool $field   Field identifier.
 	 *    @type int             $user_id ID of the user to get field data for.
 	 * }
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	function bp_get_profile_field_data( $args = '' ) {
 
@@ -1088,10 +1088,11 @@ function bp_get_profile_group_tabs() {
  * @since 1.0.0
  *
  * @param bool $deprecated Deprecated boolean parameter.
- * @return mixed|void
+ *
+ * @return string|mixed
  */
 function bp_profile_group_name( $deprecated = true ) {
-	if ( !$deprecated ) {
+	if ( ! $deprecated ) {
 		return bp_get_profile_group_name();
 	} else {
 		echo bp_get_profile_group_name();
@@ -1103,7 +1104,7 @@ function bp_profile_group_name( $deprecated = true ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_profile_group_name() {
 
@@ -1149,7 +1150,7 @@ function bp_profile_last_updated() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool|mixed|void
+	 * @return bool|string
 	 */
 	function bp_get_profile_last_updated() {
 
@@ -1184,7 +1185,7 @@ function bp_current_profile_group_id() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return int
 	 */
 	function bp_get_current_profile_group_id() {
 		$profile_group_id = bp_action_variable( 1 );
@@ -1199,9 +1200,9 @@ function bp_current_profile_group_id() {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $profile_group_id Current profile group ID.
+		 * @param int $profile_group_id Current profile group ID.
 		 */
-		return apply_filters( 'bp_get_current_profile_group_id', $profile_group_id );
+		return (int) apply_filters( 'bp_get_current_profile_group_id', $profile_group_id );
 	}
 
 /**
@@ -1218,7 +1219,7 @@ function bp_avatar_delete_link() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_avatar_delete_link() {
 

@@ -138,7 +138,7 @@ class BP_XProfile_User_Admin {
 					$screen_id,
 					'normal',
 					'core',
-					array( 'profile_group_id' => absint( bp_get_the_profile_group_id() ) )
+					array( 'profile_group_id' => bp_get_the_profile_group_id() )
 				);
 			endwhile;
 
