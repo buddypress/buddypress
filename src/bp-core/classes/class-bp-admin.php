@@ -550,11 +550,6 @@ class BP_Admin {
 	 * @since 1.7.0
 	 */
 	public function about_screen() {
-		$embedded_activity = '';
-
-		if ( version_compare( $GLOBALS['wp_version'], '4.5', '>=' ) ) {
-			$embedded_activity = wp_oembed_get( 'https://buddypress.org/members/djpaul/activity/573821/' );
-		}
 	?>
 
 		<div class="wrap about-wrap">
