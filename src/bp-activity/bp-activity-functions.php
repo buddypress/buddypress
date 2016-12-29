@@ -839,6 +839,63 @@ function bp_activity_get_types() {
 	return apply_filters( 'bp_activity_get_types', $actions );
 }
 
+/**
+ * Gets the current activity context.
+ *
+ * The "context" is the current view type, corresponding roughly to the
+ * current component. Use this context to determine which activity actions
+ * should be whitelisted for the filter dropdown.
+ *
+ * @since 2.8.0
+ *
+ * @return string Activity context. 'member', 'member_groups', 'group', 'activity'.
+ */
+function bp_activity_get_current_context() {
+	// On member pages, default to 'member', unless this is a user's Groups activity.
+	if ( bp_is_user() ) {
+		if ( bp_is_active( 'groups' ) && bp_is_current_action( bp_get_groups_slug() ) ) {
+			$context = 'member_groups';
+		} else {
+			$context = 'member';
+		}
+
+	// On individual group pages, default to 'group'.
+	} elseif ( bp_is_active( 'groups' ) && bp_is_group() ) {
+		$context = 'group';
+
+	// 'activity' everywhere else.
+	} else {
+		$context = 'activity';
+	}
+
+	return $context;
+}
+
+/**
+ * Gets a flat list of activity actions compatible with a given context.
+ *
+ * @since 2.8.0
+ *
+ * @param string $context Optional. Name of the context. Defaults to the current context.
+ * @return array
+ */
+function bp_activity_get_actions_for_context( $context = '' ) {
+	if ( ! $context ) {
+		$context = bp_activity_get_current_context();
+	}
+
+	$actions = array();
+	foreach ( bp_activity_get_actions() as $component_actions ) {
+		foreach ( $component_actions as $component_action ) {
+			if ( in_array( $context, (array) $component_action['context'], true ) ) {
+				$actions[] = $component_action;
+			}
+		}
+	}
+
+	return $actions;
+}
+
 /** Favorites ****************************************************************/
 
 /**
