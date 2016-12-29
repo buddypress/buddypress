@@ -169,8 +169,9 @@ function bp_activity_admin_screen_options( $value, $option, $new_value ) {
  * @return array Hidden Meta Boxes.
  */
 function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
-	if ( empty( $screen->id ) || 'toplevel_page_bp-activity' != $screen->id && 'toplevel_page_bp-activity_network' != $screen->id )
+	if ( empty( $screen->id ) || 'toplevel_page_bp-activity' !== $screen->id && 'toplevel_page_bp-activity-network' !== $screen->id ) {
 		return $hidden;
+	}
 
 	// Hide the primary link meta box by default.
 	$hidden  = array_merge( (array) $hidden, array( 'bp_activity_itemids', 'bp_activity_link', 'bp_activity_type', 'bp_activity_userid', ) );
