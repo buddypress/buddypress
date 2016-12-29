@@ -1425,6 +1425,10 @@ function groups_accept_invite( $user_id, $group_id ) {
 	}
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
+
+	// Save the inviter ID so that we can pass it to the action below.
+	$inviter_id = $member->inviter_id;
+
 	$member->accept_invite();
 
 	if ( !$member->save() ) {
@@ -1443,11 +1447,13 @@ function groups_accept_invite( $user_id, $group_id ) {
 	 * Fires after a user has accepted a group invite.
 	 *
 	 * @since 1.0.0
+	 * @since 2.8.0 The $inviter_id arg was added.
 	 *
-	 * @param int $user_id  ID of the user who accepted the group invite.
-	 * @param int $group_id ID of the group being accepted to.
+	 * @param int $user_id    ID of the user who accepted the group invite.
+	 * @param int $group_id   ID of the group being accepted to.
+	 * @param int $inviter_id ID of the user who invited this user to the group.
 	 */
-	do_action( 'groups_accept_invite', $user_id, $group_id );
+	do_action( 'groups_accept_invite', $user_id, $group_id, $inviter_id );
 
 	return true;
 }
