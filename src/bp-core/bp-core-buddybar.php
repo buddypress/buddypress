@@ -800,10 +800,8 @@ function bp_core_remove_nav_item( $slug, $component = null ) {
 	$screen_functions = $bp->{$component}->nav->delete_nav( $slug );
 
 	// Reset backcompat nav items so that subsequent references will be correct.
-	if ( buddypress()->do_nav_backcompat ) {
-		$bp->bp_nav->reset();
-		$bp->bp_options_nav->reset();
-	}
+	$bp->bp_nav->reset();
+	$bp->bp_options_nav->reset();
 
 	if ( ! is_array( $screen_functions ) ) {
 		return false;
@@ -851,10 +849,8 @@ function bp_core_remove_subnav_item( $parent_slug, $slug, $component = null ) {
 	$screen_functions = $bp->{$component}->nav->delete_nav( $slug, $parent_slug );
 
 	// Reset backcompat nav items so that subsequent references will be correct.
-	if ( buddypress()->do_nav_backcompat ) {
-		$bp->bp_nav->reset();
-		$bp->bp_options_nav->reset();
-	}
+	$bp->bp_nav->reset();
+	$bp->bp_options_nav->reset();
 
 	if ( ! is_array( $screen_functions ) ) {
 		return false;

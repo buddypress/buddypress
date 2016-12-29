@@ -109,14 +109,6 @@ class BuddyPress {
 	 */
 	public $do_autoload = true;
 
-	/**
-	 * Whether to load backward compatibility classes for navigation globals.
-	 *
-	 * @since 2.6.0
-	 * @var bool
-	 */
-	public $do_nav_backcompat = false;
-
 	/** Option Overload *******************************************************/
 
 	/**
@@ -423,12 +415,6 @@ class BuddyPress {
 		/** Post types and taxonomies *****************************************/
 		$this->email_post_type     = apply_filters( 'bp_email_post_type', 'bp-email' );
 		$this->email_taxonomy_type = apply_filters( 'bp_email_tax_type', 'bp-email-type' );
-
-		/** Navigation backward compatibility *********************************/
-		if ( interface_exists( 'ArrayAccess', false ) ) {
-			// bp_nav and bp_options_nav compatibility depends on SPL.
-			$this->do_nav_backcompat = true;
-		}
 	}
 
 	/**
