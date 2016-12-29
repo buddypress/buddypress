@@ -164,4 +164,74 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		$field_2 = xprofile_get_field( $f );
 		$this->assertSame( 'Bar', $field_2->name );
 	}
+
+	/**
+	 * @ticket BP7407
+	 */
+	public function test_get_field_id_from_name_should_be_cached() {
+		global $wpdb;
+
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'name' => 'Foo',
+		) );
+
+		// Prime cache.
+		BP_XProfile_Field::get_id_from_name( 'Foo' );
+
+		$num_queries = $wpdb->num_queries;
+
+		$this->assertSame( $f, BP_XProfile_Field::get_id_from_name( 'Foo' ) );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @ticket BP7407
+	 */
+	public function test_get_field_id_from_name_cache_should_be_invalidated_on_field_update() {
+		$g = $this->factory->xprofile_group->create();
+		$f1 = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'name' => 'Foo',
+		) );
+		$f2 = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'name' => 'Bar',
+		) );
+
+		// Prime cache.
+		xprofile_get_field_id_from_name( 'Foo' );
+		xprofile_get_field_id_from_name( 'Bar' );
+
+		// Free up the name 'Bar'.
+		$field2 = xprofile_get_field( $f2 );
+		$field2->name = 'Quz';
+		$field2->save();
+
+		// Take the name 'Bar'.
+		$field1 = xprofile_get_field( $f1 );
+		$field1->name = 'Bar';
+		$field1->save();
+
+		$this->assertSame( $f1, BP_XProfile_Field::get_id_from_name( 'Bar' ) );
+	}
+
+	/**
+	 * @ticket BP7407
+	 */
+	public function test_get_field_id_from_name_cache_should_be_invalidated_on_field_deletion() {
+		$g = $this->factory->xprofile_group->create();
+		$f = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'name' => 'Foo',
+		) );
+
+		// Prime cache.
+		xprofile_get_field_id_from_name( 'Foo' );
+
+		xprofile_delete_field( $f );
+
+		$this->assertNull( BP_XProfile_Field::get_id_from_name( 'Bar' ) );
+	}
 }

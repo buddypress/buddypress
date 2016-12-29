@@ -917,11 +917,14 @@ class BP_XProfile_Field {
 			return false;
 		}
 
-		$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s AND parent_id = 0", $field_name );
+		$id = bp_core_get_incremented_cache( $field_name, 'bp_xprofile_fields_by_name' );
+		if ( false === $id ) {
+			$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s AND parent_id = 0", $field_name );
+			$id = $wpdb->get_var( $sql );
+			bp_core_set_incremented_cache( $field_name, 'bp_xprofile_fields_by_name', $id );
+		}
 
-		$query = $wpdb->get_var( $sql );
-
-		return is_numeric( $query ) ? (int) $query : $query;
+		return is_numeric( $id ) ? (int) $id : $id;
 	}
 
 	/**

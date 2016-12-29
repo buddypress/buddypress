@@ -306,5 +306,15 @@ function bp_xprofile_clear_field_cache( $field ) {
 }
 add_action( 'xprofile_field_after_save', 'bp_xprofile_clear_field_cache' );
 
+/**
+ * Clear the field-name cache.
+ *
+ * @since 2.8.0
+ */
+function bp_xprofile_reset_fields_by_name_cache_incrementor() {
+	bp_core_reset_incrementor( 'bp_xprofile_fields_by_name' );
+}
+add_action( 'xprofile_field_before_save', 'bp_xprofile_reset_fields_by_name_cache_incrementor' );
+
 // List actions to clear super cached pages on, if super cache is installed.
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
