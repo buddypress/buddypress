@@ -1423,6 +1423,19 @@ function bp_attachments_cover_image_ajax_delete() {
 
 	// Handle delete.
 	if ( bp_attachments_delete_file( array( 'item_id' => $cover_image_data['item_id'], 'object_dir' => $dir, 'type' => 'cover-image' ) ) ) {
+		/**
+		 * Fires if the cover image was successfully deleted.
+		 *
+		 * The dynamic portion of the hook will be xprofile in case of a user's
+		 * cover image, groups in case of a group's cover image. For instance:
+		 * Use add_action( 'xprofile_cover_image_deleted' ) to run your specific
+		 * code once the user has deleted his cover image.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param int $item_id Inform about the item id the cover image was deleted for.
+		 */
+		do_action( "{$component}_cover_image_deleted", (int) $cover_image_data['item_id'] );
 
 		// Defaults no cover image.
 		$response = array(
