@@ -612,8 +612,7 @@ function groups_get_group_members( $args = array() ) {
 			6 => 'group_role',
 		);
 
-		$func_args = func_get_args();
-		$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+		$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
 	}
 
 	$r = wp_parse_args( $args, array(
@@ -628,11 +627,8 @@ function groups_get_group_members( $args = array() ) {
 		'type'                => 'last_joined',
 	) );
 
-	// For legacy users. Use of BP_Groups_Member::get_all_for_group()
-	// is deprecated. func_get_args() can't be passed to a function in PHP
-	// 5.2.x, so we create a variable.
-	$func_args = func_get_args();
-	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, $func_args ) ) {
+	// For legacy users. Use of BP_Groups_Member::get_all_for_group() is deprecated.
+	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, func_get_args() ) ) {
 		$retval = BP_Groups_Member::get_all_for_group( $r['group_id'], $r['per_page'], $r['page'], $r['exclude_admins_mods'], $r['exclude_banned'], $r['exclude'] );
 	} else {
 

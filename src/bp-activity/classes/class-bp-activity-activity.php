@@ -376,8 +376,7 @@ class BP_Activity_Activity {
 				10 => 'spam'
 			);
 
-			$func_args = func_get_args();
-			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
 		}
 
 		$bp = buddypress();
@@ -1474,7 +1473,6 @@ class BP_Activity_Activity {
 			}
 
 			// Legacy query - not recommended.
-			$func_args = func_get_args();
 
 			/**
 			 * Filters if BuddyPress should use the legacy activity query.
@@ -1485,7 +1483,7 @@ class BP_Activity_Activity {
 			 * @param BP_Activity_Activity $value     Magic method referring to currently called method.
 			 * @param array                $func_args Array of the method's argument list.
 			 */
-			if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $func_args ) ) {
+			if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, func_get_args() ) ) {
 
 				/**
 				 * Filters the MySQL prepared statement for the legacy activity query.

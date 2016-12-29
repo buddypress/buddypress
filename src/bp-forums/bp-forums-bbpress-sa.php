@@ -236,8 +236,7 @@ if ( ! class_exists( 'BPDB' ) ) :
 		function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
 			parent::__construct( $dbuser, $dbpassword, $dbname, $dbhost );
 
-			$args = func_get_args();
-			$args = call_user_func_array( array( &$this, 'init' ), $args );
+			$args = call_user_func_array( array( &$this, 'init' ), func_get_args() );
 
 			if ( $args['host'] )
 				$this->db_servers['dbh_global'] = $args;
