@@ -641,15 +641,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// Get activity content - if not set, use the action.
 		if ( ! empty( $item['content'] ) ) {
+			$activity = new BP_Activity_Activity( $item['id'] );
 
-			/**
-			 * Filters current activity item content.
-			 *
-			 * @since 1.2.0
-			 *
-			 * @param array $item Array index holding current activity item content.
-			 */
-			$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $item['content'] ) );
+			/** This filter is documented in bp-activity/bp-activity-template.php */
+			$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $item['content'], &$activity ) );
 		} else {
 			/**
 			 * Filters current activity item action.

@@ -1390,7 +1390,8 @@ function bp_activity_content_body() {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param array $value Array containing the current activity content body and the current activity.
+		 * @param string $content  Content body.
+		 * @param object $activity Activity object. Passed by reference.
 		 */
 		return apply_filters_ref_array( 'bp_get_activity_content_body', array( $activities_template->activity->content, &$activities_template->activity ) );
 	}

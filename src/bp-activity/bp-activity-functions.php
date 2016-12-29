@@ -3441,7 +3441,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 
 	/** This filter is documented in bp-activity/bp-activity-template.php */
-	$content = apply_filters( 'bp_get_activity_content_body', $activity->content );
+	$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $activity->content, &$activity ) );
 
 	add_filter( 'bp_get_activity_content_body', 'convert_smilies' );
 	add_filter( 'bp_get_activity_content_body', 'wpautop' );
@@ -3509,7 +3509,7 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 	remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
 
 	/** This filter is documented in bp-activity/bp-activity-template.php */
-	$content = apply_filters( 'bp_get_activity_content_body', $params['content'] );
+	$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $params['content'], &$original_activity ) );
 
 	add_filter( 'bp_get_activity_content_body', 'convert_smilies' );
 	add_filter( 'bp_get_activity_content_body', 'wpautop' );
