@@ -332,4 +332,70 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		$this->assertEquals( $first_query_count + 1, $wpdb->num_queries );
 	}
+
+	public function test_friends_get_recently_active() {
+		$this->setExpectedDeprecated( 'BP_Core_User::get_users' );
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$u4 = $this->factory->user->create();
+
+		// request friendship
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+		friends_add_friend( $u1, $u4, true );
+
+		bp_update_user_last_activity( $u2, date( 'Y-m-d H:i:s', time() - ( 2 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u3, date( 'Y-m-d H:i:s', time() - ( 5 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u4, date( 'Y-m-d H:i:s', time() - ( 3 * DAY_IN_SECONDS ) ) );
+
+		$recent = friends_get_recently_active( $u1 );
+
+		$this->assertEquals( $recent['users'][0]->id, $u2 );
+		$this->assertEquals( $recent['users'][1]->id, $u4 );
+		$this->assertEquals( $recent['users'][2]->id, $u3 );
+	}
+
+	public function test_friends_get_alphabetically() {
+		$this->setExpectedDeprecated( 'BP_Core_User::get_users' );
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		// request friendship
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+
+		$field_id = bp_xprofile_fullname_field_id();
+		xprofile_set_field_data( $field_id, $u2, 'Dave Lister' );
+		xprofile_set_field_data( $field_id, $u3, 'Arnold Rimmer' );
+
+		$alpha = friends_get_alphabetically( $u1 );
+
+		$this->assertEquals( $alpha['users'][0]->id, $u3 );
+		$this->assertEquals( $alpha['users'][1]->id, $u2 );
+	}
+
+	public function test_friends_get_newest() {
+		$this->setExpectedDeprecated( 'BP_Core_User::get_users' );
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$u4 = $this->factory->user->create();
+
+		// request friendship
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+		friends_add_friend( $u1, $u4, true );
+
+		bp_update_user_last_activity( $u2, date( 'Y-m-d H:i:s', time() - ( 2 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u3, date( 'Y-m-d H:i:s', time() - ( 5 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u4, date( 'Y-m-d H:i:s', time() - ( 3 * DAY_IN_SECONDS ) ) );
+
+		$newest = friends_get_newest( $u1 );
+
+		$this->assertEquals( $newest['users'][0]->id, $u4 );
+		$this->assertEquals( $newest['users'][1]->id, $u3 );
+		$this->assertEquals( $newest['users'][2]->id, $u2 );
+	}
 }
