@@ -334,7 +334,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_friends_get_recently_active() {
-		$this->setExpectedDeprecated( 'BP_Core_User::get_users' );
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 		$u3 = $this->factory->user->create();
@@ -357,7 +356,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_friends_get_alphabetically() {
-		$this->setExpectedDeprecated( 'BP_Core_User::get_users' );
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 		$u3 = $this->factory->user->create();
@@ -369,6 +367,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$field_id = bp_xprofile_fullname_field_id();
 		xprofile_set_field_data( $field_id, $u2, 'Dave Lister' );
 		xprofile_set_field_data( $field_id, $u3, 'Arnold Rimmer' );
+		xprofile_sync_wp_profile( $u2 );
+		xprofile_sync_wp_profile( $u3 );
 
 		$alpha = friends_get_alphabetically( $u1 );
 
@@ -377,7 +377,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_friends_get_newest() {
-		$this->setExpectedDeprecated( 'BP_Core_User::get_users' );
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 		$u3 = $this->factory->user->create();

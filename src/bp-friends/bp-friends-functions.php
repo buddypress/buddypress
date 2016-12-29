@@ -421,18 +421,25 @@ function friends_get_friendship_request_user_ids( $user_id ) {
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
+	$friends = bp_core_get_users( array(
+		'type'         => 'active',
+		'per_page'     => $per_page,
+		'page'         => $page,
+		'user_id'      => $user_id,
+		'search_terms' => $filter,
+	) );
 
 	/**
 	 * Filters a user's most recently active friends.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array {
+	 * @param array $friends {
 	 *     @type int   $total_users Total number of users matched by query params.
 	 *     @type array $paged_users The current page of users matched by query params.
 	 * }
 	 */
-	return apply_filters( 'friends_get_recently_active', BP_Core_User::get_users( 'active', $per_page, $page, $user_id, $filter ) );
+	return apply_filters( 'friends_get_recently_active', $friends );
 }
 
 /**
@@ -452,18 +459,25 @@ function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filte
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
+	$friends = bp_core_get_users( array(
+		'type'         => 'alphabetical',
+		'per_page'     => $per_page,
+		'page'         => $page,
+		'user_id'      => $user_id,
+		'search_terms' => $filter,
+	) );
 
 	/**
 	 * Filters a user's friends listed in alphabetical order.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return array {
+	 * @return array $friends {
 	 *     @type int   $total_users Total number of users matched by query params.
 	 *     @type array $paged_users The current page of users matched by query params.
 	 * }
 	 */
-	return apply_filters( 'friends_get_alphabetically', BP_Core_User::get_users( 'alphabetical', $per_page, $page, $user_id, $filter ) );
+	return apply_filters( 'friends_get_alphabetically', $friends );
 }
 
 /**
@@ -483,18 +497,25 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
  * @return array See {@link BP_Core_User::get_users()}.
  */
 function friends_get_newest( $user_id, $per_page = 0, $page = 0, $filter = '' ) {
+	$friends = bp_core_get_users( array(
+		'type'         => 'newest',
+		'per_page'     => $per_page,
+		'page'         => $page,
+		'user_id'      => $user_id,
+		'search_terms' => $filter,
+	) );
 
 	/**
 	 * Filters a user's friends listed from newest to oldest.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array {
+	 * @param array $friends {
 	 *     @type int   $total_users Total number of users matched by query params.
 	 *     @type array $paged_users The current page of users matched by query params.
 	 * }
 	 */
-	return apply_filters( 'friends_get_newest', BP_Core_User::get_users( 'newest', $per_page, $page, $user_id, $filter ) );
+	return apply_filters( 'friends_get_newest', $friends );
 }
 
 /**
