@@ -120,10 +120,41 @@ function bp_core_get_table_prefix() {
  * @return array $items The sorted array.
  */
 function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false ) {
+	$callback = function( $a, $b ) use ( $key, $type ) {
+		$values = array( 0 => false, 1 => false );
+		$func_args = func_get_args();
+		foreach ( $func_args as $indexi => $index ) {
+			if ( isset( $index->{$key} ) ) {
+				$values[ $indexi ] = $index->{$key};
+			} elseif ( isset( $index[ $key ] ) ) {
+				$values[ $indexi ] = $index[ $key ];
+			}
+		}
+
+		if ( isset( $values[0], $values[1] ) ) {
+			if ( 'num' === $type ) {
+				$cmp = $values[0] - $values[1];
+			} else {
+				$cmp = strcmp( $values[0], $values[1] );
+			}
+
+			if ( 0 > $cmp ) {
+				$retval = -1;
+			} elseif ( 0 < $cmp ) {
+				$retval = 1;
+			} else {
+				$retval = 0;
+			}
+			return $retval;
+		} else {
+			return 0;
+		}
+	};
+
 	if ( true === $preserve_keys ) {
-		uasort( $items, array( new BP_Core_Sort_By_Key_Callback( $key, $type ), 'sort_callback' ) );
+		uasort( $items, $callback );
 	} else {
-		usort( $items, array( new BP_Core_Sort_By_Key_Callback( $key, $type ), 'sort_callback' ) );
+		usort( $items, $callback );
 	}
 
 	return $items;
