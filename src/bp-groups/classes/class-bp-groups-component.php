@@ -135,10 +135,6 @@ class BP_Groups_Component extends BP_Component {
 			'notifications'
 		);
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		if ( is_admin() ) {
 			$includes[] = 'admin';
 		}

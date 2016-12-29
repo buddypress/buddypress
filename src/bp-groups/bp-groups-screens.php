@@ -14,10 +14,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-groups-theme-compat.php';
-}
-
 /**
  * Handle the display of the Groups directory index.
  *

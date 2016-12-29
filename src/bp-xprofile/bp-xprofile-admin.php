@@ -10,10 +10,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-xprofile-user-admin.php';
-}
-
 /**
  * Creates the administration interface menus and checks to see if the DB
  * tables are set up.

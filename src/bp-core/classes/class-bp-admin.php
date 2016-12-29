@@ -117,10 +117,6 @@ class BP_Admin {
 	 * @since 1.6.0
 	 */
 	private function includes() {
-		if ( ! buddypress()->do_autoload ) {
-			require( $this->admin_dir . 'bp-core-admin-classes.php'    );
-		}
-
 		require( $this->admin_dir . 'bp-core-admin-actions.php'    );
 		require( $this->admin_dir . 'bp-core-admin-settings.php'   );
 		require( $this->admin_dir . 'bp-core-admin-functions.php'  );

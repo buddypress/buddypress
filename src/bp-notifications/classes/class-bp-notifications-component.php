@@ -52,10 +52,6 @@ class BP_Notifications_Component extends BP_Component {
 			'cache',
 		);
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		parent::includes( $includes );
 	}
 

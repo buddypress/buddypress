@@ -107,7 +107,7 @@ class BuddyPress {
 	 * @since 2.5.0
 	 * @var bool
 	 */
-	public $do_autoload = false;
+	public $do_autoload = true;
 
 	/**
 	 * Whether to load backward compatibility classes for navigation globals.
@@ -464,10 +464,7 @@ class BuddyPress {
 	 *
 	 */
 	private function includes() {
-		if ( function_exists( 'spl_autoload_register' ) ) {
-			spl_autoload_register( array( $this, 'autoload' ) );
-			$this->do_autoload = true;
-		}
+		spl_autoload_register( array( $this, 'autoload' ) );
 
 		// Load the WP abstraction file so BuddyPress can run on all WordPress setups.
 		require( $this->plugin_dir . 'bp-core/bp-core-wpabstraction.php' );
@@ -502,10 +499,6 @@ class BuddyPress {
 		require( $this->plugin_dir . 'bp-core/bp-core-moderation.php'       );
 		require( $this->plugin_dir . 'bp-core/bp-core-loader.php'           );
 		require( $this->plugin_dir . 'bp-core/bp-core-customizer-email.php' );
-
-		if ( ! $this->do_autoload ) {
-			require( $this->plugin_dir . 'bp-core/bp-core-classes.php' );
-		}
 
 		// Maybe load deprecated functionality (this double negative is proof positive!)
 		if ( ! bp_get_option( '_bp_ignore_deprecated_code', ! $this->load_deprecated ) ) {

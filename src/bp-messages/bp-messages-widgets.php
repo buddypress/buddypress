@@ -10,10 +10,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-messages-sitewide-notices-widget.php';
-}
-
 /**
  * Register widgets for the Messages component.
  *

@@ -10,13 +10,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-groups-template.php';
-	require dirname( __FILE__ ) . '/classes/class-bp-groups-group-members-template.php';
-	require dirname( __FILE__ ) . '/classes/class-bp-groups-membership-requests-template.php';
-	require dirname( __FILE__ ) . '/classes/class-bp-groups-invite-template.php';
-}
-
 /**
  * Output the groups component slug.
  *

@@ -65,10 +65,6 @@ class BP_Activity_Component extends BP_Component {
 			$includes[] = 'notifications';
 		}
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		// Load Akismet support if Akismet is configured.
 		$akismet_key = bp_get_option( 'wordpress_api_key' );
 

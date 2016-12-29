@@ -61,10 +61,6 @@ class BP_Friends_Component extends BP_Component {
 			$includes[] = 'notifications';
 		}
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		parent::includes( $includes );
 	}
 

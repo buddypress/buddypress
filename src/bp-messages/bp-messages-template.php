@@ -10,11 +10,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-messages-box-template.php';
-	require dirname( __FILE__ ) . '/classes/class-bp-messages-thread-template.php';
-}
-
 /**
  * Retrieve private message threads for display in inbox/sentbox/notices.
  *

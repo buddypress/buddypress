@@ -67,10 +67,6 @@ class BP_Members_Component extends BP_Component {
 			'cache',
 		);
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		if ( bp_is_active( 'activity' ) ) {
 			$includes[] = 'activity';
 		}

@@ -12,11 +12,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-members-theme-compat.php';
-	require dirname( __FILE__ ) . '/classes/class-bp-registration-theme-compat.php';
-}
-
 /**
  * Handle the display of the profile page by loading the correct template file.
  *
