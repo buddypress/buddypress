@@ -27,7 +27,7 @@ function bp_friends_register_widgets() {
 		return;
 	}
 
-	add_action( 'widgets_init', create_function( '', 'return register_widget("BP_Core_Friends_Widget");' ) );
+	add_action( 'widgets_init', function() { register_widget( 'BP_Core_Friends_Widget' ); } );
 }
 add_action( 'bp_register_widgets', 'bp_friends_register_widgets' );
 

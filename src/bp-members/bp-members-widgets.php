@@ -18,9 +18,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.2.0
  */
 function bp_members_register_widgets() {
-	add_action( 'widgets_init', create_function( '', 'return register_widget("BP_Core_Members_Widget");'         ) );
-	add_action( 'widgets_init', create_function( '', 'return register_widget("BP_Core_Whos_Online_Widget");'     ) );
-	add_action( 'widgets_init', create_function( '', 'return register_widget("BP_Core_Recently_Active_Widget");' ) );
+	add_action( 'widgets_init', function() { return register_widget( 'BP_Core_Members_Widget' );         } );
+	add_action( 'widgets_init', function() { return register_widget( 'BP_Core_Whos_Online_Widget' );     } );
+	add_action( 'widgets_init', function() { return register_widget( 'BP_Core_Recently_Active_Widget' ); } );
 }
 add_action( 'bp_register_widgets', 'bp_members_register_widgets' );
 

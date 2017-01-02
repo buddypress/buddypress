@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  */
 function groups_register_widgets() {
-	add_action('widgets_init', create_function('', 'return register_widget("BP_Groups_Widget");') );
+	add_action( 'widgets_init', function() { register_widget( 'BP_Groups_Widget' ); } );
 }
 add_action( 'bp_register_widgets', 'groups_register_widgets' );
 

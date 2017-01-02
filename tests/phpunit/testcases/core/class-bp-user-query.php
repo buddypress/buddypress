@@ -175,7 +175,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*6 ),
 		) );
 
-		add_filter( 'bp_user_query_online_interval', create_function( '', 'return 5;' ) );
+		add_filter( 'bp_user_query_online_interval', function() { return 5; } );
 
 		$q = new BP_User_Query( array(
 			'type' => 'online',

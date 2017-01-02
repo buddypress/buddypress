@@ -832,7 +832,11 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 
 	// Add "new_post_type_comment" to the whitelisted activity types, so that the activity's Akismet history is generated
 	$post_type_comment_action = $activity_comment_object->action_id;
-	$comment_akismet_history = create_function( '$t', '$t[] = $post_type_comment_action; return $t;' );
+	$comment_akismet_history = function ( $activity_types ) use ( $post_type_comment_action ) {
+		$activity_types[] = $post_type_comment_action;
+
+		return $activity_types;
+	};
 	add_filter( 'bp_akismet_get_activity_types', $comment_akismet_history );
 
 	// Make sure the activity change won't edit the comment if sync is on

@@ -149,7 +149,7 @@ function bp_forums_load_bbpress() {
 	 *
 	 * @since 1.1.0
 	 */
-	register_shutdown_function( create_function( '', 'do_action("bb_shutdown");' ) );
+	register_shutdown_function( function() { do_action( 'bb_shutdown' ); } );
 }
 add_action( 'bbpress_init', 'bp_forums_load_bbpress' );
 

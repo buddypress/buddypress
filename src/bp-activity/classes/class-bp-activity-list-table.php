@@ -171,7 +171,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$activities['total']      = count( $activities['activities'] );
 
 			// Sort the array by the activity object's date_recorded value.
-			usort( $activities['activities'], create_function( '$a, $b', 'return $a->date_recorded > $b->date_recorded;' ) );
+			usort( $activities['activities'], function( $a, $b ) { return $a->date_recorded > $b->date_recorded; } );
 		}
 
 		// The bp_activity_get function returns an array of objects; cast these to arrays for WP_List_Table.

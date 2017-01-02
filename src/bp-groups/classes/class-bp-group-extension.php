@@ -974,7 +974,11 @@ class BP_Group_Extension {
 			if ( '' !== bp_locate_template( array( 'groups/single/home.php' ), false ) ) {
 				$this->edit_screen_template = '/groups/single/home';
 			} else {
-				add_action( 'bp_template_content_header', create_function( '', 'echo "<ul class=\"content-header-nav\">"; bp_group_admin_tabs(); echo "</ul>";' ) );
+				add_action( 'bp_template_content_header', function() {
+					echo '<ul class="content-header-nav">';
+					bp_group_admin_tabs();
+					echo '</ul>';
+				} );
 				add_action( 'bp_template_content', array( &$this, 'call_edit_screen' ) );
 				$this->edit_screen_template = '/groups/single/plugins';
 			}
@@ -1690,9 +1694,9 @@ function bp_register_group_extension( $group_extension_class = '' ) {
 
 	// Register the group extension on the bp_init action so we have access
 	// to all plugins.
-	add_action( 'bp_init', create_function( '', '
-		$extension = new ' . $group_extension_class . ';
-		add_action( "bp_actions", array( &$extension, "_register" ), 8 );
-		add_action( "admin_init", array( &$extension, "_register" ) );
-	' ), 11 );
+	add_action( 'bp_init', function() use ( $group_extension_class ) {
+		$extension = new $group_extension_class;
+		add_action( 'bp_actions', array( &$extension, '_register' ), 8 );
+		add_action( 'admin_init', array( &$extension, '_register' ) );
+	}, 11 );
 }
