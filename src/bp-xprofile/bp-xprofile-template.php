@@ -855,12 +855,10 @@ function bp_the_profile_field_visibility_level() {
 		 * Filters the profile field visibility level.
 		 *
 		 * @since 1.6.0
-		 * @since 2.8.0 Added field ID.
 		 *
 		 * @param string $retval Field visibility level.
-		 * @param string $value  Field ID.
 		 */
-		return apply_filters( 'bp_get_the_profile_field_visibility_level', $retval, $field->id );
+		return apply_filters( 'bp_get_the_profile_field_visibility_level', $retval );
 	}
 
 /**
