@@ -984,10 +984,6 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 				</tbody>
 			</table>
 
-			<div class="bp-group-admin-pagination table-bottom">
-				<?php echo $pagination[ $member_type ]; ?>
-			</div>
-
 		<?php else : ?>
 
 			<p class="bp-groups-no-members description"><?php esc_html_e( 'No members of this type', 'buddypress' ); ?></p>
