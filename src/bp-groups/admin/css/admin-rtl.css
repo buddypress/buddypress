@@ -56,6 +56,9 @@ ul.bp-group-delete-list {
 	list-style-type: disc;
 	margin: 4px 26px;
 }
+/*
+ * Members Pagination
+ */
 .bp-group-admin-pagination {
 	position: absolute;
 	text-align: left;
@@ -76,7 +79,30 @@ ul.bp-group-delete-list {
 	white-space: nowrap;
 	padding-right: 15px;
 }
+.bp-group-admin-pagination-links .page-numbers {
+	display: inline-block;
+	min-width: 12px;
+	border: 1px solid #ccc;
+	padding: 2px 4px 4px;
+	background: #e5e5e5;
+	line-height: 1;
+	font-weight: 400;
+	text-align: center;
+	text-decoration: none;
+}
+.bp-group-admin-pagination-links a.page-numbers:hover {
+	text-decoration: underline;
+}
+.bp-group-admin-pagination-links .page-numbers.current,
+.bp-group-admin-pagination-links .page-numbers.dots {
+	border-color: #ddd;
+	background: #f7f7f7;
+	color: #a0a5aa;
+}
 
+/*
+ * Members List
+ */
 table.bp-group-members .uid-column {
 	padding-right: 20px;
 	padding-left: 20px;
