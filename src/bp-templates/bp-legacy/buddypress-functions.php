@@ -300,7 +300,7 @@ class BP_Legacy extends BP_Theme_Compat {
 			'remove_fav'	      => __( 'Remove Favorite', 'buddypress' ),
 			'show_all'            => __( 'Show all', 'buddypress' ),
 			'show_all_comments'   => __( 'Show all comments for this thread', 'buddypress' ),
-			'show_x_comments'     => __( 'Show all %d comments', 'buddypress' ),
+			'show_x_comments'     => __( 'Show all comments (%d)', 'buddypress' ),
 			'unsaved_changes'     => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
 			'view'                => __( 'View', 'buddypress' ),
 		) );
