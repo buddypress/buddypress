@@ -225,8 +225,8 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 				<?php endforeach; else : ?>
 
-					<div id="message" class="error"><p><?php _e( 'You have no groups.', 'buddypress' ); ?></p></div>
-					<p><a href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Group', 'buddypress' ); ?></a></p>
+					<div id="message" class="error"><p><?php _ex( 'You have no groups.', 'You have no profile fields groups.', 'buddypress' ); ?></p></div>
+					<p><a href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _ex( 'Add New Group', 'Add New Profile Fields Group', 'buddypress' ); ?></a></p>
 
 				<?php endif; ?>
 
@@ -315,10 +315,10 @@ function xprofile_admin_delete_group( $group_id ) {
 	$group = new BP_XProfile_Group( $group_id );
 
 	if ( !$group->delete() ) {
-		$message = __( 'There was an error deleting the group. Please try again.', 'buddypress' );
+		$message = _x( 'There was an error deleting the group. Please try again.', 'Error when deleting profile fields group', 'buddypress' );
 		$type    = 'error';
 	} else {
-		$message = __( 'The group was deleted successfully.', 'buddypress' );
+		$message = _x( 'The group was deleted successfully.', 'Profile fields group was deleted successfully', 'buddypress' );
 		$type    = 'success';
 
 		/**
@@ -463,7 +463,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
  * @since 1.0.0
  *
  * @global string $message The feedback message to show.
- * @global $type The type of feedback message to show.
+ * @global string $type The type of feedback message to show.
  *
  * @param int    $field_id    The field to delete.
  * @param string $field_type  The type of field being deleted.
@@ -631,12 +631,12 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 			<?php endif; ?>
 
 			<div class="actions">
-				<a class="button edit" href="<?php echo esc_url( $field_edit_url ); ?>"><?php _e( 'Edit', 'buddypress' ); ?></a>
+				<a class="button edit" href="<?php echo esc_url( $field_edit_url ); ?>"><?php _ex( 'Edit', 'Edit field link', 'buddypress' ); ?></a>
 
 				<?php if ( $field->can_delete ) : ?>
 
 					<div class="delete-button">
-						<a class="confirm submit-delete deletion" href="<?php echo esc_url( $field_delete_url ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+						<a class="confirm submit-delete deletion" href="<?php echo esc_url( $field_delete_url ); ?>"><?php _ex( 'Delete', 'Delete field link', 'buddypress' ); ?></a>
 					</div>
 
 				<?php endif; ?>
