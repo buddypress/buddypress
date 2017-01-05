@@ -446,10 +446,10 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  *
  * @see delete_metadata() for full documentation excluding $meta_type variable.
  *
- * @param int $message_id ID of the message to have meta deleted for.
- * @param string|bool $meta_key Meta key to delete. Default false.
+ * @param int         $message_id ID of the message to have meta deleted for.
+ * @param string|bool $meta_key   Meta key to delete. Default false.
  * @param string|bool $meta_value Meta value to delete. Default false.
- * @param bool $delete_all Whether or not to delete all meta data.
+ * @param bool        $delete_all Whether or not to delete all meta data.
  *
  * @return bool True on successful delete, false on failure.
  */
