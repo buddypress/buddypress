@@ -247,7 +247,7 @@ class BP_User_Query {
 		// Setup the main SQL query container.
 		$sql = array(
 			'select'  => '',
-			'where'   => array(),
+			'where'   => array('1=1'),
 			'orderby' => '',
 			'order'   => '',
 			'limit'   => ''
