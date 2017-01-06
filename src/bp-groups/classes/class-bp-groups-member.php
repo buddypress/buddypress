@@ -129,7 +129,7 @@ class BP_Groups_Member {
 	 * @since 1.6.0
 	 * @var WP_User
 	 */
-	var $user;
+	protected $user;
 
 	/**
 	 * Constructor method.
@@ -197,9 +197,57 @@ class BP_Groups_Member {
 			$this->is_confirmed  = (int) $member->is_confirmed;
 			$this->comments      = $member->comments;
 			$this->invite_sent   = (int) $member->invite_sent;
+		}
+	}
 
+	/**
+	 * Magic getter.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $key Key.
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		switch ( $key ) {
+			case 'user' :
+				return $this->get_user_object( $this->user_id );
+		}
+	}
+
+	/**
+	 * Magic issetter.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $key Key.
+	 * @return mixed
+	 */
+	public function __isset( $key ) {
+		switch ( $key ) {
+			case 'user' :
+				return true;
+
+			default :
+				return isset( $this->{$key} );
+		}
+	}
+
+	/**
+	 * Get the user object corresponding to this membership.
+	 *
+	 * Used for lazyloading the protected `user` property.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @return BP_Core_User
+	 */
+	protected function get_user_object() {
+		if ( empty( $this->user ) ) {
 			$this->user = new BP_Core_User( $this->user_id );
 		}
+
+		return $this->user;
 	}
 
 	/**

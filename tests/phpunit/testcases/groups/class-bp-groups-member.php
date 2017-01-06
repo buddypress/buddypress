@@ -1300,4 +1300,21 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 2, count( $found ) );
 		$this->assertEqualSets( array( $m0, $m1 ), wp_list_pluck( $found, 'id' ) );
 	}
+
+	/**
+	 * @ticket BP7382
+	 */
+	public function test_user_property_should_be_accessible() {
+		$user = $this->factory->user->create();
+		$group = $this->factory->group->create();
+
+		$this->add_user_to_group( $user, $group );
+
+		$membership = new BP_Groups_Member( $user, $group );
+
+		$user_obj = $membership->user;
+
+		$this->assertInstanceOf( 'BP_Core_User', $user_obj );
+		$this->assertEquals( $user, $user_obj->id );
+	}
 }
