@@ -154,6 +154,13 @@ $spacing-val-xs: 5px;
 	background-clip: padding-box;
 }
 
+@mixin border-radius-none() {
+	-webkit-border-radius: none;
+	-moz-border-radius: none;
+	-ms-border-radius: none;
+	border-radius: none;
+}
+
 // Box sizing
 @mixin box-model($box-model) {
 	-webkit-box-sizing: $box-model;
@@ -192,25 +199,34 @@ $spacing-val-xs: 5px;
 }
 
 // Variables: color definitions
-$body-text:          #141412;
+
+$dark-grey:     #555;
+$medium-grey:   #878787;
+$light-grey:    #dcdcdc;
+$x-light-grey:  #f7f7f7;
+$white:         #fff;
+
+$body-text:          #333;
+$bp-light-text:      $medium-grey;
+$bp-xlight-text:     #eee;
 $content-background: #fff;
-$off-white:          lighten(#f9f8ee, 0.7);
+$off-white:          #fafafa;
 $cream-background:   #f7f5e7;
-$light-background:   #f7f7f7;
-$medium-background:  #ccc;
-$dark-background:    #555;
-$border-color:       #d4d0ba;    // border color is varied using rgba
+$light-background:   $x-light-grey;
+$medium-background:  $medium-grey;
+$dark-background:    $dark-grey;
+$border-color:       #bebebe;
 $border-light:       #eaeaea; // BP dividers
 $border-med:         #ddd;
 $background-hover:   #db572f; // 2017 link background hover
 $bp-button-hover:    #ededed; // this is the default BP button hover background
 $notice-error:       #c85a6e;
 $notice-warning:     #d05656;
-$notice-info:        #9fd1e2;
+$notice-info:        #7dd4ff;
 $notice-update:      #ced98c;
 $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
-$unread:             #eee;
+$unread:             $x-light-grey;
 $link-action:        #c82b2b;
 /*--------------------------------------------------------------
 
@@ -277,6 +293,21 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	// Remove any empty clearing elements, CSS provides clearing.
 	div.clear {display: none;}
 
+	// deal with global clearing property set on heading elements
+	// - for the moment we'll just specify this on  lists ul only
+
+	ul.item-list {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			clear: none;
+			padding: 0;
+		}
+	}
+
 	// Ensure no text decoration or box shadow causing underlined effect.
 	#page a {
 		box-shadow: none;
@@ -293,7 +324,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 } // close .buddypress
 
-	// reduce the overlarge entry title margins
+// reduce the overlarge entry title margins
 @include medium-up {
 
 	.buddypress.bp-user.page,
@@ -310,38 +341,23 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 	}
 }
-// 2017 has very small page entry title headings
-// enlarge slightly for BP screens.
-.buddypress {
-	article.page {
-		.entry-header {
-			.entry-title {
-				@include font-size(22);
-
-				@include medium-up {
-					@include font-size(28);
-				}
-			}
-		}
-	}
-}
 
 // Open up the content width areas for BP screens to allow max widths.
-// This takes into account the ability to add/remove sidebars in 2017.
+// This takes into account the ability to columnize pages in 2017.
 // Only effect changes based on breakpoints.
 
-@include medium-up {
+@include med-small-up {
 
 	body.buddypress.page.page-two-column {
 
 		#primary {
 
 			.entry-header {
-				width: 20%;
+				width: 30%;
 			}
 
 			.entry-content {
-				width: 80%;
+				width: 68%;
 			}
 		}
 	}
@@ -357,7 +373,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			.content-bottom-widgets {
 				margin-left: 0;
 				margin-right: 0;
-//				width: auto;
 			}
 		}
 
@@ -369,6 +384,277 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 
 	} // body.buddypress
+}
+
+// 2017 allows for selecting two distinct color schemes.
+// Our companion styles respect themes colors & inherit or avoid
+// setting backgrounds/colors so selecting the dark scheme generally
+// allows the theme to reset the BP text/headings etc to white
+// In places we do set backgrounds, Navs, search forms etc these
+// are added here under the themes body class to enable changing
+
+// Some element colors are inherited from BP original sheet so need to
+// to be reset under the dark scheme, where set in this sheet we simply state them
+// only for the light scheme, additionally elements such as BP form styles
+// need styles removing & are handled later in 'Forms' section
+body.colors-dark {
+
+	#buddypress {
+
+		//tabs border bottom color needs to match dark background
+		#group-create-tabs.item-list-tabs {
+
+			li.selected,
+			li.current {
+				border-bottom-color: #222;
+
+				a {
+					color: inherit;
+				}
+			}
+		}
+
+		div.item-list-tabs {
+
+			ul {
+
+				li.selected,
+				li.current {
+
+					a {
+						background: none;
+						color: inherit;
+					}
+				}
+			}
+		}
+
+		#object-nav {
+
+			li:not(.current):focus,
+			li:not(.current):hover {
+
+				a {
+					color: #555;
+				}
+			}
+		}
+
+		// With the dark scheme the subnav links lose definition as
+		// nav menu links, add a border top to clarify the li.last element seperated from links.
+		#subnav.item-list-tabs {
+
+			ul {
+				border-bottom: 1px solid rgba($border-light, 0.9);
+				margin-bottom: $spacing-val-md;
+
+				li.last {
+					border-top: 1px solid rgba($border-light, 0.9);
+				}
+			}
+		}
+
+		// lists text: descr, meta, etc
+		.item-list {
+
+			div.meta {
+				color: #ddd;
+			}
+
+			div.item-desc,
+			.activity-header p,
+			.activity-comments ul,
+			.acomment-meta {
+				color: $bp-xlight-text;
+			}
+
+			.activity-meta,
+			.action {
+				a {
+					background: $off-white;
+
+					&:focus,
+					&:hover {
+						background: $white;
+					}
+				}
+			}
+		}
+
+		#latest-update {
+			color: $bp-xlight-text;
+		}
+
+		div.pagination * {
+			color: #ddd;
+		}
+
+		#item-header {
+			.user-nicename {
+				color: $bp-xlight-text;
+			}
+		}
+
+		#item-body {
+
+			table {
+
+				thead {
+
+					tr,
+					th {
+						background: none;
+						color: $bp-xlight-text;
+					}
+				}
+
+				tr.alt {
+
+					td {
+						background: none;
+						color: $bp-xlight-text;
+					}
+				}
+
+				.field-visibility-settings,
+				.field-visibility-settings-notoggle {
+					color: #eee;
+				}
+
+			}
+
+			fieldset {
+				background: none;
+			}
+
+			.checkbox,
+			.radio {
+
+				label {
+					color: #eee;
+				}
+			}
+
+			div#invite-list {
+				background: none;
+			}
+		}
+
+	} // close #buddypress
+}
+
+
+body.colors-dark.group-members {
+
+	#buddypress {
+
+		#subnav {
+
+			li {background: none;}
+
+			.groups-members-search {
+
+				form {
+					margin-bottom: $spacing-val-md;
+					margin-top: 0;
+				}
+			}
+		}
+	}
+}
+
+// remove borders for dir component screens.
+.directory.colors-dark {
+
+	#buddypress {
+
+		#subnav.item-list-tabs {
+
+			ul {
+				border-bottom: 0;
+				border-top: 0;
+
+				li.last.filter {
+					border-top: 0;
+				}
+			}
+		}
+
+		div.activity {
+
+			ul.item-list {
+				border-top: 0;
+			}
+		}
+	}
+}
+
+body.colors-light {
+
+	#buddypress {
+
+		div.item-list-tabs {
+
+			ul {
+				background-color: $off-white;
+			}
+		}
+
+		div#subnav.item-list-tabs {
+
+			ul {
+				background-color: $light-background;
+
+				li.last {
+					background: $content-background;
+				}
+			}
+		}
+
+		.item-list {
+
+			.activity-header {
+
+				p {
+					background-color: $light-background;
+					color: $bp-light-text;
+				}
+			}
+
+			.activity-comments {
+
+				.acomment-meta {
+					color: #737373;
+				}
+			}
+		}
+
+		#item-body {
+
+			.profile {
+
+				h2 {
+					background: $medium-grey;
+					color: #fff;
+				}
+			}
+		}
+
+		table {
+
+			tr.alt {
+
+				td {
+					background: #f5f5f5;
+					color: $body-text;
+				}
+			}
+		}
+
+		div#invite-list {
+			background: $off-white;
+		}
+	} // close #buddypress
 }
 
 /**
@@ -409,16 +695,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	div.item-list-tabs {
 
 		ul {
-			background-color: $off-white;
 			border-bottom: 1px solid rgba($border-light, 0.9);
-			border-top: 1px solid rgba($border-light, 0.9);
 			overflow: hidden;
 			padding: 0;
 
 			li {
 
 				a {
-					color: #0073c1;
 
 					span {border-radius: 25%;}
 				}
@@ -428,54 +711,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 } // close #buddypress
 
-// .bp-user #object-nav @ small screen as a dropdown
-
-.bp-user {
-
-	#buddypress {
-
-		@include small-only {
-
-			#object-nav {
-				background: $off-white;
-				border: 1px solid $border-light;
-				overflow: visible;
-				padding: $spacing-val-sm;
-
-				ul {
-					border: 0;
-					height: 0;
-					// all latest vendor releases handle transitions, so no prefixes used.
-					transition: height 0.3s ease-in-out 0.7s;
-					visibility: hidden;
-				}
-
-				&:before {
-					content: "Menu \021E9";
-					display: inline;
-					opacity: 0.7;
-				}
-
-				&:hover,
-				&:focus {
-					&:before {content: "Menu \021E7";}
-
-					ul {
-						height: 320px;
-						opacity: 1;
-						overflow-y: auto;
-						visibility: visible;
-					}
-				}
-			}
-
-			#subnav {
-				clear: both;
-			}
-
-		} // close @media
-	}
-}
 
 /*__ Horizontal menus __*/
 #buddypress {
@@ -519,13 +754,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		margin-top: 0;
 
 		ul {
-			background-color: $light-background;
 			border-bottom: 0;
 			margin-top: $spacing-val-xs;
 			padding: 0;
 
 			li.last {
-				background: $content-background;
 				margin-top: 0;
 				padding: $spacing-val-xs $spacing-val-xs $spacing-val-xs 0;
 				width: 100%;
@@ -569,18 +802,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 // This block contains rules to re-factor the item-body structural element
 // to sit alongside the vert menu
 // 2017 right sidebar is displayed if the widget sidebar has widgets;
-// we'll only display object nav as a vert menu if sidebar not present.
+// we'll only display object nav as a vert menu if not .two-column-page.
 
 @include medium-up {
 
-	body.no-sidebar {
+	body:not(.page-two-column) {
 
 		#buddypress {
-
-			#item-header,
-			#item-body {
-				background: $content-background;
-			}
 
 			#object-nav {
 				border-right: 1px solid $border-med;
@@ -630,59 +858,57 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 @include med-small-up {
 
-	#main {
+	#buddypress {
 
-		#buddypress {
+		#group-create-tabs.item-list-tabs {
 
-			#group-create-tabs.item-list-tabs {
+			ul:before,
+			ul:after {
+				content: " ";
+				display: table;
+			}
 
-				ul:before,
-				ul:after {
-					content: " ";
-					display: table;
+			ul:after {
+				clear: both;
+			}
+
+			ul {
+				background: none;
+				border: 0;
+				border-bottom: 1px solid $border-med;
+				overflow: visible;
+				padding-bottom: 0;
+
+				li {
+					float: left;
+					width: auto;
 				}
 
-				ul:after {
-					clear: both;
-				}
+				li.selected,
+				li.current {
+					border: 1px solid $border-med;
+					border-bottom-color: $content-background;
+					@include border-top-radius(4px);
+					margin-bottom: -1px;
 
-				ul {
-					background: none;
-					border: 0;
-					border-bottom: 1px solid $border-med;
-					overflow: visible;
-					padding-bottom: 0;
-
-					li {
-						float: left;
-						width: auto;
-					}
-
-					li.selected,
-					li.current {
-						border: 1px solid $border-med;
-						border-bottom-color: $content-background;
-						@include border-top-radius(4px);
-						margin-bottom: -1px;
-
-						a {
-							background: none;
-							color: $body-text;
-							outline: none;
-						}
+					a {
+						background: none;
+						color: $body-text;
+						outline: none;
 					}
 				}
+			}
 
-			} // close .item-list-tabs
+		} // close .item-list-tabs
 
-			#subnav {
-				ul {
-					border-bottom: 0;
-				}
+		#subnav {
+			ul {
+				border-bottom: 0;
+			}
 
-			} // close #subnav
-		} // close #buddypress
-	}
+		} // close #subnav
+	} // close #buddypress
+
 } // close @media
 
 /**
@@ -770,8 +996,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 
 	.action {
+
 		.generic-button {
+
 			a {
+
 				&:focus,
 				&:hover {
 					background: inherit;
@@ -851,7 +1080,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 					.update {
 						display: block;
-						@include font-size(12);
+						@include font-size(13);
 
 						@include medium-up {
 							@include font-size(14);
@@ -892,8 +1121,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				// remove BP margin left
 				margin-left: 0;
 				padding: $spacing-val-md 0 $spacing-val-xs;
-				// push the actions to the right
 
+				// push the actions to the right
 				@include medium-up {
 					clear: none;
 					float: right;
@@ -917,7 +1146,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					// Provisionally lets keep the 'action' div
 					// position but inline-block the buttons
 
-					@include med-small-up {
+					@include small-up {
 						// keep buttons to a row small tablet up
 						margin: 0 $spacing-val-sm $spacing-val-sm 0;
 						width: auto;
@@ -1088,7 +1317,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		li.mini {
 
 			.activity-avatar {
+
 				a {
+
 					img.avatar {
 						height: 30px;
 						margin-left: 15px;
@@ -1109,31 +1340,32 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			margin-top: -12px;
 
 			.activity-header {
-				line-height: inherit;
 				margin-right: 0;
 
 				p {
-					background-color: $light-background;
 					border: 1px solid rgba($border-light, 0.6);
-					color: #727272;
 					margin-top: 0;
 					padding: 0 0.2em;
 				}
 
 				img.avatar {
+					box-shadow: none;
 					display: inline-block;
-					margin-bottom: 0 !important; // have to match to BP
+					margin: 0 5px !important; // have to match to BP
+					vertical-align: middle;
 				}
 			} // close .activity-header
 
 			.activity-meta {
+
 				a {
 					display: block;
 					margin-bottom: $spacing-val-xs;
 
-					@include small-up-bp {
+					@include small-up {
 						display: inline-block;
 						margin-bottom: 0;
+						width: auto;
 					}
 				}
 			}
@@ -1197,12 +1429,18 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		.activity-comments {
 			border-left: 1px solid $border-light;
-			margin-top: 5px;
+			margin: $spacing-val-md 0 $spacing-val-md;
+
+			@include small-up {
+				margin-left: $spacing-val-md;
+			}
 
 			ul {
-				background: rgba($light-background, 0.6);
-				color: #737373;
 				margin: 15px 0 0 2px;
+
+				li {
+					border-top: 1px solid $border-color;
+				}
 
 				a {
 					color: #0077c7;
@@ -1210,7 +1448,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 			.acomment-meta {
-				color: #737373;
+				border-bottom: 1px solid $border-light;
 			}
 
 			.ac-form {
@@ -1256,6 +1494,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#members-list {
 
 		@include medium-up {
+
 			li {
 				.item-avatar,
 				.item {
@@ -1264,6 +1503,16 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 				.action {
 					float: right;
+				}
+			}
+
+			li.is-current-user {
+
+				.item {
+					float: none;
+					left: 0;
+					padding-left: 5%;
+					width: auto;
 				}
 			}
 		}
@@ -1318,11 +1567,68 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @subsection 6.1 - Item Header Global
 *-----------------------------------------------------------
 */
+@include med-small-up {
+
+
+	.bp-user.page-two-column {
+
+		#buddypress {
+
+			#cover-image-container {
+
+				#item-header-cover-image {
+
+					#item-header-content {
+						margin-left: 140px;
+						margin-top: -100px;
+					}
+				}
+			}
+		}
+	}
+
+	.single-item.groups.page-two-column {
+
+		#buddypress {
+
+			#cover-image-container {
+
+				#item-header-cover-image {
+
+					#item-header-content {
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+	}
+
+} // close media
 
 .bp-user,
 .single-item.groups {
 
 	#buddypress {
+
+		// we need to remove the cover image dec styles
+		// & reset them for med up  only.
+		#item-header-cover-image {
+			.user-nicename {
+				color: $body-text;
+				text-shadow: none;
+			}
+		}
+
+		@include med-small-up {
+
+			#item-header-cover-image {
+
+				.user-nicename {
+					color: $white;
+					text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+				}
+			}
+		}
 
 		#item-header-content {
 
@@ -1417,7 +1723,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					text-align: center;
 
 					a {
-						border-bottom: 0;
 
 						img {
 							display: inline-block;
@@ -1524,7 +1829,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				img.avatar,
 
 				a {
-					border-bottom: 0;
 					display: inline-block;
 					float: none;
 				}
@@ -1560,6 +1864,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *-----------------------------------------------------------
 */
 
+
 /**
 *----------------------------------------------------
 * @subsection 6.2.1 - Item Body Groups
@@ -1567,6 +1872,22 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * Groups specific item body rules -  screens
 *----------------------------------------------------
 */
+
+.groups.single-item.members {
+
+	#buddypress {
+
+		#subnav.item-list-tabs {
+
+			ul {
+				background: none;
+				border-top: 0;
+			}
+
+		}
+	}
+
+}
 
 /**
 *-----------------------------------------
@@ -1709,7 +2030,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					}
 				}
 
-				margin: $spacing-val-xs $spacing-val-xs 0 0;
+				margin: $spacing-val-xs 0 0;
 			}
 		}
 	}
@@ -1778,8 +2099,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		.pag-count {font-style: italic;}
 
-		.notifications-options-nav {
-			border: 1px solid rgba($border-color, 0.5);
+		.notifications-options-nav,
+		.messages-options-nav {
+
 			float: left;
 			width: 100%;
 
@@ -1793,7 +2115,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			select,
 			input {
-				border: 0;
+
 				@include font-size(14);
 				outline: 0;
 				padding: 0;
@@ -1801,8 +2123,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 			select {
 				float: left;
-				margin-right: 0;
-				width: 60%;
+				margin-right: 1%;
+				width: 59%;
 			}
 
 			input {
@@ -1812,7 +2134,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				width: 40%;
 			}
 
-		} // close .notifications-options-nav
+			input[disabled="disabled"]:focus,
+			input[disabled="disabled"]:hover {
+				background: none;
+			}
+
+
+		} // close .notifications-options-nav/.messages-options-nav
 
 	} //close #buddypress
 } // close .bp-user
@@ -1828,16 +2156,28 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	#buddypress {
 
 		.profile {
-			.bp-widget {
+
 				h2 {
-					background: lighten($dark-background, 15%);
-					color: #fff;
 					margin: $spacing-val-lg 0 $spacing-val-sm;
 					padding: 0.1em 0 0.1em 0.4em;
 				}
 
 				table {margin-top: 0;}
-			}
+
+				.profile-fields {
+
+					tr.alt {
+
+						td {
+							color: $body-text;
+						}
+					}
+
+					tr:last-child {
+						border-bottom: 0;
+					}
+				}
+
 			/* Edit profile */
 
 			#profile-edit-form {
@@ -1874,13 +2214,16 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 				} //.button-nav
 
 				.field-visibility-settings-toggle,
+				.field-visibility-settings-notoggle,
 				.field-visibility-settings {
 					@include font-size(14);
+					margin-top: $spacing-val-sm;
 				}
 
 				.field-visibility-settings-close,
 				.visibility-toggle-link {
 					background: $dark-background;
+					@include border-radius(3px);
 					color: #fff;
 					padding: 0.2em 0.5em;
 				}
@@ -1932,6 +2275,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		#message-thread {
 			//Single message view
+
 			a {
 				border-bottom: 0;
 			}
@@ -1979,6 +2323,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 			#send-reply {
+
 				.message-content {
 					background: $content-background;
 					border: 0;
@@ -1994,22 +2339,30 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		#message-threads {
 
 			thead {
+
 				tr {
-					background: lighten($dark-background, 10%);
+					background: none;
+					border-bottom: 1px solid $border-color;
+
+
+					th {
+						background: #555;
+					}
 				}
 			}
 
 			tr {
+				border-bottom: 5px solid $medium-grey;
+
 				td {
-					background: $content-background;
 					display: inline-block;
 					float: left;
 				}
 
 				td.thread-star,
 				td.thread-options {
-					border-bottom-color: $medium-background;
-					border-bottom-width: 2px;
+					border-bottom-color: $border-color;
+					border-bottom-width: 1px;
 					height: 2.4em;
 					padding-bottom: 0.2em;
 					padding-top: 0.2em;
@@ -2017,6 +2370,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 					@media screen and (max-width: 46.25em) {
 						padding-top: 0;
 					}
+				}
+
+				td.bulk-select-check,
+				td.thread-star,
+				td.thread-from,
+				td.thread-info,
+				td.thread-options {
+					border-top: 0;
 				}
 
 				td.thread-star {
@@ -2080,8 +2441,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 			tr.unread {
+
 				td {
-					background: $unread;
+					background: none;
 					border-color: $border-color;
 				}
 			}
@@ -2101,12 +2463,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			td.thread-star {
 				border-right: 0;
 				width: 30px;
-			}
-		}
-
-		.messages-options-nav {
-			select {
-				height: auto;
 			}
 		}
 
@@ -2295,10 +2651,15 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 // Attempt to reset form control widths
 #main {
+
 	#buddypress {
+
 		.standard-form {
 
-			li {float: none;}
+			li {
+				float: none;
+			}
+
 			input[type='text'],
 			input[type='email'],
 			input[type='password'],
@@ -2308,7 +2669,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 	}
 }
-
 
 #buddypress {
 
@@ -2364,6 +2724,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 } // close #buddypress
 
 #buddypress {
+
 	div.dir-search,
 	div.message-search,
 	li.groups-members-search {
@@ -2375,32 +2736,36 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 		form { // *sigh* only to bludgeon over specified rules
 			border: 1px solid rgba($border-color, 0.6);
+			@include border-radius(2px);
 			overflow: hidden;
 
 			label {
 				float: left;
 				margin: 0;
-			}
-
-			input[type='text'] {
-				float: left;
-				margin: 0;
 				width: 70%;
 			}
 
-			input[type='text'],
-			input[type='submit'] {
-				@include font-size(14);
+			input[type="text"] {
+				float: left;
+				margin: 0;
+				width: 100%;
+			}
+
+			input[type="text"],
+			input[type="submit"] {
 				border: 0;
+				@include font-size(14);
 				line-height: inherit;
 			}
 
-			input[type='text'] {
+			input[type="text"] {
 				border-right: 1px solid rgba($border-color, 0.6);
+				font-weight: 400;
 				padding: 0.2em 0 0.2em 0.2em;
 			}
 
-			input[type='submit'] {
+			input[type="submit"] {
+				@include border-radius-none();
 				float: right;
 				font-weight: normal;
 				padding: 0.2em 1em;
@@ -2412,6 +2777,24 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 	} // close .dir-search, .message-search
 
+	// Dirs & certain components hide search hides labels so can't width the label element
+	// adjust so that the input takes reduced width.
+
+	div.dir-search {
+		margin-top: 0;
+	}
+
+	.dir-search #search-members-form,
+	#search-groups-form,
+	#search-message-form {
+
+		input[type='text'] {
+			float: left;
+			margin: 0;
+			width: 70%;
+		}
+	}
+
 	// Shift the search parent to the right and allow to shrinkwrap
 
 	@include small-up {
@@ -2420,14 +2803,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		li.groups-members-search {
 			float: right;
 			margin-bottom: 5px !important;
-
-			form {
-				label,
-				input[type='text'],
-				input[type='submit'] {
-					width: auto;
-				}
-			}
 		}
 
 	} // close @media
@@ -2436,8 +2811,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	@include large-up {
 
 		.dir-search,
-
-		.message-search {
+		.message-search,
+		li.groups-members-search {
 
 			form {
 
@@ -2454,6 +2829,39 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 } // close #buddypress
 
+// Adjustments for form elements colors, backgrounds, borders under the dark scheme.
+body.colors-dark {
+
+	#page { // for weight
+
+		#buddypress {
+
+			.dir-search,
+			.groups-members-search,
+			.message-search {
+
+				form {
+					background: #333;
+					border-color: #555;
+					@include border-radius(2px);
+					padding: 1px;
+				}
+
+				input[type="text"] {
+					background: none;
+				}
+
+				input[type="submit"] {
+					@include border-radius(2px);
+				}
+			}
+		}
+
+		.message-search {
+			margin-top: 0;
+		}
+	}
+}
 /**
 *-------------------------------------------------------------------------------
 * @section 8.0 - Tables - General
@@ -2472,9 +2880,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		margin: $spacing-val-md 0;
 
 		tr th {
-			background: lighten($dark-background, 10%);
-			border-color: darken($border-light, 20%);
-			color: $content-background;
+			background: $light-background;
+			border-color: $border-light;
+			color: $body-text;
 		}
 
 		// Reduce the themes inherited paragraph margins in tables
@@ -2536,6 +2944,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 
 	} // .notifications, .message-notices
+
+	.notifications { // table element
+		.actions { // th element
+			text-align: center;
+		}
+	}
 } // #buddypress
 
 /**
@@ -2572,6 +2986,17 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 
 	} // close #message
+
+	.bp-avatar-status,
+	.bp-cover-image-status {
+
+		.warning {
+			background: #7dd4ff;
+			border: 1px solid #000;
+			color: $body-text;
+			@include font-size(16);
+		}
+	}
 
 } // close  #buddypress
 

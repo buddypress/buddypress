@@ -62,6 +62,16 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	display: none;
 }
 
+.buddypress ul.item-list h1,
+.buddypress ul.item-list h2,
+.buddypress ul.item-list h3,
+.buddypress ul.item-list h4,
+.buddypress ul.item-list h5,
+.buddypress ul.item-list h6 {
+	clear: none;
+	padding: 0;
+}
+
 .buddypress #page a {
 	box-shadow: none;
 	text-decoration: none !important;
@@ -92,24 +102,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 }
 
-.buddypress article.page .entry-header .entry-title {
-	font-size: 22px;
-	font-size: 1.375rem;
-}
-
-@media screen and (min-width: 55em) {
-	.buddypress article.page .entry-header .entry-title {
-		font-size: 28px;
-		font-size: 1.75rem;
-	}
-}
-
-@media screen and (min-width: 55em) {
+@media screen and (min-width: 48em) {
 	body.buddypress.page.page-two-column #primary .entry-header {
-		width: 20%;
+		width: 30%;
 	}
 	body.buddypress.page.page-two-column #primary .entry-content {
-		width: 80%;
+		width: 68%;
 	}
 	body.buddypress:not(.has-sidebar) #primary.content-area,
 	body.buddypress:not(.page-two-column) #primary.content-area {
@@ -132,6 +130,156 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 }
 
+body.colors-dark #buddypress #group-create-tabs.item-list-tabs li.selected,
+body.colors-dark #buddypress #group-create-tabs.item-list-tabs li.current {
+	border-bottom-color: #222;
+}
+
+body.colors-dark #buddypress #group-create-tabs.item-list-tabs li.selected a,
+body.colors-dark #buddypress #group-create-tabs.item-list-tabs li.current a {
+	color: inherit;
+}
+
+body.colors-dark #buddypress div.item-list-tabs ul li.selected a,
+body.colors-dark #buddypress div.item-list-tabs ul li.current a {
+	background: none;
+	color: inherit;
+}
+
+body.colors-dark #buddypress #object-nav li:not(.current):focus a,
+body.colors-dark #buddypress #object-nav li:not(.current):hover a {
+	color: #555;
+}
+
+body.colors-dark #buddypress #subnav.item-list-tabs ul {
+	border-bottom: 1px solid rgba(234, 234, 234, 0.9);
+	margin-bottom: 20px;
+}
+
+body.colors-dark #buddypress #subnav.item-list-tabs ul li.last {
+	border-top: 1px solid rgba(234, 234, 234, 0.9);
+}
+
+body.colors-dark #buddypress .item-list div.meta {
+	color: #ddd;
+}
+
+body.colors-dark #buddypress .item-list div.item-desc,
+body.colors-dark #buddypress .item-list .activity-header p,
+body.colors-dark #buddypress .item-list .activity-comments ul,
+body.colors-dark #buddypress .item-list .acomment-meta {
+	color: #eee;
+}
+
+body.colors-dark #buddypress .item-list .activity-meta a,
+body.colors-dark #buddypress .item-list .action a {
+	background: #fafafa;
+}
+
+body.colors-dark #buddypress .item-list .activity-meta a:focus, body.colors-dark #buddypress .item-list .activity-meta a:hover,
+body.colors-dark #buddypress .item-list .action a:focus,
+body.colors-dark #buddypress .item-list .action a:hover {
+	background: #fff;
+}
+
+body.colors-dark #buddypress #latest-update {
+	color: #eee;
+}
+
+body.colors-dark #buddypress div.pagination * {
+	color: #ddd;
+}
+
+body.colors-dark #buddypress #item-header .user-nicename {
+	color: #eee;
+}
+
+body.colors-dark #buddypress #item-body table thead tr,
+body.colors-dark #buddypress #item-body table thead th {
+	background: none;
+	color: #eee;
+}
+
+body.colors-dark #buddypress #item-body table tr.alt td {
+	background: none;
+	color: #eee;
+}
+
+body.colors-dark #buddypress #item-body table .field-visibility-settings,
+body.colors-dark #buddypress #item-body table .field-visibility-settings-notoggle {
+	color: #eee;
+}
+
+body.colors-dark #buddypress #item-body fieldset {
+	background: none;
+}
+
+body.colors-dark #buddypress #item-body .checkbox label,
+body.colors-dark #buddypress #item-body .radio label {
+	color: #eee;
+}
+
+body.colors-dark #buddypress #item-body div#invite-list {
+	background: none;
+}
+
+body.colors-dark.group-members #buddypress #subnav li {
+	background: none;
+}
+
+body.colors-dark.group-members #buddypress #subnav .groups-members-search form {
+	margin-bottom: 20px;
+	margin-top: 0;
+}
+
+.directory.colors-dark #buddypress #subnav.item-list-tabs ul {
+	border-bottom: 0;
+	border-top: 0;
+}
+
+.directory.colors-dark #buddypress #subnav.item-list-tabs ul li.last.filter {
+	border-top: 0;
+}
+
+.directory.colors-dark #buddypress div.activity ul.item-list {
+	border-top: 0;
+}
+
+body.colors-light #buddypress div.item-list-tabs ul {
+	background-color: #fafafa;
+}
+
+body.colors-light #buddypress div#subnav.item-list-tabs ul {
+	background-color: #f7f7f7;
+}
+
+body.colors-light #buddypress div#subnav.item-list-tabs ul li.last {
+	background: #fff;
+}
+
+body.colors-light #buddypress .item-list .activity-header p {
+	background-color: #f7f7f7;
+	color: #878787;
+}
+
+body.colors-light #buddypress .item-list .activity-comments .acomment-meta {
+	color: #737373;
+}
+
+body.colors-light #buddypress #item-body .profile h2 {
+	background: #878787;
+	color: #fff;
+}
+
+body.colors-light #buddypress table tr.alt td {
+	background: #f5f5f5;
+	color: #333;
+}
+
+body.colors-light #buddypress div#invite-list {
+	background: #fafafa;
+}
+
 /**
 *-------------------------------------------------------------------------------
 * @section 2.0 - Navigation - General
@@ -150,51 +298,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress div.item-list-tabs ul {
-	background-color: #faf9f1;
 	border-bottom: 1px solid rgba(234, 234, 234, 0.9);
-	border-top: 1px solid rgba(234, 234, 234, 0.9);
 	overflow: hidden;
 	padding: 0;
 }
 
-#buddypress div.item-list-tabs ul li a {
-	color: #0073c1;
-}
-
 #buddypress div.item-list-tabs ul li a span {
 	border-radius: 25%;
-}
-
-@media screen and (max-width: 38.75em) {
-	.bp-user #buddypress #object-nav {
-		background: #faf9f1;
-		border: 1px solid #eaeaea;
-		overflow: visible;
-		padding: 10px;
-	}
-	.bp-user #buddypress #object-nav ul {
-		border: 0;
-		height: 0;
-		transition: height 0.3s ease-in-out 0.7s;
-		visibility: hidden;
-	}
-	.bp-user #buddypress #object-nav:before {
-		content: "Menu \021E9";
-		display: inline;
-		opacity: 0.7;
-	}
-	.bp-user #buddypress #object-nav:hover:before, .bp-user #buddypress #object-nav:focus:before {
-		content: "Menu \021E7";
-	}
-	.bp-user #buddypress #object-nav:hover ul, .bp-user #buddypress #object-nav:focus ul {
-		height: 320px;
-		opacity: 1;
-		overflow-y: auto;
-		visibility: visible;
-	}
-	.bp-user #buddypress #subnav {
-		clear: both;
-	}
 }
 
 /*__ Horizontal menus __*/
@@ -229,14 +339,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress div#subnav.item-list-tabs ul {
-	background-color: #f7f7f7;
 	border-bottom: 0;
 	margin-top: 5px;
 	padding: 0;
 }
 
 #buddypress div#subnav.item-list-tabs ul li.last {
-	background: #fff;
 	margin-top: 0;
 	padding: 5px 5px 5px 0;
 	width: 100%;
@@ -273,67 +381,63 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 /*__ Vertical menu User Account / Group single screens __*/
 @media screen and (min-width: 55em) {
-	body.no-sidebar #buddypress #item-header,
-	body.no-sidebar #buddypress #item-body {
-		background: #fff;
-	}
-	body.no-sidebar #buddypress #object-nav {
+	body:not(.page-two-column) #buddypress #object-nav {
 		border-right: 1px solid #ddd;
 		float: left;
 		margin-right: -1px;
 		width: 200px;
 	}
-	body.no-sidebar #buddypress #object-nav ul {
+	body:not(.page-two-column) #buddypress #object-nav ul {
 		background: none;
 		border-bottom: 0;
 		padding: 0;
 	}
-	body.no-sidebar #buddypress #object-nav ul li {
+	body:not(.page-two-column) #buddypress #object-nav ul li {
 		float: none;
 		overflow: hidden;
 	}
-	body.no-sidebar #buddypress #object-nav ul li span {
+	body:not(.page-two-column) #buddypress #object-nav ul li span {
 		background: #fff;
 		border-radius: 10%;
 		float: right;
 		margin-right: 2px;
 	}
-	body.no-sidebar #buddypress #item-body {
+	body:not(.page-two-column) #buddypress #item-body {
 		border-left: 1px solid #ddd;
 		overflow: hidden;
 		padding: 0 0 0 20px;
 		width: auto;
 	}
-	body.no-sidebar #buddypress #item-body #subnav {
+	body:not(.page-two-column) #buddypress #item-body #subnav {
 		margin: 0 0 0 -20px;
 	}
-	body.no-sidebar #buddypress #item-body #subnav ul {
+	body:not(.page-two-column) #buddypress #item-body #subnav ul {
 		margin-top: 0;
 	}
 }
 
 @media screen and (min-width: 48em) {
-	#main #buddypress #group-create-tabs.item-list-tabs ul:before,
-	#main #buddypress #group-create-tabs.item-list-tabs ul:after {
+	#buddypress #group-create-tabs.item-list-tabs ul:before,
+	#buddypress #group-create-tabs.item-list-tabs ul:after {
 		content: " ";
 		display: table;
 	}
-	#main #buddypress #group-create-tabs.item-list-tabs ul:after {
+	#buddypress #group-create-tabs.item-list-tabs ul:after {
 		clear: both;
 	}
-	#main #buddypress #group-create-tabs.item-list-tabs ul {
+	#buddypress #group-create-tabs.item-list-tabs ul {
 		background: none;
 		border: 0;
 		border-bottom: 1px solid #ddd;
 		overflow: visible;
 		padding-bottom: 0;
 	}
-	#main #buddypress #group-create-tabs.item-list-tabs ul li {
+	#buddypress #group-create-tabs.item-list-tabs ul li {
 		float: left;
 		width: auto;
 	}
-	#main #buddypress #group-create-tabs.item-list-tabs ul li.selected,
-	#main #buddypress #group-create-tabs.item-list-tabs ul li.current {
+	#buddypress #group-create-tabs.item-list-tabs ul li.selected,
+	#buddypress #group-create-tabs.item-list-tabs ul li.current {
 		border: 1px solid #ddd;
 		border-bottom-color: #fff;
 		-webkit-border-top-right-radius: 4px;
@@ -343,13 +447,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		background-clip: padding-box;
 		margin-bottom: -1px;
 	}
-	#main #buddypress #group-create-tabs.item-list-tabs ul li.selected a,
-	#main #buddypress #group-create-tabs.item-list-tabs ul li.current a {
+	#buddypress #group-create-tabs.item-list-tabs ul li.selected a,
+	#buddypress #group-create-tabs.item-list-tabs ul li.current a {
 		background: none;
-		color: #141412;
+		color: #333;
 		outline: none;
 	}
-	#main #buddypress #subnav ul {
+	#buddypress #subnav ul {
 		border-bottom: 0;
 	}
 }
@@ -495,8 +599,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress ul.item-list li .item .item-title .update {
 	display: block;
-	font-size: 12px;
-	font-size: 0.75rem;
+	font-size: 13px;
+	font-size: 0.8125rem;
 	padding: 10px 0;
 	text-align: left;
 }
@@ -557,7 +661,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	width: 100%;
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 30em) {
 	#buddypress ul.item-list li div.action div {
 		margin: 0 10px 10px 0;
 		width: auto;
@@ -599,7 +703,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress form#whats-new-form #whats-new-content.active #whats-new-options[style] #whats-new-post-in-box {
-	border: 1px solid rgba(212, 208, 186, 0.5);
+	border: 1px solid rgba(190, 190, 190, 0.5);
 	float: left;
 	line-height: 1.5em;
 	margin-top: 12px;
@@ -704,21 +808,20 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress #activity-stream .activity-content .activity-header {
-	line-height: inherit;
 	margin-right: 0;
 }
 
 #buddypress #activity-stream .activity-content .activity-header p {
-	background-color: #f7f7f7;
 	border: 1px solid rgba(234, 234, 234, 0.6);
-	color: #727272;
 	margin-top: 0;
 	padding: 0 0.2em;
 }
 
 #buddypress #activity-stream .activity-content .activity-header img.avatar {
+	box-shadow: none;
 	display: inline-block;
-	margin-bottom: 0 !important;
+	margin: 0 5px !important;
+	vertical-align: middle;
 }
 
 #buddypress #activity-stream .activity-content .activity-meta a {
@@ -726,10 +829,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	margin-bottom: 5px;
 }
 
-@media screen and (min-width: 38.75em) {
+@media screen and (min-width: 30em) {
 	#buddypress #activity-stream .activity-content .activity-meta a {
 		display: inline-block;
 		margin-bottom: 0;
+		width: auto;
 	}
 }
 
@@ -781,13 +885,21 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 */
 #buddypress #activity-stream .activity-comments {
 	border-left: 1px solid #eaeaea;
-	margin-top: 5px;
+	margin: 20px 0 20px;
+}
+
+@media screen and (min-width: 30em) {
+	#buddypress #activity-stream .activity-comments {
+		margin-left: 20px;
+	}
 }
 
 #buddypress #activity-stream .activity-comments ul {
-	background: rgba(247, 247, 247, 0.6);
-	color: #737373;
 	margin: 15px 0 0 2px;
+}
+
+#buddypress #activity-stream .activity-comments ul li {
+	border-top: 1px solid #bebebe;
 }
 
 #buddypress #activity-stream .activity-comments ul a {
@@ -795,12 +907,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress #activity-stream .activity-comments .acomment-meta {
-	color: #737373;
+	border-bottom: 1px solid #eaeaea;
 }
 
 #buddypress #activity-stream .activity-comments .ac-form input[type="submit"],
 #buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel {
-	color: rgba(20, 20, 18, 0.8);
+	color: rgba(51, 51, 51, 0.8);
 	display: inline-block;
 	font-family: inherit;
 	font-size: 12px;
@@ -813,7 +925,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress #activity-stream .activity-comments .ac-form .ac-reply-cancel {
-	border: 1px solid rgba(212, 208, 186, 0.7);
+	border: 1px solid rgba(190, 190, 190, 0.7);
 	text-align: center;
 }
 
@@ -833,6 +945,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	}
 	#buddypress #members-list li .action {
 		float: right;
+	}
+	#buddypress #members-list li.is-current-user .item {
+		float: none;
+		left: 0;
+		padding-left: 5%;
+		width: auto;
 	}
 }
 
@@ -880,6 +998,30 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * @subsection 6.1 - Item Header Global
 *-----------------------------------------------------------
 */
+@media screen and (min-width: 48em) {
+	.bp-user.page-two-column #buddypress #cover-image-container #item-header-cover-image #item-header-content {
+		margin-left: 140px;
+		margin-top: -100px;
+	}
+	.single-item.groups.page-two-column #buddypress #cover-image-container #item-header-cover-image #item-header-content {
+		margin-left: 10px;
+	}
+}
+
+.bp-user #buddypress #item-header-cover-image .user-nicename,
+.single-item.groups #buddypress #item-header-cover-image .user-nicename {
+	color: #333;
+	text-shadow: none;
+}
+
+@media screen and (min-width: 48em) {
+	.bp-user #buddypress #item-header-cover-image .user-nicename,
+	.single-item.groups #buddypress #item-header-cover-image .user-nicename {
+		color: #fff;
+		text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+	}
+}
+
 .bp-user #buddypress #item-header-content #item-meta,
 .single-item.groups #buddypress #item-header-content #item-meta {
 	font-size: 14px;
@@ -952,9 +1094,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	.single-item.groups #buddypress div#item-header #item-header-avatar {
 		order: 1;
 		text-align: center;
-	}
-	.single-item.groups #buddypress div#item-header #item-header-avatar a {
-		border-bottom: 0;
 	}
 	.single-item.groups #buddypress div#item-header #item-header-avatar a img {
 		display: inline-block;
@@ -1051,7 +1190,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user #buddypress #item-header #item-header-avatar img.avatar,
 .bp-user #buddypress #item-header #item-header-avatar a {
-	border-bottom: 0;
 	display: inline-block;
 	float: none;
 }
@@ -1083,6 +1221,11 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 * Groups specific item body rules -  screens
 *----------------------------------------------------
 */
+.groups.single-item.members #buddypress #subnav.item-list-tabs ul {
+	background: none;
+	border-top: 0;
+}
+
 /**
 *-----------------------------------------
 * @subsection 6.2.1.1 - Group Management
@@ -1120,7 +1263,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .groups.group-settings #group-settings-form div.radio label ul {
-	color: rgba(20, 20, 18, 0.6);
+	color: rgba(51, 51, 51, 0.6);
 	font-size: 14px;
 	font-size: 0.875rem;
 }
@@ -1184,7 +1327,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .groups.group-members #subnav li #search-members-form {
 	float: right;
-	margin: 5px 5px 0 0;
+	margin: 5px 0 0;
 }
 
 @media screen and (max-width: 38.75em) {
@@ -1253,42 +1396,54 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-style: italic;
 }
 
-.bp-user #buddypress .notifications-options-nav {
-	border: 1px solid rgba(212, 208, 186, 0.5);
+.bp-user #buddypress .notifications-options-nav,
+.bp-user #buddypress .messages-options-nav {
 	float: left;
 	width: 100%;
 }
 
 @media screen and (min-width: 38.75em) {
-	.bp-user #buddypress .notifications-options-nav {
+	.bp-user #buddypress .notifications-options-nav,
+	.bp-user #buddypress .messages-options-nav {
 		width: 300px;
 	}
 }
 
-.bp-user #buddypress .notifications-options-nav select {
+.bp-user #buddypress .notifications-options-nav select,
+.bp-user #buddypress .messages-options-nav select {
 	height: auto;
 }
 
 .bp-user #buddypress .notifications-options-nav select,
-.bp-user #buddypress .notifications-options-nav input {
-	border: 0;
+.bp-user #buddypress .notifications-options-nav input,
+.bp-user #buddypress .messages-options-nav select,
+.bp-user #buddypress .messages-options-nav input {
 	font-size: 14px;
 	font-size: 0.875rem;
 	outline: 0;
 	padding: 0;
 }
 
-.bp-user #buddypress .notifications-options-nav select {
+.bp-user #buddypress .notifications-options-nav select,
+.bp-user #buddypress .messages-options-nav select {
 	float: left;
-	margin-right: 0;
-	width: 60%;
+	margin-right: 1%;
+	width: 59%;
 }
 
-.bp-user #buddypress .notifications-options-nav input {
+.bp-user #buddypress .notifications-options-nav input,
+.bp-user #buddypress .messages-options-nav input {
 	float: right;
 	font-family: inherit;
 	line-height: 20px;
 	width: 40%;
+}
+
+.bp-user #buddypress .notifications-options-nav input[disabled="disabled"]:focus,
+.bp-user #buddypress .notifications-options-nav input[disabled="disabled"]:hover,
+.bp-user #buddypress .messages-options-nav input[disabled="disabled"]:focus,
+.bp-user #buddypress .messages-options-nav input[disabled="disabled"]:hover {
+	background: none;
 }
 
 /**
@@ -1300,15 +1455,21 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	/* Edit profile */
 }
 
-.bp-user #buddypress .profile .bp-widget h2 {
-	background: #7b7b7b;
-	color: #fff;
+.bp-user #buddypress .profile h2 {
 	margin: 40px 0 10px;
 	padding: 0.1em 0 0.1em 0.4em;
 }
 
-.bp-user #buddypress .profile .bp-widget table {
+.bp-user #buddypress .profile table {
 	margin-top: 0;
+}
+
+.bp-user #buddypress .profile .profile-fields tr.alt td {
+	color: #333;
+}
+
+.bp-user #buddypress .profile .profile-fields tr:last-child {
+	border-bottom: 0;
 }
 
 .bp-user #buddypress .profile #profile-edit-form .button-nav:before,
@@ -1345,14 +1506,21 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-toggle,
+.bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-notoggle,
 .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings {
 	font-size: 14px;
 	font-size: 0.875rem;
+	margin-top: 10px;
 }
 
 .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-close,
 .bp-user #buddypress .profile #profile-edit-form .visibility-toggle-link {
 	background: #555;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+	background-clip: padding-box;
 	color: #fff;
 	padding: 0.2em 0.5em;
 }
@@ -1434,19 +1602,27 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-threads thead tr {
-	background: #6f6f6f;
+	background: none;
+	border-bottom: 1px solid #bebebe;
+}
+
+.bp-user #buddypress #message-threads thead tr th {
+	background: #555;
+}
+
+.bp-user #buddypress #message-threads tr {
+	border-bottom: 5px solid #878787;
 }
 
 .bp-user #buddypress #message-threads tr td {
-	background: #fff;
 	display: inline-block;
 	float: left;
 }
 
 .bp-user #buddypress #message-threads tr td.thread-star,
 .bp-user #buddypress #message-threads tr td.thread-options {
-	border-bottom-color: #ccc;
-	border-bottom-width: 2px;
+	border-bottom-color: #bebebe;
+	border-bottom-width: 1px;
 	height: 2.4em;
 	padding-bottom: 0.2em;
 	padding-top: 0.2em;
@@ -1457,6 +1633,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	.bp-user #buddypress #message-threads tr td.thread-options {
 		padding-top: 0;
 	}
+}
+
+.bp-user #buddypress #message-threads tr td.bulk-select-check,
+.bp-user #buddypress #message-threads tr td.thread-star,
+.bp-user #buddypress #message-threads tr td.thread-from,
+.bp-user #buddypress #message-threads tr td.thread-info,
+.bp-user #buddypress #message-threads tr td.thread-options {
+	border-top: 0;
 }
 
 .bp-user #buddypress #message-threads tr td.thread-star {
@@ -1529,8 +1713,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-threads tr.unread td {
-	background: #eee;
-	border-color: #d4d0ba;
+	background: none;
+	border-color: #bebebe;
 }
 
 .bp-user #buddypress #message-threads th {
@@ -1550,10 +1734,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	width: 30px;
 }
 
-.bp-user #buddypress .messages-options-nav select {
-	height: auto;
-}
-
 .bp-user #buddypress .acfb-holder {
 	list-style: none;
 }
@@ -1563,7 +1743,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress .acfb-holder li.friend-tab {
-	background: #edf7fa;
+	background: #e3f6ff;
 	border: inherit;
 	margin-right: 0;
 	padding: 0.5em;
@@ -1717,7 +1897,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress div.activity-comments form .ac-textarea {
 	background: #f7f7f7;
-	border: 1px solid rgba(212, 208, 186, 0.5);
+	border: 1px solid rgba(190, 190, 190, 0.5);
 }
 
 #buddypress div.activity-comments form .ac-textarea textarea {
@@ -1735,7 +1915,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress .standard-form button,
 #buddypress .standard-form select,
 #buddypress .standard-form textarea {
-	border-color: rgba(212, 208, 186, 0.5);
+	border-color: rgba(190, 190, 190, 0.5);
 	border-width: 1px;
 }
 
@@ -1761,7 +1941,12 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress div.dir-search form,
 #buddypress div.message-search form,
 #buddypress li.groups-members-search form {
-	border: 1px solid rgba(212, 208, 186, 0.6);
+	border: 1px solid rgba(190, 190, 190, 0.6);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-ms-border-radius: 2px;
+	border-radius: 2px;
+	background-clip: padding-box;
 	overflow: hidden;
 }
 
@@ -1770,44 +1955,62 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress li.groups-members-search form label {
 	float: left;
 	margin: 0;
-}
-
-#buddypress div.dir-search form input[type='text'],
-#buddypress div.message-search form input[type='text'],
-#buddypress li.groups-members-search form input[type='text'] {
-	float: left;
-	margin: 0;
 	width: 70%;
 }
 
-#buddypress div.dir-search form input[type='text'],
-#buddypress div.dir-search form input[type='submit'],
-#buddypress div.message-search form input[type='text'],
-#buddypress div.message-search form input[type='submit'],
-#buddypress li.groups-members-search form input[type='text'],
-#buddypress li.groups-members-search form input[type='submit'] {
+#buddypress div.dir-search form input[type="text"],
+#buddypress div.message-search form input[type="text"],
+#buddypress li.groups-members-search form input[type="text"] {
+	float: left;
+	margin: 0;
+	width: 100%;
+}
+
+#buddypress div.dir-search form input[type="text"],
+#buddypress div.dir-search form input[type="submit"],
+#buddypress div.message-search form input[type="text"],
+#buddypress div.message-search form input[type="submit"],
+#buddypress li.groups-members-search form input[type="text"],
+#buddypress li.groups-members-search form input[type="submit"] {
+	border: 0;
 	font-size: 14px;
 	font-size: 0.875rem;
-	border: 0;
 	line-height: inherit;
 }
 
-#buddypress div.dir-search form input[type='text'],
-#buddypress div.message-search form input[type='text'],
-#buddypress li.groups-members-search form input[type='text'] {
-	border-right: 1px solid rgba(212, 208, 186, 0.6);
+#buddypress div.dir-search form input[type="text"],
+#buddypress div.message-search form input[type="text"],
+#buddypress li.groups-members-search form input[type="text"] {
+	border-right: 1px solid rgba(190, 190, 190, 0.6);
+	font-weight: 400;
 	padding: 0.2em 0 0.2em 0.2em;
 }
 
-#buddypress div.dir-search form input[type='submit'],
-#buddypress div.message-search form input[type='submit'],
-#buddypress li.groups-members-search form input[type='submit'] {
+#buddypress div.dir-search form input[type="submit"],
+#buddypress div.message-search form input[type="submit"],
+#buddypress li.groups-members-search form input[type="submit"] {
+	-webkit-border-radius: none;
+	-moz-border-radius: none;
+	-ms-border-radius: none;
+	border-radius: none;
 	float: right;
 	font-weight: normal;
 	padding: 0.2em 1em;
 	text-align: center;
 	text-transform: none;
 	width: 30%;
+}
+
+#buddypress div.dir-search {
+	margin-top: 0;
+}
+
+#buddypress .dir-search #search-members-form input[type='text'],
+#buddypress #search-groups-form input[type='text'],
+#buddypress #search-message-form input[type='text'] {
+	float: left;
+	margin: 0;
+	width: 70%;
 }
 
 @media screen and (min-width: 30em) {
@@ -1817,30 +2020,54 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		float: right;
 		margin-bottom: 5px !important;
 	}
-	#buddypress div.dir-search form label,
-	#buddypress div.dir-search form input[type='text'],
-	#buddypress div.dir-search form input[type='submit'],
-	#buddypress div.message-search form label,
-	#buddypress div.message-search form input[type='text'],
-	#buddypress div.message-search form input[type='submit'],
-	#buddypress li.groups-members-search form label,
-	#buddypress li.groups-members-search form input[type='text'],
-	#buddypress li.groups-members-search form input[type='submit'] {
-		width: auto;
-	}
 }
 
 @media screen and (min-width: 67em) {
 	#buddypress .dir-search form input[type='text'],
-	#buddypress .message-search form input[type='text'] {
+	#buddypress .message-search form input[type='text'],
+	#buddypress li.groups-members-search form input[type='text'] {
 		font-size: 16px;
 		font-size: 1rem;
 	}
 	#buddypress .dir-search form input[type='submit'],
-	#buddypress .message-search form input[type='submit'] {
+	#buddypress .message-search form input[type='submit'],
+	#buddypress li.groups-members-search form input[type='submit'] {
 		font-size: 16px;
 		font-size: 1rem;
 	}
+}
+
+body.colors-dark #page #buddypress .dir-search form,
+body.colors-dark #page #buddypress .groups-members-search form,
+body.colors-dark #page #buddypress .message-search form {
+	background: #333;
+	border-color: #555;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-ms-border-radius: 2px;
+	border-radius: 2px;
+	background-clip: padding-box;
+	padding: 1px;
+}
+
+body.colors-dark #page #buddypress .dir-search input[type="text"],
+body.colors-dark #page #buddypress .groups-members-search input[type="text"],
+body.colors-dark #page #buddypress .message-search input[type="text"] {
+	background: none;
+}
+
+body.colors-dark #page #buddypress .dir-search input[type="submit"],
+body.colors-dark #page #buddypress .groups-members-search input[type="submit"],
+body.colors-dark #page #buddypress .message-search input[type="submit"] {
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-ms-border-radius: 2px;
+	border-radius: 2px;
+	background-clip: padding-box;
+}
+
+body.colors-dark #page .message-search {
+	margin-top: 0;
 }
 
 /**
@@ -1855,9 +2082,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress table tr th {
-	background: #6f6f6f;
-	border-color: #b7b7b7;
-	color: #fff;
+	background: #f7f7f7;
+	border-color: #eaeaea;
+	color: #333;
 }
 
 #buddypress table p {
@@ -1914,6 +2141,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	text-align: center;
 }
 
+#buddypress .notifications .actions {
+	text-align: center;
+}
+
 /**
 *-------------------------------------------------------------------------------
 * @section 9.0 - Error / Success messages
@@ -1926,15 +2157,24 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress div#message.info p {
-	background: #c6e4ee;
-	border: 1px solid #78bed6;
-	color: #1e5264;
+	background: #b0e5ff;
+	border: 1px solid #4ac3ff;
+	color: #00547d;
 }
 
 #buddypress div#message.updated p {
 	background: #dee6b2;
 	border: 1px solid #becc66;
 	color: #454d19;
+}
+
+#buddypress .bp-avatar-status .warning,
+#buddypress .bp-cover-image-status .warning {
+	background: #7dd4ff;
+	border: 1px solid #000;
+	color: #333;
+	font-size: 16px;
+	font-size: 1rem;
 }
 
 .delete-group #buddypress div#message.info p {
@@ -1949,6 +2189,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *-------------------------------------------------------------------------------
 */
 #buddypress .acfb-holder li.friend-tab {
-	background: #9fd1e2;
+	background: #7dd4ff;
 	border: inherit;
 }
