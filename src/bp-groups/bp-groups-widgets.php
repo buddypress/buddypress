@@ -39,6 +39,9 @@ function groups_ajax_widget_groups_list() {
 		case 'popular-groups':
 			$type = 'popular';
 		break;
+		case 'alphabetical-groups':
+			$type = 'alphabetical';
+		break;
 	}
 
 	$per_page = isset( $_POST['max_groups'] ) ? intval( $_POST['max_groups'] ) : 5;
@@ -63,10 +66,10 @@ function groups_ajax_widget_groups_list() {
 					<div class="item-meta">
 						<?php if ( 'newest-groups' === $_POST['filter'] ) : ?>
 							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_date_created( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() ); ?></span>
-						<?php elseif ( 'recently-active-groups' === $_POST['filter'] ) : ?>
-							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
-						<?php else : ?>
+						<?php elseif ( 'popular-groups' === $_POST['filter'] ) : ?>
 							<span class="activity"><?php bp_group_member_count(); ?></span>
+						<?php else : ?>
+							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
 						<?php endif; ?>
 					</div>
 				</div>
