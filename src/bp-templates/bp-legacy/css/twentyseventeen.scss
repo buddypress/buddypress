@@ -2157,30 +2157,31 @@ body.colors-light {
 
 		.profile {
 
-				h2 {
-					margin: $spacing-val-lg 0 $spacing-val-sm;
-					padding: 0.1em 0 0.1em 0.4em;
-				}
+			h2 {
+				margin: $spacing-val-lg 0 $spacing-val-sm;
+				padding: 0.1em 0 0.1em 0.4em;
+			}
 
-				table {margin-top: 0;}
+			table {margin-top: 0;}
 
-				.profile-fields {
+			.profile-fields {
 
-					tr.alt {
+				tr.alt {
 
-						td {
-							color: $body-text;
-						}
-					}
-
-					tr:last-child {
-						border-bottom: 0;
+					td {
+						color: $body-text;
 					}
 				}
+
+				tr:last-child {
+					border-bottom: 0;
+				}
+			}
 
 			/* Edit profile */
 
 			#profile-edit-form {
+
 				.button-nav:before,
 				.button-nav:after {
 					content: " ";
