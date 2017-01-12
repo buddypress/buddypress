@@ -83,7 +83,7 @@ function bp_core_ajax_widget_members() {
 				</div>
 
 				<div class="item">
-					<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_name(); ?></a></div>
+					<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>"><?php bp_member_name(); ?></a></div>
 					<?php if ( 'active' === $type ) : ?>
 						<div class="item-meta"><span class="activity"><?php bp_member_last_active(); ?></span></div>
 					<?php elseif ( 'newest' === $type ) : ?>

@@ -795,7 +795,6 @@ function bp_group_avatar( $args = '' ) {
 		// Fetch the avatar from the folder.
 		$avatar = bp_core_fetch_avatar( array(
 			'item_id'    => $groups_template->group->id,
-			'title'      => $groups_template->group->name,
 			'avatar_dir' => 'group-avatars',
 			'object'     => 'group',
 			'type'       => $r['type'],

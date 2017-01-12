@@ -309,7 +309,6 @@ function bp_blog_avatar( $args = '' ) {
 	 *     {@link bp_core_fetch_avatar()}.
 	 *     @type string   $alt     Default: 'Profile picture of site author [user name]'.
 	 *     @type string   $class   Default: 'avatar'.
-	 *     @type string   $title   Default: 'Profile picture of site author [user name]'.
 	 *     @type string   $type    Default: 'full'.
 	 *     @type int|bool $width   Default: false.
 	 *     @type int|bool $height  Default: false.
@@ -335,7 +334,6 @@ function bp_blog_avatar( $args = '' ) {
 			'width'   => false,
 			'height'  => false,
 			'class'   => 'avatar',
-			'title'   => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), esc_attr( $author_displayname ) ),
 			'id'      => false,
 			'alt'     => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), esc_attr( $author_displayname ) ),
 			'no_grav' => true,
@@ -388,7 +386,7 @@ function bp_blog_avatar( $args = '' ) {
 					$size = (int) $r['width'];
 				}
 
-				$avatar = sprintf( '<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" title="%4$s" />',
+				$avatar = sprintf( '<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" />',
 					esc_url( $site_icon ),
 					esc_attr( "{$r['class']} avatar-{$size}" ),
 					esc_attr( $size ),
@@ -401,7 +399,6 @@ function bp_blog_avatar( $args = '' ) {
 		if ( '' === $avatar ) {
 			$avatar = bp_core_fetch_avatar( array(
 				'item_id'    => $blogs_template->blog->admin_user_id,
-				'title'      => $r['title'],
 				// 'avatar_dir' => 'blog-avatars',
 				// 'object'     => 'blog',
 				'type'       => $r['type'],
