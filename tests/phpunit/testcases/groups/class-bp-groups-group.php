@@ -1092,6 +1092,24 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( array( $g1 ), $found );
 	}
 
+	public function test_get_by_letter_typical_use() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Awesome Cool Group',
+			'description' => 'Neat',
+		) );
+		$g2 = $this->factory->group->create( array(
+			'name' => 'Babylon Kong',
+			'description' => 'Awesome',
+		) );
+
+		$groups = BP_Groups_Group::get_by_letter( 'A' );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g1 ), $found );
+
+	}
+
 	public function test_get_by_letter_with_exclude() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Awesome Cool Group',

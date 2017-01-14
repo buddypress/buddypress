@@ -677,37 +677,35 @@ class BP_Groups_Group {
 	 * @param int|null $page    Optional. The page offset of results to return.
 	 *                          Default: null (no limit).
 	 * @return false|array {
-	 *     @type array $groups Array of matched and paginated group objects.
+	 *     @type array $groups Array of matched and paginated group IDs.
 	 *     @type int   $total  Total count of groups matching the query.
 	 * }
 	 */
 	public static function filter_user_groups( $filter, $user_id = 0, $order = false, $limit = null, $page = null ) {
-		global $wpdb;
-
-		if ( empty( $user_id ) )
+		if ( empty( $user_id ) ) {
 			$user_id = bp_displayed_user_id();
+		}
 
-		$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
+		$args = array(
+			'search_terms' => $filter,
+			'user_id'      => $user_id,
+			'per_page'     => $limit,
+			'page'         => $page,
+			'order'        => $order,
+		);
 
-		$pag_sql = $order_sql = $hidden_sql = '';
+		$groups = BP_Groups_Group::get( $args );
 
-		if ( !empty( $limit ) && !empty( $page ) )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		// Modify the results to match the old format.
+		$paged_groups = array();
+		$i = 0;
+		foreach ( $groups['groups'] as $group ) {
+			$paged_groups[ $i ] = new stdClass;
+			$paged_groups[ $i ]->group_id = $group->id;
+			$i++;
+		}
 
-		// Get all the group ids for the current user's groups.
-		$gids = BP_Groups_Member::get_group_ids( $user_id );
-
-		if ( empty( $gids['groups'] ) )
-			return false;
-
-		$bp = buddypress();
-
-		$gids = esc_sql( implode( ',', wp_parse_id_list( $gids['groups'] ) ) );
-
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) AND id IN ({$gids}) {$pag_sql}", $search_terms_like, $search_terms_like ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) AND id IN ({$gids})", $search_terms_like, $search_terms_like ) );
-
-		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+		return array( 'groups' => $paged_groups, 'total' => $groups['total'] );
 	}
 
 	/**
@@ -725,35 +723,31 @@ class BP_Groups_Group {
 	 *        sort).
 	 * @param string|bool $order   ASC or DESC. Default: false (default sort).
 	 * @return array {
-	 *     @type array $groups Array of matched and paginated group objects.
+	 *     @type array $groups Array of matched and paginated group IDs.
 	 *     @type int   $total  Total count of groups matching the query.
 	 * }
 	 */
 	public static function search_groups( $filter, $limit = null, $page = null, $sort_by = false, $order = false ) {
-		global $wpdb;
+		$args = array(
+			'search_terms' => $filter,
+			'per_page'     => $limit,
+			'page'         => $page,
+			'orderby'      => $sort_by,
+			'order'        => $order,
+		);
 
-		$search_terms_like = '%' . bp_esc_like( $filter ) . '%';
+		$groups = BP_Groups_Group::get( $args );
 
-		$pag_sql = $order_sql = $hidden_sql = '';
-
-		if ( !empty( $limit ) && !empty( $page ) )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( !empty( $sort_by ) && !empty( $order ) ) {
-			$sort_by   = esc_sql( $sort_by );
-			$order     = esc_sql( $order );
-			$order_sql = "ORDER BY {$sort_by} {$order}";
+		// Modify the results to match the old format.
+		$paged_groups = array();
+		$i = 0;
+		foreach ( $groups['groups'] as $group ) {
+			$paged_groups[ $i ] = new stdClass;
+			$paged_groups[ $i ]->group_id = $group->id;
+			$i++;
 		}
 
-		if ( !bp_current_user_can( 'bp_moderate' ) )
-			$hidden_sql = "AND status != 'hidden'";
-
-		$bp = buddypress();
-
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT id as group_id FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) {$hidden_sql} {$order_sql} {$pag_sql}", $search_terms_like, $search_terms_like ) );
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name} WHERE ( name LIKE %s OR description LIKE %s ) {$hidden_sql}", $search_terms_like, $search_terms_like ) );
-
-		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+		return array( 'groups' => $paged_groups, 'total' => $groups['total'] );
 	}
 
 	/**
@@ -1492,8 +1486,7 @@ class BP_Groups_Group {
 	 *                                           Default: null (no limit).
 	 * @param int|null          $page            Optional. The page offset of results to return.
 	 *                                           Default: null (no limit).
-	 * @param bool              $populate_extras Optional. Whether to fetch extra
-	 *                                           information about the groups. Default: true.
+	 * @param bool              $populate_extras Deprecated.
 	 * @param string|array|bool $exclude         Optional. Array or comma-separated list of group
 	 *                                           IDs to exclude from results.
 	 * @return false|array {
@@ -1519,34 +1512,15 @@ class BP_Groups_Group {
 			}
 		}
 
-		$bp = buddypress();
+		$args = array(
+			'per_page'       => $limit,
+			'page'           => $page,
+			'search_terms'   => $letter . '*',
+			'search_columns' => array( 'name' ),
+			'exclude'        => $exclude,
+		);
 
-		if ( !empty( $exclude ) ) {
-			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
-			$exclude_sql = " AND g.id NOT IN ({$exclude})";
-		}
-
-		if ( !bp_current_user_can( 'bp_moderate' ) )
-			$hidden_sql = " AND status != 'hidden'";
-
-		$letter_like = bp_esc_like( $letter ) . '%';
-
-		if ( !empty( $limit ) && !empty( $page ) ) {
-			$pag_sql      = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-		}
-
-		$total_groups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE %s {$hidden_sql} {$exclude_sql}", $letter_like ) );
-
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND g.name LIKE %s {$hidden_sql} {$exclude_sql} ORDER BY g.name ASC {$pag_sql}", $letter_like ) );
-
-		if ( !empty( $populate_extras ) ) {
-			foreach ( (array) $paged_groups as $group ) {
-				$group_ids[] = $group->id;
-			}
-			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
-		}
-
-		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+		return BP_Groups_Group::get( $args );
 	}
 
 	/**
@@ -1576,46 +1550,16 @@ class BP_Groups_Group {
 	 * }
 	 */
 	public static function get_random( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
-		global $wpdb;
+		$args = array(
+			'type'               => 'random',
+			'per_page'           => $limit,
+			'page'               => $page,
+			'user_id'            => $user_id,
+			'search_terms'       => $search_terms,
+			'exclude'            => $exclude,
+		);
 
-		$pag_sql = $hidden_sql = $search_sql = $exclude_sql = '';
-
-		if ( !empty( $limit ) && !empty( $page ) )
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
-
-		if ( !is_user_logged_in() || ( !bp_current_user_can( 'bp_moderate' ) && ( $user_id != bp_loggedin_user_id() ) ) )
-			$hidden_sql = "AND g.status != 'hidden'";
-
-		if ( !empty( $search_terms ) ) {
-			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
-			$search_sql = $wpdb->prepare( " AND ( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
-		}
-
-		if ( !empty( $exclude ) ) {
-			$exclude     = wp_parse_id_list( $exclude );
-			$exclude     = esc_sql( implode( ',', $exclude ) );
-			$exclude_sql = " AND g.id NOT IN ({$exclude})";
-		}
-
-		$bp = buddypress();
-
-		if ( !empty( $user_id ) ) {
-			$user_id = esc_sql( $user_id );
-			$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' {$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql} ORDER BY rand() {$pag_sql}" );
-			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m LEFT JOIN {$bp->groups->table_name_groupmeta} gm ON m.group_id = gm.group_id INNER JOIN {$bp->groups->table_name} g ON m.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql} AND m.user_id = {$user_id} AND m.is_confirmed = 1 AND m.is_banned = 0 {$exclude_sql}" );
-		} else {
-			$paged_groups = $wpdb->get_results( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name} g WHERE g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' {$hidden_sql} {$search_sql} {$exclude_sql} ORDER BY rand() {$pag_sql}" );
-			$total_groups = $wpdb->get_var( "SELECT COUNT(DISTINCT g.id) FROM {$bp->groups->table_name_groupmeta} gm INNER JOIN {$bp->groups->table_name} g ON gm.group_id = g.id WHERE gm.meta_key = 'last_activity'{$hidden_sql} {$search_sql} {$exclude_sql}" );
-		}
-
-		if ( !empty( $populate_extras ) ) {
-			foreach ( (array) $paged_groups as $group ) {
-				$group_ids[] = $group->id;
-			}
-			$paged_groups = BP_Groups_Group::get_group_extras( $paged_groups, $group_ids, 'newest' );
-		}
-
-		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+		return BP_Groups_Group::get( $args );
 	}
 
 	/**
