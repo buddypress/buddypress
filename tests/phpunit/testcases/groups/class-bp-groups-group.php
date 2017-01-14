@@ -306,6 +306,149 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group get
+	 */
+	public function test_get_search_with_left_wildcard() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Ye Lads',
+			'description' => "My Bonnie lies over the ocean",
+		) );
+		$g2 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'search_terms' => "*ads",
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g1 ), $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_search_with_left_wildcard_should_miss() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Ye Lads',
+			'description' => "My Bonnie lies over the ocean",
+		) );
+		$g2 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'search_terms' => "*la",
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array(), $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_search_with_right_wildcard() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Ye Lads',
+			'description' => "My Bonnie lies over the ocean",
+		) );
+		$g2 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'search_terms' => "Ye*",
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g1 ), $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_search_with_right_wildcard_should_miss() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Ye Lads',
+			'description' => "My Bonnie lies over the ocean",
+		) );
+		$g2 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'search_terms' => "la*",
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array(), $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_search_with_both_wildcard() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Ye Lads',
+			'description' => "My Bonnie lies over the ocean",
+		) );
+		$g2 = $this->factory->group->create();
+
+		$groups = BP_Groups_Group::get( array(
+			'search_terms' => "*la*",
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g1 ), $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_search_limited_to_name_column() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Ye Lads',
+			'description' => "My Bonnie lies over the ocean",
+		) );
+		$g2 = $this->factory->group->create();
+		$g3 = $this->factory->group->create( array(
+			'name' => 'Bonnie Lasses',
+			'description' => "That lad is unknown to me",
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'search_terms'   => "lad",
+			'search_columns' => array( 'name' ),
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g1 ), $found );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_search_limited_to_description_column() {
+		$g1 = $this->factory->group->create( array(
+			'name' => 'Ye Lads',
+			'description' => "My Bonnie lies over the ocean",
+		) );
+		$g2 = $this->factory->group->create();
+		$g3 = $this->factory->group->create( array(
+			'name' => 'Bonnie Lasses',
+			'description' => "That lad is unknown to me",
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'search_terms'   => "lad",
+			'search_columns' => array( 'description' ),
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g3 ), $found );
+	}
+
+	/**
 	 * BP 1.8 will change the default 'type' param in favor of default
 	 * 'order' and 'orderby'. This is to make sure that existing plugins
 	 * will work appropriately

@@ -882,8 +882,14 @@ class BP_Groups_Group {
 	 *                                            Default: null (no limit).
 	 *     @type int          $user_id            Optional. If provided, results will be limited to groups
 	 *                                            of which the specified user is a member. Default: null.
-	 *     @type string       $search_terms       Optional. If provided, only groups whose names or descriptions
-	 *                                            match the search terms will be returned. Default: false.
+ 	 *     @type string       $search_terms       Optional. If provided, only groups whose names or descriptions
+	 *                                            match the search terms will be returned. Allows specifying the
+	 *                                            wildcard position using a '*' character before or after the
+	 *                                            string or both. Works in concert with $search_columns.
+	 *                                            Default: false.
+  	 *     @type string       $search_columns     Optional. If provided, only apply the search terms to the
+  	 *                                            specified columns. Works in concert with $search_terms.
+  	 *                                            Default: empty array.
 	 *     @type array|string $group_type         Array or comma-separated list of group types to limit results to.
 	 *     @type array|string $group_type__in     Array or comma-separated list of group types to limit results to.
 	 *     @type array|string $group_type__not_in Array or comma-separated list of group types that will be
@@ -939,6 +945,7 @@ class BP_Groups_Group {
 			'page'               => null,
 			'user_id'            => 0,
 			'search_terms'       => false,
+			'search_columns'     => array(),
 			'group_type'         => '',
 			'group_type__in'     => '',
 			'group_type__not_in' => '',
@@ -973,9 +980,41 @@ class BP_Groups_Group {
 			$where_conditions['hidden'] = "g.status != 'hidden'";
 		}
 
-		if ( ! empty( $r['search_terms'] ) ) {
-			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
-			$where_conditions['search'] = $wpdb->prepare( "( g.name LIKE %s OR g.description LIKE %s )", $search_terms_like, $search_terms_like );
+		$search = '';
+		if ( isset( $r['search_terms'] ) ) {
+			$search = trim( $r['search_terms'] );
+		}
+
+		if ( $search ) {
+			$leading_wild = ( ltrim( $search, '*' ) != $search );
+			$trailing_wild = ( rtrim( $search, '*' ) != $search );
+			if ( $leading_wild && $trailing_wild ) {
+				$wild = 'both';
+			} elseif ( $leading_wild ) {
+				$wild = 'leading';
+			} elseif ( $trailing_wild ) {
+				$wild = 'trailing';
+			} else {
+				// Default is to wrap in wildcard characters.
+				$wild = 'both';
+			}
+			$search = trim( $search, '*' );
+
+			$searches = array();
+			$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
+			$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
+			$wildcarded = $leading_wild . bp_esc_like( $search ) . $trailing_wild;
+
+			$search_columns = array( 'name', 'description' );
+			if ( $r['search_columns'] ) {
+				$search_columns = array_intersect( $r['search_columns'], $search_columns );
+			}
+
+			foreach ( $search_columns as $search_column ) {
+				$searches[] = $wpdb->prepare( "$search_column LIKE %s", $wildcarded );
+			}
+
+			$where_conditions['search'] = '(' . implode(' OR ', $searches) . ')';
 		}
 
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
