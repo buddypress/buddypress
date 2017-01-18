@@ -27,7 +27,18 @@ class BP_PHPMailer implements BP_Email_Delivery {
 	public function bp_email( BP_Email $email ) {
 		static $phpmailer = null;
 
-		if ( $phpmailer === null ) {
+		/**
+		 * Filter PHPMailer object to use.
+		 *
+		 * Specify an alternative version of PHPMailer to use instead of WordPress' default.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param null|PHPMailer $phpmailer The phpmailer class.
+		 */
+		$phpmailer = apply_filters( 'bp_phpmailer_object', $phpmailer );
+
+		if ( ! ( $phpmailer instanceof PHPMailer ) ) {
 			if ( ! class_exists( 'PHPMailer' ) ) {
 				require_once ABSPATH . WPINC . '/class-phpmailer.php';
 				require_once ABSPATH . WPINC . '/class-smtp.php';
