@@ -358,11 +358,35 @@ function groups_action_create_group() {
 
 		// If the image cropping is done, crop the image and save a full/thumb version.
 		if ( isset( $_POST['avatar-crop-submit'] ) && isset( $_POST['upload'] ) ) {
+
 			// Normally we would check a nonce here, but the group save nonce is used instead.
-			if ( !bp_core_avatar_handle_crop( array( 'object' => 'group', 'avatar_dir' => 'group-avatars', 'item_id' => $bp->groups->current_group->id, 'original_file' => $_POST['image_src'], 'crop_x' => $_POST['x'], 'crop_y' => $_POST['y'], 'crop_w' => $_POST['w'], 'crop_h' => $_POST['h'] ) ) )
+			$args = array(
+				'object'        => 'group',
+				'avatar_dir'    => 'group-avatars',
+				'item_id'       => $bp->groups->current_group->id,
+				'original_file' => $_POST['image_src'],
+				'crop_x'        => $_POST['x'],
+				'crop_y'        => $_POST['y'],
+				'crop_w'        => $_POST['w'],
+				'crop_h'        => $_POST['h']
+			);
+
+			if ( ! bp_core_avatar_handle_crop( $args ) ) {
 				bp_core_add_message( __( 'There was an error saving the group profile photo, please try uploading again.', 'buddypress' ), 'error' );
-			else
+			} else {
+				/**
+				 * Fires after a group avatar is uploaded.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param int    $group_id ID of the group.
+				 * @param string $type     Avatar type. 'crop' or 'full'.
+				 * @param array  $args     Array of parameters passed to the avatar handler.
+				 */
+				do_action( 'groups_avatar_uploaded', bp_get_current_group_id(), 'crop', $args );
+
 				bp_core_add_message( __( 'The group profile photo was uploaded successfully.', 'buddypress' ) );
+			}
 		}
 	}
 
