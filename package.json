@@ -46,5 +46,5 @@
     "type": "svn",
     "url": "https://buddypress.svn.wordpress.org/trunk/"
   },
-  "version": "2.8.0-alpha"
+  "version": "2.8.0-beta1"
 }

@@ -15,7 +15,7 @@
  * Description: BuddyPress helps site builders and WordPress developers add community features to their websites, with user profile fields, activity streams, messaging, and notifications.
  * Author:      The BuddyPress Community
  * Author URI:  https://buddypress.org/
- * Version:     2.8.0-alpha
+ * Version:     2.8.0-beta1
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
