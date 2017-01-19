@@ -32,7 +32,6 @@ env:
   - WP_VERSION=4.3 BP_TRAVISCI=travis:phpunit
 
 matrix:
-  fast_finish: true
   include:
     - php: nightly
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
