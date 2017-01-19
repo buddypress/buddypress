@@ -1005,6 +1005,21 @@ function bp_email_set_default_headers( $headers, $property, $transform, $email )
 	$headers['X-BuddyPress']      = bp_get_version();
 	$headers['X-BuddyPress-Type'] = $email->get( 'type' );
 
+	$tokens = $email->get_tokens();
+
+	// Add 'List-Unsubscribe' header if applicable.
+	if ( ! empty( $tokens['unsubscribe'] ) && $tokens['unsubscribe'] !== site_url( 'wp-login.php' ) ) {
+		$user = get_user_by( 'email', $tokens['recipient.email'] );
+
+		$headers['List-Unsubscribe'] = sprintf(
+			'<%s>',
+			esc_url_raw( bp_email_get_unsubscribe_link( array(
+				'user_id'           => $user->ID,
+				'notification_type' => $email->get( 'type' ),
+			) ) )
+		);
+	}
+
 	return $headers;
 }
 add_filter( 'bp_email_get_headers', 'bp_email_set_default_headers', 6, 4 );
