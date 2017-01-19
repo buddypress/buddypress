@@ -1348,7 +1348,7 @@ function bp_avatar_ajax_set() {
 			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
 		} elseif ( 'group' === $avatar_data['object'] ) {
 			/** This action is documented in bp-groups/bp-groups-screens.php */
-			do_action( 'groups_avatar_uploaded', (int) $avatar_data['item_id'], $atavar_data['type'], $r );
+			do_action( 'groups_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
 		}
 
 		wp_send_json_success( $return );
