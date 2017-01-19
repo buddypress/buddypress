@@ -61,7 +61,7 @@ function bp_php_requirements_notice() {
 	<div id="message" class="error notice">
 		<p><strong><?php esc_html_e( 'Your site does not support BuddyPress.', 'buddypress' ); ?></strong></p>
 		<?php /* translators: 1: current PHP version, 2: required PHP version */ ?>
-		<p><?php printf( esc_html__( 'Your site is currently running PHP version %1$s, while BuddyPress requires version at least version %2$s.', 'buddypress' ), esc_html( phpversion() ), esc_html( BP_REQUIRED_PHP_VERSION ) ); ?> <?php printf( __( 'See <a href="%s">the Codex guide</a> for more information.', 'buddypress' ), 'https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/' ); ?></p>
+		<p><?php printf( esc_html__( 'Your site is currently running PHP version %1$s, while BuddyPress requires version %2$s or greater.', 'buddypress' ), esc_html( phpversion() ), esc_html( BP_REQUIRED_PHP_VERSION ) ); ?> <?php printf( __( 'See <a href="%s">the Codex guide</a> for more information.', 'buddypress' ), 'https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/' ); ?></p>
 		<p><?php esc_html_e( 'Please update your server or deactivate BuddyPress.', 'buddypress' ); ?></p>
 	</div>
 
