@@ -3089,7 +3089,7 @@ function bp_get_email( $email_type ) {
  * @param string|array|int|WP_User $to         Either a email address, user ID, WP_User object,
  *                                             or an array containg the address and name.
  * @param array                    $args {
- *     Optional. Array of extra. parameters.
+ *     Optional. Array of extra parameters.
  *
  *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
  * }
@@ -3134,6 +3134,23 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	// From, subject, content are set automatically.
 	$email->set_to( $to );
 	$email->set_tokens( $args['tokens'] );
+
+	/**
+	 * Gives access to an email before it is sent.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param BP_Email                 $email      The email (object) about to be sent.
+	 * @param string                   $email_type Type of email being sent.
+	 * @param string|array|int|WP_User $to         Either a email address, user ID, WP_User object,
+	 *                                             or an array containg the address and name.
+     * @param array                    $args {
+	 *     Optional. Array of extra parameters.
+	 *
+	 *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
+	 * }
+	 */
+	do_action_ref_array( 'bp_send_email', array( &$email, $email_type, $to, $args ) );
 
 	$status = $email->validate();
 	if ( is_wp_error( $status ) ) {
