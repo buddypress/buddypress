@@ -89,6 +89,11 @@ Favorite Food: Saltimbocca alla Romana
 Name: shanebp
 Title: Community Support
 
+Name: Stephen Edgar
+Title: Core Developer
+Twitter: netweb
+Favorite Food: Tacos
+
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
 
