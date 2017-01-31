@@ -267,6 +267,23 @@ class BP_Groups_Component extends BP_Component {
 			$this->current_group = 0;
 		}
 
+		// Set group type if available.
+		if ( bp_is_groups_directory() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_action_variable() ) {
+			$matched_types = bp_groups_get_group_types( array(
+				'has_directory'  => true,
+				'directory_slug' => bp_action_variable(),
+			) );
+
+			// Set 404 if we do not have a valid group type.
+			if ( empty( $matched_types ) ) {
+				bp_do_404();
+				return;
+			}
+
+			// Set our directory type marker.
+			$this->current_directory_type = reset( $matched_types );
+		}
+
 		// Set up variables specific to the group creation process.
 		if ( bp_is_groups_component() && bp_is_current_action( 'create' ) && bp_user_can_create_groups() && isset( $_COOKIE['bp_new_group_id'] ) ) {
 			$bp->groups->new_group_id = (int) $_COOKIE['bp_new_group_id'];
@@ -297,7 +314,7 @@ class BP_Groups_Component extends BP_Component {
 		) );
 
 		// If the user was attempting to access a group, but no group by that name was found, 404.
-		if ( bp_is_groups_component() && empty( $this->current_group ) && bp_current_action() && !in_array( bp_current_action(), $this->forbidden_names ) ) {
+		if ( bp_is_groups_component() && empty( $this->current_group ) && empty( $this->current_directory_type ) && bp_current_action() && ! in_array( bp_current_action(), $this->forbidden_names ) ) {
 			bp_do_404();
 			return;
 		}
