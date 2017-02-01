@@ -9,6 +9,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		buddypress()->members->types = array();
 		$this->old_current_user = get_current_user_id();
 		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
 	}
