@@ -94,9 +94,14 @@ Title: Core Developer
 Twitter: netweb
 Favorite Food: Tacos
 
+Name: Slava Abakumov
+Title: Core Developer
+Twitter: slaFFik
+Favorite Food: Cakes
+
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2016/10/06
+Updated: 2017/02/01
 See: http://humanstxt.org/
