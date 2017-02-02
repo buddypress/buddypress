@@ -373,7 +373,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			}
 
 			$field->field_order = $wpdb->get_var( $wpdb->prepare( "SELECT field_order FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
-			if ( empty( $field->field_order ) || is_wp_error( $field->field_order ) ) {
+			if ( ! is_numeric( $field->field_order ) || is_wp_error( $field->field_order ) ) {
 				$field->field_order = (int) $wpdb->get_var( $wpdb->prepare( "SELECT max(field_order) FROM {$bp->profile->table_name_fields} WHERE group_id = %d", $group_id ) );
 				$field->field_order++;
 			}
