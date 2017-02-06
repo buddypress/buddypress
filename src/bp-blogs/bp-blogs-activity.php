@@ -1300,7 +1300,7 @@ function bp_blogs_can_comment_reply( $retval, $comment ) {
 
 	// Check comment depth and disable if depth is too large.
 	if ( isset( buddypress()->blogs->thread_depth[$comment->item_id] ) ){
-		if ( bp_activity_get_comment_depth() > buddypress()->blogs->thread_depth[$comment->item_id] ) {
+		if ( bp_activity_get_comment_depth( $comment ) >= buddypress()->blogs->thread_depth[$comment->item_id] ) {
 			$retval = false;
 		}
 	}

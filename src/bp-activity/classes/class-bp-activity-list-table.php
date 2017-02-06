@@ -807,6 +807,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 				$parent_activity = (object) $item;
 			} elseif ( 'activity_comment' === $item['type'] ) {
 				$parent_activity = new BP_Activity_Activity( $item['item_id'] );
+				$can_comment     = bp_activity_can_comment_reply( (object) $item );
 			}
 
 			if ( isset( $parent_activity->type ) && bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'post_type' ) ) {
