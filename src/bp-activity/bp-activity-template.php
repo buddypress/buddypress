@@ -2227,19 +2227,61 @@ function bp_activity_comment_count() {
  * Output the depth of the current activity comment.
  *
  * @since 2.0.0
+ * @since 2.8.0 Added $comment as a parameter.
+ *
+ * @param object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
+ *                            when used in activity comment loop.
  */
-function bp_activity_comment_depth() {
-	echo bp_activity_get_comment_depth();
+function bp_activity_comment_depth( $comment = 0 ) {
+	echo bp_activity_get_comment_depth( $comment );
 }
+
 	/**
 	 * Return the current activity comment depth.
 	 *
 	 * @since 2.0.0
+	 * @since 2.8.0 Added $comment as a parameter.
 	 *
-	 * @return int $depth Depth for the current activity comment.
+	 * @param  object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
+	 *                             when used in activity comment loop.
+	 * @return int
 	 */
-	function bp_activity_get_comment_depth() {
-		global $activities_template;
+	function bp_activity_get_comment_depth( $comment = 0 ) {
+		$depth = 0;
+
+		// Activity comment loop takes precedence.
+		if ( isset( $GLOBALS['activities_template']->activity->current_comment->depth ) ) {
+			$depth = $GLOBALS['activities_template']->activity->current_comment->depth;
+
+		// Get depth for activity comment manually.
+		} elseif ( ! empty( $comment ) ) {
+			// We passed an activity ID, so fetch the activity object.
+			if ( is_int( $comment ) ) {
+				$comment = new BP_Activity_Activity( $comment );
+			}
+
+			// Recurse through activity tree to find the depth.
+			if ( is_object( $comment ) && isset( $comment->type ) && 'activity_comment' === $comment->type ) {
+				// Fetch the entire root comment tree... ugh.
+				$comments = BP_Activity_Activity::get_activity_comments( $comment->item_id, 1, constant( 'PHP_INT_MAX' ) );
+
+				// Recursively find our comment object from the comment tree.
+				$iterator  = new RecursiveArrayIterator( $comments );
+				$recursive = new RecursiveIteratorIterator( $iterator, RecursiveIteratorIterator::SELF_FIRST );
+				foreach ( $recursive as $cid => $cobj ) {
+					// Skip items that are not a comment object.
+					if ( ! is_numeric( $cid ) || ! is_object( $cobj ) ) {
+						continue;
+					}
+
+					// We found the activity comment! Set the depth.
+					if ( $cid === $comment->id && isset( $cobj->depth ) ) {
+						$depth = $cobj->depth;
+						break;
+					}
+				}
+			}
+		}
 
 		/**
 		 * Filters the comment depth of the current activity comment.
@@ -2248,7 +2290,7 @@ function bp_activity_comment_depth() {
 		 *
 		 * @param int $depth Depth for the current activity comment.
 		 */
-		return apply_filters( 'bp_activity_get_comment_depth', $activities_template->activity->current_comment->depth );
+		return apply_filters( 'bp_activity_get_comment_depth', $depth );
 	}
 
 /**
@@ -2884,7 +2926,7 @@ function bp_activity_can_comment_reply( $comment = false ) {
 		// Fall back on current comment in activity loop.
 		$comment_depth = isset( $comment->depth )
 			? intval( $comment->depth )
-			: bp_activity_get_comment_depth();
+			: bp_activity_get_comment_depth( $comment );
 
 		// Threading is turned on, so check the depth.
 		if ( get_option( 'thread_comments' ) ) {
