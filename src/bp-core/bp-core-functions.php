@@ -3668,7 +3668,7 @@ function bp_email_get_type_schema( $field = 'description' ) {
  * @since 2.7.0
  */
 function bp_email_unsubscribe_handler() {
-	$emails         = bp_email_get_type_schema( 'all' );
+	$emails         = bp_email_get_unsubscribe_type_schema();
 	$raw_email_type = ! empty( $_GET['nt'] ) ? $_GET['nt'] : '';
 	$raw_hash       = ! empty( $_GET['nh'] ) ? $_GET['nh'] : '';
 	$raw_user_id    = ! empty( $_GET['uid'] ) ? absint( $_GET['uid'] ) : 0;
@@ -3749,7 +3749,7 @@ function bp_email_unsubscribe_handler() {
  * @return string The unsubscribe link.
  */
 function bp_email_get_unsubscribe_link( $args ) {
-	$emails = bp_email_get_type_schema( 'all' );
+	$emails = bp_email_get_unsubscribe_type_schema();
 
 	if ( empty( $args['notification_type'] ) || ! array_key_exists( $args['notification_type'], $emails ) ) {
 		return site_url( 'wp-login.php' );
@@ -3791,4 +3791,27 @@ function bp_email_get_unsubscribe_link( $args ) {
  */
 function bp_email_get_salt() {
 	return bp_get_option( 'bp-emails-unsubscribe-salt', null );
+}
+
+/**
+ * Get a list of emails for use in our unsubscribe functions.
+ *
+ * @since 2.8.0
+ *
+ * @see https://buddypress.trac.wordpress.org/ticket/7431
+ *
+ * @return array The array of email types and their schema.
+ */
+function bp_email_get_unsubscribe_type_schema() {
+	$emails = bp_email_get_type_schema( 'all' );
+
+	/**
+	 * Filters the return of `bp_email_get_type_schema( 'all' )` for use with
+	 * our unsubscribe functionality.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $emails The array of email types and their schema.
+	 */
+	return (array) apply_filters( 'bp_email_get_unsubscribe_type_schema', $emails );
 }
