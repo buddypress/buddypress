@@ -859,6 +859,7 @@ class BP_Admin {
 
 			<h3 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h3>
 			<p class="wp-credits-list">
+				<a href="https://profiles.wordpress.org/dontdream/">Andrea Tarantini (dontdream)</a>,
 				<a href="https://profiles.wordpress.org/angeljs/">angeljs</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
 				<a href="https://profiles.wordpress.org/bhargavbhandari90/">Bunty (bhargavbhandari90)</a>,
