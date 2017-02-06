@@ -21,9 +21,9 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 	margin-bottom: 6px;
 }
 #bp-groups-edit-form input#bp-groups-new-members {
+	border: 1px solid #e5e5e5;
+	margin-top: 6px;
 	width: 100%;
-	max-width: 90%;
-	border: 0;
 }
 #bp-groups-new-members-list {
 	margin: 0;
