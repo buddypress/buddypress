@@ -894,6 +894,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/petya/">Petya Raykovska</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/rekmla/">rekmla</a>,
+				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
 				<a href="https://profiles.wordpress.org/rogercoathup/">Roger Coathup (rogercoathup)</a>,
 				<a href="https://profiles.wordpress.org/DarkWolf/">Salvatore (DarkWolf)</a>,
 				<a href="https://profiles.wordpress.org/sanket.parmar/">Sanket Parmar (sanket.parmar)</a>,
