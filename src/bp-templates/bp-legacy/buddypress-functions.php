@@ -686,13 +686,15 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	 */
 
 	// Activity stream filtering on action.
-	if ( bp_is_active( 'activity' ) && ! empty( $_BP_COOKIE['bp-' . $object . '-filter'] ) && '-1' != $_BP_COOKIE['bp-' . $object . '-filter'] ) {
+	if ( ! empty( $_BP_COOKIE['bp-' . $object . '-filter'] ) && '-1' != $_BP_COOKIE['bp-' . $object . '-filter'] ) {
 		$qs[] = 'type=' . $_BP_COOKIE['bp-' . $object . '-filter'];
 
-		$actions = bp_activity_get_actions_for_context();
-		foreach ( $actions as $action ) {
-			if ( $action['key'] === $_BP_COOKIE['bp-' . $object . '-filter'] ) {
-				$qs[] = 'action=' . $_BP_COOKIE['bp-' . $object . '-filter'];
+		if ( bp_is_active( 'activity' ) ) {
+			$actions = bp_activity_get_actions_for_context();
+			foreach ( $actions as $action ) {
+				if ( $action['key'] === $_BP_COOKIE['bp-' . $object . '-filter'] ) {
+					$qs[] = 'action=' . $_BP_COOKIE['bp-' . $object . '-filter'];
+				}
 			}
 		}
 	}
