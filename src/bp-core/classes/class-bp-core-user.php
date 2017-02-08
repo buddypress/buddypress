@@ -723,16 +723,6 @@ class BP_Core_User {
 			}
 		}
 
-		if ( 'active' != $type ) {
-			$user_activity = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as last_activity FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'last_activity' ) ) );
-			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
-				foreach ( (array) $user_activity as $activity ) {
-					if ( $activity->id == $paged_users[$i]->id )
-						$paged_users[$i]->last_activity = $activity->last_activity;
-				}
-			}
-		}
-
 		// Fetch the user's last_activity.
 		if ( 'active' != $type ) {
 			$user_activity = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as last_activity FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'last_activity' ) ) );
