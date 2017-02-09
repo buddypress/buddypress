@@ -553,6 +553,13 @@ body.users_page_bp-signups td.count_sent {
 	text-align: center;
 }
 
+.bp-signups-list table {
+	margin: 1em 0;
+}
+
+.bp-signups-list .column-fields {
+	font-weight: bold;
+}
 
 /*------------------------------------------------------------------------------
  * 4.0 Emails - Edit Page
