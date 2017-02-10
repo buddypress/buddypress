@@ -47,6 +47,12 @@ TABLE OF CONTENTS:
 	left: 0;
 }
 
+.buddypress code {
+	background-color: #e0e0e0;
+	color: #636363;
+	font-size: 1em;
+}
+
 @media only screen and (max-width: 500px) {
 	.about-wrap .bp-badge {
 		position: relative;
@@ -353,10 +359,10 @@ TABLE OF CONTENTS:
 	.buddypress .bp-features-section .headline-title {
 		font-size: 1.5em;
 		line-height: 1.5;
+		text-align: right;
 	}
 	.buddypress .bp-headline-feature .headline-title {
 		margin: 1em 0 0 0;
-		text-align: right;
 	}
 	.buddypress .bp-headline-feature p {
 		margin: 1.15em 0 0.6em auto;

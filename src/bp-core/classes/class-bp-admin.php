@@ -605,13 +605,12 @@ class BP_Admin {
 
 			<div class="bp-headline-feature">
 				<div class="bp-headline">
-					<span class="dashicons dashicons-list-view" aria-hidden="true"></span>
-					<h3 class="headline-title"><?php esc_html_e( 'Groups Query Overhaul', 'buddypress' ); ?></h3>
-
+					<h3 class="headline-title"><?php esc_html_e( 'Modernizing the Codebase', 'buddypress' ); ?></h3>
 					<p class="introduction"><?php
-						/* translators: %s: URL to the development post about this feature */
-						printf( __( 'Huge performance improvements on sites using persistent caching. <a href="%s">Learn more about the Groups Query rewrite</a>.', 'buddypress' ),
-						'https://bpdevel.wordpress.com/2016/09/19/group-queries-have-been-rewritten-for-bp-2-7/' );
+						 /* translators: 1: BP REST API, 2: Link to Codex article */
+						printf( __( 'To continue the migration of legacy code to modern standards and techniques necessary for the %1$s project and other new features moving forward, <a href="%2$s">BuddyPress 2.8 requires at least PHP 5.3</a>. This will allow us to build better, robust, and secure code, benefitting developers and users now and in the future.', 'buddypress'),
+						'<code>BP REST API</code>',
+						'https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/' );
 					?></p>
 				</div>
 			</div>
@@ -620,107 +619,98 @@ class BP_Admin {
 
 				<h3 class="headline-title"><?php esc_html_e( 'For Developers &amp; Site Builders', 'buddypress' ); ?></h3>
 
+				<div class="bp-feature-with-images">
+
+					<div class="bp-feature-imaged">
+						<h4 class="feature-title"><?php esc_html_e( 'More helpful "Activate Pending Accounts" screen', 'buddypress' ); ?></h4>
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/pending-accounts.png' ); ?>" alt="<?php esc_attr_e( 'The improved pending account screen.', 'buddypress' ); ?>">
+						<p><?php esc_html_e( 'When you click on the username on the "Users > Manage Signups" page, you can now view profile data entered by the user at the time of registration.', 'buddypress' ); ?></p>
+					</div>
+
+					<div class="bp-feature-imaged anon">
+						<h4 class="feature-title"><?php
+							/* translators: %s: List-Unsubscribe */
+							printf( __( 'Support for %s header in emails', 'buddypress' ),
+							'<code>List-Unsubscribe</code>' );
+						?></h4>
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/list-unsubscribe.png' ); ?>" alt="<?php esc_attr_e( 'Email header showing the list-unsubscribe feature.', 'buddypress' ); ?>">
+						<p><?php esc_html_e( 'Allow users to unsubscribe from BuddyPress email notifications in some email clients such as Gmail (web), when properly configured.', 'buddypress' ); ?></p>
+					</div>
+
+					<div class="bp-feature-imaged">
+						<h4 class="feature-title"><?php esc_html_e( 'Twenty Seventeen Companion Stylesheet', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'BuddyPress looks great in WordPress\'s latest default theme with the new Twenty Seventeen companion stylesheet.', 'buddypress' ); ?></p>
+						<p><?php
+						/* translators: 1: Link to the Codex article, 2: functions.php */
+						printf( __( 'To change the default two-column page layout to a full-width layout as seen in the image, add the <a href="%1$s">following code</a> to the  %2$s file of your Twenty Seventeen child theme.', 'buddypress' ),
+						'https://codex.buddypress.org/themes/bp-theme-compatibility-and-the-wordpress-default-themes/twenty-seventeen-theme/',
+						'<code>functions.php</code>' );
+					?></p>
+					</div>
+
+					<div class="bp-feature-imaged anon">
+						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/twenty-seventeen.png' ); ?>" alt="<?php esc_attr_e( 'Full-width BuddyPress layout for Twenty Seventeen theme.', 'buddypress' ); ?>">
+					</div>
+
+					<div class="clear"></div>
+				</div>
+
 				<div class="bp-feature">
-					<span class="dashicons dashicons-calendar" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'Improved Profile Date Field', 'buddypress' ); ?></h4>
-					<p><?php _e( 'New Date Field settings, "Date format" and "Range", make it easier for site administrators to decide how date-based data will be collected and displayed.', 'buddypress' ); ?></p>
+					<span class="dashicons dashicons-testimonial" aria-hidden="true"></span>
+					<h4 class="feature-title"><?php esc_html_e( 'More hooks for Messages', 'buddypress' ); ?></h4>
+					<p><?php esc_html_e( 'We\'ve added new filters and actions for different methods throughout the Messages component.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature opposite">
+					<span class="dashicons dashicons-search" aria-hidden="true"></span>
+					<h4 class="feature-title"><?php esc_html_e( 'A more flexible Group search', 'buddypress' ); ?></h4>
+					<p><?php
+						/* translators: 1: search_column, 2: BP_Groups_Group::get() */
+						printf( __( 'The new %1$s parameter allows developers to specify which columns should be matched, as well as where wildcard characters should be placed, when searching via %2$s.', 'buddypress' ),
+						'<code>search_column</code>',
+						'<code>BP_Groups_Group::get()</code>' );
+					?></p>
+				</div>
+
+				<div class="bp-feature">
 					<span class="dashicons dashicons-groups" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'Group Types Integration in Templates', 'buddypress' ); ?></h4>
-					<p><?php
-						/* translators: %s: URL to the BuddyPress Codex article */
-						printf( __( 'Enable developers to show Group Types on the front end as well as control where the group type information is rendered. <a href="%s">Learn how to implement this feature</a>.', 'buddypress' ),
-						'https://codex.buddypress.org/developer/group-types/' );
-					?></p>
-				</div>
-
-				<div class="bp-feature">
-					<span class="dashicons dashicons-admin-multisite" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'Use the Site Icon as Your Site&#8217;s Profile Photo', 'buddypress' ); ?></h4>
-					<p><?php
-						/* translators: %s: URL to the WordPress Codex article */
-						printf( __( 'BuddyPress sets the site admin&#8217;s profile photo as the default site profile photo on the Sites Directory page. You can now <a href="%s">use the Site Icon introduced in WordPress 4.3</a> instead.', 'buddypress' ),
-						'https://codex.wordpress.org/Creating_a_Favicon#WordPress_Version_4.3_or_later' );
-					?></p>
-				</div>
-
-				<div class="bp-feature opposite">
-					<span class="dashicons dashicons-filter" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Member Type and Group Type Filters in Users and Groups Admin Screens', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Easily filter your members and groups by type and set types in bulk on the users and groups list tables in the dashboard.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature">
-					<span class="dashicons dashicons-clock" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'Localized Timestamps', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Fix inaccurate timestamps due to time zones or page caching with new client-side timestamp handling.', 'buddypress' ); ?></p>
+					<h4 class="feature-title"><?php esc_html_e( 'Alphabetical sorting for Groups widget', 'buddypress' ); ?></h4>
+					<p><?php esc_html_e( 'The groups widget can now be sorted alphabetically, in addition to sorting the results by recently active, popular, and newest groups.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature opposite">
 					<span class="dashicons dashicons-email" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'Links to Unsubscribe from Emails', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Improve user experience by facilitating the removal of any or all subscriptions via new email tokens and unsubscribe links.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature">
-					<span class="dashicons dashicons-admin-page" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Use WP Page Names for Headings of BP Directory Pages', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Whatever you choose as the title of your Activity, Sites, Members, or Groups directory pages on the back end, is what you&#8217;ll get as the heading on the front end.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature opposite">
-					<span class="dashicons dashicons-universal-access" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Accessibility Updates for the Front End and Back End', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Continued improvements for universal access help make BuddyPress back- and front-end screens usable for everyone (and on more devices).', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature">
-					<span class="dashicons dashicons-screenoptions" aria-hidden="true"></span>
-					<h4 class="title"><?php
-						/* translators: %s: BP_Button */
-						printf( __( 'Refactored %s Class to Accept New Arguments', 'buddypress' ), '<code>BP_Button</code>' );
+					<h4 class="feature-title"><?php
+						/* translators: %s: PHPMailer */
+						printf( __( 'Enable choice of %s', 'buddypress' ), '<code>PHPMailer</code>' );
 					?></h4>
-					<p><?php esc_html_e( 'Provides developers with improved syntax and more control over the rendering of buttons.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature opposite">
-					<span class="dashicons dashicons-image-filter" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Improvements to a Single Group&#8217;s Management Screens', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'Improved markup, new modular group management templates, and a new member search form are just some of the enhancements added to the single group admin screens.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature">
-					<span class="dashicons  dashicons-groups" aria-hidden="true"></span>
-					<h4 class="title"><?php
-						/* translators: %s: parent_id */
-						printf( __( 'Support for Querying for Groups by New Column %s', 'buddypress' ), '<code>parent_id</code>' );
-					?></h4>
-					<p><?php esc_html_e( 'Query support for hierarchical groups makes it much easier for developers to add custom front-end functionality.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature opposite">
-					<span class="dashicons dashicons-chart-bar" aria-hidden="true"></span>
-					<h4 class="title"><?php esc_html_e( 'Many, Many Performance Improvements', 'buddypress' ); ?></h4>
 					<p><?php
-						/* translators: %s: bp_get_user_groups() */
-						printf( __( 'Improved performance by removing extra database queries, adding new cache calls, and removing the number of loops in %s.', 'buddypress' ), '<code>bp_get_user_groups()</code>' );
+						/* translators: %s: PHPMailer */
+						printf( __( 'Developers can specify which %s should be used when sending BuddyPress with a new filter.', 'buddypress' ), '<code>PHPMailer</code>' );
 					?></p>
 				</div>
-
 
 				<div class="clear"></div>
 			</div>
 
 			<div class="bp-changelog-section">
-				<h3 class="changelog-title"><?php esc_html_e( 'And so much more!', 'buddypress' ); ?></h3>
-				<p class="bp-changelog-url"><?php
-					/* translators: %s: URL to the BuddyPress Codex article */
-					printf( __( '<a href="%s">Changelog for BuddyPress 2.7.</a>', 'buddypress' ),
-					'https://codex.buddypress.org/releases/version-2-7-0/' );
-				?></p>
+				<h3 class="changelog-title"><?php esc_html_e( 'More under the hood &#8230;', 'buddypress' ); ?></h3>
+				<div class="bp-changelog three-col">
+					<div class="col">
+						<h4 class="title"><?php esc_html_e( 'Localization Improvements', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'We continue to improve our localization internals, making it easier for translation editors to ensure that BuddyPress will be available for everyone in their own language.', 'buddypress' ); ?></p>
+					</div>
+					<div class="col">
+						<h4 class="title"><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Regular updates to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
+					</div>
 
+					<div class="col">
+						<h4 class="title"><?php esc_html_e( 'Accessibility Upgrades', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Continued improvements for universal access help make BuddyPress back- and front-end screens usable for everyone (and on more devices).', 'buddypress' ); ?></p>
+					</div>
+				</div>
+				<div class="clear"></div>
 			</div>
 
 			<div class="bp-assets">
@@ -934,7 +924,7 @@ class BP_Admin {
 		// Switch welcome text based on whether this is a new installation or not.
 		$welcome_text = ( self::is_new_install() )
 			? __( 'Thank you for installing BuddyPress! BuddyPress helps site builders and WordPress developers add community features to their websites, with user profile fields, activity streams, messaging, and notifications.', 'buddypress' )
-			: __( 'Thank you for updating! BuddyPress %s has many new features that you will enjoy.', 'buddypress' );
+			: __( 'Thank you for updating! BuddyPress %s has many new improvements that you will enjoy.', 'buddypress' );
 
 		?>
 
