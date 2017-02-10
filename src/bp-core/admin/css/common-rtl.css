@@ -513,13 +513,6 @@ TABLE OF CONTENTS:
 	content: "";
 }
 
-.bp-signups-list table {
-	margin: 1em 0;
-}
-
-.bp-signups-list .column-fields {
-	font-weight: bold;
-}
 
 /*------------------------------------------------------------------------------
  * 3.0 User's Lists
@@ -626,13 +619,6 @@ body.post-type-bp-email .categorydiv label {
 	}
 }
 
-.bp-signups-list table {
-	margin: 1em 0;
-}
-
-.bp-signups-list .column-fields {
-	font-weight: bold;
-}
 
 /*------------------------------------------------------------------------------
  * 6.0 Plugins page
