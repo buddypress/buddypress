@@ -565,7 +565,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 			'field_id' => (int) $field->id,
 			'mode'     => 'edit_field'
 		),
-		admin_url( 'users.php' )
+		network_admin_url( 'users.php' )
 	);
 
 	if ( $field->can_delete ) {
@@ -575,7 +575,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 				'field_id' => (int) $field->id,
 				'mode'     => 'delete_field'
 			),
-			admin_url( 'users.php' ) . '#tabs-' . (int) $field->group_id
+			network_admin_url( 'users.php' ) . '#tabs-' . (int) $field->group_id
 		);
 	}
 	?>
