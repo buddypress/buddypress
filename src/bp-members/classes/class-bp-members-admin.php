@@ -2064,11 +2064,13 @@ class BP_Members_Admin {
 			<ol class="bp-signups-list">
 			<?php foreach ( $signups as $signup ) :
 				$last_notified = mysql2date( 'Y/m/d g:i:s a', $signup->date_sent );
+				$profile_field_ids = array();
 
 				// Get all xprofile field IDs except field 1.
-				$profile_field_ids = array_flip( explode( ',', $signup->meta['profile_field_ids'] ) );
-				unset( $profile_field_ids[1] );
-			?>
+				if ( ! empty( $signup->meta['profile_field_ids'] ) ) {
+					$profile_field_ids = array_flip( explode( ',', $signup->meta['profile_field_ids'] ) );
+					unset( $profile_field_ids[1] );
+				} ?>
 
 				<li>
 					<strong><?php echo esc_html( $signup->user_login ) ?></strong>
