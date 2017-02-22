@@ -1527,8 +1527,12 @@ function bp_legacy_theme_ajax_close_notice() {
 		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem closing the notice.', 'buddypress' ) . '</p></div>';
 
 	} else {
-		$user_id      = get_current_user_id();
-		$notice_ids   = bp_get_user_meta( $user_id, 'closed_notices', true );
+		$user_id    = get_current_user_id();
+		$notice_ids = bp_get_user_meta( $user_id, 'closed_notices', true );
+		if ( ! is_array( $notice_ids ) ) {
+			$notice_ids = array();
+		}
+
 		$notice_ids[] = (int) $_POST['notice_id'];
 
 		bp_update_user_meta( $user_id, 'closed_notices', $notice_ids );
