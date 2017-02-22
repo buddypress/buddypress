@@ -1077,7 +1077,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	if ( !is_subdomain_install() )
 		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span> <input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="63" /><br />';
 	else
-		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="63" ' . bp_get_form_field_attributes( 'blogname' ) . '/> <span class="suffix_address">.' . bp_blogs_get_subdomain_base() . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="'.$blogname.'" maxlength="63" ' . bp_get_form_field_attributes( 'blogname' ) . '/> <span class="suffix_address">.' . bp_signup_get_subdomain_base() . '</span><br />';
 
 	if ( !is_user_logged_in() ) {
 		print '(<strong>' . __( 'Your address will be ' , 'buddypress');

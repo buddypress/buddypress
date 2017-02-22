@@ -382,6 +382,11 @@ class BP_Admin {
 
 		// Only show 'switch to Toolbar' option if the user chose to retain the BuddyBar during the 1.6 upgrade.
 		if ( (bool) bp_get_option( '_bp_force_buddybar', false ) ) {
+			// Load deprecated code if not available.
+			if ( ! function_exists( 'bp_admin_setting_callback_force_buddybar' ) ) {
+				require buddypress()->plugin_dir . 'bp-core/deprecated/2.1.php';
+			}
+
 			add_settings_field( '_bp_force_buddybar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_force_buddybar', 'buddypress', 'bp_main' );
 			register_setting( 'buddypress', '_bp_force_buddybar', 'bp_admin_sanitize_callback_force_buddybar' );
 		}
