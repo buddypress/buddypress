@@ -53,7 +53,7 @@ function bp_core_check_for_flood( $user_id = 0 ) {
  * @param string $title      The title of the content.
  * @param string $content    The content being posted.
  * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
- * @return bool True if test is passed, false if fail.
+ * @return bool|WP_Error True if test is passed, false if fail.
  */
 function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
 
@@ -196,7 +196,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
  * @param string $title      The title of the content.
  * @param string $content    The content being posted.
  * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
- * @return bool True if test is passed, false if fail.
+ * @return bool|WP_Error True if test is passed, false if fail.
  */
 function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
 

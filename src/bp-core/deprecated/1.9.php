@@ -19,14 +19,14 @@ defined( 'ABSPATH' ) || exit;
  *             bp_notifications_add_notification() instead.
  *
  * @since 1.0.0
- * @param string $item_id
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
- * @param string $secondary_item_id
- * @param string $date_notified
- * @param int $is_new
- * @return boolean True on success, false on failure.
+ * @param string       $item_id
+ * @param int          $user_id
+ * @param string       $component_name
+ * @param string       $component_action
+ * @param int          $secondary_item_id
+ * @param false|string $date_notified
+ * @param int          $is_new
+ * @return int|boolean True on success, false on failure.
  */
 function bp_core_add_notification( $item_id, $user_id, $component_name, $component_action, $secondary_item_id = 0, $date_notified = false, $is_new = 1 ) {
 
@@ -62,8 +62,9 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
  *             bp_notifications_delete_notification() instead.
  *
  * @since 1.0.0
+ *
  * @param int $id ID of notification.
- * @return boolean True on success, false on failure.
+ * @return false|integer True on success, false on failure.
  */
 function bp_core_delete_notification( $id ) {
 
@@ -86,7 +87,7 @@ function bp_core_delete_notification( $id ) {
  *
  * @since 1.0.0
  * @param int $id ID of notification.
- * @return BP_Core_Notification
+ * @return false|BP_Core_Notification
  */
 function bp_core_get_notification( $id ) {
 
@@ -140,7 +141,7 @@ function bp_core_get_notifications_for_user( $user_id, $format = 'string' ) {
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
- * @return boolean True on success, false on failure.
+ * @return false|int True on success, false on failure.
  */
 function bp_core_delete_notifications_by_type( $user_id, $component_name, $component_action ) {
 
@@ -165,10 +166,11 @@ function bp_core_delete_notifications_by_type( $user_id, $component_name, $compo
  *             bp_notifications_delete_notifications_by_item_id() instead.
  *
  * @since 1.0.0
+ *
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
- * @return boolean True on success, false on failure.
+ * @return false|int True on success, false on failure.
  */
 function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 
@@ -190,9 +192,10 @@ function bp_core_delete_notifications_by_item_id( $user_id, $item_id, $component
  *             bp_notifications_delete_all_notifications_by_type() instead.
  *
  * @since 1.0.0
- * @param int $user_id
- * @param string $component_name
- * @param string $component_action
+ *
+ * @param int          $user_id
+ * @param string       $component_name
+ * @param false|string $component_action
  * @return boolean True on success, false on failure.
  */
 function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {
@@ -220,7 +223,7 @@ function bp_core_delete_all_notifications_by_type( $item_id, $component_name, $c
  * @param int $user_id
  * @param string $component_name
  * @param string $component_action
- * @return boolean True on success, false on failure.
+ * @return false|int True on success, false on failure.
  */
 function bp_core_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
 

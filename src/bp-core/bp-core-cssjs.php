@@ -410,8 +410,8 @@ function bp_core_get_js_dependencies() {
  * @since 2.4.0
  *
  * @param bool $return True to get the inline css.
- * @return string|array the inline css or an associative array containing
- *                      the css rules and the style handle
+ * @return null|array|false The inline css or an associative array containing
+ *                          the css rules and the style handle.
  */
 function bp_add_cover_image_inline_css( $return = false ) {
 	$bp = buddypress();

@@ -109,7 +109,7 @@ class BuddyPress {
 	 * @static object $instance
 	 * @see buddypress()
 	 *
-	 * @return BuddyPress The one true BuddyPress.
+	 * @return BuddyPress|null The one true BuddyPress.
 	 */
 	public static function instance() {
 

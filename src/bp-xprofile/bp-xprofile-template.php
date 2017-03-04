@@ -909,7 +909,7 @@ function bp_the_profile_field_visibility_level_label() {
  * @since 1.0.0
  *
  * @param string $value Content to maybe unserialize.
- * @return mixed|string
+ * @return string
  */
 function bp_unserialize_profile_field( $value ) {
 	if ( is_serialized($value) ) {
@@ -1087,7 +1087,7 @@ function bp_get_profile_group_tabs() {
  *
  * @param bool $deprecated Deprecated boolean parameter.
  *
- * @return string|mixed
+ * @return string|null
  */
 function bp_profile_group_name( $deprecated = true ) {
 	if ( ! $deprecated ) {

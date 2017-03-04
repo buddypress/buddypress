@@ -530,8 +530,8 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
  *
  * @since 2.6.0
  *
- * @param string $component The slug representing the component. Defaults to the current component.
- * @return int|bool The ID of the directory page associated with the component. False if none is found.
+ * @param string|null $component The slug representing the component. Defaults to the current component.
+ * @return int|false The ID of the directory page associated with the component. False if none is found.
  */
 function bp_core_get_directory_page_id( $component = null ) {
 	if ( ! $component ) {
@@ -912,7 +912,7 @@ function bp_core_add_illegal_names() {
  * @since 2.7.0 The `$component` parameter was made optional, with the current component
  *              as the fallback value.
  *
- * @param string $component Optional. Component name. Defaults to current component.
+ * @param string|null $component Optional. Component name. Defaults to current component.
  * @return string|bool Query argument on success. False on failure.
  */
 function bp_core_get_component_search_query_arg( $component = null ) {
@@ -1329,7 +1329,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
  * @since 2.7.0
  *
  * @param string String of date to convert. Timezone should be UTC before using this.
- * @return string
+ * @return string|null
  */
  function bp_core_iso8601_date( $timestamp = '' ) {
 	echo bp_core_get_iso8601_date( $timestamp );
@@ -1488,7 +1488,7 @@ function bp_core_render_message() {
  *
  *       usermeta table.
  *
- * @return bool|null Returns false if there is nothing to do.
+ * @return false|null Returns false if there is nothing to do.
  */
 function bp_core_record_activity() {
 
@@ -1776,7 +1776,7 @@ function bp_use_embed_in_private_messages() {
  * @param string     $content The content to check.
  * @param string|int $type    The type to check. Can also use a bitmask. See the class constants in the
  *                             BP_Media_Extractor class for more info.
- * @return array|bool          If media exists, will return array of media metadata. Else, boolean false.
+ * @return false|array If media exists, will return array of media metadata. Else, boolean false.
  */
 function bp_core_extract_media_from_content( $content = '', $type = 'all' ) {
 	if ( is_string( $type ) ) {

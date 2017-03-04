@@ -588,8 +588,8 @@ class BP_Friends_Friendship {
 	 *                                    of the potential friendship/request.
 	 * @param int $possible_friend_userid The ID of the user who is the
 	 *                                    recipient of the potential friendship/request.
-	 * @return string $value The friendship status, from among 'not_friends',
-	 *                       'is_friend', 'pending', and 'awaiting_response'.
+	 * @return string|false $value The friendship status, from among 'not_friends',
+	 *                             'is_friend', 'pending', and 'awaiting_response'.
 	 */
 	public static function check_is_friend( $initiator_userid, $possible_friend_userid ) {
 		global $wpdb;
@@ -825,8 +825,8 @@ class BP_Friends_Friendship {
 	 * @param int $user_id       ID of the user whose friends are being retrieved.
 	 * @param int $total_friends Optional. Number of random friends to get.
 	 *                           Default: 5.
-	 * @return array|bool An array of random friend user IDs on success;
-	 *                    false if none are found.
+	 * @return array|false An array of random friend user IDs on success;
+	 *                     false if none are found.
 	 */
 	public static function get_random_friends( $user_id, $total_friends = 5 ) {
 		global $wpdb;
@@ -916,7 +916,7 @@ class BP_Friends_Friendship {
 	 * @since 1.0.0
 	 *
 	 * @param int $friendship_id ID of the friendship.
-	 * @return object friend_user_id and initiator_user_id.
+	 * @return null|stdClass friend_user_id and initiator_user_id.
 	 */
 	public static function get_user_ids_for_friendship( $friendship_id ) {
 

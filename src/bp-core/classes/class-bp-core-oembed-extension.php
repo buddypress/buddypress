@@ -53,6 +53,8 @@ abstract class BP_Core_oEmbed_Extension {
 	 * Add content for your oEmbed response here.
 	 *
 	 * @since 2.6.0
+	 *
+	 * @return null
 	 */
 	abstract protected function content();
 

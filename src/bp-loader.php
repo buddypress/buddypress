@@ -40,7 +40,7 @@ define( 'BP_REQUIRED_PHP_VERSION', '5.3.0' );
  *
  * Example: <?php $bp = buddypress(); ?>
  *
- * @return BuddyPress The one true BuddyPress Instance.
+ * @return BuddyPress|null The one true BuddyPress Instance.
  */
 function buddypress() {
 	return BuddyPress::instance();

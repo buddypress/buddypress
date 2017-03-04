@@ -180,7 +180,7 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 * @since 2.6.0
 	 *
 	 * @param mixed $offset Array offset.
-	 * @return string
+	 * @return string|array
 	 */
 	public function get_component( $offset = '' ) {
 		if ( ! isset( $this->component ) ) {

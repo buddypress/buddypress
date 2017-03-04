@@ -109,7 +109,7 @@ function messages_screen_compose() {
  *
  * @since 1.0.0
  *
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function messages_screen_conversation() {
 

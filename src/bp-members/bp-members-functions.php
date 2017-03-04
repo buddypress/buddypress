@@ -1186,7 +1186,7 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
  * @param null   $retval Null retval value.
  * @param int    $object_id ID of the user.
  * @param string $meta_key  Meta key being fetched.
- * @return mixed
+ * @return string|null
  */
 function _bp_get_user_meta_last_activity_warning( $retval, $object_id, $meta_key ) {
 	static $warned = false;
@@ -1819,7 +1819,7 @@ function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
  * @param string $user_email    Email address entered by the user.
  * @param array  $usermeta      Miscellaneous metadata about the user (blog-specific
  *                              signup data, xprofile data, etc).
- * @return bool|WP_Error True on success, WP_Error on failure.
+ * @return int|false True on success, WP_Error on failure.
  */
 function bp_core_signup_user( $user_login, $user_password, $user_email, $usermeta ) {
 	$bp = buddypress();
@@ -2700,7 +2700,7 @@ function bp_get_member_types( $args = array(), $output = 'names', $operator = 'a
  * @param string $member_type Member type.
  * @param bool   $append      Optional. True to append this to existing types for user,
  *                            false to replace. Default: false.
- * @return array $retval See {@see bp_set_object_terms()}.
+ * @return false|array $retval See {@see bp_set_object_terms()}.
  */
 function bp_set_member_type( $user_id, $member_type, $append = false ) {
 	// Pass an empty $member_type to remove a user's type.
@@ -2847,7 +2847,7 @@ function bp_has_member_type( $user_id, $member_type ) {
  * @since 2.2.0
  *
  * @param int $user_id ID of the user.
- * @return array $value See {@see bp_set_member_type()}.
+ * @return false|array $value See {@see bp_set_member_type()}.
  */
 function bp_remove_member_type_on_user_delete( $user_id ) {
 	return bp_set_member_type( $user_id, '' );

@@ -949,7 +949,7 @@ function bp_attachments_get_template_part( $slug ) {
  * @since 2.4.0
  *
  * @param string $component The component to get the settings for ("xprofile" for user or "groups").
- * @return array|bool The cover image settings in array, false on failure.
+ * @return false|array The cover image settings in array, false on failure.
  */
 function bp_attachments_get_cover_image_settings( $component = 'xprofile' ) {
 	// Default parameters.
@@ -1110,7 +1110,7 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
  *     @type string $cover_image_dir The Cover image dir to write the image into. Required.
  * }
  * @param BP_Attachment_Cover_Image|null $cover_image_class The class to use to fit the cover image.
- * @return bool|array An array containing cover image data on success, false otherwise.
+ * @return false|array An array containing cover image data on success, false otherwise.
  */
 function bp_attachments_cover_image_generate_file( $args = array(), $cover_image_class = null ) {
 	// Bail if an argument is missing.

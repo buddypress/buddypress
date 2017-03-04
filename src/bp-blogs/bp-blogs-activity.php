@@ -48,7 +48,7 @@ add_action( 'bp_register_activity_actions', 'bp_blogs_register_activity_actions'
  *
  * @param object|null $params    Tracking arguments.
  * @param string|int  $post_type Post type to track.
- * @return object
+ * @return object|null
  */
 function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) {
 
@@ -435,7 +435,7 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
  * }
- * @return int|bool On success, returns the activity ID. False on failure.
+ * @return WP_Error|bool|int On success, returns the activity ID. False on failure.
  */
 function bp_blogs_record_activity( $args = '' ) {
 	$defaults = array(

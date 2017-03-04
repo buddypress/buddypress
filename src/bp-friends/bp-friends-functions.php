@@ -348,7 +348,7 @@ function friends_check_user_has_friends( $user_id ) {
  *
  * @param int $initiator_user_id ID of the first user.
  * @param int $friend_user_id    ID of the second user.
- * @return int|bool ID of the friendship if found, otherwise false.
+ * @return int|null ID of the friendship if found, otherwise false.
  */
 function friends_get_friendship_id( $initiator_user_id, $friend_user_id ) {
 	return BP_Friends_Friendship::get_friendship_id( $initiator_user_id, $friend_user_id );

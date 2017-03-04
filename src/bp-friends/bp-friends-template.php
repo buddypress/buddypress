@@ -346,7 +346,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	 * @param int  $potential_friend_id ID of the user to whom the button
 	 *                                  applies. Default: value of {@link bp_get_potential_friend_id()}.
 	 * @param bool $friend_status       Not currently used.
-	 * @return string HTML for the Add Friend button.
+	 * @return false|string HTML for the Add Friend button.
 	 */
 	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
 
@@ -441,8 +441,8 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
  *
  * @param int $user_id Optional. Default: the displayed user's ID, or the
  *                     logged-in user's ID.
- * @return string|bool A comma-separated list of friend IDs if any are found,
- *                     otherwise false.
+ * @return false|string A comma-separated list of friend IDs if any are found,
+ *                      otherwise false.
  */
 function bp_get_friend_ids( $user_id = 0 ) {
 

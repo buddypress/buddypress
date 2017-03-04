@@ -110,7 +110,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @param string $file               The absolute path to the file.
 	 * @param int    $ui_available_width Available width for the UI.
-	 * @return mixed
+	 * @return false|string|WP_Image_Editor|WP_Error
 	 */
 	public static function shrink( $file = '', $ui_available_width = 0 ) {
 		// Get image size.

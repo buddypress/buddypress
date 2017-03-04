@@ -230,7 +230,7 @@ class BP_Core_User {
 	 *                                     Default: false.
 	 * @param string|bool $meta_value      See {@link BP_User_Query}.
 	 *                                     Default: false.
-	 * @return array {
+	 * @return false|array {
 	 *     @type int   $total_users Total number of users matched by query
 	 *                              params.
 	 *     @type array $paged_users The current page of users matched by
@@ -439,7 +439,7 @@ class BP_Core_User {
 	 * @param bool     $populate_extras If we should populate extra user fields.
 	 * @param string   $exclude         Comma-separated IDs of users whose results
 	 *                                  aren't to be fetched.
-	 * @return mixed False on error, otherwise associative array of results.
+	 * @return false|array False on error, otherwise associative array of results.
 	 */
 	public static function get_users_by_letter( $letter, $limit = null, $page = 1, $populate_extras = true, $exclude = '' ) {
 		global $wpdb;
@@ -767,7 +767,7 @@ class BP_Core_User {
 	 * Get last activity data for a user or set of users.
 	 *
 	 * @param int|array $user_id User IDs or multiple user IDs.
-	 * @return array
+	 * @return false|array
 	 */
 	public static function get_last_activity( $user_id ) {
 		global $wpdb;

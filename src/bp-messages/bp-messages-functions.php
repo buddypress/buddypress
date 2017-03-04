@@ -413,7 +413,7 @@ function messages_get_message_sender( $message_id ) {
  * Check whether a message thread exists.
  *
  * @param int $thread_id ID of the thread.
- * @return int|null The message thread ID on success, null on failure.
+ * @return false|int|null The message thread ID on success, null on failure.
  */
 function messages_is_valid_thread( $thread_id ) {
 	return BP_Messages_Thread::is_valid( $thread_id );

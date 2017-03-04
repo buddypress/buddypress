@@ -836,7 +836,7 @@ class BP_Notifications_Notification {
 	 * @param array $where_args  Associative array of columns/values, to
 	 *                           determine which rows should be updated. Of the format
 	 *                           array( 'item_id' => 7, 'component_action' => 'members', ).
-	 * @return int|bool Number of rows updated on success, false on failure.
+	 * @return int|false Number of rows updated on success, false on failure.
 	 */
 	public static function update( $update_args = array(), $where_args = array() ) {
 		$update = self::get_query_clauses( $update_args );
@@ -871,7 +871,7 @@ class BP_Notifications_Notification {
 	 * @param array $args Associative array of columns/values, to determine
 	 *                    which rows should be deleted.  Of the format
 	 *                    array( 'item_id' => 7, 'component_action' => 'members', ).
-	 * @return int|bool Number of rows deleted on success, false on failure.
+	 * @return int|false Number of rows deleted on success, false on failure.
 	 */
 	public static function delete( $args = array() ) {
 		$where = self::get_query_clauses( $args );
@@ -901,7 +901,7 @@ class BP_Notifications_Notification {
 	 *      return value.
 	 *
 	 * @param int $id ID of the notification item to be deleted.
-	 * @return bool True on success, false on failure.
+	 * @return int|false True on success, false on failure.
 	 */
 	public static function delete_by_id( $id ) {
 		return self::delete( array(
@@ -1016,7 +1016,7 @@ class BP_Notifications_Notification {
 	 * @param string $component_name    Name of component the notifications are for.
 	 * @param string $component_action  Name of the component action.
 	 * @param int    $secondary_item_id The ID of the secondary item.
-	 * @return bool|int False on failure to update. ID on success.
+	 * @return int|false False on failure to update. ID on success.
 	 */
 	public static function mark_all_for_user( $user_id, $is_new = 0, $item_id = 0, $component_name = '', $component_action = '', $secondary_item_id = 0 ) {
 
@@ -1059,7 +1059,7 @@ class BP_Notifications_Notification {
 	 * @param string $component_name    Name of component the notifications are for.
 	 * @param string $component_action  Name of the component action.
 	 * @param int    $secondary_item_id The ID of the secondary item.
-	 * @return bool|int
+	 * @return int|false
 	 */
 	public static function mark_all_from_user( $user_id, $is_new = 0, $component_name = '', $component_action = '', $secondary_item_id = 0 ) {
 
@@ -1103,7 +1103,7 @@ class BP_Notifications_Notification {
 	 *                                  are associated with.
 	 * @param int    $secondary_item_id Optional. ID of the secondary
 	 *                                  associated item.
-	 * @return bool|int
+	 * @return int|false
 	 */
 	public static function mark_all_by_type( $item_id, $is_new = 0, $component_name = '', $component_action = '', $secondary_item_id = 0 ) {
 

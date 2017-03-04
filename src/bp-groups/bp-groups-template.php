@@ -471,7 +471,7 @@ function bp_the_group() {
  *
  * @since 1.0.0
  *
- * @param BP_Groups_Group $group Optional. Group object. Default: current group in loop.
+ * @param BP_Groups_Group|null $group Optional. Group object. Default: current group in loop.
  * @return bool
  */
 function bp_group_is_visible( $group = null ) {
@@ -962,7 +962,7 @@ function bp_group_last_active( $group = false, $args = array() ) {
  *
  * @since 1.0.0
  *
- * @param BP_Groups_Group $group Optional. Group object. Default: current group in loop.
+ * @param BP_Groups_Group|null $group Optional. Group object. Default: current group in loop.
  */
 function bp_group_permalink( $group = null ) {
 	echo bp_get_group_permalink( $group );
@@ -972,7 +972,7 @@ function bp_group_permalink( $group = null ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param BP_Groups_Group $group Optional. Group object. Default: current group in loop.
+	 * @param BP_Groups_Group|null $group Optional. Group object. Default: current group in loop.
 	 * @return string
 	 */
 	function bp_get_group_permalink( $group = null ) {
@@ -1451,8 +1451,8 @@ function bp_group_creator_permalink( $group = false ) {
  *
  * @since 1.7.0
  *
- * @param BP_Groups_Group $group   Optional. Group object. Default: current group in loop.
- * @param int             $user_id ID of the user.
+ * @param BP_Groups_Group|null $group   Optional. Group object. Default: current group in loop.
+ * @param int                  $user_id ID of the user.
  * @return bool
  */
 function bp_is_group_creator( $group = null, $user_id = 0 ) {
@@ -3354,7 +3354,7 @@ function bp_group_new_topic_button( $group = false ) {
 	 *
 	 * @param BP_Groups_Group|bool $group The BP Groups_Group object if
 	 *                                    passed, boolean false if not passed.
-	 * @return string HTML code for the button.
+	 * @return false|string HTML code for the button.
 	 */
 	function bp_get_group_new_topic_button( $group = false ) {
 		global $groups_template;
@@ -3548,7 +3548,7 @@ function bp_group_create_button() {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return string
+	 * @return false|string
 	 */
 	function bp_get_group_create_button() {
 		if ( ! is_user_logged_in() ) {
@@ -3622,7 +3622,7 @@ function bp_group_create_nav_item() {
  *
  * @since 2.2.0
  *
- * @return string HTML Output
+ * @return string|null HTML Output
  */
 function bp_group_backcompat_create_nav_item() {
 	// Bail if the Groups nav item is already used by bp-legacy.
@@ -4191,7 +4191,7 @@ function bp_group_member_css_class() {
  * @since 2.7.0 Added $args as a parameter.
  *
  * @param array|string $args {@see bp_get_group_member_joined_since()}
- * @return string
+ * @return string|null
  */
 function bp_group_member_joined_since( $args = array() ) {
 	echo bp_get_group_member_joined_since( $args );
@@ -4776,7 +4776,7 @@ function bp_new_group_id() {
 	/**
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return int
 	 */
 	function bp_get_new_group_id() {
 		$bp           = buddypress();
@@ -6191,7 +6191,7 @@ function bp_current_group_description() {
  * @param string $action
  * @param string $query_args
  * @param bool $nonce
- * @return string
+ * @return string|null
  */
 function bp_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
 	echo bp_get_groups_action_link( $action, $query_args, $nonce );

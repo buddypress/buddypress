@@ -99,7 +99,7 @@ function bp_xprofile_sanitize_field_options( $field_options = '' ) {
  * @since 2.3.0
  *
  * @param mixed $field_default Field defaults to sanitize.
- * @return mixed
+ * @return array|int
  */
 function bp_xprofile_sanitize_field_default( $field_default = '' ) {
 	if ( is_array( $field_default ) ) {
@@ -216,7 +216,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
  *
  * @param string $field_value XProfile field_value to be filtered.
  * @param string $field_type  XProfile field_type to be filtered.
- * @return string $field_value Filtered XProfile field_value. False on failure.
+ * @return false|string $field_value Filtered XProfile field_value. False on failure.
  */
 function xprofile_filter_format_field_value( $field_value, $field_type = '' ) {
 
@@ -336,7 +336,7 @@ function bp_xprofile_escape_field_data( $value, $field_type, $field_id ) {
  *
  * @param string $field_value Profile field data value.
  * @param string $field_type  Profile field type.
- * @return string
+ * @return string|array
  */
 function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox' ) {
 	global $field;

@@ -352,7 +352,7 @@ add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
  * @param string $retval    Current email content.
  * @param string $prop      Email property to check against.
  * @param string $transform Either 'raw' or 'replace-tokens'.
- * @return string $retval Modified email content.
+ * @return string|null $retval Modified email content.
  */
 function bp_email_plaintext_entity_decode( $retval, $prop, $transform ) {
 	switch ( $prop ) {
@@ -490,7 +490,7 @@ add_filter( 'wpmu_signup_blog_notification', 'bp_core_activation_signup_blog_not
  * @param string $user_email The user's email address.
  * @param string $key        The activation key created in wpmu_signup_user().
  * @param array  $meta       By default, an empty array.
- * @return bool|string       Returns false to stop original WPMU function from continuing.
+ * @return false|string Returns false to stop original WPMU function from continuing.
  */
 function bp_core_activation_signup_user_notification( $user, $user_email, $key, $meta ) {
 	if ( is_admin() ) {
@@ -858,8 +858,8 @@ function bp_filter_metaid_column_name( $q ) {
  *
  * @param string $edit_link The edit link.
  * @param int    $post_id   Post ID.
- * @return bool|string Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
- *                     otherwise
+ * @return false|string Will be a boolean (false) if $post_id is 0. Will be a string (the unchanged edit link)
+ *                      otherwise
  */
 function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
 	if ( 0 === $post_id ) {

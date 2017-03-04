@@ -228,6 +228,8 @@ function bp_blogs_pagination_count() {
  * @since 2.7.0
  *
  * @global object $blogs_template {@link BP_Blogs_Template}
+ *
+ * @return string
  */
 function bp_get_blogs_pagination_count() {
 	global $blogs_template;
@@ -1336,7 +1338,7 @@ function bp_blog_create_button() {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return string
+	 * @return false|string
 	 */
 	function bp_get_blog_create_button() {
 		if ( ! is_user_logged_in() ) {
@@ -1410,7 +1412,7 @@ function bp_blog_create_nav_item() {
  *
  * @since 2.2.0
  *
- * @return string HTML Output
+ * @return string|null HTML Output
  */
 function bp_blog_backcompat_create_nav_item() {
 	// Bail if Blogs nav item is already used by bp-legacy.

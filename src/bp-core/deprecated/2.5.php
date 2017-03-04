@@ -914,7 +914,7 @@ function bp_blogs_transition_activity_status( $new_status, $old_status, $comment
  * @param int $comment_id ID of the comment being recorded.
  * @param bool|string $is_approved Optional. The $is_approved value passed to
  *        the 'comment_post' action. Default: true.
- * @return bool|object Returns false on failure, the comment object on success.
+ * @return bool|object|null Returns false on failure, the comment object on success.
  */
 function bp_blogs_record_comment( $comment_id, $is_approved = true ) {
 	_deprecated_function( __FUNCTION__, '2.5.0', 'bp_activity_post_type_comment()' );

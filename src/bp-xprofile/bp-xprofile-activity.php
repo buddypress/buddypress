@@ -114,7 +114,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
  * @since 1.0.0
  *
  * @param array|string $args String containing all variables used after bp_parse_args() call.
- * @return array
+ * @return WP_Error|bool|int
  */
 function xprofile_record_activity( $args = '' ) {
 

@@ -594,7 +594,7 @@ function groups_get_group_mods( $group_id ) {
  *                                  'first_joined', or any of the $type params available
  *                                  in {@link BP_User_Query}. Default: 'last_joined'.
  * }
- * @return array Multi-d array of 'members' list and 'count'.
+ * @return false|array Multi-d array of 'members' list and 'count'.
  */
 function groups_get_group_members( $args = array() ) {
 
@@ -1162,7 +1162,7 @@ function groups_is_user_pending( $user_id, $group_id ) {
  *
  * @param int $user_id ID of the user.
  * @param int $group_id ID of the group.
- * @return bool
+ * @return int|null
  */
 function groups_is_user_creator( $user_id, $group_id ) {
 	return BP_Groups_Member::check_is_creator( $user_id, $group_id );
@@ -1184,7 +1184,7 @@ function groups_is_user_creator( $user_id, $group_id ) {
  *     @type int    $group_id Optional. ID of the group to be affiliated with the
  *                            update. Default: ID of the current group.
  * }
- * @return int|bool Returns the ID of the new activity item on success, or false on failure.
+ * @return WP_Error|bool|int Returns the ID of the new activity item on success, or false on failure.
  */
 function groups_post_update( $args = '' ) {
 	if ( ! bp_is_active( 'activity' ) ) {
@@ -1921,7 +1921,7 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
  * @param int $group_id      Optional. ID of the group to which membership is being
  *                           requested. Provide this value along with $user_id to
  *                           override $membership_id.
- * @return bool True on success, false on failure.
+ * @return false|BP_Groups_Member True on success, false on failure.
  */
 function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 	if ( !empty( $user_id ) && !empty( $group_id ) )
@@ -2312,7 +2312,7 @@ function bp_groups_get_group_type_object( $group_type ) {
  * @param string|array $group_type Group type or array of group types to set.
  * @param bool         $append     Optional. True to append this to existing types for group,
  *                                 false to replace. Default: false.
- * @return array $retval See bp_set_object_terms().
+ * @return false|array $retval See bp_set_object_terms().
  */
 function bp_groups_set_group_type( $group_id, $group_type, $append = false ) {
 	// Pass an empty group type to remove group's type.
@@ -2487,7 +2487,7 @@ function bp_get_current_group_directory_type() {
  * @since 2.6.0
  *
  * @param  int   $group_id ID of the group.
- * @return array $value    See {@see bp_groups_set_group_type()}.
+ * @return array|null $value    See {@see bp_groups_set_group_type()}.
  */
 function bp_remove_group_type_on_group_delete( $group_id = 0 ) {
 	bp_groups_set_group_type( $group_id, '' );

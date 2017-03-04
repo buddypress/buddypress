@@ -191,7 +191,7 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  *     @type string       $cache_key_prefix Optional. The prefix to use when creating
  *                                          cache key names. Default: the value of $meta_table.
  * }
- * @return array|bool Metadata cache for the specified objects, or false on failure.
+ * @return false|array Metadata cache for the specified objects, or false on failure.
  */
 function bp_update_meta_cache( $args = array() ) {
 	global $wpdb;

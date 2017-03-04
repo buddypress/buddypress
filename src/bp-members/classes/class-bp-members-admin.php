@@ -65,6 +65,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @return BP_Members_Admin
 	 */
 	public static function register_members_admin() {
 		if ( ! is_admin() ) {
@@ -661,7 +662,7 @@ class BP_Members_Admin {
 	 *
 	 * @param object|null $user   User to create profile navigation for.
 	 * @param string      $active Which profile to highlight.
-	 * @return string
+	 * @return string|null
 	 */
 	public function profile_nav( $user = null, $active = 'WordPress' ) {
 
@@ -1222,7 +1223,7 @@ class BP_Members_Admin {
 	 *
 	 * @param array|string $actions WordPress row actions (edit, delete).
 	 * @param object|null  $user    The object for the user row.
-	 * @return array Merged actions.
+	 * @return null|string|array Merged actions.
 	 */
 	public function row_actions( $actions = '', $user = null ) {
 
@@ -1344,7 +1345,7 @@ class BP_Members_Admin {
 	 * @since 2.0.0
 	 *
 	 * @param WP_User_Query|null $query The users query.
-	 * @return WP_User_Query The users query without the signups.
+	 * @return WP_User_Query|null The users query without the signups.
 	 */
 	public function remove_signups_from_user_query( $query = null ) {
 		global $wpdb;
@@ -1422,7 +1423,7 @@ class BP_Members_Admin {
 	 *
 	 * @param string $class    The name of the class to use.
 	 * @param string $required The parent class.
-	 * @return WP_List_Table The List table.
+	 * @return WP_List_Table|null The List table.
 	 */
 	public static function get_list_table_class( $class = '', $required = '' ) {
 		if ( empty( $class ) ) {
@@ -1958,7 +1959,7 @@ class BP_Members_Admin {
 	 *
 	 * @param string $action Delete, activate, or resend activation link.
 	 *
-	 * @return string
+	 * @return null|false
 	 */
 	public function signups_admin_manage( $action = '' ) {
 		if ( ! current_user_can( $this->capability ) || empty( $action ) ) {

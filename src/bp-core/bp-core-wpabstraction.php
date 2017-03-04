@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @global string $wp_version
  *
- * @return string $wp_version
+ * @return double $wp_version
  */
 function bp_get_major_wp_version() {
 	global $wp_version;
@@ -160,7 +160,7 @@ if ( !is_multisite() ) {
 		 *
 		 * @param int  $user_id ID of the user. Not used.
 		 * @param bool $all     Whether or not to return all. Not used.
-		 * @return false
+		 * @return bool
 		 */
 		function get_blogs_of_user( $user_id, $all = false ) {
 			return false;
@@ -180,7 +180,7 @@ if ( !is_multisite() ) {
 		 * @param mixed  $pref       Preference. Not used.
 		 * @param string $value      Value. Not used.
 		 * @param null   $deprecated Whether or not deprecated. Not used.
-		 * @return true
+		 * @return bool
 		 */
 		function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 			return true;
@@ -266,7 +266,7 @@ if ( !function_exists( 'mb_strpos' ) ) {
 	 * @param string $needle String to search for.
 	 * @param int    $offset Optional. Start position for the search. Default: 0.
 	 * @param string $encoding Optional. Encoding type. Ignored.
-	 * @return int|bool Position of needle in haystack if found, else false.
+	 * @return int|false Position of needle in haystack if found, else false.
 	 */
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		$needle = preg_quote( $needle, '/' );
@@ -291,7 +291,7 @@ if ( !function_exists( 'mb_strrpos' ) ) {
 	 * @param string $needle String to search for.
 	 * @param int    $offset Optional. Start position for the search. Default: 0.
 	 * @param string $encoding Optional. Encoding type. Ignored.
-	 * @return int Position of last needle in haystack if found, else false.
+	 * @return string|false Position of last needle in haystack if found, else false.
 	 */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		$needle = preg_quote( $needle, '/' );

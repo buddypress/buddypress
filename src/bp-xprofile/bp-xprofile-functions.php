@@ -87,7 +87,7 @@ function xprofile_insert_field_group( $args = '' ) {
  * @since 1.0.0
  *
  * @param int $field_group_id Field group ID to fetch.
- * @return boolean|BP_XProfile_Group
+ * @return false|BP_XProfile_Group
  */
 function xprofile_get_field_group( $field_group_id = 0 ) {
 
@@ -285,7 +285,7 @@ function xprofile_insert_field( $args = '' ) {
  * @since 2.8.0 Added `$user_id` and `$get_data` parameters.
  *
  * @param int|object $field    ID of the field or object representing field data.
- * @param int        $user_id  Optional. ID of the user associated with the field.
+ * @param int|null   $user_id  Optional. ID of the user associated with the field.
  *                             Ignored if `$get_data` is false. If `$get_data` is
  *                             true, but no `$user_id` is provided, defaults to
  *                             logged-in user ID.
@@ -591,7 +591,7 @@ function xprofile_check_is_required_field( $field_id ) {
  * @since 1.0.0
  *
  * @param string $field_name The name of the field to get the ID for.
- * @return int $field_id on success, false on failure.
+ * @return int|null $field_id on success, false on failure.
  */
 function xprofile_get_field_id_from_name( $field_name ) {
 	return BP_XProfile_Field::get_id_from_name( $field_name );

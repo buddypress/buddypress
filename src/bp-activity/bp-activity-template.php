@@ -1533,7 +1533,7 @@ function bp_insert_activity_meta( $content = '' ) {
  *
  * @global object $activities_template {@link BP_Activity_Template}
  *
- * @param BP_Activity_Activity $activity Optional. Falls back on the current item in the loop.
+ * @param false|BP_Activity_Activity $activity Optional. Falls back on the current item in the loop.
  * @return bool True if can delete, false otherwise.
  */
 function bp_activity_user_can_delete( $activity = false ) {
@@ -2342,8 +2342,8 @@ function bp_activity_comment_form_nojs_display() {
 	 *
 	 * @global object $activities_template {@link BP_Activity_Template}
 	 *
-	 * @return string|bool The activity comment form no JavaScript
-	 *                     display CSS. False on failure.
+	 * @return string|false The activity comment form no JavaScript
+	 *                      display CSS. False on failure.
 	 */
 	function bp_get_activity_comment_form_nojs_display() {
 		global $activities_template;

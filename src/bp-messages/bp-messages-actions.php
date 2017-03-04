@@ -295,7 +295,7 @@ add_action( 'bp_actions', 'messages_action_delete_message' );
  *
  * @since 2.2.0
  *
- * @return bool|null Returns false on failure. Otherwise redirects back to the
+ * @return false|null Returns false on failure. Otherwise redirects back to the
  *                   message box URL.
  */
 function bp_messages_action_mark_read() {
@@ -336,7 +336,7 @@ add_action( 'bp_actions', 'bp_messages_action_mark_read' );
  *
  * @since 2.2.0
  *
- * @return bool|null Returns false on failure. Otherwise redirects back to the
+ * @return false|null Returns false on failure. Otherwise redirects back to the
  *                   message box URL.
  */
 function bp_messages_action_mark_unread() {

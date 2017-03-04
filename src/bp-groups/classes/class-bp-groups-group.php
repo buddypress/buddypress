@@ -489,7 +489,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	protected function get_admins() {
 		if ( isset( $this->admins ) ) {
@@ -508,7 +508,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	protected function get_mods() {
 		if ( isset( $this->mods ) ) {
@@ -565,7 +565,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return bool
+	 * @return bool|int
 	 */
 	protected function get_is_member() {
 		if ( isset( $this->is_member ) ) {
@@ -638,7 +638,7 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 *
 	 * @param string $slug See {@link BP_Groups_Group::group_exists()}.
-	 * @return string|null See {@link BP_Groups_Group::group_exists()}.
+	 * @return int|null See {@link BP_Groups_Group::group_exists()}.
 	 */
 	public static function get_id_from_slug( $slug ) {
 		return BP_Groups_Group::group_exists( $slug );

@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $component Default: the id of your Friends component
  *                             (usually 'friends').
  * }
- * @return bool See {@link bp_activity_add()}.
+ * @return WP_Error|bool|int See {@link bp_activity_add()}.
  */
 function friends_record_activity( $args = '' ) {
 

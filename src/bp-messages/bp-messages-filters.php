@@ -82,7 +82,7 @@ add_filter( 'bp_get_the_thread_subject',              'stripslashes_deep' );
  * @see bp_has_message_threads() for description of parameters
  *
  * @param array|string $args See {@link bp_has_message_threads()}.
- * @return array
+ * @return array|string
  */
 function bp_messages_enforce_current_user( $args = array() ) {
 

@@ -328,7 +328,7 @@ function bp_admin_repair_last_activity() {
  *
  * @param string      $message Feedback message.
  * @param string|bool $class   Unused.
- * @return bool
+ * @return false|Closure
  */
 function bp_admin_tools_feedback( $message, $class = false ) {
 	if ( is_string( $message ) ) {

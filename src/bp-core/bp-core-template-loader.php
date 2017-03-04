@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *                          eg 'friends' for 'friends.php'.
  * @param string|null $name Optional. Template part name. Used to generate
  *                          secondary filenames, eg 'personal' for 'activity-personal.php'.
- * @return string Path to located template. See {@link bp_locate_template()}.
+ * @return false|string Path to located template. See {@link bp_locate_template()}.
  */
 function bp_get_template_part( $slug, $name = null ) {
 
@@ -73,7 +73,7 @@ function bp_get_template_part( $slug, $name = null ) {
  *
  * @param string      $slug Template slug.
  * @param string|null $name Template name.
- * @return string
+ * @return false|string
  */
 function bp_get_asset_template_part( $slug, $name = null ) {
 	return bp_get_template_part( "assets/{$slug}", $name );
@@ -166,8 +166,8 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
  * @since 2.6.0
  *
  * @param string $filename Relative filename to search for.
- * @return array|bool Array of asset data if one is located (includes absolute filepath and URI).
- *                    Boolean false on failure.
+ * @return false|array Array of asset data if one is located (includes absolute filepath and URI).
+ *                     Boolean false on failure.
  */
 function bp_locate_template_asset( $filename ) {
 	// Ensure assets can be located when running from /src/.
@@ -605,7 +605,7 @@ function bp_load_theme_functions() {
  * @since 1.7.0
  * @since 2.4.0 Added singular.php to stack
  *
- * @return array Array of possible root level wrapper template files.
+ * @return string Possible root level wrapper template files.
  */
 function bp_get_theme_compat_templates() {
 	return bp_get_query_template( 'buddypress', array(

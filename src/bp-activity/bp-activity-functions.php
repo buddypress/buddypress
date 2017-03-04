@@ -1845,7 +1845,7 @@ function bp_activity_get_specific( $args = '' ) {
  *     @type bool     $is_spam           Should the item be marked as spam? Default: false.
  *     @type string   $error_type        Optional. Error type. Either 'bool' or 'wp_error'. Default: 'bool'.
  * }
- * @return int|bool The ID of the activity on success. False on error.
+ * @return WP_Error|bool|int The ID of the activity on success. False on error.
  */
 function bp_activity_add( $args = '' ) {
 
@@ -2026,7 +2026,7 @@ function bp_activity_post_update( $args = '' ) {
  * @param int          $post_id ID of the new post.
  * @param WP_Post|null $post    Post object.
  * @param int          $user_id ID of the post author.
- * @return int|bool The ID of the activity on success. False on error.
+ * @return null|WP_Error|bool|int The ID of the activity on success. False on error.
  */
 function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0 ) {
 
@@ -2161,7 +2161,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
  * @since 2.2.0
  *
  * @param WP_Post|null $post Post item.
- * @return bool True on success, false on failure.
+ * @return null|WP_Error|bool True on success, false on failure.
  */
 function bp_activity_post_type_update( $post = null ) {
 
@@ -2283,7 +2283,7 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
  * @param  int         $comment_id           ID of the comment.
  * @param  bool        $is_approved          Whether the comment is approved or not.
  * @param  object|null $activity_post_object The post type tracking args object.
- * @return int|bool The ID of the activity on success. False on error.
+ * @return null|WP_Error|bool|int The ID of the activity on success. False on error.
  */
 function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $activity_post_object = null ) {
 	// Get the users comment
@@ -2557,7 +2557,7 @@ add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
  *                                     Defaults to false.
  *     @type string $error_type        Optional. Error type. Either 'bool' or 'wp_error'. Default: 'bool'.
  * }
- * @return int|bool The ID of the comment on success, otherwise false.
+ * @return WP_Error|bool|int The ID of the comment on success, otherwise false.
  */
 function bp_activity_new_comment( $args = '' ) {
 	$bp = buddypress();

@@ -2683,7 +2683,7 @@ function bp_is_user_settings_profile() {
  *
  * @since 2.0.0
  *
- * @return True if the current page is the groups directory.
+ * @return bool True if the current page is the groups directory.
  */
 function bp_is_groups_directory() {
 	if ( bp_is_groups_component() && ! bp_is_group() && ( ! bp_current_action() || ( bp_action_variable() && bp_is_current_action( bp_get_groups_group_type_base() ) ) ) ) {
@@ -2785,7 +2785,7 @@ function bp_is_group_forum() {
  *
  * @since 1.2.1
  *
- * @return True if the current page is a group's activity page.
+ * @return bool True if the current page is a group's activity page.
  */
 function bp_is_group_activity() {
 	$retval = false;
@@ -2930,7 +2930,7 @@ function bp_is_create_blog() {
  *
  * @since 2.0.0
  *
- * @return True if the current page is the blogs directory.
+ * @return bool True if the current page is the blogs directory.
  */
 function bp_is_blogs_directory() {
 	if ( is_multisite() && bp_is_blogs_component() && ! bp_current_action() ) {

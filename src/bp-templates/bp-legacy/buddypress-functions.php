@@ -612,7 +612,7 @@ function bp_legacy_theme_group_create_nav() {
  *
  * @since 2.7.0
  *
- * @return string html
+ * @return string|null html
  */
 function bp_legacy_groups_admin_screen_hidden_input() {
 	?>
@@ -662,10 +662,11 @@ function bp_legacy_theme_blog_create_nav() {
  * By using cookies we can also make sure that user settings are retained
  * across page loads.
  *
+ * @since 1.2.0
+ *
  * @param string $query_string Query string for the current request.
  * @param string $object       Object for cookie.
- * @return string Query string for the component loops
- * @since 1.2.0
+ * @return string Query string for the component loops.
  */
 function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	if ( empty( $object ) )
@@ -771,8 +772,9 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 /**
  * Load the template loop for the current object.
  *
- * @return string Prints template loop for the specified object
  * @since 1.2.0
+ *
+ * @return string|null Prints template loop for the specified object
  */
 function bp_legacy_theme_object_template_loader() {
 	// Bail if not a POST action.
@@ -816,7 +818,7 @@ function bp_legacy_theme_object_template_loader() {
  *
  * @since 1.6.0
  *
- * @return string Prints template loop for the Messages component.
+ * @return string|null Prints template loop for the Messages component.
  */
 function bp_legacy_theme_messages_template_loader() {
 	bp_get_template_part( 'members/single/messages/messages-loop' );
@@ -846,10 +848,10 @@ function bp_legacy_theme_requests_template_loader() {
 /**
  * Load the activity loop template when activity is requested via AJAX.
  *
- * @return string JSON object containing 'contents' (output of the template loop
- * for the Activity component) and 'feed_url' (URL to the relevant RSS feed).
- *
  * @since 1.2.0
+ *
+ * @return string|null JSON object containing 'contents' (output of the template loop
+ *                     for the Activity component) and 'feed_url' (URL to the relevant RSS feed).
  */
 function bp_legacy_theme_activity_template_loader() {
 	// Bail if not a POST action.
@@ -902,8 +904,9 @@ function bp_legacy_theme_activity_template_loader() {
 /**
  * Processes Activity updates received via a POST request.
  *
- * @return string HTML
  * @since 1.2.0
+ *
+ * @return string|null HTML
  */
 function bp_legacy_theme_post_update() {
 	$bp = buddypress();
@@ -990,7 +993,7 @@ function bp_legacy_theme_post_update() {
  *
  * @global BP_Activity_Template $activities_template
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_new_activity_comment() {
 	global $activities_template;
@@ -1187,7 +1190,7 @@ function bp_legacy_theme_spam_activity() {
  *
  * @since 1.2.0
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_mark_activity_favorite() {
 	// Bail if not a POST action.
@@ -1207,7 +1210,7 @@ function bp_legacy_theme_mark_activity_favorite() {
  *
  * @since 1.2.0
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_unmark_activity_favorite() {
 	// Bail if not a POST action.
@@ -1228,7 +1231,7 @@ function bp_legacy_theme_unmark_activity_favorite() {
  *
  * @since 1.5.0
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_get_single_activity_content() {
 	// Bail if not a POST action.
@@ -1351,7 +1354,7 @@ function bp_legacy_theme_ajax_invite_user() {
  *
  * @since 1.2.0
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_ajax_addremove_friend() {
 
@@ -1445,7 +1448,7 @@ function bp_legacy_theme_ajax_reject_friendship() {
  *
  * @since 1.2.0
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_ajax_joinleave_group() {
 	// Bail if not a POST action.
@@ -1546,7 +1549,7 @@ function bp_legacy_theme_ajax_close_notice() {
  *
  * @since 1.2.0
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_ajax_messages_send_reply() {
 	// Bail if not a POST action.
@@ -1654,7 +1657,7 @@ function bp_legacy_theme_ajax_message_markread() {
  *
  * @since 1.2.0
  *
- * @return string HTML
+ * @return string|null HTML
  */
 function bp_legacy_theme_ajax_messages_delete() {
 	// Bail if not a POST action.
@@ -1761,7 +1764,7 @@ function bp_legacy_theme_ajax_messages_star_handler() {
  * @since  2.4.0
  *
  * @param  array $params the current component's feature parameters.
- * @return array          an array to inform about the css handle to attach the css rules to
+ * @return null|string An array to inform about the css handle to attach the css rules to
  */
 function bp_legacy_theme_cover_image( $params = array() ) {
 	if ( empty( $params ) ) {
@@ -1934,7 +1937,7 @@ function bp_legacy_theme_cover_image( $params = array() ) {
  *
  * @since 2.7.0
  *
- * @return string HTML for the search form.
+ * @return string|null HTML for the search form.
  */
 function bp_legacy_theme_group_manage_members_add_search() {
 	if ( bp_is_action_variable( 'manage-members' ) ) :

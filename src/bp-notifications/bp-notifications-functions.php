@@ -95,7 +95,7 @@ function bp_notifications_get_notification( $id ) {
  * @since 1.9.0
  *
  * @param int $id ID of the notification to delete.
- * @return bool True on success, false on failure.
+ * @return false|int True on success, false on failure.
  */
 function bp_notifications_delete_notification( $id ) {
 	if ( ! bp_notifications_check_notification_access( bp_displayed_user_id(), $id ) ) {
@@ -114,7 +114,7 @@ function bp_notifications_delete_notification( $id ) {
  *
  * @param int      $id     ID of the notification.
  * @param int|bool $is_new 0 for read, 1 for unread.
- * @return bool True on success, false on failure.
+ * @return false|int True on success, false on failure.
  */
 function bp_notifications_mark_notification( $id, $is_new = false ) {
 	if ( ! bp_notifications_check_notification_access( bp_displayed_user_id(), $id ) ) {
@@ -361,7 +361,7 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
  * @param int    $user_id          ID of the user whose notifications are being deleted.
  * @param string $component_name   Name of the associated component.
  * @param string $component_action Name of the associated action.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_delete_notifications_by_type( $user_id, $component_name, $component_action ) {
 	return BP_Notifications_Notification::delete( array(
@@ -384,7 +384,7 @@ function bp_notifications_delete_notifications_by_type( $user_id, $component_nam
  * @param string   $component_name    Name of the associated component.
  * @param string   $component_action  Name of the associated action.
  * @param int|bool $secondary_item_id ID of the secondary associated item.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
 	return BP_Notifications_Notification::delete( array(
@@ -407,7 +407,7 @@ function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $
  * @param string      $component_name    Name of the associated component.
  * @param string|bool $component_action  Optional. Name of the associated action.
  * @param int|bool    $secondary_item_id Optional. ID of the secondary associated item.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_delete_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false ) {
 	return BP_Notifications_Notification::delete( array(
@@ -432,7 +432,7 @@ function bp_notifications_delete_all_notifications_by_type( $item_id, $component
  * @param int    $user_id          ID of the user whose associated items are being deleted.
  * @param string $component_name   Name of the associated component.
  * @param string $component_action Name of the associated action.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_delete_notifications_from_user( $user_id, $component_name, $component_action ) {
 	return BP_Notifications_Notification::delete( array(
@@ -448,7 +448,7 @@ function bp_notifications_delete_notifications_from_user( $user_id, $component_n
  * @since 2.5.0
  *
  * @param int $user_id ID of the user who is about to be deleted.
- * @return int|bool The number of rows deleted, or false on error.
+ * @return int|false The number of rows deleted, or false on error.
  */
 function bp_notifications_delete_notifications_on_user_delete( $user_id ) {
 	return BP_Notifications_Notification::delete( array(
@@ -476,7 +476,7 @@ add_action( 'delete_user', 'bp_notifications_delete_notifications_on_user_delete
  * @param string   $component_name   Name of the associated component.
  * @param string   $component_action Name of the associated action.
  * @param int|bool $is_new           0 for read, 1 for unread.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_type( $user_id, $component_name, $component_action, $is_new = false ) {
 	return BP_Notifications_Notification::update(
@@ -505,7 +505,7 @@ function bp_notifications_mark_notifications_by_type( $user_id, $component_name,
  * @param string   $component_action  Name of the associated action.
  * @param int|bool $secondary_item_id ID of the secondary associated item.
  * @param int|bool $is_new            0 for read, 1 for unread.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false, $is_new = false ) {
 	return BP_Notifications_Notification::update(
@@ -534,7 +534,7 @@ function bp_notifications_mark_notifications_by_item_id( $user_id, $item_id, $co
  * @param string|bool $component_action  Optional. Name of the associated action.
  * @param int|bool    $secondary_item_id Optional. ID of the secondary associated item.
  * @param int|bool    $is_new            0 for read, 1 for unread.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_all_notifications_by_type( $item_id, $component_name, $component_action = false, $secondary_item_id = false, $is_new = false ) {
 	return BP_Notifications_Notification::update(
@@ -565,7 +565,7 @@ function bp_notifications_mark_all_notifications_by_type( $item_id, $component_n
  * @param string   $component_name   Name of the associated component.
  * @param string   $component_action Name of the associated action.
  * @param int|bool $is_new           0 for read, 1 for unread.
- * @return bool True on success, false on failure.
+ * @return int|false True on success, false on failure.
  */
 function bp_notifications_mark_notifications_from_user( $user_id, $component_name, $component_action, $is_new = false ) {
 	return BP_Notifications_Notification::update(

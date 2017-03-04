@@ -1021,6 +1021,7 @@ function bp_message_is_active_notice() {
 	 *
 	 * @since 1.0.0
 	 * @deprecated 1.6.0
+	 * @return string
 	 */
 	function bp_get_message_is_active_notice() {
 
@@ -1760,7 +1761,7 @@ function bp_the_thread_message_sender_id() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @return string
+	 * @return int
 	 */
 	function bp_get_the_thread_message_sender_id() {
 		global $thread_template;

@@ -201,7 +201,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param string $file The absolute path to the file.
-	 * @return string $value The absolute path to the new file name.
+	 * @return false|string $value The absolute path to the new file name.
 	 */
 	public function generate_filename( $file = '' ) {
 		if ( empty( $file ) || ! file_exists( $file ) ) {

@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.1.0
  *
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function groups_register_activity_actions() {
 	$bp = buddypress();
@@ -337,7 +337,7 @@ add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scop
  *     @type bool   $hide_sitewide Default: True if the current group is not
  *                                 public, otherwise false.
  * }
- * @return bool See {@link bp_activity_add()}.
+ * @return WP_Error|bool|int See {@link bp_activity_add()}.
  */
 function groups_record_activity( $args = '' ) {
 
@@ -384,7 +384,7 @@ function groups_record_activity( $args = '' ) {
  *
  * @param int $group_id Optional. The ID of the group whose last_activity is
  *                      being updated. Default: the current group's ID.
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function groups_update_last_activity( $group_id = 0 ) {
 
@@ -411,7 +411,7 @@ add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
  *
  * @param int $user_id  ID of the user joining the group.
  * @param int $group_id ID of the group.
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 
@@ -452,7 +452,7 @@ add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_act
  * @param  int             $group_id       ID of the group.
  * @param  BP_Groups_Group $old_group      Group object before the details had been changed.
  * @param  bool            $notify_members True if the admin has opted to notify group members, otherwise false.
- * @return int|bool The ID of the activity on success. False on error.
+ * @return null|WP_Error|bool|int The ID of the activity on success. False on error.
  */
 function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $notify_members ) {
 

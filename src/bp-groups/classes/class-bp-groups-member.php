@@ -206,7 +206,7 @@ class BP_Groups_Member {
 	 * @since 2.8.0
 	 *
 	 * @param string $key Key.
-	 * @return mixed
+	 * @return BP_Core_User|null
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
@@ -221,7 +221,7 @@ class BP_Groups_Member {
 	 * @since 2.8.0
 	 *
 	 * @param string $key Key.
-	 * @return mixed
+	 * @return bool
 	 */
 	public function __isset( $key ) {
 		switch ( $key ) {
@@ -482,7 +482,7 @@ class BP_Groups_Member {
 	 * @since 1.8.0
 	 *
 	 * @param int $group_id ID of the group.
-	 * @return bool True on success, false on failure.
+	 * @return bool|int True on success, false on failure.
 	 */
 	public static function refresh_total_member_count_for_group( $group_id ) {
 		return groups_update_groupmeta( $group_id, 'total_member_count', (int) BP_Groups_Group::get_total_member_count( $group_id ) );
@@ -1217,7 +1217,7 @@ class BP_Groups_Member {
 	 * @param bool       $exclude_admins_mods Whether or not to exclude admins and moderators.
 	 * @param bool       $exclude_banned      Whether or not to exclude banned members.
 	 * @param bool|array $exclude             Array of user IDs to exclude.
-	 * @return mixed
+	 * @return false|array
 	 */
 	public static function get_all_for_group( $group_id, $limit = false, $page = false, $exclude_admins_mods = true, $exclude_banned = true, $exclude = false ) {
 		global $wpdb;

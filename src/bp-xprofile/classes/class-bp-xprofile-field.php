@@ -231,12 +231,12 @@ class BP_XProfile_Field {
 	 *
 	 * @static
 	 *
-	 * @param int  $field_id ID of the field.
-	 * @param int  $user_id  Optional. ID of the user associated with the field.
-	 *                       Ignored if `$get_data` is false. If `$get_data` is
-	 *                       true, but no `$user_id` is provided, defaults to
-	 *                       logged-in user ID.
-	 * @param bool $get_data Whether to fetch data for the specified `$user_id`.
+	 * @param int      $field_id ID of the field.
+	 * @param int|null $user_id  Optional. ID of the user associated with the field.
+	 *                           Ignored if `$get_data` is false. If `$get_data` is
+	 *                           true, but no `$user_id` is provided, defaults to
+	 *                           logged-in user ID.
+	 * @param bool     $get_data Whether to fetch data for the specified `$user_id`.
 	 * @return BP_XProfile_Field|false Field object if found, otherwise false.
 	 */
 	public static function get_instance( $field_id, $user_id = null, $get_data = true ) {
@@ -292,7 +292,7 @@ class BP_XProfile_Field {
 	 * @since 2.4.0
 	 *
 	 * @param string $key Property name.
-	 * @return mixed
+	 * @return string|null
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {

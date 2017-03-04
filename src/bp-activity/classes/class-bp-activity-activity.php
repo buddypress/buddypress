@@ -226,7 +226,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool True on success.
+	 * @return WP_Error|bool True on success.
 	 */
 	public function save() {
 		global $wpdb;
@@ -983,7 +983,7 @@ class BP_Activity_Activity {
 	 * @param  mixed $scope  The activity scope. Accepts string or array of scopes.
 	 * @param  array $r      Current activity arguments. Same as those of BP_Activity_Activity::get(),
 	 *                       but merged with defaults.
-	 * @return array 'sql' WHERE SQL string and 'override' activity args.
+	 * @return false|array 'sql' WHERE SQL string and 'override' activity args.
 	 */
 	public static function get_scope_query_sql( $scope = false, $r = array() ) {
 
@@ -1112,7 +1112,7 @@ class BP_Activity_Activity {
 	 * @param string $action            Action to filter by.
 	 * @param string $content           Content to filter by.
 	 * @param string $date_recorded     Date to filter by.
-	 * @return int|bool Activity ID on success, false if none is found.
+	 * @return int|false Activity ID on success, false if none is found.
 	 */
 	public static function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) {
 		global $wpdb;
@@ -1693,7 +1693,7 @@ class BP_Activity_Activity {
 	 *
 	 * @param string     $field The database field.
 	 * @param array|bool $items The values for the IN clause, or false when none are found.
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public static function get_in_operator_sql( $field, $items ) {
 		global $wpdb;
@@ -1841,7 +1841,7 @@ class BP_Activity_Activity {
 	 * @since 1.1.0
 	 *
 	 * @param string $content The content to filter by.
-	 * @return int|bool The ID of the first matching item if found, otherwise false.
+	 * @return int|false The ID of the first matching item if found, otherwise false.
 	 */
 	public static function check_exists_by_content( $content ) {
 		global $wpdb;

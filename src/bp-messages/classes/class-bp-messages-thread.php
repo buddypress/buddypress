@@ -800,7 +800,7 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
-	 * @return int|null The message thread ID on success, null on failure.
+	 * @return false|int|null The message thread ID on success, null on failure.
 	 */
 	public static function is_valid( $thread_id = 0 ) {
 
