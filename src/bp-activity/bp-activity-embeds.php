@@ -123,7 +123,7 @@ function bp_activity_embed_has_activity( $activity_id = 0 ) {
  * @since 2.6.0
  */
 function bp_activity_embed_excerpt( $content = '' ) {
-	echo bp_activity_get_embed_excerpt( $content = '' );
+	echo bp_activity_get_embed_excerpt( $content );
 }
 
 	/**
