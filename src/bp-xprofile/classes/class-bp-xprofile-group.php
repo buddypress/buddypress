@@ -796,6 +796,9 @@ class BP_XProfile_Group {
 
 											<?php
 
+											// Nonce fields
+											wp_nonce_field( 'bp_xprofile_admin_group', 'bp_xprofile_admin_group' );
+
 											/**
 											 * Fires at the beginning of the XProfile Group publishing actions section.
 											 *
