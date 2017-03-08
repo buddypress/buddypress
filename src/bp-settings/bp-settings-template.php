@@ -93,7 +93,7 @@ function bp_settings_pending_email_notice() {
 		<?php printf(
 			__( 'Check your email (%1$s) for the verification link, or <a href="%2$s">cancel the pending change</a>.', 'buddypress' ),
 			'<code>' . esc_html( bp_get_displayed_user_email() ) . '</code>',
-			esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1' )
+			esc_url( wp_nonce_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1', 'bp_dismiss_email_change' ) )
 		); ?></p>
 	</div>
 
