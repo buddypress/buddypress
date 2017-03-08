@@ -472,8 +472,12 @@ function bp_settings_verify_email_change(){
 
 	// Email change is being dismissed.
 	} elseif ( ! empty( $_GET['dismiss_email_change'] ) ) {
-		bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
-		bp_core_add_message( __( 'You have successfully dismissed your pending email change.', 'buddypress' ) );
+		$nonce_check = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'bp_dismiss_email_change' );
+
+		if ( $nonce_check ) {
+			bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
+			bp_core_add_message( __( 'You have successfully dismissed your pending email change.', 'buddypress' ) );
+		}
 
 		bp_core_redirect( $redirect_to );
 		die();
