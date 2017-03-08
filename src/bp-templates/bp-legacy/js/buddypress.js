@@ -316,13 +316,15 @@ jq(document).ready( function() {
 			type      = target.hasClass('fav') ? 'fav' : 'unfav';
 			parent    = target.closest('.activity-item');
 			parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
+			nonce     = bp_get_query_var( '_wpnonce', target.attr( 'href' ) );
 
 			target.addClass('loading');
 
 			jq.post( ajaxurl, {
 				action: 'activity_mark_' + type,
 				'cookie': bp_get_cookies(),
-				'id': parent_id
+				'id': parent_id,
+				nonce: nonce
 			},
 			function(response) {
 				target.removeClass('loading');
@@ -1489,57 +1491,6 @@ jq(document).ready( function() {
 		}
 	);
 
-	/* Marking private messages as read and unread */
-	jq('#mark_as_read, #mark_as_unread').click(function() {
-		var checkboxes_tosend = '',
-			checkboxes = jq('#message-threads tr td input[type="checkbox"]'),
-			currentClass, newClass, unreadCount, inboxCount, unreadCountDisplay, action,
-			inboxcount, thread_count;
-
-		if ( 'mark_as_unread' === jq(this).attr('id') ) {
-			currentClass = 'read';
-			newClass = 'unread';
-			unreadCount = 1;
-			inboxCount = 0;
-			unreadCountDisplay = 'inline';
-			action = 'messages_markunread';
-		} else {
-			currentClass = 'unread';
-			newClass = 'read';
-			unreadCount = 0;
-			inboxCount = 1;
-			unreadCountDisplay = 'none';
-			action = 'messages_markread';
-		}
-
-		checkboxes.each( function(i) {
-			if(jq(this).is(':checked')) {
-				if ( jq('#m-' + jq(this).attr('value')).hasClass(currentClass) ) {
-					checkboxes_tosend += jq(this).attr('value');
-					jq('#m-' + jq(this).attr('value')).removeClass(currentClass);
-					jq('#m-' + jq(this).attr('value')).addClass(newClass);
-					thread_count = jq('#m-' + jq(this).attr('value') + ' td span.unread-count').html();
-
-					jq('#m-' + jq(this).attr('value') + ' td span.unread-count').html(unreadCount);
-					jq('#m-' + jq(this).attr('value') + ' td span.unread-count').css('display', unreadCountDisplay);
-
-					inboxcount = jq('tr.unread').length;
-
-					jq('#user-messages span').html( inboxcount );
-
-					if ( i !== checkboxes.length - 1 ) {
-						checkboxes_tosend += ',';
-					}
-				}
-			}
-		});
-		jq.post( ajaxurl, {
-			action: action,
-			'thread_ids': checkboxes_tosend
-		});
-		return false;
-	});
-
 	/* Selecting unread and read messages in inbox */
 	jq( 'body.messages #item-body div.messages' ).on( 'change', '#message-type-select', function() {
 		var selection   = this.value,
@@ -1565,55 +1516,6 @@ jq(document).ready( function() {
 		checkboxes.each( function(i) {
 			checkboxes[i].checked = checked_value;
 		});
-	});
-
-	/* Bulk delete messages */
-	jq( 'body.messages #item-body div.messages' ).on( 'click', '.messages-options-nav a', function() {
-		if ( -1 === jq.inArray( this.id, Array( 'delete_sentbox_messages', 'delete_inbox_messages' ) ) ) {
-			return;
-		}
-
-		checkboxes_tosend = '';
-		checkboxes = jq('#message-threads tr td input[type="checkbox"]');
-
-		jq('#message').remove();
-		jq(this).addClass('loading');
-
-		jq(checkboxes).each( function(i) {
-			if( jq(this).is(':checked') ) {
-				checkboxes_tosend += jq(this).attr('value') + ',';
-			}
-		});
-
-		if ( '' === checkboxes_tosend ) {
-			jq(this).removeClass('loading');
-			return false;
-		}
-
-		jq.post( ajaxurl, {
-			action: 'messages_delete',
-			'thread_ids': checkboxes_tosend
-		}, function(response) {
-			if ( response[0] + response[1] === '-1' ) {
-				jq('#message-threads').prepend( response.substr( 2, response.length ) );
-			} else {
-				jq('#message-threads').before( '<div id="message" class="updated"><p>' + response + '</p></div>' );
-
-				jq(checkboxes).each( function(i) {
-					if( jq(this).is(':checked') ) {
-						// We need to uncheck because message is only hidden
-						// Otherwise, AJAX will be fired again with same data
-						jq(this).attr( 'checked', false );
-						jq(this).parent().parent().fadeOut(150);
-					}
-				});
-			}
-
-			jq('#message').hide().slideDown(150);
-			jq('#delete_inbox_messages, #delete_sentbox_messages').removeClass('loading');
-		});
-
-		return false;
 	});
 
 	/* Selecting/Deselecting all messages */
@@ -1743,7 +1645,8 @@ jq(document).ready( function() {
 
 		jq.post( ajaxurl, {
 			action: 'messages_close_notice',
-			'notice_id': jq('.notice').attr('rel').substr( 2, jq('.notice').attr('rel').length )
+			'notice_id': jq('.notice').attr('rel').substr( 2, jq('.notice').attr('rel').length ),
+			nonce: jq( '#close-notice-nonce' ).val()
 		},
 		function(response) {
 			jq('#close-notice').removeClass('loading');
@@ -2149,4 +2052,33 @@ function bp_get_cookies() {
 
 	// returns BP cookies as querystring
 	return encodeURIComponent( jq.param(bpCookies) );
+}
+
+/**
+ * Get a querystring parameter from a URL.
+ *
+ * @param {String} Query string parameter name.
+ * @param {String} URL to parse. Defaults to current URL.
+ */
+function bp_get_query_var( param, url ) {
+	var qs = {};
+
+	// Use current URL if no URL passed.
+	if ( typeof url === 'undefined' ) {
+		url = location.search.substr(1).split('&');
+	} else {
+		url = url.split('?')[1].split('&');
+	}
+
+	// Parse querystring into object props.
+	// http://stackoverflow.com/a/21152762
+	url.forEach(function(item) {
+		qs[item.split("=")[0]] = item.split("=")[1] && decodeURIComponent( item.split("=")[1] );
+	});
+
+	if ( qs.hasOwnProperty( param ) && qs[param] != null ) {
+		return qs[param];
+	} else {
+		return false;
+	}
 }
