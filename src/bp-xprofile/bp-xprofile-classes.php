@@ -534,6 +534,9 @@ class BP_XProfile_Group {
 											<div id="major-publishing-actions">
 
 												<?php
+												// Nonce
+												wp_nonce_field( 'bp_xprofile_admin_group', 'bp_xprofile_admin_group' );
+
 												/**
 												 * Fires at the beginning of the XProfile Group publishing actions section.
 												 *
@@ -1063,6 +1066,19 @@ class BP_XProfile_Field {
 
 							<?php endif; ?>
 
+							<?php
+
+							// Nonce
+							wp_nonce_field( 'bp_xprofile_admin_field', 'bp_xprofile_admin_field' );
+
+							/**
+							 * Fires after XProfile Field content metabox.
+							 *
+							 * @since BuddyPress (2.2.0)
+							 *
+							 * @param BP_XProfile_Field $this Current XProfile field.
+							 */
+							do_action( 'xprofile_field_after_contentbox', $this ); ?>
 						</div>
 					</div><!-- #post-body -->
 
