@@ -1562,6 +1562,9 @@ class BP_XProfile_Field {
 	 */
 	private function default_field_hidden_inputs() {
 
+		// Nonce
+		wp_nonce_field( 'bp_xprofile_admin_field', 'bp_xprofile_admin_field' );
+
 		// Field 1 is the fullname field, which cannot have custom visibility.
 		if ( false === $this->is_default_field() ) {
 			return;
