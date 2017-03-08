@@ -509,6 +509,7 @@ class BP_XProfile_Group {
 													<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
 												</div>
 												<input type="hidden" name="group_order" id="group_order" value="<?php echo esc_attr( $this->group_order ); ?>" />
+												<?php wp_nonce_field( 'bp_xprofile_admin_group', 'bp_xprofile_admin_group' ); ?>
 												<div class="clear"></div>
 											</div>
 										</div>
@@ -974,6 +975,8 @@ class BP_XProfile_Field {
 								<input type="hidden" name="fieldtype" id="fieldtype" value="textbox" />
 
 							<?php endif; ?>
+
+							<?php wp_nonce_field( 'bp_xprofile_admin_field', 'bp_xprofile_admin_field' ); ?>
 
 						</div>
 					</div><!-- #post-body -->
