@@ -91,7 +91,7 @@ function bp_settings_pending_email_notice() {
 			__( 'There is a pending change of your email address to %1$s.<br />Check your email (%2$s) for the verification link. <a href="%3$s">Cancel</a>', 'buddypress' ),
 			'<code>' . $pending_email['newemail'] . '</code>',
 			'<code>' . $pending_email['newemail'] . '</code>',
-			esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1' )
+			esc_url( wp_nonce_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1', 'bp_dismiss_email_change' ) )
 		);
 		?></p>
 	</div>
