@@ -278,13 +278,15 @@ jq(document).ready( function() {
 			type      = target.hasClass('fav') ? 'fav' : 'unfav';
 			parent    = target.closest('.activity-item');
 			parent_id = parent.attr('id').substr( 9, parent.attr('id').length );
+			nonce     = bp_get_query_var( '_wpnonce', target.attr( 'href' ) );
 
 			target.addClass('loading');
 
 			jq.post( ajaxurl, {
 				action: 'activity_mark_' + type,
 				'cookie': bp_get_cookies(),
-				'id': parent_id
+				'id': parent_id,
+				nonce: nonce
 			},
 			function(response) {
 				target.removeClass('loading');
@@ -1403,7 +1405,7 @@ jq(document).ready( function() {
 		var checkboxes_tosend = '',
 			checkboxes = jq('#message-threads tr td input[type="checkbox"]'),
 			currentClass, newClass, unreadCount, inboxCount, unreadCountDisplay, action,
-			inboxcount, thread_count;
+			inboxcount, thread_count, nonce;
 
 		if ( 'mark_as_unread' === jq(this).attr('id') ) {
 			currentClass = 'read';
@@ -1412,6 +1414,7 @@ jq(document).ready( function() {
 			inboxCount = 0;
 			unreadCountDisplay = 'inline';
 			action = 'messages_markunread';
+			nonce = jq( '#mark-messages-unread-nonce' ).val();
 		} else {
 			currentClass = 'unread';
 			newClass = 'read';
@@ -1419,6 +1422,7 @@ jq(document).ready( function() {
 			inboxCount = 1;
 			unreadCountDisplay = 'none';
 			action = 'messages_markread';
+			nonce = jq( '#mark-messages-read-nonce' ).val();
 		}
 
 		checkboxes.each( function(i) {
@@ -1444,7 +1448,8 @@ jq(document).ready( function() {
 		});
 		jq.post( ajaxurl, {
 			action: action,
-			'thread_ids': checkboxes_tosend
+			'thread_ids': checkboxes_tosend,
+			nonce: nonce
 		});
 		return false;
 	});
@@ -1501,7 +1506,8 @@ jq(document).ready( function() {
 
 		jq.post( ajaxurl, {
 			action: 'messages_delete',
-			'thread_ids': checkboxes_tosend
+			'thread_ids': checkboxes_tosend,
+			nonce: jq( '#delete-selected-nonce' ).val()
 		}, function(response) {
 			if ( response[0] + response[1] === '-1' ) {
 				jq('#message-threads').prepend( response.substr( 2, response.length ) );
@@ -1532,7 +1538,8 @@ jq(document).ready( function() {
 
 		jq.post( ajaxurl, {
 			action: 'messages_close_notice',
-			'notice_id': jq('.notice').attr('rel').substr( 2, jq('.notice').attr('rel').length )
+			'notice_id': jq('.notice').attr('rel').substr( 2, jq('.notice').attr('rel').length ),
+			nonce: jq( '#close-notice-nonce' ).val()
 		},
 		function(response) {
 			jq('#close-notice').removeClass('loading');
@@ -1920,4 +1927,33 @@ function bp_get_cookies() {
 
 	// returns BP cookies as querystring
 	return encodeURIComponent( jq.param(bpCookies) );
+}
+
+/**
+ * Get a querystring parameter from a URL.
+ *
+ * @param {String} Query string parameter name.
+ * @param {String} URL to parse. Defaults to current URL.
+ */
+function bp_get_query_var( param, url ) {
+	var qs = {};
+
+	// Use current URL if no URL passed.
+	if ( typeof url === 'undefined' ) {
+		url = location.search.substr(1).split('&');
+	} else {
+		url = url.split('?')[1].split('&');
+	}
+
+	// Parse querystring into object props.
+	// http://stackoverflow.com/a/21152762
+	url.forEach(function(item) {
+		qs[item.split("=")[0]] = item.split("=")[1] && decodeURIComponent( item.split("=")[1] );
+	});
+
+	if ( qs.hasOwnProperty( param ) && qs[param] != null ) {
+		return qs[param];
+	} else {
+		return false;
+	}
 }
