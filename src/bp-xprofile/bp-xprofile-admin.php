@@ -371,7 +371,6 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				$message = __( 'There was an error saving the field. Please try again.', 'buddypress' );
 				$type = 'error';
 
-				xprofile_admin_screen( $message, $type );
 			} else {
 				$message = __( 'The field was saved successfully.', 'buddypress' );
 				$type = 'success';
