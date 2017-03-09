@@ -15,7 +15,7 @@
  * Description: BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.
  * Author:      The BuddyPress Community
  * Author URI:  https://buddypress.org/
- * Version:     2.5.4
+ * Version:     2.5.5
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
@@ -327,7 +327,7 @@ class BuddyPress {
 
 		/** Versions **********************************************************/
 
-		$this->version    = '2.5.4';
+		$this->version    = '2.5.5';
 		$this->db_version = 10469;
 
 		/** Loading ***********************************************************/
