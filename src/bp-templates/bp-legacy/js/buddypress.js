@@ -2073,7 +2073,7 @@ function bp_get_query_var( param, url ) {
 	// Parse querystring into object props.
 	// http://stackoverflow.com/a/21152762
 	url.forEach(function(item) {
-		qs[item.split("=")[0]] = item.split("=")[1] && decodeURIComponent( item.split("=")[1] );
+		qs[item.split('=')[0]] = item.split('=')[1] && decodeURIComponent( item.split('=')[1] );
 	});
 
 	if ( qs.hasOwnProperty( param ) && qs[param] != null ) {
