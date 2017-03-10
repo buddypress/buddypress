@@ -100,7 +100,10 @@ before_install:
   - phpenv versions
   - ruby --version
   - php --version
-  - php -m
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" != 'hhvm' ]]; then
+      php -m
+    fi
   - phpunit --version
   - curl --version
   - grunt --version
