@@ -64,7 +64,6 @@ matrix:
     - php: nightly
     - php: hhvm
     - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
-
 # before_install: Failures in this section will result in build status 'errored'
 before_install:
   # scss-lint requires Ruby >= 2.2
@@ -100,11 +99,24 @@ before_install:
   - mysql --version
   - phpenv versions
   - ruby --version
+  - php --version
+  - php -m
+  - phpunit --version
+  - curl --version
+  - grunt --version
+  - git --version
+  - svn --version
 
 # before_script: Failures in this section will result in build status 'errored'
 before_script:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+  if [[ ${TRAVIS_PHP_VERSION:0:2} == "7." ]]; then
+    composer global require "phpunit/phpunit=5.7.*"
+  elif [[ ${TRAVIS_PHP_VERSION:0:3} != "5.2" ]]; then
+    composer global require "phpunit/phpunit=4.8.*"
+  fi
   - npm install
-
 # Run tests
 script: grunt $BP_TRAVISCI
 
