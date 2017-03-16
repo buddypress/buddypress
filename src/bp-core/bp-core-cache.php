@@ -73,19 +73,22 @@ add_action( 'deleted_user',                   'bp_core_clear_member_count_caches
  *
  * @param int $post_id ID of the page that was saved.
  */
-function bp_core_clear_directory_pages_cache_page_edit( $post_id ) {
-	if ( ! bp_is_root_blog() ) {
-		return;
-	}
+function bp_core_clear_directory_pages_cache_page_edit( $post_id = 0 ) {
 
 	// Bail if BP is not defined here.
 	if ( ! buddypress() ) {
 		return;
 	}
 
+	// Bail if not on the root blog
+	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
 	$page_ids = bp_core_get_directory_page_ids( 'all' );
 
-	if ( ! in_array( $post_id, (array) $page_ids ) ) {
+	// Bail if post ID is not a directory page
+	if ( ! in_array( $post_id, $page_ids ) ) {
 		return;
 	}
 

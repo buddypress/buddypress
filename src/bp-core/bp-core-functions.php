@@ -488,30 +488,29 @@ function bp_core_get_packaged_component_ids() {
  *                      empty string if the list is not found.
  */
 function bp_core_get_directory_page_ids( $status = 'active' ) {
-	$page_ids = bp_get_option( 'bp-pages' );
+	$page_ids = bp_get_option( 'bp-pages', array() );
 
-	// Ensure that empty indexes are unset. Should only matter in edge cases.
-	if ( !empty( $page_ids ) && is_array( $page_ids ) ) {
-		foreach( (array) $page_ids as $component_name => $page_id ) {
-			if ( empty( $component_name ) || empty( $page_id ) ) {
-				unset( $page_ids[ $component_name ] );
-			}
+	// Loop through pages
+	foreach ( $page_ids as $component_name => $page_id ) {
 
-			// 'register' and 'activate' do not have components, but should be whitelisted.
-			if ( 'register' === $component_name || 'activate' === $component_name ) {
-				continue;
-			}
+		// Ensure that empty indexes are unset. Should only matter in edge cases.
+		if ( empty( $component_name ) || empty( $page_id ) ) {
+			unset( $page_ids[ $component_name ] );
+		}
 
-			// Trashed pages should not appear in results.
-			if ( 'trash' == get_post_status( $page_id ) ) {
-				unset( $page_ids[ $component_name ] );
+		// Trashed pages should never appear in results.
+		if ( 'trash' == get_post_status( $page_id ) ) {
+			unset( $page_ids[ $component_name ] );
+		}
 
-			}
+		// 'register' and 'activate' do not have components, but should be whitelisted.
+		if ( in_array( $component_name, array( 'register', 'activate' ), true ) ) {
+			continue;
+		}
 
-			// Remove inactive component pages, if required.
-			if ( 'active' === $status && ! bp_is_active( $component_name ) ) {
-				unset( $page_ids[ $component_name ] );
-			}
+		// Remove inactive component pages.
+		if ( ( 'active' === $status ) && ! bp_is_active( $component_name ) ) {
+			unset( $page_ids[ $component_name ] );
 		}
 	}
 
@@ -519,10 +518,12 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 	 * Filters the list of BP directory pages from the appropriate meta table.
 	 *
 	 * @since 1.5.0
+	 * @since 2.9.0 Add $status parameter
 	 *
-	 * @param array $page_ids Array of directory pages.
+	 * @param array  $page_ids Array of directory pages.
+	 * @param string $status   Page status to limit results to
 	 */
-	return apply_filters( 'bp_core_get_directory_page_ids', $page_ids );
+	return (array) apply_filters( 'bp_core_get_directory_page_ids', $page_ids, $status );
 }
 
 /**
@@ -662,7 +663,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
 	// Delete any existing pages.
 	if ( 'delete' === $existing ) {
-		foreach ( (array) $pages as $page_id ) {
+		foreach ( $pages as $page_id ) {
 			wp_delete_post( $page_id, true );
 		}
 
@@ -888,7 +889,7 @@ function bp_core_create_root_component_page() {
 		) );
 	}
 
-	$page_ids = array_merge( (array) $new_page_ids, (array) bp_core_get_directory_page_ids( 'all' ) );
+	$page_ids = array_merge( $new_page_ids, bp_core_get_directory_page_ids( 'all' ) );
 	bp_core_update_directory_page_ids( $page_ids );
 }
 

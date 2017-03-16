@@ -144,7 +144,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'post_name'  => $bp->foo->slug,
 		) ) );
 
-		$page_ids = array_merge( $new_page_ids, (array) bp_core_get_directory_page_ids( 'all' ) );
+		$page_ids = array_merge( $new_page_ids, bp_core_get_directory_page_ids( 'all' ) );
 		bp_core_update_directory_page_ids( $page_ids );
 
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $reset_active_components );

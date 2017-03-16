@@ -314,7 +314,7 @@ function bp_core_activation_notice() {
 
 	// BP components cannot share a single WP page. Check for duplicate assignments, and post a message if found.
 	$dupe_names = array();
-	$page_ids   = (array)bp_core_get_directory_page_ids();
+	$page_ids   = bp_core_get_directory_page_ids();
 	$dupes      = array_diff_assoc( $page_ids, array_unique( $page_ids ) );
 
 	if ( !empty( $dupes ) ) {
