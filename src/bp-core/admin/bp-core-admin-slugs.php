@@ -109,7 +109,6 @@ function bp_core_admin_get_static_pages() {
  * @todo Use settings API
  */
 function bp_core_admin_slugs_options() {
-	$bp = buddypress();
 
 	// Get the existing WP pages
 	$existing_pages = bp_core_get_directory_page_ids();
