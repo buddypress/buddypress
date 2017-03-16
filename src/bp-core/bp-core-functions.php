@@ -855,7 +855,7 @@ function bp_core_add_root_component( $slug ) {
 
 	// If there was no match, add a page for this root component.
 	if ( empty( $match ) ) {
-		$add_root_items   = $bp->add_root();
+		$add_root_items   = $bp->add_root;
 		$add_root_items[] = $slug;
 		$bp->add_root     = $add_root_items;
 	}
