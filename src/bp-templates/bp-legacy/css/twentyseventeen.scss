@@ -452,6 +452,15 @@ body.colors-dark {
 					border-top: 1px solid rgba($border-light, 0.9);
 				}
 			}
+
+			select {
+
+				// we're forced to set a back color as Chrome won't
+				// accept inherit/none whereas FF does.
+				option {
+					background-color: #333;
+				}
+			}
 		}
 
 		// lists text: descr, meta, etc

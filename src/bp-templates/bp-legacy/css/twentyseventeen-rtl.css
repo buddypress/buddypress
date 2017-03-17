@@ -160,6 +160,10 @@ body.colors-dark #buddypress #subnav.item-list-tabs ul li.last {
 	border-top: 1px solid rgba(234, 234, 234, 0.9);
 }
 
+body.colors-dark #buddypress #subnav.item-list-tabs select option {
+	background-color: #333;
+}
+
 body.colors-dark #buddypress .item-list div.meta {
 	color: #ddd;
 }
