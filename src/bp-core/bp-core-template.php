@@ -3608,7 +3608,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 				$submenu->parent = $nav_menu->slug;
 
 				// If we're viewing this item's screen, record that we need to mark its parent menu to be selected.
-				if ( $sub_menu->slug == bp_current_action() ) {
+				if ( bp_is_current_action( $sub_menu->slug ) && bp_is_current_component( $nav_menu->slug ) ) {
 					$menu->class[]    = 'current-menu-parent';
 					$submenu->class[] = 'current-menu-item';
 				}
