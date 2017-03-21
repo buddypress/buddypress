@@ -544,28 +544,6 @@ class BP_Activity_Activity {
 		 */
 		$join_sql = apply_filters( 'bp_activity_get_join_sql', $join_sql, $r, $select_sql, $from_sql, $where_sql );
 
-		/**
-		 * Filters the preferred order of indexes for activity item.
-		 *
-		 * @since 1.6.0
-		 *
-		 * @param array $value Array of indexes in preferred order.
-		 */
-		$indexes = apply_filters( 'bp_activity_preferred_index_order', array( 'user_id', 'item_id', 'secondary_item_id', 'date_recorded', 'component', 'type', 'hide_sitewide', 'is_spam' ) );
-
-		foreach( $indexes as $key => $index ) {
-			if ( false !== strpos( $where_sql, $index ) ) {
-				$the_index = $index;
-				break; // Take the first one we find.
-			}
-		}
-
-		if ( !empty( $the_index ) ) {
-			$index_hint_sql = "USE INDEX ({$the_index})";
-		} else {
-			$index_hint_sql = '';
-		}
-
 		// Sanitize page and per_page parameters.
 		$page     = absint( $r['page']     );
 		$per_page = absint( $r['per_page'] );
