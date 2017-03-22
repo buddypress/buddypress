@@ -613,7 +613,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 			'field_id' => (int) $field->id,
 			'mode'     => 'edit_field'
 		),
-		network_admin_url( 'users.php' )
+		bp_get_admin_url( 'users.php' )
 	);
 
 	if ( $field->can_delete ) {
@@ -623,7 +623,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 				'field_id' => (int) $field->id,
 				'mode'     => 'delete_field'
 			),
-			network_admin_url( 'users.php' ) . '#tabs-' . (int) $field->group_id
+			bp_get_admin_url( 'users.php' ) . '#tabs-' . (int) $field->group_id
 		);
 	}
 	?>
