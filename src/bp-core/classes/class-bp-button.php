@@ -293,6 +293,9 @@ class BP_Button {
 
 			// Always add 'generic-button' class.
 			if ( false === strpos( $r['parent_attr']['class'], 'generic-button' ) ) {
+				if ( ! is_array( $r['parent_attr'] ) ) {
+					$r['parent_attr'] = array();
+				}
 				if ( ! empty( $r['parent_attr']['class'] ) ) {
 					$r['parent_attr']['class'] .= ' ';
 				}
