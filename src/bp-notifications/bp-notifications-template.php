@@ -632,7 +632,7 @@ function bp_the_notification_mark_read_url( $user_id = 0 ) {
  * @param int $user_id The user ID.
  */
 function bp_the_notification_mark_unread_link( $user_id = 0 ) {
-	echo bp_get_the_notification_mark_unread_link();
+	echo bp_get_the_notification_mark_unread_link( $user_id );
 }
 	/**
 	 * Return the mark unread link for the current notification.
