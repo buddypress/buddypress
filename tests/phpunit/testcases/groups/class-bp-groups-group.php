@@ -2011,6 +2011,95 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$found = wp_list_pluck( $groups['groups'], 'id' );
 		$this->assertEqualSets( array( $g1, $g4 ), $found );
 	}
+
+	/**
+	 * @group get_by_slug
+	 */
+	public function test_get_by_slug() {
+		$g1 = $this->factory->group->create(array(
+			'slug'      => 'apr'
+		) );
+		$g2 = $this->factory->group->create( array(
+			'slug'      => 'jan'
+		) );
+		$g3 = $this->factory->group->create( array(
+			'slug'      => 'mar'
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'slug' => array( 'apr', 'mar' ),
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g1, $g3 ), $found );
+	}
+
+	/**
+	 * @group get_by_slug
+	 */
+	public function test_get_by_slug_accept_string() {
+		$g1 = $this->factory->group->create(array(
+			'slug'      => 'apr'
+		) );
+		$g2 = $this->factory->group->create( array(
+			'slug'      => 'jan'
+		) );
+		$g3 = $this->factory->group->create( array(
+			'slug'      => 'mar'
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'slug' => 'jan',
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g2 ), $found );
+	}
+
+	/**
+	 * @group get_by_slug
+	 */
+	public function test_get_by_slug_accept_comma_separated_string() {
+		$g1 = $this->factory->group->create(array(
+			'slug'      => 'apr'
+		) );
+		$g2 = $this->factory->group->create( array(
+			'slug'      => 'jan'
+		) );
+		$g3 = $this->factory->group->create( array(
+			'slug'      => 'mar'
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'slug' => 'apr, mar',
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g1, $g3 ), $found );
+	}
+
+	/**
+	 * @group get_by_slug
+	 */
+	public function test_get_by_slug_accept_space_separated_string() {
+		$g1 = $this->factory->group->create(array(
+			'slug'      => 'apr'
+		) );
+		$g2 = $this->factory->group->create( array(
+			'slug'      => 'jan'
+		) );
+		$g3 = $this->factory->group->create( array(
+			'slug'      => 'mar'
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'slug' => 'apr mar',
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g1, $g3 ), $found );
+	}
+
 }
 
 /**
