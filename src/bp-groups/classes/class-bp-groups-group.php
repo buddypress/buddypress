@@ -860,6 +860,7 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
 	 * @since 2.7.0 Added `$update_admin_cache` and `$parent_id` parameters.
+	 * @since 2.8.0 Changed `$search_terms` parameter handling and added `$search_columns` parameter.
 	 * @since 2.9.0 Added `$slug` parameter.
 	 *
 	 * @param array $args {
