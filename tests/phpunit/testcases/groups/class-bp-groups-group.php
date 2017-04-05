@@ -1448,6 +1448,22 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP7497
+	 */
+	public function test_admins_property_should_match_users_without_wp_role() {
+		$user_1 = $this->factory->user->create_and_get();
+		$g = $this->factory->group->create( array(
+			'creator_id' => $user_1->ID,
+		) );
+
+		$user_1->remove_all_caps();
+
+		$group = new BP_Groups_Group( $g );
+
+		$this->assertEqualSets( array( $user_1->ID ), wp_list_pluck( $group->admins, 'user_id' ) );
+	}
+
+	/**
 	 * @ticket BP5451
 	 */
 	public function test_mods_property() {

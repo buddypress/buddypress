@@ -535,6 +535,7 @@ class BP_Groups_Group {
 
 		$admin_mod_users = get_users( array(
 			'include' => array_merge( $admin_ids_plucked, $mod_ids_plucked ),
+			'blog_id' => null,
 		) );
 
 		$admin_objects = $mod_objects = array();
