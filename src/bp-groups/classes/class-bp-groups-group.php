@@ -612,22 +612,32 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 *
 	 * @param string      $slug       Slug to check.
-	 * @param string|bool $table_name Optional. Name of the table to check
-	 *                                against. Default: $bp->groups->table_name.
+	 * @param string|bool $table_name Deprecated.
 	 * @return int|null Group ID if found; null if not.
 	 */
 	public static function group_exists( $slug, $table_name = false ) {
 		global $wpdb;
 
-		if ( empty( $table_name ) )
-			$table_name = buddypress()->groups->table_name;
-
-		if ( empty( $slug ) )
+		if ( empty( $slug ) ) {
 			return false;
+		}
 
-		$query = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table_name} WHERE slug = %s", strtolower( $slug ) ) );
+		$args = array(
+			'slug'               => $slug,
+			'per_page'           => 1,
+			'page'               => 1,
+			'update_meta_cache'  => false,
+			'show_hidden'        => true,
+		);
 
-		return is_numeric( $query ) ? (int) $query : $query;
+		$groups = BP_Groups_Group::get( $args );
+
+		$group_id = null;
+		if ( $groups['groups'] ) {
+			$group_id = current( $groups['groups'] )->id;
+		}
+
+		return $group_id;
 	}
 
 	/**
