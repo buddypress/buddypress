@@ -62,7 +62,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 			<?php endif; ?>
 
 			<div class="item">
-				<div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a></div>
+				<div class="item-title"><?php bp_group_link(); ?></div>
 				<div class="item-meta"><span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
 
 				<div class="item-desc"><?php bp_group_description_excerpt(); ?></div>

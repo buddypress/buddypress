@@ -62,7 +62,7 @@ function groups_ajax_widget_groups_list() {
 				</div>
 
 				<div class="item">
-					<div class="item-title"><a href="<?php bp_group_permalink() ?>"><?php bp_group_name() ?></a></div>
+					<div class="item-title"><?php bp_group_link(); ?></div>
 					<div class="item-meta">
 						<?php if ( 'newest-groups' === $_POST['filter'] ) : ?>
 							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_date_created( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() ); ?></span>
