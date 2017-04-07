@@ -995,6 +995,52 @@ function bp_group_permalink( $group = null ) {
 	}
 
 /**
+ * Output an HTML-formatted link for the current group in the loop.
+ *
+ * @since 2.9.0
+ *
+ * @param BP_Groups_Group|null $group Optional. Group object.
+ *                                    Default: current group in loop.
+ */
+function bp_group_link( $group = null ) {
+	echo bp_get_group_link( $group );
+}
+	/**
+	 * Return an HTML-formatted link for the current group in the loop.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param BP_Groups_Group|null $group Optional. Group object.
+	 *                                    Default: current group in loop.
+	 * @return string
+	 */
+	function bp_get_group_link( $group = null ) {
+		global $groups_template;
+
+		if ( empty( $group ) ) {
+			$group =& $groups_template->group;
+		}
+
+		$link = sprintf(
+			'<a href="%s" class="bp-group-home-link %s-home-link">%s</a>',
+			esc_url( bp_get_group_permalink( $group ) ),
+			esc_attr( bp_get_group_slug( $group ) ),
+			esc_html( bp_get_group_name( $group ) )
+		);
+
+		/**
+		 * Filters the HTML-formatted link for the current group in the loop.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string          $value HTML-formatted link for the
+		 *                               current group in the loop.
+		 * @param BP_Groups_Group $group The current group object.
+		 */
+		return apply_filters( 'bp_get_group_link', $link, $group );
+	}
+
+/**
  * Output the permalink for the admin section of the current group in the loop.
  *
  * @since 1.0.0
