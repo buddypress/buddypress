@@ -706,9 +706,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $value       Empty string.
+	 * @param string $retval      Empty string.
 	 * @param string $column_name Name of the column being rendered.
 	 * @param array  $item        The current group item in the loop.
+	 * @return string
 	 */
 	public function column_content_group_type( $retval = '', $column_name, $item ) {
 		if ( 'bp_group_type' !== $column_name ) {

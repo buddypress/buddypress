@@ -270,6 +270,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
  * @param string      $status        Group status. 'public', 'private', 'hidden'.
  * @param string|bool $invite_status Optional. Who is allowed to send invitations
  *                                   to the group. 'members', 'mods', or 'admins'.
+ * @param int|bool    $parent_id     Parent group ID.
  * @return bool True on success, false on failure.
  */
 function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false, $parent_id = false ) {
@@ -2310,7 +2311,7 @@ function bp_groups_get_group_type_object( $group_type ) {
  * @since 2.6.0
  * @since 2.7.0 $group_type parameter also accepts an array of group types now.
  *
- * @param int          $group      ID of the group.
+ * @param int          $group_id   ID of the group.
  * @param string|array $group_type Group type or array of group types to set.
  * @param bool         $append     Optional. True to append this to existing types for group,
  *                                 false to replace. Default: false.
@@ -2411,7 +2412,7 @@ function bp_groups_get_group_type( $group_id, $single = true ) {
  *
  * @since 2.6.0
  *
- * @param int            $group      ID of the user.
+ * @param int            $group_id   ID of the user.
  * @param string         $group_type Group type.
  * @return bool|WP_Error $deleted    True on success. False or WP_Error on failure.
  */

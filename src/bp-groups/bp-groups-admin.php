@@ -873,6 +873,14 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 			'group_id'   => $item->id,
 			'group_role' => array( $type ),
 			'type'       => 'alphabetical',
+			/**
+			 * Filters the admin members type per page value.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param int    $value Member types per page. Default 10.
+			 * @param string $type  Member type.
+			 */
 			'per_page'   => apply_filters( 'bp_groups_admin_members_type_per_page', 10, $type ),
 			'page'       => $current_type_page,
 		) );
@@ -1029,7 +1037,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
  *
  * @since 2.6.0
  *
- * @param BP_Groups_Group|null $user The BP_Groups_Group object corresponding to the group being edited.
+ * @param BP_Groups_Group|null $group The BP_Groups_Group object corresponding to the group being edited.
  */
 function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null ) {
 
@@ -1075,6 +1083,8 @@ function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null 
  * Process changes from the Group Type metabox.
  *
  * @since 2.6.0
+ *
+ * @param int $group_id Group ID.
  */
 function bp_groups_process_group_type_update( $group_id ) {
 	if ( ! isset( $_POST['bp-group-type-nonce'] ) ) {

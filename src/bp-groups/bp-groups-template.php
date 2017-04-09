@@ -208,7 +208,7 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 	 * @since 2.7.0
 	 *
 	 * @param int $group_id Group ID. Defaults to current group ID if on a group page.
-	 * @param array|string $args {
+	 * @param array|string $r {
 	 *     Array of parameters. All items are optional.
 	 *     @type string $parent_element Element to wrap around the list. Defaults to 'p'.
 	 *     @type array  $parent_attr    Element attributes for parent element. Defaults to
@@ -3786,7 +3786,7 @@ function bp_total_group_count() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return type
+	 * @return int
 	 */
 	function bp_get_total_group_count() {
 

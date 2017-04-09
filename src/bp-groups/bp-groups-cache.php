@@ -231,6 +231,8 @@ add_action( 'groups_delete_group', 'groups_clear_group_type_cache' );
  * Clear caches on membership save.
  *
  * @since 2.6.0
+ *
+ * @param BP_Groups_Member $member BP Groups Member instance.
  */
 function bp_groups_clear_user_group_cache_on_membership_save( BP_Groups_Member $member ) {
 	wp_cache_delete( $member->user_id, 'bp_groups_memberships_for_user' );
@@ -243,6 +245,9 @@ add_action( 'groups_member_before_remove', 'bp_groups_clear_user_group_cache_on_
  * Clear group memberships cache on miscellaneous actions not covered by the 'after_save' hook.
  *
  * @since 2.6.0
+ *
+ * @param int $user_id  Current user ID.
+ * @param int $group_id Current group ID.
  */
 function bp_groups_clear_user_group_cache_on_other_events( $user_id, $group_id ) {
 	wp_cache_delete( $user_id, 'bp_groups_memberships_for_user' );

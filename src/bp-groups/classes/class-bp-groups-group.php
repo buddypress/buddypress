@@ -469,7 +469,9 @@ class BP_Groups_Group {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $key Property name.
+	 * @param string $key   Property name.
+	 * @param mixed  $value Property value.
+	 * @return bool
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
