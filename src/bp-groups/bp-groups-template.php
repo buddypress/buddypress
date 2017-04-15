@@ -1208,24 +1208,28 @@ function bp_group_description_editable( $group = false ) {
  *
  * @since 1.0.0
  *
- * @param object|bool $group Optional. The group being referenced.
- *                           Defaults to the group currently being
- *                           iterated on in the groups loop.
+ * @param object|bool $group  Optional. The group being referenced.
+ *                            Defaults to the group currently being
+ *                            iterated on in the groups loop.
+ * @param int         $length Optional. Length of returned string, including ellipsis.
+ *                            Default: 225.
  */
-function bp_group_description_excerpt( $group = false ) {
-	echo bp_get_group_description_excerpt( $group );
+function bp_group_description_excerpt( $group = false, $length = false ) {
+	echo bp_get_group_description_excerpt( $group, $length );
 }
 	/**
 	 * Get an excerpt of a group description.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object|bool $group Optional. The group being referenced.
-	 *                           Defaults to the group currently being
-	 *                           iterated on in the groups loop.
+	 * @param object|bool $group  Optional. The group being referenced.
+	 *                            Defaults to the group currently being
+	 *                            iterated on in the groups loop.
+	 * @param int         $length Optional. Length of returned string, including ellipsis.
+	 *                            Default: 225.
 	 * @return string Excerpt.
 	 */
-	function bp_get_group_description_excerpt( $group = false ) {
+	function bp_get_group_description_excerpt( $group = false, $length = false ) {
 		global $groups_template;
 
 		if ( empty( $group ) ) {
@@ -1240,7 +1244,7 @@ function bp_group_description_excerpt( $group = false ) {
 		 * @param string $value Excerpt of a group description.
 		 * @param object $group Object for group whose description is made into an excerpt.
 		 */
-		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description ), $group );
+		return apply_filters( 'bp_get_group_description_excerpt', bp_create_excerpt( $group->description, $length ), $group );
 	}
 
 /**
