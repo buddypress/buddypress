@@ -2116,6 +2116,72 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g3 ), $found );
 	}
 
+	/**
+	 * @group get_by_status
+	 */
+	public function test_get_by_status() {
+		$g1 = $this->factory->group->create(array(
+			'status'      => 'private'
+		) );
+		$g2 = $this->factory->group->create( array(
+			'status'      => 'public'
+		) );
+		$g3 = $this->factory->group->create( array(
+			'status'      => 'hidden'
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'status' => array( 'private', 'hidden' ),
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g1, $g3 ), $found );
+	}
+
+	/**
+	 * @group get_by_status
+	 */
+	public function test_get_by_status_accept_string() {
+		$g1 = $this->factory->group->create(array(
+			'status'      => 'private'
+		) );
+		$g2 = $this->factory->group->create( array(
+			'status'      => 'public'
+		) );
+		$g3 = $this->factory->group->create( array(
+			'status'      => 'hidden'
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'status' => 'public',
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g2 ), $found );
+	}
+
+	/**
+	 * @group get_by_status
+	 */
+	public function test_get_by_status_accept_comma_separated_string() {
+		$g1 = $this->factory->group->create(array(
+			'status'      => 'private'
+		) );
+		$g2 = $this->factory->group->create( array(
+			'status'      => 'public'
+		) );
+		$g3 = $this->factory->group->create( array(
+			'status'      => 'hidden'
+		) );
+
+		$groups = BP_Groups_Group::get( array(
+			'status' => 'private, hidden',
+		) );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEqualSets( array( $g1, $g3 ), $found );
+	}
+
 }
 
 /**

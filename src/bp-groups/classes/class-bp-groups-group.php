@@ -919,6 +919,9 @@ class BP_Groups_Group {
 	 *     @type bool         $update_admin_cache Whether to pre-fetch administrator IDs for the returned
 	 *                                            groups. Default: false.
 	 *     @type bool         $show_hidden        Whether to include hidden groups in results. Default: false.
+ 	 *     @type array|string $status             Optional. Array or comma-separated list of group statuses to limit
+ 	 *                                            results to. If specified, $show_hidden is ignored.
+	 *                                            Default: empty array.
 	 * }
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
@@ -969,6 +972,7 @@ class BP_Groups_Group {
 			'update_admin_cache' => false,
 			'exclude'            => false,
 			'show_hidden'        => false,
+			'status'             => array()
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -989,7 +993,15 @@ class BP_Groups_Group {
 
 		$where_conditions = array();
 
-		if ( empty( $r['show_hidden'] ) ) {
+
+		if ( ! empty( $r['status'] ) ) {
+			if ( ! is_array( $r['status'] ) ) {
+				$r['status'] = preg_split( '/[\s,]+/', $r['status'] );
+			}
+			$r['status'] = array_map( 'sanitize_title', $r['status'] );
+			$status_in = "'" . implode( "','", $r['status'] ) . "'";
+			$where_conditions['status'] = "g.status IN ({$status_in})";
+		} elseif ( empty( $r['show_hidden'] ) ) {
 			$where_conditions['hidden'] = "g.status != 'hidden'";
 		}
 
