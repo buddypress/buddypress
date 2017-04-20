@@ -956,6 +956,58 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( _BP_Groups_Group::_convert_orderby_to_order_by_term( 'date_created' ), _BP_Groups_Group::_convert_orderby_to_order_by_term( 'I am a bad boy' ) );
 	}
 
+	/**
+	 * @group groups_get_orderby_meta_id
+	 */
+	public function test_get_orderby_meta_id() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create();
+		$g3 = $this->factory->group->create();
+
+		groups_update_groupmeta( $g2, 'orderup', 'sammy' );
+		groups_update_groupmeta( $g1, 'orderup', 'sammy' );
+
+		$args = array(
+			'meta_query'         => array(
+				array(
+					'key'   => 'orderup',
+					'value' => 'sammy'
+				),
+			),
+			'orderby'           => 'meta_id',
+			'order'             => 'ASC',
+		);
+		$groups = BP_Groups_Group::get( $args );
+
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( array( $g2, $g1 ), $found );
+	}
+
+	/**
+	 * @group groups_get_orderby_meta_id
+	 */
+	public function test_get_orderby_meta_id_invalid_fallback_to_date_created() {
+		$time = time();
+		$g1 = $this->factory->group->create( array(
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 10000 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
+		) );
+
+		$args = array(
+			'orderby' => 'meta_id',
+		);
+		$groups = BP_Groups_Group::get( $args );
+
+		// Orderby meta_id should be ignored if no meta query is present.
+		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$this->assertEquals( array( $g3, $g2, $g1 ), $found );
+	}
+
 	public function test_filter_user_groups_normal_search() {
 		$g1 = $this->factory->group->create( array(
 			'name' => 'Cool Group',

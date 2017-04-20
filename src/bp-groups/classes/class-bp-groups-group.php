@@ -883,7 +883,8 @@ class BP_Groups_Group {
 	 *                                            When present, will override orderby and order params.
 	 *                                            Default: null.
 	 *     @type string       $orderby            Optional. Property to sort by. 'date_created', 'last_activity',
-	 *                                            'total_member_count', 'name', 'random'. Default: 'date_created'.
+	 *                                            'total_member_count', 'name', 'random', 'meta_id'.
+	 *                                            Default: 'date_created'.
 	 *     @type string       $order              Optional. Sort order. 'ASC' or 'DESC'. Default: 'DESC'.
 	 *     @type int          $per_page           Optional. Number of items to return per page of results.
 	 *                                            Default: null (no limit).
@@ -992,7 +993,6 @@ class BP_Groups_Group {
 		}
 
 		$where_conditions = array();
-
 
 		if ( ! empty( $r['status'] ) ) {
 			if ( ! is_array( $r['status'] ) ) {
@@ -1138,6 +1138,11 @@ class BP_Groups_Group {
 
 			$sql['from'] .= " JOIN {$bp->groups->table_name_groupmeta} gm_last_activity on ( g.id = gm_last_activity.group_id )";
 			$where_conditions['last_activity'] = "gm_last_activity.meta_key = 'last_activity'";
+		}
+
+		// If 'meta_id' is the requested order, and there's no meta query, fall back to the default.
+		if ( 'meta_id' === $orderby && empty( $meta_query_sql['join'] ) ) {
+			$orderby = 'date_created';
 		}
 
 		// Sanitize 'order'.
@@ -1441,6 +1446,10 @@ class BP_Groups_Group {
 
 			case 'random' :
 				$order_by_term = 'rand()';
+				break;
+
+			case 'meta_id' :
+				$order_by_term = buddypress()->groups->table_name_groupmeta . '.id';
 				break;
 		}
 
