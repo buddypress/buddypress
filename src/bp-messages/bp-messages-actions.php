@@ -222,7 +222,7 @@ function messages_action_conversation() {
 	$thread_id = (int) bp_action_variable( 0 );
 
 	if ( ! messages_is_valid_thread( $thread_id ) || ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) ) {
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
+		return;
 	}
 
 	// Check if a new reply has been submitted.

@@ -120,8 +120,22 @@ function messages_screen_conversation() {
 
 	$thread_id = (int) bp_action_variable( 0 );
 
-	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) || ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) ) {
+	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) ) {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
+	}
+
+	// No access.
+	if ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+		// If not logged in, prompt for login.
+		if ( ! is_user_logged_in() ) {
+			bp_core_no_access();
+			return;
+
+		// Redirect away.
+		} else {
+			bp_core_add_message( __( 'You do not have access to that message thread.', 'buddypress' ), 'error' );
+			bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() ) );
+		}
 	}
 
 	// Load up BuddyPress one time.
