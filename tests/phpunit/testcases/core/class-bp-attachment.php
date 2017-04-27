@@ -377,6 +377,10 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group avatars
 	 */
 	public function test_bp_attachment_avatar_shrink() {
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires PHP to have a valid image editor that is compatible with WordPress.' );
+		}
+
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
 
 		$dir_copy = bp_upload_dir();
@@ -421,6 +425,10 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group cover_images
 	 */
 	public function test_bp_attachment_cover_image_fit() {
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires PHP to have a valid image editor that is compatible with WordPress.' );
+		}
+
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
 
 		$cover_image_class = new BP_Attachment_Cover_Image();
@@ -456,6 +464,10 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group cover_images
 	 */
 	public function test_bp_attachment_get_image_data() {
+		if ( ! is_callable( 'exif_read_data' ) ) {
+			$this->markTestSkipped( 'This test requires PHP to be compiled with EXIF support.' );
+		}
+
 		$image_data = BP_Attachment::get_image_data( BP_TESTS_DIR . 'assets/upside-down.jpg' );
 
 		$this->assertTrue( 3 == $image_data['meta']['orientation'] );
