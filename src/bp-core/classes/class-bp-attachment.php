@@ -543,21 +543,7 @@ abstract class BP_Attachment {
 
 		// Now try to get image's meta data.
 		$meta = wp_read_image_metadata( $file );
-
 		if ( ! empty( $meta ) ) {
-			// Before 4.0 the Orientation wasn't included.
-			if ( ! isset( $meta['orientation'] ) &&
-				is_callable( 'exif_read_data' ) &&
-				in_array( $sourceImageType, apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) ) )
-			) {
-				$exif = exif_read_data( $file );
-
-				if ( ! empty( $exif['Orientation'] ) ) {
-					$meta['orientation'] = $exif['Orientation'];
-				}
-			}
-
-			// Now add the metas to image data.
 			$image_data['meta'] = $meta;
 		}
 
