@@ -467,7 +467,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 			'domain'            => $domain,
 			'key_blog'          => $key,
 			'path'              => $path,
-			'user-site.url'     => esc_url( "http://{$domain}{$path}" ),
+			'user-site.url'     => esc_url( set_url_scheme( "http://{$domain}{$path}" ) ),
 			'title'             => $title,
 			'user.email'        => $user_email,
 		),
