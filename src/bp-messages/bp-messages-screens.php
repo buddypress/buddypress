@@ -121,6 +121,10 @@ function messages_screen_conversation() {
 	$thread_id = (int) bp_action_variable( 0 );
 
 	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) ) {
+		if ( is_user_logged_in() ) {
+			bp_core_add_message( __( 'The conversation you tried to access is no longer available', 'buddypress' ), 'error' );
+		}
+
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
 	}
 
@@ -133,7 +137,7 @@ function messages_screen_conversation() {
 
 		// Redirect away.
 		} else {
-			bp_core_add_message( __( 'You do not have access to that message thread.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'You do not have access to that conversation.', 'buddypress' ), 'error' );
 			bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() ) );
 		}
 	}
