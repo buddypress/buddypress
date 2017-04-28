@@ -126,6 +126,15 @@ class BP_Groups_Group {
 	protected $is_member;
 
 	/**
+	 * Is the current user a member of this group?
+	 * Alias of $is_member for backward compatibility.
+	 *
+	 * @since 2.9.0
+	 * @var bool
+	 */
+	protected $is_user_member;
+
+	/**
 	 * Does the current user have an outstanding invitation to this group?
 	 *
 	 * @since 1.9.0
@@ -156,6 +165,14 @@ class BP_Groups_Group {
 	 * @var bool
 	 */
 	protected $user_has_access;
+
+	/**
+	 * Can the current user know that this group exists?
+	 *
+	 * @since 2.9.0
+	 * @var bool
+	 */
+	protected $is_visible;
 
 	/**
 	 * Raw arguments passed to the constructor.
@@ -416,6 +433,7 @@ class BP_Groups_Group {
 				return $this->get_mods();
 
 			case 'is_member' :
+			case 'is_user_member' :
 				return $this->get_is_member();
 
 			case 'is_invited' :
@@ -426,6 +444,9 @@ class BP_Groups_Group {
 
 			case 'user_has_access' :
 				return $this->get_user_has_access();
+
+			case 'is_visible' :
+				return $this->is_visible();
 
 			default :
 				return isset( $this->{$key} ) ? $this->{$key} : null;
@@ -448,11 +469,13 @@ class BP_Groups_Group {
 			case 'admins' :
 			case 'is_invited' :
 			case 'is_member' :
+			case 'is_user_member' :
 			case 'is_pending' :
 			case 'last_activity' :
 			case 'mods' :
 			case 'total_member_count' :
 			case 'user_has_access' :
+			case 'is_visible' :
 			case 'forum_id' :
 				return true;
 
@@ -605,6 +628,34 @@ class BP_Groups_Group {
 		}
 
 		return $this->user_has_access;
+	}
+
+	/**
+	 * Checks whether the current user can know the group exists.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @return bool
+	 */
+	protected function is_visible() {
+		if ( isset( $this->is_visible ) ) {
+			return $this->is_visible;
+		}
+
+		if ( 'hidden' === $this->status ) {
+
+			// Assume user can not know about hidden groups.
+			$this->is_visible = false;
+
+			// Group members or community moderators have access.
+			if ( ( is_user_logged_in() && $this->get_is_member() ) || bp_current_user_can( 'bp_moderate' ) ) {
+				$this->is_visible = true;
+			}
+		} else {
+			$this->is_visible = true;
+		}
+
+		return $this->is_visible;
 	}
 
 	/** Static Methods ****************************************************/

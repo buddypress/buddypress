@@ -242,20 +242,6 @@ class BP_Groups_Component extends BP_Component {
 				bp_update_is_item_mod  ( groups_is_user_mod  ( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
 			}
 
-			// Is the logged in user a member of the group?
-			if ( ( is_user_logged_in() && groups_is_user_member( bp_loggedin_user_id(), $this->current_group->id ) ) ) {
-				$this->current_group->is_user_member = true;
-			} else {
-				$this->current_group->is_user_member = false;
-			}
-
-			// Should this group be visible to the logged in user?
-			if ( 'public' == $this->current_group->status || $this->current_group->is_user_member ) {
-				$this->current_group->is_visible = true;
-			} else {
-				$this->current_group->is_visible = false;
-			}
-
 			// Check once if the current group has a custom front template.
 			$this->current_group->front_template = bp_groups_get_front_template( $this->current_group );
 
@@ -557,7 +543,7 @@ class BP_Groups_Component extends BP_Component {
 			// member and does not have an outstanding invitation,
 			// show a "Request Membership" nav item.
 			if ( is_user_logged_in() &&
-				 ! $this->current_group->is_user_member &&
+				 ! $this->current_group->is_member &&
 				 ! groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
 				 $this->current_group->status == 'private' &&
 				 ! groups_check_user_has_invite( bp_loggedin_user_id(), $this->current_group->id )
