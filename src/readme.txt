@@ -116,88 +116,8 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 
 == Upgrade Notice ==
 
-= 2.8.0 =
-See: https://codex.buddypress.org/releases/version-2-8-0/
+See: https://codex.buddypress.org/releases/
 
 == Changelog ==
 
-= 2.8.0 =
-See: https://codex.buddypress.org/releases/version-2-8-0/
-
-= 2.7.4 =
-See: https://codex.buddypress.org/releases/version-2-7-4/
-
-= 2.7.4 =
-See: https://codex.buddypress.org/releases/version-2-7-4/
-
-= 2.7.2 =
-See: https://codex.buddypress.org/releases/version-2-7-2/
-
-= 2.7.1 =
-See: https://codex.buddypress.org/releases/version-2-7-1/
-
-= 2.7.0 =
-See: https://codex.buddypress.org/releases/version-2-7-0/
-
-= 2.6.2 =
-See: https://codex.buddypress.org/releases/version-2-6-2/
-
-= 2.6.1.1 =
-See: https://codex.buddypress.org/releases/version-2-6-1-1/
-
-= 2.6.1 =
-See: https://codex.buddypress.org/releases/version-2-6-1/
-
-= 2.6.0 =
-See: https://codex.buddypress.org/releases/version-2-6-0/
-
-= 2.5.3 =
-See: https://codex.buddypress.org/releases/version-2-5-3/
-
-= 2.5.2 =
-See: https://codex.buddypress.org/releases/version-2-5-2/
-
-= 2.5.1 =
-See: https://codex.buddypress.org/releases/version-2-5-1/
-
-= 2.5 =
-See: https://codex.buddypress.org/releases/version-2-5-0/
-
-= 2.4.3 =
-See: https://codex.buddypress.org/releases/version-2-4-3/
-
-= 2.4.2 =
-See: https://codex.buddypress.org/releases/version-2-4-2/
-
-= 2.4.1 =
-See: https://codex.buddypress.org/releases/version-2-4-1/
-
-= 2.4 =
-See: https://codex.buddypress.org/releases/version-2-4-0/
-
-= 2.3.5 =
-See: https://codex.buddypress.org/releases/version-2-3-5/
-
-= 2.3.4 =
-See: https://codex.buddypress.org/releases/version-2-3-4/
-
-= 2.3.3 =
-See: https://codex.buddypress.org/releases/version-2-3-3/
-
-= 2.3.2 =
-See: https://codex.buddypress.org/releases/version-2-3-2/
-
-= 2.3.1 =
-See: https://codex.buddypress.org/releases/version-2-3-1/
-
-= 2.3 =
-See: https://codex.buddypress.org/releases/version-2-3-0/
-
-= 2.2.1 =
-See: https://codex.buddypress.org/releases/version-2-2-1/
-
-= 2.2 =
-See: https://codex.buddypress.org/releases/version-2-2/
-
-= Older =
 See: https://codex.buddypress.org/releases/
