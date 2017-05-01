@@ -19,7 +19,10 @@ module.exports = function( grunt ) {
 
 		BP_EXCLUDED_MISC = [
 			'!bp-forums/bbpress/**/*'
-		];
+		],
+
+		stylelintConfigCss  = require('stylelint-config-wordpress/index.js'),
+		stylelintConfigScss = require('stylelint-config-wordpress/scss.js');
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
 	grunt.util = require( 'grunt-legacy-util' );
@@ -200,6 +203,26 @@ module.exports = function( grunt ) {
 				config: '.scss-lint.yml'
 			},
 			core: [ SOURCE_DIR + 'bp-templates/bp-legacy/css/*.scss' ]
+		},
+		stylelint: {
+			css: {
+				options: {
+					config: stylelintConfigCss,
+					format: 'css'
+				},
+				expand: true,
+				cwd: SOURCE_DIR,
+				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC )
+			},
+			scss: {
+				options: {
+					config: stylelintConfigScss,
+					format: 'scss'
+				},
+				expand: true,
+				cwd: SOURCE_DIR,
+				src: [ 'bp-templates/bp-legacy/css/*.scss' ]
+			}
 		},
 		cssmin: {
 			minify: {
