@@ -312,7 +312,7 @@ p.member-type-none-notice {
 .bp-date-range-type-label {
 	float: left;
 	font-style: italic;
-	width: 80px;
+	width: auto;
 }
 
 .bp-date-range-type-values {
