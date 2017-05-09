@@ -94,6 +94,8 @@ function show_options( forWhat ) {
 	if ( '' === XProfileAdmin.do_autolink ) {
 		jQuery( '#do-autolink' ).val( do_autolink );
 	}
+
+	jQuery( document ).trigger( 'bp-xprofile-show-options', forWhat );
 }
 
 function hide( id ) {
