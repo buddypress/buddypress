@@ -294,7 +294,7 @@ function bp_add_option( $option_name, $value ) {
  * @since 1.5.0
  *
  * @param string $option_name The option key to be set.
- * @param string $value       The value to be set.
+ * @param mixed  $value       The value to be set.
  * @return bool True on success, false on failure.
  */
 function bp_update_option( $option_name, $value ) {
