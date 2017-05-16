@@ -943,13 +943,13 @@ class BP_Group_Extension {
 		$position += 40;
 
 		$current_group = groups_get_current_group();
-		$admin_link = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
+		$admin_link    = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
 
 		$subnav_args = array(
 			'name'            => $screen['name'],
 			'slug'            => $screen['slug'],
 			'parent_slug'     => $current_group->slug . '_manage',
-			'parent_url'      => trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' ),
+			'parent_url'      => $admin_link,
 			'user_has_access' => bp_is_item_admin(),
 			'position'        => $position,
 			'screen_function' => 'groups_screen_group_admin',
