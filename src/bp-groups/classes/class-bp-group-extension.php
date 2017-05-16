@@ -564,6 +564,7 @@ class BP_Group_Extension {
 	 * @since 2.1.0
 	 */
 	protected function setup_access_settings() {
+
 		// Bail if no group ID is available.
 		if ( empty( $this->group_id ) ) {
 			return;
@@ -580,7 +581,7 @@ class BP_Group_Extension {
 		// Backward compatibility for components that do not provide
 		// explicit 'access' parameter.
 		if ( empty( $this->params['access'] ) ) {
-			if ( false === $this->enable_nav_item ) {
+			if ( false === $this->params['enable_nav_item'] ) {
 				$this->params['access'] = 'noone';
 			} else {
 				$group = groups_get_group( $this->group_id );
@@ -805,7 +806,9 @@ class BP_Group_Extension {
 	 * @return bool
 	 */
 	public function user_can_see_nav_item( $user_can_see_nav_item = false ) {
-		if ( 'noone' !== $this->params['show_tab'] && current_user_can( 'bp_moderate' ) ) {
+
+		// Always allow moderators to see nav items, even if explicitly 'noone'
+		if ( ( 'noone' !== $this->params['show_tab'] ) && current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
 
@@ -821,6 +824,8 @@ class BP_Group_Extension {
 	 * @return bool
 	 */
 	public function user_can_visit( $user_can_visit = false ) {
+
+		// Always allow moderators to visit a tab, even if explicitly 'noone'
 		if ( 'noone' !== $this->params['access'] && current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
