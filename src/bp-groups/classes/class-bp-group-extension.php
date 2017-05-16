@@ -818,6 +818,9 @@ class BP_Group_Extension {
 	/**
 	 * Determine whether the current user has access to visit this tab.
 	 *
+	 * Note that this controls the ability of a user to access a tab.
+	 * Display of the navigation item is controlled by user_can_see_nav_item().
+	 *
 	 * @since 2.1.0
 	 *
 	 * @param bool $user_can_visit Whether or not the user can visit the tab.
@@ -826,7 +829,7 @@ class BP_Group_Extension {
 	public function user_can_visit( $user_can_visit = false ) {
 
 		// Always allow moderators to visit a tab, even if explicitly 'noone'
-		if ( 'noone' !== $this->params['access'] && current_user_can( 'bp_moderate' ) ) {
+		if ( ( 'noone' !== $this->params['access'] ) && current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
 
