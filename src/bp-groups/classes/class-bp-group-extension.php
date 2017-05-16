@@ -666,7 +666,6 @@ class BP_Group_Extension {
 	 * @return bool
 	 */
 	protected function user_meets_access_condition( $access_condition ) {
-		$group = groups_get_group( $this->group_id );
 
 		switch ( $access_condition ) {
 			case 'admin' :
