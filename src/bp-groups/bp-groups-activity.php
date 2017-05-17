@@ -190,6 +190,9 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 	} elseif ( ! empty( $changed['description']['old'] ) && ! empty( $changed['description']['new'] ) ) {
 		$action = sprintf( __( '%1$s changed the description of the group %2$s from "%3$s" to "%4$s"', 'buddypress' ), $user_link, $group_link, esc_html( $changed['description']['old'] ), esc_html( $changed['description']['new'] ) );
 
+	} elseif ( ! empty( $changed['slug']['old'] ) && ! empty( $changed['slug']['new'] ) ) {
+		$action = sprintf( __( '%1$s changed the permalink of the group %2$s.', 'buddypress' ), $user_link, $group_link );
+
 	}
 
 	/**
@@ -461,7 +464,7 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 		return false;
 	}
 
-	if ( ! isset( $old_group->name ) || ! isset( $old_group->description ) ) {
+	if ( ! isset( $old_group->name ) || ! isset( $old_group->slug ) || ! isset( $old_group->description ) ) {
 		return false;
 	}
 
@@ -486,6 +489,13 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 		$changed['name'] = array(
 			'old' => $old_group->name,
 			'new' => $group->name,
+		);
+	}
+
+	if ( $group->slug !== $old_group->slug ) {
+		$changed['slug'] = array(
+			'old' => $old_group->slug,
+			'new' => $group->slug,
 		);
 	}
 

@@ -44,6 +44,14 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 				esc_html( $group->description )
 			);
 		}
+
+		if ( $group->slug !== $old_group->slug ) {
+			$changed[] = sprintf(
+				_x( '* Permalink changed from "%s" to "%s".', 'Group update email text', 'buddypress' ),
+				esc_url( bp_get_group_permalink( $old_group ) ),
+				esc_url( bp_get_group_permalink( $group ) )
+			);
+		}
 	}
 
 	/**
