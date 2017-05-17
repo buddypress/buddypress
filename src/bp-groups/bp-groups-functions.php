@@ -477,6 +477,18 @@ function groups_get_id( $group_slug ) {
 	return BP_Groups_Group::group_exists( $group_slug );
 }
 
+/**
+ * Get a group ID by checking against old (not currently active) slugs.
+ *
+ * @since 2.9.0
+ *
+ * @param string $group_slug The group's slug.
+ * @return int|null The group ID on success; null on failure.
+ */
+function groups_get_id_by_previous_slug( $group_slug ) {
+	return BP_Groups_Group::get_id_by_previous_slug( $group_slug );
+}
+
 /** User Actions **************************************************************/
 
 /**

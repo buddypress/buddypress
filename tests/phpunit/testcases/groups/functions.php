@@ -825,4 +825,28 @@ Bar!';
 		$this->assertEquals( $slug, $updated_group_object->slug );
 	}
 
+	/**
+	 * @group groups_get_id_by_previous_slug
+	 */
+	public function test_groups_get_id_by_previous_slug() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+		$g2 = $this->factory->group->create( array( 'slug' => 'loom' ) );
+
+		groups_edit_base_group_details( array(
+			'group_id'       => $g1,
+			'slug'           => 'newslug',
+		) );
+
+		// Function should return the group ID as an integer.
+		$this->assertSame( $g1, groups_get_id_by_previous_slug( $slug ) );
+	}
+
+	/**
+	 * @group groups_get_id_by_previous_slug
+	 */
+	public function test_groups_get_id_by_previous_slug_null_no_results() {
+		$this->assertNull( groups_get_id_by_previous_slug( 'woohoo' ) );
+	}
+
 }
