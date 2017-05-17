@@ -711,4 +711,118 @@ Bar!';
 
 		$this->assertEquals( $g1, $group->id );
 	}
+
+	/**
+	 * @expectedDeprecated groups_edit_base_group_details
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_test_backcompat_arguments() {
+		$g1 = $this->factory->group->create();
+		$name = 'Great Scott';
+		$description = 'A must-see in time for the holidays!';
+		groups_edit_base_group_details( $g1, $name, $description, false );
+
+		$expected = array(
+			'id'          => $g1,
+			'name'        => $name,
+			'description' => $description
+		);
+		$updated_group_object = groups_get_group( $g1 );
+		$updated = array(
+			'id'          => $updated_group_object->id,
+			'name'        => $updated_group_object->name,
+			'description' => $updated_group_object->description
+		);
+
+		$this->assertEqualSets( $expected, $updated );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_test_new_arguments() {
+		$g1 = $this->factory->group->create();
+		$name = 'Great Scott';
+		$slug = 'what-about-it';
+		$description = 'A must-see in time for the holidays!';
+		groups_edit_base_group_details( array(
+				'group_id'       => $g1,
+				'name'           => $name,
+				'slug'           => $slug,
+				'description'    => $description,
+				'notify_members' => false,
+		) );
+
+		$expected = array(
+			'id'          => $g1,
+			'slug'        => $slug,
+			'name'        => $name,
+			'description' => $description
+		);
+		$updated_group_object = groups_get_group( $g1 );
+		$updated = array(
+			'id'          => $updated_group_object->id,
+			'slug'        => $updated_group_object->slug,
+			'name'        => $updated_group_object->name,
+			'description' => $updated_group_object->description
+		);
+
+		$this->assertEqualSets( $expected, $updated );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_avoid_slug_collisions() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+		$g2 = $this->factory->group->create( array( 'slug' => 'loom' ) );
+
+		// Attempt to use a duplicate slug.
+		groups_edit_base_group_details( array(
+				'group_id'       => $g2,
+				'slug'           => $slug,
+		) );
+
+		$updated_group_object = groups_get_group( $g2 );
+
+		$this->assertNotEquals( $slug, $updated_group_object->slug );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_slug_no_change() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+
+		// Make sure the slug doesn't get incremented when there's no change.
+		groups_edit_base_group_details( array(
+				'group_id'       => $g1,
+				'slug'           => $slug,
+		) );
+
+		$updated_group_object = groups_get_group( $g1 );
+
+		$this->assertEquals( $slug, $updated_group_object->slug );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_slug_null_value() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+
+		// Make sure the slug doesn't get changed when null is passed.
+		groups_edit_base_group_details( array(
+				'group_id'       => $g1,
+				'slug'           => null,
+		) );
+
+		$updated_group_object = groups_get_group( $g1 );
+
+		$this->assertEquals( $slug, $updated_group_object->slug );
+	}
+
 }

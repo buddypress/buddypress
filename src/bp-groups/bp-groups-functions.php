@@ -218,28 +218,76 @@ function groups_create_group( $args = '' ) {
  *
  * @since 1.0.0
  *
- * @param int    $group_id       ID of the group.
- * @param string $group_name     Name of the group.
- * @param string $group_desc     Description of the group.
- * @param bool   $notify_members Whether to send an email notification to group
- *                               members about changes in these details.
+ * @param array $args {
+ *     An array of optional arguments.
+ *     @type int    $group_id       ID of the group.
+ *     @type string $name           Name of the group.
+ *     @type string $slug           Slug of the group.
+ *     @type string $description    Description of the group.
+ *     @type bool   $notify_members Whether to send an email notification to group
+ *                                  members about changes in these details.
+ * }
  * @return bool True on success, false on failure.
  */
-function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $notify_members ) {
+function groups_edit_base_group_details( $args = array() ) {
 
-	if ( empty( $group_name ) || empty( $group_desc ) )
+	// Backward compatibility with old method of passing arguments.
+	if ( ! is_array( $args ) || func_num_args() > 1 ) {
+		_deprecated_argument( __METHOD__, '2.9.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+		$old_args_keys = array(
+			0 => 'group_id',
+			1 => 'name',
+			2 => 'description',
+			3 => 'notify_members',
+		);
+
+		$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+	}
+
+	$r = wp_parse_args( $args, array(
+		'group_id'       => bp_get_current_group_id(),
+		'name'           => null,
+		'slug'           => null,
+		'description'    => null,
+		'notify_members' => false,
+	) );
+
+	if ( ! $r['group_id'] ) {
 		return false;
+	}
 
-	$group     = groups_get_group( $group_id );
+	$group     = groups_get_group( $r['group_id'] );
 	$old_group = clone $group;
 
-	$group->name        = $group_name;
-	$group->description = $group_desc;
+	// Group name, slug and description can never be empty. Update only if provided.
+	if ( $r['name'] ) {
+		$group->name = $r['name'];
+	}
+	if ( $r['slug'] && $r['slug'] != $group->slug ) {
+		$group->slug = groups_check_slug( $r['slug'] );
+	}
+	if ( $r['description'] ) {
+		$group->description = $r['description'];
+	}
 
-	if ( !$group->save() )
+	if ( ! $group->save() ) {
 		return false;
+	}
 
-	if ( $notify_members ) {
+	// Maybe update the "previous_slug" groupmeta.
+	if ( $group->slug != $old_group->slug ) {
+		/*
+		 * If the old slug exists in this group's past, delete that entry.
+		 * Recent previous_slugs are preferred when selecting the current group
+		 * from an old group slug, so we want the previous slug to be
+		 * saved "now" in the groupmeta table and don't need the old record.
+		 */
+		groups_delete_groupmeta( $group->id, 'previous_slug', $old_group->slug );
+		groups_add_groupmeta( $group->id, 'previous_slug', $old_group->slug );
+	}
+
+	if ( $r['notify_members'] ) {
 		groups_notification_group_updated( $group->id, $old_group );
 	}
 
@@ -252,7 +300,7 @@ function groups_edit_base_group_details( $group_id, $group_name, $group_desc, $n
 	 * @param BP_Groups_Group $old_group      Group object, before being modified.
 	 * @param bool            $notify_members Whether to send an email notification to members about the change.
 	 */
-	do_action( 'groups_details_updated', $group->id, $old_group, $notify_members );
+	do_action( 'groups_details_updated', $group->id, $old_group, $r['notify_members'] );
 
 	return true;
 }

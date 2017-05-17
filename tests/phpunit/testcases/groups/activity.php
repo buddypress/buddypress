@@ -55,7 +55,13 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_no_change() {
 		$group = $this->factory->group->create_and_get();
-		groups_edit_base_group_details( $group->id, $group->name, $group->description, true );
+		groups_edit_base_group_details( array(
+				'group_id'       => $group->id,
+				'name'           => $group->name,
+				'slug'           => $group->slug,
+				'description'    => $group->description,
+				'notify_members' => true,
+		) );
 
 		$a = bp_activity_get( array(
 			'component' => buddypress()->groups->id,
@@ -72,7 +78,13 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_notify_members_false() {
 		$group = $this->factory->group->create_and_get();
-		groups_edit_base_group_details( $group->id, 'Foo', $group->description, false );
+		groups_edit_base_group_details( array(
+			'group_id'       => $group->id,
+			'name'           => 'Foo',
+			'slug'           => $group->slug,
+			'description'    => $group->description,
+			'notify_members' => false,
+		) );
 
 		$a = bp_activity_get( array(
 			'component' => buddypress()->groups->id,
@@ -93,7 +105,13 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$this->set_current_user( $u );
 
 		$group = $this->factory->group->create_and_get();
-		groups_edit_base_group_details( $group->id, 'Foo', $group->description, true );
+		groups_edit_base_group_details( array(
+			'group_id'       => $group->id,
+			'name'           => 'Foo',
+			'slug'           => $group->slug,
+			'description'    => $group->description,
+			'notify_members' => true,
+		) );
 
 		$a = bp_activity_get( array(
 			'component' => buddypress()->groups->id,
@@ -119,7 +137,13 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$this->set_current_user( $u );
 
 		$group = $this->factory->group->create_and_get();
-		groups_edit_base_group_details( $group->id, $group->name, 'Bar', true );
+		groups_edit_base_group_details( array(
+			'group_id'       => $group->id,
+			'name'           => $group->name,
+			'slug'           => $group->slug,
+			'description'    => 'Bar',
+			'notify_members' => true,
+		) );
 
 		$a = bp_activity_get( array(
 			'component' => buddypress()->groups->id,
@@ -145,7 +169,13 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$this->set_current_user( $u );
 
 		$group = $this->factory->group->create_and_get();
-		groups_edit_base_group_details( $group->id, 'Foo', 'Bar', true );
+		groups_edit_base_group_details( array(
+			'group_id'       => $group->id,
+			'name'           => 'Foo',
+			'slug'           => $group->slug,
+			'description'    => 'Bar',
+			'notify_members' => true,
+		) );
 
 		$a = bp_activity_get( array(
 			'component' => buddypress()->groups->id,
