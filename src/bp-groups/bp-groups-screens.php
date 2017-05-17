@@ -839,7 +839,16 @@ function groups_screen_group_admin_edit_details() {
 
 			$group_notify_members = isset( $_POST['group-notify-members'] ) ? (int) $_POST['group-notify-members'] : 0;
 
-			if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $group_notify_members ) ) {
+			// Name and description are required and may not be empty.
+			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) ) {
+				bp_core_add_message( __( 'Groups must have a name and a description. Please try again.', 'buddypress' ), 'error' );
+			} elseif ( ! groups_edit_base_group_details( array(
+				'group_id'       => $_POST['group-id'],
+				'name'           => $_POST['group-name'],
+				'slug'           => null, // @TODO: Add to settings pane? If yes, editable by site admin only, or allow group admins to do this?
+				'description'    => $_POST['group-desc'],
+				'notify_members' => $group_notify_members,
+			) ) ) {
 				bp_core_add_message( __( 'There was an error updating group details. Please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );

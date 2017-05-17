@@ -46,6 +46,9 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 	line-height: 24px;
 	color: #666;
 }
+#bp-groups-permalink {
+	margin-right: 24px;
+}
 .bp-groups-member-type {
 	position: relative;
 }
