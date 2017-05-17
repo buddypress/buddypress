@@ -196,8 +196,10 @@ class BP_Groups_Component extends BP_Component {
 		/* Single Group Globals **********************************************/
 
 		// Are we viewing a single group?
-		if ( bp_is_groups_component() && $group_id = BP_Groups_Group::group_exists( bp_current_action() ) ) {
-
+		if ( bp_is_groups_component()
+			&& ( ( $group_id = BP_Groups_Group::group_exists( bp_current_action() ) )
+				|| ( $group_id = BP_Groups_Group::get_id_by_previous_slug( bp_current_action() ) ) )
+			) {
 			$bp->is_single_item  = true;
 
 			/**

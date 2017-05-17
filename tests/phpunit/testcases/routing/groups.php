@@ -63,4 +63,65 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
 		$this->assertTrue( is_404() );
 	}
+
+	/**
+	 * @group group_previous_slug
+	 */
+	public function test_group_previous_slug_current_slug_should_resolve() {
+		$g1 = $this->factory->group->create( array(
+			'slug' => 'george',
+		) );
+		groups_edit_base_group_details( array(
+			'group_id' => $g1,
+			'slug'     => 'ralph',
+		) );
+
+		$this->go_to( bp_get_groups_directory_permalink() . 'ralph' );
+
+		$this->assertEquals( $g1, bp_get_current_group_id() );
+	}
+
+	/**
+	 * @group group_previous_slug
+	 */
+	public function test_group_previous_slug_should_resolve() {
+		$g1 = $this->factory->group->create( array(
+			'slug' => 'george',
+		) );
+
+		groups_edit_base_group_details( array(
+			'group_id'       => $g1,
+			'slug'           => 'sam!',
+			'notify_members' => false,
+		) );
+		$this->go_to( bp_get_groups_directory_permalink() . 'george' );
+
+		$this->assertEquals( $g1, bp_get_current_group_id() );
+	}
+
+	/**
+	 * @group group_previous_slug
+	 */
+	public function test_group_previous_slug_most_recent_takes_precedence() {
+		$g1 = $this->factory->group->create( array(
+			'slug' => 'george',
+		) );
+		groups_edit_base_group_details( array(
+			'group_id'       => $g1,
+			'slug'           => 'ralph',
+			'notify_members' => false,
+		) );
+		$g2 = $this->factory->group->create( array(
+			'slug' => 'george',
+		) );
+		groups_edit_base_group_details( array(
+			'group_id'       => $g2,
+			'slug'           => 'sam',
+			'notify_members' => false,
+		) );
+
+		$this->go_to( bp_get_groups_directory_permalink() . 'george' );
+		$this->assertEquals( $g2, bp_get_current_group_id() );
+	}
+
 }
