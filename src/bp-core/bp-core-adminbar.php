@@ -39,12 +39,6 @@ function bp_admin_bar_my_account_root() {
 				'class' => 'ab-sub-secondary'
 			)
 		) );
-
-		// Remove 'Edit' post link as it's not applicable to BP.
-		// Remove when https://core.trac.wordpress.org/ticket/29538 is addressed.
-		if ( is_buddypress() ) {
-			$wp_admin_bar->remove_node( 'edit' );
-		}
 	}
 }
 add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
