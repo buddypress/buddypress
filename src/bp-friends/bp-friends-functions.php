@@ -773,6 +773,12 @@ add_action( 'bp_make_spam_user', 'friends_remove_data' );
  * @see bp_activity_mentions_script()
  */
 function bp_friends_prime_mentions_results() {
+
+	// Stop here if user is not logged in.
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
 	if ( ! bp_activity_maybe_load_mentions_scripts() ) {
 		return;
 	}
