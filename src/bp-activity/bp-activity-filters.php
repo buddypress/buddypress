@@ -207,10 +207,12 @@ function bp_activity_filter_kses( $content ) {
 	global $allowedtags;
 
 	$activity_allowedtags = $allowedtags;
-	$activity_allowedtags['a']['class'] = array();
-	$activity_allowedtags['a']['id']    = array();
-	$activity_allowedtags['a']['rel']   = array();
-	$activity_allowedtags['a']['title'] = array();
+	$activity_allowedtags['a']['aria-label']      = array();
+	$activity_allowedtags['a']['class']           = array();
+	$activity_allowedtags['a']['data-bp-tooltip'] = array();
+	$activity_allowedtags['a']['id']              = array();
+	$activity_allowedtags['a']['rel']             = array();
+	$activity_allowedtags['a']['title']           = array();
 
 	$activity_allowedtags['b']    = array();
 	$activity_allowedtags['code'] = array();
@@ -223,7 +225,6 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['img']['height'] = array();
 	$activity_allowedtags['img']['class']  = array();
 	$activity_allowedtags['img']['id']     = array();
-	$activity_allowedtags['img']['title']  = array();
 
 	$activity_allowedtags['span']                   = array();
 	$activity_allowedtags['span']['class']          = array();
