@@ -30,7 +30,7 @@
     "stylelint-config-wordpress": "~11.0.0"
   },
   "engines": {
-    "node": "~6.6.0"
+    "node": ">=6.9.1"
   },
   "keywords": [
     "activity",
