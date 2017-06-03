@@ -1555,7 +1555,7 @@ body.colors-light #buddypress div#invite-list {
 }
 
 .bp-user #buddypress #message-thread #message-subject {
-	background: #6f6f6f;
+	background: #6f6e6e;
 	color: #fff;
 	padding: 0.3em 0.2em 0.3em 0;
 }
@@ -1779,7 +1779,7 @@ body.colors-light #buddypress div#invite-list {
 }
 
 .bp-user #buddypress #message-threads.sitewide-notices td strong {
-	background: #6f6f6f;
+	background: #6f6e6e;
 	color: #fff;
 	display: block;
 	margin-bottom: 0.4em;

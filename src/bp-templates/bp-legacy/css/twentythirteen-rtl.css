@@ -1342,7 +1342,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	*-------------------------------------------
 	*/
 .bp-user #buddypress .profile .bp-widget h2 {
-	background: #6f6f6f;
+	background: #6f6e6e;
 	color: #fff;
 	margin-bottom: 0;
 	padding: 0.4em;
@@ -1425,7 +1425,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-thread #message-subject {
-	background: #6f6f6f;
+	background: #6f6e6e;
 	color: #fff;
 	padding: 0.3em 0.2em 0.3em 0;
 }
@@ -1476,7 +1476,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress #message-threads thead tr {
-	background: #6f6f6f;
+	background: #6f6e6e;
 }
 
 .bp-user #buddypress #message-threads tr td {
@@ -1640,7 +1640,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .bp-user #buddypress .sitewide-notices td strong {
-	background: #6f6f6f;
+	background: #6f6e6e;
 	color: #fff;
 	display: block;
 	padding-right: 0.2em;
@@ -1874,7 +1874,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 #buddypress table tr th {
-	background: #6f6f6f;
+	background: #6f6e6e;
 	border-color: #b7b7b7;
 	color: #fff;
 }

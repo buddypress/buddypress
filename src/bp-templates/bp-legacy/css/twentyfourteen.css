@@ -194,7 +194,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 @media screen and (min-width: 783px) {
 	.bp-user #buddypress,
 	.single-item.groups #buddypress {
-		background: #d8d8d8;
+		background: #d8d7d7;
 	}
 	#buddypress #item-header,
 	#buddypress #item-body {
@@ -204,7 +204,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		border-left: 1px solid #bebebe;
 	}
 	#buddypress #object-nav {
-		background: #d8d8d8;
+		background: #d8d7d7;
 		border-right: 1px solid #bebebe;
 		float: left;
 		margin-right: -1px;
@@ -634,7 +634,7 @@ body.activity-permalink #buddypress {
 /* groups & user account page entry title */
 .single-item.groups .entry-title,
 .bp-user .entry-title {
-	background: #4d4d4d;
+	background: #4d4c4c;
 	color: #fff;
 	font-size: 22px;
 	font-size: 1.375rem;
@@ -1195,7 +1195,7 @@ body.activity-permalink #buddypress {
 }
 
 #buddypress #message-thread #message-subject {
-	background: #4d4d4d;
+	background: #4d4c4c;
 	color: #fff;
 	padding: 0.5em;
 }
@@ -1251,7 +1251,7 @@ body.activity-permalink #buddypress {
 }
 
 #buddypress #message-threads.sitewide-notices td strong {
-	background: #4d4d4d;
+	background: #4d4c4c;
 	color: #fff;
 	font-size: 16px;
 	font-size: 1rem;
