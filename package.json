@@ -7,7 +7,7 @@
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-checktextdomain": "~1.0.1",
-    "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-clean": "~1.1.0",
     "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-cssmin": "~1.0.2",
     "grunt-contrib-imagemin": "~1.0.1",
