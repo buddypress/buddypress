@@ -14,7 +14,7 @@
     "grunt-contrib-jshint": "~1.1.0",
     "grunt-contrib-uglify": "~2.0.0",
     "grunt-contrib-watch": "~1.0.0",
-    "grunt-exec": "~1.0.1",
+    "grunt-exec": "~2.0.0",
     "grunt-check-dependencies": "~1.0.0",
     "grunt-jsvalidate": "~0.2.2",
     "grunt-legacy-util": "^1.0.0",
