@@ -145,12 +145,6 @@ div.bp-avatar-nav {
 	text-align: inherit;
 }
 
-.moxie-shim.moxie-shim-html5 {
-	top: 108px !important;
-	left: 40.1% !important;
-	width: 12em;
-}
-
 .moxie-shim.moxie-shim-html5 input {
 	cursor: pointer;
 }
@@ -174,10 +168,6 @@ div.bp-avatar-nav {
 	display: block;
 }
 
-p.drag-drop-buttons input#bp-browse-button {
-	width: 12em;
-}
-
 .drag-drop .drag-drop-inside p {
 	color: #767676;
 	font-size: 110%;
@@ -187,12 +177,6 @@ p.drag-drop-buttons input#bp-browse-button {
 
 .drag-drop-inside p.drag-drop-info {
 	margin-top: 0;
-}
-
-@supports (-ms-accelerator:true) {
-	.drag-drop-inside p.drag-drop-info {
-		display: block;
-	}
 }
 
 #avatar-to-crop {

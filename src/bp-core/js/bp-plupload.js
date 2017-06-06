@@ -97,6 +97,11 @@ window.bp = window.bp || {};
 
 		} );
 
+		// See https://core.trac.wordpress.org/ticket/37039
+		this.uploader.bind( 'postinit', function( up ) {
+			up.refresh();
+		});
+
 		// Init BuddyPress Uploader
 		this.uploader.init();
 
