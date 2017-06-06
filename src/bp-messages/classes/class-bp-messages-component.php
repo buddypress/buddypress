@@ -145,7 +145,7 @@ class BP_Messages_Component extends BP_Component {
 
 		// Only grab count if we're on a user page and current user has access.
 		if ( bp_is_user() && bp_user_has_access() ) {
-			$count    = bp_get_total_unread_messages_count();
+			$count    = bp_get_total_unread_messages_count( bp_displayed_user_id() );
 			$class    = ( 0 === $count ) ? 'no-count' : 'count';
 			$nav_name = sprintf(
 				/* translators: %s: Unread message count for the current user */
@@ -252,7 +252,7 @@ class BP_Messages_Component extends BP_Component {
 			$messages_link = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
 
 			// Unread message count.
-			$count = messages_get_unread_count();
+			$count = messages_get_unread_count( bp_loggedin_user_id() );
 			if ( !empty( $count ) ) {
 				$title = sprintf(
 					/* translators: %s: Unread message count for the current user */

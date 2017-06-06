@@ -41,7 +41,7 @@ function bp_get_messages_starred_slug() {
  */
 function bp_messages_is_message_starred( $mid = 0, $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
-		$user_id = bp_loggedin_user_id();
+		$user_id = bp_displayed_user_id();
 	}
 
 	if ( empty( $mid ) ) {
@@ -254,7 +254,7 @@ function bp_messages_star_set_action( $args = array() ) {
 		'action'     => 'star',
 		'thread_id'  => 0,
 		'message_id' => 0,
-		'user_id'    => bp_loggedin_user_id(),
+		'user_id'    => bp_displayed_user_id(),
 		'bulk'       => false
 	) );
 
@@ -397,7 +397,7 @@ function bp_messages_star_action_handler() {
 	) );
 
 	// Redirect back to previous screen.
-	$redirect = wp_get_referer() ? wp_get_referer() : bp_loggedin_user_domain() . bp_get_messages_slug();
+	$redirect = wp_get_referer() ? wp_get_referer() : bp_displayed_user_domain() . bp_get_messages_slug();
 	bp_core_redirect( $redirect );
 	die();
 }

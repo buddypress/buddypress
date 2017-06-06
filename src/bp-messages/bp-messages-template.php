@@ -58,7 +58,7 @@ function bp_has_message_threads( $args = array() ) {
 
 	// User ID
 	// @todo displayed user for moderators that get this far?
-	$user_id = bp_loggedin_user_id();
+	$user_id = bp_displayed_user_id();
 
 	// Search Terms.
 	$search_terms = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
@@ -304,7 +304,7 @@ function bp_message_thread_view_link( $thread_id = 0 ) {
 		 * @param string $value     Permalink of a particular thread.
 		 * @param int    $thread_id ID of the thread.
 		 */
-		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id ), $thread_id );
+		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id ), $thread_id );
 	}
 
 /**
@@ -329,7 +329,7 @@ function bp_message_thread_delete_link() {
 		 * @param string $value URL for deleting the current thread.
 		 * @param string $value Text indicating action being executed.
 		 */
-		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ) );
 	}
 
 /**
@@ -361,7 +361,7 @@ function bp_the_message_thread_mark_unread_url() {
 		);
 
 		// Base unread URL.
-		$url = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/unread' );
+		$url = trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/unread' );
 
 		// Add the args to the URL.
 		$url = add_query_arg( $args, $url );
@@ -408,7 +408,7 @@ function bp_the_message_thread_mark_read_url() {
 		);
 
 		// Base read URL.
-		$url = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/read' );
+		$url = trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/read' );
 
 		// Add the args to the URL.
 		$url = add_query_arg( $args, $url );
@@ -696,16 +696,26 @@ function bp_message_thread_avatar( $args = '' ) {
 
 /**
  * Output the unread messages count for the current inbox.
+ *
+ * @since 2.6.x Added $user_id argument.
+ *
+ * @param int $user_id The user ID.
+ *
+ * @return int $unread_count Total inbox unread count for user.
  */
-function bp_total_unread_messages_count() {
-	echo bp_get_total_unread_messages_count();
+function bp_total_unread_messages_count( $user_id = 0 ) {
+	echo bp_get_total_unread_messages_count( $user_id );
 }
 	/**
 	 * Get the unread messages count for the current inbox.
 	 *
-	 * @return int
+	 * @since 2.6.x Added $user_id argument.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return int $unread_count Total inbox unread count for user.
 	 */
-	function bp_get_total_unread_messages_count() {
+	function bp_get_total_unread_messages_count( $user_id = 0 ) {
 
 		/**
 		 * Filters the unread messages count for the current inbox.
@@ -714,7 +724,7 @@ function bp_total_unread_messages_count() {
 		 *
 		 * @param int $value Unread messages count for the current inbox.
 		 */
-		return apply_filters( 'bp_get_total_unread_messages_count', BP_Messages_Thread::get_inbox_count() );
+		return apply_filters( 'bp_get_total_unread_messages_count', BP_Messages_Thread::get_inbox_count( $user_id ) );
 	}
 
 /**
@@ -824,7 +834,7 @@ function bp_messages_form_action() {
 		 *
 		 * @param string $value The form action.
 		 */
-		return apply_filters( 'bp_get_messages_form_action', trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/' . bp_action_variable( 0 ) ) );
+		return apply_filters( 'bp_get_messages_form_action', trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/' . bp_action_variable( 0 ) ) );
 	}
 
 /**
@@ -1153,7 +1163,7 @@ function bp_message_notice_delete_link() {
 		 * @param string $value URL for deleting the current notice.
 		 * @param string $value Text indicating action being executed.
 		 */
-		return apply_filters( 'bp_get_message_notice_delete_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices/delete/' . $messages_template->thread->id, 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_notice_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_messages_slug() . '/notices/delete/' . $messages_template->thread->id, 'messages_delete_thread' ) );
 	}
 
 /**
@@ -1171,9 +1181,9 @@ function bp_message_activate_deactivate_link() {
 		global $messages_template;
 
 		if ( 1 === (int) $messages_template->thread->is_active ) {
-			$link = wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices/deactivate/' . $messages_template->thread->id ), 'messages_deactivate_notice' );
+			$link = wp_nonce_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/notices/deactivate/' . $messages_template->thread->id ), 'messages_deactivate_notice' );
 		} else {
-			$link = wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices/activate/' . $messages_template->thread->id ), 'messages_activate_notice' );
+			$link = wp_nonce_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/notices/activate/' . $messages_template->thread->id ), 'messages_activate_notice' );
 		}
 
 		/**
@@ -1924,7 +1934,7 @@ function bp_the_thread_delete_link() {
 		 * @param string $value URL for deleting the current thread.
 		 * @param string $value Text indicating action being executed.
 		 */
-		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_messages_slug() . '/inbox/delete/' . bp_get_the_thread_id(), 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_messages_slug() . '/inbox/delete/' . bp_get_the_thread_id(), 'messages_delete_thread' ) );
 	}
 
 /**

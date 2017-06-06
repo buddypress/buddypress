@@ -144,9 +144,14 @@ class BP_Messages_Thread {
 			$order = 'ASC';
 		}
 
+		$user_id =
+			bp_displayed_user_id() ?
+			bp_displayed_user_id() :
+			bp_loggedin_user_id();
+
 		// Merge $args with our defaults.
 		$r = wp_parse_args( $args, array(
-			'user_id'           => bp_loggedin_user_id(),
+			'user_id'           => $user_id,
 			'update_meta_cache' => true
 		) );
 
@@ -613,11 +618,16 @@ class BP_Messages_Thread {
 	public static function mark_as_read( $thread_id = 0 ) {
 		global $wpdb;
 
+		$user_id =
+			bp_displayed_user_id() ?
+			bp_displayed_user_id() :
+			bp_loggedin_user_id();
+
 		$bp     = buddypress();
-		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id ) );
+		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
 
 		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
-		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
+		wp_cache_delete( $user_id, 'bp_messages_unread_count' );
 
 		/**
 		 * Fires when messages thread was marked as read.
@@ -643,11 +653,16 @@ class BP_Messages_Thread {
 	public static function mark_as_unread( $thread_id = 0 ) {
 		global $wpdb;
 
+		$user_id =
+			bp_displayed_user_id() ?
+			bp_displayed_user_id() :
+			bp_loggedin_user_id();
+
 		$bp     = buddypress();
-		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", bp_loggedin_user_id(), $thread_id ) );
+		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
 
 		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
-		wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
+		wp_cache_delete( $user_id, 'bp_messages_unread_count' );
 
 		/**
 		 * Fires when messages thread was marked as unread.

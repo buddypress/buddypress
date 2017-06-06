@@ -254,7 +254,10 @@ function messages_send_notice( $subject, $message ) {
 function messages_delete_thread( $thread_ids, $user_id = 0 ) {
 
 	if ( empty( $user_id ) ) {
-		$user_id = bp_loggedin_user_id();
+		$user_id =
+			bp_displayed_user_id() ?
+			bp_displayed_user_id() :
+			bp_loggedin_user_id();
 	}
 
 	/**
@@ -380,10 +383,6 @@ function messages_remove_callback_values() {
  * @return int
  */
 function messages_get_unread_count( $user_id = 0 ) {
-	if ( empty( $user_id ) ) {
-		$user_id = bp_loggedin_user_id();
-	}
-
 	return BP_Messages_Thread::get_inbox_count( $user_id );
 }
 
