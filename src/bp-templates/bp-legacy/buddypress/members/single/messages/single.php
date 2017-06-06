@@ -35,7 +35,7 @@
 
 				<?php else : ?>
 
-					<?php printf( __( 'Conversation between %s and you.', 'buddypress' ), bp_get_thread_recipients_list() ); ?>
+					<?php printf( __( 'Conversation between %s.', 'buddypress' ), bp_get_thread_recipients_list() ); ?>
 
 				<?php endif; ?>
 

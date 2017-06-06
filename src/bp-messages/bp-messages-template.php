@@ -1634,8 +1634,13 @@ function bp_the_thread_recipients_list() {
 				}
 
 				$recipient_links[] = $recipient_link;
+			} else {
+				$recipient_links[] = __( 'you', 'buddypress' );
 			}
 		}
+
+		// Concatenate to natural language string.
+		$recipient_links = wp_sprintf_l( '%l', $recipient_links );
 
 		/**
 		 * Filters the HTML links to the profiles of recipients in the current thread.
@@ -1644,7 +1649,7 @@ function bp_the_thread_recipients_list() {
 		 *
 		 * @param string $value Comma-separated list of recipient HTML links for current thread.
 		 */
-		return apply_filters( 'bp_get_the_thread_recipients_list', implode( ', ', $recipient_links ) );
+		return apply_filters( 'bp_get_the_thread_recipients_list', $recipient_links );
 	}
 
 /**
