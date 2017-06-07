@@ -320,6 +320,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 * @since 2.4.0 Introduced the `$fields` parameter.
+	 * @since 2.9.0 Introduced the `$order_by` parameter.
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql() for a description of the
 	 *      'filter' parameter.
@@ -335,6 +336,7 @@ class BP_Activity_Activity {
 	 *     @type string       $fields            Activity fields to return. Pass 'ids' to get only the activity IDs.
 	 *                                           'all' returns full activity objects.
 	 *     @type string       $sort              ASC or DESC. Default: 'DESC'.
+	 *     @type string       $order_by          Column to order results by.
 	 *     @type array        $exclude           Array of activity IDs to exclude. Default: false.
 	 *     @type array        $in                Array of ids to limit query by (IN). Default: false.
 	 *     @type array        $meta_query        Array of meta_query conditions. See WP_Meta_Query::queries.
@@ -381,24 +383,25 @@ class BP_Activity_Activity {
 
 		$bp = buddypress();
 		$r  = wp_parse_args( $args, array(
-			'page'              => 1,          // The current page.
-			'per_page'          => 25,         // Activity items per page.
-			'max'               => false,      // Max number of items to return.
-			'fields'            => 'all',      // Fields to include.
-			'sort'              => 'DESC',     // ASC or DESC.
-			'exclude'           => false,      // Array of ids to exclude.
-			'in'                => false,      // Array of ids to limit query by (IN).
-			'meta_query'        => false,      // Filter by activitymeta.
-			'date_query'        => false,      // Filter by date.
-			'filter_query'      => false,      // Advanced filtering - see BP_Activity_Query.
-			'filter'            => false,      // See self::get_filter_sql().
-			'scope'             => false,      // Preset activity arguments.
-			'search_terms'      => false,      // Terms to search by.
-			'display_comments'  => false,      // Whether to include activity comments.
-			'show_hidden'       => false,      // Show items marked hide_sitewide.
-			'spam'              => 'ham_only', // Spam status.
-			'update_meta_cache' => true,       // Whether or not to update meta cache.
-			'count_total'       => false,      // Whether or not to use count_total.
+			'page'              => 1,               // The current page.
+			'per_page'          => 25,              // Activity items per page.
+			'max'               => false,           // Max number of items to return.
+			'fields'            => 'all',           // Fields to include.
+			'sort'              => 'DESC',          // ASC or DESC.
+			'order_by'          => 'date_recorded', // Column to order by.
+			'exclude'           => false,           // Array of ids to exclude.
+			'in'                => false,           // Array of ids to limit query by (IN).
+			'meta_query'        => false,           // Filter by activitymeta.
+			'date_query'        => false,           // Filter by date.
+			'filter_query'      => false,           // Advanced filtering - see BP_Activity_Query.
+			'filter'            => false,           // See self::get_filter_sql().
+			'scope'             => false,           // Preset activity arguments.
+			'search_terms'      => false,           // Terms to search by.
+			'display_comments'  => false,           // Whether to include activity comments.
+			'show_hidden'       => false,           // Show items marked hide_sitewide.
+			'spam'              => 'ham_only',      // Spam status.
+			'update_meta_cache' => true,            // Whether or not to update meta cache.
+			'count_total'       => false,           // Whether or not to use count_total.
 		) );
 
 		// Select conditions.
@@ -460,6 +463,29 @@ class BP_Activity_Activity {
 		if ( $sort != 'ASC' && $sort != 'DESC' ) {
 			$sort = 'DESC';
 		}
+
+		switch( $r['order_by'] ) {
+			case 'id' :
+			case 'user_id' :
+			case 'component' :
+			case 'type' :
+			case 'action' :
+			case 'content' :
+			case 'primary_link' :
+			case 'item_id' :
+			case 'secondary_item_id' :
+			case 'date_recorded' :
+			case 'hide_sitewide' :
+			case 'mptt_left' :
+			case 'mptt_right' :
+			case 'is_spam' :
+				break;
+
+			default :
+				$r['order_by'] = 'date_recorded';
+				break;
+		}
+		$order_by = 'a.' . $r['order_by'];
 
 		// Hide Hidden Items?
 		if ( ! $r['show_hidden'] ) {
@@ -607,7 +633,7 @@ class BP_Activity_Activity {
 
 		} else {
 			// Query first for activity IDs.
-			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}";
+			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY {$order_by} {$sort}, a.id {$sort}";
 
 			if ( ! empty( $per_page ) && ! empty( $page ) ) {
 				// We query for $per_page + 1 items in order to
