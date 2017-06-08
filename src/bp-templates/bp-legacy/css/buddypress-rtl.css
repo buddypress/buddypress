@@ -1216,12 +1216,29 @@ fieldset.create-site label {
 }
 #buddypress div#message p,
 #sitewide-notice p {
-	font-weight: normal;
-	margin-top: 3px;
-	text-decoration: none;
 	background-color: #ffd;
 	border: 1px solid #cb2;
 	color: #440;
+	font-weight: normal;
+	margin-top: 3px;
+	text-decoration: none;
+}
+.bp-site-wide-message #message p,
+.admin-bar-on #message p {
+	padding-left: 25px;
+	position: relative;
+}
+.bp-site-wide-message #message button,
+.admin-bar-on #message button {
+	font-size: 0.8em;
+	padding: 2px 4px;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.admin-bar-on #message button {
+	left: 10px;
+	top:7px;
 }
 #buddypress #item-header:after {
 	clear: both;
@@ -1822,6 +1839,15 @@ body.register #buddypress div.page ul {
 	overflow: visible;
 	text-decoration: none;
 	z-index: 999;
+}
+
+.bp-site-wide-message .bp-tooltip:hover::after,
+.bp-site-wide-message .bp-tooltip:active::after,
+.bp-site-wide-message .bp-tooltip:focus::after,
+.admin-bar-on .bp-tooltip:hover::after,
+.admin-bar-on .bp-tooltip:active::after,
+.admin-bar-on .bp-tooltip:focus::after {
+	left: 50px;
 }
 
 /*--------------------------------------------------------------
