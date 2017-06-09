@@ -1278,6 +1278,53 @@ Bar!';
 	}
 
 	/**
+	 * @group  bp_activity_delete_comment
+	 * @ticket BP7450
+	 */
+	public function test_bp_activity_delete_comment_shouldnt_delete_all_comments_when_parameters_are_empty() {
+		$u = $this->factory->user->create();
+
+		// create an activity update
+		$parent_activity = $this->factory->activity->create( array(
+			'type'    => 'activity_update',
+			'user_id' => $u
+		) );
+
+		// create some activity comments
+		$comment_one = bp_activity_new_comment( array(
+			'user_id'     => $u,
+			'activity_id' => $parent_activity,
+			'content'     => 'depth 1'
+		) );
+
+		$comment_one_one = bp_activity_new_comment( array(
+			'user_id'     => $u,
+			'activity_id' => $parent_activity,
+			'parent_id'   => $comment_one,
+			'content'     => 'depth 2'
+		) );
+
+		$comment_two = bp_activity_new_comment( array(
+			'user_id'     => $u,
+			'activity_id' => $parent_activity,
+			'content'     => 'depth 1'
+		) );
+
+		// Pass empty values to bp_activity_delete_comment()
+		$retval = bp_activity_delete_comment( 0, 0 );
+		$this->assertFalse( $retval );
+
+		// Instantiate activity loop, which also includes activity comments.
+		bp_has_activities( 'display_comments=stream' );
+
+		// Activity comments should not be deleted.
+		$this->assertSame( 4, $GLOBALS['activities_template']->activity_count );
+
+		// Clean up after ourselves!
+		$GLOBALS['activities_template'] = null;
+	}
+
+	/**
 	 * @group bp_activity_new_comment
 	 * @group BP5907
 	 */

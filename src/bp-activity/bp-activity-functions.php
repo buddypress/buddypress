@@ -2963,6 +2963,12 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 		return $deleted;
 	}
 
+	// Check if comment still exists.
+	$comment = new BP_Activity_Activity( $comment_id );
+	if ( empty( $comment->id ) ) {
+		return false;
+	}
+
 	// Delete any children of this comment.
 	bp_activity_delete_children( $activity_id, $comment_id );
 
@@ -3003,6 +3009,11 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	 * @param int $comment_id  The ID of the comment to be deleted.
 	 */
 	function bp_activity_delete_children( $activity_id, $comment_id ) {
+		// Check if comment still exists.
+		$comment = new BP_Activity_Activity( $comment_id );
+		if ( empty( $comment->id ) ) {
+			return;
+		}
 
 		// Get activity children to delete.
 		$children = BP_Activity_Activity::get_child_comments( $comment_id );
