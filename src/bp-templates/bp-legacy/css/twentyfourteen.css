@@ -1135,12 +1135,6 @@ body.activity-permalink #buddypress {
 	width: 100%;
 }
 
-#buddypress table#message-threads tr td.thread-info a::after {
-	content: " – " attr(title);
-	font-size: 12px;
-	font-size: 0.75rem;
-}
-
 #buddypress table#message-threads tr td.thread-options {
 	text-align: right;
 }
@@ -1207,6 +1201,13 @@ body.activity-permalink #buddypress {
 #buddypress #message-thread .message-box .message-content {
 	clear: left;
 	margin-left: 0;
+}
+
+#buddypress #message-thread .bp-tooltip:hover::after,
+#buddypress #message-thread .bp-tooltip:active::after,
+#buddypress #message-thread .bp-tooltip:focus::after {
+	right: 40px;
+	text-align: right;
 }
 
 #buddypress .acfb-holder {
@@ -1294,6 +1295,17 @@ body.activity-permalink #buddypress {
 	display: block;
 	line-height: initial;
 	text-indent: 0;
+}
+
+#buddypress .messages-notices .bp-tooltip:hover::after,
+#buddypress .messages-notices .bp-tooltip:active::after,
+#buddypress .messages-notices .bp-tooltip:focus::after {
+	left: 0;
+	margin-top: 10px;
+	max-width: 240px;
+	right: auto;
+	text-align: left;
+	transform: translateX(0);
 }
 
 .bp-user .ac_results {

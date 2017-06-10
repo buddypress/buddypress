@@ -1558,9 +1558,9 @@ jq(document).ready( function() {
 					link.find('.bp-screen-reader-text').text( BP_PM_Star.strings.text_star );
 
 					if ( 1 === BP_PM_Star.is_single_thread ) {
-						link.prop('title', BP_PM_Star.strings.title_star );
+						link.attr('data-bp-tooltip', BP_PM_Star.strings.title_star );
 					} else {
-						link.prop('title', BP_PM_Star.strings.title_star_thread );
+						link.attr('data-bp-tooltip', BP_PM_Star.strings.title_star_thread );
 					}
 
 				} else {
@@ -1569,9 +1569,9 @@ jq(document).ready( function() {
 					link.find('.bp-screen-reader-text').text(BP_PM_Star.strings.text_unstar);
 
 					if ( 1 === BP_PM_Star.is_single_thread ) {
-						link.prop('title', BP_PM_Star.strings.title_unstar );
+						link.attr('data-bp-tooltip', BP_PM_Star.strings.title_unstar );
 					} else {
-						link.prop('title', BP_PM_Star.strings.title_unstar_thread );
+						link.attr('data-bp-tooltip', BP_PM_Star.strings.title_unstar_thread );
 					}
 				}
 			}

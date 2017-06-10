@@ -1439,8 +1439,10 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-style: normal;
 }
 
-.bp-user #buddypress #message-thread .message-metadata {
-	overflow: hidden;
+.bp-user #buddypress #message-thread .message-metadata::after {
+	clear: both;
+	content: "";
+	display: table;
 }
 
 .bp-user #buddypress #message-thread .message-metadata img.avatar {
@@ -1473,6 +1475,13 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user #buddypress #message-thread .alt {
 	background: #fff;
+}
+
+.bp-user #buddypress #message-thread .bp-tooltip:hover::after,
+.bp-user #buddypress #message-thread .bp-tooltip:active::after,
+.bp-user #buddypress #message-thread .bp-tooltip:focus::after {
+	right: 40px;
+	text-align: right;
 }
 
 .bp-user #buddypress #message-threads thead tr {
@@ -1533,12 +1542,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 .bp-user #buddypress #message-threads tr td.thread-info {
 	padding-left: 41px;
 	width: 100%;
-}
-
-.bp-user #buddypress #message-threads tr td.thread-info a::after {
-	content: " – " attr(title);
-	font-size: 12px;
-	font-size: 0.75rem;
 }
 
 .bp-user #buddypress #message-threads tr td.thread-info .thread-excerpt {
@@ -1936,6 +1939,17 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	display: block;
 	padding: 0;
 	text-align: center;
+}
+
+#buddypress .messages-notices .bp-tooltip:hover::after,
+#buddypress .messages-notices .bp-tooltip:active::after,
+#buddypress .messages-notices .bp-tooltip:focus::after {
+	left: 0;
+	margin-top: 10px;
+	max-width: 240px;
+	right: auto;
+	text-align: left;
+	transform: translateX(0);
 }
 
 /**

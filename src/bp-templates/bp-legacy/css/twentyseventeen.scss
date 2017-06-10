@@ -2306,7 +2306,12 @@ body.colors-light {
 			}
 
 			.message-metadata {
-				overflow: hidden;
+
+				&::after {
+					clear: both;
+					content: "";
+					display: table;
+				}
 
 				img.avatar {
 					float: none;
@@ -2344,6 +2349,12 @@ body.colors-light {
 				background: $content-background;
 			}
 
+			.bp-tooltip:hover::after,
+			.bp-tooltip:active::after,
+			.bp-tooltip:focus::after {
+				right: 40px;
+				text-align: right;
+			}
 		} // close message-thread  Singular view!
 
 		#message-threads {
@@ -2417,11 +2428,6 @@ body.colors-light {
 				td.thread-info {
 					padding-left: 41px;
 					width: 100%;
-
-					a::after {
-						content: " \2017 \00a0"attr(title);
-						@include font-size(12);
-					}
 				}
 
 				td.thread-options {
@@ -2956,8 +2962,23 @@ body.colors-dark {
 	} // .notifications, .message-notices
 
 	.notifications { // table element
+
 		.actions { // th element
 			text-align: center;
+		}
+	}
+
+	.messages-notices {
+
+		.bp-tooltip:hover::after,
+		.bp-tooltip:active::after,
+		.bp-tooltip:focus::after {
+			left: 0;
+			margin-top: 20px;
+			max-width: 240px;
+			right: auto;
+			text-align: left;
+			transform: translateX(0);
 		}
 	}
 } // #buddypress

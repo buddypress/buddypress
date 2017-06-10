@@ -229,7 +229,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 		 * @param string $retval Link for starring / unstarring a message, including markup.
 		 * @param array  $r      Parsed link arguments. See $args in bp_get_the_message_star_action_link().
 		 */
-		return apply_filters( 'bp_get_the_message_star_action_link', '<a title="' . esc_attr( $title ) . '" class="message-action-' . esc_attr( $action ) . '" data-star-status="' . esc_attr( $action ) .'" data-star-nonce="' . esc_attr( $nonce ) . '"' . $bulk_attr . ' data-message-id="' . esc_attr( (int) $message_id ) . '" href="' . $retval . '"><span class="icon"></span> <span class="bp-screen-reader-text">' . $r['text_' . $action] . '</span></a>', $r );
+		return apply_filters( 'bp_get_the_message_star_action_link', '<a data-bp-tooltip="' . esc_attr( $title ) . '" class="bp-tooltip message-action-' . esc_attr( $action ) . '" data-star-status="' . esc_attr( $action ) .'" data-star-nonce="' . esc_attr( $nonce ) . '"' . $bulk_attr . ' data-message-id="' . esc_attr( (int) $message_id ) . '" href="' . $retval . '" role="button" aria-pressed="false"><span class="icon"></span> <span class="bp-screen-reader-text">' . $r['text_' . $action] . '</span></a>', $r );
 	}
 
 /**

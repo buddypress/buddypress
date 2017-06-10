@@ -1383,8 +1383,10 @@ body.page-template-onecolumn-page #content .entry-content {
 	font-size: 100%;
 }
 
-.bp-user #buddypress #message-thread .message-metadata {
-	overflow: hidden;
+.bp-user #buddypress #message-thread .message-metadata::after {
+	clear: both;
+	content: "";
+	display: table;
 }
 
 .bp-user #buddypress #message-thread .message-metadata img.avatar {
@@ -1417,6 +1419,13 @@ body.page-template-onecolumn-page #content .entry-content {
 
 .bp-user #buddypress #message-thread .alt {
 	background: #fff;
+}
+
+.bp-user #buddypress #message-thread .bp-tooltip:hover::after,
+.bp-user #buddypress #message-thread .bp-tooltip:active::after,
+.bp-user #buddypress #message-thread .bp-tooltip:focus::after {
+	left: 40px;
+	text-align: left;
 }
 
 .bp-user #buddypress #message-threads thead tr {
@@ -1485,12 +1494,6 @@ body.page-template-onecolumn-page #content .entry-content {
 .bp-user #buddypress #message-threads tr td.thread-info {
 	padding-right: 41px;
 	width: 100%;
-}
-
-.bp-user #buddypress #message-threads tr td.thread-info a::after {
-	content: " ‖ " attr(title);
-	font-size: 12px;
-	font-size: 0.8rem;
 }
 
 .bp-user #buddypress #message-threads tr td.thread-options {
@@ -1938,6 +1941,17 @@ body.page-template-onecolumn-page #content .entry-content {
 	display: block;
 	padding: 0;
 	text-align: center;
+}
+
+.bp-user #buddypress .messages-notices .bp-tooltip:hover::after,
+.bp-user #buddypress .messages-notices .bp-tooltip:active::after,
+.bp-user #buddypress .messages-notices .bp-tooltip:focus::after {
+	right: 0;
+	margin-top: 10px;
+	max-width: 240px;
+	left: auto;
+	text-align: right;
+	transform: translateX(0);
 }
 
 /**

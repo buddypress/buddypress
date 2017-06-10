@@ -1564,8 +1564,10 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 #buddypress div#message-thread strong span.activity {
 	margin-top: 4px;
 }
-#buddypress div#message-thread div.message-metadata {
-	overflow: hidden;
+#buddypress div#message-thread div.message-metadata::after {
+	clear: both;
+	content: "";
+	display: table;
 }
 #buddypress div#message-thread div.message-content {
 	margin-left: 45px;
@@ -1580,9 +1582,16 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	float: right;
 	margin: 0 20px;
 }
-
 .message-metadata {
 	position: relative;
+}
+.message-metadata .bp-tooltip:hover::after,
+.message-metadata .bp-tooltip:active::after,
+.message-metadata .bp-tooltip:focus::after {
+	margin-top: 10px;
+	max-width: 240px;
+	right: 0;
+	text-align: right;
 }
 .message-star-actions {
 	position: absolute;
@@ -1718,6 +1727,7 @@ body.register #buddypress div.page ul {
 }
 
 .widget.buddypress div.avatar-block::after {
+	clear: both;
 	content: "";
 	display: table;
 }
