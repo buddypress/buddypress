@@ -16,6 +16,7 @@
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul {
 	left: 0;
 }
+
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul ul {
 	left: 0;
 }
@@ -30,7 +31,7 @@
 	display: inline;
 	padding: 2px 5px;
 	font-size: 10px;
-	font-weight: bold;
+	font-weight: 700;
 	-moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
@@ -40,7 +41,7 @@
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications {
 	background: #ddd;
 	color: #333;
-	margin: 0
+	margin: 0;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert {
@@ -49,7 +50,7 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications > a {
-	padding: 0 .5em;
+	padding: 0 0.5em;
 }
 
 #wp-admin-bar-user-info img.avatar {
@@ -65,6 +66,7 @@
 }
 
 @media screen and (max-width: 600px) {
+
 	#wpadminbar .wp-admin-bar-arrow-right {
 		display: block;
 	}

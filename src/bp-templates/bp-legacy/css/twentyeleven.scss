@@ -30,35 +30,45 @@
 
 // max-width 320px
 @mixin small-only {
+
 	@media screen and (max-width: 320px) {
+
 		@content;
 	}
 }
 
 // min-width 320px
 @mixin xsmall-up {
+
 	@media screen and (min-width: 320px) {
+
 		@content;
 	}
 }
 
 // min-width 450px
 @mixin small-up {
+
 	@media screen and (min-width: 450px) {
+
 		@content;
 	}
 }
 
 // min-width 650px (match to 2011 max widths)
 @mixin medium-up {
+
 	@media screen and (min-width: 650px) {
+
 		@content;
 	}
 }
 
 // min-width 800px (match to 2011 max widths)
 @mixin large-up {
+
 	@media screen and (min-width: 800px) {
+
 		@content;
 	}
 }
@@ -67,19 +77,25 @@
 
 // max-width 800px
 @mixin max800 {
+
 	@media screen and (max-width: 800px) {
+
 		@content;
 	}
 }
 // max-width 650px
 @mixin max650 {
+
 	@media screen and (max-width: 650px) {
+
 		@content;
 	}
 }
 // max-width 450px
 @mixin max450 {
+
 	@media screen and (max-width: 450px) {
+
 		@content;
 	}
 }
@@ -208,6 +224,7 @@ $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
 $unread:             #9dc3c8;
 $link-action:        #c82b2b;
+
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -220,7 +237,8 @@ loaded by default. If you want to modify the styles the normal BP Theme Compat
 hierarchy works and you can copy the file to buddypress/css/ or community/css/
 in your child themes root & either start over or modify the rulesets.
 
-If you do not require the styles you can dequeue them from the themes functions file.
+If you do not require the styles you can dequeue them from the themes
+functions file.
 
 Please see this codex article for more information:
 http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
@@ -273,7 +291,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .buddypress {
 	// Remove any empty clearing elements, CSS provides clearing.
-	div.clear {display: none;}
+	div.clear {
+		display: none;
+	}
 
 } // .buddypress (body class)
 
@@ -287,7 +307,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 body.buddypress:not(.page-template-sidebar-page) {
 
 	#content {
-		margin: 0 10% 0;
+		margin: 0 10%;
 		width: auto;
 
 		.entry-header,
@@ -299,6 +319,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 // Reduce the top padding for single pages, too extreme for BP screens.
 .buddypress.singular.page {
+
 	.hentry {
 		padding-top: 0;
 	}
@@ -321,14 +342,18 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 // We have a need to override BP specifity
 // so some rulesets sets will appear over weighted in selectors
+
 /* Here we start things off */
 #buddypress {
 
 	// active/current states all navs
 	div.item-list-tabs {
+
 		ul {
+
 			li.selected,
 			li.current {
+
 				a {
 					background: inherit;
 					opacity: 1;
@@ -338,11 +363,13 @@ body.buddypress:not(.page-template-sidebar-page) {
 	}
 	// global nav styles
 	div.item-list-tabs {
+
 		ul {
 			overflow: hidden;
 			padding: 0;
 
 			li {
+
 				a {
 
 					&:focus,
@@ -354,7 +381,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 						color: #21759b;
 					}
 
-					span {border-radius: 25%;}
+					span {
+						border-radius: 25%;
+					}
 				}
 
 			}
@@ -393,7 +422,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 				&:focus,
 				&:hover,
 				&:active {
-					&:before {content: "Menu \021E7";}
+
+					&:before {
+						content: "Menu \021E7";
+					}
 
 					ul {
 						min-height: 320px;
@@ -482,6 +514,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				select,
 				label,
 				option {
+
 					@include font-size(14);
 				}
 
@@ -500,8 +533,11 @@ body.buddypress:not(.page-template-sidebar-page) {
 } // close #buddypress
 
 .bp-user {
+
 	#buddypress {
+
 		div#subnav.item-list-tabs {
+
 			li.last {
 				margin-left: 0;
 				text-align: right;
@@ -527,6 +563,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 @include large-up {
 
 	body.bp-user {
+
 		#buddypress {
 
 			#item-header,
@@ -572,7 +609,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 				#subnav {
 					margin: 0 0 0 (-$spacing-val-md);
 
-					ul {margin-top: 0;}
+					ul {
+						margin-top: 0;
+					}
 				}
 			}
 
@@ -585,7 +624,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 // Primarilly used for group create screens & ? directory nav.
 
 @include medium-up {
+
 	#main {
+
 		#buddypress {
 
 			#group-create-tabs.item-list-tabs {
@@ -616,6 +657,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 					li.current {
 						border: 1px solid $border-med;
 						border-bottom-color: $content-background;
+
 						@include border-top-radius(4px);
 						margin-bottom: -1px;
 
@@ -630,6 +672,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			} // close .item-list-tabs
 
 			#subnav {
+
 				ul {
 					border-bottom: 0;
 				}
@@ -657,7 +700,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 			width: 0;
 		}
 
-		.pag-count {margin-left: 0;}
+		.pag-count {
+			margin-left: 0;
+		}
+
 		.pagination-links {
 			margin-right: 0;
 
@@ -674,7 +720,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 				color: inherit;
 				overflow: visible;
 				width: auto;
-				&:before {display: none;}
+
+				&:before {
+					display: none;
+				}
 			}
 
 			.prev {
@@ -705,6 +754,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 // Adjusts Meta items to match 2011 font-family
 
 #buddypress {
+
 	ul.item-list {
 		border-top: 0;
 
@@ -721,7 +771,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 				text-align: center;
 
-				a {border-bottom: 0;}
+				a {
+					border-bottom: 0;
+				}
 
 				img.avatar {
 					display: inline-block;
@@ -760,6 +812,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				}
 
 				.item-title {
+
 					@include font-size(16);
 					line-height: 1.2;
 					text-align: center;
@@ -773,14 +826,18 @@ body.buddypress:not(.page-template-sidebar-page) {
 					> a {
 						text-decoration: none;
 
-						&:visited { color: #21759b;}
+						&:visited {
+							color: #21759b;
+						}
 					}
 
 					.update {
 						display: block;
+
 						@include font-size(12);
 
 						@include medium-up {
+
 							@include font-size(14);
 						}
 
@@ -792,6 +849,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			} // close .item
 
 			@include medium-up {
+
 				.item-avatar,
 				.item,
 				.action {
@@ -805,7 +863,8 @@ body.buddypress:not(.page-template-sidebar-page) {
 					width: 55%;
 
 					.item-title {
-						@include font-size(18)
+
+						@include font-size(18);
 					}
 				}
 
@@ -880,6 +939,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 */
 
 #buddypress {
+
 	form#whats-new-form {
 
 		// Line-height issue inherited from BP rules, override.
@@ -890,6 +950,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 		// corrective measure for clipped elements due to JS inline styling
 
 		@include max650 {
+
 			#whats-new-content {
 				clear: left;
 				margin: $spacing-val-sm 0 $spacing-val-md;
@@ -898,10 +959,13 @@ body.buddypress:not(.page-template-sidebar-page) {
 		}
 
 		#whats-new-content.active {
+
 			#whats-new-options[style] {
+
 				#whats-new-post-in-box {
 					border: 1px solid rgba($border-color, 0.5);
 					float: left;
+
 					@include font-size(12);
 					line-height: 1.6;
 					margin-top: 12px;
@@ -920,11 +984,13 @@ body.buddypress:not(.page-template-sidebar-page) {
 				}
 
 				@media screen and (min-width: 30em) {
+
 					#whats-new-post-in-box {
 						width: auto;
 					}
 
 					#whats-new-submit {
+
 						@include font-size(12);
 						float: right;
 
@@ -941,6 +1007,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 	// User account form requires matching bp default specificity
 	#item-body {
+
 		form#whats-new-form {
 			margin: $spacing-val-lg 0;
 		}
@@ -963,6 +1030,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			padding: 25px 0 15px;
 
 			&.load-newest {
+
 				a {
 					display: block;
 				}
@@ -992,6 +1060,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			.activity-header {
+
 				@include font-size(14);
 
 				a:visited {
@@ -1000,7 +1069,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			.activity-inner {
-				img {height: auto;}
+
+				img {
+					height: auto;
+				}
 			}
 
 			@include medium-up {
@@ -1020,6 +1092,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 					overflow: hidden;
 
 					.activity-header {
+
 						@include font-size(16);
 					}
 				}
@@ -1033,8 +1106,11 @@ body.buddypress:not(.page-template-sidebar-page) {
 		} // close li
 
 		li.mini {
+
 			.activity-avatar {
+
 				a {
+
 					img.avatar {
 						height: 30px;
 						margin-left: 15px;
@@ -1044,12 +1120,16 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			.activity-content {
+
 				.activity-header {
+
 					@include font-size(14);
 				}
 
 				.activity-meta {
+
 					a {
+
 						@include font-size(12);
 					}
 				}
@@ -1076,8 +1156,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 			} // close .activity-header
 
 			.activity-meta {
+
 				a {
 					display: block;
+
 					@include font-size(14);
 					margin-bottom: $spacing-val-xs;
 
@@ -1114,7 +1196,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 /* Single activity view  - activity permalink */
 
 .activity-permalink {
+
 	#buddypress {
+
 		#activity-stream {
 
 			li.activity-item {
@@ -1122,14 +1206,21 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			li.mini {
+
 				.activity-header {
+
 					@include font-size(16);
+
 					@include medium-up {
+
 						@include font-size(20);
 					}
 
 					margin-bottom: $spacing-val-lg;
-					p {padding: $spacing-val-md;}
+
+					p {
+						padding: $spacing-val-md;
+					}
 				}
 			} // close li.mini
 
@@ -1165,6 +1256,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 					.acomment-meta,
 					.acomment-content {
+
 						@include font-size(12);
 					}
 
@@ -1183,8 +1275,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 					color: rgba($body-text, 0.8);
 					display: inline-block;
 					font-family: inherit;
+
 					@include font-size(12);
-					font-weight: normal;
+					font-weight: 400;
 					line-height: 1.2;
 					padding: 4px 10px;
 					text-transform: lowercase;
@@ -1216,10 +1309,13 @@ body.buddypress:not(.page-template-sidebar-page) {
 */
 
 #buddypress {
+
 	#members-list {
 
 		@include medium-up {
+
 			li {
+
 				.item-avatar,
 				.item {
 					float: left;
@@ -1247,6 +1343,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 */
 
 #buddypress {
+
 	#signup_form.standard-form {
 
 		#profile-details-section,
@@ -1255,14 +1352,20 @@ body.buddypress:not(.page-template-sidebar-page) {
 			float: none;
 			width: 100%;
 
-			@media screen and (min-width: 37.500em) {
+			@media screen and (min-width: 37.5em) {
 				width: 48%;
 			}
 		}
 
-		@media screen and (min-width: 37.500em) {
-			#profile-details-section {float: right;}
-			#basic-details-section {float: left;}
+		@media screen and (min-width: 37.5em) {
+
+			#profile-details-section {
+				float: right;
+			}
+
+			#basic-details-section {
+				float: left;
+			}
 		}
 
 	}
@@ -1275,10 +1378,12 @@ body.buddypress:not(.page-template-sidebar-page) {
 */
 
 .bp-user {
+
 	#buddypress {
-		// On object nav links, table links (notifications etc) we don't really need :visited
-		// inheritance, so set pseudo class to :link color.
+		// On object nav links, table links (notifications etc) we don't really
+		// need :visited inheritance, so set pseudo class to :link color.
 		a {
+
 			&:visited {
 				color: #21759b;
 			}
@@ -1294,18 +1399,25 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 .bp-user,
 .single-item.groups {
+
 	#buddypress {
+
 		#item-header-content {
+
 			#item-meta {
+
 				@include font-size(14);
 				text-align: left;
 
-				p {margin-bottom: 0.5em;}
+				p {
+					margin-bottom: 0.5em;
+				}
 			}
 		}
 	}
 
-	@media screen and (max-width: 37.500em) {
+	@media screen and (max-width: 37.5em) {
+
 		h1,
 		#item-header-content {
 			text-align: center;
@@ -1313,7 +1425,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 	}
 
 	@media screen and (max-width: 46.25em) {
+
 		main {
+
 			header.entry-header {
 				padding-bottom: 1rem;
 			}
@@ -1321,12 +1435,15 @@ body.buddypress:not(.page-template-sidebar-page) {
 	}
 
 	#buddypress {
-		@media screen and (max-width: 37.500em) {
+
+		@media screen and (max-width: 37.5em) {
+
 			h1 {
 				margin-bottom: 0;
 			}
 
 			#item-header-avatar {
+
 				img.avatar {
 					margin-right: 0;
 				}
@@ -1342,10 +1459,12 @@ body.buddypress:not(.page-template-sidebar-page) {
 		} // close @media
 
 		@media screen and (max-width: 46.25em) {
+
 			#item-header {
+
 				.generic-button {
 					float: none;
-					margin: 1.5em 0 0 0;
+					margin: 1.5em 0 0;
 				}
 			}
 		}
@@ -1355,9 +1474,13 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 // Manage cover images
 @include max800 {
+
 	#buddypress {
+
 		#item-header-cover-image {
+
 			#item-header-content {
+
 				.user-nicename {
 					color: #555;
 					text-shadow: none;
@@ -1376,9 +1499,13 @@ body.buddypress:not(.page-template-sidebar-page) {
 */
 
 .single-item.groups {
+
 	#buddypress {
+
 		@media screen and (max-width: 46.25em) {
+
 			#item-header {
+
 				#item-meta {
 					margin-bottom: $spacing-val-md;
 				}
@@ -1388,6 +1515,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 		// Move visual flow of avatar & item-actions at narrow width,
 		// avatar first after group title
 		@media screen and (max-width: 50em) {
+
 			div#item-header {
 				display: flex;
 				flex-direction: column;
@@ -1425,6 +1553,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			padding-bottom: $spacing-val-lg;
 
 			#item-header-content {
+
 				@include box-model(border-box);
 			}
 
@@ -1450,13 +1579,15 @@ body.buddypress:not(.page-template-sidebar-page) {
 				}
 
 				h2 {
+
 					@include font-size(14);
-					font-weight: bold;
+					font-weight: 700;
 					line-height: 1.4;
 				}
 
 				#group-admins,
 				#group-mods {
+
 					li {
 						margin: 0;
 					}
@@ -1484,6 +1615,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			} // close @media
 
 			@media screen and (min-width: 64em) {
+
 				#item-header-content {
 					width: 40%;
 				}
@@ -1491,13 +1623,15 @@ body.buddypress:not(.page-template-sidebar-page) {
 		} // close #item-header
 	} // close #buddypress
 
-	// These rules handle the specific instance of Cover Images on single groups
-	// activated & attempt to address positioning concerns arising from themes
-	// breakpoints.
-	// Due to cover image styles being applied via embedded styles & thus carrying
-	// heavier weight than linked styles the use of !important to override may be required.
+	// These rules handle the specific instance of Cover Images on single
+	// groups activated & attempt to address positioning concerns arising
+	// from themes breakpoints. Due to cover image styles being applied via
+	// embedded styles & thus carrying heavier weight than linked styles
+	// the use of !important to override may be required.
 	#buddypress {
+
 		#cover-image-container {
+
 			#item-header-cover-image {
 
 				#item-actions {
@@ -1505,6 +1639,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				}
 
 				@media screen and (min-width: 50em) and (max-width: 60em) {
+
 					#item-header-content {
 						max-width: 60% !important;
 						width: 60% !important;
@@ -1521,7 +1656,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 						padding-top: 0 !important;
 						width: auto;
 
-						h2 {border-bottom: 1px solid $border-light;}
+						h2 {
+							border-bottom: 1px solid $border-light;
+						}
 					}
 				} // @media
 			}
@@ -1539,7 +1676,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 */
 
 .bp-user {
+
 	#buddypress {
+
 		#item-header {
 
 			#item-header-avatar {
@@ -1554,7 +1693,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			#item-header-content {
+
 				#item-buttons {
+
 					.generic-button {
 						margin-right: 5px;
 					}
@@ -1562,6 +1703,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			@include medium-up {
+
 				#item-header-avatar {
 					float: left;
 
@@ -1605,7 +1747,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 // headings settings screens & general global settings styles
 .groups {
+
 	#group-settings-form {
+
 		h3 {
 			background: $dark-background;
 			color: $content-background;
@@ -1615,6 +1759,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 }
 
 .groups.edit-details {
+
 	#group-settings-form {
 
 		label {
@@ -1626,6 +1771,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 		textarea + p label {
 			background: none;
 			color: inherit;
+
 			@include font-size(14);
 			width: auto;
 		}
@@ -1639,14 +1785,16 @@ body.buddypress:not(.page-template-sidebar-page) {
 } // close .groups.edit-details
 
 .groups.group-settings {
+
 	#group-settings-form {
 
 		div.radio label {
-			font-weight: bold;
+			font-weight: 700;
 			padding: 0.2em;
 
 			ul {
 				color: rgba($body-text, 0.6);
+
 				@include font-size(14);
 			}
 		}
@@ -1663,18 +1811,24 @@ body.buddypress:not(.page-template-sidebar-page) {
 }
 
 .groups.manage-members {
+
 	#group-settings-form {
+
 		.item-list {
+
 			li {
 				border-bottom: 1px solid $border-light;
 
 				img,
 				h5 {
+
 					@include medium-up {
 						float: left;
 					}
 
-					> a {border-bottom: 0;}
+					> a {
+						border-bottom: 0;
+					}
 				}
 
 				span.small {
@@ -1711,8 +1865,11 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 // Massage the members search for groups nav specifically.
 .groups.group-members {
+
 	#subnav {
+
 		li {
+
 			@include max450 {
 				background: $content-background;
 				padding: $spacing-val-md 0;
@@ -1724,6 +1881,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				float: right;
 
 				label {
+
 					input[type="text"] {
 						box-shadow: none;
 
@@ -1757,28 +1915,47 @@ body.buddypress:not(.page-template-sidebar-page) {
 	#buddypress {
 
 		table {
-			th {@include font-size(13)}
-			td {@include font-size(12)}
+
+			th {
+
+				@include font-size(13);
+			}
+
+			td {
+
+				@include font-size(12);
+			}
 
 			@include medium-up {
-				th {@include font-size(16)}
-				td {@include font-size(14)}
+
+				th {
+
+					@include font-size(16);
+				}
+
+				td {
+
+					@include font-size(14);
+				}
 			}
 		}
 
-		.pag-count {font-style: italic;}
+		.pag-count {
+			font-style: italic;
+		}
 
 		.notifications-options-nav,
 		.messages-options-nav {
 			float: left;
 			width: 100%;
 
-			@media screen and (min-width: 37.500em) {
+			@media screen and (min-width: 37.5em) {
 				width: 40%;
 			}
 
 			select,
 			input {
+
 				@include font-size(14);
 				outline: 0;
 				padding: 0;
@@ -1789,7 +1966,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				margin-right: 0;
 				width: 49%;
 
-				@media screen and (min-width: 37.500em) {
+				@media screen and (min-width: 37.5em) {
 					width: auto;
 				}
 			}
@@ -1801,7 +1978,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				margin-left: 1%;
 				width: 50%;
 
-				@media screen and (min-width: 37.500em) {
+				@media screen and (min-width: 37.5em) {
 					width: auto;
 				}
 
@@ -1827,7 +2004,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 	#buddypress {
 
 		.profile {
+
 			.bp-widget {
+
 				h2 {
 					background: lighten($dark-background, 10%);
 					color: #fff;
@@ -1835,12 +2014,15 @@ body.buddypress:not(.page-template-sidebar-page) {
 					padding: 0.4em;
 				}
 
-				table {margin-top: 0;}
+				table {
+					margin-top: 0;
+				}
 			}
 
 			// Edit profile
 
 			#profile-edit-form {
+
 				.button-nav:before,
 				.button-nav:after {
 					content: " ";
@@ -1869,7 +2051,8 @@ body.buddypress:not(.page-template-sidebar-page) {
 					a {
 						background: none;
 						border: 0;
-						@include font-size(18)
+
+						@include font-size(18);
 					}
 				} //.button-nav
 
@@ -1879,15 +2062,17 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 				.field-visibility-settings-toggle,
 				.field-visibility-settings {
+
 					@include font-size(14);
 				}
 
 				.field-visibility-settings-close,
 				.visibility-toggle-link {
 					background: lighten($dark-background, 10%);
+
 					@include border-radius(2px);
 					color: #eee;
-					font-weight: bold;
+					font-weight: 700;
 					padding: 0.1em 0.5em;
 					text-decoration: none;
 
@@ -1899,8 +2084,12 @@ body.buddypress:not(.page-template-sidebar-page) {
 			} // close profile form
 
 			.bp-avatar {
+
 				#bp-delete-avatar {
-					a {font-size: inherit; }
+
+					a {
+						font-size: inherit;
+					}
 				}
 			}
 		} // close .profile
@@ -1946,7 +2135,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 			.message-metadata {
 
-				&::after {
+				&:after {
 					clear: both;
 					content: "";
 					display: table;
@@ -1957,6 +2146,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				}
 
 				@media screen and (min-width: 46.25em) {
+
 					img.avatar {
 						float: left;
 					}
@@ -1977,6 +2167,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			#send-reply {
+
 				.message-content {
 					background: $content-background;
 					border: 0;
@@ -1987,9 +2178,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 				background: $content-background;
 			}
 
-			.bp-tooltip:hover::after,
-			.bp-tooltip:active::after,
-			.bp-tooltip:focus::after {
+			.bp-tooltip:hover:after,
+			.bp-tooltip:active:after,
+			.bp-tooltip:focus:after {
 				right: 40px;
 				text-align: right;
 			}
@@ -1999,12 +2190,14 @@ body.buddypress:not(.page-template-sidebar-page) {
 		#message-threads {
 
 			thead {
+
 				tr {
 					background: lighten($dark-background, 10%);
 				}
 			}
 
 			tr {
+
 				td {
 					background: $content-background;
 					box-sizing: border-box;
@@ -2033,6 +2226,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 					}
 
 					span.icon:before {
+
 						@include font-size(14);
 					}
 				}
@@ -2041,7 +2235,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				td.thread-from {
 					height: 3em;
 
-					@media screen and (max-width: 37.500em) {
+					@media screen and (max-width: 37.5em) {
 						height: 5.2em;
 					}
 				}
@@ -2049,6 +2243,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				td.thread-from,
 				td.thread-options {
 					border-left: 0 !important;
+
 					@include calc(width, "100% - 30px");
 					margin-left: 0;
 				}
@@ -2062,6 +2257,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 					text-align: right;
 
 					a {
+
 						@include font-size(12);
 						line-height: 1.2;
 					}
@@ -2076,8 +2272,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 					float: right;
 					line-height: 2;
 
-					@media screen and (max-width: 37.500em) {
+					@media screen and (max-width: 37.5em) {
 						clear: both;
+
 						@include font-size(11);
 						width: 100%;
 					}
@@ -2085,6 +2282,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			tr.unread {
+
 				td {
 					border-color: $border-light;
 				}
@@ -2109,6 +2307,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 		}
 
 		#send_message_form {
+
 			input,
 			textarea {
 				box-sizing: border-box;
@@ -2118,7 +2317,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 		.acfb-holder {
 			list-style: none;
 
-			li {margin-left: 0;}
+			li {
+				margin-left: 0;
+			}
 
 			li.friend-tab {
 				background: lighten($notice-info, 20%);
@@ -2153,7 +2354,11 @@ body.buddypress:not(.page-template-sidebar-page) {
 		}
 
 		#message-threads.sitewide-notices {
-			tr {margin: 3em 0;}
+
+			tr {
+				margin: 3em 0;
+			}
+
 			td {
 				width: 100%;
 
@@ -2181,6 +2386,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			td:nth-child(2) {
+
 				strong {
 					margin: -8px -8px 8px;
 				}
@@ -2208,7 +2414,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 					text-indent: -999em;
 				}
 
-				a:last-child::after {
+				a:last-child:after {
 					content: attr(title);
 					display: block;
 					line-height: initial;
@@ -2232,7 +2438,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 				cursor: pointer;
 			}
 
-			img { vertical-align: bottom;}
+			img {
+				vertical-align: bottom;
+			}
 
 		}
 	}
@@ -2253,12 +2461,14 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 			// 'p' = email notification screen sub heading
 			> p {
+
 				@include font-size(20);
 				margin: $spacing-val-md 0 $spacing-val-sm;
 			}
 		}
 
 		table.notification-settings {
+
 			td.yes,
 			td.no {
 				vertical-align: middle;
@@ -2275,6 +2485,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			@media screen and (min-width: 46.25em) {
+
 				th.field-group-name,
 				td.field-name {
 					width: 70%;
@@ -2287,7 +2498,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			td.field-visibility {
-				select {width: 100%;}
+
+				select {
+					width: 100%;
+				}
 			}
 		}
 
@@ -2310,13 +2524,18 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 // Attempt to reset form control widths
 #main {
+
 	#buddypress {
+
 		.standard-form {
 
-			li {float: none;}
-			input[type='text'],
-			input[type='email'],
-			input[type='password'],
+			li {
+				float: none;
+			}
+
+			input[type="text"],
+			input[type="email"],
+			input[type="password"],
 			textarea {
 				width: 100%;
 			}
@@ -2332,6 +2551,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 	div.activity-comments {
 
 		form {
+
 			.ac-textarea {
 				background: $light-background;
 				border: 1px solid rgba($border-color, 0.5);
@@ -2360,16 +2580,20 @@ body.buddypress:not(.page-template-sidebar-page) {
 	} // close .standard-form
 
 	#signup_form.standard-form {
+
 		div.submit {
 			float: none;
 
-			input {margin-right: 0;}
+			input {
+				margin-right: 0;
+			}
 		}
 	}
 
 } // close #buddypress
 
 #buddypress {
+
 	div.dir-search,
 	div.message-search,
 	li.groups-members-search {
@@ -2385,28 +2609,29 @@ body.buddypress:not(.page-template-sidebar-page) {
 				width: 70%;
 			}
 
-			input[type='text'],
-			input[type='submit'] {
+			input[type="text"],
+			input[type="submit"] {
 				border: 0;
 				border-radius: 0;
 				box-shadow: none;
 				box-sizing: border-box;
+
 				@include font-size(14);
 				line-height: 1.8;
 				min-height: 2rem;
 			}
 
-			input[type='text'] {
+			input[type="text"] {
 				border-right: 1px solid rgba($border-color, 0.6);
 				float: left;
 				margin: 0;
-				padding: 0 0.2em 0;
+				padding: 0 0.2em;
 				width: 70%;
 			}
 
-			input[type='submit'] {
+			input[type="submit"] {
 				float: right;
-				font-weight: normal;
+				font-weight: 400;
 				padding: 0 1em;
 				text-align: center;
 				text-transform: none;
@@ -2418,7 +2643,8 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 	// Shift the search parent to the right and allow to shrinkwrap
 
-	@media screen and (min-width: 37.500em) {
+	@media screen and (min-width: 37.5em) {
+
 		div.dir-search,
 		div.message-search,
 		li.groups-members-search {
@@ -2426,9 +2652,10 @@ body.buddypress:not(.page-template-sidebar-page) {
 			margin-bottom: 5px !important;
 
 			form {
+
 				label,
-				input[type='text'],
-				input[type='submit'] {
+				input[type="text"],
+				input[type="submit"] {
 					width: auto;
 				}
 			}
@@ -2441,9 +2668,18 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 		.dir-search,
 		.message-search {
+
 			form {
-				input[type='text'] { @include font-size(16) ;}
-				input[type='submit'] { @include font-size(16) ;}
+
+				input[type="text"] {
+
+					@include font-size(16);
+				}
+
+				input[type="submit"] {
+
+					@include font-size(16);
+				}
 			}
 		}
 	}
@@ -2456,9 +2692,11 @@ body.buddypress:not(.page-template-sidebar-page) {
 *-------------------------------------------------------------------------------
 */
 .bp-user {
+
 	#buddypress {
 
 		table {
+
 			@include font-size(14);
 			margin: $spacing-val-md 0;
 
@@ -2466,6 +2704,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 				background: lighten($dark-background, 10%);
 				border-color: darken($border-light, 20%);
 				color: $content-background;
+
 				@include font-size(16);
 				padding: 0 8px;
 				text-transform: capitalize;
@@ -2476,16 +2715,23 @@ body.buddypress:not(.page-template-sidebar-page) {
 			}
 
 			// Reduce the themes inherited paragraph margins in tables
-			p {margin-bottom: 0.5em;}
+			p {
+				margin-bottom: 0.5em;
+			}
 		}
 
 		@media screen and (min-width: 55em) {
-			table {@include font-size(16);}
+
+			table {
+
+				@include font-size(16);
+			}
 		}
 
 		// Manage some table cells widths that are disproportionate to their content
 		.notifications,
 		.messages-notices {
+
 			th {
 				width: 30%;
 
@@ -2518,6 +2764,7 @@ body.buddypress:not(.page-template-sidebar-page) {
 			// Notices action buttons, this maybe better moved, temp for now to address
 			// styling issues - this will need styling ideas
 			td {
+
 				.button {
 					border: 0;
 					display: block;
@@ -2530,9 +2777,9 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 		.messages-notices {
 
-			.bp-tooltip:hover::after,
-			.bp-tooltip:active::after,
-			.bp-tooltip:focus::after {
+			.bp-tooltip:hover:after,
+			.bp-tooltip:active:after,
+			.bp-tooltip:focus:after {
 				left: 0;
 				margin-top: 10px;
 				max-width: 240px;
@@ -2556,20 +2803,27 @@ body.buddypress:not(.page-template-sidebar-page) {
 // to background color darker by 50%
 
 #buddypress {
+
 	div#message {
+
 		p {
+
 			@include font-size(18);
-			font-weight: bold;
+			font-weight: 700;
 		}
 
 		&.info {
+
 			p {
+
 				@include message-box($notice-info);
 			}
 		}
 
 		&.updated {
+
 			p {
+
 				@include message-box($notice-update);
 			}
 		}
@@ -2580,11 +2834,15 @@ body.buddypress:not(.page-template-sidebar-page) {
 
 // Without direct classes on our mesages ( 'warning' )
 // we need to use the body classes
-// todo: If this is class .warning is included in main BP styles remove from here
+// @todo If this class .warning is included in main BP styles remove from here
 .delete-group {
+
 	#buddypress {
+
 		div#message.info {
+
 			p {
+
 				@include message-box($notice-warning);
 			}
 		}

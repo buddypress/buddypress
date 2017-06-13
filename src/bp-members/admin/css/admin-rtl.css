@@ -8,7 +8,7 @@ div#profile-page.wrap form#your-profile {
 }
 
 div#profile-page.wrap form#your-profile h3:first-of-type {
-	margin-top:5em;
+	margin-top: 5em;
 }
 
 div#profile-page.wrap form#your-profile #profile-nav {
@@ -24,13 +24,14 @@ div#community-profile-page #profile-nav {
 #bp_members_admin_user_stats ul {
 	margin-bottom: 0;
 }
+
 div#community-profile-page li.bp-members-profile-stats:before,
 div#community-profile-page li.bp-friends-profile-stats:before,
 div#community-profile-page li.bp-groups-profile-stats:before,
 div#community-profile-page li.bp-blogs-profile-stats:before,
 div#community-profile-page a.bp-xprofile-avatar-user-admin:before,
 div#community-profile-page a.bp-xprofile-avatar-user-edit:before {
-	font: normal 20px/1 'dashicons';
+	font: 400 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0 0 0 2px;
@@ -61,7 +62,7 @@ div#community-profile-page li.bp-blogs-profile-stats:before {
 }
 
 div#community-profile-page a.bp-xprofile-avatar-user-admin:before {
-	content:"\f182";
+	content: "\f182";
 }
 
 div#community-profile-page a.bp-xprofile-avatar-user-edit:before {
@@ -69,8 +70,8 @@ div#community-profile-page a.bp-xprofile-avatar-user-edit:before {
 }
 
 div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar {
-	width:150px;
-	margin:0 auto;
+	width: 150px;
+	margin: 0 auto;
 }
 
 div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar img {
@@ -79,13 +80,13 @@ div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar img {
 }
 
 div#community-profile-page div#bp_xprofile_user_admin_avatar a {
-	display:block;
-	margin:1em 0;
+	display: block;
+	margin: 1em 0;
 }
 
 div#community-profile-page p.not-activated {
-	margin:1em 1em 0;
-	color:red;
+	margin: 1em 1em 0;
+	color: #f00;
 }
 
 #community-profile-page #submitdiv #publishing-action {
@@ -100,15 +101,18 @@ div#community-profile-page p.not-activated {
 .alt {
 	background: none;
 }
+
 .bp-profile-field {
 	border-bottom: dotted 1px #ccc;
 	font-size: 14px;
 	margin: 15px 0;
 	padding: 10px;
 }
+
 .bp-profile-field:last-child {
 	border-bottom: 0;
 }
+
 .bp-profile-field p {
 	font-size: 14px;
 }
@@ -127,55 +131,67 @@ div#community-profile-page p.not-activated {
 .field_type_checkbox .checkbox > label {  /* these fields are usually pretty tall, so align the label for better consistency */
 	vertical-align: top;
 }
+
 .bp-profile-field .description {  /* description also sits in the right side column */
 	margin: 10px 200px 12px 0;
 	text-align: right;
 }
+
 .clear-value {  /* 'clear value' option also sits in the right side column */
 	display: block;
 	font-size: 12px;
 	margin-right: 200px;
 }
+
 .field_type_checkbox .checkbox > label + label {  /* force checkboxes to new lines, in the right side column */
 	display: block;
 	margin-right: 200px;
 	width: auto;
 }
+
 .field_type_radio .radio .input-options label,
 .field_type_checkbox .checkbox .input-options label {
+
 	/* force checkboxes and radio buttons to new lines */
 	display: block;
 }
+
 .field_type_checkbox .checkbox .input-options,
 .field_type_datebox .datebox .input-options,
 .field_type_radio .radio .input-options {
-	/* make the checkboxes, select menus, and radio buttons sit in the right side column */
+
+	/* make the checkboxes, select menus, and radio buttons sit in the
+	right side column */
 	display: inline-block;
 }
+
 .field-visibility-settings-notoggle,
 .field-visibility-settings-toggle {  /* visibility settings go in the left column */
 	margin: 10px 200px 10px 0;
 	text-align: right;
 }
+
 .field-visibility-settings {  /* visibility settings go in the left column */
 	display: none;
 	margin-right: 200px;
 }
+
 .field-visibility-settings .button {  /* visibility setting close button */
 	margin-bottom: 15px;
 }
+
 #normal-sortables .field-visibility-settings legend {  /* id required for css selector weight */
 	font-size: 14px;
-	font-weight:600;
+	font-weight: 600;
 }
 
 #your-profile .bp-profile-field .checkbox legend,
 #your-profile .bp-profile-field .datebox legend,
 #your-profile .bp-profile-field .radio legend {
-	float:right; /* Firefox will not apply display: inline-block to legends */
+	float: right; /* Firefox will not apply display: inline-block to legends */
 	font-size: 14px;
 	font-weight: 600;
-	line-height: 1.4em;
+	line-height: 1.4;
 	text-align: right;
 	vertical-align: middle;
 	width: 192px;
@@ -191,6 +207,7 @@ div#community-profile-page p.not-activated {
 }
 
 @media screen and (max-width: 782px) {
+
 	#your-profile .bp-profile-field .checkbox legend,
 	#your-profile .bp-profile-field .datebox legend,
 	#your-profile .bp-profile-field .radio legend,
@@ -200,16 +217,19 @@ div#community-profile-page p.not-activated {
 		display: block;
 		margin-bottom: 12px;
 	}
+
 	.bp-profile-field .checkbox label,
 	.bp-profile-field .radio label {
-		line-height: 1.4em;
+		line-height: 1.4;
 		margin-bottom: 12px;
 		vertical-align: middle;
 	}
+
 	.bp-profile-field .checkbox input[type="checkbox"],
 	.bp-profile-field .radio input[type="radio"] {
 		vertical-align: top;
 	}
+
 	.bp-profile-field .clear-value,
 	.bp-profile-field .description,
 	.bp-profile-field input[type="checkbox"],
@@ -225,15 +245,18 @@ div#community-profile-page p.not-activated {
 		clear: right;
 		margin-right: 50px;
 	}
+
 	.field-visibility-settings {
 		margin-right: 100px;
 	}
+
 	#your-profile .field_multiselectbox select {
 		height: auto;
 	}
 }
 
 @media screen and (max-width: 480px) {
+
 	.bp-profile-field .clear-value,
 	.bp-profile-field .description,
 	.bp-profile-field input[type="checkbox"],
@@ -248,6 +271,7 @@ div#community-profile-page p.not-activated {
 	.field-visibility-settings-toggle {
 		margin-right: 0;
 	}
+
 	.field-visibility-settings {
 		margin-right: 50px;
 	}

@@ -17,7 +17,6 @@
 // on a limited basis.
 
 
-
 // Mixins and Variables
 
 // simplify remembering/writing media queries
@@ -28,46 +27,58 @@
 
 // BP  min/max width mixins
 
-// As layout is fixed width 'device' is needed to tell phones to work with breakpoints
-// provided is a 'up to' max-width and min-width as device widths for mobiles
-// This is not a perfect solution but provides a degree of layout control for BP elements.
-// But not used to any great degree.
+// As layout is fixed width 'device' is needed to tell phones to work with
+// breakpoints provided is a 'up to' max-width and min-width as device widths
+// for mobiles This is not a perfect solution but provides a degree of layout
+// contro for BP elements. But not used to any great degree.
 
 @mixin small-device-up {
+
 	@media only screen and (min-device-width: 375px) {
+
 		@content;
 	}
 }
 
 @mixin small-device-max {
+
 	@media only screen and (max-device-width: 375px) {
+
 		@content;
 	}
 }
 
 @mixin medium-device-up {
+
 	@media only screen and (min-device-width: 450px) {
+
 		@content;
 	}
 }
 
 // min-width 450px
 @mixin small-up {
+
 	@media screen and (min-device-width: 450px) {
+
 		@content;
 	}
 }
 
 // min-width 650px
 @mixin medium-up {
+
 	@media screen and (min-width: 650px) {
+
 		@content;
 	}
 }
 
 // min-width 800px
 @mixin large-up {
+
 	@media screen and (min-width: 800px) {
+
 		@content;
 	}
 }
@@ -193,6 +204,7 @@ $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
 $unread:             #9dc3c8;
 $link-action:        #c82b2b;
+
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -205,7 +217,8 @@ loaded by default. If you want to modify the styles the normal BP Theme Compat
 hierarchy works and you can copy the file to buddypress/css/ or community/css/
 in your child themes root & either start over or modify the rulesets.
 
-If you do not require the styles you can dequeue them from the themes functions file.
+If you do not require the styles you can dequeue them from the themes
+functions file.
 
 Please see this codex article for more information:
 http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
@@ -257,7 +270,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .buddypress {
 	// Remove any empty clearing elements, CSS provides clearing.
-	div.clear {display: none;}
+	div.clear {
+		display: none;
+	}
 
 } // .buddypress (body class)
 
@@ -268,13 +283,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 body.page-template-onecolumn-page {
 
 	#main {
+
 		#container {
 			margin: 0;
 		}
 	}
 
 	#content {
-		margin: 0 10% 0;
+		margin: 0 10%;
 		width: auto;
 
 		.entry-header,
@@ -302,14 +318,18 @@ body.page-template-onecolumn-page {
 
 // We have a need to override BP specifity
 // so some rulesets sets will appear over weighted in selectors
+
 /* Here we start things off */
 #buddypress {
 
 	// active/current states all navs
 	div.item-list-tabs {
+
 		ul {
+
 			li.selected,
 			li.current {
+
 				a {
 					background: inherit;
 					opacity: 1;
@@ -319,11 +339,13 @@ body.page-template-onecolumn-page {
 	}
 	// global nav styles
 	div.item-list-tabs {
+
 		ul {
 			overflow: hidden;
 			padding: 0;
 
 			li {
+
 				a {
 
 					&:focus,
@@ -345,7 +367,6 @@ body.page-template-onecolumn-page {
 	} // close item-list-tabs
 
 } // close #buddypress
-
 
 
 /*__ Horizontal menus __*/
@@ -398,6 +419,7 @@ body.page-template-onecolumn-page {
 				select,
 				label,
 				option {
+
 					@include font-size(14);
 				}
 
@@ -416,8 +438,11 @@ body.page-template-onecolumn-page {
 } // close #buddypress
 
 .bp-user {
+
 	#buddypress {
+
 		div#subnav.item-list-tabs {
+
 			li.last {
 				margin-left: 0;
 				text-align: right;
@@ -434,6 +459,7 @@ body.page-template-onecolumn-page {
 @include large-up {
 
 	body.bp-user {
+
 		#buddypress {
 
 			#item-header,
@@ -483,7 +509,9 @@ body.page-template-onecolumn-page {
 				#subnav {
 					margin: 0 0 0 (-$spacing-val-md);
 
-					ul {margin-top: 0;}
+					ul {
+						margin-top: 0;
+					}
 				}
 			}
 
@@ -496,7 +524,9 @@ body.page-template-onecolumn-page {
 // Primarilly used for group create screens & ? directory nav.
 
 @include small-device-up {
+
 	#main {
+
 		#buddypress {
 
 			#group-create-tabs.item-list-tabs {
@@ -527,6 +557,7 @@ body.page-template-onecolumn-page {
 					li.current {
 						border: 1px solid $border-med;
 						border-bottom-color: $content-background;
+
 						@include border-top-radius(4px);
 						margin-bottom: -1px;
 
@@ -541,6 +572,7 @@ body.page-template-onecolumn-page {
 			} // close .item-list-tabs
 
 			#subnav {
+
 				ul {
 					border-bottom: 0;
 				}
@@ -568,7 +600,10 @@ body.page-template-onecolumn-page {
 			width: 0;
 		}
 
-		.pag-count {margin-left: 0;}
+		.pag-count {
+			margin-left: 0;
+		}
+
 		.pagination-links {
 			margin-right: 0;
 
@@ -585,7 +620,10 @@ body.page-template-onecolumn-page {
 				color: inherit;
 				overflow: visible;
 				width: auto;
-				&:before {display: none;}
+
+				&:before {
+					display: none;
+				}
 			}
 
 			.prev {
@@ -616,6 +654,7 @@ body.page-template-onecolumn-page {
 // Adjusts Meta items to match 2010 font-family
 
 #buddypress {
+
 	ul.item-list {
 		border-top: 0;
 
@@ -632,7 +671,9 @@ body.page-template-onecolumn-page {
 
 				text-align: center;
 
-				a {border-bottom: 0;}
+				a {
+					border-bottom: 0;
+				}
 
 				img.avatar {
 					display: inline-block;
@@ -672,6 +713,7 @@ body.page-template-onecolumn-page {
 				}
 
 				.item-title {
+
 					@include font-size(16);
 					line-height: 1.2;
 					text-align: center;
@@ -685,14 +727,18 @@ body.page-template-onecolumn-page {
 					> a {
 						text-decoration: none;
 
-						&:visited { color: #21759b;}
+						&:visited {
+							color: #21759b;
+						}
 					}
 
 					.update {
 						display: block;
+
 						@include font-size(12);
 
 						@include medium-up {
+
 							@include font-size(14);
 						}
 
@@ -704,6 +750,7 @@ body.page-template-onecolumn-page {
 			} // close .item
 
 			@include medium-up {
+
 				.item-avatar,
 				.item,
 				.action {
@@ -717,7 +764,8 @@ body.page-template-onecolumn-page {
 					width: 55%;
 
 					.item-title {
-						@include font-size(18)
+
+						@include font-size(18);
 					}
 				}
 
@@ -792,6 +840,7 @@ body.page-template-onecolumn-page {
 */
 
 #buddypress {
+
 	form#whats-new-form {
 
 		// Line-height issue inherited from BP rules, override.
@@ -802,10 +851,13 @@ body.page-template-onecolumn-page {
 		// corrective measure for clipped elements due to JS inline styling
 
 		#whats-new-content.active {
+
 			#whats-new-options[style] {
+
 				#whats-new-post-in-box {
 					border: 1px solid rgba($border-color, 0.5);
 					float: left;
+
 					@include font-size(12);
 					line-height: 1.6;
 					margin-top: 12px;
@@ -824,11 +876,13 @@ body.page-template-onecolumn-page {
 				}
 
 				@media screen and (min-width: 30em) {
+
 					#whats-new-post-in-box {
 						width: auto;
 					}
 
 					#whats-new-submit {
+
 						@include font-size(12);
 						float: right;
 
@@ -845,6 +899,7 @@ body.page-template-onecolumn-page {
 
 	// User account form requires matching bp default specificity
 	#item-body {
+
 		form#whats-new-form {
 			margin: $spacing-val-lg 0;
 		}
@@ -867,6 +922,7 @@ body.page-template-onecolumn-page {
 			padding: 25px 0 15px;
 
 			&.load-newest {
+
 				a {
 					display: block;
 				}
@@ -896,6 +952,7 @@ body.page-template-onecolumn-page {
 			}
 
 			.activity-header {
+
 				@include font-size(14);
 
 				a:visited {
@@ -904,7 +961,10 @@ body.page-template-onecolumn-page {
 			}
 
 			.activity-inner {
-				img {height: auto;}
+
+				img {
+					height: auto;
+				}
 			}
 
 			@include medium-up {
@@ -924,6 +984,7 @@ body.page-template-onecolumn-page {
 					overflow: hidden;
 
 					.activity-header {
+
 						@include font-size(16);
 					}
 				}
@@ -937,8 +998,11 @@ body.page-template-onecolumn-page {
 		} // close li
 
 		li.mini {
+
 			.activity-avatar {
+
 				a {
+
 					img.avatar {
 						height: 30px;
 						margin-left: 15px;
@@ -948,12 +1012,16 @@ body.page-template-onecolumn-page {
 			}
 
 			.activity-content {
+
 				.activity-header {
+
 					@include font-size(14);
 				}
 
 				.activity-meta {
+
 					a {
+
 						@include font-size(12);
 					}
 				}
@@ -980,8 +1048,10 @@ body.page-template-onecolumn-page {
 			} // close .activity-header
 
 			.activity-meta {
+
 				a {
 					display: block;
+
 					@include font-size(14);
 					margin-bottom: $spacing-val-xs;
 
@@ -1018,7 +1088,9 @@ body.page-template-onecolumn-page {
 /* Single activity view  - activity permalink */
 
 .activity-permalink {
+
 	#buddypress {
+
 		#activity-stream {
 
 			li.activity-item {
@@ -1026,14 +1098,21 @@ body.page-template-onecolumn-page {
 			}
 
 			li.mini {
+
 				.activity-header {
+
 					@include font-size(16);
+
 					@include medium-up {
+
 						@include font-size(20);
 					}
 
 					margin-bottom: $spacing-val-lg;
-					p {padding: $spacing-val-md;}
+
+					p {
+						padding: $spacing-val-md;
+					}
 				}
 			} // close li.mini
 
@@ -1069,6 +1148,7 @@ body.page-template-onecolumn-page {
 
 					.acomment-meta,
 					.acomment-content {
+
 						@include font-size(12);
 					}
 
@@ -1078,6 +1158,7 @@ body.page-template-onecolumn-page {
 
 			.ac-form {
 				border: 1px solid $border-color;
+
 				@include box-model(border-box);
 				margin: $spacing-val-sm 0;
 				width: 100%;
@@ -1087,8 +1168,9 @@ body.page-template-onecolumn-page {
 					color: rgba($body-text, 0.8);
 					display: inline-block;
 					font-family: inherit;
+
 					@include font-size(12);
-					font-weight: normal;
+					font-weight: 400;
 					line-height: 1.2;
 					padding: 4px 10px;
 					text-transform: lowercase;
@@ -1120,10 +1202,13 @@ body.page-template-onecolumn-page {
 */
 
 #buddypress {
+
 	#members-list {
 
 		@include medium-up {
+
 			li {
+
 				.item-avatar,
 				.item {
 					float: left;
@@ -1151,6 +1236,7 @@ body.page-template-onecolumn-page {
 */
 
 #buddypress {
+
 	#signup_form.standard-form {
 
 		#profile-details-section,
@@ -1159,14 +1245,20 @@ body.page-template-onecolumn-page {
 			float: none;
 			width: 100%;
 
-			@media screen and (min-width: 37.500em) {
+			@media screen and (min-width: 37.5em) {
 				width: 48%;
 			}
 		}
 
-		@media screen and (min-width: 37.500em) {
-			#profile-details-section {float: right;}
-			#basic-details-section {float: left;}
+		@media screen and (min-width: 37.5em) {
+
+			#profile-details-section {
+				float: right;
+			}
+
+			#basic-details-section {
+				float: left;
+			}
 		}
 
 	}
@@ -1179,10 +1271,12 @@ body.page-template-onecolumn-page {
 */
 
 .bp-user {
+
 	#buddypress {
-		// On object nav links, table links (notifications etc) we don't really need :visited
-		// inheritance, so set pseudo class to :link color.
+		// On object nav links, table links (notifications etc) we don't
+		// really need :visited inheritance, so set pseudo class to :link color.
 		a {
+
 			&:visited {
 				color: #21759b;
 			}
@@ -1198,18 +1292,25 @@ body.page-template-onecolumn-page {
 
 .bp-user,
 .single-item.groups {
+
 	#buddypress {
+
 		#item-header-content {
+
 			#item-meta {
+
 				@include font-size(14);
 				text-align: left;
 
-				p {margin-bottom: 0.5em;}
+				p {
+					margin-bottom: 0.5em;
+				}
 			}
 		}
 	}
 
-	@media screen and (max-width: 37.500em) {
+	@media screen and (max-width: 37.5em) {
+
 		h1,
 		#item-header-content {
 			text-align: center;
@@ -1217,7 +1318,9 @@ body.page-template-onecolumn-page {
 	}
 
 	@media screen and (max-width: 46.25em) {
+
 		main {
+
 			header.entry-header {
 				padding-bottom: 1rem;
 			}
@@ -1225,12 +1328,15 @@ body.page-template-onecolumn-page {
 	}
 
 	#buddypress {
-		@media screen and (max-width: 37.500em) {
+
+		@media screen and (max-width: 37.5em) {
+
 			h1 {
 				margin-bottom: 0;
 			}
 
 			#item-header-avatar {
+
 				img.avatar {
 					margin-right: 0;
 				}
@@ -1246,10 +1352,12 @@ body.page-template-onecolumn-page {
 		} // close @media
 
 		@media screen and (max-width: 46.25em) {
+
 			#item-header {
+
 				.generic-button {
 					float: none;
-					margin: 1.5em 0 0 0;
+					margin: 1.5em 0 0;
 				}
 			}
 		}
@@ -1266,9 +1374,13 @@ body.page-template-onecolumn-page {
 */
 
 .single-item.groups {
+
 	#buddypress {
+
 		@media screen and (max-width: 46.25em) {
+
 			#item-header {
+
 				#item-meta {
 					margin-bottom: $spacing-val-md;
 				}
@@ -1278,6 +1390,7 @@ body.page-template-onecolumn-page {
 		// Move visual flow of avatar & item-actions at narrow width,
 		// avatar first after group title
 		@media screen and (max-width: 50em) {
+
 			div#item-header {
 				display: flex;
 				flex-direction: column;
@@ -1315,6 +1428,7 @@ body.page-template-onecolumn-page {
 			padding-bottom: $spacing-val-lg;
 
 			#item-header-content {
+
 				@include box-model(border-box);
 			}
 
@@ -1340,13 +1454,15 @@ body.page-template-onecolumn-page {
 				}
 
 				h2 {
+
 					@include font-size(14);
-					font-weight: bold;
+					font-weight: 700;
 					line-height: 1.4;
 				}
 
 				#group-admins,
 				#group-mods {
+
 					li {
 						margin: 0;
 					}
@@ -1374,6 +1490,7 @@ body.page-template-onecolumn-page {
 			} // close @media
 
 			@media screen and (min-width: 64em) {
+
 				#item-header-content {
 					width: 40%;
 				}
@@ -1385,9 +1502,12 @@ body.page-template-onecolumn-page {
 	// activated & attempt to address positioning concerns arising from themes
 	// breakpoints.
 	// Due to cover image styles being applied via embedded styles & thus carrying
-	// heavier weight than linked styles the use of !important to override may be required.
+	// heavier weight than linked styles the use of !important to
+	// override may be required.
 	#buddypress {
+
 		#cover-image-container {
+
 			#item-header-cover-image {
 
 				#item-actions {
@@ -1395,6 +1515,7 @@ body.page-template-onecolumn-page {
 				}
 
 				@media screen and (min-width: 50em) and (max-width: 60em) {
+
 					#item-header-content {
 						max-width: 60% !important;
 						width: 60% !important;
@@ -1411,7 +1532,9 @@ body.page-template-onecolumn-page {
 						padding-top: 0 !important;
 						width: auto;
 
-						h2 {border-bottom: 1px solid $border-light;}
+						h2 {
+							border-bottom: 1px solid $border-light;
+						}
 					}
 				} // @media
 			}
@@ -1429,7 +1552,9 @@ body.page-template-onecolumn-page {
 */
 
 .bp-user {
+
 	#buddypress {
+
 		#item-header {
 
 			#item-header-avatar {
@@ -1444,6 +1569,7 @@ body.page-template-onecolumn-page {
 			}
 
 			#item-header-cover-image {
+
 				.user-nicename {
 					color: inherit;
 					text-shadow: none;
@@ -1458,6 +1584,7 @@ body.page-template-onecolumn-page {
 			#item-header-content {
 
 				#item-buttons {
+
 					.generic-button {
 						margin-right: 5px;
 					}
@@ -1465,6 +1592,7 @@ body.page-template-onecolumn-page {
 			}
 
 			@include medium-up {
+
 				#item-header-avatar {
 					float: left;
 
@@ -1508,7 +1636,9 @@ body.page-template-onecolumn-page {
 
 // headings settings screens & general global settings styles
 .groups {
+
 	#group-settings-form {
+
 		h3 {
 			background: $dark-background;
 			color: $content-background;
@@ -1518,6 +1648,7 @@ body.page-template-onecolumn-page {
 }
 
 .groups.edit-details {
+
 	#group-settings-form {
 
 		label {
@@ -1529,6 +1660,7 @@ body.page-template-onecolumn-page {
 		textarea + p label {
 			background: none;
 			color: inherit;
+
 			@include font-size(14);
 			width: auto;
 		}
@@ -1542,14 +1674,16 @@ body.page-template-onecolumn-page {
 } // close .groups.edit-details
 
 .groups.group-settings {
+
 	#group-settings-form {
 
 		div.radio label {
-			font-weight: bold;
+			font-weight: 700;
 			padding: 0.2em;
 
 			ul {
 				color: rgba($body-text, 0.6);
+
 				@include font-size(14);
 			}
 		}
@@ -1566,18 +1700,24 @@ body.page-template-onecolumn-page {
 }
 
 .groups.manage-members {
+
 	#group-settings-form {
+
 		.item-list {
+
 			li {
 				border-bottom: 1px solid $border-light;
 
 				img,
 				h5 {
+
 					@include medium-up {
 						float: left;
 					}
 
-					> a {border-bottom: 0;}
+					> a {
+						border-bottom: 0;
+					}
 				}
 
 				span.small {
@@ -1614,7 +1754,9 @@ body.page-template-onecolumn-page {
 
 // Massage the members search for groups nav specifically.
 .groups.group-members {
+
 	#subnav {
+
 		li {
 			width: 100%;
 
@@ -1623,6 +1765,7 @@ body.page-template-onecolumn-page {
 				margin: $spacing-val-xs 0 0 0;
 
 				label {
+
 					input[type="text"] {
 						box-shadow: none;
 					}
@@ -1650,28 +1793,47 @@ body.page-template-onecolumn-page {
 	#buddypress {
 
 		table {
-			th {@include font-size(13)}
-			td {@include font-size(12)}
+
+			th {
+
+				@include font-size(13);
+			}
+
+			td {
+
+				@include font-size(12);
+			}
 
 			@include medium-up {
-				th {@include font-size(16)}
-				td {@include font-size(14)}
+
+				th {
+
+					@include font-size(16);
+				}
+
+				td {
+
+					@include font-size(14);
+				}
 			}
 		}
 
-		.pag-count {font-style: italic;}
+		.pag-count {
+			font-style: italic;
+		}
 
 		.notifications-options-nav,
 		.messages-options-nav {
 			float: left;
 			width: 100%;
 
-			@media screen and (min-width: 37.500em) {
+			@media screen and (min-width: 37.5em) {
 				width: 60%;
 			}
 
 			select,
 			input {
+
 				@include font-size(14);
 				outline: 0;
 				padding: 0;
@@ -1682,7 +1844,7 @@ body.page-template-onecolumn-page {
 				margin-right: 0;
 				width: 49%;
 
-				@media screen and (min-width: 37.500em) {
+				@media screen and (min-width: 37.5em) {
 					width: auto;
 				}
 			}
@@ -1694,7 +1856,7 @@ body.page-template-onecolumn-page {
 				margin-left: 1%;
 				width: 50%;
 
-				@media screen and (min-width: 37.500em) {
+				@media screen and (min-width: 37.5em) {
 					width: auto;
 				}
 
@@ -1720,7 +1882,9 @@ body.page-template-onecolumn-page {
 	#buddypress {
 
 		.profile {
+
 			.bp-widget {
+
 				h2 {
 					background: lighten($dark-background, 10%);
 					color: #fff;
@@ -1728,12 +1892,15 @@ body.page-template-onecolumn-page {
 					padding: 0.4em;
 				}
 
-				table {margin-top: 0;}
+				table {
+					margin-top: 0;
+				}
 			}
 
 			// Edit profile
 
 			#profile-edit-form {
+
 				.button-nav:before,
 				.button-nav:after {
 					content: " ";
@@ -1762,7 +1929,8 @@ body.page-template-onecolumn-page {
 					a {
 						background: none;
 						border: 0;
-						@include font-size(18)
+
+						@include font-size(18);
 					}
 				} //.button-nav
 
@@ -1772,15 +1940,17 @@ body.page-template-onecolumn-page {
 
 				.field-visibility-settings-toggle,
 				.field-visibility-settings {
+
 					@include font-size(14);
 				}
 
 				.field-visibility-settings-close,
 				.visibility-toggle-link {
 					background: lighten($dark-background, 10%);
+
 					@include border-radius(2px);
 					color: #eee;
-					font-weight: bold;
+					font-weight: 700;
 					padding: 0.1em 0.5em;
 					text-decoration: none;
 
@@ -1792,8 +1962,12 @@ body.page-template-onecolumn-page {
 			} // close profile form
 
 			.bp-avatar {
+
 				#bp-delete-avatar {
-					a {font-size: inherit; }
+
+					a {
+						font-size: inherit;
+					}
 				}
 			}
 		} // close .profile
@@ -1839,7 +2013,7 @@ body.page-template-onecolumn-page {
 
 			.message-metadata {
 
-				&::after {
+				&:after {
 					clear: both;
 					content: "";
 					display: table;
@@ -1850,6 +2024,7 @@ body.page-template-onecolumn-page {
 				}
 
 				@media screen and (min-width: 46.25em) {
+
 					img.avatar {
 						float: left;
 					}
@@ -1870,6 +2045,7 @@ body.page-template-onecolumn-page {
 			}
 
 			#send-reply {
+
 				.message-content {
 					background: $content-background;
 					border: 0;
@@ -1880,9 +2056,9 @@ body.page-template-onecolumn-page {
 				background: $content-background;
 			}
 
-			.bp-tooltip:hover::after,
-			.bp-tooltip:active::after,
-			.bp-tooltip:focus::after {
+			.bp-tooltip:hover:after,
+			.bp-tooltip:active:after,
+			.bp-tooltip:focus:after {
 				right: 40px;
 				text-align: right;
 			}
@@ -1892,14 +2068,17 @@ body.page-template-onecolumn-page {
 		#message-threads {
 
 			thead {
+
 				tr {
 					background: lighten($dark-background, 10%);
 				}
 			}
 
 			tr {
+
 				td {
 					background: $content-background;
+
 					@include box-model(border-box);
 					display: inline-block;
 					float: left;
@@ -1926,6 +2105,7 @@ body.page-template-onecolumn-page {
 					}
 
 					span.icon:before {
+
 						@include font-size(14);
 					}
 				}
@@ -1934,7 +2114,7 @@ body.page-template-onecolumn-page {
 				td.thread-from {
 					height: 3em;
 
-					@media screen and (max-width: 37.500em) {
+					@media screen and (max-width: 37.5em) {
 						height: 5.2em;
 					}
 				}
@@ -1942,6 +2122,7 @@ body.page-template-onecolumn-page {
 				td.thread-from,
 				td.thread-options {
 					border-left: 0 !important;
+
 					@include calc(width, "100% - 30px");
 					margin-left: 0;
 				}
@@ -1955,6 +2136,7 @@ body.page-template-onecolumn-page {
 					text-align: right;
 
 					a {
+
 						@include font-size(12);
 						line-height: 1.2;
 					}
@@ -1969,8 +2151,9 @@ body.page-template-onecolumn-page {
 					float: right;
 					line-height: 2;
 
-					@media screen and (max-width: 37.500em) {
+					@media screen and (max-width: 37.5em) {
 						clear: both;
+
 						@include font-size(11);
 						width: 100%;
 					}
@@ -1978,6 +2161,7 @@ body.page-template-onecolumn-page {
 			}
 
 			tr.unread {
+
 				td {
 					border-color: $border-light;
 				}
@@ -2002,8 +2186,10 @@ body.page-template-onecolumn-page {
 		}
 
 		#send_message_form {
+
 			input,
 			textarea {
+
 				@include box-model(border-box);
 			}
 		}
@@ -2011,7 +2197,9 @@ body.page-template-onecolumn-page {
 		.acfb-holder {
 			list-style: none;
 
-			li {margin-left: 0;}
+			li {
+				margin-left: 0;
+			}
 
 			li.friend-tab {
 				background: lighten($notice-info, 20%);
@@ -2046,7 +2234,11 @@ body.page-template-onecolumn-page {
 		}
 
 		#message-threads.sitewide-notices {
-			tr {margin: 3em 0;}
+
+			tr {
+				margin: 3em 0;
+			}
+
 			td {
 				width: 100%;
 
@@ -2074,6 +2266,7 @@ body.page-template-onecolumn-page {
 			}
 
 			td:nth-child(2) {
+
 				strong {
 					margin: -8px -8px 8px;
 				}
@@ -2101,7 +2294,7 @@ body.page-template-onecolumn-page {
 					text-indent: -999em;
 				}
 
-				a:last-child::after {
+				a:last-child:after {
 					content: attr(title);
 					display: block;
 					line-height: initial;
@@ -2125,7 +2318,9 @@ body.page-template-onecolumn-page {
 				cursor: pointer;
 			}
 
-			img { vertical-align: bottom;}
+			img {
+				vertical-align: bottom;
+			}
 
 		}
 	}
@@ -2146,12 +2341,14 @@ body.page-template-onecolumn-page {
 
 			// 'p' = email notification screen sub heading
 			> p {
+
 				@include font-size(20);
 				margin: $spacing-val-md 0 $spacing-val-sm;
 			}
 		}
 
 		table.notification-settings {
+
 			td.yes,
 			td.no {
 				vertical-align: middle;
@@ -2168,6 +2365,7 @@ body.page-template-onecolumn-page {
 			}
 
 			@media screen and (min-width: 46.25em) {
+
 				th.field-group-name,
 				td.field-name {
 					width: 70%;
@@ -2180,7 +2378,10 @@ body.page-template-onecolumn-page {
 			}
 
 			td.field-visibility {
-				select {width: 100%;}
+
+				select {
+					width: 100%;
+				}
 			}
 		}
 
@@ -2203,16 +2404,22 @@ body.page-template-onecolumn-page {
 
 // Attempt to reset form control widths
 #main {
+
 	#buddypress {
+
 		.standard-form {
 
-			li {float: none;}
-			input[type='text'],
-			input[type='email'],
-			input[type='password'],
+			li {
+				float: none;
+			}
+
+			input[type="text"],
+			input[type="email"],
+			input[type="password"],
 			textarea {
 				border-width: 1px;
 				box-shadow: none;
+
 				@include box-model(border-box);
 				width: 100%;
 			}
@@ -2228,6 +2435,7 @@ body.page-template-onecolumn-page {
 	div.activity-comments {
 
 		form {
+
 			.ac-textarea {
 				background: $light-background;
 				border: 1px solid rgba($border-color, 0.5);
@@ -2256,16 +2464,20 @@ body.page-template-onecolumn-page {
 	} // close .standard-form
 
 	#signup_form.standard-form {
+
 		div.submit {
 			float: none;
 
-			input {margin-right: 0;}
+			input {
+				margin-right: 0;
+			}
 		}
 	}
 
 } // close #buddypress
 
 #buddypress {
+
 	div.dir-search,
 	div.message-search,
 	li.groups-members-search {
@@ -2281,11 +2493,12 @@ body.page-template-onecolumn-page {
 				width: 70%;
 			}
 
-			input[type='text'],
-			input[type='submit'] {
+			input[type="text"],
+			input[type="submit"] {
 				border: 0;
 				border-radius: 0;
 				box-shadow: none;
+
 				@include box-model(border-box);
 				@include font-size(14);
 				line-height: 1.8;
@@ -2293,17 +2506,17 @@ body.page-template-onecolumn-page {
 				min-height: 2rem;
 			}
 
-			input[type='text'] {
+			input[type="text"] {
 				border-right: 1px solid rgba($border-color, 0.6);
 				float: left;
 				margin: 0;
-				padding: 0 0.2em 0;
+				padding: 0 0.2em;
 				width: 70%;
 			}
 
-			input[type='submit'] {
+			input[type="submit"] {
 				float: right;
-				font-weight: normal;
+				font-weight: 400;
 				padding: 0 1em;
 				text-align: center;
 				text-transform: none;
@@ -2316,6 +2529,7 @@ body.page-template-onecolumn-page {
 	// Shift the search parent to the right and allow to shrinkwrap
 
 	@include small-up {
+
 		div.dir-search,
 		div.message-search,
 		li.groups-members-search {
@@ -2323,9 +2537,10 @@ body.page-template-onecolumn-page {
 			margin-bottom: 5px !important;
 
 			form {
+
 				label,
-				input[type='text'],
-				input[type='submit'] {
+				input[type="text"],
+				input[type="submit"] {
 					width: auto;
 				}
 			}
@@ -2337,9 +2552,18 @@ body.page-template-onecolumn-page {
 
 		.dir-search,
 		.message-search {
+
 			form {
-				input[type='text'] { @include font-size(16) ;}
-				input[type='submit'] { @include font-size(16) ;}
+
+				input[type="text"] {
+
+					@include font-size(16);
+				}
+
+				input[type="submit"] {
+
+					@include font-size(16);
+				}
 			}
 		}
 	}
@@ -2352,13 +2576,16 @@ body.page-template-onecolumn-page {
 *-------------------------------------------------------------------------------
 */
 .bp-user {
+
 	#buddypress {
 
 		table {
+
 			@include font-size(14);
 			margin: $spacing-val-md 0;
 
-			// 2010 adds huge bottom margin to input controls unwanted in the table paradigm
+			// 2010 adds huge bottom margin to input controls,
+			//  unwanted in the table paradigm
 			input {
 				margin: 0;
 			}
@@ -2367,6 +2594,7 @@ body.page-template-onecolumn-page {
 				background: lighten($dark-background, 10%);
 				border-color: darken($border-light, 20%);
 				color: $content-background;
+
 				@include font-size(16);
 				padding: 4px 8px;
 				text-transform: capitalize;
@@ -2377,16 +2605,23 @@ body.page-template-onecolumn-page {
 			}
 
 			// Reduce the themes inherited paragraph margins in tables
-			p {margin-bottom: 0.5em;}
+			p {
+				margin-bottom: 0.5em;
+			}
 		}
 
 		@media screen and (min-width: 55em) {
-			table {@include font-size(16);}
+
+			table {
+
+				@include font-size(16);
+			}
 		}
 
 		// Manage some table cells widths that are disproportionate to their content
 		.notifications,
 		.messages-notices {
+
 			th {
 				width: 30%;
 
@@ -2419,6 +2654,7 @@ body.page-template-onecolumn-page {
 			// Notices action buttons, this maybe better moved, temp for now to address
 			// styling issues - this will need styling ideas
 			td {
+
 				.button {
 					border: 0;
 					display: block;
@@ -2431,9 +2667,9 @@ body.page-template-onecolumn-page {
 
 		.messages-notices {
 
-			.bp-tooltip:hover::after,
-			.bp-tooltip:active::after,
-			.bp-tooltip:focus::after {
+			.bp-tooltip:hover:after,
+			.bp-tooltip:active:after,
+			.bp-tooltip:focus:after {
 				left: 0;
 				margin-top: 10px;
 				max-width: 240px;
@@ -2457,20 +2693,27 @@ body.page-template-onecolumn-page {
 // to background color darker by 50%
 
 #buddypress {
+
 	div#message {
+
 		p {
+
 			@include font-size(18);
-			font-weight: bold;
+			font-weight: 700;
 		}
 
 		&.info {
+
 			p {
+
 				@include message-box($notice-info);
 			}
 		}
 
 		&.updated {
+
 			p {
+
 				@include message-box($notice-update);
 			}
 		}
@@ -2481,11 +2724,15 @@ body.page-template-onecolumn-page {
 
 // Without direct classes on our mesages ( 'warning' )
 // we need to use the body classes
-// todo: If this is class .warning is included in main BP styles remove from here
+// @todo If this class .warning is included in main BP styles remove from here
 .delete-group {
+
 	#buddypress {
+
 		div#message.info {
+
 			p {
+
 				@include message-box($notice-warning);
 			}
 		}

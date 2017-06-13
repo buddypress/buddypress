@@ -30,7 +30,7 @@ div.bp-cover-image-status .bp-progress {
 	border: 1px solid #d1d1d1;
 	float: left;
 	height: 22px;
-	line-height: 2em;
+	line-height: 2;
 	margin: 6px 0 0 10px;
 	margin-bottom: 2px;
 	padding: 0;
@@ -55,6 +55,7 @@ div.bp-cover-image-status .bp-bar {
 	padding: 10px 15px;
 }
 
+/* stylelint-disable selector-id-pattern */
 #buddypress p.warning,
 body.users_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning,
 body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
@@ -66,11 +67,12 @@ body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
 	margin: 1em 0;
 	padding: 10px 15px;
 }
+/* stylelint-enable */
 
 div.bp-avatar-nav {
 	background: transparent;
 	clear: both;
-	margin: 10px 0 10px;
+	margin: 10px 0;
 	overflow: hidden;
 }
 
@@ -117,7 +119,7 @@ div.bp-avatar-nav {
 .bp-avatar-nav	li.current a {
 	background: none;
 	color: inherit;
-	font-weight: bold;
+	font-weight: 700;
 	opacity: 0.8;
 	outline: 0;
 }
@@ -180,7 +182,7 @@ div.bp-avatar-nav {
 }
 
 #avatar-to-crop {
-	margin: 0 auto 20px ;
+	margin: 0 auto 20px;
 	text-align: right;
 }
 
@@ -220,6 +222,7 @@ div.bp-avatar-nav {
 }
 
 @media screen and (min-width: 801px) {
+
 	#bp-webcam-avatar #avatar-to-crop {
 		max-width: 64%;
 		width: 64%;
@@ -232,7 +235,7 @@ div.bp-avatar-nav {
 
 #bp-webcam-avatar #avatar-crop-actions {
 	float: right;
-	margin: 0 0 20px 0;
+	margin: 0 0 20px;
 	width: 50%;
 }
 
@@ -297,7 +300,7 @@ div.bp-avatar-nav {
 }
 
 .bp-avatar .item {
-	overflow:hidden;
+	overflow: hidden;
 }
 
 .bp-avatar .avatar-crop-management.adjust {
@@ -322,7 +325,7 @@ div.bp-avatar-nav {
 		margin: 0 auto 10px;
 	}
 
-	#bp-webcam-avatar .avatar-crop-management #avatar-crop-actions  {
+	#bp-webcam-avatar .avatar-crop-management #avatar-crop-actions {
 		width: auto;
 	}
 
@@ -347,7 +350,9 @@ div.bp-avatar-nav {
 
 }
 
+
 /** Admin Profile **/
+/* stylelint-disable selector-id-pattern */
 body.users_page_bp-profile-edit.modal-open #TB_ajaxContent,
 body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent {
 	height: 95% !important;
@@ -366,9 +371,11 @@ body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
 	float: right;
 	margin: 0;
 }
+
 .wp-admin #TB_window .bp-avatar #bp-webcam-avatar #avatar-to-crop {
 	margin-bottom: 20px;
 }
+
 @media screen and (min-width: 783px) {
 
 	.wp-admin #TB_window .bp-avatar .avatar-crop-management {
@@ -383,8 +390,8 @@ body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
 }
 
 .wp-admin #TB_window .bp-avatar #avatar-to-crop video {
-		width: 100%;
-	}
+	width: 100%;
+}
 
 .wp-admin #TB_window .bp-avatar .avatar-crop-management a.button {
 	height: auto;
@@ -392,6 +399,7 @@ body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
 }
 
 @media screen and (min-width: 810px) {
+
 	.wp-admin #TB_window .bp-avatar #bp-webcam-avatar #avatar-to-crop {
 		max-width: none;
 		width: 76%;
@@ -402,3 +410,4 @@ body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
 		width: auto;
 	}
 }
+/* stylelint-enable */

@@ -158,7 +158,8 @@ loaded by default. If you want to modify the styles the normal BP Theme Compat
 hierarchy works and you can copy the file to buddypress/css/ or community/css/
 in your child themes root & either start over or modify the ruelesets.
 
-If you do not require the styles you can dequeue them from the themes functions file.
+If you do not require the styles you can dequeue them from the themes
+functions file.
 
 Please see this codex article for more information:
 http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
@@ -213,6 +214,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 // for all heading h# elements this is problematic where floats are concerned
 // We reset this here under our #buddypress namespace
 #buddypress {
+
 	h1,
 	h2,
 	h3,
@@ -268,7 +270,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 *----------------------------------------------------------
 */
 #buddypress {
+
 	.item-list-tabs {
+
 		ul {
 
 			li {
@@ -276,12 +280,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			}
 
 			@media screen and (min-width: 400px) {
+
 				li {
 					width: 50%;
 				}
 			}
 
 			@media screen and (min-width: 594px) {
+
 				li {
 					width: auto;
 				}
@@ -295,6 +301,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 }
 
 .directory #buddypress {
+
 	.item-list-tabs {
 
 		ul:before,
@@ -313,12 +320,14 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		}
 
 		@media screen and (min-width: 783px) {
+
 			ul {
 				padding-bottom: 0;
 
 				li.selected {
 					border: 1px solid $border-med;
 					border-bottom-color: $content-background;
+
 					@include border-top-radius(4px);
 					margin-bottom: -1px;
 
@@ -332,6 +341,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	} // close .item-list-tabs
 
 	#subnav {
+
 		ul {
 			border-bottom: 0;
 		}
@@ -345,7 +355,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 /* List last filters global */
 #buddypress {
+
 	#subnav {
+
 		li#activity-filter-select.last {
 			line-height: 2.1;
 			margin-top: 0;
@@ -359,7 +371,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 @media screen and (max-width: 783px) {
 
 	#buddypress {
+
 		#object-nav {
+
 			ul {
 				border-bottom: 1px solid $border-med;
 				overflow: hidden;
@@ -371,6 +385,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 			margin-bottom: $spacing-val-lg;
 
 			ul {
+
 				li {
 					width: auto;
 				}
@@ -393,6 +408,7 @@ $nav-background-border: #bebebe;
 
 	.bp-user,
 	.single-item.groups {
+
 		#buddypress {
 			background: lighten($nav-background-border, 10%);
 		}
@@ -405,7 +421,9 @@ $nav-background-border: #bebebe;
 			background: #fff;
 		}
 
-		#item-body {border-left: 1px solid $nav-background-border;}
+		#item-body {
+			border-left: 1px solid $nav-background-border;
+		}
 
 		#object-nav {
 			background: lighten($nav-background-border, 10%);
@@ -485,7 +503,9 @@ $nav-background-border: #bebebe;
 */
 
 #buddypress {
+
 	div.pagination {
+
 		.pag-count {
 			margin-left: 0;
 		}
@@ -498,17 +518,21 @@ $nav-background-border: #bebebe;
 *-------------------------------------------------------------------------------
 */
 #buddypress {
+
 	.item-list {
+
 		.item-title {
 
 			a {
 				display: block;
+
 				@include font-size(22);
 				text-decoration: none;
 			}
 
 			span.update,
 			span a {
+
 				@include font-size(12);
 			}
 		}
@@ -520,7 +544,9 @@ $nav-background-border: #bebebe;
 // - Adjusts display of action buttons at small screen
 
 #buddypress {
+
 	ul.item-list {
+
 		li {
 			overflow: hidden !important; // buddypress styles over specified
 
@@ -530,6 +556,7 @@ $nav-background-border: #bebebe;
 				text-align: center;
 
 				a {
+
 					img.avatar {
 						float: none;
 					}
@@ -540,7 +567,9 @@ $nav-background-border: #bebebe;
 				float: none;
 				width: 100%;
 
-				> a {text-align: center;}
+				> a {
+					text-align: center;
+				}
 			}
 
 			.item {
@@ -580,12 +609,15 @@ $nav-background-border: #bebebe;
 			}
 
 			@media screen and (min-width: 594px) {
+
 				.item-avatar {
 					float: left;
 					margin-bottom: 0;
 				}
 
-				div.item-title > a {text-align: left;}
+				div.item-title > a {
+					text-align: left;
+				}
 
 				.item {
 					float: right;
@@ -606,6 +638,7 @@ $nav-background-border: #bebebe;
 			} // close @media
 
 			@media screen and (min-width: 783px) {
+
 				.item {
 					float: left;
 					width: 55%;
@@ -626,6 +659,7 @@ $nav-background-border: #bebebe;
 						display: block;
 
 						a {
+
 							@include box-model(border-box);
 							display: block;
 							width: 100%;
@@ -660,6 +694,7 @@ $nav-background-border: #bebebe;
 *-------------------------------------------------
 */
 #buddypress {
+
 	form#whats-new-form {
 		margin: $spacing-val-lg 0;
 
@@ -683,7 +718,9 @@ $nav-background-border: #bebebe;
 		}
 
 		#whats-new-content {
+
 			@media screen and (max-width: 594px) {
+
 				#whats-new-options {
 					display: flex;
 					flex-direction: column;
@@ -711,6 +748,7 @@ $nav-background-border: #bebebe;
 		} // close whats-new-content.active
 
 		@media screen and (min-width: 594px) {
+
 			#whats-new-avatar {
 				float: left;
 			}
@@ -733,10 +771,15 @@ $nav-background-border: #bebebe;
 */
 
 #buddypress {
-	#activity-stream {margin-top: $spacing-val-lg;}
+
+	#activity-stream {
+		margin-top: $spacing-val-lg;
+	}
+
 	.activity-list {
 
 		li.activity-item:not(.mini) {
+
 			.activity-avatar {
 				float: none;
 				margin-bottom: $spacing-val-sm;
@@ -750,14 +793,20 @@ $nav-background-border: #bebebe;
 		}
 
 		li.mini {
+
 			.activity-avatar {
+
 				img.avatar {
 					margin-left: 0;
 				}
 			}
 
 			.activity-meta {
-				a {@include font-size(12);}
+
+				a {
+
+					@include font-size(12);
+				}
 			}
 		}
 
@@ -779,11 +828,15 @@ $nav-background-border: #bebebe;
 				}
 			}
 
-			.activity-inner {margin: $spacing-val-sm 0;}
+			.activity-inner {
+				margin: $spacing-val-sm 0;
+			}
 		}
 
 		@media screen and (min-width: 594px) {
+
 			li.activity-item:not(.mini) {
+
 				.activity-avatar {
 					float: left;
 					margin: 0 $spacing-val-md 0 0;
@@ -796,6 +849,7 @@ $nav-background-border: #bebebe;
 			}
 
 			li.mini {
+
 				.activity-avatar {
 					margin: 0 $spacing-val-sm 0 5%;
 				}
@@ -812,13 +866,17 @@ $nav-background-border: #bebebe;
 
 // Activity Single Item 'Permalink' Page
 body.activity-permalink {
+
 	#buddypress {
 		// remove user account faux column background
 		background: transparent;
 
 		.activity-list {
+
 			li {
+
 				@media screen and (max-width: 760px) {
+
 					.activity-content,
 					.activity-comments {
 						margin-left: 0;
@@ -836,7 +894,9 @@ body.activity-permalink {
 */
 
 #buddypress {
+
 	.activity {
+
 		.activity-comments {
 			margin-left: 0;
 			margin-top: 5px;
@@ -866,12 +926,16 @@ body.activity-permalink {
 			// Display the user avatar stacked up to 594px
 			// reduce/widen the content margins
 			@media screen and (max-width: 400px) {
+
 				.acomment-avatar {
 					display: block;
 					text-align: center;
 
 					a,
-					img.avatar {display: inline; float: none;}
+					img.avatar {
+						display: inline;
+						float: none;
+					}
 				}
 
 				.acomment-content,
@@ -880,7 +944,9 @@ body.activity-permalink {
 					margin: $spacing-val-xs;
 				}
 
-				.acomment-content {padding: 0 $spacing-val-sm;}
+				.acomment-content {
+					padding: 0 $spacing-val-sm;
+				}
 			} // close @media
 
 			.ac-form {
@@ -890,8 +956,9 @@ body.activity-permalink {
 					color: rgba($body-text, 0.8);
 					display: inline-block;
 					font-family: inherit;
+
 					@include font-size(12);
-					font-weight: normal;
+					font-weight: 400;
 					line-height: 1.2;
 					padding: 4px 10px;
 					text-transform: lowercase;
@@ -923,17 +990,18 @@ body.activity-permalink {
 */
 
 
-
 /*
 *-------------------------------------------------------------------------------
 * @section 6.0 - Single Item screens
 *-------------------------------------------------------------------------------
 */
+
 /* groups & user account page entry title */
 .single-item.groups,
 .bp-user {
 
 	.entry-title {
+
 		@include title-background-dark();
 		@include font-size(22);
 		margin-bottom: $spacing-val-sm;
@@ -941,12 +1009,15 @@ body.activity-permalink {
 	}
 
 	@media screen and (min-width: 673px) {
+
 		.entry-title {
+
 			@include font-size(28);
 		}
 	}
 
 } // close #buddypress
+
 /**
 *------------------------------------------------------------
 * @subsection 6.1 - Item Header: Global
@@ -954,6 +1025,7 @@ body.activity-permalink {
 */
 // override BP margins - users/groups manage their own styles later on
 #buddypress {
+
 	div#item-header {
 		padding-bottom: $spacing-val-sm;
 
@@ -967,7 +1039,9 @@ body.activity-permalink {
 			margin-bottom: $spacing-val-xs;
 			padding-top: $spacing-val-sm;
 
-			p {margin-bottom: 0;}
+			p {
+				margin-bottom: 0;
+			}
 		}
 	}
 }
@@ -978,9 +1052,11 @@ body.activity-permalink {
 *-------------------------------------------------
 */
 .single-item.groups {
+
 	#buddypress {
 
 		@media screen and (max-width: 594px) {
+
 			div#item-header {
 				display: flex;
 				flex-direction: column;
@@ -999,7 +1075,9 @@ body.activity-permalink {
 					}
 				}
 
-				#item-header-content {order: 2;}
+				#item-header-content {
+					order: 2;
+				}
 
 				#item-actions {
 					margin-left: 0;
@@ -1030,6 +1108,7 @@ body.activity-permalink {
 				width: auto;
 
 				h2 {
+
 					@include font-size(20);
 				}
 			}
@@ -1044,6 +1123,7 @@ body.activity-permalink {
 			}
 
 			@media screen and (min-width: 594px) {
+
 				#item-actions {
 					float: right;
 				}
@@ -1069,6 +1149,7 @@ body.activity-permalink {
 */
 
 .bp-user #buddypress {
+
 	#item-header {
 
 		#item-header-avatar {
@@ -1085,7 +1166,9 @@ body.activity-permalink {
 		}
 
 		@media screen and (max-width: 594px) {
+
 			#item-buttons {
+
 				div.generic-button {
 					display: inline-block;
 					float: none;
@@ -1093,6 +1176,7 @@ body.activity-permalink {
 					width: 100%;
 
 					a {
+
 						@include box-model();
 						display: block;
 						width: 100%;
@@ -1102,6 +1186,7 @@ body.activity-permalink {
 		}
 
 		@media screen and (min-width: 673px) {
+
 			#item-header-avatar {
 				float: left;
 				overflow: hidden;
@@ -1147,7 +1232,9 @@ body.activity-permalink {
 #create-group-form {
 
 	.radio {
+
 		strong {
+
 			@include font-size(18);
 		}
 
@@ -1156,14 +1243,19 @@ body.activity-permalink {
 		}
 	}
 
-	#group-creation-previous {margin: $spacing-val-sm 0;}
+	#group-creation-previous {
+		margin: $spacing-val-sm 0;
+	}
 }
 
 /* Manage Members */
 .groups.manage-members {
+
 	#group-settings-form {
 
-		h3 {margin-top: $spacing-val-lg;}
+		h3 {
+			margin-top: $spacing-val-lg;
+		}
 
 		.item-list {
 			background: $light-background;
@@ -1172,7 +1264,10 @@ body.activity-permalink {
 
 			li {
 				border-bottom: 1px solid $border-light;
-				&:last-child {border-bottom: 0;}
+
+				&:last-child {
+					border-bottom: 0;
+				}
 
 				img,
 				h5 {
@@ -1218,8 +1313,11 @@ body.activity-permalink {
 	*/
 
 #buddypress {
+
 	#members-group-list {
+
 		.item-list {
+
 			h5 {
 				display: inline-block;
 				margin: 0;
@@ -1233,8 +1331,11 @@ body.activity-permalink {
 } // close #buddypress
 
 #buddypress {
+
 	#item-body {
+
 		#subnav {
+
 			li.groups-members-search:focus,
 			li.groups-members-search:hover,
 			li.last:focus,
@@ -1247,6 +1348,7 @@ body.activity-permalink {
 
 // Need to target groups members via body classes
 .groups.group-members {
+
 	#subnav {
 
 		ul:before,
@@ -1255,7 +1357,9 @@ body.activity-permalink {
 			display: table;
 		}
 
-		ul:after {clear: both; }
+		ul:after {
+			clear: both;
+		}
 
 		ul {
 			padding: $spacing-val-xs 0;
@@ -1271,6 +1375,7 @@ body.activity-permalink {
 			}
 
 			#search-members-form {
+
 				@include box-model(border-box);
 				float: left;
 
@@ -1279,7 +1384,10 @@ body.activity-permalink {
 					width: 100%;
 
 					label {
-						input[type="text"] {width: 100%;}
+
+						input[type="text"] {
+							width: 100%;
+						}
 					}
 				}
 
@@ -1300,13 +1408,17 @@ body.activity-permalink {
 	*/
 
 .send-invites {
+
 	#buddypress {
+
 		#item-body {
+
 			@media screen and (min-width: 783px) {
 				border-top: 1px solid $nav-background-border;
 			}
 
 			@media screen and (max-width: 400px) {
+
 				.left-menu {
 					float: none;
 
@@ -1322,6 +1434,7 @@ body.activity-permalink {
 			}
 
 			li {
+
 				img.avatar {
 					display: block;
 					float: none;
@@ -1340,10 +1453,17 @@ body.activity-permalink {
 			}
 
 			@media screen and (min-width: 594px) {
-				#invite-list {width: 160px;}
-				.main-column {margin-left: 190px;}
+
+				#invite-list {
+					width: 160px;
+				}
+
+				.main-column {
+					margin-left: 190px;
+				}
 
 				li {
+
 					img.avatar {
 						float: left;
 						margin: 0 $spacing-val-sm 0 0;
@@ -1370,9 +1490,11 @@ body.activity-permalink {
 
 
 #buddypress {
+
 	.profile {
 
 		.bp-widget {
+
 			h2 {
 				background: $medium-background;
 				color: #fff;
@@ -1383,6 +1505,7 @@ body.activity-permalink {
 		// Edit profile
 
 		#profile-edit-form {
+
 			.button-nav:before,
 			.button-nav:after {
 				content: " ";
@@ -1411,12 +1534,14 @@ body.activity-permalink {
 				a {
 					background: none;
 					border: 0;
-					@include font-size(18)
+
+					@include font-size(18);
 				}
 			} //.button-nav
 
 			.field-visibility-settings-toggle,
 			.field-visibility-settings {
+
 				@include font-size(14);
 			}
 
@@ -1456,6 +1581,7 @@ body.activity-permalink {
 			td {
 				background: $content-background;
 				border-right: 0 !important;
+
 				@include box-model(border-box);
 				display: inline-block;
 				float: left;
@@ -1488,6 +1614,7 @@ body.activity-permalink {
 			td.thread-from,
 			td.thread-options {
 				border-left: 0;
+
 				@include calc(width, "100% - 30px");
 				margin-left: 0;
 			}
@@ -1502,6 +1629,7 @@ body.activity-permalink {
 				text-align: right;
 
 				a {
+
 					@include font-size(12);
 					line-height: 2.2;
 				}
@@ -1518,6 +1646,7 @@ body.activity-permalink {
 
 				@media screen and (max-width: 320px) {
 					clear: both;
+
 					@include font-size(11);
 					width: 100%;
 				}
@@ -1525,6 +1654,7 @@ body.activity-permalink {
 		}
 
 		tr.unread {
+
 			td {
 				background: lighten($unread, 7%);
 				border-color: $border-med;
@@ -1555,11 +1685,13 @@ body.activity-permalink {
 	#message-thread {
 
 		#message-subject {
+
 			@include title-background-dark();
 			padding: 0.5em;
 		}
 
 		.message-box {
+
 			.message-metadata {
 				margin-bottom: $spacing-val-sm;
 			}
@@ -1570,9 +1702,9 @@ body.activity-permalink {
 			}
 		}
 
-		.bp-tooltip:hover::after,
-		.bp-tooltip:active::after,
-		.bp-tooltip:focus::after {
+		.bp-tooltip:hover:after,
+		.bp-tooltip:active:after,
+		.bp-tooltip:focus:after {
 			right: 40px;
 			text-align: right;
 		}
@@ -1582,7 +1714,9 @@ body.activity-permalink {
 		list-style: none;
 		margin: 0;
 
-		li {margin-left: 0;}
+		li {
+			margin-left: 0;
+		}
 
 		li.friend-tab {
 			background: lighten($notice-info, 20%);
@@ -1617,10 +1751,12 @@ body.activity-permalink {
 	}
 
 	#message-threads.sitewide-notices {
+
 		td {
 			width: 100%;
 
 			strong {
+
 				@include title-background-dark();
 				@include font-size(16);
 				display: block;
@@ -1660,7 +1796,7 @@ body.activity-permalink {
 				text-indent: -999em;
 			}
 
-			a:last-child::after {
+			a:last-child:after {
 				content: attr(title);
 				display: block;
 				line-height: initial;
@@ -1671,9 +1807,9 @@ body.activity-permalink {
 
 	.messages-notices {
 
-		.bp-tooltip:hover::after,
-		.bp-tooltip:active::after,
-		.bp-tooltip:focus::after {
+		.bp-tooltip:hover:after,
+		.bp-tooltip:active:after,
+		.bp-tooltip:focus:after {
 			left: 0;
 			margin-top: 10px;
 			max-width: 240px;
@@ -1692,7 +1828,9 @@ body.activity-permalink {
 		background: #eee;
 		padding-left: $spacing-val-sm;
 
-		ul {	margin: 0; }
+		ul {
+			margin: 0;
+		}
 
 		li {
 			margin: $spacing-val-sm 0;
@@ -1713,12 +1851,17 @@ body.activity-permalink {
 	*/
 
 #buddypress {
+
 	#settings-form {
 		// 'p' = email notification screen sub heading
-		> p { @include font-size(20); }
+		> p {
+
+			@include font-size(20);
+		}
 	}
 
 	table.notification-settings {
+
 		td.yes,
 		td.no {
 			vertical-align: middle;
@@ -1734,6 +1877,7 @@ body.activity-permalink {
 		}
 
 		@media screen and (min-width: 401px) {
+
 			th.field-group-name,
 			td.field-name {
 				width: 70%;
@@ -1741,7 +1885,10 @@ body.activity-permalink {
 		}
 
 		td.field-visibility {
-			select {width: 100%;}
+
+			select {
+				width: 100%;
+			}
 		}
 	}
 } // close #buddypress - user acounts item-body
@@ -1765,6 +1912,7 @@ body.activity-permalink {
 	}
 
 	.standard-form {
+
 		input[type="text"],
 		input[type="email"],
 		input[type="password"],
@@ -1775,10 +1923,14 @@ body.activity-permalink {
 	}
 
 	// BP :(
-	#send-reply.standard-form textarea {width: 100%;}
+	#send-reply.standard-form textarea {
+		width: 100%;
+	}
 
 	div.activity-comments {
+
 		form {
+
 			.ac-textarea {
 				background: $light-background;
 				border: 1px solid $border-med;
@@ -1813,27 +1965,28 @@ body.activity-permalink {
 				width: 80%;
 			}
 
-			input[type='text'] {
+			input[type="text"] {
 				float: left;
 				margin: 0;
 				width: 80%;
 			}
 
-			input[type='text'],
-			input[type='submit'] {
+			input[type="text"],
+			input[type="submit"] {
 				border: 0;
+
 				@include font-size(14);
 				line-height: inherit;
 			}
 
-			input[type='text'] {
+			input[type="text"] {
 				border-right: 1px solid #ccc;
 				padding: 0.2em 0 0.2em 0.2em;
 			}
 
-			input[type='submit'] {
+			input[type="submit"] {
 				float: right;
-				font-weight: normal;
+				font-weight: 400;
 				padding: 0.2em 1em;
 				text-align: center;
 				text-transform: none;
@@ -1846,27 +1999,33 @@ body.activity-permalink {
 
 	// Shift the search parent to the right and allow to shrinkwrap
 	@media screen and (min-width: 401px) {
+
 		div.dir-search,
 		div.message-search {
 			clear: none;
 			float: right;
 
 			form {
+
 				label,
-				input[type='submit'],
-				input[type='text'] {
+				input[type="submit"],
+				input[type="text"] {
 					width: auto;
 				}
 			}
 		}
 
-		div.message-search { margin: 3px 0 0;}
+		div.message-search {
+			margin: 3px 0 0;
+		}
 
 		li.groups-members-search {
+
 			form {
+
 				label,
-				input[type='submit'],
-				input[type='text'] {
+				input[type="submit"],
+				input[type="text"] {
 					width: auto;
 				}
 			}
@@ -1882,6 +2041,7 @@ body.activity-permalink {
 *-------------------------------------------------------------------------------
 */
 #buddypress {
+
 	table {
 		border-color: $border-med;
 
@@ -1890,6 +2050,7 @@ body.activity-permalink {
 		}
 	}
 }
+
 /*__ User Account tables __*/
 
 /**
@@ -1903,19 +2064,25 @@ body.activity-permalink {
 #buddypress {
 
 	div#message {
+
 		p {
+
 			@include font-size(18);
-			font-weight: bold;
+			font-weight: 700;
 		}
 
 		&.info {
+
 			p {
+
 				@include message-box($notice-info);
 			}
 		}
 
 		&.updated {
+
 			p {
+
 				@include message-box($notice-update);
 			}
 		}
@@ -1926,11 +2093,15 @@ body.activity-permalink {
 
 // Without direct classes on our messages ( 'warning' )
 // we need to use the body classes
-// todo: If this is class .warning is included in main BP styles remove from here
+// @todo If this class .warning is included in main BP styles remove from here
 .delete-group {
+
 	#buddypress {
+
 		div#message.info {
+
 			p {
+
 				@include message-box($notice-warning);
 			}
 		}

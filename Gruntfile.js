@@ -21,6 +21,11 @@ module.exports = function( grunt ) {
 			'!bp-forums/bbpress/**/*'
 		],
 
+		// SASS generated "Twenty*"" CSS files
+		BP_SCSS_CSS_FILES = [
+			'!bp-templates/bp-legacy/css/twenty*.css'
+		],
+
 		stylelintConfigCss  = require('stylelint-config-wordpress/index.js'),
 		stylelintConfigScss = require('stylelint-config-wordpress/scss.js');
 
@@ -196,14 +201,6 @@ module.exports = function( grunt ) {
 				src: BP_JS
 			}
 		},
-		scsslint: {
-			options: {
-				bundleExec: false,
-				colorizeOutput: true,
-				config: '.scss-lint.yml'
-			},
-			core: [ SOURCE_DIR + 'bp-templates/bp-legacy/css/*.scss' ]
-		},
 		stylelint: {
 			css: {
 				options: {
@@ -212,7 +209,7 @@ module.exports = function( grunt ) {
 				},
 				expand: true,
 				cwd: SOURCE_DIR,
-				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC )
+				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC, BP_SCSS_CSS_FILES )
 			},
 			scss: {
 				options: {
@@ -293,7 +290,7 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'scsslint', 'sass', 'rtlcss'] );
+	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'rtlcss'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
 	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );

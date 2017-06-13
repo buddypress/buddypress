@@ -21,8 +21,8 @@ $x-large-up-2017:    "min-width: 79em";
 
 // In addition BP will use the em breakpoints as  referenced below to provide
 // a series of finer breakpoints for max widths, to allow fine adjustments;
-// For main structural elements we use the themes values, only using bp breakpoints
-// to manage granular elements in loops etc.
+// For main structural elements we use the themes values, only using bp
+// breakpoints to manage granular elements in loops etc.
 
 $x-small-only-bp: "max-width: 22em"; // for xtra small mobile only
 $small-only-bp:   "max-width: 38.75em"; //  small only
@@ -39,55 +39,73 @@ $med-only-bp:     "max-width: 46.25em"; // med small only
 //
 
 @mixin x-small-only {
-	@media screen and ($x-small-only-bp){
+
+	@media screen and ($x-small-only-bp) {
+
 		@content;
 	}
 }
 
 @mixin small-only {
-	@media screen and ($small-only-bp){
+
+	@media screen and ($small-only-bp) {
+
 		@content;
 	}
 }
 
 @mixin medium-only-bp {
-	@media screen and ($med-only-bp){
+
+	@media screen and ($med-only-bp) {
+
 		@content;
 	}
 }
 
 @mixin small-up-bp {
-	@media screen and ($small-up-bp){
+
+	@media screen and ($small-up-bp) {
+
 		@content;
 	}
 }
 
 @mixin small-up {
-	@media screen and ($small-up-2017){
+
+	@media screen and ($small-up-2017) {
+
 		@content;
 	}
 }
 
 @mixin med-small-up {
+
 	@media screen and ($med-small-up-2017) {
+
 		@content;
 	}
 }
 
 @mixin medium-up {
+
 	@media screen and ($medium-up-2017) {
+
 		@content;
 	}
 }
 
 @mixin large-up {
+
 	@media screen and ($large-up-2017) {
+
 		@content;
 	}
 }
 
 @mixin x-large-up {
+
 	@media screen and ($x-large-up-2017) {
+
 		@content;
 	}
 }
@@ -228,6 +246,7 @@ $stripe-odd:         #ebf0ff;
 $stripe-even:        #dbe5ff;
 $unread:             $x-light-grey;
 $link-action:        #c82b2b;
+
 /*--------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -240,7 +259,8 @@ loaded by default. If you want to modify the styles the normal BP Theme Compat
 hierarchy works and you can copy the file to buddypress/css/ or community/css/
 in your child themes root & either start over or modify the rulesets.
 
-If you do not require the styles you can dequeue them from the themes functions file.
+If you do not require the styles you can dequeue them from the themes
+functions file.
 
 Please see this codex article for more information:
 http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
@@ -291,12 +311,15 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .buddypress {
 	// Remove any empty clearing elements, CSS provides clearing.
-	div.clear {display: none;}
+	div.clear {
+		display: none;
+	}
 
 	// deal with global clearing property set on heading elements
 	// - for the moment we'll just specify this on  lists ul only
 
 	ul.item-list {
+
 		h1,
 		h2,
 		h3,
@@ -394,7 +417,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 // are added here under the themes body class to enable changing
 
 // Some element colors are inherited from BP original sheet so need to
-// to be reset under the dark scheme, where set in this sheet we simply state them
+// be reset under the dark scheme, where set in this sheet we simply state them
 // only for the light scheme, additionally elements such as BP form styles
 // need styles removing & are handled later in 'Forms' section
 body.colors-dark {
@@ -440,8 +463,8 @@ body.colors-dark {
 			}
 		}
 
-		// With the dark scheme the subnav links lose definition as
-		// nav menu links, add a border top to clarify the li.last element seperated from links.
+		// With the dark scheme the subnav links lose definition as nav menu links,
+		// add a border top to clarify the li.last element seperated from links.
 		#subnav.item-list-tabs {
 
 			ul {
@@ -479,6 +502,7 @@ body.colors-dark {
 
 			.activity-meta,
 			.action {
+
 				a {
 					background: $off-white;
 
@@ -499,6 +523,7 @@ body.colors-dark {
 		}
 
 		#item-header {
+
 			.user-nicename {
 				color: $bp-xlight-text;
 			}
@@ -559,7 +584,9 @@ body.colors-dark.group-members {
 
 		#subnav {
 
-			li {background: none;}
+			li {
+				background: none;
+			}
 
 			.groups-members-search {
 
@@ -712,7 +739,9 @@ body.colors-light {
 
 				a {
 
-					span {border-radius: 25%;}
+					span {
+						border-radius: 25%;
+					}
 				}
 			}
 		}
@@ -752,6 +781,7 @@ body.colors-light {
 			}
 
 			@include small-up-bp {
+
 				li {
 					float: left;
 				}
@@ -786,6 +816,7 @@ body.colors-light {
 				select,
 				label,
 				option {
+
 					@include font-size(14);
 				}
 
@@ -796,6 +827,7 @@ body.colors-light {
 			}
 
 			@include small-up-bp {
+
 				li.last {
 					text-align: right;
 				}
@@ -853,7 +885,9 @@ body.colors-light {
 				#subnav {
 					margin: 0 0 0 (-$spacing-val-md);
 
-					ul {margin-top: 0;}
+					ul {
+						margin-top: 0;
+					}
 				}
 			}
 
@@ -897,6 +931,7 @@ body.colors-light {
 				li.current {
 					border: 1px solid $border-med;
 					border-bottom-color: $content-background;
+
 					@include border-top-radius(4px);
 					margin-bottom: -1px;
 
@@ -911,6 +946,7 @@ body.colors-light {
 		} // close .item-list-tabs
 
 		#subnav {
+
 			ul {
 				border-bottom: 0;
 			}
@@ -939,7 +975,10 @@ body.colors-light {
 			width: 0;
 		}
 
-		.pag-count {margin-left: 0;}
+		.pag-count {
+			margin-left: 0;
+		}
+
 		.pagination-links {
 			margin-right: 0;
 
@@ -956,7 +995,10 @@ body.colors-light {
 				color: inherit;
 				overflow: visible;
 				width: auto;
-				&:before {display: none;}
+
+				&:before {
+					display: none;
+				}
 			}
 
 			.prev {
@@ -985,6 +1027,7 @@ body.colors-light {
 
 		.activity-header,
 		.activity-meta {
+
 			@include default-font-sans();
 		}
 	}
@@ -1045,7 +1088,9 @@ body.colors-light {
 
 				text-align: center;
 
-				a {border-bottom: 0;}
+				a {
+					border-bottom: 0;
+				}
 
 				img.avatar {
 					display: inline-block;
@@ -1077,6 +1122,7 @@ body.colors-light {
 				}
 
 				.item-title {
+
 					@include font-size(18);
 					line-height: 1.2;
 					text-align: center;
@@ -1089,9 +1135,11 @@ body.colors-light {
 
 					.update {
 						display: block;
+
 						@include font-size(13);
 
 						@include medium-up {
+
 							@include font-size(14);
 						}
 
@@ -1117,7 +1165,8 @@ body.colors-light {
 					width: 55%;
 
 					.item-title {
-						@include font-size(22)
+
+						@include font-size(22);
 					}
 				}
 
@@ -1193,6 +1242,7 @@ body.colors-light {
 */
 
 #buddypress {
+
 	form#whats-new-form {
 
 		// Line-height issue inherited from BP rules, override.
@@ -1218,7 +1268,7 @@ body.colors-light {
 				#whats-new-post-in-box {
 					border: 1px solid rgba($border-color, 0.5);
 					float: left;
-					line-height: 1.5em;
+					line-height: 1.5;
 					margin-top: 12px;
 					padding-left: 0.2em;
 					width: 100%;
@@ -1234,6 +1284,7 @@ body.colors-light {
 				}
 
 				@include small-up {
+
 					#whats-new-post-in-box {
 						width: auto;
 					}
@@ -1250,6 +1301,7 @@ body.colors-light {
 
 	// User account form requires matching bp default specificity
 	#item-body {
+
 		form#whats-new-form {
 			margin: $spacing-val-lg 0;
 		}
@@ -1293,6 +1345,7 @@ body.colors-light {
 				margin-left: 0;
 
 				.activity-header {
+
 					@include font-size(14);
 
 					a {
@@ -1307,7 +1360,10 @@ body.colors-light {
 					float: left;
 					margin-right: $spacing-val-sm;
 					text-align: left;
-					a {border-bottom: 0;}
+
+					a {
+						border-bottom: 0;
+					}
 				}
 
 				.activity-content {
@@ -1315,6 +1371,7 @@ body.colors-light {
 					overflow: hidden;
 
 					.activity-header {
+
 						@include font-size(16);
 					}
 				}
@@ -1340,6 +1397,7 @@ body.colors-light {
 			.activity-content {
 
 				.activity-header {
+
 					@include font-size(14);
 				}
 			}
@@ -1390,7 +1448,10 @@ body.colors-light {
 			&:hover {
 				background: darken($light-background, 1%);
 				border: 1px solid rgba(#9fd1e2, 0.3);
-				a { font-style: italic; }
+
+				a {
+					font-style: italic;
+				}
 			}
 
 			a {
@@ -1404,6 +1465,7 @@ body.colors-light {
 /* Single activity view  - activity permalink */
 
 .activity-permalink {
+
 	#buddypress {
 
 		#activity-stream {
@@ -1413,14 +1475,21 @@ body.colors-light {
 			}
 
 			li.mini {
+
 				.activity-header {
+
 					@include font-size(16);
+
 					@include med-small-up {
+
 						@include font-size(20);
 					}
 
 					margin-bottom: $spacing-val-lg;
-					p {padding: $spacing-val-md;}
+
+					p {
+						padding: $spacing-val-md;
+					}
 				}
 			}
 		}
@@ -1467,8 +1536,9 @@ body.colors-light {
 					color: rgba($body-text, 0.8);
 					display: inline-block;
 					font-family: inherit;
+
 					@include font-size(12);
-					font-weight: normal;
+					font-weight: 400;
 					line-height: 1.2;
 					padding: 4px 10px;
 					text-transform: lowercase;
@@ -1505,6 +1575,7 @@ body.colors-light {
 		@include medium-up {
 
 			li {
+
 				.item-avatar,
 				.item {
 					float: left;
@@ -1557,8 +1628,14 @@ body.colors-light {
 		}
 
 		@include small-up {
-			#profile-details-section {float: right;}
-			#basic-details-section {float: left;}
+
+			#profile-details-section {
+				float: right;
+			}
+
+			#basic-details-section {
+				float: left;
+			}
 		}
 
 	}
@@ -1622,6 +1699,7 @@ body.colors-light {
 		// we need to remove the cover image dec styles
 		// & reset them for med up  only.
 		#item-header-cover-image {
+
 			.user-nicename {
 				color: $body-text;
 				text-shadow: none;
@@ -1642,10 +1720,13 @@ body.colors-light {
 		#item-header-content {
 
 			#item-meta {
+
 				@include font-size(14);
 				text-align: left;
 
-				p {margin-bottom: 0.5em;}
+				p {
+					margin-bottom: 0.5em;
+				}
 			}
 		}
 	}
@@ -1653,6 +1734,7 @@ body.colors-light {
 	@include medium-only-bp {
 
 		main {
+
 			header.entry-header {
 				padding-bottom: 1rem;
 			}
@@ -1675,7 +1757,7 @@ body.colors-light {
 
 				.generic-button {
 					float: none;
-					margin: 1.5em 0 0 0;
+					margin: 1.5em 0 0;
 				}
 			}
 		}
@@ -1687,6 +1769,7 @@ body.colors-light {
 			}
 
 			#item-header-avatar {
+
 				img.avatar {
 					margin-right: 0;
 				}
@@ -1712,7 +1795,9 @@ body.colors-light {
 	#buddypress {
 
 		@include medium-only-bp {
+
 			#item-header {
+
 				#item-meta {
 					margin-bottom: $spacing-val-md;
 				}
@@ -1780,9 +1865,11 @@ body.colors-light {
 				}
 
 				h2 {
+
 					@include font-size(14);
 
 					@include med-small-up {
+
 						@include font-size(16);
 					}
 
@@ -1826,6 +1913,7 @@ body.colors-light {
 */
 
 .bp-user {
+
 	#buddypress {
 
 		#item-header {
@@ -1836,7 +1924,6 @@ body.colors-light {
 				width: 100%;
 
 				img.avatar,
-
 				a {
 					display: inline-block;
 					float: none;
@@ -1930,6 +2017,7 @@ body.colors-light {
 		textarea + p label {
 			background: none;
 			color: inherit;
+
 			@include font-size(14);
 			width: auto;
 		}
@@ -1952,6 +2040,7 @@ body.colors-light {
 
 			ul {
 				color: rgba($body-text, 0.6);
+
 				@include font-size(14);
 			}
 		}
@@ -1980,7 +2069,9 @@ body.colors-light {
 				h5 {
 					float: left;
 
-					> a {border-bottom: 0;}
+					> a {
+						border-bottom: 0;
+					}
 				}
 
 				span.small {
@@ -2019,7 +2110,9 @@ body.colors-light {
 .groups.group-members {
 
 	#subnav {
+
 		li {
+
 			@include small-only {
 				background: $content-background;
 				padding: $spacing-val-md 0;
@@ -2035,7 +2128,10 @@ body.colors-light {
 					width: 100%;
 
 					label {
-						input[type="text"] {width: 100%;}
+
+						input[type="text"] {
+							width: 100%;
+						}
 					}
 				}
 
@@ -2072,11 +2168,13 @@ body.colors-light {
 		table {
 
 			th {
-				@include font-size(14)
+
+				@include font-size(14);
 			}
 
 			td {
-				@include font-size(12)
+
+				@include font-size(12);
 			}
 
 			a {
@@ -2086,27 +2184,33 @@ body.colors-light {
 			@include medium-up {
 
 				th {
-					@include font-size(16)
+
+					@include font-size(16);
 				}
 
 				td {
-					@include font-size(14)
+
+					@include font-size(14);
 				}
 			}
 
 			@include large-up {
 
 				th {
-					@include font-size(18)
+
+					@include font-size(18);
 				}
 
 				td {
-					@include font-size(16)
+
+					@include font-size(16);
 				}
 			}
 		}
 
-		.pag-count {font-style: italic;}
+		.pag-count {
+			font-style: italic;
+		}
 
 		.notifications-options-nav,
 		.messages-options-nav {
@@ -2171,7 +2275,9 @@ body.colors-light {
 				padding: 0.1em 0 0.1em 0.4em;
 			}
 
-			table {margin-top: 0;}
+			table {
+				margin-top: 0;
+			}
 
 			.profile-fields {
 
@@ -2219,13 +2325,15 @@ body.colors-light {
 					a {
 						background: none;
 						border: 0;
-						@include font-size(18)
+
+						@include font-size(18);
 					}
 				} //.button-nav
 
 				.field-visibility-settings-toggle,
 				.field-visibility-settings-notoggle,
 				.field-visibility-settings {
+
 					@include font-size(14);
 					margin-top: $spacing-val-sm;
 				}
@@ -2233,6 +2341,7 @@ body.colors-light {
 				.field-visibility-settings-close,
 				.visibility-toggle-link {
 					background: $dark-background;
+
 					@include border-radius(3px);
 					color: #fff;
 					padding: 0.2em 0.5em;
@@ -2240,8 +2349,12 @@ body.colors-light {
 			} // close profile form
 
 			.bp-avatar {
+
 				#bp-delete-avatar {
-					a {font-size: inherit; }
+
+					a {
+						font-size: inherit;
+					}
 				}
 			}
 		} // close .profile
@@ -2260,8 +2373,11 @@ body.colors-light {
 	#buddypress {
 
 		#groups-list {
+
 			li {
+
 				.item {
+
 					@media screen and (min-width: 77.5em) {
 						left: 5%;
 						width: 50%;
@@ -2307,7 +2423,7 @@ body.colors-light {
 
 			.message-metadata {
 
-				&::after {
+				&:after {
 					clear: both;
 					content: "";
 					display: table;
@@ -2318,6 +2434,7 @@ body.colors-light {
 				}
 
 				@include med-small-up {
+
 					img.avatar {
 						float: left;
 					}
@@ -2349,9 +2466,9 @@ body.colors-light {
 				background: $content-background;
 			}
 
-			.bp-tooltip:hover::after,
-			.bp-tooltip:active::after,
-			.bp-tooltip:focus::after {
+			.bp-tooltip:hover:after,
+			.bp-tooltip:active:after,
+			.bp-tooltip:focus:after {
 				right: 40px;
 				text-align: right;
 			}
@@ -2421,6 +2538,7 @@ body.colors-light {
 				td.thread-from,
 				td.thread-options {
 					border-left: 0 !important;
+
 					@include calc(width, "100% - 30px");
 					margin-left: 0;
 				}
@@ -2434,6 +2552,7 @@ body.colors-light {
 					text-align: right;
 
 					a {
+
 						@include font-size(12);
 						line-height: 2.2;
 					}
@@ -2450,6 +2569,7 @@ body.colors-light {
 
 					@include small-only {
 						clear: both;
+
 						@include font-size(11);
 						width: 100%;
 					}
@@ -2485,7 +2605,9 @@ body.colors-light {
 		.acfb-holder {
 			list-style: none;
 
-			li {margin-left: 0;}
+			li {
+				margin-left: 0;
+			}
 
 			li.friend-tab {
 				background: lighten($notice-info, 20%);
@@ -2542,6 +2664,7 @@ body.colors-light {
 			}
 
 			td:nth-child(2) {
+
 				strong {
 					margin: -8px -8px 8px;
 				}
@@ -2569,7 +2692,7 @@ body.colors-light {
 					text-indent: -999em;
 				}
 
-				a:last-child::after {
+				a:last-child:after {
 					content: attr(title);
 					display: block;
 					line-height: initial;
@@ -2585,7 +2708,9 @@ body.colors-light {
 		background: #eee;
 		padding-left: $spacing-val-sm;
 
-		ul {	margin: 0; }
+		ul {
+			margin: 0;
+		}
 
 		li {
 			margin: $spacing-val-sm 0;
@@ -2612,6 +2737,7 @@ body.colors-light {
 		#settings-form {
 			// 'p' = email notification screen sub heading
 			> p {
+
 				@include font-size(20);
 				margin: $spacing-val-md 0 $spacing-val-sm;
 			}
@@ -2676,9 +2802,9 @@ body.colors-light {
 				float: none;
 			}
 
-			input[type='text'],
-			input[type='email'],
-			input[type='password'],
+			input[type="text"],
+			input[type="email"],
+			input[type="password"],
 			textarea {
 				width: 100%;
 			}
@@ -2693,6 +2819,7 @@ body.colors-light {
 	div.activity-comments {
 
 		form {
+
 			.ac-textarea {
 				background: $light-background;
 				border: 1px solid rgba($border-color, 0.5);
@@ -2730,10 +2857,13 @@ body.colors-light {
 	} // close .standard-form
 
 	#signup_form.standard-form {
+
 		div.submit {
 			float: none;
 
-			input {margin-right: 0;}
+			input {
+				margin-right: 0;
+			}
 		}
 	}
 
@@ -2752,6 +2882,7 @@ body.colors-light {
 
 		form { // *sigh* only to bludgeon over specified rules
 			border: 1px solid rgba($border-color, 0.6);
+
 			@include border-radius(2px);
 			overflow: hidden;
 
@@ -2770,6 +2901,7 @@ body.colors-light {
 			input[type="text"],
 			input[type="submit"] {
 				border: 0;
+
 				@include font-size(14);
 				line-height: inherit;
 			}
@@ -2781,9 +2913,10 @@ body.colors-light {
 			}
 
 			input[type="submit"] {
+
 				@include border-radius-none();
 				float: right;
-				font-weight: normal;
+				font-weight: 400;
 				padding: 0.2em 1em;
 				text-align: center;
 				text-transform: none;
@@ -2793,8 +2926,8 @@ body.colors-light {
 
 	} // close .dir-search, .message-search
 
-	// Dirs & certain components hide search hides labels so can't width the label element
-	// adjust so that the input takes reduced width.
+	// Dirs & certain components hide search hides labels so can't width the
+	// label element adjust so that the input takes reduced width.
 
 	div.dir-search {
 		margin-top: 0;
@@ -2804,7 +2937,7 @@ body.colors-light {
 	#search-groups-form,
 	#search-message-form {
 
-		input[type='text'] {
+		input[type="text"] {
 			float: left;
 			margin: 0;
 			width: 70%;
@@ -2814,6 +2947,7 @@ body.colors-light {
 	// Shift the search parent to the right and allow to shrinkwrap
 
 	@include small-up {
+
 		div.dir-search,
 		div.message-search,
 		li.groups-members-search {
@@ -2832,11 +2966,13 @@ body.colors-light {
 
 			form {
 
-				input[type='text'] {
+				input[type="text"] {
+
 					@include font-size(16) ;
 				}
 
-				input[type='submit'] {
+				input[type="submit"] {
+
 					@include font-size(16) ;
 				}
 			}
@@ -2845,7 +2981,8 @@ body.colors-light {
 
 } // close #buddypress
 
-// Adjustments for form elements colors, backgrounds, borders under the dark scheme.
+// Adjustments for form elements colors, backgrounds, borders under
+// the dark scheme.
 body.colors-dark {
 
 	#page { // for weight
@@ -2859,6 +2996,7 @@ body.colors-dark {
 				form {
 					background: #333;
 					border-color: #555;
+
 					@include border-radius(2px);
 					padding: 1px;
 				}
@@ -2868,6 +3006,7 @@ body.colors-dark {
 				}
 
 				input[type="submit"] {
+
 					@include border-radius(2px);
 				}
 			}
@@ -2878,6 +3017,7 @@ body.colors-dark {
 		}
 	}
 }
+
 /**
 *-------------------------------------------------------------------------------
 * @section 8.0 - Tables - General
@@ -2892,6 +3032,7 @@ body.colors-dark {
 #buddypress {
 
 	table {
+
 		@include font-size(14);
 		margin: $spacing-val-md 0;
 
@@ -2908,7 +3049,9 @@ body.colors-dark {
 	}
 
 	@include medium-up {
+
 		table {
+
 			@include font-size(16);
 		}
 	}
@@ -2970,9 +3113,9 @@ body.colors-dark {
 
 	.messages-notices {
 
-		.bp-tooltip:hover::after,
-		.bp-tooltip:active::after,
-		.bp-tooltip:focus::after {
+		.bp-tooltip:hover:after,
+		.bp-tooltip:active:after,
+		.bp-tooltip:focus:after {
 			left: 0;
 			margin-top: 20px;
 			max-width: 240px;
@@ -2998,13 +3141,15 @@ body.colors-dark {
 	div#message {
 
 		p {
+
 			@include font-size(18);
-			font-weight: bold;
+			font-weight: 700;
 		}
 
 		&.info {
 
 			p {
+
 				@include message-box($notice-info);
 			}
 		}
@@ -3012,6 +3157,7 @@ body.colors-dark {
 		&.updated {
 
 			p {
+
 				@include message-box($notice-update);
 			}
 		}
@@ -3025,6 +3171,7 @@ body.colors-dark {
 			background: #7dd4ff;
 			border: 1px solid #000;
 			color: $body-text;
+
 			@include font-size(16);
 		}
 	}
@@ -3033,7 +3180,7 @@ body.colors-dark {
 
 // Without direct classes on our mesages ( 'warning')
 // we need to use the body classes
-// todo: If this is class .warning is included in main BP styles remove from here
+// @todo If this class .warning is included in main BP styles remove from here
 
 .delete-group {
 
@@ -3042,6 +3189,7 @@ body.colors-dark {
 		div#message.info {
 
 			p {
+
 				@include message-box($notice-warning);
 			}
 		}

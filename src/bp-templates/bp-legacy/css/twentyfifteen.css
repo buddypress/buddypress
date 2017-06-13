@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /*------------------------------------------------------------------------------
 
 This is the BuddyPress companion stylesheet for
@@ -11,7 +10,8 @@ loaded by default. If you want to modify the styles the normal BP Theme Compat
 hierarchy works and you can copy the file to buddypress/css/ or community/css/
 in your child themes root & either start over or modify the rulesets.
 
-If you do not require the styles you can dequeue them from the themes functions file.
+If you do not require the styles you can dequeue them from the themes
+functions file.
 
 Please see this codex article for more information:
 http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
@@ -101,7 +101,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .buddypress main article .entry-header,
 .buddypress main article .entry-content {
-	padding: 0 3rem 3rem 3rem;
+	padding: 0 3rem 3rem;
 }
 
 .buddypress main article #buddypress {
@@ -496,7 +496,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress form#whats-new-form #whats-new-options[style] #whats-new-post-in-box {
 	border: 1px solid rgba(153, 153, 153, 0.5);
 	float: left;
-	line-height: 1.5em;
+	line-height: 1.5;
 	margin-top: 12px;
 	padding-left: 0.2em;
 	width: 100%;
@@ -770,7 +770,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-family: inherit;
 	font-size: 12px;
 	font-size: 1.2rem;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1.2;
 	padding: 4px 10px;
 	text-transform: lowercase;
@@ -831,7 +831,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	.bp-user #buddypress #item-header .generic-button,
 	.single-item.groups #buddypress #item-header .generic-button {
 		float: none;
-		margin: 1.5em 0 0 0;
+		margin: 1.5em 0 0;
 	}
 }
 
@@ -1428,7 +1428,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	font-style: normal;
 }
 
-.bp-user #buddypress #message-thread .message-metadata::after {
+.bp-user #buddypress #message-thread .message-metadata:after {
 	clear: both;
 	content: "";
 	display: table;
@@ -1466,9 +1466,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	background: #fff;
 }
 
-.bp-user #buddypress #message-thread .bp-tooltip:hover::after,
-.bp-user #buddypress #message-thread .bp-tooltip:active::after,
-.bp-user #buddypress #message-thread .bp-tooltip:focus::after {
+.bp-user #buddypress #message-thread .bp-tooltip:hover:after,
+.bp-user #buddypress #message-thread .bp-tooltip:active:after,
+.bp-user #buddypress #message-thread .bp-tooltip:focus:after {
 	right: 40px;
 	text-align: right;
 }
@@ -1556,8 +1556,8 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 .bp-user #buddypress #message-threads tr.unread td {
 	background: #dce5ff;
-	border-bottom-color: #b7b7b7;
 	border-color: #d1d0d0;
+	border-bottom-color: #b7b7b7;
 }
 
 .bp-user #buddypress #message-threads th {
@@ -1653,7 +1653,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	text-indent: -999em;
 }
 
-.bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child::after {
+.bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child:after {
 	content: attr(title);
 	display: block;
 	line-height: initial;
@@ -1743,9 +1743,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 
 #buddypress .wp-editor-wrap a.button,
 #buddypress .wp-editor-wrap button,
-#buddypress .wp-editor-wrap input[type=submit],
-#buddypress .wp-editor-wrap input[type=button],
-#buddypress .wp-editor-wrap input[type=reset] {
+#buddypress .wp-editor-wrap input[type="submit"],
+#buddypress .wp-editor-wrap input[type="button"],
+#buddypress .wp-editor-wrap input[type="reset"] {
 	padding: 0 5px 1px;
 }
 
@@ -1755,9 +1755,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	list-style: none;
 }
 
-#buddypress .standard-form input[type='text'],
+#buddypress .standard-form input[type="text"],
 #buddypress .standard-form textarea,
-#buddypress .group-create-form input[type='text'],
+#buddypress .group-create-form input[type="text"],
 #buddypress .group-create-form textarea {
 	width: 100%;
 }
@@ -1783,38 +1783,38 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	width: 80%;
 }
 
-#buddypress div.dir-search form input[type='text'],
-#buddypress div.message-search form input[type='text'],
-#buddypress li.groups-members-search form input[type='text'] {
+#buddypress div.dir-search form input[type="text"],
+#buddypress div.message-search form input[type="text"],
+#buddypress li.groups-members-search form input[type="text"] {
 	float: left;
 	margin: 0;
 	width: 80%;
 }
 
-#buddypress div.dir-search form input[type='text'],
-#buddypress div.dir-search form input[type='submit'],
-#buddypress div.message-search form input[type='text'],
-#buddypress div.message-search form input[type='submit'],
-#buddypress li.groups-members-search form input[type='text'],
-#buddypress li.groups-members-search form input[type='submit'] {
+#buddypress div.dir-search form input[type="text"],
+#buddypress div.dir-search form input[type="submit"],
+#buddypress div.message-search form input[type="text"],
+#buddypress div.message-search form input[type="submit"],
+#buddypress li.groups-members-search form input[type="text"],
+#buddypress li.groups-members-search form input[type="submit"] {
 	font-size: 14px;
 	font-size: 1.4rem;
 	border: 0;
 	line-height: inherit;
 }
 
-#buddypress div.dir-search form input[type='text'],
-#buddypress div.message-search form input[type='text'],
-#buddypress li.groups-members-search form input[type='text'] {
+#buddypress div.dir-search form input[type="text"],
+#buddypress div.message-search form input[type="text"],
+#buddypress li.groups-members-search form input[type="text"] {
 	border-right: 1px solid rgba(153, 153, 153, 0.4);
 	padding: 0.2em 0 0.2em 0.2em;
 }
 
-#buddypress div.dir-search form input[type='submit'],
-#buddypress div.message-search form input[type='submit'],
-#buddypress li.groups-members-search form input[type='submit'] {
+#buddypress div.dir-search form input[type="submit"],
+#buddypress div.message-search form input[type="submit"],
+#buddypress li.groups-members-search form input[type="submit"] {
 	float: right;
-	font-weight: normal;
+	font-weight: 400;
 	padding: 0.2em 1em;
 	text-align: center;
 	text-transform: none;
@@ -1829,26 +1829,26 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 		margin-bottom: 5px !important;
 	}
 	#buddypress div.dir-search form label,
-	#buddypress div.dir-search form input[type='text'],
-	#buddypress div.dir-search form input[type='submit'],
+	#buddypress div.dir-search form input[type="text"],
+	#buddypress div.dir-search form input[type="submit"],
 	#buddypress div.message-search form label,
-	#buddypress div.message-search form input[type='text'],
-	#buddypress div.message-search form input[type='submit'],
+	#buddypress div.message-search form input[type="text"],
+	#buddypress div.message-search form input[type="submit"],
 	#buddypress li.groups-members-search form label,
-	#buddypress li.groups-members-search form input[type='text'],
-	#buddypress li.groups-members-search form input[type='submit'] {
+	#buddypress li.groups-members-search form input[type="text"],
+	#buddypress li.groups-members-search form input[type="submit"] {
 		width: auto;
 	}
 }
 
 @media screen and (min-width: 77.5em) {
-	#buddypress .dir-search form input[type='text'],
-	#buddypress .message-search form input[type='text'] {
+	#buddypress .dir-search form input[type="text"],
+	#buddypress .message-search form input[type="text"] {
 		font-size: 16px;
 		font-size: 1.6rem;
 	}
-	#buddypress .dir-search form input[type='submit'],
-	#buddypress .message-search form input[type='submit'] {
+	#buddypress .dir-search form input[type="submit"],
+	#buddypress .message-search form input[type="submit"] {
 		font-size: 16px;
 		font-size: 1.6rem;
 	}
@@ -1925,9 +1925,9 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	text-align: center;
 }
 
-#buddypress .messages-notices .bp-tooltip:hover::after,
-#buddypress .messages-notices .bp-tooltip:active::after,
-#buddypress .messages-notices .bp-tooltip:focus::after {
+#buddypress .messages-notices .bp-tooltip:hover:after,
+#buddypress .messages-notices .bp-tooltip:active:after,
+#buddypress .messages-notices .bp-tooltip:focus:after {
 	left: 0;
 	margin-top: 10px;
 	max-width: 240px;
@@ -1954,7 +1954,7 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 #buddypress div#message p {
 	font-size: 18px;
 	font-size: 1.8rem;
-	font-weight: bold;
+	font-weight: 700;
 }
 
 #buddypress div#message.info p {

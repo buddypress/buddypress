@@ -12,53 +12,66 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 	margin-left: 10px;
 	margin-top: 1px;
 }
+
 #bp-groups-edit-form input {
 	outline: medium none;
 }
+
 #bp-groups-edit-form input#bp-groups-name {
 	font-size: 1.7em;
 	width: 100%;
 	margin-bottom: 6px;
 }
+
 #bp-groups-edit-form input#bp-groups-new-members {
 	border: 1px solid #e5e5e5;
 	margin-top: 6px;
 	width: 100%;
 }
+
 #bp-groups-new-members-list {
 	margin: 0;
 }
+
 .bp-groups-settings-section {
 	margin-top: 10px;
-	line-height: 2em;
+	line-height: 2;
 }
+
 .bp-groups-settings-section legend {
 	margin-top: 10px;
-	font-weight: bold;
+	font-weight: 700;
 }
+
 .bp-groups-settings-section label {
 	clear: right;
 	display: block;
 	float: right;
 	vertical-align: middle;
 }
+
 #bp-groups-permalink-box {
 	line-height: 24px;
 	color: #666;
 }
+
 #bp-groups-permalink {
 	margin-left: 24px;
 }
+
 .bp-groups-member-type {
 	position: relative;
 }
+
 .bp-groups-member-type > h4 {
-	margin-bottom: .5em;
+	margin-bottom: 0.5em;
 }
+
 ul.bp-group-delete-list {
 	list-style-type: disc;
 	margin: 4px 26px;
 }
+
 /*
  * Members Pagination
  */
@@ -67,21 +80,26 @@ ul.bp-group-delete-list {
 	text-align: left;
 	width: 100%;
 }
+
 .bp-group-admin-pagination.table-top {
 	top: 0;
 }
+
 .bp-group-admin-pagination.table-bottom {
 	bottom: 0;
 }
+
 .bp-group-admin-pagination-viewing {
 	color: #777;
 	font-size: 12px;
 	font-style: italic;
 }
+
 .bp-group-admin-pagination-links {
 	white-space: nowrap;
 	padding-right: 15px;
 }
+
 .bp-group-admin-pagination-links .page-numbers {
 	display: inline-block;
 	min-width: 12px;
@@ -93,9 +111,11 @@ ul.bp-group-delete-list {
 	text-align: center;
 	text-decoration: none;
 }
+
 .bp-group-admin-pagination-links a.page-numbers:hover {
 	text-decoration: underline;
 }
+
 .bp-group-admin-pagination-links .page-numbers.current,
 .bp-group-admin-pagination-links .page-numbers.dots {
 	border-color: #ddd;
@@ -110,15 +130,18 @@ table.bp-group-members .uid-column {
 	padding-right: 20px;
 	padding-left: 20px;
 }
+
 table.bp-group-members .uname-column {
 	width: 70%;
 }
+
 table.bp-group-members .urole-column {
 	padding-right: 20px;
 	padding-left: 20px;
 }
 
 @media screen and (max-width: 782px) {
+
 	.bp-groups-settings-section label {
 		margin: 0.25em 0;
 	}

@@ -34,7 +34,7 @@ TABLE OF CONTENTS:
 .bp-badge {
 	color: #d84800;
 	display: inline-block;
-	font: normal 150px/1 'dashicons' !important;
+	font: 400 150px/1 dashicons !important;
 }
 
 .bp-badge:before {
@@ -54,6 +54,7 @@ TABLE OF CONTENTS:
 }
 
 @media only screen and (max-width: 500px) {
+
 	.about-wrap .bp-badge {
 		position: relative;
 		margin: 10px auto;
@@ -88,7 +89,7 @@ TABLE OF CONTENTS:
 	float: left;
 	height: 100px;
 	line-height: 100px;
-	margin: 0 15px 15px 0 ;
+	margin: 0 15px 15px 0;
 	text-align: center;
 	width: 100px;
 }
@@ -126,7 +127,7 @@ TABLE OF CONTENTS:
 	float: left;
 	height: 80px;
 	line-height: 80px;
-	margin: 0 15px 15px 0 ;
+	margin: 0 15px 15px 0;
 	text-align: center;
 	width: 80px;
 }
@@ -163,8 +164,8 @@ TABLE OF CONTENTS:
 	line-height: 1.5;
 }
 
-.buddypress .bp-feature::after {
-	content: '';
+.buddypress .bp-feature:after {
+	content: "";
 }
 
 .buddypress .bp-feature-imaged .feature-title {
@@ -207,8 +208,8 @@ TABLE OF CONTENTS:
 	padding-bottom: 0;
 }
 
-.buddypress .bp-changelog-section::after {
-	content: '';
+.buddypress .bp-changelog-section:after {
+	content: "";
 }
 
 .buddypress .bp-changelog-section .changelog-title {
@@ -262,6 +263,7 @@ TABLE OF CONTENTS:
 }
 
 @media screen and ( max-width: 782px ) {
+
 	.bp-headline-feature,
 	.bp-features-section,
 	.bp-changelog-section,
@@ -269,31 +271,38 @@ TABLE OF CONTENTS:
 		margin-left: 20px;
 		margin-right: 20px;
 	}
+
 	.buddypress .bp-headline-feature {
 		padding: 0;
 	}
+
 	.buddypress .bp-headline {
 		margin: 0;
 		width: 97%;
 	}
+
 	.buddypress .bp-features-section {
 		clear: both;
 		margin-bottom: 0;
 		margin-top: 2em;
 		padding-bottom: 2em;
 	}
+
 	.buddypress .bp-features-section .bp-feature-with-images {
 		margin-bottom: 2em;
 	}
+
 	.buddypress .bp-features-section .headline-title {
 		margin-bottom: 1em;
 	}
+
 	.buddypress .bp-changelog-section .changelog-title {
 		font-size: 1.25em;
 		line-height: 1.5;
 		margin-bottom: 0.5em;
 		margin-top: 0.5em;
 	}
+
 	.buddypress .bp-features-section .feature-title,
 	.buddypress .bp-changelog-section .title {
 		font-size: 1.25em;
@@ -301,6 +310,7 @@ TABLE OF CONTENTS:
 		margin-top: 0.6em;
 		text-align: left;
 	}
+
 	.buddypress .bp-features-section .bp-feature,
 	.buddypress .bp-features-section .bp-feature-imaged {
 		clear: both;
@@ -311,30 +321,38 @@ TABLE OF CONTENTS:
 		padding-right: 1em;
 		width: 100%;
 	}
+
 	.buddypress .bp-features-section .bp-feature-imaged p {
 		font-size: 1em;
 	}
+
 	.buddypress .bp-features-section .bp-feature span {
 		margin-top: 0.33em;
 	}
+
 	.buddypress .bp-feature.opposite .feature-title,
 	.buddypress .bp-feature.opposite p {
 		float: none;
 	}
+
 	.buddypress .bp-changelog-section {
-	clear: both;
-	margin-bottom: 2em;
-	margin-top: 2em;
+		clear: both;
+		margin-bottom: 2em;
+		margin-top: 2em;
 	}
+
 	.buddypress .bp-changelog-section .changelog-title {
 		margin-bottom: 1.5em;
 	}
+
 	.buddypress .bp-changelog .title {
 		font-size: 1em;
 	}
+
 	.buddypress .bp-changelog p {
 		margin-bottom: 1em;
 	}
+
 	.buddypress .bp-changelog-section .two-col > div,
 	.buddypress .bp-changelog-section .three-col .col {
 		margin-top: 0;
@@ -342,10 +360,13 @@ TABLE OF CONTENTS:
 		width: 100%;
 	}
 }
+
 @media screen and ( max-width: 360px ) {
+
 	.buddypress .bp-headline {
 		text-align: center;
 	}
+
 	.buddypress .bp-headline span.dashicons {
 		clear: none;
 		font-size: 80px;
@@ -355,32 +376,39 @@ TABLE OF CONTENTS:
 		margin: 0 auto;
 		width: 80px;
 	}
+
 	.buddypress .bp-headline-feature .headline-title,
 	.buddypress .bp-features-section .headline-title {
 		font-size: 1.5em;
 		line-height: 1.5;
 		text-align: left;
 	}
+
 	.buddypress .bp-headline-feature .headline-title {
-		margin: 1em 0 0 0;
+		margin: 1em 0 0;
 	}
+
 	.buddypress .bp-headline-feature p {
 		margin: 1.15em auto 0.6em 0;
 		text-align: left;
 		width: auto;
 	}
+
 	.buddypress .bp-features-section .bp-feature {
 		text-align: center;
 	}
+
 	.buddypress .bp-features-section span.dashicons {
 		float: none;
 	}
+
 	.buddypress .bp-features-section .feature-title,
 	.buddypress .bp-features-section p {
 		margin-left: 0;
 		text-align: left;
 	}
 }
+
 /*------------------------------------------------------------------------------
  * 2.0 Dashicons
  *----------------------------------------------------------------------------*/
@@ -414,7 +442,7 @@ TABLE OF CONTENTS:
 
 #adminmenu #toplevel_page_bp-friends .wp-menu-image:before,
 #adminmenu #toplevel_page_bp-friends_user .wp-menu-image:before,
-#adminmenu #toplevel_page_bp-friends_network .wp-menu-image:before{
+#adminmenu #toplevel_page_bp-friends_network .wp-menu-image:before {
 	content: "\f454";
 }
 
@@ -440,7 +468,7 @@ TABLE OF CONTENTS:
 }
 
 .settings_page_bp-components td.plugin-title span:before {
-	font-family: 'dashicons';
+	font-family: dashicons;
 	font-size: 18px;
 }
 
@@ -493,13 +521,16 @@ TABLE OF CONTENTS:
 }
 
 @media screen and ( max-width: 782px ) {
+
 	.settings_page_bp-components td.plugin-title span {
 		margin-top: 5px;
 	}
+
 	#bp-admin-component-form .wp-list-table.plugins .plugin-title {
 		display: block;
 		width: auto;
 	}
+
 	#bp-admin-component-form .subsubsub {
 		margin-bottom: 0;
 		padding-bottom: 35px;
@@ -550,7 +581,7 @@ body.users_page_bp-signups td.count_sent {
 }
 
 .bp-signups-list .column-fields {
-	font-weight: bold;
+	font-weight: 700;
 }
 
 /*------------------------------------------------------------------------------
@@ -593,27 +624,30 @@ body.post-type-bp-email .categorydiv label {
 .tools_page_bp-tools legend {
 	color: #23282d;
 	font-size: 1.3em;
-	font-weight: 600px;
+	font-weight: 600;
 	margin: 1em 0;
 }
 
 .tools_page_bp-tools label {
 	clear: left;
 	display: block;
-	line-height: 1.5em;
+	line-height: 1.5;
 	margin: 0 0 1em;
 	vertical-align: middle;
 }
 
 @media screen and (max-width: 782px) {
+
 	.tools_page_bp-tools p {
 		line-height: 1.5;
 	}
+
 	.tools_page_bp-tools label {
 		margin-bottom: 1em;
 		padding-right: 25px;
 		text-indent: -33px;
 	}
+
 	.tools_page_bp-tools .checkbox {
 		padding: 0 0 0 30px;
 	}

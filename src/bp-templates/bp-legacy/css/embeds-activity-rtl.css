@@ -7,7 +7,7 @@
 
 .bp-embed-avatar {
 	float: right;
-	margin: 0 0 0 .75em;
+	margin: 0 0 0 0.75em;
 }
 
 p.bp-embed-activity-action {
@@ -17,7 +17,7 @@ p.bp-embed-activity-action {
 
 p.bp-embed-activity-action a:first-child {
 	color: #32373c;
-	font-weight: bold;
+	font-weight: 700;
 }
 
 p.bp-embed-activity-action img.avatar {
@@ -40,7 +40,7 @@ p.bp-embed-activity-action img.avatar {
 }
 
 .activity-read-more {
-	margin-right: .5em;
+	margin-right: 0.5em;
 }
 
 .activity-read-more a {
@@ -52,7 +52,7 @@ p.bp-embed-activity-action img.avatar {
 }
 
 span.bp-embed-timestamp {
-	font-size: .9em;
+	font-size: 0.9em;
 }
 
 video {
@@ -96,7 +96,7 @@ video {
 }
 
 .bp-activity-embed-display-media .caption {
-	padding: .2em .5em .5em .5em;
+	padding: 0.2em 0.5em 0.5em;
 }
 
 a.play-btn {
@@ -134,10 +134,11 @@ a.play-btn:hover {
 
 .bp-activity-embed-display-media .caption-description {
 	font-size: 90%;
-	margin: .4em 0;
+	margin: 0.4em 0;
 }
 
 @media only screen and (max-width: 480px) {
+
 	.bp-activity-embed-display-media.two-col .thumb {
 		border-bottom: 1px solid #ccc;
 		border-left: 0;
