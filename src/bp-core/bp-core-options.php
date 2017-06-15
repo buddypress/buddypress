@@ -188,8 +188,6 @@ function bp_delete_options() {
 /**
  * Add filters to each BP option, allowing them to be overloaded from inside the $bp->options array.
  *
- * Currently unused.
- *
  * @since 1.6.0
  */
 function bp_setup_option_filters() {
@@ -215,8 +213,6 @@ function bp_setup_option_filters() {
 /**
  * Filter default options and allow them to be overloaded from inside the $bp->options array.
  *
- * Currently unused.
- *
  * @since 1.6.0
  *
  * @param bool $value Optional. Default value false.
@@ -225,11 +221,8 @@ function bp_setup_option_filters() {
 function bp_pre_get_option( $value = false ) {
 	$bp = buddypress();
 
-	// Get the name of the current filter so we can manipulate it.
-	$filter = current_filter();
-
 	// Remove the filter prefix.
-	$option = str_replace( 'pre_option_', '', $filter );
+	$option = str_replace( 'pre_option_', '', current_filter() );
 
 	// Check the options global for preset value.
 	if ( ! empty( $bp->options[ $option ] ) ) {
