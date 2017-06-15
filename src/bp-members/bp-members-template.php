@@ -1159,7 +1159,9 @@ function bp_member_profile_data( $args = '' ) {
 		 * @param string|bool $data Profile data if found, otherwise false.
 		 * @param array       $r    Array of parsed arguments.
 		 */
-		$data = apply_filters( 'bp_get_member_profile_data_' . $profile_data[ $r['field'] ]['field_type'], $data, $r );
+		if ( ! empty( $profile_data[ $r['field'] ]['field_type'] ) ) {
+			$data = apply_filters( 'bp_get_member_profile_data_' . $profile_data[ $r['field'] ]['field_type'], $data, $r );
+		}
 
 		return $data;
 	}
