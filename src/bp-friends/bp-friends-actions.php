@@ -82,7 +82,7 @@ function friends_action_remove_friend() {
 			bp_core_add_message( __( 'Friendship canceled', 'buddypress' ) );
 		}
 
-	} elseif ( 'is_friends' == $friendship_status ) {
+	} elseif ( 'not_friends' == $friendship_status ) {
 		bp_core_add_message( __( 'You are not yet friends with this user', 'buddypress' ), 'error' );
 	} else {
 		bp_core_add_message( __( 'You have a pending friendship request with this user', 'buddypress' ), 'error' );
