@@ -95,4 +95,4 @@
 			<p><?php _e( 'There are no pending membership requests.', 'buddypress' ); ?></p>
 		</div>
 
-	<?php endif; ?>
+	<?php endif;

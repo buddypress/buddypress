@@ -203,4 +203,4 @@ do_action( 'bp_before_member_messages_loop' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_member_messages_loop' ); ?>
+do_action( 'bp_after_member_messages_loop' );

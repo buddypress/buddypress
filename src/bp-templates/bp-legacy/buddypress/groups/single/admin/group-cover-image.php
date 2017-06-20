@@ -30,4 +30,4 @@ do_action( 'bp_before_group_settings_cover_image' ); ?>
  *
  * @since 2.4.0
  */
-do_action( 'bp_after_group_settings_cover_image' ); ?>
+do_action( 'bp_after_group_settings_cover_image' );

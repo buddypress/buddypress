@@ -80,4 +80,4 @@ do_action( 'bp_before_group_invites_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_group_invites_content' ); ?>
+do_action( 'bp_after_group_invites_content' );

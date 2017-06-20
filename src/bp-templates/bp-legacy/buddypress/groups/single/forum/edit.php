@@ -148,4 +148,4 @@ do_action( 'bp_before_group_forum_edit_form' ); ?>
  *
  * @since 1.2.4
  */
-do_action( 'bp_after_group_forum_edit_form' ); ?>
+do_action( 'bp_after_group_forum_edit_form' );

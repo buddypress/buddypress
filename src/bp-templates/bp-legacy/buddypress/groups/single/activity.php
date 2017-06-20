@@ -85,4 +85,4 @@ do_action( 'bp_before_group_activity_content' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_group_activity_content' ); ?>
+do_action( 'bp_after_group_activity_content' );

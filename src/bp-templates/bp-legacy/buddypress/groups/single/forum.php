@@ -131,5 +131,4 @@ do_action( 'bp_after_group_forum_content' ); ?>
 
 	<?php endif; ?>
 
-<?php endif; ?>
-
+<?php endif;

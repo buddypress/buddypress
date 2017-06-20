@@ -63,4 +63,4 @@ else : ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_group_send_invites_content' ); ?>
+do_action( 'bp_after_group_send_invites_content' );

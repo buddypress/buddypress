@@ -151,4 +151,4 @@ do_action( 'bp_before_members_loop' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_members_loop' ); ?>
+do_action( 'bp_after_members_loop' );

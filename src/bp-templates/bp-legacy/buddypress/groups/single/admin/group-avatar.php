@@ -64,4 +64,4 @@
 
 	<?php wp_nonce_field( 'bp_avatar_cropstore' ); ?>
 
-<?php endif; ?>
+<?php endif;

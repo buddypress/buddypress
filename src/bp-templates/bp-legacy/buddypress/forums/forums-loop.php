@@ -172,4 +172,4 @@ do_action( 'bp_before_forums_loop' ); ?>
  *
  * @since 1.2.6
  */
-do_action( 'bp_after_forums_loop' ); ?>
+do_action( 'bp_after_forums_loop' );

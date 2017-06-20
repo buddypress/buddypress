@@ -47,4 +47,4 @@ do_action( 'bp_before_group_request_membership_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_group_request_membership_content' ); ?>
+do_action( 'bp_after_group_request_membership_content' );

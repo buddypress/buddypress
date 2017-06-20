@@ -229,4 +229,4 @@ do_action( 'bp_before_group_forum_topic' ); ?>
  *
  * @since 1.2.4
  */
-do_action( 'bp_after_group_forum_topic' ); ?>
+do_action( 'bp_after_group_forum_topic' );

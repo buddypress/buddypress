@@ -167,4 +167,4 @@ do_action( 'bp_before_activity_entry' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_activity_entry' ); ?>
+do_action( 'bp_after_activity_entry' );

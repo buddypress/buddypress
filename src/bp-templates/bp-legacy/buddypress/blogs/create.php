@@ -58,4 +58,4 @@ do_action( 'bp_after_create_blog_content' ); ?>
  *
  * @since 1.6.0
  */
-do_action( 'bp_after_create_blog_content_template' ); ?>
+do_action( 'bp_after_create_blog_content_template' );

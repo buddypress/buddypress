@@ -536,4 +536,4 @@ do_action( 'bp_before_create_group_page' ); ?>
  *
  * @since 1.7.0
  */
-do_action( 'bp_after_create_group_page' ); ?>
+do_action( 'bp_after_create_group_page' );

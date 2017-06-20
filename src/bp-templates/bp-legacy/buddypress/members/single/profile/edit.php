@@ -120,4 +120,4 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_profile_edit_content' ); ?>
+do_action( 'bp_after_profile_edit_content' );

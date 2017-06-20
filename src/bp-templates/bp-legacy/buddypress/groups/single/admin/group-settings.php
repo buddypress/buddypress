@@ -121,4 +121,4 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 do_action( 'bp_after_group_settings_admin' ); ?>
 
 <p><input type="submit" value="<?php esc_attr_e( 'Save Changes', 'buddypress' ); ?>" id="save" name="save" /></p>
-<?php wp_nonce_field( 'groups_edit_group_settings' ); ?>
+<?php wp_nonce_field( 'groups_edit_group_settings' );

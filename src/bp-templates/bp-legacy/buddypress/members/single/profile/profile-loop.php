@@ -73,4 +73,4 @@ do_action( 'bp_before_profile_loop_content' ); ?>
 <?php
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/profile/profile-wp.php */
-do_action( 'bp_after_profile_loop_content' ); ?>
+do_action( 'bp_after_profile_loop_content' );
