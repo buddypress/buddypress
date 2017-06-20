@@ -230,6 +230,9 @@ function bp_activity_filter_kses( $content ) {
 	$activity_allowedtags['span']['class']          = array();
 	$activity_allowedtags['span']['data-livestamp'] = array();
 
+	$activity_allowedtags['ul'] = array();
+	$activity_allowedtags['ol'] = array();
+	$activity_allowedtags['li'] = array();
 
 	/**
 	 * Filters the allowed HTML tags for BuddyPress Activity content.
