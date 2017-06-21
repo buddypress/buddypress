@@ -436,6 +436,9 @@ function groups_is_valid_status( $status ) {
 function groups_check_slug( $slug ) {
 	$bp = buddypress();
 
+	// First, make the proposed slug work in a URL.
+	$slug = sanitize_title( $slug );
+
 	if ( 'wp' == substr( $slug, 0, 2 ) )
 		$slug = substr( $slug, 2, strlen( $slug ) - 2 );
 
