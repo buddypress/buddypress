@@ -3864,7 +3864,7 @@ function bp_total_group_count_for_user( $user_id = 0 ) {
  *                                        {@link BP_User_Query}. Default: 'last_joined'.
  *     @type string   $search_terms       Optional. Search terms to match. Pass an
  *                                        empty string to force-disable search, even in
- *                                        the presence of $_REQUEST['s']. Default: null.
+ *                                        the presence of $_REQUEST['s']. Default: false.
  * }
  *
  * @return bool
@@ -3878,7 +3878,11 @@ function bp_group_has_members( $args = '' ) {
 		$exclude_admins_mods = 0;
 	}
 
-	$search_terms_default = null;
+	/*
+	 * Use false as the search_terms default so that BP_User_Query
+	 * doesn't add a search clause.
+	 */
+	$search_terms_default = false;
 	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
@@ -3897,7 +3901,14 @@ function bp_group_has_members( $args = '' ) {
 		'type'                => 'last_joined',
 	) );
 
-	if ( is_null( $r['search_terms'] ) && ! empty( $_REQUEST['s'] ) ) {
+	/*
+	 * If an empty search_terms string has been passed,
+	 * the developer is force-disabling search.
+	 */
+	if ( '' === $r['search_terms'] ) {
+		// Set the search_terms to false for BP_User_Query efficiency.
+		$r['search_terms'] = false;
+	} elseif ( ! empty( $_REQUEST['s'] ) ) {
 		$r['search_terms'] = $_REQUEST['s'];
 	}
 
