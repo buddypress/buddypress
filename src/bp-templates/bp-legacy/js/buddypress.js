@@ -1971,8 +1971,7 @@ function bp_legacy_theme_hide_comments() {
 		comment_lis.each( function(i) {
 			/* Show the latest 5 root comments */
 			if ( i < comment_lis.length - 5 ) {
-				jq(this).addClass('hidden');
-				jq(this).toggle();
+				jq(this).hide();
 
 				if ( !i ) {
 					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + BP_DTheme.show_all_comments + '">' + BP_DTheme.show_x_comments.replace( '%d', comment_count ) + '</a></li>' );
