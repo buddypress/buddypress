@@ -261,8 +261,13 @@ abstract class BP_Attachment {
 			add_filter( 'upload_dir', $upload_dir_filter, 10, $this->upload_dir_filter_args );
 		}
 
+		// Helper for utf-8 filenames.
+		add_filter( 'sanitize_file_name', array( $this, 'sanitize_utf8_filename' ) );
+
 		// Upload the attachment.
 		$this->attachment = wp_handle_upload( $file[ $this->file_input ], $overrides, $time );
+
+		remove_filter( 'sanitize_file_name', array( $this, 'sanitize_utf8_filename' ) );
 
 		// Restore WordPress Uploads data.
 		if ( ! empty( $upload_dir_filter ) ) {
@@ -271,6 +276,33 @@ abstract class BP_Attachment {
 
 		// Finally return the uploaded file or the error.
 		return $this->attachment;
+	}
+
+	/**
+	 * Helper to convert utf-8 characters in filenames to their ASCII equivalent.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param  string $retval Filename.
+	 * @return string
+	 */
+	public function sanitize_utf8_filename( $retval ) {
+		// PHP 5.4+ or with PECL intl 2.0+
+		if ( function_exists( 'transliterator_transliterate' ) && seems_utf8( $retval ) ) {
+			$retval = transliterator_transliterate( 'Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $retval );
+
+		// Older.
+		} else {
+			// Use WP's built-in function to convert accents to their ASCII equivalent.
+			$retval = remove_accents( $retval );
+
+			// Still here? use iconv().
+			if ( function_exists( 'iconv' ) && seems_utf8( $retval ) ) {
+				$retval = iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $retval );
+			}
+		}
+
+		return $retval;
 	}
 
 	/**
