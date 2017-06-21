@@ -1625,14 +1625,19 @@ function groups_send_invites( $user_id, $group_id ) {
  * Get IDs of users with outstanding invites to a given group from a specified user.
  *
  * @since 1.0.0
+ * @since 2.9.0 Added $sent as a parameter.
  *
- * @param int $user_id  ID of the inviting user.
- * @param int $group_id ID of the group.
- * @return array $value IDs of users who have been invited to the group by the
- *                      user but have not yet accepted.
+ * @param  int      $user_id  ID of the inviting user.
+ * @param  int      $group_id ID of the group.
+ * @param  int|null $sent     Query for a specific invite sent status. If 0, this will query for users
+ *                            that haven't had an invite sent to them yet. If 1, this will query for
+ *                            users that have had an invite sent to them. If null, no invite status will
+ *                            queried. Default: null.
+ * @return array    IDs of users who have been invited to the group by the user but have not
+ *                  yet accepted.
  */
-function groups_get_invites_for_group( $user_id, $group_id ) {
-	return BP_Groups_Group::get_invites( $user_id, $group_id );
+function groups_get_invites_for_group( $user_id, $group_id, $sent = null ) {
+	return BP_Groups_Group::get_invites( $user_id, $group_id, $sent );
 }
 
 /**

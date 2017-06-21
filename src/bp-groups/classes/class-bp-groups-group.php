@@ -752,18 +752,29 @@ class BP_Groups_Group {
 	 * Get IDs of users with outstanding invites to a given group from a specified user.
 	 *
 	 * @since 1.6.0
+	 * @since 2.9.0 Added $sent as a parameter.
 	 *
-	 * @param int $user_id ID of the inviting user.
-	 * @param int $group_id ID of the group.
-	 * @return array IDs of users who have been invited to the group by the
-	 *               user but have not yet accepted.
+	 * @param  int      $user_id  ID of the inviting user.
+	 * @param  int      $group_id ID of the group.
+	 * @param  int|null $sent     Query for a specific invite sent status. If 0, this will query for users
+	 *                            that haven't had an invite sent to them yet. If 1, this will query for
+	 *                            users that have had an invite sent to them. If null, no invite status will
+	 *                            queried. Default: null.
+	 * @return array    IDs of users who have been invited to the group by the user but have not
+	 *                  yet accepted.
 	 */
-	public static function get_invites( $user_id, $group_id ) {
+	public static function get_invites( $user_id, $group_id, $sent = null ) {
 		global $wpdb;
 
-		$bp = buddypress();
+		$bp  = buddypress();
+		$sql = $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id );
 
-		return $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id ) );
+		// Query for a specific invite sent status.
+		if ( ! is_null( $sent ) ) {
+			$sql .= $wpdb->prepare( ' AND invite_sent = %d', $sent );
+		}
+
+		return $wpdb->get_col( $sql );
 	}
 
 	/**

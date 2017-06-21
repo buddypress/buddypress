@@ -1150,6 +1150,42 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group groups_get_invites_for_group
+	 * @group group_send_invites
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_get_invites_for_group_with_sent_parameter() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Send the invitation; this will set the 'invite_sent' value to 1.
+		groups_send_invites( $u1, $g1 );
+
+		// Default groups_get_invites_for_group() call
+		$i = groups_get_invites_for_group( $u1, $g1 );
+		$this->assertEqualSets( array( $u2 ), $i );
+
+		// Fetch users whose invites have been sent out; should be the same as above.
+		$i = groups_get_invites_for_group( $u1, $g1 );
+		$this->assertEqualSets( array( $u2 ), $i );
+
+		// Fetch users whose invites haven't been sent yet.
+		$i = groups_get_invites_for_group( $u1, $g1, 0 );
+		$this->assertEmpty( $i );
+	}
+
+	/**
 	 * @group groups_send_membership_request
 	 * @group group_membership_requests
 	 * @group group_membership
