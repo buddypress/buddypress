@@ -996,7 +996,7 @@ add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
  * @link https://buddypress.trac.wordpress.org/ticket/4415
  */
 function _bp_rehook_maybe_redirect_404() {
-	if ( defined( 'NOBLOGREDIRECT' ) ) {
+	if ( defined( 'NOBLOGREDIRECT' ) && is_multisite() ) {
 		remove_action( 'template_redirect', 'maybe_redirect_404' );
 		add_action( 'template_redirect', 'maybe_redirect_404', 100 );
 	}
