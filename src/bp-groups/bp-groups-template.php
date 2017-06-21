@@ -1800,7 +1800,7 @@ function bp_group_all_members_permalink() {
 		 * @param string $value Permalink of the Members page for the current group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_all_members_permalink', bp_get_group_permalink( $group ) . 'members', $group );
+		return apply_filters( 'bp_get_group_all_members_permalink', trailingslashit( bp_get_group_permalink( $group ) . 'members' ), $group );
 	}
 
 /**
@@ -2060,7 +2060,7 @@ function bp_group_forum_permalink() {
 		 * @param string $value URL permalink for the Forum Page.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_forum_permalink', bp_get_group_permalink( $group ) . 'forum', $group );
+		return apply_filters( 'bp_get_group_forum_permalink', trailingslashit( bp_get_group_permalink( $group ) . 'forum' ), $group );
 	}
 
 /**
@@ -2620,7 +2620,7 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 		 *
 		 * @param string $value URL to use for promoting a user to moderator.
 		 */
-		return apply_filters( 'bp_get_group_member_promote_mod_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/mod/' . $user_id, 'groups_promote_member' ) );
+		return apply_filters( 'bp_get_group_member_promote_mod_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/mod/' . $user_id ), 'groups_promote_member' ) );
 	}
 
 /**
@@ -2663,7 +2663,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 		 *
 		 * @param string $value URL to use for promoting a user to admin.
 		 */
-		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/admin/' . $user_id, 'groups_promote_member' ) );
+		return apply_filters( 'bp_get_group_member_promote_admin_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members/promote/admin/' . $user_id ), 'groups_promote_member' ) );
 	}
 
 /**
@@ -2713,7 +2713,7 @@ function bp_group_member_demote_link( $user_id = 0 ) {
 		 * @param string $value URL to use for demoting a user to member.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id, 'groups_demote_member' ), $group );
+		return apply_filters( 'bp_get_group_member_demote_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members/demote/' . $user_id ), 'groups_demote_member' ), $group );
 	}
 
 /**
@@ -2757,7 +2757,7 @@ function bp_group_member_ban_link( $user_id = 0 ) {
 		 *
 		 * @param string $value URL to use for banning a member.
 		 */
-		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/ban/' . $user_id, 'groups_ban_member' ) );
+		return apply_filters( 'bp_get_group_member_ban_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members/ban/' . $user_id ), 'groups_ban_member' ) );
 	}
 
 /**
@@ -2805,7 +2805,7 @@ function bp_group_member_unban_link( $user_id = 0 ) {
 		 *
 		 * @param string $value URL to use for unbanning a member.
 		 */
-		return apply_filters( 'bp_get_group_member_unban_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/unban/' . $user_id, 'groups_unban_member' ) );
+		return apply_filters( 'bp_get_group_member_unban_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members/unban/' . $user_id ), 'groups_unban_member' ) );
 	}
 
 /**
@@ -2851,7 +2851,7 @@ function bp_group_member_remove_link( $user_id = 0 ) {
 		 * @param string $value URL to use for removing a member.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_member_remove_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'admin/manage-members/remove/' . $user_id, 'groups_remove_member' ), $group );
+		return apply_filters( 'bp_get_group_member_remove_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'admin/manage-members/remove/' . $user_id ), 'groups_remove_member' ), $group );
 	}
 
 /**
@@ -2978,7 +2978,7 @@ function bp_group_form_action( $page ) {
 		 * @param string $value Action attribute for a group form.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_form_action', bp_get_group_permalink( $group ) . $page, $group );
+		return apply_filters( 'bp_group_form_action', trailingslashit( bp_get_group_permalink( $group ) . $page ), $group );
 	}
 
 /**
@@ -3021,7 +3021,7 @@ function bp_group_admin_form_action( $page = false ) {
 		 * @param string $value Action attribute for a group admin form.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_admin_form_action', bp_get_group_permalink( $group ) . 'admin/' . $page, $group );
+		return apply_filters( 'bp_group_admin_form_action', trailingslashit( bp_get_group_permalink( $group ) . 'admin/' . $page ), $group );
 	}
 
 /**
@@ -3283,7 +3283,7 @@ function bp_group_leave_confirm_link() {
 		 * @param string $value URL for confirming a request to leave a group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group/yes', 'groups_leave_group' ), $group );
+		return apply_filters( 'bp_group_leave_confirm_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'leave-group/yes' ), 'groups_leave_group' ), $group );
 	}
 
 /**
@@ -3355,7 +3355,7 @@ function bp_group_send_invite_form_action() {
 		 * @param string $value Action attribute for a group send invite form.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_group_send_invite_form_action', bp_get_group_permalink( $group ) . 'send-invites/send', $group );
+		return apply_filters( 'bp_group_send_invite_form_action', trailingslashit( bp_get_group_permalink( $group ) . 'send-invites/send' ), $group );
 	}
 
 /**
@@ -3494,7 +3494,7 @@ function bp_group_join_button( $group = false ) {
 				'block_self'        => false,
 				'wrapper_class'     => 'group-button ' . $group->status,
 				'wrapper_id'        => 'groupbutton-' . $group->id,
-				'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ),
+				'link_href'         => wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'leave-group' ), 'groups_leave_group' ),
 				'link_text'         => __( 'Leave Group', 'buddypress' ),
 				'link_class'        => 'group-button leave-group',
 			);
@@ -3515,7 +3515,7 @@ function bp_group_join_button( $group = false ) {
 						'block_self'        => false,
 						'wrapper_class'     => 'group-button ' . $group->status,
 						'wrapper_id'        => 'groupbutton-' . $group->id,
-						'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ),
+						'link_href'         => wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'join' ), 'groups_join_group' ),
 						'link_text'         => __( 'Join Group', 'buddypress' ),
 						'link_class'        => 'group-button join-group',
 					);
@@ -3563,7 +3563,7 @@ function bp_group_join_button( $group = false ) {
 							'block_self'        => false,
 							'wrapper_class'     => 'group-button ' . $group->status,
 							'wrapper_id'        => 'groupbutton-' . $group->id,
-							'link_href'         => wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ),
+							'link_href'         => wp_nonce_url( trailingslashit( bp_get_group_permalink( $group ) . 'request-membership' ), 'groups_request_membership' ),
 							'link_text'         => __( 'Request Membership', 'buddypress' ),
 							'link_class'        => 'group-button request-membership',
 						);
@@ -5516,7 +5516,7 @@ function bp_group_avatar_delete_link() {
 		 *
 		 * @param string $value URL to delete the group avatar.
 		 */
-		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/group-avatar/delete', 'bp_group_avatar_delete' ) );
+		return apply_filters( 'bp_get_group_avatar_delete_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/group-avatar/delete' ), 'bp_group_avatar_delete' ) );
 	}
 
 /**
@@ -5647,7 +5647,7 @@ function bp_group_request_reject_link() {
 		 *
 		 * @param string $value URL to use to reject a membership request.
 		 */
-		return apply_filters( 'bp_get_group_request_reject_link', wp_nonce_url( bp_get_group_permalink( groups_get_current_group() ) . 'admin/membership-requests/reject/' . $requests_template->request->membership_id, 'groups_reject_membership_request' ) );
+		return apply_filters( 'bp_get_group_request_reject_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( groups_get_current_group() ) . 'admin/membership-requests/reject/' . $requests_template->request->membership_id ), 'groups_reject_membership_request' ) );
 	}
 
 /**
@@ -5671,7 +5671,7 @@ function bp_group_request_accept_link() {
 		 *
 		 * @param string $value URL to use to accept a membership request.
 		 */
-		return apply_filters( 'bp_get_group_request_accept_link', wp_nonce_url( bp_get_group_permalink( groups_get_current_group() ) . 'admin/membership-requests/accept/' . $requests_template->request->membership_id, 'groups_accept_membership_request' ) );
+		return apply_filters( 'bp_get_group_request_accept_link', wp_nonce_url( trailingslashit( bp_get_group_permalink( groups_get_current_group() ) . 'admin/membership-requests/accept/' . $requests_template->request->membership_id ), 'groups_accept_membership_request' ) );
 	}
 
 /**
@@ -5993,7 +5993,7 @@ function bp_group_invite_user_remove_invite_url() {
 		if ( bp_is_current_action( 'create' ) ) {
 			$uninvite_url = bp_get_groups_directory_permalink() . 'create/step/group-invites/?user_id=' . $user_id;
 		} else {
-			$uninvite_url = bp_get_group_permalink( groups_get_current_group() ) . 'send-invites/remove/' . $user_id;
+			$uninvite_url = trailingslashit( bp_get_group_permalink( groups_get_current_group() ) . 'send-invites/remove/' . $user_id );
 		}
 
 		return wp_nonce_url( $uninvite_url, 'groups_invite_uninvite_user' );

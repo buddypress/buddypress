@@ -1163,7 +1163,7 @@ function bp_message_notice_delete_link() {
 		 * @param string $value URL for deleting the current notice.
 		 * @param string $value Text indicating action being executed.
 		 */
-		return apply_filters( 'bp_get_message_notice_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_messages_slug() . '/notices/delete/' . $messages_template->thread->id, 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_notice_delete_link', wp_nonce_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/notices/delete/' . $messages_template->thread->id ), 'messages_delete_thread' ) );
 	}
 
 /**

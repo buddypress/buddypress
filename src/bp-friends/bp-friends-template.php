@@ -563,7 +563,7 @@ function bp_friend_accept_request_link() {
 		 * @param string $value         Accept-friendship URL.
 		 * @param int    $friendship_id ID of the friendship.
 		 */
-		return apply_filters( 'bp_get_friend_accept_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/accept/' . $friendship_id, 'friends_accept_friendship' ), $friendship_id );
+		return apply_filters( 'bp_get_friend_accept_request_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/accept/' . $friendship_id ), 'friends_accept_friendship' ), $friendship_id );
 	}
 
 /**
@@ -598,7 +598,7 @@ function bp_friend_reject_request_link() {
 		 * @param string $value         Reject-friendship URL.
 		 * @param int    $friendship_id ID of the friendship.
 		 */
-		return apply_filters( 'bp_get_friend_reject_request_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/reject/' . $friendship_id, 'friends_reject_friendship' ), $friendship_id );
+		return apply_filters( 'bp_get_friend_reject_request_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/reject/' . $friendship_id ), 'friends_reject_friendship' ), $friendship_id );
 	}
 
 /**
