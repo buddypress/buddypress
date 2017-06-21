@@ -1964,8 +1964,8 @@ function bp_legacy_theme_hide_comments() {
 		comment_lis = jq(this).children('ul').children('li');
 		comment_count = ' ';
 
-		if ( jq('#' + parent_li.attr('id') + ' a.acomment-reply span').length ) {
-			comment_count = jq('#' + parent_li.attr('id') + ' a.acomment-reply span').html();
+		if ( jq('#' + parent_li.attr('id') + ' li').length ) {
+			comment_count = jq('#' + parent_li.attr('id') + ' li').length;
 		}
 
 		comment_lis.each( function(i) {
