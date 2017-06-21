@@ -668,12 +668,12 @@ jq(document).ready( function() {
 					jq( '#' + form.attr('id') + ' textarea').val('');
 
 					/* Increase the "Reply (X)" button count */
-					jq('#activity-' + form_id[2] + ' a.acomment-reply span').html( Number( jq('#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1 );
+					new_count = Number( jq('#activity-' + form_id[2] + ' a.acomment-reply span').html() ) + 1;
+					jq('#activity-' + form_id[2] + ' a.acomment-reply span').html( new_count );
 
 					// Increment the 'Show all x comments' string, if present
-					show_all_a = activity_comments.find('.show-all').find('a');
+					show_all_a = activity_comments.parents('.activity-comments').find('.show-all a');
 					if ( show_all_a ) {
-						new_count = jq('li#activity-' + form_id[2] + ' a.acomment-reply span').html();
 						show_all_a.html( BP_DTheme.show_x_comments.replace( '%d', new_count ) );
 					}
 				}
@@ -736,7 +736,7 @@ jq(document).ready( function() {
 					count_span.html(new_count);
 
 					// Change the 'Show all x comments' text
-					show_all_a = comment_li.siblings('.show-all').find('a');
+					show_all_a = comment_li.parents('.activity-comments').find('.show-all a');
 					if ( show_all_a ) {
 						show_all_a.html( BP_DTheme.show_x_comments.replace( '%d', new_count ) );
 					}
