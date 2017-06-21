@@ -1596,6 +1596,11 @@ function groups_send_invites( $user_id, $group_id ) {
 	for ( $i = 0, $count = count( $invited_users ); $i < $count; ++$i ) {
 		$member = new BP_Groups_Member( $invited_users[$i], $group_id );
 
+		// Skip if we've already sent an invite to this user.
+		if ( $member->invite_sent ) {
+			continue;
+		}
+
 		// Send the actual invite.
 		groups_notification_group_invites( $group, $member, $user_id );
 
