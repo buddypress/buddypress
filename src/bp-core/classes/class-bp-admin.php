@@ -395,6 +395,10 @@ class BP_Admin {
 		add_settings_field( 'bp-disable-account-deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
 		register_setting( 'buddypress', 'bp-disable-account-deletion', 'intval' );
 
+		// Template pack picker.
+		add_settings_field( '_bp_theme_package_id', __( 'Template Pack', 'buddypress' ), 'bp_admin_setting_callback_theme_package_id', 'buddypress', 'bp_main' );
+		register_setting( 'buddypress', '_bp_theme_package_id', 'sanitize_text_field' );
+
 		/* XProfile Section **************************************************/
 
 		if ( bp_is_active( 'xprofile' ) ) {

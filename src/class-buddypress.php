@@ -704,7 +704,7 @@ class BuddyPress {
 		// Register the default theme compatibility package
 		bp_register_theme_package( array(
 			'id'      => 'legacy',
-			'name'    => __( 'BuddyPress Default', 'buddypress' ),
+			'name'    => __( 'BuddyPress Legacy', 'buddypress' ),
 			'version' => bp_get_version(),
 			'dir'     => trailingslashit( $this->themes_dir . '/bp-legacy' ),
 			'url'     => trailingslashit( $this->themes_url . '/bp-legacy' )
