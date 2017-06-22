@@ -94,7 +94,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		 * @param int    $activity_id     ID of the activity item being formatted.
 		 * @param int    $user_id         ID of the user who inited the interaction.
 		 */
-		$return = apply_filters( 'bp_activity_' . $amount . '_' . $action_filter . '_notification', '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $title ) . '">' . esc_html( $text ) . '</a>', $link, (int) $total_items, $activity_id, $user_id );
+		$return = apply_filters( 'bp_activity_' . $amount . '_' . $action_filter . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', $link, (int) $total_items, $activity_id, $user_id );
 	} else {
 
 		/**

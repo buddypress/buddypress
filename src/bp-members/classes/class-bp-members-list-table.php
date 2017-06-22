@@ -308,7 +308,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			bp_get_admin_url( 'users.php' )
 		);
 
-		echo $avatar . sprintf( '<strong><a href="%1$s" class="edit" title="%2$s">%3$s</a></strong><br/>', esc_url( $activate_link ), esc_attr__( 'Activate', 'buddypress' ), $signup_object->user_login );
+		echo $avatar . sprintf( '<strong><a href="%1$s" class="edit">%2$s</a></strong><br/>', esc_url( $activate_link ), $signup_object->user_login );
 
 		$actions = array();
 

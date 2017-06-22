@@ -267,7 +267,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 						<div class="action">
 							<?php if ( bp_get_group_member_is_banned() ) : ?>
 
-								<a href="<?php bp_group_member_unban_link(); ?>" class="button confirm member-unban" title="<?php esc_attr_e( 'Unban this member', 'buddypress' ); ?>"><?php _e( 'Remove Ban', 'buddypress' ); ?></a>
+								<a href="<?php bp_group_member_unban_link(); ?>" class="button confirm member-unban"><?php _e( 'Remove Ban', 'buddypress' ); ?></a>
 
 							<?php else : ?>
 

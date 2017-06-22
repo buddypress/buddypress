@@ -1974,7 +1974,7 @@ function bp_legacy_theme_hide_comments() {
 				jq(this).hide();
 
 				if ( !i ) {
-					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/" title="' + BP_DTheme.show_all_comments + '">' + BP_DTheme.show_x_comments.replace( '%d', comment_count ) + '</a></li>' );
+					jq(this).before( '<li class="show-all"><a href="#' + parent_li.attr('id') + '/show-all/">' + BP_DTheme.show_x_comments.replace( '%d', comment_count ) + '</a></li>' );
 				}
 			}
 		});

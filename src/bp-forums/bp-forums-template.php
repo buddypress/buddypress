@@ -2652,7 +2652,7 @@ function bp_the_topic_post_poster_name() {
 		 *
 		 * @param string $value HTML link for the poster's name.
 		 */
-		return apply_filters( 'bp_get_the_topic_post_poster_name', '<a href="' . $link . '" title="' . $topic_template->post->poster_name . '">' . $topic_template->post->poster_name . '</a>' );
+		return apply_filters( 'bp_get_the_topic_post_poster_name', '<a href="' . esc_url( $link ) . '">' . esc_html( $topic_template->post->poster_name ) . '</a>' );
 	}
 
 /**

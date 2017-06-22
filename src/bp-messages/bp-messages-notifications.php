@@ -53,7 +53,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 
 		if ( 'string' === $format ) {
 			if ( ! empty( $link ) ) {
-				$return = '<a href="' . esc_url( $link ) . '" title="' . esc_attr( $title ) . '">' . esc_html( $text ) . '</a>';
+				$return = '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>';
 			} else {
 				$return = esc_html( $text );
 			}

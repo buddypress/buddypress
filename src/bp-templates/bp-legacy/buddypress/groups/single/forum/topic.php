@@ -126,7 +126,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 						 */
 						do_action( 'bp_group_forum_post_meta' ); ?>
 
-						<a href="#post-<?php bp_the_topic_post_id(); ?>" title="<?php esc_attr_e( 'Permanent link to this post', 'buddypress' ); ?>">#</a>
+						<a href="#post-<?php bp_the_topic_post_id(); ?>" aria-label="<?php esc_attr_e( 'Permanent link to this post', 'buddypress' ); ?>">#</a>
 					</div>
 				</li>
 

@@ -30,7 +30,7 @@
 
 					<?php if ( bp_get_the_thread_message_sender_link() ) : ?>
 
-						<strong><a href="<?php bp_the_thread_message_sender_link(); ?>" title="<?php bp_the_thread_message_sender_name(); ?>"><?php bp_the_thread_message_sender_name(); ?></a></strong>
+						<strong><a href="<?php bp_the_thread_message_sender_link(); ?>"><?php bp_the_thread_message_sender_name(); ?></a></strong>
 
 					<?php else : ?>
 

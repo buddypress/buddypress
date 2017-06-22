@@ -592,7 +592,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			if ( $this->can_comment( $item ) ) {
 				$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', __( 'Reply', 'buddypress' ) );
 			} else {
-				$actions['reply'] = sprintf( '<span class="form-input-tip" title="%s">%s</span>', __( 'Replies are disabled for this activity item', 'buddypress' ), __( 'Replies disabled', 'buddypress' ) );
+				$actions['reply'] = sprintf( '<span class="form-input-tip">%s</span>', __( 'Replies disabled', 'buddypress' ) );
 			}
 
 			// Edit.
@@ -706,8 +706,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 			// If the activity has comments, display a link to the activity's permalink, with its comment count in a speech bubble.
 			if ( $comment_count ) {
-				$title_attr = sprintf( _n( '%s related activity', '%s related activities', $comment_count, 'buddypress' ), number_format_i18n( $comment_count ) );
-				printf( '<a href="%1$s" title="%2$s" class="post-com-count post-com-count-approved"><span class="comment-count comment-count-approved">%3$s</span></a>', esc_url( $root_activity_url ), esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
+				printf( '<a href="%1$s" class="post-com-count post-com-count-approved"><span class="comment-count comment-count-approved">%2$s</span></a>', esc_url( $root_activity_url ), number_format_i18n( $comment_count ) );
 			}
 
 		// For non-root activities, display a link to the replied-to activity's author's profile.

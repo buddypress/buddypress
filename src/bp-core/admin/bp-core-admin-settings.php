@@ -271,7 +271,7 @@ function bp_admin_setting_callback_bbpress_configuration() {
 
 	<?php if ( false === $file_exists ) : ?>
 
-		<a class="button" href="<?php bp_admin_url( 'admin.php?page=bb-forums-setup&repair=1' ); ?>" title="<?php esc_attr_e( 'Attempt to save a new config file.', 'buddypress' ); ?>"><?php _e( 'Repair', 'buddypress' ) ?></a>
+		<a class="button" href="<?php bp_admin_url( 'admin.php?page=bb-forums-setup&repair=1' ); ?>"><?php _e( 'Repair', 'buddypress' ) ?></a>
 		<span class="attention"><?php _e( 'File does not exist', 'buddypress' ); ?></span>
 
 	<?php endif; ?>

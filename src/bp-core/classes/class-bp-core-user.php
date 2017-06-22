@@ -157,7 +157,7 @@ class BP_Core_User {
 
 			$this->user_url  = bp_core_get_user_domain( $this->id, $this->profile_data['user_nicename'], $this->profile_data['user_login'] );
 			$this->fullname  = esc_attr( $this->profile_data[$full_name_field_name]['field_data'] );
-			$this->user_link = "<a href='{$this->user_url}' title='{$this->fullname}'>{$this->fullname}</a>";
+			$this->user_link = "<a href='{$this->user_url}'>{$this->fullname}</a>";
 			$this->email     = esc_attr( $this->profile_data['user_email'] );
 		} else {
 			$this->user_url  = bp_core_get_user_domain( $this->id );
