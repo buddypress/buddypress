@@ -1520,9 +1520,18 @@ fieldset.create-site label {
 	margin: 0 0 5px;
 }
 
+#buddypress div#item-header div#item-actions a {
+	display: inline-block;
+}
+
 #buddypress div#item-header ul {
 	margin-bottom: 15px;
-	overflow: hidden;
+}
+
+#buddypress div#item-header ul:after {
+	clear: both;
+	content: "";
+	display: table;
 }
 
 #buddypress div#item-header ul h5,
