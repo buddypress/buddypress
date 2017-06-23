@@ -73,6 +73,10 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 				<?php bp_the_profile_field_required_label(); ?>
 			</legend>
 
+			<?php if ( bp_get_the_profile_field_description() ) : ?>
+				<p class="description" tabindex="0"><?php bp_the_profile_field_description(); ?></p>
+			<?php endif; ?>
+
 			<?php
 
 			/** This action is documented in bp-xprofile/bp-xprofile-classes */

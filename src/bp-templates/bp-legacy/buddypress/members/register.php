@@ -222,8 +222,6 @@
 							 */
 							do_action( 'bp_custom_profile_edit_fields' ); ?>
 
-							<p class="description"><?php bp_the_profile_field_description(); ?></p>
-
 						</div>
 
 					<?php endwhile; ?>

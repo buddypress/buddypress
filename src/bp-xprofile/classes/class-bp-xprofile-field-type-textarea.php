@@ -81,7 +81,7 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 			?>
 
-			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>><?php bp_the_profile_field_edit_value(); ?></textarea>
+			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?> aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_edit_value(); ?></textarea>
 
 			<?php
 
@@ -117,6 +117,10 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 				$editor_args
 			);
 		}
+
+		if ( bp_get_the_profile_field_description() ) : ?>
+			<p class="description" id="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_description(); ?></p>
+		<?php endif;
 	}
 
 	/**
