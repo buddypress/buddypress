@@ -2011,6 +2011,13 @@ function bp_the_thread_message_content() {
 	function bp_get_the_thread_message_content() {
 		global $thread_template;
 
+		$content = $thread_template->message->message;
+
+		// If user was deleted, mark content as deleted.
+		if ( false === bp_core_get_core_userdata( bp_get_the_thread_message_sender_id() ) ) {
+			$content = esc_html__( '[deleted]', 'buddypress' );
+		}
+
 		/**
 		 * Filters the content of the current message in the loop.
 		 *
@@ -2018,7 +2025,7 @@ function bp_the_thread_message_content() {
 		 *
 		 * @param string $message The content of the current message in the loop.
 		 */
-		return apply_filters( 'bp_get_the_thread_message_content', $thread_template->message->message );
+		return apply_filters( 'bp_get_the_thread_message_content', $content );
 	}
 
 /** Embeds *******************************************************************/
