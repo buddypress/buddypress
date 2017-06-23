@@ -1088,6 +1088,10 @@ class BP_Groups_Member {
 	public static function get_group_administrator_ids( $group_id ) {
 		global $wpdb;
 
+		if ( empty( $group_id ) ) {
+			return array();
+		}
+
 		$group_admins = wp_cache_get( $group_id, 'bp_group_admins' );
 
 		if ( false === $group_admins ) {
@@ -1095,9 +1099,14 @@ class BP_Groups_Member {
 			$group_admins = wp_cache_get( $group_id, 'bp_group_admins' );
 		}
 
-		// Integer casting.
-		foreach ( (array) $group_admins as $key => $data ) {
-			$group_admins[ $key ]->user_id = (int) $group_admins[ $key ]->user_id;
+		if ( false === $group_admins ) {
+			// The wp_cache_get is still coming up empty. Return an empty array.
+			$group_admins = array();
+		} else {
+			// Cast the user_id property as an integer.
+			foreach ( (array) $group_admins as $key => $data ) {
+				$group_admins[ $key ]->user_id = (int) $group_admins[ $key ]->user_id;
+			}
 		}
 
 		return $group_admins;
@@ -1158,6 +1167,10 @@ class BP_Groups_Member {
 	public static function get_group_moderator_ids( $group_id ) {
 		global $wpdb;
 
+		if ( empty( $group_id ) ) {
+			return array();
+		}
+
 		$group_mods = wp_cache_get( $group_id, 'bp_group_mods' );
 
 		if ( false === $group_mods ) {
@@ -1165,9 +1178,14 @@ class BP_Groups_Member {
 			$group_mods = wp_cache_get( $group_id, 'bp_group_mods' );
 		}
 
-		// Integer casting.
-		foreach ( (array) $group_mods as $key => $data ) {
-			$group_mods[ $key ]->user_id = (int) $group_mods[ $key ]->user_id;
+		if ( false === $group_mods ) {
+			// The wp_cache_get is still coming up empty. Return an empty array.
+			$group_mods = array();
+		} else {
+			// Cast the user_id property as an integer.
+			foreach ( (array) $group_mods as $key => $data ) {
+				$group_mods[ $key ]->user_id = (int) $group_mods[ $key ]->user_id;
+			}
 		}
 
 		return $group_mods;

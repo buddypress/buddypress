@@ -1353,4 +1353,22 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertInstanceOf( 'BP_Core_User', $user_obj );
 		$this->assertEquals( $user, $user_obj->id );
 	}
+
+	/**
+	 * @group get_group_moderator_ids
+	 */
+	public function test_groups_get_group_mods_bad_id() {
+		$mods = groups_get_group_mods( null );
+
+		$this->assertTrue( is_array( $mods ) && empty( $mods ) );
+	}
+
+	/**
+	 * @group get_group_moderator_ids
+	 */
+	public function test_groups_get_group_admins_bad_id() {
+		$admins = groups_get_group_admins( null );
+
+		$this->assertTrue( is_array( $admins ) && empty( $admins ) );
+	}
 }
