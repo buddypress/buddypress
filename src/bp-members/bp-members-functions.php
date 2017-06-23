@@ -206,17 +206,26 @@ function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_lo
  *
  * @since 1.2.0
  *
- * @param int $user_id The ID of the user.
- * @return array
+ * @param  int $user_id The ID of the user.
+ * @return array|bool Array of data on success, boolean false on failure.
  */
 function bp_core_get_core_userdata( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
 		return false;
 	}
 
-	if ( !$userdata = wp_cache_get( 'bp_core_userdata_' . $user_id, 'bp' ) ) {
+	$userdata = wp_cache_get( 'bp_core_userdata_' . $user_id, 'bp' );
+
+	// No cache.
+	if ( false === $userdata ) {
 		$userdata = BP_Core_User::get_core_userdata( $user_id );
-		wp_cache_set( 'bp_core_userdata_' . $user_id, $userdata, 'bp' );
+
+		// Cache data; no-result is cached as integer 0.
+		wp_cache_set( 'bp_core_userdata_' . $user_id, false === $userdata ? 0 : $userdata, 'bp' );
+
+	// Cached no-result, so set return value as false as expected.
+	} elseif ( 0 === $userdata ) {
+		$userdata = false;
 	}
 
 	/**
@@ -224,7 +233,7 @@ function bp_core_get_core_userdata( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array $userdata Array of user data for a passed user.
+	 * @param array|bool $userdata Array of user data for a passed user on success, boolean false on failure.
 	 */
 	return apply_filters( 'bp_core_get_core_userdata', $userdata );
 }
