@@ -1282,10 +1282,10 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 		// Parse optional arguments.
 		$r = bp_parse_args( $args, array(
 			'field_id'     => bp_get_the_profile_field_id(),
-			'before'       => '<ul class="radio">',
-			'after'        => '</ul>',
-			'before_radio' => '<li class="%s">',
-			'after_radio'  => '</li>',
+			'before'       => '<div class="radio">',
+			'after'        => '</div>',
+			'before_radio' => '',
+			'after_radio'  => '',
 			'class'        => 'bp-xprofile-visibility'
 		), 'xprofile_visibility_radio_buttons' );
 
