@@ -53,14 +53,15 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				?>
 
 				<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
-					<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
+					<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 						<?php
 						printf(
 							__( 'This field can be seen by: %s', 'buddypress' ),
 							'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
 						);
 						?>
-						<button type="button" class="visibility-toggle-link"><?php _e( 'Change', 'buddypress' ); ?></button>
+						</span>
+						<button type="button" class="visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></button>
 					</p>
 
 					<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">

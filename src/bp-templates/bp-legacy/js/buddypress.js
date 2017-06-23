@@ -1187,12 +1187,14 @@ jq(document).ready( function() {
 	jq( '.visibility-toggle-link' ).on( 'click', function( event ) {
 		event.preventDefault();
 
-		jq( this ).parent().hide().addClass( 'field-visibility-settings-hide' )
+		jq( this ).attr( 'aria-expanded', 'true' ).parent().hide().addClass( 'field-visibility-settings-hide' )
 			.siblings( '.field-visibility-settings' ).show().addClass( 'field-visibility-settings-open' );
 	} );
 
 	jq( '.field-visibility-settings-close' ).on( 'click', function( event ) {
 		event.preventDefault();
+
+		jq( '.visibility-toggle-link' ).attr( 'aria-expanded', 'false' );
 
 		var settings_div = jq( this ).parent(),
 			vis_setting_text = settings_div.find( 'input:checked' ).parent().text();
