@@ -169,6 +169,7 @@
 					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
 						<div<?php bp_field_css_class( 'editfield' ); ?>>
+							<fieldset>
 
 							<?php
 							$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
@@ -222,6 +223,7 @@
 							 */
 							do_action( 'bp_custom_profile_edit_fields' ); ?>
 
+							</fieldset>
 						</div>
 
 					<?php endwhile; ?>

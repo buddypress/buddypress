@@ -65,8 +65,6 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 			$user_id = bp_displayed_user_id();
 		} ?>
 
-		<fieldset class="radio">
-
 			<legend>
 				<?php bp_the_profile_field_name(); ?>
 				<?php bp_the_profile_field_required_label(); ?>
@@ -90,8 +88,6 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 				</a>
 
 			<?php endif; ?>
-
-		</fieldset>
 
 		<?php
 	}

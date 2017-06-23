@@ -63,10 +63,10 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 		$richtext_enabled = bp_xprofile_is_richtext_enabled_for_field(); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>">
+		<legend id="<?php bp_the_profile_field_input_name(); ?>-1">
 			<?php bp_the_profile_field_name(); ?>
 			<?php bp_the_profile_field_required_label(); ?>
-		</label>
+		</legend>
 
 		<?php
 
@@ -81,7 +81,7 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 			?>
 
-			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?> aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_edit_value(); ?></textarea>
+			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1"><?php bp_the_profile_field_edit_value(); ?></textarea>
 
 			<?php
 

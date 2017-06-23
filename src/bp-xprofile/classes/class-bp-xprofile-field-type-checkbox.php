@@ -67,7 +67,6 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			$user_id = bp_displayed_user_id();
 		} ?>
 
-		<fieldset class="checkbox">
 			<legend>
 				<?php bp_the_profile_field_name(); ?>
 				<?php bp_the_profile_field_required_label(); ?>
@@ -85,8 +84,6 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			<?php bp_the_profile_field_options( array(
 				'user_id' => $user_id
 			) ); ?>
-
-		</fieldset>
 
 		<?php
 	}
