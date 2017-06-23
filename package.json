@@ -3,7 +3,7 @@
   "bugs": {
     "url": "https://buddypress.trac.wordpress.org/"
   },
-  "description": "BuddyPress helps site builders and WordPress developers add community features to their websites, with user profile fields, activity streams, messaging, and notifications.",
+  "description": "BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!",
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-checktextdomain": "~1.0.1",
