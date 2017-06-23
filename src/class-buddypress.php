@@ -477,6 +477,8 @@ class BuddyPress {
 			require( $this->plugin_dir . 'bp-core/deprecated/2.5.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/2.6.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/2.7.php' );
+			require( $this->plugin_dir . 'bp-core/deprecated/2.8.php' );
+			require( $this->plugin_dir . 'bp-core/deprecated/2.9.php' );
 		}
 	}
 
