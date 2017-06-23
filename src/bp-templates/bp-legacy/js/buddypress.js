@@ -1397,6 +1397,13 @@ jq(document).ready( function() {
 		return false;
 	} );
 
+	// Fix hidden group visibility with themes using the .hidden CSS rule.
+	jq('#groups-list li.hidden').each(function() {
+		if ( jq(this).css('display') === 'none' ) {
+			jq(this).css('cssText', 'display: list-item !important');
+		}
+	});
+
 	/** Button disabling ************************************************/
 
 	jq('#buddypress').on( 'click', '.pending', function() {
