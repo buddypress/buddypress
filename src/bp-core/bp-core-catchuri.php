@@ -670,7 +670,10 @@ function bp_core_no_access( $args = '' ) {
 		// Error message is displayed with bp_core_no_access_wp_login_error().
 		case 2 :
 			if ( !empty( $redirect ) ) {
-				bp_core_redirect( add_query_arg( array( 'action' => 'bpnoaccess' ), wp_login_url( $redirect ) ) );
+				bp_core_redirect( add_query_arg( array(
+					'bp-auth' => 1,
+					'action'  => 'bpnoaccess'
+				), wp_login_url( $redirect ) ) );
 			} else {
 				bp_core_redirect( $root );
 			}
@@ -696,6 +699,35 @@ function bp_core_no_access( $args = '' ) {
 			break;
 	}
 }
+
+/**
+ * Login redirector.
+ *
+ * If a link is not publicly available, we can send members from external
+ * locations, like following links in an email, through the login screen.
+ *
+ * If a user clicks on this link and is already logged in, we should attempt
+ * to redirect the user to the authorized content instead of forcing the user
+ * to re-authenticate.
+ *
+ * @since 2.9.0
+ */
+function bp_login_redirector() {
+	// Redirect links must include the `redirect_to` and `bp-auth` parameters.
+	if ( empty( $_GET['redirect_to'] ) || empty( $_GET['bp-auth'] ) ) {
+		return;
+	}
+
+	/*
+	 * If the user is already logged in,
+	 * skip the login form and redirect them to the content.
+	 */
+	if ( bp_loggedin_user_id() ) {
+		wp_safe_redirect( esc_url_raw( $_GET['redirect_to'] ) );
+		exit;
+	}
+}
+add_action( 'login_init', 'bp_login_redirector', 1 );
 
 /**
  * Add a custom BuddyPress no access error message to wp-login.php.
