@@ -357,17 +357,12 @@ class BP_XProfile_User_Admin {
 			<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
 				<div<?php bp_field_css_class( 'bp-profile-field' ); ?>>
+					<fieldset>
 
 					<?php
 
 					$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
 					$field_type->edit_field_html( array( 'user_id' => $r['user_id'] ) );
-
-					if ( bp_get_the_profile_field_description() ) : ?>
-
-						<p class="description"><?php bp_the_profile_field_description(); ?></p>
-
-					<?php endif;
 
 					/**
 					 * Fires before display of visibility form elements for profile metaboxes.
@@ -378,7 +373,7 @@ class BP_XProfile_User_Admin {
 
 					$can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' ); ?>
 
-					<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>">
+					<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 
 						<?php
 						printf(
@@ -386,10 +381,11 @@ class BP_XProfile_User_Admin {
 							'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
 						);
 						?>
+						</span>
 
 						<?php if ( $can_change_visibility ) : ?>
 
-							<button type="button" class="button visibility-toggle-link"><?php esc_html_e( 'Change', 'buddypress' ); ?></button>
+							<button type="button" class="button visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php esc_html_e( 'Change', 'buddypress' ); ?></button>
 
 						<?php endif; ?>
 					</p>
@@ -417,6 +413,7 @@ class BP_XProfile_User_Admin {
 					 */
 					do_action( 'bp_custom_profile_edit_fields' ); ?>
 
+					</fieldset>
 				</div>
 
 			<?php endwhile; // End bp_profile_fields(). ?>
