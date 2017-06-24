@@ -15,7 +15,7 @@
  * Description: BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!
  * Author:      The BuddyPress Community
  * Author URI:  https://buddypress.org/
- * Version:     2.9.0-beta1
+ * Version:     2.9.0-beta2
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
