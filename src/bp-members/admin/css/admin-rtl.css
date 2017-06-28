@@ -217,21 +217,20 @@ div#community-profile-page p.not-activated {
 
 @media screen and (max-width: 782px) {
 
-	#your-profile .bp-profile-field .checkbox legend,
-	#your-profile .bp-profile-field .datebox legend,
-	#your-profile .bp-profile-field .radio legend,
-	.bp-profile-field label {
+	#your-profile .bp-profile-field legend {
 		float: none;
 		clear: right;
 		display: block;
 		margin-bottom: 12px;
 	}
 
-	.bp-profile-field .checkbox label,
-	.bp-profile-field .radio label {
-		line-height: 1.4;
-		margin-bottom: 12px;
-		vertical-align: middle;
+	#your-profile .field_type_multiselectbox select {
+		height: auto;
+	}
+
+	.field_type_checkbox label,
+	.field_type_radio label {
+		margin-right: 0;
 	}
 
 	.bp-profile-field .checkbox input[type="checkbox"],
