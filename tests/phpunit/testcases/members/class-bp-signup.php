@@ -62,6 +62,44 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group add
+	 */
+	public function test_add_no_visibility_level_set_should_use_default_visiblity_level() {
+		// Update field_1's default visiblity to 'adminsonly'
+		bp_xprofile_update_field_meta( 1, 'default_visibility', 'adminsonly' );
+
+		// Add new signup without a custom field visibility set for field_1.
+		$signup = BP_Signup::add( array(
+			'domain' => 'foo',
+			'path' => 'bar',
+			'title' => 'Foo bar',
+			'user_login' => 'user1',
+			'user_email' => 'user1@example.com',
+			'registered' => bp_core_current_time(),
+			'activation_key' => '12345',
+			'meta' => array(
+				'field_1' => 'Foo Bar',
+				'meta1' => 'meta2',
+				'password' => 'password',
+
+				/*
+				 * Ensure we pass the field ID.
+				 *
+				 * See bp_core_activate_signup() and BP_Signup::add_backcompat().
+				 */
+				'profile_field_ids' => '1'
+			),
+		) );
+
+		// Activate the signup.
+		$activate = BP_Signup::activate( (array) $signup );
+
+		// Assert that field 1's visibility for the signup is still 'adminsonly'
+		$vis = xprofile_get_field_visibility_level( 1, $activate['activated'][0] );
+		$this->assertSame( 'adminsonly', $vis );
+	}
+
+	/**
 	 * @group get
 	 */
 	public function test_get_with_offset() {

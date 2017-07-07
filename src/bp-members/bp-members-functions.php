@@ -2072,8 +2072,19 @@ function bp_core_activate_signup( $key ) {
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
 				}
 
-				// Save the visibility level.
-				$visibility_level = ! empty( $user['meta']['field_' . $field_id . '_visibility'] ) ? $user['meta']['field_' . $field_id . '_visibility'] : 'public';
+				/*
+				 * Save the visibility level.
+				 *
+				 * Use the field's default visibility if not present, and 'public' if a
+				 * default visibility is not defined.
+				 */
+				$key = "field_{$field_id}_visibility";
+				if ( isset( $user['meta'][ $key ] ) ) {
+					$visibility_level = $user['meta'][ $key ];
+				} else {
+					$vfield           = xprofile_get_field( $field_id );
+					$visibility_level = isset( $vfield->default_visibility ) ? $vfield->default_visibility : 'public';
+				}
 				xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
 			}
 		}

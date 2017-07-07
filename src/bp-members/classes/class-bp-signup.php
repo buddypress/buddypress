@@ -388,8 +388,19 @@ class BP_Signup {
 					$current_field = $usermeta["field_{$field_id}"];
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
 
-					// Save the visibility level.
-					$visibility_level = ! empty( $usermeta['field_' . $field_id . '_visibility'] ) ? $usermeta['field_' . $field_id . '_visibility'] : 'public';
+					/*
+					 * Save the visibility level.
+					 *
+					 * Use the field's default visibility if not present, and 'public' if a
+					 * default visibility is not defined.
+					 */
+					$key = "field_{$field_id}_visibility";
+					if ( isset( $usermeta[ $key ] ) ) {
+						$visibility_level = $usermeta[ $key ];
+					} else {
+						$vfield           = xprofile_get_field( $field_id );
+						$visibility_level = isset( $vfield->default_visibility ) ? $vfield->default_visibility : 'public';
+					}
 					xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
 				}
 			}
