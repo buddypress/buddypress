@@ -2465,13 +2465,6 @@ body.colors-light {
 			.alt {
 				background: $content-background;
 			}
-
-			.bp-tooltip:hover:after,
-			.bp-tooltip:active:after,
-			.bp-tooltip:focus:after {
-				right: 40px;
-				text-align: right;
-			}
 		} // close message-thread  Singular view!
 
 		#message-threads {
@@ -3111,19 +3104,6 @@ body.colors-dark {
 		}
 	}
 
-	.messages-notices {
-
-		.bp-tooltip:hover:after,
-		.bp-tooltip:active:after,
-		.bp-tooltip:focus:after {
-			left: 0;
-			margin-top: 20px;
-			max-width: 240px;
-			right: auto;
-			text-align: left;
-			transform: translateX(0);
-		}
-	}
 } // #buddypress
 
 /**

@@ -1607,13 +1607,6 @@ body.colors-light #buddypress div#invite-list {
 	background: #fff;
 }
 
-.bp-user #buddypress #message-thread .bp-tooltip:hover:after,
-.bp-user #buddypress #message-thread .bp-tooltip:active:after,
-.bp-user #buddypress #message-thread .bp-tooltip:focus:after {
-	left: 40px;
-	text-align: left;
-}
-
 .bp-user #buddypress #message-threads thead tr {
 	background: none;
 	border-bottom: 1px solid #bebebe;
@@ -2150,17 +2143,6 @@ body.colors-dark #page .message-search {
 
 #buddypress .notifications .actions {
 	text-align: center;
-}
-
-#buddypress .messages-notices .bp-tooltip:hover:after,
-#buddypress .messages-notices .bp-tooltip:active:after,
-#buddypress .messages-notices .bp-tooltip:focus:after {
-	right: 0;
-	margin-top: 20px;
-	max-width: 240px;
-	left: auto;
-	text-align: right;
-	transform: translateX(0);
 }
 
 /**

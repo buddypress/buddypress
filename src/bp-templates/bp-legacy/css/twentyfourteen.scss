@@ -1701,13 +1701,6 @@ body.activity-permalink {
 				margin-left: 0;
 			}
 		}
-
-		.bp-tooltip:hover:after,
-		.bp-tooltip:active:after,
-		.bp-tooltip:focus:after {
-			right: 40px;
-			text-align: right;
-		}
 	}
 
 	.acfb-holder {
@@ -1802,20 +1795,6 @@ body.activity-permalink {
 				line-height: initial;
 				text-indent: 0;
 			}
-		}
-	}
-
-	.messages-notices {
-
-		.bp-tooltip:hover:after,
-		.bp-tooltip:active:after,
-		.bp-tooltip:focus:after {
-			left: 0;
-			margin-top: 10px;
-			max-width: 240px;
-			right: auto;
-			text-align: left;
-			transform: translateX(0);
 		}
 	}
 

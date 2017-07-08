@@ -1477,13 +1477,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	background: #fff;
 }
 
-.bp-user #buddypress #message-thread .bp-tooltip:hover:after,
-.bp-user #buddypress #message-thread .bp-tooltip:active:after,
-.bp-user #buddypress #message-thread .bp-tooltip:focus:after {
-	right: 40px;
-	text-align: right;
-}
-
 .bp-user #buddypress #message-threads thead tr {
 	background: #6f6e6e;
 }
@@ -1939,17 +1932,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	display: block;
 	padding: 0;
 	text-align: center;
-}
-
-#buddypress .messages-notices .bp-tooltip:hover:after,
-#buddypress .messages-notices .bp-tooltip:active:after,
-#buddypress .messages-notices .bp-tooltip:focus:after {
-	left: 0;
-	margin-top: 10px;
-	max-width: 240px;
-	right: auto;
-	text-align: left;
-	transform: translateX(0);
 }
 
 /**

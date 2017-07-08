@@ -1203,13 +1203,6 @@ body.activity-permalink #buddypress {
 	margin-right: 0;
 }
 
-#buddypress #message-thread .bp-tooltip:hover:after,
-#buddypress #message-thread .bp-tooltip:active:after,
-#buddypress #message-thread .bp-tooltip:focus:after {
-	left: 40px;
-	text-align: left;
-}
-
 #buddypress .acfb-holder {
 	list-style: none;
 	margin: 0;
@@ -1295,17 +1288,6 @@ body.activity-permalink #buddypress {
 	display: block;
 	line-height: initial;
 	text-indent: 0;
-}
-
-#buddypress .messages-notices .bp-tooltip:hover:after,
-#buddypress .messages-notices .bp-tooltip:active:after,
-#buddypress .messages-notices .bp-tooltip:focus:after {
-	right: 0;
-	margin-top: 10px;
-	max-width: 240px;
-	left: auto;
-	text-align: right;
-	transform: translateX(0);
 }
 
 .bp-user .ac_results {
