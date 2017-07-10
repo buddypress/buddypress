@@ -1377,8 +1377,6 @@ function bp_core_get_avatar_data_url_filter( $retval, $id_or_email, $args ) {
 	// Ugh, hate duplicating code; process the user identifier.
 	if ( is_numeric( $id_or_email ) ) {
 		$user = get_user_by( 'id', absint( $id_or_email ) );
-	} elseif ( is_email( $id_or_email ) ) {
-		$user = get_user_by( 'email', $id_or_email );
 	} elseif ( $id_or_email instanceof WP_User ) {
 		// User Object
 		$user = $id_or_email;
@@ -1387,6 +1385,8 @@ function bp_core_get_avatar_data_url_filter( $retval, $id_or_email, $args ) {
 		$user = get_user_by( 'id', (int) $id_or_email->post_author );
 	} elseif ( $id_or_email instanceof WP_Comment && ! empty( $id_or_email->user_id ) ) {
 		$user = get_user_by( 'id', (int) $id_or_email->user_id );
+	} elseif ( is_email( $id_or_email ) ) {
+		$user = get_user_by( 'email', $id_or_email );
 	}
 
 	// No user, so bail.
