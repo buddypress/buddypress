@@ -1,0 +1,34 @@
+{
+  "name": "buddypress/buddypress",
+  "description": "BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "activity",
+    "community",
+    "forum",
+    "friends",
+    "groups",
+    "messaging",
+    "notifications",
+    "profiles",
+    "social network"
+  ],
+  "homepage": "https://buddypress.org",
+  "license": "GPL-2.0+",
+  "authors": [ {
+    "name": "BuddyPress Community",
+    "homepage": "https://buddypress.org/about/"
+  } ],
+  "support": {
+    "forum": "https://buddypress.org/support/",
+    "docs": "https://codex.buddypress.org/",
+    "issues": "https://buddypress.trac.wordpress.org/",
+    "rss": "https://buddypress.org/feed/",
+    "source": "https://buddypress.trac.wordpress.org/browser/",
+    "wiki": "https://codex.buddypress.org/"
+  },
+  "require": {
+    "composer/installers": "~1.0",
+    "php": ">=5.3.0"
+  }
+}

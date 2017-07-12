@@ -14,7 +14,7 @@
 do_action( 'bp_before_group_forum_topic' ); ?>
 
 <form action="<?php bp_forum_topic_action(); ?>" method="post" id="forum-topic-form" class="standard-form">
-	<div class="item-list-tabs no-ajax" id="subnav" role="navigation">
+	<div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Forums secondary navigation', 'buddypress' ); ?>" role="navigation">
 		<ul>
 			<?php if ( is_user_logged_in() ) : ?>
 
@@ -126,7 +126,7 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 						 */
 						do_action( 'bp_group_forum_post_meta' ); ?>
 
-						<a href="#post-<?php bp_the_topic_post_id(); ?>" title="<?php esc_attr_e( 'Permanent link to this post', 'buddypress' ); ?>">#</a>
+						<a href="#post-<?php bp_the_topic_post_id(); ?>" aria-label="<?php esc_attr_e( 'Permanent link to this post', 'buddypress' ); ?>">#</a>
 					</div>
 				</li>
 
@@ -186,7 +186,10 @@ do_action( 'bp_before_group_forum_topic' ); ?>
 
 					<h4><?php _e( 'Add a reply:', 'buddypress' ); ?></h4>
 
-					<label for="reply_text" class="bp-screen-reader-text"><?php _e( 'Reply', 'buddypress' ); ?></label>
+					<label for="reply_text" class="bp-screen-reader-text"><?php
+						/* translators: accessibility text */
+						_e( 'Reply', 'buddypress' );
+					?></label>
 					<textarea name="reply_text" id="reply_text"></textarea>
 
 					<div class="submit">
@@ -226,4 +229,4 @@ do_action( 'bp_before_group_forum_topic' ); ?>
  *
  * @since 1.2.4
  */
-do_action( 'bp_after_group_forum_topic' ); ?>
+do_action( 'bp_after_group_forum_topic' );

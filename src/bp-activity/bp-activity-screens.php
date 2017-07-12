@@ -14,22 +14,11 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-activity-theme-compat.php';
-}
-
 /**
  * Load the Activity directory.
  *
  * @since 1.5.0
  *
- * @uses bp_displayed_user_id()
- * @uses bp_is_activity_component()
- * @uses bp_current_action()
- * @uses bp_update_is_directory()
- * @uses do_action() To call the 'bp_activity_screen_index' hook.
- * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_screen_index' hook.
  */
 function bp_activity_screen_index() {
 	if ( bp_is_activity_directory() ) {
@@ -59,9 +48,6 @@ add_action( 'bp_screens', 'bp_activity_screen_index' );
  *
  * @since 1.0.0
  *
- * @uses do_action() To call the 'bp_activity_screen_my_activity' hook.
- * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_my_activity' hook.
  */
 function bp_activity_screen_my_activity() {
 
@@ -87,12 +73,6 @@ function bp_activity_screen_my_activity() {
  *
  * @since 1.0.0
  *
- * @uses bp_is_active()
- * @uses bp_update_is_item_admin()
- * @uses bp_current_user_can()
- * @uses do_action() To call the 'bp_activity_screen_friends' hook.
- * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_friends_activity' hook.
  */
 function bp_activity_screen_friends() {
 	if ( !bp_is_active( 'friends' ) )
@@ -122,12 +102,6 @@ function bp_activity_screen_friends() {
  *
  * @since 1.2.0
  *
- * @uses bp_is_active()
- * @uses bp_update_is_item_admin()
- * @uses bp_current_user_can()
- * @uses do_action() To call the 'bp_activity_screen_groups' hook.
- * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_groups_activity' hook.
  */
 function bp_activity_screen_groups() {
 	if ( !bp_is_active( 'groups' ) )
@@ -157,11 +131,6 @@ function bp_activity_screen_groups() {
  *
  * @since 1.2.0
  *
- * @uses bp_update_is_item_admin()
- * @uses bp_current_user_can()
- * @uses do_action() To call the 'bp_activity_screen_favorites' hook.
- * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_favorite_activity' hook.
  */
 function bp_activity_screen_favorites() {
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
@@ -188,11 +157,6 @@ function bp_activity_screen_favorites() {
  *
  * @since 1.2.0
  *
- * @uses bp_update_is_item_admin()
- * @uses bp_current_user_can()
- * @uses do_action() To call the 'bp_activity_screen_mentions' hook.
- * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_mention_activity' hook.
  */
 function bp_activity_screen_mentions() {
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
@@ -219,9 +183,6 @@ function bp_activity_screen_mentions() {
  *
  * @since 1.5.0
  *
- * @uses bp_is_my_profile()
- * @uses bp_activity_clear_new_mentions()
- * @uses bp_loggedin_user_id()
  */
 function bp_activity_reset_my_new_mentions() {
 	if ( bp_is_my_profile() )
@@ -234,25 +195,6 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
  *
  * @since 1.2.0
  *
- * @uses bp_is_activity_component()
- * @uses bp_activity_get_specific()
- * @uses bp_current_action()
- * @uses bp_action_variables()
- * @uses bp_do_404()
- * @uses bp_is_active()
- * @uses groups_get_group()
- * @uses groups_is_user_member()
- * @uses apply_filters_ref_array() To call the 'bp_activity_permalink_access' hook.
- * @uses do_action() To call the 'bp_activity_screen_single_activity_permalink' hook.
- * @uses bp_core_add_message()
- * @uses is_user_logged_in()
- * @uses bp_core_redirect()
- * @uses site_url()
- * @uses esc_url()
- * @uses bp_get_root_domain()
- * @uses bp_get_activity_root_slug()
- * @uses bp_core_load_template()
- * @uses apply_filters() To call the 'bp_activity_template_profile_activity_permalink' hook.
  */
 function bp_activity_screen_single_activity_permalink() {
 	$bp = buddypress();
@@ -290,7 +232,7 @@ function bp_activity_screen_single_activity_permalink() {
 
 		// Check to see if the group is not public, if so, check the
 		// user has access to see this activity.
-		if ( $group = groups_get_group( array( 'group_id' => $activity->item_id ) ) ) {
+		if ( $group = groups_get_group( $activity->item_id ) ) {
 
 			// Group is not public.
 			if ( 'public' != $group->status ) {
@@ -301,6 +243,11 @@ function bp_activity_screen_single_activity_permalink() {
 				}
 			}
 		}
+	}
+
+	// If activity author does not match displayed user, block access.
+	if ( true === $has_access && bp_displayed_user_id() !== $activity->user_id ) {
+		$has_access = false;
 	}
 
 	/**
@@ -335,7 +282,7 @@ function bp_activity_screen_single_activity_permalink() {
 		} else {
 			$url = sprintf(
 				site_url( 'wp-login.php?redirect_to=%s' ),
-				urlencode( esc_url_raw( bp_activity_get_permalink( (int) bp_current_action() ) ) )
+				urlencode( esc_url_raw( bp_activity_get_permalink( bp_current_action() ) ) )
 			);
 		}
 
@@ -358,9 +305,6 @@ add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
  *
  * @since 1.2.0
  *
- * @uses bp_get_user_meta()
- * @uses bp_core_get_username()
- * @uses do_action() To call the 'bp_activity_screen_notification_settings' hook.
  */
 function bp_activity_screen_notification_settings() {
 
@@ -391,16 +335,28 @@ function bp_activity_screen_notification_settings() {
 				<tr id="activity-notification-settings-mentions">
 					<td>&nbsp;</td>
 					<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( bp_displayed_user_id() ) ) ?></td>
-					<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ) ?>/><label for="notification-activity-new-mention-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-no" value="no" <?php checked( $mention, 'no', true ) ?>/><label for="notification-activity-new-mention-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+					<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ) ?>/><label for="notification-activity-new-mention-yes" class="bp-screen-reader-text"><?php
+						/* translators: accessibility text */
+						_e( 'Yes, send email', 'buddypress' );
+					?></label></td>
+					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-no" value="no" <?php checked( $mention, 'no', true ) ?>/><label for="notification-activity-new-mention-no" class="bp-screen-reader-text"><?php
+						/* translators: accessibility text */
+						_e( 'No, do not send email', 'buddypress' );
+					?></label></td>
 				</tr>
 			<?php endif; ?>
 
 			<tr id="activity-notification-settings-replies">
 				<td>&nbsp;</td>
 				<td><?php _e( "A member replies to an update or comment you've posted", 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-yes" value="yes" <?php checked( $reply, 'yes', true ) ?>/><label for="notification-activity-new-reply-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-no" value="no" <?php checked( $reply, 'no', true ) ?>/><label for="notification-activity-new-reply-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+				<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-yes" value="yes" <?php checked( $reply, 'yes', true ) ?>/><label for="notification-activity-new-reply-yes" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Yes, send email', 'buddypress' );
+				?></label></td>
+				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-no" value="no" <?php checked( $reply, 'no', true ) ?>/><label for="notification-activity-new-reply-no" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'No, do not send email', 'buddypress' );
+				?></label></td>
 			</tr>
 
 			<?php

@@ -17,6 +17,7 @@ require_once $tests_dir_path . '/includes/mock-mailer.php';
 
 function _load_buddypress() {
 	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/src/bp-loader.php';
+	do_action( 'activate_src/bp-loader.php' );
 }
 tests_add_filter( 'muplugins_loaded', '_load_buddypress' );
 

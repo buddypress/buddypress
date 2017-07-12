@@ -29,11 +29,19 @@
 		 */
 		do_action( 'bp_before_directory_forums_content' ); ?>
 
-		<div id="forums-dir-search" class="dir-search" role="search">
+		<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+		<?php if ( has_filter( 'bp_directory_forums_search_form' ) ) : ?>
 
-			<?php bp_directory_forums_search_form(); ?>
+			<div id="forums-dir-search" class="dir-search" role="search">
+				<?php bp_directory_forums_search_form(); ?>
+			</div>
 
-		</div>
+		<?php else: ?>
+
+			<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+		<?php endif; ?>
+
 	</form>
 
 	<?php
@@ -47,7 +55,7 @@
 
 	<form action="" method="post" id="forums-directory-form" class="dir-form">
 
-		<div class="item-list-tabs" role="navigation">
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Forums directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<li class="selected" id="forums-all"><a href="<?php echo trailingslashit( bp_get_root_domain() . '/' . bp_get_forums_root_slug() ); ?>"><?php printf( __( 'All Topics %s', 'buddypress' ), '<span>' . bp_get_forum_topic_count() . '</span>' ); ?></a></li>
 
@@ -69,7 +77,7 @@
 			</ul>
 		</div>
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Forums secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 
 				<?php
@@ -160,10 +168,13 @@
 					<a name="post-new"></a>
 					<h5><?php _e( 'Create New Topic:', 'buddypress' ); ?></h5>
 
+					<div id="template-notices" role="alert" aria-atomic="true">
 					<?php
 
-					/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-					do_action( 'template_notices' ); ?>
+						/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+						do_action( 'template_notices' ); ?>
+
+					</div>
 
 					<label for="topic_title"><?php _e( 'Title:', 'buddypress' ); ?></label>
 					<input type="text" name="topic_title" id="topic_title" value="" maxlength="100" />

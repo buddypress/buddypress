@@ -75,6 +75,26 @@ class BP_Groups_Component extends BP_Component {
 	public $valid_status;
 
 	/**
+	 * Group types.
+	 *
+	 * @see bp_groups_register_group_type()
+	 *
+	 * @since 2.6.0
+	 * @var array
+	 */
+	public $types = array();
+
+	/**
+	 * Current directory group type.
+	 *
+	 * @see groups_directory_groups_setup()
+	 *
+	 * @since 2.7.0
+	 * @var string
+	 */
+	public $current_directory_type = '';
+
+	/**
 	 * Start the groups component creation process.
 	 *
 	 * @since 1.5.0
@@ -115,10 +135,6 @@ class BP_Groups_Component extends BP_Component {
 			'notifications'
 		);
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		if ( is_admin() ) {
 			$includes[] = 'admin';
 		}
@@ -158,13 +174,17 @@ class BP_Groups_Component extends BP_Component {
 			'group' => $bp->table_prefix . 'bp_groups_groupmeta',
 		);
 
+		// Fetch the default directory title.
+		$default_directory_titles = bp_core_get_directory_page_default_titles();
+		$default_directory_title  = $default_directory_titles[$this->id];
+
 		// All globals for groups component.
 		// Note that global_tables is included in this array.
 		$args = array(
 			'slug'                  => BP_GROUPS_SLUG,
 			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
 			'has_directory'         => true,
-			'directory_title'       => _x( 'Groups', 'component directory title', 'buddypress' ),
+			'directory_title'       => isset( $bp->pages->groups->title ) ? $bp->pages->groups->title : $default_directory_title,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => _x( 'Search Groups...', 'Component directory search', 'buddypress' ),
 			'global_tables'         => $global_tables,
@@ -176,8 +196,10 @@ class BP_Groups_Component extends BP_Component {
 		/* Single Group Globals **********************************************/
 
 		// Are we viewing a single group?
-		if ( bp_is_groups_component() && $group_id = BP_Groups_Group::group_exists( bp_current_action() ) ) {
-
+		if ( bp_is_groups_component()
+			&& ( ( $group_id = BP_Groups_Group::group_exists( bp_current_action() ) )
+				|| ( $group_id = BP_Groups_Group::get_id_by_previous_slug( bp_current_action() ) ) )
+			) {
 			$bp->is_single_item  = true;
 
 			/**
@@ -190,10 +212,7 @@ class BP_Groups_Component extends BP_Component {
 			$current_group_class = apply_filters( 'bp_groups_current_group_class', 'BP_Groups_Group' );
 
 			if ( $current_group_class == 'BP_Groups_Group' ) {
-				$this->current_group = groups_get_group( array(
-					'group_id'        => $group_id,
-					'populate_extras' => true,
-				) );
+				$this->current_group = groups_get_group( $group_id );
 
 			} else {
 
@@ -225,31 +244,6 @@ class BP_Groups_Component extends BP_Component {
 				bp_update_is_item_mod  ( groups_is_user_mod  ( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
 			}
 
-			// Is the logged in user a member of the group?
-			if ( ( is_user_logged_in() && groups_is_user_member( bp_loggedin_user_id(), $this->current_group->id ) ) ) {
-				$this->current_group->is_user_member = true;
-			} else {
-				$this->current_group->is_user_member = false;
-			}
-
-			// Should this group be visible to the logged in user?
-			if ( 'public' == $this->current_group->status || $this->current_group->is_user_member ) {
-				$this->current_group->is_visible = true;
-			} else {
-				$this->current_group->is_visible = false;
-			}
-
-			// If this is a private or hidden group, does the user have access?
-			if ( 'private' == $this->current_group->status || 'hidden' == $this->current_group->status ) {
-				if ( $this->current_group->is_user_member && is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) ) {
-					$this->current_group->user_has_access = true;
-				} else {
-					$this->current_group->user_has_access = false;
-				}
-			} else {
-				$this->current_group->user_has_access = true;
-			}
-
 			// Check once if the current group has a custom front template.
 			$this->current_group->front_template = bp_groups_get_front_template( $this->current_group );
 
@@ -259,6 +253,28 @@ class BP_Groups_Component extends BP_Component {
 		// Set current_group to 0 to prevent debug errors.
 		} else {
 			$this->current_group = 0;
+		}
+
+		// Set group type if available.
+		if ( bp_is_groups_directory() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_action_variable() ) {
+			$matched_types = bp_groups_get_group_types( array(
+				'has_directory'  => true,
+				'directory_slug' => bp_action_variable(),
+			) );
+
+			// Set 404 if we do not have a valid group type.
+			if ( empty( $matched_types ) ) {
+				bp_do_404();
+				return;
+			}
+
+			// Set our directory type marker.
+			$this->current_directory_type = reset( $matched_types );
+		}
+
+		// Set up variables specific to the group creation process.
+		if ( bp_is_groups_component() && bp_is_current_action( 'create' ) && bp_user_can_create_groups() && isset( $_COOKIE['bp_new_group_id'] ) ) {
+			$bp->groups->new_group_id = (int) $_COOKIE['bp_new_group_id'];
 		}
 
 		/**
@@ -286,7 +302,7 @@ class BP_Groups_Component extends BP_Component {
 		) );
 
 		// If the user was attempting to access a group, but no group by that name was found, 404.
-		if ( bp_is_groups_component() && empty( $this->current_group ) && bp_current_action() && !in_array( bp_current_action(), $this->forbidden_names ) ) {
+		if ( bp_is_groups_component() && empty( $this->current_group ) && empty( $this->current_directory_type ) && bp_current_action() && ! in_array( bp_current_action(), $this->forbidden_names ) ) {
 			bp_do_404();
 			return;
 		}
@@ -529,7 +545,7 @@ class BP_Groups_Component extends BP_Component {
 			// member and does not have an outstanding invitation,
 			// show a "Request Membership" nav item.
 			if ( is_user_logged_in() &&
-				 ! $this->current_group->is_user_member &&
+				 ! $this->current_group->is_member &&
 				 ! groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
 				 $this->current_group->status == 'private' &&
 				 ! groups_check_user_has_invite( bp_loggedin_user_id(), $this->current_group->id )
@@ -835,9 +851,23 @@ class BP_Groups_Component extends BP_Component {
 			'bp_groups',
 			'bp_group_admins',
 			'bp_group_invite_count',
-			'group_meta'
+			'group_meta',
+			'bp_groups_memberships',
+			'bp_groups_memberships_for_user',
 		) );
 
 		parent::setup_cache_groups();
+	}
+
+	/**
+	 * Set up taxonomies.
+	 *
+	 * @since 2.6.0
+	 */
+	public function register_taxonomies() {
+		// Group Type.
+		register_taxonomy( 'bp_group_type', 'bp_group', array(
+			'public' => false,
+		) );
 	}
 }

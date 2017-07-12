@@ -12,12 +12,10 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-messages-component.php';
-}
-
 /**
- * Bootstrap the Messages component.
+ * Set up the bp-messages component.
+ *
+ * @since 1.5.0
  */
 function bp_setup_messages() {
 	buddypress()->messages = new BP_Messages_Component();

@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  *
- * @uses bp_get_forums_slug()
  */
 function bp_forums_slug() {
 	echo bp_get_forums_slug();
@@ -43,7 +42,6 @@ function bp_forums_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_forums_root_slug()
  */
 function bp_forums_root_slug() {
 	echo bp_get_forums_root_slug();
@@ -71,7 +69,6 @@ function bp_forums_root_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_forums_directory_permalink()
  */
 function bp_forums_directory_permalink() {
 	echo esc_url( bp_get_forums_directory_permalink() );
@@ -81,10 +78,6 @@ function bp_forums_directory_permalink() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses apply_filters()
-	 * @uses trailingslashit()
-	 * @uses bp_get_root_domain()
-	 * @uses bp_get_forums_root_slug()
 	 *
 	 * @return string The permalink for the forums component directory.
 	 */
@@ -104,11 +97,14 @@ function bp_forums_directory_permalink() {
  * The main forums template loop class.
  *
  * Responsible for loading a group of forum topics into a loop for display.
+ *
+ * @since 1.0.0
  */
 class BP_Forums_Template_Forum {
 	/**
 	 * The loop iterator.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $current_topic = -1;
@@ -116,6 +112,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * The number of topics returned by the paged query.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $topic_count;
@@ -123,6 +120,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * Array of topics located by the query.
 	 *
+	 * @since 1.0.0
 	 * @var array
 	 */
 	public $topics;
@@ -130,6 +128,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * The topic object currently being iterated on.
 	 *
+	 * @since 1.0.0
 	 * @var object
 	 */
 	public $topic;
@@ -137,6 +136,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * The ID of the forum whose topics are being queried.
 	 *
+	 * @since 1.5.0
 	 * @var int
 	 */
 	public $forum_id;
@@ -144,6 +144,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -151,6 +152,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * The page number being requested.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_page;
@@ -158,6 +160,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * The number of items being requested per page.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_num;
@@ -165,6 +168,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * An HTML string containing pagination links.
 	 *
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $pag_links;
@@ -172,6 +176,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * The total number of topics matching the query parameters.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $total_topic_count;
@@ -179,6 +184,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * Whether requesting a single topic. Not currently used.
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $single_topic = false;
@@ -186,6 +192,7 @@ class BP_Forums_Template_Forum {
 	/**
 	 * Term to sort by. Not currently used.
 	 *
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $sort_by;
@@ -193,12 +200,15 @@ class BP_Forums_Template_Forum {
 	/**
 	 * Sort order. Not currently used.
 	 *
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $order;
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @param string   $type         The 'type' is the sort order/kind. 'newest',
 	 *                               'popular', 'unreplied', 'tags'.
@@ -356,6 +366,8 @@ class BP_Forums_Template_Forum {
 	/**
 	 * Whether there are topics available in the loop.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @see bp_has_forum_topics()
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
@@ -371,6 +383,8 @@ class BP_Forums_Template_Forum {
 	/**
 	 * Set up the next topic and iterate index.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return object The next topic to iterate over.
 	 */
 	function next_topic() {
@@ -382,6 +396,8 @@ class BP_Forums_Template_Forum {
 
 	/**
 	 * Rewind the topics and reset topic index.
+	 *
+	 * @since 1.0.0
 	 */
 	function rewind_topics() {
 		$this->current_topic = -1;
@@ -398,6 +414,8 @@ class BP_Forums_Template_Forum {
 	 *     while ( bp_forum_topics() ) { ...
 	 *
 	 * @see bp_forum_topics()
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return bool True if there are more topics to show, otherwise false.
 	 */
@@ -422,6 +440,8 @@ class BP_Forums_Template_Forum {
 
 	/**
 	 * Set up the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @see bp_the_forum_topic()
 	 */
@@ -451,7 +471,8 @@ class BP_Forums_Template_Forum {
  * are determined dynamically, depending on your current page. All of these
  * $defaults can be overridden in the $args parameter.
  *
- * @uses apply_filters() Filter 'bp_has_topics' to manipulate the
+ * @since 1.1.0
+ *
  *       $forums_template global before it's rendered, or to modify the value
  *       of has_topics().
  *
@@ -663,6 +684,8 @@ function bp_has_forum_topics( $args = '' ) {
 /**
  * Determine whether there are still topics left in the loop.
  *
+ * @since 1.1.0
+ *
  * @global BP_Forums_Template_Forum $forum_template Template global.
  *
  * @return bool Returns true when topics are found.
@@ -675,6 +698,8 @@ function bp_forum_topics() {
 /**
  * Get the current topic object in the loop.
  *
+ * @since 1.1.0
+ *
  * @global BP_Forums_Template_Forum $forum_template Template global.
  *
  * @return object The current topic object.
@@ -686,12 +711,16 @@ function bp_the_forum_topic() {
 
 /**
  * Output the ID of the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_id() {
 	echo bp_get_the_topic_id();
 }
 	/**
 	 * Return the ID of the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int ID of the current topic in the loop.
 	 */
@@ -710,12 +739,16 @@ function bp_the_topic_id() {
 
 /**
  * Output the title of the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_title() {
 	echo bp_get_the_topic_title();
 }
 	/**
 	 * Return the title of the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Title of the current topic in the loop.
 	 */
@@ -734,12 +767,16 @@ function bp_the_topic_title() {
 
 /**
  * Output the slug of the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_slug() {
 	echo bp_get_the_topic_slug();
 }
 	/**
 	 * Return the slug of the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Slug of the current topic in the loop.
 	 */
@@ -758,12 +795,16 @@ function bp_the_topic_slug() {
 
 /**
  * Output the text of the first post in the current topic in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_text() {
 	echo bp_get_the_topic_text();
 }
 	/**
 	 * Return the text of the first post in the current topic in the loop.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Text of the first post in the current topic.
 	 */
@@ -784,12 +825,16 @@ function bp_the_topic_text() {
 
 /**
  * Output the ID of the user who posted the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_poster_id() {
 	echo bp_get_the_topic_poster_id();
 }
 	/**
 	 * Return the ID of the user who posted the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int ID of the user who posted the current topic.
 	 */
@@ -809,6 +854,8 @@ function bp_the_topic_poster_id() {
 /**
  * Output the avatar of the user who posted the current topic in the loop.
  *
+ * @since 1.0.0
+ *
  * @see bp_get_the_topic_poster_avatar() for a description of arguments.
  *
  * @param array|string $args See {@link bp_get_the_topic_poster_avatar()}.
@@ -818,6 +865,8 @@ function bp_the_topic_poster_avatar( $args = '' ) {
 }
 	/**
 	 * Return the avatar of the user who posted the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array|string $args {
 	 *     Arguments for building the avatar.
@@ -859,12 +908,16 @@ function bp_the_topic_poster_avatar( $args = '' ) {
 
 /**
  * Output the name of the user who posted the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_poster_name() {
 	echo bp_get_the_topic_poster_name();
 }
 	/**
 	 * Return the name of the user who posted the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Name of the user who posted the current topic.
 	 */
@@ -888,6 +941,8 @@ function bp_the_topic_poster_name() {
 
 /**
  * Output the ID of the object associated with the current topic in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_object_id() {
 	echo bp_get_the_topic_object_id();
@@ -896,6 +951,8 @@ function bp_the_topic_object_id() {
 	 * Return the ID of the object associated with the current topic in the loop.
 	 *
 	 * Objects are things like associated groups.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return int ID of the associated object.
 	 */
@@ -916,6 +973,8 @@ function bp_the_topic_object_id() {
 
 /**
  * Output the name of the object associated with the current topic in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_object_name() {
 	echo bp_get_the_topic_object_name();
@@ -925,6 +984,8 @@ function bp_the_topic_object_name() {
 	 *
 	 * Objects are things like groups. So this function would return the
 	 * name of the group associated with the forum topic, if it exists.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Object name.
 	 */
@@ -951,6 +1012,8 @@ function bp_the_topic_object_name() {
 
 /**
  * Output the slug of the object associated with the current topic in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_object_slug() {
 	echo bp_get_the_topic_object_slug();
@@ -960,6 +1023,8 @@ function bp_the_topic_object_slug() {
 	 *
 	 * Objects are things like groups. So this function would return the
 	 * slug of the group associated with the forum topic, if it exists.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Object slug.
 	 */
@@ -981,6 +1046,8 @@ function bp_the_topic_object_slug() {
 
 /**
  * Output the permalink of the object associated with the current topic in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_object_permalink() {
 	echo bp_get_the_topic_object_permalink();
@@ -990,6 +1057,8 @@ function bp_the_topic_object_permalink() {
 	 *
 	 * Objects are things like groups. So this function would return the
 	 * permalink of the group associated with the forum topic, if it exists.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Object permalink.
 	 */
@@ -1017,12 +1086,16 @@ function bp_the_topic_object_permalink() {
 
 /**
  * Output the linked name of the user who last posted to the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_last_poster_name() {
 	echo bp_get_the_topic_last_poster_name();
 }
 	/**
 	 * Return the linked name of the user who last posted to the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string HTML link to the profile of the user who last posted
 	 *                to the current topic.
@@ -1051,6 +1124,8 @@ function bp_the_topic_last_poster_name() {
 /**
  * Output the permalink of the object associated with the current topic in the loop.
  *
+ * @since 1.1.0
+ *
  * @see bp_get_the_topic_object_avatar() for description of arguments.
  *
  * @param array|string $args See {@bp_get_the_topic_object_avatar()}.
@@ -1063,6 +1138,8 @@ function bp_the_topic_object_avatar( $args = '' ) {
 	 *
 	 * Objects are things like groups. So this function would return the
 	 * avatar of the group associated with the forum topic, if it exists.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @param array|string $args {
 	 *     Arguments for building the avatar.
@@ -1108,6 +1185,8 @@ function bp_the_topic_object_avatar( $args = '' ) {
 /**
  * Output the avatar for the user who last posted to the current topic in the loop.
  *
+ * @since 1.0.0
+ *
  * @see bp_get_the_topic_last_poster_avatar() for description of arguments.
  *
  * @param array|string $args See {@bp_get_the_topic_last_poster_avatar()}.
@@ -1117,6 +1196,8 @@ function bp_the_topic_last_poster_avatar( $args = '' ) {
 }
 	/**
 	 * Return the avatar for the user who last posted to the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array|string $args {
 	 *     Arguments for building the avatar.
@@ -1158,12 +1239,16 @@ function bp_the_topic_last_poster_avatar( $args = '' ) {
 
 /**
  * Output the start time of the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_start_time() {
 	echo bp_get_the_topic_start_time();
 }
 	/**
 	 * Return the start time of the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Start time of the current topic.
 	 */
@@ -1182,12 +1267,16 @@ function bp_the_topic_start_time() {
 
 /**
  * Output the topic time of the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_time() {
 	echo bp_get_the_topic_time();
 }
 	/**
 	 * Return the topic time of the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Topic time of the current topic.
 	 */
@@ -1206,12 +1295,16 @@ function bp_the_topic_time() {
 
 /**
  * Output the ID of the forum associated with the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_forum_id() {
 	echo bp_get_the_topic_forum_id();
 }
 	/**
 	 * Return the ID of the forum associated with the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int ID of the forum associated with the current topic.
 	 */
@@ -1230,12 +1323,16 @@ function bp_the_topic_forum_id() {
 
 /**
  * Output the status of the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_status() {
 	echo bp_get_the_topic_status();
 }
 	/**
 	 * Return the status of the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Status of the current topic.
 	 */
@@ -1254,12 +1351,16 @@ function bp_the_topic_status() {
 
 /**
  * Output whether the current topic in the loop is open.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_is_topic_open() {
 	echo bp_get_the_topic_is_topic_open();
 }
 	/**
 	 * Return whether the current topic in the loop is open.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
@@ -1278,12 +1379,16 @@ function bp_the_topic_is_topic_open() {
 
 /**
  * Output the ID of the last post in the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_last_post_id() {
 	echo bp_get_the_topic_last_post_id();
 }
 	/**
 	 * Return the ID of the last post in the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int ID of the last post in the current topic.
 	 */
@@ -1302,12 +1407,16 @@ function bp_the_topic_last_post_id() {
 
 /**
  * Output whether the current topic in the loop is sticky.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_is_sticky() {
 	echo bp_get_the_topic_is_sticky();
 }
 	/**
 	 * Return whether the current topic in the loop is sticky.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return bool
 	 */
@@ -1326,6 +1435,8 @@ function bp_the_topic_is_sticky() {
 
 /**
  * Output a 'x posts' string with the number of posts in the current topic.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_total_post_count() {
 	echo bp_get_the_topic_total_post_count();
@@ -1333,36 +1444,37 @@ function bp_the_topic_total_post_count() {
 	/**
 	 * Return a 'x posts' string with the number of posts in the current topic.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return string String of the form 'x posts'.
 	 */
 	function bp_get_the_topic_total_post_count() {
 		global $forum_template;
 
-		if ( $forum_template->topic->topic_posts == 1 ) {
+		$output = _n( '%d post', '%d posts', (int) $forum_template->topic->topic_posts, 'buddypress' );
 
-			/**
-			 * Filters a 'x posts' string with the number of posts in the current topic.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param string $value 'X posts' string value for the current topic.
-			 */
-			return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( __( '%d post', 'buddypress' ), $forum_template->topic->topic_posts ) );
-		} else {
-
-			/** This filter is documented in bp-forums/bp-forums-template.php */
-			return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( __( '%d posts', 'buddypress' ), $forum_template->topic->topic_posts ) );
-		}
+		/**
+		 * Filters a 'x posts' string with the number of posts in the current topic.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value 'X posts' string value for the current topic.
+		 */
+		return apply_filters( 'bp_get_the_topic_total_post_count', sprintf( $output, $forum_template->topic->topic_posts ) );
 	}
 
 /**
  * Output the total number of posts in the current topic in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_total_posts() {
 	echo bp_get_the_topic_total_posts();
 }
 	/**
 	 * Return the total number of posts in the current topic in the loop.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return int Total number of posts in the current topic.
 	 */
@@ -1381,12 +1493,16 @@ function bp_the_topic_total_posts() {
 
 /**
  * Output the tag count for the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_tag_count() {
 	echo bp_get_the_topic_tag_count();
 }
 	/**
 	 * Return the tag count for the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int Tag count for the current topic.
 	 */
@@ -1405,12 +1521,16 @@ function bp_the_topic_tag_count() {
 
 /**
  * Output the permalink of the current topic in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_permalink() {
 	echo bp_get_the_topic_permalink();
 }
 	/**
 	 * Return the permalink for the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Permalink for the current topic.
 	 */
@@ -1446,12 +1566,16 @@ function bp_the_topic_permalink() {
 
 /**
  * Output a 'since' string describing when the current topic was created.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_time_since_created() {
 	echo bp_get_the_topic_time_since_created();
 }
 	/**
 	 * Return a 'since' string describing when the current topic was created.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @see bp_core_time_since() for a description of return value.
 	 *
@@ -1473,6 +1597,8 @@ function bp_the_topic_time_since_created() {
 /**
  * Output an excerpt from the latest post of the current topic in the loop.
  *
+ * @since 1.0.0
+ *
  * @param array|string $args See {@bp_get_the_topic_latest_post_excerpt()}.
  */
 function bp_the_topic_latest_post_excerpt( $args = '' ) {
@@ -1480,6 +1606,8 @@ function bp_the_topic_latest_post_excerpt( $args = '' ) {
 }
 	/**
 	 * Return an excerpt from the latest post of the current topic in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array|string $args {
 	 *     @type int $length The length of the excerpted text. Default: 225.
@@ -1512,12 +1640,16 @@ function bp_the_topic_latest_post_excerpt( $args = '' ) {
 
 /**
  * Output a 'since' string describing when the last post in the current topic was created.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_time_since_last_post() {
 	echo bp_get_the_topic_time_since_last_post();
 }
 	/**
 	 * Return a 'since' string describing when the last post in the current topic was created.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @see bp_core_time_since() for a description of return value.
 	 *
@@ -1538,12 +1670,16 @@ function bp_the_topic_time_since_last_post() {
 
 /**
  * Output whether the current topic in the loop belongs to the logged-in user.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_is_mine() {
 	echo bp_get_the_topic_is_mine();
 }
 	/**
 	 * Does the current topic belong to the logged-in user?
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return bool True if the current topic in the loop was created by
 	 *              the logged-in user, otherwise false.
@@ -1557,6 +1693,8 @@ function bp_the_topic_is_mine() {
 /**
  * Output the admin links for the current topic in the loop.
  *
+ * @since 1.1.0
+ *
  * @see bp_get_the_topic_admin_links() for a description of arguments.
  *
  * @param array|string $args See {@link bp_get_the_topic_admin_links()}.
@@ -1566,6 +1704,8 @@ function bp_the_topic_admin_links( $args = '' ) {
 }
 	/**
 	 * Return the admin links for the current topic in the loop.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @param array|string $args {
 	 *     @type string $separator The character to use when separating links. Default: '|'.
@@ -1603,6 +1743,8 @@ function bp_the_topic_admin_links( $args = '' ) {
 
 /**
  * Output the CSS class for the current topic in the loop.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_css_class() {
 	echo bp_get_the_topic_css_class();
@@ -1612,6 +1754,8 @@ function bp_the_topic_css_class() {
 	 *
 	 * This class may contain keywords like 'alt', 'sticky', or 'closed',
 	 * based on context.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Contents of the 'class' attribute.
 	 */
@@ -1644,12 +1788,16 @@ function bp_the_topic_css_class() {
 
 /**
  * Output the permalink to the 'personal' topics tab.
+ *
+ * @since 1.1.0
  */
 function bp_my_forum_topics_link() {
 	echo bp_get_my_forum_topics_link();
 }
 	/**
 	 * Return the permalink to the 'personal' topics tab.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Link to the 'personal' topics tab.
 	 */
@@ -1666,12 +1814,16 @@ function bp_my_forum_topics_link() {
 
 /**
  * Output the permalink to the 'unreplied' topics tab.
+ *
+ * @since 1.1.0
  */
 function bp_unreplied_forum_topics_link() {
 	echo bp_get_unreplied_forum_topics_link();
 }
 	/**
 	 * Return the permalink to the 'unreplied' topics tab.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Link to the 'unreplied' topics tab.
 	 */
@@ -1688,12 +1840,16 @@ function bp_unreplied_forum_topics_link() {
 
 /**
  * Output the permalink to the 'popular' topics tab.
+ *
+ * @since 1.1.0
  */
 function bp_popular_forum_topics_link() {
 	echo bp_get_popular_forum_topics_link();
 }
 	/**
 	 * Return the permalink to the 'popular' topics tab.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Link to the 'popular' topics tab.
 	 */
@@ -1710,12 +1866,16 @@ function bp_popular_forum_topics_link() {
 
 /**
  * Output the link to the forums directory.
+ *
+ * @since 1.1.0
  */
 function bp_newest_forum_topics_link() {
 	echo bp_get_newest_forum_topics_link();
 }
 	/**
 	 * Return the link to the forums directory.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Link to the forums directory.
 	 */
@@ -1732,6 +1892,8 @@ function bp_newest_forum_topics_link() {
 
 /**
  * Output the currently viewed topic list type.
+ *
+ * @since 1.1.0
  */
 function bp_forum_topic_type() {
 	echo bp_get_forum_topic_type();
@@ -1740,6 +1902,8 @@ function bp_forum_topic_type() {
 	 * Return the currently viewed topic list type.
 	 *
 	 * Eg, 'newest', 'popular', etc.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Type of the currently viewed topic list.
 	 */
@@ -1773,7 +1937,6 @@ function bp_forum_topic_new_reply_link() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses apply_filters() Filter bp_get_forum_topic_new_reply_link to
 	 *       modify.
 	 *
 	 * @return string The URL for the New Reply link.
@@ -1805,6 +1968,8 @@ function bp_forum_topic_new_reply_link() {
 /**
  * Output the currently viewed tag name.
  *
+ * @since 1.1.0
+ *
  * @todo Deprecate?
  */
 function bp_forums_tag_name() {
@@ -1812,6 +1977,8 @@ function bp_forums_tag_name() {
 }
 	/**
 	 * Return the currently viewed tag name.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @todo Deprecate? Seems unused
 	 *
@@ -1825,12 +1992,16 @@ function bp_forums_tag_name() {
 
 /**
  * Output the pagination links for the current topic list.
+ *
+ * @since 1.0.0
  */
 function bp_forum_pagination() {
 	echo bp_get_forum_pagination();
 }
 	/**
 	 * Return the pagination links for the current topic list.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string HTML pagination links.
 	 */
@@ -1849,6 +2020,8 @@ function bp_forum_pagination() {
 
 /**
  * Output the pagination count for the current topic list.
+ *
+ * @since 1.0.0
  */
 function bp_forum_pagination_count() {
 	echo bp_get_forum_pagination_count();
@@ -1857,6 +2030,8 @@ function bp_forum_pagination_count() {
 	 * Return the pagination count for the current topic list.
 	 *
 	 * The "count" is a string of the form "Viewing x of y topics".
+	 *
+	 * @since 1.5.0
 	 *
 	 * @return string
 	 */
@@ -1894,6 +2069,8 @@ function bp_forum_pagination_count() {
 /**
  * Are we currently on an Edit Topic screen?
  *
+ * @since 1.1.0
+ *
  * @return bool True if currently editing a topic, otherwise false.
  */
 function bp_is_edit_topic() {
@@ -1908,11 +2085,14 @@ function bp_is_edit_topic() {
  * The single forum topic template loop class.
  *
  * Responsible for loading a topic's posts into a loop for display.
+ *
+ * @since 1.0.0
  */
 class BP_Forums_Template_Topic {
 	/**
 	 * The loop iterator.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $current_post = -1;
@@ -1920,6 +2100,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The number of posts returned by the paged query.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $post_count;
@@ -1927,6 +2108,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * Array of posts located by the query.
 	 *
+	 * @since 1.0.0
 	 * @var array
 	 */
 	public $posts;
@@ -1934,6 +2116,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The post object currently being iterated on.
 	 *
+	 * @since 1.0.0
 	 * @var object
 	 */
 	public $post;
@@ -1941,6 +2124,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The ID of the forum whose topic is being queried.
 	 *
+	 * @since 1.5.0
 	 * @var int
 	 */
 	public $forum_id;
@@ -1948,6 +2132,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The ID of the topic whose posts are being queried.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $topic_id;
@@ -1955,6 +2140,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The topic object to which the posts belong.
 	 *
+	 * @since 1.0.0
 	 * @var object
 	 */
 	public $topic;
@@ -1962,6 +2148,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $in_the_loop;
@@ -1978,6 +2165,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The page number being requested.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_page;
@@ -1985,6 +2173,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The number of items being requested per page.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_num;
@@ -1992,6 +2181,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * An HTML string containing pagination links.
 	 *
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $pag_links;
@@ -1999,6 +2189,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * The total number of posts matching the query parameters.
 	 *
+	 * @since 1.0.0
 	 * @var int
 	 */
 	public $total_post_count;
@@ -2006,6 +2197,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * Whether requesting a single topic. Not currently used.
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $single_post = false;
@@ -2013,6 +2205,7 @@ class BP_Forums_Template_Topic {
 	/**
 	 * Term to sort by.
 	 *
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $sort_by;
@@ -2020,12 +2213,15 @@ class BP_Forums_Template_Topic {
 	/**
 	 * Sort order.
 	 *
+	 * @since 1.0.0
 	 * @var string
 	 */
 	public $order;
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @param int    $topic_id ID of the topic whose posts are being requested.
 	 * @param int    $per_page Number of items to return per page.
@@ -2096,6 +2292,8 @@ class BP_Forums_Template_Topic {
 	/**
 	 * Whether there are posts available in the loop.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @see bp_has_forum_topic_posts()
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
@@ -2110,6 +2308,8 @@ class BP_Forums_Template_Topic {
 	/**
 	 * Set up the next post and iterate index.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return object The next post to iterate over.
 	 */
 	function next_post() {
@@ -2121,6 +2321,8 @@ class BP_Forums_Template_Topic {
 
 	/**
 	 * Rewind the posts and reset post index.
+	 *
+	 * @since 1.0.0
 	 */
 	function rewind_posts() {
 		$this->current_post = -1;
@@ -2135,6 +2337,8 @@ class BP_Forums_Template_Topic {
 	 * This method is used by {@link bp_forum_topic_posts()} as part of
 	 * the while loop that controls iteration inside the blogs loop, eg:
 	 *     while ( bp_forum_topic_posts() ) { ...
+	 *
+	 * @since 1.0.0
 	 *
 	 * @see bp_forum_topic_posts()
 	 *
@@ -2162,6 +2366,8 @@ class BP_Forums_Template_Topic {
 	/**
 	 * Set up the current topic in the loop.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @see bp_the_forum_topic_post()
 	 */
 	function the_post() {
@@ -2184,6 +2390,8 @@ class BP_Forums_Template_Topic {
 
 /**
  * Initiate the loop for a single topic's posts.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     Arguments for limiting the contents of the topic posts loop.
@@ -2238,6 +2446,8 @@ function bp_has_forum_topic_posts( $args = '' ) {
 /**
  * Determine whether there are posts left in the loop.
  *
+ * @since 1.1.0
+ *
  * @return bool True when posts are found.
  */
 function bp_forum_topic_posts() {
@@ -2248,6 +2458,8 @@ function bp_forum_topic_posts() {
 /**
  * Set up the current post in the loop.
  *
+ * @since 1.1.0
+ *
  * @return object
  */
 function bp_the_forum_topic_post() {
@@ -2257,12 +2469,16 @@ function bp_the_forum_topic_post() {
 
 /**
  * Output the ID of the current post in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_post_id() {
 	echo bp_get_the_topic_post_id();
 }
 	/**
 	 * Return the ID of the current post in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return int ID of the current post in the loop.
 	 */
@@ -2281,12 +2497,16 @@ function bp_the_topic_post_id() {
 
 /**
  * Output the content of the current post in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_post_content() {
 	echo bp_get_the_topic_post_content();
 }
 	/**
 	 * Return the content of the current post in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Content of the current post.
 	 */
@@ -2305,6 +2525,8 @@ function bp_the_topic_post_content() {
 
 /**
  * Output the CSS class of the current post in the loop.
+ *
+ * @since 1.2.4
  */
 function bp_the_topic_post_css_class() {
 	echo bp_get_the_topic_post_css_class();
@@ -2314,6 +2536,8 @@ function bp_the_topic_post_css_class() {
 	 *
 	 * May contain strings 'alt', 'deleted', or 'open', depending on
 	 * context.
+	 *
+	 * @since 1.2.4
 	 *
 	 * @return string String to put in the 'class' attribute of the current
 	 *                post.
@@ -2348,6 +2572,8 @@ function bp_the_topic_post_css_class() {
 /**
  * Output the avatar of the user who posted the current post in the loop.
  *
+ * @since 1.0.0
+ *
  * @see bp_get_the_topic_post_poster_avatar() for a description of arguments.
  *
  * @param array|string $args See {@link bp_get_the_topic_post_poster_avatar()}.
@@ -2357,6 +2583,8 @@ function bp_the_topic_post_poster_avatar( $args = '' ) {
 }
 	/**
 	 * Return the avatar of the user who posted the current post in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array|string $args {
 	 *     Arguments for building the avatar.
@@ -2398,12 +2626,16 @@ function bp_the_topic_post_poster_avatar( $args = '' ) {
 
 /**
  * Output the name of the user who posted the current post in the loop.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_post_poster_name() {
 	echo bp_get_the_topic_post_poster_name();
 }
 	/**
 	 * Return the name of the user who posted the current post in the loop.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string Name of the user who posted the current post.
 	 */
@@ -2420,17 +2652,21 @@ function bp_the_topic_post_poster_name() {
 		 *
 		 * @param string $value HTML link for the poster's name.
 		 */
-		return apply_filters( 'bp_get_the_topic_post_poster_name', '<a href="' . $link . '" title="' . $topic_template->post->poster_name . '">' . $topic_template->post->poster_name . '</a>' );
+		return apply_filters( 'bp_get_the_topic_post_poster_name', '<a href="' . esc_url( $link ) . '">' . esc_html( $topic_template->post->poster_name ) . '</a>' );
 	}
 
 /**
  * Output a link to the profile of the user who posted the current post.
+ *
+ * @since 1.2.0
  */
 function bp_the_topic_post_poster_link() {
 	echo bp_get_the_topic_post_poster_link();
 }
 	/**
 	 * Return a link to the profile of the user who posted the current post.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return string Link to the profile of the user who posted the
 	 *                current post.
@@ -2450,12 +2686,16 @@ function bp_the_topic_post_poster_link() {
 
 /**
  * Output a 'since' string describing when the current post in the loop was posted.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_post_time_since() {
 	echo bp_get_the_topic_post_time_since();
 }
 	/**
 	 * Return a 'since' string describing when the current post in the loop was posted.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @see bp_core_time_since() for a description of return value.
 	 *
@@ -2476,12 +2716,16 @@ function bp_the_topic_post_time_since() {
 
 /**
  * Output whether the current post in the loop belongs to the logged-in user.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_post_is_mine() {
 	echo bp_get_the_topic_post_is_mine();
 }
 	/**
 	 * Does the current post belong to the logged-in user?
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return bool True if the current post in the loop was created by
 	 *              the logged-in user, otherwise false.
@@ -2495,6 +2739,8 @@ function bp_the_topic_post_is_mine() {
 /**
  * Output the admin links for the current post in the loop.
  *
+ * @since 1.1.0
+ *
  * @see bp_get_the_post_admin_links() for a description of arguments.
  *
  * @param array|string $args See {@link bp_get_the_post_admin_links()}.
@@ -2504,6 +2750,8 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 }
 	/**
 	 * Return the admin links for the current post in the loop.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @param array|string $args {
 	 *     @type string $separator The character to use when separating
@@ -2545,12 +2793,16 @@ function bp_the_topic_post_admin_links( $args = '' ) {
 
 /**
  * Output the text to edit when editing a post.
+ *
+ * @since 1.1.0
  */
 function bp_the_topic_post_edit_text() {
 	echo bp_get_the_topic_post_edit_text();
 }
 	/**
 	 * Return the text to edit when editing a post.
+	 *
+	 * @since 1.1.0
 	 *
 	 * @return string Editable text.
 	 */
@@ -2569,12 +2821,16 @@ function bp_the_topic_post_edit_text() {
 
 /**
  * Output the pagination links for the current topic.
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_pagination() {
 	echo bp_get_the_topic_pagination();
 }
 	/**
 	 * Return the pagination links for the current topic page.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string HTML pagination links.
 	 */
@@ -2596,6 +2852,8 @@ function bp_the_topic_pagination() {
  * Return the pagination count for the current topic page.
  *
  * The "count" is a string of the form "Viewing x of y posts".
+ *
+ * @since 1.0.0
  */
 function bp_the_topic_pagination_count() {
 	global $topic_template;
@@ -2626,12 +2884,16 @@ function bp_the_topic_pagination_count() {
 
 /**
  * Output whether this is the last page in the current topic.
+ *
+ * @since 1.2.0
  */
 function bp_the_topic_is_last_page() {
 	echo bp_get_the_topic_is_last_page();
 }
 	/**
 	 * Is this the last page in the current topic?
+	 *
+	 * @since 1.2.0
 	 *
 	 * @return bool True if this is the last page of posts for the current
 	 *              topic, otherwise false.
@@ -2651,6 +2913,8 @@ function bp_the_topic_is_last_page() {
 
 /**
  * Output the forums directory search form.
+ *
+ * @since 1.1.0
  */
 function bp_directory_forums_search_form() {
 	$default_search_value = bp_get_search_default_text( 'forums' );
@@ -2674,6 +2938,8 @@ function bp_directory_forums_search_form() {
 /**
  * Output the link to a given forum.
  *
+ * @since 1.0.0
+ *
  * @see bp_get_forum_permalink() for a description of arguments.
  *
  * @param int $forum_id See {@link bp_get_forum_permalink()}.
@@ -2683,6 +2949,8 @@ function bp_forum_permalink( $forum_id = 0 ) {
 }
 	/**
 	 * Return the permalink to a given forum.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int $forum_id Optional. Defaults to the current forum, if
 	 *                      there is one.
@@ -2718,6 +2986,8 @@ function bp_forum_permalink( $forum_id = 0 ) {
 /**
  * Output the name of a given forum.
  *
+ * @since 1.5.0
+ *
  * @see bp_get_forum_name() for a description of parameters.
  *
  * @param int $forum_id See {@link bp_get_forum_name()}.
@@ -2727,6 +2997,8 @@ function bp_forum_name( $forum_id = 0 ) {
 }
 	/**
 	 * Return the name of a given forum.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @param int $forum_id Optional. Defaults to the current forum, if
 	 *                      there is one.
@@ -2761,6 +3033,8 @@ function bp_forum_name( $forum_id = 0 ) {
  *
  * A wrapper for {@link bb_tag_heat_map}, which provides it with BP-friendly
  * defaults.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     An array of optional arguments.
@@ -2855,12 +3129,16 @@ function bp_forum_topic_has_tags() {
 
 /**
  * Output a URL to use in as a forum form 'action'.
+ *
+ * @since 1.0.0
  */
 function bp_forum_action() {
 	echo bp_get_forum_action();
 }
 	/**
 	 * Get a URL to use in as a forum form 'action'.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string URL of the current page, minus query args.
 	 */
@@ -2879,12 +3157,16 @@ function bp_forum_action() {
 
 /**
  * Output a URL to use in as a forum topic form 'action'.
+ *
+ * @since 1.0.0
  */
 function bp_forum_topic_action() {
 	echo bp_get_forum_topic_action();
 }
 	/**
 	 * Get a URL to use in as a forum topic form 'action'.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string URL of the current page, minus query args.
 	 */
@@ -2903,6 +3185,8 @@ function bp_forum_topic_action() {
 /**
  * Output the total topic count for a given user.
  *
+ * @since 1.2.0
+ *
  * @see bp_get_forum_topic_count_for_user() for description of parameters.
  *
  * @param int $user_id See {@link bp_get_forum_topic_count_for_user()}.
@@ -2912,6 +3196,8 @@ function bp_forum_topic_count_for_user( $user_id = 0 ) {
 }
 	/**
 	 * Return the total topic count for a given user.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param int $user_id See {@link bp_forums_total_topic_count_for_user}.
 	 *
@@ -2932,6 +3218,8 @@ function bp_forum_topic_count_for_user( $user_id = 0 ) {
 /**
  * Output the total topic count for a given user.
  *
+ * @since 1.2.0
+ *
  * @see bp_get_forum_topic_count() for description of parameters.
  *
  * @param int $user_id See {@link bp_get_forum_topic_count()}.
@@ -2941,6 +3229,8 @@ function bp_forum_topic_count( $user_id = 0 ) {
 }
 	/**
 	 * Return the total topic count for a given user.
+	 *
+	 * @since 1.2.0
 	 *
 	 * @param int $user_id See {@link bp_forums_total_topic_count()}.
 	 *

@@ -564,6 +564,7 @@ class BP_Group_Extension {
 	 * @since 2.1.0
 	 */
 	protected function setup_access_settings() {
+
 		// Bail if no group ID is available.
 		if ( empty( $this->group_id ) ) {
 			return;
@@ -580,12 +581,10 @@ class BP_Group_Extension {
 		// Backward compatibility for components that do not provide
 		// explicit 'access' parameter.
 		if ( empty( $this->params['access'] ) ) {
-			if ( false === $this->enable_nav_item ) {
+			if ( false === $this->params['enable_nav_item'] ) {
 				$this->params['access'] = 'noone';
 			} else {
-				$group = groups_get_group( array(
-					'group_id' => $this->group_id,
-				) );
+				$group = groups_get_group( $this->group_id );
 
 				if ( ! empty( $group->status ) && 'public' === $group->status ) {
 					// Tabs in public groups are accessible to anyone by default.
@@ -668,9 +667,6 @@ class BP_Group_Extension {
 	 * @return bool
 	 */
 	protected function user_meets_access_condition( $access_condition ) {
-		$group = groups_get_group( array(
-			'group_id' => $this->group_id,
-		) );
 
 		switch ( $access_condition ) {
 			case 'admin' :
@@ -763,7 +759,7 @@ class BP_Group_Extension {
 		}
 
 		// Hook the group home widget.
-		if ( ! bp_current_action() && bp_is_current_action( 'home' ) ) {
+		if ( bp_is_group_home() ) {
 			add_action( $this->display_hook, array( &$this, 'widget_display' ) );
 		}
 	}
@@ -810,7 +806,9 @@ class BP_Group_Extension {
 	 * @return bool
 	 */
 	public function user_can_see_nav_item( $user_can_see_nav_item = false ) {
-		if ( 'noone' !== $this->params['show_tab'] && current_user_can( 'bp_moderate' ) ) {
+
+		// Always allow moderators to see nav items, even if explicitly 'noone'
+		if ( ( 'noone' !== $this->params['show_tab'] ) && current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
 
@@ -820,13 +818,18 @@ class BP_Group_Extension {
 	/**
 	 * Determine whether the current user has access to visit this tab.
 	 *
+	 * Note that this controls the ability of a user to access a tab.
+	 * Display of the navigation item is controlled by user_can_see_nav_item().
+	 *
 	 * @since 2.1.0
 	 *
 	 * @param bool $user_can_visit Whether or not the user can visit the tab.
 	 * @return bool
 	 */
 	public function user_can_visit( $user_can_visit = false ) {
-		if ( 'noone' !== $this->params['access'] && current_user_can( 'bp_moderate' ) ) {
+
+		// Always allow moderators to visit a tab, even if explicitly 'noone'
+		if ( ( 'noone' !== $this->params['access'] ) && current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
 
@@ -850,9 +853,7 @@ class BP_Group_Extension {
 		$user_can_visit = $this->user_can_visit();
 
 		if ( ! $user_can_visit && is_user_logged_in() ) {
-			$current_group = groups_get_group( array(
-				'group_id' => $this->group_id,
-			) );
+			$current_group = groups_get_group( $this->group_id );
 
 			$no_access_args['message'] = __( 'You do not have access to this content.', 'buddypress' );
 			$no_access_args['root'] = bp_get_group_permalink( $current_group ) . 'home/';
@@ -949,13 +950,13 @@ class BP_Group_Extension {
 		$position += 40;
 
 		$current_group = groups_get_current_group();
-		$admin_link = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
+		$admin_link    = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
 
 		$subnav_args = array(
 			'name'            => $screen['name'],
 			'slug'            => $screen['slug'],
 			'parent_slug'     => $current_group->slug . '_manage',
-			'parent_url'      => trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' ),
+			'parent_url'      => $admin_link,
 			'user_has_access' => bp_is_item_admin(),
 			'position'        => $position,
 			'screen_function' => 'groups_screen_group_admin',
@@ -980,7 +981,11 @@ class BP_Group_Extension {
 			if ( '' !== bp_locate_template( array( 'groups/single/home.php' ), false ) ) {
 				$this->edit_screen_template = '/groups/single/home';
 			} else {
-				add_action( 'bp_template_content_header', create_function( '', 'echo "<ul class=\"content-header-nav\">"; bp_group_admin_tabs(); echo "</ul>";' ) );
+				add_action( 'bp_template_content_header', function() {
+					echo '<ul class="content-header-nav">';
+					bp_group_admin_tabs();
+					echo '</ul>';
+				} );
 				add_action( 'bp_template_content', array( &$this, 'call_edit_screen' ) );
 				$this->edit_screen_template = '/groups/single/plugins';
 			}
@@ -1696,9 +1701,9 @@ function bp_register_group_extension( $group_extension_class = '' ) {
 
 	// Register the group extension on the bp_init action so we have access
 	// to all plugins.
-	add_action( 'bp_init', create_function( '', '
-		$extension = new ' . $group_extension_class . ';
-		add_action( "bp_actions", array( &$extension, "_register" ), 8 );
-		add_action( "admin_init", array( &$extension, "_register" ) );
-	' ), 11 );
+	add_action( 'bp_init', function() use ( $group_extension_class ) {
+		$extension = new $group_extension_class;
+		add_action( 'bp_actions', array( &$extension, '_register' ), 8 );
+		add_action( 'admin_init', array( &$extension, '_register' ) );
+	}, 11 );
 }

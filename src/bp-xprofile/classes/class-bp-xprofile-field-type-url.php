@@ -66,17 +66,21 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 			'value'     => esc_url( bp_get_the_profile_field_edit_value() ),
 		) ); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>">
+		<legend id="<?php bp_the_profile_field_input_name(); ?>-1">
 			<?php bp_the_profile_field_name(); ?>
 			<?php bp_the_profile_field_required_label(); ?>
-		</label>
+		</legend>
 
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
 		do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+		<input <?php echo $this->get_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1">
+
+		<?php if ( bp_get_the_profile_field_description() ) : ?>
+			<p class="description" id="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_description(); ?></p>
+		<?php endif; ?>
 
 		<?php
 	}
@@ -97,7 +101,10 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 			'type' => 'url'
 		) ); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'URL', 'buddypress' ); ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'URL', 'buddypress' );
+		?></label>
 		<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 
 		<?php
@@ -141,10 +148,10 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 		}
 
 		// Run some checks on the submitted value.
-		if ( false === strpos( $submitted_value, ':'  )
-		     && substr( $submitted_value, 0, 1 ) !== '/'
-		     && substr( $submitted_value, 0, 1 ) !== '#'
-		     && ! preg_match( '/^[a-z0-9-]+?\.php/i', $submitted_value )
+		if ( false === strpos( $submitted_value, ':'  ) &&
+			substr( $submitted_value, 0, 1 ) !== '/' &&
+			substr( $submitted_value, 0, 1 ) !== '#' &&
+			! preg_match( '/^[a-z0-9-]+?\.php/i', $submitted_value )
 		) {
 			$submitted_value = 'http://' . $submitted_value;
 		}

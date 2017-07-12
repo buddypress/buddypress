@@ -13,22 +13,22 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create the thread
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
 
 		// create a reply
-		$this->factory->message->create( array(
-			'thread_id'  => $t1,
+		$message_2 = $this->factory->message->create_and_get( array(
+			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "That's a spoon",
 		) );
 
-		// grab the message ids as individual variables
-		list( $m1, $m2 ) = $this->get_message_ids( $t1 );
+		$m1 = $message_1->id;
+		$m2 = $message_2->id;
 
 		// add cache for each message
 		bp_messages_update_meta( $m1, 'utensil',  'knive' );
@@ -85,24 +85,23 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		// create the thread
-		$t1 = $this->factory->message->create( array(
+		// create the message and thread
+		$m = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
 		) );
 
 		// add message cache
-		list( $m1 ) = $this->get_message_ids( $t1 );
-		bp_messages_update_meta( $m1, 'yolo', 'gah' );
+		bp_messages_update_meta( $m->id, 'yolo', 'gah' );
 
 		// prime meta cache in message loop
 		bp_thread_has_messages( array(
-			'thread_id' => $t1,
+			'thread_id' => $m->thread_id,
 			'update_meta_cache' => true
 		) );
 
-		$this->assertNotEmpty( wp_cache_get( $m1, 'message_meta' ) );
+		$this->assertNotEmpty( wp_cache_get( $m->id, 'message_meta' ) );
 	}
 
 	/**
@@ -116,22 +115,25 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create the thread
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
 		) );
 
 		// create a reply
-		$this->factory->message->create( array(
-			'thread_id'  => $t1,
+		$message_2 = $this->factory->message->create_and_get( array(
+			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => 'Yo',
 		) );
 
+		$m1 = $message_1->id;
+		$m2 = $message_2->id;
+		$t1 = $message_1->thread_id;
+
 		// add message meta
-		list( $m1, $m2 ) = $this->get_message_ids( $t1 );
 		bp_messages_update_meta( $m1, 'yolo', 'gah' );
 		bp_messages_update_meta( $m2, 'yolo', 'bah' );
 

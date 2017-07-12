@@ -8,7 +8,7 @@ module.exports = function( grunt ) {
 			'**/*.css'
 		],
 
-		// CSS exclusions, for excluding files from certain tasks, e.g. cssjanus
+		// CSS exclusions, for excluding files from certain tasks, e.g. rtlcss
 		BP_EXCLUDED_CSS = [
 			'!**/*-rtl.css'
 		],
@@ -19,7 +19,15 @@ module.exports = function( grunt ) {
 
 		BP_EXCLUDED_MISC = [
 			'!bp-forums/bbpress/**/*'
-		];
+		],
+
+		// SASS generated "Twenty*"" CSS files
+		BP_SCSS_CSS_FILES = [
+			'!bp-templates/bp-legacy/css/twenty*.css'
+		],
+
+		stylelintConfigCss  = require('stylelint-config-wordpress/index.js'),
+		stylelintConfigScss = require('stylelint-config-wordpress/scss.js');
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
 	grunt.util = require( 'grunt-legacy-util' );
@@ -91,15 +99,22 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
-		cssjanus: {
+		rtlcss: {
+			options: {
+				opts: {
+					processUrls: false,
+					autoRename: false,
+					clean: true
+				},
+				saveUnmodified: false
+			},
 			core: {
 				expand: true,
 				cwd: SOURCE_DIR,
 				dest: SOURCE_DIR,
 				extDot: 'last',
 				ext: '-rtl.css',
-				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC ),
-				options: { generateExactDuplicates: true }
+				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC )
 			}
 		},
 		checktextdomain: {
@@ -166,6 +181,12 @@ module.exports = function( grunt ) {
 						dot: true,
 						expand: true,
 						src: ['**', '!**/.{svn,git}/**'].concat( BP_EXCLUDED_MISC )
+					},
+					{
+						dest: BUILD_DIR,
+						dot: true,
+						expand: true,
+						src: ['composer.json']
 					}
 				]
 			}
@@ -180,13 +201,25 @@ module.exports = function( grunt ) {
 				src: BP_JS
 			}
 		},
-		scsslint: {
-			options: {
-				bundleExec: false,
-				colorizeOutput: true,
-				config: '.scss-lint.yml'
+		stylelint: {
+			css: {
+				options: {
+					config: stylelintConfigCss,
+					format: 'css'
+				},
+				expand: true,
+				cwd: SOURCE_DIR,
+				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC, BP_SCSS_CSS_FILES )
 			},
-			core: [ SOURCE_DIR + 'bp-templates/bp-legacy/css/*.scss' ]
+			scss: {
+				options: {
+					config: stylelintConfigScss,
+					format: 'scss'
+				},
+				expand: true,
+				cwd: SOURCE_DIR,
+				src: [ 'bp-templates/bp-legacy/css/*.scss' ]
+			}
 		},
 		cssmin: {
 			minify: {
@@ -206,6 +239,10 @@ module.exports = function( grunt ) {
 			'multisite': {
 				cmd: 'phpunit',
 				args: ['-c', 'tests/phpunit/multisite.xml']
+			},
+			'codecoverage': {
+				cmd: 'phpunit',
+				args: ['-c', 'tests/phpunit/codecoverage.xml' ]
 			}
 		},
 		exec: {
@@ -241,6 +278,11 @@ module.exports = function( grunt ) {
 			options: {
 				tracUrl: 'buddypress.trac.wordpress.org'
 			}
+		},
+		upload_patch: {
+			options: {
+				tracUrl: 'buddypress.trac.wordpress.org'
+			}
 		}
 	});
 
@@ -248,7 +290,7 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'scsslint', 'sass', 'cssjanus'] );
+	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'rtlcss'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
 	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );
@@ -262,12 +304,14 @@ module.exports = function( grunt ) {
 		}, this.async() );
 	});
 
-	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit'] );
+	grunt.registerTask( 'test', 'Run all unit test tasks.', ['phpunit:default', 'phpunit:multisite'] );
 
 	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [ 'jsvalidate:src', 'jshint' ] );
 
-	// Travis CI Task
-	grunt.registerTask( 'travis', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
+	// Travis CI Tasks.
+	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', [ 'build' ]);
+	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
+	grunt.registerTask( 'travis:codecoverage', 'Runs PHPUnit tasks with code-coverage generation.', ['phpunit:codecoverage'] );
 
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );

@@ -218,7 +218,7 @@ function bp_core_set_uri_globals() {
 		/**
 		 * Filter the portion of the URI that is the displayed user's slug.
 		 *
-		 * eg. example.com/ADMIN (when root profiles is enabled)
+		 * Eg. example.com/ADMIN (when root profiles is enabled)
 		 *     example.com/members/ADMIN (when root profiles isn't enabled)
 		 *
 		 * ADMIN would be the displayed user's slug.
@@ -456,6 +456,17 @@ function bp_core_load_template( $templates ) {
 	 * @param array  $filtered_templates Array of templates to attempt to load.
 	 */
 	$located_template = apply_filters( 'bp_located_template', $template, $filtered_templates );
+
+	/*
+	 * If current page is an embed, wipe out bp-default template.
+	 *
+	 * Wiping out the bp-default template allows WordPress to use their special
+	 * embed template, which is what we want.
+	 */
+	if ( function_exists( 'is_embed' ) && is_embed() ) {
+		$located_template = '';
+	}
+
 	if ( !empty( $located_template ) ) {
 		// Template was located, lets set this as a valid page and not a 404.
 		status_header( 200 );
@@ -535,6 +546,48 @@ function bp_core_catch_profile_uri() {
 }
 
 /**
+ * Members user shortlink redirector.
+ *
+ * Redirects x.com/members/me/* to x.com/members/{LOGGED_IN_USER_SLUG}/*
+ *
+ * @since 2.6.0
+ *
+ * @param string $member_slug The current member slug.
+ * @return string $member_slug The current member slug.
+ */
+function bp_core_members_shortlink_redirector( $member_slug ) {
+
+	/**
+	 * Shortlink slug to redirect to logged-in user.
+	 *
+	 * The x.com/members/me/* url will redirect to x.com/members/{LOGGED_IN_USER_SLUG}/*
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param string $slug Defaults to 'me'.
+	 */
+	$me_slug = apply_filters( 'bp_core_members_shortlink_slug', 'me' );
+
+	// Check if we're on our special shortlink slug. If not, bail.
+	if ( $me_slug !== $member_slug ) {
+		return $member_slug;
+	}
+
+	// If logged out, redirect user to login.
+	if ( false === is_user_logged_in() ) {
+		// Add our login redirector hook.
+		add_action( 'template_redirect', 'bp_core_no_access', 0 );
+
+		return $member_slug;
+	}
+
+	$user = wp_get_current_user();
+
+	return bp_core_get_username( $user->ID, $user->user_nicename, $user->user_login );
+}
+add_filter( 'bp_core_set_uri_globals_member_slug', 'bp_core_members_shortlink_redirector' );
+
+/**
  * Catch unauthorized access to certain BuddyPress pages and redirect accordingly.
  *
  * @since 1.5.0
@@ -584,9 +637,9 @@ function bp_core_no_access( $args = '' ) {
 	$redirect_url .= $_SERVER['REQUEST_URI'];
 
 	$defaults = array(
-		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php
-		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in
-		'root'     => bp_get_root_domain(),	// the landing page you get redirected to when a user doesn't have access
+		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php.
+		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in.
+		'root'     => bp_get_root_domain(), // the landing page you get redirected to when a user doesn't have access.
 		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
 	);
 
@@ -603,7 +656,7 @@ function bp_core_no_access( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	/*
-	 * @ignore Ignore these filters and use 'bp_core_no_access' above
+	 * @ignore Ignore these filters and use 'bp_core_no_access' above.
 	 */
 	$mode     = apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
 	$redirect = apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
@@ -613,18 +666,21 @@ function bp_core_no_access( $args = '' ) {
 
 	switch ( $mode ) {
 
-		// Option to redirect to wp-login.php
+		// Option to redirect to wp-login.php.
 		// Error message is displayed with bp_core_no_access_wp_login_error().
 		case 2 :
 			if ( !empty( $redirect ) ) {
-				bp_core_redirect( add_query_arg( array( 'action' => 'bpnoaccess' ), wp_login_url( $redirect ) ) );
+				bp_core_redirect( add_query_arg( array(
+					'bp-auth' => 1,
+					'action'  => 'bpnoaccess'
+				), wp_login_url( $redirect ) ) );
 			} else {
 				bp_core_redirect( $root );
 			}
 
 			break;
 
-		// Redirect to root with "redirect_to" parameter
+		// Redirect to root with "redirect_to" parameter.
 		// Error message is displayed with bp_core_add_message().
 		case 1 :
 		default :
@@ -645,16 +701,47 @@ function bp_core_no_access( $args = '' ) {
 }
 
 /**
- * Add an error message to wp-login.php.
+ * Login redirector.
  *
- * Hooks into the "bpnoaccess" action defined in bp_core_no_access().
+ * If a link is not publicly available, we can send members from external
+ * locations, like following links in an email, through the login screen.
+ *
+ * If a user clicks on this link and is already logged in, we should attempt
+ * to redirect the user to the authorized content instead of forcing the user
+ * to re-authenticate.
+ *
+ * @since 2.9.0
+ */
+function bp_login_redirector() {
+	// Redirect links must include the `redirect_to` and `bp-auth` parameters.
+	if ( empty( $_GET['redirect_to'] ) || empty( $_GET['bp-auth'] ) ) {
+		return;
+	}
+
+	/*
+	 * If the user is already logged in,
+	 * skip the login form and redirect them to the content.
+	 */
+	if ( bp_loggedin_user_id() ) {
+		wp_safe_redirect( esc_url_raw( $_GET['redirect_to'] ) );
+		exit;
+	}
+}
+add_action( 'login_init', 'bp_login_redirector', 1 );
+
+/**
+ * Add a custom BuddyPress no access error message to wp-login.php.
  *
  * @since 1.5.0
+ * @since 2.7.0 Hook moved to 'wp_login_errors' made available since WP 3.6.0.
  *
- * @global string $error Error message to pass to wp-login.php.
+ * @param  WP_Error $errors Current error container.
+ * @return WP_Error
  */
-function bp_core_no_access_wp_login_error() {
-	global $error;
+function bp_core_no_access_wp_login_error( $errors ) {
+	if ( empty( $_GET['action'] ) || 'bpnoaccess' !== $_GET['action'] ) {
+		return $errors;
+	}
 
 	/**
 	 * Filters the error message for wp-login.php when needing to log in before accessing.
@@ -664,12 +751,27 @@ function bp_core_no_access_wp_login_error() {
 	 * @param string $value Error message to display.
 	 * @param string $value URL to redirect user to after successful login.
 	 */
-	$error = apply_filters( 'bp_wp_login_error', __( 'You must log in to access the page you requested.', 'buddypress' ), $_REQUEST['redirect_to'] );
+	$message = apply_filters( 'bp_wp_login_error', __( 'You must log in to access the page you requested.', 'buddypress' ), $_REQUEST['redirect_to'] );
 
-	// Shake shake shake!.
-	add_action( 'login_head', 'wp_shake_js', 12 );
+	$errors->add( 'bp_no_access', $message );
+
+	return $errors;
 }
-add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
+add_filter( 'wp_login_errors', 'bp_core_no_access_wp_login_error' );
+
+/**
+ * Add our custom error code to WP login's shake error codes.
+ *
+ * @since 2.7.0
+ *
+ * @param  array $codes Array of WP error codes.
+ * @return array
+ */
+function bp_core_login_filter_shake_codes( $codes ) {
+	$codes[] = 'bp_no_access';
+	return $codes;
+}
+add_filter( 'shake_error_codes', 'bp_core_login_filter_shake_codes' );
 
 /**
  * Canonicalize BuddyPress URLs.
@@ -685,8 +787,6 @@ add_action( 'login_form_bpnoaccess', 'bp_core_no_access_wp_login_error' );
  * @see BP_Members_Component::setup_globals() where
  *      $bp->canonical_stack['base_url'] and ['component'] may be set.
  * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set.
- * @uses bp_get_canonical_url()
- * @uses bp_get_requested_url()
  */
 function bp_redirect_canonical() {
 
@@ -756,8 +856,6 @@ function bp_rel_canonical() {
  *
  * @since 1.6.0
  *
- * @uses apply_filters() Filter bp_get_canonical_url to modify return value.
- *
  * @param array $args {
  *     Optional array of arguments.
  *     @type bool $include_query_args Whether to include current URL arguments
@@ -786,11 +884,14 @@ function bp_get_canonical_url( $args = array() ) {
 	if ( 'page' == get_option( 'show_on_front' ) && $page_on_front = (int) get_option( 'page_on_front' ) ) {
 		$front_page_component = array_search( $page_on_front, bp_core_get_directory_page_ids() );
 
-		// If requesting the front page component directory, canonical
-		// URL is the front page. We detect whether we're detecting a
-		// component *directory* by checking that bp_current_action()
-		// is empty - ie, this not a single item or a feed.
-		if ( false !== $front_page_component && bp_is_current_component( $front_page_component ) && ! bp_current_action() ) {
+		/*
+		 * If requesting the front page component directory, canonical
+		 * URL is the front page. We detect whether we're detecting a
+		 * component *directory* by checking that bp_current_action()
+		 * is empty - ie, this not a single item, a feed, or an item
+		 * type directory.
+		 */
+		if ( false !== $front_page_component && bp_is_current_component( $front_page_component ) && ! bp_current_action() && ! bp_get_current_member_type() ) {
 			$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_domain() );
 
 		// Except when the front page is set to the registration page
@@ -892,8 +993,6 @@ function bp_get_requested_url() {
  * notice in future versions of BuddyPress.
  *
  * @since 1.6.0
- *
- * @uses bp_is_blog_page()
  */
 function _bp_maybe_remove_redirect_canonical() {
 	if ( ! bp_is_blog_page() )
@@ -929,7 +1028,7 @@ add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
  * @link https://buddypress.trac.wordpress.org/ticket/4415
  */
 function _bp_rehook_maybe_redirect_404() {
-	if ( defined( 'NOBLOGREDIRECT' ) ) {
+	if ( defined( 'NOBLOGREDIRECT' ) && is_multisite() ) {
 		remove_action( 'template_redirect', 'maybe_redirect_404' );
 		add_action( 'template_redirect', 'maybe_redirect_404', 100 );
 	}
@@ -951,3 +1050,36 @@ function _bp_maybe_remove_rel_canonical() {
 	}
 }
 add_action( 'wp_head', '_bp_maybe_remove_rel_canonical', 8 );
+
+/**
+ * Stop WordPress performing a DB query for its main loop.
+ *
+ * As of WordPress 4.6, it is possible to bypass the main WP_Query entirely.
+ * This saves us one unnecessary database query! :)
+ *
+ * @since 2.7.0
+ *
+ * @param  null     $retval Current return value for filter.
+ * @param  WP_Query $query  Current WordPress query object.
+ * @return null|array
+ */
+function bp_core_filter_wp_query( $retval, $query ) {
+	if ( ! $query->is_main_query() ) {
+		return $retval;
+	}
+
+	/*
+	 * If not on a BP single page, bail.
+	 * Too early to use bp_is_single_item(), so use BP conditionals.
+	 */
+	if ( false === ( bp_is_group() || bp_is_user() || bp_is_single_activity() ) ) {
+		return $retval;
+	}
+
+	// Set default properties as recommended in the 'posts_pre_query' DocBlock.
+	$query->found_posts   = 0;
+	$query->max_num_pages = 0;
+
+	// Return something other than a null value to bypass WP_Query.
+	return array();
+}

@@ -73,19 +73,22 @@ add_action( 'deleted_user',                   'bp_core_clear_member_count_caches
  *
  * @param int $post_id ID of the page that was saved.
  */
-function bp_core_clear_directory_pages_cache_page_edit( $post_id ) {
-	if ( ! bp_is_root_blog() ) {
-		return;
-	}
+function bp_core_clear_directory_pages_cache_page_edit( $post_id = 0 ) {
 
 	// Bail if BP is not defined here.
 	if ( ! buddypress() ) {
 		return;
 	}
 
+	// Bail if not on the root blog
+	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
 	$page_ids = bp_core_get_directory_page_ids( 'all' );
 
-	if ( ! in_array( $post_id, (array) $page_ids ) ) {
+	// Bail if post ID is not a directory page
+	if ( ! in_array( $post_id, $page_ids ) ) {
 		return;
 	}
 
@@ -115,7 +118,17 @@ add_action( 'update_option', 'bp_core_clear_directory_pages_cache_settings_edit'
  * @param string $option Option name.
  */
 function bp_core_clear_root_options_cache( $option ) {
+	foreach ( array( 'add_option', 'add_site_option', 'update_option', 'update_site_option' ) as $action ) {
+		remove_action( $action, 'bp_core_clear_root_options_cache' );
+	}
+
+	// Surrounding code prevents infinite loops on WP < 4.4.
 	$keys = array_keys( bp_get_default_options() );
+
+	foreach ( array( 'add_option', 'add_site_option', 'update_option', 'update_site_option' ) as $action ) {
+		add_action( $action, 'bp_core_clear_root_options_cache' );
+	}
+
 	$keys = array_merge( $keys, array(
 		'registration',
 		'avatar_default',
@@ -181,7 +194,7 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  *     @type string       $cache_key_prefix Optional. The prefix to use when creating
  *                                          cache key names. Default: the value of $meta_table.
  * }
- * @return array|bool Metadata cache for the specified objects, or false on failure.
+ * @return false|array Metadata cache for the specified objects, or false on failure.
  */
 function bp_update_meta_cache( $args = array() ) {
 	global $wpdb;
@@ -251,4 +264,101 @@ function bp_update_meta_cache( $args = array() ) {
 	}
 
 	return $cache;
+}
+
+/**
+ * Gets a value that has been cached using an incremented key.
+ *
+ * A utility function for use by query methods like BP_Activity_Activity::get().
+ *
+ * @since 2.7.0
+ * @see bp_core_set_incremented_cache()
+ *
+ * @param string $key   Unique key for the query. Usually a SQL string.
+ * @param string $group Cache group. Eg 'bp_activity'.
+ * @return array|bool False if no cached values are found, otherwise an array of IDs.
+ */
+function bp_core_get_incremented_cache( $key, $group ) {
+	$cache_key = bp_core_get_incremented_cache_key( $key, $group );
+	return wp_cache_get( $cache_key, $group );
+}
+
+/**
+ * Caches a value using an incremented key.
+ *
+ * An "incremented key" is a cache key that is hashed with a unique incrementor,
+ * allowing for bulk invalidation.
+ *
+ * Use this method when caching data that should be invalidated whenever any
+ * object of a given type is created, updated, or deleted. This usually means
+ * data related to object queries, which can only reliably cached until the
+ * underlying set of objects has been modified. See, eg, BP_Activity_Activity::get().
+ *
+ * @since 2.7.0
+ *
+ * @param string $key   Unique key for the query. Usually a SQL string.
+ * @param string $group Cache group. Eg 'bp_activity'.
+ * @param array  $ids   Array of IDs.
+ * @return bool
+ */
+function bp_core_set_incremented_cache( $key, $group, $ids ) {
+	$cache_key = bp_core_get_incremented_cache_key( $key, $group );
+	return wp_cache_set( $cache_key, $ids, $group );
+}
+
+/**
+ * Gets the key to be used when caching a value using an incremented cache key.
+ *
+ * The $key is hashed with a component-specific incrementor, which is used to
+ * invalidate multiple caches at once.
+
+ * @since 2.7.0
+ *
+ * @param string $key   Unique key for the query. Usually a SQL string.
+ * @param string $group Cache group. Eg 'bp_activity'.
+ * @return string
+ */
+function bp_core_get_incremented_cache_key( $key, $group ) {
+	$incrementor = bp_core_get_incrementor( $group );
+	$cache_key = md5( $key . $incrementor );
+	return $cache_key;
+}
+
+/**
+ * Gets a group-specific cache incrementor.
+ *
+ * The incrementor is paired with query identifiers (like SQL strings) to
+ * create cache keys that can be invalidated en masse.
+ *
+ * If an incrementor does not yet exist for the given `$group`, one will
+ * be created.
+ *
+ * @since 2.7.0
+ *
+ * @param string $group Cache group. Eg 'bp_activity'.
+ * @return string
+ */
+function bp_core_get_incrementor( $group ) {
+	$incrementor = wp_cache_get( 'incrementor', $group );
+	if ( ! $incrementor ) {
+		$incrementor = microtime();
+		wp_cache_set( 'incrementor', $incrementor, $group );
+	}
+
+	return $incrementor;
+}
+
+/**
+ * Reset a group-specific cache incrementor.
+ *
+ * Call this function when all incrementor-based caches associated with a given
+ * cache group should be invalidated.
+ *
+ * @since 2.7.0
+ *
+ * @param string $group Cache group. Eg 'bp_activity'.
+ * @return bool True on success, false on failure.
+ */
+function bp_core_reset_incrementor( $group ) {
+	return wp_cache_delete( 'incrementor', $group );
 }

@@ -51,14 +51,14 @@ function xprofile_add_admin_js() {
 		// types that support options, for use in showing/hiding the
 		// "please enter options for this field" section.
 		$strings = array(
-			'supports_options_field_types' => array(),
+			'do_settings_section_field_types' => array(),
 			'do_autolink' => '',
 		);
 
 		foreach ( bp_xprofile_get_field_types() as $field_type => $field_type_class ) {
 			$field = new $field_type_class();
-			if ( $field->supports_options ) {
-				$strings['supports_options_field_types'][] = $field_type;
+			if ( $field->do_settings_section() ) {
+				$strings['do_settings_section_field_types'][] = $field_type;
 			}
 		}
 

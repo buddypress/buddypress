@@ -23,7 +23,7 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @uses buddypress() to get BuddyPress main instance.
+	 * @return BP_XProfile_User_Admin
 	 */
 	public static function register_xprofile_user_admin() {
 
@@ -139,7 +139,7 @@ class BP_XProfile_User_Admin {
 					$screen_id,
 					'normal',
 					'core',
-					array( 'profile_group_id' => absint( bp_get_the_profile_group_id() ) )
+					array( 'profile_group_id' => bp_get_the_profile_group_id() )
 				);
 			endwhile;
 
@@ -228,16 +228,7 @@ class BP_XProfile_User_Admin {
 
 			// Loop through the posted fields formatting any datebox values then validate the field.
 			foreach ( (array) $posted_field_ids as $field_id ) {
-				if ( ! isset( $_POST['field_' . $field_id ] ) ) {
-					if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
-
-						// Concatenate the values.
-						$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
-
-						// Turn the concatenated value into a timestamp.
-						$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
-					}
-				}
+				bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
 				$is_required[ $field_id ] = xprofile_check_is_required_field( $field_id ) && ! bp_current_user_can( 'bp_moderate' );
 				if ( $is_required[ $field_id ] && empty( $_POST['field_' . $field_id ] ) ) {
@@ -250,14 +241,38 @@ class BP_XProfile_User_Admin {
 			$errors = false;
 
 			// Now we've checked for required fields, let's save the values.
+			$old_values = $new_values = array();
 			foreach ( (array) $posted_field_ids as $field_id ) {
 
-				// Certain types of fields (checkboxes, multiselects) may come
-				// through empty. Save them as an empty array so that they don't
-				// get overwritten by the default on the next edit.
+				/*
+				 * Certain types of fields (checkboxes, multiselects) may come
+				 * through empty. Save them as an empty array so that they don't
+				 * get overwritten by the default on the next edit.
+				 */
 				$value = isset( $_POST['field_' . $field_id] ) ? $_POST['field_' . $field_id] : '';
 
-				if ( ! xprofile_set_field_data( $field_id, $user_id, $value, $is_required[ $field_id ] ) ) {
+				$visibility_level = ! empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
+				/*
+				 * Save the old and new values. They will be
+				 * passed to the filter and used to determine
+				 * whether an activity item should be posted.
+				 */
+				$old_values[ $field_id ] = array(
+					'value'      => xprofile_get_field_data( $field_id, $user_id ),
+					'visibility' => xprofile_get_field_visibility_level( $field_id, $user_id ),
+				);
+
+				// Update the field data and visibility level.
+				xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
+				$field_updated = xprofile_set_field_data( $field_id, $user_id, $value, $is_required[ $field_id ] );
+				$value         = xprofile_get_field_data( $field_id, $user_id );
+
+				$new_values[ $field_id ] = array(
+					'value'      => $value,
+					'visibility' => xprofile_get_field_visibility_level( $field_id, $user_id ),
+				);
+
+				if ( ! $field_updated ) {
 					$errors = true;
 				} else {
 
@@ -271,22 +286,21 @@ class BP_XProfile_User_Admin {
 					 */
 					do_action( 'xprofile_profile_field_data_updated', $field_id, $value );
 				}
-
-				// Save the visibility level.
-				$visibility_level = ! empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
-				xprofile_set_field_visibility_level( $field_id, $user_id, $visibility_level );
 			}
 
 			/**
-			 * Fires after all of the profile fields have been saved.
+			 * Fires after all XProfile fields have been saved for the current profile.
 			 *
 			 * @since 1.0.0
+			 * @since 2.6.0 Added $old_values and $new_values parameters.
 			 *
-			 * @param int   $user_id          ID of the user whose data is being saved.
-			 * @param array $posted_field_ids IDs of the fields that were submitted.
-			 * @param bool  $errors           Whether or not errors occurred during saving.
+			 * @param int   $user_id          ID for the user whose profile is being saved.
+			 * @param array $posted_field_ids Array of field IDs that were edited.
+			 * @param bool  $errors           Whether or not any errors occurred.
+			 * @param array $old_values       Array of original values before update.
+			 * @param array $new_values       Array of newly saved values after update.
 			 */
-			do_action( 'xprofile_updated_profile', $user_id, $posted_field_ids, $errors );
+			do_action( 'xprofile_updated_profile', $user_id, $posted_field_ids, $errors, $old_values, $new_values );
 
 			// Set the feedback messages.
 			if ( ! empty( $errors ) ) {
@@ -343,17 +357,12 @@ class BP_XProfile_User_Admin {
 			<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
 				<div<?php bp_field_css_class( 'bp-profile-field' ); ?>>
+					<fieldset>
 
 					<?php
 
 					$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
 					$field_type->edit_field_html( array( 'user_id' => $r['user_id'] ) );
-
-					if ( bp_get_the_profile_field_description() ) : ?>
-
-						<p class="description"><?php bp_the_profile_field_description(); ?></p>
-
-					<?php endif;
 
 					/**
 					 * Fires before display of visibility form elements for profile metaboxes.
@@ -364,7 +373,7 @@ class BP_XProfile_User_Admin {
 
 					$can_change_visibility = bp_current_user_can( 'bp_xprofile_change_field_visibility' ); ?>
 
-					<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>">
+					<p class="field-visibility-settings-<?php echo $can_change_visibility ? 'toggle' : 'notoggle'; ?>" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id(); ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 
 						<?php
 						printf(
@@ -372,10 +381,11 @@ class BP_XProfile_User_Admin {
 							'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
 						);
 						?>
+						</span>
 
 						<?php if ( $can_change_visibility ) : ?>
 
-							<a href="#" class="button visibility-toggle-link"><?php esc_html_e( 'Change', 'buddypress' ); ?></a>
+							<button type="button" class="button visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php esc_html_e( 'Change', 'buddypress' ); ?></button>
 
 						<?php endif; ?>
 					</p>
@@ -389,7 +399,7 @@ class BP_XProfile_User_Admin {
 								<?php bp_profile_visibility_radio_buttons(); ?>
 
 							</fieldset>
-							<a class="button field-visibility-settings-close" href="#"><?php esc_html_e( 'Close', 'buddypress' ); ?></a>
+							<button type="button" class="button field-visibility-settings-close"><?php esc_html_e( 'Close', 'buddypress' ); ?></button>
 						</div>
 
 					<?php endif; ?>
@@ -403,6 +413,7 @@ class BP_XProfile_User_Admin {
 					 */
 					do_action( 'bp_custom_profile_edit_fields' ); ?>
 
+					</fieldset>
 				</div>
 
 			<?php endwhile; // End bp_profile_fields(). ?>
@@ -459,13 +470,13 @@ class BP_XProfile_User_Admin {
 				$community_url = add_query_arg( $query_args, buddypress()->members->admin->edit_profile_url );
 				$delete_link   = wp_nonce_url( $community_url, 'delete_avatar' ); ?>
 
-				<a href="<?php echo esc_url( $delete_link ); ?>" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a>
+				<a href="<?php echo esc_url( $delete_link ); ?>" class="bp-xprofile-avatar-user-admin"><?php esc_html_e( 'Delete Profile Photo', 'buddypress' ); ?></a>
 
 			<?php endif;
 
 			// Load the Avatar UI templates if user avatar uploads are enabled and current WordPress version is supported.
 			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) && bp_attachments_is_wp_version_supported() ) : ?>
-				<a href="#TB_inline?width=800px&height=400px&inlineId=bp-xprofile-avatar-editor" title="<?php esc_attr_e( 'Edit Profile Photo', 'buddypress' );?>" class="thickbox bp-xprofile-avatar-user-edit"><?php esc_html_e( 'Edit Profile Photo', 'buddypress' ); ?></a>
+				<a href="#TB_inline?width=800px&height=400px&inlineId=bp-xprofile-avatar-editor" class="thickbox bp-xprofile-avatar-user-edit"><?php esc_html_e( 'Edit Profile Photo', 'buddypress' ); ?></a>
 				<div id="bp-xprofile-avatar-editor" style="display:none;">
 					<?php bp_attachments_get_template_part( 'avatars/index' ); ?>
 				</div>

@@ -52,10 +52,6 @@ class BP_Notifications_Component extends BP_Component {
 			'cache',
 		);
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		parent::includes( $includes );
 	}
 
@@ -82,6 +78,11 @@ class BP_Notifications_Component extends BP_Component {
 			'table_name_meta' => $bp->table_prefix . 'bp_notifications_meta',
 		);
 
+		// Metadata tables for notifications component.
+		$meta_tables = array(
+			'notification' => $bp->table_prefix . 'bp_notifications_meta',
+		);
+
 		// All globals for the notifications component.
 		// Note that global_tables is included in this array.
 		$args = array(
@@ -89,6 +90,7 @@ class BP_Notifications_Component extends BP_Component {
 			'has_directory' => false,
 			'search_string' => __( 'Search Notifications...', 'buddypress' ),
 			'global_tables' => $global_tables,
+			'meta_tables'   => $meta_tables
 		);
 
 		parent::setup_globals( $args );

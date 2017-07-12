@@ -108,4 +108,15 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
 		$this->assertTrue( is_404() );
 	}
+
+	/**
+	 * @ticket BP6325
+	 */
+	function test_members_shortlink_redirector() {
+		$shortlink_member_slug = 'me';
+
+		$this->go_to( bp_get_members_directory_permalink() . $shortlink_member_slug );
+
+		$this->assertSame( get_current_user_id(), bp_displayed_user_id() );
+	}
 }

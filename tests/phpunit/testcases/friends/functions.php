@@ -27,9 +27,15 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		friends_add_friend( $u2, $u1 );
 		friends_add_friend( $u3, $u1 );
 
+		// Set the time of the earlier friendship for reliable ordering of the results.
+		$fid = friends_get_friendship_id( $u2, $u1 );
+		$friendship = new BP_Friends_Friendship( $fid, false, false );
+		$friendship->date_created = date( 'Y-m-d H:i:s', time() - 60 );
+		$friendship->save();
+
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u2, $u3 ), $requests );
+		$this->assertEquals( array( $u3, $u2 ), $requests );
 
 		// accept friendship
 		$old_user = get_current_user_id();
@@ -54,6 +60,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// request friendship
 		friends_add_friend( $u2, $u1 );
+		// Set the time of the earlier friendship for reliable ordering of the results.
+		$fid = friends_get_friendship_id( $u2, $u1 );
+		$friendship = new BP_Friends_Friendship( $fid, false, false );
+		$friendship->date_created = date( 'Y-m-d H:i:s', time() - 60 );
+		$friendship->save();
 
 		// get request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
@@ -64,7 +75,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
-		$this->assertEquals( array( $u2, $u3 ), $requests );
+		$this->assertEquals( array( $u3, $u2 ), $requests );
 	}
 
 	/**
@@ -266,5 +277,124 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	public function friends_friendship_filter_callback( $value ) {
 		$this->filter_fired = current_filter();
 		return $value;
+	}
+
+	/**
+	 * @group friendship_caching
+	 */
+	public function test_friends_check_friendship_should_hit_user_cache() {
+		global $wpdb;
+		$now = time();
+		$u1 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$u2 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$u3 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 200 ),
+		) );
+
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, false );
+
+		friends_check_friendship_status( $u1, $u2 );
+		$first_query_count = $wpdb->num_queries;
+
+		friends_check_friendship_status( $u1, $u3 );
+
+		$this->assertEquals( $first_query_count, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group friendship_caching
+	 */
+	public function test_friends_check_friendship_should_hit_friendship_object_cache() {
+		global $wpdb;
+		$now = time();
+		$u1 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$u2 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		friends_add_friend( $u1, $u2, true );
+
+		friends_check_friendship_status( $u1, $u2 );
+		$first_query_count = $wpdb->num_queries;
+
+		/*
+		 * We expect this to generate one query to find $u2's friendships,
+		 * but the friendship object itself should come from cache.
+		 */
+		friends_check_friendship_status( $u2, $u1 );
+
+		$this->assertEquals( $first_query_count + 1, $wpdb->num_queries );
+	}
+
+	public function test_friends_get_recently_active() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$u4 = $this->factory->user->create();
+
+		// request friendship
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+		friends_add_friend( $u1, $u4, true );
+
+		bp_update_user_last_activity( $u2, date( 'Y-m-d H:i:s', time() - ( 2 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u3, date( 'Y-m-d H:i:s', time() - ( 5 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u4, date( 'Y-m-d H:i:s', time() - ( 3 * DAY_IN_SECONDS ) ) );
+
+		$recent = friends_get_recently_active( $u1 );
+
+		$this->assertEquals( $recent['users'][0]->id, $u2 );
+		$this->assertEquals( $recent['users'][1]->id, $u4 );
+		$this->assertEquals( $recent['users'][2]->id, $u3 );
+	}
+
+	public function test_friends_get_alphabetically() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+
+		// request friendship
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+
+		$field_id = bp_xprofile_fullname_field_id();
+		xprofile_set_field_data( $field_id, $u2, 'Dave Lister' );
+		xprofile_set_field_data( $field_id, $u3, 'Arnold Rimmer' );
+		xprofile_sync_wp_profile( $u2 );
+		xprofile_sync_wp_profile( $u3 );
+
+		$alpha = friends_get_alphabetically( $u1 );
+
+		$this->assertEquals( $alpha['users'][0]->id, $u3 );
+		$this->assertEquals( $alpha['users'][1]->id, $u2 );
+	}
+
+	public function test_friends_get_newest() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$u4 = $this->factory->user->create();
+
+		// request friendship
+		friends_add_friend( $u1, $u2, true );
+		friends_add_friend( $u1, $u3, true );
+		friends_add_friend( $u1, $u4, true );
+
+		bp_update_user_last_activity( $u2, date( 'Y-m-d H:i:s', time() - ( 2 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u3, date( 'Y-m-d H:i:s', time() - ( 5 * DAY_IN_SECONDS ) ) );
+		bp_update_user_last_activity( $u4, date( 'Y-m-d H:i:s', time() - ( 3 * DAY_IN_SECONDS ) ) );
+
+		$newest = friends_get_newest( $u1 );
+
+		$this->assertEquals( $newest['users'][0]->id, $u4 );
+		$this->assertEquals( $newest['users'][1]->id, $u3 );
+		$this->assertEquals( $newest['users'][2]->id, $u2 );
 	}
 }

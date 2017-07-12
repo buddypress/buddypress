@@ -33,18 +33,30 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 	 */
 	do_action( 'bp_before_directory_groups_content' ); ?>
 
-	<div id="group-dir-search" class="dir-search" role="search">
-		<?php bp_directory_groups_search_form(); ?>
-	</div><!-- #group-dir-search -->
+	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+	<?php if ( has_filter( 'bp_directory_groups_search_form' ) ) : ?>
+
+		<div id="group-dir-search" class="dir-search" role="search">
+			<?php bp_directory_groups_search_form(); ?>
+		</div><!-- #group-dir-search -->
+
+	<?php else: ?>
+
+		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+	<?php endif; ?>
 
 	<form action="" method="post" id="groups-directory-form" class="dir-form">
 
-		<?php
+		<div id="template-notices" role="alert" aria-atomic="true">
+			<?php
 
-		/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-		do_action( 'template_notices' ); ?>
+			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+			do_action( 'template_notices' ); ?>
 
-		<div class="item-list-tabs" role="navigation">
+		</div>
+
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Groups directory main navigation', 'buddypress' ); ?>">
 			<ul>
 				<li class="selected" id="groups-all"><a href="<?php bp_groups_directory_permalink(); ?>"><?php printf( __( 'All Groups %s', 'buddypress' ), '<span>' . bp_get_total_group_count() . '</span>' ); ?></a></li>
 
@@ -64,7 +76,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 			</ul>
 		</div><!-- .item-list-tabs -->
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Groups directory secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<?php
 
@@ -97,6 +109,11 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 				</li>
 			</ul>
 		</div>
+
+		<h2 class="bp-screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Groups directory', 'buddypress' );
+		?></h2>
 
 		<div id="groups-dir-list" class="groups dir-list">
 			<?php bp_get_template_part( 'groups/groups-loop' ); ?>

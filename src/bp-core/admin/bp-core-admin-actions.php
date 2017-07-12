@@ -106,7 +106,6 @@ function bp_new_site( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
  *
  * @since 1.7.0
  *
- * @uses do_action() Calls 'bp_admin_init'.
  */
 function bp_admin_init() {
 
@@ -123,7 +122,6 @@ function bp_admin_init() {
  *
  * @since 1.7.0
  *
- * @uses do_action() Calls 'bp_admin_menu'.
  */
 function bp_admin_menu() {
 
@@ -140,7 +138,6 @@ function bp_admin_menu() {
  *
  * @since 1.7.0
  *
- * @uses do_action() Calls 'bp_admin_head'.
  */
 function bp_admin_head() {
 
@@ -157,7 +154,6 @@ function bp_admin_head() {
  *
  * @since 1.7.0
  *
- * @uses do_action() Calls 'bp_admin_notices'.
  */
 function bp_admin_notices() {
 
@@ -173,8 +169,6 @@ function bp_admin_notices() {
  * Piggy back admin_enqueue_scripts action.
  *
  * @since 1.7.0
- *
- * @uses do_action() Calls 'bp_admin_enqueue_scripts'.
  *
  * @param string $hook_suffix The current admin page, passed to
  *                            'admin_enqueue_scripts'.
@@ -196,7 +190,6 @@ function bp_admin_enqueue_scripts( $hook_suffix = '' ) {
  *
  * @since 1.7.0
  *
- * @uses do_action() Calls 'bp_admin_notices'.
  */
 function bp_register_importers() {
 
@@ -215,7 +208,6 @@ function bp_register_importers() {
  *
  * @since 1.7.0
  *
- * @uses do_action() Calls 'bp_admin_notices'.
  */
 function bp_register_admin_style() {
 
@@ -232,7 +224,6 @@ function bp_register_admin_style() {
  *
  * @since 1.7.0
  *
- * @uses do_action() Calls 'bp_register_admin_settings'.
  */
 function bp_register_admin_settings() {
 

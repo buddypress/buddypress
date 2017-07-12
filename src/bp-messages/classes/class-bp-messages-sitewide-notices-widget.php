@@ -25,8 +25,9 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 			'bp_messages_sitewide_notices_widget',
 			__( '(BuddyPress) Sitewide Notices', 'buddypress' ),
 			array(
-				'classname'   => 'widget_bp_core_sitewide_messages buddypress widget',
-				'description' => __( 'Display Sitewide Notices posted by the site administrator', 'buddypress' ),
+				'classname'                   => 'widget_bp_core_sitewide_messages buddypress widget',
+				'description'                 => __( 'Display Sitewide Notices posted by the site administrator', 'buddypress' ),
+				'customize_selective_refresh' => true,
 			)
 		);
 	}
@@ -102,7 +103,7 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 *
 	 * @param array $instance See {@WP_Widget::form()}.
 	 *
-	 * @return string Widget form output.
+	 * @return string|null Widget form output.
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array(

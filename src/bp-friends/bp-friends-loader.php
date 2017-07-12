@@ -12,12 +12,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-friends-component.php';
-}
-
 /**
- * Set up the bp-forums component.
+ * Set up the bp-friends component.
  *
  * @since 1.6.0
  */

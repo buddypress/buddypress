@@ -10,17 +10,13 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-groups-widget.php';
-}
-
 /**
  * Register widgets for groups component.
  *
  * @since 1.0.0
  */
 function groups_register_widgets() {
-	add_action('widgets_init', create_function('', 'return register_widget("BP_Groups_Widget");') );
+	add_action( 'widgets_init', function() { register_widget( 'BP_Groups_Widget' ); } );
 }
 add_action( 'bp_register_widgets', 'groups_register_widgets' );
 
@@ -43,6 +39,9 @@ function groups_ajax_widget_groups_list() {
 		case 'popular-groups':
 			$type = 'popular';
 		break;
+		case 'alphabetical-groups':
+			$type = 'alphabetical';
+		break;
 	}
 
 	$per_page = isset( $_POST['max_groups'] ) ? intval( $_POST['max_groups'] ) : 5;
@@ -63,19 +62,15 @@ function groups_ajax_widget_groups_list() {
 				</div>
 
 				<div class="item">
-					<div class="item-title"><a href="<?php bp_group_permalink() ?>" title="<?php bp_group_name() ?>"><?php bp_group_name() ?></a></div>
+					<div class="item-title"><?php bp_group_link(); ?></div>
 					<div class="item-meta">
-						<span class="activity">
-							<?php
-							if ( 'newest-groups' == $_POST['filter'] ) {
-								printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
-							} elseif ( 'recently-active-groups' == $_POST['filter'] ) {
-								printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
-							} elseif ( 'popular-groups' == $_POST['filter'] ) {
-								bp_group_member_count();
-							}
-							?>
-						</span>
+						<?php if ( 'newest-groups' === $_POST['filter'] ) : ?>
+							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_date_created( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() ); ?></span>
+						<?php elseif ( 'popular-groups' === $_POST['filter'] ) : ?>
+							<span class="activity"><?php bp_group_member_count(); ?></span>
+						<?php else : ?>
+							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
+						<?php endif; ?>
 					</div>
 				</div>
 			</li>

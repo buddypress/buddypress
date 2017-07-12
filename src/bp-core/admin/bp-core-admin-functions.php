@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Initializes the wp-admin area "BuddyPress" menus and sub menus.
  *
- * @uses bp_current_user_can() returns true if the current user is a site admin, false if not.
  */
 function bp_core_admin_menu_init() {
 	add_action( bp_core_admin_hook(), 'bp_core_add_admin_menu', 9 );
@@ -123,8 +122,6 @@ function bp_core_admin_backpat_page() {
  *
  * @since 1.5.0
  *
- * @uses bp_current_user_can() to check current user permissions before showing the notices.
- * @uses bp_is_root_blog()
  */
 function bp_core_print_admin_notices() {
 
@@ -317,7 +314,7 @@ function bp_core_activation_notice() {
 
 	// BP components cannot share a single WP page. Check for duplicate assignments, and post a message if found.
 	$dupe_names = array();
-	$page_ids   = (array)bp_core_get_directory_page_ids();
+	$page_ids   = bp_core_get_directory_page_ids();
 	$dupes      = array_diff_assoc( $page_ids, array_unique( $page_ids ) );
 
 	if ( !empty( $dupes ) ) {
@@ -353,12 +350,6 @@ function bp_core_activation_notice() {
  *
  * @internal Used internally to redirect BuddyPress to the about page on activation.
  *
- * @uses get_transient() To see if transient to redirect exists.
- * @uses delete_transient() To delete the transient if it exists.
- * @uses is_network_admin() To bail if being network activated.
- * @uses wp_safe_redirect() To redirect.
- * @uses add_query_arg() To help build the URL to redirect to.
- * @uses admin_url() To get the admin URL to index.php.
  */
 function bp_do_activation_redirect() {
 
@@ -616,7 +607,6 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
  *
  * @since 1.7.0
  *
- * @uses bp_current_user_can() To check users capability on root blog.
  */
 function bp_admin_separator() {
 
@@ -651,8 +641,6 @@ function bp_admin_separator() {
  *
  * @since 1.7.0
  *
- * @uses bp_current_user_can() To check users capability on root blog.
- *
  * @param bool $menu_order Menu order.
  * @return bool Always true.
  */
@@ -670,8 +658,6 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
  * Move our custom separator above our custom post types.
  *
  * @since 1.7.0
- *
- * @uses bp_current_user_can() To check users capability on root blog.
  *
  * @param array $menu_order Menu Order.
  * @return array Modified menu order.
@@ -818,7 +804,29 @@ function bp_admin_do_wp_nav_menu_meta_box() {
 			</ul>
 		</div>
 
+		<?php
+		$removed_args = array(
+			'action',
+			'customlink-tab',
+			'edit-menu-item',
+			'menu-item',
+			'page-tab',
+			'_wpnonce',
+		);
+		?>
+
 		<p class="button-controls">
+			<span class="list-controls">
+				<a href="<?php
+				echo esc_url( add_query_arg(
+					array(
+						$post_type_name . '-tab' => 'all',
+						'selectall'              => 1,
+					),
+					remove_query_arg( $removed_args )
+				) );
+				?>#buddypress-menu" class="select-all"><?php _e( 'Select All', 'buddypress' ); ?></a>
+			</span>
 			<span class="add-to-menu">
 				<input type="submit"<?php if ( function_exists( 'wp_nav_menu_disabled_check' ) ) : wp_nav_menu_disabled_check( $nav_menu_selected_id ); endif; ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'buddypress' ); ?>" name="add-custom-menu-item" id="submit-buddypress-menu" />
 				<span class="spinner"></span>
@@ -947,7 +955,10 @@ add_action( 'add_meta_boxes_' . bp_get_email_post_type(), 'bp_email_custom_metab
 function bp_email_plaintext_metabox( $post ) {
 ?>
 
-	<label class="screen-reader-text" for="excerpt"><?php _e( 'Plain text email content', 'buddypress' ); ?></label><textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+	<label class="screen-reader-text" for="excerpt"><?php
+		/* translators: accessibility text */
+		_e( 'Plain text email content', 'buddypress' );
+	?></label><textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
 
 	<p><?php _e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
 
@@ -1102,3 +1113,43 @@ function bp_core_admin_user_spammed_js() {
 	</script>
 	<?php
 }
+
+/**
+ * Catch and process an admin notice dismissal.
+ *
+ * @since 2.7.0
+ */
+function bp_core_admin_notice_dismiss_callback() {
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		wp_send_json_error();
+	}
+
+	if ( empty( $_POST['nonce'] ) || empty( $_POST['notice_id'] ) ) {
+		wp_send_json_error();
+	}
+
+	$notice_id = wp_unslash( $_POST['notice_id'] );
+
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'bp-dismissible-notice-' . $notice_id ) ) {
+		wp_send_json_error();
+	}
+
+	bp_update_option( "bp-dismissed-notice-$notice_id", 1 );
+
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_bp_dismiss_notice', 'bp_core_admin_notice_dismiss_callback' );
+
+/**
+ * Add a "buddypress" class to body element of wp-admin.
+ *
+ * @since 2.8.0
+ *
+ * @param string $classes CSS classes for the body tag in the admin, a comma separated string.
+ *
+ * @return string
+ */
+function bp_core_admin_body_classes( $classes ) {
+	return $classes . ' buddypress';
+}
+add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );

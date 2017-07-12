@@ -15,6 +15,11 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Sets up the forums component.
+ *
+ * @since 1.5.0
+ */
 class BP_Forums_Component extends BP_Component {
 
 	/**
@@ -79,6 +84,8 @@ class BP_Forums_Component extends BP_Component {
 
 	/**
 	 * Include bp-forums files.
+	 *
+	 * @since 1.5.0
 	 *
 	 * @see BP_Component::includes() for description of parameters.
 	 *
@@ -238,6 +245,8 @@ class BP_Forums_Component extends BP_Component {
 
 	/**
 	 * Set up the title for pages and the <title> element.
+	 *
+	 * @since 1.5.0
 	 */
 	public function setup_title() {
 
@@ -259,10 +268,30 @@ class BP_Forums_Component extends BP_Component {
 
 		parent::setup_title();
 	}
+
+	/**
+	 * Disable cache groups due to a caching discrepancy in BackPress.
+	 *
+	 * @since 2.7.0
+	 * @see   https://buddypress.trac.wordpress.org/ticket/4759
+	 */
+	public function setup_cache_groups() {
+		wp_cache_add_non_persistent_groups( array(
+			// Posts.
+			'bb_forums',
+			'bb_query',
+			'bb_cache_posts_post_ids',
+
+			// Topics
+			'bb_post'
+		) );
+	}
 }
 
 /**
  * Set up the bp-forums component.
+ *
+ * @since 1.6.0
  */
 function bp_setup_forums() {
 	buddypress()->forums = new BP_Forums_Component();

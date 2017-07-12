@@ -12,12 +12,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-notifications-component.php';
-}
-
 /**
- * Bootstrap the Notifications component.
+ * Set up the bp-notifications component.
  *
  * @since 1.9.0
  */

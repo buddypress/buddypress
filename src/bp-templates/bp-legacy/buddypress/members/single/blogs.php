@@ -8,7 +8,7 @@
 
 ?>
 
-<div class="item-list-tabs" id="subnav" role="navigation">
+<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
 
 		<?php bp_get_options_nav(); ?>

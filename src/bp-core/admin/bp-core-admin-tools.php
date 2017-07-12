@@ -21,39 +21,33 @@ function bp_core_admin_tools() {
 
 		<h1><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h1>
 
-		<p>
-			<?php esc_html_e( 'BuddyPress keeps track of various relationships between members, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?>
-			<?php esc_html_e( 'Use the tools below to manually recalculate these relationships.', 'buddypress' ); ?>
+		<p><?php esc_html_e( 'BuddyPress keeps track of various relationships between members, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'Use the tools below to manually recalculate these relationships.', 'buddypress' ); ?>
 		</p>
 		<p class="description"><?php esc_html_e( 'Some of these tools create substantial database overhead. Avoid running more than one repair job at a time.', 'buddypress' ); ?></p>
 
 		<form class="settings" method="post" action="">
-			<table class="form-table">
-				<tbody>
-					<tr valign="top">
-						<th scope="row"><?php esc_html_e( 'Repair tools', 'buddypress' ) ?></th>
-						<td>
-							<fieldset>
-								<legend class="screen-reader-text"><span><?php esc_html_e( 'Repair', 'buddypress' ) ?></span></legend>
 
-								<?php foreach ( bp_admin_repair_list() as $item ) : ?>
+			<fieldset>
+				<legend><?php esc_html_e( 'Repair tools', 'buddypress' ) ?></legend>
 
-									<label for="<?php echo esc_attr( str_replace( '_', '-', $item[0] ) ); ?>"><input type="checkbox" class="checkbox" name="<?php echo esc_attr( $item[0] ) . '" id="' . esc_attr( str_replace( '_', '-', $item[0] ) ); ?>" value="1" /> <?php echo esc_html( $item[1] ); ?></label><br />
+				<div class="checkbox">
+				<?php foreach ( bp_admin_repair_list() as $item ) : ?>
+					<label for="<?php echo esc_attr( str_replace( '_', '-', $item[0] ) ); ?>"><input type="checkbox" class="checkbox" name="<?php echo esc_attr( $item[0] ) . '" id="' . esc_attr( str_replace( '_', '-', $item[0] ) ); ?>" value="1" /> <?php echo esc_html( $item[1] ); ?></label>
+				<?php endforeach; ?>
+				</div>
 
-								<?php endforeach; ?>
+				<p class="submit">
+					<input class="button-primary" type="submit" name="bp-tools-submit" value="<?php esc_attr_e( 'Repair Items', 'buddypress' ); ?>" />
+					<?php wp_nonce_field( 'bp-do-counts' ); ?>
+				</p>
 
-							</fieldset>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<fieldset class="submit">
-				<input class="button-primary" type="submit" name="bp-tools-submit" value="<?php esc_attr_e( 'Repair Items', 'buddypress' ); ?>" />
-				<?php wp_nonce_field( 'bp-do-counts' ); ?>
 			</fieldset>
+
 		</form>
+
 	</div>
+
 	<?php
 }
 
@@ -334,7 +328,7 @@ function bp_admin_repair_last_activity() {
  *
  * @param string      $message Feedback message.
  * @param string|bool $class   Unused.
- * @return bool
+ * @return false|Closure
  */
 function bp_admin_tools_feedback( $message, $class = false ) {
 	if ( is_string( $message ) ) {
@@ -363,7 +357,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 
 	$message = '<div id="message" class="' . esc_attr( $class ) . '">' . $message . '</div>';
 	$message = str_replace( "'", "\'", $message );
-	$lambda  = create_function( '', "echo '$message';" );
+	$lambda  = function() use ( $message ) { echo $message; };
 
 	add_action( bp_core_do_network_admin() ? 'network_admin_notices' : 'admin_notices', $lambda );
 
@@ -473,3 +467,24 @@ function bp_admin_reinstall_emails() {
 
 	return array( 0, __( 'Emails have been successfully reinstalled.', 'buddypress' ) );
 }
+
+/**
+ * Add notice on the "Tools > BuddyPress" page if more sites need recording.
+ *
+ * This notice only shows up in the network admin dashboard.
+ *
+ * @since 2.6.0
+ */
+function bp_core_admin_notice_repopulate_blogs_resume() {
+	$screen = get_current_screen();
+	if ( 'tools_page_bp-tools-network' !== $screen->id ) {
+		return;
+	}
+
+	if ( '' === bp_get_option( '_bp_record_blogs_offset' ) ) {
+		return;
+	}
+
+	echo '<div class="error"><p>' . __( 'It looks like you have more sites to record. Resume recording by checking the "Repopulate site tracking records" option.', 'buddypress' ) . '</p></div>';
+}
+add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resume' );

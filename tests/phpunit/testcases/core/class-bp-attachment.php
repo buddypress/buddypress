@@ -22,8 +22,8 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-		remove_filter( 'bp_attachment_upload_overrides',     array( $this, 'filter_overrides' ),       10, 1 );
-		remove_filter( 'upload_dir',                         array( $this, 'filter_upload_dir' ),      20, 1 );
+		remove_filter( 'bp_attachment_upload_overrides',     array( $this, 'filter_overrides' ),       10 );
+		remove_filter( 'upload_dir',                         array( $this, 'filter_upload_dir' ),      20 );
 		add_filter( 'bp_attachments_cover_image_upload_dir', array( $this, 'filter_cover_image_dir' ), 10, 2 );
 		$this->upload_results = array();
 		$this->image_file = '';
@@ -59,7 +59,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * To avoid copying files in tests, we're faking a succesfull uploads
 	 * as soon as all the test_form have been executed in _wp_handle_upload
 	 */
-	public function upload_error_handler( &$file, $message ) {
+	public function upload_error_handler( $file, $message ) {
 		if ( 'fake_upload_success' !== $message ) {
 			return array( 'error' => $message );
 		} else {
@@ -275,10 +275,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 
 		$g = $this->factory->group->create();
 
-		$bp->groups->current_group = groups_get_group( array(
-			'group_id'        => $g,
-			'populate_extras' => true,
-		) );
+		$bp->groups->current_group = groups_get_group( $g );
 
 		// Upload the file
 		$avatar_attachment = new BP_Attachment_Avatar();
@@ -380,6 +377,10 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group avatars
 	 */
 	public function test_bp_attachment_avatar_shrink() {
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires PHP to have a valid image editor that is compatible with WordPress.' );
+		}
+
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
 
 		$dir_copy = bp_upload_dir();
@@ -424,6 +425,10 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group cover_images
 	 */
 	public function test_bp_attachment_cover_image_fit() {
+		if ( false === _wp_image_editor_choose() ) {
+			$this->markTestSkipped( 'This test requires PHP to have a valid image editor that is compatible with WordPress.' );
+		}
+
 		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
 
 		$cover_image_class = new BP_Attachment_Cover_Image();
@@ -459,6 +464,10 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	 * @group cover_images
 	 */
 	public function test_bp_attachment_get_image_data() {
+		if ( ! is_callable( 'exif_read_data' ) ) {
+			$this->markTestSkipped( 'This test requires PHP to be compiled with EXIF support.' );
+		}
+
 		$image_data = BP_Attachment::get_image_data( BP_TESTS_DIR . 'assets/upside-down.jpg' );
 
 		$this->assertTrue( 3 == $image_data['meta']['orientation'] );
@@ -492,7 +501,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$attachment_class->upload( $_FILES );
 
 		// Remove the filter used to fake uploads
-		remove_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20, 1 );
+		remove_filter( 'upload_dir', array( $this, 'filter_upload_dir' ), 20 );
 
 		$this->assertSame( $attachment_class->original_upload_dir, wp_upload_dir() );
 

@@ -74,8 +74,9 @@ add_action( 'messages_message_after_save', 'bp_messages_clear_cache_on_message_s
  *
  * @param int|array $thread_ids If single thread, the thread ID.
  *                              Otherwise, an array of thread IDs.
+ * @param int       $user_id    ID of the user that the threads were deleted for.
  */
-function bp_messages_clear_cache_on_message_delete( $thread_ids ) {
+function bp_messages_clear_cache_on_message_delete( $thread_ids, $user_id ) {
 	// Delete thread and thread recipient cache.
 	foreach( (array) $thread_ids as $thread_id ) {
 		wp_cache_delete( $thread_id, 'bp_messages_threads' );
@@ -83,9 +84,9 @@ function bp_messages_clear_cache_on_message_delete( $thread_ids ) {
 	}
 
 	// Delete unread count for logged-in user.
-	wp_cache_delete( bp_loggedin_user_id(), 'bp_messages_unread_count' );
+	wp_cache_delete( $user_id, 'bp_messages_unread_count' );
 }
-add_action( 'messages_delete_thread', 'bp_messages_clear_cache_on_message_delete' );
+add_action( 'messages_delete_thread', 'bp_messages_clear_cache_on_message_delete', 10, 2 );
 
 /**
  * Invalidate cache for notices.

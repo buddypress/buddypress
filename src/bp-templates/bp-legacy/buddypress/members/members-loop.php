@@ -46,7 +46,7 @@ do_action( 'bp_before_members_loop' ); ?>
 	 */
 	do_action( 'bp_before_directory_members_list' ); ?>
 
-	<ul id="members-list" class="item-list">
+	<ul id="members-list" class="item-list" aria-live="assertive" aria-relevant="all">
 
 	<?php while ( bp_members() ) : bp_the_member(); ?>
 
@@ -67,7 +67,7 @@ do_action( 'bp_before_members_loop' ); ?>
 
 				</div>
 
-				<div class="item-meta"><span class="activity"><?php bp_member_last_active(); ?></span></div>
+				<div class="item-meta"><span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_member_last_active( array( 'relative' => false ) ) ); ?>"><?php bp_member_last_active(); ?></span></div>
 
 				<?php
 
@@ -151,4 +151,4 @@ do_action( 'bp_before_members_loop' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_members_loop' ); ?>
+do_action( 'bp_after_members_loop' );

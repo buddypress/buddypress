@@ -20,11 +20,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @uses current_user_can() To check if the current user can throttle.
- * @uses bp_get_option() To get the throttle time.
- * @uses get_transient() To get the last posted transient of the ip.
- * @uses get_user_meta() To get the last posted meta of the user.
- *
  * @param int $user_id User id to check for flood.
  * @return bool True if there is no flooding, false if there is.
  */
@@ -52,17 +47,15 @@ function bp_core_check_for_flood( $user_id = 0 ) {
  * Check for moderation keys and too many links.
  *
  * @since 1.6.0
+ * @since 2.6.0 Added $error_type parameter.
  *
- * @uses bp_current_author_ip() To get current user IP address.
- * @uses bp_current_author_ua() To get current user agent.
- * @uses bp_current_user_can() Allow super admins to bypass blacklist.
- *
- * @param int    $user_id Topic or reply author ID.
- * @param string $title   The title of the content.
- * @param string $content The content being posted.
- * @return bool True if test is passed, false if fail.
+ * @param int    $user_id    User ID.
+ * @param string $title      The title of the content.
+ * @param string $content    The content being posted.
+ * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
+ * @return bool|WP_Error True if test is passed, false if fail.
  */
-function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' ) {
+function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
 
 	/**
 	 * Filters whether or not to bypass checking for moderation keys and too many links.
@@ -136,7 +129,11 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 
 		// Das ist zu viele links!
 		if ( $num_links >= $max_links ) {
-			return false;
+			if ( 'bool' === $error_type ) {
+				return false;
+			} else {
+				return new WP_Error( 'bp_moderation_too_many_links', __( 'You have posted too many links', 'buddypress' ) );
+			}
 		}
 	}
 
@@ -173,9 +170,11 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
 
 				// Check each user data for current word.
 				if ( preg_match( $pattern, $post_data ) ) {
-
-					// Post does not pass.
-					return false;
+					if ( 'bool' === $error_type ) {
+						return false;
+					} else {
+						return new WP_Error( 'bp_moderation_word_match', _x( 'You have posted an inappropriate word.', 'Comment moderation', 'buddypress' ) );
+					}
 				}
 			}
 		}
@@ -189,17 +188,17 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '' 
  * Check for blocked keys.
  *
  * @since 1.6.0
+ * @since 2.6.0 Added $error_type parameter.
  *
- * @uses bp_current_author_ip() To get current user IP address.
- * @uses bp_current_author_ua() To get current user agent.
- * @uses bp_current_user_can() Allow super admins to bypass blacklist.
+ * @todo Why don't we use wp_blacklist_check() for this?
  *
- * @param int    $user_id Topic or reply author ID.
- * @param string $title   The title of the content.
- * @param string $content The content being posted.
- * @return bool True if test is passed, false if fail.
+ * @param int    $user_id    User ID.
+ * @param string $title      The title of the content.
+ * @param string $content    The content being posted.
+ * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
+ * @return bool|WP_Error True if test is passed, false if fail.
  */
-function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' ) {
+function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
 
 	/**
 	 * Filters whether or not to bypass checking for blocked keys.
@@ -284,9 +283,11 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '' )
 
 			// Check each user data for current word.
 			if ( preg_match( $pattern, $post_data ) ) {
-
-				// Post does not pass.
-				return false;
+				if ( 'bool' === $error_type ) {
+					return false;
+				} else {
+					return new WP_Error( 'bp_moderation_blacklist_match', _x( 'You have posted an inappropriate word.', 'Comment blacklist', 'buddypress' ) );
+				}
 			}
 		}
 	}

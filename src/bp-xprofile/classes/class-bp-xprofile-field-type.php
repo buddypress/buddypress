@@ -82,6 +82,14 @@ abstract class BP_XProfile_Field_Type {
 	public $supports_richtext = false;
 
 	/**
+	 * If the field type has a type-specific settings section on the Edit Field panel.
+	 *
+	 * @since 2.7.0
+	 * @var bool|null Boolean if set explicitly by the type object, otherwise null.
+	 */
+	protected $do_settings_section = null;
+
+	/**
 	 * If object is created by an BP_XProfile_Field object.
 	 *
 	 * @since 2.0.0
@@ -229,6 +237,23 @@ abstract class BP_XProfile_Field_Type {
 	}
 
 	/**
+	 * Check whether the current field type should have a settings ("options") section on the Edit Field panel.
+	 *
+	 * Falls back on `supports_options` if no value is set by the field type.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @return bool
+	 */
+	public function do_settings_section() {
+		if ( null === $this->do_settings_section ) {
+			$this->do_settings_section = $this->supports_options;
+		}
+
+		return (bool) $this->do_settings_section;
+	}
+
+	/**
 	 * Output the edit field HTML for this field type.
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
@@ -297,7 +322,7 @@ abstract class BP_XProfile_Field_Type {
 
 		<div id="<?php echo esc_attr( $type ); ?>" class="postbox bp-options-box" style="<?php echo esc_attr( $class ); ?> margin-top: 15px;">
 			<h3><?php esc_html_e( 'Please enter options for this Field:', 'buddypress' ); ?></h3>
-			<div class="inside">
+			<div class="inside" aria-live="polite" aria-atomic="true" aria-relevant="all">
 				<p>
 					<label for="sort_order_<?php echo esc_attr( $type ); ?>"><?php esc_html_e( 'Sort Order:', 'buddypress' ); ?></label>
 					<select name="sort_order_<?php echo esc_attr( $type ); ?>" id="sort_order_<?php echo esc_attr( $type ); ?>" >
@@ -365,7 +390,10 @@ abstract class BP_XProfile_Field_Type {
 
 						<div id="<?php echo esc_attr( "{$type}_div{$j}" ); ?>" class="bp-option sortable">
 							<span class="bp-option-icon grabber"></span>
-							<label for="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" class="screen-reader-text"><?php esc_html_e( 'Add an option', 'buddypress' ); ?></label>
+							<label for="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" class="screen-reader-text"><?php
+								/* translators: accessibility text */
+								esc_html_e( 'Add an option', 'buddypress' );
+							?></label>
 							<input type="text" name="<?php echo esc_attr( "{$type}_option[{$j}]" ); ?>" id="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" value="<?php echo esc_attr( stripslashes( $options[$i]->name ) ); ?>" />
 							<label for="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>">
 								<input type="<?php echo esc_attr( $control_type ); ?>" id="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>" name="<?php echo esc_attr( "isDefault_{$type}_option{$default_name}" ); ?>" <?php checked( $options[$i]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
@@ -447,6 +475,18 @@ abstract class BP_XProfile_Field_Type {
 	public static function display_filter( $field_value, $field_id = '' ) {
 		return $field_value;
 	}
+
+	/**
+	 * Save miscellaneous settings related to this field type.
+	 *
+	 * Override in a specific field type if it requires an admin save routine.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int   $field_id Field ID.
+	 * @param array $settings Array of settings.
+	 */
+	public function admin_save_settings( $field_id, $settings ) {}
 
 	/** Protected *************************************************************/
 

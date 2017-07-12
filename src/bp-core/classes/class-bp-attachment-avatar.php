@@ -25,8 +25,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @see  BP_Attachment::__construct() for list of parameters
-	 * @uses bp_core_avatar_original_max_filesize()
-	 * @uses BP_Attachment::__construct()
 	 */
 	public function __construct() {
 		// Allowed avatar types.
@@ -63,11 +61,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * Set Upload Dir data for avatars.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @uses bp_core_avatar_upload_path()
-	 * @uses bp_core_avatar_url()
-	 * @uses bp_upload_dir()
-	 * @uses BP_Attachment::set_upload_dir()
 	 */
 	public function set_upload_dir() {
 		if ( bp_core_avatar_upload_path() && bp_core_avatar_url() ) {
@@ -87,10 +80,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses   bp_core_check_avatar_size()
-	 * @uses   bp_core_check_avatar_type()
-	 *
-	 * @param  array $file the temporary file attributes (before it has been moved).
+	 * @param array $file the temporary file attributes (before it has been moved).
 	 * @return array the file with extra errors if needed.
 	 */
 	public function validate_upload( $file = array() ) {
@@ -118,11 +108,9 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @since 2.3.0
 	 * @since 2.4.0 Add the $ui_available_width parameter, to inform about the Avatar UI width.
 	 *
-	 * @uses  bp_core_avatar_original_max_width()
-	 *
 	 * @param string $file               The absolute path to the file.
 	 * @param int    $ui_available_width Available width for the UI.
-	 * @return mixed
+	 * @return false|string|WP_Image_Editor|WP_Error
 	 */
 	public static function shrink( $file = '', $ui_available_width = 0 ) {
 		// Get image size.
@@ -184,8 +172,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses  bp_core_avatar_full_width()
-	 * @uses  bp_core_avatar_full_height()
 	 *
 	 * @param string $file the absolute path to the file.
 	 * @return bool
@@ -208,12 +194,6 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @see  BP_Attachment::crop for the list of parameters
-	 * @uses bp_core_fetch_avatar()
-	 * @uses bp_core_delete_existing_avatar()
-	 * @uses bp_core_avatar_full_width()
-	 * @uses bp_core_avatar_full_height()
-	 * @uses bp_core_avatar_dimension()
-	 * @uses BP_Attachment::crop
 	 *
 	 * @param array $args Array of arguments for the cropping.
 	 * @return array The cropped avatars (full and thumb).
@@ -224,11 +204,23 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			return false;
 		}
 
+		if ( ! bp_attachments_current_user_can( 'edit_avatar', $args ) ) {
+			return false;
+		}
+
+		if ( 'user' === $args['object'] ) {
+			$avatar_dir = 'avatars';
+		} else {
+			$avatar_dir = sanitize_key( $args['object'] ) . '-avatars';
+		}
+
+		$args['item_id'] = (int) $args['item_id'];
+
 		/**
 		 * Original file is a relative path to the image
 		 * eg: /avatars/1/avatar.jpg
 		 */
-		$relative_path = $args['original_file'];
+		$relative_path = sprintf( '/%s/%s/%s', $avatar_dir, $args['item_id'], basename( $args['original_file'] ) );
 		$absolute_path = $this->upload_path . $relative_path;
 
 		// Bail if the avatar is not available.
@@ -292,7 +284,8 @@ class BP_Attachment_Avatar extends BP_Attachment {
 				$args['dst_h'] = bp_core_avatar_full_height();
 			}
 
-			$args['dst_file'] = $avatar_folder_dir . '/' . wp_hash( $absolute_path . time() ) . '-bp' . $key_type . '.' . $ext;
+			$filename         = wp_unique_filename( $avatar_folder_dir, uniqid() . "-bp{$key_type}.{$ext}" );
+			$args['dst_file'] = $avatar_folder_dir . '/' . $filename;
 
 			$avatar_types[ $key_type ] = parent::crop( $args );
 		}

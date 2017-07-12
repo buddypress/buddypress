@@ -24,10 +24,15 @@
 		<form action="" name="signup_form" id="signup_form" class="standard-form" method="post" enctype="multipart/form-data">
 
 		<?php if ( 'registration-disabled' == bp_get_current_signup_step() ) : ?>
-			<?php
 
-			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php
+
+				/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+				do_action( 'template_notices' ); ?>
+
+			</div>
+
 			<?php
 
 			/**
@@ -51,10 +56,13 @@
 
 		<?php if ( 'request-details' == bp_get_current_signup_step() ) : ?>
 
-			<?php
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php
 
-			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+				/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+				do_action( 'template_notices' ); ?>
+
+			</div>
 
 			<p><?php _e( 'Registering for this site is easy. Just fill in the fields below, and we\'ll get a new account set up for you in no time.', 'buddypress' ); ?></p>
 
@@ -71,7 +79,7 @@
 
 				<?php /***** Basic Account Details ******/ ?>
 
-				<h4><?php _e( 'Account Details', 'buddypress' ); ?></h4>
+				<h2><?php _e( 'Account Details', 'buddypress' ); ?></h2>
 
 				<label for="signup_username"><?php _e( 'Username', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
 				<?php
@@ -153,7 +161,7 @@
 
 				<div class="register-section" id="profile-details-section">
 
-					<h4><?php _e( 'Profile Details', 'buddypress' ); ?></h4>
+					<h2><?php _e( 'Profile Details', 'buddypress' ); ?></h2>
 
 					<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
 					<?php if ( bp_is_active( 'xprofile' ) ) : if ( bp_has_profile( array( 'profile_group_id' => 1, 'fetch_field_data' => false ) ) ) : while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
@@ -161,6 +169,7 @@
 					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
 
 						<div<?php bp_field_css_class( 'editfield' ); ?>>
+							<fieldset>
 
 							<?php
 							$field_type = bp_xprofile_create_field_type( bp_get_the_profile_field_type() );
@@ -174,14 +183,15 @@
 							do_action( 'bp_custom_profile_edit_fields_pre_visibility' );
 
 							if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
-								<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
+								<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 									<?php
 									printf(
 										__( 'This field can be seen by: %s', 'buddypress' ),
 										'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
 									);
 									?>
-									<a href="#" class="visibility-toggle-link"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></a>
+									</span>
+									<button type="button" class="visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></button>
 								</p>
 
 								<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
@@ -191,7 +201,7 @@
 										<?php bp_profile_visibility_radio_buttons() ?>
 
 									</fieldset>
-									<a class="field-visibility-settings-close" href="#"><?php _e( 'Close', 'buddypress' ) ?></a>
+									<button type="button" class="field-visibility-settings-close"><?php _e( 'Close', 'buddypress' ) ?></button>
 
 								</div>
 							<?php else : ?>
@@ -214,8 +224,7 @@
 							 */
 							do_action( 'bp_custom_profile_edit_fields' ); ?>
 
-							<p class="description"><?php bp_the_profile_field_description(); ?></p>
-
+							</fieldset>
 						</div>
 
 					<?php endwhile; ?>
@@ -261,7 +270,7 @@
 
 				<div class="register-section" id="blog-details-section">
 
-					<h4><?php _e( 'Blog Details', 'buddypress' ); ?></h4>
+					<h2><?php _e( 'Blog Details', 'buddypress' ); ?></h2>
 
 					<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes, I\'d like to create a new site', 'buddypress' ); ?></label></p>
 
@@ -294,18 +303,20 @@
 						do_action( 'bp_signup_blog_title_errors' ); ?>
 						<input type="text" name="signup_blog_title" id="signup_blog_title" value="<?php bp_signup_blog_title_value(); ?>" />
 
-						<span class="label"><?php _e( 'I would like my site to appear in search engines, and in public listings around this network.', 'buddypress' ); ?></span>
-						<?php
+						<fieldset class="register-site">
+							<legend class="label"><?php _e( 'Privacy: I would like my site to appear in search engines, and in public listings around this network.', 'buddypress' ); ?></legend>
+							<?php
 
-						/**
-						 * Fires and displays any member registration blog privacy errors.
-						 *
-						 * @since 1.1.0
-						 */
-						do_action( 'bp_signup_blog_privacy_errors' ); ?>
+							/**
+							 * Fires and displays any member registration blog privacy errors.
+							 *
+							 * @since 1.1.0
+							 */
+							do_action( 'bp_signup_blog_privacy_errors' ); ?>
 
-						<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() || !bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes', 'buddypress' ); ?></label>
-						<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php if ( 'private' == bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'No', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() || !bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php if ( 'private' == bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'No', 'buddypress' ); ?></label>
+						</fieldset>
 
 						<?php
 
@@ -359,10 +370,14 @@
 
 		<?php if ( 'completed-confirmation' == bp_get_current_signup_step() ) : ?>
 
-			<?php
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php
 
-			/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-			do_action( 'template_notices' ); ?>
+				/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+				do_action( 'template_notices' ); ?>
+
+			</div>
+
 			<?php
 
 			/**
@@ -372,11 +387,13 @@
 			 */
 			do_action( 'bp_before_registration_confirmed' ); ?>
 
-			<?php if ( bp_registration_needs_activation() ) : ?>
-				<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ); ?></p>
-			<?php else : ?>
-				<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ); ?></p>
-			<?php endif; ?>
+			<div id="template-notices" role="alert" aria-atomic="true">
+				<?php if ( bp_registration_needs_activation() ) : ?>
+					<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ); ?></p>
+				<?php else : ?>
+					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ); ?></p>
+				<?php endif; ?>
+			</div>
 
 			<?php
 

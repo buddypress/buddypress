@@ -171,7 +171,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u ) );
 		wp_cache_delete( 'bp_user_fullname_' . $u, 'bp' );
-		wp_cache_delete( "{$u}:1", 'bp_xprofile_data', 'bp' );
+		wp_cache_delete( "{$u}:1", 'bp_xprofile_data' );
 
 		$this->assertSame( '', xprofile_get_field_data( 1, $u ) );
 		$this->assertSame( 'Foo Foo', bp_core_get_user_displayname( $u ) );
@@ -224,7 +224,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$bp = buddypress();
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u2 ) );
 		wp_cache_delete( 'bp_user_fullname_' . $u2, 'bp' );
-		wp_cache_delete( 1, 'bp_xprofile_data_' . $u2, 'bp' );
+		wp_cache_delete( "{$u2}:1", 'bp_xprofile_data' );
 
 		$expected = array(
 			$u1 => 'Foo',
@@ -261,7 +261,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$u_obj = new WP_User( $u );
 
 		// Fake an old-style registration
-		$key = wp_hash( $u_obj->ID );
+		$key = wp_generate_password( 32, false );
 		update_user_meta( $u, 'activation_key', $key );
 
 		global $wpdb;
@@ -295,7 +295,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$u_obj = new WP_User( $u );
 
 		// Fake an old-style registration
-		$key = wp_hash( $u_obj->ID );
+		$key = wp_generate_password( 32, false );
 		update_user_meta( $u, 'activation_key', $key );
 
 		// ...but ensure that user_status is 0. This mimics the
@@ -586,5 +586,55 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 */
 	public function test_wp_registration_url_should_return_bp_register_page_when_register_page_is_configured_properly() {
 		$this->assertSame( bp_get_signup_page(), wp_registration_url() );
+	}
+
+	/**
+	 * @group bp_core_activate_signup
+	 */
+	public function test_bp_core_activate_signup_password() {
+		global $wpdb;
+
+
+		$signups = array( 'no-blog' =>
+			array( 'signup_id' => $this->factory->signup->create( array(
+					'user_login'     => 'noblog',
+					'user_email'     => 'noblog@example.com',
+					'activation_key' => 'no-blog',
+					'meta' => array(
+						'field_1' => 'Foo Bar',
+						'password' => 'foobar',
+					),
+			) ),
+				'password' => 'foobar',
+			),
+		);
+
+		if ( is_multisite() ) {
+			$signups['ms-blog'] = array( 'signup_id' => $this->factory->signup->create( array(
+					'user_login'     => 'msblog',
+					'user_email'     => 'msblog@example.com',
+					'domain'         => get_current_site()->domain,
+					'path'           => get_current_site()->path . 'ms-blog',
+					'title'          => 'Ding Dang',
+					'activation_key' => 'ms-blog',
+					'meta' => array(
+						'field_1'  => 'Ding Dang',
+						'password' => 'dingdang',
+					),
+				) ),
+				'password' => 'dingdang',
+			);
+		}
+
+		// Neutralize db errors
+		$suppress = $wpdb->suppress_errors();
+
+		foreach ( $signups as $key => $data ) {
+			$u = bp_core_activate_signup( $key );
+
+			$this->assertEquals( get_userdata( $u )->user_pass, $data['password'] );
+		}
+
+		$wpdb->suppress_errors( $suppress );
 	}
 }

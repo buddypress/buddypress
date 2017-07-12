@@ -9,12 +9,17 @@
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
 
+<h2 class="bp-screen-reader-text"><?php
+	/* translators: accessibility text */
+	_e( 'Account settings', 'buddypress' );
+?></h2>
+
 <form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/general'; ?>" method="post" class="standard-form" id="settings-form">
 
 	<?php if ( !is_super_admin() ) : ?>
 
 		<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'buddypress' ); ?></label>
-		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo wp_lostpassword_url(); ?>" title="<?php esc_attr_e( 'Password Lost and Found', 'buddypress' ); ?>"><?php _e( 'Lost your password?', 'buddypress' ); ?></a>
+		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo wp_lostpassword_url(); ?>"><?php _e( 'Lost your password?', 'buddypress' ); ?></a>
 
 	<?php endif; ?>
 
@@ -22,10 +27,11 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	<input type="email" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" <?php bp_form_field_attributes( 'email' ); ?>/>
 
 	<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ); ?></label>
-	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<?php _e( 'New Password', 'buddypress' ); ?><br />
+	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" <?php bp_form_field_attributes( 'password' ); ?>/>
 	<div id="pass-strength-result"></div>
-	<label for="pass2" class="bp-screen-reader-text"><?php _e( 'Repeat New Password', 'buddypress' ); ?></label>
-	<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small password-entry-confirm" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<?php _e( 'Repeat New Password', 'buddypress' ); ?>
+	<label for="pass2"><?php _e( 'Repeat New Password', 'buddypress' );
+	?></label>
+	<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small password-entry-confirm" <?php bp_form_field_attributes( 'password' ); ?>/>
 
 	<?php
 
@@ -56,4 +62,4 @@ do_action( 'bp_before_member_settings_template' ); ?>
 <?php
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
-do_action( 'bp_after_member_settings_template' ); ?>
+do_action( 'bp_after_member_settings_template' );

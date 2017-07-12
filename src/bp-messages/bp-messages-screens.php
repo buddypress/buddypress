@@ -109,7 +109,7 @@ function messages_screen_compose() {
  *
  * @since 1.0.0
  *
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function messages_screen_conversation() {
 
@@ -120,8 +120,26 @@ function messages_screen_conversation() {
 
 	$thread_id = (int) bp_action_variable( 0 );
 
-	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) || ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) ) {
+	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) ) {
+		if ( is_user_logged_in() ) {
+			bp_core_add_message( __( 'The conversation you tried to access is no longer available', 'buddypress' ), 'error' );
+		}
+
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
+	}
+
+	// No access.
+	if ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+		// If not logged in, prompt for login.
+		if ( ! is_user_logged_in() ) {
+			bp_core_no_access();
+			return;
+
+		// Redirect away.
+		} else {
+			bp_core_add_message( __( 'You do not have access to that conversation.', 'buddypress' ), 'error' );
+			bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() ) );
+		}
 	}
 
 	// Load up BuddyPress one time.
@@ -216,8 +234,14 @@ function messages_screen_notification_settings() {
 			<tr id="messages-notification-settings-new-message">
 				<td></td>
 				<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-yes" value="yes" <?php checked( $new_messages, 'yes', true ) ?>/><label for="notification-messages-new-messages-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-no" value="no" <?php checked( $new_messages, 'no', true ) ?>/><label for="notification-messages-new-messages-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-yes" value="yes" <?php checked( $new_messages, 'yes', true ) ?>/><label for="notification-messages-new-messages-yes" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Yes, send email', 'buddypress' );
+				?></label></td>
+				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-no" value="no" <?php checked( $new_messages, 'no', true ) ?>/><label for="notification-messages-new-messages-no" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'No, do not send email', 'buddypress' );
+				?></label></td>
 			</tr>
 
 			<?php

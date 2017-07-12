@@ -31,7 +31,7 @@ do_action( 'bp_before_member_header' ); ?>
 		<h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
 	<?php endif; ?>
 
-	<span class="activity"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
+	<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_user_last_activity( bp_displayed_user_id() ) ); ?>"><?php bp_last_activity( bp_displayed_user_id() ); ?></span>
 
 	<?php
 
@@ -94,7 +94,10 @@ do_action( 'bp_before_member_header' ); ?>
  */
 do_action( 'bp_after_member_header' ); ?>
 
-<?php
+<div id="template-notices" role="alert" aria-atomic="true">
+	<?php
 
-/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-do_action( 'template_notices' ); ?>
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
+
+</div>

@@ -16,10 +16,6 @@ defined( 'ABSPATH' ) || exit;
 // Include WP's list table class.
 if ( !class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-activity-list-table.php';
-}
-
 // Per_page screen option. Has to be hooked in extremely early.
 if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['page'] )
 	add_filter( 'set-screen-option', 'bp_activity_admin_screen_options', 10, 3 );
@@ -145,7 +141,7 @@ add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
  * @param string $value     Will always be false unless another plugin filters it first.
  * @param string $option    Screen option name.
  * @param string $new_value Screen option form value.
- * @return string Option value. False to abandon update.
+ * @return string|int Option value. False to abandon update.
  */
 function bp_activity_admin_screen_options( $value, $option, $new_value ) {
 	if ( 'toplevel_page_bp_activity_per_page' != $option && 'toplevel_page_bp_activity_network_per_page' != $option )
@@ -169,8 +165,9 @@ function bp_activity_admin_screen_options( $value, $option, $new_value ) {
  * @return array Hidden Meta Boxes.
  */
 function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
-	if ( empty( $screen->id ) || 'toplevel_page_bp-activity' != $screen->id && 'toplevel_page_bp-activity_network' != $screen->id )
+	if ( empty( $screen->id ) || 'toplevel_page_bp-activity' !== $screen->id && 'toplevel_page_bp-activity-network' !== $screen->id ) {
 		return $hidden;
+	}
 
 	// Hide the primary link meta box by default.
 	$hidden  = array_merge( (array) $hidden, array( 'bp_activity_itemids', 'bp_activity_link', 'bp_activity_type', 'bp_activity_userid', ) );
@@ -393,8 +390,8 @@ function bp_activity_admin_load() {
 					 * Remove moderation and blacklist checks in case we want to ham an activity
 					 * which contains one of these listed keys.
 					 */
-					remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
-					remove_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys',  2, 1 );
+					remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2 );
+					remove_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys', 2 );
 
 					bp_activity_mark_as_ham( $activity );
 					$result = $activity->save();
@@ -579,9 +576,9 @@ function bp_activity_admin_load() {
 
 		// If an error occurred, pass back the activity ID that failed.
 		if ( $error )
-			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
+			$redirect_to = add_query_arg( 'error', $error, $redirect_to );
 		else
-			$redirect_to = add_query_arg( 'updated', (int) $activity->id, $redirect_to );
+			$redirect_to = add_query_arg( 'updated', $activity->id, $redirect_to );
 
 		/**
 		 * Filters URL to redirect to after saving.
@@ -677,6 +674,10 @@ function bp_activity_admin_edit() {
 								<div id="bp_activity_action" class="postbox">
 									<h2><?php _e( 'Action', 'buddypress' ); ?></h2>
 									<div class="inside">
+										<label for="bp-activities-action" class="screen-reader-text"><?php
+											/* translators: accessibility text */
+											_e( 'Edit activity action', 'buddypress' );
+										?></label>
 										<?php wp_editor( stripslashes( $activity->action ), 'bp-activities-action', array( 'media_buttons' => false, 'textarea_rows' => 7, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>
 								</div>
@@ -684,6 +685,10 @@ function bp_activity_admin_edit() {
 								<div id="bp_activity_content" class="postbox">
 									<h2><?php _e( 'Content', 'buddypress' ); ?></h2>
 									<div class="inside">
+										<label for="bp-activities-content" class="screen-reader-text"><?php
+											/* translators: accessibility text */
+											_e( 'Edit activity content', 'buddypress' );
+										?></label>
 										<?php wp_editor( stripslashes( $activity->content ), 'bp-activities-content', array( 'media_buttons' => false, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>
 								</div>
@@ -790,7 +795,10 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 function bp_activity_admin_edit_metabox_link( $item ) {
 ?>
 
-	<label class="screen-reader-text" for="bp-activities-link"><?php _e( 'Link', 'buddypress' ); ?></label>
+	<label class="screen-reader-text" for="bp-activities-link"><?php
+		/* translators: accessibility text */
+		_e( 'Link', 'buddypress' );
+	?></label>
 	<input type="url" name="bp-activities-link" id="bp-activities-link" value="<?php echo esc_url( $item->primary_link ); ?>" aria-describedby="bp-activities-link-description" />
 	<p id="bp-activities-link-description"><?php _e( 'Activity generated by posts and comments, forum topics and replies, and some plugins, uses the link field for a permalink back to the content item.', 'buddypress' ); ?></p>
 
@@ -807,7 +815,10 @@ function bp_activity_admin_edit_metabox_link( $item ) {
 function bp_activity_admin_edit_metabox_userid( $item ) {
 ?>
 
-	<label class="screen-reader-text" for="bp-activities-userid"><?php _e( 'Author ID', 'buddypress' ); ?></label>
+	<label class="screen-reader-text" for="bp-activities-userid"><?php
+		/* translators: accessibility text */
+		_e( 'Author ID', 'buddypress' );
+	?></label>
 	<input type="number" name="bp-activities-userid" id="bp-activities-userid" value="<?php echo esc_attr( $item->user_id ); ?>" min="1" />
 
 <?php
@@ -882,7 +893,10 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 
 	?>
 
-	<label for="bp-activities-type" class="screen-reader-text"><?php esc_html_e( 'Select activity type', 'buddypress' ); ?></label>
+	<label for="bp-activities-type" class="screen-reader-text"><?php
+		/* translators: accessibility text */
+		esc_html_e( 'Select activity type', 'buddypress' );
+	?></label>
 	<select name="bp-activities-type" id="bp-activities-type">
 		<?php foreach ( $actions as $k => $v ) : ?>
 			<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k,  $selected ); ?>><?php echo esc_html( $v ); ?></option>
@@ -1025,6 +1039,10 @@ function bp_activity_admin_index() {
 					<form method="get" action="">
 
 						<h3 id="bp-replyhead"><?php _e( 'Reply to Activity', 'buddypress' ); ?></h3>
+						<label for="bp-activities" class="screen-reader-text"><?php
+							/* translators: accessibility text */
+							_e( 'Reply', 'buddypress' );
+						?></label>
 						<?php wp_editor( '', 'bp-activities', array( 'dfw' => false, 'media_buttons' => false, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), 'tinymce' => false, ) ); ?>
 
 						<p id="bp-replysubmit" class="submit">

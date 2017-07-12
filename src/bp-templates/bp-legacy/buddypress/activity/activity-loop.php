@@ -66,4 +66,4 @@ do_action( 'bp_after_activity_loop' ); ?>
 
 	</form>
 
-<?php endif; ?>
+<?php endif;

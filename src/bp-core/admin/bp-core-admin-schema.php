@@ -11,23 +11,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get the DB schema to use for BuddyPress components.
- *
- * @since 1.1.0
- *
- * @global $wpdb $wpdb
- *
- * @return string The default database character-set, if set.
- */
-function bp_core_set_charset() {
-	global $wpdb;
-
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-	return !empty( $wpdb->charset ) ? "DEFAULT CHARACTER SET {$wpdb->charset}" : '';
-}
-
-/**
  * Main installer.
  *
  * Can be passed an optional array of components to explicitly run installation
@@ -90,13 +73,10 @@ function bp_core_install( $active_components = false ) {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_notifications() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_notifications (
@@ -134,13 +114,10 @@ function bp_core_install_notifications() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_activity_streams() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_activity (
@@ -187,13 +164,10 @@ function bp_core_install_activity_streams() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_friends() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_friends (
@@ -215,13 +189,10 @@ function bp_core_install_friends() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_groups() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_groups (
@@ -231,10 +202,12 @@ function bp_core_install_groups() {
 				slug varchar(200) NOT NULL,
 				description longtext NOT NULL,
 				status varchar(10) NOT NULL DEFAULT 'public',
+				parent_id bigint(20) NOT NULL DEFAULT 0,
 				enable_forum tinyint(1) NOT NULL DEFAULT '1',
 				date_created datetime NOT NULL,
 				KEY creator_id (creator_id),
-				KEY status (status)
+				KEY status (status),
+				KEY parent_id (parent_id)
 			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_groups_members (
@@ -275,13 +248,10 @@ function bp_core_install_groups() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_private_messaging() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_messages (
@@ -335,15 +305,12 @@ function bp_core_install_private_messaging() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_extended_profiles() {
 	global $wpdb;
 
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	// These values should only be updated if they are not already present.
@@ -425,13 +392,10 @@ function bp_core_install_extended_profiles() {
  *
  * @since 1.0.0
  *
- * @uses bp_core_set_charset()
- * @uses bp_core_get_table_prefix()
- * @uses dbDelta()
  */
 function bp_core_install_blog_tracking() {
 	$sql             = array();
-	$charset_collate = bp_core_set_charset();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_user_blogs (
@@ -462,7 +426,6 @@ function bp_core_install_blog_tracking() {
  * @since 2.0.0
  *
  * @global $wpdb
- * @uses wp_get_db_schema() to get WordPress ms_global schema
  */
 function bp_core_install_signups() {
 	global $wpdb;
@@ -539,7 +502,7 @@ function bp_core_install_emails() {
 	);
 
 	$emails       = bp_email_get_schema();
-	$descriptions = bp_email_get_type_schema();
+	$descriptions = bp_email_get_type_schema( 'description' );
 
 	// Add these emails to the database.
 	foreach ( $emails as $id => $email ) {
@@ -556,6 +519,8 @@ function bp_core_install_emails() {
 			) );
 		}
 	}
+
+	bp_update_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
 
 	/**
 	 * Fires after BuddyPress adds the posts for its emails.

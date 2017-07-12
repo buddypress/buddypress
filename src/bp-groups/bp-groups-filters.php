@@ -60,7 +60,6 @@ if ( function_exists( 'wp_encode_emoji' ) ) {
 }
 
 // Escape output of new group creation details.
-add_filter( 'bp_get_new_group_id',          'esc_attr'     );
 add_filter( 'bp_get_new_group_name',        'esc_attr'     );
 add_filter( 'bp_get_new_group_description', 'esc_textarea' );
 
@@ -315,7 +314,7 @@ function bp_groups_disable_at_mention_notification_for_non_public_groups( $send,
 	}
 
 	if ( 'groups' === $activity->component ) {
-		$group = groups_get_group( array( 'group_id' => $activity->item_id ) );
+		$group = groups_get_group( $activity->item_id );
 		if ( 'public' !== $group->status && ! groups_is_user_member( $user_id, $group->id ) ) {
 			$send = false;
 		}

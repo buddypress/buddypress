@@ -124,6 +124,60 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_notifications_update_meta_cache
+	 */
+	public function test_bp_notifications_update_meta_cache() {
+		$u = $this->factory->user->create();
+
+		$n1 = $this->factory->notification->create( array(
+			'component_name' => 'messages',
+			'user_id'        => $u
+		) );
+
+		$n2 = $this->factory->notification->create( array(
+			'component_name' => 'groups',
+			'user_id'        => $u
+		) );
+
+		// Add cache for each notification.
+		bp_notifications_update_meta( $n1, 'meta', 'data' );
+		bp_notifications_update_meta( $n1, 'data', 'meta' );
+		bp_notifications_update_meta( $n2, 'meta', 'human' );
+
+		// Prime cache.
+		bp_notifications_get_meta( $n1, 'meta' );
+
+		// Ensure an empty cache for second notification.
+		wp_cache_delete( $n2, 'notification_meta' );
+
+		// Update notification meta cache.
+		bp_notifications_update_meta_cache( array( $n1, $n2 ) );
+
+		$expected = array(
+			$n1 => array(
+				'meta' => array(
+					'data',
+				),
+				'data' => array(
+					'meta',
+				),
+			),
+			$n2 => array(
+				'meta' => array(
+					'human',
+				),
+			),
+		);
+
+		$found = array(
+			$n1 => wp_cache_get( $n1, 'notification_meta' ),
+			$n2 => wp_cache_get( $n2, 'notification_meta' ),
+		);
+
+		$this->assertEquals( $expected, $found );
+	}
+
+	/**
 	 * @group bp_notifications_add_notification
 	 */
 	public function test_bp_notifications_add_notification_no_dupes() {
@@ -293,5 +347,56 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		// Check if notifications are deleted.
 		$found2 = $wpdb->get_col( $query );
 		$this->assertEmpty( $found2 );
+	}
+
+	/**
+	 * @group  notification_callback
+	 * @ticket BP7141
+	 */
+	public function test_notification_callback_parameter_integrity() {
+		$u = $this->factory->user->create();
+
+		$n = $this->factory->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		// Override activity notification callback so we can test integrity.
+		buddypress()->activity->notification_callback = array( $this, 'dummy_notification_callback' );
+
+		// Fetch notifications with string format.
+		bp_notifications_get_notifications_for_user( $u, 'string' );
+
+		// Assert!
+		// @todo When we cast all numeric strings as integers, this needs to be changed.
+		$expected = array(
+			'action'            => 'new_at_mention',
+			'item_id'           => '99',
+			'secondary_item_id' => '0',
+			'total_items'       => 1,
+			'id'                => (string) $n,
+			'format'            => 'string'
+		);
+		$this->assertEquals( $expected, $this->n_args );
+
+		// Fetch notifications with object format this time.
+		bp_notifications_get_notifications_for_user( $u, 'object' );
+
+		// Assert!
+		$expected['format'] = 'array';
+		$this->assertEquals( $expected, $this->n_args );
+
+		// Reset!
+		buddypress()->activity->notification_callback = 'bp_activity_format_notifications';
+		unset( $this->n_args );
+	}
+
+	/**
+	 * Used in test_notification_callback_parameter_integrity() test.
+	 */
+	public function dummy_notification_callback( $action, $item_id, $secondary_item_id, $total_items, $format = 'string', $id = 0 ) {
+		$this->n_args = compact( 'action', 'item_id', 'secondary_item_id', 'total_items', 'id', 'format' );
 	}
 }

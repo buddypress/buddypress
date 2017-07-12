@@ -58,7 +58,7 @@
 			<li id="<?php bp_group_invite_item_id(); ?>">
 				<?php bp_group_invite_user_avatar(); ?>
 
-				<h4><?php bp_group_invite_user_link(); ?></h4>
+				<h3><?php bp_group_invite_user_link(); ?></h3>
 				<span class="activity"><?php bp_group_invite_user_last_active(); ?></span>
 
 				<?php

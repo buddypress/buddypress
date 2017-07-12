@@ -30,14 +30,23 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 		// Call WP_Widget constructor.
 		parent::__construct( false, $name, array(
-			'description' => $description,
-			'classname'   => 'widget_bp_core_members_widget buddypress widget',
+			'description'                 => $description,
+			'classname'                   => 'widget_bp_core_members_widget buddypress widget',
+			'customize_selective_refresh' => true,
 		) );
 
-		// Maybe enqueue JS for widget.
-		if ( is_active_widget( false, false, $this->id_base ) && ! is_admin() && ! is_network_admin() ) {
-			wp_enqueue_script( 'bp-widget-members' );
+		if ( is_customize_preview() || is_active_widget( false, false, $this->id_base ) ) {
+			add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
+	}
+
+	/**
+	 * Enqueue scripts.
+	 *
+	 * @since 2.6.0
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_script( 'bp-widget-members' );
 	}
 
 	/**
@@ -79,10 +88,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		$separator = apply_filters( 'bp_members_widget_separator', '|' );
 
 		// Output before widget HTMl, title (and maybe content before & after it).
-		echo $args['before_widget']
-		   . $args['before_title']
-		   . $title
-		   . $args['after_title'];
+		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title'];
 
 		// Setup args for querying members.
 		$members_args = array(
@@ -114,26 +120,25 @@ class BP_Core_Members_Widget extends WP_Widget {
 
 			</div>
 
-			<ul id="members-list" class="item-list">
+			<ul id="members-list" class="item-list" aria-live="polite" aria-relevant="all" aria-atomic="true">
 
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 
 					<li class="vcard">
 						<div class="item-avatar">
-							<a href="<?php bp_member_permalink() ?>" title="<?php bp_member_name(); ?>"><?php bp_member_avatar(); ?></a>
+							<a href="<?php bp_member_permalink() ?>" class="bp-tooltip" data-bp-tooltip="<?php bp_member_name(); ?>"><?php bp_member_avatar(); ?></a>
 						</div>
 
 						<div class="item">
-							<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_name(); ?></a></div>
+							<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>"><?php bp_member_name(); ?></a></div>
 							<div class="item-meta">
-								<span class="activity"><?php
-									if ( 'newest' === $settings['member_default'] ) :
-										bp_member_registered();
-									elseif ( 'active' === $settings['member_default'] ) :
-										bp_member_last_active();
-									elseif ( 'popular' === $settings['member_default'] ) :
-										bp_member_total_friend_count();
-									endif; ?></span>
+								<?php if ( 'newest' == $settings['member_default'] ) : ?>
+									<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_member_registered( array( 'relative' => false ) ) ); ?>"><?php bp_member_registered(); ?></span>
+								<?php elseif ( 'active' == $settings['member_default'] ) : ?>
+									<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_member_last_active( array( 'relative' => false ) ) ); ?>"><?php bp_member_last_active(); ?></span>
+								<?php else : ?>
+									<span class="activity"><?php bp_member_total_friend_count(); ?></span>
+								<?php endif; ?>
 							</div>
 						</div>
 					</li>
@@ -235,7 +240,6 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses bp_parse_args() To merge widget settings into defaults.
 	 *
 	 * @param array $instance Widget instance settings.
 	 * @return array

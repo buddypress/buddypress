@@ -76,9 +76,32 @@ Title: Core Developer
 Twitter: hnla
 Favourite Food: Sunday Roast or Curries
 
+Name: Henry Wright
+Title: Community Support
+Twitter: henrywright
+Favourite Food: Broccoli
+
+Name: danbp
+Title: Community Support
+Twitter: danbpfr
+Favorite Food: Saltimbocca alla Romana
+
+Name: shanebp
+Title: Community Support
+
+Name: Stephen Edgar
+Title: Core Developer
+Twitter: netweb
+Favorite Food: Tacos
+
+Name: Slava Abakumov
+Title: Core Developer
+Twitter: slaFFik
+Favorite Food: Cakes
+
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2015/05/09
+Updated: 2017/02/01
 See: http://humanstxt.org/

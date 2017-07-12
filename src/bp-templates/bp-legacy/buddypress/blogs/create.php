@@ -13,10 +13,13 @@
  */
 do_action( 'bp_before_create_blog_content_template' ); ?>
 
-<?php
+<div id="template-notices" role="alert" aria-atomic="true">
+	<?php
 
-/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
-do_action( 'template_notices' ); ?>
+	/** This action is documented in bp-templates/bp-legacy/buddypress/activity/index.php */
+	do_action( 'template_notices' ); ?>
+
+</div>
 
 <?php
 
@@ -55,4 +58,4 @@ do_action( 'bp_after_create_blog_content' ); ?>
  *
  * @since 1.6.0
  */
-do_action( 'bp_after_create_blog_content_template' ); ?>
+do_action( 'bp_after_create_blog_content_template' );

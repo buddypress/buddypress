@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage Core
- * @since  2.6.0
+ * @since 2.6.0
  */
 
 // Exit if accessed directly.
@@ -56,7 +56,7 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $key The requested nav slug.
+	 * @param string $key The requested nav slug.
 	 * @return bool True if the nav item is set, false otherwise.
 	 */
 	public function __isset( $key ) {
@@ -68,7 +68,7 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $key The requested nav slug.
+	 * @param string $key The requested nav slug.
 	 * @return mixed The value corresponding to the requested nav item.
 	 */
 	public function __get( $key ) {
@@ -84,8 +84,8 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string  $key   The requested nav slug.
-	 * @param  mixed   $value The value of the nav item.
+	 * @param string $key   The requested nav slug.
+	 * @param mixed  $value The value of the nav item.
 	 */
 	public function __set( $key, $value ) {
 		if ( is_array( $value ) ) {
@@ -100,7 +100,7 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  string $key The nav item slug to get. Optional.
+	 * @param string $key The nav item slug to get. Optional.
 	 * @return mixed       An array of nav item, a single nav item, or null if none found.
 	 */
 	public function get( $key = '' ) {
@@ -210,11 +210,13 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $key     The slug of the main item.
-	 * @param string $sub_key The slug of the sub item.
-	 * @return bool|callable|array False on failure, the screen function(s) on success.
+	 * @param string $slug        The slug of the main item.
+	 * @param string $parent_slug The slug of the sub item.
+	 * @return false|callable|array False on failure, the screen function(s) on success.
 	 */
-	public function delete_nav( $slug, $parent_slug = '' ) {
+	public function delete_nav( $slug = '', $parent_slug = '' ) {
+
+		// Bail if slug is empty
 		if ( empty( $slug ) ) {
 			return false;
 		}
@@ -274,7 +276,7 @@ class BP_Core_Nav {
 			unset( $this->nav[ $this->object_id ][ $nav_item->slug ] );
 
 			// Return the deleted item's screen functions.
-			return array_unique( $screen_functions );
+			return $screen_functions;
 		}
 	}
 
@@ -318,14 +320,14 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  array $args Filters to select the specific primary items. See wp_list_filter().
-	 * @param  bool  $sort True to sort the nav items. False otherwise.
+	 * @param array $args Filters to select the specific primary items. See wp_list_filter().
+	 * @param bool  $sort True to sort the nav items. False otherwise.
 	 * @return array The list of primary objects nav
 	 */
 	public function get_primary( $args = array(), $sort = true ) {
 		$params = wp_parse_args( $args, array( 'primary' => true ) );
 
-		// This parameter is not overridable
+		// This parameter is not overridable.
 		if ( empty( $params['primary'] ) ) {
 			return false;
 		}
@@ -348,14 +350,14 @@ class BP_Core_Nav {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  array $args Filters to select the specific secondary items. See wp_list_filter().
-	 * @param  bool  $sort True to sort the nav items. False otherwise.
+	 * @param array $args Filters to select the specific secondary items. See wp_list_filter().
+	 * @param bool  $sort True to sort the nav items. False otherwise.
 	 * @return array The list of secondary objects nav
 	 */
 	public function get_secondary( $args = array(), $sort = true ) {
 		$params = wp_parse_args( $args, array( 'parent_slug' => '' ) );
 
-		// No need to search children if the parent is not set
+		// No need to search children if the parent is not set.
 		if ( empty( $params['parent_slug'] ) && empty( $params['secondary'] ) ) {
 			return false;
 		}
@@ -385,11 +387,11 @@ class BP_Core_Nav {
 
 		if ( $primary_nav_items ) {
 			foreach( $primary_nav_items as $key_nav => $primary_nav ) {
-				// Try to get the children
+				// Try to get the children.
 				$children = $this->get_secondary( array( 'parent_slug' => $primary_nav->slug, 'user_has_access' => true ) );
 
 				if ( $children ) {
-					$primary_nav_items[ $key_nav ] = clone( $primary_nav );
+					$primary_nav_items[ $key_nav ] = clone $primary_nav;
 					$primary_nav_items[ $key_nav ]->children = $children;
 				}
 			}

@@ -65,10 +65,7 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		}
 
 		// Check that the specified group_id exists, and that the current user can access it.
-		$the_group = groups_get_group( array(
-			'group_id'        => absint( $this->args['group_id'] ),
-			'populate_extras' => true,
-		) );
+		$the_group = groups_get_group( absint( $this->args['group_id'] ) );
 
 		if ( $the_group->id === 0 || ! $the_group->user_has_access ) {
 			return new WP_Error( 'access_denied' );
@@ -95,7 +92,6 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 	public function get_suggestions() {
 		$user_query = array(
 			'count_total'     => '',  // Prevents total count.
-			'populate_extras' => false,
 			'type'            => 'alphabetical',
 
 			'group_role'      => array( 'admin', 'member', 'mod' ),
@@ -118,7 +114,6 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		} else {
 			$group_query = array(
 				'count_total'     => '',  // Prevents total count.
-				'populate_extras' => false,
 				'type'            => 'alphabetical',
 
 				'group_id'        => absint( $this->args['group_id'] ),

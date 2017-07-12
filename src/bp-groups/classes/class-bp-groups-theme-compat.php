@@ -40,7 +40,7 @@ class BP_Groups_Theme_Compat {
 			return;
 
 		// Group Directory.
-		if ( ! bp_current_action() && ! bp_current_item() ) {
+		if ( bp_is_groups_directory() ) {
 			bp_update_is_directory( true, 'groups' );
 
 			/**
@@ -83,6 +83,12 @@ class BP_Groups_Theme_Compat {
 	 * @return array $templates Array of custom templates to look for.
 	 */
 	public function directory_template_hierarchy( $templates ) {
+		// Set up the template hierarchy.
+		$new_templates = array();
+		if ( '' !== bp_get_current_group_directory_type() ) {
+			$new_templates[] = 'groups/index-directory-type-' . sanitize_file_name( bp_get_current_group_directory_type() ) . '.php';
+		}
+		$new_templates[] = 'groups/index-directory.php';
 
 		/**
 		 * Filters the Groups directory page template hierarchy based on priority.
@@ -91,9 +97,7 @@ class BP_Groups_Theme_Compat {
 		 *
 		 * @param array $value Array of default template files to use.
 		 */
-		$new_templates = apply_filters( 'bp_template_hierarchy_groups_directory', array(
-			'groups/index-directory.php'
-		) );
+		$new_templates = apply_filters( 'bp_template_hierarchy_groups_directory', $new_templates );
 
 		// Merge new templates with existing stack.
 		// @see bp_get_theme_compat_templates().

@@ -515,7 +515,7 @@ class BP_XProfile_Query {
 				$compatible_compares = array( '=', 'IN', 'BETWEEN', 'LIKE', 'REGEXP', 'RLIKE', '>', '>=', '<', '<=' );
 
 			// Clauses joined by AND with "negative" operators share a join only if they also share a key.
-			} elseif ( isset( $sibling['field_id'] ) && isset( $clause['field_id'] ) && $sibling['field_id'] === $clause['field_id'] ) {
+			} elseif ( isset( $sibling['field'] ) && isset( $clause['field'] ) && $sibling['field'] === $clause['field'] ) {
 				$compatible_compares = array( '!=', 'NOT IN', 'NOT LIKE' );
 			}
 

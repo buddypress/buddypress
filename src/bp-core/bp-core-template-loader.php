@@ -19,15 +19,11 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.7.0
  *
- * @uses bp_locate_template()
- * @uses load_template()
- * @uses get_template_part()
- *
  * @param string      $slug Template part slug. Used to generate filenames,
  *                          eg 'friends' for 'friends.php'.
  * @param string|null $name Optional. Template part name. Used to generate
  *                          secondary filenames, eg 'personal' for 'activity-personal.php'.
- * @return string Path to located template. See {@link bp_locate_template()}.
+ * @return false|string Path to located template. See {@link bp_locate_template()}.
  */
 function bp_get_template_part( $slug, $name = null ) {
 
@@ -66,6 +62,24 @@ function bp_get_template_part( $slug, $name = null ) {
 }
 
 /**
+ * Get an asset template part.
+ *
+ * Basically the same as {@link bp_get_template_part()}, but with 'assets/'
+ * prepended to the slug.
+ *
+ * @since 2.6.0
+ *
+ * @see bp_get_template_part() for full documentation.
+ *
+ * @param string      $slug Template slug.
+ * @param string|null $name Template name.
+ * @return false|string
+ */
+function bp_get_asset_template_part( $slug, $name = null ) {
+	return bp_get_template_part( "assets/{$slug}", $name );
+}
+
+/**
  * Retrieve the name of the highest priority template file that exists.
  *
  * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
@@ -82,6 +96,11 @@ function bp_get_template_part( $slug, $name = null ) {
  * @return string The template filename if one is located.
  */
 function bp_locate_template( $template_names, $load = false, $require_once = true ) {
+
+	// Bail when there are no templates to locate
+	if ( empty( $template_names ) ) {
+		return false;
+	}
 
 	// No file found yet.
 	$located            = false;
@@ -137,6 +156,49 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	}
 
 	return $located;
+}
+
+/**
+ * Get file data of the highest priority asset that exists.
+ *
+ * Similar to {@link bp_locate_template()}, but for files like CSS and JS.
+ *
+ * @since 2.6.0
+ *
+ * @param string $filename Relative filename to search for.
+ * @return false|array Array of asset data if one is located (includes absolute filepath and URI).
+ *                     Boolean false on failure.
+ */
+function bp_locate_template_asset( $filename ) {
+	// Ensure assets can be located when running from /src/.
+	if ( defined( 'BP_SOURCE_SUBDIRECTORY' ) && 'src' === BP_SOURCE_SUBDIRECTORY ) {
+		$filename = str_replace( '.min', '', $filename );
+	}
+
+	// Use bp_locate_template() to find our asset.
+	$located = bp_locate_template( $filename, false );
+	if ( false === $located ) {
+		return false;
+	}
+
+	// Set up data array.
+	$data = array();
+	$data['file'] = $data['uri'] = $located;
+
+	$find = array(
+		get_theme_root(),
+		bp_get_theme_compat_dir()
+	);
+
+	$replace = array(
+		get_theme_root_uri(),
+		bp_get_theme_compat_url()
+	);
+
+	// Make sure URI path is relative to site URL.
+	$data['uri'] = str_replace( $find, $replace, $data['uri'] );
+
+	return $data;
 }
 
 /**
@@ -298,10 +360,6 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true ) {
  * locations without the use of the other get_*_template() functions.
  *
  * @since 1.7.0
- *
- * @uses bp_set_theme_compat_templates()
- * @uses bp_locate_template()
- * @uses bp_set_theme_compat_template()
  *
  * @param string $type      Filename without extension.
  * @param array  $templates An optional list of template candidates.
@@ -513,7 +571,6 @@ function bp_is_template_included() {
  * @since 1.7.0
  *
  * @global string $pagenow
- * @uses bp_locate_template()
  */
 function bp_load_theme_functions() {
 	global $pagenow, $wp_query;
@@ -548,7 +605,7 @@ function bp_load_theme_functions() {
  * @since 1.7.0
  * @since 2.4.0 Added singular.php to stack
  *
- * @return array Array of possible root level wrapper template files.
+ * @return string Possible root level wrapper template files.
  */
 function bp_get_theme_compat_templates() {
 	return bp_get_query_template( 'buddypress', array(

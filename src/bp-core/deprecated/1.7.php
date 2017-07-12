@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  * @deprecated 1.7.0
- * @uses bp_get_maintenance_mode() To get the BuddyPress maintenance mode
  */
 function bp_maintenance_mode() {
 	echo bp_get_maintenance_mode();
@@ -75,7 +74,7 @@ function bp_get_plugin_sidebar() {
  * step. It also means that the themes won't show for selection on other blogs.
  *
  * @deprecated 1.7.0
- * @package BuddyPress Core
+ * @return array
  */
 function bp_core_allow_default_theme( $themes ) {
 	_deprecated_function( __FUNCTION__, '1.7' );

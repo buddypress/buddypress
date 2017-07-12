@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Load the Forums directory.
+ *
+ * @since 1.1.0
  */
 function bp_forums_directory_forums_setup() {
 
@@ -102,6 +104,8 @@ add_action( 'bp_screens', 'bp_forums_directory_forums_setup', 2 );
 
 /**
  * Load the Topics Started screen.
+ *
+ * @since 1.5.0
  */
 function bp_member_forums_screen_topics() {
 
@@ -124,6 +128,8 @@ function bp_member_forums_screen_topics() {
 
 /**
  * Load the Replied To screen.
+ *
+ * @since 1.5.0
  */
 function bp_member_forums_screen_replies() {
 
@@ -148,6 +154,8 @@ function bp_member_forums_screen_replies() {
  * Load the template content for a user's Favorites forum tab.
  *
  * Note that this feature is not fully implemented at the moment.
+ *
+ * @since 1.5.0
  */
 function bp_member_forums_screen_favorites() {
 
@@ -170,6 +178,8 @@ function bp_member_forums_screen_favorites() {
 
 /**
  * Load a single forum page.
+ *
+ * @since 1.5.0
  */
 function bp_forums_screen_single_forum() {
 
@@ -196,6 +206,8 @@ add_action( 'bp_screens', 'bp_forums_screen_single_forum' );
 
 /**
  * Load a single forum topic page.
+ *
+ * @since 1.5.0
  */
 function bp_forums_screen_single_topic() {
 

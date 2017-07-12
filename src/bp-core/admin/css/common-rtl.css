@@ -12,15 +12,16 @@ TABLE OF CONTENTS:
 	1.1 Version Badge
 	1.2 About Panel
 		1.2.1 Headline Feature
-		1.2.2 Columns
-		1.2.3 Features Section
-		1.2.4 Changelog Section
+		1.2.2 Features Section
+		1.2.3 Changelog Section
 2.0 Dashicons
 	2.1 Top level menus
 	2.2 Settings - Components
 	2.3 Tools
 3.0 User's Lists
 4.0 Emails - Edit page
+5.0 Tools - BuddyPress
+6.0 Plugins page
 ------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------
@@ -33,7 +34,7 @@ TABLE OF CONTENTS:
 .bp-badge {
 	color: #d84800;
 	display: inline-block;
-	font: normal 150px/1 'dashicons' !important;
+	font: 400 150px/1 dashicons !important;
 }
 
 .bp-badge:before {
@@ -46,7 +47,14 @@ TABLE OF CONTENTS:
 	left: 0;
 }
 
+.buddypress code {
+	background-color: #e0e0e0;
+	color: #636363;
+	font-size: 1em;
+}
+
 @media only screen and (max-width: 500px) {
+
 	.about-wrap .bp-badge {
 		position: relative;
 		margin: 10px auto;
@@ -62,139 +70,344 @@ TABLE OF CONTENTS:
 /*
  * 1.2.1 Headline Feature
  */
-.index_page_bp-about .about-wrap .headline-feature,
-.dashboard_page_bp-about .about-wrap .headline-feature {
-	margin-bottom: 2em;
-	text-align: center;
+.buddypress .bp-headline-feature {
+	margin-bottom: 3em;
+	margin-top: 3em;
+	padding: 2em 3em;
 }
 
-.index_page_bp-about .about-wrap .headline-feature h3,
-.index_page_bp-about .headline-feature .headline-title,
-.dashboard_page_bp-about .about-wrap .headline-feature h3,
-.dashboard_page_bp-about .headline-feature .headline-title {
+.buddypress .bp-headline {
+	margin: 0 auto;
+	width: 45em;
+}
+
+.buddypress .bp-headline span.dashicons {
+	background-color: #f1f1f1;
+	color: #d84800;
+	clear: right;
+	font-size: 100px;
+	float: right;
+	height: 100px;
+	line-height: 100px;
+	margin: 0 0 15px 15px;
+	text-align: center;
+	width: 100px;
+}
+
+.buddypress .bp-headline-feature .headline-title {
 	font-size: 2.2em;
-	font-weight: normal;
-	line-height: 1.3;
-	margin: 1.25em 0 0.6em;
+	font-weight: 300;
+	line-height: 1;
+	margin: 0;
 	text-align: center;
 }
 
-.index_page_bp-about .about-wrap .headline-feature p,
-.dashboard_page_bp-about .about-wrap .headline-feature p {
+.buddypress .bp-headline-feature p {
 	font-size: 1.15em;
-	margin: 1.15em auto 0.6em;
-}
-
-.index_page_bp-about .about-wrap .headline-feature .introduction,
-.dashboard_page_bp-about .about-wrap .headline-feature .introduction {
-	font-weight: 600;
+	margin: 1.15em 0 0.6em auto;
 }
 
 /*
- * 1.2.2 Columns
+ * 1.2.2 Features Section
  */
-.index_page_bp-about .about-wrap .two-col > div,
-.dashboard_page_bp-about .about-wrap .two-col > div {
+.buddypress .bp-features-section {
+	border-bottom: 1px solid #ccc;
+	clear: both;
+	margin-top: 3em;
+	overflow: hidden;
+	padding-bottom: 0;
+}
+
+.buddypress .bp-features-section span.dashicons {
+	background-color: #fff;
+	border-radius: 50%;
+	clear: right;
+	color: #d84800;
+	font-size: 50px;
+	float: right;
+	height: 80px;
+	line-height: 80px;
+	margin: 0 0 15px 15px;
+	text-align: center;
+	width: 80px;
+}
+
+.buddypress .bp-features-section .headline-title {
+	font-size: 2em;
+	font-weight: 300;
+	line-height: 1.5;
+	margin: 0 auto 2em;
+	text-align: center;
+}
+
+.buddypress .bp-features-section .bp-feature-with-images {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 5em;
+	padding-bottom: 2em;
+}
+
+.buddypress .bp-features-section .bp-feature,
+.buddypress .bp-features-section .bp-feature-imaged {
+	float: right;
+	margin-bottom: 3em;
+	margin-left: 4.799999999%;
+	width: 47.6%;
+}
+
+.buddypress .bp-features-section .bp-feature.opposite,
+.buddypress .bp-features-section .bp-feature-imaged.anon {
+	margin-left: 0;
+}
+
+.buddypress .bp-features-section .bp-feature code {
+	font-size: 0.95em;
+	line-height: 1.5;
+}
+
+.buddypress .bp-feature:after {
+	content: "";
+}
+
+.buddypress .bp-feature-imaged .feature-title {
+	color: #23282d;
+	font-size: 1.25em;
+	margin-bottom: 0.6em;
+	margin-top: 0;
+}
+
+.buddypress .bp-feature-imaged p {
+	clear: right;
+	font-size: 1.1em;
+}
+
+.buddypress .bp-feature-imaged img {
+	clear: right;
+}
+
+.buddypress .bp-feature .feature-title {
+	font-size: 1.25em;
+	line-height: 1.5;
+	margin-bottom: 0;
+	margin-right: 110px;
+	margin-top: 0;
+	text-align: right;
+}
+
+.buddypress .bp-feature p {
+	margin-right: 110px;
+}
+
+/*
+ * 1.2.3 Changelog Section
+ */
+.buddypress .bp-changelog-section {
+	clear: both;
+	margin-bottom: 3em;
+	margin-top: 3em;
+	overflow: hidden;
+	padding-bottom: 0;
+}
+
+.buddypress .bp-changelog-section:after {
+	content: "";
+}
+
+.buddypress .bp-changelog-section .changelog-title {
+	color: #23282d;
+	font-size: 1.25em;
+	line-height: 1.5;
+	margin: 0 auto 1.5em;
+}
+
+.buddypress .bp-changelog-section .two-col div {
 	float: right;
 	margin-left: 4.799999999%;
 	position: relative;
 	width: 47.6%;
 }
 
-.index_page_bp-about .about-wrap .two-col .last-feature,
-.dashboard_page_bp-about .about-wrap .two-col .last-feature {
+.buddypress .bp-changelog-section .three-col .col {
+	float: right;
+	margin-left: 5%;
+	position: relative;
+	width: 29.95%;
+}
+
+.buddypress .two-col .col:nth-of-type(2n),
+.buddypress .three-col .col:nth-of-type(3n) {
 	margin-left: 0;
 }
 
-/*
- * 1.2.3 Features Section
- */
-.index_page_bp-about .bp-features-section,
-.dashboard_page_bp-about .bp-features-section {
-	margin-bottom: 2em;
-}
-
-.index_page_bp-about .about-wrap .feature-section,
-.dashboard_page_bp-about .about-wrap .feature-section {
-	clear: both;
-	margin-top: 2em;
-	overflow: hidden;
-	padding-bottom: 0;
-}
-
-.index_page_bp-about .about-wrap .changelog .feature-section,
-.dashboard_page_bp-about .about-wrap .changelog .feature-section {
-	margin-top: 0;
-}
-
-.index_page_bp-about .about-wrap .feature-section h3,
-.dashboard_page_bp-about .about-wrap .feature-section h3 {
-	font-size: 1.25em;
-	line-height: 1.5em;
-	margin: 0 0 0.6em;
-}
-
-.index_page_bp-about .about-wrap .changelog h4,
-.dashboard_page_bp-about .about-wrap .changelog h4 {
-	color: #23282d;
-	font-size: 1em;
-	margin: 1.4em 0 0.6em;
-}
-
-/*
- * 1.2.4 Changelog Section
- */
-.index_page_bp-about .about-wrap .changelog,
-.dashboard_page_bp-about .about-wrap .changelog {
-	border-top: 1px solid #eee;
+.buddypress .bp-changelog {
 	margin-bottom: 3em;
 }
 
-.index_page_bp-about .about-wrap .changelog .changelog-title,
-.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
-	font-size: 1.25em;
-	line-height: 1.5em;
-	margin: 1.25em 0 .6em;
+.buddypress .bp-changelog .title {
+	font-size: 1em;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.buddypress .bp-changelog p {
+	margin-bottom: 3em;
+}
+
+.bp-changelog-url {
 	text-align: center;
 }
 
+.bp-assets {
+	clear: both;
+	margin-bottom: 2em;
+	margin-top: 2em;
+}
+
 @media screen and ( max-width: 782px ) {
-	.index_page_bp-about .about-wrap .headline-feature,
-	.dashboard_page_bp-about .about-wrap .headline-feature {
-		max-width: 100%;
+
+	.bp-headline-feature,
+	.bp-features-section,
+	.bp-changelog-section,
+	.bp-assets {
+		margin-right: 20px;
+		margin-left: 20px;
 	}
-	.index_page_bp-about .about-wrap .headline-feature h3,
-	.dahsboard_page_bp-about .about-wrap .headline-feature h3,
-	.index_page_bp-about .about-wrap .headline-feature .headline-title,
-	.dashboard_page_bp-about .about-wrap .headline-feature .headline-title {
-		font-size: 2em;
+
+	.buddypress .bp-headline-feature {
+		padding: 0;
 	}
-	.index_page_bp-about .bp-features-section,
-	.dashboard_page_bp-about .bp-features-section {
+
+	.buddypress .bp-headline {
+		margin: 0;
+		width: 97%;
+	}
+
+	.buddypress .bp-features-section {
+		clear: both;
 		margin-bottom: 0;
+		margin-top: 2em;
+		padding-bottom: 2em;
 	}
-	.index_page_bp-about .about-wrap .feature-section,
-	.dashboard_page_bp-about .about-wrap .feature-section {
-		margin-top: 0;
+
+	.buddypress .bp-features-section .bp-feature-with-images {
+		margin-bottom: 2em;
 	}
-	.index_page_bp-about .about-wrap .two-col > div,
-	.dashboard_page_bp-about .about-wrap .two-col > div {
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		margin-top: 1.25em;
-		padding-bottom: 1em;
+
+	.buddypress .bp-features-section .headline-title {
+		margin-bottom: 1em;
+	}
+
+	.buddypress .bp-changelog-section .changelog-title {
+		font-size: 1.25em;
+		line-height: 1.5;
+		margin-bottom: 0.5em;
+		margin-top: 0.5em;
+	}
+
+	.buddypress .bp-features-section .feature-title,
+	.buddypress .bp-changelog-section .title {
+		font-size: 1.25em;
+		line-height: 1.25;
+		margin-top: 0.6em;
+		text-align: right;
+	}
+
+	.buddypress .bp-features-section .bp-feature,
+	.buddypress .bp-features-section .bp-feature-imaged {
+		clear: both;
+		float: right;
+		margin-bottom: 1em;
+		margin-top: 1em;
+		margin-left: 0;
+		padding-left: 1em;
 		width: 100%;
 	}
-	.index_page_bp-about .changelog .two-col > div,
-	.dashboard_page_bp-about .changelog .two-col > div {
-		margin-top: 0;
-		padding-bottom: 0;
+
+	.buddypress .bp-features-section .bp-feature-imaged p {
+		font-size: 1em;
 	}
-	.index_page_bp-about .about-wrap .changelog .changelog-title,
-	.dashboard_page_bp-about .about-wrap .changelog .changelog-title {
-		text-align: right;
+
+	.buddypress .bp-features-section .bp-feature span {
+		margin-top: 0.33em;
+	}
+
+	.buddypress .bp-feature.opposite .feature-title,
+	.buddypress .bp-feature.opposite p {
+		float: none;
+	}
+
+	.buddypress .bp-changelog-section {
+		clear: both;
+		margin-bottom: 2em;
+		margin-top: 2em;
+	}
+
+	.buddypress .bp-changelog-section .changelog-title {
+		margin-bottom: 1.5em;
+	}
+
+	.buddypress .bp-changelog .title {
+		font-size: 1em;
+	}
+
+	.buddypress .bp-changelog p {
+		margin-bottom: 1em;
+	}
+
+	.buddypress .bp-changelog-section .two-col > div,
+	.buddypress .bp-changelog-section .three-col .col {
+		margin-top: 0;
+		padding-bottom: 0.5em;
+		width: 100%;
 	}
 }
 
+@media screen and ( max-width: 360px ) {
+
+	.buddypress .bp-headline {
+		text-align: center;
+	}
+
+	.buddypress .bp-headline span.dashicons {
+		clear: none;
+		font-size: 80px;
+		float: none;
+		height: 80px;
+		line-height: 80px;
+		margin: 0 auto;
+		width: 80px;
+	}
+
+	.buddypress .bp-headline-feature .headline-title,
+	.buddypress .bp-features-section .headline-title {
+		font-size: 1.5em;
+		line-height: 1.5;
+		text-align: right;
+	}
+
+	.buddypress .bp-headline-feature .headline-title {
+		margin: 1em 0 0;
+	}
+
+	.buddypress .bp-headline-feature p {
+		margin: 1.15em 0 0.6em auto;
+		text-align: right;
+		width: auto;
+	}
+
+	.buddypress .bp-features-section .bp-feature {
+		text-align: center;
+	}
+
+	.buddypress .bp-features-section span.dashicons {
+		float: none;
+	}
+
+	.buddypress .bp-features-section .feature-title,
+	.buddypress .bp-features-section p {
+		margin-right: 0;
+		text-align: right;
+	}
+}
 
 /*------------------------------------------------------------------------------
  * 2.0 Dashicons
@@ -229,7 +442,7 @@ TABLE OF CONTENTS:
 
 #adminmenu #toplevel_page_bp-friends .wp-menu-image:before,
 #adminmenu #toplevel_page_bp-friends_user .wp-menu-image:before,
-#adminmenu #toplevel_page_bp-friends_network .wp-menu-image:before{
+#adminmenu #toplevel_page_bp-friends_network .wp-menu-image:before {
 	content: "\f454";
 }
 
@@ -255,7 +468,7 @@ TABLE OF CONTENTS:
 }
 
 .settings_page_bp-components td.plugin-title span:before {
-	font-family: 'dashicons';
+	font-family: dashicons;
 	font-size: 18px;
 }
 
@@ -308,13 +521,16 @@ TABLE OF CONTENTS:
 }
 
 @media screen and ( max-width: 782px ) {
+
 	.settings_page_bp-components td.plugin-title span {
 		margin-top: 5px;
 	}
+
 	#bp-admin-component-form .wp-list-table.plugins .plugin-title {
 		display: block;
 		width: auto;
 	}
+
 	#bp-admin-component-form .subsubsub {
 		margin-bottom: 0;
 		padding-bottom: 35px;
@@ -360,6 +576,13 @@ body.users_page_bp-signups td.count_sent {
 	text-align: center;
 }
 
+.bp-signups-list table {
+	margin: 1em 0;
+}
+
+.bp-signups-list .column-fields {
+	font-weight: 700;
+}
 
 /*------------------------------------------------------------------------------
  * 4.0 Emails - Edit Page
@@ -374,4 +597,71 @@ body.post-type-bp-email th#situation {
 
 body.post-type-bp-email td.column-situation ul {
 	margin: 0;
+}
+
+body.post-type-bp-email .categorydiv label {
+	display: block;
+	float: right;
+	padding-right: 25px;
+	text-indent: -25px;
+}
+
+/*------------------------------------------------------------------------------
+ * 5.0 Tools - BuddyPress
+ *----------------------------------------------------------------------------*/
+.tools_page_bp-tools .wrap {
+	max-width: 950px;
+}
+
+.tools_page_bp-tools p {
+	line-height: 2;
+}
+
+.tools_page_bp-tools fieldset {
+	margin: 2em 0 0;
+}
+
+.tools_page_bp-tools legend {
+	color: #23282d;
+	font-size: 1.3em;
+	font-weight: 600;
+	margin: 1em 0;
+}
+
+.tools_page_bp-tools label {
+	clear: right;
+	display: block;
+	line-height: 1.5;
+	margin: 0 0 1em;
+	vertical-align: middle;
+}
+
+@media screen and (max-width: 782px) {
+
+	.tools_page_bp-tools p {
+		line-height: 1.5;
+	}
+
+	.tools_page_bp-tools label {
+		margin-bottom: 1em;
+		padding-left: 25px;
+		text-indent: -33px;
+	}
+
+	.tools_page_bp-tools .checkbox {
+		padding: 0 30px 0 0;
+	}
+}
+
+
+/*------------------------------------------------------------------------------
+ * 6.0 Plugins page
+ *----------------------------------------------------------------------------*/
+#buddypress-update.not-shiny .update-message {
+	border-right: 0;
+	padding-right: 36px;
+}
+
+#buddypress-update.not-shiny .update-message:before {
+	content: "\f534";
 }

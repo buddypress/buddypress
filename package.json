@@ -3,30 +3,34 @@
   "bugs": {
     "url": "https://buddypress.trac.wordpress.org/"
   },
-  "description": "BuddyPress helps you build any type of community website using WordPress, with member profiles, activity streams, user groups, messaging, and more.",
+  "description": "BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!",
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-checktextdomain": "~1.0.0",
-    "grunt-contrib-clean": "~1.0.0",
+    "grunt": "~1.0.1",
+    "grunt-checktextdomain": "~1.0.1",
+    "grunt-contrib-clean": "~1.1.0",
     "grunt-contrib-copy": "~1.0.0",
-    "grunt-contrib-cssmin": "~0.14.0",
-    "grunt-contrib-imagemin": "~1.0.0",
-    "grunt-contrib-jshint": "~1.0.0",
-    "grunt-contrib-uglify": "~0.10.1",
+    "grunt-contrib-cssmin": "~2.2.0",
+    "grunt-contrib-imagemin": "~1.0.1",
+    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-contrib-uglify": "~3.0.1",
     "grunt-contrib-watch": "~1.0.0",
-    "grunt-cssjanus": "~0.2.4",
-    "grunt-exec": "~0.4.6",
-    "grunt-check-dependencies": "~0.12.0",
+    "grunt-exec": "~2.0.0",
+    "grunt-check-dependencies": "~1.0.0",
     "grunt-jsvalidate": "~0.2.2",
-    "grunt-legacy-util": "^0.2.0",
-    "grunt-patch-wordpress": "~0.3.0",
-    "grunt-sass": "~1.1.0",
-    "grunt-scss-lint": "~0.3.8",
-    "grunt-wp-i18n": "~0.5.3",
-    "matchdep": "~1.0.0"
+    "grunt-legacy-util": "^1.0.0",
+    "grunt-patch-wordpress": "~0.4.2",
+    "grunt-rtlcss": "~2.0.1",
+    "grunt-sass": "~2.0.0",
+    "grunt-scss-lint": "~0.5.0",
+    "grunt-stylelint": "^0.8.0",
+    "grunt-wp-i18n": "~1.0.0",
+    "matchdep": "~1.0.1",
+    "postcss-scss": "~1.0.0",
+    "stylelint": "~7.10.1",
+    "stylelint-config-wordpress": "~11.0.0"
   },
   "engines": {
-    "node": ">=4.2.1"
+    "node": ">=6.9.1"
   },
   "keywords": [
     "activity",
@@ -46,5 +50,5 @@
     "type": "svn",
     "url": "https://buddypress.svn.wordpress.org/trunk/"
   },
-  "version": "2.5.0"
+  "version": "2.9.0-beta2"
 }

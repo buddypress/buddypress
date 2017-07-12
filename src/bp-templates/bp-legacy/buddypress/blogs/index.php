@@ -33,9 +33,18 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 	 */
 	do_action( 'bp_before_directory_blogs_content' ); ?>
 
-	<div id="blog-dir-search" class="dir-search" role="search">
-		<?php bp_directory_blogs_search_form(); ?>
-	</div><!-- #blog-dir-search -->
+	<?php /* Backward compatibility for inline search form. Use template part instead. */ ?>
+	<?php if ( has_filter( 'bp_directory_blogs_search_form' ) ) : ?>
+
+		<div id="blog-dir-search" class="dir-search" role="search">
+			<?php bp_directory_blogs_search_form(); ?>
+		</div><!-- #blog-dir-search -->
+
+	<?php else : ?>
+
+		<?php bp_get_template_part( 'common/search/dir-search-form' ); ?>
+
+	<?php endif; ?>
 
 	<?php
 
@@ -48,7 +57,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 
 	<form action="" method="post" id="blogs-directory-form" class="dir-form">
 
-		<div class="item-list-tabs" role="navigation">
+		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Sites directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<li class="selected" id="blogs-all"><a href="<?php bp_root_domain(); ?>/<?php bp_blogs_root_slug(); ?>"><?php printf( __( 'All Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count() . '</span>' ); ?></a></li>
 
@@ -70,7 +79,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 			</ul>
 		</div><!-- .item-list-tabs -->
 
-		<div class="item-list-tabs" id="subnav" role="navigation">
+		<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Sites directory secondary navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 
 				<?php
@@ -103,6 +112,11 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 				</li>
 			</ul>
 		</div>
+
+		<h2 class="bp-screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Sites directory', 'buddypress' );
+		?></h2>
 
 		<div id="blogs-dir-list" class="blogs dir-list">
 

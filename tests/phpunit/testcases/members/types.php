@@ -285,7 +285,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		bp_set_member_type( $u1, 'foo' );
 
 		// Fetch a term ID.
-		$terms = get_terms( 'bp_member_type', array( 'hide_empty' => false, 'fields' => 'all' ) );
+		$terms = get_terms( bp_get_member_type_tax_name(), array( 'hide_empty' => false, 'fields' => 'all' ) );
 
 		// Make sure the user's ID matches a term ID, to force a cache confusion.
 		$u2 = $this->factory->user->create();
@@ -295,7 +295,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		bp_set_member_type( $new_user_id, 'foo' );
 
 		// Reprime the taxonomy cache.
-		$terms = get_terms( 'bp_member_type', array( 'hide_empty' => false, 'fields' => 'all' ) );
+		$terms = get_terms( bp_get_member_type_tax_name(), array( 'hide_empty' => false, 'fields' => 'all' ) );
 
 		$this->assertSame( 'foo', bp_get_member_type( $new_user_id, true ) );
 	}
@@ -391,5 +391,17 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$this->assertTrue( bp_has_member_type( $u1, 'foo' ) );
 		$types = bp_get_member_type( $u1, false );
 		$this->assertEqualSets( array( 'bar', 'foo' ), $types );
+	}
+
+	public function test_bp_get_member_type_should_not_return_unregistered_types() {
+		$u1 = $this->factory->user->create();
+		bp_register_member_type( 'foo' );
+		bp_set_member_type( $u1, 'foo' );
+
+		// Directly set a type that hasn't been registered.
+		bp_set_object_terms( $u1, 'ugh', bp_get_member_type_tax_name(), true );
+
+		$type = bp_get_member_type( $u1, false );
+		$this->assertEquals( array( 'foo' ), $type );
 	}
 }

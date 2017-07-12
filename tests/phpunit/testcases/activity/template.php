@@ -1031,10 +1031,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'content'   => 'bar foo',
 		) );
 
-		$bp->groups->current_group = groups_get_group( array(
-			'group_id'        => $g,
-			'populate_extras' => true,
-		) );
+		$bp->groups->current_group = groups_get_group( $g );
 
 		// On group's home the scope is set to 'home'
 		$bp->current_action = 'home';
@@ -1088,10 +1085,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 			'content'   => 'bar foo',
 		) );
 
-		$bp->groups->current_group = groups_get_group( array(
-			'group_id'        => $g,
-			'populate_extras' => true,
-		) );
+		$bp->groups->current_group = groups_get_group( $g );
 
 		// On group's home the scope is set to 'home'
 		$bp->current_action = 'home';

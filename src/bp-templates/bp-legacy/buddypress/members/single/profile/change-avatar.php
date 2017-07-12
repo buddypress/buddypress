@@ -8,7 +8,7 @@
 
 ?>
 
-<h4><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h4>
+<h2><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h2>
 
 <?php
 
@@ -31,7 +31,10 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 			<p><?php _e( 'Click below to select a JPG, GIF or PNG format photo from your computer and then click \'Upload Image\' to proceed.', 'buddypress' ); ?></p>
 
 			<p id="avatar-upload">
-				<label for="file" class="bp-screen-reader-text"><?php _e( 'Select an image', 'buddypress' ); ?></label>
+				<label for="file" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Select an image', 'buddypress' );
+				?></label>
 				<input type="file" name="file" id="file" />
 				<input type="submit" name="upload" id="upload" value="<?php esc_attr_e( 'Upload Image', 'buddypress' ); ?>" />
 				<input type="hidden" name="action" id="action" value="bp_avatar_upload" />
@@ -39,7 +42,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 			<?php if ( bp_get_user_has_avatar() ) : ?>
 				<p><?php _e( "If you'd like to delete your current profile photo but not upload a new one, please use the delete profile photo button.", 'buddypress' ); ?></p>
-				<p><a class="button edit" href="<?php bp_avatar_delete_link(); ?>" title="<?php esc_attr_e( 'Delete Profile Photo', 'buddypress' ); ?>"><?php _e( 'Delete My Profile Photo', 'buddypress' ); ?></a></p>
+				<p><a class="button edit" href="<?php bp_avatar_delete_link(); ?>"><?php _e( 'Delete My Profile Photo', 'buddypress' ); ?></a></p>
 			<?php endif; ?>
 
 		<?php endif; ?>
@@ -78,7 +81,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 
 <?php else : ?>
 
-	<p><?php _e( 'Your profile photo will be used on your profile and throughout the site. To change your profile photo, please create an account with <a href="http://gravatar.com">Gravatar</a> using the same email address as you used to register with this site.', 'buddypress' ); ?></p>
+	<p><?php _e( 'Your profile photo will be used on your profile and throughout the site. To change your profile photo, please create an account with <a href="https://gravatar.com">Gravatar</a> using the same email address as you used to register with this site.', 'buddypress' ); ?></p>
 
 <?php endif; ?>
 
@@ -89,4 +92,4 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_profile_avatar_upload_content' ); ?>
+do_action( 'bp_after_profile_avatar_upload_content' );

@@ -15,6 +15,11 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 <?php if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) ) ) : ?>
 
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Starred messages', 'buddypress' );
+	?></h2>
+
 	<div class="pagination no-ajax" id="user-pag">
 
 		<div class="pag-count" id="messages-dir-count">
@@ -45,13 +50,16 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	 */
 	do_action( 'bp_before_member_messages_threads' ); ?>
 
-	<form action="<?php echo bp_loggedin_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ?>/bulk-manage/" method="post" id="messages-bulk-management">
+	<form action="<?php echo bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ?>/bulk-manage/" method="post" id="messages-bulk-management">
 
 		<table id="message-threads" class="messages-notices">
 
 			<thead>
 				<tr>
-					<th scope="col" class="thread-checkbox bulk-select-all"><input id="select-all-messages" type="checkbox"><label class="bp-screen-reader-text" for="select-all-messages"><?php _e( 'Select all', 'buddypress' ); ?></label></th>
+					<th scope="col" class="thread-checkbox bulk-select-all"><input id="select-all-messages" type="checkbox"><label class="bp-screen-reader-text" for="select-all-messages"><?php
+						/* translators: accessibility text */
+						_e( 'Select all', 'buddypress' );
+					?></label></th>
 					<th scope="col" class="thread-from"><?php _e( 'From', 'buddypress' ); ?></th>
 					<th scope="col" class="thread-info"><?php _e( 'Subject', 'buddypress' ); ?></th>
 
@@ -68,7 +76,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 					do_action( 'bp_messages_inbox_list_header' ); ?>
 
 					<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
-						<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php _e( 'Star', 'buddypress' ); ?></span></span></th>
+						<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php
+							/* translators: accessibility text */
+							_e( 'Star', 'buddypress' );
+						?></span></span></th>
 					<?php endif; ?>
 
 					<th scope="col" class="thread-options"><?php _e( 'Actions', 'buddypress' ); ?></th>
@@ -81,7 +92,10 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 					<tr id="m-<?php bp_message_thread_id(); ?>" class="<?php bp_message_css_class(); ?><?php if ( bp_message_thread_has_unread() ) : ?> unread<?php else: ?> read<?php endif; ?>">
 						<td class="bulk-select-check">
-							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text"><?php _e( 'Select this message', 'buddypress' ); ?></span></label>
+							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text"><?php
+								/* translators: accessibility text */
+								_e( 'Select this message', 'buddypress' );
+							?></span></label>
 						</td>
 
 						<?php if ( 'sentbox' != bp_current_action() ) : ?>
@@ -101,7 +115,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						<?php endif; ?>
 
 						<td class="thread-info">
-							<p><a href="<?php bp_message_thread_view_link(); ?>" title="<?php esc_attr_e( "View Message", 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
+							<p><a href="<?php bp_message_thread_view_link(); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( "View Message", 'buddypress' ); ?>" aria-label="<?php esc_attr_e( "View Message", 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
 							<p class="thread-excerpt"><?php bp_message_thread_excerpt(); ?></p>
 						</td>
 
@@ -189,4 +203,4 @@ do_action( 'bp_before_member_messages_loop' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_member_messages_loop' ); ?>
+do_action( 'bp_after_member_messages_loop' );

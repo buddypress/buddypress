@@ -17,10 +17,12 @@ do_action( 'bp_before_group_send_invites_content' ); ?>
 /* Does the user have friends that could be invited to the group? */
 if ( bp_get_new_group_invite_friend_list() ) : ?>
 
+	<h2 class="bp-screen-reader-text"><?php _e( 'Send invites', 'buddypress' ); ?></h2>
+
 	<?php /* 'send-invite-form' is important for AJAX support */ ?>
 	<form action="<?php bp_group_send_invite_form_action(); ?>" method="post" id="send-invite-form" class="standard-form">
 
-		<div class="invite">
+		<div class="invite" aria-live="polite" aria-atomic="false" aria-relevant="all">
 			<?php bp_get_template_part( 'groups/single/invites-loop' ); ?>
 		</div>
 
@@ -61,4 +63,4 @@ else : ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_group_send_invites_content' ); ?>
+do_action( 'bp_after_group_send_invites_content' );

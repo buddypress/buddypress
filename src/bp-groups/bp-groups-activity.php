@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.1.0
  *
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function groups_register_activity_actions() {
 	$bp = buddypress();
@@ -98,10 +98,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
 function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group = groups_get_group( array(
-		'group_id'        => $activity->item_id,
-		'populate_extras' => false,
-	) );
+	$group      = groups_get_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	$action = sprintf( __( '%1$s created the group %2$s', 'buddypress'), $user_link, $group_link );
@@ -129,10 +126,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group = groups_get_group( array(
-		'group_id'        => $activity->item_id,
-		'populate_extras' => false,
-	) );
+	$group      = groups_get_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	$action = sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), $user_link, $group_link );
@@ -171,10 +165,7 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 function bp_groups_format_activity_action_group_details_updated( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group = groups_get_group( array(
-		'group_id'        => $activity->item_id,
-		'populate_extras' => false,
-	) );
+	$group      = groups_get_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/*
@@ -198,6 +189,9 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 	// Description only.
 	} elseif ( ! empty( $changed['description']['old'] ) && ! empty( $changed['description']['new'] ) ) {
 		$action = sprintf( __( '%1$s changed the description of the group %2$s from "%3$s" to "%4$s"', 'buddypress' ), $user_link, $group_link, esc_html( $changed['description']['old'] ), esc_html( $changed['description']['new'] ) );
+
+	} elseif ( ! empty( $changed['slug']['old'] ) && ! empty( $changed['slug']['new'] ) ) {
+		$action = sprintf( __( '%1$s changed the permalink of the group %2$s.', 'buddypress' ), $user_link, $group_link );
 
 	}
 
@@ -346,7 +340,7 @@ add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scop
  *     @type bool   $hide_sitewide Default: True if the current group is not
  *                                 public, otherwise false.
  * }
- * @return bool See {@link bp_activity_add()}.
+ * @return WP_Error|bool|int See {@link bp_activity_add()}.
  */
 function groups_record_activity( $args = '' ) {
 
@@ -360,7 +354,7 @@ function groups_record_activity( $args = '' ) {
 		if ( bp_get_current_group_id() == $args['item_id'] ) {
 			$group = groups_get_current_group();
 		} else {
-			$group = groups_get_group( array( 'group_id' => $args['item_id'] ) );
+			$group = groups_get_group( $args['item_id'] );
 		}
 
 		if ( isset( $group->status ) && 'public' != $group->status ) {
@@ -379,7 +373,8 @@ function groups_record_activity( $args = '' ) {
 		'item_id'           => false,
 		'secondary_item_id' => false,
 		'recorded_time'     => bp_core_current_time(),
-		'hide_sitewide'     => $hide_sitewide
+		'hide_sitewide'     => $hide_sitewide,
+		'error_type'        => 'bool'
 	) );
 
 	return bp_activity_add( $r );
@@ -392,7 +387,7 @@ function groups_record_activity( $args = '' ) {
  *
  * @param int $group_id Optional. The ID of the group whose last_activity is
  *                      being updated. Default: the current group's ID.
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function groups_update_last_activity( $group_id = 0 ) {
 
@@ -419,7 +414,7 @@ add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
  *
  * @param int $user_id  ID of the user joining the group.
  * @param int $group_id ID of the group.
- * @return bool|null False on failure.
+ * @return false|null False on failure.
  */
 function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 
@@ -429,7 +424,7 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	}
 
 	// Get the group so we can get it's name.
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 
 	/**
 	 * Filters the 'membership_accepted' activity actions.
@@ -460,7 +455,7 @@ add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_act
  * @param  int             $group_id       ID of the group.
  * @param  BP_Groups_Group $old_group      Group object before the details had been changed.
  * @param  bool            $notify_members True if the admin has opted to notify group members, otherwise false.
- * @return int|bool The ID of the activity on success. False on error.
+ * @return null|WP_Error|bool|int The ID of the activity on success. False on error.
  */
 function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $notify_members ) {
 
@@ -469,7 +464,7 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 		return false;
 	}
 
-	if ( ! isset( $old_group->name ) || ! isset( $old_group->description ) ) {
+	if ( ! isset( $old_group->name ) || ! isset( $old_group->slug ) || ! isset( $old_group->description ) ) {
 		return false;
 	}
 
@@ -494,6 +489,13 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 		$changed['name'] = array(
 			'old' => $old_group->name,
 			'new' => $group->name,
+		);
+	}
+
+	if ( $group->slug !== $old_group->slug ) {
+		$changed['slug'] = array(
+			'old' => $old_group->slug,
+			'new' => $group->slug,
 		);
 	}
 

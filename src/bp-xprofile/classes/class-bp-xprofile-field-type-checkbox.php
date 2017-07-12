@@ -67,11 +67,14 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			$user_id = bp_displayed_user_id();
 		} ?>
 
-		<fieldset class="checkbox">
 			<legend>
 				<?php bp_the_profile_field_name(); ?>
 				<?php bp_the_profile_field_required_label(); ?>
 			</legend>
+
+			<?php if ( bp_get_the_profile_field_description() ) : ?>
+				<p class="description" tabindex="0"><?php bp_the_profile_field_description(); ?></p>
+			<?php endif; ?>
 
 			<?php
 
@@ -81,8 +84,6 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			<?php bp_the_profile_field_options( array(
 				'user_id' => $user_id
 			) ); ?>
-
-		</fieldset>
 
 		<?php
 	}
@@ -156,7 +157,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 
 			$new_html = sprintf( '<label for="%3$s" class="option-label"><input %1$s type="checkbox" name="%2$s" id="%3$s" value="%4$s">%5$s</label>',
 				$selected,
-				esc_attr( "field_{$this->field_obj->id}[]" ),
+				esc_attr( bp_get_the_profile_field_input_name() . '[]' ),
 				esc_attr( "field_{$options[$k]->id}_{$k}" ),
 				esc_attr( stripslashes( $options[$k]->name ) ),
 				esc_html( stripslashes( $options[$k]->name ) )
@@ -176,7 +177,10 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 			$html .= apply_filters( 'bp_get_the_profile_field_options_checkbox', $new_html, $options[$k], $this->field_obj->id, $selected, $k );
 		}
 
-		echo $html;
+		printf( '<div id="%1$s" class="input-options checkbox-options">%2$s</div>',
+			esc_attr( 'field_' . $this->field_obj->id ),
+			$html
+		);
 	}
 
 	/**

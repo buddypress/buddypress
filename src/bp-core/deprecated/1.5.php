@@ -508,7 +508,7 @@ function bp_dtheme_deprecated() {
 	 * @deprecated No longer required.
 	 * @param string $oldvalue Previous value of get_option( 'page_on_front' )
 	 * @param string $oldvalue New value of get_option( 'page_on_front' )
-	 * @return bool|string
+	 * @return false|string
 	 * @since 1.2.0
 	 */
 	function bp_dtheme_page_on_front_update( $oldvalue, $newvalue ) {

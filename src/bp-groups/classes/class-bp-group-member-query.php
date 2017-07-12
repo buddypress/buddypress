@@ -330,7 +330,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		}
 
 		// Don't filter other BP_User_Query objects on the same page.
-		remove_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
+		remove_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10 );
 	}
 
 	/**

@@ -12,16 +12,11 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-core-members-template.php';
-}
-
 /**
  * Output the profile component slug.
  *
  * @since 2.4.0
  *
- * @uses bp_get_profile_slug()
  */
 function bp_profile_slug() {
 	echo bp_get_profile_slug();
@@ -50,7 +45,6 @@ function bp_profile_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_members_slug()
  */
 function bp_members_slug() {
 	echo bp_get_members_slug();
@@ -79,7 +73,6 @@ function bp_members_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_members_root_slug()
  */
 function bp_members_root_slug() {
 	echo bp_get_members_root_slug();
@@ -138,7 +131,6 @@ function bp_members_member_type_base() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_members_directory_permalink()
  */
 function bp_members_directory_permalink() {
 	echo esc_url( bp_get_members_directory_permalink() );
@@ -166,8 +158,6 @@ function bp_members_directory_permalink() {
  * Output member type directory permalink.
  *
  * @since 2.5.0
- *
- * @uses bp_get_member_type_directory_permalink()
  *
  * @param string $member_type Optional. Member type.
  */
@@ -215,7 +205,6 @@ function bp_member_type_directory_permalink( $member_type = '' ) {
  *
  * @since 1.5.0
  *
- * @uses bp_get_signup_slug()
  */
 function bp_signup_slug() {
 	echo bp_get_signup_slug();
@@ -253,7 +242,6 @@ function bp_signup_slug() {
  *
  * @since 1.5.0
  *
- * @uses bp_get_activate_slug()
  */
 function bp_activate_slug() {
 	echo bp_get_activate_slug();
@@ -430,11 +418,13 @@ function bp_has_members( $args = '' ) {
 	 * Filters whether or not BuddyPress has members to iterate over.
 	 *
 	 * @since 1.2.4
+	 * @since 2.6.0 Added the `$r` parameter
 	 *
 	 * @param bool  $value            Whether or not there are members to iterate over.
 	 * @param array $members_template Populated $members_template global.
+	 * @param array $r                Array of arguments passed into the BP_Core_Members_Template class.
 	 */
-	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template );
+	return apply_filters( 'bp_has_members', $members_template->has_members(), $members_template, $r );
 }
 
 /**
@@ -556,7 +546,6 @@ function bp_members_pagination_links() {
  *
  * @since 1.2.0
  *
- * @uses bp_get_member_user_id()
  */
 function bp_member_user_id() {
 	echo bp_get_member_user_id();
@@ -617,7 +606,7 @@ function bp_member_class( $classes = array() ) {
 		if ( ! empty( $members_template->member->last_activity ) ) {
 
 			// Calculate some times.
-			$current_time  = strtotime( bp_core_current_time() );
+			$current_time  = bp_core_current_time( true, 'timestamp' );
 			$last_activity = strtotime( $members_template->member->last_activity );
 			$still_online  = strtotime( '+5 minutes', $last_activity );
 
@@ -772,10 +761,12 @@ function bp_member_avatar( $args = '' ) {
 	 * Filters a members avatar.
 	 *
 	 * @since 1.2.0
+	 * @since 2.6.0 Added the `$args` parameter.
 	 *
-	 * @param string $value Formatted HTML <img> element, or raw avatar URL based on $html arg.
+	 * @param string       $value Formatted HTML <img> element, or raw avatar URL based on $html arg.
+	 * @param array|string $args  See {@link bp_get_member_avatar()}.
 	 */
-	echo apply_filters( 'bp_member_avatar', bp_get_member_avatar( $args ) );
+	echo apply_filters( 'bp_member_avatar', bp_get_member_avatar( $args ), $args );
 }
 	/**
 	 * Get a member's avatar.
@@ -820,10 +811,12 @@ function bp_member_avatar( $args = '' ) {
 		 * Filters a members avatar.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $value Formatted HTML <img> element, or raw avatar URL based on $html arg.
+		 * @param array  $r     Array of parsed arguments. See {@link bp_get_member_avatar()}.
 		 */
-		return apply_filters( 'bp_get_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->id, 'type' => $type, 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email ) ) );
+		return apply_filters( 'bp_get_member_avatar', bp_core_fetch_avatar( array( 'item_id' => $members_template->member->id, 'type' => $type, 'alt' => $alt, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $members_template->member->user_email ) ), $r );
 	}
 
 /**
@@ -832,7 +825,7 @@ function bp_member_avatar( $args = '' ) {
  * @since 1.2.0
  */
 function bp_member_permalink() {
-	echo bp_get_member_permalink();
+	echo esc_url( bp_get_member_permalink() );
 }
 	/**
 	 * Get the permalink for the current member in the loop.
@@ -859,7 +852,7 @@ function bp_member_permalink() {
 	 *
 	 * @since 1.2.0
 	 */
-	function bp_member_link() { echo bp_get_member_permalink(); }
+	function bp_member_link() { echo esc_url( bp_get_member_permalink() ); }
 
 	/**
 	 * Alias of {@link bp_get_member_permalink()}.
@@ -936,7 +929,7 @@ function bp_member_name() {
  *
  * @since 1.2.0
  *
- * @param array $args See {@link bp_get_member_last_active()}.
+ * @param array $args {@see bp_get_member_last_active()}.
  */
 function bp_member_last_active( $args = array() ) {
 	echo bp_get_member_last_active( $args );
@@ -945,13 +938,14 @@ function bp_member_last_active( $args = array() ) {
 	 * Return the current member's last active time.
 	 *
 	 * @since 1.2.0
+	 * @since 2.7.0 Added 'relative' as a parameter to $args.
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
-	 *     @type mixed $active_format If true, formatted "active 5 minutes
-	 *                                ago". If false, formatted "5 minutes ago".
-	 *                                If string, should be sprintf'able like
-	 *                                'last seen %s ago'.
+	 *     @type mixed $active_format If true, formatted "active 5 minutes ago". If false, formatted "5 minutes
+	 *                                ago". If string, should be sprintf'able like 'last seen %s ago'.
+	 *     @type bool  $relative      If true, will return relative time "5 minutes ago". If false, will return
+	 *                                date from database. Default: true.
 	 * }
 	 * @return string
 	 */
@@ -960,7 +954,8 @@ function bp_member_last_active( $args = array() ) {
 
 		// Parse the activity format.
 		$r = bp_parse_args( $args, array(
-			'active_format' => true
+			'active_format' => true,
+			'relative'      => true,
 		) );
 
 		// Backwards compatibility for anyone forcing a 'true' active_format.
@@ -970,13 +965,18 @@ function bp_member_last_active( $args = array() ) {
 
 		// Member has logged in at least one time.
 		if ( isset( $members_template->member->last_activity ) ) {
+			// We do not want relative time, so return now.
+			// @todo Should the 'bp_member_last_active' filter be applied here?
+			if ( ! $r['relative'] ) {
+				return esc_attr( $members_template->member->last_activity );
+			}
 
 			// Backwards compatibility for pre 1.5 'ago' strings.
 			$last_activity = ! empty( $r['active_format'] )
 				? bp_core_get_last_activity( $members_template->member->last_activity, $r['active_format'] )
 				: bp_core_time_since( $members_template->member->last_activity );
 
-			// Member has never logged in or been active.
+		// Member has never logged in or been active.
 		} else {
 			$last_activity = __( 'Never active', 'buddypress' );
 		}
@@ -997,7 +997,7 @@ function bp_member_last_active( $args = array() ) {
  *
  * @since 1.2.0
  *
- * @param array|string $args Array of arguments for latest update.
+ * @param array|string $args {@see bp_get_member_latest_update()}.
  */
 function bp_member_latest_update( $args = '' ) {
 	echo bp_get_member_latest_update( $args );
@@ -1033,10 +1033,12 @@ function bp_member_latest_update( $args = '' ) {
 		 * Filters the excerpt of the latest update for current member in the loop.
 		 *
 		 * @since 1.2.5
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $value Excerpt of the latest update for current member in the loop.
+		 * @param array  $r     Array of parsed arguments.
 		 */
-		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ) );
+		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ), $r );
 
 		$update_content = sprintf( _x( '- &quot;%s&quot;', 'member latest update in member directory', 'buddypress' ), $update_content );
 
@@ -1052,10 +1054,12 @@ function bp_member_latest_update( $args = '' ) {
 		 * Filters the latest update from the current member in the loop.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string $update_content Formatted latest update for current member.
+		 * @param array  $r              Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_member_latest_update', $update_content );
+		return apply_filters( 'bp_get_member_latest_update', $update_content, $r );
 	}
 
 /**
@@ -1138,29 +1142,68 @@ function bp_member_profile_data( $args = '' ) {
 		 * Filters resulting piece of member profile data.
 		 *
 		 * @since 1.2.0
+		 * @since 2.6.0 Added the `$r` parameter.
 		 *
 		 * @param string|bool $data Profile data if found, otherwise false.
+		 * @param array       $r    Array of parsed arguments.
 		 */
-		return apply_filters( 'bp_get_member_profile_data', $data );
+		$data = apply_filters( 'bp_get_member_profile_data', $data, $r );
+
+		/**
+		 * Filters the resulting piece of member profile data by field type.
+		 *
+		 * This is a dynamic filter based on field type of the current field requested.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param string|bool $data Profile data if found, otherwise false.
+		 * @param array       $r    Array of parsed arguments.
+		 */
+		if ( ! empty( $profile_data[ $r['field'] ]['field_type'] ) ) {
+			$data = apply_filters( 'bp_get_member_profile_data_' . $profile_data[ $r['field'] ]['field_type'], $data, $r );
+		}
+
+		return $data;
 	}
 
 /**
  * Output the 'registered [x days ago]' string for the current member.
  *
  * @since 1.2.0
+ * @since 2.7.0 Added $args as a parameter.
+ *
+ * @param array $args Optional. {@see bp_get_member_registered()}
  */
-function bp_member_registered() {
-	echo bp_get_member_registered();
+function bp_member_registered( $args = array() ) {
+	echo bp_get_member_registered( $args );
 }
 	/**
 	 * Get the 'registered [x days ago]' string for the current member.
 	 *
 	 * @since 1.2.0
+	 * @since 2.7.0 Added $args as a parameter.
+	 *
+	 * @param array $args {
+	 *     Array of optional parameters.
+	 *
+	 *     @type bool $relative Optional. If true, returns relative registered date. eg. registered 5 months ago.
+	 *                          If false, returns registered date value from database.
+	 * }
 	 *
 	 * @return string
 	 */
-	function bp_get_member_registered() {
+	function bp_get_member_registered( $args = array() ) {
 		global $members_template;
+
+		$r = wp_parse_args( $args, array(
+			'relative' => true,
+		) );
+
+		// We do not want relative time, so return now.
+		// @todo Should the 'bp_member_registered' filter be applied here?
+		if ( ! $r['relative'] ) {
+			return esc_attr( $members_template->member->user_registered );
+		}
 
 		$registered = esc_attr( bp_core_get_last_activity( $members_template->member->user_registered, _x( 'registered %s', 'Records the timestamp that the user registered into the activity stream', 'buddypress' ) ) );
 
@@ -1326,6 +1369,98 @@ function bp_get_loggedin_user_nav() {
 }
 
 /**
+ * Output the contents of the current user's home page.
+ *
+ * @since 2.6.0
+ */
+function bp_displayed_user_front_template_part() {
+	$located = bp_displayed_user_get_front_template();
+
+	if ( false !== $located ) {
+		$slug = str_replace( '.php', '', $located );
+		$name = null;
+
+		/**
+		 * Let plugins adding an action to bp_get_template_part get it from here
+		 *
+		 * @param string $slug Template part slug requested.
+		 * @param string $name Template part name requested.
+		 */
+		do_action( 'get_template_part_' . $slug, $slug, $name );
+
+		load_template( $located, true );
+	}
+
+	return $located;
+}
+
+/**
+ * Locate a custom user front template if it exists.
+ *
+ * @since 2.6.0
+ *
+ * @param  object|null $displayed_user Optional. Falls back to current user if not passed.
+ * @return string|bool                 Path to front template on success; boolean false on failure.
+ */
+function bp_displayed_user_get_front_template( $displayed_user = null ) {
+	if ( ! is_object( $displayed_user ) || empty( $displayed_user->id ) ) {
+		$displayed_user = bp_get_displayed_user();
+	}
+
+	if ( ! isset( $displayed_user->id ) ) {
+		return false;
+	}
+
+	if ( isset( $displayed_user->front_template ) ) {
+		return $displayed_user->front_template;
+	}
+
+	// Init the hierarchy
+	$template_names = array(
+		'members/single/front-id-' . sanitize_file_name( $displayed_user->id ) . '.php',
+		'members/single/front-nicename-' . sanitize_file_name( $displayed_user->userdata->user_nicename ) . '.php',
+	);
+
+	/**
+	 * Check for member types and add it to the hierarchy
+	 *
+	 * Make sure to register your member
+	 * type using the hook 'bp_register_member_types'
+	 */
+	if ( bp_get_member_types() ) {
+		$displayed_user_member_type = bp_get_member_type( $displayed_user->id );
+		if ( ! $displayed_user_member_type ) {
+			$displayed_user_member_type = 'none';
+		}
+
+		$template_names[] = 'members/single/front-member-type-' . sanitize_file_name( $displayed_user_member_type )   . '.php';
+	}
+
+	// Add The generic template to the end of the hierarchy
+	$template_names[] = 'members/single/front.php';
+
+	/**
+	 * Filters the hierarchy of user front templates corresponding to a specific user.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param array  $template_names Array of template paths.
+	 */
+	return bp_locate_template( apply_filters( 'bp_displayed_user_get_front_template', $template_names ), false, true );
+}
+
+/**
+ * Check if the displayed user has a custom front template.
+ *
+ * @since 2.6.0
+ */
+function bp_displayed_user_has_front_template() {
+	$displayed_user = bp_get_displayed_user();
+
+	return ! empty( $displayed_user->front_template );
+}
+
+/**
  * Render the navigation markup for the displayed user.
  *
  * @since 1.1.0
@@ -1387,7 +1522,7 @@ function bp_displayed_user_use_cover_image_header() {
  *
  * @see bp_get_loggedin_user_avatar() for a description of params.
  *
- * @param array|string $args Array of arguments for logged in user avatar.
+ * @param array|string $args {@see bp_get_loggedin_user_avatar()}.
  */
 function bp_loggedin_user_avatar( $args = '' ) {
 	echo bp_get_loggedin_user_avatar( $args );
@@ -1429,6 +1564,8 @@ function bp_loggedin_user_avatar( $args = '' ) {
 		 * @since 1.1.0
 		 *
 		 * @param string $value User avatar string.
+		 * @param array  $r     Array of parsed arguments.
+		 * @param array  $args  Array of initial arguments.
 		 */
 		return apply_filters( 'bp_get_loggedin_user_avatar', bp_core_fetch_avatar( $r ), $r, $args );
 	}
@@ -1440,7 +1577,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
  *
  * @see bp_get_displayed_user_avatar() for a description of params.
  *
- * @param array|string $args Array of arguments for displayed user avatar.
+ * @param array|string $args {@see bp_get_displayed_user_avatar()}.
  */
 function bp_displayed_user_avatar( $args = '' ) {
 	echo bp_get_displayed_user_avatar( $args );
@@ -1482,6 +1619,8 @@ function bp_displayed_user_avatar( $args = '' ) {
 		 * @since 1.1.0
 		 *
 		 * @param string $value User avatar string.
+		 * @param array  $r     Array of parsed arguments.
+		 * @param array  $args  Array of initial arguments.
 		 */
 		return apply_filters( 'bp_get_displayed_user_avatar', bp_core_fetch_avatar( $r ), $r, $args );
 	}
@@ -1559,10 +1698,12 @@ function bp_last_activity( $user_id = 0 ) {
 		 * Filters the 'active [x days ago]' string for a user.
 		 *
 		 * @since 1.5.0
+		 * @since 2.6.0 Added the `$user_id` parameter.
 		 *
-		 * @param string $value Formatted 'active [x days ago]' string.
+		 * @param string $value   Formatted 'active [x days ago]' string.
+		 * @param int    $user_id ID of the user.
 		 */
-		return apply_filters( 'bp_get_last_activity', $last_activity );
+		return apply_filters( 'bp_get_last_activity', $last_activity, $user_id );
 	}
 
 /**
@@ -1614,7 +1755,7 @@ function bp_user_firstname() {
  * @since 1.2.4
  */
 function bp_loggedin_user_link() {
-	echo bp_get_loggedin_user_link();
+	echo esc_url( bp_get_loggedin_user_link() );
 }
 	/**
 	 * Get the link for the logged-in user's profile.
@@ -1641,7 +1782,7 @@ function bp_loggedin_user_link() {
  * @since 1.2.4
  */
 function bp_displayed_user_link() {
-	echo bp_get_displayed_user_link();
+	echo esc_url( bp_get_displayed_user_link() );
 }
 	/**
 	 * Get the link for the displayed user's profile.
@@ -1847,6 +1988,7 @@ function bp_loggedin_user_username() {
 		 */
 		return apply_filters( 'bp_get_loggedin_user_username', $username );
 	}
+
 /**
  * Echo the current member type message.
  *
@@ -1883,9 +2025,6 @@ function bp_current_member_type_message() {
  * Do we have a working custom sign up page?
  *
  * @since 1.5.0
- *
- * @uses bp_get_signup_slug() To make sure there is a slug assigned to the page.
- * @uses bp_locate_template() To make sure a template exists to provide output.
  *
  * @return bool True if page and template exist, false if not.
  */
@@ -1934,9 +2073,6 @@ function bp_signup_page() {
  * Do we have a working custom activation page?
  *
  * @since 1.5.0
- *
- * @uses bp_get_activate_slug() To make sure there is a slug assigned to the page.
- * @uses bp_locate_template() To make sure a template exists to provide output.
  *
  * @return boolean True if page and template exist, false if not.
  */
@@ -2369,23 +2505,6 @@ function bp_signup_allowed() {
 	 * @return bool
 	 */
 	function bp_get_signup_allowed() {
-		$bp = buddypress();
-
-		$signup_allowed = false;
-
-		if ( is_multisite() ) {
-			$registration = bp_core_get_root_option( 'registration' );
-
-			if ( in_array( $registration, array( 'all', 'user' ) ) ) {
-				$signup_allowed = true;
-			}
-
-		} else {
-			if ( bp_get_option( 'users_can_register') ) {
-				$signup_allowed = true;
-			}
-		}
-
 		/**
 		 * Filters whether or not new signups are allowed.
 		 *
@@ -2393,7 +2512,7 @@ function bp_signup_allowed() {
 		 *
 		 * @param bool $signup_allowed Whether or not new signups are allowed.
 		 */
-		return apply_filters( 'bp_get_signup_allowed', $signup_allowed );
+		return apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
 	}
 
 /**

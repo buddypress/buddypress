@@ -292,19 +292,13 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	public function test_groups_create_group_dont_delete_description_for_existing_group_when_no_description_is_passed() {
 		$g = $this->factory->group->create();
 
-		$group_before = groups_get_group( array(
-			'group_id' => $g,
-		) );
-
+		$group_before = groups_get_group( $g );
 		groups_create_group( array(
 			'group_id' => $g,
 			'enable_forum' => 1,
 		) );
 
-		$group_after = groups_get_group( array(
-			'group_id' => $g,
-		) );
-
+		$group_after = groups_get_group( $g );
 		$this->assertSame( $group_before->description, $group_after->description );
 	}
 
@@ -613,30 +607,6 @@ Bar!';
 	}
 
 	/**
-	 * @group groups_get_group
-	 * @group cache
-	 */
-	public function test_groups_get_group_cache_different_users() {
-		$g = $this->factory->group->create();
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$this->add_user_to_group( $u1, $g );
-
-		$old_user = get_current_user_id();
-		$this->set_current_user( $u1 );
-
-		$group1 = groups_get_group( array( 'group_id' => $g, 'populate_extras' => true ) );
-
-		$this->set_current_user( $u2 );
-
-		$group2 = groups_get_group( array( 'group_id' => $g, 'populate_extras' => true ) );
-
-		$this->assertNotEquals( $group1, $group2 );
-
-		$this->set_current_user( $old_user );
-	}
-
-	/**
 	 * @group counts
 	 */
 	public function test_get_invite_count_for_user() {
@@ -664,4 +634,219 @@ Bar!';
 		groups_accept_invite( $u2, $g );
 		$this->assertEquals( 0, groups_get_invite_count_for_user( $u2 ) );
 	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_update_orphaned_groups_on_group_delete_top_level() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+
+		groups_delete_group( $g1 );
+
+		$child = groups_get_group( array( 'group_id' => $g2 ) );
+		$this->assertEquals( 0, $child->parent_id );
+	}
+
+	/**
+	 * @group hierarchical_groups
+	 */
+	public function test_update_orphaned_groups_on_group_delete_two_levels() {
+		$g1 = $this->factory->group->create();
+		$g2 = $this->factory->group->create( array(
+			'parent_id' => $g1,
+		) );
+		$g3 = $this->factory->group->create( array(
+			'parent_id' => $g2,
+		) );
+
+		groups_delete_group( $g2 );
+
+		$child = groups_get_group( array( 'group_id' => $g3 ) );
+		$this->assertEquals( $g1, $child->parent_id );
+	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_integer() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( $g1 );
+
+		$this->assertEquals( $g1, $group->id );
+	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_numeric() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( (string) $g1 );
+
+		$this->assertEquals( $g1, $group->id );
+	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_array() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( array( 'group_id' => $g1 ) );
+
+		$this->assertEquals( $g1, $group->id );
+	}
+
+	/**
+	 * @group groups_get_group
+ 	 * @ticket BP7302
+	 */
+	public function test_groups_get_group_accept_query_string() {
+		$g1 = $this->factory->group->create();
+		$group = groups_get_group( 'group_id=' . $g1 );
+
+		$this->assertEquals( $g1, $group->id );
+	}
+
+	/**
+	 * @expectedDeprecated groups_edit_base_group_details
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_test_backcompat_arguments() {
+		$g1 = $this->factory->group->create();
+		$name = 'Great Scott';
+		$description = 'A must-see in time for the holidays!';
+		groups_edit_base_group_details( $g1, $name, $description, false );
+
+		$expected = array(
+			'id'          => $g1,
+			'name'        => $name,
+			'description' => $description
+		);
+		$updated_group_object = groups_get_group( $g1 );
+		$updated = array(
+			'id'          => $updated_group_object->id,
+			'name'        => $updated_group_object->name,
+			'description' => $updated_group_object->description
+		);
+
+		$this->assertEqualSets( $expected, $updated );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_test_new_arguments() {
+		$g1 = $this->factory->group->create();
+		$name = 'Great Scott';
+		$slug = 'what-about-it';
+		$description = 'A must-see in time for the holidays!';
+		groups_edit_base_group_details( array(
+				'group_id'       => $g1,
+				'name'           => $name,
+				'slug'           => $slug,
+				'description'    => $description,
+				'notify_members' => false,
+		) );
+
+		$expected = array(
+			'id'          => $g1,
+			'slug'        => $slug,
+			'name'        => $name,
+			'description' => $description
+		);
+		$updated_group_object = groups_get_group( $g1 );
+		$updated = array(
+			'id'          => $updated_group_object->id,
+			'slug'        => $updated_group_object->slug,
+			'name'        => $updated_group_object->name,
+			'description' => $updated_group_object->description
+		);
+
+		$this->assertEqualSets( $expected, $updated );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_avoid_slug_collisions() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+		$g2 = $this->factory->group->create( array( 'slug' => 'loom' ) );
+
+		// Attempt to use a duplicate slug.
+		groups_edit_base_group_details( array(
+				'group_id'       => $g2,
+				'slug'           => $slug,
+		) );
+
+		$updated_group_object = groups_get_group( $g2 );
+
+		$this->assertNotEquals( $slug, $updated_group_object->slug );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_slug_no_change() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+
+		// Make sure the slug doesn't get incremented when there's no change.
+		groups_edit_base_group_details( array(
+				'group_id'       => $g1,
+				'slug'           => $slug,
+		) );
+
+		$updated_group_object = groups_get_group( $g1 );
+
+		$this->assertEquals( $slug, $updated_group_object->slug );
+	}
+
+	/**
+	 * @group groups_edit_base_group_details
+	 */
+	public function test_groups_edit_base_group_details_slug_null_value() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+
+		// Make sure the slug doesn't get changed when null is passed.
+		groups_edit_base_group_details( array(
+				'group_id'       => $g1,
+				'slug'           => null,
+		) );
+
+		$updated_group_object = groups_get_group( $g1 );
+
+		$this->assertEquals( $slug, $updated_group_object->slug );
+	}
+
+	/**
+	 * @group groups_get_id_by_previous_slug
+	 */
+	public function test_groups_get_id_by_previous_slug() {
+		$slug = 'circe';
+		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+		$g2 = $this->factory->group->create( array( 'slug' => 'loom' ) );
+
+		groups_edit_base_group_details( array(
+			'group_id'       => $g1,
+			'slug'           => 'newslug',
+		) );
+
+		// Function should return the group ID as an integer.
+		$this->assertSame( $g1, groups_get_id_by_previous_slug( $slug ) );
+	}
+
+	/**
+	 * @group groups_get_id_by_previous_slug
+	 */
+	public function test_groups_get_id_by_previous_slug_null_no_results() {
+		$this->assertNull( groups_get_id_by_previous_slug( 'woohoo' ) );
+	}
+
 }

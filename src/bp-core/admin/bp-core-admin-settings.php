@@ -22,7 +22,6 @@ function bp_admin_setting_callback_main_section() { }
  *
  * @since 1.6.0
  *
- * @uses bp_form_option() To output the option value.
  */
 function bp_admin_setting_callback_admin_bar() {
 ?>
@@ -38,7 +37,6 @@ function bp_admin_setting_callback_admin_bar() {
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_account_deletion() {
 ?>
@@ -47,6 +45,38 @@ function bp_admin_setting_callback_account_deletion() {
 	<label for="bp-disable-account-deletion"><?php _e( 'Allow registered members to delete their own accounts', 'buddypress' ); ?></label>
 
 <?php
+}
+
+/**
+ * Form element to change the active template pack.
+ */
+function bp_admin_setting_callback_theme_package_id() {
+	$options = '';
+
+	/*
+	 * Note: This should never be empty. /bp-templates/ is the
+	 * canonical backup if no other packages exist. If there's an error here,
+	 * something else is wrong.
+	 *
+	 * See BuddyPress::register_theme_packages()
+	 */
+	foreach ( (array) buddypress()->theme_compat->packages as $id => $theme ) {
+		$options .= sprintf(
+			'<option value="%1$s" %2$s>%3$s</option>',
+			esc_attr( $id ),
+			selected( $theme->id, bp_get_theme_package_id(), false ),
+			esc_html( $theme->name )
+		);
+	}
+
+	if ( $options ) : ?>
+		<select name="_bp_theme_package_id" id="_bp_theme_package_id"><?php echo $options; ?></select>
+		<p class="description"><label for="_bp_theme_package_id"><?php esc_html_e( 'The selected Template Pack will serve all BuddyPress templates.', 'buddypress' ); ?></label></p>
+
+	<?php else : ?>
+		<p><?php esc_html_e( 'No template packages available.', 'buddypress' ); ?></p>
+
+	<?php endif;
 }
 
 /** Activity *******************************************************************/
@@ -63,7 +93,6 @@ function bp_admin_setting_callback_activity_section() { }
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_activity_akismet() {
 ?>
@@ -132,7 +161,6 @@ function bp_admin_setting_callback_xprofile_section() { }
  *
  * @since 1.6.0
  *
- * @uses bp_form_option() To output the option value.
  */
 function bp_admin_setting_callback_profile_sync() {
 ?>
@@ -148,7 +176,6 @@ function bp_admin_setting_callback_profile_sync() {
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_avatar_uploads() {
 ?>
@@ -185,7 +212,6 @@ function bp_admin_setting_callback_groups_section() { }
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
  */
 function bp_admin_setting_callback_group_creation() {
 ?>
@@ -235,9 +261,6 @@ function bp_admin_setting_callback_bbpress_section() { }
  *
  * @since 1.6.0
  *
- * @uses checked() To display the checked attribute.
- * @uses bp_get_option() To get the config location.
- * @uses bp_form_option() To get the sanitized form option.
  */
 function bp_admin_setting_callback_bbpress_configuration() {
 
@@ -248,7 +271,7 @@ function bp_admin_setting_callback_bbpress_configuration() {
 
 	<?php if ( false === $file_exists ) : ?>
 
-		<a class="button" href="<?php bp_admin_url( 'admin.php?page=bb-forums-setup&repair=1' ); ?>" title="<?php esc_attr_e( 'Attempt to save a new config file.', 'buddypress' ); ?>"><?php _e( 'Repair', 'buddypress' ) ?></a>
+		<a class="button" href="<?php bp_admin_url( 'admin.php?page=bb-forums-setup&repair=1' ); ?>"><?php _e( 'Repair', 'buddypress' ) ?></a>
 		<span class="attention"><?php _e( 'File does not exist', 'buddypress' ); ?></span>
 
 	<?php endif; ?>
@@ -265,8 +288,6 @@ function bp_admin_setting_callback_bbpress_configuration() {
  *
  * @since 1.6.0
  *
- * @uses settings_fields() To output the hidden fields for the form.
- * @uses do_settings_sections() To output the settings sections.
  */
 function bp_core_admin_settings() {
 
@@ -350,8 +371,6 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
  *
  * @since 1.6.0
  *
- * @uses bp_get_bp_form_option()
- *
  * @param string $option  Form option to echo.
  * @param string $default Form option default.
  * @param bool   $slug    Form option slug.
@@ -364,9 +383,6 @@ function bp_form_option( $option, $default = '' , $slug = false ) {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @uses bp_get_option()
-	 * @uses esc_attr()
-	 * @uses apply_filters()
 	 *
 	 * @param string $option  Form option to return.
 	 * @param string $default Form option default.

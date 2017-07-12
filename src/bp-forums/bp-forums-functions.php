@@ -76,6 +76,8 @@ function bp_forums_has_directory() {
  *
  * Wrapper for {@link bb_get_forum()}.
  *
+ * @since 1.0.0
+ *
  * @param int $forum_id ID of the forum being fetched.
  * @return object bbPress forum object.
  */
@@ -90,6 +92,8 @@ function bp_forums_get_forum( $forum_id ) {
  * Create a forum.
  *
  * Wrapper for {@link bb_new_forum()}.
+ *
+ * @since 1.0.0
  *
  * @param array|string $args {
  *     Forum setup arguments.
@@ -123,6 +127,8 @@ function bp_forums_new_forum( $args = '' ) {
  * Update a forum.
  *
  * Wrapper for {@link bb_update_forum(}.
+ *
+ * @since 1.2.5
  *
  * @param array|string $args {
  *     Forum setup arguments.
@@ -158,6 +164,8 @@ function bp_forums_update_forum( $args = '' ) {
 /**
  * Delete a group forum by the group id.
  *
+ * @since 1.6.0
+ *
  * @param int $group_id ID of the group whose forum is to be deleted.
  */
 function bp_forums_delete_group_forum( $group_id ) {
@@ -176,6 +184,8 @@ add_action( 'groups_delete_group', 'bp_forums_delete_group_forum' );
 
 /**
  * Fetch a set of forum topics.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     @type string $type          Order or filter type. Default: 'newest'.
@@ -255,6 +265,8 @@ function bp_forums_get_forum_topics( $args = '' ) {
 /**
  * Get additional details about a given forum topic.
  *
+ * @since 1.0.0
+ *
  * @param int $topic_id ID of the topic for which you're fetching details.
  * @return object Details about the topic.
  */
@@ -273,6 +285,8 @@ function bp_forums_get_topic_details( $topic_id ) {
  *
  * Wrapper for {@link bb_get_id_from_slug()}.
  *
+ * @since 1.1.0
+ *
  * @param string $topic_slug Slug of the topic.
  * @return int|bool ID of the topic (if found), false on failure.
  */
@@ -289,6 +303,8 @@ function bp_forums_get_topic_id_from_slug( $topic_slug ) {
 
 /**
  * Create a new forum topic.
+ *
+ * @since 1.0.0
  *
  * @param array|string $args {
  *     @type string            $topic_title            Title of the new topic.
@@ -373,6 +389,8 @@ function bp_forums_new_topic( $args = '' ) {
 /**
  * Update a topic's details.
  *
+ * @since 1.1.0
+ *
  * @param array|string $args {
  *     Array of arguments.
  *     @type int               $topic_id    ID of the topic being updated.
@@ -418,6 +436,14 @@ function bp_forums_update_topic( $args = '' ) {
 	return bp_forums_get_topic_details( $topic_id );
 }
 
+/**
+ * Set a topic as sticky/unsticky.
+ *
+ * @since 1.1.0
+ *
+ * @param string $args Array of arguments for sticky topic.
+ * @return bool
+ */
 function bp_forums_sticky_topic( $args = '' ) {
 
 	/** This action is documented in bp-forums/bp-forums-screens.php */
@@ -439,6 +465,8 @@ function bp_forums_sticky_topic( $args = '' ) {
 
 /**
  * Set a topic's open/closed status.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     @type int    $topic_id ID of the topic whose status is being changed.
@@ -469,6 +497,8 @@ function bp_forums_openclose_topic( $args = '' ) {
 /**
  * Delete a topic.
  *
+ * @since 1.1.0
+ *
  * @param array|string $args {
  *     @type int $topic_id ID of the topic being deleted.
  * }
@@ -489,6 +519,8 @@ function bp_forums_delete_topic( $args = '' ) {
 
 /**
  * Get a count of the total topics on the site.
+ *
+ * @since 1.2.0
  *
  * @return int $count Total topic count.
  */
@@ -592,6 +624,8 @@ function bp_forums_reply_exists( $text = '', $topic_id = 0, $user_id = 0 ) {
 /**
  * Get a total "Topics Started" count for a given user.
  *
+ * @since 1.2.0
+ *
  * @param int    $user_id ID of the user being queried. Falls back on displayed
  *                        user, then loggedin.
  * @param string $type    The current filter/sort type. 'active', 'popular',
@@ -693,6 +727,8 @@ function bp_forums_total_replied_count_for_user( $user_id = 0, $type = 'active' 
  * - details about the last poster
  * - information about topic users that may have been deleted/spammed
  *
+ * @since 1.2.0
+ *
  * @param array $topics Array of topics.
  * @return array $topics Topics with BP details added.
  */
@@ -756,6 +792,8 @@ function bp_forums_get_topic_extras( $topics ) {
 /**
  * Get the posts belonging to a topic.
  *
+ * @since 1.1.0
+ *
  * @param array|string $args {
  *     @type int    $topic_id ID of the topic for which posts are being fetched.
  *     @type int    $page     Optional. Page of results to return. Default: 1.
@@ -788,6 +826,8 @@ function bp_forums_get_topic_posts( $args = '' ) {
  *
  * Wrapper for {@link bb_get_post()}.
  *
+ * @since 1.0.0
+ *
  * @param int $post_id ID of the post being fetched.
  * @return object Post object.
  */
@@ -802,6 +842,8 @@ function bp_forums_get_post( $post_id ) {
  * Delete a post.
  *
  * Wrapper for {@link bb_delete_post()}.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     @type int $post_id ID of the post being deleted.
@@ -824,6 +866,8 @@ function bp_forums_delete_post( $args = '' ) {
 
 /**
  * Create a new post.
+ *
+ * @since 1.1.0
  *
  * @param array|string $args {
  *     @type int    $post_id       Optional. ID of an existing post, if you want to
@@ -905,6 +949,8 @@ function bp_forums_insert_post( $args = '' ) {
  * - WP userdata for each poster
  * - BP fullname for each poster
  *
+ * @since 1.2.0
+ *
  * @param array $posts List of posts.
  * @return array Posts with BP-data added.
  */
@@ -958,6 +1004,8 @@ function bp_forums_get_post_extras( $posts ) {
 /**
  * Get topic and post counts for a given forum.
  *
+ * @since 1.1.0
+ *
  * @param int $forum_id ID of the forum.
  * @return object Object with properties $topics (topic count) and $posts
  *                (post count).
@@ -974,6 +1022,8 @@ function bp_forums_get_forum_topicpost_count( $forum_id ) {
 
 /**
  * Map WordPress caps onto bbPress users, to ensure that they can post.
+ *
+ * @since 1.1.0
  *
  * @param array $allcaps Array of capabilities.
  * @return array Caps array with bbPress caps added.

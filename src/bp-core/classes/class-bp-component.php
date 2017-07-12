@@ -206,8 +206,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_id'.
-	 * @uses apply_filters() Calls 'bp_{@link bp_Component::name}_slug'.
 	 *
 	 * @param array $args {
 	 *     All values are optional.
@@ -350,7 +348,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}includes'.
 	 *
 	 * @param array $includes An array of file names, or file name chunks,
 	 *                        to be parsed and then included.
@@ -401,8 +398,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses add_action() To add various actions.
-	 * @uses do_action() Calls 'bp_{@link BP_Component::name}setup_actions'.
 	 */
 	public function setup_actions() {
 
@@ -598,7 +593,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_setup_title'.
 	 */
 	public function setup_title() {
 
@@ -617,7 +611,6 @@ class BP_Component {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @uses do_action() Calls 'bp_setup_{@link bp_Component::name}_cache_groups'.
 	 */
 	public function setup_cache_groups() {
 
@@ -723,7 +716,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_post_types'.
 	 */
 	public function register_post_types() {
 
@@ -742,7 +734,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_register_taxonomies'.
 	 */
 	public function register_taxonomies() {
 
@@ -761,7 +752,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_tags'.
 	 */
 	public function add_rewrite_tags() {
 
@@ -780,7 +770,6 @@ class BP_Component {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_rewrite_rules'.
 	 */
 	public function add_rewrite_rules() {
 
@@ -799,7 +788,6 @@ class BP_Component {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_add_permastruct'.
 	 */
 	public function add_permastructs() {
 
@@ -818,7 +806,6 @@ class BP_Component {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_parse_query'.
 	 *
 	 * @param object $query The main WP_Query.
 	 */
@@ -841,7 +828,6 @@ class BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @uses do_action() Calls 'bp_{@link bp_Component::name}_generate_rewrite_rules'.
 	 */
 	public function generate_rewrite_rules() {
 

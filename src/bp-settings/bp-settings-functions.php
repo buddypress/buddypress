@@ -90,6 +90,11 @@ function bp_settings_sanitize_notification_settings( $settings = array() ) {
 function bp_settings_get_registered_notification_keys() {
 
 	ob_start();
+	/**
+	 * Fires at the start of the notification keys whitelisting.
+	 *
+	 * @since 1.0.0
+	 */
 	do_action( 'bp_notification_settings' );
 	$screen = ob_get_clean();
 

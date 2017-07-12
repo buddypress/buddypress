@@ -201,19 +201,18 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param string $file The absolute path to the file.
-	 * @return string $value The absolute path to the new file name.
+	 * @return false|string $value The absolute path to the new file name.
 	 */
 	public function generate_filename( $file = '' ) {
 		if ( empty( $file ) || ! file_exists( $file ) ) {
 			return false;
 		}
 
-		$info    = pathinfo( $file );
-		$dir     = $info['dirname'];
-		$ext     = strtolower( $info['extension'] );
-		$name    = wp_hash( $file . time() ) . '-bp-cover-image';
+		$info = pathinfo( $file );
+		$ext  = strtolower( $info['extension'] );
+		$name = wp_unique_filename( $info['dirname'], uniqid() . "-bp-cover-image.$ext" );
 
-		return trailingslashit( $dir ) . "{$name}.{$ext}";
+		return trailingslashit( $info['dirname'] ) . $name;
 	}
 
 	/**

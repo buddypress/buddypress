@@ -36,7 +36,7 @@ function bp_core_register_deprecated_styles() {
  * @since 1.0.0
  * @deprecated 2.1.0
  *
- * @return bool|null Returns false on failure. Otherwise echoes the menu item.
+ * @return false|null Returns false on failure. Otherwise echoes the menu item.
  */
 function bp_adminbar_blogs_menu() {
 
@@ -131,7 +131,7 @@ function bp_admin_sanitize_callback_force_buddybar( $value = false ) {
 /**
  * Wrapper function for rendering the BuddyBar.
  *
- * @return bool|null Returns false if the BuddyBar is disabled.
+ * @return false|null Returns false if the BuddyBar is disabled.
  * @deprecated 2.1.0
  */
 function bp_core_admin_bar() {
@@ -179,7 +179,7 @@ function bp_adminbar_logo() {
  *
  * @deprecated 2.1.0
  *
- * @return bool|null Returns false if the current user is logged in.
+ * @return false|null Returns false if the current user is logged in.
  */
 function bp_adminbar_login_menu() {
 
@@ -200,7 +200,7 @@ function bp_adminbar_login_menu() {
  *
  * @deprecated 2.1.0
  *
- * @return bool|null Returns false on failure.
+ * @return false|null Returns false on failure.
  */
 function bp_adminbar_account_menu() {
 	$bp = buddypress();

@@ -371,6 +371,10 @@ class BP_XProfile_Group {
 		// Fetch the fields.
 		$field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids_in} ) AND parent_id = 0 {$exclude_fields_sql} {$in_sql} ORDER BY field_order" );
 
+		foreach( $groups as $group ) {
+			$group->fields = array();
+		}
+
 		// Bail if no fields.
 		if ( empty( $field_ids ) ) {
 			return $groups;
@@ -392,7 +396,7 @@ class BP_XProfile_Group {
 		// Pull field objects from the cache.
 		$fields = array();
 		foreach ( $field_ids as $field_id ) {
-			$fields[] = xprofile_get_field( $field_id );
+			$fields[] = xprofile_get_field( $field_id, null, false );
 		}
 
 		// Store field IDs for meta cache priming.
@@ -469,7 +473,6 @@ class BP_XProfile_Group {
 
 		// Merge the field array back in with the group array.
 		foreach( (array) $groups as $group ) {
-
 			// Indexes may have been shifted after previous deletions, so we get a
 			// fresh one each time through the loop.
 			$index = array_search( $group, $groups );
@@ -556,6 +559,13 @@ class BP_XProfile_Group {
 					wp_cache_set( $gdata->id, $gdata, 'bp_xprofile_groups' );
 				}
 			}
+		}
+
+		// Integer casting.
+		foreach ( (array) $groups as $key => $data ) {
+			$groups[ $key ]->id          = (int) $groups[ $key ]->id;
+			$groups[ $key ]->group_order = (int) $groups[ $key ]->group_order;
+			$groups[ $key ]->can_delete  = (int) $groups[ $key ]->can_delete;
 		}
 
 		// Reset indexes & return.
@@ -737,14 +747,17 @@ class BP_XProfile_Group {
 						<div id="post-body-content">
 							<div id="titlediv">
 								<div class="titlewrap">
-									<label id="title-prompt-text" for="title"><?php esc_html_e( 'Field Group Name', 'buddypress') ?></label>
+									<label id="title-prompt-text" for="title"><?php esc_html_e( 'Field Group Name (required)', 'buddypress') ?></label>
 									<input type="text" name="group_name" id="title" value="<?php echo esc_attr( $this->name ); ?>" autocomplete="off" />
 								</div>
 							</div>
 							<div class="postbox">
 								<h2><?php esc_html_e( 'Field Group Description', 'buddypress' ); ?></h2>
 								<div class="inside">
-									<label for="group_description" class="screen-reader-text"><?php esc_html_e( 'Add description', 'buddypress' ); ?></label>
+									<label for="group_description" class="screen-reader-text"><?php
+										/* translators: accessibility text */
+										esc_html_e( 'Add description', 'buddypress' );
+									?></label>
 									<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
 								</div>
 							</div>
@@ -782,6 +795,9 @@ class BP_XProfile_Group {
 										<div id="major-publishing-actions">
 
 											<?php
+
+											// Nonce fields
+											wp_nonce_field( 'bp_xprofile_admin_group', 'bp_xprofile_admin_group' );
 
 											/**
 											 * Fires at the beginning of the XProfile Group publishing actions section.

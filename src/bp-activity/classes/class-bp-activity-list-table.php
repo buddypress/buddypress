@@ -171,7 +171,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$activities['total']      = count( $activities['activities'] );
 
 			// Sort the array by the activity object's date_recorded value.
-			usort( $activities['activities'], create_function( '$a, $b', 'return $a->date_recorded > $b->date_recorded;' ) );
+			usort( $activities['activities'], function( $a, $b ) { return $a->date_recorded > $b->date_recorded; } );
 		}
 
 		// The bp_activity_get function returns an array of objects; cast these to arrays for WP_List_Table.
@@ -243,7 +243,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function display() {
 		$this->display_tablenav( 'top' ); ?>
 
-		<h2 class="screen-reader-text"><?php _e( 'Activities list', 'buddypress' ); ?></h2>
+		<h2 class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			_e( 'Activities list', 'buddypress' );
+		?></h2>
 
 		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
 			<thead>
@@ -252,15 +255,15 @@ class BP_Activity_List_Table extends WP_List_Table {
 				</tr>
 			</thead>
 
+			<tbody id="the-comment-list">
+				<?php $this->display_rows_or_placeholder(); ?>
+			</tbody>
+
 			<tfoot>
 				<tr>
 					<?php $this->print_column_headers( false ); ?>
 				</tr>
 			</tfoot>
-
-			<tbody id="the-comment-list">
-				<?php $this->display_rows_or_placeholder(); ?>
-			</tbody>
 		</table>
 		<?php
 
@@ -425,8 +428,26 @@ class BP_Activity_List_Table extends WP_List_Table {
 				<option value="" <?php selected( ! $selected ); ?>><?php _e( 'View all actions', 'buddypress' ); ?></option>
 
 				<?php foreach ( $activity_actions as $component => $actions ) : ?>
+					<?php
+					// Older avatar activity items use 'profile' for component. See r4273.
+					if ( $component === 'profile' ) {
+						$component = 'xprofile';
+					}
 
-					<optgroup label="<?php echo ucfirst( $component ); ?>">
+					if ( bp_is_active( $component ) ) {
+						if ( $component === 'xprofile' ) {
+							$component_name = buddypress()->profile->name;
+						} else {
+							$component_name = buddypress()->$component->name;
+						}
+
+					} else {
+						// Prevent warnings by other plugins if a component is disabled but the activity type has been registered.
+						$component_name = ucfirst( $component );
+					}
+					?>
+
+					<optgroup label="<?php echo esc_html( $component_name ); ?>">
 
 						<?php foreach ( $actions as $action_key => $action_values ) : ?>
 
@@ -494,6 +515,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @param array $item A singular item (one full row).
 	 */
 	function column_cb( $item ) {
+		/* translators: accessibility text */
 		printf( '<label class="screen-reader-text" for="aid-%1$d">' . __( 'Select activity item %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', $item['id'] );
 	}
 
@@ -570,7 +592,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			if ( $this->can_comment( $item ) ) {
 				$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', __( 'Reply', 'buddypress' ) );
 			} else {
-				$actions['reply'] = sprintf( '<span class="form-input-tip" title="%s">%s</span>', __( 'Replies are disabled for this activity item', 'buddypress' ), __( 'Replies disabled', 'buddypress' ) );
+				$actions['reply'] = sprintf( '<span class="form-input-tip">%s</span>', __( 'Replies disabled', 'buddypress' ) );
 			}
 
 			// Edit.
@@ -619,15 +641,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		// Get activity content - if not set, use the action.
 		if ( ! empty( $item['content'] ) ) {
+			$activity = new BP_Activity_Activity( $item['id'] );
 
-			/**
-			 * Filters current activity item content.
-			 *
-			 * @since 1.2.0
-			 *
-			 * @param array $item Array index holding current activity item content.
-			 */
-			$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $item['content'] ) );
+			/** This filter is documented in bp-activity/bp-activity-template.php */
+			$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $item['content'], &$activity ) );
 		} else {
 			/**
 			 * Filters current activity item action.
@@ -689,8 +706,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 			// If the activity has comments, display a link to the activity's permalink, with its comment count in a speech bubble.
 			if ( $comment_count ) {
-				$title_attr = sprintf( _n( '%s related activity', '%s related activities', $comment_count, 'buddypress' ), number_format_i18n( $comment_count ) );
-				printf( '<a href="%1$s" title="%2$s" class="post-com-count post-com-count-approved"><span class="comment-count comment-count-approved">%3$s</span></a>', esc_url( $root_activity_url ), esc_attr( $title_attr ), number_format_i18n( $comment_count ) );
+				printf( '<a href="%1$s" class="post-com-count post-com-count-approved"><span class="comment-count comment-count-approved">%2$s</span></a>', esc_url( $root_activity_url ), number_format_i18n( $comment_count ) );
 			}
 
 		// For non-root activities, display a link to the replied-to activity's author's profile.
@@ -790,6 +806,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 				$parent_activity = (object) $item;
 			} elseif ( 'activity_comment' === $item['type'] ) {
 				$parent_activity = new BP_Activity_Activity( $item['item_id'] );
+				$can_comment     = bp_activity_can_comment_reply( (object) $item );
 			}
 
 			if ( isset( $parent_activity->type ) && bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'post_type' ) ) {

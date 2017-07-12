@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename).
  */
 function xprofile_screen_display_profile() {
 	$new = isset( $_GET['new'] ) ? $_GET['new'] : '';
@@ -49,8 +48,6 @@ function xprofile_screen_display_profile() {
  *
  * @since 1.0.0
  *
- * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user.
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename).
  */
 function xprofile_screen_edit_profile() {
 
@@ -88,20 +85,9 @@ function xprofile_screen_edit_profile() {
 		$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
 		$is_required      = array();
 
-		// Loop through the posted fields formatting any datebox values
-		// then validate the field.
+		// Loop through the posted fields formatting any datebox values then validate the field.
 		foreach ( (array) $posted_field_ids as $field_id ) {
-			if ( !isset( $_POST['field_' . $field_id] ) ) {
-
-				if ( !empty( $_POST['field_' . $field_id . '_day'] ) && !empty( $_POST['field_' . $field_id . '_month'] ) && !empty( $_POST['field_' . $field_id . '_year'] ) ) {
-					// Concatenate the values.
-					$date_value =   $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
-
-					// Turn the concatenated value into a timestamp.
-					$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', strtotime( $date_value ) );
-				}
-
-			}
+			bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
 			$is_required[ $field_id ] = xprofile_check_is_required_field( $field_id ) && ! bp_current_user_can( 'bp_moderate' );
 			if ( $is_required[$field_id] && empty( $_POST['field_' . $field_id] ) ) {
@@ -209,8 +195,6 @@ function xprofile_screen_edit_profile() {
  *
  * @since 1.0.0
  *
- * @uses bp_is_my_profile() Checks to make sure the current user being viewed equals the logged in user.
- * @uses bp_core_load_template() Looks for and loads a template file within the current member theme (folder/filename).
  */
 function xprofile_screen_change_avatar() {
 

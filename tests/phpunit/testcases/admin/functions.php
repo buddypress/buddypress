@@ -144,7 +144,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'post_name'  => $bp->foo->slug,
 		) ) );
 
-		$page_ids = array_merge( $new_page_ids, (array) bp_core_get_directory_page_ids( 'all' ) );
+		$page_ids = array_merge( $new_page_ids, bp_core_get_directory_page_ids( 'all' ) );
 		bp_core_update_directory_page_ids( $page_ids );
 
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $reset_active_components );
@@ -208,11 +208,14 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$missing_pages = array();
 		foreach( buddypress()->admin->notices as $notice ) {
+			if ( false !== strpos( $notice['message'], 'BuddyPress is almost ready' ) ) {
+				continue;
+			}
+
 			preg_match_all( '/<strong>(.+?)<\/strong>/', $notice['message'], $missing_pages );
 		}
 
-		$this->assertNotContains( 'Register', $missing_pages[1] );
-		$this->assertNotContains( 'Activate', $missing_pages[1] );
+		$this->assertEmpty( $missing_pages );
 
 		// Reset buddypress() vars
 		$bp->pages = $reset_bp_pages;
@@ -252,7 +255,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			'hide_empty' => false,
 		) );
 
-		$correct_descriptions = bp_email_get_type_schema();
+		$correct_descriptions = bp_email_get_type_schema( 'description' );
 		foreach ( $d_terms as $d_term ) {
 			$correct_description = $correct_descriptions[ $d_term->slug ];
 			$this->assertSame( $correct_description, $d_term->description );

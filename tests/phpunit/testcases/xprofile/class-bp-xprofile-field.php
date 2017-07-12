@@ -174,4 +174,54 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
+
+	/**
+	 * @ticket BP7073
+	 */
+	public function test_bad_field_id_should_not_be_cached() {
+		BP_XProfile_Field::get_instance( 12345 );
+
+		$this->assertFalse( wp_cache_get( 12345, 'bp_xprofile_fields' ) );
+	}
+
+	/**
+	 * @ticket BP7112
+	 */
+	public function test_update_position_should_invalidate_cache() {
+		$group = $this->factory->xprofile_group->create();
+		$field = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $group,
+		) );
+
+		// Prime cache.
+		$fetched_field = xprofile_get_field( $field );
+		$new_field_order = 12345;
+
+		// Update field position.
+		BP_XProfile_Field::update_position( $field, $new_field_order, $group );
+
+		// Cache call should miss; fresh data should be fetched.
+		$updated_fetched_field = xprofile_get_field( $field );
+		$this->assertEquals( $new_field_order, $updated_fetched_field->field_order );
+	}
+
+	/**
+	 * @ticket BP7351
+	 */
+	public function test_empty_datebox_fields_should_not_return_unix_epoch() {
+		$user  = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$group = $this->factory->xprofile_group->create();
+		$field = $this->factory->xprofile_field->create( array(
+			'field_group_id' => $group,
+			'type' => 'datebox',
+		) );
+
+		$old_user = get_current_user_id();
+		$this->set_current_user( $user );
+
+		$value = bp_get_profile_field_data( array( 'user_id' => $user, 'field' => $field ) );
+		$this->assertEmpty( $value );
+
+		$this->set_current_user( $old_user );
+	}
 }

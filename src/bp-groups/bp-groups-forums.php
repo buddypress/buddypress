@@ -66,11 +66,11 @@ function groups_new_group_forum( $group_id = 0, $group_name = '', $group_desc = 
  * @since 1.1.0
  *
  * @param int $group_id Group id, passed from groups_details_updated.
- * @return mixed
+ * @return false|null
  */
 function groups_update_group_forum( $group_id ) {
 
-	$group = groups_get_group( array( 'group_id' => $group_id ) );
+	$group = groups_get_group( $group_id );
 
 	/**
 	 * Bail in the following three situations:

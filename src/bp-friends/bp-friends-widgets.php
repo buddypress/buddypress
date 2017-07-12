@@ -10,10 +10,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-core-friends-widget.php';
-}
-
 /**
  * Register the friends widget.
  *
@@ -31,7 +27,7 @@ function bp_friends_register_widgets() {
 		return;
 	}
 
-	add_action( 'widgets_init', create_function( '', 'return register_widget("BP_Core_Friends_Widget");' ) );
+	add_action( 'widgets_init', function() { register_widget( 'BP_Core_Friends_Widget' ); } );
 }
 add_action( 'bp_register_widgets', 'bp_friends_register_widgets' );
 
@@ -76,11 +72,11 @@ function bp_core_ajax_widget_friends() {
 				</div>
 
 				<div class="item">
-					<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_name(); ?></a></div>
+					<div class="item-title fn"><a href="<?php bp_member_permalink(); ?>"><?php bp_member_name(); ?></a></div>
 					<?php if ( 'active' == $type ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_last_active(); ?></span></div>
+						<div class="item-meta"><span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_member_last_active( array( 'relative' => false ) ) ); ?>"><?php bp_member_last_active(); ?></span></div>
 					<?php elseif ( 'newest' == $type ) : ?>
-						<div class="item-meta"><span class="activity"><?php bp_member_registered(); ?></span></div>
+						<div class="item-meta"><span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_member_registered( array( 'relative' => false ) ) ); ?>"><?php bp_member_registered(); ?></span></div>
 					<?php elseif ( bp_is_active( 'friends' ) ) : ?>
 						<div class="item-meta"><span class="activity"><?php bp_member_total_friend_count(); ?></span></div>
 					<?php endif; ?>

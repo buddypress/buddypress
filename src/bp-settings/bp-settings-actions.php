@@ -94,7 +94,7 @@ function bp_settings_action_general() {
 
 				// Store a hash to enable email validation.
 				if ( false === $email_error ) {
-					$hash = wp_hash( $_POST['email'] );
+					$hash = wp_generate_password( 32, false );
 
 					$pending_email = array(
 						'hash'     => $hash,
@@ -444,7 +444,7 @@ function bp_settings_verify_email_change(){
 		$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change', true );
 
 		// Bail if the hash provided doesn't match the one saved in the database.
-		if ( urldecode( $_GET['verify_email_change'] ) !== $pending_email['hash'] ) {
+		if ( ! hash_equals( urldecode( $_GET['verify_email_change'] ), $pending_email['hash'] ) ) {
 			return;
 		}
 
@@ -472,8 +472,12 @@ function bp_settings_verify_email_change(){
 
 	// Email change is being dismissed.
 	} elseif ( ! empty( $_GET['dismiss_email_change'] ) ) {
-	        bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
-		bp_core_add_message( __( 'You have successfully dismissed your pending email change.', 'buddypress' ) );
+		$nonce_check = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'bp_dismiss_email_change' );
+
+		if ( $nonce_check ) {
+			bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
+			bp_core_add_message( __( 'You have successfully dismissed your pending email change.', 'buddypress' ) );
+		}
 
 		bp_core_redirect( $redirect_to );
 		die();

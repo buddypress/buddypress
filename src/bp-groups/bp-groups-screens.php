@@ -14,10 +14,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! buddypress()->do_autoload ) {
-	require dirname( __FILE__ ) . '/classes/class-bp-groups-theme-compat.php';
-}
-
 /**
  * Handle the display of the Groups directory index.
  *
@@ -86,10 +82,10 @@ function groups_screen_group_invites() {
 		if ( !groups_accept_invite( bp_loggedin_user_id(), $group_id ) ) {
 			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );
 		} else {
-			bp_core_add_message( __('Group invite accepted', 'buddypress') );
-
 			// Record this in activity streams.
-			$group = groups_get_group( array( 'group_id' => $group_id ) );
+			$group = groups_get_group( $group_id );
+
+			bp_core_add_message( sprintf( __( 'Group invite accepted. Visit %s.', 'buddypress' ), bp_get_group_link( $group ) ) );
 
 			groups_record_activity( array(
 				'type'    => 'joined_group',
@@ -690,7 +686,7 @@ function groups_remove_group_invite() {
 	if ( ! bp_groups_user_can_send_invites( $group_id ) ) {
 		$message = __( 'You are not allowed to send or remove invites', 'buddypress' );
 		$error = 'error';
-	} elseif ( BP_Groups_Member::check_for_membership_request( $friend_id, $group_id ) ) {
+	} elseif ( groups_check_for_membership_request( $friend_id, $group_id ) ) {
 		$message = __( 'The member requested to join the group', 'buddypress' );
 		$error = 'error';
 	} elseif ( ! groups_uninvite_user( $friend_id, $group_id ) ) {
@@ -843,7 +839,16 @@ function groups_screen_group_admin_edit_details() {
 
 			$group_notify_members = isset( $_POST['group-notify-members'] ) ? (int) $_POST['group-notify-members'] : 0;
 
-			if ( !groups_edit_base_group_details( $_POST['group-id'], $_POST['group-name'], $_POST['group-desc'], $group_notify_members ) ) {
+			// Name and description are required and may not be empty.
+			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) ) {
+				bp_core_add_message( __( 'Groups must have a name and a description. Please try again.', 'buddypress' ), 'error' );
+			} elseif ( ! groups_edit_base_group_details( array(
+				'group_id'       => $_POST['group-id'],
+				'name'           => $_POST['group-name'],
+				'slug'           => null, // @TODO: Add to settings pane? If yes, editable by site admin only, or allow group admins to do this?
+				'description'    => $_POST['group-desc'],
+				'notify_members' => $group_notify_members,
+			) ) ) {
 				bp_core_add_message( __( 'There was an error updating group details. Please try again.', 'buddypress' ), 'error' );
 			} else {
 				bp_core_add_message( __( 'Group details were successfully updated.', 'buddypress' ) );
@@ -914,6 +919,32 @@ function groups_screen_group_admin_settings() {
 		// Check the nonce.
 		if ( !check_admin_referer( 'groups_edit_group_settings' ) )
 			return false;
+
+		/*
+		 * Save group types.
+		 *
+		 * Ensure we keep types that have 'show_in_create_screen' set to false.
+		 */
+		$current_types = bp_groups_get_group_type( bp_get_current_group_id(), false );
+		$current_types = array_intersect( bp_groups_get_group_types( array( 'show_in_create_screen' => false ) ), (array) $current_types );
+		if ( isset( $_POST['group-types'] ) ) {
+			$current_types = array_merge( $current_types, $_POST['group-types'] );
+
+			// Set group types.
+			bp_groups_set_group_type( bp_get_current_group_id(), $current_types );
+
+		// No group types checked, so this means we want to wipe out all group types.
+		} else {
+			/*
+			 * Passing a blank string will wipe out all types for the group.
+			 *
+			 * Ensure we keep types that have 'show_in_create_screen' set to false.
+			 */
+			$current_types = empty( $current_types ) ? '' : $current_types;
+
+			// Set group types.
+			bp_groups_set_group_type( bp_get_current_group_id(), $current_types );
+		}
 
 		if ( !groups_edit_group_settings( $_POST['group-id'], $enable_forum, $status, $invite_status ) ) {
 			bp_core_add_message( __( 'There was an error updating group settings. Please try again.', 'buddypress' ), 'error' );
@@ -1023,6 +1054,16 @@ function groups_screen_group_admin_avatar() {
 		if ( !bp_core_avatar_handle_crop( $args ) ) {
 			bp_core_add_message( __( 'There was a problem cropping the group profile photo.', 'buddypress' ), 'error' );
 		} else {
+			/**
+			 * Fires after a group avatar is uploaded.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param int    $group_id ID of the group.
+			 * @param string $type     Avatar type. 'crop' or 'full'.
+			 * @param array  $args     Array of parameters passed to the avatar handler.
+			 */
+			do_action( 'groups_avatar_uploaded', bp_get_current_group_id(), 'crop', $args );
 			bp_core_add_message( __( 'The new group profile photo was uploaded successfully.', 'buddypress' ) );
 		}
 	}
@@ -1444,32 +1485,62 @@ function groups_screen_notification_settings() {
 			<tr id="groups-notification-settings-invitation">
 				<td></td>
 				<td><?php _ex( 'A member invites you to join a group', 'group settings on notification settings page','buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-yes" value="yes" <?php checked( $group_invite, 'yes', true ) ?>/><label for="notification-groups-invite-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-no" value="no" <?php checked( $group_invite, 'no', true ) ?>/><label for="notification-groups-invite-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-yes" value="yes" <?php checked( $group_invite, 'yes', true ) ?>/><label for="notification-groups-invite-yes" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Yes, send email', 'buddypress' );
+				?></label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-no" value="no" <?php checked( $group_invite, 'no', true ) ?>/><label for="notification-groups-invite-no" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'No, do not send email', 'buddypress' );
+				?></label></td>
 			</tr>
 			<tr id="groups-notification-settings-info-updated">
 				<td></td>
 				<td><?php _ex( 'Group information is updated', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-yes" value="yes" <?php checked( $group_update, 'yes', true ) ?>/><label for="notification-groups-group-updated-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-no" value="no" <?php checked( $group_update, 'no', true ) ?>/><label for="notification-groups-group-updated-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-yes" value="yes" <?php checked( $group_update, 'yes', true ) ?>/><label for="notification-groups-group-updated-yes" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Yes, send email', 'buddypress' );
+				?></label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_group_updated]" id="notification-groups-group-updated-no" value="no" <?php checked( $group_update, 'no', true ) ?>/><label for="notification-groups-group-updated-no" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'No, do not send email', 'buddypress' );
+				?></label></td>
 			</tr>
 			<tr id="groups-notification-settings-promoted">
 				<td></td>
 				<td><?php _ex( 'You are promoted to a group administrator or moderator', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-yes" value="yes" <?php checked( $group_promo, 'yes', true ) ?>/><label for="notification-groups-admin-promotion-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-no" value="no" <?php checked( $group_promo, 'no', true ) ?>/><label for="notification-groups-admin-promotion-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-yes" value="yes" <?php checked( $group_promo, 'yes', true ) ?>/><label for="notification-groups-admin-promotion-yes" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Yes, send email', 'buddypress' );
+				?></label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_admin_promotion]" id="notification-groups-admin-promotion-no" value="no" <?php checked( $group_promo, 'no', true ) ?>/><label for="notification-groups-admin-promotion-no" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'No, do not send email', 'buddypress' );
+				?></label></td>
 			</tr>
 			<tr id="groups-notification-settings-request">
 				<td></td>
 				<td><?php _ex( 'A member requests to join a private group for which you are an admin', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-yes" value="yes" <?php checked( $group_request, 'yes', true ) ?>/><label for="notification-groups-membership-request-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-no" value="no" <?php checked( $group_request, 'no', true ) ?>/><label for="notification-groups-membership-request-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+				<td class="yes"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-yes" value="yes" <?php checked( $group_request, 'yes', true ) ?>/><label for="notification-groups-membership-request-yes" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Yes, send email', 'buddypress' );
+				?></label></td>
+				<td class="no"><input type="radio" name="notifications[notification_groups_membership_request]" id="notification-groups-membership-request-no" value="no" <?php checked( $group_request, 'no', true ) ?>/><label for="notification-groups-membership-request-no" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'No, do not send email', 'buddypress' );
+				?></label></td>
 			</tr>
 			<tr id="groups-notification-settings-request-completed">
 				<td></td>
 				<td><?php _ex( 'Your request to join a group has been approved or denied', 'group settings on notification settings page', 'buddypress' ) ?></td>
-				<td class="yes"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-yes" value="yes" <?php checked( $group_request_completed, 'yes', true ) ?>/><label for="notification-groups-membership-request-completed-yes" class="bp-screen-reader-text"><?php _e( 'Yes, send email', 'buddypress' ); ?></label></td>
-				<td class="no"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-no" value="no" <?php checked( $group_request_completed, 'no', true ) ?>/><label for="notification-groups-membership-request-completed-no" class="bp-screen-reader-text"><?php _e( 'No, do not send email', 'buddypress' ); ?></label></td>
+				<td class="yes"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-yes" value="yes" <?php checked( $group_request_completed, 'yes', true ) ?>/><label for="notification-groups-membership-request-completed-yes" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'Yes, send email', 'buddypress' );
+				?></label></td>
+				<td class="no"><input type="radio" name="notifications[notification_membership_request_completed]" id="notification-groups-membership-request-completed-no" value="no" <?php checked( $group_request_completed, 'no', true ) ?>/><label for="notification-groups-membership-request-completed-no" class="bp-screen-reader-text"><?php
+					/* translators: accessibility text */
+					_e( 'No, do not send email', 'buddypress' );
+				?></label></td>
 			</tr>
 
 			<?php

@@ -15,6 +15,11 @@ do_action( 'bp_before_group_invites_content' ); ?>
 
 <?php if ( bp_has_groups( 'type=invites&user_id=' . bp_loggedin_user_id() ) ) : ?>
 
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Group invitations', 'buddypress' );
+	?></h2>
+
 	<ul id="group-list" class="invites item-list">
 
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
@@ -26,7 +31,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 					</div>
 				<?php endif; ?>
 
-				<h4><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a><span class="small"> - <?php printf( _nx( '%d member', '%d members', bp_get_group_total_members( false ),'Group member count', 'buddypress' ), bp_get_group_total_members( false )  ); ?></span></h4>
+				<h4><?php bp_group_link(); ?><span class="small"> - <?php printf( _nx( '%d member', '%d members', bp_get_group_total_members( false ),'Group member count', 'buddypress' ), bp_get_group_total_members( false )  ); ?></span></h4>
 
 				<p class="desc">
 					<?php bp_group_description_excerpt(); ?>
@@ -75,4 +80,4 @@ do_action( 'bp_before_group_invites_content' ); ?>
  *
  * @since 1.1.0
  */
-do_action( 'bp_after_group_invites_content' ); ?>
+do_action( 'bp_after_group_invites_content' );

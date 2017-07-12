@@ -108,7 +108,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		$this->params['no_grav'] = false;
 		$avatar = bp_core_fetch_avatar( $this->params );
 
-		remove_filter( 'bp_core_fetch_avatar', array( $this, 'bp_core_fetch_avatar_filter_check' ), 12, 2 );
+		remove_filter( 'bp_core_fetch_avatar', array( $this, 'bp_core_fetch_avatar_filter_check' ), 12 );
 
 		unset( $this->params );
 	}
@@ -120,7 +120,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		// Check the returned html to see that it matches an expected value.
 		// Get the correct default avatar, based on whether gravatars are allowed.
 		if ( $params['no_grav'] ) {
-			$avatar_url = bp_core_avatar_default( 'local' );
+			$avatar_url = bp_core_avatar_default( 'local', $params );
 		} else {
 			// This test has the slight odor of hokum since it recreates so much code that could be changed at any time.
 			$bp = buddypress();

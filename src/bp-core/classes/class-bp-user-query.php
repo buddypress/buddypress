@@ -247,7 +247,7 @@ class BP_User_Query {
 		// Setup the main SQL query container.
 		$sql = array(
 			'select'  => '',
-			'where'   => array(),
+			'where'   => array('1=1'),
 			'orderby' => '',
 			'order'   => '',
 			'limit'   => ''
@@ -364,7 +364,11 @@ class BP_User_Query {
 		// 'include' - User ids to include in the results.
 		$include     = false !== $include ? wp_parse_id_list( $include ) : array();
 		$include_ids = $this->get_include_ids( $include );
-		if ( ! empty( $include_ids ) ) {
+
+		// An array containing nothing but 0 should always fail.
+		if ( 1 === count( $include_ids ) && 0 == reset( $include_ids ) ) {
+			$sql['where'][] = $this->no_results['where'];
+		} elseif ( ! empty( $include_ids ) ) {
 			$include_ids    = implode( ',', wp_parse_id_list( $include_ids ) );
 			$sql['where'][] = "u.{$this->uid_name} IN ({$include_ids})";
 		}
@@ -591,11 +595,14 @@ class BP_User_Query {
 		// Match up to the user ids from the main query.
 		foreach ( $this->user_ids as $key => $uid ) {
 			if ( isset( $r[ $uid ] ) ) {
+				$r[ $uid ]->ID = (int) $uid;
+				$r[ $uid ]->user_status = (int) $r[ $uid ]->user_status;
+
 				$this->results[ $uid ] = $r[ $uid ];
 
 				// The BP template functions expect an 'id'
 				// (as opposed to 'ID') property.
-				$this->results[ $uid ]->id = $uid;
+				$this->results[ $uid ]->id = (int) $uid;
 
 			// Remove user ID from original user_ids property.
 			} else {
@@ -780,7 +787,7 @@ class BP_User_Query {
 
 		$tax_query = new WP_Tax_Query( array(
 			array(
-				'taxonomy' => 'bp_member_type',
+				'taxonomy' => bp_get_member_type_tax_name(),
 				'field'    => 'name',
 				'operator' => $operator,
 				'terms'    => $types,
@@ -788,17 +795,14 @@ class BP_User_Query {
 		) );
 
 		// Switch to the root blog, where member type taxonomies live.
+		$site_id  = bp_get_taxonomy_term_site_id( bp_get_member_type_tax_name() );
 		$switched = false;
-		if ( ! bp_is_root_blog() ) {
-			switch_to_blog( bp_get_root_blog_id() );
+		if ( $site_id !== get_current_blog_id() ) {
+			switch_to_blog( $site_id );
 			$switched = true;
 		}
 
 		$sql_clauses = $tax_query->get_sql( 'u', $this->uid_name );
-
-		if ( $switched ) {
-			restore_current_blog();
-		}
 
 		$clause = '';
 
@@ -813,6 +817,10 @@ class BP_User_Query {
 		// IN clauses must be converted to a subquery.
 		} elseif ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $sql_clauses['where'], $matches ) ) {
 			$clause = "u.{$this->uid_name} IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
+		}
+
+		if ( $switched ) {
+			restore_current_blog();
 		}
 
 		return $clause;

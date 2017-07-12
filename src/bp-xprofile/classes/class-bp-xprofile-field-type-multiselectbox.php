@@ -73,21 +73,25 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			'name'     => bp_get_the_profile_field_input_name() . '[]',
 		) ); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>[]">
+		<legend id="<?php bp_the_profile_field_input_name(); ?>-1">
 			<?php bp_the_profile_field_name(); ?>
 			<?php bp_the_profile_field_required_label(); ?>
-		</label>
+		</legend>
 
 		<?php
 
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
 		do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-		<select <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+		<select <?php echo $this->get_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-3">
 			<?php bp_the_profile_field_options( array(
 				'user_id' => $user_id
 			) ); ?>
 		</select>
+
+		<?php if ( bp_get_the_profile_field_description() ) : ?>
+			<p class="description" id="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_description(); ?></p>
+		<?php endif; ?>
 
 		<?php if ( ! bp_get_the_profile_field_is_required() ) : ?>
 
@@ -183,7 +187,10 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			'multiple' => 'multiple'
 		) ); ?>
 
-		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php esc_html_e( 'Select', 'buddypress' ); ?></label>
+		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
+			/* translators: accessibility text */
+			esc_html_e( 'Select', 'buddypress' );
+		?></label>
 		<select <?php echo $this->get_edit_field_html_elements( $r ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>

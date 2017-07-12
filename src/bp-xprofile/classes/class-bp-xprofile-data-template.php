@@ -141,8 +141,7 @@ class BP_XProfile_Data_Template {
 				9 => 'update_meta_cache'
 			);
 
-			$func_args = func_get_args();
-			$args      = bp_core_parse_args_array( $old_args_keys, $func_args );
+			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
 		}
 
 		$r = wp_parse_args( $args, array(

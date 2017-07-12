@@ -71,7 +71,7 @@ do_action( 'bp_before_forums_loop' ); ?>
 
 			<tr class="<?php bp_the_topic_css_class(); ?>">
 				<td class="td-title">
-					<a class="topic-title" href="<?php bp_the_topic_permalink(); ?>" title="<?php esc_attr_e( 'Permanent link to this post', 'buddypress' ); ?>">
+					<a class="topic-title" href="<?php bp_the_topic_permalink(); ?>">
 
 						<?php bp_the_topic_title(); ?>
 
@@ -86,7 +86,7 @@ do_action( 'bp_before_forums_loop' ); ?>
 
 								<?php
 									$topic_in = '<a href="' . bp_get_the_topic_object_permalink() . '">' . bp_get_the_topic_object_avatar( 'type=thumb&width=20&height=20' ) . '</a>' .
-													'<a href="' . bp_get_the_topic_object_permalink() . '" title="' . bp_get_the_topic_object_name() . '">' . bp_get_the_topic_object_name() .'</a>';
+													'<a href="' . bp_get_the_topic_object_permalink() . '">' . bp_get_the_topic_object_name() .'</a>';
 
 									/* translators: "started by [poster] in [forum]" */
 									printf( __( 'in %1$s', 'buddypress' ), $topic_in );
@@ -172,4 +172,4 @@ do_action( 'bp_before_forums_loop' ); ?>
  *
  * @since 1.2.6
  */
-do_action( 'bp_after_forums_loop' ); ?>
+do_action( 'bp_after_forums_loop' );

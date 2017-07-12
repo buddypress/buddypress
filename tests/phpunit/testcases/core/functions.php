@@ -256,6 +256,13 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_get_iso8601_date
+	 */
+	public function test_bp_core_get_iso8601_date_invalid_date() {
+		$this->assertEquals( '', bp_core_get_iso8601_date( 'Not a date' ) );
+	}
+
+	/**
 	 * @group bp_sort_by_key
 	 */
 	public function test_bp_sort_by_key_arrays_num() {
@@ -426,6 +433,80 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$expected[2]->name = 'charlie';
 
 		$this->assertEquals( $expected, bp_alpha_sort_by_key( $items, 'name' ) );
+	}
+
+	/**
+	 * @group bp_sort_by_key
+	 */
+	public function test_bp_sort_by_key_arrays_num_preserve_keys() {
+		$items = array(
+			'p' => array(
+				'foo' => 'bar',
+				'value' => 5,
+			),
+			'q' => array(
+				'foo' => 'bar',
+				'value' => 10,
+			),
+			'r' => array(
+				'foo' => 'bar',
+				'value' => 1,
+			),
+		);
+
+		$expected = array(
+			'r' => array(
+				'foo' => 'bar',
+				'value' => 1,
+			),
+			'p' => array(
+				'foo' => 'bar',
+				'value' => 5,
+			),
+			'q' => array(
+				'foo' => 'bar',
+				'value' => 10,
+			),
+		);
+
+		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
+	}
+
+	/**
+	 * @group bp_sort_by_key
+	 */
+	public function test_bp_sort_by_key_num_should_respect_0_preserve_keys() {
+		$items = array(
+			's' => array(
+				'foo' => 'bar',
+				'value' => 2,
+			),
+			't' => array(
+				'foo' => 'bar',
+				'value' => 0,
+			),
+			'u' => array(
+				'foo' => 'bar',
+				'value' => 4,
+			),
+		);
+
+		$expected = array(
+			't' => array(
+				'foo' => 'bar',
+				'value' => 0,
+			),
+			's' => array(
+				'foo' => 'bar',
+				'value' => 2,
+			),
+			'u' => array(
+				'foo' => 'bar',
+				'value' => 4,
+			),
+		);
+
+		$this->assertEquals( $expected, bp_sort_by_key( $items, 'value', 'num', true ) );
 	}
 
 	/**
@@ -600,6 +681,18 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_core_time_since
+	 */
+	public function test_bp_core_time_since_mysql_and_unix_timestamp_return_same_value() {
+		$mysql_date   = '2008-03-25 17:13:55';
+
+		$ts_mysql     = bp_core_time_since( $mysql_date );
+		$ts_timestamp = bp_core_time_since( strtotime( $mysql_date ) );
+
+		$this->assertSame( $ts_mysql, $ts_timestamp );
+	}
+
+	/**
 	 * @group bp_attachments
 	 * @group bp_upload_dir
 	 */
@@ -720,5 +813,26 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$link_color .= 'display: block';
 		$result      = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
 		$this->assertContains( $link_color, $result );
+	}
+
+	/**
+	 * @group bp_core_add_page_mappings
+	 */
+	public function test_bp_core_add_page_mappings() {
+		$bp = buddypress();
+		$reset_bp_pages = $bp->pages;
+
+		$expected = array( 'activity', 'groups', 'members' );
+		if ( is_multisite() ) {
+			$expected = array( 'activity', 'blogs', 'groups', 'members' );
+		}
+
+		bp_core_add_page_mappings( $bp->active_components );
+		$bp_pages = array_keys( bp_get_option( 'bp-pages' ) );
+		sort( $bp_pages );
+
+		$this->assertEquals( $expected, $bp_pages );
+
+		$bp->pages = $reset_bp_pages;
 	}
 }

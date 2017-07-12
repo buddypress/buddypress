@@ -16,6 +16,7 @@
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul {
 	left: 0;
 }
+
 #wpadminbar .quicklinks li#wp-admin-bar-group-admin-with-avatar ul ul {
 	left: 0;
 }
@@ -24,13 +25,13 @@
 #wpadminbar .quicklinks li#wp-admin-bar-my-account a span.count,
 #wpadminbar .quicklinks li#wp-admin-bar-my-account-with-avatar a span.count,
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications {
-	background: #21759B;
+	background: #21759b;
 	color: #fff;
 	text-shadow: none;
 	display: inline;
 	padding: 2px 5px;
 	font-size: 10px;
-	font-weight: bold;
+	font-weight: 700;
 	-moz-border-radius: 10px;
 	-khtml-border-radius: 10px;
 	-webkit-border-radius: 10px;
@@ -40,19 +41,33 @@
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications {
 	background: #ddd;
 	color: #333;
-	margin: 0
+	margin: 0;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert {
-	background-color: #1fb3dd;
+	background-color: #21759b;
 	color: #fff;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications > a {
-	padding: 0 .5em;
+	padding: 0 0.5em;
 }
 
 #wp-admin-bar-user-info img.avatar {
 	height: 64px;
 	width: 64px;
+}
+
+/* Remove additional arrows from appearing on the BuddyPress' `my_account_menu`
+ * on large screens. Add back arrows for screen widths 600px and lower.
+ */
+#wpadminbar .wp-admin-bar-arrow-right {
+	display: none;
+}
+
+@media screen and (max-width: 600px) {
+
+	#wpadminbar .wp-admin-bar-arrow-right {
+		display: block;
+	}
 }

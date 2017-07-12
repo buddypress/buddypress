@@ -26,8 +26,9 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		$name        = _x( "(BuddyPress) Who's Online", 'widget name', 'buddypress' );
 		$description = __( 'Profile photos of online users', 'buddypress' );
 		parent::__construct( false, $name, array(
-			'description' => $description,
-			'classname' => 'widget_bp_core_whos_online_widget buddypress widget',
+			'description'                 => $description,
+			'classname'                   => 'widget_bp_core_whos_online_widget buddypress widget',
+			'customize_selective_refresh' => true,
 		) );
 	}
 
@@ -59,10 +60,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 		 */
 		$title = apply_filters( 'widget_title', $settings['title'], $settings, $this->id_base );
 
-		echo $args['before_widget']
-		   . $args['before_title']
-		   . $title
-		   . $args['after_title'];
+		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title'];
 
 		// Setup args for querying members.
 		$members_args = array(
@@ -86,7 +84,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 
 					<div class="item-avatar">
-						<a href="<?php bp_member_permalink(); ?>" title="<?php bp_member_name(); ?>"><?php bp_member_avatar(); ?></a>
+						<a href="<?php bp_member_permalink(); ?>" class="bp-tooltip" data-bp-tooltip="<?php bp_member_name(); ?>"><?php bp_member_avatar(); ?></a>
 					</div>
 
 				<?php endwhile; ?>
@@ -161,7 +159,6 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @uses bp_parse_args() To merge widget settings into defaults.
 	 *
 	 * @param array $instance Widget instance settings.
 	 * @return array

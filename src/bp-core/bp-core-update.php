@@ -17,9 +17,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.7.0
  *
- * @uses get_option()
- * @uses bp_get_db_version() To get BuddyPress's database version.
- *
  * @return bool True if this is a fresh BP install, otherwise false.
  */
 function bp_is_install() {
@@ -34,9 +31,6 @@ function bp_is_install() {
  * an update.
  *
  * @since 1.6.0
- *
- * @uses get_option()
- * @uses bp_get_db_version() To get BuddyPress's database version.
  *
  * @return bool True if update, otherwise false.
  */
@@ -57,8 +51,6 @@ function bp_is_update() {
  * Determine whether BuddyPress is in the process of being activated.
  *
  * @since 1.6.0
- *
- * @uses buddypress()
  *
  * @param string $basename BuddyPress basename.
  * @return bool True if activating BuddyPress, false if not.
@@ -104,8 +96,6 @@ function bp_is_activation( $basename = '' ) {
  *
  * @since 1.6.0
  *
- * @uses buddypress()
- *
  * @param string $basename BuddyPress basename.
  * @return bool True if deactivating BuddyPress, false if not.
  */
@@ -149,9 +139,6 @@ function bp_is_deactivation( $basename = '' ) {
  * Update the BP version stored in the database to the current version.
  *
  * @since 1.6.0
- *
- * @uses bp_get_db_version() To get BuddyPress's database version.
- * @uses bp_update_option() To update BuddyPress's database version.
  */
 function bp_version_bump() {
 	bp_update_option( '_bp_db_version', bp_get_db_version() );
@@ -204,10 +191,11 @@ function bp_version_updater() {
 		'notifications' => 1,
 	) );
 
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 	$switched_to_root_blog = false;
 
-	// Make sure the current blog is set to the root blog
+	// Make sure the current blog is set to the root blog.
 	if ( ! bp_is_root_blog() ) {
 		switch_to_blog( bp_get_root_blog_id() );
 		bp_register_taxonomies();
@@ -230,50 +218,55 @@ function bp_version_updater() {
 		// Run the schema install to update tables.
 		bp_core_install();
 
-		// 1.5.0
+		// Version 1.5.0.
 		if ( $raw_db_version < 1801 ) {
 			bp_update_to_1_5();
 			bp_core_add_page_mappings( $default_components, 'delete' );
 		}
 
-		// 1.6.0
+		// Version 1.6.0.
 		if ( $raw_db_version < 6067 ) {
 			bp_update_to_1_6();
 		}
 
-		// 1.9.0
+		// Version 1.9.0.
 		if ( $raw_db_version < 7553 ) {
 			bp_update_to_1_9();
 		}
 
-		// 1.9.2
+		// Version 1.9.2.
 		if ( $raw_db_version < 7731 ) {
 			bp_update_to_1_9_2();
 		}
 
-		// 2.0.0
+		// Version 2.0.0.
 		if ( $raw_db_version < 7892 ) {
 			bp_update_to_2_0();
 		}
 
-		// 2.0.1
+		// Version 2.0.1.
 		if ( $raw_db_version < 8311 ) {
 			bp_update_to_2_0_1();
 		}
 
-		// 2.2.0
+		// Version 2.2.0.
 		if ( $raw_db_version < 9181 ) {
 			bp_update_to_2_2();
 		}
 
-		// 2.3.0
+		// Version 2.3.0.
 		if ( $raw_db_version < 9615 ) {
 			bp_update_to_2_3();
 		}
 
-		// 2.5.0
+		// Version 2.5.0.
 		if ( $raw_db_version < 10440 ) {
 			bp_update_to_2_5();
+		}
+
+		// Version 2.7.0.
+		if ( $raw_db_version < 11105 ) {
+			bp_update_to_2_7();
 		}
 	}
 
@@ -343,7 +336,7 @@ function bp_update_to_1_5() {
 }
 
 /**
- * Remove unused metadata from database when upgrading from < 1.6.
+ * Remove unused metadata from database when upgrading from < 1.6.0.
  *
  * Database update methods based on version numbers.
  *
@@ -392,7 +385,7 @@ function bp_update_to_1_9() {
 }
 
 /**
- * Perform database updates for BP 1.9.2
+ * Perform database updates for BP 1.9.2.
  *
  * In 1.9, BuddyPress stopped registering its theme directory when it detected
  * that bp-default (or a child theme) was not currently being used, in effect
@@ -401,6 +394,7 @@ function bp_update_to_1_9() {
  * bp-default would no longer be available, with no obvious way (outside of
  * a manual filter) to restore it. In 1.9.2, we add an option that flags
  * whether bp-default or a child theme is active at the time of upgrade; if so,
+ *
  * the theme directory will continue to be registered even if the theme is
  * deactivated temporarily. Thus, new installations will not see bp-default,
  * but legacy installations using the theme will continue to see it.
@@ -452,8 +446,6 @@ function bp_update_to_2_0() {
  * 2.0.1 database upgrade routine.
  *
  * @since 2.0.1
- *
- * @return void
  */
 function bp_update_to_2_0_1() {
 
@@ -514,12 +506,48 @@ function bp_update_to_2_5() {
 }
 
 /**
+ * 2.7.0 update routine.
+ *
+ * - Add email unsubscribe salt.
+ * - Save legacy directory titles to the corresponding WP pages.
+ * - Add ignore deprecated code option (false for updates).
+ *
+ * @since 2.7.0
+ */
+function bp_update_to_2_7() {
+	bp_add_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
+
+	// Update post_titles
+	bp_migrate_directory_page_titles();
+
+	/*
+	 * Add `parent_id` column to groups table.
+	 * Also handled by `bp_core_install()`.
+	 */
+	if ( bp_is_active( 'groups' ) ) {
+		bp_core_install_groups();
+
+		// Invalidate all cached group objects.
+		global $wpdb;
+		$bp = buddypress();
+
+		$group_ids = $wpdb->get_col( "SELECT id FROM {$bp->groups->table_name}" );
+
+		foreach ( $group_ids as $group_id ) {
+			wp_cache_delete( $group_id, 'bp_groups' );
+		}
+	}
+
+	// Do not ignore deprecated code for existing installs.
+	bp_add_option( '_bp_ignore_deprecated_code', false );
+}
+
+/**
  * Updates the component field for new_members type.
  *
  * @since 2.2.0
  *
  * @global $wpdb
- * @uses   buddypress()
  */
 function bp_migrate_new_member_activity_component() {
 	global $wpdb;
@@ -552,8 +580,6 @@ function bp_migrate_new_member_activity_component() {
  * Remove all hidden friendship activities.
  *
  * @since 2.2.0
- *
- * @uses bp_activity_delete() to delete the corresponding friendship activities.
  */
 function bp_cleanup_friendship_activities() {
 	bp_activity_delete( array(
@@ -564,13 +590,60 @@ function bp_cleanup_friendship_activities() {
 }
 
 /**
+ * Update WP pages so that their post_title matches the legacy component directory title.
+ *
+ * As of 2.7.0, component directory titles come from the `post_title` attribute of the corresponding WP post object,
+ * instead of being hardcoded. To ensure that directory titles don't change for existing installations, we update these
+ * WP posts with the formerly hardcoded titles.
+ *
+ * @since 2.7.0
+ */
+function bp_migrate_directory_page_titles() {
+	$bp_pages = bp_core_get_directory_page_ids( 'all' );
+
+	$default_titles = bp_core_get_directory_page_default_titles();
+
+	$legacy_titles = array(
+		'activity' => _x( 'Site-Wide Activity', 'component directory title', 'buddypress' ),
+		'blogs'    => _x( 'Sites', 'component directory title', 'buddypress' ),
+		'groups'   => _x( 'Groups', 'component directory title', 'buddypress' ),
+		'members'  => _x( 'Members', 'component directory title', 'buddypress' ),
+	);
+
+	foreach ( $bp_pages as $component => $page_id ) {
+		if ( ! isset( $legacy_titles[ $component ] ) ) {
+			continue;
+		}
+
+		$page = get_post( $page_id );
+		if ( ! $page ) {
+			continue;
+		}
+
+		// If the admin has changed the default title, don't touch it.
+		if ( isset( $default_titles[ $component ] ) && $default_titles[ $component ] !== $page->post_title ) {
+			continue;
+		}
+
+		// If the saved page title is the same as the legacy title, there's nothing to do.
+		if ( $legacy_titles[ $component ] == $page->post_title ) {
+			continue;
+		}
+
+		// Update the page with the legacy title.
+		wp_update_post( array(
+			'ID' => $page_id,
+			'post_title' => $legacy_titles[ $component ],
+		) );
+	}
+}
+
+/**
  * Redirect user to BP's What's New page on first page load after activation.
  *
  * @since 1.7.0
  *
  * @internal Used internally to redirect BuddyPress to the about page on activation.
- *
- * @uses set_transient() To drop the activation transient for 30 seconds.
  */
 function bp_add_activation_redirect() {
 
@@ -639,8 +712,6 @@ function bp_core_maybe_install_signups() {
  * Runs on BuddyPress activation.
  *
  * @since 1.6.0
- *
- * @uses do_action() Calls 'bp_activation' hook.
  */
 function bp_activation() {
 
@@ -653,13 +724,13 @@ function bp_activation() {
 	/**
 	 * Fires during the activation of BuddyPress.
 	 *
-	 * Use as of (1.6.0)
+	 * Use as of 1.6.0.
 	 *
 	 * @since 1.6.0
 	 */
 	do_action( 'bp_activation' );
 
-	// @deprecated as of (1.6)
+	// @deprecated as of 1.6.0
 	do_action( 'bp_loader_activate' );
 }
 
@@ -669,8 +740,6 @@ function bp_activation() {
  * Runs on BuddyPress deactivation.
  *
  * @since 1.6.0
- *
- * @uses do_action() Calls 'bp_deactivation' hook.
  */
 function bp_deactivation() {
 
@@ -688,13 +757,13 @@ function bp_deactivation() {
 	/**
 	 * Fires during the deactivation of BuddyPress.
 	 *
-	 * Use as of (1.6.0)
+	 * Use as of 1.6.0.
 	 *
 	 * @since 1.6.0
 	 */
 	do_action( 'bp_deactivation' );
 
-	// @deprecated as of (1.6)
+	// @deprecated as of 1.6.0
 	do_action( 'bp_loader_deactivate' );
 }
 
@@ -704,8 +773,6 @@ function bp_deactivation() {
  * Runs when uninstalling BuddyPress.
  *
  * @since 1.6.0
- *
- * @uses do_action() Calls 'bp_uninstall' hook.
  */
 function bp_uninstall() {
 

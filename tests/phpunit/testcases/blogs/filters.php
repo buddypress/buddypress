@@ -28,8 +28,8 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 		$bp = buddypress();
 
 		_unregister_post_type( 'using_old_filter' );
-		remove_filter( 'bp_blogs_record_post_post_types',    array( $this, 'filter_post_types'), 10, 1 );
-		remove_filter( 'bp_blogs_record_comment_post_types', array( $this, 'filter_post_types'), 10, 1 );
+		remove_filter( 'bp_blogs_record_post_post_types',    array( $this, 'filter_post_types' ), 10 );
+		remove_filter( 'bp_blogs_record_comment_post_types', array( $this, 'filter_post_types' ), 10 );
 	}
 
 	/**

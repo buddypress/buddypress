@@ -409,3 +409,20 @@ class BPTest_Group_Extension_ShowTab_Noone extends BP_Group_Extension {
 		parent::init( $args );
 	}
 }
+
+class BPTest_Group_Extension_Widget_Method extends BP_Group_Extension {
+	public function __construct() {
+		$class_name = get_class( $this );
+
+		$args = array(
+			'name' => $class_name,
+			'slug' => sanitize_title( $class_name ),
+		);
+
+		parent::init( $args );
+	}
+
+	public function widget_display() {
+		echo 'Widget Displayed';
+	}
+}

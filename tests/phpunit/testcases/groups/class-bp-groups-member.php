@@ -244,7 +244,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		// Not in group context
 		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_members ) );
 		// In group context
-		$g_obj = groups_get_group( array( 'group_id' => $g ) );
+		$g_obj = groups_get_group( $g );
 		$this->go_to( bp_get_group_permalink( $g_obj ) );
 		groups_update_groupmeta( $g, 'invite_status', 'mods' );
 		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_nonmembers ) );
@@ -990,7 +990,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( is_numeric( $member ) && $member > 0 );
 		// Check that the invite has been removed.
 		$invite = groups_check_user_has_invite( $u2, $g1, 'all' );
-		$this->assertTrue( is_null( $invite ) );
+		$this->assertFalse( $invite );
 	}
 
 	/**
@@ -1150,6 +1150,42 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group groups_get_invites_for_group
+	 * @group group_send_invites
+	 * @group group_invitations
+	 * @group group_membership
+	 */
+	public function test_groups_get_invites_for_group_with_sent_parameter() {
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+
+		// Create draft invitation
+		groups_invite_user( array(
+			'user_id'       => $u2,
+			'group_id'      => $g1,
+			'inviter_id'    => $u1,
+			'date_modified' => bp_core_current_time(),
+			'is_confirmed'  => 0
+		) );
+
+		// Send the invitation; this will set the 'invite_sent' value to 1.
+		groups_send_invites( $u1, $g1 );
+
+		// Default groups_get_invites_for_group() call
+		$i = groups_get_invites_for_group( $u1, $g1 );
+		$this->assertEqualSets( array( $u2 ), $i );
+
+		// Fetch users whose invites have been sent out; should be the same as above.
+		$i = groups_get_invites_for_group( $u1, $g1 );
+		$this->assertEqualSets( array( $u2 ), $i );
+
+		// Fetch users whose invites haven't been sent yet.
+		$i = groups_get_invites_for_group( $u1, $g1, 0 );
+		$this->assertEmpty( $i );
+	}
+
+	/**
 	 * @group groups_send_membership_request
 	 * @group group_membership_requests
 	 * @group group_membership
@@ -1267,5 +1303,72 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_total_group_count_should_return_integer() {
 		$this->assertInternalType( 'int', BP_Groups_Member::total_group_count( 123 ) );
+	}
+
+	/**
+	 * @group get_memberships_by_id
+	 */
+	public function test_get_memberships_by_id_with_single_id() {
+		$users = $this->factory->user->create_many( 2 );
+		$groups = $this->factory->group->create_many( 2 );
+
+		$m0 = $this->add_user_to_group( $users[0], $groups[0] );
+		$m1 = $this->add_user_to_group( $users[1], $groups[1] );
+
+		$found = BP_Groups_Member::get_memberships_by_id( $m0 );
+
+		$this->assertSame( 1, count( $found ) );
+		$this->assertEquals( $m0, $found[0]->id );
+	}
+
+	/**
+	 * @group get_memberships_by_id
+	 */
+	public function test_get_memberships_by_id_with_multiple_ids() {
+		$users = $this->factory->user->create_many( 2 );
+		$groups = $this->factory->group->create_many( 2 );
+
+		$m0 = $this->add_user_to_group( $users[0], $groups[0] );
+		$m1 = $this->add_user_to_group( $users[1], $groups[1] );
+
+		$found = BP_Groups_Member::get_memberships_by_id( array( $m0, $m1 ) );
+
+		$this->assertSame( 2, count( $found ) );
+		$this->assertEqualSets( array( $m0, $m1 ), wp_list_pluck( $found, 'id' ) );
+	}
+
+	/**
+	 * @ticket BP7382
+	 */
+	public function test_user_property_should_be_accessible() {
+		$user = $this->factory->user->create();
+		$group = $this->factory->group->create();
+
+		$this->add_user_to_group( $user, $group );
+
+		$membership = new BP_Groups_Member( $user, $group );
+
+		$user_obj = $membership->user;
+
+		$this->assertInstanceOf( 'BP_Core_User', $user_obj );
+		$this->assertEquals( $user, $user_obj->id );
+	}
+
+	/**
+	 * @group get_group_moderator_ids
+	 */
+	public function test_groups_get_group_mods_bad_id() {
+		$mods = groups_get_group_mods( null );
+
+		$this->assertTrue( is_array( $mods ) && empty( $mods ) );
+	}
+
+	/**
+	 * @group get_group_moderator_ids
+	 */
+	public function test_groups_get_group_admins_bad_id() {
+		$admins = groups_get_group_admins( null );
+
+		$this->assertTrue( is_array( $admins ) && empty( $admins ) );
 	}
 }

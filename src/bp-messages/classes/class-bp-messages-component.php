@@ -63,15 +63,13 @@ class BP_Messages_Component extends BP_Component {
 			'filters',
 			'template',
 			'functions',
-			'notifications',
 			'widgets',
 		);
 
-		if ( ! buddypress()->do_autoload ) {
-			$includes[] = 'classes';
-		}
-
 		// Conditional includes.
+		if ( bp_is_active( 'notifications' ) ) {
+			$includes[] = 'notifications';
+		}
 		if ( bp_is_active( $this->id, 'star' ) ) {
 			$includes[] = 'star';
 		}
@@ -147,7 +145,7 @@ class BP_Messages_Component extends BP_Component {
 
 		// Only grab count if we're on a user page and current user has access.
 		if ( bp_is_user() && bp_user_has_access() ) {
-			$count    = bp_get_total_unread_messages_count();
+			$count    = bp_get_total_unread_messages_count( bp_displayed_user_id() );
 			$class    = ( 0 === $count ) ? 'no-count' : 'count';
 			$nav_name = sprintf(
 				/* translators: %s: Unread message count for the current user */
@@ -206,26 +204,35 @@ class BP_Messages_Component extends BP_Component {
 			'user_has_access' => $access
 		);
 
-		$sub_nav[] = array(
-			'name'            => __( 'Compose', 'buddypress' ),
-			'slug'            => 'compose',
-			'parent_url'      => $messages_link,
-			'parent_slug'     => $slug,
-			'screen_function' => 'messages_screen_compose',
-			'position'        => 30,
-			'user_has_access' => $access
-		);
+		// Show certain screens only if the current user is the displayed user.
+		if ( bp_is_my_profile() ) {
 
-		if ( bp_current_user_can( 'bp_moderate' ) ) {
+			// Show "Compose" on the logged-in user's profile only.
 			$sub_nav[] = array(
-				'name'            => __( 'Notices', 'buddypress' ),
-				'slug'            => 'notices',
+				'name'            => __( 'Compose', 'buddypress' ),
+				'slug'            => 'compose',
 				'parent_url'      => $messages_link,
 				'parent_slug'     => $slug,
-				'screen_function' => 'messages_screen_notices',
-				'position'        => 90,
-				'user_has_access' => true
+				'screen_function' => 'messages_screen_compose',
+				'position'        => 30,
+				'user_has_access' => $access
 			);
+
+			/*
+			 * Show "Notices" on the logged-in user's profile only
+			 * and then only if the user can create notices.
+			 */
+			if ( bp_current_user_can( 'bp_moderate' ) ) {
+				$sub_nav[] = array(
+					'name'            => __( 'Notices', 'buddypress' ),
+					'slug'            => 'notices',
+					'parent_url'      => $messages_link,
+					'parent_slug'     => $slug,
+					'screen_function' => 'messages_screen_notices',
+					'position'        => 90,
+					'user_has_access' => true
+				);
+			}
 		}
 
 		parent::setup_nav( $main_nav, $sub_nav );
@@ -245,7 +252,7 @@ class BP_Messages_Component extends BP_Component {
 			$messages_link = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
 
 			// Unread message count.
-			$count = messages_get_unread_count();
+			$count = messages_get_unread_count( bp_loggedin_user_id() );
 			if ( !empty( $count ) ) {
 				$title = sprintf(
 					/* translators: %s: Unread message count for the current user */

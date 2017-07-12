@@ -771,6 +771,17 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		$this->assertSame( '', $a_obj->action );
 	}
 
+	/**
+	 * @ticket BP7394
+	 */
+	public function test_nonexistent_activity_should_have_id_0_after_population() {
+		$a = $this->factory->activity->create();
+		bp_activity_delete_by_activity_id( $a );
+
+		$a_obj = new BP_Activity_Activity( $a );
+		$this->assertSame( 0, $a_obj->id );
+	}
+
 	public function action_cb( $activity ) {
 		return 'Woo Hoo!';
 	}

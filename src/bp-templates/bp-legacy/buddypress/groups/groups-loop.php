@@ -19,6 +19,10 @@
  */
 do_action( 'bp_before_groups_loop' ); ?>
 
+<?php if ( bp_get_current_group_directory_type() ) : ?>
+	<p class="current-group-type"><?php bp_current_group_directory_type_message() ?></p>
+<?php endif; ?>
+
 <?php if ( bp_has_groups( bp_ajax_querystring( 'groups' ) ) ) : ?>
 
 	<div id="pag-top" class="pagination">
@@ -46,7 +50,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 	 */
 	do_action( 'bp_before_directory_groups_list' ); ?>
 
-	<ul id="groups-list" class="item-list">
+	<ul id="groups-list" class="item-list" aria-live="assertive" aria-atomic="true" aria-relevant="all">
 
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
 
@@ -58,8 +62,8 @@ do_action( 'bp_before_groups_loop' ); ?>
 			<?php endif; ?>
 
 			<div class="item">
-				<div class="item-title"><a href="<?php bp_group_permalink(); ?>"><?php bp_group_name(); ?></a></div>
-				<div class="item-meta"><span class="activity"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
+				<div class="item-title"><?php bp_group_link(); ?></div>
+				<div class="item-meta"><span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
 
 				<div class="item-desc"><?php bp_group_description_excerpt(); ?></div>
 
@@ -140,4 +144,4 @@ do_action( 'bp_before_groups_loop' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_groups_loop' ); ?>
+do_action( 'bp_after_groups_loop' );

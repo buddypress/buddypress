@@ -267,4 +267,30 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 
 		$this->assertTrue( $result );
 	}
+
+	public function test_html_entities_are_decoded_in_email_subject() {
+		// Emulate custom post title for an email post type.
+		$subject = "It's pretty <new & magical.";
+
+		$email = new BP_Email( 'activity-at-message' );
+		$email->set_subject( $subject )->set_tokens( array( 'poster.name' => 'blah' ) );
+
+		// Subject always has to have tokens replaced before sending.
+		$this->assertSame( $subject, $email->get_subject( 'replace-tokens' ) );
+	}
+
+	public function test_html_entities_are_decoded_in_email_recipient_names() {
+		// Raw display name.
+		$name = "Test o'Toole";
+
+		// Emulate rendered {poster.name} token.
+		$token = apply_filters( 'bp_core_get_user_displayname', $name );
+
+		$email = new BP_Email( 'activity-at-message' );
+		$email->set_subject( '{{poster.name}}' )->set_tokens( array( 'poster.name' => $token ) );
+
+		// Subject always has to have tokens replaced before sending.
+		$this->assertSame( $name, $email->get_subject( 'replace-tokens' ) );
+	}
+
 }

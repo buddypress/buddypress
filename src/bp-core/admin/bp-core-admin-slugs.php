@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  * @todo Use settings API
- * @uses bp_core_admin_component_options()
  */
 function bp_core_admin_slugs_settings() {
 ?>
@@ -110,7 +109,6 @@ function bp_core_admin_get_static_pages() {
  * @todo Use settings API
  */
 function bp_core_admin_slugs_options() {
-	$bp = buddypress();
 
 	// Get the existing WP pages
 	$existing_pages = bp_core_get_directory_page_ids();
@@ -185,12 +183,20 @@ function bp_core_admin_slugs_options() {
 
 		<h3><?php _e( 'Registration', 'buddypress' ); ?></h3>
 
-		<p><?php _e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?></p>
+		<?php if ( bp_get_signup_allowed() ) : ?>
+			<p><?php _e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?></p>
+		<?php else : ?>
+			<?php if ( is_multisite() ) : ?>
+				<p><?php printf( __( 'Registration is currently disabled.  Before associating a page is allowed, please enable registration by selecting either the "User accounts may be registered" or "Both sites and user accounts can be registered" option on <a href="%s">this page</a>.', 'buddypress' ), network_admin_url( 'settings.php' ) ); ?></p>
+			<?php else : ?>
+				<p><?php printf( __( 'Registration is currently disabled.  Before associating a page is allowed, please enable registration by clicking on the "Anyone can register" checkbox on <a href="%s">this page</a>.', 'buddypress' ), admin_url( 'options-general.php' ) ); ?></p>
+			<?php endif; ?>
+		<?php endif; ?>
 
 		<table class="form-table">
 			<tbody>
 
-				<?php foreach ( $static_pages as $name => $label ) : ?>
+				<?php if ( bp_get_signup_allowed() ) : foreach ( $static_pages as $name => $label ) : ?>
 
 					<tr valign="top">
 						<th scope="row">
@@ -219,7 +225,7 @@ function bp_core_admin_slugs_options() {
 						</td>
 					</tr>
 
-				<?php endforeach ?>
+				<?php endforeach; endif; ?>
 
 				<?php
 

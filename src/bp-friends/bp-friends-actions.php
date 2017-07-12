@@ -52,7 +52,7 @@ function friends_action_add_friend() {
 
 	return false;
 }
-add_action( 'bp_init', 'friends_action_add_friend' );
+add_action( 'bp_actions', 'friends_action_add_friend' );
 
 /**
  * Catch and process Remove Friendship requests.
@@ -82,7 +82,7 @@ function friends_action_remove_friend() {
 			bp_core_add_message( __( 'Friendship canceled', 'buddypress' ) );
 		}
 
-	} elseif ( 'is_friends' == $friendship_status ) {
+	} elseif ( 'not_friends' == $friendship_status ) {
 		bp_core_add_message( __( 'You are not yet friends with this user', 'buddypress' ), 'error' );
 	} else {
 		bp_core_add_message( __( 'You have a pending friendship request with this user', 'buddypress' ), 'error' );
@@ -92,4 +92,4 @@ function friends_action_remove_friend() {
 
 	return false;
 }
-add_action( 'bp_init', 'friends_action_remove_friend' );
+add_action( 'bp_actions', 'friends_action_remove_friend' );

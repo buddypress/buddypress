@@ -2,6 +2,7 @@
 
 /**
  * @group BP_Messages_Thread
+ * @group messages
  */
 class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
@@ -12,18 +13,18 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
 		// prime cache
-		new BP_Messages_Thread( $t1 );
+		new BP_Messages_Thread( $message->thread_id );
 
 		// Cache should exist
 		$this->assertThat(
-			wp_cache_get( $t1, 'bp_messages_threads' ),
+			wp_cache_get( $message->thread_id, 'bp_messages_threads' ),
 			$this->logicalNot( $this->equalTo( false ) ),
 			'Message thread cache should exist.'
 		);
@@ -37,30 +38,24 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u2 = $this->factory->user->create();
 
 		// create thread
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
-		// save message ID
-		$thread = new BP_Messages_Thread( $t1 );
-		$m1 = wp_list_pluck( $thread->messages, 'id' );
-		$m1 = array_pop( $m1 );
+		$m1 = $message_1->id;
 
 		// create reply
-		$t2 = $this->factory->message->create( array(
-			'thread_id' => $t1,
+		$message_2 = $this->factory->message->create_and_get( array(
+			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'content' => 'Bar'
 		) );
-		// save message ID
-		$thread = new BP_Messages_Thread( $t1 );
-		$m2 = wp_list_pluck( $thread->messages, 'id' );
-		$m2 = array_pop( $m2 );
+		$m2 = $message_2->id;
 
 		// now get thread by DESC
-		$thread = new BP_Messages_Thread( $t1, 'DESC' );
+		$thread = new BP_Messages_Thread( $message_1->thread_id, 'DESC' );
 
 		// assert!
 		$this->assertEquals(
@@ -76,13 +71,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$t2 = $this->factory->message->create( array(
+		$message_2 = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Bar',
@@ -93,7 +88,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 			'search_terms' => 'ar',
 		) );
 
-		$expected = array( $t2 );
+		$expected = array( $message_2->thread_id );
 		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
 
 		$this->assertSame( $expected, $found );
@@ -106,13 +101,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$t2 = $this->factory->message->create( array(
+		$message_2 = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Bar',
@@ -124,7 +119,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 			'search_terms' => 'ar',
 		) );
 
-		$expected = array( $t2 );
+		$expected = array( $message_2->thread_id );
 		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
 
 		$this->assertSame( $expected, $found );
@@ -138,13 +133,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message_1 = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$t2 = $this->factory->message->create( array(
+		$message_2 = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Bar',
@@ -152,7 +147,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		$threads = BP_Messages_Thread::get_current_threads_for_user( $u1, 'sentbox', 'all', null, null, 'ar' );
 
-		$expected = array( $t2 );
+		$expected = array( $message_2->thread_id );
 		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
 
 		$this->assertSame( $expected, $found );
@@ -168,13 +163,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$thread = new BP_Messages_Thread( $t1 );
+		$thread = new BP_Messages_Thread( $message->thread_id );
 		$recipients = $thread->get_recipients();
 
 		$num_queries = $wpdb->num_queries;
@@ -194,13 +189,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$thread = new BP_Messages_Thread( $t1 );
+		$thread = new BP_Messages_Thread( $message->thread_id );
 		$recipients = $thread->get_recipients();
 
 		// Verify that the cache is populated.
@@ -210,7 +205,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		messages_new_message( array(
 			'sender_id' => $u2,
-			'thread_id' => $t1,
+			'thread_id' => $message->thread_id,
 			'recipients' => array( $u1 ),
 			'subject' => 'Bar',
 			'content' => 'Baz',
@@ -232,11 +227,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
+
+		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
 		$recipients = $thread->get_recipients();
@@ -262,11 +259,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
+
+		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
 		$recipients = $thread->get_recipients();
@@ -292,11 +291,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
+
+		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
 		$recipients = $thread->get_recipients();
@@ -327,11 +328,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
+
+		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
 		$recipients = $thread->get_recipients();
@@ -359,11 +362,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
+
+		$t1 = $message->thread_id;
 
 		// save recipient ID
 		$thread = new BP_Messages_Thread( $t1 );
@@ -387,11 +392,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = $this->factory->user->create();
 		$u2 = $this->factory->user->create();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
+
+		$t1 = $message->thread_id;
 
 		$this->assertEquals( $t1, BP_Messages_Thread::is_valid( $t1 ) );
 	}
@@ -412,13 +419,15 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		$date = bp_core_current_time();
 
-		$t1 = $this->factory->message->create( array(
+		$message = $this->factory->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 			'date_sent' => $date,
 			'content' => 'Bar and baz.',
 		) );
+
+		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
 

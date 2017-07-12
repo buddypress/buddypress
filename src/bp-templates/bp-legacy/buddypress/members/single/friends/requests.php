@@ -15,6 +15,11 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 
 <?php if ( bp_has_members( 'type=alphabetical&include=' . bp_get_friendship_requests() ) ) : ?>
 
+	<h2 class="bp-screen-reader-text"><?php
+		/* translators: accessibility text */
+		_e( 'Friendship requests', 'buddypress' );
+	?></h2>
+
 	<div id="pag-top" class="pagination no-ajax">
 
 		<div class="pag-count" id="member-dir-count-top">
@@ -111,4 +116,4 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
  *
  * @since 1.2.0
  */
-do_action( 'bp_after_member_friend_requests_content' ); ?>
+do_action( 'bp_after_member_friend_requests_content' );
