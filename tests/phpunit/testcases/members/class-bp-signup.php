@@ -70,8 +70,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		// Add new signup without a custom field visibility set for field_1.
 		$signup = BP_Signup::add( array(
-			'domain' => 'foo',
-			'path' => 'bar',
 			'title' => 'Foo bar',
 			'user_login' => 'user1',
 			'user_email' => 'user1@example.com',
