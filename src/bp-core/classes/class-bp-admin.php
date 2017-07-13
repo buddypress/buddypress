@@ -773,10 +773,10 @@ class BP_Admin {
 
 			<h3 class="wp-people-group"><?php _e( 'BuddyPress Team', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-core-team">
-				<li class="wp-person" id="wp-person-slaffik">
-					<a class="web" href="https://profiles.wordpress.org/r-a-y"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/61fb07ede3247b63f19015f200b3eb2c?s=60">
-					Slava Abakumov</a>
-					<span class="title"><?php _e( '2.8 Release Lead', 'buddypress' ); ?></span>
+				<li class="wp-person" id="wp-person-hnla">
+					<a class="web" href="https://profiles.wordpress.org/hnla"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60">
+					Hugo Ashmore</a>
+					<span class="title"><?php _e( '2.9 Release Lead', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a class="web" href="https://profiles.wordpress.org/r-a-y"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60">
@@ -803,11 +803,6 @@ class BP_Admin {
 					Michael Beckwith</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
-				<li class="wp-person" id="wp-person-hnla">
-					<a class="web" href="https://profiles.wordpress.org/hnla"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60">
-					Hugo</a>
-					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
-				</li>
 				<li class="wp-person" id="wp-person-henry-wright">
 					<a class="web" href="https://profiles.wordpress.org/henry.wright"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=60">
 					Henry Wright</a>
@@ -823,7 +818,11 @@ class BP_Admin {
 					shanebp</a>
 					<span class="title"><?php _e( 'Community Support', 'buddypress' ); ?></span>
 				</li>
-
+				<li class="wp-person" id="wp-person-slaffik">
+					<a class="web" href="https://profiles.wordpress.org/r-a-y"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/61fb07ede3247b63f19015f200b3eb2c?s=60">
+					Slava Abakumov</a>
+					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
+				</li>
 				<li class="wp-person" id="wp-person-offereins">
 					<a class="web" href="https://profiles.wordpress.org/Offereins"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/2404ed0a35bb41aedefd42b0a7be61c1?s=60">
 					Laurens Offereins</a>
