@@ -115,7 +115,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						<?php endif; ?>
 
 						<td class="thread-info">
-							<p><a href="<?php bp_message_thread_view_link(); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( "View Message", 'buddypress' ); ?>" aria-label="<?php esc_attr_e( "View Message", 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
+							<p><a href="<?php bp_message_thread_view_link( bp_get_message_thread_id(), bp_displayed_user_id() ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( "View Message", 'buddypress' ); ?>" aria-label="<?php esc_attr_e( "View Message", 'buddypress' ); ?>"><?php bp_message_thread_subject(); ?></a></p>
 							<p class="thread-excerpt"><?php bp_message_thread_excerpt(); ?></p>
 						</td>
 
@@ -139,12 +139,12 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 						<td class="thread-options">
 							<?php if ( bp_message_thread_has_unread() ) : ?>
-								<a class="read" href="<?php bp_the_message_thread_mark_read_url();?>"><?php _e( 'Read', 'buddypress' ); ?></a>
+								<a class="read" href="<?php bp_the_message_thread_mark_read_url( bp_displayed_user_id() );?>"><?php _e( 'Read', 'buddypress' ); ?></a>
 							<?php else : ?>
-								<a class="unread" href="<?php bp_the_message_thread_mark_unread_url();?>"><?php _e( 'Unread', 'buddypress' ); ?></a>
+								<a class="unread" href="<?php bp_the_message_thread_mark_unread_url( bp_displayed_user_id() );?>"><?php _e( 'Unread', 'buddypress' ); ?></a>
 							<?php endif; ?>
 							 |
-							<a class="delete" href="<?php bp_message_thread_delete_link(); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+							<a class="delete" href="<?php bp_message_thread_delete_link( bp_displayed_user_id() ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
 
 							<?php
 

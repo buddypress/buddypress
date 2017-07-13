@@ -273,20 +273,28 @@ function bp_message_thread_to() {
 /**
  * Output the permalink for a particular thread.
  *
+ * @since 2.9.0 Introduced `$user_id` parameter.
+ *
  * @param int $thread_id Optional. ID of the thread. Default: current thread
  *                       being iterated on in the loop.
+ * @param int $user_id   Optional. ID of the user relative to whom the link
+ *                       should be generated. Default: ID of logged-in user.
  */
-function bp_message_thread_view_link( $thread_id = 0 ) {
-	echo bp_get_message_thread_view_link( $thread_id );
+function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
+	echo bp_get_message_thread_view_link( $thread_id, $user_id );
 }
 	/**
 	 * Get the permalink of a particular thread.
 	 *
+	 * @since 2.9.0 Introduced `$user_id` parameter.
+	 *
 	 * @param int $thread_id Optional. ID of the thread. Default: current
 	 *                       thread being iterated on in the loop.
+	 * @param int $user_id   Optional. ID of the user relative to whom the link
+	 *                       should be generated. Default: ID of logged-in user.
 	 * @return string
 	 */
-	function bp_get_message_thread_view_link( $thread_id = 0 ) {
+	function bp_get_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 		global $messages_template;
 
 		if ( empty( $messages_template ) && (int) $thread_id > 0 ) {
@@ -295,41 +303,64 @@ function bp_message_thread_view_link( $thread_id = 0 ) {
 			$thread_id = $messages_template->thread->thread_id;
 		}
 
+		if ( null === $user_id ) {
+			$user_id = bp_loggedin_user_id();
+		}
+
+		$domain = bp_core_get_user_domain( $user_id );
+
 		/**
 		 * Filters the permalink of a particular thread.
 		 *
 		 * @since 1.0.0
 		 * @since 2.6.0 Added the `$thread_id` parameter.
+		 * @since 2.9.0 Added the `$user_id` parameter.
 		 *
 		 * @param string $value     Permalink of a particular thread.
 		 * @param int    $thread_id ID of the thread.
+		 * @param int    $user_id   ID of the user.
 		 */
-		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/view/' . $thread_id ), $thread_id );
+		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( $domain . bp_get_messages_slug() . '/view/' . $thread_id ), $thread_id, $user_id );
 	}
 
 /**
  * Output the URL for deleting the current thread.
+ *
+ * @since 2.9.0 Introduced `$user_id` parameter.
+ *
+ * @param int $user_id Optional. ID of the user relative to whom the link
+ *                     should be generated. Default: ID of logged-in user.
  */
-function bp_message_thread_delete_link() {
-	echo esc_url( bp_get_message_thread_delete_link() );
+function bp_message_thread_delete_link( $user_id = null ) {
+	echo esc_url( bp_get_message_thread_delete_link( $user_id ) );
 }
 	/**
 	 * Generate the URL for deleting the current thread.
 	 *
+	 * @since 2.9.0 Introduced `$user_id` parameter.
+	 *
+	 * @param int $user_id Optional. ID of the user relative to whom the link
+	 *                     should be generated. Default: ID of logged-in user.
 	 * @return string
 	 */
-	function bp_get_message_thread_delete_link() {
+	function bp_get_message_thread_delete_link( $user_id = null ) {
 		global $messages_template;
+
+		if ( null === $user_id ) {
+			$user_id = bp_loggedin_user_id();
+		}
+
+		$domain = bp_core_get_user_domain( $user_id );
 
 		/**
 		 * Filters the URL for deleting the current thread.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value URL for deleting the current thread.
-		 * @param string $value Text indicating action being executed.
+		 * @param string $value   URL for deleting the current thread.
+		 * @param int    $user_id ID of the user relative to whom the link should be generated.
 		 */
-		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ), $user_id );
 	}
 
 /**
@@ -338,18 +369,25 @@ function bp_message_thread_delete_link() {
  * Since this function directly outputs a URL, it is escaped.
  *
  * @since 2.2.0
+ * @since 2.9.0 Introduced `$user_id` parameter.
+ *
+ * @param int $user_id Optional. ID of the user relative to whom the link
+ *                     should be generated. Default: ID of logged-in user.
  */
-function bp_the_message_thread_mark_unread_url() {
-	echo esc_url( bp_get_the_message_thread_mark_unread_url() );
+function bp_the_message_thread_mark_unread_url( $user_id = null ) {
+	echo esc_url( bp_get_the_message_thread_mark_unread_url( $user_id ) );
 }
 	/**
 	 * Return the URL used for marking a single message thread as unread.
 	 *
 	 * @since 2.2.0
+	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. ID of the user relative to whom the link
+	 *                     should be generated. Default: ID of logged-in user.
 	 * @return string
 	 */
-	function bp_get_the_message_thread_mark_unread_url() {
+	function bp_get_the_message_thread_mark_unread_url( $user_id = null ) {
 
 		// Get the message ID.
 		$id = bp_get_message_thread_id();
@@ -360,8 +398,14 @@ function bp_the_message_thread_mark_unread_url() {
 			'message_id' => $id
 		);
 
+		if ( null === $user_id ) {
+			$user_id = bp_loggedin_user_id();
+		}
+
+		$domain = bp_core_get_user_domain( $user_id );
+
 		// Base unread URL.
-		$url = trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/unread' );
+		$url = trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/unread' );
 
 		// Add the args to the URL.
 		$url = add_query_arg( $args, $url );
@@ -373,10 +417,12 @@ function bp_the_message_thread_mark_unread_url() {
 		 * Filters the URL used for marking a single message thread as unread.
 		 *
 		 * @since 2.2.0
+		 * @since 2.9.0 Added `$user_id` parameter.
 		 *
-		 * @param string $url URL used for marking a single message thread as unread.
+		 * @param string $url     URL used for marking a single message thread as unread.
+		 * @param int    $user_id ID of the user relative to whom the link should be generated.
 		 */
-		return apply_filters( 'bp_get_the_message_thread_mark_unread_url', $url );
+		return apply_filters( 'bp_get_the_message_thread_mark_unread_url', $url, $user_id );
 	}
 
 /**
@@ -385,18 +431,25 @@ function bp_the_message_thread_mark_unread_url() {
  * Since this function directly outputs a URL, it is escaped.
  *
  * @since 2.2.0
+ * @since 2.9.0 Introduced `$user_id` parameter.
+ *
+ * @param int $user_id Optional. ID of the user relative to whom the link
+ *                     should be generated. Default: ID of logged-in user.
  */
-function bp_the_message_thread_mark_read_url() {
-	echo esc_url( bp_get_the_message_thread_mark_read_url() );
+function bp_the_message_thread_mark_read_url( $user_id = null ) {
+	echo esc_url( bp_get_the_message_thread_mark_read_url( $user_id ) );
 }
 	/**
 	 * Return the URL used for marking a single message thread as read.
 	 *
 	 * @since 2.2.0
+	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. ID of the user relative to whom the link
+	 *                     should be generated. Default: ID of logged-in user.
 	 * @return string
 	 */
-	function bp_get_the_message_thread_mark_read_url() {
+	function bp_get_the_message_thread_mark_read_url( $user_id = null ) {
 
 		// Get the message ID.
 		$id = bp_get_message_thread_id();
@@ -407,8 +460,14 @@ function bp_the_message_thread_mark_read_url() {
 			'message_id' => $id
 		);
 
+		if ( null === $user_id ) {
+			$user_id = bp_loggedin_user_id();
+		}
+
+		$domain = bp_core_get_user_domain( $user_id );
+
 		// Base read URL.
-		$url = trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/read' );
+		$url = trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/read' );
 
 		// Add the args to the URL.
 		$url = add_query_arg( $args, $url );
@@ -421,7 +480,8 @@ function bp_the_message_thread_mark_read_url() {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @param string $url URL used for marking a single message thread as read.
+		 * @param string $url     URL used for marking a single message thread as read.
+		 * @param int    $user_id ID of the user relative to whom the link should be generated.
 		 */
 		return apply_filters( 'bp_get_the_message_thread_mark_read_url', $url );
 	}
