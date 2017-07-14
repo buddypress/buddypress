@@ -567,7 +567,7 @@ class BP_Admin {
 
 				<div id="welcome-panel" class="welcome-panel">
 					<div class="welcome-panel-content">
-						<h3 style="margin:0"><?php _e( 'Getting Started with BuddyPress', 'buddypress' ); ?></h3>
+						<h3 style="margin:0;"><?php _e( 'Getting Started with BuddyPress', 'buddypress' ); ?></h3>
 						<div class="welcome-panel-column-container">
 							<div class="welcome-panel-column">
 								<h4><?php _e( 'Configure BuddyPress', 'buddypress' ); ?></h4>
@@ -612,114 +612,90 @@ class BP_Admin {
 
 			<?php endif; ?>
 
-			<div class="bp-headline-feature">
-				<div class="bp-headline">
-					<h3 class="headline-title"><?php esc_html_e( 'Modernizing the Codebase', 'buddypress' ); ?></h3>
-					<p class="introduction"><?php
-						 /* translators: 1: BP REST API, 2: Link to Codex article */
-						printf( __( 'To continue the migration of legacy code to modern standards and techniques necessary for the %1$s project and other new features moving forward, <a href="%2$s">BuddyPress 2.8 requires at least PHP 5.3</a>. This will allow us to build better, robust, and secure code, benefitting developers and users now and in the future.', 'buddypress'),
-						'<code>BP REST API</code>',
-						'https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/' );
-					?></p>
-				</div>
-			</div>
-
 			<div class="bp-features-section">
 
 				<h3 class="headline-title"><?php esc_html_e( 'For Developers &amp; Site Builders', 'buddypress' ); ?></h3>
 
-				<div class="bp-feature-with-images">
-
-					<div class="bp-feature-imaged">
-						<h4 class="feature-title"><?php esc_html_e( 'More helpful "Activate Pending Accounts" screen', 'buddypress' ); ?></h4>
-						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/pending-accounts.png' ); ?>" alt="<?php esc_attr_e( 'The improved pending account screen.', 'buddypress' ); ?>">
-						<p><?php esc_html_e( 'When you click on the username on the "Users > Manage Signups" page, you can now view profile data entered by the user at the time of registration.', 'buddypress' ); ?></p>
-					</div>
-
-					<div class="bp-feature-imaged anon">
-						<h4 class="feature-title"><?php
-							/* translators: %s: List-Unsubscribe */
-							printf( __( 'Support for %s header in emails', 'buddypress' ),
-							'<code>List-Unsubscribe</code>' );
-						?></h4>
-						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/list-unsubscribe.png' ); ?>" alt="<?php esc_attr_e( 'Email header showing the list-unsubscribe feature.', 'buddypress' ); ?>">
-						<p><?php esc_html_e( 'Allow users to unsubscribe from BuddyPress email notifications in some email clients such as Gmail (web), when properly configured.', 'buddypress' ); ?></p>
-					</div>
-
-					<div class="bp-feature-imaged">
-						<h4 class="feature-title"><?php esc_html_e( 'Twenty Seventeen Companion Stylesheet', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'BuddyPress looks great in WordPress\'s latest default theme with the new Twenty Seventeen companion stylesheet.', 'buddypress' ); ?></p>
-						<p><?php
-						/* translators: 1: Link to the Codex article, 2: functions.php */
-						printf( __( 'To change the default two-column page layout to a full-width layout as seen in the image, add the <a href="%1$s">following code</a> to the  %2$s file of your Twenty Seventeen child theme.', 'buddypress' ),
-						'https://codex.buddypress.org/themes/bp-theme-compatibility-and-the-wordpress-default-themes/twenty-seventeen-theme/',
-						'<code>functions.php</code>' );
-					?></p>
-					</div>
-
-					<div class="bp-feature-imaged anon">
-						<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/admin/images/twenty-seventeen.png' ); ?>" alt="<?php esc_attr_e( 'Full-width BuddyPress layout for Twenty Seventeen theme.', 'buddypress' ); ?>">
-					</div>
-
-					<div class="clear"></div>
-				</div>
-
-				<div class="bp-feature">
-					<span class="dashicons dashicons-testimonial" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'More hooks for Messages', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'We\'ve added new filters and actions for different methods throughout the Messages component.', 'buddypress' ); ?></p>
-				</div>
-
-				<div class="bp-feature opposite">
-					<span class="dashicons dashicons-search" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'A more flexible Group search', 'buddypress' ); ?></h4>
-					<p><?php
-						/* translators: 1: search_column, 2: BP_Groups_Group::get() */
-						printf( __( 'The new %1$s parameter allows developers to specify which columns should be matched, as well as where wildcard characters should be placed, when searching via %2$s.', 'buddypress' ),
-						'<code>search_column</code>',
-						'<code>BP_Groups_Group::get()</code>' );
-					?></p>
-				</div>
-
 				<div class="bp-feature">
 					<span class="dashicons dashicons-groups" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php esc_html_e( 'Alphabetical sorting for Groups widget', 'buddypress' ); ?></h4>
-					<p><?php esc_html_e( 'The groups widget can now be sorted alphabetically, in addition to sorting the results by recently active, popular, and newest groups.', 'buddypress' ); ?></p>
+					<h4 class="feature-title"><?php esc_html_e( 'Edit Group Slug', 'buddypress' ); ?></h4>
+					<p><?php esc_html_e( 'Allow administrators to change group names and permalinks. Navigate to the Groups screen in the wp-admin dashboard, click on the Edit link under the Group name, and adjust as needed.', 'buddypress' ); ?></p>
 				</div>
 
 				<div class="bp-feature opposite">
-					<span class="dashicons dashicons-email" aria-hidden="true"></span>
+					<span class="dashicons dashicons-admin-users" aria-hidden="true"></span>
 					<h4 class="feature-title"><?php
-						/* translators: %s: PHPMailer */
-						printf( __( 'Enable choice of %s', 'buddypress' ), '<code>PHPMailer</code>' );
+							/* translators: %s: 1: accessibility, 2: extended profile */
+							printf( __( 'Improve %1$s of %2$s Fields', 'buddypress' ),
+							'<code>a11y</code>',
+							'<code>Extended Profile</code>' );
 					?></h4>
+					<p><?php esc_html_e( 'Related form fields are grouped together in fieldsets and all interactive form controls are associated with necessary ARIA states and properties.', 'buddypress' ); ?></p>
+				</div>
+
+				<div class="bp-feature">
+					<span class="dashicons dashicons-email" aria-hidden="true"></span>
+					<h4 class="feature-title"><?php esc_html_e( 'Send group invitation only once per user', 'buddypress' ); ?></h4>
+					<p><?php esc_html_e( 'Prevent duplicate group invitations from being sent to a user by double-checking if a group invitation has already been sent to that user.', 'buddypress' ); ?></p>
+				</div>
+
+				<div class="bp-feature opposite">
+					<span class="dashicons dashicons-testimonial" aria-hidden="true"></span>
+					<h4 class="feature-title"><?php esc_html_e( 'Tooltips Usable for All Devices', 'buddypress' ); ?></h4>
 					<p><?php
-						/* translators: %s: PHPMailer */
-						printf( __( 'Developers can specify which %s should be used when sending BuddyPress with a new filter.', 'buddypress' ), '<code>PHPMailer</code>' );
+						/* translators: 1: title attribute, 2: :hover, 3: :focus  */
+						printf( __( 'Replaced %1$s attributes with tooltips which provide additional information and visual cues where needed on mouse %2$s and keyboard %3$s.', 'buddypress' ),
+						'<code>title</code>',
+						'<code>:hover</code>',
+						'<code>:focus</code>' );
 					?></p>
 				</div>
 
-				<div class="clear"></div>
 			</div>
 
 			<div class="bp-changelog-section">
+
 				<h3 class="changelog-title"><?php esc_html_e( 'More under the hood &#8230;', 'buddypress' ); ?></h3>
-				<div class="bp-changelog three-col">
-					<div class="col">
-						<h4 class="title"><?php esc_html_e( 'Localization Improvements', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'We continue to improve our localization internals, making it easier for translation editors to ensure that BuddyPress will be available for everyone in their own language.', 'buddypress' ); ?></p>
+				<div class="bp-changelog bp-three-column">
+					<div class="bp-column">
+						<h4 class="title"><?php esc_html_e( 'Better support for private message thread links in emails', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Redirect non-authenticated users to the login screen and authenticated users to the message linked.', 'buddypress' ); ?></p>
 					</div>
-					<div class="col">
-						<h4 class="title"><?php esc_html_e( 'Developer Reference', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Regular updates to inline code documentation make it easier for developers to understand how BuddyPress works.', 'buddypress' ); ?></p>
+					<div class="bp-column">
+						<h4 class="title"><?php esc_html_e( 'Compatibility with Bootstrap themes', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Removed issues with BuddyPress-generated content being hidden in the Groups loop and Activity comments in Bootstrap themes.', 'buddypress' ); ?></p>
 					</div>
 
-					<div class="col">
-						<h4 class="title"><?php esc_html_e( 'Accessibility Upgrades', 'buddypress' ); ?></h4>
-						<p><?php esc_html_e( 'Continued improvements for universal access help make BuddyPress back- and front-end screens usable for everyone (and on more devices).', 'buddypress' ); ?></p>
+					<div class="bp-column">
+						<h4 class="title"><?php esc_html_e( 'Improve profile image uploads', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Fixed issues with uploading in iOS Safari and uploading files with non-ASCII filenames.', 'buddypress' ); ?></p>
 					</div>
 				</div>
-				<div class="clear"></div>
+
+				<div class="bp-changelog bp-three-column">
+					<div class="bp-column">
+						<h4 class="title"><?php esc_html_e( 'URL compatibility for LightSpeed Servers', 'buddypress' ); ?></h4>
+						<p><?php
+								/* translators: %s: trailingslashit() */
+								printf( __( 'Audited and changed template link functions to use %s where necessary.', 'buddypress' ),
+								'<code>trailingslashit()</code>' );
+						?></p>
+					</div>
+					<div class="bp-column">
+						<h4 class="title"><?php esc_html_e( 'Template Packs UI in BuddyPress > Settings.', 'buddypress' ); ?></h4>
+						<p><?php esc_html_e( 'Register your new BuddyPress theme package and allow the user to select which template pack to use.', 'buddypress' ); ?></p>
+					</div>
+
+					<div class="bp-column">
+						<h4 class="title"><?php
+								/* translators: %s: bp_group_link() */
+								printf( __( 'New template function %s', 'buddypress' ),
+								'<code>bp_group_link()</code>' );
+						?></h4>
+						<p><?php esc_html_e( 'Output a group name as a text hyperlink where appropriate.', 'buddypress' ); ?></p>
+					</div>
+				</div>
+
 			</div>
 
 			<div class="bp-assets">

@@ -71,7 +71,7 @@ TABLE OF CONTENTS:
  * 1.2.1 Headline Feature
  */
 .buddypress .bp-headline-feature {
-	margin-bottom: 3em;
+	margin-bottom: 2em;
 	margin-top: 3em;
 	padding: 2em 3em;
 }
@@ -97,8 +97,8 @@ TABLE OF CONTENTS:
 .buddypress .bp-headline-feature .headline-title {
 	font-size: 2.2em;
 	font-weight: 300;
-	line-height: 1;
-	margin: 0;
+	line-height: 2;
+	margin: 0 0 1em;
 	text-align: center;
 }
 
@@ -113,9 +113,19 @@ TABLE OF CONTENTS:
 .buddypress .bp-features-section {
 	border-bottom: 1px solid #ccc;
 	clear: both;
-	margin-top: 3em;
+	margin-bottom: 3em;
+	margin-top: 2em;
 	overflow: hidden;
-	padding-bottom: 0;
+	padding-bottom: 2em;
+}
+
+.buddypress .bp-features-section p {
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.buddypress .bp-features-section img {
+	margin-bottom: 20px;
 }
 
 .buddypress .bp-features-section span.dashicons {
@@ -136,7 +146,7 @@ TABLE OF CONTENTS:
 	font-size: 2em;
 	font-weight: 300;
 	line-height: 1.5;
-	margin: 0 auto 2em;
+	margin: 1em auto 2em;
 	text-align: center;
 }
 
@@ -165,7 +175,9 @@ TABLE OF CONTENTS:
 }
 
 .buddypress .bp-feature:after {
+	clear: both;
 	content: "";
+	margin-bottom: 2em;
 }
 
 .buddypress .bp-feature-imaged .feature-title {
@@ -185,7 +197,7 @@ TABLE OF CONTENTS:
 }
 
 .buddypress .bp-feature .feature-title {
-	font-size: 1.25em;
+	font-size: 1em;
 	line-height: 1.5;
 	margin-bottom: 0;
 	margin-left: 110px;
@@ -203,13 +215,14 @@ TABLE OF CONTENTS:
 .buddypress .bp-changelog-section {
 	clear: both;
 	margin-bottom: 3em;
-	margin-top: 3em;
-	overflow: hidden;
+	margin-top: 4em;
 	padding-bottom: 0;
 }
 
 .buddypress .bp-changelog-section:after {
+	clear: both;
 	content: "";
+	display: table;
 }
 
 .buddypress .bp-changelog-section .changelog-title {
@@ -219,22 +232,22 @@ TABLE OF CONTENTS:
 	margin: 0 auto 1.5em;
 }
 
-.buddypress .bp-changelog-section .two-col div {
+.buddypress .bp-two-column div {
 	float: left;
 	margin-right: 4.799999999%;
 	position: relative;
 	width: 47.6%;
 }
 
-.buddypress .bp-changelog-section .three-col .col {
+.buddypress .bp-three-column .bp-column {
 	float: left;
 	margin-right: 5%;
 	position: relative;
 	width: 29.95%;
 }
 
-.buddypress .two-col .col:nth-of-type(2n),
-.buddypress .three-col .col:nth-of-type(3n) {
+.buddypress .bp-two-column .bp-column:nth-of-type(2n),
+.buddypress .bp-three-column .bp-column:nth-of-type(3n) {
 	margin-right: 0;
 }
 
@@ -242,14 +255,20 @@ TABLE OF CONTENTS:
 	margin-bottom: 3em;
 }
 
+.buddypress .bp-changelog:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
 .buddypress .bp-changelog .title {
-	font-size: 1em;
-	margin-bottom: 0;
+	font-size: 14px;
+	margin-bottom: 0.75em;
 	margin-top: 0;
 }
 
 .buddypress .bp-changelog p {
-	margin-bottom: 3em;
+	margin-bottom: 0;
 }
 
 .bp-changelog-url {
@@ -258,8 +277,7 @@ TABLE OF CONTENTS:
 
 .bp-assets {
 	clear: both;
-	margin-bottom: 2em;
-	margin-top: 2em;
+	margin-bottom: 3em;
 }
 
 @media screen and ( max-width: 782px ) {
