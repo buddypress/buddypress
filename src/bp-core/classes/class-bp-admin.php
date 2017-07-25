@@ -624,12 +624,7 @@ class BP_Admin {
 
 				<div class="bp-feature opposite">
 					<span class="dashicons dashicons-admin-users" aria-hidden="true"></span>
-					<h4 class="feature-title"><?php
-							/* translators: %s: 1: accessibility, 2: extended profile */
-							printf( __( 'Improve %1$s of %2$s Fields', 'buddypress' ),
-							'<code>a11y</code>',
-							'<code>Extended Profile</code>' );
-					?></h4>
+					<h4 class="feature-title"><?php esc_html_e( 'Improve accessibility of Extended Profile Fields', 'buddypress' ); ?></h4>
 					<p><?php esc_html_e( 'Related form fields are grouped together in fieldsets and all interactive form controls are associated with necessary ARIA states and properties.', 'buddypress' ); ?></p>
 				</div>
 
@@ -642,12 +637,8 @@ class BP_Admin {
 				<div class="bp-feature opposite">
 					<span class="dashicons dashicons-testimonial" aria-hidden="true"></span>
 					<h4 class="feature-title"><?php esc_html_e( 'Tooltips Usable for All Devices', 'buddypress' ); ?></h4>
-					<p><?php
-						/* translators: 1: title attribute, 2: :hover, 3: :focus  */
-						printf( __( 'Replaced %1$s attributes with tooltips which provide additional information and visual cues where needed on mouse %2$s and keyboard %3$s.', 'buddypress' ),
-						'<code>title</code>',
-						'<code>:hover</code>',
-						'<code>:focus</code>' );
+
+					<p><?php esc_html_e( 'Replaced HTML title attributes with tooltips which provide additional information and visual cues where needed on mouse hover and keyboard focus events.', 'buddypress' );
 					?></p>
 				</div>
 
