@@ -692,10 +692,13 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 
 		if ( bp_is_active( 'activity' ) ) {
 			$actions = bp_activity_get_actions_for_context();
-			foreach ( $actions as $action ) {
-				if ( $action['key'] === $_BP_COOKIE['bp-' . $object . '-filter'] ) {
-					$qs[] = 'action=' . $_BP_COOKIE['bp-' . $object . '-filter'];
-				}
+
+			// Handle multiple actions (eg. 'friendship_accepted,friendship_created')
+			$action_filter = explode( ',', $_BP_COOKIE['bp-' . $object . '-filter'] );
+
+			// See if action filter matches registered actions. If so, add it to qs.
+			if ( ! array_diff( $action_filter, wp_list_pluck( $actions, 'key' ) ) ) {
+				$qs[] = 'action=' . join( ',', $action_filter );
 			}
 		}
 	}
