@@ -32,6 +32,8 @@ env:
 
 matrix:
   include:
+    - php: 7.2
+      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
     - php: nightly
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
     - php: 7.0
@@ -61,6 +63,7 @@ matrix:
     - php: 7.1
       env: WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
   allow_failures:
+    - php: 7.2
     - php: 7.1
     - php: nightly
     - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
