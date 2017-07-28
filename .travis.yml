@@ -77,8 +77,13 @@ before_install:
   - plugin_dir=$WP_DEVELOP_DIR/src/wp-content/plugins/$plugin_slug
   - cd ..
   - mv $plugin_slug $plugin_dir
-  # Disable xdebug if not running codecoverage.
-  - if [[ "$BP_TRAVISCI" != "travis:codecoverage" ]] ; then phpenv config-rm xdebug.ini; fi
+  - |
+    # Remove Xdebug when not running codecoverage for a huge performance increase:
+    if [[ "$BP_TRAVISCI" != "travis:codecoverage" && -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]]; then
+      phpenv config-rm xdebug.ini
+    else
+      echo "We are running codecoverage or xdebug.ini does not exist"
+    fi
   # set up tests config
   - cd $WP_DEVELOP_DIR
   - echo $WP_DEVELOP_DIR
