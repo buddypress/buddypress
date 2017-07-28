@@ -2,8 +2,8 @@
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, social, community, networks, networking
 Requires at least: 4.4
-Tested up to: 4.7.2
-Stable tag: 2.8.2
+Tested up to: 4.8.0
+Stable tag: 2.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,8 +116,10 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 
 == Upgrade Notice ==
 
-See: https://codex.buddypress.org/releases/
+= 2.9.0 =
+See: https://codex.buddypress.org/releases/version-2-9-0/
 
 == Changelog ==
 
-See: https://codex.buddypress.org/releases/
+= 2.9.0 =
+See: https://codex.buddypress.org/releases/version-2-9-0/
