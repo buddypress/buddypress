@@ -3294,6 +3294,7 @@ function bp_email_get_template( WP_Post $object ) {
 	 * @param WP_Post $object WP_Post object.
 	 */
 	return apply_filters( 'bp_email_get_template', array(
+		"assets/emails/{$single}-{$object->post_name}.php",
 		"{$single}-{$object->post_name}.php",
 		"{$single}.php",
 		"assets/emails/{$single}.php",
