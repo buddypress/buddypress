@@ -1214,7 +1214,7 @@ function bp_group_description_editable( $group = false ) {
  * @param int         $length Optional. Length of returned string, including ellipsis.
  *                            Default: 225.
  */
-function bp_group_description_excerpt( $group = false, $length = false ) {
+function bp_group_description_excerpt( $group = false, $length = 225 ) {
 	echo bp_get_group_description_excerpt( $group, $length );
 }
 	/**
@@ -1229,7 +1229,7 @@ function bp_group_description_excerpt( $group = false, $length = false ) {
 	 *                            Default: 225.
 	 * @return string Excerpt.
 	 */
-	function bp_get_group_description_excerpt( $group = false, $length = false ) {
+	function bp_get_group_description_excerpt( $group = false, $length = 225 ) {
 		global $groups_template;
 
 		if ( empty( $group ) ) {
