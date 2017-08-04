@@ -100,7 +100,7 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 
 	// Query for all sites in network.
 	$r = bp_parse_args( $args, array(
-		'offset'   => false === bp_get_option( '_bp_record_blogs_offset' ) ? 0 : bp_get_option( '_bp_record_blogs_offset' ),
+		'offset'   => (int) bp_get_option( '_bp_record_blogs_offset' ),
 		'limit'    => 50,
 		'blog_ids' => array(),
 		'site_id'  => $wpdb->siteid
