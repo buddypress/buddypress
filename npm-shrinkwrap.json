@@ -1,6 +1,6 @@
 {
   "name": "buddypress",
-  "version": "2.9.0",
+  "version": "3.0.0-alpha",
   "dependencies": {
     "abbrev": {
       "version": "1.0.9",
