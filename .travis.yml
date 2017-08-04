@@ -68,7 +68,6 @@ matrix:
       env: WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
   allow_failures:
     - php: 7.2
-    - php: 7.1
     - php: nightly
     - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
 # before_install: Failures in this section will result in build status 'errored'
