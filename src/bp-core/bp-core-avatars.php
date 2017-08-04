@@ -1400,6 +1400,11 @@ function bp_core_get_avatar_data_url_filter( $retval, $id_or_email, $args ) {
 	$args['item_id'] = $user->ID;
 	$args['html']    = false;
 
+	// Use the 'full' type if size is larger than BP's thumb width.
+	if ( (int) $args['size'] > bp_core_avatar_thumb_width() ) {
+		$args['type'] = 'full';
+	}
+
 	// Get the BuddyPress avatar URL.
 	if ( $bp_avatar = bp_core_fetch_avatar( $args ) ) {
 		return $bp_avatar;
