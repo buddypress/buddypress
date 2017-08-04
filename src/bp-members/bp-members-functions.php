@@ -981,6 +981,11 @@ function bp_is_user_spammer( $user_id = 0 ) {
 		case bp_displayed_user_id() :
 			$user = ! empty( $bp->displayed_user->userdata ) ? $bp->displayed_user->userdata : false;
 			break;
+
+		case bp_get_member_user_id() :
+			global $members_template;
+			$user = isset( $members_template ) && isset( $members_template->member ) ? $members_template->member :  false;
+			break;
 	}
 
 	// Manually get userdata if still empty.
