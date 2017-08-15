@@ -1897,7 +1897,7 @@ function groups_send_membership_request( $requesting_user_id, $group_id ) {
 		 * @param int   $requesting_user_id  ID of the user requesting membership.
 		 * @param array $admins              Array of group admins.
 		 * @param int   $group_id            ID of the group being requested to.
-		 * @param int   $requesting_user->id ID of the user requesting membership.
+		 * @param int   $requesting_user->id ID of the membership.
 		 */
 		do_action( 'groups_membership_requested', $requesting_user_id, $admins, $group_id, $requesting_user->id );
 
