@@ -47,7 +47,8 @@ TABLE OF CONTENTS:
 	right: 0;
 }
 
-.buddypress code {
+.index_page_bp-credits code,
+.index_page_bp-about code {
 	background-color: #e0e0e0;
 	color: #636363;
 	font-size: 1em;
