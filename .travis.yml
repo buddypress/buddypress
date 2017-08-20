@@ -11,6 +11,7 @@ dist: trusty
 cache:
   apt: true
   directories:
+    - vendor
     - $HOME/.composer/cache
 #    - /tmp/wordpress/src/wp-content/plugins/buddypress/node_modules
 
