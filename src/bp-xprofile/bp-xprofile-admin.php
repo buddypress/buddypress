@@ -196,7 +196,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 								<?php if ( $group->can_delete ) : ?>
 
 									<div class="delete-button">
-										<a class="confirm submitdelete deletion ajax-option-delete" href="users.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=<?php echo esc_attr( $group->id ); ?>"><?php _ex( 'Delete Group', 'Delete Profile Fields Group', 'buddypress' ); ?></a>
+										<a class="confirm submitdelete deletion ajax-option-delete" href="<?php echo esc_url( wp_nonce_url( 'users.php?page=bp-profile-setup&amp;mode=delete_group&amp;group_id=' . intval( $group->id ), 'bp_xprofile_delete_group' ) ); ?>"><?php _ex( 'Delete Group', 'Delete Profile Fields Group', 'buddypress' ); ?></a>
 									</div>
 
 								<?php endif; ?>
@@ -359,6 +359,8 @@ function xprofile_admin_manage_group( $group_id = null ) {
  */
 function xprofile_admin_delete_group( $group_id ) {
 	global $message, $type;
+
+	check_admin_referer( 'bp_xprofile_delete_group' );
 
 	$group = new BP_XProfile_Group( $group_id );
 
