@@ -118,13 +118,6 @@ $spacing-val-xs: 5px;
 	font-size: $rem-font-value + rem;
 }
 
-// To allow mixins to pass VendorPrefix scss-lint tests we disable lint-test
-// for specific blocks / rulesets
-// until such time as exemption lists can be built for the scss-lint.yml?
-// Any vendor prefix properties / mixins need to be in this block
-
-// scss-lint:disable VendorPrefix
-
 // Border border-radius mixins
 @mixin border-radius($radius) {
 	-webkit-border-radius: $radius;
@@ -179,9 +172,6 @@ $spacing-val-xs: 5px;
 	#{$property}: -moz-calc(#{$expression});
 	#{$property}: calc(#{$expression});
 }
-
-// Re-enable the VendorPrefix lint test
-// scss-lint:enable VendorPrefix
 
 // BP message boxes
 @mixin message-box($background, $text-color: null) {
