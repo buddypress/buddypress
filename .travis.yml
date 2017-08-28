@@ -13,14 +13,14 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
-#    - /tmp/wordpress/src/wp-content/plugins/buddypress/node_modules
+    - /tmp/node_modules
+
+git:
+  depth: 1
 
 php:
   - 7.1
-  - 7.0
   - 5.6
-  - 5.5
-  - 5.4
 
 # WordPress comes from the Git mirror, where 'master' mirrors svn 'trunk' and
 # x.y mirrors the latest from the x.y branch
@@ -30,17 +30,10 @@ env:
   - WP_VERSION=4.7 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
-  - WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
 
 matrix:
   include:
-    - php: 7.2
-      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
-    - php: nightly
-      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
-    - php: 7.0
-      env: WP_VERSION=master BP_TRAVISCI=travis:grunt
-    - php: 7.0
+    - php: 7.1
       env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
     - php: 5.3
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
@@ -57,20 +50,14 @@ matrix:
     - php: 5.3
       env: WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
       dist: precise
-    - php: 5.3
-      env: WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
-      dist: precise
   exclude:
     - php: 7.1
       env: WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
     - php: 7.1
       env: WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
-    - php: 7.1
-      env: WP_VERSION=4.4 BP_TRAVISCI=travis:phpunit
   allow_failures:
-    - php: 7.2
-    - php: nightly
     - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
+
 # before_install: Failures in this section will result in build status 'errored'
 before_install:
   # set up WP install
@@ -88,6 +75,7 @@ before_install:
     else
       echo "We are running codecoverage or xdebug.ini does not exist"
     fi
+
   # set up tests config
   - cd $WP_DEVELOP_DIR
   - echo $WP_DEVELOP_DIR
@@ -95,14 +83,19 @@ before_install:
   - sed -i "s/youremptytestdbnamehere/wordpress_test/" wp-tests-config.php
   - sed -i "s/yourusernamehere/root/" wp-tests-config.php
   - sed -i "s/yourpasswordhere//" wp-tests-config.php
+
   # set up database
   - mysql -e 'CREATE DATABASE wordpress_test;' -uroot
+
   # prepare for running the tests
   - cd $plugin_dir
+
   # setup NodeJS version using NVM
   - node --version
   - nvm install 6
   - node --version
+  - npm config set prefix "/tmp/node"
+  - export PATH="$HOME/.composer/vendor/bin:/tmp/node/bin:$PATH"
   - npm install -g grunt-cli
   - npm --version
   - mysql --version
@@ -117,20 +110,11 @@ before_install:
 
 # before_script: Failures in this section will result in build status 'errored'
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.3" ]]; then composer global require --dev phpunit/phpunit ^4; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.4" ]]; then composer global require --dev phpunit/phpunit ^4; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.5" ]]; then composer global require --dev phpunit/phpunit ^4; fi
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then composer global require --dev phpunit/phpunit ^5; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" && $WP_VERSION == "4.4" ]]; then composer global require --dev phpunit/phpunit ^5; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" && $WP_VERSION == "4.5" ]]; then composer global require --dev phpunit/phpunit ^5; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" && $WP_VERSION == "4.6" ]]; then composer global require --dev phpunit/phpunit ^5; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" && $WP_VERSION == "4.7" ]]; then composer global require --dev phpunit/phpunit ^6; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" && $WP_VERSION == "4.8" ]]; then composer global require --dev phpunit/phpunit ^6; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" && $WP_VERSION == "master" ]]; then composer global require --dev phpunit/phpunit ^6; fi
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.1" ]]; then composer global require --dev phpunit/phpunit ^6; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then composer global require --dev phpunit/phpunit ^6; fi
   - npm install
+
 # Run tests
 script: grunt $BP_TRAVISCI
 
