@@ -13,7 +13,7 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
-    - /tmp/node_modules
+    - /tmp/node
 
 git:
   depth: 1
