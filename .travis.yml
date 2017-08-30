@@ -35,8 +35,6 @@ env:
 matrix:
   include:
     - php: 7.1
-      env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
-    - php: 7.1
       env: WP_VERSION=master BP_TRAVISCI=travis:grunt
     - php: 5.3
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
@@ -58,8 +56,6 @@ matrix:
       env: WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
     - php: 7.1
       env: WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
-  allow_failures:
-    - env: WP_VERSION=master BP_TRAVISCI=travis:codecoverage
 
 # before_install: Failures in this section will result in build status 'errored'
 before_install:
@@ -72,11 +68,9 @@ before_install:
   - cd ..
   - mv $plugin_slug $plugin_dir
   - |
-    # Remove Xdebug when not running codecoverage for a huge performance increase:
-    if [[ "$BP_TRAVISCI" != "travis:codecoverage" && -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]]; then
+    # Remove Xdebug for a huge performance increase:
+    if [[ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]]; then
       phpenv config-rm xdebug.ini
-    else
-      echo "We are running codecoverage or xdebug.ini does not exist"
     fi
 
   # set up tests config
@@ -121,12 +115,6 @@ before_script:
 
 # Run tests
 script: grunt $BP_TRAVISCI
-
-after_script:
-- |
-  if [[ "$BP_TRAVISCI" == "travis:codecoverage" ]] ; then
-    bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-  fi
 
 notifications:
   email: false
