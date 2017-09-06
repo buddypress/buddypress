@@ -1,0 +1,45 @@
+// BP Blogs loop.
+
+.buddypress-wrap {
+
+	.blogs-list { // ul
+
+		li {
+
+			@include medium-up() {
+
+				.item-block {
+					float: none;
+					width: auto;
+				}
+
+				.item-meta {
+					clear: left;
+					float: none;
+				}
+			} // close @media
+
+		} // close li
+
+	} // close .blogs-list
+}
+
+// If BP Dir Navs are selected as vertical
+// We need to just adjust the loop item elements a little
+// to cope with the decreased width.
+
+@include medium-up() {
+
+	.buddypress-wrap {
+
+		.bp-dir-vert-nav {
+
+			.blogs-list {
+
+				.list-title {
+					width: auto;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,60 @@
+// BP Activity Comments Form
+form.ac-form {
+	display: none;
+	padding: $pad-med;
+
+	.ac-reply-avatar {
+		float: left;
+
+		img {
+			border: 1px solid #eee;
+		}
+	}
+
+	.ac-reply-content {
+		color: $light-text;
+		padding-left: $pad-med;
+
+		a {
+			text-decoration: none;
+		}
+
+		.ac-textarea {
+			margin-bottom: $marg-med;
+			padding: 0 $pad-sml;
+			overflow: hidden;
+
+			textarea {
+				background: transparent;
+				box-shadow: none;
+				color: $bp-text;
+				font-family: inherit;
+				font-size: 100%;
+				height: 60px;
+				margin: 0;
+				outline: none;
+				padding: 0.5em;
+				width: 100%;
+
+				&:focus {
+
+					@include box-shadow( 0 0 6px $med-light-grey );
+				}
+			}
+		}
+
+		input {
+			margin-top: $marg-sml;
+		}
+	}
+
+}
+
+.activity-comments li form.ac-form {
+	clear: both;
+	margin-right: $marg-med;
+}
+
+.activity-comments form.root {
+	margin-left: 0;
+}

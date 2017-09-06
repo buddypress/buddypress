@@ -1,0 +1,117 @@
+// BP Groups loop.
+
+.buddypress-wrap {
+
+	.groups-list { // ul
+
+		li {
+
+			.list-title {
+				text-align: center;
+			}
+
+			.group-details {
+				clear: left;
+			}
+
+			.group-desc {
+				border: 1px solid $light-grey;
+
+				@include border-radius(10px);
+				@include responsive-font(16);
+				color: $meta-text;
+				font-style: italic;
+				margin: $marg-sml auto 0;
+				padding: $pad-med;
+			}
+
+			p {
+				margin: 0 0 0.5em;
+			}
+
+			@include medium-up() {
+
+				.item {
+					margin-right: 0;
+				}
+
+				.list-title,
+				.item-meta {
+					text-align: left;
+					width: auto;
+				}
+
+				.item-meta {
+					margin-bottom: $marg-lrg;
+				}
+
+				.last-activity {
+					clear: left;
+					margin-top: -20px;
+				}
+
+			} // close @media
+
+		} // close li
+
+		li.group-no-avatar div.group-desc {
+			margin-left: 0;
+		}
+
+	} // close .groups-list
+
+	// User account group loop
+	.mygroups {
+
+		.groups-list.grid {
+
+			.wrap {
+				min-height: 450px;
+				padding-bottom: 0;
+			}
+		}
+	}
+
+}
+
+// If groups loop is in grid mode then description on narrow multi grids
+// can be too large so modify font-size by grid class parents.
+
+.buddypress-wrap {
+
+	.groups-list.grid {
+
+		@include medium-up {
+
+			&.three,
+			&.four {
+
+				.group-desc {
+
+					@include font-size(14);
+				}
+			}
+		} // @media
+	}
+}
+
+// If BP Dir Navs or user screen main navs are selected as vertical
+// We need to just adjust the loop item elements a little
+// to cope with the decreased width.
+
+@include medium-up() {
+
+	.buddypress { // body class
+
+		.bp-vertical-navs {
+
+			.groups-list {
+
+				.item-avatar {
+					margin-right: 3%;
+					width: 15%;
+				}
+			}
+		}
+	}
+}

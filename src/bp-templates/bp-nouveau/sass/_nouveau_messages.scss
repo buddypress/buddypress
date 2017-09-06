@@ -1,0 +1,429 @@
+// Nouveau Messages styles.
+
+// Icon additions to default action star
+
+
+.message-action-star:before,
+.message-action-unstar:before,
+.bp-navs ul li#compose-personal-li a#compose:before,
+.message-action-view:before,
+.message-action-delete:before {
+	font-family: dashicons;
+	font-size: 18px;
+}
+
+.bp-navs ul li#compose-personal-li a#compose:before {
+	font-size: 22px;
+}
+
+.message-action-star:before {
+	color: #aaa;
+	content: "\f154";
+}
+
+.message-action-unstar:before {
+	color: #fcdd77;
+	content: "\f155";
+}
+
+.message-action-view:before {
+	content: "\f473";
+}
+
+.message-action-delete:before {
+	content: "\f153";
+}
+
+.message-action-delete:hover:before {
+	color: #a00;
+}
+
+.preview-content {
+
+	.actions {
+
+		a {
+			text-decoration: none;
+		}
+	}
+}
+
+// Compose Icon
+li#compose-personal-li {
+
+	&.last {
+		margin-top: 0;
+	}
+
+	a#compose {
+		display: inline-block;
+		padding: 1px 6px;
+	}
+
+	a#compose:before {
+		content: "\f464";
+	}
+
+	a#compose:focus,
+	a#compose:hover {
+		background: #eee;
+		color: #e8861e;
+	}
+
+} // close li#compose-personal-li
+
+// Visual message threads & preview pane styles
+
+.bp-messages-content {
+	margin: $marg-med 0;
+
+	.avatar {
+
+		@include box-shadow-none();
+	}
+
+	.thread-participants {
+		list-style: none;
+
+		dd {
+			margin-left: 0;
+		}
+	}
+
+	time {
+		color: $meta-text;
+
+		@include font-size(12);
+	}
+}
+
+// The actual messages list
+#message-threads {
+	border-top: 1px solid $light-grey;
+	clear: both;
+	list-style: none;
+	margin: 0;
+	max-height: 220px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 0;
+	width: 100%;
+
+	// The primary list elements
+	li {
+		border-bottom: 1px solid $light-grey;
+
+		@include flex-box-dir();
+		margin: 0;
+		overflow: hidden;
+		padding: $pad-sml 0;
+
+		// the child items
+		.thread-cb {
+
+			@include center-vert();
+			@include box-item-size(1, 2, 5%);
+
+			label {
+				float: left;
+				margin-left: $marg-xsml;
+				text-align: center;
+				width: 5%;
+			}
+		}
+
+		.thread-from {
+
+			@include box-item-size(1, 2, 20%);
+
+			img.avatar {
+				float: left;
+				margin: 0 $marg-sml 0 0;
+			}
+
+			.user-name {
+				display: inline-block;
+				line-height: 1.1;
+			}
+		}
+
+		.thread-content {
+
+			@include box-item-size(1, 2, 60%);
+		}
+
+		.thread-date {
+
+			@include box-item-size(1, 2, 15%);
+		}
+
+		// the selected parent li elements & message details
+		&.selected {
+			background-color: $off-white;
+
+			.thread-subject {
+
+				.subject {
+					color: $blue;
+				}
+			}
+		}
+
+		.thread-content {
+			cursor: pointer;
+
+			.excerpt {
+				color: $meta-text;
+
+				@include font-size(12);
+				margin: 0;
+			}
+
+			.thread-from,
+			.thread-subject {
+
+				@include responsive-font(16);
+			}
+
+			.thread-subject {
+				vertical-align: top;
+
+				.excerpt {
+					font-weight: 400;
+				}
+
+			}
+		} // close thread-content
+
+		.thread-date {
+			padding-right: 5px;
+			text-align: right;
+		}
+
+	} // close li
+
+} // close message-threads
+
+.bp-messages-content {
+
+	.actions {
+		float: right;
+		max-width: 30%;
+
+		.bp-icons {
+			display: inline-block;
+			margin: 0;
+			padding: $pad-xsml $pad-sml;
+
+			&:before {
+
+				@include font-size(26);
+			}
+		}
+	}
+
+	// preview pane on main inbox view all message entries
+	#thread-preview {
+		border: 1px solid $light-grey;
+		margin-top: $marg-lrg;
+
+		.preview-message {
+			clear: both;
+		}
+
+		.preview-content {
+			margin: 0.5em;
+
+			.preview-message {
+				background: $off-white;
+				margin: $marg-sml 0;
+				padding: $pad-med $pad-xsml $pad-xsml;
+			}
+
+		} // close .preview-content
+
+	} // close .thread-preview
+
+	// The single view of messages in a conversation thread
+	#bp-message-thread-list {
+		border-top: 1px solid $light-grey;
+		clear: both;
+		list-style: none;
+		padding: $pad-med 0 $pad-xsml;
+
+		li {
+			padding: $pad-sml;
+		}
+
+		li:nth-child(2n) {
+
+			.message-content {
+				background: $off-white;
+			}
+		}
+
+		.message-metadata {
+			border-bottom: 1px solid $bp-border-dark;
+
+			@include box-shadow(-2px 1px 9px 0 #eee);
+			overflow: hidden;
+			padding: 0.2em;
+
+			.avatar {
+				width: 30px;
+			}
+
+			.user-link {
+				display: block;
+
+				@include responsive-font(16);
+				float: left;
+			}
+
+			time {
+				color: $meta-text;
+
+				@include font-size(12);
+				padding: 0 $pad-sml;
+			}
+
+			button {
+				padding: 0 $pad-xsml;
+			}
+
+			button:before {
+
+				@include font-size(20);
+			}
+		}
+
+		.message-content {
+			clear: both;
+			margin: 1em auto 0;
+			width: 90%;
+		}
+
+		img.avatar {
+			float: left;
+			margin: 0 $marg-sml 0 0;
+		}
+
+		.actions {
+
+			a:before {
+				font-size: 18px;
+			}
+		}
+	} // close #bp-message-thread-list
+
+	form.send-reply {
+
+		.avatar-box {
+			padding: $pad-sml 0;
+		}
+	}
+
+	// Grouped rules for both inbox all messages lists &
+	// for single view conversation thread
+
+	.preview-pane-header,
+	.single-message-thread-header {
+		border-bottom: 1px solid $light-grey;
+
+		&:after {
+			clear: both;
+			content: "";
+			display: table;
+		}
+	}
+
+	.preview-thread-title,
+	.single-thread-title {
+
+		@include font-size(16);
+
+		.messages-title {
+			padding-left: $pad-lrg;
+		}
+	}
+
+	.thread-participants {
+		float: left;
+		margin: $marg-xsml 0;
+		width: 70%;
+
+		dd,
+		ul {
+			margin-bottom: $marg-sml;
+		}
+
+		ul {
+			list-style: none;
+
+			&:after {
+
+				clear: both;
+				content: "";
+				display: table;
+			}
+		}
+
+		li {
+			float: left;
+			margin-left: 5px;
+		}
+
+		img {
+			width: 30px;
+		}
+	}
+
+	#thread-preview .preview-message,
+	#bp-message-thread-list li .message-content {
+
+		ul,
+		ol,
+		blockquote {
+			list-style-position: inside;
+			margin-left: 0;
+		}
+	}
+
+	ul#message-threads:empty,
+	#thread-preview:empty {
+		display: none;
+	}
+
+	#thread-preview h4:first-child,
+	#bp-message-thread-header h4:first-child {
+		background-color: $light-grey;
+		color: $bp-text;
+		margin: 0;
+		padding: 0.5em;
+	}
+
+	#message-threads .thread-content a,
+	#bp-message-thread-list li a.user-link {
+		border: 0;
+		text-decoration: none;
+	}
+
+	// The general form elements for composing messages
+	.standard-form {
+
+		#subject {
+			margin-bottom: $marg-lrg;
+		}
+	}
+
+} // close .bp-messages-content
+
+// Bulk Message styles
+
+div.bp-navs#subsubnav.bp-messages-filters {
+
+	.user-messages-bulk-actions {
+		margin-right: 15px;
+		max-width: 42.5%;
+	}
+}

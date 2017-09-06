@@ -1,0 +1,18 @@
+// Groups specific Item-body content
+
+// Members list doesn't generate  subnav items items
+// so we negate the rules using :not()
+.single-item.group-members {
+
+	.item-body {
+
+		.filters:not(.no-subnav) {
+			border-top: 5px solid $light-grey;
+			padding-top: $pad-med;
+		}
+
+		.filters {
+			margin-top: 0;
+		}
+	}
+}

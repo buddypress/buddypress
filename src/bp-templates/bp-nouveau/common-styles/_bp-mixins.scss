@@ -1,0 +1,634 @@
+//
+// BuddyPress Sass Mixins
+//
+
+// This file provides some basic mixins for BP elements
+// such as box sizing, radius, calc etc
+
+
+// ======= Typography ======
+
+// BP provides two mixins for font size, one basic  that states
+// a value and can produce rem & px versions the other that calculates
+// a reduced size for small
+// screen sizes or series of screens described as breakpoints & can
+// be termed responsive font sizing.
+
+
+// Font size decs are used with caution BP doesn't manage
+// layout sizes & must take care to work with existing layout sizes.
+
+@mixin font-size($font-size: 16) {
+	$rem-font-value: ($font-size / 10);
+	font-size: ($font-size * 1px);
+	//	font-size: $rem-font-value + rem;
+}
+
+
+// The following Sass map handles some basic re-sizing of BP fonts.
+// Sizes are set to change on the medium breakpoint.
+// It is hard for BP to know what the theme is doing so we are
+// limited in what we can do here.
+// The dev can feed a value to the mixin which will then be calculated
+// below to find a reduced size.
+
+@mixin responsive-font($res-size: 16) {
+
+	$the-sizes: $res-size;
+
+	$small: round(($the-sizes / 1.2));
+	$larger: $the-sizes;
+
+	$the-sizes: (
+		null:   $small,
+		46.8em: $larger
+	);
+
+	@each $font-breakpoint, $resonsive-font-size in $the-sizes {
+
+		@if $font-breakpoint == null {
+			font-size: $resonsive-font-size + px;
+		} @else {
+
+			@media screen and (min-width: $font-breakpoint) {
+				font-size: $resonsive-font-size + px;
+			}
+		}
+	}
+
+}
+
+// Essential em based breakpoints
+// mixin wraps rulesets or properties.
+// written as:
+// @include medium-up() {
+//  body {property: value;}
+// }
+
+
+@mixin small-up {
+
+	@media screen and (min-width: 24em) {
+
+		@content;
+	}
+}
+
+@mixin medium-small-max {
+
+	@media screen and (max-width: 32em) {
+
+		@content;
+	}
+}
+
+@mixin medium-small-up {
+
+	@media screen and (min-width: 32em) {
+
+		@content;
+	}
+}
+
+@mixin medium-max {
+
+	@media screen and (max-width: 46.8em) {
+
+		@content;
+	}
+}
+
+@mixin medium-up {
+
+	@media screen and (min-width: 46.8em) {
+
+		@content;
+	}
+}
+
+@mixin medium-lrg-up {
+
+	@media screen and (min-width: 55em) {
+
+		@content;
+	}
+}
+
+@mixin large-up {
+
+	@media screen and (min-width: 75em) {
+
+		@content;
+	}
+}
+
+// 'clearfix-element' allows us to pass an element, class or id to the mixin.
+// Use where we need to have float containment and where getting to
+// the physical element to add a class of 'clearfix' is problematic.
+
+@mixin clearfix-element($item) {
+
+	#{$item}:before,
+	#{$item}:after {
+		content: " ";
+		display: table;
+	}
+
+	#{$item}:after {
+		clear: both;
+	}
+
+}
+
+// These two mixins add hide/show properties for clicked/focussed elements.
+// They may be added to existing rulesets or added to a class selector
+// rulesets to use hardoced to template markup.
+
+// Convenience helper to add hide properties to rulesets
+
+@mixin hide() {
+	height: 0;
+	left: -999em;
+	overflow: hidden;
+	position: absolute;
+	top: -999em;
+}
+
+// companion mixins properties for showing the element for :focus/:hover
+// or via JS added hooks.
+
+@mixin show() {
+	height: auto;
+	left: 0;
+	overflow: visible;
+	position: static;
+	top: 0;
+}
+
+// Box model - defaults to value 'border-box'
+// Vendor prefixes are  pretty much redundent for this property,
+// consider removing
+
+@mixin box-model($box-type: null) {
+
+	@if $box-type {
+		// if a param was passed through
+		$box-type: $box-type;
+	} @else {
+		$box-type: border-box;
+	}
+
+	-webkit-box-sizing: $box-type;
+	-moz-box-sizing: $box-type;
+	box-sizing: $box-type;
+}
+
+// Border radius
+
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-ms-border-radius: $radius;
+	border-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-top-radius($radius) {
+	-webkit-border-top-right-radius: $radius;
+	border-top-right-radius: $radius;
+	-webkit-border-top-left-radius: $radius;
+	border-top-left-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-right-radius($radius) {
+	-webkit-border-bottom-right-radius: $radius;
+	border-bottom-right-radius: $radius;
+	-webkit-border-top-right-radius: $radius;
+	border-top-right-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-bottom-radius($radius) {
+	-webkit-border-bottom-right-radius: $radius;
+	border-bottom-right-radius: $radius;
+	-webkit-border-bottom-left-radius: $radius;
+	border-bottom-left-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin border-left-radius($radius) {
+	-webkit-border-bottom-left-radius: $radius;
+	border-bottom-left-radius: $radius;
+	-webkit-border-top-left-radius: $radius;
+	border-top-left-radius: $radius;
+	background-clip: padding-box;
+}
+
+// very basic box-shadow mixin  - this needs to be
+// updated & improved
+
+@mixin box-shadow($values...) {
+	-webkit-box-shadow: $values;
+	-moz-box-shadow: $values;
+	box-shadow: $values;
+}
+
+// There can be a need to override the themes global styles
+// Provide a box-shadow: none;
+
+@mixin box-shadow-none() {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+// Calc e.g (100% - 10px)
+
+@mixin calc($property, $expression) {
+	#{$property}: -webkit-calc(#{$expression});
+	#{$property}: -moz-calc(#{$expression});
+	#{$property}: calc(#{$expression});
+}
+
+// Flexbox Mixins
+
+// Set display to box flex & set the direcction and wrapping behavour
+// shorthand for flex-direction & flex wrap - default ( row wrap )
+
+@mixin flex-box-dir($flex-dir: "row", $flex-wrap: "nowrap") {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-webkit-flex-flow: unquote($flex-dir) unquote($flex-wrap);
+	-moz-flex-flow: unquote($flex-dir) unquote($flex-wrap);
+	-ms-flex-flow: unquote($flex-dir) unquote($flex-wrap);
+	-o-flex-flow: unquote($flex-dir) unquote($flex-wrap);
+	flex-flow: unquote($flex-dir) unquote($flex-wrap);
+}
+
+// align child items
+// flex-start | flex-end | center | baseline | stretch (default)
+
+@mixin flex-align($align: stretch) {
+	-ms-flex-align: $align; //older?
+	-webkit-align-items: $align;
+	-webkit-box-align: $align; // old
+	align-items: $align; // current specs
+}
+
+// Box-order  - shuffle item order for columns
+
+@mixin box-order($box-order-number: 1) {
+	-webkit-box-order: $box-order-number;
+	-moz-order: $box-order-number;
+	-ms-order: $box-order-number;
+	-o-order: $box-order-number;
+	order: $box-order-number;
+}
+
+// shorthand: flex-grow, flex-shrink, flex-basis for child items
+// defaults 0 | 1 | auto
+
+@mixin box-item-size($grow: 0, $shrink: 1, $basis: auto) {
+	-webkit-flex: $grow $shrink $basis;
+	-moz-flex: $grow $shrink $basis;
+	-ms-flex: $grow $shrink $basis;
+	-o-flex: $grow $shrink $basis;
+	flex: $grow $shrink $basis;
+}
+
+// Vertical centering - all in one, this is a
+// fixed mixin for one result/requirement.
+// This class allows us to center child elements
+// using flexbox. This is a progressive enhancement,
+// it won't work in all browsers, older browser will simply
+// fall back to non centered or using older techniques.
+// N.B It would be prefereable to remove the older property syntax
+
+@mixin center-vert() {
+	display: -webkit-box; // older
+	display: -ms-flexbox; // older
+	display: -webkit-flex; // current prefix
+	display: flex; // current specs
+	-ms-flex-align: center; //older?
+	-webkit-align-items: center;
+	-webkit-box-align: center; // old
+	align-items: center; // current specs
+}
+
+// Links as a tabbed effect.
+// Renders links in a horizontal layout as a
+// tab effect on the current selected links.
+
+@mixin tabbed-links() {
+
+	.tabbed-links {
+
+		ul {
+			border-bottom: 1px solid $bp-border-dark;
+			float: none;
+			margin: $marg-lrg 0 $marg-sml;
+
+			&:before,
+			&:after {
+				content: " ";
+				display: block;
+			}
+
+			&:after {
+				clear: both;
+			}
+
+			li {
+				float: left;
+				list-style: none;
+				margin: 0 $marg-sml 0 0;
+
+				a {
+					background: none;
+					border: none;
+					display: block;
+					padding: 4px 10px;
+				}
+			}
+
+			li.current {
+				border-color: $bp-border-dark $bp-border-dark #fff;
+				border-style: solid;
+				border-top-left-radius: 4px;
+				border-top-right-radius: 4px;
+				border-width: 1px;
+				margin-bottom: -1px;
+				padding: 0 $pad-sml;
+
+				a {
+					color: $black;
+				}
+			}
+		}
+	}
+
+	// we don't want top margin if tabs are on the top subnav position
+	.bp-subnavs.tabbed-links > ul {
+		margin-top: 0;
+	}
+}
+
+// Provides the properties to style vert navs in a visual tab style.
+// This allows rulesets to be applied without having to re-write.
+// e.g dir-navs use this in _bp_layouts.scss if the navs tabs class set.
+
+@mixin primary-navs-vert-tabs() {
+
+	ul {
+
+		li:not(.selected) {
+
+			a:hover,
+			a:focus {
+				background: none;
+			}
+		}
+
+		li.selected {
+			background: none;
+			border: 1px solid $med-light-grey;
+			border-right-color: #fff;
+
+			a {
+				background: none;
+				color: $black;
+				font-weight: 600;
+
+				span {
+					background: $dark-grey;
+					border: 1px solid $med-light-grey;
+					color: $white;
+				}
+			}
+		}
+
+	}
+}
+
+// BP message boxes
+
+// BP message boxes
+// Creates a message box with border, background color
+// If  no text-color passed in then the background used for
+// text is darkened by 50%.
+@mixin message-box($background: #fff, $text-color: null, $border: null) {
+
+	@if $text-color {
+		// if a param was passed through
+		$text-color: $text-color;
+	} @else {
+		$text-color: darken($background, 50%);
+	}
+
+	background: $background;
+
+	@if $border != none {
+
+		@if $border {
+			border: $border;
+		} @else {
+			border: 1px solid darken($background, 10%);
+		}
+	}
+
+	color: $text-color;
+}
+
+// Password warn colors
+
+@mixin pwd-bad-colors($background: null, $border: null) {
+
+	@if $background {
+		$background: $background;
+	} @else {
+		$background: $background-bad;
+	}
+
+	background-color: $background;
+
+	@if $border {
+		$border: $border;
+	} @else {
+		$border: $border-bad;
+	}
+
+	border-color: $border;
+}
+
+@mixin pwd-short-colors($background: null, $border: null) {
+
+	@if $background {
+		$background: $background;
+	} @else {
+		$background: $background-short;
+	}
+
+	background-color: $background;
+
+	@if $border {
+		$border: $border;
+	} @else {
+		$border: $border-short;
+	}
+
+	border-color: $border;
+}
+
+@mixin pwd-good-colors($background: null, $border: null) {
+
+	@if $background {
+		$background: $background;
+	} @else {
+		$background: $background-good;
+	}
+
+	background-color: $background;
+
+	@if $border {
+		$border: $border;
+	} @else {
+		$border: $border-good;
+	}
+
+	border-color: $border;
+}
+
+// BP Tooltips
+
+// Bottom center tooltip - Default
+
+@mixin bp-tooltip-default {
+
+	&:after {
+		left: 50%;
+		margin-top: $tooltip-tip-area;
+		top: 110%;
+		-webkit-transform: translate(-50%, 0);
+		-ms-transform: translate(-50%, 0);
+		transform: translate(-50%, 0);
+	}
+
+}
+
+// Bottom left tooltip
+
+@mixin bp-tooltip-bottom-left {
+
+	&:after {
+		left: 0;
+		-webkit-transform: translate(0, 0);
+		-ms-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+
+}
+
+// Bottom right tooltip
+
+@mixin bp-tooltip-bottom-right {
+
+	&:after {
+		left: auto;
+		right: 0;
+		-webkit-transform: translate(0, 0);
+		-ms-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+
+}
+
+// Top center tooltip
+
+@mixin bp-tooltip-top {
+
+	&:after {
+		bottom: 110%;
+		left: 50%;
+		margin-bottom: $tooltip-tip-area;
+		margin-top: 0;
+		top: auto;
+		-webkit-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		transform: translateX(-50%);
+	}
+
+}
+
+// Top left tooltip
+
+@mixin bp-tooltip-top-left {
+
+	&:after {
+		bottom: 110%;
+		left: 0;
+		margin-bottom: $tooltip-tip-area;
+		margin-top: 0;
+		top: auto;
+		-webkit-transform: translateX(0);
+		-ms-transform: translateX(0);
+		transform: translateX(0);
+	}
+
+}
+
+// Top right tooltip
+
+@mixin bp-tooltip-top-right {
+
+	&:after {
+		bottom: 110%;
+		left: auto;
+		margin-bottom: $tooltip-tip-area;
+		margin-top: 0;
+		right: 0;
+		top: auto;
+		-webkit-transform: translateX(0);
+		-ms-transform: translateX(0);
+		transform: translateX(0);
+	}
+
+}
+
+// Left tooltip
+
+@mixin bp-tooltip-left {
+
+	&:after {
+		bottom: 50%;
+		left: auto;
+		margin-right: 10px;
+		margin-top: 0;
+		right: 100%;
+		top: auto;
+		-webkit-transform: translate(0, 50%);
+		-ms-transform: translate(0, 50%);
+		transform: translate(0, 50%);
+	}
+
+}
+
+// Right tooltip
+
+@mixin bp-tooltip-right {
+
+	&:after {
+		bottom: 50%;
+		left: 100%;
+		margin-left: 10px;
+		margin-top: 0;
+		top: auto;
+		-webkit-transform: translate(0, 50%);
+		-ms-transform: translate(0, 50%);
+		transform: translate(0, 50%);
+	}
+
+}

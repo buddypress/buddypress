@@ -1,0 +1,41 @@
+// Cover image container generic styles.
+// These properties manage the required positioning of
+// the image container overlay.
+
+/*
+* Default required cover image rules
+*/
+
+#cover-image-container {
+	position: relative;
+}
+
+#header-cover-image {
+	background-color: #c5c5c5;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: 0;
+	display: block;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+
+#item-header-cover-image {
+	//padding: 0 1em;
+	position: relative;
+	z-index: 2;
+
+	#item-header-avatar {
+		padding: 0 1em;
+	}
+}
+
+/*
+* end cover image block
+*/

@@ -1,0 +1,84 @@
+// Provides any animation or transition type effects for BP elements
+
+// Fade in hover transition
+#buddypress-wrap {
+
+	* {
+		transition: opacity 0.1s ease-in-out 0.1s;
+	}
+
+	button,
+	a.generic-button,
+	a.button,
+	input[type="submit"],
+	input[type="reset"] {
+		transition: background 0.1s ease-in-out 0.1s, color 0.1s ease-in-out 0.1s, border-color 0.1s ease-in-out 0.1s;
+	}
+
+}
+
+// Historical animation sequence for ajax loading effects.
+// Ajax Animations and styles
+// scss-lint:disable VendorPrefix
+.buddypress-wrap {
+
+	a.loading,
+	input.loading {
+		-moz-animation: loader-pulsate 0.5s infinite ease-in-out alternate;
+		-webkit-animation: loader-pulsate 0.5s infinite ease-in-out alternate;
+		animation: loader-pulsate 0.5s infinite ease-in-out alternate;
+		border-color: #aaa;
+	}
+
+	@-webkit-keyframes loader-pulsate {
+
+		from {
+			border-color: $border-color-from;
+			-webkit-box-shadow: 0 0 6px $shadow-color-from;
+			box-shadow: 0 0 6px $shadow-color-from;
+		}
+
+		to {
+			border-color: $border-color-to;
+			-webkit-box-shadow: 0 0 6px $shadow-color-to;
+			box-shadow: 0 0 6px $shadow-color-to;
+		}
+	}
+
+	@-moz-keyframes loader-pulsate {
+
+		from {
+			border-color: $border-color-from;
+			-moz-box-shadow: 0 0 6px $shadow-color-from;
+			box-shadow: 0 0 6px $shadow-color-from;
+		}
+
+		to {
+			border-color: $border-color-to;
+			-moz-box-shadow: 0 0 6px $shadow-color-to;
+			box-shadow: 0 0 6px $shadow-color-to;
+		}
+	}
+
+	@keyframes loader-pulsate {
+
+		from {
+			border-color: $border-color-from;
+			-moz-box-shadow: 0 0 6px $shadow-color-from;
+			box-shadow: 0 0 6px $shadow-color-from;
+		}
+
+		to {
+			border-color: $border-color-to;
+			-moz-box-shadow: 0 0 6px $shadow-color-to;
+			box-shadow: 0 0 6px $shadow-color-to;
+		}
+	}
+
+	a.loading:hover,
+	input.loading:hover {
+		color: #777;
+	}
+
+}
+// scss-lint:enable VendorPrefix

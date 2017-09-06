@@ -1,0 +1,140 @@
+// Single Groups Management screens
+
+// Groups settings screen
+.buddypress-wrap {
+
+	.group-status-type {
+
+		ul {
+			margin: 0 0 $marg-lrg $marg-lrg;
+		}
+	}
+}
+
+// ==== Members manage ====
+
+.groups-manage-members-list {
+	padding: $pad-sml 0;
+
+	dd {
+		margin: 0;
+		padding: $pad-med 0;
+	}
+
+	.section-title {
+		background: $light-grey;
+		padding-left: $pad-xsml;
+	}
+
+	ul {
+		list-style: none;
+		margin-bottom: 0;
+
+		li {
+			border-bottom: 1px solid $bp-border-color;
+			margin-bottom: $marg-sml;
+			padding: $pad-sml $pad-xsml $pad-xsml;
+		}
+
+		li:only-child,
+		li:last-child {
+			border-bottom: 0;
+		}
+
+		li:nth-child(even) {
+			background: $off-white;
+		}
+
+		li.banned-user {
+			background: lighten($warn, 50%);
+		}
+
+		.member-name {
+			margin-bottom: 0;
+			text-align: center;
+		}
+
+		img {
+			display: block;
+			margin: 0 auto;
+			width: 20%;
+		}
+
+		@include medium-small-up() {
+
+			.member-name {
+				text-align: left;
+			}
+
+			img {
+				display: inline;
+				width: 50px;
+			}
+		}
+
+		@include clearfix-element(".members-manage-buttons");
+
+		.members-manage-buttons {
+			margin: $marg-med 0 $marg-xsml;
+
+			a.button {
+				color: $light-text;
+				display: block;
+
+				@include font-size(13);
+			}
+
+			@include medium-small-up() {
+
+				a.button {
+					display: inline-block;
+				}
+			}
+		}
+
+		.members-manage-buttons.text-links-list {
+			margin-bottom: 0;
+
+			@include medium-small-max() {
+
+				a.button {
+					background: #fafafa;
+					border: 1px solid $bp-border-color;
+					display: block;
+					margin-bottom: $marg-sml;
+				}
+			}
+		}
+
+		.action:not(.text-links-list) {
+
+			a.button {
+
+				@include font-size(12);
+			}
+		}
+
+		@include medium-up() {
+
+			li {
+
+				.avatar,
+				.member-name {
+					float: left;
+				}
+
+				.avatar {
+					margin-right: $marg-med;
+				}
+
+				.action {
+					clear: both;
+					float: left;
+				}
+
+			}
+		} // close @media
+
+	}
+
+} //close .groups-manage-members-list

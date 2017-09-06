@@ -1,0 +1,439 @@
+//
+//
+// Buddypress scss primary scss stylesheet
+//
+//
+// This file compiles to buddypress.css.
+//
+// Imported into this file are the building block partial files
+// that form the base level styles plus any files from the new
+// theme/template pack.
+
+
+// Import our partials mixins & variables files
+
+@import "../common-styles/_bp-variables";
+@import "../common-styles/_bp-mixins";
+
+//
+// Sectional structuring allows us to locate elements
+// & to keep a degree of clarity in mind as to BP
+// components. Please note that sections do NOT have to
+// be used, default modular styles imported may provide
+// all the rules needed for the section.
+//
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+1.0 - BP Generic, Typography & Imagery
+
+2.0 - Navigation - General
+	2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
+	2.2 - Pagination
+
+3.0 - BP Lists / Loops Generic & filters
+	3.1 - Activity Loop
+		3.1.1 Whats New Activity
+		3.1.2 - Activity Entries
+		3.1.3 - Activity Comments
+	3.2 - Blogs Loop
+	3.3 - Groups Loop
+	3.4 - Members Loop
+
+4.0 - Directories - Members, Groups, Blogs, Register, Activation
+	4.1 - Groups Creation Steps Screens
+5.0 - Single Item screens: User Account & Single Group Screens
+	5.1 - Item Headers: Global
+		5.1.1 - item-header: Groups
+		5.1.2 - item-header: User Accounts
+	5.2 - Item Body: Global
+		5.2.1 - item-body: Groups
+			5.2.1.1 - Management settings screens
+			5.2.1.2 - Group Members list
+			5.2.1.3 - Group Invite list
+			5.2.1.4 - Group Activity
+		5.2.2 - item-body: User Accounts
+			5.2.2.1 - classes, pag, filters
+			5.2.2.2 - Extended Profiles
+			5.2.2.3 - Groups
+			5.2.2.4 - friends
+			5.2.2.5 - Private Messaging Threads
+			5.2.2.6 - Settings
+
+6.0 - Forms  -  General
+	6.1 - Dir Search
+
+7.0 - Tables -  General
+
+8.0 - Classes - Messages, Ajax, Widgets, Buttons, Tooltips
+
+9.0 - Layout Classes.
+--------------------------------------------------------------*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 1.0 - BP Generic, Typography & Imagery
+*-------------------------------------------------------------------------------
+*/
+
+// Import our generic elements & typography styles
+
+@import "../common-styles/_bp_generic_and_typography";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 2.0 - Navigation - General
+*-------------------------------------------------------------------------------
+*/
+
+
+/**
+*----------------------------------------------------------
+* @section 2.1 - Navs Object Nav / Sub Nav (bp-list)
+*
+* The main navigational elements for all BP screens
+*----------------------------------------------------------
+*/
+
+// Import our generic navigation styles
+
+@import "../common-styles/_bp_navigation";
+
+// Import our Filter styles
+
+@import "../common-styles/_bp_filters";
+
+/**
+*----------------------------------------------------------
+* @section 2.2 - Pagination
+*----------------------------------------------------------
+*/
+
+// Import our generic pagination styles
+
+@import "../common-styles/_bp_pagination";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 3.0 - BP Lists / Loops Generic
+*-------------------------------------------------------------------------------
+*/
+
+// Import our generic list styles
+
+@import "../common-styles/_bp_lists";
+
+/**
+*----------------------------------------------------------
+* @section 3.1 - Activity Loop
+*----------------------------------------------------------
+*/
+
+/**
+*-----------------------------------------------------
+* @section 3.1.1 - Activity Whats New
+*-----------------------------------------------------
+*/
+
+@import "../common-styles/_bp_update_form";
+
+/**
+*-----------------------------------------------------
+* @section 3.1.2 - Activity Entries
+*-----------------------------------------------------
+*/
+
+@import "../common-styles/_bp_activity_entries";
+
+/**
+*-----------------------------------------------------
+* @section 3.1.3 - Activity Comments
+*-----------------------------------------------------
+*/
+
+@import "../common-styles/_bp_activity_comments";
+@import "../common-styles/_bp_comment_form";
+
+/**
+*----------------------------------------------------------
+* @section 3.2 - Blogs Loop
+*----------------------------------------------------------
+*/
+
+// Blogs loop
+
+@import "../common-styles/_bp_blogs_loop";
+
+/**
+*----------------------------------------------------------
+* @section 3.2 - Groups Loop
+*----------------------------------------------------------
+*/
+
+// Groups loop
+
+@import "../common-styles/_bp_groups_loop";
+
+
+/**
+*----------------------------------------------------------
+* @section 3.2 - Members Loop
+*----------------------------------------------------------
+*/
+
+// Members loop
+
+@import "../common-styles/_bp_members_loop";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.0 - Directories
+*-------------------------------------------------------------------------------
+*/
+
+// Registration index screen (directory)
+
+@import "../common-styles/_bp_registration.scss";
+
+/**
+*----------------------------------------------------------
+* @section 4.1 - Groups Creation Steps
+*----------------------------------------------------------
+*/
+
+// Registration index screen (directory)
+
+@import "../common-styles/_bp_groups_create.scss";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 5.0 - Single Item screens: Groups, Users
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*-----------------------------------------------------------
+* @subsection 5.1 - Item Header Global
+*-----------------------------------------------------------
+*/
+
+// Import general global styles for single screen headers
+
+@import "../common-styles/_bp_item_header_general";
+
+// Import Cover Image container defaults
+
+@import "../common-styles/_bp_cover_image";
+
+/**
+*-----------------------------------------------------
+* @subsection 5.1.1 - item-header Groups
+*
+* Group Specific Item Header
+*-----------------------------------------------------
+*/
+
+// Single Group specific header rules
+
+@import "../common-styles/_bp_group_header";
+
+/**
+*-----------------------------------------------------
+* @subsection 5.1.2 - Item Header User Accounts
+*
+* User Accounts Specific Item Header
+*-----------------------------------------------------
+*/
+
+// Single User specific header rules
+
+@import "../common-styles/_bp_user_header";
+
+/**
+*-----------------------------------------------------------
+* @subsection 5.2 - Item Body: Global
+*-----------------------------------------------------------
+*/
+
+// Import general global styles for single screen item-body
+
+@import "../common-styles/_bp_item_body_general";
+
+/**
+*----------------------------------------------------
+* @subsection 5.2.1 - Item Body Groups
+*
+* Groups specific item body rules -  screens
+*----------------------------------------------------
+*/
+
+// Import general global styles for single screen item-body
+
+@import "../common-styles/_bp_groups_item_body";
+
+/**
+*-----------------------------------------
+* @subsection 5.2.1.1 - Management Settings Screens
+*-----------------------------------------
+*/
+
+// Import general global styles for single screen item-body
+
+@import "../common-styles/_bp_groups_management";
+
+/**
+*-----------------------------------------
+* @subsection 5.2.1.2 - Group Members List
+*-----------------------------------------
+*/
+
+/*
+*-----------------------------------------
+* @subsection 5.2.1.3 - Group Invites List
+*-----------------------------------------
+*/
+
+// Import Group Invites screens
+
+//@import "../common-styles/_bp_groups_invites";
+
+// Import Nouveau style Group Invites screens
+
+@import "_nouveau_invites";
+
+/*
+*-----------------------------------------
+* @subsection 5.2.1.4 - Group Activity
+*-----------------------------------------
+*/
+
+@import "../common-styles/_bp_groups_activity";
+
+/**
+*-----------------------------------------------------
+* @subsection 5.2.2 - Item Body User Accounts
+*
+* User Account specific item body rules
+*-----------------------------------------------------
+*/
+
+/**
+*--------------------------------------------
+* @subsection 5.2.2.1 - classes, pag, filters
+*--------------------------------------------
+*/
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.2 - Extended Profiles
+*-------------------------------------------
+*/
+
+// Import User Profile
+
+@import "../common-styles/_bp_user_profile";
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.3 - Groups
+*-------------------------------------------
+*/
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.5 - Private Messaging
+*-------------------------------------------
+*/
+
+// Import Messages module
+// Nouveau is using custom markup and only needs to load
+// it's own partial file for styles.
+
+// @import "../common-styles/_bp_messages";
+
+// Import Nouveau specific Messages module styles
+
+@import "_nouveau_messages";
+
+/**
+*------------------------------------------
+* @subsection 5.2.2.6 - Settings
+*------------------------------------------
+*/
+
+// Import settings screens
+
+@import "../common-styles/_bp_user_settings";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 6.0 - Forms  - General
+*-------------------------------------------------------------------------------
+*/
+
+// Import general forms rules
+
+@import "../common-styles/_bp_forms";
+
+
+/**
+*----------------------------------------------------------
+* @section 6.1 - Directory Search
+*
+* The Search form & controls in directory pages
+*----------------------------------------------------------
+*/
+
+// Import our generic list styles
+
+@import "../common-styles/_bp_search";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 7.0 - Tables - General
+*-------------------------------------------------------------------------------
+*/
+
+// Import Table defaults rules
+
+@import "../common-styles/_bp_tables";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 8.0 - Classes - Messages, Ajax, Widgets, Buttons
+*-------------------------------------------------------------------------------
+*/
+// Import General useful classes: clearfix, screen-reader etc
+
+@import "../common-styles/_bp_general_classes";
+
+// Import Buttons styles
+
+@import "../common-styles/_bp_buttons";
+
+// Import Messages/info dialogues
+
+@import "../common-styles/_bp_info_messages";
+
+// Import BP Widget styles
+
+@import "../common-styles/_bp_widgets";
+
+// Import BP Animations & Transitions - fluffy effects :)
+
+@import "../common-styles/_bp_animations";
+
+// Import BP Tooltips
+
+@import "../common-styles/_bp_tooltips";
+
+/**
+*-------------------------------------------------------------------------------
+* @section 9.0 - Layout classes
+*-------------------------------------------------------------------------------
+*/
+// Import Layout classes
+
+@import "../common-styles/_bp_layouts";
+

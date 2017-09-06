@@ -1,0 +1,97 @@
+//
+// BuddyPress scss Variables
+//
+
+// This file provides colors, and any other values that benefit
+// from a variable definition that can be managed and changed from one
+// central position for all instances of the property/value.
+
+// Spacing values - used primarilly for main elements to allow us
+// to adjust values in a grouped manner.
+
+$pad-xsml: 0.3em !default;
+$pad-sml:  0.5em !default;
+$pad-med:  1em !default;
+$pad-lrg:  2em !default;
+$pad-xlrg: 4em !default;
+
+$marg-xsml: 5px !default;
+$marg-sml:  10px !default;
+$marg-med:  15px !default;
+$marg-lrg:  20px !default;
+$marg-xlrg: 30px !default;
+
+// Colours
+
+$dark-grey:            #555 !default;
+$light-text:           #767676 !default; // lightest gray on #fff with 4.5:1 contrast ratio
+$light-text-plus:      #737373 !default; // $light-text on #fafafa background
+$primary-grey:         #ccc !default;
+$light-grey:           #eaeaea !default;
+$med-light-grey:       #d6d6d6 !default;
+$blue:                 #5087e5 !default;
+$black:                #333 !default;
+$grey:                 $primary-grey !default;
+$golden:               #edbb34 !default;
+
+$highlight:            $blue !default; // for various elements such as span qnt indications
+$text-link-hover:      #5087e5 !default;
+$text-link-visited:    $med-light-grey !default;
+$bp-border-color:      #eee !default;
+$bp-border-dark:       $primary-grey !default;
+$buttons-background:   #ededed !default;
+$off-white:            #fafafa !default;
+$white:                #fff !default;
+$form-border-color:    $med-light-grey !default;
+$bp-text:              $dark-grey !default;
+$form-text:            $light-text-plus !default;
+$primary-headings:     $light-text !default;
+$textarea-bck:         $white !default;
+$meta-text:            $light-text-plus !default;
+$meta-text-dark:       $dark-grey !default;
+$focussed-border-clr:  rgba(31, 179, 221, 0.9) !default; // textareas? e.g whats-new
+
+// Message colors
+
+// used on text == red
+$warn:           #b71717 !default;
+
+// The colors for boxes
+$warnings:       #d33 !default;
+$informational:  #38a !default;
+$loading:        #ffd087 !default;
+$update-success: #8a2 !default;
+
+// password warn colors & border-short
+// These may be overidden on the @include mixin call
+$pwd-background:    #eee !default;
+$background-short:  #ffa0a0 !default;
+$border-short:      #f04040 !default;
+$background-good:   #66d66e !default;
+$border-good:       #438c48 !default;
+$background-bad:    #ffb78c !default;
+$border-bad:        #ff853c !default;
+
+// Animation loader-pulsate border / shadow colors
+
+$border-color-from:        #aaa !default;
+$border-color-to:          #ccc !default;
+$shadow-color-from:        #ccc !default;
+$shadow-color-to:          #f8f8f8 !default;
+
+// BP Tooltips
+
+$tooltip-background:        $white !default;
+$tooltip-border:            $light-text-plus !default;
+$tooltip-border-radius:     1px !default;
+$tooltip-box-shadow:        4px 4px 8px rgba(0, 0, 0, 0.2) !default; // 1px 1px 0 1px rgba(132, 132, 132, 0.3) !default;
+$tooltip-font-family:       "Helvetica Neue", helvetica, arial, san-serif;
+$tooltip-font-size:         12px !default;
+$tooltip-font-weight:       400 !default;
+$tooltip-max-width:         200px !default;
+$tooltip-padding-hor:       8px !default;
+$tooltip-padding-vert:      5px !default;
+$tooltip-text-color:        $black !default;
+$tooltip-tip-area:          7px !default; // bp-tooltip arrow's height, width, & margin
+$tooltip-tip-background:    $white !default;
+$tooltip-z-index:           100000 !default;

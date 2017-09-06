@@ -1,0 +1,99 @@
+// BP Single Group Header Styles.
+
+.groups-header {
+
+	.bp-group-type-list {
+		margin: 0;
+	}
+
+	.bp-feedback {
+		clear: both;
+	}
+
+	// groups admin/mod wrapper block
+	.group-item-actions {
+		float: left;
+		margin: 0 0 15px 15px;
+		padding-top: 0;
+		width: 100%;
+	}
+
+
+	// The admin & mod list display for a group.
+	// 'moderators-lists' is used to refer to
+	// generic members with elevated access.
+	.moderators-lists {
+		margin-top: 0;
+
+		.moderators-title {
+
+			@include font-size(14);
+		}
+
+		.user-list {
+			margin: 0 0 $marg-xsml;
+
+			ul:after {
+				clear: both;
+				content: "";
+				display: table;
+			}
+
+			li {
+				display: inline-block;
+				float: none;
+				margin-left: 4px;
+				padding: 4px;
+			}
+		}
+
+		img.avatar {
+
+			@include box-shadow-none();
+			float: none;
+			height: 30px;
+			margin: 0;
+			max-width: 100%;
+			width: 30px;
+		}
+	} // close moderators-lists
+
+	@include medium-up {
+
+		div#item-header-content {
+			float: left;
+			margin-left: 10%;
+			text-align: left;
+			padding-top: $marg-med;
+			width: 42%;
+		}
+
+		.group-item-actions {
+			float: right;
+			margin: 0 0 15px 15px;
+			text-align: right;
+			width: 20%;
+		}
+
+		.groups-meta {
+			clear: both;
+		}
+	}
+
+	.desc-wrap {
+		background: $light-grey;
+		border: 1px solid $med-light-grey;
+		margin: 0 0 $marg-med;
+		padding: $pad-med;
+		text-align: center;
+
+		.group-description {
+			background: $off-white;
+
+			@include box-shadow(inset 0 0 9px $primary-grey);
+			padding: $pad-med;
+			text-align: left;
+		}
+	}
+} // close groups-header
+

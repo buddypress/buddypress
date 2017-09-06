@@ -1,0 +1,369 @@
+// BP Forms Elements Global Styles
+
+// Some essential classes used for forms elements:
+// labels - sizing especially for standalone controls
+// 'bp-label-text'
+//
+// Where a 'p' element is used to wrap form controls
+// that element should be classed with 'bp-controls-wrap'
+
+.buddypress-wrap {
+
+	.filter,
+	#whats-new-post-in-box { // has no form element and can't hold rules below.
+
+		select {
+			border: 1px solid $form-border-color;
+		}
+	}
+
+	input.action[disabled] {
+		cursor: pointer;
+		opacity: 0.4;
+	}
+
+	#notification-bulk-manage[disabled] {
+		display: none;
+	}
+
+	fieldset {
+
+		legend {
+			font-size: inherit;
+			font-weight: 600;
+		}
+	}
+
+	textarea,
+	input[type="text"],
+	input[type="email"],
+	input[type="url"],
+	input[type="tel"],
+	input[type="password"] {
+
+		&:focus {
+
+			@include box-shadow(0 0 8px $light-grey);
+		}
+	}
+
+	// Ensure select elements aren't given a relative/fixed height.
+
+	select {
+		height: auto;
+	}
+
+	// Preserve fluid widths, prevent horizontal resize of textareas.
+	textarea {
+		resize: vertical;
+	}
+
+	.standard-form {
+
+		.bp-controls-wrap {
+			margin: 1em 0;
+		}
+
+		textarea,
+		input[type="text"],
+		input[type="color"],
+		input[type="date"],
+		input[type="datetime"],
+		input[type="datetime-local"],
+		input[type="email"],
+		input[type="month"],
+		input[type="number"],
+		input[type="range"],
+		input[type="search"],
+		input[type="tel"],
+		input[type="time"],
+		input[type="url"],
+		input[type="week"],
+		select,
+		input[type="password"],
+		[data-bp-search] input[type="search"],
+		[data-bp-search] input[type="text"],
+		.groups-members-search input[type="search"],
+		.groups-members-search input[type="text"] {
+			background: $off-white;
+			border: 1px solid $form-border-color;
+			border-radius: 0;
+			font: inherit;
+			font-size: 100%;
+			padding: $pad-sml;
+		}
+
+		input:not(.button-small),
+		textarea {
+			width: 100%;
+		}
+
+		input[type="radio"],
+		input[type="checkbox"] {
+			margin-right: $marg-xsml;
+			width: auto;
+		}
+
+		select {
+			padding: 3px;
+		}
+
+		textarea {
+			height: 120px; // bad rule! ?
+		}
+
+		textarea#message_content {
+			height: 200px; // bad rule! ?
+		}
+
+		input[type="password"] {
+			margin-bottom: $marg-xsml;
+		}
+
+		input:focus,
+		textarea:focus,
+		select:focus {
+			background: $off-white;
+			color: $bp-text;
+			outline: 0;
+		}
+
+		label,
+		span.label {
+			display: block;
+			font-weight: 600;
+			margin: $marg-med 0 $marg-xsml;
+			width: auto;
+		}
+
+		a.clear-value {
+			display: block;
+			margin-top: $marg-xsml;
+			outline: none;
+		}
+
+		.submit {
+			clear: both;
+			padding: $marg-med 0 0;
+		}
+
+		p.submit {
+			margin-bottom: 0;
+		}
+
+		div.submit input {
+			margin-right: $marg-med;
+		}
+
+		p label,
+		#invite-list label {
+			font-weight: 400;
+			margin: auto;
+		}
+
+		p.description {
+			color: $form-text;
+			margin: $marg-xsml 0;
+		}
+
+		div.checkbox label:nth-child(n+2),
+		div.radio div label {
+			color: $form-text;
+			font-size: 100%;
+			font-weight: 400;
+			margin: $marg-xsml 0 0;
+		}
+
+		&#send-reply {
+
+			textarea {
+				width: 97.5%;
+			}
+		}
+
+		&#sidebar-login-form {
+
+			label {
+				margin-top: $marg-xsml;
+			}
+
+			input[type="text"],
+			input[type="password"] {
+				padding: 4px;
+				width: 95%;
+			}
+		} // close &#sidebar-login-form
+
+		&.profile-edit {
+
+			input:focus {
+				background: $white;
+			}
+		}
+
+		@include medium-up() {
+
+			// The Group invites form lists (not required if Ajax templates in use)
+			.left-menu {
+				float: left;
+			}
+
+			#invite-list ul {
+				list-style: none;
+				margin: 1%;
+
+				li {
+					margin: 0 0 0 1%;
+				}
+			}
+
+			.main-column {
+				margin-left: 190px;
+
+				ul#friend-list {
+					clear: none;
+					float: left;
+				}
+
+				ul#friend-list h4 {
+					clear: none;
+				}
+			}
+
+		} // close @media
+
+		// In tables elements like checkboxes best aligned to middle
+		// remove margins in these cases.
+		.bp-tables-user {
+
+			label {
+				margin: 0;
+			}
+		}
+
+	} // close .standard-form
+
+	// Register page
+	.signup-form {
+
+		label,
+		legend {
+			font-weight: 400;
+		}
+	}
+
+} // close .buddypress-wrap
+
+// These rules do not belong here really but it's
+// where original styles placed them
+body.no-js {
+
+	.buddypress {
+
+		#notifications-bulk-management #select-all-notifications,
+		label[for="message-type-select"],
+		#message-type-select,
+		#delete_inbox_messages,
+		#delete_sentbox_messages,
+		#messages-bulk-management #select-all-messages {
+			display: none;
+		}
+	}
+}
+
+/* Overrides for embedded WP editors */
+.buddypress-wrap {
+
+	.wp-editor-wrap {
+
+		a.button,
+		.wp-editor-wrap button,
+		.wp-editor-wrap input[type="submit"],
+		.wp-editor-wrap input[type="button"],
+		input[type="reset"] {
+			padding: 0 8px 1px;
+		}
+	}
+}
+
+// Style the select element  - generic sitewide styling
+// Remove the browser chrome & add our own arrow styles, borders, hovers.
+
+.buddypress-wrap {
+
+	.select-wrap {
+		border: 1px solid $bp-border-color;
+
+		label {
+			display: inline;
+		}
+
+		select::-ms-expand {
+			display: none;
+		}
+
+		select {
+			-moz-appearance: none;
+			-webkit-appearance: none;
+			-o-appearance: none;
+			appearance: none;
+			border: 0;
+			cursor: pointer;
+			margin-right: -25px;
+			padding: 6px 25px 6px $marg-sml;
+			position: relative;
+			text-indent: -2px;
+			z-index: 1;
+			width: 100%;
+		}
+
+		select,
+		select:focus,
+		select:active {
+			background: transparent;
+		}
+
+		span.select-arrow {
+			display: inline-block;
+			position: relative;
+			z-index: 0;
+
+			&:before {
+				color: $primary-grey;
+				content: "\25BC";
+			}
+		}
+
+		&:focus,
+		&:hover {
+
+			.select-arrow:before {
+				color: darken($primary-grey, 15%);
+			}
+		}
+	} // close .select-wrap
+
+	// Add a little on hover inset shadow for  subnav search & filters
+	.select-wrap,
+	.bp-search form {
+
+		&:focus,
+		&:hover {
+			border: 1px solid darken($bp-border-color, 10%);
+			box-shadow: inset 0 0 3px #eee;
+		}
+	}
+
+	// Manage select wrap for notification actions, wide screens
+	// ensures a shrink wrap width.
+
+	@include medium-small-up() {
+
+		.notifications-options-nav {
+
+			.select-wrap {
+				float: left;
+			}
+		}
+	}
+}

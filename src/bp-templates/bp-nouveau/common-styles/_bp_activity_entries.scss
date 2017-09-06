@@ -1,0 +1,427 @@
+// BP Activity Entries - activity loop
+
+
+.activity-list {
+
+	padding: $pad-sml;
+
+	.activity-item:before,
+	.activity-item:after {
+		content: " ";
+		display: table;
+	}
+
+	.activity-item:after {
+		clear: both;
+	}
+
+	.activity-item { // li element - (entries)
+		list-style: none;
+		padding: $pad-med;
+
+		&.has-comments {
+			padding-bottom: $pad-med;
+		}
+
+
+		div.item-avatar { // 'div' for weight
+			margin: 0 auto;
+			text-align: center;
+			width: auto;
+
+			img {
+				max-width: 40%;
+			}
+		}
+
+		@include medium-up() {
+
+			div.item-avatar { // 'div' for weight
+				margin: 0 2% 0 0;
+				text-align: left;
+				width: 15%;
+
+				img {
+					max-width: 80%;
+				}
+			}
+		}
+
+		&.mini {
+
+			@include font-size(13);
+			position: relative;
+
+			.activity-avatar {
+				margin-left: 0 auto;
+				text-align: center;
+				width: auto;
+
+				img.avatar,
+				img.FB_profile_pic { /* stylelint-disable-line selector-class-pattern */
+					max-width: 15%;
+				}
+			}
+
+			@include medium-up() {
+
+				.activity-avatar {
+					margin-left: $marg-med;
+					text-align: left;
+					width: 15%;
+
+					img.avatar,
+					img.FB_profile_pic { /* stylelint-disable-line selector-class-pattern */
+						max-width: 60%;
+					}
+				}
+			}
+		} // close .mini
+
+		&.new_forum_post,
+		&.new_forum_topic {
+
+			.activity-inner {
+				border-left: 2px solid $light-grey;
+				margin-left: $marg-sml;
+				padding-left: $pad-med;
+			}
+		} // close li forum elements
+
+
+		&.newest_mentions_activity,
+		&.newest_friends_activity,
+		&.newest_groups_activity,
+		&.newest_blogs_activity {
+			// why?
+			background: rgba(31, 179, 221, 0.1);
+		}
+
+		.activity-inreplyto {
+			color: $light-text;
+
+			@include font-size(13);
+
+			> p {
+				display: inline;
+				margin: 0;
+			}
+
+			blockquote,
+			.activity-inner {
+				background: none;
+				border: 0;
+				display: inline;
+				margin: 0;
+				overflow: hidden;
+				padding: 0;
+			}
+		}
+
+		// The header elements: date stamp, author etc;
+		.activity-header {
+			margin: 0 auto;
+			width: 80%;
+
+			// ensure elements are display inline, some themes setting avatars as block
+			a,
+			img {
+				display: inline;
+			}
+
+			.avatar {
+				display: inline-block;
+				margin: 0 $marg-xsml;
+				vertical-align: bottom;
+			}
+
+			.time-since {
+
+				@include font-size(14);
+				color: $light-text;
+				text-decoration: none;
+
+				&:hover {
+					color: $light-text;
+					cursor: pointer;
+					text-decoration: underline;
+				}
+			}
+
+		} // close .activity-header
+
+		.activity-content {
+
+			.activity-header,
+			.comment-header {
+				color: $light-text;
+				margin-bottom: $marg-sml;
+			}
+
+			.activity-inner,
+			blockquote {
+				background: $off-white;
+				margin: $marg-med 0 $marg-sml;
+				overflow: hidden;
+				padding: $pad-med;
+			}
+
+			p {
+				margin: 0;
+			}
+
+		} // close .activity-content
+
+		.activity-inner {
+
+			p {
+				word-wrap: break-word;
+			}
+		}
+
+		.activity-read-more {
+			margin-left: 1em; // proportional to the text size please!
+			white-space: nowrap;
+		}
+
+		// The footer elements, buttons etc
+
+		// if this is a ul then...
+		// else we'll skip this for the rules below.
+		ul.activity-meta {
+			margin: 0;
+			padding-left: 0;
+
+			li {
+				// if a list is being used keep it inline
+				border: 0;
+				display: inline-block;
+			}
+		}
+
+		.activity-meta.action {
+			border: 1px solid transparent;
+			background: $off-white;
+			padding: 2px;
+			position: relative;
+			text-align: left;
+
+			// this wrapper has generic margins in _bp_lists.scss
+			// remove for act stream actions.
+			div.generic-button {
+				margin: 0;
+			}
+
+			.button {
+				background: transparent;
+			}
+
+			a {
+				padding: 4px 8px;
+			}
+
+			// we don't want a background hover if icons used
+			.button:focus,
+			.button:hover {
+				background: none;
+			}
+
+			// Uncomment .acomment-reply class for icon us
+			.button:before,
+			.icons:before {
+				font-family: dashicons;
+				font-size: 18px;
+				vertical-align: middle;
+			}
+
+			.acomment-reply.button:before {
+				content: "\f101";
+			}
+
+			.view:before {
+				content: "\f125";
+			}
+
+			.fav:before {
+				content: "\f154";
+			}
+
+			.unfav:before {
+				content: "\f155";
+			}
+
+			.delete-activity:before {
+				content: "\f153";
+			}
+
+			.delete-activity:hover {
+				color: #800;
+			}
+
+			.button {
+				border: 0;
+				box-shadow: none;
+
+				span {
+					background: none;
+					color: #555;
+					font-weight: 700;
+				}
+			}
+
+		} // close .activity-meta
+
+	} // close .activity-item
+
+} // close .activity-list
+
+@include medium-up() {
+
+	.activity-list.bp-list {
+		padding: 30px;
+	}
+
+	.activity-list {
+
+		.activity-item {
+
+			.activity-content {
+				margin: 0 5% 0 0;
+				position: relative;
+
+				&:after {
+					clear: both;
+					content: "";
+					display: table;
+				}
+			}
+
+			.activity-header {
+				margin: 0 $marg-med 0 0;
+				width: auto;
+			}
+
+		} // li entry item
+	}
+}
+
+.buddypress-wrap {
+
+	// load more link
+	.activity-list {
+
+		.load-more,
+		.load-newest {
+			background: $off-white;
+			border: 1px solid $bp-border-color;
+			font-size: 110%;
+			margin: $marg-med 0;
+			padding: 0;
+			text-align: center;
+
+			a {
+				color: $dark-grey;
+				display: block;
+				padding: $pad-sml 0;
+
+				&:focus,
+				&:hover, {
+					background: $white;
+					color: $black;
+				}
+			}
+
+			&:focus,
+			&:hover {
+				border-color: darken($bp-border-color, 5%);
+
+				@include box-shadow(0 0 6px 0 $light-grey);
+			}
+		}
+
+	}
+}
+
+// Single Activity Entry View
+body.activity-permalink {
+
+	.activity-list {
+
+		li {
+			border-width: 1px;
+			padding: $pad-med 0 0 0;
+
+			&:first-child {
+				padding-top: 0;
+			}
+
+			&.has-comments {
+				padding-bottom: 0;
+			}
+
+		} // close li
+
+		.activity-avatar {
+			width: auto;
+
+			a {
+				display: block;
+			}
+
+			img {
+				max-width: 100%;
+			}
+		}
+
+		.activity-content {
+			border: 0;
+			font-size: 100%;
+			line-height: 1.5;
+			padding: 0;
+
+			.activity-header {
+				margin: 0;
+				padding: $pad-sml 0 0 0;
+				text-align: center;
+				width: 100%;
+			}
+
+			.activity-inner,
+			blockquote {
+				margin-left: 0;
+				margin-top: $marg-sml;
+			}
+		}
+
+		.activity-meta {
+			margin: $marg-sml 0 $marg-sml;
+		}
+
+		.activity-comments {
+			margin-bottom: $marg-sml;
+		}
+
+		@include medium-up() {
+
+			.activity-avatar {
+				left: -20px;
+				margin-right: 0;
+				position: relative;
+				top: -20px;
+			}
+
+			.activity-content {
+				margin-right: $marg-sml;
+
+				.activity-header {
+
+					p {
+						text-align: left;
+					}
+				}
+			}
+
+		} // close @media
+
+	}
+}

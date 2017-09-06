@@ -1,0 +1,552 @@
+// BP primary & secondary navigation - directory and single screens
+
+// all devices & generic styles sitewide
+.bp-navs {
+	background: transparent;
+	clear: both;
+	overflow: hidden;
+
+	ul {
+		margin: 0;
+		padding: 0;
+
+		li {
+			list-style: none;
+			margin: 0;
+		}
+
+		li.last {
+
+			select {
+				max-width: 185px;
+			}
+		}
+
+		li {
+
+			a,
+			span {
+				border: 0;
+				display: block;
+				padding: 5px 10px;
+				text-decoration: none;
+			}
+
+			span {
+				background: $light-grey;
+				border: 1px solid $bp-border-dark;
+				border-radius: 50%;
+				color: $meta-text-dark;
+				display: inline;
+
+				@include font-size(12);
+				margin-left: 2px;
+				padding: 3px 6px;
+				text-align: center;
+				vertical-align: middle;
+			}
+		}
+
+		// these selected/current should apply to all navs
+		// if not pull out & move to end.
+		li.selected,
+		li.current {
+
+			a {
+				color: $black;
+				opacity: 1;
+			}
+		}
+
+	} // close ul
+
+	&.bp-invites-filters,
+	&.bp-messages-filters {
+
+		ul {
+
+			li {
+
+				a {
+					border: 1px solid $bp-border-dark;
+					display: inline-block;
+				}
+			}
+		}
+	}
+
+} // close .bp-navs
+
+.main-navs.dir-navs {
+	margin-bottom: $marg-lrg;
+}
+
+// Primary, default current/selected states
+.buddypress-wrap {
+
+	.bp-navs {
+
+		li.selected,
+		li.current,
+		li a:hover {
+
+			a {
+
+				span {
+					background-color: $grey;
+				}
+			}
+		}
+
+		li:not(.current),
+		li:not(.selected), {
+
+			a:focus,
+			a:hover {
+				background: $grey;
+				color: $black;
+			}
+		}
+
+		li.selected,
+		li.current {
+
+			a,
+			a:focus,
+			a:hover {
+				background: $dark-grey;
+				color: $off-white;
+
+				span {
+					border-color: $off-white;
+				}
+			}
+		}
+	}
+
+	@include medium-up() {
+
+		.main-navs:not(.dir-navs) {
+
+			li.selected,
+			li.current {
+
+				a {
+					background: $white;
+					color: $black;
+					font-weight: 600;
+				}
+			}
+		}
+
+		.main-navs.vertical {
+
+			li.selected,
+			li.current {
+
+				a {
+					background: $dark-grey;
+					color: $off-white;
+					text-decoration: none;
+				}
+			}
+		}
+
+	} // close @media
+
+	.bp-subnavs {
+
+		li.selected,
+		li.current {
+
+			a {
+				background: $white;
+				color: $black;
+				font-weight: 600;
+			}
+		}
+	}
+} // close .buddypress-wrap - current & selected states.
+
+// visual styling of default single navs - adds background/padding to
+// the parent elements if vertical nav not selected
+.buddypress-wrap:not(.bp-single-vert-nav) {
+
+	@include medium-max {
+
+		.bp-navs {
+
+			li {
+				background: $light-grey;
+			}
+		}
+	}
+
+	.main-navs {
+
+		> ul > li {
+
+			> a {
+				padding: $pad-sml calc(0.5em + 2px);
+			}
+		}
+	}
+
+	.user-subnav#subsubnav,
+	.group-subnav#subsubnav {
+		background: none;
+	}
+}
+
+// massage link padding
+
+.buddypress-wrap:not(.bp-vertical-navs) {
+
+	.main-navs.single-screen-navs {
+
+		@include medium-up {
+
+			> ul > li:first-child {
+
+				a {
+					padding-left: 0;
+				}
+			}
+		}
+	}
+}
+
+// Specifically default subnav elements
+.buddypress-wrap {
+
+	.bp-subnavs,
+	ul.subnav {
+		width: 100%;
+	}
+
+	.bp-subnavs {
+
+		margin: $marg-sml 0;
+		overflow: hidden;
+
+		ul {
+
+			li {
+				margin-top: 0;
+
+				&.selected,
+				&.current {
+
+					:focus,
+					:hover {
+						background: none;
+						color: $black;
+					}
+				}
+
+			}
+
+			@include medium-up {
+
+				li:first-child {
+
+					a {
+						padding-left: 0;
+					}
+				}
+			}
+		}
+	}
+
+	ul.subnav {
+		width: auto;
+	}
+
+	.bp-navs.bp-invites-nav#subnav,
+	.bp-navs.bp-invites-filters#subsubnav,
+	.bp-navs.bp-messages-filters#subsubnav {
+
+		ul {
+
+			li.last {
+				margin-top: 0;
+			}
+		}
+	}
+
+} // close .buddypress-wrap
+
+// Single screens object navs
+// Adjusts visual styling for small screens only
+
+@include medium-max {
+
+	.buddypress-wrap {
+
+		.single-screen-navs {
+			border: 1px solid $bp-border-color;
+
+			li {
+				border-bottom: 1px solid $bp-border-color;
+
+				&:last-child {
+					border-bottom: none;
+				}
+			}
+		}
+
+		.bp-subnavs {
+
+			li {
+
+				a {
+
+					@include font-size(14);
+				}
+
+				&.selected,
+				&.current {
+
+					a,
+					a:focus,
+					a:hover {
+						background: $dark-grey;
+						color: $white;
+					}
+				}
+			}
+		}
+	}
+}
+
+.buddypress_object_nav,
+.buddypress-wrap {
+
+	.bp-navs {
+
+		li.selected,
+		li.current {
+
+			a {
+
+				span {
+					background-color: $white;
+				}
+			}
+		} // close li
+
+		li.dynamic,
+		li.dynamic.selected,
+		li.dynamic.current {
+
+			a {
+
+				span {
+					background-color: $highlight;
+					border: 0;
+					color: $off-white;
+				}
+			}
+		}
+
+		li.dynamic {
+
+			a:hover {
+
+				span {
+					background-color: $highlight;
+					border: 0;
+					color: $white;
+				}
+			}
+		}
+
+		li {
+
+			a {
+
+				span:empty {
+					display: none;
+				}
+			}
+		}
+	} // bp-navs
+
+	// Create steps current postion tabs highlight
+	.bp-navs.group-create-links {
+
+		ul {
+
+			li:not(.current) {
+
+				a {
+					color: $light-text;
+
+					&:focus,
+					&:hover {
+						background: none;
+						color: $black;
+					}
+				}
+
+				a[disabled] {
+
+					&:focus,
+					&:hover {
+						color: $light-text;
+					}
+				}
+			}
+
+			li.current {
+
+				a {
+					text-align: center;
+				}
+			}
+		}
+	}
+}
+
+.buddypress-wrap {
+
+	// position our nav elements at larger screen widths
+
+	@include medium-up() {
+
+		.bp-navs {
+
+			li { // set the list links of all navs to shrinkwrap/width auto
+				float: left;
+			}
+		}
+
+		.subnav {
+			float: left;
+		}
+
+		ul.subnav {
+			width: auto;
+		}
+
+		// user screen last filter
+		#subsubnav {
+
+			.activity-search {
+				float: left;
+			}
+
+			.filter {
+				float: right;
+			}
+		}
+
+	} // close @media
+
+} // close .buddypress-wrap
+
+
+// Just buddypress_object_nav rules
+.buddypress_object_nav {
+
+	.bp-navs {
+
+		li {
+
+			a {
+
+				span {
+					display: inline-block;
+					float: right;
+				}
+			}
+		}
+
+	}
+}
+
+// Directory screens vertical nav rules
+
+@include medium-up() {
+
+	// the top level class activating vert layout
+	.bp-dir-vert-nav {
+
+		.bp-navs.dir-navs {
+			background: none;
+
+			a {
+
+				span {
+					float: right;
+
+				}
+			}
+		}
+	}
+}
+
+// Tabbed links
+
+// Our tabbed links are pulled in via a mixin
+// UL parent element must have 'tabbed-links' added and the ul 'button-tabs'
+// medium screens up
+
+.buddypress-wrap {
+
+	.item-body {
+
+		@include medium-up {
+
+			// Profile group labels links
+			// Button navigation as tabbed effect for wide screen
+
+			@include tabbed-links();
+
+			.bp-navs.tabbed-links {
+				background: none;
+				margin-top: 2px;
+
+				li#compose-personal-li {
+					margin-top: 6px;
+				}
+
+				// For tabbed nav we remove any default button nav styles.
+				ul {
+
+					li {
+
+						a {
+							border-right: 0;
+							font-size: inherit;
+						}
+					}
+
+					li.last {
+						float: right;
+						margin: 0;
+
+						a {
+							margin-top: -0.5em;
+						}
+					}
+
+					li,
+					li.current {
+
+						a,
+						a:focus,
+						a:hover {
+							background: none;
+							border: 0;
+						}
+
+						a:active {
+							outline: none;
+						}
+					}
+				}
+			} // close .bp-navs.tabbed-links
+		} // @media
+	}
+}

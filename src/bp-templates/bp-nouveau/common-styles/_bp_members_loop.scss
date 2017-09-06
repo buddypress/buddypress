@@ -1,0 +1,94 @@
+// BP Members loop.
+
+.buddypress-wrap {
+
+	.members-list { // ul
+
+		li {
+
+			.member-name {
+				margin-bottom: $marg-sml;
+			}
+
+			.user-update {
+				border: 1px solid $light-grey;
+
+				@include border-radius(10px);
+				color: $meta-text;
+
+				font-style: italic;
+
+				@include responsive-font(16);
+				margin: $marg-med auto;
+				padding: $pad-med;
+
+				.activity-read-more {
+
+					display: block;
+
+					@include font-size(12);
+					font-style: normal;
+					margin-top: $marg-sml;
+					padding-left: 2px;
+				}
+			}
+
+			@include medium-up() {
+
+				.last-activity {
+					clear: left;
+					margin-top: -10px;
+				}
+			}
+
+		} // close li
+
+	} // close .members-list
+
+	// Members group specific list
+	.members-group-list {
+
+		li {
+
+			@include medium-up() {
+
+				.joined {
+					clear: left;
+					float: none;
+				}
+			}
+		}
+	}
+} // close .buddypress-wrap
+
+// If logged out or if the loop item is
+// current user we don't display action buttons
+// so lets remove the update width making room
+// for the buttons - max out the user-update width.
+
+body:not(.logged-in) {
+
+	@include medium-small-up() {
+
+		.members-list {
+
+			.user-update {
+				width: 96%;
+			}
+		}
+	}
+}
+
+// Is current user - i.e it's me!
+
+//@include medium-small-up() {
+//	.buddypress-wrap {
+
+//		.members-list {
+
+//			.is-current-user {
+
+//			}
+//		}
+//	}
+//}

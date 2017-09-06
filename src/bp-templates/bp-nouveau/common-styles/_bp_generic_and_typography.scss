@@ -1,0 +1,248 @@
+// BP Generic elements, Typography and Images.
+
+// ========= Generic Sitewide elements ========
+body {
+
+	#buddypress { // needs the weight of the id here
+
+		* {
+			// some WP themes add anchor border bottom :(
+			a {
+				box-shadow: none;
+				text-decoration: none;
+			}
+		} // close * the kitchen sink of elements
+
+		// Some themes have a negative left margin on the blockquote element??
+		#item-body,
+		.bp-lists {
+
+			blockquote {
+				margin-left: $marg-sml;
+			}
+		}
+
+		// CSS Box Model - some themes will set all blocks to border box
+		// some will cherry pick - we will set elements as we need to,
+		// ( setting a global change might be better)
+		// box-modal() defaults to 'border-box' if no param passed
+		.bp-list .action {
+
+			@include box-model();
+		}
+	}
+}
+
+// Some themes have very restricted content widths for pages
+// or entry-content (2013, 2014, 2017) Lets adjust these restrictions
+body.buddypress {
+
+	@include medium-up() {
+
+		.entry-header,
+		.site-content .entry-header,
+		.entry-content {
+			max-width: none;
+		}
+
+		.entry-header {
+			float: none;
+			max-width: none;
+		}
+
+		.entry-content {
+			float: none;
+			max-width: none;
+			//padding: 0 $pad-xlrg;
+		}
+
+		// 2017 has a very large top padding we'll reduce that for bp screens
+		.site-content {
+			padding-top: 2.5em;
+		}
+
+		// Some themes are styling on ID's making it hard to override
+		// Adding a commononly used ID for site here to add weight '#page'
+		// In part this will help with 2017 floats & narrow widths
+
+
+		#page {
+
+			// If 2017 page choice is 'One Column' #primary is a narrow width
+			// Current RC has removed the customizer column switch !!
+			// remove width to allow BP screens to mirror post layout widths
+			// The .wrap element will serve still to provide a max width @ 1000px
+
+			#primary {
+				max-width: none;
+
+				.entry-header,
+				.entry-content {
+					float: none;
+					width: auto;
+				}
+			}
+		}
+
+
+	} // @media
+}
+
+// BP Theme Compatibility isn't technically a theme and has to
+// inherit and move over for a themes styles so with generic styling of
+// elements we have limited scope
+
+// Ensure themes can't cause issues with headings.
+body.buddypress { // add weight
+
+	.buddypress-wrap {
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			clear: none;
+			// some themes set massive margins ensure we avoid these in bp elements
+			margin: 1em 0;
+			// some themes add padding top lets manage that generically sitewide
+			padding: 0;
+		}
+	}
+}
+
+// Ensure the .bp-wrap element always contains it's children,
+// this may cause issues but gropus single requires it.
+
+/* Ensure .bp-wrap encloses it's children */
+
+@include clearfix-element(".bp-wrap");
+
+// General site avatars round or square ?
+// User set
+.buddypress-wrap.round-avatars {
+
+	.avatar {
+		border-radius: 50%;
+	}
+}
+
+// 'Boxes' i.e display:block when given definition with borders
+// look nice if corners subtly rounded by a couple of pixels
+div,
+dl,
+li,
+textarea,
+select,
+input[type="search"],
+input[type="submit"],
+input[type="reset"] {
+
+	@include border-radius(2px);
+}
+
+// ====== BP Typographic Elements ======
+
+// === Font sizing ===
+
+
+// Directory component titles, groups/user single, create & register
+// Entry headers are outside the BP injection point for pages.
+// & get styles by the theme, we'll attempt to over specify
+// the selector to ensure we target the right elements
+// (no BP classes available other than body classes!)
+
+body.buddypress {
+
+	article.page {
+
+		> .entry-header {
+			margin-bottom: 2em;
+			padding: 0;
+
+			.entry-title {
+
+				@include responsive-font(34);
+				font-weight: inherit;
+				color: $primary-headings;
+			}
+		}
+	}
+}
+
+dt.section-title {
+
+	@include responsive-font(22);
+}
+
+.bp-label-text,
+.message-threads {
+
+	@include responsive-font(16);
+}
+
+.activity-header {
+
+	@include responsive-font(16);
+}
+
+.activity-inner {
+
+	@include responsive-font(18);
+}
+
+#whats-new-post-in {
+
+	@include font-size(16);
+}
+
+.mini .activity-header,
+.acomment-meta {
+
+	@include font-size(16);
+}
+
+.dir-component-filters {
+
+	#activity-filter-by {
+
+		@include responsive-font(16);
+	}
+}
+
+$search-element-size: 15;
+$search-element-button-size: $search-element-size + 5;
+
+.bp-tables-user {
+
+	th {
+
+		@include responsive-font(16);
+	}
+
+	td {
+
+		@include responsive-font(14);
+	}
+}
+
+// Setting the profile fields to be a larger
+// font than all general user tables is open for review.
+.profile-fields {
+
+	th {
+
+		@include responsive-font(18);
+	}
+
+	td {
+
+		@include responsive-font(16);
+	}
+}
+
+#notification-select {
+
+	@include responsive-font(14);
+}

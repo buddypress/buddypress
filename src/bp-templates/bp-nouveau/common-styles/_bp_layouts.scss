@@ -1,0 +1,638 @@
+// BP Layouts
+// Layouts provides classes to handle specific module
+// layouts on a user selectable basis.
+// The sheet also adds layout properties such as border-box
+
+#item-body,
+.single-screen-navs {
+
+	@include box-model();
+}
+
+
+// ==== The Grid Layout Classes ====
+
+// BP Lists (loops) may be suited to a grid layout e.g members loops
+// These classes added to the elements will provide these styles.
+
+.grid {
+	// the parent element (usually the ul)
+
+	> li,
+	> li .generic-button a {
+
+		@include box-model( border-box );
+	}
+
+	> li {
+		border-bottom: 0;
+		padding-bottom: 10px;
+		padding-top: 0;
+
+		.list-wrap {
+			background: $off-white;
+			border: 1px solid $bp-border-color;
+			padding-bottom: 15px;
+			position: relative;
+			overflow: hidden;
+			padding-top: 14px;
+
+			.list-title {
+				padding: $pad-sml;
+			}
+
+			.update {
+				color: $meta-text;
+				padding: $pad-sml $pad-lrg;
+			}
+		}
+
+		.item-avatar {
+			text-align: center;
+
+			.avatar {
+				border-radius: 50%;
+				display: inline-block;
+				width: 50%;
+			}
+		}
+	} // close > li
+
+	// min-height rules to line up grid box elements
+	// to prevent breaking grid layout through uneven heights
+	// one column or single column mobile can have varying heights
+
+	@include small-up() {
+
+		&.members-list {
+
+			.list-wrap {
+				min-height: 340px;
+
+				.item-block {
+					margin: 0 auto;
+					min-height: 7rem;
+				}
+			}
+		}
+
+		&.members-group-list {
+
+			.list-wrap {
+
+				.item-block {
+					margin: 0 auto;
+					min-height: 7rem;
+				}
+			}
+		}
+
+		&.groups-list {
+
+			.list-wrap {
+				min-height: 470px;
+
+				.item-block {
+					min-height: 6rem;
+				}
+
+				.group-desc {
+					margin: $marg-med auto 0;
+					min-height: 5em;
+					overflow: hidden;
+				}
+
+				.last-activity,
+				.group-details,
+				.item-desc {
+					margin-bottom: 0;
+
+					p {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+
+		&.blogs-list {
+
+			.list-wrap {
+				min-height: 350px;
+
+				.item-block {
+					margin: 0 auto;
+					min-height: 7rem;
+				}
+			}
+		}
+	} // close @media small-up
+
+} // close .grid
+
+/* Build the two column class small up */
+
+@include small-up() {
+
+	// Set the column  or item numbers to span horizontally
+	.grid {
+
+		> li.item-entry {
+			float: left;
+			margin: 0;
+		}
+
+		&.two {
+
+			> li {
+				padding-bottom: 20px;
+			}
+		}
+
+		&.two,
+		&.three {
+
+			> li {
+				width: 50%;
+
+				&:nth-child(odd) {
+					padding-right: 10px;
+				}
+
+				&:nth-child(even) {
+					padding-left: 10px;
+				}
+
+				.item {
+					margin: 1rem auto 0;
+					width: 80%;
+
+					.item-title {
+						width: auto;
+					}
+				}
+			} // close > li
+		}
+	}
+}
+
+/* Build the three column class medium up */
+
+@include medium-up() {
+
+	.grid {
+
+		// Set three to a row
+		&.three {
+
+			> li {
+				padding-top: 0;
+				width: 33.333333%;
+				width: calc(100% / 3);
+
+				&:nth-child(1n+1) {
+					padding-left: 5px;
+					padding-right: 5px;
+				}
+
+				&:nth-child(3n+3) {
+					padding-left: 5px;
+					padding-right: 0;
+				}
+
+				&:nth-child(3n+1) {
+					padding-left: 0;
+					padding-right: 5px;
+				}
+
+			} // close >li
+		}
+	} // .grid
+} // close @media
+
+/* Build the four column class medium up */
+
+@include medium-up() {
+
+	// Set four to a row
+	.grid {
+
+		&.four {
+
+			> li {
+				width: 25%;
+
+				&:nth-child(1n+1) {
+					padding-left: 5px;
+					padding-right: 5px;
+				}
+
+				&:nth-child(4n+4) {
+					padding-left: 5px;
+					padding-right: 0;
+				}
+
+				&:nth-child(4n+1) {
+					padding-left: 0;
+					padding-right: 5px;
+				}
+
+			} // close > li
+		}
+	} // .grid
+} // close @media
+
+// This block styles the loop items for a grid layout
+// The block might be better located in the generic bp-lists section
+
+// Style the .bp-list li elements if a 'grid' class is set on the ul
+
+// if grid is set & this is a member, group or blog loop
+// we want to re-style some of the elements in the item
+.buddypress-wrap {
+
+	.grid.bp-list {
+		padding-top: $pad-med;
+
+		> li {
+			border-bottom: none;
+
+			.list-wrap {
+				padding-bottom: 3em;
+			}
+
+			.item-avatar {
+				margin: 0;
+				text-align: center;
+				width: auto;
+
+				img.avatar {
+					display: inline-block;
+					height: auto;
+					width: 50%;
+				}
+			}
+
+			.item-meta,
+			.list-title {
+				float: none;
+				text-align: center;
+			}
+
+			.list-title {
+				font-size: inherit;
+				line-height: 1.1;
+			}
+
+			.item {
+
+				@include responsive-font( 22 );
+				left: 0;
+				margin: 0 auto;
+				text-align: center;
+				width: 96%;
+
+				.item-block,
+				.group-desc {
+					float: none;
+					width: 96%;
+				}
+
+				.item-block {
+					margin-bottom: $marg-sml;
+				}
+
+				.last-activity {
+					margin-top: 5px;
+				}
+
+				.group-desc {
+					clear: none;
+				}
+
+				.user-update {
+					clear: both;
+					text-align: left;
+				}
+
+				.activity-read-more a {
+					display: inline;
+				}
+			}
+
+			.action {
+				bottom: 5px;
+				float: none;
+				height: auto;
+				left: 0;
+				margin: 0;
+				padding: 0 5px;
+				position: absolute;
+				text-align: center;
+				top: auto;
+				width: 100%;
+
+				.generic-button {
+					float: none;
+					margin: $marg-xsml 0 0;
+					text-align: center;
+					width: 100%;
+
+					a,
+					button {
+						width: 100%;
+					}
+				}
+			}
+
+			.item-avatar,
+			.avatar,
+			.item {
+				float: none;
+			}
+
+		} // close > li
+	} // close .grid.bp-list
+
+
+	// Specific grid layout adjustments by grid row qnt & component
+
+	.blogs-list.grid.two {
+
+		> li {
+
+			.blogs-title {
+				min-height: 5em;
+			}
+		}
+	}
+
+	// where three or four items to a row we need to increase the desc height as
+	// narrow widths force the box taller & adjust some padding values.
+	// In addition blogs grid in narrow theme widths need a little more height.
+
+	.grid.three,
+	.grid.four {
+
+		> li {
+
+			.group-desc {
+				min-height: 8em;
+			}
+		}
+	}
+
+	.blogs-list.grid.three,
+	.blogs-list.grid.four {
+
+		> li {
+			min-height: 350px;
+
+			.last-activity {
+				margin-bottom: 0;
+			}
+
+			.last-post {
+				margin-top: 0;
+			}
+		}
+	}
+
+} // close .buddypress-wrap
+
+// If we're logged out remove additional padding designed to help
+// provide spaces for action button elements & reduce min-heights.
+
+.buddypress:not(.logged-in) {
+
+	.grid.bp-list {
+
+		.list-wrap {
+			padding-bottom: $marg-xsml;
+		}
+	}
+
+	.grid.groups-list {
+
+		.list-wrap {
+			min-height: 430px;
+		}
+	}
+
+	.grid.members-list, {
+
+		.list-wrap {
+			min-height: 300px;
+		}
+	}
+
+	.grid.blogs-list, {
+
+		.list-wrap {
+			min-height: 320px;
+		}
+	}
+}
+
+// ==== Vertical Navigation Classes ====
+
+// These classes added to the BP user navigation elements
+// will provide rules to modify the layout to present the
+// parent object navigation in a vertical column & sub navs
+// horizontally across the item-body
+
+@include medium-up() {
+
+	.bp-single-vert-nav { // described for the #buddypress element
+
+		.vertical {
+			overflow: visible;
+
+			ul {
+				border-right: 1px solid $med-light-grey;
+				float: left;
+				margin-right: -1px;
+				width: 25%;
+			}
+
+			li {
+				float: none;
+
+				&.selected a {
+					background: $grey;
+					color: $black;
+				}
+
+				&:focus,
+				&:hover {
+					background: $grey;
+				}
+
+				span {
+					background: $med-light-grey;
+					border-radius: 10%;
+					float: right;
+					margin-right: 2px;
+				}
+
+				&:hover span {
+					border-color: $light-grey;
+				}
+			} // li
+
+		}
+
+		// re-factor the related elements like the #item-body so it sits
+		// to the side(floated)
+		.bp-wrap {
+			margin-bottom: $marg-med;
+
+			.user-nav-tabs.users-nav,
+			.group-nav-tabs.groups-nav {
+
+				ul {
+
+					li {
+						left: 1px;
+						position: relative;
+					}
+				}
+			}
+		}
+
+		.item-body:not(#group-create-body) {
+			background: #fff;
+			border-left: 1px solid $med-light-grey;
+			float: right;
+			margin: 0;
+			min-height: 400px;
+			padding: 0 0 0 $pad-med;
+			width: calc(75% + 1px);
+
+			#subnav:not(.tabbed-links) {
+				background: $light-grey;
+				margin: 0 0 0 -5px;
+				width: auto;
+
+				li {
+
+					@include font-size(16);
+					margin: $marg-sml 0;
+
+					a {
+						border-right: 1px solid $bp-border-dark;
+						padding: 0 $pad-sml;
+					}
+
+					a:focus,
+					a:hover {
+						background: none;
+					}
+				}
+
+				li.current {
+
+					a {
+						background: none;
+						color: $black;
+						text-decoration: underline;
+					}
+				}
+
+				li:last-child {
+
+					a {
+						border: none;
+					}
+				}
+
+			} // close #subnav
+		}
+	}
+
+	// Set the directory screens main navs as vertical aligned
+	// medium breakpoint up only
+
+	.bp-dir-vert-nav { // described for the #buddypress element
+
+		.dir-navs {
+			float: left;
+			left: 1px;
+			position: relative;
+			width: 20%;
+
+			ul {
+
+				li {
+					float: none;
+					overflow: hidden;
+					width: auto;
+
+					&.selected {
+						border: 1px solid #eee;
+
+						a {
+							background: $dark-grey;
+							color: $white;
+
+							span {
+								background: $light-grey;
+								border-color: $grey;
+								color: $highlight;
+							}
+						}
+					} // close .selected
+				}
+
+				li {
+
+					a:hover,
+					a:focus {
+						background: $grey;
+						color: $black;
+
+						span {
+							border: 1px solid $dark-grey;
+						}
+					}
+				}
+
+			}
+		} // close .dir-navs
+
+		.screen-content {
+			border-left: 1px solid $med-light-grey;
+			margin-left: 20%;
+			overflow: hidden;
+			padding: 0 0 $pad-lrg $pad-med;
+
+			.subnav-filters {
+				margin-top: 0;
+			}
+		}
+	}
+
+	// Style main navs as visual tabs effect
+	// if user selects options in the Customizer
+	// and classes are set.
+	// N.B This is in addition to the  standalone visual tab style classes/mixin
+	// provided so any elements may be styled to represent tabs.
+
+	.buddypress-wrap {
+
+		&.bp-vertical-navs {
+
+			.dir-navs.activity-nav-tabs,
+			.dir-navs.sites-nav-tabs,
+			.dir-navs.groups-nav-tabs,
+			.dir-navs.members-nav-tabs,
+			.main-navs.user-nav-tabs,
+			.main-navs.group-nav-tabs {
+
+				@include primary-navs-vert-tabs();
+			}
+		}
+	}
+
+} // close @media
+
+

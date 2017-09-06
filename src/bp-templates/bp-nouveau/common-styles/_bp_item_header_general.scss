@@ -1,0 +1,172 @@
+// BP Single Screens Item Header General Styles.
+
+@include clearfix-element(".single-headers");
+
+.single-headers {
+	margin-bottom: $marg-med;
+
+	// Breakpoint element positioning
+
+	#item-header-avatar { // todo: this ought to be a class!
+
+		a {
+			display: block;
+			text-align: center;
+
+			img {
+				float: none;
+			}
+		}
+	}
+
+	div#item-header-content {
+		float: none;
+	}
+
+	@include medium-up() {
+
+		#item-header-avatar { // todo: this ought to be a class!
+
+			a {
+				text-align: left;
+
+				img {
+					float: left;
+				}
+			}
+		}
+	}
+
+	// End breakpoint positioning
+
+	.group-status,
+	.activity {
+		display: inline;
+	}
+
+	.group-status {
+
+		@include font-size(18);
+		color: $black;
+		padding-right: $pad-med;
+	}
+
+	.activity {
+		display: inline-block;
+
+		@include font-size(12);
+		padding: 0;
+	}
+
+	div#message,
+	#sitewide-notice {
+
+		p {
+			background-color: #ffd;
+			border: 1px solid #cb2;
+			color: #440;
+			font-weight: 400;
+			margin-top: 3px;
+			text-decoration: none;
+		}
+	}
+
+	// @mention user name
+	h2 {
+		line-height: 1.2;
+		margin: 0 0 $marg-xsml;
+
+		a {
+			color: $light-text;
+			text-decoration: none;
+		}
+
+		span.highlight {
+			display: inline-block;
+			font-size: 60%;
+			font-weight: 400;
+			line-height: 1.7;
+			vertical-align: middle;
+
+			span {
+				background: #a1dcfa;
+				color: $white;
+				cursor: pointer;
+				font-size: 80%;
+				font-weight: 700;
+				margin-bottom: 2px;
+				padding: 1px 4px;
+				position: relative;
+				right: -2px;
+				top: -2px;
+				vertical-align: middle;
+			}
+
+		}
+
+	} // close h2
+
+	img.avatar {
+		float: left;
+		margin: 0 15px 19px 0;
+	}
+
+	.item-meta {
+		color: $light-text;
+
+		@include font-size(14);
+		margin: $marg-med 0 $marg-xsml;
+		padding-bottom: $pad-sml;
+	}
+
+	ul {
+		margin-bottom: $marg-med;
+
+		li {
+			float: right;
+			list-style: none;
+		}
+	}
+
+	div.generic-button {
+		text-align: center;
+	}
+
+	li.generic-button {
+		display: inline-block;
+		text-align: center;
+	}
+
+	@include medium-up() {
+
+		div.generic-button,
+		a.button,
+		li.generic-button {
+			float: left;
+		}
+	}
+
+	div.generic-button,
+	a.button {
+		margin: $marg-sml $marg-sml 0 0;
+	}
+
+	// if these are list constructs
+	li.generic-button {
+		margin: 2px 10px;
+	}
+
+	li.generic-button:first-child {
+		margin-left: 0;
+	}
+
+	div#message.info {
+		line-height: 0.8;
+	}
+
+} // close .single-headers
+
+body.no-js  .single-item-header .js-self-profile-button {
+	display: none;
+}
+

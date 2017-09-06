@@ -1,0 +1,201 @@
+// BP Lists Global Styles.
+
+// @todo decide whether using .buddypress quasi namespace parent
+// is useful, causing issue with specificity on other
+// lists if they do not use it.
+
+@include clearfix-element(".bp-list");
+
+.bp-list {
+
+	@include box-model();
+	border-top: 1px solid $light-grey;
+	clear: both;
+	list-style: none;
+	margin: $marg-lrg 0;
+	padding: $pad-sml 0;
+	width: 100%;
+
+	// these clearfix rules simply because the element can't be classed
+	li:before,
+	li:after {
+		content: " ";
+		display: table;
+	}
+
+	li:after {
+		clear: both;
+	}
+
+	> li {
+		border-bottom: 1px solid $light-grey;
+	}
+
+	li {
+		list-style: none;
+		margin: $marg-sml 0;
+		padding: $pad-sml 0;
+		position: relative;
+
+		.item-avatar {
+			text-align: center;
+
+			img.avatar {
+				display: inline;
+			}
+		}
+
+		.item {
+
+			.item-avatar,
+			.list-title,
+			.item-meta,
+			.group-details {
+				text-align: center;
+			}
+
+			.list-title {
+				clear: none; // some WP themes state clear:both
+
+				@include responsive-font(26);
+				font-weight: 400;
+				line-height: 1.1;
+				margin: 0 auto;
+			}
+		}
+
+		.meta,
+		.item-meta {
+			color: $light-text-plus;
+
+			@include font-size(12);
+			margin-top: $marg-sml;
+		}
+
+		.last-post {
+			text-align: center;
+		}
+
+		.action {
+			margin: 0;
+			text-align: center;
+
+			.generic-button {
+				display: inline-block;
+
+				@include font-size(12);
+				margin: 0 $marg-sml 0 0;
+			}
+
+			// if this is a div wrapper
+			div.generic-button {
+				margin: $marg-sml 0;
+			}
+		}
+
+		@include medium-up() {
+
+			.item-avatar {
+				float: left;
+				margin-right: 5%;
+			}
+
+			.item {
+				margin: 0;
+				overflow: hidden;
+
+				.item-block { // element is a styling div for positional purposes only
+					float: left;
+					margin-right: 2%;
+					width: 50%;
+				}
+
+				.list-title,
+				.item-meta {
+					float: left;
+					text-align: left;
+				}
+
+				.group-details,
+				.last-post {
+					text-align: left;
+				}
+			}
+
+			.group-desc,
+			.user-update,
+			.last-post {
+				clear: none;
+				overflow: hidden;
+				width: auto;
+			}
+
+			.action {
+				clear: left;
+				padding: 0;
+				text-align: left;
+
+				// if it's a ul/li wrapper
+				li.generic-button {
+					margin-right: 0;
+				}
+
+				// if this is a div wrapper
+				div.generic-button {
+					margin: 0 0 $marg-sml;
+				}
+			}
+
+			.generic-button {
+				display: block;
+				margin: 0  0 $marg-xsml 0;
+			}
+
+		} // close @media
+
+	} // close li
+
+} // close .bp-list
+
+.activity-list.bp-list {
+
+	background: $off-white;
+	border: 1px solid $bp-border-color;
+
+	.activity-item {
+		background: $white;
+		border: 1px solid #b7b7b7;
+
+		@include box-shadow(0 0 6px #d2d2d2);
+		margin: $marg-lrg 0;
+	}
+
+	li:first-child {
+		margin-top: 0;
+	}
+}
+
+// If logged out we don't display action buttons
+// so lets remove the margin right creating the white-space
+// for the buttons - max out the item element width.
+body:not(.logged-in) {
+
+	.bp-list {
+
+		@include medium-up() {
+
+			.item {
+				margin-right: 0;
+			}
+		}
+	}
+}
+
+// body class: single act items screens.
+.activity-permalink {
+
+	.item-list,
+	.item-list li.activity-item {
+		border: 0;
+	}
+}

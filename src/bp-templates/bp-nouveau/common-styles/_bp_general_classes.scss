@@ -1,0 +1,54 @@
+// BP General CLasses: screen reader, clearfix etc.
+
+.bp-screen-reader-text {
+	// See also _bp_mixins for mixin to add properties on block
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal !important;
+}
+
+.clearfix {
+
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+// Vertical centering
+// This class allows us to center child elements
+// using flexbox this is a progressive enhancement,
+// it won't work in all browsers, older browser will simply
+// fall back to non centered or to using older techniques.
+// N.B. A mixin exists '@include center-vert()' for rulesets
+// to use to add the properties below.
+.center-vert {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+	align-items: center;
+}
+
+.bp-hide {
+
+	@include hide();
+}
+
+.bp-show {
+
+	@include show();
+}

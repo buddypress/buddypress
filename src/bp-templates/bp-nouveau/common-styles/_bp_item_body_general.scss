@@ -1,0 +1,33 @@
+// BP Single Screens Item Body General Styles.
+
+.buddypress-wrap {
+
+	.item-body {
+		margin: $marg-lrg 0;
+
+		.screen-heading {
+
+			@include font-size(20);
+
+			font-weight: 400;
+		}
+
+		.button-tabs {
+			margin: $marg-xlrg 0 $marg-med;
+		}
+
+	}
+}
+
+// If vertical primary nav is in use the item body
+// needs a little left padding on loops to let the content breath.
+
+.buddypress-wrap.bp-single-vert-nav {
+
+	.bp-list:not(.grid) {
+
+		.item-entry {
+			padding-left: $pad-sml;
+		}
+	}
+}

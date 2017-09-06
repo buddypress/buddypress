@@ -1,0 +1,113 @@
+// Registration Screen
+// Styles the registration index.php form and elements.
+
+.register-page {
+
+	.register-section {
+
+		@include box-model();
+	}
+
+	.signup-form {
+		margin-top: $marg-lrg;
+
+		.default-profile {
+
+			input {
+				margin-bottom: $marg-lrg;
+			}
+		}
+
+		label,
+		legend {
+			margin: $marg-sml 0 0;
+		}
+
+		// profile extra element wrapper
+		.editfield {
+			border: 1px solid $bp-border-color;
+			margin: $marg-lrg 0;
+			padding: 5px;
+
+			fieldset {
+				border: 0;
+				padding: 0;
+
+				legend {
+					text-indent: 0;
+				}
+			}
+
+			.field-visibility-settings {
+				padding: $pad-sml;
+
+				fieldset {
+					margin: 0 0 $marg-sml;
+				}
+			}
+		} // editfield
+
+		#signup-avatar img {
+			margin: 0 $marg-med $marg-sml 0;
+		}
+	} // close .signup-form
+
+} // close .register-page
+
+// Flex layout containers for registration sections
+
+@include medium-up() {
+
+	.buddypress-wrap {
+
+		.register-page {
+
+			.layout-wrap {
+				display: flex;
+				flex-flow: row wrap;
+				justify-content: space-around;
+
+				.default-profile {
+					flex: 1;
+					padding-right: $pad-lrg;
+				}
+
+				.blog-details {
+					flex: 1;
+					padding-left: $pad-lrg;
+				}
+			}
+
+			.submit {
+				clear: both;
+			}
+
+		}
+	}
+}
+
+// have we got extended profiles to factor in,
+// if so we'll adjust the child item elements.
+
+@include medium-up() {
+
+	.buddypress-wrap.extended-default-reg {
+
+		.register-page {
+
+			.default-profile {
+				flex: 1;
+				padding-right: $pad-med;
+			}
+
+			.extended-profile {
+				flex: 2;
+				padding-left: $pad-med;
+			}
+
+			.blog-details {
+				flex: 1 100%;
+			}
+		}
+	}
+}

@@ -1,0 +1,43 @@
+// BP User settings screens
+
+
+// 1. Settings Global
+// 1. General (email/password change)
+// 2. Email notifications
+// 3. Profile visibility
+// 4. group Invites
+
+// Settings Global
+
+/*__ Settings Global __*/
+
+// required extra specificity to override later table settings
+.buddypress.settings {
+
+	.profile-settings.bp-tables-user {
+
+		select {
+			width: 100%;
+		}
+	}
+
+}
+
+
+// General
+
+/*__ General __*/
+
+
+// Email notifications
+
+/*__ Email notifications __*/
+
+
+// Profile visibility
+
+/*__ Profile visibility __*/
+
+// Group Invites
+
+/*__ Group Invites __*/

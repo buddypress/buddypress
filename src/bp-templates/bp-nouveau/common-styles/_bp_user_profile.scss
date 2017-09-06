@@ -1,0 +1,232 @@
+// BP User Profiles screen
+// 0/ General :)
+// 1/ Profile Edit
+// 2/ Profile Public Display
+// 3/ Profile Photo
+
+// General
+
+.buddypress-wrap {
+
+	.profile {
+		margin-top: $marg-xlrg;
+	}
+
+	.public {
+
+		.profile-fields {
+
+			td.label {
+				width: 30%;
+			}
+		}
+	}
+
+}
+
+// Edit Screen
+
+.buddypress-wrap {
+
+	.profile.edit {
+
+		// The groups tabs
+		.button-nav {
+			list-style: none;
+			margin: $marg-xlrg 0 $marg-sml;
+
+			li {
+				display: inline-block;
+				margin-right: $marg-sml;
+
+				a {
+
+					@include font-size(18);
+				}
+			}
+		}
+
+		.editfield {
+			background: $off-white;
+			border: 1px solid $bp-border-color;
+			margin: $marg-med 0;
+			padding: $pad-med;
+
+			fieldset {
+				border: 0;
+
+				label {
+					font-weight: 400;
+				}
+			}
+		}
+
+		// The visual layout of the form controls and group description
+		.editfield {
+			display: flex;
+			flex-direction: column;
+
+			.description {
+				margin-top: $marg-sml;
+				order: 2;
+			}
+
+			> fieldset {
+				order: 1;
+			}
+
+			.field-visibility-settings-toggle,
+			.field-visibility-settings {
+				order: 3;
+			}
+		}
+
+	} // .profile
+} // close .buddypress-wrap
+
+body.no-js {
+
+	.buddypress-wrap .field-visibility-settings-toggle,
+	.buddypress-wrap .field-visibility-settings-close {
+		display: none;
+	}
+
+	.buddypress-wrap .field-visibility-settings {
+		display: block;
+	}
+}
+
+.buddypress-wrap {
+
+	.field-visibility-settings {
+		margin: $marg-sml 0;
+	}
+
+	.current-visibility-level {
+		font-style: normal;
+		font-weight: 700;
+	}
+
+	.field-visibility-settings,
+	.field-visibility-settings-header {
+		color: $light-text-plus;
+	}
+
+	.field-visibility-settings {
+
+		fieldset {
+			margin: $marg-xsml 0;
+		}
+	}
+
+	.standard-form { // this needs to be a specific profile edit form class
+
+		.editfield {
+
+			fieldset {
+				margin: 0;
+			}
+		}
+
+		.field-visibility-settings {
+
+			label {
+				font-weight: 400;
+				margin: 0;
+			}
+
+			.radio {
+				list-style: none;
+				margin-bottom: 0;
+			}
+
+			.field-visibility-settings-close {
+
+				@include font-size(12);
+			}
+		}
+
+		.wp-editor-container {
+			border: 1px solid #dedede;
+
+			textarea {
+				background: $white;
+				width: 100%;
+			}
+		}
+
+		// field item description
+		.description {
+			background: $off-white;
+			font-size: inherit;
+		}
+
+		.field-visibility-settings legend,
+		.field-visibility-settings-header {
+			font-style: italic;
+		}
+
+		.field-visibility-settings-header {
+
+			@include font-size(14);
+		}
+
+		.field-visibility-settings {
+
+			legend,
+			label {
+
+				@include font-size(14);
+			}
+		}
+
+		.field-visibility select {
+			margin: 0;
+		}
+
+	} // close .standard-form
+
+	.html-active button.switch-html {
+		background: #f5f5f5;
+		border-bottom-color: transparent;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	.tmce-active button.switch-tmce {
+		background: #f5f5f5;
+		border-bottom-color: transparent;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+} // close .buddypress-wrap
+
+// Public Profile
+
+.buddypress-wrap {
+
+	.profile.public {
+
+		.profile-group-title {
+			border-bottom: 1px solid $bp-border-dark;
+		}
+	}
+}
+
+// This needs to be reviewed and re-located!?
+body.register .buddypress-wrap .page ul {
+	list-style: none;
+}
+
+// Avatars & Cover Image
+
+.buddypress-wrap {
+
+	.profile {
+
+		.bp-avatar-nav {
+			margin-top: $marg-lrg;
+		}
+	}
+}

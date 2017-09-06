@@ -1,0 +1,129 @@
+// BP Private Messages:
+// messages lists, message single views, bulk actions
+
+#message-threads { // table element
+
+	tr.unread {
+
+		td {
+			background: #fff9db;
+			border-bottom: 1px solid #ffe8c4;
+			border-top: 1px solid #ffe8c4;
+			font-weight: 700;
+
+			&.thread-options,
+			.activity,
+			.thread-excerpt {
+				font-weight: 400;
+			}
+
+		}
+
+		span.unread-count {
+			background: #d00;
+			color: #fff;
+			font-weight: 700;
+			padding: 2px 8px;
+		}
+
+	} // tr.unread
+
+} // close table#message-threads
+
+#message-thread {
+
+	div.message-box {
+		margin: 0;
+		padding: 15px;
+
+	}
+
+	div.alt {
+		background: #f4f4f4;
+	}
+
+	#message-recipients {
+		margin: 10px 0 20px;
+	}
+
+	img.avatar {
+		float: left;
+		margin: 0 10px 0 0;
+		vertical-align: middle;
+	}
+
+	strong {
+		font-size: 100%;
+		margin: 0;
+
+		a {
+			text-decoration: none;
+		}
+
+		span.activity {
+			margin-top: 4px;
+		}
+	} // strong
+
+	.message-metadata {
+		overflow: hidden;
+		position: relative;
+	}
+
+	.message-content {
+		margin-left: 45px;
+	}
+
+	.message-options {
+		text-align: right;
+	}
+
+	img.avatar {
+		max-width: none;
+	}
+
+	.message-search {
+		float: right;
+		margin: 0 20px;
+	}
+
+}
+
+.message-star-actions {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.message-action-star,
+.message-action-unstar,
+.message-action-view,
+.message-action-delete {
+	border-bottom: 0;
+	outline: none;
+	text-decoration: none;
+}
+
+a.message-action-star {
+	opacity: 0.7;
+}
+
+a.message-action-star:hover {
+	opacity: 1;
+}
+
+.message-action-star span.icon:before,
+.message-action-unstar span.icon:before {
+	font-family: dashicons;
+	font-size: 18px;
+}
+
+.message-action-star span.icon:before {
+	color: #aaa;
+	content: "\f154";
+}
+
+.message-action-unstar span.icon:before {
+	color: #fcdd77;
+	content: "\f155";
+}

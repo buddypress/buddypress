@@ -1,0 +1,303 @@
+// Sitewide template error & info messages constructs.
+.buddypress-wrap {
+
+	.warn {
+		color: $warn;
+	}
+
+	.bp-messages {
+		border: 1px solid $bp-border-dark;
+
+		margin: 0 0 $marg-med;
+
+		.sitewide-notices {
+			display: block;
+			margin: $marg-xsml;
+			padding: $pad-sml;
+		}
+
+		// General info boxes
+		&.info {
+			margin-bottom: 0;
+		}
+
+		// Update success message boxes
+		&.updated {
+			clear: both;
+			display: block;
+		}
+
+		// Error message boxes
+		&.error {
+
+			p {
+				// oh linter you're too boringly pedantic, there will be properties!
+			}
+		}
+
+		// Warning boxes
+		//		&.warning {
+
+		//			p {
+		//			}
+		//		}
+
+	} // close .bp-messages
+
+	// user message screens handled seperately due to backbone templates
+	// & looped messages
+	.bp-messages.bp-user-messages-feedback {
+		border: 0;
+	}
+
+	// This is an anomaly, this screen message is locked away in
+	// core avatar styles and ought to be pulled out, markup & styles to nouveau
+	#group-create-body {
+
+		.bp-cover-image-status {
+
+			p.warning {
+				background: $informational;
+				border: 0;
+
+				@include box-shadow( 0 0 3px 0 rgba(0, 0, 0, 0.2) );
+				color: $white;
+			}
+		}
+	}
+
+
+	// message-box() may be have params passed through:
+	// ($background: #fff, $text-color: #000, $border: 1px solid #faf0f0)
+	// '$border: none' ensures border turned off in favour of
+	// box shadow, default is 1px solid.
+	// text-color default value is background color 50% darker.
+	// Border color default is background 10% darker.
+
+	.bp-feedback:not(.custom-homepage-info) {
+
+		@include flex-box-dir();
+		@include flex-align();
+	}
+
+	.bp-feedback {
+
+		@include message-box($border: none);
+		@include box-shadow( 0 1px 1px 1px rgba(0, 0, 0, 0.1) );
+		color: $light-text-plus;
+
+		margin: 10px 0;
+		position: relative;
+
+		p {
+			margin: 0;
+		}
+
+		span.bp-icon {
+			color: $white;
+			display: block;
+			font-family: dashicons;
+			left: 0;
+			margin-right: $marg-sml;
+			position: relative;
+			padding: 0  0.5em;
+		}
+
+		.bp-help-text {
+			font-style: italic;
+		}
+
+		.text {
+
+			@include font-size(14);
+			margin: 0;
+			padding: $pad-sml 0;
+		}
+	}
+
+	.bp-feedback.no-icon {
+		padding: $pad-sml;
+	}
+
+	.bp-feedback.small:before {
+		line-height: inherit;
+	}
+
+	a[data-bp-close] span:before,
+	button[data-bp-close] span:before {
+		font-size: 32px;
+	}
+
+	a[data-bp-close],
+	button[data-bp-close] {
+		border: 0;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		width: 32px;
+	}
+
+	.bp-feedback.no-icon {
+
+		a[data-bp-close],
+		button[data-bp-close] {
+			top: -6px;
+			right: 6px;
+		}
+	}
+
+	button[data-bp-close]:hover {
+		background-color: transparent;
+	}
+
+	.bp-feedback {
+
+		p {
+			margin: 0;
+		}
+
+		.bp-icon {
+			font-size: 20px;
+			padding: 0 2px;
+		}
+	}
+
+	.bp-feedback.info,
+	.bp-feedback.help,
+	.bp-feedback.error,
+	.bp-feedback.warning,
+	.bp-feedback.loading,
+	.bp-feedback.success {
+
+		.bp-icon {
+
+			@include center-vert();
+		}
+	}
+
+	.bp-feedback.info,
+	.bp-feedback.help {
+
+		.bp-icon {
+			background-color: $informational;
+
+			&:before {
+				content: "\f348";
+			}
+		}
+	}
+
+	.bp-feedback.error,
+	.bp-feedback.warning {
+
+		.bp-icon {
+			background-color: $warnings;
+
+			&:before {
+				content: "\f534";
+			}
+		}
+	}
+
+	.bp-feedback.loading {
+
+		.bp-icon {
+			background-color: $loading;
+
+			&:before {
+				content: "\f469";
+			}
+		}
+	}
+
+	.bp-feedback.success {
+
+		.bp-icon {
+			background-color: $update-success;
+
+			&:before {
+				content: "\f147";
+			}
+		}
+	}
+
+	.bp-feedback.help {
+
+		.bp-icon {
+
+			&:before {
+				content: "\f468";
+			}
+		}
+	}
+
+	#pass-strength-result {
+		background-color: $pwd-background;
+		border-color: #ddd;
+		border-style: solid;
+		border-width: 1px;
+		display: none;
+		margin: $marg-sml 0 $marg-sml 0;
+		padding: $pad-sml;
+		text-align: center;
+		width: auto;
+
+		&.error,
+		&.bad {
+
+			@include pwd-bad-colors();
+			display: block;
+		}
+
+		&.short {
+
+			@include pwd-short-colors();
+			display: block;
+		}
+
+		&.strong {
+
+			@include pwd-good-colors();
+			display: block;
+		}
+
+	} // close #pass-strength-result
+
+	.standard-form#signup_form div div.error {
+		background: #faa;
+		color: #a00;
+		margin: 0 0 $marg-sml 0;
+		padding: $pad-sml;
+		width: 90%;
+	}
+
+	// these two are really helpful???!!
+	.accept,
+	.reject {
+		float: left;
+		margin-left: $marg-sml;
+	}
+
+	// .bp-feedback messages  - Ajax specific (.bp-ajax-message)
+
+	// Members action button errors in grid layouts
+
+	.members-list.grid { // this probably ought to serve the group loop too
+
+		.bp-ajax-message {
+			background: rgba($white, 0.9);
+			border: 1px solid $bp-border-color;
+
+			@include font-size(14);
+			left: 2%;
+
+			// postion absolute to prevent the element from expanding
+			// content height & breaking grid box heights.
+			position: absolute;
+			padding: $pad-sml $pad-med;
+			right: 2%;
+			top: 30px;
+		}
+	}
+
+} // close .buddypress-wrap

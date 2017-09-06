@@ -1,0 +1,99 @@
+// BuddyPress Tooltips
+
+[data-bp-tooltip] {
+	position: relative;
+
+	// Removed :before
+	&:after {
+		background-color: $tooltip-background;
+		display: none;
+		opacity: 0;
+		position: absolute;
+		-webkit-transform: translate3d(0, 0, 0);
+		-ms-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+		visibility: hidden;
+	}
+
+	// BP Tooltip body and text
+	&:after {
+		border: 1px solid $tooltip-border;
+		border-radius: $tooltip-border-radius;
+		box-shadow: $tooltip-box-shadow;
+		color: $tooltip-text-color;
+		content: attr(data-bp-tooltip);
+		font-family: $tooltip-font-family;
+		font-size: $tooltip-font-size;
+		font-weight: $tooltip-font-weight;
+		letter-spacing: normal;
+		line-height: 1.25;
+		max-width: $tooltip-max-width;
+		padding: $tooltip-padding-vert $tooltip-padding-hor;
+		pointer-events: none;
+		text-shadow: none;
+		text-transform: none;
+		-webkit-transition: all 1.5s ease;
+		-ms-transition: all 1.5s ease;
+		transition: all 1.5s ease;
+		white-space: nowrap;
+		word-wrap: break-word;
+		z-index: $tooltip-z-index;
+	}
+
+	// BP Tooltip arrow tip - removed :before
+
+	&:hover,
+	&:active,
+	&:focus {
+
+		// Removed :before
+		&:after {
+
+			display: block;
+			opacity: 1;
+			overflow: visible;
+			visibility: visible;
+		}
+	}
+}
+
+[data-bp-tooltip=""] {
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+}
+
+// Bottom Centered Tooltip - Default
+
+.bp-tooltip {
+
+	@include bp-tooltip-default;
+}
+
+// Bottom Left Tooltip for mobile and Bottom Right Tooltip for tablet/desktop
+
+.user-list .bp-tooltip {
+
+	@include bp-tooltip-bottom-left;
+
+	@include medium-up() {
+
+		@include bp-tooltip-bottom-right;
+	}
+}
+
+// Bottom Left Tooltip
+
+.activity-meta-action .bp-tooltip,
+.notification-actions .bp-tooltip,
+.participants-list .bp-tooltip {
+
+	@include bp-tooltip-bottom-left;
+}
+
+// Bottom Right Tooltip
+
+.bp-invites-content .bp-tooltip {
+
+	@include bp-tooltip-bottom-right;
+}

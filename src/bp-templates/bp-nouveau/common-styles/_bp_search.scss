@@ -1,0 +1,136 @@
+// BP Directory Search elements
+
+.buddypress-wrap { // the ID is required to add weight to rules
+
+	@include clearfix-element(".bp-dir-search-form, .bp-messages-search-form");
+
+	form.bp-dir-search-form,
+	form.bp-messages-search-form,
+	form.bp-invites-search-form {
+		border: 1px solid $bp-border-color;
+
+		width: 100%;
+
+		@include medium-lrg-up() {
+			width: 15em;
+		}
+
+		label {
+			margin: 0;
+		}
+
+		input[type="search"],
+		input[type="text"],
+		button[type="submit"] {
+			background: none;
+			border: 0;
+
+			@include border-radius(0);
+		}
+
+		input[type="search"],
+		input[type="text"] {
+			float: left;
+			line-height: 1.5;
+			padding: 3px 10px;
+			width: 80%;
+		}
+
+		button[type="submit"] {
+			float: right;
+			font-size: inherit;
+			font-weight: 400;
+			line-height: 1.5;
+			padding: 3px 0.7em;
+			text-align: center;
+			text-transform: none;
+			width: 20%;
+
+			span {
+				font-family: dashicons;
+
+				@include font-size(18);
+				line-height: 1.6;
+			}
+		}
+
+		// For non no-js we'll add back in show() further down.
+		button[type="submit"] {
+
+			@include hide();
+		}
+
+		button[type="submit"].bp-show {
+
+			@include show();
+		}
+
+		input[type="search"]::-webkit-search-cancel-button {
+			-webkit-appearance: searchfield-cancel-button;
+		}
+
+		input[type="search"]::-webkit-search-results-button,
+		input[type="search"]::-webkit-search-results-decoration {
+			display: none;
+		}
+
+	} // close form
+
+	// this block needs to be moved really.
+	ul.filters {
+
+		li {
+
+			form {
+
+				label {
+
+					input {
+						line-height: 1.4;
+						padding: 0.1em 0.7em;
+					}
+				}
+			}
+		}
+	}
+
+	.current-member-type {
+		font-style: italic;
+	}
+
+	.dir-form {
+		clear: both;
+	}
+
+} // close .buddypress-wrap
+
+// If js disabled ensure we show the submit ovveriding earlier rule
+// @todo the whole show/hide could be wrapped in a :not(.no-js)
+.budypress.no-js {
+
+	form.bp-dir-search-form {
+
+		button[type="submit"] {
+
+			@include show();
+		}
+	}
+}
+
+// Try and apply correct tweaks for group/user screens search
+
+.bp-user {
+
+	[data-bp-search] {
+
+		form {
+
+			input[type="search"],
+			input[type="text"] {
+				padding: 6px 10px 7px;
+			}
+
+		}
+	}
+}
+

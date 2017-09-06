@@ -1,0 +1,145 @@
+/*
+* bp-nouveau styling: invite members, sent invites
+* */
+.buddypress {
+
+	.bp-invites-content {
+
+		ul.item-list {
+			border-top: 0;
+
+			li {
+				border: 1px solid $light-grey;
+				margin: 0 0 1%;
+				padding-left: 5px;
+				padding-right: 5px;
+				position: relative;
+				width: auto;
+
+				.list-title {
+					text-align: center;
+					width: auto;
+				}
+
+				.action {
+					position: absolute;
+					top: 10px;
+					right: 10px;
+
+					a.button.invite-button {
+						border: 0;
+
+						&:focus,
+						&:hover {
+							color: #1fb3dd;
+						}
+					}
+				}
+
+			} // close li
+
+			li.selected {
+
+				@include box-shadow(inset 0 0 12px 0 rgba($golden, 0.2) );
+			}
+
+		} // close ul
+
+		.item-list .item-meta span,
+		.group-inviters li {
+			color: $light-text;
+		}
+
+		li {
+
+			ul.group-inviters {
+				clear: both;
+				margin: 0;
+				overflow: hidden;
+
+				li {
+					border: 0;
+					float: left;
+
+					@include font-size(20) ;
+					width: inherit;
+				}
+			} // close .group-inviters
+
+			.status {
+
+				@include font-size(20);
+				font-style: italic;
+				clear: both;
+				color: $bp-text;
+				margin: $marg-sml 0;
+			}
+
+		} // close li
+
+		#send-invites-editor {
+			overflow: hidden;
+
+			textarea {
+				width: 100%;
+			}
+
+			ul {
+				clear: both;
+				list-style: none;
+				margin: $marg-sml 0;
+				overflow: hidden;
+
+				li {
+					float: left;
+					margin: 0.5%;
+					max-height: 50px;
+					max-width: 50px;
+				}
+			} // ul
+
+			.action {
+				margin-top: $marg-sml;
+				padding-top: 10px;
+			}
+
+		} // close #send-invites-editor
+
+		#send-invites-editor.bp-hide {
+			display: none;
+		}
+
+		@include medium-up() {
+
+			ul.item-list {
+
+				> li {
+
+					@include box-model();
+					border: 1px solid #eaeaea;
+					float: left;
+					padding-left: $pad-sml;
+					padding-right: $pad-sml;
+					width: 49.5%;
+
+					&:nth-child(odd) {
+						margin-right: 0.5%;
+					}
+
+					&:nth-child(even) {
+						margin-left: 0.5%;
+					}
+				} // close  li
+
+				ul.group-inviters {
+					float: left;
+					width: auto;
+				}
+
+			} // ul
+
+		} // close @media
+
+	} // close bp-invites-content
+}
+

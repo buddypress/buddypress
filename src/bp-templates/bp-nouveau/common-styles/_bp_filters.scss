@@ -1,0 +1,168 @@
+// BP Directory Filters
+// Specific Styling & Positioning
+// N.B. See _bp_navigation for additional rules and properties.
+.buddypress-wrap {
+
+	.dir-component-filters { // ul
+
+		.filter { // li
+
+			label {
+				display: inline;
+			}
+		}
+	}
+
+	// User account filters .subnav-filters
+
+	.subnav-filters {
+		background: none;
+		overflow: hidden;
+		list-style: none;
+		margin: $marg-med 0;
+		padding: 0;
+
+		div {
+			margin: 0;
+		}
+
+		> ul {
+			float: left;
+			list-style: none;
+		}
+
+		&.bp-messages-filters {
+
+			ul {
+				width: 100%;
+			}
+
+			@include medium-max {
+
+				.messages-search {
+					clear: both;
+				}
+			}
+		}
+
+		div {
+			float: none;
+
+			select,
+			input[type="search"] {
+
+				@include font-size(16);
+			}
+
+			button.nouveau-search-submit {
+				padding: 5px 0.8em 6px;
+			}
+
+			button#user_messages_search_submit {
+				padding: 7px 0.8em;
+			}
+		}
+
+		.component-filters {
+			margin-top: $marg-sml;
+		}
+
+		.feed {
+			margin-right: $marg-med;
+		}
+
+		.last.filter {
+
+			label {
+				display: inline;
+			}
+
+		}
+
+		.user-messages-bulk-actions {
+
+			@include clearfix-element(".bulk-actions-wrap");
+
+			.bulk-actions-wrap {
+				border: 1px solid $bp-border-color;
+				float: left;
+			}
+
+			.select-wrap {
+				border: 0;
+			}
+
+			.bulk-actions,
+			label {
+				float: left;
+			}
+
+			label {
+				padding: 5px 0;
+				text-align: center;
+				width: 30px;
+			}
+
+			div {
+
+				select {
+					-webkit-appearance: textfield;
+				}
+			}
+
+			.bulk-apply {
+				border-radius: none;
+				border: 0;
+				font-weight: 400;
+				line-height: 1.8;
+				margin: 0 0 0 10px;
+				padding: 3px 5px;
+				text-align: center;
+				text-transform: none;
+				width: auto;
+
+				span {
+					vertical-align: middle;
+				}
+			}
+		}
+
+		//position for wider screens
+
+		@include medium-small-up() {
+
+			li {
+				margin-bottom: 0;
+			}
+
+			.subnav-search,
+			.subnav-search form,
+			.feed,
+			.bp-search,
+			.dir-search,
+			.user-messages-bulk-actions,
+			.user-messages-search,
+			.group-invites-search {
+				float: left;
+			}
+
+			.last,
+			.component-filters {
+				float: right;
+				margin-top: 0;
+				width: auto;
+
+				select {
+					max-width: 250px;
+				}
+			}
+
+			.user-messages-search {
+				float: right;
+			}
+
+		} // @media
+
+	} // close .subnav-filters
+
+} // close .buddypress-wrap

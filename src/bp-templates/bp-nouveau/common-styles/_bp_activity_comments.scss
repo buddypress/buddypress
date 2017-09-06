@@ -1,0 +1,147 @@
+// BP activity comment entries in response to activity loop entries
+.buddypress-wrap {
+
+	.activity-comments {
+		clear: both;
+		margin: 0 5%;
+		overflow: hidden;
+		position: relative;
+		width: auto;
+
+		ul {
+			clear: both;
+			list-style: none;
+			margin: $marg-med 0 0;
+			padding: 0;
+
+			li {
+				border-top: 1px solid $bp-border-color;
+				border-bottom: 0;
+				padding: $pad-med 0 0;
+
+				ul {
+					// indent any nested comments - comment to a comment
+					margin-left: 5%;
+				}
+			}
+
+			li:first-child {
+				border-top: 0;
+			}
+
+			li:last-child {
+				margin-bottom: 0;
+			}
+		} // close ul
+
+		div.acomment-avatar {
+			width: auto;
+
+			img {
+				border-width: 1px;
+				float: left;
+				height: 25px;
+				max-width: none;
+				width: 25px;
+			}
+		}
+
+		.acomment-meta,
+		.acomment-content p {
+
+			@include font-size(14);
+		}
+
+		.acomment-meta {
+			color: $dark-grey;
+			overflow: hidden;
+			padding-left: 2%;
+		}
+
+		.acomment-content {
+			border-left: 1px solid $bp-border-dark;
+			margin: $marg-med 0 0 10%;
+			padding: $pad-sml $pad-med;
+
+			p {
+				margin-bottom: 0.5em;
+			}
+		}
+
+		.acomment-options {
+			float: left;
+			margin: $marg-sml 0 $marg-sml $marg-lrg;
+
+			a {
+				color: $light-text;
+
+				@include font-size(14);
+
+				&:focus,
+				&:hover {
+					color: inherit;
+				}
+			}
+
+		} // close .acomment-options
+
+		.activity-meta.action {
+			background: none;
+			margin-top: $marg-sml;
+
+			// if button element in use
+			button {
+
+				@include font-size(14);
+				font-weight: 400;
+				text-transform: none;
+			}
+		}
+
+	} // close .activity-comments
+
+	// Activity li.mini Comments
+
+	.mini {
+
+		.activity-comments {
+			clear: both;
+			margin-top: 0;
+		}
+
+	}
+
+} // close .buddypress-wrap
+
+@include medium-up() {
+
+	.buddypress-wrap {
+
+		.activity-comments {
+			margin-left: 17%;
+
+			ul {
+				//	margin: $marg-med 0 0;
+			}
+		}
+	}
+}
+
+// Single Activity Comment Entry View
+body.activity-permalink {
+
+	.activity-comments {
+		background: none;
+		width: auto;
+
+		> ul {
+			padding: 0 $pad-sml 0 $pad-med;
+		}
+
+		ul li > ul {
+			margin-top: $marg-sml;
+		}
+
+	}
+
+} //close .activity-permalink
