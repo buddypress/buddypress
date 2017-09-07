@@ -131,34 +131,38 @@ add_action( 'bp_actions', 'bp_messages_action_create_message' );
  *
  * @since 2.4.0 This function was split from messages_screen_notices(). See #6505.
  *
- * @global int $notice_id
- *
  * @return boolean
  */
 function bp_messages_action_edit_notice() {
-	global $notice_id;
 
 	// Bail if not viewing a single notice URL.
-	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'notices' ) || ! bp_action_variable( 1 ) ) {
+	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'notices' ) ) {
 		return false;
 	}
 
-	// Get action variables.
-	$action    = bp_action_variable( 0 ); // deactivate|activate|delete.
-	$notice_id = bp_action_variable( 1 ); // 1|2|3|etc...
+	// Get the notice ID (1|2|3).
+	$notice_id = bp_action_variable( 1 );
 
 	// Bail if notice ID is not numeric.
-	if ( ! is_numeric( $notice_id ) ) {
-		return;
+	if ( empty( $notice_id ) || ! is_numeric( $notice_id ) ) {
+		return false;
 	}
 
-	// Define local variables.
-	$redirect_to = '';
-	$feedback    = '';
-	$success     = false;
+	// Bail if the current user doesn't have administrator privileges.
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+		return false;
+	}
+
+	// Get the action (deactivate|activate|delete).
+	$action = sanitize_key( bp_action_variable( 0 ) );
+
+	// Check the nonce.
+	check_admin_referer( "messages_{$action}_notice" );
 
 	// Get the notice from database.
-	$notice = new BP_Messages_Notice( $notice_id );
+	$notice   = new BP_Messages_Notice( $notice_id );
+	$success  = false;
+	$feedback = '';
 
 	// Take action.
 	switch ( $action ) {
