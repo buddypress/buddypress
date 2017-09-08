@@ -23,7 +23,8 @@ module.exports = function( grunt ) {
 
 		// SASS generated "Twenty*"" CSS files
 		BP_SCSS_CSS_FILES = [
-			'!bp-templates/bp-legacy/css/twenty*.css'
+			'!bp-templates/bp-legacy/css/twenty*.css',
+			'!bp-templates/bp-nouveau/css/buddypress.css'
 		],
 
 		stylelintConfigCss  = require('stylelint-config-wordpress/index.js'),
@@ -84,6 +85,11 @@ module.exports = function( grunt ) {
 			}
 		},
 		sass: {
+			options: {
+				outputStyle: 'expanded',
+				indentType: 'tab',
+				indentWidth: '1'
+			},
 			styles: {
 				cwd: SOURCE_DIR,
 				extDot: 'last',
@@ -91,12 +97,16 @@ module.exports = function( grunt ) {
 				ext: '.css',
 				flatten: true,
 				src: ['bp-templates/bp-legacy/css/*.scss'],
-				dest: SOURCE_DIR + 'bp-templates/bp-legacy/css/',
-				options: {
-					outputStyle: 'expanded',
-					indentType: 'tab',
-					indentWidth: '1'
-				}
+				dest: SOURCE_DIR + 'bp-templates/bp-legacy/css/'
+			},
+			nouveau: {
+				cwd: SOURCE_DIR,
+				extDot: 'last',
+				expand: true,
+				ext: '.css',
+				flatten: true,
+				src: ['bp-templates/bp-nouveau/sass/buddypress.scss'],
+				dest: SOURCE_DIR + 'bp-templates/bp-nouveau/css/'
 			}
 		},
 		rtlcss: {
