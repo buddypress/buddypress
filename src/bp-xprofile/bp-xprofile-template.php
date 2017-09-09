@@ -588,27 +588,22 @@ function bp_the_profile_field_edit_value() {
 	function bp_get_the_profile_field_edit_value() {
 		global $field;
 
-		/**
-		 * Check to see if the posted value is different, if it is re-display this
-		 * value as long as it's not empty and a required field.
-		 */
+		// Make sure field data object exists
 		if ( ! isset( $field->data ) ) {
 			$field->data = new stdClass;
 		}
 
+		// Default to empty value
 		if ( ! isset( $field->data->value ) ) {
 			$field->data->value = '';
 		}
 
-		if ( isset( $_POST['field_' . $field->id] ) && $field->data->value != $_POST['field_' . $field->id] ) {
-			if ( ! empty( $_POST['field_' . $field->id] ) ) {
-				$field->data->value = $_POST['field_' . $field->id];
-			} else {
-				$field->data->value = '';
-			}
-		}
+		// Was a new value posted? If so, use it instead.
+		if ( isset( $_POST['field_' . $field->id] ) ) {
 
-		$field_value = isset( $field->data->value ) ? bp_unserialize_profile_field( $field->data->value ) : '';
+			// This is sanitized via the filter below (based on the field type)
+			$field->data->value = $_POST['field_' . $field->id];
+		}
 
 		/**
 		 * Filters the XProfile field edit value.
@@ -619,7 +614,7 @@ function bp_the_profile_field_edit_value() {
 		 * @param string $type        Type for the profile field.
 		 * @param int    $id          ID for the profile field.
 		 */
-		return apply_filters( 'bp_get_the_profile_field_edit_value', $field_value, $field->type, $field->id );
+		return apply_filters( 'bp_get_the_profile_field_edit_value', $field->data->value, $field->type, $field->id );
 	}
 
 /**
@@ -904,7 +899,8 @@ function bp_the_profile_field_visibility_level_label() {
 	}
 
 /**
- * Return unserialized profile field data.
+ * Return unserialized profile field data, and combine any array items into a
+ * comma-separated string.
  *
  * @since 1.0.0
  *
@@ -913,7 +909,7 @@ function bp_the_profile_field_visibility_level_label() {
  */
 function bp_unserialize_profile_field( $value ) {
 	if ( is_serialized($value) ) {
-		$field_value = maybe_unserialize($value);
+		$field_value = @unserialize($value);
 		$field_value = implode( ', ', $field_value );
 		return $field_value;
 	}

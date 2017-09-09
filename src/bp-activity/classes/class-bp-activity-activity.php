@@ -1832,7 +1832,7 @@ class BP_Activity_Activity {
 		// Get activities from user meta.
 		$favorite_activity_entries = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
 		if ( ! empty( $favorite_activity_entries ) ) {
-			return count( maybe_unserialize( $favorite_activity_entries ) );
+			return count( $favorite_activity_entries );
 		}
 
 		// No favorites.

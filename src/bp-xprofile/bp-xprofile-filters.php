@@ -168,11 +168,16 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		return $field_value;
 	}
 
-	// Value might be serialized.
+	// Force reserialization if serialized (avoids mutation, retains integrity)
+	if ( is_serialized( $field_value ) && ( false === $reserialize ) ) {
+		$reserialize = true;
+	}
+
+	// Value might be a serialized array of options.
 	$field_value = maybe_unserialize( $field_value );
 
-	// Filter single value.
-	if ( !is_array( $field_value ) ) {
+	// Sanitize single field value.
+	if ( ! is_array( $field_value ) ) {
 		$kses_field_value     = xprofile_filter_kses( $field_value, $data_obj );
 		$filtered_field_value = wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
 
@@ -187,16 +192,15 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		 */
 		$filtered_field_value = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_field_value, $field_value, $data_obj );
 
-	// Filter each array item independently.
+	// Sanitize multiple individual option values.
 	} else {
 		$filtered_values = array();
 		foreach ( (array) $field_value as $value ) {
-			$kses_field_value       = xprofile_filter_kses( $value, $data_obj );
-			$filtered_value 	= wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
+			$kses_field_value = xprofile_filter_kses( $value, $data_obj );
+			$filtered_value   = wp_rel_nofollow( force_balance_tags( $kses_field_value ) );
 
 			/** This filter is documented in bp-xprofile/bp-xprofile-filters.php */
 			$filtered_values[] = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_value, $value, $data_obj );
-
 		}
 
 		if ( !empty( $reserialize ) ) {
