@@ -605,7 +605,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 1.0.0
 	 */
-	public function neutralize_core_template_notices(){
+	public function neutralize_core_template_notices() {
 		remove_action( 'template_notices', 'bp_core_render_message' );
 	}
 

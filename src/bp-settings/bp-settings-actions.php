@@ -428,7 +428,7 @@ add_action( 'bp_actions', 'bp_settings_action_delete_account' );
  *
  * @since 2.1.0
  */
-function bp_settings_verify_email_change(){
+function bp_settings_verify_email_change() {
 	if ( ! bp_is_settings_component() ) {
 		return;
 	}
