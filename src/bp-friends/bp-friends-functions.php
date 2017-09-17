@@ -788,7 +788,7 @@ function bp_friends_prime_mentions_results() {
 		return;
 	}
 
-	if ( friends_get_total_friend_count( get_current_user_id() ) > 150 ) {
+	if ( friends_get_total_friend_count( get_current_user_id() ) > 30 ) {
 		return;
 	}
 
