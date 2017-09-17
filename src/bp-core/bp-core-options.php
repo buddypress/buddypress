@@ -74,7 +74,7 @@ function bp_get_default_options() {
 		'bp-disable-blogforum-comments'        => true,
 
 		// The ID for the current theme package.
-		'_bp_theme_package_id'                 => 'legacy',
+		'_bp_theme_package_id'                 => 'nouveau',
 
 		// Email unsubscribe salt.
 		'bp-emails-unsubscribe-salt'           => '',
