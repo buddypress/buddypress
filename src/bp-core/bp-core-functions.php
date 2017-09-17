@@ -3678,13 +3678,13 @@ function bp_email_unsubscribe_handler() {
 
 	// Check required values.
 	if ( ! $raw_user_id || ! $raw_email_type || ! $raw_hash || ! array_key_exists( $raw_email_type, $emails ) ) {
-		$redirect_to = site_url( 'wp-login.php' );
+		$redirect_to = wp_login_url();
 		$result_msg  = __( 'Something has gone wrong.', 'buddypress' );
 		$unsub_msg   = __( 'Please log in and go to your settings to unsubscribe from notification emails.', 'buddypress' );
 
 	// Check valid hash.
 	} elseif ( ! hash_equals( $new_hash, $raw_hash ) ) {
-		$redirect_to = site_url( 'wp-login.php' );
+		$redirect_to = wp_login_url();
 		$result_msg  = __( 'Something has gone wrong.', 'buddypress' );
 		$unsub_msg   = __( 'Please log in and go to your settings to unsubscribe from notification emails.', 'buddypress' );
 
@@ -3754,7 +3754,7 @@ function bp_email_get_unsubscribe_link( $args ) {
 	$emails = bp_email_get_unsubscribe_type_schema();
 
 	if ( empty( $args['notification_type'] ) || ! array_key_exists( $args['notification_type'], $emails ) ) {
-		return site_url( 'wp-login.php' );
+		return wp_login_url();
 	}
 
 	$email_type  = $args['notification_type'];

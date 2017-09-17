@@ -104,7 +104,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 			 */
 			do_action( 'bp_before_login_widget_loggedout' ); ?>
 
-			<form name="bp-login-form" id="bp-login-widget-form" class="standard-form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
+			<form name="bp-login-form" id="bp-login-widget-form" class="standard-form" action="<?php echo esc_url( wp_login_url() ); ?>" method="post">
 				<label for="bp-login-widget-user-login"><?php _e( 'Username', 'buddypress' ); ?></label>
 				<input type="text" name="log" id="bp-login-widget-user-login" class="input" value="" />
 

@@ -1008,7 +1008,7 @@ function bp_email_set_default_headers( $headers, $property, $transform, $email )
 	$tokens = $email->get_tokens();
 
 	// Add 'List-Unsubscribe' header if applicable.
-	if ( ! empty( $tokens['unsubscribe'] ) && $tokens['unsubscribe'] !== site_url( 'wp-login.php' ) ) {
+	if ( ! empty( $tokens['unsubscribe'] ) && $tokens['unsubscribe'] !== wp_login_url() ) {
 		$user = get_user_by( 'email', $tokens['recipient.email'] );
 
 		$headers['List-Unsubscribe'] = sprintf(
@@ -1077,7 +1077,7 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 
 	// Set default unsubscribe link if not passed.
 	if ( empty( $tokens['unsubscribe'] ) ) {
-		$tokens['unsubscribe'] = site_url( 'wp-login.php' );
+		$tokens['unsubscribe'] = wp_login_url();
 	}
 
 	// Email preheader.
