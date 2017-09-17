@@ -174,8 +174,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// We need to neutralize the BuddyPress core "bp_core_render_message()" once it has been added.
 		add_action( 'bp_actions', array( $this, 'neutralize_core_template_notices' ), 6 );
 
-		// Output Nouveau 'forsaken' hook error messages to WP debug log.
-//		add_action('bp_init', array( $this, 'nouveau_write_deprecated_hooks_log' ) );
 
 		/** Scripts ***********************************************************/
 
@@ -187,6 +185,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles'   ) ); // Enqueue theme CSS
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts'  ) ); // Enqueue theme JS
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
+
 
 		/** Body no-js Class **************************************************/
 
@@ -206,6 +205,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		// Set the BP Uri for the Ajax customizer preview
 		add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
+
 
 		/** Override **********************************************************/
 
@@ -374,31 +374,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 	public function add_nojs_body_class( $classes ) {
 		$classes[] = 'no-js';
 		return array_unique( $classes );
-	}
-
-	/**
-	 * Pass Nouveau's hook error messages array to WP debug log function if
-	 * 'define( 'WP_DEBUG', true )' & 'define( 'WP_DEBUG_LOG', true )' are set.
-	 *
-	 *
-	 * @since 1.0.0
-	 */
-	public function nouveau_write_deprecated_hooks_log() {
-		if ( ! defined( 'WP_DEBUG') || ! WP_DEBUG )
-			return;
-
-		$log = $this->developer_feedbacks();
-
-		if ( $log ) {
-			// File section delimeter for clarity.
-			error_log( print_r( '========= Nouveau deprecated action hook messages =========', true ) );
-		}
-
-		if ( is_array( $log ) || is_object( $log ) ) {
-			error_log( print_r( $log, true ) );
-		} else {
-			error_log( $log );
-		}
 	}
 
 	/**
@@ -623,44 +598,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 			// Define the primary nav for the current component's directory
 			$this->directory_nav->add_nav( $nav_item );
 		}
-	}
-
-	/**
-	 * Inform developers about the Legacy hooks we are not using.
-	 *
-	 * This will be sent to the WP error log.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array
-	 */
-	public function developer_feedbacks() {
-		$notices = array();
-
-		if ( ! defined( 'WP_DEBUG') || ! WP_DEBUG ) {
-			return;
-		}
-
-		// Get the forsaken hooks.
-		$forsaken_hooks = bp_nouveau_get_forsaken_hooks();
-
-		// Loop to check if deprecated hooks are used.
-		foreach ( $forsaken_hooks as $hook => $feedback ) {
-			if ( 'action' === $feedback['hook_type'] ) {
-				if ( ! has_action( $hook ) ) {
-					continue;
-				}
-
-			} elseif ( 'filter' === $feedback['hook_type'] ) {
-				if ( ! has_filter( $hook ) ) {
-					continue;
-				}
-			}
-
-			$notices[] = $feedback['message'];
-		}
-
-		return $notices;
 	}
 
 	/**
