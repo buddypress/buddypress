@@ -749,18 +749,13 @@ class BP_Core_User {
 	/**
 	 * Get WordPress user details for a specified user.
 	 *
-	 * @global wpdb $wpdb WordPress database object.
+	 * @since 3.0.0 Results might be from cache
 	 *
 	 * @param int $user_id User ID.
-	 * @return array Associative array.
+	 * @return false|object WP_User if successful, false on failure.
 	 */
 	public static function get_core_userdata( $user_id ) {
-		global $wpdb;
-
-		if ( !$user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->users} WHERE ID = %d LIMIT 1", $user_id ) ) )
-			return false;
-
-		return $user;
+		return WP_User::get_data_by( 'id', $user_id );
 	}
 
 	/**

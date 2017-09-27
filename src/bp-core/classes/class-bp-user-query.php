@@ -570,14 +570,6 @@ class BP_User_Query {
 
 		), $this ) );
 
-		// WP_User_Query doesn't cache the data it pulls from wp_users,
-		// and it does not give us a way to save queries by fetching
-		// only uncached users. However, BP does cache this data, so
-		// we set it here.
-		foreach ( $wp_user_query->results as $u ) {
-			wp_cache_set( 'bp_core_userdata_' . $u->ID, $u, 'bp' );
-		}
-
 		// We calculate total_users using a standalone query, except
 		// when a whitelist of user_ids is passed to the constructor.
 		// This clause covers the latter situation, and ensures that

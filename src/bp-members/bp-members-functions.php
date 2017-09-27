@@ -214,19 +214,8 @@ function bp_core_get_core_userdata( $user_id = 0 ) {
 		return false;
 	}
 
-	$userdata = wp_cache_get( 'bp_core_userdata_' . $user_id, 'bp' );
-
-	// No cache.
-	if ( false === $userdata ) {
-		$userdata = BP_Core_User::get_core_userdata( $user_id );
-
-		// Cache data; no-result is cached as integer 0.
-		wp_cache_set( 'bp_core_userdata_' . $user_id, false === $userdata ? 0 : $userdata, 'bp' );
-
-	// Cached no-result, so set return value as false as expected.
-	} elseif ( 0 === $userdata ) {
-		$userdata = false;
-	}
+	// Get core user data
+	$userdata = BP_Core_User::get_core_userdata( $user_id );
 
 	/**
 	 * Filters the userdata for a passed user.

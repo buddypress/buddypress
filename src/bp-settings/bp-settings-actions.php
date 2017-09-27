@@ -178,7 +178,6 @@ function bp_settings_action_general() {
 		// Clear cached data, so that the changed settings take effect
 		// on the current page load.
 		if ( ( false === $email_error ) && ( false === $pass_error ) && ( wp_update_user( $update_user ) ) ) {
-			wp_cache_delete( 'bp_core_userdata_' . bp_displayed_user_id(), 'bp' );
 			$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
 		}
 
@@ -454,8 +453,6 @@ function bp_settings_verify_email_change() {
 		) );
 
 		if ( $email_changed ) {
-			// Delete object cache for displayed user.
-			wp_cache_delete( 'bp_core_userdata_' . bp_displayed_user_id(), 'bp' );
 
 			// Delete the pending email change key.
 			bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
