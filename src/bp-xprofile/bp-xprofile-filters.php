@@ -288,7 +288,7 @@ function xprofile_filter_format_field_value_by_field_id( $field_value, $field_id
  */
 function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $field_type_obj ) {
 	if ( method_exists( $field_type_obj, 'pre_validate_filter' ) ) {
-		$value = call_user_func( array( $field_type_obj, 'pre_validate_filter' ), $value );
+		$value = call_user_func( array( $field_type_obj, 'pre_validate_filter' ), $value, $field->id );
 	}
 
 	return $value;
