@@ -344,6 +344,15 @@ class BP_XProfile_Field {
 			return false;
 		}
 
+		/**
+		 * Fires before the current field instance gets deleted.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param BP_XProfile_Field $this Current instance of the field being deleted. Passed by reference.
+		 */
+		do_action_ref_array( 'xprofile_field_before_delete', array( &$this ) );
+
 		$bp  = buddypress();
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_fields} WHERE id = %d OR parent_id = %d", $this->id, $this->id );
 
@@ -355,6 +364,15 @@ class BP_XProfile_Field {
 		if ( true === $delete_data ) {
 			BP_XProfile_ProfileData::delete_for_field( $this->id );
 		}
+
+		/**
+		 * Fires after the current field instance gets deleted.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param BP_XProfile_Field $this Current instance of the field being deleted. Passed by reference.
+		 */
+		do_action_ref_array( 'xprofile_field_after_delete', array( &$this ) );
 
 		return true;
 	}
