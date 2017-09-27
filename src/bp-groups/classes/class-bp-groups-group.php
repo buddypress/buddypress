@@ -1765,7 +1765,7 @@ class BP_Groups_Group {
 	 * Get a total group count for the site.
 	 *
 	 * Will include hidden groups in the count only if
-	 * current_user_can( 'bp_moderate' ).
+	 * bp_current_user_can( 'bp_moderate' ).
 	 *
 	 * @since 1.6.0
 	 *

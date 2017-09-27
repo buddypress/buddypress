@@ -808,7 +808,7 @@ class BP_Group_Extension {
 	public function user_can_see_nav_item( $user_can_see_nav_item = false ) {
 
 		// Always allow moderators to see nav items, even if explicitly 'noone'
-		if ( ( 'noone' !== $this->params['show_tab'] ) && current_user_can( 'bp_moderate' ) ) {
+		if ( ( 'noone' !== $this->params['show_tab'] ) && bp_current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
 
@@ -829,7 +829,7 @@ class BP_Group_Extension {
 	public function user_can_visit( $user_can_visit = false ) {
 
 		// Always allow moderators to visit a tab, even if explicitly 'noone'
-		if ( ( 'noone' !== $this->params['access'] ) && current_user_can( 'bp_moderate' ) ) {
+		if ( ( 'noone' !== $this->params['access'] ) && bp_current_user_can( 'bp_moderate' ) ) {
 			return true;
 		}
 

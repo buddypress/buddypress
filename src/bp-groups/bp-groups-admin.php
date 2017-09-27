@@ -508,7 +508,7 @@ function bp_groups_admin() {
  */
 function bp_groups_admin_edit() {
 
-	if ( ! current_user_can( 'bp_moderate' ) )
+	if ( ! bp_current_user_can( 'bp_moderate' ) )
 		die( '-1' );
 
 	$messages = array();
@@ -1096,7 +1096,7 @@ function bp_groups_process_group_type_update( $group_id ) {
 	check_admin_referer( 'bp-group-type-change-' . $group_id, 'bp-group-type-nonce' );
 
 	// Permission check.
-	if ( ! current_user_can( 'bp_moderate' ) ) {
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return;
 	}
 
@@ -1211,7 +1211,7 @@ function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
 function bp_groups_admin_autocomplete_handler() {
 
 	// Bail if user user shouldn't be here, or is a large network.
-	if ( ! current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) ) {
+	if ( ! bp_current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) ) {
 		wp_die( -1 );
 	}
 

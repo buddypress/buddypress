@@ -1197,7 +1197,7 @@ class BP_Members_Admin {
 		check_admin_referer( 'bp-member-type-change-' . $user_id, 'bp-member-type-nonce' );
 
 		// Permission check.
-		if ( ! current_user_can( 'bp_moderate' ) && $user_id != bp_loggedin_user_id() ) {
+		if ( ! bp_current_user_can( 'bp_moderate' ) && $user_id != bp_loggedin_user_id() ) {
 			return;
 		}
 
