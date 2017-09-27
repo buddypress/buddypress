@@ -78,16 +78,5 @@ class BP_Tests_Members_Cache extends BP_UnitTestCase {
 		$this->assertEqualSets( $b1, $b2 );
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
-
-	/**
-	 * @group bp_core_get_core_userdata
-	 */
-	public function test_bp_core_get_core_userdata_should_cache_no_results() {
-		// Get the userdata for a user that doesn't exist.
-		bp_core_get_core_userdata( PHP_INT_MAX );
-
-		// Assert that the non-existent user's attempt was cached.
-		$this->assertNotFalse( wp_cache_get( 'bp_core_userdata_' . PHP_INT_MAX, 'bp' ) );
-	}
 }
 
