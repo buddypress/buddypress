@@ -135,7 +135,7 @@ function bp_settings_action_general() {
 
 		if ( !empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) ) {
 
-			if ( ( $_POST['pass1'] == $_POST['pass2'] ) && !strpos( " " . $_POST['pass1'], "\\" ) ) {
+			if ( ( $_POST['pass1'] == $_POST['pass2'] ) && !strpos( " " . wp_unslash( $_POST['pass1'] ), "\\" ) ) {
 
 				// Password change attempt is successful.
 				if ( ( ! empty( $_POST['pwd'] ) && $_POST['pwd'] != $_POST['pass1'] ) || is_super_admin() )  {
