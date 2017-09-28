@@ -1682,14 +1682,14 @@ function bp_nouveau_search_selector_name( $suffix = '', $sep = '_' ) {
  *
  * @return string The default search text.
  *
- * @todo 05/09/17 added  '! $text' to $object query as it's not returning output as expected & not returning user set params
- * This needs looking at as var_dump the query and it shows user set string yet won't return it?! - hnla
+ * @todo 28/09/17 added  'empty( $text )' check to $object query as it wasn't returning output as expected & not returning user set params
+ * This may require further examination - hnla
  */
 function bp_nouveau_search_default_text( $text = '', $is_attr = true ) {
 	$objects = bp_nouveau_get_search_objects();
 
-	if ( ! empty( $objects['secondary'] ) && ! $text ) {
-	echo	$text = bp_get_search_default_text( $objects['secondary'] );
+	if ( ! empty( $objects['secondary'] ) && empty( $text ) ) {
+		$text = bp_get_search_default_text( $objects['secondary'] );
 	}
 
 	if ( $is_attr ) {
