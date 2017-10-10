@@ -47,7 +47,8 @@ TABLE OF CONTENTS:
 	right: 0;
 }
 
-.buddypress code {
+.index_page_bp-credits code,
+.index_page_bp-about code {
 	background-color: #e0e0e0;
 	color: #636363;
 	font-size: 1em;
@@ -359,8 +360,12 @@ TABLE OF CONTENTS:
 		margin-top: 2em;
 	}
 
+	.buddypress .bp-changelog {
+		margin-bottom: 0;
+	}
+
 	.buddypress .bp-changelog-section .changelog-title {
-		margin-bottom: 1.5em;
+		margin-bottom: 0.5em;
 	}
 
 	.buddypress .bp-changelog .title {
@@ -375,6 +380,10 @@ TABLE OF CONTENTS:
 	.buddypress .bp-changelog-section .three-col .col {
 		margin-top: 0;
 		padding-bottom: 0.5em;
+		width: 100%;
+	}
+
+	.buddypress .bp-three-column .bp-column {
 		width: 100%;
 	}
 }
