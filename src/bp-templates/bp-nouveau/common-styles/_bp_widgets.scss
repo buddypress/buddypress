@@ -1,0 +1,104 @@
+// BP Widgets
+
+.buddypress.widget {
+
+	.item-options {
+
+		@include font-size(14);
+	}
+
+	ul.item-list {
+
+		@include flex-box-dir($flex-dir: column);
+
+		@include medium-small-up() {
+
+			@include flex-box-dir($flex-dir: row, $flex-wrap: wrap);
+		}
+
+		list-style: none;
+		margin: $marg-sml -2%;
+		overflow: hidden;
+
+		li {
+			border: 1px solid $bp-border-color;
+
+			@include flex-align();
+			@include box-item-size($grow: 1, $basis: 46%);
+
+			@include large-up() {
+
+				@include box-item-size($grow: 0, $basis: 20%);
+			}
+
+			margin: 2%;
+
+			.item-avatar {
+				padding: $pad-sml;
+				text-align: center;
+
+				.avatar {
+					width: 60%;
+				}
+			}
+
+			.item {
+				padding: 0 $pad-sml $pad-sml;
+
+
+				.item-meta {
+
+					@include font-size(12);
+					overflow-wrap: break-word;
+				}
+			}
+		} // close li
+	}
+}
+
+// Are we in a main site sidebar?
+// while hard to tell width asume that
+// at large width it's narrow &
+// adjust the li widths & margins to %
+// & flex basis to auto for large up.
+// @todo this may need reviewing & adjusting.
+
+// WP default themes use the class '.widget-area'
+// as a naming convention for the main sidebar
+// this is the best we can know & style on this class
+.widget-area {
+
+	.buddypress.widget {
+
+		ul.item-list {
+
+			li {
+
+				@include box-item-size($grow: 0, $basis: 46%);
+				margin: 2% 2% 10px;
+
+				@include large-up {
+
+					.avatar {
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		@include large-up() {
+
+			ul.item-list {
+				margin: $marg-sml -2%;
+				width: 100%;
+
+				li {
+
+					@include box-item-size($grow: 0, $basis: auto);
+					margin: $marg-sml 2% 1%;
+					width: 46%;
+				}
+			}
+		}
+	}
+}
