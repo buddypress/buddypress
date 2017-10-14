@@ -347,7 +347,8 @@
 		content: "\f536";
 	}
 
-	div.feed a:before {
+	div.feed a:before,
+	li.feed a:before {
 		content: "\f303";
 	}
 

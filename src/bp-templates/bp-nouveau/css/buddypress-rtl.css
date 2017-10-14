@@ -744,7 +744,8 @@ body.buddypress article.page > .entry-header .entry-title {
 	.buddypress-wrap .subnav-filters .dir-search,
 	.buddypress-wrap .subnav-filters .user-messages-bulk-actions,
 	.buddypress-wrap .subnav-filters .user-messages-search,
-	.buddypress-wrap .subnav-filters .group-invites-search {
+	.buddypress-wrap .subnav-filters .group-invites-search,
+	.buddypress-wrap .subnav-filters .group-act-search {
 		float: right;
 	}
 	.buddypress-wrap .subnav-filters .last,
@@ -4032,7 +4033,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	content: "\f536";
 }
 
-.buddypress-wrap div.feed a:before {
+.buddypress-wrap div.feed a:before,
+.buddypress-wrap li.feed a:before {
 	content: "\f303";
 }
 
