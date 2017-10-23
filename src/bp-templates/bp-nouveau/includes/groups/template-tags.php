@@ -926,6 +926,12 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 					$parent_class .= ' ' . $button_args['wrapper_class'];
 				}
 
+				// The join or leave group header button should default to 'button'
+				// Reverse the earler button var to set default as 'button' not 'a'
+				if ( empty( $args['button_element'] ) ) {
+					$button_element = 'button';
+				}
+
 				$buttons['group_membership'] = array(
 					'id'                => 'group_membership',
 					'position'          => 5,
@@ -940,7 +946,6 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 							'class' => $parent_class,
 					),
 					'button_attr'       => array(
-						'href'  => $button_args['link_href'],
 						'id'    => ! empty( $button_args['link_id'] ) ? $button_args['link_id'] : '',
 						'class' => $button_args['link_class'] . ' button',
 						'rel'   => ! empty( $button_args['link_rel'] ) ? $button_args['link_rel'] : '',
@@ -948,10 +953,11 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 					),
 				);
 
-			// If button element set add nonce link to data-attr attr
+			// If button element set add nonce 'href' link to data-attr attr.
 			if ( 'button' === $button_element ) {
 				$buttons['group_membership']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
 			} else {
+			// Else this is an anchor so use an 'href' attr.
 				$buttons['group_membership']['button_attr']['href'] = $button_args['link_href'];
 			}
 
