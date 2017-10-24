@@ -712,6 +712,14 @@ class BuddyPress {
 			'url'     => trailingslashit( $this->themes_url . '/bp-legacy' )
 		) );
 
+		bp_register_theme_package( array(
+			'id'      => 'nouveau',
+			'name'    => __( 'BuddyPress Nouveau', 'buddypress' ),
+			'version' => bp_get_version(),
+			'dir'     => trailingslashit( $this->themes_dir . '/bp-nouveau' ),
+			'url'     => trailingslashit( $this->themes_url . '/bp-nouveau' )
+		) );
+
 		// Register the basic theme stack. This is really dope.
 		bp_register_template_stack( 'get_stylesheet_directory', 10 );
 		bp_register_template_stack( 'get_template_directory',   12 );
