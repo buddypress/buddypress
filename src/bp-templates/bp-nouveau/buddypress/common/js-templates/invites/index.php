@@ -109,14 +109,14 @@
 
 <script type="text/html" id="tmpl-bp-invites-paginate">
 	<# if ( 1 !== data.page ) { #>
-		<a href="#" id="bp-invites-prev-page" class="button invite-button">
+		<button type="button" id="bp-invites-prev-page" class="button invite-button">
 			<span class="bp-screen-reader-text"><?php esc_html_e( 'Previous', 'buddypress' );?></span>
-		</a>
+		</button>
 	<# } #>
 
 	<# if ( data.total_page !== data.page ) { #>
-		<a href="#" id="bp-invites-next-page" class="button invite-button">
+		<button type="button" id="bp-invites-next-page" class="button invite-button">
 			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next', 'buddypress' );?></span>
-		</a>
+		</button>
 	<# } #>
 </script>

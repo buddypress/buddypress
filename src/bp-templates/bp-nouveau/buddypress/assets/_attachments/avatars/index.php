@@ -32,10 +32,10 @@ do_action( 'bp_attachments_avatar_check_template' );
 <script id="tmpl-bp-avatar-delete" type="text/html">
 	<# if ( 'user' === data.object ) { #>
 		<p><?php _e( "If you'd like to delete your current profile photo but not upload a new one, please use the delete profile photo button.", 'buddypress' ); ?></p>
-		<p><a class="button edit" id="bp-delete-avatar" href="#"><?php esc_html_e( 'Delete My Profile Photo', 'buddypress' ); ?></a></p>
+		<button type="button" class="button edit" id="bp-delete-avatar"><?php esc_html_e( 'Delete My Profile Photo', 'buddypress' ); ?></button>
 	<# } else if ( 'group' === data.object ) { #>
 		<?php bp_nouveau_user_feedback( 'group-avatar-delete-info' ); ?>
-		<p><a class="button edit" id="bp-delete-avatar" href="#"><?php esc_html_e( 'Delete Group Profile Photo', 'buddypress' ); ?></a></p>
+		<button type="button" class="button edit" id="bp-delete-avatar"><?php esc_html_e( 'Delete Group Profile Photo', 'buddypress' ); ?></button>
 	<# } else { #>
 		<?php do_action( 'bp_attachments_avatar_delete_template' ); ?>
 	<# } #>

@@ -22,7 +22,7 @@
 </script>
 
 <script type="text/html" id="tmpl-activity-post-form-buttons">
-	<a href="#" class="button dashicons {{data.icon}}" data-button="{{data.id}}"><span class="bp-screen-reader-text">{{data.caption}}</span></a>
+	<button type="button" class="button dashicons {{data.icon}}" data-button="{{data.id}}"><span class="bp-screen-reader-text">{{data.caption}}</span></button>
 </script>
 
 <script type="text/html" id="tmpl-activity-target-item">
@@ -37,8 +37,8 @@
 	<span class="bp-item-name">{{data.name}}</span>
 
 	<# if ( data.selected ) { #>
-		<a href="#" class="bp-remove-item dashicons dashicons-no" data-item_id="{{data.id}}">
+		<button type="button" class="bp-remove-item dashicons dashicons-no" data-item_id="{{data.id}}">
 			<span class="bp-screen-reader-text"><?php esc_html_e( 'Remove item', 'buddypress' ); ?></span>
-		</a>
+		</button>
 	<# } #>
 </script>
