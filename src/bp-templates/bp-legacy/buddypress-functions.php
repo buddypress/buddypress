@@ -688,7 +688,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 
 	// Activity stream filtering on action.
 	if ( ! empty( $_BP_COOKIE['bp-' . $object . '-filter'] ) && '-1' != $_BP_COOKIE['bp-' . $object . '-filter'] ) {
-		$qs[] = 'type=' . $_BP_COOKIE['bp-' . $object . '-filter'];
+		$qs[] = 'type=' . urlencode( $_BP_COOKIE['bp-' . $object . '-filter'] );
 
 		if ( bp_is_active( 'activity' ) ) {
 			$actions = bp_activity_get_actions_for_context();
@@ -711,7 +711,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 
 		// Activity stream scope only on activity directory.
 		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && ! bp_displayed_user_id() && ! bp_is_single_item() )
-			$qs[] = 'scope=' . $_BP_COOKIE['bp-' . $object . '-scope'];
+			$qs[] = 'scope=' . urlencode( $_BP_COOKIE['bp-' . $object . '-scope'] );
 	}
 
 	// If page and search_terms have been passed via the AJAX post request, use those.
