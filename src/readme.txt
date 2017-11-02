@@ -117,10 +117,10 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 
 == Upgrade Notice ==
 
-= 2.9.1 =
-See: https://codex.buddypress.org/releases/version-2-9-1/
+= 2.9.2 =
+See: https://codex.buddypress.org/releases/version-2-9-2/
 
 == Changelog ==
 
-= 2.9.1 =
-See: https://codex.buddypress.org/releases/version-2-9-1/
+= 2.9.2 =
+See: https://codex.buddypress.org/releases/version-2-9-2/
