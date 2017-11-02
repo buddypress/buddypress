@@ -2,7 +2,7 @@
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla
 Tags: social networking, activity, profiles, messaging, friends, groups, forums, notifications, settings, social, community, networks, networking
 Requires at least: 4.4
-Tested up to: 4.8
+Tested up to: 4.9
 Requires PHP: 5.3
 Stable tag: 2.9.0
 License: GPLv2 or later
