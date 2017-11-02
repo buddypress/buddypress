@@ -464,7 +464,10 @@ class BP_XProfile_User_Admin {
 				);
 
 				if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-					$query_args['wp_http_referer'] = urlencode( wp_unslash( $_REQUEST['wp_http_referer'] ) );
+					$wp_http_referer = wp_unslash( $_REQUEST['wp_http_referer'] );
+					$wp_http_referer = remove_query_arg( array( 'action', 'updated' ), $wp_http_referer );
+					$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+					$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
 				}
 
 				$community_url = add_query_arg( $query_args, buddypress()->members->admin->edit_profile_url );
