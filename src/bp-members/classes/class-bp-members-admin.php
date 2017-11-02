@@ -680,7 +680,9 @@ class BP_Members_Admin {
 
 		// Conditionally add a referer if it exists in the existing request.
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-			$query_args['wp_http_referer'] = urlencode( stripslashes_deep( $_REQUEST['wp_http_referer'] ) );
+			$wp_http_referer = wp_unslash( $_REQUEST['wp_http_referer'] );
+			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+			$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
 		}
 
 		// Setup the two distinct "edit" URL's.
@@ -919,7 +921,9 @@ class BP_Members_Admin {
 		$form_action_url = add_query_arg( 'action', 'update', $request_url );
 		$wp_http_referer = false;
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-			$wp_http_referer = remove_query_arg( array( 'action', 'updated' ), $_REQUEST['wp_http_referer'] );
+			$wp_http_referer = wp_unslash( $_REQUEST['wp_http_referer'] );
+			$wp_http_referer = remove_query_arg( array( 'action', 'updated' ), $wp_http_referer );
+			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
 		}
 
 		// Prepare notice for admin.
@@ -1241,7 +1245,9 @@ class BP_Members_Admin {
 		}
 
 		// Add the referer.
-		$args['wp_http_referer'] = urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$wp_http_referer = wp_unslash( $_SERVER['REQUEST_URI'] );
+		$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+		$args['wp_http_referer'] = urlencode( $wp_http_referer );
 
 		// Add the "Extended" link if the current user can edit this user.
 		if ( current_user_can( 'edit_user', $user->ID ) || bp_current_user_can( 'bp_moderate' ) ) {
