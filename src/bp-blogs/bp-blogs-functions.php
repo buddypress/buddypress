@@ -548,8 +548,9 @@ add_action( 'update_option_site_icon', 'bp_blogs_update_option_site_icon', 10, 2
 /**
  * Deletes the 'url' blogmeta for a site.
  *
- * Hooked to 'refresh_blog_details', which is notably used when editing a site
- * under "Network Admin > Sites".
+ * Fires when a site's details are updated, which generally happens when
+ * editing a site under "Network Admin > Sites". Prior to WP 4.9, the
+ * correct hook was 'refresh_blog_details'; afterward, 'clean_site_cache'.
  *
  * @since 2.3.0
  *
@@ -558,7 +559,12 @@ add_action( 'update_option_site_icon', 'bp_blogs_update_option_site_icon', 10, 2
 function bp_blogs_delete_url_blogmeta( $site_id = 0 ) {
 	bp_blogs_delete_blogmeta( (int) $site_id, 'url' );
 }
-add_action( 'refresh_blog_details', 'bp_blogs_delete_url_blogmeta' );
+
+if ( function_exists( 'wp_switch_roles_and_user' ) ) {
+	add_action( 'clean_site_cache', 'bp_blogs_delete_url_blogmeta' );
+} else {
+	add_action( 'refresh_blog_details', 'bp_blogs_delete_url_blogmeta' );
+}
 
 /**
  * Record activity metadata about a published blog post.
