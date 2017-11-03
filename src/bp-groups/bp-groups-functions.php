@@ -118,6 +118,7 @@ function groups_create_group( $args = '' ) {
 		$group = groups_get_group( $group_id );
 		$name  = ! empty( $name ) ? $name : $group->name;
 		$slug  = ! empty( $slug ) ? $slug : $group->slug;
+		$creator_id  = ! empty( $creator_id ) ? $creator_id : $group->creator_id;
 		$description = ! empty( $description ) ? $description : $group->description;
 
 		// Groups need at least a name.
