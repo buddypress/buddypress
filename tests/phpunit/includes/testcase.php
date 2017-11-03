@@ -106,6 +106,21 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		parent::clean_up_global_scope();
 	}
 
+	/**
+	 * Returns a factory that can be used across tests, even in static methods.
+	 *
+	 * @since 3.0
+	 *
+	 * @return BP_UnitTest_Factory
+	 */
+	protected static function factory() {
+		static $factory = null;
+		if ( ! $factory ) {
+			$factory = new BP_UnitTest_Factory();
+		}
+		return $factory;
+	}
+
 	protected function reset_bp_activity_actions() {
 		buddypress()->activity->actions = new stdClass();
 
