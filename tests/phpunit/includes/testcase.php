@@ -30,6 +30,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		// Fake WP mail globals, to avoid errors
 		add_filter( 'wp_mail', array( 'BP_UnitTestCase', 'setUp_wp_mail' ) );
 		add_filter( 'wp_mail_from', array( 'BP_UnitTestCase', 'tearDown_wp_mail' ) );
+
+		parent::setUpBeforeClass();
 	}
 
 	public function setUp() {
