@@ -10,9 +10,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 	static $admin_user;
 	static $groups;
 
-	public static function setUpBeforeClass() {
-		$f = new BP_UnitTest_Factory();
-
+	public static function wpSetUpBeforeClass( $f ) {
 		self::$user = $f->user->create( array(
 			'user_login' => 'groups_is_user',
 			'user_email' => 'groups_is_user@example.com',

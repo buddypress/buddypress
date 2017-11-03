@@ -12,11 +12,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 	protected static $old_user_id  = 0;
 	protected static $user_ids     = array();
 
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
-		$factory = new BP_UnitTest_Factory();
-
+	public static function wpSetUpBeforeClass( $factory ) {
 		self::$old_user_id  = get_current_user_id();
 		self::$current_user = $factory->user->create( array(
 			'display_name' => 'Katie Parker',

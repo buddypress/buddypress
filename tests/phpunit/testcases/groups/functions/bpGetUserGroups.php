@@ -13,7 +13,7 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 		groups_remove_member( self::$user, self::$groups[2] );
 	}
 
-	public static function setUpBeforeClass() {
+	public static function wpSetUpBeforeClass( $f ) {
 		$f = new BP_UnitTest_Factory();
 
 		self::$user = $f->user->create( array(

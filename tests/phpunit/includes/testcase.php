@@ -25,13 +25,27 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 */
 	protected $deactivated_components = array();
 
+	/**
+	 * Cribbed from WP so that the self::factory() call comes from this class.
+	 *
+	 * @since 3.0.0
+	 */
 	public static function setUpBeforeClass() {
+		global $wpdb;
 
 		// Fake WP mail globals, to avoid errors
 		add_filter( 'wp_mail', array( 'BP_UnitTestCase', 'setUp_wp_mail' ) );
 		add_filter( 'wp_mail_from', array( 'BP_UnitTestCase', 'tearDown_wp_mail' ) );
 
-		parent::setUpBeforeClass();
+		$c = self::get_called_class();
+		if ( ! method_exists( $c, 'wpSetUpBeforeClass' ) ) {
+			self::commit_transaction();
+			return;
+		}
+
+		call_user_func( array( $c, 'wpSetUpBeforeClass' ), self::factory() );
+
+		self::commit_transaction();
 	}
 
 	public function setUp() {
@@ -91,6 +105,22 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			buddypress()->active_components[ $component ] = 1;
 		}
 		$this->deactivated_components = array();
+	}
+
+	/**
+	 * Multisite-agnostic way to delete a user from the database.
+	 *
+	 * @since 3.0.0
+	 */
+	public static function delete_user( $user_id ) {
+		$deleted = parent::delete_user( $user_id );
+
+		// When called in tearDownAfterClass(), BP's cleanup functions may no longer be hooked.
+		if ( bp_is_active( 'activity' ) ) {
+			bp_activity_remove_all_user_data( $user_id );
+		}
+
+		return $deleted;
 	}
 
 	function clean_up_global_scope() {

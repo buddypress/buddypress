@@ -7,10 +7,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	public static $media_extractor = null;
 	public static $richtext        = '';
 
-
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
+	public static function wpSetUpBeforeClass( $f ) {
 		self::$media_extractor = new BP_Media_Extractor();
 		self::$richtext        = "Hello world.
 

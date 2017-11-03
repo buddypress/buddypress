@@ -12,6 +12,10 @@ class BP_Tests_Groups_Functions_GroupsCreateGroup extends BP_UnitTestCase {
 		self::$user_id = $factory->user->create();
 	}
 
+	public static function wpTearDownAfterClass() {
+		self::delete_user( self::$user_id );
+	}
+
 	/**
 	 * @ticket BP7619
 	 */

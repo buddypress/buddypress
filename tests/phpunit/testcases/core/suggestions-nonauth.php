@@ -10,9 +10,7 @@ class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 	protected static $group_slugs  = array();
 	protected static $user_ids     = array();
 
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-
+	public static function wpSetUpBeforeClass( $factory ) {
 		$users = array(
 			// user_login, display_name
 			array( 'aardvark',    'Bob Smith' ),
@@ -27,8 +25,6 @@ class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 			array( 'xylo',        'Silver McFadden' ),
 			array( 'zoom',        'Lisa Smithy' ),
 		);
-
-		$factory = new BP_UnitTest_Factory();
 
 		// Create some dummy users.
 		foreach( $users as $user_index => $user ) {

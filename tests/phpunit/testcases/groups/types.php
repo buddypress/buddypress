@@ -13,21 +13,15 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 		buddypress()->groups->types = array();
 	}
 
-	public static function setUpBeforeClass() {
-		$f = new BP_UnitTest_Factory();
-
+	public static function wpSetUpBeforeClass( $f ) {
 		self::$u1 = $f->user->create( array(
 			'user_email' => 'group-types-tests@example.com',
 			'user_login' => 'grouptypestests',
 		) );
 	}
 
-	public static function tearDownAfterClass() {
-		if ( is_multisite() ) {
-			wpmu_delete_user( self::$u1 );
-		} else {
-			wp_delete_user( self::$u1 );
-		}
+	public static function wpTearDownAfterClass() {
+		self::delete_user( self::$u1 );
 	}
 
 	public function test_groups_register_type_should_fail_for_existing_group_type() {
