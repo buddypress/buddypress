@@ -1260,9 +1260,7 @@ function bp_activity_add_meta( $activity_id, $meta_key, $meta_value, $unique = f
  * @return bool
  */
 function bp_activity_remove_all_user_data( $user_id = 0 ) {
-
-	// Do not delete user data unless a logged in user says so.
-	if ( empty( $user_id ) || ! is_user_logged_in() ) {
+	if ( empty( $user_id ) ) {
 		return false;
 	}
 
