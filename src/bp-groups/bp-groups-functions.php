@@ -104,10 +104,10 @@ function groups_create_group( $args = '' ) {
 		'name'         => '',
 		'description'  => '',
 		'slug'         => '',
-		'status'       => 'public',
-		'parent_id'    => 0,
-		'enable_forum' => 0,
-		'date_created' => bp_core_current_time()
+		'status'       => null,
+		'parent_id'    => null,
+		'enable_forum' => null,
+		'date_created' => null
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -120,6 +120,10 @@ function groups_create_group( $args = '' ) {
 		$slug  = ! empty( $slug ) ? $slug : $group->slug;
 		$creator_id  = ! empty( $creator_id ) ? $creator_id : $group->creator_id;
 		$description = ! empty( $description ) ? $description : $group->description;
+		$status = ! is_null( $status ) ? $status : $group->status;
+		$parent_id = ! is_null( $parent_id ) ? $parent_id : $group->parent_id;
+		$enable_forum = ! is_null( $enable_forum ) ? $enable_forum : $group->enable_forum;
+		$date_created = ! is_null( $date_created ) ? $date_created : $group->date_created;
 
 		// Groups need at least a name.
 		if ( empty( $name ) ) {
@@ -130,6 +134,12 @@ function groups_create_group( $args = '' ) {
 	} else {
 		// Instantiate new group object.
 		$group = new BP_Groups_Group;
+
+		// Check for null values, reset to sensible defaults.
+		$status = ! is_null( $status ) ? $status : 'public';
+		$parent_id = ! is_null( $parent_id ) ? $parent_id : 0;
+		$enable_forum = ! is_null( $enable_forum ) ? $enable_forum : 0;
+		$date_created = ! is_null( $date_created ) ? $date_created : bp_core_current_time();
 	}
 
 	// Set creator ID.
