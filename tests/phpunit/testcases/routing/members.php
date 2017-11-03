@@ -11,7 +11,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 		buddypress()->members->types = array();
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'user_login' => 'paulgibbs', 'role' => 'subscriber' ) ) );
+		$this->set_current_user( self::factory()->user->create( array( 'user_login' => 'paulgibbs', 'role' => 'subscriber' ) ) );
 	}
 
 	public function tearDown() {
@@ -33,7 +33,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	 * @ticket BP6475
 	 */
 	public function test_member_directory_when_nested_under_wp_page() {
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_type' => 'page',
 			'post_name' => 'foo',
 		) );
@@ -94,7 +94,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	 * @group member_types
 	 */
 	public function test_member_directory_with_member_type_should_be_overridden_by_member_with_same_nicename() {
-		$u = $this->factory->user->create( array( 'user_nicename' => 'foo' ) );
+		$u = self::factory()->user->create( array( 'user_nicename' => 'foo' ) );
 		bp_register_member_type( 'foo' );
 		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
 	}

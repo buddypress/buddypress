@@ -21,8 +21,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_exclude() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
@@ -39,8 +39,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_include() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
@@ -58,8 +58,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_meta_query
 	 */
 	public function test_get_with_meta_query() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
@@ -79,8 +79,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_meta_query
 	 */
 	public function test_get_empty_meta_query() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		$groups = BP_Groups_Group::get( array(
@@ -96,13 +96,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_meta_query_multiple_clauses() {
 		$now = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
 		) );
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -133,13 +133,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_meta_query_multiple_clauses_relation_or() {
 		$now = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
 		) );
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -171,13 +171,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_meta_query_multiple_clauses_relation_or_shared_meta_key() {
 		$now = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
 		) );
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -209,10 +209,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_meta_query_multiple_keys_with_same_value() {
 		$now = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
 		) );
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
@@ -236,11 +236,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_normal_search() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => 'This is one cool group',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => 'Cool',
@@ -254,11 +254,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_underscores() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => '_cool_ dude',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => '_cool_',
@@ -272,11 +272,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_percent_sign() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => '100% awesome',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => '100%',
@@ -290,11 +290,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_quotes() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => "'tis sweet",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "'tis ",
@@ -309,11 +309,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_left_wildcard() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "*ads",
@@ -328,11 +328,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_left_wildcard_should_miss() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "*la",
@@ -347,11 +347,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_right_wildcard() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "Ye*",
@@ -366,11 +366,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_right_wildcard_should_miss() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "la*",
@@ -385,11 +385,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_with_both_wildcard() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'search_terms' => "*la*",
@@ -404,12 +404,12 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_limited_to_name_column() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create( array(
 			'name' => 'Bonnie Lasses',
 			'description' => "That lad is unknown to me",
 		) );
@@ -428,12 +428,12 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_search_limited_to_description_column() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Ye Lads',
 			'description' => "My Bonnie lies over the ocean",
 		) );
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create( array(
 			'name' => 'Bonnie Lasses',
 			'description' => "That lad is unknown to me",
 		) );
@@ -456,19 +456,19 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_default_type_value_should_be_newest() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'D Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'name' => 'B Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 100000 ),
 		) );
-		$g4 = $this->factory->group->create( array(
+		$g4 = self::factory()->group->create( array(
 			'name' => 'C Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
@@ -483,19 +483,19 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_newest() {
 		$time = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'D Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'name' => 'B Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
 		) );
-		$g4 = $this->factory->group->create( array(
+		$g4 = self::factory()->group->create( array(
 			'name' => 'C Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
 		) );
@@ -510,19 +510,19 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_popular() {
 		$time = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'D Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'name' => 'B Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
 		) );
-		$g4 = $this->factory->group->create( array(
+		$g4 = self::factory()->group->create( array(
 			'name' => 'C Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
 		) );
@@ -542,19 +542,19 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_type_alphabetical() {
 		$time = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'D Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'name' => 'B Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
 		) );
-		$g4 = $this->factory->group->create( array(
+		$g4 = self::factory()->group->create( array(
 			'name' => 'C Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
 		) );
@@ -572,19 +572,19 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_meta_query_and_total_groups() {
 		$time = time();
 
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'A Group',
 			'date_created' => bp_core_current_time(),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'D Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'name' => 'B Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100000 ),
 		) );
-		$g4 = $this->factory->group->create( array(
+		$g4 = self::factory()->group->create( array(
 			'name' => 'C Group',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
 		) );
@@ -615,7 +615,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$group_ids = array();
 
 		for ( $i = 1; $i <= 25; $i++ ) {
-			$group_ids[] = $this->factory->group->create();
+			$group_ids[] = self::factory()->group->create();
 		}
 
 		// Tests
@@ -658,7 +658,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_get_queries_should_be_cached() {
 		global $wpdb;
 
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		$found1 = BP_Groups_Group::get();
 
@@ -678,7 +678,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_get_query_caches_should_be_busted_by_groupmeta_update() {
 		global $wpdb;
 
-		$groups = $this->factory->group->create_many( 2 );
+		$groups = self::factory()->group->create_many( 2 );
 		groups_update_groupmeta( $groups[0], 'foo', 'bar' );
 		groups_update_groupmeta( $groups[1], 'foo', 'bar' );
 
@@ -719,7 +719,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 
-		$groups = $this->factory->group->create_many( 2 );
+		$groups = self::factory()->group->create_many( 2 );
 		bp_groups_set_group_type( $groups[0], 'foo' );
 		bp_groups_set_group_type( $groups[1], 'bar' );
 
@@ -749,7 +749,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		bp_groups_register_group_type( 'foo' );
 
-		$groups = $this->factory->group->create_many( 2 );
+		$groups = self::factory()->group->create_many( 2 );
 		bp_groups_set_group_type( $groups[0], 'foo' );
 		bp_groups_set_group_type( $groups[1], 'foo' );
 
@@ -776,7 +776,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_get_query_caches_should_be_busted_by_group_save() {
 		global $wpdb;
 
-		$groups = $this->factory->group->create_many( 2 );
+		$groups = self::factory()->group->create_many( 2 );
 		groups_update_groupmeta( $groups[0], 'foo', 'bar' );
 		groups_update_groupmeta( $groups[1], 'foo', 'bar' );
 
@@ -805,7 +805,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_get_query_caches_should_be_busted_by_group_delete() {
 		global $wpdb;
 
-		$groups = $this->factory->group->create_many( 2 );
+		$groups = self::factory()->group->create_many( 2 );
 
 		$found1 = BP_Groups_Group::get();
 
@@ -825,8 +825,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	public function test_bp_groups_group_magic_isset_with_empty_check() {
 		$this->old_current_user = get_current_user_id();
 
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u ) );
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u ) );
 
 		// Instantiate group object.
 		$this->set_current_user( $u );
@@ -960,9 +960,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group groups_get_orderby_meta_id
 	 */
 	public function test_get_orderby_meta_id() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create();
 
 		groups_update_groupmeta( $g2, 'orderup', 'sammy' );
 		groups_update_groupmeta( $g1, 'orderup', 'sammy' );
@@ -988,13 +988,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_orderby_meta_id_invalid_fallback_to_date_created() {
 		$time = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 10000 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 1000 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'date_created' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
 		) );
 
@@ -1009,12 +1009,12 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_filter_user_groups_normal_search() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => 'This is one cool group',
 		) );
-		$g2 = $this->factory->group->create();
-		$u = $this->factory->user->create();
+		$g2 = self::factory()->group->create();
+		$u = self::factory()->user->create();
 		self::add_user_to_group( $u, $g1 );
 
 		$groups = BP_Groups_Group::filter_user_groups( 'Cool', $u );
@@ -1024,12 +1024,12 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_filter_user_groups_normal_search_middle_of_string() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => 'This group is for mandocellos and oboes.',
 		) );
-		$g2 = $this->factory->group->create();
-		$u = $this->factory->user->create();
+		$g2 = self::factory()->group->create();
+		$u = self::factory()->user->create();
 		self::add_user_to_group( $u, $g1 );
 
 		$groups = BP_Groups_Group::filter_user_groups( 'cello', $u );
@@ -1039,13 +1039,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_filter_user_groups_search_with_underscores() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => '_cool_ dude',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		self::add_user_to_group( $u, $g1 );
 		self::add_user_to_group( $u, $g2 );
 
@@ -1056,13 +1056,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_filter_user_groups_search_with_percent_sign() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => '100% awesome',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		self::add_user_to_group( $u, $g1 );
 		self::add_user_to_group( $u, $g2 );
 
@@ -1073,13 +1073,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_filter_user_groups_search_with_quotes() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => "'tis sweet",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		self::add_user_to_group( $u, $g1 );
 		self::add_user_to_group( $u, $g2 );
 
@@ -1092,11 +1092,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_groups_normal_search() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => 'This is one cool group',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( 'Cool' );
 
@@ -1105,11 +1105,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_groups_search_with_underscores() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => '_cool_ dude',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( '_cool_' );
 
@@ -1118,11 +1118,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_groups_search_with_percent_sign() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => '100% awesome',
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( '100%' );
 
@@ -1131,11 +1131,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_search_groups_search_with_quotes() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Cool Group',
 			'description' => "'tis sweet",
 		) );
-		$g2 = $this->factory->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( "'tis " );
 
@@ -1145,11 +1145,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_by_letter_typical_use() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Awesome Cool Group',
 			'description' => 'Neat',
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'Babylon Kong',
 			'description' => 'Awesome',
 		) );
@@ -1163,11 +1163,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_by_letter_with_exclude() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Awesome Cool Group',
 			'description' => 'Neat',
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'Another Cool Group',
 			'description' => 'Awesome',
 		) );
@@ -1181,11 +1181,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_by_letter_starts_with_apostrophe() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => "'Tis Sweet",
 			'description' => 'Neat',
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'Another Cool Group',
 			'description' => 'Awesome',
 		) );
@@ -1200,8 +1200,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_random_with_exclude() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 
 		// There are only two groups, so excluding one should give us the other
 		$groups = BP_Groups_Group::get_random( null, null, 0, false, true, array( $g1, 'ignore this' ) );
@@ -1212,10 +1212,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_random_with_search_terms() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Bodacious',
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'Crummy group',
 		) );
 
@@ -1232,7 +1232,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_delete_clear_cache() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		// Prime cache
 		groups_get_group( $g );
@@ -1250,7 +1250,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_save_clear_cache() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		// Prime cache
 		groups_get_group( $g );
@@ -1298,8 +1298,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_non_member() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 
 		$paged_groups = array();
 		$paged_groups[] = new stdClass;
@@ -1329,8 +1329,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_member() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 		$this->add_user_to_group( $u, $g );
 
 		$paged_groups = array();
@@ -1361,8 +1361,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_invited() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $g;
@@ -1400,8 +1400,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_pending() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $g;
@@ -1439,8 +1439,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_group_extras
 	 */
 	public function test_get_group_extras_banned() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 
 		$member                = new BP_Groups_Member;
 		$member->group_id      = $g;
@@ -1477,8 +1477,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5451
 	 */
 	public function test_admins_property() {
-		$user_1 = $this->factory->user->create_and_get();
-		$g = $this->factory->group->create( array(
+		$user_1 = self::factory()->user->create_and_get();
+		$g = self::factory()->group->create( array(
 			'creator_id' => $user_1->ID,
 		) );
 
@@ -1503,8 +1503,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP7497
 	 */
 	public function test_admins_property_should_match_users_without_wp_role() {
-		$user_1 = $this->factory->user->create_and_get();
-		$g = $this->factory->group->create( array(
+		$user_1 = self::factory()->user->create_and_get();
+		$g = self::factory()->group->create( array(
 			'creator_id' => $user_1->ID,
 		) );
 
@@ -1519,11 +1519,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5451
 	 */
 	public function test_mods_property() {
-		$users = $this->factory->user->create_many( 2 );
+		$users = self::factory()->user->create_many( 2 );
 		$user_1 = new WP_User( $users[0] );
 		$user_2 = new WP_User( $users[1] );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $user_1->ID,
 		) );
 
@@ -1550,9 +1550,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5451
 	 */
 	public function test_is_member_property() {
-		$users = $this->factory->user->create_many( 2 );
+		$users = self::factory()->user->create_many( 2 );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $users[0],
 		) );
 
@@ -1570,9 +1570,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5451
 	 */
 	public function test_is_invited_property() {
-		$users = $this->factory->user->create_many( 2 );
+		$users = self::factory()->user->create_many( 2 );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $users[0],
 		) );
 
@@ -1594,9 +1594,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5451
 	 */
 	public function test_is_pending_property() {
-		$users = $this->factory->user->create_many( 2 );
+		$users = self::factory()->user->create_many( 2 );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $users[0],
 		) );
 
@@ -1619,8 +1619,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type_single_value() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1638,8 +1638,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type_array_with_single_value() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1657,8 +1657,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type_with_comma_separated_list() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1676,8 +1676,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type_array_with_multiple_values() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1695,8 +1695,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type_should_discart_non_existing_types_in_comma_separated_value() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1714,8 +1714,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type_should_return_empty_when_no_groups_match_specified_types() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'group_type' => 'foo, baz',
@@ -1728,8 +1728,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__in_single_value() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1747,8 +1747,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__in_comma_separated_values() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1766,8 +1766,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__in_array_multiple_values() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1785,8 +1785,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__in_array_with_single_value() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1804,8 +1804,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__in_should_discart_non_existing_types_in_comma_separated_value() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1823,8 +1823,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__in_should_return_empty_when_no_groups_match_specified_types() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'group_type__in' => 'foo, baz',
@@ -1837,8 +1837,8 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type_should_take_precedence_over_group_type__in() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1857,9 +1857,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__not_in_should_return_groups_with_types_and_without_types() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1877,9 +1877,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__not_in_comma_separated_values() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1898,9 +1898,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__not_array_with_multiple_values() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g1, 'foo' );
@@ -1919,9 +1919,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__not_in_should_return_no_results_when_all_groups_mathc_sepecified_type() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_set_group_type( $g1, 'foo' );
 		bp_groups_set_group_type( $g2, 'foo' );
@@ -1938,9 +1938,9 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group group_types
 	 */
 	public function test_group_type__not_in_takes_precedence_over_group_type() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
-		$g3 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
+		$g3 = self::factory()->group->create();
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_set_group_type( $g1, 'foo' );
 		bp_groups_set_group_type( $g2, 'foo' );
@@ -1958,14 +1958,14 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_get_by_parent_id() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => $g1,
@@ -1979,14 +1979,14 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_get_by_parent_id_ignore_grandparent() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => $g2,
@@ -2000,14 +2000,14 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_get_by_parent_id_array() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => array( $g1, $g2 ),
@@ -2021,14 +2021,14 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_get_by_parent_id_comma_separated_string() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => "$g1, $g2",
@@ -2042,14 +2042,14 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_get_by_parent_id_top_level_groups() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => 0,
@@ -2063,14 +2063,14 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_get_by_parent_id_top_level_groups_using_false() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get( array(
 			'parent_id' => false,
@@ -2084,13 +2084,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_slug
 	 */
 	public function test_get_by_slug() {
-		$g1 = $this->factory->group->create(array(
+		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'slug'      => 'mar'
 		) );
 
@@ -2106,13 +2106,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_slug
 	 */
 	public function test_get_by_slug_accept_string() {
-		$g1 = $this->factory->group->create(array(
+		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'slug'      => 'mar'
 		) );
 
@@ -2128,13 +2128,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_slug
 	 */
 	public function test_get_by_slug_accept_comma_separated_string() {
-		$g1 = $this->factory->group->create(array(
+		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'slug'      => 'mar'
 		) );
 
@@ -2150,13 +2150,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_slug
 	 */
 	public function test_get_by_slug_accept_space_separated_string() {
-		$g1 = $this->factory->group->create(array(
+		$g1 = self::factory()->group->create(array(
 			'slug'      => 'apr'
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'slug'      => 'jan'
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'slug'      => 'mar'
 		) );
 
@@ -2172,13 +2172,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_status
 	 */
 	public function test_get_by_status() {
-		$g1 = $this->factory->group->create(array(
+		$g1 = self::factory()->group->create(array(
 			'status'      => 'private'
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'status'      => 'public'
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'status'      => 'hidden'
 		) );
 
@@ -2194,13 +2194,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_status
 	 */
 	public function test_get_by_status_accept_string() {
-		$g1 = $this->factory->group->create(array(
+		$g1 = self::factory()->group->create(array(
 			'status'      => 'private'
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'status'      => 'public'
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'status'      => 'hidden'
 		) );
 
@@ -2216,13 +2216,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 * @group get_by_status
 	 */
 	public function test_get_by_status_accept_comma_separated_string() {
-		$g1 = $this->factory->group->create(array(
+		$g1 = self::factory()->group->create(array(
 			'status'      => 'private'
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'status'      => 'public'
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'status'      => 'hidden'
 		) );
 

@@ -9,12 +9,12 @@ class BP_Tests_Activity_Filters extends BP_UnitTestCase {
 	 * @group bp_activity_at_name_filter
 	 */
 	public function test_bp_activity_at_name_filter() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'user_login' => 'foobarbaz',
 			'user_nicename' => 'foobarbaz',
 		) );
 
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'user_login' => 'foo2',
 			'user_nicename' => 'foo2',
 		) );

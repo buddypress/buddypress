@@ -11,7 +11,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 
 		buddypress()->members->types = array();
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
+		$this->set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 	}
 
 	public function tearDown() {
@@ -68,7 +68,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_previous_slug
 	 */
 	public function test_group_previous_slug_current_slug_should_resolve() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'slug' => 'george',
 		) );
 		groups_edit_base_group_details( array(
@@ -85,7 +85,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_previous_slug
 	 */
 	public function test_group_previous_slug_should_resolve() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'slug' => 'george',
 		) );
 
@@ -103,7 +103,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 * @group group_previous_slug
 	 */
 	public function test_group_previous_slug_most_recent_takes_precedence() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'slug' => 'george',
 		) );
 		groups_edit_base_group_details( array(
@@ -111,7 +111,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 			'slug'           => 'ralph',
 			'notify_members' => false,
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'slug' => 'george',
 		) );
 		groups_edit_base_group_details( array(

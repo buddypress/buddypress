@@ -143,7 +143,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 
 
 	public function test_extract_multiple_media_types_from_content() {
-		$this->factory->user->create( array( 'user_login' => 'paulgibbs' ) );
+		self::factory()->user->create( array( 'user_login' => 'paulgibbs' ) );
 		$media = self::$media_extractor->extract( self::$richtext, BP_Media_Extractor::LINKS | BP_Media_Extractor::MENTIONS );
 
 		$this->assertNotEmpty( $media['links'] );
@@ -152,7 +152,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_media_from_a_wp_post() {
-		$post_id = $this->factory->post->create( array( 'post_content' => self::$richtext ) );
+		$post_id = self::factory()->post->create( array( 'post_content' => self::$richtext ) );
 		$media   = self::$media_extractor->extract( get_post( $post_id ), BP_Media_Extractor::LINKS );
 
 		$this->assertArrayHasKey( 'links', $media );
@@ -189,7 +189,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	 */
 
 	public function test_extract_mentions_from_content_with_activity_enabled() {
-		$this->factory->user->create( array( 'user_login' => 'paulgibbs' ) );
+		self::factory()->user->create( array( 'user_login' => 'paulgibbs' ) );
 		$media = self::$media_extractor->extract( self::$richtext, BP_Media_Extractor::MENTIONS );
 
 		$this->assertArrayHasKey( 'user_id', $media['mentions'][0] );
@@ -197,7 +197,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_mentions_from_content_with_activity_disabled() {
-		$this->factory->user->create( array( 'user_login' => 'paulgibbs' ) );
+		self::factory()->user->create( array( 'user_login' => 'paulgibbs' ) );
 		$was_activity_enabled = false;
 
 		// Turn activity off.
@@ -303,8 +303,8 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 
 	public function test_extract_images_from_content_with_galleries_variant_no_ids() {
 		// To test the [gallery] shortcode, we need to create a post and an attachment.
-		$post_id       = $this->factory->post->create( array( 'post_content' => self::$richtext ) );
-		$attachment_id = $this->factory->attachment->create_object( 'image.jpg', $post_id, array(
+		$post_id       = self::factory()->post->create( array( 'post_content' => self::$richtext ) );
+		$attachment_id = self::factory()->attachment->create_object( 'image.jpg', $post_id, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment'
 		) );
@@ -328,7 +328,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$attachment_ids[] = $this->fake_attachment_upload( DIR_TESTDATA . '/images/test-image-large.png' );
 		$attachment_ids[] = $this->fake_attachment_upload( DIR_TESTDATA . '/images/canola.jpg' );
 		$attachment_ids   = join( ',', $attachment_ids );
-		$post_id          = $this->factory->post->create( array( 'post_content' => "[gallery ids='{$attachment_ids}']" ) );
+		$post_id          = self::factory()->post->create( array( 'post_content' => "[gallery ids='{$attachment_ids}']" ) );
 
 		// Extract the gallery images.
 		$media = self::$media_extractor->extract( '', BP_Media_Extractor::IMAGES, array(
@@ -344,7 +344,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_no_images_from_content_with_invalid_galleries_variant_no_ids() {
-		$post_id = $this->factory->post->create( array( 'post_content' => self::$richtext ) );
+		$post_id = self::factory()->post->create( array( 'post_content' => self::$richtext ) );
 		$media   = self::$media_extractor->extract( self::$richtext, BP_Media_Extractor::IMAGES, array(
 			'post' => get_post( $post_id ),
 		) );
@@ -355,7 +355,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_no_images_from_content_with_invalid_galleries_variant_ids() {
-		$post_id = $this->factory->post->create( array( 'post_content' => '[gallery ids="117,4529"]' ) );
+		$post_id = self::factory()->post->create( array( 'post_content' => '[gallery ids="117,4529"]' ) );
 		$media   = self::$media_extractor->extract( '', BP_Media_Extractor::IMAGES, array(
 			'post' => get_post( $post_id ),
 		) );
@@ -371,8 +371,8 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	 */
 
 	public function test_extract_no_images_from_content_with_featured_image() {
-		$post_id      = $this->factory->post->create( array( 'post_content' => self::$richtext ) );
-		$thumbnail_id = $this->factory->attachment->create_object( 'image.jpg', $post_id, array(
+		$post_id      = self::factory()->post->create( array( 'post_content' => self::$richtext ) );
+		$thumbnail_id = self::factory()->attachment->create_object( 'image.jpg', $post_id, array(
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment'
 		) );
@@ -392,7 +392,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_images_from_content_without_featured_image() {
-		$post_id = $this->factory->post->create( array( 'post_content' => self::$richtext ) );
+		$post_id = self::factory()->post->create( array( 'post_content' => self::$richtext ) );
 		$media   = self::$media_extractor->extract( '', BP_Media_Extractor::IMAGES, array(
 			'post' => get_post( $post_id ),
 		) );

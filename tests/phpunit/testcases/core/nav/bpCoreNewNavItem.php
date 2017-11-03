@@ -11,7 +11,7 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 	public function test_user_nav() {
 		$bp_nav = buddypress()->bp_nav;
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -51,8 +51,8 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 	public function test_group_nav() {
 		$bp_nav = buddypress()->bp_nav;
 
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -142,8 +142,8 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 	public function test_existence_of_access_protected_user_nav() {
 		$bp_nav = buddypress()->bp_nav;
 
-		$u = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u2 );
 
@@ -177,8 +177,8 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		// can't visit that nav item.
 		$bp_nav = buddypress()->bp_nav;
 
-		$u = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u2 );
 

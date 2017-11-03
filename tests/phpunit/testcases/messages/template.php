@@ -9,22 +9,22 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	 * @group bp_has_message_threads
 	 */
 	public function test_has_message_threads() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create initial thread
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 		) );
 
 		// create some replies to thread
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
 		) );
-		$message_3 = $this->factory->message->create_and_get( array(
+		$message_3 = self::factory()->message->create_and_get( array(
 			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
@@ -42,22 +42,22 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Messages_Box_Template::__construct
 	 */
 	public function test_has_message_threads_old_args() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create initial thread
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 		) );
 
 		// create some replies to thread
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
 		) );
-		$message_3 = $this->factory->message->create_and_get( array(
+		$message_3 = self::factory()->message->create_and_get( array(
 			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u2,
 			'recipients' => array( $u1 ),
@@ -74,23 +74,23 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	 * @group meta_query
 	 */
 	public function test_thread_has_messages_meta_query() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create some threads
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
 		) );
 
 		// misc threads
-		$this->factory->message->create_many( 3, array(
+		self::factory()->message->create_many( 3, array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 		) );
@@ -99,19 +99,19 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$t2 = $message_2->thread_id;
 
 		// create some replies for thread 1
-		$message_3 = $this->factory->message->create_and_get( array(
+		$message_3 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "That's a spoon",
 		) );
-		$message_4 = $this->factory->message->create_and_get( array(
+		$message_4 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'content'    => "I see you've played knivey-spooney before.",
 		) );
-		$message_5 = $this->factory->message->create_and_get( array(
+		$message_5 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -119,7 +119,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		) );
 
 		// create some replies for thread 2
-		$message_6 = $this->factory->message->create_and_get( array(
+		$message_6 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t2,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -169,23 +169,23 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	 * @group meta_query
 	 */
 	public function test_thread_has_messages_meta_query_multiple_clauses_relation_and() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create some threads
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
 		) );
 
 		// misc threads
-		$this->factory->message->create_many( 3, array(
+		self::factory()->message->create_many( 3, array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 		) );
@@ -194,19 +194,19 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$t2 = $message_2->thread_id;
 
 		// create some replies for thread 1
-		$message_3 = $this->factory->message->create_and_get( array(
+		$message_3 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
 			'content'    => "That's a spoon",
 		) );
-		$message_4 = $this->factory->message->create_and_get( array(
+		$message_4 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'content'    => "I see you've played knivey-spooney before.",
 		) );
-		$message_5 = $this->factory->message->create_and_get( array(
+		$message_5 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t1,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -214,7 +214,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		) );
 
 		// create some replies for thread 2
-		$message_6 = $this->factory->message->create_and_get( array(
+		$message_6 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $t2,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -268,11 +268,11 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 	 * @group bp_has_message_threads
 	 */
 	public function test_has_message_threads_anonymous_user_should_not_see_threads() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create initial thread
-		$this->factory->message->create( array(
+		self::factory()->message->create( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 		) );

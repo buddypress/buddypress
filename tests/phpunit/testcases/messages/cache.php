@@ -9,18 +9,18 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 	 * @group bp_messages_update_meta_cache
 	 */
 	public function test_bp_messages_update_meta_cache() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create the thread
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
 
 		// create a reply
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -82,11 +82,11 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 	 * @group bp_thread_has_messages
 	 */
 	public function test_bp_messages_metadata_cache_in_message_loop() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create the message and thread
-		$m = $this->factory->message->create_and_get( array(
+		$m = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
@@ -111,18 +111,18 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 	public function test_bp_messages_delete_metadata_cache_on_thread_delete() {
 		$this->old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create the thread
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'Oy',
 		) );
 
 		// create a reply
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),

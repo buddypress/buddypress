@@ -14,7 +14,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 		add_filter( 'bp_core_enable_root_profiles', '__return_true' );
 
 		$this->old_current_user = get_current_user_id();
-		$uid = $this->factory->user->create( array(
+		$uid = self::factory()->user->create( array(
 			'user_login' => 'boone',
 			'user_nicename' => 'boone',
 		) );
@@ -46,7 +46,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	 * @ticket BP6475
 	 */
 	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_type' => 'page',
 			'post_name' => 'foo',
 		) );

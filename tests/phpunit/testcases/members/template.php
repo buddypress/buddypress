@@ -4,8 +4,8 @@
  */
 class BP_Tests_Members_Template extends BP_UnitTestCase {
 	public function test_bp_has_members_include_on_user_page() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$this->go_to( bp_core_get_user_domain( $u1 ) );
 
@@ -29,8 +29,8 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	 * @group bp_has_members
 	 */
 	public function test_bp_has_members_search_pagination_with_spaces() {
-		$u1 = $this->factory->user->create( array( 'display_name' => '~ tilde u1' ) );
-		$u2 = $this->factory->user->create( array( 'display_name' => '~ tilde u2' ) );
+		$u1 = self::factory()->user->create( array( 'display_name' => '~ tilde u1' ) );
+		$u2 = self::factory()->user->create( array( 'display_name' => '~ tilde u2' ) );
 
 		$template_args = array(
 			'search_terms' => '~ tilde',
@@ -51,8 +51,8 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	public function test_bp_has_members_friendship_requests() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		friends_add_friend( $u1, $u2 );
 
@@ -80,8 +80,8 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	 * @ticket BP5071
 	 */
 	public function test_bp_has_members_friendship_requests_with_no_requests() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$old_user = get_current_user_id();
 		$this->set_current_user( $u2 );
@@ -113,7 +113,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	public function test_bp_has_members_should_pass_member_type_param_to_query() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
-		$users = $this->factory->user->create_many( 3 );
+		$users = self::factory()->user->create_many( 3 );
 		bp_set_member_type( $users[0], 'foo' );
 		bp_set_member_type( $users[1], 'bar' );
 
@@ -138,7 +138,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	public function test_bp_has_members_should_infer_member_type_from_get_param() {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
-		$users = $this->factory->user->create_many( 3 );
+		$users = self::factory()->user->create_many( 3 );
 		bp_set_member_type( $users[0], 'foo' );
 		bp_set_member_type( $users[1], 'bar' );
 
@@ -165,7 +165,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_register_member_type( 'baz' );
-		$users = $this->factory->user->create_many( 4 );
+		$users = self::factory()->user->create_many( 4 );
 		bp_set_member_type( $users[0], 'foo' );
 		bp_set_member_type( $users[1], 'bar' );
 		bp_set_member_type( $users[2], 'baz' );

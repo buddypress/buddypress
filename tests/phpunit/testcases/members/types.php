@@ -151,7 +151,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_set_member_type_should_remove_member_type_when_passing_an_empty_value() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_set_member_type( $u, 'foo' );
 
@@ -163,14 +163,14 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_set_member_type_success() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 
 		$this->assertNotEmpty( bp_set_member_type( $u, 'foo' ) );
 	}
 
 	public function test_bp_get_member_type_with_default_value_for_single() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u, 'foo' );
@@ -180,7 +180,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_get_member_type_with_single_true() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u, 'foo' );
@@ -190,7 +190,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_get_member_type_with_single_false() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u, 'foo' );
@@ -200,7 +200,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_get_member_type_should_return_false_when_no_value_is_found() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 
 		$this->assertFalse( bp_get_member_type( $u ) );
@@ -210,7 +210,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_bp_get_member_type_should_hit_cache() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_set_member_type( $u, 'foo' );
 
@@ -229,8 +229,8 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	 * @group BP6193
 	 */
 	public function test_bp_members_prefetch_member_type_array_cache_set() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u1, 'foo' );
@@ -253,7 +253,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_bp_get_member_type_should_return_false_for_deleted_user() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_set_member_type( $u, 'foo' );
 
@@ -278,9 +278,9 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		global $wpdb;
 
 		// Offset IDs.
-		$dummy_terms = $this->factory->tag->create_many( 7 );
+		$dummy_terms = self::factory()->tag->create_many( 7 );
 
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_set_member_type( $u1, 'foo' );
 
@@ -288,7 +288,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 		$terms = get_terms( bp_get_member_type_tax_name(), array( 'hide_empty' => false, 'fields' => 'all' ) );
 
 		// Make sure the user's ID matches a term ID, to force a cache confusion.
-		$u2 = $this->factory->user->create();
+		$u2 = self::factory()->user->create();
 		$new_user_id = $terms[0]->term_id;
 		$wpdb->update( $wpdb->users, array( 'ID' => $new_user_id ), array( 'ID' => $u2 ) );
 
@@ -318,7 +318,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	 * @group BP6188
 	 */
 	public function test_bp_remove_member_type_should_return_false_when_member_is_not_of_provided_type() {
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u1, 'bar' );
@@ -332,7 +332,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	 * @group BP6188
 	 */
 	public function test_bp_remove_member_type_should_return_true_for_successful_deletion() {
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u1, 'foo' );
@@ -370,7 +370,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	 * @group BP6138
 	 */
 	public function test_bp_has_member_type_should_return_false_when_member_is_not_of_provided_type() {
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u1, 'bar' );
@@ -382,7 +382,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	 * @group BP6138
 	 */
 	public function test_bp_has_member_type_should_return_true_on_success() {
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 		bp_set_member_type( $u1, 'foo' );
@@ -394,7 +394,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_get_member_type_should_not_return_unregistered_types() {
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		bp_register_member_type( 'foo' );
 		bp_set_member_type( $u1, 'foo' );
 

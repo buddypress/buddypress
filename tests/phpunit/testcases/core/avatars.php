@@ -25,13 +25,13 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// get BP root blog's upload directory data
 		$upload_dir = wp_upload_dir();
 
 		// create new subsite
-		$blog_id = $this->factory->blog->create( array(
+		$blog_id = self::factory()->blog->create( array(
 			'user_id' => $u,
 			'title'   => 'Test Title',
 			'path'    => '/path' . rand() . time() . '/',
@@ -53,7 +53,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	public function test_bp_get_user_has_avatar_no_avatar_uploaded() {
 		$this->clean_existing_avatars();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->assertFalse( bp_get_user_has_avatar( $u ) );
 	}
 
@@ -61,7 +61,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	 * @group bp_get_user_has_avatar
 	 */
 	public function test_bp_get_user_has_avatar_has_avatar_uploaded() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// Fake it
 		add_filter( 'bp_core_fetch_avatar_url', array( $this, 'avatar_cb' ) );
@@ -175,7 +175,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	 * @group bp_core_fetch_avatar
 	 */
 	public function test_bp_core_fetch_avatar_class_attribute() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		$hw = 100;
 		$args = array(

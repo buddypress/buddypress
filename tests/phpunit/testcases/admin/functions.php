@@ -8,7 +8,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
 		if ( ! function_exists( 'bp_admin' ) ) {
 			require_once( BP_PLUGIN_DIR . 'bp-core/bp-core-admin.php' );
@@ -138,7 +138,7 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 		$bp->foo->slug = 'foo';
 		$bp->foo->name = 'Foo';
 		$bp->active_components[ $bp->foo->id ] = 1;
-		$new_page_ids = array( $bp->foo->id => $this->factory->post->create( array(
+		$new_page_ids = array( $bp->foo->id => self::factory()->post->create( array(
 			'post_type'  => 'page',
 			'post_title' => $bp->foo->name,
 			'post_name'  => $bp->foo->slug,

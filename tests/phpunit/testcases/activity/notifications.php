@@ -14,8 +14,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->current_user = get_current_user_id();
-		$this->u1 = $this->factory->user->create();
-		$this->u2 = $this->factory->user->create();
+		$this->u1 = self::factory()->user->create();
+		$this->u2 = self::factory()->user->create();
 		$this->set_current_user( $this->u1 );
 
 		/**
@@ -273,14 +273,14 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	protected function create_notifications() {
 		$u1_mentionname = bp_activity_get_user_mentionname( $this->u1 );
-		$this->a1 = $this->factory->activity->create( array(
+		$this->a1 = self::factory()->activity->create( array(
 			'user_id' => $this->u2,
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_update',
 			'content' => sprintf( 'Hello! @%s', $u1_mentionname ),
 		) );
 		$u2_mentionname = bp_activity_get_user_mentionname( $this->u2 );
-		$this->a2 = $this->factory->activity->create( array(
+		$this->a2 = self::factory()->activity->create( array(
 			'user_id' => $this->u1,
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_update',
@@ -295,7 +295,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->test_format_filter = array();
 
 		// Current user is $this->u1, so $this->u2 posted the mention
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'user_id' => $this->u2,
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_update',
@@ -337,7 +337,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 * @group bp_activity_comment_reply_add_notification
 	 */
 	public function test_bp_activity_comment_add_notification() {
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'user_id' => $this->u1,
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_update',
@@ -351,7 +351,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'parent_id'   => false  // ID of a parent comment (optional).
 		) );
 
-		$u3 = $this->factory->user->create();
+		$u3 = self::factory()->user->create();
 
 		$r3 = bp_activity_new_comment( array(
 			'content'     => 'this is a reply to a comment',
@@ -380,9 +380,9 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_activity_reply_notifications_for_blog_comment_to_activity_comment_sync() {
 		$old_user = get_current_user_id();
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
 
 		$this->set_current_user( $u1 );
 		$userdata = get_userdata( $u1 );
@@ -394,7 +394,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		add_filter( 'comment_flood_filter', '__return_false' );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test post',
@@ -414,7 +414,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'user_id'              => $u2,
 		) );
 		// Approve the comment
-		$this->factory->comment->update_object( $c1, array( 'comment_approved' => 1 ) );
+		self::factory()->comment->update_object( $c1, array( 'comment_approved' => 1 ) );
 
 		$this->set_current_user( $u3 );
 		$userdata = get_userdata( $u3 );
@@ -430,7 +430,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'user_id'              => $u3,
 		) );
 		// Approve the comment
-		$this->factory->comment->update_object( $c2, array( 'comment_approved' => 1 ) );
+		self::factory()->comment->update_object( $c2, array( 'comment_approved' => 1 ) );
 
 		// Get activity IDs.
 		$ac1 = get_comment_meta( $c1, 'bp_activity_comment_id', true );

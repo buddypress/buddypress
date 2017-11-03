@@ -31,8 +31,8 @@ class BP_Tests_Members_Cache extends BP_UnitTestCase {
 	public function test_last_activity_should_bust_activity_with_last_activity_cache() {
 		global $wpdb;
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$time_1 = date( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS );
 		$time_2 = date( 'Y-m-d H:i:s', time() - ( HOUR_IN_SECONDS * 2 ) );

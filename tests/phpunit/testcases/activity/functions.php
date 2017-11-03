@@ -27,7 +27,7 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	public function test_delete_activity_by_id() {
 
 		// create an activity update
-		$activity = $this->factory->activity->create( array(
+		$activity = self::factory()->activity->create( array(
 			'type' => 'activity_update'
 		) );
 
@@ -56,10 +56,10 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		);
 
 		// create an activity update
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
 
 		// now delete the activity items
 		bp_activity_delete( $criteria );
@@ -82,10 +82,10 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		);
 
 		// create an activity update
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
 
 		// now delete the activity items
 		bp_activity_delete( $criteria );
@@ -108,10 +108,10 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 		);
 
 		// create an activity update
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
-		$this->factory->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
+		self::factory()->activity->create( $criteria );
 
 		// now delete the activity items
 		bp_activity_delete( $criteria );
@@ -129,7 +129,7 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	public function test_delete_activity_meta() {
 
 		// create an activity update
-		$activity = $this->factory->activity->create( array(
+		$activity = self::factory()->activity->create( array(
 			'type' => 'activity_update'
 		) );
 
@@ -152,7 +152,7 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	public function test_delete_activity_all_meta() {
 
 		// create an activity update
-		$activity = $this->factory->activity->create( array(
+		$activity = self::factory()->activity->create( array(
 			'type' => 'activity_update'
 		) );
 
@@ -187,18 +187,18 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	public function test_delete_activity_and_comments() {
 
 		// create an activity update
-		$parent_activity = $this->factory->activity->create( array(
+		$parent_activity = self::factory()->activity->create( array(
 			'type' => 'activity_update',
 		) );
 
 		// create some activity comments
-		$comment_one = $this->factory->activity->create( array(
+		$comment_one = self::factory()->activity->create( array(
 			'type'              => 'activity_comment',
 			'item_id'           => $parent_activity,
 			'secondary_item_id' => $parent_activity,
 		) );
 
-		$comment_two = $this->factory->activity->create( array(
+		$comment_two = self::factory()->activity->create( array(
 			'type'              => 'activity_comment',
 			'item_id'           => $parent_activity,
 			'secondary_item_id' => $parent_activity,
@@ -226,18 +226,18 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	public function test_delete_activity_meta_for_comments() {
 
 		// create an activity update
-		$parent_activity = $this->factory->activity->create( array(
+		$parent_activity = self::factory()->activity->create( array(
 			'type' => 'activity_update',
 		) );
 
 		// create some activity comments
-		$comment_one = $this->factory->activity->create( array(
+		$comment_one = self::factory()->activity->create( array(
 			'type'              => 'activity_comment',
 			'item_id'           => $parent_activity,
 			'secondary_item_id' => $parent_activity,
 		) );
 
-		$comment_two = $this->factory->activity->create( array(
+		$comment_two = self::factory()->activity->create( array(
 			'type'              => 'activity_comment',
 			'item_id'           => $parent_activity,
 			'secondary_item_id' => $parent_activity,
@@ -270,7 +270,7 @@ class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 	 * @ticket BP5180
 	 */
 	public function test_bp_activity_update_meta_with_line_breaks() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		$meta_value = 'Foo!
 
 
@@ -284,7 +284,7 @@ Bar!';
 	 * @ticket BP5083
 	 */
 	public function test_bp_activity_update_meta_with_0() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		$meta_value = 0;
 
 		bp_activity_update_meta( $a, '0_test', $meta_value );
@@ -306,7 +306,7 @@ Bar!';
 	 * @ticket BP5399
 	 */
 	public function test_bp_activity_update_meta_with_illegal_key_characters() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		$krazy_key = ' f!@#$%^o *(){}o?+';
 		bp_activity_update_meta( $a, $krazy_key, 'bar' );
 
@@ -318,7 +318,7 @@ Bar!';
 	 * @group bp_activity_update_meta
 	 */
 	public function test_bp_activity_update_meta_stripslashes() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		$value = "This string is totally slashin\'!";
 		bp_activity_update_meta( $a, 'foo', $value );
 
@@ -330,7 +330,7 @@ Bar!';
 	 * @group bp_activity_update_meta
 	 */
 	public function test_bp_activity_update_meta_false_value_deletes() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', false );
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
@@ -340,7 +340,7 @@ Bar!';
 	 * @group bp_activity_update_meta
 	 */
 	public function test_bp_activity_update_meta_new() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ), '"foo" meta should be empty for this activity item.' );
 		$this->assertNotEmpty( bp_activity_update_meta( $a, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
@@ -351,7 +351,7 @@ Bar!';
 	 * @group bp_activity_update_meta
 	 */
 	public function test_bp_activity_update_meta_existing() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 		$this->assertTrue( bp_activity_update_meta( $a, 'foo', 'baz' ) );
@@ -363,7 +363,7 @@ Bar!';
 	 * @group bp_activity_update_meta
 	 */
 	public function test_bp_activity_update_meta_same_value() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
 		$this->assertFalse( bp_activity_update_meta( $a, 'foo', 'bar' ) );
@@ -375,7 +375,7 @@ Bar!';
 	 * @group bp_activity_update_meta
 	 */
 	public function test_bp_activity_update_meta_prev_value() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 
 		// In earlier versions of WordPress, bp_activity_update_meta()
@@ -412,7 +412,7 @@ Bar!';
 	 * @ticket BP5399
 	 */
 	public function test_bp_activity_get_meta_with_illegal_characters() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
@@ -424,7 +424,7 @@ Bar!';
 	 * @group bp_activity_get_meta
 	 */
 	public function test_bp_activity_get_meta_multiple() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		bp_activity_update_meta( $a, 'foo1', 'bar1' );
 
@@ -446,7 +446,7 @@ Bar!';
 	 * @ticket BP5399
 	 */
 	public function test_bp_activity_get_meta_no_results_returns_false() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
 	}
@@ -456,7 +456,7 @@ Bar!';
 	 * @group bp_activity_get_meta
 	 */
 	public function test_bp_activity_get_meta_single_true() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 		bp_activity_add_meta( $a, 'foo', 'baz' );
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) ); // default is true
@@ -468,7 +468,7 @@ Bar!';
 	 * @group bp_activity_get_meta
 	 */
 	public function test_bp_activity_get_meta_single_false() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 		bp_activity_add_meta( $a, 'foo', 'baz' );
 		$this->assertSame( array( 'bar', 'baz' ), bp_activity_get_meta( $a, 'foo', false ) );
@@ -480,7 +480,7 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_get_meta_cache_all_on_get() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 		bp_activity_add_meta( $a, 'foo1', 'baz' );
 		$this->assertFalse( wp_cache_get( $a, 'activity_meta' ) );
@@ -506,7 +506,7 @@ Bar!';
 	 * @ticket BP5399
 	 */
 	public function test_bp_activity_delete_meta_trim_meta_value() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		bp_activity_delete_meta( $a, 'foo', ' bar ' );
 		$this->assertSame( 'bar', bp_activity_get_meta( $a, 'foo' ) );
@@ -517,7 +517,7 @@ Bar!';
 	 * @group bp_activity_delete_meta
 	 */
 	public function test_bp_activity_delete_meta_single() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', 'bar' ) );
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
@@ -528,7 +528,7 @@ Bar!';
 	 * @group bp_activity_delete_meta
 	 */
 	public function test_bp_activity_delete_meta_all_for_activity() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		bp_activity_update_meta( $a, 'foo1', 'bar1' );
 		$this->assertTrue( bp_activity_delete_meta( $a ) );
@@ -541,7 +541,7 @@ Bar!';
 	 * @group bp_activity_delete_meta
 	 */
 	public function test_bp_activity_delete_meta_with_meta_value() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_update_meta( $a, 'foo', 'bar' );
 		$this->assertTrue( bp_activity_delete_meta( $a, 'foo', 'bar' ) );
 		$this->assertSame( '', bp_activity_get_meta( $a, 'foo' ) );
@@ -554,8 +554,8 @@ Bar!';
 	public function test_bp_activity_delete_meta_with_delete_all_but_no_meta_key() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create();
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create();
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
 		bp_activity_update_meta( $a1, 'foo1', 'bar1' );
 		bp_activity_update_meta( $a2, 'foo', 'bar' );
@@ -574,8 +574,8 @@ Bar!';
 	public function test_bp_activity_delete_meta_with_delete_all() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create();
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create();
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
 		bp_activity_update_meta( $a1, 'foo1', 'bar1' );
 		bp_activity_update_meta( $a2, 'foo', 'bar' );
@@ -609,7 +609,7 @@ Bar!';
 	 * @group bp_activity_add_meta
 	 */
 	public function test_bp_activity_add_meta_existing_unique() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 		$this->assertFalse( bp_activity_add_meta( $a, 'foo', 'baz', true ) );
 	}
@@ -619,7 +619,7 @@ Bar!';
 	 * @group bp_activity_add_meta
 	 */
 	public function test_bp_activity_add_meta_existing_not_unique() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_add_meta( $a, 'foo', 'bar' );
 		$this->assertNotEmpty( bp_activity_add_meta( $a, 'foo', 'baz' ) );
 	}
@@ -630,7 +630,7 @@ Bar!';
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_off() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 
-		$u = $this->factory->user->create( array(
+		$u = self::factory()->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -646,12 +646,12 @@ Bar!';
 	public function test_bp_activity_get_user_mentionname_compatibilitymode_on() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
 
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'user_login' => 'foo.bar.baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -668,7 +668,7 @@ Bar!';
 	public function test_bp_activity_get_userid_from_mentionname_compatibilitymode_off() {
 		add_filter( 'bp_is_username_compatibility_mode', '__return_false' );
 
-		$u = $this->factory->user->create( array(
+		$u = self::factory()->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -685,24 +685,24 @@ Bar!';
 		add_filter( 'bp_is_username_compatibility_mode', '__return_true' );
 
 		// all spaces are hyphens
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'user_login' => 'foo bar baz',
 			'user_nicename' => 'foobarbaz',
 		) );
 
 		// no spaces are hyphens
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'user_login' => 'foo-bar-baz-1',
 			'user_nicename' => 'foobarbaz-1',
 		) );
 
 		// some spaces are hyphens
-		$u3 = $this->factory->user->create( array(
+		$u3 = self::factory()->user->create( array(
 			'user_login' => 'foo bar-baz 2',
 			'user_nicename' => 'foobarbaz-2',
 		) );
 
-		$u4 = $this->factory->user->create( array(
+		$u4 = self::factory()->user->create( array(
 			'user_login' => 'foo.bar.baz',
 			'user_nicename' => 'foo-bar-baz',
 		) );
@@ -720,8 +720,8 @@ Bar!';
 	 * @group bp_activity_format_activity_action_activity_update
 	 */
 	public function test_bp_activity_format_activity_action_activity_update() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_update',
 			'user_id' => $u,
@@ -739,8 +739,8 @@ Bar!';
 	 * @group bp_activity_format_activity_action_activity_comment
 	 */
 	public function test_bp_activity_format_activity_action_activity_comment() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->activity->id,
 			'type' => 'activity_comment',
 			'user_id' => $u,
@@ -772,13 +772,13 @@ Bar!';
 		// Build the actions to fetch the tracking args
 		bp_activity_get_actions();
 
-		$u = $this->factory->user->create();
-		$p = $this->factory->post->create( array(
+		$u = self::factory()->user->create();
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_type'   => 'foo',
 		) );
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component'         => 'activity',
 			'type'              => 'new_foo',
 			'user_id'           => $u,
@@ -810,8 +810,8 @@ Bar!';
 			return;
 		}
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
 
 		switch_to_blog( $b );
 
@@ -824,7 +824,7 @@ Bar!';
 		// Build the actions to fetch the tracking args
 		bp_activity_get_actions();
 
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_type'   => 'foo',
 		) );
@@ -842,7 +842,7 @@ Bar!';
 
 		restore_current_blog();
 
-		$a = $this->factory->activity->create( $activity_args );
+		$a = self::factory()->activity->create( $activity_args );
 
 		$a_obj = new BP_Activity_Activity( $a );
 
@@ -885,13 +885,13 @@ Bar!';
 		// Build the actions to fetch the tracking args
 		bp_activity_get_actions();
 
-		$u = $this->factory->user->create();
-		$p = $this->factory->post->create( array(
+		$u = self::factory()->user->create();
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_type'   => 'foo',
 		) );
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component'         => 'activity',
 			'type'              => 'foo_bar',
 			'user_id'           => $u,
@@ -922,8 +922,8 @@ Bar!';
 			return;
 		}
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
 
 		switch_to_blog( $b );
 
@@ -942,7 +942,7 @@ Bar!';
 		// Build the actions to fetch the tracking args
 		bp_activity_get_actions();
 
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_type'   => 'foo',
 		) );
@@ -959,7 +959,7 @@ Bar!';
 
 		restore_current_blog();
 
-		$a = $this->factory->activity->create( $activity_args );
+		$a = self::factory()->activity->create( $activity_args );
 
 		$a_obj = new BP_Activity_Activity( $a );
 
@@ -989,9 +989,9 @@ Bar!';
 		// Build the actions to fetch the tracking args
 		bp_activity_get_actions();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_status' => 'publish',
 			'post_type'   => 'page',
@@ -1053,14 +1053,14 @@ Bar!';
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_comment() {
 		if ( is_multisite() ) {
-			$b = $this->factory->blog->create();
+			$b = self::factory()->blog->create();
 			switch_to_blog( $b );
 			add_filter( 'comment_flood_filter', '__return_false' );
 		} else {
 			$b = get_current_blog_id();
 		}
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$userdata = get_userdata( $u );
 
 		$labels = array(
@@ -1083,7 +1083,7 @@ Bar!';
 		// Build the actions to fetch the tracking args
 		bp_activity_get_actions();
 
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_type'   => 'foo',
 		) );
@@ -1126,8 +1126,8 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_comment_caches() {
-		$u = $this->factory->user->create();
-		$a1 = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a1 = self::factory()->activity->create( array(
 			'user_id' => $u,
 		) );
 		$a2 = bp_activity_new_comment( array(
@@ -1180,8 +1180,8 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_new_comment_clear_activity_caches() {
-		$u = $this->factory->user->create();
-		$a1 = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a1 = self::factory()->activity->create( array(
 			'user_id' => $u,
 		) );
 		$a2 = bp_activity_new_comment( array(
@@ -1252,9 +1252,9 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_bp_activity_delete_comment_clear_cache() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		// add new activity update and comment to this update
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'user_id' => $u,
 		) );
 		$a2 = bp_activity_new_comment( array(
@@ -1282,10 +1282,10 @@ Bar!';
 	 * @ticket BP7450
 	 */
 	public function test_bp_activity_delete_comment_shouldnt_delete_all_comments_when_parameters_are_empty() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// create an activity update
-		$parent_activity = $this->factory->activity->create( array(
+		$parent_activity = self::factory()->activity->create( array(
 			'type'    => 'activity_update',
 			'user_id' => $u
 		) );
@@ -1329,8 +1329,8 @@ Bar!';
 	 * @group BP5907
 	 */
 	public function test_bp_activity_comment_on_deleted_activity() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create();
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create();
 
 		bp_activity_delete_by_activity_id( $a );
 
@@ -1349,8 +1349,8 @@ Bar!';
 	 * @group bp_activity_add_user_favorite
 	 */
 	public function test_add_user_favorite_already_favorited() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create();
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
 		$current_user = bp_loggedin_user_id();
@@ -1370,8 +1370,8 @@ Bar!';
 	 * @group bp_activity_add_user_favorite
 	 */
 	public function test_add_user_favorite_not_yet_favorited() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create();
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
 		$current_user = bp_loggedin_user_id();
@@ -1386,9 +1386,9 @@ Bar!';
 	 * @group bp_activity_remove_user_favorite
 	 */
 	public function test_remove_user_favorite_bad_activity_id() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$a = $this->factory->activity->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$a = self::factory()->activity->create();
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
 		$current_user = bp_loggedin_user_id();
@@ -1425,7 +1425,7 @@ Bar!';
 	 * @group bp_activity_post_update
 	 */
 	public function test_bp_activity_post_update_success() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		$a = bp_activity_post_update( array(
 			'user_id' => $u,
@@ -1447,7 +1447,7 @@ Bar!';
 			'secondary_item_id' => 44,
 		);
 
-		$a = $this->factory->activity->create( $args );
+		$a = self::factory()->activity->create( $args );
 
 		$this->assertEquals( $a, bp_activity_get_activity_id( $args ) );
 	}
@@ -1464,7 +1464,7 @@ Bar!';
 			'secondary_item_id' => 44,
 		);
 
-		$a = $this->factory->activity->create( $args );
+		$a = self::factory()->activity->create( $args );
 
 		$this->assertTrue( bp_activity_delete_by_item_id( $args ) );
 

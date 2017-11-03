@@ -9,8 +9,8 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 * @group xprofile_field_save
 	 */
 	public function test_can_delete_save() {
-		$group = $this->factory->xprofile_group->create();
-		$field = $this->factory->xprofile_field->create( array(
+		$group = self::factory()->xprofile_group->create();
+		$field = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $group,
 		) );
 
@@ -26,7 +26,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 * @group xprofile_get_field_id_from_name
 	 */
 	public function test_get_id_from_name_field_name_option_value_conflict() {
-		$group = $this->factory->xprofile_group->create();
+		$group = self::factory()->xprofile_group->create();
 
 		// force some checkbox options for our profile field
 		$_POST['checkbox_option'] = array(
@@ -35,14 +35,14 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		);
 
 		// checkbox field
-		$f1 = $this->factory->xprofile_field->create( array(
+		$f1 = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $group,
 			'type' => 'checkbox',
 			'name' => 'Interests'
 		) );
 
 		// textbox field with the same name as our checkbox value
-		$f2 = $this->factory->xprofile_field->create( array(
+		$f2 = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $group,
 			'type' => 'textbox',
 			'name' => 'BuddyPress'
@@ -127,8 +127,8 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	public function test_default_visibility_should_be_lazy_loaded() {
 		global $wpdb;
 
-		$group = $this->factory->xprofile_group->create();
-		$field = $this->factory->xprofile_field->create( array(
+		$group = self::factory()->xprofile_group->create();
+		$field = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $group,
 		) );
 
@@ -154,8 +154,8 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	public function test_allow_custom_visibility_should_be_lazy_loaded() {
 		global $wpdb;
 
-		$group = $this->factory->xprofile_group->create();
-		$field = $this->factory->xprofile_field->create( array(
+		$group = self::factory()->xprofile_group->create();
+		$field = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $group,
 		) );
 
@@ -188,8 +188,8 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 * @ticket BP7112
 	 */
 	public function test_update_position_should_invalidate_cache() {
-		$group = $this->factory->xprofile_group->create();
-		$field = $this->factory->xprofile_field->create( array(
+		$group = self::factory()->xprofile_group->create();
+		$field = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $group,
 		) );
 
@@ -209,9 +209,9 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 * @ticket BP7351
 	 */
 	public function test_empty_datebox_fields_should_not_return_unix_epoch() {
-		$user  = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-		$group = $this->factory->xprofile_group->create();
-		$field = $this->factory->xprofile_field->create( array(
+		$user  = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$group = self::factory()->xprofile_group->create();
+		$field = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $group,
 			'type' => 'datebox',
 		) );

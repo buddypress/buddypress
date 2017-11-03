@@ -29,9 +29,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog',
 			'user_id' => $u,
@@ -54,11 +54,11 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->factory->user->create();
-		$p = $this->factory->post->create( array(
+		$u = self::factory()->user->create();
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 		) );
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_post',
 			'user_id' => $u,
@@ -88,11 +88,11 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->factory->user->create();
-		$p = $this->factory->post->create( array(
+		$u = self::factory()->user->create();
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 		) );
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_post',
 			'user_id' => $u,
@@ -122,17 +122,17 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
 
 		switch_to_blog( $b );
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 		) );
 		$p_obj = get_post( $p );
 		restore_current_blog();
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_post',
 			'user_id' => $u,
@@ -163,21 +163,21 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			return;
 		}
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
 
 		switch_to_blog( $b );
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 		) );
 		$p_obj = get_post( $p );
-		$c = $this->factory->comment->create( array(
+		$c = self::factory()->comment->create( array(
 			'comment_post_ID' => $p,
 		) );
 		$c_obj = get_comment( $c );
 		restore_current_blog();
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_comment',
 			'user_id' => $u,
@@ -208,15 +208,15 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		add_filter( 'bp_blogs_activity_created_blog_action', array( $this, 'created_blog_passthrough' ), 10, 2 );
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
 
 		$recorded_blog          = new BP_Blogs_Blog;
 		$recorded_blog->user_id = $u;
 		$recorded_blog->blog_id = $b;
 		$recorded_blog_id       = $recorded_blog->save();
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog',
 			'user_id' => $u,
@@ -236,14 +236,14 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		add_filter( 'bp_blogs_activity_new_post_action', array( $this, 'new_post_passthrough' ), 10, 2 );
 
-		$b = $this->factory->blog->create();
+		$b = self::factory()->blog->create();
 
 		switch_to_blog( $b );
-		$p = $this->factory->post->create();
+		$p = self::factory()->post->create();
 		restore_current_blog();
 
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_post',
 			'user_id' => $u,
@@ -264,17 +264,17 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		add_filter( 'bp_blogs_activity_new_comment_action', array( $this, 'new_comment_passthrough' ), 10, 2 );
 
-		$b = $this->factory->blog->create();
+		$b = self::factory()->blog->create();
 
 		switch_to_blog( $b );
-		$p = $this->factory->post->create();
-		$c = $this->factory->comment->create( array(
+		$p = self::factory()->post->create();
+		$c = self::factory()->comment->create( array(
 			'comment_post_ID' => $p,
 		) );
 		restore_current_blog();
 
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->blogs->id,
 			'type' => 'new_blog_comment',
 			'user_id' => $u,
@@ -295,9 +295,9 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			unset( $bp->activity->actions );
 		}
 
-		$u = $this->factory->user->create();
-		$p = $this->factory->post->create( array( 'post_author' => $u, ) );
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$p = self::factory()->post->create( array( 'post_author' => $u, ) );
+		$a = self::factory()->activity->create( array(
 			'component'         => buddypress()->blogs->id,
 			'item_id'           => 1,
 			'secondary_item_id' => $p,
@@ -321,7 +321,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		buddypress()->activity->actions = new stdClass();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$p = wp_insert_post( array(
 			'post_author' => $u,
 			'post_title'  => '', // no title: the object of the test
@@ -358,7 +358,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		buddypress()->activity->actions = new stdClass();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$p = wp_insert_post( array(
 			'post_author' => $u,
 			'post_title'  => 'foo',
@@ -408,7 +408,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_sync_add_from_activity_comment() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
@@ -416,7 +416,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test activity comment to post comment',
@@ -456,7 +456,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_sync_delete_from_activity_comment() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
@@ -464,7 +464,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test activity comment to post comment',
@@ -504,7 +504,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_unspam_activity_comment() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
@@ -512,7 +512,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test activity comment to post comment',
@@ -564,7 +564,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_activity_comment_unspam_post_comment() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
@@ -572,7 +572,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test activity comment to post comment',
@@ -622,7 +622,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_trash_comment_ham_activity() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
@@ -630,7 +630,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test activity comment to post comment',
@@ -679,7 +679,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_spammed_activity_comment_should_not_create_post_comment() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
@@ -687,7 +687,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
 		// create the blog post.
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test activity comment to post comment',

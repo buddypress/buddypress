@@ -10,8 +10,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_has_groups
 	 */
 	public function test_bp_has_groups_with_meta_query() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		groups_update_groupmeta( $g1, 'foo', 'bar' );
 
 		global $groups_template;
@@ -36,17 +36,17 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_has_groups_with_order_orderby_with_null_type() {
 		$now = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'AAAAA',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 1000000 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'BBBBB',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $now - 1000000 ),
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 10000 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'name' => 'CCCCC',
 			'date_created' => gmdate( 'Y-m-d H:i:s', $now - 10000 ),
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 10 ),
@@ -72,15 +72,15 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_has_groups_defaults_to_DESC_last_activity_for_default_type_active_backpat() {
 		$now = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'AAAAA',
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'name' => 'BBBBB',
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 1000000 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'name' => 'CCCCC',
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 10000 ),
 		) );
@@ -101,7 +101,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_has_groups
 	 */
 	public function test_bp_has_groups_single_group_with_slug() {
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'name' => 'Test Group',
 			'slug' => 'test-group',
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 100 ),
@@ -123,14 +123,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_bp_has_groups_parent_id() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		global $groups_template;
 		bp_has_groups( array(
@@ -145,14 +145,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_bp_has_groups_parent_id_array() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		global $groups_template;
 		bp_has_groups( array(
@@ -167,14 +167,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_bp_has_groups_parent_id_comma_separated() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		global $groups_template;
 		bp_has_groups( array(
@@ -189,14 +189,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_bp_has_groups_parent_id_null() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		global $groups_template;
 		bp_has_groups( array(
@@ -211,14 +211,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_bp_has_groups_parent_id_top_level_groups() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		global $groups_template;
 		bp_has_groups( array(
@@ -233,14 +233,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group hierarchical_groups
 	 */
 	public function test_bp_has_groups_parent_id_top_level_groups_using_false() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
-		$g4 = $this->factory->group->create();
+		$g4 = self::factory()->group->create();
 
 		global $groups_template;
 		bp_has_groups( array(
@@ -255,9 +255,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_vanilla() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g  = $this->factory->group->create( array(
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g  = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
@@ -283,9 +283,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_backpat_retval_format() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u2 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u2 ) );
 
 		$date_modified = gmdate( 'Y-m-d H:i:s', time() - 100 );
 
@@ -323,11 +323,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_per_page() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		$users = array();
 		for ( $i = 1; $i <= 5; $i++ ) {
-			$users[ $i ] = $this->factory->user->create();
+			$users[ $i ] = self::factory()->user->create();
 		}
 
 		$expected = array();
@@ -361,11 +361,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_max() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		$users = array();
 		for ( $i = 1; $i <= 5; $i++ ) {
-			$users[ $i ] = $this->factory->user->create();
+			$users[ $i ] = self::factory()->user->create();
 		}
 
 		$expected = array();
@@ -387,9 +387,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_exclude() {
-		$g = $this->factory->group->create();
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$g = self::factory()->group->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$this->add_user_to_group( $u1, $g );
 		$this->add_user_to_group( $u2, $g );
@@ -408,10 +408,10 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_exclude_admins_mods_1() {
-		$g = $this->factory->group->create();
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
+		$g = self::factory()->group->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
 
 		$this->add_user_to_group( $u1, $g );
 		$this->add_user_to_group( $u2, $g );
@@ -436,10 +436,10 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_exclude_admins_mods_0() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
-		$g = $this->factory->group->create( array(
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
@@ -470,9 +470,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_exclude_banned_1() {
-		$g = $this->factory->group->create();
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$g = self::factory()->group->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$this->add_user_to_group( $u1, $g );
 		$this->add_user_to_group( $u2, $g );
@@ -494,11 +494,11 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_with_exclude_banned_0() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
@@ -532,17 +532,17 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_group_has_members_default_order() {
 		$now = time();
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60 ),
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 600 ),
 		) );
-		$u3 = $this->factory->user->create( array(
+		$u3 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 6000 ),
 		) );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
@@ -571,21 +571,21 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_group_has_invites_template_structure() {
 		$now = time();
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60 ),
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 600 ),
 		) );
-		$u3 = $this->factory->user->create( array(
+		$u3 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 6000 ),
 		) );
-		$u4 = $this->factory->user->create( array(
+		$u4 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60000 ),
 		) );
 
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
@@ -651,18 +651,18 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group BP_Groups_Invite_Template
 	 */
 	public function test_bp_group_has_invites_pagination() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
 		) );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
 		$users = array();
 		$now = time();
 		for ( $i = 1; $i < 6; $i++ ) {
-			$users[ $i ] = $this->factory->user->create( array(
+			$users[ $i ] = self::factory()->user->create( array(
 				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - $i ),
 			) );
 
@@ -695,18 +695,18 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_group_has_membership_requests_results() {
 		$now = time();
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $now - 60 ),
 		) );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
 		$users = array();
 		$memberships = array();
 		for ( $i = 1; $i < 5; $i++ ) {
-			$users[ $i ] = $this->factory->user->create( array(
+			$users[ $i ] = self::factory()->user->create( array(
 				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - ( 100 - $i ) ),
 			) );
 
@@ -760,17 +760,17 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group BP_Group_Membership_Requests_Template
 	 */
 	public function test_bp_group_has_membership_requests_format() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 60 ),
 		) );
 
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
 		) );
 
 		$time = time();
 
-		$user = $this->factory->user->create( array(
+		$user = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $time ),
 		) );
 
@@ -829,18 +829,18 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_group_is_user_banned_in_groups_loop() {
 		$now = time();
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'creator_id' => $u1,
 			'last_activity' => $now - 100,
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'creator_id' => $u2,
 			'last_activity' => $now - 200,
 		) );
@@ -882,14 +882,14 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 */
 	public function test_bp_group_is_user_banned_not_in_groups_loop() {
 		$now = time();
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
-		$g2 = $this->factory->group->create( array( 'creator_id' => $u2 ) );
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = self::factory()->group->create( array( 'creator_id' => $u2 ) );
 
 		$this->add_user_to_group( $u1, $g2, array(
 			'date_modified' => date( 'Y-m-d H:i:s', $now - 50 ),

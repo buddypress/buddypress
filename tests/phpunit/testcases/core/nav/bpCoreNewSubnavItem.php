@@ -11,7 +11,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 	public function test_user_subnav() {
 		$bp_options_nav = buddypress()->bp_options_nav;
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 

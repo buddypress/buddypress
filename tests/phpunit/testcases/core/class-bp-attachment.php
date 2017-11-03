@@ -223,7 +223,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$displayed_user = $bp->displayed_user;
 		$bp->displayed_user = new stdClass;
 
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		$bp->displayed_user->id = $u1;
 
 		// Upload the file
@@ -273,7 +273,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$reset_post = $_POST;
 		$reset_current_group = $bp->groups->current_group;
 
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		$bp->groups->current_group = groups_get_group( $g );
 
@@ -347,7 +347,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$displayed_user = $bp->displayed_user;
 		$bp->displayed_user = new stdClass;
 
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		$bp->displayed_user->id = $u1;
 
 		// Upload the file

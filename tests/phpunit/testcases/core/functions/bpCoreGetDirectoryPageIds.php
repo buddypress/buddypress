@@ -44,7 +44,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	public function test_bp_core_get_directory_page_ids_on_non_directory_page_delete() {
 		$old_page_ids = bp_core_get_directory_page_ids();
 
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'page',
 		) );
@@ -262,15 +262,15 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		$dir_pages = bp_core_get_directory_pages();
 
 		// create a blog
-		$u = $this->factory->user->create();
-		$b1 = $this->factory->blog->create( array( 'user_id' => $u ) );
+		$u = self::factory()->user->create();
+		$b1 = self::factory()->blog->create( array( 'user_id' => $u ) );
 
 		// switch to blog and create some dummy posts until we reach a post ID that
 		// matches our BP activity page ID
 		switch_to_blog( $b1 );
-		$p = $this->factory->post->create();
+		$p = self::factory()->post->create();
 		while( $p <= $dir_pages->activity->id ) {
-			$p = $this->factory->post->create();
+			$p = self::factory()->post->create();
 		}
 
 		// delete the post that matches the BP activity page ID on this sub-site

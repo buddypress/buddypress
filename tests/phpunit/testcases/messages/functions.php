@@ -10,8 +10,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 * @group counts
 	 */
 	public function test_get_unread_count() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// send a private message
 		$t1 = messages_new_message( array(
@@ -45,7 +45,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 * @group messages_new_message
 	 */
 	public function test_messages_new_message_invalid_recipient_error_message() {
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 
 		// attempt to send a private message to an invalid username
 		$t1 = messages_new_message( array(
@@ -63,8 +63,8 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	 * @group messages_new_message
 	 */
 	public function test_messages_new_message_wp_error_generic() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// Emulate a plugin disabling messages.
 		add_action( 'messages_message_before_save', array( $this, 'remove_recipients_before_save' ) );

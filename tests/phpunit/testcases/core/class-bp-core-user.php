@@ -9,9 +9,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_exclude_querystring() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
 
 		$exclude_qs = $u1 . ',junkstring,' . $u3;
 
@@ -25,9 +25,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_exclude_array() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
 
 		$exclude_array = array(
 			$u1,
@@ -45,13 +45,13 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_include_querystring() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
-		$u3 = $this->factory->user->create( array(
+		$u3 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
 		) );
 
@@ -67,13 +67,13 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_include_array() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 1000 ),
 		) );
-		$u3 = $this->factory->user->create( array(
+		$u3 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s', time() - 50 ),
 		) );
 
@@ -99,10 +99,10 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group type
 	 */
 	public function test_type_alphabetical() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'display_name' => 'foo',
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'display_name' => 'bar',
 		) );
 
@@ -118,10 +118,10 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group get_users_by_letter
 	 */
 	public function test_get_users_by_letter() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'display_name' => 'foo',
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'display_name' => 'bar',
 		) );
 
@@ -135,10 +135,10 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group search_users
 	 */
 	public function test_search_users() {
-		$u1 = $this->factory->user->create( array(
+		$u1 = self::factory()->user->create( array(
 			'display_name' => 'foo',
 		) );
-		$u2 = $this->factory->user->create( array(
+		$u2 = self::factory()->user->create( array(
 			'display_name' => 'bar',
 		) );
 
@@ -149,9 +149,9 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_get_specific_users() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
 
 		$include_array = array(
 			$u1,
@@ -169,7 +169,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group last_activity
 	 */
 	public function test_get_last_activity() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
 
 		BP_Core_User::update_last_activity( $u, $time );
@@ -185,7 +185,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_get_last_activity_store_in_cache() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
 
 		// Cache is set during user creation. Clear to reflect actual
@@ -203,8 +203,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_get_last_activity_store_in_cache_multiple_users() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$time = bp_core_current_time();
 
 		// Cache is set during user creation. Clear to reflect actual
@@ -224,7 +224,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_get_last_activity_from_cache_single_user() {
-		$u    = $this->factory->user->create();
+		$u    = self::factory()->user->create();
 		$time = bp_core_current_time();
 
 		BP_Core_User::update_last_activity( $u, $time );
@@ -247,8 +247,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_get_last_activity_in_cache_multiple_users() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$time = bp_core_current_time();
 
 		BP_Core_User::update_last_activity( $u1, $time );
@@ -272,7 +272,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group last_activity
 	 */
 	public function test_update_last_activity() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
 		$time2 = '1968-12-25 01:23:45';
 
@@ -291,7 +291,7 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @group last_activity
 	 */
 	public function test_delete_last_activity() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$time = bp_core_current_time();
 
 		BP_Core_User::update_last_activity( $u, $time );

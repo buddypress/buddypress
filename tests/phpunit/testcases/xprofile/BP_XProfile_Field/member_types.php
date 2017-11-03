@@ -15,8 +15,8 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 
-		$this->field_group_id = $this->factory->xprofile_group->create();
-		$this->field_id = $this->factory->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
+		$this->field_group_id = self::factory()->xprofile_group->create();
+		$this->field_id = self::factory()->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
 		$this->field = new BP_XProfile_Field( $this->field_id );
 	}
 
@@ -119,7 +119,7 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 	}
 
 	public function test_passing_member_type_any_to_get_fields_for_member_type_should_return_unrestricted_fields() {
-		$f2 = $this->factory->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
+		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
 
 		$field_2 = new BP_XProfile_Field( $f2 );
 		$field_2->set_member_types( array( 'foo' ) );
@@ -129,7 +129,7 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 	}
 
 	public function test_passing_empty_member_type_to_get_fields_for_member_type_should_return_unrestricted_fields() {
-		$f2 = $this->factory->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
+		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
 
 		$field_2 = new BP_XProfile_Field( $f2 );
 		$field_2->set_member_types( array( 'foo' ) );
@@ -145,7 +145,7 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 	}
 
 	public function test_get_fields_for_member_type_should_accept_an_array_of_member_types() {
-		$f2 = $this->factory->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
+		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $this->field_group_id ) );
 		bp_xprofile_add_meta( $this->field_id, 'field', 'member_type', 'foo' );
 		bp_xprofile_add_meta( $f2, 'field', 'member_type', 'bar' );
 

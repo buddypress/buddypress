@@ -10,10 +10,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_construct_cache() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -34,11 +34,11 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group order
 	 */
 	public function test_construct_order_desc() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create thread
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -46,7 +46,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$m1 = $message_1->id;
 
 		// create reply
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id' => $message_1->thread_id,
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
@@ -68,16 +68,16 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group get_current_threads_for_user
 	 */
 	public function test_get_current_threads_for_user_with_search_terms_inbox() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Bar',
@@ -98,16 +98,16 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group get_current_threads_for_user
 	 */
 	public function test_get_current_threads_for_user_with_search_terms_sentbox() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Bar',
@@ -130,16 +130,16 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Messages_Thread::get_current_threads_for_user
 	 */
 	public function test_get_current_threads_for_user_with_old_args() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
 		) );
 
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Bar',
@@ -160,10 +160,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	public function test_get_recipients_should_cache_its_values() {
 		global $wpdb;
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -186,10 +186,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	public function test_get_recipients_cache_should_be_busted_when_thread_message_is_sent() {
 		global $wpdb;
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -224,10 +224,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	public function test_get_recipients_cache_should_be_busted_when_single_thread_is_deleted() {
 		global $wpdb;
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -256,10 +256,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	public function test_get_recipients_cache_should_be_busted_when_array_of_threads_is_deleted() {
 		global $wpdb;
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -288,10 +288,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	public function test_get_recipients_cache_should_be_busted_when_thread_is_read() {
 		global $wpdb;
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -325,10 +325,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	public function test_get_recipients_cache_should_be_busted_when_thread_is_unread() {
 		global $wpdb;
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -359,10 +359,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group check_access
 	 */
 	public function test_check_access_valid_thread() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -389,10 +389,10 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group is_valid
 	 */
 	public function test_is_valid_valid_thread() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -414,12 +414,12 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group last_message
 	 */
 	public function test_last_message_populated() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$date = bp_core_current_time();
 
-		$message = $this->factory->message->create_and_get( array(
+		$message = self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',

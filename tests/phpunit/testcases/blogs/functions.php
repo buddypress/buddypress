@@ -288,11 +288,11 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		}
 
 		// Create a regular member
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// Create blogs
-		$b1 = $this->factory->blog->create( array( 'user_id' => $u ) );
-		$b2 = $this->factory->blog->create( array( 'user_id' => $u ) );
+		$b1 = self::factory()->blog->create( array( 'user_id' => $u ) );
+		$b2 = self::factory()->blog->create( array( 'user_id' => $u ) );
 
 		$expected = array(
 			$b1 => $b1,
@@ -322,7 +322,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_publish_to_publish() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'post',
 		) );
@@ -343,7 +343,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_password_publish() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
 			'post_type'     => 'post',
 			'post_password' => 'pass',
@@ -358,7 +358,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_publish_update_password() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
 			'post_type'     => 'post',
 		) );
@@ -379,7 +379,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_private_publish() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'private',
 			'post_type'     => 'post',
 		) );
@@ -400,7 +400,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_publish_private() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
 			'post_type'     => 'post',
 		) );
@@ -421,7 +421,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_draft_to_draft() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'draft',
 			'post_type' => 'post',
 		) );
@@ -441,7 +441,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_draft_to_publish() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'draft',
 			'post_type' => 'post',
 		) );
@@ -461,7 +461,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_publish_to_draft() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'post',
 		) );
@@ -481,7 +481,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_wp_delete_post() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'post',
 		) );
@@ -498,7 +498,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group bp_blogs_catch_transition_post_status
 	 */
 	public function test_transition_post_status_wp_trash_post() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'post',
 		) );
@@ -518,12 +518,12 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_update_blog_post_and_new_blog_comment_and_activity_comment_meta() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'post',
 			'post_title' => 'First title',
@@ -603,12 +603,12 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_bp_blogs_remove_comment_should_remove_spammed_activity_comment() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'post',
 			'post_title' => 'First title',
@@ -665,12 +665,12 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_post_type_remove_comment() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// create the blog post
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type' => 'post',
 			'post_title' => 'First title',
@@ -707,7 +707,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_bp_blogs_is_blog_trackable_false_publish_post() {
 		add_filter( 'bp_blogs_is_blog_trackable', '__return_false' );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
 			'post_type'     => 'post',
 		) );
@@ -736,7 +736,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		add_filter( 'bp_is_blog_public', '__return_zero' );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status'   => 'publish',
 			'post_type'     => 'post',
 		) );
@@ -763,7 +763,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_bp_blogs_record_comment_no_duplicate_activity_comments() {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$userdata = get_userdata( $u );
 		$this->activity_saved_comment_count = 0;
@@ -776,7 +776,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		add_action( 'edit_comment', array( $this, 'count_post_comment_saved' ) );
 
 		// create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 			'post_title'  => 'Test Duplicate activity comments',
@@ -827,7 +827,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_bp_blogs_record_comment_should_record_parent_blog_post_activity_if_not_found() {
 		// Save the current user and override logged-in user
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Get user details
@@ -837,7 +837,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
 		// Create the blog post
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'post',
 		) );
@@ -886,14 +886,14 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_comment_sync_activity_comment_for_custom_post_type() {
 		if ( is_multisite() ) {
-			$b = $this->factory->blog->create();
+			$b = self::factory()->blog->create();
 			switch_to_blog( $b );
 			add_filter( 'comment_flood_filter', '__return_false' );
 		} else {
 			$b = get_current_blog_id();
 		}
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$userdata = get_userdata( $u );
 
 		$labels = array(
@@ -915,7 +915,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_type'   => 'foo',
 		) );
@@ -994,11 +994,11 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Create three sites.
-		$this->factory->blog->create_many( 3, array(
+		self::factory()->blog->create_many( 3, array(
 			'user_id' => $u
 		) );
 
@@ -1030,11 +1030,11 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		// Simulate a new "BuddyPress generated" blog
 		$_POST['blog_public'] = 1;
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Create three sites.
-		$b = $this->factory->blog->create( array(
+		$b = self::factory()->blog->create( array(
 			'user_id' => $u
 		) );
 
@@ -1077,15 +1077,15 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		// Simulate a new "BuddyPress generated" blog
 		$_POST['blog_public'] = 1;
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Create three sites.
-		$b = $this->factory->blog->create( array(
+		$b = self::factory()->blog->create( array(
 			'user_id' => $u
 		) );
 
-		$u2 = $this->factory->user->create();
+		$u2 = self::factory()->user->create();
 		add_user_to_blog( $b, $u2, 'contributor' );
 
 		$u2_blogs = BP_Blogs_Blog::get_blog_ids_for_user( $u2 );

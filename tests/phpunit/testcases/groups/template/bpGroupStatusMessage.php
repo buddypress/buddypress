@@ -30,8 +30,8 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 	 * @group BP6319
 	 */
 	public function test_private_group_where_logged_in_user_has_not_requested_membership_but_has_been_invited() {
-		$users = $this->factory->user->create_many( 2 );
-		$g = $this->factory->group->create( array( 'status' => 'private' ) );
+		$users = self::factory()->user->create_many( 2 );
+		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
 		$this->set_current_user( $users[0] );
 
@@ -56,8 +56,8 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 	 * @group BP6319
 	 */
 	public function test_private_group_where_logged_in_user_has_not_requested_membership_and_has_not_been_invited() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'status' => 'private' ) );
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
 		$this->set_current_user( $u );
 
@@ -76,7 +76,7 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 	 * @group BP6319
 	 */
 	public function test_private_group_visited_by_a_non_logged_in_user() {
-		$g = $this->factory->group->create( array( 'status' => 'private' ) );
+		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
 		if ( bp_has_groups( array( 'include' => array( $g ) ) ) ) {
 			while ( bp_groups() ) {
@@ -93,8 +93,8 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 	 * @group BP6319
 	 */
 	public function test_private_group_where_loggedin_user_has_requested_membership() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'status' => 'private' ) );
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
 		$this->set_current_user( $u );
 
@@ -115,8 +115,8 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 	 * @group BP6319
 	 */
 	public function test_hidden_group() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'status' => 'hidden' ) );
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'hidden' ) );
 
 		$this->set_current_user( $u );
 
@@ -132,8 +132,8 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 	 * @group BP6319
 	 */
 	public function test_group_parameter_should_be_obeyed() {
-		$u = $this->factory->user->create();
-		$groups = $this->factory->group->create_many( 2, array( 'status' => 'private' ) );
+		$u = self::factory()->user->create();
+		$groups = self::factory()->group->create_many( 2, array( 'status' => 'private' ) );
 
 		$this->set_current_user( $u );
 

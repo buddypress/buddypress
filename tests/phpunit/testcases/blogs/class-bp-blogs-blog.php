@@ -12,9 +12,9 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
-		$b = $this->factory->blog->create( array(
+		$b = self::factory()->blog->create( array(
 			'title' => 'The Foo Bar Blog',
 			'user_id' => $u,
 		) );
@@ -39,9 +39,9 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
-		$b = $this->factory->blog->create( array(
+		$b = self::factory()->blog->create( array(
 			'title' => 'The Foo Bar Blog',
 			'domain' => __METHOD__,
 			'user_id' => $u,
@@ -66,9 +66,9 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
-		$b = $this->factory->blog->create( array(
+		$b = self::factory()->blog->create( array(
 			'title' => 'The Foo Bar Blog',
 			'user_id' => $u,
 			'path' => '/path' . rand() . time() . '/',
@@ -94,9 +94,9 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
-		$b = $this->factory->blog->create( array(
+		$b = self::factory()->blog->create( array(
 			'title' => 'Foo Bar Blog',
 			'user_id' => $u,
 			'path' => '/path' . rand() . time() . '/',
@@ -122,15 +122,15 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$bs = array(
-			'foobar' => $this->factory->blog->create( array(
+			'foobar' => self::factory()->blog->create( array(
 				'title' => 'Foo Bar Blog',
 				'user_id' => $u,
 				'path' => '/path' . rand() . time() . '/',
 			) ),
-			'barfoo' => $this->factory->blog->create( array(
+			'barfoo' => self::factory()->blog->create( array(
 				'title' => 'Bar foo Blog',
 				'user_id' => $u,
 				'path' => '/path' . rand() . time() . '/',

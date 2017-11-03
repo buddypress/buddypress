@@ -8,12 +8,12 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_null_component_name() {
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 		) );
@@ -52,12 +52,12 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5300
 	 */
 	public function test_get_total_count_null_component_name() {
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 		) );
@@ -94,16 +94,16 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @ticket BP5300
 	 */
 	public function test_get_total_count_with_component_name() {
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 		) );
-		$n3 = $this->factory->notification->create( array(
+		$n3 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 		) );
@@ -122,18 +122,18 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_order_by_date() {
 		$now = time();
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'friends',
 			'user_id' => $u,
 			'date_notified' => date( 'Y-m-d H:i:s', $now - 500 ),
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 			'date_notified' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$n3 = $this->factory->notification->create( array(
+		$n3 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'date_notified' => date( 'Y-m-d H:i:s', $now - 1000 ),
@@ -155,18 +155,18 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @group is_new
 	 */
 	public function test_is_new_true() {
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'friends',
 			'user_id' => $u,
 			'is_new' => false,
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 			'is_new' => true,
 		) );
-		$n3 = $this->factory->notification->create( array(
+		$n3 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'is_new' => true,
@@ -187,18 +187,18 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @group is_new
 	 */
 	public function test_is_new_false() {
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'friends',
 			'user_id' => $u,
 			'is_new' => false,
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 			'is_new' => true,
 		) );
-		$n3 = $this->factory->notification->create( array(
+		$n3 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'is_new' => true,
@@ -219,18 +219,18 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @group is_new
 	 */
 	public function test_is_new_both() {
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'friends',
 			'user_id' => $u,
 			'is_new' => false,
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 			'is_new' => true,
 		) );
-		$n3 = $this->factory->notification->create( array(
+		$n3 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'is_new' => true,
@@ -252,18 +252,18 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @group search_terms
 	 */
 	public function test_get_with_search_terms() {
-		$u = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'friends',
 			'user_id' => $u,
 			'is_new' => false,
 		) );
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id' => $u,
 			'is_new' => true,
 		) );
-		$n3 = $this->factory->notification->create( array(
+		$n3 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'is_new' => true,
@@ -285,11 +285,11 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 	 * @group BP6229
 	 */
 	public function test_get_paged_sql() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		$notifications = array();
 		for ( $i = 1; $i <= 6; $i++ ) {
-			$notifications[] = $this->factory->notification->create( array(
+			$notifications[] = self::factory()->notification->create( array(
 				'component_name' => 'activity',
 				'secondary_item_id' => $i,
 				'user_id' => $u,

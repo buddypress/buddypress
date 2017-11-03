@@ -10,8 +10,8 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
 		}
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
 
 		$this->set_current_user( $u );
 
@@ -32,8 +32,8 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
 		}
 
-		$b = $this->factory->blog->create();
-		$u = $this->factory->user->create();
+		$b = self::factory()->blog->create();
+		$u = self::factory()->user->create();
 
 		$this->set_current_user( $u );
 

@@ -45,7 +45,7 @@ class BP_Core_Nav_BackCompat extends BP_UnitTestCase {
 	 * Create a group, set up nav item, and go to the group.
 	 */
 	protected function set_up_group() {
-		$g = $this->factory->group->create( array(
+		$g = self::factory()->group->create( array(
 			'slug' => 'testgroup',
 		) );
 

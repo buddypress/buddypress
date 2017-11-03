@@ -72,7 +72,7 @@ class BP_Tests_Core_Nav_BpCoreRemoveSubnavItem extends BP_UnitTestCase {
 	}
 
 	public function test_backcompat_remove_group_nav_items() {
-		$g1 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
 
 		// In group context
 		$g_obj = groups_get_group( $g1 );

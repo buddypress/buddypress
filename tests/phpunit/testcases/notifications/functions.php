@@ -9,13 +9,13 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_cache_invalidation_all_for_user_on_save() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id'        => $u
 		) );
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id'        => $u,
 			'item_id'        => 1
@@ -28,7 +28,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$this->assertEquals( 2, $count, 'Cache count should be 2 before invalidation.' );
 
 		// Trigger invalidation via save
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id'        => $u,
 			'item_id'        => 2
@@ -41,12 +41,12 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_cache_invalidation_all_for_user_on_delete() {
-		$u  = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u  = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id'        => $u
 		) );
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id'        => $u
 		) );
@@ -67,13 +67,13 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_cache_invalidation_all_for_user_on_update_user_id() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id'        => $u
 		) );
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id'        => $u
 		) );
@@ -97,13 +97,13 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_cache_invalidation_all_for_user_on_update_id() {
-		$u  = $this->factory->user->create();
-		$n1 = $this->factory->notification->create( array(
+		$u  = self::factory()->user->create();
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id'        => $u
 		) );
 
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id'        => $u
 		) );
@@ -127,14 +127,14 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group bp_notifications_update_meta_cache
 	 */
 	public function test_bp_notifications_update_meta_cache() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
-		$n1 = $this->factory->notification->create( array(
+		$n1 = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id'        => $u
 		) );
 
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id'        => $u
 		) );
@@ -189,7 +189,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 			'component_action'  => 'new_message'
 		);
 
-		$this->factory->notification->create( $args );
+		self::factory()->notification->create( $args );
 
 		$this->assertFalse( bp_notifications_add_notification( $args ) );
 	}
@@ -206,7 +206,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 			'component_action'  => 'new_message'
 		);
 
-		$this->factory->notification->create( $args );
+		self::factory()->notification->create( $args );
 
 		$args['allow_duplicate'] = true;
 
@@ -218,10 +218,10 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_bp_notifications_get_unread_notification_count_cache() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name'    => 'messages',
 			'component_action'  => 'new_message',
 			'item_id'           => 99,
@@ -247,11 +247,11 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @group bp_has_notifications
 	 */
 	public function test_bp_has_notifications_filtering() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create a mixture of different notifications
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name'    => 'messages',
 			'component_action'  => 'new_message',
 			'item_id'           => 99,
@@ -260,7 +260,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 			'is_new'            => true
 		) );
 
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name'    => 'activity',
 			'component_action'  => 'new_at_mention',
 			'item_id'           => 99,
@@ -269,7 +269,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 			'is_new'            => true
 		) );
 
-		$this->factory->notification->create( array(
+		self::factory()->notification->create( array(
 			'component_name'    => 'activity',
 			'component_action'  => 'new_at_mention',
 			'item_id'           => 100,
@@ -293,36 +293,36 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @ticket BP6681
 	 */
 	public function test_bp_notifications_delete_notifications_on_user_delete_should_delete_all_notifications() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// Create notifications
-		$n1 = $this->factory->notification->create( array(
+		$n1 = self::factory()->notification->create( array(
 			'component_name'    => 'messages',
 			'component_action'  => 'new_message',
 			'item_id'           => 99,
 			'user_id'           => $u,
 		) );
 
-		$n2 = $this->factory->notification->create( array(
+		$n2 = self::factory()->notification->create( array(
 			'component_name'    => 'activity',
 			'component_action'  => 'new_at_mention',
 			'item_id'           => 99,
 			'user_id'           => $u,
 		) );
 
-		$n3 = $this->factory->notification->create( array(
+		$n3 = self::factory()->notification->create( array(
 			'component_name' => 'groups',
 			'user_id'        => $u,
 		) );
 
-		$n4 = $this->factory->notification->create( array(
+		$n4 = self::factory()->notification->create( array(
 			'component_name'   => 'friends',
 			'component_action' => 'friendship_request',
 			'user_id'          => $u,
 		) );
 
 		// Create notification for non-core component
-		$n5 = $this->factory->notification->create( array(
+		$n5 = self::factory()->notification->create( array(
 			'component_name'    => 'foo',
 			'component_action'  => 'bar',
 			'item_id'           => 99,
@@ -354,9 +354,9 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	 * @ticket BP7141
 	 */
 	public function test_notification_callback_parameter_integrity() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
-		$n = $this->factory->notification->create( array(
+		$n = self::factory()->notification->create( array(
 			'component_name'    => 'activity',
 			'component_action'  => 'new_at_mention',
 			'item_id'           => 99,

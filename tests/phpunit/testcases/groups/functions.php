@@ -6,10 +6,10 @@
  */
 class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	public function test_creating_new_group_as_authenticated_user() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
 
-		$this->factory->group->create();
+		self::factory()->group->create();
 	}
 
 	/**
@@ -17,9 +17,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_join_group
 	 */
 	public function test_total_group_count_groups_join_group() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		groups_join_group( $g, $u2 );
 		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
@@ -30,10 +30,10 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_leave_group
 	 */
 	public function test_total_group_count_groups_leave_group() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
-		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u2 );
 		groups_join_group( $g2, $u2 );
 
@@ -48,10 +48,10 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_ban_member
 	 */
 	public function test_total_group_count_groups_ban_member() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
-		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u2 );
 		groups_join_group( $g2, $u2 );
 
@@ -69,10 +69,10 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_unban_member
 	 */
 	public function test_total_group_count_groups_unban_member() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
-		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u2 );
 		groups_join_group( $g2, $u2 );
 
@@ -92,9 +92,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_accept_invite
 	 */
 	public function test_total_group_count_groups_accept_invite() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g = self::factory()->group->create();
 		groups_invite_user( array(
 			'user_id' => $u1,
 			'group_id' => $g,
@@ -111,13 +111,13 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_accept_membership_request
 	 */
 	public function test_total_group_count_groups_accept_membership_request() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$current_user = bp_loggedin_user_id();
 		$this->set_current_user( $u2 );
 
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_send_membership_request( $u1, $g );
 
 		groups_accept_membership_request( 0, $u1, $g );
@@ -132,10 +132,10 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_remove_member
 	 */
 	public function test_total_group_count_groups_remove_member() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
-		$g2 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+		$g2 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u2 );
 		groups_join_group( $g2, $u2 );
 
@@ -153,9 +153,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_join_group
 	 */
 	public function test_total_member_count_groups_join_group() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		groups_join_group( $g, $u2 );
 		$this->assertEquals( 2, groups_get_groupmeta( $g, 'total_member_count' ) );
@@ -166,8 +166,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_leave_group
 	 */
 	public function test_total_member_count_groups_leave_group() {
-		$u1 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u1 );
 
 		groups_leave_group( $g1, $u1 );
@@ -179,9 +179,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_ban_member
 	 */
 	public function test_total_member_count_groups_ban_member() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u2 );
 
 		// Fool the admin check
@@ -198,9 +198,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_unban_member
 	 */
 	public function test_total_member_count_groups_unban_member() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u2 );
 
 		// Fool the admin check
@@ -219,9 +219,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_accept_invite
 	 */
 	public function test_total_member_count_groups_accept_invite() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_invite_user( array(
 			'user_id' => $u1,
 			'group_id' => $g,
@@ -238,9 +238,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_accept_membership_request
 	 */
 	public function test_total_member_count_groups_accept_membership_request() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		groups_send_membership_request( $u2, $g );
 		groups_accept_membership_request( 0, $u2, $g );
@@ -253,9 +253,9 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_remove_member
 	 */
 	public function test_total_member_count_groups_remove_member() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g1 = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 		groups_join_group( $g1, $u2 );
 
 		// Fool the admin check
@@ -272,7 +272,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_create_group
 	 */
 	public function test_total_member_count_groups_create_group() {
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		$g = groups_create_group( array(
 			'creator_id' => $u1,
 			'name' => 'Boone Is Handsome',
@@ -290,7 +290,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @group groups_create_group
 	 */
 	public function test_groups_create_group_dont_delete_description_for_existing_group_when_no_description_is_passed() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		$group_before = groups_get_group( $g );
 		groups_create_group( array(
@@ -307,7 +307,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 * @ticket BP5180
 	 */
 	public function test_groups_update_groupmeta_with_line_breaks() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		$meta_value = 'Foo!
 
 Bar!';
@@ -327,7 +327,7 @@ Bar!';
 	 * @group groupmeta
 	 */
 	public function test_groups_update_groupmeta_stripslashes() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		$value = "This string is totally slashin\'!";
 		groups_update_groupmeta( $g, 'foo', $value );
 
@@ -338,7 +338,7 @@ Bar!';
 	 * @group groupmeta
 	 */
 	public function test_groups_update_groupmeta_new() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be empty for this group.' );
 		$this->assertNotEmpty( groups_update_groupmeta( $g, 'foo', 'bar' ) );
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) );
@@ -348,7 +348,7 @@ Bar!';
 	 * @group groupmeta
 	 */
 	public function test_groups_update_groupmeta_existing() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be set already for this group.' );
 		$this->assertTrue( groups_update_groupmeta( $g, 'foo', 'baz' ) );
@@ -359,7 +359,7 @@ Bar!';
 	 * @group groupmeta
 	 */
 	public function test_groups_update_groupmeta_existing_same_value() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ), '"foo" meta should be set already for this group.' );
 		$this->assertFalse( groups_update_groupmeta( $g, 'foo', 'bar' ) );
@@ -371,7 +371,7 @@ Bar!';
 	 * @group groups_update_groupmeta
 	 */
 	public function test_groups_update_groupmeta_prev_value() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 
 		// In earlier versions of WordPress, bp_activity_update_meta()
@@ -392,7 +392,7 @@ Bar!';
 	 * @ticket BP5399
 	 */
 	public function test_groups_get_groupmeta_with_illegal_key_characters() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
@@ -403,7 +403,7 @@ Bar!';
 	 * @group groupmeta
 	 */
 	public function test_groups_get_groupmeta_all_metas() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_update_groupmeta( $g, 'foo', 'bar' );
 		groups_update_groupmeta( $g, 'Boone', 'is cool' );
 
@@ -429,7 +429,7 @@ Bar!';
 	 * @group groupmeta
 	 */
 	public function test_groups_get_groupmeta_all_metas_empty() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		// Get rid of any auto-created values
 		global $wpdb;
@@ -446,7 +446,7 @@ Bar!';
 	 * @group groupmeta
 	 */
 	public function test_groups_get_groupmeta_empty() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		$this->assertSame( '', groups_get_groupmeta( $g, 'foo' ) );
 	}
 
@@ -455,7 +455,7 @@ Bar!';
 	 * @group groups_get_groupmeta
 	 */
 	public function test_bp_activity_get_meta_single_true() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		groups_add_groupmeta( $g, 'foo', 'baz' );
 		$this->assertSame( 'bar', groups_get_groupmeta( $g, 'foo' ) ); // default is true
@@ -467,7 +467,7 @@ Bar!';
 	 * @group groups_get_groupmeta
 	 */
 	public function test_bp_activity_get_meta_single_false() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		groups_add_groupmeta( $g, 'foo', 'baz' );
 		$this->assertSame( array( 'bar', 'baz' ), groups_get_groupmeta( $g, 'foo', false ) );
@@ -479,7 +479,7 @@ Bar!';
 	 * @group cache
 	 */
 	public function test_groups_get_groupmeta_cache_all_on_get() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		groups_add_groupmeta( $g, 'foo1', 'baz' );
 		$this->assertFalse( wp_cache_get( $g, 'group_meta' ) );
@@ -504,7 +504,7 @@ Bar!';
 	 * @ticket BP5399
 	 */
 	public function test_groups_delete_groupmeta_with_illegal_key_characters() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		$this->assertNotEmpty( groups_update_groupmeta( $g, 'foo', 'bar' ), 'Value of "foo" should be set at this point.' );
 
 		$krazy_key = ' f!@#$%^o *(){}o?+';
@@ -519,7 +519,7 @@ Bar!';
 	public function test_groups_delete_groupmeta_with_no_meta_key_when_group_has_metadata() {
 		global $wpdb;
 
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		$m = groups_get_groupmeta( $g );
 		foreach ( $m as $mk => $mv ) {
 			groups_delete_groupmeta( $g, $mk );
@@ -536,8 +536,8 @@ Bar!';
 	public function test_groups_delete_groupmeta_with_delete_all_but_no_meta_key() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		groups_add_groupmeta( $g1, 'foo', 'bar' );
 		groups_add_groupmeta( $g1, 'foo1', 'bar1' );
 		groups_add_groupmeta( $g2, 'foo', 'bar' );
@@ -556,8 +556,8 @@ Bar!';
 	public function test_groups_delete_groupmeta_with_delete_all() {
 		// With no meta key, don't delete for all items - just delete
 		// all for a single item
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
 		groups_add_groupmeta( $g1, 'foo', 'bar' );
 		groups_add_groupmeta( $g1, 'foo1', 'bar1' );
 		groups_add_groupmeta( $g2, 'foo', 'bar' );
@@ -591,7 +591,7 @@ Bar!';
 	 * @group groups_add_groupmeta
 	 */
 	public function test_groups_add_groupmeta_existing_unique() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		$this->assertFalse( groups_add_groupmeta( $g, 'foo', 'baz', true ) );
 	}
@@ -601,7 +601,7 @@ Bar!';
 	 * @group groups_add_groupmeta
 	 */
 	public function test_groups_add_groupmeta_existing_not_unique() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 		groups_add_groupmeta( $g, 'foo', 'bar' );
 		$this->assertNotEmpty( groups_add_groupmeta( $g, 'foo', 'baz' ) );
 	}
@@ -610,9 +610,9 @@ Bar!';
 	 * @group counts
 	 */
 	public function test_get_invite_count_for_user() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		// create invitation
 		groups_invite_user( array(
@@ -639,8 +639,8 @@ Bar!';
 	 * @group hierarchical_groups
 	 */
 	public function test_update_orphaned_groups_on_group_delete_top_level() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
 
@@ -654,11 +654,11 @@ Bar!';
 	 * @group hierarchical_groups
 	 */
 	public function test_update_orphaned_groups_on_group_delete_two_levels() {
-		$g1 = $this->factory->group->create();
-		$g2 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create( array(
 			'parent_id' => $g1,
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'parent_id' => $g2,
 		) );
 
@@ -673,7 +673,7 @@ Bar!';
  	 * @ticket BP7302
 	 */
 	public function test_groups_get_group_accept_integer() {
-		$g1 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
 		$group = groups_get_group( $g1 );
 
 		$this->assertEquals( $g1, $group->id );
@@ -684,7 +684,7 @@ Bar!';
  	 * @ticket BP7302
 	 */
 	public function test_groups_get_group_accept_numeric() {
-		$g1 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
 		$group = groups_get_group( (string) $g1 );
 
 		$this->assertEquals( $g1, $group->id );
@@ -695,7 +695,7 @@ Bar!';
  	 * @ticket BP7302
 	 */
 	public function test_groups_get_group_accept_array() {
-		$g1 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
 		$group = groups_get_group( array( 'group_id' => $g1 ) );
 
 		$this->assertEquals( $g1, $group->id );
@@ -706,7 +706,7 @@ Bar!';
  	 * @ticket BP7302
 	 */
 	public function test_groups_get_group_accept_query_string() {
-		$g1 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
 		$group = groups_get_group( 'group_id=' . $g1 );
 
 		$this->assertEquals( $g1, $group->id );
@@ -717,7 +717,7 @@ Bar!';
 	 * @group groups_edit_base_group_details
 	 */
 	public function test_groups_edit_base_group_details_test_backcompat_arguments() {
-		$g1 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
 		$name = 'Great Scott';
 		$description = 'A must-see in time for the holidays!';
 		groups_edit_base_group_details( $g1, $name, $description, false );
@@ -741,7 +741,7 @@ Bar!';
 	 * @group groups_edit_base_group_details
 	 */
 	public function test_groups_edit_base_group_details_test_new_arguments() {
-		$g1 = $this->factory->group->create();
+		$g1 = self::factory()->group->create();
 		$name = 'Great Scott';
 		$slug = 'what-about-it';
 		$description = 'A must-see in time for the holidays!';
@@ -775,8 +775,8 @@ Bar!';
 	 */
 	public function test_groups_edit_base_group_details_avoid_slug_collisions() {
 		$slug = 'circe';
-		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
-		$g2 = $this->factory->group->create( array( 'slug' => 'loom' ) );
+		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
+		$g2 = self::factory()->group->create( array( 'slug' => 'loom' ) );
 
 		// Attempt to use a duplicate slug.
 		groups_edit_base_group_details( array(
@@ -794,7 +794,7 @@ Bar!';
 	 */
 	public function test_groups_edit_base_group_details_slug_no_change() {
 		$slug = 'circe';
-		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
 
 		// Make sure the slug doesn't get incremented when there's no change.
 		groups_edit_base_group_details( array(
@@ -812,7 +812,7 @@ Bar!';
 	 */
 	public function test_groups_edit_base_group_details_slug_null_value() {
 		$slug = 'circe';
-		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
+		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
 
 		// Make sure the slug doesn't get changed when null is passed.
 		groups_edit_base_group_details( array(
@@ -830,8 +830,8 @@ Bar!';
 	 */
 	public function test_groups_get_id_by_previous_slug() {
 		$slug = 'circe';
-		$g1 = $this->factory->group->create( array( 'slug' => $slug ) );
-		$g2 = $this->factory->group->create( array( 'slug' => 'loom' ) );
+		$g1 = self::factory()->group->create( array( 'slug' => $slug ) );
+		$g2 = self::factory()->group->create( array( 'slug' => 'loom' ) );
 
 		groups_edit_base_group_details( array(
 			'group_id'       => $g1,

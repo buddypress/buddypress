@@ -10,7 +10,7 @@ class BP_Tests_Routing_Settings extends BP_UnitTestCase {
 		parent::setUp();
 
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
+		$this->set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 	}
 
 	public function tearDown() {

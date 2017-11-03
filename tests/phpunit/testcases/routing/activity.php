@@ -10,7 +10,7 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 		parent::setUp();
 
 		$this->old_current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create( array( 'role' => 'subscriber' ) ) );
+		$this->set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 	}
 
 	public function tearDown() {
@@ -27,8 +27,8 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 	 * Can't test using bp_activity_get_permalink(); see bp_activity_action_permalink_router().
 	 */
 	function test_activity_permalink() {
-		$a = $this->factory->activity->create();
-		$activity = $this->factory->activity->get_object_by_id( $a );
+		$a = self::factory()->activity->create();
+		$activity = self::factory()->activity->get_object_by_id( $a );
 
 		$url = bp_core_get_user_domain( $activity->user_id ) . bp_get_activity_slug() . '/' . $activity->id . '/';
 		$this->go_to( $url );

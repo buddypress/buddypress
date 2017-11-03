@@ -101,9 +101,9 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_offset() {
-		$s1 = $this->factory->signup->create();
-		$s2 = $this->factory->signup->create();
-		$s3 = $this->factory->signup->create();
+		$s1 = self::factory()->signup->create();
+		$s2 = self::factory()->signup->create();
+		$s3 = self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'offset' => 1,
@@ -116,9 +116,9 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_number() {
-		$s1 = $this->factory->signup->create();
-		$s2 = $this->factory->signup->create();
-		$s3 = $this->factory->signup->create();
+		$s1 = self::factory()->signup->create();
+		$s2 = self::factory()->signup->create();
+		$s3 = self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'number' => 2,
@@ -131,11 +131,11 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_usersearch() {
-		$s1 = $this->factory->signup->create( array(
+		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
 		) );
-		$s2 = $this->factory->signup->create();
-		$s3 = $this->factory->signup->create();
+		$s2 = self::factory()->signup->create();
+		$s3 = self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'usersearch' => 'ghi',
@@ -148,13 +148,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_orderby_email() {
-		$s1 = $this->factory->signup->create( array(
+		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
 		) );
-		$s2 = $this->factory->signup->create( array(
+		$s2 = self::factory()->signup->create( array(
 			'user_email' => 'abcde@example.com',
 		) );
-		$s3 = $this->factory->signup->create( array(
+		$s3 = self::factory()->signup->create( array(
 			'user_email' => 'zzzzz@example.com',
 		) );
 
@@ -171,13 +171,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_orderby_email_asc() {
-		$s1 = $this->factory->signup->create( array(
+		$s1 = self::factory()->signup->create( array(
 			'user_email' => 'fghij@example.com',
 		) );
-		$s2 = $this->factory->signup->create( array(
+		$s2 = self::factory()->signup->create( array(
 			'user_email' => 'abcde@example.com',
 		) );
-		$s3 = $this->factory->signup->create( array(
+		$s3 = self::factory()->signup->create( array(
 			'user_email' => 'zzzzz@example.com',
 		) );
 
@@ -194,9 +194,9 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_include() {
-		$s1 = $this->factory->signup->create();
-		$s2 = $this->factory->signup->create();
-		$s3 = $this->factory->signup->create();
+		$s1 = self::factory()->signup->create();
+		$s2 = self::factory()->signup->create();
+		$s3 = self::factory()->signup->create();
 
 		$ss = BP_Signup::get( array(
 			'include' => array( $s1, $s3 ),
@@ -209,13 +209,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_activation_key() {
-		$s1 = $this->factory->signup->create( array(
+		$s1 = self::factory()->signup->create( array(
 			'activation_key' => 'foo',
 		) );
-		$s2 = $this->factory->signup->create( array(
+		$s2 = self::factory()->signup->create( array(
 			'activation_key' => 'bar',
 		) );
-		$s3 = $this->factory->signup->create( array(
+		$s3 = self::factory()->signup->create( array(
 			'activation_key' => 'baz',
 		) );
 
@@ -230,13 +230,13 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_user_login() {
-		$s1 = $this->factory->signup->create( array(
+		$s1 = self::factory()->signup->create( array(
 			'user_login' => 'aaaafoo',
 		) );
-		$s2 = $this->factory->signup->create( array(
+		$s2 = self::factory()->signup->create( array(
 			'user_login' => 'zzzzfoo',
 		) );
-		$s3 = $this->factory->signup->create( array(
+		$s3 = self::factory()->signup->create( array(
 			'user_login' => 'jjjjfoo',
 		) );
 
@@ -253,19 +253,19 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	public function test_activate_user_accounts() {
 		$signups = array();
 
-		$signups['accountone'] = $this->factory->signup->create( array(
+		$signups['accountone'] = self::factory()->signup->create( array(
 			'user_login'     => 'accountone',
 			'user_email'     => 'accountone@example.com',
 			'activation_key' => 'activationkeyone',
 		) );
 
-		$signups['accounttwo'] = $this->factory->signup->create( array(
+		$signups['accounttwo'] = self::factory()->signup->create( array(
 			'user_login'     => 'accounttwo',
 			'user_email'     => 'accounttwo@example.com',
 			'activation_key' => 'activationkeytwo',
 		) );
 
-		$signups['accountthree'] = $this->factory->signup->create( array(
+		$signups['accountthree'] = self::factory()->signup->create( array(
 			'user_login'     => 'accountthree',
 			'user_email'     => 'accountthree@example.com',
 			'activation_key' => 'activationkeythree',
@@ -296,7 +296,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$signups = array();
 
 		// Can't trust this first signup :(
-		$signups['testpath1'] = $this->factory->signup->create( array(
+		$signups['testpath1'] = self::factory()->signup->create( array(
 			'user_login'     => 'testpath1',
 			'user_email'     => 'blogone@example.com',
 			'domain'         => '',
@@ -305,7 +305,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'activation_key' => 'activationkeyblogone',
 		) );
 
-		$signups['blogtwo'] = $this->factory->signup->create( array(
+		$signups['blogtwo'] = self::factory()->signup->create( array(
 			'user_login'     => 'blogtwo',
 			'user_email'     => 'blogtwo@example.com',
 			'domain'         => $current_site->domain,
@@ -314,7 +314,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'activation_key' => 'activationkeyblogtwo',
 		) );
 
-		$signups['blogthree'] = $this->factory->signup->create( array(
+		$signups['blogthree'] = self::factory()->signup->create( array(
 			'user_login'     => 'blogthree',
 			'user_email'     => 'blogthree@example.com',
 			'domain'         => '',
@@ -323,7 +323,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'activation_key' => 'activationkeyblogthree',
 		) );
 
-		$signups['blogfour'] = $this->factory->signup->create( array(
+		$signups['blogfour'] = self::factory()->signup->create( array(
 			'user_login'     => 'blogfour',
 			'user_email'     => 'blogfour@example.com',
 			'domain'         => $current_site->domain,

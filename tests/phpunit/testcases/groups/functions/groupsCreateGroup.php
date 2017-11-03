@@ -53,7 +53,7 @@ class BP_Tests_Groups_Functions_GroupsCreateGroup extends BP_UnitTestCase {
 	 * @ticket BP7619
 	 */
 	public function test_creator_id_should_be_fall_back_to_existing_creator_id_for_existing_group() {
-		$group_id = $this->factory->group->create( array(
+		$group_id = self::factory()->group->create( array(
 			'creator_id' => self::$user_id + 1,
 		) );
 

@@ -53,7 +53,7 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	}
 
 	public function test_user_has_access_false_user_logged_in_my_profile() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -72,8 +72,8 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	}
 
 	public function test_user_has_access_false_user_logged_in_others_profile_default_component_accessible() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u1 );
 
@@ -107,8 +107,8 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	}
 
 	public function test_user_has_access_false_user_logged_in_others_profile_default_component_not_accessible() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u1 );
 
@@ -143,8 +143,8 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	}
 
 	public function test_user_has_access_false_user_logged_in_group() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
@@ -167,8 +167,8 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 	}
 
 	public function test_user_has_access_false_user_logged_in_group_no_redirect_url_provided() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 

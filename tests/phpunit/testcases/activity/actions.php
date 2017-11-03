@@ -15,7 +15,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 			'supports' => array( 'buddypress-activity' ),
 		) );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'foo',
 		) );
@@ -39,7 +39,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 			'supports' => array( 'buddypress-activity' ),
 		) );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'foo',
 		) );
@@ -57,7 +57,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 	 * @group activity_tracking
 	 */
 	public function test_bp_activity_catch_transition_post_type_status_publish_existing_post() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		$labels = array(
 			'bp_activity_admin_filter' => 'New Foo',
@@ -84,7 +84,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		remove_action( 'transition_post_status', 'bp_activity_catch_transition_post_type_status', 10 );
 
 		// Create the initial post.
-		$p = $this->factory->post->create( array(
+		$p = self::factory()->post->create( array(
 			'post_author' => $u,
 			'post_type'   => 'foo',
 		) );
@@ -118,7 +118,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 			'supports' => array( 'buddypress-activity' ),
 		) );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'foo',
 		) );
@@ -150,7 +150,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 			'supports' => array( 'buddypress-activity' ),
 		) );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'foo',
 		) );

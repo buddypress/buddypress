@@ -106,14 +106,14 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_set_type_success() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 
 		$this->assertNotEmpty( bp_groups_set_group_type( $g, 'foo' ) );
 	}
 
 	public function test_groups_set_type_should_remove_type_when_passing_an_empty_value() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_set_group_type( $g, 'foo' );
 
@@ -125,7 +125,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_get_type_with_default_value_for_single() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g, 'foo' );
@@ -135,7 +135,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_get_type_with_single_true() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g, 'foo' );
@@ -145,7 +145,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_get_type_with_single_false() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g, 'foo' );
@@ -155,7 +155,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_get_type_should_return_false_when_no_value_is_found() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 
 		$this->assertFalse( bp_groups_get_group_type( $g ) );
@@ -170,7 +170,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_remove_type_should_return_false_when_group_is_not_of_provided_type() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g, 'foo' );
@@ -180,7 +180,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function tests_groups_remove_type_should_return_true_on_successful_deletion() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g, 'foo' );
@@ -205,7 +205,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_has_type_should_return_false_when_group_is_not_of_provided_type() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g, 'foo' );
@@ -214,7 +214,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_has_type_should_return_true_on_success() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 		bp_groups_set_group_type( $g, 'foo' );
@@ -228,7 +228,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	 * @group cache
 	 */
 	public function test_groups_get_type_should_hit_cache() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_set_group_type( $g, 'foo' );
 
@@ -253,7 +253,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_groups_get_type_should_not_return_unregistered_types() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_set_group_type( $g, 'foo' );
 
@@ -290,7 +290,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_groups_set_group_type_should_remove_types_when_passing_an_empty_value() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_set_group_type( $g, 'foo' );
 
@@ -302,7 +302,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_groups_set_group_type_should_set_multiple_types_when_passing_array_of_types() {
-		$g = $this->factory->group->create( array( 'creator_id' => self::$u1 ) );
+		$g = self::factory()->group->create( array( 'creator_id' => self::$u1 ) );
 		bp_groups_register_group_type( 'foo' );
 		bp_groups_register_group_type( 'bar' );
 

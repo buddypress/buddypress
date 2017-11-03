@@ -20,11 +20,11 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	public function test_friends_format_notifications_bp_messages_multiple_new_message_notification_nonstring_filter() {
 		// Dummy thread ID
 		$t = 12;
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Admin
-		$n = $this->factory->notification->create( array(
+		$n = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'item_id' => $t,
@@ -44,11 +44,11 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	public function test_friends_format_notifications_bp_messages_single_new_message_notification_nonstring_filter() {
 		// Dummy thread ID
 		$t = 12;
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Admin
-		$n = $this->factory->notification->create( array(
+		$n = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'item_id' => $t,
@@ -68,11 +68,11 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	public function test_friends_format_notifications_bp_messages_multiple_new_message_notification_string_filter() {
 		// Dummy thread ID
 		$t = 12;
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Admin
-		$n = $this->factory->notification->create( array(
+		$n = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'item_id' => $t,
@@ -92,11 +92,11 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	public function test_friends_format_notifications_bp_messages_single_new_message_notification_string_filter() {
 		// Dummy thread ID
 		$t = 12;
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
 		// Admin
-		$n = $this->factory->notification->create( array(
+		$n = self::factory()->notification->create( array(
 			'component_name' => 'messages',
 			'user_id' => $u,
 			'item_id' => $t,
@@ -118,8 +118,8 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			$this->markTestSkipped( __METHOD__ . ' requires the Messages component.' );
 		}
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		$t1 = messages_new_message( array(
 			'sender_id'  => $u1,

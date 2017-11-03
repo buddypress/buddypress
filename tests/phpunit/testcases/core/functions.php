@@ -700,7 +700,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$expected_upload_dir = wp_upload_dir();
 
 		if ( is_multisite() ) {
-			$b = $this->factory->blog->create();
+			$b = self::factory()->blog->create();
 			switch_to_blog( $b );
 		}
 

@@ -12,7 +12,7 @@ class BP_Tests_Members_Template_BpGetMemberClass extends BP_UnitTestCase {
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		bp_set_member_type( $u, 'bar' );
 
 		if ( bp_has_members( array( 'include' => array( $u ) ) ) ) {

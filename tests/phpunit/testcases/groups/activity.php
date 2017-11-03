@@ -10,9 +10,9 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 * @group bp_groups_format_activity_action_created_group
 	 */
 	public function test_bp_groups_format_activity_action_created_group() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->groups->id,
 			'type' => 'created_group',
 			'user_id' => $u,
@@ -32,9 +32,9 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 * @group bp_groups_format_activity_action_joined_group
 	 */
 	public function test_bp_groups_format_activity_action_joined_group() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->groups->id,
 			'type' => 'joined_group',
 			'user_id' => $u,
@@ -54,7 +54,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 * @group bp_groups_format_activity_action_group_details_updated
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_no_change() {
-		$group = $this->factory->group->create_and_get();
+		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
 				'group_id'       => $group->id,
 				'name'           => $group->name,
@@ -77,7 +77,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 * @group bp_groups_format_activity_action_group_details_updated
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_notify_members_false() {
-		$group = $this->factory->group->create_and_get();
+		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
 			'group_id'       => $group->id,
 			'name'           => 'Foo',
@@ -101,10 +101,10 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_name() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
-		$group = $this->factory->group->create_and_get();
+		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
 			'group_id'       => $group->id,
 			'name'           => 'Foo',
@@ -133,10 +133,10 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_description() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
-		$group = $this->factory->group->create_and_get();
+		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
 			'group_id'       => $group->id,
 			'name'           => $group->name,
@@ -165,10 +165,10 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_slug() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
-		$group = $this->factory->group->create_and_get();
+		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
 			'group_id'       => $group->id,
 			'name'           => $group->name,
@@ -198,10 +198,10 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_name_and_description() {
 		$old_user = get_current_user_id();
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 
-		$group = $this->factory->group->create_and_get();
+		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
 			'group_id'       => $group->id,
 			'name'           => 'Foo',

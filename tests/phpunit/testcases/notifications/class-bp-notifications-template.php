@@ -11,11 +11,11 @@ class BP_Tests_Notifications_BPNotificationsTemplate extends BP_UnitTestCase {
 	 * @group BP6229
 	 */
 	public function test_pagination_params_in_url_should_be_passed_to_query() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		$notifications = array();
 		for ( $i = 1; $i <= 6; $i++ ) {
-			$notifications[] = $this->factory->notification->create( array(
+			$notifications[] = self::factory()->notification->create( array(
 				'component_name' => 'activity',
 				'secondary_item_id' => $i,
 				'user_id' => $u,

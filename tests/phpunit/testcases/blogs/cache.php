@@ -13,8 +13,8 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			return;
 		}
 
-		$b1 = $this->factory->blog->create();
-		$b2 = $this->factory->blog->create();
+		$b1 = self::factory()->blog->create();
+		$b2 = self::factory()->blog->create();
 
 		bp_blogs_add_blogmeta( $b1, 'foo', 'bar' );
 		bp_blogs_add_blogmeta( $b1, 'foo2', 'bar2' );
@@ -94,14 +94,14 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// Switch user so we have access to non-public blogs
 		$old_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$b1 = $this->factory->blog->create();
-		$b2 = $this->factory->blog->create();
+		$b1 = self::factory()->blog->create();
+		$b2 = self::factory()->blog->create();
 
 		bp_blogs_record_blog( $b1, $u, true );
 		bp_blogs_record_blog( $b2, $u, true );
@@ -188,14 +188,14 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// Switch user so we have access to non-public blogs
 		$old_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$b1 = $this->factory->blog->create();
-		$b2 = $this->factory->blog->create();
+		$b1 = self::factory()->blog->create();
+		$b2 = self::factory()->blog->create();
 
 		bp_blogs_record_blog( $b1, $u, true );
 		bp_blogs_record_blog( $b2, $u, true );
@@ -263,15 +263,15 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// need to make sure we set the 'public' flag due to how BP_Blogs_Blogs:get_all() works
-		$b1 = $this->factory->blog->create( array(
+		$b1 = self::factory()->blog->create( array(
 			'meta' => array(
 				'public' => 1
 			)
 		) );
-		$b2 = $this->factory->blog->create( array(
+		$b2 = self::factory()->blog->create( array(
 			'meta' => array(
 				'public' => 1
 			)
@@ -297,9 +297,9 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			return;
 		}
 
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
-		$b1 = $this->factory->blog->create();
+		$b1 = self::factory()->blog->create();
 		bp_blogs_record_blog( $b1, $u, true );
 
 		// prime cache

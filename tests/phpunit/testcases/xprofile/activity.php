@@ -40,7 +40,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$prev_time = date( 'Y-m-d H:i:s', $time - ( 119 * 60 ) );
 		$now_time = date( 'Y-m-d H:i:s', $time );
 
-		$this->factory->activity->create( array(
+		self::factory()->activity->create( array(
 			'user_id' => $d['u'],
 			'component' => buddypress()->profile->id,
 			'type' => 'updated_profile',
@@ -74,7 +74,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		$prev_time = date( 'Y-m-d H:i:s', $time - ( 121 * 60 ) );
 		$now_time = date( 'Y-m-d H:i:s', $time );
 
-		$this->factory->activity->create( array(
+		self::factory()->activity->create( array(
 			'user_id' => $d['u'],
 			'component' => buddypress()->profile->id,
 			'type' => 'updated_profile',
@@ -277,8 +277,8 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	 * @group bp_xprofile_format_activity_action_new_avatar
 	 */
 	public function test_bp_xprofile_format_activity_action_new_avatar() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => 'profile',
 			'type' => 'new_avatar',
 			'user_id' => $u,
@@ -296,8 +296,8 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	 * @group bp_xprofile_format_activity_action_updated_profile
 	 */
 	public function test_bp_xprofile_format_activity_action_updated_profile() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->profile->id,
 			'type' => 'updated_profile',
 			'user_id' => $u,
@@ -311,9 +311,9 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 	}
 
 	protected function setup_updated_profile_data() {
-		$this->updated_profile_data['u'] = $this->factory->user->create();
-		$this->updated_profile_data['g'] = $this->factory->xprofile_group->create();
-		$this->updated_profile_data['f'] = $this->factory->xprofile_field->create( array(
+		$this->updated_profile_data['u'] = self::factory()->user->create();
+		$this->updated_profile_data['g'] = self::factory()->xprofile_group->create();
+		$this->updated_profile_data['f'] = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $this->updated_profile_data['g'],
 		) );
 

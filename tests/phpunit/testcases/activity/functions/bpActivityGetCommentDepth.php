@@ -9,10 +9,10 @@ class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestC
 	 * @ticket BP7329
 	 */
 	public function test_depth_inside_activity_comment_loop() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// create an activity update
-		$parent_activity = $this->factory->activity->create( array(
+		$parent_activity = self::factory()->activity->create( array(
 			'type'    => 'activity_update',
 			'user_id' => $u
 		) );
@@ -76,10 +76,10 @@ class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestC
 	 * @ticket BP7329
 	 */
 	public function test_depth_outside_of_activity_comment_loop() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		// create an activity update
-		$parent_activity = $this->factory->activity->create( array(
+		$parent_activity = self::factory()->activity->create( array(
 			'type'    => 'activity_update',
 			'user_id' => $u
 		) );

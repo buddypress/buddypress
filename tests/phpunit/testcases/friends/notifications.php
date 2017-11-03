@@ -11,9 +11,9 @@ class BP_Tests_Friends_Notifications extends BP_UnitTestcase {
 	public function setUp() {
 		parent::setUp();
 		$this->current_user = get_current_user_id();
-		$this->set_current_user( $this->factory->user->create() );
+		$this->set_current_user( self::factory()->user->create() );
 
-		$this->friend = $this->factory->user->create();
+		$this->friend = self::factory()->user->create();
 		$this->filter_fired = '';
 	}
 

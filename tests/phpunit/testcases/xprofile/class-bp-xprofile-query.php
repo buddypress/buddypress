@@ -58,7 +58,7 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 
 	public function test_translate_field_name_to_field_id() {
 		$this->create_fields( 0 );
-		$f = $this->factory->xprofile_field->create( array(
+		$f = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $this->group,
 			'type' => 'textbox',
 			'name' => 'Foo Field',
@@ -627,9 +627,9 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 	/** Helpers **********************************************************/
 
 	protected function create_fields( $count ) {
-		$this->group = $this->factory->xprofile_group->create();
+		$this->group = self::factory()->xprofile_group->create();
 		for ( $i = 0; $i < $count; $i++ ) {
-			$this->fields[] = $this->factory->xprofile_field->create( array(
+			$this->fields[] = self::factory()->xprofile_field->create( array(
 				'field_group_id' => $this->group,
 				'type' => 'textbox',
 			) );
@@ -638,7 +638,7 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 
 	protected function create_users( $count ) {
 		for ( $i = 0; $i < $count; $i++ ) {
-			$this->users[] = $this->factory->user->create();
+			$this->users[] = self::factory()->user->create();
 		}
 	}
 }

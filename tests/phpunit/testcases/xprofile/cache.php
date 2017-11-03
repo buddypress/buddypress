@@ -9,9 +9,9 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @group bp_xprofile_update_meta_cache
 	 */
 	public function test_bp_xprofile_update_meta_cache() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->xprofile_group->create();
-		$f = $this->factory->xprofile_field->create( array(
+		$u = self::factory()->user->create();
+		$g = self::factory()->xprofile_group->create();
+		$f = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 		) );
 
@@ -63,9 +63,9 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @group bp_has_profile
 	 */
 	public function test_bp_has_profile_meta_cache() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->xprofile_group->create();
-		$f = $this->factory->xprofile_field->create( array(
+		$u = self::factory()->user->create();
+		$g = self::factory()->xprofile_group->create();
+		$f = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 		) );
 
@@ -116,9 +116,9 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @group bp_has_profile
 	 */
 	public function test_bp_has_profile_meta_cache_update_meta_cache_false() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->xprofile_group->create();
-		$f = $this->factory->xprofile_field->create( array(
+		$u = self::factory()->user->create();
+		$g = self::factory()->xprofile_group->create();
+		$f = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 		) );
 
@@ -149,8 +149,8 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @ticket BP6638
 	 */
 	public function test_field_cache_should_be_invalidated_on_save() {
-		$g = $this->factory->xprofile_group->create();
-		$f = $this->factory->xprofile_field->create( array(
+		$g = self::factory()->xprofile_group->create();
+		$f = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 			'name' => 'Foo',
 		) );
@@ -171,8 +171,8 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	public function test_get_field_id_from_name_should_be_cached() {
 		global $wpdb;
 
-		$g = $this->factory->xprofile_group->create();
-		$f = $this->factory->xprofile_field->create( array(
+		$g = self::factory()->xprofile_group->create();
+		$f = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 			'name' => 'Foo',
 		) );
@@ -190,12 +190,12 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @ticket BP7407
 	 */
 	public function test_get_field_id_from_name_cache_should_be_invalidated_on_field_update() {
-		$g = $this->factory->xprofile_group->create();
-		$f1 = $this->factory->xprofile_field->create( array(
+		$g = self::factory()->xprofile_group->create();
+		$f1 = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 			'name' => 'Foo',
 		) );
-		$f2 = $this->factory->xprofile_field->create( array(
+		$f2 = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 			'name' => 'Bar',
 		) );
@@ -221,8 +221,8 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 	 * @ticket BP7407
 	 */
 	public function test_get_field_id_from_name_cache_should_be_invalidated_on_field_deletion() {
-		$g = $this->factory->xprofile_group->create();
-		$f = $this->factory->xprofile_field->create( array(
+		$g = self::factory()->xprofile_group->create();
+		$f = self::factory()->xprofile_field->create( array(
 			'field_group_id' => $g,
 			'name' => 'Foo',
 		) );

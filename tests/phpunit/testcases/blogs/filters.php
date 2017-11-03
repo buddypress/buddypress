@@ -45,7 +45,7 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	 * @goup bp_activity_catch_transition_post_type_status
 	 */
 	public function test_bp_activity_catch_transition_post_type_status() {
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'using_old_filter',
 		) );
@@ -58,23 +58,23 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_record_comment() {
-		$u = $this->factory->user->create();
-		$user = $this->factory->user->get_object_by_id( $u );
+		$u = self::factory()->user->create();
+		$user = self::factory()->user->get_object_by_id( $u );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'using_old_filter',
 			'post_author' => $u,
 		) );
 
-		$comment_id = $this->factory->comment->create( array(
+		$comment_id = self::factory()->comment->create( array(
 			'user_id'              => $u,
 			'comment_author_email' => $user->user_email,
 			'comment_post_ID'      => $post_id,
 		) );
 
 		// Approve the comment
-		$this->factory->comment->update_object( $comment_id, array( 'comment_approved' => 1 ) );
+		self::factory()->comment->update_object( $comment_id, array( 'comment_approved' => 1 ) );
 
 		$this->assertTrue( $this->activity_exists_for_post_type( get_current_blog_id(), $comment_id, 'new_blog_comment' ), 'Generated activity for comments about a post type registering using the bp_blogs_record_post_post_types filter should have a new_blog_comment action' );
 	}
@@ -84,12 +84,12 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_record_comment_sync_activity_comment() {
-		$u = $this->factory->user->create();
-		$user = $this->factory->user->get_object_by_id( $u );
+		$u = self::factory()->user->create();
+		$user = self::factory()->user->get_object_by_id( $u );
 
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
-		$post_id = $this->factory->post->create( array(
+		$post_id = self::factory()->post->create( array(
 			'post_status' => 'publish',
 			'post_type'   => 'using_old_filter',
 			'post_author' => $u,
@@ -102,14 +102,14 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 			'secondary_item_id' => $post_id
 		) );
 
-		$comment_id = $this->factory->comment->create( array(
+		$comment_id = self::factory()->comment->create( array(
 			'user_id'              => $u,
 			'comment_author_email' => $user->user_email,
 			'comment_post_ID'      => $post_id,
 		) );
 
 		// Approve the comment
-		$this->factory->comment->update_object( $comment_id, array( 'comment_approved' => 1 ) );
+		self::factory()->comment->update_object( $comment_id, array( 'comment_approved' => 1 ) );
 
 		$this->assertTrue( $this->activity_exists_for_post_type( $parent_activity_id, '', 'activity_comment', 'stream' ), 'Generated activity for comments about a post type registering using the bp_blogs_record_post_post_types filter having sync on should have a activity_comment action' );
 

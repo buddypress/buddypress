@@ -9,7 +9,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_check_exists_by_content() {
 		$content  = 'A classy girl who know how to enjoy the freedom of a cup of coffee';
-		$activity = $this->factory->activity->create( array(
+		$activity = self::factory()->activity->create( array(
 			'content' => $content,
 			'type'    => 'activity_update',
 		) );
@@ -22,11 +22,11 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group delete_activity_item_comments
 	 */
 	public function test_delete_activity_item_comments() {
-		$parent_activity = $this->factory->activity->create( array(
+		$parent_activity = self::factory()->activity->create( array(
 			'type' => 'activity_update',
 		) );
 
-		$comments = $this->factory->activity->create_many( 3, array(
+		$comments = self::factory()->activity->create_many( 3, array(
 			'item_id' => $parent_activity,
 			'type'    => 'activity_comment',
 		) );
@@ -43,7 +43,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group activitymeta
 	 */
 	public function test_delete_activity_meta_entries() {
-		$activity = $this->factory->activity->create( array(
+		$activity = self::factory()->activity->create( array(
 			'type' => 'activity_update',
 		) );
 
@@ -60,7 +60,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @ticket BP6426
 	 */
 	public function test_get_with_fields_parameter_by_id() {
-		$a = $this->factory->activity->create_many( 3, array(
+		$a = self::factory()->activity->create_many( 3, array(
 			'type' => 'activity_update',
 		) );
 
@@ -74,7 +74,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_hide_all_for_user() {
-		$activity = $this->factory->activity->create( array(
+		$activity = self::factory()->activity->create( array(
 			'type' => 'activity_update',
 		) );
 
@@ -92,8 +92,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group meta_query
 	 */
 	public function test_get_with_meta_query() {
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create();
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create();
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
 
 		$activity = BP_Activity_Activity::get( array(
@@ -113,13 +113,13 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_with_meta_query_two_clauses_with_or_relation() {
 		$now = time();
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 60 ),
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 120 ),
 		) );
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
@@ -156,11 +156,11 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			return;
 		}
 
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create( array(
 			'recorded_time' => '2001-01-01 12:00'
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'recorded_time' => '2005-01-01 12:00'
 		) );
 
@@ -187,11 +187,11 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			return;
 		}
 
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create( array(
 			'recorded_time' => '2001-01-01 12:00'
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'recorded_time' => '2005-01-01 12:00'
 		) );
 
@@ -220,11 +220,11 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			return;
 		}
 
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create( array(
 			'recorded_time' => '2001-01-01 12:00'
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'recorded_time' => '2005-01-01 12:00'
 		) );
 
@@ -241,10 +241,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_search_terms() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'content' => 'Boone is a cool guy',
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'content' => 'No he isn\'t',
 		) );
 
@@ -259,15 +259,15 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get
 	 */
 	public function test_get_with_display_comments_threaded() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
 		$now = time();
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'user_id' => $u,
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'user_id' => $u,
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
@@ -302,11 +302,11 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_with_display_comments_stream() {
 		$now = time();
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
@@ -335,11 +335,11 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_with_display_comments_false() {
 		$now = time();
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
@@ -361,15 +361,15 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_with_offset() {
 		$now = time();
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 10 ),
 		) );
@@ -388,15 +388,15 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_with_since() {
 		$now = time();
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'content' => 'Life Drools',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 10 ),
 		) );
@@ -415,8 +415,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group count_total
 	 */
 	public function test_get_with_count_total() {
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create();
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create();
 
 		$activity = BP_Activity_Activity::get( array(
 			'count_total' => 'count_query',
@@ -430,8 +430,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group count_total
 	 */
 	public function test_get_with_count_total_false() {
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create();
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create();
 
 		$activity = BP_Activity_Activity::get( array(
 			'count_total' => false,
@@ -445,8 +445,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group count_total
 	 */
 	public function test_get_with_count_total_default_to_false() {
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create();
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create();
 
 		$activity = BP_Activity_Activity::get();
 
@@ -457,10 +457,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get_id
 	 */
 	public function test_get_id_with_item_id() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'item_id' => 523,
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'item_id' => 1888,
 		) );
 
@@ -472,10 +472,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get_id
 	 */
 	public function test_get_id_with_secondary_item_id() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'secondary_item_id' => 523,
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'secondary_content' => 1888,
 		) );
 
@@ -487,10 +487,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group delete
 	 */
 	public function test_delete_with_item_id() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'item_id' => 523,
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'item_id' => 1888,
 		) );
 
@@ -504,10 +504,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group delete
 	 */
 	public function test_delete_with_secondary_item_id() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'secondary_item_id' => 523,
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'secondary_item_id' => 1888,
 		) );
 
@@ -526,10 +526,10 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	public function test_get_activity_comments_format() {
 		$now = time();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'content' => 'Life Rules',
 			'recorded_time' => date( 'Y-m-d H:i:s', $now ),
 			'user_id' => $u1,
@@ -601,13 +601,13 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_get_last_updated() {
 		$now = time();
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 500 ),
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'recorded_time' => date( 'Y-m-d H:i:s', $now - 300 ),
 		) );
 
@@ -618,15 +618,15 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get_recorded_components
 	 */
 	public function test_get_recorded_components_skip_last_activity_false() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
 			'action' => 'last_activity',
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'component' => 'groups',
 			'action' => 'created_group',
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'component' => 'friends',
 			'action' => 'friendship_accepted',
 		) );
@@ -641,15 +641,15 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get_recorded_components
 	 */
 	public function test_get_recorded_components_skip_last_activity_true_filter_empty_component() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
 			'action' => 'last_activity',
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'component' => 'groups',
 			'action' => 'created_group',
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'component' => 'friends',
 			'action' => 'friendship_accepted',
 		) );
@@ -664,19 +664,19 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get_recorded_components
 	 */
 	public function test_get_recorded_components_skip_last_activity_true_members_component_not_empty() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
 			'action' => 'last_activity',
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'component' => 'groups',
 			'action' => 'created_group',
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'component' => 'friends',
 			'action' => 'friendship_accepted',
 		) );
-		$a4 = $this->factory->activity->create( array(
+		$a4 = self::factory()->activity->create( array(
 			'component' => 'members',
 			'action' => 'foo',
 		) );
@@ -691,19 +691,19 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @group get_recorded_components
 	 */
 	public function test_get_recorded_components_skip_last_activity_true_la_in_multiple_components() {
-		$a1 = $this->factory->activity->create( array(
+		$a1 = self::factory()->activity->create( array(
 			'component' => 'members',
 			'action' => 'last_activity',
 		) );
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'component' => 'groups',
 			'action' => 'created_group',
 		) );
-		$a3 = $this->factory->activity->create( array(
+		$a3 = self::factory()->activity->create( array(
 			'component' => 'friends',
 			'action' => 'friendship_accepted',
 		) );
-		$a4 = $this->factory->activity->create( array(
+		$a4 = self::factory()->activity->create( array(
 			'component' => 'groups',
 			'action' => 'last_activity',
 		) );
@@ -725,7 +725,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		);
 
 		// Create the activity item with a manual activity string
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => 'foo',
 			'type' => 'bar',
 			'action' => 'baz',
@@ -743,7 +743,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		// No callback is registered - this mimics a legacy plugin
 
 		// Create the activity item with a manual activity string
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => 'foo',
 			'type' => 'bar1',
 			'action' => 'baz',
@@ -761,7 +761,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 		// No callback is registered - this mimics a legacy plugin
 
 		// Create the activity item with a manual activity string
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => 'foo',
 			'type' => 'bar2',
 		) );
@@ -775,7 +775,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 * @ticket BP7394
 	 */
 	public function test_nonexistent_activity_should_have_id_0_after_population() {
-		$a = $this->factory->activity->create();
+		$a = self::factory()->activity->create();
 		bp_activity_delete_by_activity_id( $a );
 
 		$a_obj = new BP_Activity_Activity( $a );

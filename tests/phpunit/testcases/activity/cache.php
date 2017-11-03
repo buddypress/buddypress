@@ -9,8 +9,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	 * @group bp_activity_update_meta_cache
 	 */
 	public function test_bp_activity_update_meta_cache() {
-		$a1 = $this->factory->activity->create();
-		$a2 = $this->factory->activity->create();
+		$a1 = self::factory()->activity->create();
+		$a2 = self::factory()->activity->create();
 
 		// Set up some data
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
@@ -58,9 +58,9 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	 * @group bp_activity_clear_cache_for_activity
 	 */
 	public function test_bp_activity_clear_cache_for_activity() {
-		$u = $this->factory->user->create();
+		$u = self::factory()->user->create();
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
 			'user_id'       => $u,
@@ -91,8 +91,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_should_be_cached() {
 		global $wpdb;
 
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
 			'user_id'       => $u,
@@ -122,8 +122,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_cache_should_be_skipped_for_different_query_params() {
 		global $wpdb;
 
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
 			'user_id'       => $u,
@@ -161,8 +161,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_cache_should_be_invalidated_by_activity_add() {
 		global $wpdb;
 
-		$u = $this->factory->user->create();
-		$a1 = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a1 = self::factory()->activity->create( array(
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
 			'user_id'       => $u,
@@ -178,7 +178,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		$q1 = bp_activity_get( $activity_args );
 
 		// Bust the cache.
-		$a2 = $this->factory->activity->create( array(
+		$a2 = self::factory()->activity->create( array(
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
 			'user_id'       => $u,
@@ -203,8 +203,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_cache_should_be_invalidated_by_activity_edit() {
 		global $wpdb;
 
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
 			'user_id'       => $u,
@@ -220,7 +220,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		$q1 = bp_activity_get( $activity_args );
 
 		// Bust the cache.
-		$this->factory->activity->create( array(
+		self::factory()->activity->create( array(
 			'id'            => $a,
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
@@ -243,8 +243,8 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_cache_should_be_invalidated_by_activity_delete() {
 		global $wpdb;
 
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component'     => buddypress()->activity->id,
 			'type'          => 'activity_update',
 			'user_id'       => $u,
@@ -280,7 +280,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_cache_should_be_invalidated_by_activitymeta_add() {
 		global $wpdb;
 
-		$activities = $this->factory->activity->create_many( 2 );
+		$activities = self::factory()->activity->create_many( 2 );
 		bp_activity_add_meta( $activities[0], 'foo', 'bar' );
 
 		$activity_args = array(
@@ -308,7 +308,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_cache_should_be_invalidated_by_activitymeta_update() {
 		global $wpdb;
 
-		$activities = $this->factory->activity->create_many( 2 );
+		$activities = self::factory()->activity->create_many( 2 );
 		bp_activity_add_meta( $activities[0], 'foo', 'bar' );
 		bp_activity_add_meta( $activities[1], 'foo', 'baz' );
 
@@ -337,7 +337,7 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 	public function test_query_cache_should_be_invalidated_by_activitymeta_delete() {
 		global $wpdb;
 
-		$activities = $this->factory->activity->create_many( 2 );
+		$activities = self::factory()->activity->create_many( 2 );
 		bp_activity_add_meta( $activities[0], 'foo', 'bar' );
 		bp_activity_add_meta( $activities[1], 'foo', 'bar' );
 

@@ -10,18 +10,18 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 	 * @group bp_messages_star_set_action
 	 */
 	public function test_is_message_starred() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create the thread
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
 
 		// create a reply
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -58,18 +58,18 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 	 * @group bulk
 	 */
 	public function test_star_set_action_bulk_unstar() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create the thread
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'This is a knive',
 		) );
 
 		// create a reply
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $message_1->thread_id,
 			'sender_id'  => $u2,
 			'recipients' => array( $u1 ),
@@ -112,21 +112,21 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 	 */
 	public function test_get_starred_threads_should_not_include_deleted_thread() {
 		$old_current_user = get_current_user_id();
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		// create three threads
-		$message_1 = $this->factory->message->create_and_get( array(
+		$message_1 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'A',
 		) );
-		$message_2 = $this->factory->message->create_and_get( array(
+		$message_2 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'B',
 		) );
-		$message_3 = $this->factory->message->create_and_get( array(
+		$message_3 = self::factory()->message->create_and_get( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'C',

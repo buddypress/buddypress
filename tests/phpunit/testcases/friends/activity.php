@@ -10,10 +10,10 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	 * @group bp_friends_format_activity_action_friendship_accepted
 	 */
 	public function test_bp_friends_format_activity_action_friendship_accepted() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->friends->id,
 			'type' => 'friendship_accepted',
 			'user_id' => $u1,
@@ -32,10 +32,10 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	 * @group bp_friends_format_activity_action_friendship_created
 	 */
 	public function test_bp_friends_format_activity_action_friendship_created() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
-		$a = $this->factory->activity->create( array(
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->friends->id,
 			'type' => 'friendship_created',
 			'user_id' => $u1,
@@ -55,8 +55,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	public function test_friends_delete_activity() {
 		$old_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		friends_add_friend( $u2, $u1 );
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
@@ -69,8 +69,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$this->set_current_user( $old_user );
 
 		// Random activities
-		$au1 = $this->factory->activity->create( array( 'user_id' => $u1 ) );
-		$au2 = $this->factory->activity->create( array( 'user_id' => $u2 ) );
+		$au1 = self::factory()->activity->create( array( 'user_id' => $u1 ) );
+		$au2 = self::factory()->activity->create( array( 'user_id' => $u2 ) );
 
 		$fc_act = bp_activity_get( array(
 			'component'   => buddypress()->friends->id,
@@ -102,8 +102,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	public function test_bp_friends_friendship_accepted_activity() {
 		$old_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		friends_add_friend( $u2, $u1 );
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
@@ -140,8 +140,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	public function test_bp_cleanup_friendship_activities() {
 		$old_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$users = array( $u1, $u2 );
 
 		friends_add_friend( $u2, $u1 );
@@ -154,8 +154,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		// Reset the current user
 		$this->set_current_user( $old_user );
 
-		$users[] = $this->factory->user->create();
-		$users[] = $this->factory->user->create();
+		$users[] = self::factory()->user->create();
+		$users[] = self::factory()->user->create();
 
 		foreach( $users as $u ) {
 			bp_activity_add( array(
@@ -191,8 +191,8 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	public function test_delete_friendship_activity_on_user_delete() {
 		$old_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 
 		friends_add_friend( $u2, $u1 );
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
@@ -221,7 +221,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 
 	public function test_delete_user_with_no_activities() {
 		$old_user = get_current_user_id();
-		$u1 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
 		$this->set_current_user( $u1 );
 
 		bp_activity_remove_all_user_data( $u1 );

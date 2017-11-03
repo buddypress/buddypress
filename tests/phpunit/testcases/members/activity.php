@@ -11,8 +11,8 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 	 * @group bp_core_format_activity_action_new_member
 	 */
 	public function test_bp_members_format_activity_action_new_member() {
-		$u = $this->factory->user->create();
-		$a = $this->factory->activity->create( array(
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
 			'component' => buddypress()->members->id,
 			'type' => 'new_member',
 			'user_id' => $u,
@@ -32,23 +32,23 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		global $wpdb;
 		$bp = buddypress();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
 
-		$au1 = $this->factory->activity->create( array(
+		$au1 = self::factory()->activity->create( array(
 			'component' => 'xprofile',
 			'type' => 'new_member',
 			'user_id' => $u1,
 		) );
 
-		$au2 = $this->factory->activity->create( array(
+		$au2 = self::factory()->activity->create( array(
 			'component' => 'xprofile',
 			'type' => 'new_member',
 			'user_id' => $u2,
 		) );
 
-		$au3 = $this->factory->activity->create( array(
+		$au3 = self::factory()->activity->create( array(
 			'component' => 'xprofile',
 			'type' => 'new_member',
 			'user_id' => $u3,

@@ -9,7 +9,7 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 	 * @ticket BP7110
 	 */
 	public function test_top_level_link_should_point_to_displayed_user_for_loggedin_user() {
-		$users = $this->factory->user->create_many( 2 );
+		$users = self::factory()->user->create_many( 2 );
 
 		$this->set_current_user( $users[0] );
 		$user_1_domain = bp_core_get_user_domain( $users[1] );
@@ -33,7 +33,7 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 	 * @ticket BP7110
 	 */
 	public function test_top_level_link_should_point_to_displayed_user_for_loggedout_user() {
-		$user = $this->factory->user->create();
+		$user = self::factory()->user->create();
 
 		$this->set_current_user( 0 );
 		$user_domain = bp_core_get_user_domain( $user );
