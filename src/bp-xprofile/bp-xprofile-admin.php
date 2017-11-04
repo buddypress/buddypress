@@ -133,11 +133,22 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 	) ); ?>
 
 	<div class="wrap">
+		<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
 
-		<h1>
-			<?php _ex( 'Profile Fields', 'Settings page header', 'buddypress'); ?>
-			<a id="add_group" class="add-new-h2" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
-		</h1>
+			<h1 class="wp-heading-inline"><?php _ex( 'Profile Fields', 'Settings page header', 'buddypress'); ?></h1>
+
+				<a id="add_group" class="page-title-action" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
+
+			<hr class="wp-header-end">
+
+		<?php else : ?>
+
+			<h1>
+				<?php _ex( 'Profile Fields', 'Settings page header', 'buddypress'); ?>
+				<a id="add_group" class="add-new-h2" href="users.php?page=bp-profile-setup&amp;mode=add_group"><?php _e( 'Add New Field Group', 'buddypress' ); ?></a>
+			</h1>
+
+		<?php endif; ?>
 
 		<form action="" id="profile-field-form" method="post">
 

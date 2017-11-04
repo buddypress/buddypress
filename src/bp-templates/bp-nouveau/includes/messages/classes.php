@@ -170,11 +170,22 @@ class BP_Nouveau_Admin_Notices {
 		$this->list_table->prepare_items();
 		?>
 		<div class="wrap">
+			<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
 
-			<h1>
-				<?php echo esc_html_x( 'All Member Notices', 'Notices admin page title', 'buddypress' ); ?>
-				<a id="add_notice" class="add-new-h2" href="#"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></a>
-			</h1>
+				<h1 class="wp-heading-inline"><?php echo esc_html_x( 'All Member Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
+
+					<a id="add_notice" class="page-title-action" href="#"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></a>
+
+				<hr class="wp-header-end">
+
+			<?php else : ?>
+
+				<h1>
+					<?php echo esc_html_x( 'All Member Notices', 'Notices admin page title', 'buddypress' ); ?>
+					<a id="add_notice" class="add-new-h2" href="#"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></a>
+				</h1>
+
+			<?php endif; ?>
 
 			<form action=<?php echo esc_url( $this->url ); ?> method="post">
 				<table class="widefat">

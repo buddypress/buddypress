@@ -580,13 +580,27 @@ function bp_groups_admin_edit() {
 	do_action_ref_array( 'bp_groups_admin_edit', array( &$group ) ); ?>
 
 	<div class="wrap">
-		<h1><?php _e( 'Edit Group', 'buddypress' ); ?>
+		<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
+
+			<h1 class="wp-heading-inline"><?php _e( 'Edit Group', 'buddypress' ); ?></h1>
 
 			<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
-				<a class="add-new-h2" href="<?php echo trailingslashit( bp_get_groups_directory_permalink() . 'create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+				<a class="page-title-action" href="<?php echo trailingslashit( bp_get_groups_directory_permalink() . 'create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
 			<?php endif; ?>
 
-		</h1>
+			<hr class="wp-header-end">
+
+		<?php else : ?>
+
+			<h1><?php _e( 'Edit Group', 'buddypress' ); ?>
+
+				<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
+					<a class="add-new-h2" href="<?php echo trailingslashit( bp_get_groups_directory_permalink() . 'create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+				<?php endif; ?>
+
+			</h1>
+
+		<?php endif; ?>
 
 		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>
@@ -752,6 +766,22 @@ function bp_groups_admin_index() {
 	do_action( 'bp_groups_admin_index', $messages ); ?>
 
 	<div class="wrap">
+		<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
+
+			<h1 class="wp-heading-inline"><?php _e( 'Groups', 'buddypress' ); ?></h1>
+
+			<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
+				<a class="page-title-action" href="<?php echo trailingslashit( bp_get_groups_directory_permalink() . 'create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+			<?php endif; ?>
+
+			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
+				<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ); ?></span>
+			<?php endif; ?>
+
+			<hr class="wp-header-end">
+
+		<?php else : ?>
+
 		<h1>
 			<?php _e( 'Groups', 'buddypress' ); ?>
 
@@ -763,6 +793,8 @@ function bp_groups_admin_index() {
 				<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ); ?></span>
 			<?php endif; ?>
 		</h1>
+
+		<?php endif; ?>
 
 		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>
