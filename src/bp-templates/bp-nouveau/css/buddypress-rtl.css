@@ -151,113 +151,113 @@ body.buddypress article.page > .entry-header .entry-title {
 	}
 }
 
-.buddypress-wrap dt.section-title {
+dt.section-title {
 	font-size: 18px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap dt.section-title {
+	dt.section-title {
 		font-size: 22px;
 	}
 }
 
-.buddypress-wrap .bp-label-text,
-.buddypress-wrap .message-threads {
+.bp-label-text,
+.message-threads {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .bp-label-text,
-	.buddypress-wrap .message-threads {
+	.bp-label-text,
+	.message-threads {
 		font-size: 16px;
 	}
 }
 
-.buddypress-wrap .activity-header {
+.activity-header {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .activity-header {
+	.activity-header {
 		font-size: 16px;
 	}
 }
 
-.buddypress-wrap .activity-inner {
+.activity-inner {
 	font-size: 15px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .activity-inner {
+	.activity-inner {
 		font-size: 18px;
 	}
 }
 
-.buddypress-wrap #whats-new-post-in {
+#whats-new-post-in {
 	font-size: 16px;
 }
 
-.buddypress-wrap .mini .activity-header,
-.buddypress-wrap .acomment-meta {
+.mini .activity-header,
+.acomment-meta {
 	font-size: 16px;
 }
 
-.buddypress-wrap .dir-component-filters #activity-filter-by {
+.dir-component-filters #activity-filter-by {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .dir-component-filters #activity-filter-by {
+	.dir-component-filters #activity-filter-by {
 		font-size: 16px;
 	}
 }
 
-.buddypress-wrap .bp-tables-user th {
+.bp-tables-user th {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .bp-tables-user th {
+	.bp-tables-user th {
 		font-size: 16px;
 	}
 }
 
-.buddypress-wrap .bp-tables-user td {
+.bp-tables-user td {
 	font-size: 12px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .bp-tables-user td {
+	.bp-tables-user td {
 		font-size: 14px;
 	}
 }
 
-.buddypress-wrap .profile-fields th {
+.profile-fields th {
 	font-size: 15px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .profile-fields th {
+	.profile-fields th {
 		font-size: 18px;
 	}
 }
 
-.buddypress-wrap .profile-fields td {
+.profile-fields td {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .profile-fields td {
+	.profile-fields td {
 		font-size: 16px;
 	}
 }
 
-.buddypress-wrap #notification-select {
+#notification-select {
 	font-size: 12px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap #notification-select {
+	#notification-select {
 		font-size: 14px;
 	}
 }
@@ -4081,7 +4081,6 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	display: block;
 }
 
-.buddypress-wrap li.bp-messages,
 .buddypress-wrap .bp-messages.bp-user-messages-feedback {
 	border: 0;
 }
