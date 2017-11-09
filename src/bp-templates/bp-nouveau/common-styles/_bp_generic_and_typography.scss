@@ -171,78 +171,84 @@ body.buddypress {
 	}
 }
 
-dt.section-title {
+// wrap block in bp content region class,
+// avoid styles filtering through
+// to site areas such as sidebars/footers etc.
+.buddypress-wrap {
 
-	@include responsive-font(22);
-}
+	dt.section-title {
 
-.bp-label-text,
-.message-threads {
-
-	@include responsive-font(16);
-}
-
-.activity-header {
-
-	@include responsive-font(16);
-}
-
-.activity-inner {
-
-	@include responsive-font(18);
-}
-
-#whats-new-post-in {
-
-	@include font-size(16);
-}
-
-.mini .activity-header,
-.acomment-meta {
-
-	@include font-size(16);
-}
-
-.dir-component-filters {
-
-	#activity-filter-by {
-
-		@include responsive-font(16);
+		@include responsive-font(22);
 	}
-}
 
-$search-element-size: 15;
-$search-element-button-size: $search-element-size + 5;
-
-.bp-tables-user {
-
-	th {
+	.bp-label-text,
+	.message-threads {
 
 		@include responsive-font(16);
 	}
 
-	td {
+	.activity-header {
 
-		@include responsive-font(14);
+		@include responsive-font(16);
 	}
-}
 
-// Setting the profile fields to be a larger
-// font than all general user tables is open for review.
-.profile-fields {
-
-	th {
+	.activity-inner {
 
 		@include responsive-font(18);
 	}
 
-	td {
+	#whats-new-post-in {
 
-		@include responsive-font(16);
+		@include font-size(16);
 	}
-}
 
-#notification-select {
+	.mini .activity-header,
+	.acomment-meta {
 
-	@include responsive-font(14);
+		@include font-size(16);
+	}
+
+	.dir-component-filters {
+
+		#activity-filter-by {
+
+			@include responsive-font(16);
+		}
+	}
+
+	$search-element-size: 15;
+	$search-element-button-size: $search-element-size + 5;
+
+	.bp-tables-user {
+
+		th {
+
+			@include responsive-font(16);
+		}
+
+		td {
+
+			@include responsive-font(14);
+		}
+	}
+
+	// Setting the profile fields to be a larger
+	// font than all general user tables is open for review.
+	.profile-fields {
+
+		th {
+
+			@include responsive-font(18);
+		}
+
+		td {
+
+			@include responsive-font(16);
+		}
+	}
+
+	#notification-select {
+
+		@include responsive-font(14);
+	}
 }

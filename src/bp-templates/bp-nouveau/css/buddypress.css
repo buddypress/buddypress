@@ -151,113 +151,113 @@ body.buddypress article.page > .entry-header .entry-title {
 	}
 }
 
-dt.section-title {
+.buddypress-wrap dt.section-title {
 	font-size: 18px;
 }
 
 @media screen and (min-width: 46.8em) {
-	dt.section-title {
+	.buddypress-wrap dt.section-title {
 		font-size: 22px;
 	}
 }
 
-.bp-label-text,
-.message-threads {
+.buddypress-wrap .bp-label-text,
+.buddypress-wrap .message-threads {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.bp-label-text,
-	.message-threads {
+	.buddypress-wrap .bp-label-text,
+	.buddypress-wrap .message-threads {
 		font-size: 16px;
 	}
 }
 
-.activity-header {
+.buddypress-wrap .activity-header {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.activity-header {
+	.buddypress-wrap .activity-header {
 		font-size: 16px;
 	}
 }
 
-.activity-inner {
+.buddypress-wrap .activity-inner {
 	font-size: 15px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.activity-inner {
+	.buddypress-wrap .activity-inner {
 		font-size: 18px;
 	}
 }
 
-#whats-new-post-in {
+.buddypress-wrap #whats-new-post-in {
 	font-size: 16px;
 }
 
-.mini .activity-header,
-.acomment-meta {
+.buddypress-wrap .mini .activity-header,
+.buddypress-wrap .acomment-meta {
 	font-size: 16px;
 }
 
-.dir-component-filters #activity-filter-by {
+.buddypress-wrap .dir-component-filters #activity-filter-by {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.dir-component-filters #activity-filter-by {
+	.buddypress-wrap .dir-component-filters #activity-filter-by {
 		font-size: 16px;
 	}
 }
 
-.bp-tables-user th {
+.buddypress-wrap .bp-tables-user th {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.bp-tables-user th {
+	.buddypress-wrap .bp-tables-user th {
 		font-size: 16px;
 	}
 }
 
-.bp-tables-user td {
+.buddypress-wrap .bp-tables-user td {
 	font-size: 12px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.bp-tables-user td {
+	.buddypress-wrap .bp-tables-user td {
 		font-size: 14px;
 	}
 }
 
-.profile-fields th {
+.buddypress-wrap .profile-fields th {
 	font-size: 15px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.profile-fields th {
+	.buddypress-wrap .profile-fields th {
 		font-size: 18px;
 	}
 }
 
-.profile-fields td {
+.buddypress-wrap .profile-fields td {
 	font-size: 13px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.profile-fields td {
+	.buddypress-wrap .profile-fields td {
 		font-size: 16px;
 	}
 }
 
-#notification-select {
+.buddypress-wrap #notification-select {
 	font-size: 12px;
 }
 
 @media screen and (min-width: 46.8em) {
-	#notification-select {
+	.buddypress-wrap #notification-select {
 		font-size: 14px;
 	}
 }
