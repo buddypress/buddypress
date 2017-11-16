@@ -637,4 +637,37 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		$wpdb->suppress_errors( $suppress );
 	}
+
+	/**
+	 * @ticket BP7461
+	 *
+	 * Test function before and after adding custom illegal names from WordPress.
+	 */
+	public function test_bp_core_get_illegal_names() {
+
+		// Making sure BP custom illegals are in the array.
+		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
+		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+
+		add_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
+
+		// Testing fake custom illegal names.
+		$this->assertTrue( in_array( 'testuser', bp_core_get_illegal_names(), true ) );
+		$this->assertTrue( in_array( 'admins', bp_core_get_illegal_names(), true ) );
+		$this->assertFalse( in_array( 'buddypresss', bp_core_get_illegal_names(), true ) );
+
+		// Making sure BP custom illegals are in the array after including the custom ones.
+		$this->assertTrue( in_array( 'profile', bp_core_get_illegal_names(), true ) );
+		$this->assertTrue( in_array( 'forums', bp_core_get_illegal_names(), true ) );
+
+		remove_filter( 'illegal_user_logins', array( $this, '_illegal_user_logins' ) );
+	}
+
+	public function _illegal_user_logins() {
+		return array(
+			'testuser',
+			'admins',
+			'buddypress',
+		);
+	}
 }

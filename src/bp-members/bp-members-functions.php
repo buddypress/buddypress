@@ -1578,11 +1578,23 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 	 */
 	$filtered_illegal_names = apply_filters( 'bp_core_illegal_usernames', array_merge( array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' ), $bp_component_slugs ) );
 
-	// Merge the arrays together.
-	$merged_names           = array_merge( (array) $filtered_illegal_names, (array) $db_illegal_names );
+	/**
+	 * Filters the list of illegal usernames from WordPress.
+	 *
+	 * @since 3.0
+	 *
+	 * @param array Array of illegal usernames.
+	 */
+	$wp_filtered_illegal_names = apply_filters( 'illegal_user_logins', array() );
+
+	// First merge BuddyPress illegal names.
+	$bp_merged_names           = array_merge( (array) $filtered_illegal_names, (array) $db_illegal_names );
+
+	// Then merge WordPress and BuddyPress illegal names.
+	$merged_names              = array_merge( (array) $wp_filtered_illegal_names, (array) $bp_merged_names );
 
 	// Remove duplicates.
-	$illegal_names          = array_unique( (array) $merged_names );
+	$illegal_names             = array_unique( (array) $merged_names );
 
 	/**
 	 * Filters the array of default illegal names.
