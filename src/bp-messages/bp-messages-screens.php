@@ -129,7 +129,7 @@ function messages_screen_conversation() {
 	}
 
 	// No access.
-	if ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) {
+	if ( ( ! messages_check_thread_access( $thread_id ) || ! bp_is_my_profile() ) && ! bp_current_user_can( 'bp_moderate' ) ) {
 		// If not logged in, prompt for login.
 		if ( ! is_user_logged_in() ) {
 			bp_core_no_access();
