@@ -41,23 +41,8 @@ class BP_Members_Theme_Compat {
 			return;
 		}
 
-		// Members Directory.
-		if ( ! bp_current_action() && ! bp_current_item() ) {
-			bp_update_is_directory( true, 'members' );
-
-			/**
-			 * Fires if looking at Members directory when needing theme compat.
-			 *
-			 * @since 1.5.0
-			 */
-			do_action( 'bp_members_screen_index' );
-
-			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
-			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
-
 		// User page.
-		} elseif ( bp_is_user() ) {
+		if ( bp_is_user() ) {
 
 			// If we're on a single activity permalink page, we shouldn't use the members
 			// template, so stop here!
@@ -76,6 +61,20 @@ class BP_Members_Theme_Compat {
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post'    ) );
 			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content' ) );
 
+		// Members Directory.
+		} elseif ( ! bp_current_action() && ! bp_current_item() ) {
+			bp_update_is_directory( true, 'members' );
+
+			/**
+			 * Fires if looking at Members directory when needing theme compat.
+			 *
+			 * @since 1.5.0
+			 */
+			do_action( 'bp_members_screen_index' );
+
+			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
+			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
 		}
 	}
 
