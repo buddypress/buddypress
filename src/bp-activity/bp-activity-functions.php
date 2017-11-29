@@ -937,11 +937,6 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
  */
 function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 
-	// Favorite activity stream items are for logged in users only.
-	if ( ! is_user_logged_in() ) {
-		return false;
-	}
-
 	// Fallback to logged in user if no user_id is passed.
 	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
@@ -1010,11 +1005,6 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
  * @return bool True on success, false on failure.
  */
 function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
-
-	// Favorite activity stream items are for logged in users only.
-	if ( ! is_user_logged_in() ) {
-		return false;
-	}
 
 	// Fallback to logged in user if no user_id is passed.
 	if ( empty( $user_id ) ) {
