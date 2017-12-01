@@ -237,28 +237,36 @@
 		border-style: solid;
 		border-width: 1px;
 		display: none;
+		font-weight: 700;
 		margin: $marg-sml 0 $marg-sml 0;
 		padding: $pad-sml;
 		text-align: center;
 		width: auto;
 
+		// Show the feedback message when fields populated
+		&.show {
+			display: block;
+		}
+
+		&.mismatch {
+
+			@include pwd-bad-colors($color: $white, $background: $black, $border: transparent);
+		}
+
 		&.error,
 		&.bad {
 
-			@include pwd-bad-colors();
-			display: block;
+			@include pwd-bad-colors($color: $white);
 		}
 
 		&.short {
 
-			@include pwd-short-colors();
-			display: block;
+			@include pwd-short-colors($color: $white);
 		}
 
 		&.strong {
 
-			@include pwd-good-colors();
-			display: block;
+			@include pwd-good-colors($color: $white);
 		}
 
 	} // close #pass-strength-result

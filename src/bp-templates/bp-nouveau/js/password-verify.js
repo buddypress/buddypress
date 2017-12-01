@@ -8,7 +8,7 @@
 		    strength;
 
 		// Reset classes and result text
-		$( '#pass-strength-result' ).removeClass( 'short bad good strong' );
+		$( '#pass-strength-result' ).removeClass( 'show mismatch short bad good strong' );
 		if ( ! pass1 ) {
 			$( '#pass-strength-result' ).html( pwsL10n.empty );
 			return;
@@ -18,19 +18,19 @@
 
 		switch ( strength ) {
 			case 2:
-				$( '#pass-strength-result' ).addClass( 'bad' ).html( pwsL10n.bad );
+				$( '#pass-strength-result' ).addClass( 'show bad' ).html( pwsL10n.bad );
 				break;
 			case 3:
-				$( '#pass-strength-result' ).addClass( 'good' ).html( pwsL10n.good );
+				$( '#pass-strength-result' ).addClass( 'show good' ).html( pwsL10n.good );
 				break;
 			case 4:
-				$( '#pass-strength-result' ).addClass( 'strong' ).html( pwsL10n.strong );
+				$( '#pass-strength-result' ).addClass( 'show strong' ).html( pwsL10n.strong );
 				break;
 			case 5:
-				$( '#pass-strength-result' ).addClass( 'short' ).html( pwsL10n.mismatch );
+				$( '#pass-strength-result' ).addClass( 'show mismatch' ).html( pwsL10n.mismatch );
 				break;
 			default:
-				$( '#pass-strength-result' ).addClass( 'short' ).html( pwsL10n['short'] );
+				$( '#pass-strength-result' ).addClass( 'show short' ).html( pwsL10n['short'] );
 				break;
 		}
 	}

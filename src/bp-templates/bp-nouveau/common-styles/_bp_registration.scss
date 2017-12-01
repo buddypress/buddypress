@@ -25,15 +25,14 @@
 
 		// profile extra element wrapper
 		.editfield {
-			border: 1px solid $bp-border-color;
-			margin: $marg-lrg 0;
-			padding: 5px;
+			margin: $marg-med 0;
 
 			fieldset {
 				border: 0;
 				padding: 0;
 
 				legend {
+					margin: 0 0 5px;
 					text-indent: 0;
 				}
 			}
@@ -49,6 +48,11 @@
 
 		#signup-avatar img {
 			margin: 0 $marg-med $marg-sml 0;
+		}
+
+		.password-entry,
+		.password-entry-confirm {
+			border: 1px solid $bp-border-color;
 		}
 	} // close .signup-form
 

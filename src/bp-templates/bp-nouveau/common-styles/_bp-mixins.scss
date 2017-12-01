@@ -319,6 +319,21 @@
 	align-items: center; // current specs
 }
 
+// Layout elements / lists as grids
+// A combined mixin to set flex-flow & flex.
+// This mixin must be called on the parent i.e 'ul'
+
+@mixin build-flex-layout($row-wrap: wrap, $align: stretch, $basis: auto, $grow: 0 ) {
+
+	@include flex-box-dir($flex-dir: "row", $flex-wrap: $row-wrap);
+	@include flex-align($align: $align);
+
+	> * {
+
+		@include box-item-size($grow: $grow, $shrink: 1, $basis: $basis);
+	}
+}
+
 // Links as a tabbed effect.
 // Renders links in a horizontal layout as a
 // tab effect on the current selected links.
@@ -445,7 +460,7 @@
 
 // Password warn colors
 
-@mixin pwd-bad-colors($background: null, $border: null) {
+@mixin pwd-bad-colors($color: inherit, $background: null, $border: null) {
 
 	@if $background {
 		$background: $background;
@@ -462,9 +477,11 @@
 	}
 
 	border-color: $border;
+
+	color: $color;
 }
 
-@mixin pwd-short-colors($background: null, $border: null) {
+@mixin pwd-short-colors($color: inherit, $background: null, $border: null) {
 
 	@if $background {
 		$background: $background;
@@ -481,9 +498,11 @@
 	}
 
 	border-color: $border;
+
+	color: $color;
 }
 
-@mixin pwd-good-colors($background: null, $border: null) {
+@mixin pwd-good-colors($color: inherit, $background: null, $border: null) {
 
 	@if $background {
 		$background: $background;
@@ -500,6 +519,8 @@
 	}
 
 	border-color: $border;
+
+	color: $color;
 }
 
 // BP Tooltips
