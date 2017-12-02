@@ -53,8 +53,9 @@ $focussed-border-clr:  rgba(31, 179, 221, 0.9) !default; // textareas? e.g whats
 
 // Message colors
 
-// used on text == red
+// used on text == red & input validation psuedo classes
 $warn:           #b71717 !default;
+$valid:          #91cc2c !default;
 
 // The colors for boxes
 $warnings:       #d33 !default;

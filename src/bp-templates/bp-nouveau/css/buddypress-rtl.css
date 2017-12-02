@@ -3222,6 +3222,33 @@ div.bp-navs#subsubnav.bp-messages-filters .user-messages-bulk-actions {
 	padding: 0.5em;
 }
 
+.buddypress-wrap .standard-form input[required],
+.buddypress-wrap .standard-form textarea[required],
+.buddypress-wrap .standard-form select[required] {
+	box-shadow: none;
+	border-width: 2px;
+	outline: 0;
+}
+
+.buddypress-wrap .standard-form input[required]:invalid,
+.buddypress-wrap .standard-form textarea[required]:invalid,
+.buddypress-wrap .standard-form select[required]:invalid {
+	border-color: #b71717;
+}
+
+.buddypress-wrap .standard-form input[required]:valid,
+.buddypress-wrap .standard-form textarea[required]:valid,
+.buddypress-wrap .standard-form select[required]:valid {
+	border-color: #91cc2c;
+}
+
+.buddypress-wrap .standard-form input[required]:focus,
+.buddypress-wrap .standard-form textarea[required]:focus,
+.buddypress-wrap .standard-form select[required]:focus {
+	border-color: #d6d6d6;
+	border-width: 1px;
+}
+
 .buddypress-wrap .standard-form input:not(.button-small),
 .buddypress-wrap .standard-form textarea {
 	width: 100%;

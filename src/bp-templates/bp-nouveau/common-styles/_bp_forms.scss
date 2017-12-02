@@ -93,6 +93,37 @@
 			padding: $pad-sml;
 		}
 
+		// Manage browser pseudo class validation states
+		input,
+		textarea,
+		select {
+
+			&[required] {
+
+				// FF adds red shadow on password inputs, remove!
+				box-shadow: none;
+				border-width: 2px;
+
+				// IE Edge uses outline for invalid controls, remove
+				outline: 0;
+
+				// Sadly this does mean all inputs are considered to be
+				// invalid from page load & bordered.
+				&:invalid {
+					border-color: $warn;
+				}
+
+				&:valid {
+					border-color: $valid;
+				}
+
+				&:focus {
+					border-color: $form-border-color;
+					border-width: 1px;
+				}
+			}
+		}
+
 		input:not(.button-small),
 		textarea {
 			width: 100%;
