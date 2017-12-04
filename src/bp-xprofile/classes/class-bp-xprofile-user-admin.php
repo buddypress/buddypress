@@ -88,7 +88,7 @@ class BP_XProfile_User_Admin {
 		 * We cannot simply use add_thickbox() here as WordPress is not playing
 		 * nice with Thickbox width/height see https://core.trac.wordpress.org/ticket/17249
 		 * Using media-upload might be interesting in the future for the send to editor stuff
-		 * and we make sure the tb_window is wide enougth
+		 * and we make sure the tb_window is wide enough
 		 */
 		wp_enqueue_style ( 'thickbox' );
 		wp_enqueue_script( 'media-upload' );
