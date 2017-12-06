@@ -485,12 +485,8 @@ function bp_group_is_visible( $group = null ) {
 		$group =& $groups_template->group;
 	}
 
-	if ( 'public' == $group->status ) {
+	if ( ! empty( $group->is_visible ) ) {
 		return true;
-	} else {
-		if ( groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
-			return true;
-		}
 	}
 
 	return false;

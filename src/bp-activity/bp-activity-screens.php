@@ -230,18 +230,9 @@ function bp_activity_screen_single_activity_permalink() {
 			return;
 		}
 
-		// Check to see if the group is not public, if so, check the
-		// user has access to see this activity.
+		// Check to see if the user has access to to the activity's parent group.
 		if ( $group = groups_get_group( $activity->item_id ) ) {
-
-			// Group is not public.
-			if ( 'public' != $group->status ) {
-
-				// User is not a member of group.
-				if ( !groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
-					$has_access = false;
-				}
-			}
+			$has_access = $group->user_has_access;
 		}
 	}
 

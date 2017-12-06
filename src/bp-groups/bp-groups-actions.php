@@ -41,9 +41,11 @@ function bp_groups_group_access_protection() {
 
 	$current_group   = groups_get_current_group();
 	$user_has_access = $current_group->user_has_access;
+	$is_visible      = $current_group->is_visible;
 	$no_access_args  = array();
 
-	if ( ! $user_has_access && 'hidden' !== $current_group->status ) {
+	// The user can know about the group but doesn't have full access.
+	if ( ! $user_has_access && $is_visible ) {
 		// Always allow access to home and request-membership.
 		if ( bp_is_current_action( 'home' ) || bp_is_current_action( 'request-membership' ) ) {
 			$user_has_access = true;
@@ -90,10 +92,10 @@ function bp_groups_group_access_protection() {
 		return;
 	}
 
-	// Hidden groups should return a 404 for non-members.
+	// Groups that the user cannot know about should return a 404 for non-members.
 	// Unset the current group so that you're not redirected
 	// to the default group tab.
-	if ( 'hidden' == $current_group->status ) {
+	if ( ! $is_visible ) {
 		buddypress()->groups->current_group = 0;
 		buddypress()->is_single_item        = false;
 		bp_do_404();
@@ -488,9 +490,10 @@ function groups_action_leave_group() {
 			bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
 		}
 
-		$redirect = bp_get_group_permalink( groups_get_current_group() );
+		$group = groups_get_current_group();
+		$redirect = bp_get_group_permalink( $group );
 
-		if( 'hidden' == $bp->groups->current_group->status ) {
+		if ( ! $group->is_visible ) {
 			$redirect = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
 		}
 
