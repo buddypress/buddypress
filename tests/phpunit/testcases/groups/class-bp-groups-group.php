@@ -2234,6 +2234,28 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertEqualSets( array( $g1, $g3 ), $found );
 	}
 
+	/**
+	 * @group get_ids_only
+	 */
+	public function test_get_return_ids_only() {
+		$now = time();
+		$g1 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
+		) );
+		$g2 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
+		) );
+		$g3 = $this->factory->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
+		)  );
+
+		$groups = BP_Groups_Group::get( array(
+			'fields' => 'ids',
+		) );
+
+		$this->assertSame( array( $g1, $g2, $g3 ), $groups['groups'] );
+	}
+
 }
 
 /**

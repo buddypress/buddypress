@@ -796,6 +796,7 @@ function groups_get_groups( $args = '' ) {
 		'page'               => 1,              // The page to return if limiting per page.
 		'update_meta_cache'  => true,           // Pre-fetch groupmeta for queried groups.
 		'update_admin_cache' => false,
+		'fields'             => 'all',          // Return BP_Groups_Group objects or a list of ids.
 	);
 
 	$r = bp_parse_args( $args, $defaults, 'groups_get_groups' );
@@ -821,6 +822,7 @@ function groups_get_groups( $args = '' ) {
 		'update_admin_cache' => $r['update_admin_cache'],
 		'order'              => $r['order'],
 		'orderby'            => $r['orderby'],
+		'fields'             => $r['fields'],
 	) );
 
 	/**

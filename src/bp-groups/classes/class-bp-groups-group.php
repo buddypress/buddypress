@@ -1025,10 +1025,13 @@ class BP_Groups_Group {
  	 *     @type array|string $status             Optional. Array or comma-separated list of group statuses to limit
  	 *                                            results to. If specified, $show_hidden is ignored.
 	 *                                            Default: empty array.
+ 	 *     @type string       $fields             Which fields to return. Specify 'ids' to fetch a list of IDs.
+ 	 *                                            Default: 'all' (return BP_Groups_Group objects).
+ 	 *                                            If set, meta and admin caches will not be prefetched.
 	 * }
 	 * @return array {
 	 *     @type array $groups Array of group objects returned by the
-	 *                         paginated query.
+	 *                         paginated query. (IDs only if `fields` is set to `ids`.)
 	 *     @type int   $total  Total count of all groups matching non-
 	 *                         paginated query params.
 	 * }
@@ -1075,7 +1078,8 @@ class BP_Groups_Group {
 			'update_admin_cache' => false,
 			'exclude'            => false,
 			'show_hidden'        => false,
-			'status'             => array()
+			'status'             => array(),
+			'fields'             => 'all',
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -1299,20 +1303,54 @@ class BP_Groups_Group {
 			$paged_group_ids = $cached;
 		}
 
-		$uncached_group_ids = bp_get_non_cached_ids( $paged_group_ids, 'bp_groups' );
-		if ( $uncached_group_ids ) {
-			$group_ids_sql = implode( ',', array_map( 'intval', $uncached_group_ids ) );
-			$group_data_objects = $wpdb->get_results( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id IN ({$group_ids_sql})" );
-			foreach ( $group_data_objects as $group_data_object ) {
-				wp_cache_set( $group_data_object->id, $group_data_object, 'bp_groups' );
+		if ( 'ids' === $r['fields'] ) {
+			// We only want the IDs.
+			$paged_groups = array_map( 'intval', $paged_group_ids );
+		} else {
+			$uncached_group_ids = bp_get_non_cached_ids( $paged_group_ids, 'bp_groups' );
+			if ( $uncached_group_ids ) {
+				$group_ids_sql = implode( ',', array_map( 'intval', $uncached_group_ids ) );
+				$group_data_objects = $wpdb->get_results( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id IN ({$group_ids_sql})" );
+				foreach ( $group_data_objects as $group_data_object ) {
+					wp_cache_set( $group_data_object->id, $group_data_object, 'bp_groups' );
+				}
 			}
+
+			$paged_groups = array();
+			foreach ( $paged_group_ids as $paged_group_id ) {
+				$paged_groups[] = new BP_Groups_Group( $paged_group_id );
+			}
+
+			$group_ids = array();
+			foreach ( (array) $paged_groups as $group ) {
+				$group_ids[] = $group->id;
+			}
+
+			// Grab all groupmeta.
+			if ( ! empty( $r['update_meta_cache'] ) ) {
+				bp_groups_update_meta_cache( $group_ids );
+			}
+
+			// Prefetch all administrator IDs, if requested.
+			if ( $r['update_admin_cache'] ) {
+				BP_Groups_Member::prime_group_admins_mods_cache( $group_ids );
+			}
+
+			// Set up integer properties needing casting.
+			$int_props = array(
+				'id', 'creator_id', 'enable_forum'
+			);
+
+			// Integer casting.
+			foreach ( $paged_groups as $key => $g ) {
+				foreach ( $int_props as $int_prop ) {
+					$paged_groups[ $key ]->{$int_prop} = (int) $paged_groups[ $key ]->{$int_prop};
+				}
+			}
+
 		}
 
-		$paged_groups = array();
-		foreach ( $paged_group_ids as $paged_group_id ) {
-			$paged_groups[] = new BP_Groups_Group( $paged_group_id );
-		}
-
+		// Find the total number of groups in the results set.
 		$total_groups_sql = "SELECT COUNT(DISTINCT g.id) FROM {$sql['from']} $where";
 
 		/**
@@ -1333,35 +1371,6 @@ class BP_Groups_Group {
 		} else {
 			$total_groups = (int) $cached;
 		}
-
-		$group_ids = array();
-		foreach ( (array) $paged_groups as $group ) {
-			$group_ids[] = $group->id;
-		}
-
-		// Grab all groupmeta.
-		if ( ! empty( $r['update_meta_cache'] ) ) {
-			bp_groups_update_meta_cache( $group_ids );
-		}
-
-		// Prefetch all administrator IDs, if requested.
-		if ( $r['update_admin_cache'] ) {
-			BP_Groups_Member::prime_group_admins_mods_cache( $group_ids );
-		}
-
-		// Set up integer properties needing casting.
-		$int_props = array(
-			'id', 'creator_id', 'enable_forum'
-		);
-
-		// Integer casting.
-		foreach ( $paged_groups as $key => $g ) {
-			foreach ( $int_props as $int_prop ) {
-				$paged_groups[ $key ]->{$int_prop} = (int) $paged_groups[ $key ]->{$int_prop};
-			}
-		}
-
-		unset( $sql, $total_sql );
 
 		return array( 'groups' => $paged_groups, 'total' => $total_groups );
 	}
