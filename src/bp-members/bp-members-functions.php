@@ -2047,8 +2047,16 @@ function bp_core_activate_signup( $key ) {
 			'meta'     => $signup->meta,
 		);
 
-		// Notify the site admin of a new user registration.
-		wp_new_user_notification( $user_id );
+		/**
+		 * Maybe notify the site admin of a new user registration.
+		 *
+		 * @since 1.2.2
+		 *
+		 * @param bool $notification Whether to send the notification or not.
+		 */
+		if ( apply_filters( 'bp_core_send_user_registration_admin_notification', true ) ) {
+			wp_new_user_notification( $user_id );
+		}
 
 		if ( isset( $user_already_created ) ) {
 
