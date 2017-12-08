@@ -266,8 +266,8 @@ function bp_has_activities( $args = '' ) {
 		// Filtering
 		'user_id'           => $user_id,     // user_id to filter on.
 		'object'            => $object,      // Object to filter on e.g. groups, profile, status, friends.
-		'action'            => false,        // Action to filter on e.g. activity_update, new_forum_post, profile_updated.
-		'primary_id'        => $primary_id,  // Object ID to filter on e.g. a group_id or forum_id or blog_id etc.
+		'action'            => false,        // Action to filter on e.g. activity_update, profile_updated.
+		'primary_id'        => $primary_id,  // Object ID to filter on e.g. a group_id or blog_id etc.
 		'secondary_id'      => false,        // Secondary object ID to filter on e.g. a post_id.
 		'offset'            => false,        // Return only items >= this ID.
 		'since'             => false,        // Return only items recorded since this Y-m-d H:i:s date.

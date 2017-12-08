@@ -47,7 +47,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	protected $activity_user_id = array();
 
 	/**
-	 * If users can comment on blog & forum activity items.
+	 * If users can comment on post and comment activity items.
 	 *
 	 * @link https://buddypress.trac.wordpress.org/ticket/6277
 	 *
@@ -63,7 +63,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	public function __construct() {
 
-		// See if activity commenting is enabled for blog / forum activity items.
+		// See if activity commenting is enabled for post/comment activity items.
 		$this->disable_blogforum_comments = bp_disable_blogforum_comments();
 
 		// Define singular and plural labels, as well as whether we support AJAX.

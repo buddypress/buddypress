@@ -104,7 +104,7 @@ function bp_admin_setting_callback_activity_akismet() {
 }
 
 /**
- * Allow activity comments on blog posts and forum posts.
+ * Allow activity comments on posts and comments.
  *
  * @since 1.6.0
  */
@@ -112,7 +112,7 @@ function bp_admin_setting_callback_blogforum_comments() {
 ?>
 
 	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( !bp_disable_blogforum_comments( false ) ); ?> />
-	<label for="bp-disable-blogforum-comments"><?php _e( 'Allow activity stream commenting on blog and forum posts', 'buddypress' ); ?></label>
+	<label for="bp-disable-blogforum-comments"><?php _e( 'Allow activity stream commenting on posts and comments', 'buddypress' ); ?></label>
 
 <?php
 }
@@ -134,7 +134,7 @@ function bp_admin_setting_callback_heartbeat() {
 /**
  * Sanitization for bp-disable-blogforum-comments setting.
  *
- * In the UI, a checkbox asks whether you'd like to *enable* blog/forum activity comments. For
+ * In the UI, a checkbox asks whether you'd like to *enable* post/comment activity comments. For
  * legacy reasons, the option that we store is 1 if these comments are *disabled*. So we use this
  * function to flip the boolean before saving the intval.
  *

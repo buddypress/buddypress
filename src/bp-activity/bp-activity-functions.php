@@ -1703,7 +1703,7 @@ function bp_activity_get( $args = '' ) {
 		 *     'user_id'      => false, // User ID to filter on.
 		 *     'object'       => false, // Object to filter on e.g. groups, profile, status, friends.
 		 *     'action'       => false, // Action to filter on e.g. activity_update, profile_updated.
-		 *     'primary_id'   => false, // Object ID to filter on e.g. a group_id or forum_id or blog_id etc.
+		 *     'primary_id'   => false, // Object ID to filter on e.g. a group_id or blog_id etc.
 		 *     'secondary_id' => false, // Secondary object ID to filter on e.g. a post_id.
 		 * );
 		 */

@@ -88,8 +88,7 @@ function groups_get_group( $group_id ) {
  *                                  'hidden'. Defaults to 'public'.
  *     @type int      $parent_id    The ID of the parent group. Default: 0.
  *     @type int      $enable_forum Optional. Whether the group has a forum enabled.
- *                                  If the legacy forums are enabled for this group
- *                                  or if a bbPress forum is enabled for the group,
+ *                                  If a bbPress forum is enabled for the group,
  *                                  set this to 1. Default: 0.
  *     @type string   $date_created The GMT time, in Y-m-d h:i:s format, when the group
  *                                  was created. Defaults to the current time.
@@ -769,7 +768,7 @@ function groups_get_total_member_count( $group_id ) {
 function groups_get_groups( $args = '' ) {
 
 	$defaults = array(
-		'type'               => false,          // Active, newest, alphabetical, random, popular, most-forum-topics or most-forum-posts.
+		'type'               => false,          // Active, newest, alphabetical, random, popular.
 		'order'              => 'DESC',         // 'ASC' or 'DESC'
 		'orderby'            => 'date_created', // date_created, last_activity, total_member_count, name, random, meta_id.
 		'user_id'            => false,          // Pass a user_id to limit to only groups that this user is a member of.

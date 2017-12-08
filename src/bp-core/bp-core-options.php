@@ -65,7 +65,7 @@ function bp_get_default_options() {
 		// Allow users to delete their own accounts.
 		'bp-disable-account-deletion'          => false,
 
-		// Allow comments on blog and forum activity items.
+		// Allow comments on post and comment activity items.
 		'bp-disable-blogforum-comments'        => true,
 
 		// The ID for the current theme package.
@@ -621,7 +621,7 @@ function bp_disable_account_deletion( $default = false ) {
 }
 
 /**
- * Are blog and forum activity stream comments disabled?
+ * Are post/comment activity stream comments disabled?
  *
  * @since 1.6.0
  *

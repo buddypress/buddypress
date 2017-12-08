@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-// Filter bbPress template locations.
+// Filter BuddyPress template locations.
 add_filter( 'bp_groups_get_directory_template', 'bp_add_template_locations' );
 add_filter( 'bp_get_single_group_template',    'bp_add_template_locations' );
 

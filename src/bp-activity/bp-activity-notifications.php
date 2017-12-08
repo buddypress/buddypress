@@ -289,7 +289,7 @@ add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_not
 /**
  * Add a notification for post comments to the post author or post commenter.
  *
- * Requires "activity stream commenting on blog and forum posts" to be enabled.
+ * Requires "activity stream commenting on posts and comments" to be enabled.
  *
  * @since 2.6.0
  *
