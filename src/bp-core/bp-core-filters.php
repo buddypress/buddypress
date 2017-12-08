@@ -101,9 +101,6 @@ function bp_core_exclude_pages( $pages = array() ) {
 	if ( !empty( $bp->pages->register ) )
 		$pages[] = $bp->pages->register->id;
 
-	if ( !empty( $bp->pages->forums ) && ( !bp_is_active( 'forums' ) || ( bp_is_active( 'forums' ) && bp_forums_has_directory() && !bp_forums_is_installed_correctly() ) ) )
-		$pages[] = $bp->pages->forums->id;
-
 	/**
 	 * Filters specific pages that shouldn't show up on page listings.
 	 *

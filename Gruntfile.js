@@ -18,7 +18,6 @@ module.exports = function( grunt ) {
 		],
 
 		BP_EXCLUDED_MISC = [
-			'!bp-forums/bbpress/**/*'
 		],
 
 		// SASS generated "Twenty*"" CSS files
@@ -256,11 +255,6 @@ module.exports = function( grunt ) {
 			}
 		},
 		exec: {
-			bbpress: {
-				command: 'svn export --force https://bbpress.svn.wordpress.org/tags/1.2 bbpress',
-				cwd: BUILD_DIR + 'bp-forums',
-				stdout: false
-			},
 			bpdefault: {
 				command: 'svn export --force https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
 				cwd: BUILD_DIR,
@@ -303,7 +297,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'rtlcss'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
-	grunt.registerTask( 'release', ['build', 'exec:bbpress'] );
+	grunt.registerTask( 'release', ['build'] );
 
 	// Testing tasks.
 	grunt.registerMultiTask( 'phpunit', 'Runs PHPUnit tests, including the ajax and multisite tests.', function() {

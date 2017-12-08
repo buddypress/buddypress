@@ -83,27 +83,10 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 
 		$this->assertEquals( bp_core_admin_get_active_components_from_submitted_settings( $submitted2 ), array( 'activity' => 1, 'groups' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 ) );
 
-		// Activating from the Retired screen
-		$_GET['action'] = 'retired';
-		buddypress()->active_components = array(
-			'activity' => 1,
-			'members' => 1,
-			'messages' => 1,
-			'settings' => 1,
-			'xprofile' => 1,
-		);
-
-		$submitted3 = array(
-			'forums' => 1,
-		);
-
-		$this->assertEquals( bp_core_admin_get_active_components_from_submitted_settings( $submitted3 ), array( 'activity' => 1, 'forums' => 1, 'members' => 1, 'messages' => 1, 'settings' => 1, 'xprofile' => 1 ) );
-
 		// Deactivating from the Retired screen
 		$_GET['action'] = 'retired';
 		buddypress()->active_components = array(
 			'activity' => 1,
-			'forums' => 1,
 			'members' => 1,
 			'messages' => 1,
 			'settings' => 1,

@@ -81,11 +81,6 @@ function bp_core_admin_components_options() {
 	$required_components = bp_core_admin_get_components( 'required' );
 	$retired_components  = bp_core_admin_get_components( 'retired'  );
 
-	// Don't show Forums component in optional components if it's disabled.
-	if ( ! bp_is_active( 'forums' ) ) {
-		unset( $optional_components['forums'] );
-	}
-
 	// Merge optional and required together.
 	$all_components = $optional_components + $required_components;
 

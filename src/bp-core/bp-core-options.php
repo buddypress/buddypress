@@ -29,11 +29,6 @@ function bp_get_default_options() {
 
 		'bp-deactivated-components'            => array(),
 
-		/* bbPress ***********************************************************/
-
-		// Legacy bbPress config location.
-		'bb-config-location'                   => ABSPATH . 'bb-config.php',
-
 		/* XProfile **********************************************************/
 
 		// Base profile groups name.
@@ -691,57 +686,6 @@ function bp_force_buddybar( $default = true ) {
 	 * @param bool $value Whether or not BuddyBar should be forced in place of WP Admin Bar.
 	 */
 	return (bool) apply_filters( 'bp_force_buddybar', (bool) bp_get_option( '_bp_force_buddybar', $default ) );
-}
-
-/**
- * Output the group forums root parent forum id.
- *
- * @since 1.6.0
- *
- * @param bool|string $default Optional. Default: '0'.
- */
-function bp_group_forums_root_id( $default = '0' ) {
-	echo bp_get_group_forums_root_id( $default );
-}
-	/**
-	 * Return the group forums root parent forum id.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param bool|string $default Optional. Default: '0'.
-	 * @return int The ID of the group forums root forum.
-	 */
-	function bp_get_group_forums_root_id( $default = '0' ) {
-
-		/**
-		 * Filters the group forums root parent forum id.
-		 *
-		 * @since 1.6.0
-		 *
-		 * @param int $value The group forums root parent forum id.
-		 */
-		return (int) apply_filters( 'bp_get_group_forums_root_id', (int) bp_get_option( '_bp_group_forums_root_id', $default ) );
-	}
-
-/**
- * Check whether BuddyPress Group Forums are enabled.
- *
- * @since 1.6.0
- *
- * @param bool $default Optional. Fallback value if not found in the database.
- *                      Default: true.
- * @return bool True if group forums are active, otherwise false.
- */
-function bp_is_group_forums_active( $default = true ) {
-
-	/**
-	 * Filters whether or not BuddyPress Group Forums are enabled.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param bool $value Whether or not BuddyPress Group Forums are enabled.
-	 */
-	return (bool) apply_filters( 'bp_is_group_forums_active', (bool) bp_get_option( '_bp_enable_group_forums', $default ) );
 }
 
 /**

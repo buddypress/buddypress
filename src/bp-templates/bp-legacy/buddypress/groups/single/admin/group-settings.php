@@ -21,15 +21,11 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 
 <?php if ( bp_is_active( 'forums' ) ) : ?>
 
-	<?php if ( bp_forums_is_installed_correctly() ) : ?>
+	<div class="checkbox">
+		<label for="group-show-forum"><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php bp_group_show_forum_setting(); ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ); ?></label>
+	</div>
 
-		<div class="checkbox">
-			<label for="group-show-forum"><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php bp_group_show_forum_setting(); ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ); ?></label>
-		</div>
-
-		<hr />
-
-	<?php endif; ?>
+	<hr />
 
 <?php endif; ?>
 

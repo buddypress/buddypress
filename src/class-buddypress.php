@@ -235,6 +235,16 @@ class BuddyPress {
 			define( 'BP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 		}
 
+		// Legacy forum constant - supported for compatibility with bbPress 2.
+		if ( ! defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ) {
+			define( 'BP_FORUMS_PARENT_FORUM_ID', 1 );
+		}
+
+		// Legacy forum constant - supported for compatibility with bbPress 2.
+		if ( ! defined( 'BP_FORUMS_SLUG' ) ) {
+			define( 'BP_FORUMS_SLUG', 'forums' );
+		}
+
 		// Only applicable to those running trunk
 		if ( ! defined( 'BP_SOURCE_SUBDIRECTORY' ) ) {
 			define( 'BP_SOURCE_SUBDIRECTORY', '' );

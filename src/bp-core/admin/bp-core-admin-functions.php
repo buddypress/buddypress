@@ -288,15 +288,6 @@ function bp_core_activation_notice() {
 		}
 	}
 
-	// Special case: If the Forums component is orphaned, but the bbPress 1.x installation is
-	// not correctly set up, don't show a nag. (In these cases, it's probably the case that the
-	// user is using bbPress 2.x; see https://buddypress.trac.wordpress.org/ticket/4292.
-	if ( isset( $bp->forums->name ) && in_array( $bp->forums->name, $orphaned_components ) && !bp_forums_is_installed_correctly() ) {
-		$forum_key = array_search( $bp->forums->name, $orphaned_components );
-		unset( $orphaned_components[$forum_key] );
-		$orphaned_components = array_values( $orphaned_components );
-	}
-
 	if ( !empty( $orphaned_components ) ) {
 		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
 		$notice    = sprintf(
@@ -439,19 +430,6 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 			'name' => __( 'Options', 'buddypress' )
 		),
 	);
-
-	// If forums component is active, add additional tab.
-	if ( bp_is_active( 'forums' ) && class_exists( 'BP_Forums_Component' ) ) {
-
-		// Enqueue thickbox.
-		wp_enqueue_script( 'thickbox' );
-		wp_enqueue_style( 'thickbox' );
-
-		$tabs['3'] = array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bb-forums-setup'  ), 'admin.php' ) ),
-			'name' => __( 'Forums', 'buddypress' )
-		);
-	}
 
 	/**
 	 * Filters the tab data used in our wp-admin screens.

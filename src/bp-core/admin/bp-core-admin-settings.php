@@ -247,40 +247,6 @@ function bp_admin_setting_callback_group_cover_image_uploads() {
 <?php
 }
 
-/** Forums Section ************************************************************/
-
-/**
- * Forums settings section description for the settings page.
- *
- * @since 1.6.0
- */
-function bp_admin_setting_callback_bbpress_section() { }
-
-/**
- * The bb-config.php location field.
- *
- * @since 1.6.0
- *
- */
-function bp_admin_setting_callback_bbpress_configuration() {
-
-	$config_location = bp_get_option( 'bb-config-location' );
-	$file_exists     = (bool) ( file_exists( $config_location ) || is_file( $config_location ) ); ?>
-
-	<input name="bb-config-location" type="text" id="bb-config-location" value="<?php bp_form_option( 'bb-config-location', '' ); ?>" class="medium-text" style="width: 300px;" />
-
-	<?php if ( false === $file_exists ) : ?>
-
-		<a class="button" href="<?php bp_admin_url( 'admin.php?page=bb-forums-setup&repair=1' ); ?>"><?php _e( 'Repair', 'buddypress' ) ?></a>
-		<span class="attention"><?php _e( 'File does not exist', 'buddypress' ); ?></span>
-
-	<?php endif; ?>
-
-	<p class="description"><?php _e( 'Absolute path to your bbPress configuration file.', 'buddypress' ); ?></p>
-
-<?php
-}
-
 /** Settings Page *************************************************************/
 
 /**

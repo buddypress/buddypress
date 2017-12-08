@@ -445,6 +445,27 @@ function bp_use_wp_admin_bar() {
 	return (bool) apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
 }
 
+
+/**
+ * Return the parent forum ID for the Legacy Forums abstraction layer.
+ *
+ * @since 1.5.0
+ * @since 3.0.0 Supported for compatibility with bbPress 2.
+ *
+ * @return int Forum ID.
+ */
+function bp_forums_parent_forum_id() {
+
+	/**
+	 * Filters the parent forum ID for the bbPress abstraction layer.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param int BP_FORUMS_PARENT_FORUM_ID The Parent forum ID constant.
+	 */
+	return apply_filters( 'bp_forums_parent_forum_id', BP_FORUMS_PARENT_FORUM_ID );
+}
+
 /** Directory *****************************************************************/
 
 /**
@@ -466,12 +487,6 @@ function bp_core_get_packaged_component_ids() {
 		'settings',
 		'notifications',
 	);
-
-	// Only add legacy forums if it is enabled
-	// prevents conflicts with bbPress, which also uses the same 'forums' id.
-	if ( class_exists( 'BP_Forums_Component' ) ) {
-		$components[] = 'forums';
-	}
 
 	return $components;
 }
@@ -1730,26 +1745,6 @@ function bp_use_embed_in_activity_replies() {
 }
 
 /**
- * Are oembeds allowed in forum posts?
- *
- * @since 1.5.0
- *
- * @return bool False when forum post embed support is disabled; true when
- *              enabled. Default: true.
- */
-function bp_use_embed_in_forum_posts() {
-
-	/**
-	 * Filters whether or not oEmbeds are allowed in forum posts.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param bool $value Whether or not oEmbeds are allowed.
-	 */
-	return apply_filters( 'bp_use_embed_in_forum_posts', !defined( 'BP_EMBED_DISABLE_FORUM_POSTS' ) || !BP_EMBED_DISABLE_FORUM_POSTS );
-}
-
-/**
  * Are oembeds allowed in private messages?
  *
  * @since 1.5.0
@@ -2355,11 +2350,6 @@ function bp_core_action_search_site( $slug = '' ) {
 				$slug = bp_is_active( 'blogs' )  ? bp_get_blogs_root_slug()  : '';
 				break;
 
-			case 'forums':
-				$slug = bp_is_active( 'forums' ) ? bp_get_forums_root_slug() : '';
-				$query_string = '/?fs=';
-				break;
-
 			case 'groups':
 				$slug = bp_is_active( 'groups' ) ? bp_get_groups_root_slug() : '';
 				break;
@@ -2463,10 +2453,6 @@ function bp_core_get_components( $type = 'all' ) {
 	);
 
 	$retired_components = array(
-		'forums' => array(
-			'title'       => __( 'Group Forums', 'buddypress' ),
-			'description' => sprintf( __( 'BuddyPress Forums are retired. Use %s.', 'buddypress' ), '<a href="https://bbpress.org/">bbPress</a>' )
-		),
 	);
 
 	$optional_components = array(
@@ -2497,10 +2483,6 @@ function bp_core_get_components( $type = 'all' ) {
 		'groups'   => array(
 			'title'       => __( 'User Groups', 'buddypress' ),
 			'description' => __( 'Groups allow your users to organize themselves into specific public, private or hidden sections with separate activity streams and member listings.', 'buddypress' )
-		),
-		'forums'   => array(
-			'title'       => __( 'Group Forums (Legacy)', 'buddypress' ),
-			'description' => __( 'Group forums allow for focused, bulletin-board style conversations.', 'buddypress' )
 		),
 		'blogs'    => array(
 			'title'       => __( 'Site Tracking', 'buddypress' ),

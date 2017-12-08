@@ -123,7 +123,6 @@ class BP_Groups_Component extends BP_Component {
 	public function includes( $includes = array() ) {
 		$includes = array(
 			'cache',
-			'forums',
 			'actions',
 			'filters',
 			'screens',

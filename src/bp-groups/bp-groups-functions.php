@@ -355,13 +355,6 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
 	if ( !$group->save() )
 		return false;
 
-	// If forums have been enabled, and a forum does not yet exist, we need to create one.
-	if ( $group->enable_forum ) {
-		if ( bp_is_active( 'forums' ) && !groups_get_groupmeta( $group->id, 'forum_id' ) ) {
-			groups_new_group_forum( $group->id, $group->name, $group->description );
-		}
-	}
-
 	// Set the invite status.
 	if ( $invite_status )
 		groups_update_groupmeta( $group->id, 'invite_status', $invite_status );

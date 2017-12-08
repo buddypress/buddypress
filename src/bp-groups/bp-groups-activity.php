@@ -54,29 +54,6 @@ function groups_register_activity_actions() {
 		array( 'activity', 'group', 'member', 'member_groups' )
 	);
 
-	// These actions are for the legacy forums
-	// Since the bbPress plugin also shares the same 'forums' identifier, we also
-	// check for the legacy forums loader class to be extra cautious.
-	if ( bp_is_active( 'forums' ) && class_exists( 'BP_Forums_Component' ) ) {
-		bp_activity_set_action(
-			$bp->groups->id,
-			'new_forum_topic',
-			__( 'New group forum topic', 'buddypress' ),
-			false,
-			__( 'Forum Topics', 'buddypress' ),
-			array( 'activity', 'group', 'member', 'member_groups' )
-		);
-
-		bp_activity_set_action(
-			$bp->groups->id,
-			'new_forum_post',
-			__( 'New group forum post',  'buddypress' ),
-			false,
-			__( 'Forum Replies', 'buddypress' ),
-			array( 'activity', 'group', 'member', 'member_groups' )
-		);
-	}
-
 	/**
 	 * Fires at end of registration of the default activity actions for the Groups component.
 	 *
@@ -404,8 +381,6 @@ function groups_update_last_activity( $group_id = 0 ) {
 add_action( 'groups_join_group',           'groups_update_last_activity' );
 add_action( 'groups_leave_group',          'groups_update_last_activity' );
 add_action( 'groups_created_group',        'groups_update_last_activity' );
-add_action( 'groups_new_forum_topic',      'groups_update_last_activity' );
-add_action( 'groups_new_forum_topic_post', 'groups_update_last_activity' );
 
 /**
  * Add an activity stream item when a member joins a group.

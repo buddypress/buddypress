@@ -119,9 +119,6 @@
 				// Group Invitations
 				elseif ( bp_is_group_invites()    ) : bp_get_template_part( 'groups/single/send-invites' );
 
-				// Old group forums
-				elseif ( bp_is_group_forum()      ) : bp_get_template_part( 'groups/single/forum'        );
-
 				// Membership request
 				elseif ( bp_is_group_membership_request() ) : bp_get_template_part( 'groups/single/request-membership' );
 

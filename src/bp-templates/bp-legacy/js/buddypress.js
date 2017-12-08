@@ -12,17 +12,10 @@ var activity_last_recorded  = 0;
 jq(document).ready( function() {
 	/**** Page Load Actions *******************************************************/
 
-	/* Hide Forums Post Form */
-	if ( '-1' === window.location.search.indexOf('new') && jq('div.forums').length ) {
-		jq('#new-topic-post').hide();
-	} else {
-		jq('#new-topic-post').show();
-	}
-
 	/* Activity filter and scope set */
 	bp_init_activity();
 
-	var objects  = [ 'members', 'groups', 'blogs', 'forums', 'group_members' ],
+	var objects  = [ 'members', 'groups', 'blogs', 'group_members' ],
 		$whats_new = jq('#whats-new');
 
 	/* Object filter and scope set. */
@@ -1044,41 +1037,6 @@ jq(document).ready( function() {
 			return false;
 		}
 
-	});
-
-	/**** New Forum Directory Post **************************************/
-
-	/* Hit the "New Topic" button on the forums directory page */
-	jq('a.show-hide-new').on( 'click', function() {
-		if ( !jq('#new-topic-post').length ) {
-			return false;
-		}
-
-		if ( jq('#new-topic-post').is(':visible') ) {
-			jq('#new-topic-post').slideUp(200);
-		} else {
-			jq('#new-topic-post').slideDown(200, function() {
-				jq('#topic_title').focus();
-			} );
-		}
-
-		return false;
-	});
-
-	/* Cancel the posting of a new forum topic */
-	jq('#submit_topic_cancel').on( 'click', function() {
-		if ( !jq('#new-topic-post').length ) {
-			return false;
-		}
-
-		jq('#new-topic-post').slideUp(200);
-		return false;
-	});
-
-	/* Clicking a forum tag */
-	jq('#forum-directory-tags a').on( 'click', function() {
-		bp_filter_request( 'forums', 'tags', jq.cookie('bp-forums-scope'), 'div.forums', jq(this).html().replace( /&nbsp;/g, '-' ), 1, jq.cookie('bp-forums-extras') );
-		return false;
 	});
 
 	/** Invite Friends Interface ****************************************/

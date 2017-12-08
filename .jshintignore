@@ -1,6 +1,3 @@
-// Deprecated
-src/bp-forums/bbpress/**/*
-
 // 3rd party libraries
 src/bp-core/js/vendor/**/*
 src/bp-messages/js/autocomplete/*

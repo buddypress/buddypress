@@ -399,19 +399,6 @@ function bp_core_delete_notifications_for_user_by_item_id( $user_id, $item_id, $
 }
 
 /**
- * In BP 1.5, these functions were renamed for greater consistency
- * @deprecated 1.5.0
- */
-function bp_forum_directory_permalink() {
-	_deprecated_function( __FUNCTION__, '1.5', 'bp_forums_directory_permalink()' );
-	bp_forums_directory_permalink();
-}
-	function bp_get_forum_directory_permalink() {
-		_deprecated_function( __FUNCTION__, '1.5', 'bp_get_forums_directory_permalink()' );
-		return bp_get_forums_directory_permalink();
-	}
-
-/**
  * Last used by core in BP 1.1. The markup was merged into DTheme's header.php template.
  * @deprecated 1.5.0
  */

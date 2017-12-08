@@ -523,10 +523,6 @@ TABLE OF CONTENTS:
 	content: "\f457";
 }
 
-.settings_page_bp-components tr.forums td.plugin-title span:before {
-	content: "\f452";
-}
-
 .settings_page_bp-components tr.blogs td.plugin-title span:before {
 	content: "\f120";
 }

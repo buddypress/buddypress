@@ -45,11 +45,6 @@ class BP_Embed extends WP_Embed {
 			add_filter( 'bp_get_activity_content', array( &$this, 'run_shortcode' ), 7 );
 		}
 
-		if ( bp_use_embed_in_forum_posts() ) {
-			add_filter( 'bp_get_the_topic_post_content', array( &$this, 'autoembed' ), 8 );
-			add_filter( 'bp_get_the_topic_post_content', array( &$this, 'run_shortcode' ), 7 );
-		}
-
 		if ( bp_use_embed_in_private_messages() ) {
 			add_filter( 'bp_get_the_thread_message_content', array( &$this, 'autoembed' ), 8 );
 			add_filter( 'bp_get_the_thread_message_content', array( &$this, 'run_shortcode' ), 7 );

@@ -443,18 +443,6 @@ class BP_Admin {
 			}
 		}
 
-		/* Forums ************************************************************/
-
-		if ( bp_is_active( 'forums' ) ) {
-
-			// Add the main section.
-			add_settings_section( 'bp_forums', __( 'Legacy Group Forums', 'buddypress' ), 'bp_admin_setting_callback_bbpress_section', 'buddypress' );
-
-			// Allow subscriptions setting.
-			add_settings_field( 'bb-config-location', __( 'bbPress Configuration', 'buddypress' ), 'bp_admin_setting_callback_bbpress_configuration', 'buddypress', 'bp_forums' );
-			register_setting( 'buddypress', 'bb-config-location', '' );
-		}
-
 		/* Activity Section **************************************************/
 
 		if ( bp_is_active( 'activity' ) ) {
