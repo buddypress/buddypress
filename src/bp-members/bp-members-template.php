@@ -2118,6 +2118,34 @@ function bp_activation_page() {
 	}
 
 /**
+ * Get the activation key from the current request URL.
+ *
+ * @since 3.0.0
+ *
+ * @return string
+ */
+function bp_get_current_activation_key() {
+	$key = '';
+
+	if ( bp_is_current_component( 'activate' ) ) {
+		if ( isset( $_GET['key'] ) ) {
+			$key = wp_unslash( $_GET['key'] );
+		} else {
+			$key = bp_current_action();
+		}
+	}
+
+	/**
+	 * Filters the activation key from the current request URL.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $key Activation key.
+	 */
+	return apply_filters( 'bp_get_current_activation_key', $key );
+}
+
+/**
  * Output the username submitted during signup.
  *
  * @since 1.1.0

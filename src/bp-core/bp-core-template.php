@@ -1150,10 +1150,7 @@ function bp_blog_signup_allowed() {
  *              otherwise false.
  */
 function bp_account_was_activated() {
-	$bp                  = buddypress();
-	$activation_complete = !empty( $bp->activation_complete )
-		? $bp->activation_complete
-		: false;
+	$activation_complete = ! empty( buddypress()->activation_complete ) || ( bp_is_current_component( 'activate' ) && ! empty( $_GET['activated'] ) );
 
 	return $activation_complete;
 }

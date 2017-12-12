@@ -290,8 +290,6 @@ add_action( 'bp_screens', 'bp_core_screen_signup' );
  * Handle the loading of the Activate screen.
  *
  * @since 1.1.0
- *
- * @todo Move the actual activation process into an action in bp-members-actions.php
  */
 function bp_core_screen_activation() {
 
@@ -325,39 +323,8 @@ function bp_core_screen_activation() {
 		bp_core_redirect( $redirect_to );
 	}
 
-	// Grab the key (the old way).
-	$key = isset( $_GET['key'] ) ? $_GET['key'] : '';
-
-	// Grab the key (the new way).
-	if ( empty( $key ) ) {
-		$key = bp_current_action();
-	}
-
 	// Get BuddyPress.
 	$bp = buddypress();
-
-	// We've got a key; let's attempt to activate the signup.
-	if ( ! empty( $key ) ) {
-
-		/**
-		 * Filters the activation signup.
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param bool|int $value Value returned by activation.
-		 *                        Integer on success, boolean on failure.
-		 */
-		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $key ) );
-
-		// If there were errors, add a message and redirect.
-		if ( ! empty( $user->errors ) ) {
-			bp_core_add_message( $user->get_error_message(), 'error' );
-			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
-		}
-
-		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
-		$bp->activation_complete = true;
-	}
 
 	/**
 	 * Filters the template to load for the Member activation page screen.
