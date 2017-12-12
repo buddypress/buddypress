@@ -11,7 +11,6 @@ dist: trusty
 cache:
   apt: true
   directories:
-    - vendor
     - $HOME/.composer/cache/files
     - $HOME/.npm
     - /tmp/node
