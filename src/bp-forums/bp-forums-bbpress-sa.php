@@ -37,7 +37,7 @@ function bp_forums_load_bbpress() {
 	define( 'BB_INC', 'bb-includes/' );
 
 	require( BB_PATH . BB_INC . 'class.bb-query.php' );
-	require( BB_PATH . BB_INC . 'class.bb-walker.php' );
+	@require( BB_PATH . BB_INC . 'class.bb-walker.php' );
 
 	require( BB_PATH . BB_INC . 'functions.bb-core.php' );
 	require( BB_PATH . BB_INC . 'functions.bb-forums.php' );
@@ -50,10 +50,10 @@ function bp_forums_load_bbpress() {
 	require( BB_PATH . BB_INC . 'functions.bb-formatting.php' );
 	require( BB_PATH . BB_INC . 'functions.bb-template.php' );
 
-	require( BACKPRESS_PATH . 'class.wp-taxonomy.php' );
-	require( BB_PATH . BB_INC . 'class.bb-taxonomy.php' );
+	require( $bp->plugin_dir . '/bp-forums/class.backpress-taxonomy.php' );
+	require( $bp->plugin_dir . '/bp-forums/class.bb-taxonomy.php' );
 
-	require( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
+	@require( BB_PATH . 'bb-admin/includes/functions.bb-admin.php' );
 
 	$bb = new stdClass();
 	require( bp_get_option(	'bb-config-location' ) );
@@ -124,11 +124,21 @@ function bp_forums_load_bbpress() {
 
 	// Check if the tables are installed, if not, install them.
 	if ( !$tables_installed = (boolean) $bbdb->get_results( 'DESCRIBE `' . $bbdb->forums . '`;', ARRAY_A ) ) {
+		// Do not alter wp_users table.
+		if ( ! defined( 'BB_SCHEMA_IGNORE_WP_USERS_TABLES' ) ) {
+			define( 'BB_SCHEMA_IGNORE_WP_USERS_TABLES', true );
+		}
+
 		require( BB_PATH . 'bb-admin/includes/defaults.bb-schema.php' );
 
 		// Backticks and "IF NOT EXISTS" break the dbDelta function.
-		bp_bb_dbDelta( str_replace( ' IF NOT EXISTS', '', str_replace( '`', '', $bb_queries ) ) );
+		$bb_queries = str_replace( ' IF NOT EXISTS', '', str_replace( '`', '', $bb_queries ) );
 
+		// Fix issue with utf8mb4 in WP 4.2+ and bbPress DB schema (bb_terms/bb_meta)
+		$bb_queries = str_replace( array( 'varchar(200)', 'varchar(255)' ), 'varchar(191)', $bb_queries );
+
+		// Do the DB!
+		bp_bb_dbDelta( $bb_queries );
 		require( BB_PATH . 'bb-admin/includes/functions.bb-upgrade.php' );
 		bb_update_db_version();
 
