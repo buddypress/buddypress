@@ -52,6 +52,10 @@ matrix:
       env: WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
       dist: precise
   exclude:
+    - php: 7.2
+      env: WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
+    - php: 7.2
+      env: WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
     - php: 7.1
       env: WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
     - php: 7.1
