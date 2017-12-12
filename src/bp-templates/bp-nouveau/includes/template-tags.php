@@ -739,6 +739,7 @@ function bp_nouveau_has_nav( $args = array() ) {
 		}
 
 	} elseif ( ! empty( $bp_nouveau->object_nav ) ) {
+
 		$bp_nouveau->displayed_nav = $bp_nouveau->object_nav;
 
 		/**
@@ -751,6 +752,7 @@ function bp_nouveau_has_nav( $args = array() ) {
 		 * @param array $n   The arguments of the Navigation loop.
 		 */
 		$nav = apply_filters( 'bp_nouveau_get_nav', $nav, $n );
+
 	}
 
 	$bp_nouveau->sorted_nav = array_values( $nav );
@@ -2074,6 +2076,8 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 	}
 
 	foreach ( $fields as $name => $attributes ) {
+		$classes = '';
+
 		list( $label, $required, $value, $attribute_type, $type, $class ) = array_values( $attributes );
 
 		if ( $required ) {
@@ -2132,20 +2136,34 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 			$attribute_type = ' ' . checked( $value, $submitted, false );
 		}
 
-		if ( ! empty( $class ) ) {
-			// In case people are adding classes..
-			$classes = explode( ' ', $class );
-			$class = ' class="' . esc_attr( join( ' ', array_map( 'sanitize_html_class', $classes ) ) ) . '"';
+		// Do not run function to display errors for the private radio.
+		if ( 'private' !== $value ) {
+
+			/**
+			 * Fetch & display any BP member registration field errors.
+			 *
+			 * Passes BP signup errors to Nouveau's template function to
+			 * render suitable markup for error string.
+			 */
+			if( isset( buddypress()->signup->errors[ $name ] ) ) {
+				nouveau_error_template( buddypress()->signup->errors[ $name ] );
+				$invalid = 'invalid';
+			}
 		}
 
-		// Do not fire the do_action to display errors for the private radio.
-		if ( 'private' !== $value ) {
-			/**
-			 * Fires and displays any member registration field errors.
-			 *
-			 * @since 1.1.0 (BuddyPress)
-			 */
-			do_action( "bp_{$name}_errors" );
+		if ( isset( $invalid ) && isset( buddypress()->signup->errors[ $name ] ) ) {
+			if ( ! empty( $class ) ) {
+				$class = $class . ' ' . $invalid;
+			} else {
+				$class = $invalid;
+			}
+		}
+
+		if ( $class ) {
+			$class = sprintf(
+				' class="%s"',
+				esc_attr( join( ' ', array_map( 'sanitize_html_class', explode( ' ', $class ) ) ) )
+			);
 		}
 
 		// Set the input.
@@ -2230,4 +2248,31 @@ function bp_nouveau_submit_button( $action ) {
 	if ( ! empty( $submit_data['after'] ) ) {
 		do_action( $submit_data['after'] );
 	}
+}
+
+/**
+ * Display supplemental error or feedback messages.
+ *
+ * This template handles in page error or feedback messages e.g signup fields
+ * 'Username exists' type registration field error notices.
+ *
+ * @param string $message required: the message to display.
+ * @param string $type optional: the type of error message e.g 'error'.
+ *
+ * @since 1.0.0
+ */
+function nouveau_error_template( $message = '', $type = '' ) {
+	if ( ! $message ) {
+		return;
+	}
+
+	$type = ( $type ) ? $type : 'error';
+	?>
+
+	<div class="<?php echo esc_attr( 'bp-messages bp-feedback ' . $type ); ?>">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p><?php echo esc_html( $message ); ?></p>
+	</div>
+
+	<?php
 }
