@@ -3249,6 +3249,12 @@ div.bp-navs#subsubnav.bp-messages-filters .user-messages-bulk-actions {
 	border-width: 1px;
 }
 
+.buddypress-wrap .standard-form input.invalid[required],
+.buddypress-wrap .standard-form textarea.invalid[required],
+.buddypress-wrap .standard-form select.invalid[required] {
+	border-color: #b71717;
+}
+
 .buddypress-wrap .standard-form input:not(.button-small),
 .buddypress-wrap .standard-form textarea {
 	width: 100%;
