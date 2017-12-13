@@ -60,7 +60,9 @@ function bp_nouveau_ajax_messages_send_message() {
 	}
 
 	// Trim @ from usernames
-	$recipients = apply_filters( 'bp_messages_recipients', array_map( create_function( '$r', "return trim( \$r, '@' );" ), $_POST['send_to'] ) );
+	$recipients = apply_filters( 'bp_messages_recipients', array_map( function( $username ) {
+		return trim( $username, '@' );
+	}, $_POST['send_to'] ) );
 
 	// Attempt to send the message.
 	$send = messages_new_message( array(

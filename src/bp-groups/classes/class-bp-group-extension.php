@@ -753,8 +753,14 @@ class BP_Group_Extension {
 			// When we are viewing the extension display page, set the title and options title.
 			if ( bp_is_current_action( $this->slug ) ) {
 				add_filter( 'bp_group_user_has_access',   array( $this, 'group_access_protection' ), 10, 2 );
-				add_action( 'bp_template_content_header', create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
-				add_action( 'bp_template_title',          create_function( '', 'echo "' . esc_attr( $this->name ) . '";' ) );
+
+				$extension_name = $this->name;
+				add_action( 'bp_template_content_header', function() use ( $extension_name ) {
+					echo esc_attr( $extension_name );
+				} );
+				add_action( 'bp_template_title', function() use ( $extension_name ) {
+					echo esc_attr( $extension_name );
+				} );
 			}
 		}
 
@@ -1196,10 +1202,15 @@ class BP_Group_Extension {
 		$group_id = isset( $_GET['gid'] ) ? (int) $_GET['gid'] : 0;
 		$screen   = $this->screens['admin'];
 
+		$extension_slug = $this->slug;
+		$callback = function() use ( $extension_slug, $group_id ) {
+			do_action( 'bp_groups_admin_meta_box_content_' . $extension_slug, $group_id );
+		};
+
 		add_meta_box(
 			$screen['slug'],
 			$screen['name'],
-			create_function( '', 'do_action( "bp_groups_admin_meta_box_content_' . $this->slug . '", ' . $group_id . ' );' ),
+			$callback,
 			get_current_screen()->id,
 			$screen['metabox_context'],
 			$screen['metabox_priority']

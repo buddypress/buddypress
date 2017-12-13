@@ -183,11 +183,6 @@ function bp_core_screen_signup() {
 		// Add any errors to the action for the field in the template for display.
 		if ( !empty( $bp->signup->errors ) ) {
 			foreach ( (array) $bp->signup->errors as $fieldname => $error_message ) {
-				/*
-				 * The addslashes() and stripslashes() used to avoid create_function()
-				 * syntax errors when the $error_message contains quotes.
-				 */
-
 				/**
 				 * Filters the error message in the loop.
 				 *
@@ -195,7 +190,9 @@ function bp_core_screen_signup() {
 				 *
 				 * @param string $value Error message wrapped in html.
 				 */
-				add_action( 'bp_' . $fieldname . '_errors', create_function( '', 'echo apply_filters(\'bp_members_signup_error_message\', "<div class=\"error\">" . stripslashes( \'' . addslashes( $error_message ) . '\' ) . "</div>" );' ) );
+				add_action( 'bp_' . $fieldname . '_errors', function() use ( $error_message ) {
+					echo apply_filters( 'bp_members_signup_error_message', "<div class=\"error\">" . $error_message . "</div>" );
+				} );
 			}
 		} else {
 			$bp->signup->step = 'save-details';
