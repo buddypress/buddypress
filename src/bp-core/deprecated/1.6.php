@@ -265,8 +265,13 @@ if ( !function_exists( 'bp_dtheme_register_actions' ) ) :
 
 		// For each of the problematic hooks, exit at the very end of execution
 		foreach( $actions as $action ) {
-			add_action( 'wp_ajax_'        . $action, create_function( '', 'exit;' ), 9999 );
-			add_action( 'wp_ajax_nopriv_' . $action, create_function( '', 'exit;' ), 9999 );
+			add_action( 'wp_ajax_' . $action, function() {
+				exit;
+			}, 9999 );
+
+			add_action( 'wp_ajax_nopriv_' . $action, function() {
+				exit;
+			}, 9999 );
 		}
 	}
 	add_action( 'after_setup_theme', 'bp_die_legacy_ajax_callbacks', 20 );

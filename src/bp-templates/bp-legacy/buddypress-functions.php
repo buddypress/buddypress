@@ -1611,10 +1611,10 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 		bp_messages_embed();
 
 		// Add new-message css class.
-		add_filter( 'bp_get_the_thread_message_css_class', create_function( '$retval', '
-			$retval[] = "new-message";
+		add_filter( 'bp_get_the_thread_message_css_class', function( $retval ) {
+			$retval[] = 'new-message';
 			return $retval;
-		' ) );
+		} );
 
 		// Output single message template part.
 		bp_get_template_part( 'members/single/messages/message' );
