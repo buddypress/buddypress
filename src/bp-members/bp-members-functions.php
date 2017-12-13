@@ -1175,7 +1175,7 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 	remove_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10 );
 	bp_update_user_meta( $user_id, 'last_activity', $time );
 	add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
-	add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 3 );
+	add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 4 );
 
 	return BP_Core_User::update_last_activity( $user_id, $time );
 }
@@ -1189,15 +1189,17 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
  * the data from the proper location.
  *
  * @since 2.0.0
+ * @since 2.9.3 Added the `$single` parameter.
  *
  * @access private For internal use only.
  *
  * @param null   $retval Null retval value.
  * @param int    $object_id ID of the user.
  * @param string $meta_key  Meta key being fetched.
+ * @param bool   $single    Whether a single key is being fetched (vs an array).
  * @return string|null
  */
-function _bp_get_user_meta_last_activity_warning( $retval, $object_id, $meta_key ) {
+function _bp_get_user_meta_last_activity_warning( $retval, $object_id, $meta_key, $single ) {
 	static $warned = false;
 
 	if ( 'last_activity' === $meta_key ) {
@@ -1207,12 +1209,17 @@ function _bp_get_user_meta_last_activity_warning( $retval, $object_id, $meta_key
 			$warned = true;
 		}
 
-		return bp_get_user_last_activity( $object_id );
+		$user_last_activity = bp_get_user_last_activity( $object_id );
+		if ( $single ) {
+			return $user_last_activity;
+		} else {
+			return array( $user_last_activity );
+		}
 	}
 
 	return $retval;
 }
-add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 3 );
+add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 4 );
 
 /**
  * Backward compatibility for 'last_activity' usermeta setting.
