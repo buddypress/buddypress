@@ -158,11 +158,8 @@ function bp_groups_disable_at_mention_notification_for_non_public_groups( $send,
 		return $send;
 	}
 
-	if ( 'groups' === $activity->component ) {
-		$group = groups_get_group( $activity->item_id );
-		if ( 'public' !== $group->status && ! groups_is_user_member( $user_id, $group->id ) ) {
-			$send = false;
-		}
+	if ( 'groups' === $activity->component && ! bp_user_can( $user_id, 'groups_access_group', array( 'group_id' => $activity->item_id ) ) ) {
+		$send = false;
 	}
 
 	return $send;
@@ -190,3 +187,167 @@ function bp_groups_default_avatar( $avatar, $params ) {
 
 	return $avatar;
 }
+
+/**
+ * Filter the bp_user_can value to determine what the user can do
+ * with regards to a specific group.
+ *
+ * @since 3.0.0
+ *
+ * @param bool   $retval     Whether or not the current user has the capability.
+ * @param int    $user_id
+ * @param string $capability The capability being checked for.
+ * @param int    $site_id    Site ID. Defaults to the BP root blog.
+ * @param array  $args       Array of extra arguments passed.
+ *
+ * @return bool
+ */
+function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $args ) {
+	if ( empty( $args['group_id'] ) ) {
+		$group_id = bp_get_current_group_id();
+	} else {
+		$group_id = (int) $args['group_id'];
+	}
+
+	switch ( $capability ) {
+		case 'groups_join_group':
+			// Return early if the user isn't logged in or the group ID is unknown.
+			if ( ! $user_id || ! $group_id ) {
+				break;
+			}
+
+			// The group must allow joining, and the user should not currently be a member.
+			$group = groups_get_group( $group_id );
+			if ( 'public' === bp_get_group_status( $group )
+				&& ! groups_is_user_member( $user_id, $group->id )
+				&& ! groups_is_user_banned( $user_id, $group->id )
+			) {
+				$retval = true;
+			}
+			break;
+
+		case 'groups_request_membership':
+			// Return early if the user isn't logged in or the group ID is unknown.
+			if ( ! $user_id || ! $group_id ) {
+				break;
+			}
+
+			/*
+			* The group must accept membership requests, and the user should not
+			* currently be a member, have an active request, or be banned.
+			*/
+			$group = groups_get_group( $group_id );
+			if ( 'private' === bp_get_group_status( $group )
+				&& ! groups_is_user_member( $user_id, $group->id )
+				&& ! groups_check_for_membership_request( $user_id, $group->id )
+				&& ! groups_is_user_banned( $user_id, $group->id )
+			) {
+				$retval = true;
+			}
+			break;
+
+		case 'groups_send_invitation':
+			// Return early if the user isn't logged in or the group ID is unknown.
+			if ( ! $user_id || ! $group_id ) {
+				break;
+			}
+
+			/*
+			* The group must allow invitations, and the user should not
+			* currently be a member or be banned from the group.
+			*/
+			$group = groups_get_group( $group_id );
+			// Users with the 'bp_moderate' cap can always send invitations.
+			if ( bp_user_can( $user_id, 'bp_moderate' ) ) {
+				$retval = true;
+			} else {
+				$invite_status = bp_group_get_invite_status( $group_id );
+
+				switch ( $invite_status ) {
+					case 'admins' :
+						if ( groups_is_user_admin( $user_id, $group_id ) ) {
+							$retval = true;
+						}
+						break;
+
+					case 'mods' :
+						if ( groups_is_user_mod( $user_id, $group_id ) || groups_is_user_admin( $user_id, $group_id ) ) {
+							$retval = true;
+						}
+						break;
+
+					case 'members' :
+						if ( groups_is_user_member( $user_id, $group_id ) ) {
+							$retval = true;
+						}
+						break;
+				}
+			}
+			break;
+
+		case 'groups_receive_invitation':
+			// Return early if the user isn't logged in or the group ID is unknown.
+			if ( ! $user_id || ! $group_id ) {
+				break;
+			}
+
+			/*
+			* The group must allow invitations, and the user should not
+			* currently be a member or be banned from the group.
+			*/
+			$group = groups_get_group( $group_id );
+			if ( in_array( bp_get_group_status( $group ), array( 'private', 'hidden' ), true )
+				&& ! groups_is_user_member( $user_id, $group->id )
+				&& ! groups_is_user_banned( $user_id, $group->id )
+			) {
+				$retval = true;
+			}
+			break;
+
+		case 'groups_access_group':
+			// Return early if the group ID is unknown.
+			if ( ! $group_id ) {
+				break;
+			}
+
+			$group = groups_get_group( $group_id );
+
+			// If the check is for the logged-in user, use the BP_Groups_Group property.
+			if ( $user_id === bp_loggedin_user_id() ) {
+				$retval = $group->user_has_access;
+
+			/*
+			 * If the check is for a specified user who is not the logged-in user
+			 * run the check manually.
+			 */
+			} elseif ( 'public' === bp_get_group_status( $group ) || groups_is_user_member( $user_id, $group->id ) ) {
+				$retval = true;
+			}
+			break;
+
+		case 'groups_see_group':
+			// Return early if the group ID is unknown.
+			if ( ! $group_id ) {
+				break;
+			}
+
+			$group = groups_get_group( $group_id );
+
+			// If the check is for the logged-in user, use the BP_Groups_Group property.
+			if ( $user_id === bp_loggedin_user_id() ) {
+				$retval = $group->is_visible;
+
+			/*
+			 * If the check is for a specified user who is not the logged-in user
+			 * run the check manually.
+			 */
+			} elseif ( 'hidden' !== bp_get_group_status( $group ) || groups_is_user_member( $user_id, $group->id ) ) {
+				$retval = true;
+			}
+			break;
+	}
+
+	return $retval;
+
+}
+add_filter( 'bp_user_can', 'bp_groups_user_can_filter', 10, 5 );

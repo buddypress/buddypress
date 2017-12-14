@@ -420,7 +420,7 @@ function groups_action_join_group() {
 	if ( !groups_is_user_member( bp_loggedin_user_id(), $bp->groups->current_group->id ) && !groups_is_user_banned( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 
 		// User wants to join a group that is not public.
-		if ( $bp->groups->current_group->status != 'public' ) {
+		if ( bp_current_user_can( 'groups_join_group', array( 'group_id' => $bp->groups->current_group->id ) ) ) {
 			if ( !groups_check_user_has_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 				bp_core_add_message( __( 'There was an error joining the group.', 'buddypress' ), 'error' );
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );

@@ -543,12 +543,7 @@ class BP_Groups_Component extends BP_Component {
 			// If this is a private group, and the user is not a
 			// member and does not have an outstanding invitation,
 			// show a "Request Membership" nav item.
-			if ( is_user_logged_in() &&
-				 ! $this->current_group->is_member &&
-				 ! groups_check_for_membership_request( bp_loggedin_user_id(), $this->current_group->id ) &&
-				 $this->current_group->status == 'private' &&
-				 ! groups_check_user_has_invite( bp_loggedin_user_id(), $this->current_group->id )
-				) {
+			if ( bp_current_user_can( 'groups_request_membership', array( 'group_id' => $this->current_group->id ) ) ) {
 
 				$sub_nav[] = array(
 					'name'            => _x( 'Request Membership','Group screen nav', 'buddypress' ),

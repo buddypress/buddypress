@@ -2185,32 +2185,7 @@ function bp_groups_user_can_send_invites( $group_id = 0, $user_id = 0 ) {
 	}
 
 	if ( $user_id ) {
-		// Users with the 'bp_moderate' cap can always send invitations.
-		if ( bp_user_can( $user_id, 'bp_moderate' ) ) {
-			$can_send_invites = true;
-		} else {
-			$invite_status = bp_group_get_invite_status( $group_id );
-
-			switch ( $invite_status ) {
-				case 'admins' :
-					if ( groups_is_user_admin( $user_id, $group_id ) ) {
-						$can_send_invites = true;
-					}
-					break;
-
-				case 'mods' :
-					if ( groups_is_user_mod( $user_id, $group_id ) || groups_is_user_admin( $user_id, $group_id ) ) {
-						$can_send_invites = true;
-					}
-					break;
-
-				case 'members' :
-					if ( groups_is_user_member( $user_id, $group_id ) ) {
-						$can_send_invites = true;
-					}
-					break;
-			}
-		}
+		$can_send_invites = bp_user_can( $user_id, 'groups_send_invitation', array( 'group_id' => $group_id ) );
 	}
 
 	/**
