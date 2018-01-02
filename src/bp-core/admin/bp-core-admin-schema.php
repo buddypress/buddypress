@@ -506,6 +506,12 @@ function bp_core_install_emails() {
 
 	// Add these emails to the database.
 	foreach ( $emails as $id => $email ) {
+
+		// Some emails are multisite-only.
+		if ( ! is_multisite() && isset( $email['args'] ) && ! empty( $email['args']['multisite'] ) ) {
+			continue;
+		}
+
 		$post_id = wp_insert_post( bp_parse_args( $email, $defaults, 'install_email_' . $id ) );
 		if ( ! $post_id ) {
 			continue;
