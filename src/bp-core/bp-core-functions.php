@@ -3224,6 +3224,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
  * Return email appearance settings.
  *
  * @since 2.5.0
+ * @since 3.0.0 Added "direction" parameter for LTR/RTL email support.
  *
  * @return array
  */
@@ -3240,6 +3241,7 @@ function bp_email_get_appearance_settings() {
 		'highlight_color'   => '#D84800',
 		'header_text_color' => '#000000',
 		'header_text_size'  => 30,
+		'direction'         => is_rtl() ? 'right' : 'left',
 
 		'footer_text' => sprintf(
 			/* translators: email disclaimer, e.g. "© 2016 Site Name". */
