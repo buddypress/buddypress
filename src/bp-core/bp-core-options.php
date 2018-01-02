@@ -689,6 +689,31 @@ function bp_force_buddybar( $default = true ) {
 }
 
 /**
+ * Check whether bbPress plugin-powered Group Forums are enabled.
+ *
+ * @since 1.6.0
+ * @since 3.0.0 $default argument's default value changed from true to false.
+ * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *                      Default: false.
+ * @return bool True if group forums are active, otherwise false.
+ */
+function bp_is_group_forums_active( $default = false ) {
+	$is_active = function_exists( 'bbp_is_group_forums_active' ) ? bbp_is_group_forums_active( $default ) : $default;
+
+	/**
+	 * Filters whether or not bbPress plugin-powered Group Forums are enabled.
+	 *
+	 * @since 1.6.0
+	 * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
+	 *
+	 * @param bool $value Whether or not bbPress plugin-powered Group Forums are enabled.
+	 */
+	return (bool) apply_filters( 'bp_is_group_forums_active', $is_active );
+}
+
+/**
  * Check whether Akismet is enabled.
  *
  * @since 1.6.0

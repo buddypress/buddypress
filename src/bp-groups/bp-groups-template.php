@@ -3189,6 +3189,31 @@ function bp_has_friends_to_invite( $group = false ) {
 }
 
 /**
+ * Output a 'New Topic' button for a group.
+ *
+ * @since 1.2.7
+ * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
+ *
+ * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+ */
+function bp_group_new_topic_button( $group = false ) {
+}
+
+	/**
+	 * Return a 'New Topic' button for a group.
+	 *
+	 * @since 1.2.7
+	 * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
+	 *
+	 * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
+	 *
+	 * @return false
+	 */
+	function bp_get_group_new_topic_button( $group = false ) {
+		return false;
+	}
+
+/**
  * Output button to join a group.
  *
  * @since 1.0.0
