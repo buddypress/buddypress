@@ -2024,6 +2024,42 @@ function bp_group_member_count() {
 	}
 
 /**
+ * Output the URL of the Forum page of the current group in the loop.
+ *
+ * @since 1.0.0
+ */
+function bp_group_forum_permalink() {
+	echo bp_get_group_forum_permalink();
+}
+	/**
+	 * Generate the URL of the Forum page of a group.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object|bool $group Optional. Group object.
+	 *                           Default: current group in loop.
+	 * @return string
+	 */
+	function bp_get_group_forum_permalink( $group = false ) {
+		global $groups_template;
+
+		if ( empty( $group ) ) {
+			$group =& $groups_template->group;
+		}
+
+		/**
+		 * Filters the URL of the Forum page of a group.
+		 *
+		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
+		 *
+		 * @param string $value URL permalink for the Forum Page.
+		 * @param object $group Group object.
+		 */
+		return apply_filters( 'bp_get_group_forum_permalink', trailingslashit( bp_get_group_permalink( $group ) . 'forum' ), $group );
+	}
+
+/**
  * Determine whether forums are enabled for a group.
  *
  * @since 1.0.0
