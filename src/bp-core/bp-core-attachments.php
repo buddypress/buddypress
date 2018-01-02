@@ -1189,35 +1189,26 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
  *                     error message otherwise.
  */
 function bp_attachments_cover_image_ajax_upload() {
-	// Bail if not a POST action.
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 		wp_die();
 	}
 
-	/**
-	 * Sending the json response will be different if
-	 * the current Plupload runtime is html4
-	 */
-	$is_html4 = false;
-	if ( ! empty( $_POST['html4' ] ) ) {
-		$is_html4 = true;
-	}
-
-	// Check the nonce.
 	check_admin_referer( 'bp-uploader' );
 
-	// Init the BuddyPress parameters.
-	$bp_params = array();
+	// Sending the json response will be different if the current Plupload runtime is html4.
+	$is_html4 = ! empty( $_POST['html4' ] );
 
-	// We need it to carry on.
-	if ( ! empty( $_POST['bp_params'] ) ) {
-		$bp_params = bp_parse_args( $_POST['bp_params'], array(
-			'object'  => 'user',
-			'item_id' => bp_loggedin_user_id(),
-		), 'attachments_cover_image_ajax_upload' );
-	} else {
+	if ( empty( $_POST['bp_params'] ) ) {
 		bp_attachments_json_response( false, $is_html4 );
 	}
+
+	$bp_params = bp_parse_args( $_POST['bp_params'], array(
+		'object'  => 'user',
+		'item_id' => bp_loggedin_user_id(),
+	), 'attachments_cover_image_ajax_upload' );
+
+	$bp_params['item_id'] = (int) $bp_params['item_id'];
+	$bp_params['object']  = sanitize_text_field( $bp_params['object'] );
 
 	// We need the object to set the uploads dir filter.
 	if ( empty( $bp_params['object'] ) ) {
@@ -1297,10 +1288,8 @@ function bp_attachments_cover_image_ajax_upload() {
 		) );
 	}
 
-	// Default error message.
 	$error_message = __( 'There was a problem uploading the cover image.', 'buddypress' );
 
-	// Get BuddyPress Attachments Uploads Dir datas.
 	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
 
 	// The BP Attachments Uploads Dir is not set, stop.
@@ -1322,10 +1311,10 @@ function bp_attachments_cover_image_ajax_upload() {
 		) );
 	}
 
-	/**
+	/*
 	 * Generate the cover image so that it fit to feature's dimensions
 	 *
-	 * Unlike the Avatar, Uploading and generating the cover image is happening during
+	 * Unlike the avatar, uploading and generating the cover image is happening during
 	 * the same Ajax request, as we already instantiated the BP_Attachment_Cover_Image
 	 * class, let's use it.
 	 */
@@ -1336,17 +1325,15 @@ function bp_attachments_cover_image_ajax_upload() {
 	), $cover_image_attachment );
 
 	if ( ! $cover ) {
-		// Upload error response.
 		bp_attachments_json_response( false, $is_html4, array(
 			'type'    => 'upload_error',
 			'message' => $error_message,
 		) );
 	}
 
-	// Build the url to the file.
 	$cover_url = trailingslashit( $bp_attachments_uploads_dir['baseurl'] ) . $cover_subdir . '/' . $cover['cover_basename'];
 
-	// Init Feedback code, 1 is success.
+	// 1 is success.
 	$feedback_code = 1;
 
 	// 0 is the size warning.
@@ -1391,7 +1378,6 @@ add_action( 'wp_ajax_bp_cover_image_upload', 'bp_attachments_cover_image_ajax_up
  *                     error message otherwise.
  */
 function bp_attachments_cover_image_ajax_delete() {
-	// Bail if not a POST action.
 	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 		wp_send_json_error();
 	}
@@ -1437,10 +1423,9 @@ function bp_attachments_cover_image_ajax_delete() {
 		 */
 		do_action( "{$component}_cover_image_deleted", (int) $cover_image_data['item_id'] );
 
-		// Defaults no cover image.
 		$response = array(
 			'reset_url'     => '',
-			'feedback_code' => 3 ,
+			'feedback_code' => 3,
 		);
 
 		// Get cover image settings in case there's a default header.
@@ -1451,7 +1436,6 @@ function bp_attachments_cover_image_ajax_delete() {
 			$response['reset_url'] = $cover_params['default_cover'];
 		}
 
-		// Finally send the reset url.
 		wp_send_json_success( $response );
 
 	} else {
