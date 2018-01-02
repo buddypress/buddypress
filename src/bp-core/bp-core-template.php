@@ -2701,6 +2701,19 @@ function bp_is_group_admin_page() {
 }
 
 /**
+ * Is the current page a group's (legacy bbPress) forum page?
+ *
+ * @since 1.1.0
+ * @since 3.0.0 Always returns false.
+ * @deprecated 3.0.0 No longer used in core, but supported for custom theme templates.
+ *
+ * @return bool
+ */
+function bp_is_group_forum() {
+	return false;
+}
+
+/**
  * Is the current page a group's activity page?
  *
  * @since 1.2.1
