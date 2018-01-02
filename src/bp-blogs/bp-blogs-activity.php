@@ -1148,6 +1148,7 @@ function bp_blogs_setup_activity_loop_globals( $activity ) {
 
 	$allow_comments = bp_blogs_comments_open( $activity );
 	$thread_depth   = bp_blogs_get_blogmeta( $activity->item_id, 'thread_comments_depth' );
+	$moderation     = bp_blogs_get_blogmeta( $activity->item_id, 'comment_moderation' );
 
 	// Initialize a local object so we won't have to query this again in the
 	// comment loop.
@@ -1157,16 +1158,23 @@ function bp_blogs_setup_activity_loop_globals( $activity ) {
 	if ( empty( buddypress()->blogs->thread_depth ) ) {
 		buddypress()->blogs->thread_depth   = array();
 	}
+	if ( empty( buddypress()->blogs->comment_moderation ) ) {
+		buddypress()->blogs->comment_moderation = array();
+	}
 
-	// Cache comment settings in the buddypress() singleton to reference later in
-	// the activity comment loop
-	// @see bp_blogs_disable_activity_replies()
-	//
-	// thread_depth is keyed by activity ID instead of blog ID because when we're
-	// in a comment loop, we don't have access to the blog ID...
-	// should probably object cache these values instead...
-	buddypress()->blogs->allow_comments[ $activity->id ] = $allow_comments;
-	buddypress()->blogs->thread_depth[ $activity->id ]   = $thread_depth;
+	/*
+	 * Cache comment settings in the buddypress() singleton for later reference.
+	 *
+	 * See bp_blogs_disable_activity_commenting() / bp_blogs_can_comment_reply().
+	 *
+	 * thread_depth is keyed by activity ID instead of blog ID because when we're
+	 * in an actvity comment loop, we don't have access to the blog ID...
+	 *
+	 * Should probably object cache these values instead...
+	 */
+	buddypress()->blogs->allow_comments[ $activity->id ]     = $allow_comments;
+	buddypress()->blogs->thread_depth[ $activity->id ]       = $thread_depth;
+	buddypress()->blogs->comment_moderation[ $activity->id ] = $moderation;
 }
 
 /**
@@ -1229,6 +1237,11 @@ function bp_blogs_disable_activity_commenting( $retval ) {
 			// If comments are closed for the WP blog post, we should disable
 			// activity comments for this activity entry.
 			if ( empty( buddypress()->blogs->allow_comments[ bp_get_activity_id() ] ) ) {
+				$retval = false;
+			}
+
+			// If comments need moderation, disable activity commenting.
+			if ( ! empty( buddypress()->blogs->comment_moderation[ bp_get_activity_id() ] ) ) {
 				$retval = false;
 			}
 		// The activity type does not support comments or replies
@@ -1312,6 +1325,11 @@ function bp_blogs_can_comment_reply( $retval, $comment ) {
 		if ( empty( buddypress()->blogs->allow_comments[$comment->item_id] ) ) {
 			$retval = false;
 		}
+	}
+
+	// If comments need moderation, disable activity commenting.
+	if ( ! empty( buddypress()->blogs->comment_moderation[$comment->item_id] ) ) {
+		$retval = false;
 	}
 
 	return $retval;
