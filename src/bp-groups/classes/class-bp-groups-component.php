@@ -555,20 +555,6 @@ class BP_Groups_Component extends BP_Component {
 				);
 			}
 
-			// Forums are enabled and turned on.
-			if ( $this->current_group->enable_forum && bp_is_active( 'forums' ) ) {
-				$sub_nav[] = array(
-					'name'            => _x( 'Forum', 'My Group screen nav', 'buddypress' ),
-					'slug'            => 'forum',
-					'parent_url'      => $group_link,
-					'parent_slug'     => $this->current_group->slug,
-					'screen_function' => 'groups_screen_group_forum',
-					'position'        => 40,
-					'user_has_access' => $this->current_group->user_has_access,
-					'item_css_id'     => 'forums'
-				);
-			}
-
 			if ( $this->current_group->front_template || bp_is_active( 'activity' ) ) {
 				/**
 				 * If the theme is using a custom front, create activity subnav.

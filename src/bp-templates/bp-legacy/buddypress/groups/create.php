@@ -189,18 +189,6 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				</fieldset>
 
-				<?php if ( bp_is_active( 'forums' ) ) : ?>
-
-					<h4><?php _e( 'Group Forums', 'buddypress' ); ?></h4>
-
-					<p><?php _e( 'Should this group have a forum?', 'buddypress' ); ?></p>
-
-					<div class="checkbox">
-						<label for="group-show-forum"><input type="checkbox" name="group-show-forum" id="group-show-forum" value="1"<?php checked( bp_get_new_group_enable_forum(), true, true ); ?> /> <?php _e( 'Enable discussion forum', 'buddypress' ); ?></label>
-					</div>
-
-				<?php endif; ?>
-
 				<?php
 
 				/**
