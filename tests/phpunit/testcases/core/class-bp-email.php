@@ -256,12 +256,15 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 		bp_core_install_emails();
 
 		$user1  = get_user_by( 'id', $this->u1 );
-		$result = bp_send_email( 'core-user-registration', $this->u1, array(
+		$result = bp_send_email( 'activity-comment', $this->u1, array(
 			'tokens' => array(
-				'activate.url' => 'http://example.com',
-				'key'          => '123',
-				'user.email'   => $user1->user_email,
-				'user.id'      => $this->u1,
+				'comment.id'                => 123,
+				'commenter.id'              => $this->u2,
+				'usermessage'               => 'hello world',
+				'original_activity.user_id' => $this->u1,
+				'poster.name'               => 'name',
+				'thread.url'                => 'http://example.com',
+				'unsubscribe'               => 'http://example.com',
 			),
 		) );
 
