@@ -1387,16 +1387,50 @@ function bp_send_private_message_button() {
 
 /**
  * Output the 'Private Message' button for member profile headers.
+ *
+ * @since 1.2.0
+ * @since 3.0.0 Added `$args` parameter.
+ *
+ * @param array|string $args See {@link bp_get_send_message_button()}.
  */
-function bp_send_message_button() {
-	echo bp_get_send_message_button();
+function bp_send_message_button( $args = '' ) {
+	echo bp_get_send_message_button( $args );
 }
 	/**
 	 * Generate the 'Private Message' button for member profile headers.
 	 *
+	 * @since 1.2.0
+	 * @since 3.0.0 Added `$args` parameter.
+	 *
+	 * @param array|string $args {
+	 *     All arguments are optional. See {@link BP_Button} for complete
+	 *     descriptions.
+	 *     @type string $id                Default: 'private_message'.
+	 *     @type string $component         Default: 'messages'.
+	 *     @type bool   $must_be_logged_in Default: true.
+	 *     @type bool   $block_self        Default: true.
+	 *     @type string $wrapper_id        Default: 'send-private-message'.
+	 *     @type string $link_href         Default: the private message link for
+	 *                                     the current member in the loop.
+	 *     @type string $link_text         Default: 'Private Message'.
+	 *     @type string $link_class        Default: 'send-message'.
+	 * }
 	 * @return string
 	 */
-	function bp_get_send_message_button() {
+	function bp_get_send_message_button( $args = '' ) {
+
+		$r = bp_parse_args( $args, array(
+			'id'                => 'private_message',
+			'component'         => 'messages',
+			'must_be_logged_in' => true,
+			'block_self'        => true,
+			'wrapper_id'        => 'send-private-message',
+			'link_href'         => bp_get_send_private_message_link(),
+			'link_text'         => __( 'Private Message', 'buddypress' ),
+			'link_class'        => 'send-message',
+		) );
+
+
 		// Note: 'bp_get_send_message_button' is a legacy filter. Use
 		// 'bp_get_send_message_button_args' instead. See #4536.
 		return apply_filters( 'bp_get_send_message_button',
@@ -1408,16 +1442,7 @@ function bp_send_message_button() {
 			 *
 			 * @param array $value See {@link BP_Button}.
 			 */
-			bp_get_button( apply_filters( 'bp_get_send_message_button_args', array(
-				'id'                => 'private_message',
-				'component'         => 'messages',
-				'must_be_logged_in' => true,
-				'block_self'        => true,
-				'wrapper_id'        => 'send-private-message',
-				'link_href'         => bp_get_send_private_message_link(),
-				'link_text'         => __( 'Private Message', 'buddypress' ),
-				'link_class'        => 'send-message',
-			) ) )
+			bp_get_button( apply_filters( 'bp_get_send_message_button_args', $r ) )
 		);
 	}
 
