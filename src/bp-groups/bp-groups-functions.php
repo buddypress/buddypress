@@ -641,25 +641,24 @@ function groups_get_group_mods( $group_id ) {
  * returning true.
  *
  * @since 1.0.0
+ * @since 3.0.0 $group_id now supports multiple values. Only works if legacy query is not
+ *              in use.
  *
  * @param array $args {
  *     An array of optional arguments.
- *     @type int      $group_id     ID of the group whose members are being queried.
- *                                  Default: current group ID.
- *     @type int      $page         Page of results to be queried. Default: 1.
- *     @type int      $per_page     Number of items to return per page of results.
- *                                  Default: 20.
- *     @type int      $max          Optional. Max number of items to return.
- *     @type array    $exclude      Optional. Array of user IDs to exclude.
- *     @type bool|int $value        True (or 1) to exclude admins and mods from results.
- *                                  Default: 1.
- *     @type bool|int $value        True (or 1) to exclude banned users from results.
- *                                  Default: 1.
- *     @type array    $group_role   Optional. Array of group roles to include.
- *     @type string   $search_terms Optional. Filter results by a search string.
- *     @type string   $type         Optional. Sort the order of results. 'last_joined',
- *                                  'first_joined', or any of the $type params available
- *                                  in {@link BP_User_Query}. Default: 'last_joined'.
+ *     @type int|array|string $group_id            ID of the group to limit results to. Also accepts multiple values
+ *                                                 either as an array or as a comma-delimited string.
+ *     @type int              $page                Page of results to be queried. Default: 1.
+ *     @type int              $per_page            Number of items to return per page of results. Default: 20.
+ *     @type int              $max                 Optional. Max number of items to return.
+ *     @type array            $exclude             Optional. Array of user IDs to exclude.
+ *     @type bool|int         $exclude_admins_mods True (or 1) to exclude admins and mods from results. Default: 1.
+ *     @type bool|int         $exclude_banned      True (or 1) to exclude banned users from results. Default: 1.
+ *     @type array            $group_role          Optional. Array of group roles to include.
+ *     @type string           $search_terms        Optional. Filter results by a search string.
+ *     @type string           $type                Optional. Sort the order of results. 'last_joined', 'first_joined', or
+ *                                                 any of the $type params available in {@link BP_User_Query}. Default:
+ *                                                 'last_joined'.
  * }
  * @return false|array Multi-d array of 'members' list and 'count'.
  */

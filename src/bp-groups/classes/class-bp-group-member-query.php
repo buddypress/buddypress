@@ -24,20 +24,19 @@ defined( 'ABSPATH' ) || exit;
  *   inviter_id = 0 (and invite_sent = 0).
  *
  * @since 1.8.0
+ * @since 3.0.0 $group_id now supports multiple values.
  *
  * @param array $args  {
  *     Array of arguments. Accepts all arguments from
  *     {@link BP_User_Query}, with the following additions:
  *
- *     @type int    $group_id     ID of the group to limit results to.
- *     @type array  $group_role   Array of group roles to match ('member',
- *                                'mod', 'admin', 'banned').
- *                                Default: array( 'member' ).
- *     @type bool   $is_confirmed Whether to limit to confirmed members.
- *                                Default: true.
- *     @type string $type         Sort order. Accepts any value supported by
- *                                {@link BP_User_Query}, in addition to 'last_joined'
- *                                and 'first_joined'. Default: 'last_joined'.
+ *     @type int|array|string $group_id     ID of the group to limit results to. Also accepts multiple values
+ *                                          either as an array or as a comma-delimited string.
+ *     @type array            $group_role   Array of group roles to match ('member', 'mod', 'admin', 'banned').
+ *                                          Default: array( 'member' ).
+ *     @type bool             $is_confirmed Whether to limit to confirmed members. Default: true.
+ *     @type string           $type         Sort order. Accepts any value supported by {@link BP_User_Query}, in
+ *                                          addition to 'last_joined' and 'first_joined'. Default: 'last_joined'.
  * }
  */
 class BP_Group_Member_Query extends BP_User_Query {
@@ -137,7 +136,9 @@ class BP_Group_Member_Query extends BP_User_Query {
 		/* WHERE clauses *****************************************************/
 
 		// Group id.
-		$sql['where'][] = $wpdb->prepare( "group_id = %d", $this->query_vars['group_id'] );
+		$group_ids = wp_parse_id_list( $this->query_vars['group_id'] );
+		$group_ids = implode( ',', $group_ids );
+		$sql['where'][] = "group_id IN ({$group_ids})";
 
 		// If is_confirmed.
 		$is_confirmed = ! empty( $this->query_vars['is_confirmed'] ) ? 1 : 0;
