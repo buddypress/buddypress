@@ -768,7 +768,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 				'button_element'    => $button_element,
 				'link_text'         => __( 'Reply', 'buddypress' ),
 				'button_attr'       =>  array(
-					'class' => "acomment-reply bp-primary-action {$icons}",
+					'class' => "acomment-reply bp-primary-action",
 					'id'    => sprintf( 'acomment-reply-%1$s-from-%2$s', $activity_id, $activity_comment_id ),
 				),
 			),
