@@ -755,6 +755,11 @@ function bp_nouveau_has_nav( $args = array() ) {
 
 	}
 
+	// The navigation can be empty.
+	if ( $nav === false ) {
+		$nav = array();
+	}
+
 	$bp_nouveau->sorted_nav = array_values( $nav );
 
 	if ( 0 === count( $bp_nouveau->sorted_nav ) || ! $bp_nouveau->displayed_nav ) {
