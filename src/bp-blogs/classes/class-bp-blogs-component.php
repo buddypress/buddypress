@@ -105,7 +105,7 @@ class BP_Blogs_Component extends BP_Component {
 			 *
 			 * @param array $value Array of post types to track.
 			 */
-			$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+			$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'page', 'post' ) );
 
 			foreach ( $post_types as $post_type ) {
 				add_post_type_support( $post_type, 'buddypress-activity' );

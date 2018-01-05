@@ -64,7 +64,7 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 	 *
 	 * @param array $value Array of post types to track.
 	 */
-	$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+	$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'page', 'post' ) );
 	$post_types_array = array_flip( $post_types );
 
 	if ( ! isset( $post_types_array[ $post_type ] ) ) {
@@ -95,7 +95,7 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 		 *
 		 * @param array $value Array of post types to track.
 		 */
-		$comment_post_types = apply_filters( 'bp_blogs_record_comment_post_types', array( 'post' ) );
+		$comment_post_types = apply_filters( 'bp_blogs_record_comment_post_types', array( 'page', 'post' ) );
 		$comment_post_types_array = array_flip( $comment_post_types );
 
 		if ( isset( $comment_post_types_array[ $post_type ] ) ) {
