@@ -1,76 +1,180 @@
-/*! jquery.atwho - v0.5.2 %>
-* Copyright (c) 2014 chord.luo <chord.luo@gmail.com>;
-* homepage: http://ichord.github.com/At.js
-* Licensed MIT
-*/
+/**
+ * at.js - 1.5.4
+ * Copyright (c) 2017 chord.luo <chord.luo@gmail.com>;
+ * Homepage: http://ichord.github.com/At.js
+ * License: MIT
+ */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define(["jquery"], function ($) {
-      return (root.returnExportsGlobal = factory($));
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define(["jquery"], function (a0) {
+      return (factory(a0));
     });
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like enviroments that support module.exports,
+    // only CommonJS-like environments that support module.exports,
     // like Node.
     module.exports = factory(require("jquery"));
   } else {
     factory(jQuery);
   }
 }(this, function ($) {
+var DEFAULT_CALLBACKS, KEY_CODE;
 
-var Api, App, Controller, DEFAULT_CALLBACKS, KEY_CODE, Model, View,
-  __slice = [].slice;
+KEY_CODE = {
+  ESC: 27,
+  TAB: 9,
+  ENTER: 13,
+  CTRL: 17,
+  A: 65,
+  P: 80,
+  N: 78,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+  BACKSPACE: 8,
+  SPACE: 32
+};
+
+DEFAULT_CALLBACKS = {
+  beforeSave: function(data) {
+    return Controller.arrayToDefaultHash(data);
+  },
+  matcher: function(flag, subtext, should_startWithSpace, acceptSpaceBar) {
+    var _a, _y, match, regexp, space;
+    flag = flag.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    if (should_startWithSpace) {
+      flag = '(?:^|\\s)' + flag;
+    }
+    _a = decodeURI("%C3%80");
+    _y = decodeURI("%C3%BF");
+    space = acceptSpaceBar ? "\ " : "";
+    regexp = new RegExp(flag + "([A-Za-z" + _a + "-" + _y + "0-9_" + space + "\'\.\+\-]*)$|" + flag + "([^\\x00-\\xff]*)$", 'gi');
+    match = regexp.exec(subtext);
+    if (match) {
+      return match[2] || match[1];
+    } else {
+      return null;
+    }
+  },
+  filter: function(query, data, searchKey) {
+    var _results, i, item, len;
+    _results = [];
+    for (i = 0, len = data.length; i < len; i++) {
+      item = data[i];
+      if (~new String(item[searchKey]).toLowerCase().indexOf(query.toLowerCase())) {
+        _results.push(item);
+      }
+    }
+    return _results;
+  },
+  remoteFilter: null,
+  sorter: function(query, items, searchKey) {
+    var _results, i, item, len;
+    if (!query) {
+      return items;
+    }
+    _results = [];
+    for (i = 0, len = items.length; i < len; i++) {
+      item = items[i];
+      item.atwho_order = new String(item[searchKey]).toLowerCase().indexOf(query.toLowerCase());
+      if (item.atwho_order > -1) {
+        _results.push(item);
+      }
+    }
+    return _results.sort(function(a, b) {
+      return a.atwho_order - b.atwho_order;
+    });
+  },
+  tplEval: function(tpl, map) {
+    var error, error1, template;
+    template = tpl;
+    try {
+      if (typeof tpl !== 'string') {
+        template = tpl(map);
+      }
+      return template.replace(/\$\{([^\}]*)\}/g, function(tag, key, pos) {
+        return map[key];
+      });
+    } catch (error1) {
+      error = error1;
+      return "";
+    }
+  },
+  highlighter: function(li, query) {
+    var regexp;
+    if (!query) {
+      return li;
+    }
+    regexp = new RegExp(">\\s*([^\<]*?)(" + query.replace("+", "\\+") + ")([^\<]*)\\s*<", 'ig');
+    return li.replace(regexp, function(str, $1, $2, $3) {
+      return '> ' + $1 + '<strong>' + $2 + '</strong>' + $3 + ' <';
+    });
+  },
+  beforeInsert: function(value, $li, e) {
+    return value;
+  },
+  beforeReposition: function(offset) {
+    return offset;
+  },
+  afterMatchFailed: function(at, el) {}
+};
+
+var App;
 
 App = (function() {
   function App(inputor) {
-    this.current_flag = null;
+    this.currentFlag = null;
     this.controllers = {};
-    this.alias_maps = {};
+    this.aliasMaps = {};
     this.$inputor = $(inputor);
-    this.setIframe();
+    this.setupRootElement();
     this.listen();
   }
 
   App.prototype.createContainer = function(doc) {
-    if ((this.$el = $("#atwho-container", doc)).length === 0) {
-      return $(doc.body).append(this.$el = $("<div id='atwho-container'></div>"));
+    var ref;
+    if ((ref = this.$el) != null) {
+      ref.remove();
     }
+    return $(doc.body).append(this.$el = $("<div class='atwho-container'></div>"));
   };
 
-  App.prototype.setIframe = function(iframe, standalone) {
-    var _ref;
-    if (standalone == null) {
-      standalone = false;
+  App.prototype.setupRootElement = function(iframe, asRoot) {
+    var error, error1;
+    if (asRoot == null) {
+      asRoot = false;
     }
     if (iframe) {
       this.window = iframe.contentWindow;
       this.document = iframe.contentDocument || this.window.document;
       this.iframe = iframe;
     } else {
-      this.document = document;
-      this.window = window;
-      this.iframe = null;
-    }
-    if (this.iframeStandalone = standalone) {
-      if ((_ref = this.$el) != null) {
-        _ref.remove();
+      this.document = this.$inputor[0].ownerDocument;
+      this.window = this.document.defaultView || this.document.parentWindow;
+      try {
+        this.iframe = this.window.frameElement;
+      } catch (error1) {
+        error = error1;
+        this.iframe = null;
+        if ($.fn.atwho.debug) {
+          throw new Error("iframe auto-discovery is failed.\nPlease use `setIframe` to set the target iframe manually.\n" + error);
+        }
       }
-      return this.createContainer(this.document);
-    } else {
-      return this.createContainer(document);
     }
+    return this.createContainer((this.iframeAsRoot = asRoot) ? this.document : document);
   };
 
   App.prototype.controller = function(at) {
-    var c, current, current_flag, _ref;
-    if (this.alias_maps[at]) {
-      current = this.controllers[this.alias_maps[at]];
+    var c, current, currentFlag, ref;
+    if (this.aliasMaps[at]) {
+      current = this.controllers[this.aliasMaps[at]];
     } else {
-      _ref = this.controllers;
-      for (current_flag in _ref) {
-        c = _ref[current_flag];
-        if (current_flag === at) {
+      ref = this.controllers;
+      for (currentFlag in ref) {
+        c = ref[currentFlag];
+        if (currentFlag === at) {
           current = c;
           break;
         }
@@ -79,58 +183,87 @@ App = (function() {
     if (current) {
       return current;
     } else {
-      return this.controllers[this.current_flag];
+      return this.controllers[this.currentFlag];
     }
   };
 
-  App.prototype.set_context_for = function(at) {
-    this.current_flag = at;
+  App.prototype.setContextFor = function(at) {
+    this.currentFlag = at;
     return this;
   };
 
   App.prototype.reg = function(flag, setting) {
-    var controller, _base;
-    controller = (_base = this.controllers)[flag] || (_base[flag] = new Controller(this, flag));
+    var base, controller;
+    controller = (base = this.controllers)[flag] || (base[flag] = this.$inputor.is('[contentEditable]') ? new EditableController(this, flag) : new TextareaController(this, flag));
     if (setting.alias) {
-      this.alias_maps[setting.alias] = flag;
+      this.aliasMaps[setting.alias] = flag;
     }
     controller.init(setting);
     return this;
   };
 
   App.prototype.listen = function() {
-    return this.$inputor.on('keyup.atwhoInner', (function(_this) {
+    return this.$inputor.on('compositionstart', (function(_this) {
       return function(e) {
-        return _this.on_keyup(e);
+        var ref;
+        if ((ref = _this.controller()) != null) {
+          ref.view.hide();
+        }
+        _this.isComposing = true;
+        return null;
+      };
+    })(this)).on('compositionend', (function(_this) {
+      return function(e) {
+        _this.isComposing = false;
+        setTimeout(function(e) {
+          return _this.dispatch(e);
+        });
+        return null;
+      };
+    })(this)).on('keyup.atwhoInner', (function(_this) {
+      return function(e) {
+        return _this.onKeyup(e);
       };
     })(this)).on('keydown.atwhoInner', (function(_this) {
       return function(e) {
-        return _this.on_keydown(e);
-      };
-    })(this)).on('scroll.atwhoInner', (function(_this) {
-      return function(e) {
-        var _ref;
-        return (_ref = _this.controller()) != null ? _ref.view.hide(e) : void 0;
+        return _this.onKeydown(e);
       };
     })(this)).on('blur.atwhoInner', (function(_this) {
       return function(e) {
         var c;
         if (c = _this.controller()) {
-          return c.view.hide(e, c.get_opt("display_timeout"));
+          c.expectedQueryCBId = null;
+          return c.view.hide(e, c.getOpt("displayTimeout"));
         }
       };
     })(this)).on('click.atwhoInner', (function(_this) {
       return function(e) {
-        return _this.dispatch();
+        return _this.dispatch(e);
       };
-    })(this));
+    })(this)).on('scroll.atwhoInner', (function(_this) {
+      return function() {
+        var lastScrollTop;
+        lastScrollTop = _this.$inputor.scrollTop();
+        return function(e) {
+          var currentScrollTop, ref;
+          currentScrollTop = e.target.scrollTop;
+          if (lastScrollTop !== currentScrollTop) {
+            if ((ref = _this.controller()) != null) {
+              ref.view.hide(e);
+            }
+          }
+          lastScrollTop = currentScrollTop;
+          return true;
+        };
+      };
+    })(this)());
   };
 
   App.prototype.shutdown = function() {
-    var c, _, _ref;
-    _ref = this.controllers;
-    for (_ in _ref) {
-      c = _ref[_];
+    var _, c, ref;
+    ref = this.controllers;
+    for (_ in ref) {
+      c = ref[_];
       c.destroy();
       delete this.controllers[_];
     }
@@ -138,54 +271,46 @@ App = (function() {
     return this.$el.remove();
   };
 
-  App.prototype.dispatch = function() {
-    return $.map(this.controllers, (function(_this) {
-      return function(c) {
-        var delay;
-        if (delay = c.get_opt('delay')) {
-          clearTimeout(_this.delayedCallback);
-          return _this.delayedCallback = setTimeout(function() {
-            if (c.look_up()) {
-              return _this.set_context_for(c.at);
-            }
-          }, delay);
-        } else {
-          if (c.look_up()) {
-            return _this.set_context_for(c.at);
-          }
-        }
-      };
-    })(this));
+  App.prototype.dispatch = function(e) {
+    var _, c, ref, results;
+    ref = this.controllers;
+    results = [];
+    for (_ in ref) {
+      c = ref[_];
+      results.push(c.lookUp(e));
+    }
+    return results;
   };
 
-  App.prototype.on_keyup = function(e) {
-    var _ref;
+  App.prototype.onKeyup = function(e) {
+    var ref;
     switch (e.keyCode) {
       case KEY_CODE.ESC:
         e.preventDefault();
-        if ((_ref = this.controller()) != null) {
-          _ref.view.hide();
+        if ((ref = this.controller()) != null) {
+          ref.view.hide();
         }
         break;
       case KEY_CODE.DOWN:
       case KEY_CODE.UP:
       case KEY_CODE.CTRL:
+      case KEY_CODE.ENTER:
         $.noop();
         break;
       case KEY_CODE.P:
       case KEY_CODE.N:
         if (!e.ctrlKey) {
-          this.dispatch();
+          this.dispatch(e);
         }
         break;
       default:
-        this.dispatch();
+        this.dispatch(e);
     }
   };
 
-  App.prototype.on_keydown = function(e) {
-    var view, _ref;
-    view = (_ref = this.controller()) != null ? _ref.view : void 0;
+  App.prototype.onKeydown = function(e) {
+    var ref, view;
+    view = (ref = this.controller()) != null ? ref.view : void 0;
     if (!(view && view.visible())) {
       return;
     }
@@ -218,11 +343,22 @@ App = (function() {
         break;
       case KEY_CODE.TAB:
       case KEY_CODE.ENTER:
+      case KEY_CODE.SPACE:
         if (!view.visible()) {
           return;
         }
-        e.preventDefault();
-        view.choose(e);
+        if (!this.controller().getOpt('spaceSelectsMatch') && e.keyCode === KEY_CODE.SPACE) {
+          return;
+        }
+        if (!this.controller().getOpt('tabSelectsMatch') && e.keyCode === KEY_CODE.TAB) {
+          return;
+        }
+        if (view.highlighted()) {
+          e.preventDefault();
+          view.choose(e);
+        } else {
+          view.hide(e);
+        }
         break;
       default:
         $.noop();
@@ -233,20 +369,23 @@ App = (function() {
 
 })();
 
+var Controller,
+  slice = [].slice;
+
 Controller = (function() {
   Controller.prototype.uid = function() {
     return (Math.random().toString(16) + "000000000").substr(2, 8) + (new Date().getTime());
   };
 
-  function Controller(app, at) {
+  function Controller(app, at1) {
     this.app = app;
-    this.at = at;
+    this.at = at1;
     this.$inputor = this.app.$inputor;
     this.id = this.$inputor[0].id || this.uid();
+    this.expectedQueryCBId = null;
     this.setting = null;
     this.query = null;
     this.pos = 0;
-    this.cur_rect = null;
     this.range = null;
     if ((this.$el = $("#atwho-ground-" + this.id, this.app.$el)).length === 0) {
       this.app.$el.append(this.$el = $("<div id='atwho-ground-" + this.id + "'></div>"));
@@ -268,70 +407,185 @@ Controller = (function() {
     return this.$el.remove();
   };
 
-  Controller.prototype.call_default = function() {
-    var args, error, func_name;
-    func_name = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+  Controller.prototype.callDefault = function() {
+    var args, error, error1, funcName;
+    funcName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
     try {
-      return DEFAULT_CALLBACKS[func_name].apply(this, args);
-    } catch (_error) {
-      error = _error;
-      return $.error("" + error + " Or maybe At.js doesn't have function " + func_name);
+      return DEFAULT_CALLBACKS[funcName].apply(this, args);
+    } catch (error1) {
+      error = error1;
+      return $.error(error + " Or maybe At.js doesn't have function " + funcName);
     }
   };
 
   Controller.prototype.trigger = function(name, data) {
-    var alias, event_name;
+    var alias, eventName;
     if (data == null) {
       data = [];
     }
     data.push(this);
-    alias = this.get_opt('alias');
-    event_name = alias ? "" + name + "-" + alias + ".atwho" : "" + name + ".atwho";
-    return this.$inputor.trigger(event_name, data);
+    alias = this.getOpt('alias');
+    eventName = alias ? name + "-" + alias + ".atwho" : name + ".atwho";
+    return this.$inputor.trigger(eventName, data);
   };
 
-  Controller.prototype.callbacks = function(func_name) {
-    return this.get_opt("callbacks")[func_name] || DEFAULT_CALLBACKS[func_name];
+  Controller.prototype.callbacks = function(funcName) {
+    return this.getOpt("callbacks")[funcName] || DEFAULT_CALLBACKS[funcName];
   };
 
-  Controller.prototype.get_opt = function(at, default_value) {
-    var e;
+  Controller.prototype.getOpt = function(at, default_value) {
+    var e, error1;
     try {
       return this.setting[at];
-    } catch (_error) {
-      e = _error;
+    } catch (error1) {
+      e = error1;
       return null;
     }
   };
 
-  Controller.prototype.content = function() {
-    var range;
-    if (this.$inputor.is('textarea, input')) {
-      return this.$inputor.val();
-    } else {
-      if (!(range = this.mark_range())) {
-        return;
+  Controller.prototype.insertContentFor = function($li) {
+    var data, tpl;
+    tpl = this.getOpt('insertTpl');
+    data = $.extend({}, $li.data('item-data'), {
+      'atwho-at': this.at
+    });
+    return this.callbacks("tplEval").call(this, tpl, data, "onInsert");
+  };
+
+  Controller.prototype.renderView = function(data) {
+    var searchKey;
+    searchKey = this.getOpt("searchKey");
+    data = this.callbacks("sorter").call(this, this.query.text, data.slice(0, 1001), searchKey);
+    return this.view.render(data.slice(0, this.getOpt('limit')));
+  };
+
+  Controller.arrayToDefaultHash = function(data) {
+    var i, item, len, results;
+    if (!$.isArray(data)) {
+      return data;
+    }
+    results = [];
+    for (i = 0, len = data.length; i < len; i++) {
+      item = data[i];
+      if ($.isPlainObject(item)) {
+        results.push(item);
+      } else {
+        results.push({
+          name: item
+        });
       }
-      return (range.startContainer.textContent || "").slice(0, range.startOffset);
+    }
+    return results;
+  };
+
+  Controller.prototype.lookUp = function(e) {
+    var query, wait;
+    if (e && e.type === 'click' && !this.getOpt('lookUpOnClick')) {
+      return;
+    }
+    if (this.getOpt('suspendOnComposing') && this.app.isComposing) {
+      return;
+    }
+    query = this.catchQuery(e);
+    if (!query) {
+      this.expectedQueryCBId = null;
+      return query;
+    }
+    this.app.setContextFor(this.at);
+    if (wait = this.getOpt('delay')) {
+      this._delayLookUp(query, wait);
+    } else {
+      this._lookUp(query);
+    }
+    return query;
+  };
+
+  Controller.prototype._delayLookUp = function(query, wait) {
+    var now, remaining;
+    now = Date.now ? Date.now() : new Date().getTime();
+    this.previousCallTime || (this.previousCallTime = now);
+    remaining = wait - (now - this.previousCallTime);
+    if ((0 < remaining && remaining < wait)) {
+      this.previousCallTime = now;
+      this._stopDelayedCall();
+      return this.delayedCallTimeout = setTimeout((function(_this) {
+        return function() {
+          _this.previousCallTime = 0;
+          _this.delayedCallTimeout = null;
+          return _this._lookUp(query);
+        };
+      })(this), wait);
+    } else {
+      this._stopDelayedCall();
+      if (this.previousCallTime !== now) {
+        this.previousCallTime = 0;
+      }
+      return this._lookUp(query);
     }
   };
 
-  Controller.prototype.catch_query = function() {
-    var caret_pos, content, end, query, start, subtext;
-    content = this.content();
-    caret_pos = this.$inputor.caret('pos', {
+  Controller.prototype._stopDelayedCall = function() {
+    if (this.delayedCallTimeout) {
+      clearTimeout(this.delayedCallTimeout);
+      return this.delayedCallTimeout = null;
+    }
+  };
+
+  Controller.prototype._generateQueryCBId = function() {
+    return {};
+  };
+
+  Controller.prototype._lookUp = function(query) {
+    var _callback;
+    _callback = function(queryCBId, data) {
+      if (queryCBId !== this.expectedQueryCBId) {
+        return;
+      }
+      if (data && data.length > 0) {
+        return this.renderView(this.constructor.arrayToDefaultHash(data));
+      } else {
+        return this.view.hide();
+      }
+    };
+    this.expectedQueryCBId = this._generateQueryCBId();
+    return this.model.query(query.text, $.proxy(_callback, this, this.expectedQueryCBId));
+  };
+
+  return Controller;
+
+})();
+
+var TextareaController,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+TextareaController = (function(superClass) {
+  extend(TextareaController, superClass);
+
+  function TextareaController() {
+    return TextareaController.__super__.constructor.apply(this, arguments);
+  }
+
+  TextareaController.prototype.catchQuery = function() {
+    var caretPos, content, end, isString, query, start, subtext;
+    content = this.$inputor.val();
+    caretPos = this.$inputor.caret('pos', {
       iframe: this.app.iframe
     });
-    subtext = content.slice(0, caret_pos);
-    query = this.callbacks("matcher").call(this, this.at, subtext, this.get_opt('start_with_space'));
-    if (typeof query === "string" && query.length <= this.get_opt('max_len', 20)) {
-      start = caret_pos - query.length;
+    subtext = content.slice(0, caretPos);
+    query = this.callbacks("matcher").call(this, this.at, subtext, this.getOpt('startWithSpace'), this.getOpt("acceptSpaceBar"));
+    isString = typeof query === 'string';
+    if (isString && query.length < this.getOpt('minLen', 0)) {
+      return;
+    }
+    if (isString && query.length <= this.getOpt('maxLen', 20)) {
+      start = caretPos - query.length;
       end = start + query.length;
       this.pos = start;
       query = {
         'text': query,
-        'head_pos': start,
-        'end_pos': end
+        'headPos': start,
+        'endPos': end
       };
       this.trigger("matched", [this.at, query.text]);
     } else {
@@ -341,126 +595,263 @@ Controller = (function() {
     return this.query = query;
   };
 
-  Controller.prototype.rect = function() {
-    var c, iframe_offset, scale_bottom;
+  TextareaController.prototype.rect = function() {
+    var c, iframeOffset, scaleBottom;
     if (!(c = this.$inputor.caret('offset', this.pos - 1, {
       iframe: this.app.iframe
     }))) {
       return;
     }
-    if (this.app.iframe && !this.app.iframeStandalone) {
-      iframe_offset = $(this.app.iframe).offset();
-      c.left += iframe_offset.left;
-      c.top += iframe_offset.top;
+    if (this.app.iframe && !this.app.iframeAsRoot) {
+      iframeOffset = $(this.app.iframe).offset();
+      c.left += iframeOffset.left;
+      c.top += iframeOffset.top;
     }
-    if (this.$inputor.is('[contentEditable]')) {
-      c = this.cur_rect || (this.cur_rect = c);
-    }
-    scale_bottom = this.app.document.selection ? 0 : 2;
+    scaleBottom = this.app.document.selection ? 0 : 2;
     return {
       left: c.left,
       top: c.top,
-      bottom: c.top + c.height + scale_bottom
+      bottom: c.top + c.height + scaleBottom
     };
   };
 
-  Controller.prototype.reset_rect = function() {
-    if (this.$inputor.is('[contentEditable]')) {
-      return this.cur_rect = null;
-    }
-  };
-
-  Controller.prototype.mark_range = function() {
-    var sel;
-    if (!this.$inputor.is('[contentEditable]')) {
-      return;
-    }
-    if (this.app.window.getSelection && (sel = this.app.window.getSelection()).rangeCount > 0) {
-      return this.range = sel.getRangeAt(0);
-    } else if (this.app.document.selection) {
-      return this.ie8_range = this.app.document.selection.createRange();
-    }
-  };
-
-  Controller.prototype.insert_content_for = function($li) {
-    var data, data_value, tpl;
-    data_value = $li.data('value');
-    tpl = this.get_opt('insert_tpl');
-    if (this.$inputor.is('textarea, input') || !tpl) {
-      return data_value;
-    }
-    data = $.extend({}, $li.data('item-data'), {
-      'atwho-data-value': data_value,
-      'atwho-at': this.at
-    });
-    return this.callbacks("tpl_eval").call(this, tpl, data);
-  };
-
-  Controller.prototype.insert = function(content, $li) {
-    var $inputor, node, pos, range, sel, source, start_str, text, wrapped_contents, _i, _len, _ref;
+  TextareaController.prototype.insert = function(content, $li) {
+    var $inputor, source, startStr, suffix, text;
     $inputor = this.$inputor;
-    wrapped_contents = this.callbacks('inserting_wrapper').call(this, $inputor, content, this.get_opt("suffix"));
-    if ($inputor.is('textarea, input')) {
-      source = $inputor.val();
-      start_str = source.slice(0, Math.max(this.query.head_pos - this.at.length, 0));
-      text = "" + start_str + wrapped_contents + (source.slice(this.query['end_pos'] || 0));
-      $inputor.val(text);
-      $inputor.caret('pos', start_str.length + wrapped_contents.length, {
-        iframe: this.app.iframe
-      });
-    } else if (range = this.range) {
-      pos = range.startOffset - (this.query.end_pos - this.query.head_pos) - this.at.length;
-      range.setStart(range.endContainer, Math.max(pos, 0));
-      range.setEnd(range.endContainer, range.endOffset);
-      range.deleteContents();
-      _ref = $(wrapped_contents, this.app.document);
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        node = _ref[_i];
-        range.insertNode(node);
-        range.setEndAfter(node);
-        range.collapse(false);
-      }
-      sel = this.app.window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-    } else if (range = this.ie8_range) {
-      range.moveStart('character', this.query.end_pos - this.query.head_pos - this.at.length);
-      range.pasteHTML(wrapped_contents);
-      range.collapse(false);
-      range.select();
-    }
+    source = $inputor.val();
+    startStr = source.slice(0, Math.max(this.query.headPos - this.at.length, 0));
+    suffix = (suffix = this.getOpt('suffix')) === "" ? suffix : suffix || " ";
+    content += suffix;
+    text = "" + startStr + content + (source.slice(this.query['endPos'] || 0));
+    $inputor.val(text);
+    $inputor.caret('pos', startStr.length + content.length, {
+      iframe: this.app.iframe
+    });
     if (!$inputor.is(':focus')) {
       $inputor.focus();
     }
     return $inputor.change();
   };
 
-  Controller.prototype.render_view = function(data) {
-    var search_key;
-    search_key = this.get_opt("search_key");
-    data = this.callbacks("sorter").call(this, this.query.text, data.slice(0, 1001), search_key);
-    return this.view.render(data.slice(0, this.get_opt('limit')));
+  return TextareaController;
+
+})(Controller);
+
+var EditableController,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
+
+EditableController = (function(superClass) {
+  extend(EditableController, superClass);
+
+  function EditableController() {
+    return EditableController.__super__.constructor.apply(this, arguments);
+  }
+
+  EditableController.prototype._getRange = function() {
+    var sel;
+    sel = this.app.window.getSelection();
+    if (sel.rangeCount > 0) {
+      return sel.getRangeAt(0);
+    }
   };
 
-  Controller.prototype.look_up = function() {
-    var query, _callback;
-    if (!(query = this.catch_query())) {
+  EditableController.prototype._setRange = function(position, node, range) {
+    if (range == null) {
+      range = this._getRange();
+    }
+    if (!(range && node)) {
       return;
     }
-    _callback = function(data) {
-      if (data && data.length > 0) {
-        return this.render_view(data);
-      } else {
-        return this.view.hide();
-      }
-    };
-    this.model.query(query.text, $.proxy(_callback, this));
-    return query;
+    node = $(node)[0];
+    if (position === 'after') {
+      range.setEndAfter(node);
+      range.setStartAfter(node);
+    } else {
+      range.setEndBefore(node);
+      range.setStartBefore(node);
+    }
+    range.collapse(false);
+    return this._clearRange(range);
   };
 
-  return Controller;
+  EditableController.prototype._clearRange = function(range) {
+    var sel;
+    if (range == null) {
+      range = this._getRange();
+    }
+    sel = this.app.window.getSelection();
+    if (this.ctrl_a_pressed == null) {
+      sel.removeAllRanges();
+      return sel.addRange(range);
+    }
+  };
 
-})();
+  EditableController.prototype._movingEvent = function(e) {
+    var ref;
+    return e.type === 'click' || ((ref = e.which) === KEY_CODE.RIGHT || ref === KEY_CODE.LEFT || ref === KEY_CODE.UP || ref === KEY_CODE.DOWN);
+  };
+
+  EditableController.prototype._unwrap = function(node) {
+    var next;
+    node = $(node).unwrap().get(0);
+    if ((next = node.nextSibling) && next.nodeValue) {
+      node.nodeValue += next.nodeValue;
+      $(next).remove();
+    }
+    return node;
+  };
+
+  EditableController.prototype.catchQuery = function(e) {
+    var $inserted, $query, _range, index, inserted, isString, lastNode, matched, offset, query, query_content, range;
+    if (!(range = this._getRange())) {
+      return;
+    }
+    if (!range.collapsed) {
+      return;
+    }
+    if (e.which === KEY_CODE.ENTER) {
+      ($query = $(range.startContainer).closest('.atwho-query')).contents().unwrap();
+      if ($query.is(':empty')) {
+        $query.remove();
+      }
+      ($query = $(".atwho-query", this.app.document)).text($query.text()).contents().last().unwrap();
+      this._clearRange();
+      return;
+    }
+    if (/firefox/i.test(navigator.userAgent)) {
+      if ($(range.startContainer).is(this.$inputor)) {
+        this._clearRange();
+        return;
+      }
+      if (e.which === KEY_CODE.BACKSPACE && range.startContainer.nodeType === document.ELEMENT_NODE && (offset = range.startOffset - 1) >= 0) {
+        _range = range.cloneRange();
+        _range.setStart(range.startContainer, offset);
+        if ($(_range.cloneContents()).contents().last().is('.atwho-inserted')) {
+          inserted = $(range.startContainer).contents().get(offset);
+          this._setRange('after', $(inserted).contents().last());
+        }
+      } else if (e.which === KEY_CODE.LEFT && range.startContainer.nodeType === document.TEXT_NODE) {
+        $inserted = $(range.startContainer.previousSibling);
+        if ($inserted.is('.atwho-inserted') && range.startOffset === 0) {
+          this._setRange('after', $inserted.contents().last());
+        }
+      }
+    }
+    $(range.startContainer).closest('.atwho-inserted').addClass('atwho-query').siblings().removeClass('atwho-query');
+    if (($query = $(".atwho-query", this.app.document)).length > 0 && $query.is(':empty') && $query.text().length === 0) {
+      $query.remove();
+    }
+    if (!this._movingEvent(e)) {
+      $query.removeClass('atwho-inserted');
+    }
+    if ($query.length > 0) {
+      switch (e.which) {
+        case KEY_CODE.LEFT:
+          this._setRange('before', $query.get(0), range);
+          $query.removeClass('atwho-query');
+          return;
+        case KEY_CODE.RIGHT:
+          this._setRange('after', $query.get(0).nextSibling, range);
+          $query.removeClass('atwho-query');
+          return;
+      }
+    }
+    if ($query.length > 0 && (query_content = $query.attr('data-atwho-at-query'))) {
+      $query.empty().html(query_content).attr('data-atwho-at-query', null);
+      this._setRange('after', $query.get(0), range);
+    }
+    _range = range.cloneRange();
+    _range.setStart(range.startContainer, 0);
+    matched = this.callbacks("matcher").call(this, this.at, _range.toString(), this.getOpt('startWithSpace'), this.getOpt("acceptSpaceBar"));
+    isString = typeof matched === 'string';
+    if ($query.length === 0 && isString && (index = range.startOffset - this.at.length - matched.length) >= 0) {
+      range.setStart(range.startContainer, index);
+      $query = $('<span/>', this.app.document).attr(this.getOpt("editableAtwhoQueryAttrs")).addClass('atwho-query');
+      range.surroundContents($query.get(0));
+      lastNode = $query.contents().last().get(0);
+      if (lastNode) {
+        if (/firefox/i.test(navigator.userAgent)) {
+          range.setStart(lastNode, lastNode.length);
+          range.setEnd(lastNode, lastNode.length);
+          this._clearRange(range);
+        } else {
+          this._setRange('after', lastNode, range);
+        }
+      }
+    }
+    if (isString && matched.length < this.getOpt('minLen', 0)) {
+      return;
+    }
+    if (isString && matched.length <= this.getOpt('maxLen', 20)) {
+      query = {
+        text: matched,
+        el: $query
+      };
+      this.trigger("matched", [this.at, query.text]);
+      return this.query = query;
+    } else {
+      this.view.hide();
+      this.query = {
+        el: $query
+      };
+      if ($query.text().indexOf(this.at) >= 0) {
+        if (this._movingEvent(e) && $query.hasClass('atwho-inserted')) {
+          $query.removeClass('atwho-query');
+        } else if (false !== this.callbacks('afterMatchFailed').call(this, this.at, $query)) {
+          this._setRange("after", this._unwrap($query.text($query.text()).contents().first()));
+        }
+      }
+      return null;
+    }
+  };
+
+  EditableController.prototype.rect = function() {
+    var $iframe, iframeOffset, rect;
+    rect = this.query.el.offset();
+    if (!(rect && this.query.el[0].getClientRects().length)) {
+      return;
+    }
+    if (this.app.iframe && !this.app.iframeAsRoot) {
+      iframeOffset = ($iframe = $(this.app.iframe)).offset();
+      rect.left += iframeOffset.left - this.$inputor.scrollLeft();
+      rect.top += iframeOffset.top - this.$inputor.scrollTop();
+    }
+    rect.bottom = rect.top + this.query.el.height();
+    return rect;
+  };
+
+  EditableController.prototype.insert = function(content, $li) {
+    var data, overrides, range, suffix, suffixNode;
+    if (!this.$inputor.is(':focus')) {
+      this.$inputor.focus();
+    }
+    overrides = this.getOpt('functionOverrides');
+    if (overrides.insert) {
+      return overrides.insert.call(this, content, $li);
+    }
+    suffix = (suffix = this.getOpt('suffix')) === "" ? suffix : suffix || "\u00A0";
+    data = $li.data('item-data');
+    this.query.el.removeClass('atwho-query').addClass('atwho-inserted').html(content).attr('data-atwho-at-query', "" + data['atwho-at'] + this.query.text).attr('contenteditable', "false");
+    if (range = this._getRange()) {
+      if (this.query.el.length) {
+        range.setEndAfter(this.query.el[0]);
+      }
+      range.collapse(false);
+      range.insertNode(suffixNode = this.app.document.createTextNode("" + suffix));
+      this._setRange('after', suffixNode, range);
+    }
+    if (!this.$inputor.is(':focus')) {
+      this.$inputor.focus();
+    }
+    return this.$inputor.change();
+  };
+
+  return EditableController;
+
+})(Controller);
+
+var Model;
 
 Model = (function() {
   function Model(context) {
@@ -478,15 +869,15 @@ Model = (function() {
   };
 
   Model.prototype.query = function(query, callback) {
-    var data, search_key, _remote_filter;
+    var _remoteFilter, data, searchKey;
     data = this.fetch();
-    search_key = this.context.get_opt("search_key");
-    data = this.context.callbacks('filter').call(this.context, query, data, search_key) || [];
-    _remote_filter = this.context.callbacks('remote_filter');
-    if (data.length > 0 || (!_remote_filter && data.length === 0)) {
+    searchKey = this.context.getOpt("searchKey");
+    data = this.context.callbacks('filter').call(this.context, query, data, searchKey) || [];
+    _remoteFilter = this.context.callbacks('remoteFilter');
+    if (data.length > 0 || (!_remoteFilter && data.length === 0)) {
       return callback(data);
     } else {
-      return _remote_filter.call(this.context, query, callback);
+      return _remoteFilter.call(this.context, query, callback);
     }
   };
 
@@ -495,7 +886,7 @@ Model = (function() {
   };
 
   Model.prototype.save = function(data) {
-    return this.storage.data(this.at, this.context.callbacks("before_save").call(this.context, data || []));
+    return this.storage.data(this.at, this.context.callbacks("beforeSave").call(this.context, data || []));
   };
 
   Model.prototype.load = function(data) {
@@ -526,18 +917,25 @@ Model = (function() {
 
 })();
 
+var View;
+
 View = (function() {
   function View(context) {
     this.context = context;
     this.$el = $("<div class='atwho-view'><ul class='atwho-view-ul'></ul></div>");
-    this.timeout_id = null;
+    this.$elUl = this.$el.children();
+    this.timeoutID = null;
     this.context.$el.append(this.$el);
-    this.bind_event();
+    this.bindEvent();
   }
 
   View.prototype.init = function() {
-    var id;
-    id = this.context.get_opt("alias") || this.context.at.charCodeAt(0);
+    var header_tpl, id;
+    id = this.context.getOpt("alias") || this.context.at.charCodeAt(0);
+    header_tpl = this.context.getOpt("headerTpl");
+    if (header_tpl && this.$el.children().length === 1) {
+      this.$el.prepend(header_tpl);
+    }
     return this.$el.attr({
       'id': "at-view-" + id
     });
@@ -547,13 +945,27 @@ View = (function() {
     return this.$el.remove();
   };
 
-  View.prototype.bind_event = function() {
-    var $menu;
+  View.prototype.bindEvent = function() {
+    var $menu, lastCoordX, lastCoordY;
     $menu = this.$el.find('ul');
-    return $menu.on('mouseenter.atwho-view', 'li', function(e) {
-      $menu.find('.cur').removeClass('cur');
-      return $(e.currentTarget).addClass('cur');
-    }).on('click.atwho-view', 'li', (function(_this) {
+    lastCoordX = 0;
+    lastCoordY = 0;
+    return $menu.on('mousemove.atwho-view', 'li', (function(_this) {
+      return function(e) {
+        var $cur;
+        if (lastCoordX === e.clientX && lastCoordY === e.clientY) {
+          return;
+        }
+        lastCoordX = e.clientX;
+        lastCoordY = e.clientY;
+        $cur = $(e.currentTarget);
+        if ($cur.hasClass('cur')) {
+          return;
+        }
+        $menu.find('.cur').removeClass('cur');
+        return $cur.addClass('cur');
+      };
+    })(this)).on('click.atwho-view', 'li', (function(_this) {
       return function(e) {
         $menu.find('.cur').removeClass('cur');
         $(e.currentTarget).addClass('cur');
@@ -564,25 +976,30 @@ View = (function() {
   };
 
   View.prototype.visible = function() {
-    return this.$el.is(":visible");
+    return $.expr.filters.visible(this.$el[0]);
+  };
+
+  View.prototype.highlighted = function() {
+    return this.$el.find(".cur").length > 0;
   };
 
   View.prototype.choose = function(e) {
     var $li, content;
     if (($li = this.$el.find(".cur")).length) {
-      content = this.context.insert_content_for($li);
-      this.context.insert(this.context.callbacks("before_insert").call(this.context, content, $li), $li);
+      content = this.context.insertContentFor($li);
+      this.context._stopDelayedCall();
+      this.context.insert(this.context.callbacks("beforeInsert").call(this.context, content, $li, e), $li);
       this.context.trigger("inserted", [$li, e]);
       this.hide(e);
     }
-    if (this.context.get_opt("hide_without_suffix")) {
-      return this.stop_showing = true;
+    if (this.context.getOpt("hideWithoutSuffix")) {
+      return this.stopShowing = true;
     }
   };
 
   View.prototype.reposition = function(rect) {
-    var offset, overflowOffset, _ref, _window;
-    _window = this.context.app.iframeStandalone ? this.context.app.window : window;
+    var _window, offset, overflowOffset, ref;
+    _window = this.context.app.iframeAsRoot ? this.context.app.window : window;
     if (rect.bottom + this.$el.height() - $(_window).scrollTop() > $(_window).height()) {
       rect.bottom = rect.top - this.$el.height();
     }
@@ -593,46 +1010,57 @@ View = (function() {
       left: rect.left,
       top: rect.bottom
     };
-    if ((_ref = this.context.callbacks("before_reposition")) != null) {
-      _ref.call(this.context, offset);
+    if ((ref = this.context.callbacks("beforeReposition")) != null) {
+      ref.call(this.context, offset);
     }
     this.$el.offset(offset);
     return this.context.trigger("reposition", [offset]);
   };
 
   View.prototype.next = function() {
-    var cur, next;
+    var cur, next, nextEl, offset;
     cur = this.$el.find('.cur').removeClass('cur');
     next = cur.next();
     if (!next.length) {
       next = this.$el.find('li:first');
     }
     next.addClass('cur');
-    return this.$el.animate({
-      scrollTop: Math.max(0, cur.innerHeight() * (next.index() + 2) - this.$el.height())
-    }, 150);
+    nextEl = next[0];
+    offset = nextEl.offsetTop + nextEl.offsetHeight + (nextEl.nextSibling ? nextEl.nextSibling.offsetHeight : 0);
+    return this.scrollTop(Math.max(0, offset - this.$el.height()));
   };
 
   View.prototype.prev = function() {
-    var cur, prev;
+    var cur, offset, prev, prevEl;
     cur = this.$el.find('.cur').removeClass('cur');
     prev = cur.prev();
     if (!prev.length) {
       prev = this.$el.find('li:last');
     }
     prev.addClass('cur');
-    return this.$el.animate({
-      scrollTop: Math.max(0, cur.innerHeight() * (prev.index() + 2) - this.$el.height())
-    }, 150);
+    prevEl = prev[0];
+    offset = prevEl.offsetTop + prevEl.offsetHeight + (prevEl.nextSibling ? prevEl.nextSibling.offsetHeight : 0);
+    return this.scrollTop(Math.max(0, offset - this.$el.height()));
+  };
+
+  View.prototype.scrollTop = function(scrollTop) {
+    var scrollDuration;
+    scrollDuration = this.context.getOpt('scrollDuration');
+    if (scrollDuration) {
+      return this.$elUl.animate({
+        scrollTop: scrollTop
+      }, scrollDuration);
+    } else {
+      return this.$elUl.scrollTop(scrollTop);
+    }
   };
 
   View.prototype.show = function() {
     var rect;
-    if (this.stop_showing) {
-      this.stop_showing = false;
+    if (this.stopShowing) {
+      this.stopShowing = false;
       return;
     }
-    this.context.mark_range();
     if (!this.visible()) {
       this.$el.show();
       this.$el.scrollTop(0);
@@ -649,7 +1077,6 @@ View = (function() {
       return;
     }
     if (isNaN(time)) {
-      this.context.reset_rect();
       this.$el.hide();
       return this.context.trigger('hidden', [e]);
     } else {
@@ -658,32 +1085,32 @@ View = (function() {
           return _this.hide();
         };
       })(this);
-      clearTimeout(this.timeout_id);
-      return this.timeout_id = setTimeout(callback, time);
+      clearTimeout(this.timeoutID);
+      return this.timeoutID = setTimeout(callback, time);
     }
   };
 
   View.prototype.render = function(list) {
-    var $li, $ul, item, li, tpl, _i, _len;
+    var $li, $ul, i, item, len, li, tpl;
     if (!($.isArray(list) && list.length > 0)) {
       this.hide();
       return;
     }
     this.$el.find('ul').empty();
     $ul = this.$el.find('ul');
-    tpl = this.context.get_opt('tpl');
-    for (_i = 0, _len = list.length; _i < _len; _i++) {
-      item = list[_i];
+    tpl = this.context.getOpt('displayTpl');
+    for (i = 0, len = list.length; i < len; i++) {
+      item = list[i];
       item = $.extend({}, item, {
         'atwho-at': this.context.at
       });
-      li = this.context.callbacks("tpl_eval").call(this.context, tpl, item);
+      li = this.context.callbacks("tplEval").call(this.context, tpl, item, "onDisplay");
       $li = $(this.context.callbacks("highlighter").call(this.context, li, this.context.query.text));
       $li.data("item-data", item);
       $ul.append($li);
     }
     this.show();
-    if (this.context.get_opt('highlight_first')) {
+    if (this.context.getOpt('highlightFirst')) {
       return $ul.find("li:first").addClass("cur");
     }
   };
@@ -692,125 +1119,7 @@ View = (function() {
 
 })();
 
-KEY_CODE = {
-  DOWN: 40,
-  UP: 38,
-  ESC: 27,
-  TAB: 9,
-  ENTER: 13,
-  CTRL: 17,
-  P: 80,
-  N: 78
-};
-
-DEFAULT_CALLBACKS = {
-  before_save: function(data) {
-    var item, _i, _len, _results;
-    if (!$.isArray(data)) {
-      return data;
-    }
-    _results = [];
-    for (_i = 0, _len = data.length; _i < _len; _i++) {
-      item = data[_i];
-      if ($.isPlainObject(item)) {
-        _results.push(item);
-      } else {
-        _results.push({
-          name: item
-        });
-      }
-    }
-    return _results;
-  },
-  matcher: function(flag, subtext, should_start_with_space) {
-    var match, regexp, _a, _y;
-    flag = flag.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-    if (should_start_with_space) {
-      flag = '(?:^|\\s)' + flag;
-    }
-    _a = decodeURI("%C3%80");
-    _y = decodeURI("%C3%BF");
-    regexp = new RegExp("" + flag + "([A-Za-z" + _a + "-" + _y + "0-9_\+\-]*)$|" + flag + "([^\\x00-\\xff]*)$", 'gi');
-    match = regexp.exec(subtext);
-    if (match) {
-      return match[2] || match[1];
-    } else {
-      return null;
-    }
-  },
-  filter: function(query, data, search_key) {
-    var item, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = data.length; _i < _len; _i++) {
-      item = data[_i];
-      if (~new String(item[search_key]).toLowerCase().indexOf(query.toLowerCase())) {
-        _results.push(item);
-      }
-    }
-    return _results;
-  },
-  remote_filter: null,
-  sorter: function(query, items, search_key) {
-    var item, _i, _len, _results;
-    if (!query) {
-      return items;
-    }
-    _results = [];
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      item = items[_i];
-      item.atwho_order = new String(item[search_key]).toLowerCase().indexOf(query.toLowerCase());
-      if (item.atwho_order > -1) {
-        _results.push(item);
-      }
-    }
-    return _results.sort(function(a, b) {
-      return a.atwho_order - b.atwho_order;
-    });
-  },
-  tpl_eval: function(tpl, map) {
-    var error;
-    try {
-      return tpl.replace(/\$\{([^\}]*)\}/g, function(tag, key, pos) {
-        return map[key];
-      });
-    } catch (_error) {
-      error = _error;
-      return "";
-    }
-  },
-  highlighter: function(li, query) {
-    var regexp;
-    if (!query) {
-      return li;
-    }
-    regexp = new RegExp(">\\s*(\\w*?)(" + query.replace("+", "\\+") + ")(\\w*)\\s*<", 'ig');
-    return li.replace(regexp, function(str, $1, $2, $3) {
-      return '> ' + $1 + '<strong>' + $2 + '</strong>' + $3 + ' <';
-    });
-  },
-  before_insert: function(value, $li) {
-    return value;
-  },
-  inserting_wrapper: function($inputor, content, suffix) {
-    var wrapped_content;
-    suffix = suffix === "" ? suffix : suffix || " ";
-    if ($inputor.is('textarea, input')) {
-      return '' + content + suffix;
-    } else if ($inputor.attr('contentEditable') === 'true') {
-      suffix = suffix === " " ? "&nbsp;" : suffix;
-      if (/firefox/i.test(navigator.userAgent)) {
-        wrapped_content = "<span>" + content + suffix + "</span>";
-      } else {
-        suffix = "<span contenteditable='false'>" + suffix + "</span>";
-        wrapped_content = "<span contenteditable='false'>" + content + suffix + "</span>";
-      }
-      if (this.app.document.selection) {
-        wrapped_content = "<span contenteditable='true'>" + content + "</span>";
-      }
-      return wrapped_content + "<span></span>";
-    }
-  }
-};
+var Api;
 
 Api = {
   load: function(at, data) {
@@ -819,8 +1128,22 @@ Api = {
       return c.model.load(data);
     }
   },
-  setIframe: function(iframe, standalone) {
-    this.setIframe(iframe, standalone);
+  isSelecting: function() {
+    var ref;
+    return !!((ref = this.controller()) != null ? ref.view.visible() : void 0);
+  },
+  hide: function() {
+    var ref;
+    return (ref = this.controller()) != null ? ref.view.hide() : void 0;
+  },
+  reposition: function() {
+    var c;
+    if (c = this.controller()) {
+      return c.view.reposition(c.rect());
+    }
+  },
+  setIframe: function(iframe, asRoot) {
+    this.setupRootElement(iframe, asRoot);
     return null;
   },
   run: function() {
@@ -833,7 +1156,7 @@ Api = {
 };
 
 $.fn.atwho = function(method) {
-  var result, _args;
+  var _args, result;
   _args = arguments;
   result = null;
   this.filter('textarea, input, [contenteditable=""], [contenteditable=true]').each(function() {
@@ -846,30 +1169,44 @@ $.fn.atwho = function(method) {
     } else if (Api[method] && app) {
       return result = Api[method].apply(app, Array.prototype.slice.call(_args, 1));
     } else {
-      return $.error("Method " + method + " does not exist on jQuery.caret");
+      return $.error("Method " + method + " does not exist on jQuery.atwho");
     }
   });
-  return result || this;
+  if (result != null) {
+    return result;
+  } else {
+    return this;
+  }
 };
 
 $.fn.atwho["default"] = {
   at: void 0,
   alias: void 0,
   data: null,
-  tpl: "<li data-value='${atwho-at}${name}'>${name}</li>",
-  insert_tpl: "<span id='${id}'>${atwho-data-value}</span>",
+  displayTpl: "<li>${name}</li>",
+  insertTpl: "${atwho-at}${name}",
+  headerTpl: null,
   callbacks: DEFAULT_CALLBACKS,
-  search_key: "name",
+  functionOverrides: {},
+  searchKey: "name",
   suffix: void 0,
-  hide_without_suffix: false,
-  start_with_space: true,
-  highlight_first: true,
+  hideWithoutSuffix: false,
+  startWithSpace: true,
+  acceptSpaceBar: false,
+  highlightFirst: true,
   limit: 5,
-  max_len: 20,
-  display_timeout: 300,
-  delay: null
+  maxLen: 20,
+  minLen: 0,
+  displayTimeout: 300,
+  delay: null,
+  spaceSelectsMatch: false,
+  tabSelectsMatch: true,
+  editableAtwhoQueryAttrs: {},
+  scrollDuration: 150,
+  suspendOnComposing: true,
+  lookUpOnClick: true
 };
 
-
+$.fn.atwho.debug = false;
 
 }));

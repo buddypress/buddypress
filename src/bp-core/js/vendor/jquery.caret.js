@@ -40,6 +40,37 @@ EditableCaret = (function() {
   }
 
   EditableCaret.prototype.setPos = function(pos) {
+    var fn, found, offset, sel;
+    if (sel = oWindow.getSelection()) {
+      offset = 0;
+      found = false;
+      (fn = function(pos, parent) {
+        var node, range, _i, _len, _ref, _results;
+        _ref = parent.childNodes;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          node = _ref[_i];
+          if (found) {
+            break;
+          }
+          if (node.nodeType === 3) {
+            if (offset + node.length >= pos) {
+              found = true;
+              range = oDocument.createRange();
+              range.setStart(node, pos - offset);
+              sel.removeAllRanges();
+              sel.addRange(range);
+              break;
+            } else {
+              _results.push(offset += node.length);
+            }
+          } else {
+            _results.push(fn(pos, node));
+          }
+        }
+        return _results;
+      })(pos, this.domInputor);
+    }
     return this.domInputor;
   };
 
@@ -94,7 +125,7 @@ EditableCaret = (function() {
   EditableCaret.prototype.getOffset = function(pos) {
     var clonedRange, offset, range, rect, shadowCaret;
     if (oWindow.getSelection && (range = this.range())) {
-      if (range.endOffset - 1 > 0 && range.endContainer === !this.domInputor) {
+      if (range.endOffset - 1 > 0 && range.endContainer !== this.domInputor) {
         clonedRange = range.cloneRange();
         clonedRange.setStart(range.endContainer, range.endOffset - 1);
         clonedRange.setEnd(range.endContainer, range.endOffset);

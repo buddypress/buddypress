@@ -28,12 +28,12 @@ window.bp = window.bp || {};
 		 * Default options for at.js; see https://github.com/ichord/At.js/.
 		 */
 		var suggestionsDefaults = {
-			delay:               200,
-			hide_without_suffix: true,
-			insert_tpl:          '</>${atwho-data-value}</>', // For contentEditable, the fake tags make jQuery insert a textNode.
-			limit:               10,
-			start_with_space:    false,
-			suffix:              '',
+			delay:             200,
+			hideWithoutSuffix: true,
+			insertTpl:         '</>@${ID}</>', // For contentEditable, the fake tags make jQuery insert a textNode.
+			limit:             10,
+			startWithSpace:    false,
+			suffix:            '',
 
 			callbacks: {
 				/**
@@ -230,8 +230,8 @@ window.bp = window.bp || {};
 			),
 
 			at:         '@',
-			search_key: 'search',
-			tpl:        '<li data-value="@${ID}"><img src="${image}" /><span class="username">@${ID}</span><small>${name}</small></li>'
+			searchKey:  'search',
+			displayTpl: '<li data-value="@${ID}"><img src="${image}" /><span class="username">@${ID}</span><small>${name}</small></li>'
 		},
 
 		opts = $.extend( true, {}, suggestionsDefaults, mentionsDefaults, options );
