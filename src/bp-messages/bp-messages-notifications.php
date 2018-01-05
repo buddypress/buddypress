@@ -204,6 +204,24 @@ function bp_messages_screen_conversation_mark_notifications() {
 add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notifications', 10 );
 
 /**
+ * Mark new message notification as read when the corresponding message is mark read.
+ *
+ * This callback covers mark-as-read bulk actions.
+ *
+ * @since 3.0.0
+ *
+ * @param int $thread_id ID of the thread being marked as read.
+ */
+function bp_messages_mark_notification_on_mark_thread( $thread_id ) {
+	$thread_messages = BP_Messages_Thread::get_messages( $thread_id );
+
+	foreach ( $thread_messages as $thread_message ) {
+		bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), $thread_message->id, buddypress()->messages->id, 'new_message' );
+	}
+}
+add_action( 'messages_thread_mark_as_read', 'bp_messages_mark_notification_on_mark_thread' );
+
+/**
  * When a message is deleted, delete corresponding notifications.
  *
  * @since 2.0.0
