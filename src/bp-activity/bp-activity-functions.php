@@ -748,11 +748,14 @@ function bp_activity_post_type_get_tracking_arg( $activity_type, $arg = '' ) {
 function bp_activity_get_actions() {
 	$bp = buddypress();
 
-	$post_types = bp_activity_get_post_types_tracking_args();
+	// Set the activity track global if not set yet.
+	if ( empty( $bp->activity->track ) ) {
+		$bp->activity->track = bp_activity_get_post_types_tracking_args();
+	}
 
 	// Create the actions for the post types, if they haven't already been created.
-	if ( ! empty( $post_types ) ) {
-		foreach ( $post_types as $post_type ) {
+	if ( ! empty( $bp->activity->track ) ) {
+		foreach ( $bp->activity->track as $post_type ) {
 			if ( isset( $bp->activity->actions->{$post_type->component_id}->{$post_type->action_id} ) ) {
 				continue;
 			}
