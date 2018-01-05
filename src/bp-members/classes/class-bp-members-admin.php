@@ -2099,15 +2099,16 @@ class BP_Members_Admin {
 		// Prefetch registration field data.
 		$fdata = array();
 		if ( 'activate' === $action && bp_is_active( 'xprofile' ) ) {
-			$fields = bp_xprofile_get_groups( array(
-				'profile_group_id' => 1,
-				'exclude_fields' => 1,
+			$field_groups = bp_xprofile_get_groups( array(
+				'exclude_fields'    => 1,
 				'update_meta_cache' => false,
-				'fetch_fields' => true,
+				'fetch_fields'      => true,
 			) );
-			$fields = $fields[0]->fields;
-			foreach( $fields as $f ) {
-				$fdata[ $f->id ] = $f->name;
+
+			foreach( $field_groups as $fg ) {
+				foreach( $fg->fields as $f ) {
+					$fdata[ $f->id ] = $f->name;
+				}
 			}
 		}
 
