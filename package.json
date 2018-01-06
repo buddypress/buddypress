@@ -42,7 +42,7 @@
     "social network"
   ],
   "homepage": "https://buddypress.org",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "name": "buddypress",
   "repository": {
     "type": "svn",
