@@ -519,6 +519,10 @@ function bp_nouveau_get_forsaken_hooks() {
 			'message_type' => 'warning',
 			'message'      => 'The \'bp_directory_groups_actions\' action will soon be deprecated in the BP Nouveau template pack, we recommend you now use the \'bp_nouveau_get_groups_buttons\' filter instead',
 		),
+		'create-invite-friends' => array(
+			'type'    => 'info',
+			'message' => __( 'You can send invites to any of your friends listed here, or skip this step & send later from the group. Invites sent from this screen will appear in the groups \'Pending Invites\' tab of the \'Send Invites\' menu.', 'buddypress' ),
+		),
 		'bp_group_invites_item_action' => array(
 			'hook_type'    => 'action',
 			'message_type' => 'warning',

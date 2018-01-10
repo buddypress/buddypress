@@ -1032,7 +1032,7 @@ function bp_nouveau_group_get_core_create_screens( $id = '' ) {
 		'group-settings'    => array( 'hook' => 'group_settings_creation_step',    'nonce' => 'groups_create_save_group-settings',                                                     ),
 		'group-avatar'      => array( 'hook' => 'group_avatar_creation_step',      'nonce' => 'groups_create_save_group-avatar',                                                       ),
 		'group-cover-image' => array( 'hook' => 'group_cover_image_creation_step', 'nonce' => 'groups_create_save_group-cover-image',                                                  ),
-		'group-invites'     => array( 'hook' => 'group_invites_creation_step',     'nonce' => 'groups_create_save_group-invites',     'template' => 'common/js-templates/invites/index'       ),
+		'group-invites'     => array( 'hook' => 'group_invites_creation_step',     'nonce' => 'groups_create_save_group-invites',     'template' => 'groups/create-invites'      ),
 	);
 
 	if ( isset( $screens[ $id ] ) ) {
