@@ -3081,6 +3081,55 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 }
 
 /**
+ * Can a user see a particular activity item?
+ *
+ * @since 3.0.0
+ *
+ * @param  BP_Activity_Activity $activity Activity object.
+ * @param  integer              $user_id  User ID.
+ * @return boolean True on success, false on failure.
+ */
+function bp_activity_user_can_read( $activity, $user_id = 0 ) {
+	$retval = false;
+
+	// Fallback.
+	if ( empty( $user_id ) ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	// Admins and moderators can see everything.
+	if ( bp_current_user_can( 'bp_moderate' ) ) {
+		$retval = true;
+	}
+
+	// If activity author match user, allow access as well.
+	if ( $user_id === $activity->user_id ) {
+		$retval = true;
+	}
+
+	// If activity is from a group, do an extra cap check.
+	if ( ! $retval && bp_is_active( 'groups' ) && $activity->component === buddypress()->groups->id ) {
+
+		// Check to see if the user has access to the activity's parent group.
+		$group = groups_get_group( $activity->item_id );
+		if ( $group ) {
+			$retval = $group->user_has_access;
+		}
+	}
+
+	/**
+	 * Filters whether the current user has access to an activity item.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param bool                 $retval   Return value.
+	 * @param int                  $user_id  Current user ID.
+	 * @param BP_Activity_Activity $activity Activity object.
+	 */
+	return apply_filters( 'bp_activity_user_can_read', $retval, $user_id, $activity );
+}
+
+/**
  * Hide a user's activity.
  *
  * @since 1.2.0

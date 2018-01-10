@@ -195,19 +195,25 @@ add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' )
  *
  * @since 1.2.0
  *
+ * @return bool|string Boolean on false or the template for a single activity item on success.
  */
 function bp_activity_screen_single_activity_permalink() {
-	$bp = buddypress();
-
 	// No displayed user or not viewing activity component.
-	if ( !bp_is_activity_component() )
+	if ( ! bp_is_activity_component() ) {
 		return false;
+	}
 
-	if ( ! bp_current_action() || !is_numeric( bp_current_action() ) )
+	$action = bp_current_action();
+	if ( ! $action || ! is_numeric( $action ) ) {
 		return false;
+	}
 
 	// Get the activity details.
-	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_current_action(), 'show_hidden' => true, 'spam' => 'ham_only', ) );
+	$activity = bp_activity_get_specific( array(
+		'activity_ids' => $action,
+		'show_hidden'  => true,
+		'spam'         => 'ham_only',
+	) );
 
 	// 404 if activity does not exist
 	if ( empty( $activity['activities'][0] ) || bp_action_variables() ) {
@@ -218,37 +224,20 @@ function bp_activity_screen_single_activity_permalink() {
 		$activity = $activity['activities'][0];
 	}
 
-	// Default access is true.
-	$has_access = true;
-
-	// If activity is from a group, do an extra cap check.
-	if ( isset( $bp->groups->id ) && $activity->component == $bp->groups->id ) {
-
-		// Activity is from a group, but groups is currently disabled.
-		if ( !bp_is_active( 'groups') ) {
-			bp_do_404();
-			return;
-		}
-
-		// Check to see if the user has access to to the activity's parent group.
-		if ( $group = groups_get_group( $activity->item_id ) ) {
-			$has_access = $group->user_has_access;
-		}
-	}
-
-	// If activity author does not match displayed user, block access.
-	if ( true === $has_access && bp_displayed_user_id() !== $activity->user_id ) {
-		$has_access = false;
-	}
+	$user_id = bp_displayed_user_id();
 
 	/**
-	 * Filters the access permission for a single activity view.
+	 * Check user access to the activity item.
 	 *
-	 * @since 1.2.0
-	 *
-	 * @param array $access Array holding the current $has_access value and current activity item instance.
+	 * @since 3.0.0
 	 */
-	$has_access = apply_filters_ref_array( 'bp_activity_permalink_access', array( $has_access, &$activity ) );
+	$has_access = bp_activity_user_can_read( $activity, $user_id );
+
+	// If activity author does not match displayed user, block access.
+	// More info:https://buddypress.trac.wordpress.org/ticket/7048#comment:28
+	if ( true === $has_access && $user_id !== $activity->user_id ) {
+		$has_access = false;
+	}
 
 	/**
 	 * Fires before the loading of a single activity template file.
@@ -273,7 +262,7 @@ function bp_activity_screen_single_activity_permalink() {
 		} else {
 			$url = sprintf(
 				wp_login_url( 'wp-login.php?redirect_to=%s' ),
-				esc_url_raw( bp_activity_get_permalink( bp_current_action() ) )
+				esc_url_raw( bp_activity_get_permalink( $action ) )
 			);
 		}
 
@@ -287,7 +276,10 @@ function bp_activity_screen_single_activity_permalink() {
 	 *
 	 * @param string $template Path to the activity template to load.
 	 */
-	bp_core_load_template( apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ) );
+	$template = apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' );
+
+	// Load the template.
+	bp_core_load_template( $template );
 }
 add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );
 

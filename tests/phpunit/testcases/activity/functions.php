@@ -1475,6 +1475,133 @@ Bar!';
 		$this->assertSame( array(), $found['activities'] );
 	}
 
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_user_can_access_their_own_activity() {
+		$u = self::factory()->user->create();
+
+		$a = self::factory()->activity->create( array(
+			'user_id' => $u,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_user_cannot_access_someone_elses_activity() {
+		$u = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$a = self::factory()->activity->create( array(
+			'user_id' => $u2,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		$this->assertFalse( bp_activity_user_can_read( $o, $u ) );
+		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_admin_can_access_someone_elses_activity() {
+		$u = self::factory()->user->create();
+		$u2 = self::factory()->user->create( array( 'role' => 'administrator' ) );
+
+		$a = self::factory()->activity->create( array(
+			'user_id' => $u,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+
+		$this->set_current_user( $u2 );
+		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_group_admin_access_someone_elses_activity_in_a_grou() {
+		$u  = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$g  = self::factory()->group->create();
+
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'user_id'   => $u,
+			'item_id'   => $g,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+
+		self::add_user_to_group( $u2, $g );
+
+		$m1 = new BP_Groups_Member( $u2, $g );
+		$m1->promote( 'admin' );
+
+		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_non_member_can_access_to_someone_elses_activity_in_a_group() {
+		$u  = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$g  = self::factory()->group->create();
+
+		self::add_user_to_group( $u, $g );
+
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'user_id'   => $u,
+			'item_id'   => $g,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_user_access_to_his_activity_in_disabled_group() {
+		$u  = self::factory()->user->create();
+		$g  = self::factory()->group->create();
+
+		self::add_user_to_group( $u, $g );
+
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'user_id'   => $u,
+			'item_id'   => $g,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		groups_edit_group_settings( $g, 0, 'hidden' );
+
+		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+
+		groups_edit_group_settings( $g, 0, 'private' );
+
+		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+	}
+
 	public function check_activity_caches() {
 		foreach ( $this->acaches as $k => $v ) {
 			$this->acaches[ $k ] = wp_cache_get( $k, 'bp_activity' );
