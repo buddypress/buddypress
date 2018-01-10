@@ -921,9 +921,9 @@ function bp_group_last_active( $group = false, $args = array() ) {
 			$group =& $groups_template->group;
 		}
 
-		$r = wp_parse_args( $args, array(
+		$r = bp_parse_args( $args, array(
 			'relative' => true,
-		) );
+		), 'group_last_active' );
 
 		$last_active = $group->last_activity;
 		if ( ! $last_active ) {
@@ -1349,9 +1349,9 @@ function bp_group_date_created( $group = false, $args = array() ) {
 	function bp_get_group_date_created( $group = false, $args = array() ) {
 		global $groups_template;
 
-		$r = wp_parse_args( $args, array(
+		$r = bp_parse_args( $args, array(
 			'relative' => true,
-		) );
+		), 'group_date_created' );
 
 		if ( empty( $group ) ) {
 			$group =& $groups_template->group;
@@ -1557,16 +1557,14 @@ function bp_group_creator_avatar( $group = false, $args = array() ) {
 			$group =& $groups_template->group;
 		}
 
-		$defaults = array(
+		$r = bp_parse_args( $args, array(
 			'type'   => 'full',
 			'width'  => false,
 			'height' => false,
 			'class'  => 'avatar',
 			'id'     => false,
 			'alt'    => sprintf( __( 'Group creator profile photo of %s', 'buddypress' ),  bp_core_get_user_displayname( $group->creator_id ) )
-		);
-
-		$r = wp_parse_args( $args, $defaults );
+		), 'group_creator_avatar' );
 		extract( $r, EXTR_SKIP );
 
 		$avatar = bp_core_fetch_avatar( array( 'item_id' => $group->creator_id, 'type' => $type, 'css_id' => $id, 'class' => $class, 'width' => $width, 'height' => $height, 'alt' => $alt ) );
@@ -2444,12 +2442,10 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 	function bp_get_group_member_promote_mod_link( $args = '' ) {
 		global $members_template, $groups_template;
 
-		$defaults = array(
+		$r = bp_parse_args( $args, array(
 			'user_id' => $members_template->member->user_id,
 			'group'   => &$groups_template->group
-		);
-
-		$r = wp_parse_args( $args, $defaults );
+		), 'group_member_promote_mod_link' );
 		extract( $r, EXTR_SKIP );
 
 		/**
@@ -2487,12 +2483,10 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 	function bp_get_group_member_promote_admin_link( $args = '' ) {
 		global $members_template, $groups_template;
 
-		$defaults = array(
+		$r = bp_parse_args( $args, array(
 			'user_id' => !empty( $members_template->member->user_id ) ? $members_template->member->user_id : false,
 			'group'   => &$groups_template->group
-		);
-
-		$r = wp_parse_args( $args, $defaults );
+		), 'group_member_promote_admin_link' );
 		extract( $r, EXTR_SKIP );
 
 		/**
@@ -3696,7 +3690,7 @@ function bp_group_has_members( $args = '' ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	}
 
-	$r = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'group_id'            => bp_get_current_group_id(),
 		'page'                => 1,
 		'per_page'            => 20,
@@ -3707,7 +3701,7 @@ function bp_group_has_members( $args = '' ) {
 		'group_role'          => false,
 		'search_terms'        => $search_terms_default,
 		'type'                => 'last_joined',
-	) );
+	), 'group_has_members' );
 
 	/*
 	 * If an empty search_terms string has been passed,
@@ -4082,9 +4076,9 @@ function bp_group_member_joined_since( $args = array() ) {
 	function bp_get_group_member_joined_since( $args = array() ) {
 		global $members_template;
 
-		$r = wp_parse_args( $args, array(
+		$r = bp_parse_args( $args, array(
 			'relative' => true,
-		) );
+		), 'group_member_joined_since' );
 
 		// We do not want relative time, so return now.
 		// @todo Should the 'bp_get_group_member_joined_since' filter be applied here?
@@ -5021,11 +5015,11 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 		}
 
 		// Parse arguments.
-		$r = wp_parse_args( $args, array(
+		$r = bp_parse_args( $args, array(
 			'user_id'   => bp_loggedin_user_id(),
 			'group_id'  => false,
 			'separator' => 'li'
-		) );
+		), 'group_invite_friend_list' );
 
 		// No group passed, so look for new or current group ID's.
 		if ( empty( $r['group_id'] ) ) {
@@ -5373,14 +5367,12 @@ function bp_custom_group_fields() {
 function bp_group_has_membership_requests( $args = '' ) {
 	global $requests_template;
 
-	$defaults = array(
+	$r = bp_parse_args( $args, array(
 		'group_id' => bp_get_current_group_id(),
 		'per_page' => 10,
 		'page'     => 1,
 		'max'      => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
+	), 'group_has_membership_requests' );
 
 	$requests_template = new BP_Groups_Membership_Requests_Template( $r );
 
@@ -5622,12 +5614,12 @@ function bp_group_requests_pagination_count() {
 function bp_group_has_invites( $args = '' ) {
 	global $invites_template, $group_id;
 
-	$r = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'group_id' => false,
 		'user_id'  => bp_loggedin_user_id(),
 		'per_page' => false,
 		'page'     => 1,
-	) );
+	), 'group_has_invites' );
 
 	if ( empty( $r['group_id'] ) ) {
 		if ( groups_get_current_group() ) {

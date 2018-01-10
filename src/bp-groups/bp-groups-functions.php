@@ -48,11 +48,11 @@ function groups_get_group( $group_id ) {
 	 * Old-style arguments take the form of an array or a query string.
 	 */
 	if ( ! is_numeric( $group_id ) ) {
-		$r = wp_parse_args( $group_id, array(
+		$r = bp_parse_args( $group_id, array(
 			'group_id'        => false,
 			'load_users'      => false,
 			'populate_extras' => false,
-		) );
+		), 'groups_get_group' );
 
 		$group_id = $r['group_id'];
 	}
@@ -97,7 +97,7 @@ function groups_get_group( $group_id ) {
  */
 function groups_create_group( $args = '' ) {
 
-	$defaults = array(
+	$args = bp_parse_args( $args, array(
 		'group_id'     => 0,
 		'creator_id'   => 0,
 		'name'         => '',
@@ -107,9 +107,8 @@ function groups_create_group( $args = '' ) {
 		'parent_id'    => null,
 		'enable_forum' => null,
 		'date_created' => null
-	);
+	), 'groups_create_group' );
 
-	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
 
 	// Pass an existing group ID.
@@ -255,13 +254,13 @@ function groups_edit_base_group_details( $args = array() ) {
 		$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
 	}
 
-	$r = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'group_id'       => bp_get_current_group_id(),
 		'name'           => null,
 		'slug'           => null,
 		'description'    => null,
 		'notify_members' => false,
-	) );
+	), 'groups_edit_base_group_details' );
 
 	if ( ! $r['group_id'] ) {
 		return false;
@@ -681,7 +680,7 @@ function groups_get_group_members( $args = array() ) {
 		$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
 	}
 
-	$r = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'group_id'            => bp_get_current_group_id(),
 		'per_page'            => false,
 		'page'                => false,
@@ -691,7 +690,7 @@ function groups_get_group_members( $args = array() ) {
 		'group_role'          => array(),
 		'search_terms'        => false,
 		'type'                => 'last_joined',
-	) );
+	), 'groups_get_group_members' );
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group() is deprecated.
 	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, func_get_args() ) ) {
@@ -1265,14 +1264,12 @@ function groups_post_update( $args = '' ) {
 
 	$bp = buddypress();
 
-	$defaults = array(
+	$r = bp_parse_args( $args, array(
 		'content'    => false,
 		'user_id'    => bp_loggedin_user_id(),
 		'group_id'   => 0,
 		'error_type' => 'bool'
-	);
-
-	$r = wp_parse_args( $args, $defaults );
+	), 'groups_post_update' );
 	extract( $r, EXTR_SKIP );
 
 	if ( empty( $group_id ) && !empty( $bp->groups->current_group->id ) )
@@ -1394,15 +1391,13 @@ function groups_get_invite_count_for_user( $user_id = 0 ) {
  */
 function groups_invite_user( $args = '' ) {
 
-	$defaults = array(
+	$args = bp_parse_args( $args, array(
 		'user_id'       => false,
 		'group_id'      => false,
 		'inviter_id'    => bp_loggedin_user_id(),
 		'date_modified' => bp_core_current_time(),
 		'is_confirmed'  => 0
-	);
-
-	$args = wp_parse_args( $args, $defaults );
+	), 'groups_invite_user' );
 	extract( $args, EXTR_SKIP );
 
 	if ( ! $user_id || ! $group_id || ! $inviter_id ) {

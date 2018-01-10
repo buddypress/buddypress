@@ -339,7 +339,7 @@ function groups_record_activity( $args = '' ) {
 		}
 	}
 
-	$r = wp_parse_args( $args, array(
+	$r = bp_parse_args( $args, array(
 		'id'                => false,
 		'user_id'           => bp_loggedin_user_id(),
 		'action'            => '',
@@ -352,7 +352,7 @@ function groups_record_activity( $args = '' ) {
 		'recorded_time'     => bp_core_current_time(),
 		'hide_sitewide'     => $hide_sitewide,
 		'error_type'        => 'bool'
-	) );
+	), 'groups_record_activity' );
 
 	return bp_activity_add( $r );
 }

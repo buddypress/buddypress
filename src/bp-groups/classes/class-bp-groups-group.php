@@ -1084,7 +1084,7 @@ class BP_Groups_Group {
 			'fields'             => 'all',
 		);
 
-		$r = wp_parse_args( $args, $defaults );
+		$r = bp_parse_args( $args, $defaults, 'bp_groups_group_get' );
 
 		$bp = buddypress();
 

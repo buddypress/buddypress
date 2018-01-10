@@ -87,14 +87,14 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// We loop through to make sure that defaults are set (though
 		// values passed to the constructor will, as usual, override
 		// these defaults).
-		$this->query_vars = wp_parse_args( $this->query_vars, array(
+		$this->query_vars = bp_parse_args( $this->query_vars, array(
 			'group_id'     => 0,
 			'group_role'   => array( 'member' ),
 			'is_confirmed' => true,
 			'invite_sent'  => null,
 			'inviter_id'   => null,
 			'type'         => 'last_joined',
-		) );
+		), 'bp_group_member_query_get_include_ids' );
 
 		$group_member_ids = $this->get_group_member_ids();
 
