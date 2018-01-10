@@ -9,6 +9,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	protected $reset_actions_sorted;
 
 	public function setUp() {
+		parent::setUp();
 		$bp = buddypress();
 
 		$this->reset_actions = clone $bp->activity->actions;
@@ -19,6 +20,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	}
 
 	public function tearDown() {
+		parent::tearDown();
 		$bp = buddypress();
 
 		$bp->activity->actions = $this->reset_actions;
@@ -145,6 +147,8 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	 * @ticket BP6865
 	 */
 	public function test_sort_new_post_type_twice() {
+		$reset_activity_track = buddypress()->activity->track;
+
 		$actions = bp_activity_get_actions();
 		$expected = array(
 			'new_blog_post'    => 'new_blog_post',
@@ -163,6 +167,12 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 			),
 		) );
 
+		/*
+		 * Reset manually as bp_activity_get_actions() -- at the top of this test --
+		 * sets ->track[] for the previously-registered post types.
+		 */
+		buddypress()->activity->track = bp_activity_get_post_types_tracking_args();
+
 		$actions = bp_activity_get_actions();
 
 		_unregister_post_type( 'foo' );
@@ -174,6 +184,8 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 		);
 
 		$this->assertSame( $expected, wp_list_pluck( (array) $actions->blogs, 'key' ) );
+
+		buddypress()->activity->track = $reset_activity_track;
 	}
 
 	/**
