@@ -107,9 +107,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$ss = BP_Signup::get( array(
 			'offset' => 1,
+			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		$this->assertEquals( array( $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -122,9 +123,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$ss = BP_Signup::get( array(
 			'number' => 2,
+			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s3, $s2 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		$this->assertEquals( array( $s3, $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -139,9 +141,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$ss = BP_Signup::get( array(
 			'usersearch' => 'ghi',
+			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s1 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		$this->assertEquals( array( $s1 ), $ss['signups'] );
 	}
 
 	/**
@@ -161,10 +164,11 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$ss = BP_Signup::get( array(
 			'orderby' => 'email',
 			'number' => 3,
+			'fields' => 'ids',
 		) );
 
-		// default order is DESC
-		$this->assertEquals( array( $s3, $s1, $s2 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		// default order is DESC.
+		$this->assertEquals( array( $s3, $s1, $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -185,9 +189,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'orderby' => 'email',
 			'number' => 3,
 			'order' => 'ASC',
+			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2, $s1, $s3 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		$this->assertEquals( array( $s2, $s1, $s3 ), $ss['signups'] );
 	}
 
 	/**
@@ -200,9 +205,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$ss = BP_Signup::get( array(
 			'include' => array( $s1, $s3 ),
+			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s1, $s3 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		$this->assertEquals( array( $s1, $s3 ), $ss['signups'] );
 	}
 
 	/**
@@ -221,9 +227,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$ss = BP_Signup::get( array(
 			'activation_key' => 'bar',
+			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		$this->assertEquals( array( $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -242,9 +249,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$ss = BP_Signup::get( array(
 			'user_login' => 'zzzzfoo',
+			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s2 ), wp_list_pluck( $ss['signups'], 'signup_id' ) );
+		$this->assertEquals( array( $s2 ), $ss['signups'] );
 	}
 
 	/**
@@ -364,5 +372,21 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$blogs = array_map( 'basename', wp_list_pluck( $blogs, 'path' ) );
 
 		$this->assertEqualSets( $blogs, array_keys( $blogs ) );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_signup_ids_only() {
+		$s1 = self::factory()->signup->create();
+		$s2 = self::factory()->signup->create();
+		$s3 = self::factory()->signup->create();
+
+		$ss = BP_Signup::get( array(
+			'number' => 3,
+			'fields' => 'ids',
+		) );
+
+		$this->assertEquals( array( $s3, $s2, $s1 ), $ss['signups'] );
 	}
 }
