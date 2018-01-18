@@ -4717,6 +4717,16 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	.grid.two > li {
 		padding-bottom: 20px;
 	}
+}
+
+@media screen and (min-width: 24em) and (min-width: 75em) {
+	.grid.two > li .list-wrap {
+		max-width: 500px;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (min-width: 24em) {
 	.grid.two > li, .grid.three > li {
 		width: 50%;
 	}

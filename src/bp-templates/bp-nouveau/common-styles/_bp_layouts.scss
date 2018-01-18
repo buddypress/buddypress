@@ -145,6 +145,18 @@
 
 			> li {
 				padding-bottom: 20px;
+
+				// With two to a row large screens could allow
+				// unchecked fluid widths resulting in overlarge avatars.
+				// This ruleset adds a max width to inner element where
+				// max page widths aren't set.
+				@include large-up() {
+
+					.list-wrap {
+						max-width: 500px;
+						margin: 0 auto;
+					}
+				}
 			}
 		}
 
