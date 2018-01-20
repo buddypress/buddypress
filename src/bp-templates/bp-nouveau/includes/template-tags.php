@@ -1422,6 +1422,8 @@ function bp_nouveau_container_classes() {
 				$classes[] = 'bp-dir-vert-nav';
 				$classes[] = 'bp-vertical-navs';
 				$bp_nouveau->{$component}->directory_vertical_layout = $layout_prefs;
+			} else {
+				$classes[] = 'bp-dir-hori-nav';
 			}
 		}
 
@@ -1485,6 +1487,8 @@ function bp_nouveau_single_item_nav_classes() {
 
 		if ( 1 === $layout_prefs ) {
 			$classes[] = 'vertical';
+		} else {
+			$classes[] = 'horizontal';
 		}
 
 		$classes[] = $menu_type;

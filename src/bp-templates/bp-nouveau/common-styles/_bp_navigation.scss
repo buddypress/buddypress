@@ -139,7 +139,7 @@
 			}
 		}
 
-		.main-navs.vertical {
+		.main-navs.vertical { // single screen navs
 
 			li.selected,
 			li.current {
@@ -152,6 +152,15 @@
 			}
 		}
 
+		&.bp-dir-hori-nav {
+
+			nav {
+				border-bottom: 1px solid $bp-border-color;
+				border-top: 1px solid $bp-border-color;
+
+				@include box-shadow( 0 2px 12px 0 $off-white);
+			}
+		}
 	} // close @media
 
 	.bp-subnavs {

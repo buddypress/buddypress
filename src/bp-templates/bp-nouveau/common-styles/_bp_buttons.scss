@@ -229,13 +229,17 @@
 
 	#buddypress {
 
+		// Style the create link as a button - this would be better served
+		// as a modifier class but we need to be able to allow user selection
+		// between button style & plain text. For the moment we'll force a
+		// choice, vert dir navs get button style, horizontal dir navs a text link.
+
 		.create-button { // the parent, i.e li element.
 			background: none;
 
 			@include medium-up {
 				float: right;
 			}
-			//padding-top: $pad-med;
 			text-align: center;
 
 			a {
@@ -273,6 +277,21 @@
 			}
 		}
 
+		&.bp-dir-hori-nav {
+
+			.create-button {
+				float: left;
+
+				a,
+				a:hover {
+					background: none;
+					border: 0;
+
+					@include box-shadow-none();
+					margin: 0;
+				}
+			}
+		}
 	} // close #buddypress
 
 } // close body class .buddypress @todo this should be removed in time
