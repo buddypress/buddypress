@@ -404,7 +404,7 @@ class BP_Members_Admin {
 			case 2:
 				$notice = array(
 					'class'   => 'error',
-					'message' => __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' )
+					'message' => __( 'Your changes have not been saved. Please fill in all required fields, and save your changes again.', 'buddypress' )
 				);
 				break;
 			case 3:

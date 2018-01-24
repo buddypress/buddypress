@@ -97,7 +97,7 @@ function xprofile_screen_edit_profile() {
 
 		// There are errors.
 		if ( !empty( $errors ) ) {
-			bp_core_add_message( __( 'Please make sure you fill in all required fields in this profile field group before saving.', 'buddypress' ), 'error' );
+			bp_core_add_message( __( 'Your changes have not been saved. Please fill in all required fields, and save your changes again.', 'buddypress' ), 'error' );
 
 		// No errors.
 		} else {
