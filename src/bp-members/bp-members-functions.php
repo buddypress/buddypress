@@ -304,66 +304,19 @@ function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
  * @param int         $user_id       User ID to check.
  * @param string|bool $user_nicename Optional. user_nicename of user being checked.
  * @param string|bool $user_login    Optional. user_login of user being checked.
- * @return string|bool The username of the matched user, or false.
+ * @return string The username of the matched user or an empty string if no user is found.
  */
 function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login = false ) {
-	$bp = buddypress();
 
-	// Check cache for user nicename.
-	$username = wp_cache_get( 'bp_user_username_' . $user_id, 'bp' );
-	if ( false === $username ) {
-
-		// Cache not found so prepare to update it.
-		$update_cache = true;
-
-		// Nicename and login were not passed.
-		if ( empty( $user_nicename ) && empty( $user_login ) ) {
-
-			// User ID matches logged in user.
-			if ( bp_loggedin_user_id() == $user_id ) {
-				$userdata = &$bp->loggedin_user->userdata;
-
-			// User ID matches displayed in user.
-			} elseif ( bp_displayed_user_id() == $user_id ) {
-				$userdata = &$bp->displayed_user->userdata;
-
-			// No user ID match.
-			} else {
-				$userdata = false;
-			}
-
-			// No match so go dig.
-			if ( empty( $userdata ) ) {
-
-				// User not found so return false.
-				if ( !$userdata = bp_core_get_core_userdata( $user_id ) ) {
-					return false;
-				}
-			}
-
-			// Update the $user_id for later.
-			$user_id       = $userdata->ID;
-
-			// Two possible options.
-			$user_nicename = $userdata->user_nicename;
-			$user_login    = $userdata->user_login;
-		}
-
+	if ( ! $user_nicename && ! $user_login ) {
 		// Pull an audible and maybe use the login over the nicename.
-		$username = bp_is_username_compatibility_mode() ? $user_login : $user_nicename;
-
-	// Username found in cache so don't update it again.
+		if ( bp_is_username_compatibility_mode() ) {
+			$username = get_the_author_meta( 'login', $user_id );
+		} else {
+			$username = get_the_author_meta( 'nicename', $user_id );
+		}
 	} else {
-		$update_cache = false;
-	}
-
-	// Add this to cache.
-	if ( ( true === $update_cache ) && !empty( $username ) ) {
-		wp_cache_set( 'bp_user_username_' . $user_id, $username, 'bp' );
-
-	// @todo bust this cache if no $username found?
-	// } else {
-	// wp_cache_delete( 'bp_user_username_' . $user_id );
+		$username = bp_is_username_compatibility_mode() ? $user_login : $user_nicename;
 	}
 
 	/**
@@ -384,52 +337,10 @@ function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login
  *
  * @since 1.5.0
  *
- * @todo Refactor to use a WP core function, if possible.
- *
  * @param int $user_id User ID to check.
- * @return string|bool The username of the matched user, or false.
+ * @return string The username of the matched user or an empty string if no user is found.
  */
 function bp_members_get_user_nicename( $user_id ) {
-	$bp = buddypress();
-
-	if ( !$user_nicename = wp_cache_get( 'bp_members_user_nicename_' . $user_id, 'bp' ) ) {
-		$update_cache = true;
-
-		// User ID matches logged in user.
-		if ( bp_loggedin_user_id() == $user_id ) {
-			$userdata = &$bp->loggedin_user->userdata;
-
-		// User ID matches displayed in user.
-		} elseif ( bp_displayed_user_id() == $user_id ) {
-			$userdata = &$bp->displayed_user->userdata;
-
-		// No user ID match.
-		} else {
-			$userdata = false;
-		}
-
-		// No match so go dig.
-		if ( empty( $userdata ) ) {
-
-			// User not found so return false.
-			if ( !$userdata = bp_core_get_core_userdata( $user_id ) ) {
-				return false;
-			}
-		}
-
-		// User nicename found.
-		$user_nicename = $userdata->user_nicename;
-
-	// Nicename found in cache so don't update it again.
-	} else {
-		$update_cache = false;
-	}
-
-	// Add this to cache.
-	if ( true == $update_cache && !empty( $user_nicename ) ) {
-		wp_cache_set( 'bp_members_user_nicename_' . $user_id, $user_nicename, 'bp' );
-	}
-
 	/**
 	 * Filters the user_nicename based on originally provided user ID.
 	 *
@@ -437,7 +348,7 @@ function bp_members_get_user_nicename( $user_id ) {
 	 *
 	 * @param string $username User nice name determined by user ID.
 	 */
-	return apply_filters( 'bp_members_get_user_nicename', $user_nicename );
+	return apply_filters( 'bp_members_get_user_nicename', get_the_author_meta( 'nicename', $user_id ) );
 }
 
 /**
@@ -447,25 +358,9 @@ function bp_members_get_user_nicename( $user_id ) {
  *
  * @param int $uid User ID to check.
  * @return string The email for the matched user. Empty string if no user
- *                matched the $uid.
+ *                matches the $user_id.
  */
-function bp_core_get_user_email( $uid ) {
-
-	if ( !$email = wp_cache_get( 'bp_user_email_' . $uid, 'bp' ) ) {
-
-		// User exists.
-		$ud = bp_core_get_core_userdata( $uid );
-		if ( ! empty( $ud ) ) {
-			$email = $ud->user_email;
-
-		// User was deleted.
-		} else {
-			$email = '';
-		}
-
-		wp_cache_set( 'bp_user_email_' . $uid, $email, 'bp' );
-	}
-
+function bp_core_get_user_email( $user_id ) {
 	/**
 	 * Filters the user email for user based on user ID.
 	 *
@@ -473,7 +368,7 @@ function bp_core_get_user_email( $uid ) {
 	 *
 	 * @param string $email Email determined for the user.
 	 */
-	return apply_filters( 'bp_core_get_user_email', $email );
+	return apply_filters( 'bp_core_get_user_email', get_the_author_meta( 'email', $user_id ) );
 }
 
 /**
@@ -532,7 +427,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
  * @since 2.0.0
  *
  * @param array $user_ids Array of user IDs to get display names for.
- * @return array
+ * @return array Associative array of the format "id" => "displayname".
  */
 function bp_core_get_user_displaynames( $user_ids ) {
 
@@ -546,62 +441,12 @@ function bp_core_get_user_displaynames( $user_ids ) {
 		return array();
 	}
 
-	$uncached_ids = array();
-	foreach ( $user_ids as $user_id ) {
-		if ( false === wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' ) ) {
-			$uncached_ids[] = $user_id;
-		}
-	}
-
-	// Prime caches.
-	if ( ! empty( $uncached_ids ) ) {
-		if ( bp_is_active( 'xprofile' ) ) {
-			$fullname_data = BP_XProfile_ProfileData::get_value_byid( 1, $uncached_ids );
-
-			// Key by user_id.
-			$fullnames = array();
-			foreach ( $fullname_data as $fd ) {
-				if ( ! empty( $fd->value ) ) {
-					$fullnames[ intval( $fd->user_id ) ] = $fd->value;
-				}
-			}
-
-			// If xprofiledata is not found for any users,  we'll look
-			// them up separately.
-			$no_xprofile_ids = array_diff( $uncached_ids, array_keys( $fullnames ) );
-		} else {
-			$fullnames = array();
-			$no_xprofile_ids = $user_ids;
-		}
-
-		if ( ! empty( $no_xprofile_ids ) ) {
-			// Use WP_User_Query because we don't need BP information.
-			$query = new WP_User_Query( array(
-				'include'     => $no_xprofile_ids,
-				'fields'      => array( 'ID', 'user_nicename', 'display_name', ),
-				'count_total' => false,
-				'blog_id'     => 0,
-			) );
-
-			foreach ( $query->results as $qr ) {
-				$fullnames[ $qr->ID ] = ! empty( $qr->display_name ) ? $qr->display_name : $qr->user_nicename;
-
-				// If xprofile is active, set this value as the
-				// xprofile display name as well.
-				if ( bp_is_active( 'xprofile' ) ) {
-					xprofile_set_field_data( 1, $qr->ID, $fullnames[ $qr->ID ] );
-				}
-			}
-		}
-
-		foreach ( $fullnames as $fuser_id => $fname ) {
-			wp_cache_set( 'bp_user_fullname_' . $fuser_id, $fname, 'bp' );
-		}
-	}
+	// Warm the WP users cache with a targeted bulk update.
+	cache_users( $user_ids );
 
 	$retval = array();
 	foreach ( $user_ids as $user_id ) {
-		$retval[ $user_id ] = wp_cache_get( 'bp_user_fullname_' . $user_id, 'bp' );
+		$retval[ $user_id ] = bp_core_get_user_displayname( $user_id );
 	}
 
 	return $retval;
@@ -631,14 +476,6 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 		return false;
 	}
 
-	$display_names = bp_core_get_user_displaynames( array( $user_id ) );
-
-	if ( ! isset( $display_names[ $user_id ] ) ) {
-		$fullname = false;
-	} else {
-		$fullname = $display_names[ $user_id ];
-	}
-
 	/**
 	 * Filters the display name for the passed in user.
 	 *
@@ -647,7 +484,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 	 * @param string $fullname Display name for the user.
 	 * @param int    $user_id  ID of the user to check.
 	 */
-	return apply_filters( 'bp_core_get_user_displayname', $fullname, $user_id );
+	return apply_filters( 'bp_core_get_user_displayname', get_the_author_meta( 'display_name', $user_id ), $user_id );
 }
 add_filter( 'bp_core_get_user_displayname', 'strip_tags', 1 );
 add_filter( 'bp_core_get_user_displayname', 'trim'          );

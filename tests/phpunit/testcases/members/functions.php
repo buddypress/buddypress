@@ -101,44 +101,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_core_get_user_displayname
-	 * @group cache
-	 */
-	public function test_bp_core_get_user_displayname_xprofile_populate_cache() {
-		$xprofile_is_active = bp_is_active( 'xprofile' );
-		buddypress()->active_components['xprofile'] = '1';
-
-		$u = self::factory()->user->create( array(
-			'display_name' => 'Foo',
-		) );
-		bp_core_get_user_displayname( $u );
-
-		$this->assertSame( 'Foo', wp_cache_get( 'bp_user_fullname_' . $u, 'bp' ) );
-
-		if ( ! $xprofile_is_active ) {
-			unset( buddypress()->active_components['xprofile'] );
-		}
-	}
-
-	/**
-	 * @group bp_core_get_user_displayname
-	 * @group cache
-	 */
-	public function test_bp_core_get_user_displayname_xprofile_bust_cache_after_xprofile_update() {
-		$xprofile_is_active = bp_is_active( 'xprofile' );
-		buddypress()->active_components['xprofile'] = '1';
-
-		$u = self::factory()->user->create();
-		xprofile_set_field_data( 1, $u, 'Foo Foo' );
-
-		$this->assertFalse( wp_cache_get( 'bp_user_fullname_' . $u, 'bp' ) );
-
-		if ( ! $xprofile_is_active ) {
-			unset( buddypress()->active_components['xprofile'] );
-		}
-	}
-
-	/**
-	 * @group bp_core_get_user_displayname
 	 */
 	public function test_bp_core_get_user_displayname_xprofile_exists() {
 		$xprofile_is_active = bp_is_active( 'xprofile' );
@@ -155,34 +117,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group bp_core_get_user_displayname
-	 */
-	public function test_bp_core_get_user_displayname_xprofile_does_not_exist() {
-		$bp = buddypress();
-		$xprofile_is_active = bp_is_active( 'xprofile' );
-		$bp->active_components['xprofile'] = '1';
-
-		$u = self::factory()->user->create( array(
-			'display_name' => 'Foo Foo',
-		) );
-
-		// Delete directly because BP won't let you delete a required
-		// field through the API
-		global $wpdb;
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u ) );
-		wp_cache_delete( 'bp_user_fullname_' . $u, 'bp' );
-		wp_cache_delete( "{$u}:1", 'bp_xprofile_data' );
-
-		$this->assertSame( '', xprofile_get_field_data( 1, $u ) );
-		$this->assertSame( 'Foo Foo', bp_core_get_user_displayname( $u ) );
-		$this->assertSame( 'Foo Foo', xprofile_get_field_data( 1, $u ) );
-
-		if ( ! $xprofile_is_active ) {
-			unset( $bp->active_components['xprofile'] );
-		}
-	}
-
-	/**
 	 * @group bp_core_get_user_displaynames
 	 */
 	public function test_bp_core_get_user_displayname_arrays_all_bad_entries() {
@@ -195,7 +129,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_bp_core_get_user_displaynames_all_uncached() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-
 		xprofile_set_field_data( 1, $u1, 'Foo' );
 		xprofile_set_field_data( 1, $u2, 'Bar' );
 
@@ -215,35 +148,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create( array(
 			'display_name' => 'Bar',
 		) );
-
 		xprofile_set_field_data( 1, $u1, 'Foo' );
-
-		// Delete directly because BP won't let you delete a required
-		// field through the API
-		global $wpdb;
-		$bp = buddypress();
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = 1", $u2 ) );
-		wp_cache_delete( 'bp_user_fullname_' . $u2, 'bp' );
-		wp_cache_delete( "{$u2}:1", 'bp_xprofile_data' );
-
-		$expected = array(
-			$u1 => 'Foo',
-			$u2 => 'Bar',
-		);
-
-		$this->assertSame( $expected, bp_core_get_user_displaynames( array( $u1, $u2, ) ) );
-	}
-
-	/**
-	 * @group bp_core_get_user_displaynames
-	 */
-	public function test_bp_core_get_user_displaynames_one_in_cache() {
-		$u1 = self::factory()->user->create();
-		xprofile_set_field_data( 1, $u1, 'Foo' );
-
-		// Fake the cache for $u2
-		$u2 = 123;
-		wp_cache_set( 'bp_user_fullname_' . $u2, 'Bar', 'bp' );
 
 		$expected = array(
 			$u1 => 'Foo',

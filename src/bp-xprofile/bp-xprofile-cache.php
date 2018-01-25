@@ -190,35 +190,6 @@ add_action( 'xprofile_group_after_delete', 'xprofile_clear_profile_groups_object
 add_action( 'xprofile_group_after_save',   'xprofile_clear_profile_groups_object_cache' );
 
 /**
- * Clear cached XProfile fullname data for user.
- *
- * @since 2.1.0
- *
- * @param int $user_id ID of user whose fullname cache to delete.
- */
-function xprofile_clear_profile_data_object_cache( $user_id = 0 ) {
-	wp_cache_delete( 'bp_user_fullname_' . $user_id, 'bp' );
-}
-add_action( 'xprofile_updated_profile', 'xprofile_clear_profile_data_object_cache' );
-
-/**
- * Clear the fullname cache when field 1 is updated.
- *
- * The xprofile_clear_profile_data_object_cache() will make this redundant in most
- * cases, except where the field is updated directly with xprofile_set_field_data().
- *
- * @since 2.0.0
- *
- * @param object $data Data object to clear.
- */
-function xprofile_clear_fullname_cache_on_profile_field_edit( $data ) {
-	if ( 1 == $data->field_id ) {
-		wp_cache_delete( 'bp_user_fullname_' . $data->user_id, 'bp' );
-	}
-}
-add_action( 'xprofile_data_after_save', 'xprofile_clear_fullname_cache_on_profile_field_edit' );
-
-/**
  * Clear caches when a field object is modified.
  *
  * @since 2.0.0

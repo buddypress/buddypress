@@ -166,11 +166,6 @@ class BP_Core_User {
 			$this->email     = esc_attr( bp_core_get_user_email( $this->id ) );
 		}
 
-		// Cache a few things that are fetched often.
-		wp_cache_set( 'bp_user_fullname_' . $this->id, $this->fullname, 'bp' );
-		wp_cache_set( 'bp_user_email_' . $this->id, $this->email, 'bp' );
-		wp_cache_set( 'bp_user_url_' . $this->id, $this->user_url, 'bp' );
-
 		$this->avatar       = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'full', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->fullname ) ) );
 		$this->avatar_thumb = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->fullname ) ) );
 		$this->avatar_mini  = bp_core_fetch_avatar( array( 'item_id' => $this->id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile photo of %s', 'buddypress' ), $this->fullname ), 'width' => 30, 'height' => 30 ) );
