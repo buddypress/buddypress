@@ -447,7 +447,7 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	$type_subdir = $r['object_dir'] . '/' . $r['item_id'] . '/' . $r['type'];
 	$type_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $type_subdir;
 
-	if ( ! is_dir( $type_dir ) ) {
+	if ( 0 !== validate_file( $type_dir ) || ! is_dir( $type_dir ) ) {
 		return $attachment_data;
 	}
 
@@ -1314,7 +1314,7 @@ function bp_attachments_cover_image_ajax_upload() {
 	$cover_subdir = $object_data['dir'] . '/' . $bp_params['item_id'] . '/cover-image';
 	$cover_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $cover_subdir;
 
-	if ( ! is_dir( $cover_dir ) ) {
+	if ( 0 !== validate_file( $cover_dir ) || ! is_dir( $cover_dir ) ) {
 		// Upload error response.
 		bp_attachments_json_response( false, $is_html4, array(
 			'type'    => 'upload_error',
@@ -1396,33 +1396,34 @@ function bp_attachments_cover_image_ajax_delete() {
 		wp_send_json_error();
 	}
 
-	$cover_image_data = $_POST;
-
-	if ( empty( $cover_image_data['object'] ) || empty( $cover_image_data['item_id'] ) ) {
+	if ( empty( $_POST['object'] ) || empty( $_POST['item_id'] ) ) {
 		wp_send_json_error();
 	}
 
-	// Check the nonce.
-	check_admin_referer( 'bp_delete_cover_image', 'nonce' );
+	$args = array(
+		'object'  => sanitize_text_field( $_POST['object'] ),
+		'item_id' => (int) $_POST['item_id'],
+	);
 
-	// Capability check.
-	if ( ! bp_attachments_current_user_can( 'edit_cover_image', $cover_image_data ) ) {
+	// Check permissions.
+	check_admin_referer( 'bp_delete_cover_image', 'nonce' );
+	if ( ! bp_attachments_current_user_can( 'edit_cover_image', $args ) ) {
 		wp_send_json_error();
 	}
 
 	// Set object for the user's case.
-	if ( 'user' === $cover_image_data['object'] ) {
+	if ( 'user' === $args['object'] ) {
 		$component = 'xprofile';
 		$dir       = 'members';
 
 	// Set it for any other cases.
 	} else {
-		$component = $cover_image_data['object'] . 's';
+		$component = $args['object'] . 's';
 		$dir       = $component;
 	}
 
 	// Handle delete.
-	if ( bp_attachments_delete_file( array( 'item_id' => $cover_image_data['item_id'], 'object_dir' => $dir, 'type' => 'cover-image' ) ) ) {
+	if ( bp_attachments_delete_file( array( 'item_id' => $args['item_id'], 'object_dir' => $dir, 'type' => 'cover-image' ) ) ) {
 		/**
 		 * Fires if the cover image was successfully deleted.
 		 *
@@ -1435,7 +1436,7 @@ function bp_attachments_cover_image_ajax_delete() {
 		 *
 		 * @param int $item_id Inform about the item id the cover image was deleted for.
 		 */
-		do_action( "{$component}_cover_image_deleted", (int) $cover_image_data['item_id'] );
+		do_action( "{$component}_cover_image_deleted", (int) $args['item_id'] );
 
 		// Defaults no cover image.
 		$response = array(
