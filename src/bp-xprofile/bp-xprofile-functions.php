@@ -837,7 +837,6 @@ function xprofile_sync_wp_profile( $user_id = 0 ) {
 
 	wp_update_user( array( 'ID' => $user_id, 'display_name' => $fullname ) );
 }
-add_action( 'xprofile_updated_profile', 'xprofile_sync_wp_profile' );
 add_action( 'bp_core_signup_user',      'xprofile_sync_wp_profile' );
 add_action( 'bp_core_activated_user',   'xprofile_sync_wp_profile' );
 
@@ -861,6 +860,22 @@ function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
 }
 add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
 
+/**
+ * Update the WP display, last, and first name fields when the xprofile display name field is updated.
+ *
+ * @since 3.0.0
+ *
+ * @param BP_XProfile_ProfileData $data Current instance of the profile data being saved.
+ */
+function xprofile_sync_wp_profile_on_single_field_set( $data ) {
+	
+	if ( bp_xprofile_fullname_field_id() !== $data->field_id ) {
+		return;
+	}
+
+	xprofile_sync_wp_profile( $data->user_id );
+}
+add_action( 'xprofile_data_after_save', 'xprofile_sync_wp_profile_on_single_field_set' );
 
 /**
  * When a user is deleted, we need to clean up the database and remove all the
