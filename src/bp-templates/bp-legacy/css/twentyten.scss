@@ -2270,13 +2270,6 @@ body.page-template-onecolumn-page {
 				padding-bottom: 1em;
 				text-align: right;
 
-				a:last-child {
-					// hide the 'x' text
-					line-height: 0;
-					margin-left: 0.7em;
-					text-indent: -999em;
-				}
-
 				a:last-child:after {
 					content: attr(title);
 					display: block;
