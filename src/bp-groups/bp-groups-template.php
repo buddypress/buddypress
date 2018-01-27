@@ -5018,7 +5018,9 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 		$r = bp_parse_args( $args, array(
 			'user_id'   => bp_loggedin_user_id(),
 			'group_id'  => false,
-			'separator' => 'li'
+			'before'    => '',
+			'separator' => 'li',
+			'after'     => '',
 		), 'group_invite_friend_list' );
 
 		// No group passed, so look for new or current group ID's.
@@ -5031,6 +5033,17 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 
 		// Setup empty items array.
 		$items = array();
+
+		// Build list markup parent elements.
+		$before = '';
+		if ( ! empty( $r['before'] ) ) {
+			$before = $r['before'];
+		}
+
+		$after = '';
+		if ( ! empty( $r['after'] ) ) {
+			$after = $r['after'];
+		}
 
 		// Get user's friends who are not in this group already.
 		$friends = friends_get_friends_invite_list( $r['user_id'], $r['group_id'] );
@@ -5058,7 +5071,7 @@ function bp_new_group_invite_friend_list( $args = array() ) {
 		$invitable_friends = apply_filters( 'bp_get_new_group_invite_friend_list', $items, $r, $args );
 
 		if ( ! empty( $invitable_friends ) && is_array( $invitable_friends ) ) {
-			$retval = implode( "\n", $invitable_friends );
+			$retval = $before . implode( "\n", $invitable_friends ) . $after;
 		} else {
 			$retval = false;
 		}
