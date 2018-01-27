@@ -575,4 +575,29 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 			'buddypress',
 		);
 	}
+
+	/**
+	 * @group bp_core_activate_signup
+	 */
+	public function test_bp_core_activate_signup_should_add_user_role() {
+		$key = 'test';
+
+		// Create the signup.
+		$this->factory->signup->create( array(
+			'user_login'     => 'test',
+			'user_email'     => 'test@example.com',
+			'activation_key' => $key,
+			'meta' => array(
+				'field_1' => 'Foo Bar',
+				'password' => 'foobar',
+			),
+		) );
+
+		// Activate user.
+		$user_id = bp_core_activate_signup( $key );
+
+		// Assert that user has a role.
+		$user = get_userdata( $user_id );
+		$this->assertNotEmpty( $user->roles );
+	}
 }

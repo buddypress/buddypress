@@ -1857,9 +1857,6 @@ function bp_core_activate_signup( $key ) {
 
 			bp_delete_user_meta( $user_id, 'activation_key' );
 
-			$member = get_userdata( $user_id );
-			$member->set_role( get_option('default_role') );
-
 			$user_already_created = true;
 
 		} else {
@@ -1980,6 +1977,29 @@ function bp_core_activate_signup( $key ) {
 
 	return $user_id;
 }
+
+/**
+ * Add default WordPress role for new signups on the BP root blog.
+ *
+ * @since 3.0.0
+ *
+ * @param int $user_id The user ID to add the default role for.
+ */
+function bp_members_add_role_after_activation( $user_id ) {
+	// Get default role to add.
+	$role = bp_get_option( 'default_role' );
+
+	// Multisite.
+	if ( is_multisite() && ! is_user_member_of_blog( $user_id, bp_get_root_blog_id() ) ) {
+		add_user_to_blog( bp_get_root_blog_id(), $user_id, $role );
+
+	// Single-site.
+	} elseif ( ! is_multisite() ) {
+		$member = get_userdata( $user_id );
+		$member->set_role( $role );
+	}
+}
+add_action( 'bp_core_activated_user', 'bp_members_add_role_after_activation', 1 );
 
 /**
  * Migrate signups from pre-2.0 configuration to wp_signups.
