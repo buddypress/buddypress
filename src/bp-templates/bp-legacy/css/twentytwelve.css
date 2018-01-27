@@ -1688,12 +1688,6 @@ http://codex.buddypress.org/themes/buddypress-companion-stylesheets/
 	text-align: right;
 }
 
-.bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child {
-	line-height: 0;
-	margin-left: 0.7em;
-	text-indent: -999em;
-}
-
 .bp-user #buddypress #message-threads.sitewide-notices td:last-child a:last-child:after {
 	content: attr(title);
 	display: block;
