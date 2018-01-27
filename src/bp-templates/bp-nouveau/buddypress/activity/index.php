@@ -28,16 +28,13 @@
 
 		<?php bp_nouveau_activity_hook( 'before_directory', 'list' ); ?>
 
-		<div class="activity">
+		<div id="activity-stream" class="activity" data-bp-list="activity">
 
-			<ul id="activity-stream" class="activity-list item-list bp-list" data-bp-list="activity">
-
-			 	<li id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></li>
-
-			</ul>
+				<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-activity-loading' ); ?></div>
 
 		</div><!-- .activity -->
 
 		<?php bp_nouveau_after_activity_directory_content(); ?>
+
 	</div><!-- // .screen-content -->
 

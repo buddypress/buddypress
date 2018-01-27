@@ -22,11 +22,11 @@
 
 <?php bp_nouveau_member_hook( 'before', 'activity_content' ); ?>
 
-<div class="activity single-user">
+<div id="activity-stream" class="activity single-user" data-bp-list="activity">
 
-	<ul id="activity-stream" class="<?php bp_nouveau_loop_classes(); ?>" data-bp-list="activity">
+	<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'member-activity-loading' ); ?></div>
 
-		<li id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'member-activity-loading' ); ?></li>
+	<ul  class="<?php bp_nouveau_loop_classes(); ?>" >
 
 	</ul>
 
