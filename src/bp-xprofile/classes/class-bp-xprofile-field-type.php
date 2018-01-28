@@ -510,6 +510,11 @@ abstract class BP_XProfile_Field_Type {
 
 		if ( bp_get_the_profile_field_is_required() ) {
 			$r['aria-required'] = 'true';
+
+			// Moderators can bypass field requirements.
+			if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+				$r[] = 'required';
+			}
 		}
 
 		/**
