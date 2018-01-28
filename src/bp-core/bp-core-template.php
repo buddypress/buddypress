@@ -792,7 +792,14 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 		$attributes = (array) apply_filters( 'bp_get_form_field_attributes', $attributes, $name );
 
 		foreach( $attributes as $attr => $value ) {
-			$retval .= sprintf( ' %s="%s"', sanitize_key( $attr ), esc_attr( $value ) );
+			// Numeric keyed array.
+			if (is_numeric( $attr ) ) {
+				$retval .= sprintf( ' %s', esc_attr( $value ) );
+
+			// Associative keyed array.
+			} else {
+				$retval .= sprintf( ' %s="%s"', sanitize_key( $attr ), esc_attr( $value ) );
+			}
 		}
 
 		return $retval;
