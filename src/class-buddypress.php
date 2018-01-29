@@ -732,8 +732,9 @@ class BuddyPress {
 
 		// Register the basic theme stack. This is really dope.
 		bp_register_template_stack( 'get_stylesheet_directory', 10 );
-		bp_register_template_stack( 'get_template_directory',   12 );
-		bp_register_template_stack( 'bp_get_theme_compat_dir',  14 );
+		bp_register_template_stack( 'get_template_directory', 12 );
+		bp_register_template_stack( 'bp_get_theme_compat_dir', 14 );
+		bp_register_template_stack( 'bp_get_shared_theme_assets_dir', 16 );
 	}
 
 	/**
