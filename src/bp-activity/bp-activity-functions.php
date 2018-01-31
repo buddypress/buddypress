@@ -2620,10 +2620,12 @@ function bp_activity_new_comment( $args = '' ) {
 	 * Filters the content of a new comment.
 	 *
 	 * @since 1.2.0
+	 * @since 3.0.0 Added $context parameter to disambiguate from bp_get_activity_comment_content().
 	 *
-	 * @param string $r Content for the newly posted comment.
+	 * @param string $r       Content for the newly posted comment.
+	 * @param string $context This filter's context ("new").
 	 */
-	$comment_content = apply_filters( 'bp_activity_comment_content', $r['content'] );
+	$comment_content = apply_filters( 'bp_activity_comment_content', $r['content'], 'new' );
 
 	// Insert the activity comment.
 	$comment_id = bp_activity_add( array(

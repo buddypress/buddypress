@@ -2136,10 +2136,12 @@ function bp_activity_comment_content() {
 		 * Filters the content of the current activity comment.
 		 *
 		 * @since 1.2.0
+		 * @since 3.0.0 Added $context parameter to disambiguate from bp_get_activity_comment_content().
 		 *
 		 * @param string $content The content of the current activity comment.
+		 * @param string $context This filter's context ("get").
 		 */
-		return apply_filters( 'bp_activity_comment_content', $content );
+		return apply_filters( 'bp_activity_comment_content', $content, 'get' );
 	}
 
 /**
