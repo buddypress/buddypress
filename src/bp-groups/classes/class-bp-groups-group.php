@@ -560,10 +560,15 @@ class BP_Groups_Group {
 		$mod_ids = BP_Groups_Member::get_group_moderator_ids( $this->id );
 		$mod_ids_plucked = wp_list_pluck( $mod_ids, 'user_id' );
 
-		$admin_mod_users = get_users( array(
-			'include' => array_merge( $admin_ids_plucked, $mod_ids_plucked ),
-			'blog_id' => null,
-		) );
+		$admin_mod_ids = array_merge( $admin_ids_plucked, $mod_ids_plucked );
+		$admin_mod_users = array();
+
+		if ( ! empty( $admin_mod_ids ) ) {
+			$admin_mod_users = get_users( array(
+				'include' => $admin_mod_ids,
+				'blog_id' => null,
+			) );
+		}
 
 		$admin_objects = $mod_objects = array();
 		foreach ( $admin_mod_users as $admin_mod_user ) {

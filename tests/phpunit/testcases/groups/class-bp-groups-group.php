@@ -1516,6 +1516,21 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP7677
+	 */
+	public function test_demoting_sole_admin() {
+		$user = self::factory()->user->create_and_get();
+		$group = self::factory()->group->create_and_get( array(
+			'creator_id' => $user->ID,
+		) );
+		$member = new BP_Groups_Member( $user->ID, $group->id );
+		$member->demote();
+
+		$this->assertEmpty( $group->admins );
+		$this->assertEmpty( $group->mods );
+	}
+
+	/**
 	 * @ticket BP5451
 	 */
 	public function test_mods_property() {
