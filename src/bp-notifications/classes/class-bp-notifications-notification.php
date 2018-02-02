@@ -816,7 +816,7 @@ class BP_Notifications_Notification {
 		}
 
 		// Date query.
-		$date_query = new BP_Date_Query( $date_query, 'date_recorded' );
+		$date_query = new BP_Date_Query( $date_query, 'date_notified' );
 
 		// Strip the leading AND - it's handled in get().
 		return preg_replace( '/^\sAND/', '', $date_query->get_sql() );
