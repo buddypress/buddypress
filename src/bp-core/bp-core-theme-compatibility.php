@@ -987,22 +987,3 @@ function bp_theme_compat_loop_end( $query ) {
 	unset( $bp->theme_compat->is_page_toggled );
 }
 add_action( 'loop_end', 'bp_theme_compat_loop_end' );
-
-/**
- * Get the absolute path to the shared theme assets folder.
- *
- * @since 3.0.0
- *
- * @return string The absolute path to the shared theme assets folder.
- */
-function bp_get_shared_theme_assets_dir() {
-
-	/**
-	 * Filters the absolute path to the shared theme assets folder.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param string $dir The absolute path to the shared theme assets folder.
-	 */
-	return apply_filters( 'bp_get_theme_compat_dir', buddypress()->themes_dir . '/shared' );
-}
