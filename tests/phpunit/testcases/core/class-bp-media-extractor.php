@@ -317,7 +317,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'galleries' ) ) );
 		$this->assertCount( 1, $media );
 
-		$this->assertSame( 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/image.jpg', $media[0]['url'] );
+		$this->assertSame( WP_CONTENT_URL . '/uploads/image.jpg', $media[0]['url'] );
 	}
 
 	public function test_extract_images_from_content_with_galleries_variant_ids() {
@@ -336,8 +336,8 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'galleries' ) ) );
 		$this->assertCount( 2, $media );
 
-		$this->assertSame( 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/test-image-large.png', $media[0]['url'] );
-		$this->assertSame( 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/canola.jpg', $media[1]['url'] );
+		$this->assertSame( WP_CONTENT_URL . '/uploads/test-image-large.png', $media[0]['url'] );
+		$this->assertSame( WP_CONTENT_URL . '/uploads/canola.jpg', $media[1]['url'] );
 	}
 
 	public function test_extract_no_images_from_content_with_invalid_galleries_variant_no_ids() {
@@ -385,7 +385,7 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'featured_images' ) ) );
 		$this->assertCount( 1, $media );
 
-		$this->assertSame( 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/image.jpg', $media[0]['url'] );
+		$this->assertSame( WP_CONTENT_URL . '/uploads/image.jpg', $media[0]['url'] );
 	}
 
 	public function test_extract_images_from_content_without_featured_image() {
