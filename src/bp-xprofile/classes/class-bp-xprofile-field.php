@@ -573,11 +573,13 @@ class BP_XProfile_Field {
 		 * Filters the found children for a field.
 		 *
 		 * @since 1.2.5
+		 * @since 3.0.0 Added the `$this` parameter.
 		 *
-		 * @param object $children    Found children for a field.
-		 * @param bool   $for_editing Whether or not the field is for editing.
+		 * @param object            $children    Found children for a field.
+		 * @param bool              $for_editing Whether or not the field is for editing.
+		 * @param BP_XProfile_Field $this        Field object
 		 */
-		return apply_filters( 'bp_xprofile_field_get_children', $children, $for_editing );
+		return apply_filters( 'bp_xprofile_field_get_children', $children, $for_editing, $this );
 	}
 
 	/**
