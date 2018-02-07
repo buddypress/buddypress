@@ -158,6 +158,7 @@ function bp_xprofile_get_field_types() {
 		'selectbox'      => 'BP_XProfile_Field_Type_Selectbox',
 		'textarea'       => 'BP_XProfile_Field_Type_Textarea',
 		'textbox'        => 'BP_XProfile_Field_Type_Textbox',
+		'telephone'      => 'BP_XProfile_Field_Type_Telephone',
 	);
 
 	/**
@@ -868,7 +869,7 @@ add_action( 'user_profile_update_errors', 'xprofile_sync_bp_profile', 10, 3 );
  * @param BP_XProfile_ProfileData $data Current instance of the profile data being saved.
  */
 function xprofile_sync_wp_profile_on_single_field_set( $data ) {
-	
+
 	if ( bp_xprofile_fullname_field_id() !== $data->field_id ) {
 		return;
 	}

@@ -75,7 +75,7 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
 	public function test_number_do_not_validate_string() {
 		$field = bp_xprofile_create_field_type( 'number' );
-		$this->assertFalse( $field->is_valid( 'telephone fields only accept integers' ) );
+		$this->assertFalse( $field->is_valid( 'number fields only accept integers' ) );
 		$this->assertFalse( $field->is_valid( '' ) );
 	}
 
@@ -175,5 +175,12 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertTrue( $field->is_valid( '' ) );
 		$this->assertTrue( $field->is_valid( 'bar' ) );
 		$this->assertTrue( $field->is_valid( array( 'bar' ) ) );
+	}
+
+	public function test_telephone_validate_number_formats() {
+		$field = bp_xprofile_create_field_type( 'telephone' );
+		$this->assertTrue( $field->is_valid( '07700 900461' ) );
+		$this->assertTrue( $field->is_valid( '555-2368' ) );
+		$this->assertTrue( $field->is_valid( '(212) 664-7665' ) );
 	}
 }
