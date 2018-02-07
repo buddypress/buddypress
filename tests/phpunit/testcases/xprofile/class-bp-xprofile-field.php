@@ -224,4 +224,38 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 
 		$this->set_current_user( $old_user );
 	}
+
+	/**
+	 * @ticket BP6658
+	 */
+	public function test_delete_field_should_delete_default_field_metadata() {
+		$group = self::factory()->xprofile_group->create();
+		$field = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group
+		) );
+
+		$field_obj = new BP_XProfile_Field( $field );
+		$field_obj->delete();
+
+		$value = bp_xprofile_get_meta( $field, 'field', 'default_visibility' );
+		$this->assertEmpty( $value );
+	}
+
+	/**
+	 * @ticket BP6658
+	 */
+	public function test_delete_field_should_delete_custom_field_metadata() {
+		$group = self::factory()->xprofile_group->create();
+		$field = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group
+		) );
+
+		bp_xprofile_update_meta( $field, 'field', 'custom', 'metadata' );
+
+		$field_obj = new BP_XProfile_Field( $field );
+		$field_obj->delete();
+
+		$value = bp_xprofile_get_meta( $field, 'field', 'custom' );
+		$this->assertEmpty( $value );
+	}
 }

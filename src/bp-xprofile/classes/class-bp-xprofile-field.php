@@ -361,6 +361,9 @@ class BP_XProfile_Field {
 			return false;
 		}
 
+		// Delete all metadata for this field.
+		bp_xprofile_delete_meta( $this->id, 'field' );
+
 		// Delete the data in the DB for this field.
 		if ( true === $delete_data ) {
 			BP_XProfile_ProfileData::delete_for_field( $this->id );
