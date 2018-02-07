@@ -3559,27 +3559,11 @@ function bp_email_get_type_schema( $field = 'description' ) {
 		),
 	);
 
-	$groups_details_updated = array(
-		'description'	=> __( "A group's details were updated.", 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_groups_group_updated',
-			'message'	=> __( 'You will no longer receive emails when one of your groups is updated.', 'buddypress' ),
-		),
-	);
-
 	$groups_invitation = array(
 		'description'	=> __( 'A member has sent a group invitation to the recipient.', 'buddypress' ),
 		'unsubscribe'	=> array(
 			'meta_key'	=> 'notification_groups_invite',
 			'message'	=> __( 'You will no longer receive emails when you are invited to join a group.', 'buddypress' ),
-		),
-	);
-
-	$groups_member_promoted = array(
-		'description'	=> __( "Recipient's status within a group has changed.", 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_groups_admin_promotion',
-			'message'	=> __( 'You will no longer receive emails when you have been promoted in a group.', 'buddypress' ),
 		),
 	);
 
