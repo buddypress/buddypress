@@ -247,7 +247,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			$parent_element = $args['parent_element'];
 		}
 
-		$parent_attr = ( ! empty( $args['parent_attr'] ) ) ? $args['parent_attr']  : '';
+		$parent_attr = ( ! empty( $args['parent_attr'] ) ) ? $args['parent_attr'] : array();
 
 		/*
 		 * If we have a arg value for $button_element passed through
@@ -744,7 +744,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 			$parent_element = false;
 		}
 
-		$parent_attr = ( ! empty( $args['parent_attr'] ) ) ? $args['parent_attr']  : '';
+		$parent_attr = ( ! empty( $args['parent_attr'] ) ) ? $args['parent_attr'] : array();
 
 		/*
 		 * If we have a arg value for $button_element passed through
