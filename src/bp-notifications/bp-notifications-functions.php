@@ -607,8 +607,18 @@ function bp_notifications_check_notification_access( $user_id, $notification_id 
  * @return int Unread notification count.
  */
 function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
-	$notifications = bp_notifications_get_all_notifications_for_user( $user_id );
-	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
+	if ( empty( $user_id ) ) {
+		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+	}
+
+	$count = wp_cache_get( $user_id, 'bp_notifications_unread_count' );
+	if ( false === $count ) {
+		$count = BP_Notifications_Notification::get_total_count( array(
+			'user_id' => $user_id,
+			'is_new'  => true,
+		) );
+		wp_cache_set( $user_id, $count, 'bp_notifications_unread_count' );
+	}
 
 	/**
 	 * Filters the count of unread notification items for a user.

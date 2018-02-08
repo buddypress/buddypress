@@ -43,6 +43,7 @@ function bp_notifications_update_meta_cache( $notification_ids = false ) {
  */
 function bp_notifications_clear_all_for_user_cache( $user_id = 0 ) {
 	wp_cache_delete( 'all_for_user_' . $user_id, 'bp_notifications' );
+	wp_cache_delete( $user_id, 'bp_notifications_unread_count' );
 }
 
 /**
