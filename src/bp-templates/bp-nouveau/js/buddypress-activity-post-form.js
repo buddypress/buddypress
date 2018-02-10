@@ -712,7 +712,7 @@ window.bp = window.bp || {};
 				    ) {
 
 					if ( ! $( '#activity-' + response.id  ).length ) {
-						bp.Nouveau.inject( '#activity-stream', response.activity, 'prepend' );
+						bp.Nouveau.inject( '#activity-stream ul.activity-list', response.activity, 'prepend' );
 						prepended = true;
 					}
 				}
