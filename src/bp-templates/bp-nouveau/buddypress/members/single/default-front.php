@@ -32,7 +32,7 @@
 				</blockquote><!-- .member-bio -->
 			<?php endif ; ?>
 
-			<?php if ( bp_is_my_profile() || bp_current_user_can( 'bp_moderate' ) ) :
+			<?php if ( bp_is_my_profile() ) :
 
 				bp_nouveau_member_description_edit_link();
 
