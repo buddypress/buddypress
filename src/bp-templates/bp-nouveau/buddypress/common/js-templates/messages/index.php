@@ -78,7 +78,7 @@
 				<label for="user_messages_search" class="bp-screen-reader-text">
 					<?php _e( 'Search Messages', 'buddypress' ); ?>
 				</label>
-				<input type="search" id="user_messages_search" placeholder="<?php esc_attr_e( __( 'Search', 'buddypress' ) ); ?>"/>
+				<input type="search" id="user_messages_search" placeholder="<?php esc_attr_e( 'Search', 'buddypress' ); ?>"/>
 				<button type="submit" id="user_messages_search_submit">
 					<span class="dashicons dashicons-search" aria-hidden="true"></span>
 					<span class="bp-screen-reader-text"><?php esc_html_e( 'Search', 'buddypress' ); ?></span>
@@ -91,7 +91,7 @@
 <script type="text/html" id="tmpl-bp-bulk-actions">
 	<label for="user_messages_select_all">
 		<input type="checkbox" id="user_messages_select_all" value="1"/>
-		<span class="bp-screen-reader-text"><?php esc_html_e( __( 'Select All Messages', 'buddypress' ) ); ?></span>
+		<span class="bp-screen-reader-text"><?php esc_html_e( 'Select All Messages', 'buddypress' ); ?></span>
 	</label>
 <div class="bulk-actions-wrap bp-hide">
 		<div class="bulk-actions select-wrap">
@@ -107,7 +107,7 @@
 		</div>
 		<button class="messages-button bulk-apply" type="submit">
 			<span class="dashicons dashicons-yes" aria-hidden="true"></span>
-			<span class="bp-screen-reader-text"><?php esc_html_e( __( 'Apply', 'buddypress' ) ); ?></span>
+			<span class="bp-screen-reader-text"><?php esc_html_e( 'Apply', 'buddypress' ); ?></span>
 		</button>
 	</div>
 </script>
